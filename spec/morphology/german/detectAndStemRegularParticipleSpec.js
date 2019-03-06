@@ -36,4 +36,24 @@ describe( "Detects and stems participles", () => {
 	it( "detects a participle and stems it; input:inseparablePrefix-stem-et participle", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataDE.verbs, "bewertet" ) ).toEqual( "bewert" );
 	} );
+
+	it( "detects a participle and stems it; input:separableOrInseparablePrefix-ge-stem-t participle", () => {
+		expect( detectAndStemRegularParticiple( morphologyDataDE.verbs, "durchgemacht" ) ).toEqual( "durchmach" );
+	} );
+
+	it( "detects a participle and stems it; input:separableOrInseparablePrefix-ge-stem-et participle", () => {
+		expect( detectAndStemRegularParticiple( morphologyDataDE.verbs, "durchgearbeitet" ) ).toEqual( "durcharbeit" );
+	} );
+
+	it( "detects a participle and stems it; input:separableOrInseparablePrefix-stem-t/sst participle", () => {
+		expect( detectAndStemRegularParticiple( morphologyDataDE.verbs, "überführt" ) ).toEqual( "überführ" );
+	} );
+
+	it( "detects a participle and stems it; input:separableOrInseparable-stem-t/sst participle", () => {
+		expect( detectAndStemRegularParticiple( morphologyDataDE.verbs, "umfasst" ) ).toEqual( "umfass" );
+	} );
+
+	it( "detects a participle and stems it; input:separableOrInseparable-stem-et participle", () => {
+		expect( detectAndStemRegularParticiple( morphologyDataDE.verbs, "durchlüftet" ) ).toEqual( "durchlüft" );
+	} );
 } );

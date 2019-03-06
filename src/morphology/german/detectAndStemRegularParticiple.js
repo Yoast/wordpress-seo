@@ -1,13 +1,17 @@
 import exceptionsParticiplesActive from "../../researches/german/passiveVoice/exceptionsParticiplesActive";
 import { exceptions } from "../../researches/german/passiveVoice/regex";
 
-export function detectAndStemRegularParticiple( morphologyDataVerbs, word ) {
+/**
+ * Detects whether a word is a regular participle without a prefix and if so, returns the stem.
+ *
+ * @param {Object}  morphologyDataVerbs The German morphology data for verbs.
+ * @param {string}  word                The word (not stemmed) to check.
+ *
+ * @returns {string}    The stem.
+ */
+const detectAndStemParticiplesWithoutPrefixes = function( morphologyDataVerbs, word ) {
 	const participleRegex1 = new RegExp( "^" + morphologyDataVerbs.participleRegexes.participleRegexGeStemTEnd );
 	const participleRegex2 = new RegExp( "^" + morphologyDataVerbs.participleRegexes.participleRegexGeStemTdEt );
-
-	if ( exceptions( word ).length > 0 || exceptionsParticiplesActive().includes( word ) ) {
-		return "";
-	}
 
 	/*
 	 * Check if it's a ge + stem ending in d/t + et participle.
@@ -24,63 +28,169 @@ export function detectAndStemRegularParticiple( morphologyDataVerbs, word ) {
 		return ( word.slice( 2, word.length - 1 ) );
 	}
 
-	/*
-	 * Check if it's a separable prefix + ge + stem ending in d/t + et participle.
-	 * As this is the more specific regex, which needs to be checked before the ge + stem + t regex.
-	 */
-	for ( let i = 0; i < morphologyDataVerbs.verbPrefixesSeparable.length; i++ ) {
-		const currentPrefix = morphologyDataVerbs.verbPrefixesSeparable[ i ];
-		const participleRegex = new RegExp( "^" + currentPrefix + morphologyDataVerbs.participleRegexes.participleRegexGeStemTdEt );
+	return "";
+};
+
+/**
+ * Determines whether a given participle pattern combined with prefixes from a given class applies to a given word
+ * and if so, returns the stem.
+ *
+ * @param {string}      word        The word (not stemmed) to check.
+ * @param {string[]}    prefixes    The prefixes of a certain prefix class.
+ * @param {string}      regexPart   The regex part for a given class (completed to a full regex within the function).
+ * @param {number}      startStem   Where to start cutting off the de-prefixed word.
+ * @param {number}       endStem     Where to end cutting off the de-prefixed word (from the end index).
+ *
+ * @returns {string} The stem.
+ */
+const detectAndStemParticiplePerPrefixClass = function( word, prefixes, regexPart, startStem, endStem ) {
+	for ( let i = 0; i < prefixes.length; i++ ) {
+		const currentPrefix = prefixes[ i ];
+		const participleRegex = new RegExp( "^" + currentPrefix + regexPart );
 
 		if ( participleRegex.test( word ) ) {
 			const wordWithoutPrefix = word.slice( currentPrefix.length - word.length );
-			const wordWithoutParticipleAffixes = wordWithoutPrefix.slice( 2, wordWithoutPrefix.length - 2 );
+			const wordWithoutParticipleAffixes = wordWithoutPrefix.slice( startStem, wordWithoutPrefix.length - endStem );
 
 			return ( currentPrefix + wordWithoutParticipleAffixes );
 		}
 	}
 
-	// Check if it's a separable prefix + ge + stem + t participle.
-	for ( let i = 0; i < morphologyDataVerbs.verbPrefixesSeparable.length; i++ ) {
-		const currentPrefix = morphologyDataVerbs.verbPrefixesSeparable[ i ];
-		const participleRegex = new RegExp( "^" + currentPrefix + morphologyDataVerbs.participleRegexes.participleRegexGeStemTEnd );
+	return "";
+};
 
-		if ( participleRegex.test( word ) ) {
-			const wordWithoutPrefix = word.slice( currentPrefix.length - word.length );
-			const wordWithoutParticipleAffixes = wordWithoutPrefix.slice( 2, wordWithoutPrefix.length - 1 );
+/**
+ * Detects whether a word is a regular participle with a prefix and if so, returns the stem.
+ *
+ * @param {Object}  morphologyDataVerbs The German morphology data for verbs.
+ * @param {string}  word                The word (not stemmed) to check.
+ *
+ * @returns {string} The stem.
+ */
+const detectAndStemParticiplesWithPrefixes = function( morphologyDataVerbs, word ) {
+	const prefixExceptionChecks = [
+		/*
+		 * Check if it's a separable prefix + ge + stem ending in d/t + et participle.
+		 * As this is the more specific regex, which needs to be checked before the ge + stem + t regex.
+		 */
+		() => {
+			return detectAndStemParticiplePerPrefixClass(
+				word,
+				morphologyDataVerbs.verbPrefixesSeparable,
+				morphologyDataVerbs.participleRegexes.participleRegexGeStemTdEt,
+				2,
+				2,
+			);
+		},
+		// Check if it's a separable prefix + ge + stem + t participle.
+		() => {
+			return detectAndStemParticiplePerPrefixClass(
+				word,
+				morphologyDataVerbs.verbPrefixesSeparable,
+				morphologyDataVerbs.participleRegexes.participleRegexGeStemTEnd,
+				2,
+				1,
+			);
+		},
+		// Check if it's an inseparable prefix + stem ending in d/t + et participle.
+		() => {
+			return detectAndStemParticiplePerPrefixClass(
+				word,
+				morphologyDataVerbs.verbPrefixesInseparable,
+				morphologyDataVerbs.participleRegexes.participleRegexStemTdEt,
+				0,
+				2,
+			);
+		},
+		// Check if it's an inseparable prefix + stem + t/sst participle.
+		() => {
+			return detectAndStemParticiplePerPrefixClass(
+				word,
+				morphologyDataVerbs.verbPrefixesInseparable,
+				morphologyDataVerbs.participleRegexes.participleRegexStemTSst,
+				0,
+				1,
+			);
+		},
+		/*
+	    * Check if it's a separable/inseparable prefix + ge + stem ending in d/t + et participle.
+	    * As this is the more specific regex, which needs to be checked before the ge + stem + t regex.
+	    */
+		() => {
+			return detectAndStemParticiplePerPrefixClass(
+				word,
+				morphologyDataVerbs.verbPrefixesSeparableOrInseparable,
+				morphologyDataVerbs.participleRegexes.participleRegexGeStemTdEt,
+				2,
+				2,
+			);
+		},
+		// Check if it's a separable/inseparable prefix + ge + stem + t participle.
+		() => {
+			return detectAndStemParticiplePerPrefixClass(
+				word,
+				morphologyDataVerbs.verbPrefixesSeparableOrInseparable,
+				morphologyDataVerbs.participleRegexes.participleRegexGeStemTEnd,
+				2,
+				1,
+			);
+		},
+		// Check if it's an separable/inseparable prefix + stem ending in d/t + et participle.
+		() => {
+			return detectAndStemParticiplePerPrefixClass(
+				word,
+				morphologyDataVerbs.verbPrefixesSeparableOrInseparable,
+				morphologyDataVerbs.participleRegexes.participleRegexStemTdEt,
+				0,
+				2,
+			);
+		},
+		// Check if it's an separable/inseparable prefix + stem + t/sst participle.
+		() => {
+			return detectAndStemParticiplePerPrefixClass(
+				word,
+				morphologyDataVerbs.verbPrefixesSeparableOrInseparable,
+				morphologyDataVerbs.participleRegexes.participleRegexStemTSst,
+				0,
+				1,
+			);
+		},
+	];
 
-			return ( currentPrefix + wordWithoutParticipleAffixes );
+	for ( let i = 0; i < prefixExceptionChecks.length; i++ ) {
+		const stem = prefixExceptionChecks[ i ]();
+		if ( stem.length > 0 ) {
+			return stem;
 		}
 	}
 
-	/*
-	 * Check if it's an inseparable prefix + stem ending in d/t + et participle.
-	 * As this is the more specific regex, which needs to be checked before the ge + stem + t regex.
-	 */
-	for ( let i = 0; i < morphologyDataVerbs.verbPrefixesInseparable.length; i++ ) {
-		const currentPrefix = morphologyDataVerbs.verbPrefixesInseparable[ i ];
-		const participleRegex = new RegExp( "^" + currentPrefix + morphologyDataVerbs.participleRegexes.participleRegexStemTdEt );
+	return "";
+};
 
-		if ( participleRegex.test( word ) ) {
-			const wordWithoutPrefix = word.slice( currentPrefix.length - word.length );
-			const wordWithoutParticipleAffixes = wordWithoutPrefix.slice( 0, wordWithoutPrefix.length - 2 );
-
-			return ( currentPrefix + wordWithoutParticipleAffixes );
-		}
+/**
+ * Detects whether a word is a regular participle and if so, returns the stem.
+ *
+ * @param {Object}  morphologyDataVerbs The German morphology data for verbs.
+ * @param {string}  word                The word (not stemmed) to check.
+ *
+ * @returns {string} The stem.
+ */
+export function detectAndStemRegularParticiple( morphologyDataVerbs, word ) {
+	if ( exceptions( word ).length > 0 || exceptionsParticiplesActive().includes( word ) ) {
+		return "";
 	}
 
-	// Check if it's an inseparable prefix + stem + t/sst participle.
-	for ( let i = 0; i < morphologyDataVerbs.verbPrefixesInseparable.length; i++ ) {
-		const currentPrefix = morphologyDataVerbs.verbPrefixesInseparable[ i ];
-		const participleRegex = new RegExp( "^" + currentPrefix + morphologyDataVerbs.participleRegexes.participleRegexStemTSst );
+	let stem = detectAndStemParticiplesWithoutPrefixes( morphologyDataVerbs, word );
 
-		if ( participleRegex.test( word ) ) {
-			const wordWithoutPrefix = word.slice( currentPrefix.length - word.length );
-			const wordWithoutParticipleAffixes = wordWithoutPrefix.slice( 0, wordWithoutPrefix.length - 1 );
-
-			return ( currentPrefix + wordWithoutParticipleAffixes );
-		}
+	if ( stem.length > 0 ) {
+		return stem;
 	}
 
-	return [];
+	stem = detectAndStemParticiplesWithPrefixes( morphologyDataVerbs, word );
+
+	if ( stem.length > 0 ) {
+		return stem;
+	}
+
+	return "";
 }
