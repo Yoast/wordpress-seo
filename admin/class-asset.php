@@ -198,6 +198,8 @@ class WPSEO_Admin_Asset {
 	/**
 	 * Returns the full URL for this asset based on the path to the plugin file.
 	 *
+	 * @deprecated 6.2
+	 *
 	 * @param string $type        Type of asset.
 	 * @param string $plugin_file Absolute path to the plugin file.
 	 *
