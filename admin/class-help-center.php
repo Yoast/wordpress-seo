@@ -270,17 +270,4 @@ class WPSEO_Help_Center {
 			'helpCenter.buttonText'              => __( 'Need help?', 'wordpress-seo' ),
 		);
 	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Outputs the help center.
-	 *
-	 * @deprecated 5.6
-	 * @codeCoverageIgnore
-	 */
-	public function output_help_center() {
-		_deprecated_function( 'WPSEO_Help_Center::output_help_center', 'WPSEO 5.6.0', 'WPSEO_Help_Center::mount()' );
-		$this->mount();
-	}
 }
