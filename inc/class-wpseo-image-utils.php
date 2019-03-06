@@ -101,7 +101,7 @@ class WPSEO_Image_Utils {
 		}
 
 		// Keep only the keys we need, and nothing else.
-		return array_intersect_key( $image, array_flip( array( 'id', 'alt', 'path', 'width', 'height', 'pixels', 'type', 'size', 'url' ) ) );
+		return array_intersect_key( $image, array_flip( array( 'id', 'alt', 'path', 'width', 'height', 'pixels', 'type', 'size', 'url', 'filesize' ) ) );
 	}
 
 	/**
