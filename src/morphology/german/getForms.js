@@ -1,4 +1,5 @@
 import { addAllAdjectiveSuffixes } from "./addAdjectiveSuffixes";
+import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
 import { generateAdjectiveExceptionForms } from "./generateAdjectiveExceptionForms";
 import { generateNounExceptionForms } from "./generateNounExceptionForms";
 import { generateRegularVerbForms } from "./generateRegularVerbForms";
@@ -107,7 +108,7 @@ const addFormsWithRemovedLetters = function( morphologyDataNouns, stemmedWordToC
  */
 export function getForms( word, morphologyData ) {
 	const stemmedWord = stem( word );
-	const forms = new Array( word );
+	const forms = [ word ];
 
 	/*
 	 * Generate exception forms if the word is on an exception list. Since a given stem might sometimes be
@@ -126,7 +127,25 @@ export function getForms( word, morphologyData ) {
 		return { forms: unique( exceptions ), stem: stemmedWord };
 	}
 
-	// todo Check if word is participle.
+	const stemIfWordIsParticiple = detectAndStemRegularParticiple( morphologyData.verbs, word );
+
+	/*
+	 * If the original word is a regular participle, it gets stemmed here. We then only create verb forms (assuming
+	 * that the participle was used verbally, e.g. "er hat sich die Haare gefärbt" - "he dyed his hair") and adjective
+	 * forms (assuming that the participle was used adjectivally, e.g. "die Haare sind gefärbt" - "the hair is dyed").
+	 * The adjective forms are based on the stem that has only the suffixes removed, not the prefixes. This is because
+	 * we want forms such as "die gefärbten Haare" and not (incorrectly) "*die färbten Haare".
+	 */
+	if ( stemIfWordIsParticiple.length > 0 ) {
+		return {
+			forms: unique( [
+				...forms,
+				...generateRegularVerbForms( morphologyData.verbs, stemIfWordIsParticiple ),
+				...addAllAdjectiveSuffixes( morphologyData.adjectives, stemmedWord ),
+			] ),
+			stem: stemIfWordIsParticiple,
+		};
+	}
 
 	// Modify regular suffixes assuming the word is a noun.
 	let regularNounSuffixes = morphologyData.nouns.regularSuffixes.slice();
