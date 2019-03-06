@@ -48,4 +48,22 @@ class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $admin_features, $class_instance->get_admin_features() );
 	}
+
+	/**
+	 * @covers WPSEO_Admin::update_contactmethods
+	 */
+	public function test_update_contactmethods() {
+		$class_instance = new WPSEO_Admin();
+
+		$this->assertEquals(
+			array(
+				'facebook'  => 'Facebook profile URL',
+				'instagram' => 'Instagram profile URL',
+				'linkedin'  => 'LinkedIn profile URL',
+				'pinterest' => 'Pinterest profile URL',
+				'twitter'   => 'Twitter username (without @)',
+			),
+			$class_instance->update_contactmethods( array() )
+		);
+	}
 }
