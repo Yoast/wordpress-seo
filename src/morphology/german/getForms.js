@@ -1,11 +1,11 @@
 import { addAllAdjectiveSuffixes } from "./addAdjectiveSuffixes";
-import { addVerbSuffixes } from "./addVerbSuffixes";
 import { generateAdjectiveExceptionForms } from "./generateAdjectiveExceptionForms";
 import { generateNounExceptionForms } from "./generateNounExceptionForms";
-import { uniq as unique } from "lodash-es";
-import { generateParticipleForm } from "./generateParticipleForm";
+import { generateRegularVerbForms } from "./generateRegularVerbForms";
 import { generateVerbExceptionForms } from "./generateVerbExceptionForms";
 import stem from "./stem";
+
+import { uniq as unique } from "lodash-es";
 
 /**
  * Adds suffixes to the list of regular suffixes.
@@ -126,6 +126,8 @@ export function getForms( word, morphologyData ) {
 		return { forms: unique( exceptions ), stem: stemmedWord };
 	}
 
+	// todo Check if word is participle.
+
 	// Modify regular suffixes assuming the word is a noun.
 	let regularNounSuffixes = morphologyData.nouns.regularSuffixes.slice();
 	// Depending on the specific ending of the stem, we can add/remove some suffixes from the list of regulars.
@@ -138,10 +140,7 @@ export function getForms( word, morphologyData ) {
 	forms.push( ...addAllAdjectiveSuffixes( morphologyData.adjectives, stemmedWord ) );
 
 	// Also add regular verb suffixes.
-	forms.push( ...addVerbSuffixes( morphologyData.verbs, stemmedWord ) );
-
-	// Add a participle form.
-	forms.push( generateParticipleForm( morphologyData.verbs, stemmedWord  ) );
+	forms.push( ...generateRegularVerbForms( morphologyData.verbs, stemmedWord ) );
 
 	// Also add the stemmed word, since it might be a valid word form on its own.
 	forms.push( stemmedWord );
