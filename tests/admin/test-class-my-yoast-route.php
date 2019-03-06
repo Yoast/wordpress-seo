@@ -222,7 +222,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	public function test_connect() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
-			->setMethods( array( 'redirect', 'save_client_id', 'generate_uuid' ) )
+			->setMethods( array( 'redirect', 'save_client_id', 'generate_uuid', 'get_extensions' ) )
 			->getMock();
 
 		$instance
@@ -237,15 +237,21 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 
 		$instance
 			->expects( $this->once() )
+			->method( ( 'get_extensions' ) )
+			->will( $this->returnValue( array( 'yoast-seo-extension' ) ) );
+
+		$instance
+			->expects( $this->once() )
 			->method( 'redirect' )
 			->with(
 				'https://my.yoast.com/connect',
 				array(
 					'url'             => WPSEO_Utils::get_home_url(),
 					'client_id'       => '9740f9cf-608e-4327-8a16-24e3ff6a4c0d',
-					'extensions'      => array(),
-					'redirect_url'    => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ),
-					'credentials_url' => rest_url( 'yoast/v1/myyoast/connect' )
+					'extensions'      => array( 'yoast-seo-extension' ),
+					'redirect_url'    => admin_url( 'admin.php?page=' . WPSEO_MyYoast_Route::PAGE_IDENTIFIER . '&action=complete' ),
+					'credentials_url' => rest_url( 'yoast/v1/myyoast/connect' ),
+					'type'            => 'wordpress',
 				)
 			);
 
@@ -288,11 +294,11 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests authorizing without having a config.
+	 * Tests authorizing with having a config.
 	 *
 	 * @covers WPSEO_MyYoast_Route::authorize
 	 */
-	public function test_authorize_without() {
+	public function test_authorize_with_having_a_configuration() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
 			->setMethods( array( 'get_client', 'redirect' ) )
@@ -337,5 +343,203 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 		 * @var WPSEO_MyYoast_Route_Double $instance
 		 */
 		$instance->authorize();
+	}
+
+	/**
+	 * Tests completion without having a config.
+	 *
+	 * @covers WPSEO_MyYoast_Route::complete
+	 */
+	public function test_complete_without_having_configuration() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
+			->setMethods( array( 'get_client' ) )
+			->getMock();
+
+		$client = $this
+			->getMockBuilder( 'WPSEO_MyYoast_Client' )
+			->setMethods( array( 'has_configuration' ) )
+			->getMock();
+
+		$client
+			->expects( $this->once() )
+			->method( 'has_configuration' )
+			->will( $this->returnValue( false ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_client' )
+			->will( $this->returnValue( $client ) );
+
+		/**
+		 * @var WPSEO_MyYoast_Route_Double $instance
+		 */
+		$instance->complete();
+	}
+
+	/**
+	 * Tests connecting with having a config.
+	 *
+	 * @covers WPSEO_MyYoast_Route::complete
+	 */
+	public function test_complete_with_having_a_configuration() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
+			->setMethods(
+				array(
+					'get_client',
+					'redirect_to_premium_page',
+					'get_authorization_code',
+					'get_current_user_id'
+				)
+			)
+			->getMock();
+
+		$provider = $this
+			->getMockBuilder( 'Provider' )
+			->setMethods( array( 'getAccessToken' ) )
+			->getMock();
+
+		$provider
+			->expects( $this->once() )
+			->method( 'getAccessToken' )
+			->with(
+
+				'authorization_code',
+				array(
+					'code' => 'this-is-the-code'
+				)
+			)
+			->will( $this->returnValue( 'access-token' ) );
+
+		$client = $this
+			->getMockBuilder( 'WPSEO_MyYoast_Client' )
+			->setMethods(
+				array(
+					'has_configuration',
+					'get_provider',
+					'save_access_token',
+				)
+			)
+			->getMock();
+
+		$client
+			->expects( $this->once() )
+			->method( 'has_configuration' )
+			->will( $this->returnValue( true ) );
+
+		$client
+			->expects( $this->once() )
+			->method( 'get_provider' )
+			->will( $this->returnValue( $provider ) );
+
+		$client
+			->expects( $this->once() )
+			->method( 'save_access_token' )
+			->with( 123456789, 'access-token' );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_client' )
+			->will( $this->returnValue( $client ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_authorization_code' )
+			->will( $this->returnValue( 'this-is-the-code' ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_current_user_id' )
+			->will( $this->returnValue(  123456789 ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'redirect_to_premium_page' );
+
+		/**
+		 * @var WPSEO_MyYoast_Route_Double $instance
+		 */
+		$instance->complete();
+	}
+
+	/**
+	 * Tests connecting with having a config.
+	 *
+	 * @covers WPSEO_MyYoast_Route::complete
+	 */
+	public function test_complete_with_exception_thrown_by_provider() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
+			->setMethods(
+				array(
+					'get_client',
+					'redirect_to_premium_page',
+					'get_authorization_code',
+				)
+			)
+			->getMock();
+
+		$provider = $this
+			->getMockBuilder( 'Provider' )
+			->setMethods( array( 'getAccessToken' ) )
+			->getMock();
+
+		$provider
+			->expects( $this->once() )
+			->method( 'getAccessToken' )
+			->with(
+
+				'authorization_code',
+				array(
+					'code' => 'this-is-the-code'
+				)
+			)
+			->will( $this->throwException( new Exception( 'Something went wrong' )  ) );
+
+		$client = $this
+			->getMockBuilder( 'WPSEO_MyYoast_Client' )
+			->setMethods(
+				array(
+					'has_configuration',
+					'get_provider',
+					'save_access_token',
+				)
+			)
+			->getMock();
+
+		$client
+			->expects( $this->once() )
+			->method( 'has_configuration' )
+			->will( $this->returnValue( true ) );
+
+		$client
+			->expects( $this->once() )
+			->method( 'get_provider' )
+			->will( $this->returnValue( $provider ) );
+
+		$client
+			->expects( $this->never() )
+			->method( 'save_access_token' );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_client' )
+			->will( $this->returnValue( $client ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_authorization_code' )
+			->will( $this->returnValue( 'this-is-the-code' ) );
+
+
+		$instance
+			->expects( $this->once() )
+			->method( 'redirect_to_premium_page' );
+
+		/**
+		 * @var WPSEO_MyYoast_Route_Double $instance
+		 */
+		$instance->complete();
 	}
 }

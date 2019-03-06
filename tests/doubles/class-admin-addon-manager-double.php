@@ -51,4 +51,13 @@ class WPSEO_Addon_Manager_Double extends WPSEO_Addon_Manager {
 	public function get_installed_addons() {
 		return parent::get_installed_addons();
 	}
+
+	/**
+	 * Retrieves a list of active addons.
+	 *
+	 * @return array The active addons.
+	 */
+	public function get_active_addons() {
+		return parent::get_active_addons();
+	}
 }

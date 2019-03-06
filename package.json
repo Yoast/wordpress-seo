@@ -21,7 +21,8 @@
     "webpack-analyze-bundle": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json js/dist",
     "i18n-yoast-components": "cross-env NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-wordpress-seo": "cross-env NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot | shusher",
-    "start": "grunt build:css && grunt webpack:buildDev && webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development"
+    "prestart": "grunt build:css && grunt webpack:buildDev",
+    "start": "webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",
@@ -82,7 +83,6 @@
     "grunt-eslint": "^21.0.0",
     "grunt-glotpress": "https://github.com/Yoast/grunt-glotpress.git#master",
     "grunt-phpcs": "^0.4.0",
-    "grunt-phplint": "^0.1.0",
     "grunt-po2json": "^0.3.0",
     "grunt-postcss": "^0.8.0",
     "grunt-replace": "^1.0.1",
@@ -90,7 +90,6 @@
     "grunt-sass": "^2.0.0",
     "grunt-shell": "^1.1.2",
     "grunt-webpack": "^3.1.3",
-    "grunt-wp-css": "^0.2.1",
     "grunt-wp-deploy": "^1.2.1",
     "grunt-wp-i18n": "^1.0.0",
     "i18n-calypso": "^1.8.4",
@@ -101,7 +100,7 @@
     "request": "^2.88.0",
     "sassdash": "^0.9.0",
     "shusher": "^0.1.1",
-    "svg-react-loader": "^0.4.5",
+    "svg-react-loader": "^0.4.6",
     "time-grunt": "^1.0.0",
     "webpack": "^4.20.2",
     "webpack-bundle-analyzer": "^3.0.2",
@@ -130,8 +129,8 @@
     "grunt-wp-deploy": "^1.2.1",
     "interpolate-components": "^1.1.0",
     "jed": "^1.1.1",
-    "lodash": "^4.17.4",
-    "marked": "^0.3.6",
+    "lodash": "^4.17.11",
+    "marked": "^0.6.1",
     "material-ui": "^0.20.0",
     "moment": "2.22.2",
     "moment-duration-format": "^2.2.2",
@@ -148,7 +147,7 @@
     "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#develop"
   },
   "yoast": {
-    "pluginVersion": "9.8-beta1",
+    "pluginVersion": "10.0-RC1",
     "recalibrationVersion": "13"
   }
 }

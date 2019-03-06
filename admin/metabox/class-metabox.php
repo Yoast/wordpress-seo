@@ -206,7 +206,19 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'replace_vars'             => $this->get_replace_vars(),
 			'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 			'scope'                    => $this->determine_scope(),
+			'has_taxonomies'           => $this->current_post_type_has_taxonomies(),
 		);
+	}
+
+	/**
+	 * Determines whether or not the current post type has registered taxonomies.
+	 *
+	 * @return bool Whether the current post type has taxonomies.
+	 */
+	private function current_post_type_has_taxonomies() {
+		$post_taxonomies = get_object_taxonomies( get_post_type() );
+
+		return ! empty( $post_taxonomies );
 	}
 
 	/**
@@ -425,8 +437,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @todo [JRF] Check if $class is added appropriately everywhere.
 	 *
-	 * @param   array  $meta_field_def Contains the vars based on which output is generated.
-	 * @param   string $key            Internal key (without prefix).
+	 * @param array  $meta_field_def Contains the vars based on which output is generated.
+	 * @param string $key            Internal key (without prefix).
 	 *
 	 * @return  string
 	 */

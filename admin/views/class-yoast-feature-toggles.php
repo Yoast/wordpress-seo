@@ -144,7 +144,8 @@ class Yoast_Feature_Toggles {
 		/**
 		 * Filter to add feature toggles from add-ons.
 		 *
-		 * @param array $feature_toggles Array with feature toggle objects where each object should have a `name`, `setting` and `label` property.
+		 * @param array $feature_toggles Array with feature toggle objects where each object
+		 *                               should have a `name`, `setting` and `label` property.
 		 */
 		$feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
 

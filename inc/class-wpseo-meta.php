@@ -31,7 +31,9 @@
 class WPSEO_Meta {
 
 	/**
-	 * @var    string    Prefix for all WPSEO meta values in the database
+	 * Prefix for all WPSEO meta values in the database.
+	 *
+	 * @var string
 	 * @static
 	 *
 	 * {@internal If at any point this would change, quite apart from an upgrade routine,
@@ -41,32 +43,40 @@ class WPSEO_Meta {
 
 
 	/**
-	 * @var    string   Prefix for all WPSEO meta value form field names and ids
+	 * Prefix for all WPSEO meta value form field names and ids.
+	 *
+	 * @var string
 	 * @static
 	 */
 	public static $form_prefix = 'yoast_wpseo_';
 
 
 	/**
-	 * @var    int       Allowed length of the meta description.
+	 * Allowed length of the meta description.
+	 *
+	 * @var int
 	 * @static
 	 */
 	public static $meta_length = 156;
 
 
 	/**
-	 * @var    string   Reason the meta description is not the default length.
+	 * Reason the meta description is not the default length.
+	 *
+	 * @var string
 	 * @static
 	 */
 	public static $meta_length_reason = '';
 
 
 	/**
-	 * @var    array  $meta_fields Meta box field definitions for the meta box form
+	 * Meta box field definitions for the meta box form.
+	 *
+	 * @var    array  $meta_fields
 	 *                Array format:
-	 *                (required)        'type'            => (string) field type. i.e. text / textarea / checkbox /
+	 *                (required)       'type'          => (string) field type. i.e. text / textarea / checkbox /
 	 *                                                    radio / select / multiselect / upload etc
-	 *                (required)        'title'            => (string) table row title
+	 *                (required)       'title'         => (string) table row title
 	 *                (recommended)    'default_value' => (string|array) default value for the field
 	 *                                                    IMPORTANT:
 	 *                                                    - if the field has options, the default has to be the
@@ -76,22 +86,22 @@ class WPSEO_Meta {
 	 *                                                      an empty value/delete the meta value
 	 *                                                    - if the field is a checkbox, the only valid values
 	 *                                                      are 'on' or 'off'
-	 *                (semi-required)    'options'        => (array) options for used with (multi-)select and radio
+	 *                (semi-required)   'options'      => (array) options for used with (multi-)select and radio
 	 *                                                    fields, required if that's the field type
 	 *                                                    key = (string) value which will be saved to db
 	 *                                                    value = (string) text label for the option
-	 *                (optional)        'autocomplete'    => (bool) whether autocomplete is on for text fields,
+	 *                (optional)        'autocomplete' => (bool) whether autocomplete is on for text fields,
 	 *                                                    defaults to true
-	 *                (optional)        'class'            => (string) classname(s) to add to the actual <input> tag
-	 *                (optional)        'description'    => (string) description to show underneath the field
-	 *                (optional)        'expl'            => (string) label for a checkbox
-	 *                (optional)        'help'            => (string) help text to show on mouse over ? image
-	 *                (optional)        'rows'            => (int) number of rows for a textarea, defaults to 3
+	 *                (optional)        'class'        => (string) classname(s) to add to the actual <input> tag
+	 *                (optional)        'description'  => (string) description to show underneath the field
+	 *                (optional)        'expl'         => (string) label for a checkbox
+	 *                (optional)        'help'         => (string) help text to show on mouse over ? image
+	 *                (optional)        'rows'         => (int) number of rows for a textarea, defaults to 3
 	 *
-	 *                (optional)        'placeholder'    => (string) Currently only used by add-on plugins
-	 *                (optional)        'serialized'    => (bool) whether the value is expected to be serialized,
+	 *                (optional)        'placeholder'  => (string) Currently only used by add-on plugins.
+	 *                (optional)        'serialized'   => (bool) whether the value is expected to be serialized,
 	 *                                                     i.e. an array or object, defaults to false
-	 *                                                     Currently only used by add-on plugins
+	 *                                                     Currently only used by add-on plugins.
 	 *
 	 * @static
 	 *
@@ -205,24 +215,31 @@ class WPSEO_Meta {
 
 
 	/**
-	 * @var    array    Helper property - reverse index of the definition array
-	 *                  Format: [full meta key including prefix]    => array
-	 *                          ['subset']    => (string) primary index
-	 *                          ['key']       => (string) internal key
+	 * Helper property - reverse index of the definition array.
+	 *
+	 * Format: [full meta key including prefix]    => array
+	 *         ['subset']    => (string) primary index
+	 *         ['key']       => (string) internal key
+	 *
+	 * @var array
 	 * @static
 	 */
 	public static $fields_index = array();
 
 
 	/**
-	 * @var    array    Helper property - array containing only the defaults in the format:
-	 *                  [full meta key including prefix]    => (string) default value
+	 * Helper property - array containing only the defaults in the format:
+	 * [full meta key including prefix]    => (string) default value
+	 *
+	 * @var array
 	 * @static
 	 */
 	public static $defaults = array();
 
 	/**
-	 * @var    array    Helper property to define the social network meta field definitions - networks
+	 * Helper property to define the social network meta field definitions - networks.
+	 *
+	 * @var array
 	 * @static
 	 */
 	private static $social_networks = array(
@@ -231,7 +248,9 @@ class WPSEO_Meta {
 	);
 
 	/**
-	 * @var    array    Helper property to define the social network meta field definitions - fields and their type
+	 * Helper property to define the social network meta field definitions - fields and their type.
+	 *
+	 * @var array
 	 * @static
 	 */
 	private static $social_fields = array(
@@ -326,23 +345,6 @@ class WPSEO_Meta {
 				// Prevent non-form fields from being passed to forms.
 				$field_defs = array();
 				break;
-
-
-			case 'general':
-				/**
-				 * Filter the WPSEO metabox form field definitions for the general tab, backward compatibility
-				 *
-				 * @deprecated 1.5.0
-				 * @deprecated use the 'wpseo_metabox_entries_general' filter instead
-				 * @see        WPSEO_Meta::get_meta_field_defs()
-				 *
-				 * @param      array $field_defs Metabox form field definitions.
-				 *
-				 * @return     array
-				 */
-				$field_defs = apply_filters_deprecated( 'wpseo_metabox_entries', array( $field_defs ), 'WPSEO 7.0', 'wpseo_metabox_entries_general' );
-				break;
-
 
 			case 'advanced':
 				global $post;
@@ -655,7 +657,8 @@ class WPSEO_Meta {
 			if ( $custom[ self::$meta_prefix . $key ][0] === $unserialized ) {
 				return $custom[ self::$meta_prefix . $key ][0];
 			}
-			else {
+
+			if ( isset( self::$fields_index[ self::$meta_prefix . $key ] ) ) {
 				$field_def = self::$meta_fields[ self::$fields_index[ self::$meta_prefix . $key ]['subset'] ][ self::$fields_index[ self::$meta_prefix . $key ]['key'] ];
 				if ( isset( $field_def['serialized'] ) && $field_def['serialized'] === true ) {
 					// Ok, serialize value expected/allowed.
@@ -668,13 +671,12 @@ class WPSEO_Meta {
 		if ( isset( self::$defaults[ self::$meta_prefix . $key ] ) ) {
 			return self::$defaults[ self::$meta_prefix . $key ];
 		}
-		else {
-			/*
-			 * Shouldn't ever happen, means not one of our keys as there will always be a default available
-			 * for all our keys.
-			 */
-			return '';
-		}
+
+		/*
+		 * Shouldn't ever happen, means not one of our keys as there will always be a default available
+		 * for all our keys.
+		 */
+		return '';
 	}
 
 	/**
@@ -689,6 +691,12 @@ class WPSEO_Meta {
 	 * @return bool   whether the value was changed
 	 */
 	public static function set_value( $key, $meta_value, $post_id ) {
+		/*
+		 * Slash the data, because `update_metadata` will unslash it and we have already unslashed it.
+		 * Related issue: https://github.com/Yoast/YoastSEO.js/issues/2158
+		 */
+		$meta_value = wp_slash( $meta_value );
+
 		return update_post_meta( $post_id, self::$meta_prefix . $key, $meta_value );
 	}
 

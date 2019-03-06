@@ -195,7 +195,7 @@ class Client {
 	 * @return AccessTokenInterface[] The formatted access tokens.
 	 */
 	protected function format_access_tokens( $access_tokens ) {
-		if ( ! is_array( $access_tokens ) ||  $access_tokens === [] ) {
+		if ( ! is_array( $access_tokens ) || $access_tokens === [] ) {
 			return [];
 		}
 

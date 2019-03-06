@@ -1,4 +1,3 @@
-const webpack = require( "webpack" );
 const CaseSensitivePathsPlugin = require( "case-sensitive-paths-webpack-plugin" );
 const CopyWebpackPlugin = require( "copy-webpack-plugin" );
 const path = require( "path" );
@@ -33,25 +32,11 @@ const externals = {
 
 const defaultAllowedHosts = [
 	"local.wordpress.test",
+	"one.wordpress.test",
+	"two.wordpress.test",
 	"build.wordpress-develop.test",
 	"src.wordpress-develop.test",
 ];
-
-/**
- * Helper function for setting the user environment (in this Node process only) using a Webpack plugin.
- *
- * @see https://webpack.js.org/plugins/define-plugin/
- * @see https://nodejs.org/api/all.html#process_process_env
- *
- * @param {Object} variableDefinitions The user environment variables to set and their values.
- *
- * @returns {webpack.DefinePlugin|DefinePlugin} The define plugin.
- */
-function environmentVariablePlugin( variableDefinitions ) {
-	return new webpack.DefinePlugin( {
-		"process.env": variableDefinitions,
-	} );
-}
 
 module.exports = function( env = { environment: "production" } ) {
 	const mode = env.environment || process.env.NODE_ENV || "production";
@@ -148,7 +133,6 @@ module.exports = function( env = { environment: "production" } ) {
 			},
 			plugins: [
 				...plugins,
-				environmentVariablePlugin( { YOAST_RECALIBRATION: '"disabled"' } ),
 				new CopyWebpackPlugin( [
 					{
 						from: "node_modules/react/umd/react.production.min.js",
@@ -232,29 +216,7 @@ module.exports = function( env = { environment: "production" } ) {
 			entry: {
 				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
 			},
-			plugins: [
-				...plugins,
-				environmentVariablePlugin( { YOAST_RECALIBRATION: '"disabled"' } ),
-			],
-			optimization: {
-				runtimeChunk: false,
-			},
-		},
-		// Config for the analysis web worker with recalibration enabled.
-		{
-			...base,
-			output: {
-				path: paths.jsDist,
-				filename: outputFilename,
-				jsonpFunction: "yoastWebpackJsonp",
-			},
-			entry: {
-				"wp-seo-analysis-worker-recalibration": "./js/src/wp-seo-analysis-worker.js",
-			},
-			plugins: [
-				...plugins,
-				environmentVariablePlugin( { YOAST_RECALIBRATION: '"enabled"' } ),
-			],
+			plugins,
 			optimization: {
 				runtimeChunk: false,
 			},

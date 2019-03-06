@@ -46,20 +46,23 @@ class WPSEO_Endpoint_MyYoast_Connect implements WPSEO_Endpoint {
 	public function handle_request( WP_REST_Request $request ) {
 		if ( $request->get_param( 'url' ) !== $this->get_home_url() ) {
 			return new WP_REST_Response(
-				'Bad request: URL mismatch.', 403
+				'Bad request: URL mismatch.',
+				403
 			);
 		}
 
 		if ( $request->get_param( 'clientId' ) !== $this->get_client_id() ) {
 			return new WP_REST_Response(
-				'Bad request: ClientID mismatch.', 403
+				'Bad request: ClientID mismatch.',
+				403
 			);
 		}
 
 		$client_secret = $request->get_param( 'clientSecret' );
 		if ( empty( $client_secret ) ) {
 			return new WP_REST_Response(
-				'Bad request: ClientSecret missing.', 403
+				'Bad request: ClientSecret missing.',
+				403
 			);
 		}
 

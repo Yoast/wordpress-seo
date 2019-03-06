@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WPSEO plugin test file.
  *
@@ -49,15 +48,17 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			->setMethods( array( 'request_current_sites', 'set_site_information_transient' ) )
 			->getMock();
 
+		$expected_return = $this->returnValue(
+			(object) array(
+				'url'           => 'https://example.org',
+				'subscriptions' => array( 'subscription' ),
+			)
+		);
+
 		$instance
 			->expects( $this->once() )
 			->method( 'request_current_sites' )
-			->will( $this->returnValue(
-				(object) array(
-					'url'           => 'https://example.org',
-					'subscriptions' => array( 'subscription' ),
-				)
-			) );
+			->will( $expected_return );
 
 		$instance
 			->expects( $this->once() )
@@ -83,15 +84,17 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			->setMethods( array( 'get_site_information_transient' ) )
 			->getMock();
 
+		$expected_return = $this->returnValue(
+			(object) array(
+				'url'           => 'https://example.org',
+				'subscriptions' => array( 'subscription' ),
+			)
+		);
+
 		$instance
 			->expects( $this->once() )
 			->method( 'get_site_information_transient' )
-			->will( $this->returnValue(
-				(object) array(
-					'url'           => 'https://example.org',
-					'subscriptions' => array( 'subscription' ),
-				)
-			) );
+			->will( $expected_return );
 
 		$this->assertEquals(
 			(object) array(
@@ -113,15 +116,17 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			->setMethods( array( 'get_site_information' ) )
 			->getMock();
 
+		$expected_return = $this->returnValue(
+			(object) array(
+				'url'           => 'https://example.org',
+				'subscriptions' => array( 'subscription' ),
+			)
+		);
+
 		$instance
 			->expects( $this->once() )
 			->method( 'get_site_information' )
-			->will( $this->returnValue(
-				(object) array(
-					'url'           => 'https://example.org',
-					'subscriptions' => array( 'subscription' ),
-				)
-			) );
+			->will( $expected_return );
 
 		$this->assertEquals(
 			array( 'subscription' ),
@@ -146,14 +151,16 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			),
 		);
 
+		$expected_return = $this->returnValue(
+			(object) array(
+				'wordpress-seo' => $subscription,
+			)
+		);
+
 		$instance
 			->expects( $this->once() )
 			->method( 'get_subscriptions' )
-			->will( $this->returnValue(
-				(object) array(
-					'wordpress-seo' => $subscription,
-				)
-			) );
+			->will( $expected_return );
 
 		$this->assertEquals(
 			$subscription,
@@ -178,16 +185,100 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			),
 		);
 
+		$expected_return = $this->returnValue(
+			(object) array(
+				'wordpress-seo' => $subscription,
+			)
+		);
+
 		$instance
 			->expects( $this->once() )
 			->method( 'get_subscriptions' )
-			->will( $this->returnValue(
-				(object) array(
-					'wordpress-seo' => $subscription,
-				)
-			) );
+			->will( $expected_return );
 
 		$this->assertFalse( $instance->get_subscription( 'wordpress-seo-extra' ) );
+	}
+
+	/**
+	 * Tests the retrieval of subscriptions for the active addons.
+	 *
+	 * @covers WPSEO_Addon_Manager::get_subscriptions_for_active_addons
+	 */
+	public function test_get_subscriptions_for_active_addons() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Addon_Manager' )
+			->setMethods( array( 'get_active_addons', 'get_subscriptions' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->any() )
+			->method( 'get_active_addons' )
+			->will(
+				$this->returnValue(
+					array(
+						'wp-seo-premium.php' => array(
+							'Version' => '10.0',
+						),
+					)
+				)
+			);
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_subscriptions' )
+			->will(
+				$this->returnValue( $this->get_subscriptions() )
+			);
+
+		$this->assertEquals(
+			array(
+				'yoast-seo-wordpress-premium' => (object) array(
+					'expires' => 'active',
+					'product' => (object) array(
+						'version'     => '10.0',
+						'name'        => 'Extension',
+						'slug'        => 'yoast-seo-wordpress-premium',
+						'lastUpdated' => 'yesterday',
+						'storeUrl'    => 'https://example.org/store',
+						'download'    => 'https://example.org/extension.zip',
+						'changelog'   => 'changelog',
+					),
+				),
+			),
+			$instance->get_subscriptions_for_active_addons()
+		);
+	}
+
+	/**
+	 * Tests the retrieval of installed addon versions.
+	 *
+	 * @covers WPSEO_Addon_Manager::get_installed_addons_versions
+	 */
+	public function test_get_installed_addons_versions() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Addon_Manager' )
+			->setMethods( array( 'get_installed_addons' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->any() )
+			->method( 'get_installed_addons' )
+			->will(
+				$this->returnValue(
+					array(
+						'wp-seo-premium.php' => array(
+							'Version' => '10.0',
+						),
+					)
+				)
+			);
+
+		$this->assertEquals(
+			array(
+				'yoast-seo-wordpress-premium' => '10.0',
+			),
+			$instance->get_installed_addons_versions()
+		);
 	}
 
 	/**
@@ -215,7 +306,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			$expected,
-			$instance->get_plugin_information( false, $action, ( object ) $args ),
+			$instance->get_plugin_information( false, $action, (object) $args ),
 			$message
 		);
 	}
@@ -288,12 +379,12 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 				'new_version'   => '10.0',
 				'name'          => 'Extension',
 				'slug'          => 'yoast-seo-wordpress-premium',
-				'url'           => 'https://example.org/extension',
+				'url'           => 'https://example.org/store',
 				'last_update'   => 'yesterday',
 				'homepage'      => 'https://example.org/store',
 				'download_link' => 'https://example.org/extension.zip',
 				'package'       => 'https://example.org/extension.zip',
-				'sections'      => 	array(
+				'sections'      => array(
 					'changelog' => 'changelog',
 				),
 			),
@@ -303,7 +394,6 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 						'version'     => '10.0',
 						'name'        => 'Extension',
 						'slug'        => 'yoast-seo-wordpress-premium',
-						'url'         => 'https://example.org/extension',
 						'lastUpdated' => 'yesterday',
 						'storeUrl'    => 'https://example.org/store',
 						'download'    => 'https://example.org/extension.zip',
@@ -379,6 +469,56 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests get_installed_plugins with no yoast addons installed.
+	 *
+	 * @covers WPSEO_Addon_Manager::get_active_addons
+	 */
+	public function test_get_active_addons() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Addon_Manager_Double' )
+			->setMethods( array( 'get_plugins', 'is_plugin_active' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_plugins' )
+			->will(
+				$this->returnValue(
+					array(
+						'wp-seo-premium.php' => array(
+							'Version' => '10.0',
+						),
+						'no-yoast-seo-extension-php' => array(
+							'Version' => '10.0',
+						),
+						'wpseo-news.php' => array(
+							'Version' => '9.5',
+						),
+					)
+				)
+			);
+
+		$instance
+			->expects( $this->exactly( 2 ) )
+			->method( 'is_plugin_active' )
+			->will(
+				$this->onConsecutiveCalls(
+					true,
+					false
+				)
+			);
+
+		$this->assertEquals(
+			array(
+				'wp-seo-premium.php' => array(
+					'Version' => '10.0',
+				),
+			),
+			$instance->get_active_addons()
+		);
+	}
+
+	/**
 	 * Provides data to the check_for_updates test.
 	 *
 	 * @return array Values for the test.
@@ -413,7 +553,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 				'addons'   => array(
 					array(
 						'wpseo-news.php' => array(
-							'Version' => '9.5'
+							'Version' => '9.5',
 						),
 					),
 
@@ -426,7 +566,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 				'addons'   => array(
 					array(
 						'wps-seo-premium.php' => array(
-							'Version' => '10.0'
+							'Version' => '10.0',
 						),
 					),
 				),
@@ -437,7 +577,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			array(
 				'addons'   => array(
 					'wp-seo-premium.php' => array(
-						'Version' => '9.0'
+						'Version' => '9.0',
 					),
 				),
 				'data'     => (object) array( 'response' => array() ),
@@ -447,16 +587,16 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 							'new_version'   => '10.0',
 							'name'          => 'Extension',
 							'slug'          => 'yoast-seo-wordpress-premium',
-							'url'           => 'https://example.org/extension',
+							'url'           => 'https://example.org/store',
 							'last_update'   => 'yesterday',
 							'homepage'      => 'https://example.org/store',
 							'download_link' => 'https://example.org/extension.zip',
 							'package'       => 'https://example.org/extension.zip',
-							'sections'      => 	array(
-									'changelog' => 'changelog',
+							'sections'      => array(
+								'changelog' => 'changelog',
 							),
-						)
-					)
+						),
+					),
 				),
 				'message'  => 'Tests an addon with a subscription and an update available',
 			),
@@ -495,12 +635,12 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 					'new_version'   => '10.0',
 					'name'          => 'Extension',
 					'slug'          => 'yoast-seo-wordpress-premium',
-					'url'           => 'https://example.org/extension',
+					'url'           => 'https://example.org/store',
 					'last_update'   => 'yesterday',
 					'homepage'      => 'https://example.org/store',
 					'download_link' => 'https://example.org/extension.zip',
 					'package'       => 'https://example.org/extension.zip',
-					'sections'      => 	array(
+					'sections'      => array(
 						'changelog' => 'changelog',
 					),
 				),
@@ -526,7 +666,6 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 							'version'     => '10.0',
 							'name'        => 'Extension',
 							'slug'        => 'yoast-seo-wordpress-premium',
-							'url'         => 'https://example.org/extension',
 							'lastUpdated' => 'yesterday',
 							'storeUrl'    => 'https://example.org/store',
 							'download'    => 'https://example.org/extension.zip',
@@ -537,5 +676,4 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			)
 		);
 	}
-
 }

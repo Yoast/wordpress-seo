@@ -1190,7 +1190,10 @@ SVG;
 	 *
 	 * @see        WPSEO_Language_Utils::get_language()
 	 *
-	 * @since      9.5
+	 * @deprecated  9.5
+	 * @since       9.5
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $locale The locale to get the language of.
 	 *
@@ -1212,7 +1215,10 @@ SVG;
 	 *
 	 * @see        WPSEO_Language_Utils::get_user_locale()
 	 *
-	 * @since      9.5
+	 * @deprecated  9.5
+	 * @since       9.5
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The locale.
 	 */

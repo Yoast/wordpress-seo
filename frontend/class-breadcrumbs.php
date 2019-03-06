@@ -249,7 +249,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Get a term's parents.
 	 *
-	 * @param    object $term Term to get the parents for.
+	 * @param object $term Term to get the parents for.
 	 *
 	 * @return    array
 	 */
@@ -629,7 +629,7 @@ class WPSEO_Breadcrumbs {
 	private function add_crumbs_for_taxonomy() {
 		$term = $GLOBALS['wp_query']->get_queried_object();
 
-		// @todo adjust function name!!
+		// @todo adjust function name.
 		$this->maybe_add_preferred_term_parent_crumb( $term );
 
 		$this->maybe_add_term_parent_crumbs( $term );
@@ -799,16 +799,6 @@ class WPSEO_Breadcrumbs {
 			$link['text'] = wp_strip_all_tags( get_the_title( $id ), true );
 		}
 
-		/**
-		 * Filter: 'wp_seo_get_bc_title' - Allow developer to filter the Yoast SEO Breadcrumb title.
-		 *
-		 * @deprecated 5.8
-		 * @api string $link_text The Breadcrumb title text.
-		 *
-		 * @param int $link_id The post ID.
-		 */
-		$link['text'] = apply_filters_deprecated( 'wp_seo_get_bc_title', array( $link['text'], $id ), 'WPSEO 5.8', 'wpseo_breadcrumb_single_link_info' );
-
 		return $link;
 	}
 
@@ -958,7 +948,7 @@ class WPSEO_Breadcrumbs {
 					$inner_elm = 'strong';
 				}
 
-				$link_output .= '<' . $inner_elm . ' class="breadcrumb_last">' . $link['text'] . '</' . $inner_elm . '>';
+				$link_output .= '<' . $inner_elm . ' class="breadcrumb_last" aria-current="page">' . $link['text'] . '</' . $inner_elm . '>';
 				// This is the last element, now close all previous elements.
 				while ( $i > 0 ) {
 					$link_output .= '</' . $this->element . '>';
@@ -998,7 +988,7 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Wrap a complete breadcrumb string in a Breadcrumb RDFA wrapper.
+	 * Wrap a complete breadcrumb string in a wrapper.
 	 */
 	private function wrap_breadcrumb() {
 		if ( is_string( $this->output ) && $this->output !== '' ) {

@@ -23,6 +23,18 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	protected $client;
 
 	/**
+	 * The actions that are supported.
+	 *
+	 * Each action should have a method named equally to the action.
+	 *
+	 * For example:
+	 * The connect action is handled by a method named 'connect'.
+	 *
+	 * @var array
+	 */
+	static protected $allowed_actions = array( 'connect', 'authorize', 'complete' );
+
+	/**
 	 * Sets the hooks when the user has enough rights and is on the right page.
 	 *
 	 * @return void
@@ -65,7 +77,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	public function handle_route() {
 		$action = $this->get_action();
 
-		if ( ! method_exists( $this, $action ) ) {
+		if ( ! $this->is_valid_action( $action ) || ! method_exists( $this, $action ) ) {
 			return;
 		}
 
@@ -90,11 +102,9 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 * @param string $action The action to check.
 	 *
 	 * @return bool True if the action is valid.
-	 **/
+	 */
 	protected function is_valid_action( $action ) {
-		$allowed_actions = array( 'connect', 'authorize' );
-
-		return in_array( $action, $allowed_actions, true );
+		return in_array( $action, self::$allowed_actions, true );
 	}
 
 	/**
@@ -110,11 +120,12 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 		$this->redirect(
 			'https://my.yoast.com/connect',
 			array(
-				'url'          => WPSEO_Utils::get_home_url(),
-				'client_id'    => $client_id,
-				'extensions'   => array(),
-				'redirect_url' => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ),
+				'url'             => WPSEO_Utils::get_home_url(),
+				'client_id'       => $client_id,
+				'extensions'      => $this->get_extensions(),
+				'redirect_url'    => admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER . '&action=complete' ),
 				'credentials_url' => rest_url( 'yoast/v1/myyoast/connect' ),
+				'type'            => 'wordpress',
 			)
 		);
 	}
@@ -122,7 +133,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	/**
 	 * Redirects the user to the oAuth authorization page.
 	 *
-	 * @return void.
+	 * @return void
 	 */
 	protected function authorize() {
 		$client = $this->get_client();
@@ -134,6 +145,41 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 		$this->redirect(
 			$client->get_provider()->getAuthorizationUrl()
 		);
+	}
+
+	/**
+	 * Completes the oAuth connection flow.
+	 *
+	 * @return void
+	 */
+	protected function complete() {
+		$client = $this->get_client();
+
+		if ( ! $client->has_configuration() ) {
+			return;
+		}
+
+		try {
+			$access_token = $client
+				->get_provider()
+				->getAccessToken(
+					'authorization_code',
+					array(
+						'code' => $this->get_authorization_code(),
+					)
+				);
+
+			$client->save_access_token(
+				$this->get_current_user_id(),
+				$access_token
+			);
+		}
+			// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
+		catch ( Exception $e ) {
+			// Do nothing.
+		}
+
+		$this->redirect_to_premium_page();
 	}
 
 	/**
@@ -180,6 +226,30 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Abstracts the authorization code from the url.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return string The action from the url.
+	 */
+	protected function get_authorization_code() {
+		return filter_input( INPUT_GET, 'code' );
+	}
+
+	/**
+	 * Retrieves a list of activated extensions slugs.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return array The extensions slugs.
+	 */
+	protected function get_extensions() {
+		$addon_manager = new WPSEO_Addon_Manager();
+
+		return array_keys( $addon_manager->get_subscriptions_for_active_addons() );
+	}
+
+	/**
 	 * Generates an URL-encoded query string, redirects there.
 	 *
 	 * @codeCoverageIgnore
@@ -218,5 +288,28 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 */
 	protected function generate_uuid() {
 		return wp_generate_uuid4();
+	}
+
+	/**
+	 * Retrieves the current user id.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return int The user id.
+	 */
+	protected function get_current_user_id() {
+		return get_current_user_id();
+	}
+
+	/**
+	 * Redirects to the premium page.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	protected function redirect_to_premium_page() {
+		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_licenses' ) );
+		exit;
 	}
 }
