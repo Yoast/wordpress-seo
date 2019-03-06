@@ -35,10 +35,10 @@ jobs:
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
-      env: WP_VERSION=4.9 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
+      env: WP_VERSION=5.0 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
-    - php: nightly
+    - php: "7.4snapshot"
       env: WP_VERSION=latest PHPUNIT=1
     - stage: 🚀 deployment
       name: "Deploy to S3"
@@ -96,7 +96,7 @@ jobs:
 
   allow_failures:
     # Allow failures for unstable builds.
-    - php: nightly
+    - php: "7.4snapshot"
       env: WP_VERSION=latest PHPUNIT=1
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
@@ -108,7 +108,7 @@ cache:
 
 before_install:
 - PHPUNIT_BIN="phpunit"
-- if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then PHPUNIT_BIN="vendor/bin/phpunit"; fi
+- if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then PHPUNIT_BIN="vendor/bin/phpunit"; fi
 - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
 - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
 - |
@@ -121,7 +121,7 @@ before_install:
 install:
 - if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then phpenv local 5.6.13; fi
 - |
-  if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" || $TRAVIS_PHP_VERSION == "nightly" ]]; then
+  if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then
     composer remove humbug/php-scoper --dev --ignore-platform-reqs
     composer require phpunit/phpunit ^5.7 --ignore-platform-reqs
   fi
@@ -230,7 +230,7 @@ script:
 - |
   if [[ "$PHPUNIT" == "1" ]]; then
     travis_fold start "PHP.tests" && travis_time_start
-    $PHPUNIT_BIN -c phpunit.xml
+    $PHPUNIT_BIN
     travis_time_finish && travis_fold end "PHP.tests"
   fi;
 # Coverage environment variable is only set on the PHP 7 build, so we can safely
@@ -238,7 +238,7 @@ script:
 - |
   if [[ "$COVERAGE" == "1" ]]; then
     travis_fold start "PHP.coverage" && travis_time_start
-    $PHPUNIT_BIN -c phpunit.xml --coverage-clover build/logs/clover.xml
+    $PHPUNIT_BIN --coverage-clover build/logs/clover.xml
     travis_time_finish && travis_fold end "PHP.coverage"
   fi
 # Validate the composer.json file.

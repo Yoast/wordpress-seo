@@ -16,7 +16,7 @@ use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
  *
  * @group oauth
  */
-class Oauth_Test extends \PHPUnit_Framework_TestCase {
+class Oauth_Client_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @var Client
@@ -31,7 +31,7 @@ class Oauth_Test extends \PHPUnit_Framework_TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->class_instance =  new Client();
+		$this->class_instance = new Client();
 	}
 
 	/**
@@ -144,11 +144,15 @@ class Oauth_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\WP\Free\Oauth\Client::has_configuration
 	 */
 	public function test_has_configuration_with_config_set_correctly() {
-		$this->class_instance->save_configuration( [ 'clientId' => 123456789 , 'secret' => 's3cr31' ] );
+		$this->class_instance->save_configuration(
+			[
+				'clientId' => 123456789,
+				'secret'   => 's3cr31',
+			]
+		);
 
 		$this->assertTrue( $this->class_instance->has_configuration() );
 	}
-
 
 	/**
 	 * Tests if the configation has been cleared correctly.
@@ -156,7 +160,12 @@ class Oauth_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\WP\Free\Oauth\Client::clear_configuration
 	 */
 	public function test_clear_configuration() {
-		$this->class_instance->save_configuration( [ 'clientId' => 123456789 , 'secret' => 's3cr31' ] );
+		$this->class_instance->save_configuration(
+			[
+				'clientId' => 123456789,
+				'secret'   => 's3cr31',
+			]
+		);
 		$this->assertTrue( $this->class_instance->has_configuration() );
 
 		$this->class_instance->clear_configuration();
@@ -250,7 +259,12 @@ class Oauth_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\WP\Free\Oauth\Client::get_provider
 	 */
 	public function test_get_provider() {
-		$this->class_instance->save_configuration( [ 'clientId' => 123456789 , 'secret' => 's3cr31' ] );
+		$this->class_instance->save_configuration(
+			[
+				'clientId' => 123456789,
+				'secret'   => 's3cr31',
+			]
+		);
 
 		$this->assertInstanceOf(
 			GenericProvider::class,
@@ -267,22 +281,41 @@ class Oauth_Test extends \PHPUnit_Framework_TestCase {
 		return [
 			[
 				'configuration' => [ 'clientId' => 123456789 ],
-				'expected'      => [ 'clientId' => 123456789, 'secret' => null ],
+				'expected'      => [
+					'clientId' => 123456789,
+					'secret'   => null,
+				],
 				'message'       => 'Tests saving the clientId only.',
 			],
 			[
 				'configuration' => [ 'secret' => 's3cRe1' ],
-				'expected'      => [ 'clientId' => null, 'secret' => 's3cRe1' ],
+				'expected'      => [
+					'clientId' => null,
+					'secret'   => 's3cRe1',
+				],
 				'message'       => 'Tests saving the secret only.',
 			],
 			[
-				'configuration' => [ 'these' => 'fields', 'are' => 'wrong', 'without a key' ],
-				'expected'      => [ 'clientId' => null, 'secret' => null ],
+				'configuration' => [
+					'these' => 'fields',
+					'are'   => 'wrong',
+					'without a key',
+				],
+				'expected'      => [
+					'clientId' => null,
+					'secret'   => null,
+				],
 				'message'       => 'Tests saving config with unwanted fields.',
 			],
 			[
-				'configuration' => [ 'keyless', 'clientId' => 123456789 ],
-				'expected'      => [ 'clientId' => 123456789, 'secret' => null ],
+				'configuration' => [
+					'keyless',
+					'clientId' => 123456789,
+				],
+				'expected'      => [
+					'clientId' => 123456789,
+					'secret'   => null,
+				],
 				'message'       => 'Tests saving config with unwanted fields.',
 			],
 		];

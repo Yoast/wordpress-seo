@@ -197,9 +197,9 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	/**
 	 * Returns the HTML for the row which contains label, help and the field.
 	 *
-	 * @param string                 $label       The html for the label if there was a label set.
-	 * @param WPSEO_Admin_Help_Panel $help        The help panel to render in this row.
-	 * @param string                 $field       The html for the field.
+	 * @param string                 $label The html for the label if there was a label set.
+	 * @param WPSEO_Admin_Help_Panel $help  The help panel to render in this row.
+	 * @param string                 $field The html for the field.
 	 *
 	 * @return string
 	 */

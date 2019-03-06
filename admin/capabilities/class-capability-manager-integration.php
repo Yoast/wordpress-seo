@@ -82,7 +82,7 @@ class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integratio
 	 *
 	 * @see    URE_Capabilities_Groups_Manager::get_groups_tree()
 	 *
-	 * @param  array $groups Current groups.
+	 * @param array $groups Current groups.
 	 *
 	 * @return array Filtered list of capabilty groups.
 	 */
@@ -103,8 +103,8 @@ class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integratio
 	 *
 	 * @see    URE_Capabilities_Groups_Manager::get_cap_groups()
 	 *
-	 * @param  array  $groups Current capability groups.
-	 * @param  string $cap_id Capability identifier.
+	 * @param array  $groups Current capability groups.
+	 * @param string $cap_id Capability identifier.
 	 *
 	 * @return array List of filtered groups.
 	 */
