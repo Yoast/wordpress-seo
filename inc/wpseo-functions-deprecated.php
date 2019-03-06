@@ -9,6 +9,7 @@
  * Adds help tabs.
  *
  * @deprecated 7.6.0
+ * @codeCoverageIgnore
  *
  * @param array $tabs Current help center tabs.
  *
@@ -24,6 +25,7 @@ function yoast_add_meta_options_help_center_tabs( $tabs ) {
  * Adds template variables to the help center.
  *
  * @deprecated 7.6.0
+ * @codeCoverageIgnore
  *
  * @return string The content for the template variables tab.
  */

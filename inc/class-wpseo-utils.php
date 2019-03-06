@@ -1193,6 +1193,8 @@ SVG;
 	 * @deprecated  9.5
 	 * @since       9.5
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $locale The locale to get the language of.
 	 *
 	 * @return string The language part of the locale.
@@ -1215,6 +1217,8 @@ SVG;
 	 *
 	 * @deprecated  9.5
 	 * @since       9.5
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The locale.
 	 */
