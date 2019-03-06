@@ -226,4 +226,13 @@ describe( "Test for checking adjective exceptions in German", () => {
 		// "Sprung" is an exception to the general -ung rule.
 		expect( generateNounExceptionForms( morphologyDataDE.nouns, "hochsprung" ) ).toEqual( [] );
 	} );
+
+	it( "creates forms for a singular noun that ends in a consonant + s", () => {
+		expect( generateNounExceptionForms( morphologyDataDE.nouns, "krebs" ) ).toEqual( [
+			"krebs",
+			"krebses",
+			"krebse",
+			"krebsen",
+		] );
+	} );
 } );
