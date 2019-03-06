@@ -28,26 +28,20 @@ const generateRegularParticipleForm = function( morphologyDataVerbs, stemmedWord
 };
 
 /**
- * Generates participle forms with separable prefixes.
+ * Generates participle forms with separable or separable/inseparable prefixes.
  *
- * @param {Object}  morphologyDataVerbs The German morphology data for verbs.
- * @param {string}  stemmedWord         The stem to check.
+ * @param {Object}      morphologyDataVerbs The German morphology data for verbs.
+ * @param {string}      stemmedWord         The stem to check.
+ * @param {string[]}    prefixes            The prefixes to check.
  *
  * @returns {string} The created participle form.
  */
-const generateParticipleFormWithSeparablePrefix = function( morphologyDataVerbs, stemmedWord ) {
-	const separablePrefixes = morphologyDataVerbs.verbPrefixesSeparable;
-
-	for ( let i = 0; i < separablePrefixes.length; i++ ) {
-		const currentPrefix = separablePrefixes[ i ];
+const generateParticipleFormWithSeparablePrefix = function( morphologyDataVerbs, stemmedWord, prefixes ) {
+	for ( let i = 0; i < prefixes.length; i++ ) {
+		const currentPrefix = prefixes[ i ];
 
 		if ( stemmedWord.startsWith( currentPrefix ) ) {
 			const stemmedWordWithoutPrefix = stemmedWord.slice( currentPrefix.length, stemmedWord.length );
-
-			// Test if the stemmed word is already a participle form itself.
-			if ( stemmedWordWithoutPrefix.startsWith( "ge" ) ) {
-				return "";
-			}
 
 			if ( stemmedWord.endsWith( "d" ) || stemmedWord.endsWith( "t" ) ) {
 				return addParticipleAffixes( stemmedWordWithoutPrefix, morphologyDataVerbs.participleAffixes.stemEndsInDOrT, currentPrefix );
@@ -69,11 +63,29 @@ const generateParticipleFormWithSeparablePrefix = function( morphologyDataVerbs,
  * @returns {string} The created participle form.
  */
 export function generateParticipleForm( morphologyDataVerbs, stemmedWord ) {
-	// @todo needs to check here if a form is a participle - > not necessary because we stem participles before this function is called
+	let participleFormWithPrefix = generateParticipleFormWithSeparablePrefix(
+		morphologyDataVerbs,
+		stemmedWord,
+		morphologyDataVerbs.verbPrefixesSeparable
+	);
 
+	if ( participleFormWithPrefix.length > 0 ) {
+		return participleFormWithPrefix;
+	}
 
-	if ( generateParticipleFormWithSeparablePrefix( morphologyDataVerbs, stemmedWord ) !== "" ) {
-		return generateParticipleFormWithSeparablePrefix( morphologyDataVerbs, stemmedWord );
+	/*
+	 * Check forms with a separable/non-separable prefix used in its separable form, e.g. ("überkochen" - "übergekocht")
+	 * For its these prefixes used in the inseparable form, the resulting participle would be the same as
+	 * the 3rd person singular, so we don't need to create a separate form here (e.g., "überführen" - "überführt").
+	 */
+	participleFormWithPrefix = generateParticipleFormWithSeparablePrefix(
+		morphologyDataVerbs,
+		stemmedWord,
+		morphologyDataVerbs.verbPrefixesSeparableOrInseparable
+	);
+
+	if ( participleFormWithPrefix.length > 0 ) {
+		return participleFormWithPrefix;
 	}
 
 	return generateRegularParticipleForm( morphologyDataVerbs, stemmedWord );

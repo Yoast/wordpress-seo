@@ -16,4 +16,8 @@ describe( "Test for generating participle forms", () => {
 	it( "generates a participle form for a stem starting with a separable prefix", () => {
 		expect( generateParticipleForm( morphologyDataDE.verbs, "einkauf" ) ).toEqual( "eingekauft" );
 	} );
+
+	it( "generates a participle form for a stem starting with a non-separable/separable prefix", () => {
+		expect( generateParticipleForm( morphologyDataDE.verbs, "überkoch" ) ).toEqual( "übergekocht" );
+	} );
 } );
