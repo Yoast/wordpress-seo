@@ -95,6 +95,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_save_postdata() {
 
+		$this->markTestSkipped( 'This test has been non-functioning for a while. The $meta_fields are empty which means no assertions are made. Issue to implement the test correctly: https://github.com/Yoast/wordpress-seo/issues/12381' );
+
 		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
