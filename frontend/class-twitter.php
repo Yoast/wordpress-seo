@@ -504,7 +504,7 @@ class WPSEO_Twitter {
 	 *
 	 * @return bool
 	 */
-	protected function image_output( $img) {
+	protected function image_output( $img ) {
 
 		/**
 		 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image
