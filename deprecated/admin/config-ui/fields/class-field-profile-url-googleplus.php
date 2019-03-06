@@ -5,27 +5,32 @@
  * @package WPSEO\Admin\ConfigurationUI
  */
 
+_deprecated_file( __FILE__, 'WPSEO 10.1' );
+
 /**
  * Class WPSEO_Config_Field_Profile_URL_GooglePlus
+ *
+ * @deprecated 10.1
  */
 class WPSEO_Config_Field_Profile_URL_GooglePlus extends WPSEO_Config_Field {
-
 	/**
 	 * WPSEO_Config_Field_Profile_URL_GooglePlus constructor.
+	 *
+	 * @deprecated 10.1
 	 */
 	public function __construct() {
-		parent::__construct( 'profileUrlGooglePlus', 'Input' );
-
-		$this->set_property( 'label', __( 'Google+ URL', 'wordpress-seo' ) );
-		$this->set_property( 'pattern', '^https:\/\/plus\.google\.com\/([^/]+)$' );
+		_deprecated_constructor( 'WPSEO_Config_Field_Profile_URL_GooglePlus', '10.1' );
 	}
-
 	/**
-	 * Set adapter
+	 * Sets adapter.
+	 *
+	 * @deprecated 10.1
 	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
+	 *
+	 * @return void
 	 */
 	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {
-		$adapter->add_option_lookup( $this->get_identifier(), 'google_plus_url' );
+		_deprecated_function( __METHOD__, '10.1' );
 	}
 }

@@ -258,7 +258,7 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Filter the $contactmethods array and add Facebook, Google+ and Twitter.
+	 * Filter the $contactmethods array and add Facebook, LinkedIn and Twitter.
 	 *
 	 * These are used with the Facebook author, rel="author" and Twitter cards implementation.
 	 *
@@ -267,12 +267,16 @@ class WPSEO_Admin {
 	 * @return array $contactmethods with added contactmethods.
 	 */
 	public function update_contactmethods( $contactmethods ) {
-		// Add Google+.
-		$contactmethods['googleplus'] = __( 'Google+', 'wordpress-seo' );
-		// Add Twitter.
-		$contactmethods['twitter'] = __( 'Twitter username (without @)', 'wordpress-seo' );
 		// Add Facebook.
 		$contactmethods['facebook'] = __( 'Facebook profile URL', 'wordpress-seo' );
+		// Add Instagram.
+		$contactmethods['instagram'] = __( 'Instagram profile URL', 'wordpress-seo' );
+		// Add LinkedIn.
+		$contactmethods['linkedin'] = __( 'LinkedIn profile URL', 'wordpress-seo' );
+		// Add Pinterest.
+		$contactmethods['pinterest'] = __( 'Pinterest profile URL', 'wordpress-seo' );
+		// Add Twitter.
+		$contactmethods['twitter'] = __( 'Twitter username (without @)', 'wordpress-seo' );
 
 		return $contactmethods;
 	}
