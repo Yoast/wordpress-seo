@@ -9,6 +9,7 @@
  * Class WPSEO_Post_Indexable
  */
 abstract class WPSEO_Object_Type {
+
 	/**
 	 * @var int The ID of the object.
 	 */

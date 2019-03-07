@@ -388,7 +388,6 @@ class WPSEO_Meta {
 		 *
 		 * @return array
 		 */
-
 		return apply_filters( 'wpseo_metabox_entries_' . $tab, $field_defs, $post_type );
 	}
 

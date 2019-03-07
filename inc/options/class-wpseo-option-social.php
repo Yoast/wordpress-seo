@@ -53,7 +53,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'fbadminapp',
 	);
 
-
 	/**
 	 * @var  array  Array of allowed twitter card types.
 	 *              While we only have the options summary and summary_large_image in the
