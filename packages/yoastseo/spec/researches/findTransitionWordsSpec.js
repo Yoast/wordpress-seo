@@ -333,6 +333,14 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 
+	it( "returns 1 when a transition word with a punt volat (·) is found in a sentence (Catalan)", function() {
+		// Transition word: per il·lustrar.
+		mockPaper = new Paper( "Roma proposa un concurs de curtmetratges per il·lustrar com ha de ser la ciutat ideal", { locale: "ca_ES" } );
+		result = transitionWordsResearch( mockPaper );
+		expect( result.totalSentences ).toBe( 1 );
+		expect( result.transitionWordSentences ).toBe( 1 );
+	} );
+
 	it( "returns 1 when a two-part transition word is found in a sentence (Catalan)", function() {
 		// Transition word: ni...ni
 		mockPaper = new Paper( "No era ni un gat ni un gos.", { locale: "ca_ES" } );

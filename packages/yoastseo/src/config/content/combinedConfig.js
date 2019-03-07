@@ -4,11 +4,15 @@ import defaultConfig from "./default";
 import it from "./it";
 import ru from "./ru";
 import pl from "./pl";
+import es from "./es";
+import ca from "./ca";
 
 const configurations = {
 	it: it,
 	ru: ru,
 	pl: pl,
+	es: es,
+	ca: ca,
 };
 
 /**

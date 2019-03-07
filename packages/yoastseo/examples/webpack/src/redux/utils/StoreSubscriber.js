@@ -1,10 +1,12 @@
 // External dependencies.
 import { debounce, isEqual } from "lodash-es";
+import buildTree from "yoastsrc/tree/builder";
 import Paper from "yoastsrc/values/Paper";
+import getMorphologyData from "yoastspec/specHelpers/getMorphologyData";
+import getLanguage from "yoastsrc/helpers/getLanguage";
 
 // Internal dependencies.
 import formatAnalyzeResult from "../../utils/formatAnalyzeResult";
-import getMorphologyData from "../../utils/getMorphologyData";
 import { setResults } from "../actions/results";
 import { setStatus } from "../actions/worker";
 
@@ -12,20 +14,30 @@ export default class StoreSubscriber {
 	constructor( { store, worker } ) {
 		this._store = store;
 		this._worker = worker;
-		this._prevState = {};
+		this._prevState = {
+			configuration: {},
+			options: {},
+			paper: {},
+		};
 
 		this.onStoreChange = this.onStoreChange.bind( this );
 		this.triggerAutomaticRefresh = debounce( this.triggerAutomaticRefresh, 500 );
+		this.triggerTreeBuilder = debounce( this.triggerTreeBuilder, 250 );
 	}
 
 	onStoreChange() {
 		const state = this._store.getState();
 
 		const { isAutomaticRefreshEnabled } = state.worker;
+		const { isTreeBuilderEnabled } = state.options;
 
 		if ( isAutomaticRefreshEnabled ) {
 			this.triggerAutomaticRefresh( this._prevState, state );
 			this.triggerInitialize( this._prevState, state );
+		}
+
+		if ( isTreeBuilderEnabled ) {
+			this.triggerTreeBuilder( this._prevState, state );
 		}
 
 		this._prevState = state;
@@ -71,21 +83,39 @@ export default class StoreSubscriber {
 
 	triggerInitialize( prevState, state ) {
 		const { configuration: prevConfiguration, options: prevOptions } = prevState;
-		const { configuration, options } = state;
+		const { configuration, options, paper } = state;
 
 		if ( ! isEqual( prevConfiguration, configuration ) || ! isEqual( prevOptions, options ) ) {
 			const config = {
 				...configuration,
 				researchData: {
-					morphology: state.options.useMorphology ? getMorphologyData() : {},
+					morphology: options.useMorphology ? getMorphologyData( getLanguage( paper.locale ) ) : {},
 				},
 			};
 			this._worker.initialize( config ).then( () => {
-				if ( state.options.isRelatedKeyphrase ) {
-					return this.analyzeRelatedKeyphrase( state.paper );
+				if ( options.isRelatedKeyphrase ) {
+					return this.analyzeRelatedKeyphrase( paper );
 				}
-				return this.analyzePaper( state.paper );
+				return this.analyzePaper( paper );
 			} );
+		}
+	}
+
+	triggerTreeBuilder( prevState, state ) {
+		const { paper: { text: prevText }, options: { isTreeBuilderEnabled: prevIsTreeBuilderEnabled } } = prevState;
+		const { paper: { text }, options: { isTreeBuilderEnabled } } = state;
+
+		/*
+		 * Extra check on the `isTreeBuilderEnabled` to build again after enabling the tree builder option.
+		 * This can have timing issues with the debounce and other store change and not work.
+		 */
+		if ( prevIsTreeBuilderEnabled !== isTreeBuilderEnabled || prevText !== text ) {
+			let tree = buildTree( text );
+
+			// Remove any circular dependencies by using the `toString` implementation.
+			tree = JSON.parse( tree.toString() );
+
+			this.dispatch( setResults( { tree } ) );
 		}
 	}
 
