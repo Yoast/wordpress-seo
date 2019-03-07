@@ -43,8 +43,6 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 * @var  array $allowed_access_options Available options for the 'access' setting
 	 *                    Used for input validation
 	 *
-	 * @static
-	 *
 	 * {@internal Important: Make sure the options added to the array here are in line
 	 *            with the keys for the options set for the select box in the
 	 *            admin/pages/network.php file.}}
