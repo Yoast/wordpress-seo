@@ -53,7 +53,7 @@ const constructRelatedKeyphraseAssessments = () => [
 ];
 
 /**
- * Creates a new list of SEO assessments for taxonomy pages.
+ * Creates a new list of SEO assessments for related keyphrases on taxonomy pages.
  *
  * @returns {module:tree/assess.Assessment[]} The list of SEO assessments.
  *
