@@ -25,6 +25,11 @@ const Choice = ( props ) => {
 	}
 	const wrapperClass = "yoast-wizard-input-" + type;
 
+	/**
+	 * Returns a select or radio fieldset component.
+	 *
+	 * @returns {ReactElement} The fieldset component.
+	 */
 	const fieldSet = () => {
 		if ( type === "select" ) {
 			/*

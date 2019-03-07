@@ -23,6 +23,9 @@ const StyledCloseIconButton = styled.button`
 	cursor: pointer;
 `;
 
+/**
+ * The BaseYoastModal class, rendering a Modal component.
+ */
 class BaseYoastModal extends React.Component {
 	/**
 	 * The constructor.

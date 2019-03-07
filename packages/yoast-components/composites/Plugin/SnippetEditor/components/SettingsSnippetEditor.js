@@ -10,6 +10,9 @@ import {
 	recommendedReplacementVariablesShape,
 } from "../constants";
 
+/**
+ * The snippet editor settings.
+ */
 class SettingsSnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.

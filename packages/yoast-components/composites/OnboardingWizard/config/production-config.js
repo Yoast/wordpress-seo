@@ -252,31 +252,35 @@ const configuration = {
 				                "Symbols are shown in the size they'll appear in the search results.",
 				choices: {
 					dash: {
-						label: "‐",
+						label: "-",
 						screenReaderText: "Dash",
 					},
 					ndash: {
-						label: "–",
+						label: "&ndash;",
 						screenReaderText: "En dash",
 					},
 					mdash: {
-						label: "—",
+						label: "&mdash;",
 						screenReaderText: "Em dash",
 					},
+					colon: {
+						label: ":",
+						screenReaderText: "Colon",
+					},
 					middot: {
-						label: "·",
+						label: "&middot;",
 						screenReaderText: "Middle dot",
 					},
 					bull: {
-						label: "•",
+						label: "&bull;",
 						screenReaderText: "Bullet",
 					},
-					asterisk: {
+					star: {
 						label: "*",
 						screenReaderText: "Asterisk",
 					},
-					lowast: {
-						label: "⁎",
+					smstar: {
+						label: "&#8902;",
 						screenReaderText: "Low asterisk",
 					},
 					pipe: {
@@ -288,7 +292,7 @@ const configuration = {
 						screenReaderText: "Small tilde",
 					},
 					laquo: {
-						label: "«",
+						label: "&laquo;",
 						screenReaderText: "Left angle quotation mark",
 					},
 					raquo: {
