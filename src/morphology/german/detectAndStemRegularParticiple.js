@@ -15,7 +15,7 @@ const detectAndStemParticiplesWithoutPrefixes = function( morphologyDataVerbs, w
 
 	/*
 	 * Check if it's a ge + stem ending in d/t + et participle.
-	 * As this is the more specific regex, which needs to be checked before the ge + stem + t regex.
+	 * As this is the more specific regex, it needs to be checked before the ge + stem + t regex.
 	 */
 	if ( participleRegex2.test( word ) ) {
 		// Remove the two-letter prefix and the two-letter suffix.
@@ -39,7 +39,7 @@ const detectAndStemParticiplesWithoutPrefixes = function( morphologyDataVerbs, w
  * @param {string[]}    prefixes    The prefixes of a certain prefix class.
  * @param {string}      regexPart   The regex part for a given class (completed to a full regex within the function).
  * @param {number}      startStem   Where to start cutting off the de-prefixed word.
- * @param {number}       endStem     Where to end cutting off the de-prefixed word (from the end index).
+ * @param {number}      endStem     Where to end cutting off the de-prefixed word (from the end index).
  *
  * @returns {string} The stem.
  */
