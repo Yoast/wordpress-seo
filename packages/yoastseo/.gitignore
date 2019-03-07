@@ -1,0 +1,11 @@
+temps/
+temp-spec/
+.idea/
+node_modules/
+out/
+coverage/
+dist/
+.tscache/
+
+/examples/browserified/example-browserified.js
+/premium-configuration

@@ -1,0 +1,10 @@
+{
+  "files": {
+    "included": [
+      "js/**/*.js"
+    ],
+    "excluded": [
+      "dist/**/*"
+    ]
+  }
+}

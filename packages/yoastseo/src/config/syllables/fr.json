@@ -1,0 +1,1426 @@
+{
+  "vowels": "aeiouyàâéèêëîïûüùôæœ",
+  "deviations": {
+    "vowels": [
+      {
+        "fragments": [
+          "[ptf]aon(ne)?[s]?$"
+        ],
+        "countModifier": -1
+      },
+      {
+        "fragments": [
+          "aoul",
+          "[^eéiïou]e(s|nt)?$",
+          "[qg]ue(s|nt)?$"
+        ],
+        "countModifier": -1
+      },
+      {
+        "fragments": [
+          "o[ëaéèï]"
+        ],
+        "countModifier": 1
+      },
+      {
+        "fragments": [
+          "a[eéèïüo]",
+          "é[aâèéiîuo]",
+          "ii[oe]",
+          "[aeéuo]y[aâeéèoui]",
+          "coe[^u]",
+          "zoo",
+          "coop",
+          "coord",
+          "poly[ae]",
+          "[bcd]ry[oa]",
+          "[bcdfgptv][rl](ou|u|i)[aéèouâ]",
+          "ouez",
+          "[blmnt]uio",
+          "uoia",
+          "ment$",
+          "yua",
+          "[bcdfgptv][rl](i|u|eu)e([ltz]|r[s]?$|n[^t])",
+          "[^aeiuyàâéèêëîïûüùôæœqg]uie[rz]$"
+        ],
+        "countModifier": 1
+      }
+    ],
+    "words": {
+      "full": [
+        {
+          "word": "ok",
+          "syllables": 2
+        },
+        {
+          "word": "eyeliner",
+          "syllables": 3
+        },
+        {
+          "word": "coati",
+          "syllables": 3
+        },
+        {
+          "word": "que",
+          "syllables": 1
+        },
+        {
+          "word": "flouer",
+          "syllables": 2
+        },
+        {
+          "word": "relouer",
+          "syllables": 3
+        },
+        {
+          "word": "évaluons",
+          "syllables": 4
+        },
+        {
+          "word": "instituons",
+          "syllables": 4
+        },
+        {
+          "word": "atténuons",
+          "syllables": 4
+        },
+        {
+          "word": "remuons",
+          "syllables": 3
+        },
+        {
+          "word": "redestribuons",
+          "syllables": 5
+        },
+        {
+          "word": "suons",
+          "syllables": 2
+        },
+        {
+          "word": "reconstituons",
+          "syllables": 5
+        },
+        {
+          "word": "dent",
+          "syllables": 1
+        },
+        {
+          "word": "fréquent",
+          "syllables": 2
+        },
+        {
+          "word": "permanent",
+          "syllables": 3
+        },
+        {
+          "word": "mécontent",
+          "syllables": 3
+        },
+        {
+          "word": "grandiloquent",
+          "syllables": 4
+        },
+        {
+          "word": "continent",
+          "syllables": 3
+        },
+        {
+          "word": "occident",
+          "syllables": 3
+        },
+        {
+          "word": "référent",
+          "syllables": 3
+        },
+        {
+          "word": "indigent",
+          "syllables": 3
+        },
+        {
+          "word": "concurrent",
+          "syllables": 3
+        },
+        {
+          "word": "gent",
+          "syllables": 1
+        },
+        {
+          "word": "différent",
+          "syllables": 3
+        },
+        {
+          "word": "strident",
+          "syllables": 2
+        },
+        {
+          "word": "équivalent",
+          "syllables": 4
+        },
+        {
+          "word": "ardent",
+          "syllables": 2
+        },
+        {
+          "word": "impotent",
+          "syllables": 3
+        },
+        {
+          "word": "argent",
+          "syllables": 2
+        },
+        {
+          "word": "immanent",
+          "syllables": 3
+        },
+        {
+          "word": "indécent",
+          "syllables": 3
+        },
+        {
+          "word": "effluent",
+          "syllables": 3
+        },
+        {
+          "word": "agent",
+          "syllables": 2
+        },
+        {
+          "word": "dolent",
+          "syllables": 2
+        },
+        {
+          "word": "contingent",
+          "syllables": 3
+        },
+        {
+          "word": "impénitent",
+          "syllables": 4
+        },
+        {
+          "word": "adjacent",
+          "syllables": 3
+        },
+        {
+          "word": "incident",
+          "syllables": 3
+        },
+        {
+          "word": "content",
+          "syllables": 2
+        },
+        {
+          "word": "incontinent",
+          "syllables": 4
+        },
+        {
+          "word": "éloquent",
+          "syllables": 3
+        },
+        {
+          "word": "convent",
+          "syllables": 2
+        },
+        {
+          "word": "dissident",
+          "syllables": 3
+        },
+        {
+          "word": "innocent",
+          "syllables": 3
+        },
+        {
+          "word": "ventripotent",
+          "syllables": 4
+        },
+        {
+          "word": "convalescent",
+          "syllables": 4
+        },
+        {
+          "word": "accident",
+          "syllables": 3
+        },
+        {
+          "word": "récent",
+          "syllables": 2
+        },
+        {
+          "word": "absent",
+          "syllables": 2
+        },
+        {
+          "word": "décadent",
+          "syllables": 3
+        },
+        {
+          "word": "réticent",
+          "syllables": 3
+        },
+        {
+          "word": "évent",
+          "syllables": 2
+        },
+        {
+          "word": "souvent",
+          "syllables": 2
+        },
+        {
+          "word": "intelligent",
+          "syllables": 3
+        },
+        {
+          "word": "inhérent",
+          "syllables": 3
+        },
+        {
+          "word": "adolescent",
+          "syllables": 4
+        },
+        {
+          "word": "couvent",
+          "syllables": 2
+        },
+        {
+          "word": "cent",
+          "syllables": 1
+        },
+        {
+          "word": "urgent",
+          "syllables": 2
+        },
+        {
+          "word": "précédent",
+          "syllables": 3
+        },
+        {
+          "word": "imprudent",
+          "syllables": 3
+        },
+        {
+          "word": "torrent",
+          "syllables": 2
+        },
+        {
+          "word": "abstinent",
+          "syllables": 3
+        },
+        {
+          "word": "indifférent",
+          "syllables": 4
+        },
+        {
+          "word": "excédent",
+          "syllables": 3
+        },
+        {
+          "word": "déférent",
+          "syllables": 3
+        },
+        {
+          "word": "incandescent",
+          "syllables": 4
+        },
+        {
+          "word": "intermittent",
+          "syllables": 4
+        },
+        {
+          "word": "présent",
+          "syllables": 3
+        },
+        {
+          "word": "astringent",
+          "syllables": 3
+        },
+        {
+          "word": "trident",
+          "syllables": 2
+        },
+        {
+          "word": "impertinent",
+          "syllables": 4
+        },
+        {
+          "word": "détergent",
+          "syllables": 3
+        },
+        {
+          "word": "évident",
+          "syllables": 3
+        },
+        {
+          "word": "influent",
+          "syllables": 3
+        },
+        {
+          "word": "pertinent",
+          "syllables": 3
+        },
+        {
+          "word": "subséquent",
+          "syllables": 3
+        },
+        {
+          "word": "féculent",
+          "syllables": 3
+        },
+        {
+          "word": "déférent",
+          "syllables": 3
+        },
+        {
+          "word": "ambivalent",
+          "syllables": 4
+        },
+        {
+          "word": "omnipotent",
+          "syllables": 4
+        },
+        {
+          "word": "décent",
+          "syllables": 2
+        },
+        {
+          "word": "compétent",
+          "syllables": 3
+        },
+        {
+          "word": "adhérent",
+          "syllables": 3
+        },
+        {
+          "word": "afférent",
+          "syllables": 3
+        },
+        {
+          "word": "luminescent",
+          "syllables": 4
+        },
+        {
+          "word": "lent",
+          "syllables": 1
+        },
+        {
+          "word": "apparent",
+          "syllables": 3
+        },
+        {
+          "word": "effervescent",
+          "syllables": 4
+        },
+        {
+          "word": "parent",
+          "syllables": 2
+        },
+        {
+          "word": "pénitent",
+          "syllables": 3
+        },
+        {
+          "word": "fluorescent",
+          "syllables": 3
+        },
+        {
+          "word": "impudent",
+          "syllables": 3
+        },
+        {
+          "word": "diligent",
+          "syllables": 3
+        },
+        {
+          "word": "entregent",
+          "syllables": 3
+        },
+        {
+          "word": "flatulent",
+          "syllables": 3
+        },
+        {
+          "word": "serpent",
+          "syllables": 2
+        },
+        {
+          "word": "violent",
+          "syllables": 2
+        },
+        {
+          "word": "somnolent",
+          "syllables": 3
+        },
+        {
+          "word": "déliquescent",
+          "syllables": 4
+        },
+        {
+          "word": "proéminent",
+          "syllables": 4
+        },
+        {
+          "word": "résident",
+          "syllables": 3
+        },
+        {
+          "word": "putrescent",
+          "syllables": 3
+        },
+        {
+          "word": "talent",
+          "syllables": 2
+        },
+        {
+          "word": "spumescent",
+          "syllables": 3
+        },
+        {
+          "word": "tangent",
+          "syllables": 2
+        },
+        {
+          "word": "chiendent",
+          "syllables": 2
+        },
+        {
+          "word": "négligent",
+          "syllables": 3
+        },
+        {
+          "word": "antécédent",
+          "syllables": 4
+        },
+        {
+          "word": "régent",
+          "syllables": 2
+        },
+        {
+          "word": "polyvalent",
+          "syllables": 4
+        },
+        {
+          "word": "latent",
+          "syllables": 2
+        },
+        {
+          "word": "opulent",
+          "syllables": 3
+        },
+        {
+          "word": "arpent",
+          "syllables": 2
+        },
+        {
+          "word": "adent",
+          "syllables": 2
+        },
+        {
+          "word": "concupiscent",
+          "syllables": 4
+        },
+        {
+          "word": "sanguinolent",
+          "syllables": 4
+        },
+        {
+          "word": "opalescent",
+          "syllables": 4
+        },
+        {
+          "word": "prudent",
+          "syllables": 2
+        },
+        {
+          "word": "conséquent",
+          "syllables": 3
+        },
+        {
+          "word": "pourcent",
+          "syllables": 2
+        },
+        {
+          "word": "transparent",
+          "syllables": 3
+        },
+        {
+          "word": "sergent",
+          "syllables": 2
+        },
+        {
+          "word": "diligent",
+          "syllables": 3
+        },
+        {
+          "word": "inconséquent",
+          "syllables": 4
+        },
+        {
+          "word": "turbulent",
+          "syllables": 3
+        },
+        {
+          "word": "fervent",
+          "syllables": 2
+        },
+        {
+          "word": "truculent",
+          "syllables": 3
+        },
+        {
+          "word": "interférent",
+          "syllables": 4
+        },
+        {
+          "word": "confluent",
+          "syllables": 3
+        },
+        {
+          "word": "succulent",
+          "syllables": 3
+        },
+        {
+          "word": "purulent",
+          "syllables": 3
+        },
+        {
+          "word": "patent",
+          "syllables": 2
+        },
+        {
+          "word": "indulgent",
+          "syllables": 3
+        },
+        {
+          "word": "engoulevent",
+          "syllables": 4
+        },
+        {
+          "word": "auvent",
+          "syllables": 2
+        },
+        {
+          "word": "président",
+          "syllables": 3
+        },
+        {
+          "word": "confident",
+          "syllables": 3
+        },
+        {
+          "word": "incompétent",
+          "syllables": 4
+        },
+        {
+          "word": "accent",
+          "syllables": 2
+        },
+        {
+          "word": "arborescent",
+          "syllables": 4
+        },
+        {
+          "word": "contrevent",
+          "syllables": 3
+        },
+        {
+          "word": "cohérent",
+          "syllables": 3
+        },
+        {
+          "word": "relent",
+          "syllables": 2
+        },
+        {
+          "word": "insolent",
+          "syllables": 3
+        },
+        {
+          "word": "virulent",
+          "syllables": 3
+        },
+        {
+          "word": "rémanent",
+          "syllables": 3
+        },
+        {
+          "word": "vent",
+          "syllables": 1
+        },
+        {
+          "word": "turgescent",
+          "syllables": 3
+        },
+        {
+          "word": "incohérent",
+          "syllables": 4
+        },
+        {
+          "word": "malcontent",
+          "syllables": 3
+        },
+        {
+          "word": "lactescent",
+          "syllables": 3
+        },
+        {
+          "word": "inintelligent",
+          "syllables": 5
+        },
+        {
+          "word": "omniprésent",
+          "syllables": 4
+        },
+        {
+          "word": "récurrent",
+          "syllables": 3
+        },
+        {
+          "word": "covalent",
+          "syllables": 3
+        },
+        {
+          "word": "éminent",
+          "syllables": 3
+        },
+        {
+          "word": "onguent",
+          "syllables": 2
+        },
+        {
+          "word": "indolent",
+          "syllables": 3
+        },
+        {
+          "word": "event",
+          "syllables": 2
+        },
+        {
+          "word": "corpulent",
+          "syllables": 3
+        },
+        {
+          "word": "divergent",
+          "syllables": 3
+        },
+        {
+          "word": "excellent",
+          "syllables": 3
+        },
+        {
+          "word": "phosphorescent",
+          "syllables": 4
+        },
+        {
+          "word": "évanescent",
+          "syllables": 4
+        },
+        {
+          "word": "paravent",
+          "syllables": 3
+        },
+        {
+          "word": "avent",
+          "syllables": 2
+        },
+        {
+          "word": "iridescent",
+          "syllables": 4
+        },
+        {
+          "word": "prénomment",
+          "syllables": 2
+        },
+        {
+          "word": "consument",
+          "syllables": 2
+        },
+        {
+          "word": "dégomment",
+          "syllables": 2
+        },
+        {
+          "word": "enveniment",
+          "syllables": 3
+        },
+        {
+          "word": "proclament",
+          "syllables": 2
+        },
+        {
+          "word": "chôment",
+          "syllables": 1
+        },
+        {
+          "word": "infirment",
+          "syllables": 2
+        },
+        {
+          "word": "briment",
+          "syllables": 1
+        },
+        {
+          "word": "fument",
+          "syllables": 1
+        },
+        {
+          "word": "acclament",
+          "syllables": 2
+        },
+        {
+          "word": "referment",
+          "syllables": 2
+        },
+        {
+          "word": "impriment",
+          "syllables": 2
+        },
+        {
+          "word": "paument",
+          "syllables": 1
+        },
+        {
+          "word": "déciment",
+          "syllables": 2
+        },
+        {
+          "word": "accoutument",
+          "syllables": 3
+        },
+        {
+          "word": "essaiment",
+          "syllables": 2
+        },
+        {
+          "word": "ferment",
+          "syllables": 1
+        },
+        {
+          "word": "dépriment",
+          "syllables": 2
+        },
+        {
+          "word": "raniment",
+          "syllables": 2
+        },
+        {
+          "word": "programment",
+          "syllables": 2
+        },
+        {
+          "word": "fantasment",
+          "syllables": 2
+        },
+        {
+          "word": "animent",
+          "syllables": 2
+        },
+        {
+          "word": "affirment",
+          "syllables": 2
+        },
+        {
+          "word": "filment",
+          "syllables": 1
+        },
+        {
+          "word": "dament",
+          "syllables": 1
+        },
+        {
+          "word": "parsèment",
+          "syllables": 3
+        },
+        {
+          "word": "priment",
+          "syllables": 1
+        },
+        {
+          "word": "assomment",
+          "syllables": 2
+        },
+        {
+          "word": "rament",
+          "syllables": 1
+        },
+        {
+          "word": "pâment",
+          "syllables": 1
+        },
+        {
+          "word": "conforment",
+          "syllables": 2
+        },
+        {
+          "word": "embaument",
+          "syllables": 2
+        },
+        {
+          "word": "calment",
+          "syllables": 1
+        },
+        {
+          "word": "blasphèment",
+          "syllables": 2
+        },
+        {
+          "word": "désarment",
+          "syllables": 2
+        },
+        {
+          "word": "consomment",
+          "syllables": 2
+        },
+        {
+          "word": "griment",
+          "syllables": 1
+        },
+        {
+          "word": "abîment",
+          "syllables": 2
+        },
+        {
+          "word": "blâment",
+          "syllables": 1
+        },
+        {
+          "word": "endorment",
+          "syllables": 2
+        },
+        {
+          "word": "allument",
+          "syllables": 2
+        },
+        {
+          "word": "blâment",
+          "syllables": 1
+        },
+        {
+          "word": "confirment",
+          "syllables": 2
+        },
+        {
+          "word": "escriment",
+          "syllables": 2
+        },
+        {
+          "word": "trament",
+          "syllables": 1
+        },
+        {
+          "word": "hument",
+          "syllables": 1
+        },
+        {
+          "word": "surnomment",
+          "syllables": 2
+        },
+        {
+          "word": "écument",
+          "syllables": 2
+        },
+        {
+          "word": "triment",
+          "syllables": 1
+        },
+        {
+          "word": "estiment",
+          "syllables": 2
+        },
+        {
+          "word": "rallument",
+          "syllables": 2
+        },
+        {
+          "word": "enflamment",
+          "syllables": 2
+        },
+        {
+          "word": "riment",
+          "syllables": 1
+        },
+        {
+          "word": "plument",
+          "syllables": 1
+        },
+        {
+          "word": "suppriment",
+          "syllables": 2
+        },
+        {
+          "word": "gomment",
+          "syllables": 1
+        },
+        {
+          "word": "affament",
+          "syllables": 2
+        },
+        {
+          "word": "friment",
+          "syllables": 1
+        },
+        {
+          "word": "clament",
+          "syllables": 1
+        },
+        {
+          "word": "dorment",
+          "syllables": 1
+        },
+        {
+          "word": "dénomment",
+          "syllables": 2
+        },
+        {
+          "word": "entament",
+          "syllables": 2
+        },
+        {
+          "word": "arriment",
+          "syllables": 2
+        },
+        {
+          "word": "résument",
+          "syllables": 2
+        },
+        {
+          "word": "enrhument",
+          "syllables": 2
+        },
+        {
+          "word": "rendorment",
+          "syllables": 2
+        },
+        {
+          "word": "compriment",
+          "syllables": 2
+        },
+        {
+          "word": "aiment",
+          "syllables": 1
+        },
+        {
+          "word": "rythment",
+          "syllables": 1
+        },
+        {
+          "word": "périment",
+          "syllables": 2
+        },
+        {
+          "word": "réclament",
+          "syllables": 2
+        },
+        {
+          "word": "subliment",
+          "syllables": 2
+        },
+        {
+          "word": "brument",
+          "syllables": 1
+        },
+        {
+          "word": "embrument",
+          "syllables": 2
+        },
+        {
+          "word": "germent",
+          "syllables": 1
+        },
+        {
+          "word": "renferment",
+          "syllables": 2
+        },
+        {
+          "word": "sèment",
+          "syllables": 1
+        },
+        {
+          "word": "reforment",
+          "syllables": 2
+        },
+        {
+          "word": "liment",
+          "syllables": 1
+        },
+        {
+          "word": "cament",
+          "syllables": 1
+        },
+        {
+          "word": "parfument",
+          "syllables": 2
+        },
+        {
+          "word": "arment",
+          "syllables": 1
+        },
+        {
+          "word": "brament",
+          "syllables": 1
+        },
+        {
+          "word": "déforment",
+          "syllables": 2
+        },
+        {
+          "word": "assument",
+          "syllables": 2
+        },
+        {
+          "word": "crament",
+          "syllables": 1
+        },
+        {
+          "word": "exclament",
+          "syllables": 2
+        },
+        {
+          "word": "forment",
+          "syllables": 1
+        },
+        {
+          "word": "diffament",
+          "syllables": 2
+        },
+        {
+          "word": "somment",
+          "syllables": 1
+        },
+        {
+          "word": "oppriment",
+          "syllables": 2
+        },
+        {
+          "word": "miment",
+          "syllables": 1
+        },
+        {
+          "word": "enferment",
+          "syllables": 2
+        },
+        {
+          "word": "nomment",
+          "syllables": 1
+        },
+        {
+          "word": "reprogramment",
+          "syllables": 3
+        },
+        {
+          "word": "transforment",
+          "syllables": 2
+        },
+        {
+          "word": "expriment",
+          "syllables": 2
+        },
+        {
+          "word": "informent",
+          "syllables": 2
+        },
+        {
+          "word": "légitiment",
+          "syllables": 3
+        },
+        {
+          "word": "de",
+          "syllables": 1
+        },
+        {
+          "word": "le",
+          "syllables": 1
+        },
+        {
+          "word": "je",
+          "syllables": 1
+        },
+        {
+          "word": "te",
+          "syllables": 1
+        },
+        {
+          "word": "ce",
+          "syllables": 1
+        },
+        {
+          "word": "ne",
+          "syllables": 1
+        },
+        {
+          "word": "re",
+          "syllables": 1
+        },
+        {
+          "word": "me",
+          "syllables": 1
+        },
+        {
+          "word": "se",
+          "syllables": 1
+        },
+        {
+          "word": "ses",
+          "syllables": 1
+        },
+        {
+          "word": "mes",
+          "syllables": 1
+        },
+        {
+          "word": "mes",
+          "syllables": 1
+        },
+        {
+          "word": "ces",
+          "syllables": 1
+        },
+        {
+          "word": "des",
+          "syllables": 1
+        },
+        {
+          "word": "tes",
+          "syllables": 1
+        },
+        {
+          "word": "les",
+          "syllables": 1
+        },
+        {
+          "word": "oye",
+          "syllables": 1
+        },
+        {
+          "word": "es",
+          "syllables": 1
+        },
+        {
+          "word": "remerciâmes",
+          "syllables": 4
+        },
+        {
+          "word": "herniaires",
+          "syllables": 3
+        },
+        {
+          "word": "autopsiais",
+          "syllables": 4
+        },
+        {
+          "word": "août",
+          "syllables": 1
+        }
+      ],
+      "fragments": {
+        "global": [
+          {
+            "word": "business",
+            "syllables": 2
+          },
+          {
+            "word": "skate",
+            "syllables": 1
+          },
+          {
+            "word": "board",
+            "syllables": 1
+          },
+          {
+            "word": "coach",
+            "syllables": 1
+          },
+          {
+            "word": "roadster",
+            "syllables": 2
+          },
+          {
+            "word": "soap",
+            "syllables": 1
+          },
+          {
+            "word": "goal",
+            "syllables": 1
+          },
+          {
+            "word": "coaltar",
+            "syllables": 2
+          },
+          {
+            "word": "loader",
+            "syllables": 2
+          },
+          {
+            "word": "coat",
+            "syllables": 1
+          },
+          {
+            "word": "baseball",
+            "syllables": 2
+          },
+          {
+            "word": "foëne",
+            "syllables": 1
+          },
+          {
+            "word": "cacaoyer",
+            "syllables": 4
+          },
+          {
+            "word": "scoop",
+            "syllables": 1
+          },
+          {
+            "word": "zoom",
+            "syllables": 1
+          },
+          {
+            "word": "bazooka",
+            "syllables": 3
+          },
+          {
+            "word": "tatoueu",
+            "syllables": 3
+          },
+          {
+            "word": "cloueu",
+            "syllables": 2
+          },
+          {
+            "word": "déchouer",
+            "syllables": 2
+          },
+          {
+            "word": "écrouelles",
+            "syllables": 3
+          },
+          {
+            "word": "maestria",
+            "syllables": 3
+          },
+          {
+            "word": "maestro",
+            "syllables": 3
+          },
+          {
+            "word": "vitae",
+            "syllables": 3
+          },
+          {
+            "word": "paella",
+            "syllables": 3
+          },
+          {
+            "word": "vae",
+            "syllables": 2
+          },
+          {
+            "word": "thaï",
+            "syllables": 1
+          },
+          {
+            "word": "skaï",
+            "syllables": 1
+          },
+          {
+            "word": "masaï",
+            "syllables": 2
+          },
+          {
+            "word": "samouraï",
+            "syllables": 3
+          },
+          {
+            "word": "bonsaï",
+            "syllables": 2
+          },
+          {
+            "word": "bonzaï",
+            "syllables": 2
+          },
+          {
+            "word": "aïkido",
+            "syllables": 3
+          },
+          {
+            "word": "daïquiri",
+            "syllables": 3
+          },
+          {
+            "word": "pagaïe",
+            "syllables": 2
+          },
+          {
+            "word": "chiite",
+            "syllables": 2
+          },
+          {
+            "word": "pays",
+            "syllables": 2
+          },
+          {
+            "word": "antiaérien",
+            "syllables": 5
+          },
+          {
+            "word": "bleui",
+            "syllables": 2
+          },
+          {
+            "word": "remerciai",
+            "syllables": 4
+          },
+          {
+            "word": "monstrueu",
+            "syllables": 3
+          },
+          {
+            "word": "niakoué",
+            "syllables": 3
+          },
+          {
+            "word": "minoen",
+            "syllables": 3
+          },
+          {
+            "word": "groenlandais",
+            "syllables": 4
+          },
+          {
+            "word": "remerciant",
+            "syllables": 4
+          },
+          {
+            "word": "skiant",
+            "syllables": 2
+          },
+          {
+            "word": "ruade",
+            "syllables": 2
+          },
+          {
+            "word": "weltanschauung",
+            "syllables": 4
+          }
+        ],
+        "atBeginning": [
+          {
+            "word": "roast",
+            "syllables": 1
+          },
+          {
+            "word": "taï",
+            "syllables": 1
+          }
+        ],
+        "atEnd": [
+          {
+            "word": "écrouer",
+            "syllables": 3
+          },
+          {
+            "word": "clouer",
+            "syllables": 2
+          }
+        ]
+      }
+    }
+  }
+}
