@@ -15,6 +15,7 @@ const regularVerbsToTest = [
 	[ "create", "creates", "creating", "created" ],
 	[ "compete", "competes", "competing", "competed" ],
 	[ "improve", "improves", "improving", "improved" ],
+	[ "color", "colors", "coloring", "colored" ],
 ];
 
 const doubleConsonantsAtTheEnd = [
