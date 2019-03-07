@@ -716,7 +716,10 @@ abstract class WPSEO_Option {
 			return $updated;
 		}
 
-		// This loop could as well call `is_disabled( $key )` for each iteration, however this would be worse performance-wise.
+		/*
+		 * This loop could as well call `is_disabled( $key )` for each iteration,
+		 * however this would be worse performance-wise.
+		 */
 		foreach ( $old as $key => $value ) {
 			if ( isset( $override_option[ self::ALLOW_KEY_PREFIX . $key ] ) && ! $override_option[ self::ALLOW_KEY_PREFIX . $key ] ) {
 				$updated[ $key ] = $old[ $key ];

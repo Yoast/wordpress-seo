@@ -469,7 +469,10 @@ class WPSEO_Meta {
 			case ( $field_def['type'] === 'hidden' && $meta_key === self::$meta_prefix . 'is_cornerstone' ):
 				$clean = $meta_value;
 
-				// This used to be a checkbox, then became a hidden input. To make sure the value remains consistent, we cast 'true' to '1'.
+				/*
+				 * This used to be a checkbox, then became a hidden input.
+				 * To make sure the value remains consistent, we cast 'true' to '1'.
+				 */
 				if ( $meta_value === 'true' ) {
 					$clean = '1';
 				}
