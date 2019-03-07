@@ -39,17 +39,19 @@ const SEO_ASSESSMENTS_MAP = {
 };
 
 /**
- * Constructs a new assessor.
+ * Constructs a new SEO assessor.
  *
  * @param {Jed}                                 i18n       The Jed object to use for localization / internalization.
  * @param {module:tree/research.TreeResearcher} researcher The researcher the assessments need to use to get information about the text.
  *
  * @param {Object}                              config                    The assessor configuration.
  * @param {boolean}                             [config.relatedKeyphrase] If this assessor is for a related keyphrase, instead of the main one.
- * @param {boolean}                             [config.taxonomy]         If this assessor is for a taxonomy page.
+ * @param {boolean}                             [config.taxonomy]         If this assessor is for a taxonomy page, instead of .
  * @param {boolean}                             [config.cornerstone]      If this assessor is for cornerstone content.
  *
- * @returns {module:tree/assess.TreeAssessor} The created assessor.
+ * @returns {module:tree/assess.TreeAssessor} The created SEO assessor.
+ *
+ * @throws {Error} An error when no assessor exists for the given combination of configuration options.
  *
  * @memberOf module:tree/assess
  */
@@ -84,10 +86,10 @@ const constructSEOAssessor = function( i18n, researcher, config ) {
  *
  * @param {Jed}                                 i18n                 The Jed object to use for localization / internalization.
  * @param {module:tree/research.TreeResearcher} researcher           The researcher the assessments need to use to get information about the text.
- * @param {boolean}                             isCornerstoneContent If the content to be analyzed is considered cornerstone content
+ * @param {boolean}                             isCornerstoneContent If the to be analyzed content is considered cornerstone content
  * (which uses stricter boundaries).
  *
- * @returns {module:tree/assess.TreeAssessor} The readability assessor.
+ * @returns {module:tree/assess.TreeAssessor} The created readability assessor.
  *
  * @memberOf module:tree/assess
  */
