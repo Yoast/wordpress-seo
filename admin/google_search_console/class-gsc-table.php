@@ -293,7 +293,7 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	private function paginate_items() {
 		/*
 		 * Setting the starting point. If starting point is below 1, overwrite it
-		 * with value 0, otherwise it will be sliced of at the back.
+		 * with value 0, otherwise it will be sliced off at the back.
 		 */
 		$slice_start = ( $this->current_page - 1 );
 		if ( $slice_start < 0 ) {
