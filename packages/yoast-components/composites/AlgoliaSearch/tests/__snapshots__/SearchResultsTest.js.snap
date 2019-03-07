@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the SearchResults component with results matches the snapshot 1`] = `
+.c1 {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  width: 100%;
+}
+
+.c1 li:first-child > span::before {
+  left: auto;
+}
+
+.c2 {
+  background: #f7f7f7;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: 32px;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.c4 {
+  margin: 0;
+  font-size: 1em;
+  font-weight: normal;
+}
+
+.c3 {
+  color: #000;
+  padding: 8px 16px;
+}
+
+.c3:hover,
+.c3:focus {
+  color: #a4286a;
+}
+
+.c0 {
+  margin-top: 20px;
+  clear: both;
+}
+
+<div
+  className="c0"
+>
+  <h2
+    className="screen-reader-text"
+  >
+    Search results
+  </h2>
+  <ul
+    className="c1"
+    role="list"
+  >
+    <li
+      className="c2"
+      onClick={[Function]}
+    >
+      <a
+        className="c3"
+        href="https://kb.yoast.com/kb/passive-voice/"
+        onClick={[Function]}
+      >
+        <p
+          className="c4"
+        />
+      </a>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`the SearchResults component without results matches the snapshot 1`] = `
+.c0 {
+  margin-left: 10px;
+}
+
+<p
+  className="c0"
+>
+  No results found.
+</p>
+`;

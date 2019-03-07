@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+                                           xmlns:content="http://purl.org/rss/1.0/modules/content/"
+                                           xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+                                           xmlns:dc="http://purl.org/dc/elements/1.1/"
+                                           xmlns:atom="http://www.w3.org/2005/Atom"
+                                           xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+                                           xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+>
+
+    <channel>
+        <title>WordPress</title>
+        <atom:link href="http://local.wordpress.dev/feed/" rel="self" type="application/rss+xml" />
+        <link>http://local.wordpress.dev</link>
+        <description>Just another WordPress site</description>
+        <lastBuildDate>Tue, 05 Sep 2017 14:14:08 +0000</lastBuildDate>
+        <language>en-US</language>
+        <sy:updatePeriod>hourly</sy:updatePeriod>
+        <sy:updateFrequency>1</sy:updateFrequency>
+        <generator>https://wordpress.org/?v=4.8.1</generator>
+        <item>
+            <title>test2</title>
+            <link>http://local.wordpress.dev/test-url2/</link>
+            <comments>http://local.wordpress.dev/test-url2/#respond</comments>
+            <pubDate>Mon, 28 Aug 2017 11:40:33 +0000</pubDate>
+            <dc:creator><![CDATA[author]]></dc:creator>
+            <category><![CDATA[Uncategorized]]></category>
+
+            <guid isPermaLink="false">http://local.wordpress.dev/?p=115</guid>
+            <description><![CDATA[<p>Foo bar baz</p>
+<p>The post <a rel="nofollow" href="http://local.wordpress.dev/test-url2/">test2</a> appeared first on <a rel="nofollow" href="http://local.wordpress.dev">WordPress</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<p>Foo bar baz</p>
+<p>The post <a rel="nofollow" href="http://local.wordpress.dev/test-url2/">test2</a> appeared first on <a rel="nofollow" href="http://local.wordpress.dev">WordPress</a>.</p>
+]]></content:encoded>
+            <wfw:commentRss>http://local.wordpress.dev/test-url2/feed/</wfw:commentRss>
+            <slash:comments>0</slash:comments>
+        </item>
+        <item>
+            <title>bar</title>
+            <link>http://local.wordpress.dev/bar/</link>
+            <comments>http://local.wordpress.dev/bar/#respond</comments>
+            <pubDate>Tue, 22 Aug 2017 08:06:22 +0000</pubDate>
+            <dc:creator><![CDATA[author]]></dc:creator>
+            <category><![CDATA[Uncategorized]]></category>
+
+            <guid isPermaLink="false">http://local.wordpress.dev/?p=106</guid>
+            <description><![CDATA[<p>bar</p><p>The post <a rel="nofollow" href="http://local.wordpress.dev/bar/">bar</a> appeared first on <a rel="nofollow" href="http://local.wordpress.dev">WordPress</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<p>bar</p>
+<p>The post <a rel="nofollow" href="http://local.wordpress.dev/bar/">bar</a> appeared first on <a rel="nofollow" href="http://local.wordpress.dev">WordPress</a>.</p>
+]]></content:encoded>
+            <wfw:commentRss>http://local.wordpress.dev/bar/feed/</wfw:commentRss>
+            <slash:comments>0</slash:comments>
+        </item>
+        <item>
+            <title>foo</title>
+            <link>http://local.wordpress.dev/foo/</link>
+            <comments>http://local.wordpress.dev/foo/#respond</comments>
+            <pubDate>Tue, 22 Aug 2017 08:03:23 +0000</pubDate>
+            <dc:creator><![CDATA[author]]></dc:creator>
+            <category><![CDATA[Uncategorized]]></category>
+
+            <guid isPermaLink="false">http://local.wordpress.dev/?p=102</guid>
+            <description><![CDATA[<p>foo</p>
+<p>The post <a rel="nofollow" href="http://local.wordpress.dev/foo/">foo</a> appeared first on <a rel="nofollow" href="http://local.wordpress.dev">WordPress</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<p>foo</p>
+<p>The post <a rel="nofollow" href="http://local.wordpress.dev/foo/">foo</a> appeared first on <a rel="nofollow" href="http://local.wordpress.dev">WordPress</a>.</p>
+]]></content:encoded>
+            <wfw:commentRss>http://local.wordpress.dev/foo/feed/</wfw:commentRss>
+            <slash:comments>0</slash:comments>
+        </item>
+        <item>
+            <title>test-post</title>
+            <link>http://local.wordpress.dev/test-post/</link>
+            <comments>http://local.wordpress.dev/test-post/#respond</comments>
+            <pubDate>Thu, 03 Aug 2017 09:19:26 +0000</pubDate>
+            <dc:creator><![CDATA[author]]></dc:creator>
+            <category><![CDATA[Uncategorized]]></category>
+
+            <guid isPermaLink="false">http://local.wordpress.dev/?p=65</guid>
+            <description><![CDATA[<p>Test</p>
+<p>The post <a rel="nofollow" href="http://local.wordpress.dev/test-post/">test-post</a> appeared first on <a rel="nofollow" href="http://local.wordpress.dev">WordPress</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<p>Test</p>
+<p>The post <a rel="nofollow" href="http://local.wordpress.dev/test-post/">test-post</a> appeared first on <a rel="nofollow" href="http://local.wordpress.dev">WordPress</a>.</p>
+]]></content:encoded>
+            <wfw:commentRss>http://local.wordpress.dev/test-post/feed/</wfw:commentRss>
+            <slash:comments>0</slash:comments>
+        </item>
+        <item>
+            <title>Hello world!</title>
+            <link>http://local.wordpress.dev/hello-world/</link>
+            <comments>http://local.wordpress.dev/hello-world/#comments</comments>
+            <pubDate>Tue, 01 Aug 2017 09:52:31 +0000</pubDate>
+            <dc:creator><![CDATA[author]]></dc:creator>
+            <category><![CDATA[Uncategorized]]></category>
+
+            <guid isPermaLink="false">http://local.wordpress.dev/?p=1</guid>
+            <description><![CDATA[<p>Welcome to WordPress. This is your first post. Edit or delete it, then start writing!</p>
+<p>The post <a rel="nofollow" href="http://local.wordpress.dev/hello-world/">Hello world!</a> appeared first on <a rel="nofollow" href="http://local.wordpress.dev">WordPress</a>.</p>
+]]></description>
+            <content:encoded><![CDATA[<p>Welcome to WordPress. This is your first post. Edit or delete it, then start writing!</p>
+<p>The post <a rel="nofollow" href="http://local.wordpress.dev/hello-world/">Hello world!</a> appeared first on <a rel="nofollow" href="http://local.wordpress.dev">WordPress</a>.</p>
+]]></content:encoded>
+            <wfw:commentRss>http://local.wordpress.dev/hello-world/feed/</wfw:commentRss>
+            <slash:comments>1</slash:comments>
+        </item>
+    </channel>
+</rss>

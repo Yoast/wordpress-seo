@@ -1,0 +1,72 @@
+@import "../../style-guide/colors";
+@import "../../css/functions";
+
+@function svg-icon-clipboard($color) {
+	@return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M768 1664h896v-640h-416q-40 0-68-28t-28-68v-416h-384v1152zm256-1440v-64q0-13-9.5-22.5t-22.5-9.5h-704q-13 0-22.5 9.5t-9.5 22.5v64q0 13 9.5 22.5t22.5 9.5h704q13 0 22.5-9.5t9.5-22.5zm256 672h299l-299-299v299zm512 128v672q0 40-28 68t-68 28h-960q-40 0-68-28t-28-68v-160h-544q-40 0-68-28t-28-68v-1344q0-40 28-68t68-28h1088q40 0 68 28t28 68v328q21 13 36 28l408 408q28 28 48 76t20 88z"/></svg>');
+}
+
+@function svg-icon-check($color) {
+  @return inline-svg('<svg width="1792" height="1792" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path fill="#{$color}" d="M249.2,431.2c-23,0-45.6,9.4-61.8,25.6L25.6,618.6C9.4,634.8,0,657.4,0,680.4c0,23,9.4,45.6,25.6,61.8
+			l593.1,593.1c16.2,16.2,38.8,25.6,61.8,25.6c23,0,45.6-9.4,61.8-25.6L1766.4,311c16.2-16.2,25.6-38.8,25.6-61.8
+			s-9.4-45.6-25.6-61.8L1604.5,25.6C1588.3,9.4,1565.8,0,1542.8,0c-23,0-45.6,9.4-61.8,25.6L680.4,827L311,456.3
+			C294.8,440.5,272.3,431.2,249.2,431.2z"/></svg>');
+}
+
+.yoast-link-suggestions {
+	display: table-cell;
+}
+
+.yoast-link-suggestion {
+	width: 100%;
+	display: block;
+	margin-bottom: 5px;
+
+	&-icon {
+		height: 30px;
+		width: 30px;
+		background-color: $color_button;
+		background-repeat: no-repeat;
+		background-position: left 0.6em top 0.6em;
+		background-size: 14px;
+		border-radius: 5px;
+		cursor: pointer;
+		outline:none;
+		float: left;
+		margin-right: 5px;
+		display: table-cell;
+		border: 1px solid $color_button_border;
+	}
+
+	&__copy {
+		background-image: url( svg-icon-clipboard( $color_grey_dark ) );
+
+		&:focus {
+			border-radius: 100%;
+			box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+		}
+
+		&:hover, &:focus, &:active {
+			background-image: url( svg-icon-clipboard( $color_blue ) );
+		}
+
+	}
+
+	&__value {
+		padding: 6px 0;
+		display: table-cell;
+	}
+
+	&__check {
+		background-image: url( svg-icon-check( $color_grey_dark ) );
+
+	&:focus {
+		border-radius: 100%;
+		box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+	  }
+
+	  &:hover, &:focus, &:active {
+		background-image: url( svg-icon-check( $color_blue ) );
+	  }
+	}
+
+}
