@@ -9,7 +9,7 @@ import getStemForLanguageFactory from "../helpers/getStemForLanguage";
 
 const functionWordLists = functionWordListsFactory();
 const stemFunctions = getStemForLanguageFactory();
-const digitsAndPunctuation = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%$|~=+§`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\s]/g;
+const specialCharacters = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%$|~=+§`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\s]/g;
 
 /**
  * Returns only the relevant combinations from a list of word combinations.
@@ -20,7 +20,7 @@ const digitsAndPunctuation = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%
  */
 function getRelevantCombinations( wordCombinations ) {
 	wordCombinations = wordCombinations.filter( function( combination ) {
-		return ( combination.getOccurrences() !== 1 && combination.getWord().replace( digitsAndPunctuation, "" ) !== "" );
+		return ( combination.getOccurrences() !== 1 && combination.getWord().replace( specialCharacters, "" ) !== "" );
 	} );
 	return wordCombinations;
 }
@@ -41,18 +41,7 @@ function sortCombinations( wordCombinations ) {
 		}
 
 		// In case of a tie on occurrence number, the alphabetically first combination comes first.
-		const stemA = combinationA.getStem();
-		const stemB = combinationB.getStem();
-
-		if ( stemA < stemB ) {
-			return -1;
-		}
-
-		if ( stemA > stemB ) {
-			return 1;
-		}
-
-		return 0;
+		return combinationA.getStem().localeCompare( combinationB.getStem() );
 	} );
 }
 
@@ -66,18 +55,7 @@ function sortCombinations( wordCombinations ) {
 function collapseRelevantWordsOnStem( wordCombinations ) {
 	// Sort the input array by stem
 	wordCombinations.sort( function( wordA, wordB ) {
-		const stemA = wordA.getStem();
-		const stemB = wordB.getStem();
-
-		if ( stemA < stemB ) {
-			return -1;
-		}
-
-		if ( stemA > stemB ) {
-			return 1;
-		}
-
-		return 0;
+		return wordA.getStem().localeCompare( wordB.getStem() );
 	} );
 
 	const collapsedRelevantWords = [];
@@ -95,10 +73,11 @@ function collapseRelevantWordsOnStem( wordCombinations ) {
 		);
 
 		/*
-		Compare the stem of the current word in the loop with the previously available stem. If they equal, word combinations should be collapsed.
-		When collapsing, the numbers of occurrences get summed.
-		If the stem happens to equal the real word that occured in the text, we can be sure it's ok to display it to the customer.
-		So, the stem reassigns the word.
+		 * Compare the stem of the current word in the loop with the previously available stem.
+		 * If they equal, word combinations should be collapsed.
+		 * When collapsing, the numbers of occurrences get summed.
+		 * If the stem happens to equal the real word that occurred in the text, we can be sure it's ok to display it
+		 * to the customer. So, the stem reassigns the word.
 		 */
 		if ( currentWord.getStem() ===  previousWord.getStem() ) {
 			previousWord.setOccurrences( previousWord.getOccurrences() + currentWord.getOccurrences() );
@@ -122,7 +101,7 @@ function collapseRelevantWordsOnStem( wordCombinations ) {
  *
  * @param {string} language The language to retrieve function words for.
  *
- * @returns {Array} A list of function words for the language.
+ * @returns {string[]} A list of function words for the language.
  */
 function retrieveFunctionWords( language ) {
 	return get( functionWordLists, language.concat( ".all" ), [] );
@@ -133,7 +112,7 @@ function retrieveFunctionWords( language ) {
  *
  * @param {string} language The language to retrieve a stemmer function for.
  *
- * @returns {function} A stemmer function for the language.
+ * @returns {Function} A stemmer function for the language.
  */
 function retrieveStemmer( language ) {
 	return get( stemFunctions, language, word => word );

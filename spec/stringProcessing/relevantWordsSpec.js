@@ -23,7 +23,7 @@ describe( "getRelevantCombinations", function() {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "removes numbers and pinctuation", function() {
+	it( "removes numbers and punctuation", function() {
 		const input = [
 			new WordCombination( "*", "*", 1 ),
 			new WordCombination( "/)*8%$", "/)*8%$", 1 ),

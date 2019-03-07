@@ -66,7 +66,7 @@ function getSubheadingContentsTopLevel( text ) {
 }
 
 /**
- * Gets all the level 2 and 3 subheadings from the text and removes them from the text.
+ * Removes all level 2 and 3 subheadings from the text.
  *
  * @param {string} text The text to remove the headings from.
  *

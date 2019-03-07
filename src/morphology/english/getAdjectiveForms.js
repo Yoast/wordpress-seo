@@ -40,67 +40,25 @@ const checkWordTooLong = function( word ) {
 };
 
 /**
- * Checks if the input word can be an adjectival comparative.
+ * Constructs a function that checks if the input word can be a specific adjectival form.
  *
- * @param {string}      word            The word to check.
- * @param {string[]}    erExceptions    The list of words that end with -er but are not adjectival comparatives.
+ * @param {string}      endsWith            How the form ends.
+ * @param {int}         minimumWordLength   How long the word should be to classify for this form.
+ * @param {string[]}    exceptions          The list of words with that ending (endsWith) which are not this form.
  *
- * @returns {boolean} True if the word can be a comparative.
+ * @returns {Function} A function that checks if the input word can be a specific adjectival form.
  */
-const canBeComparative = function( word, erExceptions ) {
-	const wordLength = word.length;
+const constructCanBeFunction = function( endsWith, minimumWordLength, exceptions ) {
+	return word => {
+		const wordLengh = word.length;
+		if ( wordLengh < minimumWordLength ) {
+			return false;
+		}
 
-	// Consider only words of four letters or more to be comparatives (otherwise, words like "per" are being treated as comparatives).
-	if ( wordLength < 4 ) {
-		return false;
-	}
-
-	const endsWithEr = word.substring( word.length - 2, word.length ) === "er";
-
-	return endsWithEr && ! erExceptions.includes( word );
+		const doesEndWith = word.substring( wordLengh - endsWith.length, wordLengh ) === endsWith;
+		return doesEndWith && ! exceptions.includes( word );
+	};
 };
-
-/**
- * Checks if the input word can be an adjectival superlative.
- *
- * @param {string}      word            The word to check.
- * @param {string[]}    estExceptions   The list of words that end with -est but are not adjectival superlatives.
- *
- * @returns {boolean} True if the word can be a superlative.
- */
-const canBeSuperlative = function( word, estExceptions ) {
-	const wordLength = word.length;
-
-	// Consider only words of five letters or more to be superlatives (otherwise, words like "test" are being treated as superlatives).
-	if ( wordLength < 5 ) {
-		return false;
-	}
-
-	const endsWithEst = word.substring( word.length - 3, word.length ) === "est";
-
-	return endsWithEst && ! estExceptions.includes( word );
-};
-
-/**
- * Checks if the input word can be an adverb with "-ly".
- *
- * @param {string}      word            The word to check.
- * @param {string[]}    lyExceptions    The list of words that end with -ly but are not adverbs.
- *
- * @returns {boolean} True if the word can be an adverb with "-ly".
- */
-const canBeLyAdverb = function( word, lyExceptions ) {
-	const wordLength = word.length;
-
-	// Consider only words of five letters or more to be adjectives (otherwise, words like "lily" are being treated as adjectives).
-	if ( wordLength < 5 ) {
-		return false;
-	}
-
-	const endsWithLy = word.substring( word.length - 2, word.length ) === "ly";
-	return endsWithLy && ! lyExceptions.includes( word );
-};
-
 
 /**
  * Forms the base form from an input word.
@@ -117,21 +75,36 @@ const canBeLyAdverb = function( word, lyExceptions ) {
  * @returns {string} The base form of the input word.
  */
 const getBase = function( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives ) {
-	if ( canBeComparative( word, stopAdjectives.erExceptions ) ) {
+	/*
+	 * Check comparatives: Consider only words of four letters or more (otherwise, words like "per" are being treated
+	 * as comparatives).
+	 */
+	const canBeComparative = constructCanBeFunction( "er", 4, stopAdjectives.erExceptions );
+	if ( canBeComparative( word ) ) {
 		return {
 			base: buildOneFormFromRegex( word, comparativeToBaseRegex ) || word,
 			guessedForm: "er",
 		};
 	}
 
-	if ( canBeSuperlative( word, stopAdjectives.estExceptions ) ) {
+	/*
+	 * Check superlatives: Consider only words of five letters or more (otherwise, words like "test" are being treated
+	 * as superlatives).
+	 */
+	const canBeSuperlative = constructCanBeFunction( "est", 5, stopAdjectives.estExceptions );
+	if ( canBeSuperlative( word ) ) {
 		return {
 			base: buildOneFormFromRegex( word, superlativeToBaseRegex ) || word,
 			guessedForm: "est",
 		};
 	}
 
-	if ( canBeLyAdverb( word, stopAdjectives.lyExceptions ) ) {
+	/*
+	 * Check ly-adverbs: Consider only words of five letters or more (otherwise, words like "lily" are being treated
+	 * as ly-adverbs).
+	 */
+	const canBeLyAdverb = constructCanBeFunction( "ly", 5, stopAdjectives.lyExceptions );
+	if ( canBeLyAdverb( word ) ) {
 		return {
 			base: buildOneFormFromRegex( word, adverbToBaseRegex ),
 			guessedForm: "ly",

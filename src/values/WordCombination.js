@@ -3,25 +3,21 @@
  *
  * @constructor
  *
- * @param {string} word The word.
- * @param {string} stem The stem / base form of the word.
- * @param {number} [occurrences] The number of occurrences, defaults to 0.
+ * @param {string} word             The word.
+ * @param {string} [stem]           The stem / base form of the word, defaults to the word.
+ * @param {number} [occurrences]    The number of occurrences, defaults to 0.
  */
 function WordCombination( word, stem, occurrences ) {
 	this._word = word;
-
-	if ( stem ) {
-		this._stem = stem;
-	} else {
-		this._stem = word;
-	}
-
+	this._stem = stem ? stem : word;
 	this._occurrences = occurrences || 0;
 }
 
 /**
  * Sets the word to the word combination.
+ *
  * @param {string} word The word to set.
+ *
  * @returns {void}.
  */
 WordCombination.prototype.setWord = function( word ) {
@@ -48,7 +44,9 @@ WordCombination.prototype.getStem = function() {
 
 /**
  * Sets the number of occurrences to the word.
+ *
  * @param {int} numberOfOccurrences The number of occurrences to set.
+ *
  * @returns {void}.
  */
 WordCombination.prototype.setOccurrences = function( numberOfOccurrences ) {

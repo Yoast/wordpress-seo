@@ -20,7 +20,7 @@ describe( "findShortestAndAlphabeticallyFirst", function() {
 	} );
 } );
 
-describe( "getIrregularStem", function() {
+describe( "determineIrregularStem and determineIrregularVerbStem", function() {
 	const nounIrregulars = morphologyDataEN.nouns.irregularNouns;
 	const adjectiveIrregulars = morphologyDataEN.adjectives.irregularAdjectives;
 
@@ -63,7 +63,7 @@ describe( "getIrregularStem", function() {
 	} );
 } );
 
-describe( "getRegularStem", function() {
+describe( "determineRegularStem", function() {
 	it( "returns the stem of an regular word", function() {
 		expect( determineRegularStem( "word", morphologyDataEN ) ).toEqual( "word" );
 		expect( determineRegularStem( "words", morphologyDataEN ) ).toEqual( "word" );
@@ -113,7 +113,7 @@ describe( "getRegularStem", function() {
 	} );
 } );
 
-describe( "getStem", function() {
+describe( "determineStem", function() {
 	it( "returns the stem of a regular word", function() {
 		expect( determineStem( "word", morphologyDataEN ) ).toEqual( "word" );
 		expect( determineStem( "words", morphologyDataEN ) ).toEqual( "word" );
