@@ -7,6 +7,32 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   border: none;
 }
 
+.c3 {
+  color: #fff;
+  background: #64a60a;
+  min-width: 152px;
+  text-shadow: 0 0 2px #000;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
 .c2 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -47,32 +73,6 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   -ms-transform: translateY( 1px );
   transform: translateY( 1px );
   box-shadow: none;
-}
-
-.c3 {
-  color: #fff;
-  background: #64a60a;
-  min-width: 152px;
-  text-shadow: 0 0 2px #000;
-  overflow: visible;
-  cursor: pointer;
-}
-
-.c3::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c3 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
 }
 
 .c6 {
@@ -146,7 +146,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   >
     <button
       aria-expanded={undefined}
-      className="c2 YoastButton-hNXTAd c3"
+      className="c2 c3"
       onClick={[Function]}
       type="button"
     >

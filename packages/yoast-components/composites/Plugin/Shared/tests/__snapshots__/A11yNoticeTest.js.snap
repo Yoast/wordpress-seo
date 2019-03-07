@@ -20,7 +20,7 @@ exports[`the A11yNotice can be changed to a different element 1`] = `
 }
 
 <h2
-  className="c0"
+  className="-h2 c0"
 >
   H2A11yNoticeValue
 </h2>

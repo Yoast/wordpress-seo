@@ -62,8 +62,29 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c6 {
-  font-size: 0.8rem;
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c9::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c9:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c7 {
@@ -101,29 +122,8 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   align-self: center;
 }
 
-.c8:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c9::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c9:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c10:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c6 {
+  font-size: 0.8rem;
 }
 
 .c13 {
@@ -241,7 +241,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -311,7 +311,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -405,7 +405,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -475,7 +475,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -545,7 +545,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -698,8 +698,29 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c6 {
-  font-size: 0.8rem;
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c9::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c9:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c7 {
@@ -737,29 +758,8 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
   align-self: center;
 }
 
-.c8:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c9::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c9:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c10:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c6 {
+  font-size: 0.8rem;
 }
 
 .c13 {
@@ -877,7 +877,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -947,7 +947,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -1017,7 +1017,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -1087,7 +1087,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -1157,7 +1157,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -1310,8 +1310,29 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c6 {
-  font-size: 0.8rem;
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c9::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c9:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c7 {
@@ -1349,29 +1370,8 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   align-self: center;
 }
 
-.c8:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c9::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c9:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c10:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c6 {
+  font-size: 0.8rem;
 }
 
 .c13 {
@@ -1489,7 +1489,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -1559,7 +1559,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -1653,7 +1653,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -1723,7 +1723,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -1793,7 +1793,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -1970,8 +1970,29 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c6 {
-  font-size: 0.8rem;
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c9::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c9:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c7 {
@@ -2009,29 +2030,8 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   align-self: center;
 }
 
-.c8:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c9::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c9:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c10:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c6 {
+  font-size: 0.8rem;
 }
 
 .c13 {
@@ -2149,7 +2149,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -2219,7 +2219,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -2313,7 +2313,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -2383,7 +2383,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -2453,7 +2453,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -2630,8 +2630,29 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c6 {
-  font-size: 0.8rem;
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c9::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c9:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c7 {
@@ -2669,29 +2690,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   align-self: center;
 }
 
-.c8:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c9::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c9:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c10:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c6 {
+  font-size: 0.8rem;
 }
 
 .c13 {
@@ -2809,7 +2809,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -2879,7 +2879,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -2949,7 +2949,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -3126,8 +3126,29 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c6 {
-  font-size: 0.8rem;
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c9::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c9:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c7 {
@@ -3165,29 +3186,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   align-self: center;
 }
 
-.c8:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c9::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c9:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c10:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c6 {
+  font-size: 0.8rem;
 }
 
 .c13 {
@@ -3305,7 +3305,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -3375,7 +3375,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -3445,7 +3445,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -3622,8 +3622,29 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c6 {
-  font-size: 0.8rem;
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c9::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c9:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c7 {
@@ -3661,29 +3682,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   align-self: center;
 }
 
-.c8:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c9::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c9:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c10:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c6 {
+  font-size: 0.8rem;
 }
 
 .c13 {
@@ -3801,7 +3801,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -3871,7 +3871,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -3941,7 +3941,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -4011,7 +4011,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -4188,8 +4188,29 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
 }
 
-.c6 {
-  font-size: 0.8rem;
+.c10:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c9::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c9:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c8:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
 }
 
 .c7 {
@@ -4227,29 +4248,8 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   align-self: center;
 }
 
-.c8:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c9::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c9:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c10:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+.c6 {
+  font-size: 0.8rem;
 }
 
 .c13 {
@@ -4367,7 +4367,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"
@@ -4437,7 +4437,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
     >
       <button
         aria-expanded={true}
-        className="c4 c5 c6 Button-kDSBcD c7 Button-kDSBcD c8 Button-kDSBcD c9 Button-kDSBcD c10 c11"
+        className="c4 c5 c6 c7 c8 c9 c10 c11"
         id={null}
         onClick={[Function]}
         type="button"

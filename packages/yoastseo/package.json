@@ -18,7 +18,8 @@
     "start": "npm start --prefix examples/webpack",
     "build": "grunt publish",
     "lint": "grunt check",
-    "test": "jest"
+    "test": "jest --runInBand",
+    "install-ci": "grunt get-premium-configuration"
   },
   "browser": "js/browser.js",
   "engines": {
