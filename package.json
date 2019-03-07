@@ -16,6 +16,8 @@
   "scripts": {
     "lint": "lerna run lint",
     "test": "lerna run test --stream",
-    "install-ci": "lerna run install-ci"
+    "install-ci": "lerna run install-ci",
+    "link-all": "lerna exec yarn link",
+    "unlink-all": "lerna exec yarn unlink"
   }
 }
