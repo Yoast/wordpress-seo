@@ -125,6 +125,7 @@ const eAtTheEnd = [
 
 const needsDoublingLastConsonant = [
 	[ "beg", "begs", "begging", "begged" ],
+	[ "spam", "spams", "spamming", "spammed" ],
 	[ "chat", "chats", "chatting", "chatted" ],
 	[ "fit", "fits", "fitting", "fitted" ],
 	[ "grin", "grins", "grinning", "grinned" ],
