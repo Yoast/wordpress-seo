@@ -149,5 +149,6 @@
   "yoast": {
     "pluginVersion": "10.0-RC1",
     "recalibrationVersion": "13"
-  }
+  },
+  "testURL": "http://localhost"
 }
