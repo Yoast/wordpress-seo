@@ -1,6 +1,6 @@
-import { Assessment } from "../../../src/tree/assess";
-import TreeResearcher from "../../../src/tree/research/TreeResearcher";
-import Paper from "../../../src/values/Paper";
+import { Assessment } from "../../../../src/tree/assess/assessments";
+import TreeResearcher from "../../../../src/tree/research/TreeResearcher";
+import Paper from "../../../../src/values/Paper";
 
 describe( "Assessment", () => {
 	let paper;

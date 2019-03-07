@@ -1,6 +1,6 @@
 import TreeAssessor from "./TreeAssessor";
-import ScoreAggregator from "./ScoreAggregator";
-import Assessment from "./assessments/Assessment";
+import * as ScoreAggregators from "./scoreAggregators";
+import * as Assessments from "./assessments";
 
 /**
  * Contains the logic to assess a tree representation of a text.
@@ -11,6 +11,6 @@ import Assessment from "./assessments/Assessment";
  */
 export {
 	TreeAssessor,
-	ScoreAggregator,
-	Assessment,
+	ScoreAggregators,
+	Assessments,
 };
