@@ -31,7 +31,7 @@ const constructReadabilityAssessments = () => [
 ];
 
 /**
- * Creates a new list of SEO assessments for taxonomy pages.
+ * Creates a new list of SEO assessments for related keyphrases.
  *
  * @returns {module:tree/assess.Assessment[]} The list of SEO assessments.
  *
