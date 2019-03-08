@@ -351,7 +351,7 @@ class WPSEO_MyYoast_Api_Request {
 	/**
 	 * Wraps the has_access_token support method.
 	 *
-	 * @codeCoverageIgnore 
+	 * @codeCoverageIgnore
 	 *
 	 * @return bool False to disable the support.
 	 */
@@ -359,6 +359,6 @@ class WPSEO_MyYoast_Api_Request {
 		return false;
 
 		// @todo: Uncomment the following statement when we are implementing the oAuth flow.
-		return WPSEO_Utils::has_access_token_support();
+		// return WPSEO_Utils::has_access_token_support();
 	}
 }
