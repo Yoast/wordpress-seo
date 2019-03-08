@@ -20,7 +20,7 @@ describe( "findShortestAndAlphabeticallyFirst", function() {
 	} );
 } );
 
-describe( "getIrregularStem", function() {
+describe( "determineIrregularStem and determineIrregularVerbStem", function() {
 	const nounIrregulars = morphologyDataEN.nouns.irregularNouns;
 	const adjectiveIrregulars = morphologyDataEN.adjectives.irregularAdjectives;
 
@@ -63,7 +63,7 @@ describe( "getIrregularStem", function() {
 	} );
 } );
 
-describe( "getRegularStem", function() {
+describe( "determineRegularStem", function() {
 	it( "returns the stem of an regular word", function() {
 		expect( determineRegularStem( "word", morphologyDataEN ) ).toEqual( "word" );
 		expect( determineRegularStem( "words", morphologyDataEN ) ).toEqual( "word" );
@@ -74,11 +74,24 @@ describe( "getRegularStem", function() {
 		expect( determineRegularStem( "wordly", morphologyDataEN ) ).toEqual( "word" );
 		expect( determineRegularStem( "wordings", morphologyDataEN ) ).toEqual( "word" );
 
+		expect( determineRegularStem( "bonus", morphologyDataEN ) ).toEqual( "bonus" );
+		expect( determineRegularStem( "bonuses", morphologyDataEN ) ).toEqual( "bonus" );
+		expect( determineRegularStem( "bonused", morphologyDataEN ) ).toEqual( "bonus" );
+		expect( determineRegularStem( "bonusing", morphologyDataEN ) ).toEqual( "bonus" );
+		expect( determineRegularStem( "bonusings", morphologyDataEN ) ).toEqual( "bonus" );
+
 		expect( determineRegularStem( "supply", morphologyDataEN ) ).toEqual( "supply" );
 		expect( determineRegularStem( "supplies", morphologyDataEN ) ).toEqual( "supply" );
 		expect( determineRegularStem( "supplied", morphologyDataEN ) ).toEqual( "supply" );
 		expect( determineRegularStem( "supplying", morphologyDataEN ) ).toEqual( "supply" );
 		expect( determineRegularStem( "supplyings", morphologyDataEN ) ).toEqual( "supply" );
+		expect( determineRegularStem( "supplier", morphologyDataEN ) ).toEqual( "supply" );
+
+		expect( determineRegularStem( "release", morphologyDataEN ) ).toEqual( "release" );
+		expect( determineRegularStem( "releases", morphologyDataEN ) ).toEqual( "release" );
+		expect( determineRegularStem( "released", morphologyDataEN ) ).toEqual( "release" );
+		expect( determineRegularStem( "releasing", morphologyDataEN ) ).toEqual( "release" );
+		expect( determineRegularStem( "releasings", morphologyDataEN ) ).toEqual( "release" );
 
 		expect( determineRegularStem( "historic", morphologyDataEN ) ).toEqual( "historical" );
 		expect( determineRegularStem( "historical", morphologyDataEN ) ).toEqual( "historical" );
@@ -87,13 +100,20 @@ describe( "getRegularStem", function() {
 		expect( determineRegularStem( "smart", morphologyDataEN ) ).toEqual( "smart" );
 		expect( determineRegularStem( "smarter", morphologyDataEN ) ).toEqual( "smart" );
 		expect( determineRegularStem( "smartest", morphologyDataEN ) ).toEqual( "smart" );
+
+		// The following words appear -er/-est/-ly forms of adjectives, so we need to make sure they are stemmed correctly.
+		expect( determineRegularStem( "paper", morphologyDataEN ) ).toEqual( "paper" );
+		expect( determineRegularStem( "partner", morphologyDataEN ) ).toEqual( "partner" );
+		expect( determineRegularStem( "interest", morphologyDataEN ) ).toEqual( "interest" );
 		expect( determineRegularStem( "belly", morphologyDataEN ) ).toEqual( "belly" );
+
+		expect( determineRegularStem( "analysis", morphologyDataEN ) ).toEqual( "analysis" );
 
 		expect( determineRegularStem( "trwprtrw", morphologyDataEN ) ).toEqual( "trwprtrw" );
 	} );
 } );
 
-describe( "getStem", function() {
+describe( "determineStem", function() {
 	it( "returns the stem of a regular word", function() {
 		expect( determineStem( "word", morphologyDataEN ) ).toEqual( "word" );
 		expect( determineStem( "words", morphologyDataEN ) ).toEqual( "word" );

@@ -1,8 +1,17 @@
-import { take } from "lodash-es";
+import { get, take } from "lodash-es";
+import getLanguage from "yoastsrc/helpers/getLanguage";
 import getWords from "yoastsrc/stringProcessing/getWords";
-import { getRelevantWords, getRelevantWordsFromPaperAttributes } from "yoastsrc/stringProcessing/relevantWords";
+import {
+	getRelevantWords,
+	getRelevantWordsFromPaperAttributes,
+	collapseRelevantWordsOnStem,
+	getRelevantCombinations,
+} from "yoastsrc/stringProcessing/relevantWords";
 import { getSubheadingsTopLevel } from "yoastsrc/stringProcessing/getSubheadings";
-import WordCombination from "yoastsrc/values/WordCombination";
+import { sortCombinations } from "../../../../src/stringProcessing/relevantWords";
+import getMorphologyData from "./getMorphologyData";
+
+const morphologyData = getMorphologyData();
 
 /**
  * Rounds number to four decimals.
@@ -30,12 +39,13 @@ export default function calculateRelevantWords( paper ) {
 	const text = paper.text;
 	const words = getWords( text );
 
-	const locale = paper.locale;
-	const relevantWordsFromText = getRelevantWords( text, locale );
+	const language = getLanguage( paper.locale );
+	const languageMorphologyData = get( morphologyData, language, false );
+	const relevantWordsFromText = getRelevantWords( text, language, languageMorphologyData );
 
 	const subheadings = getSubheadingsTopLevel( text ).map( subheading => subheading[ 2 ] );
 
-	const relevantWordsFromTopic = getRelevantWordsFromPaperAttributes(
+	const relevantWordsFromPaperAttributes = getRelevantWordsFromPaperAttributes(
 		{
 			keyphrase: paper.keyword,
 			synonyms: paper.synonyms,
@@ -43,24 +53,33 @@ export default function calculateRelevantWords( paper ) {
 			title: paper.title,
 			subheadings,
 		},
-		locale,
+		language,
+		languageMorphologyData,
 	);
 
-	const relevantWords = take( relevantWordsFromTopic.concat( relevantWordsFromText ), 100 );
+	/*
+	 * Analogous to the research src/researches/relevantWords.js, all relevant words that come from paper attributes
+	 * (and not from text) get a times-3 number of occurrences to support the idea that they are more important than
+	 * the words coming from the text. For instance, if a word occurs twice in paper attributes it receives
+	 * number_of_occurrences = 6.
+	 */
+	relevantWordsFromPaperAttributes.forEach( relevantWord => relevantWord.setOccurrences( relevantWord.getOccurrences() * 3 ) );
+
+	const collapsedWords = collapseRelevantWordsOnStem( relevantWordsFromPaperAttributes.concat( relevantWordsFromText ) );
+	sortCombinations( collapsedWords );
+
+	/*
+	 * Analogous to the research src/researches/relevantWords.js, we limit the number of relevant words in consideration
+	 * to 100, i.e. we take 100 first relevant words from the list sorded by number of occurrences first and then
+	 * alphabetically.
+	 */
+	const relevantWords = take( getRelevantCombinations( collapsedWords ), 100 );
 
 	return relevantWords.map( ( word ) => {
-		const output = {
-			word: word.getCombination(),
-			relevance: formatNumber( word.getRelevance() ),
-			length: word._length,
+		return {
+			word: word.getWord(),
+			stem: word.getStem(),
 			occurrences: word.getOccurrences(),
-			multiplier: formatNumber( word.getMultiplier( word.getRelevantWordPercentage() ) ),
-			relevantWordPercentage: formatNumber( word.getRelevantWordPercentage() ),
 		};
-
-		output.lengthBonus = word._length === 1 ? "" : WordCombination.lengthBonus[ word._length ];
-		output.density = formatNumber( word.getDensity( words.length ) );
-
-		return output;
 	} );
 }

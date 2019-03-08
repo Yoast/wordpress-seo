@@ -26,26 +26,11 @@ const columns = [
 		Header: "Word",
 		accessor: "word",
 	}, {
-		Header: "Density",
-		accessor: "density",
+		Header: "Stem",
+		accessor: "stem",
 	}, {
 		Header: "Occurrences",
 		accessor: "occurrences",
-	}, {
-		Header: "Length",
-		accessor: "length",
-	}, {
-		Header: "Relevant word %",
-		accessor: "relevantWordPercentage",
-	}, {
-		Header: "Length bonus",
-		accessor: "lengthBonus",
-	}, {
-		Header: "Multiplier",
-		accessor: "multiplier",
-	}, {
-		Header: "Relevance",
-		accessor: "relevance",
 	},
 ];
 

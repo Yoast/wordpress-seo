@@ -114,9 +114,9 @@ export function determineRegularStem( word, morphologyData ) {
 	const comparativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.comparativeToBase );
 	const superlativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.superlativeToBase );
 	const adverbToBaseRegex = createRulesFromMorphologyData( regexAdjective.adverbToBase );
-	const lyExceptions = morphologyData.adjectives.stopAdverbs;
+	const stopAdjectives = morphologyData.adjectives.stopAdjectives;
 
-	const baseIfAdjective = getBase( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, lyExceptions ).base;
+	const baseIfAdjective = getBase( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives ).base;
 	possibleRegularBases.push( baseIfAdjective );
 
 	return findShortestAndAlphabeticallyFirst( possibleRegularBases );
