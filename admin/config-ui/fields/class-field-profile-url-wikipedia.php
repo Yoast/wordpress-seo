@@ -14,7 +14,7 @@ class WPSEO_Config_Field_Profile_URL_Wikipedia extends WPSEO_Config_Field {
 	 * WPSEO_Config_Field_Profile_URL_YouTube constructor.
 	 */
 	public function __construct() {
-		parent::__construct( 'profileUrlYouTube', 'Input' );
+		parent::__construct( 'profileUrlWikipedia', 'Input' );
 
 		$this->set_property( 'label', __( 'Wikipedia URL', 'wordpress-seo' ) );
 		$this->set_property( 'pattern', '^https:\/\/([a-z\-]+)\.wikipedia\.org\/([^/]+)$' );
