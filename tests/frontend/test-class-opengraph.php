@@ -632,7 +632,6 @@ EXPECTED;
 		remove_filter( 'wpseo_opengraph_site_name', '__return_false' );
 	}
 
-
 	/**
 	 * @covers WPSEO_OpenGraph::tags
 	 */
