@@ -10,7 +10,8 @@
     ],
     "nohoist": [
       "**/grunt-*",
-      "**/eslint*"
+      "**/eslint*",
+      "**/sassdash"
     ]
   },
   "scripts": {
