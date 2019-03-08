@@ -23,10 +23,6 @@ class WPSEO_Metabox_Editor_Test extends PHPUnit_Framework_TestCase {
 		$this->subject = new WPSEO_Metabox_Editor();
 	}
 
-	public function test_register_hooks() {
-		$this->subject->register_hooks();
-	}
-
 	public function get_flat_version() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 
