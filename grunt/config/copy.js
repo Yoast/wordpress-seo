@@ -109,6 +109,7 @@ module.exports = {
 			cwd: "<%= files.artifact %>",
 			src: [
 				"**/*",
+				"!vendor_prefixed/**",
 			],
 			dest: "<%= files.artifactComposer %>",
 		} ],
