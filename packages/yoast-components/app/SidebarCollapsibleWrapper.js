@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import Collapsible, { StyledIconsButton } from "../composites/Plugin/Shared/components/Collapsible";
 import colors from "../style-guide/colors.json";
+import { makeOutboundLink } from "../utils/makeOutboundLink";
 
 const FullWidthContaniner = styled.div`
 	max-width: 1024px;
@@ -57,6 +58,8 @@ const StyledContent = styled.div`
 		margin-bottom: 0;
 	}
 `;
+
+const GoToYoastLink = makeOutboundLink();
 
 /**
  * Returns the SidebarCollapsibleWrapper component.
@@ -126,8 +129,7 @@ export default function SidebarCollapsibleWrapper() {
 					>
 						<StyledContent>
 							<p>
-								Maybe some help text here with a link
-								 <a target="_blank" rel="noopener noreferrer" href="https://yoast.com">Go to Yoast</a>
+								Maybe some help text here with a link <GoToYoastLink href="https://yoast.com">Go to Yoast</GoToYoastLink>
 							</p>
 						</StyledContent>
 					</StyledCollapsible>

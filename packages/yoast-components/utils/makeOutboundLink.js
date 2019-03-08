@@ -19,17 +19,50 @@ export const makeOutboundLink = ( Component = "a" ) => {
 	 */
 	class OutboundLink extends React.Component {
 		/**
+		 * Constructs the OutboundLink component.
+		 *
+		 * @param {Object} props The props for the snippet preview example.
+		 */
+		constructor( props ) {
+			super( props );
+			this.isYoastLink = this.isYoastLink.bind( this );
+		}
+
+		/**
+		 * Determines if a certain URL points to Yoast.
+		 *
+		 * @param {string} url The URL to test.
+		 * @returns {boolean} Whether or not the URL points to Yoast.
+		 */
+		isYoastLink( url ) {
+			return /yoast\.com|yoast\.test|yoa\.st/.test( url );
+		}
+
+		/**
 		 * Renders the component.
 		 *
 		 * @returns {ReactElement} The rendered component.
 		 */
 		render() {
+			if ( ! this.props.href ) {
+				return null;
+			}
+
+			const isYoastLink = this.isYoastLink( this.props.href );
+			/*
+			 * Set the target="_blank" and rel attributes. When a link doesn't point
+			 * to Yoast, we want just a "noopener" rel attribute value.
+			 * Instead, when a link does point to Yoast, we use the rel prop which
+			 * is null by default so it doesn't render. This way, it can be
+			 * overridden setting the prop, if necessary.
+			 */
 			const newProps = Object.assign(
+				{},
+				this.props,
 				{
 					target: "_blank",
-					rel: "noopener noreferrer",
+					rel: isYoastLink ? this.props.rel : "noopener",
 				},
-				this.props
 			);
 			// Use React.createElement instead of JSX because it can accept a string as a component parameter.
 			return React.createElement(
@@ -49,10 +82,14 @@ export const makeOutboundLink = ( Component = "a" ) => {
 		children: PropTypes.oneOfType( [
 			PropTypes.node,
 		] ),
+		href: PropTypes.string,
+		rel: PropTypes.string,
 	};
 
 	OutboundLink.defaultProps = {
 		children: null,
+		href: null,
+		rel: null,
 	};
 
 	return OutboundLink;

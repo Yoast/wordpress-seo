@@ -2,6 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { localize } from "../../../utils/i18n";
+import { makeOutboundLink } from "../../../utils/makeOutboundLink";
+
+const SingleSuggestionLink = makeOutboundLink();
 
 /**
  * @summary Represents a suggestion component with a copy url to clipboard icon and a text value.
@@ -47,7 +50,7 @@ const LinkSuggestion = ( { value, url, isActive, translate } ) => {
 			>
 				<span className="screen-reader-text">{ label }</span>
 			</button>
-			<a href={ url } className="yoast-link-suggestion__value" target="_blank">{ value }</a>
+			<SingleSuggestionLink href={ url } className="yoast-link-suggestion__value">{ value }</SingleSuggestionLink>
 		</div>
 	);
 };
