@@ -80,8 +80,8 @@ const endsWithEst = function( word ) {
  */
 const endsWithLy = function( word ) {
 	const wordLength = word.length;
-	// Consider only words of four letters or more to be adjectives (otherwise, words like "lily" are being treated as adjectives).
-	if ( wordLength > 3 ) {
+	// Consider only words of five letters or more to be adjectives (otherwise, words like "lily" are being treated as adjectives).
+	if ( wordLength >= 5 ) {
 		return word.substring( word.length - 2, word.length ) === "ly";
 	}
 	return false;
@@ -95,10 +95,11 @@ const endsWithLy = function( word ) {
  * @param {Array} comparativeToBaseRegex The Array of regex-based rules to bring comparatives to base.
  * @param {Array} superlativeToBaseRegex The Array of regex-based rules to bring superlatives to base.
  * @param {Array} adverbToBaseRegex The Array of regex-based rules to bring adverbs to base.
+ * @param {string[]} lyExceptions The array of words that end with "ly" but are not adverbs.
  *
  * @returns {string} The base form of the input word.
  */
-const getBase = function( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex ) {
+const getBase = function( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, lyExceptions ) {
 	if ( endsWithEr( word ) ) {
 		return {
 			base: buildOneFormFromRegex( word, comparativeToBaseRegex ),
@@ -113,7 +114,7 @@ const getBase = function( word, comparativeToBaseRegex, superlativeToBaseRegex, 
 		};
 	}
 
-	if ( endsWithLy( word ) ) {
+	if ( endsWithLy( word ) && ! lyExceptions.includes( word ) ) {
 		return {
 			base: buildOneFormFromRegex( word, adverbToBaseRegex ),
 			guessedForm: "ly",
@@ -152,8 +153,9 @@ const getAdjectiveForms = function( word, adjectiveData ) {
 	const comparativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.comparativeToBase );
 	const superlativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.superlativeToBase );
 	const adverbToBaseRegex = createRulesFromMorphologyData( regexAdjective.adverbToBase );
+	const lyExceptions = adjectiveData.stopAdverbs;
 
-	let base = getBase( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex ).base;
+	let base = getBase( word, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, lyExceptions ).base;
 
 	if ( isUndefined( base ) ) {
 		base = word;
