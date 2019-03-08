@@ -345,7 +345,7 @@ function wpseo_init() {
 	// When namespaces are not available, stop further execution.
 	if ( version_compare( PHP_VERSION, '5.6.0', '>=' ) ) {
 		require_once WPSEO_PATH . 'src/loaders/indexable.php';
-		require_once WPSEO_PATH . 'src/loaders/oauth.php';
+		// require_once WPSEO_PATH . 'src/loaders/oauth.php'; Temporary disabled.
 	}
 }
 
