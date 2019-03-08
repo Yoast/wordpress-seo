@@ -46,7 +46,7 @@ const SEO_ASSESSMENTS_MAP = {
  *
  * @param {Object}                              config                    The assessor configuration.
  * @param {boolean}                             [config.relatedKeyphrase] If this assessor is for a related keyphrase, instead of the main one.
- * @param {boolean}                             [config.taxonomy]         If this assessor is for a taxonomy page, instead of .
+ * @param {boolean}                             [config.taxonomy]         If this assessor is for a taxonomy page, instead of a regular page.
  * @param {boolean}                             [config.cornerstone]      If this assessor is for cornerstone content.
  *
  * @returns {module:tree/assess.TreeAssessor} The created SEO assessor.
