@@ -164,7 +164,7 @@ class WPSEO_MyYoast_Api_Request {
 		}
 
 		// Authentication failed, throw an exception.
-		if ( strpos( $response_code, '401' ) && WPSEO_Utils::has_access_token_support() ) {
+		if ( strpos( $response_code, '401' ) && $this->has_oauth_support() ) {
 			throw new WPSEO_MyYoast_Authentication_Exception( esc_html( $response_message ), 401 );
 		}
 
@@ -224,7 +224,7 @@ class WPSEO_MyYoast_Api_Request {
 	 * @return array The request body.
 	 */
 	public function get_request_body() {
-		if ( ! WPSEO_Utils::has_access_token_support() ) {
+		if ( ! $this->has_oauth_support() ) {
 			return array( 'url' => WPSEO_Utils::get_home_url() );
 		}
 
@@ -327,7 +327,7 @@ class WPSEO_MyYoast_Api_Request {
 	 * @return void
 	 */
 	protected function remove_access_token( $user_id ) {
-		if ( ! WPSEO_Utils::has_access_token_support() ) {
+		if ( ! $this->has_oauth_support() ) {
 			return;
 		}
 
@@ -346,5 +346,19 @@ class WPSEO_MyYoast_Api_Request {
 		$addon_manager = new WPSEO_Addon_Manager();
 
 		return $addon_manager->get_installed_addons_versions();
+	}
+
+	/**
+	 * Wraps the has_access_token support method.
+	 *
+	 * @codeCoverageIgnore 
+	 *
+	 * @return bool False to disable the support.
+	 */
+	protected function has_oauth_support() {
+		return false;
+
+		// @todo: Uncomment the following statement when we are implementing the oAuth flow.
+		return WPSEO_Utils::has_access_token_support();
 	}
 }
