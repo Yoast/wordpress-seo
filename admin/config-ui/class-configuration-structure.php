@@ -44,7 +44,7 @@ class WPSEO_Configuration_Structure {
 			'profileUrlMySpace',
 			'profileUrlPinterest',
 			'profileUrlYouTube',
-			'profileUrlGooglePlus',
+			'profileUrlWikipedia',
 		),
 		'multipleAuthors'            => array( 'multipleAuthors' ),
 		'connectGoogleSearchConsole' => array(
