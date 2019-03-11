@@ -81,6 +81,13 @@ class ReplacementVariableEditor extends React.Component {
 
 		const InputContainer = this.InputContainer;
 
+		let addVariableButton = <TriggerReplacementVariableSuggestionsButton
+			onClick={ () => this.triggerReplacementVariableSuggestions() }
+		>
+			<SvgIcon icon="plus-circle" />
+			{ __( "Insert snippet variable", "yoast-components" ) }
+		</TriggerReplacementVariableSuggestionsButton>;
+
 		return (
 			<React.Fragment>
 				<SimulatedLabel
@@ -89,12 +96,7 @@ class ReplacementVariableEditor extends React.Component {
 				>
 					{ label }
 				</SimulatedLabel>
-				<TriggerReplacementVariableSuggestionsButton
-					onClick={ () => this.triggerReplacementVariableSuggestions() }
-				>
-					<SvgIcon icon="plus-circle" />
-					{ __( "Insert snippet variable", "yoast-components" ) }
-				</TriggerReplacementVariableSuggestionsButton>
+				{ addVariableButton }
 				<InputContainer
 					onClick={ onFocus }
 					isActive={ isActive }
