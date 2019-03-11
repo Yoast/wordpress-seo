@@ -144,8 +144,8 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "git+https://github.com/Yoast/yoast-components.git#release-yoast-seo/9.8",
-    "yoastseo": "git+https://github.com/Yoast/YoastSEO.js.git#release-yoast-seo/9.8"
+    "yoast-components": "^4.22.0",
+    "yoastseo": "^1.49.0"
   },
   "yoast": {
     "pluginVersion": "10.0-RC1",
