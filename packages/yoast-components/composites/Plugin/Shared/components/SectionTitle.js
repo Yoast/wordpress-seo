@@ -28,6 +28,13 @@ export const StyledSubTitle = styled.span`
 	margin-top: 2px;
 `;
 
+/**
+ * The StyledTitleContainer component, consisting of a StyledTitle and a StyledSubTitle.
+ *
+ * @param {object} props The component's props.
+ *
+ * @returns {ReactElement} The StyledTitleContainer component.
+ */
 export const SectionTitle = ( props ) => {
 	return (
 		<StyledTitleContainer>

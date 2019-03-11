@@ -21,6 +21,13 @@ StackedProgressBarProgress.propTypes = {
 	progressColor: PropTypes.string.isRequired,
 };
 
+/**
+ * The StackedProgressBar component.
+ *
+ * @param {object} props The component's props.
+ *
+ * @returns {ReactElement} The StackedProgressBarContainer component.
+ */
 const StackedProgressBar = ( props ) => {
 	let totalValue = 0;
 	for ( let i = 0; i < props.items.length; i++ ) {

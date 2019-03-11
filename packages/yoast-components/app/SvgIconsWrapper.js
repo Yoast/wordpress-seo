@@ -42,6 +42,11 @@ const SingleSvgContainer = styled.span`
  * @returns {ReactElement} The HelpCenterWrapper component.
  */
 export default function SvgIconsWrapper() {
+	/**
+	 * Returns the icons.
+	 *
+	 * @returns {array} result An array of SingleSvgContainer components.
+	 */
 	const getIcons = () => {
 		return transform( icons, ( result, value, key ) => {
 			const color = key === "seo-score-ok" ? colors.$color_ok : colors.$color_black;

@@ -189,7 +189,16 @@ describe( "serializeBlock", () => {
 			data: { mention: { replaceName: "long_name" } },
 		};
 		const entityMap = { 1: entity };
+
+		/**
+		 * Get the matched entity for the given key.
+		 *
+		 * @param {number} key The key to be looked for in the entityMap.
+		 *
+		 * @returns {object} The matched entity.
+		 */
 		const getEntity = ( key ) => entityMap[ key ];
+
 		const expected = "Piece %%long_name%% text";
 
 		const actual = serializeBlock( input, getEntity, {} );
@@ -214,6 +223,14 @@ describe( "serializeBlock", () => {
 			data: { mention: { replaceName: "long_name" } },
 		};
 		const entityMap = { 1: entity };
+
+		/**
+		 * Get the matched entity for the given key.
+		 *
+		 * @param {number} key The key to be looked for in the entityMap.
+		 *
+		 * @returns {object} The matched entity.
+		 */
 		const getEntity = ( key ) => entityMap[ key ];
 		const expected = "f text";
 
@@ -248,6 +265,14 @@ describe( "serializeBlock", () => {
 			data: { mention: { replaceName: "other_long_name" } },
 		};
 		const entityMap = { 1: entity1, 2: entity2 };
+
+		/**
+		 * Get the matched entity for the given key.
+		 *
+		 * @param {number} key The key to be looked for in the entityMap.
+		 *
+		 * @returns {object} The matched entity.
+		 */
 		const getEntity = ( key ) => entityMap[ key ];
 
 		const actual = serializeBlock( input, getEntity );

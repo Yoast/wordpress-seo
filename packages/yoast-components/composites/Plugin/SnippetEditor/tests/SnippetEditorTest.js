@@ -26,6 +26,13 @@ const defaultArgs = {
 	onChange: jest.fn(),
 };
 
+/**
+ * Renders a snapshot with changed arguments.
+ *
+ * @param {Object} changedArgs The changed arguments.
+ *
+ * @returns {void}
+ */
 const renderSnapshotWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
 	const tree = createComponentWithIntl( <SnippetEditor { ...args } />, { locale: "en" } )
@@ -34,11 +41,25 @@ const renderSnapshotWithArgs = ( changedArgs ) => {
 	expect( tree ).toMatchSnapshot();
 };
 
+/**
+ * Mounts the snippet editor component with changed arguments.
+ *
+ * @param {Object} changedArgs The changed arguments.
+ *
+ * @returns {ReactElement} The SnippetEditor component.
+ */
 const mountWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
 	return mountWithIntl( <SnippetEditor { ...args } /> );
 };
 
+/**
+ * Shallow render of the snippet editor component with changed arguments.
+ *
+ * @param {Object} changedArgs The changed arguments.
+ *
+ * @returns {ReactElement} The SnippetEditor component.
+ */
 const shallowWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
 	return shallowWithIntl( <SnippetEditor { ...args } /> );
