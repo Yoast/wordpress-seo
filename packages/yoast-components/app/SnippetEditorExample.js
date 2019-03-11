@@ -97,7 +97,7 @@ export default class SnippetEditorExample extends Component {
 			currentDescriptionLength: 0,
 		};
 
-		this.onChangedData = debounce( this.onChangedData.bind( this ), 150 );
+		this.onChangedData = this.onChangedData.bind( this );
 	}
 
 	/**
