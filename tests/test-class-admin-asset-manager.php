@@ -11,6 +11,8 @@
 class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
 	private $asset_manager;

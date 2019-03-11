@@ -18,6 +18,8 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 	private $home_url = '';
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Sitemaps_Router
 	 */
 	private static $class_instance;

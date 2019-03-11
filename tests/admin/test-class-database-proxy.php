@@ -11,11 +11,15 @@
 class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Table name for use by the DB Proxy.
+	 *
 	 * @var string
 	 */
 	private static $proxy_table_name;
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Database_Proxy
 	 */
 	private static $proxy;
