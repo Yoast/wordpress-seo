@@ -205,16 +205,16 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 /* jshint ignore:start */
 
 /**
- * Remove error message
+ * Remove error message.
+ *
+ * @deprecated 10.1
  */
 function yst_removeOpengraphWarning() {
+	console.error( "yst_removeOpengraphWarning is deprecated since Yoast SEO 10.1." );
+
 	return;
 }
 
-window.yst_checkFeaturedImage = yst_checkFeaturedImage;
-window.thumbIdCounter = thumbIdCounter;
-window.removeThumb = removeThumb;
-window.yst_overrideElemFunction = yst_overrideElemFunction;
 window.yst_removeOpengraphWarning = yst_removeOpengraphWarning;
 /* jshint ignore:end */
 /* eslint-enable */
