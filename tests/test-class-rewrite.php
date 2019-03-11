@@ -84,8 +84,36 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_Rewrite::request
 	 */
-	public function test_request() {
-		// @todo Find method to test redirects.
+	public function test_request_with_empty_query_vars() {
+
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Rewrite' )
+			->setMethods( array( 'redirect' ) )
+			->getMock();
+		$instance
+			->expects( $this->never() )
+			->method( 'redirect' );
+
+		$expected = array();
+
+		$this->assertEquals( $expected, $instance->request( array() ) );
+	}
+
+	/**
+	 * @covers WPSEO_Rewrite::request
+	 */
+	public function test_request_with_query_vars() {
+
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Rewrite' )
+			->setMethods( array( 'redirect' ) )
+			->getMock();
+		$instance
+			->expects( $this->once() )
+			->method( 'redirect' )
+		    ->with( 'my-category' );
+
+		$instance->request( array( 'wpseo_category_redirect' => 'my-category' ) );
 	}
 
 	/**
