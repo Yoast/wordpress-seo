@@ -96,6 +96,11 @@ describe( "CollapsibleStateless", () => {
 
 	it( "matches the snapshot when it is opened and closed", () => {
 		let isOpen = true;
+		/**
+		 * Reverts the modal open state.
+		 *
+		 * @returns {void}
+		 */
 		const onToggle = () => {
 			isOpen = ! isOpen;
 		};

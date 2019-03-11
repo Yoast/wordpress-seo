@@ -15,6 +15,9 @@ import {
 	StyledEditor,
 } from "./Shared";
 
+/**
+ * The snippet editor settings fields.
+ */
 class SettingsSnippetEditorFields extends React.Component {
 	/**
 	 * Constructs the snippet editor fields.

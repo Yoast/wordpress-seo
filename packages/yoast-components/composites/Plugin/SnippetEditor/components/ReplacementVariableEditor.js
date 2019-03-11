@@ -17,6 +17,9 @@ import {
 	recommendedReplacementVariablesShape,
 } from "../constants";
 
+/**
+ * The replacement variable editor.
+ */
 class ReplacementVariableEditor extends React.Component {
 	/**
 	 * The constructor.

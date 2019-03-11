@@ -6,6 +6,7 @@ import Assessment from "../../src/assessment";
 import Paper from "../../src/values/Paper";
 import AssessmentResult from "../../src/values/AssessmentResult";
 import testTexts from "../fullTextTests/testTexts";
+import morphologyData from "../../premium-configuration/data/morphologyData.json";
 
 /**
  * Creates a mocked scope.
@@ -996,6 +997,42 @@ describe( "AnalysisWebWorker", () => {
 				};
 
 				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "runResearch", payload ) );
+			} );
+
+			test( "returns the morphology research result without morphologyData", done => {
+				const name = "morphology";
+				const paper = testTexts[ 0 ].paper;
+				const payload = { name, paper: paper.serialize() };
+
+				worker.runResearchDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( isObject( result ) ).toBe( true );
+					expect( result.keyphraseForms ).toEqual( [ [ "voice" ], [ "search" ] ] );
+					expect( result.synonymsForms ).toEqual( [ [ [ "listening" ], [ "reading" ], [ "search" ] ], [ [ "voice" ], [ "query" ] ], [ [ "voice" ], [ "results" ] ] ] );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "runResearch", payload ) );
+			} );
+
+			test( "returns the morphology research result with morphologyData", done => {
+				const name = "morphology";
+				const paper = testTexts[ 0 ].paper;
+				const payload = { name, paper: paper.serialize() };
+
+				worker.runResearchDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( isObject( result ) ).toBe( true );
+					expect( result.keyphraseForms ).toEqual( [
+						[ "voice", "voices", "voice's", "voices's", "voices'", "voicing", "voiced", "voicely", "voicer", "voicest", "voice‘s", "voice’s", "voice‛s", "voice`s", "voices‘s", "voices’s", "voices‛s", "voices`s", "voices‘", "voices’", "voices‛", "voices`" ],
+						[ "search", "searches", "search's", "searches's", "searches'", "searching", "searched", "searchly", "searcher", "searchest", "search‘s", "search’s", "search‛s", "search`s", "searches‘s", "searches’s", "searches‛s", "searches`s", "searches‘", "searches’", "searches‛", "searches`" ],
+					] );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize", { researchData: { morphology: morphologyData } } ) );
 				scope.onmessage( createMessage( "runResearch", payload ) );
 			} );
 

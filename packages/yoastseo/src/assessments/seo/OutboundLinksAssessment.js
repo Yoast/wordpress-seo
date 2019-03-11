@@ -20,8 +20,7 @@ export default class OutboundLinksAssessment extends Assessment {
 
 		const defaultConfig = {
 			scores: {
-				noLinksRegular: 6,
-				noLinksRecalibration: 3,
+				noLinks: 3,
 				allNofollowed: 7,
 				someNoFollowed: 8,
 				allFollowed: 9,
@@ -73,11 +72,7 @@ export default class OutboundLinksAssessment extends Assessment {
 	 */
 	calculateScore( linkStatistics ) {
 		if ( linkStatistics.externalTotal === 0 ) {
-			if ( process.env.YOAST_RECALIBRATION === "enabled" ) {
-				return this._config.scores.noLinksRecalibration;
-			}
-
-			return this._config.scores.noLinksRegular;
+			return this._config.scores.noLinks;
 		}
 
 		if ( linkStatistics.externalNofollow === linkStatistics.externalTotal ) {

@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FacebookSiteName matches the snapshot by default 1`] = `
+.c0 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+<div
+  className="c0"
+>
+  sitename.com
+</div>
+`;

@@ -99,6 +99,9 @@ function getDescriptionProgress( description, date ) {
 	};
 }
 
+/**
+ * The snippet editor component.
+ */
 class SnippetEditor extends React.Component {
 	/**
 	 * Constructs the snippet editor.
@@ -513,6 +516,7 @@ class SnippetEditor extends React.Component {
 			date,
 			locale,
 			keyword,
+			wordsToHighlight,
 			showCloseButton,
 		} = this.props;
 
@@ -535,6 +539,7 @@ class SnippetEditor extends React.Component {
 				<div>
 					<SnippetPreview
 						keyword={ keyword }
+						wordsToHighlight={ wordsToHighlight }
 						mode={ mode }
 						date={ date }
 						activeField={ this.mapFieldToPreview( activeField ) }
@@ -583,6 +588,7 @@ SnippetEditor.propTypes = {
 	descriptionLengthProgress: lengthProgressShape,
 	mapEditorDataToPreview: PropTypes.func,
 	keyword: PropTypes.string,
+	wordsToHighlight: PropTypes.array,
 	locale: PropTypes.string,
 	hasPaperStyle: PropTypes.bool,
 	showCloseButton: PropTypes.bool,
@@ -591,6 +597,7 @@ SnippetEditor.propTypes = {
 SnippetEditor.defaultProps = {
 	mode: DEFAULT_MODE,
 	date: "",
+	wordsToHighlight: [],
 	replacementVariables: [],
 	recommendedReplacementVariables: [],
 	titleLengthProgress: {
