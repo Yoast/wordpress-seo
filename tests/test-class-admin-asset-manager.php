@@ -31,7 +31,47 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::styles_to_be_registered
 	 */
 	public function test_DEFAULT_register() {
-		$this->asset_manager->register_assets();
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
+			->setMethods(
+				array(
+					'register_scripts',
+					'register_styles',
+					'scripts_to_be_registered',
+					'styles_to_be_registered',
+				)
+			)
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'scripts_to_be_registered' )
+			->will(
+				$this->returnValue(
+					array( 'script' )
+				)
+			);
+
+		$instance
+			->expects( $this->once() )
+			->method( 'styles_to_be_registered' )
+			->will(
+				$this->returnValue(
+					array( 'style' )
+				)
+			);
+
+		$instance
+			->expects( $this->once() )
+			->method( 'register_scripts' )
+			->with( array( 'script' )) ;
+
+		$instance
+			->expects( $this->once() )
+			->method( 'register_styles' )
+			->with( array( 'style' )) ;
+
+		$instance->register_assets();
 	}
 
 	/**
