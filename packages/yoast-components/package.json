@@ -7,7 +7,8 @@
   "scripts": {
     "start": "concurrently --kill-others \"stubby -d stubby/endpoints.yaml\" \"webpack-dev-server --mode=development\"",
     "test": "jest",
-    "lint": "grunt check"
+    "lint": "grunt check",
+    "prepublishOnly": "grunt publish"
   },
   "jest": {
     "testURL": "https://example.org",
@@ -96,6 +97,7 @@
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-yoast": "^1.0.1",
     "grunt": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
     "grunt-eslint": "^20.1.0",
     "grunt-postcss": "^0.8.0",
     "grunt-sass": "^2.0.0",
