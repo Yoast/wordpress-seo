@@ -1,6 +1,5 @@
 // External dependencies.
 import React, { Component } from "react";
-import debounce from "lodash/debounce";
 
 import ExamplesContainer from "./ExamplesContainer";
 import { assessments } from "yoastseo";

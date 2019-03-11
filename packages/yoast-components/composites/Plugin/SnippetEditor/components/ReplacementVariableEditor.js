@@ -81,7 +81,7 @@ class ReplacementVariableEditor extends React.Component {
 
 		const InputContainer = this.InputContainer;
 
-		let addVariableButton = <TriggerReplacementVariableSuggestionsButton
+		const addVariableButton = <TriggerReplacementVariableSuggestionsButton
 			onClick={ () => this.triggerReplacementVariableSuggestions() }
 		>
 			<SvgIcon icon="plus-circle" />
