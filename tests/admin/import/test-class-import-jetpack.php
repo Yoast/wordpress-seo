@@ -9,6 +9,7 @@
  * Test importing meta data from Jetpack SEO.
  */
 class WPSEO_Import_Jetpack_SEO_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Holds the class instance.
 	 *
