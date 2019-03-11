@@ -5,7 +5,7 @@ module.exports = {
 			src: [
 				"**/*",
 				"!dist/**/*",
-				"!node_modules/**/*"
+				"!node_modules/**/*",
 			],
 			dest: "dist/",
 		} ],
