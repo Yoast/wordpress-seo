@@ -532,7 +532,7 @@ register_deactivation_hook( WPSEO_FILE, 'wpseo_deactivate' );
 
 // Wpmu_new_blog has been deprecated in 5.1 and replaced by wp_insert_site.
 global $wp_version;
-if ( version_compare( $wp_version,'5.1', '<' ) ) {
+if ( version_compare( $wp_version, '5.1', '<' ) ) {
 	add_action( 'wpmu_new_blog', 'wpseo_on_activate_blog' );
 }
 else {
@@ -667,7 +667,10 @@ function yoast_free_phpcompat_whitelist( $ignored ) {
 	$ignored[] = $path . 'vendor/ruckusing/lib/Ruckusing/FrameworkRunner.php';
 	$ignored[] = $path . 'vendor_prefixed/ruckusing/lib/Ruckusing/FrameworkRunner.php';
 
-	// To prevent: (error) Extension 'sqlite' is removed since PHP 5.4. Ignoring because we are not using the sqlite functionality.
+	/*
+	 * To prevent: (error) Extension 'sqlite' is removed since PHP 5.4.
+	 * Ignoring because we are not using the sqlite functionality.
+	 */
 	$ignored[] = $path . 'vendor/ruckusing/lib/Ruckusing/Adapter/Sqlite3/Base.php';
 	$ignored[] = $path . 'vendor_prefixed/ruckusing/lib/Ruckusing/Adapter/Sqlite3/Base.php';
 

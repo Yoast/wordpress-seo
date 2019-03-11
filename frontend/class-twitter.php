@@ -500,16 +500,11 @@ class WPSEO_Twitter {
 	/**
 	 * Outputs a Twitter image tag for a given image
 	 *
-	 * @param string  $img The source URL to the image.
-	 * @param boolean $tag Deprecated argument, previously used for gallery images.
+	 * @param string $img The source URL to the image.
 	 *
 	 * @return bool
 	 */
-	protected function image_output( $img, $tag = false ) {
-
-		if ( $tag ) {
-			_deprecated_argument( __METHOD__, 'WPSEO 2.4' );
-		}
+	protected function image_output( $img ) {
 
 		/**
 		 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image

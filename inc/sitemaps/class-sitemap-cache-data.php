@@ -37,7 +37,7 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 
 		$this->sitemap = $sitemap;
 
-		/**
+		/*
 		 * Empty sitemap is not usable.
 		 */
 		if ( ! empty( $sitemap ) ) {

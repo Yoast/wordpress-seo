@@ -13,7 +13,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-/* {@internal Important: Make sure the options added to the array here are in line with the options set in the WPSEO_Option_MS::$allowed_access_options property.}} */
+/*
+ * {@internal Important: Make sure the options added to the array here are in line with the
+ * options set in the WPSEO_Option_MS::$allowed_access_options property.}}
+ */
 $yform->select(
 	'access',
 	/* translators: %1$s expands to Yoast SEO */

@@ -51,7 +51,7 @@ tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 // Overwrite the plugin URL to not include the full path.
 tests_add_filter( 'plugins_url', '_plugins_url', 10, 3 );
 
-/******[ Yoast SEO specific configuration ]******/
+/* *****[ Yoast SEO specific configuration ]***** */
 
 if ( ! defined( 'YOAST_SEO_INDEXABLES' ) ) {
 	define( 'YOAST_SEO_INDEXABLES', true );

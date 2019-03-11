@@ -86,7 +86,7 @@ class Indexable extends Yoast_Model {
 	 * @return bool|Indexable Instance of indexable.
 	 */
 	public static function create_for_id_and_type( $object_id, $object_type ) {
-		/**
+		/*
 		 * Indexable instance.
 		 *
 		 * @var Indexable $indexable

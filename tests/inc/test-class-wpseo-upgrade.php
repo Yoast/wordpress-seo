@@ -5,6 +5,8 @@
 
 /**
  * Unit Test Class.
+ *
+ * @group upgrades
  */
 class WPSEO_Upgrade_Test extends WPSEO_UnitTestCase {
 

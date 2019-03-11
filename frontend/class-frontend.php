@@ -587,17 +587,10 @@ class WPSEO_Frontend {
 	/**
 	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
 	 *
-	 * @param bool $echo Deprecated. Since 5.9. Whether or not to echo the debug marker.
-	 *
 	 * @return string The marker that will be echoed.
 	 */
-	public function debug_mark( $echo = true ) {
+	public function debug_mark() {
 		$marker = $this->get_debug_mark();
-		if ( $echo === false ) {
-			_deprecated_argument( 'WPSEO_Frontend::debug_mark', '5.9', 'WPSEO_Frontend::get_debug_mark' );
-
-			return $marker;
-		}
 
 		echo "\n${marker}\n";
 
@@ -1575,7 +1568,10 @@ class WPSEO_Frontend {
 			$title      = $this->title( '' );
 			$debug_mark = $this->get_debug_mark();
 
-			// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
+			/*
+			 * Find all titles, strip them out and add the new one in within the debug marker,
+			 * so it's easily identified whether a site uses force rewrite.
+			 */
 			$content = preg_replace( '/<title.*?\/title>/i', '', $content );
 			$content = str_replace( $debug_mark, $debug_mark . "\n" . '<title>' . esc_html( $title ) . '</title>', $content );
 		}
@@ -1798,24 +1794,6 @@ class WPSEO_Frontend {
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
-	 *
-	 * @deprecated 4.4
-	 * @codeCoverageIgnore
-	 *
-	 * @param bool $echo Whether or not to echo the debug marker.
-	 *
-	 * @return string
-	 */
-	public function debug_marker( $echo = false ) {
-		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
-			_deprecated_function( 'WPSEO_Frontend::debug_marker', '4.4', 'WPSEO_Frontend::debug_mark' );
-		}
-
-		return $this->debug_mark( $echo );
-	}
 
 	/**
 	 * Outputs the meta keywords element.

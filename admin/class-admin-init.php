@@ -613,30 +613,6 @@ class WPSEO_Admin_Init {
 
 		// WordPress hooks that have been deprecated since a Yoast SEO version.
 		$deprecated_filters = array(
-			'wpseo_metadesc_length' => array(
-				'version'     => '3.0',
-				'alternative' => 'javascript',
-			),
-			'wpseo_metadesc_length_reason' => array(
-				'version'     => '3.0',
-				'alternative' => 'javascript',
-			),
-			'wpseo_body_length_score' => array(
-				'version'     => '3.0',
-				'alternative' => 'javascript',
-			),
-			'wpseo_linkdex_results' => array(
-				'version'     => '3.0',
-				'alternative' => 'javascript',
-			),
-			'wpseo_snippet' => array(
-				'version'     => '3.0',
-				'alternative' => 'javascript',
-			),
-			'wp_seo_get_bc_title' => array(
-				'version'     => '5.8',
-				'alternative' => 'wpseo_breadcrumb_single_link_info',
-			),
 			'wpseo_metakey' => array(
 				'version'     => '6.3',
 				'alternative' => null,

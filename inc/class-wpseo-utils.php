@@ -14,22 +14,18 @@ class WPSEO_Utils {
 
 	/**
 	 * @var bool $has_filters Whether the PHP filter extension is enabled.
-	 * @static
 	 * @since 1.8.0
 	 */
 	public static $has_filters;
 
 	/**
 	 * @var array Notifications to be shown in the JavaScript console.
-	 * @static
 	 * @since 3.3.2
 	 */
 	protected static $console_notifications = array();
 
 	/**
 	 * Check whether the current user is allowed to access the configuration.
-	 *
-	 * @static
 	 *
 	 * @since 1.8.0
 	 *
@@ -55,8 +51,6 @@ class WPSEO_Utils {
 	 *
 	 * {@internal current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.}}
 	 *
-	 * @static
-	 *
 	 * @since    1.8.0
 	 *
 	 * @return bool
@@ -81,8 +75,6 @@ class WPSEO_Utils {
 	/**
 	 * Check if the web server is running on Apache.
 	 *
-	 * @static
-	 *
 	 * @since 1.8.0
 	 *
 	 * @return bool
@@ -99,8 +91,6 @@ class WPSEO_Utils {
 
 	/**
 	 * Check if the web server is running on Nginx.
-	 *
-	 * @static
 	 *
 	 * @since 1.8.0
 	 *
@@ -177,8 +167,6 @@ class WPSEO_Utils {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @static
-	 *
 	 * @return array $roles
 	 */
 	public static function get_roles() {
@@ -212,8 +200,6 @@ class WPSEO_Utils {
 	 * First strip out registered and enclosing shortcodes using native WordPress strip_shortcodes function.
 	 * Then strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
 	 *
-	 * @static
-	 *
 	 * @since 1.8.0
 	 *
 	 * @param string $text Input string that might contain shortcodes.
@@ -227,8 +213,6 @@ class WPSEO_Utils {
 	/**
 	 * Recursively trim whitespace round a string value or of string values within an array.
 	 * Only trims strings to avoid typecasting a variable (to string).
-	 *
-	 * @static
 	 *
 	 * @since 1.8.0
 	 *
@@ -249,8 +233,6 @@ class WPSEO_Utils {
 
 	/**
 	 * Translates a decimal analysis score into a textual one.
-	 *
-	 * @static
 	 *
 	 * @since 1.8.0
 	 *
@@ -281,8 +263,6 @@ class WPSEO_Utils {
 	 * - Strip all tags,
 	 * - Remove line breaks, tabs and extra white space,
 	 * - Strip octets - BUT DO NOT REMOVE (part of) VARIABLES WHICH WILL BE REPLACED.
-	 *
-	 * @static
 	 *
 	 * @since 1.8.0
 	 *
@@ -346,8 +326,6 @@ class WPSEO_Utils {
 	/**
 	 * Validate a value as boolean.
 	 *
-	 * @static
-	 *
 	 * @since 1.8.0
 	 *
 	 * @param mixed $value Value to validate.
@@ -369,8 +347,6 @@ class WPSEO_Utils {
 
 	/**
 	 * Cast a value to bool.
-	 *
-	 * @static
 	 *
 	 * @since 1.8.0
 	 *
@@ -436,8 +412,6 @@ class WPSEO_Utils {
 	/**
 	 * Validate a value as integer.
 	 *
-	 * @static
-	 *
 	 * @since 1.8.0
 	 *
 	 * @param mixed $value Value to validate.
@@ -459,8 +433,6 @@ class WPSEO_Utils {
 
 	/**
 	 * Cast a value to integer.
-	 *
-	 * @static
 	 *
 	 * @since 1.8.0
 	 *
@@ -502,8 +474,6 @@ class WPSEO_Utils {
 	/**
 	 * Clears the WP or W3TC cache depending on which is used.
 	 *
-	 * @static
-	 *
 	 * @since 1.8.0
 	 */
 	public static function clear_cache() {
@@ -518,8 +488,6 @@ class WPSEO_Utils {
 	/**
 	 * Flush W3TC cache after succesfull update/add of taxonomy meta option.
 	 *
-	 * @static
-	 *
 	 * @since 1.8.0
 	 */
 	public static function flush_w3tc_cache() {
@@ -530,8 +498,6 @@ class WPSEO_Utils {
 
 	/**
 	 * Clear rewrite rules.
-	 *
-	 * @static
 	 *
 	 * @since 1.8.0
 	 */
@@ -546,8 +512,6 @@ class WPSEO_Utils {
 	 * @see   the big red warning on http://php.net/language.types.float.php
 	 *
 	 * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results.
-	 *
-	 * @static
 	 *
 	 * @since 1.5.0
 	 * @since 1.8.0 Moved from stand-alone function to this class.
@@ -878,7 +842,6 @@ class WPSEO_Utils {
 		 *
 		 * @param bool $development_mode Is Yoast SEOs development mode active.
 		 */
-
 		return apply_filters( 'yoast_seo_development_mode', $development_mode );
 	}
 
@@ -1190,7 +1153,8 @@ SVG;
 	 *
 	 * @see        WPSEO_Language_Utils::get_language()
 	 *
-	 * @since      9.5
+	 * @deprecated 9.5
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $locale The locale to get the language of.
 	 *
@@ -1212,7 +1176,8 @@ SVG;
 	 *
 	 * @see        WPSEO_Language_Utils::get_user_locale()
 	 *
-	 * @since      9.5
+	 * @deprecated 9.5
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The locale.
 	 */

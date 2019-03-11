@@ -390,7 +390,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 					'get_client',
 					'redirect_to_premium_page',
 					'get_authorization_code',
-					'get_current_user_id'
+					'get_current_user_id',
 				)
 			)
 			->getMock();
@@ -404,11 +404,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			->expects( $this->once() )
 			->method( 'getAccessToken' )
 			->with(
-
 				'authorization_code',
-				array(
-					'code' => 'this-is-the-code'
-				)
+				array( 'code' => 'this-is-the-code' )
 			)
 			->will( $this->returnValue( 'access-token' ) );
 
@@ -451,7 +448,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_current_user_id' )
-			->will( $this->returnValue(  123456789 ) );
+			->will( $this->returnValue( 123456789 ) );
 
 		$instance
 			->expects( $this->once() )
@@ -489,13 +486,10 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			->expects( $this->once() )
 			->method( 'getAccessToken' )
 			->with(
-
 				'authorization_code',
-				array(
-					'code' => 'this-is-the-code'
-				)
+				array( 'code' => 'this-is-the-code' )
 			)
-			->will( $this->throwException( new Exception( 'Something went wrong' )  ) );
+			->will( $this->throwException( new Exception( 'Something went wrong' ) ) );
 
 		$client = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Client' )

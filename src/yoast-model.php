@@ -422,9 +422,12 @@ class Yoast_Model {
 	 */
 	protected function has_many_through( $associated_class_name, $join_class_name = null, $key_to_base_table = null, $key_to_associated_table = null, $key_in_base_table = null, $key_in_associated_table = null, $connection_name = null ) {
 		$base_class_name = \get_class( $this );
-		// The class name of the join model, if not supplied, is
-		// formed by concatenating the names of the base class
-		// and the associated class, in alphabetical order.
+
+		/*
+		 * The class name of the join model, if not supplied, is formed by
+		 * concatenating the names of the base class and the associated class,
+		 * in alphabetical order.
+		 */
 		if ( $join_class_name === null ) {
 			$base_model      = \explode( '\\', $base_class_name );
 			$base_model_name = \end( $base_model );

@@ -600,8 +600,8 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return string Score markup.
 	 */
 	protected function get_score( $score ) {
-		$score_class        = WPSEO_Utils::translate_score( $score );
-		$translated_score   = WPSEO_Utils::translate_score( $score, false );
+		$score_class      = WPSEO_Utils::translate_score( $score );
+		$translated_score = WPSEO_Utils::translate_score( $score, false );
 		/* translators: %s expands to the SEO score. */
 		$screen_reader_text = sprintf( __( 'SEO score: %s', 'wordpress-seo' ), $translated_score );
 

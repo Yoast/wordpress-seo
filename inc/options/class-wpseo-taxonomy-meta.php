@@ -33,13 +33,11 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 	/**
 	 * @var  string  Option name - same as $option_name property, but now also available to static methods.
-	 * @static
 	 */
 	public static $name;
 
 	/**
 	 * @var  array  Array of defaults for individual taxonomy meta entries.
-	 * @static
 	 */
 	public static $defaults_per_term = array(
 		'wpseo_title'                 => '',
@@ -67,8 +65,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	/**
 	 * @var  array  Available index options.
 	 *        Used for form generation and input validation.
-	 *
-	 * @static
 	 *
 	 * {@internal Labels (translation) added on admin_init via WPSEO_Taxonomy::translate_meta_options().}}
 	 */
@@ -124,8 +120,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	/**
 	 * Helper method - Combines a fixed array of default values with an options array
 	 * while filtering out any keys which are not in the defaults array.
-	 *
-	 * @static
 	 *
 	 * @param  string $option_key Option name of the option we're doing the merge for.
 	 * @param  array  $options    Optional. Current options. If not set, the option defaults for the $option_key will be returned.
@@ -231,8 +225,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 	/**
 	 * Validate the meta data for one individual term and removes default values (no need to save those).
-	 *
-	 * @static
 	 *
 	 * @param  array $meta_data New values.
 	 * @param  array $old_meta  The original values.
@@ -424,8 +416,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 	/**
 	 * Retrieve a taxonomy term's meta value(s).
-	 *
-	 * @static
 	 *
 	 * @param  mixed  $term     Term to get the meta value for
 	 *                          either (string) term name, (int) term id or (object) term.

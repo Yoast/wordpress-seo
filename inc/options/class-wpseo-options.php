@@ -16,7 +16,6 @@ class WPSEO_Options {
 	 * Options this class uses.
 	 *
 	 * @var array Array format: (string) option_name  => (string) name of concrete class for the option.
-	 * @static
 	 */
 	public static $options = array(
 		'wpseo'               => 'WPSEO_Option_Wpseo',
@@ -150,7 +149,6 @@ class WPSEO_Options {
 	/**
 	 * Retrieve an array of the options which should be included in get_all() and reset().
 	 *
-	 * @static
 	 * @return  array  Array of option names
 	 */
 	public static function get_option_names() {
@@ -174,7 +172,6 @@ class WPSEO_Options {
 	 * @todo [JRF] see if we can get some extra efficiency for this one, though probably not as options may
 	 * well change between calls (enriched defaults and such)
 	 *
-	 * @static
 	 * @return  array  Array combining the values of all the options
 	 */
 	public static function get_all() {
@@ -183,8 +180,6 @@ class WPSEO_Options {
 
 	/**
 	 * Retrieve one or more options for the SEO plugin.
-	 *
-	 * @static
 	 *
 	 * @param array $option_names An array of option names of the options you want to get.
 	 *
@@ -205,8 +200,6 @@ class WPSEO_Options {
 
 	/**
 	 * Retrieve a single option for the SEO plugin.
-	 *
-	 * @static
 	 *
 	 * @param string $option_name The name of the option you want to get.
 	 *
@@ -277,8 +270,6 @@ class WPSEO_Options {
 	/**
 	 * Get an option only if it's been auto-loaded.
 	 *
-	 * @static
-	 *
 	 * @param string     $option  The option to retrieve.
 	 * @param bool|mixed $default A default value to return.
 	 *
@@ -345,7 +336,6 @@ class WPSEO_Options {
 	/**
 	 * Initialize some options on first install/activate/reset.
 	 *
-	 * @static
 	 * @return void
 	 */
 	public static function initialize() {
@@ -358,7 +348,6 @@ class WPSEO_Options {
 	/**
 	 * Reset all options to their default values and rerun some tests.
 	 *
-	 * @static
 	 * @return void
 	 */
 	public static function reset() {
@@ -383,8 +372,6 @@ class WPSEO_Options {
 	/**
 	 * Initialize default values for a new multisite blog.
 	 *
-	 * @static
-	 *
 	 * @param  bool $force_init Whether to always do the initialization routine (title/desc test).
 	 *
 	 * @return void
@@ -406,8 +393,6 @@ class WPSEO_Options {
 	/**
 	 * Reset all options for a specific multisite blog to their default values based upon a
 	 * specified default blog if one was chosen on the network page or the plugin defaults if it was not.
-	 *
-	 * @static
 	 *
 	 * @param  int|string $blog_id Blog id of the blog for which to reset the options.
 	 *

@@ -68,13 +68,18 @@ class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
 			'wpseo_noindex'         => 'index',
 			'wpseo_canonical'       => 'https://yoast.com/',
 			'wpseo_bctitle'         => 'this can contain \backslashes\.',
-			'wpseo_focuskeywords'   => json_encode( array(
+			'wpseo_focuskeywords'   => json_encode(
 				array(
-					'keyword' => '\"test\"',
-					'score'   => 'good',
-				),
-				array( 'keyword' => '\\', 'score' => 'bad' ),
-			) ),
+					array(
+						'keyword' => '\"test\"',
+						'score'   => 'good',
+					),
+					array(
+						'keyword' => '\\',
+						'score'   => 'bad',
+					),
+				)
+			),
 			'wpseo_keywordsynonyms' => json_encode( array( '""TESTING""', '""""' ) ),
 			'wpseo_focuskw'         => '&quotdouble quotes" and \backslashes\.',
 			'wpseo_title'           => '&quotdouble quotes" and \backslashes\.',
@@ -98,13 +103,18 @@ class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
 		$expected = array(
 			'wpseo_bctitle'         => 'this can contain \backslashes\.',
 			'wpseo_canonical'       => 'https://yoast.com/test%20space',
-			'wpseo_focuskeywords'   => json_encode( array(
+			'wpseo_focuskeywords'   => json_encode(
 				array(
-					'keyword' => '\"test\"',
-					'score'   => 'good',
-				),
-				array( 'keyword' => '\\', 'score' => 'bad' ),
-			) ),
+					array(
+						'keyword' => '\"test\"',
+						'score'   => 'good',
+					),
+					array(
+						'keyword' => '\\',
+						'score'   => 'bad',
+					),
+				)
+			),
 			'wpseo_keywordsynonyms' => json_encode( array( '""TESTING""', '""""' ) ),
 			'wpseo_focuskw'         => '&quotdouble quotes" and \backslashes\.',
 			'wpseo_title'           => '&quotdouble quotes" and \backslashes\.',
@@ -116,14 +126,19 @@ class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
 			'wpseo_noindex'         => 'extra something',
 			'wpseo_canonical'       => 'https://yoast.com/test space',
 			'wpseo_bctitle'         => 'this can contain \backslashes\.',
-			'wpseo_focuskeywords'   => json_encode( array(
+			'wpseo_focuskeywords'   => json_encode(
 				array(
-					'keyword' => '\"test\"',
-					'score'   => 'good',
-					'extra'   => 'will get removed',
-				),
-				array( 'keyword' => '\\', 'score' => 'bad' ),
-			) ),
+					array(
+						'keyword' => '\"test\"',
+						'score'   => 'good',
+						'extra'   => 'will get removed',
+					),
+					array(
+						'keyword' => '\\',
+						'score'   => 'bad',
+					),
+				)
+			),
 			'wpseo_keywordsynonyms' => json_encode( array( '""TESTING""', '""""' ) ),
 			'wpseo_focuskw'         => '  &quotdouble quotes" `>&lt;&gt;&#96<`and \backslashes\.  ',
 			'wpseo_title'           => '&quotdouble quotes"			and \backslashes\.',
