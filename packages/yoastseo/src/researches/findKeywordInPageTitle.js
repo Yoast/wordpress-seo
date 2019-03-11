@@ -66,11 +66,6 @@ const adjustPosition = function( title, position, locale ) {
 		return position;
 	}
 
-	// Don't do anything for non-recalibration.
-	if ( ! ( process.env.YOAST_RECALIBRATION === "enabled" ) ) {
-		return position;
-	}
-
 	// Don't do anything if no function words exist for this locale.
 	const language = getLanguage( locale );
 	const functionWords = get( getFunctionWords, [ language ], [] );

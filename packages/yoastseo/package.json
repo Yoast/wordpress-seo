@@ -15,6 +15,7 @@
     "url": "https://github.com/Yoast/YoastSEO.js"
   },
   "scripts": {
+    "start": "npm start --prefix examples/webpack",
     "build": "grunt publish",
     "lint": "grunt check",
     "test": "jest --runInBand",
@@ -52,6 +53,7 @@
     "grunt-shell": "^2.0.0",
     "istanbul": "^0.4.0",
     "jest": "^23.5.0",
+    "js-yaml": "^3.12.1",
     "load-grunt-config": "^1.0.0",
     "lodash-cli": "^4.14.1",
     "node-sass": "^4.9.3"
