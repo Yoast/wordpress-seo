@@ -48,13 +48,13 @@ Structured:
 		heading1.text = "This is a heading level 1.";
 		heading1.sourceStartIndex = 25;
 		heading1.sourceEndIndex = 30;
-		heading1.setResearchResult( "headings", heading1 );
+		heading1.setResearchResult( "headings", [ heading1 ] );
 
 		const heading2 = new Heading( 2 );
 		heading2.text = "This is a heading level 2.";
 		heading2.sourceStartIndex = 23;
 		heading2.sourceEndIndex = 50;
-		heading2.setResearchResult( "headings", heading2 );
+		heading2.setResearchResult( "headings", [ heading2 ] );
 
 		const expected = [ heading1, heading2 ];
 

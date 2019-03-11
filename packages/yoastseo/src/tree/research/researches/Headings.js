@@ -18,7 +18,7 @@ class Headings extends Research {
 	 * @returns {Promise<*>} The result of the research.
 	 */
 	calculateFor( node ) {
-		return node instanceof Heading ? Promise.resolve( node ) : Promise.resolve( null );
+		return node instanceof Heading ? Promise.resolve( [ node ] ) : Promise.resolve( [] );
 	}
 
 	/**
@@ -40,7 +40,7 @@ class Headings extends Research {
 	 * @returns {*} The merged results.
 	 */
 	mergeChildrenResults( results ) {
-		return flatten( results ).filter( node => node );
+		return flatten( results );
 	}
 }
 
