@@ -4,6 +4,10 @@ import Factory from "../specHelpers/factory.js";
 var i18n = Factory.buildJed();
 
 describe( "A stop word in url assessment", function() {
+	beforeEach( () => {
+		console.warn = jest.fn();
+	} );
+
 	it( "assesses no stop words in the url", function() {
 		var mockPaper = new Paper( "sample text without stopwords", {
 			url: "https://www.google.com/",
@@ -33,6 +37,16 @@ describe( "A stop word in url assessment", function() {
 		expect( assessment.getScore() ).toEqual( 5 );
 		expect( assessment.getText() ).toEqual( "<a href='https://yoa.st/34p' target='_blank'>Slug stopwords</a>: The slug for this page contains stop words. <a href='https://yoa.st/34q' target='_blank'>Remove them</a>!" );
 	} );
+
+	it( "shows a deprecation warning when it is called", () => {
+		const mockPaper = new Paper( "" );
+		stopWordsInUrlAssessment.getResult(
+			mockPaper,
+			Factory.buildMockResearcher( [ "about", "before" ] ),
+			i18n
+		);
+		expect( console.warn ).toBeCalled();
+	} );
 } );
 
 describe( "Checks if the assessment is applicable", function() {
@@ -45,3 +59,4 @@ describe( "Checks if the assessment is applicable", function() {
 		expect( stopWordsInUrlAssessment.isApplicable( paper ) ).toBe( false );
 	} );
 } );
+

@@ -67,7 +67,7 @@ class MetaDescriptionKeywordAssessment extends Assessment {
 	 * @returns {Object} Result object with score and text.
 	 */
 	calculateResult( i18n ) {
-		// GOOD result when the meta description contains keyhrase or a synonym 1 or 2 times.
+		// GOOD result when the meta description contains a keyphrase or synonym 1 or 2 times.
 		if ( this._keyphraseCounts === 1 || this._keyphraseCounts === 2 ) {
 			return {
 				score: this._config.scores.good,
