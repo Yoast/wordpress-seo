@@ -13,7 +13,7 @@ class Headings extends Research {
 	/**
 	 * Calculates the result of the research for the given Node.
 	 *
-	 * @param {module:tree/structure.Node} node The node to calculate the research for.
+	 * @param {module:tree/structure.Node} node The node to do the research on.
 	 *
 	 * @returns {Promise<*>} The result of the research.
 	 */

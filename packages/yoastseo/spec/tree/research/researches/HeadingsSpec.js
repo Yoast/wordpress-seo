@@ -66,4 +66,42 @@ Structured:
 			}
 		);
 	} );
+
+	it( "gives back an empty list of when applying the research to a text with no headings.", done => {
+		const researcher = new TreeResearcher();
+		const headings = new Headings();
+
+		const treeNoHeadings = buildTreeFromYaml`
+Structured:
+  tag: root
+  sourceStartIndex: 23
+  sourceEndIndex: 50
+  children:
+    - Paragraph:
+        tag: p
+        sourceStartIndex: 23
+        sourceEndIndex: 50
+        text: This is a paragraph.
+    - Structured:
+        tag: section
+        sourceStartIndex: 23
+        sourceEndIndex: 50
+        children:
+          - Paragraph:
+              tag: p
+              sourceStartIndex: 23
+              sourceEndIndex: 50
+              text: This is another paragraph.
+`;
+
+		const expected = [];
+
+		researcher.addResearch( "headings", headings );
+		researcher.doResearch( "headings", treeNoHeadings ).then(
+			results => {
+				expect( results ).toEqual( expected );
+				done();
+			}
+		);
+	} );
 } );
