@@ -136,7 +136,7 @@ export function getForms( word, morphologyData ) {
 	 * The adjective forms are based on the stem that has only the suffixes removed, not the prefixes. This is because
 	 * we want forms such as "die gefärbten Haare" and not (incorrectly) "*die färbten Haare".
 	 */
-	if ( stemIfWordIsParticiple.length > 0 ) {
+	if ( stemIfWordIsParticiple ) {
 		return {
 			forms: unique( [
 				...forms,

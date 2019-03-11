@@ -37,9 +37,7 @@ const generateRegularParticipleForm = function( morphologyDataVerbs, stemmedWord
  * @returns {string} The created participle form.
  */
 const generateParticipleFormWithSeparablePrefix = function( morphologyDataVerbs, stemmedWord, prefixes ) {
-	for ( let i = 0; i < prefixes.length; i++ ) {
-		const currentPrefix = prefixes[ i ];
-
+	for ( const currentPrefix of prefixes ) {
 		if ( stemmedWord.startsWith( currentPrefix ) ) {
 			const stemmedWordWithoutPrefix = stemmedWord.slice( currentPrefix.length, stemmedWord.length );
 
