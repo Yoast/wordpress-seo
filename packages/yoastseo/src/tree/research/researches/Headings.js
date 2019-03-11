@@ -9,7 +9,6 @@ import Research from "./Research";
  * A research giving back the headings located in a text.
  */
 class Headings extends Research {
-
 	/**
 	 * Calculates the result of the research for the given Node.
 	 *
