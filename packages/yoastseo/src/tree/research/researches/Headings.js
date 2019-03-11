@@ -14,7 +14,7 @@ class Headings extends Research {
 	 *
 	 * @param {module:tree/structure.Node} node The node to do the research on.
 	 *
-	 * @returns {Promise<*>} The result of the research.
+	 * @returns {Promise<module:tree/structure.Heading[]|[]>} The result of the research.
 	 */
 	calculateFor( node ) {
 		return node instanceof Heading ? Promise.resolve( [ node ] ) : Promise.resolve( [] );
@@ -34,9 +34,9 @@ class Headings extends Research {
 	/**
 	 * Merges results of this research according to a predefined strategy.
 	 *
-	 * @param {Array<*>} results The results of this research to merge.
+	 * @param {Array<module:tree/structure.Heading[]>} results The results of this research to merge.
 	 *
-	 * @returns {*} The merged results.
+	 * @returns {module:tree/structure.Heading[]} The merged results.
 	 */
 	mergeChildrenResults( results ) {
 		return flatten( results );
