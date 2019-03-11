@@ -103,11 +103,11 @@ class WPSEO_Rewrite {
 	 * @return array|void The query vars.
 	 */
 	public function request( $query_vars ) {
-		if ( ! isset( $query_vars[ 'wpseo_category_redirect' ] ) )  {
+		if ( ! isset( $query_vars['wpseo_category_redirect'] ) ) {
 			return $query_vars;
 		}
 
-		$this->redirect( $query_vars[ 'wpseo_category_redirect' ] );
+		$this->redirect( $query_vars['wpseo_category_redirect'] );
 	}
 
 	/**
