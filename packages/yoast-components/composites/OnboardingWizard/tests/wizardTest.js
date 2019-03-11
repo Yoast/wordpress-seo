@@ -16,6 +16,11 @@ import ApiConfig from "../config/api-config";
 Enzyme.configure( { adapter: new EnzymeAdapter() } );
 
 jest.mock( "../helpers/ajaxHelper", () => {
+	/**
+	 * An ajaxHelper for testing purposes.
+	 *
+	 * @returns {promise} A test promise.
+	 */
 	const ajaxHelper = () => {
 		return new Promise( ( resolve ) => {
 			resolve( "test" );

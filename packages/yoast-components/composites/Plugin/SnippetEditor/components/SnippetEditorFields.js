@@ -38,6 +38,9 @@ const SlugInput = styled.input`
 
 const InputContainerWithCaretStyles = withCaretStyles( InputContainer );
 
+/**
+ * The snippet editor fields component.
+ */
 class SnippetEditorFields extends React.Component {
 	/**
 	 * Constructs the snippet editor fields.
