@@ -12,6 +12,10 @@ build:
 # Check health of the project
 check:
   - 'eslint'
+
+publish:
+  - 'copy:publish'
+
 # Default task
 default:
 - check
