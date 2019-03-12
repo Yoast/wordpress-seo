@@ -34,7 +34,7 @@ const generateRegularParticipleForm = function( morphologyDataVerbs, stemmedWord
  * @param {string}      stemmedWord         The stem to check.
  * @param {string[]}    prefixes            The prefixes to check.
  *
- * @returns {string} The created participle form.
+ * @returns {string|null} The created participle form or null if the stem doesn't start with a prefix.
  */
 const generateParticipleFormWithSeparablePrefix = function( morphologyDataVerbs, stemmedWord, prefixes ) {
 	for ( const currentPrefix of prefixes ) {
@@ -49,7 +49,7 @@ const generateParticipleFormWithSeparablePrefix = function( morphologyDataVerbs,
 		}
 	}
 
-	return "";
+	return null;
 };
 
 /**
@@ -67,7 +67,7 @@ export function generateParticipleForm( morphologyDataVerbs, stemmedWord ) {
 		morphologyDataVerbs.verbPrefixesSeparable
 	);
 
-	if ( participleFormWithPrefix.length > 0 ) {
+	if ( participleFormWithPrefix ) {
 		return participleFormWithPrefix;
 	}
 
@@ -82,7 +82,7 @@ export function generateParticipleForm( morphologyDataVerbs, stemmedWord ) {
 		morphologyDataVerbs.verbPrefixesSeparableOrInseparable
 	);
 
-	if ( participleFormWithPrefix.length > 0 ) {
+	if ( participleFormWithPrefix ) {
 		return participleFormWithPrefix;
 	}
 

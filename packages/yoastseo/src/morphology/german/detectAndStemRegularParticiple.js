@@ -10,20 +10,20 @@ import { exceptions } from "../../researches/german/passiveVoice/regex";
  * @returns {string|null} The stem or null if no participle was matched.
  */
 const detectAndStemParticiplesWithoutPrefixes = function( morphologyDataVerbs, word ) {
-	const participleRegex1 = new RegExp( "^" + morphologyDataVerbs.participleStemmingClasses[ 1 ].regex );
-	const participleRegex2 = new RegExp( "^" + morphologyDataVerbs.participleStemmingClasses[ 0 ].regex );
+	const geStemTParticipleRegex = new RegExp( "^" + morphologyDataVerbs.participleStemmingClasses[ 1 ].regex );
+	const geStemEtParticipleRegex = new RegExp( "^" + morphologyDataVerbs.participleStemmingClasses[ 0 ].regex );
 
 	/*
 	 * Check if it's a ge + stem ending in d/t + et participle.
 	 * As this is the more specific regex, it needs to be checked before the ge + stem + t regex.
 	 */
-	if ( participleRegex2.test( word ) ) {
+	if ( geStemEtParticipleRegex.test( word ) ) {
 		// Remove the two-letter prefix and the two-letter suffix.
 		return ( word.slice( 2, word.length - 2 ) );
 	}
 
 	// Check if it's a ge + stem + t participle.
-	if ( participleRegex1.test( word ) ) {
+	if ( geStemTParticipleRegex.test( word ) ) {
 		// Remove the two-letter prefix and the one-letter suffix.
 		return ( word.slice( 2, word.length - 1 ) );
 	}
