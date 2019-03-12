@@ -739,10 +739,15 @@ export default class AnalysisWebWorker {
 
 			// Start an analysis for every related keyword.
 			const requestedRelatedKeywordKeys = [ "" ];
-			forEach( relatedKeywords, ( relatedKeyword, key ) => {
+
+			// Get the key for each related keyphrase.
+			const keyphraseKeys = Object.keys( relatedKeywords );
+
+			// Analyze the SEO for each related keyphrase and wait for the results.
+			const relatedKeyphraseResults = await Promise.all( keyphraseKeys.map( key => {
 				requestedRelatedKeywordKeys.push( key );
 
-				this._relatedKeywords[ key ] = relatedKeyword;
+				this._relatedKeywords[ key ] = relatedKeywords[ key ];
 
 				const relatedPaper = Paper.parse( {
 					...this._paper.serialize(),
@@ -750,12 +755,15 @@ export default class AnalysisWebWorker {
 					synonyms: this._relatedKeywords[ key ].synonyms,
 				} );
 
-				this._relatedKeywordAssessor.assess( relatedPaper );
+				// We need to remember the key, since the SEO results are stored in an object, not an array.
+				return this.analyzeSEO( relatedPaper, this._tree ).then(
+					results => ( { key: key, results: results } )
+				);
+			} ) );
 
-				this._results.seo[ key ] = {
-					results: this._relatedKeywordAssessor.results,
-					score: this._relatedKeywordAssessor.calculateOverallScore(),
-				};
+			// Put the related keyphrase results on the SEO results, under the right key.
+			relatedKeyphraseResults.forEach( result => {
+				this._results.seo[ result.key ] = result.results;
 			} );
 
 			// Clear the unrequested results, but only if there are requested related keywords.
