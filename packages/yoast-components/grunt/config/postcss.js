@@ -8,6 +8,6 @@ module.exports = {
 		],
 	},
 	build: {
-		src: "dist/yoast-components.min.css",
+		src: "css-dist/yoast-components.min.css",
 	},
 };

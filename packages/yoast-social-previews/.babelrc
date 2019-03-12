@@ -1,0 +1,5 @@
+{
+  "ignore": [
+    "js/templates.js"
+  ]
+}
