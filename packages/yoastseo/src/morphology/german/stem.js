@@ -23,7 +23,7 @@ const determineR1 = function( word ) {
 		r1Index += 2;
 	}
 
-	// Adjust R1 so that it includes at least 3 letters.
+	// Adjust R1 so that the region preceding it includes at least 3 letters.
 	if ( r1Index !== -1 && r1Index < 3 ) {
 		r1Index = 3;
 	}
