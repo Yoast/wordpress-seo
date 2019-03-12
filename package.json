@@ -20,6 +20,9 @@
     "link-all": "lerna exec yarn link",
     "unlink-all": "lerna exec yarn unlink",
     "transfer-branch": "./transfer-branch.sh",
-    "publish": "lerna publish --contents dist"
+    "lerna-version": "lerna version",
+    "lerna-version-rc": "lerna version --preid rc",
+    "lerna-publish": "lerna publish --contents dist",
+    "lerna-publish-rc": "lerna publish --contents dist --dist-tag rc"
   }
 }
