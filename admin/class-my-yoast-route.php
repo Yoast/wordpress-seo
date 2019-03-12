@@ -32,7 +32,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 *
 	 * @var array
 	 */
-	static protected $allowed_actions = array( 'connect', 'authorize', 'complete' );
+	protected static $allowed_actions = array( 'connect', 'authorize', 'complete' );
 
 	/**
 	 * Sets the hooks when the user has enough rights and is on the right page.
@@ -123,8 +123,9 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 				'url'             => WPSEO_Utils::get_home_url(),
 				'client_id'       => $client_id,
 				'extensions'      => $this->get_extensions(),
-				'redirect_url'    => admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ),
+				'redirect_url'    => admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER . '&action=complete' ),
 				'credentials_url' => rest_url( 'yoast/v1/myyoast/connect' ),
+				'type'            => 'wordpress',
 			)
 		);
 	}

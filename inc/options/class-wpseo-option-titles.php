@@ -653,7 +653,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		unset( $rename, $old, $new );
 
 
-		/**
+		/*
 		 * {@internal This clean-up action can only be done effectively once the taxonomies
 		 *            and post_types have been registered, i.e. at the end of the init action.}}
 		 */

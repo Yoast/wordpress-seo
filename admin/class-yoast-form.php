@@ -352,12 +352,13 @@ class Yoast_Form {
 			);
 		}
 
-		$defaults = array(
+		$defaults     = array(
 			'placeholder' => '',
 			'class'       => '',
 		);
-		$attr     = wp_parse_args( $attr, $defaults );
-		$val      = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
+		$attr         = wp_parse_args( $attr, $defaults );
+		$val          = isset( $this->options[ $var ] ) ? $this->options[ $var ] : '';
+		$autocomplete = isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '';
 
 		$this->label(
 			$label . ':',
@@ -366,7 +367,7 @@ class Yoast_Form {
 				'class' => 'textinput',
 			)
 		);
-		echo '<input class="textinput ' . esc_attr( $attr['class'] ) . ' " placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
+		echo '<input' . $autocomplete . ' class="textinput ' . esc_attr( $attr['class'] ) . ' " placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
 	}
 
 	/**
@@ -432,8 +433,9 @@ class Yoast_Form {
 	 * @param string $var            The variable within the option to create the select for.
 	 * @param string $label          The label to show for the variable.
 	 * @param array  $select_options The select options to choose from.
+	 * @param string $styled         The select style. Use 'styled' to get a styled select. Default 'unstyled'.
 	 */
-	public function select( $var, $label, array $select_options ) {
+	public function select( $var, $label, array $select_options, $styled = 'unstyled' ) {
 
 		if ( empty( $select_options ) ) {
 			return;
@@ -447,17 +449,25 @@ class Yoast_Form {
 			)
 		);
 
-		$select_name   = esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']';
-		$active_option = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
+		$select_name       = esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']';
+		$active_option     = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
+		$wrapper_start_tag = '';
+		$wrapper_end_tag   = '';
 
 		$select = new Yoast_Input_Select( $var, $select_name, $select_options, $active_option );
 		$select->add_attribute( 'class', 'select' );
 		if ( $this->is_control_disabled( $var ) ) {
 			$select->add_attribute( 'disabled', 'disabled' );
 		}
-		$select->output_html();
 
-		echo '<br class="clear"/>';
+		if ( $styled === 'styled' ) {
+			$wrapper_start_tag = '<span class="yoast-styled-select">';
+			$wrapper_end_tag   = '</span>';
+		}
+
+		echo $wrapper_start_tag;
+		$select->output_html();
+		echo $wrapper_end_tag;
 	}
 
 	/**

@@ -25,7 +25,7 @@ jobs:
   fast_finish: true
   include:
     - php: 7.3
-      env: WP_VERSION=latest PHPLINT=1 PHPCS=1 CHECKJS=1 TRAVIS_NODE_VERSION=node
+      env: WP_VERSION=latest PHPLINT=1 PHPCS=1 CHECKJS=1 TRAVIS_NODE_VERSION=lts/*
     - php: 7.3
       env: WP_VERSION=latest WP_MULTISITE=1 COVERAGE=1
     - php: 5.6
@@ -35,7 +35,7 @@ jobs:
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
-      env: WP_VERSION=4.9 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
+      env: WP_VERSION=5.0 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
     - php: "7.4snapshot"
@@ -76,7 +76,7 @@ jobs:
         - grunt composer-artifact
       if: tag IS present
       before_install:
-        - nvm install node
+        - nvm install lts/*
         - curl -o- -L https://yarnpkg.com/install.sh | bash
         - export PATH=$HOME/.yarn/bin:$PATH
         - openssl aes-256-cbc -K $encrypted_06a9c1b95cfa_key -iv $encrypted_06a9c1b95cfa_iv -in ./deploy_keys/travis_dist_id_rsa.enc -out ./deploy_keys/travis_dist_id_rsa -d

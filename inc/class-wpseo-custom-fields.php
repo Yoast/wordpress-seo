@@ -9,6 +9,7 @@
  * WPSEO_Custom_Fields
  */
 class WPSEO_Custom_Fields {
+
 	/**
 	 * @var array Cache the custom fields.
 	 */

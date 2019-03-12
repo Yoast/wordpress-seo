@@ -194,9 +194,10 @@ class MailchimpSignup extends React.Component {
 			id="mailchimpEmail"
 			className="yoast-wizard-text-input-field"
 			ref={ this.setEmailInputRef }
-			type="text"
+			type="email"
 			name={ this.props.name }
 			defaultValue={ this.props.properties.currentUserEmail }
+			autoComplete="email"
 		/>;
 		const button = <RaisedButton
 			primary={ true }

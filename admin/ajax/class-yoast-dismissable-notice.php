@@ -41,6 +41,8 @@ class Yoast_Dismissable_Notice_Ajax {
 	private $notice_name;
 
 	/**
+	 * The type of the current notice.
+	 *
 	 * @var string
 	 */
 	private $notice_type;
