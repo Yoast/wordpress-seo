@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
-Requires at least: 4.9
+Requires at least: 5.0
 Tested up to: 5.1
 Stable tag: 9.7
 Requires PHP: 5.2.4
@@ -106,6 +106,24 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 10.0.0 =
+Release Date: March 12th, 2019
+
+Enhancements:
+
+* The recalibrated analysis is out of its beta phase and is now the default for the SEO analysis. Thanks for testing and giving us your valuable feedback! You are awesome! 👍
+* Adds `$taxonomy` to the arguments passed to the `wpseo_terms` filter. Props to [polevaultweb](https://github.com/polevaultweb).
+* Changes the screen reader text of the SEO score indicator in the menu bar and the traffic light in the snippet preview from `Bad SEO score.` to `Needs improvement.`
+* Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
+
+Bugfixes:
+
+* Fixes a bug where the `focus keyphrase` snippet variable was not correctly applied on term pages.
+* Fixes a bug where the Facebook image that was set for the WooCommerce Shop page would not be outputted as `og:image`. Props [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where the featured image set on a WooCommerce Shop page would not be outputted as Facebook OpenGraph Image or Twitter Image. Props [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where backslashes and consecutive double quotes would be removed from the focus keyphrase when saving a post or term.
+* Fixes a bug where backslashes would be removed from the breadcrumb title, focus keyphrase, title or meta description when saving a term.
+
 = 9.7.0 =
 Release Date: February 26th, 2019
 
@@ -125,31 +143,6 @@ Bugfixes:
 * Fixes a bug where an empty twitter description instead of the term description would be shown.
 * Fixes a bug where 'undefined index' warnings would be given when saving a Facebook image.
 * Fixes a bug where the Recalibration Beta could not be loaded in combination with specific server configurations.
-
-= 9.6.0 =
-Release Date: February 12th, 2019
-
-Content analysis recalibration (beta):
-
-* As there are already a lot of users who are participating in testing, we currently have enough input to start preparing for the release of the improved analysis.
-  * Removes the ability to enable beta testing for new installations.
-  * When the feature is disabled, the ability to re-enable it will disappear.
-
-Enhancements:
-
-* Removes schema (JSON+LD) output from 404 pages.
-* Improves the Google Search Console table accessibility by removing a duplicate button.
-* Improves the code to better comply to the coding standards.
-
-Bugfixes:
-
-* Fixes a bug where an empty feed would be available for non-existing pages. Props [stodorovic](https://github.com/stodorovic).
-* Prevents `vendor_prefix/j4mie/idiorm/demo.php` from being included in the release.
-
-Other:
-
-* Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
-* Improves the redirect upsell when creating redirects in the search console overview.
 
 = Earlier versions =
 

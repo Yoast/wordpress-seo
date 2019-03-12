@@ -63,7 +63,7 @@
 	<config name="testVersion" value="5.2-"/>
 	<rule ref="PHPCompatibilityWP"/>
 
-	<!-- WP-CLI and src (indexables) have a minimum PHP requirement of PHP 5.3. -->
+	<!-- WP-CLI and src (indexables) have a minimum PHP requirement of PHP 5.6. -->
 	<rule ref="PHPCompatibility.LanguageConstructs.NewLanguageConstructs.t_ns_separatorFound">
 		<exclude-pattern>*/cli/class-cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
@@ -92,6 +92,18 @@
 	<rule ref="PHPCompatibility.FunctionDeclarations.NewClosure.Found">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
+	<rule ref="PHPCompatibility.Syntax.NewShortArray.Found">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.Syntax.NewFunctionArrayDereferencing.Found">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.FunctionUse.NewFunctions.class_aliasFound">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.Constants.NewMagicClassConstant.Found">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
 
 	<!-- These usages of PHP > 5.2 code are surrounded by the correct safeguards. -->
 	<rule ref="PHPCompatibility.FunctionUse.NewFunctionParameters.parse_ini_file_scanner_modeFound">
@@ -106,5 +118,4 @@
 	<rule ref="PHPCompatibility.FunctionUse.NewFunctionParameters.array_unique_sort_flagsFound">
 		<exclude-pattern>*/inc/sitemaps/class-sitemap-image-parser\.php$</exclude-pattern>
 	</rule>
-
 </ruleset>

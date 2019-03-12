@@ -830,16 +830,25 @@ class WPSEO_Replace_Vars {
 	 * @return string|null
 	 */
 	private function retrieve_focuskw() {
-		$replacement = null;
-
+		// Retrieve focuskw from a Post.
 		if ( ! empty( $this->args->ID ) ) {
 			$focus_kw = WPSEO_Meta::get_value( 'focuskw', $this->args->ID );
 			if ( $focus_kw !== '' ) {
-				$replacement = $focus_kw;
+				return $focus_kw;
+			}
+
+			return null;
+		}
+
+		// Retrieve focuskw from a Term.
+		if ( ! empty( $this->args->term_id ) ) {
+			$focus_kw = WPSEO_Taxonomy_Meta::get_term_meta( $this->args->term_id, $this->args->taxonomy, 'focuskw' );
+			if ( $focus_kw !== '' ) {
+				return $focus_kw;
 			}
 		}
 
-		return $replacement;
+		return null;
 	}
 
 	/**
@@ -1424,8 +1433,9 @@ class WPSEO_Replace_Vars {
 		 * Allows filtering of the terms list used to replace %%category%%, %%tag%% and %%ct_<custom-tax-name>%% variables.
 		 *
 		 * @api    string    $output    Comma-delimited string containing the terms.
+		 * @api    string    $taxonomy  The taxonomy of the terms.
 		 */
-		return apply_filters( 'wpseo_terms', $output );
+		return apply_filters( 'wpseo_terms', $output, $taxonomy );
 	}
 } /* End of class WPSEO_Replace_Vars */
 

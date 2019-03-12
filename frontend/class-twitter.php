@@ -437,8 +437,6 @@ class WPSEO_Twitter {
 				return;
 			}
 
-			$post_id = get_the_ID();
-
 			if ( $this->image_of_attachment_page_output( $post_id ) ) {
 				return;
 			}
