@@ -45,6 +45,7 @@ const keyphraseDistribution = keyphraseDistributionResearcher;
 import { research as morphology } from "./researches/buildKeywordForms";
 import functionWordsInKeyphrase from "./researches/functionWordsInKeyphrase";
 import h1s from "./researches/h1s";
+import getInsights from "./researches/getInsights";
 
 /**
  * This contains all possible, default researches.
@@ -93,6 +94,7 @@ var Researcher = function( paper ) {
 		morphology: morphology,
 		functionWordsInKeyphrase: functionWordsInKeyphrase,
 		h1s: h1s,
+		insights: getInsights,
 	};
 
 	this._data = {};

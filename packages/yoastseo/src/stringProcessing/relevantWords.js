@@ -1,4 +1,5 @@
 import { get } from "lodash-es";
+import { memoize } from "lodash-es";
 import { uniq } from "lodash-es";
 
 import getWords from "../stringProcessing/getWords";
@@ -151,6 +152,27 @@ function computeRelevantWords( words, language, morphologyData ) {
 }
 
 /**
+ * Caches relevant words depending on the currently available morphologyData and (separately) text words and language.
+ * In this way, if the morphologyData remains the same in multiple calls of this function, the function
+ * that collects actual relevant words only needs to check if the text words and language also remain the
+ * same to return the cached result. The joining of words and language for this function is needed,
+ * because by default memoize caches by the first key only, which in the current case would mean that the function would
+ * return the cached forms if the text has not changed (without checking if language was changed).
+ *
+ * @param {Object|boolean}  morphologyData  The available morphology data.
+ *
+ * @returns {function} The function that collects relevant words for a given set of text words, language and morphologyData.
+ */
+const primeRelevantWords = memoize( ( morphologyData ) => {
+	return memoize( ( words, language ) => {
+		return computeRelevantWords( words, language, morphologyData );
+	}, ( words, language ) => {
+		return words.join( "," ) + "," + language;
+	} );
+} );
+
+
+/**
  * Gets relevant words from the paper text.
  *
  * @param {string} text The text to retrieve the relevant words of.
@@ -161,7 +183,9 @@ function computeRelevantWords( words, language, morphologyData ) {
  */
 function getRelevantWords( text, language, morphologyData ) {
 	const words = getWords( normalizeSingle( text ).toLocaleLowerCase() );
-	return computeRelevantWords( words, language, morphologyData );
+	const computeRelevantWordsMemoized = primeRelevantWords( morphologyData );
+
+	return computeRelevantWordsMemoized( words, language, morphologyData );
 }
 
 /**
