@@ -5,6 +5,13 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.23.0 March 25th, 2019
+### Added
+* Adds an autocomplete prop to the following components: `Step`, `Textfield`, and `Input`.
+
+### Fixed
+* Restores the focus indication on the title separators in the onboarding wizard.
+
 ## 4.22.0 March 11th, 2019
 ### Added
 * Adds `keywordForms` field to the `SnippetPreview` and `SnippetEditor` components to be able to highlight word forms of the keyphrase in the preview.
