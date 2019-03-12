@@ -60,6 +60,11 @@ import Scheduler from "./scheduler";
 import Transporter from "./transporter";
 import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
 
+// Tree assessor functionality.
+import buildTree from "../tree/builder";
+import { constructReadabilityAssessor, constructSEOAssessor } from "../tree/assess/assessorFactories";
+import { SEOScoreAggregator } from "../tree/assess/scoreAggregators";
+import { TreeResearcher } from "../tree/research";
 
 const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 
@@ -132,6 +137,9 @@ export default class AnalysisWebWorker {
 		this._registeredAssessments = [];
 		this._registeredMessageHandlers = {};
 
+		// Set up everything for the analysis on the tree.
+		this.setupTreeAnalysis();
+
 		// Bind actions to this scope.
 		this.analyze = this.analyze.bind( this );
 		this.analyzeDone = this.analyzeDone.bind( this );
@@ -162,6 +170,27 @@ export default class AnalysisWebWorker {
 		this.analyze = wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the analysis." );
 		this.runResearch = wrapTryCatchAroundAction( logger, this.runResearch,
 			"An error occurred after running the '%%name%%' research." );
+	}
+
+	/**
+	 * Sets up the web worker for running the tree readability and SEO analysis.
+	 *
+	 * @returns {void}
+	 */
+	setupTreeAnalysis() {
+		/* Researcher */
+		this._treeResearcher = new TreeResearcher();
+
+		/* Assessors. */
+		this._contentTreeAssessor = null;
+		this._seoTreeAssessor = null;
+		this._relatedKeywordTreeAssessor = null;
+
+		/* Registered assessments */
+		this._registeredTreeAssessments = [];
+
+		/* Tree representation of text to analyze */
+		this._tree = null;
 	}
 
 	/**
@@ -388,6 +417,23 @@ export default class AnalysisWebWorker {
 		return assessor;
 	}
 
+	createSEOTreeAssessor( isCornerstoneContent, isTaxonomyPage, isRelatedKeyphrase = false ) {
+		const assessorConfiguration = {
+			cornerstone: isCornerstoneContent,
+			relatedKeyphrase: isRelatedKeyphrase,
+			taxonomy: isTaxonomyPage,
+		};
+		const assessor = constructSEOAssessor( this._i18n, this._treeResearcher, assessorConfiguration );
+
+		this._registeredAssessments.forEach( ( { name, assessment } ) => {
+			if ( assessor.getAssessment( name ) ) {
+				assessor.addAssessment( name, assessment );
+			}
+		} );
+
+		return assessor;
+	}
+
 	/**
 	 * Sends a message.
 	 *
@@ -476,10 +522,15 @@ export default class AnalysisWebWorker {
 
 		if ( update.readability ) {
 			this._contentAssessor = this.createContentAssessor();
+			this._contentTreeAssessor = constructReadabilityAssessor( this._i18n, this._treeResearcher, configuration.useCornerstone );
 		}
 		if ( update.seo ) {
 			this._seoAssessor = this.createSEOAssessor();
 			this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
+			// Tree assessors
+			const { useCornerstone, useTaxonomy } = this._configuration;
+			this._seoTreeAssessor = this.createSEOTreeAssessor( useCornerstone, useTaxonomy );
+			this._relatedKeywordTreeAssessor = this.createSEOTreeAssessor( useCornerstone, false, true );
 		}
 
 		// Reset the paper in order to not use the cached results on analyze.
@@ -663,7 +714,7 @@ export default class AnalysisWebWorker {
 	 *
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
-	analyze( id, { paper, relatedKeywords = {} } ) {
+	async analyze( id, { paper, relatedKeywords = {} } ) {
 		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
 		paper._text = autop( paper._text );
 		paper._text = string.removeHtmlBlocks( paper._text );
@@ -674,20 +725,16 @@ export default class AnalysisWebWorker {
 			this._paper = paper;
 			this._researcher.setPaper( this._paper );
 
+			// Build the tree to analyze using the tree assessors.
+			this._tree = buildTree( this._paper.getText() );
+
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
 		}
 
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
 			if ( paperHasChanges ) {
-				this._seoAssessor.assess( this._paper );
-
-				// Reset the cached results for the related keywords here too.
-				this._results.seo = {};
-				this._results.seo[ "" ] = {
-					results: this._seoAssessor.results,
-					score: this._seoAssessor.calculateOverallScore(),
-				};
+				this._results.seo[ "" ] = await this.analyzeSEO( paper, this._tree );
 			}
 
 			// Start an analysis for every related keyword.
@@ -727,6 +774,38 @@ export default class AnalysisWebWorker {
 		}
 
 		return this._results;
+	}
+
+	/**
+	 * Analyzes the SEO of the given paper and tree combination
+	 * using the original SEO Assessor and the new SEO Tree Assessor.
+	 *
+	 * The results of both analyses are combined.
+	 *
+	 * @param {Paper}                      paper The paper to analyze.
+	 * @param {module:tree/structure.Node} tree  The tree to analyze.
+	 *
+	 * @returns {Promise<{score: number, results: *[]}>} The SEO results.
+	 */
+	async analyzeSEO( paper, tree ) {
+		/*
+		 * Assess the paper and the tree
+		 * using the original assessor and the tree assessor.
+		 */
+		this._seoAssessor.assess( paper );
+		const seoAssessorResults = this._seoAssessor.results;
+		const treeAnalysisResult = await this._seoTreeAssessor.assess( paper, tree );
+
+		// Combine the results of both assessors.
+		const results = [ ...treeAnalysisResult.results, ...seoAssessorResults ];
+
+		// Aggregate the results.
+		const score = new SEOScoreAggregator().aggregate( results );
+
+		return {
+			results: results,
+			score: score,
+		};
 	}
 
 	/**
