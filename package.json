@@ -20,6 +20,7 @@
     "install-ci": "lerna run install-ci",
     "link-all": "lerna exec yarn link",
     "unlink-all": "lerna exec yarn unlink",
-    "transfer-branch": "./transfer-branch.sh"
+    "transfer-branch": "./transfer-branch.sh",
+    "publish": "lerna publish --contents dist"
   }
 }
