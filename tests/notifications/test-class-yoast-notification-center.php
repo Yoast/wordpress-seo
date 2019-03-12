@@ -202,6 +202,35 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Not removing notifications from storage when there are no notifications.
+	 */
+	public function test_remove_storage_without_notifications() {
+		$subject = new Yoast_Notification_Center_Double();
+
+		// The notification center does not remove anything when there are no notifications.
+		$this->assertFalse( $subject->has_stored_notifications() );
+
+		$this->assertFalse( $subject->remove_storage() );
+	}
+
+	/**
+	 * Removing notifications from storage when there are notifications.
+	 */
+	public function test_remove_storage_with_notifications() {
+		$notification = new Yoast_Notification( 'b', array( 'id' => 'fake_id' ) );
+
+		$subject = new Yoast_Notification_Center_Double();
+		$subject->setup_current_notifications();
+
+		$subject->add_notification( $notification );
+		$subject->update_storage();
+
+		$this->assertTrue( $subject->has_stored_notifications() );
+
+		$this->assertTrue( $subject->remove_storage() );
+	}
+
+	/**
 	 * Sort one notification
 	 */
 	public function test_get_sorted_notifications() {
@@ -643,7 +672,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * Tests that checking for dismissed notifications applies only to the current site in multisite.
 	 *
 	 * @group ms-required
-	 *        
+	 *
 	 * @expectedExceptionMessage Unexpected deprecated notice for wpmu_new_blog
 	 *
 	 * @covers Yoast_Notification_Center::is_notification_dismissed()
@@ -815,7 +844,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests some scenarioas for the has_stored_notifications method.
+	 * Tests some scenarios for the has_stored_notifications method.
 	 *
 	 * @dataProvider has_stored_notifications_provider
 	 *

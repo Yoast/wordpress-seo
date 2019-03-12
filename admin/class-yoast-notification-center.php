@@ -639,19 +639,6 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Removes all notifications from storage.
-	 *
-	 * @return void
-	 */
-	private function remove_storage() {
-		if ( ! $this->has_stored_notifications() ) {
-			return;
-		}
-
-		delete_user_option( get_current_user_id(), self::STORAGE_KEY );
-	}
-
-	/**
 	 * Clear local stored notifications
 	 */
 	private function clear_notifications() {
@@ -773,6 +760,20 @@ class Yoast_Notification_Center {
 	 */
 	private function add_transaction_to_queue( $callback, $args ) {
 		$this->queued_transactions[] = array( $callback, $args );
+	}
+
+	/**
+	 * Removes all notifications from storage.
+	 *
+	 * @return bool True when notifications got removed.
+	 */
+	protected function remove_storage() {
+		if ( ! $this->has_stored_notifications() ) {
+			return false;
+		}
+
+		delete_user_option( get_current_user_id(), self::STORAGE_KEY );
+		return true;
 	}
 
 	/**

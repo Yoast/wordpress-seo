@@ -26,4 +26,13 @@ class Yoast_Notification_Center_Double extends Yoast_Notification_Center {
 		return parent::has_stored_notifications();
 
 	}
+
+	/**
+	 * Removes all notifications from storage.
+	 *
+	 * @return bool True when notifications got removed.
+	 */
+	public function remove_storage() {
+		return parent::remove_storage();
+	}
 }
