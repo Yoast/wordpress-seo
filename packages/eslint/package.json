@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-yoast",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "ESLint configuration for Yoast projects",
   "keywords": [
     "eslint",
@@ -21,7 +21,7 @@
     "js-yaml": "^3.6.0"
   },
   "peerDependencies": {
-    "eslint-plugin-react": ">=7.11.1",
-    "eslint-plugin-jsx-a11y": ">=6.1.1"
+    "eslint-plugin-jsx-a11y": ">=6.1.1",
+    "eslint-plugin-react": ">=7.11.1"
   }
 }
