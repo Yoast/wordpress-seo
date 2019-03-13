@@ -23,11 +23,6 @@ const TwitterTitleWrapper = styled.p`
 const TwitterTitle = ( props ) => {
 	let title = props.title;
 
-	// Do not render when there is no title.
-	if ( title.length === 0 ) {
-		return null;
-	}
-
 	// Only allow a certain amount of characters.
 	if ( props.maximumTitleLength && title.length > props.maximumTitleLength ) {
 		title = title.substr( 0, props.maximumTitleLength );
@@ -41,12 +36,11 @@ const TwitterTitle = ( props ) => {
 };
 
 TwitterTitle.propTypes = {
-	title: PropTypes.string,
+	title: PropTypes.string.isRequired,
 	maximumTitleLength: PropTypes.number,
 };
 
 TwitterTitle.defaultProps = {
-	title: "",
 	maximumTitleLength: 70,
 };
 
