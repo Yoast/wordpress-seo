@@ -112,7 +112,8 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
 	 *
-	 * @expectedException Exception Received unexpected response from MyYoast
+	 * @expectedException        Exception
+	 * @expectedExceptionMessage Received unexpected response from MyYoast
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file_errored_and_wordpress_not_found() {
 		/** @var WPSEO_MyYoast_Proxy $instance */
@@ -208,7 +209,8 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
 	 *
-	 * @expectedException Exception Unable to retrieve file from MyYoast
+	 * @expectedException        Exception
+	 * @expectedExceptionMessage Unable to retrieve file from MyYoast
 	 */
 	public function test_render_proxy_page_via_wordpress_errored() {
 		/** @var WPSEO_MyYoast_Proxy $instance */
