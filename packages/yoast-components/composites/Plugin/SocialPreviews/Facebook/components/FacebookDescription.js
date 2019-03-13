@@ -23,9 +23,11 @@ const FacebookDescriptionWrapper = styled.p`
  * @returns {React.Element} The rendered element.
  */
 const FacebookDescription = ( props ) => {
-	let description = string.stripHTMLTags( props.description );
+	const description = string.stripHTMLTags( props.description );
+
+	// Do not render when there is no description.
 	if ( description.length === 0 ) {
-		description = "Modify your Facebook description by editing it right here";
+		return null;
 	}
 
 	return (
