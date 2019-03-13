@@ -1,5 +1,5 @@
 {
-  "name": "components",
+  "name": "@yoast/components",
   "version": "1.0.0",
   "description": "Yoast Components",
   "main": "inxex.js",
