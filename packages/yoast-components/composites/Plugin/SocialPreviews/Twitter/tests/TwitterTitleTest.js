@@ -39,13 +39,4 @@ describe( "TwitterTitle", () => {
 		expect( tree.children.length ).toEqual( 1 );
 		expect( tree.children[ 0 ] ).toEqual( "My" );
 	} );
-
-	it( "does not render anything when the title is empty", () => {
-		const component = renderer.create(
-			<TwitterTitle title="" />
-		);
-
-		const tree = component.toJSON();
-		expect( tree ).toBeNull();
-	} );
 } );
