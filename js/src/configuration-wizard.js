@@ -1,23 +1,21 @@
 /* global yoastWizardConfig */
+// External dependencies.
 import React from "react";
 import ReactDOM from "react-dom";
+import { OnboardingWizard, MessageBox, setTranslations, utils } from "yoast-components";
+import isUndefined from "lodash/isUndefined";
 
-// Required to make Material UI work with touch screens.
-import { OnboardingWizard } from "yoast-components";
-import { MessageBox } from "yoast-components";
-
+// Internal dependencies.
 import MailchimpSignup from "./components/MailchimpSignup";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 import MediaUpload from "./components/MediaUpload";
 import Suggestions from "./components/Suggestions";
 import FinalStep from "./components/FinalStep";
-
-import { setTranslations } from "yoast-components";
-import isUndefined from "lodash/isUndefined";
-
 import YoastIcon from "../../images/Yoast_SEO_Icon.svg";
-
 import { setYoastComponentsL10n } from "./helpers/i18n";
+
+const { makeOutboundLink } = utils;
+const PluginConflictLink = makeOutboundLink();
 
 class App extends React.Component {
 	/**
@@ -136,7 +134,7 @@ class App extends React.Component {
 			mixedString:
 			"The configuration wizard could not be started." +
 			" The likely cause is an interfering plugin. Please {{link}}check for plugin conflicts{{/link}} to solve this problem. ",
-			components: { link: <a href="https://yoa.st/configuration-wizard-error-plugin-conflict" target="_blank" /> },
+			components: { link: <PluginConflictLink href="https://yoa.st/configuration-wizard-error-plugin-conflict" /> },
 		};
 		/* eslint-enable jsx-a11y/anchor-has-content */
 
