@@ -63,7 +63,7 @@ import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
 // Tree assessor functionality.
 import buildTree from "../tree/builder";
 import { constructReadabilityAssessor, constructSEOAssessor } from "../tree/assess/assessorFactories";
-import { SEOScoreAggregator } from "../tree/assess/scoreAggregators";
+import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../tree/assess/scoreAggregators";
 import { TreeResearcher } from "../tree/research";
 
 const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
@@ -188,6 +188,10 @@ export default class AnalysisWebWorker {
 
 		/* Registered assessments */
 		this._registeredTreeAssessments = [];
+
+		/* Score aggregators */
+		this._seoScoreAggregator = new SEOScoreAggregator();
+		this._contentScoreAggregator = new ReadabilityScoreAggregator();
 
 		/* Tree representation of text to analyze */
 		this._tree = null;
@@ -734,81 +738,102 @@ export default class AnalysisWebWorker {
 
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
 			if ( paperHasChanges ) {
-				this._results.seo[ "" ] = await this.analyzeSEO( paper, this._tree );
-			}
-
-			// Start an analysis for every related keyword.
-			const requestedRelatedKeywordKeys = [ "" ];
-
-			// Get the key for each related keyphrase.
-			const keyphraseKeys = Object.keys( relatedKeywords );
-
-			// Analyze the SEO for each related keyphrase and wait for the results.
-			const relatedKeyphraseResults = await Promise.all( keyphraseKeys.map( key => {
-				requestedRelatedKeywordKeys.push( key );
-
-				this._relatedKeywords[ key ] = relatedKeywords[ key ];
-
-				const relatedPaper = Paper.parse( {
-					...this._paper.serialize(),
-					keyword: this._relatedKeywords[ key ].keyword,
-					synonyms: this._relatedKeywords[ key ].synonyms,
+				// Assess the SEO of the content regarding the main keyphrase.
+				this._results.seo[ "" ] = await this.assess( this._paper, this._tree, {
+					oldAssessor: this._seoAssessor,
+					treeAssessor: this._seoTreeAssessor,
+					scoreAggregator: this._seoScoreAggregator,
 				} );
 
-				// We need to remember the key, since the SEO results are stored in an object, not an array.
-				return this.analyzeSEO( relatedPaper, this._tree ).then(
-					results => ( { key: key, results: results } )
-				);
-			} ) );
+				// Start an analysis for every related keyword.
+				const requestedRelatedKeywordKeys = [ "" ];
 
-			// Put the related keyphrase results on the SEO results, under the right key.
-			relatedKeyphraseResults.forEach( result => {
-				this._results.seo[ result.key ] = result.results;
-			} );
+				// Get the key for each related keyphrase.
+				const keyphraseKeys = Object.keys( relatedKeywords );
 
-			// Clear the unrequested results, but only if there are requested related keywords.
-			if ( requestedRelatedKeywordKeys.length > 1 ) {
-				this._results.seo = pickBy( this._results.seo, ( relatedKeyword, key ) => includes( requestedRelatedKeywordKeys, key ) );
+				// Analyze the SEO for each related keyphrase and wait for the results.
+				const relatedKeyphraseResults = await Promise.all( keyphraseKeys.map( key => {
+					requestedRelatedKeywordKeys.push( key );
+
+					this._relatedKeywords[ key ] = relatedKeywords[ key ];
+
+					const relatedPaper = Paper.parse( {
+						...this._paper.serialize(),
+						keyword: this._relatedKeywords[ key ].keyword,
+						synonyms: this._relatedKeywords[ key ].synonyms,
+					} );
+
+					// Which combination of (tree) assessors and score aggregator to use.
+					const analysisCombination = {
+						oldAssessor: this._relatedKeywordAssessor,
+						treeAssessor: this._relatedKeywordTreeAssessor,
+						scoreAggregator: this._seoScoreAggregator,
+					};
+
+					// We need to remember the key, since the SEO results are stored in an object, not an array.
+					return this.assess( relatedPaper, this._tree, analysisCombination ).then(
+						results => ( { key: key, results: results } )
+					);
+				} ) );
+
+				// Put the related keyphrase results on the SEO results, under the right key.
+				relatedKeyphraseResults.forEach( result => {
+					this._results.seo[ result.key ] = result.results;
+				} );
+
+				// Clear the unrequested results, but only if there are requested related keywords.
+				if ( requestedRelatedKeywordKeys.length > 1 ) {
+					this._results.seo = pickBy( this._results.seo,
+						( relatedKeyword, key ) =>	includes( requestedRelatedKeywordKeys, key )
+					);
+				}
 			}
 		}
 
 		if ( this._configuration.contentAnalysisActive && this._contentAssessor && shouldReadabilityUpdate ) {
-			this._contentAssessor.assess( this._paper );
-
-			this._results.readability = {
-				results: this._contentAssessor.results,
-				score: this._contentAssessor.calculateOverallScore(),
+			const analysisCombination = {
+				oldAssessor: this._contentAssessor,
+				treeAssessor: this._contentTreeAssessor,
+				scoreAggregator: this._contentScoreAggregator,
 			};
+			this._results.readability = await this.assess( this._paper, this._tree, analysisCombination );
 		}
 
 		return this._results;
 	}
 
 	/**
-	 * Analyzes the SEO of the given paper and tree combination
-	 * using the original SEO Assessor and the new SEO Tree Assessor.
+	 * Assesses a given paper and tree combination
+	 * using an original Assessor (that works on a string representation of the text)
+	 * and a new Tree Assessor (that works on a tree representation).
 	 *
-	 * The results of both analyses are combined.
+	 * The results of both analyses are combined using the given score aggregator.
 	 *
 	 * @param {Paper}                      paper The paper to analyze.
 	 * @param {module:tree/structure.Node} tree  The tree to analyze.
 	 *
-	 * @returns {Promise<{score: number, results: *[]}>} The SEO results.
+	 * @param {Object}                             analysisCombination                 Which assessors and score aggregator to use.
+	 * @param {Assessor}                           analysisCombination.oldAssessor     The original assessor.
+	 * @param {module:tree/assess.TreeAssessor}    analysisCombination.treeAssessor    The new assessor.
+	 * @param {module:tree/assess.ScoreAggregator} analysisCombination.scoreAggregator The score aggregator to use.
+	 *
+	 * @returns {Promise<{score: number, results: AssessmentResult[]}>} The analysis results.
 	 */
-	async analyzeSEO( paper, tree ) {
+	async assess( paper, tree, analysisCombination ) {
+		const { oldAssessor, treeAssessor, scoreAggregator } = analysisCombination;
 		/*
 		 * Assess the paper and the tree
 		 * using the original assessor and the tree assessor.
 		 */
-		this._seoAssessor.assess( paper );
-		const seoAssessorResults = this._seoAssessor.results;
-		const treeAnalysisResult = await this._seoTreeAssessor.assess( paper, tree );
+		oldAssessor.assess( paper );
+		const assessorResults = oldAssessor.results;
+		const treeAnalysisResult = await treeAssessor.assess( paper, tree );
 
 		// Combine the results of both assessors.
-		const results = [ ...treeAnalysisResult.results, ...seoAssessorResults ];
+		const results = [ ...treeAnalysisResult.results, ...assessorResults ];
 
 		// Aggregate the results.
-		const score = new SEOScoreAggregator().aggregate( results );
+		const score = scoreAggregator.aggregate( results );
 
 		return {
 			results: results,
