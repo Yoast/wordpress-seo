@@ -117,6 +117,9 @@ Enhancements:
 * Removes the `og:image:alt` tag as it causes potential accessibility issues when content is shared via Facebook.
 * Adds support for browsers auto-fill in the form fields that collect user information.
 * Adds missing screen reader text to the SEO score icon in the front end admin bar.
+* Increases the recommended sentence length limit for Spanish and Catalan to be more in line with best practices in these languages, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
+* Improves the list of Catalan transition words, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
+* Improves the list of Swedish transition words.
 
 Bugfixes:
 
