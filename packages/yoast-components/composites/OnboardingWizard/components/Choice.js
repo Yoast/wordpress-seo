@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Input from "../../../forms/Input";
-import Label from "../../../forms/Label";
+import Input from "../../../../components/Input";
+import Label from "../../../../components/Label";
 import htmlDecoder from "../helpers/htmlDecoder";
 import Explanation from "./Explanation";
 
