@@ -65,7 +65,7 @@ export function addComparativeSuffixes( morphologyDataAdjectives, stemmedWord ) 
 }
 
 /**
- * Adds suffixes for comparative and superlative forms to a stem.
+ * Adds suffixes for superlative forms to a stem.
  *
  * @param {Object}      morphologyDataAdjectives    The German morphology data for adjectives.
  * @param {string}      stemmedWord                 The stemmed word for which to get suffixes.
