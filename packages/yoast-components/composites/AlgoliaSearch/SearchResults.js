@@ -6,8 +6,8 @@ import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
 
 /* Internal dependencies */
-import { ZebrafiedListTable } from "../basic/Table/ListTable";
-import { Row } from "../basic/Table/Row";
+import { ZebrafiedListTable } from "../../../components/composites/Table/ListTable";
+import { Row } from "../../../components/composites/Table/Row";
 import colors from "../../style-guide/colors.json";
 
 /**

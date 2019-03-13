@@ -1,5 +1,5 @@
 import React from "react";
-import IFrame from "../basic/IFrame";
+import IFrame from "../../../components/IFrame";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 

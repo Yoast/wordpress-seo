@@ -14,7 +14,7 @@ import SnippetEditor from "./app/SnippetEditorExample";
 import SvgIconsWrapper from "./app/SvgIconsWrapper";
 import UIControlsWrapper from "./app/UIControlsWrapper";
 import Wizard from "./app/WizardWrapper";
-import Loader from "./composites/basic/Loader";
+import Loader from "../components/Loader";
 import FacebookPreviewExample from "./app/FacebookPreviewExample";
 
 const components = [

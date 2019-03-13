@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import { HelpCenterButton } from "../../Plugin/Shared/components/HelpCenterButton";
-import Paper from "../../../composites/basic/Paper";
+import Paper from "../../../../components/Paper";
 import colors from "../../../style-guide/colors.json";
 import YoastTabs from "../Shared/components/YoastTabs";
 import breakpoints from "../../../style-guide/responsive-breakpoints.json";

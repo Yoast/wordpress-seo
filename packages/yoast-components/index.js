@@ -27,7 +27,7 @@ import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSug
 // Composites/KeywordSuggestions imports.
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
 // Composites/basic imports.
-import { default as Loader } from "./composites/basic/Loader";
+import { default as Loader } from "../components/Loader";
 
 // Composites/CoursesOverview imports
 import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
@@ -83,7 +83,7 @@ export { default as VideoTutorial } from "./composites/HelpCenter/views/VideoTut
 export { default as KeywordInput } from "./composites/Plugin/Shared/components/KeywordInput";
 export { default as Icon } from "./composites/Plugin/Shared/components/Icon";
 export { default as YoastWarning } from "./composites/Plugin/Shared/components/YoastWarning";
-export { default as YoastSeoIcon } from "./composites/basic/YoastSeoIcon";
+export { default as YoastSeoIcon } from "../components/YoastSeoIcon";
 export { insightsReducer } from "./redux/reducers/insights";
 export { setProminentWords } from "./redux/actions/insights";
 export { setReadabilityResults,

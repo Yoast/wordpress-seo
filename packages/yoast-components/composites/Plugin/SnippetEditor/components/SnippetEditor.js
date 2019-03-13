@@ -29,7 +29,7 @@ import {
 } from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
 import colors from "../../../../style-guide/colors";
-import ErrorBoundary from "../../../basic/ErrorBoundary";
+import ErrorBoundary from "../../../../../components/ErrorBoundary";
 import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 const SnippetEditorButton = Button.extend`

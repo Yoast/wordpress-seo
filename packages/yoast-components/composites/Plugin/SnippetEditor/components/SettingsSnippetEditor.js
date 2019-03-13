@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 // Internal dependencies.
 import SettingsSnippetEditorFields from "./SettingsSnippetEditorFields";
-import ErrorBoundary from "../../../basic/ErrorBoundary";
+import ErrorBoundary from "../../../../../components/ErrorBoundary";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
