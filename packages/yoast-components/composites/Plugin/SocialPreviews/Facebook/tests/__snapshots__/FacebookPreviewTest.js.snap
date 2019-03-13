@@ -26,6 +26,23 @@ Array [
   >
     yoast.com
   </p>,
+  .c0 {
+  color: #606770;
+  font-size: 14px;
+  line-height: 20px;
+  word-break: break-word;
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  margin-top: 3px;
+}
+
+<p
+    className="c0"
+  >
+    Description to go along with a faulty image.
+  </p>,
 ]
 `;
 
@@ -53,7 +70,24 @@ Array [
 <p
     className="c0"
   >
-    yosat.com
+    yoast.com
+  </p>,
+  .c0 {
+  color: #606770;
+  font-size: 14px;
+  line-height: 20px;
+  word-break: break-word;
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  margin-top: 3px;
+}
+
+<p
+    className="c0"
+  >
+    Description to go along with a landscape image.
   </p>,
 ]
 `;
@@ -84,6 +118,23 @@ Array [
   >
     yoast.com
   </p>,
+  .c0 {
+  color: #606770;
+  font-size: 14px;
+  line-height: 20px;
+  word-break: break-word;
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  margin-top: 3px;
+}
+
+<p
+    className="c0"
+  >
+    Description to go along with a portrait image.
+  </p>,
 ]
 `;
 
@@ -113,6 +164,23 @@ Array [
   >
     yoast.com
   </p>,
+  .c0 {
+  color: #606770;
+  font-size: 14px;
+  line-height: 20px;
+  word-break: break-word;
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  margin-top: 3px;
+}
+
+<p
+    className="c0"
+  >
+    Description to go along with a square image.
+  </p>,
 ]
 `;
 
@@ -141,6 +209,23 @@ Array [
     className="c0"
   >
     yoast.com
+  </p>,
+  .c0 {
+  color: #606770;
+  font-size: 14px;
+  line-height: 20px;
+  word-break: break-word;
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  margin-top: 3px;
+}
+
+<p
+    className="c0"
+  >
+    Description to go along with too small an image.
   </p>,
 ]
 `;
