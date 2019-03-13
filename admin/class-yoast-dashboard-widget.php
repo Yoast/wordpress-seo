@@ -25,13 +25,19 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	 */
 	protected $statistics;
 
+	public function __construct( WPSEO_Statistics $statistics = null ) {
+		if ( $statistics === null ) {
+			$statistics = new WPSEO_Statistics();
+		}
+
+		$this->statistics    = $statistics;
+		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
+	}
+
 	/**
 	 * @param WPSEO_Statistics $statistics The statistics class to retrieve statistics from.
 	 */
 	public function register_hooks() {
-		$this->statistics = new WPSEO_Statistics();
-		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
-
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dashboard_assets' ) );
 		add_action( 'admin_init', array( $this, 'queue_dashboard_widget' ) );
 	}
