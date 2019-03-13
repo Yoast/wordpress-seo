@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TwitterPreview matches the snapshot 1`] = `
+.c0 {
+  font-weight: bold;
+  font-size: 14px;
+  max-height: 18.2px;
+  line-height: 18.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2.1px;
+}
+
+<p
+  className="c0"
+>
+  YoastCon Workshops • Yoast
+</p>
+`;
