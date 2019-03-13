@@ -27,7 +27,7 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Storage::add_field()
+	 * @covers WPSEO_Configuration_Storage::add_field
 	 */
 	public function test_add_field() {
 		$field = $this
@@ -40,8 +40,8 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Storage::set_adapter()
-	 * @covers WPSEO_Configuration_Storage::get_adapter()
+	 * @covers WPSEO_Configuration_Storage::set_adapter
+	 * @covers WPSEO_Configuration_Storage::get_adapter
 	 */
 	public function test_set_adapter() {
 		$adapter = new WPSEO_Configuration_Options_Adapter();
@@ -51,7 +51,7 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Storage::is_not_null()
+	 * @covers WPSEO_Configuration_Storage::is_not_null
 	 */
 	public function test_is_not_null() {
 		$this->assertTrue( $this->storage->is_not_null( '1' ) );
@@ -61,7 +61,7 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test get field data with string.
 	 *
-	 * @covers WPSEO_Configuration_Storage::get_field_data()
+	 * @covers WPSEO_Configuration_Storage::get_field_data
 	 */
 	public function test_get_field_data_null() {
 		$data = null;
@@ -90,7 +90,7 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test get field data default Field value.
 	 *
-	 * @covers WPSEO_Configuration_Storage::get_field_data()
+	 * @covers WPSEO_Configuration_Storage::get_field_data
 	 */
 	public function test_get_field_data_field_default() {
 		$data    = null;
@@ -125,7 +125,7 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test get field data with string.
 	 *
-	 * @covers WPSEO_Configuration_Storage::get_field_data()
+	 * @covers WPSEO_Configuration_Storage::get_field_data
 	 */
 	public function test_get_field_data_string() {
 		$data = 'data';
@@ -154,7 +154,7 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test get field data with string.
 	 *
-	 * @covers WPSEO_Configuration_Storage::get_field_data()
+	 * @covers WPSEO_Configuration_Storage::get_field_data
 	 */
 	public function test_get_field_data_array() {
 		$data    = array( 'a' => '1' );
@@ -196,7 +196,7 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Storage::retrieve()
+	 * @covers WPSEO_Configuration_Storage::retrieve
 	 */
 	public function test_retrieve() {
 		$field          = 'f';

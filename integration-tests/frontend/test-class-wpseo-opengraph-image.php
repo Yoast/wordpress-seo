@@ -432,8 +432,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test getting the image from post content.
 	 *
-	 * @covers WPSEO_OpenGraph_Image::set_images()
-	 * @covers WPSEO_OpenGraph_Image::add_first_usable_content_image()
+	 * @covers WPSEO_OpenGraph_Image::set_images
+	 * @covers WPSEO_OpenGraph_Image::add_first_usable_content_image
 	 */
 	public function test_get_images_from_content() {
 		$image_url    = 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg';

@@ -13,7 +13,7 @@ class WPSEO_Option_Tabs_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the retrieval of the base.
 	 *
-	 * @covers WPSEO_Option_Tabs::get_base()
+	 * @covers WPSEO_Option_Tabs::get_base
 	 */
 	public function test_get_base() {
 		$option_tabs = new WPSEO_Option_Tabs( 'base' );
@@ -24,7 +24,7 @@ class WPSEO_Option_Tabs_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the addition of a new tab.
 	 *
-	 * @covers WPSEO_Option_Tabs::add_tab()
+	 * @covers WPSEO_Option_Tabs::add_tab
 	 */
 	public function test_add_tab() {
 		$option_tabs = new WPSEO_Option_Tabs( 'base' );
@@ -38,7 +38,7 @@ class WPSEO_Option_Tabs_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the retrieval of the tabs.
 	 *
-	 * @covers WPSEO_Option_Tabs::get_tabs()
+	 * @covers WPSEO_Option_Tabs::get_tabs
 	 */
 	public function test_get_tabs() {
 		$option_tab  = new WPSEO_Option_Tab( 'name', 'label' );
@@ -51,7 +51,7 @@ class WPSEO_Option_Tabs_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if the given tab is active.
 	 *
-	 * @covers WPSEO_Option_Tabs::get_active_tab()
+	 * @covers WPSEO_Option_Tabs::get_active_tab
 	 */
 	public function test_is_active_tab() {
 		$option_tab  = new WPSEO_Option_Tab( 'name', 'label' );
@@ -64,7 +64,7 @@ class WPSEO_Option_Tabs_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests of the given tab is not active.
 	 *
-	 * @covers WPSEO_Option_Tabs::is_active_tab()
+	 * @covers WPSEO_Option_Tabs::is_active_tab
 	 */
 	public function test_is_active_tab_not_active() {
 		$option_tab  = new WPSEO_Option_Tab( 'name', 'label' );
@@ -77,7 +77,7 @@ class WPSEO_Option_Tabs_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests retrieval of an active tab without having any tabs.
 	 *
-	 * @covers WPSEO_Option_Tabs::is_active_tab()
+	 * @covers WPSEO_Option_Tabs::is_active_tab
 	 */
 	public function test_get_active_tab_without_any_active_tab_being_set() {
 		$option_tabs = new WPSEO_Option_Tabs( 'base' );
@@ -88,7 +88,7 @@ class WPSEO_Option_Tabs_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the retrieval of the active tab.
 	 *
-	 * @covers WPSEO_Option_Tabs::get_active_tab()
+	 * @covers WPSEO_Option_Tabs::get_active_tab
 	 */
 	public function test_get_active_tab() {
 		$option_tab  = new WPSEO_Option_Tab( 'name', 'label' );
@@ -101,7 +101,7 @@ class WPSEO_Option_Tabs_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the retrieval of the active tab without having any tabs.
 	 *
-	 * @covers WPSEO_Option_Tabs::get_active_tab()
+	 * @covers WPSEO_Option_Tabs::get_active_tab
 	 */
 	public function test_get_active_tab_WITH_nonexisting_tab_set_as_active() {
 		$option_tabs = new WPSEO_Option_Tabs( 'base', 'nonexisting' );
@@ -112,7 +112,7 @@ class WPSEO_Option_Tabs_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the retrieval of the active tab without having a active tab being set.
 	 *
-	 * @covers WPSEO_Option_Tabs::get_active_tab()
+	 * @covers WPSEO_Option_Tabs::get_active_tab
 	 */
 	public function test_get_active_tab_WITH_no_tab_set_as_active() {
 		$option_tabs = new WPSEO_Option_Tabs( 'base' );

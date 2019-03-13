@@ -43,14 +43,14 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 	}
 
 	/**
-	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::get_identifier()
+	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::get_identifier
 	 */
 	public function test_get_identifier() {
 		$this->assertEquals( 'ConnectGoogleSearchConsole', $this->component->get_identifier() );
 	}
 
 	/**
-	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::get_field()
+	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::get_field
 	 */
 	public function test_get_field() {
 		$this->assertEquals(
@@ -60,7 +60,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 	}
 
 	/**
-	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::get_data()
+	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::get_data
 	 */
 	public function test_get_data() {
 		$expected = array(
@@ -77,7 +77,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 	}
 
 	/**
-	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::set_data()
+	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::set_data
 	 */
 	public function test_set_data() {
 
@@ -95,7 +95,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 	}
 
 	/**
-	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::set_data()
+	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::set_data
 	 */
 	public function test_set_data_empty_token() {
 
@@ -123,7 +123,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 	}
 
 	/**
-	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::handle_profile_change()
+	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::handle_profile_change
 	 */
 	public function test_handle_profile_change() {
 		$current = array( 'profile' => 'a' );
@@ -135,7 +135,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 	}
 
 	/**
-	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::handle_profile_change()
+	 * @covers WPSEO_Config_Component_Connect_Google_Search_Console::handle_profile_change
 	 */
 	public function test_handle_profile_change_no_changes() {
 		$current = array( 'profile' => 'a' );

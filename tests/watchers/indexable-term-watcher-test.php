@@ -19,7 +19,7 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	/**
 	 * Tests if the expected hooks are registered.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::register_hooks()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::register_hooks
 	 */
 	public function test_register_hooks() {
 		$instance = new Indexable_Term_Watcher();
@@ -32,7 +32,7 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	/**
 	 * Tests if the indexable is being deleted.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_meta
 	 */
 	public function test_delete_meta() {
 		$instance = $this
@@ -66,7 +66,7 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	/**
 	 * Tests if the indexable is being deleted.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_meta
 	 */
 	public function test_delete_meta_exception() {
 		$instance = $this
@@ -85,7 +85,7 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	/**
 	 * Tests the save meta.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::save_meta
 	 */
 	public function test_save_meta() {
 		$taxonomy_id = 1;
@@ -140,7 +140,7 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	/**
 	 * Tests the save meta functionality.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::save_meta
 	 */
 	public function test_save_meta_exception() {
 		$instance = $this

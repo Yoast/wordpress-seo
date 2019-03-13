@@ -47,8 +47,8 @@ class No_Indexable_Found_Test extends TestCase {
 	/**
 	 * Tests the exception for a non existing post.
 	 *
-	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::from_post_id()
-	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::create_and_log_exception()
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::from_post_id
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::create_and_log_exception
 	 *
 	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found For test purposes.
 	 */
@@ -67,8 +67,8 @@ class No_Indexable_Found_Test extends TestCase {
 	/**
 	 * Tests the exception for a non existing term.
 	 *
-	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::from_term_id()
-	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::create_and_log_exception()
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::from_term_id
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::create_and_log_exception
 	 *
 	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found For test purposes.
 	 */
@@ -87,8 +87,8 @@ class No_Indexable_Found_Test extends TestCase {
 	/**
 	 * Tests the exception for a non existing term.
 	 *
-	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::from_primary_term()
-	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::create_and_log_exception()
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::from_primary_term
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::create_and_log_exception
 	 *
 	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found For test purposes.
 	 */
@@ -107,8 +107,8 @@ class No_Indexable_Found_Test extends TestCase {
 	/**
 	 * Tests the exception for a non existing post.
 	 *
-	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::from_author_id()
-	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::create_and_log_exception()
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::from_author_id
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::create_and_log_exception
 	 *
 	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found For test purposes.
 	 */
@@ -127,8 +127,8 @@ class No_Indexable_Found_Test extends TestCase {
 	/**
 	 * Tests the exception for a non existing indexable meta.
 	 *
-	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::from_meta_key()
-	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::create_and_log_exception()
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::from_meta_key
+	 * @covers \Yoast\WP\Free\Exceptions\No_Indexable_Found::create_and_log_exception
 	 *
 	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found For test purposes.
 	 */

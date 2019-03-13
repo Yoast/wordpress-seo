@@ -13,7 +13,7 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the notify method when the Onboarding Wizard notice won't be shown.
 	 *
-	 * @covers WPSEO_Configuration_Notifier::notify()
+	 * @covers WPSEO_Configuration_Notifier::notify
 	 */
 	public function test_notify_when_onboarding_wizard_notice_wont_be_shown() {
 		WPSEO_Options::set( 'show_onboarding_notice', false );
@@ -25,7 +25,7 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the notify method when the Onboarding Wizard notice will be shown.
 	 *
-	 * @covers WPSEO_Configuration_Notifier::notify()
+	 * @covers WPSEO_Configuration_Notifier::notify
 	 */
 	public function test_notify_when_onboarding_wizard_notice_will_be_shown() {
 		WPSEO_Options::set( 'show_onboarding_notice', true );
@@ -37,7 +37,7 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the listen method when the notification will be shown and dismissal trigger is on.
 	 *
-	 * @covers WPSEO_Configuration_Notifier::listen()
+	 * @covers WPSEO_Configuration_Notifier::listen
 	 */
 	public function test_listen_when_notification_will_be_shown_and_dismissal_trigger_is_on() {
 		$notifier = $this
@@ -66,7 +66,7 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the listen method when the notification is not shown.
 	 *
-	 * @covers WPSEO_Configuration_Notifier::listen()
+	 * @covers WPSEO_Configuration_Notifier::listen
 	 */
 	public function test_listen_when_notification_is_not_shown() {
 		$notifier = $this
@@ -94,7 +94,7 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the listen method when notification is shown, but the dismissed trigger isn't on.
 	 *
-	 * @covers WPSEO_Configuration_Notifier::listen()
+	 * @covers WPSEO_Configuration_Notifier::listen
 	 */
 	public function test_listen_when_notification_is_show_but_trigger_is_not_on() {
 		$notifier = $this

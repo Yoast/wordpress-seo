@@ -65,7 +65,7 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * Tests the situation where the archive redirect has been redirected.
 	 *
-	 * @covers WPSEO_Frontend::archive_redirect()
+	 * @covers WPSEO_Frontend::archive_redirect
 	 */
 	public function test_archive_redirect_being_redirected() {
 		global $wp_query;

@@ -14,7 +14,7 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 	/**
 	 * Tests the get_url function.
 	 *
-	 * @covers WPSEO_Admin_Asset_Analysis_Worker_Location::get_url()
+	 * @covers WPSEO_Admin_Asset_Analysis_Worker_Location::get_url
 	 */
 	public function test_get_url() {
 		$version          = 'test-version';
@@ -39,7 +39,7 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 	/**
 	 * Tests the get_url function when we pass a name.
 	 *
-	 * @covers WPSEO_Admin_Asset_Analysis_Worker_Location::get_url()
+	 * @covers WPSEO_Admin_Asset_Analysis_Worker_Location::get_url
 	 */
 	public function test_get_url_with_name() {
 		$custom_file_name = 'custom-name';

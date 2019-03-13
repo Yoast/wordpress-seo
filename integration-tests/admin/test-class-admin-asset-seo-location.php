@@ -13,7 +13,7 @@ final class Test_WPSEO_Admin_Asset_SEO_Location extends PHPUnit_Framework_TestCa
 	/**
 	 * Tests the get_url function.
 	 *
-	 * @covers WPSEO_Admin_Asset_SEO_Location::get_url()
+	 * @covers WPSEO_Admin_Asset_SEO_Location::get_url
 	 */
 	public function test_get_url() {
 		$asset_args = array(

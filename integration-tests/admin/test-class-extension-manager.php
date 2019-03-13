@@ -29,7 +29,7 @@ class WPSEO_Extension_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the scenario when no active extensions are loaded.
 	 *
-	 * @covers WPSEO_Extension_Manager::is_activated()
+	 * @covers WPSEO_Extension_Manager::is_activated
 	 */
 	public function test_has_no_active_extensions_loaded() {
 		$extension_manager = $this
@@ -53,7 +53,7 @@ class WPSEO_Extension_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the scenario when no active extensions are loaded and the cache is considered faulty.
 	 *
-	 * @covers WPSEO_Extension_Manager::is_activated()
+	 * @covers WPSEO_Extension_Manager::is_activated
 	 */
 	public function test_has_no_active_extensions_loaded_and_cached_are_faulty() {
 

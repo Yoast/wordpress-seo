@@ -11,7 +11,7 @@
 class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @covers wpseo_replace_vars
+	 * @covers ::wpseo_replace_vars
 	 */
 	public function test_wpseo_replace_vars() {
 

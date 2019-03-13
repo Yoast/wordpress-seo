@@ -102,7 +102,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	/**
 	 * Tests retreiving a meta value.
 	 *
-	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_meta_value()
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_meta_value
 	 */
 	public function test_get_meta_value() {
 		Monkey\Functions\expect( 'update_post_meta' )
@@ -128,7 +128,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	/**
 	 * Tests the robots noindex lookup method.
 	 *
-	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_robots_noindex()
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_robots_noindex
 	 */
 	public function test_get_robots_noindex() {
 		$instance = new Indexable_Post_Double( 1 );
@@ -148,7 +148,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	/**
 	 * Tests if robot options returns the expected type of data.
 	 *
-	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_robots_options()
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_robots_options
 	 */
 	public function test_get_robots_options() {
 		$instance = new Indexable_Post_Double( 1 );
@@ -158,7 +158,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	/**
 	 * Tests retrieval of keyword scrore with keyword being set.
 	 *
-	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_keyword_score()
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_keyword_score
 	 */
 	public function test_get_keyword_score() {
 		$instance = new Indexable_Post_Double( 1 );
@@ -169,7 +169,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	/**
 	 * Tests retrieval of keyword scrore with no keyword being set.
 	 *
-	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_keyword_score()
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_keyword_score
 	 */
 	public function test_get_keyword_score_with_no_keyword() {
 		$instance = new Indexable_Post_Double( 1 );
@@ -180,7 +180,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	/**
 	 * Tests if the meta lookup returns the expected type of data.
 	 *
-	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_indexable_lookup()
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_indexable_lookup
 	 */
 	public function test_get_indexable_lookup() {
 		$instance = new Indexable_Post_Double( 1 );
@@ -190,7 +190,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	/**
 	 * Tests if the meta lookup returns the expected type of data.
 	 *
-	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_indexable_meta_lookup()
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_indexable_meta_lookup
 	 */
 	public function test_get_indexable_meta_lookup() {
 		$instance = new Indexable_Post_Double( 1 );
@@ -200,7 +200,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	/**
 	 * Tests setting the link count for an indexable.
 	 *
-	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::set_link_count()
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::set_link_count
 	 */
 	public function test_set_link_count() {
 		$formatter = $this
@@ -228,7 +228,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	/**
 	 * Tests setting the link count for an indexable.
 	 *
-	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::set_link_count()
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::set_link_count
 	 */
 	public function test_set_link_count_with_thrown_exception() {
 		$formatter = $this
