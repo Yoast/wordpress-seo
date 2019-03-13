@@ -163,13 +163,14 @@ export default class AnalysisWebWorker {
 		this.handleMessage = this.handleMessage.bind( this );
 
 		// Wrap try/catch around actions.
-		this.analyzeRelatedKeywords =
-			wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the related keywords analysis." );
+		this.analyzeRelatedKeywords = wrapTryCatchAroundAction( logger, this.analyze,
+			"An error occurred while running the related keywords analysis." );
 		/*
 		 * Overwrite this.analyze after we use it in this.analyzeRelatedKeywords so that this.analyzeRelatedKeywords
 		 * doesn't use the overwritten version. Therefore, this order shouldn't be changed.
 		 */
-		this.analyze = wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the analysis." );
+		this.analyze = wrapTryCatchAroundAction( logger, this.analyze,
+			"An error occurred while running the analysis." );
 		this.runResearch = wrapTryCatchAroundAction( logger, this.runResearch,
 			"An error occurred after running the '%%name%%' research." );
 	}
@@ -423,13 +424,18 @@ export default class AnalysisWebWorker {
 		return assessor;
 	}
 
-	createSEOTreeAssessor( isCornerstoneContent, isTaxonomyPage, isRelatedKeyphrase = false ) {
-		const assessorConfiguration = {
-			cornerstone: isCornerstoneContent,
-			relatedKeyphrase: isRelatedKeyphrase,
-			taxonomy: isTaxonomyPage,
-		};
-		const assessor = constructSEOAssessor( this._i18n, this._treeResearcher, assessorConfiguration );
+	/**
+	 * Creates an SEO assessor for a tree, based on the given combination of cornerstone, taxonomy and related keyphrase flags.
+	 *
+	 * @param {Object}  assessorConfig                    The assessor configuration.
+	 * @param {boolean} [assessorConfig.relatedKeyphrase] If this assessor is for a related keyphrase, instead of the main one.
+	 * @param {boolean} [assessorConfig.taxonomy]         If this assessor is for a taxonomy page, instead of a regular page.
+	 * @param {boolean} [assessorConfig.cornerstone]      If this assessor is for cornerstone content.
+	 *
+	 * @returns {module:tree/assess.TreeAssessor} The created tree assessor.
+	 */
+	createSEOTreeAssessor( assessorConfig ) {
+		const assessor = constructSEOAssessor( this._i18n, this._treeResearcher, assessorConfig );
 
 		this._registeredAssessments.forEach( ( { name, assessment } ) => {
 			if ( assessor.getAssessment( name ) ) {
@@ -535,8 +541,12 @@ export default class AnalysisWebWorker {
 			this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
 			// Tree assessors
 			const { useCornerstone, useTaxonomy } = this._configuration;
-			this._seoTreeAssessor = this.createSEOTreeAssessor( useCornerstone, useTaxonomy );
-			this._relatedKeywordTreeAssessor = this.createSEOTreeAssessor( useCornerstone, false, true );
+			this._seoTreeAssessor = useTaxonomy
+				? this.createSEOTreeAssessor( { taxonomy: true } )
+				: this.createSEOTreeAssessor( { cornerstone: useCornerstone } );
+			this._relatedKeywordTreeAssessor = this.createSEOTreeAssessor( {
+				cornerstone: useCornerstone, relatedKeyphrase: true,
+			} );
 		}
 
 		// Reset the paper in order to not use the cached results on analyze.
