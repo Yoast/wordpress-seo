@@ -92,6 +92,15 @@ class WPSEO_Admin {
 			$integrations[] = new Yoast_Network_Admin();
 		}
 
+		$this->admin_features = array(
+			'google_search_console' => new WPSEO_GSC(),
+			'dashboard_widget'      => new Yoast_Dashboard_Widget(),
+		);
+
+		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
+			$this->admin_features['primary_category'] = new WPSEO_Primary_Term_Admin();
+		}
+
 		$integrations[] = new WPSEO_Yoast_Columns();
 		$integrations[] = new WPSEO_License_Page_Manager();
 		$integrations[] = new WPSEO_Statistic_Integration();
@@ -103,20 +112,12 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_MyYoast_Route();
 		$integrations[] = new WPSEO_Addon_Manager();
 
-		$this->admin_features = array();
-
-		if ( is_admin() ) {
-			$integrations[] = new WPSEO_GSC();
-			$this->admin_features['google_search_console'] = end( $integrations );
-
-			$integrations[] = new Yoast_Dashboard_Widget();
-			$this->admin_features['dashboard_widget'] = end( $integrations );
-
-			$integrations[] = new WPSEO_Primary_Term_Admin();
-			$this->admin_features['primary_category'] = end( $integrations );
-		}
-
-		$integrations   = array_merge( $integrations, $this->initialize_seo_links(), $this->initialize_cornerstone_content() );
+		$integrations = array_merge(
+			$integrations,
+			$this->get_admin_features(),
+			$this->initialize_seo_links(),
+			$this->initialize_cornerstone_content()
+		);
 
 		/** @var WPSEO_WordPress_Integration $integration */
 		foreach ( $integrations as $integration ) {
