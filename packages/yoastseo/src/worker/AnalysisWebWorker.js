@@ -140,17 +140,7 @@ export default class AnalysisWebWorker {
 		// Set up everything for the analysis on the tree.
 		this.setupTreeAnalysis();
 
-		// Bind actions to this scope.
-		this.analyze = this.analyze.bind( this );
-		this.analyzeDone = this.analyzeDone.bind( this );
-		this.analyzeRelatedKeywordsDone = this.analyzeRelatedKeywordsDone.bind( this );
-		this.loadScript = this.loadScript.bind( this );
-		this.loadScriptDone = this.loadScriptDone.bind( this );
-		this.customMessage = this.customMessage.bind( this );
-		this.customMessageDone = this.customMessageDone.bind( this );
-		this.clearCache = this.clearCache.bind( this );
-		this.runResearch = this.runResearch.bind( this );
-		this.runResearchDone = this.runResearchDone.bind( this );
+		this.bindActions();
 
 		this.assessRelatedKeywords = this.assessRelatedKeywords.bind( this );
 
@@ -173,6 +163,25 @@ export default class AnalysisWebWorker {
 			"An error occurred while running the analysis." );
 		this.runResearch = wrapTryCatchAroundAction( logger, this.runResearch,
 			"An error occurred after running the '%%name%%' research." );
+	}
+
+	/**
+	 * Binds actions to this scope.
+	 *
+	 * @returns {void}
+	 */
+	bindActions() {
+		// Bind actions to this scope.
+		this.analyze = this.analyze.bind( this );
+		this.analyzeDone = this.analyzeDone.bind( this );
+		this.analyzeRelatedKeywordsDone = this.analyzeRelatedKeywordsDone.bind( this );
+		this.loadScript = this.loadScript.bind( this );
+		this.loadScriptDone = this.loadScriptDone.bind( this );
+		this.customMessage = this.customMessage.bind( this );
+		this.customMessageDone = this.customMessageDone.bind( this );
+		this.clearCache = this.clearCache.bind( this );
+		this.runResearch = this.runResearch.bind( this );
+		this.runResearchDone = this.runResearchDone.bind( this );
 	}
 
 	/**
