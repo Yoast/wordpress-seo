@@ -127,7 +127,7 @@ Bugfixes:
 * Fixes a bug where a PHP notice would be written to `debug.log` when adding a new site to a WordPress 5.1 multisite installation.
 
 Other:
-* Removal of functionality that has been deprecated before Yoast SEO 6.1.
+* Removes all functionality that has been deprecated before Yoast SEO 6.1.
 
 = 10.0.0 =
 Release Date: March 12th, 2019
