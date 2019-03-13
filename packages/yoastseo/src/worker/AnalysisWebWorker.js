@@ -152,6 +152,8 @@ export default class AnalysisWebWorker {
 		this.runResearch = this.runResearch.bind( this );
 		this.runResearchDone = this.runResearchDone.bind( this );
 
+		this.assessRelatedKeywords = this.assessRelatedKeywords.bind( this );
+
 		// Bind register functions to this scope.
 		this.registerAssessment = this.registerAssessment.bind( this );
 		this.registerMessageHandler = this.registerMessageHandler.bind( this );
@@ -745,36 +747,11 @@ export default class AnalysisWebWorker {
 					scoreAggregator: this._seoScoreAggregator,
 				} );
 
-				// Start an analysis for every related keyword.
-				const requestedRelatedKeywordKeys = [ "" ];
-
-				// Get the key for each related keyphrase.
-				const keyphraseKeys = Object.keys( relatedKeywords );
+				// Get the related keyphrase keys (one for each keyphrase).
+				const requestedRelatedKeywordKeys = Object.keys( relatedKeywords );
 
 				// Analyze the SEO for each related keyphrase and wait for the results.
-				const relatedKeyphraseResults = await Promise.all( keyphraseKeys.map( key => {
-					requestedRelatedKeywordKeys.push( key );
-
-					this._relatedKeywords[ key ] = relatedKeywords[ key ];
-
-					const relatedPaper = Paper.parse( {
-						...this._paper.serialize(),
-						keyword: this._relatedKeywords[ key ].keyword,
-						synonyms: this._relatedKeywords[ key ].synonyms,
-					} );
-
-					// Which combination of (tree) assessors and score aggregator to use.
-					const analysisCombination = {
-						oldAssessor: this._relatedKeywordAssessor,
-						treeAssessor: this._relatedKeywordTreeAssessor,
-						scoreAggregator: this._seoScoreAggregator,
-					};
-
-					// We need to remember the key, since the SEO results are stored in an object, not an array.
-					return this.assess( relatedPaper, this._tree, analysisCombination ).then(
-						results => ( { key: key, results: results } )
-					);
-				} ) );
+				const relatedKeyphraseResults = await this.assessRelatedKeywords( paper, this._tree, relatedKeywords );
 
 				// Put the related keyphrase results on the SEO results, under the right key.
 				relatedKeyphraseResults.forEach( result => {
@@ -839,6 +816,42 @@ export default class AnalysisWebWorker {
 			results: results,
 			score: score,
 		};
+	}
+
+	/**
+	 * Assesses the SEO of a paper and tree combination on the given related keyphrases and their synonyms.
+	 *
+	 * The old assessor as well as the new tree assessor are used and their results are combined.
+	 *
+	 * @param {Paper}                 paper           The paper to analyze.
+	 * @param {module:tree/structure} tree            The tree to analyze.
+	 * @param {Object}                relatedKeywords The related keyphrases to use in the analysis.
+	 *
+	 * @returns {Promise<[{results: {score: number, results: AssessmentResult[]}, key: string}]>} The results, one for each keyphrase.
+	 */
+	async assessRelatedKeywords( paper, tree, relatedKeywords ) {
+		const keywordKeys = Object.keys( relatedKeywords );
+		return await Promise.all( keywordKeys.map( key => {
+			this._relatedKeywords[ key ] = relatedKeywords[ key ];
+
+			const relatedPaper = Paper.parse( {
+				...paper.serialize(),
+				keyword: this._relatedKeywords[ key ].keyword,
+				synonyms: this._relatedKeywords[ key ].synonyms,
+			} );
+
+			// Which combination of (tree) assessors and score aggregator to use.
+			const analysisCombination = {
+				oldAssessor: this._relatedKeywordAssessor,
+				treeAssessor: this._relatedKeywordTreeAssessor,
+				scoreAggregator: this._seoScoreAggregator,
+			};
+
+			// We need to remember the key, since the SEO results are stored in an object, not an array.
+			return this.assess( relatedPaper, tree, analysisCombination ).then(
+				results => ( { key: key, results: results } )
+			);
+		} ) );
 	}
 
 	/**
