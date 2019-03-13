@@ -156,7 +156,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 				case 'twitter_site':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$twitter_id = sanitize_text_field( ltrim( $dirty[ $key ], '@' ) );
-						/**
+
+						/*
 						 * From the Twitter documentation about twitter screen names:
 						 * Typically a maximum of 15 characters long, but some historical accounts
 						 * may exist with longer names.
