@@ -17,7 +17,11 @@ describe( "FacebookDescription", () => {
 
 	it( "strips any HTML in the description", () => {
 		const component = renderer.create(
-			<FacebookDescription description="<h1>Cornerstone content is one of the most <strong>important</strong> building blocks of your site.</h1>" />
+			<FacebookDescription
+				description={
+					"<h1>Cornerstone content is one of the most <strong>important</strong> building blocks of your site.</h1>"
+				}
+			/>
 		);
 
 		const tree = component.toJSON();

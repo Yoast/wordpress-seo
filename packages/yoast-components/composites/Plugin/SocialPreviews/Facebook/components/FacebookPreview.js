@@ -19,7 +19,7 @@ const FacebookPreview = ( props ) => {
 		<Fragment>
 			<FacebookImage src={ props.src } alt={ props.alt } />
 			<FacebookSiteName siteName={ props.siteName } />
-			<FacebookDescription description={ props.description }/>
+			<FacebookDescription description={ props.description } />
 		</Fragment>
 	);
 };

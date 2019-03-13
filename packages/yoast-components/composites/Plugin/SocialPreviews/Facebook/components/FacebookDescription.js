@@ -24,7 +24,9 @@ const FacebookDescriptionWrapper = styled.p`
  */
 const FacebookDescription = ( props ) => {
 	let description = string.stripHTMLTags( props.description );
-	if ( description.length === 0 ) description = "Modify your Facebook description by editing it right here";
+	if ( description.length === 0 ) {
+		description = "Modify your Facebook description by editing it right here";
+	}
 
 	return (
 		<FacebookDescriptionWrapper>
