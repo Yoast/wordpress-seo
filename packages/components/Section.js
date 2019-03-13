@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Heading from "../yoast-components/composites/basic/Heading";
+import Heading from "./Heading";
 
 /**
  * Creates a HTML section element with an optional heading.

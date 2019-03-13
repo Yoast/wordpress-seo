@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import Section from "../Section";
-import Heading from "../../yoast-components/composites/basic/Heading";
+import Heading from "../Heading";
 import colors from "../../yoast-components/style-guide/colors.json";
 import { rgba } from "../../yoast-components/style-guide/helpers";
 import SvgIcon from "../../yoast-components/composites/Plugin/Shared/components/SvgIcon";

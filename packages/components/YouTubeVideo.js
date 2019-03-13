@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import IFrame from "../../composites/basic/IFrame";
+import IFrame from "./IFrame";
 
 /* Responsive videos. */
 /* Other common aspect ratios: 75% = 4:3, 66.66% = 3:2, 62.5% = 8:5 */
