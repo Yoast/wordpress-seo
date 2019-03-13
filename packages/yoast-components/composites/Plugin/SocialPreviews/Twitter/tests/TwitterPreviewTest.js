@@ -8,7 +8,10 @@ import TwitterPreview from "../components/TwitterPreview";
 describe( "TwitterPreview", () => {
 	it( "matches the snapshot", () => {
 		const component = renderer.create(
-			<TwitterPreview title="YoastCon Workshops &bull; Yoast" />
+			<TwitterPreview
+				title="YoastCon Workshops &bull; Yoast"
+				siteName="yoast.com"
+			/>
 		);
 
 		const tree = component.toJSON();

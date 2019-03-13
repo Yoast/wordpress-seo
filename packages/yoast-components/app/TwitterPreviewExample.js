@@ -12,7 +12,10 @@ const TwitterPreviewExample = () => {
 	return (
 		<ExamplesContainer backgroundColor="transparent">
 			<h2>TwitterPreview</h2>
-			<TwitterPreview title="YoastCon Workshops &bull; Yoast" />
+			<TwitterPreview
+				title="YoastCon Workshops &bull; Yoast"
+				siteName="yoast.com"
+			/>
 		</ExamplesContainer>
 	);
 };

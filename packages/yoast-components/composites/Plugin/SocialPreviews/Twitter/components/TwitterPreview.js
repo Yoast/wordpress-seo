@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 /* Internal dependencies */
 import TwitterTitle from "./TwitterTitle";
+import TwitterSiteName from "./TwitterSiteName";
 
 /**
  * Renders a TwitterPreview component.
@@ -16,15 +17,14 @@ const TwitterPreview = ( props ) => {
 	return (
 		<Fragment>
 			<TwitterTitle title={ props.title } />
+			<TwitterSiteName siteName={ props.siteName } />
 		</Fragment>
 	);
 };
 
 TwitterPreview.propTypes = {
 	title: PropTypes.string.isRequired,
-};
-
-TwitterPreview.defaultProps = {
+	siteName: PropTypes.string.isRequired,
 };
 
 export default TwitterPreview;
