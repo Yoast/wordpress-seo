@@ -447,8 +447,8 @@ export default class AnalysisWebWorker {
 		const assessor = constructSEOAssessor( this._i18n, this._treeResearcher, assessorConfig );
 
 		this._registeredAssessments.forEach( ( { name, assessment } ) => {
-			if ( assessor.getAssessment( name ) ) {
-				assessor.addAssessment( name, assessment );
+			if ( ! assessor.getAssessment( name ) ) {
+				assessor.registerAssessment( name, assessment );
 			}
 		} );
 

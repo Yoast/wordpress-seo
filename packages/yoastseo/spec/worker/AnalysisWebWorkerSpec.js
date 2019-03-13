@@ -7,6 +7,7 @@ import Paper from "../../src/values/Paper";
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 import testTexts from "../fullTextTests/testTexts";
 import getMorphologyData from "../specHelpers/getMorphologyData";
+import TestAssessment from "../specHelpers/tree/TestAssessment";
 
 
 const morphologyData = getMorphologyData( "en" );
@@ -1497,6 +1498,21 @@ describe( "AnalysisWebWorker", () => {
 		test( "returns false when the keyword and synonyms are the same", () => {
 			worker._relatedKeywords[ key ] = { keyword, synonyms };
 			expect( worker.shouldSeoUpdate( key, { keyword, synonyms } ) ).toBe( false );
+		} );
+	} );
+
+	describe( "createSEOTreeAssessor", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope );
+		} );
+
+		it( "creates an SEO assessor and adds the registered assessments to it", () => {
+			const assessment = new TestAssessment( true, 2, "test assessment", null );
+			worker.registerAssessment( "An assessment", assessment, "test-plugin" );
+			const assessor = worker.createSEOTreeAssessor( {} );
+
+			expect( assessor.getAssessments() ).toEqual( [ assessment ] );
 		} );
 	} );
 } );
