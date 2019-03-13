@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { string } from "yoastseo";
 
 const FacebookDescriptionWrapper = styled.p`
     color: #606770;
@@ -23,26 +22,15 @@ const FacebookDescriptionWrapper = styled.p`
  * @returns {React.Element} The rendered element.
  */
 const FacebookDescription = ( props ) => {
-	const description = string.stripHTMLTags( props.description );
-
-	// Do not render when there is no description.
-	if ( description.length === 0 ) {
-		return null;
-	}
-
 	return (
 		<FacebookDescriptionWrapper>
-			{ description }
+			{ props.description }
 		</FacebookDescriptionWrapper>
 	);
 };
 
 FacebookDescription.propTypes = {
-	description: PropTypes.string,
-};
-
-FacebookDescription.defaultProps = {
-	description: "",
+	description: PropTypes.string.isRequired,
 };
 
 export default FacebookDescription;

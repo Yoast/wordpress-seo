@@ -14,36 +14,4 @@ describe( "FacebookDescription", () => {
 		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
-
-	it( "strips any HTML in the description", () => {
-		const component = renderer.create(
-			<FacebookDescription
-				description={
-					"<h1>Cornerstone content is one of the most <strong>important</strong> building blocks of your site.</h1>"
-				}
-			/>
-		);
-
-		const tree = component.toJSON();
-		expect( tree.children.length ).toEqual( 1 );
-		expect( tree.children[ 0 ] ).toEqual( "Cornerstone content is one of the most important building blocks of your site." );
-	} );
-
-	it( "does not render anything when the description is empty", () => {
-		const component = renderer.create(
-			<FacebookDescription description="" />
-		);
-
-		const tree = component.toJSON();
-		expect( tree ).toBeNull();
-	} );
-
-	it( "does not render anything when the description is empty, ignoring any HTML", () => {
-		const component = renderer.create(
-			<FacebookDescription description="<div></div>" />
-		);
-
-		const tree = component.toJSON();
-		expect( tree ).toBeNull();
-	} );
 } );
