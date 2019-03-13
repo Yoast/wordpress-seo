@@ -24,4 +24,24 @@ describe( "FacebookDescription", () => {
 		expect( tree.children.length ).toEqual( 1 );
 		expect( tree.children[ 0 ] ).toEqual( "Cornerstone content is one of the most important building blocks of your site." );
 	} );
+
+	it( "renders the fallback string when the description is empty", () => {
+		const component = renderer.create(
+			<FacebookDescription description="" />
+		);
+
+		const tree = component.toJSON();
+		expect( tree.children.length ).toEqual( 1 );
+		expect( tree.children[ 0 ] ).toEqual( "Modify your Facebook description by editing it right here" );
+	} );
+
+	it( "renders the fallback string when the description is empty, ignoring any HTML", () => {
+		const component = renderer.create(
+			<FacebookDescription description="<div></div>" />
+		);
+
+		const tree = component.toJSON();
+		expect( tree.children.length ).toEqual( 1 );
+		expect( tree.children[ 0 ] ).toEqual( "Modify your Facebook description by editing it right here" );
+	} );
 } );
