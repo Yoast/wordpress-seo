@@ -20,10 +20,6 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		if ( ! current_user_can( 'manage_categories' ) ) {
-			return;
-		}
-
 		add_filter( 'wpseo_content_meta_section_content', array( $this, 'add_input_fields' ) );
 
 		add_action( 'admin_footer', array( $this, 'wp_footer' ), 10 );
