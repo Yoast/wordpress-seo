@@ -740,6 +740,8 @@ export default class AnalysisWebWorker {
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
 	async analyze( id, { paper, relatedKeywords = {} } ) {
+		// Raw HTML text, to be parsed by the tree builder.
+		const text = paper._text;
 		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
 		paper._text = autop( paper._text );
 		paper._text = string.removeHtmlBlocks( paper._text );
@@ -751,7 +753,7 @@ export default class AnalysisWebWorker {
 			this._researcher.setPaper( this._paper );
 
 			// Build the tree to analyze using the tree assessors.
-			this._tree = buildTree( this._paper.getText() );
+			this._tree = buildTree( text );
 
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
