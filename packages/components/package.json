@@ -1,0 +1,9 @@
+{
+  "name": "components",
+  "version": "1.0.0",
+  "description": "Yoast Components",
+  "main": "inxex.js",
+  "repository": "https://github.com/Yoast",
+  "author": "Yoast",
+  "license": "GPL-3.0"
+}
