@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Input from "../../../../components/Input";
-import Label from "../../../../components/Label";
+import { Input, Label } from "@yoast/components";
 import htmlDecoder from "../helpers/htmlDecoder";
 import Explanation from "./Explanation";
 

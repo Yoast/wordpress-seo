@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import YouTubeVideo from "../../../../components/YouTubeVideo";
+import { YouTubeVideo } from "@yoast/components";
 import colors from "../../../style-guide/colors.json";
 import breakpoints from "../../../style-guide/responsive-breakpoints.json";
 import { makeOutboundLink } from "../../../utils/makeOutboundLink";
