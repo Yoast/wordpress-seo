@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.48.0",
+  "version": "1.49.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/YoastSEO.js"
@@ -19,7 +19,8 @@
     "build": "grunt publish",
     "lint": "grunt check",
     "test": "jest --runInBand",
-    "install-ci": "grunt get-premium-configuration"
+    "install-ci": "grunt get-premium-configuration",
+    "prepublishOnly": "grunt publish"
   },
   "browser": "js/browser.js",
   "engines": {

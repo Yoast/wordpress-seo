@@ -303,4 +303,46 @@ describe( "Test for creating forms for German words", () => {
 			stem: "sau",
 		} );
 	} );
+
+	it( "creates verb and adjective forms if a word was recognized and stemmed as a participle", () => {
+		expect( getForms( "gefärbt", morphologyDataDE ) ).toEqual( {
+			forms: [
+				// The original word.
+				"gefärbt",
+				// Verbal forms.
+				"färbe",
+				"färbt",
+				"färbst",
+				"färben",
+				"färbest",
+				"färbet",
+				"färbte",
+				"färbtet",
+				"färbten",
+				"färbtest",
+				"färbete",
+				"färbetet",
+				"färbeten",
+				"färbetest",
+				"färbend",
+				// Adjectival forms.
+				"gefärbte",
+				"gefärbtem",
+				"gefärbten",
+				"gefärbter",
+				"gefärbtes",
+				"gefärbtere",
+				"gefärbterem",
+				"gefärbteren",
+				"gefärbterer",
+				"gefärbteres",
+				"gefärbteste",
+				"gefärbtestem",
+				"gefärbtesten",
+				"gefärbtester",
+				"gefärbtestes",
+			],
+			stem: "färb",
+		} );
+	} );
 } );

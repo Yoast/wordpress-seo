@@ -5,6 +5,16 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.49.0 March 11th, 2019
+### Added
+* The recalibrated analysis is out of its beta phase and is now the default for the SEO analysis. Thanks for testing and giving us your valuable feedback! You are awesome!
+
+### Fixed
+* Changes the text read out by a screen reader from `Bad SEO score.` to `Needs improvement.` when focused on the SEO score indicator in the menu bar and the traffic light in the snippet preview.
+
+### Changed
+* Props to [Kingdutch](https://github.com/Kingdutch) for helping us to improve our open source content analysis library.
+
 ## 1.48.0 February 25th, 2019
 ### Added
 * Improves the feedback for the assessment that checks the length of the text in cornerstone articles.
