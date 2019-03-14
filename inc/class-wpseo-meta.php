@@ -318,7 +318,7 @@ class WPSEO_Meta {
 	 * @param string $tab       Tab for which to retrieve the field definitions.
 	 * @param string $post_type Post type of the current post.
 	 *
-	 * @return array             Array containing the meta box field definitions
+	 * @return array Array containing the meta box field definitions.
 	 */
 	public static function get_meta_field_defs( $tab, $post_type = 'post' ) {
 		if ( ! isset( self::$meta_fields[ $tab ] ) ) {
@@ -397,7 +397,7 @@ class WPSEO_Meta {
 	 * @param mixed  $meta_value The new value.
 	 * @param string $meta_key   The full meta key (including prefix).
 	 *
-	 * @return string             Validated meta value
+	 * @return string Validated meta value.
 	 */
 	public static function sanitize_post_meta( $meta_value, $meta_key ) {
 		$field_def = self::$meta_fields[ self::$fields_index[ $meta_key ]['subset'] ][ self::$fields_index[ $meta_key ]['key'] ];
@@ -497,7 +497,7 @@ class WPSEO_Meta {
 	 *
 	 * @param array|string $meta_value The value to validate.
 	 *
-	 * @return string       Clean value
+	 * @return string Clean value.
 	 */
 	public static function validate_meta_robots_adv( $meta_value ) {
 		$clean   = self::$meta_fields['advanced']['meta-robots-adv']['default_value'];
@@ -546,7 +546,7 @@ class WPSEO_Meta {
 	 * @param string $meta_value New meta value.
 	 * @param string $prev_value The old meta value.
 	 *
-	 * @return null|bool          true = stop saving, null = continue saving
+	 * @return null|bool True = stop saving, null = continue saving.
 	 */
 	public static function remove_meta_if_default( $check, $object_id, $meta_key, $meta_value, $prev_value = '' ) {
 		/* If it's one of our meta fields, check against default */
@@ -572,7 +572,7 @@ class WPSEO_Meta {
 	 * @param string $meta_key   The full meta key (including prefix).
 	 * @param string $meta_value New meta value.
 	 *
-	 * @return null|bool          true = stop saving, null = continue saving
+	 * @return null|bool True = stop saving, null = continue saving.
 	 */
 	public static function dont_save_meta_if_default( $check, $object_id, $meta_key, $meta_value ) {
 		/* If it's one of our meta fields, check against default */
@@ -606,13 +606,13 @@ class WPSEO_Meta {
 	 * @param string $key    Internal key of the value to get (without prefix).
 	 * @param int    $postid Post ID of the post to get the value for.
 	 *
-	 * @return string         All 'normal' values returned from get_post_meta() are strings.
-	 *                        Objects and arrays are possible, but not used by this plugin
-	 *                        and therefore discarted (except when the special 'serialized' field def
-	 *                        value is set to true - only used by add-on plugins for now).
-	 *                        Will return the default value if no value was found..
-	 *                        Will return empty string if no default was found (not one of our keys) or
-	 *                        if the post does not exist.
+	 * @return string All 'normal' values returned from get_post_meta() are strings.
+	 *                Objects and arrays are possible, but not used by this plugin
+	 *                and therefore discarted (except when the special 'serialized' field def
+	 *                value is set to true - only used by add-on plugins for now).
+	 *                Will return the default value if no value was found.
+	 *                Will return empty string if no default was found (not one of our keys) or
+	 *                if the post does not exist.
 	 */
 	public static function get_value( $key, $postid = 0 ) {
 		global $post;
@@ -663,7 +663,7 @@ class WPSEO_Meta {
 	 * @param mixed  $meta_value The value to set the meta to.
 	 * @param int    $post_id    The ID of the post to change the meta for.
 	 *
-	 * @return bool   whether the value was changed
+	 * @return bool Whether the value was changed.
 	 */
 	public static function set_value( $key, $meta_value, $post_id ) {
 		/*
@@ -1017,8 +1017,8 @@ class WPSEO_Meta {
 	 *
 	 * @param string $key Key of the value to get from $_POST.
 	 *
-	 * @return string      Returns $_POST value, which will be a string the majority of the time
-	 *                     Will return empty string if key does not exists in $_POST
+	 * @return string Returns $_POST value, which will be a string the majority of the time.
+	 *                Will return empty string if key does not exists in $_POST.
 	 */
 	public static function get_post_value( $key ) {
 		_deprecated_function( __METHOD__, 'WPSEO 9.6' );

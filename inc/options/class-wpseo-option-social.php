@@ -11,13 +11,18 @@
 class WPSEO_Option_Social extends WPSEO_Option {
 
 	/**
-	 * @var  string  Option name.
+	 * Option name.
+	 *
+	 * @var string
 	 */
 	public $option_name = 'wpseo_social';
 
 	/**
-	 * @var  array  Array of defaults for the option.
-	 *        Shouldn't be requested directly, use $this->get_defaults();
+	 * Array of defaults for the option.
+	 *
+	 * Shouldn't be requested directly, use $this->get_defaults();
+	 *
+	 * @var array
 	 */
 	protected $defaults = array(
 		// Form fields.
@@ -45,7 +50,9 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	);
 
 	/**
-	 * @var array  Array of sub-options which should not be overloaded with multi-site defaults.
+	 * Array of sub-options which should not be overloaded with multi-site defaults.
+	 *
+	 * @var array
 	 */
 	public $ms_exclude = array(
 		/* Privacy. */
@@ -54,12 +61,15 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	);
 
 	/**
-	 * @var  array  Array of allowed twitter card types.
-	 *              While we only have the options summary and summary_large_image in the
-	 *              interface now, we might change that at some point.
+	 * Array of allowed twitter card types.
+	 *
+	 * While we only have the options summary and summary_large_image in the
+	 * interface now, we might change that at some point.
 	 *
 	 * {@internal Uncomment any of these to allow them in validation *and* automatically
 	 *            add them as a choice in the options page.}}
+	 *
+	 * @var array
 	 */
 	public static $twitter_card_types = array(
 		'summary'             => '',
@@ -101,7 +111,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 * @param array $clean Clean value for the option, normally the defaults.
 	 * @param array $old   Old value of the option.
 	 *
-	 * @return  array      Validated clean value for the option to be saved to the database.
+	 * @return array Validated clean value for the option to be saved to the database.
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
 
@@ -221,7 +231,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 * @param array  $all_old_option_values Optional. Only used when importing old options to have
 	 *                                      access to the real old values, in contrast to the saved ones.
 	 *
-	 * @return  array Cleaned option.
+	 * @return array Cleaned option.
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 

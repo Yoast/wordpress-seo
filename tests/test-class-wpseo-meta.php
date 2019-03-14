@@ -296,7 +296,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 * @param string $key        The key to register.
 	 * @param bool   $serialized If the key is stored as serialized data.
 	 *
-	 * @returns {void}
+	 * @return void
 	 */
 	protected function register_meta_key( $key, $serialized = false ) {
 		WPSEO_Meta::$fields_index[ WPSEO_Meta::$meta_prefix . $key ] = array(

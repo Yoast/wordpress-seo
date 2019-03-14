@@ -11,15 +11,20 @@
 class WPSEO_Option_Titles extends WPSEO_Option {
 
 	/**
-	 * @var  string  Option name.
+	 * Option name.
+	 *
+	 * @var string
 	 */
 	public $option_name = 'wpseo_titles';
 
 	/**
-	 * @var  array  Array of defaults for the option.
-	 *        Shouldn't be requested directly, use $this->get_defaults();
+	 * Array of defaults for the option.
+	 *
+	 * Shouldn't be requested directly, use $this->get_defaults();
 	 *
 	 * {@internal Note: Some of the default values are added via the translate_defaults() method.}}
+	 *
+	 * @var array
 	 */
 	protected $defaults = array(
 		// Non-form fields, set via (ajax) function.
@@ -89,7 +94,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	);
 
 	/**
-	 * @var  array  Array of variable option name patterns for the option.
+	 * Array of variable option name patterns for the option.
+	 *
+	 * @var array
 	 */
 	protected $variable_array_key_patterns = array(
 		'title-',
@@ -103,7 +110,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	);
 
 	/**
-	 * @var array  Array of sub-options which should not be overloaded with multi-site defaults.
+	 * Array of sub-options which should not be overloaded with multi-site defaults.
+	 *
+	 * @var array
 	 */
 	public $ms_exclude = array(
 		/* theme dependent */
@@ -174,7 +183,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	/**
 	 * Get the available separator options aria-labels.
 	 *
-	 * @return array $separator_options Array with the separator options aria-labels.
+	 * @return array Array with the separator options aria-labels.
 	 */
 	public function get_separator_options_for_display() {
 		$separators     = $this->get_separator_options();
@@ -302,7 +311,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @param array $clean Clean value for the option, normally the defaults.
 	 * @param array $old   Old value of the option.
 	 *
-	 * @return  array      Validated clean value for the option to be saved to the database.
+	 * @return array Validated clean value for the option to be saved to the database.
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
 		$allowed_post_types = $this->get_allowed_post_types();
@@ -568,7 +577,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @param array  $all_old_option_values Optional. Only used when importing old options to have
 	 *                                      access to the real old values, in contrast to the saved ones.
 	 *
-	 * @return  array            Cleaned option.
+	 * @return array Cleaned option.
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 		static $original = null;
@@ -760,7 +769,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 *                     have already been removed and any options which weren't set
 	 *                     have been set to their defaults.
 	 *
-	 * @return  array
+	 * @return array
 	 */
 	protected function retain_variable_keys( $dirty, $clean ) {
 		if ( ( is_array( $this->variable_array_key_patterns ) && $this->variable_array_key_patterns !== array() ) && ( is_array( $dirty ) && $dirty !== array() ) ) {

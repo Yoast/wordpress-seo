@@ -217,7 +217,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 * @param array $clean Clean value for the option, normally the defaults.
 	 * @param array $old   Old value of the option.
 	 *
-	 * @return  array      Validated clean value for the option to be saved to the database.
+	 * @return array Validated clean value for the option to be saved to the database.
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
 
@@ -381,7 +381,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 * @param array  $all_old_option_values Optional. Only used when importing old options to have
 	 *                                      access to the real old values, in contrast to the saved ones.
 	 *
-	 * @return  array            Cleaned option.
+	 * @return array Cleaned option.
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 		return $option_value;

@@ -10,7 +10,11 @@
  */
 class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 
-	/** @var WPSEO_Configuration_Service instance */
+	/**
+	 * Instance.
+	 *
+	 * @var WPSEO_Configuration_Service
+	 */
 	protected $configuration_service;
 
 	/**
@@ -167,7 +171,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 		$data = new WP_REST_Request();
 		$data->set_header( 'content-type', 'application/json' );
 
-		$data->set_body( json_encode( $expected ) );
+		$data->set_body( wp_json_encode( $expected ) );
 
 		$storage
 			->expects( $this->once() )
