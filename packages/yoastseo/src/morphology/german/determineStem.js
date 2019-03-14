@@ -113,28 +113,13 @@ const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord )
 export function determineStem( word, morphologyDataGerman ) {
 	const stemmedWord = stem( word );
 
-	const nounException = findStemOnNounExceptionList( morphologyDataGerman.nouns, stemmedWord );
-
-	if ( nounException ) {
-		return nounException;
-	}
-
-	const adjectiveException = findStemOnAdjectiveExceptionList( morphologyDataGerman.adjectives, stemmedWord );
-
-	if ( adjectiveException ) {
-		return adjectiveException;
-	}
-
-	const verbException = findStemOnVerbExceptionList( morphologyDataGerman.verbs, stemmedWord );
-
-	if ( verbException ) {
-		return verbException;
-	}
-
-	const stemmedParticiple = detectAndStemRegularParticiple( morphologyDataGerman.verbs, word );
-
-	if ( stemmedParticiple ) {
-		return stemmedParticiple;
-	}
-	return stemmedWord;
+	/*
+	 * Goes through the stem exception functions from left to right, returns the first stem it finds.
+	 * If no stem has been found, return the original, programmatically created, stem.
+	 */
+	return findStemOnNounExceptionList( morphologyDataGerman.nouns, stemmedWord ) ||
+		findStemOnAdjectiveExceptionList( morphologyDataGerman.adjectives, stemmedWord ) ||
+		findStemOnVerbExceptionList( morphologyDataGerman.verbs, stemmedWord ) ||
+		detectAndStemRegularParticiple( morphologyDataGerman.verbs, word ) ||
+		stemmedWord;
 }
