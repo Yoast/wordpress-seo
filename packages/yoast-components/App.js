@@ -16,6 +16,7 @@ import UIControlsWrapper from "./app/UIControlsWrapper";
 import Wizard from "./app/WizardWrapper";
 import Loader from "./composites/basic/Loader";
 import FacebookPreviewExample from "./app/FacebookPreviewExample";
+import TwitterPreviewExample from "./app/TwitterPreviewExample";
 
 const components = [
 	{
@@ -87,6 +88,11 @@ const components = [
 		id: "facebookpreview-example",
 		name: "FacebookPreview",
 		component: <FacebookPreviewExample />,
+	},
+	{
+		id: "twitterpreview-example",
+		name: "TwitterPreview",
+		component: <TwitterPreviewExample />,
 	},
 ];
 
