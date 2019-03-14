@@ -1,15 +1,16 @@
+/* External imports */
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { defineMessages, injectIntl, intlShape } from "react-intl";
+import { YoastButton, SvgIcon, colors } from "yoast-components";
 
-import ArticleContent from "./ArticleContent";
-import { YoastButton } from "yoast-components/composites/Plugin/Shared/components/YoastButton";
 import { YoastLinkButton } from "yoast-components/composites/Plugin/Shared/components/YoastLinkButton";
-import SvgIcon from "yoast-components/composites/Plugin/Shared/components/SvgIcon";
 import { makeOutboundLink } from "yoast-components/utils/makeOutboundLink";
 import breakpoints from "yoast-components/style-guide/responsive-breakpoints.json";
-import colors from "yoast-components/style-guide/colors.json";
+
+/* Internal imports */
+import ArticleContent from "./ArticleContent";
 
 const messages = defineMessages( {
 	searchResult: {

@@ -4,10 +4,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import debounce from "lodash/debounce";
 import { __ } from "@wordpress/i18n";
-
-/* Internal dependencies */
-import colors from "yoast-components/style-guide/colors.json";
-import { YoastButton } from "yoast-components/composites/Plugin/Shared/components/YoastButton";
+import { colors, YoastButton } from "yoast-components";
 import breakpoints from "yoast-components/style-guide/responsive-breakpoints.json";
 
 const SearchBarWrapper = styled.div`
