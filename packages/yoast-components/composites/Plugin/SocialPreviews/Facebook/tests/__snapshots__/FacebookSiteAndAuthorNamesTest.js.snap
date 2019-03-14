@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FacebookSiteAndAuthorNames matches the snapshot by default 1`] = `
+.c1 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.c3 {
+  color: #3b5998;
+  font-size: 12px;
+  line-height: 11px;
+  position: relative;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  cursor: auto;
+}
+
+.c0 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.c2 {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+<p
+  className="c0"
+>
+  <span
+    className="c1"
+  >
+    sitename.com
+  </span>
+  <span
+    className="c2"
+  >
+    |
+  </span>
+  By
+   
+  <span
+    className="c3"
+  >
+    John Doe
+  </span>
+</p>
+`;
