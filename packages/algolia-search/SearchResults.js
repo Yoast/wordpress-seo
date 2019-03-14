@@ -6,9 +6,9 @@ import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
 
 /* Internal dependencies */
-import { ZebrafiedListTable } from "../basic/Table/ListTable";
-import { Row } from "../basic/Table/Row";
-import colors from "../../style-guide/colors.json";
+import { ZebrafiedListTable } from "yoast-components/composites/basic/Table/ListTable";
+import { Row } from "yoast-components/composites/basic/Table/Row";
+import colors from "yoast-components/style-guide/colors.json";
 
 /**
  * The title of the search result item.

@@ -1,5 +1,6 @@
 import React from "react";
-import IFrame from "../basic/IFrame";
+
+import IFrame from "yoast-components/composites/basic/IFrame";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 

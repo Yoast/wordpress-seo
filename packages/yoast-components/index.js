@@ -6,8 +6,7 @@ import { default as OnboardingWizard } from "./composites/OnboardingWizard/Onboa
 import { default as MessageBox } from "./composites/OnboardingWizard/MessageBox";
 import { default as LoadingIndicator } from "./composites/OnboardingWizard/LoadingIndicator";
 import { default as sendRequest } from "./composites/OnboardingWizard/helpers/ajaxHelper";
-// Composites/AngoliaSearch imports.
-import { default as AlgoliaSearcher } from "./composites/AlgoliaSearch/AlgoliaSearcher";
+
 // Composites/Plugin imports.
 import { default as ScoreAssessments } from "./composites/Plugin/Shared/components/ScoreAssessments";
 import { default as Collapsible } from "./composites/Plugin/Shared/components/Collapsible";
@@ -36,7 +35,6 @@ import { default as CardDetails } from "./composites/CoursesOverview/CardDetails
 
 export {
 	OnboardingWizard,
-	AlgoliaSearcher,
 	HelpCenter,
 	MessageBox,
 	LinkSuggestions,

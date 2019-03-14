@@ -4,12 +4,12 @@ import styled from "styled-components";
 import { defineMessages, injectIntl, intlShape } from "react-intl";
 
 import ArticleContent from "./ArticleContent";
-import { YoastButton } from "../Plugin/Shared/components/YoastButton";
-import { YoastLinkButton } from "../Plugin/Shared/components/YoastLinkButton";
-import SvgIcon from "../Plugin/Shared/components/SvgIcon";
-import { makeOutboundLink } from "../../utils/makeOutboundLink";
-import breakpoints from "../../style-guide/responsive-breakpoints.json";
-import colors from "../../style-guide/colors.json";
+import { YoastButton } from "yoast-components/composites/Plugin/Shared/components/YoastButton";
+import { YoastLinkButton } from "yoast-components/composites/Plugin/Shared/components/YoastLinkButton";
+import SvgIcon from "yoast-components/composites/Plugin/Shared/components/SvgIcon";
+import { makeOutboundLink } from "yoast-components/utils/makeOutboundLink";
+import breakpoints from "yoast-components/style-guide/responsive-breakpoints.json";
+import colors from "yoast-components/style-guide/colors.json";
 
 const messages = defineMessages( {
 	searchResult: {

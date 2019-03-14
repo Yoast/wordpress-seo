@@ -1,6 +1,6 @@
 import React from "react";
 
-import { createComponentWithIntl } from "../../../utils/intlProvider";
+import { createComponentWithIntl } from "yoast-components/utils/intlProvider";
 import SearchResults from "../SearchResults.js";
 
 const post = { permalink: "https://kb.yoast.com/kb/passive-voice/", postTitle: "Post Title", objectID: 1 };
