@@ -413,7 +413,7 @@ abstract class WPSEO_Option {
 	 *
 	 * This method should *not* be called directly!!! It is only meant to filter the get_option() results.
 	 *
-	 * @param   mixed $options Option value.
+	 * @param mixed $options Option value.
 	 *
 	 * @return mixed Option merged with the defaults for that option.
 	 */
@@ -461,7 +461,7 @@ abstract class WPSEO_Option {
 	/**
 	 * Validate the option
 	 *
-	 * @param  mixed $option_value The unvalidated new value for the option.
+	 * @param mixed $option_value The unvalidated new value for the option.
 	 *
 	 * @return array Validated new value for the option.
 	 */
@@ -519,9 +519,9 @@ abstract class WPSEO_Option {
 	 * All concrete classes must contain a validate_option() method which validates all
 	 * values within the option.
 	 *
-	 * @param  array $dirty New value for the option.
-	 * @param  array $clean Clean value for the option, normally the defaults.
-	 * @param  array $old   Old value of the option.
+	 * @param array $dirty New value for the option.
+	 * @param array $clean Clean value for the option, normally the defaults.
+	 * @param array $old   Old value of the option.
 	 */
 	abstract protected function validate_option( $dirty, $clean, $old );
 
@@ -602,7 +602,8 @@ abstract class WPSEO_Option {
 	 * @uses WPSEO_Option::get_original_option()
 	 * @uses WPSEO_Option::import()
 	 *
-	 * @param  string $current_version Optional. Version from which to upgrade, if not set, version specific upgrades will be disregarded.
+	 * @param string $current_version Optional. Version from which to upgrade, if not set,
+	 *                                version specific upgrades will be disregarded.
 	 *
 	 * @return void
 	 */
@@ -625,9 +626,12 @@ abstract class WPSEO_Option {
 	 *    once the admin has dismissed the message (add ajax function)
 	 * Important: all validation routines which add_settings_errors would need to be changed for this to work
 	 *
-	 * @param  array  $option_value          Option value to be imported.
-	 * @param  string $current_version       Optional. Version from which to upgrade, if not set, version specific upgrades will be disregarded.
-	 * @param  array  $all_old_option_values Optional. Only used when importing old options to have access to the real old values, in contrast to the saved ones.
+	 * @param array  $option_value          Option value to be imported.
+	 * @param string $current_version       Optional. Version from which to upgrade, if not set,
+	 *                                      version specific upgrades will be disregarded.
+	 * @param array  $all_old_option_values Optional. Only used when importing old options to
+	 *                                      have access to the real old values, in contrast to
+	 *                                      the saved ones.
 	 *
 	 * @return void
 	 */
@@ -674,7 +678,8 @@ abstract class WPSEO_Option {
 	 * @todo [JRF] - shouldn't this be a straight array merge ? at the end of the day, the validation
 	 * removes any invalid keys on save.
 	 *
-	 * @param  array $options Optional. Current options. If not set, the option defaults for the $option_key will be returned.
+	 * @param array $options Optional. Current options. If not set, the option defaults
+	 *                       for the $option_key will be returned.
 	 *
 	 * @return array Combined and filtered options array.
 	 */
@@ -756,10 +761,10 @@ abstract class WPSEO_Option {
 	 * {@internal The wpseo_titles concrete class overrules this method. Make sure that any
 	 *            changes applied here, also get ported to that version.}}
 	 *
-	 * @param  array $dirty Original option as retrieved from the database.
-	 * @param  array $clean Filtered option where any options which shouldn't be in our option
-	 *                      have already been removed and any options which weren't set
-	 *                      have been set to their defaults.
+	 * @param array $dirty Original option as retrieved from the database.
+	 * @param array $clean Filtered option where any options which shouldn't be in our option
+	 *                     have already been removed and any options which weren't set
+	 *                     have been set to their defaults.
 	 *
 	 * @return array
 	 */
@@ -790,7 +795,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @usedby validate_option() methods for options with variable array keys.
 	 *
-	 * @param  string $key Array key to check.
+	 * @param string $key Array key to check.
 	 *
 	 * @return string Pattern if it conforms, original array key if it doesn't or if the option
 	 *                does not have variable array keys.

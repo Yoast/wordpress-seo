@@ -133,7 +133,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 	/**
 	 * Checks whether a dependency is available.
 	 *
-	 * @param {string} $dependency The dependency to look for.
+	 * @param string $dependency The dependency to look for.
 	 *
 	 * @return bool Whether or not the dependency is available.
 	 */

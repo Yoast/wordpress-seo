@@ -84,7 +84,7 @@ class WPSEO_Options {
 	/**
 	 * Get the group name of an option for use in the settings form.
 	 *
-	 * @param  string $option_name The option for which you want to retrieve the option group name.
+	 * @param string $option_name The option for which you want to retrieve the option group name.
 	 *
 	 * @return string|bool
 	 */
@@ -99,8 +99,8 @@ class WPSEO_Options {
 	/**
 	 * Get a specific default value for an option.
 	 *
-	 * @param  string $option_name The option for which you want to retrieve a default.
-	 * @param  string $key         The key within the option who's default you want.
+	 * @param string $option_name The option for which you want to retrieve a default.
+	 * @param string $key         The key within the option who's default you want.
 	 *
 	 * @return mixed
 	 */
@@ -118,8 +118,8 @@ class WPSEO_Options {
 	/**
 	 * Update a site_option.
 	 *
-	 * @param  string $option_name The option name of the option to save.
-	 * @param  mixed  $value       The new value for the option.
+	 * @param string $option_name The option name of the option to save.
+	 * @param mixed  $value       The new value for the option.
 	 *
 	 * @return bool
 	 */
@@ -134,7 +134,7 @@ class WPSEO_Options {
 	/**
 	 * Get the instantiated option instance.
 	 *
-	 * @param  string $option_name The option for which you want to retrieve the instance.
+	 * @param string $option_name The option for which you want to retrieve the instance.
 	 *
 	 * @return object|bool
 	 */
@@ -289,11 +289,11 @@ class WPSEO_Options {
 	/**
 	 * Run the clean up routine for one or all options.
 	 *
-	 * @param  array|string $option_name     Optional. the option you want to clean or an array of
-	 *                                       option names for the options you want to clean.
-	 *                                       If not set, all options will be cleaned.
-	 * @param  string       $current_version Optional. Version from which to upgrade, if not set,
-	 *                                       version specific upgrades will be disregarded.
+	 * @param array|string $option_name     Optional. the option you want to clean or an array of
+	 *                                      option names for the options you want to clean.
+	 *                                      If not set, all options will be cleaned.
+	 * @param string       $current_version Optional. Version from which to upgrade, if not set,
+	 *                                      version specific upgrades will be disregarded.
 	 *
 	 * @return void
 	 */
@@ -372,7 +372,7 @@ class WPSEO_Options {
 	/**
 	 * Initialize default values for a new multisite blog.
 	 *
-	 * @param  bool $force_init Whether to always do the initialization routine (title/desc test).
+	 * @param bool $force_init Whether to always do the initialization routine (title/desc test).
 	 *
 	 * @return void
 	 */
@@ -394,7 +394,7 @@ class WPSEO_Options {
 	 * Reset all options for a specific multisite blog to their default values based upon a
 	 * specified default blog if one was chosen on the network page or the plugin defaults if it was not.
 	 *
-	 * @param  int|string $blog_id Blog id of the blog for which to reset the options.
+	 * @param int|string $blog_id Blog id of the blog for which to reset the options.
 	 *
 	 * @return void
 	 */
@@ -436,7 +436,7 @@ class WPSEO_Options {
 	 *
 	 * @param string $wpseo_options_group_name The name for the wpseo option group in the database.
 	 * @param string $option_name              The name for the option to set.
-	 * @param *      $option_value             The value for the option.
+	 * @param mixed  $option_value             The value for the option.
 	 *
 	 * @return boolean Returns true if the option is successfully saved in the database.
 	 */

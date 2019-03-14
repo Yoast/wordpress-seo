@@ -307,9 +307,9 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	/**
 	 * Validate the option.
 	 *
-	 * @param  array $dirty New value for the option.
-	 * @param  array $clean Clean value for the option, normally the defaults.
-	 * @param  array $old   Old value of the option.
+	 * @param array $dirty New value for the option.
+	 * @param array $clean Clean value for the option, normally the defaults.
+	 * @param array $old   Old value of the option.
 	 *
 	 * @return array Validated clean value for the option to be saved to the database.
 	 */
@@ -570,12 +570,12 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	/**
 	 * Clean a given option value.
 	 *
-	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
-	 *                                       clean according to the rules for this option.
-	 * @param  string $current_version       Optional. Version from which to upgrade, if not set,
-	 *                                       version specific upgrades will be disregarded.
-	 * @param  array  $all_old_option_values Optional. Only used when importing old options to have
-	 *                                       access to the real old values, in contrast to the saved ones.
+	 * @param array  $option_value          Old (not merged with defaults or filtered) option value to
+	 *                                      clean according to the rules for this option.
+	 * @param string $current_version       Optional. Version from which to upgrade, if not set,
+	 *                                      version specific upgrades will be disregarded.
+	 * @param array  $all_old_option_values Optional. Only used when importing old options to have
+	 *                                      access to the real old values, in contrast to the saved ones.
 	 *
 	 * @return array Cleaned option.
 	 */
@@ -764,10 +764,10 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 *            variable key does not get removed. IMPORTANT: keep this method in line with
 	 *            the parent on which it is based!}}
 	 *
-	 * @param  array $dirty Original option as retrieved from the database.
-	 * @param  array $clean Filtered option where any options which shouldn't be in our option
-	 *                      have already been removed and any options which weren't set
-	 *                      have been set to their defaults.
+	 * @param array $dirty Original option as retrieved from the database.
+	 * @param array $clean Filtered option where any options which shouldn't be in our option
+	 *                     have already been removed and any options which weren't set
+	 *                     have been set to their defaults.
 	 *
 	 * @return array
 	 */

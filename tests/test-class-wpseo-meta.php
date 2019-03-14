@@ -293,7 +293,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Registers a field on the WPSEO_Meta class.
 	 *
-	 * @param string $key The key to register.
+	 * @param string $key        The key to register.
 	 * @param bool   $serialized If the key is stored as serialized data.
 	 *
 	 * @return void
