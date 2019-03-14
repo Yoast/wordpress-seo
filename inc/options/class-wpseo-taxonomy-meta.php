@@ -11,33 +11,44 @@
 class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 	/**
-	 * @var  string  Option name.
+	 * Option name.
+	 *
+	 * @var string
 	 */
 	public $option_name = 'wpseo_taxonomy_meta';
 
 	/**
-	 * @var  bool  Whether to include the option in the return for WPSEO_Options::get_all().
+	 * Whether to include the option in the return for WPSEO_Options::get_all().
+	 *
+	 * @var bool
 	 */
 	public $include_in_all = false;
 
 	/**
-	 * @var  array  Array of defaults for the option.
-	 *        Shouldn't be requested directly, use $this->get_defaults();
+	 * Array of defaults for the option.
+	 *
+	 * Shouldn't be requested directly, use $this->get_defaults();
 	 *
 	 * {@internal Important: in contrast to most defaults, the below array format is
 	 *            very bare. The real option is in the format [taxonomy_name][term_id][...]
 	 *            where [...] is any of the $defaults_per_term options shown below.
 	 *            This is of course taken into account in the below methods.}}
+	 *
+	 * @var array
 	 */
 	protected $defaults = array();
 
 	/**
-	 * @var  string  Option name - same as $option_name property, but now also available to static methods.
+	 * Option name - same as $option_name property, but now also available to static methods.
+	 *
+	 * @var string
 	 */
 	public static $name;
 
 	/**
-	 * @var  array  Array of defaults for individual taxonomy meta entries.
+	 * Array of defaults for individual taxonomy meta entries.
+	 *
+	 * @var array
 	 */
 	public static $defaults_per_term = array(
 		'wpseo_title'                 => '',
@@ -63,10 +74,13 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	);
 
 	/**
-	 * @var  array  Available index options.
-	 *        Used for form generation and input validation.
+	 * Available index options.
+	 *
+	 * Used for form generation and input validation.
 	 *
 	 * {@internal Labels (translation) added on admin_init via WPSEO_Taxonomy::translate_meta_options().}}
+	 *
+	 * @var array
 	 */
 	public static $no_index_options = array(
 		'default' => '',

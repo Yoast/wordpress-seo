@@ -16,7 +16,9 @@ class WPSEO_Taxonomy_Content_Fields_Test extends WPSEO_UnitTestCase {
 	private $class_instance;
 
 	/**
-	 * @var stdClass The created term.
+	 * The created term.
+	 *
+	 * @var stdClass
 	 */
 	private $term;
 

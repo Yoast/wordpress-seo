@@ -9,7 +9,9 @@
  * Class WPSEO_Configuration_Endpoint_Test
  */
 class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
-	/** @var WPSEO_Configuration_Endpoint_Mock */
+	/**
+	 * @var WPSEO_Configuration_Endpoint_Mock
+	 */
 	protected $endpoint;
 
 	/**
