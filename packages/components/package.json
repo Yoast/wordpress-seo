@@ -7,8 +7,7 @@
   "author": "Yoast",
   "license": "GPL-3.0",
   "scripts": {
-    "test": "jest",
-    "lint": "grunt check"
+    "test": "jest"
   },
   "jest": {
     "testRegex": ".*Test.js$",
