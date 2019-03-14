@@ -124,7 +124,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param  string $option_key Option name of the option we're doing the merge for.
 	 * @param  array  $options    Optional. Current options. If not set, the option defaults for the $option_key will be returned.
 	 *
-	 * @return  array  Combined and filtered options array.
+	 * @return array Combined and filtered options array.
 	 */
 
 	/*
@@ -177,7 +177,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param  array $clean Clean value for the option, normally the defaults.
 	 * @param  array $old   Old value of the option.
 	 *
-	 * @return  array      Validated clean value for the option to be saved to the database.
+	 * @return array Validated clean value for the option to be saved to the database.
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
 		/*
@@ -229,7 +229,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param  array $meta_data New values.
 	 * @param  array $old_meta  The original values.
 	 *
-	 * @return  array        Validated and filtered value.
+	 * @return array Validated and filtered value.
 	 */
 	public static function validate_term_meta_data( $meta_data, $old_meta ) {
 
@@ -353,7 +353,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param  array  $all_old_option_values Optional. Only used when importing old options to have
 	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
-	 * @return  array            Cleaned option.
+	 * @return array Cleaned option.
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 
@@ -422,9 +422,9 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param  string $taxonomy Name of the taxonomy to which the term is attached.
 	 * @param  string $meta     Optional. Meta value to get (without prefix).
 	 *
-	 * @return  mixed|bool    Value for the $meta if one is given, might be the default.
-	 *              If no meta is given, an array of all the meta data for the term.
-	 *              False if the term does not exist or the $meta provided is invalid.
+	 * @return mixed|bool Value for the $meta if one is given, might be the default.
+	 *                    If no meta is given, an array of all the meta data for the term.
+	 *                    False if the term does not exist or the $meta provided is invalid.
 	 */
 	public static function get_term_meta( $term, $taxonomy, $meta = null ) {
 		/* Figure out the term id. */

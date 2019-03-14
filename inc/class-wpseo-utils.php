@@ -530,11 +530,11 @@ class WPSEO_Utils {
 	 * @param int    $decimals    Decimals for rounding operation. Defaults to 0.
 	 * @param int    $precision   Calculation precision. Defaults to 10.
 	 *
-	 * @return mixed            Calculation Result or false if either or the numbers isn't scalar or
-	 *                          an invalid operation was passed.
-	 *                          - for compare the result will always be an integer.
-	 *                          - for all other operations, the result will either be an integer (preferred)
-	 *                            or a float.
+	 * @return mixed Calculation Result or false if either or the numbers isn't scalar or
+	 *               an invalid operation was passed.
+	 *               - For compare the result will always be an integer.
+	 *               - For all other operations, the result will either be an integer (preferred)
+	 *                 or a float.
 	 */
 	public static function calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
 		static $bc;
