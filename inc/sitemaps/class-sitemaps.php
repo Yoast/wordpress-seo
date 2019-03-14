@@ -504,7 +504,7 @@ class WPSEO_Sitemaps {
 				$sql = "
 				SELECT post_type, MAX(post_modified_gmt) AS date
 				FROM $wpdb->posts
-				WHERE post_status IN ('" . implode( "','", $post_status_names ) . "')
+				WHERE post_status IN ('" . implode( "','", array_map( 'esc_sql', $post_status_names ) ) . "')
 					AND post_type IN ('" . implode( "','", $post_type_names ) . "')
 				GROUP BY post_type
 				ORDER BY post_modified_gmt DESC

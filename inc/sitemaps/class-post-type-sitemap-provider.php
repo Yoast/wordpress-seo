@@ -591,7 +591,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 * @param string $post_type Post type name.
 		 */
 		$post_status_names = apply_filters( 'wpseo_sitemap_poststatus' , array( 'publish' ), $post_type );
-		$status = "{$wpdb->posts}.post_status IN ('" . implode( "','", $post_status_names ) . "')";
+		$status = "{$wpdb->posts}.post_status IN ('" . implode( "','", array_map( 'esc_sql', $post_status_names ) ) . "')";
 
 		// Based on WP_Query->get_posts(). R.
 		if ( 'attachment' === $post_type ) {
