@@ -11,7 +11,7 @@ Array [
 <div
     className="c0"
   />,
-  .c0 {
+  .c1 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -21,10 +21,24 @@ Array [
   white-space: nowrap;
 }
 
+.c0 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 <p
     className="c0"
   >
-    yoast.com
+    <span
+      className="c1"
+    >
+      yoast.com
+    </span>
   </p>,
 ]
 `;
@@ -40,7 +54,7 @@ Array [
 <div
     className="c0"
   />,
-  .c0 {
+  .c1 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -50,10 +64,24 @@ Array [
   white-space: nowrap;
 }
 
+.c0 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 <p
     className="c0"
   >
-    yosat.com
+    <span
+      className="c1"
+    >
+      yosat.com
+    </span>
   </p>,
 ]
 `;
@@ -69,7 +97,7 @@ Array [
 <div
     className="c0"
   />,
-  .c0 {
+  .c1 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -79,10 +107,24 @@ Array [
   white-space: nowrap;
 }
 
+.c0 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 <p
     className="c0"
   >
-    yoast.com
+    <span
+      className="c1"
+    >
+      yoast.com
+    </span>
   </p>,
 ]
 `;
@@ -98,7 +140,7 @@ Array [
 <div
     className="c0"
   />,
-  .c0 {
+  .c1 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -108,10 +150,24 @@ Array [
   white-space: nowrap;
 }
 
+.c0 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 <p
     className="c0"
   >
-    yoast.com
+    <span
+      className="c1"
+    >
+      yoast.com
+    </span>
   </p>,
 ]
 `;
@@ -127,7 +183,7 @@ Array [
 <div
     className="c0"
   />,
-  .c0 {
+  .c1 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -137,10 +193,24 @@ Array [
   white-space: nowrap;
 }
 
+.c0 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 <p
     className="c0"
   >
-    yoast.com
+    <span
+      className="c1"
+    >
+      yoast.com
+    </span>
   </p>,
 ]
 `;
