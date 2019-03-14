@@ -4,7 +4,7 @@ import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple
 import stem from "./stem";
 
 /**
- * Returns a stem for a word that appears on the noun exceptions lists.
+ * Returns a stem for a word that appears on the noun exception lists.
  *
  * @param {Object}  morphologyDataNouns The German morphology data for nouns.
  * @param {string}  stemmedWord         The stem to check.
@@ -12,9 +12,9 @@ import stem from "./stem";
  * @returns {string|null} The stemmed word or null if none was found.
  */
 const findStemOnNounExceptionList = function( morphologyDataNouns, stemmedWord ) {
-	const exceptionStemsWithFullforms = morphologyDataNouns.exceptionStemsWithFullForms;
+	const exceptionStemsWithFullForms = morphologyDataNouns.exceptionStemsWithFullForms;
 
-	for ( const exceptionSet of exceptionStemsWithFullforms ) {
+	for ( const exceptionSet of exceptionStemsWithFullForms ) {
 		const exceptionStems = exceptionSet[ 0 ];
 
 		const matchedStem = exceptionStems.find( exceptionStem => stemmedWord.endsWith( exceptionStem ) );
@@ -22,14 +22,15 @@ const findStemOnNounExceptionList = function( morphologyDataNouns, stemmedWord )
 		if ( matchedStem ) {
 			const precedingLexicalMaterial = stemmedWord.slice( 0, stemmedWord.length - matchedStem.length );
 
-			return ( precedingLexicalMaterial + exceptionStems[ 0 ] );
+			return precedingLexicalMaterial + exceptionStems[ 0 ];
 		}
 	}
+
 	return null;
 };
 
 /**
- * Returns a stem for a word that appears on the adjective exceptions lists.
+ * Returns a stem for a word that appears on the adjective exception lists.
  *
  * @param {Object}  morphologyDataAdjectives    The German morphology data for adjectives.
  * @param {string}  stemmedWord                 The stem to check.
@@ -60,7 +61,7 @@ const findStemOnAdjectiveExceptionList = function( morphologyDataAdjectives, ste
 };
 
 /**
- * Returns a stem for a word that appears on the verb exceptions lists.
+ * Returns a stem for a word that appears on the verb exception lists.
  *
  * @param {Object}  morphologyDataVerbs The German morphology data for verbs.
  * @param {string}  stemmedWord         The stem to check.
@@ -72,10 +73,17 @@ const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord )
 	const strongVerbStems = morphologyDataVerbs.strongVerbs.stems;
 	const prefixes = morphologyDataVerbs.verbPrefixes;
 
-	const matchedPrefix = prefixes.find( prefix => stemmedWord.startsWith( prefix ) );
+	let matchedPrefix = prefixes.find( prefix => stemmedWord.startsWith( prefix ) );
 
 	if ( matchedPrefix ) {
-		wordToCheck = wordToCheck.slice( matchedPrefix.length, wordToCheck.length );
+		const wordWithoutPrefix = wordToCheck.slice( matchedPrefix.length, wordToCheck.length );
+
+		// At least 3 characters so that e.g. "be" is not found in the stem "berg".
+		if ( wordWithoutPrefix.length > 2 ) {
+			wordToCheck = wordWithoutPrefix;
+		} else {
+			matchedPrefix = null;
+		}
 	}
 
 	for ( const strongVerbParadigm of strongVerbStems ) {
@@ -95,12 +103,12 @@ const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord )
 };
 
 /**
- * Returns the stem for a given German input word..
+ * Returns the stem for a given German input word.
  *
  * @param   {string} word                   The word to get the stem for.
  * @param   {Object} morphologyDataGerman   The German morphology data.
  *
- * @returns {string} Stemmed (or base) form of the word.
+ * @returns {string} Stemmed form of the word.
  */
 export function determineStem( word, morphologyDataGerman ) {
 	const stemmedWord = stem( word );

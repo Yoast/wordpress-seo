@@ -27,6 +27,8 @@ const nounsToStem = [
 	[ "fraß", "fress" ],
 	// Verbs: strongVerbs prefixed
 	[ "überfraß", "überfress" ],
+	// Verbs: strongVerbs, not treated as prefixed
+	[ "berg", "berg" ],
 	// Participles
 	[ "heraufgeholt", "heraufhol" ],
 ];
