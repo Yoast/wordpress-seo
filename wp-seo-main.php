@@ -71,7 +71,7 @@ function wpseo_auto_load( $class ) {
 }
 
 $yoast_autoload_file = WPSEO_PATH . 'vendor/autoload_52.php';
-if ( WPSEO_NAMESPACES ) {
+if ( version_compare( phpversion(), '5.6', '>=' ) ) {
 	$yoast_autoload_file = WPSEO_PATH . 'vendor/autoload.php';
 }
 
