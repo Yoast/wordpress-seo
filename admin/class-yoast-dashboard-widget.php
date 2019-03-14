@@ -25,6 +25,11 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	 */
 	protected $statistics;
 
+	/**
+	 * Yoast_Dashboard_Widget constructor.
+	 *
+	 * @param WPSEO_Statistics|null $statistics WPSEO_Statistics instance.
+	 */
 	public function __construct( WPSEO_Statistics $statistics = null ) {
 		if ( $statistics === null ) {
 			$statistics = new WPSEO_Statistics();
@@ -35,7 +40,7 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * @param WPSEO_Statistics $statistics The statistics class to retrieve statistics from.
+	 * Register WordPress hooks.
 	 */
 	public function register_hooks() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dashboard_assets' ) );
