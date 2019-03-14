@@ -3,15 +3,12 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 /* Internal dependencies */
-import TwitterPreview from "../components/TwitterPreview";
+import TwitterSiteName from "../components/TwitterSiteName";
 
-describe( "TwitterPreview", () => {
-	it( "matches the snapshot", () => {
+describe( "TwitterSiteName", () => {
+	it( "matches the snapshot by default", () => {
 		const component = renderer.create(
-			<TwitterPreview
-				title="YoastCon Workshops &bull; Yoast"
-				siteName="yoast.com"
-			/>
+			<TwitterSiteName siteName="sitename.com" />
 		);
 
 		const tree = component.toJSON();
