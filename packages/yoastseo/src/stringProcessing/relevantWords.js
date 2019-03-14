@@ -54,6 +54,10 @@ function sortCombinations( wordCombinations ) {
  * @returns {WordCombination[]} The original array with collapsed duplicates.
  */
 function collapseRelevantWordsOnStem( wordCombinations ) {
+	if ( wordCombinations.length === 0 ) {
+		return [];
+	}
+
 	// Sort the input array by stem
 	wordCombinations.sort( function( wordA, wordB ) {
 		return wordA.getStem().localeCompare( wordB.getStem() );
@@ -182,6 +186,9 @@ const primeRelevantWords = memoize( ( morphologyData ) => {
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
 function getRelevantWords( text, language, morphologyData ) {
+	if ( text === "" ) {
+		return [];
+	}
 	const words = getWords( normalizeSingle( text ).toLocaleLowerCase() );
 	const computeRelevantWordsMemoized = primeRelevantWords( morphologyData );
 

@@ -19,7 +19,7 @@ const RelevantWord = function( word ) {
  *
  * @returns {string} word The set relevant word.
  */
-RelevantWord.prototype.getCombination = function() {
+RelevantWord.prototype.getWord = function() {
 	return this._word;
 };
 

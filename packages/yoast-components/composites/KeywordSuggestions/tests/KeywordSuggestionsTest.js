@@ -5,7 +5,7 @@ import renderer from "react-test-renderer";
 /* eslint-disable require-jsdoc */
 function createWord( word ) {
 	return {
-		getCombination: () => {
+		getWord: () => {
 			return word;
 		},
 	};

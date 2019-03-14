@@ -72,7 +72,7 @@ const getKeywordSuggestionExplanation = ( translate, keywords ) => {
  * @returns {JSX.Element} Rendered KeywordSuggestions component.
  */
 const KeywordSuggestions = ( { translate, relevantWords, keywordLimit } ) => {
-	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => word.getCombination() );
+	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => word.getWord() );
 
 	const explanation = ( <p>{ getKeywordSuggestionExplanation( translate, keywords ) }</p> );
 
