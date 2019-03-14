@@ -5,5 +5,13 @@
   "main": "index.js",
   "repository": "https://github.com/Yoast",
   "author": "Yoast",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "scripts": {
+    "test": "jest",
+    "lint": "grunt check"
+  },
+  "jest": {
+    "testRegex": ".*Test.js$",
+    "testURL": "http://localhost"
+  }
 }
