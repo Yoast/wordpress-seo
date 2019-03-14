@@ -3,13 +3,13 @@
 exports[`TwitterSiteName matches the snapshot by default 1`] = `
 .c0 {
   text-transform: lowercase;
-  color: #8899A6;
-  max-height: 18.2px;
-  line-height: 18.2px;
+  color: #8899a6;
+  max-height: 18px;
+  line-height: 18px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 4.52662px;
+  margin-top: 5px;
 }
 
 <p

@@ -5,12 +5,12 @@ Array [
   .c0 {
   font-weight: bold;
   font-size: 14px;
-  max-height: 18.2px;
-  line-height: 18.2px;
+  max-height: 18px;
+  line-height: 18px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-bottom: 2.1px;
+  margin-bottom: 2px;
 }
 
 <p
@@ -20,13 +20,13 @@ Array [
   </p>,
   .c0 {
   text-transform: lowercase;
-  color: #8899A6;
-  max-height: 18.2px;
-  line-height: 18.2px;
+  color: #8899a6;
+  max-height: 18px;
+  line-height: 18px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 4.52662px;
+  margin-top: 5px;
 }
 
 <p
