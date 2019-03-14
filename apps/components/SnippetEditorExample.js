@@ -6,7 +6,7 @@ import { assessments } from "yoastseo";
 const { MetaDescriptionLengthAssessment } = assessments.seo;
 
 // Internal dependencies.
-import SnippetEditor from "../composites/Plugin/SnippetEditor/components/SnippetEditor";
+import SnippetEditor from "../../packages/yoast-components/composites/Plugin/SnippetEditor/components/SnippetEditor";
 
 const replacementVariables = [
 	{

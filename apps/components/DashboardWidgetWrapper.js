@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 import ExamplesContainer from "./ExamplesContainer";
-import getPostFeed from "../utils/getPostFeed";
+import getPostFeed from "../../packages/yoast-components/utils/getPostFeed";
 
 import {
 	DashboardWidgetSeoAssessment,
 	DashboardWidgetWordpressFeed,
-} from "../composites/Plugin/DashboardWidget";
+} from "../../packages/yoast-components/composites/Plugin/DashboardWidget/index";
 
 export const DashboardContainer = styled.div`
 	padding: 8px;

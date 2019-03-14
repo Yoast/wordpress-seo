@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-import { UpsellButton } from "../composites/Plugin/Shared/components/UpsellButton";
-import { UpsellLinkButton } from "../composites/Plugin/Shared/components/UpsellLinkButton";
-import { YoastButton } from "../composites/Plugin/Shared/components/YoastButton";
-import { YoastLinkButton } from "../composites/Plugin/Shared/components/YoastLinkButton";
-import { BaseButton, Button, IconButton, IconsButton } from "../composites/Plugin/Shared/components/Button";
-import IconButtonToggle from "../composites/Plugin/Shared/components/IconButtonToggle";
-import { BaseLinkButton, LinkButton } from "../composites/Plugin/Shared/components/LinkButton";
-import FormButton from "../forms/Button";
-import IconLabelledButton from "../composites/Plugin/Shared/components/IconLabelledButton";
+import { UpsellButton } from "../../packages/yoast-components/composites/Plugin/Shared/components/UpsellButton";
+import { UpsellLinkButton } from "../../packages/yoast-components/composites/Plugin/Shared/components/UpsellLinkButton";
+import { YoastButton } from "../../packages/yoast-components/composites/Plugin/Shared/components/YoastButton";
+import { YoastLinkButton } from "../../packages/yoast-components/composites/Plugin/Shared/components/YoastLinkButton";
+import { BaseButton, Button, IconButton, IconsButton } from "../../packages/yoast-components/composites/Plugin/Shared/components/Button";
+import IconButtonToggle from "../../packages/yoast-components/composites/Plugin/Shared/components/IconButtonToggle";
+import { BaseLinkButton, LinkButton } from "../../packages/yoast-components/composites/Plugin/Shared/components/LinkButton";
+import FormButton from "../../packages/yoast-components/forms/Button";
+import IconLabelledButton from "../../packages/yoast-components/composites/Plugin/Shared/components/IconLabelledButton";
 
 const ButtonsContainer = styled.div`
 	max-width: 800px;

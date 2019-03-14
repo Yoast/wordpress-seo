@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /* Internal dependencies */
-import colors from "../style-guide/colors.json";
+import colors from "../../packages/yoast-components/style-guide/colors.json";
 
 const ExamplesContainer = styled.div`
 	background-color: ${ props => props.backgroundColor };

@@ -1,7 +1,7 @@
 import React from "react";
 
 import ExamplesContainer from "./ExamplesContainer";
-import KeywordSuggestions from "../composites/KeywordSuggestions/KeywordSuggestions";
+import KeywordSuggestions from "../../packages/yoast-components/composites/KeywordSuggestions/KeywordSuggestions";
 
 /**
  * Sets the relevant word.
