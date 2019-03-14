@@ -124,7 +124,7 @@ export function getForms( word, morphologyData ) {
 		// Add the original word as a safeguard.
 		exceptions.push( word );
 
-		return { forms: unique( exceptions ), stem: stemmedWord };
+		return unique( exceptions );
 	}
 
 	const stemIfWordIsParticiple = detectAndStemRegularParticiple( morphologyData.verbs, word );
@@ -137,14 +137,11 @@ export function getForms( word, morphologyData ) {
 	 * we want forms such as "die gefärbten Haare" and not (incorrectly) "*die färbten Haare".
 	 */
 	if ( stemIfWordIsParticiple ) {
-		return {
-			forms: unique( [
-				...forms,
-				...generateRegularVerbForms( morphologyData.verbs, stemIfWordIsParticiple ),
-				...addAllAdjectiveSuffixes( morphologyData.adjectives, stemmedWord ),
-			] ),
-			stem: stemIfWordIsParticiple,
-		};
+		return unique( [
+			...forms,
+			...generateRegularVerbForms( morphologyData.verbs, stemIfWordIsParticiple ),
+			...addAllAdjectiveSuffixes( morphologyData.adjectives, stemmedWord ),
+		] );
 	}
 
 	// Modify regular suffixes assuming the word is a noun.
@@ -170,5 +167,5 @@ export function getForms( word, morphologyData ) {
 	 */
 	forms.push( ...addFormsWithRemovedLetters( morphologyData.nouns, stemmedWord ) );
 
-	return { forms: unique( forms ), stem: stemmedWord };
+	return unique( forms );
 }
