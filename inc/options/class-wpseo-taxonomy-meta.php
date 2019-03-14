@@ -11,33 +11,44 @@
 class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 
 	/**
-	 * @var  string  Option name.
+	 * Option name.
+	 *
+	 * @var string
 	 */
 	public $option_name = 'wpseo_taxonomy_meta';
 
 	/**
-	 * @var  bool  Whether to include the option in the return for WPSEO_Options::get_all().
+	 * Whether to include the option in the return for WPSEO_Options::get_all().
+	 *
+	 * @var bool
 	 */
 	public $include_in_all = false;
 
 	/**
-	 * @var  array  Array of defaults for the option.
-	 *        Shouldn't be requested directly, use $this->get_defaults();
+	 * Array of defaults for the option.
+	 *
+	 * Shouldn't be requested directly, use $this->get_defaults();
 	 *
 	 * {@internal Important: in contrast to most defaults, the below array format is
 	 *            very bare. The real option is in the format [taxonomy_name][term_id][...]
 	 *            where [...] is any of the $defaults_per_term options shown below.
 	 *            This is of course taken into account in the below methods.}}
+	 *
+	 * @var array
 	 */
 	protected $defaults = array();
 
 	/**
-	 * @var  string  Option name - same as $option_name property, but now also available to static methods.
+	 * Option name - same as $option_name property, but now also available to static methods.
+	 *
+	 * @var string
 	 */
 	public static $name;
 
 	/**
-	 * @var  array  Array of defaults for individual taxonomy meta entries.
+	 * Array of defaults for individual taxonomy meta entries.
+	 *
+	 * @var array
 	 */
 	public static $defaults_per_term = array(
 		'wpseo_title'                 => '',
@@ -63,10 +74,13 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	);
 
 	/**
-	 * @var  array  Available index options.
-	 *        Used for form generation and input validation.
+	 * Available index options.
+	 *
+	 * Used for form generation and input validation.
 	 *
 	 * {@internal Labels (translation) added on admin_init via WPSEO_Taxonomy::translate_meta_options().}}
+	 *
+	 * @var array
 	 */
 	public static $no_index_options = array(
 		'default' => '',
@@ -124,7 +138,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param  string $option_key Option name of the option we're doing the merge for.
 	 * @param  array  $options    Optional. Current options. If not set, the option defaults for the $option_key will be returned.
 	 *
-	 * @return  array  Combined and filtered options array.
+	 * @return array Combined and filtered options array.
 	 */
 
 	/*
@@ -177,7 +191,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param  array $clean Clean value for the option, normally the defaults.
 	 * @param  array $old   Old value of the option.
 	 *
-	 * @return  array      Validated clean value for the option to be saved to the database.
+	 * @return array Validated clean value for the option to be saved to the database.
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
 		/*
@@ -229,7 +243,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param  array $meta_data New values.
 	 * @param  array $old_meta  The original values.
 	 *
-	 * @return  array        Validated and filtered value.
+	 * @return array Validated and filtered value.
 	 */
 	public static function validate_term_meta_data( $meta_data, $old_meta ) {
 
@@ -353,7 +367,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param  array  $all_old_option_values Optional. Only used when importing old options to have
 	 *                                       access to the real old values, in contrast to the saved ones.
 	 *
-	 * @return  array            Cleaned option.
+	 * @return array Cleaned option.
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 
@@ -422,9 +436,9 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 	 * @param  string $taxonomy Name of the taxonomy to which the term is attached.
 	 * @param  string $meta     Optional. Meta value to get (without prefix).
 	 *
-	 * @return  mixed|bool    Value for the $meta if one is given, might be the default.
-	 *              If no meta is given, an array of all the meta data for the term.
-	 *              False if the term does not exist or the $meta provided is invalid.
+	 * @return mixed|bool Value for the $meta if one is given, might be the default.
+	 *                    If no meta is given, an array of all the meta data for the term.
+	 *                    False if the term does not exist or the $meta provided is invalid.
 	 */
 	public static function get_term_meta( $term, $taxonomy, $meta = null ) {
 		/* Figure out the term id. */

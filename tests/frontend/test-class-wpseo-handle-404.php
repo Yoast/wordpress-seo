@@ -13,7 +13,7 @@ class WPSEO_Handle_404_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Sets the handle 404 object.
 	 *
-	 * @return void;
+	 * @return void
 	 */
 	public function setUp() {
 		parent::setUp();

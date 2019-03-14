@@ -238,7 +238,7 @@ abstract class WPSEO_Option {
 	/**
 	 * Add filters to make sure that the option default is returned if the option is not set.
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function add_default_filters() {
 		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
@@ -358,7 +358,7 @@ abstract class WPSEO_Option {
 	 * Remove the default filters.
 	 * Called from the validate() method to prevent failure to add new options.
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function remove_default_filters() {
 		remove_filter( 'default_option_' . $this->option_name, array( $this, 'get_defaults' ) );
@@ -372,7 +372,7 @@ abstract class WPSEO_Option {
 	 * {@internal The enrich_defaults method is used to set defaults for variable array keys
 	 *            in an option, such as array keys depending on post_types and/or taxonomies.}}
 	 *
-	 * @return  array
+	 * @return array
 	 */
 	public function get_defaults() {
 		if ( method_exists( $this, 'translate_defaults' ) ) {
@@ -389,7 +389,7 @@ abstract class WPSEO_Option {
 	/**
 	 * Add filters to make sure that the option is merged with its defaults before being returned.
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function add_option_filters() {
 		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
@@ -402,7 +402,7 @@ abstract class WPSEO_Option {
 	 * Remove the option filters.
 	 * Called from the clean_up methods to make sure we retrieve the original old option.
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function remove_option_filters() {
 		remove_filter( 'option_' . $this->option_name, array( $this, 'get_option' ) );
@@ -415,7 +415,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @param   mixed $options Option value.
 	 *
-	 * @return  mixed        Option merged with the defaults for that option.
+	 * @return mixed Option merged with the defaults for that option.
 	 */
 	public function get_option( $options = null ) {
 		$filtered = $this->array_filter_merge( $options );
@@ -463,7 +463,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @param  mixed $option_value The unvalidated new value for the option.
 	 *
-	 * @return  array          Validated new value for the option.
+	 * @return array Validated new value for the option.
 	 */
 	public function validate( $option_value ) {
 		$clean = $this->get_defaults();
@@ -503,6 +503,7 @@ abstract class WPSEO_Option {
 	 * with 'allow_'.
 	 *
 	 * @param string $key Option key.
+	 *
 	 * @return bool True if option key is disabled, false otherwise.
 	 */
 	public function is_disabled( $key ) {
@@ -675,7 +676,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @param  array $options Optional. Current options. If not set, the option defaults for the $option_key will be returned.
 	 *
-	 * @return  array  Combined and filtered options array.
+	 * @return array Combined and filtered options array.
 	 */
 	protected function array_filter_merge( $options = null ) {
 
@@ -760,7 +761,7 @@ abstract class WPSEO_Option {
 	 *                      have already been removed and any options which weren't set
 	 *                      have been set to their defaults.
 	 *
-	 * @return  array
+	 * @return array
 	 */
 	protected function retain_variable_keys( $dirty, $clean ) {
 		if ( ( is_array( $this->variable_array_key_patterns ) && $this->variable_array_key_patterns !== array() ) && ( is_array( $dirty ) && $dirty !== array() ) ) {
@@ -791,8 +792,8 @@ abstract class WPSEO_Option {
 	 *
 	 * @param  string $key Array key to check.
 	 *
-	 * @return string      Pattern if it conforms, original array key if it doesn't or if the option
-	 *              does not have variable array keys.
+	 * @return string Pattern if it conforms, original array key if it doesn't or if the option
+	 *                does not have variable array keys.
 	 */
 	protected function get_switch_key( $key ) {
 		if ( ! isset( $this->variable_array_key_patterns ) || ( ! is_array( $this->variable_array_key_patterns ) || $this->variable_array_key_patterns === array() ) ) {

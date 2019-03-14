@@ -24,7 +24,7 @@ class WPSEO_Option_Social_Double extends WPSEO_Option_Social {
 	 * @param  array $clean Clean value for the option, normally the defaults.
 	 * @param  array $old   Old value of the option.
 	 *
-	 * @return  array      Validated clean value for the option to be saved to the database.
+	 * @return array Validated clean value for the option to be saved to the database.
 	 */
 	public function validate_option( $dirty, $clean, $old ) {
 		return parent::validate_option( $dirty, $clean, $old );
