@@ -64,12 +64,12 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'register_scripts' )
-			->with( array( 'script' )) ;
+			->with( array( 'script' ) );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'register_styles' )
-			->with( array( 'style' )) ;
+			->with( array( 'style' ) );
 
 		$instance->register_assets();
 	}

@@ -9,6 +9,7 @@
  * Test importing meta data from Platinum SEO.
  */
 class WPSEO_Import_Platinum_SEO_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Holds the class instance.
 	 *

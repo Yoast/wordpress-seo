@@ -9,6 +9,7 @@
  * Test importing meta data from SEOPressor.
  */
 class WPSEO_Import_SEOPressor_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Holds the class instance.
 	 *

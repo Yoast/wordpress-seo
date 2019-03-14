@@ -11,6 +11,7 @@
  * @group imports
  */
 class WPSEO_Import_Settings_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Holds the class instance.
 	 *
