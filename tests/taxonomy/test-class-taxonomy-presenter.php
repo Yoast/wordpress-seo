@@ -182,8 +182,11 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 			)
 		);
 
-		$this->assertContains( '<input id="wpseo_fieldname" type="text" size="36" name="wpseo_fieldname" value="" />', $output );
-		$this->assertContains( '<input id="wpseo_fieldname_button" class="wpseo_image_upload_button button" type="button" value="Upload Image" />', $output );
+		$this->assertContains( '<input id="wpseo_fieldname" type="text" size="36" name="wpseo_fieldname" value="" readonly="readonly" />', $output );
+		$this->assertContains(
+			'<input id="wpseo_fieldname_button" class="wpseo_image_upload_button button" data-target="wpseo_fieldname" data-target-id="hidden_wpseo_fieldname-id" type="button" value="Upload Image" />',
+			$output
+		);
 	}
 
 	/**

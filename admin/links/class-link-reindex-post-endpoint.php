@@ -10,12 +10,24 @@
  */
 class WPSEO_Link_Reindex_Post_Endpoint {
 
+	/**
+	 * @var string
+	 */
 	const REST_NAMESPACE = 'yoast/v1';
+
+	/**
+	 * @var string
+	 */
 	const ENDPOINT_QUERY = 'reindex_posts';
 
+	/**
+	 * @var string
+	 */
 	const CAPABILITY_RETRIEVE = 'edit_posts';
 
-	/** @var WPSEO_Link_Reindex_Post_Service */
+	/**
+	 * @var WPSEO_Link_Reindex_Post_Service
+	 */
 	protected $service;
 
 	/**
@@ -31,17 +43,12 @@ class WPSEO_Link_Reindex_Post_Endpoint {
 	 * Register the REST endpoint to WordPress.
 	 */
 	public function register() {
-		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_QUERY, array(
+		$route_args = array(
 			'methods'             => 'GET',
-			'callback'            => array(
-				$this->service,
-				'reindex',
-			),
-			'permission_callback' => array(
-				$this,
-				'can_retrieve_data',
-			),
-		) );
+			'callback'            => array( $this->service, 'reindex' ),
+			'permission_callback' => array( $this, 'can_retrieve_data' ),
+		);
+		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_QUERY, $route_args );
 	}
 
 	/**

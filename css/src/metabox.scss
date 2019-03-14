@@ -561,7 +561,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 .yoast-seo-score .yoast-logo.svg {
 	float: left;
 	width: 18px;
-	margin-right: 5px;
+	margin-right: 7px;
 	height: 18px;
 	background: url(svg-icon-yoast(#999)) no-repeat;
 	background-size: 18px;
@@ -725,6 +725,10 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	border-left-color: #a4286a;
 	background: #f1f1f1;
 	margin: 0;
+}
+
+.editor-styles-wrapper mark.annotation-text-yoast {
+	background-color: #e1bee7;
 }
 
 @media screen and ( max-width: 782px ) {

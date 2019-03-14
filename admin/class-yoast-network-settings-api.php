@@ -11,17 +11,23 @@
 class Yoast_Network_Settings_API {
 
 	/**
-	 * @var array Registered network settings.
+	 * Registered network settings.
+	 *
+	 * @var array
 	 */
 	private $registered_settings = array();
 
 	/**
-	 * @var array Options whitelist, keyed by option group.
+	 * Options whitelist, keyed by option group.
+	 *
+	 * @var array
 	 */
 	private $whitelist_options = array();
 
 	/**
-	 * @var Yoast_Network_Settings_API The singleton instance of this class.
+	 * The singleton instance of this class.
+	 *
+	 * @var Yoast_Network_Settings_API
 	 */
 	private static $instance = null;
 
@@ -41,10 +47,11 @@ class Yoast_Network_Settings_API {
 	 */
 	public function register_setting( $option_group, $option_name, $args = array() ) {
 
-		$args = wp_parse_args( $args, array(
+		$defaults = array(
 			'group'             => $option_group,
 			'sanitize_callback' => null,
-		) );
+		);
+		$args     = wp_parse_args( $args, $defaults );
 
 		if ( ! isset( $this->whitelist_options[ $option_group ] ) ) {
 			$this->whitelist_options[ $option_group ] = array();

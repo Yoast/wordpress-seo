@@ -4,7 +4,7 @@
  *
  * @package WPSEO\Admin\Views\General
  *
- * @var Yoast_Form $yform
+ * @uses Yoast_Form $yform Form object.
  */
 
 $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
@@ -23,21 +23,22 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 	<h2 class="help-button-inline"><?php echo esc_html__( 'Knowledge Graph', 'wordpress-seo' ) . $knowledge_graph_help->get_button_html(); ?></h2>
 	<?php
 	echo $knowledge_graph_help->get_panel_html();
-	$yform->select( 'company_or_person', __( 'Company or person', 'wordpress-seo' ), array(
+	$yoast_free_kg_select_options = array(
 		''        => __( 'Choose whether you\'re a company or person', 'wordpress-seo' ),
 		'company' => __( 'Company', 'wordpress-seo' ),
 		'person'  => __( 'Person', 'wordpress-seo' ),
-	) );
+	);
+	$yform->select( 'company_or_person', __( 'Company or person', 'wordpress-seo' ), $yoast_free_kg_select_options, 'styled' );
 	?>
 	<div id="knowledge-graph-company">
 		<h3><?php esc_html_e( 'Company', 'wordpress-seo' ); ?></h3>
 		<?php
-		$yform->textinput( 'company_name', __( 'Company name', 'wordpress-seo' ) );
+		$yform->textinput( 'company_name', __( 'Company name', 'wordpress-seo' ), array( 'autocomplete' => 'organization' ) );
 		$yform->media_input( 'company_logo', __( 'Company logo', 'wordpress-seo' ) );
 		?>
 	</div>
 	<div id="knowledge-graph-person">
 		<h3><?php esc_html_e( 'Person', 'wordpress-seo' ); ?></h3>
-		<?php $yform->textinput( 'person_name', __( 'Your name', 'wordpress-seo' ) ); ?>
+		<?php $yform->textinput( 'person_name', __( 'Your name', 'wordpress-seo' ), array( 'autocomplete' => 'name' ) ); ?>
 	</div>
 </div>

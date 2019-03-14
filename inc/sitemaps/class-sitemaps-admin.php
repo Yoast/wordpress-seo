@@ -9,8 +9,11 @@
  * Class that handles the Admin side of XML sitemaps
  */
 class WPSEO_Sitemaps_Admin {
+
 	/**
-	 * @var array Post_types that are being imported.
+	 * Post_types that are being imported.
+	 *
+	 * @var array
 	 */
 	private $importing_post_types = array();
 
@@ -57,10 +60,6 @@ class WPSEO_Sitemaps_Admin {
 		// If the post type is excluded in options, we can stop.
 		if ( WPSEO_Options::get( 'noindex-' . $post_type, false ) ) {
 			return;
-		}
-
-		if ( WP_CACHE ) {
-			wp_schedule_single_event( ( time() + 300 ), 'wpseo_hit_sitemap_index' );
 		}
 
 		/**

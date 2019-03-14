@@ -13,12 +13,18 @@
  * @since 1.8
  */
 class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
+
 	/**
-	 * @var array Holds the social profiles for the entity
+	 * Holds the social profiles for the entity.
+	 *
+	 * @var array
 	 */
 	private $profiles = array();
+
 	/**
-	 * @var array Holds the data to put out
+	 * Holds the data to put out.
+	 *
+	 * @var array
 	 */
 	private $data = array();
 
@@ -38,7 +44,9 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @since 1.8
 	 */
 	public function json_ld() {
-		do_action( 'wpseo_json_ld' );
+		if ( ! is_404() ) {
+			do_action( 'wpseo_json_ld' );
+		}
 	}
 
 	/**
@@ -77,11 +85,14 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		if ( ! is_front_page() ) {
 			return;
 		}
+
+		$home_url = $this->get_home_url();
+
 		$this->data = array(
 			'@context' => 'https://schema.org',
 			'@type'    => 'WebSite',
-			'@id'      => '#website',
-			'url'      => $this->get_home_url(),
+			'@id'      => $home_url . '#website',
+			'url'      => $home_url,
 			'name'     => $this->get_website_name(),
 		);
 
@@ -99,7 +110,12 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function breadcrumb() {
-		if ( is_front_page() || ! WPSEO_Options::get( 'breadcrumbs-enable', false ) ) {
+		$breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
+		if ( ! $breadcrumbs_enabled ) {
+			$breadcrumbs_enabled = WPSEO_Options::get( 'breadcrumbs-enable', false );
+		}
+
+		if ( is_front_page() || ! $breadcrumbs_enabled ) {
 			return;
 		}
 
@@ -114,6 +130,10 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		$broken               = false;
 
 		foreach ( $breadcrumbs as $index => $breadcrumb ) {
+			if ( ! empty( $breadcrumb['hide_in_schema'] ) ) {
+				continue;
+			}
+
 			if ( ! array_key_exists( 'url', $breadcrumb ) || ! array_key_exists( 'text', $breadcrumb ) ) {
 				$broken = true;
 				break;
@@ -153,11 +173,27 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 		$this->data = apply_filters( 'wpseo_json_ld_output', $this->data, $context );
 
 		if ( is_array( $this->data ) && ! empty( $this->data ) ) {
-			echo "<script type='application/ld+json'>", wp_json_encode( $this->data ), '</script>', "\n";
+			echo "<script type='application/ld+json'>", $this->format_data( $this->data ), '</script>', "\n";
 		}
 
 		// Empty the $data array so we don't output it twice.
 		$this->data = array();
+	}
+
+	/**
+	 * Prepares the data for outputting.
+	 *
+	 * @param array $data The data to format.
+	 *
+	 * @return false|string The prepared string.
+	 */
+	public function format_data( $data ) {
+		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
+			// @codingStandardsIgnoreLine
+			return wp_json_encode( $data, JSON_UNESCAPED_SLASHES ); // phpcs:ignore PHPCompatibility.Constants.NewConstants.json_unescaped_slashesFound -- Version check present.
+		}
+
+		return wp_json_encode( $data );
 	}
 
 	/**
@@ -219,6 +255,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 			'myspace_url',
 			'youtube_url',
 			'pinterest_url',
+			'wikipedia_url',
 		);
 		foreach ( $social_profiles as $profile ) {
 			if ( WPSEO_Options::get( $profile, '' ) !== '' ) {

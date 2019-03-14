@@ -11,7 +11,10 @@
  * Object which contains all importers.
  */
 class WPSEO_Plugin_Importers {
+
 	/**
+	 * List of supported importers.
+	 *
 	 * @var array
 	 */
 	private static $importers = array(

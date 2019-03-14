@@ -10,7 +10,14 @@
  */
 class WPSEO_Link_Table_Accessible {
 
-	const ACCESSIBLE   = '0';
+	/**
+	 * @var string
+	 */
+	const ACCESSIBLE = '0';
+
+	/**
+	 * @var string
+	 */
 	const INACCESSBILE = '1';
 
 	/**
@@ -88,20 +95,5 @@ class WPSEO_Link_Table_Accessible {
 	 */
 	protected static function transient_name() {
 		return 'wpseo_link_table_inaccessible';
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Checks if the table exists if not, set the transient to indicate the inaccessible table.
-	 *
-	 * @deprecated 6.0
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool True if table is accessible.
-	 */
-	public static function check_table_is_accessible() {
-		_deprecated_function( __FUNCTION__, '6.0', __CLASS__ . '::is_accessible' );
-		return self::is_accessible();
 	}
 }

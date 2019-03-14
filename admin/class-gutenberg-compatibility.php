@@ -12,13 +12,17 @@ class WPSEO_Gutenberg_Compatibility {
 
 	/**
 	 * The currently released version of Gutenberg.
+	 *
+	 * @var string
 	 */
-	const CURRENT_RELEASE = '3.9.0';
+	const CURRENT_RELEASE = '5.2.0';
 
 	/**
 	 * The minimally supported version of Gutenberg by the plugin.
+	 *
+	 * @var string
 	 */
-	const MINIMUM_SUPPORTED = '3.9.0';
+	const MINIMUM_SUPPORTED = '5.2.0';
 
 	/**
 	 * @var string

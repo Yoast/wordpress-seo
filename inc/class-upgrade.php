@@ -18,6 +18,9 @@ class WPSEO_Upgrade {
 
 		WPSEO_Options::maybe_set_multisite_defaults( false );
 
+		// This should always be done before any upgrades are executed!
+		$this->add_upgrade_history( $version, WPSEO_VERSION );
+
 		if ( version_compare( $version, '1.5.0', '<' ) ) {
 			$this->upgrade_15( $version );
 		}
@@ -120,6 +123,14 @@ class WPSEO_Upgrade {
 			$this->upgrade_772();
 		}
 
+		if ( version_compare( $version, '9.0-RC0', '<' ) ) {
+			$this->upgrade90();
+		}
+
+		if ( version_compare( $version, '10.0-RC0', '<' ) ) {
+			$this->upgrade_100();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -135,15 +146,30 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Adds a new upgrade history entry.
+	 *
+	 * @param string $current_version The old version from which we are upgrading.
+	 * @param string $new_version     The version we are upgrading to.
+	 */
+	protected function add_upgrade_history( $current_version, $new_version ) {
+		$upgrade_history = new WPSEO_Upgrade_History();
+		$upgrade_history->add( $current_version, $new_version, array_keys( WPSEO_Options::$options ) );
+	}
+
+	/**
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
 	 */
 	protected function finish_up() {
 		WPSEO_Options::set( 'version', WPSEO_VERSION );
 
-		add_action( 'shutdown', 'flush_rewrite_rules' );                     // Just flush rewrites, always, to at least make them work after an upgrade.
-		WPSEO_Sitemaps_Cache::clear();                                       // Flush the sitemap cache.
+		// Just flush rewrites, always, to at least make them work after an upgrade.
+		add_action( 'shutdown', 'flush_rewrite_rules' );
 
-		WPSEO_Options::ensure_options_exist();                               // Make sure all our options always exist - issue #1245.
+		// Flush the sitemap cache.
+		WPSEO_Sitemaps_Cache::clear();
+
+		// Make sure all our options always exist - issue #1245.
+		WPSEO_Options::ensure_options_exist();
 	}
 
 	/**
@@ -325,7 +351,8 @@ class WPSEO_Upgrade {
 		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
 
 		$usermetas = $wpdb->get_results(
-			$wpdb->prepare( '
+			$wpdb->prepare(
+				'
 				SELECT user_id, meta_value
 				FROM ' . $wpdb->usermeta . '
 				WHERE meta_key = %s AND meta_value LIKE %s
@@ -609,6 +636,47 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 9.0 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade90() {
+		global $wpdb;
+
+		// Invalidate all sitemap cache transients.
+		WPSEO_Sitemaps_Cache_Validator::cleanup_database();
+
+		// Removes all scheduled tasks for hitting the sitemap index.
+		wp_clear_scheduled_hook( 'wpseo_hit_sitemap_index' );
+
+		$wpdb->query( 'DELETE FROM ' . $wpdb->options . ' WHERE option_name LIKE "wpseo_sitemap_%"' );
+	}
+
+	/**
+	 * Performs the 10.0 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_100() {
+		// Removes recalibration notifications.
+		$this->clean_all_notifications();
+
+		// Removes recalibration options.
+		WPSEO_Options::clean_up( 'wpseo' );
+		delete_option( 'wpseo_recalibration_beta_mailinglist_subscription' );
+	}
+
+	/**
+	 * Removes all notifications saved in the database under 'wp_yoast_notifications'.
+	 *
+	 * @return void
+	 */
+	private function clean_all_notifications() {
+		global $wpdb;
+		delete_metadata( 'user', 0, $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY, '', true );
+	}
+
+	/**
 	 * Removes the post meta fields for a given meta key.
 	 *
 	 * @param string $meta_key The meta key.
@@ -617,7 +685,6 @@ class WPSEO_Upgrade {
 	 */
 	private function delete_post_meta( $meta_key ) {
 		global $wpdb;
-
 		$deleted = $wpdb->delete( $wpdb->postmeta, array( 'meta_key' => $meta_key ), array( '%s' ) );
 
 		if ( $deleted ) {

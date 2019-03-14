@@ -102,7 +102,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$content   = get_transient( $cache_key );
 
 		// Assert.
-		$this->assertEmpty( $content );
+		$this->assertEquals( $test_content, $content );
 	}
 
 	/**
@@ -126,7 +126,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$result    = get_transient( $cache_key );
 
 		// Assert.
-		$this->assertEmpty( $result );
+		$this->assertEquals( $test_content, $result );
 	}
 
 	/**
@@ -151,7 +151,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$result          = get_transient( $index_cache_key );
 
 		// Assert.
-		$this->assertEmpty( $result );
+		$this->assertEquals( $test_index_content, $result );
 	}
 
 	/**
@@ -190,10 +190,11 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 		new WPSEO_Sitemaps_Cache();
 		// Hook will be added on default priority.
-		$this->assertEquals( 10, has_action( 'update_option', array(
-			'WPSEO_Sitemaps_Cache',
-			'clear_on_option_update',
-		) ) );
+		$has_action = has_action(
+			'update_option',
+			array( 'WPSEO_Sitemaps_Cache', 'clear_on_option_update' )
+		);
+		$this->assertEquals( 10, $has_action );
 	}
 
 	/**
@@ -223,6 +224,41 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$result    = get_transient( $cache_key );
 
 		// Assert.
-		$this->assertEmpty( $result );
+		$this->assertEquals( $test_content, $result );
+	}
+
+	/**
+	 * Tests the attempt to clear the author sitemap for an unknown user, which should return false.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::invalidate_author
+	 */
+	public function test_clearing_author_sitemap_by_unknown_userid() {
+		$this->assertFalse( WPSEO_Sitemaps_Cache::invalidate_author( -1 ) );
+	}
+
+	/**
+	 * Tests the attempt to clear the author sitemap for a user with the proper roles, which should return true.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::invalidate_author
+	 */
+	public function test_clearing_author_sitemap_by_userid() {
+		$user_id = $this->factory->user->create(
+			array( 'role' => 'administrator' )
+		);
+
+		$this->assertTrue( WPSEO_Sitemaps_Cache::invalidate_author( $user_id ) );
+	}
+
+	/**
+	 * Tests the attempt to clear the author sitemap for a user with the subscriber role, which should return false.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::invalidate_author
+	 */
+	public function test_clearing_author_sitemap_by_userid_with_subscriber_role() {
+		$user_id = $this->factory->user->create(
+			array( 'role' => 'subscriber' )
+		);
+
+		$this->assertFalse( WPSEO_Sitemaps_Cache::invalidate_author( $user_id ) );
 	}
 }

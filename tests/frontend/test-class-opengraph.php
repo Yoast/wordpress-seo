@@ -12,7 +12,9 @@
  */
 class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
-	/** @var WPSEO_OpenGraph */
+	/**
+	 * @var WPSEO_OpenGraph
+	 */
 	private static $class_instance;
 
 	/**
@@ -176,11 +178,12 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_og_title_with_variables() {
 		$expected_title = 'Test title';
 		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		wp_update_post( array(
+		$post_id   = $this->factory->post->create();
+		$post_args = array(
 			'ID'         => $post_id,
 			'post_title' => $expected_title,
-		) );
+		);
+		wp_update_post( $post_args );
 		WPSEO_Meta::set_value( 'opengraph-title', '%%title%%', $post_id );
 
 		$this->go_to( get_permalink( $post_id ) );
@@ -569,7 +572,64 @@ EXPECTED;
 	 * @covers WPSEO_OpenGraph::site_name
 	 */
 	public function test_site_name() {
-		// @todo Empty site name test.
+		$instance = $this
+			->getMockBuilder( 'WPSEO_OpenGraph' )
+			->setMethods( array( 'og_tag' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->never() )
+			->method( 'og_tag' );
+
+		$current_site_name = get_bloginfo( 'name' );
+
+		update_option( 'blogname', '' );
+
+		$instance->site_name();
+
+		update_option( 'blogname', $current_site_name );
+	}
+	/**
+	 * @covers WPSEO_OpenGraph::site_name
+	 */
+	public function test_site_name_with_a_set_name() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_OpenGraph' )
+			->setMethods( array( 'og_tag' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'og_tag' )
+			->with( 'og:site_name', 'Sitename' );
+
+		$current_site_name = get_bloginfo( 'name' );
+
+		update_option( 'blogname', 'Sitename' );
+
+		$instance->site_name();
+
+		update_option( 'blogname', $current_site_name );
+	}
+
+	/**
+	 * @covers WPSEO_OpenGraph::site_name
+	 */
+	public function test_site_name_with_a_non_string_name() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_OpenGraph' )
+			->setMethods( array( 'og_tag' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->never() )
+			->method( 'og_tag' );
+
+		add_filter( 'wpseo_opengraph_site_name', '__return_false' );
+
+		$instance->site_name();
+
+		remove_filter( 'wpseo_opengraph_site_name', '__return_false' );
 	}
 
 	/**
@@ -698,7 +758,11 @@ EXPECTED;
 	 */
 	public function test_taxonomy_description_with_replacevars() {
 		$expected_title = 'Test title';
-		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category', 'name' => $expected_title ) );
+		$term_args      = array(
+			'taxonomy' => 'category',
+			'name'     => $expected_title,
+		);
+		$term_id        = $this->factory->term->create( $term_args );
 
 		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'opengraph-description', '%%term_title%%' );
 

@@ -33,7 +33,7 @@ class WPSEO_Multiple_Keywords_Modal {
 			'buylink'                  => WPSEO_Shortlinker::get( 'https://yoa.st/add-keywords-popup' ),
 			'buy'                      => sprintf(
 				/* translators: %s expands to 'Yoast SEO Premium'. */
-				__( 'Get %s now!', 'wordpress-seo' ),
+				__( 'Get %s', 'wordpress-seo' ),
 				'Yoast SEO Premium'
 			),
 			'small'                    => __( '1 year free updates and upgrades included!', 'wordpress-seo' ),
@@ -50,7 +50,7 @@ class WPSEO_Multiple_Keywords_Modal {
 		$translations = $this->get_translations();
 
 		return array(
-			'locale' => WPSEO_Utils::get_user_locale(),
+			'locale' => WPSEO_Language_Utils::get_user_locale(),
 			'intl'   => $translations,
 		);
 	}

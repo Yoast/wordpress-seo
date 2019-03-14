@@ -51,6 +51,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * Tests getting site choices.
 	 *
 	 * @group ms-required
+	 *
 	 * @covers Yoast_Network_Admin::get_site_choices()
 	 */
 	public function test_get_site_choices() {
@@ -99,6 +100,12 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Network_Admin::get_site_states()
 	 */
 	public function test_get_site_states() {
+		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
+			$this->markTestSkipped( 'Skipped because since WordPress 5.1 the hook wpmu_new_blog is deprecated' );
+
+			return;
+		}
+
 		$admin = new Yoast_Network_Admin();
 
 		$active_states = array(
@@ -369,6 +376,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * Tests terminating an AJAX request.
 	 *
 	 * @covers Yoast_Network_Admin::terminate_request()
+	 *
+	 * @throws \WPDieException For test purposes.
 	 */
 	public function test_terminate_request_ajax() {
 		$admin = new Yoast_Network_Admin();

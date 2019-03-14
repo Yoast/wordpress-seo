@@ -1,14 +1,18 @@
 import debounce from "lodash/debounce";
+
 import {
 	updateReplacementVariable,
 	updateData,
 } from "../redux/actions/snippetEditor";
 import {
+	excerptFromContent,
 	fillReplacementVariables,
 	mapCustomFields,
 	mapCustomTaxonomies,
 } from "../helpers/replacementVariableHelpers";
-
+import {
+	reapplyAnnotationsForSelectedBlock,
+} from "../decorator/gutenberg";
 
 /**
  * Represents the data.
@@ -31,13 +35,27 @@ class Data {
 		this.refreshYoastSEO = this.refreshYoastSEO.bind( this );
 	}
 
+	/**
+	 * Initializes this Gutenberg data instance.
+	 *
+	 * @param {Object} replaceVars The replacevars.
+	 * @returns {void}
+	 */
 	initialize( replaceVars ) {
 		// Fill data object on page load.
 		this._data = this.getInitialData( replaceVars );
 		fillReplacementVariables( this._data, this._store );
 		this.subscribeToGutenberg();
+		this.subscribeToYoastSEO();
 	}
 
+	/**
+	 * Retrieves the initial data.
+	 *
+	 * @param {Object} replaceVars The replacevars.
+	 *
+	 * @returns {Object} The initial data.
+	 */
 	getInitialData( replaceVars ) {
 		const gutenbergData = this.collectGutenbergData( this.getPostAttribute );
 
@@ -67,6 +85,7 @@ class Data {
 	 *
 	 * @param {Object} currentData The current data.
 	 * @param {Object} gutenbergData The data from Gutenberg.
+	 *
 	 * @returns {boolean} Whether the current data and the gutenbergData is the same.
 	 */
 	isShallowEqual( currentData, gutenbergData ) {
@@ -140,7 +159,9 @@ class Data {
 			content: this.getPostAttribute( "content" ),
 			title: this.getPostAttribute( "title" ),
 			slug: this.getSlug(),
-			excerpt: this.getPostAttribute( "excerpt" ),
+			excerpt: this.getExcerpt(),
+			// eslint-disable-next-line camelcase
+			excerpt_only: this.getExcerpt( false ),
 		};
 	}
 
@@ -159,12 +180,49 @@ class Data {
 		// Handle excerpt change
 		if ( this._data.excerpt !== newData.excerpt ) {
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
-			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt ) );
+			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt_only ) );
 		}
 		// Handle slug change
 		if ( this._data.slug !== newData.slug ) {
 			this._store.dispatch( updateData( { slug: newData.slug } ) );
 		}
+	}
+
+	/**
+	 * Gets the excerpt from the post.
+	 *
+	 * @param {boolean} useFallBack Whether the fallback for content should be used.
+	 *
+	 * @returns {string} The excerpt.
+	 */
+	getExcerpt( useFallBack = true ) {
+		const excerpt = this.getPostAttribute( "excerpt" );
+		if ( excerpt !== "" || useFallBack === false ) {
+			return excerpt;
+		}
+
+		return excerptFromContent( this.getPostAttribute( "content" ) );
+	}
+
+	/**
+	 * If a marker is active, find the associated assessment result and applies the marker on that result.
+	 *
+	 * @returns {void}
+	 */
+	reapplyMarkers() {
+		const {
+			getActiveMarker,
+			getMarkerPauseStatus,
+		} = this._wpData.select( "yoast-seo/editor" );
+
+		const activeMarker = getActiveMarker();
+		const isMarkerPaused = getMarkerPauseStatus();
+
+		if ( ! activeMarker || isMarkerPaused ) {
+			return;
+		}
+
+		reapplyAnnotationsForSelectedBlock();
 	}
 
 	/**
@@ -186,6 +244,37 @@ class Data {
 	}
 
 	/**
+	 * Checks whether new analysis results are available in the store.
+	 *
+	 * @returns {boolean} Whether new analysis results are available.
+	 */
+	areNewAnalysisResultsAvailable() {
+		const yoastSeoEditorSelectors = this._wpData.select( "yoast-seo/editor" );
+		const readabilityResults = yoastSeoEditorSelectors.getReadabilityResults();
+		const seoResults         = yoastSeoEditorSelectors.getResultsForFocusKeyword();
+
+		if (
+			this._previousReadabilityResults !== readabilityResults ||
+			this._previousSeoResults !== seoResults
+		) {
+			this._previousReadabilityResults = readabilityResults;
+			this._previousSeoResults = seoResults;
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Reapplies the markers when new analysis results are available.
+	 *
+	 * @returns {void}
+	 */
+	onNewAnalysisResultsAvailable() {
+		this.reapplyMarkers();
+	}
+
+	/**
 	 * Listens to the Gutenberg data.
 	 *
 	 * @returns {void}
@@ -195,6 +284,22 @@ class Data {
 		this._wpData.subscribe(
 			this.subscriber
 		);
+	}
+
+	/**
+	 * Listens to the analysis data.
+	 *
+	 * If the analysisData has changed this.onNewAnalysisResultsAvailable() is called.
+	 *
+	 * @returns {void}
+	 */
+	subscribeToYoastSEO() {
+		this.yoastSubscriber = () => {
+			if ( this.areNewAnalysisResultsAvailable() ) {
+				this.onNewAnalysisResultsAvailable();
+			}
+		};
+		this._wpData.subscribe( this.yoastSubscriber );
 	}
 
 	/**

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { __ } from "@wordpress/i18n";
 
 import { YoastModal, SvgIcon } from "yoast-components";
 
@@ -17,7 +18,19 @@ const StyledButton = styled.button`
 	}
 `;
 
+/**
+ * Returns the Modal component.
+ *
+ * @returns {ReactElement} The Modal component.
+ */
 class Modal extends React.Component {
+	/**
+	 * Constructs the Modal component.
+	 *
+	 * @param {Object} props The component properties.
+	 *
+	 * @returns {void}
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -31,12 +44,22 @@ class Modal extends React.Component {
 		this.appElement = document.querySelector( this.props.appElement );
 	}
 
+	/**
+	 * Sets the Modal state to open.
+	 *
+	 * @returns {void}
+	 */
 	openModal() {
 		this.setState( {
 			modalIsOpen: true,
 		} );
 	}
 
+	/**
+	 * Sets the Modal state to closed.
+	 *
+	 * @returns {void}
+	 */
 	closeModal() {
 		this.setState( {
 			modalIsOpen: false,
@@ -44,11 +67,20 @@ class Modal extends React.Component {
 	}
 
 	/**
-	 * Returns the rendered html.
+	 * Renders the Modal component.
 	 *
-	 * @returns {ReactElement} The rendered html.
+	 * @returns {ReactElement} The rendered react element.
 	 */
 	render() {
+		const defaultLabels = {
+			open: __( "Open", "wordpress-seo" ),
+			heading: "",
+			closeIconButton: __( "Close", "wordpress-seo" ),
+			closeButton: "",
+		};
+
+		const modalLabels = Object.assign( {}, defaultLabels, this.props.labels );
+
 		return (
 			<React.Fragment>
 				<StyledButton
@@ -57,17 +89,18 @@ class Modal extends React.Component {
 					className={ `${ this.props.classes.openButton } yoast-modal__button-open` }
 				>
 					{ this.props.openButtonIcon && <SvgIcon icon={ this.props.openButtonIcon } size="13px" /> }
-					{ this.props.labels.open }
+					{ modalLabels.open }
 				</StyledButton>
 				<YoastModal
 					isOpen={ this.state.modalIsOpen }
 					onClose={ this.closeModal }
-					modalAriaLabel={ this.props.labels.modalAriaLabel }
+					className={ this.props.className }
+					modalAriaLabel={ modalLabels.modalAriaLabel }
 					appElement={ this.appElement }
-					heading={ this.props.labels.heading }
-					closeIconButton={ this.props.labels.closeIconButton }
+					heading={ modalLabels.heading }
+					closeIconButton={ modalLabels.closeIconButton }
 					closeIconButtonClassName={ this.props.classes.closeIconButton }
-					closeButton={ this.props.labels.closeButton }
+					closeButton={ modalLabels.closeButton }
 					closeButtonClassName={ this.props.classes.closeButton }
 				>
 					{ this.props.children }
@@ -78,11 +111,29 @@ class Modal extends React.Component {
 }
 
 Modal.propTypes = {
-	className: PropTypes.string,
-	appElement: PropTypes.string.isRequired,
+	appElement: PropTypes.string,
 	openButtonIcon: PropTypes.string,
-	labels: PropTypes.object,
-	classes: PropTypes.object,
+	labels: PropTypes.shape( {
+		open: PropTypes.string,
+		modalAriaLabel: PropTypes.string.isRequired,
+		heading: PropTypes.string,
+		closeIconButton: PropTypes.string,
+		closeButton: PropTypes.string,
+	} ).isRequired,
+	classes: PropTypes.shape( {
+		openButton: PropTypes.string,
+		closeIconButton: PropTypes.string,
+		closeButton: PropTypes.string,
+	} ),
+	className: PropTypes.string,
+	children: PropTypes.any.isRequired,
+};
+
+Modal.defaultProps = {
+	className: "",
+	appElement: "#wpwrap",
+	openButtonIcon: "",
+	classes: {},
 };
 
 export default Modal;

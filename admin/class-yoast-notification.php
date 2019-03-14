@@ -12,31 +12,43 @@
 class Yoast_Notification {
 
 	/**
-	 * @var string Type of capability check.
+	 * Type of capability check.
+	 *
+	 * @var string
 	 */
 	const MATCH_ALL = 'all';
 
 	/**
-	 * @var string Type of capability check.
+	 * Type of capability check.
+	 *
+	 * @var string
 	 */
 	const MATCH_ANY = 'any';
 
 	/**
-	 * @var string Notification type.
+	 * Notification type.
+	 *
+	 * @var string
 	 */
 	const ERROR = 'error';
 
 	/**
-	 * @var string Notification type.
+	 * Notification type.
+	 *
+	 * @var string
 	 */
 	const WARNING = 'warning';
 
 	/**
-	 * @var string Notification type.
+	 * Notification type.
+	 *
+	 * @var string
 	 */
 	const UPDATED = 'updated';
 
 	/**
+	 * Options of this Notification.
+	 *
 	 * Contains optional arguments:
 	 *
 	 * -             type: The notification type, i.e. 'updated' or 'error'
@@ -48,11 +60,15 @@ class Yoast_Notification {
 	 * - capability_check: How to check capability pass: all or any.
 	 * -  wpseo_page_only: Only display on wpseo page or on every page.
 	 *
-	 * @var array Options of this Notification.
+	 * @var array
 	 */
 	private $options = array();
 
-	/** @var array Contains default values for the optional arguments */
+	/**
+	 * Contains default values for the optional arguments.
+	 *
+	 * @var array
+	 */
 	private $defaults = array(
 		'type'             => self::UPDATED,
 		'id'               => '',

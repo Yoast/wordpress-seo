@@ -33,14 +33,14 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				/* translators: %s resolves to Yoast SEO Premium */
 				sprintf( __( 'Outrank the competition with %s', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 				/* translators: %1$s resolves to Yoast SEO Premium */
-				sprintf( __( 'Do you want to outrank your competition? %1$s gives you awesome additional features that\'ll help you to set up your SEO strategy like a professional. Use the multiple focus keyphrases functionality, the redirect manager and our internal linking tool. %1$s will also give you access to premium support.', 'wordpress-seo' ), 'Yoast SEO Premium' ),
+				sprintf( __( 'Do you want to outrank your competition? %1$s gives you awesome additional features that\'ll help you to set up your SEO strategy like a professional. Add synonyms and related keywords, use our Premium SEO analysis, the redirect manager and our internal linking tool. %1$s will also give you access to premium support.', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 				array(
 					'label' => __( 'Upgrade to Premium', 'wordpress-seo' ),
 					'type'  => 'primary',
 					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-premium' ),
 				),
 				array(
-					'url' => WPSEO_Shortlinker::get( 'https://yoa.st/video-yoast-seo-premium' ),
+					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-yoast-seo-premium' ),
 					'title' => sprintf(
 						/* translators: %1$s expands to Yoast SEO Premium. */
 						__( '%1$s video', 'wordpress-seo' ),
@@ -51,28 +51,23 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 		}
 
 		$field->add_suggestion(
+			__( 'Find out what words your audience uses to find you', 'wordpress-seo' ),
 			sprintf(
-				/* translators: %1$s resolves to Basic SEO training */
-				__( 'Learn all about SEO with our %1$s', 'wordpress-seo' ),
-				'Basic SEO training'
-			),
-			sprintf(
-				/* translators: %1$s resolves to Basic SEO training, 2: Yoast SEO */
-				__( 'Do you want to learn how you can improve your SEO yourself? In our %1$s you\'ll learn practical SEO skills from keyword research and copywriting to technical SEO and off-page SEO. Using the %2$s plugin is one thing. Doing good SEO day-to-day is another. You simply won\'t get the results you want without putting in work yourself. The %1$s teaches you how.', 'wordpress-seo' ),
-				'Basic SEO training',
-				'Yoast SEO'
+				/* translators: %1$s resolves to Keyword research training */
+				__( 'Keyword research is essential in any SEO strategy. You decide the search terms you want to be found for, and figure out what words your audience uses to find you. Great keyword research tells you what content you need to start ranking for the terms you want to rank for. Make sure your efforts go into the keywords you actually have a chance at ranking for! The %1$s walks you through this process, step by step.', 'wordpress-seo' ),
+				'Keyword research training'
 			),
 			array(
-				'label' => 'Basic SEO training',
+				'label' => 'Keyword research training',
 				'type'  => 'link',
-				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/2up' ),
+				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/3lg' ),
 			),
 			array(
-				'url' => WPSEO_Shortlinker::get( 'https://yoa.st/2v0' ),
+				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/3lf' ),
 				'title' => sprintf(
-					/* translators: %1$s expands to Basic SEO training. */
+					/* translators: %1$s expands to Keyword research training. */
 					__( '%1$s video', 'wordpress-seo' ),
-					'Basic SEO training'
+					'Keyword research training'
 				),
 			)
 		);
@@ -88,7 +83,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-plugin-course' ),
 			),
 			array(
-				'url' => WPSEO_Shortlinker::get( 'https://yoa.st/video-plugin-course' ),
+				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-plugin-course' ),
 				'title' => sprintf(
 					/* translators: %1$s expands to Yoast SEO plugin training. */
 					__( '%1$s video', 'wordpress-seo' ),
@@ -109,7 +104,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-localseo' ),
 				),
 				array(
-					'url' => WPSEO_Shortlinker::get( 'https://yoa.st/video-localseo' ),
+					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-localseo' ),
 					'title' => sprintf(
 						/* translators: %1$s expands to Local SEO. */
 						__( '%1$s video', 'wordpress-seo' ),

@@ -17,11 +17,14 @@ class WPSEO_Config_Field_Person_Name extends WPSEO_Config_Field {
 		parent::__construct( 'publishingEntityPersonName', 'Input' );
 
 		$this->set_property( 'label', __( 'The name of the person', 'wordpress-seo' ) );
+		$this->set_property( 'autoComplete', 'name' );
 
 		$this->set_requires( 'publishingEntityType', 'person' );
 	}
 
 	/**
+	 * Sets the adapter.
+	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */
 	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {

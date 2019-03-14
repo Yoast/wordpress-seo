@@ -1,7 +1,6 @@
 /* global window process wp */
 /* External dependencies */
 import React from "react";
-import { Provider } from "react-redux";
 import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
@@ -24,6 +23,8 @@ import * as actions from "./redux/actions";
 import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
 import PrimaryTaxonomyFilter from "./components/PrimaryTaxonomyFilter";
+import { setMarkerStatus } from "./redux/actions";
+import { isAnnotationAvailable } from "./decorator/gutenberg";
 
 const PLUGIN_NAMESPACE = "yoast-seo";
 
@@ -156,12 +157,10 @@ class Edit {
 					</Slot>
 				</PluginSidebar>
 
-				<Provider store={ store }>
-					<Fragment>
-						<Sidebar store={ store } theme={ theme } />
-						<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
-					</Fragment>
-				</Provider>
+				<Fragment>
+					<Sidebar store={ store } theme={ theme } />
+					<MetaboxPortal target="wpseo-metabox-root" store={ store } theme={ theme } />
+				</Fragment>
 			</Fragment>
 		);
 
@@ -196,20 +195,20 @@ class Edit {
 	/**
 	 * Initialize used keyword analysis.
 	 *
-	 * @param {App}    app        YoastSEO.js app.
-	 * @param {string} ajaxAction The ajax action to use when retrieving the used keywords data.
+	 * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
+	 * @param {string}   ajaxAction      The ajax action to use when retrieving the used keywords data.
 	 *
 	 * @returns {void}
 	 */
-	initializeUsedKeywords( app, ajaxAction ) {
+	initializeUsedKeywords( refreshAnalysis, ajaxAction ) {
 		const store         = this._store;
 		const localizedData = this._localizedData;
-		const scriptUrl     = get( global, [ "wpseoAnalysisWorkerL10n", "keywords_assessment_url" ], "wp-seo-used-keywords-assessment.js" );
+		const scriptUrl     = get( window, [ "wpseoAnalysisWorkerL10n", "keywords_assessment_url" ], "wp-seo-used-keywords-assessment.js" );
 
 		const usedKeywords = new UsedKeywords(
 			ajaxAction,
 			localizedData,
-			app,
+			refreshAnalysis,
 			scriptUrl
 		);
 		usedKeywords.init();
@@ -223,6 +222,17 @@ class Edit {
 			lastData = state;
 			usedKeywords.setKeyword( state.focusKeyword );
 		} );
+	}
+
+	/**
+	 * Enables marker button if WordPress annotation is available.
+	 *
+	 * @returns {void}
+	 */
+	initializeAnnotations() {
+		if ( isAnnotationAvailable() ) {
+			this._store.dispatch( setMarkerStatus( "enabled" ) );
+		}
 	}
 
 	/**

@@ -4,9 +4,9 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
-Requires at least: 4.8
-Tested up to: 4.9.8
-Stable tag: 8.3
+Requires at least: 4.9
+Tested up to: 5.1
+Stable tag: 10.0
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -35,7 +35,7 @@ Yoast SEO does everything in its power to please both visitors and search engine
 * Content & SEO analysis: Invaluable tools to write SEO-friendly texts.
 * The snippet preview shows you how your post or page will look in the search results - even on mobile. Yoast SEO Premium even has social media previews!
 * **[Premium]** The Insights tool shows you what your text focuses on so you can keep your article in line with your keyphrases.
-* **[Premium]** Multiple focus keyphrases: Optimize your article for synonyms and related keyphrases.
+* **[Premium]** Synonyms & related keyphrases: Optimize your article for synonyms and related keyphrases.
 * **[Premium]** Automatic internal linking suggestions: write your article and get automatic suggested posts to link to.
 
 #### Keep your site in perfect shape
@@ -52,7 +52,7 @@ Yoast SEO does everything in its power to please both visitors and search engine
 
 The Yoast team does not always provide active support for the Yoast SEO plugin on the WordPress.org forums, as we prioritize our email support. One-on-one email support is available to people who [bought Yoast SEO Premium](https://yoa.st/1v8) only.
 
-Note that the [Yoast SEO Premium](https://yoa.st/1v8) also has several extra features too, including the option to have multiple focus keyphrases, internal linking suggestions, cornerstone content checks and a redirect manager, so it is well worth your investment!
+Note that the [Yoast SEO Premium](https://yoa.st/1v8) also has several extra features too, including the option to have synonyms and related keyphrases, internal linking suggestions, cornerstone content checks and a redirect manager, so it is well worth your investment!
 
 You should also check out the [Yoast Local SEO](https://yoa.st/1uu), [Yoast News SEO](https://yoa.st/1uv) and [Yoast Video SEO](https://yoa.st/1uw) extensions to Yoast SEO. They work with the free version of Yoast SEO already, and these premium extensions of course come with support too.
 
@@ -106,83 +106,49 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
-= 8.4.0 =
-Release Date: October 9th, 2018
-
-Bugfixes:
-
-* Fixes a bug where the cornerstone content toggle was available for attachment pages.
-* Fixes a bug where the Search Console page displayed 'first detected' and 'last crawled' dates that were in the future.
+= 10.1.0 =
+Release Date: March 26th, 2019
 
 Enhancements:
 
-* Introduces the `wpseo_taxonomy_content_fields` filter to add additional fields to the taxonomy metabox.
-* Adds a margin below select fields so there's space between taxonomy settings for breadcrumbs. Props to [@emilyatmobtown](https://github.com/emilyatmobtown)
-
-= 8.3.0 =
-Release Date: September 25th, 2018
+* Removes Google+ from the various interfaces: social accounts, user profiles and more.
+* Adds a Wikipedia URL field to the social accounts list, to be used in sameAs Schema.org output.
+* Adds a LinkedIn profile URL field to user profiles.
+* Removes the `og:image:alt` tag as it causes potential accessibility issues when content is shared via Facebook.
+* Adds support for browsers auto-fill in the form fields that collect user information.
+* Adds missing screen reader text to the SEO score icon in the front end admin bar.
+* Increases the recommended sentence length limit for Spanish and Catalan to be more in line with best practices in these languages, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
+* Improves the list of Catalan transition words, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
+* Improves the list of Swedish transition words.
 
 Bugfixes:
 
-* Fixes a bug where an incorrect time would be outputted in the `article:published_time` and `article:modified_time` meta properties when a timezone with numerical UTC offset was used (e.g. UTC+10).
-* Fixes a bug where the `article:published_time` and `article:modified_time` meta properties would be localized. Props to [AminulBD](https://github.com/AminulBD).
-* Fixes a bug where the structured data rendered by the Gutenberg How-To and FAQ blocks was rendered on pages with multiple posts.
-* Fixes a bug where snippet variables would not be replaced in the `og:description` of taxonomies when they were added in the Facebook Description input field.
-* Fixes a bug where `babel-polyfill` would throw an error that there shouldn't be two instances of babel-polyfill.
-* Fixes a bug where the `bold` button was available in the How-to block's step title and the FAQ block's Question field while they were already bold by default.
-* Fixes a bug that caused keywords beginning with the Turkish characters `İ` / `i` and `I` / `ı` not to be recognized when changing that character from lowercase to uppercase and vice versa.
-
-Enhancements:
-
-* Adds a colon to the list of possible title separators.
-* Adds a setting and filter (`wpseo_duration_text`) to the how-to block that allows users to edit the text describing the time needed.
-* Adds a help text to the readability analysis.
+* Fixes a bug where selecting a parent page for a page would lead to console errors and a not-working 'parent page' snippet variable.
+* Fixes a bug where no focus indication was shown for the title separators in the configuration wizard and settings.
+* Fixes a bug where taxonomy terms weren't shown correctly in the Snippet Preview, for example when using the `Categories`, `Tags` or any custom taxonomy replacement variable.
+* Fixes a bug where breadcrumb structured data wasn't output when breadcrumbs are disabled and a theme with breadcrumb support has been installed.
+* Fixes a bug where a PHP notice would be written to `debug.log` when adding a new site to a WordPress 5.1 multisite installation.
 
 Other:
+* Removes all functionality that has been deprecated before Yoast SEO 6.1.
 
-* Adds a notice to the Yoast SEO dashboard that is shown when both Yoast SEO and All in One SEO Pack plugins are active.
-* Makes the duplicate content link on the archive settings open in a new tab. Props to [nikhilbarar](https://github.com/nikhilbarar).
-* Changes the notification message that is shown when a new SEO-related issue has been found.
-* Uses the correct type as the second argument of the `wpseo_sitemap_exclude_empty_terms` filter call when determining which taxonomies should have a sitemap. Props to [liarco](https://github.com/liarco).
-* Removes the executable bits on SVN assets. Props to [mathieu-aubin](https://github.com/mathieu-aubin).
-* Introduces an API function to get all Yoast SEO-related capabilities. Props to [JoryHogeveen](https://github.com/JoryHogeveen).
-* Changes the `@context` property from `http://schema.org` to `https://schema.org` in the FAQ and How-To block's structured data output.
-* Rename the `associatedMedia` property in the FAQ and How-To block's structured data output to `image`, to reflect a change in Google's guidelines.
-* Moves the `@type` and `name` properties to the root of the FAQ block's structured data output.
-* Nests the `Question` objects in the newly introduced `mainEntity` property in the FAQ block's structured data output.
-* Removes the superfluous `position` property from the How-To block's structured data output.
-
-= 8.2.1 =
-Release Date: September 20th, 2018
-
-Bugfixes:
-
-* Fixes a bug where the Chrome or Opera browser tab would crash on Windows when a Polish text contains sentences in passive voice.
-
-= 8.2.0 =
-Release Date: September 11th, 2018
+= 10.0.0 =
+Release Date: March 12th, 2019
 
 Enhancements:
 
-* Introduces a How-To block in Gutenberg to create a How-to guide in an SEO-friendly way. Read more about the Gutenblocks in [https://yoa.st/gutenblocks](our release post).
-* Introduces a FAQ block in Gutenberg to list your Frequently Asked Questions in an SEO-friendly way. Read more about the Gutenblocks in [https://yoa.st/gutenblocks](our release post).
-* Adds readability analysis for Polish.
-* On Multisite environments, in addition to the site domain, path and ID, also site titles are now present in the site selection dropdowns.
+* The recalibrated analysis is out of its beta phase and is now the default for the SEO analysis. Thanks for testing and giving us your valuable feedback! You are awesome! 👍
+* Adds `$taxonomy` to the arguments passed to the `wpseo_terms` filter. Props to [polevaultweb](https://github.com/polevaultweb).
+* Changes the screen reader text of the SEO score indicator in the menu bar and the traffic light in the snippet preview from `Bad SEO score.` to `Needs improvement.`
+* Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
 
 Bugfixes:
 
-* Fixes a bug where changing the WordPress slug would not correctly update the snippet editor.
-* Fixes a bug where the user input would trigger an analysis every time.
-* Fixes a bug with incorrect zooming on older iPhones within the installation wizard.
-* Fixes a bug where the OpenGraph image wouldn't show correctly for the frontpage in a few situations. Props to [@mt8](https://github.com/mt8) for the solution direction.
-* Fixes a bug where the Yoast SEO network admin menu and admin bar menu would appear when the plugin was only active for the main site, and not for the entire network.
-* Fixes a bug where snippet variables in the Twitter card title and description wouldn't be properly replaced.
-* Fixes a bug where a non-existing dependency was requested on the Search Appearance settings page.
-* Fixes a bug where the value of the primary category snippet variable in the classic editor wouldn't change when the primary category was changed.
-* Fixes a bug where the Gutenberg editor in the Classic Editor plugin would crash when the primary category picker was loaded. If something goes wrong in the primary category picker, it now shows a notification, instead of making the entire editor crash.
-* Fixes a bug where the readability analysis would not show the correct scores for cornerstone content.
-* Fixes a bug where switching off the SEO analysis would stop the readability analysis from loading.
-* Fixes a fatal error on the Term and Post edit pages when the server is running on PHP 5.2.
+* Fixes a bug where the `focus keyphrase` snippet variable was not correctly applied on term pages.
+* Fixes a bug where the Facebook image that was set for the WooCommerce Shop page would not be outputted as `og:image`. Props [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where the featured image set on a WooCommerce Shop page would not be outputted as Facebook OpenGraph Image or Twitter Image. Props [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where backslashes and consecutive double quotes would be removed from the focus keyphrase when saving a post or term.
+* Fixes a bug where backslashes would be removed from the breadcrumb title, focus keyphrase, title or meta description when saving a term.
 
 = Earlier versions =
 

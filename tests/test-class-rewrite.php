@@ -84,8 +84,36 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_Rewrite::request
 	 */
-	public function test_request() {
-		// @todo Find method to test redirects.
+	public function test_request_with_empty_query_vars() {
+
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Rewrite' )
+			->setMethods( array( 'redirect' ) )
+			->getMock();
+		$instance
+			->expects( $this->never() )
+			->method( 'redirect' );
+
+		$expected = array();
+
+		$this->assertEquals( $expected, $instance->request( array() ) );
+	}
+
+	/**
+	 * @covers WPSEO_Rewrite::request
+	 */
+	public function test_request_with_query_vars() {
+
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Rewrite' )
+			->setMethods( array( 'redirect' ) )
+			->getMock();
+		$instance
+			->expects( $this->once() )
+			->method( 'redirect' )
+		    ->with( 'my-category' );
+
+		$instance->request( array( 'wpseo_category_redirect' => 'my-category' ) );
 	}
 
 	/**
@@ -103,7 +131,6 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 				'(uncategorized)/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' => 'index.php?category_name=$matches[1]&feed=$matches[2]',
 				'(uncategorized)/page/?([0-9]{1,})/?$' => 'index.php?category_name=$matches[1]&paged=$matches[2]',
 				'(uncategorized)/?$'                   => 'index.php?category_name=$matches[1]',
-				'$'                                    => 'index.php?wpseo_category_redirect=$matches[1]',
 			);
 		}
 		else {
@@ -112,12 +139,12 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 				'blog/(uncategorized)/page/?([0-9]{1,})/?$' => 'index.php?category_name=$matches[1]&paged=$matches[2]',
 				'blog/(uncategorized)/?$'                   => 'index.php?category_name=$matches[1]',
 			);
-
-			global $wp_rewrite;
-			$old_base = trim( str_replace( '%category%', '(.+)', $wp_rewrite->get_category_permastruct() ), '/' );
-
-			$expected[ $old_base . '$' ] = 'index.php?wpseo_category_redirect=$matches[1]';
 		}
+
+		global $wp_rewrite;
+		$old_base = trim( str_replace( '%category%', '(.+)', $wp_rewrite->get_category_permastruct() ), '/' );
+
+		$expected[ $old_base . '$' ] = 'index.php?wpseo_category_redirect=$matches[1]';
 
 		$this->assertEquals( $expected, $c->category_rewrite_rules() );
 	}

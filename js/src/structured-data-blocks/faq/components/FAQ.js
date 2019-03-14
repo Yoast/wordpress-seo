@@ -1,8 +1,7 @@
 /* External dependencies */
-import React from "react";
 import PropTypes from "prop-types";
-import isUndefined from "lodash/isUndefined";
 import { __ } from "@wordpress/i18n";
+import { speak } from "@wordpress/a11y";
 
 /* Internal dependencies */
 import Question from "./Question";
@@ -30,12 +29,15 @@ export default class FAQ extends Component {
 
 		this.state = { focus: "" };
 
-		this.changeQuestion = this.changeQuestion.bind( this );
-		this.insertQuestion = this.insertQuestion.bind( this );
-		this.removeQuestion = this.removeQuestion.bind( this );
-		this.swapQuestions = this.swapQuestions.bind( this );
-
-		this.setFocus = this.setFocus.bind( this );
+		this.changeQuestion           = this.changeQuestion.bind( this );
+		this.insertQuestion           = this.insertQuestion.bind( this );
+		this.removeQuestion           = this.removeQuestion.bind( this );
+		this.swapQuestions            = this.swapQuestions.bind( this );
+		this.setQuestionRef           = this.setQuestionRef.bind( this );
+		this.moveQuestionDown         = this.moveQuestionDown.bind( this );
+		this.moveQuestionUp           = this.moveQuestionUp.bind( this );
+		this.setFocus                 = this.setFocus.bind( this );
+		this.onAddQuestionButtonClick = this.onAddQuestionButtonClick.bind( this );
 
 		this.editorRefs = {};
 	}
@@ -49,6 +51,31 @@ export default class FAQ extends Component {
 	 */
 	static generateId( prefix ) {
 		return `${ prefix }-${ new Date().getTime() }`;
+	}
+
+	/**
+	 * Handles the add question button action.
+	 *
+	 * This function is necessary because insertQuestion should be called without any arguments to make sure the
+	 * question is added in the right position.
+	 *
+	 * @returns {void}
+	 */
+	onAddQuestionButtonClick() {
+		this.insertQuestion( null, [], [], false );
+	}
+
+	/**
+	 * Set ref to a specific question editor.
+	 *
+	 * @param {string} part  Name of the editor to set the ref of.
+	 * @param {object} ref   Ref to the element.
+	 * @param {number} index Index of the Question.
+	 *
+	 * @returns {void}
+	 */
+	setQuestionRef( part, ref, index ) {
+		this.editorRefs[ `${ index }:${ part }` ] = ref;
 	}
 
 	/**
@@ -92,17 +119,17 @@ export default class FAQ extends Component {
 	/**
 	 * Inserts an empty Question into a FAQ block at the given index.
 	 *
-	 * @param {number}       [index]      The index of the Question after which a new Question should be added.
-	 * @param {array|string} [question]   The question of the new Question.
-	 * @param {array|string} [answer]     The answer of the new Question.
-	 * @param {bool}         [focus=true] Whether or not to focus the new Question.
+	 * @param {number}       [index]      Optional. The index of the Question after which a new Question should be added.
+	 * @param {array|string} [question]   Optional. The question of the new Question. Default: empty.
+	 * @param {array|string} [answer]     Optional. The answer of the new Question. Default: empty.
+	 * @param {bool}         [focus=true] Optional. Whether or not to focus the new Question. Default: true.
 	 *
 	 * @returns {void}
 	 */
-	insertQuestion( index, question = [], answer = [], focus = true ) {
+	insertQuestion( index = null, question = [], answer = [], focus = true ) {
 		const questions = this.props.attributes.questions ? this.props.attributes.questions.slice() : [];
 
-		if ( isUndefined( index ) ) {
+		if ( index === null ) {
 			index = questions.length - 1;
 		}
 
@@ -125,7 +152,11 @@ export default class FAQ extends Component {
 
 		if ( focus ) {
 			setTimeout( this.setFocus.bind( this, `${ index + 1 }:question` ) );
+			// When moving focus to a newly created question, return and don't use the speak() message.
+			return;
 		}
+
+		speak( __( "New question added", "wordpress-seo" ) );
 	}
 
 	/**
@@ -154,10 +185,32 @@ export default class FAQ extends Component {
 
 		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
 		if ( focusIndex === `${ index1 }` ) {
-			this.setFocus( `${ index2 }:${ subElement }` );
+			this.setFocus( subElement, index2 );
 		} else if ( focusIndex === `${ index2 }` ) {
-			this.setFocus( `${ index1 }:${ subElement }` );
+			this.setFocus( subElement, index1 );
 		}
+	}
+
+	/**
+	 * Swap the question with the one above it.
+	 *
+	 * @param {number} index Index of the question to move.
+	 *
+	 * @returns {void}
+	 */
+	moveQuestionUp( index ) {
+		this.swapQuestions( index, index - 1 );
+	}
+
+	/**
+	 * Swap the question with the one below it.
+	 *
+	 * @param {number} index Index of the question to move.
+	 *
+	 * @returns {void}
+	 */
+	moveQuestionDown( index ) {
+		this.swapQuestions( index, index + 1 );
 	}
 
 	/**
@@ -199,11 +252,14 @@ export default class FAQ extends Component {
 	/**
 	 * Sets the focus to a specific QA pair in the FAQ block.
 	 *
-	 * @param {number|string} elementToFocus The element to focus, either the index of the Question that should be in focus or name of the input.
+	 * @param {number|string} part  The name of the element to focus.
+	 * @param {number}        index The index of the question to focus.
 	 *
 	 * @returns {void}
 	 */
-	setFocus( elementToFocus ) {
+	setFocus( part, index ) {
+		const elementToFocus = `${ index }:${ part }`;
+
 		if ( elementToFocus === this.state.focus ) {
 			return;
 		}
@@ -216,16 +272,16 @@ export default class FAQ extends Component {
 	}
 
 	/**
-	 * Retrieves a button to add a step to the front of the list.
+	 * Retrieves a button to add a question at the end of the FAQ list.
 	 *
-	 * @returns {Component} The button for adding add a step.
+	 * @returns {Component} The button to add a question.
 	 */
 	getAddQuestionButton() {
 		return (
 			<IconButton
 				icon="insert"
-				onClick={ () => this.insertQuestion() }
-				className="editor-inserter__toggle"
+				onClick={ this.onAddQuestionButtonClick }
+				className="editor-inserter__toggle schema-faq-add-question"
 			>
 				{ __( "Add question", "wordpress-seo" ) }
 			</IconButton>
@@ -251,22 +307,18 @@ export default class FAQ extends Component {
 				( question, index ) => {
 					return (
 						<Question
+							index={ index }
 							key={ question.id }
 							attributes={ question }
-							insertQuestion={ () => this.insertQuestion( index ) }
-							removeQuestion={ () => this.removeQuestion( index ) }
-							editorRef={ ( part, ref ) => {
-								this.editorRefs[ `${ index }:${ part }` ] = ref;
-							} }
-							onChange={
-								( question, answer, prevQuestion, prevAnswer ) =>
-									this.changeQuestion( question, answer, prevQuestion, prevAnswer, index )
-							}
-							onFocus={ ( part ) => this.setFocus( `${ index }:${ part }` ) }
+							insertQuestion={ this.insertQuestion }
+							removeQuestion={ this.removeQuestion }
+							editorRef={ this.setQuestionRef }
+							onChange={ this.changeQuestion }
+							onFocus={ this.setFocus }
 							isSelected={ focusIndex === `${ index }` }
 							subElement={ subElement }
-							onMoveUp={ () => this.swapQuestions( index, index - 1 ) }
-							onMoveDown={ () => this.swapQuestions( index, index + 1 ) }
+							onMoveUp={ this.moveQuestionUp }
+							onMoveDown={ this.moveQuestionDown }
 							isFirst={ index === 0 }
 							isLast={ index === attributes.questions.length - 1 }
 						/>
@@ -325,4 +377,8 @@ FAQ.propTypes = {
 	attributes: PropTypes.object.isRequired,
 	setAttributes: PropTypes.func.isRequired,
 	className: PropTypes.string,
+};
+
+FAQ.defaultProps = {
+	className: "",
 };

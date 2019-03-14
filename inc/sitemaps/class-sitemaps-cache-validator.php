@@ -12,13 +12,25 @@
  */
 class WPSEO_Sitemaps_Cache_Validator {
 
-	/** @var string Prefix of the transient key for sitemap caches */
+	/**
+	 * Prefix of the transient key for sitemap caches.
+	 *
+	 * @var string
+	 */
 	const STORAGE_KEY_PREFIX = 'yst_sm_';
 
-	/** Name of the option that holds the global validation value */
+	/**
+	 * Name of the option that holds the global validation value.
+	 *
+	 * @var string
+	 */
 	const VALIDATION_GLOBAL_KEY = 'wpseo_sitemap_cache_validator_global';
 
-	/** The format which creates the key of the option that holds the type validation value */
+	/**
+	 * The format which creates the key of the option that holds the type validation value.
+	 *
+	 * @var string
+	 */
 	const VALIDATION_TYPE_KEY_FORMAT = 'wpseo_sitemap_%s_cache_validator';
 
 	/**
@@ -76,7 +88,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 	 * @throws OutOfRangeException When there is less than 15 characters of space for a key that is originally longer.
 	 */
 	public static function truncate_type( $type, $prefix = '', $postfix = '' ) {
-		/**
+		/*
 		 * This length has been restricted by the database column length of 64 in the past.
 		 * The prefix added by WordPress is '_transient_' because we are saving to a transient.
 		 * We need to use a timeout on the transient, otherwise the values get autoloaded, this adds
@@ -89,7 +101,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 		if ( strlen( $type ) > $max_length ) {
 
 			if ( $max_length < 15 ) {
-				/**
+				/*
 				 * If this happens the most likely cause is a page number that is too high.
 				 *
 				 * So this would not happen unintentionally..
@@ -167,7 +179,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 			$like = sprintf( '%1$s%2$s_%%', self::STORAGE_KEY_PREFIX, $type );
 		}
 
-		/**
+		/*
 		 * Add slashes to the LIKE "_" single character wildcard.
 		 *
 		 * We can't use `esc_like` here because we need the % in the query.

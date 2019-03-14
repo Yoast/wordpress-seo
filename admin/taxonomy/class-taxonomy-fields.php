@@ -22,7 +22,7 @@ abstract class WPSEO_Taxonomy_Fields {
 	/**
 	 * Setting the class properties
 	 *
-	 * @param stdClass $term    The current term.
+	 * @param stdClass $term The current term.
 	 */
 	public function __construct( $term ) {
 		$this->term = $term;

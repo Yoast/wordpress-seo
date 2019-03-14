@@ -21,25 +21,27 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 */
 	protected $defaults = array(
 		// Form fields.
-		'facebook_site'      => '', // Text field.
-		'instagram_url'      => '',
-		'linkedin_url'       => '',
-		'myspace_url'        => '',
-		'og_default_image'   => '', // Text field.
-		'og_frontpage_title' => '', // Text field.
-		'og_frontpage_desc'  => '', // Text field.
-		'og_frontpage_image' => '', // Text field.
-		'opengraph'          => true,
-		'pinterest_url'      => '',
-		'pinterestverify'    => '',
-		'plus-publisher'     => '', // Text field.
-		'twitter'            => true,
-		'twitter_site'       => '', // Text field.
-		'twitter_card_type'  => 'summary_large_image',
-		'youtube_url'        => '',
-		'google_plus_url'    => '',
+		'facebook_site'         => '', // Text field.
+		'instagram_url'         => '',
+		'linkedin_url'          => '',
+		'myspace_url'           => '',
+		'og_default_image'      => '', // Text field.
+		'og_default_image_id'   => '',
+		'og_frontpage_title'    => '', // Text field.
+		'og_frontpage_desc'     => '', // Text field.
+		'og_frontpage_image'    => '', // Text field.
+		'og_frontpage_image_id' => '',
+		'opengraph'             => true,
+		'pinterest_url'         => '',
+		'pinterestverify'       => '',
+		'plus-publisher'        => '', // Text field.
+		'twitter'               => true,
+		'twitter_site'          => '', // Text field.
+		'twitter_card_type'     => 'summary_large_image',
+		'youtube_url'           => '',
+		'wikipedia_url'         => '',
 		// Form field, but not always available.
-		'fbadminapp'         => '', // Facebook app ID.
+		'fbadminapp'            => '', // Facebook app ID.
 	);
 
 	/**
@@ -50,7 +52,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'pinterestverify',
 		'fbadminapp',
 	);
-
 
 	/**
 	 * @var  array  Array of allowed twitter card types.
@@ -114,6 +115,16 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					}
 					break;
 
+				case 'og_default_image_id':
+				case 'og_frontpage_image_id':
+					if ( isset( $dirty[ $key ] ) ) {
+						$clean[ $key ] = (int) $dirty[ $key ];
+
+						if ( $dirty[ $key ] === '' ) {
+							$clean[ $key ] = $dirty[ $key ];
+						}
+					}
+					break;
 
 				/* URL text fields - no ftp allowed. */
 				case 'facebook_site':
@@ -125,7 +136,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 				case 'og_default_image':
 				case 'og_frontpage_image':
 				case 'youtube_url':
-				case 'google_plus_url':
+				case 'wikipedia_url':
 					$this->validate_url( $key, $dirty, $old, $clean );
 					break;
 

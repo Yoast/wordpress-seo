@@ -102,8 +102,28 @@ class WPSEO_Taxonomy_Fields_Presenter {
 				$field .= '<textarea class="large-text" rows="' . esc_attr( $rows ) . '" id="' . $field_name . '" name="' . $field_name . '"' . $aria_describedby . '>' . esc_textarea( $field_value ) . '</textarea>';
 				break;
 			case 'upload':
-				$field .= '<input id="' . $field_name . '" type="text" size="36" name="' . $field_name . '" value="' . esc_attr( $field_value ) . '"' . $aria_describedby . ' />';
-				$field .= '<input id="' . $field_name . '_button" class="wpseo_image_upload_button button" type="button" value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '" />';
+				$field .= '<input' .
+					' id="' . $field_name . '"' .
+					' type="text"' .
+					' size="36"' .
+					' name="' . $field_name . '"' .
+					' value="' . esc_attr( $field_value ) . '"' . $aria_describedby . '' .
+					' readonly="readonly"' .
+					' /> ';
+				$field .= '<input' .
+					' id="' . esc_attr( $field_name ) . '_button"' .
+					' class="wpseo_image_upload_button button"' .
+					' data-target="' . esc_attr( $field_name ) . '"' .
+					' data-target-id="hidden_' . esc_attr( $field_name ) . '-id"' .
+					' type="button"' .
+					' value="' . esc_attr__( 'Upload Image', 'wordpress-seo' ) . '"' .
+					' /> ';
+				$field .= '<input' .
+					' id="' . esc_attr( $field_name ) . '_button"' .
+					' class="wpseo_image_remove_button button"' .
+					' type="button"' .
+					' value="' . esc_attr__( 'Clear Image', 'wordpress-seo' ) . '"' .
+					' />';
 				break;
 			case 'select':
 				if ( is_array( $options ) && $options !== array() ) {
@@ -177,9 +197,9 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	/**
 	 * Returns the HTML for the row which contains label, help and the field.
 	 *
-	 * @param string                 $label       The html for the label if there was a label set.
-	 * @param WPSEO_Admin_Help_Panel $help        The help panel to render in this row.
-	 * @param string                 $field       The html for the field.
+	 * @param string                 $label The html for the label if there was a label set.
+	 * @param WPSEO_Admin_Help_Panel $help  The help panel to render in this row.
+	 * @param string                 $field The html for the field.
 	 *
 	 * @return string
 	 */

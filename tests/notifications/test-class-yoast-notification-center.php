@@ -10,8 +10,22 @@
  */
 class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
-	/** @var int User ID */
+	/**
+	 * User ID.
+	 *
+	 * @var int
+	 */
 	private $user_id;
+
+	/**
+	 * Default notification arguments to set up a fake Yoast_Notification.
+	 *
+	 * @var array
+	 */
+	private $fake_notification_defaults = array(
+		'id'            => 'some_id',
+		'dismissal_key' => 'notification_dismissal',
+	);
 
 	/**
 	 * Create user with proper caps
@@ -185,6 +199,35 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$stored_notifications = get_option( Yoast_Notification_Center::STORAGE_KEY );
 
 		$this->assertFalse( $stored_notifications );
+	}
+
+	/**
+	 * Not removing notifications from storage when there are no notifications.
+	 */
+	public function test_remove_storage_without_notifications() {
+		$subject = new Yoast_Notification_Center_Double();
+
+		// The notification center does not remove anything when there are no notifications.
+		$this->assertFalse( $subject->has_stored_notifications() );
+
+		$this->assertFalse( $subject->remove_storage() );
+	}
+
+	/**
+	 * Removing notifications from storage when there are notifications.
+	 */
+	public function test_remove_storage_with_notifications() {
+		$notification = new Yoast_Notification( 'b', array( 'id' => 'fake_id' ) );
+
+		$subject = new Yoast_Notification_Center_Double();
+		$subject->setup_current_notifications();
+
+		$subject->add_notification( $notification );
+		$subject->update_storage();
+
+		$this->assertTrue( $subject->has_stored_notifications() );
+
+		$this->assertTrue( $subject->remove_storage() );
 	}
 
 	/**
@@ -457,13 +500,9 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Notification_Center::dismiss_notification()
 	 */
 	public function test_dismiss_notification_is_per_site() {
-
 		$site2 = self::factory()->blog->create();
 
-		$notification  = new Yoast_Notification( 'notification', array(
-			'id'            => 'some_id',
-			'dismissal_key' => 'notification_dismissal',
-		) );
+		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// Dismiss notification for the current site.
@@ -487,13 +526,9 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Notification_Center::restore_notification()
 	 */
 	public function test_restore_notification_is_per_site() {
-
 		$site2 = self::factory()->blog->create();
 
-		$notification  = new Yoast_Notification( 'notification', array(
-			'id'            => 'some_id',
-			'dismissal_key' => 'notification_dismissal',
-		) );
+		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// Dismiss notification for both sites.
@@ -523,13 +558,15 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Notification_Center::is_notification_dismissed()
 	 */
 	public function test_is_notification_dismissed_is_per_site() {
+		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
+			$this->markTestSkipped( 'Skipped because since WordPress 5.1 the hook wpmu_new_blog is deprecated' );
+
+			return;
+		}
 
 		$site2 = self::factory()->blog->create();
 
-		$notification  = new Yoast_Notification( 'notification', array(
-			'id'            => 'some_id',
-			'dismissal_key' => 'notification_dismissal',
-		) );
+		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// Dismiss notification for the current site.
@@ -552,10 +589,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_is_notification_dismissed_falls_back_to_user_meta() {
 
-		$notification  = new Yoast_Notification( 'notification', array(
-			'id'            => 'some_id',
-			'dismissal_key' => 'notification_dismissal',
-		) );
+		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// Dismiss notification in the old incorrect way.
@@ -577,10 +611,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_restore_notification_clears_user_meta() {
 
-		$notification  = new Yoast_Notification( 'notification', array(
-			'id'            => 'some_id',
-			'dismissal_key' => 'notification_dismissal',
-		) );
+		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// Set notification dismissed in both user option and old user meta way.
@@ -693,6 +724,31 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests some scenarios for the has_stored_notifications method.
+	 *
+	 * @dataProvider has_stored_notifications_provider
+	 *
+	 * @covers Yoast_Notification_Center::has_stored_notifications
+	 *
+	 * @param mixed  $stored_notifications The return value of get_stored_notifications
+	 * @param bool   $expected             The expected value: true or false.
+	 * @param string $message              Message to show when test fails.
+	 */
+	public function test_has_stored_notifications( $stored_notifications, $expected, $message  ) {
+		$instance = $this
+			->getMockBuilder( 'Yoast_Notification_Center_Double' )
+			->setMethods( array( 'get_stored_notifications' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_stored_notifications' )
+			->will( $this->returnValue( $stored_notifications ) );
+
+		$this->assertEquals( $expected, $instance->has_stored_notifications( ), $message );
+	}
+
+	/**
 	 * Gets some notification objects.
 	 *
 	 * This method is used as a filter to override notifications.
@@ -701,12 +757,39 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 */
 	public function get_sample_notifications() {
 		return array(
-			new Yoast_Notification( 'notification', array(
-				'id' => 'some_id',
-			) ),
-			new Yoast_Notification( 'notification', array(
-				'id' => 'another_id',
-			) ),
+			new Yoast_Notification(
+				'notification',
+				array( 'id' => 'some_id' )
+			),
+			new Yoast_Notification(
+				'notification',
+				array( 'id' => 'another_id' )
+			),
+		);
+	}
+
+	/**
+	 * Values for the has stored notifications test.
+	 *
+	 * @return array The test values.
+	 */
+	public function has_stored_notifications_provider() {
+		return array(
+			array(
+				'stored_notifications' => false,
+				'expected'             => false,
+				'message'              => 'With get_stored_notifications returning false',
+			),
+			array(
+				'stored_notifications' => array(),
+				'expected'             => false,
+				'message'              => 'With get_stored_notifications returning an empty array',
+			),
+			array(
+				'stored_notifications' => array( 'This is a notification' ),
+				'expected'             => true,
+				'message'              => 'With get_stored_notifications returning a notification',
+			),
 		);
 	}
 

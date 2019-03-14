@@ -17,11 +17,14 @@ class WPSEO_Config_Field_Company_Name extends WPSEO_Config_Field {
 		parent::__construct( 'publishingEntityCompanyName', 'Input' );
 
 		$this->set_property( 'label', __( 'The name of the company', 'wordpress-seo' ) );
+		$this->set_property( 'autoComplete', 'organization' );
 
 		$this->set_requires( 'publishingEntityType', 'company' );
 	}
 
 	/**
+	 * Sets the adapter.
+	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */
 	public function set_adapter( WPSEO_Configuration_Options_Adapter $adapter ) {

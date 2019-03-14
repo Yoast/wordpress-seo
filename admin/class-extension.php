@@ -10,7 +10,9 @@
  */
 class WPSEO_Extension {
 
-	/** @var array */
+	/**
+	 * @var array
+	 */
 	protected $config = array();
 
 	/**
@@ -29,6 +31,15 @@ class WPSEO_Extension {
 	 */
 	public function get_title() {
 		return $this->config['title'];
+	}
+
+	/**
+	 * Returns the product title to display.
+	 *
+	 * @return string The title to display on the license page.
+	 */
+	public function get_display_title() {
+		return empty( $this->config['display_title'] ) ? $this->get_title() : $this->config['display_title'];
 	}
 
 	/**

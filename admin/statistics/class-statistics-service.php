@@ -10,6 +10,9 @@
  */
 class WPSEO_Statistics_Service {
 
+	/**
+	 * @var string
+	 */
 	const CACHE_TRANSIENT_KEY = 'wpseo-statistics-totals';
 
 	/**
@@ -29,7 +32,6 @@ class WPSEO_Statistics_Service {
 	 */
 	public function __construct( WPSEO_Statistics $statistics ) {
 		$this->statistics = $statistics;
-		$this->labels     = $this->labels();
 	}
 
 	/**
@@ -38,7 +40,11 @@ class WPSEO_Statistics_Service {
 	 * @return WP_REST_Response The response object.
 	 */
 	public function get_statistics() {
-		$statistics = $this->statistic_items();
+		// Switch to the user locale with fallback to the site locale.
+		switch_to_locale( WPSEO_Language_Utils::get_user_locale() );
+
+		$this->labels = $this->labels();
+		$statistics   = $this->statistic_items();
 
 		$data = array(
 			'header'     => $this->get_header_from_statistics( $statistics ),
@@ -103,7 +109,7 @@ class WPSEO_Statistics_Service {
 	 * Set the statistics transient cache for a specific user
 	 *
 	 * @param array $transient The current stored transient with the cached data.
-	 * @param int   $user The user's ID to assign the retrieved values to.
+	 * @param int   $user      The user's ID to assign the retrieved values to.
 	 *
 	 * @return array The statistics transient for the user.
 	 */

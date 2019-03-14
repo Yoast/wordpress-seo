@@ -96,6 +96,7 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 			$this->get_submenu_page( __( 'Social', 'wordpress-seo' ), 'wpseo_social' ),
 			$this->get_submenu_page( __( 'Tools', 'wordpress-seo' ), 'wpseo_tools' ),
 			$this->get_submenu_page( $this->get_license_page_title(), 'wpseo_licenses' ),
+			$this->get_submenu_page( __( 'Courses', 'wordpress-seo' ), 'wpseo_courses' ),
 		);
 
 		/**
@@ -130,12 +131,6 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 	 * @return string Capability to check against.
 	 */
 	protected function get_manage_capability() {
-		/**
-		 * Filter: 'wpseo_manage_options_capability' - Allow changing the capability users need to view the settings pages
-		 *
-		 * @deprecated 5.5
-		 * @api string unsigned The capability
-		 */
-		return apply_filters_deprecated( 'wpseo_manage_options_capability', array( 'wpseo_manage_options' ), 'WPSEO 5.5.0', false, 'Use the introduced wpseo_manage_options capability instead.' );
+		return 'wpseo_manage_options';
 	}
 }

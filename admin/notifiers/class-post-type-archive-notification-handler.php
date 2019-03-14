@@ -8,14 +8,7 @@
 /**
  * Represents the logic for showing the post type archive notification.
  */
-class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WPSEO_Notification_Handler {
-
-	/**
-	 * The identifier for the notification.
-	 *
-	 * @var string
-	 */
-	protected $notification_identifier = 'post-type-archive-notification';
+class WPSEO_Post_Type_Archive_Notification_Handler extends WPSEO_Dismissible_Notification {
 
 	/**
 	 * Defaults for the title option.
@@ -25,70 +18,43 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	protected $option_defaults = array();
 
 	/**
-	 * Listens to an argument in the request URL and triggers an action.
-	 *
-	 * @return void
-	 */
-	public function listen() {
-		if ( $this->get_listener_value() !== $this->notification_identifier ) {
-			return;
-		}
-
-		$this->set_dismissal_state();
-		$this->redirect_to_dashboard();
-	}
-
-	/**
-	 * Adds the notification if applicable, otherwise removes it.
-	 *
-	 * @param Yoast_Notification_Center $notification_center The notification center object.
-	 *
-	 * @return void
-	 */
-	public function handle( Yoast_Notification_Center $notification_center ) {
-		if ( ! $this->is_applicable() ) {
-			$notification_center->remove_notification_by_id( 'wpseo-' . $this->notification_identifier );
-
-			return;
-		}
-
-		$notification = $this->get_notification( $this->get_post_types() );
-		$notification_center->add_notification( $notification );
-	}
-
-	/**
-	 * Retrevies the value where listener is listening for.
-	 *
-	 * @return string The listener value.
+	 * Sets the notification identifier.
 	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
-	protected function get_listener_value() {
-		return filter_input( INPUT_GET, 'yoast_dismiss' );
+	public function __construct() {
+		$this->notification_identifier = 'post-type-archive-notification';
 	}
 
 	/**
-	 * Redirects the user back to the dashboard.
+	 * Checks if the notice should be shown.
 	 *
-	 * @return void
-	 *
-	 * @codeCoverageIgnore
+	 * @return bool True when applicable.
 	 */
-	protected function redirect_to_dashboard() {
-		wp_safe_redirect( admin_url( 'admin.php?page=wpseo_dashboard' ) );
-		exit;
+	protected function is_applicable() {
+		if ( $this->is_notice_dismissed() ) {
+			return false;
+		}
+
+		if ( $this->is_new_install() ) {
+			return false;
+		}
+
+		return $this->get_post_types() !== array();
 	}
 
 	/**
 	 * Returns the notification.
 	 *
-	 * @param array $post_types The post types that needs an other check.
-	 *
 	 * @return Yoast_Notification The notification for the notification center.
 	 *
 	 * @codeCoverageIgnore
 	 */
-	protected function get_notification( array $post_types ) {
+	protected function get_notification() {
+		$post_types = $this->get_post_types();
+
 		$message  = esc_html__(
 			'We\'ve recently improved the functionality of the Search Appearance settings. Unfortunately, we\'ve discovered that for some edge-cases, saving the settings for specific post type archives might have gone wrong.',
 			'wordpress-seo'
@@ -98,7 +64,7 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 			/* translators: %1$s is the archive template link start tag, %2$s is the link closing tag, %3$s is a comma separated string with content types. */
 			_n(
 				'Please check the %1$sarchive template%2$s for the following content type: %3$s.',
-				' Please check the %1$sarchive templates%2$s for the following content types: %3$s.',
+				'Please check the %1$sarchive templates%2$s for the following content types: %3$s.',
 				count( $post_types ),
 				'wordpress-seo'
 			),
@@ -122,45 +88,6 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 		);
 
 		return new Yoast_Notification( $message, $notification_options );
-	}
-
-	/**
-	 * Checks if the noticiation should be shown.
-	 *
-	 * @return bool True when applicable.
-	 */
-	protected function is_applicable() {
-		if ( $this->is_notice_dismissed() ) {
-			return false;
-		}
-
-		if ( $this->is_new_install() ) {
-			return false;
-		}
-
-		return $this->get_post_types() !== array();
-	}
-
-	/**
-	 * Checks whether the notification has been dismissed.
-	 *
-	 * @return bool True when notification is dismissed.
-	 *
-	 * @codeCoverageIgnore
-	 */
-	protected function is_notice_dismissed() {
-		return get_user_meta( get_current_user_id(), 'wpseo-remove-' . $this->notification_identifier, true ) === '1';
-	}
-
-	/**
-	 * Dismisses the notification.
-	 *
-	 * @return void
-	 *
-	 * @codeCoverageIgnore
-	 */
-	protected function set_dismissal_state() {
-		update_user_meta( get_current_user_id(), 'wpseo-remove-' . $this->notification_identifier, true );
 	}
 
 	/**
@@ -206,7 +133,7 @@ class WPSEO_Post_Type_Archive_Notification_Handler implements WPSEO_Listener, WP
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function filter_woocommerce_product_type( $post_types ) {
+	protected function filter_woocommerce_product_type( $post_types ) {
 		if ( WPSEO_Utils::is_woocommerce_active() ) {
 			unset( $post_types['product'] );
 		}

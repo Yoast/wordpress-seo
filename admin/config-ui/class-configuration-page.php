@@ -10,10 +10,13 @@
  */
 class WPSEO_Configuration_Page {
 
+	/**
+	 * @var string
+	 */
 	const PAGE_IDENTIFIER = 'wpseo_configurator';
 
 	/**
-	 * Sets the hooks when the user has enought rights and is on the right page.
+	 * Sets the hooks when the user has enough rights and is on the right page.
 	 */
 	public function set_hooks() {
 		if ( ! ( $this->is_config_page() && current_user_can( WPSEO_Configuration_Endpoint::CAPABILITY_RETRIEVE ) ) ) {
@@ -79,6 +82,7 @@ class WPSEO_Configuration_Page {
 		 */
 		wp_enqueue_style( 'forms' );
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->register_wp_assets();
 		$asset_manager->register_assets();
 		$asset_manager->enqueue_script( 'configuration-wizard' );
 		$asset_manager->enqueue_style( 'yoast-components' );
@@ -249,23 +253,5 @@ class WPSEO_Configuration_Page {
 	 */
 	private function remove_notification_option() {
 		WPSEO_Options::set( 'show_onboarding_notice', false );
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Returns the translations necessary for the configuration wizard.
-	 *
-	 * @deprecated 4.9
-	 * @codeCoverageIgnore
-	 *
-	 * @returns array The translations for the configuration wizard.
-	 */
-	public function get_translations() {
-		_deprecated_function( __METHOD__, 'WPSEO 4.9', 'WPSEO_' );
-
-		$translations = new WPSEO_Configuration_Translations( WPSEO_Utils::get_user_locale() );
-
-		return $translations->retrieve();
 	}
 }

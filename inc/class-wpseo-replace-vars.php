@@ -333,7 +333,15 @@ class WPSEO_Replace_Vars {
 				$replacement = wp_strip_all_tags( $this->args->post_excerpt );
 			}
 			elseif ( $this->args->post_content !== '' ) {
-				$replacement = wp_html_excerpt( strip_shortcodes( $this->args->post_content ), 156 );
+				$content = strip_shortcodes( $this->args->post_content );
+				$content = wp_strip_all_tags( $content );
+
+				if ( strlen( utf8_decode( $content ) ) <= 156 ) {
+					return $content;
+				}
+
+				$replacement = wp_html_excerpt( $content, 156 );
+
 				// Trim the auto-generated string to a word boundary.
 				$replacement = substr( $replacement, 0, strrpos( $replacement, ' ' ) );
 			}
@@ -822,16 +830,25 @@ class WPSEO_Replace_Vars {
 	 * @return string|null
 	 */
 	private function retrieve_focuskw() {
-		$replacement = null;
-
+		// Retrieve focuskw from a Post.
 		if ( ! empty( $this->args->ID ) ) {
 			$focus_kw = WPSEO_Meta::get_value( 'focuskw', $this->args->ID );
 			if ( $focus_kw !== '' ) {
-				$replacement = $focus_kw;
+				return $focus_kw;
+			}
+
+			return null;
+		}
+
+		// Retrieve focuskw from a Term.
+		if ( ! empty( $this->args->term_id ) ) {
+			$focus_kw = WPSEO_Taxonomy_Meta::get_term_meta( $this->args->term_id, $this->args->taxonomy, 'focuskw' );
+			if ( $focus_kw !== '' ) {
+				return $focus_kw;
 			}
 		}
 
-		return $replacement;
+		return null;
 	}
 
 	/**
@@ -1088,10 +1105,8 @@ class WPSEO_Replace_Vars {
 	private static function register_help_text( $type, WPSEO_Replacement_Variable $replacement_variable ) {
 		$identifier = $replacement_variable->get_variable();
 
-		if ( ( is_string( $type ) && in_array( $type, array(
-					'basic',
-					'advanced',
-				), true ) ) && ( $identifier !== '' && ! isset( self::$help_texts[ $type ][ $identifier ] ) )
+		if ( ( is_string( $type ) && in_array( $type, array( 'basic', 'advanced' ), true ) )
+			&& ( $identifier !== '' && ! isset( self::$help_texts[ $type ][ $identifier ] ) )
 		) {
 			self::$help_texts[ $type ][ $identifier ] = $replacement_variable;
 		}
@@ -1295,6 +1310,14 @@ class WPSEO_Replace_Vars {
 	 * Set/translate the help texts for the WPSEO standard basic variables.
 	 */
 	private static function set_basic_help_texts() {
+		/* translators: %s: wp_title() function. */
+		$separator_description = __( 'The separator defined in your theme\'s %s tag.', 'wordpress-seo' );
+		$separator_description = sprintf(
+			$separator_description,
+			// '<code>wp_title()</code>'
+			'wp_title()'
+		);
+
 		$replacement_variables = array(
 			new WPSEO_Replacement_Variable( 'date', __( 'Date', 'wordpress-seo' ), __( 'Replaced with the date of the post/page', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'title', __( 'Title', 'wordpress-seo' ), __( 'Replaced with the title of the post/page', 'wordpress-seo' ) ),
@@ -1312,12 +1335,7 @@ class WPSEO_Replace_Vars {
 			new WPSEO_Replacement_Variable( 'term_description', __( 'Term description', 'wordpress-seo' ), __( 'Replaced with the term description', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'term_title', __( 'Term title', 'wordpress-seo' ), __( 'Replaced with the term name', 'wordpress-seo' ) ),
 			new WPSEO_Replacement_Variable( 'searchphrase', __( 'Search phrase', 'wordpress-seo' ), __( 'Replaced with the current search phrase', 'wordpress-seo' ) ),
-			new WPSEO_Replacement_Variable( 'sep', __( 'Separator', 'wordpress-seo' ), sprintf(
-				/* translators: %s: wp_title() function. */
-				__( 'The separator defined in your theme\'s %s tag.', 'wordpress-seo' ),
-				// '<code>wp_title()</code>'
-				'wp_title()'
-			) ),
+			new WPSEO_Replacement_Variable( 'sep', __( 'Separator', 'wordpress-seo' ), $separator_description ),
 		);
 
 		foreach ( $replacement_variables as $replacement_variable ) {
@@ -1415,8 +1433,9 @@ class WPSEO_Replace_Vars {
 		 * Allows filtering of the terms list used to replace %%category%%, %%tag%% and %%ct_<custom-tax-name>%% variables.
 		 *
 		 * @api    string    $output    Comma-delimited string containing the terms.
+		 * @api    string    $taxonomy  The taxonomy of the terms.
 		 */
-		return apply_filters( 'wpseo_terms', $output );
+		return apply_filters( 'wpseo_terms', $output, $taxonomy );
 	}
 } /* End of class WPSEO_Replace_Vars */
 

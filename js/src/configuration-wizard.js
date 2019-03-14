@@ -3,12 +3,10 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 // Required to make Material UI work with touch screens.
-import injectTapEventPlugin from "react-tap-event-plugin";
 import { OnboardingWizard } from "yoast-components";
 import { MessageBox } from "yoast-components";
 
 import MailchimpSignup from "./components/MailchimpSignup";
-import ConfigurationChoices from "./components/ConfigurationChoices";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 import MediaUpload from "./components/MediaUpload";
 import Suggestions from "./components/Suggestions";
@@ -20,8 +18,6 @@ import isUndefined from "lodash/isUndefined";
 import YoastIcon from "../../images/Yoast_SEO_Icon.svg";
 
 import { setYoastComponentsL10n } from "./helpers/i18n";
-
-injectTapEventPlugin();
 
 class App extends React.Component {
 	/**
@@ -35,7 +31,6 @@ class App extends React.Component {
 		this.state = {
 			isLoading: true,
 		};
-
 		this.getConfig();
 	}
 
@@ -77,7 +72,6 @@ class App extends React.Component {
 				MailchimpSignup,
 				MediaUpload,
 				ConnectGoogleSearchConsole,
-				ConfigurationChoices,
 				Suggestions,
 				FinalStep,
 			},

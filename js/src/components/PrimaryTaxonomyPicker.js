@@ -1,4 +1,3 @@
-/* global wp */
 /* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
@@ -8,13 +7,15 @@ import {
 } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 import { sprintf, __ } from "@wordpress/i18n";
+import apiFetch from "@wordpress/api-fetch";
+import { addQueryArgs } from "@wordpress/url";
 import styled from "styled-components";
 import diff from "lodash/difference";
 
 /* Internal dependencies */
 import TaxonomyPicker from "./TaxonomyPicker";
 
-const PrimaryTaxonomyPickerLabel = styled.label`
+const PrimaryTaxonomyPickerField = styled.div`
 	padding-top: 16px;
 `;
 
@@ -112,20 +113,24 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {void}
 	 */
 	fetchTerms() {
-		const TaxonomyCollection = wp.api.getCollectionByRoute( `/wp/v2/${ this.props.taxonomy.restBase }` );
-		if ( ! TaxonomyCollection ) {
+		const { taxonomy } = this.props;
+		if ( ! taxonomy ) {
 			return;
 		}
-		const collection = new TaxonomyCollection();
-		collection.fetch( {
-			data: {
-				/* eslint-disable-next-line camelcase */
-				per_page: -1,
-				orderby: "count",
-				order: "desc",
-				_fields: [ "id", "name" ],
-			},
-		} ).then( terms => {
+		this.fetchRequest = apiFetch( {
+			path: addQueryArgs(
+				`/wp/v2/${ taxonomy.restBase }`,
+				{
+					/* eslint-disable-next-line camelcase */
+					per_page: -1,
+					orderby: "count",
+					order: "desc",
+					_fields: "id,name",
+				}
+			),
+		} );
+
+		this.fetchRequest.then( terms => {
 			const oldState = this.state;
 			this.setState( {
 				terms,
@@ -226,8 +231,8 @@ class PrimaryTaxonomyPicker extends React.Component {
 		const fieldId = `yoast-primary-${ taxonomy.name }-picker`;
 
 		return (
-			<div className="components-base-control__field">
-				<PrimaryTaxonomyPickerLabel
+			<PrimaryTaxonomyPickerField className="components-base-control__field">
+				<label
 					htmlFor={ fieldId }
 					className="components-base-control__label"
 				>
@@ -238,14 +243,14 @@ class PrimaryTaxonomyPicker extends React.Component {
 							taxonomy.singularLabel.toLowerCase()
 						)
 					}
-				</PrimaryTaxonomyPickerLabel>
+				</label>
 				<TaxonomyPicker
 					value={ primaryTaxonomyId }
 					onChange={ this.onChange }
 					id={ fieldId }
 					terms={ this.state.selectedTerms }
 				/>
-			</div>
+			</PrimaryTaxonomyPickerField>
 		);
 	}
 }
