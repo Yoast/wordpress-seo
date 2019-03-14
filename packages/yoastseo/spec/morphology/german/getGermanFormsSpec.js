@@ -204,7 +204,7 @@ describe( "Test for creating forms for German words", () => {
 			"teeetest",
 			"teeend",
 			// Participle.
-			"geteet"
+			"geteet",
 		] );
 	} );
 
@@ -249,7 +249,7 @@ describe( "Test for creating forms for German words", () => {
 			// Stem
 			"ärztinn",
 			// Additional noun suffix.
-			"ärztin"
+			"ärztin",
 		] );
 	} );
 
