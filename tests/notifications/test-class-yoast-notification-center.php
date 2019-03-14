@@ -202,6 +202,35 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Not removing notifications from storage when there are no notifications.
+	 */
+	public function test_remove_storage_without_notifications() {
+		$subject = new Yoast_Notification_Center_Double();
+
+		// The notification center does not remove anything when there are no notifications.
+		$this->assertFalse( $subject->has_stored_notifications() );
+
+		$this->assertFalse( $subject->remove_storage() );
+	}
+
+	/**
+	 * Removing notifications from storage when there are notifications.
+	 */
+	public function test_remove_storage_with_notifications() {
+		$notification = new Yoast_Notification( 'b', array( 'id' => 'fake_id' ) );
+
+		$subject = new Yoast_Notification_Center_Double();
+		$subject->setup_current_notifications();
+
+		$subject->add_notification( $notification );
+		$subject->update_storage();
+
+		$this->assertTrue( $subject->has_stored_notifications() );
+
+		$this->assertTrue( $subject->remove_storage() );
+	}
+
+	/**
 	 * Sort one notification
 	 */
 	public function test_get_sorted_notifications() {
@@ -695,6 +724,31 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests some scenarios for the has_stored_notifications method.
+	 *
+	 * @dataProvider has_stored_notifications_provider
+	 *
+	 * @covers Yoast_Notification_Center::has_stored_notifications
+	 *
+	 * @param mixed  $stored_notifications The return value of get_stored_notifications
+	 * @param bool   $expected             The expected value: true or false.
+	 * @param string $message              Message to show when test fails.
+	 */
+	public function test_has_stored_notifications( $stored_notifications, $expected, $message  ) {
+		$instance = $this
+			->getMockBuilder( 'Yoast_Notification_Center_Double' )
+			->setMethods( array( 'get_stored_notifications' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'get_stored_notifications' )
+			->will( $this->returnValue( $stored_notifications ) );
+
+		$this->assertEquals( $expected, $instance->has_stored_notifications( ), $message );
+	}
+
+	/**
 	 * Gets some notification objects.
 	 *
 	 * This method is used as a filter to override notifications.
@@ -710,6 +764,31 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 			new Yoast_Notification(
 				'notification',
 				array( 'id' => 'another_id' )
+			),
+		);
+	}
+
+	/**
+	 * Values for the has stored notifications test.
+	 *
+	 * @return array The test values.
+	 */
+	public function has_stored_notifications_provider() {
+		return array(
+			array(
+				'stored_notifications' => false,
+				'expected'             => false,
+				'message'              => 'With get_stored_notifications returning false',
+			),
+			array(
+				'stored_notifications' => array(),
+				'expected'             => false,
+				'message'              => 'With get_stored_notifications returning an empty array',
+			),
+			array(
+				'stored_notifications' => array( 'This is a notification' ),
+				'expected'             => true,
+				'message'              => 'With get_stored_notifications returning a notification',
 			),
 		);
 	}
