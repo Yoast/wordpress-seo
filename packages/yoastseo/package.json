@@ -18,7 +18,8 @@
     "start": "npm start --prefix examples/webpack",
     "build": "grunt publish",
     "lint": "grunt check",
-    "test": "yarn install-ci && jest --runInBand",
+    "pretest": "yarn install-ci",
+    "test": "jest --runInBand",
     "install-ci": "grunt get-premium-configuration",
     "prepublishOnly": "grunt publish"
   },
