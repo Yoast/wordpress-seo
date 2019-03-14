@@ -11,9 +11,9 @@ exports[`FacebookSiteName matches the snapshot by default 1`] = `
   white-space: nowrap;
 }
 
-<p
+<span
   className="c0"
 >
   sitename.com
-</p>
+</span>
 `;
