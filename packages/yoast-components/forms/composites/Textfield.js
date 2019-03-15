@@ -72,6 +72,7 @@ class Textfield extends React.Component {
 					onChange={ this.props.onChange }
 					value={ this.props.value }
 					hasFocus={ this.props.hasFocus }
+					autoComplete={ this.props.autoComplete }
 					optionalAttributes={ this.optionalAttributes.field }
 				/>
 				<Explanation text={ this.props.explanation } />
