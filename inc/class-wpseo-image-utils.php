@@ -103,8 +103,13 @@ class WPSEO_Image_Utils {
 			$image['type'] = get_post_mime_type( $attachment_id );
 		}
 
+		var_dump( $image );
+
 		// Keep only the keys we need, and nothing else.
-		return array_intersect_key( $image, array_flip( array( 'id', 'alt', 'path', 'width', 'height', 'pixels', 'type', 'size', 'url' ) ) );
+		return array_intersect_key(
+			$image,
+			array_flip( array( 'id', 'alt', 'path', 'width', 'height', 'pixels', 'type', 'size', 'url' ) )
+		);
 	}
 
 	/**

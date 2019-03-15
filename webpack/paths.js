@@ -34,6 +34,7 @@ const entry = {
 	"wp-seo-quick-edit-handler": "./wp-seo-quick-edit-handler.js",
 	"wp-seo-network-admin": "./wp-seo-network-admin.js",
 	"wp-seo-courses-overview": "./courses-overview.js",
+	"wp-seo-wp-data": "./wp-data/index.js",
 };
 
 /**

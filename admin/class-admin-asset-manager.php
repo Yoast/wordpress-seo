@@ -648,6 +648,14 @@ class WPSEO_Admin_Asset_Manager {
 					self::PREFIX . 'components',
 				),
 			),
+			array(
+				'name' => 'wp-data',
+				'src'  => 'wp-seo-wp-data-' . $flat_version,
+				'deps' => array(
+					'wp-api-fetch',
+					'wp-data',
+				),
+			)
 		);
 	}
 
