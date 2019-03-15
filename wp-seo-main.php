@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '10.1-RC1' );
+define( 'WPSEO_VERSION', '10.1-RC2' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -71,7 +71,7 @@ function wpseo_auto_load( $class ) {
 }
 
 $yoast_autoload_file = WPSEO_PATH . 'vendor/autoload_52.php';
-if ( WPSEO_NAMESPACES ) {
+if ( version_compare( phpversion(), '5.6', '>=' ) ) {
 	$yoast_autoload_file = WPSEO_PATH . 'vendor/autoload.php';
 }
 

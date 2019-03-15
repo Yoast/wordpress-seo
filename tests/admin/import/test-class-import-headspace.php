@@ -9,6 +9,7 @@
  * Test importing meta data from HeadSpace.
  */
 class WPSEO_Import_HeadSpace_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Holds the class instance.
 	 *
