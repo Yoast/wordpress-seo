@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class WPSEO_WP_Data
+ *
+ * Integration class for the yoast wp-data javascript module.
+ */
 class WPSEO_WP_Data implements WPSEO_WordPress_Integration {
 
 	/**
@@ -11,6 +16,11 @@ class WPSEO_WP_Data implements WPSEO_WordPress_Integration {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 	}
 
+	/**
+	 * Enqueue required scripts.
+	 *
+	 * @return void
+	 */
 	public function enqueue_scripts() {
 		global $pagenow;
 
@@ -22,9 +32,14 @@ class WPSEO_WP_Data implements WPSEO_WordPress_Integration {
 		}
 	}
 
+	/**
+	 * Get localized data.
+	 *
+	 * @return array Data to localize.
+	 */
 	public function get_localized_data() {
 		return array (
-			'taxonomies' => array(),
+			'taxonomies' => null,
 			'terms' => (object) array(),
 		);
 	}

@@ -1,6 +1,7 @@
 export const PREFIX = "WPSEO_WP_DATA_";
 
-export const SET_TERMS = `${ PREFIX }SET_TERMS`;
+export const SET_TERMS      = `${ PREFIX }SET_TERMS`;
+export const SET_TAXONOMIES = `${ PREFIX }SET_TAXONOMIES`;
 export const FETCH_FROM_API = `${ PREFIX }FETCH_FROM_API`;
 
 /**
@@ -11,11 +12,25 @@ export const FETCH_FROM_API = `${ PREFIX }FETCH_FROM_API`;
  *
  * @returns {object} Action object.
  */
-export function setTerms( { taxonomy, terms } ) {
+export function setTerms( { taxonomySlug, terms } ) {
 	return {
 		type: SET_TERMS,
-		taxonomy,
+		taxonomy: taxonomySlug,
 		terms,
+	};
+}
+
+/**
+ * Update a list of taxonomies in the store.
+ *
+ * @param {array} taxonomies Array of taxonomies for current post.
+ *
+ * @returns {object} Action object.
+ */
+export function setTaxonomies( taxonomies ) {
+	return {
+		type: SET_TAXONOMIES,
+		taxonomies,
 	};
 }
 

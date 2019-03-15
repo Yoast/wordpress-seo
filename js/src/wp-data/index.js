@@ -3,7 +3,7 @@ import {
 	registerStore,
 } from "@wordpress/data";
 import {
-	filter
+	filter,
 } from "lodash";
 
 /* Internal dependencies */
@@ -13,7 +13,7 @@ import * as resolvers from "./resolvers";
 import * as actions from "./actions";
 import controls from "./controls";
 
-const NAMESPACE = "yoast-seo/wp-data";
+export const NAMESPACE = "yoast-seo/wp-data";
 
 registerStore( NAMESPACE, {
 	reducer,

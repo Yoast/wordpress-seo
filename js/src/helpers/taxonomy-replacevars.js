@@ -8,86 +8,45 @@ import {
 } from "@wordpress/data";
 import forEach from "lodash/forEach";
 
+/* Internal dependencies */
+import {
+	promisifySelector,
+	invalidateTerms,
+} from "../wp-data/utils";
+
 /**
  * Creates a promise that will resolve to the post's post type.
  *
  * @returns {Promise<string>} A promise resolving to the post type.
  */
-function getPostType() {
-	return new Promise( resolve => {
-		let postType = select( "core/editor" ).getEditedPostAttribute( "type" );
-
-		if ( postType ) {
-			return resolve( postType );
-		}
-
-		const unsubscribe = subscribe( () => {
-			postType = select( "core/editor" ).getEditedPostAttribute( "type" );
-
-			if ( postType ) {
-				unsubscribe();
-
-				return resolve( postType );
-			}
-		} );
-	} );
-}
+const getPostType = promisifySelector(
+	"core/editor",
+	"getEditedPostAttribute",
+).bind( null, "type" );
 
 /**
- * Creates a promise that will wait for getEntityRecords to yield a result with the given arguments.
+ * Creates a promise that will resolve to a list of taxonomies.
  *
- * @param {Array} args The arguments to be passed to getEntityRecords.
+ * @param {string} posttype The post type to get taxonomies for.
  *
- * @returns {Promise} A promise resolving to the entity records.
+ * @returns {Promise<array>} List of taxonomies for the given post type.
  */
-function resolveGetEntityRecords( args ) {
-	return new Promise( resolve => {
-		const getEntityRecords = select( "core" ).getEntityRecords.bind( null, ...args );
-		const hasFinishedResolution = select( "core/data" ).hasFinishedResolution.bind( null, "core", "getEntityRecords", args );
-
-		const records = getEntityRecords();
-
-		if ( hasFinishedResolution() ) {
-			return resolve( records );
-		}
-
-		const unsubscribe = subscribe( () => {
-			if ( hasFinishedResolution() ) {
-				unsubscribe();
-
-				resolve( getEntityRecords() );
-			}
-		} );
-	} );
-}
+const getApplicableTaxonomies = promisifySelector(
+	"yoast-seo/wp-data",
+	"getTaxonomies",
+);
 
 /**
- * Creates a promise that will resolve to an array of taxonomies applicable to the given post type.
+ * Creates a promise that will resolve to a list of terms.
  *
- * @param {string} postType The post type to retrieve the applicable taxonomies for.
+ * @param {string} taxonomySlug The slug of the taxonomy to get the terms for.
  *
- * @returns {Promise} A promise resolving to an array of taxonomies applicable for the given post type.
+ * @returns {Promise<array>} List of terms for the given taxonomy.
  */
-function getApplicableTaxonomies( postType ) {
-	/* eslint-disable-next-line camelcase */
-	const args = [ "root", "taxonomy", { type: postType, per_page: -1 } ];
-
-	return resolveGetEntityRecords( args );
-}
-
-/**
- * Creates a promise that will resolve to an array of terms for the given taxonomy.
- *
- * @param {string} taxonomySlug The taxonomy's slug.
- *
- * @returns {Promise} A promise resolving to an array of terms for the given taxonomy.
- */
-function getTerms( taxonomySlug ) {
-	/* eslint-disable-next-line camelcase */
-	const args = [ "taxonomy", taxonomySlug, { per_page: -1 } ];
-
-	return resolveGetEntityRecords( args );
-}
+const getTerms = promisifySelector(
+	"yoast-seo/wp-data",
+	"getTerms",
+);
 
 /**
  * Handles the taxonomy replacement variables for a single taxonomy.
@@ -123,8 +82,7 @@ class TaxonomyReplacementVariable {
 			 * we check for a new list of terms being retrieved, and if so we call this.updateReplacementVariable again.
 			 */
 			if ( ! term ) {
-				/* eslint-disable-next-line camelcase */
-				dispatch( "core/data" ).invalidateResolution( "core", "getEntityRecords", [ "taxonomy", this.taxonomy.slug, { per_page: -1 } ] );
+				invalidateTerms( this.taxonomy.slug );
 				return;
 			}
 
@@ -158,7 +116,7 @@ class TaxonomyReplacementVariable {
 	 */
 	haveTermsChanged() {
 		/* eslint-disable-next-line camelcase */
-		const nextTerms = select( "core" ).getEntityRecords( "taxonomy", this.taxonomy.slug, { per_page: -1 } );
+		const nextTerms = select( "yoast-seo/wp-data" ).getTerms( this.taxonomy.slug );
 		if ( nextTerms && this.terms !== nextTerms && nextTerms.length ) {
 			this.terms = nextTerms;
 			return true;
