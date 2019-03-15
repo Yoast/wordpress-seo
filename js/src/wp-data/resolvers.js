@@ -38,6 +38,10 @@ function buildQueryString( params = {} ) {
 export function* getTerms( taxonomySlug ) {
 	const taxonomy = select( "yoast-seo/wp-data" ).getTaxonomy( taxonomySlug );
 
+	if ( ! taxonomy ) {
+		return;
+	}
+
 	const terms = yield actions.fetchFromAPI( {
 		path: `/wp/v2/${ taxonomy.rest_base }?${ buildQueryString() }`,
 	} );

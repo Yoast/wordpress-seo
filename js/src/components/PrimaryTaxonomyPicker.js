@@ -7,13 +7,14 @@ import {
 } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 import { sprintf, __ } from "@wordpress/i18n";
-import apiFetch from "@wordpress/api-fetch";
-import { addQueryArgs } from "@wordpress/url";
 import styled from "styled-components";
-import diff from "lodash/difference";
+import { difference as diff } from "lodash";
 
 /* Internal dependencies */
 import TaxonomyPicker from "./TaxonomyPicker";
+import {
+	invalidateTerms,
+} from "../wp-data/utils";
 
 const PrimaryTaxonomyPickerField = styled.div`
 	padding-top: 16px;
@@ -28,6 +29,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 
 		this.onChange = this.onChange.bind( this );
 		this.updateReplacementVariable = this.updateReplacementVariable.bind( this );
+		this.handleSelectedTermsChange = this.handleSelectedTermsChange.bind( this );
 
 		const { fieldId, name } = props.taxonomy;
 		this.input = document.getElementById( fieldId );
@@ -35,17 +37,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 
 		this.state = {
 			selectedTerms: [],
-			terms: [],
 		};
-	}
-
-	/**
-	 * Fetches the terms for the given taxonomy.
-	 *
-	 * @returns {void}
-	 */
-	componentDidMount() {
-		this.fetchTerms();
 	}
 
 	/**
@@ -61,13 +53,16 @@ class PrimaryTaxonomyPicker extends React.Component {
 		if ( prevProps.selectedTermIds.length < this.props.selectedTermIds.length ) {
 			const newId = diff( this.props.selectedTermIds, prevProps.selectedTermIds )[ 0 ];
 			if ( ! this.termIsAvailable( newId ) ) {
-				this.fetchTerms();
+				invalidateTerms( this.props.taxonomy.name );
 				return;
 			}
 		}
-		// Check if the selected terms have changed.
-		if ( prevProps.selectedTermIds !== this.props.selectedTermIds ) {
-			this.updateSelectedTerms( this.state.terms, this.props.selectedTermIds );
+		/**
+		 * Update the list of selectable primary terms if the selected terms have changed or the list with available
+		 * terms was updated.
+		 */
+		if ( prevProps.selectedTermIds !== this.props.selectedTermIds || prevProps.terms !== this.props.terms ) {
+			this.updateSelectedTerms( this.props.terms, this.props.selectedTermIds );
 		}
 		// Handle terms change.
 		if ( prevState.selectedTerms !== this.state.selectedTerms ) {
@@ -104,43 +99,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {boolean} Whther the term is available.
 	 */
 	termIsAvailable( termId ) {
-		return !! this.state.terms.find( term => term.id === termId );
-	}
-
-	/**
-	 * Fetches the terms from the WordPress API.
-	 *
-	 * @returns {void}
-	 */
-	fetchTerms() {
-		const { taxonomy } = this.props;
-		if ( ! taxonomy ) {
-			return;
-		}
-		this.fetchRequest = apiFetch( {
-			path: addQueryArgs(
-				`/wp/v2/${ taxonomy.restBase }`,
-				{
-					/* eslint-disable-next-line camelcase */
-					per_page: -1,
-					orderby: "count",
-					order: "desc",
-					_fields: "id,name",
-				}
-			),
-		} );
-
-		this.fetchRequest.then( terms => {
-			const oldState = this.state;
-			this.setState( {
-				terms,
-				selectedTerms: this.getSelectedTerms( terms, this.props.selectedTermIds ),
-			}, () => {
-				if ( oldState.terms.length === 0 && this.state.terms.length > 0 ) {
-					this.updateReplacementVariable( this.props.primaryTaxonomyId );
-				}
-			} );
-		} );
+		return !! this.props.terms.find( term => term.id === termId );
 	}
 
 	/**
@@ -267,12 +226,14 @@ PrimaryTaxonomyPicker.propTypes = {
 		restBase: PropTypes.string,
 		singularLabel: PropTypes.string,
 	} ),
+	terms: PropTypes.array,
 };
 
 export default compose( [
 	withSelect( ( select, props ) => {
 		const editorData = select( "core/editor" );
 		const yoastData = select( "yoast-seo/editor" );
+		const yoastWpData = select( "yoast-seo/wp-data" );
 
 		const { taxonomy } = props;
 
@@ -281,6 +242,7 @@ export default compose( [
 		return {
 			selectedTermIds,
 			primaryTaxonomyId: yoastData.getPrimaryTaxonomyId( taxonomy.name ),
+			terms: yoastWpData.getTerms( taxonomy.name ),
 		};
 	} ),
 	withDispatch( dispatch => {
