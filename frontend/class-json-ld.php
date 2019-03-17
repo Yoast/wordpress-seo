@@ -219,6 +219,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 			$this->data['@type'] = 'Person';
 			$this->data['@id']   = '#person';
 			$this->data['name']  = WPSEO_Options::get( 'person_name' );
+			$this->data['image'] = get_avatar_url( get_option( 'admin_email'), array('size' => 250));
 
 			return;
 		}
