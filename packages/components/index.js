@@ -26,3 +26,4 @@ export { default as YoastSeoIcon } from "./YoastSeoIcon";
 export { default as YouTubeVideo } from "./YouTubeVideo";
 
 export { getRtlStyle } from "./utils/helpers/styled-components";
+export { createComponentWithIntl } from "./utils/intlProvider";

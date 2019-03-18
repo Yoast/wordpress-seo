@@ -1,7 +1,7 @@
 import SnippetPreview from "../components/SnippetPreview";
 import { MODE_DESKTOP, MODE_MOBILE } from "../constants";
 import React from "react";
-import { createComponentWithIntl } from "../../../../utils/intlProvider";
+import { createComponentWithIntl } from "@yoast/components";
 import {
 	mountWithIntl,
 } from "../../../../utils/helpers/intl-enzyme-test-helper";
