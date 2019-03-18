@@ -1,10 +1,10 @@
-import getInsights from "../../src/researches/getInsights";
+import getProminentWordsForInsights from "../../src/researches/getProminentWordsForInsights";
 import Paper from "../../src/values/Paper";
 import Researcher from "../../src/researcher";
 import WordCombination from "../../src/values/WordCombination";
 import morphologyData from "../../premium-configuration/data/morphologyData.json";
 
-describe( "getInsigths research", function() {
+describe( "getProminentWordsForInsights research", function() {
 	it( "does not break if no morphology support is added for the language", function() {
 		const paper = new Paper( "texte et texte", { locale: "fr_FR" } );
 
@@ -15,7 +15,7 @@ describe( "getInsigths research", function() {
 			new WordCombination( "texte", "texte", 2 ),
 		];
 
-		const words = getInsights( paper, researcher );
+		const words = getProminentWordsForInsights( paper, researcher );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -32,7 +32,7 @@ describe( "getInsigths research", function() {
 			new WordCombination( "combinations", "combination", 2 ),
 		];
 
-		const words = getInsights( paper, researcher );
+		const words = getProminentWordsForInsights( paper, researcher );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -73,7 +73,7 @@ describe( "getInsigths research", function() {
 			new WordCombination( "work", "work", 2 ),
 		];
 
-		const words = getInsights( paper, researcher );
+		const words = getProminentWordsForInsights( paper, researcher );
 
 		expect( words ).toEqual( expected );
 	} );
