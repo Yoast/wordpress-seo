@@ -1,0 +1,14 @@
+extends: yoast
+
+rules:
+  require-jsdoc: 0
+  react/prop-types: 0
+  react/jsx-no-bind: 0
+  no-unused-vars: 0
+  complexity: [1, 6]
+  # Longer grace period for Yoast config.
+  no-shadow: [ 1, { "builtinGlobals": false, "hoist": "all", "allow": [] } ]
+  no-useless-escape: 1
+
+parserOptions:
+  ecmaVersion: 2018
