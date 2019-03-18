@@ -7,7 +7,7 @@ import {
 	collapseRelevantWordsOnStem,
 	getRelevantCombinations,
 } from "yoastsrc/stringProcessing/relevantWords";
-import { getSubheadingsTopLevel } from "yoastsrc/stringProcessing/getSubheadings";
+import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "yoastsrc/stringProcessing/getSubheadings";
 import { sortCombinations } from "../../../../src/stringProcessing/relevantWords";
 import getMorphologyData from "./getMorphologyData";
 
@@ -59,7 +59,7 @@ function calculateRelevantWords( paper, useAttributes ) {
 
 	const language = getLanguage( paper.locale );
 	const languageMorphologyData = get( morphologyData, language, false );
-	const relevantWordsFromText = getRelevantWords( text, language, languageMorphologyData );
+	const relevantWordsFromText = getRelevantWords( removeSubheadingsTopLevel( text ), language, languageMorphologyData );
 
 	const subheadings = getSubheadingsTopLevel( text ).map( subheading => subheading[ 2 ] );
 
