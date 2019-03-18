@@ -1,10 +1,3 @@
-jest.unmock( "../OnboardingWizard" );
-jest.unmock( "lodash/cloneDeep" );
-jest.unmock( "../config/production-config" );
-jest.unmock( "material-ui/utils/withWidth" );
-jest.unmock( "../../../utils/i18n" );
-jest.unmock( "prop-types" );
-
 import React from "react";
 import Wizard from "../OnboardingWizard";
 import Config from "../config/production-config";

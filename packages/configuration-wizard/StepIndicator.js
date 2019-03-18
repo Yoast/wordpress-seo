@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Stepper, Step, StepButton } from "material-ui/Stepper";
 
 import CustomStepButton from "./StepButton";
-import { localize } from "../../utils/i18n";
+import { localize } from "yoast-components/utils/i18n";
 
 /**
  * The step indicator displays a horizontal progress indicator.

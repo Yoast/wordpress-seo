@@ -2,10 +2,11 @@
  * Composites imports.
  */
 // Composites/OnboardingWizard imports.
-import { default as OnboardingWizard } from "./composites/OnboardingWizard/OnboardingWizard";
-import { default as MessageBox } from "./composites/OnboardingWizard/MessageBox";
-import { default as LoadingIndicator } from "./composites/OnboardingWizard/LoadingIndicator";
-import { default as sendRequest } from "./composites/OnboardingWizard/helpers/ajaxHelper";
+//TODO: Uncomment this when the yoast-configuration-wizard has been created.
+// import { default as OnboardingWizard } from "yoast-configuration-wizard";
+// import { default as MessageBox } from "yoast-configuration-wizard/MessageBox";
+// import { default as LoadingIndicator } from "yoast-configuration-wizard/LoadingIndicator";
+// import { default as sendRequest } from "yoast-configuration-wizard/helpers/ajaxHelper";
 // Composites/AngoliaSearch imports.
 import { default as AlgoliaSearcher } from "./composites/AlgoliaSearch/AlgoliaSearcher";
 // Composites/Plugin imports.
@@ -35,24 +36,24 @@ import { default as CardBanner } from "./composites/CoursesOverview/CardBanner";
 import { default as CardDetails } from "./composites/CoursesOverview/CardDetails";
 
 export {
-	OnboardingWizard,
+	// OnboardingWizard,
 	AlgoliaSearcher,
 	HelpCenter,
-	MessageBox,
+	// MessageBox,
 	LinkSuggestions,
 	KeywordSuggestions,
 	LanguageNotice,
 	ContentAnalysis,
 	Collapsible,
 	ButtonSection,
-	LoadingIndicator,
+	// LoadingIndicator,
 	ScoreAssessments,
 	YoastButton,
 	YoastModal,
 	SvgIcon,
 	Loader,
 	CornerstoneToggle,
-	sendRequest,
+	// sendRequest,
 	UpsellButton,
 	UpsellLinkButton,
 	Card,
@@ -76,7 +77,7 @@ export { translate } from "./utils/i18n";
 export * from "./composites/Plugin/DashboardWidget";
 export { replacementVariablesShape, recommendedReplacementVariablesShape } from "./composites/Plugin/SnippetEditor/constants";
 export { default as analysis } from "./composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
-export { default as decodeHTML } from "./composites/OnboardingWizard/helpers/htmlDecoder";
+export { default as decodeHTML } from "../configuration-wizard/helpers/htmlDecoder";
 export { default as WordpressFeed } from "./composites/Plugin/DashboardWidget/components/WordpressFeed";
 export { default as SeoAssessment } from "./composites/Plugin/DashboardWidget/components/SeoAssessment";
 export { default as VideoTutorial } from "./composites/HelpCenter/views/VideoTutorial";
