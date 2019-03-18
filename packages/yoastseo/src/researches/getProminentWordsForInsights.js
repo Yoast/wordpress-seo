@@ -3,7 +3,8 @@ import getLanguage from "../helpers/getLanguage";
 import {
 	getRelevantWords,
 	collapseRelevantWordsOnStem,
-	getRelevantCombinations, sortCombinations,
+	getRelevantCombinationsForInsights,
+	sortCombinations,
 } from "../stringProcessing/relevantWords";
 
 /**
@@ -27,7 +28,7 @@ function relevantWords( paper, researcher ) {
 	 * Return the 100 top items from the collapsed and sorted list. The number is picked deliberately to prevent larger
 	 * articles from getting too long of lists.
 	 */
-	return take( getRelevantCombinations( collapsedWords ), 100 );
+	return take( getRelevantCombinationsForInsights( collapsedWords ), 20 );
 }
 
 
