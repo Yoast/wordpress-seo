@@ -11,8 +11,9 @@ const FacebookDescriptionWrapper = styled.p`
 	max-height: 80px;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	white-space: normal;
+	white-space: nowrap;
 	margin-top: 3px;
+	width: 100%;
 `;
 
 /**
