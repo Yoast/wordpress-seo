@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Input, Label } from "@yoast/components";
+import { Input, Label, Explanation } from "@yoast/components";
 import htmlDecoder from "../helpers/htmlDecoder";
-import Explanation from "./Explanation";
 
 /**
  * Represents a choice interface, like a group of radio buttons or a select button. It could render a
