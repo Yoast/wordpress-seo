@@ -75,7 +75,7 @@ module.exports = {
 	appPackageJson: resolveApp( "package.json" ),
 	appSrc: resolveApp( "src" ),
 	appTsConfig: resolveApp( "tsconfig.json" ),
-	yarnLockFile: resolveApp( "yarn.lock" ),
+	yarnLockFile: resolveApp( "../../yarn.lock" ),
 	testsSetup: resolveModule( resolveApp, "src/setupTests" ),
 	proxySetup: resolveApp( "src/setupProxy.js" ),
 	appNodeModules: resolveApp( "node_modules" ),
@@ -83,11 +83,10 @@ module.exports = {
 	servedPath: getServedPath( resolveApp( "package.json" ) ),
 	yoastSrc: resolveApp( "../../packages/yoastseo/src" ),
 	yoastSpec: resolveApp( "../../packages/yoastseo/spec" ),
-	yoastComponents: resolveApp( "node_modules/yoast-components" ),
+	yoastPackages: resolveApp( "../../packages" ),
 	wpI18n: resolveApp( "node_modules/@wordpress/i18n" ),
 	react: resolveApp( "node_modules/react" ),
 	reactDom: resolveApp( "node_modules/react-dom" ),
 };
-
 
 module.exports.moduleFileExtensions = moduleFileExtensions;
