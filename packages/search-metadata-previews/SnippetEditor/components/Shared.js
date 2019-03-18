@@ -2,9 +2,8 @@
 import styled from "styled-components";
 
 /* Internal dependencies */
-import colors from "../../../../style-guide/colors";
-import { Button } from "../../Shared/components/Button";
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
+import { colors, getRtlStyle } from "yoast-components";
+import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
 
 /**
  * Returns an angleRight SVG.
@@ -40,16 +39,8 @@ export const angleLeft = ( color ) => "data:image/svg+xml;charset=utf8," + encod
  * @returns {string} The color the caret should have.
  */
 function getCaretColor( props ) {
-	switch ( true ) {
-		case props.isActive:
-			return colors.$color_snippet_focus;
+	return 'transparent';
 
-		case props.isHovered:
-			return colors.$color_snippet_hover;
-
-		default:
-			return "transparent";
-	}
 }
 
 /*

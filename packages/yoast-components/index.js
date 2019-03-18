@@ -22,6 +22,10 @@ import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/
 import { default as HelpCenter } from "./composites/Plugin/HelpCenter/HelpCenter.js";
 import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
 
+import colors from './style-guide/colors.json';
+console.log(colors);
+process.exit(1);
+
 // Composites/LinkSuggestions imports.
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
 // Composites/KeywordSuggestions imports.
@@ -59,22 +63,22 @@ export {
 	FullHeightCard,
 	CardBanner,
 	CardDetails,
+	colors
 };
 
 export { default as HelpText } from "./composites/Plugin/Shared/components/HelpText";
 export { default as SynonymsInput } from "./composites/Plugin/Shared/components/SynonymsInput";
-export * from "./composites/Plugin/SnippetPreview";
-export * from "./composites/Plugin/SnippetEditor";
+export * from "../search-metadata-previews/SnippetPreview";
+export * from "../search-metadata-previews/SnippetEditor";
 export * from "./forms";
 export * from "./composites/Plugin/ContentAnalysis";
-export { default as colors } from "./style-guide/colors.json";
 export { default as utils } from "./utils";
 export { getRtlStyle } from "./utils/helpers/styled-components";
 export { localize } from "./utils/i18n";
 export { setTranslations } from "./utils/i18n";
 export { translate } from "./utils/i18n";
 export * from "./composites/Plugin/DashboardWidget";
-export { replacementVariablesShape, recommendedReplacementVariablesShape } from "./composites/Plugin/SnippetEditor/constants";
+export { replacementVariablesShape, recommendedReplacementVariablesShape } from "../search-metadata-previews/SnippetEditor/constants";
 export { default as analysis } from "./composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 export { default as decodeHTML } from "./composites/OnboardingWizard/helpers/htmlDecoder";
 export { default as WordpressFeed } from "./composites/Plugin/DashboardWidget/components/WordpressFeed";

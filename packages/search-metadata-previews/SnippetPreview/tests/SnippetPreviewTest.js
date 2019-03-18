@@ -1,10 +1,10 @@
 import SnippetPreview from "../components/SnippetPreview";
 import { MODE_DESKTOP, MODE_MOBILE } from "../constants";
 import React from "react";
-import { createComponentWithIntl } from "../../../../utils/intlProvider";
+import { createComponentWithIntl } from "yoast-components/utils/intlProvider";
 import {
 	mountWithIntl,
-} from "../../../../utils/helpers/intl-enzyme-test-helper";
+} from "yoast-components/utils/helpers/intl-enzyme-test-helper";
 
 const defaultArgs = {
 	description: "Description",

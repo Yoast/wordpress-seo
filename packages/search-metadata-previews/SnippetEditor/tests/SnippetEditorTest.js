@@ -1,10 +1,10 @@
 import SnippetEditor from "../components/SnippetEditor";
 import React from "react";
-import { createComponentWithIntl } from "../../../../utils/intlProvider";
+import { createComponentWithIntl } from "yoast-components/utils/intlProvider";
 import {
 	mountWithIntl,
 	shallowWithIntl,
-} from "../../../../utils/helpers/intl-enzyme-test-helper";
+} from "yoast-components/utils/helpers/intl-enzyme-test-helper";
 import {
 	MODE_DESKTOP,
 } from "../../SnippetPreview/constants";

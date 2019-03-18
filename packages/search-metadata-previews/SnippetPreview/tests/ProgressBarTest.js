@@ -4,7 +4,7 @@ import renderer from "react-test-renderer";
 import ProgressBar from "../components/ProgressBar";
 
 test( "the progress bar matches the snapshot", () => {
-	const component = renderer.create(
+	const component = renderer.zcreate(
 		<ProgressBar />
 	);
 

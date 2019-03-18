@@ -9,7 +9,7 @@ const { MetaDescriptionLengthAssessment, PageTitleWidthAssessment } = assessment
 import { helpers } from "yoastseo";
 const { measureTextWidth } = helpers;
 
-import stripSpaces from "yoastseo/src/stringProcessing/stripSpaces";
+import { string } from "yoastseo";
 
 import noop from "lodash/noop";
 
@@ -20,17 +20,17 @@ import {
 	MODES,
 } from "../../SnippetPreview/constants";
 import SnippetEditorFields from "./SnippetEditorFields";
-import { Button } from "../../Shared/components/Button";
-import SvgIcon from "../../Shared/components/SvgIcon";
+import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
+import SvgIcon from "yoast-components/composites/Plugin/Shared/components/SvgIcon";
 import {
 	lengthProgressShape,
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
-import colors from "../../../../style-guide/colors";
-import ErrorBoundary from "../../../basic/ErrorBoundary";
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
+import { colors } from "yoast-components";
+import ErrorBoundary from "yoast-components/composites/basic/ErrorBoundary";
+import { getRtlStyle } from "yoast-components";
 
 const SnippetEditorButton = Button.extend`
 	height: 33px;
@@ -422,7 +422,7 @@ class SnippetEditor extends React.Component {
 		let description = this.processReplacementVariables( originalData.description, replacementVariables );
 
 		// Strip multiple spaces and spaces at the beginning and end.
-		description = stripSpaces( description );
+		description = string.stripSpaces( description );
 
 		const shortenedBaseUrl = baseUrl.replace( /^http:\/\//i, "" );
 

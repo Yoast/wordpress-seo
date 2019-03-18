@@ -2,14 +2,13 @@
 import React from "react";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
+import PropTypes from "prop-types";
 
 // Internal dependencies.
-import { Button } from "../../Shared/components/Button";
-import colors from "../../../../style-guide/colors";
+import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
+import { colors, SvgIcon } from "yoast-components";
 import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/constants";
-import ScreenReaderText from "../../../../a11y/ScreenReaderText";
-import SvgIcon from "../../Shared/components/SvgIcon";
-import PropTypes from "prop-types";
+import ScreenReaderText from "yoast-components/a11y/ScreenReaderText";
 
 /**
  * Renders a switcher button.

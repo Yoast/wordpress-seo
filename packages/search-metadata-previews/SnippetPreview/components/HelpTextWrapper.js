@@ -5,13 +5,11 @@ import styled from "styled-components";
 import uniqueId from "lodash/uniqueId";
 
 // Internal dependencies
-import HelpText from "../../Shared/components/HelpText";
-import colors from "../../../../style-guide/colors.json";
-import { Button } from "../../Shared/components/Button";
-import SvgIcon from "../../Shared/components/SvgIcon";
-import { rgba } from "../../../../style-guide/helpers";
-import { YoastSlideToggle } from "../../../../utils/animations";
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
+import HelpText from "yoast-components/composites/Plugin/Shared/components/HelpText";
+import { colors, getRtlStyle, SvgIcon } from "yoast-components";
+import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
+import { rgba } from "yoast-components/style-guide/helpers";
+import { YoastSlideToggle } from "yoast-components/utils/animations";
 
 const HelpTextContainer = styled.div`
 	max-width: 600px;

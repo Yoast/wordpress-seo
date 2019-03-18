@@ -2,11 +2,10 @@
 import React, { Component } from "react";
 
 import ExamplesContainer from "./ExamplesContainer";
+import { SnippetEditor } from "@yoast/search-metadata-previews";
 import { assessments } from "yoastseo";
-const { MetaDescriptionLengthAssessment } = assessments.seo;
 
-// Internal dependencies.
-import SnippetEditor from "../composites/Plugin/SnippetEditor/components/SnippetEditor";
+const { MetaDescriptionLengthAssessment } = assessments.seo;
 
 const replacementVariables = [
 	{
