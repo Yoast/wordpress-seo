@@ -157,11 +157,7 @@ class TreeAdapter {
 		 */
 		if ( TreeAdapter._isStructuredElement( child ) &&
 			( parent instanceof FormattingElement || parent instanceof LeafNode ) ) {
-			// Add structured (ignored) node as formatting to the first header or paragraph ancestor.
-			const element = new FormattingElement( child.tagName );
-			element.location = child.location;
-			element.content = child.content;
-			TreeAdapter._appendFormattingElement( parent, element );
+			TreeAdapter._appendFormattingElement( parent, child );
 			return;
 		}
 
@@ -433,7 +429,7 @@ class TreeAdapter {
 		// If formatting is present, we return those when the last one is a comment.
 		if ( formatting ) {
 			const lastChild = formatting[ formatting.length - 1 ];
-			if ( lastChild && lastChild.type === "comment" ) {
+			if ( lastChild && lastChild.tag === "comment" ) {
 				return formatting;
 			}
 		}
