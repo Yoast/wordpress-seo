@@ -33,6 +33,9 @@ import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Ca
 import { default as CardBanner } from "./composites/CoursesOverview/CardBanner";
 import { default as CardDetails } from "./composites/CoursesOverview/CardDetails";
 
+// External Import
+import { default as AlgoliaSearcher } from "@yoast/algolia-search";
+
 export {
 	OnboardingWizard,
 	HelpCenter,
@@ -57,6 +60,7 @@ export {
 	FullHeightCard,
 	CardBanner,
 	CardDetails,
+	AlgoliaSearch
 };
 
 export { default as HelpText } from "./composites/Plugin/Shared/components/HelpText";
