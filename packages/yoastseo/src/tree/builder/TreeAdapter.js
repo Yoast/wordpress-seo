@@ -423,7 +423,6 @@ class TreeAdapter {
 	 * @returns {Node[]} The children of the given node.
 	 */
 	getChildNodes( node ) {
-		const children = node.children || [];
 		const formatting = node.textContainer ? node.textContainer.formatting : [];
 
 		// If formatting is present, we return those when the last one is a comment.
@@ -438,7 +437,7 @@ class TreeAdapter {
 		  Some node types do not have children (like Paragraph and Heading),
 		  but parse5 always expects a node to have children.
 		 */
-		return children || [];
+		return node.children || [];
 	}
 
 	/**
