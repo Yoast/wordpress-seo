@@ -1,7 +1,7 @@
 import React from "react";
 
 import ExamplesContainer from "./ExamplesContainer";
-import FacebookPreview from "../../packages/yoast-components/composites/Plugin/SocialPreviews/Facebook/components/FacebookPreview";
+import FacebookPreview from "yoast-components/composites/Plugin/SocialPreviews/Facebook/components/FacebookPreview";
 
 /**
  * Returns the FacebookPreview examples.

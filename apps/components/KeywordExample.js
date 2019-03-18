@@ -4,10 +4,10 @@ import styled from "styled-components";
 import noop from "lodash/noop";
 
 // Internal dependencies.
-import KeywordInput from "../../packages/yoast-components/composites/Plugin/Shared/components/KeywordInput";
-import HelpText from "../../packages/yoast-components/composites/Plugin/Shared/components/HelpText.js";
-import { makeOutboundLink } from "../../packages/yoast-components/utils/makeOutboundLink";
-import SynonymsInput from "../../packages/yoast-components/composites/Plugin/Shared/components/SynonymsInput";
+import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
+import HelpText from "yoast-components/composites/Plugin/Shared/components/HelpText.js";
+import { makeOutboundLink } from "yoast-components/utils/makeOutboundLink";
+import SynonymsInput from "yoast-components/composites/Plugin/Shared/components/SynonymsInput";
 
 const HelpTextLink = makeOutboundLink();
 
