@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Label from "../Label";
 import Input from "../Input";
 import Textarea from "../Textarea";
-import Explanation from "../../yoast-components/composites/OnboardingWizard/components/Explanation";
+import Explanation from "yoast-components/composites/OnboardingWizard/components/Explanation";
 
 /**
  * Represents the Textfield composite component.

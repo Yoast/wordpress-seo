@@ -6,9 +6,9 @@ import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import Paper from "./Paper";
-import colors from "../yoast-components/style-guide/colors.json";
-import SvgIcon from "../yoast-components/composites/Plugin/Shared/components/SvgIcon";
-import breakpoints from "../yoast-components/style-guide/responsive-breakpoints.json";
+import colors from "yoast-components/style-guide/colors.json";
+import SvgIcon from "yoast-components/composites/Plugin/Shared/components/SvgIcon";
+import breakpoints from "yoast-components/style-guide/responsive-breakpoints.json";
 
 const NotificationContainer = styled.div`
 	display: flex;
