@@ -752,9 +752,12 @@ export default class AnalysisWebWorker {
 			this._paper = paper;
 			this._researcher.setPaper( this._paper );
 
-			// Build the tree to analyze using the tree assessors.
-			this._tree = buildTree( text );
-
+			// Try to build the tree, for analysis using the tree assessors.
+			try {
+				this._tree = buildTree( text );
+			} catch ( exception ) {
+				this._tree = null;
+			}
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
 		}
@@ -824,11 +827,22 @@ export default class AnalysisWebWorker {
 		 * using the original assessor and the tree assessor.
 		 */
 		oldAssessor.assess( paper );
-		const assessorResults = oldAssessor.results;
-		const treeAnalysisResult = await treeAssessor.assess( paper, tree );
+		const oldAssessmentResults = oldAssessor.results;
 
-		// Combine the results of both assessors.
-		const results = [ ...treeAnalysisResult.results, ...assessorResults ];
+		let treeAssessmentResults = [];
+
+		// Only assess tree if it has been built.
+		if ( tree ) {
+			const treeAssessorResult = await treeAssessor.assess( paper, tree );
+			treeAssessmentResults = treeAssessorResult.results;
+		} else {
+			// Cannot assess the tree, generate errors on the assessments that use the tree assessor.
+			const treeAssessments = treeAssessor.getAssessments();
+			treeAssessmentResults = treeAssessments.map( assessment => this.generateAssessmentError( assessment ) );
+		}
+
+		// Combine the results of the tree assessor and old assessor.
+		const results = [ ...treeAssessmentResults, ... oldAssessmentResults ];
 
 		// Aggregate the results.
 		const score = scoreAggregator.aggregate( results );
@@ -837,6 +851,26 @@ export default class AnalysisWebWorker {
 			results: results,
 			score: score,
 		};
+	}
+
+	/**
+	 * Generates an error message ("grey bullet") for the given assessment.
+	 *
+	 * @param {Assessment} assessment The assessment to generate an error message for.
+	 *
+	 * @returns {AssessmentResult} The generated assessment result.
+	 */
+	generateAssessmentError( assessment ) {
+		const result = new AssessmentResult();
+
+		result.setScore( -1 );
+		result.setText( this.i18n.sprintf(
+			/* Translators: %1$s expands to the name of the assessment. */
+			this.i18n.dgettext( "js-text-analysis", "An error occurred in the '%1$s' assessment" ),
+			assessment.identifier,
+		) );
+
+		return result;
 	}
 
 	/**
