@@ -856,7 +856,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Generates an error message ("grey bullet") for the given assessment.
 	 *
-	 * @param {Assessment} assessment The assessment to generate an error message for.
+	 * @param {module:tree/assess.Assessment} assessment The assessment to generate an error message for.
 	 *
 	 * @returns {AssessmentResult} The generated assessment result.
 	 */
@@ -864,10 +864,10 @@ export default class AnalysisWebWorker {
 		const result = new AssessmentResult();
 
 		result.setScore( -1 );
-		result.setText( this.i18n.sprintf(
+		result.setText( this._i18n.sprintf(
 			/* Translators: %1$s expands to the name of the assessment. */
-			this.i18n.dgettext( "js-text-analysis", "An error occurred in the '%1$s' assessment" ),
-			assessment.identifier,
+			this._i18n.dgettext( "js-text-analysis", "An error occurred in the '%1$s' assessment" ),
+			assessment.name,
 		) );
 
 		return result;

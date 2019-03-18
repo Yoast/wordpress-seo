@@ -1,11 +1,25 @@
+/* External dependencies */
 import { forEach, isArray, isNumber, isObject } from "lodash-es";
 import { getLogger } from "loglevel";
-import Assessment from "../../src/assessment";
+
+/* Internal dependencies */
+import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
+
 import { createShortlink } from "../../src/helpers/shortlinker";
+import Assessment from "../../src/assessment";
+import SEOAssessor from "../../src/seoAssessor";
+import { SEOScoreAggregator } from "../../src/tree/assess/scoreAggregators";
+import { TreeResearcher } from "../../src/tree/research";
 import AssessmentResult from "../../src/values/AssessmentResult";
 import Paper from "../../src/values/Paper";
-import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
+
+
+/* Full-length texts to test */
 import testTexts from "../fullTextTests/testTexts";
+
+/* Test helpers */
+import Factory from "../specHelpers/factory.js";
+import TestResearch from "../specHelpers/tree/TestResearch";
 import getMorphologyData from "../specHelpers/getMorphologyData";
 import TestAssessment from "../specHelpers/tree/TestAssessment";
 
@@ -1513,6 +1527,57 @@ describe( "AnalysisWebWorker", () => {
 			const assessor = worker.createSEOTreeAssessor( {} );
 
 			expect( assessor.getAssessments() ).toEqual( [ assessment ] );
+		} );
+	} );
+
+	describe( "assess", () => {
+		let assessor;
+		let treeAssessor;
+		let scoreAggregator;
+
+		let researcher;
+
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope );
+
+			const i18n = Factory.buildJed();
+
+			// Build the different kinds of assessors and aggregator to use.
+			assessor = new SEOAssessor( i18n, { marker: {} } );
+			treeAssessor = worker.createSEOTreeAssessor( {} );
+			scoreAggregator = new SEOScoreAggregator();
+
+			// Create a test research to do.
+			const testResearch = new TestResearch();
+
+			// Create a researcher and add the test research to it.
+			researcher = new TreeResearcher();
+			researcher.addResearch( "test research", testResearch );
+		} );
+
+		it( "still runs the assessments that use the old assessor when building the tree fails", done => {
+			const paper = new Paper( "This is some content." );
+
+			// Add tree assessment.
+			treeAssessor.registerAssessment( "test assessment", new TestAssessment( true, 5, "test assessment", researcher ) );
+
+			// Analysis combination to use.
+			const analysisCombination = {
+				oldAssessor: assessor,
+				treeAssessor: treeAssessor,
+				scoreAggregator: scoreAggregator,
+			};
+
+			// Assess the paper, simulate an error in building the tree by setting it to `null`.
+			worker.assess( paper, null, analysisCombination ).then(
+				result => {
+					// Result should contain the "test assessment" result error, since building of the tree failed (= null).
+					const erroredResults = result.results.filter( res => res.getScore() === -1 );
+					expect( erroredResults ).toHaveLength( 1 );
+					done();
+				}
+			);
 		} );
 	} );
 } );
