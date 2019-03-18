@@ -6,7 +6,7 @@ import YoastWarning from "../composites/Plugin/Shared/components/YoastWarning";
 import { FullHeightCard } from "../composites/CoursesOverview/Card";
 import CardDetails from "../composites/CoursesOverview/CardDetails";
 import getCourseFeed from "../utils/getCourseFeed";
-import { getRtlStyle } from "../utils/helpers/styled-components";
+import { getRtlStyle } from "@yoast/components";
 
 const Container = styled.div`
 	max-width: 1024px;

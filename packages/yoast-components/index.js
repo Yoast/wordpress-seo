@@ -66,9 +66,8 @@ export * from "./composites/Plugin/SnippetEditor";
 export * from "./forms";
 export * from "./composites/Plugin/ContentAnalysis";
 export { colors } from "@yoast/components/style-guide";
-export { SvgIcon } from "@yoast/components"
+export { SvgIcon, getRtlStyle } from "@yoast/components"
 export { default as utils } from "./utils";
-export { getRtlStyle } from "./utils/helpers/styled-components";
 export { localize } from "./utils/i18n";
 export { setTranslations } from "./utils/i18n";
 export { translate } from "./utils/i18n";

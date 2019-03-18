@@ -6,7 +6,7 @@ import Section from "../Section";
 import Heading from "../Heading";
 import { colors, rgba } from "../style-guide";
 import SvgIcon from "../SvgIcon";
-import { getRtlStyle } from "../../yoast-components/utils/helpers/styled-components";
+import { getRtlStyle } from "../utils/helpers/styled-components";
 
 export const StyledHeading = styled( Heading )`
 	margin-left: ${ getRtlStyle( "0", "20px" ) };

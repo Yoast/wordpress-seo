@@ -5,7 +5,7 @@ import omit from "lodash/omit";
 
 import { colors } from "@yoast/components/style-guide";
 import { IconsButton } from "../../Shared/components/Button";
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
+import { getRtlStyle } from "@yoast/components";
 import { SectionTitle } from "./SectionTitle";
 
 const Content = styled.div`

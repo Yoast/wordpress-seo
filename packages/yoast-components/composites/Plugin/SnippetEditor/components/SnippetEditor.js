@@ -29,8 +29,7 @@ import {
 } from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
 import { colors } from "@yoast/components/style-guide";
-import { ErrorBoundary } from "@yoast/components";
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
+import { ErrorBoundary, getRtlStyle } from "@yoast/components";
 
 const SnippetEditorButton = Button.extend`
 	height: 33px;

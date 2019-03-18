@@ -16,7 +16,7 @@ import { colors } from "@yoast/components/style-guide";
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
 import { angleLeft, angleRight } from "../../SnippetEditor/components/Shared";
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
+import { getRtlStyle } from "@yoast/components";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders

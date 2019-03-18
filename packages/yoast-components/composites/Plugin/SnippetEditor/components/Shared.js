@@ -4,7 +4,7 @@ import styled from "styled-components";
 /* Internal dependencies */
 import { colors } from "@yoast/components/style-guide";
 import { Button } from "../../Shared/components/Button";
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
+import { getRtlStyle } from "@yoast/components";
 
 /**
  * Returns an angleRight SVG.

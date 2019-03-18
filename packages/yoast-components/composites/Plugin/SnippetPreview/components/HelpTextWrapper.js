@@ -8,9 +8,8 @@ import uniqueId from "lodash/uniqueId";
 import HelpText from "../../Shared/components/HelpText";
 import { colors, rgba } from "@yoast/components/style-guide";
 import { Button } from "../../Shared/components/Button";
-import { SvgIcon } from "@yoast/components";
+import { SvgIcon, getRtlStyle } from "@yoast/components";
 import { YoastSlideToggle } from "../../../../utils/animations";
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 const HelpTextContainer = styled.div`
 	max-width: 600px;
