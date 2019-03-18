@@ -1,10 +1,10 @@
-import relevantWordsResearch from "../../src/researches/relevantWords";
+import getProminentWordsForInsights from "../../src/researches/getProminentWordsForInsights";
 import Paper from "../../src/values/Paper";
 import Researcher from "../../src/researcher";
 import WordCombination from "../../src/values/WordCombination";
 import morphologyData from "../../premium-configuration/data/morphologyData.json";
 
-describe( "relevantWords research", function() {
+describe( "getProminentWordsForInsights research", function() {
 	it( "does not break if no morphology support is added for the language", function() {
 		const paper = new Paper( "texte et texte", { locale: "fr_FR" } );
 
@@ -15,14 +15,14 @@ describe( "relevantWords research", function() {
 			new WordCombination( "texte", "texte", 2 ),
 		];
 
-		const words = relevantWordsResearch( paper, researcher );
+		const words = getProminentWordsForInsights( paper, researcher );
 
 		expect( words ).toEqual( expected );
 	} );
 
-	it( "returns relevant words from the text alone if no attributes are available", function() {
+	it( "returns insights from the text alone (not attributes)", function() {
 		const paper = new Paper( "Here are a ton of syllables. Syllables are very important. I think the syllable " +
-			"combinations are even more important. Syllable combinations for the win!" );
+			"combinations are even more important. Syllable combinations for the win!", { keyword: "hahahahahaha" } );
 
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
@@ -32,12 +32,12 @@ describe( "relevantWords research", function() {
 			new WordCombination( "combinations", "combination", 2 ),
 		];
 
-		const words = relevantWordsResearch( paper, researcher );
+		const words = getProminentWordsForInsights( paper, researcher );
 
 		expect( words ).toEqual( expected );
 	} );
 
-	it( "combines data from the text and from the paper attributes", function() {
+	it( "does not return words that were only used once (e.g., yoast, yoastcon, seo)", function() {
 		const paper = new Paper( "As we announced at YoastCon, we’re working together with Bing and Google to allow live indexing for " +
 			"everyone who uses Yoast SEO — free and premium. " +
 			"<h2>Subheading!</h2>" +
@@ -56,38 +56,24 @@ describe( "relevantWords research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		/*
-		 *  The research considers relevant words coming from paper attributes 3 times more important than those coming
-		 *  from the text of the paper. Therefore, the final number of occurrences can be calculated as
-		 *  number_of_occurrences_in_text + 3 * number_of_occurrences_in_paper_attributes.
+		 *  The research does not consider relevant words coming from paper attributes, only the text.
 		 */
 		const expected = [
-			/*
-			 *  The stem "index" occurs 3 times in the text ("indexing", "indexing" and "indices") and 2 times in the
-			 *  attributes ("indexing" and "index"): 3 + 2 * 3 = 9
-			 */
-			new WordCombination( "index", "index", 9 ),
-			// The stem "live" occurs 2 times in the text and 2 times in the attributes: 2 + 2 * 3 = 8
-			new WordCombination( "live", "live", 8 ),
-			// The stems "seo" and "yoast" occur once in the text and once in the attributes: 1 + 1 * 3 = 4
-			new WordCombination( "seo", "seo", 4 ),
-			new WordCombination( "yoast", "yoast", 4 ),
-			// The stems "amaze", "metadescription", "subhead", and "title" occur once in the attributes: 0 + 1 * 3 = 3
-			new WordCombination( "amazing", "amaze", 3 ),
-			new WordCombination( "metadescription", "metadescription", 3 ),
-			new WordCombination( "subheading", "subhead", 3 ),
-			new WordCombination( "title", "title", 3 ),
-			// All following stems occur twice in the text each: 2 + 0 * 3 = 2
+			// The stem "index" occurs 3 times in the text ("indexing", "indexing" and "indices")
+			new WordCombination( "indexing", "index", 3 ),
+			// The following stems occur twice in the text each
 			new WordCombination( "allow", "allow", 2 ),
 			new WordCombination( "bing", "bing", 2 ),
 			new WordCombination( "connect", "connect", 2 ),
 			new WordCombination( "google", "google", 2 ),
+			new WordCombination( "live", "live", 2 ),
 			new WordCombination( "myyoast", "myyoast", 2 ),
 			new WordCombination( "site", "site", 2 ),
 			new WordCombination( "update", "update", 2 ),
 			new WordCombination( "work", "work", 2 ),
 		];
 
-		const words = relevantWordsResearch( paper, researcher );
+		const words = getProminentWordsForInsights( paper, researcher );
 
 		expect( words ).toEqual( expected );
 	} );

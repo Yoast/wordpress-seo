@@ -167,6 +167,7 @@ const endsWithS = function( word ) {
  */
 const endsWithIng = function( word ) {
 	const vowelCount = ( word.match( vowelRegex ) || [] ).length;
+
 	// Consider only words that have at least one more vowel besides "i" in "ing" (otherwise, words like "ping" are being treated as verb forms).
 	if ( vowelCount > 1 ) {
 		return word.substring( word.length - 3, word.length ) === "ing";
@@ -183,6 +184,7 @@ const endsWithIng = function( word ) {
  */
 const endsWithEd = function( word ) {
 	const vowelCount = ( word.match( vowelRegex ) || [] ).length;
+
 	// Consider only words that have at least one more vowel besides "e" in "ed" (otherwise, words like "red" are being treated as verb forms).
 	if ( vowelCount > 1 || ( vowelCount === 1 && word.substring( word.length - 3, word.length - 2 ) !== "e" ) ) {
 		return word.substring( word.length - 2, word.length ) === "ed";
@@ -217,7 +219,7 @@ const getInfinitive = function( word, sFormToInfinitiveRegex, ingFormToInfinitiv
 
 	if ( endsWithEd( word ) ) {
 		return {
-			infinitive: buildOneFormFromRegex( word, edFormToInfinitiveRegex ),
+			infinitive: buildOneFormFromRegex( word, edFormToInfinitiveRegex ) || word,
 			guessedForm: "ed",
 		};
 	}
