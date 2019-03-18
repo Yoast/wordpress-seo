@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
-Requires at least: 5.0
+Requires at least: 4.9
 Tested up to: 5.1
 Stable tag: 10.0
 Requires PHP: 5.2.4
@@ -105,6 +105,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+
+= 10.0.1 =
+Release Date: March 18th, 2019
+
+Bugfixes:
+
+* Fixes a bug where side-wide settings were not saved on multisite environments.
 
 = 10.0.0 =
 Release Date: March 12th, 2019
