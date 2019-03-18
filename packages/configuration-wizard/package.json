@@ -43,16 +43,6 @@
     "testURL": "http://localhost",
     "testRegex": ".*Test.js$",
     "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js",
-    "collectCoverageFrom": [
-      "**/*.js",
-      "!**/*.*Test.js",
-      "!grunt/**/*.js",
-      "!*.js",
-      "!app/**/*.js",
-      "!a11y/examples/example.js",
-      "!utils/helpers/*.js",
-      "!coverage/**/*.js"
-    ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
