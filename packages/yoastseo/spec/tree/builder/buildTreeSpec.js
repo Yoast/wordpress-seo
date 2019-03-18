@@ -91,7 +91,7 @@ describe( "build tree", () => {
 	} );
 
 	it( "can parse HTML that contains incomplete closing tags", () => {
-		const primitiveComment = new FormattingElement( "comment" );
+		const primitiveComment = new Ignored( "comment" );
 		const commentOne = Object.assign( {}, primitiveComment, {
 			sourceStartIndex: 14,
 			sourceEndIndex: 72,
@@ -231,7 +231,6 @@ describe( "build tree", () => {
 
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
-
 
 	it( "can parse an HTML text into a StructuredNode with embedded children", () => {
 		const input = "<section><div>This sentence. Another sentence.</div></section>";
@@ -382,7 +381,7 @@ describe( "build tree", () => {
 		em.textStartIndex = 8;
 		em.textEndIndex = 19;
 
-		const script = new FormattingElement( "script" );
+		const script = new Ignored( "script" );
 		script.sourceStartIndex = 47;
 		script.sourceEndIndex = 89;
 		script.textStartIndex = 19;
