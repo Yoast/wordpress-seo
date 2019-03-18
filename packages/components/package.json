@@ -12,5 +12,11 @@
   "jest": {
     "testRegex": ".*Test.js$",
     "testURL": "http://localhost"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.3"
+  },
+  "optionalDependencies": {
+    "grunt-scss-to-json": "^1.0.1"
   }
 }
