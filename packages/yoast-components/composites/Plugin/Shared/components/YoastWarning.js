@@ -5,8 +5,7 @@ import styled from "styled-components";
 
 import { colors } from "@yoast/components/style-guide";
 import { getRtlStyle } from "../../../../utils/helpers/styled-components";
-import SvgIcon from "./SvgIcon";
-
+import { SvgIcon } from "@yoast/components";
 
 const WarningBox = styled.div`
 	display: flex;

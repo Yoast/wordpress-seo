@@ -9,7 +9,7 @@ exports[`StyledSection can change the heading level 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="blue"
       focusable="false"
       role="img"
@@ -41,7 +41,7 @@ exports[`StyledSection can change the icon to angle-down 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-down StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-angle-down StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="blue"
       focusable="false"
       role="img"
@@ -71,7 +71,7 @@ exports[`StyledSection can change the icon to angle-left 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-left StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-angle-left StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="blue"
       focusable="false"
       role="img"
@@ -101,7 +101,7 @@ exports[`StyledSection can change the icon to angle-right 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-right StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-angle-right StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="blue"
       focusable="false"
       role="img"
@@ -131,7 +131,7 @@ exports[`StyledSection can change the icon to angle-up 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-up StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-angle-up StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="blue"
       focusable="false"
       role="img"
@@ -161,7 +161,7 @@ exports[`StyledSection can change the icon to circle 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-circle StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-circle StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="blue"
       focusable="false"
       role="img"
@@ -191,7 +191,7 @@ exports[`StyledSection can change the icon to edit 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-edit StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-edit StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="blue"
       focusable="false"
       role="img"
@@ -221,7 +221,7 @@ exports[`StyledSection can change the icon to eye 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-eye StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-eye StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="blue"
       focusable="false"
       role="img"
@@ -251,7 +251,7 @@ exports[`StyledSection can change the icon to file-text 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="blue"
       focusable="false"
       role="img"
@@ -281,7 +281,7 @@ exports[`StyledSection can change the icon to key 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-key StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-key StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="blue"
       focusable="false"
       role="img"
@@ -311,7 +311,7 @@ exports[`StyledSection can change the icon to list 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-list StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-list StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="blue"
       focusable="false"
       role="img"
@@ -341,7 +341,7 @@ exports[`StyledSection can change the icon to question-circle 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-question-circle StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-question-circle StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="blue"
       focusable="false"
       role="img"
@@ -371,7 +371,7 @@ exports[`StyledSection can change the icon to search 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="blue"
       focusable="false"
       role="img"
@@ -401,7 +401,7 @@ exports[`StyledSection can change the icon to times 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-times StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-times StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="blue"
       focusable="false"
       role="img"
@@ -431,7 +431,7 @@ exports[`StyledSection have a red icon 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="red"
       focusable="false"
       role="img"
@@ -460,7 +460,7 @@ exports[`StyledSection match the snapshot 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-sc-1967t3a-0 tBnbh"
+      className="yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
       fill="blue"
       focusable="false"
       role="img"

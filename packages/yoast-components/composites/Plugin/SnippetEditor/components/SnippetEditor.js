@@ -21,7 +21,7 @@ import {
 } from "../../SnippetPreview/constants";
 import SnippetEditorFields from "./SnippetEditorFields";
 import { Button } from "../../Shared/components/Button";
-import SvgIcon from "../../Shared/components/SvgIcon";
+import { SvgIcon } from "@yoast/components";
 import {
 	lengthProgressShape,
 	replacementVariablesShape,

@@ -15,7 +15,6 @@ import { default as ButtonSection } from "./composites/Plugin/Shared/components/
 import { default as LanguageNotice } from "./composites/Plugin/Shared/components/LanguageNotice";
 import { YoastButton } from "./composites/Plugin/Shared/components/YoastButton";
 import { default as YoastModal } from "./composites/Plugin/Shared/components/YoastModal";
-import { default as SvgIcon } from "./composites/Plugin/Shared/components/SvgIcon";
 import { UpsellButton } from "./composites/Plugin/Shared/components/UpsellButton";
 import { UpsellLinkButton } from "./composites/Plugin/Shared/components/UpsellLinkButton";
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
@@ -49,7 +48,6 @@ export {
 	ScoreAssessments,
 	YoastButton,
 	YoastModal,
-	SvgIcon,
 	Loader,
 	CornerstoneToggle,
 	sendRequest,
@@ -68,6 +66,7 @@ export * from "./composites/Plugin/SnippetEditor";
 export * from "./forms";
 export * from "./composites/Plugin/ContentAnalysis";
 export { colors } from "@yoast/components/style-guide";
+export { SvgIcon } from "@yoast/components"
 export { default as utils } from "./utils";
 export { getRtlStyle } from "./utils/helpers/styled-components";
 export { localize } from "./utils/i18n";

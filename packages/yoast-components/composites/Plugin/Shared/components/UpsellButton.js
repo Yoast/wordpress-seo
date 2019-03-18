@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { colors } from "@yoast/components/style-guide";
 import { YoastButtonBase } from "../components/YoastButton";
-import SvgIcon from "./SvgIcon";
+import { SvgIcon } from "@yoast/components";
 
 const settings = {
 	minHeight: 48,

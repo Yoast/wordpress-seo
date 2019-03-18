@@ -17,6 +17,7 @@ export { default as Notification } from "./Notification";
 export { default as Paper } from "./Paper";
 export { default as Progressbar } from "./Progressbar";
 export { default as Section } from "./Section";
+export { default as SvgIcon } from "./SvgIcon";
 export { default as Textarea } from "./Textarea";
 export { default as Textfield } from "./composites/Textfield";
 export { default as YoastLogo } from "./YoastLogo";

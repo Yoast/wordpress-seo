@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Section from "../Section";
 import Heading from "../Heading";
 import { colors, rgba } from "../style-guide";
-import SvgIcon from "../../yoast-components/composites/Plugin/Shared/components/SvgIcon";
+import SvgIcon from "../SvgIcon";
 import { getRtlStyle } from "../../yoast-components/utils/helpers/styled-components";
 
 export const StyledHeading = styled( Heading )`

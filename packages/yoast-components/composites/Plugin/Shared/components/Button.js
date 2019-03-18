@@ -5,7 +5,7 @@ import omit from "lodash/omit";
 import PropTypes from "prop-types";
 
 import { colors, rgba } from "@yoast/components/style-guide";
-import SvgIcon from "./SvgIcon";
+import { SvgIcon } from "@yoast/components";
 import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 const settings = {

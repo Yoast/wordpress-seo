@@ -9,7 +9,7 @@ import noop from "lodash/noop";
 // Internal dependencies.
 import { colors } from "@yoast/components/style-guide";
 import { YoastInputField } from "./YoastInput";
-import SvgIcon from "./SvgIcon";
+import { SvgIcon } from "@yoast/components";
 import { addFocusStyle } from "./Button";
 import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 

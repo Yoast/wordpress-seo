@@ -11,7 +11,7 @@ import {
 	TriggerReplacementVariableSuggestionsButton,
 	withCaretStyles,
 } from "./Shared";
-import SvgIcon from "../../Shared/components/SvgIcon";
+import { SvgIcon } from "@yoast/components";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
