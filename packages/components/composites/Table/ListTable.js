@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import colors from "yoast-components/style-guide/colors.json";
+import colors from "../../../yoast-components/style-guide/colors.json";
 
 const List = styled.ul`
 	margin: 0;
