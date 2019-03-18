@@ -1,8 +1,8 @@
 import React from "react";
 
-import Wizard from "../../packages/yoast-components/composites/OnboardingWizard/OnboardingWizard";
-import Config from "../../packages/yoast-components/composites/OnboardingWizard/config/production-config";
-import apiConfig from "../../packages/yoast-components/composites/OnboardingWizard/config/api-config";
+import Wizard from "yoast-components/composites/OnboardingWizard/OnboardingWizard";
+import Config from "yoast-components/composites/OnboardingWizard/config/production-config";
+import apiConfig from "yoast-components/composites/OnboardingWizard/config/api-config";
 
 /**
  * Returns a deep clone of an object.
