@@ -35,7 +35,6 @@ class TreeAdapter {
 	 */
 	createElement( tag, namespace, attributes ) {
 		let node;
-
 		if ( ignoredHtmlElements.includes( tag ) ) {
 			// Ignored for analysis (e.g. `script`, `style`).
 			node = new Ignored( tag );
@@ -127,6 +126,7 @@ class TreeAdapter {
 		const node = new Ignored( "comment" );
 		node.parent = null;
 		node.content = text;
+		node.tagName = "comment";
 		return node;
 	}
 
@@ -160,6 +160,7 @@ class TreeAdapter {
 			// Add structured (ignored) node as formatting to the first header or paragraph ancestor.
 			const element = new FormattingElement( child.tagName );
 			element.location = child.location;
+			element.content = child.content;
 			TreeAdapter._appendFormattingElement( parent, element );
 			return;
 		}
@@ -426,11 +427,22 @@ class TreeAdapter {
 	 * @returns {Node[]} The children of the given node.
 	 */
 	getChildNodes( node ) {
+		const children = node.children || [];
+		const formatting = node.textContainer ? node.textContainer.formatting : [];
+
+		// If formatting is present, we return those when the last one is a comment.
+		if ( formatting ) {
+			const lastChild = formatting[ formatting.length - 1 ];
+			if ( lastChild && lastChild.type === "comment" ) {
+				return formatting;
+			}
+		}
+
 		/*
 		  Some node types do not have children (like Paragraph and Heading),
 		  but parse5 always expects a node to have children.
 		 */
-		return node.children || [];
+		return children || [];
 	}
 
 	/**
