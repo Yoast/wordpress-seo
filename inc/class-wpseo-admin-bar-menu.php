@@ -492,7 +492,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Gets the focus keyword for a given post.
 	 *
-	 * @param WP_POST $post Post object to get its focus keyword.
+	 * @param WP_Post $post Post object to get its focus keyword.
 	 *
 	 * @return string Focus keyword, or empty string if none available.
 	 */

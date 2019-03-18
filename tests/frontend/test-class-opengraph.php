@@ -589,6 +589,7 @@ EXPECTED;
 
 		update_option( 'blogname', $current_site_name );
 	}
+
 	/**
 	 * @covers WPSEO_OpenGraph::site_name
 	 */

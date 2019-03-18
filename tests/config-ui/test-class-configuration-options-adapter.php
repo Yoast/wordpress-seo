@@ -10,7 +10,9 @@
  */
 class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCase {
 
-	/** @var WPSEO_Configuration_Options_Adapter_Mock */
+	/**
+	 * @var WPSEO_Configuration_Options_Adapter_Mock
+	 */
 	protected $adapter;
 
 	/**
