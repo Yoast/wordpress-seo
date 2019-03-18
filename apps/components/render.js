@@ -4,7 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import App from "./App";
-import AppWrapper from "./app/AppWrapper";
+import AppWrapper from "./AppWrapper";
 
 /**
  * Renders the given RootElement within an AppWrapper component.

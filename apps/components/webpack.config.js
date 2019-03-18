@@ -41,7 +41,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.js$/,
-				exclude: /node_modules[/\\](?!(yoastseo)[/\\]).*/,
+				exclude: /node_modules[/\\](?!(yoastseo)|(yoast-components)[/\\]).*/,
 				use: [ {
 					loader: "babel-loader",
 					options: {

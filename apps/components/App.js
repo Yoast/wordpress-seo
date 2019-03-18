@@ -2,20 +2,20 @@ import React from "react";
 import { IntlProvider } from "react-intl";
 import styled, { ThemeProvider } from "styled-components";
 
-import ButtonsWrapper from "./app/ButtonsWrapper";
-import ComponentsExample from "./app/ComponentsExample";
-import ContentAnalysis from "./app/ContentAnalysisWrapper";
-import DashboardWidget from "./app/DashboardWidgetWrapper";
-import HelpCenterWrapper from "./app/HelpCenterWrapper";
-import KeywordExample from "./app/KeywordExample";
-import KeywordSuggestionsWrapper from "./app/KeywordSuggestionWrapper";
-import SidebarCollapsibleWrapper from "./app/SidebarCollapsibleWrapper";
-import SnippetEditor from "./app/SnippetEditorExample";
-import SvgIconsWrapper from "./app/SvgIconsWrapper";
-import UIControlsWrapper from "./app/UIControlsWrapper";
-import Wizard from "./app/WizardWrapper";
-import Loader from "./composites/basic/Loader";
-import FacebookPreviewExample from "./app/FacebookPreviewExample";
+import ButtonsWrapper from "./ButtonsWrapper";
+import ComponentsExample from "./ComponentsExample";
+import ContentAnalysis from "./ContentAnalysisWrapper";
+import DashboardWidget from "./DashboardWidgetWrapper";
+import HelpCenterWrapper from "./HelpCenterWrapper";
+import KeywordExample from "./KeywordExample";
+import KeywordSuggestionsWrapper from "./KeywordSuggestionWrapper";
+import SidebarCollapsibleWrapper from "./SidebarCollapsibleWrapper";
+import SnippetEditor from "./SnippetEditorExample";
+import SvgIconsWrapper from "./SvgIconsWrapper";
+import UIControlsWrapper from "./UIControlsWrapper";
+import Wizard from "./WizardWrapper";
+import Loader from "yoast-components/composites/basic/Loader";
+import FacebookPreviewExample from "./FacebookPreviewExample";
 
 const components = [
 	{
