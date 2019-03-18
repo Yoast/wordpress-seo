@@ -6,6 +6,7 @@ import { default as OnboardingWizard } from "./composites/OnboardingWizard/Onboa
 import { default as MessageBox } from "./composites/OnboardingWizard/MessageBox";
 import { default as LoadingIndicator } from "./composites/OnboardingWizard/LoadingIndicator";
 import { default as sendRequest } from "./composites/OnboardingWizard/helpers/ajaxHelper";
+import colors from "./style-guide/colors.json";
 
 // Composites/Plugin imports.
 import { default as ScoreAssessments } from "./composites/Plugin/Shared/components/ScoreAssessments";
@@ -60,7 +61,8 @@ export {
 	FullHeightCard,
 	CardBanner,
 	CardDetails,
-	AlgoliaSearch
+	AlgoliaSearcher,
+	colors,
 };
 
 export { default as HelpText } from "./composites/Plugin/Shared/components/HelpText";
@@ -69,7 +71,6 @@ export * from "./composites/Plugin/SnippetPreview";
 export * from "./composites/Plugin/SnippetEditor";
 export * from "./forms";
 export * from "./composites/Plugin/ContentAnalysis";
-export { default as colors } from "./style-guide/colors.json";
 export { default as utils } from "./utils";
 export { getRtlStyle } from "./utils/helpers/styled-components";
 export { localize } from "./utils/i18n";
