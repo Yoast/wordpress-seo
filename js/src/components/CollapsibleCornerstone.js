@@ -8,7 +8,7 @@ import {
 } from "yoast-components";
 
 import Collapsible from "./SidebarCollapsible";
-import { CornerstoneToggle } from "yoast-components";
+import { default as CornerstoneToggle } from "./CornerstoneToggle";
 import { LocationConsumer } from "./contexts/location";
 const LearnMoreLink = utils.makeOutboundLink();
 
