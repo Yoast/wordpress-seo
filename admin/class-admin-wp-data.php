@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin
+ */
 
 /**
  * Class WPSEO_WP_Data
@@ -24,7 +29,7 @@ class WPSEO_WP_Data implements WPSEO_WordPress_Integration {
 	public function enqueue_scripts() {
 		global $pagenow;
 
-		if ( $pagenow === 'post.php' || $pagenow === 'post-new.php') {
+		if ( $pagenow === 'post.php' || $pagenow === 'post-new.php' ) {
 			$script_handle = WPSEO_Admin_Asset_Manager::PREFIX . 'wp-data';
 
 			wp_enqueue_script( $script_handle );
@@ -38,7 +43,7 @@ class WPSEO_WP_Data implements WPSEO_WordPress_Integration {
 	 * @return array Data to localize.
 	 */
 	public function get_localized_data() {
-		return array (
+		return array(
 			'taxonomies' => null,
 			'terms' => (object) array(),
 		);
