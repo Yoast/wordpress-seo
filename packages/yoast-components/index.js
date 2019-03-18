@@ -67,7 +67,7 @@ export * from "./composites/Plugin/SnippetPreview";
 export * from "./composites/Plugin/SnippetEditor";
 export * from "./forms";
 export * from "./composites/Plugin/ContentAnalysis";
-export { default as colors } from "./style-guide/colors.json";
+export { colors } from "@yoast/components/style-guide";
 export { default as utils } from "./utils";
 export { getRtlStyle } from "./utils/helpers/styled-components";
 export { localize } from "./utils/i18n";

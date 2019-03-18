@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import colors from "../../../../style-guide/colors.json";
+import { colors } from "@yoast/components/style-guide";
 import { YoastButton } from "./YoastButton";
 import SvgIcon from "../../Shared/components/SvgIcon";
 

@@ -8,7 +8,7 @@ import { __, sprintf } from "@wordpress/i18n";
 /* Internal dependencies */
 import { ZebrafiedListTable } from "@yoast/components/composites/Table/ListTable";
 import { Row } from "@yoast/components/composites/Table/Row";
-import colors from "../../style-guide/colors.json";
+import { colors } from "@yoast/components/style-guide";
 
 /**
  * The title of the search result item.

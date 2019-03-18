@@ -28,7 +28,7 @@ import {
 	recommendedReplacementVariablesShape,
 } from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
-import colors from "../../../../style-guide/colors";
+import { colors } from "@yoast/components/style-guide";
 import { ErrorBoundary } from "@yoast/components";
 import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 

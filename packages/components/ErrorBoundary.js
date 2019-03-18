@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 import { speak as a11ySpeak } from "@wordpress/a11y";
 
 /* Internal dependencies */
-import colors from "../yoast-components/style-guide/colors";
+import { colors } from "./style-guide";
 
 const ErrorContainer = styled.p`
 	text-align: center;

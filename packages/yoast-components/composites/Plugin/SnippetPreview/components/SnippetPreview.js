@@ -12,7 +12,7 @@ import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
-import colors from "../../../../style-guide/colors";
+import { colors } from "@yoast/components/style-guide";
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
 import { angleLeft, angleRight } from "../../SnippetEditor/components/Shared";

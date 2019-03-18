@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import colors from "../../../../style-guide/colors";
+import { colors } from "@yoast/components/style-guide";
 import PropTypes from "prop-types";
 
 const StyledMention = styled.span`

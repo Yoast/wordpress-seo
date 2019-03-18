@@ -7,7 +7,7 @@ import { __ } from "@wordpress/i18n";
 import noop from "lodash/noop";
 
 // Internal dependencies.
-import colors from "../../../../style-guide/colors.json";
+import { colors } from "@yoast/components/style-guide";
 import { YoastInputField } from "./YoastInput";
 import SvgIcon from "./SvgIcon";
 import { addFocusStyle } from "./Button";

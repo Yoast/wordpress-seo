@@ -4,7 +4,7 @@ import styled from "styled-components";
 import transform from "lodash/transform";
 
 /* Internal dependencies */
-import colors from "../style-guide/colors.json";
+import { colors } from "@yoast/components/style-guide";
 import SvgIcon, { icons } from "../composites/Plugin/Shared/components/SvgIcon";
 
 export const SvgIconsContainer = styled.div`

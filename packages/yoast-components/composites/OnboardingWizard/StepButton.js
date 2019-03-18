@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import IconButton from "material-ui/IconButton";
 import SvgIcon from "material-ui/SvgIcon";
 
-import colors from "../../style-guide/colors.json";
+import { colors } from "@yoast/components/style-guide";
 
 /**
  * Creates a step button for the wizard. The step buttons are meant to be rendered in a stepper component(StepIndicator)

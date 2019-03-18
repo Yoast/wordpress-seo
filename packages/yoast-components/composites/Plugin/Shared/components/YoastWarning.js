@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-import colors from "../../../../style-guide/colors.json";
+import { colors } from "@yoast/components/style-guide";
 import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 import SvgIcon from "./SvgIcon";
 

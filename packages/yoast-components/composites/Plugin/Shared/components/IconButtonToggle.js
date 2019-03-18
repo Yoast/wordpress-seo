@@ -2,9 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import colors from "../../../../style-guide/colors.json";
+import { colors, rgba } from "@yoast/components/style-guide";
 import SvgIcon from "./SvgIcon";
-import { rgba } from "../../../../style-guide/helpers";
 
 const IconButtonBase = styled.button`
 	box-sizing: border-box;

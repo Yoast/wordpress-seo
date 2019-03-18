@@ -8,8 +8,7 @@ import { YoastButton } from "../Plugin/Shared/components/YoastButton";
 import { YoastLinkButton } from "../Plugin/Shared/components/YoastLinkButton";
 import SvgIcon from "../Plugin/Shared/components/SvgIcon";
 import { makeOutboundLink } from "../../utils/makeOutboundLink";
-import breakpoints from "../../style-guide/responsive-breakpoints.json";
-import colors from "../../style-guide/colors.json";
+import { colors, breakpoints } from "@yoast/components/style-guide";
 
 const messages = defineMessages( {
 	searchResult: {

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import colors from "../../../yoast-components/style-guide/colors.json";
+
+import { colors } from "../../style-guide";
 
 /**
  * Separatifies an element.

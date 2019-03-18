@@ -6,10 +6,9 @@ import uniqueId from "lodash/uniqueId";
 
 // Internal dependencies
 import HelpText from "../../Shared/components/HelpText";
-import colors from "../../../../style-guide/colors.json";
+import { colors, rgba } from "@yoast/components/style-guide";
 import { Button } from "../../Shared/components/Button";
 import SvgIcon from "../../Shared/components/SvgIcon";
-import { rgba } from "../../../../style-guide/helpers";
 import { YoastSlideToggle } from "../../../../utils/animations";
 import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 

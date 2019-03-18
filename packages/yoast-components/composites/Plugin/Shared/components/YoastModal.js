@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Modal from "react-modal";
 import styled from "styled-components";
 
-import colors from "../../../../style-guide/colors.json";
+import { colors } from "@yoast/components/style-guide";
 import SvgIcon from "./SvgIcon";
 
 const StyledHeading = styled.h1`

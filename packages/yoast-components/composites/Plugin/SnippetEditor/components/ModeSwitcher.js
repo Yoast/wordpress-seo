@@ -5,7 +5,7 @@ import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
 import { Button } from "../../Shared/components/Button";
-import colors from "../../../../style-guide/colors";
+import { colors } from "@yoast/components/style-guide";
 import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/constants";
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import SvgIcon from "../../Shared/components/SvgIcon";
