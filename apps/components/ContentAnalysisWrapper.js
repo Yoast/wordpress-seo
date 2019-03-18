@@ -1,7 +1,7 @@
 import React from "react";
 
 import ExamplesContainer from "./ExamplesContainer";
-import ContentAnalysis from "../composites/Plugin/ContentAnalysis/components/ContentAnalysis";
+import ContentAnalysis from "yoast-components/composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import LanguageNoticeWrapper from "./LanguageNoticeWrapper.js";
 
 /**

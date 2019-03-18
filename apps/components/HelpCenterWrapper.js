@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import HelpCenter from "../composites/Plugin/HelpCenter/HelpCenter";
-import VideoTutorial from "../composites/HelpCenter/views/VideoTutorial";
-import AlgoliaSearcher from "../composites/AlgoliaSearch/AlgoliaSearcher";
+import HelpCenter from "yoast-components/composites/Plugin/HelpCenter/HelpCenter";
+import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTutorial";
+import AlgoliaSearcher from "yoast-components/composites/AlgoliaSearch/AlgoliaSearcher";
 import { colors } from "@yoast/components/style-guide";
 
 export const HelpCenterContainer = styled.div`

@@ -1,7 +1,7 @@
 /* global module */
 import { createStore, compose } from "redux";
 
-import rootReducer from "./reducers";
+import rootReducer from "./reducers/index";
 import DevTools from "./utils/DevTools";
 
 const enhancer = compose(
@@ -14,7 +14,7 @@ export default ( initialState ) => {
 	if ( module.hot ) {
 		// Enable Webpack hot module replacement for reducers
 		module.hot.accept( "./reducers", () => {
-			const nextRootReducer = require( "./reducers" ); // eslint-disable-line global-require
+			const nextRootReducer = require( "./reducers/index" ); // eslint-disable-line global-require
 			store.replaceReducer( nextRootReducer );
 		} );
 	}
