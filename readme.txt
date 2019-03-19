@@ -107,11 +107,11 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Changelog ==
 
 = 10.0.1 =
-Release Date: March 18th, 2019
+Release Date: March 19th, 2019
 
 Bugfixes:
 
-* Fixes a bug where side-wide settings were not saved on multisite environments.
+* Fixes a bug where network-wide settings were not saved on multisite environments.
 
 = 10.0.0 =
 Release Date: March 12th, 2019
