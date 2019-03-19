@@ -6,7 +6,7 @@ import LoadingIndicator from "./LoadingIndicator";
 import sendStep from "./helpers/ajaxHelper";
 import Header from "./Header";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import { localize } from "../../utils/i18n";
+import { localize } from "yoast-components/utils/i18n";
 import muiTheme from "./config/yoast-theme";
 import interpolateComponents from "interpolate-components";
 import CloseIcon from "material-ui/svg-icons/navigation/close";

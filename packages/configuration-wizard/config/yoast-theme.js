@@ -1,5 +1,5 @@
 import getMuiTheme from "material-ui/styles/getMuiTheme";
-import colors from "../../../style-guide/colors.json";
+import { colors } from "yoast-components";
 
 /**
  * Custom colors palette.

@@ -1,6 +1,3 @@
-jest.unmock( "../Step" );
-jest.unmock( "prop-types" );
-
 import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
 import Step from "../Step";
