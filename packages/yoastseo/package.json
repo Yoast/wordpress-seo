@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.50.0-rc.2",
+  "version": "1.50.0-rc.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/YoastSEO.js"
@@ -36,7 +36,7 @@
     "babel-register": "^6.16.3",
     "babelify": "^8.0.0",
     "console.table": "^0.10.0",
-    "eslint-config-yoast": "^5.0.5-rc.0",
+    "eslint-config-yoast": "^5.0.5-rc.1",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-yoast": "^1.0.1",
