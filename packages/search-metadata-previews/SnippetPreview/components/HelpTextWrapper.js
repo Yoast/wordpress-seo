@@ -9,7 +9,6 @@ import HelpText from "yoast-components/composites/Plugin/Shared/components/HelpT
 import { SvgIcon, getRtlStyle } from "@yoast/components";
 import { colors, rgba } from "@yoast/components/style-guide";
 import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
-import { rgba } from "yoast-components/style-guide/helpers";
 import { YoastSlideToggle } from "yoast-components/utils/animations";
 
 const HelpTextContainer = styled.div`
