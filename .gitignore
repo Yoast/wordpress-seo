@@ -85,3 +85,8 @@ test.sh
 /js/vendor/*
 /css/dist/*
 !/css/dist/select2
+
+##############
+# JS Mono Repo
+##############
+/javascript/
