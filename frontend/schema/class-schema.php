@@ -82,10 +82,11 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 */
 	private function get_graph_pieces() {
 		$pieces = array(
-			new WPSEO_Schema_Breadcrumb(),
 			new WPSEO_Schema_Organization(),
 			new WPSEO_Schema_Person(),
-			new WPSEO_Schema_Website()
+			new WPSEO_Schema_Website(),
+			new WPSEO_Schema_WebPage(),
+			new WPSEO_Schema_Breadcrumb(),
 		);
 
 		/**

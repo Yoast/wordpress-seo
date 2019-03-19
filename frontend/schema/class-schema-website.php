@@ -20,18 +20,17 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	 *
 	 * @link  https://developers.google.com/structured-data/site-name
 	 *
-	 * @return bool|array Website data blob on success, false on failure.
+	 * @return array Website data blob.
 	 */
 	public function add_to_graph() {
-		if ( ! is_front_page() ) {
-			return false;
-		}
-
 		$data = array(
-			'@type'    => 'WebSite',
-			'@id'      => WPSEO_Utils::home_url() . '#website',
-			'url'      => WPSEO_Utils::home_url(),
-			'name'     => $this->get_website_name(),
+			'@type'     => 'WebSite',
+			'@id'       => WPSEO_Utils::home_url() . '#website',
+			'url'       => WPSEO_Utils::home_url(),
+			'name'      => $this->get_website_name(),
+			'publisher' => array(
+				'@id' => $this->get_publisher(),
+			),
 		);
 
 		$data = $this->add_alternate_name( $data );
@@ -41,13 +40,26 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	}
 
 	/**
+	 * Determine the ID based on Company Or Person settings.
+	 *
+	 * @return string
+	 */
+	private function get_publisher() {
+		if ( WPSEO_Options::get( 'company_or_person', '' ) === 'person' ) {
+			return WPSEO_Utils::home_url() . '#person';
+		}
+
+		return WPSEO_Utils::home_url() . '#organization';
+	}
+
+	/**
 	 * Returns the website name either from Yoast SEO's options or from the site settings.
 	 *
 	 * @since 2.1
 	 *
 	 * @return string
 	 */
-	protected function get_website_name() {
+	private function get_website_name() {
 		if ( '' !== WPSEO_Options::get( 'website_name', '' ) ) {
 			return WPSEO_Options::get( 'website_name' );
 		}
@@ -91,7 +103,7 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 			 *
 			 * @api string $search_url The search URL for this site with a `{search_term_string}` variable.
 			 */
-			$search_url = apply_filters( 'wpseo_json_ld_search_url', WPSEO_Utils::get_home_url() . '?s={search_term_string}' );
+			$search_url = apply_filters( 'wpseo_json_ld_search_url', trailingslashit( WPSEO_Utils::get_home_url() ) . '?s={search_term_string}' );
 
 			$data['potentialAction'] = array(
 				'@type'       => 'SearchAction',
