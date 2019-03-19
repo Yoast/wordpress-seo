@@ -40,8 +40,16 @@ export const angleLeft = ( color ) => "data:image/svg+xml;charset=utf8," + encod
  * @returns {string} The color the caret should have.
  */
 function getCaretColor( props ) {
-	return 'transparent';
+	switch ( true ) {
+		case props.isActive:
+			return colors.$color_snippet_focus;
 
+		case props.isHovered:
+			return colors.$color_snippet_hover;
+
+		default:
+			return "transparent";
+	}
 }
 
 /*
