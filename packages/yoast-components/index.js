@@ -3,6 +3,10 @@
  */
 // Composites/OnboardingWizard imports.
 import { default as OnboardingWizard, MessageBox, LoadingIndicator, sendRequest, decodeHTML } from "@yoast/configuration-wizard";
+
+// Import colors from the style guide.
+import { colors } from "@yoast/components/style-guide";
+
 // Composites/AngoliaSearch imports.
 import AlgoliaSearcher from "@yoast/algolia-search";
 // Composites/Plugin imports.
