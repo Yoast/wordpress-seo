@@ -3,7 +3,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 /* Internal dependencies */
-import HelpText from "../components/HelpText";
+import HelpText from "../HelpText";
 
 describe( "HelpText", () => {
 	it( "matches the snapshot by default", () => {

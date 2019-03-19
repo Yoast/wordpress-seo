@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 
-import YoastModal from "../components/YoastModal";
+import YoastModal from "../YoastModal";
 
 describe( "YoastModal", () => {
 	test( "the YoastModal renders its children when open", () => {

@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { A11yNotice } from "../components/A11yNotice";
+import { A11yNotice } from "../A11yNotice";
 
 test( "the A11yNotice matches the snapshot", () => {
 	const component = renderer.create(
