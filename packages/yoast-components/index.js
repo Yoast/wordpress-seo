@@ -61,10 +61,9 @@ export {
 
 export { default as HelpText } from "./composites/Plugin/Shared/components/HelpText";
 export { default as SynonymsInput } from "./composites/Plugin/Shared/components/SynonymsInput";
-export * from "../search-metadata-previews/SnippetPreview";
-export * from "../search-metadata-previews/SnippetEditor";
 export * from "./forms";
 export * from "./composites/Plugin/ContentAnalysis";
+export * from "@yoast/search-metadata-previews";
 export { colors } from "@yoast/components/style-guide";
 export { default as utils } from "./utils";
 export { localize } from "./utils/i18n";
