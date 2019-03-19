@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.9
 Tested up to: 5.1
-Stable tag: 10.0
+Stable tag: 10.0.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -131,6 +131,13 @@ Bugfixes:
 
 Other:
 * Removes all functionality that has been deprecated before Yoast SEO 6.1.
+
+= 10.0.1 =
+Release Date: March 19th, 2019
+
+Bugfixes:
+
+* Fixes a bug where network-wide settings were not saved on multisite environments.
 
 = 10.0.0 =
 Release Date: March 12th, 2019
