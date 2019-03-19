@@ -21,16 +21,15 @@ import {
 } from "../../SnippetPreview/constants";
 import SnippetEditorFields from "./SnippetEditorFields";
 import { Button } from "../../Shared/components/Button";
-import SvgIcon from "../../Shared/components/SvgIcon";
+import { SvgIcon } from "@yoast/components";
 import {
 	lengthProgressShape,
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
-import colors from "../../../../style-guide/colors";
-import ErrorBoundary from "../../../basic/ErrorBoundary";
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
+import { colors } from "@yoast/components/style-guide";
+import { ErrorBoundary, getRtlStyle } from "@yoast/components";
 
 const SnippetEditorButton = Button.extend`
 	height: 33px;

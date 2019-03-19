@@ -12,7 +12,6 @@ import { default as ButtonSection } from "./composites/Plugin/Shared/components/
 import { default as LanguageNotice } from "./composites/Plugin/Shared/components/LanguageNotice";
 import { YoastButton } from "./composites/Plugin/Shared/components/YoastButton";
 import { default as YoastModal } from "./composites/Plugin/Shared/components/YoastModal";
-import { default as SvgIcon } from "./composites/Plugin/Shared/components/SvgIcon";
 import { UpsellButton } from "./composites/Plugin/Shared/components/UpsellButton";
 import { UpsellLinkButton } from "./composites/Plugin/Shared/components/UpsellLinkButton";
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
@@ -24,7 +23,7 @@ import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSug
 // Composites/KeywordSuggestions imports.
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
 // Composites/basic imports.
-import { default as Loader } from "./composites/basic/Loader";
+import { Loader, SvgIcon, getRtlStyle } from "@yoast/components";
 
 // Composites/CoursesOverview imports
 import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
@@ -46,7 +45,6 @@ export {
 	ScoreAssessments,
 	YoastButton,
 	YoastModal,
-	SvgIcon,
 	Loader,
 	CornerstoneToggle,
 	sendRequest,
@@ -57,6 +55,8 @@ export {
 	FullHeightCard,
 	CardBanner,
 	CardDetails,
+	SvgIcon,
+	getRtlStyle,
 };
 
 export { default as HelpText } from "./composites/Plugin/Shared/components/HelpText";
@@ -65,9 +65,8 @@ export * from "./composites/Plugin/SnippetPreview";
 export * from "./composites/Plugin/SnippetEditor";
 export * from "./forms";
 export * from "./composites/Plugin/ContentAnalysis";
-export { default as colors } from "./style-guide/colors.json";
+export { colors } from "@yoast/components/style-guide";
 export { default as utils } from "./utils";
-export { getRtlStyle } from "./utils/helpers/styled-components";
 export { localize } from "./utils/i18n";
 export { setTranslations } from "./utils/i18n";
 export { translate } from "./utils/i18n";
@@ -80,7 +79,7 @@ export { default as VideoTutorial } from "./composites/HelpCenter/views/VideoTut
 export { default as KeywordInput } from "./composites/Plugin/Shared/components/KeywordInput";
 export { default as Icon } from "./composites/Plugin/Shared/components/Icon";
 export { default as YoastWarning } from "./composites/Plugin/Shared/components/YoastWarning";
-export { default as YoastSeoIcon } from "./composites/basic/YoastSeoIcon";
+export { default as YoastSeoIcon } from "../components/YoastSeoIcon";
 export { insightsReducer } from "./redux/reducers/insights";
 export { setProminentWords } from "./redux/actions/insights";
 export { setReadabilityResults,

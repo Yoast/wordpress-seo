@@ -8,7 +8,7 @@ import { YoastLinkButton } from "yoast-components/composites/Plugin/Shared/compo
 import { BaseButton, Button, IconButton, IconsButton } from "yoast-components/composites/Plugin/Shared/components/Button";
 import IconButtonToggle from "yoast-components/composites/Plugin/Shared/components/IconButtonToggle";
 import { BaseLinkButton, LinkButton } from "yoast-components/composites/Plugin/Shared/components/LinkButton";
-import FormButton from "yoast-components/forms/Button";
+import { Button as FormButton } from "@yoast/components";
 import IconLabelledButton from "yoast-components/composites/Plugin/Shared/components/IconLabelledButton";
 
 const ButtonsContainer = styled.div`
