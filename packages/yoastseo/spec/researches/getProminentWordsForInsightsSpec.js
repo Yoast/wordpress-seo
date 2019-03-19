@@ -8,7 +8,7 @@ describe( "getProminentWordsForInsights research", function() {
 	it( "does not break if no morphology support is added for the language", function() {
 		const paper = new Paper( "texte  et texte et texte et texte et texte", { locale: "fr_FR" } );
 
-		const researcher = new Researcher( paper  );
+		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 
 		const expected = [

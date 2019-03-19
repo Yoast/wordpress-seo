@@ -15,7 +15,7 @@ import {
  *
  * @returns {WordCombination[]} Relevant words for this paper, filtered and sorted.
  */
-export default function ( paper, researcher ) {
+export default function( paper, researcher ) {
 	const language = getLanguage( paper.getLocale() );
 	const morphologyData = get( researcher.getData( "morphology" ), language, false );
 
@@ -29,4 +29,4 @@ export default function ( paper, researcher ) {
 	 * articles from getting too long of lists.
 	 */
 	return take( getRelevantCombinationsForInsights( collapsedWords ), 20 );
-};
+}
