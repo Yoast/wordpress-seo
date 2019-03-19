@@ -3,8 +3,12 @@
  */
 // Composites/OnboardingWizard imports.
 import { default as OnboardingWizard, MessageBox, LoadingIndicator, sendRequest, decodeHTML } from "@yoast/configuration-wizard";
+
+// Import colors from the style guide.
+import { colors } from "@yoast/components/style-guide";
+
 // Composites/AngoliaSearch imports.
-import { default as AlgoliaSearcher } from "./composites/AlgoliaSearch/AlgoliaSearcher";
+import AlgoliaSearcher from "@yoast/algolia-search";
 // Composites/Plugin imports.
 import { default as ScoreAssessments } from "./composites/Plugin/Shared/components/ScoreAssessments";
 import { default as Collapsible } from "./composites/Plugin/Shared/components/Collapsible";
@@ -32,7 +36,6 @@ import { default as CardDetails } from "./composites/CoursesOverview/CardDetails
 
 export {
 	OnboardingWizard,
-	AlgoliaSearcher,
 	HelpCenter,
 	MessageBox,
 	LinkSuggestions,
@@ -57,6 +60,8 @@ export {
 	CardDetails,
 	SvgIcon,
 	getRtlStyle,
+	AlgoliaSearcher,
+	colors,
 };
 
 export { default as HelpText } from "./composites/Plugin/Shared/components/HelpText";
@@ -65,7 +70,6 @@ export * from "./composites/Plugin/SnippetPreview";
 export * from "./composites/Plugin/SnippetEditor";
 export * from "./forms";
 export * from "./composites/Plugin/ContentAnalysis";
-export { colors } from "@yoast/components/style-guide";
 export { default as utils } from "./utils";
 export { localize } from "./utils/i18n";
 export { setTranslations } from "./utils/i18n";
