@@ -87,7 +87,7 @@ class WPSEO_Schema_Person implements WPSEO_WordPress_Integration {
 	 * @return array $output A list of social profiles.
 	 */
 	private function get_social_profiles( $user_id ) {
-		$social_profiles = [ 'facebook', 'instagram', 'linkedin', 'pinterest', 'twitter' ];
+		$social_profiles = [ 'facebook', 'instagram', 'linkedin', 'pinterest', 'twitter', 'myspace', 'youtube', 'soundcloud', 'tumblr' ];
 		$output          = [];
 		foreach ( $social_profiles as $profile ) {
 			$social_url = $this->url_social_site( $profile, $user_id );
