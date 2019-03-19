@@ -6,7 +6,7 @@ import omit from "lodash/omit";
 import { colors } from "@yoast/components/style-guide";
 import { IconsButton } from "../../Shared/components/Button";
 import { getRtlStyle } from "@yoast/components";
-import { SectionTitle } from "./SectionTitle";
+import { SectionTitle } from "../../../../../components/SectionTitle";
 
 const Content = styled.div`
 	padding: 0 16px;

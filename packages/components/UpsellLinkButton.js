@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "./style-guide";
 
 /**
  * A link styled as an interactive upsell button.

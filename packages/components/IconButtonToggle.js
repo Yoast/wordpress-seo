@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import { colors, rgba } from "@yoast/components/style-guide";
-import { SvgIcon } from "@yoast/components";
+import { colors, rgba } from "./style-guide";
+import SvgIcon from "./SvgIcon";
 
 const IconButtonBase = styled.button`
 	box-sizing: border-box;

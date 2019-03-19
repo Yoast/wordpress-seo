@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 
-import { colors, breakpoints } from "@yoast/components/style-guide";
+import { colors, breakpoints } from "./style-guide";
 
 const YoastTabsContainer = styled.div`
 	font-size: 1em;
