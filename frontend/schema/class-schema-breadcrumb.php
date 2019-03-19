@@ -21,23 +21,14 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	 * @return bool|array Array on success, false on failure.
 	 */
 	public function add_to_graph() {
-		$breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
-		if ( ! $breadcrumbs_enabled ) {
-			$breadcrumbs_enabled = WPSEO_Options::get( 'breadcrumbs-enable', false );
-		}
-
-		if ( is_front_page() || ! $breadcrumbs_enabled ) {
+		if ( ! $this->add_breadcrumbs() ) {
 			return false;
 		}
-
-		$data = array(
-			'@type'           => 'BreadcrumbList',
-			'itemListElement' => array(),
-		);
 
 		$breadcrumbs_instance = WPSEO_Breadcrumbs::get_instance();
 		$breadcrumbs          = $breadcrumbs_instance->get_links();
 		$broken               = false;
+		$list_elements        = array();
 
 		foreach ( $breadcrumbs as $index => $breadcrumb ) {
 			if ( ! empty( $breadcrumb['hide_in_schema'] ) ) {
@@ -53,15 +44,26 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 				$breadcrumb['url'] = WPSEO_Frontend::get_instance()->canonical( false );
 			}
 
-			$data['itemListElement'][] = array(
+			if ( empty( $breadcrumb['text'] ) ) {
+				$breadcrumb['url'] = WPSEO_Frontend::get_instance()->title( '' );
+			}
+
+			$list_elements[] = array(
 				'@type'    => 'ListItem',
 				'position' => ( $index + 1 ),
 				'item'     => array(
-					'@id'  => $breadcrumb['url'],
-					'name' => $breadcrumb['text'],
+					'@type' => 'WebPage',
+					'@id'   => $breadcrumb['url'],
+					'name'  => $breadcrumb['text'],
 				),
 			);
 		}
+
+		$data = array(
+			'@type'           => 'BreadcrumbList',
+			'@id'             => WPSEO_Frontend::get_instance()->canonical( false ) . '#breadcrumb',
+			'itemListElement' => $list_elements,
+		);
 
 		// Only output if JSON is correctly formatted.
 		if ( ! $broken ) {
@@ -71,4 +73,24 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 		return false;
 	}
 
+	/**
+	 * Determine if we should add a breadcrumb attribute.
+	 *
+	 * @return bool
+	 */
+	private function add_breadcrumbs() {
+		if ( is_front_page() ) {
+			return false;
+		}
+
+		$breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
+		if ( ! $breadcrumbs_enabled ) {
+			$breadcrumbs_enabled = WPSEO_Options::get( 'breadcrumbs-enable', false );
+		}
+		if ( $breadcrumbs_enabled ) {
+			return true;
+		}
+
+		return false;
+	}
 }

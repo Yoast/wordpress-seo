@@ -39,15 +39,12 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return bool|int User ID or false upon return.
 	 */
 	private function determine_user_id() {
-		$user_id = false;
 		switch( true ) {
 			case is_author():
 				$user_id = get_queried_object_id();
 				break;
-			case is_front_page():
-				$user_id = (int) WPSEO_Options::get( 'company_or_person_user_id', false );
-				break;
 			default:
+				$user_id = (int) WPSEO_Options::get( 'company_or_person_user_id', false );
 				break;
 		}
 
@@ -85,7 +82,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return bool
 	 */
 	private function do_person_output() {
-		if ( is_author() || is_front_page() && WPSEO_Options::get( 'company_or_person', '' ) === 'person' ) {
+		if ( WPSEO_Options::get( 'company_or_person', '' ) === 'person' || is_author() ) {
 			return true;
 		}
 
@@ -128,11 +125,9 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return string The `@id` string value.
 	 */
 	private function determine_at_id( $user_id ) {
+		$url = WPSEO_Utils::home_url();
 		if ( is_author() ) {
 			$url = get_author_posts_url( $user_id );
-		}
-		if ( is_front_page() ) {
-			$url = WPSEO_Utils::home_url();
 		}
 		return $url . '#person';
 	}
