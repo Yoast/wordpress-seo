@@ -14,7 +14,7 @@ import SnippetEditor from "./SnippetEditorExample";
 import SvgIconsWrapper from "./SvgIconsWrapper";
 import UIControlsWrapper from "./UIControlsWrapper";
 import Wizard from "./WizardWrapper";
-import Loader from "yoast-components/composites/basic/Loader";
+import { Loader } from "@yoast/components";
 import FacebookPreviewExample from "./FacebookPreviewExample";
 
 const components = [

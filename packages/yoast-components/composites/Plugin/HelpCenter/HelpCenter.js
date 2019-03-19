@@ -6,10 +6,9 @@ import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import { HelpCenterButton } from "../../Plugin/Shared/components/HelpCenterButton";
-import Paper from "../../../composites/basic/Paper";
-import colors from "../../../style-guide/colors.json";
+import { Paper } from "@yoast/components";
+import { colors, breakpoints } from "@yoast/components/style-guide";
 import YoastTabs from "../Shared/components/YoastTabs";
-import breakpoints from "../../../style-guide/responsive-breakpoints.json";
 
 export const HelpCenterContainer = styled.div`
 	margin: 0;

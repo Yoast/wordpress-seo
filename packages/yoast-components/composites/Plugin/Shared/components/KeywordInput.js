@@ -7,11 +7,10 @@ import { __ } from "@wordpress/i18n";
 import noop from "lodash/noop";
 
 // Internal dependencies.
-import colors from "../../../../style-guide/colors.json";
+import { colors } from "@yoast/components/style-guide";
 import { YoastInputField } from "./YoastInput";
-import SvgIcon from "./SvgIcon";
+import { SvgIcon, getRtlStyle } from "@yoast/components";
 import { addFocusStyle } from "./Button";
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
 
 const errorColor = colors.$color_red;
 const greyColor = colors.$color_grey_text_light;

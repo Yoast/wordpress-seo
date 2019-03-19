@@ -4,8 +4,8 @@ import styled from "styled-components";
 import transform from "lodash/transform";
 
 /* Internal dependencies */
-import colors from "yoast-components/style-guide/colors.json";
-import SvgIcon, { icons } from "yoast-components/composites/Plugin/Shared/components/SvgIcon";
+import { colors } from "@yoast/components/style-guide";
+import SvgIcon, { icons } from "@yoast/components/SvgIcon";
 
 export const SvgIconsContainer = styled.div`
 	max-width: 1024px;
