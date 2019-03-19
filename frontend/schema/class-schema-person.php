@@ -113,7 +113,7 @@ class WPSEO_Schema_Person extends WPSEO_JSON_LD implements WPSEO_WordPress_Integ
 		$output    = [
 			'@context' => 'https://schema.org',
 			'@type'    => 'Person',
-			'@id'      => get_author_posts_url( $user_id ) . '#profile',
+			'@id'      => $this->determine_at_id( $user_id ),
 			'name'     => $user_data->display_name,
 			'image'    => get_avatar( $user_id ),
 		];
@@ -128,6 +128,23 @@ class WPSEO_Schema_Person extends WPSEO_JSON_LD implements WPSEO_WordPress_Integ
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Returns the string to use in Schema's @id.
+	 *
+	 * @param int $user_id The user ID if we're on a user page.
+	 *
+	 * @return string The `@id` string value.
+	 */
+	private function determine_at_id( $user_id ) {
+		if ( is_author() ) {
+			$url = get_author_posts_url( $user_id );
+		}
+		if ( is_front_page() ) {
+			$url = $this->get_home_url();
+		}
+		return $url . '#person';
 	}
 
 	/**
