@@ -9,8 +9,6 @@ const FacebookSiteNameWrapper = styled.span`
 	line-height: 11px;
 	text-transform: uppercase;
 	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 `;
 
 /**
