@@ -12,41 +12,33 @@
  *
  * @since 10.1
  */
-class WPSEO_Schema_Organization extends WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
-	/**
-	 * Registers hooks to WordPress.
-	 *
-	 * @return void
-	 */
-	public function register_hooks() {
-		add_action( 'wpseo_json_ld', [ $this, 'organization' ] );
-	}
-
+class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	/**
 	 * Outputs code to allow Google to recognize social profiles for use in the Knowledge graph.
 	 *
 	 * @since 1.8
+	 *
+	 * @return bool|array Organization data blob on success, false on failure.
 	 */
-	public function organization() {
-		if ( WPSEO_Options::get( 'company_or_person', '' !== 'company' ) ) {
-			return;
+	public function add_to_graph() {
+		if ( WPSEO_Options::get( 'company_or_person', '' )  !== 'company' ) {
+			return false;
 		}
 
-		$output = $this->prepare_organization_markup();
-
-		$this->output( $output, 'company' );
+		return $this->prepare_organization_markup();
 	}
 
 	/**
 	 * Prepares the organization markup.
+	 *
+	 * @return array $data The Organization schema.
 	 */
 	private function prepare_organization_markup() {
 		$data = array(
-			'@context' => 'https://schema.org',
 			'@type'    => 'Organization',
-			'@id'      => $this->get_home_url() . '#organization',
+			'@id'      => WPSEO_Utils::home_url() . '#organization',
 			'name'     => WPSEO_Options::get( 'company_name' ),
-			'url'      => $this->get_home_url(),
+			'url'      => WPSEO_Utils::home_url(),
 			'sameAs'   => $this->fetch_social_profiles(),
 		);
 		if ( ! empty( WPSEO_Options::get( 'company_logo', '' ) ) ) {

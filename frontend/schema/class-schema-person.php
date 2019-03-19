@@ -12,34 +12,25 @@
 *
 * @since 10.1
 */
-class WPSEO_Schema_Person extends WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
-	/**
-	 * Registers hooks to WordPress.
-	 *
-	 * @return void
-	 */
-	public function register_hooks() {
-		add_action( 'wpseo_json_ld', [ $this, 'person_output' ] );
-	}
-
+class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	/**
 	 * Outputs a Person JSON+LD blob on team pages.
 	 *
-	 * @return void
+	 * @return bool|array Person data blob on success, false on failure.
 	 */
-	public function person_output() {
+	public function add_to_graph() {
 		if ( ! $this->do_person_output() ) {
-			return;
+			return false;
 		}
 
 		$user_id = $this->determine_user_id();
 		if ( ! $user_id ) {
-			return;
+			return false;
 		}
 
 		$data = $this->build_person_data( $user_id );
 
-		$this->output( $data, 'person' );
+		return $data;
 	}
 
 	/**
@@ -111,11 +102,10 @@ class WPSEO_Schema_Person extends WPSEO_JSON_LD implements WPSEO_WordPress_Integ
 	private function build_person_data( $user_id ) {
 		$user_data = get_userdata( $user_id );
 		$output    = [
-			'@context' => 'https://schema.org',
 			'@type'    => 'Person',
 			'@id'      => $this->determine_at_id( $user_id ),
 			'name'     => $user_data->display_name,
-			'image'    => get_avatar( $user_id ),
+			'image'    => get_avatar_url( $user_id ),
 		];
 
 		if ( ! empty( $user_data->description ) ) {
@@ -142,7 +132,7 @@ class WPSEO_Schema_Person extends WPSEO_JSON_LD implements WPSEO_WordPress_Integ
 			$url = get_author_posts_url( $user_id );
 		}
 		if ( is_front_page() ) {
-			$url = $this->get_home_url();
+			$url = WPSEO_Utils::home_url();
 		}
 		return $url . '#person';
 	}
