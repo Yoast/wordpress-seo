@@ -9,7 +9,7 @@ matrix:
 stages:
   - test
   - name: 🚀 rc-deployment
-    if: branch =~ /^(release|release-yoast-seo)\/*/
+    if: branch =~ /^(release-yoast-seo|release)\/*/
   - name: 🚀 deployment
     if: branch = master
 jobs:
