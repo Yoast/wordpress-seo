@@ -4,12 +4,12 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 const FacebookAuthorNameWrapper = styled.span`
-    color: #3b5998;
-    font-size: 12px;
-    line-height: 11px;
-    position: relative;
-    text-decoration: none;
-    cursor: auto;
+	color: #3b5998;
+	font-size: 12px;
+	line-height: 11px;
+	position: relative;
+	text-decoration: none;
+	cursor: auto;
 `;
 
 /**

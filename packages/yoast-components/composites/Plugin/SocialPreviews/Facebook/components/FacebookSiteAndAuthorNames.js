@@ -9,13 +9,13 @@ import FacebookSiteName from "./FacebookSiteName";
 import FacebookAuthorName from "./FacebookAuthorName";
 
 const FacebookSiteAndAuthorNamesWrapper = styled.p`
-    color: #606770;
-    font-size: 12px;
-    line-height: 11px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-transform: uppercase;
-    white-space: nowrap;
+	color: #606770;
+	font-size: 12px;
+	line-height: 11px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	text-transform: uppercase;
+	white-space: nowrap;
 `;
 
 const FacebookSiteAndAuthorNamesSeparator = styled.span`
