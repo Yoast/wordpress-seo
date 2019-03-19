@@ -45,7 +45,7 @@ class WPSEO_Schema_Person extends WPSEO_JSON_LD implements WPSEO_WordPress_Integ
 	/**
 	 * Returns a User ID on success, false on failure.
 	 *
-	 * @return bool|int
+	 * @return bool|int User ID or false upon return.
 	 */
 	private function determine_user_id() {
 		$user_id = false;
