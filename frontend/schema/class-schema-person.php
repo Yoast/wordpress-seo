@@ -12,7 +12,7 @@
 *
 * @since 10.1
 */
-class WPSEO_Schema_Person implements WPSEO_WordPress_Integration {
+class WPSEO_Schema_Person extends WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	/**
 	 * Registers hooks to WordPress.
 	 *
@@ -37,20 +37,9 @@ class WPSEO_Schema_Person implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		$output = $this->build_person_data( $user_id );
+		$data = $this->build_person_data( $user_id );
 
-		/**
-		 * Filter: 'wpseo_schema_person_user_id' - Allows filtering of user ID used for person output.
-		 *
-		 * @param int|bool $user_id The user ID currently determined.
-		 *
-		 * @api array $output The current Schema Person output.
-		 */
-		$output = apply_filters( 'wpseo_schema_person_user_id', $output, $user_id );
-
-		if ( ! empty( $output ) ) {
-			echo "<script type='application/ld+json'>", wp_json_encode( $output ), '</script>', "\n";
-		}
+		$this->output( $data, 'person' );
 	}
 
 	/**
