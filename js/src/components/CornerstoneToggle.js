@@ -36,14 +36,15 @@ class CornerstoneToggle extends React.Component {
 CornerstoneToggle.propTypes = {
 	id: PropTypes.string,
 	isEnabled: PropTypes.bool,
-	onSetToggleState: PropTypes.func,
 	onToggle: PropTypes.func,
-	disable: PropTypes.bool,
 	onToggleDisabled: PropTypes.func,
 };
 
 CornerstoneToggle.defaultProps = {
 	id: "cornerstone-toggle",
+	isEnabled: true,
+	onToggle: () => { },
+	onToggleDisabled: () => { },
 };
 
 export default CornerstoneToggle;

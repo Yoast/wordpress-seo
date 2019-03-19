@@ -43,3 +43,7 @@ CollapsibleCornerstone.propTypes = {
 	isCornerstone: PropTypes.bool,
 	onChange: PropTypes.func,
 };
+CollapsibleCornerstone.defaultProps = {
+	isCornerstone: true,
+	onChange: () => {},
+};

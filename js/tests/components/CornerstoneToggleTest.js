@@ -4,7 +4,7 @@ import CornerstoneToggle from "../../src/components/CornerstoneToggle";
 
 test( "The CornerstoneToggle matches the snapshot", () => {
 	const component = renderer.create(
-		<CornerstoneToggle onChange={ () => {} } checked={ true } />
+		<CornerstoneToggle checked={ true } />
 	);
 
 	const tree = component.toJSON();
