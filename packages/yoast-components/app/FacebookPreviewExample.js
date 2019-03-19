@@ -1,5 +1,7 @@
+/* External dependencies */
 import React from "react";
 
+/* Internal dependencies */
 import ExamplesContainer from "./ExamplesContainer";
 import FacebookPreview from "../composites/Plugin/SocialPreviews/Facebook/components/FacebookPreview";
 

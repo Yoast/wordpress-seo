@@ -1,8 +1,10 @@
+/* External dependencies */
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
+/* Internal dependencies */
 import FacebookSiteName from "./FacebookSiteName";
 import FacebookAuthorName from "./FacebookAuthorName";
 
