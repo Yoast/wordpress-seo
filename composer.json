@@ -32,7 +32,11 @@
 		"pimple/pimple": "^3.2",
 		"ruckusing/ruckusing-migrations": "^1.1",
 		"psr/log": "^1.0",
-		"league/oauth2-client": "^2.4"
+		"league/oauth2-client": "^2.4",
+		"symfony/dependency-injection": "3.4.23",
+		"paragonie/random_compat": "2.0.1",
+		"symfony/filesystem": "3.4.23",
+		"symfony/config": "3.4.23"
 	},
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",
