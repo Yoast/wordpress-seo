@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import Checkbox from "../composites/Plugin/Shared/components/Checkbox";
-import Toggle from "../composites/Plugin/Shared/components/Toggle";
-import CornerstoneToggle from "../composites/Plugin/CornerstoneContent/components/CornerstoneToggle.js";
+import Checkbox from "yoast-components/composites/Plugin/Shared/components/Checkbox";
+import Toggle from "yoast-components/composites/Plugin/Shared/components/Toggle";
+import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/components/CornerstoneToggle.js";
 
 const Container = styled.div`
 	max-width: 1024px;

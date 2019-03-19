@@ -1,5 +1,6 @@
 import React from "react";
 
+
 import { default as Wizard, Config, apiConfig } from "@yoast/configuration-wizard";
 
 /**
