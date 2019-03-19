@@ -1,11 +1,11 @@
 {
   "name": "yoast-components",
-  "version": "4.22.0",
+  "version": "4.22.1",
   "description": "Yoast Generic Components",
   "homepage": "https://github.com/Yoast/",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently --kill-others \"stubby -d stubby/endpoints.yaml\" \"webpack-dev-server --mode=development\"",
+    "start": "echo 'The yoast-components demo app has been moved to javascript/apps/components (https://github.com/Yoast/javascript/tree/develop/apps/components). Please run yarn start there.'",
     "test": "jest",
     "lint": "grunt check",
     "prepublishOnly": "grunt publish"

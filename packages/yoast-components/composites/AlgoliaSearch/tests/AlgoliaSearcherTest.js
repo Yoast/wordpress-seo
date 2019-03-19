@@ -1,5 +1,5 @@
 import React from "react";
-import { createComponentWithIntl } from "../../../utils/intlProvider";
+import { createComponentWithIntl } from "@yoast/components";
 import AlgoliaSearcher from "../AlgoliaSearcher.js";
 
 test( "the AlgoliaSearcher component with headingText matches the snapshot", () => {

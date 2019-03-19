@@ -1,0 +1,8 @@
+{
+  "name": "@yoast/social-metadata-previews",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/yoast/javascript",
+  "author": "Team Yoast",
+  "license": "GPL-3.0"
+}

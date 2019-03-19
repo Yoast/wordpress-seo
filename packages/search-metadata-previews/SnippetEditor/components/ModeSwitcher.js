@@ -6,7 +6,8 @@ import PropTypes from "prop-types";
 
 // Internal dependencies.
 import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
-import { colors, SvgIcon } from "yoast-components";
+import { SvgIcon } from "@yoast/components";
+import { colors } from "@yoast/components/style-guide";
 import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/constants";
 import ScreenReaderText from "yoast-components/a11y/ScreenReaderText";
 
@@ -21,16 +22,16 @@ import ScreenReaderText from "yoast-components/a11y/ScreenReaderText";
 const SwitcherButton = styled( Button )`
 	border: none;
 	border-bottom: 4px solid transparent;
-	
+
 	width: 31px;
 	height: 31px;
-	
+
 	border-color: ${ ( props ) => props.isActive ? colors.$color_snippet_active : "transparent" };
 	color: ${ colors.$color_snippet_active };
-	
+
 	transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
 	transition-property: border-color;
-	
+
 	&:hover, &:focus {
 		background-color: ${ colors.$color_white };
 		border: none;

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 // Internal dependencies.
 import SettingsSnippetEditorFields from "./SettingsSnippetEditorFields";
-import ErrorBoundary from "yoast-components/composites/basic/ErrorBoundary";
+import { ErrorBoundary } from "@yoast/components";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,

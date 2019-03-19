@@ -2,10 +2,7 @@
  * Composites imports.
  */
 // Composites/OnboardingWizard imports.
-import { default as OnboardingWizard } from "./composites/OnboardingWizard/OnboardingWizard";
-import { default as MessageBox } from "./composites/OnboardingWizard/MessageBox";
-import { default as LoadingIndicator } from "./composites/OnboardingWizard/LoadingIndicator";
-import { default as sendRequest } from "./composites/OnboardingWizard/helpers/ajaxHelper";
+import { default as OnboardingWizard, MessageBox, LoadingIndicator, sendRequest, decodeHTML } from "@yoast/configuration-wizard";
 // Composites/AngoliaSearch imports.
 import { default as AlgoliaSearcher } from "./composites/AlgoliaSearch/AlgoliaSearcher";
 // Composites/Plugin imports.
@@ -15,23 +12,18 @@ import { default as ButtonSection } from "./composites/Plugin/Shared/components/
 import { default as LanguageNotice } from "./composites/Plugin/Shared/components/LanguageNotice";
 import { YoastButton } from "./composites/Plugin/Shared/components/YoastButton";
 import { default as YoastModal } from "./composites/Plugin/Shared/components/YoastModal";
-import { default as SvgIcon } from "./composites/Plugin/Shared/components/SvgIcon";
 import { UpsellButton } from "./composites/Plugin/Shared/components/UpsellButton";
 import { UpsellLinkButton } from "./composites/Plugin/Shared/components/UpsellLinkButton";
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import { default as HelpCenter } from "./composites/Plugin/HelpCenter/HelpCenter.js";
 import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
 
-import colors from './style-guide/colors.json';
-console.log(colors);
-process.exit(1);
-
 // Composites/LinkSuggestions imports.
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
 // Composites/KeywordSuggestions imports.
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
 // Composites/basic imports.
-import { default as Loader } from "./composites/basic/Loader";
+import { Loader, SvgIcon, getRtlStyle } from "@yoast/components";
 
 // Composites/CoursesOverview imports
 import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
@@ -53,17 +45,18 @@ export {
 	ScoreAssessments,
 	YoastButton,
 	YoastModal,
-	SvgIcon,
 	Loader,
 	CornerstoneToggle,
 	sendRequest,
+	decodeHTML,
 	UpsellButton,
 	UpsellLinkButton,
 	Card,
 	FullHeightCard,
 	CardBanner,
 	CardDetails,
-	colors
+	SvgIcon,
+	getRtlStyle,
 };
 
 export { default as HelpText } from "./composites/Plugin/Shared/components/HelpText";
@@ -72,22 +65,21 @@ export * from "../search-metadata-previews/SnippetPreview";
 export * from "../search-metadata-previews/SnippetEditor";
 export * from "./forms";
 export * from "./composites/Plugin/ContentAnalysis";
+export { colors } from "@yoast/components/style-guide";
 export { default as utils } from "./utils";
-export { getRtlStyle } from "./utils/helpers/styled-components";
 export { localize } from "./utils/i18n";
 export { setTranslations } from "./utils/i18n";
 export { translate } from "./utils/i18n";
 export * from "./composites/Plugin/DashboardWidget";
 export { replacementVariablesShape, recommendedReplacementVariablesShape } from "../search-metadata-previews/SnippetEditor/constants";
 export { default as analysis } from "./composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
-export { default as decodeHTML } from "./composites/OnboardingWizard/helpers/htmlDecoder";
 export { default as WordpressFeed } from "./composites/Plugin/DashboardWidget/components/WordpressFeed";
 export { default as SeoAssessment } from "./composites/Plugin/DashboardWidget/components/SeoAssessment";
 export { default as VideoTutorial } from "./composites/HelpCenter/views/VideoTutorial";
 export { default as KeywordInput } from "./composites/Plugin/Shared/components/KeywordInput";
 export { default as Icon } from "./composites/Plugin/Shared/components/Icon";
 export { default as YoastWarning } from "./composites/Plugin/Shared/components/YoastWarning";
-export { default as YoastSeoIcon } from "./composites/basic/YoastSeoIcon";
+export { default as YoastSeoIcon } from "../components/YoastSeoIcon";
 export { insightsReducer } from "./redux/reducers/insights";
 export { setProminentWords } from "./redux/actions/insights";
 export { setReadabilityResults,
