@@ -12,40 +12,32 @@
  *
  * @since 10.1
  */
-class WPSEO_Schema_Website extends WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
-	/**
-	 * Registers hooks to WordPress.
-	 *
-	 * @return void
-	 */
-	public function register_hooks() {
-		add_action( 'wpseo_json_ld', [ $this, 'website' ] );
-	}
-
+class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	/**
 	 * Outputs code to allow recognition of the internal search engine.
 	 *
 	 * @since 1.5.7
 	 *
 	 * @link  https://developers.google.com/structured-data/site-name
+	 *
+	 * @return bool|array Website data blob on success, false on failure.
 	 */
-	public function website() {
+	public function add_to_graph() {
 		if ( ! is_front_page() ) {
-			return;
+			return false;
 		}
 
 		$data = array(
-			'@context' => 'https://schema.org',
 			'@type'    => 'WebSite',
-			'@id'      => $this->get_home_url() . '#website',
-			'url'      => $this->get_home_url(),
+			'@id'      => WPSEO_Utils::home_url() . '#website',
+			'url'      => WPSEO_Utils::home_url(),
 			'name'     => $this->get_website_name(),
 		);
 
 		$data = $this->add_alternate_name( $data );
 		$data = $this->internal_search_section( $data );
 
-		$this->output( $data, 'website' );
+		return $data;
 	}
 
 	/**
@@ -99,7 +91,7 @@ class WPSEO_Schema_Website extends WPSEO_JSON_LD implements WPSEO_WordPress_Inte
 			 *
 			 * @api string $search_url The search URL for this site with a `{search_term_string}` variable.
 			 */
-			$search_url = apply_filters( 'wpseo_json_ld_search_url', $this->get_home_url() . '?s={search_term_string}' );
+			$search_url = apply_filters( 'wpseo_json_ld_search_url', WPSEO_Utils::get_home_url() . '?s={search_term_string}' );
 
 			$data['potentialAction'] = array(
 				'@type'       => 'SearchAction',
