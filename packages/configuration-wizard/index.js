@@ -4,7 +4,7 @@ import { default as OnboardingWizard } from "./OnboardingWizard";
 import { default as LoadingIndicator } from "./LoadingIndicator";
 import { default as sendRequest } from "./helpers/ajaxHelper";
 import { default as decodeHTML } from "./helpers/htmlDecoder";
-import { Explanation } from "@yoast/components/Explanation";
+import { Explanation } from "@yoast/components";
 import Config from "./config/production-config";
 import apiConfig from "./config/api-config";
 
