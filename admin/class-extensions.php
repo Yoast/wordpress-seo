@@ -53,14 +53,22 @@ class WPSEO_Extensions {
 	}
 
 	public function get_first_expiry_date() {
-		$installed_addons = array_filter( array_keys( $this->extensions ), array( $this, 'is_installed' ) );
+		$addon_manager = new WPSEO_Addon_Manager();
+		$subscriptions = $addon_manager->get_subscriptions_for_active_addons();
 
 		$expiry_dates = array();
 
-		foreach ( $installed_addons as $addon ) {
-			$option = get_option( $this->get_option_name( $addon ) );
+		foreach ( $subscriptions as $subscription ) {
+			$subscription->product->changelog = "";
+			var_dump( $subscription );
 
-			$expiry_dates[] = $option[ 'expiry_date' ];
+			$product_name =  $subscription->product->name;
+
+			if ( empty( $product_name ) ) {
+				continue;
+			}
+
+			$expiry_dates[$product_name] = $subscription->expiry_date;
 		}
 
 		return max( $expiry_dates );

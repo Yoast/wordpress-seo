@@ -17,7 +17,7 @@ $configuration_notifier->listen();
  * @var WPSEO_Notifier[] $notifications
  */
 $notifications = array(
-	new WPSEO_Subscription_Notifier(),
+	WPSEO_Subscription_Notifier::get_instance(),
 	$configuration_notifier,
 );
 
