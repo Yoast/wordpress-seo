@@ -28,7 +28,7 @@ class WPSEO_Schema_Organization extends WPSEO_JSON_LD implements WPSEO_WordPress
 	 * @since 1.8
 	 */
 	public function organization() {
-		if ( WPSEO_Options::get( 'company_or_person', '' !== 'company' ) ) {
+		if ( WPSEO_Options::get( 'company_or_person', '' )  !== 'company' ) {
 			return;
 		}
 
