@@ -2,10 +2,7 @@
  * Composites imports.
  */
 // Composites/OnboardingWizard imports.
-import { default as OnboardingWizard } from "./composites/OnboardingWizard/OnboardingWizard";
-import { default as MessageBox } from "./composites/OnboardingWizard/MessageBox";
-import { default as LoadingIndicator } from "./composites/OnboardingWizard/LoadingIndicator";
-import { default as sendRequest } from "./composites/OnboardingWizard/helpers/ajaxHelper";
+import { default as OnboardingWizard, MessageBox, LoadingIndicator, sendRequest, decodeHTML } from "@yoast/configuration-wizard";
 // Composites/AngoliaSearch imports.
 import { default as AlgoliaSearcher } from "./composites/AlgoliaSearch/AlgoliaSearcher";
 // Composites/Plugin imports.
@@ -53,6 +50,7 @@ export {
 	Loader,
 	CornerstoneToggle,
 	sendRequest,
+	decodeHTML,
 	UpsellButton,
 	UpsellLinkButton,
 	Card,
@@ -76,7 +74,6 @@ export { translate } from "./utils/i18n";
 export * from "./composites/Plugin/DashboardWidget";
 export { replacementVariablesShape, recommendedReplacementVariablesShape } from "./composites/Plugin/SnippetEditor/constants";
 export { default as analysis } from "./composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
-export { default as decodeHTML } from "./composites/OnboardingWizard/helpers/htmlDecoder";
 export { default as WordpressFeed } from "./composites/Plugin/DashboardWidget/components/WordpressFeed";
 export { default as SeoAssessment } from "./composites/Plugin/DashboardWidget/components/SeoAssessment";
 export { default as VideoTutorial } from "./composites/HelpCenter/views/VideoTutorial";
