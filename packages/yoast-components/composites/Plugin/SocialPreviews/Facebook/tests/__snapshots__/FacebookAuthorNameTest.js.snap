@@ -5,10 +5,6 @@ exports[`FacebookAuthorName matches the snapshot by default 1`] = `
   color: #3b5998;
   font-size: 12px;
   line-height: 11px;
-  position: relative;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  cursor: auto;
 }
 
 <span
