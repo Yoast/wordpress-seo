@@ -47,7 +47,7 @@
     source-map "^0.5.0"
     trim-right "^1.0.1"
 
-"@babel/generator@^7.3.4":
+"@babel/generator@^7.0.0", "@babel/generator@^7.3.4":
   version "7.3.4"
   resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.3.4.tgz#9aa48c1989257877a9d971296e5b73bfe72e446e"
   integrity sha512-8EXhHRFqlVVWXPezBW5keTiQi/rJMQTg/Y9uVCEZ0CAF3PKtCCaVRnp64Ii1ujhkoDhhF1fVsImoN4yJ2uz4Wg==
@@ -244,6 +244,15 @@
     "@babel/traverse" "^7.1.0"
     "@babel/types" "^7.2.0"
 
+"@babel/helpers@^7.2.0":
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/@babel/helpers/-/helpers-7.3.1.tgz#949eec9ea4b45d3210feb7dc1c22db664c9e44b9"
+  integrity sha512-Q82R3jKsVpUV99mgX50gOPCWwco9Ec5Iln/8Vyu4osNIOQgSrd9RFrQeUvmvddFNoLwMyOUWU+5ckioEKpDoGA==
+  dependencies:
+    "@babel/template" "^7.1.2"
+    "@babel/traverse" "^7.1.5"
+    "@babel/types" "^7.3.0"
+
 "@babel/highlight@7.0.0-beta.44":
   version "7.0.0-beta.44"
   resolved "https://registry.yarnpkg.com/@babel/highlight/-/highlight-7.0.0-beta.44.tgz#18c94ce543916a80553edcdcf681890b200747d5"
@@ -262,7 +271,7 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.2.2", "@babel/parser@^7.3.4":
+"@babel/parser@^7.0.0", "@babel/parser@^7.1.0", "@babel/parser@^7.2.2", "@babel/parser@^7.3.4":
   version "7.3.4"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.3.4.tgz#a43357e4bbf4b92a437fb9e465c192848287f27c"
   integrity sha512-tXZCqWtlOOP4wgCp6RjRvLmfuhnqTLy9VHwRochJBCP2nDm27JnnuFEnXFASVyQNHk36jD1tAammsCEEqgscIQ==
@@ -330,7 +339,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
-"@babel/plugin-syntax-object-rest-spread@^7.2.0":
+"@babel/plugin-syntax-object-rest-spread@^7.0.0", "@babel/plugin-syntax-object-rest-spread@^7.2.0":
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-object-rest-spread/-/plugin-syntax-object-rest-spread-7.2.0.tgz#3b7a3e733510c57e820b9142a6579ac8b0dfad2e"
   integrity sha512-t0JKGgqk2We+9may3t0xDdmneaXmyxq0xieYcKHxIsrJO64n1OiMWNUtc5gQK1PA0NpdCRrtZp4z+IUaKugrSA==
@@ -683,7 +692,7 @@
     babylon "7.0.0-beta.44"
     lodash "^4.2.0"
 
-"@babel/template@^7.1.0", "@babel/template@^7.2.2":
+"@babel/template@^7.0.0", "@babel/template@^7.1.0", "@babel/template@^7.1.2", "@babel/template@^7.2.2":
   version "7.2.2"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.2.2.tgz#005b3fdf0ed96e88041330379e0da9a708eb2907"
   integrity sha512-zRL0IMM02AUDwghf5LMSSDEz7sBCO2YnNmpg3uWTZj/v1rcG2BmQUvaGU8GhU8BvfMh1k2KIAYZ7Ji9KXPUg7g==
@@ -708,7 +717,7 @@
     invariant "^2.2.0"
     lodash "^4.2.0"
 
-"@babel/traverse@^7.1.0", "@babel/traverse@^7.3.4":
+"@babel/traverse@^7.0.0", "@babel/traverse@^7.1.0", "@babel/traverse@^7.1.5", "@babel/traverse@^7.3.4":
   version "7.3.4"
   resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.3.4.tgz#1330aab72234f8dea091b08c4f8b9d05c7119e06"
   integrity sha512-TvTHKp6471OYEcE/91uWmhR6PrrYywQntCHSaZ8CM8Vmp+pjAusal4nGB2WCCQd0rvI7nOMKn9GnbcvTUz3/ZQ==
@@ -12593,7 +12602,7 @@ react-tap-event-plugin@^3.0.3:
   dependencies:
     fbjs "^0.8.6"
 
-react-test-renderer@^16.0.0-0, react-test-renderer@^16.2.0:
+react-test-renderer@16.8.4, react-test-renderer@^16.0.0-0, react-test-renderer@^16.2.0:
   version "16.8.4"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.8.4.tgz#abee4c2c3bf967a8892a7b37f77370c5570d5329"
   integrity sha512-jQ9Tf/ilIGSr55Cz23AZ/7H3ABEdo9oy2zF9nDHZyhLHDSLKuoILxw2ifpBfuuwQvj4LCoqdru9iZf7gwFH28A==
