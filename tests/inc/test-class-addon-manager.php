@@ -286,7 +286,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider get_plugin_information_provider
 	 *
-	 * @covers WPSEO_Addon_Manager::get_plugin_information
+	 * @covers       WPSEO_Addon_Manager::get_plugin_information
 	 *
 	 * @param string $action   The action to use.
 	 * @param array  $args     The arguments to pass to the method.
@@ -308,6 +308,72 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			$expected,
 			$instance->get_plugin_information( false, $action, (object) $args ),
 			$message
+		);
+	}
+
+	/**
+	 * Tests the validation of a valid subscription.
+	 *
+	 * @covers WPSEO_Addon_Manager::has_valid_subscription
+	 */
+	public function test_has_valid_subscription() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Addon_Manager' )
+			->setMethods( array( 'get_subscriptions' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->any() )
+			->method( 'get_subscriptions' )
+			->will( $this->returnValue( $this->get_subscriptions() ) );
+
+		$this->assertEquals(
+			true,
+			$instance->has_valid_subscription( 'yoast-seo-wordpress-premium' )
+		);
+	}
+
+	/**
+	 * Tests the validation of an invalid subscription.
+	 *
+	 * @covers WPSEO_Addon_Manager::has_valid_subscription
+	 */
+	public function test_has_valid_subscription_with_an_expired_subscription() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Addon_Manager' )
+			->setMethods( array( 'get_subscriptions' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->any() )
+			->method( 'get_subscriptions' )
+			->will( $this->returnValue( $this->get_subscriptions() ) );
+
+		$this->assertEquals(
+			false,
+			$instance->has_valid_subscription( 'yoast-seo-news' )
+		);
+	}
+
+	/**
+	 * Tests the validation of an unknown subscription.
+	 *
+	 * @covers WPSEO_Addon_Manager::has_valid_subscription
+	 */
+	public function test_has_valid_subscription_with_an_unknown_subscription() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Addon_Manager' )
+			->setMethods( array( 'get_subscriptions' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->any() )
+			->method( 'get_subscriptions' )
+			->will( $this->returnValue( $this->get_subscriptions() ) );
+
+		$this->assertEquals(
+			false,
+			$instance->has_valid_subscription( 'unknown-slug' )
 		);
 	}
 
@@ -485,13 +551,13 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			->will(
 				$this->returnValue(
 					array(
-						'wp-seo-premium.php' => array(
+						'wp-seo-premium.php'         => array(
 							'Version' => '10.0',
 						),
 						'no-yoast-seo-extension-php' => array(
 							'Version' => '10.0',
 						),
-						'wpseo-news.php' => array(
+						'wpseo-news.php'             => array(
 							'Version' => '9.5',
 						),
 					)
@@ -666,6 +732,18 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 							'version'     => '10.0',
 							'name'        => 'Extension',
 							'slug'        => 'yoast-seo-wordpress-premium',
+							'lastUpdated' => 'yesterday',
+							'storeUrl'    => 'https://example.org/store',
+							'download'    => 'https://example.org/extension.zip',
+							'changelog'   => 'changelog',
+						),
+					),
+					'wpseo-news.php' => array(
+						'expires' => 'expired',
+						'product' => array(
+							'version'     => '10.0',
+							'name'        => 'Extension',
+							'slug'        => 'yoast-seo-news',
 							'lastUpdated' => 'yesterday',
 							'storeUrl'    => 'https://example.org/store',
 							'download'    => 'https://example.org/extension.zip',

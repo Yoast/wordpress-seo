@@ -153,6 +153,24 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Checks if the subscription for the given slug is valid.
+	 *
+	 * @param string $slug The plugin slug to retrieve.
+	 *
+	 * @return bool True when the subscription is valid.
+	 */
+	public function has_valid_subscription( $slug ) {
+		$subscription = $this->get_subscription( $slug );
+
+		// An non-existing subscription is never valid.
+		if ( $subscription === false ) {
+			return false;
+		}
+
+		return $subscription->expires !== 'expired';
+	}
+
+	/**
 	 * Checks if there are addon updates.
 	 *
 	 * @param stdClass|mixed $data The current data for update_plugins.
