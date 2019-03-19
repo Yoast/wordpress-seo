@@ -27,6 +27,6 @@ These need to be moved manually. For your convenience the `yarn transfer-branch`
 
 * Branch to move: The branch you want to move.
 
-These arguments are positional. Think `yarn transfer-branch [package] [base-branch] [branch-to-move]`
+These arguments are positional. Think `yarn transfer-branch [package] [base-branch] [branch-to-move]`.
 
 After moving the branch connected to a pull request you need to manually recreate the pull request here. That should be a matter of copy & pasting and linking to the original PR for archive purposes.
