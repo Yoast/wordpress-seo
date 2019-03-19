@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import Modal from "react-modal";
 import styled from "styled-components";
 
-import colors from "../../../../style-guide/colors.json";
-import SvgIcon from "./SvgIcon";
+import { colors } from "@yoast/components/style-guide";
+import { SvgIcon } from "@yoast/components";
 
 const StyledHeading = styled.h1`
 	float: left;
