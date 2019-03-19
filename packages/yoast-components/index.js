@@ -26,7 +26,7 @@ import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSug
 // Composites/KeywordSuggestions imports.
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
 // Composites/basic imports.
-import { default as Loader } from "../components/Loader";
+import { Loader, SvgIcon, getRtlStyle } from "@yoast/components";
 
 // Composites/CoursesOverview imports
 import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
@@ -57,6 +57,8 @@ export {
 	FullHeightCard,
 	CardBanner,
 	CardDetails,
+	SvgIcon,
+	getRtlStyle,
 };
 
 export { default as HelpText } from "./composites/Plugin/Shared/components/HelpText";
@@ -66,7 +68,6 @@ export * from "./composites/Plugin/SnippetEditor";
 export * from "./forms";
 export * from "./composites/Plugin/ContentAnalysis";
 export { colors } from "@yoast/components/style-guide";
-export { SvgIcon, getRtlStyle } from "@yoast/components"
 export { default as utils } from "./utils";
 export { localize } from "./utils/i18n";
 export { setTranslations } from "./utils/i18n";
