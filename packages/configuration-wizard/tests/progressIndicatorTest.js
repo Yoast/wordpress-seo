@@ -1,6 +1,3 @@
-jest.unmock( "../ProgressIndicator" );
-jest.unmock( "prop-types" );
-
 import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
 import ProgressIndicator from "../ProgressIndicator";

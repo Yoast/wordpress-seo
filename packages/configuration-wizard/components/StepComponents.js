@@ -1,5 +1,5 @@
 import Choice from "./Choice";
-import { Textfield as Input } from "@yoast/components";
+import Input from "yoast-components/forms/composites/Textfield";
 import HTML from "./Html";
 
 /**
