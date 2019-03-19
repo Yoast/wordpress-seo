@@ -4,7 +4,7 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
-Requires at least: 4.9
+Requires at least: 5.0
 Tested up to: 5.1
 Stable tag: 10.0
 Requires PHP: 5.2.4
@@ -107,11 +107,11 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Changelog ==
 
 = 10.0.1 =
-Release Date: March 18th, 2019
+Release Date: March 19th, 2019
 
 Bugfixes:
 
-* Fixes a bug where side-wide settings were not saved on multisite environments.
+* Fixes a bug where network-wide settings were not saved on multisite environments.
 
 = 10.0.0 =
 Release Date: March 12th, 2019
