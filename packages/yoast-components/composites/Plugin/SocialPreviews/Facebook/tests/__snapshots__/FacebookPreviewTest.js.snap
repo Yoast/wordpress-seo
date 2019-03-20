@@ -49,6 +49,24 @@ Array [
   >
     YoastCon Workshops
   </span>,
+  .c0 {
+  color: #606770;
+  font-size: 14px;
+  line-height: 20px;
+  word-break: break-word;
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 3px;
+  width: 100%;
+}
+
+<p
+    className="c0"
+  >
+    Description to go along with a faulty image.
+  </p>,
 ]
 `;
 
@@ -76,7 +94,7 @@ Array [
 <p
     className="c0"
   >
-    yosat.com
+    yoast.com
   </p>,
   .c0 {
   display: block;
@@ -101,6 +119,24 @@ Array [
   >
     YoastCon Workshops
   </span>,
+  .c0 {
+  color: #606770;
+  font-size: 14px;
+  line-height: 20px;
+  word-break: break-word;
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 3px;
+  width: 100%;
+}
+
+<p
+    className="c0"
+  >
+    Description to go along with a landscape image.
+  </p>,
 ]
 `;
 
@@ -153,6 +189,24 @@ Array [
   >
     YoastCon Workshops
   </span>,
+  .c0 {
+  color: #606770;
+  font-size: 14px;
+  line-height: 20px;
+  word-break: break-word;
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 3px;
+  width: 100%;
+}
+
+<p
+    className="c0"
+  >
+    Description to go along with a portrait image.
+  </p>,
 ]
 `;
 
@@ -205,6 +259,24 @@ Array [
   >
     YoastCon Workshops
   </span>,
+  .c0 {
+  color: #606770;
+  font-size: 14px;
+  line-height: 20px;
+  word-break: break-word;
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 3px;
+  width: 100%;
+}
+
+<p
+    className="c0"
+  >
+    Description to go along with a square image.
+  </p>,
 ]
 `;
 
@@ -257,5 +329,23 @@ Array [
   >
     YoastCon Workshops
   </span>,
+  .c0 {
+  color: #606770;
+  font-size: 14px;
+  line-height: 20px;
+  word-break: break-word;
+  max-height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 3px;
+  width: 100%;
+}
+
+<p
+    className="c0"
+  >
+    Description to go along with too small an image.
+  </p>,
 ]
 `;
