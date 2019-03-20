@@ -2,14 +2,16 @@
 import React from "react";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
+import PropTypes from "prop-types";
+
+// Yoast dependencies.
+import { SvgIcon } from "@yoast/components";
+import { colors } from "@yoast/components/style-guide";
+import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
+import ScreenReaderText from "yoast-components/a11y/ScreenReaderText";
 
 // Internal dependencies.
-import { Button } from "../../Shared/components/Button";
-import { colors } from "@yoast/components/style-guide";
 import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/constants";
-import ScreenReaderText from "../../../../a11y/ScreenReaderText";
-import { SvgIcon } from "@yoast/components";
-import PropTypes from "prop-types";
 
 /**
  * Renders a switcher button.
@@ -22,16 +24,16 @@ import PropTypes from "prop-types";
 const SwitcherButton = styled( Button )`
 	border: none;
 	border-bottom: 4px solid transparent;
-	
+
 	width: 31px;
 	height: 31px;
-	
+
 	border-color: ${ ( props ) => props.isActive ? colors.$color_snippet_active : "transparent" };
 	color: ${ colors.$color_snippet_active };
-	
+
 	transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
 	transition-property: border-color;
-	
+
 	&:hover, &:focus {
 		background-color: ${ colors.$color_white };
 		border: none;

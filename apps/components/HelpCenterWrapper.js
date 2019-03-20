@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import AlgoliaSearcher from "@yoast/algolia-search";
 
 import HelpCenter from "yoast-components/composites/Plugin/HelpCenter/HelpCenter";
 import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTutorial";

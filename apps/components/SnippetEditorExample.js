@@ -1,12 +1,14 @@
 // External dependencies.
 import React, { Component } from "react";
 
-import ExamplesContainer from "./ExamplesContainer";
+// Yoast dependencies.
 import { assessments } from "yoastseo";
-const { MetaDescriptionLengthAssessment } = assessments.seo;
+import { SnippetEditor } from "@yoast/search-metadata-previews";
 
 // Internal dependencies.
-import SnippetEditor from "yoast-components/composites/Plugin/SnippetEditor/components/SnippetEditor";
+import ExamplesContainer from "./ExamplesContainer";
+
+const { MetaDescriptionLengthAssessment } = assessments.seo;
 
 const replacementVariables = [
 	{

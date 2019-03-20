@@ -4,7 +4,7 @@ import React from "react";
 import { createComponentWithIntl } from "@yoast/components";
 import {
 	mountWithIntl,
-} from "../../../../utils/helpers/intl-enzyme-test-helper";
+} from "yoast-components/utils/helpers/intl-enzyme-test-helper";
 
 const defaultArgs = {
 	description: "Description",
