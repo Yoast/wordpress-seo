@@ -23,11 +23,34 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 			return true;
 		}
 
+		if ( $this->is_post_author() ) {
+			return true;
+		}
+
 		return false;
 	}
 
 	/**
-	 * Outputs a Person JSON+LD blob on team pages.
+	 * Determine whether the current URL is worthy of Article schema.
+	 *
+	 * @return bool
+	 */
+	private function is_post_author() {
+		/**
+		 * Filter: 'wpseo_schema_article_post_type' - Allow changing for which post types we output Article schema.
+		 *
+		 * @api array $post_types The post types for which we output Article.
+		 */
+		$post_types = apply_filters( 'wpseo_schema_article_post_type', array( 'post' ) );
+		if ( is_singular( $post_types ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Returns a Person Schema blob.
 	 *
 	 * @return bool|array Person data blob on success, false on failure.
 	 */
@@ -51,6 +74,9 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		switch ( true ) {
 			case is_author():
 				$user_id = get_queried_object_id();
+				break;
+			case $this->is_post_author():
+				$user_id = (int) get_post()->post_author;
 				break;
 			default:
 				$user_id = (int) WPSEO_Options::get( 'company_or_person_user_id', false );
@@ -121,6 +147,12 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 			$data['sameAs'] = $social_profiles;
 		}
 
+		// If this is an author page, the Person object is the main object, so we set it as such here.
+		if ( is_author() ) {
+			$data['mainEntityOfPage'] = array(
+				'@id' => WPSEO_Frontend::get_instance()->canonical( false ) . '#webpage'
+			);
+		}
 		return $data;
 	}
 
@@ -139,7 +171,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 
 		$data['image']  = array(
 			'@type'   => 'ImageObject',
-			'@id'     => WPSEO_Utils::get_home_url() . '#logo',
+			'@id'     => WPSEO_Utils::get_home_url() . '#personlogo',
 			'url'     => get_avatar_url( $user_data->user_email ),
 			'caption' => $user_data->display_name,
 		);
@@ -155,9 +187,13 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return string The `@id` string value.
 	 */
 	private function determine_at_id( $user_id ) {
-		$url = WPSEO_Utils::home_url();
-		if ( is_author() ) {
-			$url = get_author_posts_url( $user_id );
+		switch( true ) {
+			case ( WPSEO_Options::get( 'company_or_person', '' ) === 'company' ):
+				$url = get_author_posts_url( $user_id );
+				break;
+			default:
+				$url = WPSEO_Utils::home_url();
+				break;
 		}
 
 		return $url . '#person';

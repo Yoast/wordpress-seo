@@ -45,7 +45,17 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			),
 		);
 
-		$data = $this->add_featured_image( $data );
+		if ( is_singular() ) {
+			$data = $this->add_featured_image( $data );
+
+			$post                  = get_post();
+			$data['datePublished'] = mysql2date( DATE_W3C, $post->post_date_gmt, false );
+			$data['dateModified']  = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
+		}
+
+		if ( is_paged() ) {
+			$data['relatedLink'] = $front->adjacent_rel_links();
+		}
 
 		if ( $front->metadesc( false ) !== '' ) {
 			$data['description'] = $front->metadesc( false );

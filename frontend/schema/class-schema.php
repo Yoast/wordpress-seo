@@ -90,6 +90,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			new WPSEO_Schema_Website(),
 			new WPSEO_Schema_WebPage(),
 			new WPSEO_Schema_Breadcrumb(),
+			new WPSEO_Schema_Article()
 		);
 
 		/**
