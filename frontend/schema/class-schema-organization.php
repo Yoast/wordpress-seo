@@ -14,18 +14,16 @@
  */
 class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	/**
-	 * Outputs code to allow Google to recognize social profiles for use in the Knowledge graph.
+	 * Determines whether an Organization graph piece should be added.
 	 *
-	 * @since 1.8
-	 *
-	 * @return bool|array Organization data blob on success, false on failure.
+	 * @return bool
 	 */
-	public function add_to_graph() {
+	public function is_needed() {
 		if ( WPSEO_Options::get( 'company_or_person', '' )  !== 'company' ) {
 			return false;
 		}
 
-		return $this->prepare_organization_markup();
+		return true;
 	}
 
 	/**
@@ -33,7 +31,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	 *
 	 * @return array $data The Organization schema.
 	 */
-	private function prepare_organization_markup() {
+	public function add_to_graph() {
 		$data = array(
 			'@type'    => 'Organization',
 			'@id'      => WPSEO_Utils::home_url() . '#organization',

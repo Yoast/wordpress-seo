@@ -14,6 +14,15 @@
  */
 class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	/**
+	 * Determines whether or not a piece should be added to the graph.
+	 *
+	 * @return bool
+	 */
+	public function is_needed() {
+		return true;
+	}
+
+	/**
 	 * Outputs code to allow recognition of the internal search engine.
 	 *
 	 * @since 1.5.7

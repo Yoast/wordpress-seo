@@ -43,6 +43,9 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 		$graph  = array();
 
 		foreach ( $this->get_graph_pieces() as $piece ) {
+			if ( ! $piece->is_needed() ) {
+				continue;
+			}
 			$graph_piece = $piece->add_to_graph();
 			if ( is_array( $graph_piece ) ) {
 				$graph[] = $graph_piece;
