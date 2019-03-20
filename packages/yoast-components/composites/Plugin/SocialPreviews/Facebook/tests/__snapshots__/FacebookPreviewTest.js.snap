@@ -11,20 +11,32 @@ Array [
 <div
     className="c0"
   />,
-  .c0 {
+  .c1 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
   text-transform: uppercase;
   overflow: hidden;
+}
+
+.c0 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  overflow: hidden;
   text-overflow: ellipsis;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
 <p
     className="c0"
   >
-    yoast.com
+    <span
+      className="c1"
+    >
+      yoast.com
+    </span>
   </p>,
   .c0 {
   color: #606770;
@@ -58,20 +70,32 @@ Array [
 <div
     className="c0"
   />,
-  .c0 {
+  .c1 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
   text-transform: uppercase;
   overflow: hidden;
+}
+
+.c0 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  overflow: hidden;
   text-overflow: ellipsis;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
 <p
     className="c0"
   >
-    yoast.com
+    <span
+      className="c1"
+    >
+      yoast.com
+    </span>
   </p>,
   .c0 {
   color: #606770;
@@ -105,20 +129,32 @@ Array [
 <div
     className="c0"
   />,
-  .c0 {
+  .c1 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
   text-transform: uppercase;
   overflow: hidden;
+}
+
+.c0 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  overflow: hidden;
   text-overflow: ellipsis;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
 <p
     className="c0"
   >
-    yoast.com
+    <span
+      className="c1"
+    >
+      yoast.com
+    </span>
   </p>,
   .c0 {
   color: #606770;
@@ -152,20 +188,32 @@ Array [
 <div
     className="c0"
   />,
-  .c0 {
+  .c1 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
   text-transform: uppercase;
   overflow: hidden;
+}
+
+.c0 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  overflow: hidden;
   text-overflow: ellipsis;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
 <p
     className="c0"
   >
-    yoast.com
+    <span
+      className="c1"
+    >
+      yoast.com
+    </span>
   </p>,
   .c0 {
   color: #606770;
@@ -199,20 +247,32 @@ Array [
 <div
     className="c0"
   />,
-  .c0 {
+  .c1 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
   text-transform: uppercase;
   overflow: hidden;
+}
+
+.c0 {
+  color: #606770;
+  font-size: 12px;
+  line-height: 11px;
+  overflow: hidden;
   text-overflow: ellipsis;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
 <p
     className="c0"
   >
-    yoast.com
+    <span
+      className="c1"
+    >
+      yoast.com
+    </span>
   </p>,
   .c0 {
   color: #606770;

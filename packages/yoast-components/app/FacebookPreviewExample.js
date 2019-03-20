@@ -1,7 +1,9 @@
+/* External dependencies */
 import React from "react";
-import FacebookPreview from "../composites/Plugin/SocialPreviews/Facebook/components/FacebookPreview";
 
+/* Internal dependencies */
 import ExamplesContainer from "./ExamplesContainer";
+import FacebookPreview from "../composites/Plugin/SocialPreviews/Facebook/components/FacebookPreview";
 
 /**
  * Returns the FacebookPreview examples.
@@ -14,6 +16,7 @@ const FacebookPreviewExample = () => {
 			<h2>FacebookPreview Landscape</h2>
 			<FacebookPreview
 				siteName="SiteName.com"
+				authorName="John Doe"
 				description="Some description with words. In two whole sentences."
 				src="https://yoast.com/app/uploads/2015/06/How_to_choose_keywords_FI.png"
 			/>
@@ -36,6 +39,7 @@ const FacebookPreviewExample = () => {
 			<h2>FacebookPreview Portrait</h2>
 			<FacebookPreview
 				siteName="SiteName.com"
+				authorName="John Doe"
 				description="<h1>Some description with words. And some <strong>HTML</strong> that will get stripped.</h1>"
 				src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png"
 			/>
