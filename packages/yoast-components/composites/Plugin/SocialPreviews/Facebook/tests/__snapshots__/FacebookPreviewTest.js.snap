@@ -27,19 +27,19 @@ Array [
     yoast.com
   </p>,
   .c0 {
+  display: block;
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
   margin: 5px 0 0;
-  max-height: 110px;
+  max-height: 100px;
   word-wrap: break-word;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
   letter-spacing: normal;
-  text-overflow: ellipsis;
   white-space: normal;
   cursor: pointer;
 }
@@ -79,19 +79,19 @@ Array [
     yosat.com
   </p>,
   .c0 {
+  display: block;
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
   margin: 5px 0 0;
-  max-height: 110px;
+  max-height: 100px;
   word-wrap: break-word;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
   letter-spacing: normal;
-  text-overflow: ellipsis;
   white-space: normal;
   cursor: pointer;
 }
@@ -131,19 +131,19 @@ Array [
     yoast.com
   </p>,
   .c0 {
+  display: block;
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
   margin: 5px 0 0;
-  max-height: 110px;
+  max-height: 100px;
   word-wrap: break-word;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
   letter-spacing: normal;
-  text-overflow: ellipsis;
   white-space: normal;
   cursor: pointer;
 }
@@ -183,19 +183,19 @@ Array [
     yoast.com
   </p>,
   .c0 {
+  display: block;
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
   margin: 5px 0 0;
-  max-height: 110px;
+  max-height: 100px;
   word-wrap: break-word;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
   letter-spacing: normal;
-  text-overflow: ellipsis;
   white-space: normal;
   cursor: pointer;
 }
@@ -235,19 +235,19 @@ Array [
     yoast.com
   </p>,
   .c0 {
+  display: block;
   color: #1d2129;
   font-weight: 600;
   overflow: hidden;
   font-size: 16px;
   line-height: 20px;
   margin: 5px 0 0;
-  max-height: 110px;
+  max-height: 100px;
   word-wrap: break-word;
   -webkit-letter-spacing: normal;
   -moz-letter-spacing: normal;
   -ms-letter-spacing: normal;
   letter-spacing: normal;
-  text-overflow: ellipsis;
   white-space: normal;
   cursor: pointer;
 }
