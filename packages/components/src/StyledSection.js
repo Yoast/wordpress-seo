@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import Section from "../Section";
-import Heading from "../Heading";
+import Section from "./Section";
+import Heading from "./Heading";
 import { colors, rgba } from "../style-guide";
-import SvgIcon from "../SvgIcon";
+import SvgIcon from "./SvgIcon";
 import { getRtlStyle } from "../utils/helpers/styled-components";
 
 export const StyledHeading = styled( Heading )`

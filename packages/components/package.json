@@ -2,7 +2,7 @@
   "name": "@yoast/components",
   "version": "1.0.0",
   "description": "Yoast Components",
-  "main": "index.js",
+  "main": "src/index.js",
   "repository": "https://github.com/Yoast",
   "author": "Yoast",
   "license": "GPL-3.0",

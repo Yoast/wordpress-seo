@@ -26,8 +26,8 @@ import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
 // Composites/KeywordSuggestions imports.
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
-// Composites/basic imports.
-import { Loader, SvgIcon, getRtlStyle } from "@yoast/components";
+
+import { Loader, SvgIcon, getRtlStyle, YoastSeoIcon } from "@yoast/components";
 
 // Composites/CoursesOverview imports
 import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
@@ -82,7 +82,6 @@ export { default as VideoTutorial } from "./composites/HelpCenter/views/VideoTut
 export { default as KeywordInput } from "./composites/Plugin/Shared/components/KeywordInput";
 export { default as Icon } from "./composites/Plugin/Shared/components/Icon";
 export { default as YoastWarning } from "./composites/Plugin/Shared/components/YoastWarning";
-export { default as YoastSeoIcon } from "../components/YoastSeoIcon";
 export { insightsReducer } from "./redux/reducers/insights";
 export { setProminentWords } from "./redux/actions/insights";
 export { setReadabilityResults,

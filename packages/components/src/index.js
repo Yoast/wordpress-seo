@@ -1,4 +1,4 @@
-import StyledSection, { StyledSectionBase, StyledHeading } from "./composites/StyledSection";
+import StyledSection, { StyledSectionBase, StyledHeading } from "./StyledSection";
 
 export {
 	StyledSection,
@@ -20,10 +20,10 @@ export { default as Progressbar } from "./Progressbar";
 export { default as Section } from "./Section";
 export { default as SvgIcon } from "./SvgIcon";
 export { default as Textarea } from "./Textarea";
-export { default as Textfield } from "./composites/Textfield";
+export { default as Textfield } from "./Textfield";
 export { default as YoastLogo } from "./YoastLogo";
 export { default as YoastSeoIcon } from "./YoastSeoIcon";
 export { default as YouTubeVideo } from "./YouTubeVideo";
 
-export { getRtlStyle } from "./utils/helpers/styled-components";
-export { createComponentWithIntl } from "./utils/intlProvider";
+export { getRtlStyle } from "../utils/helpers/styled-components";
+export { createComponentWithIntl } from "../utils/intlProvider";
