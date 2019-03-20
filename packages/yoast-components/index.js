@@ -10,14 +10,8 @@ import { colors } from "@yoast/components/style-guide";
 // Composites/AngoliaSearch imports.
 import AlgoliaSearcher from "@yoast/algolia-search";
 // Composites/Plugin imports.
-import { default as ScoreAssessments } from "./composites/Plugin/Shared/components/ScoreAssessments";
 import { default as Collapsible } from "./composites/Plugin/Shared/components/Collapsible";
 import { default as ButtonSection } from "./composites/Plugin/Shared/components/ButtonSection";
-import { default as LanguageNotice } from "./composites/Plugin/Shared/components/LanguageNotice";
-import { YoastButton } from "./composites/Plugin/Shared/components/YoastButton";
-import { default as YoastModal } from "./composites/Plugin/Shared/components/YoastModal";
-import { UpsellButton } from "./composites/Plugin/Shared/components/UpsellButton";
-import { UpsellLinkButton } from "./composites/Plugin/Shared/components/UpsellLinkButton";
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import { default as HelpCenter } from "./composites/Plugin/HelpCenter/HelpCenter.js";
 import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
@@ -26,8 +20,6 @@ import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
 // Composites/KeywordSuggestions imports.
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
-// Composites/basic imports.
-import { Loader, SvgIcon, getRtlStyle } from "@yoast/components";
 
 // Composites/CoursesOverview imports
 import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
@@ -40,32 +32,21 @@ export {
 	MessageBox,
 	LinkSuggestions,
 	KeywordSuggestions,
-	LanguageNotice,
 	ContentAnalysis,
 	Collapsible,
 	ButtonSection,
 	LoadingIndicator,
-	ScoreAssessments,
-	YoastButton,
-	YoastModal,
-	Loader,
 	CornerstoneToggle,
 	sendRequest,
 	decodeHTML,
-	UpsellButton,
-	UpsellLinkButton,
 	Card,
 	FullHeightCard,
 	CardBanner,
 	CardDetails,
-	SvgIcon,
-	getRtlStyle,
 	AlgoliaSearcher,
 	colors,
 };
 
-export { default as HelpText } from "./composites/Plugin/Shared/components/HelpText";
-export { default as SynonymsInput } from "./composites/Plugin/Shared/components/SynonymsInput";
 export * from "./composites/Plugin/SnippetPreview";
 export * from "./composites/Plugin/SnippetEditor";
 export * from "./forms";
@@ -81,12 +62,27 @@ export { default as WordpressFeed } from "./composites/Plugin/DashboardWidget/co
 export { default as SeoAssessment } from "./composites/Plugin/DashboardWidget/components/SeoAssessment";
 export { default as VideoTutorial } from "./composites/HelpCenter/views/VideoTutorial";
 export { default as KeywordInput } from "./composites/Plugin/Shared/components/KeywordInput";
-export { default as Icon } from "./composites/Plugin/Shared/components/Icon";
-export { default as YoastWarning } from "./composites/Plugin/Shared/components/YoastWarning";
-export { default as YoastSeoIcon } from "../components/YoastSeoIcon";
 export { insightsReducer } from "./redux/reducers/insights";
 export { setProminentWords } from "./redux/actions/insights";
 export { setReadabilityResults,
 	setSeoResultsForKeyword,
 	setOverallReadabilityScore,
 	setOverallSeoScore } from "./composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+
+export {
+	getRtlStyle,
+	HelpText,
+	Icon,
+	LanguageNotice,
+	Loader,
+	ScoreAssessments,
+	SvgIcon,
+	SynonymsInput,
+	UpsellButton,
+	UpsellLinkButton,
+	YoastButton,
+	YoastModal,
+	YoastSeoIcon,
+	YoastWarning,
+} from "@yoast/components";
+
