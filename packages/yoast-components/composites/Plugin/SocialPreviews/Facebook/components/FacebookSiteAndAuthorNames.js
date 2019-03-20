@@ -2,7 +2,7 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import FacebookSiteName from "./FacebookSiteName";
@@ -31,12 +31,7 @@ const FacebookSiteAndAuthorNamesSeparator = styled.span`
  * @returns {React.Element} The rendered element.
  */
 function renderFacebookAuthorName( authorName ) {
-	// Do not render anything when there is no author name.
-	if ( authorName.length === 0 ) {
-		return null;
-	}
-
-	/* Translators: The context is: SITE | By AUTHOR */
+	/* translators: the context is: SITE | By AUTHOR */
 	const by = __( "By", "yoast-components" );
 
 	return (
@@ -57,11 +52,20 @@ function renderFacebookAuthorName( authorName ) {
  * @returns {React.Element} The rendered element.
  */
 const FacebookSiteAndAuthorNames = ( props ) => {
+	const hasAuthorName = props.authorName.length > 0;
+	const screenReaderText = hasAuthorName
+		/* translators: 1: site name, 2: post author name */
+		? sprintf( __( "%1$s by %2$s", "yoast-components" ), props.siteName, props.authorName )
+		: props.siteName;
+
 	return (
-		<FacebookSiteAndAuthorNamesWrapper>
-			<FacebookSiteName siteName={ props.siteName } />
-			{ renderFacebookAuthorName( props.authorName ) }
-		</FacebookSiteAndAuthorNamesWrapper>
+		<Fragment>
+			<span className="screen-reader-text">{ screenReaderText }</span>
+			<FacebookSiteAndAuthorNamesWrapper aria-hidden="true">
+				<FacebookSiteName siteName={ props.siteName } />
+				{ hasAuthorName && renderFacebookAuthorName( props.authorName ) }
+			</FacebookSiteAndAuthorNamesWrapper>
+		</Fragment>
 	);
 };
 
