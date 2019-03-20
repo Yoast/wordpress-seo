@@ -7,8 +7,7 @@ import { __ } from "@wordpress/i18n";
 import { Button } from "../../Shared/components/Button";
 import { colors } from "@yoast/components/style-guide";
 import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/constants";
-import ScreenReaderText from "../../../../a11y/ScreenReaderText";
-import { SvgIcon } from "@yoast/components";
+import { SvgIcon, ScreenReaderText } from "@yoast/components";
 import PropTypes from "prop-types";
 
 /**

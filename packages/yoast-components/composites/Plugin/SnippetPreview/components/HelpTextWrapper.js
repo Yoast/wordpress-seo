@@ -5,10 +5,9 @@ import styled from "styled-components";
 import uniqueId from "lodash/uniqueId";
 
 // Internal dependencies
-import HelpText from "../../Shared/components/HelpText";
 import { colors, rgba } from "@yoast/components/style-guide";
 import { Button } from "../../Shared/components/Button";
-import { SvgIcon, getRtlStyle } from "@yoast/components";
+import { SvgIcon, getRtlStyle, HelpText } from "@yoast/components";
 import { YoastSlideToggle } from "../../../../utils/animations";
 
 const HelpTextContainer = styled.div`

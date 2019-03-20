@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { makeOutboundLink } from "../../../../utils/makeOutboundLink";
+import { makeOutboundLink } from "@yoast/components";
 
 /**
  * @typedef  {Object}     Feed

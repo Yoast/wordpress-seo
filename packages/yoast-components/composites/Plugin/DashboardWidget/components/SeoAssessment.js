@@ -2,8 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import StackedProgressBar from "../../Shared/components/StackedProgressBar";
-import SeoScoreAssessments from "../../Shared/components/ScoreAssessments";
+import { StackedProgressBar, ScoreAssessments as SeoScoreAssessments } from "@yoast/components";
 
 /**
  * SeoAssessment container.

@@ -8,8 +8,7 @@ import noop from "lodash/noop";
 
 // Internal dependencies.
 import { colors } from "@yoast/components/style-guide";
-import { YoastInputField } from "../../../../../components/YoastInput";
-import { SvgIcon, getRtlStyle } from "@yoast/components";
+import { SvgIcon, getRtlStyle, YoastInputField } from "@yoast/components";
 import { addFocusStyle } from "./Button";
 
 const errorColor = colors.$color_red;

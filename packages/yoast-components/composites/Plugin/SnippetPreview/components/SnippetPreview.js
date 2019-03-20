@@ -13,10 +13,9 @@ import { __ } from "@wordpress/i18n";
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
 import { colors } from "@yoast/components/style-guide";
-import ScreenReaderText from "../../../../a11y/ScreenReaderText";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
 import { angleLeft, angleRight } from "../../SnippetEditor/components/Shared";
-import { getRtlStyle } from "@yoast/components";
+import { getRtlStyle, ScreenReaderText } from "@yoast/components";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
