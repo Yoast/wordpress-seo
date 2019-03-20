@@ -251,7 +251,7 @@ class WPSEO_Addon_Manager {
 			return false;
 		}
 
-		return $subscription->expires !== 'expired';
+		return ! $this->has_subscription_expired( $subscription );
 	}
 
 	/**

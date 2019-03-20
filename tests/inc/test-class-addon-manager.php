@@ -18,6 +18,11 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	private $future_date = null;
 
 	/**
+	 * @var string|null Date in the past.
+	 */
+	private $past_date = null;
+
+	/**
 	 * Tests retrieval of site information that will return the defaults.
 	 *
 	 * @covers WPSEO_Addon_Manager::get_site_information
@@ -772,7 +777,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 						),
 					),
 					'wpseo-news.php' => array(
-						'expires' => 'expired',
+						'expiry_date' => $this->get_past_date(),
 						'product' => array(
 							'version'     => '10.0',
 							'name'        => 'Extension',
@@ -799,5 +804,17 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 		}
 
 		return $this->future_date;
+	}
+
+	/**
+	 * Gets a date string that lies in the past.
+	 *
+	 * @return string Past date.
+	 */
+	protected function get_past_date() {
+		if ( $this->past_date === null ) {
+			$this->past_date = gmdate( 'Y-m-d\TH:i:s\Z', time() - DAY_IN_SECONDS );
+		}
+		return $this->past_date;
 	}
 }
