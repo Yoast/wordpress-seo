@@ -130,6 +130,9 @@ describe( "determineStem", function() {
 		expect( determineStem( "wordings's", morphologyDataEN ) ).toEqual( "word" );
 		expect( determineStem( "wordings", morphologyDataEN ) ).toEqual( "word" );
 
+		expect( determineStem( "town", morphologyDataEN ) ).toEqual( "town" );
+		expect( determineStem( "towns", morphologyDataEN ) ).toEqual( "town" );
+
 		expect( determineStem( "supply", morphologyDataEN ) ).toEqual( "supply" );
 		expect( determineStem( "supplies", morphologyDataEN ) ).toEqual( "supply" );
 		expect( determineStem( "supplied", morphologyDataEN ) ).toEqual( "supply" );
@@ -138,6 +141,115 @@ describe( "determineStem", function() {
 		expect( determineStem( "supplies'", morphologyDataEN ) ).toEqual( "supply" );
 		expect( determineStem( "supplies's", morphologyDataEN ) ).toEqual( "supply" );
 		expect( determineStem( "supplyings", morphologyDataEN ) ).toEqual( "supply" );
+	} );
+
+	it( "returns the stem of verbal forms that should get -e at the end", function() {
+		expect( determineStem( "sharing", morphologyDataEN ) ).toEqual( "share" );
+		expect( determineStem( "shared", morphologyDataEN ) ).toEqual( "share" );
+		expect( determineStem( "shares", morphologyDataEN ) ).toEqual( "share" );
+
+		expect( determineStem( "improving", morphologyDataEN ) ).toEqual( "improve" );
+		expect( determineStem( "improved", morphologyDataEN ) ).toEqual( "improve" );
+		expect( determineStem( "improves", morphologyDataEN ) ).toEqual( "improve" );
+
+		expect( determineStem( "competing", morphologyDataEN ) ).toEqual( "compete" );
+		expect( determineStem( "competed", morphologyDataEN ) ).toEqual( "compete" );
+		expect( determineStem( "competes", morphologyDataEN ) ).toEqual( "compete" );
+
+		expect( determineStem( "scheduling", morphologyDataEN ) ).toEqual( "schedule" );
+		expect( determineStem( "scheduled", morphologyDataEN ) ).toEqual( "schedule" );
+		expect( determineStem( "schedules", morphologyDataEN ) ).toEqual( "schedule" );
+
+		expect( determineStem( "typing", morphologyDataEN ) ).toEqual( "type" );
+		expect( determineStem( "typed", morphologyDataEN ) ).toEqual( "type" );
+		expect( determineStem( "types", morphologyDataEN ) ).toEqual( "type" );
+
+		expect( determineStem( "releases", morphologyDataEN ) ).toEqual( "release" );
+		expect( determineStem( "releasing", morphologyDataEN ) ).toEqual( "release" );
+		expect( determineStem( "released", morphologyDataEN ) ).toEqual( "release" );
+
+		expect( determineStem( "prepares", morphologyDataEN ) ).toEqual( "prepare" );
+		expect( determineStem( "preparing", morphologyDataEN ) ).toEqual( "prepare" );
+		expect( determineStem( "prepared", morphologyDataEN ) ).toEqual( "prepare" );
+
+		expect( determineStem( "move", morphologyDataEN ) ).toEqual( "move" );
+		expect( determineStem( "moved", morphologyDataEN ) ).toEqual( "move" );
+		expect( determineStem( "moving", morphologyDataEN ) ).toEqual( "move" );
+		expect( determineStem( "moves", morphologyDataEN ) ).toEqual( "move" );
+
+		expect( determineStem( "amazing", morphologyDataEN ) ).toEqual( "amaze" );
+		expect( determineStem( "amazed", morphologyDataEN ) ).toEqual( "amaze" );
+		expect( determineStem( "amazes", morphologyDataEN ) ).toEqual( "amaze" );
+
+		expect( determineStem( "specializing", morphologyDataEN ) ).toEqual( "specialize" );
+		expect( determineStem( "specialized", morphologyDataEN ) ).toEqual( "specialize" );
+		expect( determineStem( "specializes", morphologyDataEN ) ).toEqual( "specialize" );
+
+		expect( determineStem( "optimizing", morphologyDataEN ) ).toEqual( "optimize" );
+		expect( determineStem( "optimized", morphologyDataEN ) ).toEqual( "optimize" );
+		expect( determineStem( "optimizes", morphologyDataEN ) ).toEqual( "optimize" );
+	} );
+
+	it( "returns the stem of verbal forms that should NOT get -e at the end", function() {
+		expect( determineStem( "doom", morphologyDataEN ) ).toEqual( "doom" );
+		expect( determineStem( "doomed", morphologyDataEN ) ).toEqual( "doom" );
+		expect( determineStem( "dooming", morphologyDataEN ) ).toEqual( "doom" );
+		expect( determineStem( "dooms", morphologyDataEN ) ).toEqual( "doom" );
+
+		expect( determineStem( "load", morphologyDataEN ) ).toEqual( "load" );
+		expect( determineStem( "loaded", morphologyDataEN ) ).toEqual( "load" );
+		expect( determineStem( "loading", morphologyDataEN ) ).toEqual( "load" );
+		expect( determineStem( "loads", morphologyDataEN ) ).toEqual( "load" );
+
+		expect( determineStem( "develop", morphologyDataEN ) ).toEqual( "develop" );
+		expect( determineStem( "developed", morphologyDataEN ) ).toEqual( "develop" );
+		expect( determineStem( "developing", morphologyDataEN ) ).toEqual( "develop" );
+		expect( determineStem( "develops", morphologyDataEN ) ).toEqual( "develop" );
+	} );
+
+	it( "returns the stem of verbs with doubling consonant at the end of the stem", function() {
+		expect( determineStem( "prefer", morphologyDataEN ) ).toEqual( "prefer" );
+		expect( determineStem( "preferring", morphologyDataEN ) ).toEqual( "prefer" );
+		expect( determineStem( "prefers", morphologyDataEN ) ).toEqual( "prefer" );
+		expect( determineStem( "preferred", morphologyDataEN ) ).toEqual( "prefer" );
+
+		expect( determineStem( "program", morphologyDataEN ) ).toEqual( "program" );
+		expect( determineStem( "programming", morphologyDataEN ) ).toEqual( "program" );
+		expect( determineStem( "programs", morphologyDataEN ) ).toEqual( "program" );
+		expect( determineStem( "programmed", morphologyDataEN ) ).toEqual( "program" );
+	} );
+
+	it( "returns the stem of -ix, -isis, -a and -us words", function() {
+		expect( determineStem( "analysis", morphologyDataEN ) ).toEqual( "analysis" );
+		expect( determineStem( "analyses", morphologyDataEN ) ).toEqual( "analysis" );
+
+		expect( determineStem( "focus", morphologyDataEN ) ).toEqual( "focus" );
+		expect( determineStem( "foci", morphologyDataEN ) ).toEqual( "focus" );
+		expect( determineStem( "focuses", morphologyDataEN ) ).toEqual( "focus" );
+
+		expect( determineStem( "fix", morphologyDataEN ) ).toEqual( "fix" );
+		expect( determineStem( "fixes", morphologyDataEN ) ).toEqual( "fix" );
+		expect( determineStem( "fixed", morphologyDataEN ) ).toEqual( "fix" );
+		expect( determineStem( "fixing", morphologyDataEN ) ).toEqual( "fix" );
+
+		expect( determineStem( "mix", morphologyDataEN ) ).toEqual( "mix" );
+		expect( determineStem( "mixes", morphologyDataEN ) ).toEqual( "mix" );
+		expect( determineStem( "mixed", morphologyDataEN ) ).toEqual( "mix" );
+		expect( determineStem( "mixing", morphologyDataEN ) ).toEqual( "mix" );
+
+		expect( determineStem( "plus", morphologyDataEN ) ).toEqual( "plus" );
+
+		expect( determineStem( "ai", morphologyDataEN ) ).toEqual( "ai" );
+		expect( determineStem( "data", morphologyDataEN ) ).toEqual( "data" );
+		expect( determineStem( "beta", morphologyDataEN ) ).toEqual( "beta" );
+		expect( determineStem( "extra", morphologyDataEN ) ).toEqual( "extra" );
+		expect( determineStem( "meta", morphologyDataEN ) ).toEqual( "meta" );
+	} );
+
+	it( "returns the stem of adjectives ending with -ious/-uous", function() {
+		expect( determineStem( "continuous", morphologyDataEN ) ).toEqual( "continuous" );
+		expect( determineStem( "various", morphologyDataEN ) ).toEqual( "various" );
+		expect( determineStem( "serious", morphologyDataEN ) ).toEqual( "serious" );
 	} );
 
 	it( "returns the stem of an irregular noun", function() {
@@ -152,6 +264,8 @@ describe( "determineStem", function() {
 		expect( determineStem( "anæsthesiæ's", morphologyDataEN ) ).toEqual( "anaesthesia" );
 		expect( determineStem( "anaesthesias's", morphologyDataEN ) ).toEqual( "anaesthesia" );
 		expect( determineStem( "anaesthesias'", morphologyDataEN ) ).toEqual( "anaesthesia" );
+
+		expect( determineStem( "traffic", morphologyDataEN ) ).toEqual( "traffic" );
 	} );
 
 	it( "returns the stem of an irregular verb/noun", function() {
@@ -164,6 +278,11 @@ describe( "determineStem", function() {
 		expect( determineStem( "blessings'", morphologyDataEN ) ).toEqual( "bless" );
 		expect( determineStem( "blessings's", morphologyDataEN ) ).toEqual( "bless" );
 		expect( determineStem( "blessings", morphologyDataEN ) ).toEqual( "bless" );
+
+		expect( determineStem( "hear", morphologyDataEN ) ).toEqual( "hear" );
+		expect( determineStem( "hears", morphologyDataEN ) ).toEqual( "hear" );
+		expect( determineStem( "hearing", morphologyDataEN ) ).toEqual( "hear" );
+		expect( determineStem( "heard", morphologyDataEN ) ).toEqual( "hear" );
 
 		expect( determineStem( "foresee", morphologyDataEN ) ).toEqual( "foresee" );
 		expect( determineStem( "foresees", morphologyDataEN ) ).toEqual( "foresee" );
