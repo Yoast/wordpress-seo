@@ -14,15 +14,24 @@
 */
 class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	/**
+	 * Determine whether we should output Person schema.
+	 *
+	 * @return bool
+	 */
+	public function is_needed() {
+		if ( WPSEO_Options::get( 'company_or_person', '' ) === 'person' || is_author() ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Outputs a Person JSON+LD blob on team pages.
 	 *
 	 * @return bool|array Person data blob on success, false on failure.
 	 */
 	public function add_to_graph() {
-		if ( ! $this->do_person_output() ) {
-			return false;
-		}
-
 		$user_id = $this->determine_user_id();
 		if ( ! $user_id ) {
 			return false;
@@ -74,19 +83,6 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		}
 
 		return $output;
-	}
-
-	/**
-	 * Determine whether we should output Person schema.
-	 *
-	 * @return bool
-	 */
-	private function do_person_output() {
-		if ( WPSEO_Options::get( 'company_or_person', '' ) === 'person' || is_author() ) {
-			return true;
-		}
-
-		return false;
 	}
 
 	/**

@@ -14,6 +14,18 @@
  */
 class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	/**
+	 * Determines whether or not a piece should be added to the graph.
+	 *
+	 * @return bool
+	 */
+	public function is_needed() {
+		if ( is_404() ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Returns a WebPage JSON+LD blob.
 	 *
 	 * @return array WebPage data blob.
@@ -72,9 +84,18 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 * @return string
 	 */
 	private function determine_page_type() {
-		$type = 'WebPage';
-		if ( is_search() ) {
-			$type = 'SearchResultsPage';
+		switch( true ) {
+			case is_search():
+				$type = array( 'SearchResultsPage', 'WebPage' );
+				break;
+			case is_author():
+				$type = array( 'ProfilePage', 'CollectionPage', 'WebPage' );
+				break;
+			case is_archive():
+				$type = array( 'CollectionPage', 'WebPage' );
+				break;
+			default:
+				$type = 'WebPage';
 		}
 
 		/**

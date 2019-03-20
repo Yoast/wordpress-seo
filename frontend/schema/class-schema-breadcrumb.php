@@ -14,6 +14,31 @@
  */
 class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	/**
+	 * Determine if we should add a breadcrumb attribute.
+	 *
+	 * @return bool
+	 */
+	public function is_needed() {
+		if ( is_404() ) {
+			return false;
+		}
+
+		if ( is_front_page() ) {
+			return false;
+		}
+
+		$breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
+		if ( ! $breadcrumbs_enabled ) {
+			$breadcrumbs_enabled = WPSEO_Options::get( 'breadcrumbs-enable', false );
+		}
+		if ( $breadcrumbs_enabled ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Outputs code to allow recognition of page's position in the site hierarchy
 	 *
 	 * @link https://developers.google.com/search/docs/data-types/breadcrumb
@@ -21,10 +46,6 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	 * @return bool|array Array on success, false on failure.
 	 */
 	public function add_to_graph() {
-		if ( ! $this->add_breadcrumbs() ) {
-			return false;
-		}
-
 		$breadcrumbs_instance = WPSEO_Breadcrumbs::get_instance();
 		$breadcrumbs          = $breadcrumbs_instance->get_links();
 		$broken               = false;
@@ -68,27 +89,6 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 		// Only output if JSON is correctly formatted.
 		if ( ! $broken ) {
 			return $data;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Determine if we should add a breadcrumb attribute.
-	 *
-	 * @return bool
-	 */
-	private function add_breadcrumbs() {
-		if ( is_front_page() ) {
-			return false;
-		}
-
-		$breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
-		if ( ! $breadcrumbs_enabled ) {
-			$breadcrumbs_enabled = WPSEO_Options::get( 'breadcrumbs-enable', false );
-		}
-		if ( $breadcrumbs_enabled ) {
-			return true;
 		}
 
 		return false;
