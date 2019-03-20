@@ -26,7 +26,7 @@ describe( "FacebookSiteAndAuthorNames", () => {
 		 * Not optimal, but the TestRenderer does not have support for function components. which FacebookAuthorName is.
 		 * See: https://reactjs.org/docs/test-renderer.html#testrenderergetinstance
 		 */
-		const facebookAuthorNameExists = tree.children.some( el => el.type === "span" && el.props.className.startsWith( "FacebookAuthorName" ) );
+		const facebookAuthorNameExists = tree[ 1 ].children.some( el => el.type === "span" && el.props.className.startsWith( "FacebookAuthorName" ) );
 		expect( facebookAuthorNameExists ).toEqual( false );
 	} );
 } );
