@@ -27,3 +27,6 @@ export { default as YouTubeVideo } from "./YouTubeVideo";
 
 export { getRtlStyle } from "./utils/helpers/styled-components";
 export { createComponentWithIntl } from "./utils/intlProvider";
+
+export { default as ScreenReaderText } from "./a11y/ScreenReaderText";
+export { default as ScreenReaderShortcut } from "./a11y/ScreenReaderShortcut";
