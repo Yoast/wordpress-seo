@@ -145,7 +145,7 @@ class WPSEO_Addon_Manager {
 		}
 
 		$subscription = $this->get_subscription( $args->slug );
-		if ( ! $subscription || $this->has_plugin_subscription_expired( $subscription->expiryDate ) ) {
+		if ( ! $subscription || $this->has_subscription_expired( $subscription->expiryDate ) ) {
 			return $data;
 		}
 
