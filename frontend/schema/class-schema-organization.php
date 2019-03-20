@@ -52,13 +52,14 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	 * @return array $data The Organization schema.
 	 */
 	private function add_logo( $data ) {
-		if ( empty( WPSEO_Options::get( 'company_logo', '' ) ) ) {
+		$logo = WPSEO_Options::get( 'company_logo', '' );
+		if ( empty( $logo ) ) {
 			return $data;
 		}
 		$data['logo'] = array(
 			'@type'   => 'ImageObject',
 			'@id'     => WPSEO_Utils::get_home_url() . '#logo',
-			'url'     => WPSEO_Options::get( 'company_logo' ),
+			'url'     => $logo,
 			'caption' => WPSEO_Options::get( 'company_name' ),
 		);
 

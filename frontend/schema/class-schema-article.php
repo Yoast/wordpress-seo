@@ -38,9 +38,10 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return array $data Article data.
 	 */
 	public function add_to_graph() {
-		$post      = get_post();
-		$canonical = WPSEO_Frontend::get_instance()->canonical( false );
-		$data      = array(
+		$post          = get_post();
+		$canonical     = WPSEO_Frontend::get_instance()->canonical( false );
+		$comment_count = get_comment_count( $post->ID );
+		$data          = array(
 			'@type'            => 'Article',
 			'@id'              => $canonical . '#article',
 			'isPartOf'         => array( '@id' => $canonical . '#webpage' ),
@@ -52,7 +53,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			'headline'         => get_the_title(),
 			'datePublished'    => mysql2date( DATE_W3C, $post->post_date_gmt, false ),
 			'dateModified'     => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
-			'commentCount'     => get_comment_count( $post->ID )['approved'],
+			'commentCount'     => $comment_count['approved'],
 			'mainEntityOfPage' => $canonical . '#webpage',
 		);
 
@@ -92,7 +93,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * Adds tags as keywords, if tags are assigned.
 	 *
 	 * @param array $data    Article data.
-	 * @param int   $post_id Post ID
+	 * @param int   $post_id Post ID.
 	 *
 	 * @return array $data Article data.
 	 */
