@@ -13,6 +13,11 @@
 class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * @var string|null Date in the future.
+	 */
+	private $future_date = null;
+
+	/**
 	 * Tests retrieval of site information that will return the defaults.
 	 *
 	 * @covers WPSEO_Addon_Manager::get_site_information
@@ -51,7 +56,21 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 		$expected_return = $this->returnValue(
 			(object) array(
 				'url'           => 'https://example.org',
-				'subscriptions' => array( 'subscription' ),
+				'subscriptions' => array(
+					(object) array(
+						'expiryDate' => 'date',
+						'renewalUrl' => 'url',
+						'product'     => (object) array(
+							'version'     => '1.0',
+							'name'        => 'product',
+							'slug'        => 'product-slug',
+							'lastUpdated' => 'date',
+							'storeUrl'    => 'store-url',
+							'download'    => 'download-url',
+							'changelog'   => 'changelog',
+						),
+					)
+				),
 			)
 		);
 
@@ -67,7 +86,21 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals(
 			(object) array(
 				'url'           => 'https://example.org',
-				'subscriptions' => array( 'subscription' ),
+				'subscriptions' => array(
+					(object) array(
+						'expiry_date' => 'date',
+						'renewal_url' => 'url',
+						'product'     => (object) array(
+							'version'      => '1.0',
+							'name'         => 'product',
+							'slug'         => 'product-slug',
+							'last_updated' => 'date',
+							'store_url'    => 'store-url',
+							'download'     => 'download-url',
+							'changelog'    => 'changelog',
+						),
+					)
+				),
 			),
 			$instance->get_site_information()
 		);
@@ -233,7 +266,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals(
 			array(
 				'yoast-seo-wordpress-premium' => (object) array(
-					'expiryDate' => '3000-01-01T00:00:00.000Z',
+					'expiry_date' => $this->get_future_date(),
 					'product' => (object) array(
 						'version'     => '10.0',
 						'name'        => 'Extension',
@@ -661,7 +694,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			json_encode(
 				array(
 					'wp-seo-premium.php' => array(
-						'expiryDate' => '3000-01-01T00:00:00.000Z',
+						'expiry_date' => $this->get_future_date(),
 						'product' => array(
 							'version'     => '10.0',
 							'name'        => 'Extension',
@@ -675,5 +708,18 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 				)
 			)
 		);
+	}
+
+	/**
+	 * Gets a date string that lies in the future.
+	 *
+	 * @return string Future date.
+	 */
+	protected function get_future_date() {
+		if ( $this->future_date === null ) {
+			$this->future_date = gmdate( 'Y-m-d\TH:i:s\Z', time() + DAY_IN_SECONDS );
+		}
+
+		return $this->future_date;
 	}
 }
