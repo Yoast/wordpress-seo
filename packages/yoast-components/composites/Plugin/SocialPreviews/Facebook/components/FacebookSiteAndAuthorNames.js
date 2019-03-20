@@ -31,7 +31,7 @@ const FacebookSiteAndAuthorNamesSeparator = styled.span`
  * @returns {React.Element} The rendered element.
  */
 function renderFacebookAuthorName( authorName ) {
-	/* translators: the context is: SITE | By AUTHOR */
+	/* Translators: the context is: SITE | By AUTHOR */
 	const by = __( "By", "yoast-components" );
 
 	return (
@@ -54,7 +54,7 @@ function renderFacebookAuthorName( authorName ) {
 const FacebookSiteAndAuthorNames = ( props ) => {
 	const hasAuthorName = props.authorName.length > 0;
 	const screenReaderText = hasAuthorName
-		/* translators: 1: site name, 2: post author name */
+		/* Translators: 1: site name, 2: post author name */
 		? sprintf( __( "%1$s by %2$s", "yoast-components" ), props.siteName, props.authorName )
 		: props.siteName;
 
