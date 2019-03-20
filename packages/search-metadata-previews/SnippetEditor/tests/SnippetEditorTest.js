@@ -4,7 +4,7 @@ import { createComponentWithIntl } from "@yoast/components";
 import {
 	mountWithIntl,
 	shallowWithIntl,
-} from "../../../../utils/helpers/intl-enzyme-test-helper";
+} from "yoast-components/utils/helpers/intl-enzyme-test-helper";
 import {
 	MODE_DESKTOP,
 } from "../../SnippetPreview/constants";

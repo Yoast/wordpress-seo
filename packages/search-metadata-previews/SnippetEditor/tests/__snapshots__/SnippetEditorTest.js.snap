@@ -24337,18 +24337,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 `;
 
 exports[`SnippetEditor renders in desktop mode 1`] = `
-.c1 {
-  overflow: auto;
-  width: 640px;
-  padding: 0 20px;
-  max-width: 100%;
-  box-sizing: border-box;
-}
-
-.c2 {
-  width: 600px;
-}
-
 .c18 {
   color: #555;
   border-color: #ccc;
@@ -24418,6 +24406,18 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 
 .c13 {
   font-size: 0.8rem;
+}
+
+.c1 {
+  overflow: auto;
+  width: 640px;
+  padding: 0 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.c2 {
+  width: 600px;
 }
 
 .c0 {

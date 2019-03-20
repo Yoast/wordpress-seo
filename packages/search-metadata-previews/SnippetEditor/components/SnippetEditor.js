@@ -2,34 +2,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-
-import { assessments } from "yoastseo";
-const { MetaDescriptionLengthAssessment, PageTitleWidthAssessment } = assessments.seo;
-
-import { helpers } from "yoastseo";
-const { measureTextWidth } = helpers;
-
-import stripSpaces from "yoastseo/src/stringProcessing/stripSpaces";
-
 import noop from "lodash/noop";
+
+// Yoast dependencies.
+import { assessments, string, helpers } from "yoastseo";
+import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
+import { colors } from "@yoast/components/style-guide";
+import { ErrorBoundary, getRtlStyle, SvgIcon } from "@yoast/components";
+
+const { MetaDescriptionLengthAssessment, PageTitleWidthAssessment } = assessments.seo;
+const { measureTextWidth } = helpers;
 
 // Internal dependencies.
 import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
-import {
-	DEFAULT_MODE,
-	MODES,
-} from "../../SnippetPreview/constants";
+import { DEFAULT_MODE, 	MODES } from "../../SnippetPreview/constants";
 import SnippetEditorFields from "./SnippetEditorFields";
-import { Button } from "../../Shared/components/Button";
-import { SvgIcon } from "@yoast/components";
-import {
-	lengthProgressShape,
-	replacementVariablesShape,
-	recommendedReplacementVariablesShape,
-} from "../constants";
+import { lengthProgressShape, replacementVariablesShape, recommendedReplacementVariablesShape } from "../constants";
 import ModeSwitcher from "./ModeSwitcher";
-import { colors } from "@yoast/components/style-guide";
-import { ErrorBoundary, getRtlStyle } from "@yoast/components";
 
 const SnippetEditorButton = Button.extend`
 	height: 33px;
@@ -421,7 +410,7 @@ class SnippetEditor extends React.Component {
 		let description = this.processReplacementVariables( originalData.description, replacementVariables );
 
 		// Strip multiple spaces and spaces at the beginning and end.
-		description = stripSpaces( description );
+		description = string.stripSpaces( description );
 
 		const shortenedBaseUrl = baseUrl.replace( /^http:\/\//i, "" );
 

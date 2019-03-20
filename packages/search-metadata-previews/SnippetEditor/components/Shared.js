@@ -2,8 +2,8 @@
 import styled from "styled-components";
 
 /* Internal dependencies */
+import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
 import { colors } from "@yoast/components/style-guide";
-import { Button } from "../../Shared/components/Button";
 import { getRtlStyle } from "@yoast/components";
 
 /**
