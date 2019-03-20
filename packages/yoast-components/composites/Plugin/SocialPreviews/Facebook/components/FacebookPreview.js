@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 
 /* Internal dependencies */
-import FacebookSiteName from "./FacebookSiteName";
+import FacebookSiteAndAuthorNames from "./FacebookSiteAndAuthorNames";
 import FacebookImage from "./FacebookImage";
 import FacebookTitle from "./FacebookTitle";
 import FacebookDescription from "./FacebookDescription";
@@ -19,7 +19,7 @@ const FacebookPreview = ( props ) => {
 	return (
 		<Fragment>
 			<FacebookImage src={ props.src } alt={ props.alt } />
-			<FacebookSiteName siteName={ props.siteName } />
+			<FacebookSiteAndAuthorNames siteName={ props.siteName } authorName={ props.authorName } />
 			<FacebookTitle title={ props.title } />
 			<FacebookDescription description={ props.description } />
 		</Fragment>
@@ -29,12 +29,14 @@ const FacebookPreview = ( props ) => {
 FacebookPreview.propTypes = {
 	siteName: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
+	authorName: PropTypes.string,
 	description: PropTypes.string,
 	src: PropTypes.string.isRequired,
 	alt: PropTypes.string,
 };
 
 FacebookPreview.defaultProps = {
+	authorName: "",
 	description: "",
 	alt: "",
 };
