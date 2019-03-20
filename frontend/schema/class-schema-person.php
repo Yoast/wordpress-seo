@@ -99,7 +99,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return array $output A list of social profiles.
 	 */
 	private function get_social_profiles( $user_id ) {
-		$social_profiles = [
+		$social_profiles = array(
 			'facebook',
 			'instagram',
 			'linkedin',
@@ -109,8 +109,8 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 			'youtube',
 			'soundcloud',
 			'tumblr',
-		];
-		$output          = [];
+		);
+		$output          = array();
 		foreach ( $social_profiles as $profile ) {
 			$social_url = $this->url_social_site( $profile, $user_id );
 			if ( $social_url ) {
@@ -130,11 +130,11 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 */
 	private function build_person_data( $user_id ) {
 		$user_data = get_userdata( $user_id );
-		$data      = [
+		$data      = array(
 			'@type' => 'Person',
 			'@id'   => $this->determine_at_id( $user_id ),
 			'name'  => $user_data->display_name,
-		];
+		);
 
 		$data = $this->add_image( $data, $user_data );
 
@@ -150,7 +150,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		// If this is an author page, the Person object is the main object, so we set it as such here.
 		if ( is_author() ) {
 			$data['mainEntityOfPage'] = array(
-				'@id' => WPSEO_Frontend::get_instance()->canonical( false ) . '#webpage'
+				'@id' => WPSEO_Frontend::get_instance()->canonical( false ) . '#webpage',
 			);
 		}
 		return $data;
@@ -187,7 +187,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return string The `@id` string value.
 	 */
 	private function determine_at_id( $user_id ) {
-		switch( true ) {
+		switch ( true ) {
 			case ( WPSEO_Options::get( 'company_or_person', '' ) === 'company' ):
 				$url = get_author_posts_url( $user_id );
 				break;

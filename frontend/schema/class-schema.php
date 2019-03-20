@@ -54,8 +54,8 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 
 		if ( is_array( $graph ) && ! empty( $graph ) ) {
 			$output = array(
-				"@context" => "https://schema.org",
-				"@graph"   => $graph,
+				'@context' => 'https://schema.org',
+				'@graph'   => $graph,
 			);
 
 			echo "<script type='application/ld+json'>", $this->format_data( $output ), '</script>', "\n";
@@ -90,7 +90,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			new WPSEO_Schema_Website(),
 			new WPSEO_Schema_WebPage(),
 			new WPSEO_Schema_Breadcrumb(),
-			new WPSEO_Schema_Article()
+			new WPSEO_Schema_Article(),
 		);
 
 		/**
