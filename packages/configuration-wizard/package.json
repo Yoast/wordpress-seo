@@ -42,7 +42,7 @@
   "jest": {
     "testURL": "http://localhost",
     "testRegex": ".*Test.js$",
-    "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js",
+    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js",
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
