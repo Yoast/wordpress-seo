@@ -19,7 +19,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		if ( WPSEO_Options::get( 'company_or_person', '' )  !== 'company' ) {
+		if ( WPSEO_Options::get( 'company_or_person', '' ) !== 'company' ) {
 			return false;
 		}
 
@@ -33,15 +33,34 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	 */
 	public function add_to_graph() {
 		$data = array(
-			'@type'    => 'Organization',
-			'@id'      => WPSEO_Utils::home_url() . '#organization',
-			'name'     => WPSEO_Options::get( 'company_name' ),
-			'url'      => WPSEO_Utils::home_url(),
-			'sameAs'   => $this->fetch_social_profiles(),
+			'@type'  => 'Organization',
+			'@id'    => WPSEO_Utils::home_url() . '#organization',
+			'name'   => WPSEO_Options::get( 'company_name' ),
+			'url'    => WPSEO_Utils::home_url(),
+			'sameAs' => $this->fetch_social_profiles(),
 		);
-		if ( ! empty( WPSEO_Options::get( 'company_logo', '' ) ) ) {
-			$data['logo'] = WPSEO_Options::get( 'company_logo', '' );
+		$data = $this->add_logo( $data );
+
+		return $data;
+	}
+
+	/**
+	 * Outputs code to allow recognition of page's position in the site hierarchy
+	 *
+	 * @param array $data The Organization schema.
+	 *
+	 * @return array $data The Organization schema.
+	 */
+	private function add_logo( $data ) {
+		if ( empty( WPSEO_Options::get( 'company_logo', '' ) ) ) {
+			return $data;
 		}
+		$data['logo'] = array(
+			'@type'   => 'ImageObject',
+			'@id'     => WPSEO_Utils::get_home_url() . '#logo',
+			'url'     => WPSEO_Options::get( 'company_logo' ),
+			'caption' => WPSEO_Options::get( 'company_name' ),
+		);
 
 		return $data;
 	}

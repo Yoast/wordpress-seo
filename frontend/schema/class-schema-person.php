@@ -6,12 +6,12 @@
  */
 
 /**
-* Class WPSEO_Schema_Person
-*
-* Outputs schema Person code.
-*
-* @since 10.1
-*/
+ * Class WPSEO_Schema_Person
+ *
+ * Outputs schema Person code.
+ *
+ * @since 10.1
+ */
 class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	/**
 	 * Determine whether we should output Person schema.
@@ -48,7 +48,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return bool|int User ID or false upon return.
 	 */
 	private function determine_user_id() {
-		switch( true ) {
+		switch ( true ) {
 			case is_author():
 				$user_id = get_queried_object_id();
 				break;
@@ -73,7 +73,17 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return array $output A list of social profiles.
 	 */
 	private function get_social_profiles( $user_id ) {
-		$social_profiles = [ 'facebook', 'instagram', 'linkedin', 'pinterest', 'twitter', 'myspace', 'youtube', 'soundcloud', 'tumblr' ];
+		$social_profiles = [
+			'facebook',
+			'instagram',
+			'linkedin',
+			'pinterest',
+			'twitter',
+			'myspace',
+			'youtube',
+			'soundcloud',
+			'tumblr',
+		];
 		$output          = [];
 		foreach ( $social_profiles as $profile ) {
 			$social_url = $this->url_social_site( $profile, $user_id );
@@ -94,23 +104,47 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 */
 	private function build_person_data( $user_id ) {
 		$user_data = get_userdata( $user_id );
-		$output    = [
-			'@type'    => 'Person',
-			'@id'      => $this->determine_at_id( $user_id ),
-			'name'     => $user_data->display_name,
-			'image'    => get_avatar_url( $user_id ),
+		$data      = [
+			'@type' => 'Person',
+			'@id'   => $this->determine_at_id( $user_id ),
+			'name'  => $user_data->display_name,
 		];
 
+		$data = $this->add_image( $data, $user_data );
+
 		if ( ! empty( $user_data->description ) ) {
-			$output['description'] = $user_data->description;
+			$data['description'] = $user_data->description;
 		}
 
 		$social_profiles = $this->get_social_profiles( $user_id );
 		if ( is_array( $social_profiles ) ) {
-			$output['sameAs'] = $social_profiles;
+			$data['sameAs'] = $social_profiles;
 		}
 
-		return $output;
+		return $data;
+	}
+
+	/**
+	 * Returns an ImageObject for the persons avatar.
+	 *
+	 * @param array    $data      The Person schema.
+	 * @param \WP_User $user_data User data.
+	 *
+	 * @return array $data The Person schema.
+	 */
+	private function add_image( $data, $user_data ) {
+		if ( ! get_avatar_url( $user_data->user_email ) ) {
+			return $data;
+		}
+
+		$data['image']  = array(
+			'@type'   => 'ImageObject',
+			'@id'     => WPSEO_Utils::get_home_url() . '#logo',
+			'url'     => get_avatar_url( $user_data->user_email ),
+			'caption' => $user_data->display_name,
+		);
+
+		return $data;
 	}
 
 	/**
@@ -125,11 +159,12 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		if ( is_author() ) {
 			$url = get_author_posts_url( $user_id );
 		}
+
 		return $url . '#person';
 	}
 
 	/**
-	 * Returns an author's social site URL
+	 * Returns an author's social site URL.
 	 *
 	 * @param string $social_site The social site to retrieve the URL for.
 	 * @param mixed  $user_id     The user ID to use function outside of the loop.
