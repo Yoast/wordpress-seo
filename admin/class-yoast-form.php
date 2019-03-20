@@ -463,6 +463,7 @@ class Yoast_Form {
 		echo $wrapper_start_tag;
 		$select->output_html();
 		echo $wrapper_end_tag;
+		echo '<br class="clear"/>';
 	}
 
 	/**

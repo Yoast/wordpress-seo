@@ -100,6 +100,8 @@ class WPSEO_Addon_Manager {
 
 		$site_information = $this->request_current_sites();
 		if ( $site_information ) {
+			$site_information = $this->map_site_information( $site_information );
+
 			$this->set_site_information_transient( $site_information );
 
 			return $site_information;
@@ -110,6 +112,46 @@ class WPSEO_Addon_Manager {
 			'url'           => WPSEO_Utils::get_home_url(),
 			'subscriptions' => array(),
 		);
+	}
+
+	/**
+	 * Maps the plugin API response.
+	 *
+	 * @param object $site_information Site information as received from the API.
+	 *
+	 * @return object Mapped site information.
+	 */
+	public function map_site_information( $site_information ) {
+		return (object) array(
+			'url'           => $site_information->url,
+			'subscriptions' => array_map( array( $this, 'map_subscription' ), $site_information->subscriptions ),
+		);
+	}
+
+	/**
+	 * Maps a plugin subscription.
+	 *
+	 * @param object $subscription Subscription information as received from the API.
+	 *
+	 * @return object Mapped subscription.
+	 */
+	public function map_subscription( $subscription ) {
+		// @codingStandardsIgnoreStart
+		return (object) array(
+			'renewal_url' => $subscription->renewalUrl,
+			'expiry_date' => $subscription->expiryDate,
+			'product'     => (object) array(
+				'version'      => $subscription->product->version,
+				'name'         => $subscription->product->name,
+				'slug'         => $subscription->product->slug,
+				'last_updated' => $subscription->product->lastUpdated,
+				'store_url'    => $subscription->product->storeUrl,
+				// Ternary operator is necessary because download can be undefined.
+				'download'     => isset( $subscription->product->download ) ? $subscription->product->download : null,
+				'changelog'    => $subscription->product->changelog,
+			),
+		);
+		// @codingStandardsIgnoreStop
 	}
 
 	/**
@@ -187,7 +229,7 @@ class WPSEO_Addon_Manager {
 		}
 
 		$subscription = $this->get_subscription( $args->slug );
-		if ( ! $subscription || $subscription->expires === 'expired' ) {
+		if ( ! $subscription || $this->has_subscription_expired( $subscription ) ) {
 			return $data;
 		}
 
@@ -228,7 +270,7 @@ class WPSEO_Addon_Manager {
 			$subscription_slug = $this->get_slug_by_plugin_file( $plugin_file );
 			$subscription      = $this->get_subscription( $subscription_slug );
 
-			if ( ! $subscription || $subscription->expires === 'expired' ) {
+			if ( ! $subscription || $this->has_subscription_expired( $subscription ) ) {
 				continue;
 			}
 
@@ -238,6 +280,17 @@ class WPSEO_Addon_Manager {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Checks whether a plugin expiry date has been passed.
+	 *
+	 * @param stdClass $subscription Plugin subscription.
+	 *
+	 * @return bool Has the plugin expired.
+	 */
+	protected function has_subscription_expired( $subscription ) {
+		return ( strtotime( $subscription->expiry_date ) - time() ) < 0;
 	}
 
 	/**
