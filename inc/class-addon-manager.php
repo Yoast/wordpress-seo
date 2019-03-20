@@ -188,7 +188,7 @@ class WPSEO_Addon_Manager {
 	 * @return bool Has the plugin expired.
 	 */
 	private function has_subscription_expired( $subscription ) {
-		return time() - strtotime( $subscription->expiryDate ) < 0;
+		return ( strtotime( $subscription->expiryDate ) - time() ) < 0;
 	}
 
 	/**

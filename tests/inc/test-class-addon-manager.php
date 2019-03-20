@@ -233,7 +233,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals(
 			array(
 				'yoast-seo-wordpress-premium' => (object) array(
-					'expiryDate' => '2000-01-01T00:00:00.000Z',
+					'expiryDate' => '3000-01-01T00:00:00.000Z',
 					'product' => (object) array(
 						'version'     => '10.0',
 						'name'        => 'Extension',
@@ -661,7 +661,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			json_encode(
 				array(
 					'wp-seo-premium.php' => array(
-						'expiryDate' => '2000-01-01T00:00:00.000Z',
+						'expiryDate' => '3000-01-01T00:00:00.000Z',
 						'product' => array(
 							'version'     => '10.0',
 							'name'        => 'Extension',
