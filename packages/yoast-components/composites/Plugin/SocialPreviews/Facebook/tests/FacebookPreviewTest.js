@@ -10,6 +10,7 @@ describe( "FacebookPreview", () => {
 		const component = renderer.create(
 			<FacebookPreview
 				siteName="yoast.com"
+				title="YoastCon Workshops"
 				description="Description to go along with a landscape image."
 				src="https://yoast.com/app/uploads/2015/06/How_to_choose_keywords_FI.png"
 			/>
@@ -22,6 +23,7 @@ describe( "FacebookPreview", () => {
 		const component = renderer.create(
 			<FacebookPreview
 				siteName="yoast.com"
+				title="YoastCon Workshops"
 				description="Description to go along with a portrait image."
 				src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png"
 			/>
@@ -34,6 +36,7 @@ describe( "FacebookPreview", () => {
 		const component = renderer.create(
 			<FacebookPreview
 				siteName="yoast.com"
+				title="YoastCon Workshops"
 				description="Description to go along with a square image."
 				src="https://yoast.com/app/uploads/2018/09/avatar_user_1_1537774226.png"
 			/>
@@ -46,6 +49,7 @@ describe( "FacebookPreview", () => {
 		const component = renderer.create(
 			<FacebookPreview
 				siteName="yoast.com"
+				title="YoastCon Workshops"
 				description="Description to go along with too small an image."
 				src="https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png"
 			/>
@@ -58,6 +62,7 @@ describe( "FacebookPreview", () => {
 		const component = renderer.create(
 			<FacebookPreview
 				siteName="yoast.com"
+				title="YoastCon Workshops"
 				description="Description to go along with a faulty image."
 				src="thisisnoimage"
 			/>
