@@ -5,7 +5,7 @@ import { __ } from "@wordpress/i18n";
 import noop from "lodash/noop";
 
 // Yoast dependencies.
-import { assessments , string, helpers } from "yoastseo";
+import { assessments, string, helpers } from "yoastseo";
 import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
 import { colors } from "@yoast/components/style-guide";
 import { ErrorBoundary, getRtlStyle, SvgIcon } from "@yoast/components";
