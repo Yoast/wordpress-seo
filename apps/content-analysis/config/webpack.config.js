@@ -353,7 +353,7 @@ module.exports = function( webpackEnv ) {
 							include: [
 								paths.appSrc,
 								paths.yoastSrc,
-								paths.yoastComponents,
+								paths.yoastPackages,
 							],
 							loader: require.resolve( "babel-loader" ),
 							options: {

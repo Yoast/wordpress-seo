@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { isFunction } from "lodash-es";
+import { isFunction, noop } from "lodash-es";
 
 class Checkbox extends React.PureComponent {
 	/**
@@ -67,6 +67,7 @@ Checkbox.propTypes = {
 
 Checkbox.defaultProps = {
 	label: "",
+	onChange: noop,
 };
 
 export default Checkbox;
