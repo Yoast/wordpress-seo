@@ -1,5 +1,8 @@
-import Choice from "./Choice";
+/* Yoast dependencies */
 import { Input } from "@yoast/components";
+
+/* Internal dependencies */
+import Choice from "./Choice";
 import HTML from "./Html";
 
 /**

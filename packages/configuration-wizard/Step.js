@@ -1,6 +1,8 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 
+/* Internal dependencies */
 import Components from "./components/StepComponents";
 
 /**

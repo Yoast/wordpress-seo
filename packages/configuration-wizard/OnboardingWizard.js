@@ -1,16 +1,21 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
-import Step from "./Step";
-import StepIndicator from "./StepIndicator";
-import LoadingIndicator from "./LoadingIndicator";
-import sendStep from "./helpers/ajaxHelper";
-import Header from "./Header";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import { localize } from "yoast-components/utils/i18n";
-import muiTheme from "./config/yoast-theme";
-import interpolateComponents from "interpolate-components";
 import CloseIcon from "material-ui/svg-icons/navigation/close";
 import isUndefined from "lodash/isUndefined";
+import interpolateComponents from "interpolate-components";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+
+/* Yoast dependencies */
+import { localize } from "yoast-components/utils/i18n";
+import { sendRequest } from "@yoast/helpers";
+
+/* Interal dependencies */
+import muiTheme from "./config/yoast-theme";
+import StepIndicator from "./StepIndicator";
+import LoadingIndicator from "./LoadingIndicator";
+import Header from "./Header";
+import Step from "./Step";
 
 /**
  * The OnboardingWizard class.
@@ -124,7 +129,7 @@ class OnboardingWizard extends React.Component {
 		this.setState( { isLoading: true, errorMessage: "" } );
 		this.clickedButton = evt.currentTarget;
 
-		sendStep(
+		sendRequest(
 			this.props.endpoint.url,
 			{
 				data: this.step.state.fieldValues[ this.state.currentStepId ],

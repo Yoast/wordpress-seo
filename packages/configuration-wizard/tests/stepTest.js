@@ -1,5 +1,8 @@
+/* External dependencies */
 import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
+
+/* Internal dependencies */
 import Step from "../Step";
 
 describe( "a step component", () => {

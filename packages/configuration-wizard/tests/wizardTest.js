@@ -1,14 +1,17 @@
+/* External dependencies */
 import React from "react";
-import Wizard from "../OnboardingWizard";
-import Config from "../config/production-config";
 import Enzyme from "enzyme";
 import EnzymeAdapter from "enzyme-adapter-react-16";
 import cloneDeep from "lodash/cloneDeep";
+
+/* Internal dependencies */
+import Config from "../config/production-config";
+import Wizard from "../OnboardingWizard";
 import ApiConfig from "../config/api-config";
 
 Enzyme.configure( { adapter: new EnzymeAdapter() } );
 
-jest.mock( "../helpers/ajaxHelper", () => {
+jest.mock( "ajaxHelper", () => {
 	/**
 	 * An ajaxHelper for testing purposes.
 	 *

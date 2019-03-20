@@ -1,3 +1,4 @@
+/* Internal dependencies */
 import MailchimpSignup from "../components/custom_components/MailchimpSignup";
 import PublishingEntity from "../components/custom_components/PublishingEntity";
 import PostTypeVisibility from "../components/custom_components/PostTypeVisibility";

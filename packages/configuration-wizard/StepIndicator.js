@@ -1,9 +1,13 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 import { Stepper, Step, StepButton } from "material-ui/Stepper";
 
-import CustomStepButton from "./StepButton";
+/* Yoast dependencies */
 import { localize } from "yoast-components/utils/i18n";
+
+/* Internal dependencies */
+import CustomStepButton from "./StepButton";
 
 /**
  * The step indicator displays a horizontal progress indicator.
