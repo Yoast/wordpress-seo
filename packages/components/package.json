@@ -11,7 +11,8 @@
   },
   "jest": {
     "testRegex": ".*Test.js$",
-    "testURL": "http://localhost"
+    "testURL": "http://localhost",
+    "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js"
   },
   "devDependencies": {
     "grunt": "^1.0.3"
