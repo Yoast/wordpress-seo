@@ -27,7 +27,10 @@ import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSug
 // Composites/KeywordSuggestions imports.
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
 
-import { Loader, SvgIcon, getRtlStyle, YoastSeoIcon } from "@yoast/components";
+import { Loader, SvgIcon, YoastSeoIcon } from "@yoast/components";
+import { getDirectionalStyle } from "@yoast/helpers";
+
+const getRtlStyle = getDirectionalStyle;
 
 // Composites/CoursesOverview imports
 import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";

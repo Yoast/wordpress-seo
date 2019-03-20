@@ -24,5 +24,3 @@ export { default as Textfield } from "./Textfield";
 export { default as YoastLogo } from "./YoastLogo";
 export { default as YoastSeoIcon } from "./YoastSeoIcon";
 export { default as YouTubeVideo } from "./YouTubeVideo";
-
-export { getRtlStyle } from "../utils/helpers/styled-components";
