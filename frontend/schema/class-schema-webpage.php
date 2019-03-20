@@ -22,6 +22,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 		if ( is_404() ) {
 			return false;
 		}
+
 		return true;
 	}
 
@@ -44,13 +45,15 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			),
 		);
 
+		$data = $this->add_featured_image( $data );
+
 		if ( $front->metadesc( false ) !== '' ) {
 			$data['description'] = $front->metadesc( false );
 		}
 
 		if ( $this->add_breadcrumbs() ) {
 			$data['breadcrumb'] = array(
-				'@id' => $canonical . '#breadcrumb'
+				'@id' => $canonical . '#breadcrumb',
 			);
 		}
 
@@ -84,7 +87,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 * @return string
 	 */
 	private function determine_page_type() {
-		switch( true ) {
+		switch ( true ) {
 			case is_search():
 				$type = array( 'SearchResultsPage', 'WebPage' );
 				break;
@@ -104,5 +107,31 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 		 * @api string $type The WebPage type.
 		 */
 		return apply_filters( 'wpseo_schema_webpage_type', $type );
+	}
+
+	/**
+	 * Adds a featured image to the schema if there is one.
+	 *
+	 * @param array $data WebPage Schema.
+	 *
+	 * @return array $data WebPage Schema.
+	 */
+	private function add_featured_image( $data ) {
+		if ( ! has_post_thumbnail( get_queried_object_id() ) ) {
+			return $data;
+		}
+
+		$id                         = WPSEO_Frontend::get_instance()->canonical( false ) . '#primaryimage';
+		$data['image']              = array(
+			'@type'   => 'ImageObject',
+			'@id'     => $id,
+			'url'     => get_the_post_thumbnail_url(),
+			'caption' => get_the_post_thumbnail_caption(),
+		);
+		$data['primaryImageOfPage'] = array(
+			'@id' => $id,
+		);
+
+		return $data;
 	}
 }
