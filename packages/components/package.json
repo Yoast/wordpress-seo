@@ -13,6 +13,9 @@
     "testRegex": ".*Test.js$",
     "testURL": "http://localhost"
   },
+  "dependencies": {
+    "@yoast/helpers": "^0.1.0"
+  },
   "devDependencies": {
     "grunt": "^1.0.3"
   },
