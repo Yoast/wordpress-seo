@@ -1,7 +1,7 @@
 import React from "react";
 import interpolateComponents from "interpolate-components";
 
-import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
+import { Icon } from "@yoast/components";
 import PropTypes from "prop-types";
 
 /**

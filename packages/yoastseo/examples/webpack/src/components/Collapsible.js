@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Collapsible as CollapsibleComponent } from "yoast-components";
-import PaperUI from "yoast-components/composites/basic/Paper";
+import { Paper as PaperUI } from "@yoast/components";
 
 const Inner = styled.div`
 	padding: 16px;

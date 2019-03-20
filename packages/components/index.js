@@ -34,6 +34,7 @@ export { UpsellButton } from "./UpsellButton";
 export { UpsellLinkButton } from "./UpsellLinkButton";
 export { YoastButton } from "./YoastButton";
 export { YoastInputField } from "./YoastInput";
+export { YoastLinkButton } from "./YoastLinkButton";
 export { default as YoastLogo } from "./YoastLogo";
 export { default as YoastModal } from "./YoastModal";
 export { default as YoastSeoIcon } from "./YoastSeoIcon";

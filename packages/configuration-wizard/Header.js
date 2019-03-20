@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
+import { Icon } from "@yoast/components";
 
 /**
  * Onboarding wizard header.
