@@ -2,11 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 
-import YoastWarning from "yoast-components/composites/Plugin/Shared/components/YoastWarning";
 import { FullHeightCard } from "yoast-components/composites/CoursesOverview/Card";
 import CardDetails from "yoast-components/composites/CoursesOverview/CardDetails";
 import getCourseFeed from "yoast-components/utils/getCourseFeed";
-import { getRtlStyle } from "@yoast/components";
+import { YoastWarning, getRtlStyle } from "@yoast/components";
 
 const Container = styled.div`
 	max-width: 1024px;

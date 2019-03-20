@@ -18,7 +18,7 @@ export { default as IconButtonToggle } from "./IconButtonToggle.js";
 export { default as IFrame } from "./IFrame";
 export { default as Input } from "./Input";
 export { default as Label } from "./Label";
-export { default as LanguageNotice } from "./LanguageNotice";
+export { default as LanguageNotice, languageNoticePropType } from "./LanguageNotice";
 export { default as Loader } from "./Loader";
 export { default as Notification } from "./Notification";
 export { default as Paper } from "./Paper";
