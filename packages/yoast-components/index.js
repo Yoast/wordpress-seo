@@ -69,7 +69,6 @@ export { default as SynonymsInput } from "./composites/Plugin/Shared/components/
 export * from "./forms";
 export * from "./composites/Plugin/ContentAnalysis";
 export * from "@yoast/search-metadata-previews";
-export { colors } from "@yoast/components/style-guide";
 export { default as utils } from "./utils";
 export { localize } from "./utils/i18n";
 export { setTranslations } from "./utils/i18n";
