@@ -11,7 +11,7 @@ import ApiConfig from "../config/api-config";
 
 Enzyme.configure( { adapter: new EnzymeAdapter() } );
 
-jest.mock( "ajaxHelper", () => {
+jest.mock( "@yoast/helpers", () => {
 	/**
 	 * An ajaxHelper for testing purposes.
 	 *
@@ -22,7 +22,7 @@ jest.mock( "ajaxHelper", () => {
 			resolve( "test" );
 		} );
 	};
-	return ajaxHelper;
+	return { ajaxHelper };
 } );
 
 /**
