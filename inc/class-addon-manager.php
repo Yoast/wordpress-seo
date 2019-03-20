@@ -145,7 +145,7 @@ class WPSEO_Addon_Manager {
 		}
 
 		$subscription = $this->get_subscription( $args->slug );
-		if ( ! $subscription || $subscription->expires === 'expired' ) {
+		if ( ! $subscription || $this->has_subscription_expired( $subscription ) ) {
 			return $data;
 		}
 
@@ -168,7 +168,7 @@ class WPSEO_Addon_Manager {
 			$subscription_slug = $this->get_slug_by_plugin_file( $plugin_file );
 			$subscription      = $this->get_subscription( $subscription_slug );
 
-			if ( ! $subscription || $subscription->expires === 'expired' ) {
+			if ( ! $subscription || $this->has_subscription_expired( $subscription ) ) {
 				continue;
 			}
 
@@ -178,6 +178,17 @@ class WPSEO_Addon_Manager {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Checks whether a plugin expiry date has been passed.
+	 *
+	 * @param stdClass $subscription Plugin subscription.
+	 *
+	 * @return bool Has the plugin expired.
+	 */
+	private function has_subscription_expired( $subscription ) {
+		return time() - strtotime( $subscription->expiryDate ) < 0;
 	}
 
 	/**
