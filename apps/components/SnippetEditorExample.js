@@ -1,10 +1,12 @@
 // External dependencies.
 import React, { Component } from "react";
 
-// Internal dependencies.
-import ExamplesContainer from "./ExamplesContainer";
+// Yoast dependencies.
 import { assessments } from "yoastseo";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
+
+// Internal dependencies.
+import ExamplesContainer from "./ExamplesContainer";
 
 const { MetaDescriptionLengthAssessment } = assessments.seo;
 

@@ -4,12 +4,14 @@ import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
-// Internal dependencies.
-import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
+// Yoast dependencies.
 import { SvgIcon } from "@yoast/components";
 import { colors } from "@yoast/components/style-guide";
-import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/constants";
+import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
 import ScreenReaderText from "yoast-components/a11y/ScreenReaderText";
+
+// Internal dependencies.
+import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/constants";
 
 /**
  * Renders a switcher button.
