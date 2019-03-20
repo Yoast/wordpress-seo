@@ -2,7 +2,8 @@
  * Composites imports.
  */
 // Composites/OnboardingWizard imports.
-import { default as OnboardingWizard, MessageBox, LoadingIndicator, sendRequest, decodeHTML } from "@yoast/configuration-wizard";
+import { default as OnboardingWizard, MessageBox, LoadingIndicator } from "@yoast/configuration-wizard";
+import { sendRequest, decodeHTML } from "@yoast/helpers";
 
 // Import colors from the style guide.
 import { colors } from "@yoast/components/style-guide";
