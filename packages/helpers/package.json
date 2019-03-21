@@ -6,5 +6,13 @@
   "repository": "https://github.com/Yoast/javascript",
   "author": "Yoast",
   "license": "GPL-3.0",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "prop-types": "^15.7.2",
+    "@wordpress/i18n": "^1.2.3",
+    "@yoast/components": "^1.0.0"
+  },
+  "peerDependencies": {
+    "react": "^16.2.0"
+  }
 }
