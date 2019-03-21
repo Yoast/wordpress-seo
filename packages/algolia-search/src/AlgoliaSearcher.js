@@ -2,9 +2,9 @@
 import React from "react";
 import initAlgoliaSearch from "algoliasearch";
 import isUndefined from "lodash/isUndefined";
-import { speak as a11ySpeak } from "@wordpress/a11y";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { speak as a11ySpeak } from "@wordpress/a11y";
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
