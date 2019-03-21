@@ -31,7 +31,7 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	 *
 	 * @return array Website data blob.
 	 */
-	public function add_to_graph() {
+	public function generate() {
 		$data = array(
 			'@type'     => 'WebSite',
 			'@id'       => WPSEO_Utils::home_url() . '#website',

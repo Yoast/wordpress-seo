@@ -31,7 +31,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 *
 	 * @return array WebPage data blob.
 	 */
-	public function add_to_graph() {
+	public function generate() {
 		$front     = WPSEO_Frontend::get_instance();
 		$canonical = $front->canonical( false );
 		$data      = array(

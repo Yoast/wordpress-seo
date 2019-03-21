@@ -19,11 +19,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		if ( WPSEO_Options::get( 'company_or_person', '' ) !== 'company' ) {
-			return false;
-		}
-
-		return true;
+		return ( WPSEO_Options::get( 'company_or_person', '' ) === 'company' );
 	}
 
 	/**
@@ -31,7 +27,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	 *
 	 * @return array $data The Organization schema.
 	 */
-	public function add_to_graph() {
+	public function generate() {
 		$data = array(
 			'@type'  => 'Organization',
 			'@id'    => WPSEO_Utils::home_url() . '#organization',

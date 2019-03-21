@@ -22,14 +22,11 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		/**
 		 * Filter: 'wpseo_schema_article_post_types' - Allow changing for which post types we output Article schema.
 		 *
-		 * @api array $post_types The post types for which we output Article.
+		 * @api string[] $post_types The post types for which we output Article.
 		 */
 		$post_types = apply_filters( 'wpseo_schema_article_post_types', array( 'post' ) );
-		if ( is_singular( $post_types ) ) {
-			return true;
-		}
 
-		return false;
+		return is_singular( $post_types );
 	}
 
 	/**
@@ -37,7 +34,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 *
 	 * @return array $data Article data.
 	 */
-	public function add_to_graph() {
+	public function generate() {
 		$post          = get_post();
 		$canonical     = WPSEO_Frontend::get_instance()->canonical( false );
 		$comment_count = get_comment_count( $post->ID );
