@@ -11,16 +11,6 @@ $alerts_data = Yoast_Alerts::get_template_variables();
 $configuration_notifier = new WPSEO_Configuration_Notifier();
 $configuration_notifier->listen();
 
-/**
- * The notifiers.
- *
- * @var WPSEO_Notifier[] $notifications
- */
-$notifications = array(
-	WPSEO_Subscription_Notifier::get_instance(),
-	$configuration_notifier,
-);
-
 $wpseo_contributors_phrase = sprintf(
 	/* translators: %1$s expands to Yoast SEO */
 	__( 'See who contributed to %1$s.', 'wordpress-seo' ),
@@ -32,9 +22,10 @@ $wpseo_contributors_phrase = sprintf(
 <div class="tab-block">
 	<div class="yoast-alerts">
 
-		<?php foreach ( $notifications as $notification ) {
-			echo $notification->notify();
-		} ?>
+		<?php
+			do_action( 'wpseo_admin_seo_dashboard_banners' );
+		?>
+		<?php echo $configuration_notifier->notify(); ?>
 
 		<div class="yoast-container yoast-container__alert">
 			<?php require WPSEO_PATH . 'admin/views/partial-alerts-errors.php'; ?>

@@ -52,28 +52,6 @@ class WPSEO_Extensions {
 		return array_keys( $this->extensions );
 	}
 
-	public function get_first_expiry_date() {
-		$addon_manager = new WPSEO_Addon_Manager();
-		$subscriptions = $addon_manager->get_subscriptions_for_active_addons();
-
-		$expiry_dates = array();
-
-		foreach ( $subscriptions as $subscription ) {
-			$subscription->product->changelog = "";
-			var_dump( $subscription );
-
-			$product_name =  $subscription->product->name;
-
-			if ( empty( $product_name ) ) {
-				continue;
-			}
-
-			$expiry_dates[$product_name] = $subscription->expiry_date;
-		}
-
-		return max( $expiry_dates );
-	}
-
 	/**
 	 * Checks if the extension is valid.
 	 *

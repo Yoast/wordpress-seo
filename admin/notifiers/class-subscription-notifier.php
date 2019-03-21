@@ -1,57 +1,63 @@
 <?php
 
 
-class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration, WPSEO_Notifier {
+class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 
-	private $next_expiry_date;
 	private $days_to_expiration;
-
-	private static $instance = null;
-
-	private function __construct() {
-		$this->init();
-	}
-
-	public static function get_instance() {
-		if ( self::$instance === null ) {
-			self::$instance = new WPSEO_Subscription_Notifier();
-		}
-
-		return self::$instance;
-	}
+	private $next_expiry_date_timestamp;
 
 	/**
 	 * Initialize notification.
 	 */
-	private function init() {
-		$extensions_list = new WPSEO_Extensions();
-		$this->next_expiry_date = $extensions_list->get_first_expiry_date();
+	public function init() {
+		$this->next_expiry_date_timestamp = $this->get_first_expiry_date();
 
-		$this->next_expiry_date = '2019-03-18T09:31:40Z';
-
-		$current_time = time();
-		$expiry_time  = strtotime( $this->next_expiry_date );
-
-		if ( ! $expiry_time ) {
+		if ( ! $this->next_expiry_date_timestamp ) {
 			return;
 		}
 
-		$this->days_to_expiration = (int) ceil( ( $current_time - $expiry_time ) / DAY_IN_SECONDS );
+		$this->days_to_expiration = (int) ceil( ( time() - $this->next_expiry_date_timestamp ) / DAY_IN_SECONDS );
 	}
 
-	public function banner() {
-	}
 
-	public function notify( $status = 'expired' ) {
-		$message = sprintf( esc_html__( 'Your %1$s plugin(s) will expire in 4 weeks. When plugins expire, you will no longer receive updates or support. %2$sRenew now to get a 25%% discount!%3$s', 'wordpress-seo' ), 'Yoast', '<i>', '</i>' );
-		switch ( $status ) {
-			case 'less_than_1_week':
-				$message = sprintf( esc_html__( 'Your %1$s plugin(s) will expire in 4 weeks. When plugins expire, you will no longer receive updates or support. %2$sRenew now to get a 25%% discount!%3$s', 'wordpress-seo' ), 'Yoast', '<i>', '</i>' );
-				break;
-			case '1_day':
-				$message = sprintf( esc_html__( 'Your %1$s plugin(s) will expire in 4 weeks. When plugins expire, you will no longer receive updates or support. %2$sRenew now to get a 25%% discount!%3$s', 'wordpress-seo' ), 'Yoast', '<i>', '</i>' );
+	private function get_first_expiry_date() {
+		$addon_manager = new WPSEO_Addon_Manager();
+		$subscriptions = $addon_manager->get_subscriptions_for_active_addons();
+
+		$expiry_dates = array();
+
+		foreach ( $subscriptions as $subscription ) {
+			if ( empty( $subscription->product->name ) ) {
+				continue;
+			}
+
+			$product_name =  $subscription->product->name;
+
+			$expiry_dates[ $product_name ] = $subscription->expiryDate;
 		}
 
+//		var_dump( $expiry_dates ); die;
+
+		return strtotime( max( $expiry_dates ) );
+	}
+
+	public function show_banner() {
+		if ( $this->days_to_expiration < 7 && $this->days_to_expiration >= 0 ) {
+			// translators: %1$s expands to Yoast
+			$title          = sprintf( esc_html__( 'One or more %1$s plugins are about to expire!', 'wordpress-seo' ), 'Yoast' );
+			$formatted_date = date_i18n( 'F jS, Y', strtotime( $this->next_expiry_date_timestamp ) );
+			// translators: %1$s expands to Yoast, %2$s expands to a date string, %3$s expands to an opening anchor tag, %4$s expands to a closing anchor tag
+			$message        = sprintf( esc_html__( 'When plugins expire, you will no longer receive updates or support. You have until %2$s to renew with a 25%% discount. %3$sRenew now!%4$s', 'wordpress-seo' ), 'Yoast', $formatted_date, '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_licenses' ) ) . '">', '</a>' );
+
+			echo $this->notify( $title, $message );
+			return;
+		}
+		if ( $this->days_to_expiration ) {
+
+		}
+	}
+
+	public function notify( $title, $message ) {
 		$notification  = '<div class="yoast-container yoast-container__configuration-wizard">';
 		$notification .= sprintf(
 			'<img src="%1$s" height="%2$s" width="%3$d" />',
@@ -60,12 +66,14 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration, WPSEO_
 			60
 		);
 		$notification .= '<div class="yoast-container__configuration-wizard--content">';
-		// translators: %1$s expands to Yoast
-		$notification .= '<h3>' . sprintf( esc_html__( 'One or more %1$s plugins are about to expire!', 'wordpress-seo' ), 'Yoast' ) . '</h3>';
-		// translators: %1$s expands to Yoast, %2$s expands to <i>, %3$s expands to </i>
+		$notification .= '<h3>' . $title . '</h3>';
 		$notification .= '<p>' . $message . '</p>';
-
 		$notification .= '</div>';
+		$notification .= sprintf(
+			'<a href="%1$s" style="" class="button dismiss yoast-container__configuration-wizard--dismiss"><span class="screen-reader-text">%2$s</span><span class="dashicons dashicons-no-alt"></span></a>',
+			esc_url( admin_url( 'admin.php?page=wpseo_dashboard&amp;dismiss_get_started=1' ) ),
+			esc_html__( 'Dismiss this item.', 'wordpress-seo' )
+		);
 		$notification .= '</div>';
 
 		return $notification;
@@ -82,5 +90,6 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration, WPSEO_
 		}
 
 		add_action( 'admin_init', array( $this, 'init' ) );
+		add_action( 'wpseo_admin_seo_dashboard_banners', array( $this, 'show_banner' ) );
 	}
 }
