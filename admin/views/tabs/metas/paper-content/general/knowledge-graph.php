@@ -43,11 +43,18 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 	<div id="knowledge-graph-person">
 		<h3><?php esc_html_e( 'Personal info', 'wordpress-seo' ); ?></h3>
 		<?php
+		$class = '';
+		if ( WPSEO_Options::get( 'company_or_person' ) === 'person' && WPSEO_Options::get( 'company_or_person_user_id', false ) === false ) {
+			$class = 'error';
+			echo '<p class="error-message">';
+			esc_html_e( 'Error: Please select a user below to make your site\'s meta data complete.' );
+			echo '</p>';
+		}
 		$yform->label(
 			__( 'Name', 'wordpress-seo' ) . ':',
 			array(
 				'for'   => 'person_id',
-				'class' => 'select',
+				'class' => 'select ' . $class,
 			)
 		);
 		echo '<span class="yoast-styled-select">';
@@ -56,8 +63,8 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 			'hide_if_only_one_author' => false,
 			'selected'                => WPSEO_Options::get( 'company_or_person_user_id', '-1' ),
 			'name'                    => 'wpseo_titles[company_or_person_user_id]',
-			'who'                     => 'authors',
 			'id'                      => 'person_id',
+			'class'                   => $class,
 		);
 		wp_dropdown_users( $args );
 		echo '</span>';
