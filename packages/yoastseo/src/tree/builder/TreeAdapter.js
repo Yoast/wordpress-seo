@@ -51,7 +51,7 @@ class TreeAdapter {
 		/*
 		  We need to add the tag name for `parse5`
 		  to track the still open HTML elements correctly.
-		  (E.g. when it encounters a closing tag, it know which element needs to be closed).
+		  (E.g. when it encounters a closing tag, it knows which element needs to be closed).
 		 */
 		node.tagName = tag;
 		node.namespace = namespace;
@@ -149,76 +149,71 @@ class TreeAdapter {
 			return;
 		}
 
+		child.parent = parent;
+
 		/*
-		  Structured (ignored) nodes can also be contained within headings, paragraphs
-		  and formatting elements, even though it is not entirely valid HTML,
-		  so we need to transform it to a FormattingElement and add it
-		  to the appropriate heading or paragraph ancestor.
+		 * Leaf nodes (paragraphs and headings) may not have any children.
+		 * We add the child as formatting instead to the nearest leaf node ancestor.
+		 * E.g.
+		 * ```html
+		 *    <p> // ancestorLeafNode of child
+		 *       <em>
+		 *         <strong> // parent
+		 *            <a> A bold link. </a> // child
+		 *         </strong>
+		 *       </em>
+		 *    </p>
+		 *  ```
+		 *  `<a>` should be added as formatting to `<p>`.
 		 */
-		if ( TreeAdapter._isStructuredElement( child ) &&
-			( parent instanceof FormattingElement || parent instanceof LeafNode ) ) {
-			// Add structured (ignored) node as formatting to the first header or paragraph ancestor.
-			const element = new FormattingElement( child.tagName );
-			element.location = child.location;
-			TreeAdapter._appendFormattingElement( parent, element );
+		const ancestorLeafNode = TreeAdapter._findAncestorLeafNode( parent );
+		if ( ancestorLeafNode ) {
+			ancestorLeafNode.textContainer.formatting.push( child );
 			return;
 		}
 
-		// Add formatting element to its first ancestor that is either a heading or paragraph.
+		/*
+		 * Formatting elements (`strong`, `a` etc.) should always
+		 * reside within a paragraph or heading.
+		 * Make sure that it does.
+		 */
 		if ( child instanceof FormattingElement ) {
-			TreeAdapter._appendFormattingElement( parent, child );
+			const prevChild = parent.children[ parent.children.length - 1 ];
+			if ( this._isImplicitParagraph( prevChild ) ) {
+				/*
+				  We want to merge chains of implicit paragraphs together.
+				  E.g.
+				  ```html
+				     <div> // parent
+				         [p] Hello [/p] // prevChild
+				         <strong> World! </strong> // child
+				     </div>
+				  ```
+				  Should become:
+				  ```html
+				     <div> // parent
+				         [p] // prevChild
+				             Hello
+				             <strong> World! </strong> // formatting added to prevChild
+				         [/p]
+				     </div>
+				  ```
+				 */
+				prevChild.textContainer.formatting.push( child );
+				child.parent = prevChild;
+			} else {
+				/*
+				  No implicit sibling paragraph to merge with,
+				  wrap it in a new one, add it as formatting to the new paragraph.
+				 */
+				TreeAdapter._addOrphanedFormattingElement( parent, child );
+			}
 			return;
 		}
 
 		// Just add nodes to parent's children in any other case.
 		child.parent = parent;
 		parent.children.push( child );
-	}
-
-	/**
-	 * Appends the formatting element to the tree.
-	 *
-	 * @param {Node} parent                          The (current) parent of the formatting element.
-	 * @param {FormattingElement} formattingElement  The formatting element to add to the tree.
-	 *
-	 * @returns {void}
-	 *
-	 * @private
-	 */
-	static _appendFormattingElement( parent, formattingElement ) {
-		formattingElement.parent = parent;
-		if ( parent instanceof StructuredNode ) {
-			/*
-			  If the previous child is an implicit paragraph ("[p]"),
-			  we should add the formatting element to it, instead of making a new paragraph.
-
-			  E.g. in the case of `<div>[p]Hello [/p]<em>World!</em></div>`,
-			  "<em>World!</em>" should be added to "[p]Hello [p]".
-			 */
-			const prevChild = parent.children[ parent.children.length - 1 ];
-			if ( prevChild && prevChild instanceof Paragraph && ! prevChild.isExplicit() ) {
-				// Add it to the implicit paragraph.
-				prevChild.textContainer.formatting.push( formattingElement );
-				formattingElement.parent = prevChild;
-			} else {
-				// Wrap it in a new implicit paragraph, add it as formatting.
-				TreeAdapter._addOrphanedFormattingElement( parent, formattingElement );
-			}
-		} else {
-			/*
-			 Formatting elements can be nested, we want to add it to
-			 the most recent ancestor which is either a heading or paragraph.
-			 */
-			const ancestor = TreeAdapter._findAncestorLeafNode( formattingElement );
-			if ( ancestor ) {
-				// Add formatting element as formatting to the found paragraph or heading ancestor.
-				formattingElement.parent = parent;
-				ancestor.textContainer.formatting.push( formattingElement );
-			} else {
-				// Wrap formatting element in paragraph, add it to the tree.
-				TreeAdapter._addOrphanedFormattingElement( parent, formattingElement );
-			}
-		}
 	}
 
 	/**
@@ -276,60 +271,35 @@ class TreeAdapter {
 			return;
 		}
 
-		if ( node instanceof LeafNode ) {
-			// Node may only contain formatting elements.
-			node.textContainer.appendText( text );
-		} else if ( node instanceof FormattingElement ) {
-			TreeAdapter._addFormattingElementText( node, text );
-		} else {
-			TreeAdapter._addStructuredNodeText( node, text );
-		}
-	}
-
-	/**
-	 * Appends the given text to the formatting element's most recent ancestor
-	 * who is either a paragraph or a heading.
-	 *
-	 * @param {FormattingElement} formattingElement The formatting element.
-	 * @param {string} text                         The text to add.
-	 *
-	 * @returns {void}
-	 *
-	 * @private
-	 */
-	static _addFormattingElementText( formattingElement, text ) {
-		// Find a paragraph or header ancestor.
-		const ancestor = TreeAdapter._findAncestorLeafNode( formattingElement );
-		// Append text to ancestor's text container.
-		if ( ancestor ) {
-			ancestor.textContainer.appendText( text );
-		}
-	}
-
-	/**
-	 * Appends the given text to either:
-	 *  1. The node's most recent child, if it is a paragraph or a heading.
-	 *  2. A new paragraph, if not.
-	 *
-	 * @param {StructuredNode} node The node.
-	 * @param {string} text         The text to append.
-	 *
-	 * @returns {void}
-	 *
-	 * @private
-	 */
-	static _addStructuredNodeText( node, text ) {
-		// Get the previous sibling of this node.
-		const prevChild = node.children[ node.children.length - 1 ];
 		/*
-		  If the previous child is an implicit paragraph, append the text to it,
-		  instead of creating a new one in the explicit case.
-
-		  E.g. implicit case: "This is a " + "paragraph" => "This is a paragraph"
-		  Explicit case: "<p>This is not a <p>" + "paragraph" => "<p>This is not a <p>paragraph"
+		 * We add the text to this node, if it is a leaf node (paragraph or header)
+		 * or the nearest leaf node ancestor.
+		 * E.g.
+		 * ```html
+		 *	 <p> // ancestorLeafNode of node
+		 *	    A text with
+		 *		<em>
+		 *		  <strong>
+		 *			 <a> a bold link. </a> // node: <a>, text: 'a bold link'.
+		 *		  </strong>
+		 *		</em>
+		 *	 </p>
+		 *  ```
+		 *  'a bold link.' should be added as text to `<p>`, not `<a>`
+		 *  to complete the sentence and make analysis of the text easier.
 		 */
-		if ( prevChild && prevChild instanceof Paragraph && ! prevChild.isExplicit() ) {
-			// Append text to the paragraph.
+		const ancestorLeafNode = TreeAdapter._findAncestorLeafNode( node );
+		if ( ancestorLeafNode ) {
+			ancestorLeafNode.textContainer.appendText( text );
+			return;
+		}
+
+		const prevChild = node.children[ node.children.length - 1 ];
+		if ( this._isImplicitParagraph( prevChild ) ) {
+			/*
+			 * We want to merge chains of implicit paragraphs together.
+			 * Same logic as in appending formatting elements as children applies (see `appendChild`).
+			 */
 			prevChild.textContainer.appendText( text );
 		} else {
 			// Else: wrap the text in an implicit paragraph and add it as a new child.
@@ -338,6 +308,20 @@ class TreeAdapter {
 			paragraph.parent = node;
 			node.children.push( paragraph );
 		}
+	}
+
+	/**
+	 * If the given node is an implicit paragraph,
+	 * e.g. a paragraph with no explicit start or opening tags.
+	 *
+	 * @param {module:tree/structure.Node} node The node to check.
+	 *
+	 * @returns {boolean} If the given node is an implicit paragraph.
+	 *
+	 * @private
+	 */
+	_isImplicitParagraph( node ) {
+		return node && node instanceof Paragraph && ! node.isExplicit();
 	}
 
 	// Node getters and setters.
@@ -501,28 +485,19 @@ class TreeAdapter {
 	 * @private
 	 */
 	static _findAncestorLeafNode( element ) {
+		// If this element is a leaf node (paragraph or heading) return it.
+		if ( element instanceof LeafNode ) {
+			return element;
+		}
 		let parent = element.parent;
 		/*
 		  Go up the tree until we either find the element we want,
 		  or until we are at the root of the tree (an element with no parent).
 		 */
-		while ( ! ( parent instanceof LeafNode ) && parent !== null ) {
+		while ( ! ( parent instanceof LeafNode ) && parent ) {
 			parent = parent.parent;
 		}
 		return parent;
-	}
-
-	/**
-	 * Checks whether the given element is either a structured or ignored node.
-	 *
-	 * @param {Node} element The element to check.
-	 *
-	 * @returns {boolean} `true` if the element is indeed a structured element.
-	 *
-	 * @private
-	 */
-	static _isStructuredElement( element ) {
-		return element instanceof StructuredNode || element instanceof Ignored;
 	}
 }
 

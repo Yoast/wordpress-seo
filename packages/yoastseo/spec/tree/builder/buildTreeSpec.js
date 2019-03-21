@@ -344,7 +344,7 @@ describe( "build tree", () => {
 		em.textStartIndex = 8;
 		em.textEndIndex = 19;
 
-		const script = new FormattingElement( "script" );
+		const script = new Ignored( "script" );
 		script.sourceStartIndex = 47;
 		script.sourceEndIndex = 89;
 		script.textStartIndex = 19;
@@ -483,8 +483,8 @@ describe( "build tree", () => {
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
-	it( "parses a paragraph within a paragraph", () => {
-		const input = "<h2>This is a <p>paragraph within another</p> paragraph</h2>";
+	it( "parses a paragraph within a heading", () => {
+		const input = "<h2>This is a <p>paragraph within a</p> heading</h2>";
 		const tree = buildTree( input );
 		console.log( tree.toString() );
 	} );
