@@ -47,16 +47,15 @@ export {
 	colors,
 };
 
-export * from "./composites/Plugin/SnippetPreview";
-export * from "./composites/Plugin/SnippetEditor";
-export * from "./forms";
+
 export * from "./composites/Plugin/ContentAnalysis";
+export * from "@yoast/search-metadata-previews";
 export { default as utils } from "./utils";
 export { localize } from "./utils/i18n";
 export { setTranslations } from "./utils/i18n";
 export { translate } from "./utils/i18n";
 export * from "./composites/Plugin/DashboardWidget";
-export { replacementVariablesShape, recommendedReplacementVariablesShape } from "./composites/Plugin/SnippetEditor/constants";
+export { replacementVariablesShape, recommendedReplacementVariablesShape } from "@yoast/search-metadata-previews/SnippetEditor/constants";
 export { default as analysis } from "./composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 export { default as WordpressFeed } from "./composites/Plugin/DashboardWidget/components/WordpressFeed";
 export { default as SeoAssessment } from "./composites/Plugin/DashboardWidget/components/SeoAssessment";
