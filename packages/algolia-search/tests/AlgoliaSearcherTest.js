@@ -1,6 +1,6 @@
 import React from "react";
 import { createComponentWithIntl } from "@yoast/helpers";
-import AlgoliaSearcher from "../index.js";
+import AlgoliaSearcher from "../src/index";
 
 test( "the AlgoliaSearcher component with headingText matches the snapshot", () => {
 	const component = createComponentWithIntl(
