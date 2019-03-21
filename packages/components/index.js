@@ -6,7 +6,7 @@ export {
 	StyledHeading,
 };
 
-export { default as A11yNotice } from "./A11yNotice";
+export { A11yNotice } from "./A11yNotice";
 export { default as Button } from "./Button";
 export { default as ErrorBoundary } from "./ErrorBoundary";
 export { default as Explanation } from "./Explanation";
@@ -46,7 +46,6 @@ export { default as SynonymsInput } from "./src/SynonymsInput";
 export { default as Textfield } from "./composites/Textfield";
 
 export { getRtlStyle } from "./utils/helpers/styled-components";
-export { makeOutboundLink } from "./utils/makeOutboundLink";
 export { createComponentWithIntl } from "./utils/intlProvider";
 
 export { default as ScreenReaderText } from "./a11y/ScreenReaderText";

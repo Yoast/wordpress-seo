@@ -5,7 +5,8 @@ import noop from "lodash/noop";
 
 // Internal dependencies.
 import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
-import { HelpText, makeOutboundLink, SynonymsInput } from "@yoast/components";
+import { HelpText, SynonymsInput } from "@yoast/components";
+import { makeOutboundLink } from "@yoast/helpers";
 
 const HelpTextLink = makeOutboundLink();
 

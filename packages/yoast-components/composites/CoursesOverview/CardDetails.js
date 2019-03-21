@@ -2,7 +2,8 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "@yoast/components/style-guide";
-import { getRtlStyle, makeOutboundLink } from "@yoast/components";
+import { getRtlStyle } from "@yoast/components";
+import { makeOutboundLink } from "@yoast/helpers";
 
 const CardRegularButton = styled.a`
 	color: ${ colors.$color_black };

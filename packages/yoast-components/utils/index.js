@@ -1,4 +1,4 @@
-import { makeOutboundLink } from "@yoast/components";
+import { makeOutboundLink } from "@yoast/helpers";
 import getFeed from "./getFeed";
 import getPostFeed from "./getPostFeed";
 import getCourseFeed from "./getCourseFeed";

@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import { YouTubeVideo, makeOutboundLink } from "@yoast/components";
+import { YouTubeVideo } from "@yoast/components";
+import { makeOutboundLink } from "@yoast/helpers";
 import { colors, breakpoints } from "@yoast/components/style-guide";
 
 // Used to align the video and the description next to each other.
