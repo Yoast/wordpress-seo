@@ -502,6 +502,26 @@ describe( "AnalysisWebWorker", () => {
 				scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
 			} );
 
+			it( "does not assess the tree when it could not be built", done => {
+				const paper = new Paper( "<h1>This </ fails." );
+
+				worker.analyzeDone = ( id, result ) => {
+					expect( id ).toBe( 0 );
+					expect( isObject( result ) ).toBe( true );
+					expect( isObject( result.readability ) ).toBe( true );
+					expect( isArray( result.readability.results ) ).toBe( true );
+					expect( isNumber( result.readability.score ) ).toBe( true );
+					expect( isObject( result.seo ) ).toBe( true );
+					expect( isObject( result.seo[ "" ] ) ).toBe( true );
+					expect( isArray( result.seo[ "" ].results ) ).toBe( true );
+					expect( isNumber( result.seo[ "" ].score ) ).toBe( true );
+					done();
+				};
+
+				scope.onmessage( createMessage( "initialize" ) );
+				scope.onmessage( createMessage( "analyze", { paper: paper.serialize() } ) );
+			} );
+
 			test( "skips over researcher set paper and locale when there are no paper changes", done => {
 				const paper = new Paper( "This is the content." );
 				// Using setLocale because setPaper is also used in the researcher. This makes is simpler.
@@ -565,6 +585,7 @@ describe( "AnalysisWebWorker", () => {
 					paper: paper.serialize(),
 					relatedKeywords: {
 						a: { keyword: "technology" },
+						b: { keyword: "tech" },
 					},
 				} ) );
 			} );
