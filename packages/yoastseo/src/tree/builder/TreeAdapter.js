@@ -172,6 +172,11 @@ class TreeAdapter {
 			return;
 		}
 
+		if ( parent instanceof LeafNode ) {
+			parent.textContainer.formatting.push( child );
+			return;
+		}
+
 		/*
 		 * Formatting elements (`strong`, `a` etc.) should always
 		 * reside within a paragraph or heading.
@@ -291,6 +296,11 @@ class TreeAdapter {
 		const ancestorLeafNode = TreeAdapter._findAncestorLeafNode( node );
 		if ( ancestorLeafNode ) {
 			ancestorLeafNode.textContainer.appendText( text );
+			return;
+		}
+
+		if ( node instanceof LeafNode ) {
+			node.textContainer.appendText( text );
 			return;
 		}
 
@@ -485,10 +495,6 @@ class TreeAdapter {
 	 * @private
 	 */
 	static _findAncestorLeafNode( element ) {
-		// If this element is a leaf node (paragraph or heading) return it.
-		if ( element instanceof LeafNode ) {
-			return element;
-		}
 		let parent = element.parent;
 		/*
 		  Go up the tree until we either find the element we want,
