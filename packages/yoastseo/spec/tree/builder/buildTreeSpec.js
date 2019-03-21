@@ -486,7 +486,6 @@ describe( "build tree", () => {
 	it( "parses a paragraph within a heading", () => {
 		const input = "<h2>This is a <p>paragraph within a</p> heading</h2>";
 		const tree = buildTree( input );
-		console.log( tree.toString() );
 	} );
 
 	it( "can parse a big HTML text", () => {
