@@ -72,7 +72,7 @@ class WPSEO_Config_Component_Mailchimp_Signup implements WPSEO_Config_Component 
 	}
 
 	/**
-	 * Checks if the user has entered his email for mailchimp already.
+	 * Checks if the user has entered his or her email for mailchimp already.
 	 *
 	 * @return bool
 	 */
