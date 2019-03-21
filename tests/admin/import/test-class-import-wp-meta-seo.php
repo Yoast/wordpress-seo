@@ -9,6 +9,7 @@
  * Test importing meta data from WP Meta SEO.
  */
 class WPSEO_Import_WP_Meta_SEO_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Holds the class instance.
 	 *
