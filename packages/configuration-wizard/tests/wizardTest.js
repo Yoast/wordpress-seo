@@ -5,9 +5,9 @@ import EnzymeAdapter from "enzyme-adapter-react-16";
 import cloneDeep from "lodash/cloneDeep";
 
 /* Internal dependencies */
-import Config from "../config/production-config";
-import Wizard from "../OnboardingWizard";
-import ApiConfig from "../config/api-config";
+import Config from "../tools/config/production-config";
+import Wizard from "../src/ConfigurationWizard";
+import ApiConfig from "../tools/config/api-config";
 
 Enzyme.configure( { adapter: new EnzymeAdapter() } );
 

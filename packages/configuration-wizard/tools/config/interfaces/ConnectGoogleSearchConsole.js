@@ -21,12 +21,10 @@ const ConnectGoogleSearchConsole = ( props ) => {
 };
 
 ConnectGoogleSearchConsole.propTypes = {
-	component: PropTypes.string,
 	data: PropTypes.string,
 };
 
 ConnectGoogleSearchConsole.defaultProps = {
-	component: "",
 	data: "",
 };
 

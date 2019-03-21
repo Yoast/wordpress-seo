@@ -20,14 +20,10 @@ const PublishingEntity = ( props ) => {
 };
 
 PublishingEntity.propTypes = {
-	component: PropTypes.string,
-	defaults: PropTypes.object,
 	data: PropTypes.string,
 };
 
 PublishingEntity.defaultProps = {
-	component: "",
-	defaults: {},
 	data: "",
 };
 

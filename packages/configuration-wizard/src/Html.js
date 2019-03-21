@@ -20,10 +20,4 @@ HTML.propTypes = {
 	properties: PropTypes.object.isRequired,
 };
 
-HTML.defaultProps = {
-	properties: {
-		html: "",
-	},
-};
-
 export default HTML;

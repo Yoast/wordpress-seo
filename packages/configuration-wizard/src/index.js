@@ -4,10 +4,10 @@ import { decodeHTML, sendRequest } from "@yoast/helpers";
 
 /* Internal imports */
 import { default as MessageBox } from "./MessageBox";
-import { default as OnboardingWizard } from "./OnboardingWizard";
+import { default as ConfigurationWizard } from "./ConfigurationWizard";
 import { default as LoadingIndicator } from "./LoadingIndicator";
-import Config from "./config/production-config";
-import apiConfig from "./config/api-config";
+import Config from "../tools/config/production-config";
+import apiConfig from "../tools/config/api-config";
 
 export {
 	MessageBox,
@@ -19,4 +19,4 @@ export {
 	apiConfig,
 };
 
-export default OnboardingWizard;
+export default ConfigurationWizard;

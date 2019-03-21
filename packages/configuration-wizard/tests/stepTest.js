@@ -3,7 +3,7 @@ import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
 
 /* Internal dependencies */
-import Step from "../Step";
+import Step from "../src/Step";
 
 describe( "a step component", () => {
 	let inputProps = {

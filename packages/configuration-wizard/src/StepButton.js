@@ -41,4 +41,12 @@ StepButton.propTypes = {
 	index: PropTypes.string,
 };
 
+StepButton.defaultProps = {
+	className: "",
+	tooltip: "",
+	tooltipStyles: null,
+	ariaLabel: "",
+	index: "",
+};
+
 export default StepButton;

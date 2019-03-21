@@ -2,8 +2,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+/* Yoast dependencies */
+import { Input } from "@yoast/components";
+
 /* Internal dependencies */
-import Components from "./components/StepComponents";
+import HTML from "./Html";
+import Choice from "./Choice";
+
 
 /**
  * Renders a step in the wizard process
@@ -21,8 +26,14 @@ class Step extends React.Component {
 	constructor( props ) {
 		super( props );
 
+		const components = {
+			Choice,
+			Input,
+			HTML,
+		};
+
 		// Make the components available.
-		this.components = Object.assign( Components, props.customComponents );
+		this.components = Object.assign( components, props.customComponents );
 
 		this.state = {
 			fieldValues: {},
@@ -293,6 +304,7 @@ Step.defaultProps = {
 	currentStep: "",
 	classPrefix: "yoast-wizard",
 	fullWidth: false,
+	customComponents: null,
 };
 
 export default Step;

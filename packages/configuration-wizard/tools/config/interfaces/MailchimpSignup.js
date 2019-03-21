@@ -20,18 +20,14 @@ const MailchimpSignup = ( props ) => {
 };
 
 MailchimpSignup.propTypes = {
-	component: PropTypes.string,
 	name: PropTypes.string.isRequired,
 	properties: PropTypes.object,
-	data: PropTypes.string,
 	onChange: PropTypes.func,
 };
 
 MailchimpSignup.defaultProps = {
-	component: "",
-	name: "",
 	properties: {},
-	data: "",
+	onChange: () => null,
 };
 
 export default MailchimpSignup;

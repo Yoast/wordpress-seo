@@ -3,7 +3,7 @@ import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
 
 /* Internal dependencies */
-import ProgressIndicator from "../ProgressIndicator";
+import ProgressIndicator from "../src/ProgressIndicator";
 
 describe( "a processIndicator component", () => {
 	const renderer = new ReactShallowRenderer();

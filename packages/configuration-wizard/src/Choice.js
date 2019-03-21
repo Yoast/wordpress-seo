@@ -91,7 +91,6 @@ const Choice = ( props ) => {
 };
 
 Choice.propTypes = {
-	component: PropTypes.string,
 	type: PropTypes.string,
 	value: PropTypes.string,
 	properties: PropTypes.shape( {
@@ -101,15 +100,12 @@ Choice.propTypes = {
 		description: PropTypes.string,
 		type: PropTypes.string,
 	} ),
-	"default": PropTypes.string,
 	name: PropTypes.string.isRequired,
 	onChange: PropTypes.func,
-	className: PropTypes.string,
 	optionClassName: PropTypes.string,
 };
 
 Choice.defaultProps = {
-	component: "",
 	type: "radio",
 	value: "",
 	properties: {
@@ -117,7 +113,8 @@ Choice.defaultProps = {
 		choices: {},
 		description: "",
 	},
-	"default": "",
+	onChange: () => null,
+	optionClassName: "",
 };
 
 export default Choice;

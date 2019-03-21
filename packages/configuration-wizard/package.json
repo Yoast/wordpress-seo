@@ -2,13 +2,14 @@
   "name": "@yoast/configuration-wizard",
   "version": "1.0.0",
   "description": "Package for our configuration wizard",
-  "main": "index.js",
+  "main": "src/index.js",
   "repository": "https://github.com/Yoast/javascript",
   "author": "Yoast",
   "license": "GPL",
   "private": false,
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint ."
   },
   "dependencies": {
     "yoast-components": "^4.22.1",
@@ -31,7 +32,12 @@
     "enzyme": "3.9.0",
     "enzyme-adapter-react-16": "1.10.0",
     "enzyme-to-json": "3.3.5",
-    "react-test-renderer": "^16.8.4"
+    "react-test-renderer": "^16.8.4",
+    "eslint": "^4.16.0",
+    "eslint-config-yoast": "^4.0.0",
+    "eslint-plugin-jsx-a11y": "^3.0.2",
+    "eslint-plugin-react": "^7.11.1",
+    "eslint-plugin-yoast": "^1.0.1"
   },
   "peerDependencies": {
     "material-ui": "^0.18.6",

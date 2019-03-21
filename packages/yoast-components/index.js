@@ -1,7 +1,7 @@
 /*
  * Composites imports.
  */
-// Composites/OnboardingWizard imports.
+// Composites/ConfigurationWizard imports.
 import { default as OnboardingWizard, MessageBox, LoadingIndicator } from "@yoast/configuration-wizard";
 import { sendRequest, decodeHTML } from "@yoast/helpers";
 

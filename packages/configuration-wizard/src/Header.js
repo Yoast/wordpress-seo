@@ -29,4 +29,9 @@ Header.propTypes = {
 	headerTitle: PropTypes.string,
 };
 
+Header.defaultProps = {
+	icon: "",
+	headerTitle: "",
+};
+
 export default Header;
