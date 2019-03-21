@@ -58,7 +58,7 @@ class Textfield extends React.Component {
 						value={ this.props.value }
 					/>
 					{ this.props.explanation && (
-						<p className="yoast-wizard-input__explanation">
+						<p>
 							{ this.props.explanation }
 						</p>
 					) }
@@ -79,7 +79,7 @@ class Textfield extends React.Component {
 					optionalAttributes={ this.optionalAttributes.field }
 				/>
 				{ this.props.explanation && (
-					<p className="yoast-wizard-input__explanation">
+					<p>
 						{ this.props.explanation }
 					</p>
 				) }
