@@ -361,7 +361,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$instance
-			->expects( $this->any() )
+			->expects( $this->once() )
 			->method( 'get_subscriptions' )
 			->will( $this->returnValue( $this->get_subscriptions() ) );
 
@@ -383,7 +383,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$instance
-			->expects( $this->any() )
+			->expects( $this->once() )
 			->method( 'get_subscriptions' )
 			->will( $this->returnValue( $this->get_subscriptions() ) );
 
@@ -405,7 +405,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$instance
-			->expects( $this->any() )
+			->expects( $this->once() )
 			->method( 'get_subscriptions' )
 			->will( $this->returnValue( $this->get_subscriptions() ) );
 

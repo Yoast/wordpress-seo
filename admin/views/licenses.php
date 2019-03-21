@@ -161,33 +161,37 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 						/* translators: %s expands to the extension title */
 						printf( esc_html( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ), $premium_extension->get_title() );
 						echo $new_tab_message;
-						?></a>
+						?>
+					</a>
 				<?php else : ?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-not-activated"><?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?></div>
 					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>"
-					   class="yoast-link--license"><?php
-						/* translators: %s expands to the extension title */
-						printf( esc_html( 'Activate %s for your site on MyYoast', 'wordpress-seo' ), $premium_extension->get_title() );
-						echo $new_tab_message;
-						?></a>
+					   class="yoast-link--license">
+						<?php
+							/* translators: %s expands to the extension title */
+							printf( esc_html( 'Activate %s for your site on MyYoast', 'wordpress-seo' ), $premium_extension->get_title() );
+							echo $new_tab_message;
+						?>
+					</a>
 				<?php endif; ?>
-				</a>
 
 			<?php else : ?>
 
 				<a target="_blank" href="<?php echo esc_url( $premium_extension->get_buy_url() ); ?>"
-				   class="yoast-button-upsell"><?php
-					/* translators: $1$s expands to Yoast SEO Premium */
-					printf( __( 'Buy %1$s', 'wordpress-seo' ), $premium_extension->get_title() );
-					echo $new_tab_message;
-					echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
-					?></a>
+				   class="yoast-button-upsell">
+					<?php
+						/* translators: $1$s expands to Yoast SEO Premium */
+						printf( __( 'Buy %1$s', 'wordpress-seo' ), $premium_extension->get_title() );
+						echo $new_tab_message;
+						echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
+					?>
+				</a>
 
 				<a target="_blank" href="<?php echo esc_url( $premium_extension->get_info_url() ); ?>"
 				   class="yoast-link--more-info">
 					<?php
 					printf(
-					/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
+						/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
 						__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 						'<span class="screen-reader-text">',
 						'</span>',
@@ -234,28 +238,34 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 							<?php if ( $addon_manager->has_valid_subscription( $slug ) ) : ?>
 								<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php esc_html_e( 'Activated', 'wordpress-seo' ); ?></div>
 								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>"
-								   class="yoast-link--license"><?php
-									/* translators: %s expands to the extension title */
-									printf( esc_html( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ), $extension->get_title() );
-									echo $new_tab_message;
-									?></a>
+								   class="yoast-link--license">
+									<?php
+										/* translators: %s expands to the extension title */
+										printf( esc_html( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ), $extension->get_title() );
+										echo $new_tab_message;
+									?>
+								</a>
 							<?php else : ?>
 								<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-not-activated"><?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?></div>
 								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>"
-								   class="yoast-link--license"><?php
-									/* translators: %s expands to the extension title */
-									printf( esc_html( 'Activate %s for your site on MyYoast', 'wordpress-seo' ), $extension->get_title() );
-									echo $new_tab_message;
-									?></a>
+								   class="yoast-link--license">
+									<?php
+										/* translators: %s expands to the extension title */
+										printf( esc_html( 'Activate %s for your site on MyYoast', 'wordpress-seo' ), $extension->get_title() );
+										echo $new_tab_message;
+									?>
+								</a>
 							<?php endif; ?>
 						<?php else : ?>
 							<a target="_blank" class="yoast-button-upsell"
-							   href="<?php echo esc_url( $extension->get_buy_url() ); ?>"><?php
-								/* translators: %s expands to the product name */
-								printf( __( 'Buy %s', 'wordpress-seo' ), $extension->get_buy_button() );
-								echo $new_tab_message;
-								echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
-								?></a>
+							   href="<?php echo esc_url( $extension->get_buy_url() ); ?>">
+								<?php
+									/* translators: %s expands to the product name */
+									printf( __( 'Buy %s', 'wordpress-seo' ), $extension->get_buy_button() );
+									echo $new_tab_message;
+									echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
+								?>
+							</a>
 
 							<a target="_blank" class="yoast-link--more-info"
 							   href="<?php echo esc_url( $extension->get_info_url() ); ?>">
