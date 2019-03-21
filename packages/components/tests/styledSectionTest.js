@@ -2,7 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import forEach from "lodash/forEach";
 
-import StyledSection from "../StyledSection";
+import StyledSection from "../composites/StyledSection";
 
 const icons = [
 	"edit", "search", "angle-left", "angle-right", "angle-up", "angle-down",
