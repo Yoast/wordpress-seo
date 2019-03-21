@@ -105,6 +105,7 @@ describe( "determineRegularStem", function() {
 		expect( determineRegularStem( "paper", morphologyDataEN ) ).toEqual( "paper" );
 		expect( determineRegularStem( "partner", morphologyDataEN ) ).toEqual( "partner" );
 		expect( determineRegularStem( "interest", morphologyDataEN ) ).toEqual( "interest" );
+		expect( determineRegularStem( "zest", morphologyDataEN ) ).toEqual( "zest" );
 		expect( determineRegularStem( "belly", morphologyDataEN ) ).toEqual( "belly" );
 
 		expect( determineRegularStem( "analysis", morphologyDataEN ) ).toEqual( "analysis" );
