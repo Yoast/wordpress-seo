@@ -110,7 +110,7 @@ KeywordSuggestions.propTypes = {
 };
 
 KeywordSuggestions.defaultProps = {
-	keywordLimit: 20,
+	keywordLimit: 5,
 };
 
 export default localize( KeywordSuggestions );
