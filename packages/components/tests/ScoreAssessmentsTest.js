@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import ScoreAssessments from "../ScoreAssessments";
+import ScoreAssessments from "../src/ScoreAssessments";
 
 test( "the ScoreAssessments matches the snapshot", () => {
 	const items = [

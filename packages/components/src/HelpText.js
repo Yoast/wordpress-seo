@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 /* Internal dependencies */
-import { colors } from "./style-guide";
+import { colors } from "../style-guide";
 
 const YoastHelpText = styled.p`
 	color: ${ props => props.textColor };

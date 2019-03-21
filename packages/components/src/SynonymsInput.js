@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import styled from "styled-components";
 
-import { YoastInputContainer, YoastInputField, YoastInputLabel } from "../YoastInput";
+import { YoastInputContainer, YoastInputField, YoastInputLabel } from "./YoastInput";
 import { getRtlStyle } from "../utils/helpers/styled-components";
 
 const SynonymsFieldLabelContainer = styled.span`

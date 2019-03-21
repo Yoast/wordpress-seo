@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import YoastWarning from "../YoastWarning";
+import YoastWarning from "../src/YoastWarning";
 import { ThemeProvider } from "styled-components";
 
 test( "YoastWarning matches the snapshot", () => {

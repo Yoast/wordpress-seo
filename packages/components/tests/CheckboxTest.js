@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import Checkbox from "../Checkbox";
+import Checkbox from "../src/Checkbox";
 
 describe( Checkbox, () => {
 	it( "matches the snapshot", () => {

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { colors, rgba } from "./style-guide";
+import { colors, rgba } from "../style-guide";
 
 const settings = {
 	minHeight: 48,

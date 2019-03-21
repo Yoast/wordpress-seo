@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { YoastButton } from "../YoastButton";
+import { YoastButton } from "../src/YoastButton";
 
 test( "the YoastButton matches the snapshot", () => {
 	const component = renderer.create(

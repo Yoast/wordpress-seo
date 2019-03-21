@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import StackedProgressBar from "../StackedProgressBar";
+import StackedProgressBar from "../src/StackedProgressBar";
 
 test( "the StackedProgressBar matches the snapshot", () => {
 	const items = [

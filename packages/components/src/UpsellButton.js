@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { colors } from "./style-guide";
+import { colors } from "../style-guide";
 import { YoastButtonBase } from "./YoastButton";
-import SvgIcon from "./SvgIcon";
+import SvgIcon from "../SvgIcon";
 
 const settings = {
 	minHeight: 48,

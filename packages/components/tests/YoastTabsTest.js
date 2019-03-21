@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import YoastTabs from "../YoastTabs";
+import YoastTabs from "../src/YoastTabs";
 
 const items = [
 	{

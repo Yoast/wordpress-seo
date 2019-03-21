@@ -6,7 +6,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import interpolateComponents from "interpolate-components";
 
 /* Internal dependencies */
-import { makeOutboundLink } from "./utils/makeOutboundLink";
+import { makeOutboundLink } from "../utils/makeOutboundLink";
 
 const YoastLanguageNotice = styled.p`
 	margin: 1em 0;

@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-import { colors } from "./style-guide";
-import SvgIcon from "./SvgIcon";
-import {getRtlStyle} from "./utils/helpers/styled-components";
+import { colors } from "../style-guide";
+import SvgIcon from "../SvgIcon";
+import {getRtlStyle} from "../utils/helpers/styled-components";
 
 const WarningBox = styled.div`
 	display: flex;
