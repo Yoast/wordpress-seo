@@ -2,8 +2,7 @@
 import styled from "styled-components";
 
 // Internal dependencies.
-import colors from "../../../../style-guide/colors.json";
-import { rgba } from "../../../../style-guide/helpers";
+import { colors, rgba } from "@yoast/components/style-guide";
 
 export const YoastInputContainer = styled.div`
 	display: flex;

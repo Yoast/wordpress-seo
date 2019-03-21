@@ -14,7 +14,7 @@ import {
 	SQUARE_HEIGHT,
 	SQUARE_WIDTH,
 } from "../helpers/determineFacebookImageProperties";
-import colors from "../../../../../style-guide/colors.json";
+import { colors } from "@yoast/components/style-guide";
 
 const MIN_IMAGE_WIDTH = 158;
 const MIN_IMAGE_HEIGHT = 158;

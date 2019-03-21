@@ -7,7 +7,7 @@ import noop from "lodash/noop";
 
 /* Internal dependencies */
 import AnalysisResult from "./AnalysisResult";
-import colors from "../../../../style-guide/colors";
+import { colors } from "@yoast/components/style-guide";
 
 /**
  * Renders a styled list of analyses.
