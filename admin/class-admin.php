@@ -223,13 +223,9 @@ class WPSEO_Admin {
 			array_unshift( $links, $settings_link );
 		}
 
-		if ( class_exists( 'WPSEO_Product_Premium' ) ) {
-			$product_premium   = new WPSEO_Product_Premium();
-			$extension_manager = new WPSEO_Extension_Manager();
-
-			if ( $extension_manager->is_activated( $product_premium->get_slug() ) ) {
-				return $links;
-			}
+		$addon_manager = new WPSEO_Addon_Manager();
+		if ( $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
+			return $links;
 		}
 
 		// Add link to premium support landing page.
