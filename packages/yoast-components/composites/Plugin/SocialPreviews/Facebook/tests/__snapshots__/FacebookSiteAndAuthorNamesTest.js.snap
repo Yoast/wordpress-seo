@@ -1,7 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FacebookSiteAndAuthorNames matches the snapshot by default 1`] = `
-.c1 {
+Array [
+  <span
+    className="screen-reader-text"
+  >
+    sitename.com by John Doe
+  </span>,
+  .c1 {
   color: #606770;
   font-size: 12px;
   line-height: 11px;
@@ -31,24 +37,26 @@ exports[`FacebookSiteAndAuthorNames matches the snapshot by default 1`] = `
 }
 
 <p
-  className="c0"
->
-  <span
-    className="c1"
+    aria-hidden="true"
+    className="c0"
   >
-    sitename.com
-  </span>
-  <span
-    className="c2"
-  >
-    |
-  </span>
-  By
-   
-  <span
-    className="c3"
-  >
-    John Doe
-  </span>
-</p>
+    <span
+      className="c1"
+    >
+      sitename.com
+    </span>
+    <span
+      className="c2"
+    >
+      |
+    </span>
+    By
+     
+    <span
+      className="c3"
+    >
+      John Doe
+    </span>
+  </p>,
+]
 `;

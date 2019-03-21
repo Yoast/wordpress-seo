@@ -11,6 +11,11 @@ Array [
 <div
     className="c0"
   />,
+  <span
+    className="screen-reader-text"
+  >
+    yoast.com
+  </span>,
   .c1 {
   color: #606770;
   font-size: 12px;
@@ -30,6 +35,7 @@ Array [
 }
 
 <p
+    aria-hidden="true"
     className="c0"
   >
     <span
@@ -93,6 +99,11 @@ Array [
 <div
     className="c0"
   />,
+  <span
+    className="screen-reader-text"
+  >
+    yoast.com
+  </span>,
   .c1 {
   color: #606770;
   font-size: 12px;
@@ -112,6 +123,7 @@ Array [
 }
 
 <p
+    aria-hidden="true"
     className="c0"
   >
     <span
@@ -175,6 +187,11 @@ Array [
 <div
     className="c0"
   />,
+  <span
+    className="screen-reader-text"
+  >
+    yoast.com
+  </span>,
   .c1 {
   color: #606770;
   font-size: 12px;
@@ -194,6 +211,7 @@ Array [
 }
 
 <p
+    aria-hidden="true"
     className="c0"
   >
     <span
@@ -257,6 +275,11 @@ Array [
 <div
     className="c0"
   />,
+  <span
+    className="screen-reader-text"
+  >
+    yoast.com
+  </span>,
   .c1 {
   color: #606770;
   font-size: 12px;
@@ -276,6 +299,7 @@ Array [
 }
 
 <p
+    aria-hidden="true"
     className="c0"
   >
     <span
@@ -339,6 +363,11 @@ Array [
 <div
     className="c0"
   />,
+  <span
+    className="screen-reader-text"
+  >
+    yoast.com
+  </span>,
   .c1 {
   color: #606770;
   font-size: 12px;
@@ -358,6 +387,7 @@ Array [
 }
 
 <p
+    aria-hidden="true"
     className="c0"
   >
     <span
