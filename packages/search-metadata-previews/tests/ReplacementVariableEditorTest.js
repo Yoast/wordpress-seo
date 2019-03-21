@@ -1,6 +1,6 @@
 import { shallow } from "enzyme";
 import ReplacementVariableEditorStandalone, { ReplacementVariableEditorStandaloneInnerComponent }
-	from "../components/ReplacementVariableEditorStandalone";
+	from "../src/SnippetEditor/components/ReplacementVariableEditorStandalone";
 import React from "react";
 
 jest.mock( "draft-js/lib/generateRandomKey", () => () => {
