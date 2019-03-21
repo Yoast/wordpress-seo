@@ -495,10 +495,16 @@ class WPSEO_Sitemaps {
 			$post_type_names = get_post_types( array( 'public' => true ) );
 
 			if ( ! empty( $post_type_names ) ) {
+				/**
+				 * Filter post status list for sitemap query for the post type.
+				 *
+				 * @param Array $post_status_names      Post status list, defaults to array( 'publish', 'inherit' ).
+				 */
+				$post_status_names = apply_filters( 'wpseo_sitemap_poststatus_lastmodified' , array( 'publish', 'inherit' ) );
 				$sql = "
 				SELECT post_type, MAX(post_modified_gmt) AS date
 				FROM $wpdb->posts
-				WHERE post_status IN ('publish','inherit')
+				WHERE post_status IN ('" . implode( "','", array_map( 'esc_sql', $post_status_names ) ) . "')
 					AND post_type IN ('" . implode( "','", $post_type_names ) . "')
 				GROUP BY post_type
 				ORDER BY post_modified_gmt DESC

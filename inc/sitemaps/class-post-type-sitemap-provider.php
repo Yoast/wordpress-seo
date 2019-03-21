@@ -584,7 +584,14 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		global $wpdb;
 
 		$join   = '';
-		$status = "{$wpdb->posts}.post_status = 'publish'";
+		/**
+		 * Filter post status list for sitemap query for the post type.
+		 *
+		 * @param Array $post_status_names      Post status list, defaults to array( 'publish' ).
+		 * @param string $post_type Post type name.
+		 */
+		$post_status_names = apply_filters( 'wpseo_sitemap_poststatus' , array( 'publish' ), $post_type );
+		$status = "{$wpdb->posts}.post_status IN ('" . implode( "','", array_map( 'esc_sql', $post_status_names ) ) . "')";
 
 		// Based on WP_Query->get_posts(). R.
 		if ( 'attachment' === $post_type ) {
