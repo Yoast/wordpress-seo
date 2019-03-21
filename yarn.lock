@@ -15114,7 +15114,7 @@ react-tap-event-plugin@^3.0.3:
   dependencies:
     fbjs "^0.8.6"
 
-react-test-renderer@16.8.4, react-test-renderer@^16.0.0-0, react-test-renderer@^16.2.0:
+react-test-renderer@16.8.4, react-test-renderer@^16.0.0-0, react-test-renderer@^16.2.0, react-test-renderer@^16.8.4:
   version "16.8.4"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.8.4.tgz#abee4c2c3bf967a8892a7b37f77370c5570d5329"
   integrity sha512-jQ9Tf/ilIGSr55Cz23AZ/7H3ABEdo9oy2zF9nDHZyhLHDSLKuoILxw2ifpBfuuwQvj4LCoqdru9iZf7gwFH28A==
