@@ -305,9 +305,9 @@ class WPSEO_Addon_Manager {
 			'new_version'   => $subscription->product->version,
 			'name'          => $subscription->product->name,
 			'slug'          => $subscription->product->slug,
-			'url'           => $subscription->product->storeUrl,
-			'last_update'   => $subscription->product->lastUpdated,
-			'homepage'      => $subscription->product->storeUrl,
+			'url'           => $subscription->product->store_url,
+			'last_update'   => $subscription->product->last_updated,
+			'homepage'      => $subscription->product->store_url,
 			'download_link' => $subscription->product->download,
 			'package'       => $subscription->product->download,
 			'sections'      =>
