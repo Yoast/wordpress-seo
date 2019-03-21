@@ -90,7 +90,7 @@
 		],
 		"after-premium-cs": [
 			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction",
-			"if [[ -z $TRAVIS ]] then; git checkout composer.lock; fi;",
+			"@php ./scripts/maybe_restore_composer_lock.php",
 			"composer config-yoastcs"
 		],
 		"prefix-dependencies": [
