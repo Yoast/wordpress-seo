@@ -24,3 +24,6 @@ export { default as Textfield } from "./Textfield";
 export { default as YoastLogo } from "./YoastLogo";
 export { default as YoastSeoIcon } from "./YoastSeoIcon";
 export { default as YouTubeVideo } from "./YouTubeVideo";
+
+export { ListTable, ZebrafiedListTable } from "./table/ListTable";
+export { Row } from "./table/Row";
