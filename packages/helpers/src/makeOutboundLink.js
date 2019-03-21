@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
-import { A11yNotice } from "../components/A11yNotice";
+import { A11yNotice } from "@yoast/components";
 
 /**
  * Makes an anchor component into an outbound link that opens in a new tab.
