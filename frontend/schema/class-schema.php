@@ -44,7 +44,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			if ( ! $piece->is_needed() ) {
 				continue;
 			}
-			$graph_piece = $piece->add_to_graph();
+			$graph_piece = $piece->generate();
 			if ( is_array( $graph_piece ) ) {
 				$graph[] = $graph_piece;
 			}
@@ -68,12 +68,14 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 * @return false|string The prepared string.
 	 */
 	public function format_data( $data ) {
+		$flags = 0;
 		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
-			// @codingStandardsIgnoreLine
-			return wp_json_encode( $data, JSON_UNESCAPED_SLASHES ); // phpcs:ignore PHPCompatibility.Constants.NewConstants.json_unescaped_slashesFound -- Version check present.
+			$flags = $flags | JSON_UNESCAPED_SLASHES;
 		}
-
-		return wp_json_encode( $data );
+		if ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG ) {
+			$flags = $flags | JSON_PRETTY_PRINT;
+		}
+		return wp_json_encode( $data, $flags );
 	}
 
 	/**

@@ -54,7 +54,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 *
 	 * @return bool|array Person data blob on success, false on failure.
 	 */
-	public function add_to_graph() {
+	public function generate() {
 		$user_id = $this->determine_user_id();
 		if ( ! $user_id ) {
 			return false;
@@ -132,7 +132,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		$user_data = get_userdata( $user_id );
 		$data      = array(
 			'@type' => 'Person',
-			'@id'   => $this->determine_at_id( $user_id ),
+			'@id'   => $this->determine_schema_id( $user_id ),
 			'name'  => $user_data->display_name,
 		);
 
@@ -186,7 +186,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 *
 	 * @return string The `@id` string value.
 	 */
-	private function determine_at_id( $user_id ) {
+	private function determine_schema_id( $user_id ) {
 		switch ( true ) {
 			case ( WPSEO_Options::get( 'company_or_person', '' ) === 'company' ):
 				$url = get_author_posts_url( $user_id );
