@@ -1,7 +1,7 @@
 import React from "react";
 
-import { createComponentWithIntl } from "../utils/intlProvider";
-import Notification from "../Notification.js";
+import { createComponentWithIntl } from "@yoast/helpers";
+import Notification from "../src/Notification.js";
 
 test( "the Notification without props matches the snapshot", () => {
 	const component = createComponentWithIntl(

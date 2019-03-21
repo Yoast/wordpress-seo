@@ -1,9 +1,6 @@
-jest.unmock( "../Label" );
-jest.unmock( "prop-types" );
-
 import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
-import Label from "../Label";
+import Label from "../src/Label";
 
 describe( "A Label component", () => {
 	const renderer = new ReactShallowRenderer();

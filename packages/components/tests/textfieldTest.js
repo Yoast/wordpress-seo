@@ -1,9 +1,6 @@
-jest.unmock( "../../composites/Textfield" );
-jest.unmock( "prop-types" );
-
 import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
-import Textfield from "../Textfield";
+import Textfield from "../src/Textfield";
 
 describe( "A Textfield component", () => {
 	const renderer = new ReactShallowRenderer();

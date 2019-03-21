@@ -16,7 +16,7 @@ import ScreenReaderText from "yoast-components/a11y/ScreenReaderText";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
 import { angleLeft, angleRight } from "../../SnippetEditor/components/Shared";
 import { colors } from "@yoast/components/style-guide";
-import { getRtlStyle } from "@yoast/components";
+import { getDirectionalStyle } from "@yoast/helpers";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
@@ -68,10 +68,10 @@ function addCaretStyle( WithoutCaret, color, mode ) {
 			display: block;
 			position: absolute;
 			top: -3px;
-			${ getRtlStyle( "left", "right" ) }: ${ () => mode === MODE_DESKTOP ? "-22px" : "-40px" };
+			${ getDirectionalStyle( "left", "right" ) }: ${ () => mode === MODE_DESKTOP ? "-22px" : "-40px" };
 			width: 24px;
 			height: 24px;
-			background-image: url( ${ getRtlStyle( angleRight( color ), angleLeft( color ) ) } );
+			background-image: url( ${ getDirectionalStyle( angleRight( color ), angleLeft( color ) ) } );
 			background-size: 25px;
 			content: "";
 		}

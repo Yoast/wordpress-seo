@@ -1,5 +1,5 @@
 import React from "react";
-import { createComponentWithIntl } from "@yoast/components";
+import { createComponentWithIntl } from "@yoast/helpers";
 import ContentAnalysis from "../components/ContentAnalysis.js";
 
 const problemsResults = [
