@@ -1,9 +1,10 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Input, Label } from "@yoast/components";
-import htmlDecoder from "../helpers/htmlDecoder";
-import { Explanation } from "@yoast/components";
+/* Yoast dependencies */
+import { Input, Label, Explanation } from "@yoast/components";
+import { decodeHTML } from "@yoast/helpers";
 
 /**
  * Represents a choice interface, like a group of radio buttons or a select button. It could render a
@@ -46,7 +47,7 @@ const Choice = ( props ) => {
 
 						return (
 							<option value={ choiceName } key={ index }>
-								{ htmlDecoder( choice.label ) }
+								{ decodeHTML( choice.label ) }
 							</option>
 						);
 					} ) }
@@ -71,7 +72,7 @@ const Choice = ( props ) => {
 						<Label
 							for={ id }
 							   optionalAttributes={ { "aria-label": choice.screenReaderText } }
-						>{ htmlDecoder( choice.label ) }</Label>
+						>{ decodeHTML( choice.label ) }</Label>
 					</div>
 				);
 			} ) }
@@ -90,7 +91,6 @@ const Choice = ( props ) => {
 };
 
 Choice.propTypes = {
-	component: PropTypes.string,
 	type: PropTypes.string,
 	value: PropTypes.string,
 	properties: PropTypes.shape( {
@@ -100,15 +100,12 @@ Choice.propTypes = {
 		description: PropTypes.string,
 		type: PropTypes.string,
 	} ),
-	"default": PropTypes.string,
 	name: PropTypes.string.isRequired,
 	onChange: PropTypes.func,
-	className: PropTypes.string,
 	optionClassName: PropTypes.string,
 };
 
 Choice.defaultProps = {
-	component: "",
 	type: "radio",
 	value: "",
 	properties: {
@@ -116,7 +113,8 @@ Choice.defaultProps = {
 		choices: {},
 		description: "",
 	},
-	"default": "",
+	onChange: () => null,
+	optionClassName: "",
 };
 
 export default Choice;

@@ -1,4 +1,7 @@
+/* External dependencies */
 import getMuiTheme from "material-ui/styles/getMuiTheme";
+
+/* Yoast dependencies */
 import { colors } from "@yoast/components/style-guide";
 
 /**
