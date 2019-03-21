@@ -6,7 +6,10 @@
  */
 
 /**
- * This class registers all the necessary styles and scripts. Also has methods for the enqueing of scripts and styles. It automatically adds a prefix to the handle.
+ * This class registers all the necessary styles and scripts.
+ *
+ * Also has methods for the enqueing of scripts and styles.
+ * It automatically adds a prefix to the handle.
  */
 class WPSEO_Admin_Asset_Manager {
 

@@ -12,48 +12,48 @@
  * Some guidelines:
  * [Retrieving options]
  * - Use the normal get_option() to retrieve an option. You will receive a complete array for the option.
- *    Any subkeys which were not set, will have their default values in place.
+ *   Any subkeys which were not set, will have their default values in place.
  * - In other words, you will normally not have to check whether a subkey isset() as they will *always* be set.
- *    They will also *always* be of the correct variable type.
- *    The only exception to this are the options with variable option names based on post_type or taxonomy
- *    as those will not always be available before the taxonomy/post_type is registered.
- *    (they will be available if a value was set, they won't be if it wasn't as the class won't know
- *    that a default needs to be injected).
+ *   They will also *always* be of the correct variable type.
+ *   The only exception to this are the options with variable option names based on post_type or taxonomy
+ *   as those will not always be available before the taxonomy/post_type is registered.
+ *   (they will be available if a value was set, they won't be if it wasn't as the class won't know
+ *   that a default needs to be injected).
  *
  * [Updating/Adding options]
  * - For multisite site_options, please use the WPSEO_Options::update_site_option() method.
  * - For normal options, use the normal add/update_option() functions. As long a the classes here
  *   are instantiated, validation for all options and their subkeys will be automatic.
  * - On (succesfull) update of a couple of options, certain related actions will be run automatically.
- *    Some examples:
- *      - on change of wpseo[yoast_tracking], the cron schedule will be adjusted accordingly
- *      - on change of wpseo and wpseo_title, some caches will be cleared
+ *   Some examples:
+ *   - on change of wpseo[yoast_tracking], the cron schedule will be adjusted accordingly
+ *   - on change of wpseo and wpseo_title, some caches will be cleared
  *
  *
  * [Important information about add/updating/changing these classes]
  * - Make sure that option array key names are unique across options. The WPSEO_Options::get_all()
- *    method merges most options together. If any of them have non-unique names, even if they
- *    are in a different option, they *will* overwrite each other.
+ *   method merges most options together. If any of them have non-unique names, even if they
+ *   are in a different option, they *will* overwrite each other.
  * - When you add a new array key in an option: make sure you add proper defaults and add the key
- *    to the validation routine in the proper place or add a new validation case.
- *    You don't need to do any upgrading as any option returned will always be merged with the
- *    defaults, so new options will automatically be available.
- *    If the default value is a string which need translating, add this to the concrete class
- *    translate_defaults() method.
+ *   to the validation routine in the proper place or add a new validation case.
+ *   You don't need to do any upgrading as any option returned will always be merged with the
+ *   defaults, so new options will automatically be available.
+ *   If the default value is a string which need translating, add this to the concrete class
+ *   translate_defaults() method.
  * - When you remove an array key from an option: if it's important that the option is really removed,
- *    add the WPSEO_Option::clean_up( $option_name ) method to the upgrade run.
- *    This will re-save the option and automatically remove the array key no longer in existance.
+ *   add the WPSEO_Option::clean_up( $option_name ) method to the upgrade run.
+ *   This will re-save the option and automatically remove the array key no longer in existance.
  * - When you rename a sub-option: add it to the clean_option() routine and run that in the upgrade run.
  * - When you change the default for an option sub-key, make sure you verify that the validation routine will
- *    still work the way it should.
- *    Example: changing a default from '' (empty string) to 'text' with a validation routine with tests
- *    for an empty string will prevent a user from saving an empty string as the real value. So the
- *    test for '' with the validation routine would have to be removed in that case.
+ *   still work the way it should.
+ *   Example: changing a default from '' (empty string) to 'text' with a validation routine with tests
+ *   for an empty string will prevent a user from saving an empty string as the real value. So the
+ *   test for '' with the validation routine would have to be removed in that case.
  * - If an option needs specific actions different from defined in this abstract class, you can just overrule
- *    a method by defining it in the concrete class.
+ *   a method by defining it in the concrete class.
  *
- * @todo       - [JRF => testers] Double check that validation will not cause errors when called
- *               from upgrade routine (some of the WP functions may not yet be available).
+ * @todo [JRF => testers] Double check that validation will not cause errors when called
+ *       from upgrade routine (some of the WP functions may not yet be available).
  */
 abstract class WPSEO_Option {
 
