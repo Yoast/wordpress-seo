@@ -1,14 +1,17 @@
+/* External dependencies */
 import React from "react";
-import Wizard from "../OnboardingWizard";
-import Config from "../config/production-config";
 import Enzyme from "enzyme";
 import EnzymeAdapter from "enzyme-adapter-react-16";
 import cloneDeep from "lodash/cloneDeep";
-import ApiConfig from "../config/api-config";
+
+/* Internal dependencies */
+import Config from "../tools/config/production-config";
+import Wizard from "../src/ConfigurationWizard";
+import ApiConfig from "../tools/config/api-config";
 
 Enzyme.configure( { adapter: new EnzymeAdapter() } );
 
-jest.mock( "../helpers/ajaxHelper", () => {
+jest.mock( "@yoast/helpers", () => {
 	/**
 	 * An ajaxHelper for testing purposes.
 	 *
@@ -19,7 +22,7 @@ jest.mock( "../helpers/ajaxHelper", () => {
 			resolve( "test" );
 		} );
 	};
-	return ajaxHelper;
+	return { ajaxHelper };
 } );
 
 /**

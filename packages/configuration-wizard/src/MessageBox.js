@@ -1,8 +1,10 @@
+/* External dependencies */
 import React from "react";
 import interpolateComponents from "interpolate-components";
-
-import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
 import PropTypes from "prop-types";
+
+/* Yoast dependencies */
+import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
 
 /**
  * Creates a message box in the style of the onboarding wizard.

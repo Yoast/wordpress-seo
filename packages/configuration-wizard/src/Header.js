@@ -1,6 +1,8 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 
+/* Yoast dependencies */
 import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
 
 /**
@@ -25,6 +27,11 @@ const Header = ( props ) => {
 Header.propTypes = {
 	icon: PropTypes.func,
 	headerTitle: PropTypes.string,
+};
+
+Header.defaultProps = {
+	icon: "",
+	headerTitle: "",
 };
 
 export default Header;

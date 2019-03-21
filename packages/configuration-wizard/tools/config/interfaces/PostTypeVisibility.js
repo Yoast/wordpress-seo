@@ -1,3 +1,4 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 
@@ -17,15 +18,11 @@ const PostTypeVisibility = ( props ) => {
 };
 
 PostTypeVisibility.propTypes = {
-	component: PropTypes.string,
 	properties: PropTypes.object,
-	data: PropTypes.string,
 };
 
 PostTypeVisibility.defaultProps = {
-	component: "",
 	properties: {},
-	data: "",
 };
 
 export default PostTypeVisibility;
