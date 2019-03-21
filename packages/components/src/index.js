@@ -6,6 +6,7 @@ export {
 	StyledHeading,
 };
 
+export { icons } from "./SvgIcon";
 export { default as Button } from "./Button";
 export { default as ErrorBoundary } from "./ErrorBoundary";
 export { default as Explanation } from "./Explanation";
