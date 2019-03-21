@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/Yoast/javascript",
   "author": "Yoast",
-  "license": "GPL",
+  "license": "GPL-3.0",
   "private": false,
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",
