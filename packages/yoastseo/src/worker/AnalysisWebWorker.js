@@ -190,22 +190,22 @@ export default class AnalysisWebWorker {
 	 * @returns {void}
 	 */
 	setupTreeAnalysis() {
-		/* Researcher */
+		// Researcher
 		this._treeResearcher = new TreeResearcher();
 
-		/* Assessors. */
+		// Assessors
 		this._contentTreeAssessor = null;
 		this._seoTreeAssessor = null;
 		this._relatedKeywordTreeAssessor = null;
 
-		/* Registered assessments */
+		// Registered assessments
 		this._registeredTreeAssessments = [];
 
-		/* Score aggregators */
+		// Score aggregators
 		this._seoScoreAggregator = new SEOScoreAggregator();
 		this._contentScoreAggregator = new ReadabilityScoreAggregator();
 
-		/* Tree representation of text to analyze */
+		// Tree representation of text to analyze
 		this._tree = null;
 	}
 

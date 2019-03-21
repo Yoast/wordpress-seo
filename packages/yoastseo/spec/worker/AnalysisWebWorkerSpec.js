@@ -1,8 +1,8 @@
-/* External dependencies */
+// External dependencies
 import { forEach, isArray, isNumber, isObject } from "lodash-es";
 import { getLogger } from "loglevel";
 
-/* Internal dependencies */
+// Internal dependencies
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 
 import { createShortlink } from "../../src/helpers/shortlinker";
@@ -14,7 +14,7 @@ import AssessmentResult from "../../src/values/AssessmentResult";
 import Paper from "../../src/values/Paper";
 
 
-/* Full-length texts to test */
+// Full-length texts to test
 import testTexts from "../fullTextTests/testTexts";
 
 /* Test helpers */
