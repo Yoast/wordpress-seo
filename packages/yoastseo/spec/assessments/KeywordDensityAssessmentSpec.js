@@ -122,6 +122,16 @@ describe( "Tests for the keywordDensity assessment for languages with morphology
 		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
 			"The focus keyphrase was found 32 times. This is great!" );
 	} );
+
+	it( "gives a GOOD result when keyword density is between 3 and 3.5%, also for other languages with morphology support", function() {
+		const paper = new Paper( nonkeyword.repeat( 968 ) + keyword.repeat( 32 ), { keyword: "keyword", locale: "de_DE" } );
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+		const result = new KeywordDensityAssessment().getResult( paper, researcher, i18n );
+		expect( result.getScore() ).toBe( 9 );
+		expect( result.getText() ).toBe( "<a href='https://yoa.st/33v' target='_blank'>Keyphrase density</a>: " +
+			"The focus keyphrase was found 32 times. This is great!" );
+	} );
 } );
 
 describe( "A test for marking the keyword", function() {
