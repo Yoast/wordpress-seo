@@ -1,7 +1,7 @@
 import React from "react";
 
 import { createComponentWithIntl } from "@yoast/components";
-import SearchResultDetail from "../src/SearchResultDetail.js";
+import SearchResultDetail from "../src/SearchResultDetail";
 const post = { permalink: "https://kb.yoast.com/kb/passive-voice/", postTitle: "Post Title", objectID: 1 };
 
 test( "the SearchResultDetail component matches the snapshot", () => {

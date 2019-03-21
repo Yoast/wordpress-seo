@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import Loading from "../src/Loading.js";
+import Loading from "../src/Loading";
 
 test( "the Loading component matches the snapshot", () => {
 	const component = renderer.create(
