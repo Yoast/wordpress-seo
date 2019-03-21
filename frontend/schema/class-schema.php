@@ -27,9 +27,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 * @since 1.8
 	 */
 	public function json_ld() {
-		if ( ! is_404() ) {
-			do_action( 'wpseo_json_ld' );
-		}
+		do_action( 'wpseo_json_ld' );
 	}
 
 	/**

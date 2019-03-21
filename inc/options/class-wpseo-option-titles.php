@@ -470,8 +470,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					break;
 
 				case 'company_or_person_user_id':
-				/* Integer field - not in form. */
-				case 'title_test':
+				case 'title_test': /* Integer field - not in form. */
 					if ( isset( $dirty[ $key ] ) ) {
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 						if ( $int !== false && $int >= 0 ) {
