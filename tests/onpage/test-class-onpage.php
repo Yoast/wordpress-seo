@@ -58,8 +58,8 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if the weekly schedule is added to wp_get_schedules.
 	 *
-	 * @see https://github.com/Yoast/wordpress-seo/issues/9450
-	 * @see https://github.com/Yoast/wordpress-seo/issues/9475
+	 * @link https://github.com/Yoast/wordpress-seo/issues/9450
+	 * @link https://github.com/Yoast/wordpress-seo/issues/9475
 	 *
 	 * @covers WPSEO_OnPage::add_weekly_schedule
 	 */
