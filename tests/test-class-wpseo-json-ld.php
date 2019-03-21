@@ -11,6 +11,8 @@
 class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_JSON_LD
 	 */
 	private static $class_instance;

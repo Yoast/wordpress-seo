@@ -11,6 +11,8 @@
 class WPSEO_Sitemap_Image_Parser_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Sitemap_Image_Parser
 	 */
 	private static $class_instance;

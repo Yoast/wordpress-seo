@@ -11,6 +11,8 @@
 class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Plugin_Compatibility
 	 */
 	private static $class_instance;
