@@ -17,7 +17,7 @@ import Paper from "../../src/values/Paper";
 // Full-length texts to test
 import testTexts from "../fullTextTests/testTexts";
 
-/* Test helpers */
+// Test helpers
 import Factory from "../specHelpers/factory.js";
 import TestResearch from "../specHelpers/tree/TestResearch";
 import getMorphologyData from "../specHelpers/getMorphologyData";
