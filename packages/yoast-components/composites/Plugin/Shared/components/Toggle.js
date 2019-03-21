@@ -2,11 +2,11 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import colors from "../../../../style-guide/colors.json";
+import { colors } from "@yoast/components/style-guide";
 import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
+import { getRtlStyle } from "@yoast/components";
 
 const ToggleDiv = styled.div`
 	display: flex;

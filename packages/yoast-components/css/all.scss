@@ -1,4 +1,4 @@
 @import "accessibility";
-@import "../composites/OnboardingWizard/onboarding-wizard";
-@import "../composites/basic/loader";
+@import "~@yoast/components/loader";
+@import "~@yoast/configuration-wizard/onboarding-wizard";
 @import "loadingSpinner";

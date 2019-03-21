@@ -1,5 +1,5 @@
 import React from "react";
-import { createComponentWithIntl } from "../../../../utils/intlProvider";
+import { createComponentWithIntl } from "@yoast/components";
 import AnalysisResult from "../components/AnalysisResult.js";
 
 test( "the AnalysisResult component matches the snapshot", () => {

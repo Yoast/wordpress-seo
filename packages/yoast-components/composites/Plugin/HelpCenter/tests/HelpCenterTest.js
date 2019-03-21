@@ -1,6 +1,6 @@
 import React from "react";
 
-import { createComponentWithIntl } from "../../../../utils/intlProvider";
+import { createComponentWithIntl } from "@yoast/components";
 import HelpCenter from "../../../Plugin/HelpCenter/HelpCenter.js";
 
 const tabItems = [
