@@ -484,8 +484,27 @@ describe( "build tree", () => {
 	} );
 
 	it( "parses a paragraph within a heading", () => {
-		const input = "<h2>This is a <p>paragraph within a</p> heading</h2>";
+		const input = "<h2>This is a <p>paragraph within a</p> heading.</h2>";
+
+		const paragraph = new Paragraph( "p" );
+		paragraph.sourceStartIndex = 14;
+		paragraph.sourceEndIndex = 39;
+		paragraph.textStartIndex = 10;
+		paragraph.textEndIndex = 28;
+
+		const heading = new Heading( 2 );
+		heading.sourceStartIndex = 0;
+		heading.sourceEndIndex = 53;
+		heading.text = "This is a paragraph within a heading.";
+		heading.textContainer.formatting = [ paragraph ];
+
+		const expected = new StructuredNode( "root" );
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 53;
+		expected.children = [ heading ];
+
 		const tree = buildTree( input );
+		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse a big HTML text", () => {
