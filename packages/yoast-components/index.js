@@ -65,6 +65,7 @@ export {
 	getRtlStyle,
 	AlgoliaSearcher,
 	colors,
+	YoastSeoIcon,
 };
 
 export { default as HelpText } from "./composites/Plugin/Shared/components/HelpText";
