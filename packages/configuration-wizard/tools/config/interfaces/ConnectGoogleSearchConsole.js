@@ -1,3 +1,4 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 
@@ -20,12 +21,10 @@ const ConnectGoogleSearchConsole = ( props ) => {
 };
 
 ConnectGoogleSearchConsole.propTypes = {
-	component: PropTypes.string,
 	data: PropTypes.string,
 };
 
 ConnectGoogleSearchConsole.defaultProps = {
-	component: "",
 	data: "",
 };
 

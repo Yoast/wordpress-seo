@@ -1,9 +1,13 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 import { Stepper, Step, StepButton } from "material-ui/Stepper";
 
-import CustomStepButton from "./StepButton";
+/* Yoast dependencies */
 import { localize } from "yoast-components/utils/i18n";
+
+/* Internal dependencies */
+import CustomStepButton from "./StepButton";
 
 /**
  * The step indicator displays a horizontal progress indicator.
@@ -70,9 +74,7 @@ class StepIndicator extends React.Component {
 					ariaLabel={ ariaLabel }
 					className={ className }
 					tooltipStyles={ { userSelect: "auto" } }
-					onClick={ ( evt ) => {
-						this.props.onClick( name, evt );
-					} }
+					onClick={ evt => this.props.onClick( name, evt ) }
 				/>;
 			}
 			return React.createElement( Step, { key: "step-indicator-" + key }, button );
@@ -121,7 +123,8 @@ StepIndicator.propTypes = {
 };
 
 StepIndicator.defaultProps = {
-	stepIndex: 0,
+	translate: null,
+	onClick: () => null,
 };
 
 export default localize( StepIndicator );

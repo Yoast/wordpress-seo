@@ -1,8 +1,10 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 import IconButton from "material-ui/IconButton";
 import SvgIcon from "material-ui/SvgIcon";
 
+/* Yoast dependencies */
 import { colors } from "@yoast/components/style-guide";
 
 /**
@@ -37,6 +39,14 @@ StepButton.propTypes = {
 	tooltipStyles: PropTypes.object,
 	ariaLabel: PropTypes.string,
 	index: PropTypes.string,
+};
+
+StepButton.defaultProps = {
+	className: "",
+	tooltip: "",
+	tooltipStyles: null,
+	ariaLabel: "",
+	index: "",
 };
 
 export default StepButton;

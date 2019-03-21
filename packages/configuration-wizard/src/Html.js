@@ -1,3 +1,4 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
 
@@ -17,12 +18,6 @@ const HTML = ( props ) => {
 
 HTML.propTypes = {
 	properties: PropTypes.object.isRequired,
-};
-
-HTML.defaultProps = {
-	properties: {
-		html: "",
-	},
 };
 
 export default HTML;

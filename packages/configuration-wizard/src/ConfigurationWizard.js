@@ -1,21 +1,26 @@
+/* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
-import Step from "./Step";
-import StepIndicator from "./StepIndicator";
-import LoadingIndicator from "./LoadingIndicator";
-import sendStep from "./helpers/ajaxHelper";
-import Header from "./Header";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import { localize } from "yoast-components/utils/i18n";
-import muiTheme from "./config/yoast-theme";
-import interpolateComponents from "interpolate-components";
 import CloseIcon from "material-ui/svg-icons/navigation/close";
 import isUndefined from "lodash/isUndefined";
+import interpolateComponents from "interpolate-components";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+
+/* Yoast dependencies */
+import { localize } from "yoast-components/utils/i18n";
+import { sendRequest } from "@yoast/helpers";
+
+/* Interal dependencies */
+import muiTheme from "../tools/config/yoast-theme";
+import StepIndicator from "./StepIndicator";
+import LoadingIndicator from "./LoadingIndicator";
+import Header from "./Header";
+import Step from "./Step";
 
 /**
- * The OnboardingWizard class.
+ * The ConfigurationWizard class.
  */
-class OnboardingWizard extends React.Component {
+class ConfigurationWizard extends React.Component {
 	/**
 	 * Initialize the steps and set the current stepId to the first step in the array
 	 *
@@ -124,7 +129,7 @@ class OnboardingWizard extends React.Component {
 		this.setState( { isLoading: true, errorMessage: "" } );
 		this.clickedButton = evt.currentTarget;
 
-		sendStep(
+		sendRequest(
 			this.props.endpoint.url,
 			{
 				data: this.step.state.fieldValues[ this.state.currentStepId ],
@@ -412,7 +417,7 @@ class OnboardingWizard extends React.Component {
 	}
 }
 
-OnboardingWizard.propTypes = {
+ConfigurationWizard.propTypes = {
 	endpoint: PropTypes.object.isRequired,
 	steps: PropTypes.object.isRequired,
 	fields: PropTypes.object.isRequired,
@@ -422,9 +427,11 @@ OnboardingWizard.propTypes = {
 	headerIcon: PropTypes.func,
 };
 
-OnboardingWizard.defaultProps = {
+ConfigurationWizard.defaultProps = {
 	customComponents: {},
 	finishUrl: "",
+	translate: null,
+	headerIcon: null,
 };
 
-export default localize( OnboardingWizard );
+export default localize( ConfigurationWizard );

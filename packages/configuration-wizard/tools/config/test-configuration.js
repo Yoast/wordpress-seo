@@ -1,7 +1,8 @@
-import MailchimpSignup from "../components/custom_components/MailchimpSignup";
-import PublishingEntity from "../components/custom_components/PublishingEntity";
-import PostTypeVisibility from "../components/custom_components/PostTypeVisibility";
-import ConnectGoogleSearchConsole from "../components/custom_components/ConnectGoogleSearchConsole";
+/* Internal dependencies */
+import MailchimpSignup from "./interfaces/MailchimpSignup";
+import PublishingEntity from "./interfaces/PublishingEntity";
+import PostTypeVisibility from "./interfaces/PostTypeVisibility";
+import ConnectGoogleSearchConsole from "./interfaces/ConnectGoogleSearchConsole";
 
 const configuration = {
 	endpoint: "http://127.0.0.1:8882/onboarding?wp_nonce=nonce",
