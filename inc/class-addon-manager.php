@@ -18,18 +18,60 @@ class WPSEO_Addon_Manager {
 	const SITE_INFORMATION_TRANSIENT = 'wpseo_site_information';
 
 	/**
+	 * Holds the slug for YoastSEO free.
+	 *
+	 * @var string
+	 */
+	const FREE_SLUG = 'yoast-seo-wordpress';
+
+	/**
+	 * Holds the slug for YoastSEO Premium.
+	 *
+	 * @var string
+	 */
+	const PREMIUM_SLUG = 'yoast-seo-wordpress-premium';
+
+	/**
+	 * Holds the slug for Yoast News.
+	 *
+	 * @var string
+	 */
+	const NEWS_SLUG = 'yoast-seo-news';
+
+	/**
+	 * Holds the slug for Video.
+	 *
+	 * @var string
+	 */
+	const VIDEO_SLUG = 'yoast-seo-video';
+
+	/**
+	 * Holds the slug for WooCommerce.
+	 *
+	 * @var string
+	 */
+	const WOOCOMMERCE_SLUG = 'yoast-seo-woocommerce';
+
+	/**
+	 * Holds the slug for Local.
+	 *
+	 * @var string
+	 */
+	const LOCAL_SLUG = 'yoast-seo-local';
+
+	/**
 	 * The expected addon data.
 	 *
 	 * @var array
 	 */
 	protected static $addons = array(
 		// Yoast SEO Free isn't an addon actually, but we needed it in some cases.
-		'wp-seo.php'            => 'yoast-seo-wordpress',
-		'wp-seo-premium.php'    => 'yoast-seo-wordpress-premium',
-		'wpseo-news.php'        => 'yoast-seo-news',
-		'video-seo.php'         => 'yoast-seo-video',
-		'wpseo-woocommerce.php' => 'yoast-seo-woocommerce',
-		'local-seo.php'         => 'yoast-seo-local',
+		'wp-seo.php'            => self::FREE_SLUG,
+		'wp-seo-premium.php'    => self::PREMIUM_SLUG,
+		'wpseo-news.php'        => self::NEWS_SLUG,
+		'video-seo.php'         => self::VIDEO_SLUG,
+		'wpseo-woocommerce.php' => self::WOOCOMMERCE_SLUG,
+		'local-seo.php'         => self::LOCAL_SLUG,
 	);
 
 	/**
@@ -192,6 +234,24 @@ class WPSEO_Addon_Manager {
 		}
 
 		return $this->convert_subscription_to_plugin( $subscription );
+	}
+
+	/**
+	 * Checks if the subscription for the given slug is valid.
+	 *
+	 * @param string $slug The plugin slug to retrieve.
+	 *
+	 * @return bool True when the subscription is valid.
+	 */
+	public function has_valid_subscription( $slug ) {
+		$subscription = $this->get_subscription( $slug );
+
+		// An non-existing subscription is never valid.
+		if ( $subscription === false ) {
+			return false;
+		}
+
+		return ! $this->has_subscription_expired( $subscription );
 	}
 
 	/**
