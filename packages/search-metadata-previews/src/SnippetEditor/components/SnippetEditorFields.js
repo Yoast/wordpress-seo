@@ -17,7 +17,7 @@ import {
 	StyledEditor,
 	withCaretStyles,
 } from "./Shared";
-import ProgressBar from "../../SnippetPreview/ProgressBar";
+import ProgressBar from "@yoast/components/ProgressBar";
 import {
 	lengthProgressShape,
 	replacementVariablesShape,
