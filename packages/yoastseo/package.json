@@ -12,7 +12,8 @@
   "version": "1.49.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yoast/YoastSEO.js"
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/yoastseo"
   },
   "scripts": {
     "start": "npm start --prefix examples/webpack",
