@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "A packages that allows integration with Algolia Search",
   "main": "src/index.js",
-  "repository": "https://github.com/Yoast/javascript",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/algolia-search"
+  },
   "author": "Yoast",
   "license": "GPL-3.0",
   "private": false,

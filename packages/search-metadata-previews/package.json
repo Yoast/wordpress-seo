@@ -2,7 +2,11 @@
   "name": "@yoast/search-metadata-previews",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/yoast/javascript",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/search-metadata-previews"
+  },
   "author": "Team Yoast",
   "license": "GPL-3.0",
   "scripts": {
