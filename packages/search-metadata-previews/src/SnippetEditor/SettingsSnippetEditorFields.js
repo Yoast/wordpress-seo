@@ -9,11 +9,11 @@ import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "../constants";
+} from "./constants";
 import {
 	FormSection,
 	StyledEditor,
-} from "./Shared";
+} from "../Shared";
 
 /**
  * The snippet editor settings fields.

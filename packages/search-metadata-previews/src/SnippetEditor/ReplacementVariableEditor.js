@@ -15,11 +15,11 @@ import {
 	DescriptionInputContainer,
 	TriggerReplacementVariableSuggestionsButton,
 	withCaretStyles,
-} from "./Shared";
+} from "../Shared";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "../constants";
+} from "./constants";
 
 /**
  * The replacement variable editor.

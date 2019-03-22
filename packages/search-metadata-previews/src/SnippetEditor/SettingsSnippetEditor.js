@@ -10,7 +10,7 @@ import SettingsSnippetEditorFields from "./SettingsSnippetEditorFields";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "../constants";
+} from "./constants";
 
 /**
  * The snippet editor settings.

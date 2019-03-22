@@ -16,13 +16,13 @@ import {
 	SimulatedLabel,
 	StyledEditor,
 	withCaretStyles,
-} from "./Shared";
+} from "../Shared";
 import ProgressBar from "@yoast/components/ProgressBar";
 import {
 	lengthProgressShape,
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "../constants";
+} from "./constants";
 
 const SlugInput = styled.input`
 	border: none;

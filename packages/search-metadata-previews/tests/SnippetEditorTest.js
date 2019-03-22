@@ -1,4 +1,4 @@
-import SnippetEditor from "../src/SnippetEditor/components/SnippetEditor";
+import SnippetEditor from "../src/SnippetEditor/SnippetEditor";
 import React from "react";
 import { createComponentWithIntl } from "@yoast/components";
 import {
@@ -6,7 +6,7 @@ import {
 	shallowWithIntl,
 } from "yoast-components/utils/helpers/intl-enzyme-test-helper";
 import { MODE_DESKTOP } from "../src/SnippetPreview/constants";
-import { focus } from "../src/SnippetEditor/components/ReplacementVariableEditorStandalone";
+import { focus } from "../src/SnippetEditor/ReplacementVariableEditorStandalone";
 
 jest.mock( "../src/SnippetEditor/components/ReplacementVariableEditorStandalone" );
 

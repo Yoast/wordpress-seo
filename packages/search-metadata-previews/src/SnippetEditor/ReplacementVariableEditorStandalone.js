@@ -18,15 +18,15 @@ import { withTheme } from "styled-components";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "../constants";
-import { positionSuggestions } from "../positionSuggestions";
+} from "./constants";
+import { positionSuggestions } from "../helpers/positionSuggestions";
 import { Mention } from "./Mention";
 import {
 	serializeEditor,
 	unserializeEditor,
 	replaceReplacementVariables,
 	serializeSelection,
-} from "../../helpers/serialization";
+} from "../helpers/serialization";
 import {
 	getTrigger,
 	hasWhitespaceAt,
@@ -35,10 +35,10 @@ import {
 	insertText,
 	removeSelectedText,
 	moveCaret,
-} from "../replaceText";
+} from "../helpers/replaceText";
 import {
 	selectReplacementVariables,
-} from "../../helpers/selection";
+} from "../helpers/selection";
 
 /**
  * Needed to avoid styling issues on the settings pages with the

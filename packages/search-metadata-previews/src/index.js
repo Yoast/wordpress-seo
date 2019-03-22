@@ -1,7 +1,9 @@
-export { default as constants } from "./SnippetPreview/constants"
-export * from "./SnippetPreview/SnippetPreview";
-export { default as HelpTextWrapper} from "./SnippetPreview/HelpTextWrapper";
-export { default as FixedWidthContainer} from "./SnippetPreview/FixedWidthContainer"
+// Snippet preview exports
+export { default as FixedWidthContainer } from "./SnippetPreview/FixedWidthContainer"
+export { default as HelpTextWrapper } from "./SnippetPreview/HelpTextWrapper";
+export { default as SnippetPreview } from "./SnippetPreview/SnippetPreview";
 
-export * from "./SnippetEditor";
-
+// Snippet editor exports
+export { default as ReplaceVarEditor } from "./SnippetEditor/ReplacementVariableEditor"
+export { default as SettingsSnippetEditor } from "./SnippetEditor/SettingsSnippetEditor"
+export { default as SnippetEditor } from "./SnippetEditor/SnippetEditor"

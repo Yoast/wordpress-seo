@@ -10,7 +10,7 @@ import {
 	insertText,
 	removeSelectedText,
 	moveCaret,
-} from "../src/SnippetEditor/replaceText";
+} from "../src/helpers/replaceText";
 
 describe( "SnippetEditor text utilities", () => {
 	describe( "getTrigger", () => {

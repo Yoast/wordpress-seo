@@ -2,7 +2,7 @@ import {
 	getVerticalPosition,
 	getHorizontalPosition,
 	getAnimationStyles,
-} from "../src/SnippetEditor/positionSuggestions";
+} from "../src/helpers/positionSuggestions";
 
 describe( "positionSuggestions", () => {
 	describe( "vertical and horizontal positioning", () => {

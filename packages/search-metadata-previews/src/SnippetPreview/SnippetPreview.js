@@ -18,7 +18,7 @@ import createRegexFromArray from "yoastseo/src/stringProcessing/createRegexFromA
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
-import { angleLeft, angleRight } from "../SnippetEditor/components/Shared";
+import { angleLeft, angleRight } from "../Shared";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
@@ -34,7 +34,7 @@ const MAX_WIDTH = 600;
 const WIDTH_PADDING = 20;
 const DESCRIPTION_LIMIT = 156;
 
-export const DesktopContainer = styled( FixedWidthContainer )`
+const DesktopContainer = styled( FixedWidthContainer )`
 	background-color: white;
 	font-family: arial, sans-serif;
 	box-sizing: border-box;
@@ -50,7 +50,7 @@ const MobileContainer = styled.div`
 	font-size: 14px;
 `;
 
-export const BaseTitle = styled.div`
+const BaseTitle = styled.div`
 	cursor: pointer;
 	position: relative;
 `;
@@ -80,7 +80,7 @@ function addCaretStyle( WithoutCaret, color, mode ) {
 	`;
 }
 
-export const Title = styled.div`
+const Title = styled.div`
 	color: ${ colorTitle };
 	text-decoration: none;
 	font-size: 18px;
@@ -95,17 +95,17 @@ export const Title = styled.div`
 	text-overflow: ellipsis;
 `;
 
-export const TitleBounded = styled( Title )`
+const TitleBounded = styled( Title )`
 	max-width: ${ MAX_WIDTH }px;
 	vertical-align: top;
 	text-overflow: ellipsis;
 `;
 
-export const TitleUnboundedDesktop = styled.span`
+const TitleUnboundedDesktop = styled.span`
 	white-space: nowrap;
 `;
 
-export const TitleUnboundedMobile = styled.span`
+const TitleUnboundedMobile = styled.span`
 	display: inline-block;
 	font-size: 16px;
 	line-height: 1.2em;
@@ -114,7 +114,7 @@ export const TitleUnboundedMobile = styled.span`
 	text-overflow: ellipsis;
 `;
 
-export const BaseUrl = styled.div`
+const BaseUrl = styled.div`
 	display: inline-block;
 	color: ${ colorUrl };
 	cursor: pointer;
@@ -132,7 +132,7 @@ const BaseUrlOverflowContainer = BaseUrl.extend`
 
 BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
 
-export const DesktopDescription = styled.div`
+const DesktopDescription = styled.div`
 	color: ${ props => props.isDescriptionPlaceholder ? colorGeneratedDescription : colorDescription };
 	cursor: pointer;
 	position: relative;
@@ -152,7 +152,7 @@ const MobilePartContainer = styled.div`
 const DesktopPartContainer = styled.div`
 `;
 
-export const UrlDownArrow = styled.div`
+const UrlDownArrow = styled.div`
 	display: inline-block;
 	margin-top: 6px;
 	margin-left: 6px;
