@@ -1,9 +1,6 @@
-jest.unmock( "../Textarea" );
-jest.unmock( "prop-types" );
-
 import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
-import Textarea from "../Textarea";
+import Textarea from "../src/Textarea";
 
 describe( "A Textarea component", () => {
 	var renderer = new ReactShallowRenderer();

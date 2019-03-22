@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import ProgressBar from "../ProgressBar";
+import ProgressBar from "../src/ProgressBar";
 
 describe( "The Progressbar component", () => {
 	it( "without any props matches the snapshot", () => {

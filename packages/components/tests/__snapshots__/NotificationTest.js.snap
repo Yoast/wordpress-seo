@@ -2,18 +2,18 @@
 
 exports[`the Notification with props matches the snapshot 1`] = `
 <div
-  className="Paper-sc-1fchzjl-0 cRjCJv"
+  className="Paper-sc-1udhv1r-0 eSByDL"
 >
   <div
-    className="Notification__NotificationContainer-sc-13u3ytb-0 cbWTCf"
+    className="Notification__NotificationContainer-p0v8a6-0 jgOTFM"
   >
     <img
       alt=""
-      className="Notification__NotificationImage-sc-13u3ytb-1 dhCMnJ"
+      className="Notification__NotificationImage-p0v8a6-1 hwYJIV"
       src="some-image.png"
     />
     <div
-      className="Notification__NotificationContent-sc-13u3ytb-2 kdzMXs"
+      className="Notification__NotificationContent-p0v8a6-2 iYPrko"
     >
       <h3>
         New User?
@@ -29,13 +29,13 @@ exports[`the Notification with props matches the snapshot 1`] = `
     </div>
     <button
       aria-label="Dismiss this notice"
-      className="Notification__DismissButton-sc-13u3ytb-3 dQPbcI"
+      className="Notification__DismissButton-p0v8a6-3 hfImaK"
       onClick={[Function]}
       type="button"
     >
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-times Notification__StyledIcon-sc-13u3ytb-4 jSTQBc SvgIcon__StyledSvg-w0wn5g-0 eqeJpU"
+        className="yoast-svg-icon yoast-svg-icon-times Notification__StyledIcon-p0v8a6-4 kNqQRF SvgIcon__StyledSvg-sc-1l8fxgb-0 cqszVg"
         fill="#616161"
         focusable="false"
         role="img"
@@ -54,13 +54,13 @@ exports[`the Notification with props matches the snapshot 1`] = `
 
 exports[`the Notification without props matches the snapshot 1`] = `
 <div
-  className="Paper-sc-1fchzjl-0 cRjCJv"
+  className="Paper-sc-1udhv1r-0 eSByDL"
 >
   <div
-    className="Notification__NotificationContainer-sc-13u3ytb-0 gDQBex"
+    className="Notification__NotificationContainer-p0v8a6-0 kkWWEd"
   >
     <div
-      className="Notification__NotificationContent-sc-13u3ytb-2 kdzMXs"
+      className="Notification__NotificationContent-p0v8a6-2 iYPrko"
     >
       <h3 />
       <p

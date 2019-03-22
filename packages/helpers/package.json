@@ -6,5 +6,8 @@
   "repository": "https://github.com/Yoast/javascript",
   "author": "Yoast",
   "license": "GPL-3.0",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "whatwg-fetch": "1.1.1"
+  }
 }

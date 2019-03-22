@@ -5,5 +5,5 @@ import { rgba } from "./helpers";
 export {
 	colors,
 	breakpoints,
-	rgba
+	rgba,
 };

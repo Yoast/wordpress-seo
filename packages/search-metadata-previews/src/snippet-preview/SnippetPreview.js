@@ -10,10 +10,10 @@ import { __ } from "@wordpress/i18n";
 // Yoast dependencies.
 import ScreenReaderText from "yoast-components/a11y/ScreenReaderText";
 import { colors } from "@yoast/components/style-guide";
-import { getRtlStyle } from "@yoast/components";
 import replaceSpecialCharactersAndDiacritics from "yoastseo/src/stringProcessing/replaceDiacritics";
 import transliterate from "yoastseo/src/stringProcessing/transliterate";
 import createRegexFromArray from "yoastseo/src/stringProcessing/createRegexFromArray";
+import { getDirectionalStyle } from "@yoast/helpers";
 
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
@@ -70,10 +70,10 @@ function addCaretStyle( WithoutCaret, color, mode ) {
 			display: block;
 			position: absolute;
 			top: -3px;
-			${ getRtlStyle( "left", "right" ) }: ${ () => mode === MODE_DESKTOP ? "-22px" : "-40px" };
+			${ getDirectionalStyle( "left", "right" ) }: ${ () => mode === MODE_DESKTOP ? "-22px" : "-40px" };
 			width: 24px;
 			height: 24px;
-			background-image: url( ${ getRtlStyle( angleRight( color ), angleLeft( color ) ) } );
+			background-image: url( ${ getDirectionalStyle( angleRight( color ), angleLeft( color ) ) } );
 			background-size: 25px;
 			content: "";
 		}

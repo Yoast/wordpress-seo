@@ -4,7 +4,7 @@ import styled from "styled-components";
 // Yoast dependencies.
 import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
 import { colors } from "@yoast/components/style-guide";
-import { getRtlStyle } from "@yoast/components";
+import { getDirectionalStyle } from "@yoast/helpers";
 
 /**
  * Returns an angleRight SVG.
@@ -86,7 +86,7 @@ export const InputContainer = styled.div.attrs( {
  * @returns {string} The background image.
  */
 function getBackgroundImage( props ) {
-	const rtlStyle = getRtlStyle(
+	const rtlStyle = getDirectionalStyle(
 		angleRight( getCaretColor( props ) ),
 		angleLeft( getCaretColor( props ) )
 	);
@@ -107,7 +107,7 @@ export const withCaretStyles = Component => {
 			display: block;
 			position: absolute;
 			top: -1px;
-			${ getRtlStyle( "left", "right" ) }: -25px;
+			${ getDirectionalStyle( "left", "right" ) }: -25px;
 			width: 24px;
 			height: 24px;
 			background-image: url( ${ getBackgroundImage } );
@@ -171,7 +171,7 @@ export const TriggerReplacementVariableSuggestionsButton = styled( Button )`
 	font-size: 13px;
 
 	& svg {
-		${ getRtlStyle( "margin-right", "margin-left" ) }: 7px;
+		${ getDirectionalStyle( "margin-right", "margin-left" ) }: 7px;
 		fill: ${ colors.$color_grey_dark };
 	}
 `;

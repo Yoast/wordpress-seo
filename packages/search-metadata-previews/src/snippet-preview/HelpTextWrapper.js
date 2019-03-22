@@ -6,7 +6,8 @@ import uniqueId from "lodash/uniqueId";
 
 // Yoast dependencies.
 import HelpText from "yoast-components/composites/Plugin/Shared/components/HelpText";
-import { SvgIcon, getRtlStyle } from "@yoast/components";
+import { SvgIcon } from "@yoast/components";
+import { getDirectionalStyle } from "@yoast/helpers";
 import { colors, rgba } from "@yoast/components/style-guide";
 import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
 import { YoastSlideToggle } from "yoast-components/utils/animations";
@@ -15,7 +16,7 @@ const HelpTextContainer = styled.div`
 	max-width: 600px;
 	font-weight: normal;
 	// Don't apply a bottom margin to avoid "jumpiness".
-	margin: ${ getRtlStyle( "0 20px 0 25px", "0 20px 0 15px" ) };
+	margin: ${ getDirectionalStyle( "0 20px 0 25px", "0 20px 0 15px" ) };
 `;
 
 const HelpTextPanel = styled.div`
@@ -33,8 +34,8 @@ const HelpTextButton = styled( Button )`
 	display: block;
 	margin: -44px -10px 10px 0;
 	background-color: transparent;
-	float: ${ getRtlStyle( "right", "left" ) };
-	padding: ${ getRtlStyle( "3px 0 0 6px", "3px 0 0 5px" ) };
+	float: ${ getDirectionalStyle( "right", "left" ) };
+	padding: ${ getDirectionalStyle( "3px 0 0 6px", "3px 0 0 5px" ) };
 
 	&:hover {
 		color: ${ colors.$color_blue };

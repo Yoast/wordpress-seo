@@ -4,7 +4,8 @@ import React from "react";
 import styled from "styled-components";
 
 import { colors } from "@yoast/components/style-guide";
-import { SvgIcon, getRtlStyle } from "@yoast/components";
+import { SvgIcon } from "@yoast/components";
+import { getDirectionalStyle } from "@yoast/helpers";
 
 const WarningBox = styled.div`
 	display: flex;
@@ -18,7 +19,7 @@ const StyledSvgIcon = styled( SvgIcon )`
 `;
 
 const MessageContainer = styled.div`
-	margin: ${ getRtlStyle( "0 0 0 8px", "0 8px 0 0" ) };
+	margin: ${ getDirectionalStyle( "0 0 0 8px", "0 8px 0 0" ) };
 `;
 
 /**

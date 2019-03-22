@@ -1,5 +1,5 @@
 # Onboarding wizard
-The onboarding wizard is a generic library that can be used to dynamically generate an installation wizard. The wizard and all of its underlying components are built with React in ES2015.
+The configuration wizard is a generic library that can be used to dynamically generate an configuration wizard. The wizard and all of its underlying components are built with React in ES2015.
 
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
@@ -34,11 +34,6 @@ The wizard depends on a few other modules/libraries. Before you start the follow
 ### Loading the wizard onto your page.
 This chapter explains how you can render the wizard onto a webpage.
 
-The following modules have to be installed and added to your package.json:
-- `react`
-- `material-ui`
-- `Yoast/yoast-components`
-
 Add the following line into a scss file that you load on the page.
 
 ```CSS
@@ -50,11 +45,11 @@ Render the wizard into a `div` element on your page.
 ```JS
 import React from "react";
 import ReactDOM from "react-dom";
-import { OnboardingWizard } from "yoast-components";
+import ConfigurationWizard from "@yoast/configuration-wizard";
 
 class App extends React.Component {
 	render() {
-		return <OnboardingWizard { ...config }/>;
+		return <ConfigurationWizard { ...config }/>;
 	}
 }
 
@@ -135,7 +130,7 @@ let config = {
 
 class App extends React.Component {
 	render() {
-		return <OnboardingWizard { ...config }/>;
+		return <ConfigurationWizard { ...config }/>;
 	}
 };
 ```
@@ -147,7 +142,7 @@ class App extends React.Component {
   "introduction": {
     "component": "HTML",
     "properties": {
-      "html": "<p>Welcome to the onboarding wizard!</p>"
+      "html": "<p>Welcome to the configuration wizard!</p>"
     }
   },
   "favoriteColor": {

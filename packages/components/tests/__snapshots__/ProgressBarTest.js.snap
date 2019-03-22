@@ -3,7 +3,7 @@
 exports[`The Progressbar component with custom color matches the snapshot 1`] = `
 <progress
   aria-hidden="true"
-  className="ProgressBar-sc-26so1b-0 huFWHM"
+  className="ProgressBar-sc-9g9yx6-0 hUfFTi"
   max={100}
   value={50}
 />
@@ -12,7 +12,7 @@ exports[`The Progressbar component with custom color matches the snapshot 1`] = 
 exports[`The Progressbar component with progress matches the snapshot 1`] = `
 <progress
   aria-hidden="true"
-  className="ProgressBar-sc-26so1b-0 hdjRJc"
+  className="ProgressBar-sc-9g9yx6-0 ijYtDX"
   max={100}
   value={50}
 />
@@ -21,7 +21,7 @@ exports[`The Progressbar component with progress matches the snapshot 1`] = `
 exports[`The Progressbar component without any props matches the snapshot 1`] = `
 <progress
   aria-hidden="true"
-  className="ProgressBar-sc-26so1b-0 hdjRJc"
+  className="ProgressBar-sc-9g9yx6-0 ijYtDX"
   max={1}
   value={0}
 />

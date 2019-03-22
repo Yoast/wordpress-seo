@@ -1,8 +1,9 @@
 /*
  * Composites imports.
  */
-// Composites/OnboardingWizard imports.
-import { default as OnboardingWizard, MessageBox, LoadingIndicator, sendRequest, decodeHTML } from "@yoast/configuration-wizard";
+// Composites/ConfigurationWizard imports.
+import { default as OnboardingWizard, MessageBox, LoadingIndicator } from "@yoast/configuration-wizard";
+import { sendRequest, decodeHTML } from "@yoast/helpers";
 
 // Import colors from the style guide.
 import { colors } from "@yoast/components/style-guide";
@@ -26,8 +27,11 @@ import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
 // Composites/KeywordSuggestions imports.
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
-// Composites/basic imports.
-import { Loader, SvgIcon, getRtlStyle } from "@yoast/components";
+
+import { Loader, SvgIcon, YoastSeoIcon } from "@yoast/components";
+import { getDirectionalStyle } from "@yoast/helpers";
+
+const getRtlStyle = getDirectionalStyle;
 
 // Composites/CoursesOverview imports
 import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
@@ -62,6 +66,7 @@ export {
 	getRtlStyle,
 	AlgoliaSearcher,
 	colors,
+	YoastSeoIcon,
 };
 
 export { default as HelpText } from "./composites/Plugin/Shared/components/HelpText";
@@ -81,7 +86,6 @@ export { default as VideoTutorial } from "./composites/HelpCenter/views/VideoTut
 export { default as KeywordInput } from "./composites/Plugin/Shared/components/KeywordInput";
 export { default as Icon } from "./composites/Plugin/Shared/components/Icon";
 export { default as YoastWarning } from "./composites/Plugin/Shared/components/YoastWarning";
-export { default as YoastSeoIcon } from "../components/YoastSeoIcon";
 export { insightsReducer } from "./redux/reducers/insights";
 export { setProminentWords } from "./redux/actions/insights";
 export { setReadabilityResults,
