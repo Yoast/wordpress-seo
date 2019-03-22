@@ -1,6 +1,6 @@
 import React from "react";
-import { createComponentWithIntl } from "@yoast/components";
-import SearchBar from "../SearchBar.js";
+import { createComponentWithIntl } from "@yoast/helpers";
+import SearchBar from "../src/SearchBar";
 
 test( "the SearchBar component with headingText matches the snapshot", () => {
 	const component = createComponentWithIntl(
