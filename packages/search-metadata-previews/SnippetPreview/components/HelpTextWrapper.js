@@ -8,7 +8,7 @@ import uniqueId from "lodash/uniqueId";
 import HelpText from "yoast-components/composites/Plugin/Shared/components/HelpText";
 import { SvgIcon } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
-import { colors, rgba } from "@yoast/components/style-guide";
+import { colors, rgba } from "@yoast/style-guide";
 import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
 import { YoastSlideToggle } from "yoast-components/utils/animations";
 

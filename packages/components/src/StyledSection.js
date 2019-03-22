@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import Section from "./Section";
 import Heading from "./Heading";
-import { colors, rgba } from "../style-guide";
+import { colors, rgba } from "@yoast/style-guide";
 import SvgIcon from "./SvgIcon";
 import { getDirectionalStyle } from "@yoast/helpers";
 

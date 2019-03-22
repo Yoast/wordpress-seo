@@ -20,7 +20,7 @@ import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "../constants";
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 
 const SlugInput = styled.input`
 	border: none;

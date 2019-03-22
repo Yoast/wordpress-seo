@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import ScreenReaderText from "../../../../a11y/ScreenReaderText";
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 
 export const StyledTitleContainer = styled.span`
 	flex-grow: 1;

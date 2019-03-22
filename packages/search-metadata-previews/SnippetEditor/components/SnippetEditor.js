@@ -7,7 +7,7 @@ import noop from "lodash/noop";
 // Yoast dependencies.
 import { assessments, string, helpers } from "yoastseo";
 import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 import { ErrorBoundary, SvgIcon } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 

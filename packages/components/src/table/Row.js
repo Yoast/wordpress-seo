@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { colors } from "../../style-guide";
+import { colors } from "@yoast/style-guide";
 
 // The Rows are flex containers.
 export const Row = styled.li`

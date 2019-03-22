@@ -3,7 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import omit from "lodash/omit";
 
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 import { IconsButton } from "../../Shared/components/Button";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { SectionTitle } from "./SectionTitle";

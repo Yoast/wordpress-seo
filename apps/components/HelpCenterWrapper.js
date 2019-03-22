@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import HelpCenter from "yoast-components/composites/Plugin/HelpCenter/HelpCenter";
 import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTutorial";
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 import AlgoliaSearcher from "@yoast/algolia-search";
 
 export const HelpCenterContainer = styled.div`

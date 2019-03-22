@@ -15,7 +15,7 @@ import FixedWidthContainer from "./FixedWidthContainer";
 import ScreenReaderText from "yoast-components/a11y/ScreenReaderText";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
 import { angleLeft, angleRight } from "../../SnippetEditor/components/Shared";
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 import { getDirectionalStyle } from "@yoast/helpers";
 
 /*

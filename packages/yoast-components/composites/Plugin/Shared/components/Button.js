@@ -4,7 +4,7 @@ import flow from "lodash/flow";
 import omit from "lodash/omit";
 import PropTypes from "prop-types";
 
-import { colors, rgba } from "@yoast/components/style-guide";
+import { colors, rgba } from "@yoast/style-guide";
 import { SvgIcon } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 

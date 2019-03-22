@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import { colors, rgba } from "@yoast/components/style-guide";
+import { colors, rgba } from "@yoast/style-guide";
 import { addButtonStyles, addFontSizeStyles } from "./Button";
 
 /**

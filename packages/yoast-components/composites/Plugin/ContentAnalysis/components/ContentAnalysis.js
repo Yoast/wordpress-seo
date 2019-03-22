@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 import AnalysisList from "./AnalysisList";
 import Collapsible, { StyledIconsButton } from "../../../../composites/Plugin/Shared/components/Collapsible";
 
