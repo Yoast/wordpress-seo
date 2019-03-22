@@ -13,7 +13,7 @@ import {
 import {
 	FormSection,
 	StyledEditor,
-} from "../Shared";
+} from "../shared";
 
 /**
  * The snippet editor settings fields.

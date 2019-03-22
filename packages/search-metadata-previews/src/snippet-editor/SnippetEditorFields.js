@@ -16,7 +16,7 @@ import {
 	SimulatedLabel,
 	StyledEditor,
 	withCaretStyles,
-} from "../Shared";
+} from "../shared";
 import { ProgressBar } from "@yoast/components";
 import {
 	lengthProgressShape,

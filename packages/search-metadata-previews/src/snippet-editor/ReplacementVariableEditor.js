@@ -15,7 +15,7 @@ import {
 	DescriptionInputContainer,
 	TriggerReplacementVariableSuggestionsButton,
 	withCaretStyles,
-} from "../Shared";
+} from "../shared";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
