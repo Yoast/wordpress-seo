@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { colors, SvgIcon } from "yoast-components";
+import { SvgIcon } from "@yoast/components";
+import { colors } from "@yoast/components/style-guide";
 import scoreToRating from "yoastseo/src/interpreters/scoreToRating";
 
 
