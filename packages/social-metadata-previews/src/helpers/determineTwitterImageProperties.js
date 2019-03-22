@@ -1,7 +1,7 @@
-export const SQUARE_WIDTH = 123.422;
-export const SQUARE_HEIGHT = 123.422;
-export const LANDSCAPE_WIDTH = 506;
-export const LANDSCAPE_HEIGHT = 254;
+export const SUMMARY_WIDTH = 123.422;
+export const SUMMARY_HEIGHT = 123.422;
+export const SUMMARY_LARGE_IMAGE_WIDTH = 506;
+export const SUMMARY_LARGE_IMAGE_HEIGHT = 254;
 
 /**
  * Determines the image display mode of the Twitter image.
@@ -12,10 +12,10 @@ export const LANDSCAPE_HEIGHT = 254;
  */
 export function determineTwitterImageMode( dimensions ) {
 	if ( dimensions.height === dimensions.width ) {
-		return "square";
+		return "summary";
 	}
 
-	return "landscape";
+	return "summary_large_image";
 }
 
 /**
@@ -47,7 +47,7 @@ export function getOriginalImageDimensions( src ) {
  * Gets the ratios of the width and height of the original image in relation to the width and height
  * of the expected image.
  *
- * When we're landscape mode, we can't just resize to the dimensions expected by Twitter. If we'd do
+ * When we're summary_large_image mode, we can't just resize to the dimensions expected by Twitter. If we'd do
  * so, we would end up with warped images. That's why we calculate the ratio between the original width and height and
  * the width and height that is expected by Twitter. For example: the original image is 1600x898 and Twitter expects
  * 500x261. The width ratio would be 3.44 and the height ratio would be 3.2.
@@ -58,8 +58,8 @@ export function getOriginalImageDimensions( src ) {
  */
 export function getImageRatios( dimensions ) {
 	return {
-		widthRatio: dimensions.width / LANDSCAPE_WIDTH,
-		heightRatio: dimensions.height / LANDSCAPE_HEIGHT,
+		widthRatio: dimensions.width / SUMMARY_LARGE_IMAGE_WIDTH,
+		heightRatio: dimensions.height / SUMMARY_LARGE_IMAGE_HEIGHT,
 	};
 }
 
@@ -98,13 +98,13 @@ export function getImageDimensionsForTwitterImage( dimensions, imageRatios ) {
  * Calculates the dimensions of the image to use as TwitterImage.
  *
  * @param {Object} originalDimensions The width and height of the original image.
- * @param {string} imageMode The image mode: square or landscape.
+ * @param {string} imageMode The image mode: summary or summary_large_image.
  *
  * @returns {object} The image dimensions for the Twitter image.
  */
 export function calculateTwitterImageDimensions( originalDimensions, imageMode ) {
 	// Images that are too small should not be scaled.
-	if ( originalDimensions.width < SQUARE_WIDTH || originalDimensions.height < SQUARE_HEIGHT ) {
+	if ( originalDimensions.width < SUMMARY_WIDTH || originalDimensions.height < SUMMARY_HEIGHT ) {
 		return {
 			width: originalDimensions.width,
 			height: originalDimensions.height,
@@ -112,18 +112,18 @@ export function calculateTwitterImageDimensions( originalDimensions, imageMode )
 	}
 
 	/*
-	 * If the image is a square, just use the squareWidth and squareHeight. We
+	 * If the image is a summary, just use the summaryWidth and summaryHeight. We
 	 * don't have to fear that the resulting image will be warped.
 	 */
-	if ( imageMode === "square" ) {
+	if ( imageMode === "summary" ) {
 		return {
-			width: SQUARE_WIDTH,
-			height: SQUARE_HEIGHT,
+			width: SUMMARY_WIDTH,
+			height: SUMMARY_HEIGHT,
 		};
 	}
 
 	/*
-	 * If the image isn't a square (and thus, it is a landscape), calculate the image ratios.
+	 * If the image isn't a summary (and thus, it is a summary_large_image), calculate the image ratios.
 	 */
 	const imageRatios = getImageRatios( originalDimensions );
 
