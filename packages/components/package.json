@@ -15,11 +15,5 @@
   },
   "dependencies": {
     "@yoast/helpers": "^0.1.0"
-  },
-  "devDependencies": {
-    "grunt": "^1.0.3"
-  },
-  "optionalDependencies": {
-    "grunt-scss-to-json": "^1.0.1"
   }
 }
