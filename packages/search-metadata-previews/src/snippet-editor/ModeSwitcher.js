@@ -11,7 +11,7 @@ import { Button } from "yoast-components/composites/Plugin/Shared/components/But
 import ScreenReaderText from "yoast-components/a11y/ScreenReaderText";
 
 // Internal dependencies.
-import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../SnippetPreview/constants";
+import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../snippet-preview/constants";
 
 /**
  * Renders a switcher button.

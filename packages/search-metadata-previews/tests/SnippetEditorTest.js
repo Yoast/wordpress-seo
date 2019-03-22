@@ -1,14 +1,14 @@
-import SnippetEditor from "../src/SnippetEditor/SnippetEditor";
+import SnippetEditor from "../src/snippet-editor/SnippetEditor";
 import React from "react";
 import { createComponentWithIntl } from "@yoast/components";
 import {
 	mountWithIntl,
 	shallowWithIntl,
 } from "yoast-components/utils/helpers/intl-enzyme-test-helper";
-import { MODE_DESKTOP } from "../src/SnippetPreview/constants";
-import { focus } from "../src/SnippetEditor/ReplacementVariableEditorStandalone";
+import { MODE_DESKTOP } from "../src/snippet-preview/constants";
+import { focus } from "../src/snippet-editor/ReplacementVariableEditorStandalone";
 
-jest.mock( "../src/SnippetEditor/components/ReplacementVariableEditorStandalone" );
+jest.mock( "../src/snippet-editor/ReplacementVariableEditorStandalone" );
 
 const defaultData = {
 	title: "Test title",

@@ -5,7 +5,7 @@ import EnzymeAdapter from "enzyme-adapter-react-16";
 import Enzyme from "enzyme/build/index";
 
 /* Internal dependencies */
-import HelpTextWrapper from "../src/SnippetPreview/HelpTextWrapper";
+import HelpTextWrapper from "../src/snippet-preview/HelpTextWrapper";
 
 Enzyme.configure( { adapter: new EnzymeAdapter() } );
 
