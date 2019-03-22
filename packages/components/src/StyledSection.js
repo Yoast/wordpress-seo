@@ -2,15 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import Section from "../Section";
-import Heading from "../Heading";
+import Section from "./Section";
+import Heading from "./Heading";
 import { colors, rgba } from "../style-guide";
-import SvgIcon from "../SvgIcon";
-import { getRtlStyle } from "../utils/helpers/styled-components";
+import SvgIcon from "./SvgIcon";
+import { getDirectionalStyle } from "@yoast/helpers";
 
 export const StyledHeading = styled( Heading )`
-	margin-left: ${ getRtlStyle( "0", "20px" ) };
-	padding: ${ getRtlStyle( "0", "20px" ) };
+	margin-left: ${ getDirectionalStyle( "0", "20px" ) };
+	padding: ${ getDirectionalStyle( "0", "20px" ) };
 `;
 
 export const StyledIcon = styled( SvgIcon )``;
@@ -45,7 +45,7 @@ export const StyledSectionBase = styled( Section )`
 
 	& ${ StyledIcon } {
 		flex: 0 0 auto;
-		${ getRtlStyle( "margin-right", "margin-left" ) }: 8px;
+		${ getDirectionalStyle( "margin-right", "margin-left" ) }: 8px;
 	}
 `;
 

@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import ArticleContent from "../ArticleContent.js";
+import ArticleContent from "../src/ArticleContent";
 
 test( "the ArticleContent component  matches the snapshot", () => {
 	const component = renderer.create(

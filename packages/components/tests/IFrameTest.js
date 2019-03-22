@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import IFrame from "../IFrame.js";
+import IFrame from "../src/IFrame.js";
 
 test( "the IFrame without props matches the snapshot", () => {
 	const component = renderer.create(

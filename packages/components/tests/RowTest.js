@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { Row, RowResponsiveWrap } from "../Row";
+import { Row, RowResponsiveWrap } from "../src/table/Row";
 
 test( "the Row component matches the snapshot", () => {
 	const component = renderer.create(

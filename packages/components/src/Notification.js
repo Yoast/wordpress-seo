@@ -6,7 +6,7 @@ import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import Paper from "./Paper";
-import { colors, breakpoints } from "./style-guide";
+import { colors, breakpoints } from "../style-guide";
 import SvgIcon from "./SvgIcon";
 
 const NotificationContainer = styled.div`

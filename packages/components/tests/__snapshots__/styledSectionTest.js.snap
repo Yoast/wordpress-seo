@@ -2,14 +2,14 @@
 
 exports[`StyledSection can change the heading level 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h4
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -34,14 +34,14 @@ exports[`StyledSection can change the heading level 1`] = `
 
 exports[`StyledSection can change the icon to angle-down 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h2
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-down StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-angle-down StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -64,14 +64,14 @@ exports[`StyledSection can change the icon to angle-down 1`] = `
 
 exports[`StyledSection can change the icon to angle-left 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h2
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-left StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-angle-left StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -94,14 +94,14 @@ exports[`StyledSection can change the icon to angle-left 1`] = `
 
 exports[`StyledSection can change the icon to angle-right 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h2
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-right StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-angle-right StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -124,14 +124,14 @@ exports[`StyledSection can change the icon to angle-right 1`] = `
 
 exports[`StyledSection can change the icon to angle-up 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h2
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-up StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-angle-up StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -154,14 +154,14 @@ exports[`StyledSection can change the icon to angle-up 1`] = `
 
 exports[`StyledSection can change the icon to circle 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h2
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-circle StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-circle StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -184,14 +184,14 @@ exports[`StyledSection can change the icon to circle 1`] = `
 
 exports[`StyledSection can change the icon to edit 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h2
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-edit StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-edit StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -214,14 +214,14 @@ exports[`StyledSection can change the icon to edit 1`] = `
 
 exports[`StyledSection can change the icon to eye 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h2
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-eye StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-eye StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -244,14 +244,14 @@ exports[`StyledSection can change the icon to eye 1`] = `
 
 exports[`StyledSection can change the icon to file-text 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h2
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -274,14 +274,14 @@ exports[`StyledSection can change the icon to file-text 1`] = `
 
 exports[`StyledSection can change the icon to key 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h2
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-key StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-key StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -304,14 +304,14 @@ exports[`StyledSection can change the icon to key 1`] = `
 
 exports[`StyledSection can change the icon to list 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h2
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-list StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-list StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -334,14 +334,14 @@ exports[`StyledSection can change the icon to list 1`] = `
 
 exports[`StyledSection can change the icon to question-circle 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h2
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-question-circle StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-question-circle StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -364,14 +364,14 @@ exports[`StyledSection can change the icon to question-circle 1`] = `
 
 exports[`StyledSection can change the icon to search 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h2
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -394,14 +394,14 @@ exports[`StyledSection can change the icon to search 1`] = `
 
 exports[`StyledSection can change the icon to times 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h2
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-times StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-times StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -424,14 +424,14 @@ exports[`StyledSection can change the icon to times 1`] = `
 
 exports[`StyledSection have a red icon 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h2
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-search StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="red"
       focusable="false"
       role="img"
@@ -453,14 +453,14 @@ exports[`StyledSection have a red icon 1`] = `
 
 exports[`StyledSection match the snapshot 1`] = `
 <section
-  className="yoast-section StyledSection__StyledSectionBase-vtcn33-2 buDFIW"
+  className="yoast-section StyledSection__StyledSectionBase-enyt8a-2 noBqY"
 >
   <h2
-    className="StyledSection__StyledHeading-vtcn33-0 iBvzvF"
+    className="StyledSection__StyledHeading-enyt8a-0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-vtcn33-1 fdGWVP SvgIcon__StyledSvg-w0wn5g-0 ePItlk"
+      className="yoast-svg-icon yoast-svg-icon-file-text StyledSection__StyledIcon-enyt8a-1 eOQwFc SvgIcon__StyledSvg-sc-1l8fxgb-0 gevFSm"
       fill="blue"
       focusable="false"
       role="img"

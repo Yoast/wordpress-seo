@@ -1,9 +1,6 @@
-jest.unmock( "../Input" );
-jest.unmock( "prop-types" );
-
 import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
-import Input from "../Input";
+import Input from "../src/Input";
 
 describe( "Input", () => {
 	const renderer = new ReactShallowRenderer();

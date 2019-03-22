@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { ListTable, ZebrafiedListTable } from "../ListTable";
+import { ListTable, ZebrafiedListTable } from "../src/table/ListTable";
 
 test( "the ListTable component matches the snapshot", () => {
 	const component = renderer.create(

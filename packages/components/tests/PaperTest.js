@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import Paper from "../Paper.js";
+import Paper from "../src/Paper.js";
 
 test( "the Paper without props matches the snapshot", () => {
 	const component = renderer.create(

@@ -16,7 +16,8 @@
     "prop-types": "15.7.2",
     "@wordpress/i18n": "1.2.3",
     "@yoast/search-metadata-previews": "^1.0.0",
-    "lodash": "4.17.11"
+    "lodash": "4.17.11",
+    "@yoast/components": "^1.0.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.3.4",

@@ -11,7 +11,7 @@ import { IntlProvider } from "react-intl";
  *
  * @returns {ReactComponent} The IntlProvider Component.
  */
-export const createComponentWithIntl = ( children, props = { locale: "en" }, renderOptions = {} ) => {
+const createComponentWithIntl = ( children, props = { locale: "en" }, renderOptions = {} ) => {
 	return renderer.create(
 		<IntlProvider { ...props }>
 			{ children }
@@ -19,3 +19,5 @@ export const createComponentWithIntl = ( children, props = { locale: "en" }, ren
 		renderOptions
 	);
 };
+
+export default  createComponentWithIntl;

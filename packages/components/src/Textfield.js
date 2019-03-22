@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Label from "../Label";
-import Input from "../Input";
-import Textarea from "../Textarea";
+import Label from "./Label";
+import Input from "./Input";
+import Textarea from "./Textarea";
 
 /**
  * Represents the Textfield composite component.
