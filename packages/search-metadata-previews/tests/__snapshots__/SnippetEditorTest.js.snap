@@ -1844,13 +1844,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
           }
         }
       >
-        <Shared__StyledEditor
+        <shared__StyledEditor
           padding="0 20px"
         >
           <section
             className="c24"
           >
-            <Shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -1868,7 +1868,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   replacementVariables={Array []}
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="21"
                     onClick={[Function]}
                   >
@@ -1879,8 +1879,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     >
                       SEO title
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -2021,8 +2021,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -2057,7 +2057,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -2075,12 +2075,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
-                <Shared__SimulatedLabel
+                <shared__SimulatedLabel
                   id="snippet-editor-field-20-slug"
                   onClick={[Function]}
                 >
@@ -2091,8 +2091,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   >
                     Slug
                   </div>
-                </Shared__SimulatedLabel>
-                <Shared__InputContainer
+                </shared__SimulatedLabel>
+                <shared__InputContainer
                   isActive={false}
                   isHovered={false}
                   onClick={[Function]}
@@ -2121,10 +2121,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       />
                     </SnippetEditorFields__SlugInput>
                   </div>
-                </Shared__InputContainer>
+                </shared__InputContainer>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -2144,7 +2144,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   type="description"
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="22"
                     onClick={[Function]}
                   >
@@ -2155,8 +2155,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     >
                       Meta description
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -2297,8 +2297,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -2335,7 +2335,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -2353,9 +2353,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
+            </shared__FormSection>
           </section>
-        </Shared__StyledEditor>
+        </shared__StyledEditor>
       </SnippetEditorFields>
       <Button
         onClick={[Function]}
@@ -3766,13 +3766,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
           }
         }
       >
-        <Shared__StyledEditor
+        <shared__StyledEditor
           padding="0 20px"
         >
           <section
             className="c24"
           >
-            <Shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -3790,7 +3790,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   replacementVariables={Array []}
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="21"
                     onClick={[Function]}
                   >
@@ -3801,8 +3801,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     >
                       SEO title
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -3943,8 +3943,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -3979,7 +3979,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -3997,12 +3997,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
-                <Shared__SimulatedLabel
+                <shared__SimulatedLabel
                   id="snippet-editor-field-20-slug"
                   onClick={[Function]}
                 >
@@ -4013,8 +4013,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   >
                     Slug
                   </div>
-                </Shared__SimulatedLabel>
-                <Shared__InputContainer
+                </shared__SimulatedLabel>
+                <shared__InputContainer
                   isActive={false}
                   isHovered={false}
                   onClick={[Function]}
@@ -4043,10 +4043,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       />
                     </SnippetEditorFields__SlugInput>
                   </div>
-                </Shared__InputContainer>
+                </shared__InputContainer>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -4066,7 +4066,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   type="description"
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="22"
                     onClick={[Function]}
                   >
@@ -4077,8 +4077,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     >
                       Meta description
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -4219,8 +4219,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -4257,7 +4257,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -4275,9 +4275,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
+            </shared__FormSection>
           </section>
-        </Shared__StyledEditor>
+        </shared__StyledEditor>
       </SnippetEditorFields>
       <Button
         onClick={[Function]}
@@ -5688,13 +5688,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
           }
         }
       >
-        <Shared__StyledEditor
+        <shared__StyledEditor
           padding="0 20px"
         >
           <section
             className="c24"
           >
-            <Shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -5712,7 +5712,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   replacementVariables={Array []}
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="21"
                     onClick={[Function]}
                   >
@@ -5723,8 +5723,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     >
                       SEO title
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -5865,8 +5865,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -5901,7 +5901,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -5919,12 +5919,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
-                <Shared__SimulatedLabel
+                <shared__SimulatedLabel
                   id="snippet-editor-field-20-slug"
                   onClick={[Function]}
                 >
@@ -5935,8 +5935,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   >
                     Slug
                   </div>
-                </Shared__SimulatedLabel>
-                <Shared__InputContainer
+                </shared__SimulatedLabel>
+                <shared__InputContainer
                   isActive={false}
                   isHovered={false}
                   onClick={[Function]}
@@ -5965,10 +5965,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       />
                     </SnippetEditorFields__SlugInput>
                   </div>
-                </Shared__InputContainer>
+                </shared__InputContainer>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -5988,7 +5988,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   type="description"
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="22"
                     onClick={[Function]}
                   >
@@ -5999,8 +5999,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     >
                       Meta description
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -6141,8 +6141,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -6179,7 +6179,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -6197,9 +6197,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
+            </shared__FormSection>
           </section>
-        </Shared__StyledEditor>
+        </shared__StyledEditor>
       </SnippetEditorFields>
       <Button
         onClick={[Function]}
@@ -7610,13 +7610,13 @@ exports[`SnippetEditor closes when calling close() 1`] = `
           }
         }
       >
-        <Shared__StyledEditor
+        <shared__StyledEditor
           padding="0 20px"
         >
           <section
             className="c24"
           >
-            <Shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -7634,7 +7634,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   replacementVariables={Array []}
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="9"
                     onClick={[Function]}
                   >
@@ -7645,8 +7645,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     >
                       SEO title
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -7787,8 +7787,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -7823,7 +7823,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -7841,12 +7841,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
-                <Shared__SimulatedLabel
+                <shared__SimulatedLabel
                   id="snippet-editor-field-8-slug"
                   onClick={[Function]}
                 >
@@ -7857,8 +7857,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   >
                     Slug
                   </div>
-                </Shared__SimulatedLabel>
-                <Shared__InputContainer
+                </shared__SimulatedLabel>
+                <shared__InputContainer
                   isActive={false}
                   isHovered={false}
                   onClick={[Function]}
@@ -7887,10 +7887,10 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       />
                     </SnippetEditorFields__SlugInput>
                   </div>
-                </Shared__InputContainer>
+                </shared__InputContainer>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -7910,7 +7910,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   type="description"
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="10"
                     onClick={[Function]}
                   >
@@ -7921,8 +7921,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     >
                       Meta description
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -8063,8 +8063,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -8101,7 +8101,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -8119,9 +8119,9 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
+            </shared__FormSection>
           </section>
-        </Shared__StyledEditor>
+        </shared__StyledEditor>
       </SnippetEditorFields>
       <Button
         onClick={[Function]}
@@ -10560,13 +10560,13 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
           }
         }
       >
-        <Shared__StyledEditor
+        <shared__StyledEditor
           padding="0 20px"
         >
           <section
             className="c24"
           >
-            <Shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -10584,7 +10584,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   replacementVariables={Array []}
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="30"
                     onClick={[Function]}
                   >
@@ -10595,8 +10595,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     >
                       SEO title
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -10737,8 +10737,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -10773,7 +10773,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -10791,12 +10791,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
-                <Shared__SimulatedLabel
+                <shared__SimulatedLabel
                   id="snippet-editor-field-29-slug"
                   onClick={[Function]}
                 >
@@ -10807,8 +10807,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   >
                     Slug
                   </div>
-                </Shared__SimulatedLabel>
-                <Shared__InputContainer
+                </shared__SimulatedLabel>
+                <shared__InputContainer
                   isActive={false}
                   isHovered={false}
                   onClick={[Function]}
@@ -10837,10 +10837,10 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       />
                     </SnippetEditorFields__SlugInput>
                   </div>
-                </Shared__InputContainer>
+                </shared__InputContainer>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -10860,7 +10860,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   type="description"
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="31"
                     onClick={[Function]}
                   >
@@ -10871,8 +10871,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     >
                       Meta description
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -11013,8 +11013,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -11051,7 +11051,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -11069,9 +11069,9 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
+            </shared__FormSection>
           </section>
-        </Shared__StyledEditor>
+        </shared__StyledEditor>
       </SnippetEditorFields>
       <Button
         onClick={[Function]}
@@ -12482,13 +12482,13 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
           }
         }
       >
-        <Shared__StyledEditor
+        <shared__StyledEditor
           padding="0 20px"
         >
           <section
             className="c24"
           >
-            <Shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -12506,7 +12506,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   replacementVariables={Array []}
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="27"
                     onClick={[Function]}
                   >
@@ -12517,8 +12517,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     >
                       SEO title
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -12659,8 +12659,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -12695,7 +12695,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -12713,12 +12713,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
-                <Shared__SimulatedLabel
+                <shared__SimulatedLabel
                   id="snippet-editor-field-26-slug"
                   onClick={[Function]}
                 >
@@ -12729,8 +12729,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   >
                     Slug
                   </div>
-                </Shared__SimulatedLabel>
-                <Shared__InputContainer
+                </shared__SimulatedLabel>
+                <shared__InputContainer
                   isActive={false}
                   isHovered={false}
                   onClick={[Function]}
@@ -12759,10 +12759,10 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       />
                     </SnippetEditorFields__SlugInput>
                   </div>
-                </Shared__InputContainer>
+                </shared__InputContainer>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -12782,7 +12782,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   type="description"
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="28"
                     onClick={[Function]}
                   >
@@ -12793,8 +12793,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     >
                       Meta description
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -12935,8 +12935,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -12973,7 +12973,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -12991,9 +12991,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
+            </shared__FormSection>
           </section>
-        </Shared__StyledEditor>
+        </shared__StyledEditor>
       </SnippetEditorFields>
       <Button
         onClick={[Function]}
@@ -15360,13 +15360,13 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
           }
         }
       >
-        <Shared__StyledEditor
+        <shared__StyledEditor
           padding="0 20px"
         >
           <section
             className="c25"
           >
-            <Shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c26"
               >
@@ -15384,7 +15384,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   replacementVariables={Array []}
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="15"
                     onClick={[Function]}
                   >
@@ -15395,8 +15395,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     >
                       SEO title
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -15537,8 +15537,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -15573,7 +15573,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -15591,12 +15591,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c26"
               >
-                <Shared__SimulatedLabel
+                <shared__SimulatedLabel
                   id="snippet-editor-field-14-slug"
                   onClick={[Function]}
                 >
@@ -15607,8 +15607,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   >
                     Slug
                   </div>
-                </Shared__SimulatedLabel>
-                <Shared__InputContainer
+                </shared__SimulatedLabel>
+                <shared__InputContainer
                   isActive={false}
                   isHovered={false}
                   onClick={[Function]}
@@ -15637,10 +15637,10 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       />
                     </SnippetEditorFields__SlugInput>
                   </div>
-                </Shared__InputContainer>
+                </shared__InputContainer>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c26"
               >
@@ -15660,7 +15660,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   type="description"
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="16"
                     onClick={[Function]}
                   >
@@ -15671,8 +15671,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     >
                       Meta description
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -15813,8 +15813,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={true}
                     isHovered={false}
                     onClick={[Function]}
@@ -15851,7 +15851,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -15869,9 +15869,9 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
+            </shared__FormSection>
           </section>
-        </Shared__StyledEditor>
+        </shared__StyledEditor>
       </SnippetEditorFields>
       <Button
         onClick={[Function]}
@@ -17302,13 +17302,13 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
           }
         }
       >
-        <Shared__StyledEditor
+        <shared__StyledEditor
           padding="0 20px"
         >
           <section
             className="c25"
           >
-            <Shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c26"
               >
@@ -17326,7 +17326,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   replacementVariables={Array []}
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="12"
                     onClick={[Function]}
                   >
@@ -17337,8 +17337,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     >
                       SEO title
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -17479,8 +17479,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -17515,7 +17515,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -17533,12 +17533,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c26"
               >
-                <Shared__SimulatedLabel
+                <shared__SimulatedLabel
                   id="snippet-editor-field-11-slug"
                   onClick={[Function]}
                 >
@@ -17549,8 +17549,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   >
                     Slug
                   </div>
-                </Shared__SimulatedLabel>
-                <Shared__InputContainer
+                </shared__SimulatedLabel>
+                <shared__InputContainer
                   isActive={false}
                   isHovered={false}
                   onClick={[Function]}
@@ -17579,10 +17579,10 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       />
                     </SnippetEditorFields__SlugInput>
                   </div>
-                </Shared__InputContainer>
+                </shared__InputContainer>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c26"
               >
@@ -17602,7 +17602,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   type="description"
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="13"
                     onClick={[Function]}
                   >
@@ -17613,8 +17613,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     >
                       Meta description
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -17755,8 +17755,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={true}
                     onClick={[Function]}
@@ -17793,7 +17793,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -17811,9 +17811,9 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
+            </shared__FormSection>
           </section>
-        </Shared__StyledEditor>
+        </shared__StyledEditor>
       </SnippetEditorFields>
       <Button
         onClick={[Function]}
@@ -19224,13 +19224,13 @@ exports[`SnippetEditor opens when calling open() 1`] = `
           }
         }
       >
-        <Shared__StyledEditor
+        <shared__StyledEditor
           padding="0 20px"
         >
           <section
             className="c24"
           >
-            <Shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -19248,7 +19248,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   replacementVariables={Array []}
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="6"
                     onClick={[Function]}
                   >
@@ -19259,8 +19259,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     >
                       SEO title
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -19401,8 +19401,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -19437,7 +19437,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -19455,12 +19455,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
-                <Shared__SimulatedLabel
+                <shared__SimulatedLabel
                   id="snippet-editor-field-5-slug"
                   onClick={[Function]}
                 >
@@ -19471,8 +19471,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   >
                     Slug
                   </div>
-                </Shared__SimulatedLabel>
-                <Shared__InputContainer
+                </shared__SimulatedLabel>
+                <shared__InputContainer
                   isActive={false}
                   isHovered={false}
                   onClick={[Function]}
@@ -19501,10 +19501,10 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       />
                     </SnippetEditorFields__SlugInput>
                   </div>
-                </Shared__InputContainer>
+                </shared__InputContainer>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -19524,7 +19524,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   type="description"
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="7"
                     onClick={[Function]}
                   >
@@ -19535,8 +19535,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     >
                       Meta description
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -19677,8 +19677,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -19715,7 +19715,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -19733,9 +19733,9 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
+            </shared__FormSection>
           </section>
-        </Shared__StyledEditor>
+        </shared__StyledEditor>
       </SnippetEditorFields>
       <Button
         onClick={[Function]}
@@ -21168,13 +21168,13 @@ exports[`SnippetEditor passes replacement variables to the title and description
           }
         }
       >
-        <Shared__StyledEditor
+        <shared__StyledEditor
           padding="0 20px"
         >
           <section
             className="c24"
           >
-            <Shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -21203,7 +21203,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   }
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="24"
                     onClick={[Function]}
                   >
@@ -21214,8 +21214,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     >
                       SEO title
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -21356,8 +21356,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -21414,7 +21414,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -21432,12 +21432,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
-                <Shared__SimulatedLabel
+                <shared__SimulatedLabel
                   id="snippet-editor-field-23-slug"
                   onClick={[Function]}
                 >
@@ -21448,8 +21448,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   >
                     Slug
                   </div>
-                </Shared__SimulatedLabel>
-                <Shared__InputContainer
+                </shared__SimulatedLabel>
+                <shared__InputContainer
                   isActive={false}
                   isHovered={false}
                   onClick={[Function]}
@@ -21478,10 +21478,10 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       />
                     </SnippetEditorFields__SlugInput>
                   </div>
-                </Shared__InputContainer>
+                </shared__InputContainer>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -21512,7 +21512,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   type="description"
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="25"
                     onClick={[Function]}
                   >
@@ -21523,8 +21523,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     >
                       Meta description
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -21665,8 +21665,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -21725,7 +21725,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -21743,9 +21743,9 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
+            </shared__FormSection>
           </section>
-        </Shared__StyledEditor>
+        </shared__StyledEditor>
       </SnippetEditorFields>
       <Button
         onClick={[Function]}
@@ -23712,13 +23712,13 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
           }
         }
       >
-        <Shared__StyledEditor
+        <shared__StyledEditor
           padding="0 20px"
         >
           <section
             className="c24"
           >
-            <Shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -23736,7 +23736,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   replacementVariables={Array []}
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="18"
                     onClick={[Function]}
                   >
@@ -23747,8 +23747,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     >
                       SEO title
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -23889,8 +23889,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -23925,7 +23925,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -23943,12 +23943,12 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
-                <Shared__SimulatedLabel
+                <shared__SimulatedLabel
                   id="snippet-editor-field-17-slug"
                   onClick={[Function]}
                 >
@@ -23959,8 +23959,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   >
                     Slug
                   </div>
-                </Shared__SimulatedLabel>
-                <Shared__InputContainer
+                </shared__SimulatedLabel>
+                <shared__InputContainer
                   isActive={false}
                   isHovered={false}
                   onClick={[Function]}
@@ -23989,10 +23989,10 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       />
                     </SnippetEditorFields__SlugInput>
                   </div>
-                </Shared__InputContainer>
+                </shared__InputContainer>
               </div>
-            </Shared__FormSection>
-            <Shared__FormSection>
+            </shared__FormSection>
+            <shared__FormSection>
               <div
                 className="c25"
               >
@@ -24012,7 +24012,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   type="description"
                   withCaret={true}
                 >
-                  <Shared__SimulatedLabel
+                  <shared__SimulatedLabel
                     id="19"
                     onClick={[Function]}
                   >
@@ -24023,8 +24023,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     >
                       Meta description
                     </div>
-                  </Shared__SimulatedLabel>
-                  <Shared__TriggerReplacementVariableSuggestionsButton
+                  </shared__SimulatedLabel>
+                  <shared__TriggerReplacementVariableSuggestionsButton
                     onClick={[Function]}
                   >
                     <Button
@@ -24165,8 +24165,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         </Button>
                       </Button>
                     </Button>
-                  </Shared__TriggerReplacementVariableSuggestionsButton>
-                  <Shared__InputContainer
+                  </shared__TriggerReplacementVariableSuggestionsButton>
+                  <shared__InputContainer
                     isActive={false}
                     isHovered={false}
                     onClick={[Function]}
@@ -24203,7 +24203,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                         </ReplacementVariableEditorStandalone>
                       </Wrapper>
                     </div>
-                  </Shared__InputContainer>
+                  </shared__InputContainer>
                 </ReplacementVariableEditor>
                 <ProgressBar
                   aria-hidden="true"
@@ -24221,9 +24221,9 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   />
                 </ProgressBar>
               </div>
-            </Shared__FormSection>
+            </shared__FormSection>
           </section>
-        </Shared__StyledEditor>
+        </shared__StyledEditor>
       </SnippetEditorFields>
       <Button
         onClick={[Function]}
