@@ -20,7 +20,7 @@
     "react": "16.6.3",
     "react-intl": "^2.4.0",
     "styled-components": "^2.1.2",
-    "yoast-components": "^4.22.1",
+    "yoast-components": "^4.22.1"
   },
   "devDependencies": {
     "babel-jest": "^24.5.0",
