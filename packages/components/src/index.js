@@ -17,7 +17,7 @@ export { default as Label } from "./Label";
 export { default as Loader } from "./Loader";
 export { default as Notification } from "./Notification";
 export { default as Paper } from "./Paper";
-export { default as Progressbar } from "./Progressbar";
+export { default as ProgressBar } from "./ProgressBar";
 export { default as Section } from "./Section";
 export { default as SvgIcon } from "./SvgIcon";
 export { default as Textarea } from "./Textarea";
