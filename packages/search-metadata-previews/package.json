@@ -14,6 +14,7 @@
     "@wordpress/i18n": "^1.1.0",
     "@yoast/components": "^1.0.0",
     "@yoast/helpers": "^0.1.0",
+    "@yoast/style-guide": "^0.1.0",
     "draft-js": "^0.10.5",
     "draft-js-mention-plugin": "^3.0.4",
     "draft-js-plugins-editor": "^2.0.4",
