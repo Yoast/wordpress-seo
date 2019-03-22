@@ -14,6 +14,22 @@
  */
 class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	/**
+	 * A value object with context variables.
+	 *
+	 * @var WPSEO_Schema_Context
+	 */
+	private $context;
+
+	/**
+	 * WPSEO_Schema_Breadcrumb constructor.
+	 *
+	 * @param WPSEO_Schema_Context $context A value object with context variables.
+	 */
+	public function __construct( WPSEO_Schema_Context $context ) {
+		$this->context = $context;
+	}
+
+	/**
 	 * Determine if we should add a breadcrumb attribute.
 	 *
 	 * @return bool
@@ -27,11 +43,7 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 			return false;
 		}
 
-		$breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
-		if ( ! $breadcrumbs_enabled ) {
-			$breadcrumbs_enabled = WPSEO_Options::get( 'breadcrumbs-enable', false );
-		}
-		if ( $breadcrumbs_enabled ) {
+		if ( $this->context->breadcrumbs_enabled ) {
 			return true;
 		}
 
@@ -62,11 +74,11 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 			}
 
 			if ( empty( $breadcrumb['url'] ) ) {
-				$breadcrumb['url'] = WPSEO_Frontend::get_instance()->canonical( false );
+				$breadcrumb['url'] = $this->context->canonical;
 			}
 
 			if ( empty( $breadcrumb['text'] ) ) {
-				$breadcrumb['url'] = WPSEO_Frontend::get_instance()->title( '' );
+				$breadcrumb['url'] = $this->context->title;
 			}
 
 			$list_elements[] = array(
@@ -82,7 +94,7 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 
 		$data = array(
 			'@type'           => 'BreadcrumbList',
-			'@id'             => WPSEO_Frontend::get_instance()->canonical( false ) . '#breadcrumb',
+			'@id'             => $this->context->canonical . '#breadcrumb',
 			'itemListElement' => $list_elements,
 		);
 

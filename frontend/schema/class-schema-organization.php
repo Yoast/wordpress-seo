@@ -14,12 +14,28 @@
  */
 class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	/**
+	 * A value object with context variables.
+	 *
+	 * @var WPSEO_Schema_Context
+	 */
+	private $context;
+
+	/**
+	 * WPSEO_Schema_Breadcrumb constructor.
+	 *
+	 * @param WPSEO_Schema_Context $context A value object with context variables.
+	 */
+	public function __construct( WPSEO_Schema_Context $context ) {
+		$this->context = $context;
+	}
+
+	/**
 	 * Determines whether an Organization graph piece should be added.
 	 *
 	 * @return bool
 	 */
 	public function is_needed() {
-		return ( WPSEO_Options::get( 'company_or_person', '' ) === 'company' );
+		return ( $this->context->site_represents === 'company' );
 	}
 
 	/**
@@ -30,9 +46,9 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	public function generate() {
 		$data = array(
 			'@type'  => 'Organization',
-			'@id'    => WPSEO_Utils::home_url() . '#organization',
-			'name'   => WPSEO_Options::get( 'company_name' ),
-			'url'    => WPSEO_Utils::home_url(),
+			'@id'    => $this->context->site_url . '#organization',
+			'name'   => $this->context->company_name,
+			'url'    => $this->context->site_url,
 			'sameAs' => $this->fetch_social_profiles(),
 		);
 		$data = $this->add_logo( $data );
@@ -54,9 +70,9 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 		}
 		$data['logo'] = array(
 			'@type'   => 'ImageObject',
-			'@id'     => WPSEO_Utils::get_home_url() . '#logo',
+			'@id'     => $this->context->site_url . '#logo',
 			'url'     => $logo,
-			'caption' => WPSEO_Options::get( 'company_name' ),
+			'caption' => $this->context->company_name,
 		);
 
 		return $data;

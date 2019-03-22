@@ -10,6 +10,12 @@ if ( ! interface_exists( 'WPSEO_Graph_Piece' ) ) {
 	 * An interface for registering Schema Graph Pieces
 	 */
 	interface WPSEO_Graph_Piece {
+		/**
+		 * WPSEO_Graph_Piece constructor.
+		 *
+		 * @param WPSEO_Schema_Context $context A value object with context variables.
+		 */
+		public function __construct( WPSEO_Schema_Context $context );
 
 		/**
 		 * Add your piece of the graph.

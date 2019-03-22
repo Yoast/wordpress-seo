@@ -14,6 +14,22 @@
  */
 class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	/**
+	 * A value object with context variables.
+	 *
+	 * @var WPSEO_Schema_Context
+	 */
+	private $context;
+
+	/**
+	 * WPSEO_Schema_Breadcrumb constructor.
+	 *
+	 * @param WPSEO_Schema_Context $context A value object with context variables.
+	 */
+	public function __construct( WPSEO_Schema_Context $context ) {
+		$this->context = $context;
+	}
+
+	/**
 	 * Determines whether or not a piece should be added to the graph.
 	 *
 	 * @return bool
@@ -32,38 +48,32 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 * @return array WebPage data blob.
 	 */
 	public function generate() {
-		$front     = WPSEO_Frontend::get_instance();
-		$canonical = $front->canonical( false );
 		$data      = array(
 			'@type'      => $this->determine_page_type(),
-			'@id'        => $canonical . '#webpage',
-			'url'        => $canonical,
+			'@id'        => $this->context->canonical . '#webpage',
+			'url'        => $this->context->canonical,
 			'inLanguage' => get_bloginfo( 'language' ),
-			'name'       => $front->title( '' ),
+			'name'       => $this->context->title,
 			'isPartOf'   => array(
-				'@id' => WPSEO_Utils::home_url() . '#website',
+				'@id' => $this->context->site_url . '#website',
 			),
 		);
 
 		if ( is_singular() ) {
 			$data = $this->add_featured_image( $data );
 
-			$post                  = get_post();
+			$post                  = get_post( $this->context->post_id );
 			$data['datePublished'] = mysql2date( DATE_W3C, $post->post_date_gmt, false );
 			$data['dateModified']  = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
 		}
 
-		if ( is_paged() ) {
-			$data['relatedLink'] = $front->adjacent_rel_links();
-		}
-
-		if ( $front->metadesc( false ) !== '' ) {
-			$data['description'] = $front->metadesc( false );
+		if ( ! empty( $this->context->description ) ) {
+			$data['description'] = $this->context->description;
 		}
 
 		if ( $this->add_breadcrumbs() ) {
 			$data['breadcrumb'] = array(
-				'@id' => $canonical . '#breadcrumb',
+				'@id' => $this->context->canonical . '#breadcrumb',
 			);
 		}
 
@@ -80,11 +90,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			return false;
 		}
 
-		$breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
-		if ( ! $breadcrumbs_enabled ) {
-			$breadcrumbs_enabled = WPSEO_Options::get( 'breadcrumbs-enable', false );
-		}
-		if ( $breadcrumbs_enabled ) {
+		if ( $this->context->breadcrumbs_enabled ) {
 			return true;
 		}
 
@@ -127,11 +133,11 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 * @return array $data WebPage Schema.
 	 */
 	private function add_featured_image( $data ) {
-		if ( ! has_post_thumbnail( get_queried_object_id() ) ) {
+		if ( ! has_post_thumbnail( $this->context->id ) ) {
 			return $data;
 		}
 
-		$id                         = WPSEO_Frontend::get_instance()->canonical( false ) . '#primaryimage';
+		$id                         = $this->context->canonical . '#primaryimage';
 		$data['image']              = array(
 			'@type'   => 'ImageObject',
 			'@id'     => $id,
