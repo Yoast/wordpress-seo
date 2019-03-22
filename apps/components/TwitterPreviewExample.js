@@ -14,23 +14,6 @@ const TwitterPreviewExample = () => {
 			<h2>TwitterPreview</h2>
 			<TwitterPreview
 				title="YoastCon Workshops &bull; Yoast"
-				description="This is a description"
-				siteName="yoast.com"
-			/>
-			<h2>TwitterPreview with long description</h2>
-			<TwitterPreview
-				title="YoastCon Workshops &bull; Yoast"
-				description={
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description."
-				}
 				siteName="yoast.com"
 			/>
 		</ExamplesContainer>
