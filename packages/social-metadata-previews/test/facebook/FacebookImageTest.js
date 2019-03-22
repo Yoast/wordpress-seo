@@ -8,7 +8,7 @@ import delayComponentSnapshot from "./testHelpers/delayComponentSnapshot";
 
 const importedDetermineFacebookImageProperties = require( "../../src/helpers/determineFacebookImageProperties.js" );
 
-jest.mock( "../helpers/determineFacebookImageProperties.js", () => {
+jest.mock( "../../src/helpers/determineFacebookImageProperties.js", () => {
 	return {
 		determineFacebookImageProperties: jest.fn(),
 		SQUARE_WIDTH: 158,

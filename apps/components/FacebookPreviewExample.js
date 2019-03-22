@@ -3,7 +3,7 @@ import React from "react";
 
 /* Internal dependencies */
 import ExamplesContainer from "./ExamplesContainer";
-import FacebookPreview from "yoast-components/composites/Plugin/SocialPreviews/Facebook/components/FacebookPreview";
+import FacebookPreview from "../../packages/social-metadata-previews/src/facebook/FacebookPreview";
 
 /**
  * Returns the FacebookPreview examples.
