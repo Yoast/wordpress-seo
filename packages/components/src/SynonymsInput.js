@@ -4,7 +4,7 @@ import uniqueId from "lodash/uniqueId";
 import styled from "styled-components";
 
 import { YoastInputContainer, YoastInputField, YoastInputLabel } from "./YoastInput";
-import { getRtlStyle } from "../utils/helpers/styled-components";
+import { getDirectionalStyle } from "@yoast/helpers";
 
 const SynonymsFieldLabelContainer = styled.span`
 	margin-bottom: 0.5em;
@@ -13,7 +13,7 @@ const SynonymsFieldLabelContainer = styled.span`
 const StyledYoastInputLabel = styled( YoastInputLabel )`
 	display: inline-block;
 	margin-bottom: 0;
-	${ getRtlStyle( "margin-right: 4px", "margin-left: 4px" ) };
+	${ getDirectionalStyle( "margin-right: 4px", "margin-left: 4px" ) };
 `;
 
 /**

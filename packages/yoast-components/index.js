@@ -22,6 +22,10 @@ import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSug
 // Composites/KeywordSuggestions imports.
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
 
+import { getDirectionalStyle } from "@yoast/helpers";
+
+const getRtlStyle = getDirectionalStyle;
+
 // Composites/CoursesOverview imports
 import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
 import { default as CardBanner } from "./composites/CoursesOverview/CardBanner";
@@ -44,6 +48,7 @@ export {
 	FullHeightCard,
 	CardBanner,
 	CardDetails,
+	getRtlStyle,
 	AlgoliaSearcher,
 	colors,
 };
@@ -70,7 +75,6 @@ export { setReadabilityResults,
 	setOverallSeoScore } from "./composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 export {
-	getRtlStyle,
 	HelpText,
 	Icon,
 	LanguageNotice,

@@ -7,9 +7,10 @@ import { __ } from "@wordpress/i18n";
 import noop from "lodash/noop";
 
 // Internal dependencies.
+import { SvgIcon, YoastInputField } from "@yoast/components";
 import { colors } from "@yoast/components/style-guide";
-import { SvgIcon, getRtlStyle, YoastInputField } from "@yoast/components";
 import { addFocusStyle } from "./Button";
+import { getDirectionalStyle } from "@yoast/helpers";
 
 const errorColor = colors.$color_red;
 const greyColor = colors.$color_grey_text_light;
@@ -23,7 +24,7 @@ const KeywordInputContainer = styled.div`
 const KeywordFieldLabel = styled.label`
 	font-size: 1em;
 	font-weight: bold;
-	${ getRtlStyle( "margin-right: 4px", "margin-left: 4px" ) };
+	${ getDirectionalStyle( "margin-right: 4px", "margin-left: 4px" ) };
 `;
 
 const KeywordFieldLabelContainer = styled.span`
@@ -91,11 +92,11 @@ export const YoastInputButtonContainer = styled.div`
 
 	&.has-remove-keyword-button {
 		${ KeywordField } {
-			${ getRtlStyle( "padding-right: 40px", "padding-left: 40px" ) };
+			${ getDirectionalStyle( "padding-right: 40px", "padding-left: 40px" ) };
 		}
 
 		${ BorderlessButton } {
-			${ getRtlStyle( "margin-left: -32px", "margin-right: -32px" ) };
+			${ getDirectionalStyle( "margin-left: -32px", "margin-right: -32px" ) };
 		}
 	}
 `;

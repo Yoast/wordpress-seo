@@ -5,7 +5,8 @@ import { __ } from "@wordpress/i18n";
 import { FullHeightCard } from "yoast-components/composites/CoursesOverview/Card";
 import CardDetails from "yoast-components/composites/CoursesOverview/CardDetails";
 import getCourseFeed from "yoast-components/utils/getCourseFeed";
-import { YoastWarning, getRtlStyle } from "@yoast/components";
+import { getDirectionalStyle } from "@yoast/helpers";
+import { YoastWarning } from "@yoast/components";
 
 const Container = styled.div`
 	max-width: 1024px;
@@ -43,7 +44,7 @@ const CourseListItem = styled.li`
 	/* Higher specificity to override WordPress margins. */
 	&& {
 		flex: 0 0 288px;
-		margin: ${ getRtlStyle( "0 16px 16px 0", "0 0 16px 16px" ) };
+		margin: ${ getDirectionalStyle( "0 16px 16px 0", "0 0 16px 16px" ) };
 	}
 `;
 

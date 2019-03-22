@@ -1,6 +1,6 @@
 import SnippetEditor from "../components/SnippetEditor";
 import React from "react";
-import { createComponentWithIntl } from "@yoast/components";
+import { createComponentWithIntl } from "@yoast/helpers";
 import {
 	mountWithIntl,
 	shallowWithIntl,
