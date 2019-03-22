@@ -17,6 +17,8 @@
  * @property string $title               Page title.
  * @property string $description         Page description.
  * @property bool   $breadcrumbs_enabled Whether or not this site has breadcrumbs enabled.
+ *
+ * @since 10.2
  */
 class WPSEO_Schema_Context {
 	/**

@@ -6,11 +6,9 @@
  */
 
 /**
- * Class WPSEO_Schema_Breadcrumb
+ * Returns schema Breadcrumb data.
  *
- * Outputs schema Breadcrumb code.
- *
- * @since 10.1
+ * @since 10.2
  */
 class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	/**
@@ -51,7 +49,7 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Outputs code to allow recognition of page's position in the site hierarchy
+	 * Returns Schema breadcrumb data to allow recognition of page's position in the site hierarchy.
 	 *
 	 * @link https://developers.google.com/search/docs/data-types/breadcrumb
 	 *

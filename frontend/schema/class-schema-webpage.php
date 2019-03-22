@@ -6,11 +6,9 @@
  */
 
 /**
- * Class WPSEO_Schema_WebPage
+ * Returns schema WebPage data.
  *
- * Outputs schema WebPage code.
- *
- * @since 10.1
+ * @since 10.2
  */
 class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	/**
@@ -43,9 +41,9 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Returns a WebPage JSON+LD blob.
+	 * Returns WebPage schema data.
 	 *
-	 * @return array WebPage data blob.
+	 * @return array WebPage schema data.
 	 */
 	public function generate() {
 		$data      = array(
@@ -62,7 +60,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 		if ( is_singular() ) {
 			$data = $this->add_featured_image( $data );
 
-			$post                  = get_post( $this->context->post_id );
+			$post                  = get_post( $this->context->id );
 			$data['datePublished'] = mysql2date( DATE_W3C, $post->post_date_gmt, false );
 			$data['dateModified']  = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
 		}
