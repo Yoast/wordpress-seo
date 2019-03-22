@@ -6,11 +6,9 @@
  */
 
 /**
- * Class WPSEO_Schema_Website
+ * Returns schema Website data.
  *
- * Outputs schema Website code.
- *
- * @since 10.1
+ * @since 10.2
  */
 class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	/**

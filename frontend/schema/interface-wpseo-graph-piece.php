@@ -7,7 +7,9 @@
 
 if ( ! interface_exists( 'WPSEO_Graph_Piece' ) ) {
 	/**
-	 * An interface for registering Schema Graph Pieces
+	 * An interface for registering Schema Graph Pieces.
+	 *
+	 * @since 10.2
 	 */
 	interface WPSEO_Graph_Piece {
 		/**

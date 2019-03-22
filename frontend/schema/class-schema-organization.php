@@ -6,11 +6,9 @@
  */
 
 /**
- * Class WPSEO_Schema_Organization
+ * Returns schema Organization data.
  *
- * Outputs schema Organization code.
- *
- * @since 10.1
+ * @since 10.2
  */
 class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	/**
@@ -39,7 +37,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Prepares the organization markup.
+	 * Returns the Organization Schema data.
 	 *
 	 * @return array $data The Organization schema.
 	 */
@@ -57,7 +55,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Outputs code to allow recognition of page's position in the site hierarchy
+	 * Adds a site's logo.
 	 *
 	 * @param array $data The Organization schema.
 	 *
@@ -79,7 +77,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Retrieve the social profiles to display in the organization output.
+	 * Retrieve the social profiles to display in the organization schema.
 	 *
 	 * @since 1.8
 	 *

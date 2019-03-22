@@ -6,11 +6,9 @@
  */
 
 /**
- * Class WPSEO_Schema_Article
- *
  * Returns schema Article data.
  *
- * @since 10.1
+ * @since 10.2
  */
 class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	/**
@@ -51,17 +49,17 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return array $data Article data.
 	 */
 	public function generate() {
-		$post          = get_post( $this->context->post_id );
-		$comment_count = get_comment_count( $this->context->post_id );
+		$post          = get_post( $this->context->id );
+		$comment_count = get_comment_count( $this->context->id );
 		$data          = array(
 			'@type'            => 'Article',
 			'@id'              => $this->context->canonical . '#article',
 			'isPartOf'         => array( '@id' => $this->context->canonical . '#webpage' ),
 			'author'           => array(
-				'@id'  => $this->get_author_url(),
+				'@id'  => $this->get_author_url( $post ),
 				'name' => get_the_author_meta( 'display_name', $post->post_author ),
 			),
-			'publisher'        => array( '@id' => $this->get_publisher_url() ),
+			'publisher'        => array( '@id' => $this->get_publisher_url( $post ) ),
 			'headline'         => get_the_title(),
 			'datePublished'    => mysql2date( DATE_W3C, $post->post_date_gmt, false ),
 			'dateModified'     => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
@@ -78,24 +76,28 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	/**
 	 * Determine the proper author URL.
 	 *
+	 * @param \WP_Post $post Post object.
+	 *
 	 * @return string
 	 */
-	private function get_author_url() {
+	private function get_author_url( $post ) {
 		if ( $this->context->site_represents === 'person' ) {
 			return $this->context->site_url . '#person';
 		}
 
-		return get_author_posts_url( get_the_author_meta( 'ID' ) ) . '#person';
+		return get_author_posts_url( $post->post_author ) . '#person';
 	}
 
 	/**
 	 * Determine the proper publisher URL.
 	 *
+	 * @param \WP_Post $post Post object.
+	 *
 	 * @return string
 	 */
-	private function get_publisher_url() {
+	private function get_publisher_url( $post ) {
 		if ( $this->context->site_represents !== 'company' ) {
-			return get_author_posts_url( get_the_author_meta( 'ID' ) ) . '#person';
+			return get_author_posts_url( $post->post_author ) . '#person';
 		}
 
 		return $this->context->site_url . '#organization';
@@ -116,7 +118,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		 */
 		$taxonomy = apply_filters( 'wpseo_schema_article_keywords_taxonomy', 'post_tag' );
 
-		$terms = get_the_terms( $this->context->post_id, $taxonomy );
+		$terms = get_the_terms( $this->context->id, $taxonomy );
 		if ( $terms ) {
 			$tags = array();
 			foreach ( $terms as $term ) {
@@ -136,7 +138,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return array $data The Article data.
 	 */
 	private function add_image( $data ) {
-		if ( has_post_thumbnail( $this->context->post_id ) ) {
+		if ( has_post_thumbnail( $this->context->id ) ) {
 			$data['image'] = array(
 				'@id' => $this->context->canonical . '#primaryimage',
 			);

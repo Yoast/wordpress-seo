@@ -6,11 +6,9 @@
  */
 
 /**
- * Class WPSEO_Schema_Person
+ * Returns schema Person data.
  *
- * Outputs schema Person code.
- *
- * @since 10.1
+ * @since 10.2
  */
 class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	/**
@@ -30,7 +28,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Determine whether we should output Person schema.
+	 * Determine whether we should return Person schema.
 	 *
 	 * @return bool
 	 */
@@ -66,9 +64,9 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Returns a Person Schema blob.
+	 * Returns Person Schema data.
 	 *
-	 * @return bool|array Person data blob on success, false on failure.
+	 * @return bool|array Person data on success, false on failure.
 	 */
 	public function generate() {
 		$user_id = $this->determine_user_id();
@@ -82,7 +80,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Returns a User ID on success, false on failure.
+	 * Determines a User ID for the Person data.
 	 *
 	 * @return bool|int User ID or false upon return.
 	 */
@@ -108,7 +106,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Retrieve a list of social profile URLs.
+	 * Retrieve a list of social profile URLs for Person.
 	 *
 	 * @param int $user_id User ID.
 	 *
@@ -138,7 +136,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Builds our array of personal data for a given user ID.
+	 * Builds our array of Schema Person data for a given user ID.
 	 *
 	 * @param int $user_id The user ID to use.
 	 *
@@ -196,7 +194,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Returns the string to use in Schema's @id.
+	 * Returns the string to use in Schema's `@id`.
 	 *
 	 * @param int $user_id The user ID if we're on a user page.
 	 *
