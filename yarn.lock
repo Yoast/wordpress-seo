@@ -6674,20 +6674,6 @@ eslint-config-react-app@^3.0.6:
   dependencies:
     confusing-browser-globals "^1.0.6"
 
-eslint-config-yoast@^2.0.1:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/eslint-config-yoast/-/eslint-config-yoast-2.0.2.tgz#67b287ecd14af551f41cad57bc71930ca433eb8d"
-  integrity sha1-Z7KH7NFK9VH0HK1XvHGTDKQz640=
-  dependencies:
-    js-yaml "^3.6.0"
-
-eslint-config-yoast@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-yoast/-/eslint-config-yoast-4.0.0.tgz#68e33f4b67668f299f6a81285942544304954b26"
-  integrity sha512-DjyK4EOW0iiYy/bw7FEaeKcl3cK/t9KaZoyZcT/Ic2FpUB/u/H34qAChnHxgqo6oN4fFZuu8mLlQE7EyaGQvYw==
-  dependencies:
-    js-yaml "^3.6.0"
-
 eslint-import-resolver-node@^0.3.1:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.2.tgz#58f15fb839b8d0576ca980413476aab2472db66a"
