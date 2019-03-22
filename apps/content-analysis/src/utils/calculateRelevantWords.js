@@ -1,6 +1,6 @@
-import getWords from "yoastsrc/stringProcessing/getWords";
-import { getRelevantWords } from "yoastsrc/stringProcessing/relevantWords";
-import WordCombination from "yoastsrc/values/WordCombination";
+import getWords from "yoastseo/src/stringProcessing/getWords";
+import { getRelevantWords } from "yoastseo/src/stringProcessing/relevantWords";
+import WordCombination from "yoastseo/src/values/WordCombination";
 
 /**
  * Rounds number to four decimals.

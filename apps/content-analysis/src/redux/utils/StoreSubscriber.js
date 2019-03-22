@@ -1,9 +1,9 @@
 // External dependencies.
 import { debounce, isEqual } from "lodash-es";
-import buildTree from "yoastsrc/tree/builder";
-import Paper from "yoastsrc/values/Paper";
-import getMorphologyData from "yoastspec/specHelpers/getMorphologyData";
-import getLanguage from "yoastsrc/helpers/getLanguage";
+import buildTree from "yoastseo/src/tree/builder";
+import Paper from "yoastseo/src/values/Paper";
+import getMorphologyData from "yoastseo/spec/specHelpers/getMorphologyData";
+import getLanguage from "yoastseo/src/helpers/getLanguage";
 
 // Internal dependencies.
 import formatAnalyzeResult from "../../utils/formatAnalyzeResult";

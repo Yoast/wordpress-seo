@@ -8,7 +8,6 @@ export {
 
 export { default as Button } from "./Button";
 export { default as ErrorBoundary } from "./ErrorBoundary";
-export { default as Explanation } from "./Explanation";
 export { default as Heading } from "./Heading";
 export { HelpCenterButton } from "./HelpCenterButton";
 export { default as HelpText } from "./HelpText";

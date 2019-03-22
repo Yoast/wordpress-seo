@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 /* Yoast dependencies */
-import { Input, Label, Explanation } from "@yoast/components";
+import { Input, Label } from "@yoast/components";
 import { decodeHTML } from "@yoast/helpers";
 
 /**
@@ -85,7 +85,11 @@ const Choice = ( props ) => {
 			<p className="yoast-wizard-field-description">{ props.properties.label }</p>
 			<p>{ props.properties.description }</p>
 			{ fieldSet() }
-			<Explanation text={ props.properties.explanation } />
+			{ props.properties.explanation && (
+				<p className="yoast-wizard-input__explanation">
+					{ props.properties.explanation }
+				</p>
+			) }
 		</div>
 	);
 };
