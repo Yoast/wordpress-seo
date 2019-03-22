@@ -89,7 +89,10 @@ class TreeAdapter {
 
 	/**
 	 * Parses the HTML element attributes from parse5's format to a plain JS object.
-	 * E.g. `{ name: "id", value: "an-id" }` becomes ` { id: "an-id" }`.
+	 *
+	 * @example
+	 *
+	 * const attributes = _parseAttributes( { name: "id", value: "an-id" } ) // becomes { id: "an-id" }.
 	 *
 	 * @param {Array<{ name: string, value: string }>} parse5attributes The attributes as parsed by parse5.
 	 *
@@ -110,7 +113,7 @@ class TreeAdapter {
 	/**
 	 * Creates a new empty document fragment (e.g. a part of an HTML document).
 	 *
-	 * @returns {StructuredNode} A new empty document fragment.
+	 * @returns {module:tree/structure.StructuredNode} A new empty document fragment.
 	 */
 	createDocumentFragment() {
 		return new StructuredNode( "root" );
@@ -121,7 +124,7 @@ class TreeAdapter {
 	 *
 	 * @param {string} text The comment text.
 	 *
-	 * @returns {Ignored} The node representing the comment.
+	 * @returns {module:tree/structure.Ignored} The node representing the comment.
 	 */
 	createCommentNode( text ) {
 		const node = new Ignored( "comment" );
@@ -135,8 +138,8 @@ class TreeAdapter {
 	/**
 	 * Appends a child node to a parent node.
 	 *
-	 * @param {Node} parent The parent node.
-	 * @param {Node} child  The child to add to the parent node.
+	 * @param {module:tree/structure.Node} parent The parent node.
+	 * @param {module:tree/structure.Node} child  The child to add to the parent node.
 	 *
 	 * @returns {void}
 	 */
@@ -224,8 +227,8 @@ class TreeAdapter {
 	/**
 	 * Wraps a formatting element in a paragraph and adds the resulting paragraph to the given parent.
 	 *
-	 * @param {Node} parent                          The parent element to add the new paragraph to.
-	 * @param {FormattingElement} formattingElement  The formatting element to wrap in a paragraph and add to the tree.
+	 * @param {module:tree/structure.Node}              parent             The parent element to add the new paragraph to.
+	 * @param {module:tree/structure.FormattingElement} formattingElement  The formatting element to wrap in a paragraph and add to the tree.
 	 *
 	 * @returns {void}
 	 *
@@ -245,7 +248,7 @@ class TreeAdapter {
 	/**
 	 * Detaches a node from its parent.
 	 *
-	 * @param {Node} node The node to detach from its parent.
+	 * @param {module:tree/structure.Node} node The node to detach from its parent.
 	 *
 	 * @returns {void}
 	 */
@@ -265,8 +268,8 @@ class TreeAdapter {
 	 *  2. If its parent is a structured node: wrap text in a paragraph, add paragraph to parent.
 	 *  3. If its parent is a formatting element: append text to the most recent ancestor who is a paragraph or heading.
 	 *
-	 * @param {Node} node   The node to (try to) append the text to.
-	 * @param {string} text The text to append to the node.
+	 * @param {module:tree/structure.Node} node   The node to (try to) append the text to.
+	 * @param {string}                     text   The text to append to the node.
 	 *
 	 * @returns {void}
 	 */
@@ -343,7 +346,7 @@ class TreeAdapter {
 	 * This is used by `parse5` to be able to differentiate between different
 	 * behavior of HTML elements.
 	 *
-	 * @param {Node} node The node to get the tag name from.
+	 * @param {module:tree/structure.Node} node The node to get the tag name from.
 	 *
 	 * @returns {string} The node's tag name.
 	 */
@@ -358,7 +361,7 @@ class TreeAdapter {
 	 * This is used by `parse5` to differentiate between parsing
 	 * HTML, SVG and other XML schema types.
 	 *
-	 * @param {Node} node The node to get the namespace URI from.
+	 * @param {module:tree/structure.Node} node The node to get the namespace URI from.
 	 *
 	 * @returns {string} The namespace URI of this node.
 	 */
@@ -388,8 +391,8 @@ class TreeAdapter {
 	 *
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode
 	 *
-	 * @param {module:tree/structure.Node} element         The element to set the mode of.
-	 * @param {"no-quirks"|"quirks"|"limited-quirks"} mode The mode to set.
+	 * @param {module:tree/structure.Node}            element         The element to set the mode of.
+	 * @param {"no-quirks"|"quirks"|"limited-quirks"} mode            The mode to set.
 	 *
 	 * @returns {void}
 	 */
@@ -401,9 +404,9 @@ class TreeAdapter {
 	/**
 	 * Returns this node's parent node.
 	 *
-	 * @param {Node} node The node from which to retrieve the parent.
+	 * @param {module:tree/structure.Node} node The node from which to retrieve the parent.
 	 *
-	 * @returns {Node} The parent of this node.
+	 * @returns {module:tree/structure.Node} The parent of this node.
 	 */
 	getParentNode( node ) {
 		return node.parent;
@@ -415,9 +418,9 @@ class TreeAdapter {
 	 * If the node does not have any children and cannot get any (e.g. Heading, FormattingElement)
 	 * this function returns an empty list.
 	 *
-	 * @param {Node} node The node to get the children from.
+	 * @param {module:tree/structure.Node} node The node to get the children from.
 	 *
-	 * @returns {Node[]} The children of the given node.
+	 * @returns {module:tree/structure.Node[]} The children of the given node.
 	 */
 	getChildNodes( node ) {
 		/*
@@ -432,9 +435,9 @@ class TreeAdapter {
 	 *
 	 * @see https://en.wikipedia.org/wiki/Rumpelstiltskin
 	 *
-	 * @param {Node} node The node to get its first child from.
+	 * @param {module:tree/structure.Node} node The node to get its first child from.
 	 *
-	 * @returns {Node[]|null} The node's first child or null, if this node cannot get any children.
+	 * @returns {module:tree/structure.Node[]|null} The node's first child or null, if this node cannot get any children.
 	 */
 	getFirstChild( node ) {
 		if ( node.children && node.children.length > 0 ) {
@@ -454,8 +457,8 @@ class TreeAdapter {
 	 * We still need to add it, since `parse5` appends the end tag position
 	 * to this object somewhere during parsing (after `createElement` and before `appendChild`).
 	 *
-	 * @param {Node} node         The node to set its location.
-	 * @param {Location} location The node's location in the source code.
+	 * @param {module:tree/structure.Node} node         The node to set its location.
+	 * @param {Object}                     location     The node's location in the source code.
 	 *
 	 * @returns {void}
 	 */
@@ -469,9 +472,9 @@ class TreeAdapter {
 	/**
 	 * Gets the node's source code location.
 	 *
-	 * @param {Node} node The node to get its source code location from.
+	 * @param {module:tree/structure.Node} node The node to get its source code location from.
 	 *
-	 * @returns {Location|void} The node's source code location.
+	 * @returns {Object|void} The node's source code location.
 	 */
 	getNodeSourceCodeLocation( node ) {
 		if ( ! node ) {
@@ -488,9 +491,10 @@ class TreeAdapter {
 	 *
 	 * @see module:tree/structure.LeafNode.
 	 *
-	 * @param {Node|FormattingElement} element  The node to find the ancestor of.
+	 * @param {module:tree/structure.Node|module:tree/structure.FormattingElement} element  The node to find the ancestor of.
 	 *
-	 * @returns {Node|null} The most recent ancestor that returns true on the given predicate, or `null` if no appropriate ancestor is found.
+	 * @returns {module:tree/structure.Node|null} The most recent ancestor that returns true on the given predicate,
+	 *                                            or `null` if no appropriate ancestor is found.
 	 *
 	 * @private
 	 */
