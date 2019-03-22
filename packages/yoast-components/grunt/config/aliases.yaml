@@ -5,7 +5,6 @@ build:
   - 'build:css'
 # Build CSS
 'build:css':
-  - 'scss_to_json'
   - 'sass:build'
   - 'postcss:build'
 
