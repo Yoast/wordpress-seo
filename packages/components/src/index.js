@@ -9,7 +9,6 @@ export {
 export { icons } from "./SvgIcon";
 export { default as Button } from "./Button";
 export { default as ErrorBoundary } from "./ErrorBoundary";
-export { default as Explanation } from "./Explanation";
 export { default as Heading } from "./Heading";
 export { default as IFrame } from "./IFrame";
 export { default as Input } from "./Input";
