@@ -3,12 +3,12 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 /* Internal dependencies */
-import FacebookTitle from "../components/FacebookTitle";
+import FacebookAuthorName from "../../src/facebook/components/FacebookAuthorName";
 
-describe( "FacebookTitle", () => {
+describe( "FacebookAuthorName", () => {
 	it( "matches the snapshot by default", () => {
 		const component = renderer.create(
-			<FacebookTitle title="YoastCon Workshops" />
+			<FacebookAuthorName authorName="John Doe" />
 		);
 
 		const tree = component.toJSON();

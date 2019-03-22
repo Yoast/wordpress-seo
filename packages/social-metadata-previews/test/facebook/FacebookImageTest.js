@@ -3,10 +3,10 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 /* Internal dependencies */
-import FacebookImage from "../components/FacebookImage";
+import FacebookImage from "../../src/facebook/components/FacebookImage";
 import delayComponentSnapshot from "./testHelpers/delayComponentSnapshot";
 
-const importedDetermineFacebookImageProperties = require( "../helpers/determineFacebookImageProperties.js" );
+const importedDetermineFacebookImageProperties = require( "../../src/facebook/helpers/determineFacebookImageProperties.js" );
 
 jest.mock( "../helpers/determineFacebookImageProperties.js", () => {
 	return {

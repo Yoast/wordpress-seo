@@ -3,12 +3,12 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 /* Internal dependencies */
-import TwitterSiteName from "../components/TwitterSiteName";
+import FacebookTitle from "../../src/facebook/components/FacebookTitle";
 
-describe( "TwitterSiteName", () => {
+describe( "FacebookTitle", () => {
 	it( "matches the snapshot by default", () => {
 		const component = renderer.create(
-			<TwitterSiteName siteName="sitename.com" />
+			<FacebookTitle title="YoastCon Workshops" />
 		);
 
 		const tree = component.toJSON();

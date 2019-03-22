@@ -3,12 +3,12 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 /* Internal dependencies */
-import FacebookAuthorName from "../components/FacebookAuthorName";
+import FacebookDescription from "../../src/facebook/components/FacebookDescription";
 
-describe( "FacebookAuthorName", () => {
+describe( "FacebookDescription", () => {
 	it( "matches the snapshot by default", () => {
 		const component = renderer.create(
-			<FacebookAuthorName authorName="John Doe" />
+			<FacebookDescription description="Cornerstone content is one of the most important building blocks of your site." />
 		);
 
 		const tree = component.toJSON();

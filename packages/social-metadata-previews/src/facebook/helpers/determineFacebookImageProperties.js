@@ -6,7 +6,7 @@ export const LANDSCAPE_WIDTH = 500;
 export const LANDSCAPE_HEIGHT = 261;
 
 /**
- * Determines the image display mode of the Facebook Image.
+ * Determines the image display mode of the facebook Image.
  *
  * @param {Object} dimensions The image's dimensions.
  *
@@ -53,9 +53,9 @@ export function getOriginalImageDimensions( src ) {
  * Gets the ratios of the width and height of the original image in relation to the width and height
  * of the expected image.
  *
- * When we're in portrait or landscape mode, we can't just resize to the dimensions expected by Facebook. If we'd do
+ * When we're in portrait or landscape mode, we can't just resize to the dimensions expected by facebook. If we'd do
  * so, we would end up with warped images. That's why we calculate the ratio between the original width and height and
- * the width and height that is expected by Facebook. For example: the original image is 1600x898 and Facebook expects
+ * the width and height that is expected by facebook. For example: the original image is 1600x898 and facebook expects
  * 500x261. The width ratio would be 3.44 and the height ratio would be 3.2.
  *
  * @param {Object} dimensions The dimensions of the original image.
@@ -79,7 +79,7 @@ export function getImageRatios( dimensions, imageMode ) {
 }
 
 /**
- * Gets the image dimensions that the image should have as Facebook image.
+ * Gets the image dimensions that the image should have as facebook image.
  *
  * To use as much as the allowed space as possible, we base both dimensions on the dimension with the lowest imageRatio
  * (see above). For example: for a 1600x898 image, the height ratio is larger than the width ratio. The result of dividing
@@ -93,7 +93,7 @@ export function getImageRatios( dimensions, imageMode ) {
  * @param {Object} imageRatios The ratios of the width and height of the original image in relation to the width and
  *                             height of the expected image.
  *
- * @returns {Object}           The width and height that the image should have as Facebook image.
+ * @returns {Object}           The width and height that the image should have as facebook image.
  */
 export function getImageDimensionsForFacebookImage( dimensions, imageRatios ) {
 	if ( imageRatios.widthRatio <= imageRatios.heightRatio ) {
@@ -115,7 +115,7 @@ export function getImageDimensionsForFacebookImage( dimensions, imageRatios ) {
  * @param {Object} originalDimensions The width and height of the original image.
  * @param {string} imageMode The image mode: square, portrait or landscape.
  *
- * @returns {object} The image dimensions for the Facebook image.
+ * @returns {object} The image dimensions for the facebook image.
  */
 export function calculateFacebookImageDimensions( originalDimensions, imageMode ) {
 	// Images that are too small should not be scaled.
@@ -143,7 +143,7 @@ export function calculateFacebookImageDimensions( originalDimensions, imageMode 
 }
 
 /**
- * Determines the properties of the Facebook Image.
+ * Determines the properties of the facebook Image.
  *
  * @param {string} src The source of the image.
  *

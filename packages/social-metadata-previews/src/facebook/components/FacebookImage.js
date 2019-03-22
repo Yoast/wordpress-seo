@@ -100,7 +100,7 @@ export default class FacebookImage extends React.Component {
 	}
 
 	/**
-	 * Gets the dimensions for the Facebook image container.
+	 * Gets the dimensions for the facebook image container.
 	 *
 	 * @param {string} imageMode The facebook image mode: either landscape, square or portrait.
 	 *
