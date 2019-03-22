@@ -1,10 +1,10 @@
-// External dependencies
+// External dependencies.
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import uniqueId from "lodash/uniqueId";
 
-// Internal dependencies
+// Yoast dependencies.
 import HelpText from "yoast-components/composites/Plugin/Shared/components/HelpText";
 import { SvgIcon, getRtlStyle } from "@yoast/components";
 import { colors, rgba } from "@yoast/components/style-guide";

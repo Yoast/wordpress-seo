@@ -1,3 +1,4 @@
+// Internal dependencies.
 import SnippetEditor from "./components/SnippetEditor";
 import SettingsSnippetEditor from "./components/SettingsSnippetEditor";
 import ReplaceVarEditor from "./components/ReplacementVariableEditor";

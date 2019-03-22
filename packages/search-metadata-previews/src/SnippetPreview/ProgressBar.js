@@ -1,8 +1,8 @@
-/* External dependencies */
+// External dependencies.
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-/* Internal dependencies */
+// Yoast dependencies.
 import { colors } from "@yoast/components/style-guide";
 
 /**

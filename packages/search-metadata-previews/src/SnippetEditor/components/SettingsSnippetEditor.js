@@ -2,9 +2,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+// Yoast dependencies.
+import { ErrorBoundary } from "@yoast/components";
+
 // Internal dependencies.
 import SettingsSnippetEditorFields from "./SettingsSnippetEditorFields";
-import { ErrorBoundary } from "@yoast/components";
 import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,

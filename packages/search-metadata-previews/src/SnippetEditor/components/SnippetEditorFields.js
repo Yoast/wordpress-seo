@@ -1,11 +1,14 @@
-/* External dependencies */
+// External dependencies.
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 
-/* Internal dependencies */
+// Yoast dependencies.
+import { colors } from "@yoast/components/style-guide";
+
+// Internal dependencies.
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import {
 	InputContainer,
@@ -20,7 +23,6 @@ import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "../constants";
-import { colors } from "@yoast/components/style-guide";
 
 const SlugInput = styled.input`
 	border: none;

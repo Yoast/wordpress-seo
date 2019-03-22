@@ -1,7 +1,7 @@
-/* External dependencies */
+// External dependencies.
 import styled from "styled-components";
 
-/* Internal dependencies */
+// Yoast dependencies.
 import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
 import { colors } from "@yoast/components/style-guide";
 import { getRtlStyle } from "@yoast/components";

@@ -1,3 +1,4 @@
+// External dependencies.
 import { EditorState, SelectionState, Modifier } from "draft-js";
 
 /**

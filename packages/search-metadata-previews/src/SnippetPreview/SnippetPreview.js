@@ -2,21 +2,23 @@
 import React, { PureComponent } from "react";
 import styled from "styled-components";
 import interpolateComponents from "interpolate-components";
-import transliterate from "yoastseo/src/stringProcessing/transliterate";
-import createRegexFromArray from "yoastseo/src/stringProcessing/createRegexFromArray";
-import replaceSpecialCharactersAndDiacritics from "yoastseo/src/stringProcessing/replaceDiacritics";
 import PropTypes from "prop-types";
 import truncate from "lodash/truncate";
 import { parse } from "url";
 import { __ } from "@wordpress/i18n";
 
-// Internal dependencies.
-import FixedWidthContainer from "./FixedWidthContainer";
+// Yoast dependencies.
 import ScreenReaderText from "yoast-components/a11y/ScreenReaderText";
-import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
-import { angleLeft, angleRight } from "../SnippetEditor/components/Shared";
 import { colors } from "@yoast/components/style-guide";
 import { getRtlStyle } from "@yoast/components";
+import replaceSpecialCharactersAndDiacritics from "yoastseo/src/stringProcessing/replaceDiacritics";
+import transliterate from "yoastseo/src/stringProcessing/transliterate";
+import createRegexFromArray from "yoastseo/src/stringProcessing/createRegexFromArray";
+
+// Internal dependencies.
+import FixedWidthContainer from "./FixedWidthContainer";
+import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "./constants";
+import { angleLeft, angleRight } from "../SnippetEditor/components/Shared";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders
