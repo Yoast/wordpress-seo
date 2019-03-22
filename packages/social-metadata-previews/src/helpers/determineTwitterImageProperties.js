@@ -147,6 +147,7 @@ export function determineTwitterImageProperties( src ) {
 		const TwitterImageDimensions = calculateTwitterImageDimensions( originalDimensions, imageMode );
 
 		return {
+			mode: imageMode,
 			height: TwitterImageDimensions.height,
 			width: TwitterImageDimensions.width,
 		};
