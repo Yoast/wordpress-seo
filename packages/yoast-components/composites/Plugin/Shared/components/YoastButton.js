@@ -2,8 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import colors from "../../../../style-guide/colors.json";
-import { rgba } from "../../../../style-guide/helpers";
+import { colors, rgba } from "@yoast/components/style-guide";
 
 const settings = {
 	minHeight: 48,

@@ -9,6 +9,13 @@ Monorepo for all the JavaScript within Yoast
 * `yarn link-all`, will run `yarn link` for all packages.
 * `yarn unlink-all`, will run `yarn unlink` for all paackages.
 
+## General file structure of a package
+
+* `/src`. Source files
+* `/tests`. Unit tests.
+* `/tools`. Tooling necessary to build or test.
+* `/package.json`
+
 ## What lives where?
 
 https://github.com/Yoast/YoastSEO.js moved to `packages/yoastseo`.

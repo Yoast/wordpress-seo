@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import colors from "../../style-guide/colors.json";
+import { colors } from "@yoast/components/style-guide";
 import { makeOutboundLink } from "../../utils/makeOutboundLink";
-import { getRtlStyle } from "../../utils/helpers/styled-components";
+import { getDirectionalStyle } from "@yoast/helpers";
 
 const CardRegularButton = styled.a`
 	color: ${ colors.$color_black };
@@ -84,7 +84,7 @@ const CourseFeatureList = styled.div`
 
 	li {
 		position: relative;
-		${ getRtlStyle( "margin-left", "margin-right" ) }: 16px;
+		${ getDirectionalStyle( "margin-left", "margin-right" ) }: 16px;
 
 		&:before {
 			content: "✓";
@@ -92,7 +92,7 @@ const CourseFeatureList = styled.div`
 			position: absolute;
 			font-weight: bold;
 			display: inline-block;
-			${ getRtlStyle( "left", "right" ) }: -16px;
+			${ getDirectionalStyle( "left", "right" ) }: -16px;
 		}
 	}
 `;

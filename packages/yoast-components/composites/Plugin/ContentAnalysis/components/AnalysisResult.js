@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import SvgIcon from "../../Shared/components/SvgIcon.js";
+import { SvgIcon } from "@yoast/components";
 import IconButtonToggle from "../../Shared/components/IconButtonToggle.js";
 
 const AnalysisResultBase = styled.li`

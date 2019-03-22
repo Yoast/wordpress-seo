@@ -2,11 +2,11 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import colors from "../../../../style-guide/colors.json";
+import { colors } from "@yoast/components/style-guide";
 import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
+import { getDirectionalStyle } from "@yoast/helpers";
 
 const ToggleDiv = styled.div`
 	display: flex;
@@ -16,7 +16,7 @@ const ToggleDiv = styled.div`
 `;
 
 const ToggleLabel = styled.span`
-	${ getRtlStyle( "margin-right", "margin-left" ) }: 16px;
+	${ getDirectionalStyle( "margin-right", "margin-left" ) }: 16px;
 	flex: 1;
 	cursor: pointer;
 `;
@@ -37,8 +37,8 @@ const ToggleBar = styled.div`
 const ToggleBullet = styled.span`
 	background-color: ${ props => props.isEnabled ? colors.$color_green_medium_light : colors.$color_grey_medium_dark };
 	${ props => props.isEnabled
-		? getRtlStyle( "margin-left: 12px;", "margin-right: 12px;" )
-		: getRtlStyle( "margin-left: -2px;", "margin-right: -2px;" ) };
+		? getDirectionalStyle( "margin-left: 12px;", "margin-right: 12px;" )
+		: getDirectionalStyle( "margin-left: -2px;", "margin-right: -2px;" ) };
 	box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.1);
 	border-radius: 100%;
 	height: 20px;
@@ -50,7 +50,7 @@ const ToggleBullet = styled.span`
 const ToggleVisualLabel = styled.span`
 	font-size: 14px;
 	line-height: 20px;
-	${ getRtlStyle( "margin-left", "margin-right" ) }: 8px;
+	${ getDirectionalStyle( "margin-left", "margin-right" ) }: 8px;
 	font-style: italic;
 `;
 
