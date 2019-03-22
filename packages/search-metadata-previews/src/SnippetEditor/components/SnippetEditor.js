@@ -14,7 +14,7 @@ const { MetaDescriptionLengthAssessment, PageTitleWidthAssessment } = assessment
 const { measureTextWidth } = helpers;
 
 // Internal dependencies.
-import SnippetPreview from "../../SnippetPreview/components/SnippetPreview";
+import SnippetPreview from "../../SnippetPreview/SnippetPreview";
 import { DEFAULT_MODE, 	MODES } from "../../SnippetPreview/constants";
 import SnippetEditorFields from "./SnippetEditorFields";
 import { lengthProgressShape, replacementVariablesShape, recommendedReplacementVariablesShape } from "../constants";

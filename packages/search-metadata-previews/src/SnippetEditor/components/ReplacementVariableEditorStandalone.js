@@ -26,7 +26,7 @@ import {
 	unserializeEditor,
 	replaceReplacementVariables,
 	serializeSelection,
-} from "../serialization";
+} from "../../helpers/serialization";
 import {
 	getTrigger,
 	hasWhitespaceAt,
@@ -38,7 +38,7 @@ import {
 } from "../replaceText";
 import {
 	selectReplacementVariables,
-} from "../selection";
+} from "../../helpers/selection";
 
 /**
  * Needed to avoid styling issues on the settings pages with the

@@ -1,6 +1,6 @@
-import { unserializeEditor } from "../src/SnippetEditor/serialization";
+import { unserializeEditor } from "../src/helpers/serialization";
 import { EditorState, SelectionState } from "draft-js";
-import { selectReplacementVariables } from "../src/SnippetEditor/selection";
+import { selectReplacementVariables } from "../src/helpers/selection";
 
 /*
  * We're using the brackets here to make it easier to visualize where the selection

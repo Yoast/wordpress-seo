@@ -3,7 +3,7 @@ import {
 	serializeEditor, serializeSelection,
 	unserializeEditor,
 	replaceReplacementVariables,
-} from "../src/SnippetEditor/serialization";
+} from "../src/helpers/serialization";
 import {
 	convertToRaw,
 	convertFromRaw,

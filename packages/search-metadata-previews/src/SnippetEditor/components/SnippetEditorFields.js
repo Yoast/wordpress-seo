@@ -14,7 +14,7 @@ import {
 	StyledEditor,
 	withCaretStyles,
 } from "./Shared";
-import ProgressBar from "../../SnippetPreview/components/ProgressBar";
+import ProgressBar from "../../SnippetPreview/ProgressBar";
 import {
 	lengthProgressShape,
 	replacementVariablesShape,

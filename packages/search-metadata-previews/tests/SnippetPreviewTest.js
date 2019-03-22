@@ -1,4 +1,4 @@
-import SnippetPreview from "../src/SnippetPreview/components/SnippetPreview";
+import SnippetPreview from "../src/SnippetPreview/SnippetPreview";
 import { MODE_DESKTOP, MODE_MOBILE } from "../src/SnippetPreview/constants";
 import React from "react";
 import { createComponentWithIntl } from "@yoast/components";
