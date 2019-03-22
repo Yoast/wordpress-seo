@@ -240,7 +240,7 @@ class MailchimpSignup extends React.Component {
 	}
 
 	/**
-	 * When the last step is success and the user has already given his or her email address.
+	 * When the last step is success and the user has already given their email address.
 	 *
 	 * @returns {boolean} Returns if the user is already signed up and
 	 *                    component should be rendered.
