@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "Package for our configuration wizard",
   "main": "src/index.js",
-  "repository": "https://github.com/Yoast/javascript",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/configuration-wizard"
+  },
   "author": "Yoast",
   "license": "GPL-3.0",
   "private": false,
