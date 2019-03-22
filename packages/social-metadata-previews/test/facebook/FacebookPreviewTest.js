@@ -3,7 +3,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 /* Internal dependencies */
-import FacebookPreview from "../../src/facebook/components/FacebookPreview";
+import FacebookPreview from "../../src/facebook/FacebookPreview";
 
 describe( "FacebookPreview", () => {
 	it( "matches the snapshot for a landscape image", () => {

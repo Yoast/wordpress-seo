@@ -3,7 +3,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 /* Internal dependencies */
-import FacebookAuthorName from "../../src/facebook/components/FacebookAuthorName";
+import FacebookAuthorName from "../../src/facebook/FacebookAuthorName";
 
 describe( "FacebookAuthorName", () => {
 	it( "matches the snapshot by default", () => {

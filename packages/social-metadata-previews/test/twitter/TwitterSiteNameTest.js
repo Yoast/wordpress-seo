@@ -3,7 +3,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 /* Internal dependencies */
-import TwitterSiteName from "../../src/twitter/components/TwitterSiteName";
+import TwitterSiteName from "../../src/twitter/TwitterSiteName";
 
 describe( "TwitterSiteName", () => {
 	it( "matches the snapshot by default", () => {

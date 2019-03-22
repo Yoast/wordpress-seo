@@ -3,7 +3,7 @@ import {
 	getImageRatios,
 	getImageDimensionsForFacebookImage,
 	calculateFacebookImageDimensions,
-} from "../../src/facebook/helpers/determineFacebookImageProperties";
+} from "../../src/helpers/determineFacebookImageProperties";
 
 describe( "determineFacebookImageMode", () => {
 	it( "returns square when the width and height are the same.", () => {

@@ -3,7 +3,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 /* Internal dependencies */
-import FacebookSiteName from "../../src/facebook/components/FacebookSiteName";
+import FacebookSiteName from "../../src/facebook/FacebookSiteName";
 
 describe( "FacebookSiteName", () => {
 	it( "matches the snapshot by default", () => {

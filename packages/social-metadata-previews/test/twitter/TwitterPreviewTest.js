@@ -3,7 +3,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 /* Internal dependencies */
-import TwitterPreview from "../../src/twitter/components/TwitterPreview";
+import TwitterPreview from "../../src/twitter/TwitterPreview";
 
 describe( "TwitterPreview", () => {
 	it( "matches the snapshot", () => {
