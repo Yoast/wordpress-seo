@@ -49,7 +49,7 @@ export default class Question extends Component {
 	getMediaUploadButton( props ) {
 		return (
 			<IconButton
-				className="schema-faq-section-button editor-inserter__toggle faq-section-add-media"
+				className="schema-faq-section-button faq-section-add-media"
 				icon="insert"
 				onClick={ props.open }
 			>
@@ -211,13 +211,13 @@ export default class Question extends Component {
 				render={ this.getMediaUploadButton }
 			/>
 			<IconButton
-				className="schema-faq-section-button editor-inserter__toggle"
+				className="schema-faq-section-button"
 				icon="trash"
 				label={ __( "Delete question", "wordpress-seo" ) }
 				onClick={ this.onRemoveQuestion }
 			/>
 			<IconButton
-				className="schema-faq-section-button editor-inserter__toggle"
+				className="schema-faq-section-button"
 				icon="insert"
 				label={ __( "Insert question", "wordpress-seo" ) }
 				onClick={ this.onInsertQuestion }

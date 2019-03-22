@@ -10,7 +10,8 @@
 
 .schema-how-to-buttons,
 .schema-faq-buttons {
-	text-align: center;
+	display: flex;
+	justify-content: center;
 
 	button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
 		box-shadow: none;
@@ -44,7 +45,7 @@
 
 .schema-how-to-step-button-container,
 .schema-faq-section-button-container {
-	display: inline-block;
+	display: inline-flex;
 	text-align: right;
 
 	button.components-icon-button:not(:disabled):not([aria-disabled=true]):not(.is-default):hover {
