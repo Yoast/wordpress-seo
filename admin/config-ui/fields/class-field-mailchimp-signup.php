@@ -54,7 +54,7 @@ class WPSEO_Config_Field_Mailchimp_Signup extends WPSEO_Config_Field {
 	}
 
 	/**
-	 * Checks if the user has entered his or her email for mailchimp already.
+	 * Checks if the user has entered their email for mailchimp already.
 	 *
 	 * @return bool
 	 */
