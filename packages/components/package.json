@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "Yoast Components",
   "main": "src/index.js",
-  "repository": "https://github.com/Yoast",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/components"
+  },
   "author": "Yoast",
   "license": "GPL-3.0",
   "scripts": {

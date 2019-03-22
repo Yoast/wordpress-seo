@@ -3,6 +3,11 @@
   "version": "4.22.1",
   "description": "Yoast Generic Components",
   "homepage": "https://github.com/Yoast/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/yoast-components"
+  },
   "main": "index.js",
   "scripts": {
     "start": "echo 'The yoast-components demo app has been moved to javascript/apps/components (https://github.com/Yoast/javascript/tree/develop/apps/components). Please run yarn start there.'",
