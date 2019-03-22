@@ -10,7 +10,6 @@
   "dependencies": {
     "prop-types": "^15.7.2",
     "@wordpress/i18n": "^1.2.3",
-    "@yoast/components": "^1.0.0",
     "whatwg-fetch": "1.1.1"
   },
   "peerDependencies": {

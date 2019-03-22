@@ -6,7 +6,6 @@ export {
 	StyledHeading,
 };
 
-export { A11yNotice } from "./A11yNotice";
 export { default as Button } from "./Button";
 export { default as ErrorBoundary } from "./ErrorBoundary";
 export { default as Explanation } from "./Explanation";
