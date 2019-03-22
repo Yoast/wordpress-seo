@@ -13,7 +13,7 @@ describe( "The Progressbar component", () => {
 		expect( tree ).toMatchSnapshot();
 	} );
 
-	test( "with progress matches the snapshot", () => {
+	it( "with progress matches the snapshot", () => {
 		const component = renderer.create(
 			<ProgressBar max={ 100 } value={ 50 } />
 		);
@@ -22,7 +22,7 @@ describe( "The Progressbar component", () => {
 		expect( tree ).toMatchSnapshot();
 	} );
 
-	test( "with custom color matches the snapshot", () => {
+	it( "with custom color matches the snapshot", () => {
 		const component = renderer.create(
 			<ProgressBar progressColor="#000" max={ 100 } value={ 50 } />
 		);

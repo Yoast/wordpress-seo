@@ -8,6 +8,11 @@
   "license": "GPL-3.0",
   "private": false,
   "dependencies": {
+    "prop-types": "^15.7.2",
+    "@wordpress/i18n": "^1.2.3",
     "whatwg-fetch": "1.1.1"
+  },
+  "peerDependencies": {
+    "react": "^16.2.0"
   }
 }

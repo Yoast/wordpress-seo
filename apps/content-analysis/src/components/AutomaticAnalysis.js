@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { noop } from "lodash-es";
 
-import Toggle from "yoast-components/composites/Plugin/Shared/components/Toggle";
+import { Toggle } from "@yoast/components";
 import { setAutomaticRefresh } from "../redux/actions/worker";
 
 

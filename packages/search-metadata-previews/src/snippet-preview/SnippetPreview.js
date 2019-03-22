@@ -14,6 +14,7 @@ import replaceSpecialCharactersAndDiacritics from "yoastseo/src/stringProcessing
 import transliterate from "yoastseo/src/stringProcessing/transliterate";
 import createRegexFromArray from "yoastseo/src/stringProcessing/createRegexFromArray";
 import { getDirectionalStyle } from "@yoast/helpers";
+import { ScreenReaderText } from "@yoast/components";
 
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";

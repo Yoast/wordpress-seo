@@ -259,7 +259,7 @@ exports[`App renders without problems 1`] = `
       <button
         aria-label="important toggle"
         aria-pressed={false}
-        className="IconButtonToggle__IconButtonBase-sc-110xp9s-0 ieTrZO"
+        className="IconButtonToggle__IconButtonBase-ia01ki-0 fHpZdj"
         disabled={false}
         id="some-id"
         onClick={[Function]}
@@ -286,7 +286,7 @@ exports[`App renders without problems 1`] = `
       />
       <button
         aria-expanded={undefined}
-        className="YoastButton-sc-1odpk9-0 dtXmHa YoastButton-sc-1odpk9-1 gWTXUD"
+        className="YoastButton-sc-1l3xil4-0 evjTAu YoastButton-sc-1l3xil4-1 caHCss"
         onClick={undefined}
         type="button"
       >
@@ -297,7 +297,7 @@ exports[`App renders without problems 1`] = `
        
       <button
         aria-expanded={undefined}
-        className="UpsellButton-znyg9y-1 HkTAu UpsellButton__UpsellButtonBase-znyg9y-2 eTbthJ"
+        className="UpsellButton-ilfbjb-1 hcLQas UpsellButton__UpsellButtonBase-ilfbjb-2 kddVu"
         onClick={undefined}
         type="button"
       >
@@ -305,7 +305,7 @@ exports[`App renders without problems 1`] = `
           Upsell Button
           <svg
             aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-caret-right UpsellButton__IconComponent-znyg9y-0 bqCll SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+            className="yoast-svg-icon yoast-svg-icon-caret-right UpsellButton__IconComponent-ilfbjb-0 gaVMvW SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
             fill="#000"
             focusable="false"
             role="img"
@@ -321,7 +321,7 @@ exports[`App renders without problems 1`] = `
       </button>
        
       <a
-        className="UpsellLinkButton-sc-17fi7l2-0 RTZOt"
+        className="UpsellLinkButton-yk3kf3-0 kgCUwp"
         href="http://example.org"
       >
         Upsell Link Button
@@ -509,7 +509,7 @@ exports[`App renders without problems 1`] = `
        
       <button
         aria-expanded={undefined}
-        className="YoastButton-sc-1odpk9-0 BFGBF YoastButton-sc-1odpk9-1 cdBfhX"
+        className="YoastButton-sc-1l3xil4-0 bKxaxZ YoastButton-sc-1l3xil4-1 dvwqjo"
         onClick={undefined}
         type="button"
       >
@@ -520,7 +520,7 @@ exports[`App renders without problems 1`] = `
        
       <button
         aria-expanded={undefined}
-        className="test-large-button YoastButton-sc-1odpk9-0 dtXmHa YoastButton-sc-1odpk9-1 gWTXUD"
+        className="test-large-button YoastButton-sc-1l3xil4-0 evjTAu YoastButton-sc-1l3xil4-1 caHCss"
         onClick={undefined}
         type="button"
       >
@@ -565,7 +565,7 @@ exports[`App renders without problems 1`] = `
        
       <button
         aria-expanded={undefined}
-        className="YoastButton-sc-1odpk9-0 BFGBF YoastButton-sc-1odpk9-1 cdBfhX"
+        className="YoastButton-sc-1l3xil4-0 bKxaxZ YoastButton-sc-1l3xil4-1 dvwqjo"
         onClick={undefined}
         type="button"
       >
@@ -576,7 +576,7 @@ exports[`App renders without problems 1`] = `
        
       <button
         aria-expanded={undefined}
-        className="test-large-button YoastButton-sc-1odpk9-0 dtXmHa YoastButton-sc-1odpk9-1 gWTXUD"
+        className="test-large-button YoastButton-sc-1l3xil4-0 evjTAu YoastButton-sc-1l3xil4-1 caHCss"
         onClick={undefined}
         type="button"
       >
@@ -645,14 +645,14 @@ exports[`App renders without problems 1`] = `
       </a>
        
       <a
-        className="YoastButton-sc-1odpk9-0 BFGBF YoastLinkButton-sc-9vhd2j-0 jaTzct"
+        className="YoastButton-sc-1l3xil4-0 bKxaxZ YoastLinkButton-sc-13igpnv-0 vZHkc"
         href="#somewhere4"
       >
         Color
       </a>
        
       <a
-        className="test-large-button YoastButton-sc-1odpk9-0 dtXmHa YoastLinkButton-sc-9vhd2j-0 hNXwgO"
+        className="test-large-button YoastButton-sc-1l3xil4-0 evjTAu YoastLinkButton-sc-13igpnv-0 lhgqlH"
         href="#somewhere3"
       >
         Min width
