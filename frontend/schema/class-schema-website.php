@@ -14,6 +14,22 @@
  */
 class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	/**
+	 * A value object with context variables.
+	 *
+	 * @var WPSEO_Schema_Context
+	 */
+	private $context;
+
+	/**
+	 * WPSEO_Schema_Breadcrumb constructor.
+	 *
+	 * @param WPSEO_Schema_Context $context A value object with context variables.
+	 */
+	public function __construct( WPSEO_Schema_Context $context ) {
+		$this->context = $context;
+	}
+
+	/**
 	 * Determines whether or not a piece should be added to the graph.
 	 *
 	 * @return bool
@@ -34,9 +50,9 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	public function generate() {
 		$data = array(
 			'@type'     => 'WebSite',
-			'@id'       => WPSEO_Utils::home_url() . '#website',
-			'url'       => WPSEO_Utils::home_url(),
-			'name'      => $this->get_website_name(),
+			'@id'       => $this->context->site_url . '#website',
+			'url'       => $this->context->site_url,
+			'name'      => $this->context->site_name,
 			'publisher' => array(
 				'@id' => $this->get_publisher(),
 			),
@@ -54,26 +70,11 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	 * @return string
 	 */
 	private function get_publisher() {
-		if ( WPSEO_Options::get( 'company_or_person', '' ) === 'person' ) {
-			return WPSEO_Utils::home_url() . '#person';
+		if ( $this->context->site_represents === 'person' ) {
+			return $this->context->site_url . '#person';
 		}
 
-		return WPSEO_Utils::home_url() . '#organization';
-	}
-
-	/**
-	 * Returns the website name either from Yoast SEO's options or from the site settings.
-	 *
-	 * @since 2.1
-	 *
-	 * @return string
-	 */
-	private function get_website_name() {
-		if ( '' !== WPSEO_Options::get( 'website_name', '' ) ) {
-			return WPSEO_Options::get( 'website_name' );
-		}
-
-		return get_bloginfo( 'name' );
+		return $this->context->site_url . '#organization';
 	}
 
 	/**
@@ -112,7 +113,7 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 			 *
 			 * @api string $search_url The search URL for this site with a `{search_term_string}` variable.
 			 */
-			$search_url = apply_filters( 'wpseo_json_ld_search_url', trailingslashit( WPSEO_Utils::get_home_url() ) . '?s={search_term_string}' );
+			$search_url = apply_filters( 'wpseo_json_ld_search_url', $this->context->site_url . '?s={search_term_string}' );
 
 			$data['potentialAction'] = array(
 				'@type'       => 'SearchAction',

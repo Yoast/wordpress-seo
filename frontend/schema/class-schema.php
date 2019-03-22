@@ -38,12 +38,13 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function output() {
-		$graph  = array();
+		$graph = array();
 
 		foreach ( $this->get_graph_pieces() as $piece ) {
 			if ( ! $piece->is_needed() ) {
 				continue;
 			}
+
 			$graph_piece = $piece->generate();
 			if ( is_array( $graph_piece ) ) {
 				$graph[] = $graph_piece;
@@ -75,6 +76,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 		if ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG ) {
 			$flags = $flags | JSON_PRETTY_PRINT;
 		}
+
 		return wp_json_encode( $data, $flags );
 	}
 
@@ -84,13 +86,15 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 * @return array A filtered array of graph pieces.
 	 */
 	private function get_graph_pieces() {
+		$context = new WPSEO_Schema_Context();
+
 		$pieces = array(
-			new WPSEO_Schema_Organization(),
-			new WPSEO_Schema_Person(),
-			new WPSEO_Schema_Website(),
-			new WPSEO_Schema_WebPage(),
-			new WPSEO_Schema_Breadcrumb(),
-			new WPSEO_Schema_Article(),
+			new WPSEO_Schema_Organization( $context ),
+			new WPSEO_Schema_Person( $context ),
+			new WPSEO_Schema_Website( $context ),
+			new WPSEO_Schema_WebPage( $context ),
+			new WPSEO_Schema_Breadcrumb( $context ),
+			new WPSEO_Schema_Article( $context ),
 		);
 
 		/**

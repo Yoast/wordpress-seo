@@ -14,6 +14,22 @@
  */
 class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	/**
+	 * A value object with context variables.
+	 *
+	 * @var WPSEO_Schema_Context
+	 */
+	private $context;
+
+	/**
+	 * WPSEO_Schema_Breadcrumb constructor.
+	 *
+	 * @param WPSEO_Schema_Context $context A value object with context variables.
+	 */
+	public function __construct( WPSEO_Schema_Context $context ) {
+		$this->context = $context;
+	}
+
+	/**
 	 * Determines whether or not a piece should be added to the graph.
 	 *
 	 * @return bool
@@ -35,13 +51,12 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return array $data Article data.
 	 */
 	public function generate() {
-		$post          = get_post();
-		$canonical     = WPSEO_Frontend::get_instance()->canonical( false );
-		$comment_count = get_comment_count( $post->ID );
+		$post          = get_post( $this->context->post_id );
+		$comment_count = get_comment_count( $this->context->post_id );
 		$data          = array(
 			'@type'            => 'Article',
-			'@id'              => $canonical . '#article',
-			'isPartOf'         => array( '@id' => $canonical . '#webpage' ),
+			'@id'              => $this->context->canonical . '#article',
+			'isPartOf'         => array( '@id' => $this->context->canonical . '#webpage' ),
 			'author'           => array(
 				'@id'  => $this->get_author_url(),
 				'name' => get_the_author_meta( 'display_name', $post->post_author ),
@@ -51,11 +66,11 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			'datePublished'    => mysql2date( DATE_W3C, $post->post_date_gmt, false ),
 			'dateModified'     => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
 			'commentCount'     => $comment_count['approved'],
-			'mainEntityOfPage' => $canonical . '#webpage',
+			'mainEntityOfPage' => $this->context->canonical . '#webpage',
 		);
 
-		$data = $this->add_image( $data, $post->ID );
-		$data = $this->add_keywords( $data, $post->ID );
+		$data = $this->add_image( $data );
+		$data = $this->add_keywords( $data );
 
 		return $data;
 	}
@@ -66,8 +81,8 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return string
 	 */
 	private function get_author_url() {
-		if ( WPSEO_Options::get( 'company_or_person', '' ) === 'person' ) {
-			return WPSEO_Utils::home_url() . '#person';
+		if ( $this->context->site_represents === 'person' ) {
+			return $this->context->site_url . '#person';
 		}
 
 		return get_author_posts_url( get_the_author_meta( 'ID' ) ) . '#person';
@@ -79,22 +94,21 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return string
 	 */
 	private function get_publisher_url() {
-		if ( WPSEO_Options::get( 'company_or_person', '' ) !== 'company' ) {
+		if ( $this->context->site_represents !== 'company' ) {
 			return get_author_posts_url( get_the_author_meta( 'ID' ) ) . '#person';
 		}
 
-		return WPSEO_Utils::home_url() . '#organization';
+		return $this->context->site_url . '#organization';
 	}
 
 	/**
 	 * Adds tags as keywords, if tags are assigned.
 	 *
-	 * @param array $data    Article data.
-	 * @param int   $post_id Post ID.
+	 * @param array                $data    Article data.
 	 *
 	 * @return array $data Article data.
 	 */
-	private function add_keywords( $data, $post_id ) {
+	private function add_keywords( $data ) {
 		/**
 		 * Filter: 'wpseo_schema_article_taxonomy' - Allow changing the taxonomy used to assign keywords to a post type Article data.
 		 *
@@ -102,7 +116,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		 */
 		$taxonomy = apply_filters( 'wpseo_schema_article_keywords_taxonomy', 'post_tag' );
 
-		$terms = get_the_terms( $post_id, $taxonomy );
+		$terms = get_the_terms( $this->context->post_id, $taxonomy );
 		if ( $terms ) {
 			$tags = array();
 			foreach ( $terms as $term ) {
@@ -117,15 +131,14 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	/**
 	 * Adds an image node if the post has a featured image.
 	 *
-	 * @param array $data    The Article data.
-	 * @param int   $post_id Post ID.
+	 * @param array                $data    The Article data.
 	 *
 	 * @return array $data The Article data.
 	 */
-	private function add_image( $data, $post_id ) {
-		if ( has_post_thumbnail( $post_id ) ) {
+	private function add_image( $data ) {
+		if ( has_post_thumbnail( $this->context->post_id ) ) {
 			$data['image'] = array(
-				'@id' => WPSEO_Frontend::get_instance()->canonical( false ) . '#primaryimage',
+				'@id' => $this->context->canonical . '#primaryimage',
 			);
 		}
 

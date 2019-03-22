@@ -14,12 +14,28 @@
  */
 class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	/**
+	 * A value object with context variables.
+	 *
+	 * @var WPSEO_Schema_Context
+	 */
+	private $context;
+
+	/**
+	 * WPSEO_Schema_Breadcrumb constructor.
+	 *
+	 * @param WPSEO_Schema_Context $context A value object with context variables.
+	 */
+	public function __construct( WPSEO_Schema_Context $context ) {
+		$this->context = $context;
+	}
+
+	/**
 	 * Determine whether we should output Person schema.
 	 *
 	 * @return bool
 	 */
 	public function is_needed() {
-		if ( WPSEO_Options::get( 'company_or_person', '' ) === 'person' || is_author() ) {
+		if ( $this->context->site_represents === 'person' || is_author() ) {
 			return true;
 		}
 
@@ -150,7 +166,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		// If this is an author page, the Person object is the main object, so we set it as such here.
 		if ( is_author() ) {
 			$data['mainEntityOfPage'] = array(
-				'@id' => WPSEO_Frontend::get_instance()->canonical( false ) . '#webpage',
+				'@id' => $this->context->canonical . '#webpage',
 			);
 		}
 		return $data;
@@ -171,7 +187,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 
 		$data['image']  = array(
 			'@type'   => 'ImageObject',
-			'@id'     => WPSEO_Utils::get_home_url() . '#personlogo',
+			'@id'     => $this->context->site_url . '#personlogo',
 			'url'     => get_avatar_url( $user_data->user_email ),
 			'caption' => $user_data->display_name,
 		);
@@ -188,11 +204,11 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 */
 	private function determine_schema_id( $user_id ) {
 		switch ( true ) {
-			case ( WPSEO_Options::get( 'company_or_person', '' ) === 'company' ):
+			case ( $this->context->site_represents === 'company' ):
 				$url = get_author_posts_url( $user_id );
 				break;
 			default:
-				$url = WPSEO_Utils::home_url();
+				$url = $this->context->site_url;
 				break;
 		}
 
