@@ -5,8 +5,7 @@ import styled from "styled-components";
 import uniqueId from "lodash/uniqueId";
 
 // Internal dependencies
-import HelpText from "yoast-components/composites/Plugin/Shared/components/HelpText";
-import { SvgIcon } from "@yoast/components";
+import { SvgIcon, HelpText } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors, rgba } from "@yoast/style-guide";
 import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";

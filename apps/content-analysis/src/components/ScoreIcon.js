@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { colors, SvgIcon } from "yoast-components";
-import scoreToRating from "yoastsrc/interpreters/scoreToRating";
+import { SvgIcon } from "@yoast/components";
+import { colors } from "@yoast/style-guide";
+import scoreToRating from "yoastseo/src/interpreters/scoreToRating";
 
 
 // Grid is 24px. Ensure the next item starts there.

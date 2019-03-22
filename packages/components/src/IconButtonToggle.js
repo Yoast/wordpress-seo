@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import { colors, rgba } from "@yoast/style-guide";
-import { SvgIcon } from "@yoast/components";
+import SvgIcon from "./SvgIcon";
 
 const IconButtonBase = styled.button`
 	box-sizing: border-box;

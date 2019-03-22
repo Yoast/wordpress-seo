@@ -5,10 +5,9 @@ import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
 // Yoast dependencies.
-import { SvgIcon } from "@yoast/components";
+import { SvgIcon, ScreenReaderText } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
-import ScreenReaderText from "yoast-components/a11y/ScreenReaderText";
 
 // Internal dependencies.
 import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../../SnippetPreview/constants";

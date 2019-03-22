@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import IconButtonToggle from "../components/IconButtonToggle";
+import IconButtonToggle from "../src/IconButtonToggle";
 
 test( "the unpressed IconButtonToggle matches the snapshot", () => {
 	const component = renderer.create(

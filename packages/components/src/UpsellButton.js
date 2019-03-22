@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import { colors } from "@yoast/style-guide";
-import { YoastButtonBase } from "../components/YoastButton";
-import { SvgIcon } from "@yoast/components";
+import { YoastButtonBase } from "./YoastButton";
+import SvgIcon from "./SvgIcon";
 
 const settings = {
 	minHeight: 48,

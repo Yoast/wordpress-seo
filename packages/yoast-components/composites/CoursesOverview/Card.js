@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "@yoast/style-guide";
 import Banner from "./CardBanner";
-import { makeOutboundLink } from "../../utils/makeOutboundLink";
+import { makeOutboundLink } from "@yoast/helpers";
 
 const Container = styled.div`
 	position: relative;

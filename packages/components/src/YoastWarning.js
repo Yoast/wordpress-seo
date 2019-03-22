@@ -4,7 +4,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { colors } from "@yoast/style-guide";
-import { SvgIcon } from "@yoast/components";
+import SvgIcon from "../src/SvgIcon";
 import { getDirectionalStyle } from "@yoast/helpers";
 
 const WarningBox = styled.div`

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import ScreenReaderText from "../../../../a11y/ScreenReaderText";
+import ScreenReaderText from "../a11y/ScreenReaderText";
 import { colors } from "@yoast/style-guide";
 
 export const StyledTitleContainer = styled.span`

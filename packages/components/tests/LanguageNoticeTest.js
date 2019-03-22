@@ -3,7 +3,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 /* Internal dependencies */
-import LanguageNotice from "../components/LanguageNotice";
+import LanguageNotice from "../src/LanguageNotice";
 
 describe( "LanguageNotice", () => {
 	it( "matches the snapshot by default", () => {
