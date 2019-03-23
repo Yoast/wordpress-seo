@@ -13,13 +13,6 @@ if ( ! interface_exists( 'WPSEO_Graph_Piece' ) ) {
 	 */
 	interface WPSEO_Graph_Piece {
 		/**
-		 * WPSEO_Graph_Piece constructor.
-		 *
-		 * @param WPSEO_Schema_Context $context A value object with context variables.
-		 */
-		public function __construct( WPSEO_Schema_Context $context );
-
-		/**
 		 * Add your piece of the graph.
 		 *
 		 * @return array|bool $graph A graph piece on success, false on failure.
