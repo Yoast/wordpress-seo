@@ -80,6 +80,13 @@ class WPSEO_Schema_Context {
 	 * WPSEO_Schema_Context constructor.
 	 */
 	public function __construct() {
+		$this->build_data();
+	}
+
+	/**
+	 * Builds all the required data for the context object.
+	 */
+	private function build_data() {
 		$this->breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
 		if ( ! $this->breadcrumbs_enabled ) {
 			$this->breadcrumbs_enabled = WPSEO_Options::get( 'breadcrumbs-enable', false );
