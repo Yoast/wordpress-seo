@@ -3,7 +3,7 @@ import styled from "styled-components";
 import flow from "lodash/flow";
 import PropTypes from "prop-types";
 
-import { colors, rgba } from "@yoast/components/style-guide";
+import { colors, rgba } from "@yoast/style-guide";
 import { getDirectionalStyle } from "@yoast/helpers";
 
 const settings = {
