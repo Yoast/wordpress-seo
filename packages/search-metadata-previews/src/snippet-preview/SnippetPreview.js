@@ -8,7 +8,7 @@ import { parse } from "url";
 import { __ } from "@wordpress/i18n";
 
 // Yoast dependencies.
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 import replaceSpecialCharactersAndDiacritics from "yoastseo/src/stringProcessing/replaceDiacritics";
 import transliterate from "yoastseo/src/stringProcessing/transliterate";
 import createRegexFromArray from "yoastseo/src/stringProcessing/createRegexFromArray";

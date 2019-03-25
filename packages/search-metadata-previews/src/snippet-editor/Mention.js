@@ -4,7 +4,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 // Yoast dependencies.
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 
 const StyledMention = styled.span`
 	color: ${ colors.$color_white };

@@ -4,8 +4,10 @@ import PropTypes from "prop-types";
 import { speak as a11ySpeak } from "@wordpress/a11y";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
+
+/* Yoast dependencies */
 import { ZebrafiedListTable, Row } from "@yoast/components";
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 
 /**
  * The title of the search result item.

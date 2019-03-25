@@ -3,10 +3,13 @@ import React from "react";
 import styled from "styled-components";
 import omit from "lodash/omit";
 
-import { colors } from "@yoast/components/style-guide";
-import { IconsButton } from "../../Shared/components/Button";
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
 import { SectionTitle } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
+
+// Internal dependencies.
+import { IconsButton } from "../../Shared/components/Button";
 
 const Content = styled.div`
 	padding: 0 16px;

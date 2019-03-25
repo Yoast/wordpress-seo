@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 // Yoast dependencies.
 import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 import { getDirectionalStyle } from "@yoast/helpers";
 
 /**

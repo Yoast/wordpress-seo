@@ -4,8 +4,11 @@ import PropTypes from "prop-types";
 import flow from "lodash/flow";
 import omit from "lodash/omit";
 
-import { colors } from "@yoast/components/style-guide";
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
 import { SvgIcon } from "@yoast/components";
+
+// Internal dependencies.
 // Note: the order of these imports matters for the styles order in the markup.
 import { addActiveStyle, addFocusStyle, addHoverStyle } from "./Button";
 

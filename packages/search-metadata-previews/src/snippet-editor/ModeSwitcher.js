@@ -4,9 +4,9 @@ import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
-// Yoast dependencies.
+/* Yoast dependencies */
 import { SvgIcon, ScreenReaderText } from "@yoast/components";
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
 
 // Internal dependencies.

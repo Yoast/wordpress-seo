@@ -5,7 +5,7 @@ import IconButton from "material-ui/IconButton";
 import SvgIcon from "material-ui/SvgIcon";
 
 /* Yoast dependencies */
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 
 /**
  * Creates a step button for the wizard. The step buttons are meant to be rendered in a stepper component(StepIndicator)

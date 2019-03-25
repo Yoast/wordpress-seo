@@ -5,8 +5,8 @@ import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import { speak as a11ySpeak } from "@wordpress/a11y";
 
-/* Internal dependencies */
-import { colors } from "../style-guide";
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
 
 const ErrorContainer = styled.p`
 	text-align: center;
