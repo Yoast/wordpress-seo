@@ -5,6 +5,9 @@ import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
+
 /* Internal dependencies */
 import ReplacementVariableEditor from "./ReplacementVariableEditor";
 import {
@@ -20,7 +23,7 @@ import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "../constants";
-import { colors } from "@yoast/style-guide";
+
 
 const SlugInput = styled.input`
 	border: none;

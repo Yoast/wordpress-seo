@@ -1,7 +1,7 @@
 // External dependencies.
 import styled from "styled-components";
 
-// Internal dependencies.
+/* Yoast dependencies */
 import { colors, rgba } from "@yoast/style-guide";
 
 export const YoastInputContainer = styled.div`

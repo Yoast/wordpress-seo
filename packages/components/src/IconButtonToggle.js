@@ -2,7 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
+/* Yoast dependencies */
 import { colors, rgba } from "@yoast/style-guide";
+
+/* Internal dependencies */
 import SvgIcon from "./SvgIcon";
 
 const IconButtonBase = styled.button`

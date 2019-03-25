@@ -10,13 +10,15 @@ import truncate from "lodash/truncate";
 import { parse } from "url";
 import { __ } from "@wordpress/i18n";
 
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
+import { getDirectionalStyle } from "@yoast/helpers";
+import { ScreenReaderText } from "@yoast/components";
+
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
 import { DEFAULT_MODE, MODE_DESKTOP, MODE_MOBILE, MODES } from "../constants";
 import { angleLeft, angleRight } from "../../SnippetEditor/components/Shared";
-import { colors } from "@yoast/style-guide";
-import { getDirectionalStyle } from "@yoast/helpers";
-import { ScreenReaderText } from "@yoast/components";
 
 /*
  * These colors should not be abstracted. They are chosen because Google renders

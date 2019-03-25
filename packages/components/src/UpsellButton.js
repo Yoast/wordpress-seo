@@ -2,7 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+/* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
+
+// Internal dependencies.
 import { YoastButtonBase } from "./YoastButton";
 import SvgIcon from "./SvgIcon";
 

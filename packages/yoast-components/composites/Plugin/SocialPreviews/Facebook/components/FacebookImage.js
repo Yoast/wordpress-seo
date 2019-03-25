@@ -4,6 +4,9 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
+/* Yoast dependencies. */
+import { colors } from "@yoast/style-guide";
+
 /* Internal dependencies */
 import {
 	determineFacebookImageProperties,
@@ -14,7 +17,6 @@ import {
 	SQUARE_HEIGHT,
 	SQUARE_WIDTH,
 } from "../helpers/determineFacebookImageProperties";
-import { colors } from "@yoast/style-guide";
 
 const MIN_IMAGE_WIDTH = 158;
 const MIN_IMAGE_HEIGHT = 158;

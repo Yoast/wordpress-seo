@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import uniqueId from "lodash/uniqueId";
 
-// Internal dependencies
+/* Yoast dependencies */
 import { SvgIcon, HelpText } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors, rgba } from "@yoast/style-guide";

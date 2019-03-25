@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+
+/* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
 
 const BannerContents = styled.span`

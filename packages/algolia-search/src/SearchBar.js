@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import debounce from "lodash/debounce";
 import { __ } from "@wordpress/i18n";
+
+/* Yoast dependencies */
 import { YoastButton } from "@yoast/components";
 import { colors, breakpoints } from "@yoast/style-guide";
 

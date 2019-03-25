@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import noop from "lodash/noop";
 
-// Yoast dependencies.
+/* Yoast dependencies */
 import { assessments, string, helpers } from "yoastseo";
 import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
 import { colors } from "@yoast/style-guide";

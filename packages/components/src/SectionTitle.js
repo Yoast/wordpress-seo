@@ -2,8 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import ScreenReaderText from "../a11y/ScreenReaderText";
+/* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
+
+import ScreenReaderText from "../a11y/ScreenReaderText";
 
 export const StyledTitleContainer = styled.span`
 	flex-grow: 1;

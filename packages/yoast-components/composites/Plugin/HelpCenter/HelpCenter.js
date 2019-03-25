@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 
-/* Internal dependencies */
+/* Yoast dependencies */
 import { Paper, YoastTabs, HelpCenterButton } from "@yoast/components";
 import { colors, breakpoints } from "@yoast/style-guide";
 

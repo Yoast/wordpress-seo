@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 
+/* Yoast dependencies */
 import { colors, breakpoints } from "@yoast/style-guide";
 
 const YoastTabsContainer = styled.div`

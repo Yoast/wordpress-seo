@@ -2,11 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+/* Yoast dependencies */
+import { colors, rgba } from "@yoast/style-guide";
+import { getDirectionalStyle } from "@yoast/helpers";
+
 import Section from "./Section";
 import Heading from "./Heading";
-import { colors, rgba } from "@yoast/style-guide";
 import SvgIcon from "./SvgIcon";
-import { getDirectionalStyle } from "@yoast/helpers";
 
 export const StyledHeading = styled( Heading )`
 	margin-left: ${ getDirectionalStyle( "0", "20px" ) };
