@@ -7,8 +7,6 @@
 
 /**
  * Unit Test Class.
- *
- * @group test
  */
 class WPSEO_Subscription_Notifier_Test extends WPSEO_UnitTestCase {
 	/**

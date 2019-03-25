@@ -93,6 +93,11 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 		return new WPSEO_Addon_Manager();
 	}
 
+	/**
+	 * Get the notification center.
+	 *
+	 * @return Yoast_Notification_Center
+	 */
 	protected function get_notification_center() {
 		return Yoast_Notification_Center::get();
 	}
