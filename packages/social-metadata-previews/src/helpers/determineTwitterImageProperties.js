@@ -1,7 +1,7 @@
 export const SQUARE_WIDTH = 123.422;
 export const SQUARE_HEIGHT = 123.422;
 export const LANDSCAPE_WIDTH = 506;
-export const LANDSCAPE_HEIGHT = 254;
+export const LANDSCAPE_HEIGHT = 253;
 
 /**
  * Determines the image display mode of the Twitter image.
