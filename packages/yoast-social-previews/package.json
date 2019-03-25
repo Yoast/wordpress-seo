@@ -1,6 +1,6 @@
 {
   "name": "yoast-social-previews",
-  "version": "1.4.2",
+  "version": "1.4.3-alpha.0",
   "description": "",
   "private": true,
   "main": "index.js",
@@ -9,7 +9,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Yoast/yoast-social-previews.git"
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/yoast-social-previews"
   },
   "author": "Team Yoast <support@yoast.com>",
   "bugs": {
@@ -23,8 +24,6 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.3.1",
-    "eslint-config-yoast": "^2.0.1",
-    "eslint-plugin-react": "^6.0.0",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-clean": "^1.0.0",
@@ -32,7 +31,6 @@
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-eslint": "^19.0.0",
     "grunt-lodash": "^0.5.0",
     "grunt-po2json": "^0.3.0",
     "grunt-postcss": "^0.8.0",

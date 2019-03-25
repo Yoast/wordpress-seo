@@ -1,0 +1,55 @@
+{
+  "name": "@yoast/search-metadata-previews",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/search-metadata-previews"
+  },
+  "author": "Team Yoast",
+  "license": "GPL-3.0",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@wordpress/a11y": "^1.0.7",
+    "@wordpress/i18n": "^1.1.0",
+    "@yoast/components": "^1.0.0",
+    "@yoast/helpers": "^0.1.0",
+    "draft-js": "^0.10.5",
+    "draft-js-mention-plugin": "^3.0.4",
+    "draft-js-plugins-editor": "^2.0.4",
+    "draft-js-single-line-plugin": "^2.0.1",
+    "prop-types": "^15.6.0",
+    "styled-components": "^2.1.2",
+    "yoast-components": "^4.22.0",
+    "yoastseo": "^1.49.0",
+    "lodash": "^4.17.11",
+    "interpolate-components": "^1.1.1"
+  },
+  "devDependencies": {
+    "react": "16.6.3",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "jest-styled-components": "^5.0.1",
+    "react-test-renderer": "^16.8.4"
+  },
+  "jest": {
+    "testURL": "http://localhost",
+    "testRegex": ".*Test.js$",
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js"
+  }
+}

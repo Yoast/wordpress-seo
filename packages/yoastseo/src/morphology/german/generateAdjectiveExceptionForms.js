@@ -201,7 +201,7 @@ const bothStemsComSup = function( morphologyDataAdjectives, stemmedWordToCheck )
 };
 
 /**
- * Checks whether a give stem stem falls into any of the adjective exception categories and creates the
+ * Checks whether a given stem falls into any of the adjective exception categories and creates the
  * correct forms if that is the case.
  *
  * @param {Object}  morphologyDataAdjectives The German morphology data for adjectives.
