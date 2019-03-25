@@ -12,7 +12,7 @@
   "scripts": {
     "start": "echo 'The yoast-components demo app has been moved to javascript/apps/components (https://github.com/Yoast/javascript/tree/develop/apps/components). Please run yarn start there.'",
     "test": "jest",
-    "lint": "grunt check",
+    "lint": "eslint . --max-warnings=77",
     "prepublishOnly": "grunt publish"
   },
   "jest": {
@@ -87,7 +87,6 @@
   "devDependencies": {
     "autoprefixer": "^6.4.0",
     "babel-core": "^6.25.0",
-    "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.1",
     "babel-plugin-styled-components": "^1.5.1",
@@ -101,14 +100,8 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.3",
-    "eslint": "^4.16.0",
-    "eslint-config-yoast": "^4.0.0",
-    "eslint-plugin-jsx-a11y": "^3.0.2",
-    "eslint-plugin-react": "^7.11.1",
-    "eslint-plugin-yoast": "^1.0.1",
     "grunt": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-eslint": "^20.1.0",
     "grunt-postcss": "^0.8.0",
     "grunt-sass": "^2.0.0",
     "grunt-scss-to-json": "^1.0.1",
