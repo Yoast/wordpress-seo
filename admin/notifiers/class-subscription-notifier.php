@@ -110,7 +110,8 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	public function init() {
 		$this->first_expiring_subscription = $this->get_first_expiring_subscription();
 
-		if ( ! $this->first_expiring_subscription ) {
+		if ( $this->first_expiring_subscription === null ) {
+			$this->clean_up();
 			return;
 		}
 
@@ -208,7 +209,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	/**
 	 * Gets the first add-on that will expire from teh add-on manager.
 	 *
-	 * @returns stdClass Object representing a subscription.
+	 * @returns stdClass|null Object representing a subscription.
 	 */
 	protected function get_first_expiring_subscription() {
 		// Required to make sure we only get the latest data.
@@ -219,6 +220,10 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 		$subscriptions = array_filter( $subscriptions, array( $this, 'filter' ) );
 
 		usort( $subscriptions, array( $this, 'compare_subscription_dates' ) );
+
+		if ( count( $subscriptions ) === 0 ) {
+			return null;
+		}
 
 		return $subscriptions[0];
 	}
