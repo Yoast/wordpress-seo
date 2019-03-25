@@ -7,10 +7,10 @@ import { __ } from "@wordpress/i18n";
 /* Internal dependencies */
 import {
 	determineTwitterImageProperties,
-	SUMMARY_LARGE_IMAGE_HEIGHT,
-	SUMMARY_LARGE_IMAGE_WIDTH,
-	SUMMARY_HEIGHT,
-	SUMMARY_WIDTH,
+	LANDSCAPE_HEIGHT,
+	LANDSCAPE_WIDTH,
+	SQUARE_HEIGHT,
+	SQUARE_WIDTH,
 } from "../helpers/determineTwitterImageProperties";
 import { colors } from "@yoast/components/style-guide";
 
@@ -97,22 +97,22 @@ export default class TwitterImage extends React.Component {
 	/**
 	 * Gets the dimensions for the Twitter image container.
 	 *
-	 * @param {string} imageMode The Twitter image mode: summary_large_image or summary.
+	 * @param {string} imageMode The Twitter image mode: landscape or square.
 	 *
 	 * @returns {Object} The width and height for the container.
 	 */
 	getContainerDimensions( imageMode ) {
 		switch ( imageMode ) {
-			case "summary":
+			case "square":
 				return {
-					height: SUMMARY_HEIGHT + "px",
-					width: SUMMARY_WIDTH + "px",
+					height: SQUARE_HEIGHT + "px",
+					width: SQUARE_WIDTH + "px",
 				};
-			case "summary_large_image":
+			case "landscape":
 			default:
 				return {
-					height: SUMMARY_LARGE_IMAGE_HEIGHT + "px",
-					width: SUMMARY_LARGE_IMAGE_WIDTH + "px",
+					height: LANDSCAPE_HEIGHT + "px",
+					width: LANDSCAPE_WIDTH + "px",
 				};
 		}
 	}
