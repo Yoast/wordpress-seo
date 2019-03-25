@@ -22,9 +22,6 @@ $wpseo_contributors_phrase = sprintf(
 <div class="tab-block">
 	<div class="yoast-alerts">
 
-		<?php
-			do_action( 'wpseo_admin_seo_dashboard_banners' );
-		?>
 		<?php echo $configuration_notifier->notify(); ?>
 
 		<div class="yoast-container yoast-container__alert">

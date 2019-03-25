@@ -18,13 +18,6 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	private $first_expiring_subscription;
 
 	/**
-	 * String representing the notification that should be shown.
-	 *
-	 * @var string
-	 */
-	private $current_notification;
-
-	/**
 	 * Yoast_Notification_Center instance.
 	 *
 	 * @var Yoast_Notification_Center
@@ -37,6 +30,27 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * @var WPSEO_Addon_Manager
 	 */
 	private $addon_manager;
+
+	/**
+	 * Used to store whether the notification has changed to reset the notification dismissal state.
+	 *
+	 * @var bool
+	 */
+	private $notification_has_changed = false;
+
+	/**
+	 * Id for the current notification.
+	 *
+	 * @var string
+	 */
+	private $current_notification_id;
+
+	/**
+	 * Notification id.
+	 *
+	 * @var string
+	 */
+	const EXPIRATION_NOTIFICATION_ID = 'wpseo-plugins-expiration-notification';
 
 	/**
 	 * First plugin or addon to expire, will do so within 4 week.
@@ -70,13 +84,6 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	const EXPIRED_MORE_THAN_1_DAY = 'plugins-expired-more-than-1-day';
 
 	/**
-	 * Identifier for the option containing the current notification.
-	 *
-	 * @var string
-	 */
-	const CURRENT_NOTIFICATION    = 'wpseo-current-expiration-notification';
-
-	/**
 	 * WPSEO_Subscription_Notifier constructor.
 	 */
 	public function __construct() {
@@ -108,6 +115,8 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * @returns void
 	 */
 	public function init() {
+		$this->current_notification_id = get_option( self::EXPIRATION_NOTIFICATION_ID );
+
 		$this->first_expiring_subscription = $this->get_first_expiring_subscription();
 
 		if ( $this->first_expiring_subscription === null ) {
@@ -115,13 +124,9 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		$this->current_notification = get_option( self::CURRENT_NOTIFICATION );
-
 		$days_to_expiration = $this->get_days_until_expiration( $this->first_expiring_subscription );
 
 		$this->determine_notification( $days_to_expiration );
-
-		$this->show_notification();
 	}
 
 	/**
@@ -145,22 +150,38 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	private function determine_notification( $days_to_expiration ) {
 		if ( $days_to_expiration < 28 && $days_to_expiration > 7 ) {
 			$this->set_current_notification( self::EXPIRATION_4_WEEKS );
+
+			$message = sprintf( __( 'Your %1$s plugin(s) will expire within 4 weeks. When plugins expire, you will no longer receive updates or support. %2$sRenew now to get a 25%% discount!%3$s', 'wordpress-seo' ), 'Yoast', '<a href="' . esc_url( $this->first_expiring_subscription->renewal_url ) . '"">'  , '</a>' );
+			$this->show_notification( $message );
 			return;
 		}
 		if ( $days_to_expiration <= 7 && $days_to_expiration > 1 ) {
 			$this->set_current_notification( self::EXPIRATION_1_WEEK );
+
+			$formatted_date = '<b>' . date_i18n( 'F jS, Y', strtotime( $this->first_expiring_subscription->expiry_date ) ) . '</b>';
+			$message        = sprintf( esc_html__( 'Your %1$s plugins are expired! When plugins expire, you will no longer receive updates or support. You have until %2$s to renew with a 25%% discount. %3$sRenew now!%4$s', 'wordpress-seo' ), 'Yoast', $formatted_date, '<a href="' . esc_url( $this->first_expiring_subscription->renewal_url ) . '">', '</a>' );
+			$this->show_notification( $message );
 			return;
 		}
 		if ( $days_to_expiration === 1 ) {
 			$this->set_current_notification( self::EXPIRATION_1_DAY );
+
+			$message = sprintf( __( 'Your %1$s plugin(s) will expire in 1 day. When plugins expire, you will no longer receive updates or support. %2$sRenew now to get a 25%% discount!%3$s', 'wordpress-seo' ), 'Yoast', '<a href="' . esc_url( $this->first_expiring_subscription->renewal_url ) . '"">'  , '</a>' );
+			$this->show_notification( $message );
 			return;
 		}
 		if ( $days_to_expiration === 0 ) {
 			$this->set_current_notification( self::EXPIRED_1_DAY );
+
+			$message = sprintf( __( 'Your %1$s plugin(s) are expired. When plugins expire you will no longer receive updates or support. Hereby, we give you the opportunity to renew your license with a %2$s25%% discount for a few more days!%3$s', 'wordpress-seo' ), 'Yoast', '<a href="' . esc_url( $this->first_expiring_subscription->renewal_url ) . '">', '</a>' );
+			$this->show_notification( $message );
 			return;
 		}
 		if ( $days_to_expiration < 0 && $days_to_expiration > -30 ) {
 			$this->set_current_notification( self::EXPIRED_MORE_THAN_1_DAY );
+
+			$message = sprintf( esc_html__( 'When plugins expire, you will no longer receive updates or support. %3$sRenew now!%4$s', 'wordpress-seo' ), 'Yoast', '<a href="' . esc_url( $this->first_expiring_subscription->renewal_url ) . '">', '</a>' );
+			$this->show_notification( $message );
 			return;
 		}
 		// If no condition is applicable, clean up the options and notifications.
@@ -168,21 +189,19 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Given a new notification identifier, checks if it differs versus the saved notification id and
-	 * perform some clean up actions if it has changed.
+	 * Set the current notification id, and if it has changed opposed to the saved id set notification_has_changed.
 	 *
-	 * @param string $notification_id Identifier for the new notification that should be shown.
+	 * @param string $notification_id Notification id.
 	 *
 	 * @returns void
 	 */
 	private function set_current_notification( $notification_id ) {
-		if ( $this->current_notification === $notification_id ) {
+		if ( $this->current_notification_id === $notification_id ) {
 			return;
 		}
 
-		$this->current_notification = $notification_id;
-		update_option( self::CURRENT_NOTIFICATION, $notification_id );
-		$this->remove_all_notifications();
+		update_option( self::EXPIRATION_NOTIFICATION_ID, $notification_id );
+		$this->notification_has_changed = true;
 	}
 
 	/**
@@ -191,19 +210,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * @returns void
 	 */
 	private function clean_up() {
-		$this->current_notification = null;
-		delete_option( self::CURRENT_NOTIFICATION );
-		$this->remove_all_notifications();
-	}
-
-	/**
-	 * Removes all notifications that can be added in $this->show_notification.
-	 *
-	 * @returns void
-	 */
-	private function remove_all_notifications() {
-		$this->notification_center->remove_notification_by_id( self::EXPIRATION_4_WEEKS );
-		$this->notification_center->remove_notification_by_id( self::EXPIRATION_1_DAY );
+		$this->notification_center->remove_notification_by_id( self::EXPIRATION_NOTIFICATION_ID );
 	}
 
 	/**
@@ -255,104 +262,29 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Show the appropriate notification based on the current notification id.
+	 * Show a notification.
+	 *
+	 * @param string $message Message to be shown.
 	 *
 	 * @returns void
 	 */
-	private function show_notification() {
-		if ( $this->current_notification === self::EXPIRATION_4_WEEKS ) {
-			$message = sprintf( __( 'Your %1$s plugin(s) will expire within 4 weeks. When plugins expire, you will no longer receive updates or support. %2$sRenew now to get a 25%% discount!%3$s', 'wordpress-seo' ), 'Yoast', '<a href="' . esc_url( $this->first_expiring_subscription->renewal_url ) . '"">'  , '</a>' );
-
-			$notification_options = array(
-				'type'         => Yoast_Notification::ERROR,
-				'id'           => self::EXPIRATION_4_WEEKS,
-				'capabilities' => 'wpseo_manage_options',
-			);
-
-			$notification = new Yoast_Notification(
-				$message,
-				$notification_options
-			);
-
-			$this->notification_center->add_notification( $notification );
+	private function show_notification( $message ) {
+		if ( $this->notification_has_changed ) {
+			$this->notification_center->clear_dismissal( self::EXPIRATION_NOTIFICATION_ID );
 		}
-		if ( $this->current_notification === self::EXPIRATION_1_DAY ) {
-			$message = sprintf( __( 'Your %1$s plugin(s) will expire in 1 day. When plugins expire, you will no longer receive updates or support. %2$sRenew now to get a 25%% discount!%3$s', 'wordpress-seo' ), 'Yoast', '<a href="' . esc_url( $this->first_expiring_subscription->renewal_url ) . '"">'  , '</a>' );
 
-			$notification_options = array(
-				'type'         => Yoast_Notification::ERROR,
-				'id'           => self::EXPIRATION_1_DAY,
-				'capabilities' => 'wpseo_manage_options',
-			);
-
-			$notification = new Yoast_Notification(
-				$message,
-				$notification_options
-			);
-
-			$this->notification_center->add_notification( $notification );
-		}
-	}
-
-	/**
-	 * Show the appropriate banner based on the current notification id.
-	 *
-	 * @returns void
-	 */
-	public function show_banner() {
-		if ( $this->current_notification === self::EXPIRATION_1_WEEK ) {
-			// translators: %1$s expands to Yoast.
-			$title          = sprintf( esc_html__( 'One or more %1$s plugins are about to expire!', 'wordpress-seo' ), 'Yoast' );
-			$formatted_date = '<b>' . date_i18n( 'F jS, Y', strtotime( $this->first_expiring_subscription->expiry_date ) ) . '</b>';
-			// translators: %1$s expands to Yoast, %2$s expands to a date string, %3$s expands to an opening anchor tag, %4$s expands to a closing anchor tag.
-			$message        = sprintf( esc_html__( 'When plugins expire, you will no longer receive updates or support. You have until %2$s to renew with a 25%% discount. %3$sRenew now!%4$s', 'wordpress-seo' ), 'Yoast', $formatted_date, '<a href="' . esc_url( $this->first_expiring_subscription->renewal_url ) . '">', '</a>' );
-
-			echo $this->get_banner( $title, $message );
-			return;
-		}
-		if ( $this->current_notification === self::EXPIRED_1_DAY ) {
-			// translators: %1$s expands to Yoast.
-			$title          = sprintf( esc_html__( 'Your %1$s plugins are expired!', 'wordpress-seo' ), 'Yoast' );
-			$formatted_date = '<b>' . date_i18n( 'F jS, Y', strtotime( $this->first_expiring_subscription->expiry_date ) ) . '</b>';
-			// translators: %1$s expands to Yoast, %2$s expands to a date string, %3$s expands to an opening anchor tag, %4$s expands to a closing anchor tag.
-			$message        = sprintf( esc_html__( 'When plugins expire, you will no longer receive updates or support. You have until %2$s to renew with a 25%% discount. %3$sRenew now!%4$s', 'wordpress-seo' ), 'Yoast', $formatted_date, '<a href="' . esc_url( $this->first_expiring_subscription->renewal_url ) . '">', '</a>' );
-
-			echo $this->get_banner( $title, $message );
-			return;
-		}
-	}
-
-	/**
-	 * Show the appropriate notification based on the current notification id.
-	 *
-	 * @param string $title       Banner title.
-	 * @param string $message     Banner message.
-	 * @param bool   $dismissable Whether or not the banner can be dismissed.
-	 *
-	 * @return string HTML for the banner.
-	 */
-	public function get_banner( $title, $message, $dismissable = false ) {
-		$notification  = '<div class="yoast-container yoast-container__configuration-wizard">';
-		$notification .= sprintf(
-			'<img src="%1$s" height="%2$s" width="%3$d" />',
-			esc_url( plugin_dir_url( WPSEO_FILE ) . 'images/subscription-notification.svg' ),
-			60,
-			60
+		$notification_options = array(
+			'type'         => Yoast_Notification::ERROR,
+			'id'           => self::EXPIRATION_NOTIFICATION_ID,
+			'capabilities' => 'wpseo_manage_options',
 		);
-		$notification .= '<div class="yoast-container__configuration-wizard--content">';
-		$notification .= '<h3>' . $title . '</h3>';
-		$notification .= '<p>' . $message . '</p>';
-		$notification .= '</div>';
-		if ( $dismissable ) {
-			$notification .= sprintf(
-				'<a href="%1$s" style="" class="button dismiss yoast-container__configuration-wizard--dismiss"><span class="screen-reader-text">%2$s</span><span class="dashicons dashicons-no-alt"></span></a>',
-				esc_url( admin_url( 'admin.php?page=wpseo_dashboard&amp;dismiss_get_started=1' ) ),
-				esc_html__( 'Dismiss this item.', 'wordpress-seo' )
-			);
-		}
-		$notification .= '</div>';
 
-		return $notification;
+		$notification = new Yoast_Notification(
+			$message,
+			$notification_options
+		);
+
+		$this->notification_center->add_notification( $notification );
 	}
 
 	/**
@@ -368,6 +300,5 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 		}
 
 		add_action( 'admin_init', array( $this, 'init' ) );
-		add_action( 'wpseo_admin_seo_dashboard_banners', array( $this, 'show_banner' ) );
 	}
 }
