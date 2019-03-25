@@ -495,7 +495,6 @@ class WPSEO_Sitemaps {
 			$post_type_names = get_post_types( array( 'public' => true ) );
 
 			if ( ! empty( $post_type_names ) ) {
-
 				$post_statuses = array_map( 'esc_sql', self::get_post_statuses() );
 
 				$sql = "
