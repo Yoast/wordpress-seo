@@ -2,6 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Stepper, Step, StepButton } from "material-ui/Stepper";
+import { __ } from "@wordpress/i18n";
 
 /* Yoast dependencies */
 import { localize } from "yoast-components/utils/i18n";
@@ -51,7 +52,7 @@ class StepIndicator extends React.Component {
 			var currentField = this.props.steps[ name ];
 			const stepNumber = key.valueOf() + 1;
 			/* %1$d expands to the number of the step, %2$s expands to the name of the step */
-			let ariaLabel = this.props.translate( "Step %1$d: %2$s" );
+			let ariaLabel = __( "Step %1$d: %2$s", "yoast-components" );
 			ariaLabel = ariaLabel.replace( "%1$d", stepNumber ).replace( "%2$s", currentField.title );
 
 			if ( key === this.state.stepIndex ) {
@@ -118,12 +119,10 @@ class StepIndicator extends React.Component {
 StepIndicator.propTypes = {
 	steps: PropTypes.object.isRequired,
 	stepIndex: PropTypes.number.isRequired,
-	translate: PropTypes.any,
 	onClick: PropTypes.func,
 };
 
 StepIndicator.defaultProps = {
-	translate: null,
 	onClick: () => null,
 };
 
