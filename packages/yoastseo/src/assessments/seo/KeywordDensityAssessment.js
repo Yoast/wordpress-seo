@@ -3,6 +3,7 @@ import { merge } from "lodash-es";
 import recommendedKeywordCount from "../../assessmentHelpers/recommendedKeywordCount.js";
 import Assessment from "../../assessment";
 import getLanguage from "../../helpers/getLanguage";
+import getLanguagesWithWordFormSupport from "../../helpers/getLanguagesWithWordFormSupport";
 import AssessmentResult from "../../values/AssessmentResult";
 import { inRangeEndInclusive, inRangeStartEndInclusive, inRangeStartInclusive } from "../../helpers/inRange";
 import { createAnchorOpeningTag } from "../../helpers/shortlinker";
@@ -100,7 +101,8 @@ class KeywordDensityAssessment extends Assessment {
 	 * @returns {AssessmentResult} The result of the assessment.
 	 */
 	getResult( paper, researcher, i18n ) {
-		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false && getLanguage( paper.getLocale() ) === "en";
+		this._hasMorphologicalForms = researcher.getData( "morphology" ) !== false &&
+			getLanguagesWithWordFormSupport().includes( getLanguage( paper.getLocale() ) );
 
 		this._keywordCount = researcher.getResearch( "keywordCount" );
 		const keyphraseLength = this._keywordCount.length;
