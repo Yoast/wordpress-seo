@@ -8,6 +8,11 @@
  */
 class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 
+	/**
+	 * Option name.
+	 *
+	 * @var string
+	 */
 	private static $option_name = 'wpseo_history_test';
 
 	/**

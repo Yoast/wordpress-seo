@@ -8,12 +8,12 @@
 /**
  * Adds the UI to change the primary term for a post.
  */
-class WPSEO_Primary_Term_Admin {
+class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Constructor.
 	 */
-	public function __construct() {
+	public function register_hooks() {
 		add_filter( 'wpseo_content_meta_section_content', array( $this, 'add_input_fields' ) );
 
 		add_action( 'admin_footer', array( $this, 'wp_footer' ), 10 );

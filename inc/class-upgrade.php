@@ -452,8 +452,8 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Updates the links for the link count when there is a difference between the site and home url. We've used the
-	 * site url instead of the home url.
+	 * Updates the links for the link count when there is a difference between the site and home url.
+	 * We've used the site url instead of the home url.
 	 *
 	 * @return void
 	 */

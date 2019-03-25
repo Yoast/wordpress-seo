@@ -13,7 +13,7 @@ import buildDurationString from "../utils/buildDurationString";
 import appendSpace from "../../../components/higherorder/appendSpace";
 
 const { RichText, InspectorControls } = window.wp.editor;
-const { Button, IconButton, Dashicon, PanelBody, TextControl, ToggleControl } = window.wp.components;
+const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;
 const { Component, renderToString, createRef } = window.wp.element;
 
 const RichTextWithAppendedSpace = appendSpace( RichText.Content );
@@ -509,7 +509,7 @@ export default class HowTo extends Component {
 			<IconButton
 				icon="insert"
 				onClick={ this.onAddStepButtonClick }
-				className="editor-inserter__toggle schema-how-to-add-step"
+				className="schema-how-to-add-step"
 			>
 				{ __( "Add step", "wordpress-seo" ) }
 			</IconButton>
@@ -651,15 +651,14 @@ export default class HowTo extends Component {
 
 		if ( ! attributes.hasDuration ) {
 			return (
-				// Use a `Button` because at the moment `IconButton` doesn't support refs.
-				<Button
+				<IconButton
 					onClick={ this.addDuration }
-					className="components-icon-button schema-how-to-duration-button editor-inserter__toggle"
+					className="schema-how-to-duration-button"
 					ref={ this.addDurationButton }
+					icon="insert"
 				>
-					<Dashicon icon="insert" />
 					{ __( "Add total time", "wordpress-seo" ) }
-				</Button>
+				</IconButton>
 			);
 		}
 
@@ -717,7 +716,7 @@ export default class HowTo extends Component {
 							placeholder="MM"
 						/>
 						<IconButton
-							className="schema-how-to-duration-delete-button editor-inserter__toggle"
+							className="schema-how-to-duration-delete-button"
 							icon="trash"
 							label={ __( "Delete total time", "wordpress-seo" ) }
 							onClick={ this.removeDuration }

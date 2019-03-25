@@ -11,6 +11,8 @@
 class WPSEO_Metabox_Editor_Test extends PHPUnit_Framework_TestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Metabox_Editor
 	 */
 	protected $subject;

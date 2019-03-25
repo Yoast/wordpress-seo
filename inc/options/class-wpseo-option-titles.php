@@ -296,8 +296,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * Invalidates enrich_defaults() cache.
 	 *
 	 * Called from actions:
-	 *     (un)registered_post_type
-	 *     (un)registered_taxonomy
+	 * - (un)registered_post_type
+	 * - (un)registered_taxonomy
 	 *
 	 * @return void
 	 */

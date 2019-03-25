@@ -19,6 +19,8 @@ use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
 class Oauth_Client_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var Client
 	 */
 	protected $class_instance;
