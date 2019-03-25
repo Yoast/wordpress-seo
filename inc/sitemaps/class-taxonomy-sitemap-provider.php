@@ -168,7 +168,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$terms = array();
 		}
 
-		$post_statuses = array_map( 'esc_sql', self::get_post_statuses() );
+		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses() );
 
 		// Grab last modified date.
 		$sql = "
@@ -180,7 +180,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
 				AND		term_tax.taxonomy = %s
 				AND		term_tax.term_id = %d
-			WHERE	p.post_status IN ('" . implode( "','", $post_type_names ) . "')
+			WHERE	p.post_status IN ('" . implode( "','", $post_statuses ) . "')
 				AND		p.post_password = ''
 		";
 
