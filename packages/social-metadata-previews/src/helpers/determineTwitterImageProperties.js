@@ -6,12 +6,12 @@ export const LANDSCAPE_HEIGHT = 254;
 /**
  * Determines the image display mode of the Twitter image.
  *
- * @param {Object} dimensions The image's dimensions.
+ * @param {Object} cardType The card type in which an image should be displayed.
  *
  * @returns {string} The display mode of the image.
  */
-export function determineTwitterImageMode( dimensions ) {
-	if ( dimensions.height === dimensions.width ) {
+export function determineTwitterImageMode( cardType ) {
+	if ( cardType === "summary" ) {
 		return "square";
 	}
 
@@ -137,11 +137,11 @@ export function calculateTwitterImageDimensions( originalDimensions, imageMode )
  *
  * @returns {Promise} The promise of the imageProperties.
  */
-export function determineTwitterImageProperties( src ) {
+export function determineTwitterImageProperties( src, cardType ) {
 	return getOriginalImageDimensions( src ).then( ( originalDimensions ) => {
 
 		// Determine what image mode should be used based on the image dimensions.
-		const imageMode = determineTwitterImageMode( originalDimensions );
+		const imageMode = determineTwitterImageMode( cardType );
 
 		// Calculate the image dimensions for the specific image.
 		const TwitterImageDimensions = calculateTwitterImageDimensions( originalDimensions, imageMode );

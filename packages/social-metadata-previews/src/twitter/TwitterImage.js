@@ -81,7 +81,7 @@ export default class TwitterImage extends React.Component {
 	 * @returns {Promise} Resolves when there are image properties.
 	 */
 	componentDidMount() {
-		return determineTwitterImageProperties( this.props.src ).then( ( imageProperties ) => {
+		return determineTwitterImageProperties( this.props.src, this.props.type ).then( ( imageProperties ) => {
 			this.setState( {
 				imageProperties: imageProperties,
 				status: "loaded",
