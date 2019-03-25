@@ -3,8 +3,8 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import { YouTubeVideo } from "@yoast/components";
+import { makeOutboundLink } from "@yoast/helpers";
 import { colors, breakpoints } from "@yoast/components/style-guide";
-import { makeOutboundLink } from "../../../utils/makeOutboundLink";
 
 // Used to align the video and the description next to each other.
 const VIDEO_WIDTH = "560px";

@@ -3,7 +3,7 @@ import { capitalize, isEmpty, noop } from "lodash-es";
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import Toggle from "yoast-components/composites/Plugin/Shared/components/Toggle";
+import { Toggle } from "@yoast/components";
 
 // Internal dependencies.
 import { setConfigurationAttribute } from "../redux/actions/configuration";
