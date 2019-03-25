@@ -9,7 +9,7 @@ function loadLocalMorphologyData() {
 	try {
 		// Disabling global require to be able to fail.
 		// eslint-disable-next-line global-require
-		data = require( "../../../../premium-configuration/data/morphologyData.json" );
+		data = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData.json" );
 	} catch ( error ) {
 		// Falling back to empty data.
 	}

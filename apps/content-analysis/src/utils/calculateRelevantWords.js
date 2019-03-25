@@ -9,7 +9,7 @@ import {
 	getRelevantCombinationsForInsights,
 } from "yoastsrc/stringProcessing/relevantWords";
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "yoastsrc/stringProcessing/getSubheadings";
-import { sortCombinations } from "../../../../src/stringProcessing/relevantWords";
+import { sortCombinations } from "yoastsrc/stringProcessing/relevantWords";
 import getMorphologyData from "./getMorphologyData";
 
 const morphologyData = getMorphologyData();
