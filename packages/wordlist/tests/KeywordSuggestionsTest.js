@@ -1,6 +1,7 @@
-import KeywordSuggestions from "../KeywordSuggestions";
 import React from "react";
 import renderer from "react-test-renderer";
+
+import KeywordSuggestions from "../src/KeywordSuggestions";
 
 /* eslint-disable require-jsdoc */
 function createWord( word ) {
