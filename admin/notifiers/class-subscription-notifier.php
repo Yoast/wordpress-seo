@@ -111,11 +111,22 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 
 		$this->current_notification = get_option( self::CURRENT_NOTIFICATION );
 
-		$days_to_expiration = (int) ceil( ( time() - strtotime( $this->first_expiring_subscription->expiry_date ) ) / DAY_IN_SECONDS );
+		$days_to_expiration = $this->get_days_until_expiration( $this->first_expiring_subscription );
 
 		$this->determine_notification( $days_to_expiration );
 
 		$this->show_notification();
+	}
+
+	/**
+	 * Get the number of days until a subscription expires. 0 means the subscription has expired.
+	 *
+	 * @param stdClass $subscription Subscription to get the subscription expiration time for.
+	 *
+	 * @return int Number of days until expiration.
+	 */
+	protected function get_days_until_expiration( $subscription ) {
+		return (int) ceil( ( strtotime( $subscription->expiry_date ) - time() ) / DAY_IN_SECONDS );
 	}
 
 	/**
@@ -338,6 +349,8 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * Registers all hooks to WordPress
 	 *
 	 * @return void
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
 		if ( filter_input( INPUT_GET, 'page' ) !== 'wpseo_dashboard' ) {

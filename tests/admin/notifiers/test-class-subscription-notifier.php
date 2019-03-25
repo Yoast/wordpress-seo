@@ -15,6 +15,8 @@ class WPSEO_Subscription_Notifier_Test extends WPSEO_UnitTestCase {
 	 * Tests if the correct subscription is return when calling get_first_expiring_subscription.
 	 *
 	 * @returns void
+	 *
+	 * @covers WPSEO_Subscription_Notifier::get_first_expiring_subscription
 	 */
 	public function test_get_first_expiring_subscription() {
 		$addon_manager = $this
@@ -72,6 +74,75 @@ class WPSEO_Subscription_Notifier_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals(
 			$expected,
 			$instance->get_first_expiring_subscription()
+		);
+	}
+
+	/**
+	 * Tests the get_days_until_expiration function with a subscription that has expired in the last 24 hours.
+	 *
+	 * @returns void
+	 *
+	 * @covers WPSEO_Subscription_Notifier::get_days_until_expiration
+	 */
+	public function test_get_days_until_expiration_subscription_expired() {
+		$instance = new WPSEO_Subscription_Notifier_Double();
+
+		$expected = 0;
+
+		$date_12_hours_ago = gmdate(DATE_ATOM, time() - ( 12 * HOUR_IN_SECONDS ) );
+		$subscription = (object) array(
+			'expiry_date' => $date_12_hours_ago,
+		);
+
+		$this->assertEquals(
+			$expected,
+			$instance->get_days_until_expiration( $subscription )
+		);
+	}
+
+	/**
+	 * Tests the get_days_until_expiration function with a subscription that will expire in the next 24 hours.
+	 *
+	 * @returns void
+	 *
+	 * @covers WPSEO_Subscription_Notifier::get_days_until_expiration
+	 */
+	public function test_get_days_until_expiration_subscription_active() {
+		$instance = new WPSEO_Subscription_Notifier_Double();
+
+		$expected = 1;
+
+		$date_12_hours_from_now = gmdate(DATE_ATOM, time() + ( 12 * HOUR_IN_SECONDS ) );
+		$subscription = (object) array(
+			'expiry_date' => $date_12_hours_from_now,
+		);
+
+		$this->assertEquals(
+			$expected,
+			$instance->get_days_until_expiration( $subscription )
+		);
+	}
+
+	/**
+	 * Tests the get_days_until_expiration function with a subscription that will expire on the 7th day from now.
+	 *
+	 * @returns void
+	 *
+	 * @covers WPSEO_Subscription_Notifier::get_days_until_expiration
+	 */
+	public function test_get_days_until_expiration_subscription_active_1_week() {
+		$instance = new WPSEO_Subscription_Notifier_Double();
+
+		$expected = 7;
+
+		$date_6_days_and_12_hours_from_now = gmdate(DATE_ATOM, time() + ( 6 * DAY_IN_SECONDS ) + ( 12 * HOUR_IN_SECONDS ) );
+		$subscription = (object) array(
+			'expiry_date' => $date_6_days_and_12_hours_from_now,
+		);
+
+		$this->assertEquals(
+			$expected,
+			$instance->get_days_until_expiration( $subscription )
 		);
 	}
 }
