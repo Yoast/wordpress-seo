@@ -20,7 +20,7 @@ import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components
 // Composites/LinkSuggestions imports.
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
 // Composites/KeywordSuggestions imports.
-import { default as KeywordSuggestions } from "@yoast/wordlist";
+import { WordList as KeywordSuggestions } from "@yoast/wordlist";
 
 import { getDirectionalStyle } from "@yoast/helpers";
 
