@@ -4,7 +4,7 @@ import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataDE = getMorphologyData( "de" ).de;
 
-const nounsToStem = [
+const wordsToStem = [
 	// Default stemmer
 	[ "studenten", "student" ],
 	// Nouns: exceptionStemsWithFullForms
@@ -35,6 +35,6 @@ const nounsToStem = [
 
 describe( "Test for determining stems for German words", () => {
 	it( "creates stems for German words", () => {
-		nounsToStem.forEach( wordToStem => expect( determineStem( wordToStem[ 0 ], morphologyDataDE ) ).toBe( wordToStem[ 1 ] ) );
+		wordsToStem.forEach( wordToStem => expect( determineStem( wordToStem[ 0 ], morphologyDataDE ) ).toBe( wordToStem[ 1 ] ) );
 	} );
 } );
