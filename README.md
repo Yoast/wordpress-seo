@@ -9,6 +9,13 @@ Monorepo for all the JavaScript within Yoast
 * `yarn link-all`, will run `yarn link` for all packages.
 * `yarn unlink-all`, will run `yarn unlink` for all paackages.
 
+## General file structure of a package
+
+* `/src`. Source files
+* `/tests`. Unit tests.
+* `/tools`. Tooling necessary to build or test.
+* `/package.json`
+
 ## What lives where?
 
 https://github.com/Yoast/YoastSEO.js moved to `packages/yoastseo`.
@@ -27,6 +34,6 @@ These need to be moved manually. For your convenience the `yarn transfer-branch`
 
 * Branch to move: The branch you want to move.
 
-These arguments are positional. Think `yarn transfer-branch [package] [base-branch] [branch-to-move]`
+These arguments are positional. Think `yarn transfer-branch [package] [base-branch] [branch-to-move]`.
 
 After moving the branch connected to a pull request you need to manually recreate the pull request here. That should be a matter of copy & pasting and linking to the original PR for archive purposes.

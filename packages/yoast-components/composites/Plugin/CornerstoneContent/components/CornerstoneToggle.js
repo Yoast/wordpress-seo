@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import Toggle from "../../Shared/components/Toggle";
+import { Toggle } from "@yoast/components";
 import { __ } from "@wordpress/i18n";
 
 const Cornerstone = styled.div`

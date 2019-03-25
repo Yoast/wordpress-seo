@@ -2,8 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import SvgIcon from "../../Shared/components/SvgIcon.js";
-import IconButtonToggle from "../../Shared/components/IconButtonToggle.js";
+import { SvgIcon, IconButtonToggle } from "@yoast/components";
 
 const AnalysisResultBase = styled.li`
 	// This is the height of the IconButtonToggle.

@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ScreenReaderText from "./a11y/ScreenReaderText";
-import ScreenReaderShortcut from "./a11y/ScreenReaderShortcut";
+import { ScreenReaderText, ScreenReaderShortcut } from "@yoast/components";
 
 class App extends React.Component {
 	/**

@@ -4,10 +4,9 @@ import flow from "lodash/flow";
 import omit from "lodash/omit";
 import PropTypes from "prop-types";
 
-import colors from "../../../../style-guide/colors.json";
-import SvgIcon from "./SvgIcon";
-import { rgba } from "../../../../style-guide/helpers";
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
+import { colors, rgba } from "@yoast/components/style-guide";
+import { SvgIcon } from "@yoast/components";
+import { getDirectionalStyle } from "@yoast/helpers";
 
 const settings = {
 	minHeight: 32,
@@ -40,7 +39,7 @@ export function addBaseStyle( component ) {
 		font-size: inherit;
 		font-family: inherit;
 		font-weight: inherit;
-		text-align: ${ getRtlStyle( "left", "right" ) };
+		text-align: ${ getDirectionalStyle( "left", "right" ) };
 		overflow: visible;
 		min-height: ${ `${ settings.minHeight }px` };
 
@@ -217,7 +216,7 @@ export const Button = addFontSizeStyles( BaseButton );
  */
 function addIconTextStyle( icon ) {
 	return styled( icon )`
-		margin: ${ getRtlStyle( "0 8px 0 0", "0 0 0 8px" ) };
+		margin: ${ getDirectionalStyle( "0 8px 0 0", "0 0 0 8px" ) };
 		flex-shrink: 0;
 	`;
 }
