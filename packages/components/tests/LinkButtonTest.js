@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { BaseLinkButton, LinkButton } from "../../../../../components/src/buttons/LinkButton";
+import { BaseLinkButton, LinkButton } from "../src/index";
 
 test( "the BaseLinkButton matches the snapshot", () => {
 	const component = renderer.create(

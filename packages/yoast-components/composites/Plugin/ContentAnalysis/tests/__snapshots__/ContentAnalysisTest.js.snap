@@ -1,77 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ContentAnalysis the ContentAnalysis component with disabled buttons matches the snapshot 1`] = `
-.c20 {
-  box-sizing: border-box;
-  min-width: 32px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c20:hover {
-  border-color: #fff;
-}
-
-.c20:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
-.c16 {
-  min-height: 24px;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-}
-
-.c17 {
-  margin: 3px 11px 0 0;
-}
-
-.c19 {
-  margin: 0 8px 0 0;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -141,6 +70,77 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 
 .c6 {
   font-size: 0.8rem;
+}
+
+.c20 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c20:hover {
+  border-color: #fff;
+}
+
+.c20:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
+.c16 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c17 {
+  margin: 3px 11px 0 0;
+}
+
+.c19 {
+  margin: 0 8px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
 }
 
 .c2 {
@@ -661,53 +661,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component with hidden buttons matches the snapshot 1`] = `
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
-.c16 {
-  min-height: 24px;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-}
-
-.c17 {
-  margin: 3px 11px 0 0;
-}
-
-.c19 {
-  margin: 0 8px 0 0;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -777,6 +730,53 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 
 .c6 {
   font-size: 0.8rem;
+}
+
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
+.c16 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c17 {
+  margin: 3px 11px 0 0;
+}
+
+.c19 {
+  margin: 0 8px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
 }
 
 .c2 {
@@ -1249,77 +1249,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component with specified header level matches the snapshot 1`] = `
-.c20 {
-  box-sizing: border-box;
-  min-width: 32px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c20:hover {
-  border-color: #fff;
-}
-
-.c20:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
-.c16 {
-  min-height: 24px;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-}
-
-.c17 {
-  margin: 3px 11px 0 0;
-}
-
-.c19 {
-  margin: 0 8px 0 0;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -1389,6 +1318,77 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 
 .c6 {
   font-size: 0.8rem;
+}
+
+.c20 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c20:hover {
+  border-color: #fff;
+}
+
+.c20:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
+.c16 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c17 {
+  margin: 3px 11px 0 0;
+}
+
+.c19 {
+  margin: 0 8px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
 }
 
 .c2 {
@@ -1909,77 +1909,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component without language notice matches the snapshot 1`] = `
-.c20 {
-  box-sizing: border-box;
-  min-width: 32px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c20:hover {
-  border-color: #fff;
-}
-
-.c20:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
-.c16 {
-  min-height: 24px;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-}
-
-.c17 {
-  margin: 3px 11px 0 0;
-}
-
-.c19 {
-  margin: 0 8px 0 0;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -2049,6 +1978,77 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 
 .c6 {
   font-size: 0.8rem;
+}
+
+.c20 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c20:hover {
+  border-color: #fff;
+}
+
+.c20:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
+.c16 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c17 {
+  margin: 3px 11px 0 0;
+}
+
+.c19 {
+  margin: 0 8px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
 }
 
 .c2 {
@@ -2569,77 +2569,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component without problems and considerations, but with improvements and good matches the snapshot 1`] = `
-.c20 {
-  box-sizing: border-box;
-  min-width: 32px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c20:hover {
-  border-color: #fff;
-}
-
-.c20:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
-.c16 {
-  min-height: 24px;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-}
-
-.c17 {
-  margin: 3px 11px 0 0;
-}
-
-.c19 {
-  margin: 0 8px 0 0;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -2709,6 +2638,77 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 
 .c6 {
   font-size: 0.8rem;
+}
+
+.c20 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c20:hover {
+  border-color: #fff;
+}
+
+.c20:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
+.c16 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c17 {
+  margin: 3px 11px 0 0;
+}
+
+.c19 {
+  margin: 0 8px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
 }
 
 .c2 {
@@ -3065,77 +3065,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component without problems and improvements matches the snapshot 1`] = `
-.c20 {
-  box-sizing: border-box;
-  min-width: 32px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c20:hover {
-  border-color: #fff;
-}
-
-.c20:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
-.c16 {
-  min-height: 24px;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-}
-
-.c17 {
-  margin: 3px 11px 0 0;
-}
-
-.c19 {
-  margin: 0 8px 0 0;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -3205,6 +3134,77 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 
 .c6 {
   font-size: 0.8rem;
+}
+
+.c20 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c20:hover {
+  border-color: #fff;
+}
+
+.c20:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
+.c16 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c17 {
+  margin: 3px 11px 0 0;
+}
+
+.c19 {
+  margin: 0 8px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
 }
 
 .c2 {
@@ -3561,77 +3561,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component without problems matches the snapshot 1`] = `
-.c20 {
-  box-sizing: border-box;
-  min-width: 32px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c20:hover {
-  border-color: #fff;
-}
-
-.c20:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
-.c16 {
-  min-height: 24px;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-}
-
-.c17 {
-  margin: 3px 11px 0 0;
-}
-
-.c19 {
-  margin: 0 8px 0 0;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -3701,6 +3630,77 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 
 .c6 {
   font-size: 0.8rem;
+}
+
+.c20 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c20:hover {
+  border-color: #fff;
+}
+
+.c20:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
+.c16 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c17 {
+  margin: 3px 11px 0 0;
+}
+
+.c19 {
+  margin: 0 8px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
 }
 
 .c2 {
@@ -4127,77 +4127,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component without problems, improvements and considerations matches the snapshot 1`] = `
-.c20 {
-  box-sizing: border-box;
-  min-width: 32px;
-  display: inline-block;
-  border: 1px solid #ccc;
-  background-color: #f7f7f7;
-  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
-  border-radius: 3px;
-  cursor: pointer;
-  padding: 0;
-  height: 24px;
-}
-
-.c20:hover {
-  border-color: #fff;
-}
-
-.c20:disabled {
-  background-color: #f7f7f7;
-  box-shadow: none;
-  border: none;
-  cursor: default;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
-}
-
-.c16 {
-  min-height: 24px;
-  padding: 0;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: flex-start;
-  -webkit-box-align: flex-start;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-}
-
-.c17 {
-  margin: 3px 11px 0 0;
-}
-
-.c19 {
-  margin: 0 8px 0 0;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
-.c15 {
-  margin: 8px 0;
-  padding: 0;
-  list-style: none;
-}
-
 .c11 {
   color: #555;
   border-color: #ccc;
@@ -4267,6 +4196,77 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 
 .c6 {
   font-size: 0.8rem;
+}
+
+.c20 {
+  box-sizing: border-box;
+  min-width: 32px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  background-color: #f7f7f7;
+  box-shadow: 0 1px 0 rgba( 204,204,204,0.7 );
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  height: 24px;
+}
+
+.c20:hover {
+  border-color: #fff;
+}
+
+.c20:disabled {
+  background-color: #f7f7f7;
+  box-shadow: none;
+  border: none;
+  cursor: default;
+}
+
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
+.c16 {
+  min-height: 24px;
+  padding: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c17 {
+  margin: 3px 11px 0 0;
+}
+
+.c19 {
+  margin: 0 8px 0 0;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.c15 {
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
 }
 
 .c2 {

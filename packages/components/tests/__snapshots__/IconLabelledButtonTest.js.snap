@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`the IconLabeledButton matches the snapshot 1`] = `
+exports[`the IconLabelledButton matches the snapshot 1`] = `
 .c2:active {
   color: #fff;
   background-color: #0066cd;
@@ -98,7 +98,7 @@ exports[`the IconLabeledButton matches the snapshot 1`] = `
 </button>
 `;
 
-exports[`the IconLabeledButton with props matches the snapshot 1`] = `
+exports[`the IconLabelledButton with props matches the snapshot 1`] = `
 .c2:active {
   color: #fff;
   background-color: #a4286a;
