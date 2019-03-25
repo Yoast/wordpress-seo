@@ -147,9 +147,11 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 		);
 		$notification .= '<div class="yoast-container__configuration-wizard--content">';
 		$notification .= '<h3>' . esc_html( $title ) . '</h3>';
+
 		$notification .= '<p>';
 		$notification .= $content;
 		$notification .= '</p>';
+
 		$notification .= '</div>';
 		if ( $show_dismissal ) {
 			$notification .= sprintf(
@@ -159,6 +161,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 			);
 		}
 		$notification .= '</div>';
+
 		return $notification;
 	}
 }
