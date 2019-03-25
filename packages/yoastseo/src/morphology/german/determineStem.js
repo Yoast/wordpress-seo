@@ -38,14 +38,7 @@ const findStemOnNounExceptionList = function( morphologyDataNouns, stemmedWord )
  * @returns {string|null} The stemmed word or null if none was found.
  */
 const findStemOnAdjectiveExceptionList = function( morphologyDataAdjectives, stemmedWord ) {
-	const adjectiveExceptionClasses = {
-		elStemChange: morphologyDataAdjectives.elStemChange,
-		erStemChangeClass1: morphologyDataAdjectives.erStemChangeClass1,
-		erStemChangeClass2: morphologyDataAdjectives.erStemChangeClass2,
-		erStemChangeClass3: morphologyDataAdjectives.erStemChangeClass3,
-		secondStemCompSup: morphologyDataAdjectives.secondStemCompSup,
-		bothStemsCompSup: morphologyDataAdjectives.bothStemsCompSup,
-	};
+	const adjectiveExceptionClasses = morphologyDataAdjectives.exceptions;
 
 	for ( const key of Object.keys( adjectiveExceptionClasses ) ) {
 		const exceptionStems = adjectiveExceptionClasses[ key ];
