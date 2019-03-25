@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { localize } from "../../utils/i18n";
+import { localize } from "../../yoast-components/utils/i18n";
 import interpolateComponents from "interpolate-components";
 
 /**
