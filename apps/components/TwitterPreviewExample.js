@@ -59,6 +59,13 @@ const TwitterPreviewExample = () => {
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
 			/>
+			<h2>Summary with large image card (no image provided)</h2>
+			<TwitterPreview
+				src=""
+				type="summary-large-image"
+				title="YoastCon Workshops &bull; Yoast"
+				siteName="yoast.com"
+			/>
 		</ExamplesContainer>
 	);
 };

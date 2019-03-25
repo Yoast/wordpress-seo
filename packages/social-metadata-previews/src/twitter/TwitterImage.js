@@ -48,9 +48,23 @@ const ErrorImage = styled.p`
 `;
 
 const PlaceholderImage = styled.div`
-	height: 261px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
 	width: 500px;
-	background-color: ${ colors.$color_grey };
+	height: 261px;
+	max-width: 100%;
+	margin: 0;
+	padding: 1em;
+	text-align: center;
+	font-size: 1rem;
+	border-top-left-radius: .85714em;
+	border-top-right-radius: .85714em;
+	border-style: dashed;
+	border-width: 2px;
+	color: #073CBA; /* We're not using standard colors to increase contrast for accessibility */ 
+	background-color: #f1f1f1; /* We're not using standard colors to increase contrast for accessibility */ 
 `;
 
 /**
@@ -127,8 +141,10 @@ export default class TwitterImage extends React.Component {
 		const imageProperties = this.state.imageProperties;
 		const status = this.state.status;
 
-		if ( status === "loading" ) {
-			return <PlaceholderImage />;
+		if ( status === "loading" || this.props.src === "" ) {
+			//return <PlaceholderImage />;
+			return <PlaceholderImage>{ __( "Select image", "yoast-components" ) }</PlaceholderImage>;
+
 		}
 
 		if ( status === "errored" ) {
