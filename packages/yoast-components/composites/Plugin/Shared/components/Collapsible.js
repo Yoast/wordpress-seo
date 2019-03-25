@@ -4,8 +4,10 @@ import styled from "styled-components";
 import omit from "lodash/omit";
 
 import { colors } from "@yoast/components/style-guide";
-import { IconsButton } from "../../Shared/components/Button";
-import { SectionTitle } from "@yoast/components";
+
+import { SectionTitle, IconsButton } from "@yoast/components";
+
+
 import { getDirectionalStyle } from "@yoast/helpers";
 
 const Content = styled.div`

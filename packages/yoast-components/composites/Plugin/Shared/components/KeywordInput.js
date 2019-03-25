@@ -5,11 +5,9 @@ import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 import noop from "lodash/noop";
-
 // Internal dependencies.
-import { SvgIcon, YoastInputField } from "@yoast/components";
 import { colors } from "@yoast/components/style-guide";
-import { addFocusStyle } from "./Button";
+import { addFocusStyle, SvgIcon, YoastInputField } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 
 const errorColor = colors.$color_red;

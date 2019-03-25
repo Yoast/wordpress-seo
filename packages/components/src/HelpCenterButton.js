@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import { colors } from "../style-guide";
-import { YoastButton } from "./YoastButton";
+import { YoastButton } from "./buttons/YoastButton";
 import SvgIcon from "./SvgIcon";
 
 /**

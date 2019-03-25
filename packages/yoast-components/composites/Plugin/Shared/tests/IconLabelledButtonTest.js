@@ -1,11 +1,11 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import IconLabelledButton from "../components/IconLabelledButton";
+import IconLabeledButton from "../../../../../components/src/buttons/IconLabelledButton";
 
 test( "the IconLabelledButton matches the snapshot", () => {
 	const component = renderer.create(
-		<IconLabelledButton icon="question-circle">Need help?</IconLabelledButton>
+		<IconLabeledButton icon="question-circle">Need help?</IconLabeledButton>
 	);
 
 	const tree = component.toJSON();
@@ -14,7 +14,7 @@ test( "the IconLabelledButton matches the snapshot", () => {
 
 test( "the IconLabelledButton with props matches the snapshot", () => {
 	const component = renderer.create(
-		<IconLabelledButton
+		<IconLabeledButton
 			type="reset"
 			icon="eye"
 			iconColor="#0f0"
@@ -33,7 +33,7 @@ test( "the IconLabelledButton with props matches the snapshot", () => {
 			focusBorderColor="#a4286a"
 		>
 			Hello
-		</IconLabelledButton>
+		</IconLabeledButton>
 	);
 
 	const tree = component.toJSON();
