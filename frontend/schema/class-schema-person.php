@@ -19,12 +19,20 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	private $context;
 
 	/**
+	 * Used to allow changing the logo hash in class children.
+	 *
+	 * @var string
+	 */
+	public $logo_hash;
+
+	/**
 	 * WPSEO_Schema_Breadcrumb constructor.
 	 *
 	 * @param WPSEO_Schema_Context $context A value object with context variables.
 	 */
 	public function __construct( WPSEO_Schema_Context $context ) {
-		$this->context = $context;
+		$this->context   = $context;
+		$this->logo_hash = WPSEO_Schema_Context::PERSON_LOGO_HASH;
 	}
 
 	/**
@@ -34,29 +42,6 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 */
 	public function is_needed() {
 		if ( $this->context->site_represents === 'person' || is_author() ) {
-			return true;
-		}
-
-		if ( $this->is_post_author() ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Determine whether the current URL is worthy of Article schema.
-	 *
-	 * @return bool
-	 */
-	private function is_post_author() {
-		/**
-		 * Filter: 'wpseo_schema_article_post_type' - Allow changing for which post types we output Article schema.
-		 *
-		 * @api array $post_types The post types for which we output Article.
-		 */
-		$post_types = apply_filters( 'wpseo_schema_article_post_type', array( 'post' ) );
-		if ( is_singular( $post_types ) ) {
 			return true;
 		}
 
@@ -84,16 +69,13 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 *
 	 * @return bool|int User ID or false upon return.
 	 */
-	private function determine_user_id() {
+	protected function determine_user_id() {
 		switch ( true ) {
 			case is_author():
 				$user_id = get_queried_object_id();
 				break;
-			case $this->is_post_author():
-				$user_id = (int) get_post()->post_author;
-				break;
 			default:
-				$user_id = (int) WPSEO_Options::get( 'company_or_person_user_id', false );
+				$user_id = $this->context->site_user_id;
 				break;
 		}
 
@@ -112,7 +94,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 *
 	 * @return array $output A list of social profiles.
 	 */
-	private function get_social_profiles( $user_id ) {
+	protected function get_social_profiles( $user_id ) {
 		$social_profiles = array(
 			'facebook',
 			'instagram',
@@ -123,6 +105,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 			'youtube',
 			'soundcloud',
 			'tumblr',
+			'wikipedia',
 		);
 		$output          = array();
 		foreach ( $social_profiles as $profile ) {
@@ -142,7 +125,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 *
 	 * @return array An array of Schema Person data.
 	 */
-	private function build_person_data( $user_id ) {
+	protected function build_person_data( $user_id ) {
 		$user_data = get_userdata( $user_id );
 		$data      = array(
 			'@type' => 'Person',
@@ -164,7 +147,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		// If this is an author page, the Person object is the main object, so we set it as such here.
 		if ( is_author() ) {
 			$data['mainEntityOfPage'] = array(
-				'@id' => $this->context->canonical . '#webpage',
+				'@id' => $this->context->canonical . WPSEO_Schema_Context::WEBPAGE_HASH,
 			);
 		}
 		return $data;
@@ -178,14 +161,14 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 *
 	 * @return array $data The Person schema.
 	 */
-	private function add_image( $data, $user_data ) {
+	protected function add_image( $data, $user_data ) {
 		if ( ! get_avatar_url( $user_data->user_email ) ) {
 			return $data;
 		}
 
 		$data['image']  = array(
 			'@type'   => 'ImageObject',
-			'@id'     => $this->context->site_url . '#personlogo',
+			'@id'     => $this->context->site_url . $this->logo_hash,
 			'url'     => get_avatar_url( $user_data->user_email ),
 			'caption' => $user_data->display_name,
 		);
@@ -200,7 +183,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 *
 	 * @return string The `@id` string value.
 	 */
-	private function determine_schema_id( $user_id ) {
+	protected function determine_schema_id( $user_id ) {
 		switch ( true ) {
 			case ( $this->context->site_represents === 'company' ):
 				$url = get_author_posts_url( $user_id );
@@ -210,7 +193,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 				break;
 		}
 
-		return $url . '#person';
+		return $url . WPSEO_Schema_Context::AUTHOR_HASH;
 	}
 
 	/**
@@ -221,7 +204,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 *
 	 * @return string
 	 */
-	private function url_social_site( $social_site, $user_id = false ) {
+	protected function url_social_site( $social_site, $user_id = false ) {
 		$url = get_the_author_meta( $social_site, $user_id );
 
 		if ( ! empty( $url ) ) {

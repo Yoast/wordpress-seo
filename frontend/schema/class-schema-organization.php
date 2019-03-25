@@ -44,7 +44,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	public function generate() {
 		$data = array(
 			'@type'  => 'Organization',
-			'@id'    => $this->context->site_url . '#organization',
+			'@id'    => $this->context->site_url . WPSEO_Schema_Context::ORGANIZATION_HASH,
 			'name'   => $this->context->company_name,
 			'url'    => $this->context->site_url,
 			'sameAs' => $this->fetch_social_profiles(),
@@ -68,7 +68,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 		}
 		$data['logo'] = array(
 			'@type'   => 'ImageObject',
-			'@id'     => $this->context->site_url . '#logo',
+			'@id'     => $this->context->site_url . WPSEO_Schema_Context::ORGANIZATION_LOGO_HASH,
 			'url'     => $logo,
 			'caption' => $this->context->company_name,
 		);

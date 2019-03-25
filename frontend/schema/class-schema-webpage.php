@@ -48,12 +48,12 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	public function generate() {
 		$data      = array(
 			'@type'      => $this->determine_page_type(),
-			'@id'        => $this->context->canonical . '#webpage',
+			'@id'        => $this->context->canonical . WPSEO_Schema_Context::WEBPAGE_HASH,
 			'url'        => $this->context->canonical,
 			'inLanguage' => get_bloginfo( 'language' ),
 			'name'       => $this->context->title,
 			'isPartOf'   => array(
-				'@id' => $this->context->site_url . '#website',
+				'@id' => $this->context->site_url . WPSEO_Schema_Context::WEBSITE_HASH,
 			),
 		);
 
@@ -71,7 +71,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 
 		if ( $this->add_breadcrumbs() ) {
 			$data['breadcrumb'] = array(
-				'@id' => $this->context->canonical . '#breadcrumb',
+				'@id' => $this->context->canonical . WPSEO_Schema_Context::BREADCRUMB_HASH,
 			);
 		}
 
@@ -135,7 +135,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			return $data;
 		}
 
-		$id                         = $this->context->canonical . '#primaryimage';
+		$id                         = $this->context->canonical . WPSEO_Schema_Context::PRIMARY_IMAGE_HASH;
 		$data['image']              = array(
 			'@type'   => 'ImageObject',
 			'@id'     => $id,

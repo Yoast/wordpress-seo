@@ -48,7 +48,7 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	public function generate() {
 		$data = array(
 			'@type'     => 'WebSite',
-			'@id'       => $this->context->site_url . '#website',
+			'@id'       => $this->context->site_url . WPSEO_Schema_Context::WEBSITE_HASH,
 			'url'       => $this->context->site_url,
 			'name'      => $this->context->site_name,
 			'publisher' => array(
@@ -69,10 +69,10 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	 */
 	private function get_publisher() {
 		if ( $this->context->site_represents === 'person' ) {
-			return $this->context->site_url . '#person';
+			return $this->context->site_url . WPSEO_Schema_Context::PERSON_HASH;
 		}
 
-		return $this->context->site_url . '#organization';
+		return $this->context->site_url . WPSEO_Schema_Context::ORGANIZATION_HASH;
 	}
 
 	/**
