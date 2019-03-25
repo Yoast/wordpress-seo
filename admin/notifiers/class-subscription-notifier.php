@@ -76,6 +76,26 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 */
 	const CURRENT_NOTIFICATION    = 'wpseo-current-expiration-notification';
 
+	/**
+	 * WPSEO_Subscription_Notifier constructor.
+	 */
+	public function __construct() {
+		$this->addon_manager       = $this->get_addon_manager();
+		$this->notification_center = $this->get_notification_center();
+	}
+
+	/**
+	 * Get the addon manager.
+	 *
+	 * @return WPSEO_Addon_Manager
+	 */
+	protected function get_addon_manager() {
+		return new WPSEO_Addon_Manager();
+	}
+
+	protected function get_notification_center() {
+		return Yoast_Notification_Center::get();
+	}
 
 	/**
 	 * Initialize notification.
@@ -83,9 +103,6 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * @returns void
 	 */
 	public function init() {
-		$this->addon_manager       = new WPSEO_Addon_Manager();
-		$this->notification_center = Yoast_Notification_Center::get();
-
 		$this->first_expiring_subscription = $this->get_first_expiring_subscription();
 
 		if ( ! $this->first_expiring_subscription ) {
@@ -177,7 +194,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 *
 	 * @returns stdClass Object representing a subscription.
 	 */
-	private function get_first_expiring_subscription() {
+	protected function get_first_expiring_subscription() {
 		// Required to make sure we only get the latest data.
 		delete_transient( WPSEO_Addon_Manager::SITE_INFORMATION_TRANSIENT );
 
