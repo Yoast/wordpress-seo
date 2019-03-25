@@ -53,14 +53,25 @@ export function getOriginalImageDimensions( src ) {
  * 500x261. The width ratio would be 3.44 and the height ratio would be 3.2.
  *
  * @param {Object} dimensions The dimensions of the original image.
+ * @param {string} imageMode The image mode: square or landscape.
  *
- * @returns {Object} The image's width ratio and height ratio.
+ * @returns {Object} The image's width ratio and height ratio.}
  */
-export function getImageRatios( dimensions ) {
-	return {
-		widthRatio: dimensions.width / LANDSCAPE_WIDTH,
-		heightRatio: dimensions.height / LANDSCAPE_HEIGHT,
-	};
+export function getImageRatios( dimensions, imageMode ) {
+	if ( imageMode === "landscape" ) {
+		return {
+			widthRatio: dimensions.width / LANDSCAPE_WIDTH,
+			heightRatio: dimensions.height / LANDSCAPE_HEIGHT,
+		};
+	}
+
+	if ( imageMode === "square" ) {
+		return {
+			widthRatio: dimensions.width / SQUARE_WIDTH,
+			heightRatio: dimensions.height / SQUARE_HEIGHT,
+		};
+	}
+
 }
 
 /**
@@ -112,28 +123,47 @@ export function calculateTwitterImageDimensions( originalDimensions, imageMode )
 	}
 
 	/*
-	 * If the image is a square, just use the squareWidth and squareHeight. We
-	 * don't have to fear that the resulting image will be warped.
+	 * If the image should be rendered as a square, and its original dimensions were also square,
+	 * just use the squareWidth and squareHeight.
+	 * We don't have to fear that the resulting image will be warped.
 	 */
 	if ( imageMode === "square" ) {
-		return {
-			width: SQUARE_WIDTH,
-			height: SQUARE_HEIGHT,
-		};
+		if ( originalDimensions.width === originalDimensions.height ) {
+			return {
+				width: SQUARE_WIDTH,
+				height: SQUARE_HEIGHT,
+			};
+		}
 	}
 
 	/*
-	 * If the image isn't a square (and thus, it is a landscape), calculate the image ratios.
+	 * If the image should be rendered as a square, but originally wasn't square,
+	 * crop the longest side. This way, the image won't be warped.
 	 */
-	const imageRatios = getImageRatios( originalDimensions );
+	if ( imageMode === "square" ) {
+		if (originalDimensions.width !== originalDimensions.height ) {
+			const imageRatios = getImageRatios( originalDimensions, imageMode );
 
-	return getImageDimensionsForTwitterImage( originalDimensions, imageRatios );
+			return getImageDimensionsForTwitterImage( originalDimensions, imageRatios );
+		}
+	}
+
+	/*
+	 * If the image should be rendered as a landscape, crop the longest side,
+	 * to reach the required size ratio. This way, the image won't be warped.
+	 */
+	if ( imageMode === "landscape" ) {
+		const imageRatios = getImageRatios( originalDimensions, imageMode );
+
+		return getImageDimensionsForTwitterImage( originalDimensions, imageRatios );
+	}
 }
 
 /**
  * Determines the properties of the Twitter image.
  *
  * @param {string} src The source of the image.
+ * @param {string} cardType The card type in which an image should be displayed.
  *
  * @returns {Promise} The promise of the imageProperties.
  */
