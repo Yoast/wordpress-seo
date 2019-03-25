@@ -163,12 +163,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$all_dates = array();
 
 			if ( $max_pages > 1 ) {
+				$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
 
 				$sql = "
 				SELECT post_modified_gmt
 				    FROM ( SELECT @rownum:=0 ) init 
 				    JOIN {$wpdb->posts} USE INDEX( type_status_date )
-				    WHERE post_status IN ( 'publish', 'inherit' )
+				    WHERE post_status IN ('" . implode( "','", $post_statuses ) . "')
 				      AND post_type = %s
 				      AND ( @rownum:=@rownum+1 ) %% %d = 0
 				    ORDER BY post_modified_gmt ASC
@@ -543,7 +544,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 * Also see {@link http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/}.
 		 */
 		$sql = "
-			SELECT l.ID, post_title, post_content, post_name, post_parent, post_author, post_modified_gmt, post_date, post_date_gmt
+			SELECT l.ID, post_title, post_content, post_name, post_parent, post_author, post_status, post_modified_gmt, post_date, post_date_gmt
 			FROM (
 				SELECT {$wpdb->posts}.ID
 				FROM {$wpdb->posts}
@@ -561,7 +562,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		foreach ( $posts as $post ) {
 			$post->post_type   = $post_type;
-			$post->post_status = 'publish';
 			$post->filter      = 'sample';
 			$post->ID          = (int) $post->ID;
 			$post->post_parent = (int) $post->post_parent;
@@ -584,27 +584,23 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		global $wpdb;
 
 		$join   = '';
-		/**
-		 * Filter post status list for sitemap query for the post type.
-		 *
-		 * @param Array $post_status_names      Post status list, defaults to array( 'publish' ).
-		 * @param string $post_type Post type name.
-		 */
-		$post_status_names = apply_filters( 'wpseo_sitemap_poststatus' , array( 'publish' ), $post_type );
-		$status = "{$wpdb->posts}.post_status IN ('" . implode( "','", array_map( 'esc_sql', $post_status_names ) ) . "')";
+
+		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
+
+		$status = "{$wpdb->posts}.post_status IN ('" . implode( "','", $post_statuses ) . "')";
 
 		// Based on WP_Query->get_posts(). R.
 		if ( 'attachment' === $post_type ) {
 			$join   = " LEFT JOIN {$wpdb->posts} AS p2 ON ({$wpdb->posts}.post_parent = p2.ID) ";
-			$status = "p2.post_status = 'publish' AND p2.post_password = ''";
+			$status = "p2.post_status IN ('" . implode( "','", $post_statuses ) . "') AND p2.post_password = ''";
 		}
 
 		$where_clause = "
-		{$join}
-		WHERE {$status}
-			AND {$wpdb->posts}.post_type = %s
-			AND {$wpdb->posts}.post_password = ''
-			AND {$wpdb->posts}.post_date != '0000-00-00 00:00:00'
+			{$join}
+			WHERE {$status}
+				AND {$wpdb->posts}.post_type = %s
+				AND {$wpdb->posts}.post_password = ''
+				AND {$wpdb->posts}.post_date != '0000-00-00 00:00:00'
 		";
 
 		return $wpdb->prepare( $where_clause, $post_type );
