@@ -11,11 +11,15 @@
 class WPSEO_Recalculate_Terms_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Dummy terms for use by the tests.
+	 *
 	 * @var array
 	 */
 	private $terms;
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Recalculate_Terms
 	 */
 	private $instance;

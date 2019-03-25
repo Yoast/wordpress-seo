@@ -13,6 +13,8 @@
 class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Post_Type_Sitemap_Provider
 	 */
 	private static $class_instance;
@@ -262,7 +264,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests to make sure attachment is not added when parent is a protected post.
 	 *
-	 * Related: https://github.com/Yoast/wordpress-seo/issues/9194
+	 * @link https://github.com/Yoast/wordpress-seo/issues/9194
 	 */
 	public function test_password_protected_post_parent_attachment() {
 		// Enable attachments in the sitemap.

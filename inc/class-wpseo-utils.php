@@ -260,7 +260,7 @@ class WPSEO_Utils {
 	/**
 	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way.
 	 *
-	 * @see   https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original
+	 * @link https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original.
 	 *
 	 * Sanitize a string from user input or from the db.
 	 *
@@ -514,8 +514,8 @@ class WPSEO_Utils {
 	/**
 	 * Do simple reliable math calculations without the risk of wrong results.
 	 *
-	 * @see   http://floating-point-gui.de/
-	 * @see   the big red warning on http://php.net/language.types.float.php
+	 * @link http://floating-point-gui.de/
+	 * @link http://php.net/language.types.float.php See the big red warning.
 	 *
 	 * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results.
 	 *
