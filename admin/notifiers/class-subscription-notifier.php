@@ -129,8 +129,8 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 			$this->set_current_notification( self::EXPIRED_MORE_THAN_1_DAY );
 			return;
 		}
-		$this->remove_all_notifications();
-		delete_option( self::CURRENT_NOTIFICATION );
+		// If no condition is applicable, clean up the options and notifications.
+		$this->clean_up();
 	}
 
 	/**
@@ -152,6 +152,17 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Clean up all persistent data related to this class.
+	 *
+	 * @returns void
+	 */
+	private function clean_up() {
+		$this->current_notification = null;
+		delete_option( self::CURRENT_NOTIFICATION );
+		$this->remove_all_notifications();
+	}
+
+	/**
 	 * Removes all notifications that can be added in $this->show_notification.
 	 *
 	 * @returns void
@@ -167,6 +178,9 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * @returns stdClass Object representing a subscription.
 	 */
 	private function get_first_expiring_subscription() {
+		// Required to make sure we only get the latest data.
+		delete_transient( WPSEO_Addon_Manager::SITE_INFORMATION_TRANSIENT );
+
 		$subscriptions = $this->addon_manager->get_subscriptions_for_active_addons();
 
 		$subscriptions = array_filter( $subscriptions, array( $this, 'filter' ) );
