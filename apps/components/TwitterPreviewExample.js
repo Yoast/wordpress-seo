@@ -22,7 +22,7 @@ const TwitterPreviewExample = () => {
 			<h2>Summary with large image card (feed portrait)</h2>
 			<TwitterPreview
 				// Try out a portrait picture
-				src="https://yoast.com/app/uploads/2018/11/Network_referrals_to_identify_social_traffic_in_Google_Analytics-444x800.png"
+				src="https://i1.wp.com/2016.europe.wordcamp.org/files/2016/04/Joost-Marieke.jpg?w=403&h=605&ssl=1"
 				type="summary-large-image"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
@@ -46,7 +46,7 @@ const TwitterPreviewExample = () => {
 			<h2>Summary card (feed portrait)</h2>
 			<TwitterPreview
 				// Try out a portrait picture
-				src="https://yoast.com/app/uploads/2018/11/Network_referrals_to_identify_social_traffic_in_Google_Analytics-444x800.png"
+				src="https://i1.wp.com/2016.europe.wordcamp.org/files/2016/04/Joost-Marieke.jpg?w=403&h=605&ssl=1"
 				type="summary"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
