@@ -68,11 +68,11 @@ export function getImageRatios( dimensions ) {
  *
  * To use as much as the allowed space as possible, we base both dimensions on the dimension with the lowest imageRatio
  * (see above). For example: for a 1600x898 image, the height ratio is larger than the width ratio. The result of dividing
- * by the heightRatio is an 1600x280.625 image. The excess of 280.625-261 = 18.375 pixels will be 'cut off' by the
+ * by the heightRatio is a 500x280.625 image. The excess of 280.625-261 = 18.375 pixels will be 'cut off' by the
  * container in the presentation part.
  *
- * If we would divide by the widthRatio, the image would become 465x261, which would mean it would not be wide enough for
- * the container which means there would be a 500-465=35px white border on one of the sides.
+ * If we would divide by the widthRatio, the image would become 465x261, which means it would not be wide enough for
+ * the container, which means there would be a 500-465=35px white border on one of the sides.
  *
  * @param {Object} dimensions  The dimensions of the original image.
  * @param {Object} imageRatios The ratios of the width and height of the original image in relation to the width and
