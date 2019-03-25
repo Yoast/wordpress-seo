@@ -15,6 +15,7 @@ const TwitterPreviewExample = () => {
 			<TwitterPreview
 				// Try out a landscape picture that isn't yet 2:1
 				src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
+				type="summary-large-image"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
 			/>
@@ -22,6 +23,7 @@ const TwitterPreviewExample = () => {
 			<TwitterPreview
 				// Try out a portrait picture
 				src="https://yoast.com/app/uploads/2012/10/yoast-video.png"
+				type="summary-large-image"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
 			/>
@@ -29,6 +31,7 @@ const TwitterPreviewExample = () => {
 			<TwitterPreview
 				// Try out a perfectly square picture (1:1)
 				src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png"
+				type="summary"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
 			/>
