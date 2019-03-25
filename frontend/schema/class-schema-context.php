@@ -14,6 +14,7 @@
  * @property string $site_name           The site's name.
  * @property string $site_represents     Whether this site represents a `company` or a `person`.
  * @property string $site_url            The site's URL.
+ * @property int    $site_user_id        The site's User ID if a site represents a `person`.
  * @property string $title               Page title.
  * @property string $description         Page description.
  * @property bool   $breadcrumbs_enabled Whether or not this site has breadcrumbs enabled.
@@ -21,11 +22,6 @@
  * @since 10.2
  */
 class WPSEO_Schema_Context {
-	/**
-	 * The current page's canonical.
-	 *
-	 * @var string
-	 */
 	public $canonical;
 	/**
 	 * Holds the company name, if the site represents a company.
@@ -64,6 +60,12 @@ class WPSEO_Schema_Context {
 	 */
 	public $title;
 	/**
+	 * User ID when the site represents a Person.
+	 *
+	 * @var int
+	 */
+	public $site_user_id;
+	/**
 	 * Page description.
 	 *
 	 * @var string
@@ -75,6 +77,61 @@ class WPSEO_Schema_Context {
 	 * @var bool
 	 */
 	public $breadcrumbs_enabled;
+
+	/**
+	 * Hash used for the Author `@id`.
+	 */
+	const AUTHOR_HASH = '#author';
+
+	/**
+	 * Hash used for the Author Logo's `@id`.
+	 */
+	const AUTHOR_LOGO_HASH = '#authorlogo';
+
+	/**
+	 * Hash used for the Breadcrumb's `@id`.
+	 */
+	const BREADCRUMB_HASH = '#breadcrumb';
+
+	/**
+	 * Hash used for the Person `@id`.
+	 */
+	const PERSON_HASH = '#person';
+
+	/**
+	 * Hash used for the Article `@id`.
+	 */
+	const ARTICLE_HASH = '#article';
+
+	/**
+	 * Hash used for the Organization `@id`.
+	 */
+	const ORGANIZATION_HASH = '#organization';
+
+	/**
+	 * Hash used for the Organization `@id`.
+	 */
+	const ORGANIZATION_LOGO_HASH = '#logo';
+
+	/**
+	 * Hash used for the logo `@id`.
+	 */
+	const PERSON_LOGO_HASH = '#personlogo';
+
+	/**
+	 * Hash used for an Article's primary image `@id`.
+	 */
+	const PRIMARY_IMAGE_HASH = '#primaryimage';
+
+	/**
+	 * Hash used for the WebPage's `@id`.
+	 */
+	const WEBPAGE_HASH = '#webpage';
+
+	/**
+	 * Hash used for the Website's `@id`.
+	 */
+	const WEBSITE_HASH = '#website';
 
 	/**
 	 * WPSEO_Schema_Context constructor.
@@ -103,6 +160,10 @@ class WPSEO_Schema_Context {
 
 		if ( $this->site_represents == 'company' ) {
 			$this->company_name = WPSEO_Options::get( 'company_name' );
+		}
+
+		if ( $this->site_represents == 'person' ) {
+			$this->site_user_id = WPSEO_Options::get( 'company_or_person_user_id', false );
 		}
 
 		$this->id = get_queried_object_id();

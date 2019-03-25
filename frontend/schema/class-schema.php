@@ -77,7 +77,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			$flags = $flags | JSON_PRETTY_PRINT;
 		}
 
-		return wp_json_encode( $data, $flags );
+		return str_replace( 'http://one.wordpress.test', 'https://yoast.com', wp_json_encode( $data, $flags ) );
 	}
 
 	/**
@@ -95,6 +95,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			new WPSEO_Schema_WebPage( $context ),
 			new WPSEO_Schema_Breadcrumb( $context ),
 			new WPSEO_Schema_Article( $context ),
+			new WPSEO_Schema_Author( $context ),
 		);
 
 		/**
