@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import Checkbox from "yoast-components/composites/Plugin/Shared/components/Checkbox";
-import Toggle from "yoast-components/composites/Plugin/Shared/components/Toggle";
+import { Checkbox, Toggle } from "@yoast/components";
 import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/components/CornerstoneToggle.js";
 
 const Container = styled.div`

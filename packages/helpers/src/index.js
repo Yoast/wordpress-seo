@@ -9,3 +9,5 @@ export {
 	sendRequest,
 	decodeHTML,
 };
+
+export { makeOutboundLink } from "./makeOutboundLink";

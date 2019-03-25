@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import Label from "./Label";
 import Input from "./Input";
 import Textarea from "./Textarea";
-import Explanation from "./Explanation";
 
 /**
  * Represents the Textfield composite component.
@@ -58,7 +57,11 @@ class Textfield extends React.Component {
 						hasFocus={ this.props.hasFocus }
 						value={ this.props.value }
 					/>
-					<Explanation text={ this.props.explanation } />
+					{ this.props.explanation && (
+						<p>
+							{ this.props.explanation }
+						</p>
+					) }
 				</div>
 			);
 		}
@@ -75,7 +78,11 @@ class Textfield extends React.Component {
 					autoComplete={ this.props.autoComplete }
 					optionalAttributes={ this.optionalAttributes.field }
 				/>
-				<Explanation text={ this.props.explanation } />
+				{ this.props.explanation && (
+					<p>
+						{ this.props.explanation }
+					</p>
+				) }
 			</div>
 		);
 	}

@@ -111,7 +111,7 @@ class App extends React.Component {
 		super();
 
 		this.state = {
-			activeComponent: "snippet-preview",
+			activeComponent: "buttons",
 			isRtl: false,
 		};
 		this.changeLanguageDirection = this.changeLanguageDirection.bind( this );

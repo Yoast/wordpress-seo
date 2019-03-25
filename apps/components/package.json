@@ -7,7 +7,8 @@
   "license": "GPL",
   "private": true,
   "scripts": {
-    "start": "concurrently --kill-others \"stubby -d stubby/endpoints.yaml\" \"webpack-dev-server --mode=development\""
+    "start": "concurrently --kill-others \"stubby -d stubby/endpoints.yaml\" \"webpack-dev-server --mode=development\"",
+    "test": "jest"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
@@ -45,6 +46,16 @@
     "react-intl": "^2.4.0",
     "redux": "4.0.1",
     "react-redux": "6.0.1"
+  },
+  "jest": {
+    "testRegex": ".*Test.js$",
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+    ]
   },
   "browserify": {
     "transform": [
