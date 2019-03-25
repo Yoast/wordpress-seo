@@ -2,7 +2,7 @@
 import getMuiTheme from "material-ui/styles/getMuiTheme";
 
 /* Yoast dependencies */
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 
 /**
  * Custom colors palette.

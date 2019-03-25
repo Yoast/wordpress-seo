@@ -3,11 +3,9 @@ import React from "react";
 import styled from "styled-components";
 import omit from "lodash/omit";
 
-import { colors } from "@yoast/components/style-guide";
-
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
 import { SectionTitle, IconsButton } from "@yoast/components";
-
-
 import { getDirectionalStyle } from "@yoast/helpers";
 
 const Content = styled.div`

@@ -6,7 +6,7 @@ import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 
 // Yoast dependencies.
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 
 // Internal dependencies.
 import ReplacementVariableEditor from "./ReplacementVariableEditor";

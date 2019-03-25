@@ -7,7 +7,7 @@ import uniqueId from "lodash/uniqueId";
 // Yoast dependencies.
 import { SvgIcon, HelpText, Button } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
-import { colors, rgba } from "@yoast/components/style-guide";
+import { colors, rgba } from "@yoast/style-guide";
 import { YoastSlideToggle } from "yoast-components/utils/animations";
 
 const HelpTextContainer = styled.div`

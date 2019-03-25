@@ -6,7 +6,7 @@ module.exports = function( grunt ) {
 	// Define project configuration
 	const project = {
 		paths: {
-			grunt: "grunt/",
+			grunt: "tools/grunt/",
 			get config() {
 				return this.grunt + "config/";
 			},

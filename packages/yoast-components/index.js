@@ -6,7 +6,7 @@ import { default as OnboardingWizard, MessageBox, LoadingIndicator } from "@yoas
 import { sendRequest, decodeHTML } from "@yoast/helpers";
 
 // Import colors from the style guide.
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 
 // Composites/AngoliaSearch imports.
 import AlgoliaSearcher from "@yoast/algolia-search";

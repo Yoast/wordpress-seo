@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 // Yoast dependencies.
 import { SvgIcon, Button, ScreenReaderText } from "@yoast/components";
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 
 // Internal dependencies.
 import { MODE_DESKTOP, MODE_MOBILE, MODES } from "../snippet-preview/constants";
