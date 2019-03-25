@@ -1,4 +1,4 @@
-import StyledSection, { StyledSectionBase, StyledHeading } from "./StyledSection";
+import StyledSection, { StyledHeading, StyledSectionBase } from "./StyledSection";
 
 export {
 	StyledSection,
@@ -40,6 +40,9 @@ export { default as YoastSeoIcon } from "./YoastSeoIcon";
 export { default as YoastTabs } from "./YoastTabs";
 export { default as YoastWarning } from "./YoastWarning";
 export { default as YouTubeVideo } from "./YouTubeVideo";
+export { default as Card, FullHeightCard } from "./Card";
+export { default as CardBanner } from "./CardBanner";
+export { default as CardDetails } from "./CardDetails";
 
 export { default as SynonymsInput } from "./SynonymsInput";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import Card, { FullHeightCard } from "../Card";
-import CardDetails from "../CardDetails";
+import Card, { FullHeightCard } from "../src/Card";
+import CardDetails from "../src/CardDetails";
 
 test( "The empty Card component matches the snapshot", () => {
 	const component = renderer.create(

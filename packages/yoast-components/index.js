@@ -26,10 +26,6 @@ import { getDirectionalStyle } from "@yoast/helpers";
 
 const getRtlStyle = getDirectionalStyle;
 
-// Composites/CoursesOverview imports
-import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
-import { default as CardBanner } from "./composites/CoursesOverview/CardBanner";
-import { default as CardDetails } from "./composites/CoursesOverview/CardDetails";
 
 export {
 	OnboardingWizard,
@@ -44,10 +40,6 @@ export {
 	CornerstoneToggle,
 	sendRequest,
 	decodeHTML,
-	Card,
-	FullHeightCard,
-	CardBanner,
-	CardDetails,
 	getRtlStyle,
 	AlgoliaSearcher,
 	colors,
@@ -87,5 +79,9 @@ export {
 	YoastModal,
 	YoastSeoIcon,
 	YoastWarning,
+	Card,
+	FullHeightCard,
+	CardBanner,
+	CardDetails,
 } from "@yoast/components";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import CardDetails from "../CardDetails";
+import CardDetails from "../src/CardDetails";
 
 test( "The empty CardDetails component matches the snapshot", () => {
 	const component = renderer.create(
