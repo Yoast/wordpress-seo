@@ -106,7 +106,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	/**
 	 * Adds tags as keywords, if tags are assigned.
 	 *
-	 * @param array                $data    Article data.
+	 * @param array $data Article data.
 	 *
 	 * @return array $data Article data.
 	 */
@@ -119,12 +119,8 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		$taxonomy = apply_filters( 'wpseo_schema_article_keywords_taxonomy', 'post_tag' );
 
 		$terms = get_the_terms( $this->context->id, $taxonomy );
-		if ( $terms ) {
-			$tags = array();
-			foreach ( $terms as $term ) {
-				$tags[] = $term->name;
-			}
-			$data['keywords'] = $tags;
+		if ( is_array( $terms ) ) {
+			$data['keywords'] = implode( ',', $terms );
 		}
 
 		return $data;
@@ -133,7 +129,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	/**
 	 * Adds an image node if the post has a featured image.
 	 *
-	 * @param array                $data    The Article data.
+	 * @param array $data The Article data.
 	 *
 	 * @return array $data The Article data.
 	 */
