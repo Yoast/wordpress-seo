@@ -102,7 +102,7 @@ module.exports = function( grunt ) {
 		const commands = [];
 
 		commands.push( "cd premium-configuration" );
-		commands.push( "git pull" );
+		commands.push( "git pull || echo 'Remote does not exist. Using local copy of branch.'" );
 
 		return commands.join( "&&" );
 	}
