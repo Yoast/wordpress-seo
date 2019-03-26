@@ -1,0 +1,10 @@
+extends: yoast
+
+parserOptions:
+  ecmaVersion: 2018
+
+overrides:
+  - files:
+    - "packages/*/tests/**/*.js"
+    env:
+      jest: true

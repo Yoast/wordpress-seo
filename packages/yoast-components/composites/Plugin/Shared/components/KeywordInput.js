@@ -7,9 +7,8 @@ import { __ } from "@wordpress/i18n";
 import noop from "lodash/noop";
 
 // Internal dependencies.
+import { SvgIcon, YoastInputField } from "@yoast/components";
 import { colors } from "@yoast/components/style-guide";
-import { YoastInputField } from "./YoastInput";
-import { SvgIcon } from "@yoast/components";
 import { addFocusStyle } from "./Button";
 import { getDirectionalStyle } from "@yoast/helpers";
 

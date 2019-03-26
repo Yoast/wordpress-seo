@@ -1,5 +1,5 @@
 import "babel-polyfill";
-import AnalysisWebWorker from "yoastsrc/worker/AnalysisWebWorker";
+import { AnalysisWebWorker } from "yoastseo";
 
 const worker = new AnalysisWebWorker( self );
 worker.register();

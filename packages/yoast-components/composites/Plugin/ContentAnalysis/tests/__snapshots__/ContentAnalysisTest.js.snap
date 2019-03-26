@@ -25,6 +25,23 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
   cursor: default;
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c16 {
   min-height: 24px;
   padding: 0;
@@ -124,23 +141,6 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 
 .c6 {
   font-size: 0.8rem;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c2 {
@@ -661,6 +661,23 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 `;
 
 exports[`ContentAnalysis the ContentAnalysis component with hidden buttons matches the snapshot 1`] = `
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c16 {
   min-height: 24px;
   padding: 0;
@@ -760,23 +777,6 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 
 .c6 {
   font-size: 0.8rem;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c2 {
@@ -1273,6 +1273,23 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
   cursor: default;
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c16 {
   min-height: 24px;
   padding: 0;
@@ -1372,23 +1389,6 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 
 .c6 {
   font-size: 0.8rem;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c2 {
@@ -1933,6 +1933,23 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
   cursor: default;
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c16 {
   min-height: 24px;
   padding: 0;
@@ -2032,23 +2049,6 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 
 .c6 {
   font-size: 0.8rem;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c2 {
@@ -2593,6 +2593,23 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
   cursor: default;
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c16 {
   min-height: 24px;
   padding: 0;
@@ -2692,23 +2709,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 
 .c6 {
   font-size: 0.8rem;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c2 {
@@ -3089,6 +3089,23 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
   cursor: default;
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c16 {
   min-height: 24px;
   padding: 0;
@@ -3188,23 +3205,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 
 .c6 {
   font-size: 0.8rem;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c2 {
@@ -3585,6 +3585,23 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
   cursor: default;
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c16 {
   min-height: 24px;
   padding: 0;
@@ -3684,23 +3701,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 
 .c6 {
   font-size: 0.8rem;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c2 {
@@ -4151,6 +4151,23 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
   cursor: default;
 }
 
+.c13 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c14 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c16 {
   min-height: 24px;
   padding: 0;
@@ -4250,23 +4267,6 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 
 .c6 {
   font-size: 0.8rem;
-}
-
-.c13 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c14 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c2 {
