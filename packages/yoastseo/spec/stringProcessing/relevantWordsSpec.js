@@ -3,14 +3,13 @@ import {
 	getRelevantWords,
 	getRelevantWordsFromPaperAttributes,
 	getRelevantCombinations,
-	getRelevantCombinationsForInsights,
 	collapseRelevantWordsOnStem,
 	sortCombinations,
 } from "../../src/stringProcessing/relevantWords";
 import { en as morphologyData } from "../../premium-configuration/data/morphologyData.json";
 
 describe( "getRelevantCombinations", function() {
-	it( "removes combinations with one occurrence", function() {
+	it( "removes combinations with one occurrence (for internal linking)", function() {
 		const input = [
 			new WordCombination( "irrelevant", "irrelevant", 1 ),
 			new WordCombination( "occurrence", "occurrence", 2 ),
@@ -19,7 +18,23 @@ describe( "getRelevantCombinations", function() {
 			new WordCombination( "occurrence", "occurrence", 2 ),
 		];
 
-		const actual = getRelevantCombinations( input );
+		const actual = getRelevantCombinations( input, 2 );
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "removes combinations with less than 5 occurrences (for insights)", function() {
+		const input = [
+			new WordCombination( "irrelevant", "irrelevant", 4 ),
+			new WordCombination( "occurrence", "occurrence", 5 ),
+			new WordCombination( "here", "here", 6 ),
+		];
+		const expected = [
+			new WordCombination( "occurrence", "occurrence", 5 ),
+			new WordCombination( "here", "here", 6 ),
+		];
+
+		const actual = getRelevantCombinations( input, 5 );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -32,38 +47,7 @@ describe( "getRelevantCombinations", function() {
 		];
 		const expected = [];
 
-		const actual = getRelevantCombinations( input );
-
-		expect( actual ).toEqual( expected );
-	} );
-} );
-
-describe( "getRelevantCombinationsForInsigths", function() {
-	it( "removes combinations with less than 5 occurrences", function() {
-		const input = [
-			new WordCombination( "irrelevant", "irrelevant", 4 ),
-			new WordCombination( "occurrence", "occurrence", 5 ),
-			new WordCombination( "here", "here", 6 ),
-		];
-		const expected = [
-			new WordCombination( "occurrence", "occurrence", 5 ),
-			new WordCombination( "here", "here", 6 ),
-		];
-
-		const actual = getRelevantCombinationsForInsights( input );
-
-		expect( actual ).toEqual( expected );
-	} );
-
-	it( "removes numbers and punctuation", function() {
-		const input = [
-			new WordCombination( "*", "*", 5 ),
-			new WordCombination( "/)*8%$", "/)*8%$", 6 ),
-			new WordCombination( "100", "100", 7 ),
-		];
-		const expected = [];
-
-		const actual = getRelevantCombinationsForInsights( input );
+		const actual = getRelevantCombinations( input, 2 );
 
 		expect( actual ).toEqual( expected );
 	} );

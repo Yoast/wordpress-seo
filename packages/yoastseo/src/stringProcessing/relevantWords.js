@@ -16,26 +16,16 @@ const specialCharacters = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%$|~
  * Returns only those relevant combinations that occur more than once and do not consist of special characters.
  *
  * @param {WordCombination[]} wordCombinations A list of word combinations.
+ * @param {int} [minimalNumberOfOccurrences] A minimal number of occurrences that is needed for a relevant wordCombination, default 2.
  *
  * @returns {WordCombination[]} Only relevant word combinations.
  */
-function getRelevantCombinations( wordCombinations ) {
+function getRelevantCombinations( wordCombinations, minimalNumberOfOccurrences = 2 ) {
 	wordCombinations = wordCombinations.filter( function( combination ) {
-		return ( combination.getOccurrences() !== 1 && combination.getWord().replace( specialCharacters, "" ) !== "" );
-	} );
-	return wordCombinations;
-}
-
-/**
- * Returns only those relevant combinations that occur 5 or more times and do not consist of special characters.
- *
- * @param {WordCombination[]} wordCombinations A list of word combinations.
- *
- * @returns {WordCombination[]} Only relevant word combinations.
- */
-function getRelevantCombinationsForInsights( wordCombinations ) {
-	wordCombinations = wordCombinations.filter( function( combination ) {
-		return ( combination.getOccurrences() >= 5 && combination.getWord().replace( specialCharacters, "" ) !== "" );
+		return (
+			combination.getOccurrences() >= minimalNumberOfOccurrences &&
+			combination.getWord().replace( specialCharacters, "" ) !== ""
+		);
 	} );
 	return wordCombinations;
 }
@@ -237,7 +227,6 @@ export {
 	getRelevantWords,
 	getRelevantWordsFromPaperAttributes,
 	getRelevantCombinations,
-	getRelevantCombinationsForInsights,
 	sortCombinations,
 	collapseRelevantWordsOnStem,
 };
@@ -246,7 +235,6 @@ export default {
 	getRelevantWords: getRelevantWords,
 	getRelevantWordsFromPaperAttributes: getRelevantWordsFromPaperAttributes,
 	getRelevantCombinations: getRelevantCombinations,
-	getRelevantCombinationsForInsights: getRelevantCombinationsForInsights,
 	sortCombinations: sortCombinations,
 	collapseRelevantWordsOnStem: collapseRelevantWordsOnStem,
 };

@@ -3,7 +3,7 @@ import getLanguage from "../helpers/getLanguage";
 import {
 	getRelevantWords,
 	collapseRelevantWordsOnStem,
-	getRelevantCombinationsForInsights,
+	getRelevantCombinations,
 	sortCombinations,
 } from "../stringProcessing/relevantWords";
 
@@ -25,8 +25,8 @@ export default function( paper, researcher ) {
 	sortCombinations( collapsedWords );
 
 	/*
-	 * Return the 100 top items from the collapsed and sorted list. The number is picked deliberately to prevent larger
-	 * articles from getting too long of lists.
+	 * Collapse the list of word combinations on stems, sort it, filter out all word combinations that occur less than
+	 * 5 times in the text. Return the 20 top items from this list.
 	 */
-	return take( getRelevantCombinationsForInsights( collapsedWords ), 20 );
+	return take( getRelevantCombinations( collapsedWords, 5 ), 20 );
 }

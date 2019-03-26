@@ -2,14 +2,13 @@ import { get, isEqual, take } from "lodash-es";
 import getLanguage from "yoastsrc/helpers/getLanguage";
 import getWords from "yoastsrc/stringProcessing/getWords";
 import {
-	getRelevantWords,
-	getRelevantWordsFromPaperAttributes,
 	collapseRelevantWordsOnStem,
 	getRelevantCombinations,
-	getRelevantCombinationsForInsights,
+	getRelevantWords,
+	getRelevantWordsFromPaperAttributes,
+	sortCombinations,
 } from "yoastsrc/stringProcessing/relevantWords";
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "yoastsrc/stringProcessing/getSubheadings";
-import { sortCombinations } from "yoastsrc/stringProcessing/relevantWords";
 import getMorphologyData from "./getMorphologyData";
 
 const morphologyData = getMorphologyData();
@@ -96,15 +95,15 @@ function calculateRelevantWords( paper, internalLinking ) {
 	/*
 	 * For Internal linking:
 	 * Analogous to the research src/researches/relevantWords.js, we limit the number of relevant words in consideration
-	 * to 100, i.e. we take 100 first relevant words from the list sorded by number of occurrences first and then
-	 * alphabetically.
+	 * to 100, i.e. we take 100 first relevant words from the list sorted by number of occurrences first and then
+	 * alphabetically and we only take words that occur 2 or more times.
 	 * For Insights:
 	 * Analogous to the research src/researches/getProminentWordsForInsights.js, we limit the number of relevant words
 	 * in consideration to 20 and we only take words that occur 5 or more times.
 	 */
 	const relevantWords = internalLinking
-		? take( getRelevantCombinations( collapsedWords ), 100 )
-		: take( getRelevantCombinationsForInsights( collapsedWords ), 20 );
+		? take( getRelevantCombinations( collapsedWords, 2 ), 100 )
+		: take( getRelevantCombinations( collapsedWords, 5 ), 20 );
 
 	return relevantWords.map( ( word ) => {
 		return {
@@ -122,6 +121,7 @@ function calculateRelevantWords( paper, internalLinking ) {
  *
  * @returns {Object} The relevant words.
  */
+// eslint-disable-next-line
 export function relevantWordsForInternalLinking( paper ) {
 	const text = paper.text;
 	const locale = paper.locale;
