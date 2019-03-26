@@ -133,18 +133,14 @@ export function calculateTwitterImageDimensions( originalDimensions, imageMode )
 				height: SQUARE_HEIGHT,
 			};
 		}
-	}
 
-	/*
-	 * If the image should be rendered as a square, but originally wasn't square,
-	 * crop the longest side. This way, the image won't be warped.
-	 */
-	if ( imageMode === "square" ) {
-		if ( originalDimensions.width !== originalDimensions.height ) {
-			const imageRatios = getImageRatios( originalDimensions, imageMode );
+		/*
+		 * If the image should be rendered as a square, but originally wasn't square,
+		 * crop the longest side. This way, the image won't be warped.
+		 */
+		const imageRatios = getImageRatios( originalDimensions, imageMode );
 
-			return getImageDimensionsForTwitterImage( originalDimensions, imageRatios );
-		}
+		return getImageDimensionsForTwitterImage( originalDimensions, imageRatios );
 	}
 
 	/*
