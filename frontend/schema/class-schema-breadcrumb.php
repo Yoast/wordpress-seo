@@ -85,6 +85,7 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 				'item'     => array(
 					'@type' => 'WebPage',
 					'@id'   => $breadcrumb['url'],
+					'url'   => $breadcrumb['url'], // For future proofing, we're trying to change the standard for this.
 					'name'  => $breadcrumb['text'],
 				),
 			);
