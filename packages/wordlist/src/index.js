@@ -1,1 +1,1 @@
-export { default as WordList } from "./KeywordSuggestions";
+export { default as WordList } from "./WordList";
