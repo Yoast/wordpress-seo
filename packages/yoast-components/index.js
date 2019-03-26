@@ -63,7 +63,7 @@ export { translate } from "./utils/i18n";
 export * from "./composites/Plugin/DashboardWidget";
 export { default as analysis } from "./composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 export { default as WordpressFeed } from "./composites/Plugin/DashboardWidget/components/WordpressFeed";
-export { default as SeoAssessment } from "./composites/Plugin/DashboardWidget/components/SeoAssessment";
+export { default as SeoAssessment } from "../analysis-report/src/SeoAssessment";
 export { default as VideoTutorial } from "./composites/HelpCenter/views/VideoTutorial";
 export { default as KeywordInput } from "./composites/Plugin/Shared/components/KeywordInput";
 export { insightsReducer } from "./redux/reducers/insights";
