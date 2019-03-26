@@ -29,7 +29,7 @@ const getPostType = promisifySelector(
  *
  * @param {string} posttype The post type to get taxonomies for.
  *
- * @returns {Promise<array>} List of taxonomies for the given post type.
+ * @returns {Promise<object>} Promise resolving to a key/value object containing the current post's applicable taxonomies.
  */
 const getApplicableTaxonomies = promisifySelector(
 	"yoast-seo/wp-data",
@@ -41,7 +41,7 @@ const getApplicableTaxonomies = promisifySelector(
  *
  * @param {string} taxonomySlug The slug of the taxonomy to get the terms for.
  *
- * @returns {Promise<array>} List of terms for the given taxonomy.
+ * @returns {Promise<array>} Promise resolving to a list of terms for the given taxonomy.
  */
 const getTerms = promisifySelector(
 	"yoast-seo/wp-data",
