@@ -37,7 +37,7 @@
   },
   "scripts": {
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint . --max-warnings=22"
   },
   "jest": {
     "testURL": "https://example.org",

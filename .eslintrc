@@ -6,5 +6,21 @@ parserOptions:
 overrides:
   - files:
       - "packages/*/tests/**/*.js"
+      # Temporary exclusion:
+      - "packages/components/a11y/tests/**/*.js"
     env:
       jest: true
+  - files:
+      - "packages/components/**/*.js"
+    rules:
+      react/jsx-no-bind: 1
+      react/require-default-props: 1
+      react/default-props-match-prop-types: 1
+      react/no-unused-prop-types: 1
+      require-jsdoc: 1
+  - files:
+      - "packages/algolia-search/**/*.js"
+    rules:
+      react/jsx-no-bind: 1
+      react/no-unused-state: 1
+      react/require-default-props: 1
