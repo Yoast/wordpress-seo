@@ -36,8 +36,8 @@ const ErrorImage = styled.p`
 	justify-content: center;
 	align-items: center;
 	box-sizing: border-box;
-	width: 500px;
-	height: 261px;
+	width: ${ LANDSCAPE_WIDTH + "px" };
+	height: ${ LANDSCAPE_HEIGHT + "px" };
 	max-width: 100%;
 	margin: 0;
 	padding: 1em;
@@ -52,8 +52,8 @@ const PlaceholderImage = styled.div`
 	justify-content: center;
 	align-items: center;
 	box-sizing: border-box;
-	width: 500px;
-	height: 261px;
+	width: ${ LANDSCAPE_WIDTH + "px" };
+	height: ${ LANDSCAPE_HEIGHT + "px" };
 	max-width: 100%;
 	margin: 0;
 	padding: 1em;

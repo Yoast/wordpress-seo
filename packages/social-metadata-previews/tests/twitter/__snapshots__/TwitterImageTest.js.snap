@@ -1,0 +1,262 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TwitterImage Component matches the snapshot for a landscape image in a summary card 1`] = `
+.c0 {
+  position: relative;
+  height: 253px;
+  width: 506px;
+  overflow: hidden;
+  background-color: #E1E8ED;
+}
+
+.c1 {
+  width: 600px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+
+<div
+  className="c0"
+>
+  <img
+    alt=""
+    className="c1"
+    src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
+    type="summary"
+  />
+</div>
+`;
+
+exports[`TwitterImage Component matches the snapshot for a landscape image in a summary-large-image card 1`] = `
+.c0 {
+  position: relative;
+  height: 253px;
+  width: 506px;
+  overflow: hidden;
+  background-color: #E1E8ED;
+}
+
+.c1 {
+  width: 600px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+
+<div
+  className="c0"
+>
+  <img
+    alt=""
+    className="c1"
+    src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
+    type="summary-large-image"
+  />
+</div>
+`;
+
+exports[`TwitterImage Component matches the snapshot for a portrait image in a summary card 1`] = `
+.c0 {
+  position: relative;
+  height: 253px;
+  width: 506px;
+  overflow: hidden;
+  background-color: #E1E8ED;
+}
+
+.c1 {
+  width: 300px;
+  height: 600px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+
+<div
+  className="c0"
+>
+  <img
+    alt=""
+    className="c1"
+    src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png"
+    type="summary"
+  />
+</div>
+`;
+
+exports[`TwitterImage Component matches the snapshot for a portrait image in a summary-large-image card 1`] = `
+.c0 {
+  position: relative;
+  height: 253px;
+  width: 506px;
+  overflow: hidden;
+  background-color: #E1E8ED;
+}
+
+.c1 {
+  width: 300px;
+  height: 600px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+
+<div
+  className="c0"
+>
+  <img
+    alt=""
+    className="c1"
+    src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png"
+    type="summary-large-image"
+  />
+</div>
+`;
+
+exports[`TwitterImage Component matches the snapshot for a square image in a summary card 1`] = `
+.c0 {
+  position: relative;
+  height: 123.422px;
+  width: 123.422px;
+  overflow: hidden;
+  background-color: #E1E8ED;
+}
+
+.c1 {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+
+<div
+  className="c0"
+>
+  <img
+    alt=""
+    className="c1"
+    src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png"
+    type="summary"
+  />
+</div>
+`;
+
+exports[`TwitterImage Component matches the snapshot for a square image in a summary-large-image card 1`] = `
+.c0 {
+  position: relative;
+  height: 123.422px;
+  width: 123.422px;
+  overflow: hidden;
+  background-color: #E1E8ED;
+}
+
+.c1 {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+
+<div
+  className="c0"
+>
+  <img
+    alt=""
+    className="c1"
+    src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png"
+    type="summary-large-image"
+  />
+</div>
+`;
+
+exports[`TwitterImage Component matches the snapshot for a too small image 1`] = `
+.c0 {
+  position: relative;
+  height: 123.422px;
+  width: 123.422px;
+  overflow: hidden;
+  background-color: #E1E8ED;
+}
+
+.c1 {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+
+<div
+  className="c0"
+>
+  <img
+    alt=""
+    className="c1"
+    src="https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png"
+    type="summary"
+  />
+</div>
+`;
+
+exports[`TwitterImage Component matches the snapshot in the loading state 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 506px;
+  height: 253px;
+  max-width: 100%;
+  margin: 0;
+  padding: 1em;
+  text-align: center;
+  font-size: 1rem;
+  border-top-left-radius: .85714em;
+  border-top-right-radius: .85714em;
+  border-style: dashed;
+  border-width: 2px;
+  color: #073CBA;
+  background-color: #f1f1f1;
+}
+
+<div
+  className="c0"
+>
+  Select image
+</div>
+`;
