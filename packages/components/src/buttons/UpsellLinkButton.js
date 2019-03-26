@@ -1,4 +1,7 @@
+// External dependencies.
 import styled from "styled-components";
+
+// Yoast dependencies.
 import { colors } from "@yoast/style-guide";
 
 /**

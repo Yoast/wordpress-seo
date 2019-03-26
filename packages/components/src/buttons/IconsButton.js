@@ -1,7 +1,10 @@
+// External dependencies.
 import React from "react";
-import { SvgIcon } from "../index";
-import { default as Button } from "./Button";
 import PropTypes from "prop-types";
+
+// Internal dependencies.
+import { default as Button } from "./Button";
+import { SvgIcon } from "../index";
 
 
 /**

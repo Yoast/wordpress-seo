@@ -1,7 +1,9 @@
+// External dependencies.
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+// Yoast dependencies.
 import { colors, rgba } from "@yoast/style-guide";
 
 const settings = {
