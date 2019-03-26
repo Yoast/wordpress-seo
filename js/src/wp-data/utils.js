@@ -29,13 +29,7 @@ export function invalidateTerms( taxonomy ) {
  * @returns {function} The promisified selector.
  */
 export function promisifySelector( namespace, selectorName ) {
-	const selectors = select( namespace );
-
-	if ( ! selectors[ selectorName ] ) {
-		return false;
-	}
-
-	const selector = selectors[ selectorName ];
+	const selector = select( namespace )[ selectorName ];
 
 	return ( ...args ) => {
 		return new Promise( resolve => {
