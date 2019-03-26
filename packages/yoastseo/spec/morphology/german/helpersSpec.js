@@ -1,8 +1,4 @@
 import { allGermanVerbPrefixesSorted } from "../../../src/morphology/german/helpers";
-import getMorphologyData from "../../specHelpers/getMorphologyData";
-
-
-const morphologyDataDE = getMorphologyData( "de" ).de;
 
 const prefixesTestData = {
 	categoryA: [
@@ -14,7 +10,7 @@ const prefixesTestData = {
 	categoryB: [
 		"ccc",
 		"cc",
-	]
+	],
 };
 
 describe( "Test for getting all German verb prefixes sorted by length", () => {
