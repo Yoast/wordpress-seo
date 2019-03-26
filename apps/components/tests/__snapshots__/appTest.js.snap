@@ -115,6 +115,13 @@ exports[`App renders without problems 1`] = `
     >
       FacebookPreview
     </button>
+    <button
+      onClick={[Function]}
+      style={Object {}}
+      type="button"
+    >
+      TwitterPreview
+    </button>
     <p
       style={
         Object {
