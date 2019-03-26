@@ -17,7 +17,7 @@ function createWords( words ) {
 }
 /* eslint-enable require-jsdoc */
 
-describe( "KeywordSuggestions", function() {
+describe( "WordList", function() {
 	it( "renders keyword suggestions as list items", () => {
 		var words = [];
 
