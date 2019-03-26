@@ -7,7 +7,37 @@
     "url": "https://github.com/yoast/javascript",
     "directory": "packages/analysis-report"
   },
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint ."
+  },
   "author": "Team Yoast",
   "license": "GPL-3.0",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "@wordpress/i18n": "^1.1.0",
+    "@yoast/style-guide": "^0.1.0",
+    "prop-types": "^15.6.0",
+    "react": "16.6.3",
+    "react-dom": "16.6.3",
+    "styled-components": "^2.1.2",
+    "lodash": "^4.17.11",
+    "yoast-components": "^4.22.1"
+  },
+  "devDependencies": {
+  },
+  "jest": {
+    "testURL": "http://localhost",
+    "testRegex": ".*Test.js$",
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js"
+  }
 }
