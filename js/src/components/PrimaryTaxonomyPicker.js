@@ -103,7 +103,7 @@ class PrimaryTaxonomyPicker extends React.Component {
 	 * @returns {boolean} Whther the term is available.
 	 */
 	termIsAvailable( termId ) {
-		return !! this.props.terms.find( term => term.id === termId );
+		return this.props.terms.some( term => term.id === termId );
 	}
 
 	/**
