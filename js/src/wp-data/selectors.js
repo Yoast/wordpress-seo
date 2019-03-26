@@ -1,7 +1,7 @@
 /**
  * Get terms for a taxonomy.
  *
- * @param {object} state    State object.
+ * @param {Object} state    State object.
  * @param {string} taxonomy The taxonomy's slug.
  *
  * @returns {object} Action object.
@@ -15,7 +15,7 @@ export const getTerms = ( state, taxonomy ) => {
  *
  * @param {object} state State object.
  *
- * @returns {object} Action object.
+ * @returns {object} Taxonomies object.
  */
 export const getTaxonomies = ( state ) => {
 	return state.taxonomies;
