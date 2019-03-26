@@ -7,7 +7,7 @@ import { __ } from "@wordpress/i18n";
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
 import { Collapsible } from "yoast-components";
-import { StyledIconsButton } from "yoast-components/composites/Plugin/Shared/components/Collapsible"
+import { StyledIconsButton } from "yoast-components/composites/Plugin/Shared/components/Collapsible";
 
 /* Internal dependencies */
 import AnalysisList from "./AnalysisList";
