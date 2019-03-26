@@ -3,9 +3,12 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-import { colors } from "@yoast/components/style-guide";
-import { SvgIcon } from "@yoast/components";
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
 import { getDirectionalStyle } from "@yoast/helpers";
+
+// Internal dependencies.
+import SvgIcon from "../src/SvgIcon";
 
 const WarningBox = styled.div`
 	display: flex;
