@@ -64,7 +64,6 @@
     "@yoast/components": "^1.0.0",
     "@yoast/helpers": "^0.1.0",
     "@yoast/style-guide": "^0.1.0",
-    "@yoast/wordlist": "^0.1.0",
     "algoliasearch": "^3.22.3",
     "clipboard": "^1.5.15",
     "draft-js": "^0.10.5",
