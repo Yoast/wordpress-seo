@@ -22,5 +22,10 @@
   },
   "peerDependencies": {
     "react": "^16.2.0"
+  },
+  "jest": {
+    "testRegex": ".*Test.js$",
+    "testEnvironment": "node",
+    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
   }
 }
