@@ -452,16 +452,6 @@ exports[`App renders without problems 1`] = `
       <hr
         className="ButtonsWrapper__Separator-sc-1nb1s31-1 ZmEFB"
       />
-      <button
-        className={undefined}
-        onClick={[Function]}
-        type="button"
-      >
-        FormButton
-      </button>
-      <hr
-        className="ButtonsWrapper__Separator-sc-1nb1s31-1 ZmEFB"
-      />
       <h2>
         Special cases
       </h2>
