@@ -1,0 +1,10 @@
+{
+  "name": "@yoast/analysis-report",
+  "version": "0.1.0",
+  "description": "Our analysis report tool.",
+  "main": "src/index.js",
+  "repository": "https://github.com/Yoast/javascript",
+  "author": "Yoast",
+  "license": "GPL-3.0",
+  "private": false
+}
