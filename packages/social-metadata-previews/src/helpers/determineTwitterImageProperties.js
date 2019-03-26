@@ -49,8 +49,8 @@ export function getOriginalImageDimensions( src ) {
  *
  * When we're landscape mode, we can't just resize to the dimensions expected by Twitter. If we'd do
  * so, we would end up with warped images. That's why we calculate the ratio between the original width and height and
- * the width and height that is expected by Twitter. For example: the original image is 1600x898 and Twitter expects
- * 500x261. The width ratio would be 3.44 and the height ratio would be 3.2.
+ * the width and height that is expected by Twitter. For example: the original image is 898x1600 (height x width) and
+ * Twitter expects 253x506. The heightRatio would be 3.55 (898/253) and the widthRatio would be 3.16 (1600/506).
  *
  * @param {Object} dimensions The dimensions of the original image.
  * @param {string} imageMode The image mode: square or landscape.
@@ -77,12 +77,12 @@ export function getImageRatios( dimensions, imageMode ) {
  * Gets the image dimensions that the image should have as Twitter image.
  *
  * To use as much as the allowed space as possible, we base both dimensions on the dimension with the lowest imageRatio
- * (see above). For example: for a 1600x898 image, the height ratio is larger than the width ratio. The result of dividing
- * by the heightRatio is a 500x280.625 image. The excess of 280.625-261 = 18.375 pixels will be 'cut off' by the
+ * (see above). For example: for a 898x1600 image, the heightRatio is larger than the widthRatio. The result of dividing
+ * by the widthRatio is a 284x506 image. The excess of 284-253 = 31 pixels will be 'cut off' by the
  * container in the presentation part.
  *
- * If we would divide by the widthRatio, the image would become 465x261, which means it would not be wide enough for
- * the container, which means there would be a 500-465=35px white border on one of the sides.
+ * If we would divide by the heightRatio, the image would become 253x451, which means it would not be wide enough for
+ * the container, which means there would be a 506-451=55px white border on one of the sides.
  *
  * @param {Object} dimensions  The dimensions of the original image.
  * @param {Object} imageRatios The ratios of the width and height of the original image in relation to the width and
