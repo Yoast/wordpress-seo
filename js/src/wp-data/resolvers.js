@@ -12,7 +12,7 @@ const DEFAULT_PARAMS = {
 /**
  * Turns an object into query params.
  *
- * @param {object} params Key value pairs representing query parameters.
+ * @param {Object} params Key value pairs representing query parameters.
  *
  * @returns {string} Query string.
  */
@@ -33,7 +33,7 @@ function buildQueryString( params = {} ) {
  *
  * @param {string} taxonomySlug Taxonomy slug.
  *
- * @returns {object} Action object.
+ * @returns {Object} Action object.
  */
 export function* getTerms( taxonomySlug ) {
 	const taxonomy = select( "yoast-seo/wp-data" ).getTaxonomy( taxonomySlug );
@@ -54,7 +54,7 @@ export function* getTerms( taxonomySlug ) {
  *
  * @param {string} postType The post type.
  *
- * @returns {object} Action object.
+ * @returns {Object} Action object.
  */
 export function* getTaxonomies( postType ) {
 	const taxonomies = yield actions.fetchFromAPI( {
