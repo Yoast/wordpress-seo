@@ -38,6 +38,11 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	 */
 	public function is_needed() {
 		if ( $this->is_post_author() ) {
+			$post = get_post( $this->context->id );
+			// If the author is the user the site represents, no need for an extra author block.
+			if ( (int) $post->post_author === $this->context->site_user_id ) {
+				return false;
+			}
 			return true;
 		}
 
