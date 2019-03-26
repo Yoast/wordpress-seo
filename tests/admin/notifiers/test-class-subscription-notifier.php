@@ -58,7 +58,9 @@ class WPSEO_Subscription_Notifier_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_addon_manager' )
-			->willReturn( $addon_manager );
+			->will(
+				$this->returnValue( $addon_manager )
+			);
 
 		$instance->__construct();
 
