@@ -13,7 +13,7 @@
   "private": false,
   "scripts": {
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint . --max-warnings=11"
   },
   "dependencies": {
     "yoast-components": "^4.22.1",
