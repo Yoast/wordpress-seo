@@ -53,6 +53,10 @@ class PrimaryTaxonomyPicker extends React.Component {
 		if ( prevProps.selectedTermIds.length < this.props.selectedTermIds.length ) {
 			const newId = diff( this.props.selectedTermIds, prevProps.selectedTermIds )[ 0 ];
 			if ( ! this.termIsAvailable( newId ) ) {
+				/**
+				 * If a term cannot be found we assume a new term has been added, so we invalidate the current terms,
+				 * forcing them to be retrieved again.
+				 */
 				invalidateTerms( this.props.taxonomy.name );
 				return;
 			}
