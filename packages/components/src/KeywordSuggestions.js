@@ -1,8 +1,11 @@
+// External dependencies.
 import React from "react";
 import PropTypes from "prop-types";
 import interpolateComponents from "interpolate-components";
 import { __, sprintf } from "@wordpress/i18n";
-import { WordList } from "@yoast/wordlist";
+
+// Yoast dependencies.
+import WordList from "./WordList";
 
 /**
  * @summary Translates and returns the keyword research article link.
@@ -38,7 +41,7 @@ const getKeywordResearchArticleLink = () => {
  * @param {Array} keywords The keyword suggestions that were found.
  * @returns {string} The translated text.
  */
-const getKeywordSuggestionExplanation = ( keywords ) => {
+const getKeywordSuggestionExplanation = keywords => {
 	if ( keywords.length === 0 ) {
 		return __(
 			"Once you add a bit more copy, we'll give you a list of words and " +
