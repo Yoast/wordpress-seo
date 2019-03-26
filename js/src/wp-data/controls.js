@@ -6,11 +6,16 @@ import {
 	FETCH_FROM_API,
 } from "./actions";
 
+/**
+ * Object containing controls for wp-data api.
+ *
+ * See https://wordpress.org/gutenberg/handbook/designers-developers/developers/packages/packages-data/#controls.
+ */
 export default {
 	/**
 	 * Control to trigger an api request.
 	 *
-	 * @param {object} request Request parameters.
+	 * @param {Object} request Request parameters.
 	 *
 	 * @returns {Promise} API promise.
 	 */

@@ -5,6 +5,9 @@ import { combineReducers } from "@wordpress/data";
 import taxonomiesReducer from "./taxonomies";
 import termsReducer from "./terms";
 
+/**
+ * Combined reducers.
+ */
 export default combineReducers( {
 	taxonomies: taxonomiesReducer,
 	terms: termsReducer,

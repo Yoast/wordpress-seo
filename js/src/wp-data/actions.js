@@ -8,9 +8,9 @@ export const FETCH_FROM_API = `${ PREFIX }FETCH_FROM_API`;
  * Update a list of terms in the store for a given taxonomy.
  *
  * @param {string} taxonomy Taxonomy slug.
- * @param {array}  terms    List of terms.
+ * @param {Array}  terms    List of terms.
  *
- * @returns {object} Action object.
+ * @returns {Object} Action object.
  */
 export function setTerms( { taxonomySlug, terms } ) {
 	return {
@@ -23,9 +23,9 @@ export function setTerms( { taxonomySlug, terms } ) {
 /**
  * Update a list of taxonomies in the store.
  *
- * @param {array} taxonomies Array of taxonomies for current post.
+ * @param {Array} taxonomies Array of taxonomies for current post.
  *
- * @returns {object} Action object.
+ * @returns {Object} Action object.
  */
 export function setTaxonomies( taxonomies ) {
 	return {
@@ -37,9 +37,9 @@ export function setTaxonomies( taxonomies ) {
 /**
  * Action used by the FETCH_FROM_API control. See ./controls.js.
  *
- * @param {object} request Arguments for apiFetch.
+ * @param {Object} request Arguments for apiFetch.
  *
- * @returns {object} Action object.
+ * @returns {Object} Action object.
  */
 export function fetchFromAPI( request ) {
 	return {
