@@ -1,37 +1,23 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import KeywordSuggestions from "../src/KeywordSuggestions";
-
-/* eslint-disable require-jsdoc */
-function createWord( word ) {
-	return {
-		getCombination: () => {
-			return word;
-		},
-	};
-}
-
-function createWords( words ) {
-	return words.map( createWord );
-}
-/* eslint-enable require-jsdoc */
+import WordList from "../src/WordList";
 
 describe( "WordList", function() {
-	it( "renders keyword suggestions as list items", () => {
+	it( "renders wordlist as list items", () => {
 		var words = [];
 
 		let keywordSuggestions = renderer.create(
-			<KeywordSuggestions relevantWords={ words } />
+			<WordList title="Wordlist" words={ words } />
 		);
 
 		let tree = keywordSuggestions.toJSON();
 		expect( tree ).toMatchSnapshot();
 
-		words = createWords( [ "word1", "word2", "word3" ] );
+		words = [ "word1", "word2", "word3" ];
 
 		keywordSuggestions = renderer.create(
-			<KeywordSuggestions relevantWords={ words } />
+			<WordList title="Wordlist" words={ words } />
 		);
 
 		tree = keywordSuggestions.toJSON();
@@ -42,7 +28,7 @@ describe( "WordList", function() {
 		const words = [];
 
 		const keywordSuggestions = renderer.create(
-			<KeywordSuggestions relevantWords={ words } />
+			<WordList title="Wordlist" words={ words } />
 		);
 
 		const tree = keywordSuggestions.toJSON();
