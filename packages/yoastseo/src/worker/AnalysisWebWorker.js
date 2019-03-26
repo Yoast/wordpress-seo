@@ -756,6 +756,8 @@ export default class AnalysisWebWorker {
 			try {
 				this._tree = buildTree( text );
 			} catch ( exception ) {
+				console.error( "Yoast SEO and readability analysis: " +
+					"An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
 				this._tree = null;
 			}
 			// Update the configuration locale to the paper locale.
