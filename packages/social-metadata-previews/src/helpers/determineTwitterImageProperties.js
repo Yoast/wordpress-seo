@@ -71,7 +71,6 @@ export function getImageRatios( dimensions, imageMode ) {
 			heightRatio: dimensions.height / SQUARE_HEIGHT,
 		};
 	}
-
 }
 
 /**
@@ -141,7 +140,7 @@ export function calculateTwitterImageDimensions( originalDimensions, imageMode )
 	 * crop the longest side. This way, the image won't be warped.
 	 */
 	if ( imageMode === "square" ) {
-		if (originalDimensions.width !== originalDimensions.height ) {
+		if ( originalDimensions.width !== originalDimensions.height ) {
 			const imageRatios = getImageRatios( originalDimensions, imageMode );
 
 			return getImageDimensionsForTwitterImage( originalDimensions, imageRatios );
@@ -169,7 +168,6 @@ export function calculateTwitterImageDimensions( originalDimensions, imageMode )
  */
 export function determineTwitterImageProperties( src, cardType ) {
 	return getOriginalImageDimensions( src ).then( ( originalDimensions ) => {
-
 		// Determine what image mode should be used based on the image dimensions.
 		const imageMode = determineTwitterImageMode( cardType );
 

@@ -142,9 +142,7 @@ export default class TwitterImage extends React.Component {
 		const status = this.state.status;
 
 		if ( status === "loading" || this.props.src === "" ) {
-			//return <PlaceholderImage />;
 			return <PlaceholderImage>{ __( "Select image", "yoast-components" ) }</PlaceholderImage>;
-
 		}
 
 		if ( status === "errored" ) {
