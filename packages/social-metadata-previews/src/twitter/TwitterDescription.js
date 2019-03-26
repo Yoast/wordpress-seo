@@ -5,11 +5,11 @@ import PropTypes from "prop-types";
 
 const TwitterDescriptionWrapper = styled.p`
 	font-size: 14px;
-    max-height: 36.4px;
-    line-height: 18.2px;
-    overflow: hidden;
-    margin-bottom: 4.52662px;
-    width: 476px;
+	max-height: 36.4px;
+	line-height: 18.2px;
+	overflow: hidden;
+	margin-bottom: 4.52662px;
+	width: 476px;
 	//white-space: nowrap;
 	//text-overflow: ellipsis;
 `;
