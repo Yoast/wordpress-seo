@@ -3,6 +3,40 @@
 exports[`TwitterPreview matches the snapshot 1`] = `
 Array [
   .c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 506px;
+  height: 253px;
+  max-width: 100%;
+  margin: 0;
+  padding: 1em;
+  text-align: center;
+  font-size: 1rem;
+  border-top-left-radius: .85714em;
+  border-top-right-radius: .85714em;
+  border-style: dashed;
+  border-width: 2px;
+  color: #073CBA;
+  background-color: #f1f1f1;
+}
+
+<div
+    className="c0"
+  >
+    Select image
+  </div>,
+  .c0 {
   font-weight: bold;
   font-size: 14px;
   max-height: 18px;

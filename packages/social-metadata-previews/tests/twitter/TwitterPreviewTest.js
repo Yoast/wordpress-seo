@@ -9,6 +9,8 @@ describe( "TwitterPreview", () => {
 	it( "matches the snapshot", () => {
 		const component = renderer.create(
 			<TwitterPreview
+				src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
+				type="summary-large-image"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
 			/>
