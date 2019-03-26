@@ -8,7 +8,6 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { __, sprintf } from "@wordpress/i18n";
 
 /* Yoast dependencies */
-import { localize } from "yoast-components/utils/i18n";
 import { sendRequest } from "@yoast/helpers";
 
 /* Interal dependencies */
@@ -436,4 +435,4 @@ ConfigurationWizard.defaultProps = {
 	headerIcon: null,
 };
 
-export default localize( ConfigurationWizard );
+export default ConfigurationWizard;

@@ -4,9 +4,6 @@ import PropTypes from "prop-types";
 import { Stepper, Step, StepButton } from "material-ui/Stepper";
 import { __ } from "@wordpress/i18n";
 
-/* Yoast dependencies */
-import { localize } from "yoast-components/utils/i18n";
-
 /* Internal dependencies */
 import CustomStepButton from "./StepButton";
 
@@ -126,4 +123,4 @@ StepIndicator.defaultProps = {
 	onClick: () => null,
 };
 
-export default localize( StepIndicator );
+export default StepIndicator;
