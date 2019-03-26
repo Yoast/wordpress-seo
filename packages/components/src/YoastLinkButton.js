@@ -1,6 +1,10 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { colors } from "../style-guide";
+
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
+
+// Internal dependencies.
 import { addButtonStyles } from "./YoastButton";
 
 /**

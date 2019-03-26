@@ -1,7 +1,9 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { colors } from "@yoast/components/style-guide";
+
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
 import { makeOutboundLink, getDirectionalStyle } from "@yoast/helpers";
 
 const CardRegularButton = styled.a`

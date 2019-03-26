@@ -3,8 +3,8 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-/* Internal dependencies */
-import { colors } from "../style-guide";
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
 
 const YoastHelpText = styled.p`
 	color: ${ props => props.textColor };
