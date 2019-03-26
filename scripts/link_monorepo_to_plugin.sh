@@ -46,13 +46,13 @@ yarn link-all
 cd ..
 
 # Get all the packages inside the yoastseo package.json that are scoped using @yoast
-packages=($(cat package.json | tr '"' '\n' | grep -w @yoast))
+packages=($(ls javascript/packages))
 
 for package in ${packages[@]}
 do
-   echo -e "Linking ${package}\n"
+   echo -e "Linking @yoast/${package}\n"
    # We don't want to exit on errors since there are some packages that we simply can't link (yet).
-   yarn link ${package} || true
+   yarn link @yoast/${package} || true
 done
 
 # Manually link yoast-components and yoastseo because they don't adhere to the new naming conventions (yet).
