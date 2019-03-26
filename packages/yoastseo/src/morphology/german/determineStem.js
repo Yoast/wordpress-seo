@@ -1,5 +1,6 @@
 import { flatten } from "lodash-es";
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
+import { allGermanVerbPrefixesSorted } from "./helpers";
 
 import stem from "./stem";
 
@@ -64,14 +65,16 @@ const findStemOnAdjectiveExceptionList = function( morphologyDataAdjectives, ste
 const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord ) {
 	let wordToCheck = stemmedWord;
 	const strongVerbStems = morphologyDataVerbs.strongVerbs.stems;
-	const prefixes = morphologyDataVerbs.verbPrefixes;
+	const prefixes = allGermanVerbPrefixesSorted( morphologyDataVerbs.prefixes );
 
 	let matchedPrefix = prefixes.find( prefix => stemmedWord.startsWith( prefix ) );
 
 	if ( matchedPrefix ) {
 		const wordWithoutPrefix = wordToCheck.slice( matchedPrefix.length, wordToCheck.length );
 
-		// At least 3 characters so that e.g. "be" is not found in the stem "berg".
+		/* At least 3 characters so that e.g. "be" is not found in the stem "berg". A minimum length of 3 was chosen
+		 * as a safe option, since 2-letter verb stems are highly unlikely to impossible.
+		 */
 		if ( wordWithoutPrefix.length > 2 ) {
 			wordToCheck = wordWithoutPrefix;
 		} else {
@@ -85,10 +88,11 @@ const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord )
 
 		if ( stems.includes( wordToCheck ) ) {
 			if ( matchedPrefix ) {
-				return matchedPrefix + stems[ 0 ];
+				// The present tense stem is returned as a default stem.
+				return matchedPrefix + strongVerbParadigm.stems.present;
 			}
 
-			return stems[ 0 ];
+			return strongVerbParadigm.stems.present;
 		}
 	}
 
