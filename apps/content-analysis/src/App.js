@@ -2,10 +2,10 @@
 import { setLocaleData } from "@wordpress/i18n";
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
-import testPapers from "yoastspec/fullTextTests/testTexts";
-import Paper from "yoastsrc/values/Paper";
-import getMorphologyData from "yoastspec/specHelpers/getMorphologyData";
-import getLanguage from "yoastsrc/helpers/getLanguage";
+import testPapers from "yoastseo/spec/fullTextTests/testTexts";
+import { Paper } from "yoastseo";
+import getMorphologyData from "yoastseo/spec/specHelpers/getMorphologyData";
+import getLanguage from "yoastseo/src/helpers/getLanguage";
 
 // Internal dependencies.
 import Collapsible from "./components/Collapsible";

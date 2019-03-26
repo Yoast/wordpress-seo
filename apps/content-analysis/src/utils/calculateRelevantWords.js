@@ -2,13 +2,13 @@ import { get, isEqual, take } from "lodash-es";
 import getLanguage from "yoastsrc/helpers/getLanguage";
 import getWords from "yoastsrc/stringProcessing/getWords";
 import {
+	collapseRelevantWordsOnStem,
 	getRelevantWords,
 	getRelevantWordsFromPaperAttributes,
-	collapseRelevantWordsOnStem,
 	getRelevantCombinations,
+	sortCombinations,
 } from "yoastsrc/stringProcessing/relevantWords";
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "yoastsrc/stringProcessing/getSubheadings";
-import { sortCombinations } from "../../../../src/stringProcessing/relevantWords";
 import getMorphologyData from "./getMorphologyData";
 
 const morphologyData = getMorphologyData();

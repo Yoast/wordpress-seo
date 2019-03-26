@@ -7,7 +7,8 @@
   "license": "GPL",
   "private": true,
   "scripts": {
-    "start": "concurrently --kill-others \"stubby -d stubby/endpoints.yaml\" \"webpack-dev-server --mode=development\""
+    "start": "concurrently --kill-others \"stubby -d stubby/endpoints.yaml\" \"webpack-dev-server --mode=development\"",
+    "test": "jest"
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
@@ -16,7 +17,9 @@
     "prop-types": "15.7.2",
     "@wordpress/i18n": "1.2.3",
     "@yoast/search-metadata-previews": "^1.0.0",
-    "lodash": "4.17.11"
+    "lodash": "4.17.11",
+    "@yoast/components": "^1.0.0",
+    "@yoast/style-guide": "^0.1.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.3.4",
@@ -44,6 +47,16 @@
     "react-intl": "^2.4.0",
     "redux": "4.0.1",
     "react-redux": "6.0.1"
+  },
+  "jest": {
+    "testRegex": ".*Test.js$",
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+    ]
   },
   "browserify": {
     "transform": [

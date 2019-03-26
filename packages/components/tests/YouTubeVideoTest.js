@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import YouTubeVideo from "../YouTubeVideo.js";
+import YouTubeVideo from "../src/YouTubeVideo.js";
 
 test( "the YouTubeVideo component matches the snapshot", () => {
 	const component = renderer.create(

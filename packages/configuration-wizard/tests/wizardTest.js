@@ -17,12 +17,14 @@ jest.mock( "@yoast/helpers", () => {
 	 *
 	 * @returns {promise} A test promise.
 	 */
+
 	const ajaxHelper = () => {
 		return new Promise( ( resolve ) => {
 			resolve( "test" );
 		} );
 	};
-	return { ajaxHelper };
+
+	return { ...jest.requireActual( "@yoast/helpers" ), ajaxHelper };
 } );
 
 /**

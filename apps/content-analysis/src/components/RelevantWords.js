@@ -5,7 +5,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 
 // Internal dependencies.
-import { relevantWordsForInternalLinking, relevantWordsForInsights } from "../utils/calculateRelevantWords";
+import { relevantWordsForInternalLinking } from "../utils/calculateRelevantWords";
 
 // Determine which columns to display.
 const columns = [

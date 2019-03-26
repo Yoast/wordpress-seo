@@ -3,8 +3,11 @@
  *
  * @type {{url: string, headers: {X-WP-Nonce: string}}}
  */
+let host = "localhost";
 
-const host = window.location.host.split( ":" )[ 0 ];
+if ( typeof window !== "undefined" ) {
+	host = window.location.host.split( ":" )[ 0 ];
+}
 
 const apiConfig = {
 	url: "http://" + host + ":8882/onboarding",
