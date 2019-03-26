@@ -4,8 +4,10 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
+
 /* Internal dependencies */
-import { colors } from "@yoast/components/style-guide";
 import AnalysisList from "./AnalysisList";
 import Collapsible, { StyledIconsButton } from "../../../../composites/Plugin/Shared/components/Collapsible";
 
