@@ -61,7 +61,7 @@ class WPSEO_WP_Data implements WPSEO_WordPress_Integration {
 		$request = new WP_REST_Request( 'GET', '/wp/v2/taxonomies' );
 		$request->set_query_params( array(
 			'type' => get_current_screen()->post_type,
-			'per_page' => '-1' ,
+			'per_page' => '-1',
 		) );
 
 		$response = rest_do_request( $request );
