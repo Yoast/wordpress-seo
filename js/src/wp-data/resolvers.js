@@ -10,7 +10,7 @@ const DEFAULT_PARAMS = {
 };
 
 /**
- * Utility function to turn an object into query parameters.
+ * Turns an object into query params.
  *
  * @param {object} params Key value pairs representing query parameters.
  *
@@ -52,13 +52,13 @@ export function* getTerms( taxonomySlug ) {
 /**
  * Resolver for retrieving a list of taxonomies.
  *
- * @param {string} posttype The post type.
+ * @param {string} postType The post type.
  *
  * @returns {object} Action object.
  */
-export function* getTaxonomies( posttype ) {
+export function* getTaxonomies( postType ) {
 	const taxonomies = yield actions.fetchFromAPI( {
-		path: `/wp/v2/taxonomies?${ buildQueryString( { type: posttype } ) }`,
+		path: `/wp/v2/taxonomies?${ buildQueryString( { type: postType } ) }`,
 	} );
 
 	return actions.setTaxonomies( taxonomies );
