@@ -17,6 +17,12 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	 * @var WPSEO_Schema_Context
 	 */
 	private $context;
+	/**
+	 * Current position in the List.
+	 *
+	 * @var int
+	 */
+	private $index;
 
 	/**
 	 * WPSEO_Schema_Breadcrumb constructor.
@@ -70,25 +76,12 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 				$broken = true;
 				break;
 			}
+			$list_elements[] = $this->add_breadcrumb( $index, $breadcrumb );
+			$this->index     = $index;
+		}
 
-			if ( empty( $breadcrumb['url'] ) ) {
-				$breadcrumb['url'] = $this->context->canonical;
-			}
-
-			if ( empty( $breadcrumb['text'] ) ) {
-				$breadcrumb['url'] = $this->context->title;
-			}
-
-			$list_elements[] = array(
-				'@type'    => 'ListItem',
-				'position' => ( $index + 1 ),
-				'item'     => array(
-					'@type' => 'WebPage',
-					'@id'   => $breadcrumb['url'],
-					'url'   => $breadcrumb['url'], // For future proofing, we're trying to change the standard for this.
-					'name'  => $breadcrumb['text'],
-				),
-			);
+		if ( is_paged() ) {
+			$list_elements[] = $this->add_paginated_state();
 		}
 
 		$data = array(
@@ -103,5 +96,51 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns a breadcrumb array.
+	 *
+	 * @param int   $index      The position in the list.
+	 * @param array $breadcrumb The breadcrumb array.
+	 *
+	 * @return array A breadcrumb listItem
+	 */
+	private function add_breadcrumb( $index, $breadcrumb ) {
+		if ( empty( $breadcrumb['url'] ) ) {
+			if ( is_paged() ) {
+				// Retrieve the un-paginated state of the current page.
+				$breadcrumb['url'] = WPSEO_Frontend::get_instance()->canonical( false, true );
+			}
+			else {
+				$breadcrumb['url'] = $this->context->canonical;
+			}
+		}
+
+		if ( empty( $breadcrumb['text'] ) ) {
+			$breadcrumb['url'] = $this->context->title;
+		}
+
+		return array(
+			'@type'    => 'ListItem',
+			'position' => ( $index + 1 ),
+			'item'     => array(
+				'@type' => 'WebPage',
+				'@id'   => $breadcrumb['url'],
+				'url'   => $breadcrumb['url'], // For future proofing, we're trying to change the standard for this.
+				'name'  => $breadcrumb['text'],
+			),
+		);
+	}
+
+	/**
+	 * @return array
+	 */
+	private function add_paginated_state() {
+		$this->index++;
+		return $this->add_breadcrumb( $this->index, array(
+			'url'  => $this->context->canonical,
+			'text' => $this->context->title,
+		) );
 	}
 }
