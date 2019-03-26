@@ -186,15 +186,10 @@ class Yoast_Form {
 	 * @since 2.0
 	 */
 	public function admin_sidebar() {
-
 		// No banners in Premium.
-		if ( class_exists( 'WPSEO_Product_Premium' ) ) {
-			$product_premium   = new WPSEO_Product_Premium();
-			$extension_manager = new WPSEO_Extension_Manager();
-
-			if ( $extension_manager->is_activated( $product_premium->get_slug() ) ) {
-				return;
-			}
+		$addon_manager = new WPSEO_Addon_Manager();
+		if ( $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) && WPSEO_Utils::is_yoast_seo_premium() ) {
+			return;
 		}
 
 		require_once 'views/sidebar.php';
@@ -468,6 +463,7 @@ class Yoast_Form {
 		echo $wrapper_start_tag;
 		$select->output_html();
 		echo $wrapper_end_tag;
+		echo '<br class="clear"/>';
 	}
 
 	/**
