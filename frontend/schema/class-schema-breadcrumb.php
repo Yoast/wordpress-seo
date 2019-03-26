@@ -104,7 +104,7 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	 * @param int   $index      The position in the list.
 	 * @param array $breadcrumb The breadcrumb array.
 	 *
-	 * @return array A breadcrumb listItem
+	 * @return array A breadcrumb listItem.
 	 */
 	private function add_breadcrumb( $index, $breadcrumb ) {
 		if ( empty( $breadcrumb['url'] ) ) {
@@ -134,7 +134,9 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * @return array
+	 * Adds the paginated state to the breadcrumb array.
+	 *
+	 * @return array A breadcrumb listItem.
 	 */
 	private function add_paginated_state() {
 		$this->index++;
