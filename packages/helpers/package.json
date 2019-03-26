@@ -8,6 +8,10 @@
     "url": "https://github.com/Yoast/javascript.git",
     "directory": "packages/helpers"
   },
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint ."
+  },
   "author": "Yoast",
   "license": "GPL-3.0",
   "private": false,

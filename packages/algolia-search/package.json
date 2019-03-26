@@ -36,7 +36,8 @@
     "react-test-renderer": "16.8.4"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint ."
   },
   "jest": {
     "testURL": "https://example.org",
