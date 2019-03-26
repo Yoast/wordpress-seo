@@ -193,7 +193,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 				break;
 		}
 
-		return $url . WPSEO_Schema_Context::AUTHOR_HASH;
+		return $url . WPSEO_Schema_Context::PERSON_HASH;
 	}
 
 	/**

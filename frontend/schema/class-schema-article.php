@@ -81,7 +81,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return string
 	 */
 	private function get_author_url( $post ) {
-		if ( $this->context->site_represents === 'person' && $this->context->site_user_id === $post->post_author ) {
+		if ( $this->context->site_represents === 'person' && $this->context->site_user_id === (int) $post->post_author ) {
 			return $this->context->site_url . WPSEO_Schema_Context::PERSON_HASH;
 		}
 
