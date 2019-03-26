@@ -6,5 +6,30 @@
   "repository": "https://github.com/Yoast/javascript",
   "author": "Yoast",
   "license": "GPL-3.0",
-  "private": false
+  "private": false,
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "prop-types": "^15.6.0",
+    "styled-components": "^2.1.2",
+    "@yoast/components": "^1.0.0"
+  },
+  "devDependencies": {
+    "react-test-renderer": "^16.2.0",
+    "jest-styled-components": "^5.0.1",
+    "jest": "^22.4.3",
+    "jest-cli": "^22.4.3",
+    "jest-runtime": "^22.4.3"
+  },
+  "peerDependencies": {
+    "react": "^16.2.0",
+    "react-dom": "16.2.0"
+  },
+  "jest": {
+    "testRegex": ".*Test.js$",
+    "testURL": "http://localhost",
+    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
+  }
 }
