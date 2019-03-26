@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "Package for our configuration wizard",
   "main": "src/index.js",
-  "repository": "https://github.com/Yoast/javascript",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/configuration-wizard"
+  },
   "author": "Yoast",
   "license": "GPL-3.0",
   "private": false,
@@ -17,7 +21,8 @@
     "interpolate-components": "^1.1.1",
     "lodash": "^4.17.11",
     "@yoast/components": "^1.0.0",
-    "@yoast/helpers": "^0.1.0"
+    "@yoast/helpers": "^0.1.0",
+    "@yoast/style-guide": "^0.1.0"
   },
   "devDependencies": {
     "jest": "^22.4.3",
@@ -32,12 +37,9 @@
     "enzyme": "3.9.0",
     "enzyme-adapter-react-16": "1.10.0",
     "enzyme-to-json": "3.3.5",
-    "react-test-renderer": "^16.8.4",
-    "eslint": "^4.16.0",
-    "eslint-config-yoast": "^4.0.0",
-    "eslint-plugin-jsx-a11y": "^3.0.2",
-    "eslint-plugin-react": "^7.11.1",
-    "eslint-plugin-yoast": "^1.0.1"
+    "react": "16.6.3",
+    "react-dom": "16.6.3",
+    "react-test-renderer": "^16.8.4"
   },
   "peerDependencies": {
     "material-ui": "^0.18.6",

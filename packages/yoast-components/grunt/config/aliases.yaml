@@ -5,17 +5,8 @@ build:
   - 'build:css'
 # Build CSS
 'build:css':
-  - 'scss_to_json'
   - 'sass:build'
   - 'postcss:build'
 
-# Check health of the project
-check:
-  - 'eslint'
-
 publish:
   - 'copy:publish'
-
-# Default task
-default:
-- check

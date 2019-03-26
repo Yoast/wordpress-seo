@@ -5,6 +5,16 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.50.0 March 25th, 2019
+### Added
+* Adds word form recognition for German.
+* Adds more transition words for Swedish.
+* Adds visualization of the tree to the dev tool.
+
+### Changed
+* Increases the recommended sentence length limit for Spanish and Catalan, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
+* Improves list of Catalan transition words, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
+
 ## 1.49.0 March 11th, 2019
 ### Added
 * The recalibrated analysis is out of its beta phase and is now the default for the SEO analysis. Thanks for testing and giving us your valuable feedback! You are awesome!

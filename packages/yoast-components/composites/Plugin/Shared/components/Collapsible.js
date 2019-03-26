@@ -3,10 +3,13 @@ import React from "react";
 import styled from "styled-components";
 import omit from "lodash/omit";
 
-import { colors } from "@yoast/components/style-guide";
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
+import { SectionTitle } from "@yoast/components";
+import { getDirectionalStyle } from "@yoast/helpers";
+
+// Internal dependencies.
 import { IconsButton } from "../../Shared/components/Button";
-import { getRtlStyle } from "@yoast/components";
-import { SectionTitle } from "./SectionTitle";
 
 const Content = styled.div`
 	padding: 0 16px;
@@ -47,10 +50,10 @@ export const StyledIconsButton = styled( IconsButton )`
 	svg {
 		${ props => props.hasSubTitle ? "align-self: flex-start;" : "" }
 		&:first-child {
-			${ getRtlStyle( "margin-right: 8px", "margin-left: 8px" ) };
+			${ getDirectionalStyle( "margin-right: 8px", "margin-left: 8px" ) };
 		}
 		&:last-child {
-			${ getRtlStyle( "margin-left: 8px", "margin-right: 8px" ) };
+			${ getDirectionalStyle( "margin-left: 8px", "margin-right: 8px" ) };
 		}
 	}
 `;

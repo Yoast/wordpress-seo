@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import Heading from "../Heading.js";
+import Heading from "../src/Heading.js";
 
 test( "the Heading without props matches the snapshot", () => {
 	const component = renderer.create(

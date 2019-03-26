@@ -3,11 +3,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { defineMessages, injectIntl, intlShape } from "react-intl";
-import { YoastButton, SvgIcon } from "yoast-components";
-import { colors, breakpoints } from "@yoast/components/style-guide";
 
-import { YoastLinkButton } from "yoast-components/composites/Plugin/Shared/components/YoastLinkButton";
-import { makeOutboundLink } from "yoast-components/utils/makeOutboundLink";
+/* Yoast dependencies */
+import { YoastButton, SvgIcon, YoastLinkButton } from "@yoast/components";
+import { makeOutboundLink } from "@yoast/helpers";
+import { colors, breakpoints } from "@yoast/style-guide";
 
 /* Internal imports */
 import ArticleContent from "./ArticleContent";

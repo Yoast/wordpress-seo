@@ -3,21 +3,26 @@
   "version": "1.0.0",
   "description": "A packages that allows integration with Algolia Search",
   "main": "src/index.js",
-  "repository": "https://github.com/Yoast/javascript",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/algolia-search"
+  },
   "author": "Yoast",
   "license": "GPL-3.0",
   "private": false,
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",
     "@wordpress/i18n": "^1.1.0",
+    "@yoast/components": "^1.0.0",
+    "@yoast/helpers": "^0.1.0",
+    "@yoast/style-guide": "^0.1.0",
     "algoliasearch": "^3.22.3",
     "lodash": "^4.17.4",
     "prop-types": "^15.6.0",
     "react": "16.6.3",
     "react-intl": "^2.4.0",
-    "styled-components": "^2.1.2",
-    "yoast-components": "^4.22.1",
-    "@yoast/components": "^1.0.0"
+    "styled-components": "^2.1.2"
   },
   "devDependencies": {
     "babel-jest": "^24.5.0",
