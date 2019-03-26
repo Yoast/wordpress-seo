@@ -41,6 +41,8 @@ class WPSEO_WP_Data implements WPSEO_WordPress_Integration {
 	/**
 	 * Get localized data.
 	 *
+	 * Allows developers to pre-populate the data, so not everything has to be retrieved on the fly.
+	 *
 	 * @return array Data to localize.
 	 */
 	public function get_localized_data() {
