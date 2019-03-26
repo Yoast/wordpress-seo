@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 import { default as Button } from "./Button";
 import { SvgIcon } from "../index";
 
-
 /**
  * Returns an icons button that can optionally contain a prefix and / or a suffix icon.
  *

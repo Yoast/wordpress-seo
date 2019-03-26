@@ -8,7 +8,7 @@ import uniqueId from "lodash/uniqueId";
 import { SvgIcon, HelpText, Button } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors, rgba } from "@yoast/style-guide";
-import { YoastSlideToggle } from "yoast-components/utils/animations";
+import { YoastSlideToggle } from "../helpers/animations";
 
 const HelpTextContainer = styled.div`
 	max-width: 600px;

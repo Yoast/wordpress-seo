@@ -11,6 +11,19 @@ import { getDirectionalStyle } from "@yoast/helpers";
 import { default as Button } from "./Button";
 import { SvgIcon } from "../index";
 
+/**
+ * Applies styles to SvgIcon for IconButton with text.
+ *
+ * @param {ReactElement} icon The original SvgIcon.
+ *
+ * @returns {ReactElement} SvgIcon with text styles applied.
+ */
+function addIconTextStyle( icon ) {
+	return styled( icon )`
+		margin: ${ getDirectionalStyle( "0 8px 0 0", "0 0 0 8px" ) };
+		flex-shrink: 0;
+	`;
+}
 
 /**
  * Returns an icon button that can optionally contain text.
@@ -50,20 +63,5 @@ IconButton.propTypes = {
 IconButton.defaultProps = {
 	iconColor: "#000",
 };
-
-
-/**
- * Applies styles to SvgIcon for IconButton with text.
- *
- * @param {ReactElement} icon The original SvgIcon.
- *
- * @returns {ReactElement} SvgIcon with text styles applied.
- */
-function addIconTextStyle( icon ) {
-	return styled( icon )`
-		margin: ${ getDirectionalStyle( "0 8px 0 0", "0 0 0 8px" ) };
-		flex-shrink: 0;
-	`;
-}
 
 export default IconButton;

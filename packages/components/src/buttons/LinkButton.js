@@ -2,7 +2,7 @@
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-// Yoast dependencies
+// Yoast dependencies.
 import { colors, rgba } from "@yoast/style-guide";
 
 // Internal dependencies.

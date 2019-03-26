@@ -1,6 +1,7 @@
 // External dependencies.
 import React from "react";
 import styled from "styled-components";
+
 // Yoast dependencies.
 import {
 	BaseButton,
@@ -16,7 +17,6 @@ import {
 	YoastButton,
 	YoastLinkButton
 } from "@yoast/components";
-import { Button as FormButton } from "yoast-components/forms";
 
 const ButtonsContainer = styled.div`
 	max-width: 800px;
@@ -126,12 +126,6 @@ export default class ButtonsList extends React.Component {
 					Custom Active
 				</IconLabeledButton>
 				<IconLabeledButton icon="plus" textFontSize="13px">Custom Font Size</IconLabeledButton>
-				<Separator />
-				<FormButton
-					text="FormButton" onClick={ () => {
-					// eslint-disable-next-line no-console
-					console.info( "hello FormButton clickButton");
-				} } />
 				<Separator />
 				<h2>Special cases</h2>
 				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ " " }
