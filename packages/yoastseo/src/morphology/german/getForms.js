@@ -104,7 +104,7 @@ const addFormsWithRemovedLetters = function( morphologyDataNouns, stemmedWordToC
  * @param {string} word             The word to create the forms for.
  * @param {Object} morphologyData   The German morphology data (false if unavailable).
  *
- * @returns {{forms: Array<string>, stem: string}} An object with the forms created and the stemmed word.
+ * @returns {Array<string>} The created word forms.
  */
 export function getForms( word, morphologyData ) {
 	const stemmedWord = stem( word );
