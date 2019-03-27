@@ -1,6 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Collapsible matches the snapshot by default 1`] = `
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c8 {
   color: #555;
   border-color: #ccc;
@@ -70,23 +87,6 @@ exports[`Collapsible matches the snapshot by default 1`] = `
 
 .c3 {
   font-size: 0.8rem;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c0 {
@@ -199,6 +199,23 @@ exports[`Collapsible matches the snapshot by default 1`] = `
 `;
 
 exports[`Collapsible matches the snapshot by default 2`] = `
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c8 {
   color: #555;
   border-color: #ccc;
@@ -268,23 +285,6 @@ exports[`Collapsible matches the snapshot by default 2`] = `
 
 .c3 {
   font-size: 0.8rem;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c0 {
@@ -409,6 +409,23 @@ exports[`Collapsible matches the snapshot by default 2`] = `
 `;
 
 exports[`Collapsible matches the snapshot by default when the collapsible has an ID 1`] = `
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c8 {
   color: #555;
   border-color: #ccc;
@@ -478,23 +495,6 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
 
 .c3 {
   font-size: 0.8rem;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c0 {
@@ -607,6 +607,23 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
 `;
 
 exports[`Collapsible matches the snapshot by default when the collapsible has an ID 2`] = `
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c8 {
   color: #555;
   border-color: #ccc;
@@ -676,23 +693,6 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
 
 .c3 {
   font-size: 0.8rem;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c0 {
@@ -817,6 +817,23 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
 `;
 
 exports[`Collapsible matches the snapshot when it is closed 1`] = `
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c8 {
   color: #555;
   border-color: #ccc;
@@ -886,23 +903,6 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
 
 .c3 {
   font-size: 0.8rem;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c0 {
@@ -1015,6 +1015,23 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
 `;
 
 exports[`Collapsible matches the snapshot when it is closed 2`] = `
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c8 {
   color: #555;
   border-color: #ccc;
@@ -1084,23 +1101,6 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
 
 .c3 {
   font-size: 0.8rem;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c0 {
@@ -1225,6 +1225,23 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
 `;
 
 exports[`Collapsible matches the snapshot when it is open 1`] = `
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c8 {
   color: #555;
   border-color: #ccc;
@@ -1294,23 +1311,6 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
 
 .c3 {
   font-size: 0.8rem;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c0 {
@@ -1435,6 +1435,23 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
 `;
 
 exports[`Collapsible matches the snapshot when it is open 2`] = `
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c8 {
   color: #555;
   border-color: #ccc;
@@ -1504,23 +1521,6 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
 
 .c3 {
   font-size: 0.8rem;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c0 {
@@ -1633,6 +1633,23 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
 `;
 
 exports[`CollapsibleStateless matches the snapshot by default 1`] = `
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c8 {
   color: #555;
   border-color: #ccc;
@@ -1702,23 +1719,6 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
 
 .c3 {
   font-size: 0.8rem;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c0 {
@@ -1813,6 +1813,23 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
 `;
 
 exports[`CollapsibleStateless matches the snapshot when it is opened and closed 1`] = `
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c8 {
   color: #555;
   border-color: #ccc;
@@ -1882,23 +1899,6 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 
 .c3 {
   font-size: 0.8rem;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c0 {
@@ -1993,6 +1993,23 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 `;
 
 exports[`CollapsibleStateless matches the snapshot when it is opened and closed 2`] = `
+.c9 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c10 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c8 {
   color: #555;
   border-color: #ccc;
@@ -2062,23 +2079,6 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 
 .c3 {
   font-size: 0.8rem;
-}
-
-.c9 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c10 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c0 {
@@ -2173,6 +2173,23 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 `;
 
 exports[`CollapsibleStateless matches the snapshot with prefix seo icon and screen reader text 1`] = `
+.c10 {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  overflow-x: hidden;
+  line-height: normal;
+}
+
+.c11 {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #555;
+}
+
 .c8 {
   color: #555;
   border-color: #ccc;
@@ -2242,23 +2259,6 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
 
 .c3 {
   font-size: 0.8rem;
-}
-
-.c10 {
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-  overflow-x: hidden;
-  line-height: normal;
-}
-
-.c11 {
-  display: block;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow-x: hidden;
-  color: #555;
 }
 
 .c0 {

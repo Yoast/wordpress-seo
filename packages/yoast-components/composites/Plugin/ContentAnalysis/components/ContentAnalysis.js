@@ -1,3 +1,1 @@
-import { ContentAnalysis } from "@yoast/analysis-report";
-
-export default ContentAnalysis;
+export { ContentAnalysis as default } from "@yoast/analysis-report";

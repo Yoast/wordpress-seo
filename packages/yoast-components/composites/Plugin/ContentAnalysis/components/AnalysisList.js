@@ -1,4 +1,1 @@
-import { AnalysisList, renderRatingToColor } from "@yoast/analysis-report";
-
-export { AnalysisList, renderRatingToColor };
-export default AnalysisList;
+export { AnalysisList as default, renderRatingToColor } from "@yoast/analysis-report";

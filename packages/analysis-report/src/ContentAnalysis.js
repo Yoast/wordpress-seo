@@ -1,15 +1,14 @@
-/* External dependencies */
+// External dependencies.
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
-/* Yoast dependencies */
+// Yoast dependencies.
 import { colors } from "@yoast/style-guide";
-import { Collapsible } from "yoast-components";
-import { StyledIconsButton } from "yoast-components/composites/Plugin/Shared/components/Collapsible";
+import { Collapsible, StyledIconsButton } from "@yoast/components";
 
-/* Internal dependencies */
+// Internal dependencies.
 import AnalysisList from "./AnalysisList";
 
 const ContentAnalysisContainer = styled.div`

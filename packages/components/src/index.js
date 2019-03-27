@@ -21,6 +21,15 @@ export {
 	addButtonStyles,
 } from "./buttons/Button";
 
+export {
+	default as Collapsible,
+	CollapsibleStateless,
+	StyledIconsButton,
+	StyledContainer,
+	StyledContainerTopLevel,
+	wrapInHeading,
+} from "./Collapsible";
+
 export { default as IconLabeledButton } from "./buttons/IconLabeledButton";
 export { default as IconButton } from "./buttons/IconButton";
 export { default as IconsButton } from "./buttons/IconsButton";
@@ -57,7 +66,6 @@ export { default as YoastSeoIcon } from "./YoastSeoIcon";
 export { default as YoastTabs } from "./YoastTabs";
 export { default as YoastWarning } from "./YoastWarning";
 export { default as YouTubeVideo } from "./YouTubeVideo";
-
 export { default as SynonymsInput } from "./SynonymsInput";
 
 export { ListTable, ZebrafiedListTable } from "./table/ListTable";

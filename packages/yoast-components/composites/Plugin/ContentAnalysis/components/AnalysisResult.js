@@ -1,2 +1,1 @@
-import { AnalysisResult } from "@yoast/analysis-report";
-export default AnalysisResult;
+export { AnalysisResult as default } from "@yoast/analysis-report";
