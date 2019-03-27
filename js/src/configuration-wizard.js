@@ -3,8 +3,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 // Required to make Material UI work with touch screens.
-import ConfigurationWizard, { MessageBox, MailchimpSignup, ConnectGoogleSearchConsole } from "@yoast/configuration-wizard";
+import ConfigurationWizard, { MessageBox } from "@yoast/configuration-wizard";
 
+
+import MailchimpSignup from "./components/MailchimpSignup";
+import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 import MediaUpload from "./components/MediaUpload";
 import Suggestions from "./components/Suggestions";
 import FinalStep from "./components/FinalStep";
