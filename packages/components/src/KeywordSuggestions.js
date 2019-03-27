@@ -82,7 +82,8 @@ const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
 			() => {
 				return getKeywordResearchArticleLink();
 			}
-		} />
+		}
+	/>
 	);
 };
 

@@ -52,11 +52,11 @@ WordList.propTypes = {
 
 WordList.defaultProps = {
 	classNamePrefix: "",
-	showBeforeList: words => {
-		return '';
+	showBeforeList: () => {
+		return "";
 	},
 	showAfterList: () => {
-		return '';
+		return "";
 	},
 };
 
