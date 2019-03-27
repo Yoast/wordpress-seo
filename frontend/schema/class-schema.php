@@ -101,8 +101,10 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 		/**
 		 * Filter: 'wpseo_schema_graph_pieces' - Allows adding pieces to the graph.
 		 *
+		 * @param WPSEO_Schema_Context $context An object with context variables.
+		 *
 		 * @api array $pieces The schema pieces.
 		 */
-		return apply_filters( 'wpseo_schema_graph_pieces', $pieces );
+		return apply_filters( 'wpseo_schema_graph_pieces', $pieces, $context );
 	}
 }
