@@ -1,5 +1,4 @@
 // External dependencies.
-import React from "react";
 import styled from "styled-components";
 import flow from "lodash/flow";
 import PropTypes from "prop-types";
