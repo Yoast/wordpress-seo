@@ -14,8 +14,6 @@ import PropTypes from "prop-types";
  * @returns {JSX.Element} Rendered WordList component.
  */
 const WordList = ( { title, classNamePrefix, words, limit, showBeforeList, showAfterList } ) => {
-	const showBeforeListValue =( <p>{ showBeforeList( words ) }</p> );
-
 	const list = (
 		<ol className={ classNamePrefix + "__list" }>
 			{ words.map( ( word ) => {
@@ -34,7 +32,7 @@ const WordList = ( { title, classNamePrefix, words, limit, showBeforeList, showA
 	return (
 		<div className={ classNamePrefix }>
 			<p><strong>{ title }</strong></p>
-			{ showBeforeListValue }
+			{ showBeforeList( words ) }
 			{ list }
 			{ showAfterList() }
 		</div>

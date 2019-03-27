@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import interpolateComponents from "interpolate-components";
 import { __, sprintf } from "@wordpress/i18n";
-import { WordList } from "@yoast/wordlist";
+import WordList from "./WordList";
 
 /**
  * @summary Translates and returns the keyword research article link.
@@ -66,16 +66,19 @@ const getKeywordSuggestionExplanation = ( keywords ) => {
  * @returns {JSX.Element} Rendered WordList component.
  */
 const KeywordSuggestions = ( { relevantWords, keywordLimit  } ) => {
-	const keywords    = relevantWords.slice( 0, keywordLimit ).map( word => word.getCombination() );
-	const explanation = ( <p>{ getKeywordSuggestionExplanation( keywords ) }</p> );
+	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => word.getCombination() );
 
 	return ( <WordList
 			title={ __( "Prominent words", "yoast-components" ) }
 			words={ keywords }
 			limit={ keywordLimit }
 			classNamePrefix="yoast-keyword-suggestions"
-			showBeforeList={ explanation }
-			showAfterList={ getKeywordResearchArticleLink() } />
+			showBeforeList={ ( keywords ) => {
+				return  ( <p>{ getKeywordSuggestionExplanation( keywords ) }</p> );
+			} }
+			showAfterList={ () => {
+				return getKeywordResearchArticleLink();
+			} } />
 	);
 };
 
