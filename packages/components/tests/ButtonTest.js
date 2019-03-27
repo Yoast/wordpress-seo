@@ -1,7 +1,9 @@
+// External dependencies.
 import React from "react";
 import renderer from "react-test-renderer";
 
-import { BaseButton, Button, IconButton } from "../components/Button";
+// Internal dependencies.
+import { IconButton, BaseButton, Button } from "../src/index"
 
 test( "the BaseButton matches the snapshot", () => {
 	const component = renderer.create(
