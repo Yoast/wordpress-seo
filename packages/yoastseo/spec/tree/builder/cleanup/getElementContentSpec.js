@@ -1,5 +1,5 @@
-import buildTree from "../../../../src/tree/builder";
-import getElementContent from "../../../../src/tree/builder/cleanup/getElementContent";
+import buildTree from "../../../../src/parsedPaper/build/tree/buildTree";
+import getElementContent from "../../../../src/parsedPaper/build/tree/cleanup/getElementContent";
 
 describe( "getElementContent", () => {
 	it( "returns the empty string when an element has no location information", () => {

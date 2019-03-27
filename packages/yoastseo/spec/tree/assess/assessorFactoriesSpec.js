@@ -1,11 +1,11 @@
-import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../../../src/tree/assess/scoreAggregators";
-import { TreeResearcher } from "../../../src/tree/research";
+import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../../../src/parsedPaper/assess/scoreAggregators";
+import { TreeResearcher } from "../../../src/parsedPaper/research";
 import factory from "../../specHelpers/factory.js";
 
 import {
 	constructReadabilityAssessor,
 	constructSEOAssessor,
-} from "../../../src/tree/assess/assessorFactories";
+} from "../../../src/parsedPaper/assess/assessorFactories";
 
 describe( "assessorFactories", () => {
 	let i18n;

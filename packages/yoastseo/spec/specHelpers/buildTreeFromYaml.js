@@ -1,6 +1,6 @@
 import { load } from "js-yaml";
 import { FormattingElement, Paragraph, TextContainer,
-	Heading, StructuredNode, List, ListItem, Ignored } from "../../src/tree/structure";
+	Heading, StructuredNode, List, ListItem, Ignored } from "../../src/parsedPaper/structure/tree";
 
 /**
  * Supports building a tree from a YAML-encoded string.

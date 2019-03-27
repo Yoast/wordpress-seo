@@ -1,4 +1,4 @@
-import TextContainer from "../../../src/tree/structure/TextContainer";
+import TextContainer from "../../../src/parsedPaper/structure/tree/TextContainer";
 
 describe( "TextContainer", () => {
 	describe( "constructor", () => {

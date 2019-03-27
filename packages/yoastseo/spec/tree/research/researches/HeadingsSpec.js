@@ -1,6 +1,6 @@
-import Headings from "../../../../src/tree/research/researches/Headings";
-import TreeResearcher from "../../../../src/tree/research/TreeResearcher";
-import Heading from "../../../../src/tree/structure/nodes/Heading";
+import Headings from "../../../../src/parsedPaper/research/researches/Headings";
+import TreeResearcher from "../../../../src/parsedPaper/research/TreeResearcher";
+import Heading from "../../../../src/parsedPaper/structure/tree/nodes/Heading";
 import buildTreeFromYaml from "../../../specHelpers/buildTreeFromYaml";
 
 describe( "Headings", () => {

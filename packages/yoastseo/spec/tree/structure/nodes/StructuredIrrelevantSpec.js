@@ -1,4 +1,4 @@
-import Ignored from "../../../../src/tree/structure/nodes/Ignored";
+import Ignored from "../../../../src/parsedPaper/structure/tree/nodes/Ignored";
 
 describe( "StructuredIrrelevant", () => {
 	describe( "constructor", () => {

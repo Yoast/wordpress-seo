@@ -1,4 +1,4 @@
-import { SEOScoreAggregator } from "../../../../src/tree/assess/scoreAggregators";
+import { SEOScoreAggregator } from "../../../../src/parsedPaper/assess/scoreAggregators";
 import AssessmentResult from "../../../../src/values/AssessmentResult";
 
 describe( "SEOScoreAggregator", () => {

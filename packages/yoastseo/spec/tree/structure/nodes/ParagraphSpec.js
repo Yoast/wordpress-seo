@@ -1,4 +1,4 @@
-import Paragraph from "../../../../src/tree/structure/nodes/Paragraph";
+import Paragraph from "../../../../src/parsedPaper/structure/tree/nodes/Paragraph";
 
 describe( "Paragraph tree node", () => {
 	describe( "constructor", () => {

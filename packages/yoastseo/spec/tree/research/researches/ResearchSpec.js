@@ -1,5 +1,5 @@
-import Research from "../../../../src/tree/research/researches/Research";
-import { Node } from "../../../../src/tree/structure";
+import Research from "../../../../src/parsedPaper/research/researches/Research";
+import { Node } from "../../../../src/parsedPaper/structure/tree";
 
 describe( "Research", () => {
 	beforeEach( () => {

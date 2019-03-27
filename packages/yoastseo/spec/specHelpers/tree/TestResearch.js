@@ -1,6 +1,6 @@
 import { sum } from "lodash-es";
-import Research from "../../../src/tree/research/researches/Research";
-import { LeafNode } from "../../../src/tree/structure";
+import Research from "../../../src/parsedPaper/research/researches/Research";
+import { LeafNode } from "../../../src/parsedPaper/structure/tree";
 
 /**
  * A researcher used for testing.

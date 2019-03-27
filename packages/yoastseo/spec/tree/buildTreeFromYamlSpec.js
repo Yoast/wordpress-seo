@@ -6,7 +6,7 @@ import {
 	StructuredNode,
 	ListItem,
 	FormattingElement,
-} from "../../src/tree/structure";
+} from "../../src/parsedPaper/structure/tree";
 import buildTreeFromYaml from "../specHelpers/buildTreeFromYaml";
 
 const treeString1 = `

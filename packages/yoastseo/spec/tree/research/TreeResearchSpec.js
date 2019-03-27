@@ -1,5 +1,5 @@
-import buildTree from "../../../src/tree/builder";
-import { TreeResearcher } from "../../../src/tree/research";
+import buildTree from "../../../src/parsedPaper/build/tree";
+import { TreeResearcher } from "../../../src/parsedPaper/research";
 import TestResearch from "../../specHelpers/tree/TestResearch";
 
 describe( "TreeResearcher", () => {

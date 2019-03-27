@@ -1,4 +1,4 @@
-import { ScoreAggregator } from "../../../src/tree/assess/scoreAggregators";
+import { ScoreAggregator } from "../../../src/parsedPaper/assess/scoreAggregators";
 
 /**
  * Score aggregator to test the Assessor functionality.

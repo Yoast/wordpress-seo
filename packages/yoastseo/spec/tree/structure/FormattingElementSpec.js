@@ -1,4 +1,4 @@
-import FormattingElement from "../../../src/tree/structure/FormattingElement";
+import FormattingElement from "../../../src/parsedPaper/structure/tree/FormattingElement";
 
 describe( "FormattingElement", () => {
 	describe( "constructor", () => {

@@ -1,6 +1,6 @@
-import { TreeAssessor } from "../../../src/tree/assess";
-import buildTree from "../../../src/tree/builder";
-import { TreeResearcher } from "../../../src/tree/research";
+import { TreeAssessor } from "../../../src/parsedPaper/assess";
+import buildTree from "../../../src/parsedPaper/build/tree";
+import { TreeResearcher } from "../../../src/parsedPaper/research";
 import Paper from "../../../src/values/Paper";
 
 import factory from "../../specHelpers/factory.js";

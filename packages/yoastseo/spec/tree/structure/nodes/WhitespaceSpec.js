@@ -1,4 +1,4 @@
-import Whitespace from "../../../../src/tree/structure/nodes/Whitespace";
+import Whitespace from "../../../../src/parsedPaper/structure/tree/nodes/Whitespace";
 
 describe( "Whitespace", () => {
 	describe( "constructor", () => {

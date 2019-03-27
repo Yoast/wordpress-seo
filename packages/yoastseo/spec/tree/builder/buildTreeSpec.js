@@ -1,6 +1,6 @@
-import buildTree from "../../../src/tree/builder";
+import buildTree from "../../../src/parsedPaper/build/tree";
 import { Paragraph, StructuredNode, FormattingElement,
-	List, ListItem, Ignored, Heading, TextContainer } from "../../../src/tree/structure";
+	List, ListItem, Ignored, Heading, TextContainer } from "../../../src/parsedPaper/structure/tree";
 
 import htmlFile from "../../fullTextTests/testTexts/en/englishPaper1.html";
 import htmlFile2 from "../../fullTextTests/testTexts/de/germanPaper2.html";
