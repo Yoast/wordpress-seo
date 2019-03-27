@@ -68,7 +68,7 @@ const getKeywordSuggestionExplanation = keywords => {
  *
  * @returns {JSX.Element} Rendered WordList component.
  */
-const KeywordSuggestions = ( { relevantWords, keywordLimit  } ) => {
+const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
 	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => word.getCombination() );
 
 	return ( <WordList
