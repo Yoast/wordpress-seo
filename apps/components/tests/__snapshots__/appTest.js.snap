@@ -77,7 +77,7 @@ exports[`App renders without problems 1`] = `
       style={Object {}}
       type="button"
     >
-      Keyword suggestions
+      WordList
     </button>
     <button
       onClick={[Function]}
