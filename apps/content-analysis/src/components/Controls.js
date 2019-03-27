@@ -2,8 +2,7 @@
 import { noop } from "lodash-es";
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
-import { IconButton } from "yoast-components/composites/Plugin/Shared/components/Button";
-import { Toggle } from "@yoast/components";
+import { Toggle, IconButton } from "@yoast/components";
 
 // Internal dependencies.
 import { setConfigurationAttribute } from "../redux/actions/configuration";
