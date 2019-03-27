@@ -31,6 +31,16 @@ const wordsToStem = [
 	[ "berg", "berg" ],
 	// Participles
 	[ "heraufgeholt", "heraufhol" ],
+	[ "gefürchtet", "fürcht" ],
+	// Some more tests
+	[ "häuser", "haus" ],
+	[ "personen", "person" ],
+	[ "züge", "zug" ],
+	[ "sonderzüge", "sonderzug" ],
+	[ "abgötter", "abgott" ],
+	[ "Altbauwohnungen", "Altbauwohnung" ],
+	[ "Altersdiskriminierung", "Altersdiskriminierung" ],
+	[ "Kraftwerke", "Kraftwerk" ],
 ];
 
 describe( "Test for determining stems for German words", () => {
