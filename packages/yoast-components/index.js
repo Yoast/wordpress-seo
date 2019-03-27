@@ -19,8 +19,6 @@ import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components
 
 // Composites/LinkSuggestions imports.
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
-// Composites/KeywordSuggestions imports.
-import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
 
 import { getDirectionalStyle } from "@yoast/helpers";
 
@@ -32,7 +30,6 @@ export {
 	HelpCenter,
 	MessageBox,
 	LinkSuggestions,
-	KeywordSuggestions,
 	ContentAnalysis,
 	Collapsible,
 	ButtonSection,
@@ -44,7 +41,6 @@ export {
 	AlgoliaSearcher,
 	colors,
 };
-
 
 export * from "./composites/Plugin/ContentAnalysis";
 export * from "@yoast/search-metadata-previews";
@@ -66,8 +62,13 @@ export { setReadabilityResults,
 	setOverallSeoScore } from "./composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 export {
+	Card,
+	FullHeightCard,
+	CardBanner,
+	CourseDetails as CardDetails,
 	HelpText,
 	Icon,
+	KeywordSuggestions,
 	LanguageNotice,
 	Loader,
 	ScoreAssessments,
@@ -79,9 +80,8 @@ export {
 	YoastModal,
 	YoastSeoIcon,
 	YoastWarning,
-	Card,
-	FullHeightCard,
-	CardBanner,
-	CourseDetails as CardDetails,
+	StyledSection,
+	StyledHeading,
+	StyledSectionBase,
 } from "@yoast/components";
 
