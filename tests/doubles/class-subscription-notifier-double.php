@@ -11,22 +11,22 @@
 class WPSEO_Subscription_Notifier_Double extends WPSEO_Subscription_Notifier {
 
 	/**
-	 * Gets the first add-on that will expire from teh add-on manager.
+	 * Gets the first add-on that will expire from the add-on manager.
 	 *
-	 * @returns stdClass Object representing a subscription.
+	 * @return stdClass|null Object representing a subscription.
 	 */
-	public function get_first_expiring_subscription() {
-		return parent::get_first_expiring_subscription();
+	public function determine_subscription_with_latest_expiry_date() {
+		return parent::determine_subscription_with_latest_expiry_date();
 	}
 
 	/**
-	 * Get the number of days until a subscription expires. 0 means the subscription has expired.
+	 * Calculates the number of days until a subscription expires. 0 or below means the subscription has expired.
 	 *
 	 * @param stdClass $subscription Subscription to get the subscription expiration time for.
 	 *
 	 * @return int Number of days until expiration.
 	 */
-	public function get_days_until_expiration( $subscription ) {
-		return parent::get_days_until_expiration( $subscription );
+	public function calculate_days_until_expiration( $subscription ) {
+		return parent::calculate_days_until_expiration( $subscription );
 	}
 }
