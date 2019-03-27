@@ -16,8 +16,11 @@ import { default as HelpCenter } from "./composites/Plugin/HelpCenter/HelpCenter
 import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
 // Composites/LinkSuggestions imports.
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
-// Composites/KeywordSuggestions imports.
-import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
+
+import { getDirectionalStyle } from "@yoast/helpers";
+
+const getRtlStyle = getDirectionalStyle;
+
 // Composites/CoursesOverview imports
 import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
 import { default as CardBanner } from "./composites/CoursesOverview/CardBanner";
@@ -30,7 +33,6 @@ export {
 	HelpCenter,
 	MessageBox,
 	LinkSuggestions,
-	KeywordSuggestions,
 	ContentAnalysis,
 	Collapsible,
 	ButtonSection,
@@ -71,6 +73,7 @@ export {
 export {
 	HelpText,
 	Icon,
+	KeywordSuggestions,
 	LanguageNotice,
 	Loader,
 	ScoreAssessments,

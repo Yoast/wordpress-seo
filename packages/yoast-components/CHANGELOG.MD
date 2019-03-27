@@ -152,7 +152,7 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Added
 * Add setOverallSeoScore and setOverallReadabilityScore reducer.
 * Add help text to the content analysis in the standalone.
-* Add a IconLabelledButton component to render a button with visible textual label.
+* Add a IconLabeledButton component to render a button with visible textual label.
 
 ### Fixed
 * Fix alignment of video in help center when no ads are present.

@@ -1,15 +1,15 @@
+// External dependencies.
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import flow from "lodash/flow";
 import omit from "lodash/omit";
 
-/* Yoast dependencies */
+// Yoast dependencies.
 import { colors } from "@yoast/style-guide";
 import { SvgIcon } from "@yoast/components";
 
 // Internal dependencies.
-// Note: the order of these imports matters for the styles order in the markup.
 import { addActiveStyle, addFocusStyle, addHoverStyle } from "./Button";
 
 /**
@@ -75,7 +75,7 @@ const IconLabelledBaseButton = addButtonStyles(
  *
  * @returns {ReactElement} Styled icon button.
  */
-const IconLabelledButton = ( props ) => {
+const IconLabeledButton = ( props ) => {
 	const { children, icon, textColor } = props;
 
 	const newProps = omit( props, "icon" );
@@ -88,7 +88,7 @@ const IconLabelledButton = ( props ) => {
 	);
 };
 
-IconLabelledButton.propTypes = {
+IconLabeledButton.propTypes = {
 	type: PropTypes.string,
 	icon: PropTypes.string.isRequired,
 	textColor: PropTypes.string,
@@ -111,7 +111,7 @@ IconLabelledButton.propTypes = {
 	] ).isRequired,
 };
 
-IconLabelledButton.defaultProps = {
+IconLabeledButton.defaultProps = {
 	type: "button",
 	textColor: colors.$color_blue,
 	textFontSize: "inherit",
@@ -128,4 +128,4 @@ IconLabelledButton.defaultProps = {
 	focusBorderColor: colors.$color_blue,
 };
 
-export default IconLabelledButton;
+export default IconLabeledButton;
