@@ -5,11 +5,10 @@ import styled from "styled-components";
 import uniqueId from "lodash/uniqueId";
 
 // Yoast dependencies.
-import { SvgIcon, HelpText } from "@yoast/components";
+import { SvgIcon, HelpText, Button } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors, rgba } from "@yoast/style-guide";
-import { Button } from "yoast-components/composites/Plugin/Shared/components/Button";
-import { YoastSlideToggle } from "yoast-components/utils/animations";
+import { YoastSlideToggle } from "../helpers/animations";
 
 const HelpTextContainer = styled.div`
 	max-width: 600px;

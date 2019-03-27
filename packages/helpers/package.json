@@ -8,6 +8,10 @@
     "url": "https://github.com/Yoast/javascript.git",
     "directory": "packages/helpers"
   },
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint ."
+  },
   "author": "Yoast",
   "license": "GPL-3.0",
   "private": false,
@@ -18,5 +22,10 @@
   },
   "peerDependencies": {
     "react": "^16.2.0"
+  },
+  "jest": {
+    "testRegex": ".*Test.js$",
+    "testEnvironment": "node",
+    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
   }
 }

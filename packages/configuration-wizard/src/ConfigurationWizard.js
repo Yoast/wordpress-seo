@@ -5,9 +5,9 @@ import CloseIcon from "material-ui/svg-icons/navigation/close";
 import isUndefined from "lodash/isUndefined";
 import interpolateComponents from "interpolate-components";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import { __, sprintf } from "@wordpress/i18n";
 
 /* Yoast dependencies */
-import { localize } from "yoast-components/utils/i18n";
 import { sendRequest } from "@yoast/helpers";
 
 /* Interal dependencies */
@@ -186,9 +186,10 @@ class ConfigurationWizard extends React.Component {
 			isLoading: false,
 			errorMessage: interpolateComponents( {
 				/** Translators: {{link}} resolves to the link opening tag to yoa.st/bugreport, {{/link}} resolves to the link closing tag. **/
-				mixedString: this.props.translate(
+				mixedString: __(
 					"A problem occurred when saving the current step, {{link}}please file a bug report{{/link}} " +
-					"describing what step you are on and which changes you want to make (if any)."
+					"describing what step you are on and which changes you want to make (if any).",
+					"yoast-components"
 				),
 				// The anchor does have content (see mixedString above).
 				// eslint-disable-next-line jsx-a11y/anchor-has-content
@@ -271,8 +272,8 @@ class ConfigurationWizard extends React.Component {
 		let hideButton = false;
 
 		if ( type === "next" && ! currentStep.next ) {
-			attributes.label = this.props.translate( "Close" );
-			attributes[ "aria-label" ] = this.props.translate( "Close the Wizard" );
+			attributes.label = __( "Close", "yoast-components" );
+			attributes[ "aria-label" ] = __( "Close the Wizard", "yoast-components" );
 			attributes.icon = <CloseIcon viewBox="0 0 28 28" />;
 			attributes.onClick = () => {
 				if ( this.props.finishUrl !== "" ) {
@@ -355,21 +356,23 @@ class ConfigurationWizard extends React.Component {
 		let navigation = "";
 		if ( ! step.hideNavigation ) {
 			const previousButton = this.getNavigationbutton( "previous", {
-				label: "« " + this.props.translate( "Previous" ),
+				label: "« " + __( "Previous", "yoast-components" ),
 				onClick: this.setPreviousStep,
 			}, step, "yoast-wizard--button yoast-wizard--button__previous" );
 
 			const nextButton = this.getNavigationbutton( "next", {
-				label: this.props.translate( "Next" ) + " »",
+				label: __( "Next", "yoast-components" ) + " »",
 				onClick: this.setNextStep,
 			}, step, "yoast-wizard--button yoast-wizard--button__next" );
 
 			navigation = <div className="yoast-wizard--navigation">{ previousButton }{ nextButton }</div>;
 		}
 
-		/* Translators: %s expands to "Yoast SEO for WordPress". */
-		let headerTitle = this.props.translate( "%s installation wizard" );
-		headerTitle = headerTitle.replace( "%s", "Yoast SEO for WordPress" );
+		const headerTitle = sprintf(
+			/* Translators: %s expands to "Yoast SEO for WordPress". */
+			__( "%s installation wizard", "yoast-components" ),
+			"Yoast SEO for WordPress"
+		);
 
 		return (
 			<MuiThemeProvider muiTheme={ muiTheme }>
@@ -423,15 +426,13 @@ ConfigurationWizard.propTypes = {
 	fields: PropTypes.object.isRequired,
 	customComponents: PropTypes.object,
 	finishUrl: PropTypes.string,
-	translate: PropTypes.any,
 	headerIcon: PropTypes.func,
 };
 
 ConfigurationWizard.defaultProps = {
 	customComponents: {},
 	finishUrl: "",
-	translate: null,
 	headerIcon: null,
 };
 
-export default localize( ConfigurationWizard );
+export default ConfigurationWizard;

@@ -11,7 +11,8 @@
   "author": "Yoast",
   "license": "GPL-3.0",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint . --max-warnings=94"
   },
   "jest": {
     "testRegex": ".*Test.js$",
