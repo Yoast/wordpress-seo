@@ -46,6 +46,14 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			}
 
 			$graph_piece = $piece->generate();
+
+			/**
+			 * Filter: 'wpseo_schema_<class name>' - Allows changing graph piece output.
+			 *
+			 * @api array $graph_piece The graph piece to filter.
+			 */
+			$class       = str_replace( 'wpseo_schema_', '', strtolower( get_class( $piece ) ) );
+			$graph_piece = apply_filters( 'wpseo_schema_' . $class, $graph_piece );
 			if ( is_array( $graph_piece ) ) {
 				$graph[] = $graph_piece;
 			}
@@ -78,7 +86,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			$flags = ( $flags | JSON_PRETTY_PRINT );
 		}
 
-		return str_replace( 'http://one.wordpress.test', 'https://yoast.com', wp_json_encode( $data, $flags ) );
+		return wp_json_encode( $data, $flags );
 	}
 
 	/**
