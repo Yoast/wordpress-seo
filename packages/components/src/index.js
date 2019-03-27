@@ -40,6 +40,7 @@ export { default as YoastSeoIcon } from "./YoastSeoIcon";
 export { default as YoastTabs } from "./YoastTabs";
 export { default as YoastWarning } from "./YoastWarning";
 export { default as YouTubeVideo } from "./YouTubeVideo";
+export { default as ArticleList } from "./ArticleList";
 
 export { default as SynonymsInput } from "./SynonymsInput";
 
