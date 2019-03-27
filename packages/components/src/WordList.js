@@ -5,16 +5,18 @@ import PropTypes from "prop-types";
 /**
  * @summary WordList component.
  *
- * @param {string}   title           The title of the list.
- * @param {string}   classNamePrefix CSS classname prefix for the elements.
- * @param {array}    words           The relevant words.
- * @param {number}   limit           The maximum number of keywords to display.
- * @param {function} showBeforeList  Function to call before list is shown.
- * @param {function} showAfterList   Function to call after list is shown.
+ * @param {object}   props                 The props to use.
+ * @param {string}   props.title           The title of the list.
+ * @param {string}   props.classNamePrefix CSS classname prefix for the elements.
+ * @param {array}    props.words           The relevant words.
+ * @param {function} props.showBeforeList  Function to call before list is shown.
+ * @param {function} props.showAfterList   Function to call after list is shown.
  *
  * @returns {JSX.Element} Rendered WordList component.
  */
-const WordList = ( { title, classNamePrefix, words, limit, showBeforeList, showAfterList } ) => {
+const WordList = ( props ) => {
+	const { title, classNamePrefix, words, showBeforeList, showAfterList } = props;
+
 	const list = (
 		<ol className={ classNamePrefix + "__list" }>
 			{ words.map( word => {
@@ -33,7 +35,7 @@ const WordList = ( { title, classNamePrefix, words, limit, showBeforeList, showA
 	return (
 		<div className={ classNamePrefix }>
 			<p><strong>{ title }</strong></p>
-			{ showBeforeList( words ) }
+			{ showBeforeList }
 			{ list }
 			{ showAfterList() }
 		</div>
@@ -41,23 +43,21 @@ const WordList = ( { title, classNamePrefix, words, limit, showBeforeList, showA
 };
 
 WordList.propTypes = {
-	words          : PropTypes.array.isRequired,
-	limit          : PropTypes.number,
-	title          : PropTypes.string.isRequired,
-	showBeforeList : PropTypes.func,
-	showAfterList  : PropTypes.func,
+	words: PropTypes.array.isRequired,
+	title: PropTypes.string.isRequired,
+	showBeforeList: PropTypes.func,
+	showAfterList: PropTypes.func,
 	classNamePrefix: PropTypes.string,
 };
 
 WordList.defaultProps = {
-	limit: 5,
 	classNamePrefix: "",
 	showBeforeList: words => {
 		return '';
 	},
 	showAfterList: () => {
 		return '';
-	}
+	},
 };
 
 export default WordList;

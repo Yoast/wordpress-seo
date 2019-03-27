@@ -72,16 +72,17 @@ const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
 	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => word.getCombination() );
 
 	return ( <WordList
-			title={ __( "Prominent words", "yoast-components" ) }
-			words={ keywords }
-			limit={ keywordLimit }
-			classNamePrefix="yoast-keyword-suggestions"
-			showBeforeList={ ( keywords ) => {
-				return  ( <p>{ getKeywordSuggestionExplanation( keywords ) }</p> );
-			} }
-			showAfterList={ () => {
+		title={ __( "Prominent words", "yoast-components" ) }
+		words={ keywords }
+		classNamePrefix="yoast-keyword-suggestions"
+		showBeforeList={ () => {
+			return  ( <p>{ getKeywordSuggestionExplanation( keywords ) }</p> );
+		} }
+		showAfterList={
+			() => {
 				return getKeywordResearchArticleLink();
-			} } />
+			}
+		} />
 	);
 };
 
