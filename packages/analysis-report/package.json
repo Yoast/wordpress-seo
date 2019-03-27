@@ -38,6 +38,6 @@
     "transformIgnorePatterns": [
       "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
   }
 }
