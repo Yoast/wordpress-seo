@@ -11,7 +11,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "test": "jest",
-    "lint": "eslint . --max-warnings=70"
+    "lint": "eslint . --max-warnings=72"
   },
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",

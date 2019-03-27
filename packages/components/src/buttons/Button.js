@@ -1,12 +1,10 @@
-import React from "react";
+// External dependencies.
 import styled from "styled-components";
 import flow from "lodash/flow";
-import omit from "lodash/omit";
 import PropTypes from "prop-types";
 
-/* Yoast dependencies */
+// Yoast dependencies.
 import { colors, rgba } from "@yoast/style-guide";
-import { SvgIcon } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 
 const settings = {
@@ -199,6 +197,7 @@ BaseButton.defaultProps = {
 	focusBorderColor: colors.$color_blue,
 };
 
+
 /**
  * Returns a styled Button with set font size.
  *
@@ -206,113 +205,4 @@ BaseButton.defaultProps = {
  *
  * @returns {ReactElement} styled button.
  */
-export const Button = addFontSizeStyles( BaseButton );
-
-/**
- * Applies styles to SvgIcon for IconButton with text.
- *
- * @param {ReactElement} icon The original SvgIcon.
- *
- * @returns {ReactElement} SvgIcon with text styles applied.
- */
-function addIconTextStyle( icon ) {
-	return styled( icon )`
-		margin: ${ getDirectionalStyle( "0 8px 0 0", "0 0 0 8px" ) };
-		flex-shrink: 0;
-	`;
-}
-
-/**
- * Returns an icon button that can optionally contain text.
- *
- * @param {object} props Component props.
- *
- * @returns {ReactElement} styled icon button.
- */
-export const IconButton = ( props ) => {
-	const { children: text, icon, iconColor } = props;
-
-	let IconComponent = SvgIcon;
-	if ( text ) {
-		IconComponent = addIconTextStyle( IconComponent );
-	}
-
-	const newProps = omit( props, "icon" );
-
-	return (
-		<Button { ...newProps }>
-			<IconComponent icon={ icon } color={ iconColor } />
-			{ text }
-		</Button>
-	);
-};
-
-IconButton.propTypes = {
-	icon: PropTypes.string.isRequired,
-	iconColor: PropTypes.string,
-	children: PropTypes.oneOfType( [
-		PropTypes.arrayOf( PropTypes.node ),
-		PropTypes.node,
-		PropTypes.string,
-	] ),
-};
-
-IconButton.defaultProps = {
-	iconColor: "#000",
-};
-
-/**
- * Returns an icons button that can optionally contain a prefix and / or a suffix icon.
- *
- * @param {object} props Component props.
- *
- * @returns {ReactElement} styled icon button.
- */
-export const IconsButton = ( props ) => {
-	const {
-		children,
-		className,
-		prefixIcon,
-		suffixIcon,
-		...buttonProps
-	} = props;
-
-	return (
-		<Button className={ className } { ...buttonProps }>
-			{ prefixIcon && prefixIcon.icon &&
-				<SvgIcon
-					icon={ prefixIcon.icon }
-					color={ prefixIcon.color }
-					size={ prefixIcon.size }
-				/>
-			}
-			{ children }
-			{ suffixIcon && suffixIcon.icon &&
-				<SvgIcon
-					icon={ suffixIcon.icon }
-					color={ suffixIcon.color }
-					size={ suffixIcon.size }
-				/>
-			}
-		</Button>
-	);
-};
-
-IconsButton.propTypes = {
-	className: PropTypes.string,
-	prefixIcon: PropTypes.shape( {
-		icon: PropTypes.string,
-		color: PropTypes.string,
-		size: PropTypes.string,
-	} ),
-	suffixIcon: PropTypes.shape( {
-		icon: PropTypes.string,
-		color: PropTypes.string,
-		size: PropTypes.string,
-	} ),
-	children: PropTypes.oneOfType( [
-		PropTypes.arrayOf( PropTypes.node ),
-		PropTypes.node,
-		PropTypes.string,
-	] ),
-};
+export default addFontSizeStyles( BaseButton );

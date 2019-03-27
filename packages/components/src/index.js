@@ -1,12 +1,29 @@
-import StyledSection, { StyledSectionBase, StyledHeading } from "./StyledSection";
+import StyledSection, { StyledHeading, StyledSectionBase } from "./StyledSection";
+
+import { BaseLinkButton, LinkButton } from "./buttons/LinkButton";
 
 export {
 	StyledSection,
 	StyledSectionBase,
 	StyledHeading,
+	BaseLinkButton,
+	LinkButton,
 };
 
-export { default as Button } from "./Button";
+export {
+	default as Button,
+	BaseButton,
+	addHoverStyle,
+	addActiveStyle,
+	addFocusStyle,
+	addFontSizeStyles,
+	addBaseStyle,
+	addButtonStyles,
+} from "./buttons/Button";
+
+export { default as IconLabeledButton } from "./buttons/IconLabeledButton";
+export { default as IconButton } from "./buttons/IconButton";
+export { default as IconsButton } from "./buttons/IconsButton";
 export { default as ErrorBoundary } from "./ErrorBoundary";
 export { default as Heading } from "./Heading";
 export { HelpCenterButton } from "./HelpCenterButton";
@@ -29,11 +46,11 @@ export { default as SvgIcon, icons } from "./SvgIcon";
 export { default as Textarea } from "./Textarea";
 export { default as Textfield } from "./Textfield";
 export { default as Toggle } from "./Toggle";
-export { UpsellButton } from "./UpsellButton";
-export { UpsellLinkButton } from "./UpsellLinkButton";
-export { YoastButton } from "./YoastButton";
+export { UpsellButton } from "./buttons/UpsellButton";
+export { UpsellLinkButton } from "./buttons/UpsellLinkButton";
+export { YoastButton } from "./buttons/YoastButton";
 export { YoastInputField } from "./YoastInput";
-export { YoastLinkButton } from "./YoastLinkButton";
+export { YoastLinkButton } from "./buttons/YoastLinkButton";
 export { default as YoastLogo } from "./YoastLogo";
 export { default as YoastModal } from "./YoastModal";
 export { default as YoastSeoIcon } from "./YoastSeoIcon";
