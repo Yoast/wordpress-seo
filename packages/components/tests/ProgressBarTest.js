@@ -30,4 +30,4 @@ describe( "The Progressbar component", () => {
 		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
-});
+} );
