@@ -1,4 +1,4 @@
-import { LeafNode } from "../../../structure/tree/index";
+import { LeafNode } from "../../../structure/tree";
 import Ignored from "../../../structure/tree/nodes/Ignored";
 import calculateTextIndices from "./calculateTextIndices";
 import getElementContent from "./getElementContent";
