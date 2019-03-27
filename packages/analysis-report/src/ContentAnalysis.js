@@ -12,7 +12,7 @@ import { StyledIconsButton } from "yoast-components/composites/Plugin/Shared/com
 /* Internal dependencies */
 import AnalysisList from "./AnalysisList";
 
-export const ContentAnalysisContainer = styled.div`
+const ContentAnalysisContainer = styled.div`
 	width: 100%;
 	background-color: white;
 	border-bottom: 1px solid transparent; // Avoid parent and child margin collapsing.
@@ -111,7 +111,7 @@ class ContentAnalysis extends React.Component {
 	}
 }
 
-export const contentAnalysisPropType = {
+ContentAnalysis.propTypes = {
 	onMarkButtonClick: PropTypes.func,
 	problemsResults: PropTypes.array,
 	improvementsResults: PropTypes.array,
@@ -124,10 +124,6 @@ export const contentAnalysisPropType = {
 	activeMarker: PropTypes.string,
 };
 
-ContentAnalysis.propTypes = {
-	...contentAnalysisPropType,
-};
-
 ContentAnalysis.defaultProps = {
 	onMarkButtonClick: () => {},
 	problemsResults: [],
@@ -137,6 +133,7 @@ ContentAnalysis.defaultProps = {
 	errorsResults: [],
 	headingLevel: 4,
 	marksButtonStatus: "enabled",
+	marksButtonClassName: "",
 	activeMarker: "",
 };
 

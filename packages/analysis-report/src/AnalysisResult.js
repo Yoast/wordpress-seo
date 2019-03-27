@@ -77,6 +77,7 @@ AnalysisResult.propTypes = {
 
 AnalysisResult.defaultProps = {
 	marksButtonStatus: "enabled",
+	marksButtonClassName: "",
 };
 
 export default AnalysisResult;

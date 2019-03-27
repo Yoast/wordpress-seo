@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint . --max-warnings=5"
   },
   "author": "Team Yoast",
   "license": "GPL-3.0",
