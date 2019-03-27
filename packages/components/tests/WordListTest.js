@@ -7,31 +7,31 @@ describe( "WordList", function() {
 	it( "renders wordlist as list items", () => {
 		var words = [];
 
-		let keywordSuggestions = renderer.create(
+		let wordlist = renderer.create(
 			<WordList title="Wordlist" words={ words } />
 		);
 
-		let tree = keywordSuggestions.toJSON();
+		let tree = wordlist.toJSON();
 		expect( tree ).toMatchSnapshot();
 
 		words = [ "word1", "word2", "word3" ];
 
-		keywordSuggestions = renderer.create(
+		wordlist = renderer.create(
 			<WordList title="Wordlist" words={ words } />
 		);
 
-		tree = keywordSuggestions.toJSON();
+		tree = wordlist.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 
 	it( "renders correctly without items", () => {
 		const words = [];
 
-		const keywordSuggestions = renderer.create(
+		const wordlist = renderer.create(
 			<WordList title="Wordlist" words={ words } />
 		);
 
-		const tree = keywordSuggestions.toJSON();
+		const tree = wordlist.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 } );
