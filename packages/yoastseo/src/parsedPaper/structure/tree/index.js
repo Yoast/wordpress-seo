@@ -1,5 +1,5 @@
 import { Node, LeafNode, StructuredNode, Paragraph,
-	Heading, List, ListItem, Ignored, Whitespace } from "./nodes";
+	Heading, List, ListItem, Ignored, Whitespace } from "./nodes/index";
 
 import TextContainer from "./TextContainer";
 import FormattingElement from "./FormattingElement";

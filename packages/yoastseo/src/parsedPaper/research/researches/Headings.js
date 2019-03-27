@@ -1,8 +1,8 @@
 import { flatten } from "lodash-es";
 
 /* Internal dependencies */
-import { Heading } from "../../structure";
-import LeafNode from "../../structure/nodes/LeafNode";
+import { Heading } from "../../structure/tree/index";
+import LeafNode from "../../structure/tree/nodes/LeafNode";
 import Research from "./Research";
 
 /**

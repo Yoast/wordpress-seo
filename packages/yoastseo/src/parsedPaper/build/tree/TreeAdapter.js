@@ -1,12 +1,12 @@
 // Tree elements.
-import FormattingElement from "../structure/FormattingElement";
-import Heading from "../structure/nodes/Heading";
-import LeafNode from "../structure/nodes/LeafNode";
-import List from "../structure/nodes/List";
-import ListItem from "../structure/nodes/ListItem";
-import Paragraph from "../structure/nodes/Paragraph";
-import Ignored from "../structure/nodes/Ignored";
-import StructuredNode from "../structure/nodes/StructuredNode";
+import FormattingElement from "../../structure/tree/FormattingElement";
+import Heading from "../../structure/tree/nodes/Heading";
+import LeafNode from "../../structure/tree/nodes/LeafNode";
+import List from "../../structure/tree/nodes/List";
+import ListItem from "../../structure/tree/nodes/ListItem";
+import Paragraph from "../../structure/tree/nodes/Paragraph";
+import Ignored from "../../structure/tree/nodes/Ignored";
+import StructuredNode from "../../structure/tree/nodes/StructuredNode";
 // HTML classes.
 import { formattingElements, headings, ignoredHtmlElements } from "./htmlConstants";
 
