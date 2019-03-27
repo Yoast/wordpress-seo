@@ -15,8 +15,8 @@ class WPSEO_Subscription_Notifier_Double extends WPSEO_Subscription_Notifier {
 	 *
 	 * @return stdClass|null Object representing a subscription.
 	 */
-	public function determine_subscription_with_latest_expiry_date() {
-		return parent::determine_subscription_with_latest_expiry_date();
+	public function determine_subscription_with_earliest_expiry_date() {
+		return parent::determine_subscription_with_earliest_expiry_date();
 	}
 
 	/**

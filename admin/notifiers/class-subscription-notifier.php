@@ -11,11 +11,11 @@
 class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 
 	/**
-	 * Object representing a subscription with the latest subscription expiration date.
+	 * Object representing a subscription with the earliest subscription expiration date.
 	 *
 	 * @var stdClass
 	 */
-	private $subscription_with_latest_expiry_date;
+	private $subscription_with_earliest_expiry_date;
 
 	/**
 	 * Yoast_Notification_Center instance.
@@ -123,14 +123,14 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	public function init() {
 		$this->current_notification_id = get_option( self::NOTIFICATION_ID );
 
-		$this->subscription_with_latest_expiry_date = $this->determine_subscription_with_latest_expiry_date();
+		$this->subscription_with_earliest_expiry_date = $this->determine_subscription_with_earliest_expiry_date();
 
-		if ( $this->subscription_with_latest_expiry_date === null ) {
+		if ( $this->subscription_with_earliest_expiry_date === null ) {
 			$this->clean_up();
 			return;
 		}
 
-		$days_until_expiration = $this->calculate_days_until_expiration( $this->subscription_with_latest_expiry_date );
+		$days_until_expiration = $this->calculate_days_until_expiration( $this->subscription_with_earliest_expiry_date );
 
 		$this->determine_notification( $days_until_expiration );
 	}
@@ -165,7 +165,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 		if ( $days_until_expiration <= 7 && $days_until_expiration > 1 ) {
 			$this->set_current_notification( self::EXPIRATION_WITHIN_1_WEEK );
 
-			$formatted_date = '<b>' . date_i18n( 'F jS, HH:MM', strtotime( $this->subscription_with_latest_expiry_date->expiry_date ) ) . '</b>';
+			$formatted_date = '<b>' . date_i18n( 'F jS, HH:MM', strtotime( $this->subscription_with_earliest_expiry_date->expiry_date ) ) . '</b>';
 			/* translators: %1$s expands to Yoast, %2$s expands to a formatted date and time (e.g. "Februari 8th 15:00"), %3$s expands to a percentage, %4$s expands to an opening anchor tag, %5$s expands to an closing anchor tag. */
 			$message        = sprintf( esc_html__( 'Your %1$s plugins are about to expire! When plugins expire, you will no longer receive updates or support. You have until %2$s to renew with a %3%s discount. %4$sRenew now!%5$s', 'wordpress-seo' ), 'Yoast', $formatted_date, '25%', '<a href="' . $this->get_url() . '">', '</a>' );
 			$this->show_notification( $message );
@@ -207,8 +207,8 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * @return string Escaped URL string.
 	 */
 	private function get_url() {
-		if ( ! empty( $this->subscription_with_latest_expiry_date->renewal_url ) ) {
-			$url = $this->apply_utm_tags( $this->subscription_with_latest_expiry_date->renewal_url );
+		if ( ! empty( $this->subscription_with_earliest_expiry_date->renewal_url ) ) {
+			$url = $this->apply_utm_tags( $this->subscription_with_earliest_expiry_date->renewal_url );
 		}
 		else {
 			$url = $this->get_shortlink();
@@ -323,11 +323,11 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Gets the first add-on that will expire from the add-on manager.
+	 * Gets the first add-on that will expire (or has expired) from the add-on manager.
 	 *
 	 * @return stdClass|null Object representing a subscription.
 	 */
-	protected function determine_subscription_with_latest_expiry_date() {
+	protected function determine_subscription_with_earliest_expiry_date() {
 		// Required to make sure we only get the latest data.
 		delete_transient( WPSEO_Addon_Manager::SITE_INFORMATION_TRANSIENT );
 
@@ -345,8 +345,8 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 			return $subscriptions[0];
 		}
 
-		$subscription_with_latest_expiry_date = $subscriptions[0];
-		$subscription_timestamp               = strtotime( $subscription_with_latest_expiry_date->expiry_date );
+		$subscription_with_earliest_expiry_date = $subscriptions[0];
+		$subscription_timestamp                 = strtotime( $subscription_with_earliest_expiry_date->expiry_date );
 
 		for ( $i = 1; $i < count( $subscriptions ); $i ++ ) {
 			$compare_timestamp = strtotime( $subscriptions[ $i ]->expiry_date );
@@ -355,11 +355,11 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 				continue;
 			}
 
-			$subscription_with_latest_expiry_date = $subscriptions[ $i ];
-			$subscription_timestamp               = $compare_timestamp;
+			$subscription_with_earliest_expiry_date = $subscriptions[ $i ];
+			$subscription_timestamp                 = $compare_timestamp;
 		}
 
-		return $subscription_with_latest_expiry_date;
+		return $subscription_with_earliest_expiry_date;
 	}
 
 	/**

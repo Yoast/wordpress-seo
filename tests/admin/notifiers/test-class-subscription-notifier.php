@@ -14,7 +14,7 @@ class WPSEO_Subscription_Notifier_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if the correct subscription is return when calling get_first_expiring_subscription.
 	 *
-	 * @covers WPSEO_Subscription_Notifier::determine_subscription_with_latest_expiry_date
+	 * @covers WPSEO_Subscription_Notifier::determine_subscription_with_earliest_expiry_date
 	 */
 	public function test_get_first_expiring_subscription() {
 		$addon_manager = $this
@@ -73,7 +73,7 @@ class WPSEO_Subscription_Notifier_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			$expected,
-			$instance->determine_subscription_with_latest_expiry_date()
+			$instance->determine_subscription_with_earliest_expiry_date()
 		);
 	}
 
