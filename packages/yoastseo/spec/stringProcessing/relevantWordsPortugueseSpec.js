@@ -31,7 +31,7 @@ describe( "gets Portuguese word combinations", function() {
 			new WordCombination( "vítimas", "vítimas", 8 ),
 		];
 
-		const words = getRelevantWords( input, "pt", false );
+		const words = getRelevantWords( input, [], "pt", false );
 
 		expect( words ).toEqual( expected );
 	} );

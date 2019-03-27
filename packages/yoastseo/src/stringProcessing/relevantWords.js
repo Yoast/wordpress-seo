@@ -120,17 +120,38 @@ function retrieveStemmer( language ) {
 }
 
 /**
+ * Retrieves a list of all abbreviations from the text. Returns an empty array if the input text is empty.
+ *
+ * @param {string} text A text.
+ *
+ * @returns {string[]} A list of abbreviations from the list.
+ */
+function retrieveAbbreviations( text ) {
+	const words = getWords( normalizeSingle( text ) );
+	const abbreviations = [];
+
+	words.forEach( function( word ) {
+		if ( word.length > 1 && word.length < 5 && word === word.toLocaleUpperCase() ) {
+			abbreviations.push( word.toLocaleLowerCase() );
+		}
+	} );
+
+	return uniq( abbreviations );
+}
+
+/**
  * Computes relevant words from an array of words. In order to do so, checks whether the word is included in the list of
  * function words and determines the number of occurrences for every word. Then checks if any two words have the same stem
  * and if so collapses over them.
  *
- * @param {string[]} words The words to determine relevance for.
- * @param {string} language The paper's language.
- * @param {Object} morphologyData The morphologyData available for the language of the paper.
+ * @param {string[]} words          The words to determine relevance for.
+ * @param {string[]} abbreviations  Abbreviations that should not be stemmed.
+ * @param {string} language         The paper's language.
+ * @param {Object} morphologyData   The morphologyData available for the language of the paper.
  *
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
-function computeRelevantWords( words, language, morphologyData ) {
+function computeRelevantWords( words, abbreviations, language, morphologyData ) {
 	const functionWords = retrieveFunctionWords( language );
 	const determineStem = retrieveStemmer( language );
 
@@ -139,14 +160,23 @@ function computeRelevantWords( words, language, morphologyData ) {
 	}
 
 	const uniqueContentWords = uniq( words.filter( word => ! functionWords.includes( word.trim() ) ) );
+	const relevantWords = [];
 
-	const relevantWords = uniqueContentWords.map(
-		word => new WordCombination(
-			word,
-			determineStem( word, morphologyData ),
-			words.filter( element => element === word ).length
-		)
-	);
+	uniqueContentWords.forEach( function( word ) {
+		if ( abbreviations.includes( word ) ) {
+			relevantWords.push( new WordCombination(
+				word.toLocaleUpperCase(),
+				word,
+				words.filter( element => element === word ).length
+			) );
+		} else {
+			relevantWords.push( new WordCombination(
+				word,
+				determineStem( word, morphologyData ),
+				words.filter( element => element === word ).length
+			) );
+		}
+	} );
 
 	return collapseRelevantWordsOnStem( relevantWords );
 }
@@ -164,10 +194,10 @@ function computeRelevantWords( words, language, morphologyData ) {
  * @returns {function} The function that collects relevant words for a given set of text words, language and morphologyData.
  */
 const primeRelevantWords = memoize( ( morphologyData ) => {
-	return memoize( ( words, language ) => {
-		return computeRelevantWords( words, language, morphologyData );
-	}, ( words, language ) => {
-		return words.join( "," ) + "," + language;
+	return memoize( ( words, abbreviations, language ) => {
+		return computeRelevantWords( words, abbreviations, language, morphologyData );
+	}, ( words, abbreviations, language ) => {
+		return words.join( "," ) + "," + abbreviations.join( "," ) + "," + language;
 	} );
 } );
 
@@ -175,41 +205,34 @@ const primeRelevantWords = memoize( ( morphologyData ) => {
 /**
  * Gets relevant words from the paper text.
  *
- * @param {string} text The text to retrieve the relevant words of.
- * @param {string} language The paper's language.
- * @param {Object} morphologyData The morphologyData available for the language of the paper.
+ * @param {string}      text            The text to retrieve the relevant words from.
+ * @param {string[]}    abbreviations   The abbreviations that occur in the text and attributes of the paper.
+ * @param {string}      language        The paper's language.
+ * @param {Object}      morphologyData  The morphologyData available for the language of the paper.
  *
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
-function getRelevantWords( text, language, morphologyData ) {
+function getRelevantWords( text, abbreviations, language, morphologyData ) {
 	const words = getWords( normalizeSingle( text ).toLocaleLowerCase() );
 	const computeRelevantWordsMemoized = primeRelevantWords( morphologyData );
 
-	return computeRelevantWordsMemoized( words, language, morphologyData );
+	return computeRelevantWordsMemoized( words, abbreviations, language, morphologyData );
 }
 
 /**
  * Gets relevant words from keyphrase and synonyms, metadescription, title, and subheadings.
  *
- * @param {Object} attributes                  The attributes to process
- * @param {string} attributes.keyphrase        The keyphrase of the paper.
- * @param {string} attributes.synonyms         The synonyms of the paper.
- * @param {string} attributes.metadescription  The metadescription of the paper.
- * @param {string} attributes.title            The title of the paper.
- * @param {string[]} attributes.subheadings    The subheadings of the paper.
- * @param {string} language                    The language of the paper.
- * @param {Object} morphologyData              The morphologyData available for the language of the paper.
+ * @param {string}      attributes       The attributes to process.
+ * @param {string[]}    abbreviations    The abbreviations that occur in the text and attributes of the paper.
+ * @param {string}      language         The language of the paper.
+ * @param {Object}      morphologyData   The morphologyData available for the language of the paper.
  *
  * @returns {WordCombination[]} Relevant word combinations from the paper attributes.
  */
-function getRelevantWordsFromPaperAttributes( attributes, language, morphologyData ) {
-	const { keyphrase, synonyms, metadescription, title, subheadings } = attributes;
+function getRelevantWordsFromPaperAttributes( attributes, abbreviations, language, morphologyData ) {
+	const wordsFromAttributes = getWords( attributes.toLocaleLowerCase() );
 
-	const attributesJoined = normalizeSingle( [ keyphrase, synonyms, metadescription, title, subheadings.join( " " ) ].join( " " ) );
-
-	const wordsFromAttributes = getWords( attributesJoined.toLocaleLowerCase() );
-
-	return computeRelevantWords( wordsFromAttributes, language, morphologyData );
+	return computeRelevantWords( wordsFromAttributes, abbreviations, language, morphologyData );
 }
 
 export {
@@ -218,6 +241,7 @@ export {
 	getRelevantCombinations,
 	sortCombinations,
 	collapseRelevantWordsOnStem,
+	retrieveAbbreviations,
 };
 
 export default {
@@ -226,4 +250,5 @@ export default {
 	getRelevantCombinations: getRelevantCombinations,
 	sortCombinations: sortCombinations,
 	collapseRelevantWordsOnStem: collapseRelevantWordsOnStem,
+	retrieveAbbreviations,
 };

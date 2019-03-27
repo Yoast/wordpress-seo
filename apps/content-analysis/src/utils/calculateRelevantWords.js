@@ -9,6 +9,7 @@ import {
 	sortCombinations,
 } from "yoastsrc/stringProcessing/relevantWords";
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "yoastsrc/stringProcessing/getSubheadings";
+import { retrieveAbbreviations } from "../../../../packages/yoastseo/src/stringProcessing/relevantWords";
 import getMorphologyData from "./getMorphologyData";
 
 const morphologyData = getMorphologyData();
@@ -54,28 +55,34 @@ function formatNumber( number ) {
  * @returns {Object} The relevant word objects.
  */
 function calculateRelevantWords( paper, useAttributes ) {
-	const text = paper.text;
-	const words = getWords( text );
-
+	let text = paper.text;
 	const language = getLanguage( paper.locale );
 	const languageMorphologyData = get( morphologyData, language, false );
-	const relevantWordsFromText = getRelevantWords( removeSubheadingsTopLevel( text ), language, languageMorphologyData );
 
 	const subheadings = getSubheadingsTopLevel( text ).map( subheading => subheading[ 2 ] );
+
+	const attributes = useAttributes ? [
+		paper.keyword,
+		paper.synonyms,
+		paper.description,
+		paper.title,
+		subheadings.join( " " ),
+	].join( " " ) : "";
+
+	text = useAttributes ? removeSubheadingsTopLevel( text ) : text;
+
+	const abbreviations = retrieveAbbreviations( text.concat( attributes ) );
+
+	const relevantWordsFromText = getRelevantWords( text, abbreviations, language, languageMorphologyData );
 
 	let relevantWordsFromPaperAttributes = [];
 
 	if ( useAttributes ) {
 		relevantWordsFromPaperAttributes = getRelevantWordsFromPaperAttributes(
-			{
-				keyphrase: paper.keyword,
-				synonyms: paper.synonyms,
-				metadescription: paper.description,
-				title: paper.title,
-				subheadings,
-			},
+			attributes,
+			abbreviations,
 			language,
-			languageMorphologyData,
+			languageMorphologyData
 		);
 
 		/*

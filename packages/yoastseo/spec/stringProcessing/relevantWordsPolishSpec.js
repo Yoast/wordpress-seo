@@ -25,7 +25,7 @@ describe( "gets Polish word combinations", function() {
 			new WordCombination( "zasadzie", "zasadzie", 8 ),
 		];
 
-		const words = getRelevantWords( input, "pl", false );
+		const words = getRelevantWords( input, [], "pl", false );
 
 		expect( words ).toEqual( expected );
 	} );

@@ -19,7 +19,7 @@ describe( "gets French word combinations", function() {
 			new WordCombination( "texte", "texte", 2 ),
 		];
 
-		const words = getRelevantCombinations( getRelevantWords( input, "fr", false ) );
+		const words = getRelevantCombinations( getRelevantWords( input, [ "IA" ], "fr", false ) );
 
 		expect( words ).toEqual( expected );
 	} );

@@ -1,10 +1,12 @@
 import { get, take } from "lodash-es";
 import getLanguage from "../helpers/getLanguage";
 import {
+	collapseRelevantWordsOnStem,
+	getRelevantCombinations,
 	getRelevantWords,
 	getRelevantWordsFromPaperAttributes,
-	collapseRelevantWordsOnStem,
-	getRelevantCombinations, sortCombinations,
+	retrieveAbbreviations,
+	sortCombinations,
 } from "../stringProcessing/relevantWords";
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../stringProcessing/getSubheadings";
 
@@ -17,22 +19,24 @@ import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../stringProc
  * @returns {WordCombination[]} Relevant words for this paper, filtered and sorted.
  */
 function relevantWords( paper, researcher ) {
+	const text = paper.getText();
 	const language = getLanguage( paper.getLocale() );
 	const morphologyData = get( researcher.getData( "morphology" ), language, false );
 
-	const relevantWordsFromText = getRelevantWords( removeSubheadingsTopLevel( paper.getText() ), language, morphologyData );
+	const subheadings = getSubheadingsTopLevel( text ).map( subheading => subheading[ 2 ] );
+	const attributes = [
+		paper.getKeyword(),
+		paper.getSynonyms(),
+		paper.getTitle(),
+		paper.getDescription(),
+		subheadings.join( " " ),
+	].join( " " );
 
-	const subheadings = getSubheadingsTopLevel( paper.getText() ).map( subheading => subheading[ 2 ] );
+	const abbreviations = retrieveAbbreviations( text.concat( attributes ) );
 
-	const attributes = {
-		keyphrase: paper.getKeyword(),
-		synonyms: paper.getSynonyms(),
-		title: paper.getTitle(),
-		metadescription: paper.getDescription(),
-		subheadings,
-	};
+	const relevantWordsFromText = getRelevantWords( removeSubheadingsTopLevel( text ), abbreviations, language, morphologyData );
 
-	const relevantWordsFromPaperAttributes = getRelevantWordsFromPaperAttributes( attributes, language, morphologyData );
+	const relevantWordsFromPaperAttributes = getRelevantWordsFromPaperAttributes( attributes, abbreviations, language, morphologyData );
 
 	/*
 	 * If a word is used in any of the attributes, its relevance is automatically high.

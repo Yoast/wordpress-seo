@@ -20,7 +20,7 @@ describe( "gets German word combinations", function() {
 			new WordCombination( "studieren", "studieren", 48 ),
 		];
 
-		const words = getRelevantWords( input, "de", false );
+		const words = getRelevantWords( input, [], "de", false );
 
 		expect( words ).toEqual( expected );
 	} );

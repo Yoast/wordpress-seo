@@ -18,7 +18,7 @@ describe( "gets Dutch word combinations", function() {
 			new WordCombination( "zinnen", "zinnen", 23 ),
 		];
 
-		const words = getRelevantWords( input, "nl", false );
+		const words = getRelevantWords( input, [], "nl", false );
 
 		expect( words ).toEqual( expected );
 	} );

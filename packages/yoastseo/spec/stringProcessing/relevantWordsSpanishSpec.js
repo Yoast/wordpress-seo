@@ -20,7 +20,7 @@ describe( "gets Spanish word combinations", function() {
 			new WordCombination( "trabajar", "trabajar", 19 ),
 		];
 
-		const words = getRelevantWords( input, "es", false );
+		const words = getRelevantWords( input, [], "es", false );
 
 		expect( words ).toEqual( expected );
 	} );

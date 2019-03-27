@@ -19,7 +19,7 @@ describe( "gets Swedish word combinations", function() {
 			new WordCombination( "vanligaste", "vanligaste", 8 ),
 		];
 
-		const words = getRelevantWords( input, "sv", false );
+		const words = getRelevantWords( input, [], "sv", false );
 
 		expect( words ).toEqual( expected );
 	} );

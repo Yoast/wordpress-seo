@@ -18,7 +18,7 @@ describe( "gets English word combinations", function() {
 			new WordCombination( "syllables", "syllable", 37 ),
 		];
 
-		const words = getRelevantWords( input, "en", morphologyData );
+		const words = getRelevantWords( input, [], "en", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -40,7 +40,7 @@ describe( "gets English word combinations", function() {
 			new WordCombination( "syllable", "syllable", 47 ),
 		];
 
-		const words = getRelevantWords( input, "en", morphologyData );
+		const words = getRelevantWords( input, [], "en", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
