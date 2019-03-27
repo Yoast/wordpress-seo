@@ -102,7 +102,7 @@ class WPSEO_Shortlinker {
 		$date_activated = WPSEO_Options::get( 'first_activated_on' );
 		$datediff       = ( time() - $date_activated );
 		$days           = (int) round( $datediff / DAY_IN_SECONDS );
-		switch( $days ) {
+		switch ( $days ) {
 			case 0:
 			case 1:
 				$cohort = '0-1';
