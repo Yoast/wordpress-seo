@@ -99,9 +99,9 @@ WordpressFeedListItem.propTypes = {
  * @param {string} props.footerLinkText The footer link text.
  * @param {string} props.feedLink       The footer link. Defaults to feed link.
  *
- * @returns {ReactElement} The WordpressFeed component.
+ * @returns {ReactElement} The ArticleList component.
  */
-const WordpressFeed = ( props ) => {
+const ArticleList = ( props ) => {
 	return (
 		<WordpressFeedContainer
 			className={ props.className }
@@ -142,7 +142,7 @@ const WordpressFeed = ( props ) => {
 	);
 };
 
-WordpressFeed.propTypes = {
+ArticleList.propTypes = {
 	className: PropTypes.string,
 	feed: PropTypes.object.isRequired,
 	title: PropTypes.string,
@@ -150,8 +150,8 @@ WordpressFeed.propTypes = {
 	feedLink: PropTypes.string,
 };
 
-WordpressFeed.defaultProps = {
+ArticleList.defaultProps = {
 	className: "wordpress-feed",
 };
 
-export default WordpressFeed;
+export default ArticleList;
