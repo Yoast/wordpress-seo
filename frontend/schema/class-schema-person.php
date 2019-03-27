@@ -17,7 +17,6 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @var WPSEO_Schema_Context
 	 */
 	private $context;
-
 	/**
 	 * Used to allow changing the logo hash in class children.
 	 *
@@ -70,14 +69,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return bool|int User ID or false upon return.
 	 */
 	protected function determine_user_id() {
-		switch ( true ) {
-			case is_author():
-				$user_id = get_queried_object_id();
-				break;
-			default:
-				$user_id = $this->context->site_user_id;
-				break;
-		}
+		$user_id = $this->context->site_user_id;
 
 		/**
 		 * Filter: 'wpseo_schema_person_user_id' - Allows filtering of user ID used for person output.
@@ -144,12 +136,6 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 			$data['sameAs'] = $social_profiles;
 		}
 
-		// If this is an author page, the Person object is the main object, so we set it as such here.
-		if ( is_author() ) {
-			$data['mainEntityOfPage'] = array(
-				'@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH,
-			);
-		}
 		return $data;
 	}
 
@@ -166,7 +152,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 			return $data;
 		}
 
-		$data['image']  = array(
+		$data['image'] = array(
 			'@type'   => 'ImageObject',
 			'@id'     => $this->context->site_url . $this->logo_hash,
 			'url'     => get_avatar_url( $user_data->user_email ),

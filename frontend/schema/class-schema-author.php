@@ -27,7 +27,7 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	 */
 	public function __construct( WPSEO_Schema_Context $context ) {
 		parent::__construct( $context );
-		$this->context = $context;
+		$this->context   = $context;
 		$this->logo_hash = WPSEO_Schema_IDs::AUTHOR_LOGO_HASH;
 	}
 
@@ -37,16 +37,42 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	 * @return bool
 	 */
 	public function is_needed() {
+		if ( is_author() ) {
+			return true;
+		}
+
 		if ( $this->is_post_author() ) {
 			$post = get_post( $this->context->id );
 			// If the author is the user the site represents, no need for an extra author block.
 			if ( (int) $post->post_author === $this->context->site_user_id ) {
 				return false;
 			}
+
 			return true;
 		}
 
 		return false;
+	}
+
+
+	/**
+	 * Builds our array of Schema Person data for a given user ID.
+	 *
+	 * @param int $user_id The user ID to use.
+	 *
+	 * @return array An array of Schema Person data.
+	 */
+	protected function build_person_data( $user_id ) {
+		$data = parent::build_person_data( $user_id );
+
+		// If this is an author page, the Person object is the main object, so we set it as such here.
+		if ( is_author() ) {
+			$data['mainEntityOfPage'] = array(
+				'@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH,
+			);
+		}
+
+		return $data;
 	}
 
 	/**
@@ -74,7 +100,14 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	 * @return bool|int User ID or false upon return.
 	 */
 	protected function determine_user_id() {
-		$user_id = (int) get_post( $this->context->id )->post_author;
+		switch ( true ) {
+			case is_author():
+				$user_id = get_queried_object_id();
+				break;
+			default:
+				$user_id = (int) get_post( $this->context->id )->post_author;
+				break;
+		}
 
 		/**
 		 * Filter: 'wpseo_schema_person_user_id' - Allows filtering of user ID used for person output.
@@ -94,5 +127,4 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	protected function determine_schema_id( $user_id ) {
 		return get_author_posts_url( $user_id ) . WPSEO_Schema_IDs::AUTHOR_HASH;
 	}
-
 }
