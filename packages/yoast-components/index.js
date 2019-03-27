@@ -2,12 +2,10 @@
  * Composites imports.
  */
 // Composites/ConfigurationWizard imports.
-import { default as OnboardingWizard, MessageBox, LoadingIndicator } from "@yoast/configuration-wizard";
-import { sendRequest, decodeHTML } from "@yoast/helpers";
-
+import { default as OnboardingWizard, LoadingIndicator, MessageBox } from "@yoast/configuration-wizard";
+import { decodeHTML, getDirectionalStyle, sendRequest } from "@yoast/helpers";
 // Import colors from the style guide.
 import { colors } from "@yoast/style-guide";
-
 // Composites/AngoliaSearch imports.
 import AlgoliaSearcher from "@yoast/algolia-search";
 // Composites/Plugin imports.
@@ -16,20 +14,16 @@ import { default as ButtonSection } from "./composites/Plugin/Shared/components/
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import { default as HelpCenter } from "./composites/Plugin/HelpCenter/HelpCenter.js";
 import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
-
 // Composites/LinkSuggestions imports.
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
 // Composites/KeywordSuggestions imports.
 import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
-
-import { getDirectionalStyle } from "@yoast/helpers";
-
-const getRtlStyle = getDirectionalStyle;
-
 // Composites/CoursesOverview imports
 import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
 import { default as CardBanner } from "./composites/CoursesOverview/CardBanner";
 import { default as CardDetails } from "./composites/CoursesOverview/CardDetails";
+
+const getRtlStyle = getDirectionalStyle;
 
 export {
 	OnboardingWizard,
@@ -53,7 +47,7 @@ export {
 	colors,
 };
 
-
+export * from "./composites/Plugin/DashboardWidget";
 export * from "./composites/Plugin/ContentAnalysis";
 export * from "@yoast/search-metadata-previews";
 export { default as utils } from "./utils";
@@ -67,10 +61,12 @@ export { default as VideoTutorial } from "./composites/HelpCenter/views/VideoTut
 export { default as KeywordInput } from "./composites/Plugin/Shared/components/KeywordInput";
 export { insightsReducer } from "./redux/reducers/insights";
 export { setProminentWords } from "./redux/actions/insights";
-export { setReadabilityResults,
+export {
+	setReadabilityResults,
 	setSeoResultsForKeyword,
 	setOverallReadabilityScore,
-	setOverallSeoScore } from "./composites/Plugin/ContentAnalysis/actions/contentAnalysis";
+	setOverallSeoScore
+} from "./composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 export {
 	HelpText,

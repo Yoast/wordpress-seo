@@ -4,7 +4,7 @@ import renderer from "react-test-renderer";
 import SiteSEOReport from "../src/SiteSEOReport";
 
 describe( "The SiteSEOReport testing suite", () => {
-	const seoAssessmentItems = [
+	const siteSEOReportItems = [
 		{
 			html: "<div></div>",
 			value: 10,
@@ -25,14 +25,14 @@ describe( "The SiteSEOReport testing suite", () => {
 	const component = renderer.create(
 		<SiteSEOReport
 			className="test_SiteSEOReport"
-			seoAssessmentText="Test assessment"
-			seoAssessmentItems={ seoAssessmentItems }
+			siteSEOReportText="Test assessment"
+			siteSEOReportItems={ siteSEOReportItems }
 			barHeight={ "10" }
 		/>
 	);
 
 	const tree = component.toJSON();
-	it("The SiteSEOReport should match the snapshot", function() {
+	it( "The SiteSEOReport should match the snapshot", function() {
 		expect( tree ).toMatchSnapshot();
-	});
+	} );
 } );

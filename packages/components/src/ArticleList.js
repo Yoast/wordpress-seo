@@ -21,7 +21,7 @@ import { makeOutboundLink } from "@yoast/helpers";
  * @property {string} date        The publication date of the item.
  */
 
-const WordpressFeedContainer = styled.div`
+const ArticleListContainer = styled.div`
 	box-sizing: border-box;
 
 	p {
@@ -30,28 +30,28 @@ const WordpressFeedContainer = styled.div`
 	}
 `;
 
-const WordpressFeedHeader = styled.h3`
+const ArticleListHeader = styled.h3`
 	margin: 8px 0;
 	font-size: 1em;
 `;
 
-const WordpressFeedList = styled.ul`
+const FeedList = styled.ul`
 	margin: 0;
 	list-style: none;
 	padding: 0;
 `;
 
-const WordpressFeedLink = makeOutboundLink( styled.a`
+const ArticleListLink = makeOutboundLink( styled.a`
 	display: inline-block;
 	margin-bottom: 4px;
 	font-size: 14px;
 ` );
 
-const WordpressFeedListItemContainer = styled.li`
+const ArticleListItemContainer = styled.li`
 	margin: 8px 0;
 `;
 
-const WordpressFeedFooter = styled.div`
+const ArticleListFooter = styled.div`
 	a {
 		margin: 8px 0 0;
 	}
@@ -64,26 +64,26 @@ const WordpressFeedFooter = styled.div`
  *
  * @returns {ReactElement} The WordpressFeedListItem component.
  */
-const WordpressFeedListItem = ( props ) => {
+const ArticleListItem = ( props ) => {
 	return (
-		<WordpressFeedListItemContainer
+		<ArticleListItemContainer
 			className={ props.className }
 		>
-			<WordpressFeedLink
+			<ArticleListLink
 				className={ `${ props.className }-link` }
 				href={ props.link }
 				rel={ null }
 			>
 				{ props.title }
-			</WordpressFeedLink>
+			</ArticleListLink>
 			<p className={ `${ props.className }-description` }>
 				{ props.description }
 			</p>
-		</WordpressFeedListItemContainer>
+		</ArticleListItemContainer>
 	);
 };
 
-WordpressFeedListItem.propTypes = {
+ArticleListItem.propTypes = {
 	className: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 	link: PropTypes.string.isRequired,
@@ -103,20 +103,20 @@ WordpressFeedListItem.propTypes = {
  */
 const ArticleList = ( props ) => {
 	return (
-		<WordpressFeedContainer
+		<ArticleListContainer
 			className={ props.className }
 		>
-			<WordpressFeedHeader
+			<ArticleListHeader
 				className={ `${ props.className }__header` }
 			>
 				{ props.title ? props.title : props.feed.title }
-			</WordpressFeedHeader>
-			<WordpressFeedList
+			</ArticleListHeader>
+			<FeedList
 				className={ `${ props.className }__posts` }
 				role="list"
 			>
 				{ props.feed.items.map( item => (
-					<WordpressFeedListItem
+					<ArticleListItem
 						className={ `${ props.className }__post` }
 						key={ item.link }
 						title={ item.title }
@@ -124,21 +124,21 @@ const ArticleList = ( props ) => {
 						description={ item.description }
 					/>
 				) ) }
-			</WordpressFeedList>
+			</FeedList>
 			{ props.footerLinkText &&
-				<WordpressFeedFooter
-					className={ `${ props.className }__footer` }
+			<ArticleListFooter
+				className={ `${ props.className }__footer` }
+			>
+				<ArticleListLink
+					className={ `${ props.className }__footer-link` }
+					href={ props.feedLink ? props.feedLink : props.feed.link }
+					rel={ null }
 				>
-					<WordpressFeedLink
-						className={ `${ props.className }__footer-link` }
-						href={ props.feedLink ? props.feedLink : props.feed.link }
-						rel={ null }
-					>
-						{ props.footerLinkText }
-					</WordpressFeedLink>
-				</WordpressFeedFooter>
+					{ props.footerLinkText }
+				</ArticleListLink>
+			</ArticleListFooter>
 			}
-		</WordpressFeedContainer>
+		</ArticleListContainer>
 	);
 };
 
@@ -151,7 +151,7 @@ ArticleList.propTypes = {
 };
 
 ArticleList.defaultProps = {
-	className: "wordpress-feed",
+	className: "articlelist-feed",
 };
 
 export default ArticleList;

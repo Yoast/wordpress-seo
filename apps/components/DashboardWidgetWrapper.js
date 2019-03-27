@@ -26,7 +26,7 @@ export default class DashboardWidget extends React.Component {
 		super();
 
 		this.state = {
-			seoAssessmentItems: [
+			siteSEOReportItems: [
 				{
 					value: 33,
 					color: "#F00",
@@ -84,8 +84,8 @@ export default class DashboardWidget extends React.Component {
 			<ExamplesContainer>
 				<DashboardContainer>
 					<SiteSEOReport
-						seoAssessmentText="Your SEO score is decent overall, but can be improved! Get to work!"
-						seoAssessmentItems={ this.state.seoAssessmentItems }
+						siteSEOReportText="Your SEO score is decent overall, but can be improved! Get to work!"
+						siteSEOReportItems={ this.state.siteSEOReportItems }
 					/>
 					{ feed && <ArticleList
 						feed={ feed }
