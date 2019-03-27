@@ -28,7 +28,7 @@
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",
     "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\](?!yoast-components|yoastseo|lodash-es).+\\.js$"
+      "[/\\\\]node_modules[/\\\\](?!yoast-components|yoastseo|lodash-es|@yoast).+\\.js$"
     ],
     "testPathIgnorePatterns": [
       "/js/tests/edit.test.js"
