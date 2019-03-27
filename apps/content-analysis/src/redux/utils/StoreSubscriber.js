@@ -1,6 +1,6 @@
 // External dependencies.
 import { debounce, isEqual } from "lodash-es";
-import buildTree from "yoastseo/src/tree/builder";
+import buildTree from "yoastseo/src/parsedPaper/build/tree";
 import Paper from "yoastseo/src/values/Paper";
 import getMorphologyData from "yoastseo/spec/specHelpers/getMorphologyData";
 import getLanguage from "yoastseo/src/helpers/getLanguage";
