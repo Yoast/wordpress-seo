@@ -45,6 +45,10 @@ tr.yst_row.even {
 		float: left;
 		width: 200px;
 		margin: 5px 0;
+		&.error {
+			color: #dc3232;
+			font-weight: bold;
+		}
 	}
 
 	.yoast-inline-label {
@@ -735,6 +739,11 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		border-radius: 4px;
 		line-height: 1;
 		color: #32373c;
+
+		&.error {
+			border-color: #dc3232;
+			border-width: 2px;
+		}
 
 		.wpseo_content_wrapper &.select {
 			margin: 0;
