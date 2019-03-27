@@ -5,22 +5,13 @@ import WordList from "../src/WordList";
 
 describe( "WordList", function() {
 	it( "renders wordlist as list items", () => {
-		var words = [];
+		const words = [ "word1", "word2", "word3" ];
 
-		let wordlist = renderer.create(
+		const wordlist = renderer.create(
 			<WordList title="Wordlist" words={ words } />
 		);
 
-		let tree = wordlist.toJSON();
-		expect( tree ).toMatchSnapshot();
-
-		words = [ "word1", "word2", "word3" ];
-
-		wordlist = renderer.create(
-			<WordList title="Wordlist" words={ words } />
-		);
-
-		tree = wordlist.toJSON();
+		const tree = wordlist.toJSON();
 		expect( tree ).toMatchSnapshot();
 	} );
 

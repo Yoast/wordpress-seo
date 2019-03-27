@@ -17,7 +17,7 @@ import PropTypes from "prop-types";
 const WordList = ( { title, classNamePrefix, words, limit, showBeforeList, showAfterList } ) => {
 	const list = (
 		<ol className={ classNamePrefix + "__list" }>
-			{ words.map( ( word ) => {
+			{ words.map( word => {
 				return (
 					<li
 						key={ word }
@@ -52,7 +52,7 @@ WordList.propTypes = {
 WordList.defaultProps = {
 	limit: 5,
 	classNamePrefix: "",
-	showBeforeList: ( words ) => {
+	showBeforeList: words => {
 		return '';
 	},
 	showAfterList: () => {

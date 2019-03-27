@@ -29,23 +29,6 @@ exports[`WordList renders wordlist as list items 1`] = `
   
   <ol
     className="__list"
-  />
-  
-</div>
-`;
-
-exports[`WordList renders wordlist as list items 2`] = `
-<div
-  className=""
->
-  <p>
-    <strong>
-      Wordlist
-    </strong>
-  </p>
-  
-  <ol
-    className="__list"
   >
     <li
       className="__item"
