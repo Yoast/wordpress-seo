@@ -21,6 +21,7 @@ export {
 	addButtonStyles,
 } from "./buttons/Button";
 
+export { default as ArticleList } from "./ArticleList";
 export { default as IconLabeledButton } from "./buttons/IconLabeledButton";
 export { default as IconButton } from "./buttons/IconButton";
 export { default as IconsButton } from "./buttons/IconsButton";

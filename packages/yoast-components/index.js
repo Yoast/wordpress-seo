@@ -17,16 +17,12 @@ import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components
 // Composites/LinkSuggestions imports.
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
 
-import { getDirectionalStyle } from "@yoast/helpers";
-
 const getRtlStyle = getDirectionalStyle;
 
 // Composites/CoursesOverview imports
 import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
 import { default as CardBanner } from "./composites/CoursesOverview/CardBanner";
 import { default as CardDetails } from "./composites/CoursesOverview/CardDetails";
-
-const getRtlStyle = getDirectionalStyle;
 
 export {
 	OnboardingWizard,
@@ -67,7 +63,7 @@ export {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
 	setOverallReadabilityScore,
-	setOverallSeoScore
+	setOverallSeoScore,
 } from "./composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 export {
