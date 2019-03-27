@@ -334,13 +334,29 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 
 		$subscriptions = array_filter( $subscriptions, array( $this, 'filter' ) );
 
-		usort( $subscriptions, array( $this, 'compare_subscription_dates' ) );
-
 		if ( count( $subscriptions ) === 0 ) {
 			return null;
 		}
 
-		return $subscriptions[0];
+		if ( count( $subscriptions ) === 1 ) {
+			return $subscriptions[0];
+		}
+
+		$subscription_with_latest_expiry_date = $subscriptions[0];
+		$subscription_timestamp               = strtotime( $subscription_with_latest_expiry_date->expiry_date );
+
+		for ( $i = 1; $i < count( $subscriptions ); $i ++ ) {
+			$compare_timestamp = strtotime( $subscriptions[ $i ]->expiry_date );
+
+			if ( $subscription_timestamp > $compare_timestamp ) {
+				continue;
+			}
+
+			$subscription_with_latest_expiry_date = $subscriptions[ $i ];
+			$subscription_timestamp               = $compare_timestamp;
+		}
+
+		return $subscription_with_latest_expiry_date;
 	}
 
 	/**
@@ -355,18 +371,6 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 			return false;
 		}
 		return true;
-	}
-
-	/**
-	 * Compare function for usort to check which subscription expires sooner.
-	 *
-	 * @param stdClass $subscription1 Object representing a subscription.
-	 * @param stdClass $subscription2 Object representing a subscription.
-	 *
-	 * @return int Positive if the first subscription expires later than the second.
-	 */
-	public function compare_subscription_dates( $subscription1, $subscription2 ) {
-		return ( strtotime( $subscription1->expiry_date ) - strtotime( $subscription2->expiry_date ) ) > 0;
 	}
 
 	/**
