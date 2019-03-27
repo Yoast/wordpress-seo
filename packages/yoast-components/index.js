@@ -84,5 +84,8 @@ export {
 	YoastModal,
 	YoastSeoIcon,
 	YoastWarning,
+	StyledSection,
+	StyledHeading,
+	StyledSectionBase,
 } from "@yoast/components";
 
