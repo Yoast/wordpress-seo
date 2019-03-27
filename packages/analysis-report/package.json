@@ -21,7 +21,7 @@
     "react": "16.6.3",
     "react-dom": "16.6.3",
     "styled-components": "^2.1.2",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
   },

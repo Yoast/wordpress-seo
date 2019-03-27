@@ -68,7 +68,6 @@ export { default as YoastSeoIcon } from "./YoastSeoIcon";
 export { default as YoastTabs } from "./YoastTabs";
 export { default as YoastWarning } from "./YoastWarning";
 export { default as YouTubeVideo } from "./YouTubeVideo";
-export { default as SynonymsInput } from "./SynonymsInput";
 export { default as WordList } from "./WordList";
 
 export { ListTable, ZebrafiedListTable } from "./table/ListTable";
