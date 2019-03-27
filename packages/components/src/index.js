@@ -6,9 +6,8 @@ export {
 	StyledSection,
 	StyledSectionBase,
 	StyledHeading,
-
 	BaseLinkButton,
-	LinkButton
+	LinkButton,
 };
 
 export {
@@ -19,9 +18,10 @@ export {
 	addFocusStyle,
 	addFontSizeStyles,
 	addBaseStyle,
-	addButtonStyles
+	addButtonStyles,
 } from "./buttons/Button";
-export { default as IconLabeledButton } from "./buttons/IconLabeledButton"
+
+export { default as IconLabeledButton } from "./buttons/IconLabeledButton";
 export { default as IconButton } from "./buttons/IconButton";
 export { default as IconsButton } from "./buttons/IconsButton";
 export { default as ErrorBoundary } from "./ErrorBoundary";
