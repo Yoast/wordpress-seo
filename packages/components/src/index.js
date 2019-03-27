@@ -42,7 +42,7 @@ export { default as YoastWarning } from "./YoastWarning";
 export { default as YouTubeVideo } from "./YouTubeVideo";
 export { default as Card, FullHeightCard } from "./Card";
 export { default as CardBanner } from "./CardBanner";
-export { default as CardDetails } from "./CardDetails";
+export { default as CourseDetails } from "./CourseDetails";
 
 export { default as SynonymsInput } from "./SynonymsInput";
 

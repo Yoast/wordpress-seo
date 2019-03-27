@@ -105,9 +105,9 @@ const Details = styled.div`
 `;
 
 /**
- * CardDetails component.
+ * CourseDetails component.
  */
-class CardDetails extends React.Component {
+class CourseDetails extends React.Component {
 	/**
 	 * Returns the correct Action Block based on whether an item is a bundle or a single course.
 	 *
@@ -158,9 +158,9 @@ class CardDetails extends React.Component {
 	}
 }
 
-export default CardDetails;
+export default CourseDetails;
 
-CardDetails.propTypes = {
+CourseDetails.propTypes = {
 	description: PropTypes.string,
 	courseUrl: PropTypes.string,
 	ctaButtonData: PropTypes.object,
@@ -168,7 +168,7 @@ CardDetails.propTypes = {
 	isBundle: PropTypes.bool,
 };
 
-CardDetails.defaultProps = {
+CourseDetails.defaultProps = {
 	description: "",
 	courseUrl: "",
 	ctaButtonData: {},

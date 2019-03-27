@@ -82,6 +82,6 @@ export {
 	Card,
 	FullHeightCard,
 	CardBanner,
-	CardDetails,
+	CourseDetails as CardDetails,
 } from "@yoast/components";
 

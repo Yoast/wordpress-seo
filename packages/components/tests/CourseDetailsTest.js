@@ -1,10 +1,10 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import CardDetails from "../src/CardDetails";
+import CourseDetails from "../src/CourseDetails";
 
 test( "The empty CardDetails component matches the snapshot", () => {
 	const component = renderer.create(
-		<CardDetails />
+		<CourseDetails />
 	);
 
 	const tree = component.toJSON();
@@ -26,7 +26,7 @@ test( "The CardDetails component matches the snapshot when given specific props"
 	};
 
 	const component = renderer.create(
-		<CardDetails
+		<CourseDetails
 			title={ course.title }
 			description={ course.description }
 			courseUrl={ course.courseUrl }

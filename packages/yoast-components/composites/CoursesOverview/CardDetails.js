@@ -1,1 +1,3 @@
-export { CardDetails as default } from "@yoast/components";
+import { CourseDetails as CardDetails } from "@yoast/components";
+
+export default CardDetails;
