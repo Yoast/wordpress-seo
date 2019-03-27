@@ -71,10 +71,11 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	public function format_data( $data ) {
 		$flags = 0;
 		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
-			$flags = $flags | JSON_UNESCAPED_SLASHES;
+			// @codingStandardsIgnoreLine This is used in the wp_json_encode call, which checks for this.
+			$flags = ( $flags | JSON_UNESCAPED_SLASHES );
 		}
 		if ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG ) {
-			$flags = $flags | JSON_PRETTY_PRINT;
+			$flags = ( $flags | JSON_PRETTY_PRINT );
 		}
 
 		return str_replace( 'http://one.wordpress.test', 'https://yoast.com', wp_json_encode( $data, $flags ) );

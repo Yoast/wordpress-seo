@@ -333,7 +333,7 @@ class WPSEO_Twitter {
 		switch ( WPSEO_Options::get( 'company_or_person', '' ) ) {
 			case 'person':
 				$user_id = (int) WPSEO_Options::get( 'company_or_person_user_id', false );
-				$twitter =  get_the_author_meta( 'twitter', $user_id );
+				$twitter = get_the_author_meta( 'twitter', $user_id );
 				// For backwards compat reasons, if there is no twitter ID for person, we fall back to site.
 				if ( empty( $twitter ) ) {
 					$twitter = WPSEO_Options::get( 'twitter_site' );
