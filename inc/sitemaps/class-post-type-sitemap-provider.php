@@ -593,7 +593,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$join   = " LEFT JOIN {$wpdb->posts} AS p2 ON ({$wpdb->posts}.post_parent = p2.ID) ";
 
 			$parent_statuses = array_diff( $post_statuses, array( 'inherit' ) );
-			$status_where    = "p2.post_status IN ('" . implode( "','", $post_statuses ) . "') AND p2.post_password = ''";
+			$status_where    = "p2.post_status IN ('" . implode( "','", $parent_statuses ) . "') AND p2.post_password = ''";
 		}
 
 		$where_clause = "
