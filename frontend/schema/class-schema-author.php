@@ -28,7 +28,7 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	public function __construct( WPSEO_Schema_Context $context ) {
 		parent::__construct( $context );
 		$this->context = $context;
-		$this->logo_hash = WPSEO_Schema_Context::AUTHOR_LOGO_HASH;
+		$this->logo_hash = WPSEO_Schema_IDs::AUTHOR_LOGO_HASH;
 	}
 
 	/**
@@ -92,7 +92,7 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	 * @return string The `@id` string value.
 	 */
 	protected function determine_schema_id( $user_id ) {
-		return get_author_posts_url( $user_id ) . WPSEO_Schema_Context::AUTHOR_HASH;
+		return get_author_posts_url( $user_id ) . WPSEO_Schema_IDs::AUTHOR_HASH;
 	}
 
 }

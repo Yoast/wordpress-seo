@@ -32,7 +32,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 */
 	public function __construct( WPSEO_Schema_Context $context ) {
 		$this->context   = $context;
-		$this->logo_hash = WPSEO_Schema_Context::PERSON_LOGO_HASH;
+		$this->logo_hash = WPSEO_Schema_IDs::PERSON_LOGO_HASH;
 	}
 
 	/**
@@ -147,7 +147,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		// If this is an author page, the Person object is the main object, so we set it as such here.
 		if ( is_author() ) {
 			$data['mainEntityOfPage'] = array(
-				'@id' => $this->context->canonical . WPSEO_Schema_Context::WEBPAGE_HASH,
+				'@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH,
 			);
 		}
 		return $data;
@@ -193,7 +193,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 				break;
 		}
 
-		return $url . WPSEO_Schema_Context::PERSON_HASH;
+		return $url . WPSEO_Schema_IDs::PERSON_HASH;
 	}
 
 	/**

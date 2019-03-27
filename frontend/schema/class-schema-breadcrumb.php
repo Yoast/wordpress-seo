@@ -86,7 +86,7 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 
 		$data = array(
 			'@type'           => 'BreadcrumbList',
-			'@id'             => $this->context->canonical . WPSEO_Schema_Context::BREADCRUMB_HASH,
+			'@id'             => $this->context->canonical . WPSEO_Schema_IDs::BREADCRUMB_HASH,
 			'itemListElement' => $list_elements,
 		);
 
