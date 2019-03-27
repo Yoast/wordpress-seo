@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`the SiteSEOReport matches the snapshot 1`] = `
+exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snapshot 1`] = `
 .c6 {
   display: table-row;
   font-size: 14px;

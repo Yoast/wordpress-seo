@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 
 import SiteSEOReport from "../src/SiteSEOReport";
 
-test( "the SiteSEOReport matches the snapshot", () => {
+describe( "The SiteSEOReport testing suite", () => {
 	const seoAssessmentItems = [
 		{
 			html: "<div></div>",
@@ -32,5 +32,7 @@ test( "the SiteSEOReport matches the snapshot", () => {
 	);
 
 	const tree = component.toJSON();
-	expect( tree ).toMatchSnapshot();
+	it("The SiteSEOReport should match the snapshot", function() {
+		expect( tree ).toMatchSnapshot();
+	});
 } );
