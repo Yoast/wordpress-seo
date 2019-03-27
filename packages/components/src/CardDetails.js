@@ -109,26 +109,6 @@ const Details = styled.div`
  */
 class CardDetails extends React.Component {
 	/**
-	 * Renders the component.
-	 *
-	 * @returns {ReactElement} The rendered component.
-	 */
-	render() {
-		const buttonType = this.props.ctaButtonData.ctaButtonType === "regular" ? CardRegularButton : CardUpsellButton;
-
-		return (
-			<Fragment>
-				<Details>
-					<CourseFeatureList
-						dangerouslySetInnerHTML={ { __html: this.props.description } }
-					/>
-				</Details>
-				{ this.getActionBlock( buttonType, this.props.isBundle ) }
-			</Fragment>
-		);
-	}
-
-	/**
 	 * Returns the correct Action Block based on whether an item is a bundle or a single course.
 	 *
 	 * @param {string} buttonType The type of the button. Either regular or sale.
@@ -155,6 +135,26 @@ class CardDetails extends React.Component {
 				{ this.props.readMoreLinkText }
 			</OutboundInfoLink>
 		</ActionBlock>;
+	}
+
+	/**
+	 * Renders the component.
+	 *
+	 * @returns {ReactElement} The rendered component.
+	 */
+	render() {
+		const buttonType = this.props.ctaButtonData.ctaButtonType === "regular" ? CardRegularButton : CardUpsellButton;
+
+		return (
+			<Fragment>
+				<Details>
+					<CourseFeatureList
+						dangerouslySetInnerHTML={ { __html: this.props.description } }
+					/>
+				</Details>
+				{ this.getActionBlock( buttonType, this.props.isBundle ) }
+			</Fragment>
+		);
 	}
 }
 
