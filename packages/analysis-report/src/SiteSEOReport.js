@@ -49,8 +49,8 @@ const SiteSEOReport = ( props ) => {
 
 SiteSEOReport.propTypes = {
 	className: PropTypes.string,
-	siteSEOReportText: PropTypes.string,
-	siteSEOReportItems: PropTypes.arrayOf(
+	seoAssessmentText: PropTypes.string,
+	seoAssessmentItems: PropTypes.arrayOf(
 		PropTypes.shape( {
 			html: PropTypes.string.isRequired,
 			value: PropTypes.number.isRequired,
@@ -62,8 +62,8 @@ SiteSEOReport.propTypes = {
 
 SiteSEOReport.defaultProps = {
 	className: "seo-assessment",
-	siteSEOReportText: "SEO Assessment",
-	siteSEOReportItems: null,
+	seoAssessmentText: "SEO Assessment",
+	seoAssessmentItems: null,
 	barHeight: null,
 };
 

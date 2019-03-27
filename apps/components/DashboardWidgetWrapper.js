@@ -84,8 +84,8 @@ export default class DashboardWidget extends React.Component {
 			<ExamplesContainer>
 				<DashboardContainer>
 					<SiteSEOReport
-						siteSEOReportText="Your SEO score is decent overall, but can be improved! Get to work!"
-						siteSEOReportItems={ this.state.siteSEOReportItems }
+						seoAssessmentText="Your SEO score is decent overall, but can be improved! Get to work!"
+						seoAssessmentItems={ this.state.siteSEOReportItems }
 					/>
 					{ feed && <ArticleList
 						feed={ feed }

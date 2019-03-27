@@ -25,8 +25,8 @@ describe( "The SiteSEOReport testing suite", () => {
 	const component = renderer.create(
 		<SiteSEOReport
 			className="test_SiteSEOReport"
-			siteSEOReportText="Test assessment"
-			siteSEOReportItems={ siteSEOReportItems }
+			seoAssessmentText="Test assessment"
+			seoAssessmentItems={ siteSEOReportItems }
 			barHeight={ "10" }
 		/>
 	);
