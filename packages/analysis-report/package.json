@@ -22,7 +22,6 @@
     "react-dom": "16.6.3",
     "styled-components": "^2.1.2",
     "lodash": "^4.17.11",
-    "yoast-components": "^4.22.1"
   },
   "devDependencies": {
   },
