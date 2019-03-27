@@ -8,7 +8,7 @@ import ContentAnalysis from "./ContentAnalysisWrapper";
 import DashboardWidget from "./DashboardWidgetWrapper";
 import HelpCenterWrapper from "./HelpCenterWrapper";
 import KeywordExample from "./KeywordExample";
-import KeywordSuggestionsWrapper from "./KeywordSuggestionWrapper";
+import WordListWrapper from "./WordListWrapper";
 import SidebarCollapsibleWrapper from "./SidebarCollapsibleWrapper";
 import SnippetEditor from "./SnippetEditorExample";
 import SvgIconsWrapper from "./SvgIconsWrapper";
@@ -64,9 +64,9 @@ const components = [
 		component: <SidebarCollapsibleWrapper />,
 	},
 	{
-		id: "keyword-suggestions",
-		name: "Keyword suggestions",
-		component: <KeywordSuggestionsWrapper />,
+		id: "wordlist",
+		name: "WordList",
+		component: <WordListWrapper />,
 	},
 	{
 		id: "buttons",
