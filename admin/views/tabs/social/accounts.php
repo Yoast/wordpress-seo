@@ -34,7 +34,7 @@ if ( $company_or_person === 'person' ) {
 	$user_id = WPSEO_Options::get( 'company_or_person_user_id', '' );
 	$person  = get_userdata( $user_id );
 	printf( esc_html__( 'To change the social accounts used for your site, update the details for %1$s.', 'wordpress-seo' ), '<a href="' . admin_url( 'user-edit.php?user_id=' . $user_id ) . '">' . $person->display_name . '</a>' );
-	echo " ";
+	echo ' ';
 	printf( esc_html__( 'To make your site represent a Company or Organization go to %1$sSearch Appearance%2$s and set Company or Person to "Company".', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_titles' ) . '">', '</a>' );
 	echo '</p></div>';
 	$disabled = true;

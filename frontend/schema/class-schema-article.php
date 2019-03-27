@@ -119,7 +119,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		$terms = get_the_terms( $this->context->id, $taxonomy );
 		if ( is_array( $terms ) ) {
 			$keywords = array();
-			foreach( $terms as $term ) {
+			foreach ( $terms as $term ) {
 				$keywords[] = $term->name;
 			}
 			$data['keywords'] = implode( ',', $keywords );

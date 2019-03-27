@@ -47,7 +47,7 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 		if ( WPSEO_Options::get( 'company_or_person' ) === 'person' && WPSEO_Options::get( 'company_or_person_user_id', false ) === false ) {
 			$class = 'error';
 			echo '<p class="error-message">';
-			esc_html_e( 'Error: Please select a user below to make your site\'s meta data complete.' );
+			esc_html_e( 'Error: Please select a user below to make your site\'s meta data complete.', 'wordpress-seo' );
 			echo '</p>';
 		}
 		$yform->label(

@@ -22,6 +22,11 @@
  * @since 10.2
  */
 class WPSEO_Schema_Context {
+	/**
+	 * The current page's canonical.
+	 *
+	 * @var string
+	 */
 	public $canonical;
 	/**
 	 * Holds the company name, if the site represents a company.
