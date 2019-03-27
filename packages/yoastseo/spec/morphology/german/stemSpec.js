@@ -19,6 +19,8 @@ const nounsToStem = [
 	[ "test", "test" ],
 	// A word without an R1.
 	[ "so", "so" ],
+	// A word with a vowel that should be treated like a consonant
+	[ "schreien", "schrei" ],
 ];
 
 describe( "Test for stemming German words", () => {
