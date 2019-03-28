@@ -69,6 +69,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 
 		$data = $this->add_image( $data );
 		$data = $this->add_keywords( $data );
+		$data = $this->add_sections( $data );
 
 		return $data;
 	}
@@ -110,19 +111,50 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 */
 	private function add_keywords( $data ) {
 		/**
-		 * Filter: 'wpseo_schema_article_taxonomy' - Allow changing the taxonomy used to assign keywords to a post type Article data.
+		 * Filter: 'wpseo_schema_article_keywords_taxonomy' - Allow changing the taxonomy used to assign keywords to a post type Article data.
 		 *
 		 * @api string $taxonomy The chosen taxonomy.
 		 */
 		$taxonomy = apply_filters( 'wpseo_schema_article_keywords_taxonomy', 'post_tag' );
 
+		return $this->add_terms( $data, 'keywords', $taxonomy );
+	}
+
+	/**
+	 * Adds categories as sections, if categories are assigned.
+	 *
+	 * @param array $data Article data.
+	 *
+	 * @return array $data Article data.
+	 */
+	private function add_sections( $data ) {
+		/**
+		 * Filter: 'wpseo_schema_article_sections_taxonomy' - Allow changing the taxonomy used to assign keywords to a post type Article data.
+		 *
+		 * @api string $taxonomy The chosen taxonomy.
+		 */
+		$taxonomy = apply_filters( 'wpseo_schema_article_sections_taxonomy', 'category' );
+
+		return $this->add_terms( $data, 'sections', $taxonomy );
+	}
+
+	/**
+	 * Adds a term or multiple terms, comma separated, to a field.
+	 *
+	 * @param array  $data     Article data.
+	 * @param string $key      The key in data to save the terms in.
+	 * @param string $taxonomy The taxonomy to retrieve the terms from.
+	 *
+	 * @return mixed array $data Article data.
+	 */
+	private function add_terms( $data, $key, $taxonomy ) {
 		$terms = get_the_terms( $this->context->id, $taxonomy );
 		if ( is_array( $terms ) ) {
 			$keywords = array();
 			foreach ( $terms as $term ) {
 				$keywords[] = $term->name;
 			}
-			$data['keywords'] = implode( ',', $keywords );
+			$data[ $key ] = implode( ',', $keywords );
 		}
 
 		return $data;
