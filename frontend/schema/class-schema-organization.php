@@ -66,12 +66,14 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 		if ( empty( $logo ) ) {
 			return $data;
 		}
-		$data['logo'] = array(
+		$id            = $this->context->site_url . WPSEO_Schema_IDs::ORGANIZATION_LOGO_HASH;
+		$data['logo']  = array(
 			'@type'   => 'ImageObject',
-			'@id'     => $this->context->site_url . WPSEO_Schema_IDs::ORGANIZATION_LOGO_HASH,
+			'@id'     => $id,
 			'url'     => $logo,
 			'caption' => $this->context->company_name,
 		);
+		$data['image'] = array( '@id' => $id );
 
 		return $data;
 	}
