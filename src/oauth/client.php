@@ -237,7 +237,7 @@ class Client {
 	protected function update_option() {
 		\WPSEO_Options::set(
 			'myyoast_oauth',
-			WPSEO_Utils::format_json_encode(
+			\WPSEO_Utils::format_json_encode(
 				[
 					'config'        => $this->config,
 					'access_tokens' => $this->access_tokens,
