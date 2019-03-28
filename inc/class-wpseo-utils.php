@@ -1159,8 +1159,15 @@ SVG;
 			// @codingStandardsIgnoreLine This is used in the wp_json_encode call, which checks for this.
 			$flags = ( $flags | JSON_UNESCAPED_SLASHES );
 		}
-		if ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG ) {
+		if ( self::is_development_mode() ) {
 			$flags = ( $flags | JSON_PRETTY_PRINT );
+
+			/**
+			 * Filter the Yoast SEO development mode.
+			 *
+			 * @api array $data Allows filtering of the JSON data for debug purposes.
+			 */
+			$data = apply_filters( 'wpseo_debug_json_data', $data );
 		}
 
 		return wp_json_encode( $data, $flags );
