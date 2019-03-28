@@ -350,7 +350,7 @@ class Yoast_Notification {
 			return '';
 		}
 
-		return wp_json_encode( $this->options['data_json'] );
+		return WPSEO_Utils::format_json_encode( $this->options['data_json'] );
 	}
 
 	/**

@@ -28,7 +28,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 		check_ajax_referer( 'wpseo_recalculate', 'nonce' );
 
 		wp_die(
-			wp_json_encode(
+			WPSEO_Utils::format_json_encode(
 				array(
 					'posts' => $this->calculate_posts(),
 					'terms' => $this->calculate_terms(),
@@ -49,7 +49,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 			$response = $fetch_object->get_items_to_recalculate( $paged );
 
 			if ( ! empty( $response ) ) {
-				wp_die( wp_json_encode( $response ) );
+				wp_die( WPSEO_Utils::format_json_encode( $response ) );
 			}
 		}
 

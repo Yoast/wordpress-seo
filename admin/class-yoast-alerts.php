@@ -139,7 +139,7 @@ class Yoast_Alerts {
 	private function output_ajax_response( $type ) {
 
 		$html = $this->get_view_html( $type );
-		echo wp_json_encode(
+		echo WPSEO_Utils::format_json_encode(
 			array(
 				'html'  => $html,
 				'total' => self::get_active_alert_count(),

@@ -1152,6 +1152,26 @@ SVG;
 		return class_exists( 'WPSEO_MyYoast_Client' );
 	}
 
+	/**
+	 * Prepares data for outputting as JSON.
+	 *
+	 * @param array $data The data to format.
+	 *
+	 * @return false|string The prepared JSON string.
+	 */
+	public static function format_json_encode( $data ) {
+		$flags = 0;
+		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
+			// @codingStandardsIgnoreLine This is used in the wp_json_encode call, which checks for this.
+			$flags = ( $flags | JSON_UNESCAPED_SLASHES );
+		}
+		if ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG ) {
+			$flags = ( $flags | JSON_PRETTY_PRINT );
+		}
+
+		return wp_json_encode( $data, $flags );
+	}
+
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
