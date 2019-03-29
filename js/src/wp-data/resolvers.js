@@ -4,10 +4,21 @@ import { select } from "@wordpress/data";
 /* Internal dependencies */
 import * as actions from "./actions";
 
+/**
+ * Default API query parameters.
+ *
+ * The @wordpress/api-fetch library has middleware that will retrieve all entries for a collection
+ * if per_page=-1 is specified, because the limit for WordPress API endpoints is 100 items per request.
+ */
 const DEFAULT_PARAMS = {
 	/* eslint-disable-next-line camelcase */
 	per_page: -1,
 };
+
+/**
+ * Api request base.
+ */
+const REST_BASE = "/wp/v2";
 
 /**
  * Turns an object into query params.
@@ -43,7 +54,7 @@ export function* getTerms( taxonomySlug ) {
 	}
 
 	const terms = yield actions.fetchFromAPI( {
-		path: `/wp/v2/${ taxonomy.rest_base }?${ buildQueryString() }`,
+		path: `${ REST_BASE }/${ taxonomy.rest_base }?${ buildQueryString() }`,
 	} );
 
 	return actions.setTerms( { taxonomySlug, terms } );
@@ -58,7 +69,7 @@ export function* getTerms( taxonomySlug ) {
  */
 export function* getTaxonomies( postType ) {
 	const taxonomies = yield actions.fetchFromAPI( {
-		path: `/wp/v2/taxonomies?${ buildQueryString( { type: postType } ) }`,
+		path: `${ REST_BASE }/taxonomies?${ buildQueryString( { type: postType } ) }`,
 	} );
 
 	return actions.setTaxonomies( taxonomies );
