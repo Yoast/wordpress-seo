@@ -83,7 +83,7 @@ function collapseRelevantWordsOnStem( wordCombinations ) {
 		if ( currentWord.getStem() ===  previousWord.getStem() ) {
 			previousWord.setOccurrences( previousWord.getOccurrences() + currentWord.getOccurrences() );
 
-			if ( currentWord.getWord() === previousWord.getStem() ) {
+			if ( currentWord.getWord() === previousWord.getStem() || currentWord.getWord().toLocaleLowerCase() === previousWord.getStem() ) {
 				previousWord.setWord( currentWord.getWord() );
 			}
 		} else {

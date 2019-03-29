@@ -154,15 +154,15 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 	it( "properly sorts the input array by stem before collapsing: Also with abbreviations", function() {
 		const wordCombinations = [
 			new WordCombination( "sentence", "sentence", 2 ),
-			new WordCombination( "words", "word", 11 ),
+			new WordCombination( "WORDs", "word", 11 ),
 			new WordCombination( "whole", "whole", 2 ),
-			new WordCombination( "word", "word", 10 ),
+			new WordCombination( "WORD", "word", 10 ),
 		];
 
 		const expectedResult = [
 			new WordCombination( "sentence", "sentence", 2 ),
 			new WordCombination( "whole", "whole", 2 ),
-			new WordCombination( "word", "word", 21 ),
+			new WordCombination( "WORD", "word", 21 ),
 		];
 
 		const result = collapseRelevantWordsOnStem( wordCombinations );
