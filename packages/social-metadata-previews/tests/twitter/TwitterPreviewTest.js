@@ -11,6 +11,7 @@ describe( "TwitterPreview", () => {
 			<TwitterPreview
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
+				type="summary"
 			/>
 		);
 
