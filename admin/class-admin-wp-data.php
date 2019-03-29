@@ -22,7 +22,7 @@ class WPSEO_WP_Data implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Enqueue required scripts.
+	 * Enqueues required scripts.
 	 *
 	 * @return void
 	 */
@@ -39,7 +39,7 @@ class WPSEO_WP_Data implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Get localized data.
+	 * Gets localized data.
 	 *
 	 * Allows developers to pre-populate the data, so not everything has to be retrieved on the fly.
 	 *
@@ -53,7 +53,7 @@ class WPSEO_WP_Data implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Get taxonomies for the current post type to populate the localized data.
+	 * Gets taxonomies for the current post type to populate the localized data.
 	 *
 	 * @return array Taxonomies for the current post type.
 	 */
