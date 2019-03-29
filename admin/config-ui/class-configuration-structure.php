@@ -34,9 +34,6 @@ class WPSEO_Configuration_Structure {
 			'publishingEntityCompanyName',
 			'publishingEntityCompanyLogo',
 			'publishingEntityPersonName',
-		),
-		'profileUrls'                => array(
-			'socialProfilesIntro',
 			'profileUrlFacebook',
 			'profileUrlTwitter',
 			'profileUrlInstagram',
@@ -72,7 +69,6 @@ class WPSEO_Configuration_Structure {
 			__( 'Company or person', 'wordpress-seo' ),
 			$this->fields['publishingEntity']
 		);
-		$this->add_step( 'profile-urls', __( 'Social profiles', 'wordpress-seo' ), $this->fields['profileUrls'] );
 
 		$fields = array( 'postTypeVisibility' );
 
