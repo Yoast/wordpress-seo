@@ -11,7 +11,8 @@
   "author": "Yoast",
   "license": "GPL-3.0",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint . --max-warnings=94"
   },
   "jest": {
     "testRegex": ".*Test.js$",
@@ -20,6 +21,7 @@
   },
   "dependencies": {
     "@yoast/helpers": "^0.1.0",
+    "@yoast/style-guide": "^0.1.0",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "styled-components": "^2.4.1",
@@ -43,7 +45,6 @@
     "react": "^16.2.0",
     "react-dom": "16.2.0",
     "react-intl": "^2.4.0"
-
   },
   "optionalDependencies": {
     "grunt-scss-to-json": "^1.0.1"

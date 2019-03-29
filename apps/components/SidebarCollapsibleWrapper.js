@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import Collapsible, { StyledIconsButton } from "yoast-components/composites/Plugin/Shared/components/Collapsible";
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 
 const FullWidthContaniner = styled.div`
 	max-width: 1024px;
