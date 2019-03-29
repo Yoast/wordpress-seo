@@ -8,46 +8,24 @@
 /**
  * Unit Test Class.
  *
- * @group asd
+ * @group test
  */
 class WPSEO_Subscription_Notifier_Test extends WPSEO_UnitTestCase {
 	/**
-	 * Tests if the correct subscription is return when calling get_first_expiring_subscription.
+	 * @param $subscriptions
 	 *
-	 * @covers WPSEO_Subscription_Notifier::determine_subscription_with_earliest_expiry_date
+	 * @return WPSEO_Subscription_Notifier_Double Subscription notifier instance.
 	 */
-	public function test_get_first_expiring_subscription() {
+	private function initialize_with_subscriptions( $subscriptions ) {
 		$addon_manager = $this
 			->getMockBuilder( 'WPSEO_Addon_Manager' )
 			->setMethods( array( 'get_subscriptions_for_active_addons' ) )
 			->getMock();
 
 		$addon_manager
-			->expects( $this->once() )
+			->expects( $this->any() )
 			->method( 'get_subscriptions_for_active_addons' )
-			->will( $this->returnValue( array(
-				(object) array(
-					'product' => (object) array()
-				),
-				(object) array(
-					'expiry_date' => '2001-01-01T00:00:00.000Z',
-					'product' => (object) array(
-						'name'        => 'Addon 1',
-					),
-				),
-				(object) array(
-					'expiry_date' => '2000-01-01T00:00:00.000Z',
-					'product' => (object) array(
-						'name'        => 'Addon 2',
-					),
-				),
-				(object) array(
-					'expiry_date' => '2002-01-01T00:00:00.000Z',
-					'product' => (object) array(
-						'name'        => 'Addon 3',
-					),
-				),
-			) ) );
+			->will( $this->returnValue( $subscriptions ) );
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Subscription_Notifier_Double' )
@@ -63,6 +41,77 @@ class WPSEO_Subscription_Notifier_Test extends WPSEO_UnitTestCase {
 			);
 
 		$instance->__construct();
+
+		$instance->init();
+
+		return $instance;
+	}
+
+	private function get_offset_date( $offset ) {
+		return gmdate( DATE_ATOM, time() + $offset );
+	}
+
+	/**
+	 * Tests if the correct subscription is return when calling get_first_expiring_subscription.
+	 *
+	 * @covers WPSEO_Subscription_Notifier::determine_subscription_with_earliest_expiry_date
+	 */
+	public function test_get_first_expiring_subscription() {
+		$subscriptions = array(
+			(object) array(
+				'product' => (object) array()
+			),
+			(object) array(
+				'expiry_date' => '2001-01-01T00:00:00.000Z',
+				'product' => (object) array(
+					'name'        => 'Addon 1',
+				),
+			),
+			(object) array(
+				'expiry_date' => '2000-01-01T00:00:00.000Z',
+				'product' => (object) array(
+					'name'        => 'Addon 2',
+				),
+			),
+			(object) array(
+				'expiry_date' => '2002-01-01T00:00:00.000Z',
+				'product' => (object) array(
+					'name'        => 'Addon 3',
+				),
+			),
+		);
+
+		$instance = $this->initialize_with_subscriptions( $subscriptions );
+
+		$expected = (object) array(
+			'expiry_date' => '2000-01-01T00:00:00.000Z',
+			'product' => (object) array(
+				'name'        => 'Addon 2',
+			),
+		);
+
+		$this->assertEquals(
+			$expected,
+			$instance->determine_subscription_with_earliest_expiry_date()
+		);
+	}
+
+	/**
+	 * Tests if the correct subscription is return when calling get_first_expiring_subscription.
+	 *
+	 * @covers WPSEO_Subscription_Notifier::determine_subscription_with_earliest_expiry_date
+	 */
+	public function test_get_first_expiring_subscription_one_subscription() {
+		$subscriptions = array(
+			(object) array(
+				'expiry_date' => '2000-01-01T00:00:00.000Z',
+				'product' => (object) array(
+					'name'        => 'Addon 2',
+				),
+			),
+		);
+
+		$instance = $this->initialize_with_subscriptions( $subscriptions );
 
 		$expected = (object) array(
 			'expiry_date' => '2000-01-01T00:00:00.000Z',
@@ -137,6 +186,163 @@ class WPSEO_Subscription_Notifier_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals(
 			$expected,
 			$instance->calculate_days_until_expiration( $subscription )
+		);
+	}
+
+	/**
+	 * Test the URL that would get rendered in case of subscriptions without a renewal URL.
+	 *
+	 * @dataProvider provider_get_url_no_renewal_url
+	 *
+	 * @param stdClass $subscription Subscription to test again.
+	 * @param string   $expected     Expected URL.
+	 *
+	 * @covers WPSEO_Subscription_Notifier::get_url
+	 */
+	public function test_get_url_no_renewal_url( $subscription, $expected ) {
+		delete_option( WPSEO_Subscription_Notifier_Double::NOTIFICATION_ID );
+
+		$instance = $this->initialize_with_subscriptions( array( $subscription ) );
+
+		$this->assertEquals(
+			$expected,
+			$instance->get_url()
+		);
+	}
+
+	/**
+	 * Data provider for test_get_url_no_renewal_url().
+	 *
+	 * @return array Data for test.
+	 */
+	public function provider_get_url_no_renewal_url() {
+		return array(
+			array(
+				'subscription' => (object) array(
+					'expiry_date' => $this->get_offset_date( DAY_IN_SECONDS * 10 ),
+					'product' => (object) array(
+						'name' => 'Addon 1',
+					),
+				),
+				'expected_url' => esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3me' ) ),
+			),
+			array(
+				'subscription' => (object) array(
+					'expiry_date' => $this->get_offset_date( DAY_IN_SECONDS * 3 ),
+					'product' => (object) array(
+						'name' => 'Addon 1',
+					),
+				),
+				'expected_url' => esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3mf' ) ),
+			),
+			array(
+				'subscription' => (object) array(
+					'expiry_date' => $this->get_offset_date( DAY_IN_SECONDS * 1 ),
+					'product' => (object) array(
+						'name' => 'Addon 1',
+					),
+				),
+				'expected_url' => esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3mg' ) ),
+			),
+			array(
+				'subscription' => (object) array(
+					'expiry_date' => $this->get_offset_date( DAY_IN_SECONDS * 0 ),
+					'product' => (object) array(
+						'name' => 'Addon 1',
+					),
+				),
+				'expected_url' => esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3mh' ) ),
+			),
+			array(
+				'subscription' => (object) array(
+					'expiry_date' => $this->get_offset_date( DAY_IN_SECONDS * -1 ),
+					'product' => (object) array(
+						'name' => 'Addon 1',
+					),
+				),
+				'expected_url' => esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3mi' ) ),
+			),
+		);
+	}
+
+	/**
+	 * Test the URL that would get rendered in case of subscriptions with a renewal URL.
+	 *
+	 * @dataProvider provider_get_url_with_renewal_url
+	 *
+	 * @param stdClass $subscription Subscription to test again.
+	 * @param string   $expected     Expected URL.
+	 *
+	 * @covers WPSEO_Subscription_Notifier::get_url
+	 */
+	public function test_get_url_with_renewal_url( $subscription, $expected ) {
+		delete_option( WPSEO_Subscription_Notifier_Double::NOTIFICATION_ID );
+
+		$instance = $this->initialize_with_subscriptions( array( $subscription ) );
+
+		$this->assertEquals(
+			$expected,
+			$instance->get_url()
+		);
+	}
+
+	/**
+	 * Data provider for test_get_url_with_renewal_url().
+	 *
+	 * @return array Data for test.
+	 */
+	public function provider_get_url_with_renewal_url() {
+		return array(
+			array(
+				'subscription' => (object) array(
+					'expiry_date' => $this->get_offset_date( DAY_IN_SECONDS * 10 ),
+					'renewal_url' => 'http://example.com',
+					'product' => (object) array(
+						'name' => 'Addon 1',
+					),
+				),
+				'expected_url' => esc_url( WPSEO_Shortlinker::get( 'http://example.com#utm_source=yoast-seo&utm_medium=software&utm_content=renewal-notification&utm_campaign=wordpress-ad&utm_term=4-weeks-before' ) ),
+			),
+			array(
+				'subscription' => (object) array(
+					'expiry_date' => $this->get_offset_date( DAY_IN_SECONDS * 3 ),
+					'renewal_url' => 'http://example.com',
+					'product' => (object) array(
+						'name' => 'Addon 1',
+					),
+				),
+				'expected_url' => esc_url( WPSEO_Shortlinker::get( 'http://example.com#utm_source=yoast-seo&utm_medium=software&utm_content=renewal-notification&utm_campaign=wordpress-ad&utm_term=1-week-before' ) ),
+			),
+			array(
+				'subscription' => (object) array(
+					'expiry_date' => $this->get_offset_date( DAY_IN_SECONDS * 1 ),
+					'renewal_url' => 'http://example.com',
+					'product' => (object) array(
+						'name' => 'Addon 1',
+					),
+				),
+				'expected_url' => esc_url( WPSEO_Shortlinker::get( 'http://example.com#utm_source=yoast-seo&utm_medium=software&utm_content=renewal-notification&utm_campaign=wordpress-ad&utm_term=1-day-before' ) ),
+			),
+			array(
+				'subscription' => (object) array(
+					'expiry_date' => $this->get_offset_date( DAY_IN_SECONDS * 0 ),
+					'renewal_url' => 'http://example.com',
+					'product' => (object) array(
+						'name' => 'Addon 1',
+					),
+				),
+				'expected_url' => esc_url( WPSEO_Shortlinker::get( 'http://example.com#utm_source=yoast-seo&utm_medium=software&utm_content=renewal-notification&utm_campaign=wordpress-ad&utm_term=1-day-after' ) ),
+			),
+			array(
+				'subscription' => (object) array(
+					'expiry_date' => $this->get_offset_date( DAY_IN_SECONDS * -1 ),
+					'renewal_url' => 'http://example.com',
+					'product' => (object) array(
+						'name' => 'Addon 1',
+					),
+				),
+				'expected_url' => esc_url( WPSEO_Shortlinker::get( 'http://example.com#utm_source=yoast-seo&utm_medium=software&utm_content=renewal-notification&utm_campaign=wordpress-ad&utm_term=29-days-after' ) ),
+			),
 		);
 	}
 }

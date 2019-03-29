@@ -101,6 +101,8 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * Gets the addon manager.
 	 *
 	 * @return WPSEO_Addon_Manager
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function get_addon_manager() {
 		return new WPSEO_Addon_Manager();
@@ -110,6 +112,8 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * Gets the notification center.
 	 *
 	 * @return Yoast_Notification_Center
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function get_notification_center() {
 		return Yoast_Notification_Center::get();
@@ -206,7 +210,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 *
 	 * @return string Escaped URL string.
 	 */
-	private function get_url() {
+	protected function get_url() {
 		if ( ! empty( $this->subscription_with_earliest_expiry_date->renewal_url ) ) {
 			$url = $this->apply_utm_tags( $this->subscription_with_earliest_expiry_date->renewal_url );
 		}
@@ -225,7 +229,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * @return string The URL with applied UTM tags.
 	 */
 	private function apply_utm_tags( $url ) {
-		return $url . $this->get_utm_tags();
+		return WPSEO_Shortlinker::get( $url . $this->get_utm_tags() );
 	}
 
 	/**
@@ -234,7 +238,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * @return string The UTM tags.
 	 */
 	private function get_utm_tags() {
-		$tags = array(
+		$utm_tags = array(
 			'utm_source'   => 'yoast-seo',
 			'utm_medium'   => 'software',
 			'utm_content'  => 'renewal-notification',
@@ -242,13 +246,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 			'utm_term'     => $this->get_utm_term(),
 		);
 
-		$utm_tags = '#';
-
-		foreach ( $tags as $key => $value ) {
-			$utm_tags .= $key . '=' . $value;
-		}
-
-		return $utm_tags;
+		return '#' . http_build_query( $utm_tags );
 	}
 
 	/**
@@ -276,8 +274,6 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * Gets the appropriate shortlink based on the expiration date.
 	 *
 	 * @return string The shortlink.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	private function get_shortlink() {
 		switch ( $this->current_notification_id ) {
@@ -308,6 +304,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 			return;
 		}
 
+		$this->current_notification_id = $notification_id;
 		update_option( self::NOTIFICATION_ID, $notification_id );
 		$this->notification_has_changed = true;
 	}

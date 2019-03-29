@@ -29,4 +29,15 @@ class WPSEO_Subscription_Notifier_Double extends WPSEO_Subscription_Notifier {
 	public function calculate_days_until_expiration( $subscription ) {
 		return parent::calculate_days_until_expiration( $subscription );
 	}
+
+	/**
+	 * Gets the URL for the expiration notification message.
+	 *
+	 * For implementation details see https://github.com/Yoast/wordpress-seo/pull/11170#issuecomment-477026724.
+	 *
+	 * @return string Escaped URL string.
+	 */
+	public function get_url() {
+		return parent::get_url();
+	}
 }
