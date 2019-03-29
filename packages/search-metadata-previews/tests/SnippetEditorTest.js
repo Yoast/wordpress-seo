@@ -43,7 +43,7 @@ const renderSnapshotWithArgs = ( changedArgs ) => {
  */
 const mountWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
-	return mount( <SnippetEditor { ...args } />)
+	return mount( <SnippetEditor { ...args } /> );
 };
 
 /**
@@ -55,7 +55,7 @@ const mountWithArgs = ( changedArgs ) => {
  */
 const shallowWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
-	return shallow( <SnippetEditor {...args} />)
+	return shallow( <SnippetEditor { ...args } /> );
 };
 
 
