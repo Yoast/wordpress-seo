@@ -67,7 +67,7 @@ const detectAndStemParticiplePerPrefixClass = function( word, prefixes, regexPar
  * @returns {string|null} The stem or null if no participle with prefix was matched.
  */
 const detectAndStemParticiplesWithPrefixes = function( morphologyDataVerbs, word ) {
-	const prefixesSeparableOrInseparable = morphologyDataVerbs.verbPrefixesSeparableOrInseparable;
+	const prefixesSeparableOrInseparable = morphologyDataVerbs.prefixes.separableOrInseparable;
 
 	/*
 	 * It's important to preserve order here, since the ge + stem ending in d/t + et regex is more specific than
@@ -79,7 +79,9 @@ const detectAndStemParticiplesWithPrefixes = function( morphologyDataVerbs, word
 		const endStem = participleClass.endStem;
 		const separable = participleClass.separable;
 
-		const prefixes = separable ? morphologyDataVerbs.verbPrefixesSeparable : morphologyDataVerbs.verbPrefixesInseparable;
+		const prefixes = separable
+			? morphologyDataVerbs.prefixes.separable
+			: morphologyDataVerbs.prefixes.inseparable;
 
 		let stem = detectAndStemParticiplePerPrefixClass( word, prefixes, regex, startStem, endStem );
 
