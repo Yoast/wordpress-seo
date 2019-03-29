@@ -65,8 +65,16 @@ module.exports = {
 				} ],
 			},
 			{
-				test:/\.css$/,
-				use:['style-loader','css-loader']
+				test: /\.css$/,
+				use: [
+					{
+						loader: 'style-loader',
+						options: {
+							insertAt: 'top'
+						}
+					},
+					'css-loader'
+				]
 			},
 		],
 	},
