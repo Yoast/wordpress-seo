@@ -1,10 +1,7 @@
 import SnippetEditor from "../src/snippet-editor/SnippetEditor";
 import React from "react";
 import { createComponentWithIntl } from "@yoast/helpers";
-import {
-	mountWithIntl,
-	shallowWithIntl,
-} from "yoast-components/utils/helpers/intl-enzyme-test-helper";
+import { mount, shallow } from "enzyme";
 import { MODE_DESKTOP } from "../src/snippet-preview/constants";
 import { focus } from "../src/snippet-editor/ReplacementVariableEditorStandalone";
 
@@ -46,7 +43,7 @@ const renderSnapshotWithArgs = ( changedArgs ) => {
  */
 const mountWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
-	return mountWithIntl( <SnippetEditor { ...args } /> );
+	return mount( <SnippetEditor { ...args } />)
 };
 
 /**
@@ -58,7 +55,7 @@ const mountWithArgs = ( changedArgs ) => {
  */
 const shallowWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
-	return shallowWithIntl( <SnippetEditor { ...args } /> );
+	return shallow( <SnippetEditor {...args} />)
 };
 
 
