@@ -18,7 +18,7 @@ const TwitterPreview = ( props ) => {
 	return (
 		<Fragment>
 			<TwitterTitle title={ props.title } />
-			<TwitterDescription description={ props.description } />
+			<TwitterDescription description={ props.description } type={ props.type } />
 			<TwitterSiteName siteName={ props.siteName } />
 		</Fragment>
 	);
@@ -27,6 +27,7 @@ const TwitterPreview = ( props ) => {
 TwitterPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	description: PropTypes.string,
+	type: PropTypes.string.isRequired,
 	siteName: PropTypes.string.isRequired,
 };
 
