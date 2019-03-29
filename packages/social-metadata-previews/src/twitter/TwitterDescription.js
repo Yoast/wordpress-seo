@@ -20,7 +20,7 @@ const defineTwitterDescriptionWrapper = ( cardType ) => {
 		line-height: 18.2px;
 		overflow: hidden;
 		margin-bottom: 4.52662px;
-		width: 476px;
+		width: 357px;
 `;
 		return TwitterDescriptionWrapper;
 	}
