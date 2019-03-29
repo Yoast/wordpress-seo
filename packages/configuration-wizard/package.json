@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^1.0.0",
+    "@yoast/components": "^0.1.0",
     "@yoast/helpers": "^0.1.0",
     "@yoast/style-guide": "^0.1.0",
     "prop-types": "^15.7.2",

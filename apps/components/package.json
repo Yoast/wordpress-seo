@@ -18,7 +18,7 @@
     "@wordpress/i18n": "1.2.3",
     "@yoast/search-metadata-previews": "^1.0.0",
     "lodash": "4.17.11",
-    "@yoast/components": "^1.0.0",
+    "@yoast/components": "^0.1.0",
     "@yoast/style-guide": "^0.1.0"
   },
   "devDependencies": {

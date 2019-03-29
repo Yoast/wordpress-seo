@@ -14,7 +14,7 @@
   "dependencies": {
     "prop-types": "^15.6.0",
     "styled-components": "^2.1.2",
-    "@yoast/components": "^1.0.0"
+    "@yoast/components": "^0.1.0"
   },
   "devDependencies": {
     "react-test-renderer": "^16.2.0",
