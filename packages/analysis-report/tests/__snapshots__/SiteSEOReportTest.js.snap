@@ -101,9 +101,7 @@ exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snap
 >
   <p
     className="test_SiteSEOReport__text c0"
-  >
-    Test assessment
-  </p>
+  />
   <div
     className="progress c1"
   >

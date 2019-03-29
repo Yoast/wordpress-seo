@@ -36,12 +36,12 @@ const SiteSEOReport = ( props ) => {
 			</SiteSEOReportText>
 			<StackedProgressBar
 				className="progress"
-				items={ props.siteSEOReportItems }
+				items={ props.seoAssessmentItems }
 				barHeight={ props.barHeight }
 			/>
 			<SiteSEOReportAssessments
 				className="assessments"
-				items={ props.siteSEOReportItems }
+				items={ props.seoAssessmentItems }
 			/>
 		</SiteSEOReportContainer>
 	);
