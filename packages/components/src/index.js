@@ -21,6 +21,7 @@ export {
 	addButtonStyles,
 } from "./buttons/Button";
 
+export { default as ArticleList } from "./ArticleList";
 export { default as Card, FullHeightCard } from "./Card";
 export { default as CardBanner } from "./CardBanner";
 export { default as CourseDetails } from "./CourseDetails";
