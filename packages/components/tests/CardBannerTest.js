@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import CardBanner from "../CardBanner";
+import CardBanner from "../src/CardBanner";
 
 test( "The empty CardBanner matches the snapshot", () => {
 	const component = renderer.create(

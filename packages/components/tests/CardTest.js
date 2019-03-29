@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import Card, { FullHeightCard } from "../Card";
-import CardDetails from "../CardDetails";
+import Card, { FullHeightCard } from "../src/Card";
+import CourseDetails from "../src/CourseDetails";
 
 test( "The empty Card component matches the snapshot", () => {
 	const component = renderer.create(
@@ -50,7 +50,7 @@ test( "The FullHeightCard is rendered including the CardBanner and CardDetails c
 			header={ header }
 			banner={ course.banner }
 		>
-			<CardDetails
+			<CourseDetails
 				title={ course.title }
 				description={ course.description }
 				courseUrl={ course.courseUrl }
