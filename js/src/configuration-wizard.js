@@ -3,8 +3,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 // Required to make Material UI work with touch screens.
-import { OnboardingWizard } from "yoast-components";
-import { MessageBox } from "yoast-components";
+import ConfigurationWizard, { MessageBox } from "@yoast/configuration-wizard";
+
 
 import MailchimpSignup from "./components/MailchimpSignup";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
@@ -124,7 +124,7 @@ class App extends React.Component {
 		if ( typeof( this.state.config ) !== "undefined" && this.state.config !== {} ) {
 			return (
 				<div>
-					<OnboardingWizard { ...this.state.config } headerIcon={ YoastIcon } />
+					<ConfigurationWizard { ...this.state.config } headerIcon={ YoastIcon } />
 				</div>
 			);
 		}
