@@ -51,3 +51,11 @@ overrides:
       no-shadow: [ 1, { "builtinGlobals": false, "hoist": "all", "allow": [] } ]
       require-jsdoc: [ 1, {"require": {"MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true}} ]
       no-useless-escape: 1
+  - files:
+      - "packages/analysis-report/**/*.js"
+    rules:
+      react/jsx-no-bind: 1
+      react/no-unused-state: 1
+      react/no-access-state-in-setstate: 1
+      react/require-default-props: 1
+      react/default-props-match-prop-types: 1
