@@ -1,13 +1,14 @@
+// External dependencies.
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-/* Yoast dependencies */
+// Yoast dependencies.
 import { colors } from "@yoast/style-guide";
 
 // Internal dependencies.
+import SvgIcon from "../SvgIcon";
 import { YoastButtonBase } from "./YoastButton";
-import SvgIcon from "./SvgIcon";
 
 const settings = {
 	minHeight: 48,
