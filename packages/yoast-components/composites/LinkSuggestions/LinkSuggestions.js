@@ -2,7 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import LinkSuggestion from "./composites/LinkSuggestion";
+import LinkSuggestion from "./LinkSuggestion";
 import Clipboard from "clipboard";
 import interpolateComponents from "interpolate-components";
 import { speak } from "@wordpress/a11y";
@@ -34,7 +34,6 @@ class LinkSuggestions extends React.Component {
 		};
 
 		this.state.clipboard.on( "success", this.handleSuccess.bind( this ) );
-
 		this.state.clipboard.on( "error", this.handleError.bind( this ) );
 	}
 
@@ -139,11 +138,11 @@ class LinkSuggestions extends React.Component {
 		const defaultSuggestions = this.getDefaultSuggestions();
 
 		return (
-			<div>
+			<LinkSuggestionsWrapper>
 				<p>{ articleLink }</p>
 				{ cornerStoneSuggestions }
 				{ defaultSuggestions }
-			</div>
+			</LinkSuggestionsWrapper>
 		);
 	}
 
@@ -197,10 +196,10 @@ class LinkSuggestions extends React.Component {
 	 */
 	getSuggestionsList( context, suggestions ) {
 		return (
-			<LinkSuggestionsWrapper>
+			<div>
 				<p>{ context }</p>
 				{ suggestions.map( ( suggestion, key ) => <LinkSuggestion key={ key } { ...suggestion } /> ) }
-			</LinkSuggestionsWrapper>
+			</div>
 		);
 	}
 
