@@ -1,6 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`KeywordInput matches the snapshot by default 1`] = `
+.c8::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c8:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
 .c6.c6.c6 {
   padding: 8px;
   font-size: 1em;
@@ -12,18 +24,6 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
 .c6.c6.c6:focus {
   border-color: #5b9dd9;
   box-shadow: 0 0 2px rgba( 30,140,190,0.8 );
-}
-
-.c8::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c8:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
 }
 
 .c0 {

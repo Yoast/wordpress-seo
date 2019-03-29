@@ -5,11 +5,8 @@ import omit from "lodash/omit";
 
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
-import { SectionTitle } from "@yoast/components";
+import { SectionTitle, IconsButton } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
-
-// Internal dependencies.
-import { IconsButton } from "../../Shared/components/Button";
 
 const Content = styled.div`
 	padding: 0 16px;
