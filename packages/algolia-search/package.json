@@ -16,6 +16,7 @@
     "@wordpress/i18n": "^1.1.0",
     "@yoast/components": "^1.0.0",
     "@yoast/helpers": "^0.1.0",
+    "@yoast/style-guide": "^0.1.0",
     "algoliasearch": "^3.22.3",
     "lodash": "^4.17.4",
     "prop-types": "^15.6.0",
@@ -35,7 +36,8 @@
     "react-test-renderer": "16.8.4"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint . --max-warnings=22"
   },
   "jest": {
     "testURL": "https://example.org",

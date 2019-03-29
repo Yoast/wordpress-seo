@@ -1,7 +1,7 @@
 import React from "react";
 
 import ExamplesContainer from "./ExamplesContainer";
-import TwitterPreview from "../../packages/social-metadata-previews/src/twitter/TwitterPreview";
+import { TwitterPreview } from "@yoast/social-metadata-previews";
 
 /**
  * Returns the TwitterPreview examples.

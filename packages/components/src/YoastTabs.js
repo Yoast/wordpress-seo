@@ -3,7 +3,8 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
 
-import { colors, breakpoints } from "../style-guide";
+/* Yoast dependencies */
+import { colors, breakpoints } from "@yoast/style-guide";
 
 const YoastTabsContainer = styled.div`
 	font-size: 1em;
@@ -153,6 +154,7 @@ YoastTabs.defaultProps = {
 	tabsFontSize: "1.5em",
 	tabsFontWeight: "200",
 	tabsBaseWidth: "200px",
+	onTabSelect: () => {},
 	onTabsMounted: () => {},
 };
 

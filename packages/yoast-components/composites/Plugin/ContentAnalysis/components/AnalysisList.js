@@ -5,9 +5,11 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import noop from "lodash/noop";
 
+/* Yoast dependencies. */
+import { colors } from "@yoast/style-guide";
+
 /* Internal dependencies */
 import AnalysisResult from "./AnalysisResult";
-import { colors } from "@yoast/components/style-guide";
 
 /**
  * Renders a styled list of analyses.
