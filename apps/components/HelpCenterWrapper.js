@@ -4,7 +4,7 @@ import styled from "styled-components";
 import HelpCenter from "yoast-components/composites/Plugin/HelpCenter/HelpCenter";
 import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTutorial";
 import { colors } from "@yoast/style-guide";
-import AlgoliaSearcher from "@yoast/algolia-search";
+import AlgoliaSearcher from "@yoast/algolia-search-box";
 
 export const HelpCenterContainer = styled.div`
 	max-width: 1280px;

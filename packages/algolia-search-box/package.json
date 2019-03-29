@@ -1,12 +1,12 @@
 {
-  "name": "@yoast/algolia-search",
+  "name": "@yoast/algolia-search-box",
   "version": "1.0.0",
   "description": "A packages that allows integration with Algolia Search",
   "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/javascript.git",
-    "directory": "packages/algolia-search"
+    "directory": "packages/algolia-search-box"
   },
   "author": "Yoast",
   "license": "GPL-3.0",
