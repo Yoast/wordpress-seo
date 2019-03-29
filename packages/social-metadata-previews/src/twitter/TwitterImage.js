@@ -63,8 +63,10 @@ const PlaceholderImage = styled.div`
 	border-top-right-radius: .85714em;
 	border-style: dashed;
 	border-width: 2px;
-	color: #073CBA; /* We're not using standard colors to increase contrast for accessibility */ 
-	background-color: #f1f1f1; /* We're not using standard colors to increase contrast for accessibility */ 
+	// We're not using standard colors to increase contrast for accessibility.
+	color: #073CBA; 
+	// We're not using standard colors to increase contrast for accessibility.
+	background-color: #f1f1f1;
 `;
 
 /**
