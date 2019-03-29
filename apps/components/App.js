@@ -16,6 +16,7 @@ import UIControlsWrapper from "./UIControlsWrapper";
 import Wizard from "./WizardWrapper";
 import { Loader } from "@yoast/components";
 import FacebookPreviewExample from "./FacebookPreviewExample";
+import LinkSuggestionsWrapper from "./LinkSuggestionsExample";
 
 const components = [
 	{
@@ -67,6 +68,11 @@ const components = [
 		id: "wordlist",
 		name: "WordList",
 		component: <WordListWrapper />,
+	},
+	{
+		id: "linkSuggestions",
+		name: "LinkSuggestions",
+		component: <LinkSuggestionsWrapper />,
 	},
 	{
 		id: "buttons",
