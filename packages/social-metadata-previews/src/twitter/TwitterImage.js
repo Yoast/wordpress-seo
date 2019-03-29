@@ -64,7 +64,7 @@ const PlaceholderImage = styled.div`
 	border-style: dashed;
 	border-width: 2px;
 	// We're not using standard colors to increase contrast for accessibility.
-	color: #073CBA; 
+	color: #073cba; 
 	// We're not using standard colors to increase contrast for accessibility.
 	background-color: #f1f1f1;
 `;
