@@ -107,13 +107,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Changelog ==
 
 = 10.1.0 =
-Release Date: March 26th, 2019
+Release Date: March 2nd, 2019
 
 Enhancements:
 
 * Removes Google+ from the various interfaces: social accounts, user profiles and more.
-* Adds a Wikipedia URL field to the social accounts list, to be used in sameAs Schema.org output.
-* Adds a LinkedIn profile URL field to user profiles.
+* Adds a Wikipedia URL field to the social accounts list, to be used in `sameAs` Schema.org output.
+* Adds a LinkedIn profile URL field to user profiles, a first sign of things to come in 10.2.
 * Removes the `og:image:alt` tag as it causes potential accessibility issues when content is shared via Facebook.
 * Adds support for browsers auto-fill in the form fields that collect user information.
 * Adds missing screen reader text to the SEO score icon in the front end admin bar.
