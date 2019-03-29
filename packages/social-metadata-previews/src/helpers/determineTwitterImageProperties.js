@@ -1,5 +1,5 @@
-export const SQUARE_WIDTH = 123.422;
-export const SQUARE_HEIGHT = 123.422;
+export const SQUARE_WIDTH = 123;
+export const SQUARE_HEIGHT = 123;
 export const LANDSCAPE_WIDTH = 506;
 export const LANDSCAPE_HEIGHT = 253;
 

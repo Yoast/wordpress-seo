@@ -131,8 +131,8 @@ exports[`TwitterImage Component matches the snapshot for a portrait image in a s
 exports[`TwitterImage Component matches the snapshot for a square image in a summary card 1`] = `
 .c0 {
   position: relative;
-  height: 123.422px;
-  width: 123.422px;
+  height: 123px;
+  width: 123px;
   overflow: hidden;
   background-color: #E1E8ED;
 }
@@ -163,8 +163,8 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
 exports[`TwitterImage Component matches the snapshot for a square image in a summary-large-image card 1`] = `
 .c0 {
   position: relative;
-  height: 123.422px;
-  width: 123.422px;
+  height: 123px;
+  width: 123px;
   overflow: hidden;
   background-color: #E1E8ED;
 }
@@ -195,8 +195,8 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
 exports[`TwitterImage Component matches the snapshot for a too small image 1`] = `
 .c0 {
   position: relative;
-  height: 123.422px;
-  width: 123.422px;
+  height: 123px;
+  width: 123px;
   overflow: hidden;
   background-color: #E1E8ED;
 }

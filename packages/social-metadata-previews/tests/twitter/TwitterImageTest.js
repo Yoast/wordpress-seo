@@ -15,8 +15,8 @@ const importedDetermineTwitterImageProperties = require( "../../src/helpers/dete
 jest.mock( "../../src/helpers/determineTwitterImageProperties.js", () => {
 	return {
 		determineTwitterImageProperties: jest.fn(),
-		SQUARE_WIDTH: 123.422,
-		SQUARE_HEIGHT: 123.422,
+		SQUARE_WIDTH: 123,
+		SQUARE_HEIGHT: 123,
 		LANDSCAPE_WIDTH: 506,
 		LANDSCAPE_HEIGHT: 253,
 	};
