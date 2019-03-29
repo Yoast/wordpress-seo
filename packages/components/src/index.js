@@ -1,6 +1,6 @@
 import StyledSection, { StyledHeading, StyledSectionBase } from "./StyledSection";
-
 import { BaseLinkButton, LinkButton } from "./buttons/LinkButton";
+
 
 export {
 	StyledSection,
@@ -22,6 +22,9 @@ export {
 } from "./buttons/Button";
 
 export { default as ArticleList } from "./ArticleList";
+export { default as Card, FullHeightCard } from "./Card";
+export { default as CardBanner } from "./CardBanner";
+export { default as CourseDetails } from "./CourseDetails";
 export { default as IconLabeledButton } from "./buttons/IconLabeledButton";
 export { default as IconButton } from "./buttons/IconButton";
 export { default as IconsButton } from "./buttons/IconsButton";
@@ -61,7 +64,6 @@ export { default as YoastTabs } from "./YoastTabs";
 export { default as YoastWarning } from "./YoastWarning";
 export { default as YouTubeVideo } from "./YouTubeVideo";
 export { default as WordList } from "./WordList";
-
 
 export { ListTable, ZebrafiedListTable } from "./table/ListTable";
 export { Row } from "./table/Row";

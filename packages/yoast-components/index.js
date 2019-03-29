@@ -19,10 +19,6 @@ import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSug
 
 const getRtlStyle = getDirectionalStyle;
 
-// Composites/CoursesOverview imports
-import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
-import { default as CardBanner } from "./composites/CoursesOverview/CardBanner";
-import { default as CardDetails } from "./composites/CoursesOverview/CardDetails";
 
 export {
 	OnboardingWizard,
@@ -36,10 +32,6 @@ export {
 	CornerstoneToggle,
 	sendRequest,
 	decodeHTML,
-	Card,
-	FullHeightCard,
-	CardBanner,
-	CardDetails,
 	getRtlStyle,
 	AlgoliaSearcher,
 	colors,
@@ -67,6 +59,10 @@ export {
 } from "./composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 export {
+	Card,
+	FullHeightCard,
+	CardBanner,
+	CourseDetails as CardDetails,
 	HelpText,
 	Icon,
 	KeywordSuggestions,
@@ -81,5 +77,8 @@ export {
 	YoastModal,
 	YoastSeoIcon,
 	YoastWarning,
+	StyledSection,
+	StyledHeading,
+	StyledSectionBase,
 } from "@yoast/components";
 
