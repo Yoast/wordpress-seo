@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
-import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
-import { getRtlStyle } from "yoast-components";
+import { Icon, getRtlStyle } from "yoast-components";
 
 export const ModalContainer = styled.div`
 	min-width: 600px;
