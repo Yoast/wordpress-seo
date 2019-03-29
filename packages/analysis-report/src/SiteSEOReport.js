@@ -32,7 +32,7 @@ const SiteSEOReport = ( props ) => {
 			<SiteSEOReportText
 				className={ `${ props.className }__text` }
 			>
-				{ props.siteSEOReportText }
+				{ props.seoAssessmentText }
 			</SiteSEOReportText>
 			<StackedProgressBar
 				className="progress"
