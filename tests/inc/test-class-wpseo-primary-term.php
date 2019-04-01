@@ -11,17 +11,23 @@
 class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var string name of the taxonomy
+	 * Name of the taxonomy.
+	 *
+	 * @var string
 	 */
 	private $taxonomy_name = 'category';
 
 	/**
-	 * @var int post id
+	 * Post ID.
+	 *
+	 * @var int
 	 */
 	private $post_id = 1;
 
 	/**
-	 * @var int id of the primary term
+	 * ID of the primary term.
+	 *
+	 * @var int
 	 */
 	private $primary_term_id = 54;
 

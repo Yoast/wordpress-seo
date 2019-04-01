@@ -11,7 +11,10 @@
  * @group sitemaps
  */
 class Test_WPSEO_Sitemap_Provider_Overlap extends WPSEO_UnitTestCase {
+
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Sitemaps_Double
 	 */
 	private static $class_instance;
@@ -24,7 +27,7 @@ class Test_WPSEO_Sitemap_Provider_Overlap extends WPSEO_UnitTestCase {
 
 		self::$class_instance = new WPSEO_Sitemaps_Double();
 
-		// Reset the instance
+		// Reset the instance.
 		self::$class_instance->reset();
 	}
 

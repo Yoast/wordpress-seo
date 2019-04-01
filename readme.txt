@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.9
-Tested up to: 5.0.3
-Stable tag: 9.5
+Tested up to: 5.1
+Stable tag: 10.0.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -106,40 +106,57 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
-= 9.7.0 =
-Release Date: February 26th, 2019
+= 10.1.0 =
+Release Date: March 26th, 2019
 
-## Enhancements:
+Enhancements:
 
-* Replaces inch marks by smart quotes in search breadcrumbs.
-* Improves the feedback for the assessment that checks the length of cornerstone articles.
-* Improves accessibility and focus management for the How-To and FAQ structured data blocks.
-* Improves the Internal Links table headers on the post overview for better translations and accessibility.
-* Adds a description of the SEO and Readability score to the posts and taxonomies overview in mobile view.
-* Adds a label element to the Google Search Console authorisation code input field in the configuration wizard.
+* Removes Google+ from the various interfaces: social accounts, user profiles and more.
+* Adds a Wikipedia URL field to the social accounts list, to be used in sameAs Schema.org output.
+* Adds a LinkedIn profile URL field to user profiles.
+* Removes the `og:image:alt` tag as it causes potential accessibility issues when content is shared via Facebook.
+* Adds support for browsers auto-fill in the form fields that collect user information.
+* Adds missing screen reader text to the SEO score icon in the front end admin bar.
+* Increases the recommended sentence length limit for Spanish and Catalan to be more in line with best practices in these languages, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
+* Improves the list of Catalan transition words, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
+* Improves the list of Swedish transition words.
 
-## Bugfixes:
+Bugfixes:
 
-* Fixes a bug where a Flesch reading ease score of exactly 90 would trigger incorrect feedback.
-* Fixes a bug where the taxonomy sitemap provider would not handle private taxonomies as expected, resulting in sitemaps not being accessible in specific situations.
-* Fixes a bug where an empty twitter description instead of the term description would be shown.
-* Fixes a bug where undefined warnings would be given when saving a Facebook image.
+* Fixes a bug where selecting a parent page for a page would lead to console errors and a not-working 'parent page' snippet variable.
+* Fixes a bug where no focus indication was shown for the title separators in the configuration wizard and settings.
+* Fixes a bug where taxonomy terms weren't shown correctly in the Snippet Preview, for example when using the `Categories`, `Tags` or any custom taxonomy replacement variable.
+* Fixes a bug where breadcrumb structured data wasn't output when breadcrumbs are disabled and a theme with breadcrumb support has been installed.
+* Fixes a bug where a PHP notice would be written to `debug.log` when adding a new site to a WordPress 5.1 multisite installation.
 
-= 9.6.0 =
-Release Date: February 12th, 2019
+Other:
+* Removes all functionality that has been deprecated before Yoast SEO 6.1.
 
-## Enhancements:
+= 10.0.1 =
+Release Date: March 19th, 2019
 
-* Removes schema (JSON+LD) output from 404 pages.
-* Improves the Google Search Console table accessibility by removing a duplicate button.
-* Improves the code to better comply to the coding standards.
+Bugfixes:
 
-## Bugfixes:
+* Fixes a bug where network-wide settings were not saved on multisite environments.
 
-* Fixes a bug where an empty feed would be available for non-existing pages. Props [stodorovic](https://github.com/stodorovic).
-* Prevents `vendor_prefix/j4mie/idiorm/demo.php` from being included in the release.
+= 10.0.0 =
+Release Date: March 12th, 2019
 
-## Other:
+Enhancements:
 
+* The recalibrated analysis is out of its beta phase and is now the default for the SEO analysis. Thanks for testing and giving us your valuable feedback! You are awesome! 👍
+* Adds `$taxonomy` to the arguments passed to the `wpseo_terms` filter. Props to [polevaultweb](https://github.com/polevaultweb).
+* Changes the screen reader text of the SEO score indicator in the menu bar and the traffic light in the snippet preview from `Bad SEO score.` to `Needs improvement.`
 * Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
-* Improves the redirect upsell when user clicks on create redirect in the search console overview.
+
+Bugfixes:
+
+* Fixes a bug where the `focus keyphrase` snippet variable was not correctly applied on term pages.
+* Fixes a bug where the Facebook image that was set for the WooCommerce Shop page would not be outputted as `og:image`. Props [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where the featured image set on a WooCommerce Shop page would not be outputted as Facebook OpenGraph Image or Twitter Image. Props [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where backslashes and consecutive double quotes would be removed from the focus keyphrase when saving a post or term.
+* Fixes a bug where backslashes would be removed from the breadcrumb title, focus keyphrase, title or meta description when saving a term.
+
+= Earlier versions =
+
+For the changelog of earlier versions, please refer to https://yoa.st/yoast-seo-changelog

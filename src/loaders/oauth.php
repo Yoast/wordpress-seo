@@ -15,5 +15,16 @@ if ( file_exists( dirname( WPSEO_FILE ) . '/vendor_prefixed/guzzlehttp/guzzle/sr
 	require_once dirname( WPSEO_FILE ) . '/vendor_prefixed/guzzlehttp/guzzle/src/functions.php';
 }
 
+if ( file_exists( dirname( WPSEO_FILE ) . '/vendor_prefixed/guzzlehttp/psr7/src/functions.php' ) ) {
+	require_once dirname( WPSEO_FILE ) . '/vendor_prefixed/guzzlehttp/psr7/src/functions.php';
+}
+
+if ( file_exists( dirname( WPSEO_FILE ) . '/vendor_prefixed/guzzlehttp/promises/src/functions.php' ) ) {
+	require_once dirname( WPSEO_FILE ) . '/vendor_prefixed/guzzlehttp/promises/src/functions.php';
+}
+
+$yoast_seo_dependecy_management = new \Yoast\WP\Free\Config\Dependency_Management();
+$yoast_seo_dependecy_management->initialize();
+
 class_alias( \Yoast\WP\Free\Oauth\Client::class, 'WPSEO_MyYoast_Client' );
 class_alias( \YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface::class, 'WPSEO_MyYoast_AccessToken_Interface' );

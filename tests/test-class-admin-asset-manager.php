@@ -11,6 +11,8 @@
 class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
 	private $asset_manager;
@@ -24,14 +26,54 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * This is the only way to tests the protected methods. The should really be constants, but we can't because we have
-	 * to support PHP5.5 and lower.
+	 * This is the only way to tests the protected methods. These should really be
+	 * constants, but we can't because we have to support PHP 5.5 and lower.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::scripts_to_be_registered
 	 * @covers WPSEO_Admin_Asset_Manager::styles_to_be_registered
 	 */
 	public function test_DEFAULT_register() {
-		$this->asset_manager->register_assets();
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Admin_Asset_Manager' )
+			->setMethods(
+				array(
+					'register_scripts',
+					'register_styles',
+					'scripts_to_be_registered',
+					'styles_to_be_registered',
+				)
+			)
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'scripts_to_be_registered' )
+			->will(
+				$this->returnValue(
+					array( 'script' )
+				)
+			);
+
+		$instance
+			->expects( $this->once() )
+			->method( 'styles_to_be_registered' )
+			->will(
+				$this->returnValue(
+					array( 'style' )
+				)
+			);
+
+		$instance
+			->expects( $this->once() )
+			->method( 'register_scripts' )
+			->with( array( 'script' ) );
+
+		$instance
+			->expects( $this->once() )
+			->method( 'register_styles' )
+			->with( array( 'style' ) );
+
+		$instance->register_assets();
 	}
 
 	/**

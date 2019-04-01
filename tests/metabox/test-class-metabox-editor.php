@@ -11,6 +11,8 @@
 class WPSEO_Metabox_Editor_Test extends PHPUnit_Framework_TestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Metabox_Editor
 	 */
 	protected $subject;
@@ -21,10 +23,6 @@ class WPSEO_Metabox_Editor_Test extends PHPUnit_Framework_TestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->subject = new WPSEO_Metabox_Editor();
-	}
-
-	public function test_register_hooks() {
-		$this->subject->register_hooks();
 	}
 
 	public function get_flat_version() {

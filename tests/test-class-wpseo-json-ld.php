@@ -11,6 +11,8 @@
 class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_JSON_LD
 	 */
 	private static $class_instance;
@@ -60,9 +62,9 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_JSON_LD::organization_or_person
+	 * Test having person markup and one social profile.
 	 *
-	 * Test having person markup and one social profile
+	 * @covers WPSEO_JSON_LD::organization_or_person
 	 */
 	public function test_person() {
 		$name      = 'Joost de Valk';
@@ -120,9 +122,9 @@ class WPSEO_JSON_LD_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_JSON_LD::organization_or_person
+	 * Test having organization markup and two social profiles.
 	 *
-	 * Test having organization markup and two social profiles
+	 * @covers WPSEO_JSON_LD::organization_or_person
 	 */
 	public function test_organization() {
 		$name      = 'Yoast';

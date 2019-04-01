@@ -34,8 +34,8 @@ class No_Indexable_Found extends \OutOfRangeException {
 	/**
 	 * Returns an exception when an indexable for a taxonomy is not found.
 	 *
-	 * @param int    $term_id     The term the indexable is based upon.
-	 * @param string $taxonomy    The taxonomy the indexable belongs to.
+	 * @param int    $term_id  The term the indexable is based upon.
+	 * @param string $taxonomy The taxonomy the indexable belongs to.
 	 *
 	 * @return No_Indexable_Found The exception.
 	 */

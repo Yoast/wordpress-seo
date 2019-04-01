@@ -11,7 +11,9 @@
 class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var int Network administrator user ID.
+	 * Network administrator user ID.
+	 *
+	 * @var int
 	 */
 	protected static $network_administrator;
 
@@ -51,6 +53,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * Tests getting site choices.
 	 *
 	 * @group ms-required
+	 *
 	 * @covers Yoast_Network_Admin::get_site_choices()
 	 */
 	public function test_get_site_choices() {
@@ -99,6 +102,12 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Network_Admin::get_site_states()
 	 */
 	public function test_get_site_states() {
+		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
+			$this->markTestSkipped( 'Skipped because since WordPress 5.1 the hook wpmu_new_blog is deprecated' );
+
+			return;
+		}
+
 		$admin = new Yoast_Network_Admin();
 
 		$active_states = array(

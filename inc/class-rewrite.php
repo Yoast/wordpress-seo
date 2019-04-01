@@ -39,6 +39,7 @@ class WPSEO_Rewrite {
 	 * If the flush option is set, flush the rewrite rules.
 	 *
 	 * @since 1.2.8
+	 *
 	 * @return bool
 	 */
 	public function flush() {
@@ -67,7 +68,10 @@ class WPSEO_Rewrite {
 			$category_base = 'category';
 		}
 
-		// Remove initial slash, if there is one (we remove the trailing slash in the regex replacement and don't want to end up short a slash).
+		/*
+		 * Remove initial slash, if there is one (we remove the trailing slash
+		 * in the regex replacement and don't want to end up short a slash).
+		 */
 		if ( '/' === substr( $category_base, 0, 1 ) ) {
 			$category_base = substr( $category_base, 1 );
 		}
@@ -93,22 +97,18 @@ class WPSEO_Rewrite {
 	}
 
 	/**
-	 * Redirect the "old" category URL to the new one.
+	 * Checks whether the redirect needs to be created.
 	 *
 	 * @param array $query_vars Query vars to check for existence of redirect var.
 	 *
-	 * @return array
+	 * @return array|void The query vars.
 	 */
 	public function request( $query_vars ) {
-		if ( isset( $query_vars['wpseo_category_redirect'] ) ) {
-			$catlink = trailingslashit( get_option( 'home' ) ) . user_trailingslashit( $query_vars['wpseo_category_redirect'], 'category' );
-
-			header( 'X-Redirect-By: Yoast SEO' );
-			wp_redirect( $catlink, 301, 'Yoast SEO' );
-			exit;
+		if ( ! isset( $query_vars['wpseo_category_redirect'] ) ) {
+			return $query_vars;
 		}
 
-		return $query_vars;
+		$this->redirect( $query_vars['wpseo_category_redirect'] );
 	}
 
 	/**
@@ -219,5 +219,21 @@ class WPSEO_Rewrite {
 		}
 
 		return strtoupper( $encoded );
+	}
+
+	/**
+	 * Redirect the "old" category URL to the new one.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $category_redirect The category page to redirect to.
+	 * @return void
+	 */
+	protected function redirect( $category_redirect ) {
+		$catlink = trailingslashit( get_option( 'home' ) ) . user_trailingslashit( $category_redirect, 'category' );
+
+		header( 'X-Redirect-By: Yoast SEO' );
+		wp_redirect( $catlink, 301, 'Yoast SEO' );
+		exit;
 	}
 } /* End of class */

@@ -492,7 +492,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Gets the focus keyword for a given post.
 	 *
-	 * @param WP_POST $post Post object to get its focus keyword.
+	 * @param WP_Post $post Post object to get its focus keyword.
 	 *
 	 * @return string Focus keyword, or empty string if none available.
 	 */
@@ -600,9 +600,12 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return string Score markup.
 	 */
 	protected function get_score( $score ) {
-		$score = WPSEO_Utils::translate_score( $score );
+		$score_class      = WPSEO_Utils::translate_score( $score );
+		$translated_score = WPSEO_Utils::translate_score( $score, false );
+		/* translators: %s expands to the SEO score. */
+		$screen_reader_text = sprintf( __( 'SEO score: %s', 'wordpress-seo' ), $translated_score );
 
-		$score_adminbar_element = '<div class="wpseo-score-icon adminbar-seo-score ' . $score . '"><span class="adminbar-seo-score-text screen-reader-text"></span></div>';
+		$score_adminbar_element = '<div class="wpseo-score-icon adminbar-seo-score ' . $score_class . '"><span class="adminbar-seo-score-text screen-reader-text">' . $screen_reader_text . '</span></div>';
 
 		return $score_adminbar_element;
 	}

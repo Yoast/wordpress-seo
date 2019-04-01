@@ -20,7 +20,7 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 	/**
 	 * Setting the class properties
 	 *
-	 * @param stdClass|WP_Term $term    The current taxonomy.
+	 * @param stdClass|WP_Term $term The current taxonomy.
 	 */
 	public function __construct( $term ) {
 		parent::__construct( $term );

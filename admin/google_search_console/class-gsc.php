@@ -33,12 +33,16 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	protected $issue_fetch;
 
 	/**
-	 * @var string current platform
+	 * Current platform.
+	 *
+	 * @var string
 	 */
 	private $platform;
 
 	/**
-	 * @var string current category
+	 * Current category.
+	 *
+	 * @var string
 	 */
 	private $category;
 
@@ -68,8 +72,10 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Handles the dashboard notification. If the Google Search Console has no credentials,
-	 * show a notification for the user to give him a heads up. This message is dismissable.
+	 * Handles the dashboard notification.
+	 *
+	 * If the Google Search Console has no credentials, show a notification
+	 * for the user to give them a heads up. This message is dismissable.
 	 *
 	 * @return void
 	 */

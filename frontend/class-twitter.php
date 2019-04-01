@@ -349,7 +349,7 @@ class WPSEO_Twitter {
 	 * Solves issues with filters returning urls and theme's/other plugins also adding a user meta
 	 * twitter field which expects url rather than an id (which is what we expect).
 	 *
-	 * @param  string $id Twitter ID or url.
+	 * @param string $id Twitter ID or url.
 	 *
 	 * @return string|bool Twitter ID or false if it failed to get a valid Twitter ID.
 	 */
@@ -500,16 +500,11 @@ class WPSEO_Twitter {
 	/**
 	 * Outputs a Twitter image tag for a given image
 	 *
-	 * @param string  $img The source URL to the image.
-	 * @param boolean $tag Deprecated argument, previously used for gallery images.
+	 * @param string $img The source URL to the image.
 	 *
 	 * @return bool
 	 */
-	protected function image_output( $img, $tag = false ) {
-
-		if ( $tag ) {
-			_deprecated_argument( __METHOD__, 'WPSEO 2.4' );
-		}
+	protected function image_output( $img ) {
 
 		/**
 		 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image

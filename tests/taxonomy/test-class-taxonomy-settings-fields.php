@@ -11,12 +11,16 @@
 class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Taxonomy_Settings_Fields_Double
 	 */
 	private $class_instance;
 
 	/**
-	 * @var stdClass The created term.
+	 * The created term.
+	 *
+	 * @var stdClass
 	 */
 	private $term;
 

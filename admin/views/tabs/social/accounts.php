@@ -16,7 +16,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 $social_profiles_help = new WPSEO_Admin_Help_Panel(
 	'social-accounts',
 	__( 'Learn more about your social profiles settings', 'wordpress-seo' ),
-	__( 'To let search engines know which social profiles are associated to this site, enter your site social profiles data below.', 'wordpress-seo' ),
+	__( 'To let search engines know which social profiles are associated to this site, enter your site social profiles data below.', 'wordpress-seo' ) . ' ' .
+	__( 'If a Wikipedia page for you or your organization exists, add it too.', 'wordpress-seo' ),
 	'has-wrapper'
 );
 
@@ -31,6 +32,6 @@ $yform->textinput( 'linkedin_url', __( 'LinkedIn URL', 'wordpress-seo' ) );
 $yform->textinput( 'myspace_url', __( 'MySpace URL', 'wordpress-seo' ) );
 $yform->textinput( 'pinterest_url', __( 'Pinterest URL', 'wordpress-seo' ) );
 $yform->textinput( 'youtube_url', __( 'YouTube URL', 'wordpress-seo' ) );
-$yform->textinput( 'google_plus_url', __( 'Google+ URL', 'wordpress-seo' ) );
+$yform->textinput( 'wikipedia_url', __( 'Wikipedia URL', 'wordpress-seo' ) );
 
 do_action( 'wpseo_admin_other_section' );

@@ -11,6 +11,8 @@
 class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_Framework_TestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Config_Component_Connect_Google_Search_Console_Mock
 	 */
 	protected $component;

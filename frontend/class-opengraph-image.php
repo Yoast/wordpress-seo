@@ -44,7 +44,6 @@ class WPSEO_OpenGraph_Image {
 	private $image_tags = array(
 		'width'     => 'width',
 		'height'    => 'height',
-		'alt'       => 'alt',
 		'mime-type' => 'type',
 	);
 
@@ -441,7 +440,8 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @param string $url The given URL.
 	 *
-	 * @return null|number Returns the found attachment ID if it exists. Otherwise -1. If the URL is empty we return null.
+	 * @return null|number Returns the found attachment ID if it exists. Otherwise -1.
+	 *                     If the URL is empty we return null.
 	 */
 	public function add_image_by_url( $url ) {
 		if ( empty( $url ) ) {

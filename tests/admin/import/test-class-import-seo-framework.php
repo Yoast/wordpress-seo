@@ -9,6 +9,7 @@
  * Test importing meta data from SEO Framework.
  */
 class WPSEO_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Holds the class instance.
 	 *

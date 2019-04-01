@@ -7,7 +7,6 @@ import { Slot } from "@wordpress/components";
 import { combineReducers, registerStore } from "@wordpress/data";
 import get from "lodash/get";
 import pickBy from "lodash/pickBy";
-import noop from "lodash/noop";
 
 /* Internal dependencies */
 import Data from "./analysis/data.js";
@@ -22,7 +21,6 @@ import * as selectors from "./redux/selectors";
 import * as actions from "./redux/actions";
 import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
-import PrimaryTaxonomyFilter from "./components/PrimaryTaxonomyFilter";
 import { setMarkerStatus } from "./redux/actions";
 import { isAnnotationAvailable } from "./decorator/gutenberg";
 
@@ -66,8 +64,6 @@ class Edit {
 	_init() {
 		this._store = this._registerStoreInGutenberg();
 
-		this._registerCategorySelectorFilter();
-
 		this._registerPlugin();
 
 		this._data = this._initializeData();
@@ -92,31 +88,6 @@ class Edit {
 			selectors,
 			actions: pickBy( actions, x => typeof x === "function" ),
 		} );
-	}
-
-	_registerCategorySelectorFilter() {
-		if ( ! isGutenbergDataAvailable() ) {
-			return;
-		}
-
-		const addFilter = get( window, "wp.hooks.addFilter", noop );
-
-		addFilter(
-			"editor.PostTaxonomyType",
-			PLUGIN_NAMESPACE,
-			OriginalComponent => {
-				return class Filter extends React.Component {
-					render() {
-						return (
-							<PrimaryTaxonomyFilter
-								OriginalComponent={ OriginalComponent }
-								{ ...this.props }
-							/>
-						);
-					}
-				};
-			},
-		);
 	}
 
 	/**
