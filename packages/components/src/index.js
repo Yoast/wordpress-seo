@@ -21,6 +21,15 @@ export {
 	addButtonStyles,
 } from "./buttons/Button";
 
+export {
+	default as Collapsible,
+	CollapsibleStateless,
+	StyledIconsButton,
+	StyledContainer,
+	StyledContainerTopLevel,
+	wrapInHeading,
+} from "./Collapsible";
+
 export { default as ArticleList } from "./ArticleList";
 export { default as Card, FullHeightCard } from "./Card";
 export { default as CardBanner } from "./CardBanner";
@@ -64,6 +73,7 @@ export { default as YoastTabs } from "./YoastTabs";
 export { default as YoastWarning } from "./YoastWarning";
 export { default as YouTubeVideo } from "./YouTubeVideo";
 export { default as WordList } from "./WordList";
+export { default as Checkbox } from "./Checkbox";
 
 export { ListTable, ZebrafiedListTable } from "./table/ListTable";
 export { Row } from "./table/Row";

@@ -34,7 +34,7 @@
     "babel-plugin-styled-components": "^1.5.1",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "draft-js-mention-plugin": "^3.0.4",
-    "yoast-components": "^4.22.1",
+    "yoast-components": "^4.23.0-rc.6",
     "babelify": "^7.3.0",
     "redux-devtools": "3.5.0",
     "webpack": "4.19.1",
