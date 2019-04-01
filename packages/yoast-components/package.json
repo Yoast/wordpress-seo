@@ -12,7 +12,7 @@
   "scripts": {
     "start": "echo 'The yoast-components demo app has been moved to javascript/apps/components (https://github.com/Yoast/javascript/tree/develop/apps/components). Please run yarn start there.'",
     "test": "jest",
-    "lint": "eslint . --max-warnings=77",
+    "lint": "eslint . --max-warnings=44",
     "prepublishOnly": "grunt publish"
   },
   "jest": {
@@ -61,6 +61,7 @@
     "@wordpress/i18n": "^1.1.0",
     "@yoast/search-metadata-previews": "^1.0.0",
     "@yoast/algolia-search": "^1.0.0",
+    "@yoast/analysis-report": "^0.1.0",
     "@yoast/components": "^1.0.0",
     "@yoast/helpers": "^0.1.0",
     "@yoast/style-guide": "^0.1.0",
