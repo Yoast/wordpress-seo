@@ -27,7 +27,7 @@ Array [
   border-top-right-radius: .85714em;
   border-style: dashed;
   border-width: 2px;
-  color: #073CBA;
+  color: #073cba;
   background-color: #f1f1f1;
 }
 
