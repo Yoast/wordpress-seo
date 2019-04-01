@@ -1,0 +1,16 @@
+{
+  "name": "@yoast/style-guide",
+  "version": "0.1.0",
+  "description": "Yoast style guide.",
+  "main": "src/index.js",
+  "repository": "https://github.com/Yoast/javascript",
+  "author": "Yoast",
+  "license": "GPL-3.0",
+  "private": false,
+  "devDependencies": {
+    "grunt": "^1.0.3"
+  },
+  "optionalDependencies": {
+    "grunt-scss-to-json": "^1.0.1"
+  }
+}

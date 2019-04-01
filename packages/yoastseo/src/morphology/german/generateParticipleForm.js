@@ -64,7 +64,7 @@ export function generateParticipleForm( morphologyDataVerbs, stemmedWord ) {
 	let participleFormWithPrefix = generateParticipleFormWithSeparablePrefix(
 		morphologyDataVerbs,
 		stemmedWord,
-		morphologyDataVerbs.verbPrefixesSeparable
+		morphologyDataVerbs.prefixes.separable
 	);
 
 	if ( participleFormWithPrefix ) {
@@ -79,7 +79,7 @@ export function generateParticipleForm( morphologyDataVerbs, stemmedWord ) {
 	participleFormWithPrefix = generateParticipleFormWithSeparablePrefix(
 		morphologyDataVerbs,
 		stemmedWord,
-		morphologyDataVerbs.verbPrefixesSeparableOrInseparable
+		morphologyDataVerbs.prefixes.separableOrInseparable
 	);
 
 	if ( participleFormWithPrefix ) {

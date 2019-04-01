@@ -9,10 +9,11 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.49.1",
+  "version": "1.50.0-rc.6",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yoast/YoastSEO.js"
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/yoastseo"
   },
   "scripts": {
     "start": "npm start --prefix examples/webpack",
@@ -37,10 +38,6 @@
     "babel-register": "^6.16.3",
     "babelify": "^8.0.0",
     "console.table": "^0.10.0",
-    "eslint-config-yoast": "^5.0.6",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.11.1",
-    "eslint-plugin-yoast": "^1.0.1",
     "grunt": "^1.0.1",
     "grunt-babel": "^7.0.0",
     "grunt-browserify": "^5.0.0",
@@ -84,7 +81,7 @@
       "js"
     ],
     "transform": {
-      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.jsx?$": "babel-jest",
       "^.+\\.html$": "<rootDir>/spec/specHelpers/rawLoader"
     },
     "transformIgnorePatterns": [
