@@ -11,5 +11,5 @@ export { default as SnippetEditor } from "./snippet-editor/SnippetEditor";
 export {
 	lengthProgressShape,
 	recommendedReplacementVariablesShape,
-	replacementVariablesShape
+	replacementVariablesShape,
 } from "./snippet-editor/constants";
