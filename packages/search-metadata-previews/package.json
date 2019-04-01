@@ -25,7 +25,6 @@
     "draft-js-single-line-plugin": "^2.0.1",
     "prop-types": "^15.6.0",
     "styled-components": "^2.1.2",
-    "yoast-components": "^4.22.0",
     "yoastseo": "^1.49.0",
     "lodash": "^4.17.11",
     "interpolate-components": "^1.1.1"
