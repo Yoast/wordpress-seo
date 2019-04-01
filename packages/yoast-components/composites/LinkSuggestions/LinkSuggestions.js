@@ -24,6 +24,8 @@ class LinkSuggestions extends React.Component {
 	/**
 	 * @constructor
 	 *
+	 * @param {Object} props The component props.
+	 *
 	 * @returns {void}
 	 */
 	constructor( props ) {
