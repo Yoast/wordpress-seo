@@ -12,7 +12,7 @@ import {
 	SQUARE_HEIGHT,
 	SQUARE_WIDTH,
 } from "../helpers/determineTwitterImageProperties";
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 
 const TwitterImageContainer = styled.div`
 	position: relative;
