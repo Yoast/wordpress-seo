@@ -17,12 +17,6 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @var WPSEO_Schema_Context
 	 */
 	private $context;
-	/**
-	 * Used to allow changing the logo hash in class children.
-	 *
-	 * @var string
-	 */
-	public $logo_hash;
 
 	/**
 	 * WPSEO_Schema_Breadcrumb constructor.
@@ -31,7 +25,6 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 */
 	public function __construct( WPSEO_Schema_Context $context ) {
 		$this->context   = $context;
-		$this->logo_hash = WPSEO_Schema_IDs::PERSON_LOGO_HASH;
 	}
 
 	/**
@@ -154,7 +147,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 
 		$data['image'] = array(
 			'@type'   => 'ImageObject',
-			'@id'     => $this->context->site_url . $this->logo_hash,
+			'@id'     => $this->context->site_url . WPSEO_Schema_IDs::PERSON_LOGO_HASH,
 			'url'     => get_avatar_url( $user_data->user_email ),
 			'caption' => $user_data->display_name,
 		);
