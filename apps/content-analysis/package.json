@@ -6,6 +6,8 @@
 		"@babel/core": "7.1.6",
 		"@svgr/webpack": "2.4.1",
 		"@wordpress/i18n": "^3.1.1",
+		"@yoast/components": "^0.1.0",
+		"@yoast/style-guide": "^0.1.0",
 		"babel-core": "7.0.0-bridge.0",
 		"babel-eslint": "9.0.0",
 		"babel-jest": "23.6.0",
@@ -30,6 +32,7 @@
 		"jest": "23.6.0",
 		"jest-pnp-resolver": "1.0.1",
 		"jest-resolve": "23.6.0",
+		"lodash-es": "^4.17.11",
 		"material-ui": "^0.18.6",
 		"mini-css-extract-plugin": "0.4.3",
 		"optimize-css-assets-webpack-plugin": "5.0.1",
@@ -54,6 +57,7 @@
 		"resolve": "1.8.1",
 		"sass-loader": "7.1.0",
 		"style-loader": "0.23.0",
+		"styled-components": "^4.2.0",
 		"terser-webpack-plugin": "1.1.0",
 		"url-loader": "1.1.1",
 		"webpack": "4.19.1",
@@ -61,7 +65,8 @@
 		"webpack-manifest-plugin": "2.0.4",
 		"workbox-webpack-plugin": "3.6.3",
 		"worker-loader": "^2.0.0",
-		"yoast-components": "^4.18.1"
+		"yoast-components": "^4.18.1",
+		"yoastseo": "^1.50.0-rc.6"
 	},
 	"scripts": {
 		"start": "node scripts/start.js",
@@ -120,5 +125,10 @@
 		"presets": [
 			"react-app"
 		]
+	},
+	"devDependencies": {
+		"babel-polyfill": "^6.26.0",
+		"eslint": "^5.15.3",
+		"eslint-config-yoast": "^5.0.6"
 	}
 }

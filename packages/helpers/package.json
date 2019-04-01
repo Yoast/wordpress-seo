@@ -16,8 +16,10 @@
   "license": "GPL-3.0",
   "private": false,
   "dependencies": {
-    "prop-types": "^15.7.2",
     "@wordpress/i18n": "^1.2.3",
+    "prop-types": "^15.7.2",
+    "react-intl": "^2.8.0",
+    "styled-components": "^4.2.0",
     "whatwg-fetch": "1.1.1"
   },
   "peerDependencies": {
@@ -27,5 +29,9 @@
     "testRegex": ".*Test.js$",
     "testEnvironment": "node",
     "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
+  },
+  "devDependencies": {
+    "jest-styled-components": "^6.3.1",
+    "react-test-renderer": "^16.8.6"
   }
 }
