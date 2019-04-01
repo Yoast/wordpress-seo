@@ -1,4 +1,4 @@
-import { parseFeed } from "../getFeed";
+import { parseFeed } from "../../../helpers/src/getFeed";
 import fs from "fs";
 
 describe( "parseFeed", () => {

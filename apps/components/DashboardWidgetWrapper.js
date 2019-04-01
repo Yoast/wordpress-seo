@@ -2,8 +2,8 @@ import React from "react";
 import styled from "styled-components";
 
 import ExamplesContainer from "./ExamplesContainer";
-import getPostFeed from "yoast-components/utils/getPostFeed";
 
+import { getPostFeed  } from "@yoast/helpers";
 import { ArticleList } from "@yoast/components";
 import { SiteSEOReport } from "@yoast/analysis-report";
 
