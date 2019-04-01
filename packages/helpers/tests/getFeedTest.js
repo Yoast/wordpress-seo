@@ -1,8 +1,8 @@
-import { parseFeed } from "../../../helpers/src/getFeed";
+import { parseFeed } from "../src/getFeed";
 import fs from "fs";
 
 describe( "parseFeed", () => {
-	const raw = fs.readFileSync( "./utils/tests/rssFeed.xml" );
+	const raw = fs.readFileSync( "./tests/rssFeed.xml" );
 
 	it( "parses the meta of a RSS feed.", () => {
 		parseFeed( raw ).then( function( result ) {
