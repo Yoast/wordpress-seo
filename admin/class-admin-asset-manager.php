@@ -543,6 +543,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'wp-element',
 					'wp-i18n',
+					'wp-api-fetch',
 					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
 				),
