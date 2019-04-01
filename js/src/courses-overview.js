@@ -30,6 +30,8 @@ const CourseListItem = styled.li`
 class CoursesOverview extends React.Component {
 	/**
 	 * Creates the components and initializes its state.
+	 *
+	 * @param {Object} props The component props.
 	 */
 	constructor( props ) {
 		super( props );

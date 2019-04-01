@@ -3,7 +3,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { ArticleList as WordpressFeed } from "@yoast/components";
+import { ArticleList as WordpressFeed, ScoreAssessments } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import { SiteSEOReport as SeoAssessment } from "@yoast/analysis-report";
 import { getPostFeed } from "@yoast/helpers";
