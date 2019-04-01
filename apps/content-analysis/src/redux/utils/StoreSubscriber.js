@@ -110,12 +110,16 @@ export default class StoreSubscriber {
 		 * This can have timing issues with the debounce and other store change and not work.
 		 */
 		if ( prevIsTreeBuilderEnabled !== isTreeBuilderEnabled || prevText !== text ) {
-			let tree = buildTree( text );
-
-			// Remove any circular dependencies by using the `toString` implementation.
-			tree = JSON.parse( tree.toString() );
-
-			this.dispatch( setResults( { tree } ) );
+			try {
+				let tree = buildTree( text );
+				// Remove any circular dependencies by using the `toString` implementation.
+				tree = JSON.parse( tree.toString() );
+				this.dispatch( setResults( { tree } ) );
+			} catch ( exception ) {
+				console.error( "An error occurred during the building of the tree " +
+					"(for the development tool's tree visualization).\n\n", exception );
+				this.dispatch( setResults( { } ) );
+			}
 		}
 	}
 
