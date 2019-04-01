@@ -11,6 +11,7 @@ import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole"
 import MediaUpload from "./components/MediaUpload";
 import Suggestions from "./components/Suggestions";
 import FinalStep from "./components/FinalStep";
+import WordPressUserSelector from "./components/WordPressUserSelector";
 
 import { setTranslations } from "yoast-components";
 import isUndefined from "lodash/isUndefined";
@@ -74,6 +75,7 @@ class App extends React.Component {
 				ConnectGoogleSearchConsole,
 				Suggestions,
 				FinalStep,
+				WordPressUserSelector,
 			},
 		} );
 
