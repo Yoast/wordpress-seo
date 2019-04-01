@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { Collapsible, CollapsibleStateless } from "../components/Collapsible";
+import { Collapsible, CollapsibleStateless } from "../src/Collapsible";
 
 describe( "Collapsible", () => {
 	const content = (
