@@ -1,3 +1,4 @@
+import { merge } from "lodash-es";
 let morphologyData = null;
 
 /**
@@ -5,15 +6,17 @@ let morphologyData = null;
  * @returns {Object} The morphology data, or an empty object if not available.
  */
 function loadLocalMorphologyData() {
-	let data = {};
+	let data, dataDe = {};
 	try {
 		// Disabling global require to be able to fail.
 		// eslint-disable-next-line global-require
 		data = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData.json" );
+		// eslint-disable-next-line global-require
+		dataDe = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-de.json" );
 	} catch ( error ) {
 		// Falling back to empty data.
 	}
-	return data;
+	return merge( data, dataDe );
 }
 
 /**
