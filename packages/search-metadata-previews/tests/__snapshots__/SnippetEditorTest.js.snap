@@ -547,70 +547,6 @@ exports[`SnippetEditor activates a field on onMouseUp() and opens the editor 1`]
 `;
 
 exports[`SnippetEditor calls callbacks when the editors are focused or changed 1`] = `
-.c29 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c29::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c29::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c29::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c29::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #ee7c1b;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #ee7c1b;
-}
-
-.c33::-ms-fill {
-  background-color: #ee7c1b;
-  border: 0;
-}
-
 .c18 {
   color: #555;
   border-color: #ccc;
@@ -680,6 +616,70 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 
 .c13 {
   font-size: 0.8rem;
+}
+
+.c29 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c29::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c29::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c29::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c29::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c33::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c30 {
@@ -1075,33 +1075,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
     }
   }
   hasPaperStyle={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": null,
-    }
-  }
   locale="en"
   mapEditorDataToPreview={null}
   mode="mobile"
@@ -2469,70 +2442,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 `;
 
 exports[`SnippetEditor calls callbacks when the editors are focused or changed 2`] = `
-.c29 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c29::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c29::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c29::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c29::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #ee7c1b;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #ee7c1b;
-}
-
-.c33::-ms-fill {
-  background-color: #ee7c1b;
-  border: 0;
-}
-
 .c18 {
   color: #555;
   border-color: #ccc;
@@ -2602,6 +2511,70 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 
 .c13 {
   font-size: 0.8rem;
+}
+
+.c29 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c29::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c29::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c29::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c29::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c33::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c30 {
@@ -2997,33 +2970,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
     }
   }
   hasPaperStyle={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": null,
-    }
-  }
   locale="en"
   mapEditorDataToPreview={null}
   mode="mobile"
@@ -4391,70 +4337,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 `;
 
 exports[`SnippetEditor calls callbacks when the editors are focused or changed 3`] = `
-.c29 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c29::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c29::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c29::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c29::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #ee7c1b;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #ee7c1b;
-}
-
-.c33::-ms-fill {
-  background-color: #ee7c1b;
-  border: 0;
-}
-
 .c18 {
   color: #555;
   border-color: #ccc;
@@ -4524,6 +4406,70 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 
 .c13 {
   font-size: 0.8rem;
+}
+
+.c29 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c29::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c29::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c29::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c29::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c33::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c30 {
@@ -4919,33 +4865,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
     }
   }
   hasPaperStyle={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": null,
-    }
-  }
   locale="en"
   mapEditorDataToPreview={null}
   mode="mobile"
@@ -6313,70 +6232,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 `;
 
 exports[`SnippetEditor closes when calling close() 1`] = `
-.c29 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c29::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c29::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c29::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c29::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #ee7c1b;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #ee7c1b;
-}
-
-.c33::-ms-fill {
-  background-color: #ee7c1b;
-  border: 0;
-}
-
 .c18 {
   color: #555;
   border-color: #ccc;
@@ -6446,6 +6301,70 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 
 .c13 {
   font-size: 0.8rem;
+}
+
+.c29 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c29::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c29::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c29::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c29::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c33::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c30 {
@@ -6841,33 +6760,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
     }
   }
   hasPaperStyle={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": null,
-    }
-  }
   locale="en"
   mapEditorDataToPreview={null}
   mode="mobile"
@@ -8520,33 +8412,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
     }
   }
   hasPaperStyle={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": null,
-    }
-  }
   locale="en"
   mapEditorDataToPreview={null}
   mode="mobile"
@@ -9263,70 +9128,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 `;
 
 exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
-.c29 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c29::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c29::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c29::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c29::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #ee7c1b;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #ee7c1b;
-}
-
-.c33::-ms-fill {
-  background-color: #ee7c1b;
-  border: 0;
-}
-
 .c18 {
   color: #555;
   border-color: #ccc;
@@ -9396,6 +9197,70 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 
 .c13 {
   font-size: 0.8rem;
+}
+
+.c29 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c29::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c29::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c29::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c29::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c33::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c30 {
@@ -9791,33 +9656,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
     }
   }
   hasPaperStyle={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": null,
-    }
-  }
   locale="en"
   mapEditorDataToPreview={null}
   mode="mobile"
@@ -11185,70 +11023,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 `;
 
 exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = `
-.c29 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c29::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c29::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c29::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c29::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #ee7c1b;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #ee7c1b;
-}
-
-.c33::-ms-fill {
-  background-color: #ee7c1b;
-  border: 0;
-}
-
 .c18 {
   color: #555;
   border-color: #ccc;
@@ -11318,6 +11092,70 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 
 .c13 {
   font-size: 0.8rem;
+}
+
+.c29 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c29::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c29::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c29::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c29::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c33::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c30 {
@@ -11713,33 +11551,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
     }
   }
   hasPaperStyle={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": null,
-    }
-  }
   locale="en"
   mapEditorDataToPreview={null}
   mode="mobile"
@@ -14043,70 +13854,6 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 `;
 
 exports[`SnippetEditor highlights the active ReplacementVariableEditor when calling setFieldFocus 1`] = `
-.c30 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c30::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c30::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c30::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c30::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
-.c34 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c34::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c34::-webkit-progress-value {
-  background-color: #ee7c1b;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c34::-moz-progress-bar {
-  background-color: #ee7c1b;
-}
-
-.c34::-ms-fill {
-  background-color: #ee7c1b;
-  border: 0;
-}
-
 .c19 {
   color: #555;
   border-color: #ccc;
@@ -14176,6 +13923,70 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 
 .c14 {
   font-size: 0.8rem;
+}
+
+.c30 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c30::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c30::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c30::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c30::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c34 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c34::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c34::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c34::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c34::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c31 {
@@ -14583,33 +14394,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
     }
   }
   hasPaperStyle={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": null,
-    }
-  }
   locale="en"
   mapEditorDataToPreview={null}
   mode="mobile"
@@ -15985,70 +15769,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 `;
 
 exports[`SnippetEditor highlights the hovered field when onMouseEnter() is called 1`] = `
-.c30 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c30::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c30::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c30::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c30::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
-.c34 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c34::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c34::-webkit-progress-value {
-  background-color: #ee7c1b;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c34::-moz-progress-bar {
-  background-color: #ee7c1b;
-}
-
-.c34::-ms-fill {
-  background-color: #ee7c1b;
-  border: 0;
-}
-
 .c19 {
   color: #555;
   border-color: #ccc;
@@ -16118,6 +15838,70 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 
 .c14 {
   font-size: 0.8rem;
+}
+
+.c30 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c30::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c30::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c30::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c30::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c34 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c34::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c34::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c34::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c34::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c31 {
@@ -16525,33 +16309,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
     }
   }
   hasPaperStyle={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": null,
-    }
-  }
   locale="en"
   mapEditorDataToPreview={null}
   mode="mobile"
@@ -17927,70 +17684,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 `;
 
 exports[`SnippetEditor opens when calling open() 1`] = `
-.c29 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c29::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c29::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c29::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c29::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #ee7c1b;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #ee7c1b;
-}
-
-.c33::-ms-fill {
-  background-color: #ee7c1b;
-  border: 0;
-}
-
 .c18 {
   color: #555;
   border-color: #ccc;
@@ -18060,6 +17753,70 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 
 .c13 {
   font-size: 0.8rem;
+}
+
+.c29 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c29::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c29::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c29::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c29::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c33::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c30 {
@@ -18455,33 +18212,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
     }
   }
   hasPaperStyle={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": null,
-    }
-  }
   locale="en"
   mapEditorDataToPreview={null}
   mode="mobile"
@@ -19849,70 +19579,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 `;
 
 exports[`SnippetEditor passes replacement variables to the title and description editor 1`] = `
-.c29 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c29::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c29::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c29::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c29::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #ee7c1b;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #ee7c1b;
-}
-
-.c33::-ms-fill {
-  background-color: #ee7c1b;
-  border: 0;
-}
-
 .c18 {
   color: #555;
   border-color: #ccc;
@@ -19982,6 +19648,70 @@ exports[`SnippetEditor passes replacement variables to the title and description
 
 .c13 {
   font-size: 0.8rem;
+}
+
+.c29 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c29::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c29::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c29::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c29::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c33::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c30 {
@@ -20377,33 +20107,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
     }
   }
   hasPaperStyle={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": null,
-    }
-  }
   locale="en"
   mapEditorDataToPreview={null}
   mode="mobile"
@@ -22415,70 +22118,6 @@ exports[`SnippetEditor removes the highlight from the hovered field on calling o
 `;
 
 exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = `
-.c29 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c29::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c29::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c29::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c29::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
-.c33 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c33::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c33::-webkit-progress-value {
-  background-color: #ee7c1b;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c33::-moz-progress-bar {
-  background-color: #ee7c1b;
-}
-
-.c33::-ms-fill {
-  background-color: #ee7c1b;
-  border: 0;
-}
-
 .c18 {
   color: #555;
   border-color: #ccc;
@@ -22548,6 +22187,70 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 
 .c13 {
   font-size: 0.8rem;
+}
+
+.c29 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c29::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c29::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c29::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c29::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c33 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c33::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c33::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c33::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c33::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c30 {
@@ -22943,33 +22646,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
     }
   }
   hasPaperStyle={true}
-  intl={
-    Object {
-      "defaultFormats": Object {},
-      "defaultLocale": "en",
-      "formatDate": [Function],
-      "formatHTMLMessage": [Function],
-      "formatMessage": [Function],
-      "formatNumber": [Function],
-      "formatPlural": [Function],
-      "formatRelative": [Function],
-      "formatTime": [Function],
-      "formats": Object {},
-      "formatters": Object {
-        "getDateTimeFormat": [Function],
-        "getMessageFormat": [Function],
-        "getNumberFormat": [Function],
-        "getPluralFormat": [Function],
-        "getRelativeFormat": [Function],
-      },
-      "locale": "en",
-      "messages": Object {},
-      "now": [Function],
-      "onError": [Function],
-      "textComponent": "span",
-      "timeZone": null,
-    }
-  }
   locale="en"
   mapEditorDataToPreview={null}
   mode="mobile"
@@ -24803,70 +24479,6 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 `;
 
 exports[`SnippetEditor renders the snippet editor without a close button when showCloseButton is false 1`] = `
-.c28 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c28::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c28::-webkit-progress-value {
-  background-color: #dc3232;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c28::-moz-progress-bar {
-  background-color: #dc3232;
-}
-
-.c28::-ms-fill {
-  background-color: #dc3232;
-  border: 0;
-}
-
-.c32 {
-  box-sizing: border-box;
-  width: 100%;
-  height: 8px;
-  display: block;
-  margin-top: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
-}
-
-.c32::-webkit-progress-bar {
-  background-color: #f7f7f7;
-}
-
-.c32::-webkit-progress-value {
-  background-color: #ee7c1b;
-  -webkit-transition: width 250ms;
-  transition: width 250ms;
-}
-
-.c32::-moz-progress-bar {
-  background-color: #ee7c1b;
-}
-
-.c32::-ms-fill {
-  background-color: #ee7c1b;
-  border: 0;
-}
-
 .c18 {
   color: #555;
   border-color: #ccc;
@@ -24936,6 +24548,70 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
 
 .c13 {
   font-size: 0.8rem;
+}
+
+.c28 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c28::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c28::-webkit-progress-value {
+  background-color: #dc3232;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c28::-moz-progress-bar {
+  background-color: #dc3232;
+}
+
+.c28::-ms-fill {
+  background-color: #dc3232;
+  border: 0;
+}
+
+.c32 {
+  box-sizing: border-box;
+  width: 100%;
+  height: 8px;
+  display: block;
+  margin-top: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+}
+
+.c32::-webkit-progress-bar {
+  background-color: #f7f7f7;
+}
+
+.c32::-webkit-progress-value {
+  background-color: #ee7c1b;
+  -webkit-transition: width 250ms;
+  transition: width 250ms;
+}
+
+.c32::-moz-progress-bar {
+  background-color: #ee7c1b;
+}
+
+.c32::-ms-fill {
+  background-color: #ee7c1b;
+  border: 0;
 }
 
 .c29 {

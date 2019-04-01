@@ -1,7 +1,4 @@
-import { makeOutboundLink } from "@yoast/helpers";
-import getFeed from "./getFeed";
-import getPostFeed from "./getPostFeed";
-import getCourseFeed from "./getCourseFeed";
+import { makeOutboundLink, getCourseFeed, getPostFeed, getFeed } from "@yoast/helpers";
 import buildStructuredUrl from "./buildStructuredUrl";
 
 

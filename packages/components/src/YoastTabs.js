@@ -154,6 +154,7 @@ YoastTabs.defaultProps = {
 	tabsFontSize: "1.5em",
 	tabsFontWeight: "200",
 	tabsBaseWidth: "200px",
+	onTabSelect: () => {},
 	onTabsMounted: () => {},
 };
 

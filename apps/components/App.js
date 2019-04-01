@@ -1,6 +1,7 @@
 import React from "react";
 import { IntlProvider } from "react-intl";
 import styled, { ThemeProvider } from "styled-components";
+import { setLocaleData } from "@wordpress/i18n";
 
 import ButtonsWrapper from "./ButtonsWrapper";
 import ComponentsExample from "./ComponentsExample";
@@ -8,7 +9,7 @@ import ContentAnalysis from "./ContentAnalysisWrapper";
 import DashboardWidget from "./DashboardWidgetWrapper";
 import HelpCenterWrapper from "./HelpCenterWrapper";
 import KeywordExample from "./KeywordExample";
-import KeywordSuggestionsWrapper from "./KeywordSuggestionWrapper";
+import WordListWrapper from "./WordListWrapper";
 import SidebarCollapsibleWrapper from "./SidebarCollapsibleWrapper";
 import SnippetEditor from "./SnippetEditorExample";
 import SvgIconsWrapper from "./SvgIconsWrapper";
@@ -16,6 +17,9 @@ import UIControlsWrapper from "./UIControlsWrapper";
 import Wizard from "./WizardWrapper";
 import { Loader } from "@yoast/components";
 import FacebookPreviewExample from "./FacebookPreviewExample";
+
+// Setup empty translations to prevent Jed error.
+setLocaleData( { "": {} }, "yoast-components" );
 
 const components = [
 	{
@@ -64,9 +68,9 @@ const components = [
 		component: <SidebarCollapsibleWrapper />,
 	},
 	{
-		id: "keyword-suggestions",
-		name: "Keyword suggestions",
-		component: <KeywordSuggestionsWrapper />,
+		id: "wordlist",
+		name: "WordList",
+		component: <WordListWrapper />,
 	},
 	{
 		id: "buttons",
