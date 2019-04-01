@@ -103,13 +103,13 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	private function determine_page_type() {
 		switch ( true ) {
 			case is_search():
-				$type = array( 'SearchResultsPage', 'WebPage' );
+				$type = 'SearchResultsPage';
 				break;
 			case is_author():
-				$type = array( 'ProfilePage', 'CollectionPage', 'WebPage' );
+				$type = 'ProfilePage';
 				break;
 			case is_archive():
-				$type = array( 'CollectionPage', 'WebPage' );
+				$type = 'CollectionPage';
 				break;
 			default:
 				$type = 'WebPage';
