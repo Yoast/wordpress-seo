@@ -1,3 +1,8 @@
+// AFTER MODIFYING:
+//
+// * Make the same change in the configuration-wizard/src/helpers/_colors.scss file.
+// * Run `grunt scss_to_json`.
+//
 $palette_white:              #fff;    // Safe to use with $palette_grey_text – $palette_black.
 // Shades of gray from lighter to darker.
 $palette_grey_ultra_light:   #f7f7f7; // Safe to use with $palette_grey_text – $palette_black.
