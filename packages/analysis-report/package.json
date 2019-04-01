@@ -18,12 +18,22 @@
     "@wordpress/i18n": "^1.1.0",
     "@yoast/style-guide": "^0.1.0",
     "prop-types": "^15.6.0",
-    "react": "16.6.3",
     "react-dom": "16.6.3",
+    "react": "16.6.3",
     "styled-components": "^2.1.2",
     "lodash": "^4.17.11"
+    "@yoast/components": "^1.0.0"
   },
   "devDependencies": {
+    "react-test-renderer": "^16.2.0",
+    "jest-styled-components": "^5.0.1",
+    "jest": "^22.4.3",
+    "jest-cli": "^22.4.3",
+    "jest-runtime": "^22.4.3"
+  },
+  "peerDependencies": {
+    "react": "^16.2.0",
+    "react-dom": "16.2.0"
   },
   "jest": {
     "testURL": "http://localhost",

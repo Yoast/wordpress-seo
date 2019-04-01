@@ -4,10 +4,8 @@ import styled from "styled-components";
 import ExamplesContainer from "./ExamplesContainer";
 import getPostFeed from "yoast-components/utils/getPostFeed";
 
-import {
-	DashboardWidgetSeoAssessment,
-	DashboardWidgetWordpressFeed,
-} from "yoast-components/composites/Plugin/DashboardWidget/index";
+import { ArticleList } from "@yoast/components";
+import { SiteSEOReport } from "@yoast/analysis-report";
 
 export const DashboardContainer = styled.div`
 	padding: 8px;
@@ -28,7 +26,7 @@ export default class DashboardWidget extends React.Component {
 		super();
 
 		this.state = {
-			seoAssessmentItems: [
+			siteSEOReportItems: [
 				{
 					value: 33,
 					color: "#F00",
@@ -85,11 +83,11 @@ export default class DashboardWidget extends React.Component {
 		return (
 			<ExamplesContainer>
 				<DashboardContainer>
-					<DashboardWidgetSeoAssessment
+					<SiteSEOReport
 						seoAssessmentText="Your SEO score is decent overall, but can be improved! Get to work!"
-						seoAssessmentItems={ this.state.seoAssessmentItems }
+						seoAssessmentItems={ this.state.siteSEOReportItems }
 					/>
-					{ feed && <DashboardWidgetWordpressFeed
+					{ feed && <ArticleList
 						feed={ feed }
 						footerLinkText="View our blog on yoast.com!"
 					/> }
