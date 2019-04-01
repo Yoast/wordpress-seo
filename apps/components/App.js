@@ -1,6 +1,7 @@
 import React from "react";
 import { IntlProvider } from "react-intl";
 import styled, { ThemeProvider } from "styled-components";
+import { setLocaleData } from "@wordpress/i18n";
 
 import ButtonsWrapper from "./ButtonsWrapper";
 import ComponentsExample from "./ComponentsExample";
@@ -17,6 +18,9 @@ import Wizard from "./WizardWrapper";
 import { Loader } from "@yoast/components";
 import FacebookPreviewExample from "./FacebookPreviewExample";
 import LinkSuggestionsWrapper from "./LinkSuggestionsExample";
+
+// Setup empty translations to prevent Jed error.
+setLocaleData( { "": {} }, "yoast-components" );
 
 const components = [
 	{
