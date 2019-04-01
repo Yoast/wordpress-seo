@@ -374,7 +374,7 @@ export default class AnalysisWebWorker {
 		let assessor;
 
 		if ( useTaxonomy === true ) {
-			assessor = new TaxonomyAssessor( this._i18n );
+			assessor = new TaxonomyAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
 		} else {
 			assessor = useCornerstone === true
 				? new CornerstoneSEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
@@ -417,7 +417,7 @@ export default class AnalysisWebWorker {
 		let assessor;
 
 		if ( useTaxonomy === true ) {
-			assessor = new RelatedKeywordTaxonomyAssessor( this._i18n );
+			assessor = new RelatedKeywordTaxonomyAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
 		} else {
 			assessor = useCornerstone === true
 				? new CornerstoneRelatedKeywordAssessor( this._i18n, { locale: locale, researcher: this._researcher } )

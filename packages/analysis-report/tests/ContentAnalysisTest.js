@@ -1,6 +1,6 @@
 import React from "react";
 import { createComponentWithIntl } from "@yoast/helpers";
-import ContentAnalysis from "../components/ContentAnalysis.js";
+import ContentAnalysis from "../src/ContentAnalysis.js";
 
 const problemsResults = [
 	{
