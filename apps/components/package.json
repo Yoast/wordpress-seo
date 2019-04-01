@@ -58,7 +58,10 @@
     },
     "transformIgnorePatterns": [
       "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/tests/__mocks__/styleMock.js"
+    }
   },
   "browserify": {
     "transform": [
