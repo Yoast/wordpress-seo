@@ -141,7 +141,7 @@ const calculateTextIndices = function( node, html ) {
 		  so its content should be added to the respective formatting element instead,
 		  and the current offset should be updated.
 		 */
-		if ( ignoredHtmlElements.includes( element.type ) ) {
+		if ( ignoredHtmlElements.includes( element.tag ) ) {
 			currentOffset = handleIgnoredContent( element, html, currentOffset );
 		}
 	} );
