@@ -61,7 +61,7 @@
 		"webpack-manifest-plugin": "2.0.4",
 		"workbox-webpack-plugin": "3.6.3",
 		"worker-loader": "^2.0.0",
-		"yoast-components": "^4.18.1"
+		"yoast-components": "^4.23.0-rc.6"
 	},
 	"scripts": {
 		"start": "node scripts/start.js",

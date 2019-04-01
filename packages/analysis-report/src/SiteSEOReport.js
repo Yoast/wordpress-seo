@@ -2,18 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { StackedProgressBar, ScoreAssessments as SeoScoreAssessments } from "@yoast/components";
+import { ScoreAssessments as SiteSEOReportAssessments, StackedProgressBar } from "@yoast/components";
 
 /**
  * SeoAssessment container.
  */
-const SeoAssessmentContainer = styled.div`
+const SiteSEOReportContainer = styled.div`
 `;
 
 /**
  * SeoAssessment top text.
  */
-const SeoAssessmentText = styled.p`
+const SiteSEOReportText = styled.p`
 	font-size: 14px;
 `;
 
@@ -24,34 +24,35 @@ const SeoAssessmentText = styled.p`
  *
  * @returns {ReactElement} The react component.
  */
-const SeoAssessment = ( props ) => {
+const SiteSEOReport = ( props ) => {
 	return (
-		<SeoAssessmentContainer
+		<SiteSEOReportContainer
 			className={ props.className }
 		>
-			<SeoAssessmentText
+			<SiteSEOReportText
 				className={ `${ props.className }__text` }
 			>
 				{ props.seoAssessmentText }
-			</SeoAssessmentText>
+			</SiteSEOReportText>
 			<StackedProgressBar
 				className="progress"
 				items={ props.seoAssessmentItems }
 				barHeight={ props.barHeight }
 			/>
-			<SeoScoreAssessments
+			<SiteSEOReportAssessments
 				className="assessments"
 				items={ props.seoAssessmentItems }
 			/>
-		</SeoAssessmentContainer>
+		</SiteSEOReportContainer>
 	);
 };
 
-SeoAssessment.propTypes = {
+SiteSEOReport.propTypes = {
 	className: PropTypes.string,
 	seoAssessmentText: PropTypes.string,
 	seoAssessmentItems: PropTypes.arrayOf(
 		PropTypes.shape( {
+			html: PropTypes.string.isRequired,
 			value: PropTypes.number.isRequired,
 			color: PropTypes.string.isRequired,
 		} )
@@ -59,8 +60,11 @@ SeoAssessment.propTypes = {
 	barHeight: PropTypes.string,
 };
 
-SeoAssessment.defaultProps = {
+SiteSEOReport.defaultProps = {
 	className: "seo-assessment",
+	seoAssessmentText: "SEO Assessment",
+	seoAssessmentItems: null,
+	barHeight: null,
 };
 
-export default SeoAssessment;
+export default SiteSEOReport;

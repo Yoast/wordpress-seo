@@ -1,6 +1,6 @@
 import React from "react";
 import { createComponentWithIntl } from "@yoast/helpers";
-import AnalysisResult from "../components/AnalysisResult.js";
+import AnalysisResult from "../src/AnalysisResult.js";
 
 test( "the AnalysisResult component matches the snapshot", () => {
 	const component = createComponentWithIntl(
