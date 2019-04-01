@@ -1,21 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the VideoTutorial component matches the snapshot 1`] = `
-.c2 {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0;
-  overflow: hidden;
-}
-
-.c2 iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
 .c7 {
   border: 0;
   -webkit-clip: rect(1px,1px,1px,1px);
@@ -32,6 +17,21 @@ exports[`the VideoTutorial component matches the snapshot 1`] = `
   -webkit-transform: translateY(1em);
   -ms-transform: translateY(1em);
   transform: translateY(1em);
+}
+
+.c2 {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+}
+
+.c2 iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .c0 {

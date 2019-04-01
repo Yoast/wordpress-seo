@@ -60,6 +60,11 @@ import Scheduler from "./scheduler";
 import Transporter from "./transporter";
 import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
 
+// Tree assessor functionality.
+import buildTree from "../tree/builder";
+import { constructReadabilityAssessor, constructSEOAssessor } from "../tree/assess/assessorFactories";
+import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../tree/assess/scoreAggregators";
+import { TreeResearcher } from "../tree/research";
 
 const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 
@@ -132,6 +137,40 @@ export default class AnalysisWebWorker {
 		this._registeredAssessments = [];
 		this._registeredMessageHandlers = {};
 
+		// Set up everything for the analysis on the tree.
+		this.setupTreeAnalysis();
+
+		this.bindActions();
+
+		this.assessRelatedKeywords = this.assessRelatedKeywords.bind( this );
+
+		// Bind register functions to this scope.
+		this.registerAssessment = this.registerAssessment.bind( this );
+		this.registerMessageHandler = this.registerMessageHandler.bind( this );
+		this.refreshAssessment = this.refreshAssessment.bind( this );
+
+		// Bind event handlers to this scope.
+		this.handleMessage = this.handleMessage.bind( this );
+
+		// Wrap try/catch around actions.
+		this.analyzeRelatedKeywords = wrapTryCatchAroundAction( logger, this.analyze,
+			"An error occurred while running the related keywords analysis." );
+		/*
+		 * Overwrite this.analyze after we use it in this.analyzeRelatedKeywords so that this.analyzeRelatedKeywords
+		 * doesn't use the overwritten version. Therefore, this order shouldn't be changed.
+		 */
+		this.analyze = wrapTryCatchAroundAction( logger, this.analyze,
+			"An error occurred while running the analysis." );
+		this.runResearch = wrapTryCatchAroundAction( logger, this.runResearch,
+			"An error occurred after running the '%%name%%' research." );
+	}
+
+	/**
+	 * Binds actions to this scope.
+	 *
+	 * @returns {void}
+	 */
+	bindActions() {
 		// Bind actions to this scope.
 		this.analyze = this.analyze.bind( this );
 		this.analyzeDone = this.analyzeDone.bind( this );
@@ -143,25 +182,31 @@ export default class AnalysisWebWorker {
 		this.clearCache = this.clearCache.bind( this );
 		this.runResearch = this.runResearch.bind( this );
 		this.runResearchDone = this.runResearchDone.bind( this );
+	}
 
-		// Bind register functions to this scope.
-		this.registerAssessment = this.registerAssessment.bind( this );
-		this.registerMessageHandler = this.registerMessageHandler.bind( this );
-		this.refreshAssessment = this.refreshAssessment.bind( this );
+	/**
+	 * Sets up the web worker for running the tree readability and SEO analysis.
+	 *
+	 * @returns {void}
+	 */
+	setupTreeAnalysis() {
+		// Researcher
+		this._treeResearcher = new TreeResearcher();
 
-		// Bind event handlers to this scope.
-		this.handleMessage = this.handleMessage.bind( this );
+		// Assessors
+		this._contentTreeAssessor = null;
+		this._seoTreeAssessor = null;
+		this._relatedKeywordTreeAssessor = null;
 
-		// Wrap try/catch around actions.
-		this.analyzeRelatedKeywords =
-			wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the related keywords analysis." );
-		/*
-		 * Overwrite this.analyze after we use it in this.analyzeRelatedKeywords so that this.analyzeRelatedKeywords
-		 * doesn't use the overwritten version. Therefore, this order shouldn't be changed.
-		 */
-		this.analyze = wrapTryCatchAroundAction( logger, this.analyze, "An error occurred while running the analysis." );
-		this.runResearch = wrapTryCatchAroundAction( logger, this.runResearch,
-			"An error occurred after running the '%%name%%' research." );
+		// Registered assessments
+		this._registeredTreeAssessments = [];
+
+		// Score aggregators
+		this._seoScoreAggregator = new SEOScoreAggregator();
+		this._contentScoreAggregator = new ReadabilityScoreAggregator();
+
+		// Tree representation of text to analyze
+		this._tree = null;
 	}
 
 	/**
@@ -329,7 +374,7 @@ export default class AnalysisWebWorker {
 		let assessor;
 
 		if ( useTaxonomy === true ) {
-			assessor = new TaxonomyAssessor( this._i18n );
+			assessor = new TaxonomyAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
 		} else {
 			assessor = useCornerstone === true
 				? new CornerstoneSEOAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
@@ -372,7 +417,7 @@ export default class AnalysisWebWorker {
 		let assessor;
 
 		if ( useTaxonomy === true ) {
-			assessor = new RelatedKeywordTaxonomyAssessor( this._i18n );
+			assessor = new RelatedKeywordTaxonomyAssessor( this._i18n, { locale: locale, researcher: this._researcher } );
 		} else {
 			assessor = useCornerstone === true
 				? new CornerstoneRelatedKeywordAssessor( this._i18n, { locale: locale, researcher: this._researcher } )
@@ -382,6 +427,28 @@ export default class AnalysisWebWorker {
 		this._registeredAssessments.forEach( ( { name, assessment } ) => {
 			if ( isUndefined( assessor.getAssessment( name ) ) ) {
 				assessor.addAssessment( name, assessment );
+			}
+		} );
+
+		return assessor;
+	}
+
+	/**
+	 * Creates an SEO assessor for a tree, based on the given combination of cornerstone, taxonomy and related keyphrase flags.
+	 *
+	 * @param {Object}  assessorConfig                    The assessor configuration.
+	 * @param {boolean} [assessorConfig.relatedKeyphrase] If this assessor is for a related keyphrase, instead of the main one.
+	 * @param {boolean} [assessorConfig.taxonomy]         If this assessor is for a taxonomy page, instead of a regular page.
+	 * @param {boolean} [assessorConfig.cornerstone]      If this assessor is for cornerstone content.
+	 *
+	 * @returns {module:tree/assess.TreeAssessor} The created tree assessor.
+	 */
+	createSEOTreeAssessor( assessorConfig ) {
+		const assessor = constructSEOAssessor( this._i18n, this._treeResearcher, assessorConfig );
+
+		this._registeredAssessments.forEach( ( { name, assessment } ) => {
+			if ( ! assessor.getAssessment( name ) ) {
+				assessor.registerAssessment( name, assessment );
 			}
 		} );
 
@@ -476,10 +543,19 @@ export default class AnalysisWebWorker {
 
 		if ( update.readability ) {
 			this._contentAssessor = this.createContentAssessor();
+			this._contentTreeAssessor = constructReadabilityAssessor( this._i18n, this._treeResearcher, configuration.useCornerstone );
 		}
 		if ( update.seo ) {
 			this._seoAssessor = this.createSEOAssessor();
 			this._relatedKeywordAssessor = this.createRelatedKeywordsAssessor();
+			// Tree assessors
+			const { useCornerstone, useTaxonomy } = this._configuration;
+			this._seoTreeAssessor = useTaxonomy
+				? this.createSEOTreeAssessor( { taxonomy: true } )
+				: this.createSEOTreeAssessor( { cornerstone: useCornerstone } );
+			this._relatedKeywordTreeAssessor = this.createSEOTreeAssessor( {
+				cornerstone: useCornerstone, relatedKeyphrase: true,
+			} );
 		}
 
 		// Reset the paper in order to not use the cached results on analyze.
@@ -663,7 +739,9 @@ export default class AnalysisWebWorker {
 	 *
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
-	analyze( id, { paper, relatedKeywords = {} } ) {
+	async analyze( id, { paper, relatedKeywords = {} } ) {
+		// Raw HTML text, to be parsed by the tree builder.
+		const text = paper._text;
 		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.
 		paper._text = autop( paper._text );
 		paper._text = string.removeHtmlBlocks( paper._text );
@@ -674,59 +752,163 @@ export default class AnalysisWebWorker {
 			this._paper = paper;
 			this._researcher.setPaper( this._paper );
 
+			// Try to build the tree, for analysis using the tree assessors.
+			try {
+				this._tree = buildTree( text );
+			} catch ( exception ) {
+				console.error( "Yoast SEO and readability analysis: " +
+					"An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
+				this._tree = null;
+			}
 			// Update the configuration locale to the paper locale.
 			this.setLocale( this._paper.getLocale() );
 		}
 
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
 			if ( paperHasChanges ) {
-				this._seoAssessor.assess( this._paper );
-
-				// Reset the cached results for the related keywords here too.
-				this._results.seo = {};
-				this._results.seo[ "" ] = {
-					results: this._seoAssessor.results,
-					score: this._seoAssessor.calculateOverallScore(),
-				};
-			}
-
-			// Start an analysis for every related keyword.
-			const requestedRelatedKeywordKeys = [ "" ];
-			forEach( relatedKeywords, ( relatedKeyword, key ) => {
-				requestedRelatedKeywordKeys.push( key );
-
-				this._relatedKeywords[ key ] = relatedKeyword;
-
-				const relatedPaper = Paper.parse( {
-					...this._paper.serialize(),
-					keyword: this._relatedKeywords[ key ].keyword,
-					synonyms: this._relatedKeywords[ key ].synonyms,
+				// Assess the SEO of the content regarding the main keyphrase.
+				this._results.seo[ "" ] = await this.assess( this._paper, this._tree, {
+					oldAssessor: this._seoAssessor,
+					treeAssessor: this._seoTreeAssessor,
+					scoreAggregator: this._seoScoreAggregator,
 				} );
 
-				this._relatedKeywordAssessor.assess( relatedPaper );
+				// Get the related keyphrase keys (one for each keyphrase).
+				const requestedRelatedKeywordKeys = Object.keys( relatedKeywords );
 
-				this._results.seo[ key ] = {
-					results: this._relatedKeywordAssessor.results,
-					score: this._relatedKeywordAssessor.calculateOverallScore(),
-				};
-			} );
+				// Analyze the SEO for each related keyphrase and wait for the results.
+				const relatedKeyphraseResults = await this.assessRelatedKeywords( paper, this._tree, relatedKeywords );
 
-			// Clear the unrequested results, but only if there are requested related keywords.
-			if ( requestedRelatedKeywordKeys.length > 1 ) {
-				this._results.seo = pickBy( this._results.seo, ( relatedKeyword, key ) => includes( requestedRelatedKeywordKeys, key ) );
+				// Put the related keyphrase results on the SEO results, under the right key.
+				relatedKeyphraseResults.forEach( result => {
+					this._results.seo[ result.key ] = result.results;
+				} );
+
+				// Clear the unrequested results, but only if there are requested related keywords.
+				if ( requestedRelatedKeywordKeys.length > 1 ) {
+					this._results.seo = pickBy( this._results.seo,
+						( relatedKeyword, key ) =>	includes( requestedRelatedKeywordKeys, key )
+					);
+				}
 			}
 		}
 
 		if ( this._configuration.contentAnalysisActive && this._contentAssessor && shouldReadabilityUpdate ) {
-			this._contentAssessor.assess( this._paper );
-
-			this._results.readability = {
-				results: this._contentAssessor.results,
-				score: this._contentAssessor.calculateOverallScore(),
+			const analysisCombination = {
+				oldAssessor: this._contentAssessor,
+				treeAssessor: this._contentTreeAssessor,
+				scoreAggregator: this._contentScoreAggregator,
 			};
+			this._results.readability = await this.assess( this._paper, this._tree, analysisCombination );
 		}
 
 		return this._results;
+	}
+
+	/**
+	 * Assesses a given paper and tree combination
+	 * using an original Assessor (that works on a string representation of the text)
+	 * and a new Tree Assessor (that works on a tree representation).
+	 *
+	 * The results of both analyses are combined using the given score aggregator.
+	 *
+	 * @param {Paper}                      paper The paper to analyze.
+	 * @param {module:tree/structure.Node} tree  The tree to analyze.
+	 *
+	 * @param {Object}                             analysisCombination                 Which assessors and score aggregator to use.
+	 * @param {Assessor}                           analysisCombination.oldAssessor     The original assessor.
+	 * @param {module:tree/assess.TreeAssessor}    analysisCombination.treeAssessor    The new assessor.
+	 * @param {module:tree/assess.ScoreAggregator} analysisCombination.scoreAggregator The score aggregator to use.
+	 *
+	 * @returns {Promise<{score: number, results: AssessmentResult[]}>} The analysis results.
+	 */
+	async assess( paper, tree, analysisCombination ) {
+		const { oldAssessor, treeAssessor, scoreAggregator } = analysisCombination;
+		/*
+		 * Assess the paper and the tree
+		 * using the original assessor and the tree assessor.
+		 */
+		oldAssessor.assess( paper );
+		const oldAssessmentResults = oldAssessor.results;
+
+		let treeAssessmentResults = [];
+
+		// Only assess tree if it has been built.
+		if ( tree ) {
+			const treeAssessorResult = await treeAssessor.assess( paper, tree );
+			treeAssessmentResults = treeAssessorResult.results;
+		} else {
+			// Cannot assess the tree, generate errors on the assessments that use the tree assessor.
+			const treeAssessments = treeAssessor.getAssessments();
+			treeAssessmentResults = treeAssessments.map( assessment => this.generateAssessmentError( assessment ) );
+		}
+
+		// Combine the results of the tree assessor and old assessor.
+		const results = [ ...treeAssessmentResults, ... oldAssessmentResults ];
+
+		// Aggregate the results.
+		const score = scoreAggregator.aggregate( results );
+
+		return {
+			results: results,
+			score: score,
+		};
+	}
+
+	/**
+	 * Generates an error message ("grey bullet") for the given assessment.
+	 *
+	 * @param {module:tree/assess.Assessment} assessment The assessment to generate an error message for.
+	 *
+	 * @returns {AssessmentResult} The generated assessment result.
+	 */
+	generateAssessmentError( assessment ) {
+		const result = new AssessmentResult();
+
+		result.setScore( -1 );
+		result.setText( this._i18n.sprintf(
+			/* Translators: %1$s expands to the name of the assessment. */
+			this._i18n.dgettext( "js-text-analysis", "An error occurred in the '%1$s' assessment" ),
+			assessment.name,
+		) );
+
+		return result;
+	}
+
+	/**
+	 * Assesses the SEO of a paper and tree combination on the given related keyphrases and their synonyms.
+	 *
+	 * The old assessor as well as the new tree assessor are used and their results are combined.
+	 *
+	 * @param {Paper}                 paper           The paper to analyze.
+	 * @param {module:tree/structure} tree            The tree to analyze.
+	 * @param {Object}                relatedKeywords The related keyphrases to use in the analysis.
+	 *
+	 * @returns {Promise<[{results: {score: number, results: AssessmentResult[]}, key: string}]>} The results, one for each keyphrase.
+	 */
+	async assessRelatedKeywords( paper, tree, relatedKeywords ) {
+		const keywordKeys = Object.keys( relatedKeywords );
+		return await Promise.all( keywordKeys.map( key => {
+			this._relatedKeywords[ key ] = relatedKeywords[ key ];
+
+			const relatedPaper = Paper.parse( {
+				...paper.serialize(),
+				keyword: this._relatedKeywords[ key ].keyword,
+				synonyms: this._relatedKeywords[ key ].synonyms,
+			} );
+
+			// Which combination of (tree) assessors and score aggregator to use.
+			const analysisCombination = {
+				oldAssessor: this._relatedKeywordAssessor,
+				treeAssessor: this._relatedKeywordTreeAssessor,
+				scoreAggregator: this._seoScoreAggregator,
+			};
+
+			// We need to remember the key, since the SEO results are stored in an object, not an array.
+			return this.assess( relatedPaper, tree, analysisCombination ).then(
+				results => ( { key: key, results: results } )
+			);
+		} ) );
 	}
 
 	/**

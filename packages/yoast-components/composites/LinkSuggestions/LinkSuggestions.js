@@ -8,7 +8,7 @@ import interpolateComponents from "interpolate-components";
 import { speak } from "@wordpress/a11y";
 
 /* Internal dependencies */
-import { makeOutboundLink } from "../../utils/makeOutboundLink";
+import { makeOutboundLink } from "@yoast/helpers";
 
 const HelpTextLink = makeOutboundLink();
 
