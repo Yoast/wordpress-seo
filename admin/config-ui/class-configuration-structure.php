@@ -33,7 +33,7 @@ class WPSEO_Configuration_Structure {
 			'publishingEntityType',
 			'publishingEntityCompanyName',
 			'publishingEntityCompanyLogo',
-			'publishingEntityPersonName',
+			'publishingEntityPersonId',
 			'profileUrlFacebook',
 			'profileUrlTwitter',
 			'profileUrlInstagram',

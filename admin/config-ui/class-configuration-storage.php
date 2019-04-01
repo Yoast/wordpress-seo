@@ -47,7 +47,7 @@ class WPSEO_Configuration_Storage {
 			new WPSEO_Config_Field_Company_Or_Person(),
 			new WPSEO_Config_Field_Company_Name(),
 			new WPSEO_Config_Field_Company_Logo(),
-			new WPSEO_Config_Field_Person_Name(),
+			new WPSEO_Config_Field_Person(),
 			new WPSEO_Config_Field_Post_Type_Visibility(),
 		);
 
