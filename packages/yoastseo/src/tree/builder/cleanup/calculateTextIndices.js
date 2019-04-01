@@ -113,6 +113,12 @@ const calculateTextIndices = function( node, html ) {
 		// Remove closed elements from the list.
 		pullAll( openElements, elementsToClose );
 
+		if ( element.tag === "comment" ) {
+			element.textStartIndex = element.location.startOffset - currentOffset;
+			element.textEndIndex = element.textStartIndex;
+			return;
+		}
+
 		const startTag = element.location.startTag;
 		const endTag = element.location.endTag;
 
