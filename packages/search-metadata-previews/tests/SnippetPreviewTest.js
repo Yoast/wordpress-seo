@@ -2,9 +2,7 @@ import SnippetPreview from "../src/snippet-preview/SnippetPreview";
 import { MODE_DESKTOP, MODE_MOBILE } from "../src/snippet-preview/constants";
 import React from "react";
 import { createComponentWithIntl } from "@yoast/helpers";
-import {
-	mountWithIntl,
-} from "yoast-components/utils/helpers/intl-enzyme-test-helper";
+import { mount } from "enzyme";
 
 const defaultArgs = {
 	description: "Description",
@@ -37,7 +35,7 @@ const renderSnapshotWithArgs = ( changedArgs ) => {
  * @returns {ReactElement} The SnippetPreview component.
  */
 const mountWithArgs = ( props ) => {
-	return mountWithIntl(
+	return mount(
 		<SnippetPreview
 			{ ...defaultArgs }
 			{ ...props }
