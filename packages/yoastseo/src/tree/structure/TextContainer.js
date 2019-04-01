@@ -12,10 +12,10 @@
  *     formatting: [
  *         FormattingElement {
  *             type: "strong",
- *             startIndex: 13, // "This text is ".length
- *             endIndex: 54,   // "This text is <strong id="elem-id">very strong</strong>".length
- *             startText: 13,  // "This text is ".length
- *             endText: 24,    // "This text is very strong".length
+ *             sourceStartIndex: 13, // "This text is ".length
+ *             sourceEndIndex: 54,   // "This text is <strong id="elem-id">very strong</strong>".length
+ *             textStartIndex: 13,  // "This text is ".length
+ *             textEndIndex: 24,    // "This text is very strong".length
  *             attributes: {
  *                 id: "elem-id"
  *             }
