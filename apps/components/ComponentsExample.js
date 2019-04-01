@@ -2,11 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 
-import YoastWarning from "yoast-components/composites/Plugin/Shared/components/YoastWarning";
-import { FullHeightCard } from "yoast-components/composites/CoursesOverview/Card";
-import CardDetails from "yoast-components/composites/CoursesOverview/CardDetails";
+import { CourseDetails, FullHeightCard, YoastWarning } from "@yoast/components";
 import getCourseFeed from "yoast-components/utils/getCourseFeed";
-import { getRtlStyle } from "@yoast/components";
+import { getDirectionalStyle } from "@yoast/helpers";
 
 const Container = styled.div`
 	max-width: 1024px;
@@ -44,7 +42,7 @@ const CourseListItem = styled.li`
 	/* Higher specificity to override WordPress margins. */
 	&& {
 		flex: 0 0 288px;
-		margin: ${ getRtlStyle( "0 16px 16px 0", "0 0 16px 16px" ) };
+		margin: ${ getDirectionalStyle( "0 16px 16px 0", "0 0 16px 16px" ) };
 	}
 `;
 
@@ -155,7 +153,7 @@ export default class ComponentsExample extends React.Component {
 									header={ this.getHeaderData( course ) }
 									banner={ course.isFree === "true" ? { text: __( "Free", "yoast-components" ) } : null }
 								>
-									<CardDetails
+									<CourseDetails
 										description={ course.content }
 										courseUrl={ course.link }
 										readMoreLinkText={ course.readMoreLinkText }

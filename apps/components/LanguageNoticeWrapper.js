@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import LanguageNotice, { languageNoticePropType } from "yoast-components/composites/Plugin/Shared/components/LanguageNotice.js";
+import { LanguageNotice, languageNoticePropType } from "@yoast/components";
 
 export const LanguageNoticeContainer = styled.div`
 	background-color: white;

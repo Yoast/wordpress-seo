@@ -2,20 +2,27 @@
   "name": "@yoast/configuration-wizard",
   "version": "1.0.0",
   "description": "Package for our configuration wizard",
-  "main": "index.js",
-  "repository": "https://github.com/Yoast/javascript",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/configuration-wizard"
+  },
   "author": "Yoast",
-  "license": "GPL",
+  "license": "GPL-3.0",
   "private": false,
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint . --max-warnings=11"
   },
   "dependencies": {
-    "yoast-components": "^4.22.1",
+    "@wordpress/i18n": "^1.1.0",
+    "@yoast/components": "^1.0.0",
+    "@yoast/helpers": "^0.1.0",
+    "@yoast/style-guide": "^0.1.0",
     "prop-types": "^15.7.2",
     "interpolate-components": "^1.1.1",
-    "lodash": "^4.17.11",
-    "whatwg-fetch": "1.1.1"
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "jest": "^22.4.3",
@@ -31,18 +38,18 @@
     "enzyme-adapter-react-16": "1.10.0",
     "enzyme-to-json": "3.3.5",
     "react": "16.6.3",
-    "react-dom": "16.6.3"
+    "react-dom": "16.6.3",
+    "react-test-renderer": "^16.8.4"
   },
   "peerDependencies": {
     "material-ui": "^0.18.6",
     "react": "^16.2.0",
-    "react-dom": "16.2.0",
-    "react-intl": "^2.4.0"
+    "react-dom": "16.2.0"
   },
   "jest": {
     "testURL": "http://localhost",
     "testRegex": ".*Test.js$",
-    "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js",
+    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js",
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],

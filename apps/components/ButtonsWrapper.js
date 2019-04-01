@@ -1,15 +1,22 @@
+// External dependencies.
 import React from "react";
 import styled from "styled-components";
 
-import { UpsellButton } from "yoast-components/composites/Plugin/Shared/components/UpsellButton";
-import { UpsellLinkButton } from "yoast-components/composites/Plugin/Shared/components/UpsellLinkButton";
-import { YoastButton } from "yoast-components/composites/Plugin/Shared/components/YoastButton";
-import { YoastLinkButton } from "yoast-components/composites/Plugin/Shared/components/YoastLinkButton";
-import { BaseButton, Button, IconButton, IconsButton } from "yoast-components/composites/Plugin/Shared/components/Button";
-import IconButtonToggle from "yoast-components/composites/Plugin/Shared/components/IconButtonToggle";
-import { BaseLinkButton, LinkButton } from "yoast-components/composites/Plugin/Shared/components/LinkButton";
-import { Button as FormButton } from "@yoast/components";
-import IconLabelledButton from "yoast-components/composites/Plugin/Shared/components/IconLabelledButton";
+// Yoast dependencies.
+import {
+	BaseButton,
+	BaseLinkButton,
+	Button,
+	IconButton,
+	IconButtonToggle,
+	IconLabeledButton,
+	IconsButton,
+	LinkButton,
+	UpsellButton,
+	UpsellLinkButton,
+	YoastButton,
+	YoastLinkButton
+} from "@yoast/components";
 
 const ButtonsContainer = styled.div`
 	max-width: 800px;
@@ -41,8 +48,8 @@ export default class ButtonsList extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	constructor() {
-		super();
+	constructor( props ) {
+		super( props );
 
 		this.state = {
 			iconButtonTogglePressed: false,
@@ -93,44 +100,39 @@ export default class ButtonsList extends React.Component {
 				<UpsellLinkButton href="http://example.org">Upsell Link Button</UpsellLinkButton>
 
 				<Separator />
-				<IconLabelledButton icon="question-circle">Need help?</IconLabelledButton>
-				<IconLabelledButton	icon="gear">Settings</IconLabelledButton>
-				<IconLabelledButton
+				<IconLabeledButton icon="question-circle">Need help?</IconLabeledButton>
+				<IconLabeledButton icon="gear">Settings</IconLabeledButton>
+				<IconLabeledButton
 					hoverBackgroundColor="#a4286a"
 					hoverColor="white"
 					icon="eye"
 				>
 					Custom Hover
-				</IconLabelledButton>
-				<IconLabelledButton
+				</IconLabeledButton>
+				<IconLabeledButton
 					focusBackgroundColor="#e1bee7"
 					focusBorderColor="#a4286a"
 					focusColor="#a4286a"
 					icon="key"
 				>
 					Custom Focus
-				</IconLabelledButton>
-				<IconLabelledButton
+				</IconLabeledButton>
+				<IconLabeledButton
 					activeBackgroundColor="yellow"
 					activeBorderColor="black"
 					activeColor="black"
 					icon="list"
 				>
 					Custom Active
-				</IconLabelledButton>
-				<IconLabelledButton	icon="plus" textFontSize="13px">Custom Font Size</IconLabelledButton>
-				<Separator />
-				<FormButton
-					text="FormButton" onClick={ () => {
-						// eslint-disable-next-line no-console
-						console.info( "hello FormButton clicked" );
-					} }
-				/>
+				</IconLabeledButton>
+				<IconLabeledButton icon="plus" textFontSize="13px">Custom Font Size</IconLabeledButton>
 				<Separator />
 				<h2>Special cases</h2>
 				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ " " }
-				<IconButton icon="edit" iconColor="#c00" className="with-max-width">With max-width and long text</IconButton>{ " " }
-				<YoastButton backgroundColor="lightblue" textColor="#333" withTextShadow={ false }>Color</YoastButton>{ " " }
+				<IconButton icon="edit" iconColor="#c00" className="with-max-width">With max-width and long
+					text</IconButton>{ " " }
+				<YoastButton backgroundColor="lightblue" textColor="#333"
+				             withTextShadow={ false }>Color</YoastButton>{ " " }
 				<YoastButton className="test-large-button">Min width</YoastButton>{ " " }
 
 				<h2>Test min-height bugs</h2>
@@ -143,15 +145,17 @@ export default class ButtonsList extends React.Component {
 				</p>
 				<h3>Buttons</h3>
 				<BaseButton>Base</BaseButton>{ " " }
-				<Button>Button</Button>{ " " }
-				<YoastButton backgroundColor="lightblue" textColor="#333" withTextShadow={ false }>Color</YoastButton>{ " " }
+				<YoastButton backgroundColor="lightblue" textColor="#333"
+				             withTextShadow={ false }>Color</YoastButton>{ " " }
 				<YoastButton className="test-large-button">Min width</YoastButton>{ " " }
 				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ " " }
-				<IconButton icon="edit" iconColor="#c00" className="with-max-width">With max-width and long text</IconButton>{ " " }
+				<IconButton icon="edit" iconColor="#c00" className="with-max-width">With max-width and long
+					text</IconButton>{ " " }
 				<h3>Links</h3>
 				<BaseLinkButton href="#somewhere1">Base</BaseLinkButton>{ " " }
 				<LinkButton href="#somewhere2">Button</LinkButton>{ " " }
-				<YoastLinkButton href="#somewhere4" backgroundColor="lightblue" textColor="#333" withTextShadow={ false }>
+				<YoastLinkButton href="#somewhere4" backgroundColor="lightblue" textColor="#333"
+				                 withTextShadow={ false }>
 					Color
 				</YoastLinkButton>{ " " }
 				<YoastLinkButton className="test-large-button" href="#somewhere3">Min width</YoastLinkButton>

@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import SvgIcon from "../SvgIcon";
+import SvgIcon from "../src/SvgIcon";
 
 test( "the SvgIcon matches the snapshot", () => {
 	const component = renderer.create(

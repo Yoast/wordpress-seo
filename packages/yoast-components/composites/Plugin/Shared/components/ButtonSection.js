@@ -6,8 +6,8 @@ import {
 	StyledIconsButton,
 	StyledContainer,
 	StyledContainerTopLevel,
-} from "./Collapsible";
-import { SectionTitle } from "./SectionTitle";
+} from "@yoast/components";
+import { SectionTitle } from "@yoast/components";
 
 const StyledHeading = wrapInHeading( StyledIconsButton, { level: 2, fontSize: "1rem", fontWeight: "normal" } );
 
