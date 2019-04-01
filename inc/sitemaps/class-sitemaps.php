@@ -230,6 +230,12 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
+		$type = get_query_var( 'sitemap' );
+
+		if ( empty( $type ) ) {
+			return;
+		}
+
 		$xsl = get_query_var( 'xsl' );
 
 		if ( ! empty( $xsl ) ) {
@@ -243,12 +249,6 @@ class WPSEO_Sitemaps {
 			$this->xsl_output( $xsl );
 			$this->sitemap_close();
 
-			return;
-		}
-
-		$type = get_query_var( 'sitemap' );
-
-		if ( empty( $type ) ) {
 			return;
 		}
 
