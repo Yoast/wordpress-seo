@@ -171,7 +171,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 
 			$formatted_date = '<b>' . date_i18n( 'F jS, HH:MM', strtotime( $this->subscription_with_earliest_expiry_date->expiry_date ) ) . '</b>';
 			/* translators: %1$s expands to Yoast, %2$s expands to a formatted date and time (e.g. "Februari 8th 15:00"), %3$s expands to a percentage, %4$s expands to an opening anchor tag, %5$s expands to an closing anchor tag. */
-			$message        = sprintf( esc_html__( 'Your %1$s plugins are about to expire! When plugins expire, you will no longer receive updates or support. You have until %2$s to renew with a %3%s discount. %4$sRenew now!%5$s', 'wordpress-seo' ), 'Yoast', $formatted_date, '25%', '<a href="' . $this->get_url() . '">', '</a>' );
+			$message        = sprintf( esc_html__( 'Your %1$s plugins are about to expire! When plugins expire, you will no longer receive updates or support. You have until %2$s to renew with a %3$s discount. %4$sRenew now!%5$s', 'wordpress-seo' ), 'Yoast', $formatted_date, '25%', '<a href="' . $this->get_url() . '">', '</a>' );
 			$this->show_notification( $message );
 			return;
 		}
@@ -179,7 +179,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 			$this->set_current_notification( self::EXPIRATION_WITHIN_1_DAY );
 
 			/* translators: %1$s expands to Yoast, %2$s expands to an opening anchor tag, %3$s expands to a percentage, %4$s expands to an closing anchor tag. */
-			$message = sprintf( __( 'Your %1$s plugin(s) will expire in 1 day. When plugins expire, you will no longer receive updates or support. %2$sRenew now to get a %3%s discount!%4$s', 'wordpress-seo' ), 'Yoast', '<a href="' . $this->get_url() . '"">', '25%', '</a>' );
+			$message = sprintf( __( 'Your %1$s plugin(s) will expire in 1 day. When plugins expire, you will no longer receive updates or support. %2$sRenew now to get a %3$s discount!%4$s', 'wordpress-seo' ), 'Yoast', '<a href="' . $this->get_url() . '"">', '25%', '</a>' );
 			$this->show_notification( $message );
 			return;
 		}
@@ -187,7 +187,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 			$this->set_current_notification( self::EXPIRED_WITHIN_LAST_DAY );
 
 			/* translators: %1$s expands to Yoast, %2$s expands to an opening anchor tag, %3$s expands to a percentage, %4$s expands to an closing anchor tag. */
-			$message = sprintf( __( 'Your %1$s plugin(s) are expired. When plugins expire you will no longer receive updates or support. Hereby, we give you the opportunity to %2$srenew your license with a %3$s discount for a few more days!%3$s', 'wordpress-seo' ), 'Yoast', '<a href="' . $this->get_url() . '">', '25%', '</a>' );
+			$message = sprintf( __( 'Your %1$s plugin(s) are expired. When plugins expire you will no longer receive updates or support. Hereby, we give you the opportunity to %2$srenew your license with a %3$s discount for a few more days!%4$s', 'wordpress-seo' ), 'Yoast', '<a href="' . $this->get_url() . '">', '25%', '</a>' );
 			$this->show_notification( $message );
 			return;
 		}
