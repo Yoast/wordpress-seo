@@ -1,6 +1,5 @@
 // External dependencies.
 import React, { Component } from "react";
-import debounce from "lodash/debounce";
 
 import ExamplesContainer from "./ExamplesContainer";
 import { assessments } from "yoastseo";
@@ -97,7 +96,7 @@ export default class SnippetEditorExample extends Component {
 			currentDescriptionLength: 0,
 		};
 
-		this.onChangedData = debounce( this.onChangedData.bind( this ), 150 );
+		this.onChangedData = this.onChangedData.bind( this );
 	}
 
 	/**

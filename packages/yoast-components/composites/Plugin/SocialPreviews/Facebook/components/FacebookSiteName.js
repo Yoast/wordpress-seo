@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-const FacebookSiteNameWrapper = styled.div`
+const FacebookSiteNameWrapper = styled.p`
 	color: #606770;
 	font-size: 12px;
 	line-height: 11px;
@@ -18,8 +18,6 @@ const FacebookSiteNameWrapper = styled.div`
  * @param {object} props The props.
  *
  * @returns {React.Element} The rendered element.
- *
- * @constructor
  */
 const FacebookSiteName = ( props ) => {
 	return (

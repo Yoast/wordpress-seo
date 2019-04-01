@@ -1,4 +1,5 @@
 import { getForms as englishGetForms } from "../morphology/english/getForms";
+import { getForms as germanGetForms } from "../morphology/german/getForms";
 
 /**
  * Collects all functions for word form building per language and returns this collection to a Researcher
@@ -8,5 +9,6 @@ import { getForms as englishGetForms } from "../morphology/english/getForms";
 export default function() {
 	return {
 		en: englishGetForms,
+		de: germanGetForms,
 	};
 }

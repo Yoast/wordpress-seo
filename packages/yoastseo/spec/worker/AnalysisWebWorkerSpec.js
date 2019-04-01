@@ -1,12 +1,15 @@
-import { forEach, isArray, isObject, isNumber } from "lodash-es";
+import { forEach, isArray, isNumber, isObject } from "lodash-es";
 import { getLogger } from "loglevel";
-
-import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 import Assessment from "../../src/assessment";
-import Paper from "../../src/values/Paper";
+import { createShortlink } from "../../src/helpers/shortlinker";
 import AssessmentResult from "../../src/values/AssessmentResult";
+import Paper from "../../src/values/Paper";
+import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 import testTexts from "../fullTextTests/testTexts";
-import morphologyData from "../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../specHelpers/getMorphologyData";
+
+
+const morphologyData = getMorphologyData( "en" );
 
 /**
  * Creates a mocked scope.
@@ -289,6 +292,35 @@ describe( "AnalysisWebWorker", () => {
 				} );
 
 				logger.setLevel( saveLogLevel, false );
+			} );
+
+			test( "adds the research data to the researcher", () => {
+				worker._researcher.addResearchData = jest.fn();
+
+				scope.onmessage( createMessage( "initialize", {
+					researchData: {
+						morphology: "word forms",
+						fancy: "feature",
+					},
+				} ) );
+
+				expect( worker._researcher.addResearchData ).toHaveBeenNthCalledWith( 1, "morphology", "word forms" );
+				expect( worker._researcher.addResearchData ).toHaveBeenNthCalledWith( 2, "fancy", "feature" );
+			} );
+
+			test( "configures the shortlinker params", () => {
+				const baseUrl = "https://yoast.com";
+
+				// Ensure there are no params registered yet.
+				expect( createShortlink( baseUrl ) ).toBe( baseUrl );
+
+				scope.onmessage( createMessage( "initialize", {
+					defaultQueryParams: {
+						source: "specs",
+					},
+				} ) );
+
+				expect( createShortlink( baseUrl ) ).toBe( `${ baseUrl }?source=specs` );
 			} );
 
 			test( "creates the assessors", () => {
@@ -1009,7 +1041,12 @@ describe( "AnalysisWebWorker", () => {
 					expect( id ).toBe( 0 );
 					expect( isObject( result ) ).toBe( true );
 					expect( result.keyphraseForms ).toEqual( [ [ "voice" ], [ "search" ] ] );
-					expect( result.synonymsForms ).toEqual( [ [ [ "listening" ], [ "reading" ], [ "search" ] ], [ [ "voice" ], [ "query" ] ], [ [ "voice" ], [ "results" ] ] ] );
+					expect( result.synonymsForms )
+						.toEqual( [
+							[ [ "listening" ], [ "reading" ], [ "search" ] ],
+							[ [ "voice" ], [ "query" ] ],
+							[ [ "voice" ], [ "results" ] ],
+						] );
 					done();
 				};
 
@@ -1026,8 +1063,54 @@ describe( "AnalysisWebWorker", () => {
 					expect( id ).toBe( 0 );
 					expect( isObject( result ) ).toBe( true );
 					expect( result.keyphraseForms ).toEqual( [
-						[ "voice", "voices", "voice's", "voices's", "voices'", "voicing", "voiced", "voicely", "voicer", "voicest", "voice‘s", "voice’s", "voice‛s", "voice`s", "voices‘s", "voices’s", "voices‛s", "voices`s", "voices‘", "voices’", "voices‛", "voices`" ],
-						[ "search", "searches", "search's", "searches's", "searches'", "searching", "searched", "searchly", "searcher", "searchest", "search‘s", "search’s", "search‛s", "search`s", "searches‘s", "searches’s", "searches‛s", "searches`s", "searches‘", "searches’", "searches‛", "searches`" ],
+						[
+							"voice",
+							"voices",
+							"voice's",
+							"voices's",
+							"voices'",
+							"voicing",
+							"voiced",
+							"voicely",
+							"voicer",
+							"voicest",
+							"voice‘s",
+							"voice’s",
+							"voice‛s",
+							"voice`s",
+							"voices‘s",
+							"voices’s",
+							"voices‛s",
+							"voices`s",
+							"voices‘",
+							"voices’",
+							"voices‛",
+							"voices`",
+						],
+						[
+							"search",
+							"searches",
+							"search's",
+							"searches's",
+							"searches'",
+							"searching",
+							"searched",
+							"searchly",
+							"searcher",
+							"searchest",
+							"search‘s",
+							"search’s",
+							"search‛s",
+							"search`s",
+							"searches‘s",
+							"searches’s",
+							"searches‛s",
+							"searches`s",
+							"searches‘",
+							"searches’",
+							"searches‛",
+							"searches`",
+						],
 					] );
 					done();
 				};

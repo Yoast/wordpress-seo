@@ -25,6 +25,3 @@ If relevant, which editor is affected (or editors):
 - [ ] Classic Editor
 - [ ] Gutenberg
 - [ ] Classic Editor plugin
-
-Beta
-- [ ] Recalibration beta activated

@@ -59,6 +59,7 @@ class Input extends React.Component {
 				name={ this.props.name }
 				defaultValue={ this.props.value }
 				onChange={ this.props.onChange }
+				autoComplete={ this.props.autoComplete }
 				{ ...this.props.optionalAttributes }
 			/>
 		);
