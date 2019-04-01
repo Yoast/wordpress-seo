@@ -61,10 +61,10 @@ import Transporter from "./transporter";
 import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
 
 // Tree assessor functionality.
-import buildTree from "../tree/builder";
-import { constructReadabilityAssessor, constructSEOAssessor } from "../tree/assess/assessorFactories";
-import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../tree/assess/scoreAggregators";
-import { TreeResearcher } from "../tree/research";
+import buildTree from "../parsedPaper/build/tree";
+import { constructReadabilityAssessor, constructSEOAssessor } from "../parsedPaper/assess/assessorFactories";
+import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../parsedPaper/assess/scoreAggregators";
+import { TreeResearcher } from "../parsedPaper/research";
 
 const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 
