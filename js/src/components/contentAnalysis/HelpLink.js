@@ -1,7 +1,8 @@
-import { colors, utils } from "yoast-components";
+import { colors } from "@yoast/style-guide";
+import { makeOutboundLink } from "@yoast/helpers";
 import styled from "styled-components";
 
-const HelpLink = utils.makeOutboundLink( styled.a`
+const HelpLink = makeOutboundLink( styled.a`
 	display: inline-block;
 	position: relative;
 	outline: none;

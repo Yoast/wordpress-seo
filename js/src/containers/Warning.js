@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { YoastWarning } from "yoast-components";
+import { YoastWarning } from "@yoast/components";
 
 /**
  * Maps the state to props for the containing component.

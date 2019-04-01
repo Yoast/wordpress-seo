@@ -2,9 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
-import { getRtlStyle } from "yoast-components";
-
-import { colors, SvgIcon, UpsellLinkButton, utils } from "yoast-components";
+import { getDirectionalStyle as getRtlStyle } from "@yoast/helpers";
+import { colors } from "@yoast/style-guide";
+import { SvgIcon, UpsellLinkButton } from "@yoast/components";
+import { makeOutboundLink } from "@yoast/helpers";
 
 const TextContainer = styled.p`
 	color: ${ colors.$color_upsell_text };
@@ -31,7 +32,7 @@ const Caret = styled( SvgIcon )`
 	transform: ${ getRtlStyle( "rotate(0deg)", "rotate(180deg)" ) };
 `;
 
-const OutboundLinkButton = utils.makeOutboundLink( UpsellLinkButton );
+const OutboundLinkButton = makeOutboundLink( UpsellLinkButton );
 
 /**
  * Renders the AnalysisUpsell component.

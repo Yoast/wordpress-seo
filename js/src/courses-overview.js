@@ -1,11 +1,11 @@
 /* global wpseoCoursesOverviewL10n */
 
 import styled, { ThemeProvider } from "styled-components";
-import { CardDetails, FullHeightCard, utils, getRtlStyle } from "yoast-components";
+import { CourseDetails as CardDetails, FullHeightCard } from "@yoast/components";
+import { getCourseFeed, getDirectionalStyle as getRtlStyle } from "@yoast/helpers";
 import React from "react";
 import ReactDOM from "react-dom";
 import { __ } from "@wordpress/i18n";
-const { getCourseFeed } = utils;
 
 const CoursesList = styled.ul`
 	display: flex;
@@ -31,8 +31,8 @@ class CoursesOverview extends React.Component {
 	/**
 	 * Creates the components and initializes its state.
 	 */
-	constructor() {
-		super();
+	constructor( props ) {
+		super( props );
 
 		this.state = {
 			courses: null,

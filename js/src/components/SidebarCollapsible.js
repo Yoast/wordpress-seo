@@ -1,5 +1,5 @@
 import React from "react";
-import { Collapsible } from "yoast-components";
+import { Collapsible } from "@yoast/components";
 
 /**
  * Sidebar Collapsible component with default padding and separator

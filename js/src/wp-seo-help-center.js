@@ -10,7 +10,10 @@ import IntlProvider from "./components/IntlProvider";
 import { setYoastComponentsL10n } from "./helpers/i18n";
 
 /* Internal dependencies */
-import { VideoTutorial, AlgoliaSearcher, HelpCenter as HelpCenterYC, colors, YoastButton } from "yoast-components";
+import { VideoTutorial, HelpCenter as HelpCenterYC } from "yoast-components";
+import { YoastButton } from "@yoast/components";
+import AlgoliaSearcher from "@yoast/algolia-search";
+import { colors } from "@yoast/style-guide";
 
 /**
  * Executes an action with an argument.

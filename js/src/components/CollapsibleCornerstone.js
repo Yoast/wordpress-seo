@@ -2,15 +2,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import {
-	utils,
-	HelpText,
-} from "yoast-components";
+
+import { HelpText } from "@yoast/components";
+import { makeOutboundLink } from "@yoast/helpers";
+import { CornerstoneToggle } from "yoast-components";
 
 import Collapsible from "./SidebarCollapsible";
-import { CornerstoneToggle } from "yoast-components";
 import { LocationConsumer } from "./contexts/location";
-const LearnMoreLink = utils.makeOutboundLink();
+const LearnMoreLink = makeOutboundLink();
 
 /**
  * Renders the collapsible cornerstone toggle.

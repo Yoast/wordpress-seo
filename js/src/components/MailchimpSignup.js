@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
 import IconMailOutline from "material-ui/svg-icons/communication/mail-outline";
-import { LoadingIndicator, sendRequest, localize } from "yoast-components";
+import { localize } from "yoast-components";
+import { LoadingIndicator } from "@yoast/configuration-wizard";
+import { sendRequest } from "@yoast/helpers";
 
 /**
  * @summary Mailchimp signup component.

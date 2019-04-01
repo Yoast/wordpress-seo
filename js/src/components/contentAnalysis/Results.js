@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { LanguageNotice, ContentAnalysis } from "yoast-components";
+import { LanguageNotice } from "@yoast/components";
+import { ContentAnalysis } from "@yoast/analysis-report";
 import { Fragment } from "@wordpress/element";
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";

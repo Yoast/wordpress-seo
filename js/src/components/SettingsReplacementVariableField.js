@@ -2,10 +2,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
+	ReplacementVariableEditor as ReplaceVarEditor,
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "yoast-components";
-import { ReplaceVarEditor } from "yoast-components";
+} from "@yoast/search-metadata-previews";
 import styled from "styled-components";
 
 /* Internal dependencies */

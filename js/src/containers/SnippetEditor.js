@@ -1,8 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-	SnippetEditor,
-} from "yoast-components";
+import { SnippetEditor } from "@yoast/search-metadata-previews";
 import identity from "lodash/identity";
 import get from "lodash/get";
 import { __ } from "@wordpress/i18n";

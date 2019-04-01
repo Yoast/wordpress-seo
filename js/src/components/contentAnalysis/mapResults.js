@@ -1,5 +1,5 @@
 import { helpers } from "yoastseo";
-import { colors } from "yoast-components";
+import { colors } from "@yoast/style-guide";
 
 const { scoreToRating } = helpers;
 

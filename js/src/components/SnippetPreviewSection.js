@@ -2,8 +2,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { StyledSection, StyledHeading, StyledSectionBase } from "yoast-components";
-import { getRtlStyle } from "yoast-components";
+import { StyledSection, StyledHeading, StyledSectionBase } from "@yoast/components";
+import { getDirectionalStyle as getRtlStyle } from "@yoast/helpers";
 
 const Section = styled( StyledSection )`
 	max-width: 640px;
