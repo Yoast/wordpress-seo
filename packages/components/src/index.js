@@ -69,5 +69,5 @@ export { default as Checkbox } from "./Checkbox";
 export { ListTable, ZebrafiedListTable } from "./table/ListTable";
 export { Row } from "./table/Row";
 
-export { default as ScreenReaderText } from "../a11y/ScreenReaderText";
-export { default as ScreenReaderShortcut } from "../a11y/ScreenReaderShortcut";
+export { default as ScreenReaderText } from "./a11y/ScreenReaderText";
+export { default as ScreenReaderShortcut } from "./a11y/ScreenReaderShortcut";

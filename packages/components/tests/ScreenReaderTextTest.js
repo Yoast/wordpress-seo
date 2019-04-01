@@ -3,8 +3,8 @@ jest.unmock( "prop-types" );
 
 import React from "react";
 import ReactShallowRenderer from "react-test-renderer/shallow";
-import ScreenReaderText from "../a11y/ScreenReaderText";
-import Styles from "../a11y/Styles";
+import ScreenReaderText from "../src/a11y/ScreenReaderText";
+import Styles from "../src/a11y/Styles";
 
 describe( "ScreenReaderText", () => {
 	const renderer = new ReactShallowRenderer();

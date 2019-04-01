@@ -11,7 +11,8 @@
   "license": "GPL-3.0",
   "scripts": {
     "test": "jest",
-    "lint": "eslint . --max-warnings=72"
+    "lint": "eslint . --max-warnings=72",
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
   },
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",

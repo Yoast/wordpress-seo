@@ -5,7 +5,7 @@ import styled from "styled-components";
 /* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
 
-import ScreenReaderText from "../a11y/ScreenReaderText";
+import ScreenReaderText from "./a11y/ScreenReaderText";
 
 export const StyledTitleContainer = styled.span`
 	flex-grow: 1;
