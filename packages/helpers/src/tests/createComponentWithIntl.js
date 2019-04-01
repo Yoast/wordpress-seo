@@ -20,4 +20,4 @@ const createComponentWithIntl = ( children, props = { locale: "en" }, renderOpti
 	);
 };
 
-export default  createComponentWithIntl;
+export default createComponentWithIntl;
