@@ -43,8 +43,7 @@
   },
   "peerDependencies": {
     "react": "^16.2.0",
-    "react-dom": "16.2.0",
-    "react-intl": "^2.4.0"
+    "react-dom": "16.2.0"
   },
   "optionalDependencies": {
     "grunt-scss-to-json": "^1.0.1"
