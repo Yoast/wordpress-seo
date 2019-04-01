@@ -90,6 +90,44 @@ describe( "build tree", () => {
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
+	it( "can parse HTML that contains incomplete closing tags", () => {
+		const primitiveComment = new Ignored( "comment" );
+		const commentOne = Object.assign( {}, primitiveComment, {
+			sourceStartIndex: 14,
+			sourceEndIndex: 72,
+			textStartIndex: 10,
+			textEndIndex: 10,
+			content: " comment ",
+		} );
+		const commentTwo = Object.assign( {}, primitiveComment, {
+			sourceStartIndex: 72,
+			sourceEndIndex: 93,
+			textStartIndex: 68,
+			textEndIndex: 68,
+			content: " before this text.",
+		} );
+
+		const primitiveHeading = new Heading( 1 );
+		Object.assign( primitiveHeading, {
+			sourceStartIndex: 0,
+			sourceEndIndex: 92,
+			textContainer: {
+				text: "This text is in the process of getting some h1 tags ",
+				formatting: [ commentOne, commentTwo ],
+			},
+		} );
+
+		const input = "<h1>This text <!-- comment -->is in the process of getting some h1 tags </ before this text.";
+
+		const tree = buildTree( input );
+
+		const expected = new StructuredNode( "root" );
+		expected.sourceEndIndex = 92;
+		expected.children = [ primitiveHeading ];
+
+		expect( tree.toString() ).toEqual( expected.toString() );
+	} );
+
 	it( "can parse an HTML comment into StructuredIrrelevant node", () => {
 		const input = "<section><!-- An unimportant comment. --></section>";
 
@@ -193,7 +231,6 @@ describe( "build tree", () => {
 
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
-
 
 	it( "can parse an HTML text into a StructuredNode with embedded children", () => {
 		const input = "<section><div>This sentence. Another sentence.</div></section>";
@@ -344,7 +381,7 @@ describe( "build tree", () => {
 		em.textStartIndex = 8;
 		em.textEndIndex = 19;
 
-		const script = new FormattingElement( "script" );
+		const script = new Ignored( "script" );
 		script.sourceStartIndex = 47;
 		script.sourceEndIndex = 89;
 		script.textStartIndex = 19;
@@ -480,6 +517,30 @@ describe( "build tree", () => {
 
 		const tree = buildTree( input );
 
+		expect( tree.toString() ).toEqual( expected.toString() );
+	} );
+
+	it( "parses a paragraph within a heading", () => {
+		const input = "<h2>This is a <p>paragraph within a</p> heading.</h2>";
+
+		const paragraph = new Paragraph( "p" );
+		paragraph.sourceStartIndex = 14;
+		paragraph.sourceEndIndex = 39;
+		paragraph.textStartIndex = 10;
+		paragraph.textEndIndex = 28;
+
+		const heading = new Heading( 2 );
+		heading.sourceStartIndex = 0;
+		heading.sourceEndIndex = 53;
+		heading.text = "This is a paragraph within a heading.";
+		heading.textContainer.formatting = [ paragraph ];
+
+		const expected = new StructuredNode( "root" );
+		expected.sourceStartIndex = 0;
+		expected.sourceEndIndex = 53;
+		expected.children = [ heading ];
+
+		const tree = buildTree( input );
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 

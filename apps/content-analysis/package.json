@@ -6,6 +6,7 @@
 		"@babel/core": "7.1.6",
 		"@svgr/webpack": "2.4.1",
 		"@wordpress/i18n": "^3.1.1",
+		"@yoast/analysis-report": "^0.1.0",
 		"@yoast/components": "^0.1.0",
 		"@yoast/style-guide": "^0.1.0",
 		"babel-core": "7.0.0-bridge.0",
@@ -13,6 +14,7 @@
 		"babel-jest": "23.6.0",
 		"babel-loader": "8.0.4",
 		"babel-plugin-named-asset-import": "^0.3.0",
+		"babel-polyfill": "^6.26.0",
 		"babel-preset-react-app": "^7.0.0",
 		"bfj": "6.1.1",
 		"case-sensitive-paths-webpack-plugin": "2.1.2",
@@ -20,7 +22,9 @@
 		"css-loader": "1.0.0",
 		"dotenv": "6.0.0",
 		"dotenv-expand": "4.2.0",
+		"eslint": "^5.16.0",
 		"eslint-config-react-app": "^3.0.6",
+		"eslint-config-yoast": "^5.0.7",
 		"eslint-loader": "2.1.1",
 		"file-loader": "2.0.0",
 		"fork-ts-checker-webpack-plugin-alt": "0.4.14",
@@ -65,8 +69,7 @@
 		"webpack-manifest-plugin": "2.0.4",
 		"workbox-webpack-plugin": "3.6.3",
 		"worker-loader": "^2.0.0",
-		"yoast-components": "^4.18.1",
-		"yoastseo": "^1.50.0-rc.6"
+		"yoastseo": "^1.50.0"
 	},
 	"scripts": {
 		"start": "node scripts/start.js",

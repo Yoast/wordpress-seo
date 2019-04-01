@@ -45,8 +45,7 @@
   "peerDependencies": {
     "material-ui": "^0.18.6",
     "react": "^16.2.0",
-    "react-dom": "16.2.0",
-    "react-intl": "^2.4.0"
+    "react-dom": "16.2.0"
   },
   "jest": {
     "testURL": "http://localhost",

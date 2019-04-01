@@ -12,7 +12,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "test": "jest",
-    "lint": "eslint . --max-warnings=94",
+    "lint": "eslint . --max-warnings=97",
     "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
   },
   "jest": {
@@ -44,8 +44,7 @@
   },
   "peerDependencies": {
     "react": "^16.2.0",
-    "react-dom": "16.2.0",
-    "react-intl": "^2.4.0"
+    "react-dom": "16.2.0"
   },
   "optionalDependencies": {
     "grunt-scss-to-json": "^1.0.1"

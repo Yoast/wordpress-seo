@@ -19,7 +19,7 @@ class Ignored extends Node {
 	 * @returns {void}
 	 */
 	constructor( tag ) {
-		super( "StructuredIrrelevant" );
+		super( "Ignored" );
 		/**
 		 * Type of content (e.g. "script", "code" etc.).
 		 * @type {string}

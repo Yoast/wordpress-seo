@@ -21,6 +21,15 @@ export {
 	addButtonStyles,
 } from "./buttons/Button";
 
+export {
+	default as Collapsible,
+	CollapsibleStateless,
+	StyledIconsButton,
+	StyledContainer,
+	StyledContainerTopLevel,
+	wrapInHeading,
+} from "./Collapsible";
+
 export { default as ArticleList } from "./ArticleList";
 export { default as Card, FullHeightCard } from "./Card";
 export { default as CardBanner } from "./CardBanner";

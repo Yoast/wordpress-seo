@@ -29,7 +29,7 @@
     "transfer-branch": "./transfer-branch.sh",
     "lerna-version": "lerna version",
     "lerna-version-rc": "lerna version --preid rc",
-    "lerna-publish": "lerna publish --contents dist",
-    "lerna-publish-rc": "lerna publish --contents dist --dist-tag rc"
+    "lerna-publish": "lerna publish --contents dist --yes from-git",
+    "lerna-publish-rc": "lerna publish --contents dist --dist-tag rc --yes from-git"
   }
 }

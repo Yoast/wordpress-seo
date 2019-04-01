@@ -11,7 +11,8 @@
     "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
   },
   "devDependencies": {
-    "grunt": "^1.0.3"
+    "grunt": "^1.0.3",
+    "load-grunt-config": "^1.0.1"
   },
   "optionalDependencies": {
     "grunt-scss-to-json": "^1.0.1"

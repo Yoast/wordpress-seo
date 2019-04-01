@@ -9,7 +9,7 @@ import { colors } from "@yoast/style-guide";
 // Composites/AngoliaSearch imports.
 import AlgoliaSearcher from "@yoast/algolia-search-box";
 // Composites/Plugin imports.
-import { default as Collapsible } from "./composites/Plugin/Shared/components/Collapsible";
+import { Collapsible } from "@yoast/components";
 import { default as ButtonSection } from "./composites/Plugin/Shared/components/ButtonSection";
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
 import { default as HelpCenter } from "./composites/Plugin/HelpCenter/HelpCenter.js";

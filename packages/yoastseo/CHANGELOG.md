@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.50.0 March 25th, 2019
+## 1.50.0 April 1st, 2019
 ### Added
 * Adds word form recognition for German.
 * Adds more transition words for Swedish.
@@ -14,6 +14,9 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ### Changed
 * Increases the recommended sentence length limit for Spanish and Catalan, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
 * Improves list of Catalan transition words, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
+
+### Fixed
+* Fixes a bug that impeded recognition of word forms for keyphrases on taxonomy pages.
 
 ## 1.49.0 March 11th, 2019
 ### Added
