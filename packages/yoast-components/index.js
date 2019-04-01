@@ -6,7 +6,7 @@ import { default as OnboardingWizard, MessageBox, LoadingIndicator } from "@yoas
 import { sendRequest, decodeHTML } from "@yoast/helpers";
 
 // Import colors from the style guide.
-import { colors } from "@yoast/components/style-guide";
+import { colors } from "@yoast/style-guide";
 
 // Composites/AngoliaSearch imports.
 import AlgoliaSearcher from "@yoast/algolia-search";
@@ -19,24 +19,17 @@ import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components
 
 // Composites/LinkSuggestions imports.
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
-// Composites/KeywordSuggestions imports.
-import { default as KeywordSuggestions } from "./composites/KeywordSuggestions/KeywordSuggestions";
 
 import { getDirectionalStyle } from "@yoast/helpers";
 
 const getRtlStyle = getDirectionalStyle;
 
-// Composites/CoursesOverview imports
-import { default as Card, FullHeightCard } from "./composites/CoursesOverview/Card";
-import { default as CardBanner } from "./composites/CoursesOverview/CardBanner";
-import { default as CardDetails } from "./composites/CoursesOverview/CardDetails";
 
 export {
 	OnboardingWizard,
 	HelpCenter,
 	MessageBox,
 	LinkSuggestions,
-	KeywordSuggestions,
 	ContentAnalysis,
 	Collapsible,
 	ButtonSection,
@@ -44,15 +37,10 @@ export {
 	CornerstoneToggle,
 	sendRequest,
 	decodeHTML,
-	Card,
-	FullHeightCard,
-	CardBanner,
-	CardDetails,
 	getRtlStyle,
 	AlgoliaSearcher,
 	colors,
 };
-
 
 export * from "./composites/Plugin/ContentAnalysis";
 export * from "@yoast/search-metadata-previews";
@@ -61,7 +49,6 @@ export { localize } from "./utils/i18n";
 export { setTranslations } from "./utils/i18n";
 export { translate } from "./utils/i18n";
 export * from "./composites/Plugin/DashboardWidget";
-export { replacementVariablesShape, recommendedReplacementVariablesShape } from "@yoast/search-metadata-previews/SnippetEditor/constants";
 export { default as analysis } from "./composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 export { default as WordpressFeed } from "./composites/Plugin/DashboardWidget/components/WordpressFeed";
 export { default as SeoAssessment } from "./composites/Plugin/DashboardWidget/components/SeoAssessment";
@@ -75,8 +62,13 @@ export { setReadabilityResults,
 	setOverallSeoScore } from "./composites/Plugin/ContentAnalysis/actions/contentAnalysis";
 
 export {
+	Card,
+	FullHeightCard,
+	CardBanner,
+	CourseDetails as CardDetails,
 	HelpText,
 	Icon,
+	KeywordSuggestions,
 	LanguageNotice,
 	Loader,
 	ScoreAssessments,
@@ -88,5 +80,8 @@ export {
 	YoastModal,
 	YoastSeoIcon,
 	YoastWarning,
+	StyledSection,
+	StyledHeading,
+	StyledSectionBase,
 } from "@yoast/components";
 

@@ -1,7 +1,7 @@
 {
   "name": "@yoast/search-metadata-previews",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/javascript.git",
@@ -11,13 +11,14 @@
   "license": "GPL-3.0",
   "scripts": {
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint . --max-warnings=72"
   },
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",
     "@wordpress/i18n": "^1.1.0",
     "@yoast/components": "^1.0.0",
     "@yoast/helpers": "^0.1.0",
+    "@yoast/style-guide": "^0.1.0",
     "draft-js": "^0.10.5",
     "draft-js-mention-plugin": "^3.0.4",
     "draft-js-plugins-editor": "^2.0.4",
@@ -50,6 +51,6 @@
     "transformIgnorePatterns": [
       "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/jest/setupTests.js"
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js"
   }
 }
