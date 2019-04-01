@@ -213,12 +213,10 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	protected function get_url() {
 		if ( ! empty( $this->subscription_with_earliest_expiry_date->renewal_url ) ) {
 			$url = $this->apply_utm_tags( $this->subscription_with_earliest_expiry_date->renewal_url );
-		}
-		else {
-			$url = $this->get_shortlink();
+			return esc_url( $url );
 		}
 
-		return esc_url( $url );
+		return esc_url( $this->get_shortlink() );
 	}
 
 	/**
