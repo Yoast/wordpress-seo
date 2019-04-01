@@ -169,7 +169,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 		if ( $days_until_expiration <= 7 && $days_until_expiration > 1 ) {
 			$this->set_current_notification( self::EXPIRATION_WITHIN_1_WEEK );
 
-			$formatted_date = '<b>' . date_i18n( 'F jS, HH:MM', strtotime( $this->subscription_with_earliest_expiry_date->expiry_date ) ) . '</b>';
+			$formatted_date = '<b>' . date_i18n( 'F jS, H:i', strtotime( $this->subscription_with_earliest_expiry_date->expiry_date ) ) . '</b>';
 			/* translators: %1$s expands to Yoast, %2$s expands to a formatted date and time (e.g. "February 8th 15:00"), %3$s expands to a percentage, %4$s expands to an opening anchor tag, %5$s expands to an closing anchor tag. */
 			$message        = sprintf( esc_html__( 'Your %1$s plugin(s) are about to expire! When plugins expire, you will no longer receive updates or support. You have until %2$s to renew with a %3$s discount. %4$sRenew now!%5$s', 'wordpress-seo' ), 'Yoast', $formatted_date, '25%', '<a href="' . $this->get_url() . '">', '</a>' );
 			$this->show_notification( $message );
