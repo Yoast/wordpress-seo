@@ -1,7 +1,7 @@
 /**
  * Aggregates assessment results into a single score.
  *
- * @memberOf module:tree/assess
+ * @memberOf module:parsedPaper/assess
  *
  * @abstract
  */

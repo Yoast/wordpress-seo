@@ -12,9 +12,9 @@ class Headings extends Research {
 	/**
 	 * Calculates the result of the research for the given Node.
 	 *
-	 * @param {module:tree/structure.Node} node The node to do the research on.
+	 * @param {module:parsedPaper/structure.Node} node The node to do the research on.
 	 *
-	 * @returns {Promise<module:tree/structure.Heading[]|[]>} The result of the research.
+	 * @returns {Promise<module:parsedPaper/structure.Heading[]|[]>} The result of the research.
 	 */
 	calculateFor( node ) {
 		return node instanceof Heading ? Promise.resolve( [ node ] ) : Promise.resolve( [] );
@@ -23,7 +23,7 @@ class Headings extends Research {
 	/**
 	 * Checks if the given node is a leaf node for this research.
 	 *
-	 * @param {module:tree/structure.Node} node The node to check.
+	 * @param {module:parsedPaper/structure.Node} node The node to check.
 	 *
 	 * @returns {boolean} If the given node is considered a leaf node for this research.
 	 */
@@ -34,9 +34,9 @@ class Headings extends Research {
 	/**
 	 * Merges results of this research according to a predefined strategy.
 	 *
-	 * @param {Array<module:tree/structure.Heading[]>} results The results of this research to merge.
+	 * @param {Array<module:parsedPaper/structure.Heading[]>} results The results of this research to merge.
 	 *
-	 * @returns {module:tree/structure.Heading[]} The merged results.
+	 * @returns {module:parsedPaper/structure.Heading[]} The merged results.
 	 */
 	mergeChildrenResults( results ) {
 		return flatten( results );

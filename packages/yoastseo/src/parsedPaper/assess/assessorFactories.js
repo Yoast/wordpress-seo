@@ -42,18 +42,18 @@ const SEO_ASSESSMENTS_MAP = {
  * Constructs a new SEO assessor.
  *
  * @param {Jed}                                 i18n       The Jed object to use for localization / internalization.
- * @param {module:tree/research.TreeResearcher} researcher The researcher the assessments need to use to get information about the text.
+ * @param {module:parsedPaper/research.TreeResearcher} researcher The researcher the assessments need to use to get information about the text.
  *
  * @param {Object}                              config                    The assessor configuration.
  * @param {boolean}                             [config.relatedKeyphrase] If this assessor is for a related keyphrase, instead of the main one.
  * @param {boolean}                             [config.taxonomy]         If this assessor is for a taxonomy page, instead of a regular page.
  * @param {boolean}                             [config.cornerstone]      If this assessor is for cornerstone content.
  *
- * @returns {module:tree/assess.TreeAssessor} The created SEO assessor.
+ * @returns {module:parsedPaper/assess.TreeAssessor} The created SEO assessor.
  *
  * @throws {Error} An error when no assessor exists for the given combination of configuration options.
  *
- * @memberOf module:tree/assess
+ * @memberOf module:parsedPaper/assess
  */
 const constructSEOAssessor = function( i18n, researcher, config ) {
 	/*
@@ -85,13 +85,13 @@ const constructSEOAssessor = function( i18n, researcher, config ) {
  * Constructs a new readability assessor.
  *
  * @param {Jed}                                 i18n                 The Jed object to use for localization / internalization.
- * @param {module:tree/research.TreeResearcher} researcher           The researcher the assessments need to use to get information about the text.
+ * @param {module:parsedPaper/research.TreeResearcher} researcher           The researcher the assessments need to use to get information about the text.
  * @param {boolean}                             isCornerstoneContent If the to be analyzed content is considered cornerstone content
  * (which uses stricter boundaries).
  *
- * @returns {module:tree/assess.TreeAssessor} The created readability assessor.
+ * @returns {module:parsedPaper/assess.TreeAssessor} The created readability assessor.
  *
- * @memberOf module:tree/assess
+ * @memberOf module:parsedPaper/assess
  */
 const constructReadabilityAssessor = function( i18n, researcher, isCornerstoneContent = false ) {
 	const assessments = isCornerstoneContent ? constructReadabilityAssessments() : constructCornerstoneReadabilityAssessments();

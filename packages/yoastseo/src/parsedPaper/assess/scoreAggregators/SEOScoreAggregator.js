@@ -9,7 +9,7 @@ import ScoreAggregator from "./ScoreAggregator";
  * @type {number}
  * @const
  *
- * @memberOf module:tree/assess
+ * @memberOf module:parsedPaper/assess
  */
 const ScoreScale = 100;
 
@@ -22,14 +22,14 @@ const ScoreScale = 100;
  * @type {number}
  * @const
  *
- * @memberOf module:tree/assess
+ * @memberOf module:parsedPaper/assess
  */
 const ScoreFactor = 9;
 
 /**
  * Aggregates SEO assessment results into a single score.
  *
- * @memberOf module:tree/assess
+ * @memberOf module:parsedPaper/assess
  */
 class SEOScoreAggregator extends ScoreAggregator {
 	/**

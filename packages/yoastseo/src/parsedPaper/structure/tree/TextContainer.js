@@ -24,7 +24,7 @@
  * }
  * ```
  *
- * @memberOf module:tree/structure
+ * @memberOf module:parsedPaper/structure
  */
 class TextContainer {
 	/**
@@ -38,7 +38,7 @@ class TextContainer {
 		this.text = "";
 		/**
 		 * This text's formatting (e.g. bold text, links, etc.).
-		 * @type {Array<module:tree/structure.FormattingElement||module:tree/structure.Ignored>}
+		 * @type {Array<module:parsedPaper/structure.FormattingElement||module:parsedPaper/structure.Ignored>}
 		 */
 		this.formatting = [];
 	}

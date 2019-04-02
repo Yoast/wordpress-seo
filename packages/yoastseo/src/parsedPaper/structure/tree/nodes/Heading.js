@@ -3,9 +3,9 @@ import LeafNode from "./LeafNode";
 /**
  * A header in a document.
  *
- * @extends module:tree/structure.LeafNode
+ * @extends module:parsedPaper/structure.LeafNode
  *
- * @memberOf module:tree/structure
+ * @memberOf module:parsedPaper/structure
  */
 class Heading extends LeafNode {
 	/**

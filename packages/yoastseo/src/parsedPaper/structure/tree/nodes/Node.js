@@ -4,7 +4,7 @@ import { has, get } from "lodash-es";
  * Abstract class representing a node in the structured tree.
  * @abstract
  *
- * @memberOf module:tree/structure
+ * @memberOf module:parsedPaper/structure
  */
 class Node {
 	/**
@@ -75,9 +75,9 @@ class Node {
 	/**
 	 * Maps the given function to each Node in this tree.
 	 *
-	 * @param {module:tree/structure.Node.mapFunction} mapFunction The function that should be mapped to each Node in the tree.
+	 * @param {module:parsedPaper/structure.Node.mapFunction} mapFunction The function that should be mapped to each Node in the tree.
 	 *
-	 * @returns {module:tree/structure.Node} A new tree, after the given function has been mapped on each Node.
+	 * @returns {module:parsedPaper/structure.Node} A new tree, after the given function has been mapped on each Node.
 	 */
 	map( mapFunction ) {
 		// Map function over contents of this node.
@@ -92,11 +92,11 @@ class Node {
 	/**
 	 * Callback function for the Node's map-function.
 	 *
-	 * @callback module:tree/structure.Node.mapFunction
+	 * @callback module:parsedPaper/structure.Node.mapFunction
 	 *
-	 * @param {module:tree/structure.Node} currentValue The current Node being processed.
+	 * @param {module:parsedPaper/structure.Node} currentValue The current Node being processed.
 	 *
-	 * @returns {module:tree/structure.Node} The current Node after being processed by this function.
+	 * @returns {module:parsedPaper/structure.Node} The current Node after being processed by this function.
 	 */
 
 	/**

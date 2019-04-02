@@ -4,9 +4,9 @@ import Node from "./Node";
  * A node at the end of the tree that may only contain formatting elements,
  * these include headings and paragraphs.
  *
- * @extends module:tree/structure.Node
+ * @extends module:parsedPaper/structure.Node
  *
- * @memberOf module:tree/structure
+ * @memberOf module:parsedPaper/structure
  *
  * @abstract
  */
@@ -22,7 +22,7 @@ class LeafNode extends Node {
 		super( type );
 		/**
 		 * A container for keeping this leaf node's text.
-		 * @type {module:tree/structure.TextContainer}
+		 * @type {module:parsedPaper/structure.TextContainer}
 		 */
 		this.textContainer = new TextContainer();
 	}

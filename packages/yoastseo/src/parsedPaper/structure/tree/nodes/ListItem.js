@@ -2,9 +2,9 @@ import Node from "./Node";
 /**
  * Represents an item within a list.
  *
- * @extends module:tree/structure.Node
+ * @extends module:parsedPaper/structure.Node
  *
- * @memberOf module:tree/structure
+ * @memberOf module:parsedPaper/structure
  */
 class ListItem extends Node {
 	/**

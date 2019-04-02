@@ -8,7 +8,7 @@ import buildTree from "./buildTree";
  *
  * @module tree/builder
  *
- * @see module:tree/structure
+ * @see module:parsedPaper/structure
  */
 
 export default buildTree;

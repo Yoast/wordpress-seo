@@ -6,9 +6,9 @@ import Node from "./Node";
  * Talking about HTML, this would encompass thing like `<div>`, `<section>`, `<aside>`, `<fieldset>`
  * and other HTML block elements.
  *
- * @extends module:tree/structure.Node
+ * @extends module:parsedPaper/structure.Node
  *
- * @memberOf module:tree/structure
+ * @memberOf module:parsedPaper/structure
  */
 class StructuredNode extends Node {
 	/**

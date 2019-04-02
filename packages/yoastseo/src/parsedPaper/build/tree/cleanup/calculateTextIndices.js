@@ -15,10 +15,10 @@ import getElementContent from "./getElementContent";
  * with `<b>!!!</b>` as the current element,
  * means that the `<strong>` needs to be closed, but `<em>` **not**.
  *
- * @param {module:tree/structure.FormattingElement} currentElement The current element.
- * @param {module:tree/structure.FormattingElement[]} openElements The elements that are currently open.
+ * @param {module:parsedPaper/structure.FormattingElement} currentElement The current element.
+ * @param {module:parsedPaper/structure.FormattingElement[]} openElements The elements that are currently open.
  *
- * @returns {module:tree/structure.FormattingElement[]} The elements that can be closed.
+ * @returns {module:parsedPaper/structure.FormattingElement[]} The elements that can be closed.
  */
 const elementsThatCanBeClosed = function( currentElement, openElements ) {
 	return openElements.filter( el => {
@@ -35,7 +35,7 @@ const elementsThatCanBeClosed = function( currentElement, openElements ) {
  *  2. The closed element's end tag lengths are counted towards the current offset, to make sure that the computed position
  * of the formatting elements are still correct.
  *
- * @param {module:tree/structure.FormattingElement[]} elementsToClose The list of open elements that need to be closed
+ * @param {module:parsedPaper/structure.FormattingElement[]} elementsToClose The list of open elements that need to be closed
  * @param {number} currentOffset                                      The current offset when parsing the formatting elements
  *
  * @returns {number} The updated current offset
@@ -64,7 +64,7 @@ const closeElements = function( elementsToClose, currentOffset ) {
  * Adds the content length of the given element (the part between the tags) to the current offset
  * and adds the content to the element as a parameter.
  *
- * @param {module:tree/structure.FormattingElement} element The element of which to add the content length.
+ * @param {module:parsedPaper/structure.FormattingElement} element The element of which to add the content length.
  * @param {string} html                                     The original html source code.
  * @param {number} currentOffset                            The current offset to which to add the length to.
  *
@@ -87,7 +87,7 @@ const handleIgnoredContent = function( element, html, currentOffset ) {
 /**
  * Sets the start and end position of the formatting elements in the given node's text.
  *
- * @param {module:tree/structure.LeafNode} node The node containing a TextContainer
+ * @param {module:parsedPaper/structure.LeafNode} node The node containing a TextContainer
  * @param {string} html                         The source code
  *
  * @returns {void}

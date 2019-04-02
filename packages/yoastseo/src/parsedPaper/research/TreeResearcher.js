@@ -5,7 +5,7 @@ import { get, has } from "lodash-es";
  * and logic to apply these researches to a formatted text,
  * represented as a tree structure.
  *
- * @memberOf module:tree/research
+ * @memberOf module:parsedPaper/research
  */
 class TreeResearcher {
 	/**
@@ -72,7 +72,7 @@ class TreeResearcher {
 	 * Applies the research with the given name to the node and its descendants.
 	 *
 	 * @param {string} name                     The name of the research to apply to the node.
-	 * @param {module:tree/structure.Node} node The node to compute the research of.
+	 * @param {module:parsedPaper/structure.Node} node The node to compute the research of.
 	 * @param {boolean} [bustCache=false]       If we should force the results, as cached on each node, to be recomputed.
 	 *
 	 * @returns {Promise<*>} A promising research result.

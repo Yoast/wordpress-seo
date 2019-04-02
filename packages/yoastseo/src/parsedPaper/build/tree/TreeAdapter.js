@@ -17,7 +17,7 @@ import { formattingElements, headings, ignoredHtmlElements } from "./htmlConstan
  * Implements the `parse5` library's `TreeAdapter` interface.
  * @see https://github.com/inikulin/parse5/blob/master/packages/parse5/docs/tree-adapter/interface.md
  *
- * @memberOf module:tree/builder
+ * @memberOf module:parsedPaper/builder
  *
  * @private
  */
@@ -31,7 +31,7 @@ class TreeAdapter {
 	 * @param {string} namespace                                  The XML namespace (e.g. "http://www.w3.org/1999/xhtml" for HTML).
 	 * @param {Array<{ name: string, value: string }>} attributes The attributes of this element.
 	 *
-	 * @returns {module:tree/structure.Node|module:tree/structure.FormattingElement} The new element.
+	 * @returns {module:parsedPaper/structure.Node|module:parsedPaper/structure.FormattingElement} The new element.
 	 */
 	createElement( tag, namespace, attributes ) {
 		let node;
@@ -64,7 +64,7 @@ class TreeAdapter {
 	 *
 	 * @param {string} tag The HTML-tag of the element to add.
 	 *
-	 * @returns {module:tree/structure.Node} The node to add to the tree.
+	 * @returns {module:parsedPaper/structure.Node} The node to add to the tree.
 	 *
 	 * @private
 	 */
@@ -112,7 +112,7 @@ class TreeAdapter {
 	/**
 	 * Creates a new empty document fragment (e.g. a part of an HTML document).
 	 *
-	 * @returns {module:tree/structure.StructuredNode} A new empty document fragment.
+	 * @returns {module:parsedPaper/structure.StructuredNode} A new empty document fragment.
 	 */
 	createDocumentFragment() {
 		return new StructuredNode( "root" );
@@ -123,7 +123,7 @@ class TreeAdapter {
 	 *
 	 * @param {string} text The comment text.
 	 *
-	 * @returns {module:tree/structure.Ignored} The node representing the comment.
+	 * @returns {module:parsedPaper/structure.Ignored} The node representing the comment.
 	 */
 	createCommentNode( text ) {
 		const node = new Ignored( "comment" );
@@ -138,8 +138,8 @@ class TreeAdapter {
 	/**
 	 * Appends a child node to a parent node.
 	 *
-	 * @param {module:tree/structure.Node} parent The parent node.
-	 * @param {module:tree/structure.Node} child  The child to add to the parent node.
+	 * @param {module:parsedPaper/structure.Node} parent The parent node.
+	 * @param {module:parsedPaper/structure.Node} child  The child to add to the parent node.
 	 *
 	 * @returns {void}
 	 */
@@ -227,8 +227,8 @@ class TreeAdapter {
 	/**
 	 * Wraps a formatting element in a paragraph and adds the resulting paragraph to the given parent.
 	 *
-	 * @param {module:tree/structure.Node}              parent             The parent element to add the new paragraph to.
-	 * @param {module:tree/structure.FormattingElement} formattingElement  The formatting element to wrap in a paragraph and add to the tree.
+	 * @param {module:parsedPaper/structure.Node}              parent             The parent element to add the new paragraph to.
+	 * @param {module:parsedPaper/structure.FormattingElement} formattingElement  The formatting element to wrap in a paragraph and add to the tree.
 	 *
 	 * @returns {void}
 	 *
@@ -248,7 +248,7 @@ class TreeAdapter {
 	/**
 	 * Detaches a node from its parent.
 	 *
-	 * @param {module:tree/structure.Node} node The node to detach from its parent.
+	 * @param {module:parsedPaper/structure.Node} node The node to detach from its parent.
 	 *
 	 * @returns {void}
 	 */
@@ -268,7 +268,7 @@ class TreeAdapter {
 	 *  2. If its parent is a structured node: wrap text in a paragraph, add paragraph to parent.
 	 *  3. If its parent is a formatting element: append text to the most recent ancestor who is a paragraph or heading.
 	 *
-	 * @param {module:tree/structure.Node} node   The node to (try to) append the text to.
+	 * @param {module:parsedPaper/structure.Node} node   The node to (try to) append the text to.
 	 * @param {string}                     text   The text to append to the node.
 	 *
 	 * @returns {void}
@@ -327,7 +327,7 @@ class TreeAdapter {
 	 * If the given node is an implicit paragraph,
 	 * e.g. a paragraph with no explicit start or opening tags.
 	 *
-	 * @param {module:tree/structure.Node} node The node to check.
+	 * @param {module:parsedPaper/structure.Node} node The node to check.
 	 *
 	 * @returns {boolean} If the given node is an implicit paragraph.
 	 *
@@ -346,7 +346,7 @@ class TreeAdapter {
 	 * This is used by `parse5` to be able to differentiate between different
 	 * behavior of HTML elements.
 	 *
-	 * @param {module:tree/structure.Node} node The node to get the tag name from.
+	 * @param {module:parsedPaper/structure.Node} node The node to get the tag name from.
 	 *
 	 * @returns {string} The node's tag name.
 	 */
@@ -361,7 +361,7 @@ class TreeAdapter {
 	 * This is used by `parse5` to differentiate between parsing
 	 * HTML, SVG and other XML schema types.
 	 *
-	 * @param {module:tree/structure.Node} node The node to get the namespace URI from.
+	 * @param {module:parsedPaper/structure.Node} node The node to get the namespace URI from.
 	 *
 	 * @returns {string} The namespace URI of this node.
 	 */
@@ -376,7 +376,7 @@ class TreeAdapter {
 	 *
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode
 	 *
-	 * @param {module:tree/structure.Node} element The element to set the mode of.
+	 * @param {module:parsedPaper/structure.Node} element The element to set the mode of.
 	 *
 	 * @returns {void}
 	 */
@@ -391,7 +391,7 @@ class TreeAdapter {
 	 *
 	 * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode
 	 *
-	 * @param {module:tree/structure.Node}            element         The element to set the mode of.
+	 * @param {module:parsedPaper/structure.Node}            element         The element to set the mode of.
 	 * @param {"no-quirks"|"quirks"|"limited-quirks"} mode            The mode to set.
 	 *
 	 * @returns {void}
@@ -404,9 +404,9 @@ class TreeAdapter {
 	/**
 	 * Returns this node's parent node.
 	 *
-	 * @param {module:tree/structure.Node} node The node from which to retrieve the parent.
+	 * @param {module:parsedPaper/structure.Node} node The node from which to retrieve the parent.
 	 *
-	 * @returns {module:tree/structure.Node} The parent of this node.
+	 * @returns {module:parsedPaper/structure.Node} The parent of this node.
 	 */
 	getParentNode( node ) {
 		return node.parent;
@@ -418,9 +418,9 @@ class TreeAdapter {
 	 * If the node does not have any children and cannot get any (e.g. Heading, FormattingElement)
 	 * this function returns an empty list.
 	 *
-	 * @param {module:tree/structure.Node} node The node to get the children from.
+	 * @param {module:parsedPaper/structure.Node} node The node to get the children from.
 	 *
-	 * @returns {module:tree/structure.Node[]} The children of the given node.
+	 * @returns {module:parsedPaper/structure.Node[]} The children of the given node.
 	 */
 	getChildNodes( node ) {
 		const formatting = node.textContainer ? node.textContainer.formatting : [];
@@ -445,9 +445,9 @@ class TreeAdapter {
 	 *
 	 * @see https://en.wikipedia.org/wiki/Rumpelstiltskin
 	 *
-	 * @param {module:tree/structure.Node} node The node to get its first child from.
+	 * @param {module:parsedPaper/structure.Node} node The node to get its first child from.
 	 *
-	 * @returns {module:tree/structure.Node[]|null} The node's first child or null, if this node cannot get any children.
+	 * @returns {module:parsedPaper/structure.Node[]|null} The node's first child or null, if this node cannot get any children.
 	 */
 	getFirstChild( node ) {
 		if ( node.children && node.children.length > 0 ) {
@@ -467,7 +467,7 @@ class TreeAdapter {
 	 * We still need to add it, since `parse5` appends the end tag position
 	 * to this object somewhere during parsing (after `createElement` and before `appendChild`).
 	 *
-	 * @param {module:tree/structure.Node} node         The node to set its location.
+	 * @param {module:parsedPaper/structure.Node} node         The node to set its location.
 	 * @param {Object}                     location     The node's location in the source code.
 	 *
 	 * @returns {void}
@@ -482,7 +482,7 @@ class TreeAdapter {
 	/**
 	 * Gets the node's source code location.
 	 *
-	 * @param {module:tree/structure.Node} node The node to get its source code location from.
+	 * @param {module:parsedPaper/structure.Node} node The node to get its source code location from.
 	 *
 	 * @returns {Object|void} The node's source code location.
 	 */
@@ -499,11 +499,11 @@ class TreeAdapter {
 	 * Finds the most recent leaf node ancestor (parent of parent of ... ) of the given element.
 	 * (A leaf node is a node that may only contain text and formatting elements, like a heading or a paragraph).
 	 *
-	 * @see module:tree/structure.LeafNode.
+	 * @see module:parsedPaper/structure.LeafNode.
 	 *
-	 * @param {module:tree/structure.Node|module:tree/structure.FormattingElement} element  The node to find the ancestor of.
+	 * @param {module:parsedPaper/structure.Node|module:parsedPaper/structure.FormattingElement} element  The node to find the ancestor of.
 	 *
-	 * @returns {module:tree/structure.Node|null} The most recent ancestor that returns true on the given predicate,
+	 * @returns {module:parsedPaper/structure.Node|null} The most recent ancestor that returns true on the given predicate,
 	 *                                            or `null` if no appropriate ancestor is found.
 	 *
 	 * @private

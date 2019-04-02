@@ -3,9 +3,9 @@ import Node from "./Node";
 /**
  * Represents a list of items.
  *
- * @extends module:tree/structure.Node
+ * @extends module:parsedPaper/structure.Node
  *
- * @memberOf module:tree/structure
+ * @memberOf module:parsedPaper/structure
  */
 class List extends Node {
 	/**

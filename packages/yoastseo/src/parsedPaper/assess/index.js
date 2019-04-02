@@ -10,7 +10,7 @@ import { cornerstoneAssessmentListFactories } from "./cornerstone";
  *
  * @module tree/assess
  *
- * @see module:tree/structure
+ * @see module:parsedPaper/structure
  */
 export {
 	TreeAssessor,

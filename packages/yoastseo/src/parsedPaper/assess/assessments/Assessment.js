@@ -1,7 +1,7 @@
 /**
  * An assessment that can be applied to a formatted text and its meta data.
  *
- * @memberOf module:tree/assess
+ * @memberOf module:parsedPaper/assess
  *
  * @abstract
  */
@@ -10,7 +10,7 @@ class Assessment {
 	 * Creates a new assessment.
 	 *
 	 * @param {string}                              name       The name to give this assessment.
-	 * @param {module:tree/research.TreeResearcher} researcher The researcher to do researches with.
+	 * @param {module:parsedPaper/research.TreeResearcher} researcher The researcher to do researches with.
 	 *
 	 * @abstract
 	 */
@@ -22,7 +22,7 @@ class Assessment {
 		this.name = name;
 		/**
 		 * The researcher to do researches with.
-		 * @type {module:tree/research.TreeResearcher}
+		 * @type {module:parsedPaper/research.TreeResearcher}
 		 * @private
 		 */
 		this._researcher = researcher;
@@ -31,7 +31,7 @@ class Assessment {
 	/**
 	 * Sets a new researcher on this assessment.
 	 *
-	 * @param {module:tree/research.TreeResearcher} researcher The researcher to do researches with.
+	 * @param {module:parsedPaper/research.TreeResearcher} researcher The researcher to do researches with.
 	 *
 	 * @returns {void}
 	 */
@@ -42,7 +42,7 @@ class Assessment {
 	/**
 	 * Returns the researcher used by this assessment.
 	 *
-	 * @returns {module:tree/research.TreeResearcher} The researcher used by this assessment.
+	 * @returns {module:parsedPaper/research.TreeResearcher} The researcher used by this assessment.
 	 */
 	getResearcher() {
 		return this._researcher;
@@ -52,7 +52,7 @@ class Assessment {
 	 * Checks whether this assessment is applicable to the given paper and tree combination.
 	 *
 	 * @param {Paper} paper                     The paper to check.
-	 * @param {module:tree/structure.Node} node The root node of the tree to check.
+	 * @param {module:parsedPaper/structure.Node} node The root node of the tree to check.
 	 *
 	 * @returns {Promise<boolean>} Whether this assessment is applicable to the given paper and tree combination (wrapped in a promise).
 	 *
@@ -66,7 +66,7 @@ class Assessment {
 	 * Applies this assessment to the given combination of paper and tree.
 	 *
 	 * @param {Paper} paper                                    The paper to check.
-	 * @param {module:tree/structure.Node} node                The root node of the tree to check.
+	 * @param {module:parsedPaper/structure.Node} node                The root node of the tree to check.
 	 *
 	 * @returns {Promise<AssessmentResult>} The result of this assessment (wrapped in a promise).
 	 *

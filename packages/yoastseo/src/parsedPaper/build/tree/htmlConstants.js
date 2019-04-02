@@ -5,7 +5,7 @@
  *
  * @see https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Content_categories#Phrasing_content
  *
- * @memberOf module:tree/builder
+ * @memberOf module:parsedPaper/builder
  */
 const formattingElements = [ "a", "abbr", "audio", "b", "bdo", "br", "button", "canvas", "cite", "code", "command",
 	"data", "datalist", "dfn", "del", "em", "embed", "i", "iframe", "img", "input", "kbd", "keygen", "label", "mark",
@@ -17,7 +17,7 @@ const formattingElements = [ "a", "abbr", "audio", "b", "bdo", "br", "button", "
  * @type {string[]}
  * @const
  *
- * @memberOf module:tree/builder
+ * @memberOf module:parsedPaper/builder
  */
 const ignoredHtmlElements = [ "script", "style", "pre" ];
 
@@ -26,7 +26,7 @@ const ignoredHtmlElements = [ "script", "style", "pre" ];
  * @type {string[]}
  * @const
  *
- * @memberOf module:tree/builder
+ * @memberOf module:parsedPaper/builder
  */
 const headings = [ "h1", "h2", "h3", "h4", "h5", "h6" ];
 

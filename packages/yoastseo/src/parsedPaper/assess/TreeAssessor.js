@@ -6,7 +6,7 @@ import AssessmentResult from "../../values/AssessmentResult";
  *
  * This score can represent anything from the readability to the SEO of the given text and metadata.
  *
- * @memberOf module:tree/assess
+ * @memberOf module:parsedPaper/assess
  */
 class TreeAssessor {
 	/**
@@ -14,9 +14,9 @@ class TreeAssessor {
 	 *
 	 * @param {Object}                              options                 Assessor options.
 	 * @param {Jed}                                 options.i18n            A Jed object to use for translations.
-	 * @param {module:tree/research.TreeResearcher} options.researcher      Supplies the assessments with researches and their (cached) results.
-	 * @param {module:tree/assess.ScoreAggregator}  options.scoreAggregator Aggregates the scores on the individual assessments into one.
-	 * @param {module:tree/assess.Assessment[]}     [options.assessments]   The list of assessments to apply.
+	 * @param {module:parsedPaper/research.TreeResearcher} options.researcher      Supplies the assessments with researches and their (cached) results.
+	 * @param {module:parsedPaper/assess.ScoreAggregator}  options.scoreAggregator Aggregates the scores on the individual assessments into one.
+	 * @param {module:parsedPaper/assess.Assessment[]}     [options.assessments]   The list of assessments to apply.
 	 */
 	constructor( options ) {
 		/**
@@ -26,17 +26,17 @@ class TreeAssessor {
 		this.i18n = options.i18n;
 		/**
 		 * Supplies the assessments with researches and their (cached) results.
-		 * @type {module:tree/research.TreeResearcher}
+		 * @type {module:parsedPaper/research.TreeResearcher}
 		 */
 		this.researcher = options.researcher;
 		/**
 		 * Aggregates the scores on the individual assessments into one overall score.
-		 * @type {module:tree/assess.ScoreAggregator}
+		 * @type {module:parsedPaper/assess.ScoreAggregator}
 		 */
 		this.scoreAggregator = options.scoreAggregator;
 		/**
 		 * The list of assessments to apply.
-		 * @type {module:tree/assess.Assessment[]}
+		 * @type {module:parsedPaper/assess.Assessment[]}
 		 */
 		this._assessments = options.assessments || [];
 		// Make sure that all of the assessments have the researcher.
@@ -46,7 +46,7 @@ class TreeAssessor {
 	/**
 	 * Returns the list of available assessments.
 	 *
-	 * @returns {module:tree/assess.Assessment[]} The list of all available assessments.
+	 * @returns {module:parsedPaper/assess.Assessment[]} The list of all available assessments.
 	 */
 	getAssessments() {
 		return this._assessments;
@@ -57,7 +57,7 @@ class TreeAssessor {
 	 * and aggregating the resulting scores.
 	 *
 	 * @param {Paper}                      paper The paper to assess. This contains metadata about the text.
-	 * @param {module:tree/structure.Node} node  The root node of the tree to check.
+	 * @param {module:parsedPaper/structure.Node} node  The root node of the tree to check.
 	 *
 	 * @returns {Promise<{results: AssessmentResult[], score: number}>} The assessment results and the overall score.
 	 */
@@ -82,9 +82,9 @@ class TreeAssessor {
 	/**
 	 * Applies the given assessment to the paper-node combination.
 	 *
-	 * @param {module:tree/assess.Assessment} assessment The assessment to apply.
+	 * @param {module:parsedPaper/assess.Assessment} assessment The assessment to apply.
 	 * @param {Paper}                         paper      The paper to apply the assessment to.
-	 * @param {module:tree/structure.Node}    node       The root node of the tree to apply the assessment to.
+	 * @param {module:parsedPaper/structure.Node}    node       The root node of the tree to apply the assessment to.
 	 *
 	 * @returns {Promise<AssessmentResult>} The result of the assessment.
 	 */
@@ -107,7 +107,7 @@ class TreeAssessor {
 	 * Adds the assessment to the list of assessments to apply.
 	 *
 	 * @param {string}                        name       The name to register the assessment under.
-	 * @param {module:tree/assess.Assessment} assessment The assessment to add.
+	 * @param {module:parsedPaper/assess.Assessment} assessment The assessment to add.
 	 *
 	 * @returns {void}
 	 */
@@ -122,7 +122,7 @@ class TreeAssessor {
 	 *
 	 * @param {string} name The name of the assessment to remove.
 	 *
-	 * @returns {module:tree/assess.Assessment|null} The deleted assessment, or null if no assessment has been deleted.
+	 * @returns {module:parsedPaper/assess.Assessment|null} The deleted assessment, or null if no assessment has been deleted.
 	 */
 	removeAssessment( name ) {
 		const index = this._assessments.findIndex( assessment => assessment.name === name );
@@ -149,7 +149,7 @@ class TreeAssessor {
 	/**
 	 * Sets the assessments that this assessor needs to apply.
 	 *
-	 * @param {module:tree/assess.Assessment[]} assessments The assessments to set.
+	 * @param {module:parsedPaper/assess.Assessment[]} assessments The assessments to set.
 	 *
 	 * @returns {void}
 	 */
@@ -161,7 +161,7 @@ class TreeAssessor {
 	 * Returns the list of applicable assessments.
 	 *
 	 * @param {Paper}                      paper The paper to check.
-	 * @param {module:tree/structure.Node} node  The tree to check.
+	 * @param {module:parsedPaper/structure.Node} node  The tree to check.
 	 *
 	 * @returns {Promise<Array>} The list of applicable assessments.
 	 */

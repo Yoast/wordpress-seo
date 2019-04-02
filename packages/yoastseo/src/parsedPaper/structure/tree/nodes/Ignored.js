@@ -4,9 +4,9 @@ import Node from "./Node";
  *
  * Examples from HTML include content within `<script>` and `<style>` elements.
  *
- * @extends module:tree/structure.Node
+ * @extends module:parsedPaper/structure.Node
  *
- * @memberOf module:tree/structure
+ * @memberOf module:parsedPaper/structure
  */
 class Ignored extends Node {
 	/**

@@ -9,7 +9,7 @@ import ScoreAggregator from "./ScoreAggregator";
  * @type {number}
  * @const
  *
- * @memberOf module:tree/assess
+ * @memberOf module:parsedPaper/assess
  */
 const TOTAL_NR_OF_ASSESSMENTS = 8;
 
@@ -21,7 +21,7 @@ const TOTAL_NR_OF_ASSESSMENTS = 8;
  * @type {{ok: number, bad: number, good: number}}
  * @const
  *
- * @memberOf module:tree/assess
+ * @memberOf module:parsedPaper/assess
  */
 const PENALTY_MAPPING_FULL_SUPPORT = {
 	bad: 3,
@@ -37,7 +37,7 @@ const PENALTY_MAPPING_FULL_SUPPORT = {
  * @type {{ok: number, bad: number, good: number}}
  * @const
  *
- * @memberOf module:tree/assess
+ * @memberOf module:parsedPaper/assess
  */
 const PENALTY_MAPPING_PARTIAL_SUPPORT = {
 	bad: 4,
@@ -51,7 +51,7 @@ const PENALTY_MAPPING_PARTIAL_SUPPORT = {
  * @type {{GOOD: number, OKAY: number, NEEDS_IMPROVEMENT: number}}
  * @const
  *
- * @memberOf module:tree/assess
+ * @memberOf module:parsedPaper/assess
  */
 export const READABILITY_SCORES = {
 	GOOD: 90,
@@ -62,7 +62,7 @@ export const READABILITY_SCORES = {
 /**
  * Aggregates the results of the readability analysis into a single score.
  *
- * @memberOf module:tree/assess
+ * @memberOf module:parsedPaper/assess
  */
 class ReadabilityScoreAggregator extends ScoreAggregator {
 	/**

@@ -8,9 +8,9 @@ import cleanUpTree from "./cleanup/postParsing";
  *
  * @param {string} html The html-string that should be parsed.
  *
- * @returns {module:tree/structure.Node} The build tree.
+ * @returns {module:parsedPaper/structure.Node} The build tree.
  *
- * @memberOf module:tree/builder
+ * @memberOf module:parsedPaper/builder
  */
 const buildTree = function( html ) {
 	const treeAdapter = new TreeAdapter();

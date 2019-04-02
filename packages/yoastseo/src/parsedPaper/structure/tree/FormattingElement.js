@@ -1,7 +1,7 @@
 /**
  * Represents formatting elements (e.g. link, image, bold text) within a document.
  *
- * @memberOf module:tree/structure
+ * @memberOf module:parsedPaper/structure
  */
 class FormattingElement {
 	/**

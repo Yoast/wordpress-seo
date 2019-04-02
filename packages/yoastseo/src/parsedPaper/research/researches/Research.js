@@ -1,7 +1,7 @@
 /**
  * A research that can be applied to the tree.
  *
- * @memberOf module:tree/research
+ * @memberOf module:parsedPaper/research
  *
  * @abstract
  */
@@ -9,7 +9,7 @@ class Research {
 	/**
 	 * Checks if the given node is a leaf node for this research.
 	 *
-	 * @param {module:tree/structure.Node} node The node to check.
+	 * @param {module:parsedPaper/structure.Node} node The node to check.
 	 *
 	 * @returns {boolean} If the given node is considered a leaf node for this research.
 	 *
@@ -22,7 +22,7 @@ class Research {
 	/**
 	 * Calculates the result of the research for the given Node.
 	 *
-	 * @param {module:tree/structure.Node} node The node to calculate the research for.
+	 * @param {module:parsedPaper/structure.Node} node The node to calculate the research for.
 	 *
 	 * @returns {Promise<*>} The result of the research.
 	 *

@@ -7,7 +7,7 @@ import getElementContent from "./getElementContent";
  * Calculates the start and end index of the given node or formatting element,
  * based on its source code location as parsed by `parse5`.
  *
- * @param {module:tree/structure.Node|module:tree/structure.FormattingElement} element  The element to set the start and end index of
+ * @param {module:parsedPaper/structure.Node|module:parsedPaper/structure.FormattingElement} element  The element to set the start and end index of
  *
  * @returns {void}
  *
@@ -40,10 +40,10 @@ const deleteParseParameters = function( element ) {
 /**
  * Cleans up a node in the tree.
  *
- * @param {module:tree/structure.Node} node The node that needs to be cleaned.
+ * @param {module:parsedPaper/structure.Node} node The node that needs to be cleaned.
  * @param {string} html                     The original html source code from which the node has been parsed.
  *
- * @returns {module:tree/structure.Node} The cleaned up node.
+ * @returns {module:parsedPaper/structure.Node} The cleaned up node.
  *
  * @private
  */
@@ -75,7 +75,7 @@ const cleanUpNode = function( node, html ) {
 /**
  * Sets the end index of the root node to the end of the text.
  *
- * @param {module:tree/structure.Node} tree The tree of which to set the root node's end index.
+ * @param {module:parsedPaper/structure.Node} tree The tree of which to set the root node's end index.
  *
  * @returns {void}
  *
@@ -95,10 +95,10 @@ const setEndIndexRootNode = function( tree ) {
  * These steps are setting the start and end index of each node and
  * deleting attributes needed for parsing, but not needed for further analysis.
  *
- * @param {module:tree/structure.Node} tree The tree structure to be cleaned.
+ * @param {module:parsedPaper/structure.Node} tree The tree structure to be cleaned.
  * @param {string} html                     The original HTML source code.
  *
- * @returns {module:tree/structure.Node} The cleaned up tree.
+ * @returns {module:parsedPaper/structure.Node} The cleaned up tree.
  *
  * @private
  */

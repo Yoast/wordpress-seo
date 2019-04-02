@@ -2,9 +2,9 @@ import Node from "./Node.js";
 /**
  * Represents a piece of whitespace that cannot be represented by any other structured element.
  *
- * @extends module:tree/structure.Node
+ * @extends module:parsedPaper/structure.Node
  *
- * @memberOf module:tree/structure
+ * @memberOf module:parsedPaper/structure
  */
 class Whitespace extends Node {
 	/**
