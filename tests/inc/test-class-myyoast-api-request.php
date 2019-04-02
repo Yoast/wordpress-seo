@@ -310,4 +310,23 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 			$instance->enrich_request_arguments( array() )
 		);
 	}
+
+	/**
+	 * Test Exception is being called correctly.
+	 *
+	 * Unit test to make sure this is fixed: https://github.com/Yoast/wordpress-seo/issues/12560
+	 *
+	 * @expectedException        WPSEO_MyYoast_Bad_Request_Exception
+	 * @expectedExceptionMessage Error
+	 */
+	public function test_exception_arguments() {
+		add_filter( 'pre_http_request', [ $this, 'return_error_object' ] );
+
+		$instance = new WPSEO_MyYoast_Api_Request_Double( 'some_url', array() );
+		$instance->do_request( 'some_url', array() );
+	}
+
+	public function return_error_object() {
+		return new WP_Error( 'error-code', 'Error' );
+	}
 }
