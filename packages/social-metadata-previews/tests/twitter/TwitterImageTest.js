@@ -53,7 +53,7 @@ describe( "TwitterImage Component", () => {
 
 	it( "matches the snapshot for a landscape image in a summary card", () => {
 		importedDetermineTwitterImageProperties.determineTwitterImageProperties.mockReturnValueOnce( Promise.resolve( {
-			mode: "landscape",
+			mode: "square",
 			height: 300,
 			width: 600,
 		} ) );
@@ -95,7 +95,7 @@ describe( "TwitterImage Component", () => {
 
 	it( "matches the snapshot for a square image in a summary-large-image card", () => {
 		importedDetermineTwitterImageProperties.determineTwitterImageProperties.mockReturnValueOnce( Promise.resolve( {
-			mode: "square",
+			mode: "landscape",
 			height: 300,
 			width: 300,
 		} ) );
