@@ -3,14 +3,33 @@ import { Component, Fragment } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
 import { debounce } from "lodash";
 import { createGlobalStyle } from "styled-components";
+import { Label } from "@yoast/components";
+import { __ } from "@wordpress/i18n";
 
+/**
+ * Styles to overwrite react-select styles.
+ */
 const Styles = createGlobalStyle`
 	.yoast-person-selector-container {
-		background: navy;
+		width: 250px;
+		margin: 7px 0;
+	
+		input[type=text] {
+			box-shadow: none;
+			margin: 0;
+		}
 	}
 `;
 
+/**
+ * Allows a user to be selected within a WordPress context.
+ */
 class WordPressUserSelector extends Component {
+	/**
+	 * The WordPressUserSelector constructor.
+	 *
+	 * @param {Object} props The component props.
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -22,11 +41,25 @@ class WordPressUserSelector extends Component {
 		this.onChange = this.onChange.bind( this );
 	}
 
+	/**
+	 * Renders the WordPressUserSelector component.
+	 *
+	 * @returns {React.Element} The rendered component.
+	 */
 	render() {
 		return (
 			<Fragment>
 				<Styles />
+				<Label
+					for={ this.props.name }
+					optionalAttributes={ {
+						className: "yoast-wizard-text-input-label",
+					} }
+				>
+					{ __( "The name of the person", "wordpress-seo" ) }
+				</Label>
 				<Select
+					inputId={ this.props.name }
 					className={ "yoast-person-selector-container" }
 					classNamePrefix={ "yoast-person-selector" }
 					value={ this.state.selectedOption }
@@ -52,23 +85,29 @@ class WordPressUserSelector extends Component {
 			.join( "&" );
 	}
 
+	/**
+	 * Handles the onChange event.
+	 *
+	 * @param {{ value: number, label: string}} option The selected option.
+	 *
+	 * @returns {void}
+	 */
 	onChange( option ) {
-		const {
-			name,
-		} = this.props;
-
 		this.setState( {
 			selectedOption: option,
 		}, () => {
-			this.props.onChange( {
-				target: {
-					name: name,
-					value: option.value,
-				},
-			} );
+			this.props.onChange( option.value );
 		} );
 	}
 
+	/**
+	 * Searches for WordPress users.
+	 *
+	 * @param {string}   input    The search term.
+	 * @param {function} callback Callback to be called with users.
+	 *
+	 * @returns {void}
+	 */
 	fetchUsers( input, callback ) {
 		const queryParameters = WordPressUserSelector.createQueryString( {
 			/* eslint-disable-next-line camelcase */

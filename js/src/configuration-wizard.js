@@ -5,13 +5,13 @@ import ReactDOM from "react-dom";
 // Required to make Material UI work with touch screens.
 import ConfigurationWizard, { MessageBox } from "@yoast/configuration-wizard";
 
-
 import MailchimpSignup from "./components/MailchimpSignup";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 import MediaUpload from "./components/MediaUpload";
 import Suggestions from "./components/Suggestions";
 import FinalStep from "./components/FinalStep";
 import WordPressUserSelector from "./components/WordPressUserSelector";
+import valueToNativeEvent from "./components/higherorder/valueToNativeEvent";
 
 import { setTranslations } from "yoast-components";
 import isUndefined from "lodash/isUndefined";
@@ -19,6 +19,8 @@ import isUndefined from "lodash/isUndefined";
 import YoastIcon from "../../images/Yoast_SEO_Icon.svg";
 
 import { setYoastComponentsL10n } from "./helpers/i18n";
+
+const ConfigurationWizardUserSelector = valueToNativeEvent( WordPressUserSelector );
 
 class App extends React.Component {
 	/**
@@ -75,7 +77,7 @@ class App extends React.Component {
 				ConnectGoogleSearchConsole,
 				Suggestions,
 				FinalStep,
-				WordPressUserSelector,
+				WordPressUserSelector: ConfigurationWizardUserSelector,
 			},
 		} );
 
