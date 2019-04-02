@@ -209,6 +209,135 @@ describe( "Test for generating verb exceptions in German", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "schlaf" ) ).toEqual(
 			generateVerbExceptionForms( morphologyDataDE.verbs, "geschlaf" ) );
 	} );
+	it( "creates forms for an irregular verb", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "bring" ) ).toEqual( [
+			"bring",
+			"bringe",
+			"bringen",
+			"bringend",
+			"bringest",
+			"bringet",
+			"bringst",
+			"bringt",
+			"bracht",
+			"brachte",
+			"brachten",
+			"brachtest",
+			"brachtet",
+			"brächte",
+			"brächten",
+			"brächtest",
+			"brächtet",
+			"gebracht"
+		] );
+	} );
+
+	it( "creates forms for an irregular verb, same result with past stem", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "bring" ) ).toEqual(
+			generateVerbExceptionForms( morphologyDataDE.verbs, "bracht" ) );
+	} );
+
+	it( "creates forms for an irregular verb, same result with past subjunctive stem", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "bring" ) ).toEqual(
+			generateVerbExceptionForms( morphologyDataDE.verbs, "brächt" ) );
+	} );
+
+	it( "creates forms for an irregular verb, same result with past participle stem", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "bring" ) ).toEqual(
+			generateVerbExceptionForms( morphologyDataDE.verbs, "gebrach" ) );
+	} );
+
+	it( "creates forms of the verb 'werden'", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "werd" ) ).toEqual( [
+			"werd",
+			"werde",
+			"werden",
+			"werdend",
+			"werdest",
+			"werdet",
+			"wird",
+			"wirst",
+			"wurd",
+			"wurde",
+			"wurden",
+			"wurdest",
+			"wurdet",
+			"würde",
+			"würden",
+			"würdest",
+			"würdet",
+			"worden",
+			"geworden"
+		] );
+	} );
+
+	it( "creates forms for the verb 'werden', same result with present2nd3rdSg stem", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "wir" ) ).toEqual(
+			generateVerbExceptionForms( morphologyDataDE.verbs, "werd" ) );
+	} );
+
+	it( "creates forms for the verb 'werden', same result with past stem", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "wurd" ) ).toEqual(
+			generateVerbExceptionForms( morphologyDataDE.verbs, "werd" ) );
+	} );
+
+	it( "creates forms for the verb 'werden', same result with past subjunctive stem", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "würd" ) ).toEqual(
+			generateVerbExceptionForms( morphologyDataDE.verbs, "werd" ) );
+	} );
+
+	it( "creates forms for the verb 'werden', same result with past participle stem", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "word" ) ).toEqual(
+			generateVerbExceptionForms( morphologyDataDE.verbs, "worden" ) );
+	} );
+
+	it( "creates forms for the verb 'werden', same result with alternative past participle stem", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "wir" ) ).toEqual(
+			generateVerbExceptionForms( morphologyDataDE.verbs, "geworden" ) );
+	} );
+
+	it( "creates forms of the verb 'wissen'", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "weiß" ) ).toEqual( [
+			"weiß",
+			"weißt",
+			"wisse",
+			"wisst",
+			"wissest",
+			"wisset",
+			"wissen",
+			"wissend",
+			"wusst",
+			"wusste",
+			"wussten",
+			"wusstest",
+			"wusstet",
+			"wüsste",
+			"wüssten",
+			"wüsstet",
+			"wüsstest",
+			"gewusst",
+		] );
+	} );
+
+	it( "creates forms for the verb 'wissen', same result with pluralSgSubjunctivePresent stem", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "weiß" ) ).toEqual(
+			generateVerbExceptionForms( morphologyDataDE.verbs, "wiss" ) );
+	} );
+
+	it( "creates forms for the verb 'wissen', same result with past stem", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "weiß" ) ).toEqual(
+			generateVerbExceptionForms( morphologyDataDE.verbs, "wusst" ) );
+	} );
+
+	it( "creates forms for the verb 'wissen', same result with past subjunctive stem", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "weiß" ) ).toEqual(
+			generateVerbExceptionForms( morphologyDataDE.verbs, "wüsst" ) );
+	} );
+
+	it( "creates forms for the verb 'wissen', same result with past participle stem", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "weiß" ) ).toEqual(
+			generateVerbExceptionForms( morphologyDataDE.verbs, "gewuss" ) );
+	} );
 
 	it( "makes sure that compound verbs with prefix are recognized and return the full forms", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "festhalt" ) ).toEqual( [
