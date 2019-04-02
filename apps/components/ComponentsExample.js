@@ -2,11 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 
-import { FullHeightCard } from "yoast-components/composites/CoursesOverview/Card";
-import CardDetails from "yoast-components/composites/CoursesOverview/CardDetails";
-import getCourseFeed from "yoast-components/utils/getCourseFeed";
-import { getDirectionalStyle } from "@yoast/helpers";
-import { YoastWarning } from "@yoast/components";
+import { CourseDetails, FullHeightCard, YoastWarning } from "@yoast/components";
+import { getDirectionalStyle, getCourseFeed } from "@yoast/helpers";
 
 const Container = styled.div`
 	max-width: 1024px;
@@ -155,7 +152,7 @@ export default class ComponentsExample extends React.Component {
 									header={ this.getHeaderData( course ) }
 									banner={ course.isFree === "true" ? { text: __( "Free", "yoast-components" ) } : null }
 								>
-									<CardDetails
+									<CourseDetails
 										description={ course.content }
 										courseUrl={ course.link }
 										readMoreLinkText={ course.readMoreLinkText }

@@ -113,12 +113,14 @@ export default class KeywordExample extends Component {
 				</HelpText>
 				<KeywordInput
 					id="focus-keyword"
+					label="focus-keyword"
 					onChange={ this.updateKeyword }
 					keyword={ this.state.keyword }
 					onRemoveKeyword={ noop }
 				/>
 				<KeywordInput
 					id="additional-focus-keyword"
+					label="additional-focus-keyword"
 					onChange={ this.updateAdditionalKeyword }
 					keyword={ this.state.additionalKeyword }
 					onRemoveKeyword={ () => {

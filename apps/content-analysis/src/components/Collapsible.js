@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Collapsible as CollapsibleComponent } from "yoast-components";
-import { Paper } from "@yoast/components";
+import { Collapsible as CollapsibleComponent, Paper } from "@yoast/components";
 
 const Inner = styled.div`
 	padding: 16px;

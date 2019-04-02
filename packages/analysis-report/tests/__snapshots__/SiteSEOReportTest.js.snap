@@ -1,0 +1,186 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The SiteSEOReport testing suite The SiteSEOReport should match the snapshot 1`] = `
+.c6 {
+  display: table-row;
+  font-size: 14px;
+}
+
+.c8 {
+  display: table-cell;
+  padding: 2px;
+}
+
+.c7 {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: blue;
+}
+
+.c11 {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: red;
+}
+
+.c12 {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: yellow;
+}
+
+.c9 {
+  padding-left: 8px;
+  width: 100%;
+}
+
+.c10 {
+  font-weight: 600;
+  text-align: right;
+  padding-left: 16px;
+}
+
+.c5 {
+  display: table;
+  box-sizing: border-box;
+  list-style: none;
+  max-width: 100%;
+  min-width: 200px;
+  margin: 8px 0;
+  padding: 0 8px;
+}
+
+.c1 {
+  margin: 8px 0;
+  height: 10;
+  overflow: hidden;
+}
+
+.c2 {
+  display: inline-block;
+  vertical-align: top;
+  width: 22.22222222222222%;
+  background-color: blue;
+  height: 100%;
+}
+
+.c3 {
+  display: inline-block;
+  vertical-align: top;
+  width: 33.33333333333333%;
+  background-color: red;
+  height: 100%;
+}
+
+.c4 {
+  display: inline-block;
+  vertical-align: top;
+  width: 44.44444444444444%;
+  background-color: yellow;
+  height: 100%;
+}
+
+.c0 {
+  font-size: 14px;
+}
+
+<div
+  className="test_SiteSEOReport "
+>
+  <p
+    className="test_SiteSEOReport__text c0"
+  >
+    Test assessment
+  </p>
+  <div
+    className="progress c1"
+  >
+    <span
+      className="progress__part c2"
+    />
+    <span
+      className="progress__part c3"
+    />
+    <span
+      className="progress__part c4"
+    />
+  </div>
+  <ul
+    className="assessments c5"
+    role="list"
+  >
+    <li
+      className="assessments__item c6"
+    >
+      <span
+        className="assessments__item-bullet c7 c8"
+      />
+      <span
+        className="assessments__item-text c9 c8"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<div></div>",
+          }
+        }
+      />
+      <span
+        className="assessments__item-score c10 c8"
+      >
+        10
+      </span>
+    </li>
+    <li
+      className="assessments__item c6"
+    >
+      <span
+        className="assessments__item-bullet c11 c8"
+      />
+      <span
+        className="assessments__item-text c9 c8"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<div></div>",
+          }
+        }
+      />
+      <span
+        className="assessments__item-score c10 c8"
+      >
+        15
+      </span>
+    </li>
+    <li
+      className="assessments__item c6"
+    >
+      <span
+        className="assessments__item-bullet c12 c8"
+      />
+      <span
+        className="assessments__item-text c9 c8"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<div></div>",
+          }
+        }
+      />
+      <span
+        className="assessments__item-score c10 c8"
+      >
+        20
+      </span>
+    </li>
+  </ul>
+</div>
+`;

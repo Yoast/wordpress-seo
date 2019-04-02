@@ -3,10 +3,9 @@ export {
 	StyledSectionBase,
 	StyledHeading,
 	Textfield,
-	Button,
 	Input,
 	Label,
-	Progressbar,
+	ProgressBar,
 	Section,
 	Textarea,
 } from "@yoast/components";

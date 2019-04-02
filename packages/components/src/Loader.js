@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled, { keyframes } from "styled-components";
 
 /**
  * Returns a Loader SVG.
@@ -80,4 +81,14 @@ Loader.defaultProps = {
 	className: "",
 };
 
-export default Loader;
+const heartbeat = keyframes`
+	0%   { transform: scale( 0.70 ); opacity: 0.4; }
+	80%  { opacity: 1 }
+	100%  { transform: scale( 0.95 ); opacity: 1 }
+`;
+
+export default styled( Loader )`
+	animation: ${heartbeat} 1.15s infinite;
+	animation-direction: alternate;
+	animation-timing-function: cubic-bezier(0.96, 0.02, 0.63, 0.86);
+`;

@@ -1,16 +1,21 @@
 /* External dependencies */
 import React from "react";
 import PropTypes from "prop-types";
-import LinkSuggestion from "./composites/LinkSuggestion";
+import { __ } from "@wordpress/i18n";
+import LinkSuggestion from "./LinkSuggestion";
 import Clipboard from "clipboard";
-import { localize } from "../../utils/i18n";
 import interpolateComponents from "interpolate-components";
 import { speak } from "@wordpress/a11y";
+import styled from "styled-components";
 
 /* Internal dependencies */
 import { makeOutboundLink } from "@yoast/helpers";
 
 const HelpTextLink = makeOutboundLink();
+
+const LinkSuggestionsWrapper = styled.div`
+	display: table-cell;
+`;
 
 /**
  * Represents the Suggestions component.
@@ -19,17 +24,18 @@ class LinkSuggestions extends React.Component {
 	/**
 	 * @constructor
 	 *
+	 * @param {Object} props The component props.
+	 *
 	 * @returns {void}
 	 */
-	constructor() {
-		super();
+	constructor( props ) {
+		super( props );
 
 		this.state = {
 			clipboard: new Clipboard( ".yoast-link-suggestion__copy" ),
 		};
 
 		this.state.clipboard.on( "success", this.handleSuccess.bind( this ) );
-
 		this.state.clipboard.on( "error", this.handleError.bind( this ) );
 	}
 
@@ -40,7 +46,7 @@ class LinkSuggestions extends React.Component {
 	 * @returns {void}
 	 */
 	handleSuccess( evt ) {
-		const message = this.props.translate( "Copied!" );
+		const message = __( "Copied!", "yoast-components" );
 
 		// Move focus back to the Clipboard trigger button.
 		evt.trigger.focus();
@@ -59,7 +65,7 @@ class LinkSuggestions extends React.Component {
 	 * @returns {void}
 	 */
 	handleError( evt ) {
-		const message = this.props.translate( "Not supported!" );
+		const message = __( "Not supported!", "yoast-components" );
 
 		// Update the button `aria-label` attribute.
 		evt.trigger.el.setAttribute( "aria-label", message );
@@ -76,9 +82,9 @@ class LinkSuggestions extends React.Component {
 	 */
 	renderEmptyList() {
 		// Translators: Text between {{a}} and {{/a}} will be a link to an article about site structure.
-		const articleLinkString = this.props.translate(
+		const articleLinkString = __(
 			"Read {{a}}our article about site structure{{/a}} " +
-			"to learn more about how internal linking can help improve your SEO." );
+			"to learn more about how internal linking can help improve your SEO.", "yoast-components" );
 
 		const articleLink = interpolateComponents( {
 			mixedString: articleLinkString,
@@ -88,9 +94,9 @@ class LinkSuggestions extends React.Component {
 			},
 		} );
 
-		const moreCopyMessage = this.props.translate(
+		const moreCopyMessage = __(
 			"Once you add a bit more copy, we'll give you a list of related " +
-			"content here to which you could link in your post." );
+			"content here to which you could link in your post.", "yoast-components" );
 
 		return (
 			<div>
@@ -110,10 +116,10 @@ class LinkSuggestions extends React.Component {
 		const maximumSuggestions = this.props.maxSuggestions;
 
 		// Translators: Text between {{a}} and {{/a}} will be a link to an article about site structure.
-		const articleLinkString = this.props.translate(
+		const articleLinkString = __(
 			"This is a list of related content to which you could link in your post. " +
 			"{{a}}Read our article about site structure{{/a}} " +
-			"to learn more about how internal linking can help improve your SEO." );
+			"to learn more about how internal linking can help improve your SEO.", "yoast-components" );
 
 		const articleLink = interpolateComponents( {
 			mixedString: articleLinkString,
@@ -134,11 +140,11 @@ class LinkSuggestions extends React.Component {
 		const defaultSuggestions = this.getDefaultSuggestions();
 
 		return (
-			<div>
+			<LinkSuggestionsWrapper>
 				<p>{ articleLink }</p>
 				{ cornerStoneSuggestions }
 				{ defaultSuggestions }
-			</div>
+			</LinkSuggestionsWrapper>
 		);
 	}
 
@@ -155,7 +161,7 @@ class LinkSuggestions extends React.Component {
 		}
 
 		// Translators: Text between {{a}} and {{/a}} will be a link to an article about cornerstone content.
-		const articleLinkString = this.props.translate( "Consider linking to these {{a}}cornerstone articles:{{/a}}" );
+		const articleLinkString = __( "Consider linking to these {{a}}cornerstone articles:{{/a}}", "yoast-components" );
 		const articleLink = interpolateComponents( {
 			mixedString: articleLinkString,
 			components: {
@@ -179,7 +185,7 @@ class LinkSuggestions extends React.Component {
 			return null;
 		}
 
-		return this.getSuggestionsList( this.props.translate( "Consider linking to these articles:" ), suggestions );
+		return this.getSuggestionsList( __( "Consider linking to these articles:", "yoast-components" ), suggestions );
 	}
 
 	/**
@@ -217,7 +223,6 @@ class LinkSuggestions extends React.Component {
 
 LinkSuggestions.propTypes = {
 	suggestions: PropTypes.array.isRequired,
-	translate: PropTypes.func,
 	maxSuggestions: PropTypes.number,
 };
 
@@ -225,4 +230,4 @@ LinkSuggestions.defaultProps = {
 	maxSuggestions: 10,
 };
 
-export default localize( LinkSuggestions );
+export default LinkSuggestions;

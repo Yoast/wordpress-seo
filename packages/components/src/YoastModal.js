@@ -106,6 +106,13 @@ BaseYoastModal.propTypes = {
 };
 
 BaseYoastModal.defaultProps = {
+	children: null,
+	className: "",
+	heading: "",
+	closeIconButton: "",
+	closeIconButtonClassName: "",
+	closeButton: "",
+	closeButtonClassName: "",
 	isOpen: false,
 };
 

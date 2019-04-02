@@ -113,6 +113,12 @@ const calculateTextIndices = function( node, html ) {
 		// Remove closed elements from the list.
 		pullAll( openElements, elementsToClose );
 
+		if ( element.tag === "comment" ) {
+			element.textStartIndex = element.location.startOffset - currentOffset;
+			element.textEndIndex = element.textStartIndex;
+			return;
+		}
+
 		const startTag = element.location.startTag;
 		const endTag = element.location.endTag;
 
@@ -141,7 +147,7 @@ const calculateTextIndices = function( node, html ) {
 		  so its content should be added to the respective formatting element instead,
 		  and the current offset should be updated.
 		 */
-		if ( ignoredHtmlElements.includes( element.type ) ) {
+		if ( ignoredHtmlElements.includes( element.tag ) ) {
 			currentOffset = handleIgnoredContent( element, html, currentOffset );
 		}
 	} );

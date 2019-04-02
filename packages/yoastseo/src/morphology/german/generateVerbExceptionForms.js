@@ -1,5 +1,6 @@
 import { applySuffixesToStem, applySuffixesToStems } from "../morphoHelpers/suffixHelpers";
 import { flatten, forOwn, uniq as unique } from "lodash-es";
+import { allGermanVerbPrefixesSorted } from "./helpers";
 
 /**
  * Adds suffixes to a given strong verb paradigm.
@@ -102,7 +103,7 @@ const generateFormsStrongVerbs = function( morphologyDataVerbs, stemmedWordToChe
  * @returns {string[]} The created verb forms.
  */
 export function generateVerbExceptionForms( morphologyDataVerbs, stemmedWordToCheck ) {
-	const prefixes = morphologyDataVerbs.verbPrefixes;
+	const prefixes = allGermanVerbPrefixesSorted( morphologyDataVerbs.prefixes );
 	let stemmedWordToCheckWithoutPrefix = "";
 
 	let foundPrefix = prefixes.find( prefix => stemmedWordToCheck.startsWith( prefix ) );

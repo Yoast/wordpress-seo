@@ -16,7 +16,7 @@ import { uniq as unique } from "lodash-es";
  * @returns {string[]} The created adjective forms.
  */
 const elStemChange = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.elStemChange;
+	const exceptionStems = morphologyDataAdjectives.exceptions.elStemChange;
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const stemPairToCheck = exceptionStems[ i ];
@@ -44,7 +44,7 @@ const elStemChange = function( morphologyDataAdjectives, stemmedWordToCheck ) {
  * @returns {string[]} The created adjective forms.
  */
 const erOnlyRestoreEr = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.erOnlyRestoreEr;
+	const exceptionStems = morphologyDataAdjectives.exceptions.erOnlyRestoreEr;
 
 
 	if ( exceptionStems.includes( stemmedWordToCheck ) ) {
@@ -71,7 +71,7 @@ const erOnlyRestoreEr = function( morphologyDataAdjectives, stemmedWordToCheck )
  * @returns {string[]} The created adjective forms.
  */
 const erStemChangeClass1 = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.erStemChangeClass1;
+	const exceptionStems = morphologyDataAdjectives.exceptions.erStemChangeClass1;
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const stemPairToCheck = exceptionStems[ i ];
@@ -100,7 +100,7 @@ const erStemChangeClass1 = function( morphologyDataAdjectives, stemmedWordToChec
  * @returns {string[]} The created adjective forms.
  */
 const erStemChangeClass2 = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.erStemChangeClass2;
+	const exceptionStems = morphologyDataAdjectives.exceptions.erStemChangeClass2;
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const stemPairToCheck = exceptionStems[ i ];
@@ -129,7 +129,7 @@ const erStemChangeClass2 = function( morphologyDataAdjectives, stemmedWordToChec
  * @returns {string[]} The created adjective forms.
  */
 const erStemChangeClass3 = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.erStemChangeClass3;
+	const exceptionStems = morphologyDataAdjectives.exceptions.erStemChangeClass3;
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const stemPairToCheck = exceptionStems[ i ];
@@ -156,7 +156,7 @@ const erStemChangeClass3 = function( morphologyDataAdjectives, stemmedWordToChec
  * @returns {string[]} The created adjective forms.
  */
 const secondStemCompSup = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.secondStemCompSup;
+	const exceptionStems = morphologyDataAdjectives.exceptions.secondStemCompSup;
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const stemPairToCheck = exceptionStems[ i ];
@@ -183,7 +183,7 @@ const secondStemCompSup = function( morphologyDataAdjectives, stemmedWordToCheck
  * @returns {string[]} The created adjective forms.
  */
 const bothStemsComSup = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.bothStemsCompSup;
+	const exceptionStems = morphologyDataAdjectives.exceptions.bothStemsCompSup;
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const stemPairToCheck = exceptionStems[ i ];

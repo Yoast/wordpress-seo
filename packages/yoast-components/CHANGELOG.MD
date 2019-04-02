@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 4.23.0 March 25th, 2019
+## 4.23.0 April 1st, 2019
 ### Added
 * Adds an autocomplete prop to the following components: `Step`, `Textfield`, and `Input`.
 
@@ -152,7 +152,7 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Added
 * Add setOverallSeoScore and setOverallReadabilityScore reducer.
 * Add help text to the content analysis in the standalone.
-* Add a IconLabelledButton component to render a button with visible textual label.
+* Add a IconLabeledButton component to render a button with visible textual label.
 
 ### Fixed
 * Fix alignment of video in help center when no ads are present.

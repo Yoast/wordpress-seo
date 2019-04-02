@@ -77,7 +77,14 @@ exports[`App renders without problems 1`] = `
       style={Object {}}
       type="button"
     >
-      Keyword suggestions
+      WordList
+    </button>
+    <button
+      onClick={[Function]}
+      style={Object {}}
+      type="button"
+    >
+      LinkSuggestions
     </button>
     <button
       onClick={[Function]}
@@ -148,26 +155,26 @@ exports[`App renders without problems 1`] = `
       className="ButtonsWrapper__ButtonsContainer-sc-1nb1s31-0 cDHlch"
     >
       <button
-        className="Button-sc-1kxrrgq-0 kXoofV Button-sc-1kxrrgq-2 drvdJo Button-sc-1kxrrgq-1 faGgDL Button-sc-1kxrrgq-3 egtcoe Button__BaseButton-sc-1kxrrgq-5 bIyeaB"
+        className="Button-sc-32rbq-0 ixkmSo Button-sc-32rbq-2 jFAPie Button-sc-32rbq-1 jfEXPW Button-sc-32rbq-3 iRJtrv Button__BaseButton-sc-32rbq-5 ksmnMF"
         type="button"
       >
         BaseButton
       </button>
        
       <button
-        className="Button-sc-1kxrrgq-4 hVTssz Button-sc-1kxrrgq-0 kXoofV Button-sc-1kxrrgq-2 drvdJo Button-sc-1kxrrgq-1 faGgDL Button-sc-1kxrrgq-3 egtcoe Button__BaseButton-sc-1kxrrgq-5 bIyeaB"
+        className="Button-sc-32rbq-4 iTjlOE Button-sc-32rbq-0 ixkmSo Button-sc-32rbq-2 jFAPie Button-sc-32rbq-1 jfEXPW Button-sc-32rbq-3 iRJtrv Button__BaseButton-sc-32rbq-5 ksmnMF"
         type="button"
       >
         Button
       </button>
        
       <button
-        className="Button-sc-1kxrrgq-4 hVTssz Button-sc-1kxrrgq-0 kXoofV Button-sc-1kxrrgq-2 drvdJo Button-sc-1kxrrgq-1 faGgDL Button-sc-1kxrrgq-3 egtcoe Button__BaseButton-sc-1kxrrgq-5 bIyeaB"
+        className="Button-sc-32rbq-4 iTjlOE Button-sc-32rbq-0 ixkmSo Button-sc-32rbq-2 jFAPie Button-sc-32rbq-1 jfEXPW Button-sc-32rbq-3 iRJtrv Button__BaseButton-sc-32rbq-5 ksmnMF"
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-edit Button-sc-1kxrrgq-6 kvgJnh SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-edit IconButton-v5s3bl-0 khhyWe SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
           fill="#000"
           focusable="false"
           role="img"
@@ -184,7 +191,7 @@ exports[`App renders without problems 1`] = `
        
       <button
         aria-label="IconButton with icon only"
-        className="Button-sc-1kxrrgq-4 hVTssz Button-sc-1kxrrgq-0 kXoofV Button-sc-1kxrrgq-2 drvdJo Button-sc-1kxrrgq-1 faGgDL Button-sc-1kxrrgq-3 egtcoe Button__BaseButton-sc-1kxrrgq-5 bIyeaB"
+        className="Button-sc-32rbq-4 iTjlOE Button-sc-32rbq-0 ixkmSo Button-sc-32rbq-2 jFAPie Button-sc-32rbq-1 jfEXPW Button-sc-32rbq-3 iRJtrv Button__BaseButton-sc-32rbq-5 ksmnMF"
         type="button"
       >
         <svg
@@ -204,7 +211,7 @@ exports[`App renders without problems 1`] = `
       </button>
        
       <button
-        className="Button-sc-1kxrrgq-4 hVTssz Button-sc-1kxrrgq-0 kXoofV Button-sc-1kxrrgq-2 drvdJo Button-sc-1kxrrgq-1 faGgDL Button-sc-1kxrrgq-3 egtcoe Button__BaseButton-sc-1kxrrgq-5 bIyeaB"
+        className="Button-sc-32rbq-4 iTjlOE Button-sc-32rbq-0 ixkmSo Button-sc-32rbq-2 jFAPie Button-sc-32rbq-1 jfEXPW Button-sc-32rbq-3 iRJtrv Button__BaseButton-sc-32rbq-5 ksmnMF"
         type="button"
       >
         <svg
@@ -241,14 +248,14 @@ exports[`App renders without problems 1`] = `
         className="ButtonsWrapper__Separator-sc-1nb1s31-1 ZmEFB"
       />
       <a
-        className="Button-sc-1kxrrgq-0 kXoofV Button-sc-1kxrrgq-2 drvdJo Button-sc-1kxrrgq-1 faGgDL Button-sc-1kxrrgq-3 egtcoe LinkButton__BaseLinkButton-sc-16o3fcc-0 jDZWpC"
+        className="Button-sc-32rbq-0 ixkmSo Button-sc-32rbq-2 jFAPie Button-sc-32rbq-1 jfEXPW Button-sc-32rbq-3 iRJtrv LinkButton__BaseLinkButton-sc-8lzs74-0 dkXoPT"
         href="#someresource"
       >
         BaseLinkButton
       </a>
        
       <a
-        className="Button-sc-1kxrrgq-4 hVTssz Button-sc-1kxrrgq-0 kXoofV Button-sc-1kxrrgq-2 drvdJo Button-sc-1kxrrgq-1 faGgDL Button-sc-1kxrrgq-3 egtcoe LinkButton__BaseLinkButton-sc-16o3fcc-0 jDZWpC"
+        className="Button-sc-32rbq-4 iTjlOE Button-sc-32rbq-0 ixkmSo Button-sc-32rbq-2 jFAPie Button-sc-32rbq-1 jfEXPW Button-sc-32rbq-3 iRJtrv LinkButton__BaseLinkButton-sc-8lzs74-0 dkXoPT"
         href="#someresource"
       >
         LinkButton
@@ -286,7 +293,7 @@ exports[`App renders without problems 1`] = `
       />
       <button
         aria-expanded={undefined}
-        className="YoastButton-sc-1l3xil4-0 evjTAu YoastButton-sc-1l3xil4-1 caHCss"
+        className="YoastButton-gx5w7q-0 kHUgXc YoastButton-gx5w7q-1 bQXGlm"
         onClick={undefined}
         type="button"
       >
@@ -297,7 +304,7 @@ exports[`App renders without problems 1`] = `
        
       <button
         aria-expanded={undefined}
-        className="UpsellButton-ilfbjb-1 hcLQas UpsellButton__UpsellButtonBase-ilfbjb-2 kddVu"
+        className="UpsellButton-sc-7vlxuh-1 nVzPF UpsellButton__UpsellButtonBase-sc-7vlxuh-2 cAGllX"
         onClick={undefined}
         type="button"
       >
@@ -305,7 +312,7 @@ exports[`App renders without problems 1`] = `
           Upsell Button
           <svg
             aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-caret-right UpsellButton__IconComponent-ilfbjb-0 gaVMvW SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+            className="yoast-svg-icon yoast-svg-icon-caret-right UpsellButton__IconComponent-sc-7vlxuh-0 cghYDs SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
             fill="#000"
             focusable="false"
             role="img"
@@ -321,7 +328,7 @@ exports[`App renders without problems 1`] = `
       </button>
        
       <a
-        className="UpsellLinkButton-yk3kf3-0 kgCUwp"
+        className="UpsellLinkButton-sc-19tfxfs-0 TVWHo"
         href="http://example.org"
       >
         Upsell Link Button
@@ -330,7 +337,7 @@ exports[`App renders without problems 1`] = `
         className="ButtonsWrapper__Separator-sc-1nb1s31-1 ZmEFB"
       />
       <button
-        className="Button-sc-1kxrrgq-2 fxLIZq Button-sc-1kxrrgq-1 dhlux Button-sc-1kxrrgq-3 kuRCzA IconLabelledButton__IconLabelledBaseButton-sc-1m79ti1-0 kSkRne"
+        className="Button-sc-32rbq-2 emdVop Button-sc-32rbq-1 kYzALm Button-sc-32rbq-3 bYChMW IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 ITzLP"
         type="button"
       >
         <svg
@@ -350,7 +357,7 @@ exports[`App renders without problems 1`] = `
         Need help?
       </button>
       <button
-        className="Button-sc-1kxrrgq-2 fxLIZq Button-sc-1kxrrgq-1 dhlux Button-sc-1kxrrgq-3 kuRCzA IconLabelledButton__IconLabelledBaseButton-sc-1m79ti1-0 kSkRne"
+        className="Button-sc-32rbq-2 emdVop Button-sc-32rbq-1 kYzALm Button-sc-32rbq-3 bYChMW IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 ITzLP"
         type="button"
       >
         <svg
@@ -370,7 +377,7 @@ exports[`App renders without problems 1`] = `
         Settings
       </button>
       <button
-        className="Button-sc-1kxrrgq-2 kettjn Button-sc-1kxrrgq-1 dhlux Button-sc-1kxrrgq-3 kuRCzA IconLabelledButton__IconLabelledBaseButton-sc-1m79ti1-0 kSkRne"
+        className="Button-sc-32rbq-2 dpPCCR Button-sc-32rbq-1 kYzALm Button-sc-32rbq-3 bYChMW IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 ITzLP"
         type="button"
       >
         <svg
@@ -390,7 +397,7 @@ exports[`App renders without problems 1`] = `
         Custom Hover
       </button>
       <button
-        className="Button-sc-1kxrrgq-2 fxLIZq Button-sc-1kxrrgq-1 jgqPzk Button-sc-1kxrrgq-3 kuRCzA IconLabelledButton__IconLabelledBaseButton-sc-1m79ti1-0 kSkRne"
+        className="Button-sc-32rbq-2 emdVop Button-sc-32rbq-1 JPjJJ Button-sc-32rbq-3 bYChMW IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 ITzLP"
         type="button"
       >
         <svg
@@ -410,7 +417,7 @@ exports[`App renders without problems 1`] = `
         Custom Focus
       </button>
       <button
-        className="Button-sc-1kxrrgq-2 fxLIZq Button-sc-1kxrrgq-1 dhlux Button-sc-1kxrrgq-3 hWqLtb IconLabelledButton__IconLabelledBaseButton-sc-1m79ti1-0 kSkRne"
+        className="Button-sc-32rbq-2 emdVop Button-sc-32rbq-1 kYzALm Button-sc-32rbq-3 fEWBQa IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 ITzLP"
         type="button"
       >
         <svg
@@ -430,7 +437,7 @@ exports[`App renders without problems 1`] = `
         Custom Active
       </button>
       <button
-        className="Button-sc-1kxrrgq-2 fxLIZq Button-sc-1kxrrgq-1 dhlux Button-sc-1kxrrgq-3 kuRCzA IconLabelledButton__IconLabelledBaseButton-sc-1m79ti1-0 idnHJe"
+        className="Button-sc-32rbq-2 emdVop Button-sc-32rbq-1 kYzALm Button-sc-32rbq-3 bYChMW IconLabeledButton__IconLabelledBaseButton-sc-10fuids-0 jHiVsN"
         type="button"
       >
         <svg
@@ -452,22 +459,12 @@ exports[`App renders without problems 1`] = `
       <hr
         className="ButtonsWrapper__Separator-sc-1nb1s31-1 ZmEFB"
       />
-      <button
-        className={undefined}
-        onClick={[Function]}
-        type="button"
-      >
-        FormButton
-      </button>
-      <hr
-        className="ButtonsWrapper__Separator-sc-1nb1s31-1 ZmEFB"
-      />
       <h2>
         Special cases
       </h2>
       <button
         aria-label="IconButton with icon only"
-        className="Button-sc-1kxrrgq-4 hVTssz Button-sc-1kxrrgq-0 kXoofV Button-sc-1kxrrgq-2 drvdJo Button-sc-1kxrrgq-1 faGgDL Button-sc-1kxrrgq-3 egtcoe Button__BaseButton-sc-1kxrrgq-5 bIyeaB"
+        className="Button-sc-32rbq-4 iTjlOE Button-sc-32rbq-0 ixkmSo Button-sc-32rbq-2 jFAPie Button-sc-32rbq-1 jfEXPW Button-sc-32rbq-3 iRJtrv Button__BaseButton-sc-32rbq-5 ksmnMF"
         type="button"
       >
         <svg
@@ -487,12 +484,12 @@ exports[`App renders without problems 1`] = `
       </button>
        
       <button
-        className="with-max-width Button-sc-1kxrrgq-4 hVTssz Button-sc-1kxrrgq-0 kXoofV Button-sc-1kxrrgq-2 drvdJo Button-sc-1kxrrgq-1 faGgDL Button-sc-1kxrrgq-3 egtcoe Button__BaseButton-sc-1kxrrgq-5 bIyeaB"
+        className="with-max-width Button-sc-32rbq-4 iTjlOE Button-sc-32rbq-0 ixkmSo Button-sc-32rbq-2 jFAPie Button-sc-32rbq-1 jfEXPW Button-sc-32rbq-3 iRJtrv Button__BaseButton-sc-32rbq-5 ksmnMF"
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-edit Button-sc-1kxrrgq-6 kvgJnh SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-edit IconButton-v5s3bl-0 khhyWe SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
           fill="#c00"
           focusable="false"
           role="img"
@@ -509,7 +506,7 @@ exports[`App renders without problems 1`] = `
        
       <button
         aria-expanded={undefined}
-        className="YoastButton-sc-1l3xil4-0 bKxaxZ YoastButton-sc-1l3xil4-1 dvwqjo"
+        className="YoastButton-gx5w7q-0 ZkSNk YoastButton-gx5w7q-1 clbiFf"
         onClick={undefined}
         type="button"
       >
@@ -520,7 +517,7 @@ exports[`App renders without problems 1`] = `
        
       <button
         aria-expanded={undefined}
-        className="test-large-button YoastButton-sc-1l3xil4-0 evjTAu YoastButton-sc-1l3xil4-1 caHCss"
+        className="test-large-button YoastButton-gx5w7q-0 kHUgXc YoastButton-gx5w7q-1 bQXGlm"
         onClick={undefined}
         type="button"
       >
@@ -550,22 +547,15 @@ exports[`App renders without problems 1`] = `
         Buttons
       </h3>
       <button
-        className="Button-sc-1kxrrgq-0 kXoofV Button-sc-1kxrrgq-2 drvdJo Button-sc-1kxrrgq-1 faGgDL Button-sc-1kxrrgq-3 egtcoe Button__BaseButton-sc-1kxrrgq-5 bIyeaB"
+        className="Button-sc-32rbq-0 ixkmSo Button-sc-32rbq-2 jFAPie Button-sc-32rbq-1 jfEXPW Button-sc-32rbq-3 iRJtrv Button__BaseButton-sc-32rbq-5 ksmnMF"
         type="button"
       >
         Base
       </button>
        
       <button
-        className="Button-sc-1kxrrgq-4 hVTssz Button-sc-1kxrrgq-0 kXoofV Button-sc-1kxrrgq-2 drvdJo Button-sc-1kxrrgq-1 faGgDL Button-sc-1kxrrgq-3 egtcoe Button__BaseButton-sc-1kxrrgq-5 bIyeaB"
-        type="button"
-      >
-        Button
-      </button>
-       
-      <button
         aria-expanded={undefined}
-        className="YoastButton-sc-1l3xil4-0 bKxaxZ YoastButton-sc-1l3xil4-1 dvwqjo"
+        className="YoastButton-gx5w7q-0 ZkSNk YoastButton-gx5w7q-1 clbiFf"
         onClick={undefined}
         type="button"
       >
@@ -576,7 +566,7 @@ exports[`App renders without problems 1`] = `
        
       <button
         aria-expanded={undefined}
-        className="test-large-button YoastButton-sc-1l3xil4-0 evjTAu YoastButton-sc-1l3xil4-1 caHCss"
+        className="test-large-button YoastButton-gx5w7q-0 kHUgXc YoastButton-gx5w7q-1 bQXGlm"
         onClick={undefined}
         type="button"
       >
@@ -587,7 +577,7 @@ exports[`App renders without problems 1`] = `
        
       <button
         aria-label="IconButton with icon only"
-        className="Button-sc-1kxrrgq-4 hVTssz Button-sc-1kxrrgq-0 kXoofV Button-sc-1kxrrgq-2 drvdJo Button-sc-1kxrrgq-1 faGgDL Button-sc-1kxrrgq-3 egtcoe Button__BaseButton-sc-1kxrrgq-5 bIyeaB"
+        className="Button-sc-32rbq-4 iTjlOE Button-sc-32rbq-0 ixkmSo Button-sc-32rbq-2 jFAPie Button-sc-32rbq-1 jfEXPW Button-sc-32rbq-3 iRJtrv Button__BaseButton-sc-32rbq-5 ksmnMF"
         type="button"
       >
         <svg
@@ -607,12 +597,12 @@ exports[`App renders without problems 1`] = `
       </button>
        
       <button
-        className="with-max-width Button-sc-1kxrrgq-4 hVTssz Button-sc-1kxrrgq-0 kXoofV Button-sc-1kxrrgq-2 drvdJo Button-sc-1kxrrgq-1 faGgDL Button-sc-1kxrrgq-3 egtcoe Button__BaseButton-sc-1kxrrgq-5 bIyeaB"
+        className="with-max-width Button-sc-32rbq-4 iTjlOE Button-sc-32rbq-0 ixkmSo Button-sc-32rbq-2 jFAPie Button-sc-32rbq-1 jfEXPW Button-sc-32rbq-3 iRJtrv Button__BaseButton-sc-32rbq-5 ksmnMF"
         type="button"
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-edit Button-sc-1kxrrgq-6 kvgJnh SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-edit IconButton-v5s3bl-0 khhyWe SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
           fill="#c00"
           focusable="false"
           role="img"
@@ -631,28 +621,28 @@ exports[`App renders without problems 1`] = `
         Links
       </h3>
       <a
-        className="Button-sc-1kxrrgq-0 kXoofV Button-sc-1kxrrgq-2 drvdJo Button-sc-1kxrrgq-1 faGgDL Button-sc-1kxrrgq-3 egtcoe LinkButton__BaseLinkButton-sc-16o3fcc-0 jDZWpC"
+        className="Button-sc-32rbq-0 ixkmSo Button-sc-32rbq-2 jFAPie Button-sc-32rbq-1 jfEXPW Button-sc-32rbq-3 iRJtrv LinkButton__BaseLinkButton-sc-8lzs74-0 dkXoPT"
         href="#somewhere1"
       >
         Base
       </a>
        
       <a
-        className="Button-sc-1kxrrgq-4 hVTssz Button-sc-1kxrrgq-0 kXoofV Button-sc-1kxrrgq-2 drvdJo Button-sc-1kxrrgq-1 faGgDL Button-sc-1kxrrgq-3 egtcoe LinkButton__BaseLinkButton-sc-16o3fcc-0 jDZWpC"
+        className="Button-sc-32rbq-4 iTjlOE Button-sc-32rbq-0 ixkmSo Button-sc-32rbq-2 jFAPie Button-sc-32rbq-1 jfEXPW Button-sc-32rbq-3 iRJtrv LinkButton__BaseLinkButton-sc-8lzs74-0 dkXoPT"
         href="#somewhere2"
       >
         Button
       </a>
        
       <a
-        className="YoastButton-sc-1l3xil4-0 bKxaxZ YoastLinkButton-sc-13igpnv-0 vZHkc"
+        className="YoastButton-gx5w7q-0 ZkSNk YoastLinkButton-dntyts-0 kwzqgY"
         href="#somewhere4"
       >
         Color
       </a>
        
       <a
-        className="test-large-button YoastButton-sc-1l3xil4-0 evjTAu YoastLinkButton-sc-13igpnv-0 lhgqlH"
+        className="test-large-button YoastButton-gx5w7q-0 kHUgXc YoastLinkButton-dntyts-0 cWHZQQ"
         href="#somewhere3"
       >
         Min width
