@@ -9,7 +9,7 @@ import {
 import { en as morphologyData } from "../../premium-configuration/data/morphologyData.json";
 
 describe( "getRelevantCombinations", function() {
-	it( "removes combinations with one occurence", function() {
+	it( "removes combinations with one occurrence (for internal linking)", function() {
 		const input = [
 			new WordCombination( "irrelevant", "irrelevant", 1 ),
 			new WordCombination( "occurrence", "occurrence", 2 ),
@@ -18,20 +18,36 @@ describe( "getRelevantCombinations", function() {
 			new WordCombination( "occurrence", "occurrence", 2 ),
 		];
 
-		const actual = getRelevantCombinations( input );
+		const actual = getRelevantCombinations( input, 2 );
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "removes combinations with less than 5 occurrences (for insights)", function() {
+		const input = [
+			new WordCombination( "irrelevant", "irrelevant", 4 ),
+			new WordCombination( "occurrence", "occurrence", 5 ),
+			new WordCombination( "here", "here", 6 ),
+		];
+		const expected = [
+			new WordCombination( "occurrence", "occurrence", 5 ),
+			new WordCombination( "here", "here", 6 ),
+		];
+
+		const actual = getRelevantCombinations( input, 5 );
 
 		expect( actual ).toEqual( expected );
 	} );
 
 	it( "removes numbers and punctuation", function() {
 		const input = [
-			new WordCombination( "*", "*", 1 ),
-			new WordCombination( "/)*8%$", "/)*8%$", 1 ),
+			new WordCombination( "*", "*", 2 ),
+			new WordCombination( "/)*8%$", "/)*8%$", 2 ),
 			new WordCombination( "100", "100", 2 ),
 		];
 		const expected = [];
 
-		const actual = getRelevantCombinations( input );
+		const actual = getRelevantCombinations( input, 2 );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -86,6 +102,10 @@ describe( "sortCombinations", function() {
 } );
 
 describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", function() {
+	it( "does not break for an empty input array", function() {
+		expect( collapseRelevantWordsOnStem( [] ) ).toEqual( [] );
+	} );
+
 	it( "does not break for a 1-element input array", function() {
 		const wordCombinations = [
 			new WordCombination( "sentence", "sentence", 2 ),
@@ -258,6 +278,14 @@ describe( "getRelevantWords", function() {
 		const words = getRelevantWords( input, "ee", morphologyData );
 
 		expect( words ).toEqual( expected );
+	} );
+
+	it( "does not break if the input is empty", function() {
+		const input = "";
+
+		const words = getRelevantWords( input, "en", morphologyData );
+
+		expect( words ).toEqual( [] );
 	} );
 
 	it( "does not break if there are no words in the input", function() {

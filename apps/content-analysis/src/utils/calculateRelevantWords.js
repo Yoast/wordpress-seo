@@ -3,9 +3,9 @@ import getLanguage from "yoastsrc/helpers/getLanguage";
 import getWords from "yoastsrc/stringProcessing/getWords";
 import {
 	collapseRelevantWordsOnStem,
+	getRelevantCombinations,
 	getRelevantWords,
 	getRelevantWordsFromPaperAttributes,
-	getRelevantCombinations,
 	sortCombinations,
 } from "yoastsrc/stringProcessing/relevantWords";
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "yoastsrc/stringProcessing/getSubheadings";
@@ -49,23 +49,25 @@ function formatNumber( number ) {
  * Calculates all properties for the relevant word objects.
  *
  * @param {Paper}   paper           The paper to analyse.
- * @param {boolean} useAttributes   Whether text from attributes should also be considered for relevant words.
+ * @param {boolean} internalLinking Whether the paper should be processed as for internal linking (true) or for insights (false).
  *
  * @returns {Object} The relevant word objects.
  */
-function calculateRelevantWords( paper, useAttributes ) {
+function calculateRelevantWords( paper, internalLinking ) {
 	const text = paper.text;
 	const words = getWords( text );
 
 	const language = getLanguage( paper.locale );
 	const languageMorphologyData = get( morphologyData, language, false );
-	const relevantWordsFromText = getRelevantWords( removeSubheadingsTopLevel( text ), language, languageMorphologyData );
+	const relevantWordsFromText = internalLinking
+		? getRelevantWords( removeSubheadingsTopLevel( text ), language, languageMorphologyData )
+		: getRelevantWords( text, language, languageMorphologyData );
 
 	const subheadings = getSubheadingsTopLevel( text ).map( subheading => subheading[ 2 ] );
 
 	let relevantWordsFromPaperAttributes = [];
 
-	if ( useAttributes ) {
+	if ( internalLinking ) {
 		relevantWordsFromPaperAttributes = getRelevantWordsFromPaperAttributes(
 			{
 				keyphrase: paper.keyword,
@@ -91,11 +93,17 @@ function calculateRelevantWords( paper, useAttributes ) {
 	sortCombinations( collapsedWords );
 
 	/*
+	 * For Internal linking:
 	 * Analogous to the research src/researches/relevantWords.js, we limit the number of relevant words in consideration
-	 * to 100, i.e. we take 100 first relevant words from the list sorded by number of occurrences first and then
-	 * alphabetically.
+	 * to 100, i.e. we take 100 first relevant words from the list sorted by number of occurrences first and then
+	 * alphabetically and we only take words that occur 2 or more times.
+	 * For Insights:
+	 * Analogous to the research src/researches/getProminentWordsForInsights.js, we limit the number of relevant words
+	 * in consideration to 20 and we only take words that occur 5 or more times.
 	 */
-	const relevantWords = take( getRelevantCombinations( collapsedWords ), 100 );
+	const relevantWords = internalLinking
+		? take( getRelevantCombinations( collapsedWords, 2 ), 100 )
+		: take( getRelevantCombinations( collapsedWords, 5 ), 20 );
 
 	return relevantWords.map( ( word ) => {
 		return {
@@ -113,6 +121,7 @@ function calculateRelevantWords( paper, useAttributes ) {
  *
  * @returns {Object} The relevant words.
  */
+// eslint-disable-next-line
 export function relevantWordsForInternalLinking( paper ) {
 	const text = paper.text;
 	const locale = paper.locale;

@@ -44,14 +44,14 @@ const getKeywordResearchArticleLink = () => {
 const getKeywordSuggestionExplanation = keywords => {
 	if ( keywords.length === 0 ) {
 		return __(
-			"Once you add a bit more copy, we'll give you a list of words and " +
-			"word combination that occur the most in the content. These give an indication of what your content focuses on.",
+			"Once you add a bit more copy, we'll give you a list of words that occur the most in the content. " +
+			"These give an indication of what your content focuses on.",
 			"yoast-components"
 		);
 	}
 
 	return __(
-		"The following words and word combinations occur the most in the content. " +
+		"The following words occur the most in the content. " +
 		"These give an indication of what your content focuses on. " +
 		"If the words differ a lot from your topic, " +
 		"you might want to rewrite your content accordingly. ",
@@ -69,7 +69,7 @@ const getKeywordSuggestionExplanation = keywords => {
  * @returns {JSX.Element} Rendered WordList component.
  */
 const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
-	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => word.getCombination() );
+	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => word.getWord() );
 
 	return ( <WordList
 		title={ __( "Prominent words", "yoast-components" ) }
