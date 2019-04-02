@@ -209,9 +209,11 @@ describe( "Test for generating verb exceptions in German", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "schlaf" ) ).toEqual(
 			generateVerbExceptionForms( morphologyDataDE.verbs, "geschlaf" ) );
 	} );
+
 	it( "creates forms for an irregular verb", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "bring" ) ).toEqual( [
 			"bring",
+			"bracht",
 			"bringe",
 			"bringen",
 			"bringend",
@@ -219,7 +221,6 @@ describe( "Test for generating verb exceptions in German", () => {
 			"bringet",
 			"bringst",
 			"bringt",
-			"bracht",
 			"brachte",
 			"brachten",
 			"brachtest",
@@ -228,7 +229,7 @@ describe( "Test for generating verb exceptions in German", () => {
 			"brächten",
 			"brächtest",
 			"brächtet",
-			"gebracht"
+			"gebracht",
 		] );
 	} );
 
@@ -267,7 +268,7 @@ describe( "Test for generating verb exceptions in German", () => {
 			"würdest",
 			"würdet",
 			"worden",
-			"geworden"
+			"geworden",
 		] );
 	} );
 
