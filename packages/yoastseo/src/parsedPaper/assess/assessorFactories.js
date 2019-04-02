@@ -84,9 +84,10 @@ const constructSEOAssessor = function( i18n, researcher, config ) {
 /**
  * Constructs a new readability assessor.
  *
- * @param {Jed}                                 i18n                 The Jed object to use for localization / internalization.
- * @param {module:parsedPaper/research.TreeResearcher} researcher           The researcher the assessments need to use to get information about the text.
- * @param {boolean}                             isCornerstoneContent If the to be analyzed content is considered cornerstone content
+ * @param {Jed}                                        i18n                 The Jed object to use for localization / internalization.
+ * @param {module:parsedPaper/research.TreeResearcher} researcher           The researcher the assessments need to use to
+ *                                                                          get information about the text.
+ * @param {boolean}                                    isCornerstoneContent If the to be analyzed content is considered cornerstone content
  * (which uses stricter boundaries).
  *
  * @returns {module:parsedPaper/assess.TreeAssessor} The created readability assessor.

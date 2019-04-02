@@ -12,9 +12,10 @@ class TreeAssessor {
 	/**
 	 * Creates a new assessor.
 	 *
-	 * @param {Object}                              options                 Assessor options.
-	 * @param {Jed}                                 options.i18n            A Jed object to use for translations.
-	 * @param {module:parsedPaper/research.TreeResearcher} options.researcher      Supplies the assessments with researches and their (cached) results.
+	 * @param {Object}                                     options                 Assessor options.
+	 * @param {Jed}                                        options.i18n            A Jed object to use for translations.
+	 * @param {module:parsedPaper/research.TreeResearcher} options.researcher      Supplies the assessments with researches and their
+	 *                                                                             (cached) results.
 	 * @param {module:parsedPaper/assess.ScoreAggregator}  options.scoreAggregator Aggregates the scores on the individual assessments into one.
 	 * @param {module:parsedPaper/assess.Assessment[]}     [options.assessments]   The list of assessments to apply.
 	 */
