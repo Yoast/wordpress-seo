@@ -31,7 +31,6 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 		$steps = $this->structure->retrieve();
 
 		$expected = array(
-			'intro',
 			'environment-type',
 			'site-type',
 			'publishing-entity',

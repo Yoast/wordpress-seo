@@ -6,7 +6,7 @@
  */
 
 /**
- * Handles requests to My Yoast.
+ * Handles requests to MyYoast.
  */
 class WPSEO_MyYoast_Api_Request {
 
@@ -44,6 +44,13 @@ class WPSEO_MyYoast_Api_Request {
 	 * @var string
 	 */
 	protected $error_message = '';
+
+	/**
+	 * The MyYoast client object.
+	 *
+	 * @var WPSEO_MyYoast_Client
+	 */
+	protected $client;
 
 	/**
 	 * Constructor
@@ -93,11 +100,7 @@ class WPSEO_MyYoast_Api_Request {
 			catch ( WPSEO_MyYoast_Authentication_Exception $authentication_exception ) {
 				$this->error_message = $authentication_exception->getMessage();
 
-				// Remove the access token entirely.
-				$this->get_client()
-				     ->remove_access_token(
-				     	$this->get_current_user_id()
-					);
+				$this->remove_access_token( $this->get_current_user_id() );
 
 				return false;
 			}
@@ -156,12 +159,12 @@ class WPSEO_MyYoast_Api_Request {
 		$response_message = wp_remote_retrieve_response_message( $response );
 
 		// Do nothing, response code is okay.
-		if ( strpos( $response_code, '200' ) ) {
+		if ( $response_code === 200 || strpos( $response_code, '200' ) !== false ) {
 			return wp_remote_retrieve_body( $response );
 		}
 
 		// Authentication failed, throw an exception.
-		if ( strpos( $response_code, '401' ) && WPSEO_Utils::has_access_token_support() ) {
+		if ( strpos( $response_code, '401' ) && $this->has_oauth_support() ) {
 			throw new WPSEO_MyYoast_Authentication_Exception( esc_html( $response_message ), 401 );
 		}
 
@@ -193,31 +196,50 @@ class WPSEO_MyYoast_Api_Request {
 	 *
 	 * When tokens are disallowed it will add the url to the request body.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @param array $request_arguments The arguments to enrich.
 	 *
-	 * @return array The enriched arguments
+	 * @return array The enriched arguments.
 	 */
 	protected function enrich_request_arguments( array $request_arguments ) {
-		if ( ! WPSEO_Utils::has_access_token_support() ) {
-			$request_arguments['body'] = array( 'url' => WPSEO_Utils::get_home_url() );
+		$request_arguments     = wp_parse_args( $request_arguments, array( 'headers' => array() ) );
+		$addon_version_headers = $this->get_installed_addon_versions();
 
-			return $request_arguments;
+		foreach ( $addon_version_headers as $addon => $version ) {
+			$request_arguments['headers'][ $addon . '-version' ] = $version;
+		}
+
+		$request_body = $this->get_request_body();
+		if ( $request_body !== array() ) {
+			$request_arguments['body'] = $request_body;
+		}
+
+		return $request_arguments;
+	}
+
+	/**
+	 * Retrieves the request body based on URL or access token support.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return array The request body.
+	 */
+	public function get_request_body() {
+		if ( ! $this->has_oauth_support() ) {
+			return array( 'url' => WPSEO_Utils::get_home_url() );
 		}
 
 		try {
 			$access_token = $this->get_access_token();
 			if ( $access_token ) {
-				$request_arguments['body'] = array( 'token' => $access_token->getToken() );
+				return array( 'token' => $access_token->getToken() );
 			}
 		}
-		// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
+			// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 		catch ( WPSEO_MyYoast_Bad_Request_Exception $bad_request ) {
 			// Do nothing.
 		}
 
-		return $request_arguments;
+		return array();
 	}
 
 	/**
@@ -237,7 +259,11 @@ class WPSEO_MyYoast_Api_Request {
 
 		$access_token = $client->get_access_token();
 
-		if ( $access_token && ! $access_token->hasExpired() ) {
+		if ( ! $access_token ) {
+			return false;
+		}
+
+		if ( ! $access_token->hasExpired() ) {
 			return $access_token;
 		}
 
@@ -256,6 +282,11 @@ class WPSEO_MyYoast_Api_Request {
 			return $access_token;
 		}
 		catch ( Exception $e ) {
+			$error_code = $e->getCode();
+			if ( $error_code >= 400 && $error_code < 500 ) {
+				$this->remove_access_token( $this->get_current_user_id() );
+			}
+
 			throw new WPSEO_MyYoast_Bad_Request_Exception( $e->getMessage() );
 		}
 	}
@@ -265,16 +296,14 @@ class WPSEO_MyYoast_Api_Request {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return WPSEO_MyYoast_Client Instance of the client
+	 * @return WPSEO_MyYoast_Client Instance of the client.
 	 */
 	protected function get_client() {
-		static $client;
-
-		if ( ! $client ) {
-			$client = new WPSEO_MyYoast_Client();
+		if ( $this->client === null ) {
+			$this->client = new WPSEO_MyYoast_Client();
 		}
 
-		return $client;
+		return $this->client;
 	}
 
 	/**
@@ -286,5 +315,50 @@ class WPSEO_MyYoast_Api_Request {
 	 */
 	protected function get_current_user_id() {
 		return get_current_user_id();
+	}
+
+	/**
+	 * Removes the access token for given user id.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param int $user_id The user id.
+	 *
+	 * @return void
+	 */
+	protected function remove_access_token( $user_id ) {
+		if ( ! $this->has_oauth_support() ) {
+			return;
+		}
+
+		// Remove the access token entirely.
+		$this->get_client()->remove_access_token( $user_id );
+	}
+
+	/**
+	 * Retrieves the installed addons as http headers.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return array The installed addon versions.
+	 */
+	protected function get_installed_addon_versions() {
+		$addon_manager = new WPSEO_Addon_Manager();
+
+		return $addon_manager->get_installed_addons_versions();
+	}
+
+	/**
+	 * Wraps the has_access_token support method.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool False to disable the support.
+	 */
+	protected function has_oauth_support() {
+		return false;
+
+		// @todo: Uncomment the following statement when we are implementing the oAuth flow.
+		// return WPSEO_Utils::has_access_token_support();
 	}
 }

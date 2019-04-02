@@ -18,7 +18,10 @@ class WPSEO_Image_Utils {
 	 * @return int The found attachment ID, or 0 if none was found.
 	 */
 	public static function get_attachment_by_url( $url ) {
-		// Because get_attachment_by_url won't work on resized versions of images, we strip out the size part of an image URL.
+		/*
+		 * As get_attachment_by_url won't work on resized versions of images,
+		 * we strip out the size part of an image URL.
+		 */
 		$url = preg_replace( '/(.*)-\d+x\d+\.(jpg|png|gif)$/', '$1.$2', $url );
 
 		if ( function_exists( 'wpcom_vip_attachment_url_to_postid' ) ) {

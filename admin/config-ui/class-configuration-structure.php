@@ -26,7 +26,6 @@ class WPSEO_Configuration_Structure {
 	 * @var array
 	 */
 	private $fields = array(
-		'intro'                      => array( 'configurationChoices' ),
 		'environment_type'           => array( 'environment_type' ),
 		'siteType'                   => array( 'siteType' ),
 		'publishingEntity'           => array(
@@ -45,7 +44,7 @@ class WPSEO_Configuration_Structure {
 			'profileUrlMySpace',
 			'profileUrlPinterest',
 			'profileUrlYouTube',
-			'profileUrlGooglePlus',
+			'profileUrlWikipedia',
 		),
 		'multipleAuthors'            => array( 'multipleAuthors' ),
 		'connectGoogleSearchConsole' => array(
@@ -66,8 +65,6 @@ class WPSEO_Configuration_Structure {
 	 * WPSEO_Configuration_Structure constructor.
 	 */
 	public function initialize() {
-		$this->add_step( 'intro', __( 'Welcome!', 'wordpress-seo' ), $this->fields['intro'], false, true );
-
 		$this->add_step( 'environment-type', __( 'Environment', 'wordpress-seo' ), $this->fields['environment_type'] );
 		$this->add_step( 'site-type', __( 'Site type', 'wordpress-seo' ), $this->fields['siteType'] );
 		$this->add_step(

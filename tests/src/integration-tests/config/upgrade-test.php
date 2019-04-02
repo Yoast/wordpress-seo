@@ -21,6 +21,8 @@ class Upgrade_Test extends \PHPUnit_Framework_TestCase {
 		$upgrade = new Upgrade( $migration );
 		$upgrade->register_hooks();
 
-		has_action( 'wpseo_upgrade', array( $upgrade, 'do_upgrade' ) );
+		$actual = has_action( 'wpseo_run_upgrade', array( $upgrade, 'do_upgrade' ) );
+
+		$this->assertEquals( 10, $actual );
 	}
 }

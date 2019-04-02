@@ -18,6 +18,9 @@ class WPSEO_Upgrade {
 
 		WPSEO_Options::maybe_set_multisite_defaults( false );
 
+		// This should always be done before any upgrades are executed!
+		$this->add_upgrade_history( $version, WPSEO_VERSION );
+
 		if ( version_compare( $version, '1.5.0', '<' ) ) {
 			$this->upgrade_15( $version );
 		}
@@ -143,15 +146,30 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Adds a new upgrade history entry.
+	 *
+	 * @param string $current_version The old version from which we are upgrading.
+	 * @param string $new_version     The version we are upgrading to.
+	 */
+	protected function add_upgrade_history( $current_version, $new_version ) {
+		$upgrade_history = new WPSEO_Upgrade_History();
+		$upgrade_history->add( $current_version, $new_version, array_keys( WPSEO_Options::$options ) );
+	}
+
+	/**
 	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
 	 */
 	protected function finish_up() {
 		WPSEO_Options::set( 'version', WPSEO_VERSION );
 
-		add_action( 'shutdown', 'flush_rewrite_rules' );                     // Just flush rewrites, always, to at least make them work after an upgrade.
-		WPSEO_Sitemaps_Cache::clear();                                       // Flush the sitemap cache.
+		// Just flush rewrites, always, to at least make them work after an upgrade.
+		add_action( 'shutdown', 'flush_rewrite_rules' );
 
-		WPSEO_Options::ensure_options_exist();                               // Make sure all our options always exist - issue #1245.
+		// Flush the sitemap cache.
+		WPSEO_Sitemaps_Cache::clear();
+
+		// Make sure all our options always exist - issue #1245.
+		WPSEO_Options::ensure_options_exist();
 	}
 
 	/**

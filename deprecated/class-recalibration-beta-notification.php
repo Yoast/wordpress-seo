@@ -17,7 +17,7 @@ _deprecated_file( __FILE__, 'WPSEO 9.6' );
 class WPSEO_Recalibration_Beta_Notification implements WPSEO_WordPress_Integration {
 
 	/**
-	 * The name of the notifier.s
+	 * The name of the notifiers.
 	 *
 	 * @var string
 	 */

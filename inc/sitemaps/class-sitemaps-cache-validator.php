@@ -88,7 +88,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 	 * @throws OutOfRangeException When there is less than 15 characters of space for a key that is originally longer.
 	 */
 	public static function truncate_type( $type, $prefix = '', $postfix = '' ) {
-		/**
+		/*
 		 * This length has been restricted by the database column length of 64 in the past.
 		 * The prefix added by WordPress is '_transient_' because we are saving to a transient.
 		 * We need to use a timeout on the transient, otherwise the values get autoloaded, this adds
@@ -101,7 +101,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 		if ( strlen( $type ) > $max_length ) {
 
 			if ( $max_length < 15 ) {
-				/**
+				/*
 				 * If this happens the most likely cause is a page number that is too high.
 				 *
 				 * So this would not happen unintentionally..
@@ -179,7 +179,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 			$like = sprintf( '%1$s%2$s_%%', self::STORAGE_KEY_PREFIX, $type );
 		}
 
-		/**
+		/*
 		 * Add slashes to the LIKE "_" single character wildcard.
 		 *
 		 * We can't use `esc_like` here because we need the % in the query.

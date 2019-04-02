@@ -13,7 +13,6 @@ build:
   - 'clean:build-assets-css'
   - 'build:sass'
   - 'postcss:build'
-  - 'wpcss'
   - 'rtlcss'
   - 'cssmin'
 # Optimise images from source to production
@@ -66,7 +65,7 @@ check:
 'check:js':
   - 'eslint'
 'check:php':
-  - 'phplint'
+  - 'shell:php-lint'
   - 'phpcs'
 'check:i18n':
   - 'checktextdomain'
@@ -102,6 +101,7 @@ check:
   - 'copy:composer-artifact'
   - 'clean:composer-files'
   - 'copy:composer-files'
+  - 'remove-vendor-prefixed-folder'
 
 # Get the project ready for release
 release:
