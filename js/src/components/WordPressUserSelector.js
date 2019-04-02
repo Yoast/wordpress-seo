@@ -13,6 +13,11 @@ const Styles = createGlobalStyle`
 	.yoast-person-selector-container {
 		width: 250px;
 		margin: 7px 0;
+
+		.yoast-person-selector__control {
+			border-radius: 0;
+			box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+		}
 	
 		input[type=text] {
 			box-shadow: none;
