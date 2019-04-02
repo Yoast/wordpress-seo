@@ -19,7 +19,7 @@ const TwitterImageContainer = styled.div`
 	height: ${ props => props.dimensions.height };
 	width: ${ props => props.dimensions.width };
 	overflow: hidden;
-	background-color: #E1E8ED;
+	background-color: #e1e8ed;
 `;
 
 const StyledImage = styled.img`

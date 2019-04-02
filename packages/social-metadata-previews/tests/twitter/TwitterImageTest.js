@@ -5,11 +5,13 @@ import renderer from "react-test-renderer";
 /* Internal dependencies */
 import TwitterImage from "../../src/twitter/TwitterImage";
 import delayComponentSnapshot from "./testHelpers/delayComponentSnapshot";
-import { LANDSCAPE_HEIGHT,
+import {
+	LANDSCAPE_HEIGHT,
 	LANDSCAPE_WIDTH,
 	SQUARE_HEIGHT,
 	SQUARE_WIDTH,
 } from "../../src/helpers/determineTwitterImageProperties";
+
 const importedDetermineTwitterImageProperties = require( "../../src/helpers/determineTwitterImageProperties.js" );
 
 jest.mock( "../../src/helpers/determineTwitterImageProperties.js", () => {
