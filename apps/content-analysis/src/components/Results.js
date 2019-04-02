@@ -1,7 +1,7 @@
 // External dependencies.
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
-import { AnalysisList } from "yoast-components";
+import { AnalysisList } from "@yoast/analysis-report";
 
 // Internal dependencies.
 import { setActiveMarker } from "../redux/actions/results";

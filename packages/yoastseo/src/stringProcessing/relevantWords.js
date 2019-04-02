@@ -13,15 +13,19 @@ const stemFunctions = getStemForLanguageFactory();
 const specialCharacters = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%$|~=+§`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\s]/g;
 
 /**
- * Returns only the relevant combinations from a list of word combinations.
+ * Returns only those relevant combinations that occur more than once and do not consist of special characters.
  *
  * @param {WordCombination[]} wordCombinations A list of word combinations.
+ * @param {int} [minimalNumberOfOccurrences] A minimal number of occurrences that is needed for a relevant wordCombination, default 2.
  *
  * @returns {WordCombination[]} Only relevant word combinations.
  */
-function getRelevantCombinations( wordCombinations ) {
+function getRelevantCombinations( wordCombinations, minimalNumberOfOccurrences = 2 ) {
 	wordCombinations = wordCombinations.filter( function( combination ) {
-		return ( combination.getOccurrences() !== 1 && combination.getWord().replace( specialCharacters, "" ) !== "" );
+		return (
+			combination.getOccurrences() >= minimalNumberOfOccurrences &&
+			combination.getWord().replace( specialCharacters, "" ) !== ""
+		);
 	} );
 	return wordCombinations;
 }
@@ -54,6 +58,10 @@ function sortCombinations( wordCombinations ) {
  * @returns {WordCombination[]} The original array with collapsed duplicates.
  */
 function collapseRelevantWordsOnStem( wordCombinations ) {
+	if ( wordCombinations.length === 0 ) {
+		return [];
+	}
+
 	// Sort the input array by stem
 	wordCombinations.sort( function( wordA, wordB ) {
 		return wordA.getStem().localeCompare( wordB.getStem() );
@@ -213,6 +221,10 @@ const primeRelevantWords = memoize( ( morphologyData ) => {
  * @returns {WordCombination[]} All relevant words sorted and filtered for this text.
  */
 function getRelevantWords( text, abbreviations, language, morphologyData ) {
+	if ( text === "" ) {
+		return [];
+	}
+
 	const words = getWords( normalizeSingle( text ).toLocaleLowerCase() );
 	const computeRelevantWordsMemoized = primeRelevantWords( morphologyData );
 

@@ -46,18 +46,18 @@ const sendFetchRequest = ( url, requestParams ) => {
 const sendJQueryRequest = ( url, requestParams ) => {
 	Object.assign( requestParams, { url } );
 
-	return new Promise( ( resolve, reject )=> {
+	return new Promise( ( resolve, reject ) => {
 		jQuery.ajax( requestParams )
-	      .done(
-		      ( response ) => {
-			      resolve( response );
-		      }
-	      )
-	      .fail(
-		      () => {
-			      reject( "Wrong request" );
-		      }
-	      );
+			.done(
+				( response ) => {
+					resolve( response );
+				}
+			)
+			.fail(
+				() => {
+					reject( "Wrong request" );
+				}
+			);
 	} );
 };
 
@@ -90,9 +90,9 @@ const parseHeaders = ( type, config ) => {
  * @summary Takes the target object and overwrites fields that are undefined
  *          or empty with the defaults object values.
  *
- * @param {Object} target 	Target to apply default values.
+ * @param {Object} target    Target to apply default values.
  * @param {Object} defaults Default values.
- * @returns {Object} 		Target object with overwritten values.
+ * @returns {Object}        Target object with overwritten values.
  */
 const overwriteObjectWithDefaultValues = ( target, defaults ) => {
 	for ( const key in defaults ) {
@@ -131,10 +131,7 @@ const parseRequestArgs = ( requestArgs, type ) => {
 	}
 
 	if ( type === "fetch" ) {
-		Object.assign( config, {
-			body: config.data,
-		}
-		);
+		Object.assign( config, { body: config.data } );
 	}
 
 	return config;

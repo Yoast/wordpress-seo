@@ -81,6 +81,13 @@ exports[`App renders without problems 1`] = `
     </button>
     <button
       onClick={[Function]}
+      style={Object {}}
+      type="button"
+    >
+      LinkSuggestions
+    </button>
+    <button
+      onClick={[Function]}
       style={
         Object {
           "backgroundColor": "#006671",
