@@ -1,88 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the IconLabelledButton matches the snapshot 1`] = `
-.c2:active {
-  color: #fff;
-  background-color: #0066cd;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c1::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c1:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #fff;
-  background-color: #0066cd;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c0:hover {
-  color: #fff;
-  background-color: #0066cd;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  cursor: pointer;
-  box-sizing: border-box;
-  border: 1px solid transparent;
-  margin: 0;
-  padding: 8px;
-  overflow: visible;
-  font-family: inherit;
-  font-weight: inherit;
-  color: #0066cd;
-  background: transparent;
-  font-size: inherit;
-}
-
-.c3 svg {
-  margin: 0 0 8px;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  fill: currentColor;
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c3:active {
-  box-shadow: none;
-}
-
-.c4 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <button
-  className="c0 c1 c2 c3"
+  className="oyBPh"
   type="button"
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-question-circle c4"
+    className="yoast-svg-icon yoast-svg-icon-question-circle lphVpO"
     fill="#0066cd"
     focusable="false"
     role="img"
@@ -99,90 +24,13 @@ exports[`the IconLabelledButton matches the snapshot 1`] = `
 `;
 
 exports[`the IconLabelledButton with props matches the snapshot 1`] = `
-.c2:active {
-  color: #fff;
-  background-color: #a4286a;
-  border-color: #a4286a;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c1::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c1:focus {
-  outline: none;
-  border-color: #a4286a;
-  color: #a4286a;
-  background-color: #e1bee7;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c0:hover {
-  color: #fff;
-  background-color: #a4286a;
-  border-color: #f00;
-}
-
-.c3 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  cursor: pointer;
-  box-sizing: border-box;
-  border: 1px solid transparent;
-  margin: 0;
-  padding: 8px;
-  overflow: visible;
-  font-family: inherit;
-  font-weight: inherit;
-  color: #0f0;
-  background: #ff0;
-  font-size: 1em;
-}
-
-.c3 svg {
-  margin: 0 0 8px;
-  -webkit-flex-shrink: 0;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  fill: currentColor;
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c3:active {
-  box-shadow: none;
-}
-
-.c4 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <button
-  className="c0 c1 c2 c3"
+  className="jJcsWQ"
   type="reset"
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-eye c4"
+    className="yoast-svg-icon yoast-svg-icon-eye lphVpO"
     fill="#0f0"
     focusable="false"
     role="img"

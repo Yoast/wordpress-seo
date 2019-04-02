@@ -3,6 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import noop from "lodash/noop";
+import styled from "styled-components";
 
 /* Yoast dependencies */
 import { assessments, string, helpers } from "yoastseo";
@@ -20,24 +21,24 @@ import SnippetEditorFields from "./SnippetEditorFields";
 import { lengthProgressShape, replacementVariablesShape, recommendedReplacementVariablesShape } from "./constants";
 import ModeSwitcher from "./ModeSwitcher";
 
-const SnippetEditorButton = Button.extend`
+const SnippetEditorButton = styled( Button )`
 	height: 33px;
 	border: 1px solid #dbdbdb;
 	box-shadow: none;
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
 `;
 
-const EditSnippetButton = SnippetEditorButton.extend`
-	margin: ${ getDirectionalStyle( "10px 0 0 4px", "10px 4px 0 0" ) };
-	fill: ${ colors.$color_grey_dark };
+const EditSnippetButton = styled( SnippetEditorButton )`
+	margin: ${getDirectionalStyle( "10px 0 0 4px", "10px 4px 0 0" )};
+	fill: ${colors.$color_grey_dark};
 	padding-left: 8px;
 
 	& svg {
-		${ getDirectionalStyle( "margin-right", "margin-left" ) }: 7px;
+		${getDirectionalStyle( "margin-right", "margin-left" )}: 7px;
 	}
 `;
 
-const CloseEditorButton = SnippetEditorButton.extend`
+const CloseEditorButton = styled( SnippetEditorButton  )`
 	margin-top: 24px;
 `;
 
@@ -544,7 +545,7 @@ class SnippetEditor extends React.Component {
 					{ showCloseButton && <EditSnippetButton
 						onClick={ isOpen ? this.close : this.open }
 						aria-expanded={ isOpen }
-						innerRef={ this.setEditButtonRef }
+						ref={ this.setEditButtonRef }
 					>
 						<SvgIcon icon="edit" />
 						{ __( "Edit snippet", "yoast-components" ) }

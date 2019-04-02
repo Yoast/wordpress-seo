@@ -1,33 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the SearchBar component with headingText matches the snapshot 1`] = `
-.c4 {
+.c3 {
   color: #fff;
   background: #64a60a;
   min-width: 152px;
   text-shadow: 0 0 2px #000;
   overflow: visible;
   cursor: pointer;
-}
-
-.c4::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c4 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
-}
-
-.c3 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -53,6 +33,23 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
   box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
   -webkit-transition: box-shadow 150ms ease-out;
   transition: box-shadow 150ms ease-out;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
 }
 
 .c3:hover,
@@ -154,7 +151,7 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
       type="text"
     />
     <button
-      className="c3 c4"
+      className="c3"
       type="submit"
     >
       <span>
@@ -166,33 +163,13 @@ exports[`the SearchBar component with headingText matches the snapshot 1`] = `
 `;
 
 exports[`the SearchBar component without headingText matches the snapshot 1`] = `
-.c4 {
+.c3 {
   color: #fff;
   background: #64a60a;
   min-width: 152px;
   text-shadow: 0 0 2px #000;
   overflow: visible;
   cursor: pointer;
-}
-
-.c4::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c4 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
-}
-
-.c3 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -218,6 +195,23 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
   box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
   -webkit-transition: box-shadow 150ms ease-out;
   transition: box-shadow 150ms ease-out;
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
 }
 
 .c3:hover,
@@ -319,7 +313,7 @@ exports[`the SearchBar component without headingText matches the snapshot 1`] = 
       type="text"
     />
     <button
-      className="c3 c4"
+      className="c3"
       type="submit"
     >
       <span>

@@ -302,7 +302,7 @@ class AlgoliaSearcher extends React.Component {
 	getSearchView() {
 		return (
 			<AlgoliaSearchWrapper
-				innerRef={ ( el ) => {
+				ref={ ( el ) => {
 					this.searchViewWrapper = el;
 				} }
 			>

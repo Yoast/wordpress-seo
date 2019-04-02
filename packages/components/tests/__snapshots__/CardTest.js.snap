@@ -1,266 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`The FullHeightCard is rendered including some props 1`] = `
-.c1 {
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  background-color: #fff;
-  width: 100%;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-}
-
-.c2 {
-  padding: 12px 16px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-}
-
-.c0 {
-  height: 100%;
-}
-
 <div
-  className="CourseCard_Empty c0 c1"
+  className="CourseCard_Empty dgKSLD jcXXIE"
   id="Test01"
 >
   <div
-    className="c2"
+    className="fICiEc"
   />
 </div>
 `;
 
 exports[`The FullHeightCard is rendered including the CardBanner and CardDetails components 1`] = `
-.c5 {
-  border: 0;
-  -webkit-clip: rect(1px,1px,1px,1px);
-  clip: rect(1px,1px,1px,1px);
-  -webkit-clip-path: inset(50%);
-  clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute !important;
-  width: 1px;
-  word-wrap: normal !important;
-  -webkit-transform: translateY(1em);
-  -ms-transform: translateY(1em);
-  transform: translateY(1em);
-}
-
-.c6 {
-  position: absolute;
-  top: 8px;
-  left: -8px;
-  font-weight: 500;
-  color: #fff;
-  line-height: 16px;
-  background-color: #a4286a;
-  padding: 8px 16px;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-}
-
-.c7 {
-  position: absolute;
-  top: 40px;
-  left: -8px;
-  border-top: 8px solid #6c2548;
-  border-left: 8px solid transparent;
-}
-
-.c1 {
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  background-color: #fff;
-  width: 100%;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-}
-
-.c3 {
-  width: 100%;
-  vertical-align: bottom;
-}
-
-.c8 {
-  padding: 12px 16px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-}
-
-.c2 {
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: #a4286a;
-  overflow: hidden;
-}
-
-.c2:hover,
-.c2:focus,
-.c2:active {
-  -webkit-text-decoration: underline;
-  text-decoration: underline;
-  color: #a4286a;
-}
-
-.c2:focus,
-.c2:active {
-  box-shadow: none;
-}
-
-.c4 {
-  margin: 16px 16px 0 16px;
-  font-weight: 400;
-  font-size: 1.5em;
-  line-height: 1.2;
-  color: currentColor;
-}
-
-.c0 {
-  height: 100%;
-}
-
-.c12 {
-  color: #000;
-  white-space: nowrap;
-  display: block;
-  border-radius: 4px;
-  background-color: #ddd;
-  padding: 12px 16px;
-  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2);
-  border: none;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: inherit;
-  margin-bottom: 8px;
-}
-
-.c12:hover,
-.c12:focus,
-.c12:active {
-  color: #000;
-  background-color: #cecece;
-}
-
-.c12:active {
-  background-color: #cecece;
-  -webkit-transform: translateY( 1px );
-  -ms-transform: translateY( 1px );
-  transform: translateY( 1px );
-  box-shadow: none;
-  -webkit-filter: none;
-  filter: none;
-}
-
-.c13 {
-  font-weight: bold;
-}
-
-.c11 {
-  text-align: center;
-}
-
-.c10 ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.c10 li {
-  position: relative;
-  margin-left: 16px;
-}
-
-.c10 li:before {
-  content: "✓";
-  color: #77b227;
-  position: absolute;
-  font-weight: bold;
-  display: inline-block;
-  left: -16px;
-}
-
-.c9 {
-  margin-bottom: 12px;
-  border-bottom: 1px #ddd solid;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-}
-
 <div
-  className="CourseCard c0 c1"
+  className="CourseCard dgKSLD jcXXIE"
   id="Test02"
 >
   <a
-    className="c2"
+    className="oJQsb"
     href="https://yoast.com/academy/keyword-research-training/"
     rel={null}
     target="_blank"
   >
     <img
       alt=""
-      className="c3"
+      className="ehfyDt"
       src="../wp-content/plugins/wordpress-seo/images/sample_course_card_header.png"
     />
     <h2
-      className="c4"
+      className="jkjWVU"
     >
       Keyword Research
     </h2>
     <span
-      className="c5"
+      className="gHCoqL"
     >
       (Opens in a new browser tab)
     </span>
   </a>
   <span
-    className="c6"
+    className="jvpaxk"
   >
     Free
   </span>
   <span
-    className="c7"
+    className="lalIBs"
   />
   <div
-    className="c8"
+    className="fICiEc"
   >
     <div
-      className="c9"
+      className="ixyey"
     >
       <div
-        className="c10"
+        className="hDEKkD"
         dangerouslySetInnerHTML={
           Object {
             "__html": "Do you know the essential first step of good SEO? It’s keyword research. In this training, 
@@ -270,30 +63,30 @@ you’ll learn how to research and select the keywords that will guide searchers
       />
     </div>
     <div
-      className="c11"
+      className="hLFZrf"
     >
       <a
-        className="c12"
+        className="hoNwyE"
         href="https://yoast.com/cart/?add-to-cart=1311259"
         rel={null}
         target="_blank"
       >
         Start your free trail
         <span
-          className="c5"
+          className="gHCoqL"
         >
           (Opens in a new browser tab)
         </span>
       </a>
       <a
-        className="c13"
+        className="blWwuK"
         href="https://yoast.com/academy/keyword-research-training/"
         rel={null}
         target="_blank"
       >
         Read more about this training »
         <span
-          className="c5"
+          className="gHCoqL"
         >
           (Opens in a new browser tab)
         </span>
@@ -304,41 +97,12 @@ you’ll learn how to research and select the keywords that will guide searchers
 `;
 
 exports[`The empty Card component matches the snapshot 1`] = `
-.c0 {
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  background-color: #fff;
-  width: 100%;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-}
-
-.c1 {
-  padding: 12px 16px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-  -ms-flex-positive: 1;
-  flex-grow: 1;
-}
-
 <div
-  className="c0"
+  className="jcXXIE"
   id=""
 >
   <div
-    className="c1"
+    className="fICiEc"
   />
 </div>
 `;

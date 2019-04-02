@@ -24,7 +24,7 @@
     "draft-js-plugins-editor": "^2.0.4",
     "draft-js-single-line-plugin": "^2.0.1",
     "prop-types": "^15.6.0",
-    "styled-components": "^2.1.2",
+    "styled-components": "^4.2.0",
     "yoastseo": "^1.49.0",
     "lodash": "^4.17.11",
     "interpolate-components": "^1.1.1"
@@ -35,7 +35,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-jsx-a11y": "^6.2.1",
-    "jest-styled-components": "^5.0.1",
+    "jest-styled-components": "^6.3.1",
     "react-test-renderer": "^16.8.4"
   },
   "jest": {

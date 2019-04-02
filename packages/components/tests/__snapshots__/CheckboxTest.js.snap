@@ -2,12 +2,8 @@
 
 exports[`Checkbox matches the snapshot 1`] = `
 Array [
-  .c0 {
-  margin-right: 0.5em;
-}
-
-<input
-    className="c0"
+  <input
+    className="OQVsK"
     id="test-id"
     onChange={[Function]}
     type="checkbox"
@@ -22,12 +18,8 @@ Array [
 
 exports[`Checkbox matches the snapshot when an array is provided as a label 1`] = `
 Array [
-  .c0 {
-  margin-right: 0.5em;
-}
-
-<input
-    className="c0"
+  <input
+    className="OQVsK"
     id="test-id"
     onChange={[Function]}
     type="checkbox"
