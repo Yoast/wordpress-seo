@@ -1,6 +1,6 @@
 {
   "name": "yoast-social-previews",
-  "version": "1.4.3-alpha.0",
+  "version": "1.4.5",
   "description": "",
   "private": true,
   "main": "index.js",

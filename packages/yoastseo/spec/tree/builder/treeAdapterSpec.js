@@ -290,19 +290,4 @@ describe( "TreeAdapter", () => {
 			expect( node.documentMode ).toEqual( "quirks" );
 		} );
 	} );
-
-	describe( "TreeAdapter insertText", () => {
-		it( "does not insert text when the formatting element does not have a paragraph or header ancestor", () => {
-			const strong = new FormattingElement( "strong" );
-			const root = new StructuredNode( "root" );
-
-			root.children = [ strong ];
-			strong.parent = root;
-			root.parent = null;
-
-			const adapter = new TreeAdapter();
-
-			adapter.insertText( strong, "text" );
-		} );
-	} );
 } );
