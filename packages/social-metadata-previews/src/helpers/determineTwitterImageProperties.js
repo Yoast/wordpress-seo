@@ -164,7 +164,7 @@ export function calculateTwitterImageDimensions( originalDimensions, imageMode )
  */
 export function determineTwitterImageProperties( src, cardType ) {
 	return getOriginalImageDimensions( src ).then( ( originalDimensions ) => {
-		// Determine what image mode should be used based on the image dimensions.
+		// Determine what image mode should be used based on the card type.
 		const imageMode = determineTwitterImageMode( cardType );
 
 		// Calculate the image dimensions for the specific image.

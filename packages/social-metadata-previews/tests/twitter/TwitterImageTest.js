@@ -24,12 +24,12 @@ jest.mock( "../../src/helpers/determineTwitterImageProperties.js", () => {
 
 describe( "TwitterImage Component", () => {
 	it( "calls determineTwitterImageProperties with the correct image URL", () => {
-		const imageUrl = "https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png";
+		const imageUrl = "https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg";
 
 		importedDetermineTwitterImageProperties.determineTwitterImageProperties.mockReturnValueOnce( Promise.resolve( {
-			mode: "portrait",
-			height: 600,
-			width: 300,
+			mode: "landscape",
+			height: 300,
+			width: 600,
 		} ) );
 
 		renderer.create(
@@ -49,34 +49,6 @@ describe( "TwitterImage Component", () => {
 		);
 		const tree = component.toJSON();
 		expect( tree ).toMatchSnapshot();
-	} );
-
-	it( "matches the snapshot for a portrait image in a summary card", () => {
-		importedDetermineTwitterImageProperties.determineTwitterImageProperties.mockReturnValueOnce( Promise.resolve( {
-			mode: "portrait",
-			height: 600,
-			width: 300,
-		} ) );
-		const component = renderer.create(
-			<TwitterImage src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png" type="summary" />
-		);
-
-		// Wait for the determineTwitterImageProperties promise to resolve.
-		return delayComponentSnapshot( component );
-	} );
-
-	it( "matches the snapshot for a portrait image in a summary-large-image card", () => {
-		importedDetermineTwitterImageProperties.determineTwitterImageProperties.mockReturnValueOnce( Promise.resolve( {
-			mode: "portrait",
-			height: 600,
-			width: 300,
-		} ) );
-		const component = renderer.create(
-			<TwitterImage src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png" type="summary-large-image" />
-		);
-
-		// Wait for the determineTwitterImageProperties promise to resolve.
-		return delayComponentSnapshot( component );
 	} );
 
 	it( "matches the snapshot for a landscape image in a summary card", () => {
