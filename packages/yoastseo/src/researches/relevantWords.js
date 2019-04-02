@@ -30,9 +30,9 @@ function relevantWords( paper, researcher ) {
 		paper.getTitle(),
 		paper.getDescription(),
 		subheadings.join( " " ),
-	].join( " " );
+	];
 
-	const abbreviations = retrieveAbbreviations( text.concat( attributes ) );
+	const abbreviations = retrieveAbbreviations( text.concat( attributes.join( " " ) ) );
 
 	const relevantWordsFromText = getRelevantWords( removeSubheadingsTopLevel( text ), abbreviations, language, morphologyData );
 

@@ -222,7 +222,7 @@ function getRelevantWords( text, abbreviations, language, morphologyData ) {
 /**
  * Gets relevant words from keyphrase and synonyms, metadescription, title, and subheadings.
  *
- * @param {string}      attributes       The attributes to process.
+ * @param {string[]}    attributes     The array with attributes to process.
  * @param {string[]}    abbreviations    The abbreviations that occur in the text and attributes of the paper.
  * @param {string}      language         The language of the paper.
  * @param {Object}      morphologyData   The morphologyData available for the language of the paper.
@@ -230,7 +230,7 @@ function getRelevantWords( text, abbreviations, language, morphologyData ) {
  * @returns {WordCombination[]} Relevant word combinations from the paper attributes.
  */
 function getRelevantWordsFromPaperAttributes( attributes, abbreviations, language, morphologyData ) {
-	const wordsFromAttributes = getWords( attributes.toLocaleLowerCase() );
+	const wordsFromAttributes = getWords( attributes.join( " " ).toLocaleLowerCase() );
 
 	return computeRelevantWords( wordsFromAttributes, abbreviations, language, morphologyData );
 }

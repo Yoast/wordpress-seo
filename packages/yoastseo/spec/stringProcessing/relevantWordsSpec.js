@@ -442,7 +442,7 @@ describe( "getRelevantWordsFromPaperAttributes", function() {
 				"This is a pretty long title!",
 				"This is an interesting metadescription of the paper that we are analysing and have interest in.",
 				[ "subheading one", "subheading two" ].join( " " ),
-			].join( " " ),
+			],
 			[ "nice" ],
 			"en",
 			morphologyData

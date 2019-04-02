@@ -67,11 +67,11 @@ function calculateRelevantWords( paper, useAttributes ) {
 		paper.description,
 		paper.title,
 		subheadings.join( " " ),
-	].join( " " ) : "";
+	] : [];
 
 	text = useAttributes ? removeSubheadingsTopLevel( text ) : text;
 
-	const abbreviations = retrieveAbbreviations( text.concat( attributes ) );
+	const abbreviations = retrieveAbbreviations( text.concat( attributes.join( " " ) ) );
 
 	const relevantWordsFromText = getRelevantWords( text, abbreviations, language, languageMorphologyData );
 
