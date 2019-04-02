@@ -19,7 +19,7 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
     headingText="Snippet editor"
   >
     <StyledSection
-      className="SnippetPreviewSection__Section-kWfIbs LsuOf"
+      className="SnippetPreviewSection__Section-kWfIbs cGbQcp"
       hasPaperStyle={true}
       headingIcon="eye"
       headingIconColor="#555"
@@ -27,7 +27,7 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
       headingText="Snippet editor"
     >
       <span>
-        yoast-components StyledSection
+        @yoast/components StyledSection
       </span>
     </StyledSection>
   </SnippetPreviewSection__Section>
@@ -53,7 +53,7 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
     headingText="Snippet editor"
   >
     <StyledSection
-      className="SnippetPreviewSection__Section-kWfIbs LsuOf"
+      className="SnippetPreviewSection__Section-kWfIbs cGbQcp"
       hasPaperStyle={true}
       headingIcon="eye"
       headingIconColor="#555"
@@ -61,7 +61,7 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
       headingText="Snippet editor"
     >
       <span>
-        yoast-components StyledSection
+        @yoast/components StyledSection
       </span>
     </StyledSection>
   </SnippetPreviewSection__Section>
