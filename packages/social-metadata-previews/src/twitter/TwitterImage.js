@@ -126,7 +126,6 @@ export default class TwitterImage extends React.Component {
 					width: SQUARE_WIDTH + "px",
 				};
 			case "landscape":
-			default:
 				return {
 					height: LANDSCAPE_HEIGHT + "px",
 					width: LANDSCAPE_WIDTH + "px",

@@ -121,7 +121,6 @@ export default class FacebookImage extends React.Component {
 					width: PORTRAIT_WIDTH + "px",
 				};
 			case "landscape":
-			default:
 				return {
 					height: LANDSCAPE_HEIGHT + "px",
 					width: LANDSCAPE_WIDTH + "px",
