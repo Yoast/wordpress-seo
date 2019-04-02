@@ -15,6 +15,8 @@ use Yoast\Tests\Doubles\Indexable_Term_Formatter_Double;
 class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var Indexable_Term_Formatter_Double
 	 */
 	protected $instance;

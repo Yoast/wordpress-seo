@@ -186,7 +186,9 @@ class WPSEO_GSC_Category_Filters {
 	}
 
 	/**
-	 * Parsing the category counts. When there are 0 issues for a specific category, just remove that one from the array
+	 * Parsing the category counts.
+	 *
+	 * When there are 0 issues for a specific category, just remove that one from the array.
 	 *
 	 * @param array $category_counts Set of counts for categories.
 	 *

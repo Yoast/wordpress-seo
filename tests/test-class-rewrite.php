@@ -11,11 +11,15 @@
 class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Name of the option indicating whether the rewrite options should be flushed.
+	 *
 	 * @var string
 	 */
 	private $flush_option_name = 'wpseo_flush_rewrite';
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Rewrite
 	 */
 	private static $class_instance;

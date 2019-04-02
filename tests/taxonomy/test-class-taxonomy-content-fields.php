@@ -11,6 +11,8 @@
 class WPSEO_Taxonomy_Content_Fields_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Taxonomy_Social_Fields_Double
 	 */
 	private $class_instance;

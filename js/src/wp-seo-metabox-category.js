@@ -1,8 +1,15 @@
 /* global wp, _, wpseoPrimaryCategoryL10n */
 /* External dependencies */
 import { dispatch } from "@wordpress/data";
+import { Component } from "@wordpress/element";
+import get from "lodash/get";
+import noop from "lodash/noop";
 
 /* Internal dependencies */
+import PrimaryTaxonomyFilter from "./components/PrimaryTaxonomyFilter";
+import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
+
+const PLUGIN_NAMESPACE = "yoast-seo";
 
 ( function( $ ) {
 	var primaryTermUITemplate, primaryTermScreenReaderTemplate;
@@ -230,6 +237,36 @@ import { dispatch } from "@wordpress/data";
 		};
 	}
 
+	/**
+	 * Add primary taxonomy picker in Gutenberg.
+	 *
+	 * @returns {void}
+	 */
+	function registerCategorySelectorFilter() {
+		if ( ! isGutenbergDataAvailable() ) {
+			return;
+		}
+
+		const addFilter = get( window, "wp.hooks.addFilter", noop );
+
+		addFilter(
+			"editor.PostTaxonomyType",
+			PLUGIN_NAMESPACE,
+			OriginalComponent => {
+				return class Filter extends Component {
+					render() {
+						return (
+							<PrimaryTaxonomyFilter
+								OriginalComponent={ OriginalComponent }
+								{ ...this.props }
+							/>
+						);
+					}
+				};
+			},
+		);
+	}
+
 	$.fn.initYstSEOPrimaryCategory = function() {
 		return this.each( function( i, taxonomy ) {
 			const metaboxTaxonomy = $( "#" + taxonomy.name + "div" );
@@ -251,5 +288,7 @@ import { dispatch } from "@wordpress/data";
 		primaryTermScreenReaderTemplate = wp.template( "primary-term-screen-reader" );
 
 		$( _.values( taxonomies ) ).initYstSEOPrimaryCategory();
+
+		registerCategorySelectorFilter();
 	} );
 }( jQuery ) );

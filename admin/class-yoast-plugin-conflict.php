@@ -43,7 +43,7 @@ class Yoast_Plugin_Conflict {
 	protected static $instance;
 
 	/**
-	 * For the use of singleton pattern. Create instance of itself and return his instance
+	 * For the use of singleton pattern. Create instance of itself and return this instance
 	 *
 	 * @param string $class_name Give the classname to initialize. If classname is
 	 *                           false (empty) it will use it's own __CLASS__.

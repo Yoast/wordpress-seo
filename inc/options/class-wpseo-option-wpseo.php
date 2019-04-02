@@ -344,7 +344,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	}
 
 	/**
-	 * Gets the filter hook name and callback for adjusting the retrieved option value against the network-allowed features.
+	 * Gets the filter hook name and callback for adjusting the retrieved option value
+	 * against the network-allowed features.
 	 *
 	 * @return array Array where the first item is the hook name, the second is the hook callback,
 	 *               and the third is the hook priority.

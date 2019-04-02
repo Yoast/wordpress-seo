@@ -105,7 +105,7 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 	/**
 	 * Outputs code to allow recognition of page's position in the site hierarchy
 	 *
-	 * @Link https://developers.google.com/search/docs/data-types/breadcrumb
+	 * @link https://developers.google.com/search/docs/data-types/breadcrumb
 	 *
 	 * @return void
 	 */

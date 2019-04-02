@@ -11,6 +11,8 @@
 class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_OnPage_Option
 	 */
 	protected $class_instance;

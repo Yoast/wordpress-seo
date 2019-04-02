@@ -13,6 +13,8 @@
 class WPSEO_Object_Type_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Object_Type
 	 */
 	private $class_instance;

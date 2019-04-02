@@ -66,7 +66,7 @@ class WPSEO_Sitemap_Timezone {
 	/**
 	 * Returns the timezone string for a site, even if it's set to a UTC offset
 	 *
-	 * Adapted from http://www.php.net/manual/en/function.timezone-name-from-abbr.php#89155
+	 * Adapted from {@link http://www.php.net/manual/en/function.timezone-name-from-abbr.php#89155}.
 	 *
 	 * @return string valid PHP timezone string
 	 */

@@ -11,6 +11,8 @@
 class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Configuration_Options_Adapter_Mock
 	 */
 	protected $adapter;

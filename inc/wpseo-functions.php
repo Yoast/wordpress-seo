@@ -145,7 +145,9 @@ function wpseo_register_var_replacement( $var, $replace_function, $type = 'advan
 
 /**
  * WPML plugin support: Set titles for custom types / taxonomies as translatable.
- * It adds new keys to a wpml-config.xml file for a custom post type title, metadesc, title-ptarchive and metadesc-ptarchive fields translation.
+ *
+ * It adds new keys to a wpml-config.xml file for a custom post type title, metadesc,
+ * title-ptarchive and metadesc-ptarchive fields translation.
  * Documentation: http://wpml.org/documentation/support/language-configuration-files/
  *
  * @global      $sitepress

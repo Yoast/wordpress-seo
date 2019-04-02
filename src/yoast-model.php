@@ -22,7 +22,7 @@ use YoastSEO_Vendor\ORM;
  * The methods documented below are magic methods that conform to PSR-1.
  * This documentation exposes these methods to doc generators and IDEs.
  *
- * @see http://www.php-fig.org/psr/psr-1/
+ * @link http://www.php-fig.org/psr/psr-1/
  *
  * @method void setOrm($orm)
  * @method $this setExpr($property, $value = null)

@@ -11,6 +11,8 @@
 class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var Expose_WPSEO_Twitter
 	 */
 	private static $class_instance;

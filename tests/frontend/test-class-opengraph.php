@@ -13,6 +13,8 @@
 class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_OpenGraph
 	 */
 	private static $class_instance;

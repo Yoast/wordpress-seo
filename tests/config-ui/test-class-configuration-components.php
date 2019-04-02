@@ -11,6 +11,8 @@
 class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Configuration_Components_Mock
 	 */
 	protected $components;

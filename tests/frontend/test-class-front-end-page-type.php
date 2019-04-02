@@ -11,6 +11,8 @@
 class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Frontend_Page_Type
 	 */
 	protected $frontend_page_type;

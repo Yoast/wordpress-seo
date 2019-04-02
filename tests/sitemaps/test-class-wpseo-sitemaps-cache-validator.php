@@ -64,7 +64,8 @@ class WPSEO_Sitemaps_Cache_Validator_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Key length should never be over 45 characters
 	 *
-	 * This would be 53 if we don't use a timeout, but we can't because all sitemaps would be autoloaded every request.
+	 * This would be 53 if we don't use a timeout, but we can't because all sitemaps would
+	 * be autoloaded every request.
 	 */
 	public function test_get_storage_key_very_long_type() {
 
