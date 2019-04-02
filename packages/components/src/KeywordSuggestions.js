@@ -74,7 +74,7 @@ const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
 	return ( <WordList
 		title={ __( "Prominent words", "yoast-components" ) }
 		words={ keywords }
-		classNamePrefix="keyword-suggestions"
+		classNamePrefix="yoast-keyword-suggestions"
 		showBeforeList={ () => {
 			return  ( <p>{ getKeywordSuggestionExplanation( keywords ) }</p> );
 		} }

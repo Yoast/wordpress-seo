@@ -19,8 +19,8 @@ describe( "YoastModal", () => {
 		);
 
 		// Get the real generated HTML excluding the wrapper components.
-		const modal = wrapper.find( "div.modal__overlay" );
-		expect( modal.find( ".modal__inside" ).text() ).toBe( "Hi!" );
+		const modal = wrapper.find( "div.yoast-modal__overlay" );
+		expect( modal.find( ".yoast-modal__inside" ).text() ).toBe( "Hi!" );
 	} );
 
 	test( "the YoastModal has a role dialog and aria label", () => {
@@ -38,7 +38,7 @@ describe( "YoastModal", () => {
 		);
 
 		// Get the real generated HTML excluding the wrapper components.
-		const modalContent = wrapper.find( "div.modal__overlay .modal__content" );
+		const modalContent = wrapper.find( "div.yoast-modal__overlay .yoast-modal__content" );
 		expect( modalContent.getDOMNode().getAttribute( "role" ) ).toBe( "dialog" );
 		expect( modalContent.getDOMNode().getAttribute( "aria-label" ) ).toBe( "Some label" );
 	} );
@@ -62,7 +62,7 @@ describe( "YoastModal", () => {
 		);
 
 		// Get the real generated HTML excluding the wrapper components.
-		const modal = wrapper.find( "div.modal__overlay" );
+		const modal = wrapper.find( "div.yoast-modal__overlay" );
 
 		/*
 		 * Note: `styled-components` wraps the DOM nodes and also passes class names e.g.
@@ -70,8 +70,8 @@ describe( "YoastModal", () => {
 		 *        <h1 className="yoast-modal__title sc-bdVaJa iXppQv">
 		 * so we need to get the real DOM element.
 		 */
-		expect( modal.find( "h1.modal__title" ).text() ).toBe( "title" );
-		expect( modal.find( "button.modal__button-close-icon" ).getDOMNode().getAttribute( "aria-label" ) ).toBe( "Close X" );
-		expect( modal.find( "button.modal__button-close" ).text() ).toBe( "Close" );
+		expect( modal.find( "h1.yoast-modal__title" ).text() ).toBe( "title" );
+		expect( modal.find( "button.yoast-modal__button-close-icon" ).getDOMNode().getAttribute( "aria-label" ) ).toBe( "Close X" );
+		expect( modal.find( "button.yoast-modal__button-close" ).text() ).toBe( "Close" );
 	} );
 } );

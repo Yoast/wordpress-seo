@@ -109,7 +109,7 @@ StyledSection.propTypes = {
 };
 
 StyledSection.defaultProps = {
-	className: "section",
+	className: "yoast-section",
 	headingLevel: 2,
 	hasPaperStyle: true,
 };

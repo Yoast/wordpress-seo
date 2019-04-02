@@ -51,36 +51,36 @@ class BaseYoastModal extends React.Component {
 				onRequestClose={ this.props.onClose }
 				role="dialog"
 				contentLabel={ this.props.modalAriaLabel }
-				overlayClassName={ `modal__overlay ${ this.props.className }` }
-				className={ `modal__content ${ this.props.className }` }
+				overlayClassName={ `yoast-modal__overlay ${ this.props.className }` }
+				className={ `yoast-modal__content ${ this.props.className }` }
 				appElement={ this.props.appElement }
-				bodyOpenClassName="modal_is-open"
+				bodyOpenClassName="yoast-modal_is-open"
 			>
 				{
 					this.props.heading &&
-						<StyledHeading className="modal__title">{ this.props.heading }</StyledHeading>
+						<StyledHeading className="yoast-modal__title">{ this.props.heading }</StyledHeading>
 				}
 				{
 					this.props.closeIconButton &&
 						<StyledCloseIconButton
 							type="button"
 							onClick={ this.props.onClose }
-							className={ `modal__button-close-icon ${ this.props.closeIconButtonClassName }` }
+							className={ `yoast-modal__button-close-icon ${ this.props.closeIconButtonClassName }` }
 							aria-label={ this.props.closeIconButton }
 						>
 							<SvgIcon icon="times" color={ colors.$color_grey_text } />
 						</StyledCloseIconButton>
 				}
-				<div className="modal__inside">
+				<div className="yoast-modal__inside">
 					{ this.props.children }
 				</div>
 				{
 					this.props.closeButton &&
-						<div className="modal__actions">
+						<div className="yoast-modal__actions">
 							<button
 								type="button"
 								onClick={ this.props.onClose }
-								className={ `modal__button-close ${ this.props.closeButtonClassName }` }
+								className={ `yoast-modal__button-close ${ this.props.closeButtonClassName }` }
 							>
 								{ this.props.closeButton }
 							</button>
@@ -117,7 +117,7 @@ BaseYoastModal.defaultProps = {
 };
 
 const YoastModal = styled( BaseYoastModal )`
-	&.modal__overlay {
+	&.yoast-modal__overlay {
 		position: fixed;
 		top: 0;
 		left: 0;
@@ -128,7 +128,7 @@ const YoastModal = styled( BaseYoastModal )`
 		z-index: 999999;
 	}
 
-	&.modal__content {
+	&.yoast-modal__content {
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -154,15 +154,15 @@ const YoastModal = styled( BaseYoastModal )`
 		}
 	}
 
-	.modal__inside {
+	.yoast-modal__inside {
 		clear: both;
 	}
 
-	.modal__actions {
+	.yoast-modal__actions {
 		text-align: right;
 	}
 
-	.modal__actions button {
+	.yoast-modal__actions button {
 		margin: 24px 0 0 8px;
 	}
 `;
