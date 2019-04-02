@@ -1,32 +1,32 @@
 export default class ParsedPaper {
 	constructor() {
-		this.metadata = {};
-		this.tree = {};
+		this._metadata = {};
+		this._tree = {};
 
 		this.setTree.bind( this );
 	}
 
 	setTree( tree ) {
-		this.tree = tree;
+		this._tree = tree;
 	}
 
 	getTree() {
-		return this.tree;
+		return this._tree;
 	}
 
 	setMetaValue( key, value ) {
-		this.metaData[ key ] = value;
+		this._metadata[ key ] = value;
 	}
 
 	getMetaValue( key ) {
-		return this.metadata[ key ];
+		return this._metadata[ key ];
 	}
 
 	setMetaData( metadata ) {
-		this.metaData = metadata;
+		this._metadata = metadata;
 	}
 
 	getMetadata() {
-		return this.metadata;
+		return this._metadata;
 	}
 }
