@@ -10,6 +10,12 @@ module.exports = {
 		// Polyfill
 		"babel-polyfill",
 
+		// Compile the @yoast/configuration-wizard scss
+		"@yoast/configuration-wizard/src/configuration-wizard.scss",
+
+		// Compile the yoast-components standalone .scss
+		"yoast-components/css/standalone.scss",
+
 		// Activate HMR for React
 		"react-hot-loader/patch",
 
@@ -65,7 +71,7 @@ module.exports = {
 				} ],
 			},
 			{
-				test: /\.css$/,
+				test: /\.s?css$/,
 				use: [
 					{
 						loader: 'style-loader',
@@ -73,7 +79,10 @@ module.exports = {
 							insertAt: 'top'
 						}
 					},
-					'css-loader'
+					'css-loader',
+					{
+						loader: 'sass-loader',
+					}
 				]
 			},
 		],
