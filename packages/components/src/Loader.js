@@ -14,7 +14,7 @@ const Loader = ( { className } ) => {
 		className += " ";
 	}
 
-	className += "yoast-loader";
+	className += "loader";
 
 	return (
 		<svg version="1.1" id="Y__x2B__bg" x="0px" y="0px" viewBox="0 0 500 500" className={ className }>
