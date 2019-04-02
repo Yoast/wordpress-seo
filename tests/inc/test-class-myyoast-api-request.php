@@ -328,6 +328,11 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 		remove_filter( 'pre_http_request', [ $this, 'return_error_object' ] );
 	}
 
+	/**
+	 * Helper function for the `test_exception_arguments` test
+	 *
+	 * @return WP_Error
+	 */
 	public function return_error_object() {
 		return new WP_Error( 'error-code', 'Error' );
 	}
