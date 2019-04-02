@@ -1,4 +1,4 @@
-jest.unmock( "../src/a11y/ScreenReaderShortcut" );
+jest.unmock( "../a11y/ScreenReaderShortcut" );
 jest.unmock( "prop-types" );
 
 import React from "react";

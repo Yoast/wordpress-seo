@@ -162,9 +162,7 @@ Toggle.propTypes = {
 Toggle.defaultProps = {
 	isEnabled: false,
 	onSetToggleState: () => {},
-	disable: false,
-	onToggleDisabled: () => {},
-
+	labelText: "",
 };
 
 export default Toggle;

@@ -1,6 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the SearchResultDetail component matches the snapshot 1`] = `
+.c9 {
+  border: 0;
+  -webkit-clip: rect(1px,1px,1px,1px);
+  clip: rect(1px,1px,1px,1px);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  word-wrap: normal !important;
+  -webkit-transform: translateY(1em);
+  -ms-transform: translateY(1em);
+  transform: translateY(1em);
+}
+
 .c3 {
   color: #fff;
   background: #64a60a;
@@ -120,7 +138,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
   box-shadow: none;
 }
 
-.c9 {
+.c10 {
   width: 100%;
   height: 600px;
   border: none;
@@ -230,14 +248,14 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
         />
       </svg>
       <span
-        className="sc-bdVaJa hrXKaN"
+        className="c9"
       >
         (Opens in a new browser tab)
       </span>
     </a>
   </nav>
   <iframe
-    className="kb-search-content-frame c9"
+    className="kb-search-content-frame c10"
     src="https://kb.yoast.com/kb/passive-voice/amp/?source=wpseo-kb-search"
     title="Knowledge base article"
   />
