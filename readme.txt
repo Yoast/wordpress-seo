@@ -106,6 +106,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 10.1.1 =
+Release Date: April 2nd, 2019
+
+Bugfixes:
+
+* Fixes a bug where a fatal error can occur on license requests which return an unexpected result.
+
 = 10.1.0 =
 Release Date: April 2nd, 2019
 
