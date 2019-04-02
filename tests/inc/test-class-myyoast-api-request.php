@@ -320,12 +320,12 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	 * @expectedExceptionMessage Error
 	 */
 	public function test_exception_arguments() {
-		add_filter( 'pre_http_request', [ $this, 'return_error_object' ] );
+		add_filter( 'pre_http_request', array( $this, 'return_error_object' ) );
 
 		$instance = new WPSEO_MyYoast_Api_Request_Double( 'some_url', array() );
 		$instance->do_request( 'some_url', array() );
 
-		remove_filter( 'pre_http_request', [ $this, 'return_error_object' ] );
+		remove_filter( 'pre_http_request', array( $this, 'return_error_object' ) );
 	}
 
 	/**
