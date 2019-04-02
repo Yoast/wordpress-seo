@@ -46,24 +46,6 @@ exports[`The FullHeightCard is rendered including some props 1`] = `
 
 exports[`The FullHeightCard is rendered including the CardBanner and CardDetails components 1`] = `
 .c5 {
-  border: 0;
-  -webkit-clip: rect(1px,1px,1px,1px);
-  clip: rect(1px,1px,1px,1px);
-  -webkit-clip-path: inset(50%);
-  clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute !important;
-  width: 1px;
-  word-wrap: normal !important;
-  -webkit-transform: translateY(1em);
-  -ms-transform: translateY(1em);
-  transform: translateY(1em);
-}
-
-.c6 {
   position: absolute;
   top: 8px;
   left: -8px;
@@ -75,7 +57,7 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
 }
 
-.c7 {
+.c6 {
   position: absolute;
   top: 40px;
   left: -8px;
@@ -102,7 +84,7 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   vertical-align: bottom;
 }
 
-.c8 {
+.c7 {
   padding: 12px 16px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -149,7 +131,7 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   height: 100%;
 }
 
-.c12 {
+.c11 {
   color: #000;
   white-space: nowrap;
   display: block;
@@ -165,14 +147,14 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   margin-bottom: 8px;
 }
 
-.c12:hover,
-.c12:focus,
-.c12:active {
+.c11:hover,
+.c11:focus,
+.c11:active {
   color: #000;
   background-color: #cecece;
 }
 
-.c12:active {
+.c11:active {
   background-color: #cecece;
   -webkit-transform: translateY( 1px );
   -ms-transform: translateY( 1px );
@@ -182,26 +164,26 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   filter: none;
 }
 
-.c13 {
+.c12 {
   font-weight: bold;
 }
 
-.c11 {
+.c10 {
   text-align: center;
 }
 
-.c10 ul {
+.c9 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-.c10 li {
+.c9 li {
   position: relative;
   margin-left: 16px;
 }
 
-.c10 li:before {
+.c9 li:before {
   content: "✓";
   color: #77b227;
   position: absolute;
@@ -210,7 +192,7 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
   left: -16px;
 }
 
-.c9 {
+.c8 {
   margin-bottom: 12px;
   border-bottom: 1px #ddd solid;
   -webkit-box-flex: 1;
@@ -240,27 +222,27 @@ exports[`The FullHeightCard is rendered including the CardBanner and CardDetails
       Keyword Research
     </h2>
     <span
-      className="c5"
+      className="A11yNotice-sc-1feyioo-0 gHCoqL"
     >
       (Opens in a new browser tab)
     </span>
   </a>
   <span
-    className="c6"
+    className="c5"
   >
     Free
   </span>
   <span
-    className="c7"
+    className="c6"
   />
   <div
-    className="c8"
+    className="c7"
   >
     <div
-      className="c9"
+      className="c8"
     >
       <div
-        className="c10"
+        className="c9"
         dangerouslySetInnerHTML={
           Object {
             "__html": "Do you know the essential first step of good SEO? It’s keyword research. In this training, 
@@ -270,30 +252,30 @@ you’ll learn how to research and select the keywords that will guide searchers
       />
     </div>
     <div
-      className="c11"
+      className="c10"
     >
       <a
-        className="c12"
+        className="c11"
         href="https://yoast.com/cart/?add-to-cart=1311259"
         rel={null}
         target="_blank"
       >
         Start your free trail
         <span
-          className="c5"
+          className="A11yNotice-sc-1feyioo-0 gHCoqL"
         >
           (Opens in a new browser tab)
         </span>
       </a>
       <a
-        className="c13"
+        className="c12"
         href="https://yoast.com/academy/keyword-research-training/"
         rel={null}
         target="_blank"
       >
         Read more about this training »
         <span
-          className="c5"
+          className="A11yNotice-sc-1feyioo-0 gHCoqL"
         >
           (Opens in a new browser tab)
         </span>

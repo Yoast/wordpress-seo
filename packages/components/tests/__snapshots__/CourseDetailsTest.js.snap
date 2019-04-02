@@ -44,25 +44,7 @@ you’ll learn how to research and select the keywords that will guide searchers
       }
     />
   </div>,
-  .c2 {
-  border: 0;
-  -webkit-clip: rect(1px,1px,1px,1px);
-  clip: rect(1px,1px,1px,1px);
-  -webkit-clip-path: inset(50%);
-  clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute !important;
-  width: 1px;
-  word-wrap: normal !important;
-  -webkit-transform: translateY(1em);
-  -ms-transform: translateY(1em);
-  transform: translateY(1em);
-}
-
-.c1 {
+  .c1 {
   color: #000;
   white-space: nowrap;
   display: block;
@@ -95,7 +77,7 @@ you’ll learn how to research and select the keywords that will guide searchers
   filter: none;
 }
 
-.c3 {
+.c2 {
   font-weight: bold;
 }
 
@@ -114,20 +96,20 @@ you’ll learn how to research and select the keywords that will guide searchers
     >
       Start your free trail
       <span
-        className="c2"
+        className="A11yNotice-sc-1feyioo-0 gHCoqL"
       >
         (Opens in a new browser tab)
       </span>
     </a>
     <a
-      className="c3"
+      className="c2"
       href="https://yoast.com/academy/keyword-research-training/"
       rel={null}
       target="_blank"
     >
       Read more about this training »
       <span
-        className="c2"
+        className="A11yNotice-sc-1feyioo-0 gHCoqL"
       >
         (Opens in a new browser tab)
       </span>
@@ -179,25 +161,7 @@ Array [
       }
     />
   </div>,
-  .c2 {
-  border: 0;
-  -webkit-clip: rect(1px,1px,1px,1px);
-  clip: rect(1px,1px,1px,1px);
-  -webkit-clip-path: inset(50%);
-  clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute !important;
-  width: 1px;
-  word-wrap: normal !important;
-  -webkit-transform: translateY(1em);
-  -ms-transform: translateY(1em);
-  transform: translateY(1em);
-}
-
-.c1 {
+  .c1 {
   cursor: pointer;
   color: #000;
   white-space: nowrap;
@@ -231,7 +195,7 @@ Array [
   filter: none;
 }
 
-.c3 {
+.c2 {
   font-weight: bold;
 }
 
@@ -249,20 +213,20 @@ Array [
       target="_blank"
     >
       <span
-        className="c2"
+        className="A11yNotice-sc-1feyioo-0 gHCoqL"
       >
         (Opens in a new browser tab)
       </span>
     </a>
     <a
-      className="c3"
+      className="c2"
       href=""
       rel={null}
       target="_blank"
     >
       
       <span
-        className="c2"
+        className="A11yNotice-sc-1feyioo-0 gHCoqL"
       >
         (Opens in a new browser tab)
       </span>
