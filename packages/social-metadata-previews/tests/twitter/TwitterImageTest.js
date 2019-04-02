@@ -140,13 +140,4 @@ describe( "getContainerDimensions", () => {
 
 		expect( actual ).toEqual( expected );
 	} );
-
-	it( "gets the container dimensions for a portrait image.", () => {
-		const TwitterImageComponent = new TwitterImage();
-
-		const actual = TwitterImageComponent.getContainerDimensions( "portrait" );
-		const expected = { height: LANDSCAPE_HEIGHT + "px", width: LANDSCAPE_WIDTH + "px" };
-
-		expect( actual ).toEqual( expected );
-	} );
 } );
