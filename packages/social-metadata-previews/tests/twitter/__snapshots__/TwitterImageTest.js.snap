@@ -6,7 +6,7 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
   height: 123px;
   width: 123px;
   overflow: hidden;
-  background-color: #E1E8ED;
+  background-color: #e1e8ed;
 }
 
 .c1 {
@@ -38,7 +38,7 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
   height: 253px;
   width: 506px;
   overflow: hidden;
-  background-color: #E1E8ED;
+  background-color: #e1e8ed;
 }
 
 .c1 {
@@ -70,7 +70,7 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
   height: 123px;
   width: 123px;
   overflow: hidden;
-  background-color: #E1E8ED;
+  background-color: #e1e8ed;
 }
 
 .c1 {
@@ -102,7 +102,7 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
   height: 253px;
   width: 506px;
   overflow: hidden;
-  background-color: #E1E8ED;
+  background-color: #e1e8ed;
 }
 
 .c1 {
@@ -134,7 +134,7 @@ exports[`TwitterImage Component matches the snapshot for a too small image 1`] =
   height: 123px;
   width: 123px;
   overflow: hidden;
-  background-color: #E1E8ED;
+  background-color: #e1e8ed;
 }
 
 .c1 {
