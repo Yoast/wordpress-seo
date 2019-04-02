@@ -73,7 +73,6 @@ const PlaceholderImage = styled.div`
  * Renders the TwitterImage component.
  *
  * @param {string} src The image source.
- * @param {string} type The card type.
  *
  * @returns {ReactComponent} The TwitterImage component.
  */
@@ -97,7 +96,7 @@ export default class TwitterImage extends React.Component {
 	 * @returns {Promise} Resolves when there are image properties.
 	 */
 	componentDidMount() {
-		return determineTwitterImageProperties( this.props.src, this.props.type ).then( ( imageProperties ) => {
+		return determineTwitterImageProperties( this.props.src ).then( ( imageProperties ) => {
 			this.setState( {
 				imageProperties: imageProperties,
 				status: "loaded",
@@ -156,7 +155,6 @@ export default class TwitterImage extends React.Component {
 		>
 			<StyledImage
 				src={ this.props.src }
-				type={ this.props.type }
 				alt={ this.props.alt }
 				imageProperties={ imageProperties }
 			/>
@@ -166,7 +164,6 @@ export default class TwitterImage extends React.Component {
 
 TwitterImage.propTypes = {
 	src: PropTypes.string.isRequired,
-	type: PropTypes.string.isRequired,
 	alt: PropTypes.string,
 };
 

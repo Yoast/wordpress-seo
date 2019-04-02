@@ -11,58 +11,51 @@ import { TwitterPreview } from "@yoast/social-metadata-previews";
 const TwitterPreviewExample = () => {
 	return (
 		<ExamplesContainer backgroundColor="transparent">
-			<h2>Summary with large image card (original = landscape)</h2>
+			<h2>Upload a large landscape image</h2>
 			<TwitterPreview
-				// Try out a landscape picture that isn't yet 2:1
+				// Dimensions: 2081x1321 (width x height)
 				src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
-				type="summary-large-image"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
 			/>
-			<h2>Summary with large image card (original = portrait)</h2>
+			<h2>Upload a small landscape image</h2>
 			<TwitterPreview
-				// Try out a portrait picture
+				// Dimensions: 250x131 (width x height)
+				src="https://yoast.com/app/uploads/2008/04/WordPress_SEO_definitive_guide_FI-250x131.png"
+				title="YoastCon Workshops &bull; Yoast"
+				siteName="yoast.com"
+			/>
+			<h2>Upload a large portrait image</h2>
+			<TwitterPreview
+				// Dimensions: 403x605 (width x height)
+				src="https://i1.wp.com/2016.europe.wordcamp.org/files/2016/04/Joost-Marieke.jpg?w=403&h=605&ssl=1"
+				title="YoastCon Workshops &bull; Yoast"
+				siteName="yoast.com"
+			/>
+			<h2>Upload a small portrait image</h2>
+			<TwitterPreview
+				// Dimensions: 240x268 (width x height)
 				src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png"
-				type="summary-large-image"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
 			/>
-			<h2>Summary with large image card (original = square)</h2>
+			<h2>Upload a large square image</h2>
 			<TwitterPreview
-				// Try out a perfectly square picture (1:1)
+				// Dimensions: 512x512 (width x height)
+				src="https://yoast.com/app/uploads/sites/5/2016/09/yoast-logo-icon-512x512.png"
+				title="YoastCon Workshops &bull; Yoast"
+				siteName="yoast.com"
+			/>
+			<h2>Upload a small square image</h2>
+			<TwitterPreview
+				// Dimensions: 250x250 (width x height)
 				src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png"
-				type="summary-large-image"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
 			/>
-			<h2>Summary card (original = landscape)</h2>
-			<TwitterPreview
-				// Try out a landscape picture that isn't yet 2:1
-				src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
-				type="summary"
-				title="YoastCon Workshops &bull; Yoast"
-				siteName="yoast.com"
-			/>
-			<h2>Summary card (original = portrait)</h2>
-			<TwitterPreview
-				// Try out a portrait picture
-				src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png"
-				type="summary"
-				title="YoastCon Workshops &bull; Yoast"
-				siteName="yoast.com"
-			/>
-			<h2>Summary card (original = square)</h2>
-			<TwitterPreview
-				// Try out a perfectly square picture (1:1)
-				src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png"
-				type="summary"
-				title="YoastCon Workshops &bull; Yoast"
-				siteName="yoast.com"
-			/>
-			<h2>Summary with large image card (no image provided)</h2>
+			<h2>Upload no image</h2>
 			<TwitterPreview
 				src=""
-				type="summary-large-image"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
 			/>

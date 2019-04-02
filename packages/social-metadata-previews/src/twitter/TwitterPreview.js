@@ -17,7 +17,7 @@ import TwitterImage from "../twitter/TwitterImage";
 const TwitterPreview = ( props ) => {
 	return (
 		<Fragment>
-			<TwitterImage src={ props.src } type={ props.type } alt={ props.alt } />
+			<TwitterImage src={ props.src } alt={ props.alt } />
 			<TwitterTitle title={ props.title } />
 			<TwitterSiteName siteName={ props.siteName } />
 		</Fragment>
@@ -28,7 +28,6 @@ TwitterPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	siteName: PropTypes.string.isRequired,
 	src: PropTypes.string.isRequired,
-	type: PropTypes.string.isRequired,
 	alt: PropTypes.string,
 };
 
