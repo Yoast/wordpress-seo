@@ -109,6 +109,7 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_Expose_Shortlinks();
 		$integrations[] = new WPSEO_MyYoast_Proxy();
 		$integrations[] = new WPSEO_MyYoast_Route();
+		$integrations[] = new WPSEO_Schema_Person_Upgrade_Notification();
 		$integrations[] = $this->admin_features['google_search_console'];
 		$integrations   = array_merge( $integrations, $this->initialize_seo_links(), $this->initialize_cornerstone_content() );
 
