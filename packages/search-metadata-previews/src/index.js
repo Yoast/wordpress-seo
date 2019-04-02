@@ -7,3 +7,9 @@ export { default as SnippetPreview } from "./snippet-preview/SnippetPreview";
 export { default as ReplacementVariableEditor } from "./snippet-editor/ReplacementVariableEditor";
 export { default as SettingsSnippetEditor } from "./snippet-editor/SettingsSnippetEditor";
 export { default as SnippetEditor } from "./snippet-editor/SnippetEditor";
+
+export {
+	lengthProgressShape,
+	recommendedReplacementVariablesShape,
+	replacementVariablesShape,
+} from "./snippet-editor/constants";

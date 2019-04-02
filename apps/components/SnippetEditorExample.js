@@ -8,6 +8,9 @@ import { SnippetEditor } from "@yoast/search-metadata-previews";
 // Internal dependencies.
 import ExamplesContainer from "./ExamplesContainer";
 
+// CSS dependencies.
+import "draft-js-mention-plugin/lib/plugin.css";
+
 const { MetaDescriptionLengthAssessment } = assessments.seo;
 
 const replacementVariables = [

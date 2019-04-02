@@ -3,8 +3,7 @@ import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 
 import { CourseDetails, FullHeightCard, YoastWarning } from "@yoast/components";
-import getCourseFeed from "yoast-components/utils/getCourseFeed";
-import { getDirectionalStyle } from "@yoast/helpers";
+import { getDirectionalStyle, getCourseFeed } from "@yoast/helpers";
 
 const Container = styled.div`
 	max-width: 1024px;

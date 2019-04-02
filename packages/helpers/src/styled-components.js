@@ -8,7 +8,7 @@
  * @param {string} rightToLeftStyle Style to return if the theme is right to left.
  *
  * @returns {Function} A function that returns the right styled based on the
- * 					   theme in the props.
+ *                       theme in the props.
  */
 export function getDirectionalStyle( leftToRightStyle, rightToLeftStyle ) {
 	return ( props ) => {
