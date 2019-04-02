@@ -21,7 +21,7 @@ describe( "gets German word combinations", function() {
 			new WordCombination( "studieren", "studium", 48 ),
 		];
 
-		const words = getRelevantWords( input, "de", morphologyData );
+		const words = getRelevantWords( input, [], "de", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );

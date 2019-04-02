@@ -21,7 +21,7 @@ describe( "gets Italian word combinations", function() {
 			new WordCombination( "procura", "procura", 11 ),
 		];
 
-		const words = getRelevantWords( input, "it", false );
+		const words = getRelevantWords( input, [], "it", false );
 
 		expect( words ).toEqual( expected );
 	} );
