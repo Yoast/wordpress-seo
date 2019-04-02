@@ -324,6 +324,8 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 
 		$instance = new WPSEO_MyYoast_Api_Request_Double( 'some_url', array() );
 		$instance->do_request( 'some_url', array() );
+
+		remove_filter( 'pre_http_request', [ $this, 'return_error_object' ] );
 	}
 
 	public function return_error_object() {
