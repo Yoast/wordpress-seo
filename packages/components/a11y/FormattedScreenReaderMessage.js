@@ -50,4 +50,10 @@ FormattedScreenReaderMessage.propTypes = {
 	values: PropTypes.objectOf( PropTypes.string ),
 };
 
+FormattedScreenReaderMessage.defaultProps = {
+	before: "",
+	after: "",
+	values: {},
+};
+
 export default FormattedScreenReaderMessage;
