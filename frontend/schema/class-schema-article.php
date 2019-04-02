@@ -135,7 +135,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		 */
 		$taxonomy = apply_filters( 'wpseo_schema_article_sections_taxonomy', 'category' );
 
-		return $this->add_terms( $data, 'sections', $taxonomy );
+		return $this->add_terms( $data, 'articleSection', $taxonomy );
 	}
 
 	/**
