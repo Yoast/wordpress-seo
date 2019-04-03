@@ -106,6 +106,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 10.1.2 =
+Release Date: April 3rd, 2019
+
+Bugfixes:
+
+* Fixes the bug where Yoast SEO would contact Yoast.com for license checks even when no Yoast addons are installed.
+
 = 10.1.1 =
 Release Date: April 2nd, 2019
 
