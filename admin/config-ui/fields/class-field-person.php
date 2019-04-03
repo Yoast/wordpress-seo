@@ -17,23 +17,25 @@ class WPSEO_Config_Field_Person extends WPSEO_Config_Field {
 		parent::__construct( 'publishingEntityPersonId', 'WordPressUserSelector' );
 
 		$this->set_property( 'label', __( 'The person', 'wordpress-seo' ) );
-		$this->set_property( 'user', $this->map_user_for_input( get_user_by( 'ID', WPSEO_Options::get( 'company_or_person_user_id' ) ) ) );
+		$this->set_property( 'user', $this->get_user_id() );
 
 		$this->set_requires( 'publishingEntityType', 'person' );
 	}
 
 	/**
-	 * Maps the user to be used by the input.
+	 * Get the entity person id.
 	 *
-	 * @param WP_User $user The user to be mapped.
-	 *
-	 * @return array The mapped user.
+	 * @return int|null User id.
 	 */
-	public function map_user_for_input( WP_User $user ) {
-		return array(
-			'value' => (int) $user->get( 'ID' ),
-			'label' => $user->get( 'display_name' ),
-		);
+	public function get_user_id() {
+		$user = get_user_by( 'ID', WPSEO_Options::get( 'company_or_person_user_id' ) );
+
+		if ( $user === false ) {
+			return null;
+		}
+
+		return (int) $user->get( 'ID' );
+
 	}
 
 	/**
