@@ -89,7 +89,7 @@
 		],
 		"after-premium-cs": [
 			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction",
-			"git checkout composer.lock",
+			"@php ./scripts/maybe-restore-composer-lock.php",
 			"composer config-yoastcs"
 		],
 		"prefix-dependencies": [
