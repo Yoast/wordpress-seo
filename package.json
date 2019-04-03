@@ -23,7 +23,8 @@
     "i18n-wordpress-seo": "cross-env NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot | shusher",
     "prestart": "grunt build:css && grunt webpack:buildDev",
     "start": "webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development",
-    "link-monorepo": "./scripts/link_monorepo_to_plugin.sh"
+    "link-monorepo": "./scripts/link_monorepo_to_plugin.sh",
+    "postinstall": "yarn link-monorepo"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",
