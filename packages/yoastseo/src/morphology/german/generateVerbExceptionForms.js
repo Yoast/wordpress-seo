@@ -22,8 +22,15 @@ const addSuffixesStrongVerbParadigm = function( dataStrongAndIrregularVerbs, ver
 	const additionalSuffixes = dataStrongAndIrregularVerbs.suffixes.classDependent[ verbClass ];
 	const allSuffixes = { ...basicSuffixes, ...additionalSuffixes };
 
-	// Add the present and the past stem, since these can also be forms on their own.
-	const forms = [ stems.present, stems.past ];
+	const forms = [];
+	// Check whether a given verb has stems that can be forms on their own, and if yes, add them to the array
+	const stemsThatCanBeForms = [ stems.present, stems.past, stems.presentSg ];
+
+	for ( const stem of stemsThatCanBeForms ) {
+		if ( stem ) {
+			forms.push( stem );
+		}
+	}
 
 	forOwn( stems, function( stem, stemClass ) {
 		forms.push(

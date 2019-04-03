@@ -250,15 +250,14 @@ describe( "Test for generating verb exceptions in German", () => {
 
 	it( "creates forms of the verb 'werden'", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "werd" ) ).toEqual( [
-			"werd",
+			"wurd",
 			"werde",
 			"werden",
 			"werdend",
 			"werdest",
 			"werdet",
-			"wird",
 			"wirst",
-			"wurd",
+			"wird",
 			"wurde",
 			"wurden",
 			"wurdest",
@@ -267,8 +266,8 @@ describe( "Test for generating verb exceptions in German", () => {
 			"würden",
 			"würdest",
 			"würdet",
-			"worden",
 			"geworden",
+			"worden",
 		] );
 	} );
 
@@ -289,16 +288,17 @@ describe( "Test for generating verb exceptions in German", () => {
 
 	it( "creates forms for the verb 'werden', same result with past participle stem", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "word" ) ).toEqual(
-			generateVerbExceptionForms( morphologyDataDE.verbs, "worden" ) );
+			generateVerbExceptionForms( morphologyDataDE.verbs, "word" ) );
 	} );
 
 	it( "creates forms for the verb 'werden', same result with alternative past participle stem", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "wir" ) ).toEqual(
-			generateVerbExceptionForms( morphologyDataDE.verbs, "geworden" ) );
+			generateVerbExceptionForms( morphologyDataDE.verbs, "geword" ) );
 	} );
 
 	it( "creates forms of the verb 'wissen'", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "weiß" ) ).toEqual( [
+			"wusst",
 			"weiß",
 			"weißt",
 			"wisse",
@@ -307,15 +307,14 @@ describe( "Test for generating verb exceptions in German", () => {
 			"wisset",
 			"wissen",
 			"wissend",
-			"wusst",
 			"wusste",
 			"wussten",
 			"wusstest",
 			"wusstet",
 			"wüsste",
 			"wüssten",
-			"wüsstet",
 			"wüsstest",
+			"wüsstet",
 			"gewusst",
 		] );
 	} );
