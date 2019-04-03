@@ -106,6 +106,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 10.1.3 =
+Release Date: ?
+
+Bugfixes:
+
+* Fixes a bug where the license information from MyYoast is being saved aggressively, causing updates in MyYoast to take 24 hours to show up in the site.
+
 = 10.1.2 =
 Release Date: April 3rd, 2019
 
