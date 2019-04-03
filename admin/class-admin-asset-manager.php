@@ -339,6 +339,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
 				'deps' => array(
+					'wp-api-fetch',
 					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
 				),

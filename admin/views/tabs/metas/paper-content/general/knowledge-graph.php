@@ -43,31 +43,8 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 	<div id="knowledge-graph-person">
 		<h3><?php esc_html_e( 'Personal info', 'wordpress-seo' ); ?></h3>
 		<?php
-		$class = '';
-		if ( WPSEO_Options::get( 'company_or_person' ) === 'person' && WPSEO_Options::get( 'company_or_person_user_id', false ) === false ) {
-			$class = 'error';
-			echo '<p class="error-message">';
-			esc_html_e( 'Error: Please select a user below to make your site\'s meta data complete.', 'wordpress-seo' );
-			echo '</p>';
-		}
-		$yform->label(
-			__( 'Name', 'wordpress-seo' ) . ':',
-			array(
-				'for'   => 'person_id',
-				'class' => 'select ' . $class,
-			)
-		);
-		echo '<span class="yoast-styled-select">';
-		$args = array(
-			'show_option_none'        => __( 'Select a user', 'wordpress-seo' ),
-			'hide_if_only_one_author' => false,
-			'selected'                => WPSEO_Options::get( 'company_or_person_user_id', '-1' ),
-			'name'                    => 'wpseo_titles[company_or_person_user_id]',
-			'id'                      => 'person_id',
-			'class'                   => $class,
-		);
-		wp_dropdown_users( $args );
-		echo '</span>';
+		echo '<div id="person-selector"></div>';
+		$yform->hidden( 'company_or_person_user_id', 'person_id' );
 		if ( WPSEO_Options::get( 'company_or_person_user_id', false ) ) {
 			$user = get_userdata( WPSEO_Options::get( 'company_or_person_user_id' ) );
 			printf( esc_html__( 'You have selected the user %1$s as the person this site represents. Their user profile information will now be used in search results.', 'wordpress-seo' ), '<strong>' . $user->display_name . '</strong>' );

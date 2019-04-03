@@ -1,9 +1,9 @@
 import Select from "react-select/lib/Async";
 import { Component, Fragment } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
+import PropTypes from "prop-types";
 import { debounce } from "lodash";
 import { createGlobalStyle } from "styled-components";
-import { Label } from "@yoast/components";
 import { __ } from "@wordpress/i18n";
 
 /**
@@ -11,7 +11,8 @@ import { __ } from "@wordpress/i18n";
  */
 const Styles = createGlobalStyle`
 	.yoast-person-selector-container {
-		width: 250px;
+		max-width: 100%;
+		min-width: 250px;
 		margin: 7px 0;
 
 		.yoast-person-selector__control {
@@ -39,10 +40,12 @@ class WordPressUserSelector extends Component {
 		super( props );
 
 		this.state = {
-			selectedOption: props.properties.user || null,
+			selectedOption: null,
+			loading: this.props.properties.user !== null,
 		};
 
 		this.fetchUsers = debounce( this.fetchUsers, 500 ).bind( this );
+		this.fetchUser = this.fetchUser.bind( this );
 		this.onChange = this.onChange.bind( this );
 	}
 
@@ -55,15 +58,9 @@ class WordPressUserSelector extends Component {
 		return (
 			<Fragment>
 				<Styles />
-				<Label
-					for={ this.props.name }
-					optionalAttributes={ {
-						className: "yoast-wizard-text-input-label",
-					} }
-				>
-					{ __( "The name of the person", "wordpress-seo" ) }
-				</Label>
 				<Select
+					placeholder={ __( "Start typing", "wordpress-seo" ) }
+					isDisabled={ this.state.loading }
 					inputId={ this.props.name }
 					className={ "yoast-person-selector-container" }
 					classNamePrefix={ "yoast-person-selector" }
@@ -74,6 +71,12 @@ class WordPressUserSelector extends Component {
 				/>
 			</Fragment>
 		);
+	}
+
+	componentDidMount() {
+		if ( this.props.properties.user !== null ) {
+			this.fetchUser( this.props.properties.user );
+		}
 	}
 
 	/**
@@ -100,9 +103,31 @@ class WordPressUserSelector extends Component {
 	onChange( option ) {
 		this.setState( {
 			selectedOption: option,
+			loading: false,
 		}, () => {
-			this.props.onChange( option.value );
+			this.props.onChange( option.value, option.label );
 		} );
+	}
+
+	mapUser( user ) {
+		return {
+			value: user.id,
+			label: user.name,
+		};
+	}
+
+	async fetchUser( id ) {
+		const user = await apiFetch( {
+			path: `/wp/v2/users/${ id }`,
+		} );
+
+		if ( ! user ) {
+			this.setState( { loading: false } );
+
+			return;
+		}
+
+		this.onChange( this.mapUser( user ) );
 	}
 
 	/**
@@ -123,14 +148,19 @@ class WordPressUserSelector extends Component {
 		apiFetch( {
 			path: `/wp/v2/users?${ queryParameters }`,
 		} ).then( users => {
-			const mappedUsers = users.map(
-				user => ( { value: user.id, label: user.name } )
-			);
+			const mappedUsers = users.map( this.mapUser );
 
 			callback( mappedUsers );
 		} );
 	}
 }
 
+WordPressUserSelector.propTypes = {
+	name: PropTypes.string.isRequired,
+	properties: PropTypes.shape( {
+		user: PropTypes.number,
+	} ).isRequired,
+	onChange: PropTypes.func.isRequired,
+};
 
 export default WordPressUserSelector;
