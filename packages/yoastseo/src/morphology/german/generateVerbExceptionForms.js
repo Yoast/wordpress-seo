@@ -16,6 +16,9 @@ const addSuffixesStrongVerbParadigm = function( dataStrongAndIrregularVerbs, ver
 	const basicSuffixes = {
 		present: dataStrongAndIrregularVerbs.suffixes.presentAllClasses.slice(),
 		pastParticiple: new Array( dataStrongAndIrregularVerbs.suffixes.pastParticiple ),
+		pastParticipleT: new Array( dataStrongAndIrregularVerbs.suffixes.pastParticipleT ),
+		pastParticipleEn: new Array( dataStrongAndIrregularVerbs.suffixes.pastParticipleEn ),
+		pastSubjunctive: dataStrongAndIrregularVerbs.suffixes.pastSubjunctive.slice(),
 	};
 
 	// Add class-specific suffixes.

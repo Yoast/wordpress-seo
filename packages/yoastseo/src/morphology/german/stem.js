@@ -143,6 +143,20 @@ const deleteSuffix2 = function( word, index2, r1Index ) {
 	return word;
 };
 
+
+const stemIrregularVerbs = function( morphologyDataVerbs, paradigm, word ) {
+	morphologyDataVerbs.forEach(function(paradigm) {
+		const forms = paradigm.forms;
+		const stem = stem;
+		if ( forms.includes( word )) {
+
+		}
+	}
+
+	)
+
+};
+
 /**
  * Stems German words.
  *

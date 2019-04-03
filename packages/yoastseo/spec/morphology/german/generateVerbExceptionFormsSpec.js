@@ -70,9 +70,9 @@ describe( "Test for generating verb exceptions in German", () => {
 			"bargst",
 			"bargt",
 			"bärge",
+			"bärgen",
 			"bärgest",
 			"bärget",
-			"bärgen",
 			"geborgen",
 		] );
 	} );
@@ -120,13 +120,13 @@ describe( "Test for generating verb exceptions in German", () => {
 			"schwommst",
 			"schwommt",
 			"schwämme",
+			"schwämmen",
 			"schwämmest",
 			"schwämmet",
-			"schwämmen",
 			"schwömme",
+			"schwömmen",
 			"schwömmest",
 			"schwömmet",
-			"schwömmen",
 			"geschwommen",
 		] );
 	} );
@@ -337,6 +337,31 @@ describe( "Test for generating verb exceptions in German", () => {
 	it( "creates forms for the verb 'wissen', same result with past participle stem", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "weiß" ) ).toEqual(
 			generateVerbExceptionForms( morphologyDataDE.verbs, "gewuss" ) );
+	} );
+
+	it( "creates forms of an irregular verb", () => {
+		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "sein" ) ).toEqual( [
+			"sein",
+			"war",
+			"bin",
+			"bist",
+			"ist",
+			"sind",
+			"warst",
+			"wart",
+			"waren",
+			"wäre",
+			"wären",
+			"wärest",
+			"wäret",
+			"seist",
+			"seien",
+			"seiet",
+			"sei",
+			"seid",
+			"seiend",
+			"gewesen"
+		] );
 	} );
 
 	it( "makes sure that compound verbs with prefix are recognized and return the full forms", () => {
