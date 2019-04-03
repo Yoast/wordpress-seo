@@ -23,7 +23,8 @@ class WPSEO_Schema_Person_Upgrade_Notification implements WPSEO_WordPress_Integr
 	 * Handles if the notification should be added or removed.
 	 */
 	public function handle_notification() {
-		if ( WPSEO_Options::get( 'company_or_person' ) === 'person' && empty( WPSEO_Options::get( 'company_or_person_user_id', false ) ) ) {
+		$company_or_person_user_id = WPSEO_Options::get( 'company_or_person_user_id', false );
+		if ( WPSEO_Options::get( 'company_or_person' ) === 'person' && empty( $company_or_person_user_id ) ) {
 			$this->add_notification();
 			return;
 		}
@@ -54,7 +55,7 @@ class WPSEO_Schema_Person_Upgrade_Notification implements WPSEO_WordPress_Integr
 	 */
 	protected function get_notification() {
 		$message = sprintf(
-				/* translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the plugin page on WordPress.org, %3$s is the link closing tag. */
+				/* translators: %1$s is a link start tag to the Configuration Wizard, %2$s is the link closing tag. */
 				__( 'You have previously set your site to represent a person. We’ve improved our functionality around Schema and the Knowledge Graph, so you should go in and %1$scomplete those settings%2$s.', 'wordpress-seo' ),
 			'<a href="' . admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER . '#publishing-entity' ) . '">',
 			'</a>'
@@ -73,4 +74,3 @@ class WPSEO_Schema_Person_Upgrade_Notification implements WPSEO_WordPress_Integr
 		return $notification;
 	}
 }
-
