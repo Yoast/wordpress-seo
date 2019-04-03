@@ -90,7 +90,11 @@ class WPSEO_Addon_Manager {
 	 * @return stdClass The site information.
 	 */
 	public function get_site_information() {
-		$site_information = $this->get_site_information_transient();
+		static $site_information = null;
+
+		if ( $site_information === null ) {
+			$site_information = $this->get_site_information_transient();
+		}
 
 		if ( $site_information ) {
 			return $site_information;
@@ -392,7 +396,31 @@ class WPSEO_Addon_Manager {
 	 * @return stdClass|false The transient value.
 	 */
 	protected function get_site_information_transient() {
+		global $pagenow;
+
+		// Force re-check on license & dashboard pages.
+		$current_page = $this->get_current_page();
+		// Check whether the licenses are valid or whether we need to show notifications.
+		$exclude_cache = ( $current_page === 'wpseo_licenses' || $current_page === 'wpseo_dashboard' );
+
+		// Also do a fresh request on Plugins & Core Update pages.
+		$exclude_cache = $exclude_cache || $pagenow === 'plugins.php';
+		$exclude_cache = $exclude_cache || $pagenow === 'update-core.php';
+
+		if ( $exclude_cache ) {
+			return false;
+		}
+
 		return get_transient( self::SITE_INFORMATION_TRANSIENT );
+	}
+
+	/**
+	 * Returns the current page.
+	 *
+	 * @return string The current page.
+	 */
+	protected function get_current_page() {
+		return filter_input( INPUT_GET, 'page' );
 	}
 
 	/**
