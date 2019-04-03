@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.9
-Tested up to: 5.1
-Stable tag: 10.0.1
+Tested up to: 5.1.1
+Stable tag: 10.1.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -106,14 +106,21 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 10.1.1 =
+Release Date: April 2nd, 2019
+
+Bugfixes:
+
+* Fixes a bug where a fatal error can occur on license requests which return an unexpected result.
+
 = 10.1.0 =
-Release Date: March 26th, 2019
+Release Date: April 2nd, 2019
 
 Enhancements:
 
 * Removes Google+ from the various interfaces: social accounts, user profiles and more.
-* Adds a Wikipedia URL field to the social accounts list, to be used in sameAs Schema.org output.
-* Adds a LinkedIn profile URL field to user profiles.
+* Adds a Wikipedia URL field to the social accounts list, to be used in `sameAs` Schema.org output.
+* Adds a LinkedIn profile URL field to user profiles, a first sign of things to come in 10.2.
 * Removes the `og:image:alt` tag as it causes potential accessibility issues when content is shared via Facebook.
 * Adds support for browsers auto-fill in the form fields that collect user information.
 * Adds missing screen reader text to the SEO score icon in the front end admin bar.
@@ -130,6 +137,7 @@ Bugfixes:
 * Fixes a bug where a PHP notice would be written to `debug.log` when adding a new site to a WordPress 5.1 multisite installation.
 
 Other:
+
 * Removes all functionality that has been deprecated before Yoast SEO 6.1.
 
 = 10.0.1 =

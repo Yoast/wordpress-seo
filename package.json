@@ -144,11 +144,11 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^3.2.6",
-    "yoast-components": "^4.23.0-rc.6",
-    "yoastseo": "^1.50.0-rc.6"
+    "yoast-components": "^4.23.0",
+    "yoastseo": "^1.50.0"
   },
   "yoast": {
-    "pluginVersion": "10.1-RC5",
+    "pluginVersion": "10.1.1",
     "recalibrationVersion": "13"
   }
 }
