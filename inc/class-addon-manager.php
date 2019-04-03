@@ -65,8 +65,6 @@ class WPSEO_Addon_Manager {
 	 * @var array
 	 */
 	protected static $addons = array(
-		// Yoast SEO Free isn't an addon actually, but we needed it in some cases.
-		'wp-seo.php'            => self::FREE_SLUG,
 		'wp-seo-premium.php'    => self::PREMIUM_SLUG,
 		'wpseo-news.php'        => self::NEWS_SLUG,
 		'video-seo.php'         => self::VIDEO_SLUG,
@@ -336,7 +334,14 @@ class WPSEO_Addon_Manager {
 	 * @return string The slug when found or empty string when not.
 	 */
 	protected function get_slug_by_plugin_file( $plugin_file ) {
-		foreach ( self::$addons as $addon => $addon_slug ) {
+		$addons = self::$addons;
+
+		// Yoast SEO Free isn't an addon, but we needed it in Premium to fetch translations.
+		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+			$addons['wp-seo.php'] = self::FREE_SLUG;
+		}
+
+		foreach ( $addons as $addon => $addon_slug ) {
 			if ( strpos( $plugin_file, $addon ) !== false ) {
 				return $addon_slug;
 			}
