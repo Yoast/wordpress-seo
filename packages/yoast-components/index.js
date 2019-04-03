@@ -39,7 +39,20 @@ export {
 
 export * from "./composites/Plugin/DashboardWidget";
 export * from "./composites/Plugin/ContentAnalysis";
-export * from "@yoast/search-metadata-previews";
+
+export
+{
+	FixedWidthContainer,
+	HelpTextWrapper,
+	SnippetPreview,
+	ReplacementVariableEditor,
+	SettingsSnippetEditor,
+	SnippetEditor,
+	lengthProgressShape,
+	recommendedReplacementVariablesShape,
+	replacementVariablesShape
+} from "@yoast/search-metadata-previews";
+
 export { default as utils } from "./utils";
 export { localize } from "./utils/i18n";
 export { setTranslations } from "./utils/i18n";
