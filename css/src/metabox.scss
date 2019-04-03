@@ -660,7 +660,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 
 // TODO: Move this to the yoast-components repository
 // The variable $color_headings comes from YoastSEO.js and is #555555.
-.yoast-section {
+.section {
 	&__heading {
 		&-icon-list {
 			background-image: url(svg-icon-list($color_headings));
@@ -677,7 +677,7 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 }
 
 // TODO: To be removed when the styled section will use the StyledSection component.
-.yoast-section {
+.section {
 	box-shadow: 0 1px 2px rgba( 0, 0, 0, .2 );
 	position: relative;
 	background-color: #fff;
