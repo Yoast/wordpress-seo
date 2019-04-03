@@ -45,11 +45,6 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 		<?php
 		echo '<div id="person-selector"></div>';
 		$yform->hidden( 'company_or_person_user_id', 'person_id' );
-		if ( WPSEO_Options::get( 'company_or_person_user_id', false ) ) {
-			$user = get_userdata( WPSEO_Options::get( 'company_or_person_user_id' ) );
-			printf( esc_html__( 'You have selected the user %1$s as the person this site represents. Their user profile information will now be used in search results.', 'wordpress-seo' ), '<strong>' . $user->display_name . '</strong>' );
-			echo ' <a href="', self_admin_url( 'user-edit.php?user_id=' . $user->ID ), '">', esc_html__( 'Update their profile to make sure the information is correct.', 'wordpress-seo' ), '</a>';
-		}
 		?>
 	</div>
 </div>
