@@ -7,7 +7,7 @@ import { decodeHTML, getDirectionalStyle, sendRequest } from "@yoast/helpers";
 // Import colors from the style guide.
 import { colors } from "@yoast/style-guide";
 // Composites/AngoliaSearch imports.
-import AlgoliaSearcher from "@yoast/algolia-search";
+import AlgoliaSearcher from "@yoast/algolia-search-box";
 // Composites/Plugin imports.
 import { Collapsible } from "@yoast/components";
 import { default as ButtonSection } from "./composites/Plugin/Shared/components/ButtonSection";
