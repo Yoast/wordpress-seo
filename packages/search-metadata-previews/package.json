@@ -54,5 +54,8 @@
       "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/tests/setupTests.js"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

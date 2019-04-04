@@ -12,5 +12,8 @@
     "directory": "packages/social-metadata-previews"
   },
   "author": "Team Yoast",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "publishConfig": {
+    "access": "public"
+  }
 }

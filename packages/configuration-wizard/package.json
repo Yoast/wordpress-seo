@@ -60,5 +60,8 @@
     "transformIgnorePatterns": [
       "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
     ]
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
