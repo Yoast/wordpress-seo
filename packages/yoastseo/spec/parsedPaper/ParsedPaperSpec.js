@@ -28,26 +28,26 @@ describe( "ParsedPaper", () => {
 		} );
 	} );
 
-	describe( "setMetaValue", () => {
+	describe( "setMetaProperty", () => {
 		it( "sets a key-value pair to the _metadata on the ParsedPaper", () => {
 			const parsedPaper = new ParsedPaper();
-			parsedPaper.setMetaValue( "keyword", "test" );
+			parsedPaper.setMetaProperty( "keyword", "test" );
 			expect( parsedPaper._metaData ).toEqual( { keyword: "test" } );
 		} );
 	} );
 
-	describe( "getMetaValue", () => {
+	describe( "getMetaProperty", () => {
 		it( "gets the value for a key from the _metadata on the ParsedPaper", () => {
 			const parsedPaper = new ParsedPaper();
-			parsedPaper.setMetaValue( "keyword", "test" );
-			const result = parsedPaper.getMetaValue( "keyword" );
+			parsedPaper.setMetaProperty( "keyword", "test" );
+			const result = parsedPaper.getMetaProperty( "keyword" );
 			expect( result ).toEqual( "test" );
 		} );
 
 		it( "returns undefined if the metaData key doesn't exist", () => {
 			const parsedPaper = new ParsedPaper();
-			parsedPaper.setMetaValue( "keyword", "test" );
-			const result = parsedPaper.getMetaValue( "badKey" );
+			parsedPaper.setMetaProperty( "keyword", "test" );
+			const result = parsedPaper.getMetaProperty( "badKey" );
 			expect( result ).toBeUndefined();
 		} );
 	} );

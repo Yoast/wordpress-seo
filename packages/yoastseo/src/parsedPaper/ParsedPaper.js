@@ -8,17 +8,28 @@
  * */
 export default class ParsedPaper {
 	/**
-	 *
+	 * Creates a new ParsedPaper.
 	 */
 	constructor() {
+		/**
+		 * Stores the metadata (e.g. the keywords, metadescription, title of the document).
+		 *
+		 * @type{Object}
+		 * @private
+		 */
 		this._metaData = {};
-		this._tree = {};
 
-		this.setTree.bind( this );
+		/**
+		 * Stores the tree representation of a Paper's text.
+		 *
+		 * @type{module:parsedPaper/structure.Node|Object}
+		 * @private
+		 */
+		this._tree = {};
 	}
 
 	/**
-	 * Sets a tree structure on ParsedPaper's _tree
+	 * Sets a tree structure on the ParsedPaper.
 	 *
 	 * @param {module:parsedPaper/structure.Node} tree A tree representation of the paper's text.
 	 *
@@ -29,7 +40,7 @@ export default class ParsedPaper {
 	}
 
 	/**
-	 * Returns the tree.
+	 * Returns the tree from the ParsedPaper.
 	 *
 	 * @returns {module:parsedPaper/structure.Node|Object} The tree.
 	 */
@@ -38,29 +49,29 @@ export default class ParsedPaper {
 	}
 
 	/**
-	 * Sets a key-value pair on the metaData object.
+	 * Sets a metadata value on the ParsedPaper under the passed key.
 	 *
 	 * @param {string} key   The key for the metaData key-value pair.
 	 * @param {*}      value The value for the metaData key-value pair.
 	 *
 	 * @returns {void}
 	 */
-	setMetaValue( key, value ) {
+	setMetaProperty( key, value ) {
 		this._metaData[ key ] = value;
 	}
 
 	/**
-	 * Returns the value for a specific key from the metaData.
+	 * Returns the metadata value for a specific key from the ParsedPaper.
 	 *
 	 * @param   {string} key The key to return the value for.
 	 * @returns {*}          The value belonging to this key.
 	 */
-	getMetaValue( key ) {
+	getMetaProperty( key ) {
 		return this._metaData[ key ];
 	}
 
 	/**
-	 * Sets the metaData.
+	 * Sets the metaData on the ParsedPaper.
 	 *
 	 * @param {Object} metaData The metaData pertaining to tree.
 	 *
@@ -71,7 +82,7 @@ export default class ParsedPaper {
 	}
 
 	/**
-	 * Returns the current metaData.
+	 * Returns the current metaData of the ParsedPaper.
 	 *
 	 * @returns {Object} The metaData.
 	 */
