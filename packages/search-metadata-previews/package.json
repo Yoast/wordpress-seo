@@ -1,6 +1,7 @@
 {
   "name": "@yoast/search-metadata-previews",
   "version": "1.0.0-rc.0",
+  "private": false,
   "main": "src/index.js",
   "repository": {
     "type": "git",
