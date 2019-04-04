@@ -1,10 +1,20 @@
+/* External dependencies */
 import { Component, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import interpolateComponents from "interpolate-components";
 
+/* Internal dependencies */
 import WordPressUserSelector from "./WordPressUserSelector";
 
+/**
+ * Wrapper for WordPressUserSelector to be used on the search appearance page.
+ */
 class WordPressUserSelectorSearchAppearance extends Component {
+	/**
+	 * The WordPressUserSelectorSearchAppearance constructor.
+	 *
+	 * @param {Object} props The component's props.
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -17,6 +27,11 @@ class WordPressUserSelectorSearchAppearance extends Component {
 		this.onChange = this.onChange.bind( this );
 	}
 
+	/**
+	 * Gets the user id from the hidden input field.
+	 *
+	 * @returns {number} The user id.
+	 */
 	getInitialValue() {
 		const value = this.element.value;
 
@@ -28,12 +43,27 @@ class WordPressUserSelectorSearchAppearance extends Component {
 		return userId;
 	}
 
+	/**
+	 * Handles change event for the user selector.
+	 *
+	 * First updates its internal state and then updates the hidden input.
+	 *
+	 * @param {number} value The user's id.
+	 * @param {string} name  The user's name.
+	 *
+	 * @returns {void}
+	 */
 	onChange( value, name ) {
 		this.setState( { value, name }, () => {
 			this.element.value = value;
 		} );
 	}
 
+	/**
+	 * Renders an error message when no user has been selected.
+	 *
+	 * @returns {React.Element} The rendered error message.
+	 */
 	renderError() {
 		if ( this.state.value ) {
 			return null;
@@ -46,8 +76,13 @@ class WordPressUserSelectorSearchAppearance extends Component {
 		);
 	}
 
+	/**
+	 * Renders a message about the selected user when a user has been selected.
+	 *
+	 * @returns {React.Element} The rendered message.
+	 */
 	renderAuthorInfo() {
-		if ( ! this.state.value ) {
+		if ( ! this.state.value || ! this.state.name ) {
 			return null;
 		}
 
@@ -72,6 +107,11 @@ class WordPressUserSelectorSearchAppearance extends Component {
 		} );
 	}
 
+	/**
+	 * Renders the WordPressUserSelectorSearchAppearance component.
+	 *
+	 * @returns {React.Element} The rendered component.
+	 */
 	render() {
 		return (
 			<Fragment>
