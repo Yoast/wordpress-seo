@@ -433,20 +433,24 @@ class Yoast_Form {
 	 * @param string $label          The label to show for the variable.
 	 * @param array  $select_options The select options to choose from.
 	 * @param string $styled         The select style. Use 'styled' to get a styled select. Default 'unstyled'.
+	 * @param bool   $show_label     Whether or not to show the label, if not, it will be applied as an aria-label.
 	 */
-	public function select( $var, $label, array $select_options, $styled = 'unstyled' ) {
+	public function select( $var, $label, array $select_options, $styled = 'unstyled', $show_label = true ) {
 
 		if ( empty( $select_options ) ) {
 			return;
 		}
 
-		$this->label(
-			$label . ':',
-			array(
-				'for'   => $var,
-				'class' => 'select',
-			)
-		);
+		if ( $show_label ) {
+			$this->label(
+				$label . ':',
+				array(
+					'for'   => $var,
+					'class' => 'select',
+
+				)
+			);
+		}
 
 		$select_name       = esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']';
 		$active_option     = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
@@ -457,6 +461,9 @@ class Yoast_Form {
 		$select->add_attribute( 'class', 'select' );
 		if ( $this->is_control_disabled( $var ) ) {
 			$select->add_attribute( 'disabled', 'disabled' );
+		}
+		if ( ! $show_label ) {
+			$select->add_attribute( 'aria-label', $label );
 		}
 
 		if ( $styled === 'styled' ) {
