@@ -1,6 +1,6 @@
 /**
  * A parsed version of the paper, containing a tree representation of the text,
- * and parsed metadata pertaining to the tree's context.
+ * and parsed metaData pertaining to the tree's context.
  *
  * @class ParsedPaper
  *
@@ -11,7 +11,7 @@ export default class ParsedPaper {
 	 *
 	 */
 	constructor() {
-		this._metadata = {};
+		this._metaData = {};
 		this._tree = {};
 
 		this.setTree.bind( this );
@@ -38,44 +38,44 @@ export default class ParsedPaper {
 	}
 
 	/**
-	 * Sets a key-value pair on the metadata object.
+	 * Sets a key-value pair on the metaData object.
 	 *
-	 * @param {string} key   The key for the metadata key-value pair.
-	 * @param {*}      value The value for the metadata key-value pair.
+	 * @param {string} key   The key for the metaData key-value pair.
+	 * @param {*}      value The value for the metaData key-value pair.
 	 *
 	 * @returns {void}
 	 */
 	setMetaValue( key, value ) {
-		this._metadata[ key ] = value;
+		this._metaData[ key ] = value;
 	}
 
 	/**
-	 * Returns the value for a specific key from the metadata.
+	 * Returns the value for a specific key from the metaData.
 	 *
 	 * @param   {string} key The key to return the value for.
 	 * @returns {*}          The value belonging to this key.
 	 */
 	getMetaValue( key ) {
-		return this._metadata[ key ];
+		return this._metaData[ key ];
 	}
 
 	/**
-	 * Sets the metadata.
+	 * Sets the metaData.
 	 *
-	 * @param {Object} metadata The metadata pertaining to tree.
+	 * @param {Object} metaData The metaData pertaining to tree.
 	 *
-	 * returns {void}
+	 * @returns {void}
 	 */
-	setMetadata( metadata ) {
-		this._metadata = metadata;
+	setMetaData( metaData ) {
+		this._metaData = metaData;
 	}
 
 	/**
-	 * Returns the current metadata.
+	 * Returns the current metaData.
 	 *
-	 * @returns {Object} The metadata.
+	 * @returns {Object} The metaData.
 	 */
-	getMetadata() {
-		return this._metadata;
+	getMetaData() {
+		return this._metaData;
 	}
 }
