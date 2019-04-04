@@ -220,7 +220,7 @@ class WPSEO_Admin {
 		}
 
 		$addon_manager = new WPSEO_Addon_Manager();
-		if ( $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) && WPSEO_Utils::is_yoast_seo_premium() ) {
+		if ( WPSEO_Utils::is_yoast_seo_premium() && $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
 			return $links;
 		}
 
