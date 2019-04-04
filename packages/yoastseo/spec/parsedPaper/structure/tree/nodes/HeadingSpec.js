@@ -1,5 +1,5 @@
-import Heading from "../../../../src/parsedPaper/structure/tree/nodes/Heading";
-import TextContainer from "../../../../src/parsedPaper/structure/tree/TextContainer";
+import Heading from "../../../../../src/parsedPaper/structure/tree/nodes/Heading";
+import TextContainer from "../../../../../src/parsedPaper/structure/tree/TextContainer";
 
 describe( "Heading", () => {
 	describe( "constructor", () => {

@@ -1,4 +1,4 @@
-import ListItem from "../../../../src/parsedPaper/structure/tree/nodes/ListItem";
+import ListItem from "../../../../../src/parsedPaper/structure/tree/nodes/ListItem";
 
 describe( "ListItem", () => {
 	describe( "constructor", () => {

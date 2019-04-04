@@ -1,7 +1,7 @@
-import Heading from "../../../../src/parsedPaper/structure/tree/nodes/Heading";
-import Node from "../../../../src/parsedPaper/structure/tree/nodes/Node";
-import Paragraph from "../../../../src/parsedPaper/structure/tree/nodes/Paragraph";
-import StructuredNode from "../../../../src/parsedPaper/structure/tree/nodes/StructuredNode";
+import Heading from "../../../../../src/parsedPaper/structure/tree/nodes/Heading";
+import Node from "../../../../../src/parsedPaper/structure/tree/nodes/Node";
+import Paragraph from "../../../../../src/parsedPaper/structure/tree/nodes/Paragraph";
+import StructuredNode from "../../../../../src/parsedPaper/structure/tree/nodes/StructuredNode";
 
 describe( "Node", () => {
 	beforeEach( () => {
