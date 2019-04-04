@@ -65,7 +65,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 				'@graph'   => $graph,
 			);
 
-			echo "<script type='application/ld+json'>", $this->format_data( $output ), '</script>', "\n";
+			echo "<script type='application/ld+json' class='yoast-schema-graph yoast-schema-graph--main'>", $this->format_data( $output ), '</script>', "\n";
 		}
 	}
 
