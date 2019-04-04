@@ -109,11 +109,8 @@ class WPSEO_Addon_Manager {
 			return $site_information;
 		}
 
-		// Otherwise return the defaults.
-		return (object) array(
-			'url'           => WPSEO_Utils::get_home_url(),
-			'subscriptions' => array(),
-		);
+		return $this->get_site_information_default();
+
 	}
 
 	/**
@@ -385,7 +382,7 @@ class WPSEO_Addon_Manager {
 			return $api_request->get_response();
 		}
 
-		return false;
+		return $this->get_site_information_default();
 	}
 
 	/**
@@ -482,5 +479,17 @@ class WPSEO_Addon_Manager {
 		}
 
 		return $filtered_array;
+	}
+
+	/**
+	 * Returns an object with no subscriptions.
+	 *
+	 * @return stdClass Site information.
+	 */
+	protected function get_site_information_default() {
+		return (object) array(
+			'url'           => WPSEO_Utils::get_home_url(),
+			'subscriptions' => array(),
+		);
 	}
 }

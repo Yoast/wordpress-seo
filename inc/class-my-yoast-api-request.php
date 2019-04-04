@@ -24,7 +24,7 @@ class WPSEO_MyYoast_Api_Request {
 	 */
 	protected $args = array(
 		'method'    => 'GET',
-		'timeout'   => 10,
+		'timeout'   => 1,
 		'sslverify' => false,
 		'headers'   => array(
 			'Accept-Encoding' => '*',
