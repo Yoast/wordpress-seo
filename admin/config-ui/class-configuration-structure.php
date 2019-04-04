@@ -66,7 +66,7 @@ class WPSEO_Configuration_Structure {
 		$this->add_step( 'site-type', __( 'Site type', 'wordpress-seo' ), $this->fields['siteType'] );
 		$this->add_step(
 			'publishing-entity',
-			__( 'Company or person', 'wordpress-seo' ),
+			__( 'Organization or person', 'wordpress-seo' ),
 			$this->fields['publishingEntity']
 		);
 
