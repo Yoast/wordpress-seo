@@ -93,7 +93,6 @@ export default class FacebookImage extends React.Component {
 				imageProperties: null,
 				status: "errored",
 			} );
-			return true;
 		} );
 	}
 

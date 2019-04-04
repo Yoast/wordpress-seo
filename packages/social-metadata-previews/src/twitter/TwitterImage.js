@@ -28,7 +28,7 @@ const StyledImage = styled.img`
 	transform: translate(-50%, -50%);
 `;
 
-const baseImage = styled.div`
+const BaseImage = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -42,12 +42,12 @@ const baseImage = styled.div`
 	font-size: 1rem;
 `;
 
-const ErrorImage = styled(baseImage)`
+const ErrorImage = styled(BaseImage)`
 	color: ${ colors.$color_white };
 	background-color: ${ colors.$color_red };
 `;
 
-const PlaceholderImage = styled(baseImage)`
+const PlaceholderImage = styled(BaseImage)`
 	border-top-left-radius: .85714em;
 	border-top-right-radius: .85714em;
 	border-style: dashed;
@@ -96,7 +96,6 @@ export default class TwitterImage extends React.Component {
 				imageProperties: null,
 				status: "errored",
 			} );
-			return true;
 		} );
 	}
 
