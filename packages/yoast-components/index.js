@@ -50,7 +50,7 @@ export
 	SnippetEditor,
 	lengthProgressShape,
 	recommendedReplacementVariablesShape,
-	replacementVariablesShape
+	replacementVariablesShape,
 } from "@yoast/search-metadata-previews";
 
 export { default as utils } from "./utils";

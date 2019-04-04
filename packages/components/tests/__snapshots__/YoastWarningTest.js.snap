@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Warning does not render without a message 1`] = `null`;
+exports[`YoastWarning does not render without a message 1`] = `null`;
 
-exports[`Warning matches the snapshot 1`] = `
+exports[`YoastWarning matches the snapshot 1`] = `
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -63,7 +63,7 @@ exports[`Warning matches the snapshot 1`] = `
 </div>
 `;
 
-exports[`Warning with a right to left language matches the snapshot 1`] = `
+exports[`YoastWarning with a right to left language matches the snapshot 1`] = `
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
