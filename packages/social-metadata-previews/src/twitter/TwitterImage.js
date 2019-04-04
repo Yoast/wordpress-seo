@@ -124,11 +124,11 @@ export default class TwitterImage extends React.Component {
 	/**
 	 * Renders the TwitterImage.
 	 *
-	 * @returns {ReactComponent} Either the ErrorImage component or the TwitterImageContainer.
+	 * @returns {ReactComponent} Either the PlaceholderImage component, the ErrorImage component or
+	 * the TwitterImageContainer.
 	 */
 	render() {
-		const imageProperties = this.state.imageProperties;
-		const status = this.state.status;
+		const { imageProperties, status } = this.state;
 
 		if ( status === "loading" || this.props.src === "" ) {
 			return <PlaceholderImage>{ __( "Select image", "yoast-components" )

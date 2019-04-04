@@ -129,8 +129,7 @@ export default class FacebookImage extends React.Component {
 	 * @returns {ReactComponent} Either the ErrorImage component or the FacebookImageContainer.
 	 */
 	render() {
-		const imageProperties = this.state.imageProperties;
-		const status = this.state.status;
+		const { imageProperties, status } = this.state;
 
 		if ( status === "loading" ) {
 			return <PlaceholderImage />;
