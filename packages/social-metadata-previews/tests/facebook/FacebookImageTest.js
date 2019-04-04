@@ -6,25 +6,16 @@ import renderer from "react-test-renderer";
 import FacebookImage from "../../src/facebook/FacebookImage";
 import delayComponentSnapshot from "./testHelpers/delayComponentSnapshot";
 
-const importedDetermineFacebookImageProperties = require( "../../src/helpers/determineFacebookImageProperties.js" );
+import * as determineImageProperties from "../../src/helpers/determineImageProperties";
+determineImageProperties.determineImageProperties = jest.fn();
 
-jest.mock( "../../src/helpers/determineFacebookImageProperties.js", () => {
-	return {
-		determineFacebookImageProperties: jest.fn(),
-		SQUARE_WIDTH: 158,
-		SQUARE_HEIGHT: 158,
-		PORTRAIT_WIDTH: 158,
-		PORTRAIT_HEIGHT: 236,
-		LANDSCAPE_WIDTH: 500,
-		LANDSCAPE_HEIGHT: 261,
-	};
-} );
+const FACEBOOK_IMAGE_SIZES = determineImageProperties.FACEBOOK_IMAGE_SIZES;
 
 describe( "FacebookImage Component", () => {
-	it( "calls determineFacebookImageProperties with the correct image URL", () => {
+	it( "calls determineImageProperties with the correct image URL", () => {
 		const imageUrl = "https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png";
 
-		importedDetermineFacebookImageProperties.determineFacebookImageProperties.mockReturnValueOnce( Promise.resolve( {
+		determineImageProperties.determineImageProperties.mockReturnValueOnce( Promise.resolve( {
 			mode: "portrait",
 			height: 600,
 			width: 300,
@@ -34,11 +25,11 @@ describe( "FacebookImage Component", () => {
 			<FacebookImage src={ imageUrl } />
 		);
 
-		expect( importedDetermineFacebookImageProperties.determineFacebookImageProperties ).toBeCalledWith( imageUrl );
+		expect( determineImageProperties.determineImageProperties ).toBeCalledWith( imageUrl, "Facebook" );
 	} );
 
 	it( "matches the snapshot in the loading state", () => {
-		importedDetermineFacebookImageProperties.determineFacebookImageProperties.mockReturnValueOnce(
+		determineImageProperties.determineImageProperties.mockReturnValueOnce(
 			// Make sure the promise is never resolved to keep the loading state.
 			new Promise( () => {} )
 		);
@@ -50,7 +41,7 @@ describe( "FacebookImage Component", () => {
 	} );
 
 	it( "matches the snapshot for a portrait image", () => {
-		importedDetermineFacebookImageProperties.determineFacebookImageProperties.mockReturnValueOnce( Promise.resolve( {
+		determineImageProperties.determineImageProperties.mockReturnValueOnce( Promise.resolve( {
 			mode: "portrait",
 			height: 600,
 			width: 300,
@@ -59,12 +50,12 @@ describe( "FacebookImage Component", () => {
 			<FacebookImage src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png" />
 		);
 
-		// Wait for the determineFacebookImageProperties promise to resolve.
+		// Wait for the determineImageProperties promise to resolve.
 		return delayComponentSnapshot( component );
 	} );
 
 	it( "matches the snapshot for a landscape image", () => {
-		importedDetermineFacebookImageProperties.determineFacebookImageProperties.mockReturnValueOnce( Promise.resolve( {
+		determineImageProperties.determineImageProperties.mockReturnValueOnce( Promise.resolve( {
 			mode: "landscape",
 			height: 300,
 			width: 600,
@@ -73,12 +64,12 @@ describe( "FacebookImage Component", () => {
 			<FacebookImage src="https://yoast.com/app/uploads/2015/06/How_to_choose_keywords_FI.png" />
 		);
 
-		// Wait for the determineFacebookImageProperties promise to resolve.
+		// Wait for the determineImageProperties promise to resolve.
 		return delayComponentSnapshot( component );
 	} );
 
 	it( "matches the snapshot for a square image", () => {
-		importedDetermineFacebookImageProperties.determineFacebookImageProperties.mockReturnValueOnce( Promise.resolve( {
+		determineImageProperties.determineImageProperties.mockReturnValueOnce( Promise.resolve( {
 			mode: "square",
 			height: 300,
 			width: 300,
@@ -87,12 +78,12 @@ describe( "FacebookImage Component", () => {
 			<FacebookImage src="https://yoast.com/app/uploads/2018/09/avatar_user_1_1537774226.png" />
 		);
 
-		// Wait for the determineFacebookImageProperties promise to resolve.
+		// Wait for the determineImageProperties promise to resolve.
 		return delayComponentSnapshot( component );
 	} );
 
 	it( "matches the snapshot for a too small image", () => {
-		importedDetermineFacebookImageProperties.determineFacebookImageProperties.mockReturnValue( Promise.resolve( {
+		determineImageProperties.determineImageProperties.mockReturnValue( Promise.resolve( {
 			mode: "square",
 			height: 100,
 			width: 100,
@@ -101,46 +92,46 @@ describe( "FacebookImage Component", () => {
 			<FacebookImage src="https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png" />
 		);
 
-		// Wait for the determineFacebookImageProperties promise to resolve.
+		// Wait for the determineImageProperties promise to resolve.
 		return delayComponentSnapshot( component );
 	} );
 
 	it( "matches the snapshot for a faulty image", () => {
-		importedDetermineFacebookImageProperties.determineFacebookImageProperties.mockReturnValueOnce( Promise.reject() );
+		determineImageProperties.determineImageProperties.mockReturnValueOnce( Promise.reject() );
 
 		const component = renderer.create(
 			<FacebookImage src="thisisnoimage" />
 		);
 
-		// Wait for the determineFacebookImageProperties promise to resolve.
+		// Wait for the determineImageProperties promise to resolve.
 		return delayComponentSnapshot( component );
 	} );
 } );
 
-describe( "getContainerDimensions", () => {
-	it( "gets the container dimensions for a landscape image.", () => {
+describe( "retrieveContainerDimensions", () => {
+	it( "retrieves the container dimensions for a landscape image", () => {
 		const FacebookImageComponent = new FacebookImage();
 
-		const actual = FacebookImageComponent.getContainerDimensions( "landscape" );
-		const expected = { height: "261px", width: "500px" };
+		const actual = FacebookImageComponent.retrieveContainerDimensions( "landscape" );
+		const expected = { height: FACEBOOK_IMAGE_SIZES.landscapeHeight + "px", width: FACEBOOK_IMAGE_SIZES.landscapeWidth + "px" };
 
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "gets the container dimensions for a square image.", () => {
+	it( "retrieves the container dimensions for a square image", () => {
 		const FacebookImageComponent = new FacebookImage();
 
-		const actual = FacebookImageComponent.getContainerDimensions( "square" );
-		const expected = { height: "158px", width: "158px" };
+		const actual = FacebookImageComponent.retrieveContainerDimensions( "square" );
+		const expected = { height: FACEBOOK_IMAGE_SIZES.squareHeight + "px", width: FACEBOOK_IMAGE_SIZES.squareWidth + "px" };
 
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "gets the container dimensions for a portrait image.", () => {
+	it( "retrieves the container dimensions for a portrait image", () => {
 		const FacebookImageComponent = new FacebookImage();
 
-		const actual = FacebookImageComponent.getContainerDimensions( "portrait" );
-		const expected = { height: "236px", width: "158px" };
+		const actual = FacebookImageComponent.retrieveContainerDimensions( "portrait" );
+		const expected = { height: FACEBOOK_IMAGE_SIZES.portraitHeight + "px", width: FACEBOOK_IMAGE_SIZES.portraitWidth + "px" };
 
 		expect( actual ).toEqual( expected );
 	} );

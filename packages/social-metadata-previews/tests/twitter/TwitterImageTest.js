@@ -112,7 +112,7 @@ describe( "TwitterImage Component", () => {
 } );
 
 describe( "retrieveContainerDimensions", () => {
-	it( "gets the container dimensions for a landscape image", () => {
+	it( "retrieves the container dimensions for a landscape image", () => {
 		const TwitterImageComponent = new TwitterImage();
 
 		const actual = TwitterImageComponent.retrieveContainerDimensions( "landscape" );
@@ -121,7 +121,7 @@ describe( "retrieveContainerDimensions", () => {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "gets the container dimensions for a square image", () => {
+	it( "retrieves the container dimensions for a square image", () => {
 		const TwitterImageComponent = new TwitterImage();
 
 		const actual = TwitterImageComponent.retrieveContainerDimensions( "square" );
