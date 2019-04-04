@@ -1,7 +1,18 @@
-export const SQUARE_WIDTH = 123;
-export const SQUARE_HEIGHT = 123;
-export const LANDSCAPE_WIDTH = 506;
-export const LANDSCAPE_HEIGHT = 253;
+export const TWITTER_IMAGE_SIZES = {
+	"squareWidth": 123,
+	"squareHeight": 123,
+	"landscapeWidth": 506,
+	"landscapeHeight": 253
+};
+
+export const FACEBOOK_IMAGE_SIZES = {
+	"squareWidth": 158,
+	"squareHeight": 158,
+	"landscapeWidth": 500,
+	"landscapeHeight": 261,
+	"portraitWidth": 158,
+	"portraitHeight": 236
+};
 
 /**
  * Determines the image display mode.
@@ -34,13 +45,28 @@ export function determineImageMode( socialMedium, dimensions ) {
 }
 
 /**
+ * Retrieves the image sizes.
+ *
+ * @param {string} socialMedium Facebook or Twitter.
+ *
+ * @returns {Object} Object containing the image sizes.
+ */
+export function retrieveImageSizes ( socialMedium ) {
+	if ( socialMedium === "Twitter" ) {
+		return TWITTER_IMAGE_SIZES;
+	}
+
+	return FACEBOOK_IMAGE_SIZES;
+}
+
+/**
  * Gets the dimensions of the uploaded image.
  *
  * @param {string} src The image source.
  *
- * @returns {Object} The image original image dimensions.
+ * @returns {Object} The original image dimensions.
  */
-export function getOriginalImageDimensions( src ) {
+export function retrieveOriginalImageDimensions( src ) {
 	/* istanbul ignore next */
 	return new Promise( ( resolve, reject ) => {
 		const img = new Image();
@@ -59,53 +85,65 @@ export function getOriginalImageDimensions( src ) {
 }
 
 /**
- * Gets the ratios of the width and height of the original image in relation to the width and height
- * of the expected image.
+ * Calculates the ratios of the width and height of the original image in relation to the width and
+ * height of the expected image.
  *
- * When we're landscape mode, we can't just resize to the dimensions expected by Twitter. If we'd do
- * so, we would end up with warped images. That's why we calculate the ratio between the original width and height and
- * the width and height that is expected by Twitter. For example: the original image is 898x1600 (height x width) and
- * Twitter expects 253x506. The heightRatio would be 3.55 (898/253) and the widthRatio would be 3.16 (1600/506).
+ * When we're in landscape mode, we can't just resize to the dimensions expected by Twitter.
+ * If we'd do so, we would end up with warped images. That's why we calculate the ratio between
+ * the original width and height and the width and height that is expected by Twitter.
+ * For example: the original image is 898x1600 (height x width) and Twitter expects 253x506.
+ * The heightRatio would be 3.55 (898/253) and the widthRatio would be 3.16 (1600/506).
  *
+ * @param {Object} imageSizes The sizes of images in the social medium.
  * @param {Object} dimensions The dimensions of the original image.
  * @param {string} imageMode The image mode: square or landscape.
  *
  * @returns {Object} The image's width ratio and height ratio.}
  */
-export function getImageRatios( dimensions, imageMode ) {
+export function calculateImageRatios( imageSizes, dimensions, imageMode ) {
+
 	if ( imageMode === "landscape" ) {
 		return {
-			widthRatio: dimensions.width / LANDSCAPE_WIDTH,
-			heightRatio: dimensions.height / LANDSCAPE_HEIGHT,
+			widthRatio: dimensions.width / imageSizes.landscapeWidth,
+			heightRatio: dimensions.height / imageSizes.landscapeHeight,
+		};
+	}
+
+	if ( imageMode === "portrait" ) {
+		return {
+			widthRatio: dimensions.width / imageSizes.portraitWidth,
+			heightRatio: dimensions.height / imageSizes.portraitHeight,
 		};
 	}
 
 	if ( imageMode === "square" ) {
 		return {
-			widthRatio: dimensions.width / SQUARE_WIDTH,
-			heightRatio: dimensions.height / SQUARE_HEIGHT,
+			widthRatio: dimensions.width / imageSizes.squareWidth,
+			heightRatio: dimensions.height / imageSizes.squareHeight,
 		};
 	}
 }
 
 /**
- * Gets the image dimensions that the image should have as Twitter image.
+ * Calculates the largest dimensions that can be used for rendering the image.
  *
- * To use as much as the allowed space as possible, we base both dimensions on the dimension with the lowest imageRatio
- * (see above). For example: for a 898x1600 image, the heightRatio is larger than the widthRatio. The result of dividing
- * by the widthRatio is a 284x506 image. The excess of 284-253 = 31 pixels will be 'cut off' by the
- * container in the presentation part.
+ * To use as much as the allowed space as possible, we base both dimensions on the dimension with
+ * the lowest imageRatio (see above). For example: for a 898x1600 image, the heightRatio is larger
+ * than the widthRatio. The result of dividing by the widthRatio is a 284x506 image.
+ * The excess of 284-253 = 31 pixels will be 'cut off' by the container in the presentation part.
  *
- * If we would divide by the heightRatio, the image would become 253x451, which means it would not be wide enough for
- * the container, which means there would be a 506-451=55px white border on one of the sides.
+ * If we would divide by the heightRatio, the image would become 253x451, which means it would not
+ * be wide enough for the container, which means there would be a 506-451=55px white border on one
+ * of the sides.
  *
  * @param {Object} dimensions  The dimensions of the original image.
- * @param {Object} imageRatios The ratios of the width and height of the original image in relation to the width and
- *                             height of the expected image.
+ * @param {Object} imageRatios The ratios of the width and height of the original image in relation
+ *                             to the width and height of the expected image.
  *
- * @returns {Object}           The width and height that the image should have as Twitter image.
+ * @returns {Object}           The width and height that the image should have as Twitter/Facebook
+ *                             image.
  */
-export function getImageDimensions( dimensions, imageRatios ) {
+export function calculateLargestDimensions( dimensions, imageRatios ) {
 	if ( imageRatios.widthRatio <= imageRatios.heightRatio ) {
 		return {
 			width: dimensions.width / imageRatios.widthRatio,
@@ -120,16 +158,18 @@ export function getImageDimensions( dimensions, imageRatios ) {
 }
 
 /**
- * Calculates the dimensions of the image to use as TwitterImage.
+ * Calculates the dimensions of the image to use as Twitter/Facebook image.
  *
+ * @param {Object} imageSizes The sizes of images in the social medium.
  * @param {Object} originalDimensions The width and height of the original image.
  * @param {string} imageMode The image mode: square or landscape.
  *
- * @returns {object} The image dimensions for the Twitter image.
+ * @returns {object} The image dimensions.
  */
-export function calculateTwitterImageDimensions( originalDimensions, imageMode ) {
+export function calculateImageDimensions( imageSizes, originalDimensions, imageMode ) {
 	// Images that are too small should not be scaled.
-	if ( originalDimensions.width < SQUARE_WIDTH || originalDimensions.height < SQUARE_HEIGHT ) {
+	if ( originalDimensions.width < imageSizes.squareWidth ||
+		 originalDimensions.height < imageSizes.squareHeight ) {
 		return {
 			width: originalDimensions.width,
 			height: originalDimensions.height,
@@ -138,39 +178,39 @@ export function calculateTwitterImageDimensions( originalDimensions, imageMode )
 
 	/*
 	 * If the image should be rendered as a square, and its original dimensions were also square,
-	 * just use the squareWidth and squareHeight.
-	 * We don't have to fear that the resulting image will be warped.
+	 * just use the squareWidth and squareHeight. We don't have to fear that the resulting image
+	 * will be warped.
 	 */
 	if ( imageMode === "square" ) {
 		if ( originalDimensions.width === originalDimensions.height ) {
 			return {
-				width: SQUARE_WIDTH,
-				height: SQUARE_HEIGHT,
+				width: imageSizes.squareWidth,
+				height: imageSizes.squareHeight,
 			};
 		}
 
 		/*
-		 * If the image should be rendered as a square, but originally wasn't square,
-		 * crop the longest side. This way, the image won't be warped.
+		 * If the image should be rendered as a square, but originally wasn't square, crop the
+		 * longest side. This way, the image won't be warped.
 		 */
-		const imageRatios = getImageRatios( originalDimensions, imageMode );
+		const imageRatios = calculateImageRatios( imageSizes, originalDimensions, imageMode );
 
-		return getImageDimensions( originalDimensions, imageRatios );
+		return calculateLargestDimensions( originalDimensions, imageRatios );
 	}
 
 	/*
-	 * If the image should be rendered as a landscape, crop the longest side,
-	 * to reach the required size ratio. This way, the image won't be warped.
+	 * If the image should be rendered as a landscape or portrait, crop the longest side, to reach
+	 * the required size ratio. This way, the image won't be warped.
 	 */
-	if ( imageMode === "landscape" ) {
-		const imageRatios = getImageRatios( originalDimensions, imageMode );
+	if ( imageMode === "landscape" || imageMode === "portrait") {
+		const imageRatios = calculateImageRatios( imageSizes, originalDimensions, imageMode );
 
-		return getImageDimensions( originalDimensions, imageRatios );
+		return calculateLargestDimensions( originalDimensions, imageRatios );
 	}
 }
 
 /**
- * Determines the properties of the Twitter image.
+ * Determines the properties of the image.
  *
  * @param {string} src The source of the image.
  * @param {string} socialMedium Facebook or Twitter.
@@ -178,12 +218,15 @@ export function calculateTwitterImageDimensions( originalDimensions, imageMode )
  * @returns {Promise} The promise of the imageProperties.
  */
 export function determineImageProperties( src, socialMedium ) {
-	return getOriginalImageDimensions( src ).then( ( originalDimensions ) => {
+	return retrieveOriginalImageDimensions( src ).then( ( originalDimensions ) => {
 		// Determine what image mode should be used.
 		const imageMode = determineImageMode( socialMedium, originalDimensions );
 
+		// Retrieve the image sizes, depending on the social medium.
+		const imageSizes = retrieveImageSizes( socialMedium );
+
 		// Calculate the image dimensions for the specific image.
-		const ImageDimensions = calculateTwitterImageDimensions( originalDimensions, imageMode );
+		const ImageDimensions = calculateImageDimensions( imageSizes, originalDimensions, imageMode );
 
 		return {
 			mode: imageMode,

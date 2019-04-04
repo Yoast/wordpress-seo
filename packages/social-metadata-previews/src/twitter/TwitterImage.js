@@ -7,10 +7,7 @@ import { __ } from "@wordpress/i18n";
 /* Internal dependencies */
 import {
 	determineImageProperties,
-	LANDSCAPE_HEIGHT,
-	LANDSCAPE_WIDTH,
-	SQUARE_HEIGHT,
-	SQUARE_WIDTH,
+	TWITTER_IMAGE_SIZES,
 } from "../helpers/determineImageProperties";
 import { colors } from "@yoast/style-guide";
 
@@ -36,8 +33,8 @@ const ErrorImage = styled.p`
 	justify-content: center;
 	align-items: center;
 	box-sizing: border-box;
-	width: ${ LANDSCAPE_WIDTH + "px" };
-	height: ${ LANDSCAPE_HEIGHT + "px" };
+	width: ${ TWITTER_IMAGE_SIZES.landscapeWidth + "px" };
+	height: ${ TWITTER_IMAGE_SIZES.landscapeHeight + "px" };
 	max-width: 100%;
 	margin: 0;
 	padding: 1em;
@@ -52,8 +49,8 @@ const PlaceholderImage = styled.div`
 	justify-content: center;
 	align-items: center;
 	box-sizing: border-box;
-	width: ${ LANDSCAPE_WIDTH + "px" };
-	height: ${ LANDSCAPE_HEIGHT + "px" };
+	width: ${ TWITTER_IMAGE_SIZES.landscapeWidth + "px" };
+	height: ${ TWITTER_IMAGE_SIZES.landscapeHeight + "px" };
 	max-width: 100%;
 	margin: 0;
 	padding: 1em;
@@ -96,7 +93,8 @@ export default class TwitterImage extends React.Component {
 	 * @returns {Promise} Resolves when there are image properties.
 	 */
 	componentDidMount() {
-		return determineImageProperties( this.props.src, "Twitter" ).then( ( imageProperties ) => {
+		return determineImageProperties( this.props.src, "Twitter" ).then(
+			( imageProperties ) => {
 			this.setState( {
 				imageProperties: imageProperties,
 				status: "loaded",
@@ -111,23 +109,23 @@ export default class TwitterImage extends React.Component {
 	}
 
 	/**
-	 * Gets the dimensions for the Twitter image container.
+	 * Retrieves the dimensions for the Twitter image container.
 	 *
 	 * @param {string} imageMode The Twitter image mode: landscape or square.
 	 *
 	 * @returns {Object} The width and height for the container.
 	 */
-	getContainerDimensions( imageMode ) {
+	retrieveContainerDimensions( imageMode ) {
 		switch ( imageMode ) {
 			case "square":
 				return {
-					height: SQUARE_HEIGHT + "px",
-					width: SQUARE_WIDTH + "px",
+					height: TWITTER_IMAGE_SIZES.squareHeight + "px",
+					width: TWITTER_IMAGE_SIZES.squareWidth + "px",
 				};
 			case "landscape":
 				return {
-					height: LANDSCAPE_HEIGHT + "px",
-					width: LANDSCAPE_WIDTH + "px",
+					height: TWITTER_IMAGE_SIZES.landscapeHeight + "px",
+					width: TWITTER_IMAGE_SIZES.landscapeWidth + "px",
 				};
 		}
 	}
@@ -142,14 +140,16 @@ export default class TwitterImage extends React.Component {
 		const status = this.state.status;
 
 		if ( status === "loading" || this.props.src === "" ) {
-			return <PlaceholderImage>{ __( "Select image", "yoast-components" ) }</PlaceholderImage>;
+			return <PlaceholderImage>{ __( "Select image", "yoast-components" )
+			}</PlaceholderImage>;
 		}
 
 		if ( status === "errored" ) {
-			return <ErrorImage>{ __( "The given image url cannot be loaded", "yoast-components" ) }</ErrorImage>;
+			return <ErrorImage>{ __( "The given image url cannot be loaded",
+				"yoast-components" ) }</ErrorImage>;
 		}
 
-		const containerDimensions = this.getContainerDimensions( imageProperties.mode );
+		const containerDimensions = this.retrieveContainerDimensions( imageProperties.mode );
 		return <TwitterImageContainer
 			dimensions={ containerDimensions }
 		>
