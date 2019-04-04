@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 /* Yoast dependencies */
-import { Input } from "@yoast/components";
+import { Textfield as Input } from "@yoast/components";
 
 /* Internal dependencies */
 import HTML from "./Html";

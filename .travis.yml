@@ -43,7 +43,7 @@ cache:
   - node_modules
   - apps/content-analysis/node_modules
   - apps/components/node_modules
-  - packages/algolia-search/node_modules
+  - packages/algolia-search-box/node_modules
   - packages/components/node_modules
   - packages/configuration-wizard/node_modules
   - packages/eslint/node_modules
