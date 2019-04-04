@@ -8,23 +8,10 @@ describe( "Test for creating forms for German words", () => {
 		expect( getForms( "studenten", morphologyDataDE ) ).toEqual( [
 			// Original input word
 			"studenten",
-			// Extra forms that are added because of the ambiguous -t ending
-			"studene",
+			// Stemmed wordf
 			"student",
-			"studenst",
-			"studenen",
-			"studenest",
-			"studenet",
-			"studente",
-			"studentet",
-			"studentest",
-			"studenete",
-			"studenetet",
-			"studeneten",
-			"studenetest",
-			"studenend",
-			"gestudent",
 			// Noun forms
+			"studente",
 			"studentens",
 			"studenter",
 			"studentern",
@@ -43,6 +30,8 @@ describe( "Test for creating forms for German words", () => {
 			"studentesten",
 			"studentester",
 			"studentestes",
+			"studentest",
+			"studentet",
 			"studentete",
 			"studentetet",
 			"studenteten",
@@ -50,6 +39,18 @@ describe( "Test for creating forms for German words", () => {
 			"studentend",
 			// Participle
 			"gestudentet",
+			// Extra forms that are added (in this case incorrectly) because of the ambiguous -t ending
+			"studene",
+			"studenst",
+			"studenen",
+			"studenest",
+			"studenet",
+			"studenete",
+			"studenetet",
+			"studeneten",
+			"studenetest",
+			"studenend",
+			"gestudent",
 		] );
 	} );
 
@@ -57,13 +58,13 @@ describe( "Test for creating forms for German words", () => {
 		"sauer gets stemmed to sau-, which is both on a  verb exception list (from sauer) as well as " +
 		"on a noun exception list (from Sau)", () => {
 		expect( getForms( "sauer", morphologyDataDE ) ).toEqual( [
-			"sauer",
 			"sau",
 			// Noun forms
 			"sauen",
 			"säue",
 			"säuen",
 			// Adjective forms
+			"sauer",
 			"sauerste",
 			"sauerstem",
 			"sauersten",
@@ -121,18 +122,11 @@ describe( "Test for creating forms for German words", () => {
 		] );
 	} );
 
-	it( "creates additional forms for ambiguous stems ending in -t/-et; input: verb that's not on exception list", () => {
+	it( "creates additional forms for ambiguous stems ending in -t/-et", () => {
 		expect( getForms( "arbeitet", morphologyDataDE ) ).toEqual( [
 			"arbeitet",
-			"arbeite",
-			"arbeiten",
-			"arbeitest",
 			"arbeitete",
-			"arbeitetet",
 			"arbeiteten",
-			"arbeitetest",
-			"arbeitend",
-			"gearbeitet",
 			"arbeitetens",
 			"arbeiteter",
 			"arbeitetern",
@@ -150,102 +144,27 @@ describe( "Test for creating forms for German words", () => {
 			"arbeitetesten",
 			"arbeitetester",
 			"arbeitetestes",
+			"arbeitetest",
+			"arbeitetet",
 			"arbeitetete",
 			"arbeitetetet",
 			"arbeiteteten",
 			"arbeitetetest",
 			"arbeitetend",
 			"gearbeitetet",
+			// Additional forms based on stem without -t:
+			"arbeite",
+			"arbeiten",
+			"arbeitest",
+			"arbeitend",
+			"gearbeitet",
 		] );
 	} );
 
-	it( "creates additional forms for ambiguous stems ending in -t/-et; input: verb that's on an exception list", () => {
-		expect( getForms( "geht", morphologyDataDE ) ).toEqual( [
-			"geht",
-			"geh",
-			"ging",
-			"gehe",
-			"gehen",
-			"gehend",
-			"gehest",
-			"gehet",
-			"gehst",
-			"gingen",
-			"gingst",
-			"gingt",
-			"gegangen",
-			"gehte",
-			"gehten",
-			"gehtens",
-			"gehter",
-			"gehtern",
-			"gehters",
-			"gehtes",
-			"gehts",
-			"gehtem",
-			"gehtere",
-			"gehterem",
-			"gehteren",
-			"gehterer",
-			"gehteres",
-			"gehteste",
-			"gehtestem",
-			"gehtesten",
-			"gehtester",
-			"gehtestes",
-			"gehtest",
-			"gehtet",
-			"gehtete",
-			"gehtetet",
-			"gehteten",
-			"gehtetest",
-			"gehtend",
-			"gegehtet",
-		] );
-	} );
-
-	it( "doesn't create additional forms for stems in -t for words that are unambiguously non-3rd person verb forms; " +
-		"input: word that has an ending which marks it as not being a 3rd person verb form", () => {
+	it( "doesn't create additional forms for non-ambiguous stems ending in -t/-et", () => {
 		expect( getForms( "schwierigkeit", morphologyDataDE ) ).toEqual( [
-			"schwierigkeit",
 			"schwierigkeiten",
-		] );
-	} );
-
-	it( "doesn't create additional forms for stems in -t for words that are unambiguously non-3rd person verb forms; " +
-		"input: word that is recognized as a regular participle", () => {
-		expect( getForms( "gekauft", morphologyDataDE ) ).toEqual( [
-			"gekauft",
-			"kaufe",
-			"kauft",
-			"kaufst",
-			"kaufen",
-			"kaufest",
-			"kaufet",
-			"kaufte",
-			"kauftet",
-			"kauften",
-			"kauftest",
-			"kaufete",
-			"kaufetet",
-			"kaufeten",
-			"kaufetest",
-			"kaufend",
-			"gekaufte",
-			"gekauftem",
-			"gekauften",
-			"gekaufter",
-			"gekauftes",
-			"gekauftere",
-			"gekaufterem",
-			"gekaufteren",
-			"gekaufterer",
-			"gekaufteres",
-			"gekaufteste",
-			"gekauftestem",
-			"gekauftesten",
-			"gekauftester",
-			"gekauftestes",
+			"schwierigkeit",
 		] );
 	} );
 } );
