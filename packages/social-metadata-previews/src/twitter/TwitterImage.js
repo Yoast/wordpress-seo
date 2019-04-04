@@ -28,8 +28,7 @@ const StyledImage = styled.img`
 	transform: translate(-50%, -50%);
 `;
 
-/*
-const ErrorImage = styled.p`
+const baseImage = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -41,22 +40,14 @@ const ErrorImage = styled.p`
 	padding: 1em;
 	text-align: center;
 	font-size: 1rem;
+`;
+
+const ErrorImage = styled(baseImage)`
 	color: ${ colors.$color_white };
 	background-color: ${ colors.$color_red };
-`;*/
+`;
 
-const PlaceholderImage = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	box-sizing: border-box;
-	width: ${ TWITTER_IMAGE_SIZES.landscapeWidth }px;
-	height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;
-	max-width: 100%;
-	margin: 0;
-	padding: 1em;
-	text-align: center;
-	font-size: 1rem;
+const PlaceholderImage = styled(baseImage)`
 	border-top-left-radius: .85714em;
 	border-top-right-radius: .85714em;
 	border-style: dashed;

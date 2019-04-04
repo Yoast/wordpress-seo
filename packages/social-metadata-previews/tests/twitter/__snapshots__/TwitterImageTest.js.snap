@@ -156,7 +156,7 @@ exports[`TwitterImage Component matches the snapshot for a too small image 1`] =
 `;
 
 exports[`TwitterImage Component matches the snapshot in the loading state 1`] = `
-.c0 {
+.c1 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -177,6 +177,9 @@ exports[`TwitterImage Component matches the snapshot in the loading state 1`] = 
   padding: 1em;
   text-align: center;
   font-size: 1rem;
+}
+
+.c0 {
   border-top-left-radius: .85714em;
   border-top-right-radius: .85714em;
   border-style: dashed;
@@ -186,7 +189,7 @@ exports[`TwitterImage Component matches the snapshot in the loading state 1`] = 
 }
 
 <div
-  className="c0"
+  className="c0 c1"
 >
   Select image
 </div>

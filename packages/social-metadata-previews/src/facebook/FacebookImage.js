@@ -33,13 +33,13 @@ const StyledImage = styled.img`
 	transform: translate(-50%, -50%);
 `;
 
-const ErrorImage = styled.p`
+const ErrorImage = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	box-sizing: border-box;
-	width: 500px;
-	height: 261px;
+	width: ${ FACEBOOK_IMAGE_SIZES.landscapeWidth }px;
+	height: ${ FACEBOOK_IMAGE_SIZES.landscapeHeight }px;
 	max-width: 100%;
 	margin: 0;
 	padding: 1em;
@@ -50,8 +50,8 @@ const ErrorImage = styled.p`
 `;
 
 const PlaceholderImage = styled.div`
-	height: 261px;
-	width: 500px;
+	width: ${ FACEBOOK_IMAGE_SIZES.landscapeWidth }px;
+	height: ${ FACEBOOK_IMAGE_SIZES.landscapeHeight }px;
 	background-color: ${ colors.$color_grey };
 `;
 
