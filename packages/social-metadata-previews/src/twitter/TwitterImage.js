@@ -28,13 +28,14 @@ const StyledImage = styled.img`
 	transform: translate(-50%, -50%);
 `;
 
+/*
 const ErrorImage = styled.p`
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	box-sizing: border-box;
-	width: ${ TWITTER_IMAGE_SIZES.landscapeWidth + "px" };
-	height: ${ TWITTER_IMAGE_SIZES.landscapeHeight + "px" };
+	width: ${ TWITTER_IMAGE_SIZES.landscapeWidth }px;
+	height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;
 	max-width: 100%;
 	margin: 0;
 	padding: 1em;
@@ -42,15 +43,15 @@ const ErrorImage = styled.p`
 	font-size: 1rem;
 	color: ${ colors.$color_white };
 	background-color: ${ colors.$color_red };
-`;
+`;*/
 
 const PlaceholderImage = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	box-sizing: border-box;
-	width: ${ TWITTER_IMAGE_SIZES.landscapeWidth + "px" };
-	height: ${ TWITTER_IMAGE_SIZES.landscapeHeight + "px" };
+	width: ${ TWITTER_IMAGE_SIZES.landscapeWidth }px;
+	height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;
 	max-width: 100%;
 	margin: 0;
 	padding: 1em;

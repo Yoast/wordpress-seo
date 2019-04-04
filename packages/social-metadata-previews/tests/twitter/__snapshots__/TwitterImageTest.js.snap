@@ -27,7 +27,6 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
     alt=""
     className="c1"
     src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
-    type="summary"
   />
 </div>
 `;
@@ -59,7 +58,6 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
     alt=""
     className="c1"
     src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
-    type="summary-large-image"
   />
 </div>
 `;
@@ -91,7 +89,6 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
     alt=""
     className="c1"
     src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png"
-    type="summary"
   />
 </div>
 `;
@@ -123,7 +120,6 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
     alt=""
     className="c1"
     src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png"
-    type="summary-large-image"
   />
 </div>
 `;
@@ -155,7 +151,6 @@ exports[`TwitterImage Component matches the snapshot for a too small image 1`] =
     alt=""
     className="c1"
     src="https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png"
-    type="summary"
   />
 </div>
 `;
