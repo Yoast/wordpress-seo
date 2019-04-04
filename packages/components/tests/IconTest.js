@@ -2,11 +2,11 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 import Icon from "../src/Icon";
-import YoastSeoIcon from "../src/YoastSeoIcon";
+import SeoIcon from "../src/SeoIcon";
 
 test( "the Icon without props matches the snapshot", () => {
 	const component = renderer.create(
-		<Icon icon={ YoastSeoIcon } />
+		<Icon icon={ SeoIcon } />
 	);
 
 	const tree = component.toJSON();
@@ -15,7 +15,7 @@ test( "the Icon without props matches the snapshot", () => {
 
 test( "the Icon with props matches the snapshot", () => {
 	const component = renderer.create(
-		<Icon icon={ YoastSeoIcon } color="red" width="200px" height="200px" />
+		<Icon icon={ SeoIcon } color="red" width="200px" height="200px" />
 	);
 
 	const tree = component.toJSON();

@@ -3,7 +3,9 @@ import PropTypes from "prop-types";
 import uniqueId from "lodash/uniqueId";
 import styled from "styled-components";
 
-import { YoastInputContainer, YoastInputField, YoastInputLabel } from "./YoastInput";
+import { YoastInputContainer } from "./input/InputContainer";
+import { YoastInputField } from "./input/InputField";
+import { YoastInputLabel } from "./input/InputLabel";
 import { getDirectionalStyle } from "@yoast/helpers";
 
 const SynonymsFieldLabelContainer = styled.span`
