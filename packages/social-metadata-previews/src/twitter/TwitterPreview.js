@@ -18,7 +18,9 @@ const TwitterPreview = ( props ) => {
 	return (
 		<Fragment>
 			<TwitterTitle title={ props.title } />
-			<TwitterDescription description={ props.description } type={ props.type } />
+			<TwitterDescription isLarge={ props.isLarge }>
+				{ props.description }
+			</TwitterDescription>
 			<TwitterSiteName siteName={ props.siteName } />
 		</Fragment>
 	);
@@ -27,7 +29,7 @@ const TwitterPreview = ( props ) => {
 TwitterPreview.propTypes = {
 	title: PropTypes.string.isRequired,
 	description: PropTypes.string,
-	type: PropTypes.string.isRequired,
+	isLarge: PropTypes.bool.isRequired,
 	siteName: PropTypes.string.isRequired,
 };
 
