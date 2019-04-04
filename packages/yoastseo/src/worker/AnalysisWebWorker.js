@@ -61,7 +61,7 @@ import Transporter from "./transporter";
 import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
 
 // Tree assessor functionality.
-import buildTree from "../parsedPaper/build/tree";
+import TreeBuilder from "../parsedPaper/build/tree";
 import { constructReadabilityAssessor, constructSEOAssessor } from "../parsedPaper/assess/assessorFactories";
 import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../parsedPaper/assess/scoreAggregators";
 import { TreeResearcher } from "../parsedPaper/research";
@@ -207,6 +207,9 @@ export default class AnalysisWebWorker {
 
 		// Tree representation of text to analyze
 		this._tree = null;
+
+		// Tree builder.
+		this._treeBuilder = new TreeBuilder();
 	}
 
 	/**
@@ -754,7 +757,7 @@ export default class AnalysisWebWorker {
 
 			// Try to build the tree, for analysis using the tree assessors.
 			try {
-				this._tree = buildTree( text );
+				this._tree = this._treeBuilder.build( text );
 			} catch ( exception ) {
 				console.error( "Yoast SEO and readability analysis: " +
 					"An error occurred during the building of the tree structure used for some assessments.\n\n", exception );

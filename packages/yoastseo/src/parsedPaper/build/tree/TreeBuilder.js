@@ -1,4 +1,4 @@
-import buildTree from "./buildTree";
+import buildTree from "./html/buildTree";
 
 /**
  * Builds a tree representation of a source text.
@@ -13,6 +13,13 @@ class TreeBuilder {
 	 * Creates a new TreeBuilder.
 	 */
 	constructor() {
+		/**
+		 * A registry holding the parse function to be called
+		 * for each supported formatting language.
+		 *
+		 * @type {Object<string,Function>}
+		 * @private
+		 */
 		this._buildFunctions = {
 			html: buildTree,
 		};
@@ -46,9 +53,17 @@ class TreeBuilder {
 	 *
 	 * @example
 	 *   // Create a new build function.
-	 *   const myBuilder = sourceText => new StructuredNode( "root" );
-	 *   // Register the build function under "my-language".
+	 *   const myBuilder = sourceText => {
+	 *       const node = new Paragraph();
+	 *       node.textContainer.appendText( sourceText );
+	 *       return node;
+	 *   };
+	 *
+	 *   // Register the build function for the language "my-language".
 	 *   treeBuilder.register( "my-language", myBuilder );
+	 *
+	 *   // Build the tree using the registered builder.
+	 *   const tree = treeBuilder.build( "some input", { language: "my-language" } );
 	 *
 	 * @param {string}                                                            language      The language to register.
 	 * @param {function( sourceText: string ): module:parsedPaper/structure.Node} buildFunction The build function for the given language.

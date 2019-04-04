@@ -1,5 +1,5 @@
 import { TreeAssessor } from "../../../src/parsedPaper/assess";
-import buildTree from "../../../src/parsedPaper/build/tree";
+import TreeBuilder from "../../../src/parsedPaper/build/tree";
 import { TreeResearcher } from "../../../src/parsedPaper/research";
 import Paper from "../../../src/values/Paper";
 
@@ -10,6 +10,11 @@ import TestResearch from "../../specHelpers/tree/TestResearch";
 
 describe( "TreeAssessor", () => {
 	const i18n = factory.buildJed();
+	let treeBuilder;
+
+	beforeEach( () => {
+		treeBuilder = new TreeBuilder();
+	} );
 
 	describe( "constructor", () => {
 		it( "creates a new TreeAssessor without assessments", () => {
@@ -106,7 +111,7 @@ describe( "TreeAssessor", () => {
 				permalink: "rainbows",
 			} );
 
-			const node = buildTree( text );
+			const node = treeBuilder.build( text );
 
 			assessor.assess( paper, node ).then( result => {
 				/*
@@ -153,7 +158,7 @@ describe( "TreeAssessor", () => {
 				permalink: "rainbows",
 			} );
 
-			const node = buildTree( text );
+			const node = treeBuilder.build( text );
 
 			assessor.assess( paper, node ).then( result => {
 				/*
