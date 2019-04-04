@@ -36,7 +36,7 @@ class TreeBuilder {
 	 *
 	 * @returns {module:parsedPaper/structure.Node} The tree representation as parsed from the source text.
 	 */
-	build( sourceText, options ) {
+	build( sourceText, options = { language: "html" } ) {
 		if ( ! options ) {
 			// Default options.
 			options = {
