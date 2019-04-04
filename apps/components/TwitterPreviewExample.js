@@ -14,14 +14,14 @@ const TwitterPreviewExample = () => {
 			<h2>Summary with large image card, short description</h2>
 			<TwitterPreview
 				title="YoastCon Workshops &bull; Yoast"
-				type="summary-large-image"
+				isLarge={ true }
 				description="This is a description."
 				siteName="yoast.com"
 			/>
 			<h2>Summary with large image card, long description</h2>
 			<TwitterPreview
 				title="YoastCon Workshops &bull; Yoast"
-				type="summary-large-image"
+				isLarge={ true }
 				description={
 					"A very long description. A very long description. A very long description. A very long description. " +
 					"A very long description. A very long description. A very long description. A very long description. " +
@@ -38,14 +38,14 @@ const TwitterPreviewExample = () => {
 			<h2>Summary card, short description</h2>
 			<TwitterPreview
 				title="YoastCon Workshops &bull; Yoast"
-				type="summary"
+				isLarge={ false }
 				description="This is a description."
 				siteName="yoast.com"
 			/>
 			<h2>Summary card, long description</h2>
 			<TwitterPreview
 				title="YoastCon Workshops &bull; Yoast"
-				type="summary"
+				isLarge={ false }
 				description={
 					"A very long description. A very long description. A very long description. A very long description. " +
 					"A very long description. A very long description. A very long description. A very long description. " +
@@ -60,7 +60,7 @@ const TwitterPreviewExample = () => {
 				siteName="yoast.com"
 			/>
 		</ExamplesContainer>
-	)
+	);
 };
 
 export default TwitterPreviewExample;
