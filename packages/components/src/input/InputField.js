@@ -4,7 +4,7 @@ import styled from "styled-components";
 /* Yoast dependencies */
 import { colors, rgba } from "@yoast/style-guide";
 
-export const YoastInputField = styled.input`
+export const InputField = styled.input`
 	&&& {
 		padding: 8px;
 		font-size: 1em;

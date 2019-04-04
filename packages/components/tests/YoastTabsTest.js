@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 
-import YoastTabs from "../src/Tabs";
+import Tabs from "../src/Tabs";
 
 const items = [
 	{
@@ -21,18 +21,18 @@ const items = [
 	},
 ];
 
-test( "the YoastTabs matches the snapshot", () => {
+test( "the Tabs matches the snapshot", () => {
 	const component = renderer.create(
-		<YoastTabs items={ items } />
+		<Tabs items={ items } />
 	);
 
 	const tree = component.toJSON();
 	expect( tree ).toMatchSnapshot();
 } );
 
-test( "the YoastTabs with props matches the snapshot", () => {
+test( "the Tabs with props matches the snapshot", () => {
 	const component = renderer.create(
-		<YoastTabs
+		<Tabs
 			tabsTextColor="#0f0"
 			tabsFontSize="2em"
 			tabsTextTransform="uppercase"
