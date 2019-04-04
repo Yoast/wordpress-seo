@@ -1,9 +1,10 @@
 import { get, take } from "lodash-es";
 import getLanguage from "../helpers/getLanguage";
 import {
-	getRelevantWords,
 	collapseRelevantWordsOnStem,
 	getRelevantCombinations,
+	getRelevantWords,
+	retrieveAbbreviations,
 	sortCombinations,
 } from "../stringProcessing/relevantWords";
 
@@ -15,11 +16,14 @@ import {
  *
  * @returns {WordCombination[]} Relevant words for this paper, filtered and sorted.
  */
-export default function( paper, researcher ) {
+function relevantWords( paper, researcher ) {
+	const text = paper.getText();
 	const language = getLanguage( paper.getLocale() );
 	const morphologyData = get( researcher.getData( "morphology" ), language, false );
 
-	const relevantWordsFromText = getRelevantWords( paper.getText(), language, morphologyData );
+	const abbreviations = retrieveAbbreviations( text );
+
+	const relevantWordsFromText = getRelevantWords( text, abbreviations, language, morphologyData );
 
 	const collapsedWords = collapseRelevantWordsOnStem( relevantWordsFromText );
 	sortCombinations( collapsedWords );
@@ -30,3 +34,5 @@ export default function( paper, researcher ) {
 	 */
 	return take( getRelevantCombinations( collapsedWords, 5 ), 20 );
 }
+
+export default relevantWords;

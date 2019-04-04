@@ -5,8 +5,26 @@ import {
 	getRelevantCombinations,
 	collapseRelevantWordsOnStem,
 	sortCombinations,
+	retrieveAbbreviations,
 } from "../../src/stringProcessing/relevantWords";
 import { en as morphologyData } from "../../premium-configuration/data/morphologyData.json";
+
+describe( "retrieveAbbreviations", function() {
+	it( "makes a list of all abbreviations from the input text", function() {
+		const input = "A CTA lowercase CTR WWF SEO US YOAST camelCase PascalCase";
+		const expected = [
+			"cta",
+			"ctr",
+			"wwf",
+			"seo",
+			"us",
+		];
+
+		const actual = retrieveAbbreviations( input );
+
+		expect( actual ).toEqual( expected );
+	} );
+} );
 
 describe( "getRelevantCombinations", function() {
 	it( "removes combinations with one occurrence (for internal linking)", function() {
@@ -88,6 +106,20 @@ describe( "sortCombinations", function() {
 		expect( output ).toEqual( sorted );
 	} );
 
+	it( "sorts alphabetically even if abbreviations are in the list", function() {
+		const combination1 = new WordCombination( "wordA", "wordA", 2 );
+		const combination2 = new WordCombination( "WORDB", "wordB", 2 );
+		const combination3 = new WordCombination( "wordC", "wordC", 3 );
+		const combination4 = new WordCombination( "wordB", "wordB", 2 );
+
+		const output = [ combination1, combination2, combination3, combination4 ];
+		const sorted = [ combination3, combination1, combination2, combination4 ];
+
+		sortCombinations( output );
+
+		expect( output ).toEqual( sorted );
+	} );
+
 	it( "preserves the correct alphabetical order: this case is improbable, added for the sake of test coverage", function() {
 		const combination1 = new WordCombination( "word", "word", 2 );
 		const combination2 = new WordCombination( "word", "word", 2 );
@@ -132,6 +164,25 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 			new WordCombination( "sentence", "sentence", 2 ),
 			new WordCombination( "whole", "whole", 2 ),
 			new WordCombination( "word", "word", 21 ),
+		];
+
+		const result = collapseRelevantWordsOnStem( wordCombinations );
+
+		expect( result ).toEqual( expectedResult );
+	} );
+
+	it( "properly sorts the input array by stem before collapsing: Also with abbreviations", function() {
+		const wordCombinations = [
+			new WordCombination( "sentence", "sentence", 2 ),
+			new WordCombination( "WORDs", "word", 11 ),
+			new WordCombination( "whole", "whole", 2 ),
+			new WordCombination( "WORD", "word", 10 ),
+		];
+
+		const expectedResult = [
+			new WordCombination( "sentence", "sentence", 2 ),
+			new WordCombination( "whole", "whole", 2 ),
+			new WordCombination( "WORD", "word", 21 ),
 		];
 
 		const result = collapseRelevantWordsOnStem( wordCombinations );
@@ -275,7 +326,7 @@ describe( "getRelevantWords", function() {
 			new WordCombination( "words", "words", 1 ),
 		];
 
-		const words = getRelevantWords( input, "ee", morphologyData );
+		const words = getRelevantWords( input, [], "ee", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -292,7 +343,7 @@ describe( "getRelevantWords", function() {
 		const input = "! - ?.... ";
 		const expected = [];
 
-		const words = getRelevantWords( input, "en", morphologyData );
+		const words = getRelevantWords( input, [], "en", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -304,7 +355,7 @@ describe( "getRelevantWords", function() {
 			new WordCombination( "words", "word", 1 ),
 		];
 
-		const words = getRelevantWords( input, "en", morphologyData );
+		const words = getRelevantWords( input, [], "en", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -321,7 +372,7 @@ describe( "getRelevantWords", function() {
 			new WordCombination( "word", "word", 21 ),
 		];
 
-		const words = getRelevantWords( input, "en", morphologyData );
+		const words = getRelevantWords( input, [], "en", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -347,7 +398,34 @@ describe( "getRelevantWords", function() {
 			new WordCombination( "wonderful", "wonderful", 2 ),
 		];
 
-		const words = getRelevantWords( input, "en", morphologyData );
+		const words = getRelevantWords( input, [], "en", morphologyData );
+
+		expect( words ).toEqual( expected );
+	} );
+
+	it( "correctly prevents abbreviations from being stemmed", function() {
+		const input = "Here are a ton of syllables about CTA. Syllables are very important, syllables are the best. " +
+			"Every syllable is a pain when it comes to producing them on demand. " +
+			"It's so different when it's just free speech! A syllable then costs a tiny effort, almost " +
+			"no effort at all! That is wonderful!! And here it comes again! " +
+			"Here are tons of syllables about CTA. Syllables are very important, syllables are the best. " +
+			"Every syllable is a pain when it comes to producing them on demand. " +
+			"It's so different when it's just free speech! A syllable then costs a tiny effort, almost " +
+			"no effort at all! That is wonderful!!";
+		const expected = [
+			new WordCombination( "costs", "cost", 2 ),
+			new WordCombination( "CTA", "cta", 2 ),
+			new WordCombination( "demand", "demand", 2 ),
+			new WordCombination( "effort", "effort", 4 ),
+			new WordCombination( "free", "free", 2 ),
+			new WordCombination( "pain", "pain", 2 ),
+			new WordCombination( "producing", "produce", 2 ),
+			new WordCombination( "speech", "speech", 2 ),
+			new WordCombination( "syllable", "syllable", 10 ),
+			new WordCombination( "wonderful", "wonderful", 2 ),
+		];
+
+		const words = getRelevantWords( input, [ "cta" ], "en", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -363,7 +441,7 @@ describe( "getRelevantWords", function() {
 			new WordCombination( "ton", "ton", 2 ),
 		];
 
-		const words = getRelevantWords( input, "ee", morphologyData );
+		const words = getRelevantWords( input, [], "ee", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -386,13 +464,14 @@ describe( "getRelevantWordsFromPaperAttributes", function() {
 		];
 
 		const words = getRelevantWordsFromPaperAttributes(
-			{
-				keyphrase: "This is a nice keyphrase",
-				synonyms: "This is a synonym one, a synonym two and an o-my synonym",
-				title: "This is a pretty long title!",
-				metadescription: "This is an interesting metadescription of the paper that we are analysing and have interest in.",
-				subheadings: [ "subheading one", "subheading two" ],
-			},
+			[
+				"This is a NICE keyphrase",
+				"This is a synonym one, a synonym two and an o-my synonym",
+				"This is a pretty long title!",
+				"This is an interesting metadescription of the paper that we are analysing and have interest in.",
+				[ "subheading one", "subheading two" ].join( " " ),
+			],
+			[ "nice" ],
 			"en",
 			morphologyData
 		);

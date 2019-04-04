@@ -69,7 +69,7 @@ describe( "relevantWords research", function() {
 			// The stem "live" occurs 2 times in the text and 2 times in the attributes: 2 + 2 * 3 = 8
 			new WordCombination( "live", "live", 8 ),
 			// The stems "seo" and "yoast" occur once in the text and once in the attributes: 1 + 1 * 3 = 4
-			new WordCombination( "seo", "seo", 4 ),
+			new WordCombination( "SEO", "seo", 4 ),
 			new WordCombination( "yoast", "yoast", 4 ),
 			// The stems "amaze", "metadescription", "subhead", and "title" occur once in the attributes: 0 + 1 * 3 = 3
 			new WordCombination( "amazing", "amaze", 3 ),

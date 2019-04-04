@@ -9,6 +9,7 @@ import {
 	sortCombinations,
 } from "yoastsrc/stringProcessing/relevantWords";
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "yoastsrc/stringProcessing/getSubheadings";
+import { retrieveAbbreviations } from "../../../../packages/yoastseo/src/stringProcessing/relevantWords";
 import getMorphologyData from "./getMorphologyData";
 
 const morphologyData = getMorphologyData();
@@ -54,30 +55,37 @@ function formatNumber( number ) {
  * @returns {Object} The relevant word objects.
  */
 function calculateRelevantWords( paper, internalLinking ) {
-	const text = paper.text;
+	let text = paper.text;
 	const words = getWords( text );
 
 	const language = getLanguage( paper.locale );
 	const languageMorphologyData = get( morphologyData, language, false );
-	const relevantWordsFromText = internalLinking
-		? getRelevantWords( removeSubheadingsTopLevel( text ), language, languageMorphologyData )
-		: getRelevantWords( text, language, languageMorphologyData );
-
 	const subheadings = getSubheadingsTopLevel( text ).map( subheading => subheading[ 2 ] );
+
+	const attributes = internalLinking ? [
+		paper.keyword,
+		paper.synonyms,
+		paper.description,
+		paper.title,
+		subheadings.join( " " ),
+	] : [];
+
+	text = internalLinking ? removeSubheadingsTopLevel( text ) : text;
+
+	const abbreviations = retrieveAbbreviations( text.concat( attributes.join( " " ) ) );
+
+	const relevantWordsFromText = internalLinking
+		? getRelevantWords( removeSubheadingsTopLevel( text ), abbreviations, language, languageMorphologyData )
+		: getRelevantWords( text, abbreviations, language, languageMorphologyData );
 
 	let relevantWordsFromPaperAttributes = [];
 
 	if ( internalLinking ) {
 		relevantWordsFromPaperAttributes = getRelevantWordsFromPaperAttributes(
-			{
-				keyphrase: paper.keyword,
-				synonyms: paper.synonyms,
-				metadescription: paper.description,
-				title: paper.title,
-				subheadings,
-			},
+			attributes,
+			abbreviations,
 			language,
-			languageMorphologyData,
+			languageMorphologyData
 		);
 
 		/*
