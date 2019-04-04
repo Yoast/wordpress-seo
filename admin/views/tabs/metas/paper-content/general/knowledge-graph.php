@@ -31,7 +31,7 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 		'company' => __( 'Organization', 'wordpress-seo' ),
 		'person'  => __( 'Person', 'wordpress-seo' ),
 	);
-	$yform->select( 'company_or_person', __( 'Organization or person', 'wordpress-seo' ), $yoast_free_kg_select_options, 'styled' );
+	$yform->select( 'company_or_person', __( "Organization or person", "wordpress-seo" ), $yoast_free_kg_select_options, 'styled', false );
 	?>
 	<div id="knowledge-graph-company">
 		<h3><?php esc_html_e( 'Organization', 'wordpress-seo' ); ?></h3>

@@ -1,4 +1,4 @@
-import { Component } from "@wordpress/element";
+import { Component, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
 import interpolateComponents from "interpolate-components";
 
@@ -74,10 +74,9 @@ class WordPressUserSelectorSearchAppearance extends Component {
 
 	render() {
 		return (
-			<div>
+			<Fragment>
 				{ this.renderError() }
 				<label
-					className="select"
 					htmlFor="wpseo-person-selector-name"
 				>
 					{ __( "Name:", "wordpress-seo" ) }
@@ -89,7 +88,7 @@ class WordPressUserSelectorSearchAppearance extends Component {
 					onChange={ this.onChange }
 				/>
 				<p>{ this.renderAuthorInfo() }</p>
-			</div>
+			</Fragment>
 		);
 	}
 }

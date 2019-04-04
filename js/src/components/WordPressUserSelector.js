@@ -5,27 +5,63 @@ import PropTypes from "prop-types";
 import { debounce } from "lodash";
 import { createGlobalStyle } from "styled-components";
 import { __ } from "@wordpress/i18n";
+import { SvgIcon } from "yoast-components";
 
 /**
  * Styles to overwrite react-select styles.
+ *
+ * @type React.Component
  */
 const Styles = createGlobalStyle`
 	.yoast-person-selector-container {
-		max-width: 100%;
+		max-width: 400px;
 		min-width: 250px;
 		margin: 7px 0;
 
-		.yoast-person-selector__control {
-			border-radius: 0;
-			box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-		}
-	
-		input[type=text] {
-			box-shadow: none;
-			margin: 0;
+		.yoast-person-selector {
+			&__control {
+				border-radius: 0;
+				box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+				min-height: 28px;
+			}
+			
+			&__input input {
+				box-shadow: none;
+				margin: 0;
+			}
+			
+			&__menu {
+				margin: 0;
+				border-radius: 0;
+			}
+			
+			&__menu-list {
+				padding: 0;
+			}
+			
+			&__option--is-selected {
+				background-color: #0085ba;
+			}
+			
+			&__indicators {
+				padding: 0 10px;
+			}
 		}
 	}
 `;
+
+/**
+ * Component to replace the react-select dropdown icon.
+ *
+ * @returns {React.Element} The rendered element.
+ */
+const Icon = () => (
+	<SvgIcon
+		icon="arrow-down"
+		color="#72777c"
+		size="10px"
+	/>
+);
 
 /**
  * Allows a user to be selected within a WordPress context.
@@ -68,6 +104,10 @@ class WordPressUserSelector extends Component {
 					onChange={ this.onChange }
 					defaultOptions={ true }
 					loadOptions={ this.fetchUsers }
+					components={ {
+						IndicatorSeparator: null,
+						DropdownIndicator: Icon,
+					} }
 				/>
 			</Fragment>
 		);
