@@ -1,4 +1,4 @@
-import StructuredNode from "../../../../src/parsedPaper/structure/tree/nodes/StructuredNode";
+import StructuredNode from "../../../../../src/parsedPaper/structure/tree/nodes/StructuredNode";
 
 describe( "StructuredNode", () => {
 	describe( "constructor", () => {
