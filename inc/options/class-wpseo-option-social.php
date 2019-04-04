@@ -34,7 +34,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'opengraph'             => true,
 		'pinterest_url'         => '',
 		'pinterestverify'       => '',
-		'plus-publisher'        => '', // Text field.
 		'twitter'               => true,
 		'twitter_site'          => '', // Text field.
 		'twitter_card_type'     => 'summary_large_image',
@@ -132,7 +131,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 				case 'linkedin_url':
 				case 'myspace_url':
 				case 'pinterest_url':
-				case 'plus-publisher':
 				case 'og_default_image':
 				case 'og_frontpage_image':
 				case 'youtube_url':
