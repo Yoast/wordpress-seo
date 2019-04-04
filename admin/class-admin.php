@@ -111,7 +111,6 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_Expose_Shortlinks();
 		$integrations[] = new WPSEO_MyYoast_Proxy();
 		$integrations[] = new WPSEO_MyYoast_Route();
-		$integrations[] = new WPSEO_Addon_Manager();
 		$integrations[] = $this->admin_features['google_search_console'];
 		$integrations   = array_merge( $integrations, $this->initialize_seo_links(), $this->initialize_cornerstone_content() );
 
@@ -220,7 +219,7 @@ class WPSEO_Admin {
 		}
 
 		$addon_manager = new WPSEO_Addon_Manager();
-		if ( $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) && WPSEO_Utils::is_yoast_seo_premium() ) {
+		if ( WPSEO_Utils::is_yoast_seo_premium() && $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
 			return $links;
 		}
 
