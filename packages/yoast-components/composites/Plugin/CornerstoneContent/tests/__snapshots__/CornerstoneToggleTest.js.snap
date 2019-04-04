@@ -80,7 +80,7 @@ exports[`The CornerstoneToggle matches the snapshot 1`] = `
     </span>
     <div
       aria-checked={false}
-      aria-disabled={undefined}
+      aria-disabled={false}
       aria-labelledby="cornerstone-toggle"
       className="c3"
       onClick={[Function]}
