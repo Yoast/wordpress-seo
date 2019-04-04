@@ -20,7 +20,7 @@ describe( "TwitterDescription", () => {
 					"A very long description. A very long description. A very long description. A very long description. " +
 					"A very long description. A very long description. A very long description. A very long description."
 				}
-				type="summary"
+				isLarge={ false }
 			/>
 		);
 
@@ -42,7 +42,7 @@ describe( "TwitterDescription", () => {
 					"A very long description. A very long description. A very long description. A very long description. " +
 					"A very long description. A very long description. A very long description. A very long description."
 				}
-				type="summary-large-image"
+				isLarge={ true }
 			/>
 		);
 

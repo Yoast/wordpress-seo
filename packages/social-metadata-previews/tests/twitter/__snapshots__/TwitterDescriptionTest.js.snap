@@ -3,33 +3,29 @@
 exports[`TwitterDescription matches the snapshot for the summary card 1`] = `
 .c0 {
   font-size: 14px;
-  max-height: 54.6px;
-  line-height: 18.2px;
+  max-height: 55px;
+  line-height: 18px;
   overflow: hidden;
-  margin-bottom: 4.52662px;
+  margin-bottom: 5px;
   width: 357px;
 }
 
 <p
   className="c0"
->
-  A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description.
-</p>
+/>
 `;
 
 exports[`TwitterDescription matches the snapshot for the summary with large image card 1`] = `
 .c0 {
   font-size: 14px;
-  max-height: 36.4px;
-  line-height: 18.2px;
+  max-height: 36px;
+  line-height: 18px;
   overflow: hidden;
-  margin-bottom: 4.52662px;
+  margin-bottom: 5px;
   width: 476px;
 }
 
 <p
   className="c0"
->
-  A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description. A very long description.
-</p>
+/>
 `;

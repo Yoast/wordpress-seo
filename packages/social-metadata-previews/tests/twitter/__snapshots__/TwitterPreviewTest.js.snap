@@ -20,10 +20,10 @@ Array [
   </p>,
   .c0 {
   font-size: 14px;
-  max-height: 54.6px;
-  line-height: 18.2px;
+  max-height: 55px;
+  line-height: 18px;
   overflow: hidden;
-  margin-bottom: 4.52662px;
+  margin-bottom: 5px;
   width: 357px;
 }
 
