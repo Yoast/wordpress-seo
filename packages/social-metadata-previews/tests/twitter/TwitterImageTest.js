@@ -4,7 +4,7 @@ import renderer from "react-test-renderer";
 
 /* Internal dependencies */
 import TwitterImage from "../../src/twitter/TwitterImage";
-import delayComponentSnapshot from "./testHelpers/delayComponentSnapshot";
+import delayComponentSnapshot from "../testHelpers/delayComponentSnapshot";
 
 import * as determineImageProperties from "../../src/helpers/determineImageProperties";
 determineImageProperties.determineImageProperties = jest.fn();
