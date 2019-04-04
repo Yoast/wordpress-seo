@@ -82,6 +82,7 @@ class WordPressUserSelector extends Component {
 
 		this.fetchUsers = debounce( this.fetchUsers, 500 ).bind( this );
 		this.fetchUser = this.fetchUser.bind( this );
+		this.mapUserToSelectOption = this.mapUserToSelectOption.bind( this );
 		this.onChange = this.onChange.bind( this );
 	}
 
@@ -113,6 +114,11 @@ class WordPressUserSelector extends Component {
 		);
 	}
 
+	/**
+	 * If a user id is defined fetch the currently selected user.
+	 *
+	 * @returns {void}
+	 */
 	componentDidMount() {
 		if ( this.props.properties.user !== null ) {
 			this.fetchUser( this.props.properties.user );
@@ -149,13 +155,29 @@ class WordPressUserSelector extends Component {
 		} );
 	}
 
-	mapUser( user ) {
+	/**
+	 * Maps a WordPress user API result to a react-select option.
+	 *
+	 * @param {Object} user The WordPress user object.
+	 *
+	 * @returns {Object} The mapped user for react-select.
+	 */
+	mapUserToSelectOption( user ) {
 		return {
 			value: user.id,
 			label: user.name,
 		};
 	}
 
+	/**
+	 * Fetches a single WordPress user.
+	 *
+	 * Is only called from componentDidMount and assumes the component is already in a loading state.
+	 *
+	 * @param {string|number} id The user id.
+	 *
+	 * @returns {void}
+	 */
 	async fetchUser( id ) {
 		const user = await apiFetch( {
 			path: `/wp/v2/users/${ id }`,
@@ -167,7 +189,7 @@ class WordPressUserSelector extends Component {
 			return;
 		}
 
-		this.onChange( this.mapUser( user ) );
+		this.onChange( this.mapUserToSelectOption( user ) );
 	}
 
 	/**
@@ -188,7 +210,7 @@ class WordPressUserSelector extends Component {
 		apiFetch( {
 			path: `/wp/v2/users?${ queryParameters }`,
 		} ).then( users => {
-			const mappedUsers = users.map( this.mapUser );
+			const mappedUsers = users.map( this.mapUserToSelectOption );
 
 			callback( mappedUsers );
 		} );
