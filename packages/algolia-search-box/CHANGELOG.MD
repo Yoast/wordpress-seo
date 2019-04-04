@@ -7,6 +7,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ## 1.0.0 April 4th, 2019
 
+
 ### Added
 
 * Splits out `@yoast/algolia-search-box` from `@yoast/yoast-components`. This package contains an algolia search box with which you can search in an algolia index. 
