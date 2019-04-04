@@ -1,6 +1,6 @@
 {
   "name": "@yoast/components",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Yoast Components",
   "main": "src/index.js",
   "repository": {
@@ -12,7 +12,8 @@
   "license": "GPL-3.0",
   "scripts": {
     "test": "jest",
-    "lint": "eslint . --max-warnings=971"
+    "lint": "eslint . --max-warnings=97",
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
   },
   "jest": {
     "testRegex": ".*Test.js$",
