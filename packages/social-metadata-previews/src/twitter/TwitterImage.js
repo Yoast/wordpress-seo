@@ -6,12 +6,12 @@ import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import {
-	determineTwitterImageProperties,
+	determineImageProperties,
 	LANDSCAPE_HEIGHT,
 	LANDSCAPE_WIDTH,
 	SQUARE_HEIGHT,
 	SQUARE_WIDTH,
-} from "../helpers/determineTwitterImageProperties";
+} from "../helpers/determineImageProperties";
 import { colors } from "@yoast/style-guide";
 
 const TwitterImageContainer = styled.div`
@@ -96,7 +96,7 @@ export default class TwitterImage extends React.Component {
 	 * @returns {Promise} Resolves when there are image properties.
 	 */
 	componentDidMount() {
-		return determineTwitterImageProperties( this.props.src ).then( ( imageProperties ) => {
+		return determineImageProperties( this.props.src, "Twitter" ).then( ( imageProperties ) => {
 			this.setState( {
 				imageProperties: imageProperties,
 				status: "loaded",
