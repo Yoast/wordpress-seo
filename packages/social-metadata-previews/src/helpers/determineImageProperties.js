@@ -34,21 +34,6 @@ export function determineImageMode( socialMedium, dimensions ) {
 }
 
 /**
- * Determines the image display mode of the Twitter image.
- *
- * @param {Object} cardType The card type in which an image should be displayed.
- *
- * @returns {string} The display mode of the image.
- */
-export function determineTwitterImageMode( cardType ) {
-	if ( cardType === "summary" ) {
-		return "square";
-	}
-
-	return "landscape";
-}
-
-/**
  * Gets the dimensions of the uploaded image.
  *
  * @param {string} src The image source.
@@ -120,7 +105,7 @@ export function getImageRatios( dimensions, imageMode ) {
  *
  * @returns {Object}           The width and height that the image should have as Twitter image.
  */
-export function getImageDimensionsForTwitterImage( dimensions, imageRatios ) {
+export function getImageDimensions( dimensions, imageRatios ) {
 	if ( imageRatios.widthRatio <= imageRatios.heightRatio ) {
 		return {
 			width: dimensions.width / imageRatios.widthRatio,
@@ -170,7 +155,7 @@ export function calculateTwitterImageDimensions( originalDimensions, imageMode )
 		 */
 		const imageRatios = getImageRatios( originalDimensions, imageMode );
 
-		return getImageDimensionsForTwitterImage( originalDimensions, imageRatios );
+		return getImageDimensions( originalDimensions, imageRatios );
 	}
 
 	/*
@@ -180,7 +165,7 @@ export function calculateTwitterImageDimensions( originalDimensions, imageMode )
 	if ( imageMode === "landscape" ) {
 		const imageRatios = getImageRatios( originalDimensions, imageMode );
 
-		return getImageDimensionsForTwitterImage( originalDimensions, imageRatios );
+		return getImageDimensions( originalDimensions, imageRatios );
 	}
 }
 
@@ -198,12 +183,12 @@ export function determineImageProperties( src, socialMedium ) {
 		const imageMode = determineImageMode( socialMedium, originalDimensions );
 
 		// Calculate the image dimensions for the specific image.
-		const TwitterImageDimensions = calculateTwitterImageDimensions( originalDimensions, imageMode );
+		const ImageDimensions = calculateTwitterImageDimensions( originalDimensions, imageMode );
 
 		return {
 			mode: imageMode,
-			height: TwitterImageDimensions.height,
-			width: TwitterImageDimensions.width,
+			height: ImageDimensions.height,
+			width: ImageDimensions.width,
 		};
 	} );
 }
