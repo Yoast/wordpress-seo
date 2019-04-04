@@ -7,7 +7,7 @@ import { decodeHTML, getDirectionalStyle, sendRequest } from "@yoast/helpers";
 // Import colors from the style guide.
 import { colors } from "@yoast/style-guide";
 // Composites/AngoliaSearch imports.
-import AlgoliaSearcher from "@yoast/algolia-search";
+import AlgoliaSearcher from "@yoast/algolia-search-box";
 // Composites/Plugin imports.
 import { Collapsible } from "@yoast/components";
 import { default as ButtonSection } from "./composites/Plugin/Shared/components/ButtonSection";
@@ -39,7 +39,20 @@ export {
 
 export * from "./composites/Plugin/DashboardWidget";
 export * from "./composites/Plugin/ContentAnalysis";
-export * from "@yoast/search-metadata-previews";
+
+export
+{
+	FixedWidthContainer,
+	HelpTextWrapper,
+	SnippetPreview,
+	ReplacementVariableEditor,
+	SettingsSnippetEditor,
+	SnippetEditor,
+	lengthProgressShape,
+	recommendedReplacementVariablesShape,
+	replacementVariablesShape,
+} from "@yoast/search-metadata-previews";
+
 export { default as utils } from "./utils";
 export { localize } from "./utils/i18n";
 export { setTranslations } from "./utils/i18n";
