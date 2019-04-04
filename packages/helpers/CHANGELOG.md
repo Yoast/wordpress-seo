@@ -9,4 +9,4 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Splits out `@yoast/search-metadata-previews` from `yoast-components`. The search metadata previews package contains previews for search platforms such as Google.
+* Splits out `@yoast/helpers` from `yoast-components`. The helpers package contains helper functions required for multiple other `@yoast` packages.
