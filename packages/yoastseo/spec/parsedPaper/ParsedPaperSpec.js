@@ -48,7 +48,7 @@ describe( "ParsedPaper", () => {
 			const parsedPaper = new ParsedPaper();
 			parsedPaper.setMetaValue( "keyword", "test" );
 			const result = parsedPaper.getMetaValue( "badKey" );
-			expect( result ).toEqual( undefined );
+			expect( result ).toBeUndefined();
 		} );
 	} );
 
