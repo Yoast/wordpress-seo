@@ -10,13 +10,13 @@ describe( "TreeBuilder", () => {
 
 	it( "registers a build function for a new language", () => {
 		// Create a new mock build function.
-		const myBuilder = jest.fn()
+		const myBuilder = jest.fn();
 
 		// Register the build function for the language "my-language".
 		treeBuilder.register( "my-language", myBuilder );
 
 		// Build the tree using the registered builder.
-		const tree = treeBuilder.build( "some input", { language: "my-language" } );
+		treeBuilder.build( "some input", { language: "my-language" } );
 
 		expect( myBuilder ).toBeCalled();
 	} );
@@ -27,7 +27,7 @@ describe( "TreeBuilder", () => {
 		treeBuilder._buildFunctions.html = htmlMockBuilder;
 
 		// Defaults to the HTML parser.
-		const tree = treeBuilder.build( "<p>A paragraph</p>" );
+		treeBuilder.build( "<p>A paragraph</p>" );
 
 		expect( htmlMockBuilder ).toBeCalled();
 	} );
