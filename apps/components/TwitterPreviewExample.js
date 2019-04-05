@@ -59,6 +59,12 @@ const TwitterPreviewExample = () => {
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
 			/>
+			<h2>Upload a too small image</h2>
+			<TwitterPreview
+				src="https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png"
+				title="YoastCon Workshops &bull; Yoast"
+				siteName="yoast.com"
+			/>
 		</ExamplesContainer>
 	);
 };
