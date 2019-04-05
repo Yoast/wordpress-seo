@@ -1,9 +1,9 @@
 import ProminentWord from "../../src/values/ProminentWord";
-import { getRelevantWords } from "../../src/stringProcessing/determineProminentWords";
+import { getProminentWords } from "../../src/stringProcessing/determineProminentWords";
 import { de as morphologyData } from "../../premium-configuration/data/morphologyData-de.json";
 
-describe( "gets German word combinations", function() {
-	it( "returns word combinations", function() {
+describe( "gets German prominent words", function() {
+	it( "returns prominent words", function() {
 		const input = "Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
 			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
 			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
@@ -21,7 +21,7 @@ describe( "gets German word combinations", function() {
 			new ProminentWord( "studieren", "studium", 48 ),
 		];
 
-		const words = getRelevantWords( input, [], "de", morphologyData );
+		const words = getProminentWords( input, [], "de", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );

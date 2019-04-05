@@ -1,10 +1,10 @@
 import ProminentWord from "../../src/values/ProminentWord";
 import {
-	getRelevantWords,
-	getRelevantWordsFromPaperAttributes,
-	getRelevantCombinations,
-	collapseRelevantWordsOnStem,
-	sortCombinations,
+	getProminentWords,
+	getProminentWordsFromPaperAttributes,
+	filterProminentWords,
+	collapseProminentWordsOnStem,
+	sortProminentWords,
 	retrieveAbbreviations,
 } from "../../src/stringProcessing/determineProminentWords";
 import { en as morphologyData } from "../../premium-configuration/data/morphologyData.json";
@@ -26,8 +26,8 @@ describe( "retrieveAbbreviations", function() {
 	} );
 } );
 
-describe( "getRelevantCombinations", function() {
-	it( "removes combinations with one occurrence (for internal linking)", function() {
+describe( "filterProminentWords", function() {
+	it( "removes words with one occurrence (for internal linking)", function() {
 		const input = [
 			new ProminentWord( "irrelevant", "irrelevant", 1 ),
 			new ProminentWord( "occurrence", "occurrence", 2 ),
@@ -36,12 +36,12 @@ describe( "getRelevantCombinations", function() {
 			new ProminentWord( "occurrence", "occurrence", 2 ),
 		];
 
-		const actual = getRelevantCombinations( input, 2 );
+		const actual = filterProminentWords( input, 2 );
 
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "removes combinations with less than 5 occurrences (for insights)", function() {
+	it( "removes words with less than 5 occurrences (for insights)", function() {
 		const input = [
 			new ProminentWord( "irrelevant", "irrelevant", 4 ),
 			new ProminentWord( "occurrence", "occurrence", 5 ),
@@ -52,7 +52,7 @@ describe( "getRelevantCombinations", function() {
 			new ProminentWord( "here", "here", 6 ),
 		];
 
-		const actual = getRelevantCombinations( input, 5 );
+		const actual = filterProminentWords( input, 5 );
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -65,13 +65,13 @@ describe( "getRelevantCombinations", function() {
 		];
 		const expected = [];
 
-		const actual = getRelevantCombinations( input, 2 );
+		const actual = filterProminentWords( input, 2 );
 
 		expect( actual ).toEqual( expected );
 	} );
 } );
 
-describe( "sortCombinations", function() {
+describe( "sortProminentWords", function() {
 	it( "sorts based on number of occurrences", function() {
 		const combination1 = new ProminentWord( "word1", "word1", 2 );
 		const combination2 = new ProminentWord( "word2", "word2", 3 );
@@ -80,16 +80,16 @@ describe( "sortCombinations", function() {
 		const initial = [ combination1, combination2 ];
 		const reversed = [ combination2, combination1 ];
 
-		sortCombinations( output );
+		sortProminentWords( output );
 
 		expect( output ).toEqual( reversed );
 
 		combination1.setOccurrences( combination1.getOccurrences() + 2 );
-		sortCombinations( output );
+		sortProminentWords( output );
 		expect( output ).toEqual( initial );
 
 		combination2.setOccurrences( combination2.getOccurrences() + 2 );
-		sortCombinations( output );
+		sortProminentWords( output );
 		expect( output ).toEqual( reversed );
 	} );
 
@@ -101,7 +101,7 @@ describe( "sortCombinations", function() {
 		const output = [ combination1, combination2, combination3 ];
 		const sorted = [ combination3, combination1, combination2 ];
 
-		sortCombinations( output );
+		sortProminentWords( output );
 
 		expect( output ).toEqual( sorted );
 	} );
@@ -115,7 +115,7 @@ describe( "sortCombinations", function() {
 		const output = [ combination1, combination2, combination3, combination4 ];
 		const sorted = [ combination3, combination1, combination2, combination4 ];
 
-		sortCombinations( output );
+		sortProminentWords( output );
 
 		expect( output ).toEqual( sorted );
 	} );
@@ -127,15 +127,15 @@ describe( "sortCombinations", function() {
 		const output = [ combination1, combination2 ];
 		const sorted = [ combination1, combination2 ];
 
-		sortCombinations( output );
+		sortProminentWords( output );
 
 		expect( output ).toEqual( sorted );
 	} );
 } );
 
-describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", function() {
+describe( "collapseProminentWordsOnStem collapses over duplicates by stem", function() {
 	it( "does not break for an empty input array", function() {
-		expect( collapseRelevantWordsOnStem( [] ) ).toEqual( [] );
+		expect( collapseProminentWordsOnStem( [] ) ).toEqual( [] );
 	} );
 
 	it( "does not break for a 1-element input array", function() {
@@ -147,7 +147,7 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 			new ProminentWord( "sentence", "sentence", 2 ),
 		];
 
-		const result = collapseRelevantWordsOnStem( wordCombinations );
+		const result = collapseProminentWordsOnStem( wordCombinations );
 
 		expect( result ).toEqual( expectedResult );
 	} );
@@ -166,7 +166,7 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 			new ProminentWord( "word", "word", 21 ),
 		];
 
-		const result = collapseRelevantWordsOnStem( wordCombinations );
+		const result = collapseProminentWordsOnStem( wordCombinations );
 
 		expect( result ).toEqual( expectedResult );
 	} );
@@ -185,7 +185,7 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 			new ProminentWord( "WORD", "word", 21 ),
 		];
 
-		const result = collapseRelevantWordsOnStem( wordCombinations );
+		const result = collapseProminentWordsOnStem( wordCombinations );
 
 		expect( result ).toEqual( expectedResult );
 	} );
@@ -220,7 +220,7 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 			new ProminentWord( "yoast", "yoast", 6 ),
 		];
 
-		const result = collapseRelevantWordsOnStem( wordCombinations );
+		const result = collapseProminentWordsOnStem( wordCombinations );
 
 		expect( result ).toEqual( expectedResult );
 	} );
@@ -240,7 +240,7 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 			new ProminentWord( "word", "word", 21 ),
 		];
 
-		const result = collapseRelevantWordsOnStem( wordCombinations );
+		const result = collapseProminentWordsOnStem( wordCombinations );
 
 		expect( result ).toEqual( expectedResult );
 	} );
@@ -260,7 +260,7 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 			new ProminentWord( "word", "word", 21 ),
 		];
 
-		const result = collapseRelevantWordsOnStem( wordCombinations );
+		const result = collapseProminentWordsOnStem( wordCombinations );
 
 		expect( result ).toEqual( expectedResult );
 	} );
@@ -283,7 +283,7 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 			new ProminentWord( "word", "word", 14 ),
 		];
 
-		const result = collapseRelevantWordsOnStem( wordCombinations );
+		const result = collapseProminentWordsOnStem( wordCombinations );
 
 		expect( result ).toEqual( expectedResult );
 	} );
@@ -307,13 +307,13 @@ describe( "collapseRelevantWordsOnStem collapses over duplicates by stem", funct
 			new ProminentWord( "word", "word", 15 ),
 		];
 
-		const result = collapseRelevantWordsOnStem( wordCombinations );
+		const result = collapseProminentWordsOnStem( wordCombinations );
 
 		expect( result ).toEqual( expectedResult );
 	} );
 } );
 
-describe( "getRelevantWords", function() {
+describe( "getProminentWords", function() {
 	it( "does not break and returns the word itself for a language without a stemmer", function() {
 		const input = "A text consists of words. This is a text.";
 		const expected = [
@@ -326,7 +326,7 @@ describe( "getRelevantWords", function() {
 			new ProminentWord( "words", "words", 1 ),
 		];
 
-		const words = getRelevantWords( input, [], "ee", morphologyData );
+		const words = getProminentWords( input, [], "ee", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -334,7 +334,7 @@ describe( "getRelevantWords", function() {
 	it( "does not break if the input is empty", function() {
 		const input = "";
 
-		const words = getRelevantWords( input, "en", morphologyData );
+		const words = getProminentWords( input, "en", morphologyData );
 
 		expect( words ).toEqual( [] );
 	} );
@@ -343,7 +343,7 @@ describe( "getRelevantWords", function() {
 		const input = "! - ?.... ";
 		const expected = [];
 
-		const words = getRelevantWords( input, [], "en", morphologyData );
+		const words = getProminentWords( input, [], "en", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -355,7 +355,7 @@ describe( "getRelevantWords", function() {
 			new ProminentWord( "words", "word", 1 ),
 		];
 
-		const words = getRelevantWords( input, [], "en", morphologyData );
+		const words = getProminentWords( input, [], "en", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -372,7 +372,7 @@ describe( "getRelevantWords", function() {
 			new ProminentWord( "word", "word", 21 ),
 		];
 
-		const words = getRelevantWords( input, [], "en", morphologyData );
+		const words = getProminentWords( input, [], "en", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -398,7 +398,7 @@ describe( "getRelevantWords", function() {
 			new ProminentWord( "wonderful", "wonderful", 2 ),
 		];
 
-		const words = getRelevantWords( input, [], "en", morphologyData );
+		const words = getProminentWords( input, [], "en", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -425,7 +425,7 @@ describe( "getRelevantWords", function() {
 			new ProminentWord( "wonderful", "wonderful", 2 ),
 		];
 
-		const words = getRelevantWords( input, [ "cta" ], "en", morphologyData );
+		const words = getProminentWords( input, [ "cta" ], "en", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -441,7 +441,7 @@ describe( "getRelevantWords", function() {
 			new ProminentWord( "ton", "ton", 2 ),
 		];
 
-		const words = getRelevantWords( input, [], "ee", morphologyData );
+		const words = getProminentWords( input, [], "ee", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -463,7 +463,7 @@ describe( "getRelevantWordsFromPaperAttributes", function() {
 
 		];
 
-		const words = getRelevantWordsFromPaperAttributes(
+		const words = getProminentWordsFromPaperAttributes(
 			[
 				"This is a NICE keyphrase",
 				"This is a synonym one, a synonym two and an o-my synonym",

@@ -1,9 +1,9 @@
 import ProminentWord from "../../src/values/ProminentWord";
-import { getRelevantWords } from "../../src/stringProcessing/determineProminentWords";
+import { getProminentWords } from "../../src/stringProcessing/determineProminentWords";
 import { en as morphologyData } from "../../premium-configuration/data/morphologyData.json";
 
-describe( "gets English word combinations", function() {
-	it( "returns word combinations", function() {
+describe( "gets English prominent words", function() {
+	it( "returns  prominent words", function() {
 		const input = "Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
 			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
 			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
@@ -18,7 +18,7 @@ describe( "gets English word combinations", function() {
 			new ProminentWord( "syllables", "syllable", 37 ),
 		];
 
-		const words = getRelevantWords( input, [], "en", morphologyData );
+		const words = getProminentWords( input, [], "en", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
@@ -40,7 +40,7 @@ describe( "gets English word combinations", function() {
 			new ProminentWord( "syllable", "syllable", 47 ),
 		];
 
-		const words = getRelevantWords( input, [], "en", morphologyData );
+		const words = getProminentWords( input, [], "en", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );

@@ -1,8 +1,8 @@
 import ProminentWord from "../../src/values/ProminentWord";
-import { getRelevantWords } from "../../src/stringProcessing/determineProminentWords";
+import { getProminentWords } from "../../src/stringProcessing/determineProminentWords";
 
-describe( "gets Polish word combinations", function() {
-	it( "returns word combinations", function() {
+describe( "gets Polish prominent words", function() {
+	it( "returns prominent words", function() {
 		const input = "W zasadzie każdy z nas wie, że gdy ktoś odczuwa ból w klatce piersiowej, to należy natychmiast" +
 			" dzwonić po karetkę. W zasadzie każdy z nas wie, że gdy ktoś odczuwa ból w klatce piersiowej, to należy " +
 			"natychmiast dzwonić po karetkę. W zasadzie każdy z nas wie, że gdy ktoś odczuwa ból w klatce piersiowej, " +
@@ -25,7 +25,7 @@ describe( "gets Polish word combinations", function() {
 			new ProminentWord( "zasadzie", "zasadzie", 8 ),
 		];
 
-		const words = getRelevantWords( input, [], "pl", false );
+		const words = getProminentWords( input, [], "pl", false );
 
 		expect( words ).toEqual( expected );
 	} );

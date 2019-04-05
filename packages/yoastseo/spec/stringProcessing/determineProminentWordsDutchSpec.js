@@ -1,7 +1,7 @@
 import ProminentWord from "../../src/values/ProminentWord";
-import { getRelevantWords } from "../../src/stringProcessing/determineProminentWords";
+import { getProminentWords } from "../../src/stringProcessing/determineProminentWords";
 
-describe( "gets Dutch word combinations", function() {
+describe( "gets Dutch prominent words", function() {
 	it( "returns word combinations", function() {
 		const input = "Dit zijn heel veel zinnen met heel veel woorden. Dit zijn heel veel zinnen met heel veel woorden. Dit zijn" +
 			" heel veel zinnen met heel veel woorden. Dit zijn heel veel zinnen met heel veel woorden. Dit zijn heel veel zinnen" +
@@ -18,7 +18,7 @@ describe( "gets Dutch word combinations", function() {
 			new ProminentWord( "zinnen", "zinnen", 23 ),
 		];
 
-		const words = getRelevantWords( input, [], "nl", false );
+		const words = getProminentWords( input, [], "nl", false );
 
 		expect( words ).toEqual( expected );
 	} );

@@ -1,8 +1,8 @@
 import ProminentWord from "../../src/values/ProminentWord";
-import { getRelevantWords } from "../../src/stringProcessing/determineProminentWords";
+import { getProminentWords } from "../../src/stringProcessing/determineProminentWords";
 
-describe( "gets Portuguese word combinations", function() {
-	it( "returns word combinations", function() {
+describe( "gets Portuguese prominent words", function() {
+	it( "returns prominent words", function() {
 		const input = "Os números oficiais sugerem que o crime está em baixa, mas as autoridades " +
 			"dizem que muitas vítimas pararam de denunciar incidentes. " +
 			"Os números oficiais sugerem que o crime está em baixa, mas as autoridades " +
@@ -31,7 +31,7 @@ describe( "gets Portuguese word combinations", function() {
 			new ProminentWord( "vítimas", "vítimas", 8 ),
 		];
 
-		const words = getRelevantWords( input, [], "pt", false );
+		const words = getProminentWords( input, [], "pt", false );
 
 		expect( words ).toEqual( expected );
 	} );

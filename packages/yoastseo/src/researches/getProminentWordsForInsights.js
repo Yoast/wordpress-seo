@@ -1,20 +1,20 @@
 import { get, take } from "lodash-es";
 import getLanguage from "../helpers/getLanguage";
 import {
-	collapseRelevantWordsOnStem,
-	getRelevantCombinations,
-	getRelevantWords,
+	collapseProminentWordsOnStem,
+	filterProminentWords,
+	getProminentWords,
 	retrieveAbbreviations,
-	sortCombinations,
+	sortProminentWords,
 } from "../stringProcessing/determineProminentWords";
 
 /**
- * Retrieves the relevant words from the given paper.
+ * Retrieves the prominent words from the given paper.
  *
- * @param {Paper} paper The paper to determine the relevant words of.
+ * @param {Paper} paper The paper to determine the prominent words of.
  * @param {Researcher} researcher The researcher to use for analysis.
  *
- * @returns {WordCombination[]} Relevant words for this paper, filtered and sorted.
+ * @returns {WordCombination[]} Prominent words for this paper, filtered and sorted.
  */
 function getProminentWordsForInsights( paper, researcher ) {
 	const text = paper.getText();
@@ -23,16 +23,16 @@ function getProminentWordsForInsights( paper, researcher ) {
 
 	const abbreviations = retrieveAbbreviations( text );
 
-	const relevantWordsFromText = getRelevantWords( text, abbreviations, language, morphologyData );
+	const prominentWordsFromText = getProminentWords( text, abbreviations, language, morphologyData );
 
-	const collapsedWords = collapseRelevantWordsOnStem( relevantWordsFromText );
-	sortCombinations( collapsedWords );
+	const collapsedWords = collapseProminentWordsOnStem( prominentWordsFromText );
+	sortProminentWords( collapsedWords );
 
 	/*
-	 * Collapse the list of word combinations on stems, sort it, filter out all word combinations that occur less than
+	 * Collapse the list of prominent words on stems, sort it, filter out all words that occur less than
 	 * 5 times in the text. Return the 20 top items from this list.
 	 */
-	return take( getRelevantCombinations( collapsedWords, 5 ), 20 );
+	return take( filterProminentWords( collapsedWords, 5 ), 20 );
 }
 
 export default getProminentWordsForInsights;

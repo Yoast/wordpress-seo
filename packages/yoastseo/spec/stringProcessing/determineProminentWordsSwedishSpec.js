@@ -1,8 +1,8 @@
 import ProminentWord from "../../src/values/ProminentWord";
-import { getRelevantWords } from "../../src/stringProcessing/determineProminentWords";
+import { getProminentWords } from "../../src/stringProcessing/determineProminentWords";
 
-describe( "gets Swedish word combinations", function() {
-	it( "returns word combinations", function() {
+describe( "gets Swedish prominent words", function() {
+	it( "returns prominent words", function() {
 		const input = "Det vanligaste sättet för katten att kommunicera med människor är att jama. Det vanligaste sättet" +
 			" för katten att kommunicera med människor är att jama. Det vanligaste sättet för katten att kommunicera med " +
 			"människor är att jama. Det vanligaste sättet för katten att kommunicera med människor är att jama. Det vanligaste " +
@@ -19,7 +19,7 @@ describe( "gets Swedish word combinations", function() {
 			new ProminentWord( "vanligaste", "vanligaste", 8 ),
 		];
 
-		const words = getRelevantWords( input, [], "sv", false );
+		const words = getProminentWords( input, [], "sv", false );
 
 		expect( words ).toEqual( expected );
 	} );

@@ -1,8 +1,8 @@
 import ProminentWord from "../../src/values/ProminentWord";
-import { getRelevantWords, getRelevantCombinations } from "../../src/stringProcessing/determineProminentWords";
+import { getProminentWords, filterProminentWords } from "../../src/stringProcessing/determineProminentWords";
 
-describe( "gets French word combinations", function() {
-	it( "returns word combinations", function() {
+describe( "gets French prominent words", function() {
+	it( "returns prominent words", function() {
 		const input = "Mercredi, un texte issu de la rencontre, la veille, entre le président français Emmanuel Macron" +
 			"et la première ministre britannique Theresa May présentait des axes de travail pour lutter contre le terrorisme" +
 			" sur Internet, évoquant, sans les nommer, les grands réseaux sociaux. Vingt-quatre heures plus tard seulement," +
@@ -19,7 +19,7 @@ describe( "gets French word combinations", function() {
 			new ProminentWord( "texte", "texte", 2 ),
 		];
 
-		const words = getRelevantCombinations( getRelevantWords( input, [ "IA" ], "fr", false ) );
+		const words = filterProminentWords( getProminentWords( input, [ "IA" ], "fr", false ) );
 
 		expect( words ).toEqual( expected );
 	} );

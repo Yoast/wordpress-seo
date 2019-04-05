@@ -1,22 +1,22 @@
 import { get, take } from "lodash-es";
 import getLanguage from "../helpers/getLanguage";
 import {
-	collapseRelevantWordsOnStem,
-	getRelevantCombinations,
-	getRelevantWords,
-	getRelevantWordsFromPaperAttributes,
+	collapseProminentWordsOnStem,
+	filterProminentWords,
+	getProminentWords,
+	getProminentWordsFromPaperAttributes,
 	retrieveAbbreviations,
-	sortCombinations,
+	sortProminentWords,
 } from "../stringProcessing/determineProminentWords";
 import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../stringProcessing/getSubheadings";
 
 /**
- * Retrieves the relevant words from the given paper.
+ * Retrieves the prominent words from the given paper.
  *
- * @param {Paper} paper The paper to determine the relevant words of.
+ * @param {Paper} paper The paper to determine the prominent words of.
  * @param {Researcher} researcher The researcher to use for analysis.
  *
- * @returns {WordCombination[]} Relevant words for this paper, filtered and sorted.
+ * @returns {WordCombination[]} Prominent words for this paper, filtered and sorted.
  */
 function getProminentWordsForInternalLinking( paper, researcher ) {
 	const text = paper.getText();
@@ -34,24 +34,24 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 
 	const abbreviations = retrieveAbbreviations( text.concat( attributes.join( " " ) ) );
 
-	const relevantWordsFromText = getRelevantWords( removeSubheadingsTopLevel( text ), abbreviations, language, morphologyData );
+	const prominentWordsFromText = getProminentWords( removeSubheadingsTopLevel( text ), abbreviations, language, morphologyData );
 
-	const relevantWordsFromPaperAttributes = getRelevantWordsFromPaperAttributes( attributes, abbreviations, language, morphologyData );
+	const prominentWordsFromPaperAttributes = getProminentWordsFromPaperAttributes( attributes, abbreviations, language, morphologyData );
 
 	/*
-	 * If a word is used in any of the attributes, its relevance is automatically high.
-	 * To make sure the word survives relevance filters and gets saved in the database, make the number of occurrences times-3.
+	 * If a word is used in any of the attributes, its weight is automatically high.
+	 * To make sure the word survives weight filters and gets saved in the database, make the number of occurrences times-3.
 	 */
-	relevantWordsFromPaperAttributes.forEach( relevantWord => relevantWord.setOccurrences( relevantWord.getOccurrences() * 3 ) );
+	prominentWordsFromPaperAttributes.forEach( relevantWord => relevantWord.setOccurrences( relevantWord.getOccurrences() * 3 ) );
 
-	const collapsedWords = collapseRelevantWordsOnStem( relevantWordsFromPaperAttributes.concat( relevantWordsFromText ) );
-	sortCombinations( collapsedWords );
+	const collapsedWords = collapseProminentWordsOnStem( prominentWordsFromPaperAttributes.concat( prominentWordsFromText ) );
+	sortProminentWords( collapsedWords );
 
 	/*
 	 * Return the 100 top items from the collapsed and sorted list. The number is picked deliberately to prevent larger
 	 * articles from getting too long of lists.
 	 */
-	return take( getRelevantCombinations( collapsedWords, 2 ), 100 );
+	return take( filterProminentWords( collapsedWords, 2 ), 100 );
 }
 
 

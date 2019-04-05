@@ -13,72 +13,72 @@ const stemFunctions = getStemForLanguageFactory();
 const specialCharacters = /[1234567890‘’“”"'.…?!:;,¿¡«»&*@#±^%$|~=+§`[\](){}⟨⟩<>/\\–\-\u2014\u00d7\s]/g;
 
 /**
- * Returns only those relevant combinations that occur more than once and do not consist of special characters.
+ * Returns only those prominent words that occur more than a certain number of times and do not consist of special characters.
  *
- * @param {ProminentWord[]} wordCombinations A list of word combinations.
+ * @param {ProminentWord[]} prominentWords A list of prominent words.
  * @param {int} [minimalNumberOfOccurrences] A minimal number of occurrences that is needed for a relevant prominentWord, default 2.
  *
  * @returns {ProminentWord[]} Only relevant word combinations.
  */
-function getRelevantCombinations( wordCombinations, minimalNumberOfOccurrences = 2 ) {
-	wordCombinations = wordCombinations.filter( function( combination ) {
+function filterProminentWords( prominentWords, minimalNumberOfOccurrences = 2 ) {
+	prominentWords = prominentWords.filter( function( combination ) {
 		return (
 			combination.getOccurrences() >= minimalNumberOfOccurrences &&
 			combination.getWord().replace( specialCharacters, "" ) !== ""
 		);
 	} );
-	return wordCombinations;
+	return prominentWords;
 }
 
 /**
- * Sorts word combinations based on their number of occurrences and length.
+ * Sorts prominent words based on their number of occurrences and length.
  *
- * @param {ProminentWord[]} wordCombinations The combinations to sort.
+ * @param {ProminentWord[]} prominentWords The prominent words to sort.
  *
  * @returns {void}
  */
-function sortCombinations( wordCombinations ) {
-	wordCombinations.sort( function( combinationA, combinationB ) {
-		const difference = combinationB.getOccurrences() - combinationA.getOccurrences();
+function sortProminentWords( prominentWords ) {
+	prominentWords.sort( function( wordA, wordB ) {
+		const difference = wordB.getOccurrences() - wordA.getOccurrences();
 		// The combination with the highest number of occurrences comes first.
 		if ( difference !== 0 ) {
 			return difference;
 		}
 
 		// In case of a tie on occurrence number, the alphabetically first combination comes first.
-		return combinationA.getStem().localeCompare( combinationB.getStem() );
+		return wordA.getStem().localeCompare( wordB.getStem() );
 	} );
 }
 
 /**
- * Collapses relevant words that have the same stem.
+ * Collapses prominent words that have the same stem.
  *
- * @param {ProminentWord[]} wordCombinations All word combinations.
+ * @param {ProminentWord[]} prominentWords All prominentWords.
  *
  * @returns {ProminentWord[]} The original array with collapsed duplicates.
  */
-function collapseRelevantWordsOnStem( wordCombinations ) {
-	if ( wordCombinations.length === 0 ) {
+function collapseProminentWordsOnStem( prominentWords ) {
+	if ( prominentWords.length === 0 ) {
 		return [];
 	}
 
 	// Sort the input array by stem
-	wordCombinations.sort( function( wordA, wordB ) {
+	prominentWords.sort( function( wordA, wordB ) {
 		return wordA.getStem().localeCompare( wordB.getStem() );
 	} );
 
-	const collapsedRelevantWords = [];
+	const collapsedProminentWords = [];
 	let previousWord = new ProminentWord(
-		wordCombinations[ 0 ].getWord(),
-		wordCombinations[ 0 ].getStem(),
-		wordCombinations[ 0 ].getOccurrences()
+		prominentWords[ 0 ].getWord(),
+		prominentWords[ 0 ].getStem(),
+		prominentWords[ 0 ].getOccurrences()
 	);
 
-	for ( let i = 1; i < wordCombinations.length; i++ ) {
+	for ( let i = 1; i < prominentWords.length; i++ ) {
 		const currentWord = new ProminentWord(
-			wordCombinations[ i ].getWord(),
-			wordCombinations[ i ].getStem(),
-			wordCombinations[ i ].getOccurrences()
+			prominentWords[ i ].getWord(),
+			prominentWords[ i ].getStem(),
+			prominentWords[ i ].getOccurrences()
 		);
 
 		/*
@@ -95,14 +95,14 @@ function collapseRelevantWordsOnStem( wordCombinations ) {
 				previousWord.setWord( currentWord.getWord() );
 			}
 		} else {
-			collapsedRelevantWords.push( previousWord );
+			collapsedProminentWords.push( previousWord );
 			previousWord = currentWord;
 		}
 	}
 
-	collapsedRelevantWords.push( previousWord );
+	collapsedProminentWords.push( previousWord );
 
-	return collapsedRelevantWords;
+	return collapsedProminentWords;
 }
 
 /**
@@ -148,7 +148,7 @@ function retrieveAbbreviations( text ) {
 }
 
 /**
- * Computes relevant words from an array of words. In order to do so, checks whether the word is included in the list of
+ * Computes prominent words from an array of words. In order to do so, checks whether the word is included in the list of
  * function words and determines the number of occurrences for every word. Then checks if any two words have the same stem
  * and if so collapses over them.
  *
@@ -157,9 +157,9 @@ function retrieveAbbreviations( text ) {
  * @param {string} language         The paper's language.
  * @param {Object} morphologyData   The morphologyData available for the language of the paper.
  *
- * @returns {ProminentWord[]} All relevant words sorted and filtered for this text.
+ * @returns {ProminentWord[]} All prominent words sorted and filtered for this text.
  */
-function computeRelevantWords( words, abbreviations, language, morphologyData ) {
+function computeProminentWords( words, abbreviations, language, morphologyData ) {
 	const functionWords = retrieveFunctionWords( language );
 	const determineStem = retrieveStemmer( language );
 
@@ -168,17 +168,17 @@ function computeRelevantWords( words, abbreviations, language, morphologyData ) 
 	}
 
 	const uniqueContentWords = uniq( words.filter( word => ! functionWords.includes( word.trim() ) ) );
-	const relevantWords = [];
+	const prominentWords = [];
 
 	uniqueContentWords.forEach( function( word ) {
 		if ( abbreviations.includes( word ) ) {
-			relevantWords.push( new ProminentWord(
+			prominentWords.push( new ProminentWord(
 				word.toLocaleUpperCase(),
 				word,
 				words.filter( element => element === word ).length
 			) );
 		} else {
-			relevantWords.push( new ProminentWord(
+			prominentWords.push( new ProminentWord(
 				word,
 				determineStem( word, morphologyData ),
 				words.filter( element => element === word ).length
@@ -186,24 +186,24 @@ function computeRelevantWords( words, abbreviations, language, morphologyData ) 
 		}
 	} );
 
-	return collapseRelevantWordsOnStem( relevantWords );
+	return collapseProminentWordsOnStem( prominentWords );
 }
 
 /**
- * Caches relevant words depending on the currently available morphologyData and (separately) text words and language.
+ * Caches prominent words depending on the currently available morphologyData and (separately) text words and language.
  * In this way, if the morphologyData remains the same in multiple calls of this function, the function
- * that collects actual relevant words only needs to check if the text words and language also remain the
+ * that collects actual prominent words only needs to check if the text words and language also remain the
  * same to return the cached result. The joining of words and language for this function is needed,
  * because by default memoize caches by the first key only, which in the current case would mean that the function would
  * return the cached forms if the text has not changed (without checking if language was changed).
  *
  * @param {Object|boolean}  morphologyData  The available morphology data.
  *
- * @returns {function} The function that collects relevant words for a given set of text words, language and morphologyData.
+ * @returns {function} The function that collects prominent words for a given set of text words, language and morphologyData.
  */
-const primeRelevantWords = memoize( ( morphologyData ) => {
+const primeProminentWords = memoize( ( morphologyData ) => {
 	return memoize( ( words, abbreviations, language ) => {
-		return computeRelevantWords( words, abbreviations, language, morphologyData );
+		return computeProminentWords( words, abbreviations, language, morphologyData );
 	}, ( words, abbreviations, language ) => {
 		return words.join( "," ) + "," + abbreviations.join( "," ) + "," + language;
 	} );
@@ -211,56 +211,56 @@ const primeRelevantWords = memoize( ( morphologyData ) => {
 
 
 /**
- * Gets relevant words from the paper text.
+ * Gets prominent words from the paper text.
  *
- * @param {string}      text            The text to retrieve the relevant words from.
+ * @param {string}      text            The text to retrieve the prominent words from.
  * @param {string[]}    abbreviations   The abbreviations that occur in the text and attributes of the paper.
  * @param {string}      language        The paper's language.
  * @param {Object}      morphologyData  The morphologyData available for the language of the paper.
  *
- * @returns {ProminentWord[]} All relevant words sorted and filtered for this text.
+ * @returns {ProminentWord[]} All prominent words sorted and filtered for this text.
  */
-function getRelevantWords( text, abbreviations, language, morphologyData ) {
+function getProminentWords( text, abbreviations, language, morphologyData ) {
 	if ( text === "" ) {
 		return [];
 	}
 
 	const words = getWords( normalizeSingle( text ).toLocaleLowerCase() );
-	const computeRelevantWordsMemoized = primeRelevantWords( morphologyData );
+	const computeProminentWordsMemoized = primeProminentWords( morphologyData );
 
-	return computeRelevantWordsMemoized( words, abbreviations, language, morphologyData );
+	return computeProminentWordsMemoized( words, abbreviations, language, morphologyData );
 }
 
 /**
- * Gets relevant words from keyphrase and synonyms, metadescription, title, and subheadings.
+ * Gets prominent words from keyphrase and synonyms, metadescription, title, and subheadings.
  *
  * @param {string[]}    attributes       The array with attributes to process.
  * @param {string[]}    abbreviations    The abbreviations that occur in the text and attributes of the paper.
  * @param {string}      language         The language of the paper.
  * @param {Object}      morphologyData   The morphologyData available for the language of the paper.
  *
- * @returns {ProminentWord[]} Relevant word combinations from the paper attributes.
+ * @returns {ProminentWord[]} Prominent words from the paper attributes.
  */
-function getRelevantWordsFromPaperAttributes( attributes, abbreviations, language, morphologyData ) {
+function getProminentWordsFromPaperAttributes( attributes, abbreviations, language, morphologyData ) {
 	const wordsFromAttributes = getWords( attributes.join( " " ).toLocaleLowerCase() );
 
-	return computeRelevantWords( wordsFromAttributes, abbreviations, language, morphologyData );
+	return computeProminentWords( wordsFromAttributes, abbreviations, language, morphologyData );
 }
 
 export {
-	getRelevantWords,
-	getRelevantWordsFromPaperAttributes,
-	getRelevantCombinations,
-	sortCombinations,
-	collapseRelevantWordsOnStem,
+	getProminentWords,
+	getProminentWordsFromPaperAttributes,
+	filterProminentWords,
+	sortProminentWords,
+	collapseProminentWordsOnStem,
 	retrieveAbbreviations,
 };
 
 export default {
-	getRelevantWords: getRelevantWords,
-	getRelevantWordsFromPaperAttributes: getRelevantWordsFromPaperAttributes,
-	getRelevantCombinations: getRelevantCombinations,
-	sortCombinations: sortCombinations,
-	collapseRelevantWordsOnStem: collapseRelevantWordsOnStem,
+	getProminentWords,
+	getProminentWordsFromPaperAttributes,
+	filterProminentWords,
+	sortProminentWords,
+	collapseProminentWordsOnStem,
 	retrieveAbbreviations,
 };

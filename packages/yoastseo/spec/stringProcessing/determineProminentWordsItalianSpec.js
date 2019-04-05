@@ -1,8 +1,8 @@
 import ProminentWord from "../../src/values/ProminentWord";
-import { getRelevantWords } from "../../src/stringProcessing/determineProminentWords";
+import { getProminentWords } from "../../src/stringProcessing/determineProminentWords";
 
-describe( "gets Italian word combinations", function() {
-	it( "returns word combinations", function() {
+describe( "gets Italian prominent words", function() {
+	it( "returns prominent words", function() {
 		const input = "Le ultime elezioni sono oggetto dell’inchiesta della procura di Caltanissetta." +
 			" Le ultime elezioni sono oggetto dell’inchiesta della procura di Caltanissetta." +
 			" Le ultime elezioni sono oggetto dell’inchiesta della procura di Caltanissetta." +
@@ -21,7 +21,7 @@ describe( "gets Italian word combinations", function() {
 			new ProminentWord( "procura", "procura", 11 ),
 		];
 
-		const words = getRelevantWords( input, [], "it", false );
+		const words = getProminentWords( input, [], "it", false );
 
 		expect( words ).toEqual( expected );
 	} );
