@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
+import { Tabs as ReactTabs, TabList, Tab, TabPanel } from "react-tabs";
 
 /* Yoast dependencies */
 import { colors, breakpoints } from "@yoast/style-guide";
@@ -66,7 +66,7 @@ YoastTabsContainer.propTypes = {
 /**
  * Creates a Yoast styled ARIA tabs widget.
  */
-class YoastTabs extends React.Component {
+class Tabs extends React.Component {
 	/**
 	 * Gets all the defined tabs and returns an array of Tab components.
 	 *
@@ -110,12 +110,12 @@ class YoastTabs extends React.Component {
 				tabsFontWeight={ this.props.tabsFontWeight }
 				tabsBaseWidth={ this.props.tabsBaseWidth }
 			>
-				<Tabs onSelect={ this.props.onTabSelect }>
+				<ReactTabs onSelect={ this.props.onTabSelect }>
 					<TabList>
 						{ this.getTabs() }
 					</TabList>
 					{ this.getTabPanels() }
-				</Tabs>
+				</ReactTabs>
 			</YoastTabsContainer>
 		);
 	}
@@ -130,7 +130,7 @@ class YoastTabs extends React.Component {
 	}
 }
 
-YoastTabs.propTypes = {
+Tabs.propTypes = {
 	items: PropTypes.arrayOf(
 		PropTypes.shape( {
 			id: PropTypes.string.isRequired,
@@ -147,7 +147,7 @@ YoastTabs.propTypes = {
 	onTabsMounted: PropTypes.func,
 };
 
-YoastTabs.defaultProps = {
+Tabs.defaultProps = {
 	items: [],
 	tabsTextColor: colors.$color_grey_dark,
 	tabsTextTransform: "none",
@@ -158,4 +158,4 @@ YoastTabs.defaultProps = {
 	onTabsMounted: () => {},
 };
 
-export default YoastTabs;
+export default Tabs;

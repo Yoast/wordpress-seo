@@ -7,7 +7,7 @@ import { __ } from "@wordpress/i18n";
 import noop from "lodash/noop";
 
 /* Yoast dependencies */
-import { addFocusStyle, SvgIcon, YoastInputField } from "@yoast/components";
+import { addFocusStyle, SvgIcon, InputField } from "@yoast/components";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { colors } from "@yoast/style-guide";
 
@@ -30,7 +30,7 @@ const KeywordFieldLabelContainer = styled.span`
 	margin-bottom: 0.5em;
 `;
 
-const KeywordField = styled( YoastInputField )`
+const KeywordField = styled( InputField )`
 	flex: 1 !important;
 	box-sizing: border-box;
 	max-width: 100%;
