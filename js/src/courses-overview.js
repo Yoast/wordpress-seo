@@ -40,19 +40,17 @@ class CoursesOverview extends React.Component {
 			courses: null,
 		};
 
-		this.getFeed( wpseoCoursesOverviewL10n.version );
+		this.getFeed();
 	}
 
 	/**
 	 * Fetches data from the yoast.com feed, parses it and sets it to the state.
 	 *
-	 * @param {String} version The active Yoast SEO version.
-	 *
 	 * @returns {void}
 	 */
-	getFeed( version ) {
+	getFeed() {
 		// Developer note: this link should -not- be converted to a shortlink.
-		getCourseFeed( "https://yoast.com/?feed=courses&license=" + version )
+		getCourseFeed( "https://yoast.com/feed/courses/" )
 			.then( ( feed ) => {
 				feed.items = feed.items.map( ( item ) => {
 					return item;

@@ -24,7 +24,7 @@ class WPSEO_MyYoast_Api_Request {
 	 */
 	protected $args = array(
 		'method'    => 'GET',
-		'timeout'   => 10,
+		'timeout'   => 1,
 		'sslverify' => false,
 		'headers'   => array(
 			'Accept-Encoding' => '*',
@@ -152,7 +152,7 @@ class WPSEO_MyYoast_Api_Request {
 		$response          = wp_remote_request( $url, $request_arguments );
 
 		if ( is_wp_error( $response ) ) {
-			throw new WPSEO_MyYoast_Bad_Request_Exception( $response->get_error_message(), $response->get_error_code() );
+			throw new WPSEO_MyYoast_Bad_Request_Exception( $response->get_error_message() );
 		}
 
 		$response_code    = wp_remote_retrieve_response_code( $response );
@@ -168,7 +168,7 @@ class WPSEO_MyYoast_Api_Request {
 			throw new WPSEO_MyYoast_Authentication_Exception( esc_html( $response_message ), 401 );
 		}
 
-		throw new WPSEO_MyYoast_Bad_Request_Exception( esc_html( $response_message ), $response_code );
+		throw new WPSEO_MyYoast_Bad_Request_Exception( esc_html( $response_message ), (int) $response_code );
 	}
 
 	/**

@@ -5,9 +5,7 @@ import { __ } from "@wordpress/i18n";
 
 import { HelpText } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
-import { CornerstoneToggle } from "yoast-components";
-
-import Collapsible from "./SidebarCollapsible";
+import { default as CornerstoneToggle } from "./CornerstoneToggle";
 import { LocationConsumer } from "./contexts/location";
 const LearnMoreLink = makeOutboundLink();
 
@@ -41,4 +39,8 @@ export default function CollapsibleCornerstone( { isCornerstone, onChange } ) {
 CollapsibleCornerstone.propTypes = {
 	isCornerstone: PropTypes.bool,
 	onChange: PropTypes.func,
+};
+CollapsibleCornerstone.defaultProps = {
+	isCornerstone: true,
+	onChange: () => {},
 };
