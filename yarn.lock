@@ -562,6 +562,24 @@
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
+"@yoast/components@^0.1.0-rc.4":
+  version "0.1.0-rc.4"
+  resolved "https://registry.yarnpkg.com/@yoast/components/-/components-0.1.0-rc.4.tgz#07533491370e056c32f8640932b469dae3f29f6c"
+  integrity sha512-Psm8dhWVCsqZ9OBYEmaJC6wJRDEG4bvnOxUpBntRf4fh8074dA3Zx/XdjpNnm1Ufkdm9J0cwA+DPR/YFfl8oQw==
+  dependencies:
+    "@wordpress/a11y" "^1.1.3"
+    "@wordpress/i18n" "^1.2.3"
+    "@yoast/helpers" "^0.1.0-rc.2"
+    "@yoast/style-guide" "^0.1.0-rc.3"
+    interpolate-components "^1.1.1"
+    lodash "^4.17.11"
+    prop-types "^15.7.2"
+    react-modal "^3.8.1"
+    react-tabs "^2.3.0"
+    styled-components "^2.4.1"
+  optionalDependencies:
+    grunt-scss-to-json "^1.0.1"
+
 "@yoast/configuration-wizard@^1.0.0-rc.3":
   version "1.0.0-rc.3"
   resolved "https://registry.yarnpkg.com/@yoast/configuration-wizard/-/configuration-wizard-1.0.0-rc.3.tgz#42245553a61bc2b333b4e5b4984fcec38a2025bd"
@@ -571,6 +589,19 @@
     "@yoast/components" "^0.1.0-rc.3"
     "@yoast/helpers" "^0.1.0-rc.2"
     "@yoast/style-guide" "^0.1.0-rc.2"
+    interpolate-components "^1.1.1"
+    lodash "^4.17.11"
+    prop-types "^15.7.2"
+
+"@yoast/configuration-wizard@^1.0.0-rc.4":
+  version "1.0.0-rc.4"
+  resolved "https://registry.yarnpkg.com/@yoast/configuration-wizard/-/configuration-wizard-1.0.0-rc.4.tgz#39adfd6a41c698b946ed8aff4ab74b07a92dd4e8"
+  integrity sha512-V4bnedfJsbnLBZOMtcdci718hzmL6ZQLCjlGYaJK/REklOfnfnkRb9r856iUMtdjV7FEdQuKTReuxNqrYAJgUw==
+  dependencies:
+    "@wordpress/i18n" "^1.1.0"
+    "@yoast/components" "^0.1.0-rc.4"
+    "@yoast/helpers" "^0.1.0-rc.2"
+    "@yoast/style-guide" "^0.1.0-rc.3"
     interpolate-components "^1.1.1"
     lodash "^4.17.11"
     prop-types "^15.7.2"
@@ -616,6 +647,13 @@
   version "0.1.0-rc.2"
   resolved "https://registry.yarnpkg.com/@yoast/style-guide/-/style-guide-0.1.0-rc.2.tgz#f185cc2b4cf3b161f482f0958d28035c3e5685bf"
   integrity sha512-u5QnYQb0xKRpqIZ5NbrpK/uliv+K+r/jaOu12vEvsqVQmKTdIU5MNsAOam7afuMyTKWLSbxXt+OQPg0uBujK9g==
+  optionalDependencies:
+    grunt-scss-to-json "^1.0.1"
+
+"@yoast/style-guide@^0.1.0-rc.3":
+  version "0.1.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@yoast/style-guide/-/style-guide-0.1.0-rc.3.tgz#1c4dee06bc6f47f79c60948568a304118308bf5d"
+  integrity sha512-hZY+6ckYOcqZ6/JwwBs7QscWQvCnyXzqTKGbMVcNodVB5NgLanncwV9AOVwWZ9T61KsBbR0OSVq/+yeYKdttkA==
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
 
