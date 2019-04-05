@@ -9,8 +9,6 @@ import delayComponentSnapshot from "../testHelpers/delayComponentSnapshot";
 import * as determineImageProperties from "../../src/helpers/determineImageProperties";
 determineImageProperties.determineImageProperties = jest.fn();
 
-const TWITTER_IMAGE_SIZES = determineImageProperties.TWITTER_IMAGE_SIZES;
-
 describe( "TwitterImage Component", () => {
 	it( "calls determineImageProperties with the correct image URL", () => {
 		const imageUrl = "https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg";
@@ -116,7 +114,7 @@ describe( "retrieveContainerDimensions", () => {
 		const TwitterImageComponent = new TwitterImage();
 
 		const actual = TwitterImageComponent.retrieveContainerDimensions( "landscape" );
-		const expected = { height: TWITTER_IMAGE_SIZES.landscapeHeight + "px", width: TWITTER_IMAGE_SIZES.landscapeWidth + "px" };
+		const expected = { height: 253 + "px", width: 506 + "px" };
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -125,7 +123,7 @@ describe( "retrieveContainerDimensions", () => {
 		const TwitterImageComponent = new TwitterImage();
 
 		const actual = TwitterImageComponent.retrieveContainerDimensions( "square" );
-		const expected = { height: TWITTER_IMAGE_SIZES.squareHeight + "px", width: TWITTER_IMAGE_SIZES.squareWidth + "px" };
+		const expected = { height: 123 + "px", width: 123 + "px" };
 
 		expect( actual ).toEqual( expected );
 	} );

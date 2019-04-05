@@ -9,8 +9,6 @@ import delayComponentSnapshot from "../testHelpers/delayComponentSnapshot";
 import * as determineImageProperties from "../../src/helpers/determineImageProperties";
 determineImageProperties.determineImageProperties = jest.fn();
 
-const FACEBOOK_IMAGE_SIZES = determineImageProperties.FACEBOOK_IMAGE_SIZES;
-
 describe( "FacebookImage Component", () => {
 	it( "calls determineImageProperties with the correct image URL", () => {
 		const imageUrl = "https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png";
@@ -113,7 +111,7 @@ describe( "retrieveContainerDimensions", () => {
 		const FacebookImageComponent = new FacebookImage();
 
 		const actual = FacebookImageComponent.retrieveContainerDimensions( "landscape" );
-		const expected = { height: FACEBOOK_IMAGE_SIZES.landscapeHeight + "px", width: FACEBOOK_IMAGE_SIZES.landscapeWidth + "px" };
+		const expected = { height: 261 + "px", width: 500 + "px" };
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -122,7 +120,7 @@ describe( "retrieveContainerDimensions", () => {
 		const FacebookImageComponent = new FacebookImage();
 
 		const actual = FacebookImageComponent.retrieveContainerDimensions( "square" );
-		const expected = { height: FACEBOOK_IMAGE_SIZES.squareHeight + "px", width: FACEBOOK_IMAGE_SIZES.squareWidth + "px" };
+		const expected = { height: 158 + "px", width: 158 + "px" };
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -131,7 +129,7 @@ describe( "retrieveContainerDimensions", () => {
 		const FacebookImageComponent = new FacebookImage();
 
 		const actual = FacebookImageComponent.retrieveContainerDimensions( "portrait" );
-		const expected = { height: FACEBOOK_IMAGE_SIZES.portraitHeight + "px", width: FACEBOOK_IMAGE_SIZES.portraitWidth + "px" };
+		const expected = { height: 236 + "px", width: 158 + "px" };
 
 		expect( actual ).toEqual( expected );
 	} );
