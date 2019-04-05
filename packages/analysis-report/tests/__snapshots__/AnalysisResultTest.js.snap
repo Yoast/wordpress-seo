@@ -67,6 +67,7 @@ exports[`the AnalysisResult component matches the snapshot 1`] = `
 
 <li
   className="c0"
+  onButtonClick={[Function]}
 >
   <svg
     aria-hidden={true}
@@ -184,6 +185,7 @@ exports[`the AnalysisResult component with disabled buttons matches the snapshot
 
 <li
   className="c0"
+  onButtonClick={[Function]}
 >
   <svg
     aria-hidden={true}
@@ -269,6 +271,7 @@ exports[`the AnalysisResult component with hidden buttons matches the snapshot 1
 
 <li
   className="c0"
+  onButtonClick={[Function]}
 >
   <svg
     aria-hidden={true}
@@ -362,6 +365,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
 
 <li
   className="c0"
+  onButtonClick={[Function]}
 >
   <svg
     aria-hidden={true}

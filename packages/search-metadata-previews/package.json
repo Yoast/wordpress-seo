@@ -29,7 +29,7 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
     "react-transition-group": "^2.7.1",
-    "styled-components": "^2.1.2",
+    "styled-components": "^4.2.0",
     "yoastseo": "^1.51.0-rc.3"
   },
   "devDependencies": {
@@ -37,7 +37,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
-    "jest-styled-components": "^5.0.1",
+    "jest-styled-components": "^6.3.1",
     "react": "16.6.3",
     "react-test-renderer": "^16.8.4"
   },
