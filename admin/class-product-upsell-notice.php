@@ -108,7 +108,7 @@ class WPSEO_Product_Upsell_Notice {
 	}
 
 	/**
-	 * Adds a notification to the notification center.
+	 * Removes a notification to the notification center.
 	 */
 	protected function remove_notification() {
 		$notification_center = Yoast_Notification_Center::get();
