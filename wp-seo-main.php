@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '10.1.2' );
+define( 'WPSEO_VERSION', '10.1.3' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -498,6 +498,9 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	if ( is_admin() ) {
 
 		new Yoast_Alerts();
+
+		$yoast_addon_manager = new WPSEO_Addon_Manager();
+		$yoast_addon_manager->register_hooks();
 
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			require_once WPSEO_PATH . 'admin/ajax.php';
