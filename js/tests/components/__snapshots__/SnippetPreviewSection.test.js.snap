@@ -19,7 +19,7 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
     headingText="Snippet editor"
   >
     <StyledSection
-      className="SnippetPreviewSection__Section-kWfIbs cGbQcp"
+      className="SnippetPreviewSection__Section-kWfIbs LsuOf"
       hasPaperStyle={true}
       headingIcon="eye"
       headingIconColor="#555"
@@ -53,7 +53,7 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
     headingText="Snippet editor"
   >
     <StyledSection
-      className="SnippetPreviewSection__Section-kWfIbs cGbQcp"
+      className="SnippetPreviewSection__Section-kWfIbs LsuOf"
       hasPaperStyle={true}
       headingIcon="eye"
       headingIconColor="#555"
