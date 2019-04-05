@@ -197,7 +197,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'do_request' )
-			->will( $this->returnValue( wp_json_encode( $response ) ) );
+			->will( $this->returnValue( WPSEO_Utils::format_json_encode( $response ) ) );
 
 		$this->assertTrue( $instance->fire() );
 		$this->assertAttributeEquals( (object) $response, 'response', $instance );
