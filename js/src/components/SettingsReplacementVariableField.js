@@ -2,7 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-	ReplacementVariableEditor
+	ReplacementVariableEditor,
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "@yoast/search-metadata-previews";
