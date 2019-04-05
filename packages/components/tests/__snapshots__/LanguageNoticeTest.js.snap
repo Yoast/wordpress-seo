@@ -31,7 +31,7 @@ exports[`LanguageNotice matches the snapshot with a changed language link 1`] = 
   >
     Change language
     <span
-      className="gHCoqL"
+      className="A11yNotice-sc-1feyioo-0 gHCoqL"
     >
       (Opens in a new browser tab)
     </span>
@@ -56,7 +56,7 @@ exports[`LanguageNotice matches the snapshot with another language 1`] = `
   >
     Change language
     <span
-      className="gHCoqL"
+      className="A11yNotice-sc-1feyioo-0 gHCoqL"
     >
       (Opens in a new browser tab)
     </span>

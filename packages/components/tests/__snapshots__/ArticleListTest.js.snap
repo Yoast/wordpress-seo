@@ -24,7 +24,7 @@ exports[`the ArticleList matches the snapshot 1`] = `
       >
         Wordpress SEO
         <span
-          className="gHCoqL"
+          className="A11yNotice-sc-1feyioo-0 gHCoqL"
         >
           (Opens in a new browser tab)
         </span>
@@ -46,7 +46,7 @@ exports[`the ArticleList matches the snapshot 1`] = `
       >
         Wordpress SEO
         <span
-          className="gHCoqL"
+          className="A11yNotice-sc-1feyioo-0 gHCoqL"
         >
           (Opens in a new browser tab)
         </span>
