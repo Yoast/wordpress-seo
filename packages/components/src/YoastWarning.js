@@ -8,7 +8,7 @@ import { colors } from "@yoast/style-guide";
 import { getDirectionalStyle } from "@yoast/helpers";
 
 // Internal dependencies.
-import SvgIcon from "../src/SvgIcon";
+import SvgIcon from "./SvgIcon";
 
 const WarningBox = styled.div`
 	display: flex;
