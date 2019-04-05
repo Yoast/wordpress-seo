@@ -52,4 +52,13 @@ describe( "isFeatureEnabled", () => {
 
 		expect( featureIsEnabled ).toEqual( true );
 	} );
+
+	it( "returns false when a particular feature is disabled", () => {
+		const featureName = "feature-1";
+		enableFeatures( [ featureName ] );
+
+		const featureIsEnabled = isFeatureEnabled( "disabled-feature" );
+
+		expect( featureIsEnabled ).toEqual( false );
+	} );
 } );

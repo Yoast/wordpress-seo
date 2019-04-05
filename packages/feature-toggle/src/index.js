@@ -4,9 +4,7 @@
  * @type {Object<string,string[]>}
  * @private
  */
-const _enabledFeatures = {
-	"": [],
-};
+const _enabledFeatures = { };
 
 /**
  * Checks whether the given feature is enabled.
