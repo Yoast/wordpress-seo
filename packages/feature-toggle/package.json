@@ -1,0 +1,35 @@
+{
+  "name": "@yoast/feature-toggle",
+  "version": "0.1.0",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yoast/javascript",
+    "directory": "packages/feature-toggle"
+  },
+  "author": "Team Yoast",
+  "license": "GPL-3.0",
+  "private": false,
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint . --max-warnings=5",
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
+  },
+  "devDependencies": {
+
+  },
+  "dependencies": {
+
+  },
+  "jest": {
+    "testURL": "http://localhost",
+    "testRegex": ".*Test.js$",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
+  }
+}
