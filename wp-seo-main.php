@@ -499,6 +499,9 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 
 		new Yoast_Alerts();
 
+		$yoast_addon_manager = new WPSEO_Addon_Manager();
+		$yoast_addon_manager->register_hooks();
+
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			require_once WPSEO_PATH . 'admin/ajax.php';
 
