@@ -1,52 +1,30 @@
+import relevantWordsResearch from "../../src/researches/relevantWords";
+import Paper from "../../src/values/Paper";
 import WordCombination from "../../src/values/WordCombination";
 
-describe( "WordCombination", function() {
-	describe( "getWord", function() {
-		it( "returns the word of the wordCombination", function() {
-			const combination = new WordCombination( "tests", "test", 3 );
-			expect( combination.getWord() ).toBe( "tests" );
-		} );
-	} );
+import functionWordsFactory from "../../src/researches/english/functionWords.js";
+const functionWords = functionWordsFactory().all;
 
-	describe( "setWord", function() {
-		it( "set the word to the wordCombination", function() {
-			const combination = new WordCombination( "tests", "test", 3 );
-			combination.setWord( "test" );
-			expect( combination.getWord() ).toBe( "test" );
-		} );
-	} );
+describe( "relevantWords research", function() {
+	it( "calls through to the string processing function", function() {
+		let input = "Here are a ton of syllables. Syllables are very important. I think the syllable combinations are even more important. Syllable combinations for the win!";
+		input = new Paper( input );
+		const expected = [
+			new WordCombination( [ "syllable", "combinations" ], 2, functionWords ),
+			new WordCombination( [ "syllables" ], 2, functionWords ),
+			new WordCombination( [ "syllable" ], 2, functionWords ),
+			new WordCombination( [ "combinations" ], 2, functionWords ),
+		];
 
-	describe( "getStem", function() {
-		it( "returns the stem of the wordCombination", function() {
-			const combination = new WordCombination( "tests", "test", 3 );
-			expect( combination.getStem() ).toBe( "test" );
-		} );
+		// Make sure our words aren't filtered by density.
+		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
 
-		it( "defaults to the word of the wordCombination", function() {
-			const combination = new WordCombination( "tests" );
-			expect( combination.getStem() ).toBe( "tests" );
-		} );
-	} );
+		const words = relevantWordsResearch( input );
 
-	describe( "getOccurrences", function() {
-		it( "returns the number of occurrences", function() {
-			const combination = new WordCombination( "test", "test", 5 );
-			expect( combination.getOccurrences() ).toBe( 5 );
+		words.forEach( function( word ) {
+			delete( word._relevantWords );
 		} );
 
-		it( "defaults to 0 occurrences", function() {
-			const combination = new WordCombination( "test", "test" );
-			expect( combination.getOccurrences() ).toBe( 0 );
-		} );
-	} );
-
-	describe( "setOccurrences", function() {
-		it( "sets the number of occurrences to the wordCombination", function() {
-			const combination = new WordCombination( "tests", "test" );
-			expect( combination.getOccurrences() ).toBe( 0 );
-
-			combination.setOccurrences( 5 );
-			expect( combination.getOccurrences() ).toBe( 5 );
-		} );
+		expect( words ).toEqual( expected );
 	} );
 } );

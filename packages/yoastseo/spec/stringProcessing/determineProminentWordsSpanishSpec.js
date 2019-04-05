@@ -1,9 +1,5 @@
-import WordCombination from "../../src/values/WordCombination";
-import relevantWords from "../../src/stringProcessing/relevantWords";
-import spanishFunctionWordsFactory from "../../src/researches/spanish/functionWords.js";
-
-const getRelevantWords = relevantWords.getRelevantWords;
-const spanishFunctionWords = spanishFunctionWordsFactory().all;
+import ProminentWord from "../../src/values/ProminentWord";
+import { getRelevantWords } from "../../src/stringProcessing/determineProminentWords";
 
 describe( "gets Spanish word combinations", function() {
 	it( "returns word combinations", function() {
@@ -19,21 +15,12 @@ describe( "gets Spanish word combinations", function() {
 			"de nieve. No pudimos ir a trabajar porque hubo una tormenta de nieve. No pudimos ir a trabajar porque hubo una tormenta " +
 			"de nieve.";
 		const expected = [
-			new WordCombination( [ "tormenta", "de", "nieve" ], 19, spanishFunctionWords ),
-			new WordCombination( [ "ir", "a", "trabajar" ], 19, spanishFunctionWords ),
-			new WordCombination( [ "trabajar" ], 19, spanishFunctionWords ),
-			new WordCombination( [ "tormenta" ], 19, spanishFunctionWords ),
-			new WordCombination( [ "nieve" ], 19, spanishFunctionWords ),
+			new ProminentWord( "nieve", "nieve", 19 ),
+			new ProminentWord( "tormenta", "tormenta", 19 ),
+			new ProminentWord( "trabajar", "trabajar", 19 ),
 		];
 
-		// Make sure our words aren't filtered by density.
-		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
-
-		const words = getRelevantWords( input, "es_ES" );
-
-		words.forEach( function( word ) {
-			delete( word._relevantWords );
-		} );
+		const words = getRelevantWords( input, [], "es", false );
 
 		expect( words ).toEqual( expected );
 	} );

@@ -1,48 +1,33 @@
 import WordCombination from "../../src/values/WordCombination";
-import { getRelevantWords } from "../../src/stringProcessing/relevantWords";
-import { en as morphologyData } from "../../premium-configuration/data/morphologyData.json";
+import relevantWords from "../../src/stringProcessing/relevantWords";
+import englishFunctionWordsFactory from "../../src/researches/english/functionWords.js";
+
+const getRelevantWords = relevantWords.getRelevantWords;
+const englishFunctionWords = englishFunctionWordsFactory().all;
 
 describe( "gets English word combinations", function() {
 	it( "returns word combinations", function() {
-		const input = "Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables.";
+		const input = "Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
+			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
+			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
+			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
+			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
+			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
+			" Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables." +
+			" Here are a ton of syllables. Here are a ton of syllables. ";
 		const expected = [
-			new WordCombination( "syllables", "syllable", 37 ),
+			new WordCombination( [ "syllables" ], 37, englishFunctionWords ),
 		];
 
-		const words = getRelevantWords( input, [], "en", morphologyData );
+		// Make sure our words aren't filtered by density.
+		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
 
-		expect( words ).toEqual( expected );
-	} );
+		const words = getRelevantWords( input, "en_US" );
 
-	it( "also uses morphology", function() {
-		const input = "Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here are a ton of syllables. Here are a ton of syllables. " +
-			"Here is one syllable. Here is one syllable. Here is one syllable. Here is one syllable. Here is one syllable. " +
-			"Here is one syllable. Here is one syllable. Here is one syllable. Here is one syllable. Here is one syllable.";
-		const expected = [
-			new WordCombination( "syllable", "syllable", 47 ),
-		];
-
-		const words = getRelevantWords( input, [], "en", morphologyData );
+		words.forEach( function( word ) {
+			delete( word._relevantWords );
+		} );
 
 		expect( words ).toEqual( expected );
 	} );
 } );
-

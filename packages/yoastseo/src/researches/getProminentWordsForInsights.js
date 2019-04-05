@@ -6,7 +6,7 @@ import {
 	getRelevantWords,
 	retrieveAbbreviations,
 	sortCombinations,
-} from "../stringProcessing/relevantWords";
+} from "../stringProcessing/determineProminentWords";
 
 /**
  * Retrieves the relevant words from the given paper.
@@ -16,7 +16,7 @@ import {
  *
  * @returns {WordCombination[]} Relevant words for this paper, filtered and sorted.
  */
-function relevantWords( paper, researcher ) {
+function getProminentWordsForInsights( paper, researcher ) {
 	const text = paper.getText();
 	const language = getLanguage( paper.getLocale() );
 	const morphologyData = get( researcher.getData( "morphology" ), language, false );
@@ -35,4 +35,4 @@ function relevantWords( paper, researcher ) {
 	return take( getRelevantCombinations( collapsedWords, 5 ), 20 );
 }
 
-export default relevantWords;
+export default getProminentWordsForInsights;

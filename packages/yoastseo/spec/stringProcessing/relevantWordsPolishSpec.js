@@ -1,5 +1,9 @@
 import WordCombination from "../../src/values/WordCombination";
-import { getRelevantWords } from "../../src/stringProcessing/relevantWords";
+import relevantWords from "../../src/stringProcessing/relevantWords";
+import polishFunctionWordsFactory from "../../src/researches/polish/functionWords.js";
+
+const getRelevantWords = relevantWords.getRelevantWords;
+const polishFunctionWords = polishFunctionWordsFactory().all;
 
 describe( "gets Polish word combinations", function() {
 	it( "returns word combinations", function() {
@@ -13,19 +17,36 @@ describe( "gets Polish word combinations", function() {
 			"gdy ktoś odczuwa ból w klatce piersiowej, to należy natychmiast dzwonić po karetkę. W zasadzie każdy z nas" +
 			" wie, że gdy ktoś odczuwa ból w klatce piersiowej, to należy natychmiast dzwonić po karetkę.";
 
+
 		const expected = [
-			new WordCombination( "ból", "ból", 8 ),
-			new WordCombination( "dzwonić", "dzwonić", 8 ),
-			new WordCombination( "karetkę", "karetkę", 8 ),
-			new WordCombination( "klatce", "klatce", 8 ),
-			new WordCombination( "natychmiast", "natychmiast", 8 ),
-			new WordCombination( "odczuwa", "odczuwa", 8 ),
-			new WordCombination( "piersiowej", "piersiowej", 8 ),
-			new WordCombination( "wie", "wie", 8 ),
-			new WordCombination( "zasadzie", "zasadzie", 8 ),
+			new WordCombination( [ "odczuwa", "ból", "w", "klatce", "piersiowej" ], 8, polishFunctionWords ),
+			new WordCombination( [ "natychmiast", "dzwonić", "po", "karetkę" ], 8, polishFunctionWords ),
+			new WordCombination( [ "ból", "w", "klatce", "piersiowej" ], 8, polishFunctionWords ),
+			new WordCombination( [ "odczuwa", "ból", "w", "klatce" ], 8, polishFunctionWords ),
+			new WordCombination( [ "dzwonić", "po", "karetkę" ], 8, polishFunctionWords ),
+			new WordCombination( [ "ból", "w", "klatce" ], 8, polishFunctionWords ),
+			new WordCombination( [ "odczuwa", "ból" ], 8, polishFunctionWords ),
+			new WordCombination( [ "natychmiast", "dzwonić" ], 8, polishFunctionWords ),
+			new WordCombination( [ "klatce", "piersiowej" ], 8, polishFunctionWords ),
+			new WordCombination( [ "wie" ], 8, polishFunctionWords ),
+			new WordCombination( [ "karetkę" ], 8, polishFunctionWords ),
+			new WordCombination( [ "dzwonić" ], 8, polishFunctionWords ),
+			new WordCombination( [ "natychmiast" ], 8, polishFunctionWords ),
+			new WordCombination( [ "piersiowej" ], 8, polishFunctionWords ),
+			new WordCombination( [ "klatce" ], 8, polishFunctionWords ),
+			new WordCombination( [ "ból" ], 8, polishFunctionWords ),
+			new WordCombination( [ "odczuwa" ], 8, polishFunctionWords ),
+			new WordCombination( [ "zasadzie" ], 8, polishFunctionWords ),
 		];
 
-		const words = getRelevantWords( input, [], "pl", false );
+		// Make sure our words aren't filtered by density.
+		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
+
+		const words = getRelevantWords( input, "pl_PL" );
+
+		words.forEach( function( word ) {
+			delete( word._relevantWords );
+		} );
 
 		expect( words ).toEqual( expected );
 	} );

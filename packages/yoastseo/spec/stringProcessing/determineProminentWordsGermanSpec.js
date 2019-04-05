@@ -1,9 +1,6 @@
-import WordCombination from "../../src/values/WordCombination";
-import relevantWords from "../../src/stringProcessing/relevantWords";
-import germanFunctionWordsFactory from "../../src/researches/german/functionWords.js";
-
-const getRelevantWords = relevantWords.getRelevantWords;
-const germanFunctionWords = germanFunctionWordsFactory().all;
+import ProminentWord from "../../src/values/ProminentWord";
+import { getRelevantWords } from "../../src/stringProcessing/determineProminentWords";
+import { de as morphologyData } from "../../premium-configuration/data/morphologyData-de.json";
 
 describe( "gets German word combinations", function() {
 	it( "returns word combinations", function() {
@@ -20,19 +17,13 @@ describe( "gets German word combinations", function() {
 			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren." +
 			" Probieren geht über Studieren. Probieren geht über Studieren. Probieren geht über Studieren.  Probieren geht über Studieren.";
 		const expected = [
-			new WordCombination( [ "probieren" ], 48, germanFunctionWords ),
-			new WordCombination( [ "studieren" ], 48, germanFunctionWords ),
+			new ProminentWord( "probieren", "probi", 48 ),
+			new ProminentWord( "studieren", "studium", 48 ),
 		];
 
-		// Make sure our words aren't filtered by density.
-		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
-
-		const words = getRelevantWords( input, "de_DE" );
-
-		words.forEach( function( word ) {
-			delete( word._relevantWords );
-		} );
+		const words = getRelevantWords( input, [], "de", morphologyData );
 
 		expect( words ).toEqual( expected );
 	} );
 } );
+
