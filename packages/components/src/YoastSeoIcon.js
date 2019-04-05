@@ -7,7 +7,7 @@ import React from "react";
  *
  * @returns {ReactElement} The svg icon.
  */
-const SeoIcon = ( props ) => (
+const YoastSeoIcon = ( props ) => (
 	<svg { ...props } xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 488.22">
 		<path d="M436.82 4.06A90 90 0 0 0 410 0H90A90 90 0 0 0 0 90v270a90 90 0 0 0 90 90h410V90a90 90 0 0 0-63.18-85.94z" fill="#a4286a" />
 		<path d="M436.82 4.06L184.15 450H500V90a90 90 0 0 0-63.18-85.94z" fill="#6c2548" />
@@ -24,4 +24,4 @@ const SeoIcon = ( props ) => (
 	</svg>
 );
 
-export default SeoIcon;
+export default YoastSeoIcon;

@@ -68,7 +68,7 @@ export { InputField } from "./input/InputField";
 export { YoastLinkButton } from "./buttons/YoastLinkButton";
 export { default as Logo } from "./Logo";
 export { default as Modal } from "./Modal";
-export { default as SeoIcon } from "./SeoIcon";
+export { default as YoastSeoIcon } from "./YoastSeoIcon";
 export { default as Tabs } from "./Tabs";
 export { default as Warning } from "./Warning";
 export { default as YouTubeVideo } from "./YouTubeVideo";
