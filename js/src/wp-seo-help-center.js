@@ -12,7 +12,7 @@ import { setYoastComponentsL10n } from "./helpers/i18n";
 /* Internal dependencies */
 import { VideoTutorial, HelpCenter as HelpCenterYC } from "yoast-components";
 import { YoastButton } from "@yoast/components";
-import AlgoliaSearcher from "@yoast/algolia-search";
+import AlgoliaSearcher from "@yoast/algolia-search-box";
 import { colors } from "@yoast/style-guide";
 
 /**

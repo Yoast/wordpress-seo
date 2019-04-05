@@ -2,7 +2,7 @@
 
 import React from "react";
 import ReactDom from "react-dom";
-import AlgoliaSearcher from "@yoast/algolia-search";
+import AlgoliaSearcher from "@yoast/algolia-search-box";
 
 /**
  * Gets the translations for the AlgoliaSearcher from the wpseoAdminL10n global and returns them in a properties array.
