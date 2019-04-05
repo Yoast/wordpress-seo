@@ -96,7 +96,7 @@ class WordPressUserSelector extends Component {
 			<Fragment>
 				<Styles />
 				<Select
-					placeholder={ __( "Start typing", "wordpress-seo" ) }
+					placeholder={ __( "Search for a user to select...", "wordpress-seo" ) }
 					isDisabled={ this.state.loading }
 					inputId={ this.props.name }
 					className={ "yoast-person-selector-container" }
@@ -142,7 +142,7 @@ class WordPressUserSelector extends Component {
 	/**
 	 * Handles the onChange event.
 	 *
-	 * @param {{ value: number, label: string}} option The selected option.
+	 * @param {{ value: number, label: string }} option The selected option.
 	 *
 	 * @returns {void}
 	 */

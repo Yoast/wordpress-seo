@@ -18,7 +18,7 @@ class WordPressUserSelectorSearchAppearance extends Component {
 	constructor( props ) {
 		super( props );
 
-		this.element      = document.getElementById( "person_id" );
+		this.element = document.getElementById( "person_id" );
 		this.state = {
 			value: this.getInitialValue(),
 			name: null,
