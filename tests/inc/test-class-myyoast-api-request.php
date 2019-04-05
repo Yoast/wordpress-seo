@@ -197,7 +197,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'do_request' )
-			->will( $this->returnValue( wp_json_encode( $response ) ) );
+			->will( $this->returnValue( WPSEO_Utils::format_json_encode( $response ) ) );
 
 		$this->assertTrue( $instance->fire() );
 		$this->assertAttributeEquals( (object) $response, 'response', $instance );
@@ -309,5 +309,31 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 			),
 			$instance->enrich_request_arguments( array() )
 		);
+	}
+
+	/**
+	 * Test Exception is being called correctly.
+	 *
+	 * Unit test to make sure this is fixed: https://github.com/Yoast/wordpress-seo/issues/12560
+	 *
+	 * @expectedException        WPSEO_MyYoast_Bad_Request_Exception
+	 * @expectedExceptionMessage Error
+	 */
+	public function test_exception_arguments() {
+		add_filter( 'pre_http_request', array( $this, 'return_error_object' ) );
+
+		$instance = new WPSEO_MyYoast_Api_Request_Double( 'some_url', array() );
+		$instance->do_request( 'some_url', array() );
+
+		remove_filter( 'pre_http_request', array( $this, 'return_error_object' ) );
+	}
+
+	/**
+	 * Helper function for the `test_exception_arguments` test
+	 *
+	 * @return WP_Error
+	 */
+	public function return_error_object() {
+		return new WP_Error( 'error-code', 'Error' );
 	}
 }

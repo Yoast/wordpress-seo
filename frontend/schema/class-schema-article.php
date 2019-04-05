@@ -152,7 +152,11 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		if ( is_array( $terms ) ) {
 			$keywords = array();
 			foreach ( $terms as $term ) {
-				$keywords[] = $term->name;
+				// We are checking against the WordPress internal translation.
+				// @codingStandardsIgnoreLine
+				if ( $term->name !== __( 'Uncategorized' ) ) {
+					$keywords[] = $term->name;
+				}
 			}
 			$data[ $key ] = implode( ',', $keywords );
 		}

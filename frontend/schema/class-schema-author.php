@@ -105,7 +105,8 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 				$user_id = get_queried_object_id();
 				break;
 			default:
-				$user_id = (int) get_post( $this->context->id )->post_author;
+				$post = get_post( $this->context->id );
+				$user_id = (int) $post->post_author;
 				break;
 		}
 
