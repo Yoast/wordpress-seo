@@ -82,7 +82,7 @@ export default class FacebookImage extends React.Component {
 	 * @returns {Promise} Resolves when there are image properties.
 	 */
 	componentDidMount() {
-		return determineImageProperties( this.props.src, "Facebook" ).then(( imageProperties ) => {
+		return determineImageProperties( this.props.src, "Facebook" ).then( ( imageProperties ) => {
 			this.setState( {
 				imageProperties: imageProperties,
 				status: "loaded",

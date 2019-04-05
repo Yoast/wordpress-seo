@@ -70,7 +70,7 @@ describe( "calculateLargestDimensions", () => {
 	it( "returns the width and height for an image for which the widthRatio is greater than the heightRatio", () => {
 		const actual = determineImageProperties.calculateLargestDimensions(
 			{ width: 240, height: 480 },
-			{widthRatio: 1.5, heightRatio: 1.2 });
+			{ widthRatio: 1.5, heightRatio: 1.2 } );
 		/*
 		* Expected height is 400, because the original height (480) is divided by the smallest of
 		* the two imageRatios (1.2). Same idea for expected width.
@@ -83,7 +83,7 @@ describe( "calculateLargestDimensions", () => {
 	it( "returns the width and height for an image for which the widthRatio and heightRatio are the same", () => {
 		const actual = determineImageProperties.calculateLargestDimensions(
 			{ width: 240, height: 480 },
-			{widthRatio: 1.2, heightRatio: 1.2 });
+			{ widthRatio: 1.2, heightRatio: 1.2 } );
 		const expected = { height: 400, width: 200 };
 
 		expect( actual ).toEqual( expected );
@@ -92,7 +92,7 @@ describe( "calculateLargestDimensions", () => {
 	it( "returns the width and height for an image for which the heightRatio is greater than the widthRatio", () => {
 		const actual = determineImageProperties.calculateLargestDimensions(
 			{ width: 240, height: 480 },
-			{widthRatio: 1.2, heightRatio: 1.5 });
+			{ widthRatio: 1.2, heightRatio: 1.5 } );
 		const expected = { height: 400, width: 200 };
 
 		expect( actual ).toEqual( expected );
@@ -154,5 +154,4 @@ describe( "calculateImageDimensions", () => {
 
 		expect( actual ).toEqual( expected );
 	} );
-
 } );

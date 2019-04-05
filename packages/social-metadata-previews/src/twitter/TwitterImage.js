@@ -42,12 +42,12 @@ const BaseImage = styled.div`
 	font-size: 1rem;
 `;
 
-const ErrorImage = styled(BaseImage)`
+const ErrorImage = styled( BaseImage )`
 	color: ${ colors.$color_white };
 	background-color: ${ colors.$color_red };
 `;
 
-const PlaceholderImage = styled(BaseImage)`
+const PlaceholderImage = styled( BaseImage )`
 	border-top-left-radius: .85714em;
 	border-top-right-radius: .85714em;
 	border-style: dashed;
@@ -85,7 +85,7 @@ export default class TwitterImage extends React.Component {
 	 * @returns {Promise} Resolves when there are image properties.
 	 */
 	componentDidMount() {
-		return determineImageProperties( this.props.src, "Twitter" ).then(( imageProperties ) => {
+		return determineImageProperties( this.props.src, "Twitter" ).then( ( imageProperties ) => {
 			this.setState( {
 				imageProperties: imageProperties,
 				status: "loaded",

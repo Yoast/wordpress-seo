@@ -1,17 +1,17 @@
 export const TWITTER_IMAGE_SIZES = {
-	"squareWidth": 123,
-	"squareHeight": 123,
-	"landscapeWidth": 506,
-	"landscapeHeight": 253
+	squareWidth: 123,
+	squareHeight: 123,
+	landscapeWidth: 506,
+	landscapeHeight: 253,
 };
 
 export const FACEBOOK_IMAGE_SIZES = {
-	"squareWidth": 158,
-	"squareHeight": 158,
-	"landscapeWidth": 500,
-	"landscapeHeight": 261,
-	"portraitWidth": 158,
-	"portraitHeight": 236
+	squareWidth: 158,
+	squareHeight: 158,
+	landscapeWidth: 500,
+	landscapeHeight: 261,
+	portraitWidth: 158,
+	portraitHeight: 236,
 };
 
 /**
@@ -51,7 +51,7 @@ export function determineImageMode( socialMedium, originalDimensions ) {
  *
  * @returns {Object} Object containing the image sizes.
  */
-function retrieveExpectedDimensions ( socialMedium ) {
+function retrieveExpectedDimensions( socialMedium ) {
 	if ( socialMedium === "Twitter" ) {
 		return TWITTER_IMAGE_SIZES;
 	}
@@ -102,7 +102,6 @@ function retrieveOriginalImageDimensions( src ) {
  * @returns {Object} The image's width ratio and height ratio.}
  */
 export function calculateImageRatios( expectedDimensions, originalDimensions, imageMode ) {
-
 	if ( imageMode === "landscape" ) {
 		return {
 			widthRatio: originalDimensions.width / expectedDimensions.landscapeWidth,
@@ -201,7 +200,7 @@ export function calculateImageDimensions( expectedDimensions, originalDimensions
 	 * If the image should be rendered as a landscape or portrait, crop the longest side, to reach
 	 * the required size ratio. This way, the image won't be warped.
 	 */
-	if ( imageMode === "landscape" || imageMode === "portrait") {
+	if ( imageMode === "landscape" || imageMode === "portrait" ) {
 		const imageRatios = calculateImageRatios( expectedDimensions, originalDimensions, imageMode );
 
 		return calculateLargestDimensions( originalDimensions, imageRatios );
