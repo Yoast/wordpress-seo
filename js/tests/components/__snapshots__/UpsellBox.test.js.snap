@@ -105,7 +105,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
         />
         <A11yNotice>
           <span
-            className="A11yNotice-sc-1feyioo-0 gHCoqL"
+            className="A11yNotice-cySKx gKxLLd"
           >
             (Opens in a new browser tab)
           </span>
