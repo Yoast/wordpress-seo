@@ -65,28 +65,8 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 				'@graph'   => $graph,
 			);
 
-			echo "<script type='application/ld+json' class='yoast-schema-graph yoast-schema-graph--main'>", $this->format_data( $output ), '</script>', "\n";
+			echo "<script type='application/ld+json' class='yoast-schema-graph yoast-schema-graph--main'>", WPSEO_Utils::format_json_encode( $output ), '</script>', "\n";
 		}
-	}
-
-	/**
-	 * Prepares the data for outputting.
-	 *
-	 * @param array $data The data to format.
-	 *
-	 * @return false|string The prepared string.
-	 */
-	public function format_data( $data ) {
-		$flags = 0;
-		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
-			// @codingStandardsIgnoreLine This is used in the wp_json_encode call, which checks for this.
-			$flags = ( $flags | JSON_UNESCAPED_SLASHES );
-		}
-		if ( defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG ) {
-			$flags = ( $flags | JSON_PRETTY_PRINT );
-		}
-
-		return wp_json_encode( $data, $flags );
 	}
 
 	/**
