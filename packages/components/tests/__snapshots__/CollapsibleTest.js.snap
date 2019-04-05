@@ -9,7 +9,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   >
     <button
       aria-expanded={false}
-      className="ixEIcM dxagDO"
+      className="ixEIcM glyHEG"
       id={null}
       onClick={[Function]}
       type="button"
@@ -59,7 +59,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   >
     <button
       aria-expanded={true}
-      className="ixEIcM dxagDO"
+      className="ixEIcM glyHEG"
       id={null}
       onClick={[Function]}
       type="button"
@@ -121,7 +121,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   >
     <button
       aria-expanded={false}
-      className="ixEIcM dxagDO"
+      className="ixEIcM glyHEG"
       id="yoast-collapsible"
       onClick={[Function]}
       type="button"
@@ -171,7 +171,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   >
     <button
       aria-expanded={true}
-      className="ixEIcM dxagDO"
+      className="ixEIcM glyHEG"
       id="yoast-collapsible"
       onClick={[Function]}
       type="button"
@@ -233,7 +233,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   >
     <button
       aria-expanded={false}
-      className="ixEIcM dxagDO"
+      className="ixEIcM glyHEG"
       id={null}
       onClick={[Function]}
       type="button"
@@ -283,7 +283,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   >
     <button
       aria-expanded={true}
-      className="ixEIcM dxagDO"
+      className="ixEIcM glyHEG"
       id={null}
       onClick={[Function]}
       type="button"
@@ -345,7 +345,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   >
     <button
       aria-expanded={true}
-      className="ixEIcM dxagDO"
+      className="ixEIcM glyHEG"
       id={null}
       onClick={[Function]}
       type="button"
@@ -407,7 +407,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   >
     <button
       aria-expanded={false}
-      className="ixEIcM dxagDO"
+      className="ixEIcM glyHEG"
       id={null}
       onClick={[Function]}
       type="button"
@@ -457,7 +457,7 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   >
     <button
       aria-expanded={true}
-      className="ixEIcM dxagDO"
+      className="ixEIcM glyHEG"
       id={null}
       onClick={[Function]}
       type="button"
@@ -497,7 +497,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   >
     <button
       aria-expanded={true}
-      className="ixEIcM dxagDO"
+      className="ixEIcM glyHEG"
       id={null}
       onClick={[Function]}
       type="button"
@@ -537,7 +537,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   >
     <button
       aria-expanded={true}
-      className="ixEIcM dxagDO"
+      className="ixEIcM glyHEG"
       id={null}
       onClick={[Function]}
       type="button"
@@ -577,7 +577,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   >
     <button
       aria-expanded={true}
-      className="ixEIcM dxagDO"
+      className="ixEIcM glyHEG"
       id={null}
       onClick={[Function]}
       type="button"

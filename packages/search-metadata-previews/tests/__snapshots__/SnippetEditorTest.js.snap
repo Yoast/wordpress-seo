@@ -117,7 +117,6 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -203,7 +202,6 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -298,7 +296,6 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -827,7 +824,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   padding-left: 8px;
@@ -1110,7 +1106,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -1196,7 +1191,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -1291,7 +1285,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -1367,7 +1360,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -2121,7 +2113,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -2154,12 +2145,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       },
                       "displayName": "ModeSwitcher__MobileButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -2373,7 +2363,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -2406,12 +2395,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       },
                       "displayName": "ModeSwitcher__DesktopButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -2628,7 +2616,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin:",
                   [Function],
@@ -2657,12 +2644,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               },
               "displayName": "SnippetEditor__EditSnippetButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -3006,7 +2992,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -3032,12 +3017,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -3636,7 +3620,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -3662,12 +3645,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -4015,7 +3997,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin-top:24px;",
                 ],
@@ -4038,12 +4019,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               },
               "displayName": "SnippetEditor__CloseEditorButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -4222,7 +4202,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   padding-left: 8px;
@@ -4505,7 +4484,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -4591,7 +4569,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -4686,7 +4663,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -4762,7 +4738,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -5516,7 +5491,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -5549,12 +5523,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       },
                       "displayName": "ModeSwitcher__MobileButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -5768,7 +5741,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -5801,12 +5773,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       },
                       "displayName": "ModeSwitcher__DesktopButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -6023,7 +5994,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin:",
                   [Function],
@@ -6052,12 +6022,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               },
               "displayName": "SnippetEditor__EditSnippetButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -6401,7 +6370,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -6427,12 +6395,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -7031,7 +6998,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -7057,12 +7023,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -7410,7 +7375,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin-top:24px;",
                 ],
@@ -7433,12 +7397,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               },
               "displayName": "SnippetEditor__CloseEditorButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -7617,7 +7580,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   padding-left: 8px;
@@ -7900,7 +7862,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -7986,7 +7947,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -8081,7 +8041,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -8157,7 +8116,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -8911,7 +8869,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -8944,12 +8901,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       },
                       "displayName": "ModeSwitcher__MobileButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -9163,7 +9119,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -9196,12 +9151,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       },
                       "displayName": "ModeSwitcher__DesktopButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -9418,7 +9372,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin:",
                   [Function],
@@ -9447,12 +9400,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               },
               "displayName": "SnippetEditor__EditSnippetButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -9796,7 +9748,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -9822,12 +9773,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -10426,7 +10376,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -10452,12 +10401,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -10805,7 +10753,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin-top:24px;",
                 ],
@@ -10828,12 +10775,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               },
               "displayName": "SnippetEditor__CloseEditorButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -11012,7 +10958,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   padding-left: 8px;
@@ -11295,7 +11240,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -11381,7 +11325,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -11476,7 +11419,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -11552,7 +11494,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -12306,7 +12247,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -12339,12 +12279,11 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       },
                       "displayName": "ModeSwitcher__MobileButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -12558,7 +12497,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -12591,12 +12529,11 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       },
                       "displayName": "ModeSwitcher__DesktopButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -12813,7 +12750,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin:",
                   [Function],
@@ -12842,12 +12778,11 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               },
               "displayName": "SnippetEditor__EditSnippetButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -13191,7 +13126,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -13217,12 +13151,11 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -13821,7 +13754,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -13847,12 +13779,11 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -14200,7 +14131,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin-top:24px;",
                 ],
@@ -14223,12 +14153,11 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               },
               "displayName": "SnippetEditor__CloseEditorButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -14394,7 +14323,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -14480,7 +14408,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -14575,7 +14502,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -15319,7 +15245,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -15352,12 +15277,11 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       },
                       "displayName": "ModeSwitcher__MobileButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -15571,7 +15495,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -15604,12 +15527,11 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       },
                       "displayName": "ModeSwitcher__DesktopButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -15826,7 +15748,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin:",
                   [Function],
@@ -15855,12 +15776,11 @@ exports[`SnippetEditor closes when calling close() 2`] = `
               },
               "displayName": "SnippetEditor__EditSnippetButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -16109,7 +16029,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   padding-left: 8px;
@@ -16392,7 +16311,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -16478,7 +16396,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -16573,7 +16490,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -16649,7 +16565,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -17403,7 +17318,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -17436,12 +17350,11 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       },
                       "displayName": "ModeSwitcher__MobileButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -17655,7 +17568,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -17688,12 +17600,11 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       },
                       "displayName": "ModeSwitcher__DesktopButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -17910,7 +17821,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin:",
                   [Function],
@@ -17939,12 +17849,11 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               },
               "displayName": "SnippetEditor__EditSnippetButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -18288,7 +18197,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -18314,12 +18222,11 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -18918,7 +18825,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -18944,12 +18850,11 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -19297,7 +19202,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin-top:24px;",
                 ],
@@ -19320,12 +19224,11 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               },
               "displayName": "SnippetEditor__CloseEditorButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -19504,7 +19407,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   padding-left: 8px;
@@ -19787,7 +19689,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -19873,7 +19774,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -19968,7 +19868,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -20044,7 +19943,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -20798,7 +20696,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -20831,12 +20728,11 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       },
                       "displayName": "ModeSwitcher__MobileButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -21050,7 +20946,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -21083,12 +20978,11 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       },
                       "displayName": "ModeSwitcher__DesktopButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -21305,7 +21199,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin:",
                   [Function],
@@ -21334,12 +21227,11 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               },
               "displayName": "SnippetEditor__EditSnippetButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -21683,7 +21575,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -21709,12 +21600,11 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -22313,7 +22203,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -22339,12 +22228,11 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -22692,7 +22580,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin-top:24px;",
                 ],
@@ -22715,12 +22602,11 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               },
               "displayName": "SnippetEditor__CloseEditorButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -22886,7 +22772,6 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -22972,7 +22857,6 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -23067,7 +22951,6 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -23478,7 +23361,6 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -23564,7 +23446,6 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -23659,7 +23540,6 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -24083,7 +23963,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   padding-left: 8px;
@@ -24366,7 +24245,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -24452,7 +24330,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -24547,7 +24424,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -24623,7 +24499,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -25407,7 +25282,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -25440,12 +25314,11 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       },
                       "displayName": "ModeSwitcher__MobileButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -25659,7 +25532,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -25692,12 +25564,11 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       },
                       "displayName": "ModeSwitcher__DesktopButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -25914,7 +25785,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin:",
                   [Function],
@@ -25943,12 +25813,11 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               },
               "displayName": "SnippetEditor__EditSnippetButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -26292,7 +26161,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -26318,12 +26186,11 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -26922,7 +26789,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -26948,12 +26814,11 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -27301,7 +27166,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin-top:24px;",
                 ],
@@ -27324,12 +27188,11 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               },
               "displayName": "SnippetEditor__CloseEditorButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -27508,7 +27371,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   padding-left: 8px;
@@ -27791,7 +27653,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -27877,7 +27738,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -27972,7 +27832,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -28048,7 +27907,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -28832,7 +28690,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -28865,12 +28722,11 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       },
                       "displayName": "ModeSwitcher__MobileButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -29084,7 +28940,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -29117,12 +28972,11 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       },
                       "displayName": "ModeSwitcher__DesktopButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -29339,7 +29193,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin:",
                   [Function],
@@ -29368,12 +29221,11 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
               },
               "displayName": "SnippetEditor__EditSnippetButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -29717,7 +29569,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -29743,12 +29594,11 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -30347,7 +30197,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -30373,12 +30222,11 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -30726,7 +30574,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin-top:24px;",
                 ],
@@ -30749,12 +30596,11 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
               },
               "displayName": "SnippetEditor__CloseEditorButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -30933,7 +30779,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   padding-left: 8px;
@@ -31216,7 +31061,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -31302,7 +31146,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -31397,7 +31240,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -31473,7 +31315,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -32227,7 +32068,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -32260,12 +32100,11 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       },
                       "displayName": "ModeSwitcher__MobileButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -32479,7 +32318,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -32512,12 +32350,11 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       },
                       "displayName": "ModeSwitcher__DesktopButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -32734,7 +32571,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin:",
                   [Function],
@@ -32763,12 +32599,11 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               },
               "displayName": "SnippetEditor__EditSnippetButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -33112,7 +32947,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -33138,12 +32972,11 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -33742,7 +33575,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -33768,12 +33600,11 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -34121,7 +33952,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin-top:24px;",
                 ],
@@ -34144,12 +33974,11 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               },
               "displayName": "SnippetEditor__CloseEditorButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -34328,7 +34157,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   padding-left: 8px;
@@ -34611,7 +34439,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -34697,7 +34524,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -34792,7 +34618,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -34868,7 +34693,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -35633,7 +35457,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -35666,12 +35489,11 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       },
                       "displayName": "ModeSwitcher__MobileButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -35885,7 +35707,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -35918,12 +35739,11 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       },
                       "displayName": "ModeSwitcher__DesktopButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -36140,7 +35960,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin:",
                   [Function],
@@ -36169,12 +35988,11 @@ exports[`SnippetEditor passes replacement variables to the title and description
               },
               "displayName": "SnippetEditor__EditSnippetButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -36540,7 +36358,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -36566,12 +36383,11 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -37192,7 +37008,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -37218,12 +37033,11 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -37582,7 +37396,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin-top:24px;",
                 ],
@@ -37605,12 +37418,11 @@ exports[`SnippetEditor passes replacement variables to the title and description
               },
               "displayName": "SnippetEditor__CloseEditorButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -37780,7 +37592,6 @@ exports[`SnippetEditor passes the date prop 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -37866,7 +37677,6 @@ exports[`SnippetEditor passes the date prop 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -37961,7 +37771,6 @@ exports[`SnippetEditor passes the date prop 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -38496,7 +38305,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   padding-left: 8px;
@@ -38779,7 +38587,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -38865,7 +38672,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -38960,7 +38766,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -39036,7 +38841,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -39790,7 +39594,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -39823,12 +39626,11 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       },
                       "displayName": "ModeSwitcher__MobileButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -40042,7 +39844,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                           "22px",
                           ";}}",
-                          "font-size:0.8rem;",
                           "border:none;border-bottom:4px solid transparent;width:31px;height:31px;border-color:",
                           [Function],
                           ";color:",
@@ -40075,12 +39876,11 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       },
                       "displayName": "ModeSwitcher__DesktopButton",
                       "foldedComponentIds": Array [
-                        "Button__BaseButton-sc-32rbq-5",
+                        "Button__BaseButton-sc-32rbq-4",
                         "Button-sc-32rbq-3",
                         "Button-sc-32rbq-1",
                         "Button-sc-32rbq-2",
                         "Button-sc-32rbq-0",
-                        "Button-sc-32rbq-4",
                         "ModeSwitcher__SwitcherButton-sc-9lbpr3-0",
                       ],
                       "propTypes": Object {
@@ -40297,7 +40097,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin:",
                   [Function],
@@ -40326,12 +40125,11 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
               },
               "displayName": "SnippetEditor__EditSnippetButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -40675,7 +40473,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -40701,12 +40498,11 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -41305,7 +41101,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                                   "22px",
                                   ";}}",
-                                  "font-size:0.8rem;",
                                   "box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;padding-left:8px;height:33px;border:1px solid #dbdbdb;font-size:13px;& svg{",
                                   [Function],
                                   ":7px;fill:",
@@ -41331,12 +41126,11 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               },
                               "displayName": "shared__TriggerReplacementVariableSuggestionsButton",
                               "foldedComponentIds": Array [
-                                "Button__BaseButton-sc-32rbq-5",
+                                "Button__BaseButton-sc-32rbq-4",
                                 "Button-sc-32rbq-3",
                                 "Button-sc-32rbq-1",
                                 "Button-sc-32rbq-2",
                                 "Button-sc-32rbq-0",
-                                "Button-sc-32rbq-4",
                               ],
                               "propTypes": Object {
                                 "activeBackgroundColor": [Function],
@@ -41684,7 +41478,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                   ";svg{align-self:center;}@media all and (-ms-high-contrast:none),(-ms-high-contrast:active){::after{display:inline-block;content:\\"\\";min-height:",
                   "22px",
                   ";}}",
-                  "font-size:0.8rem;",
                   "height:33px;border:1px solid #dbdbdb;box-shadow:none;font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;",
                   "margin-top:24px;",
                 ],
@@ -41707,12 +41500,11 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
               },
               "displayName": "SnippetEditor__CloseEditorButton",
               "foldedComponentIds": Array [
-                "Button__BaseButton-sc-32rbq-5",
+                "Button__BaseButton-sc-32rbq-4",
                 "Button-sc-32rbq-3",
                 "Button-sc-32rbq-1",
                 "Button-sc-32rbq-2",
                 "Button-sc-32rbq-0",
-                "Button-sc-32rbq-4",
                 "SnippetEditor__SnippetEditorButton-sc-144bmm3-0",
               ],
               "propTypes": Object {
@@ -41879,7 +41671,6 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -41965,7 +41756,6 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -42060,7 +41850,6 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;
@@ -42484,7 +42273,6 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   box-shadow: none;
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
   padding-left: 8px;
@@ -42767,7 +42555,6 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -42853,7 +42640,6 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -43378,7 +43164,6 @@ exports[`SnippetEditor shows the editor 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -43464,7 +43249,6 @@ exports[`SnippetEditor shows the editor 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   border: none;
   border-bottom: 4px solid transparent;
   width: 31px;
@@ -43559,7 +43343,6 @@ exports[`SnippetEditor shows the editor 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   height: 33px;
   border: 1px solid #dbdbdb;
   box-shadow: none;

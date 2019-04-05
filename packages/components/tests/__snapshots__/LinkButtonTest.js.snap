@@ -1,16 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`the BaseLinkButton matches the snapshot 1`] = `
-<a
-  className="eSBBKS"
->
-  LinkButtonValue
-</a>
-`;
-
 exports[`the LinkButton matches the snapshot 1`] = `
 <a
-  className="eDFihP"
+  className="eSBBKS"
 >
   LinkButtonValue
 </a>
