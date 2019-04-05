@@ -80,9 +80,7 @@ module.exports = {
 						}
 					},
 					'css-loader',
-					{
-						loader: 'sass-loader',
-					}
+					'sass-loader',
 				]
 			},
 		],
