@@ -1,6 +1,6 @@
 import { load } from "js-yaml";
 import { FormattingElement, Paragraph, TextContainer,
-	Heading, StructuredNode, List, ListItem, Ignored } from "../../src/tree/structure";
+	Heading, StructuredNode, List, ListItem, Ignored } from "../../src/parsedPaper/structure/tree";
 
 /**
  * Supports building a tree from a YAML-encoded string.
@@ -26,7 +26,7 @@ class TreeFromYaml {
 	 * @param {string} text         The text to put in the TextContainer.
 	 * @param {Object[]} formatting The formatting to parse.
 	 *
-	 * @returns {module:tree/structure.TextContainer} The parsed TextContainer.
+	 * @returns {module:parsedPaper/structure.TextContainer} The parsed TextContainer.
 	 */
 	parseTextContainer( text, formatting ) {
 		const container = new TextContainer();
@@ -55,7 +55,7 @@ class TreeFromYaml {
 	 *
 	 * @param {Object} parameters The parameters to parse.
 	 *
-	 * @returns {module:tree/structure.Heading} The parsed Heading node.
+	 * @returns {module:parsedPaper/structure.Heading} The parsed Heading node.
 	 */
 	parseHeading( parameters ) {
 		const heading = new Heading( parameters.level );
@@ -68,7 +68,7 @@ class TreeFromYaml {
 	 *
 	 * @param {Object} parameters The parameters to parse.
 	 *
-	 * @returns {module:tree/structure.Paragraph} The parsed Paragraph node.
+	 * @returns {module:parsedPaper/structure.Paragraph} The parsed Paragraph node.
 	 */
 	parseParagraph( parameters ) {
 		const paragraph = new Paragraph( parameters.tag );
@@ -81,7 +81,7 @@ class TreeFromYaml {
 	 *
 	 * @param {Object} parameters The parameters to parse.
 	 *
-	 * @returns {module:tree/structure.ListItem} The parsed ListItem node.
+	 * @returns {module:parsedPaper/structure.ListItem} The parsed ListItem node.
 	 */
 	parseListItem( parameters ) {
 		const listItem = new ListItem();
@@ -94,7 +94,7 @@ class TreeFromYaml {
 	 *
 	 * @param {Object} parameters The parameters to parse.
 	 *
-	 * @returns {module:tree/structure.List} The parsed List node.
+	 * @returns {module:parsedPaper/structure.List} The parsed List node.
 	 */
 	parseList( parameters ) {
 		const list = new List( parameters.ordered );
@@ -107,7 +107,7 @@ class TreeFromYaml {
 	 *
 	 * @param {Object} parameters The parameters to parse.
 	 *
-	 * @returns {module:tree/structure.StructuredNode} The parsed Structured node.
+	 * @returns {module:parsedPaper/structure.StructuredNode} The parsed Structured node.
 	 */
 	parseStructured( parameters ) {
 		const structured = new StructuredNode( parameters.tag );
@@ -120,7 +120,7 @@ class TreeFromYaml {
 	 *
 	 * @param {Object} parameters The parameters to parse.
 	 *
-	 * @returns {module:tree/structure.Ignored} The parsed Ignored node.
+	 * @returns {module:parsedPaper/structure.Ignored} The parsed Ignored node.
 	 */
 	parseIgnored( parameters ) {
 		const ignored = new Ignored( parameters.tag );
@@ -133,7 +133,7 @@ class TreeFromYaml {
 	 *
 	 * @param {Object} parameters The JSON parameters to parse to a node.
 	 *
-	 * @returns {module:tree/structure.Node} The parsed tree.
+	 * @returns {module:parsedPaper/structure.Node} The parsed tree.
 	 */
 	parse( parameters ) { // eslint-disable-line complexity
 		/*
@@ -163,7 +163,7 @@ class TreeFromYaml {
  *
  * @param {string} input The YAML string to parse to a tree.
  *
- * @returns {module:tree/structure.Node} The parsed tree.
+ * @returns {module:parsedPaper/structure.Node} The parsed tree.
  */
 const buildTreeFromYaml = function( input ) {
 	// Parse YAML to JSON with `js-yaml` library.
