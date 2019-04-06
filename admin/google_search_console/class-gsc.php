@@ -82,13 +82,7 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	public function register_gsc_notification() {
 		$notification        = $this->get_profile_notification();
 		$notification_center = Yoast_Notification_Center::get();
-
-		if ( $this->has_profile() ) {
-			$notification_center->remove_notification( $notification );
-
-			return;
-		}
-		$notification_center->add_notification( $notification );
+		$notification_center->remove_notification( $notification );
 	}
 
 	/**
