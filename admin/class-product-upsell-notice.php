@@ -36,6 +36,11 @@ class WPSEO_Product_Upsell_Notice {
 	 * Checks if the notice should be added or removed.
 	 */
 	public function initialize() {
+		// Joost de Valk, April 6 2019.
+		// Temporarily override the entire system and remove the notification.
+		$this->remove_notification();
+		return;
+
 		if ( $this->is_notice_dismissed() ) {
 			$this->remove_notification();
 

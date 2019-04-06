@@ -67,7 +67,7 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 			$this->request_handler();
 		}
 
-		add_action( 'admin_init', array( $this, 'register_gsc_notification' ) );
+		add_action( 'admin_init', array( $this, 'unregister_gsc_notification' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 	}
 
@@ -79,16 +79,10 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	public function register_gsc_notification() {
+	public function unregister_gsc_notification() {
 		$notification        = $this->get_profile_notification();
 		$notification_center = Yoast_Notification_Center::get();
-
-		if ( $this->has_profile() ) {
-			$notification_center->remove_notification( $notification );
-
-			return;
-		}
-		$notification_center->add_notification( $notification );
+		$notification_center->remove_notification( $notification );
 	}
 
 	/**
