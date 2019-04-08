@@ -96,7 +96,7 @@ class WordPressUserSelector extends Component {
 			<Fragment>
 				<Styles />
 				<Select
-					placeholder={ __( "Search for a user to select...", "wordpress-seo" ) }
+					placeholder={ __( "Select a user...", "wordpress-seo" ) }
 					isDisabled={ this.state.loading }
 					inputId={ this.props.name }
 					className={ "yoast-person-selector-container" }
