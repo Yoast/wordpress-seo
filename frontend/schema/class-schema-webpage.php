@@ -57,6 +57,16 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			),
 		);
 
+		if ( is_front_page() ) {
+			$about_id = WPSEO_Schema_IDs::ORGANIZATION_HASH;
+			if ( $this->context->site_represents === 'person' ) {
+				$about_id = WPSEO_Schema_IDs::PERSON_HASH;
+			}
+			$data['about'] = array(
+				'@id' => $this->context->site_url . $about_id
+			);
+		}
+
 		if ( is_singular() ) {
 			$data = $this->add_featured_image( $data );
 
