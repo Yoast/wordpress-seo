@@ -116,10 +116,11 @@ Enhancements:
 * Adds WebPage markup for all pages.
 * Adds Article markup for posts, with Person markup for the author.
 * Adds MySpace, SoundCloud, Tumblr and YouTube URL input fields to people's profiles.
+* Merges the 'Company or person' and 'Social profiles' steps together in the configuration wizard to have all data for the Person markup together.
 * Changes the 'Organization or Person' section of the Knowledge graph settings to allow selecting an author that is the 'Person'.
-* Optimizes the code to avoid an unnecessary DB query to remove notifications storage when it's already empty. Props to [rmc47](https://github.com/rmc47)
-* Improves the accessibility of the breadcrumbs by adding `aria-current` to the active item
-* Adds 'filesize' to whitelisted properties on ''$image'. Props to [cmmarslender](https://github.com/cmmarslender)
+* Optimizes the code to avoid an unnecessary DB query to remove notifications storage when it's already empty. Props to [rmc47](https://github.com/rmc47).
+* Improves the accessibility of the breadcrumbs by adding `aria-current` to the active item.
+* Adds 'filesize' to whitelisted properties on ''$image'. Props to [cmmarslender](https://github.com/cmmarslender).
 
 Bugfixes:
 
