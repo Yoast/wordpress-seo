@@ -26,12 +26,12 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
           "componentStyle": ComponentStyle {
             "componentId": "SnippetPreviewSection__Section-gjy5w5-0",
             "isStatic": false,
-            "lastClassName": "kBrgeB",
+            "lastClassName": "jdYJw",
             "rules": Array [
               "max-width:640px;&",
-              ".StyledSection__StyledSectionBase-enyt8a-2",
+              ".StyledSection__StyledSectionBase-sc-1c84weu-2",
               "{padding-left:0;padding-right:0;& ",
-              ".StyledSection__StyledHeading-enyt8a-0",
+              ".StyledSection__StyledHeading-sc-1c84weu-0",
               "{",
               [Function],
               ":20px;margin-left:",
@@ -58,7 +58,7 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
       headingText="Snippet editor"
     >
       <StyledSection
-        className="SnippetPreviewSection__Section-gjy5w5-0 kBrgeB"
+        className="SnippetPreviewSection__Section-gjy5w5-0 jdYJw"
         hasPaperStyle={true}
         headingIcon="eye"
         headingIconColor="#555"
@@ -100,12 +100,12 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
           "componentStyle": ComponentStyle {
             "componentId": "SnippetPreviewSection__Section-gjy5w5-0",
             "isStatic": false,
-            "lastClassName": "kBrgeB",
+            "lastClassName": "jdYJw",
             "rules": Array [
               "max-width:640px;&",
-              ".StyledSection__StyledSectionBase-enyt8a-2",
+              ".StyledSection__StyledSectionBase-sc-1c84weu-2",
               "{padding-left:0;padding-right:0;& ",
-              ".StyledSection__StyledHeading-enyt8a-0",
+              ".StyledSection__StyledHeading-sc-1c84weu-0",
               "{",
               [Function],
               ":20px;margin-left:",
@@ -132,7 +132,7 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
       headingText="Snippet editor"
     >
       <StyledSection
-        className="SnippetPreviewSection__Section-gjy5w5-0 kBrgeB"
+        className="SnippetPreviewSection__Section-gjy5w5-0 jdYJw"
         hasPaperStyle={true}
         headingIcon="eye"
         headingIconColor="#555"
