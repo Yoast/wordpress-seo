@@ -35,13 +35,12 @@ export function determineImageMode( socialMedium, originalDimensions ) {
 		return "landscape";
 	}
 
-	if ( socialMedium === "Twitter" ) {
-		if ( originalDimensions.height > 150 && originalDimensions.width > 280 ) {
-			return "landscape";
-		}
-
-		return "square";
+	// By default, social medium is Twitter
+	if ( originalDimensions.height > 150 && originalDimensions.width > 280 ) {
+		return "landscape";
 	}
+
+	return "square";
 }
 
 /**
@@ -116,12 +115,11 @@ export function calculateImageRatios( expectedDimensions, originalDimensions, im
 		};
 	}
 
-	if ( imageMode === "square" ) {
-		return {
-			widthRatio: originalDimensions.width / expectedDimensions.squareWidth,
-			heightRatio: originalDimensions.height / expectedDimensions.squareHeight,
-		};
-	}
+	// By default, the image mode is square
+	return {
+		widthRatio: originalDimensions.width / expectedDimensions.squareWidth,
+		heightRatio: originalDimensions.height / expectedDimensions.squareHeight,
+	};
 }
 
 /**
