@@ -13,7 +13,7 @@ const TwitterPreviewExample = () => {
 		<ExamplesContainer backgroundColor="transparent">
 			<h2>Upload a large landscape image</h2>
 			<TwitterPreview
-				// Dimensions: 2081x1321 (width x height)
+				// Dimensions: 1200x628 (width x height)
 				src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
