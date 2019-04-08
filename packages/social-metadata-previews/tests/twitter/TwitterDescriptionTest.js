@@ -1,27 +1,14 @@
+/* External dependencies */
 import React from "react";
+import renderer from "react-test-renderer";
 
-import ExamplesContainer from "./ExamplesContainer";
-import { TwitterPreview } from "@yoast/social-metadata-previews";
+/* Internal dependencies */
+import TwitterDescription from "../../src/twitter/TwitterDescription";
 
-/**
- * Returns the TwitterPreview examples.
- *
- * @returns {ReactElement} The TwitterPreview examples.
- */
-const TwitterPreviewExample = () => {
-	return (
-		<ExamplesContainer backgroundColor="transparent">
-			<h2>Summary with large image card, short description</h2>
-			<TwitterPreview
-				title="YoastCon Workshops &bull; Yoast"
-				isLarge={ true }
-				description="This is a description."
-				siteName="yoast.com"
-			/>
-			<h2>Summary with large image card, long description</h2>
-			<TwitterPreview
-				title="YoastCon Workshops &bull; Yoast"
-				isLarge={ true }
+describe( "TwitterDescription", () => {
+	it( "matches the snapshot for the summary card", () => {
+		const component = renderer.create(
+			<TwitterDescription
 				description={
 					"A very long description. A very long description. A very long description. A very long description. " +
 					"A very long description. A very long description. A very long description. A very long description. " +
@@ -33,19 +20,17 @@ const TwitterPreviewExample = () => {
 					"A very long description. A very long description. A very long description. A very long description. " +
 					"A very long description. A very long description. A very long description. A very long description."
 				}
-				siteName="yoast.com"
-			/>
-			<h2>Summary card, short description</h2>
-			<TwitterPreview
-				title="YoastCon Workshops &bull; Yoast"
 				isLarge={ false }
-				description="This is a description."
-				siteName="yoast.com"
 			/>
-			<h2>Summary card, long description</h2>
-			<TwitterPreview
-				title="YoastCon Workshops &bull; Yoast"
-				isLarge={ false }
+		);
+
+		const tree = component.toJSON();
+		expect( tree ).toMatchSnapshot();
+	} );
+
+	it( "matches the snapshot for the summary with large image card", () => {
+		const component = renderer.create(
+			<TwitterDescription
 				description={
 					"A very long description. A very long description. A very long description. A very long description. " +
 					"A very long description. A very long description. A very long description. A very long description. " +
@@ -57,10 +42,11 @@ const TwitterPreviewExample = () => {
 					"A very long description. A very long description. A very long description. A very long description. " +
 					"A very long description. A very long description. A very long description. A very long description."
 				}
-				siteName="yoast.com"
+				isLarge={ true }
 			/>
-		</ExamplesContainer>
-	);
-};
+		);
 
-export default TwitterPreviewExample;
+		const tree = component.toJSON();
+		expect( tree ).toMatchSnapshot();
+	} );
+} );

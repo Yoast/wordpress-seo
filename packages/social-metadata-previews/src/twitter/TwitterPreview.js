@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 /* Internal dependencies */
 import TwitterTitle from "./TwitterTitle";
+import TwitterDescription from "./TwitterDescription";
 import TwitterSiteName from "./TwitterSiteName";
 
 /**
@@ -17,6 +18,9 @@ const TwitterPreview = ( props ) => {
 	return (
 		<Fragment>
 			<TwitterTitle title={ props.title } />
+			<TwitterDescription isLarge={ props.isLarge }>
+				{ props.description }
+			</TwitterDescription>
 			<TwitterSiteName siteName={ props.siteName } />
 		</Fragment>
 	);
@@ -24,7 +28,13 @@ const TwitterPreview = ( props ) => {
 
 TwitterPreview.propTypes = {
 	title: PropTypes.string.isRequired,
+	description: PropTypes.string,
+	isLarge: PropTypes.bool.isRequired,
 	siteName: PropTypes.string.isRequired,
+};
+
+TwitterPreview.defaultProps = {
+	description: "",
 };
 
 export default TwitterPreview;
