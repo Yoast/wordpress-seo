@@ -224,12 +224,12 @@ export function determineImageProperties( src, socialMedium ) {
 		const expectedDimensions = retrieveExpectedDimensions( socialMedium );
 
 		// Calculate the image dimensions for the specific image.
-		const ImageDimensions = calculateImageDimensions( expectedDimensions, originalDimensions, imageMode );
+		const imageDimensions = calculateImageDimensions( expectedDimensions, originalDimensions, imageMode );
 
 		return {
 			mode: imageMode,
-			height: ImageDimensions.height,
-			width: ImageDimensions.width,
+			height: imageDimensions.height,
+			width: imageDimensions.width,
 		};
 	} );
 }
