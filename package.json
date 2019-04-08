@@ -145,8 +145,8 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
-    "yoast-components": "^4.23.0",
-    "yoastseo": "^1.50.0"
+    "yoast-components": "^4.24.0-rc.5",
+    "yoastseo": "^1.51.0-rc.3"
   },
   "yoast": {
     "pluginVersion": "10.1.3",
