@@ -360,7 +360,7 @@ describe( "Test for generating verb exceptions in German", () => {
 			"sei",
 			"seid",
 			"seiend",
-			"gewesen"
+			"gewesen",
 		] );
 	} );
 

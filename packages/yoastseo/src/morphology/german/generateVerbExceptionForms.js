@@ -103,6 +103,24 @@ const generateFormsStrongAndIrregularVerbs = function( morphologyDataVerbs, stem
 	return [];
 };
 
+const generateFormsVeryIrregularVerbs = function( morphologyDataVerbs, stemmedWordToCheck ) {
+	const word = stemmedWordToCheck;
+	const irregularVerbs = morphologyDataVerbs.veryIrregularVerbs;
+
+	let foundForms = "";
+
+	irregularVerbs.forEach( function( paradigm ) {
+		const forms = paradigm.forms;
+		const stem = paradigm.stem;
+		if ( stem.includes( word ) ) {
+			foundForms = forms;
+		}
+	} );
+
+	return foundForms;
+};
+
+
 /**
  * Checks whether a give stem stem falls into any of the verb exception categories and creates the
  * correct forms if that is the case.
@@ -130,8 +148,20 @@ export function generateVerbExceptionForms( morphologyDataVerbs, stemmedWordToCh
 		foundPrefix = null;
 	}
 
-	// Check exceptions with full forms.
+	// Check strong and irregular exceptions with full forms.
 	let exceptions = generateFormsStrongAndIrregularVerbs( morphologyDataVerbs, stemmedWordToCheck );
+
+	// If the original stem had a verb prefix, attach it to the found exception forms.
+	if ( typeof( foundPrefix ) === "string" ) {
+		exceptions = exceptions.map( word => foundPrefix + word );
+	}
+
+	if ( exceptions.length > 0 ) {
+		return exceptions;
+	}
+
+	// Check very irregular exceptions.
+	exceptions = generateFormsVeryIrregularVerbs( morphologyDataVerbs, stemmedWordToCheck );
 
 	// If the original stem had a verb prefix, attach it to the found exception forms.
 	if ( typeof( foundPrefix ) === "string" ) {
