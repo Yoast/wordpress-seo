@@ -1,6 +1,6 @@
 {
   "name": "@yoast/search-metadata-previews",
-  "version": "1.0.0-rc.4",
+  "version": "1.0.0-rc.5",
   "private": false,
   "main": "src/index.js",
   "repository": {
@@ -18,7 +18,7 @@
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^0.1.0-rc.4",
+    "@yoast/components": "^0.1.0-rc.5",
     "@yoast/helpers": "^0.1.0-rc.2",
     "@yoast/style-guide": "^0.1.0-rc.3",
     "draft-js": "^0.10.5",
