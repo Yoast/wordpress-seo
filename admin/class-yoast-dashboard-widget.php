@@ -15,6 +15,8 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	 */
 	const CACHE_TRANSIENT_KEY = 'wpseo-dashboard-totals';
 
+	const DISPLAY_CAPABILITY = 'edit_posts';
+
 	/**
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
@@ -150,6 +152,6 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	private function show_widget() {
 		$analysis_seo = new WPSEO_Metabox_Analysis_SEO();
 
-		return $analysis_seo->is_enabled() && current_user_can( 'edit_posts' );
+		return $analysis_seo->is_enabled() && current_user_can( self::DISPLAY_CAPABILITY );
 	}
 }

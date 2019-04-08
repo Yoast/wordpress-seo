@@ -21,11 +21,6 @@ class WPSEO_Endpoint_Ryte implements WPSEO_Endpoint {
 	const ENDPOINT_RETRIEVE = 'ryte';
 
 	/**
-	 * @var string
-	 */
-	const CAPABILITY_RETRIEVE = 'manage_options';
-
-	/**
 	 * Service to use.
 	 *
 	 * @var WPSEO_Ryte_Service
@@ -60,6 +55,6 @@ class WPSEO_Endpoint_Ryte implements WPSEO_Endpoint {
 	 * @return bool Whether or not data can be retrieved.
 	 */
 	public function can_retrieve_data() {
-		return current_user_can( self::CAPABILITY_RETRIEVE );
+		return current_user_can( Yoast_Dashboard_Widget::DISPLAY_CAPABILITY );
 	}
 }
