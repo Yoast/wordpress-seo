@@ -1,8 +1,14 @@
-import buildTree from "../../../src/parsedPaper/build/tree";
+import TreeBuilder from "../../../src/parsedPaper/build/tree";
 import { TreeResearcher } from "../../../src/parsedPaper/research";
 import TestResearch from "../../specHelpers/tree/TestResearch";
 
 describe( "TreeResearcher", () => {
+	let treeBuilder;
+
+	beforeEach( () => {
+		treeBuilder = new TreeBuilder();
+	} );
+
 	describe( "constructor", () => {
 		it( "makes a new TreeResearcher", () => {
 			const treeResearcher = new TreeResearcher();
@@ -91,7 +97,7 @@ describe( "TreeResearcher", () => {
 				"<p>This is a paragraph</p>" +
 				"<section>This is a section</section>" +
 				"</section>";
-			const tree = buildTree( input );
+			const tree = treeBuilder.build( input );
 
 			treeResearcher.addResearch( "test", research );
 
@@ -117,7 +123,7 @@ describe( "TreeResearcher", () => {
 				"<p>This is a paragraph</p>" +
 				"<section>This is a section</section>" +
 				"</section>";
-			const tree = buildTree( input );
+			const tree = treeBuilder.build( input );
 
 			treeResearcher.addResearch( "test", research );
 
@@ -153,7 +159,7 @@ describe( "TreeResearcher", () => {
 				"<p>This is a paragraph</p>" +
 				"<section></section>" +
 				"</section>";
-			const tree = buildTree( input );
+			const tree = treeBuilder.build( input );
 
 			// 'section' element.
 			tree.children[ 0 ].children[ 2 ].children = null;

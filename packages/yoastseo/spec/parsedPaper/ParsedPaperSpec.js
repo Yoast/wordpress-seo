@@ -1,5 +1,5 @@
 import ParsedPaper from "../../src/parsedPaper/ParsedPaper";
-import buildTree from "../../src/parsedPaper/build/tree/buildTree";
+import TreeBuilder from "../../src/parsedPaper/build/tree/TreeBuilder";
 
 describe( "ParsedPaper", () => {
 	describe( "constructor", () => {
@@ -12,7 +12,8 @@ describe( "ParsedPaper", () => {
 	describe( "setTree", () => {
 		it( "sets the _tree on the ParsedPaper", () => {
 			const parsedPaper = new ParsedPaper();
-			const tree = buildTree( "<h1>test</h1>" );
+			const HtmlTreeBuilder = new TreeBuilder();
+			const tree = HtmlTreeBuilder.build( "<h1>test</h1>" );
 			parsedPaper.setTree( tree );
 			expect( parsedPaper._tree ).toEqual( tree );
 		} );
@@ -21,7 +22,8 @@ describe( "ParsedPaper", () => {
 	describe( "getTree", () => {
 		it( "sets gets _tree from the ParsedPaper", () => {
 			const parsedPaper = new ParsedPaper();
-			const tree = buildTree( "<h1>test</h1>" );
+			const HtmlTreeBuilder = new TreeBuilder();
+			const tree = HtmlTreeBuilder.build( "<h1>test</h1>" );
 			parsedPaper.setTree( tree );
 			const result = parsedPaper.getTree();
 			expect( result ).toEqual( tree );
