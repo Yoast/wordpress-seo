@@ -91,32 +91,31 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 
 	/**
 	 * WPSEO_Subscription_Notifier constructor.
+	 *
+	 * @param WPSEO_Addon_Manager       $addon_manager       Addon manager instance.
+	 * @param Yoast_Notification_Center $notification_center A yoast center instance.
 	 */
-	public function __construct() {
-		$this->addon_manager       = $this->get_addon_manager();
-		$this->notification_center = $this->get_notification_center();
+	public function __construct(
+		WPSEO_Addon_Manager $addon_manager,
+		Yoast_Notification_Center $notification_center
+	) {
+		$this->addon_manager       = $addon_manager;
+		$this->notification_center = $notification_center;
 	}
 
 	/**
-	 * Gets the addon manager.
+	 * Registers all hooks to WordPress.
 	 *
-	 * @return WPSEO_Addon_Manager
+	 * @return void
 	 *
 	 * @codeCoverageIgnore
 	 */
-	protected function get_addon_manager() {
-		return new WPSEO_Addon_Manager();
-	}
+	public function register_hooks() {
+		if ( filter_input( INPUT_GET, 'page' ) !== 'wpseo_dashboard' ) {
+			return;
+		}
 
-	/**
-	 * Gets the notification center.
-	 *
-	 * @return Yoast_Notification_Center
-	 *
-	 * @codeCoverageIgnore
-	 */
-	protected function get_notification_center() {
-		return Yoast_Notification_Center::get();
+		add_action( 'admin_init', array( $this, 'init' ) );
 	}
 
 	/**
@@ -395,20 +394,5 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 		);
 
 		$this->notification_center->add_notification( $notification );
-	}
-
-	/**
-	 * Registers all hooks to WordPress.
-	 *
-	 * @return void
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public function register_hooks() {
-		if ( filter_input( INPUT_GET, 'page' ) !== 'wpseo_dashboard' ) {
-			return;
-		}
-
-		add_action( 'admin_init', array( $this, 'init' ) );
 	}
 }
