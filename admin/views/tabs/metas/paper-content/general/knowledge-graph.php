@@ -28,9 +28,9 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 	 	 *
 		 * @api string unsigned Message.
 		 */
-		$msg = apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );
-		if ( ! empty( $msg ) ) {
-			echo '<p class="notice">', esc_html( $msg ), '</p>';
+		$message = apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );
+		if ( ! empty( $message ) ) {
+			echo '<p><strong>', esc_html( $message ), '</strong></p>';
 		}
 	?>
 	<p>
