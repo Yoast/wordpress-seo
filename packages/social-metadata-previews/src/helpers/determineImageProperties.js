@@ -36,7 +36,7 @@ export function determineImageMode( socialMedium, originalDimensions ) {
 	}
 
 	if ( socialMedium === "Twitter" ) {
-		if ( originalDimensions.height > 157 && originalDimensions.width > 300 ) {
+		if ( originalDimensions.height > 150 && originalDimensions.width > 280 ) {
 			return "landscape";
 		}
 
