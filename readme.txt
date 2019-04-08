@@ -123,13 +123,11 @@ Enhancements:
 
 Bugfixes:
 
-* Adds `filesize` to whitelisted properties on `$image`. Props to [cmmarslender](https://github.com/cmmarslender).
 * Fixes the buttons position in the structured data blocks.
 * Fixes a bug where the analysis would break when there were comments inside a paragraph or heading.
 
 Other:
 
-* Optimizes the code to avoid unnecessary DB query to remove notifications storage when already empty. Props to [rmc47](https://github.com/rmc47).
 * Improves the breadcrumbs accessibility by adding `aria-current` to the active item.
 * Improves accessibility of the add-ons tabs in the meta box.
 
