@@ -1,5 +1,5 @@
 import ParsedPaper from "../../src/parsedPaper/ParsedPaper";
-import buildTree from "../../src/tree/builder/buildTree";
+import buildTree from "../../src/parsedPaper/build/tree/buildTree";
 
 describe( "ParsedPaper", () => {
 	describe( "constructor", () => {
