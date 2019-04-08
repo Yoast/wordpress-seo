@@ -2,8 +2,6 @@ import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple
 import { generateRegularVerbForms } from "./generateRegularVerbForms";
 import { generateVerbExceptionForms } from "./generateVerbExceptionForms";
 
-import { flatten } from "lodash-es";
-
 /**
  * Recognizes words that might be 3rd person singular forms of verbs (e.g., "arbeitet") and stems them further
  * (to e.g., "arbeit") so that the correct forms can be built based on this stem.

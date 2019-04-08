@@ -41,6 +41,8 @@ const wordsToStem = [
 	[ "Altbauwohnungen", "Altbauwohnung" ],
 	[ "Altersdiskriminierung", "Altersdiskriminierung" ],
 	[ "Kraftwerke", "Kraftwerk" ],
+	// Verbs: a stemmed 3rd person singular
+	[ "wirft", "werf" ],
 ];
 
 describe( "Test for determining stems for German words", () => {
