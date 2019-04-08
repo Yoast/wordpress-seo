@@ -144,14 +144,14 @@ export function calculateImageRatios( expectedDimensions, originalDimensions, im
 export function calculateLargestDimensions( originalDimensions, imageRatios ) {
 	if ( imageRatios.widthRatio <= imageRatios.heightRatio ) {
 		return {
-			width: originalDimensions.width / imageRatios.widthRatio,
-			height: originalDimensions.height / imageRatios.widthRatio,
+			width: Math.round( originalDimensions.width / imageRatios.widthRatio ),
+			height: Math.round( originalDimensions.height / imageRatios.widthRatio ),
 		};
 	}
 
 	return {
-		width: originalDimensions.width / imageRatios.heightRatio,
-		height: originalDimensions.height / imageRatios.heightRatio,
+		width: Math.round( originalDimensions.width / imageRatios.heightRatio ),
+		height: Math.round( originalDimensions.height / imageRatios.heightRatio ),
 	};
 }
 

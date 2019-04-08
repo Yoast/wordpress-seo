@@ -1,5 +1,6 @@
 /* Internal dependencies */
 import * as determineImageProperties from "../src/helpers/determineImageProperties";
+import { createSuccessfulImage } from "./testHelpers/mockImage";
 
 describe( "determineImageMode", () => {
 	it( "Facebook preview returns square when the width and height are the same", () => {
@@ -59,7 +60,7 @@ describe( "determineImageMode", () => {
 
 describe( "retrieveExpectedDimensions", () => {
 	it( "returns Twitter image sizes when SocialMedium is set to 'Twitter'", () => {
-		const actual = determineImageProperties.retrieveExpectedDimensions("Twitter", );
+		const actual = determineImageProperties.retrieveExpectedDimensions( "Twitter", );
 		const expected = {
 			squareWidth: 123,
 			squareHeight: 123,
@@ -71,7 +72,7 @@ describe( "retrieveExpectedDimensions", () => {
 	} );
 
 	it( "returns Facebook image sizes when SocialMedium is set to 'Facebook'", () => {
-		const actual = determineImageProperties.retrieveExpectedDimensions("Facebook", );
+		const actual = determineImageProperties.retrieveExpectedDimensions( "Facebook", );
 		const expected = {
 			squareWidth: 158,
 			squareHeight: 158,
@@ -185,7 +186,7 @@ describe( "calculateImageDimensions", () => {
 			{ squareWidth: 123, squareHeight: 123 },
 			{ width: 184.5, height: 147.6 },
 			"square" );
-		const expected = { width: 153.75, height: 123 };
+		const expected = { width: 154, height: 123 };
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -208,5 +209,142 @@ describe( "calculateImageDimensions", () => {
 		const expected = { width: 759, height: 253 };
 
 		expect( actual ).toEqual( expected );
+	} );
+} );
+
+describe( "determineImageProperties", () => {
+	let OriginalImage;
+
+	beforeAll( () => {
+		OriginalImage = Image;
+	} );
+
+	afterAll( () => {
+		global.Image = OriginalImage;
+	} );
+
+	it( "returns the image properties for a large landscape image in Twitter", async() => {
+		global.Image = createSuccessfulImage( 1200, 628 );
+
+		/*
+		The src (below) is not actually used for calculating original dimensions.
+		This is because img.onload is only executed in the browser, but not in Jest.
+		Therefore, we use the MockedImage class to mock an image.
+		 */
+		const imageProperties = await determineImageProperties.determineImageProperties(
+			"https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg",
+			"Twitter"
+		);
+
+		const expected = { mode: "landscape", width: 506, height: 265 };
+		expect( imageProperties ).toEqual( expected );
+	} );
+
+	it( "returns the image properties for a small landscape image in Twitter", async() => {
+		global.Image = createSuccessfulImage( 250, 131 );
+
+		const imageProperties = await determineImageProperties.determineImageProperties(
+			"https://yoast.com/app/uploads/2008/04/WordPress_SEO_definitive_guide_FI-250x131.png",
+			"Twitter"
+		);
+
+		const expected = { mode: "square", width: 235, height: 123 };
+		expect( imageProperties ).toEqual( expected );
+	} );
+
+	it( "returns the image properties for a large portrait image in Twitter", async() => {
+		global.Image = createSuccessfulImage( 403, 605 );
+
+		const imageProperties = await determineImageProperties.determineImageProperties(
+			"https://i1.wp.com/2016.europe.wordcamp.org/files/2016/04/Joost-Marieke.jpg?w=403&h=605&ssl=1",
+			"Twitter"
+		);
+
+		const expected = { mode: "landscape", width: 506, height: 760 };
+		expect( imageProperties ).toEqual( expected );
+	} );
+
+	it( "returns the image properties for a small portrait image in Twitter", async() => {
+		global.Image = createSuccessfulImage( 240, 268 );
+
+		const imageProperties = await determineImageProperties.determineImageProperties(
+			"https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png",
+			"Twitter"
+		);
+
+		const expected = { mode: "square", width: 123, height: 137 };
+		expect( imageProperties ).toEqual( expected );
+	} );
+
+	it( "returns the image properties for a large square image in Twitter", async() => {
+		global.Image = createSuccessfulImage( 512, 512 );
+
+		const imageProperties = await determineImageProperties.determineImageProperties(
+			"https://yoast.com/app/uploads/sites/5/2016/09/yoast-logo-icon-512x512.png",
+			"Twitter"
+		);
+
+		const expected = { mode: "landscape", width: 506, height: 506 };
+		expect( imageProperties ).toEqual( expected );
+	} );
+
+	it( "returns the image properties for a small square image in Twitter", async() => {
+		global.Image = createSuccessfulImage( 250, 250 );
+
+		const imageProperties = await determineImageProperties.determineImageProperties(
+			"https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png",
+			"Twitter"
+		);
+
+		const expected = { mode: "square", width: 123, height: 123 };
+		expect( imageProperties ).toEqual( expected );
+	} );
+
+	it( "returns the image properties for a too small image in Twitter", async() => {
+		global.Image = createSuccessfulImage( 205, 105 );
+
+		const imageProperties = await determineImageProperties.determineImageProperties(
+			"https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png",
+			"Twitter"
+		);
+
+		const expected = { mode: "square", width: 205, height: 105 };
+		expect( imageProperties ).toEqual( expected );
+	} );
+
+	it( "returns the image properties for a landscape image in Facebook", async() => {
+		global.Image = createSuccessfulImage( 1200, 628 );
+
+		const imageProperties = await determineImageProperties.determineImageProperties(
+			"https://yoast.com/app/uploads/2015/06/How_to_choose_keywords_FI.png",
+			"Facebook"
+		);
+
+		const expected = { mode: "landscape", width: 500, height: 262 };
+		expect( imageProperties ).toEqual( expected );
+	} );
+
+	it( "returns the image properties for a portrait image in Facebook", async() => {
+		global.Image = createSuccessfulImage( 240, 268 );
+
+		const imageProperties = await determineImageProperties.determineImageProperties(
+			"https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png",
+			"Facebook"
+		);
+
+		const expected = { mode: "portrait", width: 211, height: 236 };
+		expect( imageProperties ).toEqual( expected );
+	} );
+
+	it( "returns the image properties for a square image in Facebook", async() => {
+		global.Image = createSuccessfulImage( 500, 500 );
+
+		const imageProperties = await determineImageProperties.determineImageProperties(
+			"https://yoast.com/app/uploads/2018/09/avatar_user_1_1537774226.png",
+			"Facebook"
+		);
+
+		const expected = { mode: "square", width: 158, height: 158 };
+		expect( imageProperties ).toEqual( expected );
 	} );
 } );
