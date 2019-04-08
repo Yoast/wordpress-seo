@@ -330,12 +330,27 @@ class WPSEO_Twitter {
 	 * Displays the Twitter account for the site.
 	 */
 	protected function site_twitter() {
+		switch ( WPSEO_Options::get( 'company_or_person', '' ) ) {
+			case 'person':
+				$user_id = (int) WPSEO_Options::get( 'company_or_person_user_id', false );
+				$twitter = get_the_author_meta( 'twitter', $user_id );
+				// For backwards compat reasons, if there is no twitter ID for person, we fall back to site.
+				if ( empty( $twitter ) ) {
+					$twitter = WPSEO_Options::get( 'twitter_site' );
+				}
+				break;
+			case 'company':
+			default:
+				$twitter = WPSEO_Options::get( 'twitter_site' );
+				break;
+		}
+
 		/**
 		 * Filter: 'wpseo_twitter_site' - Allow changing the Twitter site account as output in the Twitter card by Yoast SEO
 		 *
 		 * @api string $unsigned Twitter site account string
 		 */
-		$site = apply_filters( 'wpseo_twitter_site', WPSEO_Options::get( 'twitter_site' ) );
+		$site = apply_filters( 'wpseo_twitter_site', $twitter );
 		$site = $this->get_twitter_id( $site );
 
 		if ( is_string( $site ) && $site !== '' ) {
