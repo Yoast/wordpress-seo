@@ -7,6 +7,8 @@ import { __, sprintf } from "@wordpress/i18n";
 // Yoast dependencies.
 import WordList from "./WordList";
 
+const improvedInternalLinkingEnabled = false;
+
 /**
  * @summary Translates and returns the keyword research article link.
  *
@@ -63,13 +65,15 @@ const getKeywordSuggestionExplanation = keywords => {
  * @summary WordList component.
  *
  * @param {string}   title           The title of the list.
- * @param {string}   relevantWords   The relevant words.
+ * @param {WordCombination[]|ProminentWord[]}   relevantWords   The relevant words.
  * @param {number}   keywordLimit    The maximum number of keywords to display.
  *
  * @returns {JSX.Element} Rendered WordList component.
  */
 const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
-	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => word.getWord() );
+	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => {
+		return improvedInternalLinkingEnabled ? word.getWord() : word.getCombination();
+	} );
 
 	return ( <WordList
 		title={ __( "Prominent words", "yoast-components" ) }
