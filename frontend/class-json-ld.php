@@ -251,7 +251,6 @@ class WPSEO_JSON_LD implements WPSEO_WordPress_Integration {
 			'facebook_site',
 			'instagram_url',
 			'linkedin_url',
-			'plus-publisher',
 			'myspace_url',
 			'youtube_url',
 			'pinterest_url',

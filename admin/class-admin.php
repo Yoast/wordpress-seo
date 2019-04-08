@@ -110,7 +110,6 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_Expose_Shortlinks();
 		$integrations[] = new WPSEO_MyYoast_Proxy();
 		$integrations[] = new WPSEO_MyYoast_Route();
-		$integrations[] = new WPSEO_Addon_Manager();
 		$integrations[] = new WPSEO_Subscription_Notifier();
 
 		$integrations = array_merge(
@@ -225,7 +224,7 @@ class WPSEO_Admin {
 		}
 
 		$addon_manager = new WPSEO_Addon_Manager();
-		if ( $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
+		if ( WPSEO_Utils::is_yoast_seo_premium() && $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
 			return $links;
 		}
 

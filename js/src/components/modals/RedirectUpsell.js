@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __, sprintf } from "@wordpress/i18n";
-import { YoastModal } from "yoast-components";
-import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
+import { YoastModal, YoastSeoIcon } from "yoast-components";
 
 import UpsellBox from "../UpsellBox";
 import { ModalContainer, ModalIcon } from "./Container";

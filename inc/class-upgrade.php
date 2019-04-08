@@ -18,9 +18,6 @@ class WPSEO_Upgrade {
 
 		WPSEO_Options::maybe_set_multisite_defaults( false );
 
-		// This should always be done before any upgrades are executed!
-		$this->add_upgrade_history( $version, WPSEO_VERSION );
-
 		if ( version_compare( $version, '1.5.0', '<' ) ) {
 			$this->upgrade_15( $version );
 		}

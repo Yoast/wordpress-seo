@@ -65,8 +65,6 @@ class WPSEO_Addon_Manager {
 	 * @var array
 	 */
 	protected static $addons = array(
-		// Yoast SEO Free isn't an addon actually, but we needed it in some cases.
-		'wp-seo.php'            => self::FREE_SLUG,
 		'wp-seo-premium.php'    => self::PREMIUM_SLUG,
 		'wpseo-news.php'        => self::NEWS_SLUG,
 		'video-seo.php'         => self::VIDEO_SLUG,
@@ -92,7 +90,11 @@ class WPSEO_Addon_Manager {
 	 * @return stdClass The site information.
 	 */
 	public function get_site_information() {
-		$site_information = $this->get_site_information_transient();
+		static $site_information = null;
+
+		if ( $site_information === null ) {
+			$site_information = $this->get_site_information_transient();
+		}
 
 		if ( $site_information ) {
 			return $site_information;
@@ -107,11 +109,8 @@ class WPSEO_Addon_Manager {
 			return $site_information;
 		}
 
-		// Otherwise return the defaults.
-		return (object) array(
-			'url'           => WPSEO_Utils::get_home_url(),
-			'subscriptions' => array(),
-		);
+		return $this->get_site_information_default();
+
 	}
 
 	/**
@@ -336,7 +335,14 @@ class WPSEO_Addon_Manager {
 	 * @return string The slug when found or empty string when not.
 	 */
 	protected function get_slug_by_plugin_file( $plugin_file ) {
-		foreach ( self::$addons as $addon => $addon_slug ) {
+		$addons = self::$addons;
+
+		// Yoast SEO Free isn't an addon, but we needed it in Premium to fetch translations.
+		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
+			$addons['wp-seo.php'] = self::FREE_SLUG;
+		}
+
+		foreach ( $addons as $addon => $addon_slug ) {
 			if ( strpos( $plugin_file, $addon ) !== false ) {
 				return $addon_slug;
 			}
@@ -376,7 +382,7 @@ class WPSEO_Addon_Manager {
 			return $api_request->get_response();
 		}
 
-		return false;
+		return $this->get_site_information_default();
 	}
 
 	/**
@@ -387,7 +393,31 @@ class WPSEO_Addon_Manager {
 	 * @return stdClass|false The transient value.
 	 */
 	protected function get_site_information_transient() {
+		global $pagenow;
+
+		// Force re-check on license & dashboard pages.
+		$current_page = $this->get_current_page();
+		// Check whether the licenses are valid or whether we need to show notifications.
+		$exclude_cache = ( $current_page === 'wpseo_licenses' || $current_page === 'wpseo_dashboard' );
+
+		// Also do a fresh request on Plugins & Core Update pages.
+		$exclude_cache = $exclude_cache || $pagenow === 'plugins.php';
+		$exclude_cache = $exclude_cache || $pagenow === 'update-core.php';
+
+		if ( $exclude_cache ) {
+			return false;
+		}
+
 		return get_transient( self::SITE_INFORMATION_TRANSIENT );
+	}
+
+	/**
+	 * Returns the current page.
+	 *
+	 * @return string The current page.
+	 */
+	protected function get_current_page() {
+		return filter_input( INPUT_GET, 'page' );
 	}
 
 	/**
@@ -449,5 +479,17 @@ class WPSEO_Addon_Manager {
 		}
 
 		return $filtered_array;
+	}
+
+	/**
+	 * Returns an object with no subscriptions.
+	 *
+	 * @return stdClass Site information.
+	 */
+	protected function get_site_information_default() {
+		return (object) array(
+			'url'           => WPSEO_Utils::get_home_url(),
+			'subscriptions' => array(),
+		);
 	}
 }
