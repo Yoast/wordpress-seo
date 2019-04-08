@@ -11,7 +11,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import { sendRequest } from "@yoast/helpers";
 
 /* Interal dependencies */
-import muiTheme from "../tools/config/yoast-theme";
+import muiTheme from "./yoast-theme";
 import StepIndicator from "./StepIndicator";
 import LoadingIndicator from "./LoadingIndicator";
 import Header from "./Header";

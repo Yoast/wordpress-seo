@@ -1,6 +1,6 @@
 {
   "name": "@yoast/configuration-wizard",
-  "version": "1.0.0",
+  "version": "1.0.0-rc.4",
   "description": "Package for our configuration wizard",
   "main": "src/index.js",
   "repository": {
@@ -14,20 +14,18 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint . --max-warnings=11",
-    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && mkdir dist/src && cp src/configuration-wizard.scss dist/src/configuration-wizard.scss && mkdir dist/src/helpers && cp src/helpers/_colors.scss dist/src/helpers/_colors.scss"
   },
   "dependencies": {
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^0.1.0",
-    "@yoast/helpers": "^0.1.0",
-    "@yoast/style-guide": "^0.1.0",
-    "prop-types": "^15.7.2",
+    "@yoast/components": "^0.1.0-rc.4",
+    "@yoast/helpers": "^0.1.0-rc.2",
+    "@yoast/style-guide": "^0.1.0-rc.3",
     "interpolate-components": "^1.1.1",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "prop-types": "^15.7.2"
   },
   "devDependencies": {
-    "jest": "^22.4.3",
-    "jest-styled-components": "^5.0.1",
     "babel-core": "^6.25.0",
     "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.1",
@@ -38,6 +36,8 @@
     "enzyme": "3.9.0",
     "enzyme-adapter-react-16": "1.10.0",
     "enzyme-to-json": "3.3.5",
+    "jest": "^22.4.3",
+    "jest-styled-components": "^5.0.1",
     "react": "16.6.3",
     "react-dom": "16.6.3",
     "react-test-renderer": "^16.8.4"
@@ -60,5 +60,8 @@
     "transformIgnorePatterns": [
       "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
     ]
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
