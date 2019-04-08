@@ -39,10 +39,10 @@ it( "creates additional forms for ambiguous stems ending in -t/-et; input: verb 
 
 it( "doesn't create additional forms for stems in -t for words that are unambiguously non-3rd person verb forms; " +
 	"input: word that has an ending which marks it as not being a 3rd person verb form", () => {
-	expect( createFormsForStemmed3rdSgVerbs( morphologyDataDE, stem( "schwierigkeit" ), "schwierigkeit" ) ).toBeUndefined();
+	expect( createFormsForStemmed3rdSgVerbs( morphologyDataDE, stem( "schwierigkeit" ), "schwierigkeit" ) ).toBeNull();
 } );
 
 it( "doesn't create additional forms for stems in -t for words that are unambiguously non-3rd person verb forms; " +
 	"input: word that is recognized as a regular participle", () => {
-	expect( createFormsForStemmed3rdSgVerbs( morphologyDataDE, stem( "gekauft" ), "gekauft" ) ).toBeUndefined();
+	expect( createFormsForStemmed3rdSgVerbs( morphologyDataDE, stem( "gekauft" ), "gekauft" ) ).toBeNull();
 } );

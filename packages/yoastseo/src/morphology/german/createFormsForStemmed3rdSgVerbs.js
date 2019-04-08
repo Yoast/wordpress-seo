@@ -14,7 +14,7 @@ import { flatten } from "lodash-es";
  *
  * @returns {string|null} The stemmed word.
  */
-const stem3rdSgVerbs = function( morphologyData, stemmedWord, word ) {
+export function stem3rdSgVerb( morphologyData, stemmedWord, word ) {
 	const non3rdSgEndingInT = morphologyData.non3rdSgEndingInT;
 
 	/*
@@ -36,7 +36,7 @@ const stem3rdSgVerbs = function( morphologyData, stemmedWord, word ) {
 	}
 
 	return null;
-};
+}
 
 /**
  * Checks whether a given stemmed word needs to be stemmed further because it could be a 3rd person singular verb
@@ -49,19 +49,15 @@ const stem3rdSgVerbs = function( morphologyData, stemmedWord, word ) {
  * @returns {string[]|null} The created word forms.
  */
 export function createFormsForStemmed3rdSgVerbs( morphologyData, stemmedWord, word ) {
-	const stemmedWordWithoutTEt = stem3rdSgVerbs( morphologyData, stemmedWord, word );
+	const stemmedWordWithoutTEt = stem3rdSgVerb( morphologyData, stemmedWord, word );
 
 	if ( stemmedWordWithoutTEt ) {
 		const exceptions = generateVerbExceptionForms( morphologyData.verbs, stemmedWordWithoutTEt );
 
-		const additionalForms = exceptions.length > 0
+		return exceptions.length > 0
 			? exceptions
 			: generateRegularVerbForms( morphologyData.verbs, stemmedWordWithoutTEt );
-
-		if ( additionalForms.length > 0 ) {
-			return flatten( additionalForms );
-		}
-
-		return null;
 	}
+
+	return null;
 }
