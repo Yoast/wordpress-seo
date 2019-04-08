@@ -51,7 +51,7 @@ export function determineImageMode( socialMedium, originalDimensions ) {
  *
  * @returns {Object} Object containing the image sizes.
  */
-function retrieveExpectedDimensions( socialMedium ) {
+export function retrieveExpectedDimensions( socialMedium ) {
 	if ( socialMedium === "Twitter" ) {
 		return TWITTER_IMAGE_SIZES;
 	}

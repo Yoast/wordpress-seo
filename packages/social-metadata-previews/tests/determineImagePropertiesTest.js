@@ -1,8 +1,8 @@
 /* Internal dependencies */
 import * as determineImageProperties from "../src/helpers/determineImageProperties";
 
-describe( "determineFacebookImageMode", () => {
-	it( "returns square when the width and height are the same", () => {
+describe( "determineImageMode", () => {
+	it( "Facebook preview returns square when the width and height are the same", () => {
 		const actual = determineImageProperties.determineImageMode(
 			"Facebook",
 			{ width: 300, height: 300 } );
@@ -11,7 +11,7 @@ describe( "determineFacebookImageMode", () => {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "returns portrait when the height is greater than the width", () => {
+	it( "Facebook preview returns portrait when the height is greater than the width", () => {
 		const actual = determineImageProperties.determineImageMode(
 			"Facebook",
 			{ width: 300, height: 600 } );
@@ -20,11 +20,66 @@ describe( "determineFacebookImageMode", () => {
 		expect( actual ).toEqual( expected );
 	} );
 
-	it( "returns portrait when the width is greater than the height", () => {
+	it( "Facebook preview returns portrait when the width is greater than the height", () => {
 		const actual = determineImageProperties.determineImageMode(
 			"Facebook",
 			{ width: 600, height: 300 } );
 		const expected = "landscape";
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "Twitter preview returns landscape when width > 280 and height > 150", () => {
+		const actual = determineImageProperties.determineImageMode(
+			"Twitter",
+			{ width: 300, height: 300 } );
+		const expected = "landscape";
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "Twitter preview returns square when both width < 280 and height < 150", () => {
+		const actual = determineImageProperties.determineImageMode(
+			"Twitter",
+			{ width: 200, height: 100 } );
+		const expected = "square";
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "Twitter preview returns square when either width < 280 or height < 150", () => {
+		const actual = determineImageProperties.determineImageMode(
+			"Twitter",
+			{ width: 300, height: 100 } );
+		const expected = "square";
+
+		expect( actual ).toEqual( expected );
+	} );
+} );
+
+describe( "retrieveExpectedDimensions", () => {
+	it( "returns Twitter image sizes when SocialMedium is set to 'Twitter'", () => {
+		const actual = determineImageProperties.retrieveExpectedDimensions("Twitter", );
+		const expected = {
+			squareWidth: 123,
+			squareHeight: 123,
+			landscapeWidth: 506,
+			landscapeHeight: 253,
+		};
+
+		expect( actual ).toEqual( expected );
+	} );
+
+	it( "returns Facebook image sizes when SocialMedium is set to 'Facebook'", () => {
+		const actual = determineImageProperties.retrieveExpectedDimensions("Facebook", );
+		const expected = {
+			squareWidth: 158,
+			squareHeight: 158,
+			landscapeWidth: 500,
+			landscapeHeight: 261,
+			portraitWidth: 158,
+			portraitHeight: 236,
+		};
 
 		expect( actual ).toEqual( expected );
 	} );
