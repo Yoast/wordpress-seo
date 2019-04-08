@@ -622,24 +622,6 @@
     react-dom "16.6.3"
     styled-components "^4.2.0"
 
-"@yoast/components@^0.1.0-rc.4":
-  version "0.1.0-rc.4"
-  resolved "https://registry.yarnpkg.com/@yoast/components/-/components-0.1.0-rc.4.tgz#07533491370e056c32f8640932b469dae3f29f6c"
-  integrity sha512-Psm8dhWVCsqZ9OBYEmaJC6wJRDEG4bvnOxUpBntRf4fh8074dA3Zx/XdjpNnm1Ufkdm9J0cwA+DPR/YFfl8oQw==
-  dependencies:
-    "@wordpress/a11y" "^1.1.3"
-    "@wordpress/i18n" "^1.2.3"
-    "@yoast/helpers" "^0.1.0-rc.2"
-    "@yoast/style-guide" "^0.1.0-rc.3"
-    interpolate-components "^1.1.1"
-    lodash "^4.17.11"
-    prop-types "^15.7.2"
-    react-modal "^3.8.1"
-    react-tabs "^2.3.0"
-    styled-components "^2.4.1"
-  optionalDependencies:
-    grunt-scss-to-json "^1.0.1"
-
 "@yoast/components@^0.1.0-rc.5":
   version "0.1.0-rc.5"
   resolved "https://registry.yarnpkg.com/@yoast/components/-/components-0.1.0-rc.5.tgz#c35b07d335fcb734399681cec797612f3efe4b3d"
@@ -657,19 +639,6 @@
     styled-components "^4.2.0"
   optionalDependencies:
     grunt-scss-to-json "^1.0.1"
-
-"@yoast/configuration-wizard@^1.0.0-rc.4":
-  version "1.0.0-rc.4"
-  resolved "https://registry.yarnpkg.com/@yoast/configuration-wizard/-/configuration-wizard-1.0.0-rc.4.tgz#39adfd6a41c698b946ed8aff4ab74b07a92dd4e8"
-  integrity sha512-V4bnedfJsbnLBZOMtcdci718hzmL6ZQLCjlGYaJK/REklOfnfnkRb9r856iUMtdjV7FEdQuKTReuxNqrYAJgUw==
-  dependencies:
-    "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^0.1.0-rc.4"
-    "@yoast/helpers" "^0.1.0-rc.2"
-    "@yoast/style-guide" "^0.1.0-rc.3"
-    interpolate-components "^1.1.1"
-    lodash "^4.17.11"
-    prop-types "^15.7.2"
 
 "@yoast/configuration-wizard@^1.0.0-rc.5":
   version "1.0.0-rc.5"
