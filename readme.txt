@@ -112,11 +112,20 @@ Release Date: April 16th, 2019
 Enhancements:
 
 * Changes the schema to output in one big Graph.
+* Adds Person markup for author pages.
+* Adds WebPage markup for all pages.
+* Adds Article markup for posts, with Person markup for the author.
+* Adds MySpace, SoundCloud, Tumblr and YouTube URL input fields to people's profiles.
+* Changes the 'Organization or Person' section of the Knowledge graph settings to allow selecting an author that is the 'Person'.
+* Optimizes the code to avoid an unnecessary DB query to remove notifications storage when it's already empty. Props to [rmc47](https://github.com/rmc47)
+* Improves the accessibility of the breadcrumbs by adding `aria-current` to the active item
+* Adds 'filesize' to whitelisted properties on ''$image'. Props to [cmmarslender](https://github.com/cmmarslender)
 
 Bugfixes:
 
 * Adds `filesize` to whitelisted properties on `$image`. Props to [cmmarslender](https://github.com/cmmarslender).
 * Fixes the buttons position in the structured data blocks.
+* Fixes a bug where the analysis would break when there were comments inside a paragraph or heading.
 
 Other:
 
