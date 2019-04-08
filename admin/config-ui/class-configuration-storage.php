@@ -36,7 +36,6 @@ class WPSEO_Configuration_Storage {
 			new WPSEO_Config_Field_Site_Name(),
 			new WPSEO_Config_Field_Separator(),
 			new WPSEO_Config_Field_Google_Search_Console_Intro(),
-			new WPSEO_Config_Field_Social_Profiles_Intro(),
 			new WPSEO_Config_Field_Profile_URL_Facebook(),
 			new WPSEO_Config_Field_Profile_URL_Twitter(),
 			new WPSEO_Config_Field_Profile_URL_Instagram(),
@@ -48,7 +47,7 @@ class WPSEO_Configuration_Storage {
 			new WPSEO_Config_Field_Company_Or_Person(),
 			new WPSEO_Config_Field_Company_Name(),
 			new WPSEO_Config_Field_Company_Logo(),
-			new WPSEO_Config_Field_Person_Name(),
+			new WPSEO_Config_Field_Person(),
 			new WPSEO_Config_Field_Post_Type_Visibility(),
 		);
 
