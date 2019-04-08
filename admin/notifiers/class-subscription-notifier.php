@@ -322,9 +322,6 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * @return stdClass|null Object representing a subscription.
 	 */
 	protected function determine_subscription_with_earliest_expiry_date() {
-		// Required to make sure we only get the latest data.
-		delete_transient( WPSEO_Addon_Manager::SITE_INFORMATION_TRANSIENT );
-
 		$subscriptions = $this->addon_manager->get_subscriptions_for_active_addons();
 
 		$subscriptions = array_filter( $subscriptions, array( $this, 'filter_out_invalid_subscriptions' ) );
