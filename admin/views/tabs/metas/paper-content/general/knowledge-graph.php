@@ -22,16 +22,16 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 <div class="tab-block">
 	<h2 class="help-button-inline"><?php echo esc_html__( 'Knowledge Graph & Schema.org', 'wordpress-seo' ) . $knowledge_graph_help->get_button_html(); ?></h2>
 	<?php
-		echo $knowledge_graph_help->get_panel_html();
-		/**
-	 	 * Filter: 'wpseo_knowledge_graph_setting_msg' - Allows adding a message above these settings.
-	 	 *
-		 * @api string unsigned Message.
-		 */
-		$message = apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );
-		if ( ! empty( $message ) ) {
-			echo '<p><strong>', esc_html( $message ), '</strong></p>';
-		}
+	echo $knowledge_graph_help->get_panel_html();
+	/**
+	 * Filter: 'wpseo_knowledge_graph_setting_msg' - Allows adding a message above these settings.
+	 *
+	 * @api string unsigned Message.
+	 */
+	$message = apply_filters( 'wpseo_knowledge_graph_setting_msg', '' );
+	if ( ! empty( $message ) ) {
+		echo '<p><strong>', esc_html( $message ), '</strong></p>';
+	}
 	?>
 	<p>
 		<?php esc_html_e( 'Choose whether the site represents an organization or a person.', 'wordpress-seo' ); ?>
