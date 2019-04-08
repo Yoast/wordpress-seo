@@ -8,7 +8,7 @@ import { colors } from "@yoast/style-guide";
 import { getDirectionalStyle } from "@yoast/helpers";
 
 // Internal dependencies.
-import SvgIcon from "../src/SvgIcon";
+import SvgIcon from "./SvgIcon";
 
 const WarningBox = styled.div`
 	display: flex;
@@ -31,7 +31,7 @@ const MessageContainer = styled.div`
  *
  * @param {Array} message The warning message to display.
  */
-class YoastWarning extends React.Component {
+class Warning extends React.Component {
 	/**
 	 * Renders the YoastWarning component.
 	 *
@@ -51,12 +51,12 @@ class YoastWarning extends React.Component {
 	}
 }
 
-YoastWarning.propTypes = {
+Warning.propTypes = {
 	message: PropTypes.array,
 };
 
-YoastWarning.defaultProps = {
+Warning.defaultProps = {
 	message: [],
 };
 
-export default YoastWarning;
+export default Warning;

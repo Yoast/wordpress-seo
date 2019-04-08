@@ -447,15 +447,7 @@ export default class AnalysisWebWorker {
 	 * @returns {module:parsedPaper/assess.TreeAssessor} The created tree assessor.
 	 */
 	createSEOTreeAssessor( assessorConfig ) {
-		const assessor = constructSEOAssessor( this._i18n, this._treeResearcher, assessorConfig );
-
-		this._registeredAssessments.forEach( ( { name, assessment } ) => {
-			if ( ! assessor.getAssessment( name ) ) {
-				assessor.registerAssessment( name, assessment );
-			}
-		} );
-
-		return assessor;
+		return constructSEOAssessor( this._i18n, this._treeResearcher, assessorConfig );
 	}
 
 	/**

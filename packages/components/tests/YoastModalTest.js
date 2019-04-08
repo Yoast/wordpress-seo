@@ -1,21 +1,21 @@
 import React from "react";
 import { mount } from "enzyme";
 
-import YoastModal from "../src/YoastModal";
+import Modal from "../src/Modal";
 
-describe( "YoastModal", () => {
-	test( "the YoastModal renders its children when open", () => {
+describe( "Modal", () => {
+	test( "the Modal renders its children when open", () => {
 		const hook = document.createElement( "div" );
 
 		const wrapper = mount(
-			<YoastModal
+			<Modal
 				isOpen={ true }
 				appElement={ hook }
 				onClose={ () => {} }
 				modalAriaLabel="Some label"
 			>
 				Hi!
-			</YoastModal>
+			</Modal>
 		);
 
 		// Get the real generated HTML excluding the wrapper components.
@@ -23,18 +23,18 @@ describe( "YoastModal", () => {
 		expect( modal.find( ".yoast-modal__inside" ).text() ).toBe( "Hi!" );
 	} );
 
-	test( "the YoastModal has a role dialog and aria label", () => {
+	test( "the Modal has a role dialog and aria label", () => {
 		const hook = document.createElement( "div" );
 
 		const wrapper = mount(
-			<YoastModal
+			<Modal
 				isOpen={ true }
 				appElement={ hook }
 				onClose={ () => {} }
 				modalAriaLabel="Some label"
 			>
 				Hi!
-			</YoastModal>
+			</Modal>
 		);
 
 		// Get the real generated HTML excluding the wrapper components.
@@ -43,11 +43,11 @@ describe( "YoastModal", () => {
 		expect( modalContent.getDOMNode().getAttribute( "aria-label" ) ).toBe( "Some label" );
 	} );
 
-	test( "the YoastModal renders its default elements", () => {
+	test( "the Modal renders its default elements", () => {
 		const hook = document.createElement( "div" );
 
 		const wrapper = mount(
-			<YoastModal
+			<Modal
 				isOpen={ true }
 				appElement={ hook }
 				onClose={ () => {} }
@@ -58,7 +58,7 @@ describe( "YoastModal", () => {
 				className="my-modal"
 			>
 				Hello!
-			</YoastModal>
+			</Modal>
 		);
 
 		// Get the real generated HTML excluding the wrapper components.

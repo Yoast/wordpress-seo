@@ -4,20 +4,7 @@ import styled from "styled-components";
 /* Yoast dependencies */
 import { colors, rgba } from "@yoast/style-guide";
 
-export const YoastInputContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	margin: 1em 0;
-`;
-
-export const YoastInputLabel = styled.label`
-	font-size: 1em;
-	font-weight: bold;
-	margin-bottom: 0.5em;
-	display: block;
-`;
-
-export const YoastInputField = styled.input`
+export const InputField = styled.input`
 	&&& {
 		padding: 8px;
 		font-size: 1em;
