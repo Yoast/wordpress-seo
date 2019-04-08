@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`the YoastTabs matches the snapshot 1`] = `
+exports[`the Tabs matches the snapshot 1`] = `
 .c0 {
   font-size: 1em;
 }
@@ -143,7 +143,7 @@ exports[`the YoastTabs matches the snapshot 1`] = `
 </div>
 `;
 
-exports[`the YoastTabs with props matches the snapshot 1`] = `
+exports[`the Tabs with props matches the snapshot 1`] = `
 .c0 {
   font-size: 1em;
 }

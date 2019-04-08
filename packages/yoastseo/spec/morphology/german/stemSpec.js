@@ -24,6 +24,8 @@ const wordsToStem = [
 	[ "so", "so" ],
 	// An irregular verb.
 	[ "hat", "haben" ],
+	// A word with a vowel that should be treated like a consonant
+	[ "schreien", "schrei" ],
 ];
 
 describe( "Test for stemming German words", () => {
