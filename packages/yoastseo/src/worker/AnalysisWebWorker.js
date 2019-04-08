@@ -764,24 +764,24 @@ export default class AnalysisWebWorker {
 					treeAssessor: this._seoTreeAssessor,
 					scoreAggregator: this._seoScoreAggregator,
 				} );
+			}
 
-				// Get the related keyphrase keys (one for each keyphrase).
-				const requestedRelatedKeywordKeys = Object.keys( relatedKeywords );
+			// Get the related keyphrase keys (one for each keyphrase).
+			const requestedRelatedKeywordKeys = Object.keys( relatedKeywords );
 
-				// Analyze the SEO for each related keyphrase and wait for the results.
-				const relatedKeyphraseResults = await this.assessRelatedKeywords( paper, this._tree, relatedKeywords );
+			// Analyze the SEO for each related keyphrase and wait for the results.
+			const relatedKeyphraseResults = await this.assessRelatedKeywords( paper, this._tree, relatedKeywords );
 
-				// Put the related keyphrase results on the SEO results, under the right key.
-				relatedKeyphraseResults.forEach( result => {
-					this._results.seo[ result.key ] = result.results;
-				} );
+			// Put the related keyphrase results on the SEO results, under the right key.
+			relatedKeyphraseResults.forEach( result => {
+				this._results.seo[ result.key ] = result.results;
+			} );
 
-				// Clear the unrequested results, but only if there are requested related keywords.
-				if ( requestedRelatedKeywordKeys.length > 1 ) {
-					this._results.seo = pickBy( this._results.seo,
-						( relatedKeyword, key ) =>	includes( requestedRelatedKeywordKeys, key )
-					);
-				}
+			// Clear the unrequested results, but only if there are requested related keywords.
+			if ( requestedRelatedKeywordKeys.length > 1 ) {
+				this._results.seo = pickBy( this._results.seo,
+					( relatedKeyword, key ) => includes( requestedRelatedKeywordKeys, key )
+				);
 			}
 		}
 
