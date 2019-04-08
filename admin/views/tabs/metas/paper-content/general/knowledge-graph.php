@@ -20,7 +20,7 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 );
 ?>
 <div class="tab-block">
-	<h2 class="help-button-inline"><?php echo esc_html__( 'Knowledge Graph', 'wordpress-seo' ) . $knowledge_graph_help->get_button_html(); ?></h2>
+	<h2 class="help-button-inline"><?php echo esc_html__( 'Knowledge Graph & Schema.org', 'wordpress-seo' ) . $knowledge_graph_help->get_button_html(); ?></h2>
 	<?php
 		echo $knowledge_graph_help->get_panel_html();
 		/**
