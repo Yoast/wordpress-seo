@@ -1181,7 +1181,7 @@ SVG;
 	 * @param string $class The (optional) class to add to the script tag.
 	 */
 	public static function schema_output( $graph, $class = 'yoast-schema-graph' ) {
-		if ( ! is_array( $graph ) || ! empty( $graph ) ) {
+		if ( ! is_array( $graph ) || empty( $graph ) ) {
 			return;
 		}
 
