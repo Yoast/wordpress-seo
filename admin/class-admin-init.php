@@ -117,12 +117,7 @@ class WPSEO_Admin_Init {
 		$tagline_notification = new Yoast_Notification( $info_message, $notification_options );
 
 		$notification_center = Yoast_Notification_Center::get();
-		if ( $this->has_default_tagline() ) {
-			$notification_center->add_notification( $tagline_notification );
-		}
-		else {
-			$notification_center->remove_notification( $tagline_notification );
-		}
+		$notification_center->remove_notification( $tagline_notification );
 	}
 
 	/**

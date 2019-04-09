@@ -11,26 +11,66 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
   }
   title="Snippet editor"
 >
-  <SnippetPreviewSection__Section
+  <.SnippetPreviewSection__Section-gjy5w5-0
     hasPaperStyle={true}
     headingIcon="eye"
     headingIconColor="#555"
     headingLevel={3}
     headingText="Snippet editor"
   >
-    <StyledSection
-      className="SnippetPreviewSection__Section-kWfIbs LsuOf"
+    <StyledComponent
+      forwardedComponent={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "attrs": Array [],
+          "componentStyle": ComponentStyle {
+            "componentId": "SnippetPreviewSection__Section-gjy5w5-0",
+            "isStatic": false,
+            "lastClassName": "kBrgeB",
+            "rules": Array [
+              "max-width:640px;&",
+              ".StyledSection__StyledSectionBase-enyt8a-2",
+              "{padding-left:0;padding-right:0;& ",
+              ".StyledSection__StyledHeading-enyt8a-0",
+              "{",
+              [Function],
+              ":20px;margin-left:",
+              [Function],
+              ";}}",
+            ],
+          },
+          "displayName": "SnippetPreviewSection__Section",
+          "foldedComponentIds": Array [],
+          "render": [Function],
+          "styledComponentId": "SnippetPreviewSection__Section-gjy5w5-0",
+          "target": [Function],
+          "toString": [Function],
+          "warnTooManyClasses": [Function],
+          "withComponent": [Function],
+          Symbol(Symbol.hasInstance): [Function],
+        }
+      }
+      forwardedRef={null}
       hasPaperStyle={true}
       headingIcon="eye"
       headingIconColor="#555"
       headingLevel={3}
       headingText="Snippet editor"
     >
-      <span>
-        @yoast/components StyledSection
-      </span>
-    </StyledSection>
-  </SnippetPreviewSection__Section>
+      <StyledSection
+        className="SnippetPreviewSection__Section-gjy5w5-0 kBrgeB"
+        hasPaperStyle={true}
+        headingIcon="eye"
+        headingIconColor="#555"
+        headingLevel={3}
+        headingText="Snippet editor"
+      >
+        <span>
+          @yoast/components StyledSection
+        </span>
+      </StyledSection>
+    </StyledComponent>
+  </.SnippetPreviewSection__Section-gjy5w5-0>
 </SnippetPreviewSection>
 `;
 
@@ -45,25 +85,65 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
   }
   title="Snippet editor"
 >
-  <SnippetPreviewSection__Section
+  <.SnippetPreviewSection__Section-gjy5w5-0
     hasPaperStyle={true}
     headingIcon="eye"
     headingIconColor="#555"
     headingLevel={3}
     headingText="Snippet editor"
   >
-    <StyledSection
-      className="SnippetPreviewSection__Section-kWfIbs LsuOf"
+    <StyledComponent
+      forwardedComponent={
+        Object {
+          "$$typeof": Symbol(react.forward_ref),
+          "attrs": Array [],
+          "componentStyle": ComponentStyle {
+            "componentId": "SnippetPreviewSection__Section-gjy5w5-0",
+            "isStatic": false,
+            "lastClassName": "kBrgeB",
+            "rules": Array [
+              "max-width:640px;&",
+              ".StyledSection__StyledSectionBase-enyt8a-2",
+              "{padding-left:0;padding-right:0;& ",
+              ".StyledSection__StyledHeading-enyt8a-0",
+              "{",
+              [Function],
+              ":20px;margin-left:",
+              [Function],
+              ";}}",
+            ],
+          },
+          "displayName": "SnippetPreviewSection__Section",
+          "foldedComponentIds": Array [],
+          "render": [Function],
+          "styledComponentId": "SnippetPreviewSection__Section-gjy5w5-0",
+          "target": [Function],
+          "toString": [Function],
+          "warnTooManyClasses": [Function],
+          "withComponent": [Function],
+          Symbol(Symbol.hasInstance): [Function],
+        }
+      }
+      forwardedRef={null}
       hasPaperStyle={true}
       headingIcon="eye"
       headingIconColor="#555"
       headingLevel={3}
       headingText="Snippet editor"
     >
-      <span>
-        @yoast/components StyledSection
-      </span>
-    </StyledSection>
-  </SnippetPreviewSection__Section>
+      <StyledSection
+        className="SnippetPreviewSection__Section-gjy5w5-0 kBrgeB"
+        hasPaperStyle={true}
+        headingIcon="eye"
+        headingIconColor="#555"
+        headingLevel={3}
+        headingText="Snippet editor"
+      >
+        <span>
+          @yoast/components StyledSection
+        </span>
+      </StyledSection>
+    </StyledComponent>
+  </.SnippetPreviewSection__Section-gjy5w5-0>
 </SnippetPreviewSection>
 `;
