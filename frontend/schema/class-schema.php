@@ -18,7 +18,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 */
 	public function register_hooks() {
 		add_action( 'wpseo_head', array( $this, 'json_ld' ), 91 );
-		add_action( 'wpseo_json_ld', array( $this, 'output' ), 1 );
+		add_action( 'wpseo_json_ld', array( $this, 'generate' ), 1 );
 	}
 
 	/**
@@ -51,7 +51,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	public function output() {
+	public function generate() {
 		$graph = array();
 
 		foreach ( $this->get_graph_pieces() as $piece ) {
@@ -73,14 +73,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			}
 		}
 
-		if ( is_array( $graph ) && ! empty( $graph ) ) {
-			$output = array(
-				'@context' => 'https://schema.org',
-				'@graph'   => $graph,
-			);
-
-			echo "<script type='application/ld+json' class='yoast-schema-graph yoast-schema-graph--main'>", WPSEO_Utils::format_json_encode( $output ), '</script>', "\n";
-		}
+		WPSEO_Utils::schema_output( $graph, 'yoast-schema-graph yoast-schema-graph--main' );
 	}
 
 	/**
