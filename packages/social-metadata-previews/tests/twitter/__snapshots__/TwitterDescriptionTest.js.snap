@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TwitterDescription matches the snapshot for the summary card 1`] = `
+.c0 {
+  font-size: 14px;
+  max-height: 55px;
+  line-height: 18px;
+  overflow: hidden;
+  margin-bottom: 5px;
+  width: 357px;
+}
+
+<p
+  className="c0"
+/>
+`;
+
+exports[`TwitterDescription matches the snapshot for the summary with large image card 1`] = `
+.c0 {
+  font-size: 14px;
+  max-height: 36px;
+  line-height: 18px;
+  overflow: hidden;
+  margin-bottom: 5px;
+  width: 476px;
+}
+
+<p
+  className="c0"
+/>
+`;

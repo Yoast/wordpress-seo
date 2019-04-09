@@ -63,6 +63,56 @@ const TwitterPreviewExample = () => {
 			<TwitterPreview
 				src="https://yoast.com/app/uploads/2018/11/Logo_TYPO3-250x105.png"
 				title="YoastCon Workshops &bull; Yoast"
+				isLarge={ true }
+				description="This is a description."
+				siteName="yoast.com"
+			/>
+ 			<h2>Summary with large image card, short description</h2>
+			<TwitterPreview
+				title="YoastCon Workshops &bull; Yoast"
+				isLarge={ true }
+				description="This is a description."
+				siteName="yoast.com"
+			/>
+			<h2>Summary with large image card, long description</h2>
+			<TwitterPreview
+				title="YoastCon Workshops &bull; Yoast"
+				isLarge={ true }
+				description={
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description."
+				}
+				siteName="yoast.com"
+			/>
+			<h2>Summary card, short description</h2>
+			<TwitterPreview
+				title="YoastCon Workshops &bull; Yoast"
+				isLarge={ false }
+				description="This is a description."
+				siteName="yoast.com"
+			/>
+			<h2>Summary card, long description</h2>
+			<TwitterPreview
+				title="YoastCon Workshops &bull; Yoast"
+				isLarge={ false }
+				description={
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description. " +
+					"A very long description. A very long description. A very long description. A very long description."
+				}
 				siteName="yoast.com"
 			/>
 		</ExamplesContainer>

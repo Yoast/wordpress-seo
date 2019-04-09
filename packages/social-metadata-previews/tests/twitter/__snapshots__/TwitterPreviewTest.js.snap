@@ -56,6 +56,20 @@ Array [
     YoastCon Workshops • Yoast
   </p>,
   .c0 {
+  font-size: 14px;
+  max-height: 55px;
+  line-height: 18px;
+  overflow: hidden;
+  margin-bottom: 5px;
+  width: 357px;
+}
+
+<p
+    className="c0"
+  >
+    
+  </p>,
+  .c0 {
   text-transform: lowercase;
   color: #8899a6;
   max-height: 18px;

@@ -21,7 +21,9 @@ const FacebookPreview = ( props ) => {
 			<FacebookImage src={ props.src } alt={ props.alt } />
 			<FacebookSiteAndAuthorNames siteName={ props.siteName } authorName={ props.authorName } />
 			<FacebookTitle title={ props.title } />
-			<FacebookDescription description={ props.description } />
+			<FacebookDescription>
+				{ props.description }
+			</FacebookDescription>
 		</Fragment>
 	);
 };
