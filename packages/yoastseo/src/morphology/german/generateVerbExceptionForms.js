@@ -149,19 +149,9 @@ export function generateVerbExceptionForms( morphologyDataVerbs, stemmedWordToCh
 	}
 
 	// Check strong and irregular exceptions with full forms.
-	let exceptions = generateFormsStrongAndIrregularVerbs( morphologyDataVerbs, stemmedWordToCheck );
-
-	// If the original stem had a verb prefix, attach it to the found exception forms.
-	if ( typeof( foundPrefix ) === "string" ) {
-		exceptions = exceptions.map( word => foundPrefix + word );
-	}
-
-	if ( exceptions.length > 0 ) {
-		return exceptions;
-	}
-
-	// Check very irregular exceptions.
-	exceptions = generateFormsVeryIrregularVerbs( morphologyDataVerbs, stemmedWordToCheck );
+	let exceptions = generateFormsStrongAndIrregularVerbs( morphologyDataVerbs, stemmedWordToCheck ).length > 0
+		? generateFormsStrongAndIrregularVerbs( morphologyDataVerbs, stemmedWordToCheck )
+		: generateFormsVeryIrregularVerbs( morphologyDataVerbs, stemmedWordToCheck );
 
 	// If the original stem had a verb prefix, attach it to the found exception forms.
 	if ( typeof( foundPrefix ) === "string" ) {

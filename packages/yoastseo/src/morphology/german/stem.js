@@ -154,17 +154,16 @@ const deleteSuffix2 = function( word, index2, r1Index ) {
 const stemIrregularVerbs = function( morphologyDataVerbs, word ) {
 	const irregularVerbs = morphologyDataVerbs.veryIrregularVerbs;
 
-	let foundStem = "";
-
-	irregularVerbs.forEach( function( paradigm ) {
+	const matchedParadigm = irregularVerbs.find( paradigm => {
 		const forms = paradigm.forms;
-		const stem = paradigm.stem;
-		if ( forms.includes( word ) ) {
-			foundStem = stem;
-		}
-	   } );
+		return forms.includes( word );
+	} );
 
-	return foundStem;
+	if ( matchedParadigm ) {
+		return matchedParadigm.stem;
+	}
+
+	return null;
 };
 
 /**
