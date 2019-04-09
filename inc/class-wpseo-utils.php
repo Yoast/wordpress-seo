@@ -1187,14 +1187,16 @@ SVG;
 	 * @param string $class The (optional) class to add to the script tag.
 	 */
 	public static function schema_output( $graph, $class = 'yoast-schema-graph' ) {
-		if ( is_array( $graph ) && ! empty( $graph ) ) {
-			$output = array(
-				'@context' => 'https://schema.org',
-				'@graph'   => $graph,
-			);
-
-			echo "<script type='application/ld+json' class='", $class, "'>", self::format_json_encode( $output ), '</script>', "\n";
+		if ( ! is_array( $graph ) || ! empty( $graph ) ) {
+			return;
 		}
+
+		$output = array(
+			'@context' => 'https://schema.org',
+			'@graph'   => $graph,
+		);
+
+		echo "<script type='application/ld+json' class='", esc_attr( $class ), "'>", self::format_json_encode( $output ), '</script>', "\n";
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
