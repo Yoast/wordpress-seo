@@ -16,7 +16,5 @@ exports[`FacebookDescription matches the snapshot by default 1`] = `
 
 <p
   className="c0"
->
-  Cornerstone content is one of the most important building blocks of your site.
-</p>
+/>
 `;

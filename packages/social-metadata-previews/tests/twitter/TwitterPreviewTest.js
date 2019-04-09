@@ -13,6 +13,7 @@ describe( "TwitterPreview", () => {
 				type="summary-large-image"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
+				isLarge={ false }
 			/>
 		);
 
