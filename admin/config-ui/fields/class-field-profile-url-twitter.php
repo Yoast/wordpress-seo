@@ -17,6 +17,8 @@ class WPSEO_Config_Field_Profile_URL_Twitter extends WPSEO_Config_Field {
 		parent::__construct( 'profileUrlTwitter', 'Input' );
 
 		$this->set_property( 'label', __( 'Twitter Username', 'wordpress-seo' ) );
+
+		$this->set_requires( 'publishingEntityType', 'company' );
 	}
 
 	/**
