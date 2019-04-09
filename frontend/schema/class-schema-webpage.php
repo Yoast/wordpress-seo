@@ -62,8 +62,9 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			if ( $this->context->site_represents === 'person' ) {
 				$about_id = WPSEO_Schema_IDs::PERSON_HASH;
 			}
+
 			$data['about'] = array(
-				'@id' => $this->context->site_url . $about_id
+				'@id' => $this->context->site_url . $about_id,
 			);
 		}
 
