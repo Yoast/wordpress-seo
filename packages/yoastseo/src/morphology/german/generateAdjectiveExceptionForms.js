@@ -201,6 +201,70 @@ const bothStemsComSup = function( morphologyDataAdjectives, stemmedWordToCheck )
 };
 
 /**
+ *
+ * @param {Object} morphologyDataAdjectives The German morphology data for adjectives.
+ * @param {string} stemmedWordToCheck The stem to check.
+ * @returns {Array} The created adjective forms.
+ */
+const gutForms = function( morphologyDataAdjectives, stemmedWordToCheck ) {
+	const exceptionStems = morphologyDataAdjectives.exceptions.gut;
+
+	if ( exceptionStems.includes( stemmedWordToCheck ) ) {
+		return unique( [
+			exceptionStems[ 0 ],
+			...addRegularSuffixes( morphologyDataAdjectives, exceptionStems[ 0 ] ),
+			...addComparativeSuffixes( morphologyDataAdjectives, exceptionStems[ 1 ] ),
+			...addRegularSuffixes( morphologyDataAdjectives, exceptionStems[ 2 ] ),
+		] );
+	}
+
+	return [];
+};
+
+/**
+ *
+ * @param {Object} morphologyDataAdjectives The German morphology data for adjectives.
+ * @param {string} stemmedWordToCheck The stem to check.
+ * @returns {Array} The created adjective forms.
+ */
+const vielForms = function( morphologyDataAdjectives, stemmedWordToCheck ) {
+	const exceptionStems = morphologyDataAdjectives.exceptions.viel;
+
+	if ( exceptionStems.includes( stemmedWordToCheck ) ) {
+		return unique( [
+			exceptionStems[ 0 ],
+			...addRegularSuffixes( morphologyDataAdjectives, exceptionStems[ 0 ] ),
+			exceptionStems[ 1 ],
+			...addRegularSuffixes( morphologyDataAdjectives, exceptionStems[ 2 ] ),
+		] );
+	}
+
+	return [];
+};
+
+/**
+ *
+ * @param {Object} morphologyDataAdjectives The German morphology data for adjectives.
+ * @param {string} stemmedWordToCheck The stem to check.
+ * @returns {Array} The created adjective forms.
+ */
+const hochForms = function( morphologyDataAdjectives, stemmedWordToCheck ) {
+	const exceptionStems = morphologyDataAdjectives.exceptions.hoch;
+
+	if ( exceptionStems.includes( stemmedWordToCheck ) ) {
+		return unique( [
+			exceptionStems[ 0 ],
+			...addRegularSuffixes( morphologyDataAdjectives, exceptionStems[ 1 ] ),
+			...addComparativeSuffixes( morphologyDataAdjectives, exceptionStems[ 2 ] ),
+			...addSuperlativeSuffixes( morphologyDataAdjectives, exceptionStems[ 3 ] ),
+		] );
+	}
+
+	return [];
+};
+
+
+/**
  * Checks whether a given stem falls into any of the adjective exception categories and creates the
  * correct forms if that is the case.
  *
@@ -222,6 +286,9 @@ export function generateAdjectiveExceptionForms( morphologyDataAdjectives, stemm
 		erStemChangeClass3,
 		secondStemCompSup,
 		bothStemsComSup,
+		gutForms,
+		vielForms,
+		hochForms,
 	];
 
 	for ( let i = 0; i < exceptionChecks.length; i++ ) {
