@@ -322,11 +322,9 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * @return stdClass|null Object representing a subscription.
 	 */
 	protected function determine_subscription_with_earliest_expiry_date() {
-		$subscriptions = $this->addon_manager->get_subscriptions_for_active_addons();
-
-		$subscriptions = array_filter( $subscriptions, array( $this, 'filter_out_invalid_subscriptions' ) );
-
-		$subscriptions = array_values( $subscriptions );
+		$subscriptions = array_values(
+			$this->addon_manager->get_subscriptions_for_active_addons()
+		);
 
 		if ( count( $subscriptions ) === 0 ) {
 			return null;
@@ -351,20 +349,6 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 		}
 
 		return $subscription_with_earliest_expiry_date;
-	}
-
-	/**
-	 * Filter function to filter out invalid add-ons.
-	 *
-	 * @param stdClass $subscription Object representing a subscription.
-	 *
-	 * @return bool Whether or not it's a valid subscription.
-	 */
-	public function filter_out_invalid_subscriptions( $subscription ) {
-		if ( empty( $subscription->product->name ) ) {
-			return false;
-		}
-		return true;
 	}
 
 	/**
