@@ -103,6 +103,12 @@ const generateFormsStrongAndIrregularVerbs = function( morphologyDataVerbs, stem
 	return [];
 };
 
+/**
+ *
+ * @param {Object} morphologyDataVerbs The German morphology data for verbs
+ * @param {string} stemmedWordToCheck The stem to check.
+ * @returns {string} The forms of the verb
+ */
 const generateFormsVeryIrregularVerbs = function( morphologyDataVerbs, stemmedWordToCheck ) {
 	const word = stemmedWordToCheck;
 	const irregularVerbs = morphologyDataVerbs.veryIrregularVerbs;
