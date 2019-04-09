@@ -18,6 +18,8 @@ class WPSEO_Config_Field_Profile_URL_Pinterest extends WPSEO_Config_Field {
 
 		$this->set_property( 'label', __( 'Pinterest URL', 'wordpress-seo' ) );
 		$this->set_property( 'pattern', '^https:\/\/www\.pinterest\.com\/([^/]+)\/$' );
+
+		$this->set_requires( 'publishingEntityType', 'company' );
 	}
 
 	/**
