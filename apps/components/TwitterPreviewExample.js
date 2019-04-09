@@ -67,41 +67,19 @@ const TwitterPreviewExample = () => {
 				description="This is a description."
 				siteName="yoast.com"
 			/>
- 			<h2>Summary with large image card, short description</h2>
+ 			<h2>Short description (no image)</h2>
 			<TwitterPreview
 				title="YoastCon Workshops &bull; Yoast"
+				src=""
 				isLarge={ true }
 				description="This is a description."
 				siteName="yoast.com"
 			/>
-			<h2>Summary with large image card, long description</h2>
+			<h2>Long description (no image)</h2>
 			<TwitterPreview
 				title="YoastCon Workshops &bull; Yoast"
+				src=""
 				isLarge={ true }
-				description={
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description. " +
-					"A very long description. A very long description. A very long description. A very long description."
-				}
-				siteName="yoast.com"
-			/>
-			<h2>Summary card, short description</h2>
-			<TwitterPreview
-				title="YoastCon Workshops &bull; Yoast"
-				isLarge={ false }
-				description="This is a description."
-				siteName="yoast.com"
-			/>
-			<h2>Summary card, long description</h2>
-			<TwitterPreview
-				title="YoastCon Workshops &bull; Yoast"
-				isLarge={ false }
 				description={
 					"A very long description. A very long description. A very long description. A very long description. " +
 					"A very long description. A very long description. A very long description. A very long description. " +
