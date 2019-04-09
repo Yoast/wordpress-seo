@@ -8,8 +8,8 @@ import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
 import { createShortlink } from "../../src/helpers/shortlinker";
 import Assessment from "../../src/assessment";
 import SEOAssessor from "../../src/seoAssessor";
-import { SEOScoreAggregator } from "../../src/tree/assess/scoreAggregators";
-import { TreeResearcher } from "../../src/tree/research";
+import { SEOScoreAggregator } from "../../src/parsedPaper/assess/scoreAggregators";
+import { TreeResearcher } from "../../src/parsedPaper/research";
 import AssessmentResult from "../../src/values/AssessmentResult";
 import Paper from "../../src/values/Paper";
 
@@ -1542,12 +1542,10 @@ describe( "AnalysisWebWorker", () => {
 			worker = new AnalysisWebWorker( scope );
 		} );
 
-		it( "creates an SEO assessor and adds the registered assessments to it", () => {
-			const assessment = new TestAssessment( true, 2, "test assessment", null );
-			worker.registerAssessment( "An assessment", assessment, "test-plugin" );
+		it( "creates an SEO assessor", () => {
 			const assessor = worker.createSEOTreeAssessor( {} );
 
-			expect( assessor.getAssessments() ).toEqual( [ assessment ] );
+			expect( assessor.getAssessments() ).toEqual( [] );
 		} );
 	} );
 

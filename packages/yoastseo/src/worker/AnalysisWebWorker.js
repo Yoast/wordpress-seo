@@ -61,10 +61,10 @@ import Transporter from "./transporter";
 import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
 
 // Tree assessor functionality.
-import buildTree from "../tree/builder";
-import { constructReadabilityAssessor, constructSEOAssessor } from "../tree/assess/assessorFactories";
-import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../tree/assess/scoreAggregators";
-import { TreeResearcher } from "../tree/research";
+import TreeBuilder from "../parsedPaper/build/tree";
+import { constructReadabilityAssessor, constructSEOAssessor } from "../parsedPaper/assess/assessorFactories";
+import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../parsedPaper/assess/scoreAggregators";
+import { TreeResearcher } from "../parsedPaper/research";
 
 const keyphraseDistribution = new assessments.seo.KeyphraseDistributionAssessment();
 
@@ -207,6 +207,9 @@ export default class AnalysisWebWorker {
 
 		// Tree representation of text to analyze
 		this._tree = null;
+
+		// Tree builder.
+		this._treeBuilder = new TreeBuilder();
 	}
 
 	/**
@@ -441,18 +444,10 @@ export default class AnalysisWebWorker {
 	 * @param {boolean} [assessorConfig.taxonomy]         If this assessor is for a taxonomy page, instead of a regular page.
 	 * @param {boolean} [assessorConfig.cornerstone]      If this assessor is for cornerstone content.
 	 *
-	 * @returns {module:tree/assess.TreeAssessor} The created tree assessor.
+	 * @returns {module:parsedPaper/assess.TreeAssessor} The created tree assessor.
 	 */
 	createSEOTreeAssessor( assessorConfig ) {
-		const assessor = constructSEOAssessor( this._i18n, this._treeResearcher, assessorConfig );
-
-		this._registeredAssessments.forEach( ( { name, assessment } ) => {
-			if ( ! assessor.getAssessment( name ) ) {
-				assessor.registerAssessment( name, assessment );
-			}
-		} );
-
-		return assessor;
+		return constructSEOAssessor( this._i18n, this._treeResearcher, assessorConfig );
 	}
 
 	/**
@@ -754,7 +749,7 @@ export default class AnalysisWebWorker {
 
 			// Try to build the tree, for analysis using the tree assessors.
 			try {
-				this._tree = buildTree( text );
+				this._tree = this._treeBuilder.build( text );
 			} catch ( exception ) {
 				console.error( "Yoast SEO and readability analysis: " +
 					"An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
@@ -813,12 +808,12 @@ export default class AnalysisWebWorker {
 	 * The results of both analyses are combined using the given score aggregator.
 	 *
 	 * @param {Paper}                      paper The paper to analyze.
-	 * @param {module:tree/structure.Node} tree  The tree to analyze.
+	 * @param {module:parsedPaper/structure.Node} tree  The tree to analyze.
 	 *
 	 * @param {Object}                             analysisCombination                 Which assessors and score aggregator to use.
 	 * @param {Assessor}                           analysisCombination.oldAssessor     The original assessor.
-	 * @param {module:tree/assess.TreeAssessor}    analysisCombination.treeAssessor    The new assessor.
-	 * @param {module:tree/assess.ScoreAggregator} analysisCombination.scoreAggregator The score aggregator to use.
+	 * @param {module:parsedPaper/assess.TreeAssessor}    analysisCombination.treeAssessor    The new assessor.
+	 * @param {module:parsedPaper/assess.ScoreAggregator} analysisCombination.scoreAggregator The score aggregator to use.
 	 *
 	 * @returns {Promise<{score: number, results: AssessmentResult[]}>} The analysis results.
 	 */
@@ -858,7 +853,7 @@ export default class AnalysisWebWorker {
 	/**
 	 * Generates an error message ("grey bullet") for the given assessment.
 	 *
-	 * @param {module:tree/assess.Assessment} assessment The assessment to generate an error message for.
+	 * @param {module:parsedPaper/assess.Assessment} assessment The assessment to generate an error message for.
 	 *
 	 * @returns {AssessmentResult} The generated assessment result.
 	 */
@@ -881,7 +876,7 @@ export default class AnalysisWebWorker {
 	 * The old assessor as well as the new tree assessor are used and their results are combined.
 	 *
 	 * @param {Paper}                 paper           The paper to analyze.
-	 * @param {module:tree/structure} tree            The tree to analyze.
+	 * @param {module:parsedPaper/structure} tree            The tree to analyze.
 	 * @param {Object}                relatedKeywords The related keyphrases to use in the analysis.
 	 *
 	 * @returns {Promise<[{results: {score: number, results: AssessmentResult[]}, key: string}]>} The results, one for each keyphrase.

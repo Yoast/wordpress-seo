@@ -1,6 +1,6 @@
 // External dependencies.
 import { debounce, isEqual } from "lodash-es";
-import buildTree from "yoastseo/src/tree/builder";
+import buildTree from "yoastseo/src/parsedPaper/build/tree";
 import Paper from "yoastseo/src/values/Paper";
 import getMorphologyData from "yoastseo/spec/specHelpers/getMorphologyData";
 import getLanguage from "yoastseo/src/helpers/getLanguage";
@@ -9,6 +9,7 @@ import getLanguage from "yoastseo/src/helpers/getLanguage";
 import formatAnalyzeResult from "../../utils/formatAnalyzeResult";
 import { setResults } from "../actions/results";
 import { setStatus } from "../actions/worker";
+import TreeBuilder from "yoastseo/src/parsedPaper/build/tree/TreeBuilder";
 
 export default class StoreSubscriber {
 	constructor( { store, worker } ) {
@@ -111,7 +112,8 @@ export default class StoreSubscriber {
 		 */
 		if ( prevIsTreeBuilderEnabled !== isTreeBuilderEnabled || prevText !== text ) {
 			try {
-				let tree = buildTree( text );
+				const HtmlTreeBuilder = new TreeBuilder();
+				let tree = HtmlTreeBuilder.build( text );
 				// Remove any circular dependencies by using the `toString` implementation.
 				tree = JSON.parse( tree.toString() );
 				this.dispatch( setResults( { tree } ) );

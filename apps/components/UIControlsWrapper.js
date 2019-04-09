@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 import { Checkbox, Toggle } from "@yoast/components";
-import CornerstoneToggle from "yoast-components/composites/Plugin/CornerstoneContent/components/CornerstoneToggle.js";
 
 const Container = styled.div`
 	max-width: 1024px;
@@ -31,11 +30,9 @@ export default class UIControlsList extends React.Component {
 
 		this.state = {
 			simpleToggleChecked: false,
-			cornerstoneToggleChecked: false,
 		};
 
 		this.toggleSimpleToggle = this.toggleSimpleToggle.bind( this );
-		this.toggleCornerstoneToggle = this.toggleCornerstoneToggle.bind( this );
 	}
 
 	/**
@@ -46,17 +43,6 @@ export default class UIControlsList extends React.Component {
 	toggleSimpleToggle() {
 		this.setState( {
 			simpleToggleChecked: ! this.state.simpleToggleChecked,
-		} );
-	}
-
-	/**
-	 * Toggles the Cornerstone toggle state.
-	 *
-	 * @returns {void}
-	 */
-	toggleCornerstoneToggle() {
-		this.setState( {
-			cornerstoneToggleChecked: ! this.state.cornerstoneToggleChecked,
 		} );
 	}
 
@@ -102,12 +88,6 @@ export default class UIControlsList extends React.Component {
 					// eslint-disable-next-line no-console
 					onToggleDisabled={ () => console.log( "onToggleDisabled callback" ) }
 					disable={ true }
-				/>
-				<Separator />
-				<h2>Cornerstone toggle</h2>
-				<CornerstoneToggle
-					isEnabled={ this.state.cornerstoneToggleChecked }
-					onToggle={ this.toggleCornerstoneToggle }
 				/>
 			</Container>
 		);

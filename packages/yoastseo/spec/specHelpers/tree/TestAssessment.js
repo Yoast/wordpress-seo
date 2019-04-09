@@ -1,4 +1,4 @@
-import { Assessment } from "../../../src/tree/assess/assessments";
+import { Assessment } from "../../../src/parsedPaper/assess/assessments";
 import AssessmentResult from "../../../src/values/AssessmentResult";
 
 /**
@@ -11,7 +11,7 @@ class TestAssessment extends Assessment {
 	 * @param {boolean}                             applicable         Whether to return true if checked whether this assessment is applicable.
 	 * @param {number}                              boundary           The boundary to use when deciding to return a bad or good assessment result.
 	 * @param {string}                              name               The name of this assessment.
-	 * @param {module:tree/research.TreeResearcher} researcher         The researcher to use.
+	 * @param {module:parsedPaper/research.TreeResearcher} researcher         The researcher to use.
 	 * @param {boolean}                             [throwError=false] If this assessment should throw an error when it is run.
 	 */
 	constructor( applicable, boundary, name, researcher, throwError = false ) {
@@ -25,7 +25,7 @@ class TestAssessment extends Assessment {
 	 * Checks whether this assessment is applicable to the given paper and tree combination.
 	 *
 	 * @param {Paper}                      paper The paper to check.
-	 * @param {module:tree/structure.Node} node  The root node of the tree to check.
+	 * @param {module:parsedPaper/structure.Node} node  The root node of the tree to check.
 	 *
 	 * @returns {Promise<boolean>} Whether this assessment is applicable to the given paper and tree combination (wrapped in a promise).
 	 */
@@ -38,7 +38,7 @@ class TestAssessment extends Assessment {
 	 * Applies this assessment to the given combination of paper and tree.
 	 *
 	 * @param {Paper} paper                                    The paper to check.
-	 * @param {module:tree/structure.Node} node                The root node of the tree to check.
+	 * @param {module:parsedPaper/structure.Node} node                The root node of the tree to check.
 	 *
 	 * @returns {Promise<*>} The result of this assessment (wrapped in a promise).
 	 *

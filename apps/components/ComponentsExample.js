@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 
-import { CourseDetails, FullHeightCard, YoastWarning } from "@yoast/components";
+import { CourseDetails, FullHeightCard, Warning } from "@yoast/components";
 import { getDirectionalStyle, getCourseFeed } from "@yoast/helpers";
 
 const Container = styled.div`
@@ -127,7 +127,7 @@ export default class ComponentsExample extends React.Component {
 			<React.Fragment>
 				<Container>
 					<h2>Yoast warning</h2>
-					<YoastWarning
+					<Warning
 						message={ [
 							"This is a warning message that also accepts arrays, so you can pass links such as ",
 							<a
