@@ -1,7 +1,7 @@
 // External dependencies.
 import { autop } from "@wordpress/autop";
 import Jed from "jed";
-import { forEach, has, includes, isNull, isObject, isString, isUndefined, merge, pickBy, isEqual } from "lodash-es";
+import { forEach, has, includes, isNull, isObject, isString, isUndefined, merge, pickBy, isEmpty } from "lodash-es";
 import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.
@@ -768,11 +768,8 @@ export default class AnalysisWebWorker {
 				} );
 			}
 
-			/*
-			 * Only assess the related keyphrases if the paper has any changes,
-			 * or the related keyphrases have changed.
-			 */
-			if ( paperHasChanges || ! isEqual( this._relatedKeywords, relatedKeywords ) ) {
+			// Only assess the related keyphrases when they have been given.
+			if ( ! isEmpty( relatedKeywords ) ) {
 				// Get the related keyphrase keys (one for each keyphrase).
 				const requestedRelatedKeywordKeys = Object.keys( relatedKeywords );
 
