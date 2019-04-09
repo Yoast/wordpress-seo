@@ -189,20 +189,18 @@ export function calculateImageDimensions( expectedDimensions, originalDimensions
 		 * If the (Twitter) image should be rendered as a square, but originally wasn't square, crop the
 		 * longest side. This way, the image won't be warped.
 		 */
-		const imageRatios = calculateImageRatios( expectedDimensions, originalDimensions, imageMode );
+		const imageRatiosSquare = calculateImageRatios( expectedDimensions, originalDimensions, imageMode );
 
-		return calculateLargestDimensions( originalDimensions, imageRatios );
+		return calculateLargestDimensions( originalDimensions, imageRatiosSquare );
 	}
 
 	/*
 	 * If the image should be rendered as a landscape or portrait, crop the longest side, to reach
 	 * the required size ratio. This way, the image won't be warped.
 	 */
-	if ( imageMode === "landscape" || imageMode === "portrait" ) {
-		const imageRatios = calculateImageRatios( expectedDimensions, originalDimensions, imageMode );
+	const imageRatiosNonSquare = calculateImageRatios( expectedDimensions, originalDimensions, imageMode );
 
-		return calculateLargestDimensions( originalDimensions, imageRatios );
-	}
+	return calculateLargestDimensions( originalDimensions, imageRatiosNonSquare );
 }
 
 /**
