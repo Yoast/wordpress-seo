@@ -104,7 +104,7 @@ class WordPressUserSelectorSearchAppearance extends Component {
 				user: this.state.name,
 				strong: <strong />,
 				/* eslint-disable-next-line jsx-a11y/anchor-has-content */
-				authorEditLink: <a href={ `${ wpseoSearchAppearance.userEditUrl }?user_id=${ this.state.value }` } />,
+				authorEditLink: <a href={ wpseoSearchAppearance.userEditUrl.replace( "{user_id}", this.state.value ) } />,
 			},
 		} );
 	}
