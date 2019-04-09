@@ -38,7 +38,6 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 			'environment-type',
 			'site-type',
 			'publishing-entity',
-			'profile-urls',
 			'post-type-visibility',
 			'multiple-authors',
 			'connect-google-search-console',

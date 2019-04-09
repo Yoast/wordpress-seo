@@ -5,12 +5,12 @@ import ReactDOM from "react-dom";
 // Required to make Material UI work with touch screens.
 import ConfigurationWizard, { MessageBox } from "@yoast/configuration-wizard";
 
-
 import MailchimpSignup from "./components/MailchimpSignup";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 import MediaUpload from "./components/MediaUpload";
 import Suggestions from "./components/Suggestions";
 import FinalStep from "./components/FinalStep";
+import WordPressUserSelectorOnboardingWizard from "./components/WordPressUserSelectorOnboardingWizard";
 
 import { setTranslations } from "yoast-components";
 import isUndefined from "lodash/isUndefined";
@@ -74,6 +74,7 @@ class App extends React.Component {
 				ConnectGoogleSearchConsole,
 				Suggestions,
 				FinalStep,
+				WordPressUserSelector: WordPressUserSelectorOnboardingWizard,
 			},
 		} );
 
