@@ -56,13 +56,6 @@ const generateFormsPerParadigm = function( morphologyDataVerbs, paradigm, stemme
 	// Some stem types have two forms, which means that a stem type can also contain an array. These get flattened here.
 	stemsFlattened = flatten( stemsFlattened );
 
-	/*
-	 * Sort in order to make sure that if the stem to check is e.g. "gehalt", "halt" isn't matched before "gehalt".
-	 * (Both are part of the same paradigm). Otherwise, if "halt" is matched, the "ge" will be interpreted as preceding
-	 * lexical material and added to all forms.
-	 */
-	stemsFlattened = stemsFlattened.sort( ( a, b ) => b.length - a.length );
-
 	if ( stemsFlattened.includes( stemmedWordToCheck ) ) {
 		return addSuffixesStrongVerbParadigm( morphologyDataVerbs.strongVerbs, verbClass, stems );
 	}
