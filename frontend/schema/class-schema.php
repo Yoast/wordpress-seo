@@ -28,7 +28,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 */
 	public function json_ld() {
 		$deprecated_data = array(
-			'_deprecated' => 'Please use the "wpseo_schema_*" filters to extend the Yoast SEO schema data - see the WPSEO_Schema class.'
+			'_deprecated' => 'Please use the "wpseo_schema_*" filters to extend the Yoast SEO schema data - see the WPSEO_Schema class.',
 		);
 
 		/**
