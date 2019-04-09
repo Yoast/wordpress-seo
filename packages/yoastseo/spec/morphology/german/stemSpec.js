@@ -28,6 +28,6 @@ const wordsToStem = [
 
 describe( "Test for stemming German words", () => {
 	it( "stems German nouns", () => {
-		wordsToStem.forEach( wordToStem => expect( stem(morphologyDataDE.verbs, wordToStem[ 0 ] ) ).toBe( wordToStem[ 1 ] ) );
+		wordsToStem.forEach( wordToStem => expect( stem( morphologyDataDE.verbs, wordToStem[ 0 ] ) ).toBe( wordToStem[ 1 ] ) );
 	} );
 } );

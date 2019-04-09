@@ -108,7 +108,7 @@ const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord )
  * @returns {string} Stemmed form of the word.
  */
 export function determineStem( word, morphologyDataGerman ) {
-	const stemmedWord = stem( word );
+	const stemmedWord = stem( morphologyDataGerman.verbs, word );
 
 	/*
 	 * Goes through the stem exception functions from left to right, returns the first stem it finds.
