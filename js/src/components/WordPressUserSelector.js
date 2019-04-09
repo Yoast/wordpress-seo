@@ -77,7 +77,7 @@ class WordPressUserSelector extends Component {
 
 		this.state = {
 			selectedOption: null,
-			loading: this.props.properties.user !== null,
+			loading: !! this.props.value,
 		};
 
 		this.fetchUsers = debounce( this.fetchUsers, 500 ).bind( this );
@@ -120,8 +120,8 @@ class WordPressUserSelector extends Component {
 	 * @returns {void}
 	 */
 	componentDidMount() {
-		if ( this.props.properties.user !== null ) {
-			this.fetchUser( this.props.properties.user );
+		if ( this.props.value ) {
+			this.fetchUser( this.props.value );
 		}
 	}
 
@@ -219,6 +219,7 @@ class WordPressUserSelector extends Component {
 
 WordPressUserSelector.propTypes = {
 	name: PropTypes.string.isRequired,
+	value: PropTypes.number.isRequired,
 	properties: PropTypes.shape( {
 		user: PropTypes.number,
 	} ).isRequired,
