@@ -23,7 +23,7 @@ $social_profiles_help = new WPSEO_Admin_Help_Panel(
 
 $company_or_person = WPSEO_Options::get( 'company_or_person', '' );
 
-$disabled = false;
+$read_only = false;
 if ( $company_or_person === 'person' ) {
 	echo '<div class="paper tab-block">';
 	echo '<h2><span class="dashicons dashicons-warning"></span> ' . esc_html__( 'Your website is currently configured to represent a Person', 'wordpress-seo' ) . '</h2>';
@@ -37,20 +37,20 @@ if ( $company_or_person === 'person' ) {
 	echo ' ';
 	printf( esc_html__( 'To make your site represent a Company or Organization go to %1$sSearch Appearance%2$s and set Company or Person to "Company".', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_titles' ) . '">', '</a>' );
 	echo '</p></div>';
-	$disabled = true;
+	$read_only = 'readonly';
 }
 
-echo '<h2 class="help-button-inline">' . esc_html__( 'Company social profiles', 'wordpress-seo' ) . $social_profiles_help->get_button_html() . '</h2>';
+echo '<h2 class="help-button-inline">' . esc_html__( 'Organization social profiles', 'wordpress-seo' ) . $social_profiles_help->get_button_html() . '</h2>';
 echo $social_profiles_help->get_panel_html();
 
 $yform = Yoast_Form::get_instance();
-$yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ), array( 'disabled' => $disabled ) );
-$yform->textinput( 'twitter_site', __( 'Twitter Username', 'wordpress-seo' ), array( 'disabled' => $disabled ) );
-$yform->textinput( 'instagram_url', __( 'Instagram URL', 'wordpress-seo' ), array( 'disabled' => $disabled ) );
-$yform->textinput( 'linkedin_url', __( 'LinkedIn URL', 'wordpress-seo' ), array( 'disabled' => $disabled ) );
-$yform->textinput( 'myspace_url', __( 'MySpace URL', 'wordpress-seo' ), array( 'disabled' => $disabled ) );
-$yform->textinput( 'pinterest_url', __( 'Pinterest URL', 'wordpress-seo' ), array( 'disabled' => $disabled ) );
-$yform->textinput( 'youtube_url', __( 'YouTube URL', 'wordpress-seo' ), array( 'disabled' => $disabled ) );
-$yform->textinput( 'wikipedia_url', __( 'Wikipedia URL', 'wordpress-seo' ), array( 'disabled' => $disabled ) );
+$yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ), array( 'readonly' => $read_only ) );
+$yform->textinput( 'twitter_site', __( 'Twitter Username', 'wordpress-seo' ), array( 'readonly' => $read_only ) );
+$yform->textinput( 'instagram_url', __( 'Instagram URL', 'wordpress-seo' ), array( 'readonly' => $read_only ) );
+$yform->textinput( 'linkedin_url', __( 'LinkedIn URL', 'wordpress-seo' ), array( 'readonly' => $read_only ) );
+$yform->textinput( 'myspace_url', __( 'MySpace URL', 'wordpress-seo' ), array( 'readonly' => $read_only ) );
+$yform->textinput( 'pinterest_url', __( 'Pinterest URL', 'wordpress-seo' ), array( 'readonly' => $read_only ) );
+$yform->textinput( 'youtube_url', __( 'YouTube URL', 'wordpress-seo' ), array( 'readonly' => $read_only ) );
+$yform->textinput( 'wikipedia_url', __( 'Wikipedia URL', 'wordpress-seo' ), array( 'readonly' => $read_only ) );
 
 do_action( 'wpseo_admin_other_section' );
