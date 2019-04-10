@@ -136,15 +136,32 @@ class WordPressUserSelector extends Component {
 	/**
 	 * Creates a query string from a params object.
 	 *
+	 * @param {string} url    The URL.
 	 * @param {Object} params Params for in the query string.
 	 *
 	 * @returns {string} URI encoded query string.
 	 */
-	static createQueryString( params ) {
-		return Object.keys( params )
-			.filter( key => !! params[ key ] )
-			.map( key => `${ encodeURIComponent( key ) }=${ encodeURIComponent( params[ key ] ) }` )
+	static addQueryParams( url, params ) {
+		const urlParts = url.split( "?" );
+
+		url = urlParts[ 0 ];
+
+		const allQueryParams = { ...params };
+
+		if ( urlParts.length === 2 ) {
+			urlParts[ 1 ].split( "&" ).forEach( part => {
+				const item = part.split( "=" );
+
+				allQueryParams[ item[ 0 ] ] = item[ 1 ];
+			} );
+		}
+
+		const newQueryParams = Object.keys( allQueryParams )
+			.filter( key => !! allQueryParams[ key ] )
+			.map( key => `${ key }=${ encodeURIComponent( allQueryParams[ key ] ) }` )
 			.join( "&" );
+
+		return `${ url }?${ newQueryParams }`;
 	}
 
 	/**
@@ -187,7 +204,7 @@ class WordPressUserSelector extends Component {
 	 * @returns {void}
 	 */
 	async fetchUser( id ) {
-		const user = await sendRequest( `/wp-json/wp/v2/users/${ id }`, { method: "GET", headers: HEADERS } );
+		const user = await sendRequest( `${ REST_ROUTE }wp/v2/users/${ id }`, { method: "GET", headers: HEADERS } );
 
 		if ( ! user ) {
 			this.setState( { loading: false } );
@@ -207,17 +224,20 @@ class WordPressUserSelector extends Component {
 	 * @returns {void}
 	 */
 	fetchUsers( input, callback ) {
-		const queryParameters = WordPressUserSelector.createQueryString( {
+		const params = {
 			/* eslint-disable-next-line camelcase */
 			per_page: 10,
 			search: input,
-		} );
+		};
 
-		sendRequest( `${ REST_ROUTE }wp/v2/users?${ queryParameters }`, { method: "GET", headers: HEADERS } ).then( users => {
-			const mappedUsers = users.map( this.mapUserToSelectOption );
+		const url = WordPressUserSelector.addQueryParams( `${ REST_ROUTE }wp/v2/users`, params );
 
-			callback( mappedUsers );
-		} );
+		sendRequest( url, { method: "GET", headers: HEADERS } )
+			.then( users => {
+				const mappedUsers = users.map( this.mapUserToSelectOption );
+
+				callback( mappedUsers );
+			} );
 	}
 }
 
