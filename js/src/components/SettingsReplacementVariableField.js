@@ -5,7 +5,7 @@ import {
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
 } from "yoast-components";
-import { ReplacementVariableEditor } from "yoast-components";
+import { ReplaceVarEditor } from "yoast-components";
 import styled from "styled-components";
 
 /* Internal dependencies */
@@ -46,7 +46,7 @@ class SettingsReplacementVariableField extends React.Component {
 
 		return (
 			<SnippetEditorWidthContainer>
-				<ReplacementVariableEditor
+				<ReplaceVarEditor
 					label={ label }
 					fieldId={ fieldId + "-snippet-editor" }
 					isActive={ this.state.isActive }
