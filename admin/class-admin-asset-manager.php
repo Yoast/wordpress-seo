@@ -336,7 +336,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
 				'deps' => array(
-					'wp-api-fetch',
+					'wp-api',
 					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
 				),
@@ -544,7 +544,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'wp-element',
 					'wp-i18n',
-					'wp-api-fetch',
+					'wp-api',
 					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
 				),
