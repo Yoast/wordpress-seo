@@ -1,7 +1,7 @@
 /* External dependencies */
 import { Component } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { Label } from "@yoast/components";
+import { Label } from "yoast-components";
 import styled from "styled-components";
 
 /* Internal dependencies */
