@@ -72,7 +72,7 @@ export function getForms( word, morphologyData ) {
 	/*
 	 * For words certain words ending in -t, it is ambiguous whether it's actually a stem that ends in -t/-et (e.g., test)
 	 * or whether the -t/-et ending is a 3rd person singular verb ending (e.g, kauft). When it's possible that the ending
-	 * is a 3rd person singular ending, we strip it and create verb forms based on the stem without the -t or -et.
+	 * is a 3rd person singular ending, we strip it and create additional verb forms based on the stem without the -t or -et.
 	 */
 	if ( formsBasedOnStemmed3rdSgVerbs ) {
 		forms.push( ...formsBasedOnStemmed3rdSgVerbs );

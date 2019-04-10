@@ -8,7 +8,7 @@ describe( "Test for creating forms for German words", () => {
 		expect( getForms( "studenten", morphologyDataDE ) ).toEqual( [
 			// Original input word
 			"studenten",
-			// Stemmed wordf
+			// Stemmed word
 			"student",
 			// Noun forms
 			"studente",

@@ -89,7 +89,7 @@ const addFormsWithRemovedLetters = function( morphologyDataNouns, stemmedWordToC
 };
 
 /**
- * Generates regular verb forms.
+ * Generates regular noun forms.
  *
  * @param {Object}  morphologyDataNouns The German morphology data for nouns.
  * @param {string}  stemmedWord         The stemmed word for which to create the regular noun forms.
