@@ -15,6 +15,7 @@ import getDefaultReplacementVariables from "./values/defaultReplaceVariables";
 import { updateReplacementVariable } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { ThemeProvider } from "styled-components";
+import WordPressUserSelectorSearchAppearance from "./components/WordPressUserSelectorSearchAppearance";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -72,5 +73,10 @@ if ( editorElements.length ) {
 			</ThemeProvider>
 		</Provider>,
 		element
+	);
+
+	ReactDOM.render(
+		<WordPressUserSelectorSearchAppearance />,
+		document.getElementById( "person-selector" ),
 	);
 }

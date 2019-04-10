@@ -134,8 +134,8 @@ class WPSEO_Sitemaps_Renderer {
 	/**
 	 * Produce final XML output with debug information.
 	 *
-	 * @param string  $sitemap    Sitemap XML.
-	 * @param boolean $transient  Transient cache flag.
+	 * @param string  $sitemap   Sitemap XML.
+	 * @param boolean $transient Transient cache flag.
 	 *
 	 * @return string
 	 */
@@ -291,7 +291,7 @@ class WPSEO_Sitemaps_Renderer {
 		 *
 		 * @api   string $output The output for the sitemap url tag.
 		 *
-		 * @param array  $url The sitemap url array on which the output is based.
+		 * @param array $url The sitemap url array on which the output is based.
 		 */
 		return apply_filters( 'wpseo_sitemap_url', $output, $url );
 	}
@@ -359,7 +359,10 @@ class WPSEO_Sitemaps_Renderer {
 			return home_url( 'main-sitemap.xsl' );
 		}
 
-		// Fallback to circumvent a cross-domain security problem when the XLS file is loaded from a different (sub)domain.
+		/*
+		 * Fallback to circumvent a cross-domain security problem when the XLS file is
+		 * loaded from a different (sub)domain.
+		 */
 		if ( strpos( plugins_url(), home_url() ) !== 0 ) {
 			return home_url( 'main-sitemap.xsl' );
 		}

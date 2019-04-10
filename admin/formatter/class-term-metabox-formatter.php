@@ -21,7 +21,9 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	private $taxonomy;
 
 	/**
-	 * @var array Array with the WPSEO_Titles options.
+	 * Array with the WPSEO_Titles options.
+	 *
+	 * @var array
 	 */
 	protected $options;
 

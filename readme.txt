@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.9
-Tested up to: 5.0.3
-Stable tag: 9.5
+Tested up to: 5.1.1
+Stable tag: 10.1.3
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -106,49 +106,83 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
-= 9.6.0 =
-Release Date: February 5th, 2019
-
-## Enhancements:
-
-* Removes schema (JSON+LD) output from 404 pages.
-* Improves the Google Search Console table accessibility by removing a duplicate button.
-* Improves the code to better comply to the coding standards.
-
-## Bugfixes:
-
-* Fixes a bug where an empty feed would be available for non-existing pages. Props [stodorovic](https://github.com/stodorovic).
-* Prevents `vendor_prefix/j4mie/idiorm/demo.php` from being included in the release.
-
-## Other:
-
-* Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
-* Improves the redirect upsell when user clicks on create redirect in the search console overview.
-
-= 9.5.0 =
-Release Date: January 22nd, 2019
+= 11.0.0 =
+Release Date: April 16th, 2019
 
 Enhancements:
 
-* Completes the readability analysis for Swedish by adding the transition words, sentence beginnings and passive voice assessments.
-* Improves the transition word assessment for German.
+* Changes the schema to output in one big Graph.
+* Adds Person markup for author pages.
+* Adds WebPage markup for all pages.
+* Adds Article markup for posts, with Person markup for the author.
+* Adds MySpace, SoundCloud, Tumblr and YouTube URL input fields to people's profiles.
+* Merges the 'Company or person' and 'Social profiles' steps together in the configuration wizard to have all data for the Person markup together.
+* Changes the 'Organization or Person' section of the Knowledge graph settings to allow selecting an author that is the 'Person'.
+* Optimizes the code to avoid an unnecessary DB query to remove notifications storage when it's already empty. Props to [rmc47](https://github.com/rmc47).
+* Improves the accessibility of the breadcrumbs by adding `aria-current` to the active item.
+* Adds 'filesize' to whitelisted properties on ''$image'. Props to [cmmarslender](https://github.com/cmmarslender).
 
 Bugfixes:
 
-* Fixes a bug where the Ryte endpoint would be called when the Ryte feature has been disabled.
-* Fixes a bug where the 'Show archives for authors without posts in search results?' toggle would be shown when the 'Show author archives in search results?' toggle was disabled in the search appearance settings.
-* Fixes a bug where the front page would be shown in the page sitemap. Props to [stodorovic](https://github.com/stodorovic).
-* Fixes a bug where errors would be thrown in the classic editor when Gutenberg assets were enqueued without Gutenberg being active.
-* Fixes a bug where the editor would not be loaded when clicking the ‘edit’ button for a child page in the page overview. Props [mondrey](https://github.com/mondrey).
-
-Deprecated:
-
-* Deprecates the methods WPSEO_Utils::get_user_locale() and WPSEO_Utils::get_language().
+* Fixes the buttons position in the structured data blocks.
 
 Other:
 
-* Adds a Courses Page showing an overview of the available online courses offered by Yoast Academy.
+* Improves the breadcrumbs accessibility by adding `aria-current` to the active item.
+* Improves accessibility of the add-ons tabs in the meta box.
+
+= 10.1.3 =
+Release Date: April 4th, 2019
+
+Bugfixes:
+
+* Reverted a fix relating replacement variables on the block editor, which was causing a slow and unworkable editting experience.
+* Fixes a bug where the license information from MyYoast is being saved aggressively, causing updates in MyYoast to take 24 hours to show up in the site.
+* Fixes a bug where the `rel="publisher"` Google+ tag was being output on the frontend if that profile was provided in the past.
+* Fixes a bug where the server could experience a high load when using external object cache.
+* Fixes the bug where Yoast SEO would contact Yoast.com for license checks on specific Yoast-pages even when no Yoast addons are installed.
+
+= 10.1.2 =
+Release Date: April 3rd, 2019
+
+Bugfixes:
+
+* Fixes the bug where Yoast SEO would contact Yoast.com for license checks even when no Yoast addons are installed.
+
+= 10.1.1 =
+Release Date: April 2nd, 2019
+
+Bugfixes:
+
+* Fixes a bug where a fatal error can occur on license requests which return an unexpected result.
+
+= 10.1.0 =
+Release Date: April 2nd, 2019
+
+Enhancements:
+
+* Removes Google+ from the various interfaces: social accounts, user profiles and more.
+* Adds a Wikipedia URL field to the social accounts list, to be used in `sameAs` Schema.org output.
+* Adds a LinkedIn profile URL field to user profiles, a first sign of things to come in 10.2.
+* Removes the `og:image:alt` tag as it causes potential accessibility issues when content is shared via Facebook.
+* Adds support for browsers auto-fill in the form fields that collect user information.
+* Adds missing screen reader text to the SEO score icon in the front end admin bar.
+* Increases the recommended sentence length limit for Spanish and Catalan to be more in line with best practices in these languages, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
+* Improves the list of Catalan transition words, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
+* Improves the list of Swedish transition words.
+
+Bugfixes:
+
+* Fixes a bug where selecting a parent page for a page would lead to console errors and a not-working 'parent page' snippet variable.
+* Fixes a bug where no focus indication was shown for the title separators in the configuration wizard and settings.
+* Fixes a bug where taxonomy terms weren't shown correctly in the Snippet Preview, for example when using the `Categories`, `Tags` or any custom taxonomy replacement variable.
+* Fixes a bug where breadcrumb structured data wasn't output when breadcrumbs are disabled and a theme with breadcrumb support has been installed.
+* Fixes a bug where a PHP notice would be written to `debug.log` when adding a new site to a WordPress 5.1 multisite installation.
+
+Other:
+
+* Removes all functionality that has been deprecated before Yoast SEO 6.1.
 
 = Earlier versions =
 
-For the changelog of earlier versions, please refer to [the Yoast SEO changelog on yoast.com](https://yoa.st/yoast-seo-changelog)
+For the changelog of earlier versions, please refer to https://yoa.st/yoast-seo-changelog

@@ -20,26 +20,31 @@ class WPSEO_Extensions {
 			'slug'       => 'yoast-seo-premium',
 			'identifier' => 'wordpress-seo-premium',
 			'classname'  => 'WPSEO_Premium',
+			'my-yoast-slug'   => WPSEO_Addon_Manager::PREMIUM_SLUG,
 		),
 		'News SEO' => array(
 			'slug'       => 'news-seo',
 			'identifier' => 'wpseo-news',
 			'classname'  => 'WPSEO_News',
+			'my-yoast-slug'   => WPSEO_Addon_Manager::NEWS_SLUG,
 		),
 		'Yoast WooCommerce SEO' => array(
 			'slug'       => 'woocommerce-yoast-seo',
 			'identifier' => 'wpseo-woocommerce',
 			'classname'  => 'Yoast_WooCommerce_SEO',
+			'my-yoast-slug'   => WPSEO_Addon_Manager::WOOCOMMERCE_SLUG,
 		),
 		'Video SEO' => array(
 			'slug'       => 'video-seo-for-wordpress',
 			'identifier' => 'wpseo-video',
 			'classname'  => 'WPSEO_Video_Sitemap',
+			'my-yoast-slug'   => WPSEO_Addon_Manager::VIDEO_SLUG,
 		),
 		'Local SEO' => array(
 			'slug'       => 'local-seo-for-wordpress',
 			'identifier' => 'wpseo-local',
 			'classname'  => 'WPSEO_Local_Core',
+			'my-yoast-slug'   => WPSEO_Addon_Manager::LOCAL_SLUG,
 		),
 	);
 
@@ -60,8 +65,8 @@ class WPSEO_Extensions {
 	 * @return bool Returns true when valid.
 	 */
 	public function is_valid( $extension ) {
-		$extensions = new WPSEO_Extension_Manager();
-		return $extensions->is_activated( $this->extensions[ $extension ]['identifier'] );
+		$addon_manager = new WPSEO_Addon_Manager();
+		return $addon_manager->has_valid_subscription( $this->extensions[ $extension ]['my-yoast-slug'] );
 	}
 
 	/**

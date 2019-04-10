@@ -11,6 +11,8 @@
 class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Admin_Recommended_Replace_Vars
 	 */
 	protected $class_instance;

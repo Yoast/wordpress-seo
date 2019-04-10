@@ -6,8 +6,8 @@
  */
 
 /**
- * This class will catch the request to dismiss the target notice (set by notice_name) and will store the dismiss status as an user meta
- * in the database
+ * This class will catch the request to dismiss the target notice (set by notice_name)
+ * and will store the dismiss status as an user meta in the database
  */
 class Yoast_Dismissable_Notice_Ajax {
 
@@ -34,11 +34,15 @@ class Yoast_Dismissable_Notice_Ajax {
 
 
 	/**
-	 * @var string Name of the notice that will be dismissed.
+	 * Name of the notice that will be dismissed.
+	 *
+	 * @var string
 	 */
 	private $notice_name;
 
 	/**
+	 * The type of the current notice.
+	 *
 	 * @var string
 	 */
 	private $notice_type;

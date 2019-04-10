@@ -370,7 +370,7 @@ class Yoast_Notification_Center {
 				$notification_json[] = $notification->render();
 			}
 
-			echo wp_json_encode( $notification_json );
+			echo WPSEO_Utils::format_json_encode( $notification_json );
 
 			return;
 		}
@@ -384,7 +384,7 @@ class Yoast_Notification_Center {
 	 * Remove notification after it has been displayed
 	 *
 	 * @param Yoast_Notification $notification Notification to remove.
-	 * @param bool               $resolve Resolve as fixed.
+	 * @param bool               $resolve      Resolve as fixed.
 	 */
 	public function remove_notification( Yoast_Notification $notification, $resolve = true ) {
 
@@ -530,7 +530,7 @@ class Yoast_Notification_Center {
 		 */
 		$notifications = apply_filters( 'yoast_notifications_before_storage', $notifications );
 
-		// No notifications to store, clear storage.
+		// No notifications to store, clear storage if it was previously present.
 		if ( empty( $notifications ) ) {
 			$this->remove_storage();
 
@@ -636,14 +636,6 @@ class Yoast_Notification_Center {
 		}
 
 		return 0;
-	}
-
-	/**
-	 * Remove all notifications from storage
-	 */
-	private function remove_storage() {
-
-		delete_user_option( get_current_user_id(), self::STORAGE_KEY );
 	}
 
 	/**
@@ -768,5 +760,41 @@ class Yoast_Notification_Center {
 	 */
 	private function add_transaction_to_queue( $callback, $args ) {
 		$this->queued_transactions[] = array( $callback, $args );
+	}
+
+	/**
+	 * Removes all notifications from storage.
+	 *
+	 * @return bool True when notifications got removed.
+	 */
+	protected function remove_storage() {
+		if ( ! $this->has_stored_notifications() ) {
+			return false;
+		}
+
+		delete_user_option( get_current_user_id(), self::STORAGE_KEY );
+		return true;
+	}
+
+	/**
+	 * Checks if there are stored notifications.
+	 *
+	 * @return bool True when there are stored notifications.
+	 */
+	protected function has_stored_notifications() {
+		$stored_notifications = $this->get_stored_notifications();
+
+		return ! empty( $stored_notifications );
+	}
+
+	/**
+	 * Retrieves the stored notifications.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return array|false Array with notifications or false when not set.
+	 */
+	protected function get_stored_notifications() {
+		return get_user_option( self::STORAGE_KEY, get_current_user_id() );
 	}
 }

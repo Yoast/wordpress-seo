@@ -9,6 +9,7 @@
  * Test importing meta data from AIOSEO.
  */
 class WPSEO_Import_Squirrly_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Holds the class instance.
 	 *

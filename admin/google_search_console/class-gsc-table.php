@@ -32,6 +32,8 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	private $current_view;
 
 	/**
+	 * Number of entries to show per page.
+	 *
 	 * @var integer
 	 */
 	private $per_page = 50;
@@ -291,7 +293,10 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	 * Running the pagination
 	 */
 	private function paginate_items() {
-		// Setting the starting point. If starting point is below 1, overwrite it with value 0, otherwise it will be sliced of at the back.
+		/*
+		 * Setting the starting point. If starting point is below 1, overwrite it
+		 * with value 0, otherwise it will be sliced off at the back.
+		 */
 		$slice_start = ( $this->current_page - 1 );
 		if ( $slice_start < 0 ) {
 			$slice_start = 0;

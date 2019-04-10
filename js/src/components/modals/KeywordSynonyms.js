@@ -69,7 +69,7 @@ const KeywordSynonyms = ( props ) => {
 				className: "yoast-button-upsell",
 				rel: null,
 			} }
-			upsellButtonLabel={ __( "1 year free updates and upgrades included!", "wordpress-seo" ) }
+			upsellButtonLabel={ __( "1 year free support and updates included!", "wordpress-seo" ) }
 		/>
 	);
 };

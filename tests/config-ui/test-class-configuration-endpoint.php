@@ -9,7 +9,12 @@
  * Class WPSEO_Configuration_Endpoint_Test
  */
 class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
-	/** @var WPSEO_Configuration_Endpoint_Mock */
+
+	/**
+	 * Holds the instance of the class being tested.
+	 *
+	 * @var WPSEO_Configuration_Endpoint_Mock
+	 */
 	protected $endpoint;
 
 	/**
@@ -17,6 +22,8 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
+
+		do_action( 'rest_api_init' );
 
 		$this->endpoint = new WPSEO_Configuration_Endpoint_Mock();
 	}

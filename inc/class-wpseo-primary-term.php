@@ -11,11 +11,15 @@
 class WPSEO_Primary_Term {
 
 	/**
+	 * Taxonomy name for the term.
+	 *
 	 * @var string
 	 */
 	protected $taxonomy_name;
 
 	/**
+	 * Post ID for the term.
+	 *
 	 * @var int
 	 */
 	protected $post_ID;

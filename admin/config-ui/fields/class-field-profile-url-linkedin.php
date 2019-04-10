@@ -18,6 +18,8 @@ class WPSEO_Config_Field_Profile_URL_LinkedIn extends WPSEO_Config_Field {
 
 		$this->set_property( 'label', __( 'LinkedIn URL', 'wordpress-seo' ) );
 		$this->set_property( 'pattern', '^https:\/\/www\.linkedin\.com\/in\/([^/]+)$' );
+
+		$this->set_requires( 'publishingEntityType', 'company' );
 	}
 
 	/**

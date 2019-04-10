@@ -86,7 +86,6 @@ class WPSEO_Frontend {
 		add_action( 'wpseo_head', array( $this, 'robots' ), 10 );
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
-		add_action( 'wpseo_head', array( $this, 'publisher' ), 22 );
 
 		// Remove actions that we will handle through our wpseo_head call, and probably change the output of.
 		remove_action( 'wp_head', 'rel_canonical' );
@@ -140,7 +139,7 @@ class WPSEO_Frontend {
 
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
-			new WPSEO_JSON_LD(),
+			new WPSEO_Schema(),
 			new WPSEO_Handle_404(),
 			new WPSEO_Remove_Reply_To_Com(),
 			new WPSEO_OpenGraph_OEmbed(),
@@ -587,17 +586,10 @@ class WPSEO_Frontend {
 	/**
 	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
 	 *
-	 * @param bool $echo Deprecated. Since 5.9. Whether or not to echo the debug marker.
-	 *
 	 * @return string The marker that will be echoed.
 	 */
-	public function debug_mark( $echo = true ) {
+	public function debug_mark() {
 		$marker = $this->get_debug_mark();
-		if ( $echo === false ) {
-			_deprecated_argument( 'WPSEO_Frontend::debug_mark', '5.9', 'WPSEO_Frontend::get_debug_mark' );
-
-			return $marker;
-		}
 
 		echo "\n${marker}\n";
 
@@ -799,7 +791,7 @@ class WPSEO_Frontend {
 	 * @param array $robots  Robots data array.
 	 * @param int   $post_id The post ID for which to determine the $robots values, defaults to current post.
 	 *
-	 * @return    array
+	 * @return array
 	 */
 	public function robots_for_single_post( $robots, $post_id = 0 ) {
 		$noindex = $this->get_seo_meta_value( 'meta-robots-noindex', $post_id );
@@ -1152,22 +1144,6 @@ class WPSEO_Frontend {
 			$base = trailingslashit( $GLOBALS['wp_rewrite']->pagination_base );
 		}
 		return $base;
-	}
-
-	/**
-	 * Output the rel=publisher code on every page of the site.
-	 *
-	 * @return boolean Boolean indicating whether the publisher link was printed.
-	 */
-	public function publisher() {
-		$publisher = WPSEO_Options::get( 'plus-publisher', '' );
-		if ( $publisher !== '' ) {
-			echo '<link rel="publisher" href="', esc_url( $publisher ), '"/>', "\n";
-
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -1575,7 +1551,10 @@ class WPSEO_Frontend {
 			$title      = $this->title( '' );
 			$debug_mark = $this->get_debug_mark();
 
-			// Find all titles, strip them out and add the new one in within the debug marker, so it's easily identified whether a site uses force rewrite.
+			/*
+			 * Find all titles, strip them out and add the new one in within the debug marker,
+			 * so it's easily identified whether a site uses force rewrite.
+			 */
 			$content = preg_replace( '/<title.*?\/title>/i', '', $content );
 			$content = str_replace( $debug_mark, $debug_mark . "\n" . '<title>' . esc_html( $title ) . '</title>', $content );
 		}
@@ -1800,24 +1779,6 @@ class WPSEO_Frontend {
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
-	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
-	 *
-	 * @deprecated 4.4
-	 * @codeCoverageIgnore
-	 *
-	 * @param bool $echo Whether or not to echo the debug marker.
-	 *
-	 * @return string
-	 */
-	public function debug_marker( $echo = false ) {
-		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
-			_deprecated_function( 'WPSEO_Frontend::debug_marker', '4.4', 'WPSEO_Frontend::debug_mark' );
-		}
-
-		return $this->debug_mark( $echo );
-	}
-
-	/**
 	 * Outputs the meta keywords element.
 	 *
 	 * @deprecated 6.3
@@ -1947,5 +1908,18 @@ class WPSEO_Frontend {
 		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
 
 		return $title;
+	}
+
+	/**
+	 * Output the rel=publisher code on every page of the site.
+	 *
+	 * @deprecated 10.1.3
+	 *
+	 * @return boolean Boolean indicating whether the publisher link was printed.
+	 */
+	public function publisher() {
+		_deprecated_function( __METHOD__, 'WPSEO 10.1.3' );
+
+		return false;
 	}
 }

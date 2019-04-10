@@ -10,7 +10,11 @@
  */
 class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 
-	/** @var WPSEO_Configuration_Components_Mock */
+	/**
+	 * Holds the instance of the class being tested.
+	 *
+	 * @var WPSEO_Configuration_Components_Mock
+	 */
 	protected $components;
 
 	/**
@@ -20,17 +24,6 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 		parent::setUp();
 
 		$this->components = new WPSEO_Configuration_Components_Mock();
-	}
-
-	/**
-	 * @covers WPSEO_Configuration_Components::initialize()
-	 */
-	public function test_constructor() {
-		$components = new WPSEO_Configuration_Components_Mock();
-		$components->initialize();
-
-		$list = $components->get_components();
-		$this->assertEquals( 4, count( $list ) );
 	}
 
 	/**

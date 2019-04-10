@@ -297,7 +297,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * Last update/compare with FB list done on 2015-03-16 by Rarst
 	 *
-	 * @see  http://www.facebook.com/translations/FacebookLocales.xml for the list of supported locales
+	 * @link http://www.facebook.com/translations/FacebookLocales.xml for the list of supported locales.
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 	 *

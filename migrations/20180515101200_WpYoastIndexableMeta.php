@@ -20,9 +20,23 @@ class WpYoastIndexableMeta extends Ruckusing_Migration_Base {
 		$table_name = $this->get_table_name();
 
 		$indexable_meta_table = $this->create_table( $table_name );
-		$indexable_meta_table->column( 'indexable_id', 'integer', array( 'unsigned' => true, 'limit' => 11 ) );
+		$indexable_meta_table->column(
+			'indexable_id',
+			'integer',
+			array(
+				'unsigned' => true,
+				'limit'    => 11,
+			)
+		);
 		$indexable_meta_table->column( 'meta_key', 'string', array( 'limit' => 191 ) );
-		$indexable_meta_table->column( 'meta_value', 'text', array( 'null' => true, 'limit' => 191 ) );
+		$indexable_meta_table->column(
+			'meta_value',
+			'text',
+			array(
+				'null'  => true,
+				'limit' => 191,
+			)
+		);
 
 		// Execute the SQL to create the table.
 		$indexable_meta_table->finish();

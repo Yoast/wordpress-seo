@@ -11,11 +11,15 @@
 class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Dummy posts for use by the tests.
+	 *
 	 * @var array
 	 */
 	private $posts;
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Recalculate_Posts
 	 */
 	private $instance;

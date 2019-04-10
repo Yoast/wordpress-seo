@@ -84,7 +84,8 @@ if ( ! function_exists( 'yoast_get_primary_term' ) ) {
  * Replace `%%variable_placeholders%%` with their real value based on the current requested page/post/cpt.
  *
  * @param string $string The string to replace the variables in.
- * @param object $args   The object some of the replacement values might come from, could be a post, taxonomy or term.
+ * @param object $args   The object some of the replacement values might come from,
+ *                       could be a post, taxonomy or term.
  * @param array  $omit   Variables that should not be replaced by this function.
  *
  * @return string
@@ -128,15 +129,15 @@ function wpseo_replace_vars( $string, $args, $omit = array() ) {
  *
  * @since 1.5.4
  *
- * @param  string $var              The name of the variable to replace, i.e. '%%var%%'
- *                                  - the surrounding %% are optional, name can only contain [A-Za-z0-9_-].
- * @param  mixed  $replace_function Function or method to call to retrieve the replacement value for the variable
- *                                  Uses the same format as add_filter/add_action function parameter and
- *                                  should *return* the replacement value. DON'T echo it.
- * @param  string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'.
- * @param  string $help_text        Help text to be added to the help tab for this variable.
+ * @param string $var              The name of the variable to replace, i.e. '%%var%%'.
+ *                                 Note: the surrounding %% are optional, name can only contain [A-Za-z0-9_-].
+ * @param mixed  $replace_function Function or method to call to retrieve the replacement value for the variable.
+ *                                 Uses the same format as add_filter/add_action function parameter and
+ *                                 should *return* the replacement value. DON'T echo it.
+ * @param string $type             Type of variable: 'basic' or 'advanced', defaults to 'advanced'.
+ * @param string $help_text        Help text to be added to the help tab for this variable.
  *
- * @return bool  Whether the replacement function was succesfully registered.
+ * @return bool Whether the replacement function was successfully registered.
  */
 function wpseo_register_var_replacement( $var, $replace_function, $type = 'advanced', $help_text = '' ) {
 	return WPSEO_Replace_Vars::register_replacement( $var, $replace_function, $type, $help_text );
@@ -144,7 +145,9 @@ function wpseo_register_var_replacement( $var, $replace_function, $type = 'advan
 
 /**
  * WPML plugin support: Set titles for custom types / taxonomies as translatable.
- * It adds new keys to a wpml-config.xml file for a custom post type title, metadesc, title-ptarchive and metadesc-ptarchive fields translation.
+ *
+ * It adds new keys to a wpml-config.xml file for a custom post type title, metadesc,
+ * title-ptarchive and metadesc-ptarchive fields translation.
  * Documentation: http://wpml.org/documentation/support/language-configuration-files/
  *
  * @global      $sitepress
@@ -200,17 +203,11 @@ function wpseo_shortcode_yoast_breadcrumb() {
 
 add_shortcode( 'wpseo_breadcrumb', 'wpseo_shortcode_yoast_breadcrumb' );
 
-/**
- * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*.
- * Only emulates the behaviour for when the input is a string, does not handle integer input as ascii value.
- *
- * @param    string $string
- *
- * @return    bool
- */
 if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
-
 	/**
+	 * Emulate PHP native ctype_digit() function for when the ctype extension would be disabled *sigh*.
+	 * Only emulates the behaviour for when the input is a string, does not handle integer input as ascii value.
+	 *
 	 * @param string $string String input to validate.
 	 *
 	 * @return bool

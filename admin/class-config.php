@@ -13,7 +13,9 @@
 class WPSEO_Admin_Pages {
 
 	/**
-	 * @var string $currentoption The option in use for the current admin page.
+	 * The option in use for the current admin page.
+	 *
+	 * @var string
 	 */
 	public $currentoption = 'wpseo';
 
@@ -69,7 +71,10 @@ class WPSEO_Admin_Pages {
 
 		if ( $page === 'wpseo_titles' ) {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance', 'wpseoSearchAppearance', array( 'isRtl' => is_rtl() ) );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance', 'wpseoSearchAppearance', array(
+				'isRtl'       => is_rtl(),
+				'userEditUrl' => add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) ),
+			) );
 			$this->asset_manager->enqueue_script( 'search-appearance' );
 			$this->asset_manager->enqueue_style( 'search-appearance' );
 			/**

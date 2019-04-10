@@ -26,12 +26,16 @@ class Yoast_Input_Select {
 	private $select_attributes = array();
 
 	/**
-	 * @var array Array with the options to parse.
+	 * Array with the options to parse.
+	 *
+	 * @var array
 	 */
 	private $select_options;
 
 	/**
-	 * @var string The current selected option.
+	 * The current selected option.
+	 *
+	 * @var string
 	 */
 	private $selected_option;
 

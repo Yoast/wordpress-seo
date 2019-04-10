@@ -232,7 +232,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * This function takes into account the post types in which the current user can
 	 * edit all posts, and the ones the current user can only edit his/her own.
 	 *
-	 * @return string $subquery The subquery, which should always be used in $wpdb->prepare(), passing the current user_id in as the first parameter.
+	 * @return string The subquery, which should always be used in $wpdb->prepare(),
+	 *                passing the current user_id in as the first parameter.
 	 */
 	public function get_base_subquery() {
 		global $wpdb;
@@ -413,6 +414,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Gets a list of sortable columns.
+	 *
+	 * The format is: 'internal-name' => array( 'orderby', bool ).
 	 *
 	 * @return array
 	 */
@@ -436,7 +440,10 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$current_status = $this->current_status;
 		$current_order  = $this->current_order;
 
-		// If current type doesn't compare with objects page_type, than we have to unset some vars in the requested url (which will be use for internal table urls).
+		/*
+		 * If current type doesn't compare with objects page_type, then we have to unset
+		 * some vars in the requested url (which will be used for internal table urls).
+		 */
 		if ( isset( $this->input_fields['type'] ) && $this->input_fields['type'] !== $this->page_type ) {
 			$request_url = remove_query_arg( 'paged', $request_url ); // Page will be set with value 1 below.
 			$request_url = remove_query_arg( 'post_type_filter', $request_url );
@@ -617,7 +624,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Heavily restricts the possible columns by which a user can order the table in the bulk editor, thereby preventing a possible CSRF vulnerability.
+	 * Heavily restricts the possible columns by which a user can order the table
+	 * in the bulk editor, thereby preventing a possible CSRF vulnerability.
 	 *
 	 * @param string $orderby The column by which we want to order.
 	 *
@@ -638,7 +646,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Makes sure the order clause is always ASC or DESC for the bulk editor table, thereby preventing a possible CSRF vulnerability.
+	 * Makes sure the order clause is always ASC or DESC for the bulk editor table,
+	 * thereby preventing a possible CSRF vulnerability.
 	 *
 	 * @param string $order Whether we want to sort ascending or descending.
 	 *

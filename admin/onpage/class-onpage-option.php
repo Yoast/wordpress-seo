@@ -59,7 +59,9 @@ class WPSEO_OnPage_Option {
 	const FETCH_LIMIT = 15;
 
 	/**
-	 * @var array The Ryte option stored in the database.
+	 * The Ryte option stored in the database.
+	 *
+	 * @var array
 	 */
 	private $onpage_option;
 

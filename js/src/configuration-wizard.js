@@ -3,15 +3,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 // Required to make Material UI work with touch screens.
-import { OnboardingWizard } from "yoast-components";
-import { MessageBox } from "yoast-components";
+import ConfigurationWizard, { MessageBox } from "@yoast/configuration-wizard";
 
 import MailchimpSignup from "./components/MailchimpSignup";
-import ConfigurationChoices from "./components/ConfigurationChoices";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 import MediaUpload from "./components/MediaUpload";
 import Suggestions from "./components/Suggestions";
 import FinalStep from "./components/FinalStep";
+import WordPressUserSelectorOnboardingWizard from "./components/WordPressUserSelectorOnboardingWizard";
 
 import { setTranslations } from "yoast-components";
 import isUndefined from "lodash/isUndefined";
@@ -32,7 +31,6 @@ class App extends React.Component {
 		this.state = {
 			isLoading: true,
 		};
-
 		this.getConfig();
 	}
 
@@ -74,9 +72,9 @@ class App extends React.Component {
 				MailchimpSignup,
 				MediaUpload,
 				ConnectGoogleSearchConsole,
-				ConfigurationChoices,
 				Suggestions,
 				FinalStep,
+				WordPressUserSelector: WordPressUserSelectorOnboardingWizard,
 			},
 		} );
 
@@ -127,7 +125,7 @@ class App extends React.Component {
 		if ( typeof( this.state.config ) !== "undefined" && this.state.config !== {} ) {
 			return (
 				<div>
-					<OnboardingWizard { ...this.state.config } headerIcon={ YoastIcon } />
+					<ConfigurationWizard { ...this.state.config } headerIcon={ YoastIcon } />
 				</div>
 			);
 		}

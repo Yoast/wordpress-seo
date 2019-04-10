@@ -8,7 +8,7 @@
 /**
  * Class to change or add WordPress dashboard widgets
  */
-class Yoast_Dashboard_Widget {
+class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
 	/**
 	 * @var string
@@ -26,16 +26,23 @@ class Yoast_Dashboard_Widget {
 	protected $statistics;
 
 	/**
-	 * @param WPSEO_Statistics $statistics The statistics class to retrieve statistics from.
+	 * Yoast_Dashboard_Widget constructor.
+	 *
+	 * @param WPSEO_Statistics|null $statistics WPSEO_Statistics instance.
 	 */
 	public function __construct( WPSEO_Statistics $statistics = null ) {
-		if ( null === $statistics ) {
+		if ( $statistics === null ) {
 			$statistics = new WPSEO_Statistics();
 		}
 
 		$this->statistics    = $statistics;
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
+	}
 
+	/**
+	 * Register WordPress hooks.
+	 */
+	public function register_hooks() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dashboard_assets' ) );
 		add_action( 'admin_init', array( $this, 'queue_dashboard_widget' ) );
 	}
@@ -81,19 +88,6 @@ class Yoast_Dashboard_Widget {
 	 */
 	public function display_dashboard_widget() {
 		echo '<div id="yoast-seo-dashboard-widget"></div>';
-	}
-
-	/**
-	 * Enqueues stylesheet for the dashboard if the current page is the dashboard.
-	 */
-	public function enqueue_dashboard_stylesheets() {
-		_deprecated_function( __METHOD__, 'WPSEO 5.5', 'This method is deprecated, please use the <code>enqueue_dashboard_assets</code> method.' );
-
-		if ( ! $this->is_dashboard_screen() ) {
-			return;
-		}
-
-		$this->asset_manager->enqueue_style( 'wp-dashboard' );
 	}
 
 	/**
