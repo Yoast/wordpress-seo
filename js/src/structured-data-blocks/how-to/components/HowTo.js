@@ -607,7 +607,7 @@ export default class HowTo extends Component {
 			/*
 			 * Prior to Gutenberg 5.3 the IconButton doesn't support refs. The ref
 			 * returns the Component instance and attempting to set focus on it
-			 * triggers a TypeError. To keep it simple, we accepct a focus loss.
+			 * triggers a TypeError. To keep it simple, we accept a focus loss.
 			 * Starting from WordPress 5.2, Iconbutton does support refs so this
 			 * check can be removed in the future.
 			 */
