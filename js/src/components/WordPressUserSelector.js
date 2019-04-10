@@ -1,3 +1,5 @@
+/* global wpApiSettings */
+
 import Select from "react-select/lib/Async";
 import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
