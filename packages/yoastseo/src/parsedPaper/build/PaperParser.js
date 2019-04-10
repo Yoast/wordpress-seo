@@ -83,7 +83,6 @@ class PaperParser {
 	 */
 	runMetaDataModifiers( metaData, paper ) {
 		let modifiedMetaData = metaData;
-		// Perhaps just do a forEach here? You can then use try/catch to at least do all other modifiers.
 		forEach( this._metaDataModifiers, ( modifierFunction, modifierName ) => {
 			try {
 				const previousMetaData = Object.assign( {}, modifiedMetaData );
