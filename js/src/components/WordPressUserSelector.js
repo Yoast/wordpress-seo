@@ -56,6 +56,8 @@ const HEADERS = {
 	"X-WP-NONCE": wpApiSettings.nonce,
 };
 
+const REST_ROUTE = wpApiSettings.root;
+
 /**
  * Component to replace the react-select dropdown icon.
  *
@@ -211,7 +213,7 @@ class WordPressUserSelector extends Component {
 			search: input,
 		} );
 
-		sendRequest( `/wp-json/wp/v2/users?${ queryParameters }`, { method: "GET", headers: HEADERS } ).then( users => {
+		sendRequest( `${ REST_ROUTE }wp/v2/users?${ queryParameters }`, { method: "GET", headers: HEADERS } ).then( users => {
 			const mappedUsers = users.map( this.mapUserToSelectOption );
 
 			callback( mappedUsers );
