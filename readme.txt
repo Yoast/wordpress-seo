@@ -125,7 +125,6 @@ Enhancements:
 Bugfixes:
 
 * Fixes the buttons position in the structured data blocks.
-* Fixes a bug where the analysis would break when there were comments inside a paragraph or heading.
 
 Other:
 

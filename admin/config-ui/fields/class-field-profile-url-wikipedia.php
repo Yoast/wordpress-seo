@@ -18,6 +18,8 @@ class WPSEO_Config_Field_Profile_URL_Wikipedia extends WPSEO_Config_Field {
 
 		$this->set_property( 'label', __( 'Wikipedia URL', 'wordpress-seo' ) );
 		$this->set_property( 'pattern', '^https:\/\/([a-z\-]+)\.wikipedia\.org\/([^/]+)$' );
+
+		$this->set_requires( 'publishingEntityType', 'company' );
 	}
 
 	/**

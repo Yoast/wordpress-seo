@@ -1,3 +1,5 @@
+/* global wpseoSearchAppearance */
+
 /* External dependencies */
 import { Component, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
@@ -102,7 +104,7 @@ class WordPressUserSelectorSearchAppearance extends Component {
 				user: this.state.name,
 				strong: <strong />,
 				/* eslint-disable-next-line jsx-a11y/anchor-has-content */
-				authorEditLink: <a href={ `http://local.wordpress.test/wp-admin/user-edit.php?user_id=${ this.state.value }` } />,
+				authorEditLink: <a href={ wpseoSearchAppearance.userEditUrl.replace( "{user_id}", this.state.value ) } />,
 			},
 		} );
 	}
