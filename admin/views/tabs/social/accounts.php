@@ -43,19 +43,19 @@ if ( $company_or_person === 'person' ) {
 echo '<h2 class="help-button-inline">' . esc_html__( 'Organization social profiles', 'wordpress-seo' ) . $social_profiles_help->get_button_html() . '</h2>';
 echo $social_profiles_help->get_panel_html();
 
-$readonly_attributes = array(
+$textinput_attributes = array(
 	'readonly' => $read_only,
-	'class'    => $read_only ? 'disabled' : '',
+	'class'    => ( $read_only ) ? 'disabled' : '',
 );
 
 $yform = Yoast_Form::get_instance();
-$yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ), $readonly_attributes );
-$yform->textinput( 'twitter_site', __( 'Twitter Username', 'wordpress-seo' ), $readonly_attributes );
-$yform->textinput( 'instagram_url', __( 'Instagram URL', 'wordpress-seo' ), $readonly_attributes );
-$yform->textinput( 'linkedin_url', __( 'LinkedIn URL', 'wordpress-seo' ), $readonly_attributes );
-$yform->textinput( 'myspace_url', __( 'MySpace URL', 'wordpress-seo' ), $readonly_attributes );
-$yform->textinput( 'pinterest_url', __( 'Pinterest URL', 'wordpress-seo' ), $readonly_attributes );
-$yform->textinput( 'youtube_url', __( 'YouTube URL', 'wordpress-seo' ), $readonly_attributes );
-$yform->textinput( 'wikipedia_url', __( 'Wikipedia URL', 'wordpress-seo' ), $readonly_attributes );
+$yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ), $textinput_attributes );
+$yform->textinput( 'twitter_site', __( 'Twitter Username', 'wordpress-seo' ), $textinput_attributes );
+$yform->textinput( 'instagram_url', __( 'Instagram URL', 'wordpress-seo' ), $textinput_attributes );
+$yform->textinput( 'linkedin_url', __( 'LinkedIn URL', 'wordpress-seo' ), $textinput_attributes );
+$yform->textinput( 'myspace_url', __( 'MySpace URL', 'wordpress-seo' ), $textinput_attributes );
+$yform->textinput( 'pinterest_url', __( 'Pinterest URL', 'wordpress-seo' ), $textinput_attributes );
+$yform->textinput( 'youtube_url', __( 'YouTube URL', 'wordpress-seo' ), $textinput_attributes );
+$yform->textinput( 'wikipedia_url', __( 'Wikipedia URL', 'wordpress-seo' ), $textinput_attributes );
 
 do_action( 'wpseo_admin_other_section' );
