@@ -23,7 +23,43 @@ $social_profiles_help = new WPSEO_Admin_Help_Panel(
 
 $company_or_person = WPSEO_Options::get( 'company_or_person', '' );
 
-$read_only = false;
+$organization_social_fields = array(
+	array(
+		'id'    => 'facebook_site',
+		'label' => __( 'Facebook Page URL', 'wordpress-seo' ),
+	),
+	array(
+		'id'    => 'twitter_site',
+		'label' => __( 'Twitter Username', 'wordpress-seo' ),
+	),
+	array(
+		'id'    => 'instagram_url',
+		'label' => __( 'Instagram URL', 'wordpress-seo' ),
+	),
+	array(
+		'id'    => 'linkedin_url',
+		'label' => __( 'LinkedIn URL', 'wordpress-seo' ),
+	),
+	array(
+		'id'    => 'myspace_url',
+		'label' => __( 'MySpace URL', 'wordpress-seo' ),
+	),
+	array(
+		'id'    => 'pinterest_url',
+		'label' => __( 'Pinterest URL', 'wordpress-seo' ),
+	),
+	array(
+		'id'    => 'youtube_url',
+		'label' => __( 'YouTube URL', 'wordpress-seo' ),
+	),
+	array(
+		'id'    => 'wikipedia_url',
+		'label' => __( 'Wikipedia URL', 'wordpress-seo' ),
+	),
+);
+
+$yform = Yoast_Form::get_instance();
+
 if ( $company_or_person === 'person' ) {
 	echo '<div class="paper tab-block">';
 	echo '<h2><span class="dashicons dashicons-warning"></span> ' . esc_html__( 'Your website is currently configured to represent a Person', 'wordpress-seo' ) . '</h2>';
@@ -37,25 +73,20 @@ if ( $company_or_person === 'person' ) {
 	echo ' ';
 	printf( esc_html__( 'To make your site represent a Company or Organization go to %1$sSearch Appearance%2$s and set Company or Person to "Company".', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_titles' ) . '">', '</a>' );
 	echo '</p></div>';
-	$read_only = 'readonly';
+
+	// Organization social fields should still be rendered, because other wise the values are lost on save.
+	foreach ( $organization_social_fields as $organization ) {
+		$yform->hidden( $organization['id'] );
+	}
 }
 
-echo '<h2 class="help-button-inline">' . esc_html__( 'Organization social profiles', 'wordpress-seo' ) . $social_profiles_help->get_button_html() . '</h2>';
-echo $social_profiles_help->get_panel_html();
+if ( $company_or_person === 'company' ) {
+	echo '<h2 class="help-button-inline">' . esc_html__( 'Organization social profiles', 'wordpress-seo' ) . $social_profiles_help->get_button_html() . '</h2>';
+	echo $social_profiles_help->get_panel_html();
 
-$textinput_attributes = array(
-	'readonly' => $read_only,
-	'class'    => ( $read_only ) ? 'disabled' : '',
-);
-
-$yform = Yoast_Form::get_instance();
-$yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ), $textinput_attributes );
-$yform->textinput( 'twitter_site', __( 'Twitter Username', 'wordpress-seo' ), $textinput_attributes );
-$yform->textinput( 'instagram_url', __( 'Instagram URL', 'wordpress-seo' ), $textinput_attributes );
-$yform->textinput( 'linkedin_url', __( 'LinkedIn URL', 'wordpress-seo' ), $textinput_attributes );
-$yform->textinput( 'myspace_url', __( 'MySpace URL', 'wordpress-seo' ), $textinput_attributes );
-$yform->textinput( 'pinterest_url', __( 'Pinterest URL', 'wordpress-seo' ), $textinput_attributes );
-$yform->textinput( 'youtube_url', __( 'YouTube URL', 'wordpress-seo' ), $textinput_attributes );
-$yform->textinput( 'wikipedia_url', __( 'Wikipedia URL', 'wordpress-seo' ), $textinput_attributes );
+	foreach ( $organization_social_fields as $organization ) {
+		$yform->textinput( $organization['id'], $organization['label'] );
+	}
+}
 
 do_action( 'wpseo_admin_other_section' );
