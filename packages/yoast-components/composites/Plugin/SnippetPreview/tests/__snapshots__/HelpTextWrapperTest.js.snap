@@ -44,7 +44,6 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
   min-width: 14px;
   min-height: 14px;
   width: 30px;

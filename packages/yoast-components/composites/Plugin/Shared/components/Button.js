@@ -119,19 +119,6 @@ export function addActiveStyle( component ) {
 }
 
 /**
- * Returns a component with applied font size style.
- *
- * @param {ReactElement} component The original component.
- *
- * @returns {ReactElement} Component with applied font size styles.
- */
-export function addFontSizeStyles( component ) {
-	return styled( component )`
-		font-size: 0.8rem;
-	`;
-}
-
-/**
  * Returns a component with all button selector styles applied.
  *
  * @param {ReactElement} component The original component.
@@ -206,7 +193,7 @@ BaseButton.defaultProps = {
  *
  * @returns {ReactElement} styled button.
  */
-export const Button = addFontSizeStyles( BaseButton );
+export const Button = BaseButton;
 
 /**
  * Applies styles to SvgIcon for IconButton with text.

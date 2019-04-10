@@ -196,7 +196,6 @@ exports[`SnippetPreviewButton executes callback 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c0:active {
@@ -279,7 +278,6 @@ exports[`SnippetPreviewButton executes callback 2`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c0:active {
@@ -443,7 +441,6 @@ exports[`the IconButton matches the snapshot 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c0:active {
@@ -546,7 +543,6 @@ exports[`the IconButton with text matches the snapshot 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c0:active {
@@ -657,7 +653,6 @@ exports[`the SnippetPreviewButton matches the snapshot 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c0:active {

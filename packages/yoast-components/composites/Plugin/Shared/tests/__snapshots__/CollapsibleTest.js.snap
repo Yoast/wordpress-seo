@@ -32,7 +32,6 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c3:active {
@@ -224,7 +223,6 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c3:active {
@@ -428,7 +426,6 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c3:active {
@@ -620,7 +617,6 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c3:active {
@@ -824,7 +820,6 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c3:active {
@@ -1016,7 +1011,6 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c3:active {
@@ -1220,7 +1214,6 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c3:active {
@@ -1424,7 +1417,6 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c3:active {
@@ -1616,7 +1608,6 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c3:active {
@@ -1790,7 +1781,6 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c3:active {
@@ -1964,7 +1954,6 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c3:active {
@@ -2138,7 +2127,6 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   text-align: left;
   overflow: visible;
   min-height: 32px;
-  font-size: 0.8rem;
 }
 
 .c3:active {
