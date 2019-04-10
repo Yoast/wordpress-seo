@@ -338,7 +338,8 @@ class Yoast_Form {
 	 *
 	 * @param string       $var   The variable within the option to create the text input field for.
 	 * @param string       $label The label to show for the variable.
-	 * @param array|string $attr  Extra attributes to add to the input field.
+	 * @param array|string $attr  Extra attributes to add to the input field. Can be class, disabled, autocomplete or
+	 *                            readonly.
 	 */
 	public function textinput( $var, $label, $attr = array() ) {
 		if ( ! is_array( $attr ) ) {
@@ -360,7 +361,6 @@ class Yoast_Form {
 		}
 		if ( isset( $attr['readonly'] )  && $attr['readonly'] ) {
 			$attributes .= ' readonly';
-			$attr['class'] .= ' disabled';
 		}
 
 		$this->label(
