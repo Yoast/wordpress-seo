@@ -1,11 +1,11 @@
 import Select from "react-select/lib/Async";
 import { Component, Fragment } from "@wordpress/element";
-import apiFetch from "@wordpress/api-fetch";
 import PropTypes from "prop-types";
 import { debounce } from "lodash";
 import { createGlobalStyle } from "styled-components";
 import { __ } from "@wordpress/i18n";
 import { SvgIcon } from "yoast-components";
+import { sendRequest } from "@yoast/helpers";
 
 /**
  * Styles to overwrite react-select styles.
@@ -49,6 +49,10 @@ const Styles = createGlobalStyle`
 		}
 	}
 `;
+
+const HEADERS = {
+	"X-WP-NONCE": wpApiSettings.nonce,
+};
 
 /**
  * Component to replace the react-select dropdown icon.
@@ -179,9 +183,7 @@ class WordPressUserSelector extends Component {
 	 * @returns {void}
 	 */
 	async fetchUser( id ) {
-		const user = await apiFetch( {
-			path: `/wp/v2/users/${ id }`,
-		} );
+		const user = await sendRequest( `/wp-json/wp/v2/users/${ id }`, { method: "GET", headers: HEADERS } );
 
 		if ( ! user ) {
 			this.setState( { loading: false } );
@@ -207,9 +209,7 @@ class WordPressUserSelector extends Component {
 			search: input,
 		} );
 
-		apiFetch( {
-			path: `/wp/v2/users?${ queryParameters }`,
-		} ).then( users => {
+		sendRequest( `/wp-json/wp/v2/users?${ queryParameters }`, { method: "GET", headers: HEADERS } ).then( users => {
 			const mappedUsers = users.map( this.mapUserToSelectOption );
 
 			callback( mappedUsers );
