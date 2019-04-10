@@ -22,16 +22,16 @@ import PropTypes from "prop-types";
 const SwitcherButton = styled( Button )`
 	border: none;
 	border-bottom: 4px solid transparent;
-	
+
 	width: 31px;
 	height: 31px;
-	
+
 	border-color: ${ ( props ) => props.isActive ? colors.$color_snippet_active : "transparent" };
 	color: ${ colors.$color_snippet_active };
-	
+
 	transition: 0.15s color ease-in-out,0.15s background-color ease-in-out,0.15s border-color ease-in-out;
 	transition-property: border-color;
-	
+
 	&:hover, &:focus {
 		background-color: ${ colors.$color_white };
 		border: none;
@@ -42,11 +42,11 @@ const SwitcherButton = styled( Button )`
 	}
 `;
 
-const MobileButton = SwitcherButton.extend`
+const MobileButton = styled( SwitcherButton )`
 	border-radius: 3px 0 0 3px;
 `;
 
-const DesktopButton = SwitcherButton.extend`
+const DesktopButton = styled( SwitcherButton )`
 	border-radius: 0 3px 3px 0;
 `;
 

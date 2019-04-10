@@ -24,7 +24,7 @@ exports[`the Row component matches the snapshot 1`] = `
 `;
 
 exports[`the RowResponsiveWrap component matches the snapshot 1`] = `
-.c1 {
+.c0 {
   background: #fff;
   display: -webkit-box;
   display: -webkit-flex;
@@ -52,7 +52,7 @@ exports[`the RowResponsiveWrap component matches the snapshot 1`] = `
   }
 
   .c0:first-child {
-    margin-top: 0;
+    margin-top: 24px;
   }
 
   .c0 > span::before {
@@ -68,6 +68,6 @@ exports[`the RowResponsiveWrap component matches the snapshot 1`] = `
 }
 
 <li
-  className="c0 c1"
+  className="c0"
 />
 `;

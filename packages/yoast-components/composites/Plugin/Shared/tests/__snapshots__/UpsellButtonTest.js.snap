@@ -1,38 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the YoastButton executes callback 1`] = `
-.c2 {
+.c1 {
   margin: 2px 4px 0 4px;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-.c1 {
+.c0 {
   color: #000;
   background: #fec228;
   overflow: visible;
   cursor: pointer;
-}
-
-.c1::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c1 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
-}
-
-.c0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -63,6 +43,23 @@ exports[`the YoastButton executes callback 1`] = `
   transition: box-shadow 150ms ease-out;
 }
 
+.c0::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c0 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
 .c0:hover,
 .c0:focus,
 .c0:active {
@@ -78,7 +75,7 @@ exports[`the YoastButton executes callback 1`] = `
   filter: none;
 }
 
-.c3 {
+.c2 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -96,7 +93,7 @@ exports[`the YoastButton executes callback 1`] = `
 
 <button
   aria-expanded={undefined}
-  className="c0 c1"
+  className="c0"
   onClick={[Function]}
   type="button"
 >
@@ -104,7 +101,7 @@ exports[`the YoastButton executes callback 1`] = `
     ButtonValue
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-caret-right c2 c3"
+      className="yoast-svg-icon yoast-svg-icon-caret-right c1 c2"
       fill="#000"
       focusable="false"
       role="img"
@@ -121,38 +118,18 @@ exports[`the YoastButton executes callback 1`] = `
 `;
 
 exports[`the YoastButton executes callback 2`] = `
-.c2 {
+.c1 {
   margin: 2px 4px 0 4px;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-.c1 {
+.c0 {
   color: #000;
   background: #fec228;
   overflow: visible;
   cursor: pointer;
-}
-
-.c1::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c1 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
-}
-
-.c0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -183,6 +160,23 @@ exports[`the YoastButton executes callback 2`] = `
   transition: box-shadow 150ms ease-out;
 }
 
+.c0::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c0 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
 .c0:hover,
 .c0:focus,
 .c0:active {
@@ -198,7 +192,7 @@ exports[`the YoastButton executes callback 2`] = `
   filter: none;
 }
 
-.c3 {
+.c2 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -216,7 +210,7 @@ exports[`the YoastButton executes callback 2`] = `
 
 <button
   aria-expanded={undefined}
-  className="c0 c1"
+  className="c0"
   onClick={[Function]}
   type="button"
 >
@@ -224,7 +218,7 @@ exports[`the YoastButton executes callback 2`] = `
     ButtonValue
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-caret-right c2 c3"
+      className="yoast-svg-icon yoast-svg-icon-caret-right c1 c2"
       fill="#000"
       focusable="false"
       role="img"
@@ -241,38 +235,18 @@ exports[`the YoastButton executes callback 2`] = `
 `;
 
 exports[`the YoastButton matches the snapshot 1`] = `
-.c2 {
+.c1 {
   margin: 2px 4px 0 4px;
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
 }
 
-.c1 {
+.c0 {
   color: #fff;
   background: #c00;
   overflow: visible;
   cursor: pointer;
-}
-
-.c1::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c1 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
-}
-
-.c0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -303,6 +277,23 @@ exports[`the YoastButton matches the snapshot 1`] = `
   transition: box-shadow 150ms ease-out;
 }
 
+.c0::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c0 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
 .c0:hover,
 .c0:focus,
 .c0:active {
@@ -318,7 +309,7 @@ exports[`the YoastButton matches the snapshot 1`] = `
   filter: none;
 }
 
-.c3 {
+.c2 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -336,7 +327,7 @@ exports[`the YoastButton matches the snapshot 1`] = `
 
 <button
   aria-expanded={undefined}
-  className="c0 c1"
+  className="c0"
   onClick={undefined}
   type="button"
 >
@@ -344,7 +335,7 @@ exports[`the YoastButton matches the snapshot 1`] = `
     ButtonValue
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-caret-right c2 c3"
+      className="yoast-svg-icon yoast-svg-icon-caret-right c1 c2"
       fill="#000"
       focusable="false"
       role="img"

@@ -102,39 +102,39 @@ function getBackgroundImage( props ) {
  * @returns {Component} Component with added style.
  */
 export const withCaretStyles = Component => {
-	return Component.extend`
+	return styled( Component )`
 		&::before {
 			display: block;
 			position: absolute;
 			top: -1px;
-			${ getRtlStyle( "left", "right" ) }: -25px;
+			${getRtlStyle( "left", "right" )}: -25px;
 			width: 24px;
 			height: 24px;
-			background-image: url( ${ getBackgroundImage } );
+			background-image: url( ${getBackgroundImage} );
 			background-size: 25px;
 			content: "";
 		}
 	`;
 };
 
-export const TitleInputContainer = InputContainer.extend`
+export const TitleInputContainer = styled( InputContainer )`
 	.public-DraftStyleDefault-block {
 		// Don't use properties that trigger hasLayout in IE11.
 		line-height: 24px;
 	}
 `;
 
-export const DescriptionInputContainer = InputContainer.extend`
+export const DescriptionInputContainer = styled( InputContainer )`
 	min-height: 72px;
 	padding: 2px 6px;
 	line-height: 24px;
 
 	.public-DraftEditorPlaceholder-root {
-		color: ${ colors.$color_grey_text };
+		color: ${colors.$color_grey_text};
 	}
 
 	.public-DraftEditorPlaceholder-hasFocus {
-		color: ${ colors.$color_grey_text };
+		color: ${colors.$color_grey_text};
 	}
 `;
 

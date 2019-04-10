@@ -1,39 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Collapsible matches the snapshot by default 1`] = `
-.c8 {
+.c3 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -60,19 +32,41 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  font-size: 0.8rem;
 }
 
-.c4 svg {
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c3:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c3 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c3 {
-  font-size: 0.8rem;
-}
-
-.c9 {
+.c4 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -81,7 +75,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   line-height: normal;
 }
 
-.c10 {
+.c5 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -133,7 +127,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   font-weight: normal !important;
 }
 
-.c11 {
+.c6 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -142,7 +136,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c4::after {
+  .c3::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -157,23 +151,23 @@ exports[`Collapsible matches the snapshot by default 1`] = `
   >
     <button
       aria-expanded={false}
-      className="c2 c3 c4 c5 c6 c7 c8"
+      className="c2 c3"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c9"
+        className="c4"
       >
         <span
-          className="c10"
+          className="c5"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-down c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-down c6"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -199,39 +193,11 @@ exports[`Collapsible matches the snapshot by default 1`] = `
 `;
 
 exports[`Collapsible matches the snapshot by default 2`] = `
-.c8 {
+.c3 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -258,19 +224,41 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  font-size: 0.8rem;
 }
 
-.c4 svg {
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c3:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c3 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c3 {
-  font-size: 0.8rem;
-}
-
-.c9 {
+.c4 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -279,7 +267,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   line-height: normal;
 }
 
-.c10 {
+.c5 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -331,7 +319,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   font-weight: normal !important;
 }
 
-.c11 {
+.c6 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -340,7 +328,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c4::after {
+  .c3::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -355,23 +343,23 @@ exports[`Collapsible matches the snapshot by default 2`] = `
   >
     <button
       aria-expanded={true}
-      className="c2 c3 c4 c5 c6 c7 c8"
+      className="c2 c3"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c9"
+        className="c4"
       >
         <span
-          className="c10"
+          className="c5"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-up c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-up c6"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -409,39 +397,11 @@ exports[`Collapsible matches the snapshot by default 2`] = `
 `;
 
 exports[`Collapsible matches the snapshot by default when the collapsible has an ID 1`] = `
-.c8 {
+.c3 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -468,19 +428,41 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  font-size: 0.8rem;
 }
 
-.c4 svg {
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c3:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c3 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c3 {
-  font-size: 0.8rem;
-}
-
-.c9 {
+.c4 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -489,7 +471,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   line-height: normal;
 }
 
-.c10 {
+.c5 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -541,7 +523,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   font-weight: normal !important;
 }
 
-.c11 {
+.c6 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -550,7 +532,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c4::after {
+  .c3::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -565,23 +547,23 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   >
     <button
       aria-expanded={false}
-      className="c2 c3 c4 c5 c6 c7 c8"
+      className="c2 c3"
       id="yoast-collapsible"
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c9"
+        className="c4"
       >
         <span
-          className="c10"
+          className="c5"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-down c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-down c6"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -607,39 +589,11 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
 `;
 
 exports[`Collapsible matches the snapshot by default when the collapsible has an ID 2`] = `
-.c8 {
+.c3 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -666,19 +620,41 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  font-size: 0.8rem;
 }
 
-.c4 svg {
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c3:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c3 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c3 {
-  font-size: 0.8rem;
-}
-
-.c9 {
+.c4 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -687,7 +663,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   line-height: normal;
 }
 
-.c10 {
+.c5 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -739,7 +715,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   font-weight: normal !important;
 }
 
-.c11 {
+.c6 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -748,7 +724,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c4::after {
+  .c3::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -763,23 +739,23 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
   >
     <button
       aria-expanded={true}
-      className="c2 c3 c4 c5 c6 c7 c8"
+      className="c2 c3"
       id="yoast-collapsible"
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c9"
+        className="c4"
       >
         <span
-          className="c10"
+          className="c5"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-up c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-up c6"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -817,39 +793,11 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
 `;
 
 exports[`Collapsible matches the snapshot when it is closed 1`] = `
-.c8 {
+.c3 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -876,19 +824,41 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  font-size: 0.8rem;
 }
 
-.c4 svg {
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c3:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c3 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c3 {
-  font-size: 0.8rem;
-}
-
-.c9 {
+.c4 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -897,7 +867,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   line-height: normal;
 }
 
-.c10 {
+.c5 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -949,7 +919,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   font-weight: normal !important;
 }
 
-.c11 {
+.c6 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -958,7 +928,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c4::after {
+  .c3::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -973,23 +943,23 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
   >
     <button
       aria-expanded={false}
-      className="c2 c3 c4 c5 c6 c7 c8"
+      className="c2 c3"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c9"
+        className="c4"
       >
         <span
-          className="c10"
+          className="c5"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-down c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-down c6"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -1015,39 +985,11 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
 `;
 
 exports[`Collapsible matches the snapshot when it is closed 2`] = `
-.c8 {
+.c3 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1074,19 +1016,41 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  font-size: 0.8rem;
 }
 
-.c4 svg {
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c3:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c3 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c3 {
-  font-size: 0.8rem;
-}
-
-.c9 {
+.c4 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -1095,7 +1059,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   line-height: normal;
 }
 
-.c10 {
+.c5 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -1147,7 +1111,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   font-weight: normal !important;
 }
 
-.c11 {
+.c6 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -1156,7 +1120,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c4::after {
+  .c3::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1171,23 +1135,23 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
   >
     <button
       aria-expanded={true}
-      className="c2 c3 c4 c5 c6 c7 c8"
+      className="c2 c3"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c9"
+        className="c4"
       >
         <span
-          className="c10"
+          className="c5"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-up c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-up c6"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -1225,39 +1189,11 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
 `;
 
 exports[`Collapsible matches the snapshot when it is open 1`] = `
-.c8 {
+.c3 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1284,19 +1220,41 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  font-size: 0.8rem;
 }
 
-.c4 svg {
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c3:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c3 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c3 {
-  font-size: 0.8rem;
-}
-
-.c9 {
+.c4 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -1305,7 +1263,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   line-height: normal;
 }
 
-.c10 {
+.c5 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -1357,7 +1315,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   font-weight: normal !important;
 }
 
-.c11 {
+.c6 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -1366,7 +1324,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c4::after {
+  .c3::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1381,23 +1339,23 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
   >
     <button
       aria-expanded={true}
-      className="c2 c3 c4 c5 c6 c7 c8"
+      className="c2 c3"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c9"
+        className="c4"
       >
         <span
-          className="c10"
+          className="c5"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-up c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-up c6"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -1435,39 +1393,11 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
 `;
 
 exports[`Collapsible matches the snapshot when it is open 2`] = `
-.c8 {
+.c3 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1494,19 +1424,41 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  font-size: 0.8rem;
 }
 
-.c4 svg {
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c3:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c3 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c3 {
-  font-size: 0.8rem;
-}
-
-.c9 {
+.c4 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -1515,7 +1467,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   line-height: normal;
 }
 
-.c10 {
+.c5 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -1567,7 +1519,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   font-weight: normal !important;
 }
 
-.c11 {
+.c6 {
   width: 24px;
   height: 24px;
   -webkit-flex: none;
@@ -1576,7 +1528,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c4::after {
+  .c3::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1591,23 +1543,23 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
   >
     <button
       aria-expanded={false}
-      className="c2 c3 c4 c5 c6 c7 c8"
+      className="c2 c3"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c9"
+        className="c4"
       >
         <span
-          className="c10"
+          className="c5"
         >
           Lorem ipsum dolor sit amet
         </span>
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-down c11"
+        className="yoast-svg-icon yoast-svg-icon-chevron-down c6"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -1633,39 +1585,11 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
 `;
 
 exports[`CollapsibleStateless matches the snapshot by default 1`] = `
-.c8 {
+.c3 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1692,19 +1616,41 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  font-size: 0.8rem;
 }
 
-.c4 svg {
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c3:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c3 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c3 {
-  font-size: 0.8rem;
-}
-
-.c9 {
+.c4 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -1713,7 +1659,7 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   line-height: normal;
 }
 
-.c10 {
+.c5 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -1766,7 +1712,7 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c4::after {
+  .c3::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1781,16 +1727,16 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
   >
     <button
       aria-expanded={true}
-      className="c2 c3 c4 c5 c6 c7 c8"
+      className="c2 c3"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c9"
+        className="c4"
       >
         <span
-          className="c10"
+          className="c5"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -1813,39 +1759,11 @@ exports[`CollapsibleStateless matches the snapshot by default 1`] = `
 `;
 
 exports[`CollapsibleStateless matches the snapshot when it is opened and closed 1`] = `
-.c8 {
+.c3 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -1872,19 +1790,41 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  font-size: 0.8rem;
 }
 
-.c4 svg {
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c3:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c3 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c3 {
-  font-size: 0.8rem;
-}
-
-.c9 {
+.c4 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -1893,7 +1833,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   line-height: normal;
 }
 
-.c10 {
+.c5 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -1946,7 +1886,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c4::after {
+  .c3::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -1961,16 +1901,16 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   >
     <button
       aria-expanded={true}
-      className="c2 c3 c4 c5 c6 c7 c8"
+      className="c2 c3"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c9"
+        className="c4"
       >
         <span
-          className="c10"
+          className="c5"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -1993,39 +1933,11 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 `;
 
 exports[`CollapsibleStateless matches the snapshot when it is opened and closed 2`] = `
-.c8 {
+.c3 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2052,19 +1964,41 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  font-size: 0.8rem;
 }
 
-.c4 svg {
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c3:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c3 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c3 {
-  font-size: 0.8rem;
-}
-
-.c9 {
+.c4 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -2073,7 +2007,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   line-height: normal;
 }
 
-.c10 {
+.c5 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -2126,7 +2060,7 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c4::after {
+  .c3::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -2141,16 +2075,16 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
   >
     <button
       aria-expanded={true}
-      className="c2 c3 c4 c5 c6 c7 c8"
+      className="c2 c3"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <span
-        className="c9"
+        className="c4"
       >
         <span
-          className="c10"
+          className="c5"
         >
           Lorem ipsum dolor sit amet
         </span>
@@ -2173,39 +2107,11 @@ exports[`CollapsibleStateless matches the snapshot when it is opened and closed 
 `;
 
 exports[`CollapsibleStateless matches the snapshot with prefix seo icon and screen reader text 1`] = `
-.c8 {
+.c3 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c7:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c6::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c6:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c5:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -2232,19 +2138,41 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   text-align: left;
   overflow: visible;
   min-height: 32px;
+  font-size: 0.8rem;
 }
 
-.c4 svg {
+.c3:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c3::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c3:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c3:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c3 svg {
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c3 {
-  font-size: 0.8rem;
-}
-
-.c10 {
+.c5 {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
@@ -2253,7 +2181,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   line-height: normal;
 }
 
-.c11 {
+.c6 {
   display: block;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -2305,7 +2233,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   font-weight: normal !important;
 }
 
-.c9 {
+.c4 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -2314,7 +2242,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c4::after {
+  .c3::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -2329,14 +2257,14 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
   >
     <button
       aria-expanded={true}
-      className="c2 c3 c4 c5 c6 c7 c8"
+      className="c2 c3"
       id={null}
       onClick={[Function]}
       type="button"
     >
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-circle c9"
+        className="yoast-svg-icon yoast-svg-icon-circle c4"
         fill="red"
         focusable="false"
         role="img"
@@ -2349,10 +2277,10 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
         />
       </svg>
       <span
-        className="c10"
+        className="c5"
       >
         <span
-          className="c11"
+          className="c6"
         >
           Lorem ipsum dolor sit amet
           <span

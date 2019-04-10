@@ -113,7 +113,12 @@ export default class FixedWidthContainer extends Component {
 		const innerWidth = width - 2 * padding;
 
 		return <React.Fragment>
-			<FixedWidth className={ className } width={ width } padding={ padding } innerRef={ this.setContainerRef }>
+			<FixedWidth
+				className={ className }
+				width={ width }
+				padding={ padding }
+				ref={ this.setContainerRef }
+			>
 				<Inner width={ innerWidth } padding={ padding }>
 					{ children }
 				</Inner>

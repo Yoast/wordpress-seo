@@ -1,16 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the CellFixedWidth component matches the snapshot 1`] = `
-.c1 {
+.c0 {
   font-size: 14px;
   padding-left: 40px;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
 }
 
-.c1:first-child {
+.c0:first-child {
   padding-left: 0;
 }
 
-.c1::before {
+.c0::before {
   position: absolute;
   left: -9999em;
   top: -30px;
@@ -19,36 +22,34 @@ exports[`the CellFixedWidth component matches the snapshot 1`] = `
   content: "FixedWidthCell";
 }
 
-.c0 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-}
-
 @media screen and ( max-width:1355px ) {
-  .c1 {
+  .c0 {
     padding-left: 20px;
   }
 }
 
 <span
-  className="c0 c1"
+  className="c0"
 >
   This is a cell with a fixed width
 </span>
 `;
 
 exports[`the CellIcon component matches the snapshot 1`] = `
-.c2 {
+.c0 {
   font-size: 14px;
   padding-left: 40px;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  height: 60px;
 }
 
-.c2:first-child {
+.c0:first-child {
   padding-left: 0;
 }
 
-.c2::before {
+.c0::before {
   position: absolute;
   left: -9999em;
   top: -30px;
@@ -57,18 +58,8 @@ exports[`the CellIcon component matches the snapshot 1`] = `
   content: "IconCell";
 }
 
-.c1 {
-  -webkit-flex: 0 0 auto;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto;
-}
-
-.c0 {
-  height: 60px;
-}
-
 @media screen and ( max-width:1355px ) {
-  .c2 {
+  .c0 {
     padding-left: 20px;
   }
 }
@@ -80,23 +71,26 @@ exports[`the CellIcon component matches the snapshot 1`] = `
 }
 
 <span
-  className="c0 c1 c2"
+  className="c0"
 >
   Icon
 </span>
 `;
 
 exports[`the CellMinWidth component matches the snapshot 1`] = `
-.c1 {
+.c0 {
   font-size: 14px;
   padding-left: 40px;
+  -webkit-flex: 1 0 100px;
+  -ms-flex: 1 0 100px;
+  flex: 1 0 100px;
 }
 
-.c1:first-child {
+.c0:first-child {
   padding-left: 0;
 }
 
-.c1::before {
+.c0::before {
   position: absolute;
   left: -9999em;
   top: -30px;
@@ -105,36 +99,33 @@ exports[`the CellMinWidth component matches the snapshot 1`] = `
   content: "MinWidthCell";
 }
 
-.c0 {
-  -webkit-flex: 1 0 100px;
-  -ms-flex: 1 0 100px;
-  flex: 1 0 100px;
-}
-
 @media screen and ( max-width:1355px ) {
-  .c1 {
+  .c0 {
     padding-left: 20px;
   }
 }
 
 <span
-  className="c0 c1"
+  className="c0"
 >
   This is a call with a min width
 </span>
 `;
 
 exports[`the CellPrimary component matches the snapshot 1`] = `
-.c1 {
+.c0 {
   font-size: 14px;
   padding-left: 40px;
+  -webkit-flex: 1 0 200px;
+  -ms-flex: 1 0 200px;
+  flex: 1 0 200px;
 }
 
-.c1:first-child {
+.c0:first-child {
   padding-left: 0;
 }
 
-.c1::before {
+.c0::before {
   position: absolute;
   left: -9999em;
   top: -30px;
@@ -143,14 +134,8 @@ exports[`the CellPrimary component matches the snapshot 1`] = `
   content: "PrimaryCell";
 }
 
-.c0 {
-  -webkit-flex: 1 0 200px;
-  -ms-flex: 1 0 200px;
-  flex: 1 0 200px;
-}
-
 @media screen and ( max-width:1355px ) {
-  .c1 {
+  .c0 {
     padding-left: 20px;
   }
 }
@@ -164,23 +149,26 @@ exports[`the CellPrimary component matches the snapshot 1`] = `
 }
 
 <span
-  className="c0 c1"
+  className="c0"
 >
   This is a primary cell
 </span>
 `;
 
 exports[`the CellPrimary with responsiveHeaders matches the snapshot 1`] = `
-.c2 {
+.c0 {
   font-size: 14px;
   padding-left: 40px;
+  -webkit-flex: 1 0 200px;
+  -ms-flex: 1 0 200px;
+  flex: 1 0 200px;
 }
 
-.c2:first-child {
+.c0:first-child {
   padding-left: 0;
 }
 
-.c2::before {
+.c0::before {
   position: absolute;
   left: -9999em;
   top: -30px;
@@ -189,20 +177,14 @@ exports[`the CellPrimary with responsiveHeaders matches the snapshot 1`] = `
   content: "responsiveHeaders";
 }
 
-.c1 {
-  -webkit-flex: 1 0 200px;
-  -ms-flex: 1 0 200px;
-  flex: 1 0 200px;
-}
-
 @media screen and ( max-width:1355px ) {
-  .c2 {
+  .c0 {
     padding-left: 20px;
   }
 }
 
 @media screen and ( max-width:800px ) {
-  .c1 {
+  .c0 {
     -webkit-flex-shrink: 1;
     -ms-flex-negative: 1;
     flex-shrink: 1;
@@ -224,7 +206,7 @@ exports[`the CellPrimary with responsiveHeaders matches the snapshot 1`] = `
 }
 
 <span
-  className="c0 c1 c2"
+  className="c0"
 >
   This is a primary cell with responsive headers
 </span>
