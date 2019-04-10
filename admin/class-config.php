@@ -140,7 +140,7 @@ class WPSEO_Admin_Pages {
 		return array(
 			'isRtl'                    => is_rtl(),
 			'brushstrokeBackgroundURL' => plugins_url( 'images/brushstroke_background.svg', WPSEO_FILE ),
-			'showLocalSEOUpsell'       => true,//$this->should_show_local_seo_upsell(),
+			'showLocalSEOUpsell'       => $this->should_show_local_seo_upsell(),
 			'localSEOUpsellURL'        => WPSEO_Shortlinker::get( 'https://yoa.st/3mp' ),
 		);
 	}
