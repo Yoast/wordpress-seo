@@ -14,8 +14,9 @@ import { Container } from "./components/Container";
 import Controls from "./components/Controls";
 import Inputs from "./components/Inputs";
 import Markings from "./components/Markings";
+import ProminentWordsForInternalLinking from "./components/ProminentWordsForInternalLinking";
+import ProminentWordsForInsights from "./components/ProminentWordsForInsights";
 import RelevantWords from "./components/RelevantWords";
-import RelevantWordsForInsights from "./components/RelevantWordsForInsights";
 import Results from "./components/Results";
 import TreeView from "./components/TreeView";
 import WorkerStatus from "./components/WorkerStatus";
@@ -165,13 +166,19 @@ class App extends React.Component {
 			</Container>
 
 			<Container>
-				<Collapsible title="Relevant words for Insights" initialIsOpen={ false }>
-					<RelevantWordsForInsights />
+				<Collapsible title="New prominent words for Insights" initialIsOpen={ false }>
+					<ProminentWordsForInsights />
 				</Collapsible>
 			</Container>
 
 			<Container>
-				<Collapsible title="Relevant words for Internal linking suggestions" initialIsOpen={ false }>
+				<Collapsible title="New prominent words for Internal linking suggestions" initialIsOpen={ false }>
+					<ProminentWordsForInternalLinking />
+				</Collapsible>
+			</Container>
+
+			<Container>
+				<Collapsible title="Old relevant words" initialIsOpen={ false }>
 					<RelevantWords />
 				</Collapsible>
 			</Container>
