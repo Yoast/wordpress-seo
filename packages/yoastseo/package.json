@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.51.0-rc.4",
+  "version": "1.51.0-rc.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/javascript.git",
@@ -39,7 +39,7 @@
     "babel-register": "^6.16.3",
     "babelify": "^8.0.0",
     "console.table": "^0.10.0",
-    "eslint-config-yoast": "^5.0.10",
+    "eslint-config-yoast": "^5.0.11",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-yoast": "^1.0.1",
