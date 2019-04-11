@@ -15,3 +15,8 @@ setLocaleData( {
 		/* eslint-enable */
 	},
 }, "wordpress-seo" );
+
+global.wpApiSettings = {
+	nonce: "nonce",
+	root: "http://example.com",
+};

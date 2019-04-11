@@ -105,6 +105,6 @@ class WPSEO_GSC_Ajax {
 	private function get_profiles() {
 		$component = new WPSEO_Config_Component_Connect_Google_Search_Console();
 
-		wp_die( wp_json_encode( $component->get_data() ) );
+		wp_die( WPSEO_Utils::format_json_encode( $component->get_data() ) );
 	}
 }

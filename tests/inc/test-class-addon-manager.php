@@ -762,7 +762,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	protected function get_subscriptions() {
 		return json_decode(
-			json_encode(
+			WPSEO_Utils::format_json_encode(
 				array(
 					'wp-seo-premium.php' => array(
 						'expiry_date' => $this->get_future_date(),
