@@ -1,6 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] = `
+.c0 {
+  max-width: 640px;
+}
+
+.c0.StyledSection__StyledSectionBase-snb01w-2 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.c0.StyledSection__StyledSectionBase-snb01w-2 .StyledSection__StyledHeading-snb01w-0 {
+  padding-left: 20px;
+  margin-left: 0;
+}
+
 <SnippetPreviewSection
   hasPaperStyle={true}
   icon="eye"
@@ -26,12 +40,12 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
           "componentStyle": ComponentStyle {
             "componentId": "SnippetPreviewSection__Section-gjy5w5-0",
             "isStatic": false,
-            "lastClassName": "jdYJw",
+            "lastClassName": "c0",
             "rules": Array [
               "max-width:640px;&",
-              ".StyledSection__StyledSectionBase-sc-1c84weu-2",
+              ".StyledSection__StyledSectionBase-snb01w-2",
               "{padding-left:0;padding-right:0;& ",
-              ".StyledSection__StyledHeading-sc-1c84weu-0",
+              ".StyledSection__StyledHeading-snb01w-0",
               "{",
               [Function],
               ":20px;margin-left:",
@@ -58,7 +72,7 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
       headingText="Snippet editor"
     >
       <StyledSection
-        className="SnippetPreviewSection__Section-gjy5w5-0 jdYJw"
+        className="c0"
         hasPaperStyle={true}
         headingIcon="eye"
         headingIconColor="#555"
@@ -75,6 +89,20 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
 `;
 
 exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
+.c0 {
+  max-width: 640px;
+}
+
+.c0.StyledSection__StyledSectionBase-snb01w-2 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.c0.StyledSection__StyledSectionBase-snb01w-2 .StyledSection__StyledHeading-snb01w-0 {
+  padding-left: 20px;
+  margin-left: 0;
+}
+
 <SnippetPreviewSection
   hasPaperStyle={true}
   icon="eye"
@@ -100,12 +128,12 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
           "componentStyle": ComponentStyle {
             "componentId": "SnippetPreviewSection__Section-gjy5w5-0",
             "isStatic": false,
-            "lastClassName": "jdYJw",
+            "lastClassName": "c0",
             "rules": Array [
               "max-width:640px;&",
-              ".StyledSection__StyledSectionBase-sc-1c84weu-2",
+              ".StyledSection__StyledSectionBase-snb01w-2",
               "{padding-left:0;padding-right:0;& ",
-              ".StyledSection__StyledHeading-sc-1c84weu-0",
+              ".StyledSection__StyledHeading-snb01w-0",
               "{",
               [Function],
               ":20px;margin-left:",
@@ -132,7 +160,7 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
       headingText="Snippet editor"
     >
       <StyledSection
-        className="SnippetPreviewSection__Section-gjy5w5-0 jdYJw"
+        className="c0"
         hasPaperStyle={true}
         headingIcon="eye"
         headingIconColor="#555"

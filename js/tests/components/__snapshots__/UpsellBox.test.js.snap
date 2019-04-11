@@ -1,6 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UpsellBox renders the snippet editor inside of it 1`] = `
+.c0 {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.c0 li {
+  margin: 5px 0 0 0;
+  padding-left: 16px;
+}
+
+.c0 span[aria-hidden="true"]:before {
+  margin: 0 8px 0 -16px;
+  font-weight: bold;
+  content: "+";
+}
+
+.c1 {
+  display: block;
+}
+
 <UpsellBox
   benefits={
     Array [
@@ -63,7 +84,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
             "componentStyle": ComponentStyle {
               "componentId": "UpsellBox__StyledList-gjf66g-0",
               "isStatic": true,
-              "lastClassName": "cVpek",
+              "lastClassName": "c0",
               "rules": Array [
                 "list-style:none;margin:0 0 16px;padding:0;li{margin:5px 0 0 0;padding-left:16px;}span[aria-hidden=\\"true\\"]:before{margin:0 8px 0 -16px;font-weight:bold;content:\\"+\\";}",
               ],
@@ -82,7 +103,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
         role="list"
       >
         <ul
-          className="UpsellBox__StyledList-gjf66g-0 cVpek"
+          className="c0"
           role="list"
         >
           <li
@@ -132,7 +153,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
         />
         <A11yNotice>
           <span
-            className="A11yNotice-u1v0gg-0 dWDZbM"
+            className="A11yNotice-sc-8v9izd-0 geyFWS"
           >
             (Opens in a new browser tab)
           </span>
@@ -148,7 +169,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
             "componentStyle": ComponentStyle {
               "componentId": "UpsellBox__ButtonLabel-gjf66g-1",
               "isStatic": true,
-              "lastClassName": "lmqGsG",
+              "lastClassName": "c1",
               "rules": Array [
                 "display:block;",
               ],
@@ -166,7 +187,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
         forwardedRef={null}
       >
         <small
-          className="UpsellBox__ButtonLabel-gjf66g-1 lmqGsG"
+          className="c1"
         />
       </StyledComponent>
     </.UpsellBox__ButtonLabel-gjf66g-1>
