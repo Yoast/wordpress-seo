@@ -6,12 +6,9 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
   font-size: 14px;
 }
 
-.c3 {
+.c2 {
   display: table-cell;
   padding: 2px;
-}
-
-.c2 {
   position: relative;
   top: 1px;
   display: inline-block;
@@ -21,7 +18,9 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
   background-color: #F00;
 }
 
-.c5 {
+.c4 {
+  display: table-cell;
+  padding: 2px;
   position: relative;
   top: 1px;
   display: inline-block;
@@ -31,7 +30,9 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
   background-color: #0F0;
 }
 
-.c4 {
+.c3 {
+  display: table-cell;
+  padding: 2px;
   padding-left: 8px;
   width: 100%;
 }
@@ -54,10 +55,10 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
     className="score-assessments__item c1"
   >
     <span
-      className="score-assessments__item-bullet c2 c3"
+      className="score-assessments__item-bullet c2"
     />
     <span
-      className="score-assessments__item-text c4 c3"
+      className="score-assessments__item-text c3"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
@@ -69,10 +70,10 @@ exports[`the ScoreAssessments matches the snapshot 1`] = `
     className="score-assessments__item c1"
   >
     <span
-      className="score-assessments__item-bullet c5 c3"
+      className="score-assessments__item-bullet c4"
     />
     <span
-      className="score-assessments__item-text c4 c3"
+      className="score-assessments__item-text c3"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
@@ -89,12 +90,9 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
   font-size: 14px;
 }
 
-.c3 {
+.c2 {
   display: table-cell;
   padding: 2px;
-}
-
-.c2 {
   position: relative;
   top: 1px;
   display: inline-block;
@@ -104,7 +102,9 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
   background-color: #F00;
 }
 
-.c5 {
+.c4 {
+  display: table-cell;
+  padding: 2px;
   position: relative;
   top: 1px;
   display: inline-block;
@@ -114,7 +114,9 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
   background-color: #0F0;
 }
 
-.c4 {
+.c3 {
+  display: table-cell;
+  padding: 2px;
   padding-left: 8px;
   width: 100%;
 }
@@ -137,10 +139,10 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
     className="score-assessments__item c1"
   >
     <span
-      className="score-assessments__item-bullet c2 c3"
+      className="score-assessments__item-bullet c2"
     />
     <span
-      className="score-assessments__item-text c4 c3"
+      className="score-assessments__item-text c3"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
@@ -152,10 +154,10 @@ exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
     className="score-assessments__item c1"
   >
     <span
-      className="score-assessments__item-bullet c5 c3"
+      className="score-assessments__item-bullet c4"
     />
     <span
-      className="score-assessments__item-text c4 c3"
+      className="score-assessments__item-text c3"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
@@ -172,12 +174,9 @@ exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
   font-size: 14px;
 }
 
-.c3 {
+.c2 {
   display: table-cell;
   padding: 2px;
-}
-
-.c2 {
   position: relative;
   top: 1px;
   display: inline-block;
@@ -187,7 +186,9 @@ exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
   background-color: #F00;
 }
 
-.c5 {
+.c4 {
+  display: table-cell;
+  padding: 2px;
   position: relative;
   top: 1px;
   display: inline-block;
@@ -197,7 +198,9 @@ exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
   background-color: #0F0;
 }
 
-.c4 {
+.c3 {
+  display: table-cell;
+  padding: 2px;
   padding-left: 8px;
   width: 100%;
 }
@@ -220,10 +223,10 @@ exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
     className="score-assessments__item c1"
   >
     <span
-      className="score-assessments__item-bullet c2 c3"
+      className="score-assessments__item-bullet c2"
     />
     <span
-      className="score-assessments__item-text c4 c3"
+      className="score-assessments__item-text c3"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
@@ -235,10 +238,10 @@ exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
     className="score-assessments__item c1"
   >
     <span
-      className="score-assessments__item-bullet c5 c3"
+      className="score-assessments__item-bullet c4"
     />
     <span
-      className="score-assessments__item-text c4 c3"
+      className="score-assessments__item-text c3"
       dangerouslySetInnerHTML={
         Object {
           "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",

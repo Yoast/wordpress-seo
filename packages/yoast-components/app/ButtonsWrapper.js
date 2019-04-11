@@ -7,7 +7,7 @@ import { YoastButton } from "../composites/Plugin/Shared/components/YoastButton"
 import { YoastLinkButton } from "../composites/Plugin/Shared/components/YoastLinkButton";
 import { BaseButton, Button, IconButton, IconsButton } from "../composites/Plugin/Shared/components/Button";
 import IconButtonToggle from "../composites/Plugin/Shared/components/IconButtonToggle";
-import { BaseLinkButton, LinkButton } from "../composites/Plugin/Shared/components/LinkButton";
+import { LinkButton } from "../composites/Plugin/Shared/components/LinkButton";
 import FormButton from "../forms/Button";
 import IconLabelledButton from "../composites/Plugin/Shared/components/IconLabelledButton";
 
@@ -57,15 +57,15 @@ export default class ButtonsList extends React.Component {
 	 * @returns {void}
 	 */
 	updateIconButtonTogglePressed() {
-		this.setState( {
-			iconButtonTogglePressed: ! this.state.iconButtonTogglePressed,
-		} );
+		this.setState( prevState => ( {
+			iconButtonTogglePressed: ! prevState.iconButtonTogglePressed,
+		} ) );
 	}
 
 	/**
 	 * Renders all the buttons.
 	 *
-	 * @returns {ReactElement} The rendered list of buttons.
+	 * @returns {React.Element} The rendered list of buttons.
 	 */
 	render() {
 		return (
@@ -76,7 +76,6 @@ export default class ButtonsList extends React.Component {
 				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ " " }
 				<IconsButton prefixIcon={ { icon: "search" } } suffixIcon={ { icon: "plus" } }>IconsButton</IconsButton>
 				<Separator />
-				<BaseLinkButton href="#someresource">BaseLinkButton</BaseLinkButton>{ " " }
 				<LinkButton href="#someresource">LinkButton</LinkButton>
 				<Separator />
 				<IconButtonToggle
@@ -149,7 +148,6 @@ export default class ButtonsList extends React.Component {
 				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ " " }
 				<IconButton icon="edit" iconColor="#c00" className="with-max-width">With max-width and long text</IconButton>{ " " }
 				<h3>Links</h3>
-				<BaseLinkButton href="#somewhere1">Base</BaseLinkButton>{ " " }
 				<LinkButton href="#somewhere2">Button</LinkButton>{ " " }
 				<YoastLinkButton href="#somewhere4" backgroundColor="lightblue" textColor="#333" withTextShadow={ false }>
 					Color

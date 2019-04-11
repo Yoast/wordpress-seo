@@ -212,7 +212,7 @@ class SnippetEditorFields extends React.Component {
 							onChange={ event => onChange( "slug", event.target.value ) }
 							onFocus={ () => onFocus( "slug" ) }
 							onBlur={ () => onBlur() }
-							innerRef={ ref => this.setRef( "slug", ref ) }
+							ref={ ref => this.setRef( "slug", ref ) }
 							aria-labelledby={ this.uniqueId + "-slug" }
 							id="snippet-editor-field-slug"
 						/>

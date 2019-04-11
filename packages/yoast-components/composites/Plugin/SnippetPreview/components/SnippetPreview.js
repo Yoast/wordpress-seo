@@ -122,7 +122,7 @@ export const BaseUrl = styled.div`
 	font-size: 14px;
 `;
 
-const BaseUrlOverflowContainer = BaseUrl.extend`
+const BaseUrlOverflowContainer = styled( BaseUrl )`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	max-width: 100%;
@@ -589,7 +589,7 @@ export default class SnippetPreview extends PureComponent {
 			return (
 				<DesktopDescriptionWithCaret
 					{ ...outerContainerProps }
-					innerRef={ this.setDescriptionRef }
+					ref={ this.setDescriptionRef }
 				>
 					{ renderedDate }
 					{ highlightWords( locale, wordsToHighlight, this.getDescription() ) }
@@ -603,7 +603,7 @@ export default class SnippetPreview extends PureComponent {
 				>
 					<MobileDescription
 						isDescriptionPlaceholder={ this.state.isDescriptionPlaceholder }
-						innerRef={ this.setDescriptionRef }
+						ref={ this.setDescriptionRef }
 					>
 						{ renderedDate }
 						{ highlightWords( locale, wordsToHighlight, this.getDescription() ) }
@@ -662,7 +662,7 @@ export default class SnippetPreview extends PureComponent {
 							onMouseLeave={ onMouseLeave.bind( null ) }
 						>
 							<TitleBounded>
-								<TitleUnbounded innerRef={ this.setTitleRef }>
+								<TitleUnbounded ref={ this.setTitleRef }>
 									{ this.getTitle() }
 								</TitleUnbounded>
 							</TitleBounded>

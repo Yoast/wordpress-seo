@@ -113,7 +113,7 @@ class SearchResultDetail extends React.Component {
 			<Detail
 				aria-label={ searchResulLabel }
 				tabIndex="-1"
-				innerRef={ ( el ) => {
+				ref={ ( el ) => {
 					this.detailWrapper = el;
 				} }
 			>

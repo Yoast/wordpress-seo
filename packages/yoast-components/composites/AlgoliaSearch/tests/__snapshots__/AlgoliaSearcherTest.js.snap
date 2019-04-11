@@ -1,33 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`] = `
-.c5 {
+.c4 {
   color: #fff;
   background: #64a60a;
   min-width: 152px;
   text-shadow: 0 0 2px #000;
   overflow: visible;
   cursor: pointer;
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
-}
-
-.c4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -53,6 +33,23 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
   box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
   -webkit-transition: box-shadow 150ms ease-out;
   transition: box-shadow 150ms ease-out;
+}
+
+.c4::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c4 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
 }
 
 .c4:hover,
@@ -163,7 +160,7 @@ exports[`the AlgoliaSearcher component with headingText matches the snapshot 1`]
       />
       <button
         aria-expanded={undefined}
-        className="c4 c5"
+        className="c4"
         onClick={undefined}
         type="submit"
       >

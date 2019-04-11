@@ -1,33 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the YoastButton executes callback 1`] = `
-.c1 {
+.c0 {
   color: #fff;
   background: #64a60a;
   min-width: 152px;
   text-shadow: 0 0 2px #000;
   overflow: visible;
   cursor: pointer;
-}
-
-.c1::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c1 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
-}
-
-.c0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -55,6 +35,23 @@ exports[`the YoastButton executes callback 1`] = `
   transition: box-shadow 150ms ease-out;
 }
 
+.c0::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c0 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
 .c0:hover,
 .c0:focus,
 .c0:active {
@@ -79,7 +76,7 @@ exports[`the YoastButton executes callback 1`] = `
 
 <button
   aria-expanded={undefined}
-  className="c0 c1"
+  className="c0"
   onClick={[Function]}
   type="button"
 >
@@ -90,33 +87,13 @@ exports[`the YoastButton executes callback 1`] = `
 `;
 
 exports[`the YoastButton executes callback 2`] = `
-.c1 {
+.c0 {
   color: #fff;
   background: #64a60a;
   min-width: 152px;
   text-shadow: 0 0 2px #000;
   overflow: visible;
   cursor: pointer;
-}
-
-.c1::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c1 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
-}
-
-.c0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -144,6 +121,23 @@ exports[`the YoastButton executes callback 2`] = `
   transition: box-shadow 150ms ease-out;
 }
 
+.c0::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c0 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
 .c0:hover,
 .c0:focus,
 .c0:active {
@@ -168,7 +162,7 @@ exports[`the YoastButton executes callback 2`] = `
 
 <button
   aria-expanded={undefined}
-  className="c0 c1"
+  className="c0"
   onClick={[Function]}
   type="button"
 >
@@ -179,33 +173,13 @@ exports[`the YoastButton executes callback 2`] = `
 `;
 
 exports[`the YoastButton matches the snapshot 1`] = `
-.c1 {
+.c0 {
   color: #fff;
   background: #c00;
   min-width: 152px;
   text-shadow: 0 0 2px #000;
   overflow: visible;
   cursor: pointer;
-}
-
-.c1::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c1 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
-}
-
-.c0 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -233,6 +207,23 @@ exports[`the YoastButton matches the snapshot 1`] = `
   transition: box-shadow 150ms ease-out;
 }
 
+.c0::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c0 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
+}
+
 .c0:hover,
 .c0:focus,
 .c0:active {
@@ -257,7 +248,7 @@ exports[`the YoastButton matches the snapshot 1`] = `
 
 <button
   aria-expanded={undefined}
-  className="c0 c1"
+  className="c0"
   onClick={undefined}
   type="button"
 >

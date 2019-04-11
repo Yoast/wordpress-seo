@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import colors from "../../../../style-guide/colors.json";
 import { rgba } from "../../../../style-guide/helpers";
-import { addButtonStyles, addFontSizeStyles } from "./Button";
+import { addButtonStyles } from "./Button";
 
 /**
  * Returns a basic link styled like a button.
@@ -12,7 +12,7 @@ import { addButtonStyles, addFontSizeStyles } from "./Button";
  *
  * @returns {ReactElement} styled button.
  */
-export const BaseLinkButton = addButtonStyles(
+export const LinkButton = addButtonStyles(
 	styled.a`
 		text-decoration: none;
 		color: ${ props => props.textColor };
@@ -22,7 +22,7 @@ export const BaseLinkButton = addButtonStyles(
 	`
 );
 
-BaseLinkButton.propTypes = {
+LinkButton.propTypes = {
 	backgroundColor: PropTypes.string,
 	textColor: PropTypes.string,
 	borderColor: PropTypes.string,
@@ -38,7 +38,7 @@ BaseLinkButton.propTypes = {
 	focusBorderColor: PropTypes.string,
 };
 
-BaseLinkButton.defaultProps = {
+LinkButton.defaultProps = {
 	backgroundColor: colors.$color_button,
 	textColor: colors.$color_button_text,
 	borderColor: colors.$color_button_border,
@@ -53,12 +53,3 @@ BaseLinkButton.defaultProps = {
 	focusBackgroundColor: colors.$color_white,
 	focusBorderColor: colors.$color_blue,
 };
-
-/**
- * Returns a link styled like a button with set font size.
- *
- * @param {object} props Component props.
- *
- * @returns {ReactElement} styled link.
- */
-export const LinkButton = addFontSizeStyles( BaseLinkButton );

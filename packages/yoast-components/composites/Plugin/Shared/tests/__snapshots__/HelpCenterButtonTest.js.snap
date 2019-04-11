@@ -1,33 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the HelpCenterButton matches the snapshot 1`] = `
-.c2 {
+.c1 {
   color: #fff;
   background: #64a60a;
   min-width: 152px;
   text-shadow: 0 0 2px #000;
   overflow: visible;
   cursor: pointer;
-}
-
-.c2::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c2 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
-}
-
-.c1 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -53,6 +33,23 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
   box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
   -webkit-transition: box-shadow 150ms ease-out;
   transition: box-shadow 150ms ease-out;
+}
+
+.c1::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c1 span {
+  display: inherit;
+  -webkit-align-items: inherit;
+  -webkit-box-align: inherit;
+  -ms-flex-align: inherit;
+  align-items: inherit;
+  -webkit-box-pack: inherit;
+  -webkit-justify-content: inherit;
+  -ms-flex-pack: inherit;
+  justify-content: inherit;
+  width: 100%;
 }
 
 .c1:hover,
@@ -84,7 +81,7 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
   margin: 0 16px;
 }
 
-.c3 {
+.c2 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -102,14 +99,14 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
 
 <button
   aria-expanded={false}
-  className="c0 c1 c2"
+  className="c0 c1"
   onClick={undefined}
   type="button"
 >
   <span>
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-question-circle c3"
+      className="yoast-svg-icon yoast-svg-icon-question-circle c2"
       fill="#fff"
       focusable="false"
       role="img"
@@ -124,7 +121,7 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
     Need Help?
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-down c3"
+      className="yoast-svg-icon yoast-svg-icon-angle-down c2"
       fill="#fff"
       focusable="false"
       role="img"
