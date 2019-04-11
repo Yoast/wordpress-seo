@@ -5,9 +5,9 @@ import { allGermanVerbPrefixesSorted } from "./helpers";
 /**
  * Adds suffixes to a given strong verb paradigm.
  *
- * @param {Object}  dataStrongAndIrregularVerbs The German morphology data for strong verbs.
- * @param {string}  verbClass       The verb class of the paradigm.
- * @param {Object}  stems           The stems of the paradigm.
+ * @param {Object}  dataStrongAndIrregularVerbs The German morphology data for strong and irregular verbs.
+ * @param {string}  verbClass                   The verb class of the paradigm.
+ * @param {Object}  stems                       The stems of the paradigm.
  *
  * @returns {string[]} The created forms.
  */
@@ -104,26 +104,22 @@ const generateFormsStrongAndIrregularVerbs = function( morphologyDataVerbs, stem
 };
 
 /**
+ * Generates forms for very irregular verbs.
  *
- * @param {Object} morphologyDataVerbs The German morphology data for verbs
- * @param {string} stemmedWordToCheck The stem to check.
- * @returns {string} The forms of the verb
+ * @param {Object}  morphologyDataVerbs  The German morphology data for verbs.
+ * @param {string}  stemmedWordToCheck   The stem to check.
+ *
+ * @returns {string[]} The forms of the verb.
  */
 const generateFormsVeryIrregularVerbs = function( morphologyDataVerbs, stemmedWordToCheck ) {
-	const word = stemmedWordToCheck;
 	const irregularVerbs = morphologyDataVerbs.veryIrregularVerbs;
+	const matchedParadigm = irregularVerbs.find( paradigm => paradigm.stem === stemmedWordToCheck );
 
-	let foundForms = "";
+	if ( matchedParadigm ) {
+		return matchedParadigm.forms;
+	}
 
-	irregularVerbs.forEach( function( paradigm ) {
-		const forms = paradigm.forms;
-		const stem = paradigm.stem;
-		if ( stem.includes( word ) ) {
-			foundForms = forms;
-		}
-	} );
-
-	return foundForms;
+	return [];
 };
 
 
