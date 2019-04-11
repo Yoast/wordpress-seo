@@ -18,7 +18,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 */
 	public function register_hooks() {
 		add_action( 'wpseo_head', array( $this, 'json_ld' ), 91 );
-		add_action( 'wpseo_json_ld', array( $this, 'output' ), 1 );
+		add_action( 'wpseo_json_ld', array( $this, 'generate' ), 1 );
 	}
 
 	/**
@@ -27,6 +27,20 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 * @since 1.8
 	 */
 	public function json_ld() {
+		$deprecated_data = array(
+			'_deprecated' => 'Please use the "wpseo_schema_*" filters to extend the Yoast SEO schema data - see the WPSEO_Schema class.',
+		);
+
+		/**
+		 * Filter: 'wpseo_json_ld_output' - Allows disabling Yoast's schema output entirely.
+		 *
+		 * @api mixed If false or an empty array is returned, disable our output.
+		 */
+		$return = apply_filters( 'wpseo_json_ld_output', $deprecated_data );
+		if ( $return === array() || $return === false ) {
+			return;
+		}
+
 		do_action( 'wpseo_json_ld' );
 	}
 
@@ -37,7 +51,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	public function output() {
+	public function generate() {
 		$graph = array();
 
 		foreach ( $this->get_graph_pieces() as $piece ) {
@@ -59,14 +73,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			}
 		}
 
-		if ( is_array( $graph ) && ! empty( $graph ) ) {
-			$output = array(
-				'@context' => 'https://schema.org',
-				'@graph'   => $graph,
-			);
-
-			echo "<script type='application/ld+json' class='yoast-schema-graph yoast-schema-graph--main'>", WPSEO_Utils::format_json_encode( $output ), '</script>', "\n";
-		}
+		WPSEO_Utils::schema_output( $graph, 'yoast-schema-graph yoast-schema-graph--main' );
 	}
 
 	/**

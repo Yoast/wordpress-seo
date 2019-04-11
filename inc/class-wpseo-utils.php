@@ -1179,6 +1179,26 @@ SVG;
 		return wp_json_encode( $data, $flags );
 	}
 
+
+	/**
+	 * Output a Schema blob.
+	 *
+	 * @param array  $graph The Schema graph array to output.
+	 * @param string $class The (optional) class to add to the script tag.
+	 */
+	public static function schema_output( $graph, $class = 'yoast-schema-graph' ) {
+		if ( ! is_array( $graph ) || empty( $graph ) ) {
+			return;
+		}
+
+		$output = array(
+			'@context' => 'https://schema.org',
+			'@graph'   => $graph,
+		);
+
+		echo "<script type='application/ld+json' class='", esc_attr( $class ), "'>", self::format_json_encode( $output ), '</script>', "\n";
+	}
+
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**

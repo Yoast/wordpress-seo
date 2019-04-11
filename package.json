@@ -113,15 +113,15 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
-    "@wordpress/api-fetch": "^2.2.3",
-    "@wordpress/components": "^6.0.1",
-    "@wordpress/compose": "^2.1.2",
-    "@wordpress/data": "^3.1.2",
-    "@wordpress/element": "^2.1.7",
-    "@wordpress/i18n": "^3.0.1",
-    "@wordpress/is-shallow-equal": "^1.1.4",
-    "@wordpress/rich-text": "^2.0.4",
-    "@wordpress/url": "^2.3.0",
+    "@wordpress/api-fetch": "^3.1.2",
+    "@wordpress/components": "^7.2.2",
+    "@wordpress/compose": "^3.2.0",
+    "@wordpress/data": "^4.4.0",
+    "@wordpress/element": "^2.3.0",
+    "@wordpress/i18n": "^3.3.0",
+    "@wordpress/is-shallow-equal": "^1.2.0",
+    "@wordpress/rich-text": "^3.2.2",
+    "@wordpress/url": "^2.5.0",
     "@yoast/algolia-search-box": "^1.0.0-rc.4",
     "@yoast/analysis-report": "^0.1.0-rc.4",
     "@yoast/search-metadata-previews": "^1.0.0-rc.4",
@@ -151,11 +151,11 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
-    "yoast-components": "^4.24.0-rc.5",
-    "yoastseo": "^1.51.0-rc.3"
+    "yoast-components": "^4.24.0-rc.6",
+    "yoastseo": "^1.51.0-rc.4"
   },
   "yoast": {
-    "pluginVersion": "11.0-RC2",
+    "pluginVersion": "11.0-RC3",
     "recalibrationVersion": "13"
   }
 }
