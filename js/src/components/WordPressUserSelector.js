@@ -134,7 +134,7 @@ class WordPressUserSelector extends Component {
 	}
 
 	/**
-	 * Creates a query string from a params object.
+	 * Adds additional query parameters to an existing URL. Also encodes existing query parameters.
 	 *
 	 * @param {string} url    The URL.
 	 * @param {Object} params Params for in the query string.
