@@ -1,5 +1,4 @@
 /* External dependencies */
-import React from "react";
 import { __, sprintf } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -7,7 +6,6 @@ import { utils, getRtlStyle } from "yoast-components";
 
 /* Internal dependencies */
 import LocalAssistantImage from "../../../images/local_assistant.svg";
-
 
 const Container = styled.div`
 	display: flex;
