@@ -1,7 +1,7 @@
 // External dependencies.
 import { autop } from "@wordpress/autop";
 import Jed from "jed";
-import { forEach, has, includes, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash-es";
+import { forEach, has, includes, isNull, isObject, isString, isUndefined, merge, pickBy, isEmpty } from "lodash-es";
 import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.
@@ -743,6 +743,7 @@ export default class AnalysisWebWorker {
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
 
+		// Only set the paper and build the tree if the paper has any changes.
 		if ( paperHasChanges ) {
 			this._paper = paper;
 			this._researcher.setPaper( this._paper );
@@ -760,6 +761,7 @@ export default class AnalysisWebWorker {
 		}
 
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
+			// Only assess the focus keyphrase if the paper has any changes.
 			if ( paperHasChanges ) {
 				// Assess the SEO of the content regarding the main keyphrase.
 				this._results.seo[ "" ] = await this.assess( this._paper, this._tree, {
@@ -767,7 +769,10 @@ export default class AnalysisWebWorker {
 					treeAssessor: this._seoTreeAssessor,
 					scoreAggregator: this._seoScoreAggregator,
 				} );
+			}
 
+			// Only assess the related keyphrases when they have been given.
+			if ( ! isEmpty( relatedKeywords ) ) {
 				// Get the related keyphrase keys (one for each keyphrase).
 				const requestedRelatedKeywordKeys = Object.keys( relatedKeywords );
 
@@ -782,7 +787,7 @@ export default class AnalysisWebWorker {
 				// Clear the unrequested results, but only if there are requested related keywords.
 				if ( requestedRelatedKeywordKeys.length > 1 ) {
 					this._results.seo = pickBy( this._results.seo,
-						( relatedKeyword, key ) =>	includes( requestedRelatedKeywordKeys, key )
+						( relatedKeyword, key ) => includes( requestedRelatedKeywordKeys, key )
 					);
 				}
 			}
