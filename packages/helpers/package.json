@@ -11,7 +11,7 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint .",
-    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc"
   },
   "author": "Yoast",
   "license": "GPL-3.0",

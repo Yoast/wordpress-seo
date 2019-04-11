@@ -8,7 +8,7 @@
   "license": "GPL-3.0",
   "private": false,
   "scripts": {
-    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && mkdir dist/src && cp src/_colors.scss dist/src/_colors.scss"
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && mkdir dist/src && cp src/_colors.scss dist/src/_colors.scss && cp .babelrc dist/.babelrc"
   },
   "devDependencies": {
     "grunt": "^1.0.3",

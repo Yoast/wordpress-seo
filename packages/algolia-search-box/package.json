@@ -25,20 +25,20 @@
     "styled-components": "^4.2.0"
   },
   "devDependencies": {
-    "babel-jest": "^24.5.0",
+    "babel-jest": "^23.6.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-styled-components": "^1.10.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "enzyme-to-json": "^3.3.3",
-    "jest": "^24.5.0",
+    "jest": "^23.6.0",
     "jest-styled-components": "^6.3.1",
     "react-test-renderer": "16.8.4"
   },
   "scripts": {
     "test": "jest",
     "lint": "eslint . --max-warnings=22",
-    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc"
   },
   "jest": {
     "testURL": "https://example.org",
