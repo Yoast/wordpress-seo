@@ -43,7 +43,7 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 
 		$json_ld = $this->get_json_ld( $attributes );
 
-		return '<script type="application/ld+json">' . wp_json_encode( $json_ld ) . '</script>' . $content;
+		return '<script type="application/ld+json">' . WPSEO_Utils::format_json_encode( $json_ld ) . '</script>' . $content;
 	}
 
 	/**

@@ -280,7 +280,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 						// The data is stringified JSON. Use `json_decode` and `json_encode` around the sanitation.
 						$input         = json_decode( $meta_data[ $key ], true );
 						$sanitized     = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), $input );
-						$clean[ $key ] = json_encode( $sanitized );
+						$clean[ $key ] = WPSEO_Utils::format_json_encode( $sanitized );
 					}
 					elseif ( isset( $old_meta[ $key ] ) ) {
 						// Retain old value if field currently not in use.
@@ -302,7 +302,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 							);
 						}
 
-						$clean[ $key ] = json_encode( $sanitized );
+						$clean[ $key ] = WPSEO_Utils::format_json_encode( $sanitized );
 					}
 					elseif ( isset( $old_meta[ $key ] ) ) {
 						// Retain old value if field currently not in use.
