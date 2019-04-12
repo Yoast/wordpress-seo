@@ -127,7 +127,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 	}
 
 	/**
-	 * Save data
+	 * Save data.
 	 *
 	 * @param array $data Data containing changes.
 	 *

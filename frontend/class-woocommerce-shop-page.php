@@ -25,7 +25,7 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	protected static $is_shop_page;
 
 	/**
-	 * Registers the hooks
+	 * Registers the hooks.
 	 *
 	 * @return void
 	 */

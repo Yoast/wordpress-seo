@@ -264,10 +264,10 @@ class WPSEO_Utils {
 	 *
 	 * Sanitize a string from user input or from the db.
 	 *
-	 * - Check for invalid UTF-8,
-	 * - Convert single < characters to entity,
-	 * - Strip all tags,
-	 * - Remove line breaks, tabs and extra white space,
+	 * - Check for invalid UTF-8;
+	 * - Convert single < characters to entity;
+	 * - Strip all tags;
+	 * - Remove line breaks, tabs and extra white space;
 	 * - Strip octets - BUT DO NOT REMOVE (part of) VARIABLES WHICH WILL BE REPLACED.
 	 *
 	 * @since 1.8.0
@@ -1128,7 +1128,7 @@ SVG;
 
 	/**
 	 * Returns the original URL instead of the language-enriched URL.
-	 * This method gets automatically triggered by the wpml_get_home_url filter
+	 * This method gets automatically triggered by the wpml_get_home_url filter.
 	 *
 	 * @codeCoverageIgnore
 	 *

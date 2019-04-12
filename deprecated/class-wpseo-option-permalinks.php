@@ -33,7 +33,7 @@ class WPSEO_Option_Permalinks {
 	}
 
 	/**
-	 * Add the actions and filters for the option
+	 * Add the actions and filters for the option.
 	 *
 	 * @deprecated 7.0
 	 *
@@ -44,7 +44,7 @@ class WPSEO_Option_Permalinks {
 	}
 
 	/**
-	 * Get the singleton instance of this class
+	 * Get the singleton instance of this class.
 	 *
 	 * @deprecated 7.0
 	 *
@@ -55,7 +55,7 @@ class WPSEO_Option_Permalinks {
 	}
 
 	/**
-	 * Validate the option
+	 * Validate the option.
 	 *
 	 * @deprecated 7.0
 	 *

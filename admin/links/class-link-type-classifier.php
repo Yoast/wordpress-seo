@@ -21,7 +21,7 @@ class WPSEO_Link_Type_Classifier {
 	protected $base_path = '';
 
 	/**
-	 * Constructor setting the base url
+	 * Constructor setting the base url.
 	 *
 	 * @param string $base_url The base url to set.
 	 */

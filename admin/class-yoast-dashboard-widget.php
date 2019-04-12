@@ -6,7 +6,7 @@
  */
 
 /**
- * Class to change or add WordPress dashboard widgets
+ * Class to change or add WordPress dashboard widgets.
  */
 class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
@@ -59,7 +59,7 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Adds dashboard widget to WordPress
+	 * Adds dashboard widget to WordPress.
 	 */
 	public function add_dashboard_widget() {
 		add_filter( 'postbox_classes_dashboard_wpseo-dashboard-overview', array( $this, 'wpseo_dashboard_overview_class' ) );

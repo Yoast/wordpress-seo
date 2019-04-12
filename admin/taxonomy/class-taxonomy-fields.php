@@ -6,21 +6,21 @@
  */
 
 /**
- * Class WPSEO_Taxonomy_Tab
+ * Class WPSEO_Taxonomy_Tab.
  *
  * Contains the basics for each class extending this one.
  */
 abstract class WPSEO_Taxonomy_Fields {
 
 	/**
-	 * The current term data
+	 * The current term data.
 	 *
 	 * @var stdClass
 	 */
 	protected $term;
 
 	/**
-	 * Setting the class properties
+	 * Setting the class properties.
 	 *
 	 * @param stdClass $term The current term.
 	 */
@@ -29,14 +29,14 @@ abstract class WPSEO_Taxonomy_Fields {
 	}
 
 	/**
-	 * This method should return the fields
+	 * This method should return the fields.
 	 *
 	 * @return array
 	 */
 	abstract public function get();
 
 	/**
-	 * Returns array with the field data
+	 * Returns array with the field data.
 	 *
 	 * @param string       $label       The label displayed before the field.
 	 * @param string       $description Description which will explain the field.

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Plugin_Importers
+ * Class WPSEO_Plugin_Importers.
  *
  * Object which contains all importers.
  */

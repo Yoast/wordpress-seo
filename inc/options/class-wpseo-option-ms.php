@@ -65,7 +65,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	);
 
 	/**
-	 * Get the singleton instance of this class
+	 * Get the singleton instance of this class.
 	 *
 	 * @return object
 	 */
@@ -114,7 +114,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 
 	/**
 	 * Remove the default filters.
-	 * Called from the validate() method to prevent failure to add new options
+	 * Called from the validate() method to prevent failure to add new options.
 	 *
 	 * @return void
 	 */
@@ -123,7 +123,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	}
 
 	/**
-	 * Add filters to make sure that the option is merged with its defaults before being returned
+	 * Add filters to make sure that the option is merged with its defaults before being returned.
 	 *
 	 * @return void
 	 */
@@ -136,7 +136,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 
 	/**
 	 * Remove the option filters.
-	 * Called from the clean_up methods to make sure we retrieve the original old option
+	 * Called from the clean_up methods to make sure we retrieve the original old option.
 	 *
 	 * @return void
 	 */
@@ -147,7 +147,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	/* *********** METHODS influencing add_uption(), update_option() and saving from admin pages *********** */
 
 	/**
-	 * Validate the option
+	 * Validate the option.
 	 *
 	 * @param array $dirty New value for the option.
 	 * @param array $clean Clean value for the option, normally the defaults.
@@ -166,7 +166,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 					elseif ( function_exists( 'add_settings_error' ) ) {
 						add_settings_error(
 							$this->group_name, // Slug title of the setting.
-							'_' . $key, // Suffix-id for the error message box.
+							'_' . $key, // Suffix-ID for the error message box.
 							/* translators: %1$s expands to the option name and %2$sexpands to Yoast SEO */
 							sprintf( __( '%1$s is not a valid choice for who should be allowed access to the %2$s settings. Value reset to the default.', 'wordpress-seo' ), esc_html( sanitize_text_field( $dirty[ $key ] ) ), 'Yoast SEO' ), // The error message.
 							'error' // Error type, either 'error' or 'updated'.
@@ -187,7 +187,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 							elseif ( function_exists( 'add_settings_error' ) ) {
 								add_settings_error(
 									$this->group_name, // Slug title of the setting.
-									'_' . $key, // Suffix-id for the error message box.
+									'_' . $key, // Suffix-ID for the error message box.
 									esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' )
 										. '<br>'
 										. sprintf(
@@ -203,7 +203,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 						elseif ( function_exists( 'add_settings_error' ) ) {
 							add_settings_error(
 								$this->group_name, // Slug title of the setting.
-								'_' . $key, // Suffix-id for the error message box.
+								'_' . $key, // Suffix-ID for the error message box.
 								esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . esc_html__( 'No numeric value was received.', 'wordpress-seo' ), // The error message.
 								'error' // Error type, either 'error' or 'updated'.
 							);
@@ -222,7 +222,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	}
 
 	/**
-	 * Clean a given option value
+	 * Clean a given option value.
 	 *
 	 * @param array  $option_value          Old (not merged with defaults or filtered) option value to
 	 *                                      clean according to the rules for this option.

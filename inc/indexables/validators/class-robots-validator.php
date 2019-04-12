@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Robots_Validator
+ * Class WPSEO_Robots_Validator.
  */
 class WPSEO_Robots_Validator implements WPSEO_Endpoint_Validator {
 

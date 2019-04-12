@@ -400,7 +400,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 									case 'wpseo_title':
 									case 'wpseo_desc':
 									case 'wpseo_linkdex':
-										// @todo [JRF => whomever] needs checking, I don't have example data [JRF].
+										// @todo [JRF => whomever] Needs checking, I don't have example data [JRF].
 										if ( $value !== '' ) {
 											// Fix incorrectly saved (encoded) canonical urls and texts.
 											$option_value[ $taxonomy ][ $term_id ][ $key ] = wp_specialchars_decode( stripslashes( $value ), ENT_QUOTES );
@@ -408,7 +408,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 										break;
 
 									default:
-										// @todo [JRF => whomever] needs checking, I don't have example data [JRF].
+										// @todo [JRF => whomever] Needs checking, I don't have example data [JRF].
 										if ( $value !== '' ) {
 											// Fix incorrectly saved (escaped) text strings.
 											$option_value[ $taxonomy ][ $term_id ][ $key ] = wp_specialchars_decode( $value, ENT_QUOTES );

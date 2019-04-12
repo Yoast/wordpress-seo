@@ -27,7 +27,7 @@ abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Fake a request to the WP front page
+	 * Fake a request to the WP front page.
 	 */
 	protected function go_to_home() {
 		$this->go_to( home_url( '/' ) );
@@ -37,7 +37,7 @@ abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 	 * Tests for expected output.
 	 *
 	 * @param string $expected    Expected output.
-	 * @param string $description Explanation what why this result is expected.
+	 * @param string $description Explanation why this result is expected.
 	 */
 	protected function expectOutput( $expected, $description = '' ) {
 		$output = ob_get_contents();

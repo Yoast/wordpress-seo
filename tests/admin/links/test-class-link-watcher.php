@@ -148,7 +148,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test with a post with content..
+	 * Test with a post with content.
 	 */
 	public function test_is_processable_with_content() {
 

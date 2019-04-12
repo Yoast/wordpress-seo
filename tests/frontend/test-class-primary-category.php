@@ -58,7 +58,7 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * When the primary term is equal to the category id, return the category
+	 * When the primary term is equal to the category id, return the category.
 	 *
 	 * @covers WPSEO_Frontend_Primary_Category::post_link_category
 	 */

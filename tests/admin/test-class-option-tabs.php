@@ -110,7 +110,7 @@ class WPSEO_Option_Tabs_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the retrieval of the active tab without having a active tab being set
+	 * Tests the retrieval of the active tab without having a active tab being set.
 	 *
 	 * @covers WPSEO_Option_Tabs::get_active_tab()
 	 */

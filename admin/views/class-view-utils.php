@@ -6,7 +6,7 @@
  */
 
 /**
- * Class Yoast_View_Utils
+ * Class Yoast_View_Utils.
  */
 class Yoast_View_Utils {
 

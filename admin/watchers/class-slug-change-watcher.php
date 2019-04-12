@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Slug_Change_Watcher
+ * Class WPSEO_Slug_Change_Watcher.
  */
 class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 

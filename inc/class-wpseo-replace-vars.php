@@ -227,7 +227,7 @@ class WPSEO_Replace_Vars {
 
 		$replacements = array();
 
-		// @todo -> Figure out a way to deal with external functions starting with cf_/ct_.
+		// @todo Figure out a way to deal with external functions starting with cf_/ct_.
 		foreach ( $matches[1] as $k => $var ) {
 
 			// Don't set up replacements which should be omitted.

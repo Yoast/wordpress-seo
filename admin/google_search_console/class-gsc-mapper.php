@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_GSC_Mapper
+ * Class WPSEO_GSC_Mapper.
  */
 class WPSEO_GSC_Mapper {
 
@@ -23,7 +23,7 @@ class WPSEO_GSC_Mapper {
 	);
 
 	/**
-	 * The categories which can be mapped
+	 * The categories which can be mapped.
 	 *
 	 * @var array
 	 */
@@ -56,7 +56,7 @@ class WPSEO_GSC_Mapper {
 	}
 
 	/**
-	 * Mapping the platform
+	 * Mapping the platform.
 	 *
 	 * @param string $platform Platform (desktop, mobile, feature phone).
 	 *
@@ -69,7 +69,7 @@ class WPSEO_GSC_Mapper {
 	}
 
 	/**
-	 * Mapping the given platform by value and return its key
+	 * Mapping the given platform by value and return its key.
 	 *
 	 * @param string $platform Platform (desktop, mobile, feature phone).
 	 *
@@ -102,7 +102,7 @@ class WPSEO_GSC_Mapper {
 	}
 
 	/**
-	 * Mapping the given category by value and return its key
+	 * Mapping the given category by value and return its key.
 	 *
 	 * @param string $category Issue type.
 	 *

@@ -25,7 +25,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	private $option_instance;
 
 	/**
-	 * Setup the class instance
+	 * Setup the class instance.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -35,7 +35,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the weekly schedule is added to wp_get_schedules
+	 * Test if the weekly schedule is added to wp_get_schedules.
 	 *
 	 * @covers WPSEO_OnPage::add_weekly_schedule
 	 */
@@ -78,7 +78,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test is the old status (null) is overwritten by the new status (1)
+	 * Test is the old status (null) is overwritten by the new status (1).
 	 *
 	 * @covers WPSEO_OnPage::fetch_from_onpage
 	 */
@@ -94,7 +94,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test is the old status (null) is overwritten by the new status (0)
+	 * Test is the old status (null) is overwritten by the new status (0).
 	 *
 	 * @covers WPSEO_OnPage::fetch_from_onpage
 	 */
@@ -110,7 +110,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test is the method can only be called once because of the fetch limit of 60 minutes
+	 * Test is the method can only be called once because of the fetch limit of 60 minutes.
 	 *
 	 * @covers WPSEO_OnPage::fetch_from_onpage
 	 */
@@ -122,7 +122,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test is the old status (null) is overwritten by the new status (0)
+	 * Test is the old status (null) is overwritten by the new status (0).
 	 *
 	 * @covers WPSEO_OnPage::fetch_from_onpage
 	 */
@@ -213,7 +213,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if the notice constrol is hooked.
+	 * Tests if the notice control is hooked.
 	 */
 	public function test_notification_hooks_should_be_hooked() {
 		$onpage = new WPSEO_OnPage();
@@ -232,7 +232,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if active is baed on the option.
+	 * Tests if active is based on the option.
 	 *
 	 * @covers WPSEO_OnPage::is_active()
 	 */

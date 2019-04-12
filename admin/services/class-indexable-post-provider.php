@@ -168,7 +168,7 @@ class WPSEO_Indexable_Service_Post_Provider extends WPSEO_Indexable_Provider {
 	/**
 	 * Converts the advanced meta settings to its database variant.
 	 *
-	 * @param array $indexable_data The indeaxable data to convert the advanced meta settings from.
+	 * @param array $indexable_data The indexable data to convert the advanced meta settings from.
 	 *
 	 * @return string The converted advanced meta settings.
 	 */

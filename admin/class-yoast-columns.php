@@ -11,7 +11,7 @@
 class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 
 	/**
-	 * Registers all hooks to WordPress
+	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
 		add_action( 'load-edit.php', array( $this, 'add_help_tab' ) );

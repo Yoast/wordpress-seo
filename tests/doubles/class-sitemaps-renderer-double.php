@@ -11,7 +11,7 @@
 class WPSEO_Sitemaps_Renderer_Double extends WPSEO_Sitemaps_Renderer {
 
 	/**
-	 * Returns the XSL URL
+	 * Returns the XSL URL.
 	 *
 	 * @return string
 	 */

@@ -116,7 +116,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @var array
 	 */
 	public $ms_exclude = array(
-		/* theme dependent */
+		/* Theme dependent. */
 		'title_test',
 		'forcerewritetitle',
 	);
@@ -414,7 +414,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 								$clean[ $key ] = sanitize_title_with_dashes( $old[ $key ] );
 							}
 							/**
-							 * @todo [JRF => whomever] maybe change the untranslated $pt name in the
+							 * @todo [JRF => whomever] Maybe change the untranslated $pt name in the
 							 * error message to the nicely translated label ?
 							 */
 							add_settings_error(
@@ -450,13 +450,13 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 								$clean[ $key ] = sanitize_key( $old[ $key ] );
 							}
 							/**
-							 * @todo [JRF =? whomever] maybe change the untranslated $tax name in the
+							 * @todo [JRF =? whomever] Maybe change the untranslated $tax name in the
 							 * error message to the nicely translated label ?
 							 */
 							$tax = str_replace( array( 'taxonomy-', '-ptparent' ), '', $key );
 							add_settings_error(
 								$this->group_name, // Slug title of the setting.
-								'_' . $tax, // Suffix-id for the error message box.
+								'_' . $tax, // Suffix-ID for the error message box.
 								/* translators: %s expands to a taxonomy slug. */
 								sprintf( __( 'Please select a valid post type for taxonomy "%s"', 'wordpress-seo' ), $tax ), // The error message.
 								'error' // Error type, either 'error' or 'updated'.
@@ -485,14 +485,14 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					}
 					break;
 
-				/* Separator field - Radio */
+				/* Separator field - Radio. */
 				case 'separator':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 
 						// Get separator fields.
 						$separator_fields = $this->get_separator_options();
 
-						// Check if the given separator is exists.
+						// Check if the given separator exists.
 						if ( isset( $separator_fields[ $dirty[ $key ] ] ) ) {
 							$clean[ $key ] = $dirty[ $key ];
 						}
@@ -597,7 +597,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		 * {@internal Don't rename to the 'current' names straight away as that would prevent
 		 *            the rename/unset combi below from working.}}
 		 *
-		 * @todo [JRF] maybe figure out a smarter way to deal with this.
+		 * @todo [JRF] Maybe figure out a smarter way to deal with this.
 		 */
 		$old_option = null;
 		if ( isset( $all_old_option_values ) ) {
@@ -723,7 +723,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 				// Similar to validation routine - any changes made there should be made here too.
 				switch ( $switch_key ) {
-					/* text fields */
+					/* Text fields. */
 					case 'title-':
 					case 'metadesc-':
 					case 'bctitle-ptarchive-':

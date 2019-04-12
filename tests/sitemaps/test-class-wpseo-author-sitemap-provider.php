@@ -6,7 +6,7 @@
  */
 
 /**
- * Class Test_WPSEO_Author_Sitemap_Provider
+ * Class Test_WPSEO_Author_Sitemap_Provider.
  */
 class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 
