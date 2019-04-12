@@ -106,9 +106,11 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	/**
 	 * String representation of object
 	 *
-	 * @link  http://php.net/manual/en/serializable.serialize.php
-	 * @return string the string representation of the object or null
+	 * @link http://php.net/manual/en/serializable.serialize.php
+	 *
 	 * @since 5.1.0
+	 *
+	 * @return string The string representation of the object or null.
 	 */
 	public function serialize() {
 
@@ -123,12 +125,13 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	/**
 	 * Constructs the object
 	 *
-	 * @link  http://php.net/manual/en/serializable.unserialize.php
+	 * @link http://php.net/manual/en/serializable.unserialize.php
+	 *
+	 * @since 5.1.0
 	 *
 	 * @param string $serialized The string representation of the object.
 	 *
 	 * @return void
-	 * @since 5.1.0
 	 */
 	public function unserialize( $serialized ) {
 
