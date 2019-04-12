@@ -1,4 +1,4 @@
-/**
+ /**
  * @file German stemming algorithm. Adapted from:
  * @author: Joder Illi
  * @copyright (c) 2010, FormBlitz AG
@@ -145,10 +145,11 @@ const deleteSuffix2 = function( word, index2, r1Index ) {
 
 
 /**
- * Stems irregular verbs
+ * Stems irregular verbs.
  *
- * @param {string} morphologyDataVerbs The German morphology data for verbs.
- * @param {string} word The word to stem.
+ * @param {Object} morphologyDataVerbs  The German morphology data for verbs.
+ * @param {string} word                 The word to stem.
+ *
  * @returns {string} The stemmed word.
  */
 const stemIrregularVerbs = function( morphologyDataVerbs, word ) {
@@ -169,12 +170,13 @@ const stemIrregularVerbs = function( morphologyDataVerbs, word ) {
 /**
  * Stems German words.
  *
- * @param {object} morphologyDataVerbs The German morphology data for verbs.
- * @param {string} word The word to stem.
+ * @param {Object} morphologyDataVerbs  The German morphology data for verbs.
+ * @param {string} word                 The word to stem.
+ *
  * @returns {string} The stemmed word.
  */
 export default function stem( morphologyDataVerbs, word ) {
-	// Check if word is a very irregular verb, and if so, return its stem
+	// Check if word is a very irregular verb, and if so, return its stem.
 	const veryIrregularVerbStem = stemIrregularVerbs( morphologyDataVerbs, word );
 
 	if ( veryIrregularVerbStem ) {
