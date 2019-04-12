@@ -74,7 +74,7 @@ module.exports = function( env = { environment: "production" } ) {
 			rules: [
 				{
 					test: /.jsx?$/,
-					exclude: /node_modules[/\\](?!(yoast-components|gutenberg|yoastseo|@wordpress|@yoast)[/\\]).*/,
+					exclude: /node_modules[/\\](?!(yoast-components|gutenberg|yoastseo|@wordpress|@yoast|parse5)[/\\]).*/,
 					use: [
 						{
 							loader: "babel-loader",
@@ -173,6 +173,9 @@ module.exports = function( env = { environment: "production" } ) {
 			plugins: [
 				...plugins,
 			],
+			optimization: {
+				runtimeChunk: false,
+			},
 		},
 
 		// Config for wp packages files that are shipped for BC with WP 4.9.
