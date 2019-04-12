@@ -47,7 +47,7 @@ if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
 /* ***************************** CLASS AUTOLOADING *************************** */
 
 /**
- * Auto load our class files.
+ * Autoload our class files.
  *
  * @param string $class Class name.
  *
