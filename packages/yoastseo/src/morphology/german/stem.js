@@ -1,4 +1,4 @@
- /**
+/**
  * @file German stemming algorithm. Adapted from:
  * @author: Joder Illi
  * @copyright (c) 2010, FormBlitz AG
