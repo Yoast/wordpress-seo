@@ -24,7 +24,6 @@ class Yoast_Notification_Center_Double extends Yoast_Notification_Center {
 	 */
 	public function has_stored_notifications() {
 		return parent::has_stored_notifications();
-
 	}
 
 	/**

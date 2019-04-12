@@ -734,7 +734,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * @param bool   $expected             The expected value: true or false.
 	 * @param string $message              Message to show when test fails.
 	 */
-	public function test_has_stored_notifications( $stored_notifications, $expected, $message  ) {
+	public function test_has_stored_notifications( $stored_notifications, $expected, $message ) {
 		$instance = $this
 			->getMockBuilder( 'Yoast_Notification_Center_Double' )
 			->setMethods( array( 'get_stored_notifications' ) )
@@ -745,7 +745,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 			->method( 'get_stored_notifications' )
 			->will( $this->returnValue( $stored_notifications ) );
 
-		$this->assertEquals( $expected, $instance->has_stored_notifications( ), $message );
+		$this->assertEquals( $expected, $instance->has_stored_notifications(), $message );
 	}
 
 	/**
