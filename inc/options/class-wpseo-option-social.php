@@ -202,7 +202,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					}
 					break;
 
-				/* Boolean fields */
+				/* Boolean fields. */
 				case 'opengraph':
 				case 'twitter':
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
