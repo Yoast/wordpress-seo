@@ -53,7 +53,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 * When unserialized data is stored it will not be returned because the
 	 * field definition is missing which declares if the data is serialized.
 	 *
-	 * See self::test_get_value_unregistered_field_serialized()
+	 * @see self::test_get_value_unregistered_field_serialized()
 	 *
 	 * @covers WPSEO_Meta::set_value()
 	 * @covers WPSEO_Meta::get_value()
