@@ -12795,10 +12795,10 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
 
-yoast-components@^4.24.0-rc.7:
-  version "4.24.0-rc.7"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.24.0-rc.7.tgz#8f2c08a6c53b4fc179f180b7d1adc4805642d554"
-  integrity sha512-GKYSn7IVtBVSk48Tf/CHBJPWbDUW/eAFae7Yp3fc70dq/fvRfuz20nwDX/31MmK77WGwbjgNGqC3ydJDDcD3UQ==
+yoast-components@^4.24.0-rc.8:
+  version "4.24.0-rc.8"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.24.0-rc.8.tgz#c6428c65ebdbde87cd3f25bdb405099deb83b62a"
+  integrity sha512-QYYQFtYLrXceXhfDjLF6T2IrO+7WWdG/IS3f6firSzHzFWRgH8CQNpHonqebZVEozERZ9VPVK66+MrGp0CwDcQ==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
