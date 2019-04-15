@@ -91,7 +91,7 @@ class Indexable_Author_Watcher implements Integration {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param int $user_id The user id.
+	 * @param int $user_id The user ID.
 	 *
 	 * @return Indexable_Author_Formatter Instance.
 	 */

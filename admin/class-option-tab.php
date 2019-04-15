@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Option_Tab
+ * Class WPSEO_Option_Tab.
  */
 class WPSEO_Option_Tab {
 

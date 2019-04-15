@@ -74,7 +74,7 @@ module.exports = function( env = { environment: "production" } ) {
 			rules: [
 				{
 					test: /.jsx?$/,
-					exclude: /node_modules[/\\](?!(yoast-components|gutenberg|yoastseo|@wordpress|@yoast)[/\\]).*/,
+					exclude: /node_modules[/\\](?!(yoast-components|gutenberg|yoastseo|@wordpress|@yoast|parse5)[/\\]).*/,
 					use: [
 						{
 							loader: "babel-loader",
@@ -116,7 +116,6 @@ module.exports = function( env = { environment: "production" } ) {
 				...mainEntry,
 				"styled-components": "./js/src/styled-components.js",
 				analysis: "./js/src/analysis.js",
-				components: "./js/src/components.js",
 			},
 			externals: {
 				...externals,
@@ -128,6 +127,10 @@ module.exports = function( env = { environment: "production" } ) {
 				"@wordpress/api-fetch": "window.wp.apiFetch",
 				"@wordpress/rich-text": "window.wp.richText",
 				"@wordpress/compose": "window.wp.compose",
+				"@yoast/helpers": "window.yoast.helpers",
+				"@yoast/components": "window.yoast.componentsNew",
+				"@yoast/configuration-wizard": "window.yoast.configurationWizard",
+				"@yoast/style-guide": "window.yoast.styleGuide",
 
 				"styled-components": "window.yoast.styledComponents",
 			},
@@ -147,6 +150,34 @@ module.exports = function( env = { environment: "production" } ) {
 				] ),
 			],
 		},
+
+		// Config for components, which doesn't need all '@yoast' externals.
+		{
+			...base,
+			entry: {
+				components: "./js/src/components.js",
+			},
+			externals: {
+				...externals,
+
+				"@wordpress/element": "window.wp.element",
+				"@wordpress/data": "window.wp.data",
+				"@wordpress/components": "window.wp.components",
+				"@wordpress/i18n": "window.wp.i18n",
+				"@wordpress/api-fetch": "window.wp.apiFetch",
+				"@wordpress/rich-text": "window.wp.richText",
+				"@wordpress/compose": "window.wp.compose",
+
+				"styled-components": "window.yoast.styledComponents",
+			},
+			plugins: [
+				...plugins,
+			],
+			optimization: {
+				runtimeChunk: false,
+			},
+		},
+
 		// Config for wp packages files that are shipped for BC with WP 4.9.
 		{
 			...base,

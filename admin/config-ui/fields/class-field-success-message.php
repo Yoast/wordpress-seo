@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Success_Message
+ * Class WPSEO_Config_Field_Success_Message.
  */
 class WPSEO_Config_Field_Success_Message extends WPSEO_Config_Field {
 

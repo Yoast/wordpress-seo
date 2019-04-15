@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_OpenGraph_OEmbed
+ * Class WPSEO_OpenGraph_OEmbed.
  */
 class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 

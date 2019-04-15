@@ -6,7 +6,7 @@
  */
 
 /**
- * WPSEO_Custom_Taxonomies
+ * WPSEO_Custom_Taxonomies.
  */
 class WPSEO_Custom_Taxonomies {
 

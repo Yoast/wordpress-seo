@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Statistics_Service
+ * Class WPSEO_Statistics_Service.
  */
 class WPSEO_Statistics_Service {
 
@@ -75,7 +75,7 @@ class WPSEO_Statistics_Service {
 	}
 
 	/**
-	 * An array representing items to be added to the At a Glance dashboard widget
+	 * An array representing items to be added to the At a Glance dashboard widget.
 	 *
 	 * @return array The statistics for the current user.
 	 */
@@ -106,7 +106,7 @@ class WPSEO_Statistics_Service {
 	}
 
 	/**
-	 * Set the statistics transient cache for a specific user
+	 * Set the statistics transient cache for a specific user.
 	 *
 	 * @param array $transient The current stored transient with the cached data.
 	 * @param int   $user      The user's ID to assign the retrieved values to.
@@ -195,7 +195,7 @@ class WPSEO_Statistics_Service {
 	/**
 	 * Determines the labels for the various scoring ranks that are known within Yoast SEO.
 	 *
-	 * @return array Array containing the translateable labels.
+	 * @return array Array containing the translatable labels.
 	 */
 	private function labels() {
 		return array(

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Indexable
+ * Class WPSEO_Indexable.
  */
 abstract class WPSEO_Indexable {
 

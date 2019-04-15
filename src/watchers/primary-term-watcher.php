@@ -67,7 +67,7 @@ class Primary_Term_Watcher implements Integration {
 	}
 
 	/**
-	 * Save the primary term for a specific taxonomy
+	 * Save the primary term for a specific taxonomy.
 	 *
 	 * @param int    $post_id  Post ID to save primary term for.
 	 * @param string $taxonomy Taxonomy to save primary term for.
@@ -102,7 +102,7 @@ class Primary_Term_Watcher implements Integration {
 	}
 
 	/**
-	 * Returns all the taxonomies for which the primary term selection is enabled
+	 * Returns all the taxonomies for which the primary term selection is enabled.
 	 *
 	 * @param int $post_id Default current post ID.
 	 *
@@ -218,20 +218,20 @@ class Primary_Term_Watcher implements Integration {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return bool Whether thet method is a post request.
+	 * @return bool Whether the method is a post request.
 	 */
 	protected function is_post_request() {
 		return isset( $_SERVER['REQUEST_METHOD'] ) && strtolower( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) === 'post';
 	}
 
 	/**
-	 * Retrieves the posted term id based on the given taxonomy.
+	 * Retrieves the posted term ID based on the given taxonomy.
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $taxonomy The taxonomy to check.
 	 *
-	 * @return int The term id.
+	 * @return int The term ID.
 	 */
 	protected function get_posted_term_id( $taxonomy ) {
 		return filter_input( INPUT_POST, \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', FILTER_SANITIZE_NUMBER_INT );

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Admin_Pages
+ * Class WPSEO_Admin_Pages.
  *
  * Class with functionality for the Yoast SEO admin pages.
  */
@@ -27,7 +27,7 @@ class WPSEO_Admin_Pages {
 	private $asset_manager;
 
 	/**
-	 * Class constructor, which basically only hooks the init function on the init hook
+	 * Class constructor, which basically only hooks the init function on the init hook.
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'init' ), 20 );
@@ -35,7 +35,7 @@ class WPSEO_Admin_Pages {
 	}
 
 	/**
-	 * Make sure the needed scripts are loaded for admin pages
+	 * Make sure the needed scripts are loaded for admin pages.
 	 */
 	public function init() {
 		if ( filter_input( INPUT_GET, 'wpseo_reset_defaults' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo_reset_defaults' ) && current_user_can( 'manage_options' ) ) {
@@ -71,7 +71,10 @@ class WPSEO_Admin_Pages {
 
 		if ( $page === 'wpseo_titles' ) {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance', 'wpseoSearchAppearance', array( 'isRtl' => is_rtl() ) );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance', 'wpseoSearchAppearance', array(
+				'isRtl'       => is_rtl(),
+				'userEditUrl' => add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) ),
+			) );
 			$this->asset_manager->enqueue_script( 'search-appearance' );
 			$this->asset_manager->enqueue_style( 'search-appearance' );
 			/**

@@ -169,8 +169,8 @@ class WPSEO_Options {
 	/**
 	 * Retrieve all the options for the SEO plugin in one go.
 	 *
-	 * @todo [JRF] see if we can get some extra efficiency for this one, though probably not as options may
-	 * well change between calls (enriched defaults and such)
+	 * @todo [JRF] See if we can get some extra efficiency for this one, though probably not as options may
+	 * well change between calls (enriched defaults and such).
 	 *
 	 * @return array Array combining the values of all the options.
 	 */

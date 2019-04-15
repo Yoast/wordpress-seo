@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Configuration_Endpoint_Mock
+ * Class WPSEO_Configuration_Endpoint_Mock.
  */
 class WPSEO_Configuration_Endpoint_Mock extends WPSEO_Configuration_Endpoint {
 

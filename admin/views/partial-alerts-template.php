@@ -18,7 +18,7 @@
 
 if ( ! function_exists( '_yoast_display_alerts' ) ) {
 	/**
-	 * Create the alert HTML with restore/dismiss button
+	 * Create the alert HTML with restore/dismiss button.
 	 *
 	 * @param array  $list   List of alerts.
 	 * @param string $status Status of the alerts (active/dismissed).

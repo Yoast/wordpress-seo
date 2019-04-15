@@ -163,6 +163,7 @@ class DashboardWidget extends React.Component {
 		}
 
 		return <WordpressFeed
+			className="wordpress-feed"
 			key="yoast-seo-blog-feed"
 			title={ wpseoDashboardWidgetL10n.feed_header }
 			feed={ this.state.feed }

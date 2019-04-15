@@ -6,7 +6,7 @@
  */
 
 /**
- * Represents the proxy for communicating with the database
+ * Represents the proxy for communicating with the database.
  */
 class WPSEO_Database_Proxy {
 

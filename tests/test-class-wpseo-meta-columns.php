@@ -27,7 +27,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test setup
+	 * Test setup.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -301,7 +301,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests that column_hidden returns the columns to hide so that WordPress hides them
+	 * Tests that column_hidden returns the columns to hide so that WordPress hides them.
 	 *
 	 * @covers WPSEO_Meta_Columns::column_hidden()
 	 */
@@ -321,7 +321,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests that column_hidden returns the value WordPress has saved in the database
+	 * Tests that column_hidden returns the value WordPress has saved in the database.
 	 *
 	 * This is so the user can still set the columns they want to hide.
 	 *
@@ -343,7 +343,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if column_hidden can deal with non array values returned from WordPress
+	 * Tests if column_hidden can deal with non array values returned from WordPress.
 	 *
 	 * @covers WPSEO_Meta_Columns::column_hidden()
 	 */

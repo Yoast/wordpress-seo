@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Meta_Values_Validator
+ * Class WPSEO_Meta_Values_Validator.
  */
 class WPSEO_Meta_Values_Validator implements WPSEO_Endpoint_Validator {
 

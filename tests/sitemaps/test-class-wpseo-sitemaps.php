@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Sitemaps_Test
+ * Class WPSEO_Sitemaps_Test.
  *
  * @group sitemaps
  */

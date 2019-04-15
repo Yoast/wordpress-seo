@@ -62,7 +62,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the situation with a custom private post post type
+	 * Tests the situation with a custom private post post type.
 	 *
 	 * @covers WPSEO_Post_Type::get_accessible_post_types()
 	 */
@@ -165,7 +165,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Callback for the 'wpseo_accessible_post_types' filter, used in 'test_get_accessible_post_types_with_a_filter_hook'
+	 * Callback for the 'wpseo_accessible_post_types' filter, used in 'test_get_accessible_post_types_with_a_filter_hook'.
 	 *
 	 * @param array $post_types The post types to filter.
 	 *

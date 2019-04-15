@@ -11,7 +11,7 @@
 class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Test with getting the values
+	 * Test with getting the values.
 	 *
 	 * @covers WPSEO_Metabox_Formatter::__construct
 	 * @covers WPSEO_Metabox_Formatter::get_values

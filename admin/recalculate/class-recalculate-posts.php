@@ -6,7 +6,7 @@
  */
 
 /**
- * This class handles the calculation of the SEO score for all posts with a filled focus keyword
+ * This class handles the calculation of the SEO score for all posts with a filled focus keyword.
  */
 class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 
@@ -52,7 +52,7 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	}
 
 	/**
-	 * Map the posts to a response array
+	 * Map the posts to a response array.
 	 *
 	 * @param WP_Post $item The post for which to build the analyzer data.
 	 *
@@ -91,7 +91,7 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	}
 
 	/**
-	 * Get the title for given post
+	 * Get the title for given post.
 	 *
 	 * @param integer $post_id   The ID of the post for which to get the title.
 	 * @param string  $post_type The post type.
@@ -113,7 +113,7 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	}
 
 	/**
-	 * Get the meta description for given post
+	 * Get the meta description for given post.
 	 *
 	 * @param integer $post_id   The ID of the post for which to get the meta description.
 	 * @param string  $post_type The post type.

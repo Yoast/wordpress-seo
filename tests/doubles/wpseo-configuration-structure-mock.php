@@ -6,12 +6,12 @@
  */
 
 /**
- * Class WPSEO_Configuration_Structure_Mock
+ * Class WPSEO_Configuration_Structure_Mock.
  */
 class WPSEO_Configuration_Structure_Mock extends WPSEO_Configuration_Structure {
 
 	/**
-	 * Make add_step public
+	 * Make add_step public.
 	 *
 	 * @param string $identifier Identifier for this step.
 	 * @param string $title      Title to display for this step.

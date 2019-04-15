@@ -1,6 +1,6 @@
 /* External dependencies */
-import { Component } from "@wordpress/element";
-import { __ } from "@wordpress/i18n";
+import { Component, Fragment } from "@wordpress/element";
+import { __, sprintf } from "@wordpress/i18n";
 import { Label } from "@yoast/components";
 import styled from "styled-components";
 
@@ -18,6 +18,11 @@ const Container = styled.div`
 	padding-bottom: 7px;
 `;
 
+const UserInformation = styled.p`
+	font-size: 14px;
+	margin-top: 0;
+`;
+
 /**
  * Wrapper for WordPressUserSelector to be used in the onboarding wizard.
  */
@@ -29,17 +34,29 @@ class WordPressUserSelectorOnboardingWizard extends Component {
 	 */
 	render() {
 		return (
-			<Container>
-				<Label
-					for={ this.props.name }
-					optionalAttributes={ {
-						className: "yoast-wizard-text-input-label",
-					} }
-				>
-					{ __( "The name of the person", "wordpress-seo" ) }
-				</Label>
-				<WordPressUserSelector { ...this.props } />
-			</Container>
+			<Fragment>
+				<Container>
+					<Label
+						for={ this.props.name }
+						optionalAttributes={ {
+							className: "yoast-wizard-text-input-label",
+						} }
+					>
+						{ __( "The name of the person", "wordpress-seo" ) }
+					</Label>
+					<WordPressUserSelector { ...this.props } />
+				</Container>
+				<UserInformation>
+					{
+						sprintf(
+							/* translators: %1$s expands to WordPress */
+							__( "You can edit the details shown in meta data, like the social profiles, the name " +
+								"and the description of this user on their %1$s profile page.", "wordpress-seo" ),
+							"WordPress"
+						)
+					}
+				</UserInformation>
+			</Fragment>
 		);
 	}
 }

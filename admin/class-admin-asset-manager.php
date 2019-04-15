@@ -143,7 +143,7 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
-	 * Flattens a version number for use in a filename
+	 * Flattens a version number for use in a filename.
 	 *
 	 * @param string $version The original version number.
 	 *
@@ -663,7 +663,7 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 * @todo Data format is not self-documenting. Needs explanation inline. R.
 	 *
-	 * @return array styles that need to be registered.
+	 * @return array Styles that need to be registered.
 	 */
 	protected function styles_to_be_registered() {
 		$flat_version = $this->flatten_version( WPSEO_VERSION );

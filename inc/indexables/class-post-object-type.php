@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Post_Object_Type
+ * Class WPSEO_Post_Object_Type.
  */
 class WPSEO_Post_Object_Type extends WPSEO_Object_Type {
 

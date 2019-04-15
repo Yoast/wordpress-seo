@@ -47,7 +47,7 @@ class WPSEO_Config_Component_Mailchimp_Signup implements WPSEO_Config_Component 
 	}
 
 	/**
-	 * Save data
+	 * Save data.
 	 *
 	 * @param array $data Data containing changes.
 	 *

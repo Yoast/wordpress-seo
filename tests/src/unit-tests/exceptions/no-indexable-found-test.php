@@ -7,7 +7,7 @@ use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
 
 /**
- * Class Indexable_Author_Test
+ * Class Indexable_Author_Test.
  *
  * @group indexables
  * @group exceptions

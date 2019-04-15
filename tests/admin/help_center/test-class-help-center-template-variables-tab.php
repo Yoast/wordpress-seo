@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Help_Center_Template_Variables_Tab_Test
+ * Class WPSEO_Help_Center_Template_Variables_Tab_Test.
  *
  * @group help-center
  */

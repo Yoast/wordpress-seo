@@ -264,10 +264,10 @@ class WPSEO_Utils {
 	 *
 	 * Sanitize a string from user input or from the db.
 	 *
-	 * - Check for invalid UTF-8,
-	 * - Convert single < characters to entity,
-	 * - Strip all tags,
-	 * - Remove line breaks, tabs and extra white space,
+	 * - Check for invalid UTF-8;
+	 * - Convert single < characters to entity;
+	 * - Strip all tags;
+	 * - Remove line breaks, tabs and extra white space;
 	 * - Strip octets - BUT DO NOT REMOVE (part of) VARIABLES WHICH WILL BE REPLACED.
 	 *
 	 * @since 1.8.0
@@ -1128,7 +1128,7 @@ SVG;
 
 	/**
 	 * Returns the original URL instead of the language-enriched URL.
-	 * This method gets automatically triggered by the wpml_get_home_url filter
+	 * This method gets automatically triggered by the wpml_get_home_url filter.
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -1177,6 +1177,26 @@ SVG;
 		}
 
 		return wp_json_encode( $data, $flags );
+	}
+
+
+	/**
+	 * Output a Schema blob.
+	 *
+	 * @param array  $graph The Schema graph array to output.
+	 * @param string $class The (optional) class to add to the script tag.
+	 */
+	public static function schema_output( $graph, $class = 'yoast-schema-graph' ) {
+		if ( ! is_array( $graph ) || empty( $graph ) ) {
+			return;
+		}
+
+		$output = array(
+			'@context' => 'https://schema.org',
+			'@graph'   => $graph,
+		);
+
+		echo "<script type='application/ld+json' class='", esc_attr( $class ), "'>", self::format_json_encode( $output ), '</script>', "\n";
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */

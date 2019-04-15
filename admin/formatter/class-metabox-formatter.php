@@ -6,7 +6,7 @@
  */
 
 /**
- * This class forces needed methods for the metabox localization
+ * This class forces needed methods for the metabox localization.
  */
 class WPSEO_Metabox_Formatter {
 
@@ -27,7 +27,7 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Returns the values
+	 * Returns the values.
 	 *
 	 * @return array
 	 */
@@ -39,7 +39,7 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Returns array with all the values always needed by a scraper object
+	 * Returns array with all the values always needed by a scraper object.
 	 *
 	 * @return array Default settings for the metabox.
 	 */
