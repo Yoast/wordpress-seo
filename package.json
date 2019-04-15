@@ -126,6 +126,7 @@
     "@wordpress/url": "^2.5.0",
     "@yoast/components": "^0.1.0-rc.6",
     "@yoast/configuration-wizard": "^1.0.0-rc.6",
+    "@yoast/search-metadata-previews": "^1.0.0-rc.8",
     "@yoast/style-guide": "^0.1.0-rc.4",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
@@ -150,8 +151,8 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
-    "yoast-components": "^4.24.0-rc.8",
-    "yoastseo": "^1.51.0-rc.5"
+    "yoast-components": "^4.24.0-rc.9",
+    "yoastseo": "^1.51.0-rc.6"
   },
   "yoast": {
     "pluginVersion": "11.0-RC3",
