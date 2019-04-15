@@ -71,7 +71,7 @@ if ( $company_or_person === 'person' ) {
 	$person  = get_userdata( $user_id );
 	printf( esc_html__( 'To change the social accounts used for your site, update the details for %1$s.', 'wordpress-seo' ), '<a href="' . admin_url( 'user-edit.php?user_id=' . $user_id ) . '">' . $person->display_name . '</a>' );
 	echo ' ';
-	printf( esc_html__( 'To make your site represent a Company or Organization go to %1$sSearch Appearance%2$s and set Company or Person to "Company".', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_titles' ) . '">', '</a>' );
+	printf( esc_html__( 'To make your site represent a Company or Organization go to %1$sSearch Appearance%2$s and set Organization or Person to "Organization".', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_titles' ) . '">', '</a>' );
 	echo '</p></div>';
 
 	// Organization social fields should still be rendered, because other wise the values are lost on save.
