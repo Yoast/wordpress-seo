@@ -109,7 +109,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 11.0.0 =
 Release Date: April 16th, 2019
 
-We've made huge changes the schema we put out, adding multiple different types of Schema. Be sure to check our posts on [yoast.com](https://yoast.com/) about this release!
+We've made huge changes to the schema.org markup we output, adding multiple different types of Schema. Be sure to check our posts on [yoast.com](https://yoast.com/) about this release!
 
 Enhancements:
 
