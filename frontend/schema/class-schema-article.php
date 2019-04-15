@@ -33,7 +33,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		if( ! is_singular() ) {
+		if ( ! is_singular() ) {
 			return false;
 		}
 
