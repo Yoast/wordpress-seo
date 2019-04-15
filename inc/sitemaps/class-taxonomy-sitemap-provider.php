@@ -251,7 +251,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Get the Image Parser
+	 * Get the Image Parser.
 	 *
 	 * @return WPSEO_Sitemap_Image_Parser
 	 */
@@ -266,7 +266,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
-	 * Get all the options
+	 * Get all the options.
 	 *
 	 * @deprecated 7.0
 	 * @codeCoverageIgnore

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Plugin_Importer
+ * Class WPSEO_Plugin_Importer.
  *
  * Class with functionality to import meta data from other plugins.
  */

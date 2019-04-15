@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Import_SEOPressor
+ * Class WPSEO_Import_SEOPressor.
  *
  * Class with functionality to import & clean SEOPressor post metadata.
  */

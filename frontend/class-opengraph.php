@@ -295,7 +295,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Output the locale, doing some conversions to make sure the proper Facebook locale is outputted.
 	 *
-	 * Last update/compare with FB list done on 2015-03-16 by Rarst
+	 * Last update/compare with FB list done on 2015-03-16 by Rarst.
 	 *
 	 * @link http://www.facebook.com/translations/FacebookLocales.xml for the list of supported locales.
 	 *

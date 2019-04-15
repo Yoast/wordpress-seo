@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Configuration_Endpoint
+ * Class WPSEO_Configuration_Endpoint.
  */
 class WPSEO_Configuration_Endpoint {
 
@@ -73,7 +73,7 @@ class WPSEO_Configuration_Endpoint {
 	}
 
 	/**
-	 * Permission callback implementation
+	 * Permission callback implementation.
 	 *
 	 * @return bool
 	 */
@@ -82,7 +82,7 @@ class WPSEO_Configuration_Endpoint {
 	}
 
 	/**
-	 * Permission callback implementation
+	 * Permission callback implementation.
 	 *
 	 * @return bool
 	 */

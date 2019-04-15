@@ -6,9 +6,9 @@
  */
 
 /**
- * Class WPSEO_Recalculate_Scores
+ * Class WPSEO_Recalculate_Scores.
  *
- * This class handles the SEO score recalculation for all posts with a filled focus keyword
+ * This class handles the SEO score recalculation for all posts with a filled focus keyword.
  */
 class WPSEO_Recalculate_Scores {
 

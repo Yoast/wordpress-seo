@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Option_Social_Double
+ * Class WPSEO_Option_Social_Double.
  */
 class WPSEO_Option_Social_Double extends WPSEO_Option_Social {
 

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_OpenGraph_Image
+ * Class WPSEO_OpenGraph_Image.
  */
 class WPSEO_OpenGraph_Image {
 
@@ -476,7 +476,7 @@ class WPSEO_OpenGraph_Image {
 		 *
 		 * Use the `wpseo_image_sizes` filter if you want to use our logic. That filter
 		 * can be used to add an image size that needs to be taken into consideration
-		 * within our own logic
+		 * within our own logic.
 		 *
 		 * @api string $size Size string.
 		 */

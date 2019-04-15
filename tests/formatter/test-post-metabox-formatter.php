@@ -65,7 +65,7 @@ class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Testing with a post and needed options being set
+	 * Testing with a post and needed options being set.
 	 *
 	 * @covers WPSEO_Post_Metabox_Formatter::get_metadesc_date
 	 * @covers WPSEO_Post_Metabox_Formatter::is_show_date_enabled

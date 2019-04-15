@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Meta_Columns
+ * Class WPSEO_Meta_Columns.
  */
 class WPSEO_Meta_Columns {
 

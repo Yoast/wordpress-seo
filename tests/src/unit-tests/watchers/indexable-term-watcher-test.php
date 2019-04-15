@@ -6,7 +6,7 @@ use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Watchers\Indexable_Term_Watcher;
 
 /**
- * Class Indexable_Term_Test
+ * Class Indexable_Term_Test.
  *
  * @group indexables
  * @group watchers
@@ -16,7 +16,7 @@ use Yoast\WP\Free\Watchers\Indexable_Term_Watcher;
 class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * Tests if the expected hooks are registered
+	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::register_hooks()
 	 */
@@ -29,7 +29,7 @@ class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the indexable is being deleted
+	 * Tests if the indexable is being deleted.
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_meta()
 	 */
@@ -63,7 +63,7 @@ class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the indexable is being deleted
+	 * Tests if the indexable is being deleted.
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_meta()
 	 */
@@ -82,7 +82,7 @@ class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests the save meta
+	 * Tests the save meta.
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::save_meta()
 	 */
@@ -137,7 +137,7 @@ class Indexable_Term_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests the save meta functionality
+	 * Tests the save meta functionality.
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::save_meta()
 	 */

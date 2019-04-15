@@ -11,7 +11,7 @@
 class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Test if there is a response
+	 * Test if there is a response.
 	 *
 	 * @covers WPSEO_OnPage_Request::get_remote
 	 */
@@ -28,7 +28,7 @@ class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if there is a response for an url that will be redirected
+	 * Test if there is a response for a URL that will be redirected.
 	 *
 	 * @covers WPSEO_OnPage_Request::get_remote
 	 */
@@ -45,7 +45,7 @@ class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if there is a response for a domain that isn't 'indexable'
+	 * Test if there is a response for a domain that isn't 'indexable'.
 	 *
 	 * @covers WPSEO_OnPage_Request::get_remote
 	 */

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class Yoast_Form_Double
+ * Class Yoast_Form_Double.
  */
 class Yoast_Form_Double extends Yoast_Form {
 

@@ -251,7 +251,7 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 			array( '%d', '%s', '%s' )
 		);
 
-		/**
+		/*
 		 * The result of Upsert is the number of affected rows.
 		 * As it internally does an Insert and then an Update, it will count as 2 rows.
 		 *

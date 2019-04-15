@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Suggested_Plugins_Double
+ * Class WPSEO_Suggested_Plugins_Double.
  */
 class WPSEO_Suggested_Plugins_Double extends WPSEO_Suggested_Plugins {
 

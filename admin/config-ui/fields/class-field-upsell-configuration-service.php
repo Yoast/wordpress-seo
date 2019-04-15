@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Upsell_Configuration_Service
+ * Class WPSEO_Config_Field_Upsell_Configuration_Service.
  */
 class WPSEO_Config_Field_Upsell_Configuration_Service extends WPSEO_Config_Field {
 

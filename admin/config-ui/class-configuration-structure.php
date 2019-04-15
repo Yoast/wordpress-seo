@@ -114,7 +114,7 @@ class WPSEO_Configuration_Structure {
 	}
 
 	/**
-	 * Retrieve the registered steps
+	 * Retrieve the registered steps.
 	 *
 	 * @return array
 	 */

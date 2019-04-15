@@ -65,7 +65,7 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 }
 
 /**
- * Allow adding a custom checkboxes to the admin meta page - Post Types tab
+ * Allow adding a custom checkboxes to the admin meta page - Post Types tab.
  *
  * @api  WPSEO_Admin_Pages  $yform  The WPSEO_Admin_Pages object
  * @api  String  $name  The post type name

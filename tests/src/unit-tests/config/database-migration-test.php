@@ -7,7 +7,7 @@ use Yoast\Tests\Doubles\Database_Migration as Database_Migration_Double;
 use Yoast\WP\Free\Config\Dependency_Management;
 
 /**
- * Class Database_Migration_Test
+ * Class Database_Migration_Test.
  *
  * @group   db-migrations
  *
@@ -263,7 +263,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Retrieves a class to mock a FrameworkRunner
+	 * Retrieves a class to mock a FrameworkRunner.
 	 *
 	 * @return FrameworkRunner
 	 */

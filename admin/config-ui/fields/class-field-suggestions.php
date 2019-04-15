@@ -6,7 +6,7 @@
  */
 
 /**
- * Holds the suggestions for the 'You might also like' page in the wizard
+ * Holds the suggestions for the 'You might also like' page in the wizard.
  */
 class WPSEO_Config_Field_Suggestions extends WPSEO_Config_Field {
 
@@ -20,7 +20,7 @@ class WPSEO_Config_Field_Suggestions extends WPSEO_Config_Field {
 	}
 
 	/**
-	 * Adds a suggestion to the properties
+	 * Adds a suggestion to the properties.
 	 *
 	 * @param string $title  The title of the choice.
 	 * @param string $copy   The text explaining the choice.

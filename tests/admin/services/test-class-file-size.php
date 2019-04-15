@@ -63,7 +63,7 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the retrieval of the file size is successful
+	 * Tests the retrieval of the file size is successful.
 	 *
 	 * @covers WPSEO_File_Size_Service::get
 	 */

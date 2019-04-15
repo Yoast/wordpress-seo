@@ -18,7 +18,7 @@ class WPSEO_Breadcrumbs_Double extends WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Returns the link url for the id.
+	 * Returns the link URL for the ID.
 	 *
 	 * @param int $id ID.
 	 *

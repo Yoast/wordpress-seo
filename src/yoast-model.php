@@ -201,7 +201,7 @@ class Yoast_Model {
 	/**
 	 * Should short table names, disregarding class namespaces, be computed?
 	 *
-	 * $class_property overrides $global_option, unless $class_property is null
+	 * $class_property overrides $global_option, unless $class_property is null.
 	 *
 	 * @param string $class_name The class name to get short name for.
 	 *
@@ -223,7 +223,7 @@ class Yoast_Model {
 	 * Then convert a class name in CapWords to a table name in
 	 * lowercase_with_underscores.
 	 *
-	 * Finally strip doubled up underscores
+	 * Finally strip doubled up underscores.
 	 *
 	 * For example, CarTyre would be converted to car_tyre. And
 	 * Project\Models\CarTyre would be project_models_car_tyre.
@@ -351,7 +351,7 @@ class Yoast_Model {
 	 * @param null|string $connection_name                          The name of the connection.
 	 *
 	 * @return ORMWrapper Instance of the ORM.
-	 * @throws \Exception  When ID of urrent model has a null value.
+	 * @throws \Exception  When ID of current model has a null value.
 	 */
 	protected function has_one( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
 		return $this->has_one_or_many( $associated_class_name, $foreign_key_name, $foreign_key_name_in_current_models_table, $connection_name );
@@ -573,7 +573,7 @@ class Yoast_Model {
 	}
 
 	/**
-	 * Check whether the given property has changed since the object was created or saved
+	 * Check whether the given property has changed since the object was created or saved.
 	 *
 	 * @param string $property The property to check.
 	 *
@@ -584,7 +584,7 @@ class Yoast_Model {
 	}
 
 	/**
-	 * Check whether the model was the result of a call to create() or not
+	 * Check whether the model was the result of a call to create() or not.
 	 *
 	 * @return bool True when is new.
 	 */
@@ -624,7 +624,7 @@ class Yoast_Model {
 	/**
 	 * Get the database ID of this model instance.
 	 *
-	 * @return int The database id of the models instance.
+	 * @return int The database ID of the models instance.
 	 * @throws \Exception When the ID is a null value.
 	 */
 	public function id() {
