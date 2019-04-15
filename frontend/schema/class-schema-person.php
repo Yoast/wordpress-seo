@@ -146,10 +146,9 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 			return $data;
 		}
 
-		$id           = $this->context->site_url . WPSEO_Schema_IDs::PERSON_LOGO_HASH;
-		$schema_image = new WPSEO_Schema_Image( $id );
-
-		$data['image'] = $schema_image->generate_from_url( $url, $user_data->display_name );
+		$id            = $this->context->site_url . WPSEO_Schema_IDs::PERSON_LOGO_HASH;
+		$schema_image  = new WPSEO_Schema_Image( $id );
+		$data['image'] = $schema_image->simple_image_object( $url, $user_data->display_name );
 
 		return $data;
 	}
