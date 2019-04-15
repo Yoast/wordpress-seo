@@ -10,13 +10,11 @@
  *
  * @since 11.2
  *
- * @property WPSEO_Schema_Context $context        A value object with context variables.
  * @property string               $schema_id      The `@id` to use for the returned image.
  * @property array                $data           The ImageObject Schema array.
  * @property int                  $attachment_id  The ID of the attachment used to generate the object.
  */
 class WPSEO_Schema_Image {
-	private $context;
 	private $schema_id;
 	private $data;
 	private $attachment_id;
@@ -24,11 +22,9 @@ class WPSEO_Schema_Image {
 	/**
 	 * WPSEO_Schema_Breadcrumb constructor.
 	 *
-	 * @param WPSEO_Schema_Context $context   A value object with context variables.
 	 * @param string               $schema_id The string to use in an image's `@id`.
 	 */
-	public function __construct( WPSEO_Schema_Context $context, $schema_id ) {
-		$this->context   = $context;
+	public function __construct( $schema_id ) {
 		$this->schema_id = $schema_id;
 		$this->generate_object();
 	}
@@ -40,6 +36,7 @@ class WPSEO_Schema_Image {
 	 * @return array Schema ImageObject array.
 	 */
 	public function generate_from_url( $url, $caption = '' ) {
+		// @todo this shouldn't run if we know the $url is not on the current domain.
 		$attachment_id = WPSEO_Image_Utils::get_attachment_by_url( $url );
 		if ( $attachment_id > 0 ) {
 			return $this->generate_from_attachment_id( $attachment_id, $caption );
