@@ -36,7 +36,6 @@ class WPSEO_Schema_Image {
 	 * @return array Schema ImageObject array.
 	 */
 	public function generate_from_url( $url, $caption = '' ) {
-		// @todo this shouldn't run if we know the $url is not on the current domain.
 		$attachment_id = WPSEO_Image_Utils::get_attachment_by_url( $url );
 		if ( $attachment_id > 0 ) {
 			return $this->generate_from_attachment_id( $attachment_id, $caption );
@@ -70,7 +69,7 @@ class WPSEO_Schema_Image {
 	 *
 	 * @return array $data Schema ImageObject array.
 	 */
-	private function simple_image_object( $url, $caption = '' ) {
+	public function simple_image_object( $url, $caption = '' ) {
 		$this->data['url'] = $url;
 
 		if ( ! empty( $caption ) ) {
