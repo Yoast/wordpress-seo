@@ -44,6 +44,7 @@ class PaperParser {
 	 * Constructs the metaData from the Paper.
 	 *
 	 * @param {Paper} paper The paper to construct the metaData from.
+	 *
 	 * @returns {Object} The metaData.
 	 */
 	constructMetaData( paper ) {
@@ -60,14 +61,14 @@ class PaperParser {
 	/**
 	 * Sets a metaData modifying function behind a function name on the internal metaDataModifiers object.
 	 *
-	 * @param {string}   modifierName     The name of the to be registered function.
-	 * @param {Function} modifierFunction The function that modifies the metaData.Should accept a metaData object
-	 * 										and optionally the paper.
+	 * @param {string}   modifierName       The name of the to be registered function.
+	 * @param {Function} modifierFunction   The function that modifies the metaData. Should accept a metaData object
+	 * 									    and optionally the paper.
 	 * @returns {void}
 	 */
 	registerMetaDataModifier( modifierName, modifierFunction ) {
 		/*
-		The metaDataModifier should accept the metaData and return the altered metaData.
+		 * The metaDataModifier should accept the metaData and return the altered metaData.
 		 */
 		this._metaDataModifiers[ modifierName ] = modifierFunction;
 	}
