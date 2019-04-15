@@ -67,12 +67,8 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 			return $data;
 		}
 		$id            = $this->context->site_url . WPSEO_Schema_IDs::ORGANIZATION_LOGO_HASH;
-		$data['logo']  = array(
-			'@type'   => 'ImageObject',
-			'@id'     => $id,
-			'url'     => $logo,
-			'caption' => $this->context->company_name,
-		);
+		$schema_image  = new WPSEO_Schema_Image( $id );
+		$data['logo']  = $schema_image->generate_from_url( $logo, $this->context->company_name );
 		$data['image'] = array( '@id' => $id );
 
 		return $data;
