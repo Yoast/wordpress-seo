@@ -39,7 +39,7 @@ class WPSEO_Schema_Image {
 	/**
 	 * WPSEO_Schema_Breadcrumb constructor.
 	 *
-	 * @param string               $schema_id The string to use in an image's `@id`.
+	 * @param string $schema_id The string to use in an image's `@id`.
 	 */
 	public function __construct( $schema_id ) {
 		$this->schema_id = $schema_id;
