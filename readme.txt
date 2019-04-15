@@ -109,14 +109,16 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 11.0.0 =
 Release Date: April 16th, 2019
 
+We've made huge changes the schema we put out, adding multiple different types of Schema. Be sure to check our posts on [yoast.com](https://yoast.com/) about this release!
+
 Enhancements:
 
-* Changes the schema to output in one big Graph.
-* Adds Person markup for author pages.
-* Adds WebPage markup for all pages.
-* Adds Article markup for posts, with Person markup for the author.
+* Schema changes:
+	* Adds `Person` markup for author pages.
+	* Adds `WebPage` markup for all pages.
+	* Adds `Article` markup for posts, with `Person` markup for the author.
+	* Changes the ‘Organization or Person’ section of the Knowledge graph settings to allow selecting an author that is the ‘Person’ that the website represents.
 * Adds MySpace, SoundCloud, Tumblr and YouTube URL input fields to people’s profiles.
-* Changes the ‘Organization or Person’ section of the Knowledge graph settings to allow selecting an author that is the ‘Person’.
 
 Bugfixes:
 
