@@ -27,20 +27,14 @@ class WPSEO_Subscription_Notifier_Test extends WPSEO_UnitTestCase {
 			->method( 'get_subscriptions_for_active_addons' )
 			->will( $this->returnValue( $subscriptions ) );
 
-		$instance = $this
-			->getMockBuilder( 'WPSEO_Subscription_Notifier_Double' )
-			->setMethods( array( 'get_addon_manager' ) )
-			->disableOriginalConstructor()
-			->getMock();
+		$notification_center = Yoast_Notification_Center::get();
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_addon_manager' )
-			->will(
-				$this->returnValue( $addon_manager )
-			);
+		$instance = new WPSEO_Subscription_Notifier_Double(
+			$addon_manager,
+			$notification_center
+		);
 
-		$instance->__construct();
+		$instance->__construct( $addon_manager, $notification_center );
 
 		$instance->init();
 
@@ -58,9 +52,6 @@ class WPSEO_Subscription_Notifier_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_first_expiring_subscription() {
 		$subscriptions = array(
-			(object) array(
-				'product' => (object) array()
-			),
 			(object) array(
 				'expiry_date' => '2001-01-01T00:00:00.000Z',
 				'product' => (object) array(
@@ -132,7 +123,7 @@ class WPSEO_Subscription_Notifier_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Subscription_Notifier::calculate_days_until_expiration
 	 */
 	public function test_get_days_until_expiration_subscription_expired() {
-		$instance = new WPSEO_Subscription_Notifier_Double();
+		$instance = $this->initialize_with_subscriptions( array() );
 
 		$expected = 0;
 
@@ -153,7 +144,7 @@ class WPSEO_Subscription_Notifier_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Subscription_Notifier::calculate_days_until_expiration
 	 */
 	public function test_get_days_until_expiration_subscription_active() {
-		$instance = new WPSEO_Subscription_Notifier_Double();
+		$instance = $this->initialize_with_subscriptions( array() );
 
 		$expected = 1;
 
@@ -174,7 +165,7 @@ class WPSEO_Subscription_Notifier_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Subscription_Notifier::calculate_days_until_expiration
 	 */
 	public function test_get_days_until_expiration_subscription_active_1_week() {
-		$instance = new WPSEO_Subscription_Notifier_Double();
+		$instance = $this->initialize_with_subscriptions( array() );
 
 		$expected = 7;
 
