@@ -81,27 +81,25 @@ $extensions = array(
 
 // Add Yoast WooCommerce SEO when WooCommerce is active.
 if ( WPSEO_Utils::is_woocommerce_active() ) {
-	$extensions = array_merge( $extensions, array(
-		WPSEO_Addon_Manager::WOOCOMMERCE_SLUG => new WPSEO_Extension(
-			array(
-				'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zr' ),
-				'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zq' ),
-				'title'         => 'Yoast WooCommerce SEO',
-				'display_title' => 'Make your products stand out in Google',
-				/* translators: %1$s expands to Yoast SEO */
-				'desc'          => sprintf( __( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ), 'Yoast SEO' ),
-				'image'         => plugins_url( 'images/extensions-woo.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
-				'benefits'      => array(
-					sprintf( __( 'Improve sharing on Facebook and Pinterest', 'wordpress-seo' ) ),
-					/* translators: %1$s expands to Yoast, %2$s expands to WooCommerce */
-					sprintf( __( 'Use %1$s breadcrumbs instead of %2$s ones', 'wordpress-seo' ), 'Yoast', 'WooCommerce' ),
-					/* translators: %1$s expands to Yoast SEO, %2$s expands to WooCommerce */
-					sprintf( __( 'A seamless integration between %1$s and %2$s', 'wordpress-seo' ), 'Yoast SEO', 'WooCommerce' ),
-				),
-				'buy_button'    => 'WooCommerce SEO',
-			)
-		),
-	) );
+	$extensions[ WPSEO_Addon_Manager::WOOCOMMERCE_SLUG ] = new WPSEO_Extension(
+		array(
+			'buyUrl'        => WPSEO_Shortlinker::get( 'https://yoa.st/zr' ),
+			'infoUrl'       => WPSEO_Shortlinker::get( 'https://yoa.st/zq' ),
+			'title'         => 'Yoast WooCommerce SEO',
+			'display_title' => 'Make your products stand out in Google',
+			/* translators: %1$s expands to Yoast SEO */
+			'desc'          => sprintf( __( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ), 'Yoast SEO' ),
+			'image'         => plugins_url( 'images/extensions-woo.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
+			'benefits'      => array(
+				sprintf( __( 'Improve sharing on Facebook and Pinterest', 'wordpress-seo' ) ),
+				/* translators: %1$s expands to Yoast, %2$s expands to WooCommerce */
+				sprintf( __( 'Use %1$s breadcrumbs instead of %2$s ones', 'wordpress-seo' ), 'Yoast', 'WooCommerce' ),
+				/* translators: %1$s expands to Yoast SEO, %2$s expands to WooCommerce */
+				sprintf( __( 'A seamless integration between %1$s and %2$s', 'wordpress-seo' ), 'Yoast SEO', 'WooCommerce' ),
+			),
+			'buy_button'    => 'WooCommerce SEO',
+		)
+	);
 }
 
 $addon_manager                  = new WPSEO_Addon_Manager();
