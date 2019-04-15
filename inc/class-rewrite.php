@@ -39,6 +39,7 @@ class WPSEO_Rewrite {
 	 * If the flush option is set, flush the rewrite rules.
 	 *
 	 * @since 1.2.8
+	 *
 	 * @return bool
 	 */
 	public function flush() {

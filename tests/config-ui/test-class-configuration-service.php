@@ -10,7 +10,11 @@
  */
 class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 
-	/** @var WPSEO_Configuration_Service instance */
+	/**
+	 * Instance.
+	 *
+	 * @var WPSEO_Configuration_Service
+	 */
 	protected $configuration_service;
 
 	/**

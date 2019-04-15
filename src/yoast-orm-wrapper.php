@@ -78,8 +78,8 @@ class ORMWrapper extends ORM {
 	 * A repeat of content in parent::for_table, so that created class is
 	 * ORMWrapper, not ORM
 	 *
-	 * @param  string $table_name      The table to create instance for.
-	 * @param  string $connection_name The connection name.
+	 * @param string $table_name      The table to create instance for.
+	 * @param string $connection_name The connection name.
 	 *
 	 * @return ORMWrapper Instance of the ORM wrapper.
 	 */

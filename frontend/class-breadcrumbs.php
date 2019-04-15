@@ -251,7 +251,7 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @param object $term Term to get the parents for.
 	 *
-	 * @return    array
+	 * @return array
 	 */
 	private function get_term_parents( $term ) {
 		$tax     = $term->taxonomy;

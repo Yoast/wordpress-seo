@@ -11,6 +11,7 @@
  * @group sitemaps
  */
 class Test_WPSEO_Sitemap_Provider_Overlap extends WPSEO_UnitTestCase {
+
 	/**
 	 * @var WPSEO_Sitemaps_Double
 	 */

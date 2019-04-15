@@ -240,7 +240,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Pass some variables to js for the edit / post page overview, etc.
 	 *
-	 * @return  array
+	 * @return array
 	 */
 	public function localize_shortcode_plugin_script() {
 		return array(
@@ -440,7 +440,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @param array  $meta_field_def Contains the vars based on which output is generated.
 	 * @param string $key            Internal key (without prefix).
 	 *
-	 * @return  string
+	 * @return string
 	 */
 	public function do_meta_box( $meta_field_def, $key = '' ) {
 		$content      = '';
@@ -623,7 +623,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @param int $post_id Post ID.
 	 *
-	 * @return  bool|void   Boolean false if invalid save post request.
+	 * @return bool|void Boolean false if invalid save post request.
 	 */
 	public function save_postdata( $post_id ) {
 		// Bail if this is a multisite installation and the site has been switched.
@@ -810,7 +810,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Pass some variables to js for upload module.
 	 *
-	 * @return  array
+	 * @return array
 	 */
 	public function localize_media_script() {
 		return array(

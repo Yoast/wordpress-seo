@@ -11,7 +11,9 @@
 class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var WPSEO_Sitemap_Cache_Data subject to test against.
+	 * Subject to test against.
+	 *
+	 * @var WPSEO_Sitemap_Cache_Data
 	 */
 	private $subject;
 

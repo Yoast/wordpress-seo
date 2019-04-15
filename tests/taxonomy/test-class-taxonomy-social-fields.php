@@ -11,7 +11,9 @@
 class WPSEO_Taxonomy_Social_Fields_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var stdClass The created term.
+	 * The created term.
+	 *
+	 * @var stdClass
 	 */
 	private $term;
 

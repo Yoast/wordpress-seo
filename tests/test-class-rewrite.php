@@ -111,7 +111,7 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'redirect' )
-		    ->with( 'my-category' );
+			->with( 'my-category' );
 
 		$instance->request( array( 'wpseo_category_redirect' => 'my-category' ) );
 	}
