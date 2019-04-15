@@ -64,7 +64,7 @@
     "testRegex": ".*Test.js$",
     "testEnvironment": "node",
     "transform": {
-      "^.+\\.jsx?$": "babel-jest"
+      "\\.jsx?$": "babel-jest"
     },
     "transformIgnorePatterns": [
       "/node_modules/(?!yoastseo|lodash-es).+\\.js$"

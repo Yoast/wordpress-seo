@@ -1,9 +1,9 @@
 // External dependencies.
+import styled from "styled-components";
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import noop from "lodash/noop";
-import styled from "styled-components";
 
 /* Yoast dependencies */
 import { assessments, string, helpers } from "yoastseo";
