@@ -15,8 +15,25 @@
  * @property int                  $attachment_id  The ID of the attachment used to generate the object.
  */
 class WPSEO_Schema_Image {
+	/**
+	 * The `@id` to use for the returned image.
+	 *
+	 * @var string
+	 */
 	private $schema_id;
+
+	/**
+	 * The ImageObject Schema array.
+	 *
+	 * @var array
+	 */
 	private $data;
+
+	/**
+	 * The ID of the attachment used to generate the object.
+	 *
+	 * @var int
+	 */
 	private $attachment_id;
 
 	/**
@@ -47,8 +64,8 @@ class WPSEO_Schema_Image {
 	/**
 	 * Retrieve data about an image from the database and use it to generate a Schema object.
 	 *
-	 * @param int    $attachment_id
-	 * @param string $caption
+	 * @param int    $attachment_id The attachment to retrieve data from.
+	 * @param string $caption       The caption string, if there is one.
 	 *
 	 * @return array Schema ImageObject array.
 	 */
@@ -82,12 +99,12 @@ class WPSEO_Schema_Image {
 	/**
 	 * Retrieves an image's caption if set, or uses the alt tag if that's set.
 	 *
-	 * @param string $caption
+	 * @param string $caption The caption string, if there is one.
 	 *
 	 * @return void
 	 */
 	private function add_caption( $caption = '' ) {
-		if ( ! empty ( $caption ) ) {
+		if ( ! empty( $caption ) ) {
 			$this->data['caption'] = $caption;
 
 			return;
