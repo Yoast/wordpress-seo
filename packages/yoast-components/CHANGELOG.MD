@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.23.1 April 15th, 2019
+### Other
+* Updated the `styled-components` package to v4+. 
+
 ## 4.23.0 April 1st, 2019
 ### Added
 * Adds an autocomplete prop to the following components: `Step`, `Textfield`, and `Input`.
