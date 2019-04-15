@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 
 /* Yoast dependencies */
-import { Paper, YoastTabs, HelpCenterButton } from "@yoast/components";
+import { Paper, Tabs, HelpCenterButton } from "@yoast/components";
 import { colors, breakpoints } from "@yoast/style-guide";
 
 export const HelpCenterContainer = styled.div`
@@ -78,7 +78,7 @@ class HelpCenter extends React.Component {
 					{ __( "Need help?", "yoast-components" ) }
 				</HelpCenterButton>
 				{ this.state.isExpanded && <HelpCenterPaper minHeight="432px">
-					<YoastTabs
+					<Tabs
 						items={ this.props.items }
 						tabsTextColor={ this.props.tabsTextColor }
 						tabsTextTransform={ this.props.tabsTextTransform }
