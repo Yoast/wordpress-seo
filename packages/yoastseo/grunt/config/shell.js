@@ -90,6 +90,12 @@ module.exports = function( grunt ) {
 		commands.push( "git checkout develop" );
 		commands.push( `git checkout ${ branch }` );
 
+		if ( process.env.CI ) {
+			const customBranch = grunt.config.get( "pkg" ).yoast.premiumConfiguration || "";
+
+			commands.push( `git checkout ${ customBranch }` );
+		}
+
 		return commands.join( "&&" );
 	}
 
