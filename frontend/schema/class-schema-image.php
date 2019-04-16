@@ -10,9 +10,9 @@
  *
  * @since 11.2
  *
- * @property string               $schema_id      The `@id` to use for the returned image.
- * @property array                $data           The ImageObject Schema array.
- * @property int                  $attachment_id  The ID of the attachment used to generate the object.
+ * @property string $schema_id      The `@id` to use for the returned image.
+ * @property array  $data           The ImageObject Schema array.
+ * @property int    $attachment_id  The ID of the attachment used to generate the object.
  */
 class WPSEO_Schema_Image {
 	/**
@@ -47,6 +47,8 @@ class WPSEO_Schema_Image {
 	}
 
 	/**
+	 * Find an image based on its URL and generate a Schema object for it.
+	 *
 	 * @param string $url     The image URL to base our object on.
 	 * @param string $caption An optional caption.
 	 *
