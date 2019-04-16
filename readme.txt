@@ -109,27 +109,20 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 11.0.0 =
 Release Date: April 16th, 2019
 
+We've made huge changes to the schema.org markup we output, adding multiple different types of Schema. Be sure to check [our posts on yoast.com about this release](https://yoa.st/schema-release-post)!
+
 Enhancements:
 
-* Changes the schema to output in one big Graph.
-* Adds Person markup for author pages.
-* Adds WebPage markup for all pages.
-* Adds Article markup for posts, with Person markup for the author.
-* Adds MySpace, SoundCloud, Tumblr and YouTube URL input fields to people's profiles.
-* Merges the 'Company or person' and 'Social profiles' steps together in the configuration wizard to have all data for the Person markup together.
-* Changes the 'Organization or Person' section of the Knowledge graph settings to allow selecting an author that is the 'Person'.
-* Optimizes the code to avoid an unnecessary DB query to remove notifications storage when it's already empty. Props to [rmc47](https://github.com/rmc47).
-* Improves the accessibility of the breadcrumbs by adding `aria-current` to the active item.
-* Adds 'filesize' to whitelisted properties on ''$image'. Props to [cmmarslender](https://github.com/cmmarslender).
+* Schema changes:
+	* Adds `Person` markup for author pages.
+	* Adds `WebPage` markup for all pages.
+	* Adds `Article` markup for posts, with `Person` markup for the author.
+	* Changes the ‘Organization or Person’ section of the Knowledge graph settings to allow selecting an author that is the ‘Person’ that the website represents.
+* Adds MySpace, SoundCloud, Tumblr and YouTube URL input fields to people’s profiles.
 
 Bugfixes:
 
-* Fixes the buttons position in the structured data blocks.
-
-Other:
-
-* Improves the breadcrumbs accessibility by adding `aria-current` to the active item.
-* Improves accessibility of the add-ons tabs in the meta box.
+* Fixes an issue where the metabox would not display on term edit pages when running the development build of Gutenberg.
 
 = 10.1.3 =
 Release Date: April 4th, 2019

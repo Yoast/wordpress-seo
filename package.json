@@ -124,6 +124,7 @@
     "@wordpress/is-shallow-equal": "^1.2.0",
     "@wordpress/rich-text": "^3.2.2",
     "@wordpress/url": "^2.5.0",
+    "@yoast/algolia-search-box": "^1.0.0-rc.5",
     "@yoast/components": "^0.1.0-rc.6",
     "@yoast/configuration-wizard": "^1.0.0-rc.6",
     "@yoast/search-metadata-previews": "^1.0.0-rc.8",
@@ -151,11 +152,11 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
-    "yoast-components": "^4.24.0-rc.9",
-    "yoastseo": "^1.51.0-rc.6"
+    "yoast-components": "^4.23.0",
+    "yoastseo": "^1.50.0"
   },
   "yoast": {
-    "pluginVersion": "11.0-RC3",
+    "pluginVersion": "11.0-RC4",
     "recalibrationVersion": "13"
   }
 }
