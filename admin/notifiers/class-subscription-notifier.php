@@ -168,6 +168,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 		if ( $days_until_expiration <= 7 && $days_until_expiration > 1 ) {
 			$this->set_current_notification( self::EXPIRATION_WITHIN_1_WEEK );
 
+			// @codingStandardsIgnoreLine WordPress.WP.I18n.TextDomainMismatch -- This should use the WordPress default date translation.
 			$formatted_date = '<b>' . date_i18n( __( 'F j, Y', 'default' ), strtotime( $this->subscription_with_earliest_expiry_date->expiry_date ) ) . '</b>';
 			/* translators: %1$s expands to Yoast, %2$s expands to a date, %3$s expands to a percentage, %4$s expands to an opening anchor tag, %5$s expands to an closing anchor tag. */
 			$message        = sprintf( esc_html__( 'Your %1$s plugin(s) are about to expire! When plugins expire, you will no longer receive updates or support. You have until %2$s to renew with a %3$s discount. %4$sRenew now!%5$s', 'wordpress-seo' ), 'Yoast', $formatted_date, '25%', '<a href="' . $this->get_url() . '">', '</a>' );
@@ -322,22 +323,23 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * @return stdClass|null Object representing a subscription.
 	 */
 	protected function determine_subscription_with_earliest_expiry_date() {
-		$subscriptions = array_values(
+		$subscriptions       = array_values(
 			$this->addon_manager->get_subscriptions_for_active_addons()
 		);
+		$subscription_amount = count( $subscriptions );
 
-		if ( count( $subscriptions ) === 0 ) {
+		if ( $subscription_amount === 0 ) {
 			return null;
 		}
 
-		if ( count( $subscriptions ) === 1 ) {
+		if ( $subscription_amount === 1 ) {
 			return $subscriptions[0];
 		}
 
 		$subscription_with_earliest_expiry_date = $subscriptions[0];
 		$subscription_timestamp                 = strtotime( $subscription_with_earliest_expiry_date->expiry_date );
 
-		for ( $i = 1; $i < count( $subscriptions ); $i ++ ) {
+		for ( $i = 1; $i < $subscription_amount; $i ++ ) {
 			$compare_timestamp = strtotime( $subscriptions[ $i ]->expiry_date );
 
 			if ( $subscription_timestamp < $compare_timestamp ) {
