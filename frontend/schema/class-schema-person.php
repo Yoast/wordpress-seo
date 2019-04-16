@@ -19,12 +19,30 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	private $context;
 
 	/**
+	 * Array of the social profiles we display for a Person.
+	 *
+	 * @var array
+	 */
+	private $social_profiles = array(
+		'facebook',
+		'instagram',
+		'linkedin',
+		'pinterest',
+		'twitter',
+		'myspace',
+		'youtube',
+		'soundcloud',
+		'tumblr',
+		'wikipedia',
+	);
+
+	/**
 	 * WPSEO_Schema_Breadcrumb constructor.
 	 *
 	 * @param WPSEO_Schema_Context $context A value object with context variables.
 	 */
 	public function __construct( WPSEO_Schema_Context $context ) {
-		$this->context   = $context;
+		$this->context = $context;
 	}
 
 	/**
@@ -80,18 +98,14 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return array $output A list of social profiles.
 	 */
 	protected function get_social_profiles( $user_id ) {
-		$social_profiles = array(
-			'facebook',
-			'instagram',
-			'linkedin',
-			'pinterest',
-			'twitter',
-			'myspace',
-			'youtube',
-			'soundcloud',
-			'tumblr',
-			'wikipedia',
-		);
+		/**
+		 * Filter: 'wpseo_schema_person_social_profiles' - Allows filtering of user ID used for person output.
+		 *
+		 * @param int $user_id The current user we're grabbing social profiles for.
+		 *
+		 * @api string[] $social_profiles The array of social profiles to retrieve. Each should be a user meta field key.
+		 */
+		$social_profiles = apply_filters( 'wpseo_schema_person_social_profiles', $this->social_profiles, $user_id );
 		$output          = array();
 		foreach ( $social_profiles as $profile ) {
 			$social_url = $this->url_social_site( $profile, $user_id );
