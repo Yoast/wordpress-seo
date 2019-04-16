@@ -57,11 +57,16 @@ class WPSEO_Admin_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			array(
-				'facebook'  => 'Facebook profile URL',
-				'instagram' => 'Instagram profile URL',
-				'linkedin'  => 'LinkedIn profile URL',
-				'pinterest' => 'Pinterest profile URL',
-				'twitter'   => 'Twitter username (without @)',
+				'facebook'   => 'Facebook profile URL',
+				'instagram'  => 'Instagram profile URL',
+				'linkedin'   => 'LinkedIn profile URL',
+				'pinterest'  => 'Pinterest profile URL',
+				'twitter'    => 'Twitter username (without @)',
+				'myspace'    => 'MySpace profile URL',
+				'soundcloud' => 'SoundCloud profile URL',
+				'tumblr'     => 'Tumblr profile URL',
+				'youtube'    => 'YouTube profile URL',
+				'wikipedia'  => 'Wikipedia page about you<br/><small>(if one exists)</small>',
 			),
 			$class_instance->update_contactmethods( array() )
 		);

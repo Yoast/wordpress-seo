@@ -68,7 +68,7 @@ class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
 			'wpseo_noindex'         => 'index',
 			'wpseo_canonical'       => 'https://yoast.com/',
 			'wpseo_bctitle'         => 'this can contain \backslashes\.',
-			'wpseo_focuskeywords'   => json_encode(
+			'wpseo_focuskeywords'   => WPSEO_Utils::format_json_encode(
 				array(
 					array(
 						'keyword' => '\"test\"',
@@ -80,7 +80,7 @@ class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
 					),
 				)
 			),
-			'wpseo_keywordsynonyms' => json_encode( array( '""TESTING""', '""""' ) ),
+			'wpseo_keywordsynonyms' => WPSEO_Utils::format_json_encode( array( '""TESTING""', '""""' ) ),
 			'wpseo_focuskw'         => '&quotdouble quotes" and \backslashes\.',
 			'wpseo_title'           => '&quotdouble quotes" and \backslashes\.',
 			'wpseo_desc'            => '&quotdouble quotes" and \backslashes\.',
@@ -103,7 +103,7 @@ class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
 		$expected = array(
 			'wpseo_bctitle'         => 'this can contain \backslashes\.',
 			'wpseo_canonical'       => 'https://yoast.com/test%20space',
-			'wpseo_focuskeywords'   => json_encode(
+			'wpseo_focuskeywords'   => WPSEO_Utils::format_json_encode(
 				array(
 					array(
 						'keyword' => '\"test\"',
@@ -115,7 +115,7 @@ class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
 					),
 				)
 			),
-			'wpseo_keywordsynonyms' => json_encode( array( '""TESTING""', '""""' ) ),
+			'wpseo_keywordsynonyms' => WPSEO_Utils::format_json_encode( array( '""TESTING""', '""""' ) ),
 			'wpseo_focuskw'         => '&quotdouble quotes" and \backslashes\.',
 			'wpseo_title'           => '&quotdouble quotes" and \backslashes\.',
 			'wpseo_desc'            => '&quotdouble quotes" and \backslashes\.',
@@ -126,7 +126,7 @@ class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
 			'wpseo_noindex'         => 'extra something',
 			'wpseo_canonical'       => 'https://yoast.com/test space',
 			'wpseo_bctitle'         => 'this can contain \backslashes\.',
-			'wpseo_focuskeywords'   => json_encode(
+			'wpseo_focuskeywords'   => WPSEO_Utils::format_json_encode(
 				array(
 					array(
 						'keyword' => '\"test\"',
@@ -139,7 +139,7 @@ class WPSEO_Taxonomy_Meta_Test extends WPSEO_UnitTestCase {
 					),
 				)
 			),
-			'wpseo_keywordsynonyms' => json_encode( array( '""TESTING""', '""""' ) ),
+			'wpseo_keywordsynonyms' => WPSEO_Utils::format_json_encode( array( '""TESTING""', '""""' ) ),
 			'wpseo_focuskw'         => '  &quotdouble quotes" `>&lt;&gt;&#96<`and \backslashes\.  ',
 			'wpseo_title'           => '&quotdouble quotes"			and \backslashes\.',
 			'wpseo_desc'            => '&quotdouble quotes" <>and<> \backslashes\.',

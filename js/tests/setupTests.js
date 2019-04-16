@@ -1,4 +1,5 @@
 import "raf/polyfill";
+import "jest-styled-components";
 import Enzyme from "enzyme";
 import EnzymeAdapter from "enzyme-adapter-react-16";
 import { setLocaleData } from "@wordpress/i18n";
@@ -14,3 +15,8 @@ setLocaleData( {
 		/* eslint-enable */
 	},
 }, "wordpress-seo" );
+
+global.wpApiSettings = {
+	nonce: "nonce",
+	root: "http://example.com",
+};
