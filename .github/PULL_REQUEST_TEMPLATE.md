@@ -20,7 +20,7 @@ Sometimes PRs have a bigger impact than is suggested in the user-facing changes.
 additional (regression) testing might be necessary. To make it clear what parts might need additional testing,
 please outline which parts of the plugin have been impacted by this PR.
 -->
-* This PR affects the following parts of the plugin which require extra testing:
+* This PR affects the following parts of the plugin, which may require extra testing:
   *
 
 ## UI changes
