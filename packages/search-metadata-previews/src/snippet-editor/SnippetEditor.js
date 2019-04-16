@@ -38,7 +38,7 @@ const EditSnippetButton = styled( SnippetEditorButton )`
 	}
 `;
 
-const CloseEditorButton = styled( SnippetEditorButton  )`
+const CloseEditorButton = styled( SnippetEditorButton )`
 	margin-top: 24px;
 `;
 
