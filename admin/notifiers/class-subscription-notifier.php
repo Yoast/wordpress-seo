@@ -89,6 +89,11 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 */
 	const EXPIRED_MORE_THAN_1_DAY = 'plugins-expired-more-than-1-day';
 
+	/**
+	 * Determines from what number of days before expiration a subscription can be considered as "about to expire".
+	 *
+	 * @var int
+	 */
 	const ADDON_ABOUT_TO_EXPIRE_THRESHOLD = 28;
 
 	/**
@@ -354,7 +359,10 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 		 * has more urgency.
 		 */
 		$first_subscription_to_expire = $this->get_first_subscription_to_expire( $subscriptions );
-		if ( $first_subscription_to_expire !== null && $this->calculate_days_until_expiration( $first_subscription_to_expire ) < 28 ) {
+		if (
+			$first_subscription_to_expire !== null
+			&& $this->calculate_days_until_expiration( $first_subscription_to_expire ) < self::ADDON_ABOUT_TO_EXPIRE_THRESHOLD
+		) {
 			return $first_subscription_to_expire;
 		}
 
