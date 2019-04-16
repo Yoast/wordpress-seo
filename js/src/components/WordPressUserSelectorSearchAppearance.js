@@ -126,7 +126,7 @@ class WordPressUserSelectorSearchAppearance extends Component {
 				<WordPressUserSelector
 					hasLabel={ false }
 					name={ "wpseo-person-selector-name" }
-					properties={ { user: this.state.value } }
+					value={ this.state.value }
 					onChange={ this.onChange }
 				/>
 				<p>{ this.renderAuthorInfo() }</p>
