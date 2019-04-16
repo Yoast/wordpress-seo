@@ -11,11 +11,11 @@
 class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 
 	/**
-	 * Object representing a subscription with the earliest subscription expiration date.
+	 * Object representing a subscription we should show a notification for.
 	 *
 	 * @var stdClass
 	 */
-	private $subscription_with_earliest_expiry_date;
+	private $notification_subscription;
 
 	/**
 	 * Yoast_Notification_Center instance.
@@ -89,6 +89,8 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 */
 	const EXPIRED_MORE_THAN_1_DAY = 'plugins-expired-more-than-1-day';
 
+	const ADDON_ABOUT_TO_EXPIRE_THRESHOLD = 28;
+
 	/**
 	 * WPSEO_Subscription_Notifier constructor.
 	 *
@@ -126,14 +128,14 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	public function init() {
 		$this->current_notification_id = get_option( self::NOTIFICATION_ID );
 
-		$this->subscription_with_earliest_expiry_date = $this->determine_subscription_with_earliest_expiry_date();
+		$this->notification_subscription = $this->determine_notification_subscription();
 
-		if ( $this->subscription_with_earliest_expiry_date === null ) {
+		if ( $this->notification_subscription === null ) {
 			$this->clean_up();
 			return;
 		}
 
-		$days_until_expiration = $this->calculate_days_until_expiration( $this->subscription_with_earliest_expiry_date );
+		$days_until_expiration = $this->calculate_days_until_expiration( $this->notification_subscription );
 
 		$this->determine_notification( $days_until_expiration );
 	}
@@ -157,7 +159,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	private function determine_notification( $days_until_expiration ) {
-		if ( $days_until_expiration < 28 && $days_until_expiration > 7 ) {
+		if ( $days_until_expiration < self::ADDON_ABOUT_TO_EXPIRE_THRESHOLD && $days_until_expiration > 7 ) {
 			$this->set_current_notification( self::EXPIRATION_WITHIN_4_WEEKS );
 
 			/* translators: %1$s expands to Yoast, %2$s expands to an opening anchor tag, %3$s expands to a percentage, %4$s expands to an closing anchor tag. */
@@ -169,7 +171,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 			$this->set_current_notification( self::EXPIRATION_WITHIN_1_WEEK );
 
 			// @codingStandardsIgnoreLine WordPress.WP.I18n.TextDomainMismatch -- This should use the WordPress default date translation.
-			$formatted_date = '<b>' . date_i18n( __( 'F j, Y', 'default' ), strtotime( $this->subscription_with_earliest_expiry_date->expiry_date ) ) . '</b>';
+			$formatted_date = '<b>' . date_i18n( __( 'F j, Y', 'default' ), strtotime( $this->notification_subscription->expiry_date ) ) . '</b>';
 			/* translators: %1$s expands to Yoast, %2$s expands to a date, %3$s expands to a percentage, %4$s expands to an opening anchor tag, %5$s expands to an closing anchor tag. */
 			$message        = sprintf( esc_html__( 'Your %1$s plugin(s) are about to expire! When plugins expire, you will no longer receive updates or support. You have until %2$s to renew with a %3$s discount. %4$sRenew now!%5$s', 'wordpress-seo' ), 'Yoast', $formatted_date, '25%', '<a href="' . $this->get_url() . '">', '</a>' );
 			$this->show_notification( $message );
@@ -183,7 +185,7 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 			$this->show_notification( $message );
 			return;
 		}
-		if ( $days_until_expiration === 0 ) {
+		if ( $days_until_expiration <= 0 && $days_until_expiration > -29 ) {
 			$this->set_current_notification( self::EXPIRED_WITHIN_LAST_DAY );
 
 			/* translators: %1$s expands to Yoast, %2$s expands to an opening anchor tag, %3$s expands to a percentage, %4$s expands to an closing anchor tag. */
@@ -191,11 +193,11 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 			$this->show_notification( $message );
 			return;
 		}
-		if ( $days_until_expiration < 0 && $days_until_expiration > -30 ) {
+		if ( $days_until_expiration === -29 ) {
 			$this->set_current_notification( self::EXPIRED_MORE_THAN_1_DAY );
 
 			/* translators: %1$s expands to Yoast, %2$s expands to an opening anchor tag, %3$s expands to a percentage, %4$s expands to an closing anchor tag. */
-			$message = sprintf( esc_html__( 'Your %1$s plugin(s) has expired within the last month. When plugins expire, you will no longer receive updates or support. Grab your last chance to %2$srenew with a %3$s discount!%4$s', 'wordpress-seo' ), 'Yoast', '<a href="' . $this->get_url() . '">', '25%', '</a>' );
+			$message = sprintf( esc_html__( 'Your %1$s plugin(s) has expired one month ago. When plugins expire, you will no longer receive updates or support. Grab your last chance to %2$srenew with a %3$s discount!%4$s', 'wordpress-seo' ), 'Yoast', '<a href="' . $this->get_url() . '">', '25%', '</a>' );
 			$this->show_notification( $message );
 			return;
 		}
@@ -211,8 +213,8 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	 * @return string Escaped URL string.
 	 */
 	protected function get_url() {
-		if ( ! empty( $this->subscription_with_earliest_expiry_date->renewal_url ) ) {
-			$url = $this->apply_utm_tags( $this->subscription_with_earliest_expiry_date->renewal_url );
+		if ( ! empty( $this->notification_subscription->renewal_url ) ) {
+			$url = $this->apply_utm_tags( $this->notification_subscription->renewal_url );
 			return esc_url( $url );
 		}
 
@@ -318,28 +320,59 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Gets the first add-on that will expire (or has expired) from the add-on manager.
+	 * Determines what subscription should be used for showing a notification.
 	 *
 	 * @return stdClass|null Object representing a subscription.
 	 */
-	protected function determine_subscription_with_earliest_expiry_date() {
+	protected function determine_notification_subscription() {
 		$subscriptions       = array_values(
 			$this->addon_manager->get_subscriptions_for_active_addons()
 		);
-		$subscription_amount = count( $subscriptions );
 
-		if ( $subscription_amount === 0 ) {
+		$subscription_count = count( $subscriptions );
+		if ( $subscription_count === 0 ) {
 			return null;
 		}
 
-		if ( $subscription_amount === 1 ) {
+		if ( $subscription_count === 1 ) {
 			return $subscriptions[0];
 		}
 
+		$subscription_with_earliest_expiry_date = $this->determine_subscription_with_earliest_expiry_date( $subscriptions );
+
+		/**
+		 * If the plugin with the earliest expiry date has not expired yet, we have no need to check
+		 * whether there are addons that are about to expire.
+		 */
+		if ( $this->calculate_days_until_expiration( $subscription_with_earliest_expiry_date ) > 0 ) {
+			return $subscription_with_earliest_expiry_date;
+		}
+
+		/**
+		 * If there is a plugin that has already expired, we check whether there is a plugin that is about
+		 * to expire (up to 28 days before expiration), because if so this notification for that addon
+		 * has more urgency.
+		 */
+		$first_subscription_to_expire = $this->get_first_subscription_to_expire( $subscriptions );
+		if ( $first_subscription_to_expire !== null && $this->calculate_days_until_expiration( $first_subscription_to_expire ) < 28 ) {
+			return $first_subscription_to_expire;
+		}
+
+		return $subscription_with_earliest_expiry_date;
+	}
+
+	/**
+	 * Gets the first add-on that will expire (or has expired) from the add-on manager.
+	 *
+	 * @param array $subscriptions Array of at least 2 subscription objects.
+	 *
+	 * @return stdClass|null Object representing a subscription.
+	 */
+	protected function determine_subscription_with_earliest_expiry_date( $subscriptions ) {
 		$subscription_with_earliest_expiry_date = $subscriptions[0];
 		$subscription_timestamp                 = strtotime( $subscription_with_earliest_expiry_date->expiry_date );
 
-		for ( $i = 1; $i < $subscription_amount; $i ++ ) {
+		for ( $i = 1; $i < count( $subscriptions ); $i ++ ) {
 			$compare_timestamp = strtotime( $subscriptions[ $i ]->expiry_date );
 
 			if ( $subscription_timestamp < $compare_timestamp ) {
@@ -351,6 +384,39 @@ class WPSEO_Subscription_Notifier implements WPSEO_WordPress_Integration {
 		}
 
 		return $subscription_with_earliest_expiry_date;
+	}
+
+	/**
+	 * Gets the first add-on that will expire (or has expired) from the add-on manager.
+	 *
+	 * @param array $subscriptions Array of subscription objects.
+	 *
+	 * @return stdClass|null Object representing a subscription.
+	 */
+	protected function get_first_subscription_to_expire( $subscriptions ) {
+		$subscriptions = array_values( array_filter( $subscriptions, array( $this, 'filter_expired_plugins' ) ) );
+
+		$subscription_count = count( $subscriptions );
+		if ( $subscription_count === 0 ) {
+			return null;
+		}
+
+		if ( $subscription_count === 1 ) {
+			return $subscriptions[0];
+		}
+
+		return $this->determine_subscription_with_earliest_expiry_date( $subscriptions );
+	}
+
+	/**
+	 * Filter used to filter out expired plugins.
+	 *
+	 * @param stdClass $subscription Object representing a subscription.
+	 *
+	 * @return bool False if the plugin has expired.
+	 */
+	public function filter_expired_plugins( $subscription ) {
+		return ( time() - strtotime( $subscription->expiry_date ) ) < 0;
 	}
 
 	/**

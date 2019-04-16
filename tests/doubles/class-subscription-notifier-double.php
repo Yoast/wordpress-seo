@@ -11,12 +11,12 @@
 class WPSEO_Subscription_Notifier_Double extends WPSEO_Subscription_Notifier {
 
 	/**
-	 * Gets the first add-on that will expire from the add-on manager.
+	 * Determines what subscription should be used for showing a notification.
 	 *
 	 * @return stdClass|null Object representing a subscription.
 	 */
-	public function determine_subscription_with_earliest_expiry_date() {
-		return parent::determine_subscription_with_earliest_expiry_date();
+	public function determine_notification_subscription() {
+		return parent::determine_notification_subscription();
 	}
 
 	/**
