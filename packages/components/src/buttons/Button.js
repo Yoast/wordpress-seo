@@ -184,7 +184,6 @@ BaseButton.defaultProps = {
 	focusBorderColor: colors.$color_blue,
 };
 
-
 /**
  * Returns a styled Button with set font size.
  *

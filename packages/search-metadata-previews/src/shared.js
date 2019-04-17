@@ -110,7 +110,7 @@ export const withCaretStyles = Component => {
 			${ getDirectionalStyle( "left", "right" ) }: -25px;
 			width: 24px;
 			height: 24px;
-			background-image: url( ${ getBackgroundImage } );
+			background-image: url( ${getBackgroundImage} );
 			background-size: 25px;
 			content: "";
 		}
