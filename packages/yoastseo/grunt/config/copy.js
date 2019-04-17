@@ -22,6 +22,9 @@ module.exports = {
 			src: "package.json",
 			dest: "dist/",
 		}, {
+			src: ".babelrc",
+			dest: "dist/",
+		}, {
 			src: "README.md",
 			dest: "dist/",
 		}, {

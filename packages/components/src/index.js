@@ -1,12 +1,10 @@
 import StyledSection, { StyledHeading, StyledSectionBase } from "./StyledSection";
-import { BaseLinkButton, LinkButton } from "./buttons/LinkButton";
-
+import { LinkButton } from "./buttons/LinkButton";
 
 export {
 	StyledSection,
 	StyledSectionBase,
 	StyledHeading,
-	BaseLinkButton,
 	LinkButton,
 };
 
@@ -16,7 +14,6 @@ export {
 	addHoverStyle,
 	addActiveStyle,
 	addFocusStyle,
-	addFontSizeStyles,
 	addBaseStyle,
 	addButtonStyles,
 } from "./buttons/Button";

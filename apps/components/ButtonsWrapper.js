@@ -5,7 +5,6 @@ import styled from "styled-components";
 // Yoast dependencies.
 import {
 	BaseButton,
-	BaseLinkButton,
 	Button,
 	IconButton,
 	IconButtonToggle,
@@ -15,7 +14,7 @@ import {
 	UpsellButton,
 	UpsellLinkButton,
 	YoastButton,
-	YoastLinkButton
+	YoastLinkButton,
 } from "@yoast/components";
 
 const ButtonsContainer = styled.div`
@@ -40,11 +39,13 @@ const Separator = styled.hr`
 /**
  * Renders all the yoast-component Buttons.
  *
- * @returns {ReactElement} The Buttons container component.
+ * @returns {React.Element} The Buttons container component.
  */
 export default class ButtonsList extends React.Component {
 	/**
 	 * Constructs the Buttons container.
+	 *
+	 * @param {Object} props The component's props.
 	 *
 	 * @returns {void}
 	 */
@@ -64,15 +65,15 @@ export default class ButtonsList extends React.Component {
 	 * @returns {void}
 	 */
 	updateIconButtonTogglePressed() {
-		this.setState( {
-			iconButtonTogglePressed: ! this.state.iconButtonTogglePressed,
-		} );
+		this.setState( prevState => ( {
+			iconButtonTogglePressed: ! prevState.iconButtonTogglePressed,
+		} ) );
 	}
 
 	/**
 	 * Renders all the buttons.
 	 *
-	 * @returns {ReactElement} The rendered list of buttons.
+	 * @returns {React.Element} The rendered list of buttons.
 	 */
 	render() {
 		return (
@@ -83,7 +84,6 @@ export default class ButtonsList extends React.Component {
 				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ " " }
 				<IconsButton prefixIcon={ { icon: "search" } } suffixIcon={ { icon: "plus" } }>IconsButton</IconsButton>
 				<Separator />
-				<BaseLinkButton href="#someresource">BaseLinkButton</BaseLinkButton>{ " " }
 				<LinkButton href="#someresource">LinkButton</LinkButton>
 				<Separator />
 				<IconButtonToggle
@@ -131,8 +131,12 @@ export default class ButtonsList extends React.Component {
 				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ " " }
 				<IconButton icon="edit" iconColor="#c00" className="with-max-width">With max-width and long
 					text</IconButton>{ " " }
-				<YoastButton backgroundColor="lightblue" textColor="#333"
-				             withTextShadow={ false }>Color</YoastButton>{ " " }
+				<YoastButton
+					backgroundColor="lightblue" textColor="#333"
+					withTextShadow={ false }
+				>
+					Color
+				</YoastButton>{ " " }
 				<YoastButton className="test-large-button">Min width</YoastButton>{ " " }
 
 				<h2>Test min-height bugs</h2>
@@ -145,17 +149,22 @@ export default class ButtonsList extends React.Component {
 				</p>
 				<h3>Buttons</h3>
 				<BaseButton>Base</BaseButton>{ " " }
-				<YoastButton backgroundColor="lightblue" textColor="#333"
-				             withTextShadow={ false }>Color</YoastButton>{ " " }
+				<YoastButton
+					backgroundColor="lightblue" textColor="#333"
+					withTextShadow={ false }
+				>
+					Color
+				</YoastButton>{ " " }
 				<YoastButton className="test-large-button">Min width</YoastButton>{ " " }
 				<IconButton icon="edit" iconColor="#c00" aria-label="IconButton with icon only" />{ " " }
 				<IconButton icon="edit" iconColor="#c00" className="with-max-width">With max-width and long
 					text</IconButton>{ " " }
 				<h3>Links</h3>
-				<BaseLinkButton href="#somewhere1">Base</BaseLinkButton>{ " " }
 				<LinkButton href="#somewhere2">Button</LinkButton>{ " " }
-				<YoastLinkButton href="#somewhere4" backgroundColor="lightblue" textColor="#333"
-				                 withTextShadow={ false }>
+				<YoastLinkButton
+					href="#somewhere4" backgroundColor="lightblue" textColor="#333"
+					withTextShadow={ false }
+				>
 					Color
 				</YoastLinkButton>{ " " }
 				<YoastLinkButton className="test-large-button" href="#somewhere3">Min width</YoastLinkButton>
