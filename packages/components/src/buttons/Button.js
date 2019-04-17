@@ -2,6 +2,7 @@
 import styled from "styled-components";
 import flow from "lodash/flow";
 import PropTypes from "prop-types";
+import omit from "lodash/omit";
 
 // Yoast dependencies.
 import { colors, rgba } from "@yoast/style-guide";
@@ -203,7 +204,7 @@ export const Button = BaseButton;
  */
 function addIconTextStyle( icon ) {
 	return styled( icon )`
-		margin: ${ getRtlStyle( "0 8px 0 0", "0 0 0 8px" ) };
+		margin: ${ getDirectionalStyle( "0 8px 0 0", "0 0 0 8px" ) };
 		flex-shrink: 0;
 	`;
 }
