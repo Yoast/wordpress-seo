@@ -27,3 +27,7 @@ global.wp = {
 	},
 };
 
+global.wpApiSettings = {
+	nonce: "nonce",
+	root: "http://example.com",
+};
