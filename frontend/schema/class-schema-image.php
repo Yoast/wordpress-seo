@@ -8,7 +8,7 @@
 /**
  * Returns schema image data.
  *
- * @since 11.2
+ * @since 11.1
  *
  * @property string $schema_id      The `@id` to use for the returned image.
  * @property array  $data           The ImageObject Schema array.
