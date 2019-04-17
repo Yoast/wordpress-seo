@@ -1,24 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LocalSEOUpsell matches the snapshot 1`] = `
-.c6 {
-  border: 0;
-  -webkit-clip: rect(1px,1px,1px,1px);
-  clip: rect(1px,1px,1px,1px);
-  -webkit-clip-path: inset(50%);
-  clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute !important;
-  width: 1px;
-  word-wrap: normal !important;
-  -webkit-transform: translateY(1em);
-  -ms-transform: translateY(1em);
-  transform: translateY(1em);
-}
-
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -102,7 +84,7 @@ exports[`LocalSEOUpsell matches the snapshot 1`] = `
     >
       Get the Local SEO plugin now
       <span
-        className="c6"
+        className="A11yNotice-u1v0gg-0 dWDZbM"
       >
         (Opens in a new browser tab)
       </span>
@@ -112,24 +94,6 @@ exports[`LocalSEOUpsell matches the snapshot 1`] = `
 `;
 
 exports[`LocalSEOUpsell matches the snapshot in right to left mode 1`] = `
-.c6 {
-  border: 0;
-  -webkit-clip: rect(1px,1px,1px,1px);
-  clip: rect(1px,1px,1px,1px);
-  -webkit-clip-path: inset(50%);
-  clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute !important;
-  width: 1px;
-  word-wrap: normal !important;
-  -webkit-transform: translateY(1em);
-  -ms-transform: translateY(1em);
-  transform: translateY(1em);
-}
-
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -216,7 +180,7 @@ exports[`LocalSEOUpsell matches the snapshot in right to left mode 1`] = `
     >
       Get the Local SEO plugin now
       <span
-        className="c6"
+        className="A11yNotice-u1v0gg-0 dWDZbM"
       >
         (Opens in a new browser tab)
       </span>
