@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
-import { HelpText } from "@yoast/components";
+import { HelpText, Collapsible } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
 import { default as CornerstoneToggle } from "./CornerstoneToggle";
 import { LocationConsumer } from "./contexts/location";
