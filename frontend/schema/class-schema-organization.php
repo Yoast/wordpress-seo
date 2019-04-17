@@ -93,7 +93,6 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 			'facebook_site',
 			'instagram_url',
 			'linkedin_url',
-			'plus-publisher',
 			'myspace_url',
 			'youtube_url',
 			'pinterest_url',
