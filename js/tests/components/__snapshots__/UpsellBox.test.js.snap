@@ -1,24 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UpsellBox renders the snippet editor inside of it 1`] = `
-.c1 {
-  border: 0;
-  -webkit-clip: rect(1px,1px,1px,1px);
-  clip: rect(1px,1px,1px,1px);
-  -webkit-clip-path: inset(50%);
-  clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute !important;
-  width: 1px;
-  word-wrap: normal !important;
-  -webkit-transform: translateY(1em);
-  -ms-transform: translateY(1em);
-  transform: translateY(1em);
-}
-
 .c0 {
   list-style: none;
   margin: 0 0 16px;
@@ -36,7 +18,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
   content: "+";
 }
 
-.c2 {
+.c1 {
   display: block;
 }
 
@@ -169,39 +151,13 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
           aria-hidden="true"
           className="yoast-button-upsell__caret"
         />
-        <.A11yNotice-sc-8v9izd-0>
-          <StyledComponent
-            forwardedComponent={
-              Object {
-                "$$typeof": Symbol(react.forward_ref),
-                "attrs": Array [],
-                "componentStyle": ComponentStyle {
-                  "componentId": "A11yNotice-sc-8v9izd-0",
-                  "isStatic": true,
-                  "lastClassName": "c1",
-                  "rules": Array [
-                    "border:0;clip:rect(1px,1px,1px,1px);clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute !important;width:1px;word-wrap:normal !important;transform:translateY(1em);",
-                  ],
-                },
-                "displayName": "A11yNotice",
-                "foldedComponentIds": Array [],
-                "render": [Function],
-                "styledComponentId": "A11yNotice-sc-8v9izd-0",
-                "target": "span",
-                "toString": [Function],
-                "warnTooManyClasses": [Function],
-                "withComponent": [Function],
-              }
-            }
-            forwardedRef={null}
+        <A11yNotice>
+          <span
+            className="A11yNotice-u1v0gg-0 dWDZbM"
           >
-            <span
-              className="c1"
-            >
-              (Opens in a new browser tab)
-            </span>
-          </StyledComponent>
-        </.A11yNotice-sc-8v9izd-0>
+            (Opens in a new browser tab)
+          </span>
+        </A11yNotice>
       </a>
     </OutboundLink>
     <.UpsellBox__ButtonLabel-gjf66g-1>
@@ -213,7 +169,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
             "componentStyle": ComponentStyle {
               "componentId": "UpsellBox__ButtonLabel-gjf66g-1",
               "isStatic": true,
-              "lastClassName": "c2",
+              "lastClassName": "c1",
               "rules": Array [
                 "display:block;",
               ],
@@ -231,7 +187,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
         forwardedRef={null}
       >
         <small
-          className="c2"
+          className="c1"
         />
       </StyledComponent>
     </.UpsellBox__ButtonLabel-gjf66g-1>
