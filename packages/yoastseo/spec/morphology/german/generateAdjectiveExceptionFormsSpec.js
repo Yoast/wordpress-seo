@@ -1,12 +1,11 @@
 import { generateAdjectiveExceptionForms } from "../../../src/morphology/german/generateAdjectiveExceptionForms";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
-
-const morphologyDataDE = getMorphologyData( "de" ).de;
+const adjectiveMorphologyDataDE = getMorphologyData( "de" ).de.adjectives;
 
 describe( "Test for checking adjective exceptions in German", () => {
 	it( "creates forms for exception words ending in -el", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "dunkel" ) ).toEqual( [
+		expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "dunkel" ) ).toEqual( [
 			"dunkel",
 			"dunkelste",
 			"dunkelstem",
@@ -28,13 +27,13 @@ describe( "Test for checking adjective exceptions in German", () => {
 	} );
 
 	it( "creates forms for exception words ending in -el; output is the same for both stems", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "dunkel" ) ).toEqual(
-			generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "dunkl" )
+		expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "dunkel" ) ).toEqual(
+			generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "dunkl" )
 		);
 	} );
 
 	it( "creates forms for adjectives ending in -er that lose the -er in the stemmer (and that don't have a second stem)", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "ephem" ) ).toEqual( [
+		expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "ephem" ) ).toEqual( [
 			"ephemer",
 			"ephemere",
 			"ephemerem",
@@ -55,7 +54,7 @@ describe( "Test for checking adjective exceptions in German", () => {
 	} );
 
 	it( "creates forms for adjectives ending in -er class 1", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "integ" ) ).toEqual( [
+		expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "integ" ) ).toEqual( [
 			"integer",
 			"integere",
 			"integerem",
@@ -77,13 +76,13 @@ describe( "Test for checking adjective exceptions in German", () => {
 	} );
 
 	it( "creates forms for adjectives ending in -er class 1; output is the same for both stems", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "integ" ) ).toEqual(
-			generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "integr" )
+		expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "integ" ) ).toEqual(
+			generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "integr" )
 		);
 	} );
 
 	it( "creates forms for adjectives ending in -er class 2", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "teu" ) ).toEqual( [
+		expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "teu" ) ).toEqual( [
 			"teuer",
 			"teuerste",
 			"teuerstem",
@@ -104,13 +103,13 @@ describe( "Test for checking adjective exceptions in German", () => {
 	} );
 
 	it( "creates forms for adjectives ending in -er class 2; output is the same for both stems", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "teu" ) ).toEqual(
-			generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "teur" )
+		expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "teu" ) ).toEqual(
+			generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "teur" )
 		);
 	} );
 
 	it( "creates forms for adjectives ending in -er class 3", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "clev" ) ).toEqual( [
+		expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "clev" ) ).toEqual( [
 			"clever",
 			"clevere",
 			"cleverem",
@@ -137,15 +136,15 @@ describe( "Test for checking adjective exceptions in German", () => {
 	} );
 
 	it( "creates forms for adjectives ending in -er class 3; output is the same for both stems", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "clev" ) ).toEqual(
-			generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "clevr" )
+		expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "clev" ) ).toEqual(
+			generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "clevr" )
 		);
 	} );
 
 
 	it( "creates forms for exceptions where the first stem gets suffixed with regular suffixes and the second stem " +
 		"gets suffixed with comparative/superlative suffixes", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "scharf" ) ).toEqual( [
+		expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "scharf" ) ).toEqual( [
 			"scharfe",
 			"scharfem",
 			"scharfen",
@@ -167,14 +166,14 @@ describe( "Test for checking adjective exceptions in German", () => {
 
 	it( "creates forms for exceptions where the first stem gets suffixed with regular suffixes and the second stem " +
 		"gets suffixed with comparative/superlative suffixes; output is the same for both stems", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "scharf" ) ).toEqual(
-			generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "schärf" )
+		expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "scharf" ) ).toEqual(
+			generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "schärf" )
 		);
 	} );
 
 	it( "creates forms for exceptions where the first stem gets suffixed with all suffixes and the second stem " +
 		"only gets suffixed with comparative/superlative suffixes", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "rot" ) ).toEqual( [
+		expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "rot" ) ).toEqual( [
 			"rote",
 			"rotem",
 			"roten",
@@ -204,81 +203,87 @@ describe( "Test for checking adjective exceptions in German", () => {
 		] );
 	} );
 
-	it( "creates forms of the irregular adjective 'gut'", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "gut" ) ).toEqual( [
-			"gut",
-			"gute",
-			"gutem",
-			"guten",
-			"guter",
-			"gutes",
-			"besser",
-			"bessere",
-			"besserem",
-			"besseren",
-			"besserer",
-			"besseres",
-			"beste",
-			"bestem",
-			"besten",
-			"bester",
-			"bestes",
-		] );
-	} );
-
-	it( "creates forms for the irregular adjective 'gut'; same result with comparative stem", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "gut" ) ).toEqual(
-			generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "bess" ) );
-	} );
-
-	it( "creates forms of the irregular adjective 'viel'", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "viel" ) ).toEqual( [
-			"viel",
-			"viele",
-			"vielem",
-			"vielen",
-			"vieler",
-			"vieles",
-			"mehr",
-			"meiste",
-			"meistem",
-			"meisten",
-			"meister",
-			"meistes",
-		] );
-	} );
-
-	it( "creates forms of the irregular adjective 'hoch'", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "hoch" ) ).toEqual( [
-			"hoch",
-			"hohe",
-			"hohem",
-			"hohen",
-			"hoher",
-			"hohes",
-			"höher",
-			"höhere",
-			"höherem",
-			"höheren",
-			"höherer",
-			"höheres",
-			"höchste",
-			"höchstem",
-			"höchsten",
-			"höchster",
-			"höchstes",
-		] );
-	} );
-
-	it( "creates forms for the irregular adjective 'gut'; same result with comparative stem", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "hoch" ) ).toEqual(
-			generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "höch" ) );
-	} );
-
 	it( "creates forms for exceptions where the first stem gets suffixed with all suffixes and the second stem " +
 		"only gets suffixed with comparative/superlative suffixes; output is the same for both stems", () => {
-		expect( generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "rot" ) ).toEqual(
-			generateAdjectiveExceptionForms( morphologyDataDE.adjectives, "röt" )
+		expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "rot" ) ).toEqual(
+			generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, "röt" )
 		);
+	} );
+} );
+
+describe( "Test for very irrgular adjective exceptions in German", () => {
+	const exceptionStems = adjectiveMorphologyDataDE.exceptions;
+
+	const gutForms = [
+		"gut",
+		"gute",
+		"gutem",
+		"guten",
+		"guter",
+		"gutes",
+		"besser",
+		"bessere",
+		"besserem",
+		"besseren",
+		"besserer",
+		"besseres",
+		"beste",
+		"bestem",
+		"besten",
+		"bester",
+		"bestes",
+	];
+
+	const vielForms = [
+		"viel",
+		"viele",
+		"vielem",
+		"vielen",
+		"vieler",
+		"vieles",
+		"mehr",
+		"meiste",
+		"meistem",
+		"meisten",
+		"meister",
+		"meistes",
+	];
+
+	const hochForms = [
+		"hoch",
+		"hohe",
+		"hohem",
+		"hohen",
+		"hoher",
+		"hohes",
+		"höher",
+		"höhere",
+		"höherem",
+		"höheren",
+		"höherer",
+		"höheres",
+		"höchste",
+		"höchstem",
+		"höchsten",
+		"höchster",
+		"höchstes",
+	];
+
+	it( "creates forms of the irregular adjective 'gut' for every stem", () => {
+		exceptionStems.gut.forEach( function( gutStem ) {
+			expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, gutStem ) ).toEqual( gutForms );
+		} );
+	} );
+
+	it( "creates forms of the irregular adjective 'viel' for every stem", () => {
+		exceptionStems.viel.forEach( function( vielStem ) {
+			expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, vielStem ) ).toEqual( vielForms );
+		} );
+	} );
+
+	it( "creates forms of the irregular adjective 'hoch' for every stem", () => {
+		exceptionStems.hoch.forEach( function( hochStem ) {
+			expect( generateAdjectiveExceptionForms( adjectiveMorphologyDataDE, hochStem ) ).toEqual( hochForms );
+		} );
 	} );
 } );
