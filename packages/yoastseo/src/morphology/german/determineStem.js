@@ -1,4 +1,5 @@
 import { flatten } from "lodash-es";
+import { stem3rdSgVerb } from "./createFormsForStemmed3rdSgVerbs";
 import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
 import { allGermanVerbPrefixesSorted } from "./helpers";
 
@@ -110,12 +111,16 @@ const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord )
 export function determineStem( word, morphologyDataGerman ) {
 	const stemmedWord = stem( morphologyDataGerman.verbs, word );
 
+	const stemmed3rdSgVerb = stem3rdSgVerb( morphologyDataGerman, stemmedWord, word );
+
 	/*
 	 * Goes through the stem exception functions from left to right, returns the first stem it finds.
 	 * If no stem has been found, return the original, programmatically created, stem.
 	 */
 	return findStemOnNounExceptionList( morphologyDataGerman.nouns, stemmedWord ) ||
 		findStemOnAdjectiveExceptionList( morphologyDataGerman.adjectives, stemmedWord ) ||
+		// Also check exceptions for stems from potential 3rd person singular verb forms.
+		( stemmed3rdSgVerb ? findStemOnVerbExceptionList( morphologyDataGerman.verbs, stemmed3rdSgVerb ) : null ) ||
 		findStemOnVerbExceptionList( morphologyDataGerman.verbs, stemmedWord ) ||
 		detectAndStemRegularParticiple( morphologyDataGerman.verbs, word ) ||
 		stemmedWord;

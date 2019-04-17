@@ -17,6 +17,10 @@ We follow [Semantic Versioning](http://semver.org/).
   * `@yoast/style-guide`
   * `@yoast/social-previews`
 
+## 4.23.1 April 15th, 2019
+### Other
+* Updated the `styled-components` package to v4+. 
+
 ## 4.23.0 April 1st, 2019
 ### Added
 * Adds an autocomplete prop to the following components: `Step`, `Textfield`, and `Input`.

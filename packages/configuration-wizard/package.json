@@ -1,6 +1,6 @@
 {
   "name": "@yoast/configuration-wizard",
-  "version": "1.0.0-rc.4",
+  "version": "1.0.0-rc.6",
   "description": "Package for our configuration wizard",
   "main": "src/index.js",
   "repository": {
@@ -14,13 +14,13 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint . --max-warnings=11",
-    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && mkdir dist/src && cp src/configuration-wizard.scss dist/src/configuration-wizard.scss && mkdir dist/src/helpers && cp src/helpers/_colors.scss dist/src/helpers/_colors.scss"
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && mkdir dist/src && cp src/configuration-wizard.scss dist/src/configuration-wizard.scss && mkdir dist/src/helpers && cp src/helpers/_colors.scss dist/src/helpers/_colors.scss && cp .babelrc dist/.babelrc"
   },
   "dependencies": {
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^0.1.0-rc.4",
-    "@yoast/helpers": "^0.1.0-rc.2",
-    "@yoast/style-guide": "^0.1.0-rc.3",
+    "@yoast/components": "^0.1.0-rc.6",
+    "@yoast/helpers": "^0.1.0-rc.3",
+    "@yoast/style-guide": "^0.1.0-rc.4",
     "interpolate-components": "^1.1.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2"

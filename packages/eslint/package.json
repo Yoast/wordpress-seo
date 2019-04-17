@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-yoast",
-  "version": "5.0.10",
+  "version": "5.0.11",
   "private": false,
   "description": "ESLint configuration for Yoast projects",
   "keywords": [

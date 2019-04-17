@@ -1,39 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HelpTextWrapper matches the snapshot by default 1`] = `
-.c7 {
+.c4 >:first-child {
+  overflow: hidden;
+  -webkit-transition: height 300ms ease-out;
+  transition: height 300ms ease-out;
+}
+
+.c0 {
+  max-width: 600px;
+  font-weight: normal;
+  margin: 0 20px 0 25px;
+}
+
+.c1 {
   color: #555;
   border-color: #ccc;
   background: #f7f7f7;
   box-shadow: 0 1px 0 rgba( 204,204,204,1 );
-}
-
-.c6:active {
-  color: #000;
-  background-color: #f7f7f7;
-  border-color: #888;
-  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
-}
-
-.c5::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c5:focus {
-  outline: none;
-  border-color: #0066cd;
-  color: #000;
-  background-color: #fff;
-  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
-}
-
-.c4:hover {
-  color: #000;
-  background-color: #fff;
-  border-color: #888;
-}
-
-.c3 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -60,31 +44,6 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   text-align: left;
   overflow: visible;
   min-height: 32px;
-}
-
-.c3 svg {
-  -webkit-align-self: center;
-  -ms-flex-item-align: center;
-  align-self: center;
-}
-
-.c2 {
-  font-size: 0.8rem;
-}
-
-.c10 >:first-child {
-  overflow: hidden;
-  -webkit-transition: height 300ms ease-out;
-  transition: height 300ms ease-out;
-}
-
-.c0 {
-  max-width: 600px;
-  font-weight: normal;
-  margin: 0 20px 0 25px;
-}
-
-.c1 {
   min-width: 14px;
   min-height: 14px;
   width: 30px;
@@ -97,6 +56,37 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   background-color: transparent;
   float: right;
   padding: 3px 0 0 6px;
+}
+
+.c1:active {
+  color: #000;
+  background-color: #f7f7f7;
+  border-color: #888;
+  box-shadow: inset 0 2px 5px -3px rgba( 0,0,0,0.5 );
+}
+
+.c1::-moz-focus-inner {
+  border-width: 0;
+}
+
+.c1:focus {
+  outline: none;
+  border-color: #0066cd;
+  color: #000;
+  background-color: #fff;
+  box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+}
+
+.c1:hover {
+  color: #000;
+  background-color: #fff;
+  border-color: #888;
+}
+
+.c1 svg {
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
 }
 
 .c1:hover {
@@ -118,11 +108,11 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   box-shadow: none;
 }
 
-.c8:hover {
+.c2:hover {
   fill: #0066cd;
 }
 
-.c9 {
+.c3 {
   width: 16px;
   height: 16px;
   -webkit-flex: none;
@@ -131,7 +121,7 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
 }
 
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c3::after {
+  .c1::after {
     display: inline-block;
     content: "";
     min-height: 22px;
@@ -145,13 +135,13 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
     aria-controls={null}
     aria-expanded={false}
     aria-label="Open help"
-    className="yoast-help__button c1 c2 c3 c4 c5 c6 c7"
+    className="yoast-help__button c1"
     onClick={[Function]}
     type="button"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-question-circle c8 c9"
+      className="yoast-svg-icon yoast-svg-icon-question-circle c2 c3"
       fill="#616161"
       focusable="false"
       role="img"
@@ -165,7 +155,7 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
     </svg>
   </button>
   <div
-    className="c10"
+    className="c4"
   />
 </div>
 `;
