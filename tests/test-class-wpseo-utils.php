@@ -192,8 +192,11 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Utils::retrieve_enabled_features
 	 */
 	public function test_retrieve_enabled_features_with_define() {
-		$expected = array( 'testing123', 'amazing functionality' );
-		define( 'YOAST_SEO_ENABLED_FEATURES', $expected );
+		// Retrieve currently defined feature flags.
+		$expected = array();
+		if ( defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
+			$expected = YOAST_SEO_ENABLED_FEATURES;
+		}
 		$this->assertEquals( $expected, WPSEO_Utils::retrieve_enabled_features() );
 	}
 
@@ -203,22 +206,18 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Utils::retrieve_enabled_features
 	 */
 	public function test_retrieve_enabled_features_with_filter() {
-		$expected = array( 'some functionality', 'other things' );
+		// Retrieve currently defined feature flags.
+		$expected = array();
+		if ( defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
+			$expected = YOAST_SEO_ENABLED_FEATURES;
+		}
+
+		$added_features = array( 'some functionality', 'other things' );
+		$expected = array_merge( $expected, $added_features );
 		add_filter( 'wpseo_enable_feature', array( $this, 'filter_wpseo_enable_feature' ) );
 		$this->assertEquals( $expected, WPSEO_Utils::retrieve_enabled_features() );
 	}
 
-	/**
-	 * Tests the retrieve enabled features function with defined variables and filter.
-	 *
-	 * @covers WPSEO_Utils::retrieve_enabled_features
-	 */
-	public function test_retrieve_enabled_features_with_defined_variable_and_filter() {
-		$expected = array( 'my defined stuff', 'some functionality', 'other things' );
-		define( 'YOAST_SEO_ENABLED_FEATURES', array( 'my defined stuff' ) );
-		add_filter( 'wpseo_enable_feature', array( $this, 'filter_wpseo_enable_feature' ) );
-		$this->assertEquals( $expected, WPSEO_Utils::retrieve_enabled_features() );
-	}
 
 	/**
 	 * Filter function to test the `wpseo_enable_feature` filter.
@@ -227,7 +226,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return array The filtered enabled features.
 	 */
-	private function filter_wpseo_enable_feature( $enabled_features ) {
+	public function filter_wpseo_enable_feature( $enabled_features ) {
 		return array_merge( $enabled_features, array(
 			'some functionality',
 			'other things',
