@@ -778,8 +778,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 			'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
-            // We need to make the feature flags separately available inside of the analysis web worker.
-            'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
+			// We need to make the feature flags separately available inside of the analysis web worker.
+			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		);
 		wp_localize_script(
 			WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper',
