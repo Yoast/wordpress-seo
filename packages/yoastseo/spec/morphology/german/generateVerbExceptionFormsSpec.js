@@ -4,7 +4,7 @@ import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataDE = getMorphologyData( "de" ).de;
 
-describe( "Test for generating adjective exceptions in German", () => {
+describe( "Test for generating verb exceptions in German", () => {
 	it( "creates forms for a strong verb of class 1", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "schweig" ) ).toEqual( [
 			"schweig",
@@ -34,71 +34,6 @@ describe( "Test for generating adjective exceptions in German", () => {
 	it( "creates forms for a strong verb of class 1; same results with past participle stem", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "schweig" ) ).toEqual(
 			generateVerbExceptionForms( morphologyDataDE.verbs, "geschwieg" )	);
-	} );
-
-	it( "creates forms for a strong verb of class 1 with multiple present stems", () => {
-		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "schmeiß" ) ).toEqual( [
-			"schmeiß",
-			"schmeiss",
-			"schmiss",
-			"schmeiße",
-			"schmeißen",
-			"schmeißend",
-			"schmeißest",
-			"schmeißet",
-			"schmeißst",
-			"schmeißt",
-			"schmeisse",
-			"schmeissen",
-			"schmeissend",
-			"schmeissest",
-			"schmeisset",
-			"schmeissst",
-			"schmeisst",
-			"schmisse",
-			"schmissen",
-			"schmissest",
-			"schmisset",
-			"schmissst",
-			"schmisst",
-			"geschmissen",
-		] );
-	} );
-
-	it( "creates forms for a strong verb of class 1 with multiple present stems, recognizes all present stems as input", () => {
-		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "schmeiß" ) ).toEqual(
-			generateVerbExceptionForms( morphologyDataDE.verbs, "schmeiss" ) );
-	} );
-
-	it( "creates forms for a strong verb of class 2", () => {
-		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "genieß" ) ).toEqual( [
-			"genieß",
-			"geniess",
-			"genoss",
-			"genieße",
-			"genießen",
-			"genießend",
-			"genießest",
-			"genießet",
-			"genießst",
-			"genießt",
-			"geniesse",
-			"geniessen",
-			"geniessend",
-			"geniessest",
-			"geniesset",
-			"geniessst",
-			"geniesst",
-			"genossen",
-			"genossest",
-			"genosset",
-			"genosst",
-			"genossst",
-			"genösse",
-			"genössest",
-			"genösset",
-			"genössen",
-		] );
 	} );
 
 	it( "creates forms for a strong verb of class 2; same result with past stem", () => {
@@ -220,38 +155,6 @@ describe( "Test for generating adjective exceptions in German", () => {
 		);
 	} );
 
-	it( "creates forms for a strong verb of class 4", () => {
-		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "ess" ) ).toEqual( [
-			"ess",
-			"aß",
-			"ass",
-			"esse",
-			"essen",
-			"essend",
-			"essest",
-			"esset",
-			"essst",
-			"esst",
-			"issst",
-			"isst",
-			"aßen",
-			"aßst",
-			"aßt",
-			"assen",
-			"assst",
-			"asst",
-			"äße",
-			"äßen",
-			"äßest",
-			"äßet",
-			"ässe",
-			"ässen",
-			"ässest",
-			"ässet",
-			"gegessen",
-		] );
-	} );
-
 	it( "creates forms for a strong verb of class 4; same result with 2nd/3rd person singular stem", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "ess" ) ).toEqual(
 			generateVerbExceptionForms( morphologyDataDE.verbs, "iss" ) );
@@ -307,30 +210,6 @@ describe( "Test for generating adjective exceptions in German", () => {
 			generateVerbExceptionForms( morphologyDataDE.verbs, "geschlaf" ) );
 	} );
 
-	it( "makes sure that the longest possible word is matched, so that e.g., 'lass' doesn't get forms for 'ass'", () => {
-		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "lass" ) ).toEqual( [
-			"lass",
-			"ließ",
-			"liess",
-			"lasse",
-			"lassen",
-			"lassend",
-			"lassest",
-			"lasset",
-			"lassst",
-			"lasst",
-			"lässst",
-			"lässt",
-			"ließen",
-			"ließst",
-			"ließt",
-			"liessen",
-			"liessst",
-			"liesst",
-			"gelassen",
-		] );
-	} );
-
 	it( "makes sure that compound verbs with prefix are recognized and return the full forms", () => {
 		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "festhalt" ) ).toEqual( [
 			"festhalt",
@@ -348,41 +227,6 @@ describe( "Test for generating adjective exceptions in German", () => {
 			"festhieltst",
 			"festhieltt",
 			"festgehalten",
-		] );
-	} );
-
-	it( "makes sure that compound verbs with prefix are recognized and return the full forms; input: stems that have multiple forms per stem class", () => {
-		expect( generateVerbExceptionForms( morphologyDataDE.verbs, "umstoß" ) ).toEqual( [
-			"umstoß",
-			"umstoss",
-			"umstieß",
-			"umstiess",
-			"umstoße",
-			"umstoßen",
-			"umstoßend",
-			"umstoßest",
-			"umstoßet",
-			"umstoßst",
-			"umstoßt",
-			"umstosse",
-			"umstossen",
-			"umstossend",
-			"umstossest",
-			"umstosset",
-			"umstossst",
-			"umstosst",
-			"umstößst",
-			"umstößt",
-			"umstössst",
-			"umstösst",
-			"umstießen",
-			"umstießst",
-			"umstießt",
-			"umstiessen",
-			"umstiessst",
-			"umstiesst",
-			"umgestoßen",
-			"umgestossen",
 		] );
 	} );
 } );

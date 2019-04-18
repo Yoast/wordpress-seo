@@ -58,14 +58,15 @@ var verbsEndingWithIert = function( word ) {
 };
 
 /**
- * Matches the word againts the exceptions regex.
+ * Matches the word against the exceptions regex.
  *
  * @param {string} word The word to match.
+ *
  * @returns {Array} A list with matches.
  */
-var exceptions = function( word ) {
+export function exceptions( word ) {
 	return word.match( exceptionsRegex ) || [];
-};
+}
 
 /**
  * Returns lists of verbs that are relevant for determining passive voice in German.

@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HelpText matches the snapshot by default 1`] = `
+<p
+  className="dBPcRC"
+>
+  Some help text.
+</p>
+`;
+
+exports[`HelpText matches the snapshot when an array is provided as text 1`] = `
+<p
+  className="dBPcRC"
+>
+  Text 
+  <a
+    href="https://www.example.org"
+  >
+    with a link
+  </a>
+   in the middle.
+</p>
+`;

@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The CardBanner with specific props matches the snapshot 1`] = `
+Array [
+  <span
+    className="HRyDz"
+  >
+    Free Trial Available.
+  </span>,
+  <span
+    className="lalIBs"
+  />,
+]
+`;
+
+exports[`The empty CardBanner matches the snapshot 1`] = `
+Array [
+  <span
+    className="jvpaxk"
+  />,
+  <span
+    className="lalIBs"
+  />,
+]
+`;

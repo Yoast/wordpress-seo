@@ -2,23 +2,34 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "eslint": "^5.15.3",
+    "eslint-config-yoast": "^5.0.6",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "json": "^9.0.6",
     "lerna": "^3.13.1"
   },
   "workspaces": {
     "packages": [
-      "packages/*"
+      "packages/*",
+      "apps/*"
     ],
     "nohoist": [
       "**/grunt-*",
-      "**/eslint*"
+      "**/sassdash"
     ]
   },
   "scripts": {
-    "lint": "lerna run lint",
-    "test": "lerna run test --stream",
+    "lint": "lerna run lint --",
+    "lint2": "eslint packages apps",
+    "test": "lerna run test --stream --",
     "install-ci": "lerna run install-ci",
     "link-all": "lerna exec yarn link",
     "unlink-all": "lerna exec yarn unlink",
-    "transfer-branch": "./transfer-branch.sh"
+    "transfer-branch": "./transfer-branch.sh",
+    "lerna-version": "lerna version",
+    "lerna-version-rc": "lerna version --preid rc",
+    "lerna-publish": "lerna publish --contents dist --yes from-git",
+    "lerna-publish-rc": "lerna publish --contents dist --dist-tag rc --yes from-git"
   }
 }

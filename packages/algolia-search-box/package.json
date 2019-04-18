@@ -1,0 +1,69 @@
+{
+  "name": "@yoast/algolia-search-box",
+  "version": "1.0.0-rc.6",
+  "description": "A packages that allows integration with Algolia Search",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/algolia-search-box"
+  },
+  "author": "Yoast",
+  "license": "GPL-3.0",
+  "private": false,
+  "dependencies": {
+    "@wordpress/a11y": "^1.0.7",
+    "@wordpress/i18n": "^1.1.0",
+    "@yoast/components": "^0.1.0-rc.6",
+    "@yoast/helpers": "^0.1.0-rc.3",
+    "@yoast/style-guide": "^0.1.0-rc.4",
+    "algoliasearch": "^3.22.3",
+    "lodash": "^4.17.4",
+    "prop-types": "^15.6.0",
+    "react": "16.6.3",
+    "react-intl": "^2.4.0",
+    "styled-components": "^4.2.0"
+  },
+  "devDependencies": {
+    "babel-jest": "^23.6.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-styled-components": "^1.10.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "enzyme-to-json": "^3.3.3",
+    "jest": "^23.6.0",
+    "jest-styled-components": "^6.3.1",
+    "react-test-renderer": "16.8.4"
+  },
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint . --max-warnings=22",
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc"
+  },
+  "jest": {
+    "testURL": "https://example.org",
+    "testRegex": ".*Test.js$",
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "unmockedModulePathPatterns": [
+      "react",
+      "enzyme",
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/react-dom",
+      "<rootDir>/node_modules/enzyme"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/tools/jest/setupTests.js"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

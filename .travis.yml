@@ -6,11 +6,52 @@ node_js:
 matrix:
   allow_failures:
     - node_js: node
+stages:
+  - test
+  - name: 🚀 rc-deployment
+    if: branch =~ /^(release-yoast-seo|release)\/*/
+  - name: 🚀 deployment
+    if: branch = master
+jobs:
+  include:
+    - stage: 🚀 rc-deployment
+      node_js: lts/*
+      name: "Deploy to the npm rc channel"
+      script: skip
+      deploy:
+        skip_cleanup: true
+        provider: script
+        script: yarn lerna-publish-rc
+        on:
+          # Branch condition is in the stages configuration
+          all_branches: true
+    - stage: 🚀 deployment
+      node_js: lts/*
+      name: "Deploy to the npm latest channel"
+      script: skip
+      deploy:
+        skip_cleanup: true
+        provider: script
+        script: yarn lerna-publish
+        on:
+          # Branch condition is in the stages configuration
+          all_branches: true
+
 cache:
   yarn: true
   directories:
   - node_modules
+  - apps/content-analysis/node_modules
+  - apps/components/node_modules
+  - packages/algolia-search-box/node_modules
+  - packages/components/node_modules
+  - packages/configuration-wizard/node_modules
+  - packages/eslint/node_modules
+  - packages/helpers/node_modules
+  - packages/search-metadata-previews/node_modules
+  - packages/social-metadata-previews/node_modules
   - packages/yoast-components/node_modules
+  - packages/yoast-social-previews/node_modules
   - packages/yoastseo/node_modules
   - $HOME/.yarn
 
@@ -27,6 +68,9 @@ script:
 - yarn lint
 - yarn test -- -- --coverage
 
+before_deploy:
+- echo "//registry.npmjs.org/:_authToken=\${CI_NPM_YOASTBOT_TOKEN}" > .npmrc
+
 #after_success:
 #- yarn global add codeclimate-test-reporter
 #- codeclimate-test-reporter < coverage/lcov.info
@@ -34,12 +78,3 @@ script:
 #notifications:
 #  slack:
 #    secure: W3StABr+AdcdQawTObK4nbsnn5nLrTTtZfVpD/GEN6gvSOQcykbGEC5+ceYg0jn5b4StDyCiTo5blEsrpVICFpYKc44+ogah+qaGRUfVRS/rpOvn4AueXTWn4JxhZzuxqKMiTmyW+MQG0uYM7sk7Q5S+15jj6ilkj4QATaBVNbY=
-
-#deploy:
-#  provider: npm
-#  email: webmaster@yoast.com
-#  api_key:
-#    secure: zQGIEY373GvvXJav2qaeJ39qeFfz33/mZa4+VqvSBp+M68/VKdGukGd/oVqOsiKVX8+zqjjIsCnWY1LQ1sWjS2W5XAMQGC278lJj/YvKMAHcdVFqr1sE7C4CWY9JVQZy3YN/cfSwkSiu1ntIJQYsNJc8yBZgMP/1mu3auROlr//W6orT8H0ToVRJbfXIstmeDbrmEgU2fNEr+6Y6KADROUoQZcoFkxgSF/Pm2TU7gmHb4DuJO7aBw15Che/OSKCKG7kFobAl3Sw60BB3Caa4RWCFMFfA7GOlWtm6q6jVqBFb/rxmdYY0hpyidmcKFj6tAaHoh27kx8zzf8bRy9+ICtZuTFruHY9YKsALvRvKKprwM8nYE/T4mzSCOlRiCMWPo1AyNqtF1nGDVQOKQOCH5qsAC2dFgQJKfy8x+DPj+tPsV3aevq+VhgF0Rek1LqyQLsKZv5xFAvil9rU3We3R2foJDqMgZwf5QVI0ZlOAIQSh5zORMoKAPKxAOVcODiNEiOkOZrj1A4CLX33V0e3td5qBSltGzlZQEbryvy8yFB4rBqE+1TpcCnu29rYcdVB8X78mz/uuQJG+VMfHTmYXD1vRZbgEzACaOsZR7eKZGi5BmfVMVnkqjM2vR24xCPOB2Laj/889PWJZPtL9D5mD0lsG7ln36honrk3aI+fYBjM=
-#  on:
-#    tags: true
-#    repo: Yoast/yoast-components

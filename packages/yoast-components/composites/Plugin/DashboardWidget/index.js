@@ -1,2 +1,2 @@
-export { default as DashboardWidgetSeoAssessment } from "./components/SeoAssessment";
-export { default as DashboardWidgetWordpressFeed } from "./components/WordpressFeed";
+export { SiteSEOReport as DashboardWidgetSeoAssessment } from "@yoast/analysis-report";
+export { ArticleList as DashboardWidgetWordpressFeed } from "@yoast/components";

@@ -1,1 +1,5 @@
 node_modules
+lerna-debug.log
+/packages/*/dist
+yarn-error.log
+coverage

@@ -1,0 +1,81 @@
+{
+  "name": "@yoast/example-component-app",
+  "version": "1.0.10",
+  "description": "This app demonstrates the possibilites of our components",
+  "main": "index.js",
+  "author": "Yoast",
+  "license": "GPL",
+  "private": true,
+  "scripts": {
+    "start": "concurrently --kill-others \"stubby -d stubby/endpoints.yaml\" \"webpack-dev-server --mode=development\"",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@wordpress/i18n": "1.2.3",
+    "@yoast/algolia-search-box": "^1.0.0-rc.6",
+    "@yoast/analysis-report": "^0.1.0-rc.6",
+    "@yoast/components": "^0.1.0-rc.6",
+    "@yoast/configuration-wizard": "^1.0.0-rc.6",
+    "@yoast/helpers": "^0.1.0-rc.3",
+    "@yoast/search-metadata-previews": "^1.0.0-rc.8",
+    "@yoast/style-guide": "^0.1.0-rc.4",
+    "babel-polyfill": "^6.23.0",
+    "lodash": "4.17.11",
+    "lodash-es": "^4.17.11",
+    "prop-types": "15.7.2",
+    "react-tap-event-plugin": "^3.0.3",
+    "react-test-renderer": "^16.8.6",
+    "redux-devtools-dock-monitor": "^1.1.3",
+    "redux-devtools-log-monitor": "^1.4.0",
+    "styled-components": "^4.2.0",
+    "yoastseo": "^1.51.0-rc.6"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-styled-components": "^1.5.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^7.3.0",
+    "case-sensitive-paths-webpack-plugin": "^2.1.2",
+    "concurrently": "^3.5.0",
+    "css-loader": "^2.1.1",
+    "draft-js-mention-plugin": "^3.0.4",
+    "react-hot-loader": "^4.0.0-beta.17",
+    "redux-devtools": "3.5.0",
+    "sass-loader": "7.1.0",
+    "stubby": "^0.3.1",
+    "style-loader": "^0.23.1",
+    "webpack": "4.19.1",
+    "webpack-cli": "^2.1.3",
+    "webpack-dev-server": "3.1.14",
+    "yoast-components": "^4.24.0-rc.9"
+  },
+  "peerDependencies": {
+    "material-ui": "^0.18.6",
+    "react": "16.3.0",
+    "react-dom": "16.3.0",
+    "react-intl": "^2.4.0",
+    "react-redux": "6.0.1",
+    "redux": "4.0.1"
+  },
+  "jest": {
+    "testRegex": ".*Test.js$",
+    "testEnvironment": "node",
+    "transform": {
+      "\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
+    ],
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/tests/__mocks__/styleMock.js"
+    }
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  }
+}

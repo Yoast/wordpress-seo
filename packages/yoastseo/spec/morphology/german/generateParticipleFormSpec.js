@@ -12,4 +12,14 @@ describe( "Test for generating participle forms", () => {
 	it( "generates a regular participle form for a stem ending in any other", () => {
 		expect( generateParticipleForm( morphologyDataDE.verbs, "spiel" ) ).toEqual( "gespielt" );
 	} );
+
+	it( "generates a participle form for a stem starting with a separable prefix", () => {
+		// Separable prefix: ein.
+		expect( generateParticipleForm( morphologyDataDE.verbs, "einkauf" ) ).toEqual( "eingekauft" );
+	} );
+
+	it( "generates a participle form for a stem starting with a non-separable/separable prefix", () => {
+		// Inseparable/separable prefix: über.
+		expect( generateParticipleForm( morphologyDataDE.verbs, "überkoch" ) ).toEqual( "übergekocht" );
+	} );
 } );

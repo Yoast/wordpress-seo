@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the SearchResultDetail component matches the snapshot 1`] = `
+<section
+  aria-label="Search result"
+  className="SearchResultDetail__Detail-sc-17kb0ay-0 PArrF"
+  tabIndex="-1"
+>
+  <nav
+    className="SearchResultDetail__Nav-sc-17kb0ay-1 gRCIRM"
+  >
+    <button
+      className="YoastButton-gx5w7q-1 YoastButton-gx5w7q-0 dnvPfT"
+      onClick={[Function]}
+      type="button"
+    >
+      <span>
+        <svg
+          aria-hidden={true}
+          className="yoast-svg-icon yoast-svg-icon-angle-left SvgIcon__StyledSvg-sc-1l8fxgb-0 cqszVg"
+          fill="#fff"
+          focusable="false"
+          role="img"
+          size="24px"
+          viewBox="0 0 1792 1792"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1203 544q0 13-10 23l-393 393 393 393q10 10 10 23t-10 23l-50 50q-10 10-23 10t-23-10l-466-466q-10-10-10-23t10-23l466-466q10-10 23-10t23 10l50 50q10 10 10 23z"
+          />
+        </svg>
+        Go back
+      </span>
+    </button>
+    <a
+      aria-label="Open the knowledge base article in a new window or read it in the iframe below"
+      className="YoastLinkButton-dntyts-0 YoastButton-gx5w7q-0 SearchResultDetail__RightYoastLinkButton-sc-17kb0ay-2 hENyRf"
+      href="https://kb.yoast.com/kb/passive-voice/"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      View in KB
+      <svg
+        aria-hidden={true}
+        className="yoast-svg-icon yoast-svg-icon-angle-right SvgIcon__StyledSvg-sc-1l8fxgb-0 cqszVg"
+        fill="#fff"
+        focusable="false"
+        role="img"
+        size="24px"
+        viewBox="0 0 1792 1792"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1171 960q0 13-10 23l-466 466q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l393-393-393-393q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l466 466q10 10 10 23z"
+        />
+      </svg>
+      <span
+        className="A11yNotice-sc-1feyioo-0 gHCoqL"
+      >
+        (Opens in a new browser tab)
+      </span>
+    </a>
+  </nav>
+  <iframe
+    className="kb-search-content-frame ArticleContent__ArticleContentFullWidth-fo5ufz-0 bMHXRz"
+    src="https://kb.yoast.com/kb/passive-voice/amp/?source=wpseo-kb-search"
+    title="Knowledge base article"
+  />
+</section>
+`;

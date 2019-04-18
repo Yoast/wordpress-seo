@@ -9,17 +9,20 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.48.0",
+  "version": "1.51.0-rc.6",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Yoast/YoastSEO.js"
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/yoastseo"
   },
   "scripts": {
     "start": "npm start --prefix examples/webpack",
     "build": "grunt publish",
     "lint": "grunt check",
+    "pretest": "yarn install-ci",
     "test": "jest --runInBand",
-    "install-ci": "grunt get-premium-configuration"
+    "install-ci": "grunt get-premium-configuration",
+    "prepublishOnly": "grunt publish"
   },
   "browser": "js/browser.js",
   "engines": {
@@ -32,10 +35,11 @@
     "babel-jest": "^23.0.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-es2015": "^6.16.0",
+    "babel-preset-es2017": "^6.24.1",
     "babel-register": "^6.16.3",
     "babelify": "^8.0.0",
     "console.table": "^0.10.0",
-    "eslint-config-yoast": "^5.0.1",
+    "eslint-config-yoast": "^5.0.11",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-yoast": "^1.0.1",
@@ -82,7 +86,7 @@
       "js"
     ],
     "transform": {
-      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.jsx?$": "babel-jest",
       "^.+\\.html$": "<rootDir>/spec/specHelpers/rawLoader"
     },
     "transformIgnorePatterns": [
@@ -109,5 +113,8 @@
         "statements": 83
       }
     }
+  },
+  "yoast": {
+    "premiumConfiguration": ""
   }
 }
