@@ -1,7 +1,7 @@
 #!/usr/local/bin/node
-const fs = require( 'fs' );
-const readlineSync = require( 'readline-sync' );
-const execSync = require( 'child_process' ).execSync;
+const fs = require( "fs" );
+const readlineSync = require( "readline-sync" );
+const execSync = require( "child_process" ).execSync;
 
 // We need to do this here because we want to create specific commands for executing commands in the monorepoLocation.
 let monorepoLocation = get_monorepo_location_from_file();
@@ -9,6 +9,8 @@ let monorepoLocation = get_monorepo_location_from_file();
 // Create two commands that can be used for executing commands in the monorepoLocation.
 const execMonorepo = cmd => execSync( cmd, { cwd: monorepoLocation } );
 const execMonorepoNoOutput = cmd => execSync( cmd, { cwd: monorepoLocation, stdio: [ null, null, null ] } );
+
+const NO_OUTPUT = { stdio: [ null, null, null ] };
 
 /**
  * This function checks if the CI flag is set. If so, it returns either the TRAVIS_BRANCH or the TRAVIS_PULL_REQUEST_BRANCH.
@@ -25,7 +27,7 @@ function get_checkout_branch() {
 			checkoutBranch = process.env.TRAVIS_PULL_REQUEST_BRANCH;
 		}
 	} else {
-		checkoutBranch = execSync( `git branch | grep \\* | cut -d ' ' -f2-` ).toString( 'utf8' ).split( "\n" )[ 0 ];
+		checkoutBranch = execSync( `git branch | grep \\* | cut -d " " -f2-` ).toString( "utf8" ).split( "\n" )[ 0 ];
 	}
 
 	return checkoutBranch;
@@ -43,7 +45,7 @@ function get_monorepo_location_from_file() {
 
 	// Both fs.readFileSync() and the location can throw an error. Therefore, we have to make sure to not overwrite yoast in the catch statement.
 	try {
-		yoast = JSON.parse( fs.readFileSync( '.yoast', 'utf8' ) );
+		yoast = JSON.parse( fs.readFileSync( ".yoast", "utf8" ) );
 		location = yoast[ "monorepo-location" ];
 
 		if ( !location ) {
@@ -51,23 +53,23 @@ function get_monorepo_location_from_file() {
 		}
 	} catch ( e ) {
 		// Keep asking the user for a valid monorepo location until one has been provided.
-		while ( ! location ) {
+		while ( !location ) {
 			location = readlineSync.question( "Where is your monorepo git clone located? Please provide an absolute path or a path relative to the current directory '" + process.cwd() + "'.\n" );
-			if ( ! is_valid_monorepo_location( location) ){
+			if ( !is_valid_monorepo_location( location ) ) {
 				console.log( "This is not a valid location or the location does not include the JS monorepo. Please try again." );
 				location = false;
 			}
 		}
 
 		// Only create a new array if it does not exists yet.
-		if ( ! yoast ) {
+		if ( !yoast ) {
 			yoast = {};
 		}
 
 		yoast[ "monorepo-location" ] = location;
 
 		// Write the file to the .yoast.
-		fs.writeFileSync( '.yoast', JSON.stringify( yoast ), 'utf8' );
+		fs.writeFileSync( ".yoast", JSON.stringify( yoast ), "utf8" );
 	}
 
 	// Always return the location.
@@ -123,7 +125,7 @@ function checkout_branch_and_pull( javascriptBranch ) {
 
 /**
  * Unlink all the yoast packages that are linked in the ~/.config/yarn/link directory.
- * Note: We cannot use '~' in the cwd field so we have to use a little workaround.
+ * Note: We cannot use "~" in the cwd field so we have to use a little workaround.
  */
 function unlink_all_yoast_packages() {
 	const homeDirectory = execSync( `echo $HOME` ).toString().split( "\n" )[ 0 ];
@@ -136,10 +138,10 @@ function unlink_all_yoast_packages() {
 		execSync( `rm -rf ${ toRemove[ x ] }`, { cwd: yarnLinkDir } );
 	}
 
-	console.log( "All previously linked yoast packages have been unlinked." )
+	console.log( "All previously linked yoast packages have been unlinked." );
 }
 
-console.log( `Your monorepo is located in '${ monorepoLocation }'. ` );
+console.log( `Your monorepo is located in "${ monorepoLocation }". ` );
 
 console.log( "Making sure that you have a valid monorepo location." );
 if ( !is_valid_monorepo_location( monorepoLocation ) ) {
@@ -169,10 +171,10 @@ console.log( "Packages have been linked inside the monorepo." );
 var x;
 for ( x in packages ) {
 	try {
-		execSync( `yarn link @yoast/${ packages[ x ] }`, { stdio: [ null, null, null ] } );
+		execSync( `yarn link @yoast/${ packages[ x ] }`, NO_OUTPUT );
 	} catch ( e ) {
 	}
 }
-console.log( "Successfully linked all new packages. Linking older packages now." );
-execSync( `yarn link yoastseo; yarn link yoast-components;`, { stdio: [ null, null, null ] } );
+console.log( "Successfully linked all new packages. Linking old format packages now." );
+execSync( `yarn link yoastseo; yarn link yoast-components;`, NO_OUTPUT );
 console.log( "Successfully linked all packages. Done." );
