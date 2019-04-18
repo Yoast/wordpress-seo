@@ -124,6 +124,7 @@
     "@wordpress/is-shallow-equal": "^1.2.0",
     "@wordpress/rich-text": "^3.2.2",
     "@wordpress/url": "^2.5.0",
+    "@yoast/analysis-report": "^0.1.0-rc.5",
     "@yoast/algolia-search-box": "^1.0.0-rc.7",
     "@yoast/components": "^0.1.0-rc.7",
     "@yoast/configuration-wizard": "^1.0.0-rc.7",
