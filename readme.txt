@@ -115,8 +115,6 @@ Enhancements:
 * Adds 'filesize' to whitelisted properties on '$image'. Props to [cmmarslender](https://github.com/cmmarslender).
 * Optimizes the code to avoid an unnecessary DB query to remove notifications storage when it's already empty. Props to [rmc47](https://github.com/rmc47).
 * Improves the breadcrumbs accessibility by adding `aria-current` to the active item.
-* Improves the recognition of German keyphrases that include words with an `i` or `e` in between vowels (e.g., `schrieen`, `schreien`, `speie`).
-* Improves recognition of German 3rd person singular verb forms (e.g., “arbeitet”).
 
 Bugfixes:
 
