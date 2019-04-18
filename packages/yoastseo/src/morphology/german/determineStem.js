@@ -117,7 +117,6 @@ export function determineStem( word, morphologyDataGerman ) {
 	 */
 	return findStemOnNounExceptionList( morphologyDataGerman.nouns, stemmedWord ) ||
 		findStemOnAdjectiveExceptionList( morphologyDataGerman.adjectives, stemmedWord ) ||
-		// Also check exceptions for stems from potential 3rd person singular verb forms.
 		findStemOnVerbExceptionList( verbData, stemmedWord ) ||
 		detectAndStemRegularParticiple( verbData, word ) ||
 		stemmedWord;
