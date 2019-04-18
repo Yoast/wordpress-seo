@@ -231,7 +231,7 @@ const sendenForms = [
 	"sendetest",
 	"sendetet",
 	"gesandt",
-	"gesendet"
+	"gesendet",
 ];
 
 
