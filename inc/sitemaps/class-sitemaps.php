@@ -175,7 +175,7 @@ class WPSEO_Sitemaps {
 	public function register_xsl( $name, $function, $rewrite = '' ) {
 		add_action( 'wpseo_xsl_' . $name, $function );
 		if ( ! empty( $rewrite ) ) {
-			add_rewrite_rule( $rewrite, 'index.php?yoast_xsl=' . $name, 'top' );
+			add_rewrite_rule( $rewrite, 'index.php?yoast-sitemap-xsl=' . $name, 'top' );
 		}
 	}
 
@@ -230,9 +230,9 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		$yoast_xsl = get_query_var( 'yoast_xsl' );
+		$yoast_sitemap_xsl = get_query_var( 'yoast-sitemap-xsl' );
 
-		if ( ! empty( $yoast_xsl ) ) {
+		if ( ! empty( $yoast_sitemap_xsl ) ) {
 			/*
 			 * This is a method to provide the XSL via the home_url.
 			 * Needed when the site_url and home_url are not the same.
@@ -240,7 +240,7 @@ class WPSEO_Sitemaps {
 			 *
 			 * Whenever home_url and site_url are the same, the file can be loaded directly.
 			 */
-			$this->xsl_output( $yoast_xsl );
+			$this->xsl_output( $yoast_sitemap_xsl );
 			$this->sitemap_close();
 
 			return;
