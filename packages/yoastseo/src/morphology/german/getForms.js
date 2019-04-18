@@ -1,101 +1,14 @@
 import { addAllAdjectiveSuffixes } from "./addAdjectiveSuffixes";
-import { addVerbSuffixes } from "./addVerbSuffixes";
+import { createFormsForStemmed3rdSgVerbs } from "./createFormsForStemmed3rdSgVerbs";
+import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
 import { generateAdjectiveExceptionForms } from "./generateAdjectiveExceptionForms";
 import { generateNounExceptionForms } from "./generateNounExceptionForms";
-import { uniq as unique } from "lodash-es";
-import { generateParticipleForm } from "./generateParticipleForm";
+import { generateRegularVerbForms } from "./generateRegularVerbForms";
+import { generateRegularNounForms } from "./generateRegularNounForms";
 import { generateVerbExceptionForms } from "./generateVerbExceptionForms";
 import stem from "./stem";
 
-/**
- * Adds suffixes to the list of regular suffixes.
- *
- * @param {Object}          morphologyDataSuffixAdditions   The German data for suffix additions.
- * @param {Array<string>}   regularSuffixes                 All regular suffixes for German.
- * @param {string}          stemmedWordToCheck              The stem to check.
- *
- * @returns {Array<string>} The modified list of regular suffixes.
- */
-const addSuffixesToRegulars = function( morphologyDataSuffixAdditions, regularSuffixes, stemmedWordToCheck ) {
-	for ( const key of Object.keys( morphologyDataSuffixAdditions ) ) {
-		const endingsToCheck = morphologyDataSuffixAdditions[ key ][ 0 ];
-		const suffixesToAdd = morphologyDataSuffixAdditions[ key ][ 1 ];
-
-		// Append to the regular suffixes if one of the endings match.
-		if ( endingsToCheck.some( ending => stemmedWordToCheck.endsWith( ending ) ) ) {
-			regularSuffixes = regularSuffixes.concat( suffixesToAdd );
-		}
-	}
-
-	return regularSuffixes;
-};
-
-/**
- * Deletes suffixes from the list of regular suffixes.
- *
- * @param {Object}          morphologyDataSuffixDeletions   The German data for suffix deletions.
- * @param {Array<string>}   regularSuffixes                 All regular suffixes for German.
- * @param {string}          stemmedWordToCheck              The stem to check.
- *
- * @returns {Array<string>} The modified list of regular suffixes.
- */
-const removeSuffixesFromRegulars = function( morphologyDataSuffixDeletions, regularSuffixes, stemmedWordToCheck ) {
-	for ( const key of Object.keys( morphologyDataSuffixDeletions ) ) {
-		const endingsToCheck = morphologyDataSuffixDeletions[ key ][ 0 ];
-		const suffixesToDelete = morphologyDataSuffixDeletions[ key ][ 1 ];
-
-		// Delete from the regular suffixes if one of the endings match.
-		if ( endingsToCheck.some( ending => stemmedWordToCheck.endsWith( ending ) ) ) {
-			regularSuffixes = regularSuffixes.filter( ending => ! suffixesToDelete.includes( ending ) );
-		}
-	}
-
-	return regularSuffixes;
-};
-
-/**
- * Adds or removes suffixes from the list of regulars depending on the ending of the stem checked.
- *
- * @param {Object}          morphologyDataNouns The German morphology data for nouns.
- * @param {Array<string>}   regularSuffixes     All regular suffixes for German.
- * @param {string}          stemmedWordToCheck  The stem to check.
- *
- * @returns {Array<string>} The modified list of regular suffixes.
- */
-const modifyListOfRegularSuffixes = function( morphologyDataNouns, regularSuffixes, stemmedWordToCheck ) {
-	const additions = morphologyDataNouns.regularSuffixAdditions;
-	const deletions = morphologyDataNouns.regularSuffixDeletions;
-
-	regularSuffixes = addSuffixesToRegulars( additions, regularSuffixes, stemmedWordToCheck );
-	regularSuffixes = removeSuffixesFromRegulars( deletions, regularSuffixes, stemmedWordToCheck );
-
-	return regularSuffixes;
-};
-
-/**
- * Add forms based on changes other than simple suffix concatenations.
- *
- * @param {Object}  morphologyDataNouns The German morphology data for nouns.
- * @param {string}  stemmedWordToCheck  The stem to check.
- *
- * @returns {Array<string>} The modified forms.
- */
-const addFormsWithRemovedLetters = function( morphologyDataNouns, stemmedWordToCheck ) {
-	const forms = [];
-	const stemChanges = morphologyDataNouns.changeStem;
-
-	for ( const key of Object.keys( stemChanges ) ) {
-		const changeCategory = stemChanges[ key ];
-		const endingToCheck = changeCategory[ 0 ];
-
-		if ( stemmedWordToCheck.endsWith( endingToCheck ) ) {
-			const stemWithoutEnding = stemmedWordToCheck.slice( 0, stemmedWordToCheck.length - endingToCheck.length );
-			forms.push( stemWithoutEnding.concat( changeCategory[ 1 ] ) );
-		}
-	}
-
-	return forms;
-};
+import { uniq as unique } from "lodash-es";
 
 /**
  * Creates morphological forms for a given German word.
@@ -103,54 +16,67 @@ const addFormsWithRemovedLetters = function( morphologyDataNouns, stemmedWordToC
  * @param {string} word             The word to create the forms for.
  * @param {Object} morphologyData   The German morphology data (false if unavailable).
  *
- * @returns {{forms: Array<string>, stem: string}} An object with the forms created and the stemmed word.
+ * @returns {Array<string>} The created word forms.
  */
 export function getForms( word, morphologyData ) {
 	const stemmedWord = stem( word );
-	const forms = new Array( word );
+	// Add the original word to the forms and also the stemmed word, since that might be a valid word form on its own.
+	const forms = [ word, stemmedWord ];
 
 	/*
 	 * Generate exception forms if the word is on an exception list. Since a given stem might sometimes be
 	 * on an exception list in different word categories (e.g., "sau-" from the noun "Sau" or the adjective "sauer")
 	 * we need to do this cumulatively.
 	 */
-	const exceptionsNouns = generateNounExceptionForms( morphologyData.nouns, stemmedWord );
-	const exceptionsAdjectives = generateAdjectiveExceptionForms( morphologyData.adjectives, stemmedWord );
-	const exceptionsVerbs = generateVerbExceptionForms( morphologyData.verbs, stemmedWord );
-	const exceptions = [ ...exceptionsNouns, ...exceptionsAdjectives, ...exceptionsVerbs ];
+	const exceptions = [
+		...generateNounExceptionForms( morphologyData.nouns, stemmedWord ),
+		...generateAdjectiveExceptionForms( morphologyData.adjectives, stemmedWord ),
+		...generateVerbExceptionForms( morphologyData.verbs, stemmedWord ),
+	];
 
 	if ( exceptions.length > 0 ) {
-		// Add the original word as a safeguard.
-		exceptions.push( word );
+		// Add the original word and the stem as a safeguard.
+		exceptions.push( ...forms );
 
-		return { forms: unique( exceptions ), stem: stemmedWord };
+		return unique( exceptions );
 	}
 
-	// Modify regular suffixes assuming the word is a noun.
-	let regularNounSuffixes = morphologyData.nouns.regularSuffixes.slice();
-	// Depending on the specific ending of the stem, we can add/remove some suffixes from the list of regulars.
-	regularNounSuffixes = modifyListOfRegularSuffixes( morphologyData.nouns, regularNounSuffixes, stemmedWord );
+	const stemIfWordIsParticiple = detectAndStemRegularParticiple( morphologyData.verbs, word );
+
+	/*
+	 * If the original word is a regular participle, it gets stemmed here. We then only create verb forms (assuming
+	 * that the participle was used verbally, e.g. "er hat sich die Haare gefärbt" - "he dyed his hair") and adjective
+	 * forms (assuming that the participle was used adjectivally, e.g. "die Haare sind gefärbt" - "the hair is dyed").
+	 * The adjective forms are based on the stem that has only the suffixes removed, not the prefixes. This is because
+	 * we want forms such as "die gefärbten Haare" and not (incorrectly) "*die färbten Haare".
+	 */
+	if ( stemIfWordIsParticiple ) {
+		return unique( [
+			...forms,
+			...generateRegularVerbForms( morphologyData.verbs, stemIfWordIsParticiple ),
+			...addAllAdjectiveSuffixes( morphologyData.adjectives, stemmedWord ),
+		] );
+	}
 
 	// If the stem wasn't found on any exception list, add regular noun suffixes.
-	forms.push( ...regularNounSuffixes.map( suffix => stemmedWord.concat( suffix ) ) );
+	forms.push( ...generateRegularNounForms( morphologyData.nouns, stemmedWord ) );
 
 	// Also add regular adjective suffixes.
 	forms.push( ...addAllAdjectiveSuffixes( morphologyData.adjectives, stemmedWord ) );
 
 	// Also add regular verb suffixes.
-	forms.push( ...addVerbSuffixes( morphologyData.verbs, stemmedWord ) );
+	forms.push( ...generateRegularVerbForms( morphologyData.verbs, stemmedWord ) );
 
-	// Add a participle form.
-	forms.push( generateParticipleForm( morphologyData.verbs, stemmedWord  ) );
-
-	// Also add the stemmed word, since it might be a valid word form on its own.
-	forms.push( stemmedWord );
+	const formsBasedOnStemmed3rdSgVerbs = createFormsForStemmed3rdSgVerbs( morphologyData, stemmedWord, word );
 
 	/*
-	 * In some cases, we need make changes to the stem that aren't simply concatenations (e.g. remove n from the stem
-	 * Ärztinn to obtain Ärztin.
+	 * For words certain words ending in -t, it is ambiguous whether it's actually a stem that ends in -t/-et (e.g., test)
+	 * or whether the -t/-et ending is a 3rd person singular verb ending (e.g, kauft). When it's possible that the ending
+	 * is a 3rd person singular ending, we strip it and create additional verb forms based on the stem without the -t or -et.
 	 */
-	forms.push( ...addFormsWithRemovedLetters( morphologyData.nouns, stemmedWord ) );
+	if ( formsBasedOnStemmed3rdSgVerbs ) {
+		forms.push( ...formsBasedOnStemmed3rdSgVerbs );
+	}
 
-	return { forms: unique( forms ), stem: stemmedWord };
+	return unique( forms );
 }

@@ -90,8 +90,7 @@ const buildForms = function( keyphrase, language, morphologyData ) {
 	} else {
 		words.forEach( function( word ) {
 			const wordToLowerCase = escapeRegExp( word.toLocaleLowerCase() );
-			const formsOfThisWord = language === "de"
-				? getForms( wordToLowerCase, morphologyData ).forms : getForms( wordToLowerCase, morphologyData );
+			const formsOfThisWord = getForms( wordToLowerCase, morphologyData );
 			const variationsApostrophes = getVariationsApostropheInArray( formsOfThisWord );
 			forms.push( unique( flatten( formsOfThisWord.concat( variationsApostrophes ) ) ).filter( Boolean ) );
 		} );

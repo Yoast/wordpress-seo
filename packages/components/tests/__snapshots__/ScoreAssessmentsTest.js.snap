@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the ScoreAssessments matches the snapshot 1`] = `
+<ul
+  className="score-assessments FlNpt"
+  role="list"
+>
+  <li
+    className="score-assessments__item clxkYQ"
+  >
+    <span
+      className="score-assessments__item-bullet eeqDlJ"
+    />
+    <span
+      className="score-assessments__item-text MQCNO"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
+        }
+      }
+    />
+  </li>
+  <li
+    className="score-assessments__item clxkYQ"
+  >
+    <span
+      className="score-assessments__item-bullet PTWTa"
+    />
+    <span
+      className="score-assessments__item-text MQCNO"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
+        }
+      }
+    />
+  </li>
+</ul>
+`;
+
+exports[`the ScoreAssessments with some scores matches the snapshot 1`] = `
+<ul
+  className="score-assessments FlNpt"
+  role="list"
+>
+  <li
+    className="score-assessments__item clxkYQ"
+  >
+    <span
+      className="score-assessments__item-bullet eeqDlJ"
+    />
+    <span
+      className="score-assessments__item-text MQCNO"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
+        }
+      }
+    />
+  </li>
+  <li
+    className="score-assessments__item clxkYQ"
+  >
+    <span
+      className="score-assessments__item-bullet PTWTa"
+    />
+    <span
+      className="score-assessments__item-text MQCNO"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
+        }
+      }
+    />
+  </li>
+</ul>
+`;
+
+exports[`the ScoreAssessments without scores matches the snapshot 1`] = `
+<ul
+  className="score-assessments FlNpt"
+  role="list"
+>
+  <li
+    className="score-assessments__item clxkYQ"
+  >
+    <span
+      className="score-assessments__item-bullet eeqDlJ"
+    />
+    <span
+      className="score-assessments__item-text MQCNO"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<a href=\\"http://google.com\\">Posts with a <strong>bad</strong> SEO score</a>:",
+        }
+      }
+    />
+  </li>
+  <li
+    className="score-assessments__item clxkYQ"
+  >
+    <span
+      className="score-assessments__item-bullet PTWTa"
+    />
+    <span
+      className="score-assessments__item-text MQCNO"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<a href=\\"http://google.com\\">Posts with an <strong>OK</strong> SEO score</a>:",
+        }
+      }
+    />
+  </li>
+</ul>
+`;

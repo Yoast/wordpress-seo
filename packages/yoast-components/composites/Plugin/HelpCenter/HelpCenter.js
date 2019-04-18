@@ -4,12 +4,9 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 
-/* Internal dependencies */
-import { HelpCenterButton } from "../../Plugin/Shared/components/HelpCenterButton";
-import Paper from "../../../composites/basic/Paper";
-import colors from "../../../style-guide/colors.json";
-import YoastTabs from "../Shared/components/YoastTabs";
-import breakpoints from "../../../style-guide/responsive-breakpoints.json";
+/* Yoast dependencies */
+import { Paper, Tabs, HelpCenterButton } from "@yoast/components";
+import { colors, breakpoints } from "@yoast/style-guide";
 
 export const HelpCenterContainer = styled.div`
 	margin: 0;
@@ -81,7 +78,7 @@ class HelpCenter extends React.Component {
 					{ __( "Need help?", "yoast-components" ) }
 				</HelpCenterButton>
 				{ this.state.isExpanded && <HelpCenterPaper minHeight="432px">
-					<YoastTabs
+					<Tabs
 						items={ this.props.items }
 						tabsTextColor={ this.props.tabsTextColor }
 						tabsTextTransform={ this.props.tabsTextTransform }

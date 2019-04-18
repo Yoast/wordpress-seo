@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the StackedProgressBar matches the snapshot 1`] = `
+<div
+  className="stacked-progress-bar bjfxZA"
+>
+  <span
+    className="stacked-progress-bar__part SxPsc"
+  />
+  <span
+    className="stacked-progress-bar__part bzwmmt"
+  />
+  <span
+    className="stacked-progress-bar__part konlNu"
+  />
+  <span
+    className="stacked-progress-bar__part ipccYe"
+  />
+</div>
+`;

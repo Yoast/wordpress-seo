@@ -5,13 +5,47 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 4.21.0 February 25th. 2019
+## 4.24.0 April 4th, 2019
+* The following packages have been split out from `@yoast/yoast-components`. Please use these packages in the future:
+  * `@yoast/algolia-search-box`
+  * `@yoast/components`
+  * `@yoast/configuration-wizard`
+  * `@yoast/eslint`
+  * `@yoast/helpers`
+  * `@yoast/search-metadata-previews`
+  * `@yoast/social-metadata-previews`
+  * `@yoast/style-guide`
+  * `@yoast/social-previews`
+
+## 4.23.1 April 15th, 2019
+### Other
+* Updated the `styled-components` package to v4+. 
+
+## 4.23.0 April 1st, 2019
+### Added
+* Adds an autocomplete prop to the following components: `Step`, `Textfield`, and `Input`.
+
+### Fixed
+* Restores the focus indication on the title separators in the onboarding wizard.
+
+### Other
+* Makes the previous and next buttons in the `OnboardingWizard` component look like links.
+
+## 4.22.0 March 11th, 2019
+### Added
+* Adds `keywordForms` field to the `SnippetPreview` and `SnippetEditor` components to be able to highlight word forms of the keyphrase in the preview.
+* Adds step-specific hashes to the URL in the `OnboardingWizard` component to make navigation easier.
+
+### Fixed
+* Fixes a bug where the standalone would not load in IE11.
+
+## 4.21.0 February 25th, 2019
 ### Other
 * Changed the AnalysisList pressed status check to listen to `result.markerId` instead of `result.id`.
 * Upgrades webpack-dev-server to 3.1.14.
 * Bumps YoastSEO.js version to 1.48.0.
 
-## 4.20.0 February 11th. 2019
+## 4.20.0 February 11th, 2019
 ### Other
 * Changed the default icon for the `Collapsible` component to chevrons.
 * Bumps YoastSEO.js version to 1.47.0.
@@ -134,7 +168,7 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Added
 * Add setOverallSeoScore and setOverallReadabilityScore reducer.
 * Add help text to the content analysis in the standalone.
-* Add a IconLabelledButton component to render a button with visible textual label.
+* Add a IconLabeledButton component to render a button with visible textual label.
 
 ### Fixed
 * Fix alignment of video in help center when no ads are present.

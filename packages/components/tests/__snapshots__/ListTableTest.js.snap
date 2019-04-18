@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the ListTable component matches the snapshot 1`] = `
+<ul
+  className="gbioMK"
+  role="list"
+/>
+`;
+
+exports[`the ZebrafiedListTable component with multiple children matches the snapshot 1`] = `
+<ul
+  className="gbioMK"
+  role="list"
+>
+  <li
+    background="#f7f7f7"
+  />
+  <li
+    background="#fff"
+  />
+</ul>
+`;
+
+exports[`the ZebrafiedListTable component with one child matches the snapshot 1`] = `
+<ul
+  className="gbioMK"
+  role="list"
+>
+  <li
+    background="#f7f7f7"
+  />
+</ul>
+`;

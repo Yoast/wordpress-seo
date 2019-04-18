@@ -1,8 +1,5 @@
-## Summary
-<!-- Explain what needs to be done and why in one or two sentences. -->
-
 ## Explanation
-<!--A longer explanation of what needs to happen and what the goal is if needed. -->
+<!--An explanation of what needs to happen and what the goal is. -->
 
 ## Technical decisions
 <!-- If there are technical decisions around this issue already, list them here. -->

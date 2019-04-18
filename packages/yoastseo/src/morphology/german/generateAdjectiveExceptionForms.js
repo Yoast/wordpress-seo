@@ -16,7 +16,7 @@ import { uniq as unique } from "lodash-es";
  * @returns {string[]} The created adjective forms.
  */
 const elStemChange = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.elStemChange;
+	const exceptionStems = morphologyDataAdjectives.exceptions.elStemChange;
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const stemPairToCheck = exceptionStems[ i ];
@@ -44,7 +44,7 @@ const elStemChange = function( morphologyDataAdjectives, stemmedWordToCheck ) {
  * @returns {string[]} The created adjective forms.
  */
 const erOnlyRestoreEr = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.erOnlyRestoreEr;
+	const exceptionStems = morphologyDataAdjectives.exceptions.erOnlyRestoreEr;
 
 
 	if ( exceptionStems.includes( stemmedWordToCheck ) ) {
@@ -71,7 +71,7 @@ const erOnlyRestoreEr = function( morphologyDataAdjectives, stemmedWordToCheck )
  * @returns {string[]} The created adjective forms.
  */
 const erStemChangeClass1 = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.erStemChangeClass1;
+	const exceptionStems = morphologyDataAdjectives.exceptions.erStemChangeClass1;
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const stemPairToCheck = exceptionStems[ i ];
@@ -100,7 +100,7 @@ const erStemChangeClass1 = function( morphologyDataAdjectives, stemmedWordToChec
  * @returns {string[]} The created adjective forms.
  */
 const erStemChangeClass2 = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.erStemChangeClass2;
+	const exceptionStems = morphologyDataAdjectives.exceptions.erStemChangeClass2;
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const stemPairToCheck = exceptionStems[ i ];
@@ -129,7 +129,7 @@ const erStemChangeClass2 = function( morphologyDataAdjectives, stemmedWordToChec
  * @returns {string[]} The created adjective forms.
  */
 const erStemChangeClass3 = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.erStemChangeClass3;
+	const exceptionStems = morphologyDataAdjectives.exceptions.erStemChangeClass3;
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const stemPairToCheck = exceptionStems[ i ];
@@ -156,7 +156,7 @@ const erStemChangeClass3 = function( morphologyDataAdjectives, stemmedWordToChec
  * @returns {string[]} The created adjective forms.
  */
 const secondStemCompSup = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.secondStemCompSup;
+	const exceptionStems = morphologyDataAdjectives.exceptions.secondStemCompSup;
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const stemPairToCheck = exceptionStems[ i ];
@@ -183,7 +183,7 @@ const secondStemCompSup = function( morphologyDataAdjectives, stemmedWordToCheck
  * @returns {string[]} The created adjective forms.
  */
 const bothStemsComSup = function( morphologyDataAdjectives, stemmedWordToCheck ) {
-	const exceptionStems = morphologyDataAdjectives.bothStemsCompSup;
+	const exceptionStems = morphologyDataAdjectives.exceptions.bothStemsCompSup;
 
 	for ( let i = 0; i < exceptionStems.length; i++ ) {
 		const stemPairToCheck = exceptionStems[ i ];
@@ -201,7 +201,77 @@ const bothStemsComSup = function( morphologyDataAdjectives, stemmedWordToCheck )
 };
 
 /**
- * Checks whether a give stem stem falls into any of the adjective exception categories and creates the
+ * Creates forms for the adjective "gut".
+ *
+ * @param {Object}  morphologyDataAdjectives    The German morphology data for adjectives.
+ * @param {string}  stemmedWordToCheck          The stem to check.
+ *
+ * @returns {string[]} The created adjective forms.
+ */
+const gutForms = function( morphologyDataAdjectives, stemmedWordToCheck ) {
+	const exceptionStems = morphologyDataAdjectives.exceptions.gut;
+
+	if ( exceptionStems.includes( stemmedWordToCheck ) ) {
+		return unique( [
+			exceptionStems[ 0 ],
+			...addRegularSuffixes( morphologyDataAdjectives, exceptionStems[ 0 ] ),
+			...addComparativeSuffixes( morphologyDataAdjectives, exceptionStems[ 1 ] ),
+			...addRegularSuffixes( morphologyDataAdjectives, exceptionStems[ 2 ] ),
+		] );
+	}
+
+	return [];
+};
+
+/**
+ * Creates forms for the adjective "viel".
+ *
+ * @param {Object}  morphologyDataAdjectives    The German morphology data for adjectives.
+ * @param {string}  stemmedWordToCheck          The stem to check.
+ *
+ * @returns {string[]} The created adjective forms.
+ */
+const vielForms = function( morphologyDataAdjectives, stemmedWordToCheck ) {
+	const exceptionStems = morphologyDataAdjectives.exceptions.viel;
+
+	if ( exceptionStems.includes( stemmedWordToCheck ) ) {
+		return unique( [
+			exceptionStems[ 0 ],
+			...addRegularSuffixes( morphologyDataAdjectives, exceptionStems[ 0 ] ),
+			exceptionStems[ 1 ],
+			...addRegularSuffixes( morphologyDataAdjectives, exceptionStems[ 2 ] ),
+		] );
+	}
+
+	return [];
+};
+
+/**
+ * Creates forms for the adjective "hoch".
+ *
+ * @param {Object}  morphologyDataAdjectives    The German morphology data for adjectives.
+ * @param {string}  stemmedWordToCheck          The stem to check.
+ *
+ * @returns {string[]} The created adjective forms.
+ */
+const hochForms = function( morphologyDataAdjectives, stemmedWordToCheck ) {
+	const exceptionStems = morphologyDataAdjectives.exceptions.hoch;
+
+	if ( exceptionStems.includes( stemmedWordToCheck ) ) {
+		return unique( [
+			exceptionStems[ 0 ],
+			...addRegularSuffixes( morphologyDataAdjectives, exceptionStems[ 1 ] ),
+			...addComparativeSuffixes( morphologyDataAdjectives, exceptionStems[ 2 ] ),
+			...addSuperlativeSuffixes( morphologyDataAdjectives, exceptionStems[ 3 ] ),
+		] );
+	}
+
+	return [];
+};
+
+
+/**
+ * Checks whether a given stem falls into any of the adjective exception categories and creates the
  * correct forms if that is the case.
  *
  * @param {Object}  morphologyDataAdjectives The German morphology data for adjectives.
@@ -222,6 +292,9 @@ export function generateAdjectiveExceptionForms( morphologyDataAdjectives, stemm
 		erStemChangeClass3,
 		secondStemCompSup,
 		bothStemsComSup,
+		gutForms,
+		vielForms,
+		hochForms,
 	];
 
 	for ( let i = 0; i < exceptionChecks.length; i++ ) {

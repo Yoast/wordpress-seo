@@ -35,10 +35,11 @@ export const getTextLengthAssessment = function() {
  * Creates the Assessor used for taxonomy pages.
  *
  * @param {object} i18n The i18n object used for translations.
+ * @param {Object} options The options for this assessor.
  * @constructor
  */
-const TaxonomyAssessor = function( i18n ) {
-	Assessor.call( this, i18n );
+const TaxonomyAssessor = function( i18n, options ) {
+	Assessor.call( this, i18n, options );
 	this.type = "TaxonomyAssessor";
 
 	this._assessments = [

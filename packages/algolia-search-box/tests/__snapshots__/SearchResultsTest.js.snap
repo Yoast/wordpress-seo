@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the SearchResults component with results matches the snapshot 1`] = `
+<div
+  className="SearchResults__SearchResultsWrapper-sc-1s841j3-2 kLUjtt"
+>
+  <h2
+    className="screen-reader-text"
+  >
+    Search results
+  </h2>
+  <ul
+    className="ListTable__List-sc-1oyt4xr-0 gbioMK"
+    role="list"
+  >
+    <li
+      className="Row-ehfonz-0 jvCcjA"
+      onClick={[Function]}
+    >
+      <a
+        className="SearchResults__SearchResultLink-sc-1s841j3-1 bmXCvI"
+        href="https://kb.yoast.com/kb/passive-voice/"
+        onClick={[Function]}
+      >
+        <p
+          className="SearchResults__SearchResultTitle-sc-1s841j3-0 kcvibD"
+        />
+      </a>
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`the SearchResults component without results matches the snapshot 1`] = `
+<p
+  className="SearchResults__NoResults-sc-1s841j3-3 gxkCVR"
+>
+  No results found.
+</p>
+`;

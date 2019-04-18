@@ -11,10 +11,11 @@ import FunctionWordsInKeyphrase from "./assessments/seo/FunctionWordsInKeyphrase
  * Creates the Assessor used for taxonomy pages.
  *
  * @param {object} i18n The i18n object used for translations.
+ * @param {Object} options The options for this assessor.
  * @constructor
  */
-const RelatedKeywordTaxonomyAssessor = function( i18n ) {
-	Assessor.call( this, i18n );
+const RelatedKeywordTaxonomyAssessor = function( i18n, options ) {
+	Assessor.call( this, i18n, options );
 	this.type = "RelatedKeywordsTaxonomyAssessor";
 
 	this._assessments = [

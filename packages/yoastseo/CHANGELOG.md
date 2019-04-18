@@ -5,6 +5,40 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.51.0 April 4th, 2019
+## 1.51.0
+###Fixed
+* Parsing comments inside paragraphs and headings does not break the analysis anymore.
+* Adds error handling to the YoastSEO development tool, when building the tree for visualization purposes.
+* Fixes the parsing of paragraphs within headings when using the tree parser. Previously, it crashed the building of the tree.
+
+### Changed
+* Improves the recognition of German keyphrases that include words with an `i` or `e` in between vowels (e.g., `schrieen`, `schreien`, `speie`).
+* Rewrites the SEO and readability analysis such that it uses both the original assessors as well the new tree assessors. The results of both are combined and their scores aggregated.
+
+## 1.50.0 April 1st, 2019
+### Added
+* Adds word form recognition for German.
+* Adds more transition words for Swedish.
+* Adds visualization of the tree to the dev tool.
+
+### Changed
+* Increases the recommended sentence length limit for Spanish and Catalan, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
+* Improves list of Catalan transition words, props to [Sílvia Fustegueres](https://www.ampersand.net/en/).
+
+### Fixed
+* Fixes a bug that impeded recognition of word forms for keyphrases on taxonomy pages.
+
+## 1.49.0 March 11th, 2019
+### Added
+* The recalibrated analysis is out of its beta phase and is now the default for the SEO analysis. Thanks for testing and giving us your valuable feedback! You are awesome!
+
+### Fixed
+* Changes the text read out by a screen reader from `Bad SEO score.` to `Needs improvement.` when focused on the SEO score indicator in the menu bar and the traffic light in the snippet preview.
+
+### Changed
+* Props to [Kingdutch](https://github.com/Kingdutch) for helping us to improve our open source content analysis library.
+
 ## 1.48.0 February 25th, 2019
 ### Added
 * Improves the feedback for the assessment that checks the length of the text in cornerstone articles.

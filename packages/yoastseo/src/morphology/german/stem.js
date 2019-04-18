@@ -23,7 +23,7 @@ const determineR1 = function( word ) {
 		r1Index += 2;
 	}
 
-	// Adjust R1 so that it includes at least 3 letters.
+	// Adjust R1 so that the region preceding it includes at least 3 letters.
 	if ( r1Index !== -1 && r1Index < 3 ) {
 		r1Index = 3;
 	}
@@ -153,6 +153,8 @@ export default function stem( word ) {
 	// Put u and y between vowels into upper case.
 	word = word.replace( /([aeiouyäöü])u([aeiouyäöü])/g, "$1U$2" );
 	word = word.replace( /([aeiouyäöü])y([aeiouyäöü])/g, "$1Y$2" );
+	word = word.replace( /([aeiouyäöü])i([aeiouyäöü])/g, "$1I$2" );
+	word = word.replace( /([aeiouyäöü])e([aeiouyäöü])/g, "$1E$2" );
 
 	// Find the start index of the R1 region.
 	const r1Index = determineR1( word );
@@ -173,6 +175,8 @@ export default function stem( word ) {
 	// Turn U and Y back into lower case.
 	word = word.replace( /U/g, "u" );
 	word = word.replace( /Y/g, "y" );
+	word = word.replace( /I/g, "i" );
+	word = word.replace( /E/g, "e" );
 
 	return word;
 }

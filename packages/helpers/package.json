@@ -1,0 +1,42 @@
+{
+  "name": "@yoast/helpers",
+  "version": "0.1.0-rc.3",
+  "description": "All Yoast helper functions.",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yoast/javascript.git",
+    "directory": "packages/helpers"
+  },
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint .",
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc"
+  },
+  "author": "Yoast",
+  "license": "GPL-3.0",
+  "private": false,
+  "dependencies": {
+    "@wordpress/i18n": "^1.2.3",
+    "prop-types": "^15.7.2",
+    "react-intl": "^2.8.0",
+    "styled-components": "^2.4.1",
+    "whatwg-fetch": "1.1.1"
+  },
+  "peerDependencies": {
+    "react": "^16.2.0"
+  },
+  "jest": {
+    "testRegex": ".*Test.js$",
+    "testEnvironment": "node",
+    "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
+  },
+  "devDependencies": {
+    "jest-styled-components": "^5.0.1",
+    "react-test-renderer": "^16.8.6",
+    "wicked-good-xpath": "^1.3.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

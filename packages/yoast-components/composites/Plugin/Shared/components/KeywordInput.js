@@ -6,12 +6,10 @@ import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 import noop from "lodash/noop";
 
-// Internal dependencies.
-import colors from "../../../../style-guide/colors.json";
-import { YoastInputField } from "./YoastInput";
-import SvgIcon from "./SvgIcon";
-import { addFocusStyle } from "./Button";
-import { getRtlStyle } from "../../../../utils/helpers/styled-components";
+/* Yoast dependencies */
+import { addFocusStyle, SvgIcon, InputField } from "@yoast/components";
+import { getDirectionalStyle } from "@yoast/helpers";
+import { colors } from "@yoast/style-guide";
 
 const errorColor = colors.$color_red;
 const greyColor = colors.$color_grey_text_light;
@@ -25,14 +23,14 @@ const KeywordInputContainer = styled.div`
 const KeywordFieldLabel = styled.label`
 	font-size: 1em;
 	font-weight: bold;
-	${ getRtlStyle( "margin-right: 4px", "margin-left: 4px" ) };
+	${ getDirectionalStyle( "margin-right: 4px", "margin-left: 4px" ) };
 `;
 
 const KeywordFieldLabelContainer = styled.span`
 	margin-bottom: 0.5em;
 `;
 
-const KeywordField = styled( YoastInputField )`
+const KeywordField = styled( InputField )`
 	flex: 1 !important;
 	box-sizing: border-box;
 	max-width: 100%;
@@ -93,11 +91,11 @@ export const YoastInputButtonContainer = styled.div`
 
 	&.has-remove-keyword-button {
 		${ KeywordField } {
-			${ getRtlStyle( "padding-right: 40px", "padding-left: 40px" ) };
+			${ getDirectionalStyle( "padding-right: 40px", "padding-left: 40px" ) };
 		}
 
 		${ BorderlessButton } {
-			${ getRtlStyle( "margin-left: -32px", "margin-right: -32px" ) };
+			${ getDirectionalStyle( "margin-left: -32px", "margin-right: -32px" ) };
 		}
 	}
 `;
