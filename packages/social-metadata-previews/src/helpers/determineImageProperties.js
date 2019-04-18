@@ -115,7 +115,7 @@ export function calculateImageRatios( expectedDimensions, originalDimensions, im
 		};
 	}
 
-	// By default, the image mode is square
+	// By default, the image mode is square.
 	return {
 		widthRatio: originalDimensions.width / expectedDimensions.squareWidth,
 		heightRatio: originalDimensions.height / expectedDimensions.squareHeight,
