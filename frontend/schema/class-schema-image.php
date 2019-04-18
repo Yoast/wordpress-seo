@@ -73,7 +73,7 @@ class WPSEO_Schema_Image {
 	 */
 	public function generate_from_attachment_id( $attachment_id, $caption = '' ) {
 		$this->attachment_id = $attachment_id;
-		$this->data['url']   = wp_get_attachment_image_url( $this->attachment_id );
+		$this->data['url']   = wp_get_attachment_image_url( $this->attachment_id, 'full' );
 		$this->add_image_size();
 		$this->add_caption( $caption );
 
