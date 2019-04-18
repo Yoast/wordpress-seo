@@ -124,7 +124,7 @@ const generateFormsVeryIrregularVerbs = function( morphologyDataVerbs, stemmedWo
 
 
 /**
- * Checks whether a give stem stem falls into any of the verb exception categories and creates the
+ * Checks whether a given stem falls into any of the verb exception categories and creates the
  * correct forms if that is the case.
  *
  * @param {Object}  morphologyDataVerbs The German morphology data for verbs.
