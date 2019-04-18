@@ -201,10 +201,12 @@ const bothStemsComSup = function( morphologyDataAdjectives, stemmedWordToCheck )
 };
 
 /**
+ * Creates forms for the adjective "gut".
  *
- * @param {Object} morphologyDataAdjectives The German morphology data for adjectives.
- * @param {string} stemmedWordToCheck The stem to check.
- * @returns {Array} The created adjective forms.
+ * @param {Object}  morphologyDataAdjectives    The German morphology data for adjectives.
+ * @param {string}  stemmedWordToCheck          The stem to check.
+ *
+ * @returns {string[]} The created adjective forms.
  */
 const gutForms = function( morphologyDataAdjectives, stemmedWordToCheck ) {
 	const exceptionStems = morphologyDataAdjectives.exceptions.gut;
@@ -222,10 +224,12 @@ const gutForms = function( morphologyDataAdjectives, stemmedWordToCheck ) {
 };
 
 /**
+ * Creates forms for the adjective "viel".
  *
- * @param {Object} morphologyDataAdjectives The German morphology data for adjectives.
- * @param {string} stemmedWordToCheck The stem to check.
- * @returns {Array} The created adjective forms.
+ * @param {Object}  morphologyDataAdjectives    The German morphology data for adjectives.
+ * @param {string}  stemmedWordToCheck          The stem to check.
+ *
+ * @returns {string[]} The created adjective forms.
  */
 const vielForms = function( morphologyDataAdjectives, stemmedWordToCheck ) {
 	const exceptionStems = morphologyDataAdjectives.exceptions.viel;
@@ -243,10 +247,12 @@ const vielForms = function( morphologyDataAdjectives, stemmedWordToCheck ) {
 };
 
 /**
+ * Creates forms for the adjective "hoch".
  *
- * @param {Object} morphologyDataAdjectives The German morphology data for adjectives.
- * @param {string} stemmedWordToCheck The stem to check.
- * @returns {Array} The created adjective forms.
+ * @param {Object}  morphologyDataAdjectives    The German morphology data for adjectives.
+ * @param {string}  stemmedWordToCheck          The stem to check.
+ *
+ * @returns {string[]} The created adjective forms.
  */
 const hochForms = function( morphologyDataAdjectives, stemmedWordToCheck ) {
 	const exceptionStems = morphologyDataAdjectives.exceptions.hoch;
