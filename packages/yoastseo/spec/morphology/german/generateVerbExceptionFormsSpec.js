@@ -204,6 +204,37 @@ const bringenForms = [
 	"gebracht",
 ];
 
+const sendenStems = [
+	"send",
+	"sandt",
+	"sendet",
+	"gesand",
+	"gesend",
+];
+
+const sendenForms = [
+	"send",
+	"sandt",
+	"sende",
+	"senden",
+	"sendend",
+	"sendest",
+	"sendet",
+	"sendst",
+	"sendt",
+	"sandte",
+	"sandten",
+	"sandtest",
+	"sandtet",
+	"sendete",
+	"sendeten",
+	"sendetest",
+	"sendetet",
+	"gesandt",
+	"gesendet"
+];
+
+
 const werdenStems = [
 	"werd",
 	"wir",
@@ -370,6 +401,15 @@ describe( "Test for generating verb exceptions in German", () => {
 		bringenStems.forEach( function( stem ) {
 			const receivedForms = generateVerbExceptionForms( morphologyDataDE.verbs, stem );
 			bringenForms.forEach( function( form ) {
+				expect( receivedForms ).toContain( form );
+			} );
+		} );
+	} );
+
+	it( "creates forms for stems of an irregular verb with et-participle `senden`", () => {
+		sendenStems.forEach( function( stem ) {
+			const receivedForms = generateVerbExceptionForms( morphologyDataDE.verbs, stem );
+			sendenForms.forEach( function( form ) {
 				expect( receivedForms ).toContain( form );
 			} );
 		} );

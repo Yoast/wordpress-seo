@@ -17,14 +17,13 @@ const addSuffixesStrongVerbParadigm = function( dataStrongAndIrregularVerbs, ver
 		present: dataStrongAndIrregularVerbs.suffixes.presentAllClasses.slice(),
 		pastParticiple: new Array( dataStrongAndIrregularVerbs.suffixes.pastParticiple ),
 		pastParticipleT: new Array( dataStrongAndIrregularVerbs.suffixes.pastParticipleT ),
-		pastParticipleEn: new Array( dataStrongAndIrregularVerbs.suffixes.pastParticipleEn ),
+		pastParticipleEt: new Array( dataStrongAndIrregularVerbs.suffixes.pastParticipleEt ),
 		pastSubjunctive: dataStrongAndIrregularVerbs.suffixes.pastSubjunctive.slice(),
 	};
 
 	// Add class-specific suffixes.
 	const additionalSuffixes = dataStrongAndIrregularVerbs.suffixes.classDependent[ verbClass ];
 	const allSuffixes = { ...basicSuffixes, ...additionalSuffixes };
-
 	const forms = [];
 	// Check whether a given verb has stems that can be forms on their own, and if yes, add them to the array
 	const stemsThatCanBeForms = [ stems.present, stems.past, stems.presentSg ];
@@ -158,10 +157,6 @@ export function generateVerbExceptionForms( morphologyDataVerbs, stemmedWordToCh
 	// If the original stem had a verb prefix, attach it to the found exception forms.
 	if ( typeof( foundPrefix ) === "string" ) {
 		exceptions = exceptions.map( word => foundPrefix + word );
-	}
-
-	if ( exceptions.length > 0 ) {
-		return exceptions;
 	}
 
 	return exceptions;
