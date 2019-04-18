@@ -6,13 +6,15 @@
  */
 
 /**
- * OpenGraph tests
+ * OpenGraph tests.
  *
  * @group OpenGraph
  */
 class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_OpenGraph
 	 */
 	private static $class_instance;
@@ -589,6 +591,7 @@ EXPECTED;
 
 		update_option( 'blogname', $current_site_name );
 	}
+
 	/**
 	 * @covers WPSEO_OpenGraph::site_name
 	 */
@@ -826,7 +829,7 @@ EXPECTED;
 	}
 
 	/**
-	 * Tests the rendering of article:section for a post with two categories wherefor the first
+	 * Tests the rendering of article:section for a post with two categories where the first
 	 * set category will be removed via a filter.
 	 *
 	 * @covers WPSEO_OpenGraph::category()
@@ -854,7 +857,7 @@ EXPECTED;
 	/**
 	 * Creates a post with a pair of categories attached.
 	 *
-	 * @return int The created post id.
+	 * @return int The created post ID.
 	 */
 	protected function create_post_with_categories() {
 		$post_id = self::factory()->post->create();

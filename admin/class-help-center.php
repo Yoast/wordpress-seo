@@ -238,7 +238,7 @@ class WPSEO_Help_Center {
 	 *
 	 * %s is replaced with <code>%s</code> and replaced again in the javascript with the actual variable.
 	 *
-	 * @return  array Translated text strings for the help center.
+	 * @return array Translated text strings for the help center.
 	 */
 	public static function get_translated_texts() {
 		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.

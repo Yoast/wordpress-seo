@@ -6,7 +6,10 @@
  */
 
 /**
- * This class registers all the necessary styles and scripts. Also has methods for the enqueing of scripts and styles. It automatically adds a prefix to the handle.
+ * This class registers all the necessary styles and scripts.
+ *
+ * Also has methods for the enqueing of scripts and styles.
+ * It automatically adds a prefix to the handle.
  */
 class WPSEO_Admin_Asset_Manager {
 
@@ -140,7 +143,7 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
-	 * Flattens a version number for use in a filename
+	 * Flattens a version number for use in a filename.
 	 *
 	 * @param string $version The original version number.
 	 *
@@ -336,6 +339,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
 				'deps' => array(
+					'wp-api',
 					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
 				),
@@ -514,6 +518,8 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-i18n',
 					'wp-components',
 					'wp-data',
+					self::PREFIX . 'analysis',
+					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
 				),
 			),
@@ -543,6 +549,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'wp-element',
 					'wp-i18n',
+					'wp-api',
 					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
 				),
@@ -656,7 +663,7 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 * @todo Data format is not self-documenting. Needs explanation inline. R.
 	 *
-	 * @return array styles that need to be registered.
+	 * @return array Styles that need to be registered.
 	 */
 	protected function styles_to_be_registered() {
 		$flat_version = $this->flatten_version( WPSEO_VERSION );

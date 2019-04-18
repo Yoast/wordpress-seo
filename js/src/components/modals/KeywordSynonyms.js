@@ -2,11 +2,10 @@ import React from "react";
 import interpolateComponents from "interpolate-components";
 import { __, sprintf } from "@wordpress/i18n";
 
-import { utils } from "yoast-components";
+import { makeOutboundLink } from "@yoast/helpers";
 import PropTypes from "prop-types";
 import UpsellBox from "../UpsellBox";
 
-const { makeOutboundLink } = utils;
 const PremiumLandingPageLink = makeOutboundLink();
 
 /**
@@ -69,7 +68,7 @@ const KeywordSynonyms = ( props ) => {
 				className: "yoast-button-upsell",
 				rel: null,
 			} }
-			upsellButtonLabel={ __( "1 year free updates and upgrades included!", "wordpress-seo" ) }
+			upsellButtonLabel={ __( "1 year free support and updates included!", "wordpress-seo" ) }
 		/>
 	);
 };

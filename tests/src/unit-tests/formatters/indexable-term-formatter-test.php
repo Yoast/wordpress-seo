@@ -15,6 +15,8 @@ use Yoast\Tests\Doubles\Indexable_Term_Formatter_Double;
 class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var Indexable_Term_Formatter_Double
 	 */
 	protected $instance;
@@ -137,7 +139,7 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the meta lookup returns the expected type of data
+	 * Tests if the meta lookup returns the expected type of data.
 	 *
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Term_Formatter::get_indexable_lookup()
 	 */
@@ -146,7 +148,7 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the meta lookup returns the expected type of data
+	 * Tests if the meta lookup returns the expected type of data.
 	 *
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Term_Formatter::get_indexable_meta_lookup()
 	 */

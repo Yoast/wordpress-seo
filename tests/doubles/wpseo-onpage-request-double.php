@@ -13,7 +13,7 @@ class WPSEO_OnPage_Request_Double extends WPSEO_OnPage_Request {
 	/**
 	 * Overwrite the get_remote method, because this is a dependency.
 	 *
-	 * @param string $target_url The home url.
+	 * @param string $target_url The home URL.
 	 * @param array  $parameters Array of extra parameters.
 	 *
 	 * @return array

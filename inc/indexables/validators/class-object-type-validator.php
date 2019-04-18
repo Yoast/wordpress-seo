@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Object_Type_Validator
+ * Class WPSEO_Object_Type_Validator.
  */
 class WPSEO_Object_Type_Validator implements WPSEO_Endpoint_Validator {
 

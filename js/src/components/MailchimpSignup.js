@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
 import IconMailOutline from "material-ui/svg-icons/communication/mail-outline";
-import { LoadingIndicator, sendRequest, localize } from "yoast-components";
+import { localize } from "yoast-components";
+import { LoadingIndicator } from "@yoast/configuration-wizard";
+import { sendRequest } from "@yoast/helpers";
 
 /**
  * @summary Mailchimp signup component.
@@ -240,7 +242,7 @@ class MailchimpSignup extends React.Component {
 	}
 
 	/**
-	 * When the last step is success and the user has already give his email address.
+	 * When the last step is success and the user has already given their email address.
 	 *
 	 * @returns {boolean} Returns if the user is already signed up and
 	 *                    component should be rendered.

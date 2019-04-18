@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_OpenGraph_OEmbed
+ * Class WPSEO_OpenGraph_OEmbed.
  */
 class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 
@@ -29,7 +29,7 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 	 * @param array   $data The oEmbed data.
 	 * @param WP_Post $post The current Post object.
 	 *
-	 * @see https://developer.wordpress.org/reference/hooks/oembed_response_data/ for hook info
+	 * @link https://developer.wordpress.org/reference/hooks/oembed_response_data/ for hook info.
 	 *
 	 * @return array $filter_data - An array of oEmbed data with modified values where appropriate.
 	 */

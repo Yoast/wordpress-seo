@@ -6,7 +6,7 @@
  */
 
 /**
- * Represents the filter for filtering links
+ * Represents the filter for filtering links.
  */
 class WPSEO_Link_Filter {
 
@@ -16,7 +16,7 @@ class WPSEO_Link_Filter {
 	protected $current_page_path;
 
 	/**
-	 * Sets the current page path
+	 * Sets the current page path.
 	 *
 	 * @param string $current_page The current page.
 	 */

@@ -6,12 +6,14 @@
  */
 
 /**
- * WPSEO_Custom_Taxonomies
+ * WPSEO_Custom_Taxonomies.
  */
 class WPSEO_Custom_Taxonomies {
 
 	/**
-	 * @var array Cache the custom taxonomies.
+	 * Custom taxonomies cache.
+	 *
+	 * @var array
 	 */
 	protected static $custom_taxonomies = null;
 

@@ -6,11 +6,13 @@
  */
 
 /**
- * Class WPSEO_Config_Component_Connect_Google_Search_Console_Test
+ * Class WPSEO_Config_Component_Connect_Google_Search_Console_Test.
  */
 class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_Framework_TestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Config_Component_Connect_Google_Search_Console_Mock
 	 */
 	protected $component;
@@ -23,7 +25,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 	protected $stub_calls = array();
 
 	/**
-	 * Set up
+	 * Set up.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -32,7 +34,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Test extends PHPUnit_
 	}
 
 	/**
-	 * Tear down
+	 * Tear down.
 	 */
 	public function tearDown() {
 		parent::tearDown();

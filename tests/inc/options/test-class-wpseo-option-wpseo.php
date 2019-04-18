@@ -10,6 +10,11 @@
  */
 class WPSEO_Option_WPSEO_Test extends WPSEO_UnitTestCase {
 
+	/**
+	 * Features which can be disabled via the network settings.
+	 *
+	 * @var array
+	 */
 	protected $feature_vars = array(
 		'disableadvanced_meta',
 		'onpage_indexability',

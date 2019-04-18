@@ -9,6 +9,7 @@
  * Test importing meta data from Smartcrawl_SEO.
  */
 class WPSEO_Import_Smartcrawl_SEO_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Holds the class instance.
 	 *

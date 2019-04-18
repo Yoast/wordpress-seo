@@ -6,15 +6,19 @@
  */
 
 /**
- * Class WPSEO_Configuration_Components_Tests
+ * Class WPSEO_Configuration_Components_Tests.
  */
 class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 
-	/** @var WPSEO_Configuration_Components_Mock */
+	/**
+	 * Holds the instance of the class being tested.
+	 *
+	 * @var WPSEO_Configuration_Components_Mock
+	 */
 	protected $components;
 
 	/**
-	 * Set up
+	 * Set up.
 	 */
 	public function setUp() {
 		parent::setUp();

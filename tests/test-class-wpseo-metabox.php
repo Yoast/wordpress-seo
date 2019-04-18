@@ -11,6 +11,8 @@
 class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Metabox
 	 */
 	private static $class_instance;

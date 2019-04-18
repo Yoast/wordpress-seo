@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_FAQ_Block
+ * Class WPSEO_FAQ_Block.
  */
 class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 
@@ -29,7 +29,8 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	/**
 	 * Renders the block.
 	 *
-	 * Because we can't save script tags in Gutenberg without sufficient user permissions, we render these server-side.
+	 * Because we can't save script tags in Gutenberg without sufficient user permissions,
+	 * we render these server-side.
 	 *
 	 * @param array  $attributes The attributes of the block.
 	 * @param string $content    The HTML content of the block.
@@ -43,7 +44,7 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 
 		$json_ld = $this->get_json_ld( $attributes );
 
-		return '<script type="application/ld+json">' . wp_json_encode( $json_ld ) . '</script>' . $content;
+		return '<script type="application/ld+json">' . WPSEO_Utils::format_json_encode( $json_ld ) . '</script>' . $content;
 	}
 
 	/**

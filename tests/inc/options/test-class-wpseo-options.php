@@ -42,7 +42,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the get_options() function returns an empty array if you pass nonexistent options.
+	 * Test if the get_options() function returns an empty array if you pass non-existent options.
 	 *
 	 * @covers WPSEO_Options::get_options
 	 */
@@ -53,7 +53,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test if the get_options() function returns an array containing two of the correct
-	 * keys when entering an array with two valid optionnames.
+	 * keys when entering an array with two valid option names.
 	 *
 	 * @covers WPSEO_Options::get_options
 	 */
@@ -83,7 +83,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the get_option() function returns an empty array if you pass an nonexistent option.
+	 * Test if the get_option() function returns an empty array if you pass an non-existent option.
 	 *
 	 * @covers WPSEO_Options::get_option
 	 */
@@ -94,7 +94,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test if the get_option() function returns an array containing one of the correct
-	 * keys when entering an array with a single valid optionname.
+	 * keys when entering an array with a single valid option name.
 	 *
 	 * @covers WPSEO_Options::get_option
 	 */

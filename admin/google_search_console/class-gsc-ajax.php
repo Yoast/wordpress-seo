@@ -6,12 +6,12 @@
  */
 
 /**
- * Class WPSEO_GSC_Ajax
+ * Class WPSEO_GSC_Ajax.
  */
 class WPSEO_GSC_Ajax {
 
 	/**
-	 * Setting the AJAX hooks for GSC
+	 * Setting the AJAX hooks for GSC.
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_wpseo_mark_fixed_crawl_issue', array( $this, 'ajax_mark_as_fixed' ) );
@@ -24,7 +24,7 @@ class WPSEO_GSC_Ajax {
 	/**
 	 * This method will be access by an AJAX request and will mark an issue as fixed.
 	 *
-	 * First it will do a request to the Google API
+	 * First it will do a request to the Google API.
 	 */
 	public function ajax_mark_as_fixed() {
 		if ( $this->valid_nonce() ) {
@@ -37,7 +37,7 @@ class WPSEO_GSC_Ajax {
 	}
 
 	/**
-	 * Handle the AJAX request and dismiss the GSC notice
+	 * Handle the AJAX request and dismiss the GSC notice.
 	 */
 	public function dismiss_notice() {
 		check_ajax_referer( 'dismiss-gsc-notice' );
@@ -82,7 +82,7 @@ class WPSEO_GSC_Ajax {
 	}
 
 	/**
-	 * Check if posted nonce is valid and return true if it is
+	 * Check if posted nonce is valid and return true if it is.
 	 *
 	 * @return mixed
 	 */
@@ -105,6 +105,6 @@ class WPSEO_GSC_Ajax {
 	private function get_profiles() {
 		$component = new WPSEO_Config_Component_Connect_Google_Search_Console();
 
-		wp_die( wp_json_encode( $component->get_data() ) );
+		wp_die( WPSEO_Utils::format_json_encode( $component->get_data() ) );
 	}
 }

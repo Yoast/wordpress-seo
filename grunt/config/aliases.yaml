@@ -101,6 +101,7 @@ check:
   - 'copy:composer-artifact'
   - 'clean:composer-files'
   - 'copy:composer-files'
+  - 'remove-vendor-prefixed-folder'
 
 # Get the project ready for release
 release:

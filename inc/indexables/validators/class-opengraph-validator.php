@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_OpenGraph_Validator
+ * Class WPSEO_OpenGraph_Validator.
  */
 class WPSEO_OpenGraph_Validator implements WPSEO_Endpoint_Validator {
 

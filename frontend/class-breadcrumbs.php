@@ -251,7 +251,7 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @param object $term Term to get the parents for.
 	 *
-	 * @return    array
+	 * @return array
 	 */
 	private function get_term_parents( $term ) {
 		$tax     = $term->taxonomy;
@@ -784,11 +784,11 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Retrieve link url and text based on post id
+	 * Retrieve link url and text based on post id.
 	 *
 	 * @param int $id Post ID.
 	 *
-	 * @return array Array of link text and url
+	 * @return array Array of link text and url.
 	 */
 	private function get_link_info_for_id( $id ) {
 		$link         = array();

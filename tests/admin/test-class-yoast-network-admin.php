@@ -11,7 +11,9 @@
 class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var int Network administrator user ID.
+	 * Network administrator user ID.
+	 *
+	 * @var int
 	 */
 	protected static $network_administrator;
 

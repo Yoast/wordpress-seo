@@ -2,8 +2,10 @@
 // External dependencies.
 import React from "react";
 import ReactDOM from "react-dom";
-import { OnboardingWizard, MessageBox, setTranslations, utils } from "yoast-components";
+import ConfigurationWizard, { MessageBox } from "@yoast/configuration-wizard";
+import { setTranslations } from "yoast-components";
 import isUndefined from "lodash/isUndefined";
+import { makeOutboundLink } from "@yoast/helpers";
 
 // Internal dependencies.
 import MailchimpSignup from "./components/MailchimpSignup";
@@ -11,10 +13,10 @@ import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole"
 import MediaUpload from "./components/MediaUpload";
 import Suggestions from "./components/Suggestions";
 import FinalStep from "./components/FinalStep";
+import WordPressUserSelectorOnboardingWizard from "./components/WordPressUserSelectorOnboardingWizard";
 import YoastIcon from "../../images/Yoast_SEO_Icon.svg";
 import { setYoastComponentsL10n } from "./helpers/i18n";
 
-const { makeOutboundLink } = utils;
 const PluginConflictLink = makeOutboundLink();
 
 class App extends React.Component {
@@ -72,6 +74,7 @@ class App extends React.Component {
 				ConnectGoogleSearchConsole,
 				Suggestions,
 				FinalStep,
+				WordPressUserSelector: WordPressUserSelectorOnboardingWizard,
 			},
 		} );
 
@@ -122,7 +125,7 @@ class App extends React.Component {
 		if ( typeof( this.state.config ) !== "undefined" && this.state.config !== {} ) {
 			return (
 				<div>
-					<OnboardingWizard { ...this.state.config } headerIcon={ YoastIcon } />
+					<ConfigurationWizard { ...this.state.config } headerIcon={ YoastIcon } />
 				</div>
 			);
 		}

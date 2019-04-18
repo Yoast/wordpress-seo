@@ -2,12 +2,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import InfoIcon from "material-ui/svg-icons/action/info";
-import { utils } from "yoast-components";
+import { makeOutboundLink } from "@yoast/helpers";
 
 // Internal dependencies.
 import RaisedDefaultButton from "./RaisedDefaultButton";
-
-const { makeOutboundLink } = utils;
 
 /**
  * Creates the Raised URL Button which opens in a new window.

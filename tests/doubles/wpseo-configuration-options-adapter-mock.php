@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Configuration_Options_Adapter_Mock
+ * Class WPSEO_Configuration_Options_Adapter_Mock.
  */
 class WPSEO_Configuration_Options_Adapter_Mock extends WPSEO_Configuration_Options_Adapter {
 

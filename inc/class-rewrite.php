@@ -11,7 +11,7 @@
 class WPSEO_Rewrite {
 
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 */
 	public function __construct() {
 		add_filter( 'query_vars', array( $this, 'query_vars' ) );
@@ -39,6 +39,7 @@ class WPSEO_Rewrite {
 	 * If the flush option is set, flush the rewrite rules.
 	 *
 	 * @since 1.2.8
+	 *
 	 * @return bool
 	 */
 	public function flush() {
@@ -81,7 +82,7 @@ class WPSEO_Rewrite {
 	}
 
 	/**
-	 * Update the query vars with the redirect var when stripcategorybase is active
+	 * Update the query vars with the redirect var when stripcategorybase is active.
 	 *
 	 * @param array $query_vars Main query vars to filter.
 	 *
@@ -111,7 +112,7 @@ class WPSEO_Rewrite {
 	}
 
 	/**
-	 * This function taken and only slightly adapted from WP No Category Base plugin by Saurabh Gupta
+	 * This function taken and only slightly adapted from WP No Category Base plugin by Saurabh Gupta.
 	 *
 	 * @return array
 	 */

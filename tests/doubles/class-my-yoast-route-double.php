@@ -15,7 +15,7 @@ class WPSEO_MyYoast_Route_Double extends WPSEO_MyYoast_Route {
 	 *
 	 * @param string $route The myyoast route.
 	 *
-	 * @return bool True when url is the myyoast route.
+	 * @return bool True when URL is the myyoast route.
 	 */
 	public function is_myyoast_route( $route ) {
 		return parent::is_myyoast_route( $route );

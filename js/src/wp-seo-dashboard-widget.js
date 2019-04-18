@@ -2,12 +2,14 @@
 // External dependencies.
 import React from "react";
 import ReactDOM from "react-dom";
-import { SeoAssessment, ScoreAssessments, utils, WordpressFeed, colors } from "yoast-components";
+import { ArticleList as WordpressFeed, ScoreAssessments } from "@yoast/components";
+import { colors } from "@yoast/style-guide";
+import { SiteSEOReport as SeoAssessment } from "@yoast/analysis-report";
+import { getPostFeed, makeOutboundLink } from "@yoast/helpers";
 
 // Internal dependencies.
 import { setYoastComponentsL10n } from "./helpers/i18n";
 
-const { getPostFeed, makeOutboundLink } = utils;
 const RyteLandingPageLink = makeOutboundLink();
 
 class DashboardWidget extends React.Component {
@@ -166,6 +168,7 @@ class DashboardWidget extends React.Component {
 		}
 
 		return <WordpressFeed
+			className="wordpress-feed"
 			key="yoast-seo-blog-feed"
 			title={ wpseoDashboardWidgetL10n.feed_header }
 			feed={ this.state.feed }

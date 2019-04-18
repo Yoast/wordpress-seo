@@ -1,11 +1,11 @@
 /* global wpseoCoursesOverviewL10n */
 
 import styled, { ThemeProvider } from "styled-components";
-import { CardDetails, FullHeightCard, utils, getRtlStyle } from "yoast-components";
+import { CourseDetails as CardDetails, FullHeightCard } from "@yoast/components";
+import { getCourseFeed, getDirectionalStyle as getRtlStyle } from "@yoast/helpers";
 import React from "react";
 import ReactDOM from "react-dom";
 import { __ } from "@wordpress/i18n";
-const { getCourseFeed } = utils;
 
 const CoursesList = styled.ul`
 	display: flex;
@@ -30,27 +30,27 @@ const CourseListItem = styled.li`
 class CoursesOverview extends React.Component {
 	/**
 	 * Creates the components and initializes its state.
+	 *
+	 * @param {Object} props The component props.
 	 */
-	constructor() {
-		super();
+	constructor( props ) {
+		super( props );
 
 		this.state = {
 			courses: null,
 		};
 
-		this.getFeed( wpseoCoursesOverviewL10n.version );
+		this.getFeed();
 	}
 
 	/**
 	 * Fetches data from the yoast.com feed, parses it and sets it to the state.
 	 *
-	 * @param {String} version The active Yoast SEO version.
-	 *
 	 * @returns {void}
 	 */
-	getFeed( version ) {
+	getFeed() {
 		// Developer note: this link should -not- be converted to a shortlink.
-		getCourseFeed( "https://yoast.com/?feed=courses&license=" + version )
+		getCourseFeed( "https://yoast.com/feed/courses/" )
 			.then( ( feed ) => {
 				feed.items = feed.items.map( ( item ) => {
 					return item;

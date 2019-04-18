@@ -86,7 +86,6 @@ class WPSEO_Frontend {
 		add_action( 'wpseo_head', array( $this, 'robots' ), 10 );
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
-		add_action( 'wpseo_head', array( $this, 'publisher' ), 22 );
 
 		// Remove actions that we will handle through our wpseo_head call, and probably change the output of.
 		remove_action( 'wp_head', 'rel_canonical' );
@@ -140,7 +139,7 @@ class WPSEO_Frontend {
 
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
-			new WPSEO_JSON_LD(),
+			new WPSEO_Schema(),
 			new WPSEO_Handle_404(),
 			new WPSEO_Remove_Reply_To_Com(),
 			new WPSEO_OpenGraph_OEmbed(),
@@ -792,7 +791,7 @@ class WPSEO_Frontend {
 	 * @param array $robots  Robots data array.
 	 * @param int   $post_id The post ID for which to determine the $robots values, defaults to current post.
 	 *
-	 * @return    array
+	 * @return array
 	 */
 	public function robots_for_single_post( $robots, $post_id = 0 ) {
 		$noindex = $this->get_seo_meta_value( 'meta-robots-noindex', $post_id );
@@ -1145,22 +1144,6 @@ class WPSEO_Frontend {
 			$base = trailingslashit( $GLOBALS['wp_rewrite']->pagination_base );
 		}
 		return $base;
-	}
-
-	/**
-	 * Output the rel=publisher code on every page of the site.
-	 *
-	 * @return boolean Boolean indicating whether the publisher link was printed.
-	 */
-	public function publisher() {
-		$publisher = WPSEO_Options::get( 'plus-publisher', '' );
-		if ( $publisher !== '' ) {
-			echo '<link rel="publisher" href="', esc_url( $publisher ), '"/>', "\n";
-
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -1925,5 +1908,18 @@ class WPSEO_Frontend {
 		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
 
 		return $title;
+	}
+
+	/**
+	 * Output the rel=publisher code on every page of the site.
+	 *
+	 * @deprecated 10.1.3
+	 *
+	 * @return boolean Boolean indicating whether the publisher link was printed.
+	 */
+	public function publisher() {
+		_deprecated_function( __METHOD__, 'WPSEO 10.1.3' );
+
+		return false;
 	}
 }
