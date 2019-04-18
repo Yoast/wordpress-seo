@@ -147,7 +147,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 	 * Tests the return value of the get_provider.
 	 *
 	 * @expectedException WPSEO_Invalid_Argument_Exception
-	 * @covers WPSEO_Indexable_Service::get_provider()
+	 * @covers            WPSEO_Indexable_Service::get_provider()
 	 */
 	public function test_get_provider() {
 		$this->assertInstanceOf( 'WPSEO_Indexable_Service_Post_Provider', $this->service->get_provider( 'post' ) );

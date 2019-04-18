@@ -150,7 +150,7 @@ function wpseo_register_var_replacement( $var, $replace_function, $type = 'advan
  * title-ptarchive and metadesc-ptarchive fields translation.
  * Documentation: http://wpml.org/documentation/support/language-configuration-files/
  *
- * @global      $sitepress
+ * @global $sitepress
  *
  * @param array $config WPML configuration data to filter.
  *

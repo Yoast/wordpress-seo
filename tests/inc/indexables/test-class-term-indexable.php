@@ -52,7 +52,7 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the creation of an invalid Term Indexable object.
 	 *
-	 * @covers WPSEO_Term_Indexable::from_object()
+	 * @covers            WPSEO_Term_Indexable::from_object()
 	 * @expectedException WPSEO_Invalid_Argument_Exception
 	 */
 	public function test_from_object_invalid_term() {

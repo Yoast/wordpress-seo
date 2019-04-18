@@ -57,7 +57,7 @@ class WPSEO_Utils {
 	 *
 	 * {@internal current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.}}
 	 *
-	 * @since    1.8.0
+	 * @since 1.8.0
 	 *
 	 * @return bool
 	 */
@@ -316,7 +316,7 @@ class WPSEO_Utils {
 	 * Sanitize a url for saving to the database.
 	 * Not to be confused with the old native WP function.
 	 *
-	 * @todo  [JRF => whomever] Check/improve url verification.
+	 * @todo [JRF => whomever] Check/improve url verification.
 	 *
 	 * @since 1.8.0
 	 *
@@ -1204,7 +1204,7 @@ SVG;
 	/**
 	 * Returns the language part of a given locale, defaults to english when the $locale is empty.
 	 *
-	 * @see        WPSEO_Language_Utils::get_language()
+	 * @see WPSEO_Language_Utils::get_language()
 	 *
 	 * @deprecated 9.5
 	 * @codeCoverageIgnore
@@ -1227,7 +1227,7 @@ SVG;
 	 * Can be removed when support for WordPress 4.6 will be dropped, in favor
 	 * of WordPress get_user_locale() that already fallbacks to the site's locale.
 	 *
-	 * @see        WPSEO_Language_Utils::get_user_locale()
+	 * @see WPSEO_Language_Utils::get_user_locale()
 	 *
 	 * @deprecated 9.5
 	 * @codeCoverageIgnore

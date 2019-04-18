@@ -20,7 +20,7 @@ class WPSEO_Indexable_Test extends WPSEO_UnitTestCase {
 	 * @param string    $description Description of the test.
 	 *
 	 * @dataProvider noindex_conversion_provider
-	 * @covers WPSEO_Indexable::get_robots_noindex_value()
+	 * @covers       WPSEO_Indexable::get_robots_noindex_value()
 	 */
 	public function test_get_robots_noindex_value( $value, $expected, $description ) {
 		$data = WPSEO_Indexable_Double::get_robots_noindex_value( $value );

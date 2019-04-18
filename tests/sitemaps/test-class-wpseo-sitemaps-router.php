@@ -68,7 +68,7 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether the current request should be redirected to sitemap_index.xml.
 	 *
-	 * @covers WPSEO_Sitemaps_Router::needs_sitemap_index_redirect()
+	 * @covers       WPSEO_Sitemaps_Router::needs_sitemap_index_redirect()
 	 * @dataProvider data_needs_sitemap_index_redirect
 	 *
 	 * @param array    $server_vars Associative array of `$_SERVER` vars to set.

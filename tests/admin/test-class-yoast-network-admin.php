@@ -74,8 +74,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * Tests getting site choices output.
 	 *
 	 * @group yoastnetwork
-	 *
 	 * @group ms-required
+	 *
 	 * @covers Yoast_Network_Admin::get_site_choices()
 	 */
 	public function test_get_site_choices_output() {
@@ -98,7 +98,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests getting a site's states.
 	 *
-	 * @group ms-required
+	 * @group  ms-required
 	 * @covers Yoast_Network_Admin::get_site_states()
 	 */
 	public function test_get_site_states() {
