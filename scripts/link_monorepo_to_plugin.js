@@ -49,6 +49,13 @@ function get_monorepo_location_from_file() {
 		location = yoast[ "monorepo-location" ];
 
 		if ( !location ) {
+			console.log( "There is no key 'monorepo-location' in your .yoast file." );
+			throw new Error();
+		}
+
+		if ( !is_valid_monorepo_location( location ) ) {
+			console.log( "The 'monorepo-location' in your .yoast is not valid." );
+			location = false;
 			throw new Error();
 		}
 	} catch ( e ) {
@@ -145,12 +152,6 @@ function unlink_all_yoast_packages() {
 }
 
 console.log( `Your monorepo is located in "${ monorepoLocation }". ` );
-
-console.log( "Making sure that you have a valid monorepo location." );
-if ( !is_valid_monorepo_location( monorepoLocation ) ) {
-	execSync( `rm .yoast` );
-	monorepoLocation = get_monorepo_location_from_file();
-}
 
 console.log( "Fetching the latest branches in the monorepo." );
 execMonorepoNoOutput( `git fetch` );
