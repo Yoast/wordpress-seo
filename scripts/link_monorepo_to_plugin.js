@@ -138,6 +138,9 @@ function unlink_all_yoast_packages() {
 		execSync( `rm -rf ${ toRemove[ x ] }`, { cwd: yarnLinkDir } );
 	}
 
+	// Remove the symlinks from node_modules.
+	execSync( `rm -rf *yoast*`, { cwd: "./node_modules/" } );
+
 	console.log( "All previously linked yoast packages have been unlinked." );
 }
 
