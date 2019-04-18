@@ -121,7 +121,7 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where the position of the buttons in the FAQ and How-To structured data blocks was compromised when running the development build of Gutenberg.
-* Fixes a bug where the social profile settings page would be empty when no  had been chosen.
+* Fixed a bug where social profile settings would be empty because it was relying on the user choosing whether the site represents a company or a person.
 
 = 11.0.0 =
 Release Date: April 16th, 2019
