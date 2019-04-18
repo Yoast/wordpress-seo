@@ -495,14 +495,16 @@ class WPSEO_Sitemaps {
 			$post_type_names = get_post_types( array( 'public' => true ) );
 
 			if ( ! empty( $post_type_names ) ) {
+				$post_statuses = array_map( 'esc_sql', self::get_post_statuses() );
+
 				$sql = "
-				SELECT post_type, MAX(post_modified_gmt) AS date
-				FROM $wpdb->posts
-				WHERE post_status IN ('publish','inherit')
-					AND post_type IN ('" . implode( "','", $post_type_names ) . "')
-				GROUP BY post_type
-				ORDER BY post_modified_gmt DESC
-			";
+					SELECT post_type, MAX(post_modified_gmt) AS date
+					FROM $wpdb->posts
+					WHERE post_status IN ('" . implode( "','", $post_statuses ) . "')
+						AND post_type IN ('" . implode( "','", $post_type_names ) . "')
+					GROUP BY post_type
+					ORDER BY post_modified_gmt DESC
+				";
 
 				foreach ( $wpdb->get_results( $sql ) as $obj ) {
 					$post_type_dates[ $obj->post_type ] = $obj->date;
@@ -581,5 +583,36 @@ class WPSEO_Sitemaps {
 		$entries = (int) apply_filters( 'wpseo_sitemap_entries_per_page', 1000 );
 
 		return $entries;
+	}
+
+	/**
+	 * Get post statuses for post_type or the root sitemap.
+	 *
+	 * @param string $type Provide a type for a post_type sitemap, SITEMAP_INDEX_TYPE for the root sitemap.
+	 *
+	 * @since 10.2
+	 *
+	 * @return array List of post statuses.
+	 */
+	public static function get_post_statuses( $type = self::SITEMAP_INDEX_TYPE ) {
+		/**
+		 * Filter post status list for sitemap query for the post type.
+		 *
+	         * @param array  $post_statuses Post status list, defaults to array( 'publish' ).
+	         * @param string $type          Post type or SITEMAP_INDEX_TYPE.
+		 */
+		$post_statuses = apply_filters( 'wpseo_sitemap_post_statuses' , array( 'publish' ), $type );
+
+		if ( ! is_array( $post_statuses ) || empty( $post_statuses ) ) {
+			$post_statuses = array( 'publish' );
+		}
+
+		if ( ( $type === self::SITEMAP_INDEX_TYPE || $type === 'attachment' )
+			&& ! in_array( 'inherit', $post_statuses, true )
+		) {
+			$post_statuses[] = 'inherit';
+		}
+
+		return $post_statuses;
 	}
 }
