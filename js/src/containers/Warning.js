@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { YoastWarning } from "yoast-components";
+import { Warning } from "@yoast/components";
 
 /**
  * Maps the state to props for the containing component.
@@ -14,4 +14,4 @@ function mapStateToProps( state ) {
 	};
 }
 
-export default connect( mapStateToProps )( YoastWarning );
+export default connect( mapStateToProps )( Warning );

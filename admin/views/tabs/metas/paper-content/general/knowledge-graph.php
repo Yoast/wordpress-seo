@@ -38,7 +38,6 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 	</p>
 	<?php
 	$yoast_free_kg_select_options = array(
-		''        => __( 'Choose whether you\'re an organization or a person', 'wordpress-seo' ),
 		'company' => __( 'Organization', 'wordpress-seo' ),
 		'person'  => __( 'Person', 'wordpress-seo' ),
 	);

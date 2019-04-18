@@ -69,7 +69,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		'alternate_website_name'        => '',
 		'company_logo'                  => '',
 		'company_name'                  => '',
-		'company_or_person'             => '',
+		'company_or_person'             => 'company',
 		'company_or_person_user_id'     => false,
 
 		'stripcategorybase'             => false,

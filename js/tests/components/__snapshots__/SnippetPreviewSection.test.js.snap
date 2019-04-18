@@ -80,7 +80,7 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
         headingText="Snippet editor"
       >
         <span>
-          yoast-components StyledSection
+          @yoast/components StyledSection
         </span>
       </StyledSection>
     </StyledComponent>
@@ -168,7 +168,7 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
         headingText="Snippet editor"
       >
         <span>
-          yoast-components StyledSection
+          @yoast/components StyledSection
         </span>
       </StyledSection>
     </StyledComponent>

@@ -163,11 +163,11 @@ class WPSEO_Schema_Context {
 		$this->site_represents = WPSEO_Options::get( 'company_or_person', '' );
 		$this->site_url        = trailingslashit( WPSEO_Utils::home_url() );
 
-		if ( $this->site_represents == 'company' ) {
+		if ( $this->site_represents === 'company' ) {
 			$this->company_name = WPSEO_Options::get( 'company_name' );
 		}
 
-		if ( $this->site_represents == 'person' ) {
+		if ( $this->site_represents === 'person' ) {
 			$this->site_user_id = WPSEO_Options::get( 'company_or_person_user_id', false );
 		}
 
