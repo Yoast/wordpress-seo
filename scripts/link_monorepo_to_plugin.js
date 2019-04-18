@@ -33,6 +33,7 @@ function get_checkout_branch() {
 
 /**
  * Gets the monorepo-location from the .yoast file or asks the user for a location if either the file does not exist or the right key is not there.
+ * If a .yoast file exists but the key "monorepo-location" is not there, this function adds a new key to the file without overwriting existing values.
  *
  * @returns {string} The monorepo-location.
  */
@@ -40,6 +41,7 @@ function get_monorepo_location_from_file() {
 	let yoast;
 	let location;
 
+	// Both fs.readFileSync() and the location can throw an error. Therefore, we have to make sure to not overwrite yoast in the catch statement.
 	try {
 		yoast = JSON.parse( fs.readFileSync( '.yoast', 'utf8' ) );
 		location = yoast[ "monorepo-location" ];
@@ -47,22 +49,18 @@ function get_monorepo_location_from_file() {
 		if ( !location ) {
 			throw new Error();
 		}
-
 	} catch ( e ) {
-		while ( !location ) {
+		// Keep asking the user for a valid monorepo location until one has been provided.
+		while ( ! location ) {
 			location = readlineSync.question( "Where is your monorepo git clone located? Please provide an absolute path or a path relative to the current directory '" + process.cwd() + "'.\n" );
-			const cwd = process.cwd();
-			if ( !fs.existsSync( location ) ) {
-				console.log( "This does not seem to be a valid location, please try again." );
-				location = false;
-			} else if ( !execSync( `cd ${ location }; git config --get remote.origin.url; cd ${ cwd };` ).includes( "Yoast/javascript" ) ) {
-				console.log( "The location does not seem to contain the JS monorepo, please try again." );
+			if ( ! is_valid_monorepo_location( location) ){
+				console.log( "This is not a valid location or the location does not include the JS monorepo. Please try again." );
 				location = false;
 			}
 		}
 
 		// Only create a new array if it does not exists yet.
-		if ( !yoast ) {
+		if ( ! yoast ) {
 			yoast = {};
 		}
 
@@ -70,11 +68,12 @@ function get_monorepo_location_from_file() {
 
 		// Write the file to the .yoast.
 		fs.writeFileSync( '.yoast', JSON.stringify( yoast ), 'utf8' );
-	} finally {
-		// Always return the location.
-		return location;
 	}
+
+	// Always return the location.
+	return location;
 }
+
 
 /**
  * Function to check if the given location is a valid location for the monorepo.
