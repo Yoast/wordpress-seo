@@ -5,16 +5,15 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.51.0 April 4th, 2019
 ## 1.51.0
-### Added
-* Adds functionality to specify a custom premium-configuration branch to use for tests, locally and on Travis.
-
-### Fixed
+###Fixed
+* Parsing comments inside paragraphs and headings does not break the analysis anymore.
 * Adds error handling to the YoastSEO development tool, when building the tree for visualization purposes.
-* Improves recognition of German 3rd person singular verb forms (e.g., "arbeitet").
-* Improves the recognition of German keyphrases that include words with an `i` or `e` in between vowels (e.g., `schrieen`, `schreien`, `speie`).
+* Fixes the parsing of paragraphs within headings when using the tree parser. Previously, it crashed the building of the tree.
 
 ### Changed
+* Improves the recognition of German keyphrases that include words with an `i` or `e` in between vowels (e.g., `schrieen`, `schreien`, `speie`).
 * Rewrites the SEO and readability analysis such that it uses both the original assessors as well the new tree assessors. The results of both are combined and their scores aggregated.
 
 ## 1.50.0 April 1st, 2019

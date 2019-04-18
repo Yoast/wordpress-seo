@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 4.24.0
+## 4.24.0 April 4th, 2019
 * The following packages have been split out from `@yoast/yoast-components`. Please use these packages in the future:
   * `@yoast/algolia-search-box`
   * `@yoast/components`
