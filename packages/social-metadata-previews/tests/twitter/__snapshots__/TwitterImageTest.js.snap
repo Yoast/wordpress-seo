@@ -180,8 +180,8 @@ exports[`TwitterImage Component matches the snapshot in the loading state 1`] = 
 }
 
 .c0 {
-  border-top-left-radius: .85714em;
-  border-top-right-radius: .85714em;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
   border-style: dashed;
   border-width: 2px;
   color: #073cba;

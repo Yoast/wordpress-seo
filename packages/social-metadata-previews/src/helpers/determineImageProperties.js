@@ -35,7 +35,7 @@ export function determineImageMode( socialMedium, originalDimensions ) {
 		return "landscape";
 	}
 
-	// By default, social medium is Twitter
+	// By default, social medium is Twitter.
 	if ( originalDimensions.height > 150 && originalDimensions.width > 280 ) {
 		return "landscape";
 	}
@@ -98,7 +98,7 @@ function retrieveOriginalImageDimensions( src ) {
  * @param {Object} originalDimensions The dimensions of the original image.
  * @param {string} imageMode The image mode: square or landscape.
  *
- * @returns {Object} The image's width ratio and height ratio.}
+ * @returns {Object} The image's width ratio and height ratio.
  */
 export function calculateImageRatios( expectedDimensions, originalDimensions, imageMode ) {
 	if ( imageMode === "landscape" ) {

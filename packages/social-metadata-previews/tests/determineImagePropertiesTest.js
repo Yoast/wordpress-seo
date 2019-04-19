@@ -93,8 +93,8 @@ describe( "calculateImageRatios", () => {
 			{ width: 316, height: 472 },
 			"portrait" );
 		/*
-		* Expected widthRatio is 2, because 316 is divided by 158, Facebook's width for portrait images.
-		* Same idea for expected heightRatio.
+		 * Expected widthRatio is 2, because 316 is divided by 158, Facebook's width for portrait images.
+		 * Same idea for expected heightRatio.
 		 */
 		const expected = { widthRatio: 2, heightRatio: 2 };
 
@@ -128,8 +128,8 @@ describe( "calculateLargestDimensions", () => {
 			{ width: 240, height: 480 },
 			{ widthRatio: 1.5, heightRatio: 1.2 } );
 		/*
-		* Expected height is 400, because the original height (480) is divided by the smallest of
-		* the two imageRatios (1.2). Same idea for expected width.
+		 * Expected height is 400, because the original height (480) is divided by the smallest of
+		 * the two imageRatios (1.2). Same idea for expected width.
 		 */
 		const expected = { height: 400, width: 200 };
 

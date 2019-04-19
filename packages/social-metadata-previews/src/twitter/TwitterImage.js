@@ -4,12 +4,14 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
+/* Yoast dependencies */
+import { colors } from "@yoast/style-guide";
+
 /* Internal dependencies */
 import {
 	determineImageProperties,
 	TWITTER_IMAGE_SIZES,
 } from "../helpers/determineImageProperties";
-import { colors } from "@yoast/style-guide";
 
 const TwitterImageContainer = styled.div`
 	position: relative;
@@ -48,12 +50,12 @@ const ErrorImage = styled( BaseImage )`
 `;
 
 const PlaceholderImage = styled( BaseImage )`
-	border-top-left-radius: .85714em;
-	border-top-right-radius: .85714em;
+	border-top-left-radius: 12px;
+	border-top-right-radius: 12px;
 	border-style: dashed;
 	border-width: 2px;
 	// We're not using standard colors to increase contrast for accessibility.
-	color: #073cba; 
+	color: #073cba;
 	// We're not using standard colors to increase contrast for accessibility.
 	background-color: #f1f1f1;
 `;
@@ -130,13 +132,15 @@ export default class TwitterImage extends React.Component {
 		const { imageProperties, status } = this.state;
 
 		if ( status === "loading" || this.props.src === "" ) {
-			return <PlaceholderImage>{ __( "Select image", "yoast-components" )
-			}</PlaceholderImage>;
+			return <PlaceholderImage>
+				{ __( "Select image", "yoast-components" ) }
+			</PlaceholderImage>;
 		}
 
 		if ( status === "errored" ) {
-			return <ErrorImage>{ __( "The given image url cannot be loaded",
-				"yoast-components" ) }</ErrorImage>;
+			return <ErrorImage>
+				{ __( "The given image url cannot be loaded", "yoast-components" ) }
+			</ErrorImage>;
 		}
 
 		const containerDimensions = this.retrieveContainerDimensions( imageProperties.mode );

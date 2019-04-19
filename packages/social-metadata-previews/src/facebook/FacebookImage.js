@@ -4,7 +4,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 
-/* Yoast dependencies. */
+/* Yoast dependencies */
 import { colors } from "@yoast/style-guide";
 
 /* Internal dependencies */
@@ -135,13 +135,15 @@ export default class FacebookImage extends React.Component {
 		}
 
 		if ( status === "errored" ) {
-			return <ErrorImage>{ __( "The given image url cannot be loaded",
-				"yoast-components" ) }</ErrorImage>;
+			return <ErrorImage>
+				{ __( "The given image url cannot be loaded", "yoast-components" ) }
+			</ErrorImage>;
 		}
 
 		if ( imageProperties.height < MIN_IMAGE_HEIGHT || imageProperties.width < MIN_IMAGE_WIDTH ) {
-			return <ErrorImage>{ __( "The image you selected is too small for Facebook",
-				"yoast-components" ) }</ErrorImage>;
+			return <ErrorImage>
+				{ __( "The image you selected is too small for Facebook", "yoast-components" ) }
+			</ErrorImage>;
 		}
 
 		const containerDimensions = this.retrieveContainerDimensions( imageProperties.mode );
