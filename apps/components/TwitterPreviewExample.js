@@ -17,6 +17,7 @@ const TwitterPreviewExample = () => {
 				src="https://yoast.com/app/uploads/2019/03/Storytelling_FI.jpg"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
+				isLarge={ true }
 			/>
 			<h2>Upload a small landscape image</h2>
 			<TwitterPreview
@@ -24,6 +25,7 @@ const TwitterPreviewExample = () => {
 				src="https://yoast.com/app/uploads/2008/04/WordPress_SEO_definitive_guide_FI-250x131.png"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
+				isLarge={ false }
 			/>
 			<h2>Upload a large portrait image</h2>
 			<TwitterPreview
@@ -31,6 +33,7 @@ const TwitterPreviewExample = () => {
 				src="https://i1.wp.com/2016.europe.wordcamp.org/files/2016/04/Joost-Marieke.jpg?w=403&h=605&ssl=1"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
+				isLarge={ true }
 			/>
 			<h2>Upload a small portrait image</h2>
 			<TwitterPreview
@@ -38,6 +41,7 @@ const TwitterPreviewExample = () => {
 				src="https://yoast.com/app/uploads/2015/09/Author_Joost_x2.png"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
+				isLarge={ false }
 			/>
 			<h2>Upload a large square image</h2>
 			<TwitterPreview
@@ -45,6 +49,7 @@ const TwitterPreviewExample = () => {
 				src="https://yoast.com/app/uploads/sites/5/2016/09/yoast-logo-icon-512x512.png"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
+				isLarge={ true }
 			/>
 			<h2>Upload a small square image</h2>
 			<TwitterPreview
@@ -52,12 +57,14 @@ const TwitterPreviewExample = () => {
 				src="https://yoast.com/app/uploads/2015/09/Avatar_Marieke_500x500-250x250.png"
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
+				isLarge={ false }
 			/>
 			<h2>Upload no image</h2>
 			<TwitterPreview
 				src=""
 				title="YoastCon Workshops &bull; Yoast"
 				siteName="yoast.com"
+				isLarge={ true }
 			/>
 			<h2>Upload a too small image</h2>
 			<TwitterPreview
