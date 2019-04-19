@@ -192,11 +192,11 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Utils::retrieve_enabled_features
 	 */
 	public function test_retrieve_enabled_features_with_define() {
-		// Retrieve currently defined feature flags.
-		$expected = array();
-		if ( defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
-			$expected = YOAST_SEO_ENABLED_FEATURES;
+		// Retrieve currently defined feature flags. Set them if they do not exist yet.
+		if ( ! defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
+			define( 'YOAST_SEO_ENABLED_FEATURES', array( [ 'some-feature' ] ) );
 		}
+		$expected = YOAST_SEO_ENABLED_FEATURES;
 		$this->assertEquals( $expected, WPSEO_Utils::retrieve_enabled_features() );
 	}
 
@@ -206,14 +206,17 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Utils::retrieve_enabled_features
 	 */
 	public function test_retrieve_enabled_features_with_filter() {
-		// Retrieve currently defined feature flags.
-		$expected = array();
-		if ( defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
-			$expected = YOAST_SEO_ENABLED_FEATURES;
+		// Retrieve currently defined feature flags. Set them if they do not exist yet.
+		if ( ! defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
+			define( 'YOAST_SEO_ENABLED_FEATURES', array( [ 'some-feature' ] ) );
 		}
+		$expected = YOAST_SEO_ENABLED_FEATURES;
 
+		// Features we expect to be added by the filter.
 		$added_features = array( 'some functionality', 'other things' );
+		// Expected features are the ones in the PHP constant + the features added by the filter.
 		$expected = array_merge( $expected, $added_features );
+
 		add_filter( 'wpseo_enable_feature', array( $this, 'filter_wpseo_enable_feature' ) );
 		$this->assertEquals( $expected, WPSEO_Utils::retrieve_enabled_features() );
 	}
