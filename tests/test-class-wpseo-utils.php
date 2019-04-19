@@ -194,9 +194,9 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	public function test_retrieve_enabled_features_with_define() {
 		// Retrieve currently defined feature flags. Set them if they do not exist yet.
 		if ( ! defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
-			define( 'YOAST_SEO_ENABLED_FEATURES', array( [ 'some-feature' ] ) );
+			define( 'YOAST_SEO_ENABLED_FEATURES', 'some-feature' );
 		}
-		$expected = YOAST_SEO_ENABLED_FEATURES;
+		$expected = preg_split(',\w*', YOAST_SEO_ENABLED_FEATURES );
 		$this->assertEquals( $expected, WPSEO_Utils::retrieve_enabled_features() );
 	}
 
@@ -208,9 +208,9 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	public function test_retrieve_enabled_features_with_filter() {
 		// Retrieve currently defined feature flags. Set them if they do not exist yet.
 		if ( ! defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
-			define( 'YOAST_SEO_ENABLED_FEATURES', array( [ 'some-feature' ] ) );
+			define( 'YOAST_SEO_ENABLED_FEATURES', 'some-feature' );
 		}
-		$expected = YOAST_SEO_ENABLED_FEATURES;
+		$expected = preg_split(',\w*', YOAST_SEO_ENABLED_FEATURES );
 
 		// Features we expect to be added by the filter.
 		$added_features = array( 'some functionality', 'other things' );
