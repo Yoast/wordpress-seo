@@ -45,6 +45,7 @@ function get_monorepo_location_from_file() {
 
 	// Both fs.readFileSync() and the location can throw an error. Therefore, we have to make sure to not overwrite yoast in the catch statement.
 	try {
+		console.log( "Reading your monorepo location from your .yoast file." );
 		yoast = JSON.parse( fs.readFileSync( ".yoast", "utf8" ) );
 		location = yoast[ "monorepo-location" ];
 
