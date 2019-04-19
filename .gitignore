@@ -90,3 +90,4 @@ test.sh
 # JS Mono Repo
 ##############
 /javascript/
+.yoast
