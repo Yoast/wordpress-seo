@@ -3,8 +3,8 @@
 exports[`FacebookPreview matches the snapshot for a faulty image 1`] = `
 Array [
   .c0 {
-  height: 261px;
   width: 500px;
+  height: 261px;
   background-color: #ddd;
 }
 
@@ -91,8 +91,8 @@ Array [
 exports[`FacebookPreview matches the snapshot for a landscape image 1`] = `
 Array [
   .c0 {
-  height: 261px;
   width: 500px;
+  height: 261px;
   background-color: #ddd;
 }
 
@@ -179,8 +179,8 @@ Array [
 exports[`FacebookPreview matches the snapshot for a portrait image 1`] = `
 Array [
   .c0 {
-  height: 261px;
   width: 500px;
+  height: 261px;
   background-color: #ddd;
 }
 
@@ -267,8 +267,8 @@ Array [
 exports[`FacebookPreview matches the snapshot for a square image 1`] = `
 Array [
   .c0 {
-  height: 261px;
   width: 500px;
+  height: 261px;
   background-color: #ddd;
 }
 
@@ -355,8 +355,8 @@ Array [
 exports[`FacebookPreview matches the snapshot for a too small image 1`] = `
 Array [
   .c0 {
-  height: 261px;
   width: 500px;
+  height: 261px;
   background-color: #ddd;
 }
 

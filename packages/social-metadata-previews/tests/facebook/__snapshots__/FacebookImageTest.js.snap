@@ -26,11 +26,11 @@ exports[`FacebookImage Component matches the snapshot for a faulty image 1`] = `
   background-color: #dc3232;
 }
 
-<p
+<div
   className="c0"
 >
   The given image url cannot be loaded
-</p>
+</div>
 `;
 
 exports[`FacebookImage Component matches the snapshot for a landscape image 1`] = `
@@ -152,17 +152,17 @@ exports[`FacebookImage Component matches the snapshot for a too small image 1`] 
   background-color: #dc3232;
 }
 
-<p
+<div
   className="c0"
 >
   The image you selected is too small for Facebook
-</p>
+</div>
 `;
 
 exports[`FacebookImage Component matches the snapshot in the loading state 1`] = `
 .c0 {
-  height: 261px;
   width: 500px;
+  height: 261px;
   background-color: #ddd;
 }
 

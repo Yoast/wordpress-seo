@@ -10,18 +10,15 @@ import { colors } from "@yoast/style-guide";
 /* Internal dependencies */
 import {
 	determineImageProperties,
-	FACEBOOK_IMAGE_SIZES,
+	TWITTER_IMAGE_SIZES,
 } from "../helpers/determineImageProperties";
 
-const MIN_IMAGE_WIDTH = FACEBOOK_IMAGE_SIZES.squareWidth;
-const MIN_IMAGE_HEIGHT = FACEBOOK_IMAGE_SIZES.squareHeight;
-
-const FacebookImageContainer = styled.div`
+const TwitterImageContainer = styled.div`
 	position: relative;
 	height: ${ props => props.dimensions.height };
 	width: ${ props => props.dimensions.width };
 	overflow: hidden;
-	background-color: ${ colors.$color_white };
+	background-color: #e1e8ed;
 `;
 
 const StyledImage = styled.img`
@@ -33,36 +30,44 @@ const StyledImage = styled.img`
 	transform: translate(-50%, -50%);
 `;
 
-const ErrorImage = styled.div`
+const BaseImage = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	box-sizing: border-box;
-	width: ${ FACEBOOK_IMAGE_SIZES.landscapeWidth }px;
-	height: ${ FACEBOOK_IMAGE_SIZES.landscapeHeight }px;
+	width: ${ TWITTER_IMAGE_SIZES.landscapeWidth }px;
+	height: ${ TWITTER_IMAGE_SIZES.landscapeHeight }px;
 	max-width: 100%;
 	margin: 0;
 	padding: 1em;
 	text-align: center;
 	font-size: 1rem;
+`;
+
+const ErrorImage = styled( BaseImage )`
 	color: ${ colors.$color_white };
 	background-color: ${ colors.$color_red };
 `;
 
-const PlaceholderImage = styled.div`
-	width: ${ FACEBOOK_IMAGE_SIZES.landscapeWidth }px;
-	height: ${ FACEBOOK_IMAGE_SIZES.landscapeHeight }px;
-	background-color: ${ colors.$color_grey };
+const PlaceholderImage = styled( BaseImage )`
+	border-top-left-radius: 12px;
+	border-top-right-radius: 12px;
+	border-style: dashed;
+	border-width: 2px;
+	// We're not using standard colors to increase contrast for accessibility.
+	color: #073cba;
+	// We're not using standard colors to increase contrast for accessibility.
+	background-color: #f1f1f1;
 `;
 
 /**
- * Renders the FacebookImage component.
+ * Renders the TwitterImage component.
  *
  * @param {string} src The image source.
  *
- * @returns {ReactComponent} The FacebookImage component.
+ * @returns {ReactComponent} The TwitterImage component.
  */
-export default class FacebookImage extends React.Component {
+export default class TwitterImage extends React.Component {
 	/**
 	 * The constructor.
 	 *
@@ -77,12 +82,12 @@ export default class FacebookImage extends React.Component {
 	}
 
 	/**
-	 * After the component has mounted, determine the properties of the FacebookImage.
+	 * After the component has mounted, determine the properties of the TwitterImage.
 	 *
 	 * @returns {Promise} Resolves when there are image properties.
 	 */
 	componentDidMount() {
-		return determineImageProperties( this.props.src, "Facebook" ).then( ( imageProperties ) => {
+		return determineImageProperties( this.props.src, "Twitter" ).then( ( imageProperties ) => {
 			this.setState( {
 				imageProperties: imageProperties,
 				status: "loaded",
@@ -96,9 +101,9 @@ export default class FacebookImage extends React.Component {
 	}
 
 	/**
-	 * Retrieves the dimensions for the Facebook image container.
+	 * Retrieves the dimensions for the Twitter image container.
 	 *
-	 * @param {string} imageMode The Facebook image mode: landscape, portrait or square.
+	 * @param {string} imageMode The Twitter image mode: landscape or square.
 	 *
 	 * @returns {Object} The width and height for the container.
 	 */
@@ -106,32 +111,30 @@ export default class FacebookImage extends React.Component {
 		switch ( imageMode ) {
 			case "square":
 				return {
-					height: FACEBOOK_IMAGE_SIZES.squareHeight + "px",
-					width: FACEBOOK_IMAGE_SIZES.squareWidth + "px",
-				};
-			case "portrait":
-				return {
-					height: FACEBOOK_IMAGE_SIZES.portraitHeight + "px",
-					width: FACEBOOK_IMAGE_SIZES.portraitWidth + "px",
+					height: TWITTER_IMAGE_SIZES.squareHeight + "px",
+					width: TWITTER_IMAGE_SIZES.squareWidth + "px",
 				};
 			case "landscape":
 				return {
-					height: FACEBOOK_IMAGE_SIZES.landscapeHeight + "px",
-					width: FACEBOOK_IMAGE_SIZES.landscapeWidth + "px",
+					height: TWITTER_IMAGE_SIZES.landscapeHeight + "px",
+					width: TWITTER_IMAGE_SIZES.landscapeWidth + "px",
 				};
 		}
 	}
 
 	/**
-	 * Renders the FacebookImage.
+	 * Renders the TwitterImage.
 	 *
-	 * @returns {ReactComponent} Either the ErrorImage component or the FacebookImageContainer.
+	 * @returns {ReactComponent} Either the PlaceholderImage component, the ErrorImage component or
+	 * the TwitterImageContainer.
 	 */
 	render() {
 		const { imageProperties, status } = this.state;
 
-		if ( status === "loading" ) {
-			return <PlaceholderImage />;
+		if ( status === "loading" || this.props.src === "" ) {
+			return <PlaceholderImage>
+				{ __( "Select image", "yoast-components" ) }
+			</PlaceholderImage>;
 		}
 
 		if ( status === "errored" ) {
@@ -140,14 +143,8 @@ export default class FacebookImage extends React.Component {
 			</ErrorImage>;
 		}
 
-		if ( imageProperties.height < MIN_IMAGE_HEIGHT || imageProperties.width < MIN_IMAGE_WIDTH ) {
-			return <ErrorImage>
-				{ __( "The image you selected is too small for Facebook", "yoast-components" ) }
-			</ErrorImage>;
-		}
-
 		const containerDimensions = this.retrieveContainerDimensions( imageProperties.mode );
-		return <FacebookImageContainer
+		return <TwitterImageContainer
 			dimensions={ containerDimensions }
 		>
 			<StyledImage
@@ -155,15 +152,15 @@ export default class FacebookImage extends React.Component {
 				alt={ this.props.alt }
 				imageProperties={ imageProperties }
 			/>
-		</FacebookImageContainer>;
+		</TwitterImageContainer>;
 	}
 }
 
-FacebookImage.propTypes = {
+TwitterImage.propTypes = {
 	src: PropTypes.string.isRequired,
 	alt: PropTypes.string,
 };
 
-FacebookImage.defaultProps = {
+TwitterImage.defaultProps = {
 	alt: "",
 };
