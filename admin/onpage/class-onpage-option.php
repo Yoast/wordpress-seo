@@ -66,7 +66,7 @@ class WPSEO_OnPage_Option {
 	private $onpage_option;
 
 	/**
-	 * Setting the object by setting the properties
+	 * Setting the object by setting the properties.
 	 */
 	public function __construct() {
 		$this->onpage_option = $this->get_option();
@@ -104,7 +104,7 @@ class WPSEO_OnPage_Option {
 	}
 
 	/**
-	 * Check if the last fetch is within the time of 60 minutes
+	 * Check if the last fetch is within the time of 60 minutes.
 	 *
 	 * @return bool
 	 */
@@ -113,14 +113,14 @@ class WPSEO_OnPage_Option {
 	}
 
 	/**
-	 * Saving the option with the current data
+	 * Saving the option with the current data.
 	 */
 	public function save_option() {
 		update_option( self::OPTION_NAME, $this->onpage_option );
 	}
 
 	/**
-	 * Returns the value of the onpage_enabled status
+	 * Returns the value of the onpage_enabled status.
 	 *
 	 * @return bool
 	 */

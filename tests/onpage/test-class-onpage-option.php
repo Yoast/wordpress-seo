@@ -18,7 +18,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	protected $class_instance;
 
 	/**
-	 * Setting up the class instance
+	 * Setting up the class instance.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -27,7 +27,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test with the default options
+	 * Test with the default options.
 	 *
 	 * @covers WPSEO_OnPage_Option::get_status
 	 */
@@ -36,7 +36,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * First test with the value before, then set the status to 1 and test of status has been set
+	 * First test with the value before, then set the status to 1 and test of status has been set.
 	 *
 	 * @covers WPSEO_OnPage_Option::set_status
 	 */
@@ -47,7 +47,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test without the last fetch time being set
+	 * Test without the last fetch time being set.
 	 *
 	 * WPSEO_OnPage_Option::can_fetch
 	 */
@@ -56,7 +56,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test with the last fetch time being set to 15 minutes ago
+	 * Test with the last fetch time being set to 15 minutes ago.
 	 *
 	 * WPSEO_OnPage_Option::can_fetch
 	 */
@@ -66,7 +66,7 @@ class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test with the last fetch time being set to 2 hours ago
+	 * Test with the last fetch time being set to 2 hours ago.
 	 *
 	 * WPSEO_OnPage_Option::can_fetch
 	 */

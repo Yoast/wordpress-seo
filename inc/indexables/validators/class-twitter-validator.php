@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Twitter_Validator
+ * Class WPSEO_Twitter_Validator.
  */
 class WPSEO_Twitter_Validator implements WPSEO_Endpoint_Validator {
 

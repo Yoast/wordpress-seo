@@ -41,7 +41,7 @@ class Yoast_Form {
 	protected $option_instance = null;
 
 	/**
-	 * Get the singleton instance of this class
+	 * Get the singleton instance of this class.
 	 *
 	 * @since 2.0
 	 *
@@ -56,7 +56,7 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Generates the header for admin pages
+	 * Generates the header for admin pages.
 	 *
 	 * @since 2.0
 	 *
@@ -73,8 +73,8 @@ class Yoast_Form {
 		<div class="wrap yoast wpseo-admin-page <?php echo esc_attr( 'page-' . $option ); ?>">
 		<?php
 		/**
-		 * Display the updated/error messages
-		 * Only needed as our settings page is not under options, otherwise it will automatically be included
+		 * Display the updated/error messages.
+		 * Only needed as our settings page is not under options, otherwise it will automatically be included.
 		 *
 		 * @see settings_errors()
 		 */
@@ -104,7 +104,7 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Set the option used in output for form elements
+	 * Set the option used in output for form elements.
 	 *
 	 * @since 2.0
 	 *
@@ -140,7 +140,7 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Generates the footer for admin pages
+	 * Generates the footer for admin pages.
 	 *
 	 * @since 2.0
 	 *
@@ -156,12 +156,12 @@ class Yoast_Form {
 		}
 
 		/**
-		 * Apply general admin_footer hooks
+		 * Apply general admin_footer hooks.
 		 */
 		do_action( 'wpseo_admin_footer', $this );
 
 		/**
-		 * Run possibly set actions to add for example an i18n box
+		 * Run possibly set actions to add for example an i18n box.
 		 */
 		do_action( 'wpseo_admin_promo_footer' );
 
@@ -196,7 +196,7 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Output a label element
+	 * Output a label element.
 	 *
 	 * @since 2.0
 	 *
@@ -338,12 +338,13 @@ class Yoast_Form {
 	 *
 	 * @param string       $var   The variable within the option to create the text input field for.
 	 * @param string       $label The label to show for the variable.
-	 * @param array|string $attr  Extra class to add to the input field.
+	 * @param array|string $attr  Extra attributes to add to the input field. Can be class, disabled, autocomplete.
 	 */
 	public function textinput( $var, $label, $attr = array() ) {
 		if ( ! is_array( $attr ) ) {
 			$attr = array(
 				'class' => $attr,
+				'disabled' => false,
 			);
 		}
 
@@ -353,7 +354,10 @@ class Yoast_Form {
 		);
 		$attr         = wp_parse_args( $attr, $defaults );
 		$val          = isset( $this->options[ $var ] ) ? $this->options[ $var ] : '';
-		$autocomplete = isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '';
+		$attributes = isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '';
+		if ( isset( $attr['disabled'] ) && $attr['disabled'] ) {
+			$attributes .= ' disabled';
+		}
 
 		$this->label(
 			$label . ':',
@@ -362,7 +366,7 @@ class Yoast_Form {
 				'class' => 'textinput',
 			)
 		);
-		echo '<input' . $autocomplete . ' class="textinput ' . esc_attr( $attr['class'] ) . ' " placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
+		echo '<input' . $attributes . ' class="textinput ' . esc_attr( $attr['class'] ) . ' " placeholder="' . esc_attr( $attr['placeholder'] ) . '" type="text" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="', esc_attr( $val ), '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>', '<br class="clear" />';
 	}
 
 	/**
@@ -429,20 +433,24 @@ class Yoast_Form {
 	 * @param string $label          The label to show for the variable.
 	 * @param array  $select_options The select options to choose from.
 	 * @param string $styled         The select style. Use 'styled' to get a styled select. Default 'unstyled'.
+	 * @param bool   $show_label     Whether or not to show the label, if not, it will be applied as an aria-label.
 	 */
-	public function select( $var, $label, array $select_options, $styled = 'unstyled' ) {
+	public function select( $var, $label, array $select_options, $styled = 'unstyled', $show_label = true ) {
 
 		if ( empty( $select_options ) ) {
 			return;
 		}
 
-		$this->label(
-			$label . ':',
-			array(
-				'for'   => $var,
-				'class' => 'select',
-			)
-		);
+		if ( $show_label ) {
+			$this->label(
+				$label . ':',
+				array(
+					'for'   => $var,
+					'class' => 'select',
+
+				)
+			);
+		}
 
 		$select_name       = esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']';
 		$active_option     = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
@@ -453,6 +461,9 @@ class Yoast_Form {
 		$select->add_attribute( 'class', 'select' );
 		if ( $this->is_control_disabled( $var ) ) {
 			$select->add_attribute( 'disabled', 'disabled' );
+		}
+		if ( ! $show_label ) {
+			$select->add_attribute( 'aria-label', $label );
 		}
 
 		if ( $styled === 'styled' ) {
@@ -500,7 +511,7 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Media input
+	 * Media input.
 	 *
 	 * @since 2.0
 	 *

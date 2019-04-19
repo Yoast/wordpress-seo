@@ -92,7 +92,7 @@ class Indexable_Post_Watcher implements Integration {
 	}
 
 	/**
-	 * Determines if the post can be indexed
+	 * Determines if the post can be indexed.
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -130,7 +130,7 @@ class Indexable_Post_Watcher implements Integration {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param int $post_id The post id.
+	 * @param int $post_id The post ID.
 	 *
 	 * @return Indexable_Post_Formatter Instance.
 	 */

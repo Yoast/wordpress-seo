@@ -20,7 +20,12 @@
   "env": {
     "test": {
       "plugins": [
-        "transform-react-jsx",
+        [
+          "transform-react-jsx",
+          {
+            "pragma": "wp.element.createElement"
+          }
+        ],
         "babel-plugin-styled-components"
       ]
     }

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Title_Intro
+ * Class WPSEO_Config_Field_Title_Intro.
  */
 class WPSEO_Config_Field_Title_Intro extends WPSEO_Config_Field {
 

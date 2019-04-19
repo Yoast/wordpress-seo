@@ -26,7 +26,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 	private $term;
 
 	/**
-	 * Adding a term and set the class instance
+	 * Adding a term and set the class instance.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -36,7 +36,7 @@ class WPSEO_Taxonomy_Presenter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the result of the display_fields, with one field given
+	 * Test the result of the display_fields, with one field given.
 	 *
 	 * @covers WPSEO_Taxonomy_Fields_Presenter::html
 	 */

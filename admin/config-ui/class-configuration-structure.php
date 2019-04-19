@@ -33,10 +33,7 @@ class WPSEO_Configuration_Structure {
 			'publishingEntityType',
 			'publishingEntityCompanyName',
 			'publishingEntityCompanyLogo',
-			'publishingEntityPersonName',
-		),
-		'profileUrls'                => array(
-			'socialProfilesIntro',
+			'publishingEntityPersonId',
 			'profileUrlFacebook',
 			'profileUrlTwitter',
 			'profileUrlInstagram',
@@ -69,10 +66,9 @@ class WPSEO_Configuration_Structure {
 		$this->add_step( 'site-type', __( 'Site type', 'wordpress-seo' ), $this->fields['siteType'] );
 		$this->add_step(
 			'publishing-entity',
-			__( 'Company or person', 'wordpress-seo' ),
+			__( 'Organization or person', 'wordpress-seo' ),
 			$this->fields['publishingEntity']
 		);
-		$this->add_step( 'profile-urls', __( 'Social profiles', 'wordpress-seo' ), $this->fields['profileUrls'] );
 
 		$fields = array( 'postTypeVisibility' );
 
@@ -118,7 +114,7 @@ class WPSEO_Configuration_Structure {
 	}
 
 	/**
-	 * Retrieve the registered steps
+	 * Retrieve the registered steps.
 	 *
 	 * @return array
 	 */

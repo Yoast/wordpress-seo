@@ -1,6 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UpsellBox renders the snippet editor inside of it 1`] = `
+.c0 {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.c0 li {
+  margin: 5px 0 0 0;
+  padding-left: 16px;
+}
+
+.c0 span[aria-hidden="true"]:before {
+  margin: 0 8px 0 -16px;
+  font-weight: bold;
+  content: "+";
+}
+
+.c1 {
+  display: block;
+}
+
 <UpsellBox
   benefits={
     Array [
@@ -52,40 +73,67 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
       </a>
        test
     </p>
-    <UpsellBox__StyledList
+    <.UpsellBox__StyledList-gjf66g-0
       role="list"
     >
-      <ul
-        className="UpsellBox__StyledList-fkmvyw eKxmfa"
+      <StyledComponent
+        forwardedComponent={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "attrs": Array [],
+            "componentStyle": ComponentStyle {
+              "componentId": "UpsellBox__StyledList-gjf66g-0",
+              "isStatic": true,
+              "lastClassName": "c0",
+              "rules": Array [
+                "list-style:none;margin:0 0 16px;padding:0;li{margin:5px 0 0 0;padding-left:16px;}span[aria-hidden=\\"true\\"]:before{margin:0 8px 0 -16px;font-weight:bold;content:\\"+\\";}",
+              ],
+            },
+            "displayName": "UpsellBox__StyledList",
+            "foldedComponentIds": Array [],
+            "render": [Function],
+            "styledComponentId": "UpsellBox__StyledList-gjf66g-0",
+            "target": "ul",
+            "toString": [Function],
+            "warnTooManyClasses": [Function],
+            "withComponent": [Function],
+          }
+        }
+        forwardedRef={null}
         role="list"
       >
-        <li
-          key="0"
+        <ul
+          className="c0"
+          role="list"
         >
-          <span
-            aria-hidden="true"
-          />
-          <strong
-            key="interpolation-child-1/.0"
+          <li
+            key="0"
           >
-            Strong text
-          </strong>
-           and not so strong text
-        </li>
-        <li
-          key="1"
-        >
-          <span
-            aria-hidden="true"
-          />
-          <strong
-            key="interpolation-child-1/.0"
+            <span
+              aria-hidden="true"
+            />
+            <strong
+              key="interpolation-child-1/.0"
+            >
+              Strong text
+            </strong>
+             and not so strong text
+          </li>
+          <li
+            key="1"
           >
-            Strong text two
-          </strong>
-        </li>
-      </ul>
-    </UpsellBox__StyledList>
+            <span
+              aria-hidden="true"
+            />
+            <strong
+              key="interpolation-child-1/.0"
+            >
+              Strong text two
+            </strong>
+          </li>
+        </ul>
+      </StyledComponent>
+    </.UpsellBox__StyledList-gjf66g-0>
     <OutboundLink
       aria-labelledby="label-id"
       className="class name"
@@ -105,18 +153,44 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
         />
         <A11yNotice>
           <span
-            className="A11yNotice-sc-1feyioo-0 gHCoqL"
+            className="A11yNotice-u1v0gg-0 dWDZbM"
           >
             (Opens in a new browser tab)
           </span>
         </A11yNotice>
       </a>
     </OutboundLink>
-    <UpsellBox__ButtonLabel>
-      <small
-        className="UpsellBox__ButtonLabel-kkHBve effcmu"
-      />
-    </UpsellBox__ButtonLabel>
+    <.UpsellBox__ButtonLabel-gjf66g-1>
+      <StyledComponent
+        forwardedComponent={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "attrs": Array [],
+            "componentStyle": ComponentStyle {
+              "componentId": "UpsellBox__ButtonLabel-gjf66g-1",
+              "isStatic": true,
+              "lastClassName": "c1",
+              "rules": Array [
+                "display:block;",
+              ],
+            },
+            "displayName": "UpsellBox__ButtonLabel",
+            "foldedComponentIds": Array [],
+            "render": [Function],
+            "styledComponentId": "UpsellBox__ButtonLabel-gjf66g-1",
+            "target": "small",
+            "toString": [Function],
+            "warnTooManyClasses": [Function],
+            "withComponent": [Function],
+          }
+        }
+        forwardedRef={null}
+      >
+        <small
+          className="c1"
+        />
+      </StyledComponent>
+    </.UpsellBox__ButtonLabel-gjf66g-1>
   </div>
 </UpsellBox>
 `;

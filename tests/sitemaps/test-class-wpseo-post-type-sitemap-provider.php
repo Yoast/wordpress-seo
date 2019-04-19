@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Post_Type_Sitemap_Provider_Test
+ * Class WPSEO_Post_Type_Sitemap_Provider_Test.
  *
  * @group sitemaps
  */
@@ -20,7 +20,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	/**
-	 * Set up our double class
+	 * Set up our double class.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -144,9 +144,9 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Filter method for test.
 	 *
-	 * @param array $excluded_post_ids The excluded post ids.
+	 * @param array $excluded_post_ids The excluded post IDs.
 	 *
-	 * @return array The post ids.
+	 * @return array The post IDs.
 	 */
 	public function filter_with_output( $excluded_post_ids ) {
 		$excluded_post_ids[] = 5;
@@ -162,7 +162,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Filter method for test.
 	 *
-	 * @param array $excluded_post_ids The excluded post ids.
+	 * @param array $excluded_post_ids The excluded post IDs.
 	 *
 	 * @return string An invalid value.
 	 */
@@ -171,7 +171,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if external URLs are not being included in the sitemap
+	 * Tests if external URLs are not being included in the sitemap.
 	 *
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_url
 	 */

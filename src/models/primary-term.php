@@ -23,7 +23,7 @@ use Yoast\WP\Free\Yoast_Model;
 class Primary_Term extends Yoast_Model {
 
 	/**
-	 * Retrieves an indexable by a post id and taxonomy.
+	 * Retrieves an indexable by a post ID and taxonomy.
 	 *
 	 * @param int    $post_id     The post the indexable is based upon.
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.

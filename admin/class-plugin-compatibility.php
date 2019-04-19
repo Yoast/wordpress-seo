@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Plugin_Compatibility
+ * Class WPSEO_Plugin_Compatibility.
  */
 class WPSEO_Plugin_Compatibility {
 

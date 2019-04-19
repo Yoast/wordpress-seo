@@ -264,10 +264,10 @@ class WPSEO_Utils {
 	 *
 	 * Sanitize a string from user input or from the db.
 	 *
-	 * - Check for invalid UTF-8,
-	 * - Convert single < characters to entity,
-	 * - Strip all tags,
-	 * - Remove line breaks, tabs and extra white space,
+	 * - Check for invalid UTF-8;
+	 * - Convert single < characters to entity;
+	 * - Strip all tags;
+	 * - Remove line breaks, tabs and extra white space;
 	 * - Strip octets - BUT DO NOT REMOVE (part of) VARIABLES WHICH WILL BE REPLACED.
 	 *
 	 * @since 1.8.0
@@ -1128,7 +1128,7 @@ SVG;
 
 	/**
 	 * Returns the original URL instead of the language-enriched URL.
-	 * This method gets automatically triggered by the wpml_get_home_url filter
+	 * This method gets automatically triggered by the wpml_get_home_url filter.
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -1150,6 +1150,53 @@ SVG;
 	 */
 	public static function has_access_token_support() {
 		return class_exists( 'WPSEO_MyYoast_Client' );
+	}
+
+	/**
+	 * Prepares data for outputting as JSON.
+	 *
+	 * @param array $data The data to format.
+	 *
+	 * @return false|string The prepared JSON string.
+	 */
+	public static function format_json_encode( $data ) {
+		$flags = 0;
+		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
+			// @codingStandardsIgnoreLine This is used in the wp_json_encode call, which checks for this.
+			$flags = ( $flags | JSON_UNESCAPED_SLASHES );
+		}
+		if ( self::is_development_mode() ) {
+			$flags = ( $flags | JSON_PRETTY_PRINT );
+
+			/**
+			 * Filter the Yoast SEO development mode.
+			 *
+			 * @api array $data Allows filtering of the JSON data for debug purposes.
+			 */
+			$data = apply_filters( 'wpseo_debug_json_data', $data );
+		}
+
+		return wp_json_encode( $data, $flags );
+	}
+
+
+	/**
+	 * Output a Schema blob.
+	 *
+	 * @param array  $graph The Schema graph array to output.
+	 * @param string $class The (optional) class to add to the script tag.
+	 */
+	public static function schema_output( $graph, $class = 'yoast-schema-graph' ) {
+		if ( ! is_array( $graph ) || empty( $graph ) ) {
+			return;
+		}
+
+		$output = array(
+			'@context' => 'https://schema.org',
+			'@graph'   => $graph,
+		);
+
+		echo "<script type='application/ld+json' class='", esc_attr( $class ), "'>", self::format_json_encode( $output ), '</script>', "\n";
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */

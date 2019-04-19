@@ -139,7 +139,7 @@ class WPSEO_Frontend {
 
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
-			new WPSEO_JSON_LD(),
+			new WPSEO_Schema(),
 			new WPSEO_Handle_404(),
 			new WPSEO_Remove_Reply_To_Com(),
 			new WPSEO_OpenGraph_OEmbed(),

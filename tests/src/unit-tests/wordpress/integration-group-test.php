@@ -5,7 +5,7 @@ namespace Yoast\Tests\UnitTests\WordPress;
 use Yoast\WP\Free\WordPress\Integration_Group;
 
 /**
- * Class Database_Migration_Test
+ * Class Database_Migration_Test.
  *
  * @group integrations
  *
@@ -31,7 +31,7 @@ class Integration_Group_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests ensure integration is called on constructor
+	 * Tests ensure integration is called on constructor.
 	 *
 	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::__construct()
 	 */
@@ -56,7 +56,7 @@ class Integration_Group_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests to make sure only Integration instances are used in the Integration Group
+	 * Tests to make sure only Integration instances are used in the Integration Group.
 	 *
 	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::ensure_integration()
 	 */
@@ -83,7 +83,7 @@ class Integration_Group_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests that register hooks is called on the integration
+	 * Tests that register hooks is called on the integration.
 	 *
 	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::register_hooks()
 	 */

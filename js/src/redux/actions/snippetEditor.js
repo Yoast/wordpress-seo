@@ -1,4 +1,4 @@
-import { decodeHTML } from "yoast-components";
+import { decodeHTML } from "@yoast/helpers";
 
 export const SWITCH_MODE = "SNIPPET_EDITOR_SWITCH_MODE";
 export const UPDATE_DATA = "SNIPPET_EDITOR_UPDATE_DATA";

@@ -6,9 +6,9 @@
  */
 
 /**
- * Class WPSEO_Export
+ * Class WPSEO_Export.
  *
- * Class with functionality to export the WP SEO settings
+ * Class with functionality to export the WP SEO settings.
  */
 class WPSEO_Export {
 
@@ -113,7 +113,7 @@ class WPSEO_Export {
 	}
 
 	/**
-	 * Writes a line to the export
+	 * Writes a line to the export.
 	 *
 	 * @param string  $line          Line string.
 	 * @param boolean $newline_first Boolean flag whether to prepend with new line.
@@ -126,7 +126,7 @@ class WPSEO_Export {
 	}
 
 	/**
-	 * Writes an entire option group to the export
+	 * Writes an entire option group to the export.
 	 *
 	 * @param string $opt_group Option group name.
 	 */
@@ -154,7 +154,7 @@ class WPSEO_Export {
 	}
 
 	/**
-	 * Writes a settings line to the export
+	 * Writes a settings line to the export.
 	 *
 	 * @param string $key Key string.
 	 * @param string $val Value string.

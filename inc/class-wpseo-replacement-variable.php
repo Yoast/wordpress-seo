@@ -7,7 +7,7 @@
  */
 
 /**
- * Class WPSEO_Replacement_Variable
+ * Class WPSEO_Replacement_Variable.
  *
  * This class stores the data of a single snippet variable.
  */

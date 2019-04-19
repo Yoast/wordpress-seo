@@ -188,7 +188,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$values = $post_formatter->get_values();
 
-		/** This filter is documented in admin/filters/class-cornerstone-filter.php */
+		/** This filter is documented in admin/filters/class-cornerstone-filter.php. */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
 		if ( $values['cornerstoneActive'] && ! in_array( $post->post_type, $post_types, true ) ) {
 			$values['cornerstoneActive'] = false;
@@ -861,7 +861,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Prepares the replace vars for localization.
 	 *
-	 * @return array replace vars
+	 * @return array Replace vars.
 	 */
 	private function get_replace_vars() {
 		$post = $this->get_metabox_post();

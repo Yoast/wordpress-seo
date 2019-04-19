@@ -48,7 +48,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests retrieval of the site information that will return the api request value.
+	 * Tests retrieval of the site information that will return the API request value.
 	 *
 	 * @covers WPSEO_Addon_Manager::get_site_information
 	 */
@@ -65,7 +65,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 					(object) array(
 						'expiryDate' => 'date',
 						'renewalUrl' => 'url',
-						'product'     => (object) array(
+						'product'    => (object) array(
 							'version'     => '1.0',
 							'name'        => 'product',
 							'slug'        => 'product-slug',
@@ -74,7 +74,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 							'download'    => 'download-url',
 							'changelog'   => 'changelog',
 						),
-					)
+					),
 				),
 			)
 		);
@@ -104,7 +104,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 							'download'     => 'download-url',
 							'changelog'    => 'changelog',
 						),
-					)
+					),
 				),
 			),
 			$instance->get_site_information()
@@ -207,7 +207,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests retrieval of an unexisting subscription.
+	 * Tests retrieval of an non-existent subscription.
 	 *
 	 * @covers WPSEO_Addon_Manager::get_subscription
 	 */
@@ -272,14 +272,14 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			array(
 				'yoast-seo-wordpress-premium' => (object) array(
 					'expiry_date' => $this->get_future_date(),
-					'product' => (object) array(
-						'version'     => '10.0',
-						'name'        => 'Extension',
-						'slug'        => 'yoast-seo-wordpress-premium',
+					'product'     => (object) array(
+						'version'      => '10.0',
+						'name'         => 'Extension',
+						'slug'         => 'yoast-seo-wordpress-premium',
 						'last_updated' => 'yesterday',
 						'store_url'    => 'https://example.org/store',
-						'download'    => 'https://example.org/extension.zip',
-						'changelog'   => 'changelog',
+						'download'     => 'https://example.org/extension.zip',
+						'changelog'    => 'changelog',
 					),
 				),
 			),
@@ -424,7 +424,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @param array  $addons   The 'installed' addons.
 	 * @param array  $data     Data being send to the method.
-	 * @param mixed  $expected The expecte value.
+	 * @param mixed  $expected The expected value.
 	 * @param string $message  Message to show when test fails.
 	 */
 	public function test_check_for_updates( $addons, $data, $expected, $message ) {
@@ -495,13 +495,13 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 			$instance->convert_subscription_to_plugin(
 				(object) array(
 					'product' => (object) array(
-						'version'     => '10.0',
-						'name'        => 'Extension',
-						'slug'        => 'yoast-seo-wordpress-premium',
+						'version'      => '10.0',
+						'name'         => 'Extension',
+						'slug'         => 'yoast-seo-wordpress-premium',
 						'last_updated' => 'yesterday',
 						'store_url'    => 'https://example.org/store',
-						'download'    => 'https://example.org/extension.zip',
-						'changelog'   => 'changelog',
+						'download'     => 'https://example.org/extension.zip',
+						'changelog'    => 'changelog',
 					),
 				)
 			)
@@ -509,7 +509,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests get_installed_plugins with no yoast addons installed.
+	 * Tests get_installed_plugins with no Yoast addons installed.
 	 *
 	 * @covers WPSEO_Addon_Manager::get_installed_addons
 	 */
@@ -539,7 +539,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests get_installed_plugins with one yoast addon installed.
+	 * Tests get_installed_plugins with one Yoast addon installed.
 	 *
 	 * @covers WPSEO_Addon_Manager::get_installed_addons
 	 */
@@ -573,7 +573,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests get_installed_plugins with no yoast addons installed.
+	 * Tests get_installed_plugins with no Yoast addons installed.
 	 *
 	 * @covers WPSEO_Addon_Manager::get_active_addons
 	 */
@@ -730,7 +730,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 				'action'   => 'plugin_information',
 				'args'     => array( 'slug' => 'unkown_slug' ),
 				'expected' => false,
-				'message'  => 'Tests with a non yoast addon slug given as argument.',
+				'message'  => 'Tests with a non Yoast addon slug given as argument.',
 			),
 			array(
 				'action'   => 'plugin_information',
@@ -748,7 +748,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 						'changelog' => 'changelog',
 					),
 				),
-				'message'  => 'Tests with a yoast addon slug given as argument.',
+				'message'  => 'Tests with a Yoast addon slug given as argument.',
 			),
 		);
 	}
@@ -762,30 +762,30 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	protected function get_subscriptions() {
 		return json_decode(
-			wp_json_encode(
+			WPSEO_Utils::format_json_encode(
 				array(
 					'wp-seo-premium.php' => array(
 						'expiry_date' => $this->get_future_date(),
-						'product' => array(
-							'version'     => '10.0',
-							'name'        => 'Extension',
-							'slug'        => 'yoast-seo-wordpress-premium',
+						'product'     => array(
+							'version'      => '10.0',
+							'name'         => 'Extension',
+							'slug'         => 'yoast-seo-wordpress-premium',
 							'last_updated' => 'yesterday',
 							'store_url'    => 'https://example.org/store',
-							'download'    => 'https://example.org/extension.zip',
-							'changelog'   => 'changelog',
+							'download'     => 'https://example.org/extension.zip',
+							'changelog'    => 'changelog',
 						),
 					),
 					'wpseo-news.php' => array(
 						'expiry_date' => $this->get_past_date(),
-						'product' => array(
-							'version'     => '10.0',
-							'name'        => 'Extension',
-							'slug'        => 'yoast-seo-news',
+						'product'     => array(
+							'version'      => '10.0',
+							'name'         => 'Extension',
+							'slug'         => 'yoast-seo-news',
 							'last_updated' => 'yesterday',
 							'store_url'    => 'https://example.org/store',
-							'download'    => 'https://example.org/extension.zip',
-							'changelog'   => 'changelog',
+							'download'     => 'https://example.org/extension.zip',
+							'changelog'    => 'changelog',
 						),
 					),
 				)
@@ -800,7 +800,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	protected function get_future_date() {
 		if ( $this->future_date === null ) {
-			$this->future_date = gmdate( 'Y-m-d\TH:i:s\Z', time() + DAY_IN_SECONDS );
+			$this->future_date = gmdate( 'Y-m-d\TH:i:s\Z', ( time() + DAY_IN_SECONDS ) );
 		}
 
 		return $this->future_date;
@@ -813,7 +813,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	protected function get_past_date() {
 		if ( $this->past_date === null ) {
-			$this->past_date = gmdate( 'Y-m-d\TH:i:s\Z', time() - DAY_IN_SECONDS );
+			$this->past_date = gmdate( 'Y-m-d\TH:i:s\Z', ( time() - DAY_IN_SECONDS ) );
 		}
 		return $this->past_date;
 	}

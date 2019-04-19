@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Configuration_Structure_Test
+ * Class WPSEO_Configuration_Structure_Test.
  */
 class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 
@@ -18,7 +18,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	protected $structure;
 
 	/**
-	 * Set up
+	 * Set up.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -38,7 +38,6 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 			'environment-type',
 			'site-type',
 			'publishing-entity',
-			'profile-urls',
 			'post-type-visibility',
 			'multiple-authors',
 			'connect-google-search-console',

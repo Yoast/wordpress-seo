@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Choice_Test
+ * Class WPSEO_Config_Field_Choice_Test.
  */
 class WPSEO_Config_Field_Choice_Test extends PHPUnit_Framework_TestCase {
 
@@ -20,7 +20,7 @@ class WPSEO_Config_Field_Choice_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test choices exist as property
+	 * Test choices exist as property.
 	 */
 	public function test_choices_property() {
 		$field = new WPSEO_Config_Field_Choice( 'field' );

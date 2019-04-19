@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Plugin_Availability_Double
+ * Class WPSEO_Plugin_Availability_Double.
  */
 class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 

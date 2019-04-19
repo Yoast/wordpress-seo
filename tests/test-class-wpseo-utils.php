@@ -73,7 +73,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the datetime with a valid date string
+	 * Test the datetime with a valid date string.
 	 *
 	 * @covers WPSEO_Utils::is_valid_datetime
 	 */
@@ -82,7 +82,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the datetime with an invalid date string
+	 * Test the datetime with an invalid date string.
 	 *
 	 * @covers WPSEO_Utils::is_valid_datetime
 	 */
@@ -91,7 +91,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests translate_score function
+	 * Tests translate_score function.
 	 *
 	 * @dataProvider translate_score_provider
 	 * @covers WPSEO_Utils::translate_score()
@@ -105,7 +105,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provides test data for test_translate_score
+	 * Provides test data for test_translate_score().
 	 *
 	 * @return array
 	 */
@@ -135,7 +135,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * When current page is not in the list of Yoast SEO Free, is_yoast_seo_free_page should return false.
+	 * When current page is not in the list of Yoast SEO Free, is_yoast_seo_free_page() should return false.
 	 *
 	 * @covers WPSEO_Utils::is_yoast_seo_free_page
 	 */
@@ -158,7 +158,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * When the current page belongs to Yoast SEO Free, the function is_yoast_seo_free_page should return true.
+	 * When the current page belongs to Yoast SEO Free, the function is_yoast_seo_free_page() should return true.
 	 *
 	 * @covers WPSEO_Utils::is_yoast_seo_free_page
 	 */

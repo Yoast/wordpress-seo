@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Admin_Pages
+ * Class WPSEO_Admin_Pages.
  *
  * Class with functionality for the Yoast SEO admin pages.
  */
@@ -27,7 +27,7 @@ class WPSEO_Admin_Pages {
 	private $asset_manager;
 
 	/**
-	 * Class constructor, which basically only hooks the init function on the init hook
+	 * Class constructor, which basically only hooks the init function on the init hook.
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'init' ), 20 );
@@ -35,7 +35,7 @@ class WPSEO_Admin_Pages {
 	}
 
 	/**
-	 * Make sure the needed scripts are loaded for admin pages
+	 * Make sure the needed scripts are loaded for admin pages.
 	 */
 	public function init() {
 		if ( filter_input( INPUT_GET, 'wpseo_reset_defaults' ) && wp_verify_nonce( filter_input( INPUT_GET, 'nonce' ), 'wpseo_reset_defaults' ) && current_user_can( 'manage_options' ) ) {
@@ -71,7 +71,7 @@ class WPSEO_Admin_Pages {
 
 		if ( $page === 'wpseo_titles' ) {
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance', 'wpseoReplaceVarsL10n', $this->localize_replace_vars_script() );
-			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance', 'wpseoSearchAppearance', array( 'isRtl' => is_rtl() ) );
+			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'search-appearance', 'wpseoSearchAppearance', $this->localize_search_appearance_script() );
 			$this->asset_manager->enqueue_script( 'search-appearance' );
 			$this->asset_manager->enqueue_style( 'search-appearance' );
 			/**
@@ -129,6 +129,37 @@ class WPSEO_Admin_Pages {
 			'editor_specific_replace_vars' => $editor_specific_replace_vars->get(),
 			'shared_replace_vars'          => $editor_specific_replace_vars->get_generic( $replace_vars_list ),
 		);
+	}
+
+	/**
+	 * Retrieves some variables that are needed for the search appearance in JS.
+	 *
+	 * @return array The search appearance variables.
+	 */
+	public function localize_search_appearance_script() {
+		return array(
+			'isRtl'                    => is_rtl(),
+			'userEditUrl'              => add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) ),
+			'brushstrokeBackgroundURL' => plugins_url( 'images/brushstroke_background.svg', WPSEO_FILE ),
+			'showLocalSEOUpsell'       => $this->should_show_local_seo_upsell(),
+			'localSEOUpsellURL'        => WPSEO_Shortlinker::get( 'https://yoa.st/3mp' ),
+		);
+	}
+
+	/**
+	 * Determines whether the Local SEO upsell should be shown.
+	 *
+	 * The Local SEO upsell should:
+	 * - Only be shown in Free, not when Premium is active.
+	 * - Not be shown when Local SEO is active.
+	 *
+	 * @return bool Whether the Local SEO upsell should be shown.
+	 */
+	private function should_show_local_seo_upsell() {
+		$addon_manager = new WPSEO_Addon_Manager();
+
+		return ! WPSEO_Utils::is_yoast_seo_premium() &&
+			   ! $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::LOCAL_SLUG );
 	}
 
 	/**

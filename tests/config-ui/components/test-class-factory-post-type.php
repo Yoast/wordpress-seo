@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Component_Connect_Google_Search_Console_Test
+ * Class WPSEO_Config_Component_Connect_Google_Search_Console_Test.
  */
 class WPSEO_Config_Factory_Post_Type_Test extends PHPUnit_Framework_TestCase {
 

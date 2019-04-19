@@ -6,7 +6,7 @@ use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Watchers\Indexable_Author_Watcher;
 
 /**
- * Class Indexable_Author_Test
+ * Class Indexable_Author_Test.
  *
  * @group indexables
  * @group watchers
@@ -29,7 +29,7 @@ class Indexable_Author_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the indexable is being deleted
+	 * Tests if the indexable is being deleted.
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Author_Watcher::delete_meta()
 	 */
@@ -64,7 +64,7 @@ class Indexable_Author_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the indexable is being deleted
+	 * Tests if the indexable is being deleted.
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Author_Watcher::delete_meta()
 	 */

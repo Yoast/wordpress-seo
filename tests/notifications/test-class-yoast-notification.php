@@ -6,7 +6,7 @@
  */
 
 /**
- * Class Test_Yoast_Notification
+ * Class Test_Yoast_Notification.
  */
 class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
@@ -56,7 +56,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Verify invalid options
+	 * Verify invalid options.
 	 */
 	public function test_verify_priority_boundary() {
 		$options = array(
@@ -69,7 +69,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test nonce when set
+	 * Test nonce when set.
 	 */
 	public function test_nonce() {
 		$subject = new Yoast_Notification( 'message', array( 'nonce' => 'nonce' ) );
@@ -77,7 +77,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test nonce when not set as option
+	 * Test nonce when not set as option.
 	 */
 	public function test_nonce_not_set() {
 		$subject = new Yoast_Notification( 'message', array( 'id' => 'id' ) );
@@ -86,7 +86,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test type is set to default and retrievable
+	 * Test type is set to default and retrievable.
 	 */
 	public function test_type() {
 		$subject = new Yoast_Notification( 'message', array() );
@@ -96,7 +96,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test type custom value
+	 * Test type custom value.
 	 */
 	public function test_type_custom() {
 		$subject = new Yoast_Notification( 'message', array( 'type' => 'bla' ) );
@@ -104,20 +104,20 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test setting and retrieving JSON
+	 * Test setting and retrieving JSON.
 	 */
 	public function test_json() {
 		$data = array( 'bla' );
 
 		$subject = new Yoast_Notification( 'message', array( 'data_json' => $data ) );
-		$this->assertEquals( $subject->get_json(), wp_json_encode( $data ) );
+		$this->assertEquals( $subject->get_json(), WPSEO_Utils::format_json_encode( $data ) );
 
 		$subject = new Yoast_Notification( 'message', array( 'data_json' => '' ) );
 		$this->assertEquals( $subject->get_json(), '' );
 	}
 
 	/**
-	 * Test retrieval of dismissal key
+	 * Test retrieval of dismissal key.
 	 */
 	public function test_get_dismissal_key() {
 		$subject = new Yoast_Notification( 'message', array( 'dismissal_key' => 'dis' ) );
@@ -125,7 +125,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test retrieval of dismissal key when not set
+	 * Test retrieval of dismissal key when not set.
 	 */
 	public function test_get_dismissal_key_not_set() {
 		$subject = new Yoast_Notification( 'message', array( 'id' => 'id' ) );
@@ -242,7 +242,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Verify capability filter arguments
+	 * Verify capability filter arguments.
 	 *
 	 * @param array              $capabilities Capabilities.
 	 * @param Yoast_Notification $notification Notification.
@@ -257,7 +257,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Invalid filter return value
+	 * Invalid filter return value.
 	 */
 	public function test_invalid_filter_return_values() {
 		$subject = new Yoast_Notification(
@@ -271,7 +271,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test notification filter
+	 * Test notification filter.
 	 *
 	 * @param array $current_capabilities Input.
 	 *
@@ -282,7 +282,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Wrapper for WP_User::add_cap()
+	 * Wrapper for WP_User::add_cap().
 	 *
 	 * @param string $capability Capability to add.
 	 */
@@ -299,7 +299,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Wrapper for WP_User::remove_cap()
+	 * Wrapper for WP_User::remove_cap().
 	 *
 	 * @param string $capability Capability to remove.
 	 */

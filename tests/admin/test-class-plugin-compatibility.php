@@ -18,7 +18,7 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 	private static $class_instance;
 
 	/**
-	 * Set up our double class
+	 * Set up our double class.
 	 */
 	public function setUp() {
 		parent::setUp();
