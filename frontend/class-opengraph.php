@@ -23,8 +23,6 @@ class WPSEO_OpenGraph {
 			add_filter( 'fb_meta_tags', array( $this, 'facebook_filter' ), 10, 1 );
 		}
 		else {
-			add_filter( 'language_attributes', array( $this, 'add_opengraph_namespace' ), 15 );
-
 			add_action( 'wpseo_opengraph', array( $this, 'locale' ), 1 );
 			add_action( 'wpseo_opengraph', array( $this, 'type' ), 5 );
 			add_action( 'wpseo_opengraph', array( $this, 'og_title' ), 10 );
@@ -105,45 +103,6 @@ class WPSEO_OpenGraph {
 		}
 
 		return $meta_tags;
-	}
-
-	/**
-	 * Filter for the namespace, adding the OpenGraph namespace.
-	 *
-	 * @link https://developers.facebook.com/docs/web/tutorials/scrumptious/open-graph-object/
-	 *
-	 * @param string $input The input namespace string.
-	 *
-	 * @return string
-	 */
-	public function add_opengraph_namespace( $input ) {
-		$namespaces = array(
-			'og: http://ogp.me/ns#',
-		);
-
-		/**
-		 * Allow for adding additional namespaces to the <html> prefix attributes.
-		 *
-		 * @since 3.9.0
-		 *
-		 * @param array $namespaces Currently registered namespaces which are to be
-		 *                          added to the prefix attribute.
-		 *                          Namespaces are strings and have the following syntax:
-		 *                          ns: http://url.to.namespace/definition
-		 */
-		$namespaces       = apply_filters( 'wpseo_html_namespaces', $namespaces );
-		$namespace_string = implode( ' ', array_unique( $namespaces ) );
-
-		if ( strpos( $input, ' prefix=' ) !== false ) {
-			$regex   = '`prefix=([\'"])(.+?)\1`';
-			$replace = 'prefix="$2 ' . $namespace_string . '"';
-			$input   = preg_replace( $regex, $replace, $input );
-		}
-		else {
-			$input .= ' prefix="' . $namespace_string . '"';
-		}
-
-		return $input;
 	}
 
 	/**
