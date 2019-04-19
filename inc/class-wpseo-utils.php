@@ -1201,7 +1201,7 @@ SVG;
 	public static function retrieve_enabled_features() {
 		$enabled_features = array();
 		if ( defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
-			$enabled_features = preg_split( '/,\w*/', YOAST_SEO_ENABLED_FEATURES );
+			$enabled_features = preg_split( '/,\W*/', YOAST_SEO_ENABLED_FEATURES );
 		}
 		// Make the array of enabled features filterable, so features can be enabled at will.
 		$enabled_features = apply_filters( 'wpseo_enable_feature', $enabled_features );

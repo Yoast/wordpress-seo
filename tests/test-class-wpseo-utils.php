@@ -196,7 +196,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		if ( ! defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
 			define( 'YOAST_SEO_ENABLED_FEATURES', 'some-feature' );
 		}
-		$expected = preg_split(',\w*', YOAST_SEO_ENABLED_FEATURES );
+		$expected = preg_split('/,\W*/', YOAST_SEO_ENABLED_FEATURES );
 		$this->assertEquals( $expected, WPSEO_Utils::retrieve_enabled_features() );
 	}
 
@@ -210,7 +210,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		if ( ! defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
 			define( 'YOAST_SEO_ENABLED_FEATURES', 'some-feature' );
 		}
-		$expected = preg_split(',\w*', YOAST_SEO_ENABLED_FEATURES );
+		$expected = preg_split('/,\W*/', YOAST_SEO_ENABLED_FEATURES );
 
 		// Features we expect to be added by the filter.
 		$added_features = array( 'some functionality', 'other things' );
