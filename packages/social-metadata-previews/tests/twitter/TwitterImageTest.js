@@ -114,7 +114,7 @@ describe( "retrieveContainerDimensions", () => {
 		const TwitterImageComponent = new TwitterImage();
 
 		const actual = TwitterImageComponent.retrieveContainerDimensions( "landscape" );
-		const expected = { height: 253 + "px", width: 506 + "px" };
+		const expected = { height: 254 + "px", width: 506 + "px" };
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -123,7 +123,7 @@ describe( "retrieveContainerDimensions", () => {
 		const TwitterImageComponent = new TwitterImage();
 
 		const actual = TwitterImageComponent.retrieveContainerDimensions( "square" );
-		const expected = { height: 123 + "px", width: 123 + "px" };
+		const expected = { height: 125 + "px", width: 125 + "px" };
 
 		expect( actual ).toEqual( expected );
 	} );

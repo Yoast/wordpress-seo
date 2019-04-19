@@ -1,8 +1,8 @@
 export const TWITTER_IMAGE_SIZES = {
-	squareWidth: 123,
-	squareHeight: 123,
+	squareWidth: 125,
+	squareHeight: 125,
 	landscapeWidth: 506,
-	landscapeHeight: 253,
+	landscapeHeight: 254,
 };
 
 export const FACEBOOK_IMAGE_SIZES = {
@@ -91,8 +91,8 @@ function retrieveOriginalImageDimensions( src ) {
  * If we'd do so, we would end up with warped images. That's why we calculate the ratio between
  * the original height, and the height that is expected by Twitter or Facebook.
  * We do the same thing for width.
- * For example: an original image is 898x1600 (height x width) and Twitter expects 253x506.
- * The heightRatio would be 3.55 (898/253) and the widthRatio would be 3.16 (1600/506).
+ * For example: an original image is 898x1600 (height x width) and Twitter expects 254x506.
+ * The heightRatio would be 3.53 (898/254) and the widthRatio would be 3.16 (1600/506).
  *
  * @param {Object} expectedDimensions The dimensions of images in the social medium.
  * @param {Object} originalDimensions The dimensions of the original image.
@@ -128,9 +128,9 @@ export function calculateImageRatios( expectedDimensions, originalDimensions, im
  * To use as much as the allowed space as possible, we base both dimensions on the dimension with
  * the lowest imageRatio. For example: for a 898x1600 image, the heightRatio is larger than the
  * widthRatio (see above). The result of dividing by the widthRatio is a 284x506 image.
- * The excess of 284-253 = 31 pixels will be 'cut off' by the container in the presentation part.
+ * The excess of 284-254 = 30 pixels will be 'cut off' by the container in the presentation part.
  *
- * If we would divide by the heightRatio, the image would become 253x451, which means it would not
+ * If we would divide by the heightRatio, the image would become 254x451, which means it would not
  * be wide enough for the container: there would be a 506-451=55px white border on one of the sides.
  *
  * @param {Object} originalDimensions The dimensions of the original image.

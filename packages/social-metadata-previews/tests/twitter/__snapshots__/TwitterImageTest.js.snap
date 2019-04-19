@@ -3,8 +3,8 @@
 exports[`TwitterImage Component matches the snapshot for a landscape image in a summary card 1`] = `
 .c0 {
   position: relative;
-  height: 123px;
-  width: 123px;
+  height: 125px;
+  width: 125px;
   overflow: hidden;
   background-color: #e1e8ed;
 }
@@ -34,7 +34,7 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
 exports[`TwitterImage Component matches the snapshot for a landscape image in a summary-large-image card 1`] = `
 .c0 {
   position: relative;
-  height: 253px;
+  height: 254px;
   width: 506px;
   overflow: hidden;
   background-color: #e1e8ed;
@@ -65,8 +65,8 @@ exports[`TwitterImage Component matches the snapshot for a landscape image in a 
 exports[`TwitterImage Component matches the snapshot for a square image in a summary card 1`] = `
 .c0 {
   position: relative;
-  height: 123px;
-  width: 123px;
+  height: 125px;
+  width: 125px;
   overflow: hidden;
   background-color: #e1e8ed;
 }
@@ -96,7 +96,7 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
 exports[`TwitterImage Component matches the snapshot for a square image in a summary-large-image card 1`] = `
 .c0 {
   position: relative;
-  height: 253px;
+  height: 254px;
   width: 506px;
   overflow: hidden;
   background-color: #e1e8ed;
@@ -127,8 +127,8 @@ exports[`TwitterImage Component matches the snapshot for a square image in a sum
 exports[`TwitterImage Component matches the snapshot for a too small image 1`] = `
 .c0 {
   position: relative;
-  height: 123px;
-  width: 123px;
+  height: 125px;
+  width: 125px;
   overflow: hidden;
   background-color: #e1e8ed;
 }
@@ -171,7 +171,7 @@ exports[`TwitterImage Component matches the snapshot in the loading state 1`] = 
   align-items: center;
   box-sizing: border-box;
   width: 506px;
-  height: 253px;
+  height: 254px;
   max-width: 100%;
   margin: 0;
   padding: 1em;

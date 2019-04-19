@@ -62,10 +62,10 @@ describe( "retrieveExpectedDimensions", () => {
 	it( "returns Twitter image sizes when SocialMedium is set to 'Twitter'", () => {
 		const actual = determineImageProperties.retrieveExpectedDimensions( "Twitter", );
 		const expected = {
-			squareWidth: 123,
-			squareHeight: 123,
+			squareWidth: 125,
+			squareHeight: 125,
 			landscapeWidth: 506,
-			landscapeHeight: 253,
+			landscapeHeight: 254,
 		};
 
 		expect( actual ).toEqual( expected );
@@ -114,7 +114,7 @@ describe( "calculateImageRatios", () => {
 	it( "returns the widthRatio and heightRatio for a Twitter image in square mode", () => {
 		const actual = determineImageProperties.calculateImageRatios(
 			determineImageProperties.TWITTER_IMAGE_SIZES,
-			{ width: 246, height: 246 },
+			{ width: 250, height: 250 },
 			"square" );
 		const expected = { widthRatio: 2, heightRatio: 2 };
 
@@ -158,7 +158,7 @@ describe( "calculateLargestDimensions", () => {
 describe( "calculateImageDimensions", () => {
 	it( "returns the original dimensions when the original Twitter image is too small", () => {
 		const actual = determineImageProperties.calculateImageDimensions(
-			{ squareWidth: 123, squareHeight: 123 },
+			{ squareWidth: 125, squareHeight: 125 },
 			{ width: 100, height: 100 },
 			"square" );
 		const expected = { width: 100, height: 100 };
@@ -183,10 +183,10 @@ describe( "calculateImageDimensions", () => {
 		 * the retrieveContainerDimensions function in TwitterImage.js.
 		 */
 		const actual = determineImageProperties.calculateImageDimensions(
-			{ squareWidth: 123, squareHeight: 123 },
+			{ squareWidth: 125, squareHeight: 125 },
 			{ width: 184.5, height: 147.6 },
 			"square" );
-		const expected = { width: 154, height: 123 };
+		const expected = { width: 156, height: 125 };
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -203,10 +203,10 @@ describe( "calculateImageDimensions", () => {
 
 	it( "returns the Twitter image dimensions for a landscape image", () => {
 		const actual = determineImageProperties.calculateImageDimensions(
-			{ landscapeWidth: 506, landscapeHeight: 253 },
+			{ landscapeWidth: 506, landscapeHeight: 254 },
 			{ width: 1518, height: 506 },
 			"landscape" );
-		const expected = { width: 759, height: 253 };
+		const expected = { width: 762, height: 254 };
 
 		expect( actual ).toEqual( expected );
 	} );
@@ -248,7 +248,7 @@ describe( "determineImageProperties", () => {
 			"Twitter"
 		);
 
-		const expected = { mode: "square", width: 235, height: 123 };
+		const expected = { mode: "square", width: 239, height: 125 };
 		expect( imageProperties ).toEqual( expected );
 	} );
 
@@ -272,7 +272,7 @@ describe( "determineImageProperties", () => {
 			"Twitter"
 		);
 
-		const expected = { mode: "square", width: 123, height: 137 };
+		const expected = { mode: "square", width: 125, height: 140 };
 		expect( imageProperties ).toEqual( expected );
 	} );
 
@@ -296,7 +296,7 @@ describe( "determineImageProperties", () => {
 			"Twitter"
 		);
 
-		const expected = { mode: "square", width: 123, height: 123 };
+		const expected = { mode: "square", width: 125, height: 125 };
 		expect( imageProperties ).toEqual( expected );
 	} );
 

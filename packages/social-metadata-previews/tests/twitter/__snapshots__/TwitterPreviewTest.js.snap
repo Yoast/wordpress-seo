@@ -17,7 +17,7 @@ Array [
   align-items: center;
   box-sizing: border-box;
   width: 506px;
-  height: 253px;
+  height: 254px;
   max-width: 100%;
   margin: 0;
   padding: 1em;
