@@ -1,5 +1,6 @@
 // External dependencies.
 import { autop } from "@wordpress/autop";
+import { enableFeatures } from "@yoast/feature-toggle";
 import Jed from "jed";
 import { forEach, has, includes, isNull, isObject, isString, isUndefined, merge, pickBy, isEmpty } from "lodash-es";
 import { getLogger } from "loglevel";
@@ -494,18 +495,19 @@ export default class AnalysisWebWorker {
 	/**
 	 * Configures the analysis worker.
 	 *
-	 * @param {number}  id                                     The request id.
-	 * @param {Object}  configuration                          The configuration object.
-	 * @param {boolean} [configuration.contentAnalysisActive]  Whether the content analysis is active.
-	 * @param {boolean} [configuration.keywordAnalysisActive]  Whether the keyword analysis is active.
-	 * @param {boolean} [configuration.useCornerstone]         Whether the paper is cornerstone or not.
-	 * @param {boolean} [configuration.useTaxonomy]            Whether the taxonomy assessor should be used.
-	 * @param {boolean} [configuration.useKeywordDistribution] Whether the keyphraseDistribution assessment should run.
-	 * @param {string}  [configuration.locale]                 The locale used in the seo assessor.
-	 * @param {Object}  [configuration.translations]           The translation strings.
-	 * @param {Object}  [configuration.researchData]           Extra research data.
-	 * @param {Object}  [configuration.defaultQueryParams]     The default query params for the Shortlinker.
-	 * @param {string}  [configuration.logLevel]               Log level, see: https://github.com/pimterry/loglevel#documentation
+	 * @param {number}   id                                     The request id.
+	 * @param {Object}   configuration                          The configuration object.
+	 * @param {boolean}  [configuration.contentAnalysisActive]  Whether the content analysis is active.
+	 * @param {boolean}  [configuration.keywordAnalysisActive]  Whether the keyword analysis is active.
+	 * @param {boolean}  [configuration.useCornerstone]         Whether the paper is cornerstone or not.
+	 * @param {boolean}  [configuration.useTaxonomy]            Whether the taxonomy assessor should be used.
+	 * @param {boolean}  [configuration.useKeywordDistribution] Whether the keyphraseDistribution assessment should run.
+	 * @param {string}   [configuration.locale]                 The locale used in the seo assessor.
+	 * @param {Object}   [configuration.translations]           The translation strings.
+	 * @param {Object}   [configuration.researchData]           Extra research data.
+	 * @param {Object}   [configuration.defaultQueryParams]     The default query params for the Shortlinker.
+	 * @param {string}   [configuration.logLevel]               Log level, see: https://github.com/pimterry/loglevel#documentation
+	 * @param {string[]} [configuration.enabledFeatures]        A list of feature name flags of the experimental features to enable.
 	 *
 	 * @returns {void}
 	 */
@@ -532,6 +534,12 @@ export default class AnalysisWebWorker {
 		if ( has( configuration, "logLevel" ) ) {
 			logger.setLevel( configuration.logLevel, false );
 			delete configuration.logLevel;
+		}
+
+		if ( has( configuration, "enabledFeatures" ) ) {
+			// Make feature flags available inside of the web worker.
+			enableFeatures( configuration.enabledFeatures );
+			delete  configuration.enabledFeatures;
 		}
 
 		this._configuration = merge( this._configuration, configuration );
