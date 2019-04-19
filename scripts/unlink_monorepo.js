@@ -1,6 +1,7 @@
 #!/usr/local/bin/node
 const execSync = require( "child_process" ).execSync;
 
+// We cannot use "~" in the cwd field so we have to use a little workaround.
 const homeDirectory = execSync( `echo $HOME` ).toString().split( "\n" )[ 0 ];
 const yarnLinkDir = homeDirectory + "/.config/yarn/link";
 
