@@ -22,6 +22,7 @@ const isFeatureEnabled = function( featureName ) {
 const enableFeatures = function( featureNames ) {
 	if ( ! self.wpseoFeatureFlags ) {
 		self.wpseoFeatureFlags = featureNames;
+		return;
 	}
 	// Check whether the features are already enabled, if not: add them.
 	featureNames.forEach( name => {
