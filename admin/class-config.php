@@ -158,8 +158,8 @@ class WPSEO_Admin_Pages {
 	private function should_show_local_seo_upsell() {
 		$addon_manager = new WPSEO_Addon_Manager();
 
-		return ! WPSEO_Utils::is_yoast_seo_premium() &&
-			   ! $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::LOCAL_SLUG );
+		return ! WPSEO_Utils::is_yoast_seo_premium()
+			&& ! $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::LOCAL_SLUG );
 	}
 
 	/**

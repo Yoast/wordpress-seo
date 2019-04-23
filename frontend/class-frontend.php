@@ -1914,6 +1914,7 @@ class WPSEO_Frontend {
 	 * Output the rel=publisher code on every page of the site.
 	 *
 	 * @deprecated 10.1.3
+	 * @codeCoverageIgnore
 	 *
 	 * @return boolean Boolean indicating whether the publisher link was printed.
 	 */
