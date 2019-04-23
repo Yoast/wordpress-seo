@@ -128,6 +128,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_100();
 		}
 
+		if ( version_compare( $version, '11.1-RC0', '<' ) ) {
+			$this->upgrade_111();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -661,6 +665,20 @@ class WPSEO_Upgrade {
 		// Removes recalibration options.
 		WPSEO_Options::clean_up( 'wpseo' );
 		delete_option( 'wpseo_recalibration_beta_mailinglist_subscription' );
+	}
+
+	/**
+	 * Performs the 11.1 upgrade.
+	 *
+	 * @return void
+	 */
+	private function upgrade_111() {
+		// Set company_or_person to company if empty.
+		$company_or_person = WPSEO_Options::get( 'wpseo_titles', '' );
+
+		if ( $company_or_person === '' ) {
+			WPSEO_Options::set( 'company_or_person', 'company' );
+		}
 	}
 
 	/**
