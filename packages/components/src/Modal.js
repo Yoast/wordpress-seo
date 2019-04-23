@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Modal from "react-modal";
+import ReactModal from "react-modal";
 import styled from "styled-components";
 
 /* Yoast dependencies */
@@ -27,7 +27,7 @@ const StyledCloseIconButton = styled.button`
 `;
 
 /**
- * The BaseYoastModal class, rendering a Modal component.
+ * The BaseYoastModal class, rendering a ReactModal component.
  */
 class BaseYoastModal extends React.Component {
 	/**
@@ -46,7 +46,7 @@ class BaseYoastModal extends React.Component {
 	 */
 	render() {
 		return (
-			<Modal
+			<ReactModal
 				isOpen={ this.props.isOpen }
 				onRequestClose={ this.props.onClose }
 				role="dialog"
@@ -86,7 +86,7 @@ class BaseYoastModal extends React.Component {
 							</button>
 						</div>
 				}
-			</Modal>
+			</ReactModal>
 		);
 	}
 }
@@ -116,7 +116,7 @@ BaseYoastModal.defaultProps = {
 	isOpen: false,
 };
 
-const YoastModal = styled( BaseYoastModal )`
+const Modal = styled( BaseYoastModal )`
 	&.yoast-modal__overlay {
 		position: fixed;
 		top: 0;
@@ -167,4 +167,4 @@ const YoastModal = styled( BaseYoastModal )`
 	}
 `;
 
-export default YoastModal;
+export default Modal;

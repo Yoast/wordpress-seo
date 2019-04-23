@@ -1,216 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`the SearchResultDetail component matches the snapshot 1`] = `
-.c9 {
-  border: 0;
-  -webkit-clip: rect(1px,1px,1px,1px);
-  clip: rect(1px,1px,1px,1px);
-  -webkit-clip-path: inset(50%);
-  clip-path: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute !important;
-  width: 1px;
-  word-wrap: normal !important;
-  -webkit-transform: translateY(1em);
-  -ms-transform: translateY(1em);
-  transform: translateY(1em);
-}
-
-.c3 {
-  color: #fff;
-  background: #64a60a;
-  min-width: 152px;
-  text-shadow: 0 0 2px #000;
-  overflow: visible;
-  cursor: pointer;
-}
-
-.c3::-moz-focus-inner {
-  border-width: 0;
-}
-
-.c3 span {
-  display: inherit;
-  -webkit-align-items: inherit;
-  -webkit-box-align: inherit;
-  -ms-flex-align: inherit;
-  align-items: inherit;
-  -webkit-box-pack: inherit;
-  -webkit-justify-content: inherit;
-  -ms-flex-pack: inherit;
-  justify-content: inherit;
-  width: 100%;
-}
-
-.c2 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  min-height: 48px;
-  margin: 0;
-  padding: 0 16px;
-  padding: 0px 16px;
-  border: 0;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font: 400 14px/24px "Open Sans",sans-serif;
-  text-transform: uppercase;
-  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
-  -webkit-transition: box-shadow 150ms ease-out;
-  transition: box-shadow 150ms ease-out;
-}
-
-.c2:hover,
-.c2:focus,
-.c2:active {
-  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
-  color: #fff;
-}
-
-.c2:active {
-  -webkit-transform: translateY( 1px );
-  -ms-transform: translateY( 1px );
-  transform: translateY( 1px );
-  box-shadow: none;
-}
-
-.c7 {
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  color: #fff;
-  background: #64a60a;
-  min-width: 152px;
-  text-shadow: 0 0 2px #000;
-}
-
-.c6 {
-  display: -webkit-inline-box;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  vertical-align: middle;
-  min-height: 48px;
-  margin: 0;
-  padding: 0 16px;
-  padding: 0px 16px;
-  border: 0;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font: 400 14px/24px "Open Sans",sans-serif;
-  text-transform: uppercase;
-  box-shadow: 0 2px 8px 0 rgba( 0,0,0,0.3 );
-  -webkit-transition: box-shadow 150ms ease-out;
-  transition: box-shadow 150ms ease-out;
-}
-
-.c6:hover,
-.c6:focus,
-.c6:active {
-  box-shadow: 0 4px 10px 0 rgba( 0,0,0,0.2 ), inset 0 0 0 100px rgba( 0,0,0,0.1 );
-  color: #fff;
-}
-
-.c6:active {
-  -webkit-transform: translateY( 1px );
-  -ms-transform: translateY( 1px );
-  transform: translateY( 1px );
-  box-shadow: none;
-}
-
-.c10 {
-  width: 100%;
-  height: 600px;
-  border: none;
-}
-
-.c0 {
-  outline: none;
-}
-
-.c1 {
-  padding: 0 16px 16px;
-}
-
-.c5 {
-  float: right;
-}
-
-.c4 {
-  width: 24px;
-  height: 24px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-.c8 {
-  width: 24px;
-  height: 24px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c2::after {
-    display: inline-block;
-    content: "";
-    min-height: 48px;
-  }
-}
-
-@media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
-  .c6::after {
-    display: inline-block;
-    content: "";
-    min-height: 48px;
-  }
-}
-
-@media screen and ( max-width:768px ) {
-  .c0 {
-    margin: 0 -16px;
-  }
-}
-
 <section
   aria-label="Search result"
-  className="c0"
+  className="SearchResultDetail__Detail-sc-17kb0ay-0 PArrF"
   tabIndex="-1"
 >
   <nav
-    className="c1"
+    className="SearchResultDetail__Nav-sc-17kb0ay-1 gRCIRM"
   >
     <button
-      className="c2 c3"
+      className="YoastButton-gx5w7q-1 YoastButton-gx5w7q-0 dnvPfT"
       onClick={[Function]}
       type="button"
     >
       <span>
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-angle-left c4"
+          className="yoast-svg-icon yoast-svg-icon-angle-left SvgIcon__StyledSvg-sc-1l8fxgb-0 cqszVg"
           fill="#fff"
           focusable="false"
           role="img"
@@ -227,7 +34,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
     </button>
     <a
       aria-label="Open the knowledge base article in a new window or read it in the iframe below"
-      className="c5 c6 c7"
+      className="YoastLinkButton-dntyts-0 YoastButton-gx5w7q-0 SearchResultDetail__RightYoastLinkButton-sc-17kb0ay-2 hENyRf"
       href="https://kb.yoast.com/kb/passive-voice/"
       rel="noopener noreferrer"
       target="_blank"
@@ -235,7 +42,7 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
       View in KB
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-angle-right c8"
+        className="yoast-svg-icon yoast-svg-icon-angle-right SvgIcon__StyledSvg-sc-1l8fxgb-0 cqszVg"
         fill="#fff"
         focusable="false"
         role="img"
@@ -248,14 +55,14 @@ exports[`the SearchResultDetail component matches the snapshot 1`] = `
         />
       </svg>
       <span
-        className="c9"
+        className="A11yNotice-sc-1feyioo-0 gHCoqL"
       >
         (Opens in a new browser tab)
       </span>
     </a>
   </nav>
   <iframe
-    className="kb-search-content-frame c10"
+    className="kb-search-content-frame ArticleContent__ArticleContentFullWidth-fo5ufz-0 bMHXRz"
     src="https://kb.yoast.com/kb/passive-voice/amp/?source=wpseo-kb-search"
     title="Knowledge base article"
   />

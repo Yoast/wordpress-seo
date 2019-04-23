@@ -1,4 +1,4 @@
-import buildTree from "./buildTree";
+import TreeBuilder from "./TreeBuilder";
 
 /**
  * This module contains the main logic to transform a formatted text (for now only HTML is supported)
@@ -11,4 +11,4 @@ import buildTree from "./buildTree";
  * @see module:parsedPaper/structure
  */
 
-export default buildTree;
+export default TreeBuilder;

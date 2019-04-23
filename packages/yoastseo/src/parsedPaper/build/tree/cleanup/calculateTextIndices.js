@@ -1,6 +1,6 @@
 import { pullAll } from "lodash-es";
 
-import { ignoredHtmlElements } from "../htmlConstants";
+import { ignoredHtmlElements } from "../html/htmlConstants";
 import getElementContent from "./getElementContent";
 
 /**

@@ -86,6 +86,13 @@ module.exports = function( grunt ) {
 		// Whitespace within the commands results into unexpected tokens.
 		branch = branch.trim();
 
+		// Defines a custom premium-configuration branch from the package.json file to run local and Travis tests against.
+		const customBranch = grunt.config.get( "pkg" ).yoast.premiumConfiguration;
+
+		if ( customBranch && customBranch !== "" ) {
+			branch = customBranch;
+		}
+
 		commands.push( "cd premium-configuration" );
 		commands.push( "git checkout develop" );
 		commands.push( `git checkout ${ branch }` );

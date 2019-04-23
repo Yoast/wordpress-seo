@@ -1,6 +1,9 @@
 import stem from "../../../src/morphology/german/stem";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
 
-const nounsToStem = [
+const morphologyDataDE = getMorphologyData( "de" ).de;
+
+const wordsToStem = [
 	// Suffix step 1 category a (-ern).
 	[ "häusern", "häus" ],
 	// Suffix step 1 category b (-en).
@@ -19,12 +22,14 @@ const nounsToStem = [
 	[ "test", "test" ],
 	// A word without an R1.
 	[ "so", "so" ],
+	// An irregular verb.
+	[ "hat", "haben" ],
 	// A word with a vowel that should be treated like a consonant
 	[ "schreien", "schrei" ],
 ];
 
 describe( "Test for stemming German words", () => {
 	it( "stems German nouns", () => {
-		nounsToStem.forEach( wordToStem => expect( stem( wordToStem[ 0 ] ) ).toBe( wordToStem[ 1 ] ) );
+		wordsToStem.forEach( wordToStem => expect( stem( morphologyDataDE.verbs, wordToStem[ 0 ] ) ).toBe( wordToStem[ 1 ] ) );
 	} );
 } );
