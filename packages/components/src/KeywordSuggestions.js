@@ -60,23 +60,23 @@ const getKeywordSuggestionExplanation = keywords => {
 			"you might want to rewrite your content accordingly. ",
 			"yoast-components"
 		);
-	} else {
-		if ( keywords.length === 0 ) {
-			return __(
-				"Once you add a bit more copy, we'll give you a list of words and " +
-				"word combination that occur the most in the content. These give an indication of what your content focuses on.",
-				"yoast-components"
-			);
-		}
+	}
 
+	if ( keywords.length === 0 ) {
 		return __(
-			"The following words and word combinations occur the most in the content. " +
-			"These give an indication of what your content focuses on. " +
-			"If the words differ a lot from your topic, " +
-			"you might want to rewrite your content accordingly. ",
+			"Once you add a bit more copy, we'll give you a list of words and " +
+			"word combination that occur the most in the content. These give an indication of what your content focuses on.",
 			"yoast-components"
 		);
 	}
+
+	return __(
+		"The following words and word combinations occur the most in the content. " +
+		"These give an indication of what your content focuses on. " +
+		"If the words differ a lot from your topic, " +
+		"you might want to rewrite your content accordingly. ",
+		"yoast-components"
+	);
 };
 
 /**
