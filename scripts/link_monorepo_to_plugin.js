@@ -138,11 +138,17 @@ function checkoutBranchAndPull( javascriptBranch ) {
 		execMonorepoNoOutput( `git pull;` );
 		console.log( `Successfully checked out ${ javascriptBranch }.` );
 	} catch ( e ) {
+		if ( process.env.CI === "1" ) {
+			execMonorepoNoOutput( `
+				git checkout develop;
+			` );
+		} else {
+			const monorepoBranch = execMonorepo( `git branch | grep \\* | cut -d ' ' -f2-` ).toString().split( "\n" )[ 0 ];
+			console.log( `Current JS branch used. This is '${ monorepoBranch }'.` );
+		}
 		execMonorepoNoOutput( `
-			git checkout develop;
 			git pull;	
 		` );
-		console.log( "Branch checkout failed. Defaulting to develop." );
 	}
 }
 
@@ -177,10 +183,9 @@ console.log( "Fetching the latest branches in the monorepo." );
 execMonorepoNoOutput( `git fetch` );
 
 const checkedOutBranch = getCheckoutBranch();
-console.log( "Currently checked out branch is: " + checkedOutBranch + "." );
+console.log( "Currently checked out branch in WordpressSEO is: '" + checkedOutBranch + "'." );
 
 const javascriptBranch = getJsBranch( checkedOutBranch );
-console.log( "Trying to checkout the monorepo branch: " + javascriptBranch + "." );
 
 checkoutBranchAndPull( javascriptBranch );
 
