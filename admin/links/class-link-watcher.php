@@ -30,8 +30,16 @@ class WPSEO_Link_Watcher {
 	 * @returns void
 	 */
 	public function register_hooks() {
-		add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
-		add_action( 'delete_post', array( $this, 'delete_post' ) );
+
+		/**
+		 * Filter: 'wpseo_should_index_links' - Allows disabling of Yoast's links indexation.
+		 *
+		 * @api bool To disable the indexation, return false.
+		 */
+		if ( apply_filters( 'wpseo_should_index_links', true ) ) {
+			add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
+			add_action( 'delete_post', array( $this, 'delete_post' ) );
+		}
 	}
 
 	/**
