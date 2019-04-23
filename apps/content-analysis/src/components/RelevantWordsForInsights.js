@@ -5,7 +5,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 
 // Internal dependencies.
-import { relevantWordsForInternalLinking } from "../utils/calculateRelevantWords";
+import { relevantWordsForInsights } from "../utils/calculateRelevantWords";
 
 // Determine which columns to display.
 const columns = [
@@ -28,7 +28,7 @@ const columns = [
  *
  * @returns {ReactComponent} The relevant words component.
  */
-function RelevantWords( { data } ) {
+function RelevantWordsForInsights( { data } ) {
 	return <ReactTable
 		data={ data }
 		columns={ columns }
@@ -39,6 +39,6 @@ function RelevantWords( { data } ) {
 
 export default connect( ( state ) => {
 	return {
-		data: relevantWordsForInternalLinking( state.paper ),
+		data: relevantWordsForInsights( state.paper ),
 	};
-} )( RelevantWords );
+} )( RelevantWordsForInsights );

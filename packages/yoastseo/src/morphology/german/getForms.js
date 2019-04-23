@@ -19,7 +19,8 @@ import { uniq as unique } from "lodash-es";
  * @returns {Array<string>} The created word forms.
  */
 export function getForms( word, morphologyData ) {
-	const stemmedWord = stem( word );
+	const stemmedWord = stem( morphologyData.verbs, word );
+
 	// Add the original word to the forms and also the stemmed word, since that might be a valid word form on its own.
 	const forms = [ word, stemmedWord ];
 
