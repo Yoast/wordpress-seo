@@ -60,7 +60,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			/**
 			 * Filter: 'wpseo_schema_needs_<class name>' - Allows changing which graph pieces we output.
 			 *
-			 * @api bool unsigned Whether or not to show a graph piece.
+			 * @api bool $is_needed Whether or not to show a graph piece.
 			 */
 			$is_needed = apply_filters( 'wpseo_schema_needs_' . $class, $piece->is_needed() );
 			if ( ! $is_needed ) {
