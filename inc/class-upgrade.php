@@ -676,7 +676,7 @@ class WPSEO_Upgrade {
 		// Set company_or_person to company if empty.
 		$company_or_person = WPSEO_Options::get( 'wpseo_titles', '' );
 
-		if ( $company_or_person === '' ) {
+		if ( ! in_array( $company_or_person, array( 'company', 'person' ), true ) ) {
 			WPSEO_Options::set( 'company_or_person', 'company' );
 		}
 	}
