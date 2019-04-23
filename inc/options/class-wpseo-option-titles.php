@@ -354,9 +354,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					break;
 
 				case 'company_or_person':
-					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+					if ( isset( $dirty[ $key ] ) ) {
 						if ( in_array( $dirty[ $key ], array( 'company', 'person' ), true ) ) {
 							$clean[ $key ] = $dirty[ $key ];
+						} else {
+							$clean[ $key ] = 'company';
 						}
 					}
 					break;
