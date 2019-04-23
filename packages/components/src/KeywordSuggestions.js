@@ -3,11 +3,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import interpolateComponents from "interpolate-components";
 import { __, sprintf } from "@wordpress/i18n";
+import { isFeatureEnabled } from "@yoast/feature-toggle";
 
 // Yoast dependencies.
 import WordList from "./WordList";
 
-const improvedInternalLinkingEnabled = false;
 
 /**
  * @summary Translates and returns the keyword research article link.
@@ -72,7 +72,7 @@ const getKeywordSuggestionExplanation = keywords => {
  */
 const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
 	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => {
-		return improvedInternalLinkingEnabled ? word.getWord() : word.getCombination();
+		return isFeatureEnabled( "improvedInternalLinking" ) ? word.getWord() : word.getCombination();
 	} );
 
 	return ( <WordList
