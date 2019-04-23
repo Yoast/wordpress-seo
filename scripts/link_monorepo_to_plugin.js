@@ -167,6 +167,11 @@ checkout_branch_and_pull( javascriptBranch );
 const packages = execMonorepo( `ls packages` ).toString().split( "\n" ).filter( value => value !== "" );
 unlink_all_yoast_packages();
 
+// Just to be sure.
+execMonorepoNoOutput( `
+	yarn install
+` );
+
 execMonorepoNoOutput( `
 	yarn link-all
 ` );
