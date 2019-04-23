@@ -23,7 +23,8 @@
     "i18n-wordpress-seo": "cross-env NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot | shusher",
     "prestart": "grunt build:css && grunt webpack:buildDev",
     "start": "webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development",
-    "link-monorepo": "./scripts/link_monorepo_to_plugin.sh"
+    "link-monorepo": "node scripts/link_monorepo_to_plugin.js",
+    "unlink-monorepo": "node scripts/unlink_monorepo.js"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",
@@ -99,6 +100,7 @@
     "jest-styled-components": "^6.3.1",
     "load-grunt-config": "^0.19.2",
     "raf": "^3.4.0",
+    "readline-sync": "^1.4.9",
     "redux-logger": "^3.0.6",
     "request": "^2.88.0",
     "sassdash": "^0.9.0",

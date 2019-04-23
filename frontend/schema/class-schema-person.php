@@ -38,6 +38,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 
 	/**
 	 * WPSEO_Schema_Breadcrumb constructor.
+	 * WPSEO_Schema_Person constructor.
 	 *
 	 * @param WPSEO_Schema_Context $context A value object with context variables.
 	 */

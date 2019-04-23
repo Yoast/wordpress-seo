@@ -69,9 +69,18 @@ if ( $company_or_person === 'person' ) {
 	echo '<p>';
 	$user_id = WPSEO_Options::get( 'company_or_person_user_id', '' );
 	$person  = get_userdata( $user_id );
-	printf( esc_html__( 'To change the social accounts used for your site, update the details for %1$s.', 'wordpress-seo' ), '<a href="' . admin_url( 'user-edit.php?user_id=' . $user_id ) . '">' . $person->display_name . '</a>' );
+	printf(
+		/* translators: 1: link to edit user page. */
+		esc_html__( 'To change the social accounts used for your site, update the details for %1$s.', 'wordpress-seo' ),
+		'<a href="' . esc_url( admin_url( 'user-edit.php?user_id=' . $user_id ) ) . '">' . esc_html( $person->display_name ) . '</a>'
+	);
 	echo ' ';
-	printf( esc_html__( 'To make your site represent a Company or Organization go to %1$sSearch Appearance%2$s and set Organization or Person to "Organization".', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_titles' ) . '">', '</a>' );
+	printf(
+		/* translators: 1: link tag to the relevant WPSEO admin page; 2: link close tag. */
+		esc_html__( 'To make your site represent a Company or Organization go to %1$sSearch Appearance%2$s and set Organization or Person to "Organization".', 'wordpress-seo' ),
+		'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles' ) ) . '">',
+		'</a>'
+	);
 	echo '</p></div>';
 
 	// Organization social fields should still be rendered, because other wise the values are lost on save.
