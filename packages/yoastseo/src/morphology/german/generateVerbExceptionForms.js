@@ -5,25 +5,34 @@ import { allGermanVerbPrefixesSorted } from "./helpers";
 /**
  * Adds suffixes to a given strong verb paradigm.
  *
- * @param {Object}  dataStrongVerbs The German morphology data for strong verbs.
- * @param {string}  verbClass       The verb class of the paradigm.
- * @param {Object}  stems           The stems of the paradigm.
+ * @param {Object}  dataStrongAndIrregularVerbs The German morphology data for strong and irregular verbs.
+ * @param {string}  verbClass                   The verb class of the paradigm.
+ * @param {Object}  stems                       The stems of the paradigm.
  *
  * @returns {string[]} The created forms.
  */
-const addSuffixesStrongVerbParadigm = function( dataStrongVerbs, verbClass, stems ) {
+const addSuffixesStrongVerbParadigm = function( dataStrongAndIrregularVerbs, verbClass, stems ) {
 	// All classes have the same present and participle suffixes.
 	const basicSuffixes = {
-		present: dataStrongVerbs.suffixes.presentAllClasses.slice(),
-		pastParticiple: new Array( dataStrongVerbs.suffixes.pastParticiple ),
+		present: dataStrongAndIrregularVerbs.suffixes.presentAllClasses.slice(),
+		pastParticiple: new Array( dataStrongAndIrregularVerbs.suffixes.pastParticiple ),
+		pastParticipleT: new Array( dataStrongAndIrregularVerbs.suffixes.pastParticipleT ),
+		pastParticipleEt: new Array( dataStrongAndIrregularVerbs.suffixes.pastParticipleEt ),
+		pastSubjunctive: dataStrongAndIrregularVerbs.suffixes.pastSubjunctive.slice(),
 	};
 
 	// Add class-specific suffixes.
-	const additionalSuffixes = dataStrongVerbs.suffixes.classDependent[ verbClass ];
+	const additionalSuffixes = dataStrongAndIrregularVerbs.suffixes.classDependent[ verbClass ];
 	const allSuffixes = { ...basicSuffixes, ...additionalSuffixes };
+	const forms = [];
+	// Check whether a given verb has stems that can be forms on their own, and if yes, add them to the array
+	const stemsThatCanBeForms = [ stems.present, stems.past, stems.presentSg ];
 
-	// Add the present and the past stem, since these can also be forms on their own.
-	const forms = [ stems.present, stems.past ];
+	for ( const stem of stemsThatCanBeForms ) {
+		if ( stem ) {
+			forms.push( stem );
+		}
+	}
 
 	forOwn( stems, function( stem, stemClass ) {
 		forms.push(
@@ -57,7 +66,7 @@ const generateFormsPerParadigm = function( morphologyDataVerbs, paradigm, stemme
 	stemsFlattened = flatten( stemsFlattened );
 
 	if ( stemsFlattened.includes( stemmedWordToCheck ) ) {
-		return addSuffixesStrongVerbParadigm( morphologyDataVerbs.strongVerbs, verbClass, stems );
+		return addSuffixesStrongVerbParadigm( morphologyDataVerbs.strongAndIrregularVerbs, verbClass, stems );
 	}
 
 	return [];
@@ -72,8 +81,8 @@ const generateFormsPerParadigm = function( morphologyDataVerbs, paradigm, stemme
  *
  * @returns {string[]} The created verb forms.
  */
-const generateFormsStrongVerbs = function( morphologyDataVerbs, stemmedWordToCheck ) {
-	const stems = morphologyDataVerbs.strongVerbs.stems;
+const generateFormsStrongAndIrregularVerbs = function( morphologyDataVerbs, stemmedWordToCheck ) {
+	const stems = morphologyDataVerbs.strongAndIrregularVerbs.stems;
 
 	for ( const paradigm of stems ) {
 		const forms = generateFormsPerParadigm( morphologyDataVerbs, paradigm, stemmedWordToCheck );
@@ -87,7 +96,27 @@ const generateFormsStrongVerbs = function( morphologyDataVerbs, stemmedWordToChe
 };
 
 /**
- * Checks whether a give stem stem falls into any of the verb exception categories and creates the
+ * Generates forms for very irregular verbs.
+ *
+ * @param {Object}  morphologyDataVerbs  The German morphology data for verbs.
+ * @param {string}  stemmedWordToCheck   The stem to check.
+ *
+ * @returns {string[]} The forms of the verb.
+ */
+const generateFormsVeryIrregularVerbs = function( morphologyDataVerbs, stemmedWordToCheck ) {
+	const irregularVerbs = morphologyDataVerbs.veryIrregularVerbs;
+	const matchedParadigm = irregularVerbs.find( paradigm => paradigm.stem === stemmedWordToCheck );
+
+	if ( matchedParadigm ) {
+		return matchedParadigm.forms;
+	}
+
+	return [];
+};
+
+
+/**
+ * Checks whether a given stem falls into any of the verb exception categories and creates the
  * correct forms if that is the case.
  *
  * @param {Object}  morphologyDataVerbs The German morphology data for verbs.
@@ -113,16 +142,14 @@ export function generateVerbExceptionForms( morphologyDataVerbs, stemmedWordToCh
 		foundPrefix = null;
 	}
 
-	// Check exceptions with full forms.
-	let exceptions = generateFormsStrongVerbs( morphologyDataVerbs, stemmedWordToCheck );
+	// Check strong and irregular exceptions with full forms.
+	let exceptions = generateFormsStrongAndIrregularVerbs( morphologyDataVerbs, stemmedWordToCheck ).length > 0
+		? generateFormsStrongAndIrregularVerbs( morphologyDataVerbs, stemmedWordToCheck )
+		: generateFormsVeryIrregularVerbs( morphologyDataVerbs, stemmedWordToCheck );
 
 	// If the original stem had a verb prefix, attach it to the found exception forms.
 	if ( typeof( foundPrefix ) === "string" ) {
 		exceptions = exceptions.map( word => foundPrefix + word );
-	}
-
-	if ( exceptions.length > 0 ) {
-		return exceptions;
 	}
 
 	return exceptions;
