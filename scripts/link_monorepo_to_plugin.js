@@ -1,4 +1,3 @@
-#!/usr/local/bin/node
 const fs = require( "fs" );
 const readlineSync = require( "readline-sync" );
 const execSync = require( "child_process" ).execSync;
@@ -167,6 +166,11 @@ checkout_branch_and_pull( javascriptBranch );
 
 const packages = execMonorepo( `ls packages` ).toString().split( "\n" ).filter( value => value !== "" );
 unlink_all_yoast_packages();
+
+// Just to be sure.
+execMonorepoNoOutput( `
+	yarn install
+` );
 
 execMonorepoNoOutput( `
 	yarn link-all
