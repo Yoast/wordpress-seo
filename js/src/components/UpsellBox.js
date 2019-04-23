@@ -3,9 +3,8 @@ import React from "react";
 import interpolateComponents from "interpolate-components";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { utils } from "yoast-components";
+import { makeOutboundLink } from "@yoast/helpers";
 
-const { makeOutboundLink } = utils;
 
 const StyledList = styled.ul`
 	list-style: none;

@@ -8,11 +8,11 @@ jest.mock( "../../src/containers/SnippetEditor", () => {
 	};
 } );
 
-jest.mock( "yoast-components", () => {
-	const yoastComponents = require.requireActual( "yoast-components" );
+jest.mock( "@yoast/components", () => {
+	const yoastComponents = require.requireActual( "@yoast/components" );
 	return {
 		...yoastComponents,
-		StyledSection: () => <span>yoast-components StyledSection</span>,
+		StyledSection: () => <span>@yoast/components StyledSection</span>,
 	};
 } );
 
