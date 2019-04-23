@@ -64,7 +64,7 @@ const findStemOnAdjectiveExceptionList = function( morphologyDataAdjectives, ste
  */
 const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord ) {
 	let wordToCheck = stemmedWord;
-	const strongVerbStems = morphologyDataVerbs.strongVerbs.stems;
+	const strongAndIrregularVerbStems = morphologyDataVerbs.strongAndIrregularVerbs.stems;
 	const prefixes = allGermanVerbPrefixesSorted( morphologyDataVerbs.prefixes );
 
 	let matchedPrefix = prefixes.find( prefix => stemmedWord.startsWith( prefix ) );
@@ -82,17 +82,17 @@ const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord )
 		}
 	}
 
-	for ( const strongVerbParadigm of strongVerbStems ) {
-		let stems = strongVerbParadigm.stems;
+	for ( const strongOrIrregularVerbParadigm of strongAndIrregularVerbStems ) {
+		let stems = strongOrIrregularVerbParadigm.stems;
 		stems = flatten( Object.values( stems ) );
 
 		if ( stems.includes( wordToCheck ) ) {
 			if ( matchedPrefix ) {
 				// The present tense stem is returned as a default stem.
-				return matchedPrefix + strongVerbParadigm.stems.present;
+				return matchedPrefix + strongOrIrregularVerbParadigm.stems.present;
 			}
 
-			return strongVerbParadigm.stems.present;
+			return strongOrIrregularVerbParadigm.stems.present;
 		}
 	}
 
@@ -108,7 +108,8 @@ const findStemOnVerbExceptionList = function( morphologyDataVerbs, stemmedWord )
  * @returns {string} Stemmed form of the word.
  */
 export function determineStem( word, morphologyDataGerman ) {
-	const stemmedWord = stem( word );
+	const verbData = morphologyDataGerman.verbs;
+	const stemmedWord = stem( verbData, word );
 
 	/*
 	 * Goes through the stem exception functions from left to right, returns the first stem it finds.
@@ -116,7 +117,7 @@ export function determineStem( word, morphologyDataGerman ) {
 	 */
 	return findStemOnNounExceptionList( morphologyDataGerman.nouns, stemmedWord ) ||
 		findStemOnAdjectiveExceptionList( morphologyDataGerman.adjectives, stemmedWord ) ||
-		findStemOnVerbExceptionList( morphologyDataGerman.verbs, stemmedWord ) ||
-		detectAndStemRegularParticiple( morphologyDataGerman.verbs, word ) ||
+		findStemOnVerbExceptionList( verbData, stemmedWord ) ||
+		detectAndStemRegularParticiple( verbData, word ) ||
 		stemmedWord;
 }

@@ -143,13 +143,46 @@ const deleteSuffix2 = function( word, index2, r1Index ) {
 	return word;
 };
 
+
+/**
+ * Stems irregular verbs.
+ *
+ * @param {Object} morphologyDataVerbs  The German morphology data for verbs.
+ * @param {string} word                 The word to stem.
+ *
+ * @returns {string} The stemmed word.
+ */
+const stemIrregularVerbs = function( morphologyDataVerbs, word ) {
+	const irregularVerbs = morphologyDataVerbs.veryIrregularVerbs;
+
+	const matchedParadigm = irregularVerbs.find( paradigm => {
+		const forms = paradigm.forms;
+		return forms.includes( word );
+	} );
+
+	if ( matchedParadigm ) {
+		return matchedParadigm.stem;
+	}
+
+	return null;
+};
+
 /**
  * Stems German words.
  *
- * @param {string} word The word to stem.
+ * @param {Object} morphologyDataVerbs  The German morphology data for verbs.
+ * @param {string} word                 The word to stem.
+ *
  * @returns {string} The stemmed word.
  */
-export default function stem( word ) {
+export default function stem( morphologyDataVerbs, word ) {
+	// Check if word is a very irregular verb, and if so, return its stem.
+	const veryIrregularVerbStem = stemIrregularVerbs( morphologyDataVerbs, word );
+
+	if ( veryIrregularVerbStem ) {
+		return veryIrregularVerbStem;
+	}
+
 	// Put u and y between vowels into upper case.
 	word = word.replace( /([aeiouyäöü])u([aeiouyäöü])/g, "$1U$2" );
 	word = word.replace( /([aeiouyäöü])y([aeiouyäöü])/g, "$1Y$2" );

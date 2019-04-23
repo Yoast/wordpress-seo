@@ -1,6 +1,6 @@
 {
   "name": "@yoast/search-metadata-previews",
-  "version": "1.0.0-rc.4",
+  "version": "1.0.0-rc.8",
   "private": false,
   "main": "src/index.js",
   "repository": {
@@ -13,14 +13,14 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint . --max-warnings=72",
-    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\""
+    "prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \"this.main='index.js'\" && cp .babelrc dist/.babelrc"
   },
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/components": "^0.1.0-rc.4",
-    "@yoast/helpers": "^0.1.0-rc.2",
-    "@yoast/style-guide": "^0.1.0-rc.3",
+    "@yoast/components": "^0.1.0-rc.6",
+    "@yoast/helpers": "^0.1.0-rc.3",
+    "@yoast/style-guide": "^0.1.0-rc.4",
     "draft-js": "^0.10.5",
     "draft-js-mention-plugin": "^3.0.4",
     "draft-js-plugins-editor": "^2.0.4",
@@ -29,15 +29,15 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.6.0",
     "react-transition-group": "^2.7.1",
-    "styled-components": "^2.1.2",
-    "yoastseo": "^1.51.0-rc.3"
+    "styled-components": "^4.2.0",
+    "yoastseo": "^1.51.0-rc.6"
   },
   "devDependencies": {
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
-    "jest-styled-components": "^5.0.1",
+    "jest-styled-components": "^6.3.1",
     "react": "16.6.3",
     "react-test-renderer": "^16.8.4"
   },

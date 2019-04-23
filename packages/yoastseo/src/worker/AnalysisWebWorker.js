@@ -1,7 +1,8 @@
 // External dependencies.
 import { autop } from "@wordpress/autop";
+import { enableFeatures } from "@yoast/feature-toggle";
 import Jed from "jed";
-import { forEach, has, includes, isNull, isObject, isString, isUndefined, merge, pickBy } from "lodash-es";
+import { forEach, has, includes, isNull, isObject, isString, isUndefined, merge, pickBy, isEmpty } from "lodash-es";
 import { getLogger } from "loglevel";
 
 // YoastSEO.js dependencies.
@@ -61,7 +62,7 @@ import Transporter from "./transporter";
 import wrapTryCatchAroundAction from "./wrapTryCatchAroundAction";
 
 // Tree assessor functionality.
-import buildTree from "../parsedPaper/build/tree";
+import TreeBuilder from "../parsedPaper/build/tree";
 import { constructReadabilityAssessor, constructSEOAssessor } from "../parsedPaper/assess/assessorFactories";
 import { ReadabilityScoreAggregator, SEOScoreAggregator } from "../parsedPaper/assess/scoreAggregators";
 import { TreeResearcher } from "../parsedPaper/research";
@@ -207,6 +208,9 @@ export default class AnalysisWebWorker {
 
 		// Tree representation of text to analyze
 		this._tree = null;
+
+		// Tree builder.
+		this._treeBuilder = new TreeBuilder();
 	}
 
 	/**
@@ -491,18 +495,19 @@ export default class AnalysisWebWorker {
 	/**
 	 * Configures the analysis worker.
 	 *
-	 * @param {number}  id                                     The request id.
-	 * @param {Object}  configuration                          The configuration object.
-	 * @param {boolean} [configuration.contentAnalysisActive]  Whether the content analysis is active.
-	 * @param {boolean} [configuration.keywordAnalysisActive]  Whether the keyword analysis is active.
-	 * @param {boolean} [configuration.useCornerstone]         Whether the paper is cornerstone or not.
-	 * @param {boolean} [configuration.useTaxonomy]            Whether the taxonomy assessor should be used.
-	 * @param {boolean} [configuration.useKeywordDistribution] Whether the keyphraseDistribution assessment should run.
-	 * @param {string}  [configuration.locale]                 The locale used in the seo assessor.
-	 * @param {Object}  [configuration.translations]           The translation strings.
-	 * @param {Object}  [configuration.researchData]           Extra research data.
-	 * @param {Object}  [configuration.defaultQueryParams]     The default query params for the Shortlinker.
-	 * @param {string}  [configuration.logLevel]               Log level, see: https://github.com/pimterry/loglevel#documentation
+	 * @param {number}   id                                     The request id.
+	 * @param {Object}   configuration                          The configuration object.
+	 * @param {boolean}  [configuration.contentAnalysisActive]  Whether the content analysis is active.
+	 * @param {boolean}  [configuration.keywordAnalysisActive]  Whether the keyword analysis is active.
+	 * @param {boolean}  [configuration.useCornerstone]         Whether the paper is cornerstone or not.
+	 * @param {boolean}  [configuration.useTaxonomy]            Whether the taxonomy assessor should be used.
+	 * @param {boolean}  [configuration.useKeywordDistribution] Whether the keyphraseDistribution assessment should run.
+	 * @param {string}   [configuration.locale]                 The locale used in the seo assessor.
+	 * @param {Object}   [configuration.translations]           The translation strings.
+	 * @param {Object}   [configuration.researchData]           Extra research data.
+	 * @param {Object}   [configuration.defaultQueryParams]     The default query params for the Shortlinker.
+	 * @param {string}   [configuration.logLevel]               Log level, see: https://github.com/pimterry/loglevel#documentation
+	 * @param {string[]} [configuration.enabledFeatures]        A list of feature name flags of the experimental features to enable.
 	 *
 	 * @returns {void}
 	 */
@@ -529,6 +534,12 @@ export default class AnalysisWebWorker {
 		if ( has( configuration, "logLevel" ) ) {
 			logger.setLevel( configuration.logLevel, false );
 			delete configuration.logLevel;
+		}
+
+		if ( has( configuration, "enabledFeatures" ) ) {
+			// Make feature flags available inside of the web worker.
+			enableFeatures( configuration.enabledFeatures );
+			delete  configuration.enabledFeatures;
 		}
 
 		this._configuration = merge( this._configuration, configuration );
@@ -740,13 +751,14 @@ export default class AnalysisWebWorker {
 		const paperHasChanges = this._paper === null || ! this._paper.equals( paper );
 		const shouldReadabilityUpdate = this.shouldReadabilityUpdate( paper );
 
+		// Only set the paper and build the tree if the paper has any changes.
 		if ( paperHasChanges ) {
 			this._paper = paper;
 			this._researcher.setPaper( this._paper );
 
 			// Try to build the tree, for analysis using the tree assessors.
 			try {
-				this._tree = buildTree( text );
+				this._tree = this._treeBuilder.build( text );
 			} catch ( exception ) {
 				console.error( "Yoast SEO and readability analysis: " +
 					"An error occurred during the building of the tree structure used for some assessments.\n\n", exception );
@@ -757,6 +769,7 @@ export default class AnalysisWebWorker {
 		}
 
 		if ( this._configuration.keywordAnalysisActive && this._seoAssessor ) {
+			// Only assess the focus keyphrase if the paper has any changes.
 			if ( paperHasChanges ) {
 				// Assess the SEO of the content regarding the main keyphrase.
 				this._results.seo[ "" ] = await this.assess( this._paper, this._tree, {
@@ -764,7 +777,10 @@ export default class AnalysisWebWorker {
 					treeAssessor: this._seoTreeAssessor,
 					scoreAggregator: this._seoScoreAggregator,
 				} );
+			}
 
+			// Only assess the related keyphrases when they have been given.
+			if ( ! isEmpty( relatedKeywords ) ) {
 				// Get the related keyphrase keys (one for each keyphrase).
 				const requestedRelatedKeywordKeys = Object.keys( relatedKeywords );
 
@@ -779,7 +795,7 @@ export default class AnalysisWebWorker {
 				// Clear the unrequested results, but only if there are requested related keywords.
 				if ( requestedRelatedKeywordKeys.length > 1 ) {
 					this._results.seo = pickBy( this._results.seo,
-						( relatedKeyword, key ) =>	includes( requestedRelatedKeywordKeys, key )
+						( relatedKeyword, key ) => includes( requestedRelatedKeywordKeys, key )
 					);
 				}
 			}

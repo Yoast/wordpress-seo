@@ -1,11 +1,11 @@
-import buildTree from "../../../../src/parsedPaper/build/tree/index";
+import buildTree from "../../../../../src/parsedPaper/build/tree/html/buildTree";
 import { Paragraph, StructuredNode, FormattingElement,
-	List, ListItem, Ignored, Heading, TextContainer } from "../../../../src/parsedPaper/structure/tree/index";
+	List, ListItem, Ignored, Heading, TextContainer } from "../../../../../src/parsedPaper/structure/tree";
 
-import htmlFile from "../../../fullTextTests/testTexts/en/englishPaper1.html";
-import htmlFile2 from "../../../fullTextTests/testTexts/de/germanPaper2.html";
+import htmlFile from "../../../../fullTextTests/testTexts/en/englishPaper1.html";
+import htmlFile2 from "../../../../fullTextTests/testTexts/de/germanPaper2.html";
 
-import fullTexts from "../../../fullTextTests/testTexts/index";
+import fullTexts from "../../../../fullTextTests/testTexts";
 
 describe( "build tree", () => {
 	it( "can build a tree from HTML source code", () => {

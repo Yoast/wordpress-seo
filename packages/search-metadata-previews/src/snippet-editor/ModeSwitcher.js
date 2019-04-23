@@ -42,11 +42,11 @@ const SwitcherButton = styled( Button )`
 	}
 `;
 
-const MobileButton = SwitcherButton.extend`
+const MobileButton = styled( SwitcherButton )`
 	border-radius: 3px 0 0 3px;
 `;
 
-const DesktopButton = SwitcherButton.extend`
+const DesktopButton = styled( SwitcherButton )`
 	border-radius: 0 3px 3px 0;
 `;
 

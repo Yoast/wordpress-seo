@@ -1,4 +1,4 @@
-import buildTree from "../../../../../src/parsedPaper/build/tree/buildTree";
+import buildTree from "../../../../../src/parsedPaper/build/tree/html/buildTree";
 import getElementContent from "../../../../../src/parsedPaper/build/tree/cleanup/getElementContent";
 
 describe( "getElementContent", () => {

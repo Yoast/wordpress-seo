@@ -3,38 +3,12 @@
 exports[`YoastWarning does not render without a message 1`] = `null`;
 
 exports[`YoastWarning matches the snapshot 1`] = `
-.c0 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 16px;
-  background: #ffeb3b;
-  color: #000;
-}
-
-.c1 {
-  margin-top: 2px;
-}
-
-.c3 {
-  margin: 0 0 0 8px;
-}
-
-.c2 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <div
-  className="c0"
+  className="PiBkT"
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-exclamation-triangle c1 c2"
+    className="yoast-svg-icon yoast-svg-icon-exclamation-triangle bCcBzk lphVpO"
     fill="currentColor"
     focusable="false"
     role="img"
@@ -47,7 +21,7 @@ exports[`YoastWarning matches the snapshot 1`] = `
     />
   </svg>
   <div
-    className="c3"
+    className="looCKm"
   >
     This is a warning message
     <a
@@ -64,38 +38,12 @@ exports[`YoastWarning matches the snapshot 1`] = `
 `;
 
 exports[`YoastWarning with a right to left language matches the snapshot 1`] = `
-.c0 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 16px;
-  background: #ffeb3b;
-  color: #000;
-}
-
-.c1 {
-  margin-top: 2px;
-}
-
-.c3 {
-  margin: 0 8px 0 0;
-}
-
-.c2 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <div
-  className="c0"
+  className="PiBkT"
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-exclamation-triangle c1 c2"
+    className="yoast-svg-icon yoast-svg-icon-exclamation-triangle bCcBzk lphVpO"
     fill="currentColor"
     focusable="false"
     role="img"
@@ -108,7 +56,7 @@ exports[`YoastWarning with a right to left language matches the snapshot 1`] = `
     />
   </svg>
   <div
-    className="c3"
+    className="iWSnrJ"
   >
     This is a warning message
     <a

@@ -1,33 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`StyledSection can change the heading level 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -45,30 +19,22 @@ exports[`StyledSection can change the heading level 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h4
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-file-text c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-file-text c1 eOQwFc gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -92,33 +58,7 @@ exports[`StyledSection can change the heading level 1`] = `
 `;
 
 exports[`StyledSection can change the icon to angle-down 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -136,30 +76,22 @@ exports[`StyledSection can change the icon to angle-down 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h2
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-down c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-angle-down c1 eOQwFc gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -181,33 +113,7 @@ exports[`StyledSection can change the icon to angle-down 1`] = `
 `;
 
 exports[`StyledSection can change the icon to angle-left 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -225,30 +131,22 @@ exports[`StyledSection can change the icon to angle-left 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h2
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-left c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-angle-left c1 eOQwFc gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -270,33 +168,7 @@ exports[`StyledSection can change the icon to angle-left 1`] = `
 `;
 
 exports[`StyledSection can change the icon to angle-right 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -314,30 +186,22 @@ exports[`StyledSection can change the icon to angle-right 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h2
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-right c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-angle-right c1 eOQwFc gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -359,33 +223,7 @@ exports[`StyledSection can change the icon to angle-right 1`] = `
 `;
 
 exports[`StyledSection can change the icon to angle-up 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -403,30 +241,22 @@ exports[`StyledSection can change the icon to angle-up 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h2
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-up c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-angle-up c1 eOQwFc gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -448,33 +278,7 @@ exports[`StyledSection can change the icon to angle-up 1`] = `
 `;
 
 exports[`StyledSection can change the icon to circle 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -492,30 +296,22 @@ exports[`StyledSection can change the icon to circle 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h2
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-circle c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-circle c1 eOQwFc gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -537,33 +333,7 @@ exports[`StyledSection can change the icon to circle 1`] = `
 `;
 
 exports[`StyledSection can change the icon to edit 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -581,30 +351,22 @@ exports[`StyledSection can change the icon to edit 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h2
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-edit c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-edit c1 eOQwFc gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -626,33 +388,7 @@ exports[`StyledSection can change the icon to edit 1`] = `
 `;
 
 exports[`StyledSection can change the icon to eye 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -670,30 +406,22 @@ exports[`StyledSection can change the icon to eye 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h2
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-eye c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-eye c1 eOQwFc gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -715,33 +443,7 @@ exports[`StyledSection can change the icon to eye 1`] = `
 `;
 
 exports[`StyledSection can change the icon to file-text 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -759,30 +461,22 @@ exports[`StyledSection can change the icon to file-text 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h2
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-file-text c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-file-text c1 eOQwFc gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -804,33 +498,7 @@ exports[`StyledSection can change the icon to file-text 1`] = `
 `;
 
 exports[`StyledSection can change the icon to key 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -848,30 +516,22 @@ exports[`StyledSection can change the icon to key 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h2
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-key c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-key c1 eOQwFc gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -893,33 +553,7 @@ exports[`StyledSection can change the icon to key 1`] = `
 `;
 
 exports[`StyledSection can change the icon to list 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -937,30 +571,22 @@ exports[`StyledSection can change the icon to list 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h2
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-list c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-list c1 eOQwFc gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -982,33 +608,7 @@ exports[`StyledSection can change the icon to list 1`] = `
 `;
 
 exports[`StyledSection can change the icon to question-circle 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1026,30 +626,22 @@ exports[`StyledSection can change the icon to question-circle 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h2
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-question-circle c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-question-circle c1 eOQwFc gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -1071,33 +663,7 @@ exports[`StyledSection can change the icon to question-circle 1`] = `
 `;
 
 exports[`StyledSection can change the icon to search 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1115,30 +681,22 @@ exports[`StyledSection can change the icon to search 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h2
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-search c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-search c1 eOQwFc gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -1160,33 +718,7 @@ exports[`StyledSection can change the icon to search 1`] = `
 `;
 
 exports[`StyledSection can change the icon to times 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1204,30 +736,22 @@ exports[`StyledSection can change the icon to times 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h2
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-times c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-times c1 eOQwFc gevFSm"
       fill="blue"
       focusable="false"
       role="img"
@@ -1249,33 +773,7 @@ exports[`StyledSection can change the icon to times 1`] = `
 `;
 
 exports[`StyledSection have a red icon 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1293,30 +791,22 @@ exports[`StyledSection have a red icon 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h2
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-search c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-search c1 eOQwFc gevFSm"
       fill="red"
       focusable="false"
       role="img"
@@ -1337,33 +827,7 @@ exports[`StyledSection have a red icon 1`] = `
 `;
 
 exports[`StyledSection match the snapshot 1`] = `
-.c2 {
-  margin-left: 0;
-  padding: 0;
-}
-
-.c0 {
-  box-shadow: 0 1px 2px rgba( 0,0,0,0.2 );
-  background-color: #fff;
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-}
-
-.c0 *,
-.c0 {
-  box-sizing: border-box;
-}
-
-.c0 *:before,
-.c0:before,
-.c0 *:after,
-.c0:after {
-  box-sizing: border-box;
-}
-
-.c0 .c1 {
+.noBqY .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -1381,30 +845,22 @@ exports[`StyledSection match the snapshot 1`] = `
   color: red;
 }
 
-.c0 .c3 {
+.noBqY .c1 {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin-right: 8px;
 }
 
-.c4 {
-  width: 16;
-  height: 16;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <section
-  className="yoast-section c0"
+  className="yoast-section noBqY"
 >
   <h2
-    className="c1 c2"
+    className="c0 fDabUE"
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-file-text c3 c4"
+      className="yoast-svg-icon yoast-svg-icon-file-text c1 eOQwFc gevFSm"
       fill="blue"
       focusable="false"
       role="img"

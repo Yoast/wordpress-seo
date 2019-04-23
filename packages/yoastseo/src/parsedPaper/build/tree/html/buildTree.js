@@ -1,7 +1,7 @@
 import { parseFragment } from "parse5";
 
 import TreeAdapter from "./TreeAdapter";
-import cleanUpTree from "./cleanup/postParsing";
+import cleanUpTree from "../cleanup/postParsing";
 
 /**
  * Parses the given html-string to a tree, to be used in further analysis.
