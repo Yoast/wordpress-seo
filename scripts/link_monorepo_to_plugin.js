@@ -1,4 +1,3 @@
-#!/usr/local/bin/node
 const fs = require( "fs" );
 const readlineSync = require( "readline-sync" );
 const execSync = require( "child_process" ).execSync;
