@@ -358,7 +358,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 						if ( in_array( $dirty[ $key ], array( 'company', 'person' ), true ) ) {
 							$clean[ $key ] = $dirty[ $key ];
 						} else {
-							$clean[ $key ] = 'company';
+							$clean[ $key ] = $this->get_defaults()[ 'company_or_person' ];
 						}
 					}
 					break;
