@@ -241,13 +241,12 @@ class WordPressUserSelector extends Component {
 	}
 }
 
-WordPressUserSelector.propTypes = {
+export const WordPressUserSelectorPropTypes = {
 	name: PropTypes.string.isRequired,
 	value: PropTypes.number.isRequired,
-	properties: PropTypes.shape( {
-		user: PropTypes.number,
-	} ).isRequired,
 	onChange: PropTypes.func.isRequired,
 };
+
+WordPressUserSelector.propTypes = WordPressUserSelectorPropTypes;
 
 export default WordPressUserSelector;
