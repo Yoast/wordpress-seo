@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Import_HeadSpace
+ * Class WPSEO_Import_HeadSpace.
  *
  * Class with functionality to import & clean HeadSpace SEO post metadata.
  */

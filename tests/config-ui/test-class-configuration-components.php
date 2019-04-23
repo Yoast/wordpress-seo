@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Configuration_Components_Tests
+ * Class WPSEO_Configuration_Components_Tests.
  */
 class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 
@@ -18,7 +18,7 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	protected $components;
 
 	/**
-	 * Set up
+	 * Set up.
 	 */
 	public function setUp() {
 		parent::setUp();

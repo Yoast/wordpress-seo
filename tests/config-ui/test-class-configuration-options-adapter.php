@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Configuration_Options_Adapter_Test
+ * Class WPSEO_Configuration_Options_Adapter_Test.
  */
 class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCase {
 
@@ -18,7 +18,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	protected $adapter;
 
 	/**
-	 * Set up
+	 * Set up.
 	 */
 	public function setUp() {
 		parent::setUp();

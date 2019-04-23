@@ -2,15 +2,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import {
-	utils,
-	HelpText,
-} from "yoast-components";
 
-import Collapsible from "./SidebarCollapsible";
-import { CornerstoneToggle } from "yoast-components";
+import { HelpText, Collapsible } from "@yoast/components";
+import { makeOutboundLink } from "@yoast/helpers";
+import { default as CornerstoneToggle } from "./CornerstoneToggle";
 import { LocationConsumer } from "./contexts/location";
-const LearnMoreLink = utils.makeOutboundLink();
+const LearnMoreLink = makeOutboundLink();
 
 /**
  * Renders the collapsible cornerstone toggle.
@@ -42,4 +39,8 @@ export default function CollapsibleCornerstone( { isCornerstone, onChange } ) {
 CollapsibleCornerstone.propTypes = {
 	isCornerstone: PropTypes.bool,
 	onChange: PropTypes.func,
+};
+CollapsibleCornerstone.defaultProps = {
+	isCornerstone: true,
+	onChange: () => {},
 };

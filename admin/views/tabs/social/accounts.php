@@ -4,7 +4,7 @@
  *
  * @package WPSEO\Admin\Views
  *
- * @uses Yoast_Form $yform Form object.
+ * @uses    Yoast_Form $yform Form object.
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -21,17 +21,72 @@ $social_profiles_help = new WPSEO_Admin_Help_Panel(
 	'has-wrapper'
 );
 
-echo '<h2 class="help-button-inline">' . esc_html__( 'Your social profiles', 'wordpress-seo' ) . $social_profiles_help->get_button_html() . '</h2>';
-echo $social_profiles_help->get_panel_html();
+$company_or_person = WPSEO_Options::get( 'company_or_person', '' );
+
+$organization_social_fields = array(
+	array(
+		'id'    => 'facebook_site',
+		'label' => __( 'Facebook Page URL', 'wordpress-seo' ),
+	),
+	array(
+		'id'    => 'twitter_site',
+		'label' => __( 'Twitter Username', 'wordpress-seo' ),
+	),
+	array(
+		'id'    => 'instagram_url',
+		'label' => __( 'Instagram URL', 'wordpress-seo' ),
+	),
+	array(
+		'id'    => 'linkedin_url',
+		'label' => __( 'LinkedIn URL', 'wordpress-seo' ),
+	),
+	array(
+		'id'    => 'myspace_url',
+		'label' => __( 'MySpace URL', 'wordpress-seo' ),
+	),
+	array(
+		'id'    => 'pinterest_url',
+		'label' => __( 'Pinterest URL', 'wordpress-seo' ),
+	),
+	array(
+		'id'    => 'youtube_url',
+		'label' => __( 'YouTube URL', 'wordpress-seo' ),
+	),
+	array(
+		'id'    => 'wikipedia_url',
+		'label' => __( 'Wikipedia URL', 'wordpress-seo' ),
+	),
+);
 
 $yform = Yoast_Form::get_instance();
-$yform->textinput( 'facebook_site', __( 'Facebook Page URL', 'wordpress-seo' ) );
-$yform->textinput( 'twitter_site', __( 'Twitter Username', 'wordpress-seo' ) );
-$yform->textinput( 'instagram_url', __( 'Instagram URL', 'wordpress-seo' ) );
-$yform->textinput( 'linkedin_url', __( 'LinkedIn URL', 'wordpress-seo' ) );
-$yform->textinput( 'myspace_url', __( 'MySpace URL', 'wordpress-seo' ) );
-$yform->textinput( 'pinterest_url', __( 'Pinterest URL', 'wordpress-seo' ) );
-$yform->textinput( 'youtube_url', __( 'YouTube URL', 'wordpress-seo' ) );
-$yform->textinput( 'wikipedia_url', __( 'Wikipedia URL', 'wordpress-seo' ) );
+
+if ( $company_or_person === 'person' ) {
+	echo '<div class="paper tab-block">';
+	echo '<h2><span class="dashicons dashicons-warning"></span> ' . esc_html__( 'Your website is currently configured to represent a Person', 'wordpress-seo' ) . '</h2>';
+	echo '<p><em>';
+	esc_html_e( 'That means that the form and information below is disabled, and not used.', 'wordpress-seo' );
+	echo '</em></p>';
+	echo '<p>';
+	$user_id = WPSEO_Options::get( 'company_or_person_user_id', '' );
+	$person  = get_userdata( $user_id );
+	printf( esc_html__( 'To change the social accounts used for your site, update the details for %1$s.', 'wordpress-seo' ), '<a href="' . admin_url( 'user-edit.php?user_id=' . $user_id ) . '">' . $person->display_name . '</a>' );
+	echo ' ';
+	printf( esc_html__( 'To make your site represent a Company or Organization go to %1$sSearch Appearance%2$s and set Organization or Person to "Organization".', 'wordpress-seo' ), '<a href="' . admin_url( 'admin.php?page=wpseo_titles' ) . '">', '</a>' );
+	echo '</p></div>';
+
+	// Organization social fields should still be rendered, because other wise the values are lost on save.
+	foreach ( $organization_social_fields as $organization ) {
+		$yform->hidden( $organization['id'] );
+	}
+}
+
+if ( $company_or_person === 'company' ) {
+	echo '<h2 class="help-button-inline">' . esc_html__( 'Organization social profiles', 'wordpress-seo' ) . $social_profiles_help->get_button_html() . '</h2>';
+	echo $social_profiles_help->get_panel_html();
+
+	foreach ( $organization_social_fields as $organization ) {
+		$yform->textinput( $organization['id'], $organization['label'] );
+	}
+}
 
 do_action( 'wpseo_admin_other_section' );

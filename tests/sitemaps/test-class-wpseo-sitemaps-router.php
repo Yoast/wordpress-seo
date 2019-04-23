@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Sitemaps_Router_Test
+ * Class WPSEO_Sitemaps_Router_Test.
  */
 class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 
@@ -47,7 +47,7 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 		set_query_var( 'sitemap', 'sitemap_value' );
 		$this->assertFalse( self::$class_instance->redirect_canonical( $url ) );
 
-		set_query_var( 'xsl', 'xsl_value' );
+		set_query_var( '$yoast_sitemap_xsl', 'xsl_value' );
 		$this->assertFalse( self::$class_instance->redirect_canonical( $url ) );
 	}
 

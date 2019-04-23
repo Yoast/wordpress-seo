@@ -6,9 +6,10 @@
  */
 
 /**
- * Helps with creating shortlinks in the plugin
+ * Helps with creating shortlinks in the plugin.
  */
 class WPSEO_Shortlinker {
+
 	/**
 	 * Collects the additional data necessary for the shortlink.
 	 *

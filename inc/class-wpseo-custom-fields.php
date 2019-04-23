@@ -6,7 +6,7 @@
  */
 
 /**
- * WPSEO_Custom_Fields
+ * WPSEO_Custom_Fields.
  */
 class WPSEO_Custom_Fields {
 

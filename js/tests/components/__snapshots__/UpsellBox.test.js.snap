@@ -1,6 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UpsellBox renders the snippet editor inside of it 1`] = `
+.c0 {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.c0 li {
+  margin: 5px 0 0 0;
+  padding-left: 16px;
+}
+
+.c0 span[aria-hidden="true"]:before {
+  margin: 0 8px 0 -16px;
+  font-weight: bold;
+  content: "+";
+}
+
+.c1 {
+  display: block;
+}
+
 <UpsellBox
   benefits={
     Array [
@@ -52,7 +73,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
       </a>
        test
     </p>
-    <.UpsellBox__StyledList-dEpVzC
+    <.UpsellBox__StyledList-gjf66g-0
       role="list"
     >
       <StyledComponent
@@ -61,9 +82,9 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
             "$$typeof": Symbol(react.forward_ref),
             "attrs": Array [],
             "componentStyle": ComponentStyle {
-              "componentId": "UpsellBox__StyledList-dEpVzC",
+              "componentId": "UpsellBox__StyledList-gjf66g-0",
               "isStatic": true,
-              "lastClassName": "ejrwkz",
+              "lastClassName": "c0",
               "rules": Array [
                 "list-style:none;margin:0 0 16px;padding:0;li{margin:5px 0 0 0;padding-left:16px;}span[aria-hidden=\\"true\\"]:before{margin:0 8px 0 -16px;font-weight:bold;content:\\"+\\";}",
               ],
@@ -71,7 +92,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
             "displayName": "UpsellBox__StyledList",
             "foldedComponentIds": Array [],
             "render": [Function],
-            "styledComponentId": "UpsellBox__StyledList-dEpVzC",
+            "styledComponentId": "UpsellBox__StyledList-gjf66g-0",
             "target": "ul",
             "toString": [Function],
             "warnTooManyClasses": [Function],
@@ -82,7 +103,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
         role="list"
       >
         <ul
-          className="UpsellBox__StyledList-dEpVzC ejrwkz"
+          className="c0"
           role="list"
         >
           <li
@@ -112,7 +133,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
           </li>
         </ul>
       </StyledComponent>
-    </.UpsellBox__StyledList-dEpVzC>
+    </.UpsellBox__StyledList-gjf66g-0>
     <OutboundLink
       aria-labelledby="label-id"
       className="class name"
@@ -132,23 +153,23 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
         />
         <A11yNotice>
           <span
-            className="A11yNotice-cySKx gKxLLd"
+            className="A11yNotice-sc-1feyioo-0 gHCoqL"
           >
             (Opens in a new browser tab)
           </span>
         </A11yNotice>
       </a>
     </OutboundLink>
-    <.UpsellBox__ButtonLabel-cipffA>
+    <.UpsellBox__ButtonLabel-gjf66g-1>
       <StyledComponent
         forwardedComponent={
           Object {
             "$$typeof": Symbol(react.forward_ref),
             "attrs": Array [],
             "componentStyle": ComponentStyle {
-              "componentId": "UpsellBox__ButtonLabel-cipffA",
+              "componentId": "UpsellBox__ButtonLabel-gjf66g-1",
               "isStatic": true,
-              "lastClassName": "kYzRHS",
+              "lastClassName": "c1",
               "rules": Array [
                 "display:block;",
               ],
@@ -156,7 +177,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
             "displayName": "UpsellBox__ButtonLabel",
             "foldedComponentIds": Array [],
             "render": [Function],
-            "styledComponentId": "UpsellBox__ButtonLabel-cipffA",
+            "styledComponentId": "UpsellBox__ButtonLabel-gjf66g-1",
             "target": "small",
             "toString": [Function],
             "warnTooManyClasses": [Function],
@@ -166,10 +187,10 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
         forwardedRef={null}
       >
         <small
-          className="UpsellBox__ButtonLabel-cipffA kYzRHS"
+          className="c1"
         />
       </StyledComponent>
-    </.UpsellBox__ButtonLabel-cipffA>
+    </.UpsellBox__ButtonLabel-gjf66g-1>
   </div>
 </UpsellBox>
 `;

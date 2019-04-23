@@ -111,8 +111,6 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
-	 *
-	 * @expectedException Exception Received unexpected response from MyYoast
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file_errored_and_wordpress_not_found() {
 		/** @var WPSEO_MyYoast_Proxy $instance */
@@ -207,8 +205,6 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
-	 *
-	 * @expectedException Exception Unable to retrieve file from MyYoast
 	 */
 	public function test_render_proxy_page_via_wordpress_errored() {
 		/** @var WPSEO_MyYoast_Proxy $instance */
@@ -278,7 +274,7 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Returns a successful WP_HTTP_Request_Response as an array.
 	 *
-	 * Use this in combination with WordPress's `pre_http_request` filter.
+	 * Use this in combination with WordPress' `pre_http_request` filter.
 	 *
 	 * @return array
 	 */
@@ -295,7 +291,7 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Returns a failed WP_HTTP_Request_Response as an array.
 	 *
-	 * Use this in combination with WordPress's `pre_http_request` filter.
+	 * Use this in combination with WordPress' `pre_http_request` filter.
 	 *
 	 * @return array
 	 */

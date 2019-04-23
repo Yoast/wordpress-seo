@@ -30,9 +30,9 @@ RaisedDefaultButton.propTypes = {
 
 RaisedDefaultButton.defaultProps = {
 	type: "",
-	disableFocusRipple: true,
+	disableFocusRipple: false,
 	disableTouchRipple: true,
-	disableKeyboardFocus: true,
+	disableKeyboardFocus: false,
 };
 
 export default RaisedDefaultButton;

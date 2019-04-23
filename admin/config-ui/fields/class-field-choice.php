@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Choice
+ * Class WPSEO_Config_Field_Choice.
  */
 class WPSEO_Config_Field_Choice extends WPSEO_Config_Field {
 
@@ -22,7 +22,7 @@ class WPSEO_Config_Field_Choice extends WPSEO_Config_Field {
 	}
 
 	/**
-	 * Add a choice to the properties
+	 * Add a choice to the properties.
 	 *
 	 * @param string $value      Value op the option.
 	 * @param string $label      Label to display for the value.

@@ -7,7 +7,7 @@
 
 if ( class_exists( 'WP_REST_Server' ) ) :
 	/**
-	 * Class WPSEO_WP_REST_Server_Mock
+	 * Class WPSEO_WP_REST_Server_Mock.
 	 */
 	class WPSEO_WP_REST_Server_Mock extends WP_REST_Server {
 

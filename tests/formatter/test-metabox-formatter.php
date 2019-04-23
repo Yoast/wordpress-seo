@@ -11,7 +11,7 @@
 class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Test with getting the values
+	 * Test with getting the values.
 	 *
 	 * @covers WPSEO_Metabox_Formatter::__construct
 	 * @covers WPSEO_Metabox_Formatter::get_values
@@ -50,7 +50,7 @@ class WPSEO_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 		wp_mkdir_p( plugin_dir_path( WPSEO_FILE ) . 'languages' );
 		file_put_contents(
 			$file_name,
-			wp_json_encode( array( 'key' => 'value' ) )
+			WPSEO_Utils::format_json_encode( array( 'key' => 'value' ) )
 		);
 
 		$class_instance = new WPSEO_Metabox_Formatter(

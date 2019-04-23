@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Abstract_Post_Filter
+ * Class WPSEO_Abstract_Post_Filter.
  */
 abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration {
 
@@ -16,7 +16,7 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	const FILTER_QUERY_ARG = 'yoast_filter';
 
 	/**
-	 * Modify the query based on the FILTER_QUERY_ARG variable in $_GET
+	 * Modify the query based on the FILTER_QUERY_ARG variable in $_GET.
 	 *
 	 * @param string $where Query variables.
 	 *

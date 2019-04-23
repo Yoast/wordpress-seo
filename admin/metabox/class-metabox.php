@@ -188,7 +188,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$values = $post_formatter->get_values();
 
-		/** This filter is documented in admin/filters/class-cornerstone-filter.php */
+		/** This filter is documented in admin/filters/class-cornerstone-filter.php. */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', WPSEO_Post_Type::get_accessible_post_types() );
 		if ( $values['cornerstoneActive'] && ! in_array( $post->post_type, $post_types, true ) ) {
 			$values['cornerstoneActive'] = false;
@@ -778,6 +778,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			'url'                     => $analysis_worker_location->get_url( $analysis_worker_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 			'keywords_assessment_url' => $used_keywords_assessment_location->get_url( $used_keywords_assessment_location->get_asset(), WPSEO_Admin_Asset::TYPE_JS ),
 			'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
+			// We need to make the feature flags separately available inside of the analysis web worker.
+			'enabled_features'        => WPSEO_Utils::retrieve_enabled_features(),
 		);
 		wp_localize_script(
 			WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper',
@@ -796,6 +798,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoAdminL10n', WPSEO_Utils::get_admin_l10n() );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoSelect2Locale', WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ) );
+
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'metabox', 'wpseoFeaturesL10n', WPSEO_Utils::retrieve_enabled_features() );
 
 		if ( post_type_supports( get_post_type(), 'thumbnail' ) ) {
 			$asset_manager->enqueue_style( 'featured-image' );
@@ -857,7 +861,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Prepares the replace vars for localization.
 	 *
-	 * @return array replace vars
+	 * @return array Replace vars.
 	 */
 	private function get_replace_vars() {
 		$post = $this->get_metabox_post();

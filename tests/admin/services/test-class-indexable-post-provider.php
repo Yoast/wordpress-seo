@@ -374,7 +374,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Creates a revision.
 	 *
-	 * @return int The post id.
+	 * @return int The post ID.
 	 */
 	public function get_revision() {
 		return self::factory()->post->create(
@@ -388,7 +388,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Creates an auto save post.
 	 *
-	 * @return int The post id.
+	 * @return int The post ID.
 	 */
 	public function get_auto_save() {
 		return self::factory()->post->create(

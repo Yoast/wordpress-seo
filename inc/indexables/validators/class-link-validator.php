@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Link_Validator
+ * Class WPSEO_Link_Validator.
  */
 class WPSEO_Link_Validator implements WPSEO_Endpoint_Validator {
 

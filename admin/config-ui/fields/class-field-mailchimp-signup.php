@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Mailchimp_Signup
+ * Class WPSEO_Config_Field_Mailchimp_Signup.
  */
 class WPSEO_Config_Field_Mailchimp_Signup extends WPSEO_Config_Field {
 
@@ -43,7 +43,7 @@ class WPSEO_Config_Field_Mailchimp_Signup extends WPSEO_Config_Field {
 	}
 
 	/**
-	 * Get the data
+	 * Get the data.
 	 *
 	 * @return array
 	 */

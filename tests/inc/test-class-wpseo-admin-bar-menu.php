@@ -262,7 +262,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the situation where the given object doesn't have an id.
+	 * Tests the situation where the given object doesn't have an ID.
 	 *
 	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword()
 	 */

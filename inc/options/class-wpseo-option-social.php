@@ -39,7 +39,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'opengraph'             => true,
 		'pinterest_url'         => '',
 		'pinterestverify'       => '',
-		'plus-publisher'        => '', // Text field.
 		'twitter'               => true,
 		'twitter_site'          => '', // Text field.
 		'twitter_card_type'     => 'summary_large_image',
@@ -117,7 +116,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 
 		foreach ( $clean as $key => $value ) {
 			switch ( $key ) {
-				/* text fields */
+				/* Text fields. */
 				case 'og_frontpage_desc':
 				case 'og_frontpage_title':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
@@ -142,7 +141,6 @@ class WPSEO_Option_Social extends WPSEO_Option {
 				case 'linkedin_url':
 				case 'myspace_url':
 				case 'pinterest_url':
-				case 'plus-publisher':
 				case 'og_default_image':
 				case 'og_frontpage_image':
 				case 'youtube_url':
@@ -154,11 +152,12 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					$this->validate_verification_string( $key, $dirty, $old, $clean );
 					break;
 
-				/* twitter user name */
+				/* Twitter user name. */
 				case 'twitter_site':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$twitter_id = sanitize_text_field( ltrim( $dirty[ $key ], '@' ) );
-						/**
+
+						/*
 						 * From the Twitter documentation about twitter screen names:
 						 * Typically a maximum of 15 characters long, but some historical accounts
 						 * may exist with longer names.
@@ -184,7 +183,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 							if ( function_exists( 'add_settings_error' ) ) {
 								add_settings_error(
 									$this->group_name, // Slug title of the setting.
-									'_' . $key, // Suffix-id for the error message box.
+									'_' . $key, // Suffix-ID for the error message box.
 									sprintf(
 										/* translators: %s expands to a twitter user name. */
 										__( '%s does not seem to be a valid Twitter user-id. Please correct.', 'wordpress-seo' ),
@@ -204,7 +203,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					}
 					break;
 
-				/* boolean fields */
+				/* Boolean fields. */
 				case 'opengraph':
 				case 'twitter':
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );

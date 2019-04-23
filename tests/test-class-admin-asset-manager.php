@@ -128,7 +128,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		);
 		$this->asset_manager->register_script( new WPSEO_Admin_Asset( $asset_args ) );
 
-		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
+		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2.
 		// Use the WordPress internals to assert instead.
 		global $wp_scripts;
 
@@ -144,7 +144,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the Asset Manager works with a custom prefix
+	 * Test if the Asset Manager works with a custom prefix.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
 	 */
@@ -158,7 +158,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		);
 		$asset_manager->register_script( new WPSEO_Admin_Asset( $asset_args ) );
 
-		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
+		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2.
 		// Use the WordPress internals to assert instead.
 		global $wp_scripts;
 
@@ -176,7 +176,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		);
 		$this->asset_manager->register_script( new WPSEO_Admin_Asset( $asset_args ) );
 
-		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
+		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2.
 		// Use the WordPress internals to assert instead.
 		global $wp_scripts;
 
@@ -198,7 +198,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		);
 		$this->asset_manager->register_style( new WPSEO_Admin_Asset( $asset_args ) );
 
-		// We really want to mock wp_enqueue_style here but we can't because of PHP 5.2
+		// We really want to mock wp_enqueue_style here but we can't because of PHP 5.2.
 		// Use the WordPress internals to assert instead.
 		global $wp_styles;
 
@@ -214,7 +214,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the Asset Manager works with a custom prefix
+	 * Test if the Asset Manager works with a custom prefix.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_style
 	 */
@@ -228,7 +228,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		);
 		$asset_manager->register_style( new WPSEO_Admin_Asset( $asset_args ) );
 
-		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
+		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2.
 		// Use the WordPress internals to assert instead.
 		global $wp_scripts;
 
@@ -246,7 +246,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		);
 		$this->asset_manager->register_style( new WPSEO_Admin_Asset( $asset_args ) );
 
-		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2
+		// We really want to mock wp_enqueue_script here but we can't because of PHP 5.2.
 		// Use the WordPress internals to assert instead.
 		global $wp_styles;
 
@@ -365,7 +365,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the flatten_version function
+	 * Tests the flatten_version function.
 	 *
 	 * @covers WPSEO_Admin_Asset_Manager::flatten_version
 	 * @dataProvider flatten_version_provider

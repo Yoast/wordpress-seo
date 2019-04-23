@@ -295,7 +295,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 						// The data is stringified JSON. Use `json_decode` and `json_encode` around the sanitation.
 						$input         = json_decode( $meta_data[ $key ], true );
 						$sanitized     = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), $input );
-						$clean[ $key ] = wp_json_encode( $sanitized );
+						$clean[ $key ] = WPSEO_Utils::format_json_encode( $sanitized );
 					}
 					elseif ( isset( $old_meta[ $key ] ) ) {
 						// Retain old value if field currently not in use.
@@ -317,7 +317,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 							);
 						}
 
-						$clean[ $key ] = wp_json_encode( $sanitized );
+						$clean[ $key ] = WPSEO_Utils::format_json_encode( $sanitized );
 					}
 					elseif ( isset( $old_meta[ $key ] ) ) {
 						// Retain old value if field currently not in use.
@@ -400,7 +400,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 									case 'wpseo_title':
 									case 'wpseo_desc':
 									case 'wpseo_linkdex':
-										// @todo [JRF => whomever] needs checking, I don't have example data [JRF].
+										// @todo [JRF => whomever] Needs checking, I don't have example data [JRF].
 										if ( $value !== '' ) {
 											// Fix incorrectly saved (encoded) canonical urls and texts.
 											$option_value[ $taxonomy ][ $term_id ][ $key ] = wp_specialchars_decode( stripslashes( $value ), ENT_QUOTES );
@@ -408,7 +408,7 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 										break;
 
 									default:
-										// @todo [JRF => whomever] needs checking, I don't have example data [JRF].
+										// @todo [JRF => whomever] Needs checking, I don't have example data [JRF].
 										if ( $value !== '' ) {
 											// Fix incorrectly saved (escaped) text strings.
 											$option_value[ $taxonomy ][ $term_id ][ $key ] = wp_specialchars_decode( $value, ENT_QUOTES );

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Validator
+ * Class WPSEO_Validator.
  */
 class WPSEO_Validator {
 

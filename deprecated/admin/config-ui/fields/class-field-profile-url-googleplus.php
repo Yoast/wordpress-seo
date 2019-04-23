@@ -8,7 +8,7 @@
 _deprecated_file( __FILE__, 'WPSEO 10.1' );
 
 /**
- * Class WPSEO_Config_Field_Profile_URL_GooglePlus
+ * Class WPSEO_Config_Field_Profile_URL_GooglePlus.
  *
  * @deprecated 10.1
  */

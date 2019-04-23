@@ -6,7 +6,7 @@
  */
 
 /**
- * This class handles the calculation of the SEO score for all terms
+ * This class handles the calculation of the SEO score for all terms.
  */
 class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 
@@ -92,7 +92,7 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 	}
 
 	/**
-	 * Gets the focus keyword for the term
+	 * Gets the focus keyword for the term.
 	 *
 	 * @param stdClass|WP_Term $term Term to determine the keyword for.
 	 *
@@ -108,7 +108,7 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 	}
 
 	/**
-	 * Get the title for given term
+	 * Get the title for given term.
 	 *
 	 * @param stdClass|WP_Term $term The term object.
 	 *
@@ -129,7 +129,7 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 	}
 
 	/**
-	 * Get the meta description for given post
+	 * Get the meta description for given post.
 	 *
 	 * @param stdClass|WP_Term $term The term object.
 	 *

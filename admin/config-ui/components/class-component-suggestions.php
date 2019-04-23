@@ -37,7 +37,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				array(
 					'label' => __( 'Upgrade to Premium', 'wordpress-seo' ),
 					'type'  => 'primary',
-					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-premium' ),
+					'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-premium' ),
 				),
 				array(
 					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-yoast-seo-premium' ),
@@ -60,7 +60,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 			array(
 				'label' => 'Keyword research training',
 				'type'  => 'link',
-				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/3lg' ),
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/3lg' ),
 			),
 			array(
 				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/3lf' ),
@@ -80,7 +80,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 			array(
 				'label' => 'Yoast SEO plugin training',
 				'type'  => 'link',
-				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-plugin-course' ),
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-plugin-course' ),
 			),
 			array(
 				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-plugin-course' ),
@@ -127,7 +127,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 	}
 
 	/**
-	 * Save data
+	 * Save data.
 	 *
 	 * @param array $data Data containing changes.
 	 *

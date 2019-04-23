@@ -86,7 +86,6 @@ class WPSEO_Frontend {
 		add_action( 'wpseo_head', array( $this, 'robots' ), 10 );
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
-		add_action( 'wpseo_head', array( $this, 'publisher' ), 22 );
 
 		// Remove actions that we will handle through our wpseo_head call, and probably change the output of.
 		remove_action( 'wp_head', 'rel_canonical' );
@@ -140,7 +139,7 @@ class WPSEO_Frontend {
 
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
-			new WPSEO_JSON_LD(),
+			new WPSEO_Schema(),
 			new WPSEO_Handle_404(),
 			new WPSEO_Remove_Reply_To_Com(),
 			new WPSEO_OpenGraph_OEmbed(),
@@ -1148,22 +1147,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Output the rel=publisher code on every page of the site.
-	 *
-	 * @return boolean Boolean indicating whether the publisher link was printed.
-	 */
-	public function publisher() {
-		$publisher = WPSEO_Options::get( 'plus-publisher', '' );
-		if ( $publisher !== '' ) {
-			echo '<link rel="publisher" href="', esc_url( $publisher ), '"/>', "\n";
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Outputs the meta description element or returns the description text.
 	 *
 	 * @param bool $echo Echo or return output flag.
@@ -1925,5 +1908,18 @@ class WPSEO_Frontend {
 		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
 
 		return $title;
+	}
+
+	/**
+	 * Output the rel=publisher code on every page of the site.
+	 *
+	 * @deprecated 10.1.3
+	 *
+	 * @return boolean Boolean indicating whether the publisher link was printed.
+	 */
+	public function publisher() {
+		_deprecated_function( __METHOD__, 'WPSEO 10.1.3' );
+
+		return false;
 	}
 }

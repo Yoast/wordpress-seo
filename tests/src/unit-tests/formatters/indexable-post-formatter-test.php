@@ -6,7 +6,7 @@ use Yoast\Tests\Doubles\Indexable_Post_Formatter_Double as Indexable_Post_Double
 
 
 /**
- * Class Indexable_Post_Test
+ * Class Indexable_Post_Test.
  *
  * @group indexables
  * @group formatters
@@ -97,7 +97,7 @@ class Indexable_Post_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests retreiving a meta value
+	 * Tests retreiving a meta value.
 	 *
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_meta_value()
 	 */
@@ -110,7 +110,7 @@ class Indexable_Post_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests the robots noindex lookup method
+	 * Tests the robots noindex lookup method.
 	 *
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_robots_noindex()
 	 */
@@ -130,7 +130,7 @@ class Indexable_Post_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if robot options returns the expected type of data
+	 * Tests if robot options returns the expected type of data.
 	 *
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_robots_options()
 	 */
@@ -162,7 +162,7 @@ class Indexable_Post_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the meta lookup returns the expected type of data
+	 * Tests if the meta lookup returns the expected type of data.
 	 *
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_indexable_lookup()
 	 */
@@ -172,7 +172,7 @@ class Indexable_Post_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the meta lookup returns the expected type of data
+	 * Tests if the meta lookup returns the expected type of data.
 	 *
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_indexable_meta_lookup()
 	 */

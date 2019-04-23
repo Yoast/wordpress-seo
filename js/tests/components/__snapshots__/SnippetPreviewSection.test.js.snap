@@ -1,6 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] = `
+.c0 {
+  max-width: 640px;
+}
+
+.c0.StyledSection__StyledSectionBase-enyt8a-2 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.c0.StyledSection__StyledSectionBase-enyt8a-2 .StyledSection__StyledHeading-enyt8a-0 {
+  padding-left: 20px;
+  margin-left: 0;
+}
+
 <SnippetPreviewSection
   hasPaperStyle={true}
   icon="eye"
@@ -11,7 +25,7 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
   }
   title="Snippet editor"
 >
-  <.SnippetPreviewSection__Section-bYQhwr
+  <.SnippetPreviewSection__Section-gjy5w5-0
     hasPaperStyle={true}
     headingIcon="eye"
     headingIconColor="#555"
@@ -24,14 +38,14 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
           "$$typeof": Symbol(react.forward_ref),
           "attrs": Array [],
           "componentStyle": ComponentStyle {
-            "componentId": "SnippetPreviewSection__Section-bYQhwr",
+            "componentId": "SnippetPreviewSection__Section-gjy5w5-0",
             "isStatic": false,
-            "lastClassName": "cDWOXp",
+            "lastClassName": "c0",
             "rules": Array [
               "max-width:640px;&",
-              ".StyledSection__StyledSectionBase-bjEsGU",
+              ".StyledSection__StyledSectionBase-enyt8a-2",
               "{padding-left:0;padding-right:0;& ",
-              ".StyledSection__StyledHeading-AtINZ",
+              ".StyledSection__StyledHeading-enyt8a-0",
               "{",
               [Function],
               ":20px;margin-left:",
@@ -42,7 +56,7 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
           "displayName": "SnippetPreviewSection__Section",
           "foldedComponentIds": Array [],
           "render": [Function],
-          "styledComponentId": "SnippetPreviewSection__Section-bYQhwr",
+          "styledComponentId": "SnippetPreviewSection__Section-gjy5w5-0",
           "target": [Function],
           "toString": [Function],
           "warnTooManyClasses": [Function],
@@ -58,7 +72,7 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
       headingText="Snippet editor"
     >
       <StyledSection
-        className="SnippetPreviewSection__Section-bYQhwr cDWOXp"
+        className="c0"
         hasPaperStyle={true}
         headingIcon="eye"
         headingIconColor="#555"
@@ -66,15 +80,29 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
         headingText="Snippet editor"
       >
         <span>
-          yoast-components StyledSection
+          @yoast/components StyledSection
         </span>
       </StyledSection>
     </StyledComponent>
-  </.SnippetPreviewSection__Section-bYQhwr>
+  </.SnippetPreviewSection__Section-gjy5w5-0>
 </SnippetPreviewSection>
 `;
 
 exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
+.c0 {
+  max-width: 640px;
+}
+
+.c0.StyledSection__StyledSectionBase-enyt8a-2 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.c0.StyledSection__StyledSectionBase-enyt8a-2 .StyledSection__StyledHeading-enyt8a-0 {
+  padding-left: 20px;
+  margin-left: 0;
+}
+
 <SnippetPreviewSection
   hasPaperStyle={true}
   icon="eye"
@@ -85,7 +113,7 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
   }
   title="Snippet editor"
 >
-  <.SnippetPreviewSection__Section-bYQhwr
+  <.SnippetPreviewSection__Section-gjy5w5-0
     hasPaperStyle={true}
     headingIcon="eye"
     headingIconColor="#555"
@@ -98,14 +126,14 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
           "$$typeof": Symbol(react.forward_ref),
           "attrs": Array [],
           "componentStyle": ComponentStyle {
-            "componentId": "SnippetPreviewSection__Section-bYQhwr",
+            "componentId": "SnippetPreviewSection__Section-gjy5w5-0",
             "isStatic": false,
-            "lastClassName": "cDWOXp",
+            "lastClassName": "c0",
             "rules": Array [
               "max-width:640px;&",
-              ".StyledSection__StyledSectionBase-bjEsGU",
+              ".StyledSection__StyledSectionBase-enyt8a-2",
               "{padding-left:0;padding-right:0;& ",
-              ".StyledSection__StyledHeading-AtINZ",
+              ".StyledSection__StyledHeading-enyt8a-0",
               "{",
               [Function],
               ":20px;margin-left:",
@@ -116,7 +144,7 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
           "displayName": "SnippetPreviewSection__Section",
           "foldedComponentIds": Array [],
           "render": [Function],
-          "styledComponentId": "SnippetPreviewSection__Section-bYQhwr",
+          "styledComponentId": "SnippetPreviewSection__Section-gjy5w5-0",
           "target": [Function],
           "toString": [Function],
           "warnTooManyClasses": [Function],
@@ -132,7 +160,7 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
       headingText="Snippet editor"
     >
       <StyledSection
-        className="SnippetPreviewSection__Section-bYQhwr cDWOXp"
+        className="c0"
         hasPaperStyle={true}
         headingIcon="eye"
         headingIconColor="#555"
@@ -140,10 +168,10 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
         headingText="Snippet editor"
       >
         <span>
-          yoast-components StyledSection
+          @yoast/components StyledSection
         </span>
       </StyledSection>
     </StyledComponent>
-  </.SnippetPreviewSection__Section-bYQhwr>
+  </.SnippetPreviewSection__Section-gjy5w5-0>
 </SnippetPreviewSection>
 `;
