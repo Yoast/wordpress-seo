@@ -4,6 +4,7 @@ const readlineSync = require( "readline-sync" );
 const execSync = require( "child_process" ).execSync;
 
 const IS_TRAVIS = process.env.CI === "1";
+const TRAVIS_BRANCH = process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.TRAVIS_BRANCH;
 
 let monorepoLocation;
 
@@ -27,11 +28,14 @@ function get_monorepo_location_from_file() {
 	}
 
 	while ( ! is_valid_monorepo_location( location ) ) {
-		console.log( "The location you've in your .yoast file or the location you've provided is not valid. Please provide a new location for your javascript clone." );
-		location = readlineSync.question( "Where is your monorepo git clone located? Please provide an absolute path or a path relative to the current directory '" + process.cwd() + "'.\n" );
+		location = readlineSync.question( "The location in your .yoast file or the location you've provided is not valid. " +
+			"Please provide the location of your javascript clone." +
+			"Where is your monorepo git clone located? " +
+			"Please provide an absolute path or a path relative to the current directory '" + process.cwd() + "." +
+			" (note that ~ is not supported)'.\n" );
 	}
 
-	const newConfig = Object.assign( {}, yoastConfig, { location } );
+	const newConfig = Object.assign( {}, yoastConfig, { "monorepo-location": location } );
 	try {
 		save_configuration( newConfig );
 	} catch ( e ) {
@@ -85,10 +89,13 @@ function is_valid_monorepo_location( location ) {
 	if ( ! fs.existsSync( location ) ) {
 		return false;
 	}
-	return execSync( `cd ${ location }; git config --get remote.origin.url;` ).includes( "Yoast/javascript" );
 
+	try {
+		return execSync( `cd ${ location }; git config --get remote.origin.url;` ).includes( "Yoast/javascript" );
+	} catch ( e ) {
+		return false;
+	}
 }
-
 
 /**
  * Unlink all the yoast packages that are linked in the ~/.config/yarn/link directory.
@@ -106,40 +113,37 @@ function unlink_all_yoast_packages() {
 
 	// Remove the symlinks from node_modules.
 	execSync( `rm -rf *yoast*`, { cwd: "./node_modules/" } );
-
-	console.log( "All previously linked yoast packages have been unlinked." );
-}
-
-function get_yoast_seo_travis_branch(){
-	return process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.TRAVIS_BRANCH;
-}
-
-function prepare_monorepo_state() {
-	console.log( "Fetching the latest branches in the monorepo." );
-	execMonorepoNoOutput( `git fetch` );
-
-	if ( IS_TRAVIS ) {
-		const yoast_seo_branch = get_yoast_seo_travis_branch();
-		checkout_monorepo_branch( yoast_seo_branch );
-	}
-
-	execMonorepoNoOutput( `git pull` );
 }
 
 function checkout_monorepo_branch( yoast_seo_branch ) {
 	const monorepo_branch = yoast_seo_branch === "trunk" ? "develop" : yoast_seo_branch;
-	console.log( "Checking out " + monorepo_branch + " on the monorepo." );
+
 	execMonorepoNoOutput( `git checkout ${ monorepo_branch }` );
+	return monorepo_branch;
 }
 
-
+// Start the script.
 console.log( `Your monorepo is located in "${ get_monorepo_location_from_file() }". ` );
 
-prepare_monorepo_state();
+console.log( "Fetching branches of the monorepo." );
+execMonorepoNoOutput( `git fetch` );
+if ( IS_TRAVIS ) {
+	const monorepo_branch = checkout_monorepo_branch( TRAVIS_BRANCH );
+	console.log( "Checking out " + monorepo_branch + "on the monorepo." );
+}
+console.log( "Pulling the latest monorepo changes." );
+execMonorepoNoOutput( `git pull` );
+
 
 const packages = execMonorepo( `ls packages` ).toString().split( "\n" ).filter( value => value !== "" );
-unlink_all_yoast_packages();
 
+
+console.log( "Unlinking previously linked Yoast packages from Yarn." );
+unlink_all_yoast_packages();
+console.log( "All previously linked Yoast packages have been unlinked." );
+
+
+console.log( "Linking all monorepo packages." );
 execMonorepoNoOutput( `yarn link-all` );
 console.log( "Packages have been linked inside the monorepo." );
 
@@ -149,6 +153,11 @@ for ( let x in packages ) {
 	} catch ( e ) {
 	}
 }
-console.log( "Successfully linked all new packages. Linking old format packages now." );
+console.log( "Successfully linked all new packages to your project." );
+
+console.log( "Linking legacy Yoast packages." );
 execSync( `yarn link yoastseo; yarn link yoast-components;`, NO_OUTPUT );
-console.log( "Successfully linked all packages. Done." );
+console.log( "Successfully lagacy Yoast packages." );
+
+console.log( "Reinstall any Yoast packages that were unintentionally removed and are not linked after the linking process. This could take a while..." );
+execSync( `yarn install --check-files` );
