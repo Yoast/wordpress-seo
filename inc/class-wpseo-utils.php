@@ -1179,24 +1179,41 @@ SVG;
 		return wp_json_encode( $data, $flags );
 	}
 
-
 	/**
 	 * Output a Schema blob.
 	 *
 	 * @param array  $graph The Schema graph array to output.
 	 * @param string $class The (optional) class to add to the script tag.
+	 *
+	 * @return bool
 	 */
 	public static function schema_output( $graph, $class = 'yoast-schema-graph' ) {
 		if ( ! is_array( $graph ) || empty( $graph ) ) {
-			return;
+			return false;
+		}
+
+		echo self::schema_tag( $graph, $class );
+		return true;
+	}
+
+	/**
+	 * Returns a script tag with Schema blob.
+	 *
+	 * @param array  $graph The Schema graph array to output.
+	 * @param string $class The (optional) class to add to the script tag.
+	 *
+	 * @return false|string A schema blob with script tags.
+	 */
+	public static function schema_tag( $graph, $class = 'yoast-schema-graph' ) {
+		if ( ! is_array( $graph ) || empty( $graph ) ) {
+			return false;
 		}
 
 		$output = array(
 			'@context' => 'https://schema.org',
 			'@graph'   => $graph,
 		);
-
-		echo "<script type='application/ld+json' class='", esc_attr( $class ), "'>", self::format_json_encode( $output ), '</script>', "\n";
+		return "<script type='application/ld+json' class='" . esc_attr( $class ) . "'>" . self::format_json_encode( $output ) . '</script>' . "\n";
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */

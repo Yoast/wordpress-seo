@@ -1,7 +1,6 @@
 /* External dependencies */
 import { applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import logger from "redux-logger";
 import flowRight from "lodash/flowRight";
 
 /**
@@ -13,10 +12,6 @@ export default function configureEnhancers() {
 	const middleware = [
 		thunk,
 	];
-
-	if ( process.env.NODE_ENV !== "production" ) {
-		middleware.push( logger );
-	}
 
 	const enhancers = [
 		applyMiddleware( ...middleware ),
