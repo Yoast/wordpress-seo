@@ -79,7 +79,7 @@ exports[`LocalSEOUpsell matches the snapshot 1`] = `
     <a
       className="c5"
       href="https://example.com"
-      rel={null}
+      rel="noopener noreferrer"
       target="_blank"
     >
       Get the Local SEO plugin now
@@ -175,7 +175,7 @@ exports[`LocalSEOUpsell matches the snapshot in right to left mode 1`] = `
     <a
       className="c5"
       href="https://example.com"
-      rel={null}
+      rel="noopener noreferrer"
       target="_blank"
     >
       Get the Local SEO plugin now

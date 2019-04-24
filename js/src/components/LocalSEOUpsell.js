@@ -86,7 +86,7 @@ const LocalSEOUpsell = props => {
 						"Local SEO"
 					) }
 				</Paragraph>
-				<OutboundLink href={ url } rel={ null }>
+				<OutboundLink href={ url }>
 					{ sprintf(
 						/* translators: %s expands to Local SEO */
 						__( "Get the %s plugin now", "wordpress-seo" ),
