@@ -19,18 +19,24 @@ const NO_OUTPUT = { stdio: [ null, null, null ] };
  * @returns {string} The checkoutBranch;
  */
 function get_checkout_branch() {
-	let checkoutBranch;
 	if ( process.env.CI === "1" ) {
-		if ( !process.env.TRAVIS_PULL_REQUEST_BRANCH ) {
-			checkoutBranch = process.env.TRAVIS_BRANCH;
-		} else {
-			checkoutBranch = process.env.TRAVIS_PULL_REQUEST_BRANCH;
+		if ( process.env.TRAVIS_PULL_REQUEST_BRANCH ) {
+			return process.env.TRAVIS_PULL_REQUEST_BRANCH;
 		}
-	} else {
-		checkoutBranch = execSync( `git branch | grep \\* | cut -d " " -f2-` ).toString( "utf8" ).split( "\n" )[ 0 ];
+		return process.env.TRAVIS_BRANCH;
 	}
+	return get_current_branch();
+}
 
-	return checkoutBranch;
+/**
+ * Gets the currently checked out branch for a git repository.
+ *
+ * @returns {string} The current branch.
+ */
+function get_current_branch() {
+	return execSync( `git branch | grep \\* | cut -d " " -f2-` )
+		.toString( "utf8" )
+		.split( "\n" )[ 0 ];
 }
 
 /**
@@ -40,47 +46,51 @@ function get_checkout_branch() {
  * @returns {string} The monorepo-location.
  */
 function get_monorepo_location_from_file() {
-	let yoast;
-	let location;
+	const yoastConfig = get_yoast_config();
 
-	// Both fs.readFileSync() and the location can throw an error. Therefore, we have to make sure to not overwrite yoast in the catch statement.
-	try {
-		yoast = JSON.parse( fs.readFileSync( ".yoast", "utf8" ) );
-		location = yoast[ "monorepo-location" ];
+	let location = yoastConfig[ "monorepo-location" ];
 
-		if ( !location ) {
-			console.log( "There is no key 'monorepo-location' in your .yoast file." );
-			throw new Error();
-		}
-
-		if ( !is_valid_monorepo_location( location ) ) {
-			console.log( "The 'monorepo-location' in your .yoast is not valid." );
-			location = false;
-			throw new Error();
-		}
-	} catch ( e ) {
-		// Keep asking the user for a valid monorepo location until one has been provided.
-		while ( !location ) {
-			location = readlineSync.question( "Where is your monorepo git clone located? Please provide an absolute path or a path relative to the current directory '" + process.cwd() + "'.\n" );
-			if ( !is_valid_monorepo_location( location ) ) {
-				console.log( "This is not a valid location or the location does not include the JS monorepo. Please try again." );
-				location = false;
-			}
-		}
-
-		// Only create a new array if it does not exists yet.
-		if ( !yoast ) {
-			yoast = {};
-		}
-
-		yoast[ "monorepo-location" ] = location;
-
-		// Write the file to the .yoast.
-		fs.writeFileSync( ".yoast", JSON.stringify( yoast ), "utf8" );
+	if ( is_valid_monorepo_location( location ) ) {
+		return location;
 	}
 
-	// Always return the location.
+	while ( ! is_valid_monorepo_location( location ) ) {
+		console.log( "The location you've in your .yoast file or the location you've provided is not valid. Please provide a new location for your javascript clone." );
+		location = readlineSync.question( "Where is your monorepo git clone located? Please provide an absolute path or a path relative to the current directory '" + process.cwd() + "'.\n" );
+	}
+
+	const newConfig = Object.assign( {}, yoastConfig, { location } );
+	try {
+		save_configuration( newConfig );
+	} catch ( e ) {
+		// Ignore not being able to write. Just return the location.
+	}
+
 	return location;
+}
+
+/**
+ * Get the .yoast configuration contents.
+ *
+ * @returns {Object} The yoast configuration object.
+ */
+function get_yoast_config() {
+	try {
+		return JSON.parse( fs.readFileSync( ".yoast", "utf8" ) ) || {};
+	} catch ( e ) {
+		return {};
+	}
+}
+
+/**
+ * Saves the configuration to the configuration file.
+ *
+ * @param {Object} configuration The new configuration.
+ *
+ * @returns {void}
+ */
+function save_configuration( configuration ) {
+	fs.writeFileSync( ".yoast", JSON.stringify( configuration ), "utf8" );
 }
 
 
@@ -92,7 +102,11 @@ function get_monorepo_location_from_file() {
  * @returns {boolean} Returns true if the location exists and has a remote.origin.url that includes Yoast/javascript.
  */
 function is_valid_monorepo_location( location ) {
-	if ( !fs.existsSync( location ) ) {
+	if ( ! location ) {
+		return false;
+	}
+
+	if ( ! fs.existsSync( location ) ) {
 		return false;
 	}
 	return execSync( `cd ${ location }; git config --get remote.origin.url;` ).includes( "Yoast/javascript" );
@@ -167,13 +181,10 @@ checkout_branch_and_pull( javascriptBranch );
 const packages = execMonorepo( `ls packages` ).toString().split( "\n" ).filter( value => value !== "" );
 unlink_all_yoast_packages();
 
-execMonorepoNoOutput( `
-	yarn link-all
-` );
+execMonorepoNoOutput( `yarn link-all` );
 console.log( "Packages have been linked inside the monorepo." );
 
-var x;
-for ( x in packages ) {
+for ( let x in packages ) {
 	try {
 		execSync( `yarn link @yoast/${ packages[ x ] }`, NO_OUTPUT );
 	} catch ( e ) {
