@@ -1,88 +1,36 @@
+#!/usr/local/bin/node
 const fs = require( "fs" );
 const readlineSync = require( "readline-sync" );
 const execSync = require( "child_process" ).execSync;
 
-// We need to do this here because we want to create specific commands for executing commands in the monorepoLocation.
-let monorepoLocation = get_monorepo_location_from_file();
+const IS_TRAVIS = process.env.CI === "1";
+const TRAVIS_BRANCH = process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.TRAVIS_BRANCH;
 
-// Create two commands that can be used for executing commands in the monorepoLocation.
-const execMonorepo = cmd => execSync( cmd, { cwd: monorepoLocation } );
-const execMonorepoNoOutput = cmd => execSync( cmd, { cwd: monorepoLocation, stdio: [ null, null, null ] } );
-
-const NO_OUTPUT = { stdio: [ null, null, null ] };
+let monorepoLocation;
 
 /**
- * This function checks if the CI flag is set. If so, it returns either the TRAVIS_BRANCH or the TRAVIS_PULL_REQUEST_BRANCH.
- * Otherwise, this returns the currently checked out branch in the current directory.
+ * Get the .yoast configuration contents.
  *
- * @returns {string} The checkoutBranch;
+ * @returns {Object} The yoast configuration object.
  */
-function get_checkout_branch() {
-	let checkoutBranch;
-	if ( process.env.CI === "1" ) {
-		if ( !process.env.TRAVIS_PULL_REQUEST_BRANCH ) {
-			checkoutBranch = process.env.TRAVIS_BRANCH;
-		} else {
-			checkoutBranch = process.env.TRAVIS_PULL_REQUEST_BRANCH;
-		}
-	} else {
-		checkoutBranch = execSync( `git branch | grep \\* | cut -d " " -f2-` ).toString( "utf8" ).split( "\n" )[ 0 ];
-	}
-
-	return checkoutBranch;
-}
-
-/**
- * Gets the monorepo-location from the .yoast file or asks the user for a location if either the file does not exist or the right key is not there.
- * If a .yoast file exists but the key "monorepo-location" is not there, this function adds a new key to the file without overwriting existing values.
- *
- * @returns {string} The monorepo-location.
- */
-function get_monorepo_location_from_file() {
-	let yoast;
-	let location;
-
-	// Both fs.readFileSync() and the location can throw an error. Therefore, we have to make sure to not overwrite yoast in the catch statement.
+function getConfiguration() {
 	try {
-		console.log( "Reading your monorepo location from your .yoast file." );
-		yoast = JSON.parse( fs.readFileSync( ".yoast", "utf8" ) );
-		location = yoast[ "monorepo-location" ];
-
-		if ( !location ) {
-			console.log( "There is no key 'monorepo-location' in your .yoast file." );
-			throw new Error();
-		}
-
-		if ( !is_valid_monorepo_location( location ) ) {
-			console.log( "The 'monorepo-location' in your .yoast is not valid." );
-			location = false;
-			throw new Error();
-		}
+		return JSON.parse( fs.readFileSync( ".yoast", "utf8" ) ) || {};
 	} catch ( e ) {
-		// Keep asking the user for a valid monorepo location until one has been provided.
-		while ( !location ) {
-			location = readlineSync.question( "Where is your monorepo git clone located? Please provide an absolute path or a path relative to the current directory '" + process.cwd() + "'.\n" );
-			if ( !is_valid_monorepo_location( location ) ) {
-				console.log( "This is not a valid location or the location does not include the JS monorepo. Please try again." );
-				location = false;
-			}
-		}
-
-		// Only create a new array if it does not exists yet.
-		if ( !yoast ) {
-			yoast = {};
-		}
-
-		yoast[ "monorepo-location" ] = location;
-
-		// Write the file to the .yoast.
-		fs.writeFileSync( ".yoast", JSON.stringify( yoast ), "utf8" );
+		return {};
 	}
-
-	// Always return the location.
-	return location;
 }
 
+/**
+ * Saves the configuration to the configuration file.
+ *
+ * @param {Object} configuration The new configuration.
+ *
+ * @returns {void}
+ */
+function saveConfiguration( configuration ) {
+	fs.writeFileSync( ".yoast", JSON.stringify( configuration ), "utf8" );
+}
 
 /**
  * Function to check if the given location is a valid location for the monorepo.
@@ -91,99 +39,159 @@ function get_monorepo_location_from_file() {
  *
  * @returns {boolean} Returns true if the location exists and has a remote.origin.url that includes Yoast/javascript.
  */
-function is_valid_monorepo_location( location ) {
-	if ( !fs.existsSync( location ) ) {
+function isValidMonorepoLocation( location ) {
+	if ( ! location ) {
 		return false;
 	}
-	return execSync( `cd ${ location }; git config --get remote.origin.url;` ).includes( "Yoast/javascript" );
 
-}
+	if ( ! fs.existsSync( location ) ) {
+		return false;
+	}
 
-/**
- * Get the branch that we want to try and checkout on the monorepo.
- *
- * @param {string} checkoutBranch The branch that is currently checked out in wordpress-seo.
- *
- * @returns {string} The branch that we are going to checkout in the monorepo.
- */
-function get_js_branch( checkoutBranch ) {
-	return checkoutBranch === "trunk" ? "develop" : checkoutBranch;
-}
-
-/**
- * Try to checkout the given branch. If it fails, default to checking out develop.
- *
- * @param {string} javascriptBranch The branch that is going to be checked out on the JS monorepo.
- */
-function checkout_branch_and_pull( javascriptBranch ) {
 	try {
-		// We have to do this in two execs because otherwise the try/catch does not work correct.
-		execMonorepoNoOutput( `git checkout ${ javascriptBranch };` );
-		execMonorepoNoOutput( `git pull;` );
-		console.log( `Successfully checked out ${ javascriptBranch }.` );
+		return execSync( `cd ${ location }; git config --get remote.origin.url;` ).includes( "Yoast/javascript" );
 	} catch ( e ) {
-		execMonorepoNoOutput( `
-			git checkout develop;
-			git pull;	
-		` );
-		console.log( "Branch checkout failed. Defaulting to develop." );
+		return false;
 	}
 }
+
+/**
+ * Gets the monorepo-location from the .yoast file or asks the user for a location if either the file does not exist or the right key is not there.
+ * If a .yoast file exists but the key "monorepo-location" is not there, this function adds a new key to the file without overwriting existing values.
+ *
+ * @returns {string} The monorepo-location.
+ */
+function getMonorepoLocationFromFile() {
+	if ( monorepoLocation ) {
+		return monorepoLocation;
+	}
+
+	const yoastConfig = getConfiguration();
+
+	let location = yoastConfig[ "monorepo-location" ];
+
+	if ( isValidMonorepoLocation( location ) ) {
+		return location;
+	}
+
+	while ( ! isValidMonorepoLocation( location ) ) {
+		location = readlineSync.question( "The location in your .yoast file or the location you've provided is not valid. " +
+			"Please provide the location of your javascript clone." +
+			"Where is your monorepo git clone located? " +
+			"Please provide an absolute path or a path relative to the current directory '" + process.cwd() + "." +
+			" (note that ~ is not supported)'.\n" );
+	}
+
+	const newConfig = Object.assign( {}, yoastConfig, { "monorepo-location": location } );
+	try {
+		saveConfiguration( newConfig );
+	} catch ( e ) {
+		// Ignore not being able to write. Just return the location.
+	}
+
+	return location;
+}
+
+const NO_OUTPUT = { stdio: [ null, null, null ] };
+
+/**
+ * Creates a command that can be used for executing commands in the monorepoLocation.
+ *
+ * @param {string} cmd The command that is executed in the monorepoLocation.
+ *
+ * @returns {Buffer | string} A buffer with the result or a string when it is a simple command.
+ */
+const execMonorepo = cmd => execSync( cmd, { cwd: getMonorepoLocationFromFile() } );
+
+/**
+ * Creates a command that can be used for executing commands in the monorepoLocation.
+ * This version does not output anything to the console.
+ *
+ * @param {string} cmd The command that is executed in the monorepoLocation.
+ *
+ * @returns {Buffer | string} Outputs nothing.
+ */
+const execMonorepoNoOutput = cmd => execSync( cmd, { cwd: getMonorepoLocationFromFile(), NO_OUTPUT } );
 
 /**
  * Unlink all the yoast packages that are linked in the ~/.config/yarn/link directory.
  * Note: We cannot use "~" in the cwd field so we have to use a little workaround.
+ *
+ * @returns {void}
  */
-function unlink_all_yoast_packages() {
-	const homeDirectory = execSync( `echo $HOME` ).toString().split( "\n" )[ 0 ];
+function unlinkAllYoastPackages() {
+	const homeDirectory = execSync( "echo $HOME" ).toString().split( "\n" )[ 0 ];
 	const yarnLinkDir = homeDirectory + "/.config/yarn/link";
 
-	const toRemove = execSync( `ls`, { cwd: yarnLinkDir } ).toString().split( "\n" ).filter( value => value.includes( "yoast" ) );
+	const linkedYoastPackages = execSync( "ls", { cwd: yarnLinkDir } ).toString().split( "\n" ).filter( value => value.includes( "yoast" ) );
 
-	var x;
-	for ( x in toRemove ) {
-		execSync( `rm -rf ${ toRemove[ x ] }`, { cwd: yarnLinkDir } );
-	}
+	linkedYoastPackages.forEach( linkedYoastPackage => {
+		execSync( `rm -rf ${ linkedYoastPackage }`, { cwd: yarnLinkDir } );
+	} );
 
 	// Remove the symlinks from node_modules.
-	execSync( `rm -rf *yoast*`, { cwd: "./node_modules/" } );
-
-	console.log( "All previously linked yoast packages have been unlinked." );
+	execSync( "rm -rf *yoast*", { cwd: "./node_modules/" } );
 }
 
-console.log( `Your monorepo is located in "${ monorepoLocation }". ` );
+/**
+ * Checkout the right branch on the monorepo.
+ *
+ * @param {string} yoastSEOBranch The Yoast SEO branch.
+ * @returns {string} The checked out monorepo branch.
+ */
+function checkoutMonorepoBranch( yoastSEOBranch ) {
+	const monorepoBranch = yoastSEOBranch === "trunk" ? "develop" : yoastSEOBranch;
 
-console.log( "Fetching the latest branches in the monorepo." );
-execMonorepoNoOutput( `git fetch` );
+	execMonorepoNoOutput( `git checkout ${ monorepoBranch }` );
+	return monorepoBranch;
+}
 
-const checkoutBranch = get_checkout_branch();
-console.log( "Currently checked out branch is: " + checkoutBranch + "." );
+/**
+ * Console logs with a bright font.
+ *
+ * @param message The message to log.
+ */
+function log( message ) {
+	// eslint-disable-next-line no-console
+	console.log( "\x1b[1m" + message + "\x1b[0m" );
+}
 
-const javascriptBranch = get_js_branch( checkoutBranch );
-console.log( "Trying to checkout the monorepo branch: " + javascriptBranch + "." );
+// Start the script.
+log( `Your monorepo is located in "${ getMonorepoLocationFromFile() }". ` );
 
-checkout_branch_and_pull( javascriptBranch );
+log( "Fetching branches of the monorepo." );
+execMonorepoNoOutput( "git fetch" );
+if ( IS_TRAVIS ) {
+	const monorepoBranch = checkoutMonorepoBranch( TRAVIS_BRANCH );
+	log( "Checking out " + monorepoBranch + "on the monorepo." );
+}
 
-const packages = execMonorepo( `ls packages` ).toString().split( "\n" ).filter( value => value !== "" );
-unlink_all_yoast_packages();
+log( "Pulling the latest monorepo changes." );
+execMonorepoNoOutput( "git pull" );
 
-// Just to be sure.
-execMonorepoNoOutput( `
-	yarn install
-` );
+log( "Unlinking previously linked Yoast packages from Yarn." );
+unlinkAllYoastPackages();
 
-execMonorepoNoOutput( `
-	yarn link-all
-` );
-console.log( "Packages have been linked inside the monorepo." );
+log( "Running 'yarn install' in the monorepo, this may take a while." );
+execMonorepoNoOutput( "yarn install" );
 
-var x;
-for ( x in packages ) {
+log( "Linking all monorepo packages." );
+execMonorepoNoOutput( "yarn link-all" );
+
+const packages = execMonorepo( "ls packages" ).toString().split( "\n" ).filter( value => value !== "" );
+packages.forEach( ( yoastPackage ) => {
 	try {
-		execSync( `yarn link @yoast/${ packages[ x ] }`, NO_OUTPUT );
+		execSync( `yarn link @yoast/${ yoastPackage }`, NO_OUTPUT );
 	} catch ( e ) {
+		if ( ! [ "eslint", "yoast-components", "yoast-social-previews", "yoastseo" ].includes( yoastPackage ) ) {
+			log( `Package @yoast/${ yoastPackage } could not be linked.` );
+		}
 	}
-}
-console.log( "Successfully linked all new packages. Linking old format packages now." );
-execSync( `yarn link yoastseo; yarn link yoast-components;`, NO_OUTPUT );
-console.log( "Successfully linked all packages. Done." );
+} );
+
+log( "Linking legacy Yoast packages." );
+execSync( "yarn link yoastseo; yarn link yoast-components;", NO_OUTPUT );
+
+log( "Reinstall any Yoast packages that were unintentionally removed and are not linked after the linking process." +
+	" This could take a while..." );
+execSync( "yarn install --check-files" );
