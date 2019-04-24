@@ -11,13 +11,14 @@
  * @group Person_Schema
  */
 class WPSEO_Schema_Person_Upgrade_Notification_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Remove the notification when Person is not selected.
 	 */
 	public function test_remove_notification_not_person() {
 		$instance = $this->getMockBuilder( 'WPSEO_Schema_Person_Upgrade_Notification' )
-						 ->setMethods( array( 'remove_notification' ) )
-						 ->getMock();
+			->setMethods( array( 'remove_notification' ) )
+			->getMock();
 
 		WPSEO_Options::set( 'company_or_person', 'company' );
 
@@ -31,8 +32,8 @@ class WPSEO_Schema_Person_Upgrade_Notification_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_remove_notification_user_id_set() {
 		$instance = $this->getMockBuilder( 'WPSEO_Schema_Person_Upgrade_Notification' )
-						 ->setMethods( array( 'remove_notification' ) )
-						 ->getMock();
+			->setMethods( array( 'remove_notification' ) )
+			->getMock();
 
 		WPSEO_Options::set( 'company_or_person', 'person' );
 		WPSEO_Options::set( 'company_or_person_user_id', '1' );
@@ -47,8 +48,8 @@ class WPSEO_Schema_Person_Upgrade_Notification_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_add_notification() {
 		$instance = $this->getMockBuilder( 'WPSEO_Schema_Person_Upgrade_Notification' )
-						 ->setMethods( array( 'add_notification' ) )
-						 ->getMock();
+			->setMethods( array( 'add_notification' ) )
+			->getMock();
 
 		WPSEO_Options::set( 'company_or_person', 'person' );
 		WPSEO_Options::set( 'company_or_person_user_id', '' );

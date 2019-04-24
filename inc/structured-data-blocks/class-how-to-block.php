@@ -9,7 +9,6 @@
  * Class WPSEO_How_To_Block.
  */
 class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
-
 	/**
 	 * Registers the how-to block as a server-side rendered block.
 	 *
@@ -44,7 +43,12 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 
 		$json_ld = $this->get_json_ld( $attributes );
 
-		return '<script type="application/ld+json">' . WPSEO_Utils::format_json_encode( $json_ld ) . '</script>' . $content;
+		$schema = array(
+			'@context' => 'https://schema.org',
+			'@graph'   => array( $json_ld ),
+		);
+
+		return WPSEO_Utils::schema_tag( $schema ) . $content;
 	}
 
 	/**
@@ -55,9 +59,14 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	 * @return array The JSON-LD representation of the how-to block.
 	 */
 	protected function get_json_ld( array $attributes ) {
+		$hash = WPSEO_Schema_IDs::WEBPAGE_HASH;
+		if ( WPSEO_Schema_Article::is_article_post_type() ) {
+			$hash = WPSEO_Schema_IDs::ARTICLE_HASH;
+		}
+
 		$json_ld = array(
-			'@context' => 'https://schema.org',
-			'@type'    => 'HowTo',
+			'@type'            => 'HowTo',
+			'mainEntityOfPage' => array( '@id' => WPSEO_Frontend::get_instance()->canonical( false ) . $hash ),
 		);
 
 		$post_title = get_the_title();
