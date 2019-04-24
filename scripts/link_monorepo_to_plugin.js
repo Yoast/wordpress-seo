@@ -183,7 +183,7 @@ console.log( "Fetching the latest branches in the monorepo." );
 execMonorepoNoOutput( `git fetch` );
 
 const checkedOutBranch = getCheckoutBranch();
-console.log( "Currently checked out branch in WordpressSEO is: '" + checkedOutBranch + "'." );
+console.log( "Currently checked out Yoast SEO branch is: '" + checkedOutBranch + "'." );
 
 const javascriptBranch = getJsBranch( checkedOutBranch );
 
