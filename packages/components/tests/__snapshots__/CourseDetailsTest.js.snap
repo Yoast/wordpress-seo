@@ -64,32 +64,6 @@ Array [
   </div>,
   <div
     className="hLFZrf"
-  >
-    <a
-      className="jdgAq"
-      href={undefined}
-      rel={null}
-      target="_blank"
-    >
-      <span
-        className="A11yNotice-sc-1feyioo-0 gHCoqL"
-      >
-        (Opens in a new browser tab)
-      </span>
-    </a>
-    <a
-      className="blWwuK"
-      href=""
-      rel={null}
-      target="_blank"
-    >
-      
-      <span
-        className="A11yNotice-sc-1feyioo-0 gHCoqL"
-      >
-        (Opens in a new browser tab)
-      </span>
-    </a>
-  </div>,
+  />,
 ]
 `;
