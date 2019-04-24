@@ -22,7 +22,7 @@ export default function CollapsibleCornerstone( { isCornerstone, onChange } ) {
 				<Collapsible id={ `yoast-cornerstone-collapsible-${ context }` } title={ __( "Cornerstone content", "wordpress-seo" ) }>
 					<HelpText>
 						{ __( "Cornerstone content should be the most important and extensive articles on your site.", "wordpress-seo" ) + " " }
-						<LearnMoreLink href={ wpseoAdminL10n[ "shortlinks.cornerstone_content_info" ] } rel={ null }>
+						<LearnMoreLink href={ wpseoAdminL10n[ "shortlinks.cornerstone_content_info" ] }>
 							{ __( "Learn more about Cornerstone Content.", "wordpress-seo" ) }
 						</LearnMoreLink>
 					</HelpText>

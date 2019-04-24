@@ -173,7 +173,6 @@ class SeoAnalysis extends React.Component {
 		return (
 			<HelpLink
 				href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }
-				rel={ null }
 				className="dashicons"
 			>
 				<span className="screen-reader-text">
