@@ -46,8 +46,24 @@ function get_monorepo_location_from_file() {
 }
 
 const NO_OUTPUT = { stdio: [ null, null, null ] };
-// Create two commands that can be used for executing commands in the monorepoLocation.
+
+/**
+ * Creates a command that can be used for executing commands in the monorepoLocation.
+ *
+ * @param {string} cmd The command that is executed in the monorepoLocation.
+ *
+ * @returns {Buffer | string} A buffer with the result or a string when it is a simple command.
+ */
 const execMonorepo = cmd => execSync( cmd, { cwd: get_monorepo_location_from_file() } );
+
+/**
+ * Creates a command that can be used for executing commands in the monorepoLocation.
+ * This version does not output anything to the console.
+ *
+ * @param {string} cmd The command that is executed in the monorepoLocation.
+ *
+ * @returns {Buffer | string} Outputs nothing.
+ */
 const execMonorepoNoOutput = cmd => execSync( cmd, { cwd: get_monorepo_location_from_file(), NO_OUTPUT } );
 
 /**
@@ -105,11 +121,11 @@ function unlink_all_yoast_packages() {
 	const homeDirectory = execSync( `echo $HOME` ).toString().split( "\n" )[ 0 ];
 	const yarnLinkDir = homeDirectory + "/.config/yarn/link";
 
-	const toRemove = execSync( `ls`, { cwd: yarnLinkDir } ).toString().split( "\n" ).filter( value => value.includes( "yoast" ) );
+	const linkedYoastPackages = execSync( `ls`, { cwd: yarnLinkDir } ).toString().split( "\n" ).filter( value => value.includes( "yoast" ) );
 
-	for ( let x in toRemove ) {
-		execSync( `rm -rf ${ toRemove[ x ] }`, { cwd: yarnLinkDir } );
-	}
+	linkedYoastPackages.forEach( linkedYoastPackage => {
+		execSync( `rm -rf ${ linkedYoastPackage }`, { cwd: yarnLinkDir } );
+	} );
 
 	// Remove the symlinks from node_modules.
 	execSync( `rm -rf *yoast*`, { cwd: "./node_modules/" } );
@@ -137,33 +153,32 @@ if ( IS_TRAVIS ) {
 	const monorepo_branch = checkout_monorepo_branch( TRAVIS_BRANCH );
 	console.log( "Checking out " + monorepo_branch + "on the monorepo." );
 }
+
 console.log( "Pulling the latest monorepo changes." );
 execMonorepoNoOutput( `git pull` );
 
-
-const packages = execMonorepo( `ls packages` ).toString().split( "\n" ).filter( value => value !== "" );
-
-
 console.log( "Unlinking previously linked Yoast packages from Yarn." );
 unlink_all_yoast_packages();
-console.log( "All previously linked Yoast packages have been unlinked." );
 
+console.log( "Running 'yarn install' in the monorepo, this may take a while." );
+execMonorepoNoOutput( `yarn install` );
 
 console.log( "Linking all monorepo packages." );
 execMonorepoNoOutput( `yarn link-all` );
-console.log( "Packages have been linked inside the monorepo." );
 
-for ( let x in packages ) {
+const packages = execMonorepo( `ls packages` ).toString().split( "\n" ).filter( value => value !== "" );
+packages.forEach( ( yoastPackage ) => {
 	try {
-		execSync( `yarn link @yoast/${ packages[ x ] }`, NO_OUTPUT );
+		execSync( `yarn link @yoast/${ yoastPackage }`, NO_OUTPUT );
 	} catch ( e ) {
+		if ( ! [ "eslint", "yoast-components", "yoast-social-previews", "yoastseo" ].includes( yoastPackage ) ) {
+			console.log( `Package @yoast/${ yoastPackage } could not be linked.` );
+		}
 	}
-}
-console.log( "Successfully linked all new packages to your project." );
+} );
 
 console.log( "Linking legacy Yoast packages." );
 execSync( `yarn link yoastseo; yarn link yoast-components;`, NO_OUTPUT );
-console.log( "Successfully lagacy Yoast packages." );
 
 console.log( "Reinstall any Yoast packages that were unintentionally removed and are not linked after the linking process. This could take a while..." );
 execSync( `yarn install --check-files` );
