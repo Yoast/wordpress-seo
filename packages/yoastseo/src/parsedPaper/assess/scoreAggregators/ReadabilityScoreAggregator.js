@@ -67,13 +67,18 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 	/**
 	 * Determines whether a language is fully supported.
 	 *
-	 * @param {string} locale The locale of the user.
+	 * @param {string} locale The locale for which the content is written, e.g. `sv-SE` for Sweden.
 	 *
 	 * @returns {boolean} `true` if fully supported.
 	 */
 	isFullySupported( locale ) {
-		const language = getLanguage( locale );
-		return FULLY_SUPPORTED_LANGUAGES.includes( language );
+		// Sanity check if this is actually a locale string.
+		if ( locale && locale.includes( "_" ) ) {
+			const language = getLanguage( locale );
+			return FULLY_SUPPORTED_LANGUAGES.includes( language );
+		}
+		// Default to not fully supported.
+		return false;
 	}
 
 	/**
