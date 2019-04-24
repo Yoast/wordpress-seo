@@ -115,6 +115,12 @@ function unlink_all_yoast_packages() {
 	execSync( `rm -rf *yoast*`, { cwd: "./node_modules/" } );
 }
 
+/**
+ * Checkout the right branch on the monorepo.
+ *
+ * @param yoast_seo_branch The Yoast SEO branch.
+ * @return {string} The checked out monorepo branch.
+ */
 function checkout_monorepo_branch( yoast_seo_branch ) {
 	const monorepo_branch = yoast_seo_branch === "trunk" ? "develop" : yoast_seo_branch;
 
