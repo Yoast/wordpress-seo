@@ -75,7 +75,7 @@ class Card extends React.Component {
 
 		if ( this.props.header.link ) {
 			return (
-				<OutboundHeaderLink href={ this.props.header.link } rel={ null }>
+				<OutboundHeaderLink href={ this.props.header.link }>
 					<HeaderImage src={ this.props.header.image } alt="" />
 					<HeaderTitle>{ this.props.header.title }</HeaderTitle>
 				</OutboundHeaderLink>

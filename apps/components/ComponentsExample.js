@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 
 import { CourseDetails, FullHeightCard, Warning } from "@yoast/components";
-import { getDirectionalStyle, getCourseFeed } from "@yoast/helpers";
+import { getDirectionalStyle, getCourseFeed, makeOutboundLink } from "@yoast/helpers";
 
 const Container = styled.div`
 	max-width: 1024px;
@@ -44,6 +44,12 @@ const CourseListItem = styled.li`
 		margin: ${ getDirectionalStyle( "0 16px 16px 0", "0 0 16px 16px" ) };
 	}
 `;
+
+const CornerstoneLink    = makeOutboundLink();
+const NonYoastLink       = makeOutboundLink();
+const YoastLink          = makeOutboundLink();
+const YoastShortLink     = makeOutboundLink();
+const YoastLinkCustomRel = makeOutboundLink();
 
 /**
  * Renders the yoast-component Components Examples.
@@ -130,15 +136,31 @@ export default class ComponentsExample extends React.Component {
 					<Warning
 						message={ [
 							"This is a warning message that also accepts arrays, so you can pass links such as ",
-							<a
+							<CornerstoneLink
 								key="1"
 								href="https://yoa.st/metabox-help-cornerstone"
-								target="_blank"
-							>cornerstone content</a>,
+							>cornerstone content</CornerstoneLink>,
 							", for example.",
 							<p key="2">This spans to multiple lines.</p>,
 						] }
 					/>
+					<h2>Outbound links</h2>
+					<p>
+						<NonYoastLink href="http://www.example.org">example.org</NonYoastLink>
+						<br /><small>expected: target=&quot;_blank&quot; rel=&quot;noopener&quot; and visually hidden message</small>
+					</p>
+					<p>
+						<YoastLink href="https://yoast.com">yoast.com</YoastLink>
+						<br /><small>expected: target=&quot;_blank&quot; and visually hidden message</small>
+					</p>
+					<p>
+						<YoastShortLink href="https://yoa.st/why-permalinks/">yoa.st/why-permalinks</YoastShortLink>
+						<br /><small>expected: target=&quot;_blank&quot; and visually hidden message</small>
+					</p>
+					<p>
+						<YoastLinkCustomRel href="https://yoast.com/" rel="bookmark nofollow">yoast.com (custom rel attribute)</YoastLinkCustomRel>
+						<br /><small>expected: target=&quot;_blank&quot; rel=&quot;bookmark nofollow&quot; and visually hidden message</small>
+					</p>
 				</Container>
 				<h2>Courses overview cards</h2>
 				<p>Full width example to test the cards wrapping.</p>
@@ -157,6 +179,7 @@ export default class ComponentsExample extends React.Component {
 										courseUrl={ course.link }
 										readMoreLinkText={ course.readMoreLinkText }
 										ctaButtonData={ this.getButtonData( course ) }
+										isBundle={ course.isBundle }
 									/>
 								</FullHeightCard>
 							</CourseListItem>

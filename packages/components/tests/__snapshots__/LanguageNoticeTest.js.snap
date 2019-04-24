@@ -26,7 +26,7 @@ exports[`LanguageNotice matches the snapshot with a changed language link 1`] = 
   <a
     className="kJvoiP"
     href="http://www.example.com"
-    rel="noopener noreferrer"
+    rel="noopener"
     target="_blank"
   >
     Change language
@@ -51,7 +51,7 @@ exports[`LanguageNotice matches the snapshot with another language 1`] = `
   <a
     className="kJvoiP"
     href="http://www.example.com"
-    rel="noopener noreferrer"
+    rel="noopener"
     target="_blank"
   >
     Change language
