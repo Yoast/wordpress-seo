@@ -110,20 +110,6 @@ function unlink_all_yoast_packages() {
 	console.log( "All previously linked yoast packages have been unlinked." );
 }
 
-/**
- * This function checks if the CI flag is set. If so, it returns either the TRAVIS_BRANCH or the TRAVIS_PULL_REQUEST_BRANCH.
- * Otherwise, this returns the currently checked out branch in the current directory.
- *
- * @returns {string} The checkoutBranch;
- */
-function get_yoast_seo_branch() {
-	if ( IS_TRAVIS ) {
-		return get_yoast_seo_travis_branch();
-	}
-
-	return execSync( `git branch | grep \\* | cut -d " " -f2-` ).toString( "utf8" ).split( "\n" )[ 0 ];
-}
-
 function get_yoast_seo_travis_branch(){
 	return process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.TRAVIS_BRANCH;
 }
