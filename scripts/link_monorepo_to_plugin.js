@@ -146,27 +146,36 @@ function checkoutMonorepoBranch( yoastSEOBranch ) {
 	return monorepoBranch;
 }
 
-// Start the script.
-/* eslint-disable no-console */
-console.log( `Your monorepo is located in "${ getMonorepoLocationFromFile() }". ` );
+/**
+ * Console logs with a bright font.
+ *
+ * @param message The message to log.
+ */
+function log( message ) {
+	// eslint-disable-next-line no-console
+	console.log( "\x1b[1m" + message + "\x1b[0m" );
+}
 
-console.log( "Fetching branches of the monorepo." );
+// Start the script.
+log( `Your monorepo is located in "${ getMonorepoLocationFromFile() }". ` );
+
+log( "Fetching branches of the monorepo." );
 execMonorepoNoOutput( "git fetch" );
 if ( IS_TRAVIS ) {
 	const monorepoBranch = checkoutMonorepoBranch( TRAVIS_BRANCH );
-	console.log( "Checking out " + monorepoBranch + "on the monorepo." );
+	log( "Checking out " + monorepoBranch + "on the monorepo." );
 }
 
-console.log( "Pulling the latest monorepo changes." );
+log( "Pulling the latest monorepo changes." );
 execMonorepoNoOutput( "git pull" );
 
-console.log( "Unlinking previously linked Yoast packages from Yarn." );
+log( "Unlinking previously linked Yoast packages from Yarn." );
 unlinkAllYoastPackages();
 
-console.log( "Running 'yarn install' in the monorepo, this may take a while." );
+log( "Running 'yarn install' in the monorepo, this may take a while." );
 execMonorepoNoOutput( "yarn install" );
 
-console.log( "Linking all monorepo packages." );
+log( "Linking all monorepo packages." );
 execMonorepoNoOutput( "yarn link-all" );
 
 const packages = execMonorepo( "ls packages" ).toString().split( "\n" ).filter( value => value !== "" );
@@ -175,15 +184,14 @@ packages.forEach( ( yoastPackage ) => {
 		execSync( `yarn link @yoast/${ yoastPackage }`, NO_OUTPUT );
 	} catch ( e ) {
 		if ( ! [ "eslint", "yoast-components", "yoast-social-previews", "yoastseo" ].includes( yoastPackage ) ) {
-			console.log( `Package @yoast/${ yoastPackage } could not be linked.` );
+			log( `Package @yoast/${ yoastPackage } could not be linked.` );
 		}
 	}
 } );
 
-console.log( "Linking legacy Yoast packages." );
+log( "Linking legacy Yoast packages." );
 execSync( "yarn link yoastseo; yarn link yoast-components;", NO_OUTPUT );
 
-console.log( "Reinstall any Yoast packages that were unintentionally removed and are not linked after the linking process." +
+log( "Reinstall any Yoast packages that were unintentionally removed and are not linked after the linking process." +
 	" This could take a while..." );
 execSync( "yarn install --check-files" );
-/* eslint-enable no-console */
