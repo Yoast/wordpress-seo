@@ -3,41 +3,9 @@ const fs = require( "fs" );
 const readlineSync = require( "readline-sync" );
 const execSync = require( "child_process" ).execSync;
 
-// We need to do this here because we want to create specific commands for executing commands in the monorepoLocation.
-let monorepoLocation = get_monorepo_location_from_file();
+const IS_TRAVIS = process.env.CI === "1";
 
-// Create two commands that can be used for executing commands in the monorepoLocation.
-const execMonorepo = cmd => execSync( cmd, { cwd: monorepoLocation } );
-const execMonorepoNoOutput = cmd => execSync( cmd, { cwd: monorepoLocation, stdio: [ null, null, null ] } );
-
-const NO_OUTPUT = { stdio: [ null, null, null ] };
-
-/**
- * This function checks if the CI flag is set. If so, it returns either the TRAVIS_BRANCH or the TRAVIS_PULL_REQUEST_BRANCH.
- * Otherwise, this returns the currently checked out branch in the current directory.
- *
- * @returns {string} The checkoutBranch;
- */
-function get_checkout_branch() {
-	if ( process.env.CI === "1" ) {
-		if ( process.env.TRAVIS_PULL_REQUEST_BRANCH ) {
-			return process.env.TRAVIS_PULL_REQUEST_BRANCH;
-		}
-		return process.env.TRAVIS_BRANCH;
-	}
-	return get_current_branch();
-}
-
-/**
- * Gets the currently checked out branch for a git repository.
- *
- * @returns {string} The current branch.
- */
-function get_current_branch() {
-	return execSync( `git branch | grep \\* | cut -d " " -f2-` )
-		.toString( "utf8" )
-		.split( "\n" )[ 0 ];
-}
+let monorepoLocation;
 
 /**
  * Gets the monorepo-location from the .yoast file or asks the user for a location if either the file does not exist or the right key is not there.
@@ -46,6 +14,10 @@ function get_current_branch() {
  * @returns {string} The monorepo-location.
  */
 function get_monorepo_location_from_file() {
+	if ( monorepoLocation ) {
+		return monorepoLocation;
+	}
+
 	const yoastConfig = get_yoast_config();
 
 	let location = yoastConfig[ "monorepo-location" ];
@@ -68,6 +40,11 @@ function get_monorepo_location_from_file() {
 
 	return location;
 }
+
+const NO_OUTPUT = { stdio: [ null, null, null ] };
+// Create two commands that can be used for executing commands in the monorepoLocation.
+const execMonorepo = cmd => execSync( cmd, { cwd: get_monorepo_location_from_file() } );
+const execMonorepoNoOutput = cmd => execSync( cmd, { cwd: get_monorepo_location_from_file(), NO_OUTPUT } );
 
 /**
  * Get the .yoast configuration contents.
@@ -93,7 +70,6 @@ function save_configuration( configuration ) {
 	fs.writeFileSync( ".yoast", JSON.stringify( configuration ), "utf8" );
 }
 
-
 /**
  * Function to check if the given location is a valid location for the monorepo.
  *
@@ -113,36 +89,6 @@ function is_valid_monorepo_location( location ) {
 
 }
 
-/**
- * Get the branch that we want to try and checkout on the monorepo.
- *
- * @param {string} checkoutBranch The branch that is currently checked out in wordpress-seo.
- *
- * @returns {string} The branch that we are going to checkout in the monorepo.
- */
-function get_js_branch( checkoutBranch ) {
-	return checkoutBranch === "trunk" ? "develop" : checkoutBranch;
-}
-
-/**
- * Try to checkout the given branch. If it fails, default to checking out develop.
- *
- * @param {string} javascriptBranch The branch that is going to be checked out on the JS monorepo.
- */
-function checkout_branch_and_pull( javascriptBranch ) {
-	try {
-		// We have to do this in two execs because otherwise the try/catch does not work correct.
-		execMonorepoNoOutput( `git checkout ${ javascriptBranch };` );
-		execMonorepoNoOutput( `git pull;` );
-		console.log( `Successfully checked out ${ javascriptBranch }.` );
-	} catch ( e ) {
-		execMonorepoNoOutput( `
-			git checkout develop;
-			git pull;	
-		` );
-		console.log( "Branch checkout failed. Defaulting to develop." );
-	}
-}
 
 /**
  * Unlink all the yoast packages that are linked in the ~/.config/yarn/link directory.
@@ -154,8 +100,7 @@ function unlink_all_yoast_packages() {
 
 	const toRemove = execSync( `ls`, { cwd: yarnLinkDir } ).toString().split( "\n" ).filter( value => value.includes( "yoast" ) );
 
-	var x;
-	for ( x in toRemove ) {
+	for ( let x in toRemove ) {
 		execSync( `rm -rf ${ toRemove[ x ] }`, { cwd: yarnLinkDir } );
 	}
 
@@ -165,18 +110,46 @@ function unlink_all_yoast_packages() {
 	console.log( "All previously linked yoast packages have been unlinked." );
 }
 
-console.log( `Your monorepo is located in "${ monorepoLocation }". ` );
+/**
+ * This function checks if the CI flag is set. If so, it returns either the TRAVIS_BRANCH or the TRAVIS_PULL_REQUEST_BRANCH.
+ * Otherwise, this returns the currently checked out branch in the current directory.
+ *
+ * @returns {string} The checkoutBranch;
+ */
+function get_yoast_seo_branch() {
+	if ( IS_TRAVIS ) {
+		return get_yoast_seo_travis_branch();
+	}
 
-console.log( "Fetching the latest branches in the monorepo." );
-execMonorepoNoOutput( `git fetch` );
+	return execSync( `git branch | grep \\* | cut -d " " -f2-` ).toString( "utf8" ).split( "\n" )[ 0 ];
+}
 
-const checkoutBranch = get_checkout_branch();
-console.log( "Currently checked out branch is: " + checkoutBranch + "." );
+function get_yoast_seo_travis_branch(){
+	return process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.TRAVIS_BRANCH;
+}
 
-const javascriptBranch = get_js_branch( checkoutBranch );
-console.log( "Trying to checkout the monorepo branch: " + javascriptBranch + "." );
+function prepare_monorepo_state() {
+	console.log( "Fetching the latest branches in the monorepo." );
+	execMonorepoNoOutput( `git fetch` );
 
-checkout_branch_and_pull( javascriptBranch );
+	if ( IS_TRAVIS ) {
+		const yoast_seo_branch = get_yoast_seo_travis_branch();
+		checkout_monorepo_branch( yoast_seo_branch );
+	}
+
+	execMonorepoNoOutput( `git pull` );
+}
+
+function checkout_monorepo_branch( yoast_seo_branch ) {
+	const monorepo_branch = yoast_seo_branch === "trunk" ? "develop" : yoast_seo_branch;
+	console.log( "Checking out " + monorepo_branch + " on the monorepo." );
+	execMonorepoNoOutput( `git checkout ${ monorepo_branch }` );
+}
+
+
+console.log( `Your monorepo is located in "${ get_monorepo_location_from_file() }". ` );
+
+prepare_monorepo_state();
 
 const packages = execMonorepo( `ls packages` ).toString().split( "\n" ).filter( value => value !== "" );
 unlink_all_yoast_packages();
