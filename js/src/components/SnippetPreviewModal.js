@@ -1,13 +1,19 @@
-import React from "react";
-import { ButtonSection } from "yoast-components";
+/* External dependencies */
+import { Fragment } from "@wordpress/element";
 import { Button, Modal } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import { createGlobalStyle } from "styled-components";
+
+/* Yoast dependencies */
+import { ButtonSection } from "yoast-components";
+import { colors, rgba } from "@yoast/style-guide";
+
+/* Internal dependencies */
 import SnippetEditorWrapper from "../containers/SnippetEditor";
 
 const OverrideOverlayColor = createGlobalStyle`
 	.components-modal__screen-overlay {
-		background-color: hsla(327, 84%, 38%, 0.6);
+		background-color: ${ rgba( colors.$color_pink_dark, 0.6 ) };
 	}
 `;
 
@@ -33,7 +39,7 @@ class SnippetPreviewModal extends React.Component {
 
 	render() {
 		return (
-			<React.Fragment>
+			<Fragment>
 				<ButtonSection
 					id={ "yoast-snippet-editor-sidebar" }
 					title={ __( "Snippet preview", "wordpress-seo" ) }
@@ -53,7 +59,7 @@ class SnippetPreviewModal extends React.Component {
 					<OverrideOverlayColor />
 				</Modal>
 				}
-			</React.Fragment>
+			</Fragment>
 		);
 	}
 }
