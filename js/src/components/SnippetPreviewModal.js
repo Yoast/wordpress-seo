@@ -1,5 +1,5 @@
 /* External dependencies */
-import { Fragment } from "@wordpress/element";
+import { Fragment, Component } from "@wordpress/element";
 import { Button, Modal } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
 import { createGlobalStyle } from "styled-components";
@@ -17,7 +17,7 @@ const OverrideOverlayColor = createGlobalStyle`
 	}
 `;
 
-class SnippetPreviewModal extends React.Component {
+class SnippetPreviewModal extends Component {
 	constructor( props ) {
 		super( props );
 
