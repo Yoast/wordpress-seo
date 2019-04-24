@@ -69,7 +69,7 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 	 *
 	 * @param {string} locale The locale of the user.
 	 *
-	 * @returns {boolean} True if fully supported.
+	 * @returns {boolean} `true` if fully supported.
 	 */
 	isFullySupported( locale ) {
 		const language = getLanguage( locale );
@@ -160,7 +160,7 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 
 	/**
 	 * Sets the locale of the content. We are more lenient on languages
-	 * that are not fully supported in the analysis.
+	 * that are fully supported in the analysis.
 	 *
 	 * @param {string} locale The locale of the content.
 	 *
