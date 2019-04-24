@@ -1,11 +1,11 @@
 {
-  "name": "@yoast/feature-toggle",
+  "name": "@yoast/feature-flag",
   "version": "0.1.0",
   "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/yoast/javascript",
-    "directory": "packages/feature-toggle"
+    "directory": "packages/feature-flag"
   },
   "author": "Team Yoast",
   "license": "GPL-3.0",
