@@ -11,3 +11,4 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Added
 
 * Splits out `@yoast/style-guide` from `yoast-components`. The style guide package contains colors and other standardizes styles.
+* Added a `$palette_blue_focus` color with value `#5b9dd9` to the color palette: this is the color WordPress uses for focus styles.

@@ -11,3 +11,4 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Added
 
 * Splits out `@yoast/configuration-wizard` from `yoast-components`. The configuration wizard package contains the Yoast SEO configuration wizard.
+* Added focus style to the Configuration Wizard navigation buttons.
