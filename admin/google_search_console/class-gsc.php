@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_GSC
+ * Class WPSEO_GSC.
  */
 class WPSEO_GSC implements WPSEO_WordPress_Integration {
 

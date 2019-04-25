@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Sitemaps_Test
+ * Class WPSEO_Sitemaps_Test.
  */
 class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 
@@ -18,7 +18,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	private $subject;
 
 	/**
-	 * Create subject instance
+	 * Create subject instance.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -26,7 +26,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test getting/setting sitemap
+	 * Test getting/setting sitemap.
 	 *
 	 * @covers WPSEO_Sitemap_Cache_Data::set_sitemap()
 	 * @covers WPSEO_Sitemap_Cache_Data::get_sitemap()
@@ -39,7 +39,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Setting a sitemap that is not a string
+	 * Setting a sitemap that is not a string.
 	 *
 	 * @covers WPSEO_Sitemap_Cache_Data::get_sitemap()
 	 * @covers WPSEO_Sitemap_Cache_Data::is_usable()
@@ -54,7 +54,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test with invalid status
+	 * Test with invalid status.
 	 *
 	 * @covers WPSEO_Sitemap_Cache_Data::get_status()
 	 */
@@ -67,7 +67,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test status of sitemap without setting anything
+	 * Test status of sitemap without setting anything.
 	 *
 	 * @covers WPSEO_Sitemap_Cache_Data::get_status()
 	 */
@@ -76,7 +76,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test setting empty sitemap - status
+	 * Test setting empty sitemap - status.
 	 *
 	 * @covers WPSEO_Sitemap_Cache_Data::set_sitemap()
 	 * @covers WPSEO_Sitemap_Cache_Data::get_status()
@@ -89,7 +89,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test is_usable with status
+	 * Test is_usable with status.
 	 *
 	 * @covers WPSEO_Sitemap_Cache_Data::get_status()
 	 * @covers WPSEO_Sitemap_Cache_Data::is_usable()
@@ -103,7 +103,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test setting status string/constant
+	 * Test setting status string/constant.
 	 *
 	 * @covers WPSEO_Sitemap_Cache_Data::set_status()
 	 * @covers WPSEO_Sitemap_Cache_Data::get_status()
@@ -120,7 +120,7 @@ class WPSEO_Sitemaps_Cache_Data_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test serializing/unserializing
+	 * Test serializing/unserializing.
 	 *
 	 * Tests if the class is serializable.
 	 */

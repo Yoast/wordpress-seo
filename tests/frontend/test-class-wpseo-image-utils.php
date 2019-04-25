@@ -6,7 +6,7 @@
  */
 
 /**
- * Tests WPSEO_Image_Utils
+ * Tests WPSEO_Image_Utils.
  */
 final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 

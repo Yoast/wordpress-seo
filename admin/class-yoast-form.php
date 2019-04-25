@@ -41,7 +41,7 @@ class Yoast_Form {
 	protected $option_instance = null;
 
 	/**
-	 * Get the singleton instance of this class
+	 * Get the singleton instance of this class.
 	 *
 	 * @since 2.0
 	 *
@@ -56,7 +56,7 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Generates the header for admin pages
+	 * Generates the header for admin pages.
 	 *
 	 * @since 2.0
 	 *
@@ -73,8 +73,8 @@ class Yoast_Form {
 		<div class="wrap yoast wpseo-admin-page <?php echo esc_attr( 'page-' . $option ); ?>">
 		<?php
 		/**
-		 * Display the updated/error messages
-		 * Only needed as our settings page is not under options, otherwise it will automatically be included
+		 * Display the updated/error messages.
+		 * Only needed as our settings page is not under options, otherwise it will automatically be included.
 		 *
 		 * @see settings_errors()
 		 */
@@ -104,7 +104,7 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Set the option used in output for form elements
+	 * Set the option used in output for form elements.
 	 *
 	 * @since 2.0
 	 *
@@ -140,7 +140,7 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Generates the footer for admin pages
+	 * Generates the footer for admin pages.
 	 *
 	 * @since 2.0
 	 *
@@ -156,12 +156,12 @@ class Yoast_Form {
 		}
 
 		/**
-		 * Apply general admin_footer hooks
+		 * Apply general admin_footer hooks.
 		 */
 		do_action( 'wpseo_admin_footer', $this );
 
 		/**
-		 * Run possibly set actions to add for example an i18n box
+		 * Run possibly set actions to add for example an i18n box.
 		 */
 		do_action( 'wpseo_admin_promo_footer' );
 
@@ -196,7 +196,7 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Output a label element
+	 * Output a label element.
 	 *
 	 * @since 2.0
 	 *
@@ -338,22 +338,22 @@ class Yoast_Form {
 	 *
 	 * @param string       $var   The variable within the option to create the text input field for.
 	 * @param string       $label The label to show for the variable.
-	 * @param array|string $attr  Extra class to add to the input field.
+	 * @param array|string $attr  Extra attributes to add to the input field. Can be class, disabled, autocomplete.
 	 */
 	public function textinput( $var, $label, $attr = array() ) {
 		if ( ! is_array( $attr ) ) {
 			$attr = array(
-				'class' => $attr,
+				'class'    => $attr,
 				'disabled' => false,
 			);
 		}
 
-		$defaults     = array(
+		$defaults   = array(
 			'placeholder' => '',
 			'class'       => '',
 		);
-		$attr         = wp_parse_args( $attr, $defaults );
-		$val          = isset( $this->options[ $var ] ) ? $this->options[ $var ] : '';
+		$attr       = wp_parse_args( $attr, $defaults );
+		$val        = isset( $this->options[ $var ] ) ? $this->options[ $var ] : '';
 		$attributes = isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '';
 		if ( isset( $attr['disabled'] ) && $attr['disabled'] ) {
 			$attributes .= ' disabled';
@@ -511,7 +511,7 @@ class Yoast_Form {
 	}
 
 	/**
-	 * Media input
+	 * Media input.
 	 *
 	 * @since 2.0
 	 *

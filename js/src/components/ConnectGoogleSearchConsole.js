@@ -3,7 +3,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
-import { localize, LoadingIndicator } from "yoast-components";
+import { localize } from "yoast-components";
+import { LoadingIndicator } from "@yoast/configuration-wizard";
 
 /**
  * Represents a Google search console interface.

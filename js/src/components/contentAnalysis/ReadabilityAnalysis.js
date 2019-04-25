@@ -57,7 +57,6 @@ class ReadabilityAnalysis extends React.Component {
 							{ __( "Analysis results", "wordpress-seo" ) }
 							<StyledHelpLink
 								href={ wpseoAdminL10n[ "shortlinks.readability_analysis_info" ] }
-								rel={ null }
 								className="dashicons"
 							>
 								<span className="screen-reader-text">

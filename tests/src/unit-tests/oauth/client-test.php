@@ -12,7 +12,7 @@ use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
 
 /**
- * Class Oauth_Test
+ * Class Oauth_Test.
  *
  * @group oauth
  */

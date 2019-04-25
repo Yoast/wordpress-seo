@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Double
+ * Class WPSEO_Config_Field_Double.
  */
 class WPSEO_Config_Field_Double extends WPSEO_Config_Field {
 

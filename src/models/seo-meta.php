@@ -28,7 +28,7 @@ class SEO_Meta extends Yoast_Model {
 	/**
 	 * Finds the SEO meta for given post.
 	 *
-	 * @param int $post_id The post id.
+	 * @param int $post_id The post ID.
 	 *
 	 * @return SEO_Meta The SEO meta.
 	 */

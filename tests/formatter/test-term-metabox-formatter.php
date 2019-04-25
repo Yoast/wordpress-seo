@@ -31,7 +31,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the formatter without a term, taxonomy and options
+	 * Test the formatter without a term, taxonomy and options.
 	 *
 	 * @covers WPSEO_Term_Metabox_Formatter::__construct
 	 * @covers WPSEO_Term_Metabox_Formatter::get_values
@@ -81,7 +81,7 @@ class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Get the correct post_edit_url for WP 4.5 and higher
+	 * Get the correct post_edit_url for WP 4.5 and higher.
 	 *
 	 * @covers WPSEO_Term_Metabox_Formatter::edit_url
 	 */

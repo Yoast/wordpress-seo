@@ -1,11 +1,13 @@
+/* global wpApiSettings */
+
 import Select from "react-select/lib/Async";
 import { Component, Fragment } from "@wordpress/element";
-import apiFetch from "@wordpress/api-fetch";
 import PropTypes from "prop-types";
 import { debounce } from "lodash";
 import { createGlobalStyle } from "styled-components";
 import { __ } from "@wordpress/i18n";
 import { SvgIcon } from "yoast-components";
+import { sendRequest } from "yoast-components";
 
 /**
  * Styles to overwrite react-select styles.
@@ -49,6 +51,12 @@ const Styles = createGlobalStyle`
 		}
 	}
 `;
+
+const HEADERS = {
+	"X-WP-NONCE": wpApiSettings.nonce,
+};
+
+const REST_ROUTE = wpApiSettings.root;
 
 /**
  * Component to replace the react-select dropdown icon.
@@ -126,17 +134,34 @@ class WordPressUserSelector extends Component {
 	}
 
 	/**
-	 * Creates a query string from a params object.
+	 * Adds additional query parameters to an existing URL. Also encodes existing query parameters.
 	 *
+	 * @param {string} url    The URL.
 	 * @param {Object} params Params for in the query string.
 	 *
 	 * @returns {string} URI encoded query string.
 	 */
-	static createQueryString( params ) {
-		return Object.keys( params )
-			.filter( key => !! params[ key ] )
-			.map( key => `${ encodeURIComponent( key ) }=${ encodeURIComponent( params[ key ] ) }` )
+	static addQueryParams( url, params ) {
+		const urlParts = url.split( "?" );
+
+		url = urlParts[ 0 ];
+
+		const allQueryParams = { ...params };
+
+		if ( urlParts.length === 2 ) {
+			urlParts[ 1 ].split( "&" ).forEach( part => {
+				const item = part.split( "=" );
+
+				allQueryParams[ item[ 0 ] ] = item[ 1 ];
+			} );
+		}
+
+		const newQueryParams = Object.keys( allQueryParams )
+			.filter( key => !! allQueryParams[ key ] )
+			.map( key => `${ key }=${ encodeURIComponent( allQueryParams[ key ] ) }` )
 			.join( "&" );
+
+		return `${ url }?${ newQueryParams }`;
 	}
 
 	/**
@@ -179,9 +204,7 @@ class WordPressUserSelector extends Component {
 	 * @returns {void}
 	 */
 	async fetchUser( id ) {
-		const user = await apiFetch( {
-			path: `/wp/v2/users/${ id }`,
-		} );
+		const user = await sendRequest( `${ REST_ROUTE }wp/v2/users/${ id }`, { method: "GET", headers: HEADERS } );
 
 		if ( ! user ) {
 			this.setState( { loading: false } );
@@ -201,29 +224,29 @@ class WordPressUserSelector extends Component {
 	 * @returns {void}
 	 */
 	fetchUsers( input, callback ) {
-		const queryParameters = WordPressUserSelector.createQueryString( {
+		const params = {
 			/* eslint-disable-next-line camelcase */
 			per_page: 10,
 			search: input,
-		} );
+		};
 
-		apiFetch( {
-			path: `/wp/v2/users?${ queryParameters }`,
-		} ).then( users => {
-			const mappedUsers = users.map( this.mapUserToSelectOption );
+		const url = WordPressUserSelector.addQueryParams( `${ REST_ROUTE }wp/v2/users`, params );
 
-			callback( mappedUsers );
-		} );
+		sendRequest( url, { method: "GET", headers: HEADERS } )
+			.then( users => {
+				const mappedUsers = users.map( this.mapUserToSelectOption );
+
+				callback( mappedUsers );
+			} );
 	}
 }
 
-WordPressUserSelector.propTypes = {
+export const WordPressUserSelectorPropTypes = {
 	name: PropTypes.string.isRequired,
 	value: PropTypes.number.isRequired,
-	properties: PropTypes.shape( {
-		user: PropTypes.number,
-	} ).isRequired,
 	onChange: PropTypes.func.isRequired,
 };
+
+WordPressUserSelector.propTypes = WordPressUserSelectorPropTypes;
 
 export default WordPressUserSelector;

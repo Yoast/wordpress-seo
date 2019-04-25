@@ -110,7 +110,6 @@ class WPSEO_Addon_Manager {
 		}
 
 		return $this->get_site_information_default();
-
 	}
 
 	/**
@@ -460,7 +459,7 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Filters the given array by its keys.
 	 *
-	 * This method is temporary. When WordPress has minimaal PHP 5.6 support we can change this to:
+	 * This method is temporary. When WordPress has minimal PHP 5.6 support we can change this to:
 	 *
 	 * array_filter( $array_to_filter, $filter, ARRAY_FILTER_USE_KEY )
 	 *

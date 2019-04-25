@@ -2,15 +2,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
-import {
-	utils,
-	HelpText,
-} from "yoast-components";
 
+import { HelpText } from "@yoast/components";
+import { makeOutboundLink } from "@yoast/helpers";
 import Collapsible from "./SidebarCollapsible";
 import { default as CornerstoneToggle } from "./CornerstoneToggle";
 import { LocationConsumer } from "./contexts/location";
-const LearnMoreLink = utils.makeOutboundLink();
+const LearnMoreLink = makeOutboundLink();
 
 /**
  * Renders the collapsible cornerstone toggle.
@@ -25,7 +23,7 @@ export default function CollapsibleCornerstone( { isCornerstone, onChange } ) {
 				<Collapsible id={ `yoast-cornerstone-collapsible-${ context }` } title={ __( "Cornerstone content", "wordpress-seo" ) }>
 					<HelpText>
 						{ __( "Cornerstone content should be the most important and extensive articles on your site.", "wordpress-seo" ) + " " }
-						<LearnMoreLink href={ wpseoAdminL10n[ "shortlinks.cornerstone_content_info" ] } rel={ null }>
+						<LearnMoreLink href={ wpseoAdminL10n[ "shortlinks.cornerstone_content_info" ] }>
 							{ __( "Learn more about Cornerstone Content.", "wordpress-seo" ) }
 						</LearnMoreLink>
 					</HelpText>

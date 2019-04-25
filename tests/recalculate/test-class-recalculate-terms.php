@@ -25,7 +25,7 @@ class WPSEO_Recalculate_Terms_Test extends WPSEO_UnitTestCase {
 	private $instance;
 
 	/**
-	 * Setup the class instance and create some posts
+	 * Setup the class instance and create some terms.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -55,7 +55,7 @@ class WPSEO_Recalculate_Terms_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the saving of the scores
+	 * Test the saving of the scores.
 	 *
 	 * @covers WPSEO_Recalculate_Posts::save_scores
 	 */
@@ -75,7 +75,7 @@ class WPSEO_Recalculate_Terms_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test getting the response for calculating the score for the terms
+	 * Test getting the response for calculating the score for the terms.
 	 *
 	 * @covers WPSEO_Recalculate_Posts::get_items_to_recalculate
 	 */

@@ -139,7 +139,7 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the meta lookup returns the expected type of data
+	 * Tests if the meta lookup returns the expected type of data.
 	 *
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Term_Formatter::get_indexable_lookup()
 	 */
@@ -148,7 +148,7 @@ class Indexable_Term_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the meta lookup returns the expected type of data
+	 * Tests if the meta lookup returns the expected type of data.
 	 *
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Term_Formatter::get_indexable_meta_lookup()
 	 */

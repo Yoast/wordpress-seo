@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Configuration_Components
+ * Class WPSEO_Configuration_Components.
  */
 class WPSEO_Configuration_Components {
 
@@ -34,7 +34,7 @@ class WPSEO_Configuration_Components {
 	}
 
 	/**
-	 * Add a component
+	 * Add a component.
 	 *
 	 * @param WPSEO_Config_Component $component Component to add.
 	 */

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Company_Logo
+ * Class WPSEO_Config_Field_Company_Logo.
  */
 class WPSEO_Config_Field_Company_Logo extends WPSEO_Config_Field {
 

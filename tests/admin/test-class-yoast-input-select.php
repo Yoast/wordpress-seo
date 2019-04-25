@@ -114,7 +114,7 @@ class Yoast_Input_Select_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Testing printing the output
+	 * Testing printing the output.
 	 *
 	 * @covers Yoast_Input_Select::__construct
 	 * @covers Yoast_Input_Select::output_html

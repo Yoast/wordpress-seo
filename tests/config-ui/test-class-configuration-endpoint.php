@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Configuration_Endpoint_Test
+ * Class WPSEO_Configuration_Endpoint_Test.
  */
 class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 
@@ -18,7 +18,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	protected $endpoint;
 
 	/**
-	 * Set up
+	 * Set up.
 	 */
 	public function setUp() {
 		parent::setUp();

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Profile_URL_Facebook
+ * Class WPSEO_Config_Field_Profile_URL_Facebook.
  */
 class WPSEO_Config_Field_Profile_URL_Facebook extends WPSEO_Config_Field {
 
@@ -23,7 +23,7 @@ class WPSEO_Config_Field_Profile_URL_Facebook extends WPSEO_Config_Field {
 	}
 
 	/**
-	 * Set adapter
+	 * Set adapter.
 	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */

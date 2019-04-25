@@ -98,11 +98,11 @@ class WPSEO_Endpoint_MyYoast_Connect implements WPSEO_Endpoint {
 	}
 
 	/**
-	 * Retrieves the current client id.
+	 * Retrieves the current client ID.
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return array The client id.
+	 * @return array The client ID.
 	 */
 	protected function get_client_id() {
 		$config = $this->get_client()->get_configuration();
@@ -128,11 +128,11 @@ class WPSEO_Endpoint_MyYoast_Connect implements WPSEO_Endpoint {
 	}
 
 	/**
-	 * Wraps the method for retrieving the home url.
+	 * Wraps the method for retrieving the home URL.
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return string Home url.
+	 * @return string Home URL.
 	 */
 	protected function get_home_url() {
 		return WPSEO_Utils::get_home_url();

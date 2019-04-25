@@ -5,7 +5,7 @@ namespace Yoast\Tests\IntegrationTests\Config;
 use Yoast\WP\Free\Config\Database_Migration;
 
 /**
- * Class Database_Migration_Test
+ * Class Database_Migration_Test.
  *
  * @group   db-migrations
  *
