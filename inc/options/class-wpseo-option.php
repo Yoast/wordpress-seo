@@ -180,7 +180,7 @@ abstract class WPSEO_Option {
 		/*
 		 * Make sure the option will always get validated, independently of register_setting()
 		 * (only available on back-end).
-		*/
+		 */
 		add_filter( 'sanitize_option_' . $this->option_name, array( $this, 'validate' ) );
 
 		// Flushes the rewrite rules when option is updated.

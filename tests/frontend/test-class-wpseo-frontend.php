@@ -255,7 +255,10 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 		$category_id = wp_create_category( 'Yoast SEO Plugins' );
 		$this->factory->post->create_many( 3, array( 'post_category' => array( $category_id ) ) );
 
-		// This shouldn't be necessary but apparently multisite's rewrites are borked when you create a category and you don't flush (on 4.0 only).
+		/*
+		 * This shouldn't be necessary but apparently multisite's rewrites are borked
+		 * when you create a category and you don't flush (on 4.0 only).
+		 */
 		flush_rewrite_rules();
 
 		$category_link = get_category_link( $category_id );
