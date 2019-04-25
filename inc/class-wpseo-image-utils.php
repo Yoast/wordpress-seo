@@ -372,7 +372,7 @@ class WPSEO_Image_Utils {
 		$image_finder = new WPSEO_Content_Images();
 		$images       = $image_finder->get_images( $post->ID, $post );
 
-		if ( ! is_array( $images ) || $images === array() ) {
+		if ( ! is_array( $images ) || empty( $images ) ) {
 			return null;
 		}
 
