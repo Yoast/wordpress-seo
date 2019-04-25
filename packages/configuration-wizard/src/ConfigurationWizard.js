@@ -8,14 +8,16 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import { __, sprintf } from "@wordpress/i18n";
 
 /* Yoast dependencies */
-import { sendRequest } from "@yoast/helpers";
+import { sendRequest, makeOutboundLink } from "@yoast/helpers";
 
-/* Interal dependencies */
+/* Internal dependencies */
 import muiTheme from "./yoast-theme";
 import StepIndicator from "./StepIndicator";
 import LoadingIndicator from "./LoadingIndicator";
 import Header from "./Header";
 import Step from "./Step";
+
+const BugReportLink = makeOutboundLink();
 
 /**
  * The ConfigurationWizard class.
@@ -193,7 +195,7 @@ class ConfigurationWizard extends React.Component {
 				),
 				// The anchor does have content (see mixedString above).
 				// eslint-disable-next-line jsx-a11y/anchor-has-content
-				components: { link: <a href="https://yoa.st/bugreport" target="_blank" rel="noopener noreferrer" /> },
+				components: { link: <BugReportLink href="https://yoa.st/bugreport" /> },
 			} ),
 		} );
 	}
@@ -266,7 +268,7 @@ class ConfigurationWizard extends React.Component {
 	 * @param {string} currentStep The current step object in the wizard.
 	 * @param {string} className The class name for the button.
 	 *
-	 * @returns {ReactElement} Returns a RaisedButton component depending on an existing previous/next step.
+	 * @returns {ReactElement} Returns a button component depending on an existing previous/next step.
 	 */
 	getNavigationbutton( type, attributes, currentStep, className ) {
 		let hideButton = false;

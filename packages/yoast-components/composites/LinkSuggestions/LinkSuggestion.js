@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { __, sprintf } from "@wordpress/i18n";
 import { colors } from "@yoast/style-guide";
 import { SvgIcon, ScreenReaderText } from "@yoast/components";
+import { makeOutboundLink } from "@yoast/helpers";
 
 const LinkSuggestionWrapper = styled.div`
 	width: 100%;
@@ -22,17 +23,17 @@ const LinkSuggestionIcon = styled.button`
 	margin-right: 5px;
 	display: table-cell;
 	border: 1px solid ${ colors.$color_button_border };
-	
+
 	&:focus {
 		border-radius: 100%;
 		box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
 	}
 `;
 
-const Link = styled.a`
+const Link = makeOutboundLink( styled.a`
 	padding: 6px 0;
 	display: table-cell;
-`;
+` );
 
 /**
  * @summary Represents a suggestion component with a copy url to clipboard icon and a text value.
@@ -79,7 +80,7 @@ const LinkSuggestion = ( { value, url, isActive } ) => {
 				<SvgIcon icon={ icon } color={ colors.$color_grey_dark } />
 				<ScreenReaderText>{ label }</ScreenReaderText>
 			</LinkSuggestionIcon>
-			<Link href={ url } target="_blank">{ value }</Link>
+			<Link href={ url }>{ value }</Link>
 		</LinkSuggestionWrapper>
 	);
 };
