@@ -498,7 +498,7 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 	if ( is_admin() ) {
 
 		new Yoast_Alerts();
-    
+
 		$yoast_addon_manager = new WPSEO_Addon_Manager();
 		$yoast_addon_manager->register_hooks();
 
