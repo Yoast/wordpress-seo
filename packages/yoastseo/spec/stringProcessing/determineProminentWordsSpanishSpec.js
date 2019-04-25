@@ -1,12 +1,8 @@
-import WordCombination from "../../src/values/WordCombination";
-import relevantWords from "../../src/stringProcessing/relevantWords";
-import spanishFunctionWordsFactory from "../../src/researches/spanish/functionWords.js";
+import ProminentWord from "../../src/values/ProminentWord";
+import { getProminentWords } from "../../src/stringProcessing/determineProminentWords";
 
-const getRelevantWords = relevantWords.getRelevantWords;
-const spanishFunctionWords = spanishFunctionWordsFactory().all;
-
-describe( "gets Spanish word combinations", function() {
-	it( "returns word combinations", function() {
+describe( "gets Spanish prominent words", function() {
+	it( "returns prominent words", function() {
 		const input = "No pudimos ir a trabajar porque hubo una tormenta de nieve. No pudimos ir a trabajar porque hubo una " +
 			"tormenta de nieve. No pudimos ir a trabajar porque hubo una tormenta de nieve. No pudimos ir a trabajar porque " +
 			"hubo una tormenta de nieve. No pudimos ir a trabajar porque hubo una tormenta de nieve. No pudimos ir a trabajar " +
@@ -19,21 +15,12 @@ describe( "gets Spanish word combinations", function() {
 			"de nieve. No pudimos ir a trabajar porque hubo una tormenta de nieve. No pudimos ir a trabajar porque hubo una tormenta " +
 			"de nieve.";
 		const expected = [
-			new WordCombination( [ "tormenta", "de", "nieve" ], 19, spanishFunctionWords ),
-			new WordCombination( [ "ir", "a", "trabajar" ], 19, spanishFunctionWords ),
-			new WordCombination( [ "trabajar" ], 19, spanishFunctionWords ),
-			new WordCombination( [ "tormenta" ], 19, spanishFunctionWords ),
-			new WordCombination( [ "nieve" ], 19, spanishFunctionWords ),
+			new ProminentWord( "nieve", "nieve", 19 ),
+			new ProminentWord( "tormenta", "tormenta", 19 ),
+			new ProminentWord( "trabajar", "trabajar", 19 ),
 		];
 
-		// Make sure our words aren't filtered by density.
-		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
-
-		const words = getRelevantWords( input, "es_ES" );
-
-		words.forEach( function( word ) {
-			delete( word._relevantWords );
-		} );
+		const words = getProminentWords( input, [], "es", false );
 
 		expect( words ).toEqual( expected );
 	} );

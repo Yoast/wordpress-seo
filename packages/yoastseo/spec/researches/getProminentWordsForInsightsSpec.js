@@ -1,7 +1,7 @@
 import getProminentWordsForInsights from "../../src/researches/getProminentWordsForInsights";
 import Paper from "../../src/values/Paper";
 import Researcher from "../../src/researcher";
-import WordCombination from "../../src/values/WordCombination";
+import ProminentWord from "../../src/values/ProminentWord";
 import morphologyData from "../../premium-configuration/data/morphologyData.json";
 
 describe( "getProminentWordsForInsights research", function() {
@@ -12,7 +12,7 @@ describe( "getProminentWordsForInsights research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		const expected = [
-			new WordCombination( "texte", "texte", 5 ),
+			new ProminentWord( "texte", "texte", 5 ),
 		];
 
 		const words = getProminentWordsForInsights( paper, researcher );
@@ -30,8 +30,8 @@ describe( "getProminentWordsForInsights research", function() {
 		researcher.addResearchData( "morphology", morphologyData );
 
 		const expected = [
-			new WordCombination( "syllable", "syllable", 9 ),
-			new WordCombination( "combinations", "combination", 5 ),
+			new ProminentWord( "syllable", "syllable", 9 ),
+			new ProminentWord( "combinations", "combination", 5 ),
 		];
 
 		const words = getProminentWordsForInsights( paper, researcher );
@@ -69,16 +69,16 @@ describe( "getProminentWordsForInsights research", function() {
 		 *  The research does not consider relevant words coming from paper attributes, only the text.
 		 */
 		const expected = [
-			new WordCombination( "indexing", "index", 9 ),
-			new WordCombination( "allow", "allow", 6 ),
-			new WordCombination( "bing", "bing", 6 ),
-			new WordCombination( "connect", "connect", 6 ),
-			new WordCombination( "google", "google", 6 ),
-			new WordCombination( "live", "live", 6 ),
-			new WordCombination( "myyoast", "myyoast", 6 ),
-			new WordCombination( "site", "site", 6 ),
-			new WordCombination( "update", "update", 6 ),
-			new WordCombination( "work", "work", 6 ),
+			new ProminentWord( "indexing", "index", 9 ),
+			new ProminentWord( "allow", "allow", 6 ),
+			new ProminentWord( "bing", "bing", 6 ),
+			new ProminentWord( "connect", "connect", 6 ),
+			new ProminentWord( "google", "google", 6 ),
+			new ProminentWord( "live", "live", 6 ),
+			new ProminentWord( "myyoast", "myyoast", 6 ),
+			new ProminentWord( "site", "site", 6 ),
+			new ProminentWord( "update", "update", 6 ),
+			new ProminentWord( "work", "work", 6 ),
 		];
 
 		const words = getProminentWordsForInsights( paper, researcher );

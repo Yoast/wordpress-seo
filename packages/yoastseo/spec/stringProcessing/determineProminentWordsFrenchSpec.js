@@ -1,12 +1,8 @@
-import WordCombination from "../../src/values/WordCombination";
-import relevantWords from "../../src/stringProcessing/relevantWords";
-import frenchFunctionWordsFactory from "../../src/researches/french/functionWords.js";
+import ProminentWord from "../../src/values/ProminentWord";
+import { getProminentWords, filterProminentWords } from "../../src/stringProcessing/determineProminentWords";
 
-const getRelevantWords = relevantWords.getRelevantWords;
-const frenchFunctionWords = frenchFunctionWordsFactory().all;
-
-describe( "gets French word combinations", function() {
-	it( "returns word combinations", function() {
+describe( "gets French prominent words", function() {
+	it( "returns prominent words", function() {
 		const input = "Mercredi, un texte issu de la rencontre, la veille, entre le président français Emmanuel Macron" +
 			"et la première ministre britannique Theresa May présentait des axes de travail pour lutter contre le terrorisme" +
 			" sur Internet, évoquant, sans les nommer, les grands réseaux sociaux. Vingt-quatre heures plus tard seulement," +
@@ -18,19 +14,12 @@ describe( "gets French word combinations", function() {
 			" l’entreprise, avait déjà évoquée. Elle est désormais effective, explique au Monde, par visioconférence," +
 			" Brian Fishman, chargé de la lutte contre le terrorisme à Facebook :";
 		const expected = [
-			new WordCombination( [ "terrorisme" ], 3, frenchFunctionWords ),
-			new WordCombination( [ "facebook" ], 3, frenchFunctionWords ),
-			new WordCombination( [ "texte" ], 2, frenchFunctionWords ),
+			new ProminentWord( "facebook", "facebook", 3 ),
+			new ProminentWord( "terrorisme", "terrorisme", 3 ),
+			new ProminentWord( "texte", "texte", 2 ),
 		];
 
-		// Make sure our words aren't filtered by density.
-		spyOn( WordCombination.prototype, "getDensity" ).and.returnValue( 0.01 );
-
-		const words = getRelevantWords( input, "fr_FR" );
-
-		words.forEach( function( word ) {
-			delete( word._relevantWords );
-		} );
+		const words = filterProminentWords( getProminentWords( input, [ "IA" ], "fr", false ) );
 
 		expect( words ).toEqual( expected );
 	} );
