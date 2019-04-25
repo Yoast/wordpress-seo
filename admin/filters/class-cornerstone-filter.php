@@ -39,7 +39,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	}
 
 	/**
-	 * Modify the query based on the seo_filter variable in $_GET
+	 * Modify the query based on the seo_filter variable in $_GET.
 	 *
 	 * @param string $where Query variables.
 	 *

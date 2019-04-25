@@ -11,7 +11,9 @@
 abstract class WPSEO_Indexable_Provider implements WPSEO_Indexable_Service_Provider {
 
 	/**
-	 * @var array List of fields that need to be renamed.
+	 * List of fields that need to be renamed.
+	 *
+	 * @var array
 	 */
 	protected $renameable_fields = array();
 

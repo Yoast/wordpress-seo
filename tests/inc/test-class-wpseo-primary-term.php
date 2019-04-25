@@ -11,17 +11,23 @@
 class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * @var string name of the taxonomy
+	 * Name of the taxonomy.
+	 *
+	 * @var string
 	 */
 	private $taxonomy_name = 'category';
 
 	/**
-	 * @var int post id
+	 * Post ID.
+	 *
+	 * @var int
 	 */
 	private $post_id = 1;
 
 	/**
-	 * @var int id of the primary term
+	 * ID of the primary term.
+	 *
+	 * @var int
 	 */
 	private $primary_term_id = 54;
 
@@ -49,7 +55,7 @@ class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Return the term id when there's no primary term set
+	 * Return the term ID when there's no primary term set
 	 *
 	 * @covers WPSEO_Primary_Term::get_primary_term
 	 */
@@ -62,7 +68,7 @@ class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * When there is more than one term, set the term with the lowest id as primary term.
+	 * When there is more than one term, set the term with the lowest ID as primary term.
 	 *
 	 * @covers WPSEO_Primary_Term::get_primary_term
 	 */
@@ -81,7 +87,7 @@ class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test that set_primary_term succesfully updates the primary_term
+	 * Test that set_primary_term succesfully updates the primary_term.
 	 *
 	 * @covers WPSEO_Primary_Term::set_primary_term
 	 */

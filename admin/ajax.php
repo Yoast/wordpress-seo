@@ -16,12 +16,12 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  */
 
 /**
- * Convenience function to JSON encode and echo results and then die
+ * Convenience function to JSON encode and echo results and then die.
  *
  * @param array $results Results array for encoding.
  */
 function wpseo_ajax_json_echo_die( $results ) {
-	echo wp_json_encode( $results );
+	echo WPSEO_Utils::format_json_encode( $results );
 	die();
 }
 
@@ -87,7 +87,7 @@ function wpseo_dismiss_tagline_notice() {
 add_action( 'wp_ajax_wpseo_dismiss_tagline_notice', 'wpseo_dismiss_tagline_notice' );
 
 /**
- * Used in the editor to replace vars for the snippet preview
+ * Used in the editor to replace vars for the snippet preview.
  */
 function wpseo_ajax_replace_vars() {
 	global $post;
@@ -124,7 +124,7 @@ function wpseo_save_description() {
 add_action( 'wp_ajax_wpseo_save_metadesc', 'wpseo_save_description' );
 
 /**
- * Save titles & descriptions
+ * Save titles & descriptions.
  *
  * @param string $what Type of item to save (title, description).
  */
@@ -246,7 +246,7 @@ function wpseo_save_all_descriptions() {
 add_action( 'wp_ajax_wpseo_save_all_descriptions', 'wpseo_save_all_descriptions' );
 
 /**
- * Utility function to save values
+ * Utility function to save values.
  *
  * @param string $what Type of item so save.
  */
@@ -270,7 +270,7 @@ function wpseo_save_all( $what ) {
 }
 
 /**
- * Insert a new value
+ * Insert a new value.
  *
  * @param string $what     Item type (such as title).
  * @param int    $post_id  Post ID.
@@ -297,7 +297,7 @@ function ajax_get_keyword_usage() {
 	}
 
 	wp_die(
-		wp_json_encode( WPSEO_Meta::keyword_usage( $keyword, $post_id ) )
+		WPSEO_Utils::format_json_encode( WPSEO_Meta::keyword_usage( $keyword, $post_id ) )
 	);
 }
 
@@ -327,7 +327,7 @@ function ajax_get_term_keyword_usage() {
 	$usage = $usage[ $keyword ];
 
 	wp_die(
-		wp_json_encode( $usage )
+		WPSEO_Utils::format_json_encode( $usage )
 	);
 }
 
@@ -366,7 +366,7 @@ new Yoast_Dismissable_Notice_Ajax( 'recalculate', Yoast_Dismissable_Notice_Ajax:
 /* ********************* DEPRECATED FUNCTIONS ********************* */
 
 /**
- * Removes stopword from the sample permalink that is generated in an AJAX request
+ * Removes stopword from the sample permalink that is generated in an AJAX request.
  *
  * @deprecated 6.3
  * @codeCoverageIgnore

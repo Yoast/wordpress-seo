@@ -13,23 +13,25 @@
 class WPSEO_Utils {
 
 	/**
-	 * @var bool $has_filters Whether the PHP filter extension is enabled.
-	 * @static
+	 * Whether the PHP filter extension is enabled.
+	 *
 	 * @since 1.8.0
+	 *
+	 * @var bool $has_filters
 	 */
 	public static $has_filters;
 
 	/**
-	 * @var array Notifications to be shown in the JavaScript console.
-	 * @static
+	 * Notifications to be shown in the JavaScript console.
+	 *
 	 * @since 3.3.2
+	 *
+	 * @var array
 	 */
 	protected static $console_notifications = array();
 
 	/**
 	 * Check whether the current user is allowed to access the configuration.
-	 *
-	 * @static
 	 *
 	 * @since 1.8.0
 	 *
@@ -55,8 +57,6 @@ class WPSEO_Utils {
 	 *
 	 * {@internal current_user_can() checks internally whether a user is on wp-ms and adjusts accordingly.}}
 	 *
-	 * @static
-	 *
 	 * @since    1.8.0
 	 *
 	 * @return bool
@@ -81,8 +81,6 @@ class WPSEO_Utils {
 	/**
 	 * Check if the web server is running on Apache.
 	 *
-	 * @static
-	 *
 	 * @since 1.8.0
 	 *
 	 * @return bool
@@ -99,8 +97,6 @@ class WPSEO_Utils {
 
 	/**
 	 * Check if the web server is running on Nginx.
-	 *
-	 * @static
 	 *
 	 * @since 1.8.0
 	 *
@@ -177,8 +173,6 @@ class WPSEO_Utils {
 	 *
 	 * @since 1.8.0
 	 *
-	 * @static
-	 *
 	 * @return array $roles
 	 */
 	public static function get_roles() {
@@ -212,8 +206,6 @@ class WPSEO_Utils {
 	 * First strip out registered and enclosing shortcodes using native WordPress strip_shortcodes function.
 	 * Then strip out the shortcodes with a filthy regex, because people don't properly register their shortcodes.
 	 *
-	 * @static
-	 *
 	 * @since 1.8.0
 	 *
 	 * @param string $text Input string that might contain shortcodes.
@@ -227,8 +219,6 @@ class WPSEO_Utils {
 	/**
 	 * Recursively trim whitespace round a string value or of string values within an array.
 	 * Only trims strings to avoid typecasting a variable (to string).
-	 *
-	 * @static
 	 *
 	 * @since 1.8.0
 	 *
@@ -250,8 +240,6 @@ class WPSEO_Utils {
 	/**
 	 * Translates a decimal analysis score into a textual one.
 	 *
-	 * @static
-	 *
 	 * @since 1.8.0
 	 *
 	 * @param int  $val       The decimal score to translate.
@@ -272,17 +260,15 @@ class WPSEO_Utils {
 	/**
 	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way.
 	 *
-	 * @see   https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original
+	 * @link https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original.
 	 *
 	 * Sanitize a string from user input or from the db.
 	 *
-	 * - Check for invalid UTF-8,
-	 * - Convert single < characters to entity,
-	 * - Strip all tags,
-	 * - Remove line breaks, tabs and extra white space,
+	 * - Check for invalid UTF-8;
+	 * - Convert single < characters to entity;
+	 * - Strip all tags;
+	 * - Remove line breaks, tabs and extra white space;
 	 * - Strip octets - BUT DO NOT REMOVE (part of) VARIABLES WHICH WILL BE REPLACED.
-	 *
-	 * @static
 	 *
 	 * @since 1.8.0
 	 *
@@ -346,8 +332,6 @@ class WPSEO_Utils {
 	/**
 	 * Validate a value as boolean.
 	 *
-	 * @static
-	 *
 	 * @since 1.8.0
 	 *
 	 * @param mixed $value Value to validate.
@@ -369,8 +353,6 @@ class WPSEO_Utils {
 
 	/**
 	 * Cast a value to bool.
-	 *
-	 * @static
 	 *
 	 * @since 1.8.0
 	 *
@@ -436,8 +418,6 @@ class WPSEO_Utils {
 	/**
 	 * Validate a value as integer.
 	 *
-	 * @static
-	 *
 	 * @since 1.8.0
 	 *
 	 * @param mixed $value Value to validate.
@@ -459,8 +439,6 @@ class WPSEO_Utils {
 
 	/**
 	 * Cast a value to integer.
-	 *
-	 * @static
 	 *
 	 * @since 1.8.0
 	 *
@@ -502,8 +480,6 @@ class WPSEO_Utils {
 	/**
 	 * Clears the WP or W3TC cache depending on which is used.
 	 *
-	 * @static
-	 *
 	 * @since 1.8.0
 	 */
 	public static function clear_cache() {
@@ -518,8 +494,6 @@ class WPSEO_Utils {
 	/**
 	 * Flush W3TC cache after succesfull update/add of taxonomy meta option.
 	 *
-	 * @static
-	 *
 	 * @since 1.8.0
 	 */
 	public static function flush_w3tc_cache() {
@@ -531,8 +505,6 @@ class WPSEO_Utils {
 	/**
 	 * Clear rewrite rules.
 	 *
-	 * @static
-	 *
 	 * @since 1.8.0
 	 */
 	public static function clear_rewrites() {
@@ -542,35 +514,33 @@ class WPSEO_Utils {
 	/**
 	 * Do simple reliable math calculations without the risk of wrong results.
 	 *
-	 * @see   http://floating-point-gui.de/
-	 * @see   the big red warning on http://php.net/language.types.float.php
+	 * @link http://floating-point-gui.de/
+	 * @link http://php.net/language.types.float.php See the big red warning.
 	 *
 	 * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results.
-	 *
-	 * @static
 	 *
 	 * @since 1.5.0
 	 * @since 1.8.0 Moved from stand-alone function to this class.
 	 *
-	 * @param mixed  $number1     Scalar (string/int/float/bool).
-	 * @param string $action      Calculation action to execute. Valid input:
-	 *                            '+' or 'add' or 'addition',
-	 *                            '-' or 'sub' or 'subtract',
-	 *                            '*' or 'mul' or 'multiply',
-	 *                            '/' or 'div' or 'divide',
-	 *                            '%' or 'mod' or 'modulus'
-	 *                            '=' or 'comp' or 'compare'.
-	 * @param mixed  $number2     Scalar (string/int/float/bool).
-	 * @param bool   $round       Whether or not to round the result. Defaults to false.
-	 *                            Will be disregarded for a compare operation.
-	 * @param int    $decimals    Decimals for rounding operation. Defaults to 0.
-	 * @param int    $precision   Calculation precision. Defaults to 10.
+	 * @param mixed  $number1   Scalar (string/int/float/bool).
+	 * @param string $action    Calculation action to execute. Valid input:
+	 *                          '+' or 'add' or 'addition',
+	 *                          '-' or 'sub' or 'subtract',
+	 *                          '*' or 'mul' or 'multiply',
+	 *                          '/' or 'div' or 'divide',
+	 *                          '%' or 'mod' or 'modulus'
+	 *                          '=' or 'comp' or 'compare'.
+	 * @param mixed  $number2   Scalar (string/int/float/bool).
+	 * @param bool   $round     Whether or not to round the result. Defaults to false.
+	 *                          Will be disregarded for a compare operation.
+	 * @param int    $decimals  Decimals for rounding operation. Defaults to 0.
+	 * @param int    $precision Calculation precision. Defaults to 10.
 	 *
-	 * @return mixed            Calculation Result or false if either or the numbers isn't scalar or
-	 *                          an invalid operation was passed.
-	 *                          - for compare the result will always be an integer.
-	 *                          - for all other operations, the result will either be an integer (preferred)
-	 *                            or a float.
+	 * @return mixed Calculation Result or false if either or the numbers isn't scalar or
+	 *               an invalid operation was passed.
+	 *               - For compare the result will always be an integer.
+	 *               - For all other operations, the result will either be an integer (preferred)
+	 *                 or a float.
 	 */
 	public static function calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
 		static $bc;
@@ -878,7 +848,6 @@ class WPSEO_Utils {
 		 *
 		 * @param bool $development_mode Is Yoast SEOs development mode active.
 		 */
-
 		return apply_filters( 'yoast_seo_development_mode', $development_mode );
 	}
 
@@ -1131,6 +1100,122 @@ SVG;
 		return 'ERROR';
 	}
 
+	/**
+	 * Returns the home url with the following modifications:
+	 *
+	 * In case of a multisite setup we return the network_home_url.
+	 * In case of no multisite setup we return the home_url while overriding the WPML filter.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return string The home url.
+	 */
+	public static function get_home_url() {
+		// Add a new filter to undo WPML's changing of home url.
+		add_filter( 'wpml_get_home_url', array( 'WPSEO_Utils', 'wpml_get_home_url' ), 10, 2 );
+
+		$url = home_url();
+
+		// If the plugin is network activated, use the network home URL.
+		if ( self::is_plugin_network_active() ) {
+			$url = network_home_url();
+		}
+
+		remove_filter( 'wpml_get_home_url', array( 'WPSEO_Utils', 'wpml_get_home_url' ), 10 );
+
+		return $url;
+	}
+
+	/**
+	 * Returns the original URL instead of the language-enriched URL.
+	 * This method gets automatically triggered by the wpml_get_home_url filter.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $home_url The url altered by WPML. Unused.
+	 * @param string $url      The url that isn't altered by WPML.
+	 *
+	 * @return string The original url.
+	 */
+	public static function wpml_get_home_url( $home_url, $url ) {
+		return $url;
+	}
+
+	/**
+	 * Checks if the current installation supports MyYoast access tokens.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool True if access_tokens are supported.
+	 */
+	public static function has_access_token_support() {
+		return class_exists( 'WPSEO_MyYoast_Client' );
+	}
+
+	/**
+	 * Prepares data for outputting as JSON.
+	 *
+	 * @param array $data The data to format.
+	 *
+	 * @return false|string The prepared JSON string.
+	 */
+	public static function format_json_encode( $data ) {
+		$flags = 0;
+		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
+			// @codingStandardsIgnoreLine This is used in the wp_json_encode call, which checks for this.
+			$flags = ( $flags | JSON_UNESCAPED_SLASHES );
+		}
+		if ( self::is_development_mode() ) {
+			$flags = ( $flags | JSON_PRETTY_PRINT );
+
+			/**
+			 * Filter the Yoast SEO development mode.
+			 *
+			 * @api array $data Allows filtering of the JSON data for debug purposes.
+			 */
+			$data = apply_filters( 'wpseo_debug_json_data', $data );
+		}
+
+		return wp_json_encode( $data, $flags );
+	}
+
+	/**
+	 * Output a Schema blob.
+	 *
+	 * @param array  $graph The Schema graph array to output.
+	 * @param string $class The (optional) class to add to the script tag.
+	 *
+	 * @return bool
+	 */
+	public static function schema_output( $graph, $class = 'yoast-schema-graph' ) {
+		if ( ! is_array( $graph ) || empty( $graph ) ) {
+			return false;
+		}
+
+		echo self::schema_tag( $graph, $class );
+		return true;
+	}
+
+	/**
+	 * Returns a script tag with Schema blob.
+	 *
+	 * @param array  $graph The Schema graph array to output.
+	 * @param string $class The (optional) class to add to the script tag.
+	 *
+	 * @return false|string A schema blob with script tags.
+	 */
+	public static function schema_tag( $graph, $class = 'yoast-schema-graph' ) {
+		if ( ! is_array( $graph ) || empty( $graph ) ) {
+			return false;
+		}
+
+		$output = array(
+			'@context' => 'https://schema.org',
+			'@graph'   => $graph,
+		);
+		return "<script type='application/ld+json' class='" . esc_attr( $class ) . "'>" . self::format_json_encode( $output ) . '</script>' . "\n";
+	}
+
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
@@ -1138,7 +1223,8 @@ SVG;
 	 *
 	 * @see        WPSEO_Language_Utils::get_language()
 	 *
-	 * @since      9.5
+	 * @deprecated 9.5
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $locale The locale to get the language of.
 	 *
@@ -1160,7 +1246,8 @@ SVG;
 	 *
 	 * @see        WPSEO_Language_Utils::get_user_locale()
 	 *
-	 * @since      9.5
+	 * @deprecated 9.5
+	 * @codeCoverageIgnore
 	 *
 	 * @return string The locale.
 	 */
@@ -1168,5 +1255,21 @@ SVG;
 		_deprecated_function( __METHOD__, 'WPSEO 9.5', 'WPSEO_Language_Utils::get_user_locale' );
 
 		return WPSEO_Language_Utils::get_user_locale();
+	}
+
+	/**
+	 * Gets an array of enabled features.
+	 *
+	 * @return string[] The array of enabled features.
+	 */
+	public static function retrieve_enabled_features() {
+		$enabled_features = array();
+		if ( defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
+			$enabled_features = preg_split( '/,\W*/', YOAST_SEO_ENABLED_FEATURES );
+		}
+		// Make the array of enabled features filterable, so features can be enabled at will.
+		$enabled_features = apply_filters( 'wpseo_enable_feature', $enabled_features );
+
+		return $enabled_features;
 	}
 }

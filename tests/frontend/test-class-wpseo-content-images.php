@@ -6,7 +6,7 @@
  */
 
 /**
- * OpenGraph tests
+ * OpenGraph tests.
  *
  * @group OpenGraph
  */

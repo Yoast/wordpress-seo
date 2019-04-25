@@ -11,13 +11,18 @@
 class WPSEO_Option_Social extends WPSEO_Option {
 
 	/**
-	 * @var  string  Option name.
+	 * Option name.
+	 *
+	 * @var string
 	 */
 	public $option_name = 'wpseo_social';
 
 	/**
-	 * @var  array  Array of defaults for the option.
-	 *        Shouldn't be requested directly, use $this->get_defaults();
+	 * Array of defaults for the option.
+	 *
+	 * Shouldn't be requested directly, use $this->get_defaults();
+	 *
+	 * @var array
 	 */
 	protected $defaults = array(
 		// Form fields.
@@ -34,18 +39,19 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'opengraph'             => true,
 		'pinterest_url'         => '',
 		'pinterestverify'       => '',
-		'plus-publisher'        => '', // Text field.
 		'twitter'               => true,
 		'twitter_site'          => '', // Text field.
 		'twitter_card_type'     => 'summary_large_image',
 		'youtube_url'           => '',
-		'google_plus_url'       => '',
+		'wikipedia_url'         => '',
 		// Form field, but not always available.
 		'fbadminapp'            => '', // Facebook app ID.
 	);
 
 	/**
-	 * @var array  Array of sub-options which should not be overloaded with multi-site defaults.
+	 * Array of sub-options which should not be overloaded with multi-site defaults.
+	 *
+	 * @var array
 	 */
 	public $ms_exclude = array(
 		/* Privacy. */
@@ -53,14 +59,16 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'fbadminapp',
 	);
 
-
 	/**
-	 * @var  array  Array of allowed twitter card types.
-	 *              While we only have the options summary and summary_large_image in the
-	 *              interface now, we might change that at some point.
+	 * Array of allowed twitter card types.
+	 *
+	 * While we only have the options summary and summary_large_image in the
+	 * interface now, we might change that at some point.
 	 *
 	 * {@internal Uncomment any of these to allow them in validation *and* automatically
 	 *            add them as a choice in the options page.}}
+	 *
+	 * @var array
 	 */
 	public static $twitter_card_types = array(
 		'summary'             => '',
@@ -98,17 +106,17 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	/**
 	 * Validate the option.
 	 *
-	 * @param  array $dirty New value for the option.
-	 * @param  array $clean Clean value for the option, normally the defaults.
-	 * @param  array $old   Old value of the option.
+	 * @param array $dirty New value for the option.
+	 * @param array $clean Clean value for the option, normally the defaults.
+	 * @param array $old   Old value of the option.
 	 *
-	 * @return  array      Validated clean value for the option to be saved to the database.
+	 * @return array Validated clean value for the option to be saved to the database.
 	 */
 	protected function validate_option( $dirty, $clean, $old ) {
 
 		foreach ( $clean as $key => $value ) {
 			switch ( $key ) {
-				/* text fields */
+				/* Text fields. */
 				case 'og_frontpage_desc':
 				case 'og_frontpage_title':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
@@ -133,11 +141,10 @@ class WPSEO_Option_Social extends WPSEO_Option {
 				case 'linkedin_url':
 				case 'myspace_url':
 				case 'pinterest_url':
-				case 'plus-publisher':
 				case 'og_default_image':
 				case 'og_frontpage_image':
 				case 'youtube_url':
-				case 'google_plus_url':
+				case 'wikipedia_url':
 					$this->validate_url( $key, $dirty, $old, $clean );
 					break;
 
@@ -145,11 +152,12 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					$this->validate_verification_string( $key, $dirty, $old, $clean );
 					break;
 
-				/* twitter user name */
+				/* Twitter user name. */
 				case 'twitter_site':
 					if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 						$twitter_id = sanitize_text_field( ltrim( $dirty[ $key ], '@' ) );
-						/**
+
+						/*
 						 * From the Twitter documentation about twitter screen names:
 						 * Typically a maximum of 15 characters long, but some historical accounts
 						 * may exist with longer names.
@@ -175,7 +183,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 							if ( function_exists( 'add_settings_error' ) ) {
 								add_settings_error(
 									$this->group_name, // Slug title of the setting.
-									'_' . $key, // Suffix-id for the error message box.
+									'_' . $key, // Suffix-ID for the error message box.
 									sprintf(
 										/* translators: %s expands to a twitter user name. */
 										__( '%s does not seem to be a valid Twitter user-id. Please correct.', 'wordpress-seo' ),
@@ -195,7 +203,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					}
 					break;
 
-				/* boolean fields */
+				/* Boolean fields. */
 				case 'opengraph':
 				case 'twitter':
 					$clean[ $key ] = ( isset( $dirty[ $key ] ) ? WPSEO_Utils::validate_bool( $dirty[ $key ] ) : false );
@@ -215,14 +223,14 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	/**
 	 * Clean a given option value.
 	 *
-	 * @param  array  $option_value          Old (not merged with defaults or filtered) option value to
-	 *                                       clean according to the rules for this option.
-	 * @param  string $current_version       Optional. Version from which to upgrade, if not set,
-	 *                                       version specific upgrades will be disregarded.
-	 * @param  array  $all_old_option_values Optional. Only used when importing old options to have
-	 *                                       access to the real old values, in contrast to the saved ones.
+	 * @param array  $option_value          Old (not merged with defaults or filtered) option value to
+	 *                                      clean according to the rules for this option.
+	 * @param string $current_version       Optional. Version from which to upgrade, if not set,
+	 *                                      version specific upgrades will be disregarded.
+	 * @param array  $all_old_option_values Optional. Only used when importing old options to have
+	 *                                      access to the real old values, in contrast to the saved ones.
 	 *
-	 * @return  array Cleaned option.
+	 * @return array Cleaned option.
 	 */
 	protected function clean_option( $option_value, $current_version = null, $all_old_option_values = null ) {
 

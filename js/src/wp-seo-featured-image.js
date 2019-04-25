@@ -203,53 +203,18 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
 /* eslint-disable */
 /* jshint ignore:start */
-/**
- * Check if image is smaller than 200x200 pixels. If this is the case, show a warning
- * @param {object} featuredImage
- *
- * @deprecated since 3.1
- */
-function yst_checkFeaturedImage( featuredImage ) {
-	return;
-}
 
 /**
- * Counter to make sure we do not end up in an endless loop if there' no remove-post-thumbnail id
- * @type {number}
+ * Remove error message.
  *
- * @deprecated since 3.1
- */
-var thumbIdCounter = 0;
-
-/**
- * Variable to hold the onclick function for remove-post-thumbnail.
- * @type {function}
- *
- * @deprecated since 3.1
- */
-var removeThumb;
-
-/**
- * If there's a remove-post-thumbnail id, add an onclick. When this id is clicked, call yst_removeOpengraphWarning
- * If not, check again after 100ms. Do not do this for more than 10 times so we do not end up in an endless loop
- *
- * @deprecated since 3.1
- */
-function yst_overrideElemFunction() {
-	return;
-}
-
-/**
- * Remove error message
+ * @deprecated 10.1
  */
 function yst_removeOpengraphWarning() {
+	console.error( "yst_removeOpengraphWarning is deprecated since Yoast SEO 10.1." );
+
 	return;
 }
 
-window.yst_checkFeaturedImage = yst_checkFeaturedImage;
-window.thumbIdCounter = thumbIdCounter;
-window.removeThumb = removeThumb;
-window.yst_overrideElemFunction = yst_overrideElemFunction;
 window.yst_removeOpengraphWarning = yst_removeOpengraphWarning;
 /* jshint ignore:end */
 /* eslint-enable */

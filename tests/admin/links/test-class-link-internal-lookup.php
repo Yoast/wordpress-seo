@@ -24,7 +24,7 @@ class WPSEO_Link_Internal_Lookup_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test with a relative internal link
+	 * Test with a relative internal link.
 	 */
 	public function test_lookup_internal_relative() {
 		$post   = $this->factory->post->create_and_get();

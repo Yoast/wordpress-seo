@@ -6,7 +6,7 @@
  */
 
 /**
- * Tests WPSEO_Admin_Asset
+ * Tests WPSEO_Admin_Asset.
  */
 final class Test_WPSEO_Admin_Asset_SEO_Location extends PHPUnit_Framework_TestCase {
 

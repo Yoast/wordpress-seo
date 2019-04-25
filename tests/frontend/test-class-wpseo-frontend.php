@@ -383,25 +383,6 @@ Page 3/3
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::publisher
-	 */
-	public function test_publisher() {
-
-		// No publisher set.
-		$this->assertFalse( self::$class_instance->publisher() );
-
-		// Set publisher option.
-		$expected = 'https://plus.google.com/+JoostdeValk';
-		WPSEO_Options::set( 'plus-publisher', $expected );
-
-		// Publisher set, should echo.
-		$expected = '<link rel="publisher" href="' . esc_url( $expected ) . '"/>' . "\n";
-
-		$this->assertTrue( self::$class_instance->publisher() );
-		$this->expectOutput( $expected );
-	}
-
-	/**
 	 * @covers WPSEO_Frontend::nofollow_link
 	 */
 	public function test_nofollow_link() {

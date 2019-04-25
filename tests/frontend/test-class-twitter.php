@@ -11,6 +11,8 @@
 class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var Expose_WPSEO_Twitter
 	 */
 	private static $class_instance;
@@ -25,7 +27,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		// Create instance of WPSEO_Twitter class.
 		self::$class_instance = new Expose_WPSEO_Twitter();
 		WPSEO_Frontend::get_instance()->reset();
-		// Clean output which was outputted by WPSEO_Twitter constructor.
+		// Clean output which was echo-ed out by WPSEO_Twitter constructor.
 		ob_end_clean();
 	}
 

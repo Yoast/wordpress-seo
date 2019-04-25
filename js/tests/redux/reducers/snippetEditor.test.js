@@ -20,6 +20,7 @@ describe( "snippet editor reducers", () => {
 					slug: "",
 					description: "",
 				},
+				wordsToHighlight: [],
 				replacementVariables: getDefaultReplaceVariables(),
 				uniqueRefreshValue: "",
 			} );

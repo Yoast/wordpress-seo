@@ -7,7 +7,7 @@ use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
 
 /**
- * Class Indexable_Author_Test
+ * Class Indexable_Author_Test.
  *
  * @group indexables
  * @group exceptions
@@ -16,6 +16,9 @@ use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
  */
 class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 
+	/**
+	 * Sets up the test fixtures for each test.
+	 */
 	public function setUp() {
 
 		parent::setUp();
@@ -32,6 +35,9 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 		Logger::set_logger( $logger );
 	}
 
+	/**
+	 * Cleans up after each test.
+	 */
 	public function tearDown() {
 		parent::tearDown();
 

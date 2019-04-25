@@ -39,7 +39,7 @@ class WPSEO_Twitter {
 	protected $frontend_page_type;
 
 	/**
-	 * Will hold the Twitter card type being created
+	 * Will hold the Twitter card type being created.
 	 *
 	 * @var string
 	 */
@@ -60,7 +60,7 @@ class WPSEO_Twitter {
 	);
 
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 */
 	public function __construct() {
 		// Class for determine the current page type.
@@ -75,7 +75,7 @@ class WPSEO_Twitter {
 	public function twitter() {
 
 		/**
-		 * Filter: 'wpseo_output_twitter_card' - Allow disabling of the Twitter card
+		 * Filter: 'wpseo_output_twitter_card' - Allow disabling of the Twitter card.
 		 *
 		 * @api bool $enabled Enabled/disabled flag
 		 */
@@ -119,7 +119,7 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Determines the twitter card type for the current page
+	 * Determines the twitter card type for the current page.
 	 */
 	private function determine_card_type() {
 		$this->type = WPSEO_Options::get( 'twitter_card_type' );
@@ -135,15 +135,15 @@ class WPSEO_Twitter {
 		}
 
 		/**
-		 * Filter: 'wpseo_twitter_card_type' - Allow changing the Twitter Card type as output in the Twitter card by Yoast SEO
+		 * Filter: 'wpseo_twitter_card_type' - Allow changing the Twitter Card type as output in the Twitter card by Yoast SEO.
 		 *
-		 * @api string $unsigned The type string
+		 * @api string $unsigned The type string.
 		 */
 		$this->type = apply_filters( 'wpseo_twitter_card_type', $this->type );
 	}
 
 	/**
-	 * Determines whether the card type is of a type currently allowed by Twitter
+	 * Determines whether the card type is of a type currently allowed by Twitter.
 	 *
 	 * @link https://dev.twitter.com/cards/types
 	 */
@@ -154,7 +154,7 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Output the metatag
+	 * Output the metatag.
 	 *
 	 * @param string $name    Tag name string.
 	 * @param string $value   Tag value string.
@@ -168,9 +168,9 @@ class WPSEO_Twitter {
 		}
 
 		/**
-		 * Filter: 'wpseo_twitter_metatag_key' - Make the Twitter metatag key filterable
+		 * Filter: 'wpseo_twitter_metatag_key' - Make the Twitter metatag key filterable.
 		 *
-		 * @api string $key The Twitter metatag key
+		 * @api string $key The Twitter metatag key.
 		 */
 		$metatag_key = apply_filters( 'wpseo_twitter_metatag_key', 'name' );
 
@@ -197,9 +197,9 @@ class WPSEO_Twitter {
 		$meta_desc = wpseo_replace_vars( $meta_desc, get_queried_object() );
 
 		/**
-		 * Filter: 'wpseo_twitter_description' - Allow changing the Twitter description as output in the Twitter card by Yoast SEO
+		 * Filter: 'wpseo_twitter_description' - Allow changing the Twitter description as output in the Twitter card by Yoast SEO.
 		 *
-		 * @api string $twitter The description string
+		 * @api string $twitter The description string.
 		 */
 		$meta_desc = apply_filters( 'wpseo_twitter_description', $meta_desc );
 		if ( is_string( $meta_desc ) && $meta_desc !== '' ) {
@@ -208,7 +208,7 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Returns the description for a singular page
+	 * Returns the description for a singular page.
 	 *
 	 * @param int $post_id Post ID.
 	 *
@@ -230,7 +230,7 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Getting the description for the taxonomy
+	 * Getting the description for the taxonomy.
 	 *
 	 * @return bool|mixed|string
 	 */
@@ -249,7 +249,7 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Returns a fallback description
+	 * Returns a fallback description.
 	 *
 	 * @return string
 	 */
@@ -276,9 +276,9 @@ class WPSEO_Twitter {
 		$title = wpseo_replace_vars( $title, get_queried_object() );
 
 		/**
-		 * Filter: 'wpseo_twitter_title' - Allow changing the Twitter title as output in the Twitter card by Yoast SEO
+		 * Filter: 'wpseo_twitter_title' - Allow changing the Twitter title as output in the Twitter card by Yoast SEO.
 		 *
-		 * @api string $twitter The title string
+		 * @api string $twitter The title string.
 		 */
 		$title = apply_filters( 'wpseo_twitter_title', $title );
 		if ( is_string( $title ) && $title !== '' ) {
@@ -287,7 +287,7 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Returns the Twitter title for a single post
+	 * Returns the Twitter title for a single post.
 	 *
 	 * @param int $post_id Post ID.
 	 *
@@ -303,7 +303,7 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Getting the title for the taxonomy
+	 * Getting the title for the taxonomy.
 	 *
 	 * @return bool|mixed|string
 	 */
@@ -318,7 +318,7 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Returns the Twitter title for any page
+	 * Returns the Twitter title for any page.
 	 *
 	 * @return string
 	 */
@@ -330,12 +330,27 @@ class WPSEO_Twitter {
 	 * Displays the Twitter account for the site.
 	 */
 	protected function site_twitter() {
+		switch ( WPSEO_Options::get( 'company_or_person', '' ) ) {
+			case 'person':
+				$user_id = (int) WPSEO_Options::get( 'company_or_person_user_id', false );
+				$twitter = get_the_author_meta( 'twitter', $user_id );
+				// For backwards compat reasons, if there is no twitter ID for person, we fall back to site.
+				if ( empty( $twitter ) ) {
+					$twitter = WPSEO_Options::get( 'twitter_site' );
+				}
+				break;
+			case 'company':
+			default:
+				$twitter = WPSEO_Options::get( 'twitter_site' );
+				break;
+		}
+
 		/**
-		 * Filter: 'wpseo_twitter_site' - Allow changing the Twitter site account as output in the Twitter card by Yoast SEO
+		 * Filter: 'wpseo_twitter_site' - Allow changing the Twitter site account as output in the Twitter card by Yoast SEO.
 		 *
-		 * @api string $unsigned Twitter site account string
+		 * @api string $unsigned Twitter site account string.
 		 */
-		$site = apply_filters( 'wpseo_twitter_site', WPSEO_Options::get( 'twitter_site' ) );
+		$site = apply_filters( 'wpseo_twitter_site', $twitter );
 		$site = $this->get_twitter_id( $site );
 
 		if ( is_string( $site ) && $site !== '' ) {
@@ -349,7 +364,7 @@ class WPSEO_Twitter {
 	 * Solves issues with filters returning urls and theme's/other plugins also adding a user meta
 	 * twitter field which expects url rather than an id (which is what we expect).
 	 *
-	 * @param  string $id Twitter ID or url.
+	 * @param string $id Twitter ID or url.
 	 *
 	 * @return string|bool Twitter ID or false if it failed to get a valid Twitter ID.
 	 */
@@ -362,7 +377,7 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Displays the image for Twitter
+	 * Displays the image for Twitter.
 	 *
 	 * Only used when OpenGraph is inactive or Summary Large Image card is chosen.
 	 */
@@ -437,8 +452,6 @@ class WPSEO_Twitter {
 				return;
 			}
 
-			$post_id = get_the_ID();
-
 			if ( $this->image_of_attachment_page_output( $post_id ) ) {
 				return;
 			}
@@ -459,7 +472,7 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Show the front page image
+	 * Show the front page image.
 	 *
 	 * @return bool
 	 */
@@ -500,23 +513,18 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Outputs a Twitter image tag for a given image
+	 * Outputs a Twitter image tag for a given image.
 	 *
-	 * @param string  $img The source URL to the image.
-	 * @param boolean $tag Deprecated argument, previously used for gallery images.
+	 * @param string $img The source URL to the image.
 	 *
 	 * @return bool
 	 */
-	protected function image_output( $img, $tag = false ) {
-
-		if ( $tag ) {
-			_deprecated_argument( __METHOD__, 'WPSEO 2.4' );
-		}
+	protected function image_output( $img ) {
 
 		/**
-		 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image
+		 * Filter: 'wpseo_twitter_image' - Allow changing the Twitter Card image.
 		 *
-		 * @api string $img Image URL string
+		 * @api string $img Image URL string.
 		 */
 		$img = apply_filters( 'wpseo_twitter_image', $img );
 
@@ -542,7 +550,7 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Retrieve images from the post meta values
+	 * Retrieve images from the post meta values.
 	 *
 	 * @param int $post_id Optional post ID to use.
 	 *
@@ -562,7 +570,7 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Retrieve an attachment page's attachment
+	 * Retrieve an attachment page's attachment.
 	 *
 	 * @param string $attachment_id The ID of the attachment for which to retrieve the image.
 	 *
@@ -584,7 +592,7 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Retrieve the featured image
+	 * Retrieve the featured image.
 	 *
 	 * @param int $post_id Optional post ID to use.
 	 *
@@ -598,9 +606,9 @@ class WPSEO_Twitter {
 
 		if ( function_exists( 'has_post_thumbnail' ) && has_post_thumbnail( $post_id ) ) {
 			/**
-			 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size
+			 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size.
 			 *
-			 * @api string $featured_img Image size string
+			 * @api string $featured_img Image size string.
 			 */
 			$featured_img = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), apply_filters( 'wpseo_twitter_image_size', 'full' ) );
 
@@ -650,9 +658,9 @@ class WPSEO_Twitter {
 			$twitter = ltrim( trim( get_the_author_meta( 'twitter', $post->post_author ) ), '@' );
 		}
 		/**
-		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by Yoast SEO
+		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by Yoast SEO.
 		 *
-		 * @api string $twitter The twitter account name string
+		 * @api string $twitter The twitter account name string.
 		 */
 		$twitter = apply_filters( 'wpseo_twitter_creator_account', $twitter );
 		$twitter = $this->get_twitter_id( $twitter );
@@ -666,7 +674,7 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Get the singleton instance of this class
+	 * Get the singleton instance of this class.
 	 *
 	 * @return object
 	 */

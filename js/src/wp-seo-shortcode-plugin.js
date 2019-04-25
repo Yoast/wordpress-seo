@@ -22,12 +22,19 @@ const shortcodeEndRegex = new RegExp( "\\[/" + shortcodeNameMatcher + "\\]", "g"
 	 * @property {RegExp} nonCaptureRegex Used to match a given string for non capturing shortcodes.
 	 * @property {Array} parsedShortcodes Used to store parsed shortcodes.
 	 *
-	 * @param {app} app The app object.
+	 * @param {Object}   interface                      Object Formerly Known as App, but for backwards compatibility
+	 *                                                  still passed here as one argument.
+	 * @param {function} interface.registerPlugin       Register a plugin with Yoast SEO.
+	 * @param {function} interface.registerModification Register a modification with Yoast SEO.
+	 * @param {function} interface.pluginReady          Notify Yoast SEO that the plugin is ready.
+	 * @param {function} interface.pluginReloaded       Notify Yoast SEO that the plugin has been reloaded.
 	 */
-	var YoastShortcodePlugin = function( app ) {
-		this._app = app;
+	var YoastShortcodePlugin = function( { registerPlugin, registerModification, pluginReady, pluginReloaded } ) {
+		this._registerModification = registerModification;
+		this._pluginReady = pluginReady;
+		this._pluginReloaded = pluginReloaded;
 
-		this._app.registerPlugin( "YoastShortcodePlugin", { status: "loading" } );
+		registerPlugin( "YoastShortcodePlugin", { status: "loading" } );
 		this.bindElementEvents();
 
 		var keywordRegexString = "(" + wpseoShortcodePluginL10n.wpseo_shortcode_tags.join( "|" ) + ")";
@@ -50,7 +57,7 @@ const shortcodeEndRegex = new RegExp( "\\[/" + shortcodeNameMatcher + "\\]", "g"
 	 * @returns {void}
 	 */
 	YoastShortcodePlugin.prototype.declareReady = function() {
-		this._app.pluginReady( "YoastShortcodePlugin" );
+		this._pluginReady( "YoastShortcodePlugin" );
 		this.registerModifications();
 	};
 
@@ -60,7 +67,7 @@ const shortcodeEndRegex = new RegExp( "\\[/" + shortcodeNameMatcher + "\\]", "g"
 	 * @returns {void}
 	 */
 	YoastShortcodePlugin.prototype.declareReloaded = function() {
-		this._app.pluginReloaded( "YoastShortcodePlugin" );
+		this._pluginReloaded( "YoastShortcodePlugin" );
 	};
 
 	/**
@@ -69,7 +76,7 @@ const shortcodeEndRegex = new RegExp( "\\[/" + shortcodeNameMatcher + "\\]", "g"
 	 * @returns {void}
 	 */
 	YoastShortcodePlugin.prototype.registerModifications = function() {
-		this._app.registerModification( "content", this.replaceShortcodes.bind( this ), "YoastShortcodePlugin" );
+		this._registerModification( "content", this.replaceShortcodes.bind( this ), "YoastShortcodePlugin" );
 	};
 
 

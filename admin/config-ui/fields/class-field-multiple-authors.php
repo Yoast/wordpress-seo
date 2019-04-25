@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Multiple_Authors
+ * Class WPSEO_Config_Field_Multiple_Authors.
  */
 class WPSEO_Config_Field_Multiple_Authors extends WPSEO_Config_Field_Choice {
 

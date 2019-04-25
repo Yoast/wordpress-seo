@@ -18,7 +18,7 @@ class WPSEO_Capability_Manager_Double extends WPSEO_Abstract_Capability_Manager 
 	}
 
 	/**
-	 * Removes the registered capabilities from the system
+	 * Removes the registered capabilities from the system.
 	 */
 	public function remove() {
 

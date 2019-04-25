@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.9
-Tested up to: 5.0.3
-Stable tag: 9.5
+Tested up to: 5.1.1
+Stable tag: 11.0
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -106,49 +106,39 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
-= 9.6.0 =
-Release Date: February 5th, 2019
-
-## Enhancements:
-
-* Removes schema (JSON+LD) output from 404 pages.
-* Improves the Google Search Console table accessibility by removing a duplicate button.
-* Improves the code to better comply to the coding standards.
-
-## Bugfixes:
-
-* Fixes a bug where an empty feed would be available for non-existing pages. Props [stodorovic](https://github.com/stodorovic).
-* Prevents `vendor_prefix/j4mie/idiorm/demo.php` from being included in the release.
-
-## Other:
-
-* Props to [Kingdutch](https://github.com/Kingdutch) for helping improve our open source content analysis library.
-* Improves the redirect upsell when user clicks on create redirect in the search console overview.
-
-= 9.5.0 =
-Release Date: January 22nd, 2019
+= 11.1.0 =
+Release Date: April 30th, 2019
 
 Enhancements:
 
-* Completes the readability analysis for Swedish by adding the transition words, sentence beginnings and passive voice assessments.
-* Improves the transition word assessment for German.
+* Improves how we generate the image parts for the Schema output. [Read more about the ImageObject output](https://yoa.st/image-schema).
+* Adds 'filesize' to whitelisted properties on '$image'. Props to [cmmarslender](https://github.com/cmmarslender).
+* Optimizes the code to avoid an unnecessary DB query to remove notifications storage when it's already empty. Props to [rmc47](https://github.com/rmc47).
+* Improves the breadcrumbs accessibility by adding `aria-current` to the active item.
 
 Bugfixes:
 
-* Fixes a bug where the Ryte endpoint would be called when the Ryte feature has been disabled.
-* Fixes a bug where the 'Show archives for authors without posts in search results?' toggle would be shown when the 'Show author archives in search results?' toggle was disabled in the search appearance settings.
-* Fixes a bug where the front page would be shown in the page sitemap. Props to [stodorovic](https://github.com/stodorovic).
-* Fixes a bug where errors would be thrown in the classic editor when Gutenberg assets were enqueued without Gutenberg being active.
-* Fixes a bug where the editor would not be loaded when clicking the ‘edit’ button for a child page in the page overview. Props [mondrey](https://github.com/mondrey).
+* Fixes a bug where the position of the buttons in the FAQ and How-To structured data blocks was compromised when running the development build of Gutenberg.
+* Fixed a bug where social profile settings would be empty because it was relying on the user choosing whether the site represents a company or a person.
 
-Deprecated:
+= 11.0.0 =
+Release Date: April 16th, 2019
 
-* Deprecates the methods WPSEO_Utils::get_user_locale() and WPSEO_Utils::get_language().
+We've made huge changes to the schema.org markup we output, adding multiple different types of Schema. Be sure to check [our posts on yoast.com about this release](https://yoa.st/schema-release-post)!
 
-Other:
+Enhancements:
 
-* Adds a Courses Page showing an overview of the available online courses offered by Yoast Academy.
+* Schema changes:
+	* Adds `Person` markup for author pages.
+	* Adds `WebPage` markup for all pages.
+	* Adds `Article` markup for posts, with `Person` markup for the author.
+	* Changes the ‘Organization or Person’ section of the Knowledge graph settings to allow selecting an author that is the ‘Person’ that the website represents.
+* Adds MySpace, SoundCloud, Tumblr and YouTube URL input fields to people’s profiles.
+
+Bugfixes:
+
+* Fixes an issue where the metabox would not display on term edit pages when running the development build of Gutenberg.
 
 = Earlier versions =
 
-For the changelog of earlier versions, please refer to [the Yoast SEO changelog on yoast.com](https://yoa.st/yoast-seo-changelog)
+For the changelog of earlier versions, please refer to https://yoa.st/yoast-seo-changelog

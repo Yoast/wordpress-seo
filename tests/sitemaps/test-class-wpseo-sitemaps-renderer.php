@@ -6,17 +6,19 @@
  */
 
 /**
- * Class WPSEO_Sitemaps_Renderer_Test
+ * Class WPSEO_Sitemaps_Renderer_Test.
  */
 class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Sitemaps_Renderer
 	 */
 	private static $class_instance;
 
 	/**
-	 * Set up our double class
+	 * Set up our double class.
 	 */
 	public function setUp() {
 		parent::setUp();
