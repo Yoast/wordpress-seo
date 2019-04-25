@@ -55,7 +55,7 @@ function convertTranslationToPHP( translation, textdomain ) {
 			let extracted = comments.extracted
 				.split( NEWLINE )
 				.join( NEWLINE + TAB + "   " )
-				.replace( "*/", "" );
+				.replace( /\*\//g, "" );
 
 			php += TAB + `/* ${extracted} */${NEWLINE}`;
 		}

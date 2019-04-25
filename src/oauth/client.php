@@ -72,13 +72,15 @@ class Client {
 	 * @return void
 	 */
 	public function save_configuration( array $config ) {
-		foreach ( array_keys( $this->config ) as $allowed_config_key ) {
+		$allowed_config_keys = array( 'clientId', 'secret' );
+		foreach ( $allowed_config_keys as $allowed_config_key ) {
 			if ( ! array_key_exists( $allowed_config_key, $config ) ) {
 				continue;
 			}
 
 			$this->config[ $allowed_config_key ] = $config[ $allowed_config_key ];
 		}
+		$this->update_option();
 	}
 
 	/**
@@ -121,7 +123,7 @@ class Client {
 	/**
 	 * Saves the access token for the given user.
 	 *
-	 * @param int                  $user_id      User id to receive token for.
+	 * @param int                  $user_id      User ID to receive token for.
 	 * @param AccessTokenInterface $access_token The access token to save.
 	 *
 	 * @return void
@@ -134,7 +136,7 @@ class Client {
 	/**
 	 * Retrieves an access token.
 	 *
-	 * @param null|int $user_id User id to receive token for.
+	 * @param null|int $user_id User ID to receive token for.
 	 *
 	 * @return bool|AccessTokenInterface False if not found. Token when found.
 	 */
@@ -153,7 +155,7 @@ class Client {
 	/**
 	 * Removes an access token from the list of access token.
 	 *
-	 * @param int $user_id The user id to remove the access token for.
+	 * @param int $user_id The user ID to remove the access token for.
 	 *
 	 * @return void
 	 */
@@ -193,7 +195,7 @@ class Client {
 	 * @return AccessTokenInterface[] The formatted access tokens.
 	 */
 	protected function format_access_tokens( $access_tokens ) {
-		if ( ! is_array( $access_tokens ) ||  $access_tokens === [] ) {
+		if ( ! is_array( $access_tokens ) || $access_tokens === [] ) {
 			return [];
 		}
 
@@ -213,10 +215,13 @@ class Client {
 	 * @return array
 	 */
 	protected function get_option() {
-		$option_value = \WPSEO_Options::get( 'myyoast-oauth', false );
+		$option_value = \WPSEO_Options::get( 'myyoast_oauth', false );
 
-		if ( ! $option_value ) {
-			return json_decode( $option_value, true );
+		if ( $option_value ) {
+			return wp_parse_args(
+				json_decode( $option_value, true ),
+				$this->get_default_option()
+			);
 		}
 
 		return $this->get_default_option();
@@ -231,8 +236,8 @@ class Client {
 	 */
 	protected function update_option() {
 		\WPSEO_Options::set(
-			'myyoast-oauth',
-			wp_json_encode(
+			'myyoast_oauth',
+			\WPSEO_Utils::format_json_encode(
 				[
 					'config'        => $this->config,
 					'access_tokens' => $this->access_tokens,

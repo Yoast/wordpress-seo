@@ -115,7 +115,7 @@ class WPSEO_Link_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the getting of the column content
+	 * Test the getting of the column content.
 	 */
 	public function test_column_content() {
 		$link_columns = new WPSEO_Link_Columns( new WPSEO_Meta_Storage() );

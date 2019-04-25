@@ -171,7 +171,7 @@ export default class HowToStep extends Component {
 	getMediaUploadButton( props ) {
 		return (
 			<IconButton
-				className="schema-how-to-step-button editor-inserter__toggle how-to-step-add-media"
+				className="schema-how-to-step-button how-to-step-add-media"
 				icon="insert"
 				onClick={ props.open }
 			>
@@ -200,13 +200,13 @@ export default class HowToStep extends Component {
 			/>
 			}
 			<IconButton
-				className="schema-how-to-step-button editor-inserter__toggle"
+				className="schema-how-to-step-button"
 				icon="trash"
 				label={ __( "Delete step", "wordpress-seo" ) }
 				onClick={ this.onRemoveStep }
 			/>
 			<IconButton
-				className="schema-how-to-step-button editor-inserter__toggle"
+				className="schema-how-to-step-button"
 				icon="insert"
 				label={ __( "Insert step", "wordpress-seo" ) }
 				onClick={ this.onInsertStep }

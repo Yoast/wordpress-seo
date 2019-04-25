@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Link_Reindex_Post_Endpoint
+ * Class WPSEO_Link_Reindex_Post_Endpoint.
  */
 class WPSEO_Link_Reindex_Post_Endpoint {
 

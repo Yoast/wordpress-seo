@@ -6,21 +6,21 @@
  */
 
 /**
- * Class WPSEO_Shortcode_Filter
+ * Class WPSEO_Shortcode_Filter.
  *
- * Used for parsing WP shortcodes with AJAX
+ * Used for parsing WP shortcodes with AJAX.
  */
 class WPSEO_Shortcode_Filter {
 
 	/**
-	 * Initialize the AJAX hooks
+	 * Initialize the AJAX hooks.
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_wpseo_filter_shortcodes', array( $this, 'do_filter' ) );
 	}
 
 	/**
-	 * Parse the shortcodes
+	 * Parse the shortcodes.
 	 */
 	public function do_filter() {
 		check_ajax_referer( 'wpseo-filter-shortcodes', 'nonce' );
@@ -36,6 +36,6 @@ class WPSEO_Shortcode_Filter {
 			);
 		}
 
-		wp_die( wp_json_encode( $parsed_shortcodes ) );
+		wp_die( WPSEO_Utils::format_json_encode( $parsed_shortcodes ) );
 	}
 }

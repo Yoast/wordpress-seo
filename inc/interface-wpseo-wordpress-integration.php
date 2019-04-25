@@ -7,12 +7,12 @@
 
 if ( ! interface_exists( 'WPSEO_WordPress_Integration' ) ) {
 	/**
-	 * An interface for registering integrations with WordPress
+	 * An interface for registering integrations with WordPress.
 	 */
 	interface WPSEO_WordPress_Integration {
 
 		/**
-		 * Registers all hooks to WordPress
+		 * Registers all hooks to WordPress.
 		 *
 		 * @return void
 		 */

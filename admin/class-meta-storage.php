@@ -23,7 +23,7 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 	protected $database_proxy;
 
 	/**
-	 * @deprecated
+	 * @deprecated 7.4
 	 *
 	 * @var null|string
 	 */
@@ -89,7 +89,7 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 	}
 
 	/**
-	 * Updates the incoming link count
+	 * Updates the incoming link count.
 	 *
 	 * @param array              $post_ids The posts to update the incoming link count for.
 	 * @param WPSEO_Link_Storage $storage  The link storage object.

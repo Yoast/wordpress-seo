@@ -11,6 +11,8 @@
 class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Admin_Editor_Specific_Replace_Vars_Double
 	 */
 	protected $class_instance;
@@ -116,7 +118,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests that determine_for_term can detect a custom taxonomy
+	 * Tests that determine_for_term can detect a custom taxonomy.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_term
 	 */

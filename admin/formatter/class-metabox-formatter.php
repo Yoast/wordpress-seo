@@ -6,12 +6,14 @@
  */
 
 /**
- * This class forces needed methods for the metabox localization
+ * This class forces needed methods for the metabox localization.
  */
 class WPSEO_Metabox_Formatter {
 
 	/**
-	 * @var WPSEO_Metabox_Formatter_Interface Object that provides formatted values.
+	 * Object that provides formatted values.
+	 *
+	 * @var WPSEO_Metabox_Formatter_Interface
 	 */
 	private $formatter;
 
@@ -25,7 +27,7 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Returns the values
+	 * Returns the values.
 	 *
 	 * @return array
 	 */
@@ -37,7 +39,7 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Returns array with all the values always needed by a scraper object
+	 * Returns array with all the values always needed by a scraper object.
 	 *
 	 * @return array Default settings for the metabox.
 	 */
@@ -67,7 +69,6 @@ class WPSEO_Metabox_Formatter {
 			'isRtl'                     => is_rtl(),
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
 			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
-			'recalibrationBetaActive'   => WPSEO_Recalibration_Beta::is_enabled(),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
@@ -202,7 +203,7 @@ class WPSEO_Metabox_Formatter {
 				__( 'Get %s', 'wordpress-seo' ),
 				'Yoast SEO Premium'
 			),
-			'small'                    => __( '1 year free updates and upgrades included!', 'wordpress-seo' ),
+			'small'                    => __( '1 year free support and updates included!', 'wordpress-seo' ),
 			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
 		);
 	}

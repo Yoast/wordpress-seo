@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Environment
+ * Class WPSEO_Config_Field_Environment.
  */
 class WPSEO_Config_Field_Environment extends WPSEO_Config_Field_Choice {
 
@@ -25,7 +25,7 @@ class WPSEO_Config_Field_Environment extends WPSEO_Config_Field_Choice {
 	}
 
 	/**
-	 * Set adapter
+	 * Set adapter.
 	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */

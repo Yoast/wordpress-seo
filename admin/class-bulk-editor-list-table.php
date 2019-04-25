@@ -12,7 +12,7 @@
 class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
-	 * The nonce that was passed with the request
+	 * The nonce that was passed with the request.
 	 *
 	 * @var string
 	 */
@@ -40,35 +40,35 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected $meta_data = array();
 
 	/**
-	 * The current requested page_url
+	 * The current requested page_url.
 	 *
 	 * @var string
 	 */
 	private $request_url = '';
 
 	/**
-	 * The current page (depending on $_GET['paged']) if current tab is for current page_type, else it will be 1
+	 * The current page (depending on $_GET['paged']) if current tab is for current page_type, else it will be 1.
 	 *
 	 * @var integer
 	 */
 	private $current_page;
 
 	/**
-	 * The current post filter, if is used (depending on $_GET['post_type_filter'])
+	 * The current post filter, if is used (depending on $_GET['post_type_filter']).
 	 *
 	 * @var string
 	 */
 	private $current_filter;
 
 	/**
-	 * The current post status, if is used (depending on $_GET['post_status'])
+	 * The current post status, if is used (depending on $_GET['post_status']).
 	 *
 	 * @var string
 	 */
 	private $current_status;
 
 	/**
-	 * The current sorting, if used (depending on $_GET['order'] and $_GET['orderby'])
+	 * The current sorting, if used (depending on $_GET['order'] and $_GET['orderby']).
 	 *
 	 * @var string
 	 */
@@ -83,7 +83,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 	/**
 	 * Based on the page_type ($this->page_type) there will be constructed an url part, for subpages and
-	 * navigation
+	 * navigation.
 	 *
 	 * @var string
 	 */
@@ -109,7 +109,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected $input_fields = array();
 
 	/**
-	 * Class constructor
+	 * Class constructor.
 	 *
 	 * @param array $args The arguments.
 	 */
@@ -186,7 +186,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Will shown the navigation for the table like pagenavigation and pagefilter;
+	 * Will shown the navigation for the table like pagenavigation and pagefilter.
 	 *
 	 * @param string $which Table nav location (such as top).
 	 */
@@ -232,7 +232,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	 * This function takes into account the post types in which the current user can
 	 * edit all posts, and the ones the current user can only edit his/her own.
 	 *
-	 * @return string $subquery The subquery, which should always be used in $wpdb->prepare(), passing the current user_id in as the first parameter.
+	 * @return string The subquery, which should always be used in $wpdb->prepare(),
+	 *                passing the current user_id in as the first parameter.
 	 */
 	public function get_base_subquery() {
 		global $wpdb;
@@ -428,7 +429,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Sets the correct pagenumber and pageurl for the navigation
+	 * Sets the correct pagenumber and pageurl for the navigation.
 	 */
 	public function prepare_page_navigation() {
 
@@ -439,7 +440,10 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$current_status = $this->current_status;
 		$current_order  = $this->current_order;
 
-		// If current type doesn't compare with objects page_type, than we have to unset some vars in the requested url (which will be use for internal table urls).
+		/*
+		 * If current type doesn't compare with objects page_type, then we have to unset
+		 * some vars in the requested url (which will be used for internal table urls).
+		 */
 		if ( isset( $this->input_fields['type'] ) && $this->input_fields['type'] !== $this->page_type ) {
 			$request_url = remove_query_arg( 'paged', $request_url ); // Page will be set with value 1 below.
 			$request_url = remove_query_arg( 'post_type_filter', $request_url );
@@ -469,7 +473,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Preparing the requested pagerows and setting the needed variables
+	 * Preparing the requested pagerows and setting the needed variables.
 	 */
 	public function prepare_items() {
 
@@ -493,7 +497,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Getting the columns for first row
+	 * Getting the columns for first row.
 	 *
 	 * @return array
 	 */
@@ -502,7 +506,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Setting the column headers
+	 * Setting the column headers.
 	 */
 	protected function set_column_headers() {
 		$columns               = $this->get_columns();
@@ -512,7 +516,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Counting total items
+	 * Counting total items.
 	 *
 	 * @param string $subquery         SQL FROM part.
 	 * @param string $all_states       SQL IN part.
@@ -534,7 +538,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Getting the post_type_clause filter
+	 * Getting the post_type_clause filter.
 	 *
 	 * @return string
 	 */
@@ -620,7 +624,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Heavily restricts the possible columns by which a user can order the table in the bulk editor, thereby preventing a possible CSRF vulnerability.
+	 * Heavily restricts the possible columns by which a user can order the table
+	 * in the bulk editor, thereby preventing a possible CSRF vulnerability.
 	 *
 	 * @param string $orderby The column by which we want to order.
 	 *
@@ -641,7 +646,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Makes sure the order clause is always ASC or DESC for the bulk editor table, thereby preventing a possible CSRF vulnerability.
+	 * Makes sure the order clause is always ASC or DESC for the bulk editor table,
+	 * thereby preventing a possible CSRF vulnerability.
 	 *
 	 * @param string $order Whether we want to sort ascending or descending.
 	 *

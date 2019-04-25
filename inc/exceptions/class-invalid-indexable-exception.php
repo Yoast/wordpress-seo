@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Invalid_Indexable_Exception
+ * Class WPSEO_Invalid_Indexable_Exception.
  */
 class WPSEO_Invalid_Indexable_Exception extends InvalidArgumentException {
 

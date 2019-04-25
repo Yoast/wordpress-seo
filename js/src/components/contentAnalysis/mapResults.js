@@ -1,5 +1,5 @@
 import { helpers } from "yoastseo";
-import { colors } from "yoast-components";
+import { colors } from "@yoast/style-guide";
 
 const { scoreToRating } = helpers;
 
@@ -115,7 +115,7 @@ export function getIconForScore( score ) {
  * Maps results to object, to be used by the ContentAnalysis component.
  *
  * Takes in the YoastSEO.js results and maps them to the appropriate objects, so they can be used by the
- * ContentAnalysis component from yoast-components.
+ * ContentAnalysis component from @yoast/analysis-report.
  *
  * @param {object} results    Results provided by YoastSEO.js.
  * @param {string} keywordKey The key of the keyword that these results represent.

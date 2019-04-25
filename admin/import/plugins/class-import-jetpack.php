@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Import_Jetpack_SEO
+ * Class WPSEO_Import_Jetpack_SEO.
  *
  * Class with functionality to import & clean Jetpack SEO post metadata.
  */

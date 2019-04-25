@@ -98,6 +98,12 @@
 	<rule ref="PHPCompatibility.Syntax.NewFunctionArrayDereferencing.Found">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
+	<rule ref="PHPCompatibility.FunctionUse.NewFunctions.class_aliasFound">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.Constants.NewMagicClassConstant.Found">
+		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
 
 	<!-- These usages of PHP > 5.2 code are surrounded by the correct safeguards. -->
 	<rule ref="PHPCompatibility.FunctionUse.NewFunctionParameters.parse_ini_file_scanner_modeFound">
@@ -112,5 +118,4 @@
 	<rule ref="PHPCompatibility.FunctionUse.NewFunctionParameters.array_unique_sort_flagsFound">
 		<exclude-pattern>*/inc/sitemaps/class-sitemap-image-parser\.php$</exclude-pattern>
 	</rule>
-
 </ruleset>

@@ -11,6 +11,8 @@
 class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Admin_Recommended_Replace_Vars
 	 */
 	protected $class_instance;
@@ -196,7 +198,7 @@ class WPSEO_Admin_Recommended_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Dataprovider function for the test: test_get_recommended_replacevars
+	 * Dataprovider function for the test: test_get_recommended_replacevars.
 	 *
 	 * @return array With the $page_type and $expected variables.
 	 */

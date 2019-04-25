@@ -54,7 +54,7 @@ class WPSEO_Customizer {
 	}
 
 	/**
-	 * Function to support WordPress Customizer
+	 * Function to support WordPress Customizer.
 	 *
 	 * @param WP_Customize_Manager $wp_customize Manager class instance.
 	 */
@@ -76,7 +76,7 @@ class WPSEO_Customizer {
 	}
 
 	/**
-	 * Add the breadcrumbs section to the customizer
+	 * Add the breadcrumbs section to the customizer.
 	 */
 	private function breadcrumbs_section() {
 		$section_args = array(
@@ -90,7 +90,7 @@ class WPSEO_Customizer {
 	}
 
 	/**
-	 * Returns whether or not the breadcrumbs are active
+	 * Returns whether or not the breadcrumbs are active.
 	 *
 	 * @return bool
 	 */
@@ -99,7 +99,7 @@ class WPSEO_Customizer {
 	}
 
 	/**
-	 * Adds the breadcrumbs remove blog checkbox
+	 * Adds the breadcrumbs remove blog checkbox.
 	 */
 	private function breadcrumbs_blog_remove_setting() {
 		$index        = 'breadcrumbs-display-blog-page';
@@ -113,7 +113,7 @@ class WPSEO_Customizer {
 	}
 
 	/**
-	 * Returns whether or not to show the breadcrumbs blog remove option
+	 * Returns whether or not to show the breadcrumbs blog remove option.
 	 *
 	 * @return bool
 	 */
@@ -122,7 +122,7 @@ class WPSEO_Customizer {
 	}
 
 	/**
-	 * Adds the breadcrumbs separator text field
+	 * Adds the breadcrumbs separator text field.
 	 */
 	private function breadcrumbs_separator_setting() {
 		$index        = 'breadcrumbs-sep';
@@ -135,7 +135,7 @@ class WPSEO_Customizer {
 	}
 
 	/**
-	 * Adds the breadcrumbs home anchor text field
+	 * Adds the breadcrumbs home anchor text field.
 	 */
 	private function breadcrumbs_home_setting() {
 		$index        = 'breadcrumbs-home';
@@ -147,7 +147,7 @@ class WPSEO_Customizer {
 	}
 
 	/**
-	 * Adds the breadcrumbs prefix text field
+	 * Adds the breadcrumbs prefix text field.
 	 */
 	private function breadcrumbs_prefix_setting() {
 		$index        = 'breadcrumbs-prefix';
@@ -159,7 +159,7 @@ class WPSEO_Customizer {
 	}
 
 	/**
-	 * Adds the breadcrumbs archive prefix text field
+	 * Adds the breadcrumbs archive prefix text field.
 	 */
 	private function breadcrumbs_archiveprefix_setting() {
 		$index        = 'breadcrumbs-archiveprefix';
@@ -171,7 +171,7 @@ class WPSEO_Customizer {
 	}
 
 	/**
-	 * Adds the breadcrumbs search prefix text field
+	 * Adds the breadcrumbs search prefix text field.
 	 */
 	private function breadcrumbs_searchprefix_setting() {
 		$index        = 'breadcrumbs-searchprefix';
@@ -183,7 +183,7 @@ class WPSEO_Customizer {
 	}
 
 	/**
-	 * Adds the breadcrumb 404 prefix text field
+	 * Adds the breadcrumb 404 prefix text field.
 	 */
 	private function breadcrumbs_404_setting() {
 		$index        = 'breadcrumbs-404crumb';

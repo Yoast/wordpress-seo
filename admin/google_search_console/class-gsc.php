@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_GSC
+ * Class WPSEO_GSC.
  */
 class WPSEO_GSC implements WPSEO_WordPress_Integration {
 
@@ -33,12 +33,16 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	protected $issue_fetch;
 
 	/**
-	 * @var string current platform
+	 * Current platform.
+	 *
+	 * @var string
 	 */
 	private $platform;
 
 	/**
-	 * @var string current category
+	 * Current category.
+	 *
+	 * @var string
 	 */
 	private $category;
 
@@ -68,21 +72,17 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Handles the dashboard notification. If the Google Search Console has no credentials,
-	 * show a notification for the user to give him a heads up. This message is dismissable.
+	 * Handles the dashboard notification.
+	 *
+	 * If the Google Search Console has no credentials, show a notification
+	 * for the user to give them a heads up. This message is dismissable.
 	 *
 	 * @return void
 	 */
 	public function register_gsc_notification() {
 		$notification        = $this->get_profile_notification();
 		$notification_center = Yoast_Notification_Center::get();
-
-		if ( $this->has_profile() ) {
-			$notification_center->remove_notification( $notification );
-
-			return;
-		}
-		$notification_center->add_notification( $notification );
+		$notification_center->remove_notification( $notification );
 	}
 
 	/**

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Google_Search_Console_Intro
+ * Class WPSEO_Config_Field_Google_Search_Console_Intro.
  */
 class WPSEO_Config_Field_Google_Search_Console_Intro extends WPSEO_Config_Field {
 

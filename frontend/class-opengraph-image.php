@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_OpenGraph_Image
+ * Class WPSEO_OpenGraph_Image.
  */
 class WPSEO_OpenGraph_Image {
 
@@ -44,7 +44,6 @@ class WPSEO_OpenGraph_Image {
 	private $image_tags = array(
 		'width'     => 'width',
 		'height'    => 'height',
-		'alt'       => 'alt',
 		'mime-type' => 'type',
 	);
 
@@ -441,7 +440,8 @@ class WPSEO_OpenGraph_Image {
 	 *
 	 * @param string $url The given URL.
 	 *
-	 * @return null|number Returns the found attachment ID if it exists. Otherwise -1. If the URL is empty we return null.
+	 * @return null|number Returns the found attachment ID if it exists. Otherwise -1.
+	 *                     If the URL is empty we return null.
 	 */
 	public function add_image_by_url( $url ) {
 		if ( empty( $url ) ) {
@@ -476,7 +476,7 @@ class WPSEO_OpenGraph_Image {
 		 *
 		 * Use the `wpseo_image_sizes` filter if you want to use our logic. That filter
 		 * can be used to add an image size that needs to be taken into consideration
-		 * within our own logic
+		 * within our own logic.
 		 *
 		 * @api string $size Size string.
 		 */

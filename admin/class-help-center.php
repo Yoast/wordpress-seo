@@ -238,7 +238,7 @@ class WPSEO_Help_Center {
 	 *
 	 * %s is replaced with <code>%s</code> and replaced again in the javascript with the actual variable.
 	 *
-	 * @return  array Translated text strings for the help center.
+	 * @return array Translated text strings for the help center.
 	 */
 	public static function get_translated_texts() {
 		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
@@ -269,18 +269,5 @@ class WPSEO_Help_Center {
 			'contactSupport.button'              => __( 'New support request', 'wordpress-seo' ),
 			'helpCenter.buttonText'              => __( 'Need help?', 'wordpress-seo' ),
 		);
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Outputs the help center.
-	 *
-	 * @deprecated 5.6
-	 * @codeCoverageIgnore
-	 */
-	public function output_help_center() {
-		_deprecated_function( 'WPSEO_Help_Center::output_help_center', 'WPSEO 5.6.0', 'WPSEO_Help_Center::mount()' );
-		$this->mount();
 	}
 }

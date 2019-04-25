@@ -29,11 +29,11 @@ class WPSEO_Sitemaps_Router {
 
 		$wp->add_query_var( 'sitemap' );
 		$wp->add_query_var( 'sitemap_n' );
-		$wp->add_query_var( 'xsl' );
+		$wp->add_query_var( 'yoast-sitemap-xsl' );
 
 		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
 		add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
-		add_rewrite_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?xsl=$matches[1]', 'top' );
+		add_rewrite_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?yoast-sitemap-xsl=$matches[1]', 'top' );
 	}
 
 	/**
@@ -45,7 +45,7 @@ class WPSEO_Sitemaps_Router {
 	 */
 	public function redirect_canonical( $redirect ) {
 
-		if ( get_query_var( 'sitemap' ) || get_query_var( 'xsl' ) ) {
+		if ( get_query_var( 'sitemap' ) || get_query_var( 'yoast-sitemap-xsl' ) ) {
 			return false;
 		}
 
@@ -113,13 +113,16 @@ class WPSEO_Sitemaps_Router {
 		$base = $wp_rewrite->using_index_permalinks() ? 'index.php/' : '/';
 
 		/**
-		 * Filter the base URL of the sitemaps
+		 * Filter the base URL of the sitemaps.
 		 *
 		 * @param string $base The string that should be added to home_url() to make the full base URL.
 		 */
 		$base = apply_filters( 'wpseo_sitemaps_base_url', $base );
 
-		// Get the scheme from the configured home url instead of letting WordPress determine the scheme based on the requested URI.
+		/*
+		 * Get the scheme from the configured home URL instead of letting WordPress
+		 * determine the scheme based on the requested URI.
+		 */
 		return home_url( $base . $page, wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME ) );
 	}
 }

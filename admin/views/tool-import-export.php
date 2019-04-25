@@ -103,7 +103,7 @@ $tabs = array(
 
 		<?php
 		/**
-		 * Allow adding a custom import tab header
+		 * Allow adding a custom import tab header.
 		 */
 		do_action( 'wpseo_import_tab_header' );
 		?>
@@ -138,6 +138,6 @@ foreach ( $tabs as $identifier => $tab ) {
 }
 
 /**
- * Allow adding a custom import tab
+ * Allow adding a custom import tab.
  */
 do_action( 'wpseo_import_tab_content' );

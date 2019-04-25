@@ -5,7 +5,7 @@ namespace Yoast\Tests\UnitTests\Config;
 use Yoast\WP\Free\Config\Dependency_Management;
 
 /**
- * Class Dependency_Management_Test
+ * Class Dependency_Management_Test.
  *
  * @group dependency-management
  *
@@ -14,7 +14,7 @@ use Yoast\WP\Free\Config\Dependency_Management;
 class Dependency_Management_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * Tests if the alias is created with ideal conditions
+	 * Tests if the alias is created with ideal conditions.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Dependency_Management::ensure_class_alias()
 	 */
@@ -45,7 +45,7 @@ class Dependency_Management_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if no alias is created for unrelated class
+	 * Tests if no alias is created for unrelated class.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Dependency_Management::ensure_class_alias()
 	 */
@@ -72,7 +72,7 @@ class Dependency_Management_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if alias is not created when prefixed dependencies are present
+	 * Tests if alias is not created when prefixed dependencies are present.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Dependency_Management::ensure_class_alias()
 	 */
@@ -100,7 +100,7 @@ class Dependency_Management_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if class alias is not created when base class does not exist
+	 * Tests if class alias is not created when base class does not exist.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Dependency_Management::ensure_class_alias()
 	 */
@@ -130,7 +130,7 @@ class Dependency_Management_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests to make sure the autoloader is registered during initialization
+	 * Tests to make sure the autoloader is registered during initialization.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Dependency_Management::initialize()
 	 */

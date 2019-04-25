@@ -92,7 +92,7 @@ class WPSEO_Import_Plugin_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Sets up a test post
+	 * Sets up a test post.
 	 *
 	 * @return int $post_id
 	 */

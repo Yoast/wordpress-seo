@@ -6,15 +6,19 @@
  */
 
 /**
- * Class WPSEO_Configuration_Service_Test
+ * Class WPSEO_Configuration_Service_Test.
  */
 class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 
-	/** @var WPSEO_Configuration_Service instance */
+	/**
+	 * Instance.
+	 *
+	 * @var WPSEO_Configuration_Service
+	 */
 	protected $configuration_service;
 
 	/**
-	 * Preparation
+	 * Preparation.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -23,7 +27,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Cleaning
+	 * Cleaning.
 	 */
 	public function tearDown() {
 		parent::tearDown();
@@ -35,14 +39,14 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Make sure the REST API init is hooked on
+	 * Make sure the REST API init is hooked on.
 	 */
 	public function test_rest_api_init_hooked() {
 		$this->assertEquals( 10, has_action( 'rest_api_init', 'wpseo_init_rest_api' ) );
 	}
 
 	/**
-	 * Test set storage
+	 * Test set storage.
 	 *
 	 * @covers WPSEO_Configuration_Service::set_storage()
 	 */
@@ -55,7 +59,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test set endpoint
+	 * Test set endpoint.
 	 *
 	 * @covers WPSEO_Configuration_Service::set_endpoint()
 	 */
@@ -68,7 +72,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test set options adapter
+	 * Test set options adapter.
 	 *
 	 * @covers WPSEO_Configuration_Service::set_options_adapter()
 	 */
@@ -81,7 +85,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test set components
+	 * Test set components.
 	 *
 	 * @covers WPSEO_Configuration_Service::set_components()
 	 */
@@ -94,7 +98,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test set structure
+	 * Test set structure.
 	 *
 	 * @covers WPSEO_Configuration_Service::set_structure()
 	 */
@@ -107,7 +111,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test retrieving configuration
+	 * Test retrieving configuration.
 	 *
 	 * @covers WPSEO_Configuration_Service::get_configuration()
 	 */
@@ -147,7 +151,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test saving configuration function calls
+	 * Test saving configuration function calls.
 	 *
 	 * @covers WPSEO_Configuration_Service::set_configuration()
 	 */
@@ -167,7 +171,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 		$data = new WP_REST_Request();
 		$data->set_header( 'content-type', 'application/json' );
 
-		$data->set_body( json_encode( $expected ) );
+		$data->set_body( WPSEO_Utils::format_json_encode( $expected ) );
 
 		$storage
 			->expects( $this->once() )
@@ -182,7 +186,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Make sure all providers are set with default providers call
+	 * Make sure all providers are set with default providers call.
 	 *
 	 * @covers WPSEO_Configuration_Service::set_default_providers()
 	 */

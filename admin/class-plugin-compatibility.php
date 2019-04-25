@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Plugin_Compatibility
+ * Class WPSEO_Plugin_Compatibility.
  */
 class WPSEO_Plugin_Compatibility {
 
@@ -28,7 +28,7 @@ class WPSEO_Plugin_Compatibility {
 	/**
 	 * WPSEO_Plugin_Compatibility constructor.
 	 *
-	 * @param string     $version The version to check against.
+	 * @param string     $version              The version to check against.
 	 * @param null|class $availability_checker The checker to use.
 	 */
 	public function __construct( $version, $availability_checker = null ) {

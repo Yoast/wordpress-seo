@@ -17,6 +17,7 @@ import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import CompatibilityHelper from "./compatibility/compatibilityHelper";
 import Pluggable from "./Pluggable";
+import requestWordsToHighlight from "./analysis/requestWordsToHighlight.js";
 
 // UI dependencies.
 import publishBox from "./ui/publishBox";
@@ -539,19 +540,19 @@ setWordPressSeoL10n();
 
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = editStore.getState().focusKeyword;
-
+		requestWordsToHighlight( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
 		const refreshAfterFocusKeywordChange = debounce( () => {
 			app.refresh();
 		}, 50 );
 
 		let previousCornerstoneValue = null;
-
 		editStore.subscribe( () => {
 			// Verify whether the focusKeyword changed. If so, trigger refresh:
 			const newFocusKeyword = editStore.getState().focusKeyword;
 
 			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
+				requestWordsToHighlight( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
 
 				$( "#yoast_wpseo_focuskw" ).val( focusKeyword );
 				refreshAfterFocusKeywordChange();

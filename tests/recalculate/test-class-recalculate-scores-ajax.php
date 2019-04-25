@@ -25,7 +25,7 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	private $posts = array();
 
 	/**
-	 * Setup the class instance and create some posts
+	 * Setup the class instance and create some posts.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -40,7 +40,7 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Get the total of posts to be recalculated with no applicable posts
+	 * Get the total of posts to be recalculated with no applicable posts.
 	 *
 	 * @covers WPSEO_Recalculate_Scores_Ajax::get_total
 	 */
@@ -56,7 +56,7 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Override die handler for test_get_total()
+	 * Override die handler for test_get_total().
 	 *
 	 * @param mixed $response Fake response.
 	 *
@@ -67,7 +67,7 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Custom die handler which performs the actual assertion for test_get_total()
+	 * Custom die handler which performs the actual assertion for test_get_total().
 	 *
 	 * @param string $response The result of the execution.
 	 */
@@ -77,7 +77,7 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Get the total of recalculation posts with posts applicable
+	 * Get the total of recalculation posts with posts applicable.
 	 *
 	 * @covers WPSEO_Recalculate_Scores_Ajax::get_total
 	 */
@@ -96,7 +96,7 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Override die handler for test_get_total_with_posts()
+	 * Override die handler for test_get_total_with_posts().
 	 *
 	 * @param mixed $response Fake response.
 	 *
@@ -107,7 +107,7 @@ class WPSEO_Recalculate_Scores_Ajax_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Custom die handler which performs the actual assertion for test_get_total_with_posts()
+	 * Custom die handler which performs the actual assertion for test_get_total_with_posts().
 	 *
 	 * @param string $response The result of the execution.
 	 */
