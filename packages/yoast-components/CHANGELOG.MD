@@ -16,10 +16,11 @@ We follow [Semantic Versioning](http://semver.org/).
   * `@yoast/social-metadata-previews`
   * `@yoast/style-guide`
   * `@yoast/social-previews`
+* Improved handling of the `rel` attribute for links that open in a new browser's tab.
 
 ## 4.23.1 April 15th, 2019
 ### Other
-* Updated the `styled-components` package to v4+. 
+* Updated the `styled-components` package to v4+.
 
 ## 4.23.0 April 1st, 2019
 ### Added
@@ -185,7 +186,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ## 4.6.2 July 2nd, 2018
 ### Fixes
-* Fixes a bug where console errors would be thrown because `ref` instead of `innerRef` was used in the `ReplacementVariableEditor`. 
+* Fixes a bug where console errors would be thrown because `ref` instead of `innerRef` was used in the `ReplacementVariableEditor`.
 
 ## 4.6.0 July 2nd, 2018
 ### Added
@@ -390,7 +391,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * Refactored `StyledSection` to use `styled-components`.
 * Removed `.svg` files. Use `SvgIcon` instead.
 * Removed `composites/SnippetPreview/components/SnippetPreview.js` that ensured backwards compatability to the new `SnippetPreview` component.
- 
+
 ## 2.11.7 December 15th, 2017
 
 ### Added
@@ -497,7 +498,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * `HelpCenterButton` component. #318
 
 #### Other
-* Added translatable label to `SearchBar` component. #243 
+* Added translatable label to `SearchBar` component. #243
 * Added `makeOutboundLink` util function. #308
 * Added a prop to the `AlgoliaSearcher` component that can be used to enable live search. #323
 * Added a search button and placeholder text to the `SearchBar` component. #323
@@ -511,7 +512,7 @@ We follow [Semantic Versioning](http://semver.org/).
 ## 2.9.3: September 26th, 2017
 
 ### Other
-* Fixed the loading of AMP articles in the Algolia article iFrame. 
+* Fixed the loading of AMP articles in the Algolia article iFrame.
 
 
 ## 2.9.2: September 25th, 2017
@@ -532,29 +533,29 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Added
 
 #### Components
-* `Icon` component (using `svg-react-loader`, see `README.md`). #218 
+* `Icon` component (using `svg-react-loader`, see `README.md`). #218
 * `Button`(#173), `IconButton`(##232), `LinkButton`(#262), `YoastButton`(#257) components.
-* `InputField` component (using `DraftJS` ). #204 
-* `ListTable`, `Row` and `Cell` component. #219 
-* `ProgressBar`component. #172 
-* `IFrame` and `ArticleContent` components. #242 
+* `InputField` component (using `DraftJS` ). #204
+* `ListTable`, `Row` and `Cell` component. #219
+* `ProgressBar`component. #172
+* `IFrame` and `ArticleContent` components. #242
 * `StackedProgressBar` component. #270
 * `SeoScoreAssessment(s)` components. #272
-* `WordpressFeed` component. #273 
-* `SeoAssessment` component. #281 
+* `WordpressFeed` component. #273
+* `SeoAssessment` component. #281
 
 ##### Other
-* Added `getFeed` RSS reader utility function. #267 
+* Added `getFeed` RSS reader utility function. #267
 * Added `ContentAnalysis` reducer and actions. #224
-* Added `striptags` utility library. #276 
-* Added various documentation. #239 
+* Added `striptags` utility library. #276
+* Added various documentation. #239
 
 ### Other
 * Improved development environment. (#238, #174 )
 
 #### Onboarding wizard
 * Added max width for content in Onboarding wizard (#250), and `fullWidth` property for full screen support (#269).
-* Changed Onboarding wizard header. #256  
+* Changed Onboarding wizard header. #256
 * Added paragraph for additional information to Onboard wizard `Choice component`. #254
 
 ## 2.8.0: August 8th, 2017
@@ -565,7 +566,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-* Removes console errors caused by using React.PropTypes and React.createClass. 
+* Removes console errors caused by using React.PropTypes and React.createClass.
 
 ## 2.7.1: July 25th, 2017
 
@@ -586,7 +587,7 @@ We follow [Semantic Versioning](http://semver.org/).
 
 * Changes the color blue from #0075b3 to #0066cd.
 
-## 2.5.0: 
+## 2.5.0:
 
 ### Added
 
@@ -612,7 +613,7 @@ We follow [Semantic Versioning](http://semver.org/).
 * Removes width from StyledSection.
 
 ## 2.2.0: December 13th, 2016
- 
+
 ### Added
 
 * [Loader] Adds Loader component to be used when something is occurring in the background.

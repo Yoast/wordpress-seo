@@ -10,3 +10,4 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Added
 
 * Splits out `@yoast/components` from `@yoast/yoast-components`. This package contains general components which are mainly used to build other, bigger components.
+* Improved handling of the `rel` attribute for links that open in a new browser's tab.

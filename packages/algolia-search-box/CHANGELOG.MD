@@ -10,4 +10,5 @@ We follow [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* Splits out `@yoast/algolia-search-box` from `@yoast/yoast-components`. This package contains an algolia search box with which you can search in an algolia index. 
+* Splits out `@yoast/algolia-search-box` from `@yoast/yoast-components`. This package contains an algolia search box with which you can search in an algolia index.
+* Improved handling of the `rel` attribute for links that open in a new browser's tab.
