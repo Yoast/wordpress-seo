@@ -362,7 +362,7 @@ class WPSEO_Image_Utils {
 	/**
 	 * Gets the post's first usable content image. Null if none is available.
 	 *
-	 * @param integer $post_id The post id.
+	 * @param int $post_id The post id.
 	 *
 	 * @return string|null The image URL.
 	 */

@@ -154,7 +154,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			return $data;
 		}
 
-		$data['image']              = $image_schema;
+		$data['image'] = $image_schema;
 		$data['primaryImageOfPage'] = array(
 			'@id' => $image_id,
 		);
@@ -185,7 +185,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 * @param int    $post_id  The post id.
 	 * @param string $image_id The image schema id.
 	 *
-	 * @return array|null The image schema object and null if there is no image in teh content.
+	 * @return array|null The image schema object and null if there is no image in the content.
 	 */
 	private function get_first_content_image( $post_id, $image_id ) {
 		$image_url = WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
