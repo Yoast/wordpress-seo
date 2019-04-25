@@ -29,6 +29,7 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @dataProvider provider_get_css_class
+	 * @covers       WPSEO_Rank::get_css_class
 	 *
 	 * @param int    $rank     Ranking.
 	 * @param string $expected Expected CSS class.
@@ -56,6 +57,7 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @dataProvider provider_get_label
+	 * @covers       WPSEO_Rank::get_label
 	 *
 	 * @param int    $rank     Ranking.
 	 * @param string $expected Expected label.
@@ -83,6 +85,7 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @dataProvider provider_get_drop_down_label
+	 * @covers       WPSEO_Rank::get_drop_down_label
 	 *
 	 * @param int    $rank     Ranking.
 	 * @param string $expected Expected drop-down label.
@@ -110,6 +113,7 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @dataProvider provider_get_starting_score
+	 * @covers       WPSEO_Rank::get_starting_score
 	 *
 	 * @param int    $rank     Ranking.
 	 * @param string $expected Expected start score.
@@ -137,6 +141,7 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @dataProvider provider_get_end_score
+	 * @covers       WPSEO_Rank::get_end_score
 	 *
 	 * @param int    $rank     Ranking.
 	 * @param string $expected Expected end score.
@@ -164,6 +169,7 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @dataProvider provider_from_numeric_score
+	 * @covers       WPSEO_Rank::from_numeric_score
 	 *
 	 * @param int $score    Numeric score.
 	 * @param int $expected Expected ranking.
