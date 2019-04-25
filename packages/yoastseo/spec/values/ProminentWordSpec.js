@@ -1,6 +1,6 @@
 import ProminentWord from "../../src/values/ProminentWord";
 
-describe( "WordCombination", function() {
+describe( "ProminentWord", function() {
 	describe( "getWord", function() {
 		it( "returns the word of the wordCombination", function() {
 			const prominentWord = new ProminentWord( "tests", "test", 3 );
