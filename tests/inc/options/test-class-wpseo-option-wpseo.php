@@ -29,7 +29,7 @@ class WPSEO_Option_WPSEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that disabled 'wpseo' feature variables return false.
 	 *
-	 * @group ms-required
+	 * @group  ms-required
 	 * @covers WPSEO_Option::validate()
 	 * @covers WPSEO_Option::prevent_disabled_options_update()
 	 */

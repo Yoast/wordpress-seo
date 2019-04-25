@@ -420,7 +420,7 @@ class WPSEO_Addon_Manager_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider check_for_updates_provider
 	 *
-	 * @covers       WPSEO_Addon_Manager::check_for_updates
+	 * @covers WPSEO_Addon_Manager::check_for_updates
 	 *
 	 * @param array  $addons   The 'installed' addons.
 	 * @param array  $data     Data being send to the method.
