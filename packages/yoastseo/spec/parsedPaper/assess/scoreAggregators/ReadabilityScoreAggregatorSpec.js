@@ -9,6 +9,7 @@ describe( "ReadabilityScoreAggregator", () => {
 
 		beforeEach( function() {
 			aggregator = new ReadabilityScoreAggregator();
+			aggregator.setLocale( "en_US" );
 		} );
 
 		it( "should have no points for an empty result set", function() {
@@ -86,6 +87,8 @@ describe( "ReadabilityScoreAggregator", () => {
 
 		beforeEach( function() {
 			aggregator = new ReadabilityScoreAggregator();
+			// Set to a fully supported language.
+			aggregator.setLocale( "en_US" );
 		} );
 
 		it( "should default to a bad indicator", function() {
@@ -128,7 +131,8 @@ describe( "ReadabilityScoreAggregator", () => {
 
 		beforeEach( function() {
 			aggregator = new ReadabilityScoreAggregator();
-			aggregator.isFullySupported = () => false;
+			// Non-existing language, always not supported.
+			aggregator.setLocale( "non-existing-language_XYZ" );
 		} );
 
 		it( "should give worse results based on the negative points", function() {
