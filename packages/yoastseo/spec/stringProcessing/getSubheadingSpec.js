@@ -3,6 +3,7 @@ import {
 	getSubheadingsTopLevel,
 	getSubheadingContents,
 	getSubheadingContentsTopLevel,
+	removeSubheadingsTopLevel,
 } from "../../src/stringProcessing/getSubheadings";
 
 describe( "getSubheadingContents", function() {
@@ -75,5 +76,36 @@ describe( "getSubheadingsTopLevel", function() {
 				expect( result[ i ][ j ] ).toBe( value );
 			} );
 		} );
+	} );
+} );
+
+describe( "removeSubheadingsTopLevel", function() {
+	it( "should remove all h2 and h3 subheadings from the text while keeping the other levels intact", function() {
+		const text = "<h1>one</h1>Some text after subheading h1.<h2>two</h2>Some text after subheading h2." +
+			"<h3>three</h3>Some text after subheading h3.<h4>four</h4>Some text after subheading h4." +
+			"<h5>five</h5>Some text after subheading h5.";
+		const result = removeSubheadingsTopLevel( text );
+
+		const expectedResult = "<h1>one</h1>Some text after subheading h1.Some text after subheading h2." +
+			"Some text after subheading h3.<h4>four</h4>Some text after subheading h4." +
+			"<h5>five</h5>Some text after subheading h5.";
+
+		expect( expectedResult ).toEqual( result );
+	} );
+
+	it( "correctly removes multiple subheadings of the same level", function() {
+		const text = "<h1>one</h1>Some text after subheading h1.<h2>two</h2>Some text after subheading h2." +
+			"<h2>two again</h2>Some text after subheading h2 again." +
+			"<h2>two again again</h2>Some text after subheading h2 again again." +
+			"<h3>three</h3>Some text after subheading h3.<h4>four</h4>Some text after subheading h4." +
+			"<h5>five</h5>Some text after subheading h5.";
+		const result = removeSubheadingsTopLevel( text );
+
+		const expectedResult = "<h1>one</h1>Some text after subheading h1.Some text after subheading h2." +
+			"Some text after subheading h2 again.Some text after subheading h2 again again." +
+			"Some text after subheading h3.<h4>four</h4>Some text after subheading h4." +
+			"<h5>five</h5>Some text after subheading h5.";
+
+		expect( expectedResult ).toEqual( result );
 	} );
 } );

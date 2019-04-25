@@ -21,26 +21,6 @@ describe( "enableFeatures", () => {
 
 		expect( new Set( newFeatures ) ).toEqual( expected );
 	} );
-
-	it( "sets features on a namespace", () => {
-		const previousFeatures1 = enabledFeatures( "namespace-1" ).slice();
-		const previousFeatures2 = enabledFeatures( "namespace-2" ).slice();
-
-		const featuresToEnable1 = [ "feature-1", "feature-3" ];
-		const featuresToEnable2 = [ "feature-1", "feature-2" ];
-
-		enableFeatures( featuresToEnable1, "namespace-1" );
-		enableFeatures( featuresToEnable2, "namespace-2" );
-
-		const expected1 = new Set( [ ...previousFeatures1, ...featuresToEnable1 ] );
-		const expected2 = new Set( [ ...previousFeatures2, ...featuresToEnable2 ] );
-
-		const newFeatures1 = enabledFeatures( "namespace-1" );
-		const newFeatures2 = enabledFeatures( "namespace-2" );
-
-		expect( new Set( newFeatures1 ) ).toEqual( expected1 );
-		expect( new Set( newFeatures2 ) ).toEqual( expected2 );
-	} );
 } );
 
 describe( "isFeatureEnabled", () => {

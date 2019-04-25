@@ -4,6 +4,7 @@ import Paper from "../../../src/values/Paper";
 import Participle from "../../../src/values/Participle";
 import Sentence from "../../../src/values/Sentence";
 import SentencePart from "../../../src/values/SentencePart";
+import ProminentWord from "../../../src/values/ProminentWord";
 import WordCombination from "../../../src/values/WordCombination";
 import serialize from "../../../src/worker/transporter/serialize";
 import englishFunctionWordsFactory from "../../../src/researches/english/functionWords.js";
@@ -107,6 +108,17 @@ describe( "serialize", () => {
 			_parseClass: "Mark",
 			original: "<h1>A heading</h1>",
 			marked: "<yoastmark class='yoast-text-mark'><h1>A heading</h1></yoastmark>",
+		} );
+	} );
+
+	it( "serializes ProminentWords", () => {
+		const thing = new ProminentWord( "combinations", "combination", 2 );
+
+		expect( serialize( thing ) ).toEqual( {
+			_parseClass: "ProminentWord",
+			occurrences: 2,
+			word: "combinations",
+			stem: "combination",
 		} );
 	} );
 
