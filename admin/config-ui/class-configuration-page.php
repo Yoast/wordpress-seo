@@ -101,6 +101,11 @@ class WPSEO_Configuration_Page {
 	public function show_wizard() {
 		$this->enqueue_assets();
 		$dashboard_url = admin_url( '/admin.php?page=wpseo_dashboard' );
+		$wizard_title  = sprintf(
+			/* translators: %s expands to Yoast SEO. */
+			__( '%s &rsaquo; Configuration Wizard', 'wordpress-seo' ),
+			'Yoast SEO'
+		);
 		?>
 		<!DOCTYPE html>
 		<!--[if IE 9]>
@@ -112,12 +117,7 @@ class WPSEO_Configuration_Page {
 		<head>
 			<meta name="viewport" content="width=device-width, initial-scale=1"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-			<title><?php
-				printf(
-					/* translators: %s expands to Yoast SEO. */
-					esc_html__( '%s &rsaquo; Configuration Wizard', 'wordpress-seo' ),
-					'Yoast SEO' );
-			?></title>
+			<title><?php echo esc_html( $wizard_title ); ?></title>
 			<?php
 			wp_print_head_scripts();
 			wp_print_styles( 'yoast-seo-yoast-components' );
