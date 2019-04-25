@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import interpolateComponents from "interpolate-components";
 import { __, sprintf } from "@wordpress/i18n";
-import { isFeatureEnabled } from "@yoast/feature-toggle";
+import { isFeatureEnabled } from "@yoast/feature-flag";
 
 // Yoast dependencies.
 import WordList from "./WordList";
