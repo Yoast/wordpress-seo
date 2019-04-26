@@ -201,21 +201,12 @@ class WPSEO_Statistics_Service {
 		return array(
 			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
 			WPSEO_Rank::NO_FOCUS => sprintf( __( 'Posts %1$swithout%2$s a focus keyphrase', 'wordpress-seo' ), '<strong>', '</strong>' ),
-			WPSEO_Rank::BAD => sprintf(
-				/* translators: %s expands to the score */
-				__( 'Posts with the SEO score: %s', 'wordpress-seo' ),
-				'<strong>' . __( 'Needs improvement', 'wordpress-seo' ) . '</strong>'
-			),
-			WPSEO_Rank::OK => sprintf(
-				/* translators: %s expands to the score */
-				__( 'Posts with the SEO score: %s', 'wordpress-seo' ),
-				'<strong>' . __( 'OK', 'wordpress-seo' ) . '</strong>'
-			),
-			WPSEO_Rank::GOOD => sprintf(
-				/* translators: %s expands to the score */
-				__( 'Posts with the SEO score: %s', 'wordpress-seo' ),
-				'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>'
-			),
+			/* translators: %s expands to the score */
+			WPSEO_Rank::BAD      => sprintf( __( 'Posts with the SEO score: %s', 'wordpress-seo' ), '<strong>' . __( 'Needs improvement', 'wordpress-seo' ) . '</strong>' ),
+			/* translators: %s expands to the score */
+			WPSEO_Rank::OK       => sprintf( __( 'Posts with the SEO score: %s', 'wordpress-seo' ), '<strong>' . __( 'OK', 'wordpress-seo' ) . '</strong>' ),
+			/* translators: %s expands to the score */
+			WPSEO_Rank::GOOD     => sprintf( __( 'Posts with the SEO score: %s', 'wordpress-seo' ), '<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>' ),
 			WPSEO_Rank::NO_INDEX => __( 'Posts that should not show up in search results', 'wordpress-seo' ),
 		);
 	}
