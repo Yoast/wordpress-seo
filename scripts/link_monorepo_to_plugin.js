@@ -125,8 +125,13 @@ const execMonorepoNoOutput = cmd => execSync( cmd, { cwd: getMonorepoLocationFro
 function unlinkAllYoastPackages() {
 	const homeDirectory = execSync( "echo $HOME" ).toString().split( "\n" )[ 0 ];
 	const yarnLinkDir = homeDirectory + "/.config/yarn/link";
+	let linkedYoastPackages;
 
-	const linkedYoastPackages = execSync( "ls", { cwd: yarnLinkDir } ).toString().split( "\n" ).filter( value => value.includes( "yoast" ) );
+	try {
+		linkedYoastPackages = execSync( "ls", { cwd: yarnLinkDir } ).toString().split( "\n" ).filter( value => value.includes( "yoast" ) );
+	} catch ( e ) {
+		linkedYoastPackages = [];
+	}
 
 	linkedYoastPackages.forEach( linkedYoastPackage => {
 		execSync( `rm -rf ${ linkedYoastPackage }`, { cwd: yarnLinkDir } );
