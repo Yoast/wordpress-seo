@@ -6,14 +6,14 @@
  */
 
 /**
- * Class WPSEO_Sitemaps_Cache_Test
+ * Class WPSEO_Sitemaps_Cache_Test.
  *
  * @group sitemaps
  */
 class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Clean up
+	 * Clean up.
 	 */
 	public function tearDown() {
 
@@ -23,7 +23,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test sitemap cache not set
+	 * Test sitemap cache not set.
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data()
 	 */
@@ -36,7 +36,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the transient cache is set as a cache data object
+	 * Test if the transient cache is set as a cache data object.
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::store_sitemap()
 	 * @covers WPSEO_Sitemaps_Cache::get_sitemap()
@@ -61,7 +61,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test sitemap cache XML set as string not being validated
+	 * Test sitemap cache XML set as string not being validated.
 	 *
 	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data()
 	 * @covers WPSEO_Sitemap_Cache_Data::set_sitemap()
@@ -141,7 +141,11 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		$index_cache_key = WPSEO_Sitemaps_Cache_Validator::get_storage_key();
 		set_transient( $index_cache_key, $test_index_content );
 
-		// De cache invalidator is based on time so if there isn't enough time difference between the two generations we will end up with the same cache invalidator, failing this test.
+		/*
+		 * The cache invalidator is based on time so if there isn't enough time
+		 * difference between the two generations we will end up with the same
+		 * cache invalidator, failing this test.
+		 */
 		usleep( 10000 );
 
 		// Act.
@@ -186,7 +190,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Make sure the hook is registered on registration
+	 * Make sure the hook is registered on registration.
 	 */
 	public function test_register_clear_on_option_update() {
 

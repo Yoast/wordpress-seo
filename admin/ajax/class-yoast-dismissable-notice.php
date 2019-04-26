@@ -6,39 +6,49 @@
  */
 
 /**
- * This class will catch the request to dismiss the target notice (set by notice_name) and will store the dismiss status as an user meta
- * in the database
+ * This class will catch the request to dismiss the target notice (set by notice_name)
+ * and will store the dismiss status as an user meta in the database.
  */
 class Yoast_Dismissable_Notice_Ajax {
 
 	/**
-	 * @var string Notice type toggle value for user notices.
+	 * Notice type toggle value for user notices.
+	 *
+	 * @var string
 	 */
 	const FOR_USER = 'user_meta';
 
 	/**
-	 * @var string Notice type toggle value for network notices.
+	 * Notice type toggle value for network notices.
+	 *
+	 * @var string
 	 */
 	const FOR_NETWORK = 'site_option';
 
 	/**
-	 * @var string Notice type toggle value for site notices.
+	 * Notice type toggle value for site notices.
+	 *
+	 * @var string
 	 */
 	const FOR_SITE = 'option';
 
 
 	/**
-	 * @var string Name of the notice that will be dismissed.
+	 * Name of the notice that will be dismissed.
+	 *
+	 * @var string
 	 */
 	private $notice_name;
 
 	/**
+	 * The type of the current notice.
+	 *
 	 * @var string
 	 */
 	private $notice_type;
 
 	/**
-	 * Initialize the hooks for the AJAX request
+	 * Initialize the hooks for the AJAX request.
 	 *
 	 * @param string $notice_name The name for the hook to catch the notice.
 	 * @param string $notice_type The notice type.
@@ -51,7 +61,7 @@ class Yoast_Dismissable_Notice_Ajax {
 	}
 
 	/**
-	 * Handles the dismiss notice request
+	 * Handles the dismiss notice request.
 	 */
 	public function dismiss_notice() {
 		check_ajax_referer( 'wpseo-dismiss-' . $this->notice_name );

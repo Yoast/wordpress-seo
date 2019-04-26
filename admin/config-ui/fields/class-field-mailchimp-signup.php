@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Mailchimp_Signup
+ * Class WPSEO_Config_Field_Mailchimp_Signup.
  */
 class WPSEO_Config_Field_Mailchimp_Signup extends WPSEO_Config_Field {
 
@@ -43,7 +43,7 @@ class WPSEO_Config_Field_Mailchimp_Signup extends WPSEO_Config_Field {
 	}
 
 	/**
-	 * Get the data
+	 * Get the data.
 	 *
 	 * @return array
 	 */
@@ -54,7 +54,7 @@ class WPSEO_Config_Field_Mailchimp_Signup extends WPSEO_Config_Field {
 	}
 
 	/**
-	 * Checks if the user has entered his email for mailchimp already.
+	 * Checks if the user has entered their email for mailchimp already.
 	 *
 	 * @return bool
 	 */

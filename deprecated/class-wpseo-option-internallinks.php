@@ -16,7 +16,9 @@ _deprecated_file( __FILE__, 'WPSEO 7.0' );
 class WPSEO_Option_InternalLinks {
 
 	/**
-	 * @var        string Option name.
+	 * Option name.
+	 *
+	 * @var string
 	 * @deprecated 7.0
 	 */
 	public $option_name = '';

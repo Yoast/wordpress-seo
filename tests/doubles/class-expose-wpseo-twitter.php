@@ -6,7 +6,7 @@
  */
 
 /**
- * Exposes the protected functions of the WPSEO Twitter class for testing
+ * Exposes the protected functions of the WPSEO Twitter class for testing.
  */
 class Expose_WPSEO_Twitter extends WPSEO_Twitter {
 

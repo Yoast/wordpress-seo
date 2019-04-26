@@ -6,14 +6,14 @@
  */
 
 /**
- * Class WPSEO_Sitemaps_Cache_Validator_Test
+ * Class WPSEO_Sitemaps_Cache_Validator_Test.
  *
  * @group sitemaps
  */
 class WPSEO_Sitemaps_Cache_Validator_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Test the building of cache keys
+	 * Test the building of cache keys.
 	 */
 	public function test_get_validator_key_global() {
 
@@ -23,7 +23,7 @@ class WPSEO_Sitemaps_Cache_Validator_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the building of cache keys
+	 * Test the building of cache keys.
 	 */
 	public function test_get_validator_key_type() {
 
@@ -36,7 +36,7 @@ class WPSEO_Sitemaps_Cache_Validator_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Normal cache key retrieval
+	 * Normal cache key retrieval.
 	 */
 	public function test_get_storage_key() {
 
@@ -64,9 +64,10 @@ class WPSEO_Sitemaps_Cache_Validator_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Key length should never be over 45 characters
+	 * Key length should never be over 45 characters.
 	 *
-	 * This would be 53 if we don't use a timeout, but we can't because all sitemaps would be autoloaded every request.
+	 * This would be 53 if we don't use a timeout, but we can't because all sitemaps would
+	 * be autoloaded every request.
 	 */
 	public function test_get_storage_key_very_long_type() {
 
@@ -81,7 +82,7 @@ class WPSEO_Sitemaps_Cache_Validator_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test base 10 to base 61 converter
+	 * Test base 10 to base 61 converter.
 	 *
 	 * @covers WPSEO_Sitemaps_Cache_Validator::convert_base10_to_base61
 	 */

@@ -6,15 +6,33 @@
  */
 
 /**
- * Class WPSEO_Configuration_Endpoint
+ * Class WPSEO_Configuration_Endpoint.
  */
 class WPSEO_Configuration_Endpoint {
 
+	/**
+	 * @var string
+	 */
 	const REST_NAMESPACE = 'yoast/v1';
+
+	/**
+	 * @var string
+	 */
 	const ENDPOINT_RETRIEVE = 'configurator';
+
+	/**
+	 * @var string
+	 */
 	const ENDPOINT_STORE = 'configurator';
 
+	/**
+	 * @var string
+	 */
 	const CAPABILITY_RETRIEVE = 'wpseo_manage_options';
+
+	/**
+	 * @var string
+	 */
 	const CAPABILITY_STORE = 'wpseo_manage_options';
 
 	/**
@@ -55,7 +73,7 @@ class WPSEO_Configuration_Endpoint {
 	}
 
 	/**
-	 * Permission callback implementation
+	 * Permission callback implementation.
 	 *
 	 * @return bool
 	 */
@@ -64,7 +82,7 @@ class WPSEO_Configuration_Endpoint {
 	}
 
 	/**
-	 * Permission callback implementation
+	 * Permission callback implementation.
 	 *
 	 * @return bool
 	 */

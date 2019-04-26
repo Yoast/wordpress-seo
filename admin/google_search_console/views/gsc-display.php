@@ -126,6 +126,10 @@ switch ( $platform_tabs->current_tab() ) {
 		// Close <form>.
 		echo "</form>\n";
 
+		if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
+			echo '<div id="yoast-google-search-console-modal"></div>';
+		}
+
 		break;
 }
 ?>

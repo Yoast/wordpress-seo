@@ -11,6 +11,7 @@
  * Class with functionality to import & clean WooThemes SEO post metadata.
  */
 class WPSEO_Import_WooThemes_SEO extends WPSEO_Plugin_Importer {
+
 	/**
 	 * The plugin name.
 	 *

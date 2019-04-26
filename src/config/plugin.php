@@ -16,6 +16,7 @@ use YoastSEO_Vendor\ORM;
  * Bootstraps the plugin.
  */
 class Plugin implements Integration {
+
 	/**
 	 * List of integrations.
 	 *

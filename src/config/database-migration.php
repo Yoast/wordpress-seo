@@ -16,9 +16,20 @@ use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
  * Triggers database migrations and handles results.
  */
 class Database_Migration {
+
+	/**
+	 * @var int
+	 */
 	const MIGRATION_STATE_SUCCESS = 0;
+
+	/**
+	 * @var int
+	 */
 	const MIGRATION_STATE_ERROR = 1;
 
+	/**
+	 * @var string
+	 */
 	const MIGRATION_ERROR_TRANSIENT_KEY = 'yoast_migration_problem';
 
 	/**

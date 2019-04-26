@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Profile_URL_Twitter
+ * Class WPSEO_Config_Field_Profile_URL_Twitter.
  */
 class WPSEO_Config_Field_Profile_URL_Twitter extends WPSEO_Config_Field {
 
@@ -17,10 +17,12 @@ class WPSEO_Config_Field_Profile_URL_Twitter extends WPSEO_Config_Field {
 		parent::__construct( 'profileUrlTwitter', 'Input' );
 
 		$this->set_property( 'label', __( 'Twitter Username', 'wordpress-seo' ) );
+
+		$this->set_requires( 'publishingEntityType', 'company' );
 	}
 
 	/**
-	 * Set adapter
+	 * Set adapter.
 	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */

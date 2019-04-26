@@ -6,11 +6,17 @@
  */
 
 /**
- * Class WPSEO_Import_Settings
+ * Class WPSEO_Import_Settings.
  *
  * Class with functionality to import the Yoast SEO settings.
  */
 class WPSEO_Import_Settings {
+
+	/**
+	 * Nonce action key.
+	 *
+	 * @var string
+	 */
 	const NONCE_ACTION = 'wpseo-import-settings';
 
 	/**
@@ -76,7 +82,7 @@ class WPSEO_Import_Settings {
 	}
 
 	/**
-	 * Parse the option group and import it
+	 * Parse the option group and import it.
 	 *
 	 * @param string $name         Name string.
 	 * @param array  $option_group Option group data.

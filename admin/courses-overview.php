@@ -25,24 +25,20 @@ class WPSEO_Courses_Overview implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns the Yoast SEO version the user currently is using.
-	 *
-	 * @return array An array the version: Free or Premium.
-	 */
-	private function get_version() {
-		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
-			return array( 'version' => 'premium' );
-		}
-		return array( 'version' => 'free' );
-	}
-
-	/**
 	 * Enqueue the relevant script.
 	 *
 	 * @return void
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'courses-overview' );
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'courses-overview', 'wpseoCoursesOverviewL10n', $this->get_version() );
+
+		$localizations = array(
+			'isRtl'   => is_rtl(),
+		);
+		wp_localize_script(
+			WPSEO_Admin_Asset_Manager::PREFIX . 'courses-overview',
+			'wpseoCoursesOverviewL10n',
+			$localizations
+		);
 	}
 }

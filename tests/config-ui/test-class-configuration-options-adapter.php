@@ -6,15 +6,19 @@
  */
 
 /**
- * Class WPSEO_Configuration_Options_Adapter_Test
+ * Class WPSEO_Configuration_Options_Adapter_Test.
  */
 class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCase {
 
-	/** @var WPSEO_Configuration_Options_Adapter_Mock */
+	/**
+	 * Holds the instance of the class being tested.
+	 *
+	 * @var WPSEO_Configuration_Options_Adapter_Mock
+	 */
 	protected $adapter;
 
 	/**
-	 * Set up
+	 * Set up.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -64,9 +68,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers                   WPSEO_Configuration_Options_Adapter::add_custom_lookup()
+	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup()
 	 *
-	 * @expectedException InvalidArgumentException
+	 * @expectedException        InvalidArgumentException
 	 * @expectedExceptionMessage Custom option must be callable.
 	 */
 	public function test_add_custom_lookup_not_a_callback_get() {
@@ -74,9 +78,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers                   WPSEO_Configuration_Options_Adapter::add_custom_lookup()
+	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup()
 	 *
-	 * @expectedException InvalidArgumentException
+	 * @expectedException        InvalidArgumentException
 	 * @expectedExceptionMessage Custom option must be callable.
 	 */
 	public function test_add_custom_lookup_not_a_callback_set() {
@@ -120,9 +124,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers                   WPSEO_Configuration_Options_Adapter::add_wordpress_lookup()
+	 * @covers WPSEO_Configuration_Options_Adapter::add_wordpress_lookup()
 	 *
-	 * @expectedException InvalidArgumentException
+	 * @expectedException        InvalidArgumentException
 	 * @expectedExceptionMessage WordPress option must be a string.
 	 */
 	public function test_add_wordpress_lookup_option_non_string() {

@@ -57,10 +57,11 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers wpseo_get_capabilities()
+	 * @covers ::wpseo_get_capabilities
 	 */
 	public function test_wpseo_get_capabilities() {
-		// No need for assertions. The function shouldn't trigger any errors.
-		$caps = wpseo_get_capabilities();
+		$capabilities = wpseo_get_capabilities();
+
+		$this->assertInternalType( 'array', $capabilities );
 	}
 }

@@ -8,7 +8,7 @@ namespace Yoast\Tests\Doubles;
 class Plugin extends \Yoast\WP\Free\Config\Plugin {
 
 	/**
-	 * Sets the value for the initialize success property
+	 * Sets the value for the initialize success property.
 	 *
 	 * @param mixed $value Value to set.
 	 *
@@ -19,7 +19,7 @@ class Plugin extends \Yoast\WP\Free\Config\Plugin {
 	}
 
 	/**
-	 * Retrieves the registered integrations
+	 * Retrieves the registered integrations.
 	 *
 	 * @return array
 	 */

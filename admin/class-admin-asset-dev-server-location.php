@@ -9,6 +9,10 @@
  * Changes the asset paths to dev server paths.
  */
 final class WPSEO_Admin_Asset_Dev_Server_Location implements WPSEO_Admin_Asset_Location {
+
+	/**
+	 * @var string
+	 */
 	const DEFAULT_URL = 'http://localhost:8080';
 
 	/**

@@ -1,11 +1,16 @@
 /* global wpseoDashboardWidgetL10n, wpseoApi, jQuery */
-
+// External dependencies.
 import React from "react";
 import ReactDOM from "react-dom";
+import { ArticleList as WordpressFeed, ScoreAssessments } from "@yoast/components";
+import { colors } from "@yoast/style-guide";
+import { SiteSEOReport as SeoAssessment } from "@yoast/analysis-report";
+import { getPostFeed, makeOutboundLink } from "@yoast/helpers";
 
-import { SeoAssessment, ScoreAssessments, utils, WordpressFeed, colors } from "yoast-components";
+// Internal dependencies.
 import { setYoastComponentsL10n } from "./helpers/i18n";
-const { getPostFeed } = utils;
+
+const RyteLandingPageLink = makeOutboundLink();
 
 class DashboardWidget extends React.Component {
 	/**
@@ -97,7 +102,6 @@ class DashboardWidget extends React.Component {
 				feed.items = feed.items.map( ( item ) => {
 					item.description = jQuery( `<div>${ item.description }</div>` ).text();
 					item.description = item.description.replace( `The post ${ item.title } appeared first on Yoast.`, "" ).trim();
-					item.content = jQuery( `<div>${ item.content }</div>` ).text();
 
 					return item;
 				} );
@@ -145,9 +149,9 @@ class DashboardWidget extends React.Component {
 							{ wpseoDashboardWidgetL10n.ryte_fetch }
 						</a>
 					}
-					<a className="landing-page button" href={ wpseoDashboardWidgetL10n.ryte_landing_url } target="_blank">
+					<RyteLandingPageLink className="landing-page button" href={ wpseoDashboardWidgetL10n.ryte_landing_url }>
 						{ wpseoDashboardWidgetL10n.ryte_analyze }
-					</a>
+					</RyteLandingPageLink>
 				</div>
 			</div>
 		);
@@ -164,10 +168,11 @@ class DashboardWidget extends React.Component {
 		}
 
 		return <WordpressFeed
+			className="wordpress-feed"
 			key="yoast-seo-blog-feed"
 			title={ wpseoDashboardWidgetL10n.feed_header }
 			feed={ this.state.feed }
-			footerHtml={ wpseoDashboardWidgetL10n.feed_footer }
+			footerLinkText={ wpseoDashboardWidgetL10n.feed_footer }
 		/>;
 	}
 

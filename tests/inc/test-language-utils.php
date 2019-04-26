@@ -11,7 +11,7 @@
 class WPSEO_Language_Utils_Test extends PHPUnit_Framework_TestCase {
 
 	/**
-	 * Test the get_language function with no argument
+	 * Test the get_language function with no argument.
 	 *
 	 * @covers WPSEO_Language_Utils::get_language()
 	 */

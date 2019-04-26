@@ -26,7 +26,13 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function handles_type( $type ) {
 
-		return taxonomy_exists( $type );
+		$taxonomy = get_taxonomy( $type );
+
+		if ( $taxonomy === false || ! $this->is_valid_taxonomy( $taxonomy->name ) || ! $taxonomy->public ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -143,15 +149,14 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return array
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
-
 		global $wpdb;
 
-		$links    = array();
-		$taxonomy = get_taxonomy( $type );
-
-		if ( $taxonomy === false || ! $this->is_valid_taxonomy( $taxonomy->name ) || ! $taxonomy->public ) {
+		$links = array();
+		if ( ! $this->handles_type( $type ) ) {
 			return $links;
 		}
+
+		$taxonomy = get_taxonomy( $type );
 
 		$steps  = $max_entries;
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
@@ -170,6 +175,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
+		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses() );
+
 		// Grab last modified date.
 		$sql = "
 			SELECT MAX(p.post_modified_gmt) AS lastmod
@@ -180,7 +187,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
 				AND		term_tax.taxonomy = %s
 				AND		term_tax.term_id = %d
-			WHERE	p.post_status IN ('publish','inherit')
+			WHERE	p.post_status IN ('" . implode( "','", $post_statuses ) . "')
 				AND		p.post_password = ''
 		";
 
@@ -242,8 +249,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/**
 		 * Filter to exclude the taxonomy from the XML sitemap.
 		 *
-		 * @param boolean $exclude        Defaults to false.
-		 * @param string  $taxonomy_name  Name of the taxonomy to exclude..
+		 * @param boolean $exclude       Defaults to false.
+		 * @param string  $taxonomy_name Name of the taxonomy to exclude..
 		 */
 		if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy_name ) ) {
 			return false;
@@ -253,7 +260,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Get the Image Parser
+	 * Get the Image Parser.
 	 *
 	 * @return WPSEO_Sitemap_Image_Parser
 	 */
@@ -268,7 +275,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
-	 * Get all the options
+	 * Get all the options.
 	 *
 	 * @deprecated 7.0
 	 * @codeCoverageIgnore

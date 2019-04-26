@@ -10,19 +10,53 @@
  */
 class WPSEO_Admin_Asset {
 
+	/**
+	 * @var string
+	 */
 	const TYPE_JS = 'js';
+
+	/**
+	 * @var string
+	 */
 	const TYPE_CSS = 'css';
 
+	/**
+	 * @var string
+	 */
 	const NAME = 'name';
+
+	/**
+	 * @var string
+	 */
 	const SRC = 'src';
+
+	/**
+	 * @var string
+	 */
 	const DEPS = 'deps';
+
+	/**
+	 * @var string
+	 */
 	const VERSION = 'version';
 
-	// Style specific.
+	/* Style specific. */
+
+	/**
+	 * @var string
+	 */
 	const MEDIA = 'media';
+
+	/**
+	 * @var string
+	 */
 	const RTL = 'rtl';
 
-	// Script specific.
+	/* Script specific. */
+
+	/**
+	 * @var string
+	 */
 	const IN_FOOTER = 'in_footer';
 
 	/**
@@ -163,6 +197,9 @@ class WPSEO_Admin_Asset {
 
 	/**
 	 * Returns the full URL for this asset based on the path to the plugin file.
+	 *
+	 * @deprecated 6.2
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $type        Type of asset.
 	 * @param string $plugin_file Absolute path to the plugin file.

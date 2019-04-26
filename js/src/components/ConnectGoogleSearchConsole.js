@@ -3,7 +3,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
-import { localize, LoadingIndicator } from "yoast-components";
+import { localize } from "yoast-components";
+import { LoadingIndicator } from "@yoast/configuration-wizard";
 
 /**
  * Represents a Google search console interface.
@@ -306,14 +307,17 @@ class ConnectGoogleSearchConsole extends React.Component {
 						"and press the Authenticate button."
 					) }
 				</p>
-
+				<label
+					className="yoast-wizard-text-input-label"
+					htmlFor="gsc_authorization_code"
+				>
+					{ this.props.translate( "Authorization code" ) }
+				</label>
 				<input
 					type="text"
 					id="gsc_authorization_code"
 					name="gsc_authorization_code"
 					defaultValue=""
-					placeholder={ this.props.translate( "Enter authorization code here..." ) }
-					aria-labelledby="gsc-enter-code-label"
 				/>
 				<RaisedButton
 					label={ this.props.translate( "Authenticate" ) }

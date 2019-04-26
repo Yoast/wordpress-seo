@@ -6,11 +6,12 @@
  */
 
 /**
- * Class WPSEO_Import_SEOPressor
+ * Class WPSEO_Import_SEOPressor.
  *
  * Class with functionality to import & clean SEOPressor post metadata.
  */
 class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
+
 	/**
 	 * The plugin name.
 	 *
@@ -120,7 +121,7 @@ class WPSEO_Import_SEOPressor extends WPSEO_Plugin_Importer {
 		}
 
 		if ( $focus_keywords !== array() ) {
-			$this->maybe_save_post_meta( 'focuskeywords', wp_json_encode( $focus_keywords ), $post_id );
+			$this->maybe_save_post_meta( 'focuskeywords', WPSEO_Utils::format_json_encode( $focus_keywords ), $post_id );
 		}
 	}
 

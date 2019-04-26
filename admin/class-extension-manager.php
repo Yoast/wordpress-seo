@@ -10,7 +10,11 @@
  */
 class WPSEO_Extension_Manager {
 
-	/** The transient key to save the cache in */
+	/**
+	 * The transient key to save the cache in.
+	 *
+	 * @var string
+	 */
 	const TRANSIENT_CACHE_KEY = 'wpseo_license_active_extensions';
 
 	/**
@@ -23,7 +27,7 @@ class WPSEO_Extension_Manager {
 	 *
 	 * @var array
 	 */
-	static protected $active_extensions;
+	protected static $active_extensions;
 
 	/**
 	 * Adds an extension to the manager.

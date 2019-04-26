@@ -6,13 +6,15 @@
  */
 
 /**
- * OpenGraph tests
+ * OpenGraph tests.
  *
  * @group OpenGraph
  */
 class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_OpenGraph
 	 */
 	private static $class_instance;
@@ -572,7 +574,65 @@ EXPECTED;
 	 * @covers WPSEO_OpenGraph::site_name
 	 */
 	public function test_site_name() {
-		// @todo Empty site name test.
+		$instance = $this
+			->getMockBuilder( 'WPSEO_OpenGraph' )
+			->setMethods( array( 'og_tag' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->never() )
+			->method( 'og_tag' );
+
+		$current_site_name = get_bloginfo( 'name' );
+
+		update_option( 'blogname', '' );
+
+		$instance->site_name();
+
+		update_option( 'blogname', $current_site_name );
+	}
+
+	/**
+	 * @covers WPSEO_OpenGraph::site_name
+	 */
+	public function test_site_name_with_a_set_name() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_OpenGraph' )
+			->setMethods( array( 'og_tag' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->once() )
+			->method( 'og_tag' )
+			->with( 'og:site_name', 'Sitename' );
+
+		$current_site_name = get_bloginfo( 'name' );
+
+		update_option( 'blogname', 'Sitename' );
+
+		$instance->site_name();
+
+		update_option( 'blogname', $current_site_name );
+	}
+
+	/**
+	 * @covers WPSEO_OpenGraph::site_name
+	 */
+	public function test_site_name_with_a_non_string_name() {
+		$instance = $this
+			->getMockBuilder( 'WPSEO_OpenGraph' )
+			->setMethods( array( 'og_tag' ) )
+			->getMock();
+
+		$instance
+			->expects( $this->never() )
+			->method( 'og_tag' );
+
+		add_filter( 'wpseo_opengraph_site_name', '__return_false' );
+
+		$instance->site_name();
+
+		remove_filter( 'wpseo_opengraph_site_name', '__return_false' );
 	}
 
 	/**
@@ -769,7 +829,7 @@ EXPECTED;
 	}
 
 	/**
-	 * Tests the rendering of article:section for a post with two categories wherefor the first
+	 * Tests the rendering of article:section for a post with two categories where the first
 	 * set category will be removed via a filter.
 	 *
 	 * @covers WPSEO_OpenGraph::category()
@@ -797,7 +857,7 @@ EXPECTED;
 	/**
 	 * Creates a post with a pair of categories attached.
 	 *
-	 * @return int The created post id.
+	 * @return int The created post ID.
 	 */
 	protected function create_post_with_categories() {
 		$post_id = self::factory()->post->create();

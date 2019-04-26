@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Upsell_Site_Review
+ * Class WPSEO_Config_Field_Upsell_Site_Review.
  */
 class WPSEO_Config_Field_Upsell_Site_Review extends WPSEO_Config_Field {
 

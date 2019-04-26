@@ -6,11 +6,12 @@
  */
 
 /**
- * Class WPSEO_Plugin_Importer
+ * Class WPSEO_Plugin_Importer.
  *
  * Class with functionality to import meta data from other plugins.
  */
 abstract class WPSEO_Plugin_Importer {
+
 	/**
 	 * Holds the import status object.
 	 *
@@ -202,7 +203,10 @@ abstract class WPSEO_Plugin_Importer {
 			)
 		);
 
-		// We set meta_id to NULL so on re-insert into the postmeta table, MYSQL can set new meta_id's and we don't get duplicates.
+		/*
+		 * We set meta_id to NULL so on re-insert into the postmeta table, MYSQL can set
+		 * new meta_id's and we don't get duplicates.
+		 */
 		$wpdb->query( 'UPDATE tmp_meta_table SET meta_id = NULL' );
 
 		// Now we rename the meta_key.

@@ -6,18 +6,39 @@
  */
 
 /**
- * Holder for SEO Rank information
+ * Holder for SEO Rank information.
  */
 class WPSEO_Rank {
 
-	const BAD      = 'bad';
-	const OK       = 'ok';
-	const GOOD     = 'good';
+	/**
+	 * @var string
+	 */
+	const BAD = 'bad';
+
+	/**
+	 * @var string
+	 */
+	const OK = 'ok';
+
+	/**
+	 * @var string
+	 */
+	const GOOD = 'good';
+
+	/**
+	 * @var string
+	 */
 	const NO_FOCUS = 'na';
+
+	/**
+	 * @var string
+	 */
 	const NO_INDEX = 'noindex';
 
 	/**
-	 * @var array All possible ranks.
+	 * All possible ranks.
+	 *
+	 * @var array
 	 */
 	protected static $ranks = array(
 		self::BAD,
@@ -28,7 +49,7 @@ class WPSEO_Rank {
 	);
 
 	/**
-	 * Holds the translation from seo score slug to actual score range
+	 * Holds the translation from seo score slug to actual score range.
 	 *
 	 * @var array
 	 */
@@ -77,7 +98,7 @@ class WPSEO_Rank {
 	}
 
 	/**
-	 * Returns a CSS class for this rank
+	 * Returns a CSS class for this rank.
 	 *
 	 * @return string
 	 */
@@ -94,7 +115,7 @@ class WPSEO_Rank {
 	}
 
 	/**
-	 * Returns a label for this rank
+	 * Returns a label for this rank.
 	 *
 	 * @return string
 	 */
@@ -111,7 +132,7 @@ class WPSEO_Rank {
 	}
 
 	/**
-	 * Returns a label for use in a drop down
+	 * Returns a label for use in a drop down.
 	 *
 	 * @return mixed
 	 */
@@ -167,7 +188,7 @@ class WPSEO_Rank {
 	}
 
 	/**
-	 * Returns a rank for a specific numeric score
+	 * Returns a rank for a specific numeric score.
 	 *
 	 * @param int $score The score to determine a rank for.
 	 *
@@ -188,7 +209,7 @@ class WPSEO_Rank {
 	}
 
 	/**
-	 * Returns a list of all possible SEO Ranks
+	 * Returns a list of all possible SEO Ranks.
 	 *
 	 * @return WPSEO_Rank[]
 	 */
@@ -197,7 +218,7 @@ class WPSEO_Rank {
 	}
 
 	/**
-	 * Returns a list of all possible Readability Ranks
+	 * Returns a list of all possible Readability Ranks.
 	 *
 	 * @return WPSEO_Rank[]
 	 */
@@ -206,7 +227,7 @@ class WPSEO_Rank {
 	}
 
 	/**
-	 * Converts a numeric rank into a WPSEO_Rank object, for use in functional array_* functions
+	 * Converts a numeric rank into a WPSEO_Rank object, for use in functional array_* functions.
 	 *
 	 * @param string $rank SEO Rank.
 	 *

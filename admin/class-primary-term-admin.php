@@ -8,12 +8,12 @@
 /**
  * Adds the UI to change the primary term for a post.
  */
-class WPSEO_Primary_Term_Admin {
+class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 
 	/**
 	 * Constructor.
 	 */
-	public function __construct() {
+	public function register_hooks() {
 		add_filter( 'wpseo_content_meta_section_content', array( $this, 'add_input_fields' ) );
 
 		add_action( 'admin_footer', array( $this, 'wp_footer' ), 10 );
@@ -107,7 +107,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Enqueues all the assets needed for the primary term interface
+	 * Enqueues all the assets needed for the primary term interface.
 	 *
 	 * @return void
 	 */
@@ -138,7 +138,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Saves all selected primary terms
+	 * Saves all selected primary terms.
 	 *
 	 * @param int $post_id Post ID to save primary terms for.
 	 */
@@ -156,7 +156,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Gets the id of the primary term
+	 * Gets the id of the primary term.
 	 *
 	 * @param string $taxonomy_name Taxonomy name for the term.
 	 *
@@ -169,7 +169,7 @@ class WPSEO_Primary_Term_Admin {
 	}
 
 	/**
-	 * Returns all the taxonomies for which the primary term selection is enabled
+	 * Returns all the taxonomies for which the primary term selection is enabled.
 	 *
 	 * @param int $post_id Default current post ID.
 	 * @return array

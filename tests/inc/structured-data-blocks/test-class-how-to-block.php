@@ -9,7 +9,6 @@
  * Unit Test Class.
  */
 class WPSEO_How_To_Block_Test extends WPSEO_UnitTestCase {
-
 	/**
 	 * Tests the HowTo structured data object format that is output by get_json_ld.
 	 *
@@ -31,23 +30,23 @@ class WPSEO_How_To_Block_Test extends WPSEO_UnitTestCase {
 					'jsonImageSrc' => 'https://www.image.com/image.jpg',
 				),
 				array(
-					'jsonName'     => 'Step 2',
-					'jsonText'     => 'Step 2 text',
+					'jsonName' => 'Step 2',
+					'jsonText' => 'Step 2 text',
 				),
 			),
 		);
 
 		$expected = array(
-			'@context'    => 'https://schema.org',
-			'@type'       => 'HowTo',
-			'totalTime'   => 'P1DT12H30M',
-			'description' => 'How to description!',
-			'step'        => array(
+			'@type'            => 'HowTo',
+			'mainEntityOfPage' => array( '@id' => '#webpage' ),
+			'totalTime'        => 'P1DT12H30M',
+			'description'      => 'How to description!',
+			'step'             => array(
 				array(
 					'@type'           => 'HowToSection',
 					'itemListElement' => array(
-						'@type'    => 'HowToStep',
-						'text'     => 'Step 1 text',
+						'@type' => 'HowToStep',
+						'text'  => 'Step 1 text',
 					),
 					'name'            => 'Step 1',
 					'image'           => array(
@@ -58,8 +57,8 @@ class WPSEO_How_To_Block_Test extends WPSEO_UnitTestCase {
 				array(
 					'@type'           => 'HowToSection',
 					'itemListElement' => array(
-						'@type'    => 'HowToStep',
-						'text'     => 'Step 2 text',
+						'@type' => 'HowToStep',
+						'text'  => 'Step 2 text',
 					),
 					'name'            => 'Step 2',
 				),

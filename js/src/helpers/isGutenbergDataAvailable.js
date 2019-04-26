@@ -1,6 +1,6 @@
 /* global wp */
 
-import isUndefined from "lodash/isUndefined";
+import isNil from "lodash/isNil";
 import isFunction from "lodash/isFunction";
 
 /**
@@ -10,9 +10,10 @@ import isFunction from "lodash/isFunction";
  */
 const isGutenbergDataAvailable = () => {
 	return (
-		! isUndefined( window.wp ) &&
-		! isUndefined( wp.data ) &&
-		! isUndefined( wp.data.select( "core/editor" ) ) &&
+		! isNil( window.wp ) &&
+		! isNil( wp.data ) &&
+		! isNil( wp.data.select( "core/edit-post" ) ) &&
+		! isNil( wp.data.select( "core/editor" ) ) &&
 		isFunction( wp.data.select( "core/editor" ).getEditedPostAttribute )
 	);
 };

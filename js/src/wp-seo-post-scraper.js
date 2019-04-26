@@ -17,6 +17,7 @@ import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import CompatibilityHelper from "./compatibility/compatibilityHelper";
 import Pluggable from "./Pluggable";
+import requestWordsToHighlight from "./analysis/requestWordsToHighlight.js";
 
 // UI dependencies.
 import publishBox from "./ui/publishBox";
@@ -478,7 +479,12 @@ setWordPressSeoL10n();
 		editStore.subscribe( handleStoreChange.bind( null, editStore, YoastSEO.app.refresh ) );
 
 		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, editStore );
-		const shortcodePlugin = new YoastShortcodePlugin( app );
+		const shortcodePlugin = new YoastShortcodePlugin( {
+			registerPlugin: YoastSEO.app.registerPlugin,
+			registerModification: YoastSEO.app.registerModification,
+			pluginReady: YoastSEO.app.pluginReady,
+			pluginReloaded: YoastSEO.app.pluginReloaded,
+		} );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
 			const markdownPlugin = new YoastMarkdownPlugin( YoastSEO.app.registerPlugin, YoastSEO.app.registerModification );
@@ -501,7 +507,13 @@ setWordPressSeoL10n();
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
 
-		postDataCollector.bindElementEvents( app );
+		postDataCollector.bindElementEvents( debounce( () => refreshAnalysis(
+			YoastSEO.analysis.worker,
+			YoastSEO.analysis.collectData,
+			YoastSEO.analysis.applyMarks,
+			YoastSEO.store,
+			postDataCollector,
+		), refreshDelay ) );
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );
@@ -528,19 +540,19 @@ setWordPressSeoL10n();
 
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = editStore.getState().focusKeyword;
-
+		requestWordsToHighlight( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
 		const refreshAfterFocusKeywordChange = debounce( () => {
 			app.refresh();
 		}, 50 );
 
 		let previousCornerstoneValue = null;
-
 		editStore.subscribe( () => {
 			// Verify whether the focusKeyword changed. If so, trigger refresh:
 			const newFocusKeyword = editStore.getState().focusKeyword;
 
 			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
+				requestWordsToHighlight( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
 
 				$( "#yoast_wpseo_focuskw" ).val( focusKeyword );
 				refreshAfterFocusKeywordChange();

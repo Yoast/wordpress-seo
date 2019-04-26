@@ -6,21 +6,33 @@
  */
 
 /**
- * Cache Data interface
+ * Cache Data interface.
  */
 interface WPSEO_Sitemap_Cache_Data_Interface {
 
-	/** Status for normal, usable sitemap. */
+	/**
+	 * Status for normal, usable sitemap.
+	 *
+	 * @var string
+	 */
 	const OK = 'ok';
 
-	/** Status for unusable sitemap. */
+	/**
+	 * Status for unusable sitemap.
+	 *
+	 * @var string
+	 */
 	const ERROR = 'error';
 
-	/** Status for unusable sitemap because it cannot be identified. */
+	/**
+	 * Status for unusable sitemap because it cannot be identified.
+	 *
+	 * @var string
+	 */
 	const UNKNOWN = 'unknown';
 
 	/**
-	 * Set the content of the sitemap
+	 * Set the content of the sitemap.
 	 *
 	 * @param string $sitemap The XML content of the sitemap.
 	 *
@@ -29,7 +41,7 @@ interface WPSEO_Sitemap_Cache_Data_Interface {
 	public function set_sitemap( $sitemap );
 
 	/**
-	 * Set the status of the sitemap
+	 * Set the status of the sitemap.
 	 *
 	 * @param bool|string $usable True/False or 'ok'/'error' for status.
 	 *
@@ -43,14 +55,14 @@ interface WPSEO_Sitemap_Cache_Data_Interface {
 	public function get_sitemap();
 
 	/**
-	 * Get the status of this sitemap
+	 * Get the status of this sitemap.
 	 *
 	 * @return string Status 'ok', 'error' or 'unknown'.
 	 */
 	public function get_status();
 
 	/**
-	 * Is the sitemap content usable
+	 * Is the sitemap content usable ?
 	 *
 	 * @return bool True if the sitemap is usable, False if not.
 	 */

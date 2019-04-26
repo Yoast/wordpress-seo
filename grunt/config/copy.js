@@ -72,6 +72,8 @@ module.exports = {
 					"cli/**",
 					"js/vendor/**/*.js",
 					"js/dist/**/*.min.js",
+					// Do not package the analysis worker recalibration file.
+					"!js/dist/wp-seo-analysis-worker-recalibration-*.js",
 					"js/dist/select2/i18n/*.js",
 					"languages/**",
 					"src/**",
@@ -84,7 +86,7 @@ module.exports = {
 					"wp-seo.php",
 					"wp-seo-main.php",
 					"wpml-config.xml",
-					"!vendor/bin",
+					"!vendor/bin/**",
 					"!vendor/composer/installed.json",
 					"!vendor/composer/installers/**",
 					"!vendor/yoast/i18n-module/LICENSE",
@@ -93,6 +95,7 @@ module.exports = {
 					"!vendor_prefixed/ruckusing/config/**",
 					"!vendor_prefixed/ruckusing/tests/**",
 					"!vendor_prefixed/ruckusing/ruckus.php",
+					"!vendor_prefixed/j4mie/idiorm/demo.php",
 					"!**/composer.json",
 					"!**/README.md",
 				],
@@ -106,6 +109,7 @@ module.exports = {
 			cwd: "<%= files.artifact %>",
 			src: [
 				"**/*",
+				"!vendor_prefixed/**",
 			],
 			dest: "<%= files.artifactComposer %>",
 		} ],

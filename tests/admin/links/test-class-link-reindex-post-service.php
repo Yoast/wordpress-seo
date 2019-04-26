@@ -127,7 +127,7 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Returns a mock object for the WPSEO_Link_Content_Processor
+	 * Returns a mock object for the WPSEO_Link_Content_Processor.
 	 *
 	 * @return WPSEO_Link_Content_Processor The mock object.
 	 */

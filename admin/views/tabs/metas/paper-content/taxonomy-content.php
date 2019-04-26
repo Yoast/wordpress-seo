@@ -4,11 +4,12 @@
  *
  * @package WPSEO\Admin\Views\Taxonomies
  *
- * @var Yoast_Form                               $yform
- * @var WP_Taxonomy                              $wpseo_taxonomy
- * @var Yoast_View_Utils                         $view_utils
- * @var WPSEO_Admin_Recommended_Replace_Vars     $recommended_replace_vars
- * @var WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
+ * @uses Yoast_Form                               $yform                        Form object.
+ * @uses WP_Taxonomy                              $wpseo_taxonomy
+ * @uses Yoast_View_Utils                         $view_utils
+ * @uses string                                   $title
+ * @uses WPSEO_Admin_Recommended_Replace_Vars     $recommended_replace_vars
+ * @uses WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
 if ( $wpseo_taxonomy->name === 'post_format' ) {
@@ -52,7 +53,7 @@ if ( $wpseo_taxonomy->name !== 'post_format' ) {
 }
 
 /**
- * Allow adding custom checkboxes to the admin meta page - Taxonomies tab
+ * Allow adding custom checkboxes to the admin meta page - Taxonomies tab.
  *
  * @api  WPSEO_Admin_Pages  $yform  The WPSEO_Admin_Pages object
  * @api  Object             $tax    The taxonomy

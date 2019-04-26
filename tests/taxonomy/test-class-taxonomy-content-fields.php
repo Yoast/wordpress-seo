@@ -11,17 +11,21 @@
 class WPSEO_Taxonomy_Content_Fields_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Taxonomy_Social_Fields_Double
 	 */
 	private $class_instance;
 
 	/**
-	 * @var stdClass The created term.
+	 * The created term.
+	 *
+	 * @var stdClass
 	 */
 	private $term;
 
 	/**
-	 * Adding a term and set the class instance
+	 * Adding a term and set the class instance.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -31,7 +35,7 @@ class WPSEO_Taxonomy_Content_Fields_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the array is set properly by picking the first and the last value
+	 * Test if the array is set properly by picking the first and the last value.
 	 *
 	 * WPSEO_Taxonomy_Content_Fields::get
 	 */

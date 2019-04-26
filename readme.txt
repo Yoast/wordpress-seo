@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.9
-Tested up to: 5.0.1
-Stable tag: 9.3
+Tested up to: 5.1.1
+Stable tag: 11.0
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -105,71 +105,40 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
-= 9.5.0 =
-Release Date: January 22nd, 2019
+
+= 11.1.0 =
+Release Date: April 30th, 2019
 
 Enhancements:
 
-* Completes the readabilty analysis for Swedish by adding the transition words, sentence beginnings and passive voice assessments. 
-* Improves the transition word assessment for German.
-* Improves the error logging when there is an error in an SEO or readability assessment.
+* Improves how we generate the image parts for the Schema output. [Read more about the ImageObject output](https://yoa.st/image-schema).
+* Adds 'filesize' to whitelisted properties on '$image'. Props to [cmmarslender](https://github.com/cmmarslender).
+* Optimizes the code to avoid an unnecessary DB query to remove notifications storage when it's already empty. Props to [rmc47](https://github.com/rmc47).
+* Improves the breadcrumbs accessibility by adding `aria-current` to the active item.
 
 Bugfixes:
 
-* Fixes a bug where the Ryte endpoint would be called when the Ryte feature has been disabled.
-* Fixes a bug where the 'Show archives for authors without posts in search results?' toggle would be shown when the 'Show author archives in search results?' toggle was disabled in the search appearance settings.
-* Fixes a bug where the front page would be shown in the page sitemap. Props to [stodorovic](https://github.com/stodorovic).
+* Fixes a bug where the position of the buttons in the FAQ and How-To structured data blocks was compromised when running the development build of Gutenberg.
+* Fixed a bug where social profile settings would be empty because it was relying on the user choosing whether the site represents a company or a person.
 
-Deprecated:
+= 11.0.0 =
+Release Date: April 16th, 2019
 
-* Deprecates the methods WPSEO_Utils::get_user_locale() and WPSEO_Utils:: get_language().
-
-Other:
-
-* Adds a Courses Page showing an overview of the available online courses offered by Yoast Academy.
-
-= 9.4.0 =
-Release Date: January 8th, 2019
-
-Content analysis recalibration (beta):
-
-* Adds a toggle feature for subscribing to the recalibration beta under SEO -> General -> Features.
-* When the recalibration feature is enabled:
-  * The single title assessment is added. This assessment makes sure that you don't use superfluous H1s in your text.
-  * Assessments changes:
-    * Keyphrase density: changes scoring schema to account for the length of the keyphrase and changes feedback strings so that we give feedback about the number of occurrences rather than a percentage.
-    * Outbound links assessment: changes the scoring schema so that red bullet instead of an orange bullet is shown when you have no outbound links.
-    * Image alt attributes: if there are at least 5 images, checks whether the alt tags contain the keyphrase or synoynyms in 30-70% of all images. If there are less than 5 images, 1 image with the keyphrase or synonym in the alt tag is still scored as good.
-    * Keyphrase in title: function words preceding the exact match keyphrase are ignored when determining the position of the keyphrase in the title.
-    * Keyphrase length: makes the scoring scheme less strict for languages that don't have function word support, so that for these languages keyphrases with 1-6 words are scored as green, 7-9 as orange, and more than 9 as red.
-    * Keyphrase in subheading: only takes H2 and H3 level subheadings into account and changes the scoring schema so that 30%-75% of these subheadings need to include the keyphrase or its synonyms. In languages without function word support, a match is only counted if all the words from the keyphrase/synonym appear in the subheading.
-    * Text length: on taxonomy pages, the recommended minimum text length is increased from 150 to 250 words.
-  * Assessment removals:
-    * The assessment checking the length or your URL.
-    * The assessment checking whether your URL contains stopwords.
+We've made huge changes to the schema.org markup we output, adding multiple different types of Schema. Be sure to check [our posts on yoast.com about this release](https://yoa.st/schema-release-post)!
 
 Enhancements:
 
-* Improve accessibility of the analysis results.
-* Improve accessibility of the Title Separator setting.
-* Adds a new filter for adjacent-rel links: `wpseo_adjacent_rel_url`.
+* Schema changes:
+	* Adds `Person` markup for author pages.
+	* Adds `WebPage` markup for all pages.
+	* Adds `Article` markup for posts, with `Person` markup for the author.
+	* Changes the ‘Organization or Person’ section of the Knowledge graph settings to allow selecting an author that is the ‘Person’ that the website represents.
+* Adds MySpace, SoundCloud, Tumblr and YouTube URL input fields to people’s profiles.
 
 Bugfixes:
 
-* Fixes a bug where special characters from certain word lists weren't correctly escaped when matched with a regex. This resulted in `eggs` being incorrectly matched as the transition word `e.g.`, for example.
-* Fixes a bug where the search appearance setting for a custom content type named `profile` would have a broken layout.
-* Fixes a bug where pagination elements were not shown in the Genesis theme.
-
-Other:
-
-* Uses method `is_simple_page` instead of `is_singular` in method robots. Props to: [stodorovic](https://github.com/stodorovic)
-* Adds method `is_woocommerce_active` and check is woocommerce activate before registering hooks. Props to [stodorovic](https://github.com/stodorovic)
-* Adds static variables to "cache" results of functions [`is_shop`](https://docs.woocommerce.com/wc-apidocs/function-is_shop.html) and [`wc_get_page_id`](https://docs.woocommerce.com/wc-apidocs/function-wc_get_page_id.html).  Props to [stodorovic](https://github.com/stodorovic)
-* Verifies that variable `post` is an instance of `WP_Post` in `WPSEO_Admin_Bar_Menu ::get_singular_post()`. Props to [@yingles](https://github.com/yingles).
-* Improves strings to be more easily translated. Props to [pedro-mendonca](https://github.com/pedro-mendonca)
-* The browser console now shows more descriptive error messages when something went wrong during analyses in the web worker.
-* Avoids irrelevant warning and error in the WPEngine PHP Compatibility plugin.
+* Fixes an issue where the metabox would not display on term edit pages when running the development build of Gutenberg.
 
 = Earlier versions =
 
-For the changelog of earlier versions, please refer to [the Yoast SEO changelog on yoast.com](https://yoa.st/yoast-seo-changelog)
+For the changelog of earlier versions, please refer to https://yoa.st/yoast-seo-changelog

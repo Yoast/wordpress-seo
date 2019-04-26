@@ -12,8 +12,14 @@
  */
 class WPSEO_Cornerstone {
 
+	/**
+	 * @var string
+	 */
 	const META_NAME = 'is_cornerstone';
 
+	/**
+	 * @var string
+	 */
 	const FIELD_NAME = 'yoast_wpseo_is_cornerstone';
 
 	/**

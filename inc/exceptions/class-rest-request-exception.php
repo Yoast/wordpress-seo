@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_REST_Request_Exception
+ * Class WPSEO_REST_Request_Exception.
  */
 class WPSEO_REST_Request_Exception extends Exception {
 

@@ -6,11 +6,15 @@
  */
 
 /**
- * Class WPSEO_Export
+ * Class WPSEO_Export.
  *
- * Class with functionality to export the WP SEO settings
+ * Class with functionality to export the WP SEO settings.
  */
 class WPSEO_Export {
+
+	/**
+	 * @var string
+	 */
 	const NONCE_ACTION = 'wpseo_export';
 
 	/**
@@ -47,8 +51,8 @@ class WPSEO_Export {
 		}
 
 		echo '<p>';
-		/* translators: %1$s expands to Import settings */
 		printf(
+			/* translators: %1$s expands to Import settings */
 			esc_html__(
 				'Copy all these settings to another site\'s %1$s tab and click "%1$s" there.',
 				'wordpress-seo'
@@ -109,7 +113,7 @@ class WPSEO_Export {
 	}
 
 	/**
-	 * Writes a line to the export
+	 * Writes a line to the export.
 	 *
 	 * @param string  $line          Line string.
 	 * @param boolean $newline_first Boolean flag whether to prepend with new line.
@@ -122,7 +126,7 @@ class WPSEO_Export {
 	}
 
 	/**
-	 * Writes an entire option group to the export
+	 * Writes an entire option group to the export.
 	 *
 	 * @param string $opt_group Option group name.
 	 */
@@ -139,7 +143,7 @@ class WPSEO_Export {
 		foreach ( $options as $key => $elem ) {
 			if ( is_array( $elem ) ) {
 				$count = count( $elem );
-				for ( $i = 0; $i < $count; $i ++ ) {
+				for ( $i = 0; $i < $count; $i++ ) {
 					$this->write_setting( $key . '[]', $elem[ $i ] );
 				}
 			}
@@ -150,7 +154,7 @@ class WPSEO_Export {
 	}
 
 	/**
-	 * Writes a settings line to the export
+	 * Writes a settings line to the export.
 	 *
 	 * @param string $key Key string.
 	 * @param string $val Value string.

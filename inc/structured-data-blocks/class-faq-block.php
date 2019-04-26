@@ -6,10 +6,9 @@
  */
 
 /**
- * Class WPSEO_FAQ_Block
+ * Class WPSEO_FAQ_Block.
  */
 class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
-
 	/**
 	 * Registers the how-to block as a server-side rendered block.
 	 *
@@ -29,7 +28,8 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	/**
 	 * Renders the block.
 	 *
-	 * Because we can't save script tags in Gutenberg without sufficient user permissions, we render these server-side.
+	 * Because we can't save script tags in Gutenberg without sufficient user permissions,
+	 * we render these server-side.
 	 *
 	 * @param array  $attributes The attributes of the block.
 	 * @param string $content    The HTML content of the block.
@@ -43,7 +43,12 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 
 		$json_ld = $this->get_json_ld( $attributes );
 
-		return '<script type="application/ld+json">' . wp_json_encode( $json_ld ) . '</script>' . $content;
+		$schema = array(
+			'@context' => 'https://schema.org',
+			'@graph'   => array( $json_ld ),
+		);
+
+		return WPSEO_Utils::schema_tag( $schema );
 	}
 
 	/**
@@ -54,9 +59,14 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 	 * @return array The JSON-LD representation of the FAQ block in array form.
 	 */
 	protected function get_json_ld( array $attributes ) {
+		$hash = WPSEO_Schema_IDs::WEBPAGE_HASH;
+		if ( WPSEO_Schema_Article::is_article_post_type() ) {
+			$hash = WPSEO_Schema_IDs::ARTICLE_HASH;
+		}
+
 		$json_ld = array(
-			'@context' => 'https://schema.org',
-			'@type'    => 'FAQPage',
+			'@type'            => 'FAQPage',
+			'mainEntityOfPage' => array( '@id' => WPSEO_Frontend::get_instance()->canonical( false ) . $hash ),
 		);
 
 		$post_title = get_the_title();

@@ -31,7 +31,6 @@ class WPSEO_Breadcrumbs {
 	 */
 	public static $after = '';
 
-
 	/**
 	 * Blog's show on front setting, 'page' or 'posts'.
 	 *
@@ -250,9 +249,9 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Get a term's parents.
 	 *
-	 * @param    object $term Term to get the parents for.
+	 * @param object $term Term to get the parents for.
 	 *
-	 * @return    array
+	 * @return array
 	 */
 	private function get_term_parents( $term ) {
 		$tax     = $term->taxonomy;
@@ -432,7 +431,7 @@ class WPSEO_Breadcrumbs {
 		}
 		elseif ( is_search() ) {
 			$this->add_predefined_crumb(
-				WPSEO_Options::get( 'breadcrumbs-searchprefix' ) . ' "' . esc_html( get_search_query() ) . '"',
+				WPSEO_Options::get( 'breadcrumbs-searchprefix' ) . ' “' . esc_html( get_search_query() ) . '”',
 				null,
 				true
 			);
@@ -544,13 +543,26 @@ class WPSEO_Breadcrumbs {
 
 	/**
 	 * Add Blog crumb to the crumbs property for single posts where Home != blogpage.
+	 *
+	 * @return void
 	 */
 	private function maybe_add_blog_crumb() {
-		if ( ( 'page' === $this->show_on_front && 'post' === get_post_type() ) && ( ! is_home() && ! is_search() ) ) {
-			if ( $this->page_for_posts && WPSEO_Options::get( 'breadcrumbs-display-blog-page' ) === true ) {
-				$this->add_blog_crumb();
-			}
+		// When the show blog page is not enabled.
+		if ( WPSEO_Options::get( 'breadcrumbs-display-blog-page' ) !== true ) {
+			return;
 		}
+
+		// When there is no page configured as blog page.
+		if ( 'page' !== $this->show_on_front || ! $this->page_for_posts ) {
+			return;
+		}
+
+		// When the current page is the home page, searchpage or isn't a singular post.
+		if ( is_home() || is_search() || ! is_singular( 'post' ) ) {
+			return;
+		}
+
+		$this->add_blog_crumb();
 	}
 
 	/**
@@ -617,7 +629,7 @@ class WPSEO_Breadcrumbs {
 	private function add_crumbs_for_taxonomy() {
 		$term = $GLOBALS['wp_query']->get_queried_object();
 
-		// @todo adjust function name!!
+		// @todo adjust function name.
 		$this->maybe_add_preferred_term_parent_crumb( $term );
 
 		$this->maybe_add_term_parent_crumbs( $term );
@@ -772,11 +784,11 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Retrieve link url and text based on post id
+	 * Retrieve link url and text based on post id.
 	 *
 	 * @param int $id Post ID.
 	 *
-	 * @return array Array of link text and url
+	 * @return array Array of link text and url.
 	 */
 	private function get_link_info_for_id( $id ) {
 		$link         = array();
@@ -786,16 +798,6 @@ class WPSEO_Breadcrumbs {
 		if ( $link['text'] === '' ) {
 			$link['text'] = wp_strip_all_tags( get_the_title( $id ), true );
 		}
-
-		/**
-		 * Filter: 'wp_seo_get_bc_title' - Allow developer to filter the Yoast SEO Breadcrumb title.
-		 *
-		 * @deprecated 5.8
-		 * @api string $link_text The Breadcrumb title text.
-		 *
-		 * @param int $link_id The post ID.
-		 */
-		$link['text'] = apply_filters_deprecated( 'wp_seo_get_bc_title', array( $link['text'], $id ), 'WPSEO 5.8', 'wpseo_breadcrumb_single_link_info' );
 
 		return $link;
 	}
@@ -946,7 +948,7 @@ class WPSEO_Breadcrumbs {
 					$inner_elm = 'strong';
 				}
 
-				$link_output .= '<' . $inner_elm . ' class="breadcrumb_last">' . $link['text'] . '</' . $inner_elm . '>';
+				$link_output .= '<' . $inner_elm . ' class="breadcrumb_last" aria-current="page">' . $link['text'] . '</' . $inner_elm . '>';
 				// This is the last element, now close all previous elements.
 				while ( $i > 0 ) {
 					$link_output .= '</' . $this->element . '>';
@@ -986,7 +988,7 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Wrap a complete breadcrumb string in a Breadcrumb RDFA wrapper.
+	 * Wrap a complete breadcrumb string in a wrapper.
 	 */
 	private function wrap_breadcrumb() {
 		if ( is_string( $this->output ) && $this->output !== '' ) {
@@ -1008,11 +1010,16 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the Yoast SEO breadcrumbs wrapper element.
+	 * Retrieves HTML ID attribute.
 	 *
-	 * @api string $unsigned ID to add to the wrapper element.
+	 * @return string
 	 */
 	private function get_output_id() {
+		/**
+		 * Filter: 'wpseo_breadcrumb_output_id' - Allow changing the HTML ID on the Yoast SEO breadcrumbs wrapper element.
+		 *
+		 * @api string $unsigned ID to add to the wrapper element.
+		 */
 		$id = apply_filters( 'wpseo_breadcrumb_output_id', '' );
 		if ( is_string( $id ) && '' !== $id ) {
 			$id = ' id="' . esc_attr( $id ) . '"';
@@ -1022,11 +1029,16 @@ class WPSEO_Breadcrumbs {
 	}
 
 	/**
-	 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the Yoast SEO breadcrumbs wrapper element.
+	 * Retrieves HTML Class attribute.
 	 *
-	 * @api string $unsigned Class to add to the wrapper element.
+	 * @return string
 	 */
 	private function get_output_class() {
+		/**
+		 * Filter: 'wpseo_breadcrumb_output_class' - Allow changing the HTML class on the Yoast SEO breadcrumbs wrapper element.
+		 *
+		 * @api string $unsigned Class to add to the wrapper element.
+		 */
 		$class = apply_filters( 'wpseo_breadcrumb_output_class', '' );
 		if ( is_string( $class ) && '' !== $class ) {
 			$class = ' class="' . esc_attr( $class ) . '"';

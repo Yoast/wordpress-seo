@@ -9,6 +9,7 @@
  * Handles the reindexing of links interface in the Dashboard.
  */
 class WPSEO_Link_Reindex_Dashboard {
+
 	/**
 	 * Public post types to scan for unprocessed items.
 	 *
@@ -123,7 +124,7 @@ class WPSEO_Link_Reindex_Dashboard {
 	}
 
 	/**
-	 * Enqueues site wide analysis script
+	 * Enqueues site wide analysis script.
 	 *
 	 * @return void
 	 */
@@ -169,7 +170,7 @@ class WPSEO_Link_Reindex_Dashboard {
 	}
 
 	/**
-	 * Returns if there are unprocessed items
+	 * Returns if there are unprocessed items.
 	 *
 	 * @return bool True if there are unprocessed items.
 	 */

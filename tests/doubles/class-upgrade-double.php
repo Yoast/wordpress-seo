@@ -9,7 +9,7 @@
 class WPSEO_Upgrade_Double extends WPSEO_Upgrade {
 
 	/**
-	 * Override the constructor to void calling that logic.
+	 * Override the constructor to avoid calling that logic.
 	 */
 	public function __construct() {
 		// Intentionally left empty.

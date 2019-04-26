@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { LanguageNotice, ContentAnalysis } from "yoast-components";
+import { LanguageNotice } from "@yoast/components";
+import { ContentAnalysis } from "@yoast/analysis-report";
 import { Fragment } from "@wordpress/element";
 import { compose } from "@wordpress/compose";
 import { withDispatch, withSelect } from "@wordpress/data";
@@ -30,7 +31,7 @@ class Results extends React.Component {
 
 		if ( results !== null ) {
 			this.state = {
-				mappedResults: mapResults( results ),
+				mappedResults: mapResults( results, this.props.keywordKey ),
 			};
 		}
 
@@ -50,7 +51,7 @@ class Results extends React.Component {
 	componentDidUpdate( prevProps ) {
 		if ( this.props.results !== null && this.props.results !== prevProps.results ) {
 			this.setState( {
-				mappedResults: mapResults( this.props.results ),
+				mappedResults: mapResults( this.props.results, this.props.keywordKey ),
 			} );
 		}
 	}
@@ -58,19 +59,22 @@ class Results extends React.Component {
 	/**
 	 * Handles a click on a marker button, to mark the text in the editor.
 	 *
-	 * @param {string} id Result id, empty if a marker is deselected.
-	 * @param {object} marker The marker function.
+	 * @param {string}   id     Result id, empty if a marker is deselected.
+	 * @param {Function} marker The marker function.
 	 *
 	 * @returns {void}
 	 */
 	handleMarkButtonClick( id, marker ) {
+		// To see a difference between keyphrases: Prepend the keyword key when applicable.
+		const markerId = this.props.keywordKey.length > 0 ? `${this.props.keywordKey}:${id}` : id;
+
 		// If marker button is clicked while active, disable markers.
-		if ( id === this.props.activeMarker ) {
+		if ( markerId === this.props.activeMarker ) {
 			this.props.setActiveMarker( null );
 			this.props.setMarkerPauseStatus( false );
 			this.removeMarkers();
 		} else {
-			this.props.setActiveMarker( id );
+			this.props.setActiveMarker( markerId );
 			marker();
 		}
 	}
@@ -117,6 +121,7 @@ class Results extends React.Component {
 					marksButtonClassName={ this.props.marksButtonClassName }
 					marksButtonStatus={ this.props.marksButtonStatus }
 					headingLevel={ 3 }
+					keywordKey={ this.props.keywordKey }
 				/>
 			</Fragment>
 		);
@@ -134,6 +139,7 @@ Results.propTypes = {
 	setActiveMarker: PropTypes.func.isRequired,
 	setMarkerPauseStatus: PropTypes.func.isRequired,
 	activeMarker: PropTypes.string,
+	keywordKey: PropTypes.string,
 };
 
 Results.defaultProps = {
@@ -144,6 +150,7 @@ Results.defaultProps = {
 	marksButtonStatus: "enabled",
 	marksButtonClassName: "",
 	activeMarker: null,
+	keywordKey: "",
 };
 
 export default compose( [

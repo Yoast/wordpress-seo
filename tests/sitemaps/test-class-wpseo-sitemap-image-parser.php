@@ -6,19 +6,21 @@
  */
 
 /**
- * Class WPSEO_Sitemap_Image_Parser_Test
+ * Class WPSEO_Sitemap_Image_Parser_Test.
  *
  * @group sitemaps
  */
 class WPSEO_Sitemap_Image_Parser_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Sitemap_Image_Parser
 	 */
 	private static $class_instance;
 
 	/**
-	 * Set up our double class
+	 * Set up our double class.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -49,7 +51,7 @@ class WPSEO_Sitemap_Image_Parser_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_Sitemap_Image_Parser::get_gallery_attachments
 	 *
-	 * Related: https://github.com/Yoast/wordpress-seo/issues/8634
+	 * @link https://github.com/Yoast/wordpress-seo/issues/8634
 	 */
 	public function test_parse_galleries() {
 		/** @var WPSEO_Sitemap_Image_Parser_Double $image_parser */

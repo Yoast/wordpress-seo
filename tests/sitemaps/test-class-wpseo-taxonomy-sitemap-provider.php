@@ -6,19 +6,21 @@
  */
 
 /**
- * Class WPSEO_Taxonomy_Sitemap_Provider_Test
+ * Class WPSEO_Taxonomy_Sitemap_Provider_Test.
  *
  * @group sitemaps
  */
 class WPSEO_Taxonomy_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Taxonomy_Sitemap_Provider
 	 */
 	private static $class_instance;
 
 	/**
-	 * Set up our double class
+	 * Set up our double class.
 	 */
 	public function setUp() {
 		parent::setUp();

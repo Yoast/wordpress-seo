@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Help_Center_Item
+ * Class WPSEO_Help_Center_Item.
  */
 class WPSEO_Help_Center_Item {
 

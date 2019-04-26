@@ -6,13 +6,15 @@
  */
 
 /**
- * Class Test_WPSEO_Author_Sitemap_Provider
+ * Class Test_WPSEO_Author_Sitemap_Provider.
  *
  * @group sitemaps
  */
 class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Author_Sitemap_Provider
 	 */
 	private static $class_instance;

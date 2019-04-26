@@ -6,7 +6,10 @@
  */
 
 /**
- * This class registers all the necessary styles and scripts. Also has methods for the enqueing of scripts and styles. It automatically adds a prefix to the handle.
+ * This class registers all the necessary styles and scripts.
+ *
+ * Also has methods for the enqueing of scripts and styles.
+ * It automatically adds a prefix to the handle.
  */
 class WPSEO_Admin_Asset_Manager {
 
@@ -16,12 +19,16 @@ class WPSEO_Admin_Asset_Manager {
 	protected $asset_location;
 
 	/**
-	 *  Prefix for naming the assets.
+	 * Prefix for naming the assets.
+	 *
+	 * @var string
 	 */
 	const PREFIX = 'yoast-seo-';
 
 	/**
-	 * @var string prefix for naming the assets.
+	 * Prefix for naming the assets.
+	 *
+	 * @var string
 	 */
 	private $prefix;
 
@@ -136,7 +143,7 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
-	 * Flattens a version number for use in a filename
+	 * Flattens a version number for use in a filename.
 	 *
 	 * @param string $version The original version number.
 	 *
@@ -188,17 +195,51 @@ class WPSEO_Admin_Asset_Manager {
 
 		$flat_version = $this->flatten_version( WPSEO_VERSION );
 
-		wp_register_script( 'react', plugins_url( 'js/vendor/react.min.js', WPSEO_FILE ), array(), false, true );
-		wp_register_script( 'react-dom', plugins_url( 'js/vendor/react-dom.min.js', WPSEO_FILE ), array( 'react' ), false, true );
-		wp_register_script( 'lodash-base', plugins_url( 'js/vendor/lodash.min.js', WPSEO_FILE ), array(), false, true );
-		wp_register_script( 'lodash', plugins_url( 'js/vendor/lodash-noconflict.js', WPSEO_FILE ), array( 'lodash-base' ), false, true );
-		wp_register_script( 'wp-polyfill', plugins_url( 'js/dist/babel-polyfill-' . $flat_version . '.min.js', WPSEO_FILE ), array(), false, true );
+		wp_register_script(
+			'react',
+			plugins_url( 'js/vendor/react.min.js', WPSEO_FILE ),
+			array(),
+			'v16.6.1',
+			true
+		);
+
+		wp_register_script(
+			'react-dom',
+			plugins_url( 'js/vendor/react-dom.min.js', WPSEO_FILE ),
+			array( 'react' ),
+			'v16.6.1',
+			true
+		);
+
+		wp_register_script(
+			'lodash-base',
+			plugins_url( 'js/vendor/lodash.min.js', WPSEO_FILE ),
+			array(),
+			'4.17.5',
+			true
+		);
+
+		wp_register_script(
+			'lodash',
+			plugins_url( 'js/vendor/lodash-noconflict.js', WPSEO_FILE ),
+			array( 'lodash-base' ),
+			WPSEO_VERSION,
+			true
+		);
+
+		wp_register_script(
+			'wp-polyfill',
+			plugins_url( 'js/dist/babel-polyfill-' . $flat_version . '.min.js', WPSEO_FILE ),
+			array(),
+			WPSEO_VERSION,
+			true
+		);
 
 		wp_register_script(
 			'wp-element',
 			plugins_url( 'js/dist/wp-element-' . $flat_version . '.min.js', WPSEO_FILE ),
 			array( 'lodash', 'wp-polyfill', 'react', 'react-dom' ),
-			false,
+			WPSEO_VERSION,
 			true
 		);
 
@@ -206,7 +247,7 @@ class WPSEO_Admin_Asset_Manager {
 			'wp-api-fetch',
 			plugins_url( 'js/dist/wp-apiFetch-' . $flat_version . '.min.js', WPSEO_FILE ),
 			array( 'wp-i18n', 'wp-polyfill' ),
-			false,
+			WPSEO_VERSION,
 			true
 		);
 
@@ -214,7 +255,7 @@ class WPSEO_Admin_Asset_Manager {
 			'wp-components',
 			plugins_url( 'js/dist/wp-components-' . $flat_version . '.min.js', WPSEO_FILE ),
 			array( 'lodash', 'wp-api-fetch', 'wp-i18n', 'wp-polyfill', 'wp-compose' ),
-			false,
+			WPSEO_VERSION,
 			true
 		);
 
@@ -222,7 +263,7 @@ class WPSEO_Admin_Asset_Manager {
 			'wp-data',
 			plugins_url( 'js/dist/wp-data-' . $flat_version . '.min.js', WPSEO_FILE ),
 			array( 'lodash', 'wp-element', 'wp-polyfill', 'wp-compose' ),
-			false,
+			WPSEO_VERSION,
 			true
 		);
 
@@ -230,7 +271,7 @@ class WPSEO_Admin_Asset_Manager {
 			'wp-i18n',
 			plugins_url( 'js/dist/wp-i18n-' . $flat_version . '.min.js', WPSEO_FILE ),
 			array( 'wp-polyfill' ),
-			false,
+			WPSEO_VERSION,
 			true
 		);
 
@@ -238,7 +279,7 @@ class WPSEO_Admin_Asset_Manager {
 			'wp-rich-text',
 			plugins_url( 'js/dist/wp-rich-text-' . $flat_version . '.min.js', WPSEO_FILE ),
 			array( 'lodash', 'wp-polyfill', 'wp-data' ),
-			false,
+			WPSEO_VERSION,
 			true
 		);
 
@@ -246,7 +287,7 @@ class WPSEO_Admin_Asset_Manager {
 			'wp-compose',
 			plugins_url( 'js/dist/wp-compose-' . $flat_version . '.min.js', WPSEO_FILE ),
 			array( 'lodash', 'wp-polyfill' ),
-			false,
+			WPSEO_VERSION,
 			true
 		);
 
@@ -254,11 +295,14 @@ class WPSEO_Admin_Asset_Manager {
 		 * wp-annotations only exists from Gutenberg 4.3 and onwards, so we register a no-op in earlier versions.
 		 * The no-op achieves that our scripts that depend on this are actually loaded. Because WordPress doesn't
 		 * load a script if any of the dependencies are missing.
+		 *
+		 * @phpcs:disable WordPress.WP.EnqueuedResourceParameters -- The no-op does not require these settings.
 		 */
 		wp_register_script(
 			'wp-annotations',
 			null
 		);
+		// phpcs:enable -- End of disable.
 	}
 
 	/**
@@ -295,6 +339,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'search-appearance',
 				'src'  => 'search-appearance-' . $flat_version,
 				'deps' => array(
+					'wp-api',
 					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
 				),
@@ -393,6 +438,10 @@ class WPSEO_Admin_Asset_Manager {
 				'name'      => 'admin-gsc',
 				'src'       => 'wp-seo-admin-gsc-' . $flat_version,
 				'deps'      => array(
+					'wp-element',
+					'wp-i18n',
+					self::PREFIX . 'styled-components',
+					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
 				),
 				'in_footer' => false,
@@ -403,6 +452,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'wp-util',
 					'wp-api',
+					'wp-sanitize',
 					'wp-element',
 					'wp-i18n',
 					'wp-data',
@@ -420,6 +470,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'term-scraper',
 				'src'  => 'wp-seo-term-scraper-' . $flat_version,
 				'deps' => array(
+					'wp-sanitize',
 					'wp-element',
 					'wp-i18n',
 					'wp-data',
@@ -469,6 +520,8 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-i18n',
 					'wp-components',
 					'wp-data',
+					self::PREFIX . 'analysis',
+					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
 				),
 			),
@@ -498,6 +551,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'wp-element',
 					'wp-i18n',
+					'wp-api',
 					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
 				),
@@ -611,7 +665,7 @@ class WPSEO_Admin_Asset_Manager {
 	 *
 	 * @todo Data format is not self-documenting. Needs explanation inline. R.
 	 *
-	 * @return array styles that need to be registered.
+	 * @return array Styles that need to be registered.
 	 */
 	protected function styles_to_be_registered() {
 		$flat_version = $this->flatten_version( WPSEO_VERSION );

@@ -11,6 +11,7 @@
  * @group imports
  */
 class WPSEO_Import_Settings_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Holds the class instance.
 	 *
@@ -43,7 +44,7 @@ class WPSEO_Import_Settings_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the import functionality
+	 * Tests the import functionality.
 	 *
 	 * @covers WPSEO_Import_Settings::parse_options
 	 */
@@ -69,7 +70,7 @@ EO_DATA;
 	}
 
 	/**
-	 * Tests the import functionality
+	 * Tests the import functionality.
 	 *
 	 * @covers WPSEO_Import_Settings::parse_options
 	 */

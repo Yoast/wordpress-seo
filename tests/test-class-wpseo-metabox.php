@@ -11,6 +11,8 @@
 class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Metabox
 	 */
 	private static $class_instance;
@@ -49,11 +51,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		global $pagenow;
 		$pagenow = 'post-new.php';
 
-		// Prefix used in WPSEO-admin-asset-manager.
-
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->register_assets();
-
 
 		// Call enqueue function.
 		self::$class_instance->enqueue();
@@ -98,6 +97,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_save_postdata() {
 
+		$this->markTestSkipped( 'This test has been non-functioning for a while. The $meta_fields are empty which means no assertions are made. Issue to implement the test correctly: https://github.com/Yoast/wordpress-seo/issues/12381' );
+
 		// Create and go to post.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
@@ -111,8 +112,8 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$meta_fields = apply_filters( 'wpseo_save_metaboxes', array() );
 		$meta_fields = array_merge(
 			$meta_fields,
-			self::$class_instance->get_meta_field_defs( 'general', $post->post_type ),
-			self::$class_instance->get_meta_field_defs( 'advanced' )
+			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),
+			WPSEO_Meta::get_meta_field_defs( 'advanced' )
 		);
 
 		// Set $_POST data to be saved.
@@ -120,10 +121,10 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 			// Set text fields.
 			if ( $field['type'] === 'text' ) {
-				$_POST[ WPSEO_Metabox::$form_prefix . $key ] = 'text';
+				$_POST[ WPSEO_Meta::$form_prefix . $key ] = 'text';
 			}
 			elseif ( $field['type'] === 'checkbox' ) {
-				$_POST[ WPSEO_Metabox::$form_prefix . $key ] = 'on';
+				$_POST[ WPSEO_Meta::$form_prefix . $key ] = 'on';
 			}
 		}
 
@@ -134,11 +135,11 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$custom = get_post_custom( $post->ID );
 		foreach ( $meta_fields as $key => $field ) {
 
-			if ( ! isset( $custom[ WPSEO_Metabox::$meta_prefix . $key ][0] ) ) {
+			if ( ! isset( $custom[ WPSEO_Meta::$meta_prefix . $key ][0] ) ) {
 				continue;
 			}
 
-			$value = $custom[ WPSEO_Metabox::$meta_prefix . $key ][0];
+			$value = $custom[ WPSEO_Meta::$meta_prefix . $key ][0];
 
 			// Set text fields.
 			if ( $field['type'] === 'text' ) {

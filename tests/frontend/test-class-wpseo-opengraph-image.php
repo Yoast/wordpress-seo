@@ -6,7 +6,7 @@
  */
 
 /**
- * OpenGraph tests
+ * OpenGraph tests.
  *
  * @group OpenGraph
  */
@@ -220,7 +220,10 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 		$class_instance = $this->setup_class();
 
-		// With a static frontpage, the image should be the default image, or the image from the static front page itself, not the frontpage image.
+		/*
+		 * With a static frontpage, the image should be the default image, or the
+		 * image from the static front page itself, not the frontpage image.
+		 */
 		$this->assertEquals( $this->sample_array(), $class_instance->get_images() );
 
 		update_option( 'show_on_front', $current_show_on_front );
@@ -269,7 +272,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$source_image    = dirname( __FILE__ ) . '/..' . $image;
 		$full_image_path = $upload_dir['path'] . '/' . $basename;
 
-		copy( $source_image, $full_image_path ); // Prevent original from deletion.
+		copy( $source_image, $full_image_path ); // Prevent original from being deleted.
 
 		$file_array = array(
 			'name'     => $basename,
@@ -288,7 +291,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test get singular false
+	 * Test get singular false.
 	 */
 	public function test_set_singular_image_FALSE() {
 		$post_id = $this->create_post();
@@ -300,7 +303,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test get singular false
+	 * Test get singular false.
 	 */
 	public function test_set_singular_image_post_meta() {
 		$post_id = $this->create_post();
@@ -399,11 +402,11 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Uploads an image and sets it as an attachment to a post.
 	 *
-	 * @param string $image    The url to the image to upload.
+	 * @param string $image    The URL to the image to upload.
 	 * @param string $post_id  The post to add the image to.
 	 * @param string $use_name Optional. Copy the file to a different filename.
 	 *
-	 * @return array $attachment. Contains the url to the attachment image and the attachment id.
+	 * @return array $attachment. Contains the URL to the attachment image and the attachment ID.
 	 */
 	public function add_image_attachment_to_post( $image, $post_id, $use_name = '' ) {
 		// Copy the image to the upload folder.
@@ -415,7 +418,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		$upload_dir     = wp_upload_dir();
 		$source_image   = dirname( __FILE__ ) . '/..' . $image;
 		$featured_image = $upload_dir['path'] . '/' . $basename;
-		copy( $source_image, $featured_image ); // Prevent original from deletion.
+		copy( $source_image, $featured_image ); // Prevent original from being deleted.
 
 		$file_array = array(
 			'name'     => $basename,
@@ -492,7 +495,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Sets up our test class
+	 * Sets up our test class.
 	 *
 	 * @return WPSEO_OpenGraph_Image
 	 */

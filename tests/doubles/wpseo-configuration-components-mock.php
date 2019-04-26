@@ -6,12 +6,12 @@
  */
 
 /**
- * Class WPSEO_Configuration_Components_Mock
+ * Class WPSEO_Configuration_Components_Mock.
  */
 class WPSEO_Configuration_Components_Mock extends WPSEO_Configuration_Components {
 
 	/**
-	 * Retrieve all components
+	 * Retrieve all components.
 	 *
 	 * @return array
 	 */
@@ -20,7 +20,7 @@ class WPSEO_Configuration_Components_Mock extends WPSEO_Configuration_Components
 	}
 
 	/**
-	 * Get the current adapter
+	 * Get the current adapter.
 	 *
 	 * @return WPSEO_Configuration_Options_Adapter
 	 */

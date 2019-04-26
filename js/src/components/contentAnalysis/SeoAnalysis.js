@@ -1,4 +1,4 @@
-/* global wpseoPostScraperL10n wpseoTermScraperL10n wpseoAdminL10n */
+/* global wpseoAdminL10n */
 
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
@@ -6,7 +6,9 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import { getRtlStyle, KeywordInput, colors } from "yoast-components";
+import { KeywordInput } from "yoast-components";
+import { YoastSeoIcon } from "@yoast/components";
+import { colors } from "@yoast/style-guide";
 import Collapsible from "../SidebarCollapsible";
 import Results from "./Results";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
@@ -15,51 +17,17 @@ import { getIconForScore } from "./mapResults";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
 import Modal from "../modals/Modal";
 import MultipleKeywords from "../modals/MultipleKeywords";
-import YoastSeoIcon from "yoast-components/composites/basic/YoastSeoIcon";
-import Icon from "yoast-components/composites/Plugin/Shared/components/Icon";
 import { LocationConsumer } from "../contexts/location";
 import AnalysisUpsell from "../AnalysisUpsell";
-import RecalibrationBetaNotification from "./RecalibrationBetaNotification";
 import HelpLink from "./HelpLink";
 import { setMarkerPauseStatus } from "../../redux/actions/markerPauseStatus";
-
-// We need localizedData temporarily here to know if the recalibration beta is toggled.
-let localizedData = {};
-if ( window.wpseoPostScraperL10n ) {
-	localizedData = wpseoPostScraperL10n;
-} else if ( window.wpseoTermScraperL10n ) {
-	localizedData = wpseoTermScraperL10n;
-}
+import { ModalContainer, ModalIcon } from "../modals/Container";
 
 const AnalysisHeader = styled.span`
 	font-size: 1em;
 	font-weight: bold;
 	margin: 1.5em 0 1em;
 	display: block;
-`;
-
-const StyledContainer = styled.div`
-	min-width: 600px;
-
-	@media screen and ( max-width: 680px ) {
-		min-width: 0;
-		width: 86vw;
-	}
-`;
-
-const StyledIcon = styled( Icon )`
-	float: ${ getRtlStyle( "right", "left" ) };
-	margin: ${ getRtlStyle( "0 0 16px 16px", "0 16px 16px 0" ) };
-
-	&& {
-		width: 150px;
-		height: 150px;
-
-		@media screen and ( max-width: 680px ) {
-			width: 80px;
-			height: 80px;
-		}
-	}
 `;
 
 /**
@@ -75,16 +43,11 @@ class SeoAnalysis extends React.Component {
 	 */
 	renderSynonymsUpsell( location ) {
 		const modalProps = {
-			appElement: "#wpwrap",
-			openButtonIcon: "",
 			classes: {
 				openButton: "wpseo-keyword-synonyms button-link",
 			},
 			labels: {
 				open: "+ " + __( "Add synonyms", "wordpress-seo" ),
-				a11yNotice: {
-					opensInNewTab: __( "(Opens in a new browser tab!)", "wordpress-seo" ),
-				},
 				modalAriaLabel: sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
 					__( "Get %s", "wordpress-seo" ),
@@ -109,12 +72,12 @@ class SeoAnalysis extends React.Component {
 
 		return (
 			<Modal { ...modalProps }>
-				<StyledContainer>
-					<StyledIcon icon={ YoastSeoIcon } />
+				<ModalContainer>
+					<ModalIcon icon={ YoastSeoIcon } />
 					<h2>{ __( "Would you like to add keyphrase synonyms?", "wordpress-seo" ) }</h2>
 
 					<KeywordSynonyms link={ link } buyLink={ buyLink } />
-				</StyledContainer>
+				</ModalContainer>
 			</Modal>
 		);
 	}
@@ -128,16 +91,11 @@ class SeoAnalysis extends React.Component {
 	 */
 	renderMultipleKeywordsUpsell( location ) {
 		const modalProps = {
-			appElement: "#wpwrap",
-			openButtonIcon: "",
 			classes: {
 				openButton: "wpseo-multiple-keywords button-link",
 			},
 			labels: {
 				open: "+ " + __( "Add related keyphrase", "wordpress-seo" ),
-				a11yNotice: {
-					opensInNewTab: __( "(Opens in a new browser tab!)", "wordpress-seo" ),
-				},
 				modalAriaLabel: sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
 					__( "Get %s", "wordpress-seo" ),
@@ -162,14 +120,14 @@ class SeoAnalysis extends React.Component {
 
 		return (
 			<Modal { ...modalProps }>
-				<StyledContainer>
-					<StyledIcon icon={ YoastSeoIcon } />
+				<ModalContainer>
+					<ModalIcon icon={ YoastSeoIcon } />
 					<h2>{ __( "Would you like to add a related keyphrase?", "wordpress-seo" ) }</h2>
 					<MultipleKeywords
 						link={ link }
 						buyLink={ buyLink }
 					/>
-				</StyledContainer>
+				</ModalContainer>
 			</Modal>
 		);
 	}
@@ -215,7 +173,6 @@ class SeoAnalysis extends React.Component {
 		return (
 			<HelpLink
 				href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }
-				rel={ null }
 				className="dashicons"
 			>
 				<span className="screen-reader-text">
@@ -248,14 +205,6 @@ class SeoAnalysis extends React.Component {
 	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
-		const isRecalibrationBetaActive = localizedData.recalibrationBetaActive;
-
-		let analysisTitle = __( "Focus keyphrase", "wordpress-seo" );
-
-		// Adjust the title when the beta is active.
-		if ( isRecalibrationBetaActive ) {
-			analysisTitle =  __( "Focus keyphrase (beta)", "wordpress-seo" );
-		}
 
 		if ( score.className !== "loading" && this.props.keyword === "" ) {
 			score.className = "na";
@@ -267,14 +216,13 @@ class SeoAnalysis extends React.Component {
 				{ context => (
 					<Fragment>
 						<Collapsible
-							title={ analysisTitle }
+							title={ __( "Focus keyphrase", "wordpress-seo" ) }
 							titleScreenReaderText={ score.screenReaderReadabilityText }
 							prefixIcon={ getIconForScore( score.className ) }
 							prefixIconCollapsed={ getIconForScore( score.className ) }
 							subTitle={ this.props.keyword }
 							id={ `yoast-seo-analysis-collapsible-${ context }` }
 						>
-							{ isRecalibrationBetaActive ? <RecalibrationBetaNotification /> : null }
 							<KeywordInput
 								id="focus-keyword-input"
 								onChange={ this.props.onFocusKeywordChange }

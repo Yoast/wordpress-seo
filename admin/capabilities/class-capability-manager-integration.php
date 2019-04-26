@@ -60,7 +60,7 @@ class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integratio
 	/**
 	 * Add capabilities to its own group in the Members plugin.
 	 *
-	 * @see  members_register_cap_group()
+	 * @see members_register_cap_group()
 	 */
 	public function action_members_register_cap_group() {
 		if ( ! function_exists( 'members_register_cap_group' ) ) {
@@ -80,9 +80,9 @@ class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integratio
 	/**
 	 * Adds Yoast SEO capability group in the User Role Editor plugin.
 	 *
-	 * @see    URE_Capabilities_Groups_Manager::get_groups_tree()
+	 * @see URE_Capabilities_Groups_Manager::get_groups_tree()
 	 *
-	 * @param  array $groups Current groups.
+	 * @param array $groups Current groups.
 	 *
 	 * @return array Filtered list of capabilty groups.
 	 */
@@ -101,10 +101,10 @@ class WPSEO_Capability_Manager_Integration implements WPSEO_WordPress_Integratio
 	/**
 	 * Adds capabilities to the Yoast SEO group in the User Role Editor plugin.
 	 *
-	 * @see    URE_Capabilities_Groups_Manager::get_cap_groups()
+	 * @see URE_Capabilities_Groups_Manager::get_cap_groups()
 	 *
-	 * @param  array  $groups Current capability groups.
-	 * @param  string $cap_id Capability identifier.
+	 * @param array  $groups Current capability groups.
+	 * @param string $cap_id Capability identifier.
 	 *
 	 * @return array List of filtered groups.
 	 */

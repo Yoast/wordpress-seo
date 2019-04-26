@@ -10,6 +10,11 @@
  */
 class WPSEO_Link_Storage implements WPSEO_Installable {
 
+	/**
+	 * Table name for the link storage.
+	 *
+	 * @var string
+	 */
 	const TABLE_NAME = 'yoast_seo_links';
 
 	/**
@@ -18,7 +23,7 @@ class WPSEO_Link_Storage implements WPSEO_Installable {
 	protected $database_proxy;
 
 	/**
-	 * @deprecated
+	 * @deprecated 7.4
 	 *
 	 * @var null|string
 	 */

@@ -140,8 +140,9 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 			return;
 		}
 		const fetchedParents = { 0: "" };
-		let currentParent  = null;
-		const wpData       = window.wp.data;
+
+		let currentParent = null;
+		const wpData      = window.wp.data;
 		wpData.subscribe( () => {
 			const newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
 			if ( typeof newParent === "undefined" || currentParent === newParent ) {
@@ -158,19 +159,21 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 				this.declareReloaded();
 				return;
 			}
-			const page = new wp.api.models.Page( { id: newParent } );
-			page.fetch().then(
-				response => {
-					this._currentParentPageTitle = response.title.rendered;
-					fetchedParents[ newParent ]  = this._currentParentPageTitle;
-					this.declareReloaded();
-				}
-			).fail(
-				() => {
-					this._currentParentPageTitle = "";
-					this.declareReloaded();
-				}
-			);
+			wp.api.loadPromise.done( () => {
+				const page = new wp.api.models.Page( { id: newParent } );
+				page.fetch().then(
+					response => {
+						this._currentParentPageTitle = response.title.rendered;
+						fetchedParents[ newParent ]  = this._currentParentPageTitle;
+						this.declareReloaded();
+					}
+				).fail(
+					() => {
+						this._currentParentPageTitle = "";
+						this.declareReloaded();
+					}
+				);
+			} );
 		} );
 	};
 

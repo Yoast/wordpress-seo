@@ -24,7 +24,7 @@ class WPSEO_Link_Filter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provides a couple of internal links
+	 * Provides a couple of internal links.
 	 *
 	 * @return array
 	 */
