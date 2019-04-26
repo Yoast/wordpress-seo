@@ -47,9 +47,6 @@
     "react": "^16.2.0",
     "react-dom": "16.2.0"
   },
-  "optionalDependencies": {
-    "grunt-scss-to-json": "^1.0.1"
-  },
   "publishConfig": {
     "access": "public"
   }
