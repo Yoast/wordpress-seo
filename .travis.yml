@@ -142,6 +142,8 @@ install:
   fi
 - |
   if [[ "$CHECKJS" == "1" ]] && [[ -z "$TRAVIS_TAG" ]]; then
+    git clone https://github.com/yoast/javascript /tmp/javascript
+    echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
     yarn link-monorepo
   fi
 - if [[ "$SECURITY" == "1" ]]; then wget -P $SECURITYCHECK_DIR https://get.sensiolabs.org/security-checker.phar && chmod +x $SECURITYCHECK_DIR/security-checker.phar;fi
