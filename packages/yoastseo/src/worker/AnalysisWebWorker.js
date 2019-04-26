@@ -1,6 +1,6 @@
 // External dependencies.
 import { autop } from "@wordpress/autop";
-import { enableFeatures } from "@yoast/feature-toggle";
+import { enableFeatures } from "@yoast/feature-flag";
 import Jed from "jed";
 import { forEach, has, includes, isNull, isObject, isString, isUndefined, merge, pickBy, isEmpty } from "lodash-es";
 import { getLogger } from "loglevel";
