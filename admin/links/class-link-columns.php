@@ -30,12 +30,16 @@ class WPSEO_Link_Columns {
 	protected $link_count;
 
 	/**
-	 * @var WPSEO_Meta_Storage Storage to use.
+	 * Storage to use.
+	 *
+	 * @var WPSEO_Meta_Storage
 	 */
 	protected $storage;
 
 	/**
-	 * @var array List of public post types.
+	 * List of public post types.
+	 *
+	 * @var array
 	 */
 	protected $public_post_types = array();
 
@@ -53,7 +57,7 @@ class WPSEO_Link_Columns {
 	 */
 	public function register_hooks() {
 		global $pagenow;
-		$is_ajax_request = defined( 'DOING_AJAX' ) && DOING_AJAX;
+		$is_ajax_request = wp_doing_ajax();
 
 		if ( ! WPSEO_Metabox::is_post_overview( $pagenow ) && ! $is_ajax_request ) {
 			return;
@@ -231,7 +235,7 @@ class WPSEO_Link_Columns {
 	}
 
 	/**
-	 * Displays the column content for the given column
+	 * Displays the column content for the given column.
 	 *
 	 * @param string $column_name Column to display the content for.
 	 * @param int    $post_id     Post to display the column content for.

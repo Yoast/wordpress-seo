@@ -7,7 +7,7 @@ use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
 
 /**
- * Class Indexable_Post_Test
+ * Class Indexable_Post_Test.
  *
  * @group indexables
  * @group watchers
@@ -26,7 +26,7 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the expected hooks are registered
+	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::register_hooks()
 	 */
@@ -39,7 +39,7 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the indexable is being deleted
+	 * Tests if the indexable is being deleted.
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_meta()
 	 */
@@ -74,7 +74,7 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the indexable is being deleted
+	 * Tests if the indexable is being deleted.
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_meta()
 	 */
@@ -93,7 +93,7 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests the save meta functionality
+	 * Tests the save meta functionality.
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta()
 	 */
@@ -155,7 +155,7 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests the early return for non-indexable post
+	 * Tests the early return for non-indexable post.
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta()
 	 */
@@ -178,7 +178,7 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests the save meta functionality
+	 * Tests the save meta functionality.
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta()
 	 */

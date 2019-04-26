@@ -121,7 +121,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * Tests the add tot title behaviour.
+	 * Tests the add to title behaviour.
 	 *
 	 * @covers WPSEO_Frontend::add_to_title()
 	 */

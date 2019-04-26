@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Profile_URL_MySpace
+ * Class WPSEO_Config_Field_Profile_URL_MySpace.
  */
 class WPSEO_Config_Field_Profile_URL_MySpace extends WPSEO_Config_Field {
 
@@ -18,10 +18,12 @@ class WPSEO_Config_Field_Profile_URL_MySpace extends WPSEO_Config_Field {
 
 		$this->set_property( 'label', __( 'MySpace URL', 'wordpress-seo' ) );
 		$this->set_property( 'pattern', '^https:\/\/myspace\.com\/([^/]+)\/$' );
+
+		$this->set_requires( 'publishingEntityType', 'company' );
 	}
 
 	/**
-	 * Set adapter
+	 * Set adapter.
 	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to register lookup on.
 	 */

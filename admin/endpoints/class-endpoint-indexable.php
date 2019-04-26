@@ -31,7 +31,9 @@ class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storabl
 	const CAPABILITY_STORE = 'manage_options';
 
 	/**
-	 * @var WPSEO_Indexable_Service The indexable service.
+	 * The indexable service.
+	 *
+	 * @var WPSEO_Indexable_Service
 	 */
 	private $service;
 

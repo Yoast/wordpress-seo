@@ -6,12 +6,14 @@
  */
 
 /**
- * Class WPSEO_Term_Indexable
+ * Class WPSEO_Term_Indexable.
  */
 class WPSEO_Term_Indexable extends WPSEO_Indexable {
 
 	/**
-	 * @var array The updateable fields.
+	 * The updateable fields.
+	 *
+	 * @var array
 	 */
 	protected $updateable_fields = array(
 		'canonical',
@@ -34,7 +36,7 @@ class WPSEO_Term_Indexable extends WPSEO_Indexable {
 	/**
 	 * Creates a new Indexable from a passed object.
 	 *
-	 * @param int $object_id The object id to create the object for.
+	 * @param int $object_id The object ID to create the object for.
 	 *
 	 * @return WPSEO_Indexable The indexable.
 	 *

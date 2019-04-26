@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Premium_popup
+ * Class WPSEO_Premium_popup.
  */
 class WPSEO_Premium_Popup {
 
@@ -25,14 +25,14 @@ class WPSEO_Premium_Popup {
 	private $heading_level = '';
 
 	/**
-	 * The title of the popup
+	 * The title of the popup.
 	 *
 	 * @var String
 	 */
 	private $title = '';
 
 	/**
-	 * The content of the popup
+	 * The content of the popup.
 	 *
 	 * @var String
 	 */
@@ -85,7 +85,7 @@ class WPSEO_Premium_Popup {
 		if ( $popup ) {
 			$classes = ' hidden';
 		}
-		$micro_copy = __( '1 year free updates and upgrades included!', 'wordpress-seo' );
+		$micro_copy = __( '1 year free support and updates included!', 'wordpress-seo' );
 
 		$popup = <<<EO_POPUP
 <div id="wpseo-{$this->identifier}-popup" class="wpseo-premium-popup wp-clearfix$classes">

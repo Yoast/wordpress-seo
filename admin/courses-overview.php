@@ -25,19 +25,6 @@ class WPSEO_Courses_Overview implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns the Yoast SEO version the user currently is using.
-	 *
-	 * @return string The version: Free or Premium.
-	 */
-	private function get_version() {
-		if ( WPSEO_Utils::is_yoast_seo_premium() ) {
-			return 'premium';
-		}
-
-		return 'free';
-	}
-
-	/**
 	 * Enqueue the relevant script.
 	 *
 	 * @return void
@@ -46,7 +33,6 @@ class WPSEO_Courses_Overview implements WPSEO_WordPress_Integration {
 		wp_enqueue_script( WPSEO_Admin_Asset_Manager::PREFIX . 'courses-overview' );
 
 		$localizations = array(
-			'version' => $this->get_version(),
 			'isRtl'   => is_rtl(),
 		);
 		wp_localize_script(

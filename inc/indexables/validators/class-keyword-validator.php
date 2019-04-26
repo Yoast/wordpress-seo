@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Keyword_Validator
+ * Class WPSEO_Keyword_Validator.
  */
 class WPSEO_Keyword_Validator implements WPSEO_Endpoint_Validator {
 

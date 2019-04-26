@@ -21,7 +21,7 @@ use YoastSEO_Vendor\ORM;
  * The methods documented below are magic methods that conform to PSR-1.
  * This documentation exposes these methods to doc generators and IDEs.
  *
- * @see http://www.php-fig.org/psr/psr-1/
+ * @link http://www.php-fig.org/psr/psr-1/
  *
  * @method void setClassName($class_name)
  * @method static \ORMWrapper forTable($table_name, $connection_name = parent::DEFAULT_CONNECTION)
@@ -76,10 +76,10 @@ class ORMWrapper extends ORM {
 	 * table name.
 	 *
 	 * A repeat of content in parent::for_table, so that created class is
-	 * ORMWrapper, not ORM
+	 * ORMWrapper, not ORM.
 	 *
-	 * @param  string $table_name      The table to create instance for.
-	 * @param  string $connection_name The connection name.
+	 * @param string $table_name      The table to create instance for.
+	 * @param string $connection_name The connection name.
 	 *
 	 * @return ORMWrapper Instance of the ORM wrapper.
 	 */

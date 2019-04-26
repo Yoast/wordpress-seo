@@ -37,7 +37,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 				array(
 					'label' => __( 'Upgrade to Premium', 'wordpress-seo' ),
 					'type'  => 'primary',
-					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-premium' ),
+					'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-premium' ),
 				),
 				array(
 					'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-yoast-seo-premium' ),
@@ -51,28 +51,23 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 		}
 
 		$field->add_suggestion(
+			__( 'Find out what words your audience uses to find you', 'wordpress-seo' ),
 			sprintf(
-				/* translators: %1$s resolves to Basic SEO training */
-				__( 'Learn all about SEO with our %1$s', 'wordpress-seo' ),
-				'Basic SEO training'
-			),
-			sprintf(
-				/* translators: %1$s resolves to Basic SEO training, 2: Yoast SEO */
-				__( 'Do you want to learn how you can improve your SEO yourself? In our %1$s you\'ll learn practical SEO skills from keyword research and copywriting to technical SEO and off-page SEO. Using the %2$s plugin is one thing. Doing good SEO day-to-day is another. You simply won\'t get the results you want without putting in work yourself. The %1$s teaches you how.', 'wordpress-seo' ),
-				'Basic SEO training',
-				'Yoast SEO'
+				/* translators: %1$s resolves to Keyword research training */
+				__( 'Keyword research is essential in any SEO strategy. You decide the search terms you want to be found for, and figure out what words your audience uses to find you. Great keyword research tells you what content you need to start ranking for the terms you want to rank for. Make sure your efforts go into the keywords you actually have a chance at ranking for! The %1$s walks you through this process, step by step.', 'wordpress-seo' ),
+				'Keyword research training'
 			),
 			array(
-				'label' => 'Basic SEO training',
+				'label' => 'Keyword research training',
 				'type'  => 'link',
-				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/2up' ),
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/3lg' ),
 			),
 			array(
-				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/2v0' ),
+				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/3lf' ),
 				'title' => sprintf(
-					/* translators: %1$s expands to Basic SEO training. */
+					/* translators: %1$s expands to Keyword research training. */
 					__( '%1$s video', 'wordpress-seo' ),
-					'Basic SEO training'
+					'Keyword research training'
 				),
 			)
 		);
@@ -85,7 +80,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 			array(
 				'label' => 'Yoast SEO plugin training',
 				'type'  => 'link',
-				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-plugin-course' ),
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-plugin-course' ),
 			),
 			array(
 				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-plugin-course' ),
@@ -132,7 +127,7 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 	}
 
 	/**
-	 * Save data
+	 * Save data.
 	 *
 	 * @param array $data Data containing changes.
 	 *

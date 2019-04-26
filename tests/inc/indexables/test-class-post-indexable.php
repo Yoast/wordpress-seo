@@ -35,7 +35,7 @@ class WPSEO_Post_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the creation of an invalid Post Indexable object.
 	 *
-	 * @covers WPSEO_Post_Indexable::from_object()
+	 * @covers            WPSEO_Post_Indexable::from_object()
 	 * @expectedException WPSEO_Invalid_Argument_Exception
 	 */
 	public function test_from_object_invalid_post() {

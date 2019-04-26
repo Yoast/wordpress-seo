@@ -9,7 +9,6 @@
  * Unit Test Class.
  */
 class WPSEO_FAQ_Block_Test extends WPSEO_UnitTestCase {
-
 	/**
 	 * Tests the FAQ structured data object format that is output by get_json_ld.
 	 *
@@ -33,9 +32,9 @@ class WPSEO_FAQ_Block_Test extends WPSEO_UnitTestCase {
 		);
 
 		$expected = array(
-			'@context'   => 'https://schema.org',
-			'@type'      => 'FAQPage',
-			'mainEntity' => array(
+			'@type'            => 'FAQPage',
+			'mainEntityOfPage' => array( '@id' => '#webpage' ),
+			'mainEntity'       => array(
 				array(
 					'@type'          => 'Question',
 					'name'           => 'What to do?',

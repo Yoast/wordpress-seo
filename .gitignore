@@ -23,6 +23,7 @@ bower_components/
 premium/node_modules/
 phpcs.xml
 .phpcs.xml
+phpunit.xml
 
 ############
 ## OSes
@@ -84,3 +85,9 @@ test.sh
 /js/vendor/*
 /css/dist/*
 !/css/dist/select2
+
+##############
+# JS Mono Repo
+##############
+/javascript/
+.yoast

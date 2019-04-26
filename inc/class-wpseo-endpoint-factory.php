@@ -6,12 +6,14 @@
  */
 
 /**
- * Class WPSEO_Endpoint_Factory
+ * Class WPSEO_Endpoint_Factory.
  */
 class WPSEO_Endpoint_Factory {
 
 	/**
-	 * @var array The valid HTTP methods.
+	 * The valid HTTP methods.
+	 *
+	 * @var array
 	 */
 	private $valid_http_methods = array(
 		'GET',
@@ -22,32 +24,44 @@ class WPSEO_Endpoint_Factory {
 	);
 
 	/**
-	 * @var array The arguments.
+	 * The arguments.
+	 *
+	 * @var array
 	 */
 	protected $args = array();
 
 	/**
-	 * @var string The namespace.
+	 * The namespace.
+	 *
+	 * @var string
 	 */
 	private $namespace;
 
 	/**
-	 * @var string The endpoint URL.
+	 * The endpoint URL.
+	 *
+	 * @var string
 	 */
 	private $endpoint;
 
 	/**
-	 * @var callable The callback to execute if the endpoint is called.
+	 * The callback to execute if the endpoint is called.
+	 *
+	 * @var callable
 	 */
 	private $callback;
 
 	/**
-	 * @var callable The permission callback to execute to determine permissions.
+	 * The permission callback to execute to determine permissions.
+	 *
+	 * @var callable
 	 */
 	private $permission_callback;
 
 	/**
-	 * @var string The HTTP method to use.
+	 * The HTTP method to use.
+	 *
+	 * @var string
 	 */
 	private $method;
 

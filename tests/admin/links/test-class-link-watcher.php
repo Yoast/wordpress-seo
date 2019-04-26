@@ -39,7 +39,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the is processable
+	 * Test whether a post revision is correctly recognized as processable.
 	 */
 	public function test_is_processable_post_revision() {
 
@@ -148,7 +148,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test with a post with content..
+	 * Test with a post with content.
 	 */
 	public function test_is_processable_with_content() {
 

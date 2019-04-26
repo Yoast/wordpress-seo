@@ -281,7 +281,7 @@ export default class FAQ extends Component {
 			<IconButton
 				icon="insert"
 				onClick={ this.onAddQuestionButtonClick }
-				className="editor-inserter__toggle schema-faq-add-question"
+				className="schema-faq-add-question"
 			>
 				{ __( "Add question", "wordpress-seo" ) }
 			</IconButton>

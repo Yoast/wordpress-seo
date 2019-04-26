@@ -48,7 +48,8 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	/**
 	 * Constructor.
 	 *
-	 * @param string $name         The name of the section, used as an identifier in the html. Can only contain URL safe characters.
+	 * @param string $name         The name of the section, used as an identifier in the html.
+	 *                             Can only contain URL safe characters.
 	 * @param string $link_content The text content of the section link.
 	 * @param string $content      Optional. Content to use above the React root element.
 	 * @param array  $options      Optional link attributes.

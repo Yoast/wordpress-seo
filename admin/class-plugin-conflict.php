@@ -106,7 +106,7 @@ class WPSEO_Plugin_Conflict extends Yoast_Plugin_Conflict {
 	);
 
 	/**
-	 * Overrides instance to set with this class as class
+	 * Overrides instance to set with this class as class.
 	 *
 	 * @param string $class_name Optional class name.
 	 *

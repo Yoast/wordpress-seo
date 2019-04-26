@@ -11,6 +11,8 @@
 class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Meta_Columns_Double
 	 */
 	private static $class_instance;
@@ -25,7 +27,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test setup
+	 * Test setup.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -299,7 +301,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests that column_hidden returns the columns to hide so that WordPress hides them
+	 * Tests that column_hidden returns the columns to hide so that WordPress hides them.
 	 *
 	 * @covers WPSEO_Meta_Columns::column_hidden()
 	 */
@@ -319,7 +321,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests that column_hidden returns the value WordPress has saved in the database
+	 * Tests that column_hidden returns the value WordPress has saved in the database.
 	 *
 	 * This is so the user can still set the columns they want to hide.
 	 *
@@ -341,7 +343,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests if column_hidden can deal with non array values returned from WordPress
+	 * Tests if column_hidden can deal with non array values returned from WordPress.
 	 *
 	 * @covers WPSEO_Meta_Columns::column_hidden()
 	 */
@@ -383,7 +385,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @param array  $expected The resulting SEO score filter.
 	 *
 	 * @dataProvider determine_seo_filters_dataprovider
-	 * @covers WPSEO_Meta_Columns::determine_seo_filters()
+	 * @covers       WPSEO_Meta_Columns::determine_seo_filters()
 	 */
 	public function test_determine_seo_filters( $filter, $expected ) {
 		$result = self::$class_instance->determine_seo_filters( $filter );
@@ -396,7 +398,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @param array  $expected The Readability score filter.
 	 *
 	 * @dataProvider determine_readability_filters_dataprovider
-	 * @covers WPSEO_Meta_Columns::determine_readability_filters()
+	 * @covers       WPSEO_Meta_Columns::determine_readability_filters()
 	 */
 	public function test_determine_readability_filters( $filter, $expected ) {
 		$result = self::$class_instance->determine_readability_filters( $filter );
@@ -410,7 +412,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @param array $expected Array containing the complete filter query.
 	 *
 	 * @dataProvider build_filter_query_dataprovider
-	 * @covers WPSEO_Meta_Columns::build_filter_query()
+	 * @covers       WPSEO_Meta_Columns::build_filter_query()
 	 */
 	public function test_build_filter_query( $vars, $filters, $expected ) {
 		$result = self::$class_instance->build_filter_query( $vars, $filters );

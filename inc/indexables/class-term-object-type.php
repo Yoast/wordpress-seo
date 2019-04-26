@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Term_Object_Type
+ * Class WPSEO_Term_Object_Type.
  */
 class WPSEO_Term_Object_Type extends WPSEO_Object_Type {
 

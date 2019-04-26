@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Configuration_Storage_Mock
+ * Class WPSEO_Configuration_Storage_Mock.
  */
 class WPSEO_Configuration_Storage_Mock extends WPSEO_Configuration_Storage {
 

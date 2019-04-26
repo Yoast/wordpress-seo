@@ -192,9 +192,9 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	/**
 	 * Filter over the meta boxes to save, this function adds the Social meta boxes.
 	 *
-	 * @param   array $field_defs Array of metaboxes to save.
+	 * @param array $field_defs Array of metaboxes to save.
 	 *
-	 * @return  array
+	 * @return array
 	 */
 	public function save_meta_boxes( $field_defs ) {
 		if ( ! isset( $_POST['yoast_free_metabox_social_nonce'] ) || ! wp_verify_nonce( $_POST['yoast_free_metabox_social_nonce'], 'yoast_free_metabox_social' ) ) {
