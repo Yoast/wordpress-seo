@@ -355,7 +355,7 @@ class WPSEO_Sitemaps_Renderer {
 	}
 
 	/**
-	 * Adds debugging information to the output
+	 * Adds debugging information to the output.
 	 *
 	 * @param bool $transient Transient cache was used or not.
 	 *
@@ -367,8 +367,8 @@ class WPSEO_Sitemaps_Renderer {
 			return '';
 		}
 
-		$memory_used = number_format( memory_get_peak_usage() / 1048576, 2 );
-		$queries_run = $transient ? 'Served from transient cache' : 'Queries executed ' . absint( $GLOBALS['wpdb']->num_queries );
+		$memory_used = number_format( ( memory_get_peak_usage() / 1048576 ), 2 );
+		$queries_run = ( $transient ) ? 'Served from transient cache' : 'Queries executed ' . absint( $GLOBALS['wpdb']->num_queries );
 
 		$output = "\n<!-- {$memory_used}MB | {$queries_run} -->";
 
