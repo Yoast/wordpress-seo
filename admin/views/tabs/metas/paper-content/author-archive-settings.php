@@ -35,7 +35,7 @@ $author_archives_help = new WPSEO_Admin_Help_Panel(
 
 $yform->index_switch(
 	'noindex-author-wpseo',
-	__( 'author archives', 'wordpress-seo' ),
+	__( 'Author archives', 'wordpress-seo' ),
 	$author_archives_help->get_button_html() . $author_archives_help->get_panel_html()
 );
 
