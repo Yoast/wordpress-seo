@@ -11,3 +11,4 @@ We follow [Semantic Versioning](http://semver.org/).
 
 
 * Splits out `@yoast/helpers` from `yoast-components`. The helpers package contains helper functions required for multiple other `@yoast` packages.
+* Improved handling of the `rel` attribute for links that open in a new browser's tab.
