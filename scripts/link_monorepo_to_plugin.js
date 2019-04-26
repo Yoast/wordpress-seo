@@ -49,7 +49,10 @@ function isValidMonorepoLocation( location ) {
 	}
 
 	try {
-		return execSync( `cd ${ location }; git config --get remote.origin.url;` ).includes( "Yoast/javascript" );
+		return execSync( `cd ${ location }; git config --get remote.origin.url;` )
+			.toString()
+			.toLowerCase()
+			.includes( "yoast/javascript" );
 	} catch ( e ) {
 		return false;
 	}
