@@ -109,7 +109,7 @@ class WPSEO_Help_Center {
 
 		if ( $is_premium === false ) {
 			$formatted_data['videoDescriptions'][] = array(
-				'title'       => __( 'Need some help?', 'wordpress-seo' ),
+				'title'       => __( 'Need help?', 'wordpress-seo' ),
 				'description' => __( 'Go Premium and our experts will be there for you to answer any questions you might have about the setup and use of the plugin.', 'wordpress-seo' ),
 				'link'        => WPSEO_Shortlinker::get( 'https://yoa.st/seo-premium-vt' ),
 				'linkText'    => __( 'Get Yoast SEO Premium now »', 'wordpress-seo' ),
