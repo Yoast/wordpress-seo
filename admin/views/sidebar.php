@@ -29,8 +29,8 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 				<li><strong><?php esc_html_e( 'Preview your page in Facebook and Twitter', 'wordpress-seo' ); ?></strong></li>
 				<li><strong><?php esc_html_e( 'Get real-time suggestions for internal links', 'wordpress-seo' ); ?></strong></li>
 				<li><strong><?php esc_html_e( 'No more dead links a.k.a. 404 pages', 'wordpress-seo' ); ?></strong></li>
-				<li><strong><?php esc_html_e( '24/7 email support', 'wordpress-seo' ); ?></strong></li>
-				<li><strong><?php esc_html_e( 'No ads', 'wordpress-seo' ); ?></strong></li>
+				<li><strong><?php esc_html_e( '24/7 support', 'wordpress-seo' ); ?></strong></li>
+				<li><strong><?php esc_html_e( 'No ads!', 'wordpress-seo' ); ?></strong></li>
 			</ul>
 
 			<a id="wpseo-premium-button" class="yoast-button-upsell" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jj' ); ?>" target="_blank">
