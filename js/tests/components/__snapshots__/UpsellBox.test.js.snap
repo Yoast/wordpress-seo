@@ -138,12 +138,13 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
       aria-labelledby="label-id"
       className="class name"
       href="https://example.org"
+      rel={null}
     >
       <a
         aria-labelledby="label-id"
         className="class name"
         href="https://example.org"
-        rel="noopener noreferrer"
+        rel="noopener"
         target="_blank"
       >
         A button
@@ -153,7 +154,7 @@ exports[`UpsellBox renders the snippet editor inside of it 1`] = `
         />
         <A11yNotice>
           <span
-            className="A11yNotice-u1v0gg-0 dWDZbM"
+            className="A11yNotice-sc-1feyioo-0 gHCoqL"
           >
             (Opens in a new browser tab)
           </span>
