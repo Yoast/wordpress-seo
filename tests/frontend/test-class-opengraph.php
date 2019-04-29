@@ -101,15 +101,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_OpenGraph::add_opengraph_namespace
-	 */
-	public function test_add_opengraph_namespace() {
-		$c        = self::$class_instance;
-		$expected = ' prefix="og: http://ogp.me/ns#"';
-		$this->assertEquals( $c->add_opengraph_namespace( '' ), $expected );
-	}
-
-	/**
 	 * @covers WPSEO_OpenGraph::article_author_facebook
 	 */
 	public function test_article_author_facebook() {
