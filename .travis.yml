@@ -150,6 +150,7 @@ before_script:
     WP_VERSION=$(grep -o '"version":"[^"]*' /tmp/wp-latest.json | sed 's/"version":"//')
   fi
 - PLUGIN_SLUG=$(basename $(pwd))
+- git fetch --tags
 - PLUGIN_TAGS=$(git tag --points-at HEAD)
 - export WP_DEVELOP_DIR=/tmp/wordpress/
 - git clone --depth=1 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
