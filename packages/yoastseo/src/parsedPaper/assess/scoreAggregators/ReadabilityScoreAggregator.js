@@ -1,17 +1,8 @@
+import getLanguage from "../../../helpers/getLanguage";
 import { scoreToRating } from "../../../interpreters";
 
 /* Internal dependencies */
 import ScoreAggregator from "./ScoreAggregator";
-
-/**
- * Total number of available readability assessments.
- *
- * @type {number}
- * @const
- *
- * @memberOf module:parsedPaper/assess
- */
-const TOTAL_NR_OF_ASSESSMENTS = 8;
 
 /**
  * Penalties that can be given on each assessment
@@ -60,31 +51,34 @@ export const READABILITY_SCORES = {
 };
 
 /**
+ * A list of all the languages that have full support in the readability analysis.
+ *
+ * @type {string[]}
+ * @const
+ */
+const FULLY_SUPPORTED_LANGUAGES = [ "en", "nl", "de", "it", "ru", "fr", "es" ];
+
+/**
  * Aggregates the results of the readability analysis into a single score.
  *
  * @memberOf module:parsedPaper/assess
  */
 class ReadabilityScoreAggregator extends ScoreAggregator {
 	/**
-	 * Determines whether a language is fully supported. If a language supports 8 content assessments
-	 * it is fully supported.
+	 * Determines whether a language is fully supported.
 	 *
-	 * @param {AssessmentResult[]} results The list of results.
+	 * @param {string} locale The locale for which the content is written, e.g. `sv-SE` for Sweden.
 	 *
-	 * @returns {boolean} True if fully supported.
+	 * @returns {boolean} `true` if fully supported.
 	 */
-	isFullySupported( results ) {
-		/*
-		 * Apparently, we check whether an assessment is applicable
-		 * as a way to check if it is supported for the current language.
-		 *
-		 * Although we do check whether a language is supported in some readability assessments,
-		 * we also check whether papers have text to analyze among other things.
-		 *
-		 * Since only applicable assessments are applied, we only get the results
-		 * of applicable assessments either way. So this check suffices.
-		 */
-		return results.length === TOTAL_NR_OF_ASSESSMENTS;
+	isFullySupported( locale ) {
+		// Sanity check if this is actually a locale string.
+		if ( locale && locale.includes( "_" ) ) {
+			const language = getLanguage( locale );
+			return FULLY_SUPPORTED_LANGUAGES.includes( language );
+		}
+		// Default to not fully supported.
+		return false;
 	}
 
 	/**
@@ -148,7 +142,7 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 			// Compute the rating ("error", "feedback", "bad", "ok" or "good").
 			const rating = scoreToRating( result.getScore() );
 
-			const penalty = this.isFullySupported( results )
+			const penalty = this.isFullySupported( this.locale )
 				? PENALTY_MAPPING_FULL_SUPPORT[ rating ]
 				: PENALTY_MAPPING_PARTIAL_SUPPORT[ rating ];
 
@@ -170,6 +164,18 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 	}
 
 	/**
+	 * Sets the locale of the content. We are more lenient on languages
+	 * that are fully supported in the analysis.
+	 *
+	 * @param {string} locale The locale of the content.
+	 *
+	 * @returns {void}
+	 */
+	setLocale( locale ) {
+		this.locale = locale;
+	}
+
+	/**
 	 * Aggregates the given assessment results into a single analysis score.
 	 *
 	 * @param {AssessmentResult[]} results The assessment results.
@@ -188,7 +194,7 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 		}
 
 		const penalty = this.calculatePenalty( validResults );
-		const isFullySupported = this.isFullySupported( results );
+		const isFullySupported = this.isFullySupported( this.locale );
 		return this.calculateScore( isFullySupported, penalty );
 	}
 }

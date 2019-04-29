@@ -9,7 +9,7 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Fixed
 * Improved handling of the `rel` attribute for links that open in a new browser's tab.
 
-## 1.0.0: April 4th, 2019
+## 1.0.0 April 29th, 2019
 ### Added
 * Splits out `@yoast/configuration-wizard` from `yoast-components`. The configuration wizard package contains the Yoast SEO configuration wizard.
 * Added focus style to the Configuration Wizard navigation buttons.

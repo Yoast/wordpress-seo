@@ -5,10 +5,11 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.51.0 April 4th, 2019
-## 1.51.0
-###Fixed
-* Parsing comments inside paragraphs and headings does not break the analysis anymore.
+## 1.51.0 April 29th, 2019
+### Added
+* Adds functionality to specify a custom premium-configuration branch to use for tests, locally and on Travis.
+
+### Fixed
 * Adds error handling to the YoastSEO development tool, when building the tree for visualization purposes.
 * Fixes the parsing of paragraphs within headings when using the tree parser. Previously, it crashed the building of the tree.
 

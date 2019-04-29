@@ -9,7 +9,7 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Fixed
 * Improved handling of the `rel` attribute for links that open in a new browser's tab.
 
-## 4.24.0 April 4th, 2019
+## 4.24.0 April 29th, 2019
 * The following packages have been split out from `@yoast/yoast-components`. Please use these packages in the future:
   * `@yoast/algolia-search-box`
   * `@yoast/components`
