@@ -6,9 +6,9 @@ const execSync = require( "child_process" ).execSync;
 const legacyYoastPackages = [ "yoast-components", "yoastseo", "eslint-config-yoast" ];
 
 // Console colors.
-const bright = "\x1b[1m";
-const red = "\x1b[31m";
-const reset = "\x1b[0m";
+const CONSOLE_STYLE_BRIGHT = "\x1b[1m";
+const CONSOLE_STYLE_RED = "\x1b[31m";
+const CONSOLE_STYLE_RESET = "\x1b[0m";
 
 /**
  * Console logs with a bright font.
@@ -19,7 +19,7 @@ const reset = "\x1b[0m";
  */
 function log( message ) {
 	// eslint-disable-next-line no-console
-	console.log( bright + message + reset );
+	console.log( CONSOLE_STYLE_BRIGHT + message + CONSOLE_STYLE_RESET );
 }
 
 /**
@@ -31,7 +31,7 @@ function log( message ) {
  */
 function errorlog( message ) {
 	// eslint-disable-next-line no-console
-	console.log( bright + red + message + reset );
+	console.log( CONSOLE_STYLE_BRIGHT + CONSOLE_STYLE_RED + message + CONSOLE_STYLE_RESET );
 }
 
 /**
@@ -50,7 +50,7 @@ function isYoastPackage( packageName ) {
  *
  * @param {string} version A version number or constraint.
  *
- * @returns {string} An @-prefixed version string
+ * @returns {string} An @-prefixed version string.
  */
 function getVersionString( version = "" ) {
 	return version ? "@" + version : "";
@@ -98,7 +98,7 @@ function addPackagesWithFailsafe( packageNames, version = "", flags = "" ) {
 }
 
 /**
- * Bumps the version all installed Yoast monorepo packages to the specified or latest version
+ * Bumps the version all installed Yoast monorepo packages to the specified or latest version.
  *
  * @param {array} args CLI arguments, the first arg being the version number.
  *
