@@ -57,7 +57,7 @@ class WPSEO_Link_Columns {
 	 */
 	public function register_hooks() {
 		global $pagenow;
-		$is_ajax_request = defined( 'DOING_AJAX' ) && DOING_AJAX;
+		$is_ajax_request = wp_doing_ajax();
 
 		if ( ! WPSEO_Metabox::is_post_overview( $pagenow ) && ! $is_ajax_request ) {
 			return;

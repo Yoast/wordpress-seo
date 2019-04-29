@@ -452,6 +452,7 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => array(
 					'wp-util',
 					'wp-api',
+					'wp-sanitize',
 					'wp-element',
 					'wp-i18n',
 					'wp-data',
@@ -469,6 +470,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'term-scraper',
 				'src'  => 'wp-seo-term-scraper-' . $flat_version,
 				'deps' => array(
+					'wp-sanitize',
 					'wp-element',
 					'wp-i18n',
 					'wp-data',

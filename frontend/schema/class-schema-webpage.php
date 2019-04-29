@@ -69,7 +69,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 		}
 
 		if ( is_singular() ) {
-			$data = $this->add_featured_image( $data );
+			$data = $this->add_image( $data );
 
 			$post                  = get_post( $this->context->id );
 			$data['datePublished'] = mysql2date( DATE_W3C, $post->post_date_gmt, false );
@@ -135,24 +135,66 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Adds a featured image to the schema if there is one.
+	 * Adds a featured image to the schema if there is one, if not falls back to the first image on the page.
 	 *
 	 * @param array $data WebPage Schema.
 	 *
 	 * @return array $data WebPage Schema.
 	 */
-	private function add_featured_image( $data ) {
-		if ( ! has_post_thumbnail( $this->context->id ) ) {
+	private function add_image( $data ) {
+		$image_id = $this->context->canonical . WPSEO_Schema_IDs::PRIMARY_IMAGE_HASH;
+
+		$image_schema = $this->get_featured_image( $this->context->id, $image_id );
+
+		if ( $image_schema === null ) {
+			$image_schema = $this->get_first_content_image( $this->context->id, $image_id );
+		}
+
+		if ( $image_schema === null ) {
 			return $data;
 		}
 
-		$id                         = $this->context->canonical . WPSEO_Schema_IDs::PRIMARY_IMAGE_HASH;
-		$schema_image               = new WPSEO_Schema_Image( $id );
-		$data['image']              = $schema_image->generate_from_attachment_id( get_post_thumbnail_id() );
+		$data['image'] = $image_schema;
 		$data['primaryImageOfPage'] = array(
-			'@id' => $id,
+			'@id' => $image_id,
 		);
 
 		return $data;
+	}
+
+	/**
+	 * Gets the image schema for the web page based on the featured image.
+	 *
+	 * @param int    $post_id  The post id.
+	 * @param string $image_id The image schema id.
+	 *
+	 * @return array|null The image schema object and null if there is no featured image.
+	 */
+	private function get_featured_image( $post_id, $image_id ) {
+		if ( ! has_post_thumbnail( $post_id ) ) {
+			return null;
+		}
+
+		$schema_image = new WPSEO_Schema_Image( $image_id );
+		return $schema_image->generate_from_attachment_id( get_post_thumbnail_id() );
+	}
+
+	/**
+	 * Gets the image schema for the web page based on the first content image image.
+	 *
+	 * @param int    $post_id  The post id.
+	 * @param string $image_id The image schema id.
+	 *
+	 * @return array|null The image schema object and null if there is no image in the content.
+	 */
+	private function get_first_content_image( $post_id, $image_id ) {
+		$image_url = WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
+
+		if ( $image_url === null ) {
+			return null;
+		}
+
+		$schema_image = new WPSEO_Schema_Image( $image_id );
+		return $schema_image->generate_from_url( $image_url );
 	}
 }

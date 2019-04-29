@@ -358,4 +358,29 @@ class WPSEO_Image_Utils {
 
 		return true;
 	}
+
+	/**
+	 * Gets the post's first usable content image. Null if none is available.
+	 *
+	 * @param int $post_id The post id.
+	 *
+	 * @return string|null The image URL.
+	 */
+	public static function get_first_usable_content_image_for_post( $post_id = null ) {
+		$post = get_post( $post_id );
+
+		$image_finder = new WPSEO_Content_Images();
+		$images       = $image_finder->get_images( $post->ID, $post );
+
+		if ( ! is_array( $images ) || empty( $images ) ) {
+			return null;
+		}
+
+		$image_url = reset( $images );
+		if ( ! $image_url ) {
+			return null;
+		}
+
+		return $image_url;
+	}
 }

@@ -630,15 +630,9 @@ class WPSEO_Twitter {
 	 * @return bool True when images output succeeded.
 	 */
 	private function image_from_content_output( $post_id ) {
-		$image_finder = new WPSEO_Content_Images();
-		$images       = $image_finder->get_images( $post_id );
+		$image_url = WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
 
-		if ( ! is_array( $images ) || $images === array() ) {
-			return false;
-		}
-
-		$image_url = reset( $images );
-		if ( ! $image_url ) {
+		if ( $image_url === null || empty( $image_url ) ) {
 			return false;
 		}
 

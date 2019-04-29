@@ -367,7 +367,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the flatten_version function.
 	 *
-	 * @covers WPSEO_Admin_Asset_Manager::flatten_version
+	 * @covers       WPSEO_Admin_Asset_Manager::flatten_version
 	 * @dataProvider flatten_version_provider
 	 *
 	 * @param string $original Version number.

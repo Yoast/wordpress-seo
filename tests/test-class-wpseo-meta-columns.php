@@ -385,7 +385,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @param array  $expected The resulting SEO score filter.
 	 *
 	 * @dataProvider determine_seo_filters_dataprovider
-	 * @covers WPSEO_Meta_Columns::determine_seo_filters()
+	 * @covers       WPSEO_Meta_Columns::determine_seo_filters()
 	 */
 	public function test_determine_seo_filters( $filter, $expected ) {
 		$result = self::$class_instance->determine_seo_filters( $filter );
@@ -398,7 +398,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @param array  $expected The Readability score filter.
 	 *
 	 * @dataProvider determine_readability_filters_dataprovider
-	 * @covers WPSEO_Meta_Columns::determine_readability_filters()
+	 * @covers       WPSEO_Meta_Columns::determine_readability_filters()
 	 */
 	public function test_determine_readability_filters( $filter, $expected ) {
 		$result = self::$class_instance->determine_readability_filters( $filter );
@@ -412,7 +412,7 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	 * @param array $expected Array containing the complete filter query.
 	 *
 	 * @dataProvider build_filter_query_dataprovider
-	 * @covers WPSEO_Meta_Columns::build_filter_query()
+	 * @covers       WPSEO_Meta_Columns::build_filter_query()
 	 */
 	public function test_build_filter_query( $vars, $filters, $expected ) {
 		$result = self::$class_instance->build_filter_query( $vars, $filters );

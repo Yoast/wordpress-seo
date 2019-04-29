@@ -33,11 +33,13 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 </script>
 
 <script type="text/html" id="tmpl-primary-term-screen-reader">
-	<span class="screen-reader-text wpseo-primary-category-label"><?php
-		printf(
-			/* translators: %s is the taxonomy title. This will be shown to screenreaders */
-			'(' . esc_html__( 'Primary %s', 'wordpress-seo' ) . ')',
-			'{{data.taxonomy.title}}'
-		);
-		?></span>
+	<?php
+	/* translators: %s is the taxonomy title. This will be shown to screenreaders */
+	$yoast_free_js_taxonomy_title = __( 'Primary %s', 'wordpress-seo' );
+	$yoast_free_js_taxonomy_title = sprintf(
+		'(' . $yoast_free_js_taxonomy_title . ')',
+		'{{data.taxonomy.title}}'
+	);
+	?>
+	<span class="screen-reader-text wpseo-primary-category-label"><?php echo esc_html( $yoast_free_js_taxonomy_title ); ?></span>
 </script>
