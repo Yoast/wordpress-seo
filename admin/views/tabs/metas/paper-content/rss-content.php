@@ -34,7 +34,7 @@ echo $rss_variables_help->get_panel_html();
 	<tbody>
 	<tr>
 		<td class="yoast-variable-name">%%AUTHORLINK%%</td>
-		<td class="yoast-variable-desc"><?php esc_html_e( 'A link to the archive for the post author, with the authors name as anchor text.', 'wordpress-seo' ); ?></td>
+		<td class="yoast-variable-desc"><?php esc_html_e( 'A link to the post author archive, with the authors name as anchor text.', 'wordpress-seo' ); ?></td>
 	</tr>
 	<tr>
 		<td class="yoast-variable-name">%%POSTLINK%%</td>
@@ -42,11 +42,11 @@ echo $rss_variables_help->get_panel_html();
 	</tr>
 	<tr>
 		<td class="yoast-variable-name">%%BLOGLINK%%</td>
-		<td class="yoast-variable-desc"><?php esc_html_e( "A link to your site, with your site's name as anchor text.", 'wordpress-seo' ); ?></td>
+		<td class="yoast-variable-desc"><?php esc_html_e( 'A link to the site, with the site name as anchor text.', 'wordpress-seo' ); ?></td>
 	</tr>
 	<tr>
 		<td class="yoast-variable-name">%%BLOGDESCLINK%%</td>
-		<td class="yoast-variable-desc"><?php esc_html_e( "A link to your site, with your site's name and description as anchor text.", 'wordpress-seo' ); ?></td>
+		<td class="yoast-variable-desc"><?php esc_html_e( 'A link to the site, with the site name and description as anchor text.', 'wordpress-seo' ); ?></td>
 	</tr>
 	</tbody>
 </table>
