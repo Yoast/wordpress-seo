@@ -1,5 +1,5 @@
 import en from "../../premium-configuration/data/morphologyData.json";
-import de from "../../premium-configuration/data/morphologyData-de.json";
+import de from "../../premium-configuration/data/morphologyData-de-v2.json";
 
 
 const morphologyData = {
