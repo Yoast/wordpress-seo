@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests\UnitTests\Config;
+namespace Yoast\Tests\Config;
 
 use Yoast\WP\Free\Config\Admin;
 
@@ -9,7 +9,7 @@ use Yoast\WP\Free\Config\Admin;
  *
  * @package Yoast\Tests\Config
  */
-class Admin_Test extends \PHPUnit_Framework_TestCase {
+class Admin_Test extends \Yoast\Tests\TestCase {
 
 	/**
 	 * Tests if the class is based upon the Integration interface.

@@ -125,6 +125,7 @@ install:
   if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then
     composer remove humbug/php-scoper --dev --ignore-platform-reqs
     composer require phpunit/phpunit ^5.7 --ignore-platform-reqs
+    composer require phpunit/phpcov --ignore-platform-reqs
   fi
 - |
   if [[ "$PHPCS" == "1" ]]; then
@@ -231,6 +232,12 @@ script:
 # PHP Unit
 - |
   if [[ "$PHPUNIT" == "1" ]]; then
+    travis_fold start "PHP.integration-tests" && travis_time_start
+    $PHPUNIT_BIN -c phpunit-integration.xml.dist
+    travis_time_finish && travis_fold end "PHP.integration-tests"
+  fi;
+- |
+  if [[ "$PHPUNIT" == "1" && $TRAVIS_PHP_VERSION != "5.2" ]]; then
     travis_fold start "PHP.tests" && travis_time_start
     $PHPUNIT_BIN
     travis_time_finish && travis_fold end "PHP.tests"
@@ -240,7 +247,9 @@ script:
 - |
   if [[ "$COVERAGE" == "1" ]]; then
     travis_fold start "PHP.coverage" && travis_time_start
-    $PHPUNIT_BIN --coverage-clover build/logs/clover.xml
+    $PHPUNIT_BIN -c phpunit-integration.xml.dist --coverage-php /tmp/coverage/integration-tests.cov
+    $PHPUNIT_BIN --coverage-php /tmp/coverage/tests.cov
+    ./vendor/bin/phpcov merge /tmp/coverage --clover build/logs/clover.xml
     travis_time_finish && travis_fold end "PHP.coverage"
   fi
 # Validate the composer.json file.

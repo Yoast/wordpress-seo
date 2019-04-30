@@ -5,18 +5,20 @@
  * @package Yoast\Tests\Oauth
  */
 
-namespace Yoast\Tests\UnitTests\Oauth;
+namespace Yoast\Tests\Oauth;
 
 use Yoast\WP\Free\Oauth\Client;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
+
+Use Brain\Monkey;
 
 /**
  * Class Oauth_Test.
  *
  * @group oauth
  */
-class Oauth_Client_Test extends \PHPUnit_Framework_TestCase {
+class Oauth_Client_Test extends \Yoast\Tests\TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -32,7 +34,6 @@ class Oauth_Client_Test extends \PHPUnit_Framework_TestCase {
 	 */
 	public function setUp() {
 		parent::setUp();
-
 		$this->class_instance = new Client();
 	}
 
@@ -42,9 +43,8 @@ class Oauth_Client_Test extends \PHPUnit_Framework_TestCase {
 	 * @return void
 	 */
 	public function tearDown() {
-		parent::tearDown();
-
 		$this->class_instance->clear_configuration();
+		parent::tearDown();
 	}
 
 	/**

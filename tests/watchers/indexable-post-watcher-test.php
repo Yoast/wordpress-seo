@@ -1,10 +1,11 @@
 <?php
 
-namespace Yoast\Tests\UnitTests\Watchers;
+namespace Yoast\Tests\Watchers;
 
-use Yoast\WP\Free\Config\Database_Migration;
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
+
+use Brain\Monkey;
 
 /**
  * Class Indexable_Post_Test.
@@ -14,15 +15,13 @@ use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
  *
  * @package Yoast\Tests\Watchers
  */
-class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
+class Indexable_Post_Watcher_Test extends \Yoast\Tests\TestCase {
 
 	/**
 	 * Sets up the environment for each test.
 	 */
 	public function setUp() {
 		parent::setUp();
-
-		\delete_transient( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY );
 	}
 
 	/**
@@ -183,6 +182,15 @@ class Indexable_Post_Watcher_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta()
 	 */
 	public function test_save_meta_exception() {
+		Monkey\Functions\expect( 'wp_is_post_revision' )
+			->once()
+			->with( -1 )
+			->andReturn( false );
+		Monkey\Functions\expect( 'wp_is_post_autosave' )
+			->once()
+			->with( -1 )
+			->andReturn( false );
+
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
 			->setMethods( array( 'get_indexable' ) )

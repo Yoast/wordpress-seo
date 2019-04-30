@@ -1,10 +1,9 @@
 <?php
 
-namespace Yoast\Tests\UnitTests\Exceptions;
+namespace Yoast\Tests\Exceptions;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
 
 /**
  * Class Indexable_Author_Test.
@@ -14,7 +13,7 @@ use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
  *
  * @package Yoast\Tests\Exceptions
  */
-class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
+class No_Indexable_Found_Test extends \Yoast\Tests\TestCase {
 
 	/**
 	 * Sets up the test fixtures for each test.

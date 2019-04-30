@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests\UnitTests\Config;
+namespace Yoast\Tests\Config;
 
 use Yoast\WP\Free\Config\Frontend;
 
@@ -9,7 +9,7 @@ use Yoast\WP\Free\Config\Frontend;
  *
  * @package Yoast\Tests\Config
  */
-class Frontend_Test extends \PHPUnit_Framework_TestCase {
+class Frontend_Test extends \Yoast\Tests\TestCase {
 
 	/**
 	 * Tests if the class is based upon the Integration interface.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests\UnitTests\WordPress;
+namespace Yoast\Tests\WordPress;
 
 use Yoast\WP\Free\WordPress\Integration_Group;
 
@@ -11,7 +11,7 @@ use Yoast\WP\Free\WordPress\Integration_Group;
  *
  * @package Yoast\Tests
  */
-class Integration_Group_Test extends \PHPUnit_Framework_TestCase {
+class Integration_Group_Test extends \Yoast\Tests\TestCase {
 
 	/**
 	 * Tests the addition of an integration.

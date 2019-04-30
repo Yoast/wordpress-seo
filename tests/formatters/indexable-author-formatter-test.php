@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests\UnitTests\Formatters;
+namespace Yoast\Tests\Formatters;
 
 use Yoast\Tests\Doubles\Indexable_Author_Formatter_Double;
 
@@ -12,7 +12,7 @@ use Yoast\Tests\Doubles\Indexable_Author_Formatter_Double;
  *
  * @package Yoast\Tests\Formatters
  */
-class Indexable_Author_Formatter_Test extends \PHPUnit_Framework_TestCase {
+class Indexable_Author_Formatter_Test extends \Yoast\Tests\TestCase {
 
 	/**
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Author_Formatter::format

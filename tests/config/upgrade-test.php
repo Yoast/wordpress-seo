@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\Tests\UnitTests\Config;
+namespace Yoast\Tests\Config;
 
 /**
  * Class Upgrade_Test.
  *
- * @package Yoast\Tests\UnitTests\Config
+ * @package Yoast\Tests\Config
  */
-class Upgrade_Test extends \PHPUnit_Framework_TestCase {
+class Upgrade_Test extends \Yoast\Tests\TestCase {
 
 	public function test_do_upgrade() {
 		$migration = $this

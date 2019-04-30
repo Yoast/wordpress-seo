@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests\UnitTests\Config;
+namespace Yoast\Tests\Config;
 
 use Yoast\Tests\Doubles\Plugin as Plugin_Double;
 use Yoast\WP\Free\Config\Database_Migration;
@@ -14,7 +14,7 @@ use Yoast\WP\Free\WordPress\Integration_Group;
  *
  * @package Yoast\Tests\Config
  */
-class Plugin_Test extends \PHPUnit_Framework_TestCase {
+class Plugin_Test extends \Yoast\Tests\TestCase {
 
 	/**
 	 * Tests if the class is based upon the Integration interface.

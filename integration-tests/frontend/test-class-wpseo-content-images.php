@@ -21,7 +21,7 @@ class WPSEO_Content_Images_Test extends WPSEO_UnitTestCase {
 		$class_instance = new WPSEO_Content_Images_Double();
 
 		$external_image       = 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg';
-		$non_attachment_image = get_home_url() . '/wp-content/plugins/wordpress-seo/tests/assets/yoast.png';
+		$non_attachment_image = get_home_url() . '/wp-content/plugins/wordpress-seo/integration-tests/assets/yoast.png';
 
 		// Create the post content.
 		$post_content = '<p>This is a post. It has several images:</p>

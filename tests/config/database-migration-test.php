@@ -1,10 +1,12 @@
 <?php
 
-namespace Yoast\Tests\UnitTests\Config;
+namespace Yoast\Tests\Config;
 
 use Yoast\Tests\Doubles\Database_Migration;
 use Yoast\Tests\Doubles\Database_Migration as Database_Migration_Double;
 use Yoast\WP\Free\Config\Dependency_Management;
+
+use Brain\Monkey;
 
 /**
  * Class Database_Migration_Test.
@@ -13,12 +15,25 @@ use Yoast\WP\Free\Config\Dependency_Management;
  *
  * @package Yoast\Tests
  */
-class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
+class Database_Migration_Test extends \Yoast\Tests\TestCase {
+
+	public function setUp() {
+		parent::setUp();
+
+		global $wpdb;
+		$wpdb = $this->createMock( '\stdClass' );
+		$wpdb->prefix = 'test';
+	}
 
 	/**
 	 * Tests the initializing with the defining of constants fails.
 	 */
 	public function test_initialize_with_set_defines_failing() {
+		Monkey\Functions\expect( 'set_transient' )
+			->once()
+			->with( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY, Database_Migration::MIGRATION_STATE_ERROR, DAY_IN_SECONDS )
+			->andReturn( true );
+
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
 			->setConstructorArgs( array( null, new Dependency_Management() ) )
@@ -71,6 +86,11 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	 * Tests the initializing when everything goes as planned.
 	 */
 	public function test_migration_success() {
+		Monkey\Functions\expect( 'delete_transient' )
+			->once()
+			->with( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY )
+			->andReturn( true );
+
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
 			->setConstructorArgs( array( null, new Dependency_Management() ) )

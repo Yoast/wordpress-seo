@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests\UnitTests\Config;
+namespace Yoast\Tests\Config;
 
 use Yoast\WP\Free\Config\Dependency_Management;
 
@@ -11,7 +11,7 @@ use Yoast\WP\Free\Config\Dependency_Management;
  *
  * @package Yoast\Tests
  */
-class Dependency_Management_Test extends \PHPUnit_Framework_TestCase {
+class Dependency_Management_Test extends \Yoast\Tests\TestCase {
 
 	/**
 	 * Tests if the alias is created with ideal conditions.

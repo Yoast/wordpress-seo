@@ -1,9 +1,10 @@
 <?php
 
-namespace Yoast\Tests\UnitTests\Formatters;
+namespace Yoast\Tests\Formatters;
 
 use Yoast\Tests\Doubles\Indexable_Post_Formatter_Double as Indexable_Post_Double;
 
+use Brain\Monkey;
 
 /**
  * Class Indexable_Post_Test.
@@ -13,7 +14,7 @@ use Yoast\Tests\Doubles\Indexable_Post_Formatter_Double as Indexable_Post_Double
  *
  * @package Yoast\Tests\Watchers
  */
-class Indexable_Post_Formatter_Test extends \PHPUnit_Framework_TestCase {
+class Indexable_Post_Formatter_Test extends \Yoast\Tests\TestCase {
 
 	/**
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::format
@@ -102,6 +103,19 @@ class Indexable_Post_Formatter_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_meta_value()
 	 */
 	public function test_get_meta_value() {
+		Monkey\Functions\expect( 'update_post_meta' )
+			->once()
+			->with( 1, \WPSEO_Meta::$meta_prefix . 'a', 'b' )
+			->andReturn( true );
+		Monkey\Functions\expect( 'get_post_custom' )
+			->once()
+			->with( 1 )
+			->andReturn( [ \WPSEO_Meta::$meta_prefix . 'a' => 'b' ] );
+		Monkey\Functions\expect( 'maybe_unserialize' )
+			->once()
+			->with( 'b' )
+			->andReturn( 'b' );
+
 		$instance = new Indexable_Post_Double( 1 );
 
 		\WPSEO_Meta::set_value( 'a', 'b', 1 );
