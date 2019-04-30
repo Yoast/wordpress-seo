@@ -125,7 +125,7 @@ install:
   if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then
     composer remove humbug/php-scoper --dev --ignore-platform-reqs
     composer require phpunit/phpunit ^5.7 --ignore-platform-reqs
-    composer require phpunit/phpcov --ignore-platform-reqs
+    composer require phpunit/phpcov ^3.1 --ignore-platform-reqs
   fi
 - |
   if [[ "$PHPCS" == "1" ]]; then
