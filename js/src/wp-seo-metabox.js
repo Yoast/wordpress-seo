@@ -1,7 +1,7 @@
 /* Browser:true */
 /* global wpseoSelect2Locale, wpseoFeaturesL10n */
 
-import { enableFeatures } from "@yoast/feature-toggle";
+import { enableFeatures } from "@yoast/feature-flag";
 
 ( function( $ ) {
 	/**
@@ -10,7 +10,7 @@ import { enableFeatures } from "@yoast/feature-toggle";
 	 * @returns {void}
 	 */
 	function wpseoInitTabs() {
-		// Enable features using the feature-toggle package.
+		// Enable features using the feature-flag package.
 		enableFeatures( wpseoFeaturesL10n );
 
 		// When there's only one add-on tab, change its link to a span element.
