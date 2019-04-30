@@ -674,7 +674,7 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_111() {
 		// Set company_or_person to company when it's an invalid value.
-		$company_or_person = WPSEO_Options::get( 'wpseo_titles', '' );
+		$company_or_person = WPSEO_Options::get( 'company_or_person', '' );
 
 		if ( ! in_array( $company_or_person, array( 'company', 'person' ), true ) ) {
 			WPSEO_Options::set( 'company_or_person', 'company' );
