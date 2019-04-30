@@ -74,6 +74,8 @@ test.sh
 /gettext.pot
 /.wordpress-svn
 /webpack-stats.json
+# Legacy, can be removed in the future.
+.recalibration.yaml
 
 ############
 # Dist files
