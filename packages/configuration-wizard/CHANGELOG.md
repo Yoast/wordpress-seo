@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
 ## 1.1.0
+### Added
+* Adds focus style to the Configuration Wizard navigation buttons
+
 ### Fixed
 * Improved handling of the `rel` attribute for links that open in a new browser's tab.
 

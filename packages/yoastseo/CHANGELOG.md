@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.52.0
+### Fixed
+* Improves keyphrase recognition for additional irregular verbs in German (e.g., `brennen`, `senden`, `kennen`).
+
 ## 1.51.0 April 29th, 2019
 ### Added
 * Adds functionality to specify a custom premium-configuration branch to use for tests, locally and on Travis.
