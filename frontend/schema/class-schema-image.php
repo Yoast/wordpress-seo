@@ -146,6 +146,9 @@ class WPSEO_Schema_Image {
 	 */
 	private function add_image_size() {
 		$image_meta           = wp_get_attachment_metadata( $this->attachment_id );
+		if ( empty( $image_meta['width'] ) || empty( $image_meta['height'] ) ) {
+			return;
+		}
 		$this->data['width']  = $image_meta['width'];
 		$this->data['height'] = $image_meta['height'];
 	}
