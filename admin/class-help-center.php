@@ -210,7 +210,7 @@ class WPSEO_Help_Center {
 			'',
 			''
 		) . '</li>';
-		$popup_content .= '<li>' . __( 'Superfast internal links suggestions', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li>' . __( 'Superfast internal linking suggestions', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '<li>' . sprintf(
 			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
