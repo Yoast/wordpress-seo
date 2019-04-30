@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
 Requires at least: 4.9
 Tested up to: 5.1.1
-Stable tag: 11.0
+Stable tag: 11.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -112,7 +112,7 @@ Release Date: April 30th, 2019
 Enhancements:
 
 * Improves how we generate the image parts for the Schema output. [Read more about the ImageObject output](https://yoa.st/image-schema).
-* Adds 'filesize' to whitelisted properties on '$image'. Props to [cmmarslender](https://github.com/cmmarslender).
+* Adds `filesize` to whitelisted properties on `$image`. Props to [cmmarslender](https://github.com/cmmarslender).
 * Optimizes the code to avoid an unnecessary DB query to remove notifications storage when it's already empty. Props to [rmc47](https://github.com/rmc47).
 * Improves the breadcrumbs accessibility by adding `aria-current` to the active item.
 
