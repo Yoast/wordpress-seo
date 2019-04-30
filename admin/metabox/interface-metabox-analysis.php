@@ -6,7 +6,7 @@
  */
 
 /**
- * Describes an interface for an analysis that can either be enabled or disabled
+ * Describes an interface for an analysis that can either be enabled or disabled.
  */
 interface WPSEO_Metabox_Analysis {
 

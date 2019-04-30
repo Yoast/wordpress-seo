@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Company_Or_Person
+ * Class WPSEO_Config_Field_Company_Or_Person.
  */
 class WPSEO_Config_Field_Company_Or_Person extends WPSEO_Config_Field_Choice {
 

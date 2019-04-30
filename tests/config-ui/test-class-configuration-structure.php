@@ -6,15 +6,19 @@
  */
 
 /**
- * Class WPSEO_Configuration_Structure_Test
+ * Class WPSEO_Configuration_Structure_Test.
  */
 class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 
-	/** @var WPSEO_Configuration_Service_Mock Mock holder */
+	/**
+	 * Mock holder.
+	 *
+	 * @var WPSEO_Configuration_Service_Mock
+	 */
 	protected $structure;
 
 	/**
-	 * Set up
+	 * Set up.
 	 */
 	public function setUp() {
 		parent::setUp();

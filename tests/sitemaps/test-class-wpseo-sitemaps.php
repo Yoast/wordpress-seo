@@ -6,13 +6,15 @@
  */
 
 /**
- * Class WPSEO_Sitemaps_Test
+ * Class WPSEO_Sitemaps_Test.
  *
  * @group sitemaps
  */
 class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Sitemaps_Double
 	 */
 	private static $class_instance;

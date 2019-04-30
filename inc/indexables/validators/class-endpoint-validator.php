@@ -6,7 +6,7 @@
  */
 
 /**
- * Interface WPSEO_Endpoint_Validator
+ * Interface WPSEO_Endpoint_Validator.
  */
 interface WPSEO_Endpoint_Validator {
 

@@ -6,12 +6,14 @@
  */
 
 /**
- * Class WPSEO_Plugin_Availability_Double
+ * Class WPSEO_Plugin_Availability_Double.
  */
 class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 
 	/**
-	 * @var array Array containing fake dependency slugs.
+	 * Array containing fake dependency slugs.
+	 *
+	 * @var array
 	 */
 	private $available_dependencies = array( 'test-plugin/test-plugin.php' );
 
@@ -131,7 +133,7 @@ class WPSEO_Plugin_Availability_Double extends WPSEO_Plugin_Availability {
 	/**
 	 * Checks whether a dependency is available.
 	 *
-	 * @param {string} $dependency The dependency to look for.
+	 * @param string $dependency The dependency to look for.
 	 *
 	 * @return bool Whether or not the dependency is available.
 	 */

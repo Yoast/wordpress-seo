@@ -24,7 +24,7 @@ class Indexable_Meta extends Yoast_Model {
 	/**
 	 * Retrieves a meta value for an indexable.
 	 *
-	 * @param int    $indexable_id The indexable id.
+	 * @param int    $indexable_id The indexable ID.
 	 * @param string $meta_key     The meta key.
 	 *
 	 * @return bool|Indexable_Meta Indexable meta object.
@@ -39,7 +39,7 @@ class Indexable_Meta extends Yoast_Model {
 	/**
 	 * Creates an indexable meta for an indexable.
 	 *
-	 * @param int    $indexable_id The indexable id.
+	 * @param int    $indexable_id The indexable ID.
 	 * @param string $meta_key     The meta key.
 	 *
 	 * @return bool|Indexable_Meta Indexable meta object.

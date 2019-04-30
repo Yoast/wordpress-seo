@@ -8,7 +8,7 @@ import {
 } from "yoast-components";
 
 import Collapsible from "./SidebarCollapsible";
-import { CornerstoneToggle } from "yoast-components";
+import { default as CornerstoneToggle } from "./CornerstoneToggle";
 import { LocationConsumer } from "./contexts/location";
 const LearnMoreLink = utils.makeOutboundLink();
 
@@ -42,4 +42,8 @@ export default function CollapsibleCornerstone( { isCornerstone, onChange } ) {
 CollapsibleCornerstone.propTypes = {
 	isCornerstone: PropTypes.bool,
 	onChange: PropTypes.func,
+};
+CollapsibleCornerstone.defaultProps = {
+	isCornerstone: true,
+	onChange: () => {},
 };

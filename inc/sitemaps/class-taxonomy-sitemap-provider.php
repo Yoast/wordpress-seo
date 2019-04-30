@@ -240,8 +240,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/**
 		 * Filter to exclude the taxonomy from the XML sitemap.
 		 *
-		 * @param boolean $exclude        Defaults to false.
-		 * @param string  $taxonomy_name  Name of the taxonomy to exclude..
+		 * @param boolean $exclude       Defaults to false.
+		 * @param string  $taxonomy_name Name of the taxonomy to exclude..
 		 */
 		if ( apply_filters( 'wpseo_sitemap_exclude_taxonomy', false, $taxonomy_name ) ) {
 			return false;
@@ -251,7 +251,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Get the Image Parser
+	 * Get the Image Parser.
 	 *
 	 * @return WPSEO_Sitemap_Image_Parser
 	 */
@@ -266,7 +266,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
-	 * Get all the options
+	 * Get all the options.
 	 *
 	 * @deprecated 7.0
 	 * @codeCoverageIgnore

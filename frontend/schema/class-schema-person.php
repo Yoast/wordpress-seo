@@ -24,7 +24,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @param WPSEO_Schema_Context $context A value object with context variables.
 	 */
 	public function __construct( WPSEO_Schema_Context $context ) {
-		$this->context   = $context;
+		$this->context = $context;
 	}
 
 	/**
@@ -141,16 +141,14 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return array $data The Person schema.
 	 */
 	protected function add_image( $data, $user_data ) {
-		if ( ! get_avatar_url( $user_data->user_email ) ) {
+		$url = get_avatar_url( $user_data->user_email );
+		if ( empty( $url ) ) {
 			return $data;
 		}
 
-		$data['image'] = array(
-			'@type'   => 'ImageObject',
-			'@id'     => $this->context->site_url . WPSEO_Schema_IDs::PERSON_LOGO_HASH,
-			'url'     => get_avatar_url( $user_data->user_email ),
-			'caption' => $user_data->display_name,
-		);
+		$id            = $this->context->site_url . WPSEO_Schema_IDs::PERSON_LOGO_HASH;
+		$schema_image  = new WPSEO_Schema_Image( $id );
+		$data['image'] = $schema_image->simple_image_object( $url, $user_data->display_name );
 
 		return $data;
 	}

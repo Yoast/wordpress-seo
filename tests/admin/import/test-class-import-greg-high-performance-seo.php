@@ -9,6 +9,7 @@
  * Test importing meta data from Greg's High Performance SEO.
  */
 class WPSEO_Import_Greg_SEO_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Holds the class instance.
 	 *

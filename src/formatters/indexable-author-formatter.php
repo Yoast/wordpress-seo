@@ -15,7 +15,7 @@ use Yoast\WP\Free\Models\Indexable;
 class Indexable_Author_Formatter {
 
 	/**
-	 * The current user id.
+	 * The current user ID.
 	 *
 	 * @var int
 	 */

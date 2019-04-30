@@ -34,11 +34,11 @@ class WPSEO_Sitemaps_Cache_Validator {
 	const VALIDATION_TYPE_KEY_FORMAT = 'wpseo_sitemap_%s_cache_validator';
 
 	/**
-	 * Get the cache key for a certain type and page
+	 * Get the cache key for a certain type and page.
 	 *
 	 * A type of cache would be something like 'page', 'post' or 'video'.
 	 *
-	 * Example key format for sitemap type "post", page 1: wpseo_sitemap_post_1:akfw3e_23azBa
+	 * Example key format for sitemap type "post", page 1: wpseo_sitemap_post_1:akfw3e_23azBa .
 	 *
 	 * @since 3.2
 	 *
@@ -72,7 +72,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 	}
 
 	/**
-	 * If the type is over length make sure we compact it so we don't have any database problems
+	 * If the type is over length make sure we compact it so we don't have any database problems.
 	 *
 	 * When there are more 'extremely long' post types, changes are they have variations in either the start or ending.
 	 * Because of this, we cut out the excess in the middle which should result in less chance of collision.
@@ -104,7 +104,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 				/*
 				 * If this happens the most likely cause is a page number that is too high.
 				 *
-				 * So this would not happen unintentionally..
+				 * So this would not happen unintentionally.
 				 * Either by trying to cause a high server load, finding backdoors or misconfiguration.
 				 */
 				throw new OutOfRangeException(
@@ -127,7 +127,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 	}
 
 	/**
-	 * Invalidate sitemap cache
+	 * Invalidate sitemap cache.
 	 *
 	 * @since 3.2
 	 *
@@ -157,7 +157,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 	}
 
 	/**
-	 * Cleanup invalidated database cache
+	 * Cleanup invalidated database cache.
 	 *
 	 * @since 3.2
 	 *
@@ -196,13 +196,12 @@ class WPSEO_Sitemaps_Cache_Validator {
 	}
 
 	/**
-	 * Get the current cache validator
+	 * Get the current cache validator.
 	 *
 	 * Without the type the global validator is returned.
-	 *  This can invalidate -all- keys in cache at once
+	 * This can invalidate -all- keys in cache at once.
 	 *
-	 * With the type parameter the validator for that specific
-	 *  type can be invalidated
+	 * With the type parameter the validator for that specific type can be invalidated.
 	 *
 	 * @since 3.2
 	 *
@@ -227,7 +226,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 	}
 
 	/**
-	 * Get the cache validator option key for the specified type
+	 * Get the cache validator option key for the specified type.
 	 *
 	 * @since 3.2
 	 *
@@ -245,7 +244,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 	}
 
 	/**
-	 * Refresh the cache validator value
+	 * Refresh the cache validator value.
 	 *
 	 * @since 3.2
 	 *

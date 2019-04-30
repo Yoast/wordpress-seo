@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Remove_Reply_To_Com
+ * Class WPSEO_Remove_Reply_To_Com.
  *
  * @since 7.0
  */

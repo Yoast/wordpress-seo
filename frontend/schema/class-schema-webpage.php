@@ -46,7 +46,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 * @return array WebPage schema data.
 	 */
 	public function generate() {
-		$data      = array(
+		$data = array(
 			'@type'      => $this->determine_page_type(),
 			'@id'        => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH,
 			'url'        => $this->context->canonical,
@@ -62,6 +62,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			if ( $this->context->site_represents === 'person' ) {
 				$about_id = WPSEO_Schema_IDs::PERSON_HASH;
 			}
+
 			$data['about'] = array(
 				'@id' => $this->context->site_url . $about_id,
 			);
@@ -146,12 +147,8 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 		}
 
 		$id                         = $this->context->canonical . WPSEO_Schema_IDs::PRIMARY_IMAGE_HASH;
-		$data['image']              = array(
-			'@type'   => 'ImageObject',
-			'@id'     => $id,
-			'url'     => get_the_post_thumbnail_url(),
-			'caption' => get_the_post_thumbnail_caption(),
-		);
+		$schema_image               = new WPSEO_Schema_Image( $id );
+		$data['image']              = $schema_image->generate_from_attachment_id( get_post_thumbnail_id() );
 		$data['primaryImageOfPage'] = array(
 			'@id' => $id,
 		);

@@ -17,7 +17,7 @@ class No_Indexable_Found extends \OutOfRangeException {
 	/**
 	 * Returns an exception when an indexable for a post is not found.
 	 *
-	 * @param integer $post_id Post id for the non existing indexable.
+	 * @param integer $post_id Post ID for the non existing indexable.
 	 *
 	 * @return No_Indexable_Found The exception.
 	 */
@@ -34,8 +34,8 @@ class No_Indexable_Found extends \OutOfRangeException {
 	/**
 	 * Returns an exception when an indexable for a taxonomy is not found.
 	 *
-	 * @param int    $term_id     The term the indexable is based upon.
-	 * @param string $taxonomy    The taxonomy the indexable belongs to.
+	 * @param int    $term_id  The term the indexable is based upon.
+	 * @param string $taxonomy The taxonomy the indexable belongs to.
 	 *
 	 * @return No_Indexable_Found The exception.
 	 */
@@ -53,7 +53,7 @@ class No_Indexable_Found extends \OutOfRangeException {
 	/**
 	 * Returns an exception when the primary key for an post-taxonomy combination is not found.
 	 *
-	 * @param integer $post_id  The post id.
+	 * @param integer $post_id  The post ID.
 	 * @param string  $taxonomy The taxonomy for the given Post ID.
 	 *
 	 * @return No_Indexable_Found The exception.
@@ -90,7 +90,7 @@ class No_Indexable_Found extends \OutOfRangeException {
 	 * Returns an exception when an indexable meta for an indexable is not found.
 	 *
 	 * @param string $meta_key     The meta key.
-	 * @param int    $indexable_id The id of the indexable.
+	 * @param int    $indexable_id The ID of the indexable.
 	 *
 	 * @return No_Indexable_Found The exception.
 	 */

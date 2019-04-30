@@ -36,15 +36,7 @@ class WPSEO_Product_Upsell_Notice {
 	 * Checks if the notice should be added or removed.
 	 */
 	public function initialize() {
-		if ( $this->is_notice_dismissed() ) {
-			$this->remove_notification();
-
-			return;
-		}
-
-		if ( $this->should_add_notification() ) {
-			$this->add_notification();
-		}
+		$this->remove_notification();
 	}
 
 	/**
@@ -194,7 +186,7 @@ class WPSEO_Product_Upsell_Notice {
 	}
 
 	/**
-	 * Returns the set options
+	 * Returns the set options.
 	 *
 	 * @return mixed|void
 	 */

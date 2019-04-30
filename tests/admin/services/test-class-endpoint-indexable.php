@@ -13,6 +13,8 @@
 class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Indexable_Service_Double
 	 */
 	protected $service;

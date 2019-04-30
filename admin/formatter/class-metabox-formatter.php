@@ -6,7 +6,7 @@
  */
 
 /**
- * This class forces needed methods for the metabox localization
+ * This class forces needed methods for the metabox localization.
  */
 class WPSEO_Metabox_Formatter {
 
@@ -27,7 +27,7 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Returns the values
+	 * Returns the values.
 	 *
 	 * @return array
 	 */
@@ -39,7 +39,7 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Returns array with all the values always needed by a scraper object
+	 * Returns array with all the values always needed by a scraper object.
 	 *
 	 * @return array Default settings for the metabox.
 	 */
@@ -203,7 +203,7 @@ class WPSEO_Metabox_Formatter {
 				__( 'Get %s', 'wordpress-seo' ),
 				'Yoast SEO Premium'
 			),
-			'small'                    => __( '1 year free updates and upgrades included!', 'wordpress-seo' ),
+			'small'                    => __( '1 year free support and updates included!', 'wordpress-seo' ),
 			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
 		);
 	}

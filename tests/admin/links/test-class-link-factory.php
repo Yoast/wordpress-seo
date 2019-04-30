@@ -47,7 +47,7 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provides a couple of internal links
+	 * Provides a couple of internal links.
 	 *
 	 * @return array
 	 */
@@ -101,7 +101,7 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test helper: mock internal link lookup.
 	 *
-	 * @param int $lookup_result The post id belongs to given link if link is internal.
+	 * @param int $lookup_result The post ID belongs to given link if link is internal.
 	 */
 	protected function getLookUpMock( $lookup_result ) {
 		$lookup = $this

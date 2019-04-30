@@ -6,27 +6,35 @@
  */
 
 /**
- * Class WPSEO_Post_Indexable
+ * Class WPSEO_Post_Indexable.
  */
 abstract class WPSEO_Object_Type {
 
 	/**
-	 * @var int The ID of the object.
+	 * The ID of the object.
+	 *
+	 * @var int
 	 */
 	protected $id;
 
 	/**
-	 * @var string The type of the object.
+	 * The type of the object.
+	 *
+	 * @var string
 	 */
 	protected $type;
 
 	/**
-	 * @var string The subtype of the object.
+	 * The subtype of the object.
+	 *
+	 * @var string
 	 */
 	protected $sub_type;
 
 	/**
-	 * @var string The permalink of the object.
+	 * The permalink of the object.
+	 *
+	 * @var string
 	 */
 	protected $permalink;
 

@@ -11,7 +11,7 @@
 class WPSEO_WooCommerce_Shop_Page_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Tests the situation when woocommerce isn't activated.
+	 * Tests the situation when WooCommerce isn't activated.
 	 *
 	 * @covers WPSEO_WooCommerce_Shop_Page::get_shop_page_id()
 	 */
@@ -22,7 +22,7 @@ class WPSEO_WooCommerce_Shop_Page_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the situation when woocommerce isn't activated.
+	 * Tests the situation when WooCommerce isn't activated.
 	 *
 	 * @covers WPSEO_WooCommerce_Shop_Page::is_shop_page()
 	 */

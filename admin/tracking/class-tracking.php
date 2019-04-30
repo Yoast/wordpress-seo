@@ -26,7 +26,7 @@ class WPSEO_Tracking {
 	protected $endpoint = '';
 
 	/**
-	 * Constructor setting the treshhold..
+	 * Constructor setting the threshold.
 	 *
 	 * @param string $endpoint  The endpoint to send the data to.
 	 * @param int    $threshold The limit for the option.
@@ -37,7 +37,7 @@ class WPSEO_Tracking {
 	}
 
 	/**
-	 * Registers all hooks to WordPress
+	 * Registers all hooks to WordPress.
 	 */
 	public function send() {
 

@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_How_To_Block
+ * Class WPSEO_How_To_Block.
  */
 class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 
@@ -29,7 +29,8 @@ class WPSEO_How_To_Block implements WPSEO_WordPress_Integration {
 	/**
 	 * Renders the block.
 	 *
-	 * Because we can't save script tags in Gutenberg without sufficient user permissions, we render these server-side.
+	 * Because we can't save script tags in Gutenberg without sufficient user permissions,
+	 * we render these server-side.
 	 *
 	 * @param array  $attributes The attributes of the block.
 	 * @param string $content    The HTML content of the block.

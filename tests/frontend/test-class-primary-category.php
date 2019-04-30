@@ -11,6 +11,8 @@
 class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Frontend_Primary_Category
 	 */
 	protected $subject;
@@ -56,7 +58,7 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * When the primary term is equal to the category id, return the category
+	 * When the primary term is equal to the category id, return the category.
 	 *
 	 * @covers WPSEO_Frontend_Primary_Category::post_link_category
 	 */

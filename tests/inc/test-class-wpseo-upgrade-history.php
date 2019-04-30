@@ -8,6 +8,11 @@
  */
 class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 
+	/**
+	 * Option name.
+	 *
+	 * @var string
+	 */
 	private static $option_name = 'wpseo_history_test';
 
 	/**
@@ -51,7 +56,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_empty() {
 		$upgrade_history = $this->get_instance();
-		$history = $upgrade_history->get();
+		$history         = $upgrade_history->get();
 
 		$this->assertInternalType( 'array', $history );
 		$this->assertEmpty( $history );
@@ -73,7 +78,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 		delete_option( 'mock_option_name' );
 
 		$history = $upgrade_history->get();
-		$entry = current( $history );
+		$entry   = current( $history );
 
 		$this->assertArrayHasKey( 'old_version', $entry );
 		$this->assertArrayHasKey( 'new_version', $entry );
@@ -83,8 +88,6 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 *
-	 *
 	 * @covers WPSEO_Upgrade_History::add
 	 */
 	public function test_add_no_options() {
@@ -92,7 +95,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 		$upgrade_history->add( '1.0.0', '2.0.0', array() );
 
 		$history = $upgrade_history->get();
-		$entry = current( $history );
+		$entry   = current( $history );
 
 		$this->assertInternalType( 'array', $entry, 'There should be an entry added.' );
 		$this->assertArrayHasKey( 'options', $entry );
@@ -111,7 +114,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 		$upgrade_history->add( '1.0.0', '2.0.0', array( 'option_does_not_exist' ) );
 
 		$history = $upgrade_history->get();
-		$entry = current( $history );
+		$entry   = current( $history );
 
 		$this->assertInternalType( 'array', $entry, 'There should be an entry added.' );
 		$this->assertArrayHasKey( 'options', $entry );

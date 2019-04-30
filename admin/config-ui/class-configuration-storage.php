@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Configuration_Storage
+ * Class WPSEO_Configuration_Storage.
  */
 class WPSEO_Configuration_Storage {
 
@@ -21,7 +21,7 @@ class WPSEO_Configuration_Storage {
 	protected $fields = array();
 
 	/**
-	 * Add default fields
+	 * Add default fields.
 	 */
 	public function add_default_fields() {
 		$fields = array(
@@ -60,7 +60,7 @@ class WPSEO_Configuration_Storage {
 	}
 
 	/**
-	 * Allow for field injections
+	 * Allow for field injections.
 	 *
 	 * @param WPSEO_Config_Field $field Field to add to the stack.
 	 */
@@ -73,7 +73,7 @@ class WPSEO_Configuration_Storage {
 	}
 
 	/**
-	 * Set the adapter to use
+	 * Set the adapter to use.
 	 *
 	 * @param WPSEO_Configuration_Options_Adapter $adapter Adapter to use.
 	 */
@@ -86,7 +86,7 @@ class WPSEO_Configuration_Storage {
 	}
 
 	/**
-	 * Retrieve the current adapter
+	 * Retrieve the current adapter.
 	 *
 	 * @return WPSEO_Configuration_Options_Adapter
 	 */
@@ -95,7 +95,7 @@ class WPSEO_Configuration_Storage {
 	}
 
 	/**
-	 * Retrieve the registered fields
+	 * Retrieve the registered fields.
 	 *
 	 * @returns array List of settings.
 	 */
@@ -119,7 +119,7 @@ class WPSEO_Configuration_Storage {
 	}
 
 	/**
-	 * Save the data
+	 * Save the data.
 	 *
 	 * @param array $data_to_store Data provided by the API which needs to be processed for saving.
 	 *
@@ -161,7 +161,7 @@ class WPSEO_Configuration_Storage {
 	}
 
 	/**
-	 * Filter out null input values
+	 * Filter out null input values.
 	 *
 	 * @param mixed $input Input to test against.
 	 *
@@ -172,7 +172,7 @@ class WPSEO_Configuration_Storage {
 	}
 
 	/**
-	 * Get data from a specific field
+	 * Get data from a specific field.
 	 *
 	 * @param WPSEO_Config_Field $field Field to get data for.
 	 *

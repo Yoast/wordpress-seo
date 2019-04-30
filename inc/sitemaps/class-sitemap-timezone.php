@@ -6,12 +6,12 @@
  */
 
 /**
- * Class WPSEO_Sitemap_Timezone
+ * Class WPSEO_Sitemap_Timezone.
  */
 class WPSEO_Sitemap_Timezone {
 
 	/**
-	 * Holds the timezone string value to reuse for performance
+	 * Holds the timezone string value to reuse for performance.
 	 *
 	 * @var string $timezone_string
 	 */
@@ -39,9 +39,10 @@ class WPSEO_Sitemap_Timezone {
 	/**
 	 * Get the datetime object, in site's time zone, if the datetime string was valid
 	 *
-	 * @param string $datetime_string The datetime string in UTC time zone, that needs to be converted to a DateTime object.
+	 * @param string $datetime_string The datetime string in UTC time zone, that needs
+	 *                                to be converted to a DateTime object.
 	 *
-	 * @return DateTime|null in site's time zone
+	 * @return DateTime|null DateTime object in site's time zone.
 	 */
 	public function get_datetime_with_timezone( $datetime_string ) {
 
@@ -63,11 +64,11 @@ class WPSEO_Sitemap_Timezone {
 	}
 
 	/**
-	 * Returns the timezone string for a site, even if it's set to a UTC offset
+	 * Returns the timezone string for a site, even if it's set to a UTC offset.
 	 *
-	 * Adapted from http://www.php.net/manual/en/function.timezone-name-from-abbr.php#89155
+	 * Adapted from {@link http://www.php.net/manual/en/function.timezone-name-from-abbr.php#89155}.
 	 *
-	 * @return string valid PHP timezone string
+	 * @return string Valid PHP timezone string.
 	 */
 	private function determine_timezone_string() {
 
@@ -108,7 +109,7 @@ class WPSEO_Sitemap_Timezone {
 	}
 
 	/**
-	 * Returns the correct timezone string
+	 * Returns the correct timezone string.
 	 *
 	 * @return string
 	 */

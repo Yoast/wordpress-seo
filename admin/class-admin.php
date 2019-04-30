@@ -49,16 +49,6 @@ class WPSEO_Admin {
 			add_filter( 'wpseo_accessible_post_types', array( 'WPSEO_Post_Type', 'filter_attachment_post_type' ) );
 		}
 
-		$this->admin_features = array(
-			// Google Search Console.
-			'google_search_console' => new WPSEO_GSC(),
-			'dashboard_widget'      => new Yoast_Dashboard_Widget(),
-		);
-
-		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
-			$this->admin_features['primary_category'] = new WPSEO_Primary_Term_Admin();
-		}
-
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' && filter_input( INPUT_GET, 'tool' ) === null ) {
 			new WPSEO_Recalculate_Scores();
 		}
@@ -100,6 +90,15 @@ class WPSEO_Admin {
 			$integrations[] = new Yoast_Network_Admin();
 		}
 
+		$this->admin_features = array(
+			'google_search_console' => new WPSEO_GSC(),
+			'dashboard_widget'      => new Yoast_Dashboard_Widget(),
+		);
+
+		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
+			$this->admin_features['primary_category'] = new WPSEO_Primary_Term_Admin();
+		}
+
 		$integrations[] = new WPSEO_Yoast_Columns();
 		$integrations[] = new WPSEO_License_Page_Manager();
 		$integrations[] = new WPSEO_Statistic_Integration();
@@ -110,8 +109,13 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_MyYoast_Proxy();
 		$integrations[] = new WPSEO_MyYoast_Route();
 		$integrations[] = new WPSEO_Schema_Person_Upgrade_Notification();
-		$integrations[] = $this->admin_features['google_search_console'];
-		$integrations   = array_merge( $integrations, $this->initialize_seo_links(), $this->initialize_cornerstone_content() );
+
+		$integrations = array_merge(
+			$integrations,
+			$this->get_admin_features(),
+			$this->initialize_seo_links(),
+			$this->initialize_cornerstone_content()
+		);
 
 		/** @var WPSEO_WordPress_Integration $integration */
 		foreach ( $integrations as $integration ) {

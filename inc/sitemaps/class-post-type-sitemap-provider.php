@@ -53,7 +53,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Get front page ID
+	 * Get front page ID.
 	 *
 	 * @return int
 	 */
@@ -66,7 +66,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Get page for posts ID
+	 * Get page for posts ID.
 	 *
 	 * @return int
 	 */
@@ -79,7 +79,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Get the Image Parser
+	 * Get the Image Parser.
 	 *
 	 * @return WPSEO_Sitemap_Image_Parser
 	 */
@@ -92,7 +92,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Get the Classifier for a link
+	 * Get the Classifier for a link.
 	 *
 	 * @return WPSEO_Link_Type_Classifier
 	 */
@@ -105,7 +105,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
-	 * Get Home URL
+	 * Get Home URL.
 	 *
 	 * This has been moved from the constructor because wp_rewrite is not available on plugins_loaded in multisite.
 	 * It will now be requested on need and not on initialization.
@@ -524,7 +524,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				'join'  => apply_filters( 'wpseo_posts_join', false, $post_type ),
 
 				/**
-				 * Filter Where query part for the post type.
+				 * Filter WHERE query part for the post type.
 				 *
 				 * @param string $where     SQL part, defaults to false.
 				 * @param string $post_type Post type name.
@@ -627,7 +627,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/*
 		 * Do not include external URLs.
 		 *
-		 * @see https://wordpress.org/plugins/page-links-to/ can rewrite permalinks to external URLs.
+		 * {@link https://wordpress.org/plugins/page-links-to/} can rewrite permalinks to external URLs.
 		 */
 		if ( $this->get_classifier()->classify( $url['loc'] ) === WPSEO_Link::TYPE_EXTERNAL ) {
 			return false;
@@ -662,7 +662,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
-	 * Get all the options
+	 * Get all the options.
 	 *
 	 * @deprecated 7.0
 	 * @codeCoverageIgnore

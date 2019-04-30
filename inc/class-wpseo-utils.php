@@ -13,14 +13,20 @@
 class WPSEO_Utils {
 
 	/**
-	 * @var bool $has_filters Whether the PHP filter extension is enabled.
+	 * Whether the PHP filter extension is enabled.
+	 *
 	 * @since 1.8.0
+	 *
+	 * @var bool $has_filters
 	 */
 	public static $has_filters;
 
 	/**
-	 * @var array Notifications to be shown in the JavaScript console.
+	 * Notifications to be shown in the JavaScript console.
+	 *
 	 * @since 3.3.2
+	 *
+	 * @var array
 	 */
 	protected static $console_notifications = array();
 
@@ -254,14 +260,14 @@ class WPSEO_Utils {
 	/**
 	 * Emulate the WP native sanitize_text_field function in a %%variable%% safe way.
 	 *
-	 * @see   https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original
+	 * @link https://core.trac.wordpress.org/browser/trunk/src/wp-includes/formatting.php for the original.
 	 *
 	 * Sanitize a string from user input or from the db.
 	 *
-	 * - Check for invalid UTF-8,
-	 * - Convert single < characters to entity,
-	 * - Strip all tags,
-	 * - Remove line breaks, tabs and extra white space,
+	 * - Check for invalid UTF-8;
+	 * - Convert single < characters to entity;
+	 * - Strip all tags;
+	 * - Remove line breaks, tabs and extra white space;
 	 * - Strip octets - BUT DO NOT REMOVE (part of) VARIABLES WHICH WILL BE REPLACED.
 	 *
 	 * @since 1.8.0
@@ -508,33 +514,33 @@ class WPSEO_Utils {
 	/**
 	 * Do simple reliable math calculations without the risk of wrong results.
 	 *
-	 * @see   http://floating-point-gui.de/
-	 * @see   the big red warning on http://php.net/language.types.float.php
+	 * @link http://floating-point-gui.de/
+	 * @link http://php.net/language.types.float.php See the big red warning.
 	 *
 	 * In the rare case that the bcmath extension would not be loaded, it will return the normal calculation results.
 	 *
 	 * @since 1.5.0
 	 * @since 1.8.0 Moved from stand-alone function to this class.
 	 *
-	 * @param mixed  $number1     Scalar (string/int/float/bool).
-	 * @param string $action      Calculation action to execute. Valid input:
-	 *                            '+' or 'add' or 'addition',
-	 *                            '-' or 'sub' or 'subtract',
-	 *                            '*' or 'mul' or 'multiply',
-	 *                            '/' or 'div' or 'divide',
-	 *                            '%' or 'mod' or 'modulus'
-	 *                            '=' or 'comp' or 'compare'.
-	 * @param mixed  $number2     Scalar (string/int/float/bool).
-	 * @param bool   $round       Whether or not to round the result. Defaults to false.
-	 *                            Will be disregarded for a compare operation.
-	 * @param int    $decimals    Decimals for rounding operation. Defaults to 0.
-	 * @param int    $precision   Calculation precision. Defaults to 10.
+	 * @param mixed  $number1   Scalar (string/int/float/bool).
+	 * @param string $action    Calculation action to execute. Valid input:
+	 *                          '+' or 'add' or 'addition',
+	 *                          '-' or 'sub' or 'subtract',
+	 *                          '*' or 'mul' or 'multiply',
+	 *                          '/' or 'div' or 'divide',
+	 *                          '%' or 'mod' or 'modulus'
+	 *                          '=' or 'comp' or 'compare'.
+	 * @param mixed  $number2   Scalar (string/int/float/bool).
+	 * @param bool   $round     Whether or not to round the result. Defaults to false.
+	 *                          Will be disregarded for a compare operation.
+	 * @param int    $decimals  Decimals for rounding operation. Defaults to 0.
+	 * @param int    $precision Calculation precision. Defaults to 10.
 	 *
-	 * @return mixed            Calculation Result or false if either or the numbers isn't scalar or
-	 *                          an invalid operation was passed.
-	 *                          - for compare the result will always be an integer.
-	 *                          - for all other operations, the result will either be an integer (preferred)
-	 *                            or a float.
+	 * @return mixed Calculation Result or false if either or the numbers isn't scalar or
+	 *               an invalid operation was passed.
+	 *               - For compare the result will always be an integer.
+	 *               - For all other operations, the result will either be an integer (preferred)
+	 *                 or a float.
 	 */
 	public static function calc( $number1, $action, $number2, $round = false, $decimals = 0, $precision = 10 ) {
 		static $bc;
@@ -1122,7 +1128,7 @@ SVG;
 
 	/**
 	 * Returns the original URL instead of the language-enriched URL.
-	 * This method gets automatically triggered by the wpml_get_home_url filter
+	 * This method gets automatically triggered by the wpml_get_home_url filter.
 	 *
 	 * @codeCoverageIgnore
 	 *

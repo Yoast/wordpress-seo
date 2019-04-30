@@ -1,12 +1,12 @@
 /* External dependencies */
 import { Component, Fragment } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { Label } from "yoast-components";
+import { Label } from "@yoast/components";
 import styled from "styled-components";
 
 /* Internal dependencies */
-import WordPressUserSelector from "./WordPressUserSelector";
 import valueToNativeEvent from "./higherorder/valueToNativeEvent";
+import WordPressUserSelector, { WordPressUserSelectorPropTypes } from "./WordPressUserSelector";
 
 /**
  * Container for the user selector.
@@ -60,5 +60,9 @@ class WordPressUserSelectorOnboardingWizard extends Component {
 		);
 	}
 }
+
+WordPressUserSelectorOnboardingWizard.propTypes = {
+	...WordPressUserSelectorPropTypes,
+};
 
 export default valueToNativeEvent( WordPressUserSelectorOnboardingWizard );
