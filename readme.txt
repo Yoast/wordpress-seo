@@ -112,7 +112,7 @@ Release Date: April 30th, 2019
 Enhancements:
 
 * Improves how we generate the image parts for the Schema output. [Read more about the ImageObject output](https://yoa.st/image-schema).
-* Adds 'filesize' to whitelisted properties on '$image'. Props to [cmmarslender](https://github.com/cmmarslender).
+* Adds `filesize` to whitelisted properties on `$image`. Props to [cmmarslender](https://github.com/cmmarslender).
 * Optimizes the code to avoid an unnecessary DB query to remove notifications storage when it's already empty. Props to [rmc47](https://github.com/rmc47).
 * Improves the breadcrumbs accessibility by adding `aria-current` to the active item.
 
