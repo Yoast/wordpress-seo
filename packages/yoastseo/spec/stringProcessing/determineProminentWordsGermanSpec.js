@@ -1,6 +1,6 @@
 import ProminentWord from "../../src/values/ProminentWord";
 import { getProminentWords } from "../../src/stringProcessing/determineProminentWords";
-import { de as morphologyData } from "../../premium-configuration/data/morphologyData-de.json";
+import { de as morphologyData } from "../../premium-configuration/data/morphologyData-de-v2.json";
 
 describe( "gets German prominent words", function() {
 	it( "returns prominent words", function() {
