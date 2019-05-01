@@ -112,7 +112,7 @@
     "webpack-dev-server": "^3.1.14"
   },
   "optionalDependencies": {
-    "grunt-contrib-imagemin": "^2.0.1"
+    "grunt-contrib-imagemin": "^3.1.0"
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
