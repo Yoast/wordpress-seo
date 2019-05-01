@@ -35,7 +35,7 @@ const KeywordSynonyms = ( props ) => {
 			"<strong>",
 			"</strong>"
 		),
-		`<strong>${ __( "Superfast internal links suggestions", "wordpress-seo" ) }</strong>`,
+		`<strong>${ __( "Superfast internal linking suggestions", "wordpress-seo" ) }</strong>`,
 		sprintf(
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
 			__( "%1$sSocial media preview%2$s: Facebook & Twitter", "wordpress-seo" ),
