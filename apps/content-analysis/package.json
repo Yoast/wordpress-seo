@@ -1,6 +1,6 @@
 {
 	"name": "@yoast/content-analysis-app",
-	"version": "0.1.13",
+	"version": "0.1.14",
 	"private": true,
 	"dependencies": {
 		"@babel/core": "7.1.6",
@@ -69,7 +69,7 @@
 		"webpack-manifest-plugin": "2.0.4",
 		"workbox-webpack-plugin": "3.6.3",
 		"worker-loader": "^2.0.0",
-		"yoastseo": "^1.52.0-rc.0"
+		"yoastseo": "^1.52.0-rc.1"
 	},
 	"scripts": {
 		"start": "node scripts/start.js",
