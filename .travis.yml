@@ -121,9 +121,9 @@ before_install:
 
 install:
 - if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then phpenv local 5.6.13; fi
+- composer remove humbug/php-scoper --dev --ignore-platform-reqs
 - |
   if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then
-    composer remove humbug/php-scoper --dev --ignore-platform-reqs
     composer require phpunit/phpunit ^5.7 --ignore-platform-reqs
     composer require phpunit/phpcov ^3.1 --ignore-platform-reqs
   fi
