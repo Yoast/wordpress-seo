@@ -32,6 +32,10 @@ jobs:
       env: WP_VERSION=latest PHPUNIT=1
       # Use 'trusty' to test against MySQL 5.6, 'xenial' contains 5.7 by default.
       dist: trusty
+    - php: 5.2
+      # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
+      dist: precise
+      env: WP_VERSION=5.0 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
     - php: "7.4snapshot"
@@ -116,8 +120,12 @@ before_install:
   fi
 
 install:
-- if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then phpenv local 5.6.13; fi
-- composer remove humbug/php-scoper --dev --ignore-platform-reqs
+- |
+  if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then
+    phpenv local 5.6.13
+  else
+    composer remove humbug/php-scoper --dev --ignore-platform-reqs
+  fi
 - |
   if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then
     composer require phpunit/phpunit ^5.7 --ignore-platform-reqs
@@ -127,8 +135,10 @@ install:
   if [[ "$PHPCS" == "1" ]]; then
     composer install --no-interaction --no-scripts
     composer config-yoastcs
-  else
+  elif [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
     composer install --no-interaction --ignore-platform-reqs --no-scripts
+  else
+    composer install --no-dev --no-interaction --ignore-platform-reqs
   fi
 - composer dump-autoload
 - if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then phpenv local --unset; fi
