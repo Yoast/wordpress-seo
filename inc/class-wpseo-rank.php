@@ -138,11 +138,30 @@ class WPSEO_Rank {
 	 */
 	public function get_drop_down_label() {
 		$labels = array(
-			self::NO_FOCUS => sprintf( __( 'SEO: %s', 'wordpress-seo' ), __( 'No Focus Keyphrase', 'wordpress-seo' ) ),
-			self::BAD      => sprintf( __( 'SEO: %s', 'wordpress-seo' ), __( 'Needs improvement', 'wordpress-seo' ) ),
-			self::OK       => sprintf( __( 'SEO: %s', 'wordpress-seo' ), __( 'OK', 'wordpress-seo' ) ),
-			self::GOOD     => sprintf( __( 'SEO: %s', 'wordpress-seo' ), __( 'Good', 'wordpress-seo' ) ),
-			self::NO_INDEX => sprintf( __( 'SEO: %s', 'wordpress-seo' ), __( 'Post Noindexed', 'wordpress-seo' ) ),
+			self::NO_FOCUS => sprintf(
+				/* translators: %s expands to the SEO score */
+				__( 'SEO: %s', 'wordpress-seo' ),
+				__( 'No Focus Keyphrase', 'wordpress-seo' )
+			),
+			self::BAD => sprintf(
+				/* translators: %s expands to the SEO score */
+				__( 'SEO: %s', 'wordpress-seo' ),
+				__( 'Needs improvement', 'wordpress-seo' )
+			),
+			self::OK => sprintf(
+				/* translators: %s expands to the SEO score */
+				__( 'SEO: %s', 'wordpress-seo' ),
+				__( 'OK', 'wordpress-seo' ) ),
+			self::GOOD => sprintf(
+				/* translators: %s expands to the SEO score */
+				__( 'SEO: %s', 'wordpress-seo' ),
+				__( 'Good', 'wordpress-seo' )
+			),
+			self::NO_INDEX => sprintf(
+				/* translators: %s expands to the SEO score */
+				__( 'SEO: %s', 'wordpress-seo' ),
+				__( 'Post Noindexed', 'wordpress-seo' )
+			),
 		);
 
 		return $labels[ $this->rank ];
@@ -155,9 +174,21 @@ class WPSEO_Rank {
 	 */
 	public function get_drop_down_readability_labels() {
 		$labels = array(
-			self::BAD      => sprintf( __( 'Readability: %s', 'wordpress-seo' ), __( 'Needs improvement', 'wordpress-seo' ) ),
-			self::OK       => sprintf( __( 'Readability: %s', 'wordpress-seo' ), __( 'OK', 'wordpress-seo' ) ),
-			self::GOOD     => sprintf( __( 'Readability: %s', 'wordpress-seo' ), __( 'Good', 'wordpress-seo' ) ),
+			self::BAD => sprintf(
+				/* translators: %s expands to the readability score */
+				__( 'Readability: %s', 'wordpress-seo' ),
+				__( 'Needs improvement', 'wordpress-seo' )
+			),
+			self::OK => sprintf(
+				/* translators: %s expands to the readability score */
+				__( 'Readability: %s', 'wordpress-seo' ),
+				__( 'OK', 'wordpress-seo' )
+			),
+			self::GOOD => sprintf(
+				/* translators: %s expands to the readability score */
+				__( 'Readability: %s', 'wordpress-seo' ),
+				__( 'Good', 'wordpress-seo' )
+			),
 		);
 
 		return $labels[ $this->rank ];
