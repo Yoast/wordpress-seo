@@ -83,6 +83,46 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 	}
 
 	/**
+	 * Tests if the migrations are usable with transients.
+	 */
+	public function test_is_usable_with_transient() {
+		Monkey\Functions\expect( 'get_transient' )
+			->once()
+			->with( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY, Database_Migration::MIGRATION_STATE_SUCCESS )
+			->andReturn( Database_Migration::MIGRATION_STATE_SUCCESS );
+
+		$instance = $this
+			->getMockBuilder( '\Yoast\WP\Free\Config\Database_Migration' )
+			->disableOriginalConstructor()
+			->setMethods( null )
+			->getMock();
+		/**
+		 * @var \Yoast\WP\Free\Config\Database_Migration $instance
+		 */
+		$this->assertTrue( $instance->is_usable() );
+	}
+	/**
+	 * Tests if the migrations are usable with transients.
+	 */
+	public function test_is_not_usable_with_transient() {
+		Monkey\Functions\expect( 'get_transient' )
+			->once()
+			->with( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY, Database_Migration::MIGRATION_STATE_SUCCESS )
+			->andReturn( Database_Migration::MIGRATION_STATE_ERROR );
+
+		$instance = $this
+			->getMockBuilder( '\Yoast\WP\Free\Config\Database_Migration' )
+			->disableOriginalConstructor()
+			->setMethods( null )
+			->getMock();
+
+		/**
+		 * @var \Yoast\WP\Free\Config\Database_Migration $instance
+		 */
+		$this->assertFalse( $instance->is_usable() );
+	}
+
+	/**
 	 * Tests the initializing when everything goes as planned.
 	 */
 	public function test_migration_success() {

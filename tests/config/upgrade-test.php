@@ -2,6 +2,8 @@
 
 namespace Yoast\Tests\Config;
 
+use Yoast\WP\Free\Config\Upgrade;
+
 /**
  * Class Upgrade_Test.
  *
@@ -26,5 +28,20 @@ class Upgrade_Test extends \Yoast\Tests\TestCase {
 			->getMock();
 
 		$instance->do_upgrade( 'version' );
+	}
+
+	public function test_action_hooked() {
+		$migration = $this
+			->getMockBuilder( '\Yoast\WP\Free\Config\Database_Migration' )
+			->setMethods( null )
+			->disableOriginalConstructor()
+			->getMock();
+
+		$upgrade = new Upgrade( $migration );
+		$upgrade->register_hooks();
+
+		$actual = has_action( 'wpseo_run_upgrade', array( $upgrade, 'do_upgrade' ) );
+
+		$this->assertEquals( 10, $actual );
 	}
 }
