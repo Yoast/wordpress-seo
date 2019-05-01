@@ -807,6 +807,8 @@ export default class AnalysisWebWorker {
 				treeAssessor: this._contentTreeAssessor,
 				scoreAggregator: this._contentScoreAggregator,
 			};
+			// Set the locale (we are more lenient for languages that have full analysis support).
+			analysisCombination.scoreAggregator.setLocale( this._configuration.locale );
 			this._results.readability = await this.assess( this._paper, this._tree, analysisCombination );
 		}
 
