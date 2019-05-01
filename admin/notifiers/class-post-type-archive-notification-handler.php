@@ -73,12 +73,7 @@ class WPSEO_Post_Type_Archive_Notification_Handler extends WPSEO_Dismissible_Not
 			implode( ', ', $post_types )
 		);
 		$message .= PHP_EOL . PHP_EOL;
-		$message .= sprintf(
-			/* translators: %1$s is the notification dismissal link start tag, %2$s is the link closing tag. */
-			__( '%1$sRemove this message%2$s', 'wordpress-seo' ),
-			'<a class="button" href="' . admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=' . $this->notification_identifier ) . '">',
-			'</a>'
-		);
+		$message .= '<a class="button" href="' . admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=' . $this->notification_identifier ) . '">' . __( 'Remove this message', 'wordpress-seo' ) . '</a>';
 
 		$notification_options = array(
 			'type'         => Yoast_Notification::WARNING,
