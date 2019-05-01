@@ -30,16 +30,8 @@ class WPSEO_Link_Watcher {
 	 * @returns void
 	 */
 	public function register_hooks() {
-
-		/**
-		 * Filter: 'wpseo_should_index_links' - Allows disabling of Yoast's links indexation.
-		 *
-		 * @api bool To disable the indexation, return false.
-		 */
-		if ( apply_filters( 'wpseo_should_index_links', true ) ) {
 			add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
 			add_action( 'delete_post', array( $this, 'delete_post' ) );
-		}
 	}
 
 	/**
@@ -51,6 +43,16 @@ class WPSEO_Link_Watcher {
 	 * @return void
 	 */
 	public function save_post( $post_id, WP_Post $post ) {
+
+		/**
+		 * Filter: 'wpseo_should_index_links' - Allows disabling of Yoast's links indexation.
+		 *
+		 * @api bool To disable the indexation, return false.
+		 */
+		if ( ! apply_filters( 'wpseo_should_index_links', true ) ) {
+			return;
+		}
+
 		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
 			return;
 		}
@@ -82,6 +84,11 @@ class WPSEO_Link_Watcher {
 	 * @return void
 	 */
 	public function delete_post( $post_id ) {
+		/** This filter is documented in admin/links/class-link-watcher.php */
+		if ( ! apply_filters( 'wpseo_should_index_links', true ) ) {
+			return;
+		}
+
 		if ( ! WPSEO_Link_Table_Accessible::is_accessible() || ! WPSEO_Meta_Table_Accessible::is_accessible() ) {
 			return;
 		}
