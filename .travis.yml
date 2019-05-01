@@ -132,7 +132,7 @@ install:
     composer install --no-interaction
     composer config-yoastcs
   else
-    composer install --no-interaction --ignore-platform-reqs
+    composer install --no-interaction --ignore-platform-reqs --no-scripts
   fi
 - composer dump-autoload
 - if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then phpenv local --unset; fi
