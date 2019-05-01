@@ -69,7 +69,7 @@ class Yoast_Notification {
 	 *
 	 * @var array
 	 */
-	private $defaults = array(
+	const DEFAULTS = array(
 		'type'             => self::UPDATED,
 		'id'               => '',
 		'nonce'            => null,
@@ -361,7 +361,7 @@ class Yoast_Notification {
 	 * @return array
 	 */
 	private function normalize_options( $options ) {
-		$options = wp_parse_args( $options, $this->defaults );
+		$options = wp_parse_args( $options, self::DEFAULTS );
 
 		// Should not exceed 0 or 1.
 		$options['priority'] = min( 1, max( 0, $options['priority'] ) );
