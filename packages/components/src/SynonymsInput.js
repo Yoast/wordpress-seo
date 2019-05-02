@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import uniqueId from "lodash/uniqueId";
 import styled from "styled-components";
 
 import { InputContainer } from "./input/InputContainer";
@@ -52,14 +51,13 @@ const SynonymsInput = ( props ) => {
 
 SynonymsInput.propTypes = {
 	type: PropTypes.string,
-	id: PropTypes.string,
+	id: PropTypes.string.isRequired,
 	label: PropTypes.string,
 	helpLink: PropTypes.node,
 };
 
 SynonymsInput.defaultProps = {
 	type: "text",
-	id: uniqueId( "synonyms-input-" ),
 	label: "",
 	helpLink: null,
 };
