@@ -20,8 +20,8 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 		<div class="yoast-sidebar__section">
 			<h2>
 				<?php
-				/* translators: %1$s expands to the plugin name */
-				printf( esc_html__( 'Upgrade to %1$s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+				/* translators: %s expands to the plugin name */
+				printf( esc_html__( 'Upgrade to %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 				?>
 			</h2>
 			<ul>
@@ -130,7 +130,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jy' ); ?>" target="_blank">
 					<?php
 						/* translators: %s expands to Yoast SEO Premium. */
-						printf( esc_html__( 'Upgrade to %s »', 'wordpress-seo' ), 'Yoast SEO Premium' );
+						printf( esc_html__( 'Upgrade to %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 						echo $new_tab_message;
 					?>
 				</a>
