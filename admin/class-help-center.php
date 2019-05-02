@@ -218,7 +218,7 @@ class WPSEO_Help_Center {
 			'',
 			''
 		) . '</li>';
-		$popup_content .= '<li>' . __( '24/7 support', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li>' . __( '24/7 email support', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '<li>' . __( 'No ads!', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '</ul>';
 
