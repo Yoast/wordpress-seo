@@ -83,6 +83,7 @@ class WPSEO_Configuration_Structure {
 			__( 'Multiple authors', 'wordpress-seo' ),
 			$this->fields['multipleAuthors']
 		);
+		// Commented out since 11.1.1 patch because Google removed their GSC API.
 //		$this->add_step(
 //			'connect-google-search-console',
 //			__( 'Google Search Console', 'wordpress-seo' ),
