@@ -1,7 +1,7 @@
 /* Browser:true */
 /* global wpseoSelect2Locale, wpseoFeaturesL10n */
 
-import { enableFeatures } from "@yoast/feature-toggle";
+import { enableFeatures } from "@yoast/feature-flag";
 
 ( function( $ ) {
 	/**
