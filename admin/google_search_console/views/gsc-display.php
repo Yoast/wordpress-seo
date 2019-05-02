@@ -44,10 +44,9 @@ switch ( $platform_tabs->current_tab() ) {
 			// Print auth screen.
 			echo '<p>';
 			printf(
-				/* Translators: %1$s: expands to Yoast SEO, %2$s expands to Google Search Console. */
-				esc_html__( 'To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ),
-				'Yoast SEO',
-				'Google Search Console'
+				/* Translators: %s: expands to Yoast SEO. */
+				esc_html__( 'To allow %s to fetch your Google Search Console information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ),
+				'Yoast SEO'
 			);
 			echo "</p>\n";
 			echo '<input type="hidden" id="gsc_auth_url" value="', esc_url( $this->service->get_client()->createAuthUrl() ) , '" />';
