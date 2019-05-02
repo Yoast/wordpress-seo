@@ -18,13 +18,13 @@ class WPSEO_MyYoast_Api_Request {
 	protected $url;
 
 	/**
-	 * The request paramaters.
+	 * The request parameters.
 	 *
 	 * @var array
 	 */
 	protected $args = array(
 		'method'    => 'GET',
-		'timeout'   => 10,
+		'timeout'   => 1,
 		'sslverify' => false,
 		'headers'   => array(
 			'Accept-Encoding' => '*',
@@ -53,7 +53,7 @@ class WPSEO_MyYoast_Api_Request {
 	protected $client;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -66,7 +66,7 @@ class WPSEO_MyYoast_Api_Request {
 	}
 
 	/**
-	 * Fires the request
+	 * Fires the request.
 	 *
 	 * @return bool True when request is successful.
 	 */
@@ -152,7 +152,7 @@ class WPSEO_MyYoast_Api_Request {
 		$response          = wp_remote_request( $url, $request_arguments );
 
 		if ( is_wp_error( $response ) ) {
-			throw new WPSEO_MyYoast_Bad_Request_Exception( $response->get_error_message(), $response->get_error_code() );
+			throw new WPSEO_MyYoast_Bad_Request_Exception( $response->get_error_message() );
 		}
 
 		$response_code    = wp_remote_retrieve_response_code( $response );
@@ -164,11 +164,11 @@ class WPSEO_MyYoast_Api_Request {
 		}
 
 		// Authentication failed, throw an exception.
-		if ( strpos( $response_code, '401' ) && WPSEO_Utils::has_access_token_support() ) {
+		if ( strpos( $response_code, '401' ) && $this->has_oauth_support() ) {
 			throw new WPSEO_MyYoast_Authentication_Exception( esc_html( $response_message ), 401 );
 		}
 
-		throw new WPSEO_MyYoast_Bad_Request_Exception( esc_html( $response_message ), $response_code );
+		throw new WPSEO_MyYoast_Bad_Request_Exception( esc_html( $response_message ), (int) $response_code );
 	}
 
 	/**
@@ -196,31 +196,50 @@ class WPSEO_MyYoast_Api_Request {
 	 *
 	 * When tokens are disallowed it will add the url to the request body.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @param array $request_arguments The arguments to enrich.
 	 *
-	 * @return array The enriched arguments
+	 * @return array The enriched arguments.
 	 */
 	protected function enrich_request_arguments( array $request_arguments ) {
-		if ( ! WPSEO_Utils::has_access_token_support() ) {
-			$request_arguments['body'] = array( 'url' => WPSEO_Utils::get_home_url() );
+		$request_arguments     = wp_parse_args( $request_arguments, array( 'headers' => array() ) );
+		$addon_version_headers = $this->get_installed_addon_versions();
 
-			return $request_arguments;
+		foreach ( $addon_version_headers as $addon => $version ) {
+			$request_arguments['headers'][ $addon . '-version' ] = $version;
+		}
+
+		$request_body = $this->get_request_body();
+		if ( $request_body !== array() ) {
+			$request_arguments['body'] = $request_body;
+		}
+
+		return $request_arguments;
+	}
+
+	/**
+	 * Retrieves the request body based on URL or access token support.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return array The request body.
+	 */
+	public function get_request_body() {
+		if ( ! $this->has_oauth_support() ) {
+			return array( 'url' => WPSEO_Utils::get_home_url() );
 		}
 
 		try {
 			$access_token = $this->get_access_token();
 			if ( $access_token ) {
-				$request_arguments['body'] = array( 'token' => $access_token->getToken() );
+				return array( 'token' => $access_token->getToken() );
 			}
 		}
-		// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
+			// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 		catch ( WPSEO_MyYoast_Bad_Request_Exception $bad_request ) {
 			// Do nothing.
 		}
 
-		return $request_arguments;
+		return array();
 	}
 
 	/**
@@ -263,6 +282,11 @@ class WPSEO_MyYoast_Api_Request {
 			return $access_token;
 		}
 		catch ( Exception $e ) {
+			$error_code = $e->getCode();
+			if ( $error_code >= 400 && $error_code < 500 ) {
+				$this->remove_access_token( $this->get_current_user_id() );
+			}
+
 			throw new WPSEO_MyYoast_Bad_Request_Exception( $e->getMessage() );
 		}
 	}
@@ -303,11 +327,38 @@ class WPSEO_MyYoast_Api_Request {
 	 * @return void
 	 */
 	protected function remove_access_token( $user_id ) {
-		if ( ! WPSEO_Utils::has_access_token_support() ) {
+		if ( ! $this->has_oauth_support() ) {
 			return;
 		}
 
 		// Remove the access token entirely.
 		$this->get_client()->remove_access_token( $user_id );
+	}
+
+	/**
+	 * Retrieves the installed addons as http headers.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return array The installed addon versions.
+	 */
+	protected function get_installed_addon_versions() {
+		$addon_manager = new WPSEO_Addon_Manager();
+
+		return $addon_manager->get_installed_addons_versions();
+	}
+
+	/**
+	 * Wraps the has_access_token support method.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool False to disable the support.
+	 */
+	protected function has_oauth_support() {
+		return false;
+
+		// @todo: Uncomment the following statement when we are implementing the oAuth flow.
+		// return WPSEO_Utils::has_access_token_support();
 	}
 }

@@ -7,7 +7,6 @@ import { Slot } from "@wordpress/components";
 import { combineReducers, registerStore } from "@wordpress/data";
 import get from "lodash/get";
 import pickBy from "lodash/pickBy";
-import noop from "lodash/noop";
 
 /* Internal dependencies */
 import Data from "./analysis/data.js";
@@ -22,7 +21,6 @@ import * as selectors from "./redux/selectors";
 import * as actions from "./redux/actions";
 import { setSettings } from "./redux/actions/settings";
 import UsedKeywords from "./analysis/usedKeywords";
-import PrimaryTaxonomyFilter from "./components/PrimaryTaxonomyFilter";
 import { setMarkerStatus } from "./redux/actions";
 import { isAnnotationAvailable } from "./decorator/gutenberg";
 
@@ -66,8 +64,6 @@ class Edit {
 	_init() {
 		this._store = this._registerStoreInGutenberg();
 
-		this._registerCategorySelectorFilter();
-
 		this._registerPlugin();
 
 		this._data = this._initializeData();
@@ -94,37 +90,12 @@ class Edit {
 		} );
 	}
 
-	_registerCategorySelectorFilter() {
-		if ( ! isGutenbergDataAvailable() ) {
-			return;
-		}
-
-		const addFilter = get( window, "wp.hooks.addFilter", noop );
-
-		addFilter(
-			"editor.PostTaxonomyType",
-			PLUGIN_NAMESPACE,
-			OriginalComponent => {
-				return class Filter extends React.Component {
-					render() {
-						return (
-							<PrimaryTaxonomyFilter
-								OriginalComponent={ OriginalComponent }
-								{ ...this.props }
-							/>
-						);
-					}
-				};
-			},
-		);
-	}
-
 	/**
 	 * Registers the plugin into the gutenberg editor, creates a sidebar entry for the plugin,
 	 * and creates that sidebar's content.
 	 *
 	 * @returns {void}
-	 **/
+	 */
 	_registerPlugin() {
 		if ( ! isGutenbergDataAvailable() ) {
 			return;
@@ -133,6 +104,7 @@ class Edit {
 		const { PluginSidebar, PluginSidebarMoreMenuItem } = wp.editPost;
 		const { registerPlugin } = wp.plugins;
 		const store = this._store;
+		const pluginTitle = this._localizedData.isPremium ? "Yoast SEO Premium" : "Yoast SEO";
 
 		const theme = {
 			isRtl: this._localizedData.isRtl,
@@ -144,11 +116,11 @@ class Edit {
 					target="seo-sidebar"
 					icon={ <PluginIcon /> }
 				>
-					Yoast SEO
+					{ pluginTitle }
 				</PluginSidebarMoreMenuItem>
 				<PluginSidebar
 					name="seo-sidebar"
-					title="Yoast SEO"
+					title={ pluginTitle }
 				>
 					<Slot name="YoastSidebar">
 						{ ( fills ) => {

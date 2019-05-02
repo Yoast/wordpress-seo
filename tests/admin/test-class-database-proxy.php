@@ -11,11 +11,15 @@
 class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Table name for use by the DB Proxy.
+	 *
 	 * @var string
 	 */
 	private static $proxy_table_name;
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Database_Proxy
 	 */
 	private static $proxy;
@@ -247,12 +251,13 @@ class WPSEO_Database_Proxy_Test extends WPSEO_UnitTestCase {
 			array( '%d', '%s', '%s' )
 		);
 
-		/**
+		/*
 		 * The result of Upsert is the number of affected rows.
 		 * As it internally does an Insert and then an Update, it will count as 2 rows.
 		 *
-		 * @see https://dev.mysql.com/doc/refman/8.0/en/insert-on-duplicate.html
-		 * "With ON DUPLICATE KEY UPDATE, the affected-rows value per row is 1 if the row is inserted as a new row and 2 if an existing row is updated."
+		 * {@link https://dev.mysql.com/doc/refman/8.0/en/insert-on-duplicate.html}
+		 * "With ON DUPLICATE KEY UPDATE, the affected-rows value per row is 1 if the row
+		 *  is inserted as a new row and 2 if an existing row is updated."
 		 */
 		$this->assertSame( 2, $result );
 

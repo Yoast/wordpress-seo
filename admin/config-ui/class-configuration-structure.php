@@ -26,7 +26,6 @@ class WPSEO_Configuration_Structure {
 	 * @var array
 	 */
 	private $fields = array(
-		'intro'                      => array( 'configurationChoices' ),
 		'environment_type'           => array( 'environment_type' ),
 		'siteType'                   => array( 'siteType' ),
 		'publishingEntity'           => array(
@@ -34,10 +33,7 @@ class WPSEO_Configuration_Structure {
 			'publishingEntityType',
 			'publishingEntityCompanyName',
 			'publishingEntityCompanyLogo',
-			'publishingEntityPersonName',
-		),
-		'profileUrls'                => array(
-			'socialProfilesIntro',
+			'publishingEntityPersonId',
 			'profileUrlFacebook',
 			'profileUrlTwitter',
 			'profileUrlInstagram',
@@ -45,7 +41,7 @@ class WPSEO_Configuration_Structure {
 			'profileUrlMySpace',
 			'profileUrlPinterest',
 			'profileUrlYouTube',
-			'profileUrlGooglePlus',
+			'profileUrlWikipedia',
 		),
 		'multipleAuthors'            => array( 'multipleAuthors' ),
 		'connectGoogleSearchConsole' => array(
@@ -66,16 +62,13 @@ class WPSEO_Configuration_Structure {
 	 * WPSEO_Configuration_Structure constructor.
 	 */
 	public function initialize() {
-		$this->add_step( 'intro', __( 'Welcome!', 'wordpress-seo' ), $this->fields['intro'], false, true );
-
 		$this->add_step( 'environment-type', __( 'Environment', 'wordpress-seo' ), $this->fields['environment_type'] );
 		$this->add_step( 'site-type', __( 'Site type', 'wordpress-seo' ), $this->fields['siteType'] );
 		$this->add_step(
 			'publishing-entity',
-			__( 'Company or person', 'wordpress-seo' ),
+			__( 'Organization or person', 'wordpress-seo' ),
 			$this->fields['publishingEntity']
 		);
-		$this->add_step( 'profile-urls', __( 'Social profiles', 'wordpress-seo' ), $this->fields['profileUrls'] );
 
 		$fields = array( 'postTypeVisibility' );
 
@@ -121,7 +114,7 @@ class WPSEO_Configuration_Structure {
 	}
 
 	/**
-	 * Retrieve the registered steps
+	 * Retrieve the registered steps.
 	 *
 	 * @return array
 	 */

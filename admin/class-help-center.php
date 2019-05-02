@@ -200,8 +200,8 @@ class WPSEO_Help_Center {
 		/* translators: %s: expands to 'Yoast SEO Premium'. */
 		$popup_title   = sprintf( __( 'Email support is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' );
 		$popup_content = '<p class="yoast-measure">' . __( 'Go Premium and our experts will be there for you to answer any questions you might have about the setup and use of the plugin.', 'wordpress-seo' ) . '</p>';
-		/* translators: %1$s: expands to 'Yoast SEO Premium'. */
-		$popup_content .= '<p>' . sprintf( __( 'Other benefits of %1$s for you:', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</p>';
+		/* translators: %s: expands to 'Yoast SEO Premium'. */
+		$popup_content .= '<p>' . sprintf( __( 'Other benefits of %s for you:', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</p>';
 		$popup_content .= '<ul class="wpseo-premium-advantages-list">';
 		$popup_content .= '<li>' . sprintf(
 			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
@@ -210,11 +210,11 @@ class WPSEO_Help_Center {
 			'',
 			''
 		) . '</li>';
-		$popup_content .= '<li>' . __( 'Superfast internal links suggestions', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li>' . __( 'Superfast internal linking suggestions', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '<li>' . sprintf(
 			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
-			__( '%1$sSocial media preview%2$s: Facebook &amp; Twitter', 'wordpress-seo' ),
+			__( '%1$sSocial media preview%2$s: Facebook & Twitter', 'wordpress-seo' ),
 			'',
 			''
 		) . '</li>';
@@ -238,7 +238,7 @@ class WPSEO_Help_Center {
 	 *
 	 * %s is replaced with <code>%s</code> and replaced again in the javascript with the actual variable.
 	 *
-	 * @return  array Translated text strings for the help center.
+	 * @return array Translated text strings for the help center.
 	 */
 	public static function get_translated_texts() {
 		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
@@ -260,8 +260,8 @@ class WPSEO_Help_Center {
 			'searchResultDetail.searchResult'    => __( 'Search result', 'wordpress-seo' ),
 			'searchResult.noResultsText'         => __( 'No results found.', 'wordpress-seo' ),
 			'searchResult.foundResultsText'      => sprintf(
-				/* translators: %s expands to the number of results found . */
-				__( 'Number of results found: %s', 'wordpress-seo' ),
+				/* translators: %d expands to the number of results found . */
+				__( 'Number of results found: %d', 'wordpress-seo' ),
 				'{ resultsCount }'
 			),
 			'searchResult.searchResultsHeading'  => __( 'Search results', 'wordpress-seo' ),
@@ -269,18 +269,5 @@ class WPSEO_Help_Center {
 			'contactSupport.button'              => __( 'New support request', 'wordpress-seo' ),
 			'helpCenter.buttonText'              => __( 'Need help?', 'wordpress-seo' ),
 		);
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Outputs the help center.
-	 *
-	 * @deprecated 5.6
-	 * @codeCoverageIgnore
-	 */
-	public function output_help_center() {
-		_deprecated_function( 'WPSEO_Help_Center::output_help_center', 'WPSEO 5.6.0', 'WPSEO_Help_Center::mount()' );
-		$this->mount();
 	}
 }

@@ -21,7 +21,7 @@ class WPSEO_Link_Type_Classifier {
 	protected $base_path = '';
 
 	/**
-	 * Constructor setting the base url
+	 * Constructor setting the base url.
 	 *
 	 * @param string $base_url The base url to set.
 	 */
@@ -58,11 +58,11 @@ class WPSEO_Link_Type_Classifier {
 	}
 
 	/**
-	 * Returns true when the link starts with https:// or http://
+	 * Checks whether a link starts with an HTTP[S] protocol.
 	 *
 	 * @param array $url_parts The url parts to use.
 	 *
-	 * @return bool True if the url starts with a protocol.
+	 * @return bool True if the url starts with an https:// or http:// protocol.
 	 */
 	protected function contains_protocol( array $url_parts ) {
 		return isset( $url_parts['scheme'] ) && $url_parts['scheme'] !== null;

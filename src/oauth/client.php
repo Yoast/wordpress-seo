@@ -123,7 +123,7 @@ class Client {
 	/**
 	 * Saves the access token for the given user.
 	 *
-	 * @param int                  $user_id      User id to receive token for.
+	 * @param int                  $user_id      User ID to receive token for.
 	 * @param AccessTokenInterface $access_token The access token to save.
 	 *
 	 * @return void
@@ -136,7 +136,7 @@ class Client {
 	/**
 	 * Retrieves an access token.
 	 *
-	 * @param null|int $user_id User id to receive token for.
+	 * @param null|int $user_id User ID to receive token for.
 	 *
 	 * @return bool|AccessTokenInterface False if not found. Token when found.
 	 */
@@ -155,7 +155,7 @@ class Client {
 	/**
 	 * Removes an access token from the list of access token.
 	 *
-	 * @param int $user_id The user id to remove the access token for.
+	 * @param int $user_id The user ID to remove the access token for.
 	 *
 	 * @return void
 	 */
@@ -237,7 +237,7 @@ class Client {
 	protected function update_option() {
 		\WPSEO_Options::set(
 			'myyoast_oauth',
-			wp_json_encode(
+			\WPSEO_Utils::format_json_encode(
 				[
 					'config'        => $this->config,
 					'access_tokens' => $this->access_tokens,

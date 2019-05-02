@@ -12,13 +12,15 @@ use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
 
 /**
- * Class Oauth_Test
+ * Class Oauth_Test.
  *
  * @group oauth
  */
 class Oauth_Client_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var Client
 	 */
 	protected $class_instance;
@@ -259,6 +261,9 @@ class Oauth_Client_Test extends \PHPUnit_Framework_TestCase {
 	 * @covers \Yoast\WP\Free\Oauth\Client::get_provider
 	 */
 	public function test_get_provider() {
+
+		$this->markTestSkipped( 'Temporarily skipped, see: https://github.com/Yoast/wordpress-seo/pull/12399' );
+
 		$this->class_instance->save_configuration(
 			[
 				'clientId' => 123456789,

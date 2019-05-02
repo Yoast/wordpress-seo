@@ -37,7 +37,6 @@
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",
 		"yoast/yoastcs": "~0.4.3",
-		"roave/security-advisories": "dev-master",
 		"phpcompatibility/phpcompatibility-wp": "^2.0.0",
 		"humbug/php-scoper": "^0.6.0"
 	},
@@ -69,16 +68,29 @@
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs"
 		],
 		"premium-check-cs": [
-			"composer require yoast/yoastcs:~1.2.1 --update-with-dependencies --no-suggest --no-interaction",
+			"@before-premium-cs",
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --ignore=*/premium/cli/ --runtime-set ignore_warnings_on_exit 1",
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs ./premium/cli/ --runtime-set testVersion 5.3- --runtime-set ignore_warnings_on_exit 1",
-			"composer require yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction"
+			"@after-premium-cs"
 		],
 		"check-cs-errors": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --error-severity=1 --warning-severity=6"
 		],
 		"fix-cs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcbf"
+		],
+		"premium-fix-cs": [
+			"@before-premium-cs",
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf || true",
+			"@after-premium-cs"
+		],
+		"before-premium-cs": [
+			"composer require --dev yoast/yoastcs:~1.2.1 --update-with-dependencies --no-suggest --no-interaction"
+		],
+		"after-premium-cs": [
+			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction",
+			"@php ./scripts/maybe-restore-composer-lock.php",
+			"composer config-yoastcs"
 		],
 		"prefix-dependencies": [
 			"composer prefix-ruckusing",

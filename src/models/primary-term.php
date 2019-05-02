@@ -17,13 +17,13 @@ use Yoast\WP\Free\Yoast_Model;
  * @property int    $term_id  Term ID.
  * @property string $taxonomy Taxonomy.
  *
- * @property string  $created_at
- * @property string  $updated_at
+ * @property string $created_at
+ * @property string $updated_at
  */
 class Primary_Term extends Yoast_Model {
 
 	/**
-	 * Retrieves an indexable by a post id and taxonomy.
+	 * Retrieves an indexable by a post ID and taxonomy.
 	 *
 	 * @param int    $post_id     The post the indexable is based upon.
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.

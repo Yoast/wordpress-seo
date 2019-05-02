@@ -4,7 +4,7 @@
  *
  * @package WPSEO\Admin\Views
  *
- * @uses string                 $paper_id           The id of the paper.
+ * @uses string                 $paper_id           The ID of the paper.
  * @uses bool                   $collapsible        Whether the collapsible should be rendered.
  * @uses array                  $collapsible_config Configuration for the collapsible.
  * @uses string                 $title              The title.

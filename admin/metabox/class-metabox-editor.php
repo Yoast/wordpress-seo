@@ -11,7 +11,9 @@
 class WPSEO_Metabox_Editor {
 
 	/**
-	 * Registers hooks to WordPress
+	 * Registers hooks to WordPress.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
 		add_filter( 'mce_css', array( $this, 'add_css_inside_editor' ) );

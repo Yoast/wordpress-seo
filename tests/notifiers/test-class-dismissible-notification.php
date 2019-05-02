@@ -13,7 +13,7 @@
 class WPSEO_Dismissible_Notification_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Tests the listen method when required value is not present in the request url.
+	 * Tests the listen method when required value is not present in the request URL.
 	 *
 	 * @covers WPSEO_Dismissible_Notification::listen
 	 */
@@ -32,7 +32,7 @@ class WPSEO_Dismissible_Notification_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the listener when required value is present in requested url.
+	 * Tests the listener when required value is present in requested URL.
 	 *
 	 * @covers WPSEO_Dismissible_Notification::listen
 	 */

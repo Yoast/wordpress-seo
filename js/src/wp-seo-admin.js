@@ -130,12 +130,6 @@ import a11ySpeak from "a11y-speak";
 	function initSelect2() {
 		var select2Width = "400px";
 
-		// Select2 for General settings: your info: company or person. Width is the same as the width for the other fields on this page.
-		jQuery( "#company_or_person" ).select2( {
-			width: select2Width,
-			language: wpseoSelect2Locale,
-		} );
-
 		// Select2 for Twitter card meta data in Settings
 		jQuery( "#twitter_card_type" ).select2( {
 			width: select2Width,

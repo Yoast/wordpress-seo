@@ -11,6 +11,8 @@
 class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Admin_Editor_Specific_Replace_Vars_Double
 	 */
 	protected $class_instance;
@@ -116,7 +118,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests that determine_for_term can detect a custom taxonomy
+	 * Tests that determine_for_term can detect a custom taxonomy.
 	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_term
 	 */
@@ -229,6 +231,9 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'fallback_archive', $this->class_instance->determine_for_archive( 'non-existing-archive', 'fallback_archive' ) );
 	}
 
+	/**
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_archive
+	 */
 	public function test_determine_for_archive_with_a_existing_archive() {
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Admin_Editor_Specific_Replace_Vars' )

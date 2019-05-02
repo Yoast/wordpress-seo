@@ -32,7 +32,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 *
 	 * @var array
 	 */
-	static protected $allowed_actions = array( 'connect', 'authorize', 'complete' );
+	protected static $allowed_actions = array( 'connect', 'authorize', 'complete' );
 
 	/**
 	 * Sets the hooks when the user has enough rights and is on the right page.

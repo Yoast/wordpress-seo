@@ -9,6 +9,7 @@
  * Test importing meta data from WooThemes SEO.
  */
 class WPSEO_Import_WooThemes_SEO_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Holds the class instance.
 	 *

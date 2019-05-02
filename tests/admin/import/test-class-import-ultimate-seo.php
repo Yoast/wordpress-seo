@@ -9,6 +9,7 @@
  * Test importing meta data from Ultimate SEO.
  */
 class WPSEO_Import_Ultimate_SEO_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Holds the class instance.
 	 *

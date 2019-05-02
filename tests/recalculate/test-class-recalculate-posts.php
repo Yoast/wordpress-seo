@@ -11,11 +11,15 @@
 class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Dummy posts for use by the tests.
+	 *
 	 * @var array
 	 */
 	private $posts;
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Recalculate_Posts
 	 */
 	private $instance;
@@ -26,7 +30,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	private $mock_image = "<img src='' />";
 
 	/**
-	 * Setup the class instance and create some posts
+	 * Setup the class instance and create some posts.
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -42,7 +46,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the saving of the scores
+	 * Test the saving of the scores.
 	 *
 	 * @covers WPSEO_Recalculate_Posts::save_scores
 	 */
@@ -78,7 +82,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test getting the response for calculating the score for the posts
+	 * Test getting the response for calculating the score for the posts.
 	 *
 	 * @covers WPSEO_Recalculate_Posts::get_items_to_recalculate
 	 */
@@ -94,7 +98,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test adding content to the post
+	 * Test adding content to the post.
 	 *
 	 * @covers WPSEO_Recalculate_Posts::get_items_to_recalculate
 	 */
@@ -114,7 +118,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test adding content to the post with a shortcode
+	 * Test adding content to the post with a shortcode.
 	 *
 	 * @covers WPSEO_Recalculate_Posts::get_items_to_recalculate
 	 */
@@ -159,7 +163,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Mock the post metadata to include a thumbnail
+	 * Mock the post metadata to include a thumbnail.
 	 *
 	 * @param string|null $value     Metadata value.
 	 * @param integer     $object_id Post object ID.
@@ -176,7 +180,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Returns the mock thumbnail
+	 * Returns the mock thumbnail.
 	 *
 	 * @param string  $html              HTML.
 	 * @param integer $post_id           Post ID.
@@ -189,7 +193,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provide filter dummy data
+	 * Provide filter dummy data.
 	 *
 	 * @param string       $content Content to add.
 	 * @param WP_Post|null $post    Post object.
@@ -201,7 +205,7 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provide filler dummy data with shortcode
+	 * Provide filler dummy data with shortcode.
 	 *
 	 * @param string       $content Content to add.
 	 * @param WP_Post|null $post    Post object.

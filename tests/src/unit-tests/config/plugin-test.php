@@ -8,7 +8,7 @@ use Yoast\WP\Free\Config\Dependency_Management;
 use Yoast\WP\Free\WordPress\Integration_Group;
 
 /**
- * Class Plugin_Test
+ * Class Plugin_Test.
  *
  * @group namespaced
  *
@@ -17,14 +17,14 @@ use Yoast\WP\Free\WordPress\Integration_Group;
 class Plugin_Test extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * Tests if the class is based upon the Integration interface
+	 * Tests if the class is based upon the Integration interface.
 	 */
 	public function test_class_instance() {
 		$this->assertInstanceOf( '\Yoast\WP\Free\WordPress\Integration', new Plugin_Double() );
 	}
 
 	/**
-	 * Tests adding an integration
+	 * Tests adding an integration.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Plugin::add_integration()
 	 */
@@ -41,7 +41,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests for default dependeny management class
+	 * Tests for default dependeny management class.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Plugin::__construct()
 	 */
@@ -52,7 +52,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests for default database migration class
+	 * Tests for default database migration class.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Plugin::__construct()
 	 */
@@ -63,7 +63,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the initialize calls the expected methods
+	 * Tests if the initialize calls the expected methods.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Plugin::initialize()
 	 */
@@ -99,7 +99,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests early return if dependency management could not complete
+	 * Tests early return if dependency management could not complete.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Plugin::initialize()
 	 */
@@ -134,7 +134,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if initialize failed if migration failed
+	 * Tests if initialize failed if migration failed.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Plugin::initialize()
 	 */
@@ -163,7 +163,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the expected methods are called during register hooks
+	 * Tests if the expected methods are called during register hooks.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Plugin::register_hooks()
 	 * @covers \Yoast\WP\Free\Config\Plugin::trigger_integration_hook()
@@ -215,7 +215,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if the action is called during register hooks
+	 * Tests if the action is called during register hooks.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Plugin::register_hooks()
 	 * @covers \Yoast\WP\Free\Config\Plugin::trigger_integration_hook()
@@ -232,7 +232,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if get integration group is not called on failed initialize
+	 * Tests if get integration group is not called on failed initialize.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Plugin::register_hooks()
 	 */
@@ -252,7 +252,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if frontend integration returns a Frontend object
+	 * Tests if frontend integration returns a Frontend object.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Plugin::add_frontend_integrations()
 	 */
@@ -271,7 +271,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if add admin integrations returns an Admin object
+	 * Tests if add admin integrations returns an Admin object.
 	 *
 	 * @covers \Yoast\WP\Free\Config\Plugin::add_admin_integrations()
 	 */
@@ -290,7 +290,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests the return type of the integration group
+	 * Tests the return type of the integration group.
 	 */
 	public function test_get_integration_group() {
 		$instance = new Plugin_Double();
@@ -298,7 +298,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Tests if frontend is not the same as admin
+	 * Tests if frontend is not the same as admin.
 	 */
 	public function test_is_frontend() {
 		$instance = new Plugin_Double();
@@ -307,7 +307,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Mocks a Dependency Management
+	 * Mocks a Dependency Management.
 	 *
 	 * @return Dependency_Management
 	 */
@@ -319,7 +319,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Mocks a Database Migration
+	 * Mocks a Database Migration.
 	 *
 	 * @return Database_Migration
 	 */
@@ -332,7 +332,7 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Mocks an Integration Group
+	 * Mocks an Integration Group.
 	 *
 	 * @param array $integrations List of integrations to load.
 	 *

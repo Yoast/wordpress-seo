@@ -6,7 +6,7 @@
  */
 
 /**
- * Double for the WPSEO_Link_Reindex_Dashboard class
+ * Double for the WPSEO_Link_Reindex_Dashboard class.
  */
 class WPSEO_Link_Reindex_Dashboard_Double extends WPSEO_Link_Reindex_Dashboard {
 

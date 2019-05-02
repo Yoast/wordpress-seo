@@ -6,7 +6,7 @@
  */
 
 /**
- * Sitemap Provider interface
+ * Sitemap Provider interface.
  */
 interface WPSEO_Sitemap_Provider {
 

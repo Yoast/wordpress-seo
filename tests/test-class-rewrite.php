@@ -11,11 +11,15 @@
 class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Name of the option indicating whether the rewrite options should be flushed.
+	 *
 	 * @var string
 	 */
 	private $flush_option_name = 'wpseo_flush_rewrite';
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var WPSEO_Rewrite
 	 */
 	private static $class_instance;
@@ -60,7 +64,10 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 			$category_base = 'category';
 		}
 
-		// Remove initial slash, if there is one (we remove the trailing slash in the regex replacement and don't want to end up short a slash).
+		/*
+		 * Remove initial slash, if there is one (we remove the trailing slash in
+		 * the regex replacement and don't want to end up short a slash).
+		 */
 		if ( '/' === substr( $category_base, 0, 1 ) ) {
 			$category_base = substr( $category_base, 1 );
 		}
@@ -84,8 +91,36 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_Rewrite::request
 	 */
-	public function test_request() {
-		// @todo Find method to test redirects.
+	public function test_request_with_empty_query_vars() {
+
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Rewrite' )
+			->setMethods( array( 'redirect' ) )
+			->getMock();
+		$instance
+			->expects( $this->never() )
+			->method( 'redirect' );
+
+		$expected = array();
+
+		$this->assertEquals( $expected, $instance->request( array() ) );
+	}
+
+	/**
+	 * @covers WPSEO_Rewrite::request
+	 */
+	public function test_request_with_query_vars() {
+
+		$instance = $this
+			->getMockBuilder( 'WPSEO_Rewrite' )
+			->setMethods( array( 'redirect' ) )
+			->getMock();
+		$instance
+			->expects( $this->once() )
+			->method( 'redirect' )
+			->with( 'my-category' );
+
+		$instance->request( array( 'wpseo_category_redirect' => 'my-category' ) );
 	}
 
 	/**

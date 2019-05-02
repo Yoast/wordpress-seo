@@ -61,9 +61,9 @@ add_filter( 'user_has_cap', 'allow_custom_field_edits', 0, 3 );
 /**
  * Adds an SEO admin bar menu to the site admin, with several options.
  *
- * If the current user is an admin he can also go straight to several settings menu's from here.
+ * If the current user is an admin they can also go straight to several settings menus from here.
  *
- * @deprecated 7.9 Use WPSEO_Admin_Bar_Menu::add_menu() instead
+ * @deprecated 7.9 Use WPSEO_Admin_Bar_Menu::add_menu() instead.
  * @codeCoverageIgnore
  *
  * @return void
@@ -184,7 +184,7 @@ function wpseo_adminbar_score( $score ) {
 /**
  * Enqueue CSS to format the Yoast SEO adminbar item.
  *
- * @deprecated 7.9 Use WPSEO_Admin_Bar_Menu::enqueue_assets() instead
+ * @deprecated 7.9 Use WPSEO_Admin_Bar_Menu::enqueue_assets() instead.
  * @codeCoverageIgnore
  */
 function wpseo_admin_bar_style() {

@@ -6,22 +6,26 @@
  */
 
 /**
- * Represents a post's primary term
+ * Represents a post's primary term.
  */
 class WPSEO_Primary_Term {
 
 	/**
+	 * Taxonomy name for the term.
+	 *
 	 * @var string
 	 */
 	protected $taxonomy_name;
 
 	/**
+	 * Post ID for the term.
+	 *
 	 * @var int
 	 */
 	protected $post_ID;
 
 	/**
-	 * The taxonomy this term is part of
+	 * The taxonomy this term is part of.
 	 *
 	 * @param string $taxonomy_name Taxonomy name for the term.
 	 * @param int    $post_id       Post ID for the term.
@@ -32,7 +36,7 @@ class WPSEO_Primary_Term {
 	}
 
 	/**
-	 * Returns the primary term ID
+	 * Returns the primary term ID.
 	 *
 	 * @return int|bool
 	 */
@@ -50,7 +54,7 @@ class WPSEO_Primary_Term {
 	}
 
 	/**
-	 * Sets the new primary term ID
+	 * Sets the new primary term ID.
 	 *
 	 * @param int $new_primary_term New primary term ID.
 	 */

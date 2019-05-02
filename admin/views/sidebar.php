@@ -49,7 +49,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 					<strong><?php echo esc_html_x( 'Free:', 'course', 'wordpress-seo' ); ?></strong>
 					<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/2oi' ); ?>" target="_blank">
 						<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/SEO_for_beginners.svg' ); ?>" alt="">
-						<strong><?php esc_html_e( 'SEO for Beginners course', 'wordpress-seo' ); ?></strong>
+						<strong><?php esc_html_e( 'SEO for Beginners training', 'wordpress-seo' ); ?></strong>
 						<?php echo $new_tab_message; ?>
 					</a><br>
 					<?php esc_html_e( 'Get quick wins to make your site rank higher in search engines.', 'wordpress-seo' ); ?>
@@ -62,7 +62,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 						<strong>
 							<?php
 								/* translators: %s expands to Yoast SEO */
-								printf( esc_html__( '%s for WordPress course', 'wordpress-seo' ), 'Yoast SEO' );
+								printf( esc_html__( '%s for WordPress training', 'wordpress-seo' ), 'Yoast SEO' );
 							?>
 						</strong>
 						<?php echo $new_tab_message; ?>
@@ -72,9 +72,9 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			</div>
 			<div class="wp-clearfix">
 				<p>
-					<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/ju' ); ?>" target="_blank">
-						<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/BasicSEO.svg' ); ?>" alt="">
-						<strong><?php esc_html_e( 'Basic SEO course', 'wordpress-seo' ); ?></strong>
+					<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/3lj' ); ?>" target="_blank">
+						<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/all-round-SEO.svg' ); ?>" alt="">
+						<strong><?php esc_html_e( 'All-around SEO training', 'wordpress-seo' ); ?></strong>
 						<?php echo $new_tab_message; ?>
 					</a><br>
 					<?php esc_html_e( 'Learn practical SEO skills to rank higher in Google.', 'wordpress-seo' ); ?>

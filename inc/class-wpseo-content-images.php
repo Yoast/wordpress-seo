@@ -6,7 +6,7 @@
  */
 
 /**
- * WPSEO_Content_Images
+ * WPSEO_Content_Images.
  */
 class WPSEO_Content_Images {
 

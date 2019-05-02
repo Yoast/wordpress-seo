@@ -6,9 +6,9 @@
  */
 
 /**
- * Class WPSEO_Configuration_Options_Adapter
+ * Class WPSEO_Configuration_Options_Adapter.
  *
- * Convert Configuration settings to WPSEO Options
+ * Convert Configuration settings to WPSEO Options.
  *
  * @since 3.6
  */
@@ -37,7 +37,7 @@ class WPSEO_Configuration_Options_Adapter {
 	protected $lookup = array();
 
 	/**
-	 * Add a lookup for a WordPress native option
+	 * Add a lookup for a WordPress native option.
 	 *
 	 * @param string $class_name Class to bind to an option.
 	 * @param string $option     Option name to use.
@@ -54,7 +54,7 @@ class WPSEO_Configuration_Options_Adapter {
 	}
 
 	/**
-	 * Add a lookup for a Yoast option
+	 * Add a lookup for a Yoast option.
 	 *
 	 * @param string $class_name Class to bind to the lookup.
 	 * @param string $key        Key in the option group to bind to.
@@ -73,7 +73,7 @@ class WPSEO_Configuration_Options_Adapter {
 	}
 
 	/**
-	 * Add a lookup for a custom implementation
+	 * Add a lookup for a custom implementation.
 	 *
 	 * @param string   $class_name   Class to bind to the lookup.
 	 * @param callable $callback_get Callback to retrieve data.
@@ -111,7 +111,7 @@ class WPSEO_Configuration_Options_Adapter {
 	}
 
 	/**
-	 * Get the data for the provided field
+	 * Get the data for the provided field.
 	 *
 	 * @param WPSEO_Config_Field $field Field to get data for.
 	 *
@@ -139,7 +139,7 @@ class WPSEO_Configuration_Options_Adapter {
 	}
 
 	/**
-	 * Save data from a field
+	 * Save data from a field.
 	 *
 	 * @param WPSEO_Config_Field $field Field to use for lookup.
 	 * @param mixed              $value Value to save to the lookup of the field.
@@ -168,7 +168,7 @@ class WPSEO_Configuration_Options_Adapter {
 	}
 
 	/**
-	 * Get the lookup type for a specific class
+	 * Get the lookup type for a specific class.
 	 *
 	 * @param string $class_name Class to get the type of.
 	 *
@@ -183,7 +183,7 @@ class WPSEO_Configuration_Options_Adapter {
 	}
 
 	/**
-	 * Get the option for a specific class
+	 * Get the option for a specific class.
 	 *
 	 * @param string $class_name Class to get the option of.
 	 *
@@ -200,7 +200,7 @@ class WPSEO_Configuration_Options_Adapter {
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
-	 * Add a lookup for a Yoast option
+	 * Add a lookup for a Yoast option.
 	 *
 	 * @deprecated 7.0
 	 * @codeCoverageIgnore

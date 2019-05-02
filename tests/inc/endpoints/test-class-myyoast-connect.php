@@ -13,7 +13,7 @@
 class WPSEO_Endpoint_MyYoast_Connect_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Tests request handling with url mismatch.
+	 * Tests request handling with URL mismatch.
 	 *
 	 * @covers WPSEO_Endpoint_MyYoast_Connect::handle_request
 	 */
@@ -48,7 +48,7 @@ class WPSEO_Endpoint_MyYoast_Connect_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests request handling with client id mismatch.
+	 * Tests request handling with client ID mismatch.
 	 *
 	 * @covers WPSEO_Endpoint_MyYoast_Connect::handle_request
 	 */

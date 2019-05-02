@@ -10,6 +10,11 @@
  */
 class WPSEO_Option_WPSEO_Test extends WPSEO_UnitTestCase {
 
+	/**
+	 * Features which can be disabled via the network settings.
+	 *
+	 * @var array
+	 */
 	protected $feature_vars = array(
 		'disableadvanced_meta',
 		'onpage_indexability',
@@ -24,7 +29,7 @@ class WPSEO_Option_WPSEO_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that disabled 'wpseo' feature variables return false.
 	 *
-	 * @group ms-required
+	 * @group  ms-required
 	 * @covers WPSEO_Option::validate()
 	 * @covers WPSEO_Option::prevent_disabled_options_update()
 	 */

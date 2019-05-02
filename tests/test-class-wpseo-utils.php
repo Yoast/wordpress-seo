@@ -73,7 +73,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the datetime with a valid date string
+	 * Test the datetime with a valid date string.
 	 *
 	 * @covers WPSEO_Utils::is_valid_datetime
 	 */
@@ -82,7 +82,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test the datetime with an invalid date string
+	 * Test the datetime with an invalid date string.
 	 *
 	 * @covers WPSEO_Utils::is_valid_datetime
 	 */
@@ -91,10 +91,10 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests translate_score function
+	 * Tests translate_score function.
 	 *
 	 * @dataProvider translate_score_provider
-	 * @covers WPSEO_Utils::translate_score()
+	 * @covers       WPSEO_Utils::translate_score()
 	 *
 	 * @param int    $score     The decimal score to translate.
 	 * @param bool   $css_value Whether to return the i18n translated score or the CSS class value.
@@ -105,7 +105,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Provides test data for test_translate_score
+	 * Provides test data for test_translate_score().
 	 *
 	 * @return array
 	 */
@@ -135,7 +135,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * When current page is not in the list of Yoast SEO Free, is_yoast_seo_free_page should return false.
+	 * When current page is not in the list of Yoast SEO Free, is_yoast_seo_free_page() should return false.
 	 *
 	 * @covers WPSEO_Utils::is_yoast_seo_free_page
 	 */
@@ -158,7 +158,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * When the current page belongs to Yoast SEO Free, the function is_yoast_seo_free_page should return true.
+	 * When the current page belongs to Yoast SEO Free, the function is_yoast_seo_free_page() should return true.
 	 *
 	 * @covers WPSEO_Utils::is_yoast_seo_free_page
 	 */
@@ -175,5 +175,64 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_is_plugin_network_active() {
 		$this->assertFalse( WPSEO_Utils::is_plugin_network_active() );
+	}
+
+	/**
+	 * Tests the retrieve enabled features function without the defined variable or filter.
+	 *
+	 * @covers WPSEO_Utils::retrieve_enabled_features
+	 */
+	public function test_retrieve_enabled_features_without_define_or_filter() {
+		$this->assertEmpty( WPSEO_Utils::retrieve_enabled_features() );
+	}
+
+	/**
+	 * Tests the retrieve enabled features function with defined variables.
+	 *
+	 * @covers WPSEO_Utils::retrieve_enabled_features
+	 */
+	public function test_retrieve_enabled_features_with_define() {
+		// Retrieve currently defined feature flags. Set them if they do not exist yet.
+		if ( ! defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
+			define( 'YOAST_SEO_ENABLED_FEATURES', 'some-feature' );
+		}
+		$expected = preg_split('/,\W*/', YOAST_SEO_ENABLED_FEATURES );
+		$this->assertEquals( $expected, WPSEO_Utils::retrieve_enabled_features() );
+	}
+
+	/**
+	 * Tests the retrieve enabled features function with filter.
+	 *
+	 * @covers WPSEO_Utils::retrieve_enabled_features
+	 */
+	public function test_retrieve_enabled_features_with_filter() {
+		// Retrieve currently defined feature flags. Set them if they do not exist yet.
+		if ( ! defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
+			define( 'YOAST_SEO_ENABLED_FEATURES', 'some-feature' );
+		}
+		$expected = preg_split('/,\W*/', YOAST_SEO_ENABLED_FEATURES );
+
+		// Features we expect to be added by the filter.
+		$added_features = array( 'some functionality', 'other things' );
+		// Expected features are the ones in the PHP constant + the features added by the filter.
+		$expected = array_merge( $expected, $added_features );
+
+		add_filter( 'wpseo_enable_feature', array( $this, 'filter_wpseo_enable_feature' ) );
+		$this->assertEquals( $expected, WPSEO_Utils::retrieve_enabled_features() );
+	}
+
+
+	/**
+	 * Filter function to test the `wpseo_enable_feature` filter.
+	 *
+	 * @param string[] $enabled_features The unfiltered enabled features.
+	 *
+	 * @return array The filtered enabled features.
+	 */
+	public function filter_wpseo_enable_feature( $enabled_features ) {
+		return array_merge( $enabled_features, array(
+			'some functionality',
+			'other things',
+		) );
 	}
 }

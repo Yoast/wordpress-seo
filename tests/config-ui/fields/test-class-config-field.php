@@ -6,7 +6,7 @@
  */
 
 /**
- * Class WPSEO_Config_Field_Test
+ * Class WPSEO_Config_Field_Test.
  */
 class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 

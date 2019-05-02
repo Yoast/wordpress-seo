@@ -5,7 +5,7 @@ namespace Yoast\Tests\UnitTests\Formatters;
 use Yoast\Tests\Doubles\Indexable_Author_Formatter_Double;
 
 /**
- * Class Indexable_Author_Test
+ * Class Indexable_Author_Test.
  *
  * @group indexables
  * @group formatters
