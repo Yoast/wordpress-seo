@@ -204,7 +204,10 @@ class Database_Migration {
 					'directory' => '', // This needs to be set, to use the migrations folder as base folder.
 				),
 			),
-			'migrations_dir' => array( 'default' => WPSEO_PATH . 'migrations' ),
+			'migrations_dir' => array(
+				'default' => WPSEO_PATH . 'migrations',
+				'premium' => WPSEO_PATH . 'premium/migrations'
+			),
 			// This needs to be set but is not used.
 			'db_dir'         => true,
 			// This needs to be set but is not used.
