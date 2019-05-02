@@ -40,7 +40,8 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 			'publishing-entity',
 			'post-type-visibility',
 			'multiple-authors',
-			'connect-google-search-console',
+			// Temporarily disabled because Google discontinued their GSC API (since 11.1.1).
+			// 'connect-google-search-console',
 			'title-template',
 			'newsletter',
 			'suggestions',
