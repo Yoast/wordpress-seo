@@ -121,11 +121,13 @@ Enhancements:
 * Props to [@ramiy](https://github.com/ramiy) for making translating the plugin easier by merging near identical strings.
 
 Bugfixes:
+
 * Fixes a bug where the URL to Pinterest's claim page was incorrect. Props [@ramiy](https://github.com/ramiy).
 * Fixes a bug where notifications about incompatibility would be thrown for inactive add-ons.
 * Fixes a bug where URLs with a non-Yoast SEO related xsl query string parameter would result in a blank page. Props [@stodorovic](https://github.com/stodorovic) and [@yiska](https://github.com/yiska).
 
 Other:
+
 * Removes the `add_opengraph_namespace` filter because the OGP.me HTML namespace is not used anymore.
 * Decouples the sitemap debug information from the general `WP_DEBUG` development flag and introduces the `YOAST_SEO_DEBUG_SITEMAPS` flag to better control this functionality.
 
