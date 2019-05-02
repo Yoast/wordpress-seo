@@ -3,7 +3,7 @@ Contributors: yoast, joostdevalk, tacoverdo, omarreiss, atimmer, jipmoors
 Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
+Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 4.9
 Tested up to: 5.1.1
 Stable tag: 11.1
@@ -42,11 +42,10 @@ Yoast SEO does everything in its power to please both visitors and search engine
 
 * Yoast SEO tunes the engine of your site so you can work on creating great content.
 * Our cornerstone content and internal linking features help you optimize your site structure in a breeze.
-* Integrates with Google Search Console: See how your site performs in the search engines and fix crawl errors.
 * Manage SEO roles: Give your colleagues access to specific sections of the Yoast SEO plugin.
 * Bulk editor: Make large-scale edits to your site.
 * **[Premium]** Social previews to manage the way your page is shared on social networks like Facebook and Twitter.
-* **[Premium]** Redirect manager: It keeps your site healthy by easily redirecting errors from Google Search Console, deleted pages and changed URLs.
+* **[Premium]** Redirect manager: It keeps your site healthy by easily redirecting deleted pages and changed URLs.
 
 ### Premium support
 
