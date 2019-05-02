@@ -46,7 +46,7 @@ switch ( $platform_tabs->current_tab() ) {
 			printf(
 				/* Translators: %s: expands to Yoast SEO. */
 				esc_html__( 'To allow %s to fetch your Google Search Console information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ),
-				'Yoast SEO',
+				'Yoast SEO'
 			);
 			echo "</p>\n";
 			echo '<input type="hidden" id="gsc_auth_url" value="', esc_url( $this->service->get_client()->createAuthUrl() ) , '" />';
