@@ -34,7 +34,7 @@ $gsc_style_alert_content = 'max-width: 600px;';
 $gsc_style_alert_link    = 'color: #004973;';
 $gsc_notification        = sprintf(
 /* Translators: %1$s: expands to opening anchor tag, %2$s expands to closing anchor tag. */
-	__( 'Google has discontinued its Crawl Errors API. Therefore, any possible crawl errors you might have cannot be displayed here anymore. %1$sRead our statement on this, for further information%2$s.', "wordpress-seo" ),
+	__( 'Google has discontinued its Crawl Errors API. Therefore, any possible crawl errors you might have cannot be displayed here anymore. %1$sRead our statement on this, for further information%2$s.', 'wordpress-seo' ),
 	'<a style="' . $gsc_style_alert_link . '" href="' . WPSEO_Shortlinker::get( $gsc_post_url ) . '" target="_blank" rel="noopener">',
 	'</a>'
 );
