@@ -2872,7 +2872,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="21"
+                        id="20"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -2899,12 +2899,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             }
                           }
                           forwardedRef={null}
-                          id="21"
+                          id="20"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="21"
+                            id="20"
                             onClick={[Function]}
                           >
                             SEO title
@@ -3186,7 +3186,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="21"
+                              ariaLabelledBy="20"
                               content="Test title"
                               fieldId="snippet-editor-field-title"
                               onBlur={[Function]}
@@ -3309,7 +3309,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     className="c17"
                   >
                     <shared__SimulatedLabel
-                      id="snippet-editor-field-20-slug"
+                      id="snippet-editor-field-19-slug"
                       onClick={[Function]}
                     >
                       <StyledComponent
@@ -3336,12 +3336,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           }
                         }
                         forwardedRef={null}
-                        id="snippet-editor-field-20-slug"
+                        id="snippet-editor-field-19-slug"
                         onClick={[Function]}
                       >
                         <div
                           className="c18"
-                          id="snippet-editor-field-20-slug"
+                          id="snippet-editor-field-19-slug"
                           onClick={[Function]}
                         >
                           Slug
@@ -3399,7 +3399,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           onClick={[Function]}
                         >
                           <SnippetEditorFields__SlugInput
-                            aria-labelledby="snippet-editor-field-20-slug"
+                            aria-labelledby="snippet-editor-field-19-slug"
                             id="snippet-editor-field-slug"
                             onBlur={[Function]}
                             onChange={[Function]}
@@ -3407,7 +3407,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             value="test-slug"
                           >
                             <StyledComponent
-                              aria-labelledby="snippet-editor-field-20-slug"
+                              aria-labelledby="snippet-editor-field-19-slug"
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -3438,7 +3438,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               value="test-slug"
                             >
                               <input
-                                aria-labelledby="snippet-editor-field-20-slug"
+                                aria-labelledby="snippet-editor-field-19-slug"
                                 className="c23"
                                 id="snippet-editor-field-slug"
                                 onBlur={[Function]}
@@ -3500,7 +3500,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="22"
+                        id="21"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -3527,12 +3527,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             }
                           }
                           forwardedRef={null}
-                          id="22"
+                          id="21"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="22"
+                            id="21"
                             onClick={[Function]}
                           >
                             Meta description
@@ -3818,7 +3818,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="22"
+                              ariaLabelledBy="21"
                               content="Test description, %%replacement_variable%%"
                               fieldId="snippet-editor-field-description"
                               onBlur={[Function]}
@@ -6250,7 +6250,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="21"
+                        id="20"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -6277,12 +6277,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             }
                           }
                           forwardedRef={null}
-                          id="21"
+                          id="20"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="21"
+                            id="20"
                             onClick={[Function]}
                           >
                             SEO title
@@ -6564,7 +6564,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="21"
+                              ariaLabelledBy="20"
                               content="Test title"
                               fieldId="snippet-editor-field-title"
                               onBlur={[Function]}
@@ -6687,7 +6687,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     className="c17"
                   >
                     <shared__SimulatedLabel
-                      id="snippet-editor-field-20-slug"
+                      id="snippet-editor-field-19-slug"
                       onClick={[Function]}
                     >
                       <StyledComponent
@@ -6714,12 +6714,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           }
                         }
                         forwardedRef={null}
-                        id="snippet-editor-field-20-slug"
+                        id="snippet-editor-field-19-slug"
                         onClick={[Function]}
                       >
                         <div
                           className="c18"
-                          id="snippet-editor-field-20-slug"
+                          id="snippet-editor-field-19-slug"
                           onClick={[Function]}
                         >
                           Slug
@@ -6777,7 +6777,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           onClick={[Function]}
                         >
                           <SnippetEditorFields__SlugInput
-                            aria-labelledby="snippet-editor-field-20-slug"
+                            aria-labelledby="snippet-editor-field-19-slug"
                             id="snippet-editor-field-slug"
                             onBlur={[Function]}
                             onChange={[Function]}
@@ -6785,7 +6785,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             value="test-slug"
                           >
                             <StyledComponent
-                              aria-labelledby="snippet-editor-field-20-slug"
+                              aria-labelledby="snippet-editor-field-19-slug"
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -6816,7 +6816,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               value="test-slug"
                             >
                               <input
-                                aria-labelledby="snippet-editor-field-20-slug"
+                                aria-labelledby="snippet-editor-field-19-slug"
                                 className="c23"
                                 id="snippet-editor-field-slug"
                                 onBlur={[Function]}
@@ -6878,7 +6878,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="22"
+                        id="21"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -6905,12 +6905,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             }
                           }
                           forwardedRef={null}
-                          id="22"
+                          id="21"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="22"
+                            id="21"
                             onClick={[Function]}
                           >
                             Meta description
@@ -7196,7 +7196,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="22"
+                              ariaLabelledBy="21"
                               content="Test description, %%replacement_variable%%"
                               fieldId="snippet-editor-field-description"
                               onBlur={[Function]}
@@ -9628,7 +9628,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="21"
+                        id="20"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -9655,12 +9655,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             }
                           }
                           forwardedRef={null}
-                          id="21"
+                          id="20"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="21"
+                            id="20"
                             onClick={[Function]}
                           >
                             SEO title
@@ -9942,7 +9942,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="21"
+                              ariaLabelledBy="20"
                               content="Test title"
                               fieldId="snippet-editor-field-title"
                               onBlur={[Function]}
@@ -10065,7 +10065,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     className="c17"
                   >
                     <shared__SimulatedLabel
-                      id="snippet-editor-field-20-slug"
+                      id="snippet-editor-field-19-slug"
                       onClick={[Function]}
                     >
                       <StyledComponent
@@ -10092,12 +10092,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           }
                         }
                         forwardedRef={null}
-                        id="snippet-editor-field-20-slug"
+                        id="snippet-editor-field-19-slug"
                         onClick={[Function]}
                       >
                         <div
                           className="c18"
-                          id="snippet-editor-field-20-slug"
+                          id="snippet-editor-field-19-slug"
                           onClick={[Function]}
                         >
                           Slug
@@ -10155,7 +10155,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           onClick={[Function]}
                         >
                           <SnippetEditorFields__SlugInput
-                            aria-labelledby="snippet-editor-field-20-slug"
+                            aria-labelledby="snippet-editor-field-19-slug"
                             id="snippet-editor-field-slug"
                             onBlur={[Function]}
                             onChange={[Function]}
@@ -10163,7 +10163,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             value="test-slug"
                           >
                             <StyledComponent
-                              aria-labelledby="snippet-editor-field-20-slug"
+                              aria-labelledby="snippet-editor-field-19-slug"
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -10194,7 +10194,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               value="test-slug"
                             >
                               <input
-                                aria-labelledby="snippet-editor-field-20-slug"
+                                aria-labelledby="snippet-editor-field-19-slug"
                                 className="c23"
                                 id="snippet-editor-field-slug"
                                 onBlur={[Function]}
@@ -10256,7 +10256,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="22"
+                        id="21"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -10283,12 +10283,12 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             }
                           }
                           forwardedRef={null}
-                          id="22"
+                          id="21"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="22"
+                            id="21"
                             onClick={[Function]}
                           >
                             Meta description
@@ -10574,7 +10574,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="22"
+                              ariaLabelledBy="21"
                               content="Test description, %%replacement_variable%%"
                               fieldId="snippet-editor-field-description"
                               onBlur={[Function]}
@@ -13006,7 +13006,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="9"
+                        id="8"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -13033,12 +13033,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             }
                           }
                           forwardedRef={null}
-                          id="9"
+                          id="8"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="9"
+                            id="8"
                             onClick={[Function]}
                           >
                             SEO title
@@ -13320,7 +13320,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="9"
+                              ariaLabelledBy="8"
                               content="Test title"
                               fieldId="snippet-editor-field-title"
                               onBlur={[Function]}
@@ -13443,7 +13443,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     className="c17"
                   >
                     <shared__SimulatedLabel
-                      id="snippet-editor-field-8-slug"
+                      id="snippet-editor-field-7-slug"
                       onClick={[Function]}
                     >
                       <StyledComponent
@@ -13470,12 +13470,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           }
                         }
                         forwardedRef={null}
-                        id="snippet-editor-field-8-slug"
+                        id="snippet-editor-field-7-slug"
                         onClick={[Function]}
                       >
                         <div
                           className="c18"
-                          id="snippet-editor-field-8-slug"
+                          id="snippet-editor-field-7-slug"
                           onClick={[Function]}
                         >
                           Slug
@@ -13533,7 +13533,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           onClick={[Function]}
                         >
                           <SnippetEditorFields__SlugInput
-                            aria-labelledby="snippet-editor-field-8-slug"
+                            aria-labelledby="snippet-editor-field-7-slug"
                             id="snippet-editor-field-slug"
                             onBlur={[Function]}
                             onChange={[Function]}
@@ -13541,7 +13541,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             value="test-slug"
                           >
                             <StyledComponent
-                              aria-labelledby="snippet-editor-field-8-slug"
+                              aria-labelledby="snippet-editor-field-7-slug"
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -13572,7 +13572,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               value="test-slug"
                             >
                               <input
-                                aria-labelledby="snippet-editor-field-8-slug"
+                                aria-labelledby="snippet-editor-field-7-slug"
                                 className="c23"
                                 id="snippet-editor-field-slug"
                                 onBlur={[Function]}
@@ -13634,7 +13634,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="10"
+                        id="9"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -13661,12 +13661,12 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             }
                           }
                           forwardedRef={null}
-                          id="10"
+                          id="9"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="10"
+                            id="9"
                             onClick={[Function]}
                           >
                             Meta description
@@ -13952,7 +13952,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="10"
+                              ariaLabelledBy="9"
                               content="Test description, %%replacement_variable%%"
                               fieldId="snippet-editor-field-description"
                               onBlur={[Function]}
@@ -18077,7 +18077,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="30"
+                        id="29"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -18104,12 +18104,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             }
                           }
                           forwardedRef={null}
-                          id="30"
+                          id="29"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="30"
+                            id="29"
                             onClick={[Function]}
                           >
                             SEO title
@@ -18391,7 +18391,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="30"
+                              ariaLabelledBy="29"
                               content="Test title"
                               fieldId="snippet-editor-field-title"
                               onBlur={[Function]}
@@ -18514,7 +18514,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     className="c17"
                   >
                     <shared__SimulatedLabel
-                      id="snippet-editor-field-29-slug"
+                      id="snippet-editor-field-28-slug"
                       onClick={[Function]}
                     >
                       <StyledComponent
@@ -18541,12 +18541,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           }
                         }
                         forwardedRef={null}
-                        id="snippet-editor-field-29-slug"
+                        id="snippet-editor-field-28-slug"
                         onClick={[Function]}
                       >
                         <div
                           className="c18"
-                          id="snippet-editor-field-29-slug"
+                          id="snippet-editor-field-28-slug"
                           onClick={[Function]}
                         >
                           Slug
@@ -18604,7 +18604,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           onClick={[Function]}
                         >
                           <SnippetEditorFields__SlugInput
-                            aria-labelledby="snippet-editor-field-29-slug"
+                            aria-labelledby="snippet-editor-field-28-slug"
                             id="snippet-editor-field-slug"
                             onBlur={[Function]}
                             onChange={[Function]}
@@ -18612,7 +18612,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             value="test-slug"
                           >
                             <StyledComponent
-                              aria-labelledby="snippet-editor-field-29-slug"
+                              aria-labelledby="snippet-editor-field-28-slug"
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -18643,7 +18643,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               value="test-slug"
                             >
                               <input
-                                aria-labelledby="snippet-editor-field-29-slug"
+                                aria-labelledby="snippet-editor-field-28-slug"
                                 className="c23"
                                 id="snippet-editor-field-slug"
                                 onBlur={[Function]}
@@ -18705,7 +18705,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="31"
+                        id="30"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -18732,12 +18732,12 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             }
                           }
                           forwardedRef={null}
-                          id="31"
+                          id="30"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="31"
+                            id="30"
                             onClick={[Function]}
                           >
                             Meta description
@@ -19023,7 +19023,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="31"
+                              ariaLabelledBy="30"
                               content="Test description, %%replacement_variable%%"
                               fieldId="snippet-editor-field-description"
                               onBlur={[Function]}
@@ -21455,7 +21455,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="27"
+                        id="26"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -21482,12 +21482,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             }
                           }
                           forwardedRef={null}
-                          id="27"
+                          id="26"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="27"
+                            id="26"
                             onClick={[Function]}
                           >
                             SEO title
@@ -21769,7 +21769,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="27"
+                              ariaLabelledBy="26"
                               content="Test title"
                               fieldId="snippet-editor-field-title"
                               onBlur={[Function]}
@@ -21892,7 +21892,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     className="c17"
                   >
                     <shared__SimulatedLabel
-                      id="snippet-editor-field-26-slug"
+                      id="snippet-editor-field-25-slug"
                       onClick={[Function]}
                     >
                       <StyledComponent
@@ -21919,12 +21919,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           }
                         }
                         forwardedRef={null}
-                        id="snippet-editor-field-26-slug"
+                        id="snippet-editor-field-25-slug"
                         onClick={[Function]}
                       >
                         <div
                           className="c18"
-                          id="snippet-editor-field-26-slug"
+                          id="snippet-editor-field-25-slug"
                           onClick={[Function]}
                         >
                           Slug
@@ -21982,7 +21982,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           onClick={[Function]}
                         >
                           <SnippetEditorFields__SlugInput
-                            aria-labelledby="snippet-editor-field-26-slug"
+                            aria-labelledby="snippet-editor-field-25-slug"
                             id="snippet-editor-field-slug"
                             onBlur={[Function]}
                             onChange={[Function]}
@@ -21990,7 +21990,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             value="test-slug"
                           >
                             <StyledComponent
-                              aria-labelledby="snippet-editor-field-26-slug"
+                              aria-labelledby="snippet-editor-field-25-slug"
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -22021,7 +22021,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               value="test-slug"
                             >
                               <input
-                                aria-labelledby="snippet-editor-field-26-slug"
+                                aria-labelledby="snippet-editor-field-25-slug"
                                 className="c23"
                                 id="snippet-editor-field-slug"
                                 onBlur={[Function]}
@@ -22083,7 +22083,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="28"
+                        id="27"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -22110,12 +22110,12 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             }
                           }
                           forwardedRef={null}
-                          id="28"
+                          id="27"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="28"
+                            id="27"
                             onClick={[Function]}
                           >
                             Meta description
@@ -22401,7 +22401,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="28"
+                              ariaLabelledBy="27"
                               content="Test description, %%replacement_variable%%"
                               fieldId="snippet-editor-field-description"
                               onBlur={[Function]}
@@ -26041,7 +26041,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="15"
+                        id="14"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -26068,12 +26068,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             }
                           }
                           forwardedRef={null}
-                          id="15"
+                          id="14"
                           onClick={[Function]}
                         >
                           <div
                             className="c19"
-                            id="15"
+                            id="14"
                             onClick={[Function]}
                           >
                             SEO title
@@ -26355,7 +26355,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="15"
+                              ariaLabelledBy="14"
                               content="Test title"
                               fieldId="snippet-editor-field-title"
                               onBlur={[Function]}
@@ -26478,7 +26478,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     className="c18"
                   >
                     <shared__SimulatedLabel
-                      id="snippet-editor-field-14-slug"
+                      id="snippet-editor-field-13-slug"
                       onClick={[Function]}
                     >
                       <StyledComponent
@@ -26505,12 +26505,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           }
                         }
                         forwardedRef={null}
-                        id="snippet-editor-field-14-slug"
+                        id="snippet-editor-field-13-slug"
                         onClick={[Function]}
                       >
                         <div
                           className="c19"
-                          id="snippet-editor-field-14-slug"
+                          id="snippet-editor-field-13-slug"
                           onClick={[Function]}
                         >
                           Slug
@@ -26568,7 +26568,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           onClick={[Function]}
                         >
                           <SnippetEditorFields__SlugInput
-                            aria-labelledby="snippet-editor-field-14-slug"
+                            aria-labelledby="snippet-editor-field-13-slug"
                             id="snippet-editor-field-slug"
                             onBlur={[Function]}
                             onChange={[Function]}
@@ -26576,7 +26576,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             value="test-slug"
                           >
                             <StyledComponent
-                              aria-labelledby="snippet-editor-field-14-slug"
+                              aria-labelledby="snippet-editor-field-13-slug"
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -26607,7 +26607,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               value="test-slug"
                             >
                               <input
-                                aria-labelledby="snippet-editor-field-14-slug"
+                                aria-labelledby="snippet-editor-field-13-slug"
                                 className="c24"
                                 id="snippet-editor-field-slug"
                                 onBlur={[Function]}
@@ -26669,7 +26669,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="16"
+                        id="15"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -26696,12 +26696,12 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             }
                           }
                           forwardedRef={null}
-                          id="16"
+                          id="15"
                           onClick={[Function]}
                         >
                           <div
                             className="c19"
-                            id="16"
+                            id="15"
                             onClick={[Function]}
                           >
                             Meta description
@@ -26987,7 +26987,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="16"
+                              ariaLabelledBy="15"
                               content="Test description, %%replacement_variable%%"
                               fieldId="snippet-editor-field-description"
                               onBlur={[Function]}
@@ -29449,7 +29449,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="12"
+                        id="11"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -29476,12 +29476,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                             }
                           }
                           forwardedRef={null}
-                          id="12"
+                          id="11"
                           onClick={[Function]}
                         >
                           <div
                             className="c19"
-                            id="12"
+                            id="11"
                             onClick={[Function]}
                           >
                             SEO title
@@ -29763,7 +29763,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="12"
+                              ariaLabelledBy="11"
                               content="Test title"
                               fieldId="snippet-editor-field-title"
                               onBlur={[Function]}
@@ -29886,7 +29886,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     className="c18"
                   >
                     <shared__SimulatedLabel
-                      id="snippet-editor-field-11-slug"
+                      id="snippet-editor-field-10-slug"
                       onClick={[Function]}
                     >
                       <StyledComponent
@@ -29913,12 +29913,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           }
                         }
                         forwardedRef={null}
-                        id="snippet-editor-field-11-slug"
+                        id="snippet-editor-field-10-slug"
                         onClick={[Function]}
                       >
                         <div
                           className="c19"
-                          id="snippet-editor-field-11-slug"
+                          id="snippet-editor-field-10-slug"
                           onClick={[Function]}
                         >
                           Slug
@@ -29976,7 +29976,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           onClick={[Function]}
                         >
                           <SnippetEditorFields__SlugInput
-                            aria-labelledby="snippet-editor-field-11-slug"
+                            aria-labelledby="snippet-editor-field-10-slug"
                             id="snippet-editor-field-slug"
                             onBlur={[Function]}
                             onChange={[Function]}
@@ -29984,7 +29984,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                             value="test-slug"
                           >
                             <StyledComponent
-                              aria-labelledby="snippet-editor-field-11-slug"
+                              aria-labelledby="snippet-editor-field-10-slug"
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -30015,7 +30015,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               value="test-slug"
                             >
                               <input
-                                aria-labelledby="snippet-editor-field-11-slug"
+                                aria-labelledby="snippet-editor-field-10-slug"
                                 className="c24"
                                 id="snippet-editor-field-slug"
                                 onBlur={[Function]}
@@ -30077,7 +30077,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="13"
+                        id="12"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -30104,12 +30104,12 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                             }
                           }
                           forwardedRef={null}
-                          id="13"
+                          id="12"
                           onClick={[Function]}
                         >
                           <div
                             className="c19"
-                            id="13"
+                            id="12"
                             onClick={[Function]}
                           >
                             Meta description
@@ -30395,7 +30395,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="13"
+                              ariaLabelledBy="12"
                               content="Test description, %%replacement_variable%%"
                               fieldId="snippet-editor-field-description"
                               onBlur={[Function]}
@@ -32827,7 +32827,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="6"
+                        id="5"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -32854,12 +32854,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             }
                           }
                           forwardedRef={null}
-                          id="6"
+                          id="5"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="6"
+                            id="5"
                             onClick={[Function]}
                           >
                             SEO title
@@ -33141,7 +33141,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="6"
+                              ariaLabelledBy="5"
                               content="Test title"
                               fieldId="snippet-editor-field-title"
                               onBlur={[Function]}
@@ -33264,7 +33264,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     className="c17"
                   >
                     <shared__SimulatedLabel
-                      id="snippet-editor-field-5-slug"
+                      id="snippet-editor-field-4-slug"
                       onClick={[Function]}
                     >
                       <StyledComponent
@@ -33291,12 +33291,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           }
                         }
                         forwardedRef={null}
-                        id="snippet-editor-field-5-slug"
+                        id="snippet-editor-field-4-slug"
                         onClick={[Function]}
                       >
                         <div
                           className="c18"
-                          id="snippet-editor-field-5-slug"
+                          id="snippet-editor-field-4-slug"
                           onClick={[Function]}
                         >
                           Slug
@@ -33354,7 +33354,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           onClick={[Function]}
                         >
                           <SnippetEditorFields__SlugInput
-                            aria-labelledby="snippet-editor-field-5-slug"
+                            aria-labelledby="snippet-editor-field-4-slug"
                             id="snippet-editor-field-slug"
                             onBlur={[Function]}
                             onChange={[Function]}
@@ -33362,7 +33362,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             value="test-slug"
                           >
                             <StyledComponent
-                              aria-labelledby="snippet-editor-field-5-slug"
+                              aria-labelledby="snippet-editor-field-4-slug"
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -33393,7 +33393,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               value="test-slug"
                             >
                               <input
-                                aria-labelledby="snippet-editor-field-5-slug"
+                                aria-labelledby="snippet-editor-field-4-slug"
                                 className="c23"
                                 id="snippet-editor-field-slug"
                                 onBlur={[Function]}
@@ -33455,7 +33455,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="7"
+                        id="6"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -33482,12 +33482,12 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             }
                           }
                           forwardedRef={null}
-                          id="7"
+                          id="6"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="7"
+                            id="6"
                             onClick={[Function]}
                           >
                             Meta description
@@ -33773,7 +33773,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="7"
+                              ariaLabelledBy="6"
                               content="Test description, %%replacement_variable%%"
                               fieldId="snippet-editor-field-description"
                               onBlur={[Function]}
@@ -36238,7 +36238,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="24"
+                        id="23"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -36265,12 +36265,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             }
                           }
                           forwardedRef={null}
-                          id="24"
+                          id="23"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="24"
+                            id="23"
                             onClick={[Function]}
                           >
                             SEO title
@@ -36552,7 +36552,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="24"
+                              ariaLabelledBy="23"
                               content="Test title"
                               fieldId="snippet-editor-field-title"
                               onBlur={[Function]}
@@ -36686,7 +36686,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     className="c17"
                   >
                     <shared__SimulatedLabel
-                      id="snippet-editor-field-23-slug"
+                      id="snippet-editor-field-22-slug"
                       onClick={[Function]}
                     >
                       <StyledComponent
@@ -36713,12 +36713,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           }
                         }
                         forwardedRef={null}
-                        id="snippet-editor-field-23-slug"
+                        id="snippet-editor-field-22-slug"
                         onClick={[Function]}
                       >
                         <div
                           className="c18"
-                          id="snippet-editor-field-23-slug"
+                          id="snippet-editor-field-22-slug"
                           onClick={[Function]}
                         >
                           Slug
@@ -36776,7 +36776,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           onClick={[Function]}
                         >
                           <SnippetEditorFields__SlugInput
-                            aria-labelledby="snippet-editor-field-23-slug"
+                            aria-labelledby="snippet-editor-field-22-slug"
                             id="snippet-editor-field-slug"
                             onBlur={[Function]}
                             onChange={[Function]}
@@ -36784,7 +36784,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             value="test-slug"
                           >
                             <StyledComponent
-                              aria-labelledby="snippet-editor-field-23-slug"
+                              aria-labelledby="snippet-editor-field-22-slug"
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -36815,7 +36815,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               value="test-slug"
                             >
                               <input
-                                aria-labelledby="snippet-editor-field-23-slug"
+                                aria-labelledby="snippet-editor-field-22-slug"
                                 className="c23"
                                 id="snippet-editor-field-slug"
                                 onBlur={[Function]}
@@ -36888,7 +36888,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="25"
+                        id="24"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -36915,12 +36915,12 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             }
                           }
                           forwardedRef={null}
-                          id="25"
+                          id="24"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="25"
+                            id="24"
                             onClick={[Function]}
                           >
                             Meta description
@@ -37206,7 +37206,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="25"
+                              ariaLabelledBy="24"
                               content="Test description, %%replacement_variable%%"
                               fieldId="snippet-editor-field-description"
                               onBlur={[Function]}
@@ -40353,7 +40353,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="18"
+                        id="17"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -40380,12 +40380,12 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                             }
                           }
                           forwardedRef={null}
-                          id="18"
+                          id="17"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="18"
+                            id="17"
                             onClick={[Function]}
                           >
                             SEO title
@@ -40667,7 +40667,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="18"
+                              ariaLabelledBy="17"
                               content="Test title"
                               fieldId="snippet-editor-field-title"
                               onBlur={[Function]}
@@ -40790,7 +40790,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     className="c17"
                   >
                     <shared__SimulatedLabel
-                      id="snippet-editor-field-17-slug"
+                      id="snippet-editor-field-16-slug"
                       onClick={[Function]}
                     >
                       <StyledComponent
@@ -40817,12 +40817,12 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           }
                         }
                         forwardedRef={null}
-                        id="snippet-editor-field-17-slug"
+                        id="snippet-editor-field-16-slug"
                         onClick={[Function]}
                       >
                         <div
                           className="c18"
-                          id="snippet-editor-field-17-slug"
+                          id="snippet-editor-field-16-slug"
                           onClick={[Function]}
                         >
                           Slug
@@ -40880,7 +40880,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           onClick={[Function]}
                         >
                           <SnippetEditorFields__SlugInput
-                            aria-labelledby="snippet-editor-field-17-slug"
+                            aria-labelledby="snippet-editor-field-16-slug"
                             id="snippet-editor-field-slug"
                             onBlur={[Function]}
                             onChange={[Function]}
@@ -40888,7 +40888,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                             value="test-slug"
                           >
                             <StyledComponent
-                              aria-labelledby="snippet-editor-field-17-slug"
+                              aria-labelledby="snippet-editor-field-16-slug"
                               forwardedComponent={
                                 Object {
                                   "$$typeof": Symbol(react.forward_ref),
@@ -40919,7 +40919,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               value="test-slug"
                             >
                               <input
-                                aria-labelledby="snippet-editor-field-17-slug"
+                                aria-labelledby="snippet-editor-field-16-slug"
                                 className="c23"
                                 id="snippet-editor-field-slug"
                                 onBlur={[Function]}
@@ -40981,7 +40981,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       withCaret={true}
                     >
                       <shared__SimulatedLabel
-                        id="19"
+                        id="18"
                         onClick={[Function]}
                       >
                         <StyledComponent
@@ -41008,12 +41008,12 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                             }
                           }
                           forwardedRef={null}
-                          id="19"
+                          id="18"
                           onClick={[Function]}
                         >
                           <div
                             className="c18"
-                            id="19"
+                            id="18"
                             onClick={[Function]}
                           >
                             Meta description
@@ -41299,7 +41299,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                             onClick={[Function]}
                           >
                             <ReplacementVariableEditorStandalone
-                              ariaLabelledBy="19"
+                              ariaLabelledBy="18"
                               content="Test description, %%replacement_variable%%"
                               fieldId="snippet-editor-field-description"
                               onBlur={[Function]}
@@ -42935,7 +42935,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
     >
       <div
         className="c16"
-        id="3"
+        id="2"
         onClick={[Function]}
       >
         SEO title
@@ -42979,7 +42979,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
     >
       <div
         className="c16"
-        id="snippet-editor-field-2-slug"
+        id="snippet-editor-field-1-slug"
         onClick={[Function]}
       >
         Slug
@@ -42989,7 +42989,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
         onClick={[Function]}
       >
         <input
-          aria-labelledby="snippet-editor-field-2-slug"
+          aria-labelledby="snippet-editor-field-1-slug"
           className="c22"
           id="snippet-editor-field-slug"
           onBlur={[Function]}
@@ -43004,7 +43004,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
     >
       <div
         className="c16"
-        id="4"
+        id="3"
         onClick={[Function]}
       >
         Meta description
