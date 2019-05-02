@@ -1,7 +1,6 @@
 // External dependencies.
 import React from "react";
 import PropTypes from "prop-types";
-import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 
 // Internal dependencies.
@@ -47,8 +46,6 @@ class SettingsSnippetEditorFields extends React.Component {
 			title: null,
 			description: null,
 		};
-
-		this.uniqueId = uniqueId( "snippet-editor-field-" );
 
 		this.setRef = this.setRef.bind( this );
 		this.triggerReplacementVariableSuggestions = this.triggerReplacementVariableSuggestions.bind( this );
