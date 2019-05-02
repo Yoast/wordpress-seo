@@ -21,7 +21,6 @@ $gsc_style_alert         = '
 	position: relative;
 	padding: 16px;
 	border: 1px solid rgba(0, 0, 0, 0.2);
-	font-family: \'Segoe UI\', Roboto, Oxygen-Sans, Ubuntu, Cantarell, \'Helvetica Neue\', sans-serif;
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 1.5;
