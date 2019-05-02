@@ -57,7 +57,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			'<strong>' . esc_html__( 'No more dead links', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Easy redirect manager', 'wordpress-seo' ),
 			'<strong>' . esc_html__( 'Superfast internal linking suggestions', 'wordpress-seo' ) . '</strong>',
 			'<strong>' . esc_html__( 'Social media preview', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Facebook & Twitter', 'wordpress-seo' ),
-			'<strong>' . esc_html__( '24/7 support', 'wordpress-seo' ) . '</strong>',
+			'<strong>' . esc_html__( '24/7 email support', 'wordpress-seo' ) . '</strong>',
 			'<strong>' . esc_html__( 'No ads!', 'wordpress-seo' ) . '</strong>',
 		);
 
