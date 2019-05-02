@@ -41,7 +41,7 @@ $gsc_notification        = sprintf(
 $gsc_notification        .= '<br/><br/>';
 $gsc_notification        .= sprintf(
 /* Translators: %1$s: expands to opening anchor tag, %2$s expands to closing anchor tag. */
-	__( 'To view your current crawl errors, %1$splease visit Google Search Console%2$s.', "wordpress-seo" ),
+	__( 'To view your current crawl errors, %1$splease visit Google Search Console%2$s.', 'wordpress-seo' ),
 	'<a style="' . $gsc_style_alert_link . '" href="' . $gsc_url . '" target="_blank" rel="noopener noreferrer">',
 	'</a>'
 );
