@@ -12,7 +12,7 @@ Yoast_Form::get_instance()->admin_header( false, 'wpseo-gsc', false, 'yoast_wpse
 $gsc_profile = WPSEO_GSC_Settings::get_profile();
 $gsc_url     = 'https://search.google.com/search-console/index';
 if ( $gsc_profile !== '' ) {
-	$gsc_url = 'https://search.google.com/search-console/index?resource_id=' . rawurlencode( $gsc_profile );;
+	$gsc_url .= '?resource_id=' . rawurlencode( $gsc_profile );
 }
 $gsc_post_url            = 'https://yoa.st/google-search-console-deprecated';
 $gsc_style_alert         = '
