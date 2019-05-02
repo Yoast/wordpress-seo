@@ -106,6 +106,13 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 11.1.1 =
+Release Date: May 2nd, 2019
+
+Bugfixes:
+
+* Fixes a bug where an empty width and height would be outputted in the image schema when there was no retrievable width and height.
+
 = 11.1.0 =
 Release Date: April 30th, 2019
 
