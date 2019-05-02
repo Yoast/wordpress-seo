@@ -116,7 +116,7 @@ Bugfixes:
 Other
 
 * Adds a notification to explain why users’ Google Search Console reports are no longer showing any entries. [Read more about the reasons behind this](https://yoa.st/gsc-dep-changelog).
-* Removes the Google Search Console from the configuration wizard.
+* Removes the Google Search Console step from the configuration wizard.
 
 = 11.1.0 =
 Release Date: April 30th, 2019
