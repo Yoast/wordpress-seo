@@ -118,11 +118,11 @@ Enhancements:
 * Adds a `wpseo_sitemap_post_statuses` filter to add posts with custom post statuses to the sitemap. Props to [stodorovic](https://github.com/stodorovic) and [tolnem](https://github.com/tolnem).
 * Adds a custom overlay color to the snippet preview modal.
 * Adds the correct focus style to the Configuration Wizard navigation buttons.
-* Props to [@ramiy](https://github.com/ramiy) for making translating the plugin easier by merging near identical strings.
+* Props to [@ramiy](https://profiles.wordpress.org/ramiy/) for making translating the plugin easier by merging near identical strings.
 
 Bugfixes:
 
-* Fixes a bug where the URL to Pinterest's claim page was incorrect. Props [@ramiy](https://github.com/ramiy).
+* Fixes a bug where the URL to Pinterest's claim page was incorrect. Props [@ramiy](https://profiles.wordpress.org/ramiy/).
 * Fixes a bug where notifications about incompatibility would be thrown for inactive add-ons.
 * Fixes a bug where URLs with a non-Yoast SEO related xsl query string parameter would result in a blank page. Props [@stodorovic](https://github.com/stodorovic) and [@yiska](https://github.com/yiska).
 
