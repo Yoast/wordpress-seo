@@ -42,7 +42,7 @@ const KeywordSynonyms = ( props ) => {
 			"<strong>",
 			"</strong>"
 		),
-		`<strong>${ __( "24/7 support", "wordpress-seo" ) }</strong>`,
+		`<strong>${ __( "24/7 email support", "wordpress-seo" ) }</strong>`,
 		`<strong>${ __( "No ads!", "wordpress-seo" ) }</strong>`,
 	];
 
