@@ -24,7 +24,7 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 		parent::setUp();
 
 		$logger = $this
-			->getMockBuilder( '\YoastSEO_Vendor\Psr\Log\AbstractLogger' )
+			->getMockBuilder( 'YoastSEO_Vendor\Psr\Log\AbstractLogger' )
 			->setMethods( array( 'notice', 'log' ) )
 			->getMock();
 
