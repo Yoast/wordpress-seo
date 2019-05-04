@@ -117,10 +117,13 @@ class WPSEO_Help_Center {
 			);
 
 			$formatted_data['videoDescriptions'][] = array(
-				'title'       => __( 'Want to be a Yoast SEO Expert?', 'wordpress-seo' ),
-				'description' => __( 'Follow our Yoast SEO for WordPress training and become a certified Yoast SEO Expert!', 'wordpress-seo' ),
+				/* translators: %s expands to Yoast SEO */
+				'title'       => sprintf( __( 'Want to be a %s Expert?', 'wordpress-seo' ), 'Yoast SEO' ),
+				/* translators: %s expands to Yoast SEO */
+				'description' => __( 'Follow our %s for WordPress training and become a certified %s Expert!', 'wordpress-seo' ), 'Yoast SEO' ),
 				'link'        => WPSEO_Shortlinker::get( 'https://yoa.st/wordpress-training-vt' ),
-				'linkText'    => __( 'Enroll in the Yoast SEO for WordPress training »', 'wordpress-seo' ),
+				/* translators: %s expands to Yoast SEO */
+				'linkText'    => sprintf( __( 'Enroll in the %s for WordPress training', 'wordpress-seo' ), 'Yoast SEO' ),
 			);
 		}
 
