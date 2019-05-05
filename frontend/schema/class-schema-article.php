@@ -52,9 +52,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			'@type'            => 'Article',
 			'@id'              => $this->context->canonical . WPSEO_Schema_IDs::ARTICLE_HASH,
 			'isPartOf'         => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
-			'author'           => array(
-				'@id'  => $this->get_author_url( $post ),
-			),
+			'author'           => array( '@id' => $this->get_author_url( $post ) ),
 			'headline'         => get_the_title(),
 			'datePublished'    => mysql2date( DATE_W3C, $post->post_date_gmt, false ),
 			'dateModified'     => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
