@@ -17,7 +17,6 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @var WPSEO_Schema_Context
 	 */
 	private $context;
-
 	/**
 	 * Array of the social profiles we display for a Person.
 	 *
@@ -156,14 +155,53 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return array $data The Person schema.
 	 */
 	protected function add_image( $data, $user_data ) {
+		$schema_id = $this->context->site_url . WPSEO_Schema_IDs::PERSON_LOGO_HASH;
+
+		$data = $this->set_image_from_options( $data, $schema_id );
+		if ( isset( $data['image'] ) ) {
+			return $data;
+		}
+
+		$show_avatars = get_option( 'show_avatars' );
+		if ( ! $show_avatars ) {
+			return $data;
+		}
+
 		$url = get_avatar_url( $user_data->user_email );
 		if ( empty( $url ) ) {
 			return $data;
 		}
 
-		$id            = $this->context->site_url . WPSEO_Schema_IDs::PERSON_LOGO_HASH;
-		$schema_image  = new WPSEO_Schema_Image( $id );
+		$schema_image  = new WPSEO_Schema_Image( $schema_id );
 		$data['image'] = $schema_image->simple_image_object( $url, $user_data->display_name );
+
+		return $data;
+	}
+
+	/**
+	 * Generate the person avatar / logo from our settings.
+	 *
+	 * @param array  $data      The Person schema.
+	 * @param string $schema_id The string used in the `@id` for the schema.
+	 *
+	 * @return array    $data      The Person schema.
+	 */
+	private function set_image_from_options( $data, $schema_id ) {
+		$person_logo_id = WPSEO_Options::get( 'person_logo_id', false );
+
+		if ( ! $person_logo_id ) {
+			$person_logo = WPSEO_Options::get( 'person_logo', false );
+			if ( $person_logo ) {
+				// There is not an option to put a URL in this field in the settings, only to upload it through the media manager, so we just have to save this only once and never be here again.
+				$person_logo_id = WPSEO_Image_Utils::get_attachment_by_url( $person_logo );
+				WPSEO_Options::set( 'person_logo_id', $person_logo_id );
+			}
+		}
+
+		if ( $person_logo_id ) {
+			$image         = new WPSEO_Schema_Image( $schema_id );
+			$data['image'] = $image->generate_from_attachment_id( $person_logo_id, $data['name'] );
+		}
 
 		return $data;
 	}

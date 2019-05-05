@@ -62,14 +62,23 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	 * @return array $data The Organization schema.
 	 */
 	private function add_logo( $data ) {
-		$logo = WPSEO_Options::get( 'company_logo', '' );
-		if ( empty( $logo ) ) {
+		$logo_id = WPSEO_Options::get( 'company_logo_id', false );
+		if ( ! $logo_id ) {
+			$company_logo = WPSEO_Options::get( 'company_logo', false );
+			if ( $company_logo ) {
+				// There is not an option to put a URL in this field in the settings, only to upload it through the media manager, so we just have to save this only once and never be here again.
+				$logo_id = WPSEO_Image_Utils::get_attachment_by_url( $company_logo );
+				WPSEO_Options::set( 'company_logo_id', $logo_id );
+			}
+		}
+
+		if ( empty( $logo_id ) ) {
 			return $data;
 		}
-		$id            = $this->context->site_url . WPSEO_Schema_IDs::ORGANIZATION_LOGO_HASH;
-		$schema_image  = new WPSEO_Schema_Image( $id );
-		$data['logo']  = $schema_image->generate_from_url( $logo, $this->context->company_name );
-		$data['image'] = array( '@id' => $id );
+		$schema_id     = $this->context->site_url . WPSEO_Schema_IDs::ORGANIZATION_LOGO_HASH;
+		$schema_image  = new WPSEO_Schema_Image( $schema_id );
+		$data['logo']  = $schema_image->generate_from_attachment_id( $logo_id, $this->context->company_name );
+		$data['image'] = array( '@schema_id' => $schema_id );
 
 		return $data;
 	}
