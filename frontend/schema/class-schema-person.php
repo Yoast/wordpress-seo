@@ -51,7 +51,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		if ( $this->context->site_represents === 'person' || is_author() ) {
+		if ( ( $this->context->site_represents === 'person' && $this->context->site_user_id !== false ) || is_author() ) {
 			return true;
 		}
 
