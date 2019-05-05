@@ -62,9 +62,9 @@ function wpseo_import_external_select( $name, $plugins ) {
 	<h3><?php esc_html_e( 'Step 2: Import', 'wordpress-seo' ); ?></h3>
 	<p>
 		<?php
-		/* translators: %s expands to Yoast SEO */
+		/* translators: %1$s expands to Yoast SEO */
 		printf(
-			esc_html__( 'This will import the post metadata like SEO titles and descriptions into your %s metadata. It will only do this when there is no existing %s metadata yet. The original data will remain in place.', 'wordpress-seo' ),
+			esc_html__( 'This will import the post metadata like SEO titles and descriptions into your %1$s metadata. It will only do this when there is no existing %1$s metadata yet. The original data will remain in place.', 'wordpress-seo' ),
 			'Yoast SEO'
 		);
 		?>
