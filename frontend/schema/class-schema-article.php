@@ -105,7 +105,24 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			return $this->context->site_url . WPSEO_Schema_IDs::PERSON_HASH;
 		}
 
-		return get_author_posts_url( $post->post_author ) . WPSEO_Schema_IDs::AUTHOR_HASH;
+		return $this->get_author_posts_url( $post->post_author ) . WPSEO_Schema_IDs::AUTHOR_HASH;
+	}
+
+	/**
+	 * Retrieves the author post URL based on our author archives settings.
+	 *
+	 * @param int $user_id
+	 *
+	 * @return string unsigned Author posts URL.
+	 */
+	private function get_author_posts_url( $user_id ) {
+		if ( WPSEO_Options::get( 'disable-author', false ) === false ) {
+			return get_author_posts_url( $user_id );
+		}
+		$user = get_userdata( $user_id );
+		$slug = sanitize_title( $user->display_name );
+
+		return $this->context->site_url . 'person/' . $slug . '/';
 	}
 
 	/**
