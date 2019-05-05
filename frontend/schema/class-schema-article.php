@@ -54,7 +54,6 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			'isPartOf'         => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
 			'author'           => array(
 				'@id'  => $this->get_author_url( $post ),
-				'name' => get_the_author_meta( 'display_name', $post->post_author ),
 			),
 			'headline'         => get_the_title(),
 			'datePublished'    => mysql2date( DATE_W3C, $post->post_date_gmt, false ),
