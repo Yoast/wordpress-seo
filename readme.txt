@@ -111,6 +111,7 @@ Release Date: May 6th, 2019
 Bugfixes:
 
 * Fixes a bug where an empty width and height would be outputted in the image schema when there was no retrievable width and height.
+* Fixes a bug where using the `$context` argument in the deprecated `wpseo_json_ld_output` filter would result in a fatal error when using PHP 7.1 or higher.
 
 Other
 
