@@ -21,7 +21,6 @@ webpack export-ignore
 .gitignore export-ignore
 .phpcs.xml export-ignore
 .phpcs.xml.dist export-ignore
-.recalibration-example.yaml
 .removeable-files
 .travis.yml export-ignore
 Gruntfile.js export-ignore

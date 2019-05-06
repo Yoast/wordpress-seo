@@ -138,7 +138,7 @@ class WPSEO_Configuration_Page {
 			<a class="button yoast-wizard-return-link" href="<?php echo esc_url( $dashboard_url ); ?>">
 				<span aria-hidden="true" class="dashicons dashicons-no"></span>
 				<?php
-				esc_html_e( 'Close wizard', 'wordpress-seo' );
+				esc_html_e( 'Close the Wizard', 'wordpress-seo' );
 				?>
 			</a>
 		</div>
