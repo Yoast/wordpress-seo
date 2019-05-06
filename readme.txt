@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 4.9
-Tested up to: 5.1.1
+Tested up to: 5.2
 Stable tag: 11.1
 Requires PHP: 5.2.4
 
@@ -136,6 +136,7 @@ Release Date: May 6th, 2019
 Bugfixes:
 
 * Fixes a bug where an empty width and height would be outputted in the image schema when there was no retrievable width and height.
+* Fixes a bug where using the `$context` argument in the deprecated `wpseo_json_ld_output` filter would result in a fatal error when using PHP 7.1 or higher.
 
 Other
 
