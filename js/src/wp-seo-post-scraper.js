@@ -158,7 +158,7 @@ setWordPressSeoL10n();
 	}
 
 	/**
-	 * Initializes content analysis
+	 * Initializes content analysis.
 	 *
 	 * @param {Object} publishBox The publish box object.
 	 *
