@@ -7,7 +7,7 @@
  * @returns {boolean} `true` when the feature is enabled, `false` if not.
  */
 const isFeatureEnabled = function( featureName ) {
-	return self.yoastseoEnabledFeatures.includes( featureName );
+	return self.wpseoFeatureFlags.includes( featureName );
 };
 
 /**
@@ -19,14 +19,14 @@ const isFeatureEnabled = function( featureName ) {
  */
 const enableFeatures = function( featureNames ) {
 	// If no features have been enabled yet, initialize the global array.
-	if ( ! self.yoastseoEnabledFeatures ) {
-		self.yoastseoEnabledFeatures = [];
+	if ( ! self.wpseoFeatureFlags ) {
+		self.wpseoFeatureFlags = [];
 	}
 
 	// Check whether the features are already enabled, if not: add them.
 	featureNames.forEach( name => {
-		if ( ! self.yoastseoEnabledFeatures.includes( name ) ) {
-			self.yoastseoEnabledFeatures.push( name );
+		if ( ! self.wpseoFeatureFlags.includes( name ) ) {
+			self.wpseoFeatureFlags.push( name );
 		}
 	} );
 };
@@ -37,7 +37,7 @@ const enableFeatures = function( featureNames ) {
  * @returns {string[]} The list of enabled features.
  */
 const enabledFeatures = function() {
-	return self.yoastseoEnabledFeatures || [];
+	return self.wpseoFeatureFlags || [];
 };
 
 
