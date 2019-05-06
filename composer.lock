@@ -845,17 +845,24 @@
         },
         {
             "name": "yoast/i18n-module",
-            "version": "3.0.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Yoast/i18n-module.git",
-                "reference": "76b1645aaf8cf9a07dc06ec0bbe2a6838feeed4c"
+                "reference": "50c69961805a8d79699eed745a65e9e4a76538eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/76b1645aaf8cf9a07dc06ec0bbe2a6838feeed4c",
-                "reference": "76b1645aaf8cf9a07dc06ec0bbe2a6838feeed4c",
+                "url": "https://api.github.com/repos/Yoast/i18n-module/zipball/50c69961805a8d79699eed745a65e9e4a76538eb",
+                "reference": "50c69961805a8d79699eed745a65e9e4a76538eb",
                 "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "require-dev": {
+                "roave/security-advisories": "dev-master",
+                "yoast/yoastcs": "^1.2.2"
             },
             "type": "library",
             "autoload": {
@@ -865,7 +872,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -879,7 +886,7 @@
             "keywords": [
                 "wordpress"
             ],
-            "time": "2017-09-06T07:17:52+00:00"
+            "time": "2019-05-06T08:29:33+00:00"
         },
         {
             "name": "yoast/license-manager",
