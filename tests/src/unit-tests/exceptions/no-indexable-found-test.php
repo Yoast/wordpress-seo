@@ -24,7 +24,7 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 		parent::setUp();
 
 		$logger = $this
-			->getMockBuilder( 'YoastSEO_Vendor\Psr\Log\AbstractLogger' )
+			->getMockBuilder( '\YoastSEO_Vendor\Psr\Log\AbstractLogger' )
 			->setMethods( array( 'notice', 'log' ) )
 			->getMockForAbstractClass();
 
@@ -147,7 +147,7 @@ class No_Indexable_Found_Test extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Overrides the logger. To make the loggin 'testable'.
 	 *
-	 * @return \Psr\Log\LoggerInterface The 'logger'.
+	 * @return \YoastSEO_Vendor\Psr\Log\LoggerInterface The 'logger'.
 	 */
 	public function get_logger() {
 		$logger = $this
