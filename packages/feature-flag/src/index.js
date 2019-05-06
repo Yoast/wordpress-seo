@@ -7,7 +7,10 @@
  * @returns {boolean} `true` when the feature is enabled, `false` if not.
  */
 const isFeatureEnabled = function( featureName ) {
-	return self.wpseoFeatureFlags.includes( featureName );
+	if ( self.wpseoFeatureFlags ) {
+		return self.wpseoFeatureFlags.includes( featureName );
+	}
+	return false;
 };
 
 /**
