@@ -15,8 +15,6 @@ define( 'DB_NAME', 'none' );
 define( 'DB_USER', 'nobody' );
 define( 'DB_PASSWORD', 'nothing' );
 
-opcache_reset();
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
 require_once __DIR__ . '/load/wp-seo.php';

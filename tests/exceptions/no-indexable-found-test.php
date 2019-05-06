@@ -23,7 +23,7 @@ class No_Indexable_Found_Test extends \Yoast\Tests\TestCase {
 		parent::setUp();
 
 		$logger = $this
-			->getMockBuilder( '\Psr\Log\AbstractLogger' )
+			->getMockBuilder( '\YoastSEO_Vendor\Psr\Log\AbstractLogger' )
 			->setMethods( array( 'notice' ) )
 			->getMockForAbstractClass();
 
