@@ -34,7 +34,17 @@ class Admin_Features extends \Yoast\Tests\TestCase {
 					'capabilities' => 'wpseo_manage_options',
 					'priority'     => 0.8,
 				),
-				\Yoast_Notification::DEFAULTS
+				array(
+					'type'             => \Yoast_Notification::UPDATED,
+					'id'               => '',
+					'nonce'            => null,
+					'priority'         => 0.5,
+					'data_json'        => array(),
+					'dismissal_key'    => null,
+					'capabilities'     => array(),
+					'capability_check' => \Yoast_Notification::MATCH_ALL,
+					'yoast_branding'   => false,
+				)
 			)
 			->andReturn(
 				array(
