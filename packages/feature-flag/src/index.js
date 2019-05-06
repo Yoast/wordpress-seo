@@ -1,4 +1,3 @@
-
 /**
  * Checks whether the given feature is enabled.
  *
