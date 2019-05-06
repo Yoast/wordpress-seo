@@ -127,13 +127,6 @@ release:
   - 'artifact'
   - 'wp_deploy:master'
 
-# Run the steps to deploy a new recalibration version.
-'deploy:recalibration':
-  - 'update-recalibration'
-  - 'clean:build-assets-js'
-  - 'release:js'
-  - 'publish-recalibration'
-
 # Default task
 default:
   - 'build'

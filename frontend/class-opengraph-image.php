@@ -317,7 +317,7 @@ class WPSEO_OpenGraph_Image {
 			return;
 		}
 
-		$this->add_first_usable_content_image( get_post( $post_id ) );
+		$this->add_first_usable_content_image( $post_id );
 	}
 
 	/**
@@ -685,20 +685,14 @@ class WPSEO_OpenGraph_Image {
 	/**
 	 * Adds the first usable attachment image from the post content.
 	 *
-	 * @param WP_Post $post The post object.
+	 * @param int $post_id The post id.
 	 *
 	 * @return void
 	 */
-	private function add_first_usable_content_image( $post ) {
-		$image_finder = new WPSEO_Content_Images();
-		$images       = $image_finder->get_images( $post->ID, $post );
+	private function add_first_usable_content_image( $post_id ) {
+		$image_url = WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
 
-		if ( ! is_array( $images ) || $images === array() ) {
-			return;
-		}
-
-		$image_url = reset( $images );
-		if ( ! $image_url ) {
+		if ( $image_url === null || empty( $image_url ) ) {
 			return;
 		}
 
