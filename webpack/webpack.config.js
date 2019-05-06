@@ -30,6 +30,8 @@ const externals = {
 	lodash: "window.lodash",
 };
 
+
+
 const defaultAllowedHosts = [
 	"local.wordpress.test",
 	"one.wordpress.test",
@@ -131,6 +133,8 @@ module.exports = function( env = { environment: "production" } ) {
 				"@yoast/components": "window.yoast.componentsNew",
 				"@yoast/configuration-wizard": "window.yoast.configurationWizard",
 				"@yoast/style-guide": "window.yoast.styleGuide",
+				"@yoast/search-metadata-previews": "window.yoast.searchMetadataPreviews",
+				"@yoast/algolia-search-box": "window.yoast.algoliaSearchBox",
 
 				"styled-components": "window.yoast.styledComponents",
 			},
