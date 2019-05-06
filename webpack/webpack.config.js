@@ -6,6 +6,7 @@ const isString = require( "lodash/isString" );
 
 const paths = require( "./paths" );
 const pkg = require( "../package.json" );
+const getYoastExternals = require( "./getYoastExternals" );
 
 const pluginVersionSlug = paths.flattenVersionForFile( pkg.yoast.pluginVersion );
 
@@ -29,8 +30,6 @@ const externals = {
 
 	lodash: "window.lodash",
 };
-
-
 
 const defaultAllowedHosts = [
 	"local.wordpress.test",
@@ -121,6 +120,7 @@ module.exports = function( env = { environment: "production" } ) {
 			},
 			externals: {
 				...externals,
+				...getYoastExternals(),
 
 				"@wordpress/element": "window.wp.element",
 				"@wordpress/data": "window.wp.data",
@@ -129,12 +129,6 @@ module.exports = function( env = { environment: "production" } ) {
 				"@wordpress/api-fetch": "window.wp.apiFetch",
 				"@wordpress/rich-text": "window.wp.richText",
 				"@wordpress/compose": "window.wp.compose",
-				"@yoast/helpers": "window.yoast.helpers",
-				"@yoast/components": "window.yoast.componentsNew",
-				"@yoast/configuration-wizard": "window.yoast.configurationWizard",
-				"@yoast/style-guide": "window.yoast.styleGuide",
-				"@yoast/search-metadata-previews": "window.yoast.searchMetadataPreviews",
-				"@yoast/algolia-search-box": "window.yoast.algoliaSearchBox",
 
 				"styled-components": "window.yoast.styledComponents",
 			},
