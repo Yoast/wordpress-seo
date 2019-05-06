@@ -138,7 +138,7 @@ install:
   elif [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
     composer install --no-interaction --ignore-platform-reqs --no-scripts
   else
-    composer install --no-dev --no-interaction --ignore-platform-reqs
+    composer install --no-interaction --ignore-platform-reqs
   fi
 - composer dump-autoload
 - if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then phpenv local --unset; fi
