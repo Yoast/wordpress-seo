@@ -3,9 +3,9 @@ Contributors: yoast, joostdevalk, tacoverdo, omarreiss, atimmer, jipmoors
 Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
-Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
+Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 4.9
-Tested up to: 5.1.1
+Tested up to: 5.2
 Stable tag: 11.1
 Requires PHP: 5.2.4
 
@@ -42,11 +42,10 @@ Yoast SEO does everything in its power to please both visitors and search engine
 
 * Yoast SEO tunes the engine of your site so you can work on creating great content.
 * Our cornerstone content and internal linking features help you optimize your site structure in a breeze.
-* Integrates with Google Search Console: See how your site performs in the search engines and fix crawl errors.
 * Manage SEO roles: Give your colleagues access to specific sections of the Yoast SEO plugin.
 * Bulk editor: Make large-scale edits to your site.
 * **[Premium]** Social previews to manage the way your page is shared on social networks like Facebook and Twitter.
-* **[Premium]** Redirect manager: It keeps your site healthy by easily redirecting errors from Google Search Console, deleted pages and changed URLs.
+* **[Premium]** Redirect manager: It keeps your site healthy by easily redirecting deleted pages and changed URLs.
 
 ### Premium support
 
@@ -105,6 +104,19 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+
+= 11.1.1 =
+Release Date: May 6th, 2019
+
+Bugfixes:
+
+* Fixes a bug where an empty width and height would be outputted in the image schema when there was no retrievable width and height.
+* Fixes a bug where using the `$context` argument in the deprecated `wpseo_json_ld_output` filter would result in a fatal error when using PHP 7.1 or higher.
+
+Other
+
+* Adds a notification to explain why users’ Google Search Console reports are no longer showing any entries. [Read more about the reasons behind this](https://yoa.st/gsc-dep-changelog).
+* Removes the Google Search Console step from the configuration wizard.
 
 = 11.1.0 =
 Release Date: April 30th, 2019
