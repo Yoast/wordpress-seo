@@ -36,7 +36,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 		 *
 		 * @api mixed If false or an empty array is returned, disable our output.
 		 */
-		$return = apply_filters( 'wpseo_json_ld_output', $deprecated_data );
+		$return = apply_filters( 'wpseo_json_ld_output', $deprecated_data, '' );
 		if ( $return === array() || $return === false ) {
 			return;
 		}
