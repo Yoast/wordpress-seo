@@ -179,8 +179,8 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 				<a target="_blank" href="<?php echo esc_url( $premium_extension->get_buy_url() ); ?>"
 					class="yoast-button-upsell">
 					<?php
-					/* translators: $1$s expands to Yoast SEO Premium */
-					printf( esc_html__( 'Buy %1$s', 'wordpress-seo' ), $premium_extension->get_title() );
+					/* translators: $s expands to Yoast SEO Premium */
+					printf( esc_html__( 'Buy %s', 'wordpress-seo' ), $premium_extension->get_title() );
 					echo $new_tab_message;
 					echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 					?>

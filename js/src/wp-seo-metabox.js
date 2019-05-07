@@ -1,7 +1,5 @@
 /* Browser:true */
-/* global wpseoSelect2Locale, wpseoFeaturesL10n */
-
-import { enableFeatures } from "@yoast/feature-toggle";
+/* global wpseoSelect2Locale */
 
 ( function( $ ) {
 	/**
@@ -10,9 +8,6 @@ import { enableFeatures } from "@yoast/feature-toggle";
 	 * @returns {void}
 	 */
 	function wpseoInitTabs() {
-		// Enable features using the feature-toggle package.
-		enableFeatures( wpseoFeaturesL10n );
-
 		// When there's only one add-on tab, change its link to a span element.
 		var addonsTabsLinks = jQuery( "#wpseo-meta-section-addons .wpseo_tablink" );
 		if ( addonsTabsLinks.length === 1 ) {

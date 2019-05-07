@@ -155,6 +155,8 @@ before_script:
     WP_VERSION=$(grep -o '"version":"[^"]*' /tmp/wp-latest.json | sed 's/"version":"//')
   fi
 - PLUGIN_SLUG=$(basename $(pwd))
+- git fetch --tags
+- PLUGIN_TAGS=$(git tag --points-at HEAD^2)
 - export WP_DEVELOP_DIR=/tmp/wordpress/
 - git clone --depth=1 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
 - cd ..
@@ -166,6 +168,12 @@ before_script:
 - sed -i "s/yourpasswordhere//" wp-tests-config.php
 - mysql -e "CREATE DATABASE wordpress_tests;" -uroot
 - cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
+- |
+    if [[ "$CHECKJS" == "1" ]] && [[ -z "$PLUGIN_TAGS" ]]; then
+      git clone https://github.com/yoast/javascript /tmp/javascript
+      echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
+      yarn link-monorepo
+    fi
 - phpenv rehash
 - |
   if [[ "$COVERAGE" == "1" ]]; then
