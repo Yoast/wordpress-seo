@@ -1,4 +1,3 @@
-import createComponentWithIntl from "./tests/createComponentWithIntl";
 import { getDirectionalStyle } from "./styled-components";
 import sendRequest from "./ajaxHelper";
 import decodeHTML from "./htmlDecoder";
@@ -7,7 +6,6 @@ import getCourseFeed from "./getCourseFeed";
 import getPostFeed from "./getPostFeed";
 
 export {
-	createComponentWithIntl,
 	getDirectionalStyle,
 	sendRequest,
 	decodeHTML,

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { createComponentWithIntl } from "@yoast/helpers";
+import renderer from "react-test-renderer";
 import HelpCenter from "../HelpCenter";
 
 const tabItems = [
@@ -23,7 +23,7 @@ const tabItems = [
 ];
 
 test( "the HelpCenter matches the snapshot", () => {
-	const component = createComponentWithIntl(
+	const component = renderer.create(
 		<HelpCenter items={ tabItems } />
 	);
 
@@ -32,7 +32,7 @@ test( "the HelpCenter matches the snapshot", () => {
 } );
 
 test( "the HelpCenter with props matches the snapshot", () => {
-	const component = createComponentWithIntl(
+	const component = renderer.create(
 		<HelpCenter
 			buttonBackgroundColor="#c30"
 			buttonTextColor="#fff"
