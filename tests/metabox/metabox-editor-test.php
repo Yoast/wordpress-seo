@@ -11,6 +11,7 @@ use Brain\Monkey;
  * Unit Test Class.
  */
 class Metabox_Editor extends \Yoast\Tests\TestCase {
+
 	/**
 	 * Holds the instance of the class being tested.
 	 *
