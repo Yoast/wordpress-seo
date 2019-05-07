@@ -81,54 +81,46 @@ class WPSEO_Metabox_Formatter {
 				'labels' => array(
 					'content' => array(
 						'na'   => sprintf(
-							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'Readability: %1$sNot available%2$s', 'wordpress-seo' ),
-							'<strong>',
-							'</strong>'
+							/* translators: %s expands to readability. */
+							__( 'Readability: %s', 'wordpress-seo' ),
+							'<strong>' . __( 'Not available', 'wordpress-seo' ) . '</strong>'
 						),
 						'bad'  => sprintf(
-							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'Readability: %1$sNeeds improvement%2$s', 'wordpress-seo' ),
-							'<strong>',
-							'</strong>'
+							/* translators: %s expands to readability. */
+							__( 'Readability: %s', 'wordpress-seo' ),
+							'<strong>' . __( 'Needs improvement', 'wordpress-seo' ) . '</strong>'
 						),
 						'ok'   => sprintf(
-							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'Readability: %1$sOK%2$s', 'wordpress-seo' ),
-							'<strong>',
-							'</strong>'
+							/* translators: %s expands to readability. */
+							__( 'Readability: %s', 'wordpress-seo' ),
+							'<strong>' . __( 'OK', 'wordpress-seo' ) . '</strong>'
 						),
 						'good' => sprintf(
-							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'Readability: %1$sGood%2$s', 'wordpress-seo' ),
-							'<strong>',
-							'</strong>'
+							/* translators: %s expands to readability. */
+							__( 'Readability: %s', 'wordpress-seo' ),
+							'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>'
 						),
 					),
 					'keyword' => array(
 						'na'   => sprintf(
-							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'SEO: %1$sNot available%2$s', 'wordpress-seo' ),
-							'<strong>',
-							'</strong>'
+							/* translators: %s expands to SEO. */
+							__( 'SEO: %s', 'wordpress-seo' ),
+							'<strong>' . __( 'Not available', 'wordpress-seo' ) . '</strong>'
 						),
 						'bad'  => sprintf(
-							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'SEO: %1$sNeeds improvement%2$s', 'wordpress-seo' ),
-							'<strong>',
-							'</strong>'
+							/* translators: %s expands to SEO. */
+							__( 'SEO: %s', 'wordpress-seo' ),
+							'<strong>' . __( 'Needs improvement', 'wordpress-seo' ) . '</strong>'
 						),
 						'ok'   => sprintf(
-							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'SEO: %1$sOK%2$s', 'wordpress-seo' ),
-							'<strong>',
-							'</strong>'
+							/* translators: %s expands to SEO. */
+							__( 'SEO: %s', 'wordpress-seo' ),
+							'<strong>' . __( 'OK', 'wordpress-seo' ) . '</strong>'
 						),
 						'good' => sprintf(
-							/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag. */
-							__( 'SEO: %1$sGood%2$s', 'wordpress-seo' ),
-							'<strong>',
-							'</strong>'
+							/* translators: %s expands to SEO. */
+							__( 'SEO: %s', 'wordpress-seo' ),
+							'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>'
 						),
 					),
 				),
@@ -188,8 +180,8 @@ class WPSEO_Metabox_Formatter {
 		return array(
 			'title'                    => __( 'Would you like to add more than one keyphrase?', 'wordpress-seo' ),
 			'intro'                    => sprintf(
-				/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
-				__( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
+				/* translators: %s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
+				__( 'Great news: you can, with %s!', 'wordpress-seo' ),
 				'{{link}}Yoast SEO Premium{{/link}}'
 			),
 			'link'                     => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),

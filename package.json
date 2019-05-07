@@ -18,13 +18,14 @@
   "scripts": {
     "test": "jest",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
-    "webpack-analyze-bundle": "cross-env NODE_ENV=production webpack --config ./webpack/webpack.config.js --profile --json > webpack-stats.json && webpack-bundle-analyzer webpack-stats.json js/dist",
+    "webpack-analyze-bundle": "cross-env BUNDLE_ANALYZER=1 NODE_ENV=production webpack --config ./webpack/webpack.config.js --progress",
     "i18n-yoast-components": "cross-env NODE_ENV=production babel node_modules/yoast-components --ignore node_modules/yoast-components/node_modules,tests/*Test.js --plugins=@wordpress/babel-plugin-makepot | shusher",
     "i18n-wordpress-seo": "cross-env NODE_ENV=production babel js/src --plugins=@wordpress/babel-plugin-makepot | shusher",
     "prestart": "grunt build:css && grunt webpack:buildDev",
     "start": "webpack-dev-server --config ./webpack/webpack.config.js --progress --env.environment=development",
     "link-monorepo": "node scripts/link_monorepo_to_plugin.js",
-    "unlink-monorepo": "node scripts/unlink_monorepo.js"
+    "unlink-monorepo": "node scripts/unlink_monorepo.js",
+    "bump-monorepo-packages": "node scripts/bump_monorepo_packages.js"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/js/tests/setupTests.js",
@@ -111,7 +112,7 @@
     "webpack-dev-server": "^3.1.14"
   },
   "optionalDependencies": {
-    "grunt-contrib-imagemin": "^2.0.1"
+    "grunt-contrib-imagemin": "^3.1.0"
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
@@ -124,11 +125,11 @@
     "@wordpress/is-shallow-equal": "^1.2.0",
     "@wordpress/rich-text": "^3.2.2",
     "@wordpress/url": "^2.5.0",
-    "@yoast/algolia-search-box": "^1.0.0",
-    "@yoast/components": "^0.1.0",
-    "@yoast/configuration-wizard": "^1.0.0",
-    "@yoast/search-metadata-previews": "^1.0.0",
-    "@yoast/style-guide": "^0.1.0",
+    "@yoast/algolia-search-box": "^1.1.0-rc.0",
+    "@yoast/components": "^0.2.0-rc.0",
+    "@yoast/configuration-wizard": "^1.1.0-rc.0",
+    "@yoast/search-metadata-previews": "^1.1.0-rc.1",
+    "@yoast/style-guide": "^0.2.0-rc.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "draft-js": "^0.10.5",
@@ -151,11 +152,10 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
-    "yoast-components": "^4.24.0",
-    "yoastseo": "^1.51.0"
+    "yoast-components": "^4.25.0-rc.1",
+    "yoastseo": "^1.52.0-rc.1"
   },
   "yoast": {
-    "pluginVersion": "11.1",
-    "recalibrationVersion": "13"
+    "pluginVersion": "11.2-RC1"
   }
 }
