@@ -77,7 +77,6 @@ class SearchResultDetail extends React.Component {
 	 * @returns {ReactElement} The rendered element.
 	 */
 	render() {
-		const formatMessage = this.props.intl.formatMessage;
 		return (
 			<Detail
 				aria-label={ __( "Search result", "yoast-components" ) }
