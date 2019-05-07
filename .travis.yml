@@ -108,8 +108,6 @@ cache:
 
 before_install:
 - export SECURITYCHECK_DIR=/tmp/security-checker
-- PHPUNIT_BIN="phpunit"
-- if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then PHPUNIT_BIN="vendor/bin/phpunit"; fi
 - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
 - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
 - |
@@ -127,8 +125,7 @@ install:
     composer remove humbug/php-scoper --dev --ignore-platform-reqs
   fi
 - |
-  if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then
-    composer require phpunit/phpunit ^5.7 --ignore-platform-reqs
+  if [[ "$COVERAGE" == "1" ]]; then
     composer require phpunit/phpcov ^3.1 --ignore-platform-reqs
   fi
 - |
@@ -137,6 +134,7 @@ install:
     composer config-yoastcs
   elif [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
     composer install --no-interaction --ignore-platform-reqs --no-scripts
+    composer prefix-dependencies
   else
     composer install --no-dev --no-interaction --ignore-platform-reqs
   fi
@@ -182,7 +180,6 @@ before_script:
 - phpenv versions
 - php --version
 - php -m
-- $PHPUNIT_BIN --version
 - curl --version
 - git --version
 - svn --version
@@ -239,13 +236,13 @@ script:
 - |
   if [[ "$PHPUNIT" == "1" ]]; then
     travis_fold start "PHP.integration-tests" && travis_time_start
-    $PHPUNIT_BIN -c phpunit-integration.xml.dist
+    vendor/bin/phpunit -c phpunit-integration.xml.dist
     travis_time_finish && travis_fold end "PHP.integration-tests"
   fi;
 - |
   if [[ "$PHPUNIT" == "1" && $TRAVIS_PHP_VERSION != "5.2" ]]; then
     travis_fold start "PHP.tests" && travis_time_start
-    $PHPUNIT_BIN
+    vendor/bin/phpunit
     travis_time_finish && travis_fold end "PHP.tests"
   fi;
 # Coverage environment variable is only set on the PHP 7 build, so we can safely
@@ -254,8 +251,8 @@ script:
   if [[ "$COVERAGE" == "1" ]]; then
     travis_fold start "PHP.coverage" && travis_time_start
     mkdir -p /tmp/coverage
-    $PHPUNIT_BIN -c phpunit-integration.xml.dist --coverage-php /tmp/coverage/integration-tests.cov
-    $PHPUNIT_BIN --coverage-php /tmp/coverage/tests.cov
+    vendor/bin/phpunit -c phpunit-integration.xml.dist --coverage-php /tmp/coverage/integration-tests.cov
+    vendor/bin/phpunit --coverage-php /tmp/coverage/tests.cov
     ./vendor/bin/phpcov merge /tmp/coverage --clover build/logs/clover.xml
     travis_time_finish && travis_fold end "PHP.coverage"
   fi

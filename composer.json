@@ -39,7 +39,8 @@
 		"yoast/yoastcs": "~0.4.3",
 		"phpcompatibility/phpcompatibility-wp": "^2.0.0",
 		"humbug/php-scoper": "^0.6.0",
-		"brain/monkey": "^2.2"
+		"brain/monkey": "^2.2",
+		"phpunit/phpunit": "^5.7"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
