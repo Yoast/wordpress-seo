@@ -16,6 +16,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase {
 				'esc_attr'       => null,
 				'esc_html'       => null,
 				'esc_textarea'   => null,
+				'esc_url'        => null,
 				'__'             => null,
 				'_x'             => null,
 				'esc_html__'     => null,
