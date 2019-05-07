@@ -2,7 +2,7 @@ const packageJson = require( "../package.json" );
 const camelCase = require( "lodash/camelCase" );
 
 const exceptions = {
-	components: "componentsNew",
+	"@yoast/components": "componentsNew",
 };
 
 const getYoastExternals = () => {
@@ -13,9 +13,9 @@ const getYoastExternals = () => {
 	const externals = {};
 
 	yoastDependencies.map( dependency => {
-		dependency = dependency.replace( "@yoast/", "" );
+		const dependencyWithoutNamespace = dependency.replace( "@yoast/", "" );
 
-		const externalVariableName = exceptions[ dependency ] || camelCase( dependency );
+		const externalVariableName = exceptions[ dependency ] || camelCase( dependencyWithoutNamespace );
 
 		externals[ dependency ] = `window.yoast.${ externalVariableName }`;
 	} );
