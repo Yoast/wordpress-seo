@@ -48,7 +48,7 @@ class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
 			'@graph'   => array( $json_ld ),
 		);
 
-		return WPSEO_Utils::schema_tag( $schema );
+		return WPSEO_Utils::schema_tag( $schema ) . $content;
 	}
 
 	/**
