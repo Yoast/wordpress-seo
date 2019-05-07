@@ -7,8 +7,6 @@
 
 /**
  * Unit Test Class.
- *
- * @package Yoast\Tests\Roles
  */
 class Register_Roles extends \Yoast\Tests\TestCase {
 
