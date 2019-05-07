@@ -9,8 +9,6 @@ use Brain\Monkey;
 
 /**
  * Unit Test Class.
- *
- * @package Yoast\Tests\Metabox
  */
 class Metabox_Editor extends \Yoast\Tests\TestCase {
 	/**
