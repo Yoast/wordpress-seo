@@ -204,15 +204,18 @@ class WordPressUserSelector extends Component {
 	 * @returns {void}
 	 */
 	async fetchUser( id ) {
-		const user = await sendRequest( `${ REST_ROUTE }wp/v2/users/${ id }`, { method: "GET", headers: HEADERS } );
-
-		if ( ! user ) {
-			this.setState( { loading: false } );
-
-			return;
-		}
-
-		this.onChange( this.mapUserToSelectOption( user ) );
+		sendRequest( `${ REST_ROUTE }wp/v2/users/${ id }`, { method: "GET", headers: HEADERS } )
+			.then( user => {
+				if ( user ) {
+					this.onChange( this.mapUserToSelectOption( user ) );
+					// Setting the state to `loading: false` is already done.
+					return;
+				}
+				this.setState( { loading: false } );
+			} )
+			.catch( () => {
+				this.setState( { loading: false } );
+			} );
 	}
 
 	/**
