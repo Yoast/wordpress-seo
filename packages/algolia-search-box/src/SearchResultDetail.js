@@ -2,7 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { defineMessages, injectIntl, intlShape } from "react-intl";
+import { __ } from "@wordpress/i18n";
 
 /* Yoast dependencies */
 import { YoastButton, SvgIcon, YoastLinkButton } from "@yoast/components";
@@ -11,33 +11,6 @@ import { colors, breakpoints } from "@yoast/style-guide";
 
 /* Internal imports */
 import ArticleContent from "./ArticleContent";
-
-const messages = defineMessages( {
-	searchResult: {
-		id: "searchResultDetail.searchResult",
-		defaultMessage: "Search result",
-	},
-	openButton: {
-		id: "searchResultDetail.openButton",
-		defaultMessage: "View in KB",
-	},
-	openButtonLabel: {
-		id: "searchResultDetail.openButtonLabel",
-		defaultMessage: "Open the knowledge base article in a new window or read it in the iframe below",
-	},
-	backButton: {
-		id: "searchResultDetail.backButton",
-		defaultMessage: "Go back",
-	},
-	backButtonLabel: {
-		id: "searchResultDetail.backButtonLabel",
-		defaultMessage: "Go back to the search results",
-	},
-	iframeTitle: {
-		id: "searchResultDetail.iframeTitle",
-		defaultMessage: "Knowledge base article",
-	},
-} );
 
 const Detail = styled.section`
 	outline: none;
@@ -69,11 +42,10 @@ class SearchResultDetail extends React.Component {
 	 * @returns {ReactElement} The rendered element.
 	 */
 	createNavigation() {
-		const formatMessage = this.props.intl.formatMessage;
-		const openButtonText = formatMessage( messages.openButton );
-		const openButtonLabel = formatMessage( messages.openButtonLabel );
-		const backButtonText = formatMessage( messages.backButton );
-		const backButtonLabel = formatMessage( messages.backButtonLabel );
+		const openButtonText = __( "View in KB", "yoast-components" );
+		const openButtonLabel = __( "Open the knowledge base article in a new window or read it in the iframe below", "yoast-components" );
+		const backButtonText = __( "Go back", "yoast-components" );
+		const backButtonLabel = __( "Go back to the search results", "yoast-components" );
 		return (
 			<Nav>
 				<YoastButton aria-label={ backButtonLabel } onClick={ this.props.onBackButtonClicked }>
@@ -106,18 +78,16 @@ class SearchResultDetail extends React.Component {
 	 */
 	render() {
 		const formatMessage = this.props.intl.formatMessage;
-		const searchResulLabel = formatMessage( messages.searchResult );
-		const iframeTitle = formatMessage( messages.iframeTitle );
 		return (
 			<Detail
-				aria-label={ searchResulLabel }
+				aria-label={ __( "Search result", "yoast-components" ) }
 				tabIndex="-1"
 				ref={ ( el ) => {
 					this.detailWrapper = el;
 				} }
 			>
 				{ this.createNavigation() }
-				<ArticleContent post={ this.props.post } title={ iframeTitle } />
+				<ArticleContent post={ this.props.post } title={ __( "Knowledge base article", "yoast-components" ) } />
 			</Detail>
 		);
 	}
@@ -137,7 +107,6 @@ class SearchResultDetail extends React.Component {
 SearchResultDetail.propTypes = {
 	post: PropTypes.object.isRequired,
 	onBackButtonClicked: PropTypes.func.isRequired,
-	intl: intlShape.isRequired,
 };
 
-export default injectIntl( SearchResultDetail );
+export default SearchResultDetail;
