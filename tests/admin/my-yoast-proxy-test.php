@@ -50,7 +50,7 @@ class MyYoast_Proxy extends \Yoast\Tests\TestCase {
 	public function test_render_proxy_page_for_an_unknown_file() {
 		/** @var WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Proxy' )
+			->getMockBuilder( \WPSEO_MyYoast_Proxy::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'set_header' ) )
 			->getMock();
 
@@ -75,7 +75,7 @@ class MyYoast_Proxy extends \Yoast\Tests\TestCase {
 	public function test_render_proxy_page_for_the_research_webworker_file() {
 		/** @var WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Proxy' )
+			->getMockBuilder( \WPSEO_MyYoast_Proxy::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
@@ -130,7 +130,7 @@ class MyYoast_Proxy extends \Yoast\Tests\TestCase {
 
 		/** @var WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Proxy' )
+			->getMockBuilder( \WPSEO_MyYoast_Proxy::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
@@ -205,7 +205,7 @@ class MyYoast_Proxy extends \Yoast\Tests\TestCase {
 
 		/** @var WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Proxy' )
+			->getMockBuilder( \WPSEO_MyYoast_Proxy::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
@@ -242,7 +242,7 @@ class MyYoast_Proxy extends \Yoast\Tests\TestCase {
 
 		/** @var WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Proxy' )
+			->getMockBuilder( \WPSEO_MyYoast_Proxy::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
