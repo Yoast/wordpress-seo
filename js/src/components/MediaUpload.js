@@ -135,7 +135,7 @@ class MediaUpload extends React.Component {
 				{ this.renderImage() }
 				<div className="yoast-wizard-image-upload-container-buttons">
 					<RaisedButton
-						label={ this.props.translate( "Choose image" ) }
+						label={ this.props.translate( "Choose an image" ) }
 						onClick={ this.chooseUpload.bind( this ) }
 						type="button"
 						className="yoast-wizard-image-upload-container-buttons__choose"
