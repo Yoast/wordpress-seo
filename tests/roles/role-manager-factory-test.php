@@ -8,7 +8,7 @@
 /**
  * Unit Test Class.
  */
-class WPSEO_Role_Manager_Factory_Tests extends PHPUnit_Framework_TestCase {
+class Role_Manager_Factory extends \Yoast\Tests\TestCase {
 
 	public function test_get() {
 		$instance  = WPSEO_Role_Manager_Factory::get();

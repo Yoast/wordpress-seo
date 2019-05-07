@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Roles
  */
 
+use Brain\Monkey;
+
 /**
  * Unit Test Class.
  */
-class Capability_Role_Tests extends PHPUnit_Framework_TestCase {
+class Capability_Role extends \Yoast\Tests\TestCase {
 
 	public function test_register() {
 		$instance = new WPSEO_Role_Manager_Mock();
@@ -22,6 +24,12 @@ class Capability_Role_Tests extends PHPUnit_Framework_TestCase {
 
 	public function test_get_capabilities() {
 		$instance     = new WPSEO_Role_Manager_Mock();
+
+		Monkey\Functions\expect('get_role' )
+			->once()
+			->with( 'administrator' )
+			->andReturn( (object) array( "capabilities" => array( "manage_options" => true ) ) );
+
 		$capabilities = $instance->get_capabilities( 'administrator' );
 
 		$this->assertNotEmpty( $capabilities );
@@ -31,6 +39,11 @@ class Capability_Role_Tests extends PHPUnit_Framework_TestCase {
 
 	public function test_get_capabilities_bad_input() {
 		$instance = new WPSEO_Role_Manager_Mock();
+
+		Monkey\Functions\expect('get_role' )
+			->once()
+			->with( 'fake_role' )
+			->andReturn( false );
 
 		$result = $instance->get_capabilities( false );
 		$this->assertEquals( array(), $result );
