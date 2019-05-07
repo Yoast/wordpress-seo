@@ -8,6 +8,7 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 ## 1.52.0
 ### Added
 * Adds a dependency to `@yoast/feature-flag`.
+* Adds createRegexFromArray export to yoastseo index.js.
 
 ### Fixed
 * Improves keyphrase recognition for additional irregular verbs in German (e.g., `brennen`, `senden`, `kennen`).
