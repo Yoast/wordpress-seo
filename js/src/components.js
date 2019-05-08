@@ -6,4 +6,5 @@ window.yoast.componentsNew = require( "@yoast/components" );
 window.yoast.configurationWizard = require( "@yoast/configuration-wizard" );
 window.yoast.algoliaSearchBox = require( "@yoast/algolia-search-box" );
 window.yoast.searchMetadataPreviews = require( "@yoast/search-metadata-previews" );
+window.yoast.analysisReport = require( "@yoast/analysis-report" );
 window.yoast.components = require( "yoast-components/index.js" );

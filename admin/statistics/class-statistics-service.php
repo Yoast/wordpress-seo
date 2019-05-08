@@ -202,19 +202,20 @@ class WPSEO_Statistics_Service {
 			WPSEO_Rank::NO_FOCUS => sprintf(
 				/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
 				__( 'Posts %1$swithout%2$s a focus keyphrase', 'wordpress-seo' ),
-				'<strong>', '</strong>'
+				'<strong>',
+				'</strong>'
 			),
-			WPSEO_Rank::BAD => sprintf(
+			WPSEO_Rank::BAD      => sprintf(
 				/* translators: %s expands to the score */
 				__( 'Posts with the SEO score: %s', 'wordpress-seo' ),
 				'<strong>' . __( 'Needs improvement', 'wordpress-seo' ) . '</strong>'
 			),
-			WPSEO_Rank::OK => sprintf(
+			WPSEO_Rank::OK       => sprintf(
 				/* translators: %s expands to the score */
 				__( 'Posts with the SEO score: %s', 'wordpress-seo' ),
 				'<strong>' . __( 'OK', 'wordpress-seo' ) . '</strong>'
 			),
-			WPSEO_Rank::GOOD => sprintf(
+			WPSEO_Rank::GOOD     => sprintf(
 				/* translators: %s expands to the score */
 				__( 'Posts with the SEO score: %s', 'wordpress-seo' ),
 				'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>'
