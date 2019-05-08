@@ -359,7 +359,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 							$clean[ $key ] = $dirty[ $key ];
 						}
 						else {
-							$defaults = $this->get_defaults();
+							$defaults      = $this->get_defaults();
 							$clean[ $key ] = $defaults['company_or_person'];
 						}
 					}

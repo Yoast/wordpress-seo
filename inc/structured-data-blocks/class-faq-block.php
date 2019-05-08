@@ -9,6 +9,7 @@
  * Class WPSEO_FAQ_Block.
  */
 class WPSEO_FAQ_Block implements WPSEO_WordPress_Integration {
+
 	/**
 	 * Registers the how-to block as a server-side rendered block.
 	 *
