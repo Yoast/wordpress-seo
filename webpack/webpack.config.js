@@ -41,7 +41,7 @@ const wordpressExternals = {
 	"@wordpress/compose": "window.wp.compose",
 };
 
-// Make sure all these packages are exposed in ./js/src/components.js
+// Make sure all these packages are exposed in `./js/src/components.js`.
 const yoastExternals = {
 	"@yoast/algolia-search-box": "window.yoast.algoliaSearchBox",
 	"@yoast/components": "window.yoast.componentsNew",
