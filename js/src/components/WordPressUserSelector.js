@@ -208,7 +208,7 @@ class WordPressUserSelector extends Component {
 			.then( user => {
 				if ( user ) {
 					this.onChange( this.mapUserToSelectOption( user ) );
-					// Setting the state to `loading: false` is already done.
+					// Setting the state to `loading: false` is already done in the `onChange` function.
 					return;
 				}
 				this.setState( { loading: false } );
