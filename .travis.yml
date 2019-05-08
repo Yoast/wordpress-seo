@@ -151,7 +151,7 @@ before_script:
   fi
 - PLUGIN_SLUG=$(basename $(pwd))
 - git fetch --tags
-- PLUGIN_TAGS=$(git tag --points-at HEAD^2)
+- PLUGIN_TAGS=$(git tag --points-at $TRAVIS_COMMIT)
 - export WP_DEVELOP_DIR=/tmp/wordpress/
 - git clone --depth=1 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
 - cd ..
