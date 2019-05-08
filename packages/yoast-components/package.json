@@ -1,6 +1,6 @@
 {
   "name": "yoast-components",
-  "version": "4.25.0-rc.2",
+  "version": "4.25.0-rc.3",
   "description": "Yoast Generic Components",
   "homepage": "https://github.com/Yoast/",
   "repository": {
@@ -59,12 +59,12 @@
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/algolia-search-box": "^1.1.0-rc.0",
-    "@yoast/analysis-report": "^0.2.0-rc.0",
-    "@yoast/components": "^0.2.0-rc.0",
-    "@yoast/configuration-wizard": "^1.1.0-rc.0",
-    "@yoast/helpers": "^0.2.0-rc.0",
-    "@yoast/search-metadata-previews": "^1.1.0-rc.2",
+    "@yoast/algolia-search-box": "^1.1.0-rc.1",
+    "@yoast/analysis-report": "^0.2.0-rc.1",
+    "@yoast/components": "^0.2.0-rc.1",
+    "@yoast/configuration-wizard": "^1.1.0-rc.1",
+    "@yoast/helpers": "^0.2.0-rc.1",
+    "@yoast/search-metadata-previews": "^1.1.0-rc.3",
     "@yoast/style-guide": "^0.2.0-rc.0",
     "algoliasearch": "^3.22.3",
     "clipboard": "^1.5.15",
