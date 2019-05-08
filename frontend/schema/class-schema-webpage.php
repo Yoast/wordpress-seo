@@ -58,18 +58,8 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 		);
 
 		if ( is_front_page() ) {
-			$about_id = false;
-			if ( $this->context->site_represents === 'company' ) {
-				$about_id = WPSEO_Schema_IDs::ORGANIZATION_HASH;
-			}
-			if ( $this->context->site_represents === 'person' ) {
-				$about_id = WPSEO_Schema_IDs::PERSON_HASH;
-			}
-
-			if ( $about_id ) {
-				$data['about'] = array(
-					'@id' => $this->context->site_url . $about_id,
-				);
+			if ( $this->context->site_represents_reference ) {
+				$data['about'] = $this->context->site_represents_reference;
 			}
 		}
 

@@ -63,7 +63,10 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			'mainEntityOfPage' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH,
 		);
 
-		$data = $this->add_publisher( $data );
+		if ( $this->context->site_represents_reference ) {
+			$data['publisher'] = $this->context->site_represents_reference;
+		}
+
 		$data = $this->add_image( $data );
 		$data = $this->add_keywords( $data );
 		$data = $this->add_sections( $data );
@@ -182,25 +185,6 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			$data['image'] = array(
 				'@id' => $this->context->canonical . WPSEO_Schema_IDs::PRIMARY_IMAGE_HASH,
 			);
-		}
-
-		return $data;
-	}
-
-	/**
-	 * Adds the publisher node if we have one.
-	 *
-	 * @param array $data The Article data.
-	 *
-	 * @return array $data The Article data.
-	 */
-	private function add_publisher( $data ) {
-		if ( $this->context->site_represents === 'person' ) {
-			$data['publisher'] = array( '@id' => $this->context->site_url . WPSEO_Schema_IDs::PERSON_HASH );
-		}
-
-		if ( $this->context->site_represents === 'company' ) {
-			$data['publisher'] = array( '@id' => $this->context->site_url . WPSEO_Schema_IDs::ORGANIZATION_HASH );
 		}
 
 		return $data;
