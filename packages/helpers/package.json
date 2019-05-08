@@ -19,7 +19,6 @@
   "dependencies": {
     "@wordpress/i18n": "^1.2.3",
     "prop-types": "^15.7.2",
-    "react-intl": "^2.8.0",
     "styled-components": "^2.4.1",
     "whatwg-fetch": "1.1.1"
   },

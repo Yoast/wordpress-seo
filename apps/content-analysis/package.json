@@ -50,7 +50,6 @@
 		"react-app-polyfill": "^0.2.0",
 		"react-dev-utils": "^7.0.1",
 		"react-dom": "^16.7.0",
-		"react-intl": "^2.8.0",
 		"react-json-view": "^1.19.1",
 		"react-redux": "^6.0.0",
 		"react-select": "^2.2.0",

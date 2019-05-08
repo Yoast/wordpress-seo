@@ -21,7 +21,6 @@
     "lodash": "^4.17.4",
     "prop-types": "^15.6.0",
     "react": "16.6.3",
-    "react-intl": "^2.4.0",
     "styled-components": "^4.2.0"
   },
   "devDependencies": {
