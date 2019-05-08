@@ -2,23 +2,55 @@ import TagCloud from "react-tag-cloud";
 import React from "react";
 
 class WordCloud extends React.Component {
+	constructor( props ) {
+		super( props );
+	}
+
+	isBold( occurrences ) {
+		if ( occurrences >= 6 ) {
+			return "bold";
+		}
+		return "normal";
+	}
+
+	getWordStyle( occurrences ) {
+		return {
+			fontSize: 10 * occurrences,
+			fontWeight: this.isBold( occurrences ),
+		};
+	}
+
 	render() {
+		console.log( this.props );
 		return (
-			<TagCloud
-				style={{
-					fontFamily: 'sans-serif',
-					fontSize: 30,
-					fontWeight: 'bold',
-					fontStyle: 'italic',
-					color: "blue",
-					padding: 5,
-					width: '100%',
-					height: '100%'
-				}}>
-				<div style={{fontSize: 50}}>react</div>
-				<div style={{color: 'green'}}>tag</div>
-				<div rotate={90}>cloud</div>
-			</TagCloud>
+			<div>
+				<div style={ { height: "400px" } }>
+					<TagCloud
+						style={ {
+							fontFamily: "sans-serif",
+							fontSize: 30,
+							fontWeight: "bold",
+							color: "blue",
+							padding: 5,
+							width: "100%",
+							height: "100%",
+						} }
+					>
+						{
+							this.props.words.map(
+								( wordObject, index ) => {
+									return <div
+										style={ this.getWordStyle( wordObject.occurrences ) }
+										key={ `word-${ index }` }
+									>
+										{ wordObject.word }
+									</div>;
+								}
+							)
+						}
+					</TagCloud>
+				</div>
+			</div>
 		);
 	}
 }

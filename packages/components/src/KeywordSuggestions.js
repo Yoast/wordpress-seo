@@ -6,6 +6,7 @@ import { __, sprintf } from "@wordpress/i18n";
 
 // Yoast dependencies.
 import WordList from "./WordList";
+import WordCloud from "./WordCloud";
 
 /**
  * @summary Translates and returns the keyword research article link.
@@ -71,19 +72,23 @@ const getKeywordSuggestionExplanation = keywords => {
 const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
 	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => word.getCombination() );
 
-	return ( <WordList
-		title={ __( "Prominent words", "yoast-components" ) }
-		words={ keywords }
-		classNamePrefix="yoast-keyword-suggestions"
-		showBeforeList={ () => {
-			return  ( <p>{ getKeywordSuggestionExplanation( keywords ) }</p> );
-		} }
-		showAfterList={
-			() => {
-				return getKeywordResearchArticleLink();
-			}
-		}
-	/>
+	return (
+		<div>
+			<WordList
+				title={ __( "Prominent words", "yoast-components" ) }
+				words={ keywords }
+				classNamePrefix="yoast-keyword-suggestions"
+				showBeforeList={ () => {
+					return  ( <p>{ getKeywordSuggestionExplanation( keywords ) }</p> );
+				} }
+				showAfterList={
+					() => {
+						return getKeywordResearchArticleLink();
+					}
+				}
+			/>
+			<WordCloud words={ keywords } />
+		</div>
 	);
 };
 
