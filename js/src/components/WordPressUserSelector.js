@@ -26,25 +26,25 @@ const Styles = createGlobalStyle`
 				box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
 				min-height: 28px;
 			}
-			
+
 			&__input input {
 				box-shadow: none;
 				margin: 0;
 			}
-			
+
 			&__menu {
 				margin: 0;
 				border-radius: 0;
 			}
-			
+
 			&__menu-list {
 				padding: 0;
 			}
-			
+
 			&__option--is-selected {
 				background-color: #0085ba;
 			}
-			
+
 			&__indicators {
 				padding: 0 10px;
 			}
