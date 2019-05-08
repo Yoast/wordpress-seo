@@ -126,16 +126,16 @@ install:
     if [[ "$PHPCS" == "1" ]]; then
       composer config-yoastcs
     fi
-    if [[ "$COVERAGE" == "1" ]]; then
-      composer require phpunit/phpcov ^3.1 --ignore-platform-reqs
-    fi
     composer dump-autoload
     composer remove humbug/php-scoper --dev --ignore-platform-reqs
     composer install --no-dev --no-interaction --no-scripts
-    phpenv local --unset
-  else
-    phpenv local 5.6.32
-    composer install --no-dev --no-interaction --ignore-platform-reqs
+    if [[ "$PHPUNIT" == "1" ]]; then
+      composer require phpunit/phpunit ^5.7 --ignore-platform-reqs
+    fi
+    if [[ "$COVERAGE" == "1" ]]; then
+      composer require phpunit/phpunit ^5.7 --ignore-platform-reqs
+      composer require phpunit/phpcov ^3.1 --ignore-platform-reqs
+    fi
     phpenv local --unset
   fi
 - |
@@ -246,7 +246,7 @@ script:
     travis_time_finish && travis_fold end "PHP.integration-tests"
   fi;
 - |
-  if [[ "$PHPUNIT" == "1" && $TRAVIS_PHP_VERSION != "5.2" ]]; then
+  if [[ "$PHPUNIT" == "1" ]]; then
     travis_fold start "PHP.tests" && travis_time_start
     vendor/bin/phpunit
     travis_time_finish && travis_fold end "PHP.tests"
