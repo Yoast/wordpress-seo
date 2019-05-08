@@ -246,7 +246,7 @@ class WPSEO_Metabox_Formatter {
 		/**
 		 * Filters whether markdown support is active in the readability- and seo-analysis.
 		 *
-		 * @since 3.0.0
+		 * @since 11.3
 		 *
 		 * @param array $is_markdown Is markdown support for Yoast SEO active.
 		 */
