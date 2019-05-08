@@ -49,6 +49,7 @@ const yoastExternals = {
 	"@yoast/helpers": "window.yoast.helpers",
 	"@yoast/search-metadata-previews": "window.yoast.searchMetadataPreviews",
 	"@yoast/style-guide": "window.yoast.styleGuide",
+	"@yoast/analysis-report": "window.yoast.analysisReport",
 };
 
 const defaultAllowedHosts = [
