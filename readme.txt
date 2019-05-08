@@ -111,7 +111,6 @@ Release Date: May 15th, 2019
 Enhancements:
 
 * Introduces a fallback to the first image in the content for the schema output when no featured image has been set.
-* Stitches the Schema output from the HowTo and FAQ structured data blocks into the main graph.
 * Adds a `wpseo_schema_person_social_profiles` filter to allow filtering in/out extra social profiles to show.
 * Adds a `wpseo_schema_needs_<class_name>` filter that allows filtering graph pieces in or out.
 * Adds a `wpseo_sitemap_post_statuses` filter to add posts with custom post statuses to the sitemap. Props to [stodorovic](https://github.com/stodorovic) and [tolnem](https://github.com/tolnem).
