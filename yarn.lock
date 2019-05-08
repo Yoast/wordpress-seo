@@ -621,31 +621,30 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.1.tgz#5c85d662f76fa1d34575766c5dcd6615abcd30d8"
   integrity sha512-FZdkNBDqBRHKQ2MEbSC17xnPFOhZxeJ2YGSfr2BKf3sujG49Qe3bB+rGCwQfIaA7WHnGeGkSijX4FuBCdrzW/g==
 
-"@yoast/algolia-search-box@^1.1.0-rc.0":
-  version "1.1.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@yoast/algolia-search-box/-/algolia-search-box-1.1.0-rc.0.tgz#95276fee6f5b701a8d04614c47952a306a9d88b7"
-  integrity sha512-+jgMSNfFobVv/GHhtkGBdyr2rAvAUUT/xpcTBi+1ZRyZzeMDybmxJkcLiWOZ5PwmxnwccqnhDQSyr7Z94eHTWQ==
+"@yoast/algolia-search-box@^1.1.0-rc.1":
+  version "1.1.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@yoast/algolia-search-box/-/algolia-search-box-1.1.0-rc.1.tgz#6256d96251d0be0a364083bdcb0d29714252c654"
+  integrity sha512-JsQWTjFKlY/0rfy/9a7UrNIfw7oDvwqbZdbDcpHJf941FJOf86lf9dy48mGKkXSVe2Ez58UuxQ3BFDe/TDSOpg==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^0.2.0-rc.0"
-    "@yoast/helpers" "^0.2.0-rc.0"
+    "@yoast/components" "^0.2.0-rc.1"
+    "@yoast/helpers" "^0.2.0-rc.1"
     "@yoast/style-guide" "^0.2.0-rc.0"
     algoliasearch "^3.22.3"
     lodash "^4.17.4"
     prop-types "^15.6.0"
     react "16.6.3"
-    react-intl "^2.4.0"
     styled-components "^4.2.0"
 
-"@yoast/analysis-report@^0.2.0-rc.0":
-  version "0.2.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@yoast/analysis-report/-/analysis-report-0.2.0-rc.0.tgz#1de0a324f428c1ccd3e479c8bd641d307ffd8963"
-  integrity sha512-PYp4MBqk0xjFpp5aF7b4g/ylB5Gtv09+y9G9F8prIyHwlA6sWZjCZn0IkHJNJU0LSRjADT2sRcrG5FhhGp8xlA==
+"@yoast/analysis-report@^0.2.0-rc.1":
+  version "0.2.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@yoast/analysis-report/-/analysis-report-0.2.0-rc.1.tgz#d3dc51225e7b31aa0d1b18abf7d7585d9ee4dd54"
+  integrity sha512-dXHj5qPY8nHFQ8ooGE4XESd5stcsdpzRURILU5qiMOOFFjSSvs3H1KINAmb4Tt+BKWYkPJjqsrnhFSHrwghsKQ==
   dependencies:
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^0.2.0-rc.0"
-    "@yoast/helpers" "^0.2.0-rc.0"
+    "@yoast/components" "^0.2.0-rc.1"
+    "@yoast/helpers" "^0.2.0-rc.1"
     "@yoast/style-guide" "^0.2.0-rc.0"
     lodash "^4.17.11"
     prop-types "^15.6.0"
@@ -653,14 +652,14 @@
     react-dom "16.6.3"
     styled-components "^4.2.0"
 
-"@yoast/components@^0.2.0-rc.0":
-  version "0.2.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@yoast/components/-/components-0.2.0-rc.0.tgz#55c2522938fc9dfff69b351280c4f1107c1d319b"
-  integrity sha512-J8XPgLllG5hq5NWhNcAEYzHogcKvq0925fH/iDG/AH6iI4NNqEcH13AwjvnDHRc5T0Kf9qlrly0W7yoTzYKWKg==
+"@yoast/components@^0.2.0-rc.1":
+  version "0.2.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@yoast/components/-/components-0.2.0-rc.1.tgz#98bd219a7d4d6d9e4e68a52d2cfe09007d94a78b"
+  integrity sha512-55ywmBblrq/WDH5/S12INS2ENsjNFB+VSsuieaDXLtfuP7A1OF6X3U4vsFfLgsQAlXTwPvpp03CmjYcQGijrHQ==
   dependencies:
     "@wordpress/a11y" "^1.1.3"
     "@wordpress/i18n" "^1.2.3"
-    "@yoast/helpers" "^0.2.0-rc.0"
+    "@yoast/helpers" "^0.2.0-rc.1"
     "@yoast/style-guide" "^0.2.0-rc.0"
     interpolate-components "^1.1.1"
     lodash "^4.17.11"
@@ -669,14 +668,14 @@
     react-tabs "^2.3.0"
     styled-components "^4.2.0"
 
-"@yoast/configuration-wizard@^1.1.0-rc.0":
-  version "1.1.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@yoast/configuration-wizard/-/configuration-wizard-1.1.0-rc.0.tgz#ab8c5a0ec75ccb86e02de45133c0d73e8a6777c6"
-  integrity sha512-FIc/XDyNgLlOre/kymDlg8c+Gudp/oYvEUf3/3iF0taPF2BjnCLGxAToOyncqkSZp4SE/q15nXkmcKnqZQyPOg==
+"@yoast/configuration-wizard@^1.1.0-rc.1":
+  version "1.1.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@yoast/configuration-wizard/-/configuration-wizard-1.1.0-rc.1.tgz#1fb125d96cb753a7ae12bb8c966586a57c2b8c1e"
+  integrity sha512-0GwdexEB6DgirZ2DBTNHdy9K0U9ylEIszLk2v5NYI5kVNSWbI9/40P1qA4csOjQL9V+temG9yuBddymtRjnjag==
   dependencies:
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^0.2.0-rc.0"
-    "@yoast/helpers" "^0.2.0-rc.0"
+    "@yoast/components" "^0.2.0-rc.1"
+    "@yoast/helpers" "^0.2.0-rc.1"
     "@yoast/style-guide" "^0.2.0-rc.0"
     interpolate-components "^1.1.1"
     lodash "^4.17.11"
@@ -692,37 +691,25 @@
   resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-1.0.0.tgz#647261449f9f5a90014c5310cfb050db47d22202"
   integrity sha512-/TQjXuBZOkucqRurE1w1ZFLb93RlYPNLfLIBd2tLN8aeC4kY7T3LFCfW3QqnuFL2ENV80kAowEk23uR2HBeunQ==
 
-"@yoast/helpers@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@yoast/helpers/-/helpers-0.1.0.tgz#866f2adbe14708ee38708c4081e9bb5b2e3fa9bf"
-  integrity sha512-Jfng02atTuTbQqvCe3/FuD7+rjx7jxgP/05CuBk7nHvjY//wS49/CfCZjTU6/J0643sXX8ze0d4hTS5sebDh6g==
+"@yoast/helpers@^0.2.0-rc.1":
+  version "0.2.0-rc.1"
+  resolved "https://registry.yarnpkg.com/@yoast/helpers/-/helpers-0.2.0-rc.1.tgz#131b742eed2f8028335bfa302c683d1a2196dff6"
+  integrity sha512-vhksSgby4Ppk4VXn3Xk/nrWhVT0vsN9ShHeeQwj9/ZEBhkpV+r6DJ8aMh2gScLkM2UI9h6lL4syHVUq5QwU68Q==
   dependencies:
     "@wordpress/i18n" "^1.2.3"
     prop-types "^15.7.2"
-    react-intl "^2.8.0"
     styled-components "^2.4.1"
     whatwg-fetch "1.1.1"
 
-"@yoast/helpers@^0.2.0-rc.0":
-  version "0.2.0-rc.0"
-  resolved "https://registry.yarnpkg.com/@yoast/helpers/-/helpers-0.2.0-rc.0.tgz#205201bd806597d4c40587f41855a59074b17060"
-  integrity sha512-oAvPhjjLHqdxtdbRTMR6t6Kg9s/AFdhEhb5F27pAIWmB4HMnjSabTJkK6YNl18P1jSVneK1ZsFSzDQ994uev0g==
-  dependencies:
-    "@wordpress/i18n" "^1.2.3"
-    prop-types "^15.7.2"
-    react-intl "^2.8.0"
-    styled-components "^2.4.1"
-    whatwg-fetch "1.1.1"
-
-"@yoast/search-metadata-previews@^1.1.0-rc.2":
-  version "1.1.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@yoast/search-metadata-previews/-/search-metadata-previews-1.1.0-rc.2.tgz#26019c3c24adc193c6f6e64a42609ea5f6050d2f"
-  integrity sha512-bUhamawRDIdrm8kmDHLK6PP5A6VJdPIj6uZ0CvjO5ZpUKq2t7QId/STQH9w2ft6jLHrz1/fnWv1S6sQn19Q3Hw==
+"@yoast/search-metadata-previews@^1.1.0-rc.3":
+  version "1.1.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@yoast/search-metadata-previews/-/search-metadata-previews-1.1.0-rc.3.tgz#24918010e2c05d4c1cd065e25949bca76d99f278"
+  integrity sha512-YrSghm8RC0xP1gbdnoS9Dw5OPPIf4FYgAl3rFbQK/+WeS6OKppgw78Tgjt3GlafSdWHrQt/kDWwLfDYy6tZ45g==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^0.2.0-rc.0"
-    "@yoast/helpers" "^0.2.0-rc.0"
+    "@yoast/components" "^0.2.0-rc.1"
+    "@yoast/helpers" "^0.2.0-rc.1"
     "@yoast/style-guide" "^0.2.0-rc.0"
     draft-js "^0.10.5"
     draft-js-mention-plugin "^3.0.4"
@@ -6046,7 +6033,7 @@ hoist-non-react-statics@^1.2.0:
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
   integrity sha1-qkSM8JhtVcxAdzsXF0t90GbLfPs=
 
-hoist-non-react-statics@^2.1.1, hoist-non-react-statics@^2.5.5:
+hoist-non-react-statics@^2.1.1:
   version "2.5.5"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
   integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
@@ -6485,7 +6472,7 @@ intl-messageformat@^2.0.0, intl-messageformat@^2.1.0:
   dependencies:
     intl-messageformat-parser "1.4.0"
 
-intl-relativeformat@^2.0.0, intl-relativeformat@^2.1.0:
+intl-relativeformat@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/intl-relativeformat/-/intl-relativeformat-2.1.0.tgz#010f1105802251f40ac47d0e3e1a201348a255df"
   integrity sha1-AQ8RBYAiUfQKxH0OPhogE0iiVd8=
@@ -9836,17 +9823,6 @@ react-intl@^2.4.0:
     intl-relativeformat "^2.0.0"
     invariant "^2.1.1"
 
-react-intl@^2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/react-intl/-/react-intl-2.8.0.tgz#20b0c1f01d1292427768aa8ec9e51ab7e36503ba"
-  integrity sha512-1cSasNkHxZOXYYhms9Q1tSEWF8AWZQNq3nPLB/j8mYV0ZTSt2DhGQXHfKrKQMu4cgj9J1Crqg7xFPICTBgzqtQ==
-  dependencies:
-    hoist-non-react-statics "^2.5.5"
-    intl-format-cache "^2.0.5"
-    intl-messageformat "^2.1.0"
-    intl-relativeformat "^2.1.0"
-    invariant "^2.1.1"
-
 react-is@^16.3.2, react-is@^16.5.2:
   version "16.5.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.5.2.tgz#e2a7b7c3f5d48062eb769fcb123505eb928722e3"
@@ -12698,19 +12674,19 @@ yauzl@^2.2.1:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
 
-yoast-components@^4.25.0-rc.2:
-  version "4.25.0-rc.2"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.25.0-rc.2.tgz#115072ed6d689fcbc66165695e878659d1371d87"
-  integrity sha512-uICQC1d2wS1hbudKWKXGvfn83EtCGpeKtWck2bxK5hsz2z7BuUvcGpcxZdvdlGee6nWT/JNRzMb0HPKc4JkoWA==
+yoast-components@^4.25.0-rc.3:
+  version "4.25.0-rc.3"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.25.0-rc.3.tgz#df6822bfbed2b15cc6f6dd9e06a29b7e475127a7"
+  integrity sha512-142QmHPSS7ryFWCrDoTnjTnK+CNzmbzvqRKrbiHua9Ci8RhY1pK4ZeZnpvj6FYwIuBaaalRErjXBHhFT313GgQ==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/algolia-search-box" "^1.1.0-rc.0"
-    "@yoast/analysis-report" "^0.2.0-rc.0"
-    "@yoast/components" "^0.2.0-rc.0"
-    "@yoast/configuration-wizard" "^1.1.0-rc.0"
-    "@yoast/helpers" "^0.2.0-rc.0"
-    "@yoast/search-metadata-previews" "^1.1.0-rc.2"
+    "@yoast/algolia-search-box" "^1.1.0-rc.1"
+    "@yoast/analysis-report" "^0.2.0-rc.1"
+    "@yoast/components" "^0.2.0-rc.1"
+    "@yoast/configuration-wizard" "^1.1.0-rc.1"
+    "@yoast/helpers" "^0.2.0-rc.1"
+    "@yoast/search-metadata-previews" "^1.1.0-rc.3"
     "@yoast/style-guide" "^0.2.0-rc.0"
     algoliasearch "^3.22.3"
     clipboard "^1.5.15"
