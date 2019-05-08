@@ -1,5 +1,5 @@
 import React from "react";
-import { createComponentWithIntl } from "@yoast/helpers";
+import renderer from "react-test-renderer";
 import ContentAnalysis from "../src/ContentAnalysis.js";
 
 const problemsResults = [
@@ -55,7 +55,7 @@ const considerationsResults = [
 
 describe( "ContentAnalysis", () => {
 	it( "the ContentAnalysis component without language notice matches the snapshot", () => {
-		const component = createComponentWithIntl(
+		const component = renderer.create(
 			<ContentAnalysis
 				problemsResults={ problemsResults }
 				improvementsResults={ improvementsResults }
@@ -70,7 +70,7 @@ describe( "ContentAnalysis", () => {
 	} );
 
 	it( "the ContentAnalysis component without problems matches the snapshot", () => {
-		const component = createComponentWithIntl(
+		const component = renderer.create(
 			<ContentAnalysis
 				problemsResults={ [] }
 				improvementsResults={ improvementsResults }
@@ -85,7 +85,7 @@ describe( "ContentAnalysis", () => {
 	} );
 
 	it( "the ContentAnalysis component without problems and improvements matches the snapshot", () => {
-		const component = createComponentWithIntl(
+		const component = renderer.create(
 			<ContentAnalysis
 				problemsResults={ [] }
 				improvementsResults={ [] }
@@ -100,7 +100,7 @@ describe( "ContentAnalysis", () => {
 	} );
 
 	it( "the ContentAnalysis component without problems, improvements and considerations matches the snapshot", () => {
-		const component = createComponentWithIntl(
+		const component = renderer.create(
 			<ContentAnalysis
 				problemsResults={ [] }
 				improvementsResults={ [] }
@@ -115,7 +115,7 @@ describe( "ContentAnalysis", () => {
 	} );
 
 	it( "the ContentAnalysis component without problems and considerations, but with improvements and good matches the snapshot", () => {
-		const component = createComponentWithIntl(
+		const component = renderer.create(
 			<ContentAnalysis
 				problemsResults={ [] }
 				improvementsResults={ improvementsResults }
@@ -130,7 +130,7 @@ describe( "ContentAnalysis", () => {
 	} );
 
 	it( "the ContentAnalysis component with specified header level matches the snapshot", () => {
-		const component = createComponentWithIntl(
+		const component = renderer.create(
 			<ContentAnalysis
 				headingLevel={ 3 }
 				problemsResults={ problemsResults }
@@ -146,7 +146,7 @@ describe( "ContentAnalysis", () => {
 	} );
 
 	it( "the ContentAnalysis component with disabled buttons matches the snapshot", () => {
-		const component = createComponentWithIntl(
+		const component = renderer.create(
 			<ContentAnalysis
 				problemsResults={ problemsResults }
 				improvementsResults={ improvementsResults }
@@ -162,7 +162,7 @@ describe( "ContentAnalysis", () => {
 	} );
 
 	it( "the ContentAnalysis component with hidden buttons matches the snapshot", () => {
-		const component = createComponentWithIntl(
+		const component = renderer.create(
 			<ContentAnalysis
 				problemsResults={ problemsResults }
 				improvementsResults={ improvementsResults }

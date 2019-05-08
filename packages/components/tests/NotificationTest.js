@@ -1,10 +1,10 @@
 import React from "react";
 
-import { createComponentWithIntl } from "@yoast/helpers";
+import renderer from "react-test-renderer";
 import Notification from "../src/Notification.js";
 
 test( "the Notification without props matches the snapshot", () => {
-	const component = createComponentWithIntl(
+	const component = renderer.create(
 		<Notification />
 	);
 
@@ -15,7 +15,7 @@ test( "the Notification without props matches the snapshot", () => {
 test( "the Notification with props matches the snapshot", () => {
 	const html = "Get started with our <a href=\"#blabla\">Configuration Wizard!</a>";
 
-	const component = createComponentWithIntl(
+	const component = renderer.create(
 		<Notification
 			title="New User?"
 			html={ html }
