@@ -35,7 +35,7 @@ jobs:
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
-      env: WP_VERSION=5.0 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
+      env: WP_VERSION=5.0 WP_MULTISITE=1 PHPLINT=1
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
     - php: "7.4snapshot"
@@ -120,9 +120,8 @@ before_install:
 install:
 - |
   if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
-    if [[ ${TRAVIS_PHP_VERSION:0:1} != "7" ]]; then
-      phpenv local 7.3.2
-    fi
+    phpenv install 7.2.18
+    phpenv local 7.2.18
     composer install --no-interaction --no-scripts
     composer prefix-dependencies
     if [[ "$PHPCS" == "1" ]]; then
@@ -134,9 +133,7 @@ install:
     composer dump-autoload
     composer remove humbug/php-scoper --dev --ignore-platform-reqs
     composer install --no-dev --no-interaction --no-scripts
-    if [[ ${TRAVIS_PHP_VERSION:0:1} != "7" ]]; then
-      phpenv local --unset
-    fi
+    phpenv local --unset
   else
     phpenv local 5.6.32
     composer install --no-dev --no-interaction --ignore-platform-reqs
