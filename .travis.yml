@@ -120,8 +120,7 @@ before_install:
 install:
 - |
   if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
-    phpenv install 7.2.18
-    phpenv local 7.2.18
+    phpenv local 7.1
     composer install --no-interaction --no-scripts
     composer prefix-dependencies
     if [[ "$PHPCS" == "1" ]]; then
