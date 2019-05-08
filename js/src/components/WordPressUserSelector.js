@@ -203,7 +203,7 @@ class WordPressUserSelector extends Component {
 	 *
 	 * @returns {void}
 	 */
-	async fetchUser( id ) {
+	fetchUser( id ) {
 		sendRequest( `${ REST_ROUTE }wp/v2/users/${ id }`, { method: "GET", headers: HEADERS } )
 			.then( user => {
 				if ( user ) {
