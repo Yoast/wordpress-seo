@@ -133,6 +133,7 @@ install:
     fi
     composer dump-autoload
     composer remove humbug/php-scoper --dev --ignore-platform-reqs
+    composer install --no-dev --no-interaction --no-scripts
     if [[ ${TRAVIS_PHP_VERSION:0:1} != "7" ]]; then
       phpenv local --unset
     fi
@@ -157,6 +158,7 @@ before_script:
   fi
 - PLUGIN_SLUG=$(basename $(pwd))
 - git fetch --tags
+- PLUGIN_TAGS=$(git tag --points-at $TRAVIS_COMMIT)
 - export WP_DEVELOP_DIR=/tmp/wordpress/
 - git clone --depth=1 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
 - cd ..
@@ -169,7 +171,7 @@ before_script:
 - mysql -e "CREATE DATABASE wordpress_tests;" -uroot
 - cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
 - |
-    if [[ "$CHECKJS" == "1" ]]; then
+    if [[ "$CHECKJS" == "1" ]] && [[ -z "$PLUGIN_TAGS" ]]; then
       git clone https://github.com/yoast/javascript /tmp/javascript
       echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
       yarn link-monorepo
