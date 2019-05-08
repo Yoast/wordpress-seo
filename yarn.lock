@@ -692,6 +692,17 @@
   resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-1.0.0.tgz#647261449f9f5a90014c5310cfb050db47d22202"
   integrity sha512-/TQjXuBZOkucqRurE1w1ZFLb93RlYPNLfLIBd2tLN8aeC4kY7T3LFCfW3QqnuFL2ENV80kAowEk23uR2HBeunQ==
 
+"@yoast/helpers@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@yoast/helpers/-/helpers-0.1.0.tgz#866f2adbe14708ee38708c4081e9bb5b2e3fa9bf"
+  integrity sha512-Jfng02atTuTbQqvCe3/FuD7+rjx7jxgP/05CuBk7nHvjY//wS49/CfCZjTU6/J0643sXX8ze0d4hTS5sebDh6g==
+  dependencies:
+    "@wordpress/i18n" "^1.2.3"
+    prop-types "^15.7.2"
+    react-intl "^2.8.0"
+    styled-components "^2.4.1"
+    whatwg-fetch "1.1.1"
+
 "@yoast/helpers@^0.2.0-rc.0":
   version "0.2.0-rc.0"
   resolved "https://registry.yarnpkg.com/@yoast/helpers/-/helpers-0.2.0-rc.0.tgz#205201bd806597d4c40587f41855a59074b17060"
