@@ -17,7 +17,11 @@ $import_check->detect();
 if ( count( $import_check->needs_import ) === 0 ) {
 	echo '<h2>', esc_html__( 'Import from other SEO plugins', 'wordpress-seo' ), '</h2>';
 	echo '<p>';
-	esc_html_e( 'Yoast SEO did not detect any plugin data from plugins it can import from.', 'wordpress-seo' );
+	printf(
+		/* translators: %s expands to Yoast SEO */
+		esc_html__( '%s did not detect any plugin data from plugins it can import from.', 'wordpress-seo' ),
+		'Yoast SEO'
+	);
 	echo '</p>';
 
 	return;
@@ -57,7 +61,13 @@ function wpseo_import_external_select( $name, $plugins ) {
 <div class="tab-block">
 	<h3><?php esc_html_e( 'Step 2: Import', 'wordpress-seo' ); ?></h3>
 	<p>
-		<?php esc_html_e( 'This will import the post metadata like SEO titles and descriptions into your Yoast SEO metadata. It will only do this when there is no existing Yoast SEO metadata yet. The original data will remain in place.', 'wordpress-seo' ); ?>
+		<?php
+		/* translators: %1$s expands to Yoast SEO */
+		printf(
+			esc_html__( 'This will import the post metadata like SEO titles and descriptions into your %1$s metadata. It will only do this when there is no existing %1$s metadata yet. The original data will remain in place.', 'wordpress-seo' ),
+			'Yoast SEO'
+		);
+		?>
 	</p>
 	<form action="<?php echo esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=import-export#top#import-seo' ) ); ?>"
 		method="post" accept-charset="<?php echo esc_attr( get_bloginfo( 'charset' ) ); ?>">
