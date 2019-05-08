@@ -14,7 +14,6 @@ class WPSEO_Shortlinker_Test extends PHPUnit_Framework_TestCase {
 	 * Tests building a shortlink.
 	 *
 	 * @covers WPSEO_Shortlinker::build_shortlink
-	 * @covers WPSEO_Shortlinker::get_filtered_user_role
 	 * @covers WPSEO_Shortlinker::get_php_version
 	 * @covers WPSEO_Shortlinker::get_software
 	 */
@@ -32,7 +31,6 @@ class WPSEO_Shortlinker_Test extends PHPUnit_Framework_TestCase {
 	 * Tests getting a shortlink.
 	 *
 	 * @covers WPSEO_Shortlinker::get
-	 * @covers WPSEO_Shortlinker::get_filtered_user_role
 	 * @covers WPSEO_Shortlinker::get_php_version
 	 * @covers WPSEO_Shortlinker::get_software
 	 */
@@ -48,7 +46,6 @@ class WPSEO_Shortlinker_Test extends PHPUnit_Framework_TestCase {
 	 * Tests getting a shortlink.
 	 *
 	 * @covers WPSEO_Shortlinker::show
-	 * @covers WPSEO_Shortlinker::get_filtered_user_role
 	 * @covers WPSEO_Shortlinker::get_php_version
 	 * @covers WPSEO_Shortlinker::get_software
 	 */
