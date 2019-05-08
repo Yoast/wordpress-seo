@@ -239,16 +239,17 @@ class WPSEO_Metabox_Formatter {
 		if ( class_exists( 'Jetpack' ) && method_exists( 'Jetpack', 'get_active_modules' ) ) {
 			$active_modules = Jetpack::get_active_modules();
 
-			// First at all, check Jetpack's markdown.
+			// First at all, check if Jetpack's markdown module is active.
 			$is_markdown  = in_array( 'markdown', $active_modules, true );
 		}
-	
-		/**
-		 * Then provide a filter to support other WordPress Markdown plugins.
-		 * For example: WP Githuber MD will tell YoastSEO the user is using Markdown.
-		 */
-		$is_markdown = apply_filters( 'wpseo_is_markdown_enabled', $is_markdown );
 
-		return $is_markdown;
+		/**
+		 * Filters whether markdown support is active in the readability- and seo-analysis.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $is_markdown Is markdown support for Yoast SEO active.
+		 */
+		return apply_filters( 'wpseo_is_markdown_enabled', $is_markdown );
 	}
 }
