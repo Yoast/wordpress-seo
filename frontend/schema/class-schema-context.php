@@ -169,7 +169,7 @@ class WPSEO_Schema_Context {
 
 		if ( $this->site_represents === 'person' ) {
 			$this->site_user_id = WPSEO_Options::get( 'company_or_person_user_id', false );
-			// Do no use a non-existing user.
+			// Do not use a non-existing user.
 			if ( $this->site_user_id !== false && get_user_by( 'id', $this->site_user_id ) === false ) {
 				$this->site_user_id = false;
 			}
