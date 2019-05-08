@@ -169,6 +169,9 @@ class WPSEO_Schema_Context {
 
 		if ( $this->site_represents === 'person' ) {
 			$this->site_user_id = WPSEO_Options::get( 'company_or_person_user_id', false );
+			if ( $this->site_user_id === false ) {
+				$this->site_represents = false;
+			}
 		}
 
 		$this->id = get_queried_object_id();

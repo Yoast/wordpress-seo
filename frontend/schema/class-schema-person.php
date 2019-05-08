@@ -51,7 +51,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return bool
 	 */
 	public function is_needed() {
-		if ( ( $this->context->site_represents === 'person' && $this->context->site_user_id !== false ) || is_author() ) {
+		if ( ( $this->context->site_represents === 'person' ) || is_author() ) {
 			return true;
 		}
 
@@ -177,11 +177,11 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 */
 	protected function determine_schema_id( $user_id ) {
 		switch ( true ) {
-			case ( $this->context->site_represents === 'company' ):
-				$url = get_author_posts_url( $user_id );
+			case ( $this->context->site_represents === 'person' ):
+				$url = $this->context->site_url;
 				break;
 			default:
-				$url = $this->context->site_url;
+				$url = get_author_posts_url( $user_id );
 				break;
 		}
 

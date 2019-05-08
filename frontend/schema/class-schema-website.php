@@ -51,11 +51,9 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 			'@id'       => $this->context->site_url . WPSEO_Schema_IDs::WEBSITE_HASH,
 			'url'       => $this->context->site_url,
 			'name'      => $this->context->site_name,
-			'publisher' => array(
-				'@id' => $this->get_publisher(),
-			),
 		);
 
+		$data = $this->add_publisher( $data );
 		$data = $this->add_alternate_name( $data );
 		$data = $this->internal_search_section( $data );
 
@@ -67,12 +65,22 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 	 *
 	 * @return string
 	 */
-	private function get_publisher() {
+	private function add_publisher( $data ) {
+		$publisher = false;
+
 		if ( $this->context->site_represents === 'person' ) {
-			return $this->context->site_url . WPSEO_Schema_IDs::PERSON_HASH;
+			$publisher = $this->context->site_url . WPSEO_Schema_IDs::PERSON_HASH;
 		}
 
-		return $this->context->site_url . WPSEO_Schema_IDs::ORGANIZATION_HASH;
+		if ( $this->context->site_represents === 'company' ) {
+			$publisher = $this->context->site_url . WPSEO_Schema_IDs::ORGANIZATION_HASH;
+		}
+
+		if ( $publisher ) {
+			$data['publisher'] = array( '@id' => $publisher );
+		}
+
+		return $data;
 	}
 
 	/**

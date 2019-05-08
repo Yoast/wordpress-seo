@@ -195,7 +195,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return array $data The Article data.
 	 */
 	private function add_publisher( $data ) {
-		if ( $this->context->site_represents === 'person' && $this->context->site_user_id !== false ) {
+		if ( $this->context->site_represents === 'person' ) {
 			$data['publisher'] = array( '@id' => $this->context->site_url . WPSEO_Schema_IDs::PERSON_HASH );
 		}
 
