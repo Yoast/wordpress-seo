@@ -8,17 +8,17 @@
 /**
  * Context variables for Schema generation.
  *
- * @property string $canonical                The current page's canonical.
- * @property string $company_name             Holds the company name, if the site represents a company.
- * @property int    $id                       The post ID, if there is one.
- * @property string $site_name                The site's name.
- * @property string $site_represents          Whether this site represents a `company` or a `person`.
- * @property string $site_url                 The site's URL.
- * @property int    $site_user_id             The site's User ID if a site represents a `person`.
- * @property string $title                    Page title.
- * @property string $description              Page description.
- * @property bool   $breadcrumbs_enabled      Whether or not this site has breadcrumbs enabled.
- * @property array  site_represents_reference A schema @id reference to the piece the site represents.
+ * @property string $canonical                 The current page's canonical.
+ * @property string $company_name              Holds the company name, if the site represents a company.
+ * @property int    $id                        The post ID, if there is one.
+ * @property string $site_name                 The site's name.
+ * @property string $site_represents           Whether this site represents a `company` or a `person`.
+ * @property string $site_url                  The site's URL.
+ * @property int    $site_user_id              The site's User ID if a site represents a `person`.
+ * @property string $title                     Page title.
+ * @property string $description               Page description.
+ * @property bool   $breadcrumbs_enabled       Whether or not this site has breadcrumbs enabled.
+ * @property array  $site_represents_reference A schema @id reference to the piece the site represents.
  *
  * @since 10.2
  */
