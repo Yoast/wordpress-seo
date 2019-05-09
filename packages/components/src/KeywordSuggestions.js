@@ -60,6 +60,35 @@ const getKeywordSuggestionExplanation = keywords => {
 	);
 };
 
+const getKeywordComponent = ( relevantWords, keywordLimit ) => {
+	if ( typeof relevantWords[ 0 ] === "object" ) {
+		return <WordCloud words={ relevantWords } />;
+	} else if ( typeof relevantWords && relevantWords.slice !== "function" ) {
+		return (
+			<div>
+				/* eslint-disable */
+				<marquee>Gekke Martijn</marquee>
+			</div>
+		);
+	}
+	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => word.getCombination() );
+	return (
+		<WordList
+			title={ __( "Prominent words", "yoast-components" ) }
+			words={ keywords }
+			classNamePrefix="yoast-keyword-suggestions"
+			showBeforeList={ () => {
+				return  ( <p>{ getKeywordSuggestionExplanation( keywords ) }</p> );
+			} }
+			showAfterList={
+				() => {
+					return getKeywordResearchArticleLink();
+				}
+			}
+		/>
+	);
+};
+
 /**
  * @summary WordList component.
  *
@@ -70,26 +99,8 @@ const getKeywordSuggestionExplanation = keywords => {
  * @returns {JSX.Element} Rendered WordList component.
  */
 const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
-	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => word.getCombination() );
-
-	return (
-		<div>
-			<WordList
-				title={ __( "Prominent words", "yoast-components" ) }
-				words={ keywords }
-				classNamePrefix="yoast-keyword-suggestions"
-				showBeforeList={ () => {
-					return  ( <p>{ getKeywordSuggestionExplanation( keywords ) }</p> );
-				} }
-				showAfterList={
-					() => {
-						return getKeywordResearchArticleLink();
-					}
-				}
-			/>
-			<WordCloud words={ keywords } />
-		</div>
-	);
+	console.log( relevantWords );
+	return getKeywordComponent( relevantWords, keywordLimit );
 };
 
 KeywordSuggestions.propTypes = {
