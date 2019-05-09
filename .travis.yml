@@ -125,7 +125,6 @@ install:
     phpenv local 7.1
     composer install --no-interaction --no-scripts
     composer prefix-dependencies
-    composer dump-autoload
     composer remove humbug/php-scoper --dev --ignore-platform-reqs
     phpenv local --unset
     rm -rf vendor/*
@@ -141,8 +140,12 @@ install:
   if [[ "$PHPCS" == "1" ]]; then
     composer install --no-interaction
     composer config-yoastcs
-  else
+  elif [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
     composer install --no-dev --no-interaction --ignore-platform-reqs
+  fi
+- |
+  if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
+    composer du
   fi
 - |
   if [[ "$CHECKJS" == "1" ]]; then
