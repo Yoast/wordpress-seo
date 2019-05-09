@@ -83,6 +83,13 @@ class WPSEO_Schema_Context {
 	 * @var bool
 	 */
 	public $breadcrumbs_enabled;
+	/**
+	 * A schema @id reference to the piece the site represents.
+	 *
+	 * @var array
+	 */
+	public $site_represents_reference;
+
 
 	/**
 	 * WPSEO_Schema_Context constructor.
