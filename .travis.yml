@@ -129,11 +129,12 @@ install:
   fi
 - |
   if [[ "$COVERAGE" == "1" ]]; then
-    composer require phpunit/phpunit ^5.7
+    composer require phpunit/phpcov ^3.1
   fi
 - |
   if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
-    composer install --no-interaction
+    composer update
+    composer install --no-scripts --no-interaction
     composer du
   fi
 - |
