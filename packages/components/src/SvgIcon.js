@@ -59,13 +59,48 @@ export const icons = {
 /* eslint-enable */
 
 /**
+ * Create an SVG Icon component with a custom set of icons.
+ *
+ * @param {Object} iconSet Set of SVG icons.
+ *
+ * @returns {React.Component} The SvgIcon component.
+ */
+export const createSvgIconComponent = ( iconSet ) => {
+	/**
+	 * Renders an SVG icon.
+	 *
+	 * @param {object} props The component props.
+	 *
+	 * @returns {React.Element} The react element.
+	 */
+	const SvgIcon = ( props ) => {
+		return <SvgIconSet { ...props } iconSet={ iconSet } />;
+	};
+
+	SvgIcon.propTypes = {
+		icon: PropTypes.string.isRequired,
+		color: PropTypes.string,
+		size: PropTypes.string,
+		className: PropTypes.string,
+	};
+
+	SvgIcon.defaultProps = {
+		size: "16px",
+		color: "currentColor",
+		className: "",
+	};
+
+	return SvgIcon;
+};
+
+/**
  * Returns the SvgIcon component.
  *
  * @param {object} props Component props.
  *
  * @returns {ReactElement} SvgIcon component.
  */
-export default class SvgIcon extends React.Component {
+class SvgIconSet extends React.Component {
 	/**
 	 * Renders an SVG icon.
 	 *
@@ -108,7 +143,7 @@ export default class SvgIcon extends React.Component {
 	}
 }
 
-SvgIcon.propTypes = {
+SvgIconSet.propTypes = {
 	icon: PropTypes.string.isRequired,
 	color: PropTypes.string,
 	size: PropTypes.string,
@@ -116,9 +151,11 @@ SvgIcon.propTypes = {
 	iconSet: PropTypes.object,
 };
 
-SvgIcon.defaultProps = {
+SvgIconSet.defaultProps = {
 	size: "16px",
 	color: "currentColor",
 	className: "",
 	iconSet: icons,
 };
+
+export default createSvgIconComponent( icons );
