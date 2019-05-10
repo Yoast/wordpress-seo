@@ -11,6 +11,7 @@
  * @since 10.2
  */
 class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
+
 	/**
 	 * A value object with context variables.
 	 *
@@ -149,10 +150,8 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			return $data;
 		}
 
-		$data['image'] = $image_schema;
-		$data['primaryImageOfPage'] = array(
-			'@id' => $image_id,
-		);
+		$data['image']              = $image_schema;
+		$data['primaryImageOfPage'] = array( '@id' => $image_id );
 
 		return $data;
 	}

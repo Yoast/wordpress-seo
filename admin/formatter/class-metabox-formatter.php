@@ -180,8 +180,8 @@ class WPSEO_Metabox_Formatter {
 		return array(
 			'title'                    => __( 'Would you like to add more than one keyphrase?', 'wordpress-seo' ),
 			'intro'                    => sprintf(
-				/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
-				__( 'Great news: you can, with %1$s!', 'wordpress-seo' ),
+				/* translators: %s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
+				__( 'Great news: you can, with %s!', 'wordpress-seo' ),
 				'{{link}}Yoast SEO Premium{{/link}}'
 			),
 			'link'                     => WPSEO_Shortlinker::get( 'https://yoa.st/pe-premium-page' ),
@@ -227,12 +227,22 @@ class WPSEO_Metabox_Formatter {
 	 * @return boolean
 	 */
 	private function is_markdown_enabled() {
+		$is_markdown = false;
+
 		if ( class_exists( 'Jetpack' ) && method_exists( 'Jetpack', 'get_active_modules' ) ) {
 			$active_modules = Jetpack::get_active_modules();
 
-			return in_array( 'markdown', $active_modules, true );
+			// First at all, check if Jetpack's markdown module is active.
+			$is_markdown  = in_array( 'markdown', $active_modules, true );
 		}
 
-		return false;
+		/**
+		 * Filters whether markdown support is active in the readability- and seo-analysis.
+		 *
+		 * @since 11.3
+		 *
+		 * @param array $is_markdown Is markdown support for Yoast SEO active.
+		 */
+		return apply_filters( 'wpseo_is_markdown_enabled', $is_markdown );
 	}
 }
