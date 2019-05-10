@@ -72,8 +72,8 @@ export default class SvgIcon extends React.Component {
 	 * @returns {ReactElement|null} The rendered SVG icon.
 	 */
 	render() {
-		const { icon, className, color, size } = this.props;
-		const iconName = icons[ icon ];
+		const { iconSet, icon, className, color, size } = this.props;
+		const iconName = iconSet[ icon ];
 
 		if ( ! iconName ) {
 			console.warn( `Invalid icon name ("${ icon }") passed to the SvgIcon component.` );
@@ -113,9 +113,12 @@ SvgIcon.propTypes = {
 	color: PropTypes.string,
 	size: PropTypes.string,
 	className: PropTypes.string,
+	iconSet: PropTypes.object,
 };
 
 SvgIcon.defaultProps = {
 	size: "16px",
 	color: "currentColor",
+	className: "",
+	iconSet: icons,
 };
