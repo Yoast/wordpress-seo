@@ -3,10 +3,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import interpolateComponents from "interpolate-components";
 import { __, sprintf } from "@wordpress/i18n";
+import { isFeatureEnabled } from "@yoast/feature-flag";
 
 // Yoast dependencies.
 import WordList from "./WordList";
 import WordCloud from "./WordCloud";
+
 
 /**
  * @summary Translates and returns the keyword research article link.
@@ -43,6 +45,24 @@ const getKeywordResearchArticleLink = () => {
  * @returns {string} The translated text.
  */
 const getKeywordSuggestionExplanation = keywords => {
+	if ( isFeatureEnabled( "improvedInternalLinking" ) ) {
+		if ( keywords.length === 0 ) {
+			return __(
+				"Once you add a bit more copy, we'll give you a list of words that occur the most in the content. " +
+				"These give an indication of what your content focuses on.",
+				"yoast-components"
+			);
+		}
+
+		return __(
+			"The following words occur the most in the content. " +
+			"These give an indication of what your content focuses on. " +
+			"If the words differ a lot from your topic, " +
+			"you might want to rewrite your content accordingly. ",
+			"yoast-components"
+		);
+	}
+
 	if ( keywords.length === 0 ) {
 		return __(
 			"Once you add a bit more copy, we'll give you a list of words and " +
@@ -95,13 +115,16 @@ const getKeywordComponent = ( relevantWords, keywordLimit ) => {
  * @summary WordList component.
  *
  * @param {string}   title           The title of the list.
- * @param {string}   relevantWords   The relevant words.
+ * @param {WordCombination[]|ProminentWord[]}   relevantWords   The relevant words.
  * @param {number}   keywordLimit    The maximum number of keywords to display.
  *
  * @returns {JSX.Element} Rendered WordList component.
  */
 const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
 	console.log( relevantWords );
+	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => {
+		return isFeatureEnabled( "improvedInternalLinking" ) ? word.getWord() : word.getCombination();
+	} );
 	return getKeywordComponent( relevantWords, keywordLimit );
 };
 
