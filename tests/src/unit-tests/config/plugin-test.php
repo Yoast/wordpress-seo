@@ -324,10 +324,14 @@ class Plugin_Test extends \PHPUnit_Framework_TestCase {
 	 * @return Database_Migration
 	 */
 	protected function get_database_migration_mock() {
+		$config = array(
+			'directory'  => 'test/migrations',
+			'table_name' => 'test_name'
+		);
 		return $this
 			->getMockBuilder( '\Yoast\WP\Free\Config\Database_Migration' )
 			->setMethods( array( 'run_migrations', 'is_usable', 'has_migration_error' ) )
-			->setConstructorArgs( array( null, $this->get_dependecy_management_mock() ) )
+			->setConstructorArgs( array( null, $this->get_dependecy_management_mock(), $config ) )
 			->getMock();
 	}
 
