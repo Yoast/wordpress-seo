@@ -61,14 +61,16 @@ const getKeywordSuggestionExplanation = keywords => {
 };
 
 const getKeywordComponent = ( relevantWords, keywordLimit ) => {
-	if ( typeof relevantWords[ 0 ] === "object" ) {
-		return <WordCloud words={ relevantWords } />;
-	} else if ( typeof relevantWords && relevantWords.slice !== "function" ) {
+	if ( ! relevantWords || typeof relevantWords.slice !== "function" ) {
 		return (
 			<div>
 				/* eslint-disable */
 				<marquee>Gekke Martijn</marquee>
 			</div>
+		);
+	} else if ( typeof relevantWords[ 0 ] === "object" ) {
+		return (
+			<WordCloud words={ relevantWords } />
 		);
 	}
 	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => word.getCombination() );
