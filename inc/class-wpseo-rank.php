@@ -151,7 +151,8 @@ class WPSEO_Rank {
 			self::OK => sprintf(
 				/* translators: %s expands to the SEO score */
 				__( 'SEO: %s', 'wordpress-seo' ),
-				__( 'OK', 'wordpress-seo' ) ),
+				__( 'OK', 'wordpress-seo' )
+			),
 			self::GOOD => sprintf(
 				/* translators: %s expands to the SEO score */
 				__( 'SEO: %s', 'wordpress-seo' ),
