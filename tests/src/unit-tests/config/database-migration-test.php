@@ -21,7 +21,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	public function test_initialize_with_set_defines_failing() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array( null, new Dependency_Management(), null ) )
+			->setConstructorArgs( array( null, new Dependency_Management(), $this->get_config() ) )
 			->setMethods( array( 'set_defines' ) )
 			->getMock();
 
@@ -73,7 +73,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	public function test_migration_success() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array( null, new Dependency_Management(), null ) )
+			->setConstructorArgs( array( null, new Dependency_Management(), $this->get_config() ) )
 			->setMethods(
 				array(
 					'set_defines',
@@ -103,7 +103,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	public function test_initialize_with_exception_thrown() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array( null, new Dependency_Management(), null ) )
+			->setConstructorArgs( array( null, new Dependency_Management(), $this->get_config() ) )
 			->setMethods(
 				array(
 					'set_defines',
@@ -139,7 +139,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 		$instance = new Database_Migration_Double(
 			(object) array( 'charset' => 'foo' ),
 			new Dependency_Management(),
-			null
+			$this->get_config()
 		);
 
 		$this->assertEquals( 'foo', $instance->get_charset() );
@@ -154,7 +154,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 		$instance = new Database_Migration_Double(
 			(object) array( 'charset' => 'foo' ),
 			new Dependency_Management(),
-			null
+			$this->get_config()
 		);
 
 		$this->assertInternalType( 'array', $instance->get_configuration() );
@@ -166,7 +166,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	public function test_set_define_success() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array( null, new Dependency_Management(), null ) )
+			->setConstructorArgs( array( null, new Dependency_Management(), $this->get_config() ) )
 			->setMethods(
 				array( 'set_define', 'get_defines' )
 			)
@@ -183,7 +183,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 			->with( 'my_define', 'define_value' )
 			->will( $this->returnValue( true ) );
 
-		$this->assertTrue( $instance->set_defines( 'table_name' ) );
+		$this->assertTrue( $instance->set_defines() );
 	}
 
 	/**
@@ -192,7 +192,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 	public function test_set_define_failed() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array( null, new Dependency_Management(), null ) )
+			->setConstructorArgs( array( null, new Dependency_Management(), $this->get_config() ) )
 			->setMethods(
 				array( 'set_define', 'get_defines' )
 			)
@@ -209,7 +209,7 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 			->with( 'my_define', 'define_value' )
 			->will( $this->returnValue( false ) );
 
-		$this->assertFalse( $instance->set_defines( 'table_name' ) );
+		$this->assertFalse( $instance->set_defines() );
 	}
 
 	/**
@@ -228,14 +228,11 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 			->method( 'prefixed_available' )
 			->will( $this->returnValue( true ) );
 
-		$instance = new Database_Migration( null, $dependency_management );
+		$instance = new Database_Migration( null, $dependency_management, $this->get_config() );
 
-		$defines = $instance->get_defines( 'table_name' );
+		$defines = $instance->get_defines();
 
 		$this->assertArrayHasKey( YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE', $defines );
-		$this->assertArrayHasKey( YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_TS_SCHEMA_TBL_NAME', $defines );
-
-		$this->assertContains( 'table_name', $defines );
 	}
 
 	/**
@@ -254,14 +251,11 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 			->method( 'prefixed_available' )
 			->will( $this->returnValue( false ) );
 
-		$instance = new Database_Migration( null, $dependency_management );
+		$instance = new Database_Migration( null, $dependency_management, $this->get_config() );
 
-		$defines = $instance->get_defines( 'table_name' );
+		$defines = $instance->get_defines();
 
 		$this->assertArrayHasKey( 'RUCKUSING_BASE', $defines );
-		$this->assertArrayHasKey( 'RUCKUSING_TS_SCHEMA_TBL_NAME', $defines );
-
-		$this->assertContains( 'table_name', $defines );
 	}
 
 	/**
@@ -274,5 +268,17 @@ class Database_Migration_Test extends \PHPUnit_Framework_TestCase {
 			->getMockBuilder( 'FrameworkRunner' )
 			->setMethods( array( 'execute' ) )
 			->getMock();
+	}
+
+	/**
+	 * Creates and returns a new mock database migration configuration.
+	 * 
+	 * @return array
+	 */
+	protected function get_config() {
+		return array(
+			'directory'  => 'test/migrations',
+			'table_name' => 'test_name'
+		);
 	}
 }
