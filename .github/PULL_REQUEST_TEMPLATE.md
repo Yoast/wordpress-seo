@@ -1,19 +1,20 @@
 ## Summary
 
-* _Write your summary here_
-  * Package involved:
-    * [ ] components
-    * [ ] yoastseo
-    * [ ] Other (please specify)
-  * Should the changes be included in the package changelog?
+<!--
+Copy and fill in the following template as many times as there are individual changes.
+-->
+  * Package(s) involved:
+<!-- Please write only one package, except when the same change is applied to multiple packages. -->
+  * Should the change be included in the package changelog?
     * [ ] No
     * [ ] Yes
-  * Should the changes be included in one or more plugin changelogs?
+  * Should the change be included in one or more plugin changelogs?
     * [ ] No
     * [ ] Free
     * [ ] Premium
-    * [ ] Local
     * [ ] Other (please specify)
+  * Package changelog item (if applicable): 
+  * Plugin changelog item (if applicable): 
 
 ## Relevant technical choices:
 
