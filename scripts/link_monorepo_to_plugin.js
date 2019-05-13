@@ -164,6 +164,16 @@ function log( message ) {
 	console.log( "\x1b[1m" + message + "\x1b[0m" );
 }
 
+/**
+ * Console logs with yellow font for warnings.
+ *
+ * @param message The message to log.
+ */
+function warning( message ) {
+	// eslint-disable-next-line no-console
+	console.log( "\x1b[33m%s\x1b[0m", message );
+}
+
 // Start the script.
 log( `Your monorepo is located in "${ getMonorepoLocationFromFile() }". ` );
 
@@ -175,7 +185,12 @@ if ( IS_TRAVIS ) {
 }
 
 log( "Pulling the latest monorepo changes." );
-execMonorepoNoOutput( "git pull" );
+try {
+	execMonorepoNoOutput( "git pull 2>/dev/null" );
+} catch( error ) {
+	// No remote is specified.
+	warning( "git could not pull changes from the remote repo.\nIf you are working on a local version of the javascript branch, this is expected behaviour.\nContinuing..." )
+}
 
 log( "Unlinking previously linked Yoast packages from Yarn." );
 unlinkAllYoastPackages();
