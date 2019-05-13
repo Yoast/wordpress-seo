@@ -120,6 +120,9 @@ before_install:
 install:
 - |
   if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
+    # The prefix-dependencies task only works on PHP 7.1 and we need to prefix our dependencies to accurately test them.
+    # So we temporarily switch PHP versions, do a full install and then remove the package.
+    # Then switch back to the PHP version we want to test and delete the vendor directory.
     phpenv local 7.1
     composer install --no-interaction --no-scripts
     composer prefix-dependencies
@@ -129,10 +132,12 @@ install:
   fi
 - |
   if [[ "$COVERAGE" == "1" ]]; then
+    # Install phpcov so we can combine the coverage results of unit and integration tests.
     composer require phpunit/phpcov ^3.1
   fi
 - |
   if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
+    # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
     composer update
     composer install --no-scripts --no-interaction
     composer du
@@ -151,30 +156,34 @@ install:
 before_script:
 # Careful: The HTTPS version of the following URL is different, therefore we need to use HTTP.
 - |
-  if [[ "$WP_VERSION" == "latest" ]]; then
-    curl -s http://api.wordpress.org/core/version-check/1.7/ > /tmp/wp-latest.json
-    WP_VERSION=$(grep -o '"version":"[^"]*' /tmp/wp-latest.json | sed 's/"version":"//')
+  if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
+    if [[ "$WP_VERSION" == "latest" ]]; then
+      curl -s http://api.wordpress.org/core/version-check/1.7/ > /tmp/wp-latest.json
+      WP_VERSION=$(grep -o '"version":"[^"]*' /tmp/wp-latest.json | sed 's/"version":"//')
+    fi
+    PLUGIN_SLUG=$(basename $(pwd))
+    export WP_DEVELOP_DIR=/tmp/wordpress/
+    git clone --depth=1 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
+    cd ..
+    cp -r "$PLUGIN_SLUG" "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
+    cd /tmp/wordpress/
+    cp wp-tests-config-sample.php wp-tests-config.php
+    sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
+    sed -i "s/yourusernamehere/travis/" wp-tests-config.php
+    sed -i "s/yourpasswordhere//" wp-tests-config.php
+    mysql -e "CREATE DATABASE wordpress_tests;" -uroot
+    cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
   fi
-- PLUGIN_SLUG=$(basename $(pwd))
-- git fetch --tags
-- PLUGIN_TAGS=$(git tag --points-at $TRAVIS_COMMIT)
-- export WP_DEVELOP_DIR=/tmp/wordpress/
-- git clone --depth=1 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
-- cd ..
-- cp -r "$PLUGIN_SLUG" "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
-- cd /tmp/wordpress/
-- cp wp-tests-config-sample.php wp-tests-config.php
-- sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
-- sed -i "s/yourusernamehere/travis/" wp-tests-config.php
-- sed -i "s/yourpasswordhere//" wp-tests-config.php
-- mysql -e "CREATE DATABASE wordpress_tests;" -uroot
-- cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
 - |
-    if [[ "$CHECKJS" == "1" ]] && [[ -z "$PLUGIN_TAGS" ]]; then
+  if [[ "$CHECKJS" == "1" ]]; then
+    git fetch --tags
+    PLUGIN_TAGS=$(git tag --points-at $TRAVIS_COMMIT)
+    if [[ -z "$PLUGIN_TAGS" ]]; then
       git clone https://github.com/yoast/javascript /tmp/javascript
       echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
       yarn link-monorepo
     fi
+  fi
 - phpenv rehash
 - |
   if [[ "$COVERAGE" == "1" ]]; then
