@@ -1,5 +1,20 @@
 ## Summary
 
+* _Write your summary here_
+  * Package involved:
+    * [ ] components
+    * [ ] yoastseo
+    * [ ] Other (please specify)
+  * Should the changes be included in the package changelog?
+    * [ ] No
+    * [ ] Yes
+  * Should the changes be included in one or more plugin changelogs?
+    * [ ] No
+    * [ ] Free
+    * [ ] Premium
+    * [ ] Local
+    * [ ] Other (please specify)
+
 ## Relevant technical choices:
 
 *
