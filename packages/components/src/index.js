@@ -53,7 +53,7 @@ export { default as Section } from "./Section";
 export { SectionTitle } from "./SectionTitle";
 export { default as ScoreAssessments } from "./ScoreAssessments";
 export { default as StackedProgressBar } from "./StackedProgressBar";
-export { default as SvgIcon, icons, createSvgIconComponent } from "./SvgIcon";
+export { default as SvgIcon, icons } from "./SvgIcon";
 export { default as SynonymsInput } from "./SynonymsInput";
 export { default as Textarea } from "./Textarea";
 export { default as Textfield } from "./Textfield";
