@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
-## 1.52.0
+## 1.52.0 May 14th, 2019
 ### Added
 * Adds a dependency to `@yoast/feature-flag`.
 * Adds createRegexFromArray export to yoastseo index.js.
