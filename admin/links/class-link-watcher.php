@@ -30,8 +30,8 @@ class WPSEO_Link_Watcher {
 	 * @returns void
 	 */
 	public function register_hooks() {
-			add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
-			add_action( 'delete_post', array( $this, 'delete_post' ) );
+		add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
+		add_action( 'delete_post', array( $this, 'delete_post' ) );
 	}
 
 	/**
