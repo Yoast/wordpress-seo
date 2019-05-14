@@ -16,7 +16,6 @@ const greyColor = colors.$color_grey_text_light;
 const KeywordInputContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	margin: 0 0 1em;
 `;
 
 const KeywordFieldLabel = styled.label`
