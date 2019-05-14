@@ -56,7 +56,7 @@ class Yoast_Model {
 	 *
 	 * @var string $auto_prefix_models
 	 */
-	public static $auto_prefix_models;
+	public static $auto_prefix_models = '\Yoast\WP\Free\Models\\';
 
 	/**
 	 * Set true to to ignore namespace information when computing table names

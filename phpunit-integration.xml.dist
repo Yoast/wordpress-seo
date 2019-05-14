@@ -1,7 +1,7 @@
 <phpunit
 	backupGlobals="false"
 	backupStaticAttributes="false"
-	bootstrap="tests/bootstrap.php"
+	bootstrap="integration-tests/bootstrap.php"
 	colors="true"
 	convertErrorsToExceptions="true"
 	convertNoticesToExceptions="true"
@@ -15,8 +15,13 @@
 	verbose="true"
 	>
 	<testsuites>
-		<testsuite name="main">
-			<directory suffix="-test.php">./tests/</directory>
+		<testsuite name="php52">
+			<directory prefix="test-" suffix=".php">./integration-tests/</directory>
+		</testsuite>
+
+		<!-- Test namespaced classes only for PHP 5.6.0 and above -->
+		<testsuite name="php56+">
+			<directory suffix="-test.php" phpVersion="5.6.0" phpVersionOperator=">=">./integration-tests/src/</directory>
 		</testsuite>
 	</testsuites>
 
