@@ -8,9 +8,59 @@
 // Admin header.
 Yoast_Form::get_instance()->admin_header( false, 'wpseo-gsc', false, 'yoast_wpseo_gsc_options' );
 
+// GSC Error notification.
+$gsc_profile = WPSEO_GSC_Settings::get_profile();
+$gsc_url     = 'https://search.google.com/search-console/index';
+if ( $gsc_profile !== '' ) {
+	$gsc_url .= '?resource_id=' . rawurlencode( $gsc_profile );
+}
+$gsc_post_url            = 'https://yoa.st/google-search-console-deprecated';
+$gsc_style_alert         = '
+	display: flex;
+	align-items: baseline;
+	position: relative;
+	padding: 16px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.5;
+	margin: 16px 0;
+	color: #450c11;
+	background: #f8d7da;
+';
+$gsc_style_alert_icon    = 'display: block; margin-right: 8px;';
+$gsc_style_alert_content = 'max-width: 600px;';
+$gsc_style_alert_link    = 'color: #004973;';
+$gsc_notification        = sprintf(
+	/* Translators: %1$s: expands to opening anchor tag, %2$s expands to closing anchor tag. */
+	__( 'Google has discontinued its Crawl Errors API. Therefore, any possible crawl errors you might have cannot be displayed here anymore. %1$sRead our statement on this for further information%2$s.', 'wordpress-seo' ),
+	'<a style="' . $gsc_style_alert_link . '" href="' . WPSEO_Shortlinker::get( $gsc_post_url ) . '" target="_blank" rel="noopener">',
+	'</a>'
+);
+$gsc_notification .= '<br/><br/>';
+$gsc_notification .= sprintf(
+	/* Translators: %1$s: expands to opening anchor tag, %2$s expands to closing anchor tag. */
+	__( 'To view your current crawl errors, %1$splease visit Google Search Console%2$s.', 'wordpress-seo' ),
+	'<a style="' . $gsc_style_alert_link . '" href="' . $gsc_url . '" target="_blank" rel="noopener noreferrer">',
+	'</a>'
+);
+?>
+	<div style="<?php echo $gsc_style_alert; ?>">
+	<span style="<?php echo $gsc_style_alert_icon; ?>">
+		<svg xmlns="http://www.w3.org/2000/svg" width="12" height="14" viewBox="0 0 12 14" role="img" aria-hidden="true"
+			focusable="false" fill="#450c11">
+			<path
+				d="M6 1q1.6 0 3 .8T11.2 4t.8 3-.8 3T9 12.2 6 13t-3-.8T.8 10 0 7t.8-3T3 1.8 6 1zm1 9.7V9.3 9L6.7 9H5l-.1.3V10.9l.3.1h1.6l.1-.3zm0-2.6L7 3.2v-.1L6.8 3H5 5l-.1.2.1 4.9.3.2h1.4l.2-.1Q7 8 6.9 8z"></path>
+		</svg>
+	</span>
+		<span style="<?php echo $gsc_style_alert_content; ?>"><?php echo $gsc_notification; ?></span>
+	</div>
+<?php
+
 $platform_tabs = new WPSEO_GSC_Platform_Tabs();
 
-if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== '' ) { ?>
+if ( defined( 'WP_DEBUG' ) && WP_DEBUG && WPSEO_GSC_Settings::get_profile() !== '' ) {
+	?>
 	<form action="" method="post" class="wpseo-gsc-reload-crawl-issues-form">
 		<input type='hidden' name='reload-crawl-issues-nonce' value='<?php echo esc_attr( wp_create_nonce( 'reload-crawl-issues' ) ); ?>' />
 		<input type="submit" name="reload-crawl-issues" id="reload-crawl-issue" class="button button-primary alignright"
@@ -44,10 +94,9 @@ switch ( $platform_tabs->current_tab() ) {
 			// Print auth screen.
 			echo '<p>';
 			printf(
-				/* Translators: %1$s: expands to Yoast SEO, %2$s expands to Google Search Console. */
-				esc_html__( 'To allow %1$s to fetch your %2$s information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ),
-				'Yoast SEO',
-				'Google Search Console'
+				/* Translators: %s: expands to Yoast SEO. */
+				esc_html__( 'To allow %s to fetch your Google Search Console information, please enter your Google Authorization Code. Clicking the button below will open a new window.', 'wordpress-seo' ),
+				'Yoast SEO'
 			);
 			echo "</p>\n";
 			echo '<input type="hidden" id="gsc_auth_url" value="', esc_url( $this->service->get_client()->createAuthUrl() ) , '" />';

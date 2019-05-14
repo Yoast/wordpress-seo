@@ -35,7 +35,7 @@ jobs:
     - php: 5.2
       # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
       dist: precise
-      env: WP_VERSION=5.0 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
+      env: WP_VERSION=5.0 WP_MULTISITE=1 PHPLINT=1
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
     - php: "7.4snapshot"
@@ -108,8 +108,6 @@ cache:
 
 before_install:
 - export SECURITYCHECK_DIR=/tmp/security-checker
-- PHPUNIT_BIN="phpunit"
-- if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then PHPUNIT_BIN="vendor/bin/phpunit"; fi
 - if [[ -z "$CC_TEST_REPORTER_ID" ]]; then COVERAGE="0"; fi
 - if [[ "$COVERAGE" != "1" ]]; then phpenv config-rm xdebug.ini || echo 'No xdebug config.'; fi
 - |
@@ -120,21 +118,34 @@ before_install:
   fi
 
 install:
-- if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then phpenv local 5.6.13; fi
 - |
-  if [[ ${TRAVIS_PHP_VERSION:0:1} == "7" ]]; then
+  if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
+    # The prefix-dependencies task only works on PHP 7.1 and we need to prefix our dependencies to accurately test them.
+    # So we temporarily switch PHP versions, do a full install and then remove the package.
+    # Then switch back to the PHP version we want to test and delete the vendor directory.
+    phpenv local 7.1
+    composer install --no-interaction --no-scripts
+    composer prefix-dependencies
     composer remove humbug/php-scoper --dev --ignore-platform-reqs
-    composer require phpunit/phpunit ^5.7 --ignore-platform-reqs
+    phpenv local --unset
+    rm -rf vendor/*
+  fi
+- |
+  if [[ "$COVERAGE" == "1" ]]; then
+    # Install phpcov so we can combine the coverage results of unit and integration tests.
+    composer require phpunit/phpcov ^3.1
+  fi
+- |
+  if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
+    # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
+    composer update
+    composer install --no-scripts --no-interaction
+    composer du
   fi
 - |
   if [[ "$PHPCS" == "1" ]]; then
-    composer install --no-interaction
     composer config-yoastcs
-  else
-    composer install --no-dev --no-interaction --ignore-platform-reqs
   fi
-- composer dump-autoload
-- if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then phpenv local --unset; fi
 - |
   if [[ "$CHECKJS" == "1" ]]; then
     yarn global add grunt-cli
@@ -145,22 +156,34 @@ install:
 before_script:
 # Careful: The HTTPS version of the following URL is different, therefore we need to use HTTP.
 - |
-  if [[ "$WP_VERSION" == "latest" ]]; then
-    curl -s http://api.wordpress.org/core/version-check/1.7/ > /tmp/wp-latest.json
-    WP_VERSION=$(grep -o '"version":"[^"]*' /tmp/wp-latest.json | sed 's/"version":"//')
+  if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
+    if [[ "$WP_VERSION" == "latest" ]]; then
+      curl -s http://api.wordpress.org/core/version-check/1.7/ > /tmp/wp-latest.json
+      WP_VERSION=$(grep -o '"version":"[^"]*' /tmp/wp-latest.json | sed 's/"version":"//')
+    fi
+    PLUGIN_SLUG=$(basename $(pwd))
+    export WP_DEVELOP_DIR=/tmp/wordpress/
+    git clone --depth=1 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
+    cd ..
+    cp -r "$PLUGIN_SLUG" "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
+    cd /tmp/wordpress/
+    cp wp-tests-config-sample.php wp-tests-config.php
+    sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
+    sed -i "s/yourusernamehere/travis/" wp-tests-config.php
+    sed -i "s/yourpasswordhere//" wp-tests-config.php
+    mysql -e "CREATE DATABASE wordpress_tests;" -uroot
+    cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
   fi
-- PLUGIN_SLUG=$(basename $(pwd))
-- export WP_DEVELOP_DIR=/tmp/wordpress/
-- git clone --depth=1 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
-- cd ..
-- cp -r "$PLUGIN_SLUG" "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
-- cd /tmp/wordpress/
-- cp wp-tests-config-sample.php wp-tests-config.php
-- sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
-- sed -i "s/yourusernamehere/travis/" wp-tests-config.php
-- sed -i "s/yourpasswordhere//" wp-tests-config.php
-- mysql -e "CREATE DATABASE wordpress_tests;" -uroot
-- cd "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
+- |
+  if [[ "$CHECKJS" == "1" ]]; then
+    git fetch --tags
+    PLUGIN_TAGS=$(git tag --points-at $TRAVIS_COMMIT)
+    if [[ -z "$PLUGIN_TAGS" ]]; then
+      git clone https://github.com/yoast/javascript /tmp/javascript
+      echo '{"monorepo-location":"/tmp/javascript"}' > .yoast
+      yarn link-monorepo
+    fi
+  fi
 - phpenv rehash
 - |
   if [[ "$COVERAGE" == "1" ]]; then
@@ -175,7 +198,6 @@ before_script:
 - phpenv versions
 - php --version
 - php -m
-- $PHPUNIT_BIN --version
 - curl --version
 - git --version
 - svn --version
@@ -211,7 +233,7 @@ script:
       SKIP_CLI="-o -path ./cli -prune"
     fi
     if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then
-      find -L . -path ./vendor -prune -o -path ./node_modules -prune $SKIP_CLI -o -path ./migrations -prune -o -path ./src -prune -o -path ./tests/src -prune -o -path ./config -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+      find -L . -path ./vendor -prune -o -path ./node_modules -prune $SKIP_CLI -o -path ./migrations -prune -o -path ./src -prune -o -path ./tests -prune -o -path ./config -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
     else
       find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
     fi
@@ -231,8 +253,14 @@ script:
 # PHP Unit
 - |
   if [[ "$PHPUNIT" == "1" ]]; then
+    travis_fold start "PHP.integration-tests" && travis_time_start
+    vendor/bin/phpunit -c phpunit-integration.xml.dist
+    travis_time_finish && travis_fold end "PHP.integration-tests"
+  fi;
+- |
+  if [[ "$PHPUNIT" == "1" ]]; then
     travis_fold start "PHP.tests" && travis_time_start
-    $PHPUNIT_BIN
+    vendor/bin/phpunit
     travis_time_finish && travis_fold end "PHP.tests"
   fi;
 # Coverage environment variable is only set on the PHP 7 build, so we can safely
@@ -240,7 +268,10 @@ script:
 - |
   if [[ "$COVERAGE" == "1" ]]; then
     travis_fold start "PHP.coverage" && travis_time_start
-    $PHPUNIT_BIN --coverage-clover build/logs/clover.xml
+    mkdir -p /tmp/coverage
+    vendor/bin/phpunit -c phpunit-integration.xml.dist --coverage-php /tmp/coverage/integration-tests.cov
+    vendor/bin/phpunit --coverage-php /tmp/coverage/tests.cov
+    ./vendor/bin/phpcov merge /tmp/coverage --clover build/logs/clover.xml
     travis_time_finish && travis_fold end "PHP.coverage"
   fi
 # Validate the composer.json file.

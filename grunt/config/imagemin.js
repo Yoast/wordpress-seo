@@ -5,8 +5,26 @@ const defaultPlugins = [
 	"gifsicle",
 	"jpegtran",
 	"optipng",
-//	"svgo",
+	"svgo",
 ];
+
+const svgoOptions = {
+	plugins: [
+		{ removeTitle: true },
+		{ removeDesc: true },
+		{ removeUnknownsAndDefaults: {
+			keepRoleAttr: true,
+			keepAriaAttrs: true,
+		} },
+		{ addAttributesToSVGElement: {
+			attributes: [
+				{ role: "img" },
+				{ "aria-hidden": "true" },
+				{ focusable: "false" },
+			],
+		} },
+	],
+};
 
 /**
  * Creates an array of imagemin plugins.
@@ -15,8 +33,9 @@ const defaultPlugins = [
  */
 function getPlugins() {
 	return defaultPlugins.map( ( pluginName ) => {
+		const options = pluginName === "svgo" ? svgoOptions : {};
 		/* eslint-disable-next-line global-require */
-		return require( `imagemin-${ pluginName }` )();
+		return require( `imagemin-${ pluginName }` )( options );
 	}, [] );
 }
 

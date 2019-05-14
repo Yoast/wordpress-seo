@@ -114,8 +114,12 @@ class Yoast_Feature_Toggles {
 				/* translators: %s: Ryte */
 				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'Ryte' ),
 				'setting'         => 'onpage_indexability',
-				/* translators: 1: Ryte */
-				'label'           => sprintf( __( '%1$s will check weekly if your site is still indexable by search engines and Yoast SEO will notify you when this is not the case.', 'wordpress-seo' ), 'Ryte' ),
+				'label'           => sprintf(
+					/* translators: 1: Ryte, 2: Yoast SEO */
+					__( '%1$s will check weekly if your site is still indexable by search engines and %2$s will notify you when this is not the case.', 'wordpress-seo' ),
+					'Ryte',
+					'Yoast SEO'
+				),
 				/* translators: %s: Ryte */
 				'read_more_label' => sprintf( __( 'Read more about how %s works.', 'wordpress-seo' ), 'Ryte ' ),
 				'read_more_url'   => 'https://yoa.st/2an',
