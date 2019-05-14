@@ -25,7 +25,7 @@ exports[`Collapsible matches the snapshot by default 1`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-down cqszVg"
+        className="yoast-svg-icon yoast-svg-icon-chevron-down createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -75,7 +75,7 @@ exports[`Collapsible matches the snapshot by default 2`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-up cqszVg"
+        className="yoast-svg-icon yoast-svg-icon-chevron-up createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -137,7 +137,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-down cqszVg"
+        className="yoast-svg-icon yoast-svg-icon-chevron-down createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -187,7 +187,7 @@ exports[`Collapsible matches the snapshot by default when the collapsible has an
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-up cqszVg"
+        className="yoast-svg-icon yoast-svg-icon-chevron-up createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -249,7 +249,7 @@ exports[`Collapsible matches the snapshot when it is closed 1`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-down cqszVg"
+        className="yoast-svg-icon yoast-svg-icon-chevron-down createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -299,7 +299,7 @@ exports[`Collapsible matches the snapshot when it is closed 2`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-up cqszVg"
+        className="yoast-svg-icon yoast-svg-icon-chevron-up createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -361,7 +361,7 @@ exports[`Collapsible matches the snapshot when it is open 1`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-up cqszVg"
+        className="yoast-svg-icon yoast-svg-icon-chevron-up createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -423,7 +423,7 @@ exports[`Collapsible matches the snapshot when it is open 2`] = `
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-chevron-down cqszVg"
+        className="yoast-svg-icon yoast-svg-icon-chevron-down createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ebKEvD"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -584,7 +584,7 @@ exports[`CollapsibleStateless matches the snapshot with prefix seo icon and scre
     >
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-circle lphVpO"
+        className="yoast-svg-icon yoast-svg-icon-circle createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
         fill="red"
         focusable="false"
         role="img"
