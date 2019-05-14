@@ -167,7 +167,9 @@ function log( message ) {
 /**
  * Console logs with yellow font for warnings.
  *
- * @param message The message to log.
+ * @param {string} message The message to log.
+ *
+ * @returns {void}
  */
 function warning( message ) {
 	// eslint-disable-next-line no-console
