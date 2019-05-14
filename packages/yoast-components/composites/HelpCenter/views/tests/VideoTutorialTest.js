@@ -1,10 +1,10 @@
 import React from "react";
-import { createComponentWithIntl } from "@yoast/helpers";
+import renderer from "react-test-renderer";
 
 import VideoTutorial from "../VideoTutorial.js";
 
 test( "the VideoTutorial component matches the snapshot", () => {
-	const component = createComponentWithIntl(
+	const component = renderer.create(
 		<VideoTutorial
 			src="https://www.youtube.com/embed/bIgcj_pPIbw"
 			title="Video title"
@@ -30,7 +30,7 @@ test( "the VideoTutorial component matches the snapshot", () => {
 } );
 
 test( "the VideoTutorial component without paragraphs matches the snapshot", () => {
-	const component = createComponentWithIntl(
+	const component = renderer.create(
 		<VideoTutorial
 			src="https://www.youtube.com/embed/bIgcj_pPIbw"
 			title="Video title"

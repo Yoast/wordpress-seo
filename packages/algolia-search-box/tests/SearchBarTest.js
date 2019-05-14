@@ -1,9 +1,9 @@
 import React from "react";
-import { createComponentWithIntl } from "@yoast/helpers";
+import renderer from "react-test-renderer";
 import SearchBar from "../src/SearchBar";
 
 test( "the SearchBar component with headingText matches the snapshot", () => {
-	const component = createComponentWithIntl(
+	const component = renderer.create(
 		<SearchBar headingText="Headingtext" searchButtonText="Search" searchString="" submitAction={ () => {} } />
 	);
 
@@ -12,7 +12,7 @@ test( "the SearchBar component with headingText matches the snapshot", () => {
 } );
 
 test( "the SearchBar component without headingText matches the snapshot", () => {
-	const component = createComponentWithIntl(
+	const component = renderer.create(
 		<SearchBar searchButtonText="Search" searchString="" submitAction={ () => {} } />
 	);
 
