@@ -270,20 +270,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
 
-		$helpcenter_tab = new WPSEO_Option_Tab(
-			'metabox',
-			__( 'Meta box', 'wordpress-seo' ),
-			array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/metabox-screencast' ) )
-		);
-
-		$help_center = new WPSEO_Help_Center( '', $helpcenter_tab, WPSEO_Utils::is_yoast_seo_premium() );
-		$help_center->localize_data();
-		$help_center->mount();
-
-		if ( ! WPSEO_Utils::is_yoast_seo_premium() ) {
-			echo $this->get_buy_premium_link();
-		}
-
 		echo '<div class="wpseo-metabox-content">';
 		echo '<div class="wpseo-metabox-sidebar"><ul>';
 
@@ -759,7 +745,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_style( 'select2' );
 
 		$asset_manager->enqueue_script( 'metabox' );
-		$asset_manager->enqueue_script( 'help-center' );
 		$asset_manager->enqueue_script( 'admin-media' );
 
 		$asset_manager->enqueue_script( 'post-scraper' );
