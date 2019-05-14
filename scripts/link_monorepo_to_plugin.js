@@ -1,5 +1,6 @@
 #!/usr/local/bin/node
 const fs = require( "fs" );
+const path = require( "path" );
 const readlineSync = require( "readline-sync" );
 const execSync = require( "child_process" ).execSync;
 
@@ -49,7 +50,7 @@ function isValidMonorepoLocation( location ) {
 	}
 
 	try {
-		return execSync( `cd ${ location }; git config --get remote.origin.url;` )
+		return execSync( `cd ${ location } && git config --get remote.origin.url` )
 			.toString()
 			.toLowerCase()
 			.includes( "yoast/javascript" );
@@ -83,6 +84,8 @@ function getMonorepoLocationFromFile() {
 			"Where is your monorepo git clone located? " +
 			"Please provide an absolute path or a path relative to the current directory '" + process.cwd() + "." +
 			" (note that ~ is not supported)'.\n" );
+		// Ensure compatibility with Windows.
+		location = path.normalize( location );
 	}
 
 	const newConfig = Object.assign( {}, yoastConfig, { "monorepo-location": location } );
@@ -215,7 +218,7 @@ packages.forEach( ( yoastPackage ) => {
 } );
 
 log( "Linking legacy Yoast packages." );
-execSync( "yarn link yoastseo; yarn link yoast-components;", NO_OUTPUT );
+execSync( "yarn link yoastseo && yarn link yoast-components", NO_OUTPUT );
 
 log( "Reinstall any Yoast packages that were unintentionally removed and are not linked after the linking process." +
 	" This could take a while..." );
