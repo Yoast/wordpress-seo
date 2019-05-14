@@ -122,7 +122,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		$user = get_userdata( $user_id );
 		$slug = sanitize_title( $user->display_name );
 
-		return $this->context->site_url . 'person/' . $slug . '/';
+		return $this->context->site_url . 'schema/person/' . $slug . '/';
 	}
 
 	/**
