@@ -162,6 +162,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 			return $data;
 		}
 
+		// If we don't have an image in our settings, fall back to an avatar, if we're allowed to.
 		$show_avatars = get_option( 'show_avatars' );
 		if ( ! $show_avatars ) {
 			return $data;
@@ -187,16 +188,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return array    $data      The Person schema.
 	 */
 	private function set_image_from_options( $data, $schema_id ) {
-		$person_logo_id = WPSEO_Options::get( 'person_logo_id', false );
-
-		if ( ! $person_logo_id ) {
-			$person_logo = WPSEO_Options::get( 'person_logo', false );
-			if ( $person_logo ) {
-				// There is not an option to put a URL in this field in the settings, only to upload it through the media manager, so we just have to save this only once and never be here again.
-				$person_logo_id = WPSEO_Image_Utils::get_attachment_by_url( $person_logo );
-				WPSEO_Options::set( 'person_logo_id', $person_logo_id );
-			}
-		}
+		$person_logo_id = WPSEO_Image_Utils::get_attachment_id_from_settings( 'person_logo' );
 
 		if ( $person_logo_id ) {
 			$image         = new WPSEO_Schema_Image( $schema_id );
