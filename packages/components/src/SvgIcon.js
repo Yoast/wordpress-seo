@@ -1,7 +1,8 @@
+/* External dependencies */
 import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import isArray from "lodash/isArray";
+
+/* Yoast dependencies */
+import { createSvgIconComponent } from "@yoast/helpers";
 
 const DEFAULT_VIEWBOX = "0 0 1792 1792";
 /* eslint-disable max-len, quote-props */
@@ -57,105 +58,5 @@ export const icons = {
 	"times-circle": { viewbox: "0 0 20 20", path: "M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8 3.58-8 8-8zm5 11l-3-3 3-3-2-2-3 3-3-3-2 2 3 3-3 3 2 2 3-3 3 3z" },
 };
 /* eslint-enable */
-
-/**
- * Create an SVG Icon component with a custom set of icons.
- *
- * @param {Object} iconSet Set of SVG icons.
- *
- * @returns {React.Component} The SvgIcon component.
- */
-export const createSvgIconComponent = ( iconSet ) => {
-	/**
-	 * Renders an SVG icon.
-	 *
-	 * @param {object} props The component props.
-	 *
-	 * @returns {React.Element} The react element.
-	 */
-	const SvgIcon = ( props ) => {
-		return <SvgIconSet { ...props } iconSet={ iconSet } />;
-	};
-
-	SvgIcon.propTypes = {
-		icon: PropTypes.string.isRequired,
-		color: PropTypes.string,
-		size: PropTypes.string,
-		className: PropTypes.string,
-	};
-
-	SvgIcon.defaultProps = {
-		size: "16px",
-		color: "currentColor",
-		className: "",
-	};
-
-	return SvgIcon;
-};
-
-/**
- * Returns the SvgIcon component.
- *
- * @param {object} props Component props.
- *
- * @returns {ReactElement} SvgIcon component.
- */
-class SvgIconSet extends React.Component {
-	/**
-	 * Renders an SVG icon.
-	 *
-	 * @returns {ReactElement|null} The rendered SVG icon.
-	 */
-	render() {
-		const { iconSet, icon, className, color, size } = this.props;
-		const iconName = iconSet[ icon ];
-
-		if ( ! iconName ) {
-			console.warn( `Invalid icon name ("${ icon }") passed to the SvgIcon component.` );
-			return null;
-		}
-
-		const path = iconName.path;
-		const viewbox = iconName.viewbox;
-
-		const iconClass = [ "yoast-svg-icon", "yoast-svg-icon-" + icon, className ].filter( Boolean ).join( " " );
-
-		const StyledSvg = styled.svg`
-			width: ${ props => props.size };
-			height: ${ props => props.size };
-			flex: none;
-		`;
-
-		return (
-			<StyledSvg
-				aria-hidden={ true }
-				role="img"
-				focusable="false"
-				size={ size }
-				className={ iconClass }
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox={ viewbox }
-				fill={ color }
-			>
-				{ isArray( path ) ? path : <path d={ path } /> }
-			</StyledSvg>
-		);
-	}
-}
-
-SvgIconSet.propTypes = {
-	icon: PropTypes.string.isRequired,
-	color: PropTypes.string,
-	size: PropTypes.string,
-	className: PropTypes.string,
-	iconSet: PropTypes.object,
-};
-
-SvgIconSet.defaultProps = {
-	size: "16px",
-	color: "currentColor",
-	className: "",
-	iconSet: icons,
-};
 
 export default createSvgIconComponent( icons );

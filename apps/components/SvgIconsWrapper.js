@@ -5,7 +5,8 @@ import transform from "lodash/transform";
 
 /* Internal dependencies */
 import { colors } from "@yoast/style-guide";
-import { SvgIcon, icons, createSvgIconComponent } from "@yoast/components";
+import { SvgIcon, icons } from "@yoast/components";
+import { createSvgIconComponent } from "@yoast/helpers";
 
 /* eslint-disable quote-props, max-len */
 const iconToAdd = {

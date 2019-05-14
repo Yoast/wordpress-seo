@@ -11,7 +11,7 @@ exports[`the YoastButton executes callback 1`] = `
     ButtonValue
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-caret-right cghYDs lphVpO"
+      className="yoast-svg-icon yoast-svg-icon-caret-right cghYDs createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
       fill="#000"
       focusable="false"
       role="img"
@@ -38,7 +38,7 @@ exports[`the YoastButton executes callback 2`] = `
     ButtonValue
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-caret-right cghYDs lphVpO"
+      className="yoast-svg-icon yoast-svg-icon-caret-right cghYDs createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
       fill="#000"
       focusable="false"
       role="img"
@@ -65,7 +65,7 @@ exports[`the YoastButton matches the snapshot 1`] = `
     ButtonValue
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-caret-right cghYDs lphVpO"
+      className="yoast-svg-icon yoast-svg-icon-caret-right cghYDs createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
       fill="#000"
       focusable="false"
       role="img"

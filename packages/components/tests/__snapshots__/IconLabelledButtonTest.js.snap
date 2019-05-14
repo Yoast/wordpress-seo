@@ -7,7 +7,7 @@ exports[`the IconLabelledButton matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-question-circle lphVpO"
+    className="yoast-svg-icon yoast-svg-icon-question-circle createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
     fill="#0066cd"
     focusable="false"
     role="img"
@@ -30,7 +30,7 @@ exports[`the IconLabelledButton with props matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-eye lphVpO"
+    className="yoast-svg-icon yoast-svg-icon-eye createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
     fill="#0f0"
     focusable="false"
     role="img"
