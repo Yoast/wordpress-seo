@@ -389,7 +389,7 @@ class WPSEO_Image_Utils {
 	 *
 	 * @param string $setting The setting the image is stored in.
 	 *
-	 * @return int|bool
+	 * @return int|bool The attachment id, or false if no id is available.
 	 */
 	public static function get_attachment_id_from_settings( $setting ) {
 		$image_id = WPSEO_Options::get( $setting . '_id', false );
