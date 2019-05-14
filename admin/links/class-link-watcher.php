@@ -43,7 +43,6 @@ class WPSEO_Link_Watcher {
 	 * @return void
 	 */
 	public function save_post( $post_id, WP_Post $post ) {
-
 		/**
 		 * Filter: 'wpseo_should_index_links' - Allows disabling of Yoast's links indexation.
 		 *
