@@ -128,7 +128,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	protected function build_person_data( $user_id ) {
 		$user_data = get_userdata( $user_id );
 		$data      = array(
-			'@type' => 'Person',
+			'@type' => array( 'Person', 'Organization' ),
 			'@id'   => $this->determine_schema_id( $user_id ),
 			'name'  => $user_data->display_name,
 		);
@@ -164,6 +164,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		$id            = $this->context->site_url . WPSEO_Schema_IDs::PERSON_LOGO_HASH;
 		$schema_image  = new WPSEO_Schema_Image( $id );
 		$data['image'] = $schema_image->simple_image_object( $url, $user_data->display_name );
+		$data['logo']  = array( '@id' => $id );
 
 		return $data;
 	}
