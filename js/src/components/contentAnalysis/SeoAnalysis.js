@@ -1,17 +1,15 @@
 /* global wpseoAdminL10n */
 
-import React, { Fragment } from "react";
+import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import { KeywordInput } from "yoast-components";
 import { YoastSeoIcon } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
 import Collapsible from "../SidebarCollapsible";
 import Results from "./Results";
-import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
 import { getIconForScore } from "./mapResults";
 import KeywordSynonyms from "../modals/KeywordSynonyms";
@@ -19,8 +17,6 @@ import Modal from "../modals/Modal";
 import MultipleKeywords from "../modals/MultipleKeywords";
 import { LocationConsumer } from "../contexts/location";
 import AnalysisUpsell from "../AnalysisUpsell";
-import HelpLink from "./HelpLink";
-import { setMarkerPauseStatus } from "../../redux/actions/markerPauseStatus";
 import { ModalContainer, ModalIcon } from "../modals/Container";
 
 const AnalysisHeader = styled.span`
@@ -33,7 +29,7 @@ const AnalysisHeader = styled.span`
 /**
  * Redux container for the seo analysis.
  */
-class SeoAnalysis extends React.Component {
+class SeoAnalysis extends Component {
 	/**
 	 * Renders the keyword synonyms upsell modal.
 	 *
@@ -165,24 +161,6 @@ class SeoAnalysis extends React.Component {
 	}
 
 	/**
-	 * Renders a help link.
-	 *
-	 * @returns {ReactElement} The help link component.
-	 */
-	renderHelpLink() {
-		return (
-			<HelpLink
-				href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }
-				className="dashicons"
-			>
-				<span className="screen-reader-text">
-					{ __( "Help on choosing the perfect focus keyphrase", "wordpress-seo" ) }
-				</span>
-			</HelpLink>
-		);
-	}
-
-	/**
 	 * Renders the AnalysisUpsell component.
 	 *
 	 * @param {string} location The location of the upsell component. Used to determine the shortlink in the component.
@@ -216,22 +194,13 @@ class SeoAnalysis extends React.Component {
 				{ context => (
 					<Fragment>
 						<Collapsible
-							title={ __( "Focus keyphrase", "wordpress-seo" ) }
+							title={ __( "SEO analysis", "wordpress-seo" ) }
 							titleScreenReaderText={ score.screenReaderReadabilityText }
 							prefixIcon={ getIconForScore( score.className ) }
 							prefixIconCollapsed={ getIconForScore( score.className ) }
 							subTitle={ this.props.keyword }
 							id={ `yoast-seo-analysis-collapsible-${ context }` }
 						>
-							<KeywordInput
-								id="focus-keyword-input"
-								onChange={ this.props.onFocusKeywordChange }
-								keyword={ this.props.keyword }
-								label={ __( "Focus keyphrase", "wordpress-seo" ) }
-								helpLink={ this.renderHelpLink() }
-								onBlurKeyword={ this.props.onBlurKeyword }
-								onFocusKeyword={ this.props.onFocusKeyword }
-							/>
 							<Slot name="YoastSynonyms" />
 							{ this.props.shouldUpsell && <Fragment>
 								{ this.renderSynonymsUpsell( context ) }
@@ -260,7 +229,6 @@ SeoAnalysis.propTypes = {
 	results: PropTypes.array,
 	marksButtonStatus: PropTypes.string,
 	keyword: PropTypes.string,
-	onFocusKeywordChange: PropTypes.func.isRequired,
 	shouldUpsell: PropTypes.bool,
 	shouldUpsellWordFormRecognition: PropTypes.bool,
 	overallScore: PropTypes.number,
@@ -302,25 +270,4 @@ function mapStateToProps( state, ownProps ) {
 	};
 }
 
-/**
- * Maps the redux dispatch to KeywordInput props.
- *
- * @param {Function} dispatch The dispatch function that will dispatch a redux action.
- *
- * @returns {Object} Props for the `KeywordInput` component.
- */
-function mapDispatchToProps( dispatch ) {
-	return {
-		onFocusKeyword: () => {
-			dispatch( setMarkerPauseStatus( true ) );
-		},
-		onFocusKeywordChange: ( value ) => {
-			dispatch( setFocusKeyword( value ) );
-		},
-		onBlurKeyword: () => {
-			dispatch( setMarkerPauseStatus( false ) );
-		},
-	};
-}
-
-export default connect( mapStateToProps, mapDispatchToProps )( SeoAnalysis );
+export default connect( mapStateToProps )( SeoAnalysis );
