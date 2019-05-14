@@ -371,20 +371,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Returns a link to activate the Buy Premium tab.
-	 *
-	 * @return string
-	 */
-	private function get_buy_premium_link() {
-		return sprintf(
-			'<div class="wpseo-metabox-buy-premium"><a target="_blank" href="%1$s"><span class="dashicons dashicons-star-filled wpseo-buy-premium"></span>%2$s%3$s</a></div>',
-			esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3g6' ) ),
-			esc_html__( 'Go Premium', 'wordpress-seo' ),
-			WPSEO_Admin_Utils::get_new_tab_message()
-		);
-	}
-
-	/**
 	 * Returns a metabox section dedicated to hosting metabox tabs that have been added by other plugins through the
 	 * `wpseo_tab_header` and `wpseo_tab_content` actions.
 	 *
