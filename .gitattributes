@@ -4,7 +4,10 @@
 * text=auto
 
 .github export-ignore
+deploy_keys export-ignore
 grunt export-ignore
+scripts export-ignore
+svn-assets export-ignore
 tests export-ignore
 webpack export-ignore
 .babelrc export-ignore
@@ -22,9 +25,7 @@ webpack export-ignore
 .travis.yml export-ignore
 Gruntfile.js export-ignore
 package.json export-ignore
-.phpcs.xml export-ignore
 phpcs.xml export-ignore
-.phpcs.xml.dist export-ignore
 phpcs.xml.dist export-ignore
 phpdoc.xml export-ignore
 phpdoc.dist.xml export-ignore
@@ -33,3 +34,4 @@ phpunit.xml export-ignore
 phpunit.xml.dist export-ignore
 README.md export-ignore
 renovate.json export-ignore
+yoast_meta.md

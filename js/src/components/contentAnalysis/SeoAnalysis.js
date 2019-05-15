@@ -6,7 +6,9 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
-import { KeywordInput, colors, YoastSeoIcon } from "yoast-components";
+import { KeywordInput } from "yoast-components";
+import { YoastSeoIcon } from "@yoast/components";
+import { colors } from "@yoast/style-guide";
 import Collapsible from "../SidebarCollapsible";
 import Results from "./Results";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
@@ -171,7 +173,6 @@ class SeoAnalysis extends React.Component {
 		return (
 			<HelpLink
 				href={ wpseoAdminL10n[ "shortlinks.focus_keyword_info" ] }
-				rel={ null }
 				className="dashicons"
 			>
 				<span className="screen-reader-text">

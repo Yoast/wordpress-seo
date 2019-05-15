@@ -28,6 +28,28 @@ const externals = {
 	"react-dom": "ReactDOM",
 
 	lodash: "window.lodash",
+	"styled-components": "window.yoast.styledComponents",
+};
+
+const wordpressExternals = {
+	"@wordpress/element": "window.wp.element",
+	"@wordpress/data": "window.wp.data",
+	"@wordpress/components": "window.wp.components",
+	"@wordpress/i18n": "window.wp.i18n",
+	"@wordpress/api-fetch": "window.wp.apiFetch",
+	"@wordpress/rich-text": "window.wp.richText",
+	"@wordpress/compose": "window.wp.compose",
+};
+
+// Make sure all these packages are exposed in `./js/src/components.js`.
+const yoastExternals = {
+	"@yoast/algolia-search-box": "window.yoast.algoliaSearchBox",
+	"@yoast/components": "window.yoast.componentsNew",
+	"@yoast/configuration-wizard": "window.yoast.configurationWizard",
+	"@yoast/helpers": "window.yoast.helpers",
+	"@yoast/search-metadata-previews": "window.yoast.searchMetadataPreviews",
+	"@yoast/style-guide": "window.yoast.styleGuide",
+	"@yoast/analysis-report": "window.yoast.analysisReport",
 };
 
 const defaultAllowedHosts = [
@@ -119,20 +141,8 @@ module.exports = function( env = { environment: "production" } ) {
 			},
 			externals: {
 				...externals,
-
-				"@wordpress/element": "window.wp.element",
-				"@wordpress/data": "window.wp.data",
-				"@wordpress/components": "window.wp.components",
-				"@wordpress/i18n": "window.wp.i18n",
-				"@wordpress/api-fetch": "window.wp.apiFetch",
-				"@wordpress/rich-text": "window.wp.richText",
-				"@wordpress/compose": "window.wp.compose",
-				"@yoast/helpers": "window.yoast.helpers",
-				"@yoast/components": "window.yoast.componentsNew",
-				"@yoast/configuration-wizard": "window.yoast.configurationWizard",
-				"@yoast/style-guide": "window.yoast.styleGuide",
-
-				"styled-components": "window.yoast.styledComponents",
+				...yoastExternals,
+				...wordpressExternals,
 			},
 			plugins: [
 				...plugins,
@@ -159,16 +169,7 @@ module.exports = function( env = { environment: "production" } ) {
 			},
 			externals: {
 				...externals,
-
-				"@wordpress/element": "window.wp.element",
-				"@wordpress/data": "window.wp.data",
-				"@wordpress/components": "window.wp.components",
-				"@wordpress/i18n": "window.wp.i18n",
-				"@wordpress/api-fetch": "window.wp.apiFetch",
-				"@wordpress/rich-text": "window.wp.richText",
-				"@wordpress/compose": "window.wp.compose",
-
-				"styled-components": "window.yoast.styledComponents",
+				...wordpressExternals,
 			},
 			plugins: [
 				...plugins,
@@ -189,13 +190,7 @@ module.exports = function( env = { environment: "production" } ) {
 
 				lodash: "lodash",
 
-				"@wordpress/element": [ "wp", "element" ],
-				"@wordpress/data": [ "wp", "data" ],
-				"@wordpress/components": [ "wp",  "components" ],
-				"@wordpress/i18n": [ "wp", "i18n" ],
-				"@wordpress/api-fetch": [ "wp", "apiFetch" ],
-				"@wordpress/rich-text": [ "wp", "richText" ],
-				"@wordpress/compose": [ "wp", "compose" ],
+				...wordpressExternals,
 			},
 			output: {
 				path: paths.jsDist,

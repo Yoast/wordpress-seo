@@ -149,12 +149,7 @@ class WPSEO_Product_Upsell_Notice {
 
 		$message .= $this->get_premium_upsell_section() . "\n\n";
 
-		$message .= sprintf(
-			/* translators: %1$s is the notification dismissal link start tag, %2$s is the link closing tag. */
-			__( '%1$sPlease don\'t show me this notification anymore%2$s', 'wordpress-seo' ),
-			'<a class="button" href="' . admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' ) . '">',
-			'</a>'
-		);
+		$message .= '<a class="button" href="' . admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' ) . '">' . __( 'Please don\'t show me this notification anymore', 'wordpress-seo' ) . '</a>';
 
 		$notification = new Yoast_Notification(
 			$message,

@@ -105,6 +105,30 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 11.2.0 =
+Release Date: May 15th, 2019
+
+Enhancements:
+
+* Introduces a fallback to the first image in the content for the schema output when no featured image has been set.
+* Adds a `wpseo_schema_person_social_profiles` filter to allow filtering in/out extra social profiles to show.
+* Adds a `wpseo_schema_needs_<class_name>` filter that allows filtering graph pieces in or out.
+* Adds a `wpseo_sitemap_post_statuses` filter to add posts with custom post statuses to the sitemap. Props to [stodorovic](https://github.com/stodorovic) and [tolnem](https://github.com/tolnem).
+* Adds a custom overlay color to the snippet preview modal.
+* Adds the correct focus style to the Configuration Wizard navigation buttons.
+* Props to [@ramiy](https://profiles.wordpress.org/ramiy/) for making translating the plugin easier by merging near identical strings.
+
+Bugfixes:
+
+* Fixes a bug where the URL to Pinterest's claim page was incorrect. Props [@ramiy](https://profiles.wordpress.org/ramiy/).
+* Fixes a bug where notifications about incompatibility would be thrown for inactive add-ons.
+* Fixes a bug where URLs with a non-Yoast SEO related xsl query string parameter would result in a blank page. Props [@stodorovic](https://github.com/stodorovic) and [@yiska](https://github.com/yiska).
+
+Other:
+
+* Removes the `add_opengraph_namespace` filter because the OGP.me HTML namespace is not used anymore.
+* Decouples the sitemap debug information from the general `WP_DEBUG` development flag and introduces the `YOAST_SEO_DEBUG_SITEMAPS` flag to better control this functionality.
+
 = 11.1.1 =
 Release Date: May 6th, 2019
 
@@ -132,24 +156,6 @@ Bugfixes:
 
 * Fixes a bug where the position of the buttons in the FAQ and How-To structured data blocks was compromised when running the development build of Gutenberg.
 * Fixed a bug where social profile settings would be empty because it was relying on the user choosing whether the site represents a company or a person.
-
-= 11.0.0 =
-Release Date: April 16th, 2019
-
-We've made huge changes to the schema.org markup we output, adding multiple different types of Schema. Be sure to check [our posts on yoast.com about this release](https://yoa.st/schema-release-post)!
-
-Enhancements:
-
-* Schema changes:
-	* Adds `Person` markup for author pages.
-	* Adds `WebPage` markup for all pages.
-	* Adds `Article` markup for posts, with `Person` markup for the author.
-	* Changes the ‘Organization or Person’ section of the Knowledge graph settings to allow selecting an author that is the ‘Person’ that the website represents.
-* Adds MySpace, SoundCloud, Tumblr and YouTube URL input fields to people’s profiles.
-
-Bugfixes:
-
-* Fixes an issue where the metabox would not display on term edit pages when running the development build of Gutenberg.
 
 = Earlier versions =
 

@@ -1,11 +1,9 @@
 import React from "react";
 import interpolateComponents from "interpolate-components";
-import { utils } from "yoast-components";
+import { makeOutboundLink } from "@yoast/helpers";
 import { __, sprintf } from "@wordpress/i18n";
 import UpsellBox from "../UpsellBox";
 import PropTypes from "prop-types";
-
-const { makeOutboundLink } = utils;
 
 const PremiumLandingPageLink = makeOutboundLink();
 
@@ -30,7 +28,7 @@ const MultipleKeywords = ( props ) => {
 			"<strong>",
 			"</strong>"
 		),
-		`<strong>${ __( "Superfast internal links suggestions", "wordpress-seo" ) }</strong>`,
+		`<strong>${ __( "Superfast internal linking suggestions", "wordpress-seo" ) }</strong>`,
 		sprintf(
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
 			__( "%1$sSocial media preview%2$s: Facebook & Twitter", "wordpress-seo" ),

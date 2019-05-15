@@ -66,7 +66,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param mixed  $object_id   The object id.
 	 * @param string $description The test description.
 	 *
-	 * @covers       WPSEO_Indexable_Service_Post_Provider::is_indexable()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable()
 	 */
 	public function test_is_indexable_with_invalid_object_ids( $object_id, $description ) {
 		$this->assertFalse( $this->provider->is_indexable( $object_id ), $description );
@@ -99,7 +99,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param mixed  $object_id   The object id.
 	 * @param string $description The test description.
 	 *
-	 * @covers       WPSEO_Indexable_Service_Post_Provider::get()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::get()
 	 */
 	public function test_get_a_non_indexable_post_with_invalid_object_ids( $object_id, $description ) {
 		$this->assertEquals( array(), $this->provider->get( $object_id ), $description );

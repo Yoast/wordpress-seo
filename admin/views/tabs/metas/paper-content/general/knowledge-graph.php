@@ -11,7 +11,7 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 	'search-appearance-knowledge-graph',
 	__( 'Learn more about the knowledge graph setting', 'wordpress-seo' ),
 	sprintf(
-	/* translators: %1$s opens the link to the Yoast.com article about Google's Knowledge Graph, %2$s closes the link, */
+		/* translators: %1$s opens the link to the Yoast.com article about Google's Knowledge Graph, %2$s closes the link, */
 		__( 'This data is shown as metadata in your site. It is intended to appear in %1$sGoogle\'s Knowledge Graph%2$s. You can be either an organization, or a person.', 'wordpress-seo' ),
 		'<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1-p' ) ) . '" target="_blank" rel="noopener noreferrer">',
 		'</a>'

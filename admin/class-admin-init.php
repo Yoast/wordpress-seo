@@ -346,7 +346,7 @@ class WPSEO_Admin_Init {
 			$type         = ( $plugin['active'] ) ? Yoast_Notification::ERROR : Yoast_Notification::WARNING;
 			$notification = $this->get_yoast_seo_compatibility_notification( $name, $plugin, $type );
 
-			if ( $plugin['compatible'] === false ) {
+			if ( $plugin['active'] && $plugin['compatible'] === false ) {
 				$notification_center->add_notification( $notification );
 
 				continue;
@@ -602,7 +602,7 @@ class WPSEO_Admin_Init {
 	public function show_hook_deprecation_warnings() {
 		global $wp_filter;
 
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+		if ( wp_doing_ajax() ) {
 			return;
 		}
 

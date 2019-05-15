@@ -64,7 +64,10 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 			$category_base = 'category';
 		}
 
-		// Remove initial slash, if there is one (we remove the trailing slash in the regex replacement and don't want to end up short a slash).
+		/*
+		 * Remove initial slash, if there is one (we remove the trailing slash in
+		 * the regex replacement and don't want to end up short a slash).
+		 */
 		if ( '/' === substr( $category_base, 0, 1 ) ) {
 			$category_base = substr( $category_base, 1 );
 		}

@@ -2,11 +2,10 @@ import React from "react";
 import interpolateComponents from "interpolate-components";
 import { __, sprintf } from "@wordpress/i18n";
 
-import { utils } from "yoast-components";
+import { makeOutboundLink } from "@yoast/helpers";
 import PropTypes from "prop-types";
 import UpsellBox from "../UpsellBox";
 
-const { makeOutboundLink } = utils;
 const PremiumLandingPageLink = makeOutboundLink();
 
 /**
@@ -36,7 +35,7 @@ const KeywordSynonyms = ( props ) => {
 			"<strong>",
 			"</strong>"
 		),
-		`<strong>${ __( "Superfast internal links suggestions", "wordpress-seo" ) }</strong>`,
+		`<strong>${ __( "Superfast internal linking suggestions", "wordpress-seo" ) }</strong>`,
 		sprintf(
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
 			__( "%1$sSocial media preview%2$s: Facebook & Twitter", "wordpress-seo" ),

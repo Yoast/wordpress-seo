@@ -33,10 +33,10 @@ class WPSEO_Meta {
 	/**
 	 * Prefix for all WPSEO meta values in the database.
 	 *
-	 * @var string
-	 *
 	 * {@internal If at any point this would change, quite apart from an upgrade routine,
 	 *            this also will need to be changed in the wpml-config.xml file.}}
+	 *
+	 * @var string
 	 */
 	public static $meta_prefix = '_yoast_wpseo_';
 
@@ -68,41 +68,40 @@ class WPSEO_Meta {
 	/**
 	 * Meta box field definitions for the meta box form.
 	 *
-	 * @var    array  $meta_fields
-	 *                Array format:
-	 *                (required)       'type'          => (string) field type. i.e. text / textarea / checkbox /
-	 *                                                    radio / select / multiselect / upload etc
-	 *                (required)       'title'         => (string) table row title
-	 *                (recommended)    'default_value' => (string|array) default value for the field
-	 *                                                    IMPORTANT:
-	 *                                                    - if the field has options, the default has to be the
-	 *                                                      key of one of the options
-	 *                                                    - if the field is a text field, the default **has** to be
-	 *                                                      an empty string as otherwise the user can't save
-	 *                                                      an empty value/delete the meta value
-	 *                                                    - if the field is a checkbox, the only valid values
-	 *                                                      are 'on' or 'off'
-	 *                (semi-required)   'options'      => (array) options for used with (multi-)select and radio
-	 *                                                    fields, required if that's the field type
-	 *                                                    key = (string) value which will be saved to db
-	 *                                                    value = (string) text label for the option
-	 *                (optional)        'autocomplete' => (bool) whether autocomplete is on for text fields,
-	 *                                                    defaults to true
-	 *                (optional)        'class'        => (string) classname(s) to add to the actual <input> tag
-	 *                (optional)        'description'  => (string) description to show underneath the field
-	 *                (optional)        'expl'         => (string) label for a checkbox
-	 *                (optional)        'help'         => (string) help text to show on mouse over ? image
-	 *                (optional)        'rows'         => (int) number of rows for a textarea, defaults to 3
-	 *
-	 *                (optional)        'placeholder'  => (string) Currently only used by add-on plugins.
-	 *                (optional)        'serialized'   => (bool) whether the value is expected to be serialized,
-	 *                                                     i.e. an array or object, defaults to false
-	 *                                                     Currently only used by add-on plugins.
-	 *
 	 * {@internal
 	 * - Titles, help texts, description text and option labels are added via a translate_meta_boxes() method
-	 *     in the relevant child classes (WPSEO_Metabox and WPSEO_Social_admin) as they are only needed there.
+	 *   in the relevant child classes (WPSEO_Metabox and WPSEO_Social_admin) as they are only needed there.
 	 * - Beware: even though the meta keys are divided into subsets, they still have to be uniquely named!}}
+	 *
+	 * @var array $meta_fields
+	 *            Array format:
+	 *                (required)       'type'          => (string) field type. i.e. text / textarea / checkbox /
+	 *                                                    radio / select / multiselect / upload etc.
+	 *                (required)       'title'         => (string) table row title.
+	 *                (recommended)    'default_value' => (string|array) default value for the field.
+	 *                                                    IMPORTANT:
+	 *                                                    - if the field has options, the default has to be the
+	 *                                                      key of one of the options.
+	 *                                                    - if the field is a text field, the default **has** to be
+	 *                                                      an empty string as otherwise the user can't save
+	 *                                                      an empty value/delete the meta value.
+	 *                                                    - if the field is a checkbox, the only valid values
+	 *                                                      are 'on' or 'off'.
+	 *                (semi-required)   'options'      => (array) options for used with (multi-)select and radio
+	 *                                                    fields, required if that's the field type.
+	 *                                                    key = (string) value which will be saved to db.
+	 *                                                    value = (string) text label for the option.
+	 *                (optional)        'autocomplete' => (bool) whether autocomplete is on for text fields,
+	 *                                                    defaults to true.
+	 *                (optional)        'class'        => (string) classname(s) to add to the actual <input> tag.
+	 *                (optional)        'description'  => (string) description to show underneath the field.
+	 *                (optional)        'expl'         => (string) label for a checkbox.
+	 *                (optional)        'help'         => (string) help text to show on mouse over ? image.
+	 *                (optional)        'rows'         => (int) number of rows for a textarea, defaults to 3.
+	 *                (optional)        'placeholder'  => (string) Currently only used by add-on plugins.
+	 *                (optional)        'serialized'   => (bool) whether the value is expected to be serialized,
+	 *                                                     i.e. an array or object, defaults to false.
+	 *                                                     Currently only used by add-on plugins.
 	 */
 	public static $meta_fields = array(
 		'general'  => array(

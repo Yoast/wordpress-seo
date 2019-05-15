@@ -5,12 +5,12 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
   max-width: 640px;
 }
 
-.c0.c2 {
+.c0.StyledSection__StyledSectionBase-enyt8a-2 {
   padding-left: 0;
   padding-right: 0;
 }
 
-.c0.c2 .c1 {
+.c0.StyledSection__StyledSectionBase-enyt8a-2 .StyledSection__StyledHeading-enyt8a-0 {
   padding-left: 20px;
   margin-left: 0;
 }
@@ -43,9 +43,9 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
             "lastClassName": "c0",
             "rules": Array [
               "max-width:640px;&",
-              ".c2",
+              ".StyledSection__StyledSectionBase-enyt8a-2",
               "{padding-left:0;padding-right:0;& ",
-              ".c1",
+              ".StyledSection__StyledHeading-enyt8a-0",
               "{",
               [Function],
               ":20px;margin-left:",
@@ -80,7 +80,7 @@ exports[`SnippetPreviewSection RTL renders the snippet editor inside of it 1`] =
         headingText="Snippet editor"
       >
         <span>
-          yoast-components StyledSection
+          @yoast/components StyledSection
         </span>
       </StyledSection>
     </StyledComponent>
@@ -93,12 +93,12 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
   max-width: 640px;
 }
 
-.c0.c2 {
+.c0.StyledSection__StyledSectionBase-enyt8a-2 {
   padding-left: 0;
   padding-right: 0;
 }
 
-.c0.c2 .c1 {
+.c0.StyledSection__StyledSectionBase-enyt8a-2 .StyledSection__StyledHeading-enyt8a-0 {
   padding-left: 20px;
   margin-left: 0;
 }
@@ -131,9 +131,9 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
             "lastClassName": "c0",
             "rules": Array [
               "max-width:640px;&",
-              ".c2",
+              ".StyledSection__StyledSectionBase-enyt8a-2",
               "{padding-left:0;padding-right:0;& ",
-              ".c1",
+              ".StyledSection__StyledHeading-enyt8a-0",
               "{",
               [Function],
               ":20px;margin-left:",
@@ -168,7 +168,7 @@ exports[`SnippetPreviewSection renders the snippet editor inside of it 1`] = `
         headingText="Snippet editor"
       >
         <span>
-          yoast-components StyledSection
+          @yoast/components StyledSection
         </span>
       </StyledSection>
     </StyledComponent>

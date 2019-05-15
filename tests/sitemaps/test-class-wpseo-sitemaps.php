@@ -52,6 +52,9 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_main_sitemap() {
 
+		if ( ! defined( 'YOAST_SEO_DEBUG_SITEMAPS' ) ) {
+			define( 'YOAST_SEO_DEBUG_SITEMAPS', true );
+		}
 		add_filter( 'wpseo_enable_xml_sitemap_transient_caching', '__return_true' );
 
 		self::$class_instance->reset();

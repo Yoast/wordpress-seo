@@ -22,7 +22,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 *
 	 * {@internal Shouldn't be requested directly, use $this->get_defaults();}}
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $defaults = array(
 		// Non-form fields, set via (ajax) function.

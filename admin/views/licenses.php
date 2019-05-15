@@ -155,7 +155,8 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 				<?php if ( $has_valid_premium_subscription ) : ?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php esc_html_e( 'Activated', 'wordpress-seo' ); ?></div>
 					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>"
-						class="yoast-link--license"><?php
+						class="yoast-link--license">
+						<?php
 						/* translators: %s expands to the extension title */
 						printf( esc_html( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ), $premium_extension->get_title() );
 						echo $new_tab_message;
@@ -178,8 +179,8 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 				<a target="_blank" href="<?php echo esc_url( $premium_extension->get_buy_url() ); ?>"
 					class="yoast-button-upsell">
 					<?php
-					/* translators: $1$s expands to Yoast SEO Premium */
-					printf( esc_html__( 'Buy %1$s', 'wordpress-seo' ), $premium_extension->get_title() );
+					/* translators: $s expands to Yoast SEO Premium */
+					printf( esc_html__( 'Buy %s', 'wordpress-seo' ), $premium_extension->get_title() );
 					echo $new_tab_message;
 					echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 					?>
@@ -209,14 +210,16 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 		<hr class="yoast-hr" aria-hidden="true"/>
 
 		<section class="yoast-promo-extensions">
-			<h2><?php
+			<h2>
+				<?php
 				/* translators: %1$s expands to Yoast SEO */
 				$yoast_seo_extensions = sprintf( __( '%1$s extensions', 'wordpress-seo' ), 'Yoast SEO' );
 				$yoast_seo_extensions = '<span class="yoast-heading-highlight">' . $yoast_seo_extensions . '</span>';
 
 				/* translators: %1$s expands to Yoast SEO extensions */
 				printf( esc_html__( '%1$s to optimize your site even further', 'wordpress-seo' ), $yoast_seo_extensions );
-				?></h2>
+				?>
+			</h2>
 
 			<?php foreach ( $extensions as $slug => $extension ) : ?>
 				<section class="yoast-promoblock secondary yoast-promo-extension">
