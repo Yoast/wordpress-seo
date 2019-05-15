@@ -3,7 +3,7 @@
 exports[`the SvgIcon matches the snapshot 1`] = `
 <svg
   aria-hidden={true}
-  className="yoast-svg-icon yoast-svg-icon-edit my-icon frdkXM"
+  className="yoast-svg-icon yoast-svg-icon-edit my-icon createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 ciuqQn"
   fill="black"
   focusable="false"
   role="img"

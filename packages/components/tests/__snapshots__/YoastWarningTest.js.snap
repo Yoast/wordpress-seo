@@ -8,7 +8,7 @@ exports[`YoastWarning matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-exclamation-triangle bCcBzk lphVpO"
+    className="yoast-svg-icon yoast-svg-icon-exclamation-triangle bCcBzk createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
     fill="currentColor"
     focusable="false"
     role="img"
@@ -43,7 +43,7 @@ exports[`YoastWarning with a right to left language matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-exclamation-triangle bCcBzk lphVpO"
+    className="yoast-svg-icon yoast-svg-icon-exclamation-triangle bCcBzk createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
     fill="currentColor"
     focusable="false"
     role="img"

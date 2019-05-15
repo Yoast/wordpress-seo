@@ -12,7 +12,7 @@ exports[`the disabled IconButtonToggle matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-eye gstTlu"
+    className="yoast-svg-icon yoast-svg-icon-eye createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 dqTDIA"
     fill="#ddd"
     focusable="false"
     role="img"
@@ -39,7 +39,7 @@ exports[`the pressed IconButtonToggle matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-eye gstTlu"
+    className="yoast-svg-icon yoast-svg-icon-eye createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 dqTDIA"
     fill="#fff"
     focusable="false"
     role="img"
@@ -66,7 +66,7 @@ exports[`the unpressed IconButtonToggle matches the snapshot 1`] = `
 >
   <svg
     aria-hidden={true}
-    className="yoast-svg-icon yoast-svg-icon-eye gstTlu"
+    className="yoast-svg-icon yoast-svg-icon-eye createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 dqTDIA"
     fill="#555"
     focusable="false"
     role="img"

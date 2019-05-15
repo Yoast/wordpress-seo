@@ -2,7 +2,6 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import uniqueId from "lodash/uniqueId";
 import { __ } from "@wordpress/i18n";
 import noop from "lodash/noop";
 
@@ -231,7 +230,7 @@ class KeywordInput extends React.Component {
 }
 
 KeywordInput.propTypes = {
-	id: PropTypes.string,
+	id: PropTypes.string.isRequired,
 	showLabel: PropTypes.bool,
 	keyword: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
@@ -243,7 +242,6 @@ KeywordInput.propTypes = {
 };
 
 KeywordInput.defaultProps = {
-	id: uniqueId( "yoast-keyword-input-" ),
 	showLabel: true,
 	keyword: "",
 	onRemoveKeyword: noop,
