@@ -301,7 +301,7 @@ exports[`the AnalysisResult component with html in the text matches the snapshot
 }
 
 .c2 {
-  margin: 0 8px 0 0;
+  margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
