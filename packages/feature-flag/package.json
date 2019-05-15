@@ -1,6 +1,6 @@
 {
   "name": "@yoast/feature-flag",
-  "version": "0.1.0-rc.1",
+  "version": "0.2.0-rc.0",
   "main": "src/index.js",
   "repository": {
     "type": "git",
