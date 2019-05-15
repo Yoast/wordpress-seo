@@ -7,6 +7,8 @@
 
 /**
  * Class WPSEO_Taxonomy_Sitemap_Provider_Test.
+ *
+ * @group sitemaps
  */
 class WPSEO_Taxonomy_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
@@ -60,5 +62,25 @@ class WPSEO_Taxonomy_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		wp_set_post_categories( $post_id, $category_id );
 		$sitemap_links = self::$class_instance->get_sitemap_links( 'category', 1, 1 );
 		$this->assertContains( get_category_link( $category_id ), $sitemap_links[0] );
+	}
+
+	/**
+	 * Makes sure invalid sitemap pages return no contents (404).
+	 *
+	 * @covers WPSEO_Taxonomy_Sitemap_Provider::get_index_links
+	 */
+	public function test_get_index_links_empty_sitemap() {
+		// Fetch the global sitemap.
+		set_query_var( 'sitemap', 'category' );
+
+		// Set the page to the second one, which should not contain an entry, and should not exist.
+		set_query_var( 'sitemap_n', '2' );
+
+		// Load the sitemap.
+		$sitemaps = new WPSEO_Sitemaps_Double();
+		$sitemaps->redirect( $GLOBALS['wp_the_query'] );
+
+		// Expect an empty page (404) to be returned.
+		$this->expectOutput( '' );
 	}
 }

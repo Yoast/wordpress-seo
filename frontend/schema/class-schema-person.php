@@ -17,7 +17,6 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @var WPSEO_Schema_Context
 	 */
 	private $context;
-
 	/**
 	 * Array of the social profiles we display for a Person.
 	 *
@@ -156,15 +155,46 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return array $data The Person schema.
 	 */
 	protected function add_image( $data, $user_data ) {
+		$schema_id = $this->context->site_url . WPSEO_Schema_IDs::PERSON_LOGO_HASH;
+
+		$data = $this->set_image_from_options( $data, $schema_id );
+		if ( isset( $data['image'] ) ) {
+			return $data;
+		}
+
+		// If we don't have an image in our settings, fall back to an avatar, if we're allowed to.
+		$show_avatars = get_option( 'show_avatars' );
+		if ( ! $show_avatars ) {
+			return $data;
+		}
+
 		$url = get_avatar_url( $user_data->user_email );
 		if ( empty( $url ) ) {
 			return $data;
 		}
 
-		$id            = $this->context->site_url . WPSEO_Schema_IDs::PERSON_LOGO_HASH;
-		$schema_image  = new WPSEO_Schema_Image( $id );
+		$schema_image  = new WPSEO_Schema_Image( $schema_id );
 		$data['image'] = $schema_image->simple_image_object( $url, $user_data->display_name );
 		$data['logo']  = array( '@id' => $id );
+
+		return $data;
+	}
+
+	/**
+	 * Generate the person avatar / logo from our settings.
+	 *
+	 * @param array  $data      The Person schema.
+	 * @param string $schema_id The string used in the `@id` for the schema.
+	 *
+	 * @return array    $data      The Person schema.
+	 */
+	private function set_image_from_options( $data, $schema_id ) {
+		$person_logo_id = WPSEO_Image_Utils::get_attachment_id_from_settings( 'person_logo' );
+
+		if ( $person_logo_id ) {
+			$image         = new WPSEO_Schema_Image( $schema_id );
+			$data['image'] = $image->generate_from_attachment_id( $person_logo_id, $data['name'] );
+		}
 
 		return $data;
 	}
