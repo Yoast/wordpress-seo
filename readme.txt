@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 4.9
 Tested up to: 5.2
-Stable tag: 11.1
+Stable tag: 11.1.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -106,12 +106,11 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 == Changelog ==
 
 = 11.2.0 =
-Release Date: May 14th, 2019
+Release Date: May 15th, 2019
 
 Enhancements:
 
 * Introduces a fallback to the first image in the content for the schema output when no featured image has been set.
-* Stitches the Schema output from the HowTo and FAQ structured data blocks into the main graph.
 * Adds a `wpseo_schema_person_social_profiles` filter to allow filtering in/out extra social profiles to show.
 * Adds a `wpseo_schema_needs_<class_name>` filter that allows filtering graph pieces in or out.
 * Adds a `wpseo_sitemap_post_statuses` filter to add posts with custom post statuses to the sitemap. Props to [stodorovic](https://github.com/stodorovic) and [tolnem](https://github.com/tolnem).
@@ -138,7 +137,7 @@ Bugfixes:
 * Fixes a bug where an empty width and height would be outputted in the image schema when there was no retrievable width and height.
 * Fixes a bug where using the `$context` argument in the deprecated `wpseo_json_ld_output` filter would result in a fatal error when using PHP 7.1 or higher.
 
-Other
+Other:
 
 * Adds a notification to explain why users’ Google Search Console reports are no longer showing any entries. [Read more about the reasons behind this](https://yoa.st/gsc-dep-changelog).
 * Removes the Google Search Console step from the configuration wizard.
