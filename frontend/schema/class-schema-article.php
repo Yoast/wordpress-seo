@@ -111,7 +111,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	/**
 	 * Retrieves the author post URL based on our author archives settings.
 	 *
-	 * @param int $user_id
+	 * @param int $user_id The author's user ID.
 	 *
 	 * @return string unsigned Author posts URL.
 	 */
