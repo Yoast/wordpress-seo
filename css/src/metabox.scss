@@ -81,7 +81,6 @@ ul.wpseo-metabox-tabs li.active {
 	width: 100%;
 	min-height: 100%;
 	height: auto;
-	max-width: calc( 100% - 50px );
 	vertical-align: top;
 }
 
@@ -98,16 +97,15 @@ ul.wpseo-metabox-tabs li.active {
 
 .wpseo-metabox-content {
 	padding-top: 16px;
-	display: flex;
 }
 
-.wpseo-metabox-sidebar {
-	width: 46px;
+.wpseo-metabox-tabs {
 	padding: 0;
 	background-color: #fff;
 
 	ul {
 		margin: 0 1px 0 0;
+		display: flex;
 
 		li:nth-child(1) {
 			z-index: 10;
@@ -129,6 +127,7 @@ ul.wpseo-metabox-tabs li.active {
 		}
 
 		li {
+			flex: 1;
 			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 
 			display: block; /* Microsoft Edge 38. */
