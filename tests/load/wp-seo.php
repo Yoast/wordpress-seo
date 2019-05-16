@@ -9,7 +9,7 @@ Brain\Monkey\setUp();
 Functions\expect( 'plugin_dir_path' )
 	->once()
 	->with( $wpseo_file )
-	->andReturn( dirname( '../' ) );
+	->andReturn( dirname( $wpseo_file ) . '/' );
 
 Functions\expect( 'plugin_basename' )
 	->once()

@@ -46,6 +46,18 @@ return array(
 				$content
 			);
 
+			$replaced = str_replace(
+				"\set_error_handler(array('Ruckusing_Exception', 'errorHandler'), \E_ALL);",
+				sprintf( '\set_error_handler(array(\'\%s\Ruckusing_Exception\', \'errorHandler\'), \E_ALL);', $prefix ),
+				$replaced
+			);
+
+			$replaced = str_replace(
+				"\set_exception_handler(array('Ruckusing_Exception', 'exceptionHandler'));",
+				sprintf( '\set_exception_handler(array(\'\%s\Ruckusing_Exception\', \'exceptionHandler\'));', $prefix ),
+				$replaced
+			);
+
 			return $replaced;
 		},
 
