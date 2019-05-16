@@ -9,6 +9,7 @@
  * Test Helper Class.
  */
 class OnPage_Option_Mock extends WPSEO_OnPage_Option {
+
 	private $enabled;
 	private $status;
 	private $can_fetch;

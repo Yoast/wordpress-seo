@@ -1,4 +1,9 @@
 <?php
+/**
+ * PHPUnit bootstrap file
+ *
+ * @package Wordpress_Seo
+ */
 
 define( 'ABSPATH', true );
 define( 'WPSEO_INDEXABLES', true );
@@ -23,6 +28,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 if ( file_exists( __DIR__ . '/../wp-seo-premium.php' ) ) {
 	require_once __DIR__ . '/load/wp-seo-premium.php';
-} else {
+}
+else {
 	require_once __DIR__ . '/load/wp-seo.php';
 }

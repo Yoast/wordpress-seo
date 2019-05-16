@@ -11,7 +11,7 @@ use Yoast\WP\Free\Oauth\Client;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
 
-Use Brain\Monkey;
+use Brain\Monkey;
 
 /**
  * Class Oauth_Test.

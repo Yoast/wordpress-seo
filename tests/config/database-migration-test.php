@@ -21,7 +21,7 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 		parent::setUp();
 
 		global $wpdb;
-		$wpdb = $this->createMock( '\stdClass' );
+		$wpdb         = $this->createMock( '\stdClass' );
 		$wpdb->prefix = 'test';
 	}
 
@@ -96,11 +96,13 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 			->disableOriginalConstructor()
 			->setMethods( null )
 			->getMock();
+
 		/**
 		 * @var \Yoast\WP\Free\Config\Database_Migration $instance
 		 */
 		$this->assertTrue( $instance->is_usable() );
 	}
+
 	/**
 	 * Tests if the migrations are usable with transients.
 	 */
