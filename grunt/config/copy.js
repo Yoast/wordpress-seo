@@ -77,6 +77,7 @@ module.exports = {
 					"src/**",
 					"vendor/**",
 					"vendor_prefixed/**/*.php",
+					"vendor_prefixed/dependencies-prefixed.txt",
 					"migrations/*.php",
 					"index.php",
 					"license.txt",

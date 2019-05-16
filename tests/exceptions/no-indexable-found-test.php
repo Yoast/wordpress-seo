@@ -23,8 +23,8 @@ class No_Indexable_Found_Test extends \Yoast\Tests\TestCase {
 		parent::setUp();
 
 		$logger = $this
-			->getMockBuilder( '\Psr\Log\AbstractLogger' )
-			->setMethods( array( 'notice' ) )
+			->getMockBuilder( '\YoastSEO_Vendor\Psr\Log\AbstractLogger' )
+			->setMethods( array( 'notice', 'log' ) )
 			->getMockForAbstractClass();
 
 		$logger
@@ -146,11 +146,11 @@ class No_Indexable_Found_Test extends \Yoast\Tests\TestCase {
 	/**
 	 * Overrides the logger. To make the loggin 'testable'.
 	 *
-	 * @return \Psr\Log\LoggerInterface The 'logger'.
+	 * @return \YoastSEO_Vendor\Psr\Log\LoggerInterface The 'logger'.
 	 */
 	public function get_logger() {
 		$logger = $this
-			->getMockBuilder( '\Psr\Log\AbstractLogger' )
+			->getMockBuilder( '\YoastSEO_Vendor\Psr\Log\AbstractLogger' )
 			->setMethods( array( 'notice' ) )
 			->getMockForAbstractClass();
 

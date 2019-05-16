@@ -44,6 +44,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'yoast_plugin_suggestions_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'unsupported_php_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'wordpress_upgrade_notice' ), 15 );
 		add_action( 'admin_init', array( $this->asset_manager, 'register_assets' ) );
 		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ) );
@@ -429,6 +430,70 @@ class WPSEO_Admin_Init {
 	public function unsupported_php_notice() {
 		$notification_center = Yoast_Notification_Center::get();
 		$notification_center->remove_notification_by_id( 'wpseo-dismiss-unsupported-php' );
+	}
+
+	/**
+	 * Creates a WordPress upgrade notification in the notification center.
+	 *
+	 * @return void
+	 */
+	public function wordpress_upgrade_notice() {
+		global $wp_version;
+
+		$wordpress_less_than_50 = version_compare( $wp_version, '5.0', '<' );
+		$wordpress_less_than_52 = version_compare( $wp_version, '5.2', '<' );
+
+		$notification_center = Yoast_Notification_Center::get();
+
+		$message = sprintf(
+			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag, %3$s expands to a html break, %4$s expands to Yoast, %5$s expands to Yoast SEO, %6$s expands to 5.2, %7$s expands to 5.3 */
+			__(
+				'%1$sUpgrade WordPress to the most recent version%2$s%3$sWe’ve noticed that you’re not on the latest WordPress version, which might cause an issue soon. %4$s (for reasons of security and stability) only supports the current and previous version of WordPress. When the next version of WordPress comes out, that means that we will support WordPress %6$s and %7$s. This means you will not get any updates to %5$s until you update your WordPress, so please make sure to upgrade to the latest WordPress version soon!%3$s%3$s',
+				'wordpress-seo'
+			),
+			'<strong>',
+			'</strong>',
+			'<br/>',
+			'Yoast',
+			'Yoast SEO',
+			'5.2',
+			'5.3'
+		);
+		if ( $wordpress_less_than_50 ) {
+			$message .= sprintf(
+				/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.0 */
+				__(
+					'If you’ve held off on updating to %2$s and higher because of the new Gutenberg editor, please install the Classic editor plugin. It will give you the same editing experience you have now, but also the security of newer versions of WordPress and %1$s.',
+					'wordpress-seo'
+				),
+				'Yoast SEO',
+				'5.0'
+			);
+		}
+		$message .= '<br/><br/>';
+		$message .= sprintf(
+			/* translators: %1$s expands to an opening anchor tag, %2$s expands to a closing anchor tag */
+			__(
+				'Read %1$sthis post for more information about why we’re not supporting older versions.%2$s',
+				'wordpress-seo'
+			),
+			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/old-wp-support' ) . '" target="_blank" rel="nofollow">',
+			'</a>'
+		);
+
+		$notification = new Yoast_Notification(
+			$message,
+			array(
+				'type' => Yoast_Notification::ERROR,
+				'id'   => 'wpseo-dismiss-wordpress-upgrade',
+			)
+		);
+
+		if ( $wordpress_less_than_52 ) {
+			$notification_center->add_notification( $notification );
+			return;
+		}
+		$notification_center->remove_notification( $notification );
 	}
 
 	/**

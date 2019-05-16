@@ -18,6 +18,10 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return boolean
 	 */
 	public function handles_type( $type ) {
+		// If the author archives have been disabled, we don't do anything.
+		if ( WPSEO_Options::get( 'disable-author', false ) || WPSEO_Options::get( 'noindex-author-wpseo', false ) ) {
+			return false;
+		}
 
 		return $type === 'author';
 	}
@@ -29,7 +33,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function get_index_links( $max_entries ) {
 
-		if ( WPSEO_Options::get( 'disable-author', false ) || WPSEO_Options::get( 'noindex-author-wpseo', false ) ) {
+		if ( ! $this->handles_type( 'author' ) ) {
 			return array();
 		}
 
@@ -132,13 +136,15 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @param int    $max_entries  Entries per sitemap.
 	 * @param int    $current_page Current page of the sitemap.
 	 *
+	 * @throws OutOfBoundsException When an invalid page is requested.
+	 *
 	 * @return array
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 
 		$links = array();
 
-		if ( WPSEO_Options::get( 'disable-author', false ) || WPSEO_Options::get( 'noindex-author-wpseo', false ) ) {
+		if ( ! $this->handles_type( 'author' ) ) {
 			return $links;
 		}
 
@@ -146,9 +152,15 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			'offset' => ( $current_page - 1 ) * $max_entries,
 			'number' => $max_entries,
 		);
-		$users         = $this->get_users( $user_criteria );
-		$users         = $this->exclude_users( $users );
 
+		$users = $this->get_users( $user_criteria );
+
+		// Determine max page based on the total number of users.
+		if ( $user_criteria['offset'] > count( $users ) ) {
+			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
+		}
+
+		$users = $this->exclude_users( $users );
 		if ( empty( $users ) ) {
 			$users = array();
 		}
