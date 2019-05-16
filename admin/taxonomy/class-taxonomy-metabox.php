@@ -80,7 +80,7 @@ class WPSEO_Taxonomy_Metabox {
 		}
 
 		echo '<div class="wpseo-metabox-content">';
-		echo '<div class="wpseo-metabox-sidebar"><ul>';
+		echo '<div class="wpseo-metabox-menu"><ul>';
 
 		foreach ( $content_sections as $content_section ) {
 			$content_section->display_link();

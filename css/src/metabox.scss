@@ -81,7 +81,6 @@ ul.wpseo-metabox-tabs li.active {
 	width: 100%;
 	min-height: 100%;
 	height: auto;
-	max-width: calc( 100% - 50px );
 	vertical-align: top;
 }
 
@@ -98,11 +97,9 @@ ul.wpseo-metabox-tabs li.active {
 
 .wpseo-metabox-content {
 	padding-top: 16px;
-	display: flex;
 }
 
-.wpseo-metabox-sidebar {
-	width: 46px;
+.wpseo-metabox-menu {
 	padding: 0;
 	background-color: #fff;
 
@@ -130,6 +127,7 @@ ul.wpseo-metabox-tabs li.active {
 
 		li {
 			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+			float: left;
 
 			display: block; /* Microsoft Edge 38. */
 			margin-bottom: 0;
@@ -137,9 +135,8 @@ ul.wpseo-metabox-tabs li.active {
 			position: relative;
 
 			a {
-				color: black;
+				color: #0073aa;
 				padding: 8px 8px;
-				background-color: #f8f8f8;
 			}
 
 			.yst-traffic-light {
@@ -162,19 +159,6 @@ ul.wpseo-metabox-tabs li.active {
 
 			&.active {
 				z-index: 50;
-
-				&:after {
-					display: block;
-					float: right;
-					position: absolute;
-					top: 0;
-					right: -3px;
-					width: 3px;
-					height: 46px;
-					background-color: white;
-					content: " ";
-					z-index: 110;
-				}
 
 				a {
 					color: #0073aa;
