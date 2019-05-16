@@ -17,7 +17,7 @@ const ScoreIcon = styled( SvgIcon )`
 `;
 
 const AnalysisResultText = styled.p`
-	margin: 0 8px 0 0;
+	margin: 0 16px 0 0;
 	flex: 1 1 auto;
 `;
 
