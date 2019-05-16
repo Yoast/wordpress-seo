@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests\Config;
+namespace Yoast\WP\Free\Tests\Config;
 
 use Yoast\WP\Free\Config\Upgrade;
 
@@ -9,7 +9,7 @@ use Yoast\WP\Free\Config\Upgrade;
  *
  * @package Yoast\Tests\Config
  */
-class Upgrade_Test extends \Yoast\Tests\TestCase {
+class Upgrade_Test extends \Yoast\WP\Free\Tests\TestCase {
 
 	public function test_do_upgrade() {
 		$migration = $this

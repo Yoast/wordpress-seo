@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests;
+namespace Yoast\WP\Free\Tests;
 
 use PHPUnit_Framework_TestCase;
 use Brain\Monkey;

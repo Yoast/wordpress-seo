@@ -5,7 +5,7 @@
  * @package Yoast\Tests\Doubles\Oauth
  */
 
-namespace Yoast\Tests\Doubles\Oauth;
+namespace Yoast\WP\Free\Tests\Doubles\Oauth;
 
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 
