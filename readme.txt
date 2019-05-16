@@ -105,6 +105,18 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 11.2.1 =
+Release Date: May 16th, 2019
+
+Bugfixes:
+
+* Fixes a bug where the metabox would be empty on WordPress versions below 5.0.
+* Fixes a bug where the metabox would be empty when both the classic editor plugin as well as the Gutenberg plugin were installed.
+
+Other:
+
+* Introduces a notification that encourages updating to the latest WordPress version.
+
 = 11.2.0 =
 Release Date: May 15th, 2019
 
