@@ -18,13 +18,6 @@ use Brain\Monkey;
 class Indexable_Post_Watcher_Test extends \Yoast\Tests\TestCase {
 
 	/**
-	 * Sets up the environment for each test.
-	 */
-	public function setUp() {
-		parent::setUp();
-	}
-
-	/**
 	 * Tests if the expected hooks are registered.
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::register_hooks()

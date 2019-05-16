@@ -11,13 +11,6 @@
 class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Provision some options.
-	 */
-	public function setUp() {
-		parent::setUp();
-	}
-
-	/**
 	 * @covers wpseo_replace_vars
 	 */
 	public function test_wpseo_replace_vars() {
