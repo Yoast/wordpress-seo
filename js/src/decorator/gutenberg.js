@@ -100,10 +100,8 @@ function scheduleAnnotationQueueApplication() {
  * @returns {boolean} Whether or not annotations are available in Gutenberg.
  */
 export function isAnnotationAvailable() {
-	return ! isUndefined( select( "core/editor" ) ) &&
-		isFunction( select( "core/editor" ).getBlocks ) &&
-		! isUndefined( select( "core/annotations" ) ) &&
-		isFunction( dispatch( "core/annotations" ).__experimentalAddAnnotation );
+	return select( "core/editor" ) && isFunction( select( "core/editor" ).getBlocks ) &&
+		select( "core/annotations" ) && isFunction( dispatch( "core/annotations" ).__experimentalAddAnnotation );
 }
 
 /**
