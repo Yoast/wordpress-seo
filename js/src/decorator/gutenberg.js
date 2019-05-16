@@ -1,6 +1,5 @@
 /* External dependencies */
 import isFunction from "lodash/isFunction";
-import isUndefined from "lodash/isUndefined";
 import flatMap from "lodash/flatMap";
 import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
