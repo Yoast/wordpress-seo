@@ -175,7 +175,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 
 		$schema_image  = new WPSEO_Schema_Image( $schema_id );
 		$data['image'] = $schema_image->simple_image_object( $url, $user_data->display_name );
-		$data['logo']  = array( '@id' => $id );
+		$data['logo']  = array( '@id' => $schema_id );
 
 		return $data;
 	}
