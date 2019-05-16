@@ -5,14 +5,18 @@ namespace Yoast\Tests;
 use PHPUnit_Framework_TestCase;
 use Brain\Monkey;
 
+/**
+ * TestCase base class.
+ */
 abstract class TestCase extends PHPUnit_Framework_TestCase {
+
 	protected function setUp() {
 		parent::setUp();
 		Monkey\setUp();
 
 		Monkey\Functions\stubs(
 			[
-				// null makes that function return it's first argument.
+				// Null makes it so the function returns it's first argument.
 				'esc_attr'       => null,
 				'esc_html'       => null,
 				'esc_textarea'   => null,

@@ -233,7 +233,7 @@ class WPSEO_Metabox_Formatter {
 			$active_modules = Jetpack::get_active_modules();
 
 			// First at all, check if Jetpack's markdown module is active.
-			$is_markdown  = in_array( 'markdown', $active_modules, true );
+			$is_markdown = in_array( 'markdown', $active_modules, true );
 		}
 
 		/**
