@@ -103,23 +103,25 @@ class WPSEO_Help_Center {
 		// Open HelpScout on activating this tab ID.
 		$formatted_data['shouldDisplayContactForm'] = $this->premium_support;
 
-		$formatted_data['translations'] = self::get_translated_texts();
-
 		$formatted_data['videoDescriptions'] = array();
 
 		if ( $is_premium === false ) {
 			$formatted_data['videoDescriptions'][] = array(
-				'title'       => __( 'Need some help?', 'wordpress-seo' ),
+				'title'       => __( 'Need help?', 'wordpress-seo' ),
 				'description' => __( 'Go Premium and our experts will be there for you to answer any questions you might have about the setup and use of the plugin.', 'wordpress-seo' ),
 				'link'        => WPSEO_Shortlinker::get( 'https://yoa.st/seo-premium-vt' ),
-				'linkText'    => __( 'Get Yoast SEO Premium now »', 'wordpress-seo' ),
+				/* translators: %s expands to Yoast SEO Premium */
+				'linkText'    => sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' ),
 			);
 
 			$formatted_data['videoDescriptions'][] = array(
-				'title'       => __( 'Want to be a Yoast SEO Expert?', 'wordpress-seo' ),
-				'description' => __( 'Follow our Yoast SEO for WordPress training and become a certified Yoast SEO Expert!', 'wordpress-seo' ),
+				/* translators: %s expands to Yoast SEO */
+				'title'       => sprintf( __( 'Want to be a %s Expert?', 'wordpress-seo' ), 'Yoast SEO' ),
+				/* translators: %1$s expands to Yoast SEO */
+				'description' => sprintf( __( 'Follow our %1$s for WordPress training and become a certified %1$s Expert!', 'wordpress-seo' ), 'Yoast SEO' ),
 				'link'        => WPSEO_Shortlinker::get( 'https://yoa.st/wordpress-training-vt' ),
-				'linkText'    => __( 'Enroll in the Yoast SEO for WordPress training »', 'wordpress-seo' ),
+				/* translators: %s expands to Yoast SEO */
+				'linkText'    => sprintf( __( 'Enroll in the %s for WordPress training', 'wordpress-seo' ), 'Yoast SEO' ),
 			);
 		}
 
@@ -200,8 +202,8 @@ class WPSEO_Help_Center {
 		/* translators: %s: expands to 'Yoast SEO Premium'. */
 		$popup_title   = sprintf( __( 'Email support is a %s feature', 'wordpress-seo' ), 'Yoast SEO Premium' );
 		$popup_content = '<p class="yoast-measure">' . __( 'Go Premium and our experts will be there for you to answer any questions you might have about the setup and use of the plugin.', 'wordpress-seo' ) . '</p>';
-		/* translators: %1$s: expands to 'Yoast SEO Premium'. */
-		$popup_content .= '<p>' . sprintf( __( 'Other benefits of %1$s for you:', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</p>';
+		/* translators: %s: expands to 'Yoast SEO Premium'. */
+		$popup_content .= '<p>' . sprintf( __( 'Other benefits of %s for you:', 'wordpress-seo' ), 'Yoast SEO Premium' ) . '</p>';
 		$popup_content .= '<ul class="wpseo-premium-advantages-list">';
 		$popup_content .= '<li>' . sprintf(
 			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
@@ -210,15 +212,15 @@ class WPSEO_Help_Center {
 			'',
 			''
 		) . '</li>';
-		$popup_content .= '<li>' . __( 'Superfast internal links suggestions', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li>' . __( 'Superfast internal linking suggestions', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '<li>' . sprintf(
 			// We don't use strong text here, but we do use it in the "Add keyword" popup, this is just to have the same translatable strings.
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
-			__( '%1$sSocial media preview%2$s: Facebook &amp; Twitter', 'wordpress-seo' ),
+			__( '%1$sSocial media preview%2$s: Facebook & Twitter', 'wordpress-seo' ),
 			'',
 			''
 		) . '</li>';
-		$popup_content .= '<li>' . __( '24/7 support', 'wordpress-seo' ) . '</li>';
+		$popup_content .= '<li>' . __( '24/7 email support', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '<li>' . __( 'No ads!', 'wordpress-seo' ) . '</li>';
 		$popup_content .= '</ul>';
 
@@ -231,43 +233,5 @@ class WPSEO_Help_Center {
 		);
 
 		$this->help_center_items[] = $contact_support_help_center_item;
-	}
-
-	/**
-	 * Pass text variables to js for the help center JS module.
-	 *
-	 * %s is replaced with <code>%s</code> and replaced again in the javascript with the actual variable.
-	 *
-	 * @return array Translated text strings for the help center.
-	 */
-	public static function get_translated_texts() {
-		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
-		return array(
-			'locale'                             => WPSEO_Language_Utils::get_user_locale(),
-			'videoTutorial'                      => __( 'Video tutorial', 'wordpress-seo' ),
-			'knowledgeBase'                      => __( 'Knowledge base', 'wordpress-seo' ),
-			'getSupport'                         => __( 'Get support', 'wordpress-seo' ),
-			'algoliaSearcher.loadingPlaceholder' => __( 'Loading...', 'wordpress-seo' ),
-			'algoliaSearcher.errorMessage'       => __( 'Something went wrong. Please try again later.', 'wordpress-seo' ),
-			'searchBar.headingText'              => __( 'Search the Yoast Knowledge Base for answers to your questions:', 'wordpress-seo' ),
-			'searchBar.placeholderText'          => __( 'Type here to search...', 'wordpress-seo' ),
-			'searchBar.buttonText'               => __( 'Search', 'wordpress-seo' ),
-			'searchResultDetail.openButton'      => __( 'View in KB', 'wordpress-seo' ),
-			'searchResultDetail.openButtonLabel' => __( 'Open the knowledge base article in a new window or read it in the iframe below', 'wordpress-seo' ),
-			'searchResultDetail.backButton'      => __( 'Go back', 'wordpress-seo' ),
-			'searchResultDetail.backButtonLabel' => __( 'Go back to the search results', 'wordpress-seo' ),
-			'searchResultDetail.iframeTitle'     => __( 'Knowledge base article', 'wordpress-seo' ),
-			'searchResultDetail.searchResult'    => __( 'Search result', 'wordpress-seo' ),
-			'searchResult.noResultsText'         => __( 'No results found.', 'wordpress-seo' ),
-			'searchResult.foundResultsText'      => sprintf(
-				/* translators: %s expands to the number of results found . */
-				__( 'Number of results found: %s', 'wordpress-seo' ),
-				'{ resultsCount }'
-			),
-			'searchResult.searchResultsHeading'  => __( 'Search results', 'wordpress-seo' ),
-			'a11yNotice.opensInNewTab'           => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
-			'contactSupport.button'              => __( 'New support request', 'wordpress-seo' ),
-			'helpCenter.buttonText'              => __( 'Need help?', 'wordpress-seo' ),
-		);
 	}
 }

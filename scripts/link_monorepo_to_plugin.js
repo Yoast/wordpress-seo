@@ -1,5 +1,6 @@
 #!/usr/local/bin/node
 const fs = require( "fs" );
+const path = require( "path" );
 const readlineSync = require( "readline-sync" );
 const execSync = require( "child_process" ).execSync;
 
@@ -49,7 +50,10 @@ function isValidMonorepoLocation( location ) {
 	}
 
 	try {
-		return execSync( `cd ${ location }; git config --get remote.origin.url;` ).includes( "Yoast/javascript" );
+		return execSync( `cd ${ location } && git config --get remote.origin.url` )
+			.toString()
+			.toLowerCase()
+			.includes( "yoast/javascript" );
 	} catch ( e ) {
 		return false;
 	}
@@ -80,6 +84,8 @@ function getMonorepoLocationFromFile() {
 			"Where is your monorepo git clone located? " +
 			"Please provide an absolute path or a path relative to the current directory '" + process.cwd() + "." +
 			" (note that ~ is not supported)'.\n" );
+		// Ensure compatibility with Windows.
+		location = path.normalize( location );
 	}
 
 	const newConfig = Object.assign( {}, yoastConfig, { "monorepo-location": location } );
@@ -122,8 +128,13 @@ const execMonorepoNoOutput = cmd => execSync( cmd, { cwd: getMonorepoLocationFro
 function unlinkAllYoastPackages() {
 	const homeDirectory = execSync( "echo $HOME" ).toString().split( "\n" )[ 0 ];
 	const yarnLinkDir = homeDirectory + "/.config/yarn/link";
+	let linkedYoastPackages;
 
-	const linkedYoastPackages = execSync( "ls", { cwd: yarnLinkDir } ).toString().split( "\n" ).filter( value => value.includes( "yoast" ) );
+	try {
+		linkedYoastPackages = execSync( "ls", { cwd: yarnLinkDir } ).toString().split( "\n" ).filter( value => value.includes( "yoast" ) );
+	} catch ( e ) {
+		linkedYoastPackages = [];
+	}
 
 	linkedYoastPackages.forEach( linkedYoastPackage => {
 		execSync( `rm -rf ${ linkedYoastPackage }`, { cwd: yarnLinkDir } );
@@ -156,6 +167,18 @@ function log( message ) {
 	console.log( "\x1b[1m" + message + "\x1b[0m" );
 }
 
+/**
+ * Console logs with yellow font for warnings.
+ *
+ * @param {string} message The message to log.
+ *
+ * @returns {void}
+ */
+function warning( message ) {
+	// eslint-disable-next-line no-console
+	console.log( "\x1b[33m%s\x1b[0m", message );
+}
+
 // Start the script.
 log( `Your monorepo is located in "${ getMonorepoLocationFromFile() }". ` );
 
@@ -167,7 +190,12 @@ if ( IS_TRAVIS ) {
 }
 
 log( "Pulling the latest monorepo changes." );
-execMonorepoNoOutput( "git pull" );
+try {
+	execMonorepoNoOutput( "git pull 2>/dev/null" );
+} catch( error ) {
+	// No remote is specified.
+	warning( "git could not pull changes from the remote repo.\nIf you are working on a local version of the javascript branch, this is expected behaviour.\nContinuing..." )
+}
 
 log( "Unlinking previously linked Yoast packages from Yarn." );
 unlinkAllYoastPackages();
@@ -190,7 +218,7 @@ packages.forEach( ( yoastPackage ) => {
 } );
 
 log( "Linking legacy Yoast packages." );
-execSync( "yarn link yoastseo; yarn link yoast-components;", NO_OUTPUT );
+execSync( "yarn link yoastseo && yarn link yoast-components", NO_OUTPUT );
 
 log( "Reinstall any Yoast packages that were unintentionally removed and are not linked after the linking process." +
 	" This could take a while..." );

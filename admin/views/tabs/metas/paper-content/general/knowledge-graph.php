@@ -55,6 +55,7 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 		<h3><?php esc_html_e( 'Personal info', 'wordpress-seo' ); ?></h3>
 		<?php
 		echo '<div id="wpseo-person-selector"></div>';
+		$yform->media_input( 'person_logo', __( 'Person logo / avatar', 'wordpress-seo' ) );
 		$yform->hidden( 'company_or_person_user_id', 'person_id' );
 		?>
 	</div>

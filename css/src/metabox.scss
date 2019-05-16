@@ -1,5 +1,4 @@
 @import "yoastseo";
-@import "help-center-metabox";
 @import "../../node_modules/draft-js-mention-plugin/lib/plugin";
 /*rtl:begin:ignore*/
 @import "../../node_modules/draft-js/dist/Draft";
@@ -98,6 +97,7 @@ ul.wpseo-metabox-tabs li.active {
 }
 
 .wpseo-metabox-content {
+	padding-top: 16px;
 	display: flex;
 }
 
@@ -598,40 +598,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	border-bottom: 1px solid #eee;
 	font-size: 14px;
 	line-height: 1.4;
-}
-
-.wpseo-buy-premium {
-	color: #A4286A;
-	margin-right: 5px;
-}
-
-.wpseo-metabox-go-to {
-	&::after {
-		content: " \00BB";
-		position: static;
-		top: auto;
-		right: auto;
-		width: auto;
-		height: auto;
-		border: none;
-	}
-}
-
-#wpseo-buy-premium-popup-button.button-buy-premium {
-	background: #A4286A;
-	border-color: #A4286A;
-	color: #fff;
-}
-
-.wpseo-metabox-buy-premium {
-	position: absolute;
-	right: 12px;
-	top: 0;
-	padding: 8px 0; /* To have the same height of the `.yoast-help-center__button` button. */
-}
-
-.wpseo-metabox-buy-premium .dashicons {
-	text-decoration: none;
 }
 
 #TB_window {

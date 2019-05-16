@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests\Config;
+namespace Yoast\Tests\Admin;
 
 use Brain\Monkey;
 use Yoast\Tests\Doubles\Shortlinker;

@@ -26,25 +26,25 @@ const Styles = createGlobalStyle`
 				box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
 				min-height: 28px;
 			}
-			
+
 			&__input input {
 				box-shadow: none;
 				margin: 0;
 			}
-			
+
 			&__menu {
 				margin: 0;
 				border-radius: 0;
 			}
-			
+
 			&__menu-list {
 				padding: 0;
 			}
-			
+
 			&__option--is-selected {
 				background-color: #0085ba;
 			}
-			
+
 			&__indicators {
 				padding: 0 10px;
 			}
@@ -203,16 +203,19 @@ class WordPressUserSelector extends Component {
 	 *
 	 * @returns {void}
 	 */
-	async fetchUser( id ) {
-		const user = await sendRequest( `${ REST_ROUTE }wp/v2/users/${ id }`, { method: "GET", headers: HEADERS } );
-
-		if ( ! user ) {
-			this.setState( { loading: false } );
-
-			return;
-		}
-
-		this.onChange( this.mapUserToSelectOption( user ) );
+	fetchUser( id ) {
+		sendRequest( `${ REST_ROUTE }wp/v2/users/${ id }`, { method: "GET", headers: HEADERS } )
+			.then( user => {
+				if ( user ) {
+					this.onChange( this.mapUserToSelectOption( user ) );
+					// Setting the state to `loading: false` is already done in the `onChange` function.
+					return;
+				}
+				this.setState( { loading: false } );
+			} )
+			.catch( () => {
+				this.setState( { loading: false } );
+			} );
 	}
 
 	/**
