@@ -39,7 +39,8 @@
 		"yoast/yoastcs": "~0.4.3",
 		"phpcompatibility/phpcompatibility-wp": "^2.0.0",
 		"humbug/php-scoper": "^0.6.0",
-		"brain/monkey": "^2.2"
+		"brain/monkey": "^2.2",
+		"phpunit/phpunit": "^5.7"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -77,7 +78,7 @@
 		],
 		"premium-check-cs": [
 			"@before-premium-cs",
-			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --ignore=*/premium/cli/ --runtime-set ignore_warnings_on_exit 1",
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --ignore=*/premium/cli/,tests/ --runtime-set ignore_warnings_on_exit 1",
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs ./premium/cli/ --runtime-set testVersion 5.3- --runtime-set ignore_warnings_on_exit 1",
 			"@after-premium-cs"
 		],
