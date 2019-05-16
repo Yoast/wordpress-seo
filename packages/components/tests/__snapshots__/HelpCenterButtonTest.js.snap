@@ -10,7 +10,7 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
   <span>
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-question-circle lphVpO"
+      className="yoast-svg-icon yoast-svg-icon-question-circle createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
       fill="#fff"
       focusable="false"
       role="img"
@@ -25,7 +25,7 @@ exports[`the HelpCenterButton matches the snapshot 1`] = `
     Need Help?
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-angle-down lphVpO"
+      className="yoast-svg-icon yoast-svg-icon-angle-down createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
       fill="#fff"
       focusable="false"
       role="img"

@@ -85,14 +85,6 @@ exports[`the HelpCenter matches the snapshot 1`] = `
   margin: 0;
 }
 
-.c3 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c2::after {
     display: inline-block;
@@ -119,7 +111,7 @@ exports[`the HelpCenter matches the snapshot 1`] = `
     <span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-question-circle c3"
+        className="yoast-svg-icon yoast-svg-icon-question-circle createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
         fill="#fff"
         focusable="false"
         role="img"
@@ -134,7 +126,7 @@ exports[`the HelpCenter matches the snapshot 1`] = `
       Need help?
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-angle-down c3"
+        className="yoast-svg-icon yoast-svg-icon-angle-down createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
         fill="#fff"
         focusable="false"
         role="img"
@@ -235,14 +227,6 @@ exports[`the HelpCenter with props matches the snapshot 1`] = `
   margin: 0;
 }
 
-.c3 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c2::after {
     display: inline-block;
@@ -269,7 +253,7 @@ exports[`the HelpCenter with props matches the snapshot 1`] = `
     <span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-question-circle c3"
+        className="yoast-svg-icon yoast-svg-icon-question-circle createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
         fill="#fff"
         focusable="false"
         role="img"
@@ -284,7 +268,7 @@ exports[`the HelpCenter with props matches the snapshot 1`] = `
       Need help?
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-angle-down c3"
+        className="yoast-svg-icon yoast-svg-icon-angle-down createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
         fill="#fff"
         focusable="false"
         role="img"

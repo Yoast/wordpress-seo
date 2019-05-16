@@ -1,6 +1,6 @@
 {
   "name": "@yoast/social-metadata-previews",
-  "version": "0.1.0",
+  "version": "0.2.0-rc.0",
   "main": "src/index.js",
   "private": false,
   "scripts": {

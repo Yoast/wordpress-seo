@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HelpTextWrapper matches the snapshot by default 1`] = `
-.c4 >:first-child {
+.c3 >:first-child {
   overflow: hidden;
   -webkit-transition: height 300ms ease-out;
   transition: height 300ms ease-out;
@@ -112,14 +112,6 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   fill: #0066cd;
 }
 
-.c3 {
-  width: 16px;
-  height: 16px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 @media all and (-ms-high-contrast:none),(-ms-high-contrast:active) {
   .c1::after {
     display: inline-block;
@@ -141,7 +133,7 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
   >
     <svg
       aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-question-circle c2 c3"
+      className="yoast-svg-icon yoast-svg-icon-question-circle c2 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
       fill="#616161"
       focusable="false"
       role="img"
@@ -155,7 +147,7 @@ exports[`HelpTextWrapper matches the snapshot by default 1`] = `
     </svg>
   </button>
   <div
-    className="c4"
+    className="c3"
   />
 </div>
 `;

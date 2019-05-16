@@ -1,6 +1,6 @@
 import SnippetEditor from "../src/snippet-editor/SnippetEditor";
 import React from "react";
-import { createComponentWithIntl } from "@yoast/helpers";
+import renderer from "react-test-renderer";
 import { mount, shallow } from "enzyme";
 import { MODE_DESKTOP } from "../src/snippet-preview/constants";
 import { focus } from "../src/snippet-editor/ReplacementVariableEditorStandalone";
@@ -28,7 +28,7 @@ const defaultArgs = {
  */
 const renderSnapshotWithArgs = ( changedArgs ) => {
 	const args = { ...defaultArgs, ...changedArgs };
-	const tree = createComponentWithIntl( <SnippetEditor { ...args } />, { locale: "en" } )
+	const tree = renderer.create( <SnippetEditor { ...args } />, { locale: "en" } )
 		.toJSON();
 
 	expect( tree ).toMatchSnapshot();
