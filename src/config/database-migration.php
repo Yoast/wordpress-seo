@@ -267,6 +267,6 @@ class Database_Migration {
 	 * @return string The transient key to use for storing the error state.
 	 */
 	protected function get_error_transient_key() {
-		return self::MIGRATION_ERROR_TRANSIENT_KEY;
+		return self::MIGRATION_ERROR_TRANSIENT_KEY . '_' . $this->config['table_name'];
 	}
 }
