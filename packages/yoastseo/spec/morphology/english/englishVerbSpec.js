@@ -1,8 +1,10 @@
-import morphologyData from "../../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
+import { getVerbForms, normalizePrefixed } from "../../../src/morphology/english/getVerbForms";
+
+
+const morphologyData = getMorphologyData( "en" );
 const verbData = morphologyData.en.verbs;
 const irregularVerbsToTest = verbData.irregularVerbs;
-
-import { getVerbForms, normalizePrefixed } from "../../../src/morphology/english/getVerbForms";
 
 const regularVerbsToTest = [
 	[ "bill", "bills", "billing", "billed" ],

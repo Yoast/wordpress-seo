@@ -1,8 +1,10 @@
 import { getAdjectiveForms, getBase  } from "../../../src/morphology/english/getAdjectiveForms";
 import { buildOneFormFromRegex, buildTwoFormsFromRegex } from "../../../src/morphology/morphoHelpers/buildFormRule";
 import createRulesFromMorphologyData from "../../../src/morphology/morphoHelpers/createRulesFromMorphologyData";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
 
-import morphologyData from "../../../premium-configuration/data/morphologyData.json";
+
+const morphologyData = getMorphologyData( "en" );
 const adjectiveData = morphologyData.en.adjectives;
 const irregularAdjectivesToTest = adjectiveData.irregularAdjectives;
 const regexAdjective = adjectiveData.regexAdjective;
