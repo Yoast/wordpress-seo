@@ -9,6 +9,7 @@
  * Unit Test Class.
  */
 class WPSEO_FAQ_Block_Test extends WPSEO_UnitTestCase {
+
 	/**
 	 * Tests the FAQ structured data object format that is output by get_json_ld.
 	 *
