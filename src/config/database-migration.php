@@ -69,6 +69,8 @@ class Database_Migration {
 		$this->wpdb                  = $wpdb;
 		$this->dependency_management = $dependency_management;
 		$this->config                = $config;
+		// Prepend table name with the Yoast namespace.
+		$this->config['table_name'] = Yoast_Model::get_table_name( $this->config['table_name'] );
 	}
 
 	/**

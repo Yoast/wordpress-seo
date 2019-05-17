@@ -55,7 +55,7 @@ class Plugin implements Integration {
 		// @codingStandardsIgnoreStart
 		$database_migration_config = array(
 			'directory'  => WPSEO_PATH . 'migrations',
-			'table_name' => Yoast_Model::get_table_name( 'migrations' ),
+			'table_name' => 'migrations',
 		);
 
 		$this->dependency_management = $dependency_management ?: new Dependency_Management();
