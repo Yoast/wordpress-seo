@@ -78,6 +78,16 @@ class HelpCenter extends React.Component {
 	 * @returns {void}
 	 */
 	tabChanged() {
+		/*
+		 * Account for other URL fragment identifiers. For example, the "skip links"
+		 * `#wpbody-content` and `#wp-toolbar` used in WordPress. When the hash
+		 * changes and doesn't contain `#top#`, that means users didn't click on
+		 * one of the Yoast tabs.
+		 */
+		if ( location.hash.indexOf( "#top#" ) === -1 ) {
+			return;
+		}
+
 		const tabId = this.getTabIdFromUrlHash();
 		const videoUrl = this.getVideoUrl( tabId );
 		this.setState( { videoUrl } );
