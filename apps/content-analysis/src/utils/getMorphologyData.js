@@ -12,7 +12,7 @@ function loadLocalMorphologyData() {
 		// eslint-disable-next-line global-require
 		data = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData.json" );
 		// eslint-disable-next-line global-require
-		dataDe = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-de.json" );
+		dataDe = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-de-v3.json" );
 	} catch ( error ) {
 		// Falling back to empty data.
 	}
