@@ -168,7 +168,7 @@ exports[`ContentAnalysis the ContentAnalysis component with disabled buttons mat
 }
 
 .c12 {
-  margin: 0 8px 0 0;
+  margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -787,7 +787,7 @@ exports[`ContentAnalysis the ContentAnalysis component with hidden buttons match
 }
 
 .c12 {
-  margin: 0 8px 0 0;
+  margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -1382,7 +1382,7 @@ exports[`ContentAnalysis the ContentAnalysis component with specified header lev
 }
 
 .c12 {
-  margin: 0 8px 0 0;
+  margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -2025,7 +2025,7 @@ exports[`ContentAnalysis the ContentAnalysis component without language notice m
 }
 
 .c12 {
-  margin: 0 8px 0 0;
+  margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -2668,7 +2668,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and cons
 }
 
 .c12 {
-  margin: 0 8px 0 0;
+  margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -3145,7 +3145,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems and impr
 }
 
 .c12 {
-  margin: 0 8px 0 0;
+  margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -3622,7 +3622,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems matches 
 }
 
 .c12 {
-  margin: 0 8px 0 0;
+  margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
@@ -4170,7 +4170,7 @@ exports[`ContentAnalysis the ContentAnalysis component without problems, improve
 }
 
 .c12 {
-  margin: 0 8px 0 0;
+  margin: 0 16px 0 0;
   -webkit-flex: 1 1 auto;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
