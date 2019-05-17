@@ -29,14 +29,16 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 	 * Tests the initializing with the defining of constants fails.
 	 */
 	public function test_initialize_with_set_defines_failing() {
+		$config = $this->get_config();
+		$transient_key = $this->get_transient_key( $config['table_name'] );
 		Monkey\Functions\expect( 'set_transient' )
 			->once()
-			->with( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY, Database_Migration::MIGRATION_STATE_ERROR, DAY_IN_SECONDS )
+			->with( $transient_key, Database_Migration::MIGRATION_STATE_ERROR, DAY_IN_SECONDS )
 			->andReturn( true );
 
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array( null, new Dependency_Management(), $this->get_config() ) )
+			->setConstructorArgs( array( null, new Dependency_Management(), $config ) )
 			->setMethods( array( 'set_defines' ) )
 			->getMock();
 
@@ -86,14 +88,16 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 	 * Tests if the migrations are usable with transients.
 	 */
 	public function test_is_usable_with_transient() {
+		$config = $this->get_config();
+		$transient_key = $this->get_transient_key( $config['table_name'] );
 		Monkey\Functions\expect( 'get_transient' )
 			->once()
-			->with( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY, Database_Migration::MIGRATION_STATE_SUCCESS )
+			->with( $transient_key, Database_Migration::MIGRATION_STATE_SUCCESS )
 			->andReturn( Database_Migration::MIGRATION_STATE_SUCCESS );
 
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Config\Database_Migration' )
-			->disableOriginalConstructor()
+			->setConstructorArgs( array( null, new Dependency_Management(), $config ) )
 			->setMethods( null )
 			->getMock();
 
@@ -107,14 +111,16 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 	 * Tests if the migrations are usable with transients.
 	 */
 	public function test_is_not_usable_with_transient() {
+		$config = $this->get_config();
+		$transient_key = $this->get_transient_key( $config['table_name'] );
 		Monkey\Functions\expect( 'get_transient' )
 			->once()
-			->with( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY, Database_Migration::MIGRATION_STATE_SUCCESS )
+			->with( $transient_key, Database_Migration::MIGRATION_STATE_SUCCESS )
 			->andReturn( Database_Migration::MIGRATION_STATE_ERROR );
 
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Config\Database_Migration' )
-			->disableOriginalConstructor()
+			->setConstructorArgs( array( null, new Dependency_Management(), $config ) )
 			->setMethods( null )
 			->getMock();
 
@@ -128,14 +134,16 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 	 * Tests the initializing when everything goes as planned.
 	 */
 	public function test_migration_success() {
+		$config = $this->get_config();
+		$transient_key = $this->get_transient_key( $config['table_name'] );
 		Monkey\Functions\expect( 'delete_transient' )
 			->once()
-			->with( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY )
+			->with( $transient_key )
 			->andReturn( true );
 
 		$instance = $this
 			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array( null, new Dependency_Management(), $this->get_config() ) )
+			->setConstructorArgs( array( null, new Dependency_Management(), $config ) )
 			->setMethods(
 				array(
 					'set_defines',
@@ -333,8 +341,19 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 	}
 
 	/**
+	 * Returns the transient key that is used to store the migration status for a given feature.
+	 *
+	 * @param string $feature_name The name of the feature for which the migration status should be stored.
+	 *
+	 * @return string The transient key.
+	 */
+	protected function get_transient_key( $feature_name ) {
+		return Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY . $this->get_config()['test_name'];
+	}
+
+	/**
 	 * Creates and returns a new mock database migration configuration.
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function get_config() {
