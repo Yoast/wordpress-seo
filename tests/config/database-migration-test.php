@@ -348,7 +348,7 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 	 * @return string The transient key.
 	 */
 	protected function get_transient_key( $feature_name ) {
-		return Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY . $this->get_config()['test_name'];
+		return Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY . $feature_name;
 	}
 
 	/**
