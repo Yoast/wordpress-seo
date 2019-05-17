@@ -194,6 +194,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		if ( $person_logo_id ) {
 			$image         = new WPSEO_Schema_Image( $schema_id );
 			$data['image'] = $image->generate_from_attachment_id( $person_logo_id, $data['name'] );
+			$data['logo']  = array( '@id' => $schema_id );
 		}
 
 		return $data;
