@@ -29,7 +29,7 @@ class Plugin_Test extends \Yoast\WP\Free\Tests\TestCase {
 	 * @covers \Yoast\WP\Free\Config\Plugin::add_integration()
 	 */
 	public function test_add_integration() {
-		$instance = new Plugin_Double( $this->get_dependecy_management_mock(), $this->get_database_migration_mock() );
+		$instance = new Plugin_Double( $this->get_dependency_management_mock(), $this->get_database_migration_mock() );
 
 		$integration = $this
 			->getMockBuilder( '\Yoast\WP\Free\WordPress\Integration' )
@@ -68,7 +68,7 @@ class Plugin_Test extends \Yoast\WP\Free\Tests\TestCase {
 	 * @covers \Yoast\WP\Free\Config\Plugin::initialize()
 	 */
 	public function test_initialize() {
-		$dependency_management = $this->get_dependecy_management_mock();
+		$dependency_management = $this->get_dependency_management_mock();
 		$dependency_management
 			->expects( $this->once() )
 			->method( 'initialize' )
@@ -104,7 +104,7 @@ class Plugin_Test extends \Yoast\WP\Free\Tests\TestCase {
 	 * @covers \Yoast\WP\Free\Config\Plugin::initialize()
 	 */
 	public function test_initialize_dependency_management_not_initialized() {
-		$dependency_management = $this->get_dependecy_management_mock();
+		$dependency_management = $this->get_dependency_management_mock();
 		$dependency_management
 			->expects( $this->once() )
 			->method( 'initialize' )
@@ -139,7 +139,7 @@ class Plugin_Test extends \Yoast\WP\Free\Tests\TestCase {
 	 * @covers \Yoast\WP\Free\Config\Plugin::initialize()
 	 */
 	public function test_initialize_db_migration_not_initialized() {
-		$dependency_management = $this->get_dependecy_management_mock();
+		$dependency_management = $this->get_dependency_management_mock();
 		$dependency_management
 			->expects( $this->once() )
 			->method( 'initialize' )
@@ -311,7 +311,7 @@ class Plugin_Test extends \Yoast\WP\Free\Tests\TestCase {
 	 *
 	 * @return Dependency_Management
 	 */
-	protected function get_dependecy_management_mock() {
+	protected function get_dependency_management_mock() {
 		return $this
 			->getMockBuilder( '\Yoast\WP\Free\Config\Dependency_Management' )
 			->setMethods( array( 'initialize' ) )
@@ -327,7 +327,7 @@ class Plugin_Test extends \Yoast\WP\Free\Tests\TestCase {
 		return $this
 			->getMockBuilder( '\Yoast\WP\Free\Config\Database_Migration' )
 			->setMethods( array( 'run_migrations', 'is_usable', 'has_migration_error' ) )
-			->setConstructorArgs( array( null, $this->get_dependecy_management_mock() ) )
+			->setConstructorArgs( array( null, $this->get_dependency_management_mock() ) )
 			->getMock();
 	}
 
