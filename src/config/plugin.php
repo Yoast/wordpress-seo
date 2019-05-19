@@ -163,9 +163,9 @@ class Plugin implements Integration {
 	 * @return void
 	 */
 	protected function configure_orm() {
-		ORM::configure( 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME );
-		ORM::configure( 'username', DB_USER );
-		ORM::configure( 'password', DB_PASSWORD );
+		ORM::configure( 'mysql:host=' . \DB_HOST . ';dbname=' . \DB_NAME );
+		ORM::configure( 'username', \DB_USER );
+		ORM::configure( 'password', \DB_PASSWORD );
 
 		Yoast_Model::$auto_prefix_models = '\\Yoast\\WP\\Free\\Models\\';
 	}
