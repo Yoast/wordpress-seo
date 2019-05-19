@@ -10,7 +10,6 @@ namespace Yoast\WP\Free\Tests\Oauth;
 use Yoast\WP\Free\Oauth\Client;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
-use Brain\Monkey;
 use Yoast\WP\Free\Tests\Doubles\Oauth\Client as Client_Double;
 use Yoast\WP\Free\Tests\TestCase;
 
