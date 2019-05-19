@@ -98,8 +98,8 @@ class ORMWrapper extends ORM {
 	 * @return bool|Yoast_Model Instance of the model class.
 	 */
 	protected function create_model_instance( $orm ) {
-		if ( $orm === \false ) {
-			return \false;
+		if ( $orm === false ) {
+			return false;
 		}
 
 		/** @var Yoast_Model $model */
