@@ -23,7 +23,7 @@ class Oauth_Client_Test extends \Yoast\WP\Free\Tests\TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var Client
+	 * @var \Yoast\WP\Free\Oauth\Client
 	 */
 	protected $class_instance;
 

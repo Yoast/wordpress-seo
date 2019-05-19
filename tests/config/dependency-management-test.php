@@ -40,7 +40,7 @@ class Dependency_Management_Test extends \Yoast\WP\Free\Tests\TestCase {
 			->with( 'My_Class', YOAST_VENDOR_NS_PREFIX . '\My_Class' )
 			->will( $this->returnValue( true ) );
 
-		/** @var Dependency_Management $instance */
+		/** @var \Yoast\WP\Free\Config\Dependency_Management $instance */
 		$instance->ensure_class_alias( YOAST_VENDOR_NS_PREFIX . '\My_Class' );
 	}
 
@@ -67,7 +67,7 @@ class Dependency_Management_Test extends \Yoast\WP\Free\Tests\TestCase {
 			->expects( $this->never() )
 			->method( 'prefixed_available' );
 
-		/** @var Dependency_Management $instance */
+		/** @var \Yoast\WP\Free\Config\Dependency_Management $instance */
 		$instance->ensure_class_alias( 'Unrelated_Class' );
 	}
 
@@ -95,7 +95,7 @@ class Dependency_Management_Test extends \Yoast\WP\Free\Tests\TestCase {
 			->expects( $this->never() )
 			->method( 'class_alias' );
 
-		/** @var Dependency_Management $instance */
+		/** @var \Yoast\WP\Free\Config\Dependency_Management $instance */
 		$instance->ensure_class_alias( YOAST_VENDOR_NS_PREFIX . '\Some_Class' );
 	}
 
@@ -125,7 +125,7 @@ class Dependency_Management_Test extends \Yoast\WP\Free\Tests\TestCase {
 			->expects( $this->never() )
 			->method( 'class_alias' );
 
-		/** @var Dependency_Management $instance */
+		/** @var \Yoast\WP\Free\Config\Dependency_Management $instance */
 		$instance->ensure_class_alias( YOAST_VENDOR_NS_PREFIX . '\Some_Class' );
 	}
 

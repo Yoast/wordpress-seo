@@ -327,7 +327,7 @@ class Database_Migration_Test extends \Yoast\WP\Free\Tests\TestCase {
 	/**
 	 * Retrieves a class to mock a FrameworkRunner.
 	 *
-	 * @return FrameworkRunner
+	 * @return \FrameworkRunner
 	 */
 	protected function get_framework_runner_mock() {
 		return $this
