@@ -4,6 +4,7 @@ namespace Yoast\WP\Free\Tests\Watchers;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Watchers\Indexable_Term_Watcher;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Indexable_Term_Test.
@@ -13,7 +14,7 @@ use Yoast\WP\Free\Watchers\Indexable_Term_Watcher;
  *
  * @package Yoast\Tests\Watchers
  */
-class Indexable_Term_Watcher_Test extends \Yoast\WP\Free\Tests\TestCase {
+class Indexable_Term_Watcher_Test extends TestCase {
 
 	/**
 	 * Tests if the expected hooks are registered.

@@ -2,11 +2,11 @@
 
 namespace Yoast\WP\Free\Tests\Config;
 
+use Yoast\WP\Free\Config\Dependency_Management;
+use Brain\Monkey;
 use Yoast\WP\Free\Tests\Doubles\Database_Migration;
 use Yoast\WP\Free\Tests\Doubles\Database_Migration as Database_Migration_Double;
-use Yoast\WP\Free\Config\Dependency_Management;
-
-use Brain\Monkey;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Database_Migration_Test.
@@ -15,7 +15,7 @@ use Brain\Monkey;
  *
  * @package Yoast\Tests
  */
-class Database_Migration_Test extends \Yoast\WP\Free\Tests\TestCase {
+class Database_Migration_Test extends TestCase {
 
 	public function setUp() {
 		parent::setUp();

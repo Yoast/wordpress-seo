@@ -3,6 +3,7 @@
 namespace Yoast\WP\Free\Tests\Config;
 
 use Yoast\WP\Free\Config\Dependency_Management;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Dependency_Management_Test.
@@ -11,7 +12,7 @@ use Yoast\WP\Free\Config\Dependency_Management;
  *
  * @package Yoast\Tests
  */
-class Dependency_Management_Test extends \Yoast\WP\Free\Tests\TestCase {
+class Dependency_Management_Test extends TestCase {
 
 	/**
 	 * Tests if the alias is created with ideal conditions.
