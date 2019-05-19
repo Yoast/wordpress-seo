@@ -8,7 +8,6 @@
 namespace Yoast\WP\Free;
 
 use Yoast\WP\Free\Exceptions\Missing_Method;
-use YoastSEO_Vendor\ORM;
 
 /**
  * Make Model compatible with WordPress.

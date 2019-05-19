@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Formatters;
 
-use Yoast\WP\Free\Models\Indexable;
 
 /**
  * Formats the term meta to indexable format.
