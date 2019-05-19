@@ -38,7 +38,7 @@ class Upgrade implements Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'wpseo_run_upgrade', array( $this, 'do_upgrade' ) );
+		\add_action( 'wpseo_run_upgrade', array( $this, 'do_upgrade' ) );
 	}
 
 	/**

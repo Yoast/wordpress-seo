@@ -75,7 +75,7 @@ class Client {
 	public function save_configuration( array $config ) {
 		$allowed_config_keys = array( 'clientId', 'secret' );
 		foreach ( $allowed_config_keys as $allowed_config_key ) {
-			if ( ! array_key_exists( $allowed_config_key, $config ) ) {
+			if ( ! \array_key_exists( $allowed_config_key, $config ) ) {
 				continue;
 			}
 
@@ -143,7 +143,7 @@ class Client {
 	 */
 	public function get_access_token( $user_id = null ) {
 		if ( $user_id === null ) {
-			return reset( $this->access_tokens );
+			return \reset( $this->access_tokens );
 		}
 
 		if ( ! isset( $this->access_tokens[ $user_id ] ) ) {
@@ -180,7 +180,7 @@ class Client {
 			[
 				'clientId'                => $this->config['clientId'],
 				'clientSecret'            => $this->config['secret'],
-				'redirectUri'             => ( WPSEO_Utils::is_plugin_network_active() ) ? home_url( 'yoast/oauth/callback' ) : network_home_url( 'yoast/oauth/callback' ),
+				'redirectUri'             => ( WPSEO_Utils::is_plugin_network_active() ) ? \home_url( 'yoast/oauth/callback' ) : \network_home_url( 'yoast/oauth/callback' ),
 				'urlAuthorize'            => 'https://yoast.com/login/oauth/authorize',
 				'urlAccessToken'          => 'https://yoast.com/login/oauth/token',
 				'urlResourceOwnerDetails' => 'https://my.yoast.com/api/sites/current',
@@ -196,7 +196,7 @@ class Client {
 	 * @return \YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface[] The formatted access tokens.
 	 */
 	protected function format_access_tokens( $access_tokens ) {
-		if ( ! is_array( $access_tokens ) || $access_tokens === [] ) {
+		if ( ! \is_array( $access_tokens ) || $access_tokens === [] ) {
 			return [];
 		}
 
@@ -219,8 +219,8 @@ class Client {
 		$option_value = WPSEO_Options::get( 'myyoast_oauth', false );
 
 		if ( $option_value ) {
-			return wp_parse_args(
-				json_decode( $option_value, true ),
+			return \wp_parse_args(
+				\json_decode( $option_value, true ),
 				$this->get_default_option()
 			);
 		}

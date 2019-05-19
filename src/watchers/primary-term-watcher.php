@@ -126,9 +126,9 @@ class Primary_Term_Watcher implements Integration {
 	 * @return array The taxonomies.
 	 */
 	protected function generate_primary_term_taxonomies( $post_id ) {
-		$post_type      = get_post_type( $post_id );
-		$all_taxonomies = get_object_taxonomies( $post_type, 'objects' );
-		$all_taxonomies = array_filter( $all_taxonomies, array( $this, 'filter_hierarchical_taxonomies' ) );
+		$post_type      = \get_post_type( $post_id );
+		$all_taxonomies = \get_object_taxonomies( $post_type, 'objects' );
+		$all_taxonomies = \array_filter( $all_taxonomies, array( $this, 'filter_hierarchical_taxonomies' ) );
 
 		/**
 		 * Filters which taxonomies for which the user can choose the primary term.
@@ -139,7 +139,7 @@ class Primary_Term_Watcher implements Integration {
 		 * @param array  $all_taxonomies All taxonomies for this post types, even ones that don't have primary term
 		 *                               enabled.
 		 */
-		$taxonomies = (array) apply_filters( 'wpseo_primary_term_taxonomies', $all_taxonomies, $post_type, $all_taxonomies );
+		$taxonomies = (array) \apply_filters( 'wpseo_primary_term_taxonomies', $all_taxonomies, $post_type, $all_taxonomies );
 
 		return $taxonomies;
 	}
@@ -203,7 +203,7 @@ class Primary_Term_Watcher implements Integration {
 	 * @return integer The post ID.
 	 */
 	protected function get_current_id() {
-		return get_the_ID();
+		return \get_the_ID();
 	}
 
 	/**
@@ -214,7 +214,7 @@ class Primary_Term_Watcher implements Integration {
 	 * @return bool Whether the method is a post request.
 	 */
 	protected function is_post_request() {
-		return isset( $_SERVER['REQUEST_METHOD'] ) && strtolower( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) === 'post';
+		return isset( $_SERVER['REQUEST_METHOD'] ) && \strtolower( \wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) === 'post';
 	}
 
 	/**
@@ -227,7 +227,7 @@ class Primary_Term_Watcher implements Integration {
 	 * @return int The term ID.
 	 */
 	protected function get_posted_term_id( $taxonomy ) {
-		return filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', FILTER_SANITIZE_NUMBER_INT );
+		return \filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', FILTER_SANITIZE_NUMBER_INT );
 	}
 
 	/**
@@ -240,6 +240,6 @@ class Primary_Term_Watcher implements Integration {
 	 * @return bool Whether the referer is valid.
 	 */
 	protected function is_referer_valid( $taxonomy ) {
-		return check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' );
+		return \check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' );
 	}
 }

@@ -155,12 +155,12 @@ class Indexable_Term_Formatter {
 	 * @return null|string The meta value.
 	 */
 	protected function get_meta_value( $meta_key, $term_meta ) {
-		if ( ! array_key_exists( $meta_key, $term_meta ) ) {
+		if ( ! \array_key_exists( $meta_key, $term_meta ) ) {
 			return null;
 		}
 
 		$value = $term_meta[ $meta_key ];
-		if ( is_string( $value ) && $value === '' ) {
+		if ( \is_string( $value ) && $value === '' ) {
 			return null;
 		}
 

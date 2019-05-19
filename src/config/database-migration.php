@@ -222,11 +222,11 @@ class Database_Migration {
 	 * @return bool True if the define has the value we want it to be.
 	 */
 	protected function set_define( $define, $value ) {
-		if ( defined( $define ) ) {
-			return constant( $define ) === $value;
+		if ( \defined( $define ) ) {
+			return \constant( $define ) === $value;
 		}
 
-		return define( $define, $value );
+		return \define( $define, $value );
 	}
 
 	/**
