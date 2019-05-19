@@ -81,9 +81,10 @@ class Indexable_Term_Watcher implements Integration {
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
 	 *
-	 * @return Indexable The indexable found for the supplied term.
+	 * @return \Yoast\WP\Free\Models\Indexable The indexable found for the supplied term.
 	 *
-	 * @throws No_Indexable_Found Exception when no indexable could be found for the supplied term.
+	 * @throws \Yoast\WP\Free\Models\No_Indexable_Found Exception when no indexable could be found
+	 *                                                  for the supplied term.
 	 */
 	protected function get_indexable( $term_id, $taxonomy, $auto_create = true ) {
 		$indexable = Indexable::find_by_id_and_type( $term_id, 'term', $auto_create );
@@ -103,7 +104,7 @@ class Indexable_Term_Watcher implements Integration {
 	 * @param int    $term_id  ID of the term to save data for.
 	 * @param string $taxonomy The taxonomy the term belongs to.
 	 *
-	 * @return Indexable_Term_Formatter Instance.
+	 * @return \Yoast\WP\Free\Formatters\Indexable_Term_Formatter Instance.
 	 */
 	protected function get_formatter( $term_id, $taxonomy ) {
 		return new Indexable_Term_Formatter( $term_id, $taxonomy );

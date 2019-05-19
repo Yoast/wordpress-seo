@@ -35,9 +35,9 @@ class Indexable_Post_Formatter {
 	/**
 	 * Formats the data.
 	 *
-	 * @param Indexable $indexable The indexable to format.
+	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to format.
 	 *
-	 * @return Indexable The extended indexable.
+	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
 	 */
 	public function format( $indexable ) {
 		$indexable->permalink       = $this->get_permalink();
@@ -154,9 +154,9 @@ class Indexable_Post_Formatter {
 	/**
 	 * Updates the link count from existing data.
 	 *
-	 * @param Indexable $indexable The indexable to extend.
+	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to extend.
 	 *
-	 * @return Indexable The extended indexable.
+	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
 	 */
 	protected function set_link_count( $indexable ) {
 		try {
@@ -219,7 +219,7 @@ class Indexable_Post_Formatter {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return SEO_Meta The SEO meta for current post id.
+	 * @return \Yoast\WP\Free\Models\SEO_Meta The SEO meta for current post id.
 	 */
 	protected function get_seo_meta() {
 		return SEO_Meta::find_by_post_id( $this->post_id );
