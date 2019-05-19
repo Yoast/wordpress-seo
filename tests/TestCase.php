@@ -33,7 +33,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase {
 				},
 				'wp_slash'       => null,
 				'absint'         => function( $value ) {
-					return abs( intval( $value ) );
+					return \abs( \intval( $value ) );
 				},
 			]
 		);

@@ -224,11 +224,11 @@ class Plugin_Test extends \Yoast\WP\Free\Tests\TestCase {
 		$instance = new Plugin_Double();
 		$instance->set_initialize_success( true );
 
-		$action_count = did_action( 'wpseo_load_integrations' );
+		$action_count = \did_action( 'wpseo_load_integrations' );
 
 		$instance->register_hooks();
 
-		$this->assertEquals( ( $action_count + 1 ), did_action( 'wpseo_load_integrations' ) );
+		$this->assertEquals( ( $action_count + 1 ), \did_action( 'wpseo_load_integrations' ) );
 	}
 
 	/**

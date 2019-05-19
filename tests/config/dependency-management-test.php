@@ -138,7 +138,7 @@ class Dependency_Management_Test extends \Yoast\WP\Free\Tests\TestCase {
 		$instance = new Dependency_Management();
 		$instance->initialize();
 
-		$registered_autoloaders = spl_autoload_functions();
+		$registered_autoloaders = \spl_autoload_functions();
 
 		$this->assertContains( array( $instance, 'ensure_class_alias' ), $registered_autoloaders );
 	}
