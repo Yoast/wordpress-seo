@@ -9,8 +9,8 @@ namespace Yoast\WP\Free\Watchers;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Formatters\Indexable_Author_Formatter;
-use Yoast\WP\Free\WordPress\Integration;
 use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\WordPress\Integration;
 
 /**
  * Watches an Author to save the meta information when updated.
