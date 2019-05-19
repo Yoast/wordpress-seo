@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Watchers;
 
+use WPSEO_Meta;
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Models\Primary_Term as Primary_Term_Indexable;
@@ -225,7 +226,7 @@ class Primary_Term_Watcher implements Integration {
 	 * @return int The term ID.
 	 */
 	protected function get_posted_term_id( $taxonomy ) {
-		return filter_input( INPUT_POST, \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', FILTER_SANITIZE_NUMBER_INT );
+		return filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', FILTER_SANITIZE_NUMBER_INT );
 	}
 
 	/**
@@ -238,6 +239,6 @@ class Primary_Term_Watcher implements Integration {
 	 * @return bool Whether the referer is valid.
 	 */
 	protected function is_referer_valid( $taxonomy ) {
-		return check_admin_referer( 'save-primary-term', \WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' );
+		return check_admin_referer( 'save-primary-term', WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_nonce' );
 	}
 }

@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Formatters;
 
+use WPSEO_Meta;
 use Yoast\WP\Free\Models\SEO_Meta;
 
 /**
@@ -184,7 +185,7 @@ class Indexable_Post_Formatter {
 	 * @return mixed The value of the indexable entry to use.
 	 */
 	protected function get_meta_value( $meta_key ) {
-		$value = \WPSEO_Meta::get_value( $meta_key, $this->post_id );
+		$value = WPSEO_Meta::get_value( $meta_key, $this->post_id );
 		if ( is_string( $value ) && $value === '' ) {
 			return null;
 		}
