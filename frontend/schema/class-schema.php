@@ -20,6 +20,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	public function register_hooks() {
 		add_action( 'wpseo_head', array( $this, 'json_ld' ), 91 );
 		add_action( 'wpseo_json_ld', array( $this, 'generate' ), 1 );
+		// This AMP hook is only used in Reader (formerly Classic) mode.
 		add_action( 'amp_post_template_head', array( $this, 'json_ld' ), 9 );
 	}
 
