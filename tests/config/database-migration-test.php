@@ -3,6 +3,7 @@
 namespace Yoast\WP\Free\Tests\Config;
 
 use Yoast\WP\Free\Tests\Doubles\Database_Migration;
+use Yoast\WP\Free\Tests\Doubles\Database_Migration as Database_Migration_Double;
 use Yoast\WP\Free\Config\Dependency_Management;
 
 use Brain\Monkey;
