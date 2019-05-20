@@ -57,6 +57,6 @@ class WPSEO_Statistics {
 
 		$posts = new WP_Query( $posts );
 
-		return $posts->found_posts;
+		return (int) $posts->found_posts;
 	}
 }
