@@ -4,9 +4,12 @@ namespace Yoast\WP\Free\Tests\Config;
 
 use Yoast\WP\Free\Tests\Doubles\Database_Migration;
 use Yoast\WP\Free\Tests\Doubles\Database_Migration as Database_Migration_Double;
+
 use Yoast\WP\Free\Config\Dependency_Management;
+use Yoast\WP\Free\Yoast_Model;
 
 use Brain\Monkey;
+
 
 /**
  * Class Database_Migration_Test.
@@ -348,7 +351,7 @@ class Database_Migration_Test extends \Yoast\WP\Free\Tests\TestCase {
 	 * @return string The transient key.
 	 */
 	protected function get_transient_key( $feature_name ) {
-		return Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY . '_' . $feature_name;
+		return Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY . '_' . Yoast_Model::get_table_name( $feature_name );
 	}
 
 	/**
