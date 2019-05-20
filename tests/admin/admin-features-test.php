@@ -1,16 +1,16 @@
 <?php
 
-namespace Yoast\Tests\Admin;
+namespace Yoast\WP\Free\Tests\Admin;
 
 use Brain\Monkey;
-use Yoast\Tests\Doubles\Shortlinker;
+use Yoast\WP\Free\Tests\Doubles\Shortlinker;
 
 /**
  * Class Admin_Features.
  *
  * @package Yoast\Tests\Admin
  */
-class Admin_Features extends \Yoast\Tests\TestCase {
+class Admin_Features extends \Yoast\WP\Free\Tests\TestCase {
 
 	private function get_admin_with_expectations() {
 		$shortlinker = new Shortlinker();

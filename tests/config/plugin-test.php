@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\Tests\Config;
+namespace Yoast\WP\Free\Tests\Config;
 
-use Yoast\Tests\Doubles\Plugin as Plugin_Double;
+use Yoast\WP\Free\Tests\Doubles\Plugin as Plugin_Double;
 use Yoast\WP\Free\Config\Database_Migration;
 use Yoast\WP\Free\Config\Dependency_Management;
 use Yoast\WP\Free\WordPress\Integration_Group;
@@ -14,7 +14,7 @@ use Yoast\WP\Free\WordPress\Integration_Group;
  *
  * @package Yoast\Tests\Config
  */
-class Plugin_Test extends \Yoast\Tests\TestCase {
+class Plugin_Test extends \Yoast\WP\Free\Tests\TestCase {
 
 	/**
 	 * Tests if the class is based upon the Integration interface.
@@ -177,7 +177,7 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 			'get_integration_group',
 		);
 		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
+			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Plugin' )
 			->setMethods( $methods )
 			->getMock();
 
@@ -238,7 +238,7 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 	 */
 	public function test_register_hooks_not_initialzed() {
 		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
+			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Plugin' )
 			->setMethods( array( 'get_integration_group' ) )
 			->getMock();
 
@@ -258,7 +258,7 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 	 */
 	public function test_add_frontend_integrations() {
 		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
+			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Plugin' )
 			->setMethods( array( 'add_integration' ) )
 			->getMock();
 
@@ -277,7 +277,7 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 	 */
 	public function test_add_admin_integrations() {
 		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
+			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Plugin' )
 			->setMethods( array( 'add_integration' ) )
 			->getMock();
 

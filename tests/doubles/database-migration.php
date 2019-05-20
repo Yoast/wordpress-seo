@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests\Doubles;
+namespace Yoast\WP\Free\Tests\Doubles;
 
 /**
  * Test Helper Class.
