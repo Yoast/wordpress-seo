@@ -66,8 +66,11 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 
 		'website_name'                  => '',
 		'person_name'                   => '',
+		'person_logo'                   => '',
+		'person_logo_id'                => 0,
 		'alternate_website_name'        => '',
 		'company_logo'                  => '',
+		'company_logo_id'               => 0,
 		'company_name'                  => '',
 		'company_or_person'             => 'company',
 		'company_or_person_user_id'     => false,
@@ -359,13 +362,14 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 							$clean[ $key ] = $dirty[ $key ];
 						}
 						else {
-							$defaults = $this->get_defaults();
+							$defaults      = $this->get_defaults();
 							$clean[ $key ] = $defaults['company_or_person'];
 						}
 					}
 					break;
 
 				case 'company_logo':
+				case 'person_logo':
 					$this->validate_url( $key, $dirty, $old, $clean );
 					break;
 
@@ -474,6 +478,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 					break;
 
 				case 'company_or_person_user_id':
+				case 'company_logo_id':
+				case 'person_logo_id':
 				case 'title_test': /* Integer field - not in form. */
 					if ( isset( $dirty[ $key ] ) ) {
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
