@@ -41,7 +41,7 @@ export default function Sidebar( { settings, store, theme } ) {
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }
-						location={ "metabox" }
+						location={ "sidebar" }
 					>
 						<KeywordInput />
 					</TopLevelProviders>
