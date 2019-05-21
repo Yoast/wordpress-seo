@@ -71,13 +71,46 @@ var imageScoreClass = "image yoast-logo svg";
 	}
 
 	/**
+	 * Scrolls to metabox collapsible and opens it when closed.
+	 *
+	 * @param {string} id Metabox collapsible id.
+	 *
+	 * @returns {void}
+	 */
+	function scrollToCollapsible( id ) {
+		const $adminbar = $( "#wpadminbar" );
+		const $collapsible = $( id );
+
+		if ( ! $adminbar || ! $collapsible ) {
+			return;
+		}
+
+		// The adminbar height depends on the viewport width.
+		const adminbarHeight = $adminbar.css( "position" ) === "fixed" ? $adminbar.height() : 0;
+
+		$( [ document.documentElement, document.body ] ).animate( {
+			scrollTop: $collapsible.offset().top - adminbarHeight,
+		}, 1000 );
+
+		// Move focus to the collapsible.
+		$collapsible.focus();
+
+		// The content of the analysis is a sibling of the h2 in the collapsible.
+		const $h2 = $collapsible.parent();
+
+		// If the sibling is not there, the collapsible is collapsed, so we should open it.
+		if ( $h2.siblings().length === 0 ) {
+			$collapsible.click();
+		}
+	}
+
+	/**
 	 * Initializes the publish box score indicators.
 	 *
 	 * @returns {void}
 	 */
 	function initialize() {
 		var notAvailableStatus = "na";
-		const $adminbar = $( "#wpadminbar" );
 
 		if ( wpseoPostScraperL10n.contentAnalysisActive === "1" ) {
 			createScoresInPublishBox( "content", notAvailableStatus );
@@ -89,52 +122,14 @@ var imageScoreClass = "image yoast-logo svg";
 
 		$( "#content-score" ).click( function( event ) {
 			event.preventDefault();
-			const $readabilityCollapsible = $( "#yoast-readability-analysis-collapsible-metabox" );
-			/*
- 			 * The adminbar height depends on the viewport width. Because people can change the viewport width whenever
- 			 * they want, we check the adminbar height within each of the .click functions.
- 			 */
-			const adminbarHeight = $adminbar.css( "position" ) === "fixed" ? $adminbar.height() : 0;
 
-			$( [ document.documentElement, document.body ] ).animate( {
-				scrollTop: $readabilityCollapsible.offset().top - adminbarHeight,
-			}, 1000 );
-
-			// Move focus to the collapsible.
-			$readabilityCollapsible.focus();
-
-			// The content of the analysis is a sibling of the h2 in the collapsible.
-			const $h2 = $readabilityCollapsible.parent();
-
-			// If the sibling is not there, the collapsible is collapsed, so we should open it.
-			if ( $h2.siblings().length === 0 ) {
-				$readabilityCollapsible.click();
-			}
+			scrollToCollapsible( "#yoast-readability-analysis-collapsible-metabox" );
 		} );
 
 		$( "#keyword-score" ).click( function( event ) {
 			event.preventDefault();
-			const $seoCollapsible = $( "#yoast-seo-analysis-collapsible-metabox" );
-			/*
-			 * The adminbar height depends on the viewport width. Because people can change the viewport width whenever
-			 * they want, we check the adminbar height within each of the .click functions.
-			 */
-			const adminbarHeight = $adminbar.css( "position" ) === "fixed" ? $adminbar.height() : 0;
 
-			$( [ document.documentElement, document.body ] ).animate( {
-				scrollTop: $seoCollapsible.offset().top - adminbarHeight,
-			}, 1000 );
-
-			// Move focus to the collapsible.
-			$seoCollapsible.focus();
-
-			// The content of the analysis is a sibling of the h2 in the collapsible.
-			const $h2 = $seoCollapsible.parent();
-
-			// If the sibling is not there, the collapsible is collapsed, so we should open it.
-			if ( $h2.siblings().length === 0 ) {
-				$seoCollapsible.click();
-			}
+			scrollToCollapsible( "#yoast-seo-analysis-collapsible-metabox" );
 		} );
 	}
 
