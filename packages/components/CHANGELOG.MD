@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 0.3.0
+### Changed
+* Changes `SynonymsInput`'s `id` prop to be required.
+
 ## 0.2.0 May 14th, 2019
 ### Fixed
 * Fixes a bug where node-sass needed to be installed when adding dependencies that depend on `@yoast/style-guide`.
