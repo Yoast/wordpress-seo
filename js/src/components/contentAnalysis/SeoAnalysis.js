@@ -201,7 +201,7 @@ class SeoAnalysis extends Component {
 							subTitle={ this.props.keyword }
 							id={ `yoast-seo-analysis-collapsible-${ context }` }
 						>
-							<Slot name="YoastSynonyms" />
+							<Slot name={ `yoast-synonyms-${ context }` } />
 							{ this.props.shouldUpsell && <Fragment>
 								{ this.renderSynonymsUpsell( context ) }
 								{ this.renderMultipleKeywordsUpsell( context ) }
