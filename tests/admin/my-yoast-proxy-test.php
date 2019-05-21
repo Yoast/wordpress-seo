@@ -3,7 +3,7 @@ namespace Yoast\Tests\Admin;
 
 use Brain\Monkey;
 use Yoast\Tests\Doubles\MyYoast_Proxy_Double;
-
+use Yoast\WP\Free\Tests\TestCase;
 /**
  * WPSEO plugin test file.
  *
@@ -15,7 +15,7 @@ use Yoast\Tests\Doubles\MyYoast_Proxy_Double;
  *
  * @group MyYoast
  */
-class MyYoast_Proxy extends \Yoast\Tests\TestCase {
+class MyYoast_Proxy extends TestCase {
 
 	/**
 	 * @covers WPSEO_MyYoast_Proxy::determine_proxy_options()

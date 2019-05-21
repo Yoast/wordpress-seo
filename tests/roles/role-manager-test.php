@@ -6,11 +6,12 @@
  */
 
 use Brain\Monkey;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Unit Test Class.
  */
-class Capability_Role extends \Yoast\Tests\TestCase {
+class Capability_Role extends TestCase {
 
 	public function test_register() {
 		$instance = new WPSEO_Role_Manager_Mock();

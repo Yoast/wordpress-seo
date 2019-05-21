@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Roles
  */
 
+use Yoast\WP\Free\Tests\TestCase;
+
 /**
  * Unit Test Class.
  */
-class Role_Manager_Factory extends \Yoast\Tests\TestCase {
+class Role_Manager_Factory extends TestCase {
 
 	public function test_get() {
 		$instance  = WPSEO_Role_Manager_Factory::get();

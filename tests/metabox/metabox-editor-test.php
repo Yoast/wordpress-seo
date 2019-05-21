@@ -6,11 +6,12 @@
  */
 
 use Brain\Monkey;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Unit Test Class.
  */
-class Metabox_Editor extends \Yoast\Tests\TestCase {
+class Metabox_Editor extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
