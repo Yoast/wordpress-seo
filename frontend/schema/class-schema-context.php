@@ -90,7 +90,6 @@ class WPSEO_Schema_Context {
 	 */
 	public $site_represents_reference;
 
-
 	/**
 	 * WPSEO_Schema_Context constructor.
 	 */
@@ -102,35 +101,20 @@ class WPSEO_Schema_Context {
 	 * Builds all the required data for the context object.
 	 */
 	private function build_data() {
-		$this->breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
-		if ( ! $this->breadcrumbs_enabled ) {
-			$this->breadcrumbs_enabled = WPSEO_Options::get( 'breadcrumbs-enable', false );
-		}
-
+		// Page level variables.
 		$front             = WPSEO_Frontend::get_instance();
 		$this->canonical   = $front->canonical( false );
 		$this->title       = $front->title( '' );
 		$this->description = $front->metadesc( false );
+		$this->id          = get_queried_object_id();
 
-		$this->site_name       = $this->set_site_name();
-		$this->site_represents = WPSEO_Options::get( 'company_or_person', false );
-		$this->site_url        = trailingslashit( WPSEO_Utils::home_url() );
+		// Site level variables.
+		$this->site_name = $this->set_site_name();
+		$this->site_url  = trailingslashit( WPSEO_Utils::home_url() );
 
-		if ( $this->site_represents === 'company' ) {
-			$this->company_name = WPSEO_Options::get( 'company_name' );
-		}
-
-		if ( $this->site_represents === 'person' ) {
-			$this->site_user_id = WPSEO_Options::get( 'company_or_person_user_id', false );
-			// Do not use a non-existing user.
-			if ( $this->site_user_id !== false && get_user_by( 'id', $this->site_user_id ) === false ) {
-				$this->site_represents = false;
-			}
-		}
-
+		$this->set_breadcrumbs_variables();
+		$this->set_site_represents_variables();
 		$this->set_site_represents_reference();
-
-		$this->id = get_queried_object_id();
 	}
 
 	/**
@@ -158,6 +142,35 @@ class WPSEO_Schema_Context {
 
 		if ( $this->site_represents === 'company' ) {
 			$this->site_represents_reference = array( '@id' => $this->site_url . WPSEO_Schema_IDs::ORGANIZATION_HASH );
+		}
+	}
+
+	/**
+	 * Determines what our site represents, and grabs their values.
+	 */
+	private function set_site_represents_variables() {
+		$this->site_represents = WPSEO_Options::get( 'company_or_person', false );
+
+		if ( $this->site_represents === 'company' ) {
+			$this->company_name = WPSEO_Options::get( 'company_name' );
+		}
+
+		if ( $this->site_represents === 'person' ) {
+			$this->site_user_id = WPSEO_Options::get( 'company_or_person_user_id', false );
+			// Do not use a non-existing user.
+			if ( $this->site_user_id !== false && get_user_by( 'id', $this->site_user_id ) === false ) {
+				$this->site_represents = false;
+			}
+		}
+	}
+
+	/**
+	 * Determines whether the site uses Yoast SEO breadcrumbs.
+	 */
+	private function set_breadcrumbs_variables() {
+		$this->breadcrumbs_enabled = current_theme_supports( 'yoast-seo-breadcrumbs' );
+		if ( ! $this->breadcrumbs_enabled ) {
+			$this->breadcrumbs_enabled = WPSEO_Options::get( 'breadcrumbs-enable', false );
 		}
 	}
 }
