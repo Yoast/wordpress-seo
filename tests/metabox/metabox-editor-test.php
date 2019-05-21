@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Metabox
  */
 
+use Brain\Monkey;
+
 /**
  * Unit Test Class.
  */
-class WPSEO_Metabox_Editor_Test extends PHPUnit_Framework_TestCase {
+class Metabox_Editor extends \Yoast\Tests\TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -32,15 +34,25 @@ class WPSEO_Metabox_Editor_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	public function test_add_css_inside_editor_empty() {
-		$expected = home_url() . '/wp-content/plugins/wordpress-seo/css/dist/inside-editor-' . $this->get_flat_version() . WPSEO_CSSJS_SUFFIX . '.css';
+		Monkey\Functions\expect('plugins_url' )
+			->once()
+			->with( 'css/dist/inside-editor-' . $this->get_flat_version() . WPSEO_CSSJS_SUFFIX . '.css', realpath( __DIR__ . "/../../wp-seo.php" ) )
+			->andReturn( 'example.org' );
 
 		$actual = $this->subject->add_css_inside_editor( '' );
+		$expected = 'example.org';
 
 		$this->assertEquals( $expected, $actual );
 	}
 
 	public function test_add_css_inside_editor_preexisting() {
-		$expected = 'preexisting,' . home_url() . '/wp-content/plugins/wordpress-seo/css/dist/inside-editor-' . $this->get_flat_version() . WPSEO_CSSJS_SUFFIX . '.css';
+		Monkey\Functions\expect('plugins_url' )
+			->once()
+			->with( 'css/dist/inside-editor-' . $this->get_flat_version() . WPSEO_CSSJS_SUFFIX . '.css', realpath( __DIR__ . "/../../wp-seo.php" ) )
+			->andReturn( 'example.org' );
+
+
+		$expected = 'preexisting,example.org';
 
 		$actual = $this->subject->add_css_inside_editor( 'preexisting' );
 
