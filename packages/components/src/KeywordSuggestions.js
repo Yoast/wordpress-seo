@@ -80,37 +80,6 @@ const getKeywordSuggestionExplanation = keywords => {
 	);
 };
 
-const getKeywordComponent = ( relevantWords, keywordLimit ) => {
-	if ( ! relevantWords || typeof relevantWords.slice !== "function" ) {
-		return (
-			<div>
-				/* eslint-disable */
-				<marquee>Gekke Martijn</marquee>
-			</div>
-		);
-	} else if ( typeof relevantWords[ 0 ] === "object" ) {
-		return (
-			<WordCloud words={ relevantWords } />
-		);
-	}
-	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => word.getCombination() );
-	return (
-		<WordList
-			title={ __( "Prominent words", "yoast-components" ) }
-			words={ keywords }
-			classNamePrefix="yoast-keyword-suggestions"
-			showBeforeList={ () => {
-				return  ( <p>{ getKeywordSuggestionExplanation( keywords ) }</p> );
-			} }
-			showAfterList={
-				() => {
-					return getKeywordResearchArticleLink();
-				}
-			}
-		/>
-	);
-};
-
 /**
  * @summary WordList component.
  *
@@ -121,11 +90,26 @@ const getKeywordComponent = ( relevantWords, keywordLimit ) => {
  * @returns {JSX.Element} Rendered WordList component.
  */
 const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
-	console.log( relevantWords );
-	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => {
-		return isFeatureEnabled( "improvedInternalLinking" ) ? word.getWord() : word.getCombination();
-	} );
-	return getKeywordComponent( relevantWords, keywordLimit );
+	if ( isFeatureEnabled( "improvedInternalLinking" ) ) {
+		return <WordCloud words={ relevantWords } />;
+	}
+
+	const prominentWords = relevantWords.slice( 0, keywordLimit ).map( word => word.getWord() );
+	return (
+		<WordList
+			title={ __( "Prominent words", "yoast-components" ) }
+			words={ prominentWords }
+			classNamePrefix="yoast-keyword-suggestions"
+			showBeforeList={ () => {
+				return  ( <p>{ getKeywordSuggestionExplanation( prominentWords ) }</p> );
+			} }
+			showAfterList={
+				() => {
+					return getKeywordResearchArticleLink();
+				}
+			}
+		/>
+	);
 };
 
 KeywordSuggestions.propTypes = {
