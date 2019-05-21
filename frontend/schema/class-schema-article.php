@@ -52,17 +52,17 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			'@type'            => 'Article',
 			'@id'              => $this->context->canonical . WPSEO_Schema_IDs::ARTICLE_HASH,
 			'isPartOf'         => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
-			'author'           => array(
-				'@id'  => $this->get_author_url( $post ),
-				'name' => get_the_author_meta( 'display_name', $post->post_author ),
-			),
-			'publisher'        => array( '@id' => $this->get_publisher_url() ),
+			'author'           => array( '@id' => $this->get_author_url( $post ) ),
 			'headline'         => get_the_title(),
 			'datePublished'    => mysql2date( DATE_W3C, $post->post_date_gmt, false ),
 			'dateModified'     => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
 			'commentCount'     => $comment_count['approved'],
 			'mainEntityOfPage' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH,
 		);
+
+		if ( $this->context->site_represents_reference ) {
+			$data['publisher'] = $this->context->site_represents_reference;
+		}
 
 		$data = $this->add_image( $data );
 		$data = $this->add_keywords( $data );
@@ -105,20 +105,24 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			return $this->context->site_url . WPSEO_Schema_IDs::PERSON_HASH;
 		}
 
-		return get_author_posts_url( $post->post_author ) . WPSEO_Schema_IDs::AUTHOR_HASH;
+		return $this->get_author_posts_url( $post->post_author ) . WPSEO_Schema_IDs::AUTHOR_HASH;
 	}
 
 	/**
-	 * Determine the proper publisher URL.
+	 * Retrieves the author post URL based on our author archives settings.
 	 *
-	 * @return string
+	 * @param int $user_id The author's user ID.
+	 *
+	 * @return string unsigned Author posts URL.
 	 */
-	private function get_publisher_url() {
-		if ( $this->context->site_represents === 'person' ) {
-			return $this->context->site_url . WPSEO_Schema_IDs::PERSON_HASH;
+	private function get_author_posts_url( $user_id ) {
+		if ( WPSEO_Options::get( 'disable-author', false ) === false ) {
+			return get_author_posts_url( $user_id );
 		}
+		$user = get_userdata( $user_id );
+		$slug = sanitize_title( $user->display_name );
 
-		return $this->context->site_url . WPSEO_Schema_IDs::ORGANIZATION_HASH;
+		return $this->context->site_url . 'schema/person/' . $slug . '/';
 	}
 
 	/**

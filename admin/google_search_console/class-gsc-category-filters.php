@@ -166,7 +166,7 @@ class WPSEO_GSC_Category_Filters {
 			sprintf(
 				/* translators: %s: category name. N.B.: The category name is translated separately. */
 				__( 'Show information about errors in category %s', 'wordpress-seo' ),
-				__( 'Server', 'wordpress-seo' )
+				__( 'Server Error', 'wordpress-seo' )
 			)
 		);
 		$this->set_filter_value(

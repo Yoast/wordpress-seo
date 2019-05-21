@@ -9,6 +9,7 @@
  * Test Helper Class.
  */
 class Statistics_Mock extends WPSEO_Statistics {
+
 	private $rank_counts;
 
 	public function __construct( array $rank_counts ) {

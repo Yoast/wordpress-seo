@@ -1,6 +1,5 @@
 /* External dependencies */
 import isFunction from "lodash/isFunction";
-import isUndefined from "lodash/isUndefined";
 import flatMap from "lodash/flatMap";
 import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
@@ -100,10 +99,8 @@ function scheduleAnnotationQueueApplication() {
  * @returns {boolean} Whether or not annotations are available in Gutenberg.
  */
 export function isAnnotationAvailable() {
-	return ! isUndefined( select( "core/editor" ) ) &&
-		isFunction( select( "core/editor" ).getBlocks ) &&
-		! isUndefined( select( "core/annotations" ) ) &&
-		isFunction( dispatch( "core/annotations" ).__experimentalAddAnnotation );
+	return select( "core/editor" ) && isFunction( select( "core/editor" ).getBlocks ) &&
+		select( "core/annotations" ) && isFunction( dispatch( "core/annotations" ).__experimentalAddAnnotation );
 }
 
 /**

@@ -103,8 +103,6 @@ class WPSEO_Help_Center {
 		// Open HelpScout on activating this tab ID.
 		$formatted_data['shouldDisplayContactForm'] = $this->premium_support;
 
-		$formatted_data['translations'] = self::get_translated_texts();
-
 		$formatted_data['videoDescriptions'] = array();
 
 		if ( $is_premium === false ) {
@@ -235,43 +233,5 @@ class WPSEO_Help_Center {
 		);
 
 		$this->help_center_items[] = $contact_support_help_center_item;
-	}
-
-	/**
-	 * Pass text variables to js for the help center JS module.
-	 *
-	 * %s is replaced with <code>%s</code> and replaced again in the javascript with the actual variable.
-	 *
-	 * @return array Translated text strings for the help center.
-	 */
-	public static function get_translated_texts() {
-		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
-		return array(
-			'locale'                             => WPSEO_Language_Utils::get_user_locale(),
-			'videoTutorial'                      => __( 'Video tutorial', 'wordpress-seo' ),
-			'knowledgeBase'                      => __( 'Knowledge base', 'wordpress-seo' ),
-			'getSupport'                         => __( 'Get support', 'wordpress-seo' ),
-			'algoliaSearcher.loadingPlaceholder' => __( 'Loading...', 'wordpress-seo' ),
-			'algoliaSearcher.errorMessage'       => __( 'Something went wrong. Please try again later.', 'wordpress-seo' ),
-			'searchBar.headingText'              => __( 'Search the Yoast Knowledge Base for answers to your questions:', 'wordpress-seo' ),
-			'searchBar.placeholderText'          => __( 'Type here to search...', 'wordpress-seo' ),
-			'searchBar.buttonText'               => __( 'Search', 'wordpress-seo' ),
-			'searchResultDetail.openButton'      => __( 'View in KB', 'wordpress-seo' ),
-			'searchResultDetail.openButtonLabel' => __( 'Open the knowledge base article in a new window or read it in the iframe below', 'wordpress-seo' ),
-			'searchResultDetail.backButton'      => __( 'Go back', 'wordpress-seo' ),
-			'searchResultDetail.backButtonLabel' => __( 'Go back to the search results', 'wordpress-seo' ),
-			'searchResultDetail.iframeTitle'     => __( 'Knowledge base article', 'wordpress-seo' ),
-			'searchResultDetail.searchResult'    => __( 'Search result', 'wordpress-seo' ),
-			'searchResult.noResultsText'         => __( 'No results found.', 'wordpress-seo' ),
-			'searchResult.foundResultsText'      => sprintf(
-				/* translators: %d expands to the number of results found . */
-				__( 'Number of results found: %d', 'wordpress-seo' ),
-				'{ resultsCount }'
-			),
-			'searchResult.searchResultsHeading'  => __( 'Search results', 'wordpress-seo' ),
-			'a11yNotice.opensInNewTab'           => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
-			'contactSupport.button'              => __( 'New support request', 'wordpress-seo' ),
-			'helpCenter.buttonText'              => __( 'Need help?', 'wordpress-seo' ),
-		);
 	}
 }
