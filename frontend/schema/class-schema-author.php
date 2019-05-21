@@ -75,6 +75,15 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	}
 
 	/**
+	 * Returns the Schema type for the current Person.
+	 *
+	 * @return string|array The Schema type.
+	 */
+	protected function get_type() {
+		return 'Person';
+	}
+
+	/**
 	 * Determine whether the current URL is worthy of Article schema.
 	 *
 	 * @return bool

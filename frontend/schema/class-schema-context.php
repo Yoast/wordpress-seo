@@ -113,7 +113,7 @@ class WPSEO_Schema_Context {
 		$this->description = $front->metadesc( false );
 
 		$this->site_name       = $this->set_site_name();
-		$this->site_represents = WPSEO_Options::get( 'company_or_person', '' );
+		$this->site_represents = WPSEO_Options::get( 'company_or_person', false );
 		$this->site_url        = trailingslashit( WPSEO_Utils::home_url() );
 
 		if ( $this->site_represents === 'company' ) {
@@ -128,13 +128,7 @@ class WPSEO_Schema_Context {
 			}
 		}
 
-		if ( $this->site_represents === 'person' ) {
-			$this->site_represents_reference = array( '@id' => $this->site_url . WPSEO_Schema_IDs::PERSON_HASH );
-		}
-
-		if ( $this->site_represents === 'company' ) {
-			$this->site_represents_reference = array( '@id' => $this->site_url . WPSEO_Schema_IDs::ORGANIZATION_HASH );
-		}
+		$this->set_site_represents_reference();
 
 		$this->id = get_queried_object_id();
 	}
@@ -150,5 +144,20 @@ class WPSEO_Schema_Context {
 		}
 
 		return get_bloginfo( 'name' );
+	}
+
+	/**
+	 * Sets our site represents reference for easy use.
+	 */
+	private function set_site_represents_reference() {
+		$this->site_represents_reference = false;
+
+		if ( $this->site_represents === 'person' ) {
+			$this->site_represents_reference = array( '@id' => $this->site_url . WPSEO_Schema_IDs::PERSON_HASH );
+		}
+
+		if ( $this->site_represents === 'company' ) {
+			$this->site_represents_reference = array( '@id' => $this->site_url . WPSEO_Schema_IDs::ORGANIZATION_HASH );
+		}
 	}
 }

@@ -127,7 +127,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	protected function build_person_data( $user_id ) {
 		$user_data = get_userdata( $user_id );
 		$data      = array(
-			'@type' => array( 'Person', 'Organization' ),
+			'@type' => $this->get_type(),
 			'@id'   => $this->determine_schema_id( $user_id ),
 			'name'  => $user_data->display_name,
 		);
@@ -144,6 +144,15 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Returns the Schema type for the current Person.
+	 *
+	 * @return string|array The Schema type.
+	 */
+	protected function get_type() {
+		return array( 'Person', 'Organization' );
 	}
 
 	/**
