@@ -3,12 +3,12 @@ import { Fill } from "@wordpress/components";
 import { Fragment } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
-import React from "react";
 
 /* Internal dependencies */
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 import SnippetEditor from "../containers/SnippetEditor";
 import Warning from "../containers/Warning";
+import KeywordInput from "./contentAnalysis/KeywordInput";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import Collapsible from "./SidebarCollapsible";
@@ -37,6 +37,15 @@ export default function Metabox( { settings, store, theme } ) {
 						<Warning />
 					</TopLevelProviders>
 				</SidebarItem>
+				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
+					<TopLevelProviders
+						store={ store }
+						theme={ theme }
+						location={ "metabox" }
+					>
+						<KeywordInput />
+					</TopLevelProviders>
+				</SidebarItem> }
 				<SidebarItem renderPriority={ 9 }>
 					<TopLevelProviders
 						store={ store }
