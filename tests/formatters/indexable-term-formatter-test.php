@@ -18,7 +18,7 @@ class Indexable_Term_Formatter_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var Indexable_Term_Formatter_Double
+	 * @var \Yoast\WP\Free\Tests\Doubles\Indexable_Term_Formatter_Double
 	 */
 	protected $instance;
 

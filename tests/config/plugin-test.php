@@ -310,7 +310,7 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Mocks a Dependency Management.
 	 *
-	 * @return Dependency_Management
+	 * @return \Yoast\WP\Free\Config\Dependency_Management
 	 */
 	protected function get_dependency_management_mock() {
 		return $this
@@ -322,7 +322,7 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Mocks a Database Migration.
 	 *
-	 * @return Database_Migration
+	 * @return \Yoast\WP\Free\Config\Database_Migration
 	 */
 	protected function get_database_migration_mock() {
 		return $this
@@ -337,7 +337,7 @@ class Plugin_Test extends TestCase {
 	 *
 	 * @param array $integrations List of integrations to load.
 	 *
-	 * @return Integration_Group
+	 * @return \Yoast\WP\Free\WordPress\Integration_Group
 	 */
 	protected function get_integration_group_mock( array $integrations = array() ) {
 		return $this
