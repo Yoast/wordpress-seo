@@ -40,14 +40,12 @@ class WPSEO_Meta {
 	 */
 	public static $meta_prefix = '_yoast_wpseo_';
 
-
 	/**
 	 * Prefix for all WPSEO meta value form field names and ids.
 	 *
 	 * @var string
 	 */
 	public static $form_prefix = 'yoast_wpseo_';
-
 
 	/**
 	 * Allowed length of the meta description.
@@ -56,14 +54,12 @@ class WPSEO_Meta {
 	 */
 	public static $meta_length = 156;
 
-
 	/**
 	 * Reason the meta description is not the default length.
 	 *
 	 * @var string
 	 */
 	public static $meta_length_reason = '';
-
 
 	/**
 	 * Meta box field definitions for the meta box form.
@@ -206,7 +202,6 @@ class WPSEO_Meta {
 		),
 	);
 
-
 	/**
 	 * Helper property - reverse index of the definition array.
 	 *
@@ -217,7 +212,6 @@ class WPSEO_Meta {
 	 * @var array
 	 */
 	public static $fields_index = array();
-
 
 	/**
 	 * Helper property - array containing only the defaults in the format:

@@ -13,12 +13,14 @@
  * @property WPSEO_Schema_Context $context A value object with context variables.
  */
 class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Piece {
+
 	/**
 	 * A value object with context variables.
 	 *
 	 * @var WPSEO_Schema_Context
 	 */
 	private $context;
+
 	/**
 	 * The Schema type we use for this class.
 	 *

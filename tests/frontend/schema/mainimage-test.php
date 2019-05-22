@@ -55,11 +55,13 @@ class MainImage_Test extends TestCase {
 		];
 
 		$this->instance = $this->getMockBuilder( WPSEO_Schema_MainImage_Double::class )
-			->setMethods( [
-				'get_first_usable_content_image_for_post',
-				'generate_image_schema_from_attachment_id',
-				'generate_image_schema_from_url'
-			] )
+			->setMethods(
+				[
+					'get_first_usable_content_image_for_post',
+					'generate_image_schema_from_attachment_id',
+					'generate_image_schema_from_url',
+				]
+			)
 			->setConstructorArgs( [ $this->context ] )
 			->getMock();
 	}

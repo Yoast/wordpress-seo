@@ -16,18 +16,21 @@
  * @property int                   $position The position in the list.
  */
 class WPSEO_Schema_FAQ_Questions {
+
 	/**
 	 * The Schema array.
 	 *
 	 * @var array
 	 */
 	private $data;
+
 	/**
 	 * All the blocks of this block-type.
 	 *
 	 * @var WP_Block_Parser_Block
 	 */
 	private $block;
+
 	/**
 	 * Position in the list.
 	 *
