@@ -2,7 +2,7 @@
 import { HelpText, SynonymsInput } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
 import noop from "lodash/noop";
-import { Component } from "@wordpress/element";
+import React, { Component } from "react";
 import styled from "styled-components";
 import { KeywordInput } from "yoast-components";
 
