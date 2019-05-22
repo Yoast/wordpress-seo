@@ -9,7 +9,6 @@ namespace Yoast\WP\Free\Watchers;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Models\Primary_Term as Primary_Term_Indexable;
 use Yoast\WP\Free\WordPress\Integration;
 
