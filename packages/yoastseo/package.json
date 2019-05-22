@@ -116,6 +116,6 @@
     }
   },
   "yoast": {
-    "premiumConfiguration": "change-English-file-name-to-v2"
+    "premiumConfiguration": "feature/internal-linking"
   }
 }
