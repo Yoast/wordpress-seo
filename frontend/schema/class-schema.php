@@ -13,6 +13,19 @@
  * @since 1.8
  */
 class WPSEO_Schema implements WPSEO_WordPress_Integration {
+	/**
+	 * Holds the parsed blocks for the current page.
+	 *
+	 * @var array
+	 */
+	private $parsed_blocks = array();
+
+	/**
+	 * Holds context variables about the current page and site.
+	 *
+	 * @var WPSEO_Schema_Context
+	 */
+	private $context;
 
 	/**
 	 * Registers the hooks.
@@ -20,8 +33,41 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	public function register_hooks() {
 		add_action( 'wpseo_head', array( $this, 'json_ld' ), 91 );
 		add_action( 'wpseo_json_ld', array( $this, 'generate' ), 1 );
+		add_action( 'wpseo_head', array( $this, 'parse_blocks' ), 0 );
+
 		// This AMP hook is only used in Reader (formerly Classic) mode.
 		add_action( 'amp_post_template_head', array( $this, 'json_ld' ), 9 );
+	}
+
+	/**
+	 * Parse the blocks and pass them on to our head.
+	 */
+	public function parse_blocks() {
+		$this->context = new WPSEO_Schema_Context();
+
+		if ( ! is_singular() ) {
+			return;
+		}
+
+		$post          = get_post();
+		$parsed_blocks = parse_blocks( $post->post_content );
+
+		foreach ( $parsed_blocks as $block ) {
+			if ( ! is_array( $this->parsed_blocks[ $block['blockName'] ] ) ) {
+				$this->parsed_blocks[ $block['blockName'] ] = array();
+			}
+			$this->parsed_blocks[ $block['blockName'] ][] = $block;
+		}
+
+		foreach ( array_keys( $this->parsed_blocks ) as $block_type ) {
+			/**
+			 * Filter: 'yoast/pre-schema/block-type/<block-type>' - Allows filtering graph output based on the blocks on the page.
+			 *
+			 * @param string               $block_type The block type.
+			 * @param WPSEO_Schema_Context $context    A value object with context variables.
+			 */
+			do_action( 'yoast/pre-schema/block-type/' . $block_type, $this->context );
+		}
 	}
 
 	/**
@@ -85,6 +131,30 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			}
 		}
 
+		foreach ( $this->parsed_blocks as $block_type => $blocks ) {
+			/**
+			 * Filter: 'yoast/schema/block-type/<block-type>' - Allows filtering graph output based on all the blocks of a certain type.
+			 *
+			 * @param WP_Block_Parser_Block $blocks  All the blocks of this type.
+			 * @param WPSEO_Schema_Context  $context A value object with context variables.
+			 *
+			 * @api array $graph Our Schema output.
+			 */
+			$graph = apply_filters( 'yoast/schema/block-type/' . $block_type, $graph, $blocks, $this->context );
+
+			foreach ( $blocks as $block ) {
+				/**
+				 * Filter: 'yoast/schema/blocks/<block-type>' - Allows filtering graph output per block.
+				 *
+				 * @param WP_Block_Parser_Block $block   The block.
+				 * @param WPSEO_Schema_Context  $context A value object with context variables.
+				 *
+				 * @api array $graph Our Schema output.
+				 */
+				$graph = apply_filters( 'yoast/schema/block/' . $block['blockName'], $graph, $block, $this->context );
+			}
+		}
+
 		WPSEO_Utils::schema_output( $graph, 'yoast-schema-graph yoast-schema-graph--main' );
 	}
 
@@ -94,16 +164,14 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 * @return array A filtered array of graph pieces.
 	 */
 	private function get_graph_pieces() {
-		$context = new WPSEO_Schema_Context();
-
 		$pieces = array(
-			new WPSEO_Schema_Organization( $context ),
-			new WPSEO_Schema_Person( $context ),
-			new WPSEO_Schema_Website( $context ),
-			new WPSEO_Schema_WebPage( $context ),
-			new WPSEO_Schema_Breadcrumb( $context ),
-			new WPSEO_Schema_Article( $context ),
-			new WPSEO_Schema_Author( $context ),
+			new WPSEO_Schema_Organization( $this->context ),
+			new WPSEO_Schema_Person( $this->context ),
+			new WPSEO_Schema_Website( $this->context ),
+			new WPSEO_Schema_WebPage( $this->context ),
+			new WPSEO_Schema_Breadcrumb( $this->context ),
+			new WPSEO_Schema_Article( $this->context ),
+			new WPSEO_Schema_Author( $this->context ),
 		);
 
 		/**
@@ -113,6 +181,6 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 		 *
 		 * @api array $pieces The schema pieces.
 		 */
-		return apply_filters( 'wpseo_schema_graph_pieces', $pieces, $context );
+		return apply_filters( 'wpseo_schema_graph_pieces', $pieces, $this->context );
 	}
 }
