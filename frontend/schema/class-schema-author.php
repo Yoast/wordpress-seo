@@ -25,7 +25,7 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	 *
 	 * @var string[]
 	 */
-	private static $type = array( 'Person' );
+	protected static $type = array( 'Person' );
 
 	/**
 	 * WPSEO_Schema_Breadcrumb constructor.
