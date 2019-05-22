@@ -60,7 +60,7 @@ class WPSEO_Schema_FAQ_Question_List {
 	 * @return array The Schema with a question list added.
 	 */
 	public function generate() {
-		$this->prepare_questions();
+		$this->prepare_blocks();
 
 		$this->data[] = array(
 			'@type'            => 'ItemList',
@@ -86,17 +86,24 @@ class WPSEO_Schema_FAQ_Question_List {
 	}
 
 	/**
+	 * Loop through the blocks of our type.
+	 */
+	private function prepare_blocks() {
+		foreach ( $this->blocks as $block ) {
+			$this->prepare_questions( $block );
+		}
+	}
+
+	/**
 	 * Prepare our data.
 	 */
-	private function prepare_questions() {
-		foreach ( $this->blocks as $block ) {
-			foreach ( $block['attrs']['questions'] as $question ) {
-				if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
-					continue;
-				}
-				$this->count ++;
-				$this->ids[] = array( '@id' => $this->context->canonical . '#' . $question['id'] );
+	private function prepare_questions( $block ) {
+		foreach ( $block['attrs']['questions'] as $question ) {
+			if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
+				continue;
 			}
+			$this->count ++;
+			$this->ids[] = array( '@id' => $this->context->canonical . '#' . $question['id'] );
 		}
 	}
 }
