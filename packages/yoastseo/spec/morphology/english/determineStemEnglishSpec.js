@@ -3,8 +3,10 @@ import { determineIrregularStem } from  "../../../src/morphology/english/determi
 import { determineIrregularVerbStem } from  "../../../src/morphology/english/determineStem.js";
 import { determineRegularStem } from  "../../../src/morphology/english/determineStem.js";
 import { determineStem } from  "../../../src/morphology/english/determineStem.js";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
 
-import { en as morphologyDataEN } from "../../../premium-configuration/data/morphologyData.json";
+
+const morphologyDataEN = getMorphologyData( "en" ).en;
 
 describe( "findShortestAndAlphabeticallyFirst", function() {
 	it( "returns the shortest and the alphabetically-first word from an array", function() {

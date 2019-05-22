@@ -7,7 +7,10 @@ import {
 	sortProminentWords,
 	retrieveAbbreviations,
 } from "../../src/stringProcessing/determineProminentWords";
-import { en as morphologyData } from "../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../specHelpers/getMorphologyData";
+
+
+const morphologyData = getMorphologyData( "en" ).en;
 
 describe( "retrieveAbbreviations", function() {
 	it( "makes a list of all abbreviations from the input text", function() {

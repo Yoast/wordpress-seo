@@ -1,6 +1,6 @@
 {
   "name": "yoast-social-previews",
-  "version": "1.4.7-rc.0",
+  "version": "1.4.9-rc.0",
   "description": "",
   "private": true,
   "main": "index.js",
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.3.1",
-    "eslint-config-yoast": "^5.0.13",
+    "eslint-config-yoast": "^5.0.15",
     "grunt": "^1.0.1",
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-clean": "^1.0.0",
