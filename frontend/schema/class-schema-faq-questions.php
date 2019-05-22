@@ -36,7 +36,7 @@ class WPSEO_Schema_FAQ_Questions {
 	private $position;
 
 	/**
-	 * WPSEO_Schema_Breadcrumb constructor.
+	 * WPSEO_Schema_FAQ_Questions constructor.
 	 *
 	 * @param array                 $data    Our schema graph.
 	 * @param WP_Block_Parser_Block $block   The FAQ block of this type.

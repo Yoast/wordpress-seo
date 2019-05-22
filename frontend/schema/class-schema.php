@@ -106,16 +106,6 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 		}
 
 		foreach ( $this->parsed_blocks as $block_type => $blocks ) {
-			/**
-			 * Filter: 'yoast/schema/block-type/<block-type>' - Allows filtering graph output based on all the blocks of a certain type.
-			 *
-			 * @param WP_Block_Parser_Block $blocks  All the blocks of this type.
-			 * @param WPSEO_Schema_Context  $context A value object with context variables.
-			 *
-			 * @api array $graph Our Schema output.
-			 */
-			$graph = apply_filters( 'yoast/schema/block-type/' . $block_type, $graph, $blocks, $this->context );
-
 			foreach ( $blocks as $block ) {
 				/**
 				 * Filter: 'yoast/schema/block/<block-type>' - Allows filtering graph output per block.
@@ -125,7 +115,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 				 *
 				 * @api array $graph Our Schema output.
 				 */
-				$graph = apply_filters( 'yoast/schema/block/' . $block['blockName'], $graph, $block, $this->context );
+				$graph = apply_filters( 'wpseo_schema_block_' . $block['blockName'], $graph, $block, $this->context );
 			}
 		}
 
@@ -170,13 +160,13 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 		$this->get_parsed_blocks();
 		foreach ( array_keys( $this->parsed_blocks ) as $block_type ) {
 			/**
-			 * Filter: 'yoast/pre-schema/block-type/<block-type>' - Allows filtering graph output based on the blocks on the page.
+			 * Filter: 'yoast/pre-schema/block-type/<block-type>' - Allows hooking things to change graph output based on the blocks on the page.
 			 *
 			 * @param string               $block_type The block type.
 			 * @param array                $blocks     All the blocks of this block type.
 			 * @param WPSEO_Schema_Context $context    A value object with context variables.
 			 */
-			do_action( 'yoast/pre-schema/block-type/' . $block_type, $this->parsed_blocks[ $block_type ], $this->context );
+			do_action( 'wpseo_pre-schema_block-type_' . $block_type, $this->parsed_blocks[ $block_type ], $this->context );
 		}
 	}
 

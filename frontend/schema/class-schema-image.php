@@ -38,7 +38,7 @@ class WPSEO_Schema_Image {
 	private $attachment_id;
 
 	/**
-	 * WPSEO_Schema_Breadcrumb constructor.
+	 * WPSEO_Schema_Image constructor.
 	 *
 	 * @param string $schema_id The string to use in an image's `@id`.
 	 */

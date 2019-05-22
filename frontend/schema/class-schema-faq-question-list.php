@@ -42,7 +42,7 @@ class WPSEO_Schema_FAQ_Question_List {
 	private $ids;
 
 	/**
-	 * WPSEO_Schema_Breadcrumb constructor.
+	 * WPSEO_Schema_FAQ_Question_List constructor.
 	 *
 	 * @param WP_Block_Parser_Block[] $blocks  An array of the FAQ blocks on this page.
 	 * @param WPSEO_Schema_Context    $context A value object with context variables.
