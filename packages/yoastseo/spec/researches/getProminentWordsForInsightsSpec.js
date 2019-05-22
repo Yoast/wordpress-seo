@@ -2,7 +2,10 @@ import getProminentWordsForInsights from "../../src/researches/getProminentWords
 import Paper from "../../src/values/Paper";
 import Researcher from "../../src/researcher";
 import ProminentWord from "../../src/values/ProminentWord";
-import morphologyData from "../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../specHelpers/getMorphologyData";
+
+
+const morphologyData = getMorphologyData( "en" );
 
 describe( "getProminentWordsForInsights research", function() {
 	it( "does not break if no morphology support is added for the language", function() {

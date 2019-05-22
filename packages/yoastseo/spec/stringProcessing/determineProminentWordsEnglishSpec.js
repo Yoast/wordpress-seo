@@ -1,6 +1,9 @@
 import ProminentWord from "../../src/values/ProminentWord";
 import { getProminentWords } from "../../src/stringProcessing/determineProminentWords";
-import { en as morphologyData } from "../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../specHelpers/getMorphologyData";
+
+
+const morphologyData = getMorphologyData( "en" ).en;
 
 describe( "gets English prominent words", function() {
 	it( "returns  prominent words", function() {

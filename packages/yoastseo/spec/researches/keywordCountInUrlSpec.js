@@ -1,7 +1,10 @@
 import urlKeyword from "../../src/researches/keywordCountInUrl.js";
 import Paper from "../../src/values/Paper.js";
 import Researcher from "../../src/researcher";
-import morphologyData from "../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../specHelpers/getMorphologyData";
+
+
+const morphologyData = getMorphologyData( "en" );
 
 describe( "test to check url for keyword", function() {
 	it( "returns simple matches", function() {

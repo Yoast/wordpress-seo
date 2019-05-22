@@ -1,7 +1,10 @@
 import Researcher from "../../src/researcher";
-import morphologyData from "../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../specHelpers/getMorphologyData";
 import firstParagraph from "../../src/researches/findKeywordInFirstParagraph.js";
 import Paper from "../../src/values/Paper.js";
+
+
+const morphologyData = getMorphologyData( "en" );
 
 const keyphraseEN = "walking in nature benefits";
 const sentenceWithAllKeywordsEN = "I like to take walks in the nature, because my body and brain benefit from it! ";
