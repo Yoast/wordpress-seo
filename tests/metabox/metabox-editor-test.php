@@ -1,17 +1,16 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Metabox
- */
 
+namespace Yoast\WP\Free\Tests\Metabox;
+
+use WPSEO_Admin_Asset_Manager;
+use WPSEO_Metabox_Editor;
 use Brain\Monkey;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Unit Test Class.
  */
-class Metabox_Editor extends TestCase {
+class Metabox_Editor_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
