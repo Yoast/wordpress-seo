@@ -37,11 +37,11 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	);
 
 	/**
-	 * The Schema type we
+	 * The Schema type we use for this class.
 	 *
 	 * @var string[]
 	 */
-	const TYPE = array(
+	protected static $type = array(
 		'Person',
 		'Organization',
 	);
@@ -138,7 +138,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	protected function build_person_data( $user_id ) {
 		$user_data = get_userdata( $user_id );
 		$data      = array(
-			'@type' => self::TYPE,
+			'@type' => self::$type,
 			'@id'   => $this->determine_schema_id( $user_id ),
 			'name'  => $user_data->display_name,
 		);
@@ -173,7 +173,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 			$data = $this->set_image_from_avatar( $data, $user_data, $schema_id );
 		}
 
-		if ( is_array( self::TYPE ) && in_array( 'Organization', self::TYPE ) ) {
+		if ( is_array( self::$type ) && in_array( 'Organization', self::$type ) ) {
 			$data['logo'] = array( '@id' => $schema_id );
 		}
 

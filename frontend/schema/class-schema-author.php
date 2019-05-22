@@ -25,7 +25,7 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	 *
 	 * @var string[]
 	 */
-	const TYPE = array( 'Person' );
+	private static $type = array( 'Person' );
 
 	/**
 	 * WPSEO_Schema_Breadcrumb constructor.
@@ -70,7 +70,7 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	 */
 	protected function build_person_data( $user_id ) {
 		$data          = parent::build_person_data( $user_id );
-		$data['@type'] = self::TYPE;
+		$data['@type'] = self::$type;
 
 		// If this is an author page, the Person object is the main object, so we set it as such here.
 		if ( is_author() ) {
@@ -134,5 +134,14 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	 */
 	protected function determine_schema_id( $user_id ) {
 		return get_author_posts_url( $user_id ) . WPSEO_Schema_IDs::AUTHOR_HASH;
+	}
+
+	/**
+	 * Gets the Schema type we use for this class.
+	 *
+	 * @return string[] The schema type.
+	 */
+	public static function get_type() {
+		return self::$type;
 	}
 }
