@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\Tests\Formatters;
+namespace Yoast\WP\Free\Tests\Formatters;
 
-use Yoast\Tests\Doubles\Indexable_Term_Formatter_Double;
+use Yoast\WP\Free\Tests\Doubles\Indexable_Term_Formatter_Double;
 
 /**
  * Class Indexable_Term_Test.
@@ -12,7 +12,7 @@ use Yoast\Tests\Doubles\Indexable_Term_Formatter_Double;
  *
  * @package Yoast\Tests\Formatters
  */
-class Indexable_Term_Formatter_Test extends \Yoast\Tests\TestCase {
+class Indexable_Term_Formatter_Test extends \Yoast\WP\Free\Tests\TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

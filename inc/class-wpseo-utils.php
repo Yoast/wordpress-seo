@@ -946,9 +946,9 @@ class WPSEO_Utils {
 				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
 			</g>
 			<g class="traffic-light-color traffic-light-init">
-				<ellipse fill="#5B2942" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
-				<ellipse fill="#5B2942" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
-				<ellipse fill="#5B2942" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="23.5" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="10.9" rx="5.7" ry="5.6"/>
+				<ellipse fill="#C8C8C8" cx="15" cy="36.1" rx="5.7" ry="5.6"/>
 			</g>
 		</g>
 	</g>

@@ -9,6 +9,7 @@
  * Test Helper Class.
  */
 class WPSEO_Meta_Columns_Double extends WPSEO_Meta_Columns {
+
 	private $current_post_type;
 
 	/**

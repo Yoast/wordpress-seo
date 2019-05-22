@@ -1,8 +1,8 @@
 <?php
 
-namespace Yoast\Tests\Formatters;
+namespace Yoast\WP\Free\Tests\Formatters;
 
-use Yoast\Tests\Doubles\Indexable_Post_Formatter_Double as Indexable_Post_Double;
+use Yoast\WP\Free\Tests\Doubles\Indexable_Post_Formatter_Double as Indexable_Post_Double;
 
 use Brain\Monkey;
 
@@ -14,7 +14,7 @@ use Brain\Monkey;
  *
  * @package Yoast\Tests\Watchers
  */
-class Indexable_Post_Formatter_Test extends \Yoast\Tests\TestCase {
+class Indexable_Post_Formatter_Test extends \Yoast\WP\Free\Tests\TestCase {
 
 	/**
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::format
@@ -202,7 +202,7 @@ class Indexable_Post_Formatter_Test extends \Yoast\Tests\TestCase {
 	 */
 	public function test_set_link_count() {
 		$formatter = $this
-			->getMockBuilder( '\Yoast\Tests\Doubles\Indexable_Post_Formatter_Double' )
+			->getMockBuilder( '\Yoast\WP\Free\Tests\Doubles\Indexable_Post_Formatter_Double' )
 			->setConstructorArgs( array( 1 ) )
 			->setMethods( array( 'get_seo_meta' ) )
 			->getMock();
@@ -230,7 +230,7 @@ class Indexable_Post_Formatter_Test extends \Yoast\Tests\TestCase {
 	 */
 	public function test_set_link_count_with_thrown_exception() {
 		$formatter = $this
-			->getMockBuilder( '\Yoast\Tests\Doubles\Indexable_Post_Formatter_Double' )
+			->getMockBuilder( '\Yoast\WP\Free\Tests\Doubles\Indexable_Post_Formatter_Double' )
 			->setConstructorArgs( array( 1 ) )
 			->setMethods( array( 'get_seo_meta' ) )
 			->getMock();

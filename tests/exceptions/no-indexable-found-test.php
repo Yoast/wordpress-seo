@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\Tests\Exceptions;
+namespace Yoast\WP\Free\Tests\Exceptions;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Loggers\Logger;
@@ -13,7 +13,7 @@ use Yoast\WP\Free\Loggers\Logger;
  *
  * @package Yoast\Tests\Exceptions
  */
-class No_Indexable_Found_Test extends \Yoast\Tests\TestCase {
+class No_Indexable_Found_Test extends \Yoast\WP\Free\Tests\TestCase {
 
 	/**
 	 * Sets up the test fixtures for each test.

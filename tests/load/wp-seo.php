@@ -1,8 +1,13 @@
 <?php
+/**
+ * WPSEO Free plugin test file.
+ *
+ * @package WPSEO\Tests\Free
+ */
 
 use Brain\Monkey\Functions;
 
-$wpseo_file = realpath( __DIR__ . "/../../wp-seo.php" );
+$wpseo_file = realpath( __DIR__ . '/../../wp-seo.php' );
 
 Brain\Monkey\setUp();
 

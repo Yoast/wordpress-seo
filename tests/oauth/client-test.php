@@ -5,20 +5,20 @@
  * @package Yoast\Tests\Oauth
  */
 
-namespace Yoast\Tests\Oauth;
+namespace Yoast\WP\Free\Tests\Oauth;
 
 use Yoast\WP\Free\Oauth\Client;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
 
-Use Brain\Monkey;
+use Brain\Monkey;
 
 /**
  * Class Oauth_Test.
  *
  * @group oauth
  */
-class Oauth_Client_Test extends \Yoast\Tests\TestCase {
+class Oauth_Client_Test extends \Yoast\WP\Free\Tests\TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -53,7 +53,7 @@ class Oauth_Client_Test extends \Yoast\Tests\TestCase {
 	 * @covers \Yoast\WP\Free\Oauth\Client::format_access_tokens
 	 */
 	public function test_format_access_tokens() {
-		$class_instance = new \Yoast\Tests\Doubles\Oauth\Client();
+		$class_instance = new \Yoast\WP\Free\Tests\Doubles\Oauth\Client();
 
 		$access_tokens = [
 			1 => [ 'access_token' => 'this-is-a-token' ],
@@ -73,7 +73,7 @@ class Oauth_Client_Test extends \Yoast\Tests\TestCase {
 	 * @covers \Yoast\WP\Free\Oauth\Client::format_access_tokens
 	 */
 	public function test_format_access_tokens_with_invalid_argument() {
-		$class_instance = new \Yoast\Tests\Doubles\Oauth\Client();
+		$class_instance = new \Yoast\WP\Free\Tests\Doubles\Oauth\Client();
 
 		$this->assertEquals( [], $class_instance->format_access_tokens( false ) );
 	}
@@ -84,7 +84,7 @@ class Oauth_Client_Test extends \Yoast\Tests\TestCase {
 	 * @covers \Yoast\WP\Free\Oauth\Client::format_access_tokens
 	 */
 	public function test_format_access_tokens_with_empty_array_as_argument() {
-		$class_instance = new \Yoast\Tests\Doubles\Oauth\Client();
+		$class_instance = new \Yoast\WP\Free\Tests\Doubles\Oauth\Client();
 
 		$this->assertEquals( [], $class_instance->format_access_tokens( [] ) );
 	}

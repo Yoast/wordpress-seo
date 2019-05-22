@@ -23,73 +23,83 @@
  * @since 10.2
  */
 class WPSEO_Schema_Context {
+
 	/**
 	 * The current page's canonical.
 	 *
 	 * @var string
 	 */
 	public $canonical;
+
 	/**
 	 * Holds the company name, if the site represents a company.
 	 *
 	 * @var string
 	 */
 	public $company_name;
+
 	/**
 	 * The queried object ID, if there is one.
 	 *
 	 * @var int
 	 */
 	public $id;
+
 	/**
 	 * Whether this site represents a `company` or a `person`.
 	 *
 	 * @var string
 	 */
 	public $site_represents;
+
 	/**
 	 * The site's Name.
 	 *
 	 * @var string
 	 */
 	public $site_name;
+
 	/**
 	 * The site's URL.
 	 *
 	 * @var string
 	 */
 	public $site_url;
+
 	/**
 	 * Page title.
 	 *
 	 * @var string
 	 */
 	public $title;
+
 	/**
 	 * User ID when the site represents a Person.
 	 *
 	 * @var int
 	 */
 	public $site_user_id;
+
 	/**
 	 * Page description.
 	 *
 	 * @var string
 	 */
 	public $description;
+
 	/**
 	 * Whether or not this site has breadcrumbs enabled.
 	 *
 	 * @var bool
 	 */
 	public $breadcrumbs_enabled;
+
 	/**
 	 * A schema @id reference to the piece the site represents.
 	 *
 	 * @var array
 	 */
 	public $site_represents_reference;
-
 
 	/**
 	 * WPSEO_Schema_Context constructor.
