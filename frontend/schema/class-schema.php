@@ -33,41 +33,9 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	public function register_hooks() {
 		add_action( 'wpseo_head', array( $this, 'json_ld' ), 91 );
 		add_action( 'wpseo_json_ld', array( $this, 'generate' ), 1 );
-		add_action( 'wpseo_head', array( $this, 'parse_blocks' ), 0 );
 
 		// This AMP hook is only used in Reader (formerly Classic) mode.
 		add_action( 'amp_post_template_head', array( $this, 'json_ld' ), 9 );
-	}
-
-	/**
-	 * Parse the blocks and pass them on to our head.
-	 */
-	public function parse_blocks() {
-		$this->context = new WPSEO_Schema_Context();
-
-		if ( ! is_singular() ) {
-			return;
-		}
-
-		$post          = get_post();
-		$parsed_blocks = parse_blocks( $post->post_content );
-
-		foreach ( $parsed_blocks as $block ) {
-			if ( ! is_array( $this->parsed_blocks[ $block['blockName'] ] ) ) {
-				$this->parsed_blocks[ $block['blockName'] ] = array();
-			}
-			$this->parsed_blocks[ $block['blockName'] ][] = $block;
-		}
-
-		foreach ( array_keys( $this->parsed_blocks ) as $block_type ) {
-			/**
-			 * Filter: 'yoast/pre-schema/block-type/<block-type>' - Allows filtering graph output based on the blocks on the page.
-			 *
-			 * @param string               $block_type The block type.
-			 * @param WPSEO_Schema_Context $context    A value object with context variables.
-			 */
-			do_action( 'yoast/pre-schema/block-type/' . $block_type, $this->context );
-		}
 	}
 
 	/**
@@ -105,7 +73,13 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	public function generate() {
 		$graph = array();
 
-		foreach ( $this->get_graph_pieces() as $piece ) {
+		$this->context = new WPSEO_Schema_Context();
+		$pieces        = $this->get_graph_pieces();
+
+		// Parse the Gutenberg blocks so we know whether to show pieces for those.
+		$this->parse_blocks();
+
+		foreach ( $pieces as $piece ) {
 			$class = str_replace( 'wpseo_schema_', '', strtolower( get_class( $piece ) ) );
 
 			/**
@@ -172,6 +146,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			new WPSEO_Schema_Breadcrumb( $this->context ),
 			new WPSEO_Schema_Article( $this->context ),
 			new WPSEO_Schema_Author( $this->context ),
+			new WPSEO_Schema_FAQ( $this->context ),
 		);
 
 		/**
@@ -182,5 +157,41 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 		 * @api array $pieces The schema pieces.
 		 */
 		return apply_filters( 'wpseo_schema_graph_pieces', $pieces, $this->context );
+	}
+
+	/**
+	 * Parse the blocks and pass them on to our head.
+	 */
+	private function parse_blocks() {
+		if ( ! is_singular() ) {
+			return;
+		}
+
+		$this->get_parsed_blocks();
+		foreach ( array_keys( $this->parsed_blocks ) as $block_type ) {
+			/**
+			 * Filter: 'yoast/pre-schema/block-type/<block-type>' - Allows filtering graph output based on the blocks on the page.
+			 *
+			 * @param string               $block_type The block type.
+			 * @param array                $blocks     All the blocks of this block type.
+			 * @param WPSEO_Schema_Context $context    A value object with context variables.
+			 */
+			do_action( 'yoast/pre-schema/block-type/' . $block_type, $this->parsed_blocks[ $block_type ], $this->context );
+		}
+	}
+
+	/**
+	 * Parse the blocks and loop through them.
+	 */
+	private function get_parsed_blocks() {
+		$post          = get_post();
+		$parsed_blocks = parse_blocks( $post->post_content );
+
+		foreach ( $parsed_blocks as $block ) {
+			if ( ! is_array( $this->parsed_blocks[ $block['blockName'] ] ) ) {
+				$this->parsed_blocks[ $block['blockName'] ] = array();
+			}
+			$this->parsed_blocks[ $block['blockName'] ][] = $block;
+		}
 	}
 }

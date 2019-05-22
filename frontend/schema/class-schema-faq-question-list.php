@@ -22,7 +22,7 @@ class WPSEO_Schema_FAQ_Question_List {
 	 *
 	 * @var array
 	 */
-	private $data;
+	private $data = array();
 	/**
 	 * All the blocks of this block-type.
 	 *
@@ -44,12 +44,10 @@ class WPSEO_Schema_FAQ_Question_List {
 	/**
 	 * WPSEO_Schema_Breadcrumb constructor.
 	 *
-	 * @param array                   $data    Our schema graph.
 	 * @param WP_Block_Parser_Block[] $blocks  An array of the FAQ blocks on this page.
 	 * @param WPSEO_Schema_Context    $context A value object with context variables.
 	 */
-	public function __construct( $data, $blocks, $context ) {
-		$this->data    = $data;
+	public function __construct( $blocks, $context ) {
 		$this->blocks  = $blocks;
 		$this->context = $context;
 		$this->count   = 1;
