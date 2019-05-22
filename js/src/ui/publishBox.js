@@ -120,13 +120,15 @@ var imageScoreClass = "image yoast-logo svg";
 			createScoresInPublishBox( "keyword", notAvailableStatus );
 		}
 
-		$( "#content-score" ).click( function( event ) {
+		// Target only the link and use event delegation, as this link doesn't exist on dom ready yet.
+		$( "#content-score" ).on( "click", "[href='#yoast-readability-analysis-collapsible-metabox']", function( event ) {
 			event.preventDefault();
 
 			scrollToCollapsible( "#yoast-readability-analysis-collapsible-metabox" );
 		} );
 
-		$( "#keyword-score" ).click( function( event ) {
+		// Target only the link and use event delegation, as this link doesn't exist on dom ready yet.
+		$( "#keyword-score" ).on( "click", "[href='#yoast-seo-analysis-collapsible-metabox']", function( event ) {
 			event.preventDefault();
 
 			scrollToCollapsible( "#yoast-seo-analysis-collapsible-metabox" );
