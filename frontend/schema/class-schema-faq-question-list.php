@@ -91,6 +91,9 @@ class WPSEO_Schema_FAQ_Question_List {
 	private function prepare_questions() {
 		foreach ( $this->blocks as $block ) {
 			foreach ( $block['attrs']['questions'] as $question ) {
+				if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
+					continue;
+				}
 				$this->count ++;
 				$this->ids[] = array( '@id' => $this->context->canonical . '#' . $question['id'] );
 			}
