@@ -108,7 +108,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 		foreach ( $this->parsed_blocks as $block_type => $blocks ) {
 			foreach ( $blocks as $block ) {
 				/**
-				 * Filter: 'yoast/schema/block/<block-type>' - Allows filtering graph output per block.
+				 * Filter: 'wpseo_schema_block_<block-type>' - Allows filtering graph output per block.
 				 *
 				 * @param WP_Block_Parser_Block $block   The block.
 				 * @param WPSEO_Schema_Context  $context A value object with context variables.
@@ -161,13 +161,13 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 		$this->get_parsed_blocks();
 		foreach ( array_keys( $this->parsed_blocks ) as $block_type ) {
 			/**
-			 * Filter: 'yoast/pre-schema/block-type/<block-type>' - Allows hooking things to change graph output based on the blocks on the page.
+			 * Filter: 'wpseo_pre_schema_block_type_<block-type>' - Allows hooking things to change graph output based on the blocks on the page.
 			 *
 			 * @param string               $block_type The block type.
 			 * @param array                $blocks     All the blocks of this block type.
 			 * @param WPSEO_Schema_Context $context    A value object with context variables.
 			 */
-			do_action( 'wpseo_pre-schema_block-type_' . $block_type, $this->parsed_blocks[ $block_type ], $this->context );
+			do_action( 'wpseo_pre_schema_block_type_' . $block_type, $this->parsed_blocks[ $block_type ], $this->context );
 		}
 	}
 
