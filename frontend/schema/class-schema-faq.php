@@ -40,8 +40,8 @@ class WPSEO_Schema_FAQ implements WPSEO_Graph_Piece {
 	public function __construct( WPSEO_Schema_Context $context ) {
 		$this->context = $context;
 
-		add_action( 'yoast/pre-schema/block-type/yoast/faq-block', array( $this, 'prepare_schema' ), 10, 1 );
-		add_filter( 'yoast/schema/block/yoast/faq-block', array( $this, 'render_schema_questions' ), 10, 3 );
+		add_action( 'wpseo_pre_schema_block_type_yoast/faq-block', array( $this, 'prepare_schema' ), 10, 1 );
+		add_filter( 'wpseo_schema_block_yoast/faq-block', array( $this, 'render_schema_questions' ), 10, 3 );
 	}
 
 	/**

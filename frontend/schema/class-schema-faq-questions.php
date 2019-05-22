@@ -56,6 +56,9 @@ class WPSEO_Schema_FAQ_Questions {
 	 */
 	public function generate() {
 		foreach ( $this->block['attrs']['questions'] as $question ) {
+			if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
+				continue;
+			}
 			$this->data[] = $this->generate_question_block( $question );
 		}
 		return $this->data;

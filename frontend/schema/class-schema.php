@@ -179,7 +179,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 		$parsed_blocks = parse_blocks( $post->post_content );
 
 		foreach ( $parsed_blocks as $block ) {
-			if ( ! is_array( $this->parsed_blocks[ $block['blockName'] ] ) ) {
+			if ( ! isset( $this->parsed_blocks[ $block['blockName'] ] ) || ! is_array( $this->parsed_blocks[ $block['blockName'] ] ) ) {
 				$this->parsed_blocks[ $block['blockName'] ] = array();
 			}
 			$this->parsed_blocks[ $block['blockName'] ][] = $block;
