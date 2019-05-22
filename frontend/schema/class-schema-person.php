@@ -47,12 +47,20 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	);
 
 	/**
+	 * The hash used for images.
+	 *
+	 * @var string
+	 */
+	protected $image_hash;
+
+	/**
 	 * WPSEO_Schema_Person constructor.
 	 *
 	 * @param WPSEO_Schema_Context $context A value object with context variables.
 	 */
 	public function __construct( WPSEO_Schema_Context $context ) {
-		$this->context = $context;
+		$this->image_hash = WPSEO_Schema_IDs::PERSON_LOGO_HASH;
+		$this->context    = $context;
 	}
 
 	/**
@@ -166,7 +174,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return array $data The Person schema.
 	 */
 	protected function add_image( $data, $user_data ) {
-		$schema_id = $this->context->site_url . WPSEO_Schema_IDs::PERSON_LOGO_HASH;
+		$schema_id = $this->context->site_url . $this->image_hash;
 
 		$data = $this->set_image_from_options( $data, $schema_id );
 		if ( ! isset( $data['image'] ) ) {

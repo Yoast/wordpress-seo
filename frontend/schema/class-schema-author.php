@@ -34,8 +34,8 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	 */
 	public function __construct( WPSEO_Schema_Context $context ) {
 		parent::__construct( $context );
-		$this->context   = $context;
-		$this->logo_hash = WPSEO_Schema_IDs::AUTHOR_LOGO_HASH;
+		$this->context    = $context;
+		$this->image_hash = WPSEO_Schema_IDs::AUTHOR_LOGO_HASH;
 	}
 
 	/**
