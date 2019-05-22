@@ -118,7 +118,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 
 			foreach ( $blocks as $block ) {
 				/**
-				 * Filter: 'yoast/schema/blocks/<block-type>' - Allows filtering graph output per block.
+				 * Filter: 'yoast/schema/block/<block-type>' - Allows filtering graph output per block.
 				 *
 				 * @param WP_Block_Parser_Block $block   The block.
 				 * @param WPSEO_Schema_Context  $context A value object with context variables.
