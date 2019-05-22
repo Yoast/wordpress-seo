@@ -323,33 +323,34 @@ let returnedGetBaseResult = "";
 const comparativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.comparativeToBase );
 const superlativeToBaseRegex = createRulesFromMorphologyData( regexAdjective.superlativeToBase );
 const adverbToBaseRegex = createRulesFromMorphologyData( regexAdjective.adverbToBase );
+const stopAdjectives = adjectiveData.stopAdjectives;
 
 describe( "Test for getting the base from all types of regular adjectives", function() {
 	allFormsToTestForBase.forEach( function( paradigm ) {
 		const testBase = paradigm[ 0 ];
 		it( "returns the base of the word form which is a base itself", function() {
-			returnedGetBaseResult = getBase( testBase, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex );
+			returnedGetBaseResult = getBase( testBase, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives );
 			expect( returnedGetBaseResult.base ).toEqual( testBase );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "base" );
 		} );
 
 		const testComparative = paradigm[ 1 ];
 		it( "returns the base of the word form which is a comparative", function() {
-			returnedGetBaseResult = getBase( testComparative, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex );
+			returnedGetBaseResult = getBase( testComparative, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives );
 			expect( returnedGetBaseResult.base ).toEqual( testBase );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "er" );
 		} );
 
 		const testSuperlative = paradigm[ 2 ];
 		it( "returns the base of the word form which is a superlative", function() {
-			returnedGetBaseResult = getBase( testSuperlative, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex );
+			returnedGetBaseResult = getBase( testSuperlative, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives );
 			expect( returnedGetBaseResult.base ).toEqual( testBase );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "est" );
 		} );
 
 		const testAdverb = paradigm[ 3 ];
 		it( "returns the base of the word form which is an adverb", function() {
-			returnedGetBaseResult = getBase( testAdverb, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex );
+			returnedGetBaseResult = getBase( testAdverb, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives );
 			expect( returnedGetBaseResult.base ).toEqual( testBase );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "ly" );
 		} );
@@ -370,14 +371,14 @@ describe( "Test for getting the base from adjectives that have no comparative or
 	onlyBaseAndAdverbToTestForBase.forEach( function( paradigm ) {
 		const testBase = paradigm[ 0 ];
 		it( "returns the base of the word form which is a base itself", function() {
-			returnedGetBaseResult = getBase( testBase, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex );
+			returnedGetBaseResult = getBase( testBase, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives );
 			expect( returnedGetBaseResult.base ).toEqual( testBase );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "base" );
 		} );
 
 		const testAdverb = paradigm[ 1 ];
 		it( "returns the base of the word form which is an adverb", function() {
-			returnedGetBaseResult = getBase( testAdverb, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex );
+			returnedGetBaseResult = getBase( testAdverb, comparativeToBaseRegex, superlativeToBaseRegex, adverbToBaseRegex, stopAdjectives );
 			expect( returnedGetBaseResult.base ).toEqual( testBase );
 			expect( returnedGetBaseResult.guessedForm ).toEqual( "ly" );
 		} );

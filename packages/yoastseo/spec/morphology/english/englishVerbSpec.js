@@ -11,6 +11,13 @@ const regularVerbsToTest = [
 	[ "bully", "bullies", "bullying", "bullied" ],
 	[ "swap", "swaps", "swapping", "swapped" ],
 	[ "pass", "passes", "passing", "passed" ],
+	[ "develop", "develops", "developing", "developed" ],
+	[ "join", "joins", "joining", "joined" ],
+	[ "release", "releases", "releasing", "released" ],
+	[ "create", "creates", "creating", "created" ],
+	[ "compete", "competes", "competing", "competed" ],
+	[ "improve", "improves", "improving", "improved" ],
+	[ "color", "colors", "coloring", "colored" ],
 ];
 
 const doubleConsonantsAtTheEnd = [
@@ -116,10 +123,12 @@ const eAtTheEnd = [
 	[ "glue", "glues", "gluing", "glued" ],
 	[ "rue", "rues", "ruing", "rued" ],
 	[ "sue", "sues", "suing", "sued" ],
+	[ "amaze", "amazes", "amazing", "amazed" ],
 ];
 
 const needsDoublingLastConsonant = [
 	[ "beg", "begs", "begging", "begged" ],
+	[ "spam", "spams", "spamming", "spammed" ],
 	[ "chat", "chats", "chatting", "chatted" ],
 	[ "fit", "fits", "fitting", "fitted" ],
 	[ "grin", "grins", "grinning", "grinned" ],
@@ -222,7 +231,8 @@ const irregularVerbsWithPrefixes = [
 	[ "countersing", "countersings", "countersinging", "countersang", "countersung" ],
 	[ "quartersee", "quartersees", "quarterseeing", "quartersaw", "quarterseen", "quartersaws", "quartersawing", "quartersawed", "quartersawn" ],
 	[ "counter-sing", "counter-sings", "counter-singing", "counter-sang", "counter-sung" ],
-	[ "quarter-see", "quarter-sees", "quarter-seeing", "quarter-saw", "quarter-seen", "quarter-saws", "quarter-sawing", "quarter-sawed", "quarter-sawn" ],
+	[ "quarter-see", "quarter-sees", "quarter-seeing", "quarter-saw", "quarter-seen", "quarter-saws", "quarter-sawing",
+		"quarter-sawed", "quarter-sawn" ],
 ];
 
 const verbsToNormalizePrefix = [
