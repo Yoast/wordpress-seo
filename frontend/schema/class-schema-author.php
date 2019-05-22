@@ -25,7 +25,7 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	 *
 	 * @var string[]
 	 */
-	protected static $type = array( 'Person' );
+	protected $type = array( 'Person' );
 
 	/**
 	 * WPSEO_Schema_Breadcrumb constructor.
@@ -62,15 +62,17 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	}
 
 	/**
-	 * Builds our array of Schema Person data for a given user ID.
+	 * Returns Person Schema data.
 	 *
-	 * @param int $user_id The user ID to use.
-	 *
-	 * @return array An array of Schema Person data.
+	 * @return bool|array Person data on success, false on failure.
 	 */
-	protected function build_person_data( $user_id ) {
-		$data          = parent::build_person_data( $user_id );
-		$data['@type'] = self::$type;
+	public function generate() {
+		$user_id = $this->determine_user_id();
+		if ( ! $user_id ) {
+			return false;
+		}
+
+		$data = $this->build_person_data( $user_id );
 
 		// If this is an author page, the Person object is the main object, so we set it as such here.
 		if ( is_author() ) {
