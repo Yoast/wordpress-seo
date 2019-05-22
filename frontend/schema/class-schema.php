@@ -115,7 +115,8 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 				 *
 				 * @api array $graph Our Schema output.
 				 */
-				$graph = apply_filters( 'wpseo_schema_block_' . $block['blockName'], $graph, $block, $this->context );
+				$block_type = strtolower( $block['blockName'] );
+				$graph      = apply_filters( 'wpseo_schema_block_' . $block_type, $graph, $block, $this->context );
 			}
 		}
 
