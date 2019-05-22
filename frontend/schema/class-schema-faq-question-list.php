@@ -31,6 +31,7 @@ class WPSEO_Schema_FAQ_Question_List {
 	private $blocks;
 	/**
 	 * Number of questions on the page.
+	 *
 	 * @var int
 	 */
 	private $count;
