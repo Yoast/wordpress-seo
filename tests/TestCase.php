@@ -2,8 +2,10 @@
 
 namespace Yoast\WP\Free\Tests;
 
-use PHPUnit_Framework_TestCase;
+use WPSEO_Options;
 use Brain\Monkey;
+use Mockery;
+use PHPUnit_Framework_TestCase;
 
 /**
  * TestCase base class.
@@ -39,16 +41,16 @@ abstract class TestCase extends PHPUnit_Framework_TestCase {
 		);
 
 		// This is required to ensure backfill and other statics are set.
-		\WPSEO_Options::get_instance();
+		WPSEO_Options::get_instance();
 
 		Monkey\Functions\expect( 'get_option' )
 			->zeroOrMoreTimes()
-			->with( \Mockery::anyOf( 'wpseo', 'wpseo_titles', 'wpseo_taxonomy_meta', 'wpseo_social', 'wpseo_ms' ) )
+			->with( Mockery::anyOf( 'wpseo', 'wpseo_titles', 'wpseo_taxonomy_meta', 'wpseo_social', 'wpseo_ms' ) )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_site_option' )
 			->zeroOrMoreTimes()
-			->with( \Mockery::anyOf( 'wpseo', 'wpseo_titles', 'wpseo_taxonomy_meta', 'wpseo_social', 'wpseo_ms' ) )
+			->with( Mockery::anyOf( 'wpseo', 'wpseo_titles', 'wpseo_taxonomy_meta', 'wpseo_social', 'wpseo_ms' ) )
 			->andReturn( [] );
 	}
 

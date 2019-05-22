@@ -3,13 +3,14 @@
 namespace Yoast\WP\Free\Tests\Config;
 
 use Yoast\WP\Free\Config\Admin;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Admin_Test.
  *
  * @package Yoast\Tests\Config
  */
-class Admin_Test extends \Yoast\WP\Free\Tests\TestCase {
+class Admin_Test extends TestCase {
 
 	/**
 	 * Tests if the class is based upon the Integration interface.

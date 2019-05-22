@@ -3,13 +3,14 @@
 namespace Yoast\WP\Free\Tests\Config;
 
 use Yoast\WP\Free\Config\Frontend;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Frontend_Test.
  *
  * @package Yoast\Tests\Config
  */
-class Frontend_Test extends \Yoast\WP\Free\Tests\TestCase {
+class Frontend_Test extends TestCase {
 
 	/**
 	 * Tests if the class is based upon the Integration interface.
