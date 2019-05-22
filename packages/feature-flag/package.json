@@ -1,6 +1,6 @@
 {
   "name": "@yoast/feature-flag",
-  "version": "0.1.0",
+  "version": "0.2.0-rc.0",
   "main": "src/index.js",
   "repository": {
     "type": "git",
@@ -18,9 +18,6 @@
   "devDependencies": {
     "jest": "^22.4.3"
   },
-  "dependencies": {
-
-  },
   "jest": {
     "testURL": "http://localhost",
     "testRegex": ".*Test.js$",
@@ -31,5 +28,8 @@
       "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
     ],
     "setupTestFrameworkScriptFile": "<rootDir>/tools/jest/setupTests.js"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

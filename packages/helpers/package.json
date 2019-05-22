@@ -1,6 +1,6 @@
 {
   "name": "@yoast/helpers",
-  "version": "0.1.0",
+  "version": "0.3.0-rc.0",
   "description": "All Yoast helper functions.",
   "main": "src/index.js",
   "repository": {
@@ -19,7 +19,6 @@
   "dependencies": {
     "@wordpress/i18n": "^1.2.3",
     "prop-types": "^15.7.2",
-    "react-intl": "^2.8.0",
     "styled-components": "^2.4.1",
     "whatwg-fetch": "1.1.1"
   },

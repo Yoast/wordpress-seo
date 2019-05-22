@@ -1,6 +1,6 @@
 {
   "name": "@yoast/style-guide",
-  "version": "0.1.0",
+  "version": "0.3.0-rc.0",
   "description": "Yoast style guide.",
   "main": "src/index.js",
   "repository": "https://github.com/Yoast/javascript",
@@ -12,8 +12,8 @@
   },
   "devDependencies": {
     "grunt": "^1.0.3",
-    "load-grunt-config": "^1.0.1",
-    "grunt-scss-to-json": "^1.0.1"
+    "grunt-scss-to-json": "^1.0.1",
+    "load-grunt-config": "^1.0.1"
   },
   "publishConfig": {
     "access": "public"

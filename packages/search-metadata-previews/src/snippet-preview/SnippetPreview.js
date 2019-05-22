@@ -9,11 +9,15 @@ import { __ } from "@wordpress/i18n";
 
 // Yoast dependencies.
 import { colors } from "@yoast/style-guide";
-import replaceSpecialCharactersAndDiacritics from "yoastseo/src/stringProcessing/replaceDiacritics";
-import transliterate from "yoastseo/src/stringProcessing/transliterate";
-import createRegexFromArray from "yoastseo/src/stringProcessing/createRegexFromArray";
+import { string } from "yoastseo";
 import { getDirectionalStyle } from "@yoast/helpers";
 import { ScreenReaderText } from "@yoast/components";
+
+const {
+	transliterate,
+	createRegexFromArray,
+	replaceDiacritics: replaceSpecialCharactersAndDiacritics,
+} = string;
 
 // Internal dependencies.
 import FixedWidthContainer from "./FixedWidthContainer";
