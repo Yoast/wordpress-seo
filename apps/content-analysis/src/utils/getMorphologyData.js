@@ -10,7 +10,7 @@ function loadLocalMorphologyData() {
 	try {
 		// Disabling global require to be able to fail.
 		// eslint-disable-next-line global-require
-		data = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData.json" );
+		data = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-v2.json" );
 		// eslint-disable-next-line global-require
 		dataDe = require( "../../../../packages/yoastseo/premium-configuration/data/morphologyData-de-v3.json" );
 	} catch ( error ) {
