@@ -121,8 +121,9 @@ Bugfixes:
 * Fixes a bug where it would no longer be possible to change the user in the Search Appearance settings when the previously selected user had been deleted.
 
 Other:
-* Removes help center from edit pages.
+* Removes the help center from the metabox.
 * Removes redundant `name` attribute from `author` in `Article` schema markup piece.
+* Increases the MyYoast API request timeout from 1 to 5 seconds, to give servers with a less optimal connection to our services more room to fetch the data.
 
 = 11.2.1 =
 Release Date: May 16th, 2019
