@@ -5,14 +5,13 @@
  * @package WPSEO\Tests\Admin
  */
 
-namespace Yoast\Tests\Admin;
-
 use Brain\Monkey;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Tests WPSEO_Admin_Asset.
  */
-final class Test_WPSEO_Admin_Asset_Analysis_Worker_Location extends \Yoast\Tests\TestCase {
+final class Test_WPSEO_Admin_Asset_Analysis_Worker_Location extends TestCase {
 	/**
 	 * Tests the get_url function.
 	 *
