@@ -40,7 +40,7 @@ class Upgrade_Test extends \Yoast\WP\Free\Tests\TestCase {
 		$upgrade = new Upgrade( $migration );
 		$upgrade->register_hooks();
 
-		$actual = has_action( 'wpseo_run_upgrade', array( $upgrade, 'do_upgrade' ) );
+		$actual = \has_action( 'wpseo_run_upgrade', array( $upgrade, 'do_upgrade' ) );
 
 		$this->assertEquals( 10, $actual );
 	}
