@@ -5,6 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+
 ## 0.3.0
 ### Added
 * Adds `createSvgIconComponent` function to create a `SvgIcon` component with custom icons.

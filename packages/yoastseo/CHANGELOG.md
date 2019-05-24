@@ -5,6 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+
 ## 1.53
 ### Added
 * Adds an improved internal linking functionality behind a feature flag. For now, this new functionality is disabled by default. Specifically, the new internal linking functionality has the following improvements:

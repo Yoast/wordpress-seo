@@ -5,6 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+
 ## 1.1.0 May 14th, 2019
 ### Added
 * Adds focus style to the Configuration Wizard navigation buttons
