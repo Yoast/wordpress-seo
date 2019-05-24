@@ -270,15 +270,49 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
 
+		$tabs = array(
+			array(
+				'label' => 'Content optimization',
+				'href'  => '#wpseo-meta-section-content',
+				'icon'  => '',
+			),
+			array(
+				'label' => 'Social',
+				'href'  => '#wpseo-meta-section-social',
+				'icon'  => '<span class="dashicons dashicons-twitter"></span>',
+			),
+			array(
+				'label' => 'Advanced',
+				'href'  => '#wpseo-meta-section-advanced',
+				'icon'  => '<span class="dashicons dashicons-admin-generic"></span>',
+			),
+		);
+
 		echo '<div class="wpseo-metabox-content">';
-		echo '<div class="wpseo-metabox-menu"><ul>';
+		echo '<div class="wpseo-metabox-menu"><ul role="tablist">';
 
-		foreach ( $content_sections as $content_section ) {
-			if ( $content_section->name === 'premium' ) {
-				continue;
-			}
+//		foreach ( $content_sections as $content_section ) {
+//			if ( $content_section->name === 'premium' ) {
+//				continue;
+//			}
+//
+//			$content_section->display_link();
+//		}
 
-			$content_section->display_link();
+		foreach ( $tabs as $tab ) {
+			echo '<li role="tab">';
+			echo '<a href="' . $tab['href'] . '">';
+
+			echo '<span class="wpseo-metabox-menu-icon">';
+			echo $tab['icon'];
+			echo '</span>';
+
+			echo '<span class="wpseo-metabox-menu-label">';
+			echo $tab['label'];
+			echo '</span>';
+
+			echo '</a>';
+			echo '</li>';
 		}
 
 		echo '</ul></div>';
@@ -335,7 +369,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return new WPSEO_Metabox_Section_React(
 			'content',
-			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>' . __( 'Content optimization', 'wordpress-seo' ),
+			WPSEO_Utils::traffic_light_svg() . '<span>' . __( 'Content optimization', 'wordpress-seo' ) . '</span>',
 			$content,
 			array(
 				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
@@ -361,7 +395,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return new WPSEO_Metabox_Tab_Section(
 			'advanced',
-			'<span class="screen-reader-text">' . __( 'Advanced', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-admin-generic"></span>' . __( 'Advanced', 'wordpress-seo' ),
+			'<span class="dashicons dashicons-admin-generic"></span>' . __( 'Advanced', 'wordpress-seo' ),
 			array( $tab ),
 			array(
 				'link_aria_label' => __( 'Advanced', 'wordpress-seo' ),
@@ -379,7 +413,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_addons_meta_section() {
 		return new WPSEO_Metabox_Addon_Tab_Section(
 			'addons',
-			'<span class="screen-reader-text">' . __( 'Add-ons', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-admin-plugins"></span>',
+			'<span class="dashicons dashicons-admin-plugins"></span>',
 			array(),
 			array(
 				'link_aria_label' => __( 'Add-ons', 'wordpress-seo' ),

@@ -93,7 +93,7 @@ class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 	public function display_link() {
 		if ( $this->has_tabs() ) {
 			printf(
-				'<li><a href="#wpseo-meta-section-%1$s" class="wpseo-meta-section-link %2$s"%3$s%4$s>%5$s</a></li>',
+				'<li role="tab"><a href="#wpseo-meta-section-%1$s" class="wpseo-meta-section-link %2$s"%3$s%4$s>%5$s</a></li>',
 				esc_attr( $this->name ),
 				esc_attr( $this->link_class ),
 				( '' !== $this->link_title ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',

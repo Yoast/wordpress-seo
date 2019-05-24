@@ -123,7 +123,7 @@ class WPSEO_Taxonomy_Metabox {
 
 		return new WPSEO_Metabox_Section_React(
 			'content',
-			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
+			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-metabox-tab-icon-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
 			$content,
 			array(
 				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),

@@ -48,7 +48,7 @@
 		if ( jQuery( ".wpseo-meta-section" ).length > 0 ) {
 			jQuery( "#wpseo-meta-section-content, .wpseo-meta-section-react" ).addClass( "active" );
 
-			jQuery( ".wpseo-metabox-sidebar li" ).filter( function() {
+			jQuery( ".wpseo-metabox-menu li" ).filter( function() {
 				return jQuery( this ).find( ".wpseo-meta-section-link" ).attr( "href" ) === "#wpseo-meta-section-content";
 			} ).addClass( "active" );
 
@@ -59,7 +59,7 @@
 
 					ev.preventDefault();
 
-					jQuery( ".wpseo-metabox-sidebar li" ).removeClass( "active" );
+					jQuery( ".wpseo-metabox-menu li" ).removeClass( "active" );
 					jQuery( ".wpseo-meta-section" ).removeClass( "active" );
 					jQuery( ".wpseo-meta-section-react.active" ).removeClass( "active" );
 

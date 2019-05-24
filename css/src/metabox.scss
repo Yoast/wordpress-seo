@@ -105,6 +105,7 @@ ul.wpseo-metabox-tabs li.active {
 
 	ul {
 		margin: 0 1px 0 0;
+		padding-left: 16px;
 
 		li:nth-child(1) {
 			z-index: 10;
@@ -128,24 +129,29 @@ ul.wpseo-metabox-tabs li.active {
 		li {
 			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 			float: left;
+			height: 32px;
 
 			display: block; /* Microsoft Edge 38. */
 			margin-bottom: 0;
 			text-align: center;
 			position: relative;
+			background-color: #dddddd;
+
 
 			a {
 				color: #0073aa;
-				padding: 8px 8px;
+				display: inline-block;
 			}
 
 			.yst-traffic-light {
-				margin: 0;
+				display: inline-block;
+				vertical-align: middle;
 			}
 
 			span {
 				&.dashicons {
-					width: 100%;
+					display: inline-block;
+					vertical-align: middle;
 				}
 
 				&.wpseo-buy-premium {
@@ -159,10 +165,10 @@ ul.wpseo-metabox-tabs li.active {
 
 			&.active {
 				z-index: 50;
+				background-color: #ffffff;
 
 				a {
 					color: #0073aa;
-					background-color: #ffffff;
 				}
 
 				span {
@@ -482,14 +488,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	border: 1px solid #dfdfdf;
 	color: #333;
 	background: #f1f1f1;
-}
-
-/**
- * Lines below came from taxonomy-meta.css
- */
-.yst-traffic-light-container {
-	display: block;
-	height: 30px;
 }
 
 .yst-traffic-light {
