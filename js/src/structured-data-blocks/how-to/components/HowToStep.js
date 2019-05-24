@@ -308,7 +308,7 @@ export default class HowToStep extends Component {
 	 */
 	static Content( step ) {
 		return (
-			<li className={ "schema-how-to-step" } key={ step.id }>
+			<li className={ "schema-how-to-step" } id={ step.id } key={ step.id }>
 				<RichTextContentWithAppendedSpace
 					tagName="strong"
 					className="schema-how-to-step-name"
