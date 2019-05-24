@@ -154,6 +154,10 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 * Parse the blocks and pass them on to our head.
 	 */
 	private function parse_blocks() {
+		if ( ! function_exists( 'parse_blocks' ) ) {
+			return;
+		}
+
 		if ( ! is_singular() ) {
 			return;
 		}
