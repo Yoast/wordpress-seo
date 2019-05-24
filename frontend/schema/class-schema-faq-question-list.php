@@ -96,6 +96,8 @@ class WPSEO_Schema_FAQ_Question_List {
 
 	/**
 	 * Prepare our data.
+	 *
+	 * @param WP_Block_Parser_Block[] $block The block to prepare the questions for.
 	 */
 	private function prepare_questions( $block ) {
 		foreach ( $block['attrs']['questions'] as $question ) {
