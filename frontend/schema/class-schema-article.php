@@ -57,7 +57,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			'datePublished'    => mysql2date( DATE_W3C, $post->post_date_gmt, false ),
 			'dateModified'     => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
 			'commentCount'     => $comment_count['approved'],
-			'mainEntityOfPage' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH,
+			'mainEntityOfPage' => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
 		);
 
 		if ( $this->context->site_represents_reference ) {
