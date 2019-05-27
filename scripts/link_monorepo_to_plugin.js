@@ -156,8 +156,8 @@ function checkoutMonorepoBranch( yoastSEOBranch ) {
 	try {
 		execMonorepoNoOutput( `git checkout ${ monorepoBranch }` );
 	} catch ( error ) {
-		monorepoBranch = "master";
-		execMonorepoNoOutput( `git checkout master` );
+		monorepoBranch = "develop";
+		execMonorepoNoOutput( `git checkout ${ monorepoBranch }` );
 	}
 
 	return monorepoBranch;
