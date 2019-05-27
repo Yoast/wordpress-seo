@@ -1,6 +1,6 @@
 {
 	"name": "@yoast/content-analysis-app",
-	"version": "0.1.20",
+	"version": "0.1.21",
 	"private": true,
 	"dependencies": {
 		"@babel/core": "7.1.6",
