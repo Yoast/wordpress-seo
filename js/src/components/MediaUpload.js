@@ -1,4 +1,3 @@
-/* global wp */
 import React, { createRef } from "react";
 import PropTypes from "prop-types";
 import RaisedButton from "material-ui/RaisedButton";
@@ -13,14 +12,10 @@ class MediaUpload extends React.Component {
 
 		this.state = {
 			currentUpload: props.value,
-			mediaUpload: wp.media( {
-				title: this.props.translate( "Choose an image" ),
-				button: { text: this.props.translate( "Choose an image" ) },
-				multiple: false,
-			} ),
 		};
 
-		this.state.mediaUpload.on( "select", this.selectUpload.bind( this ) );
+		this.mediaUploaderFrame = null;
+		this.selectUpload = this.selectUpload.bind( this );
 		this.chooseButton = createRef();
 	}
 
@@ -48,14 +43,24 @@ class MediaUpload extends React.Component {
 	/**
 	 * Opens the media upload.
 	 *
-	 * @param {Event} evt The event that is triggered.
-	 *
 	 * @returns {void}
 	 */
-	chooseUpload( evt ) {
-		evt.preventDefault();
+	chooseUpload() {
+		// If the media upload frame already exists, open it and return.
+		if ( this.mediaUploaderFrame ) {
+			this.mediaUploaderFrame.open();
+			return;
+		}
 
-		this.state.mediaUpload.open();
+		// Set up the media upload frame.
+		this.mediaUploaderFrame = window.wp.media( {
+			title: this.props.translate( "Choose an image andreatest" ),
+			button: { text: this.props.translate( "Choose an image andreatest" ) },
+			multiple: false,
+		} );
+
+		this.mediaUploaderFrame.on( "select", this.selectUpload );
+		this.mediaUploaderFrame.open();
 	}
 
 	/**
@@ -64,7 +69,7 @@ class MediaUpload extends React.Component {
 	 * @returns {void}
 	 */
 	selectUpload() {
-		var attachment = this.state.mediaUpload.state().get( "selection" ).first().toJSON();
+		var attachment = this.mediaUploaderFrame.state().get( "selection" ).first().toJSON();
 
 		this.setState( {
 			currentUpload: attachment.url,

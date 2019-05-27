@@ -90,12 +90,12 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 	/**
 	 * Check if image is smaller than 200x200 pixels. If this is the case, show a warning
 	 *
-	 * @param {object} featuredImage The featured image object.
+	 * @param {object} selectedImage The selected featured image object.
 	 *
 	 * @returns {void}
 	 */
-	function checkFeaturedImage( featuredImage ) {
-		var attachment = featuredImage.state().get( "selection" ).first().toJSON();
+	function checkFeaturedImage( selectedImage ) {
+		var attachment = selectedImage.toJSON();
 
 		if ( attachment.width < 200 || attachment.height < 200 ) {
 			// Show warning to user and do not add image to OG
@@ -127,7 +127,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 	}
 
 	$( document ).ready( function() {
-		var featuredImage = wp.media.featuredImage.frame();
+		var featuredImageUploaderFrame;
 
 		if ( typeof YoastSEO === "undefined" ) {
 			return;
@@ -135,48 +135,59 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
 		featuredImagePlugin = new FeaturedImagePlugin( YoastSEO.app );
 
-		$postImageDiv = $( "#postimagediv" );
-		$postImageDivHeading = $postImageDiv.find( ".hndle" );
+		// Classic Editor.
+		if ( ! isGutenbergDataAvailable() ) {
+			$postImageDiv = $( "#postimagediv" );
+			$postImageDivHeading = $postImageDiv.find( ".hndle" );
 
-		featuredImage.on( "select", function() {
-			var selectedImageHTML, selectedImage, alt;
+			$postImageDiv.on( "click", "#set-post-thumbnail", function() {
+				// If the featured image uploader frame is already set up, return.
+				if ( featuredImageUploaderFrame ) {
+					return;
+				}
 
-			checkFeaturedImage( featuredImage );
+				// Set up the WordPress featured image uploader frame.
+				featuredImageUploaderFrame = wp.media.featuredImage.frame();
 
-			selectedImage = featuredImage.state().get( "selection" ).first();
+				featuredImageUploaderFrame.on( "select", function() {
+					var selectedImageHTML, alt;
+					var selectedImage = featuredImageUploaderFrame.state().get( "selection" ).first();
 
-			// WordPress falls back to the title for the alt attribute if no alt is present.
-			alt = selectedImage.get( "alt" );
+					checkFeaturedImage( selectedImage );
 
-			if ( "" === alt ) {
-				alt = selectedImage.get( "title" );
+					// WordPress falls back to the title for the alt attribute if no alt is present.
+					// This needs to be updated see https://github.com/Yoast/wordpress-seo/issues/6277
+					alt = selectedImage.get( "alt" );
+
+					if ( "" === alt ) {
+						alt = selectedImage.get( "title" );
+					}
+
+					selectedImageHTML = "<img" +
+						' src="' + selectedImage.get( "url" ) + '"' +
+						' width="' + selectedImage.get( "width" ) + '"' +
+						' height="' + selectedImage.get( "height" ) + '"' +
+						' alt="' + alt +
+						'"/>';
+
+					featuredImagePlugin.setFeaturedImage( selectedImageHTML );
+				} );
+			} );
+
+			$postImageDiv.on( "click", "#remove-post-thumbnail", function() {
+				featuredImagePlugin.removeFeaturedImage();
+				removeOpengraphWarning();
+			} );
+
+			$featuredImageElement = $( "#set-post-thumbnail > img" );
+			if ( "undefined" !== typeof $featuredImageElement.prop( "src" ) ) {
+				featuredImagePlugin.setFeaturedImage( $( "#set-post-thumbnail " ).html() );
 			}
 
-			selectedImageHTML = "<img" +
-				' src="' + selectedImage.get( "url" ) + '"' +
-				' width="' + selectedImage.get( "width" ) + '"' +
-				' height="' + selectedImage.get( "height" ) + '"' +
-				' alt="' + alt +
-				'"/>';
-
-			featuredImagePlugin.setFeaturedImage( selectedImageHTML );
-		} );
-
-		$postImageDiv.on( "click", "#remove-post-thumbnail", function() {
-			featuredImagePlugin.removeFeaturedImage();
-			removeOpengraphWarning();
-		} );
-
-		$featuredImageElement = $( "#set-post-thumbnail > img" );
-		if ( "undefined" !== typeof $featuredImageElement.prop( "src" ) ) {
-			featuredImagePlugin.setFeaturedImage( $( "#set-post-thumbnail " ).html() );
-		}
-
-		// Fallback for Gutenberg, as the featured image id does not exist there.
-		if ( ! isGutenbergDataAvailable() ) {
 			return;
 		}
 
+		// Fallback for Gutenberg, as the featured image id does not exist there.
 		let imageData;
 		let previousImageData;
 		wp.data.subscribe( () => {
