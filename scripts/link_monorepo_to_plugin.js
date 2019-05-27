@@ -4,7 +4,7 @@ const path = require( "path" );
 const readlineSync = require( "readline-sync" );
 const execSync = require( "child_process" ).execSync;
 
-const IS_TRAVIS = process.env.CI === "1";
+const IS_TRAVIS = process.env.CI === "true";
 const TRAVIS_BRANCH = process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.TRAVIS_BRANCH;
 
 let monorepoLocation;
@@ -151,9 +151,15 @@ function unlinkAllYoastPackages() {
  * @returns {string} The checked out monorepo branch.
  */
 function checkoutMonorepoBranch( yoastSEOBranch ) {
-	const monorepoBranch = yoastSEOBranch === "trunk" ? "develop" : yoastSEOBranch;
+	let monorepoBranch = yoastSEOBranch === "trunk" ? "develop" : yoastSEOBranch;
 
-	execMonorepoNoOutput( `git checkout ${ monorepoBranch }` );
+	try {
+		execMonorepoNoOutput( `git checkout ${ monorepoBranch }` );
+	} catch ( error ) {
+		monorepoBranch = "master";
+		execMonorepoNoOutput( `git checkout master` );
+	}
+
 	return monorepoBranch;
 }
 
@@ -186,7 +192,7 @@ log( "Fetching branches of the monorepo." );
 execMonorepoNoOutput( "git fetch" );
 if ( IS_TRAVIS ) {
 	const monorepoBranch = checkoutMonorepoBranch( TRAVIS_BRANCH );
-	log( "Checking out " + monorepoBranch + "on the monorepo." );
+	log( "Checking out " + monorepoBranch + " on the monorepo." );
 }
 
 log( "Pulling the latest monorepo changes." );
