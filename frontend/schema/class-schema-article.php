@@ -195,7 +195,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return array $data The Article data.
 	 */
 	private function add_image( $data ) {
-		if ( has_post_thumbnail( $this->context->id ) ) {
+		if ( $this->context->has_image ) {
 			$data['image'] = array(
 				'@id' => $this->context->canonical . WPSEO_Schema_IDs::PRIMARY_IMAGE_HASH,
 			);
