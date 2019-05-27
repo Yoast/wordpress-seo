@@ -4,7 +4,7 @@ var autoprefixer = require( "autoprefixer" );
 module.exports = {
 	options: {
 		processors: [
-			autoprefixer( { browsers: "last 2 versions, IE >= 9" } ),
+			autoprefixer( { browsers: "last 2 versions, IE >= 11" } ),
 		],
 	},
 	build: {
