@@ -108,6 +108,8 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 11.3.0 =
 Release Date: May 28th, 2019
 
+High-time for another release, namely Yoast SEO 11.3. This release features enhancements and bug fixes aimed at improving the way your favourite SEO plugin performs. Read more about the release in [our 11.3 release post](https://yoa.st/release-11-3).
+
 Enhancements:
 * When the site is set to represent a person, a logo/avatar to be used in the knowledge graph can now be selected in the Search Appearance settings.
 * Adds the `wpseo_should_index_links` filter that can be used to disable the link indexation.
