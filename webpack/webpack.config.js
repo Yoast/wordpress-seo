@@ -6,6 +6,7 @@ const isString = require( "lodash/isString" );
 
 const paths = require( "./paths" );
 const pkg = require( "../package.json" );
+const BundleAnalyzerPlugin = require( "webpack-bundle-analyzer" ).BundleAnalyzerPlugin;
 
 const pluginVersionSlug = paths.flattenVersionForFile( pkg.yoast.pluginVersion );
 
@@ -59,6 +60,33 @@ const defaultAllowedHosts = [
 	"build.wordpress-develop.test",
 	"src.wordpress-develop.test",
 ];
+
+let bundleAnalyzerPort = 8888;
+
+/**
+ * Creates a new bundle analyzer on a unique port number.
+ *
+ * @returns {BundleAnalyzerPlugin} bundle analyzer.
+ */
+function createBundleAnalyzer() {
+	return new BundleAnalyzerPlugin( {
+		analyzerPort: bundleAnalyzerPort++,
+	} );
+}
+
+/**
+ * Adds a bundle analyzer to a list of webpack plugins.
+ *
+ * @param {Array} plugins Current list of plugins.
+ * @returns {Array} List of plugins including the webpack bundle analyzer.
+ */
+function addBundleAnalyzer( plugins ) {
+	if ( process.env.BUNDLE_ANALYZER ) {
+		return [ ...plugins, createBundleAnalyzer() ];
+	}
+
+	return plugins;
+}
 
 module.exports = function( env = { environment: "production" } ) {
 	const mode = env.environment || process.env.NODE_ENV || "production";
@@ -144,7 +172,7 @@ module.exports = function( env = { environment: "production" } ) {
 				...yoastExternals,
 				...wordpressExternals,
 			},
-			plugins: [
+			plugins: addBundleAnalyzer( [
 				...plugins,
 				new CopyWebpackPlugin( [
 					{
@@ -158,7 +186,7 @@ module.exports = function( env = { environment: "production" } ) {
 						to: "../vendor/react-dom.min.js",
 					},
 				] ),
-			],
+			] ),
 		},
 
 		// Config for components, which doesn't need all '@yoast' externals.
@@ -171,9 +199,9 @@ module.exports = function( env = { environment: "production" } ) {
 				...externals,
 				...wordpressExternals,
 			},
-			plugins: [
+			plugins: addBundleAnalyzer( [
 				...plugins,
-			],
+			] ),
 			optimization: {
 				runtimeChunk: false,
 			},
@@ -217,7 +245,7 @@ module.exports = function( env = { environment: "production" } ) {
 				compose: "./node_modules/@wordpress/compose",
 				richText: "./node_modules/@wordpress/rich-text",
 			},
-			plugins,
+			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
 				runtimeChunk: false,
 			},
@@ -233,7 +261,7 @@ module.exports = function( env = { environment: "production" } ) {
 			entry: {
 				"babel-polyfill": "./js/src/babel-polyfill.js",
 			},
-			plugins,
+			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
 				runtimeChunk: false,
 			},
@@ -249,7 +277,7 @@ module.exports = function( env = { environment: "production" } ) {
 			entry: {
 				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
 			},
-			plugins,
+			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
 				runtimeChunk: false,
 			},
@@ -261,7 +289,7 @@ module.exports = function( env = { environment: "production" } ) {
 			entry: {
 				"wp-seo-used-keywords-assessment": "./js/src/wp-seo-used-keywords-assessment.js",
 			},
-			plugins,
+			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
 				runtimeChunk: false,
 			},

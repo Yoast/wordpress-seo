@@ -17,8 +17,8 @@ const PremiumLandingPageLink = makeOutboundLink();
  */
 const KeywordSynonyms = ( props ) => {
 	const intro = sprintf(
-		/* translators: %s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
-		__( "Great news: you can, with %s!", "wordpress-seo" ),
+		/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
+		__( "Great news: you can, with %1$s!", "wordpress-seo" ),
 		"{{link}}Yoast SEO Premium{{/link}}"
 	);
 
@@ -42,7 +42,7 @@ const KeywordSynonyms = ( props ) => {
 			"<strong>",
 			"</strong>"
 		),
-		`<strong>${ __( "24/7 support", "wordpress-seo" ) }</strong>`,
+		`<strong>${ __( "24/7 email support", "wordpress-seo" ) }</strong>`,
 		`<strong>${ __( "No ads!", "wordpress-seo" ) }</strong>`,
 	];
 

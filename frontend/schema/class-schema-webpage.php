@@ -11,6 +11,7 @@
  * @since 10.2
  */
 class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
+
 	/**
 	 * A value object with context variables.
 	 *
@@ -58,14 +59,9 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 		);
 
 		if ( is_front_page() ) {
-			$about_id = WPSEO_Schema_IDs::ORGANIZATION_HASH;
-			if ( $this->context->site_represents === 'person' ) {
-				$about_id = WPSEO_Schema_IDs::PERSON_HASH;
+			if ( $this->context->site_represents_reference ) {
+				$data['about'] = $this->context->site_represents_reference;
 			}
-
-			$data['about'] = array(
-				'@id' => $this->context->site_url . $about_id,
-			);
 		}
 
 		if ( is_singular() ) {
@@ -154,10 +150,8 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			return $data;
 		}
 
-		$data['image'] = $image_schema;
-		$data['primaryImageOfPage'] = array(
-			'@id' => $image_id,
-		);
+		$data['image']              = $image_schema;
+		$data['primaryImageOfPage'] = array( '@id' => $image_id );
 
 		return $data;
 	}

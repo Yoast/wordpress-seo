@@ -20,8 +20,8 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 		<div class="yoast-sidebar__section">
 			<h2>
 				<?php
-				/* translators: %1$s expands to the plugin name */
-				printf( esc_html__( 'Upgrade to %1$s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+				/* translators: %s expands to Yoast SEO Premium */
+				printf( esc_html__( 'Upgrade to %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 				?>
 			</h2>
 			<ul>
@@ -30,12 +30,12 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 				<li><strong><?php esc_html_e( 'Get real-time suggestions for internal links', 'wordpress-seo' ); ?></strong></li>
 				<li><strong><?php esc_html_e( 'No more dead links a.k.a. 404 pages', 'wordpress-seo' ); ?></strong></li>
 				<li><strong><?php esc_html_e( '24/7 email support', 'wordpress-seo' ); ?></strong></li>
-				<li><strong><?php esc_html_e( 'No ads', 'wordpress-seo' ); ?></strong></li>
+				<li><strong><?php esc_html_e( 'No ads!', 'wordpress-seo' ); ?></strong></li>
 			</ul>
 
 			<a id="wpseo-premium-button" class="yoast-button-upsell" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jj' ); ?>" target="_blank">
 				<?php
-				/* translators: %s is replaced by the plugin name */
+				/* translators: %s expands to Yoast SEO Premium */
 				printf( esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 				echo $new_tab_message;
 				echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
@@ -82,7 +82,12 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			</div>
 		</div>
 		<div class="yoast-sidebar__section">
-			<h2><?php esc_html_e( 'Extend Yoast SEO', 'wordpress-seo' ); ?></h2>
+			<h2>
+				<?php
+					/* translators: %s expands to Yoast SEO */
+					printf( esc_html__( 'Extend %s', 'wordpress-seo' ), 'Yoast SEO' );
+				?>
+			</h2>
 			<div class="wp-clearfix">
 				<p>
 					<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jq' ); ?>" target="_blank">
@@ -129,8 +134,8 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			<p>
 				<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jy' ); ?>" target="_blank">
 					<?php
-						/* translators: %s expands to Yoast SEO Premium. */
-						printf( esc_html__( 'Upgrade to %s »', 'wordpress-seo' ), 'Yoast SEO Premium' );
+						/* translators: %s expands to Yoast SEO Premium */
+						printf( esc_html__( 'Upgrade to %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
 						echo $new_tab_message;
 					?>
 				</a>
