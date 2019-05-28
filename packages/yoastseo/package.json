@@ -116,6 +116,6 @@
     }
   },
   "yoast": {
-    "premiumConfiguration": "feature/internal-linking"
+    "premiumConfiguration": "release-yoast-seo/11.4"
   }
 }
