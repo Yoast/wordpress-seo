@@ -112,15 +112,7 @@ class Primary_Term_Watcher implements Integration {
 			$post_id = $this->get_current_id();
 		}
 
-		// @todo determine if caching is needed here, no database queries are used?
-		$taxonomies = wp_cache_get( 'primary_term_taxonomies_' . $post_id, 'wpseo' );
-		if ( false !== $taxonomies ) {
-			return $taxonomies;
-		}
-
 		$taxonomies = $this->generate_primary_term_taxonomies( $post_id );
-
-		wp_cache_set( 'primary_term_taxonomies_' . $post_id, $taxonomies, 'wpseo' );
 
 		return $taxonomies;
 	}
