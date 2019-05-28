@@ -17,7 +17,7 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @package Yoast\Tests\Admin
  */
-class Admin_Features extends TestCase {
+class Admin_Features_Test extends TestCase {
 
 	private function get_admin_with_expectations() {
 		$shortlinker = new Shortlinker();

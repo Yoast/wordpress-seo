@@ -1,27 +1,25 @@
 <?php
-namespace Yoast\Tests\Admin;
 
+namespace Yoast\WP\Free\Tests\Admin;
+
+use WPSEO_MyYoast_Proxy;
 use Brain\Monkey;
+use Mockery;
 use Yoast\Tests\Doubles\MyYoast_Proxy_Double;
 use Yoast\WP\Free\Tests\TestCase;
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Admin
- */
 
 /**
  * Unit test class.
  *
  * @group MyYoast
  */
-class MyYoast_Proxy extends TestCase {
+class MyYoast_Proxy_Test extends TestCase {
 
 	/**
 	 * @covers WPSEO_MyYoast_Proxy::determine_proxy_options()
 	 */
 	public function test_determine_proxy_options_for_the_research_webworker_file() {
-		/** @var MyYoast_Proxy_Double $instance */
+		/** @var \Yoast\Tests\Doubles\MyYoast_Proxy_Double $instance */
 		$instance = $this
 			->getMockBuilder( MyYoast_Proxy_Double::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version' ) )
@@ -48,9 +46,9 @@ class MyYoast_Proxy extends TestCase {
 	 * @covers WPSEO_MyYoast_Proxy::determine_proxy_options()
 	 */
 	public function test_render_proxy_page_for_an_unknown_file() {
-		/** @var WPSEO_MyYoast_Proxy $instance */
+		/** @var \WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( \WPSEO_MyYoast_Proxy::class )
+			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'set_header' ) )
 			->getMock();
 
@@ -73,9 +71,9 @@ class MyYoast_Proxy extends TestCase {
 	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file() {
-		/** @var WPSEO_MyYoast_Proxy $instance */
+		/** @var \WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( \WPSEO_MyYoast_Proxy::class )
+			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
@@ -128,9 +126,9 @@ class MyYoast_Proxy extends TestCase {
 			->with( 'response' )
 			->andReturn( 404 );
 
-		/** @var WPSEO_MyYoast_Proxy $instance */
+		/** @var \WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( \WPSEO_MyYoast_Proxy::class )
+			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
@@ -203,9 +201,9 @@ class MyYoast_Proxy extends TestCase {
 			->with( 'response' )
 			->andReturn( 'success' );
 
-		/** @var WPSEO_MyYoast_Proxy $instance */
+		/** @var \WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( \WPSEO_MyYoast_Proxy::class )
+			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
@@ -233,16 +231,16 @@ class MyYoast_Proxy extends TestCase {
 	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
 	 */
 	public function test_render_proxy_page_via_wordpress_errored() {
-		$wp_error_mock = \Mockery::mock( '\WP_Error' );
+		$wp_error_mock = Mockery::mock( '\WP_Error' );
 
 		Monkey\Functions\expect( 'wp_remote_get' )
 			->times( 1 )
 			->with( 'https://my.yoast.com/api/downloads/file/analysis-worker?plugin_version=1.0' )
 			->andReturn( $wp_error_mock );
 
-		/** @var WPSEO_MyYoast_Proxy $instance */
+		/** @var \WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( \WPSEO_MyYoast_Proxy::class )
+			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 

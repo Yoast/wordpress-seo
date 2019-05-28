@@ -19,7 +19,7 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @group oauth
  */
-class Oauth_Client_Test extends TestCase {
+class Client_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
