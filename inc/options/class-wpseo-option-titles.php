@@ -102,7 +102,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 *
 	 * @var array
 	 */
-	protected $enriched_defaults = array();
+	protected $enriched_defaults = null;
 
 	/**
 	 * Array of variable option name patterns for the option.
@@ -241,7 +241,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 */
 	public function enrich_defaults() {
 		$enriched_defaults = $this->enriched_defaults;
-		if ( false !== $enriched_defaults ) {
+		if ( null !== $enriched_defaults ) {
 			$this->defaults += $enriched_defaults;
 			return;
 		}
