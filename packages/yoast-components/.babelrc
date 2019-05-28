@@ -1,6 +1,11 @@
 {
 	"presets": [
-		"es2015",
+		[
+			"env",
+			{
+				"targets": ">1%, last 4 versions, Firefox ESR, not ie < 9"
+			}
+		],
 		"react"
 	],
 	"plugins": [
