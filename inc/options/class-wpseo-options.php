@@ -175,7 +175,13 @@ class WPSEO_Options {
 	 * @return array Array combining the values of all the options.
 	 */
 	public static function get_all() {
-		return self::get_options( self::get_option_names() );
+		static $options = null;
+
+		if ( $options === null ) {
+			$options = self::get_options( self::get_option_names() );
+		}
+
+		return $options;
 	}
 
 	/**
