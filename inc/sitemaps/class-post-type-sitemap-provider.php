@@ -11,13 +11,6 @@
 class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 	/**
-	 * Holds the home_url() value.
-	 *
-	 * @var string
-	 */
-	protected static $home_url;
-
-	/**
 	 * Holds image parser instance.
 	 *
 	 * @var WPSEO_Sitemap_Image_Parser
@@ -107,17 +100,12 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Get Home URL.
 	 *
-	 * This has been moved from the constructor because wp_rewrite is not available on plugins_loaded in multisite.
-	 * It will now be requested on need and not on initialization.
+	 * This wrapper method keeps up the compatibility with WPML. It returns "original home URL".
 	 *
 	 * @return string
 	 */
 	protected function get_home_url() {
-		if ( ! isset( self::$home_url ) ) {
-			self::$home_url = WPSEO_Utils::home_url();
-		}
-
-		return self::$home_url;
+		return WPSEO_Utils::home_url();
 	}
 
 	/**
