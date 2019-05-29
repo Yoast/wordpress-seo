@@ -291,28 +291,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		echo '<div class="wpseo-metabox-content">';
 		echo '<div class="wpseo-metabox-menu"><ul role="tablist">';
 
-//		foreach ( $content_sections as $content_section ) {
-//			if ( $content_section->name === 'premium' ) {
-//				continue;
-//			}
-//
-//			$content_section->display_link();
-//		}
+		foreach ( $content_sections as $content_section ) {
+			if ( $content_section->name === 'premium' ) {
+				continue;
+			}
 
-		foreach ( $tabs as $tab ) {
-			echo '<li role="tab">';
-			echo '<a href="' . $tab['href'] . '" class="wpseo-meta-section-link">';
-
-			echo '<span class="wpseo-metabox-menu-icon">';
-			echo $tab['icon'];
-			echo '</span>';
-
-			echo '<span class="wpseo-metabox-menu-label">';
-			echo $tab['label'];
-			echo '</span>';
-
-			echo '</a>';
-			echo '</li>';
+			$content_section->display_link();
 		}
 
 		echo '</ul></div>';
