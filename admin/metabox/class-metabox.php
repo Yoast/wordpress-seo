@@ -301,7 +301,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		foreach ( $tabs as $tab ) {
 			echo '<li role="tab">';
-			echo '<a href="' . $tab['href'] . '">';
+			echo '<a href="' . $tab['href'] . '" class="wpseo-meta-section-link">';
 
 			echo '<span class="wpseo-metabox-menu-icon">';
 			echo $tab['icon'];
