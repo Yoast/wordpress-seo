@@ -22,9 +22,6 @@
 					jQuery( ".wpseo-meta-section.active .wpseo-metabox-tabs li" ).removeClass( "active" );
 					jQuery( ".wpseo-meta-section.active .wpseotab" ).removeClass( "active" );
 
-					// Hide the Yoast tooltip when the element gets clicked.
-					jQuery( this ).addClass( "yoast-tooltip-hidden" );
-
 					var targetElem = jQuery( jQuery( this ).attr( "href" ) );
 					targetElem.addClass( "active" );
 					jQuery( this ).parent( "li" ).addClass( "active" );
@@ -34,14 +31,6 @@
 							scrollTop: jQuery( targetElem ).offset().top,
 						}, 500 );
 					}
-				} )
-				.on( "mouseleave", "a.wpseo_tablink", function() {
-					// The element can still have focus, ensure to hide the tooltip.
-					jQuery( this ).addClass( "yoast-tooltip-hidden" );
-				} )
-				.on( "blur mouseenter", "a.wpseo_tablink", function() {
-					// Make the element tooltip-able again.
-					jQuery( this ).removeClass( "yoast-tooltip-hidden" );
 				} );
 		}
 
@@ -63,8 +52,6 @@
 					jQuery( ".wpseo-meta-section" ).removeClass( "active" );
 					jQuery( ".wpseo-meta-section-react.active" ).removeClass( "active" );
 
-					// Hide the Yoast tooltip when the element gets clicked.
-					jQuery( this ).addClass( "yoast-tooltip-hidden" );
 					if ( targetTab === "#wpseo-meta-section-content" ) {
 						jQuery( ".wpseo-meta-section-react" ).addClass( "active" );
 					}
@@ -72,14 +59,6 @@
 					targetTabElement.addClass( "active" );
 
 					jQuery( this ).parent( "li" ).addClass( "active" );
-				} )
-				.on( "mouseleave", function() {
-					// The element can still have focus, ensure to hide the tooltip.
-					jQuery( this ).addClass( "yoast-tooltip-hidden" );
-				} )
-				.on( "blur mouseenter", function() {
-					// Make the element tooltip-able again.
-					jQuery( this ).removeClass( "yoast-tooltip-hidden" );
 				} );
 		}
 
