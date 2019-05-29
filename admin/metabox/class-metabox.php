@@ -379,7 +379,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_addons_meta_section() {
 		return new WPSEO_Metabox_Addon_Tab_Section(
 			'addons',
-			'<span class="dashicons dashicons-admin-plugins"></span>',
+			'<span class="dashicons dashicons-admin-plugins"></span>' . __( 'Add-ons', 'wordpress-seo' ),
 			array(),
 			array(
 				'link_aria_label' => __( 'Add-ons', 'wordpress-seo' ),
