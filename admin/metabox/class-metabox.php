@@ -270,24 +270,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
 
-		$tabs = array(
-			array(
-				'label' => 'Content optimization',
-				'href'  => '#wpseo-meta-section-content',
-				'icon'  => '',
-			),
-			array(
-				'label' => 'Social',
-				'href'  => '#wpseo-meta-section-social',
-				'icon'  => '<span class="dashicons dashicons-twitter"></span>',
-			),
-			array(
-				'label' => 'Advanced',
-				'href'  => '#wpseo-meta-section-advanced',
-				'icon'  => '<span class="dashicons dashicons-admin-generic"></span>',
-			),
-		);
-
 		echo '<div class="wpseo-metabox-content">';
 		echo '<div class="wpseo-metabox-menu"><ul role="tablist">';
 

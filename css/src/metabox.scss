@@ -138,18 +138,21 @@ ul.wpseo-metabox-tabs li.active {
 
 			a {
 				color: #0073aa;
-				display: inline-block;
+				display: flex;
+				align-items: center;
 			}
 
 			.yst-traffic-light {
+				height: 20px;
+				width: initial;
 				display: inline-block;
 				vertical-align: middle;
+				margin-right: 8px;
 			}
 
 			span {
 				&.dashicons {
-					display: inline-block;
-					vertical-align: middle;
+					margin-right: 8px;
 				}
 
 				&.wpseo-buy-premium {
@@ -197,7 +200,8 @@ ul.wpseo-metabox-tabs li.active {
 	}
 
 	a {
-		padding: 5px;
+		height: 32px;
+		padding: 4px 8px;
 		display: block;
 		text-decoration: none;
 		vertical-align: middle;
