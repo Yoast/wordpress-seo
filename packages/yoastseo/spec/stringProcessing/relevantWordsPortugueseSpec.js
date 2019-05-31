@@ -56,4 +56,3 @@ describe( "gets Portuguese word combinations", function() {
 		expect( words ).toEqual( expected );
 	} );
 } );
-

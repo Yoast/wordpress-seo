@@ -9,6 +9,7 @@ import Participle from "../../values/Participle";
 import Sentence from "../../values/Sentence";
 import SentencePart from "../../values/SentencePart";
 import WordCombination from "../../values/WordCombination";
+import ProminentWord from "../../values/ProminentWord";
 
 const PARSE_CLASSES = {
 	AssessmentResult,
@@ -18,6 +19,7 @@ const PARSE_CLASSES = {
 	Sentence,
 	SentencePart,
 	WordCombination,
+	ProminentWord,
 };
 
 /**

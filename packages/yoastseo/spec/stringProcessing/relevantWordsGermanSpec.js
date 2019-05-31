@@ -36,4 +36,3 @@ describe( "gets German word combinations", function() {
 		expect( words ).toEqual( expected );
 	} );
 } );
-

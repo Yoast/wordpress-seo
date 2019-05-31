@@ -5,6 +5,14 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+
+## 1.54
+### Added
+* Adds an improved internal linking functionality behind a feature flag. For now, this new functionality is disabled by default. Specifically, the new internal linking functionality has the following improvements:
+  * Changes the way prominent words are extracted for the Internal linking suggestions and Insights features. No multiple-word combinations are considered anymore, but single words only. For languages with morphological support (currently English and German) different morphological forms of words (e.g., `link`, `linking`, `links`, `linked`) are recognized and collapsed together, which improves the performance of the said features.
+  * Changes the Insights functionality in the following way: no words that occurred less than 5 times in the text of the post are displayed. For languages with morphological support (for now, English and German) different word forms of the same word are collapsed based on their stem/base form (e.g., the stem of words `link`, `linking`, `links`, and `linked` is `link`). If the stem coincides with an actual word used in the text, it is displayed to the user in the list of Insights. If the stem does not coincide with any words used in the text, the first word form of the stem that occurred in the text will be used for display.
+  * Changes the Internal linking suggestions functionality in the following way: not only the text of the post but also different meta data fields are used for analysis, i.e., title, keyphrase, synonyms, meta description, subheadings (H2 and H3 levels). One occurrence of a word in the said meta data fields is deemed more important than one occurrence of this word inside the text. Stems are further saved in the database and used for matching of prominent words between posts and the internal linking functionality.
+
 ## 1.52.0 May 14th, 2019
 ### Added
 * Adds a dependency to `@yoast/feature-flag`.

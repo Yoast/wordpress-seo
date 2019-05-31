@@ -34,4 +34,3 @@ describe( "gets Dutch word combinations", function() {
 		expect( words ).toEqual( expected );
 	} );
 } );
-

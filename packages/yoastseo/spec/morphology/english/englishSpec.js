@@ -1,8 +1,10 @@
 import { getForms } from  "../../../src/morphology/english/getForms.js";
-import morphologyData from "../../../premium-configuration/data/morphologyData.json";
-const morphologyDataEN = morphologyData.en;
+import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 import { includes } from "lodash-es";
+
+
+const morphologyDataEN = getMorphologyData( "en" ).en;
 
 const simpleWordsToTest = [
 	[ "word", "words", "wording", "worded" ],
