@@ -97,11 +97,9 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -298,11 +296,9 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -511,11 +507,9 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -715,11 +709,9 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -919,11 +911,9 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -1160,7 +1150,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   <div
     className="c0"
     onMouseLeave={undefined}
-    width={640}
+    width={null}
   >
     <div
       className="c1"
@@ -1377,7 +1367,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   <div
     className="c0"
     onMouseLeave={undefined}
-    width={640}
+    width={null}
   >
     <div
       className="c1"
@@ -1591,7 +1581,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   <div
     className="c0"
     onMouseLeave={undefined}
-    width={640}
+    width={null}
   >
     <div
       className="c1"
@@ -1794,11 +1784,9 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -2007,11 +1995,9 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -2220,11 +2206,9 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -2433,11 +2417,9 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -2646,11 +2628,9 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -2859,11 +2839,9 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -3072,11 +3050,9 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -3277,11 +3253,9 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""

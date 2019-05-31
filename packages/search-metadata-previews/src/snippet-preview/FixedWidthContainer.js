@@ -7,14 +7,14 @@ import { __ } from "@wordpress/i18n";
 
 const FixedWidth = styled.div`
 	overflow: auto;
-	width: ${ ( props ) => props.width }px;
-	padding: 0 ${ ( props ) => props.padding }px;
+	width: ${ ( props ) => props.widthValue }px;
+	padding: 0 ${ ( props ) => props.paddingValue }px;
 	max-width: 100%;
 	box-sizing: border-box;
 `;
 
 const Inner = styled.div`
-	width: ${ ( props ) => props.width }px;
+	width: ${ ( props ) => props.widthValue }px;
 `;
 
 const ScrollHintContainer = styled.div`
@@ -116,11 +116,13 @@ export default class FixedWidthContainer extends Component {
 		return <React.Fragment>
 			<FixedWidth
 				className={ className }
-				width={ width }
-				padding={ padding }
+				widthValue={ width }
+				paddingValue={ padding }
 				ref={ this.setContainerRef }
 			>
-				<Inner width={ innerWidth } padding={ padding }>
+				<Inner
+					widthValue={ innerWidth }
+				>
 					{ children }
 				</Inner>
 			</FixedWidth>

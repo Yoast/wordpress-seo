@@ -728,7 +728,11 @@ export default class SnippetPreview extends PureComponent {
 			<section>
 				<Container
 					onMouseLeave={ this.onMouseLeave }
-					width={ MAX_WIDTH + ( 2 * WIDTH_PADDING ) }
+					/*
+					 * MobileContainer doesn't use the width prop: avoid to
+					 * render an invalid `width` HTML attribute on the DOM node.
+					 */
+					width={ isDesktopMode ? MAX_WIDTH + ( 2 * WIDTH_PADDING ) : null }
 					padding={ WIDTH_PADDING }
 				>
 					<PartContainer>
