@@ -46,7 +46,7 @@ const determineR1 = function( word ) {
 const findSuffixStep1 = function( word ) {
 	const a1Index = word.search( /heden$/g );
 	let b1Index = word.search( /([^aeoiuyè]|(g[^e]m)|([^g]em))(en|ene)$/g );
-	let c1Index = word.search( /[^aeoiuyè](s|se)$/g );
+	let c1Index = word.search( /[^aeoiuyèj](s|se)$/g );
 	// Exclude the -en and -s endings.
 	if ( b1Index !== -1 ) {
 		b1Index++;
@@ -149,7 +149,7 @@ export default function stem( word ) {
 	// Put i in between vowels, initial y, and y after a vowel into upper case.
 	word = word.replace( /([aeiouyè])i([aeiouyè])/g, "$1I$2" );
 	word = word.replace( /^y(.*)/g, "$1Y$2" );
-	word = word.replace( /([aeiouyè])y(.*])/g, "$1Y$2" );
+	word = word.replace( /([aeiouyè])y(.*)/g, "$1Y$2" );
 
 	// Replace letters with umlaut or acute accent with non-accented variants.
 	word = word.replace( "ä", "a" );
