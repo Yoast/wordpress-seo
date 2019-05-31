@@ -138,8 +138,8 @@ const BaseUrlOverflowContainer = styled( BaseUrl )`
 	max-width: 100%;
 	margin-bottom: ${ props => props.screenMode === MODE_DESKTOP ? "0" : "12px" };
 	padding-top: ${ props => props.screenMode === MODE_DESKTOP ? "0" : "1px" };
-	line-height: ${ props => props.screenMode === MODE_DESKTOP ? "inherit" : "20px" } ;
-	vertical-align: top;
+	line-height: ${ props => props.screenMode === MODE_DESKTOP ? "inherit" : "20px" };
+	vertical-align: ${ props => props.screenMode === MODE_DESKTOP ? "baseline" : "top" };
 `;
 
 const UrlContentContainer = styled.span`
@@ -566,6 +566,7 @@ export default class SnippetPreview extends PureComponent {
 				onMouseUp={ onMouseUp.bind( null, "url" ) }
 				onMouseEnter={ onMouseEnter.bind( null, "url" ) }
 				onMouseLeave={ onMouseLeave.bind( null ) }
+				screenMode={ mode }
 			>
 				{ isMobileMode && <FavIcon src={ faviconSrc || globeFavIconSrc } alt="" /> }
 				<UrlContentContainer
