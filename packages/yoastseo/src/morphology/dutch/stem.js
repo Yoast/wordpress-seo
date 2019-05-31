@@ -18,7 +18,7 @@
  */
 const determineR1 = function( word ) {
 	// Start with matching first vowel and non-vowel.
-	let r1Index = word.search( /[aeiouyäöü][^aeiouyäöü]/ );
+	let r1Index = word.search( /[aeiouyé][^aeiouyé]/ );
 	// Then add 2 since the R1 index is the index after the first vowel & non-vowel matched with the regex.
 	if ( r1Index !== -1 ) {
 		r1Index += 2;
@@ -41,77 +41,117 @@ const determineR1 = function( word ) {
  * Define a valid s-ending as a non-vowel other than j
  *
  * @param {string} word The word to check for the suffix.
- * @returns {{index: number, optionUsed1: string}} The index of the suffix and the kind of suffix used.
+ * @returns {{index1: number, optionUsed1: string}} The index of the suffix and the kind of suffix used.
  */
-const findSuffix = function( word ) {
+const findSuffixStep1 = function( word ) {
 	const a1Index = word.search( /heden$/g );
-	const b1Index = word.search( /([wrtpsdfghjklzxcvbn]|(g[^e]m)|([^g]em))(en|ene)$/g );
-	const c1Index = word.search( /[wrtpsdfghklcvbn](s|se)$/g );
-
-	let optionUsed = "";
-	let index = 10000;
-	if ( a1Index !== -1 ) {
-		optionUsed = "a";
-		index = a1Index;
-
-		return { index, optionUsed };
-	} else if ( b1Index !== -1 ) {
-		optionUsed = "b";
-		index = b1Index;
-
-		return { index, optionUsed };
-	} else if ( c1Index !== -1 ) {
-		optionUsed = "c";
-		index = c1Index;
-
-		return { index, optionUsed };
+	let b1Index = word.search( /([^aeoiuyè]|(g[^e]m)|([^g]em))(en|ene)$/g );
+	let c1Index = word.search( /[^aeoiuyè](s|se)$/g );
+	// Exclude the -en and -s endings.
+	if ( b1Index !== -1 ) {
+		b1Index++;
+	}
+	if ( c1Index !== -1 ) {
+		c1Index++;
 	}
 
-	return { index, optionUsed };
+	let optionUsed = "";
+	let index1 = 10000;
+	if ( a1Index !== -1 ) {
+		optionUsed = "a";
+		index1 = a1Index;
+
+		return { index1, optionUsed };
+	} else if ( b1Index !== -1 ) {
+		optionUsed = "b";
+		index1 = b1Index;
+
+		return { index1, optionUsed };
+	} else if ( c1Index !== -1 ) {
+		optionUsed = "c";
+		index1 = c1Index;
+
+		return { index1, optionUsed };
+	}
+
+	return { index1, optionUsed };
 };
+
+/**
+ * Finds the suffix -e if preceded by a valid -e ending (non-vowel).
+ *
+ * @param {string} word		The word to find the suffix for.
+ * @returns {number} index2 	The index of the suffix.
+ */
+const findSuffixStep2 = function( word ) {
+	let index2 = word.search( /[^aoeiuyè]e$/ );
+	// Exclude the -e ending.
+	if ( index2 !== -1 ) {
+		index2++;
+
+		return index2;
+	}
+
+	return index2;
+};
+
 
 /**
  * If the -heden suffix was found in R1, replace it with -heid. If another suffix was found in R1, delete it.
  * (The letter of the valid -s or -en ending is not necessarily in R1.)
- * If -e preceded by a non-vowel is found in R1, remove it.
  *
  * @param {string} word         The word for which to delete the suffix.
- * @param {number} index       The index of the suffix that was found.
+ * @param {number} index1       The index of the suffix that was found.
  * @param {string} optionUsed   The type of suffix that was found.
  * @param {number} r1Index      The R1 index.
  *
  * @returns {string} The word with the deleted suffix.
  */
-const deleteSuffixes = function( word, index, optionUsed, r1Index ) {
-	if ( index !== 10000 && r1Index !== -1 ) {
-		if ( index >= r1Index ) {
+const deleteSuffix1 = function( word, index1, optionUsed, r1Index ) {
+	if ( index1 !== 10000 && r1Index !== -1 ) {
+		if ( index1 >= r1Index ) {
 			if ( optionUsed === "a" ) {
-				word = word.replace( /(.*)heden$/g, "$1heid$2" );
-			}
-			word = word.substring( 0, index );
-			if ( word.search( /[^aeiouyè]e$/ ) !== -1 ) {
-				word = word.substring( 0, word.length - 1 );
+				word = word.replace( /(.*)heden$/g, "$1heid" );
+
+				return word;
+			} else if ( optionUsed === "b" || optionUsed === "c" ) {
+				word = word.substring( 0, index1 );
 			}
 		}
 	}
 	return word;
 };
+/**
+ *
+ * @param {string} word		The word to delete the suffix from.
+ * @param {number} index2	The index of the suffix.
+ * @param {number} r1Index 	The R1 index.
+ * @returns {string} word 	The word with the deleted suffix.
+ */
+const deleteSuffix2 = function( word, index2, r1Index ) {
+	if ( index2 !== 10000 && r1Index !== -1 ) {
+		if ( index2 >= r1Index ) {
+			word = word.substring( 0, word.length - 1 );
+		}
+	}
+	return word;
+};
+
 
 /**
  * Stems Dutch words.
  *
- * @param {Object} morphologyDataVerbs  The Dutch morphology data for verbs.
- * @param {string} word                 The word to stem.
+ * @param {string} word  The word to stem.
  *
  * @returns {string} The stemmed word.
  */
-export default function stem( morphologyDataVerbs, word ) {
-	// Put i, initial y, and y after a vowel into upper case.
+export default function stem( word ) {
+	// Put i in between vowels, initial y, and y after a vowel into upper case.
 	word = word.replace( /([aeiouyè])i([aeiouyè])/g, "$1I$2" );
 	word = word.replace( /^y(.*)/g, "$1Y$2" );
 	word = word.replace( /([aeiouyè])y(.*])/g, "$1Y$2" );
 
-	// Replace letters with umlaut or acute accent with non-accented variants
+	// Replace letters with umlaut or acute accent with non-accented variants.
 	word = word.replace( "ä", "a" );
 	word = word.replace( "ü", "u" );
 	word = word.replace( "ë", "e" );
@@ -126,17 +166,27 @@ export default function stem( morphologyDataVerbs, word ) {
 	// Find the start index of the R1 region.
 	const r1Index = determineR1( word );
 
-	// Find suffixes as defined in step 1.
-	const index = findSuffix( word ).index;
-	const optionUsed = findSuffix( word ).optionUsed;
+	// Find suffix as defined in step 1.
+	const index1 = findSuffixStep1( word ).index1;
+	const optionUsed = findSuffixStep1( word ).optionUsed;
 
-	// Delete suffixes.
-	word = deleteSuffixes( word, index, optionUsed, r1Index );
+	// Delete suffix found in step 1.
+	word = deleteSuffix1( word, index1, optionUsed, r1Index );
 
-	// Undouble stem ending
-	word = word.replace( /(.*)tt$/g, "$1t$2" );
-	word = word.replace( /(.*)kk$/g, "$1k$2" );
-	word = word.replace( /(.*)dd$/g, "$1d$2" );
+	// Find suffix as defined in step 2.
+	const index2 = findSuffixStep2( word );
+
+	// Delete suffix found in step 2.
+	word = deleteSuffix2( word, index2, r1Index );
+
+	// Undouble stem ending.
+	word = word.replace( /(.*)tt$/g, "$1t" );
+	word = word.replace( /(.*)kk$/g, "$1k" );
+	word = word.replace( /(.*)dd$/g, "$1d" );
+
+	// Turn I and Y back into lower case.
+	word = word.replace( /I/g, "i" );
+	word = word.replace( /Y/g, "y" );
 
 	return word;
 }
