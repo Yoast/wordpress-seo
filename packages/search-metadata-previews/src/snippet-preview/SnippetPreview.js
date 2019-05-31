@@ -39,8 +39,9 @@ const colorDescriptionMobile    = "#3c4043";
 const colorGeneratedDescription = "#777";
 const colorDate                 = "#70757f";
 
-const MAX_WIDTH = 600;
-const WIDTH_PADDING = 20;
+const MAX_WIDTH         = 600;
+const MAX_WIDTH_MOBILE  = 400;
+const WIDTH_PADDING     = 20;
 const DESCRIPTION_LIMIT = 156;
 
 const DesktopContainer = styled( FixedWidthContainer )`
@@ -54,7 +55,7 @@ const MobileContainer = styled.div`
 	border-radius: 8px;
 	box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
-	max-width: ${ MAX_WIDTH }px;
+	max-width: ${ MAX_WIDTH_MOBILE }px;
 	box-sizing: border-box;
 	font-size: 14px;
 `;

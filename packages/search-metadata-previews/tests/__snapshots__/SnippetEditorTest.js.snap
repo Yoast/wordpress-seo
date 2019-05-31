@@ -6,7 +6,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -877,7 +877,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -1536,7 +1536,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     "lastClassName": "c0",
                     "rules": Array [
                       "border-bottom:1px hidden #fff;border-radius:8px;box-shadow:0 1px 6px rgba(32,33,36,0.28);font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;max-width:",
-                      "600",
+                      "400",
                       "px;box-sizing:border-box;font-size:14px;",
                     ],
                   },
@@ -1636,6 +1636,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               onMouseEnter={[Function]}
                               onMouseLeave={[Function]}
                               onMouseUp={[Function]}
+                              screenMode="mobile"
                             >
                               <StyledComponent
                                 forwardedComponent={
@@ -1654,7 +1655,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                         [Function],
                                         ";line-height:",
                                         [Function],
-                                        ";vertical-align:top;",
+                                        ";vertical-align:",
+                                        [Function],
+                                        ";",
                                       ],
                                     },
                                     "displayName": "SnippetPreview__BaseUrlOverflowContainer",
@@ -1673,6 +1676,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                 onMouseEnter={[Function]}
                                 onMouseLeave={[Function]}
                                 onMouseUp={[Function]}
+                                screenMode="mobile"
                               >
                                 <div
                                   className="c3"
@@ -5148,7 +5152,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -5807,7 +5811,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     "lastClassName": "c0",
                     "rules": Array [
                       "border-bottom:1px hidden #fff;border-radius:8px;box-shadow:0 1px 6px rgba(32,33,36,0.28);font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;max-width:",
-                      "600",
+                      "400",
                       "px;box-sizing:border-box;font-size:14px;",
                     ],
                   },
@@ -5907,6 +5911,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               onMouseEnter={[Function]}
                               onMouseLeave={[Function]}
                               onMouseUp={[Function]}
+                              screenMode="mobile"
                             >
                               <StyledComponent
                                 forwardedComponent={
@@ -5925,7 +5930,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                         [Function],
                                         ";line-height:",
                                         [Function],
-                                        ";vertical-align:top;",
+                                        ";vertical-align:",
+                                        [Function],
+                                        ";",
                                       ],
                                     },
                                     "displayName": "SnippetPreview__BaseUrlOverflowContainer",
@@ -5944,6 +5951,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                 onMouseEnter={[Function]}
                                 onMouseLeave={[Function]}
                                 onMouseUp={[Function]}
+                                screenMode="mobile"
                               >
                                 <div
                                   className="c3"
@@ -9419,7 +9427,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -10078,7 +10086,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     "lastClassName": "c0",
                     "rules": Array [
                       "border-bottom:1px hidden #fff;border-radius:8px;box-shadow:0 1px 6px rgba(32,33,36,0.28);font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;max-width:",
-                      "600",
+                      "400",
                       "px;box-sizing:border-box;font-size:14px;",
                     ],
                   },
@@ -10178,6 +10186,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               onMouseEnter={[Function]}
                               onMouseLeave={[Function]}
                               onMouseUp={[Function]}
+                              screenMode="mobile"
                             >
                               <StyledComponent
                                 forwardedComponent={
@@ -10196,7 +10205,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                         [Function],
                                         ";line-height:",
                                         [Function],
-                                        ";vertical-align:top;",
+                                        ";vertical-align:",
+                                        [Function],
+                                        ";",
                                       ],
                                     },
                                     "displayName": "SnippetPreview__BaseUrlOverflowContainer",
@@ -10215,6 +10226,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                 onMouseEnter={[Function]}
                                 onMouseLeave={[Function]}
                                 onMouseUp={[Function]}
+                                screenMode="mobile"
                               >
                                 <div
                                   className="c3"
@@ -13690,7 +13702,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -14349,7 +14361,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     "lastClassName": "c0",
                     "rules": Array [
                       "border-bottom:1px hidden #fff;border-radius:8px;box-shadow:0 1px 6px rgba(32,33,36,0.28);font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;max-width:",
-                      "600",
+                      "400",
                       "px;box-sizing:border-box;font-size:14px;",
                     ],
                   },
@@ -14449,6 +14461,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               onMouseEnter={[Function]}
                               onMouseLeave={[Function]}
                               onMouseUp={[Function]}
+                              screenMode="mobile"
                             >
                               <StyledComponent
                                 forwardedComponent={
@@ -14467,7 +14480,9 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                         [Function],
                                         ";line-height:",
                                         [Function],
-                                        ";vertical-align:top;",
+                                        ";vertical-align:",
+                                        [Function],
+                                        ";",
                                       ],
                                     },
                                     "displayName": "SnippetPreview__BaseUrlOverflowContainer",
@@ -14486,6 +14501,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                 onMouseEnter={[Function]}
                                 onMouseLeave={[Function]}
                                 onMouseUp={[Function]}
+                                screenMode="mobile"
                               >
                                 <div
                                   className="c3"
@@ -17788,7 +17804,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -18240,7 +18256,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                     "lastClassName": "c0",
                     "rules": Array [
                       "border-bottom:1px hidden #fff;border-radius:8px;box-shadow:0 1px 6px rgba(32,33,36,0.28);font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;max-width:",
-                      "600",
+                      "400",
                       "px;box-sizing:border-box;font-size:14px;",
                     ],
                   },
@@ -18340,6 +18356,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                               onMouseEnter={[Function]}
                               onMouseLeave={[Function]}
                               onMouseUp={[Function]}
+                              screenMode="mobile"
                             >
                               <StyledComponent
                                 forwardedComponent={
@@ -18358,7 +18375,9 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                         [Function],
                                         ";line-height:",
                                         [Function],
-                                        ";vertical-align:top;",
+                                        ";vertical-align:",
+                                        [Function],
+                                        ";",
                                       ],
                                     },
                                     "displayName": "SnippetPreview__BaseUrlOverflowContainer",
@@ -18377,6 +18396,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                 onMouseEnter={[Function]}
                                 onMouseLeave={[Function]}
                                 onMouseUp={[Function]}
+                                screenMode="mobile"
                               >
                                 <div
                                   className="c3"
@@ -20207,7 +20227,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -20866,7 +20886,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     "lastClassName": "c0",
                     "rules": Array [
                       "border-bottom:1px hidden #fff;border-radius:8px;box-shadow:0 1px 6px rgba(32,33,36,0.28);font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;max-width:",
-                      "600",
+                      "400",
                       "px;box-sizing:border-box;font-size:14px;",
                     ],
                   },
@@ -20966,6 +20986,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               onMouseEnter={[Function]}
                               onMouseLeave={[Function]}
                               onMouseUp={[Function]}
+                              screenMode="mobile"
                             >
                               <StyledComponent
                                 forwardedComponent={
@@ -20984,7 +21005,9 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                         [Function],
                                         ";line-height:",
                                         [Function],
-                                        ";vertical-align:top;",
+                                        ";vertical-align:",
+                                        [Function],
+                                        ";",
                                       ],
                                     },
                                     "displayName": "SnippetPreview__BaseUrlOverflowContainer",
@@ -21003,6 +21026,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                 onMouseEnter={[Function]}
                                 onMouseLeave={[Function]}
                                 onMouseUp={[Function]}
+                                screenMode="mobile"
                               >
                                 <div
                                   className="c3"
@@ -24478,7 +24502,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -25137,7 +25161,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     "lastClassName": "c0",
                     "rules": Array [
                       "border-bottom:1px hidden #fff;border-radius:8px;box-shadow:0 1px 6px rgba(32,33,36,0.28);font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;max-width:",
-                      "600",
+                      "400",
                       "px;box-sizing:border-box;font-size:14px;",
                     ],
                   },
@@ -25237,6 +25261,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               onMouseEnter={[Function]}
                               onMouseLeave={[Function]}
                               onMouseUp={[Function]}
+                              screenMode="mobile"
                             >
                               <StyledComponent
                                 forwardedComponent={
@@ -25255,7 +25280,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                         [Function],
                                         ";line-height:",
                                         [Function],
-                                        ";vertical-align:top;",
+                                        ";vertical-align:",
+                                        [Function],
+                                        ";",
                                       ],
                                     },
                                     "displayName": "SnippetPreview__BaseUrlOverflowContainer",
@@ -25274,6 +25301,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                 onMouseEnter={[Function]}
                                 onMouseLeave={[Function]}
                                 onMouseUp={[Function]}
+                                screenMode="mobile"
                               >
                                 <div
                                   className="c3"
@@ -28576,7 +28604,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -29166,7 +29194,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -29929,7 +29957,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -30615,7 +30643,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     "lastClassName": "c0",
                     "rules": Array [
                       "border-bottom:1px hidden #fff;border-radius:8px;box-shadow:0 1px 6px rgba(32,33,36,0.28);font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;max-width:",
-                      "600",
+                      "400",
                       "px;box-sizing:border-box;font-size:14px;",
                     ],
                   },
@@ -30715,6 +30743,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               onMouseEnter={[Function]}
                               onMouseLeave={[Function]}
                               onMouseUp={[Function]}
+                              screenMode="mobile"
                             >
                               <StyledComponent
                                 forwardedComponent={
@@ -30733,7 +30762,9 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                         [Function],
                                         ";line-height:",
                                         [Function],
-                                        ";vertical-align:top;",
+                                        ";vertical-align:",
+                                        [Function],
+                                        ";",
                                       ],
                                     },
                                     "displayName": "SnippetPreview__BaseUrlOverflowContainer",
@@ -30752,6 +30783,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                 onMouseEnter={[Function]}
                                 onMouseLeave={[Function]}
                                 onMouseUp={[Function]}
+                                screenMode="mobile"
                               >
                                 <div
                                   className="c3"
@@ -34236,7 +34268,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -34922,7 +34954,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     "lastClassName": "c0",
                     "rules": Array [
                       "border-bottom:1px hidden #fff;border-radius:8px;box-shadow:0 1px 6px rgba(32,33,36,0.28);font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;max-width:",
-                      "600",
+                      "400",
                       "px;box-sizing:border-box;font-size:14px;",
                     ],
                   },
@@ -35022,6 +35054,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               onMouseEnter={[Function]}
                               onMouseLeave={[Function]}
                               onMouseUp={[Function]}
+                              screenMode="mobile"
                             >
                               <StyledComponent
                                 forwardedComponent={
@@ -35040,7 +35073,9 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                         [Function],
                                         ";line-height:",
                                         [Function],
-                                        ";vertical-align:top;",
+                                        ";vertical-align:",
+                                        [Function],
+                                        ";",
                                       ],
                                     },
                                     "displayName": "SnippetPreview__BaseUrlOverflowContainer",
@@ -35059,6 +35094,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                 onMouseEnter={[Function]}
                                 onMouseLeave={[Function]}
                                 onMouseUp={[Function]}
+                                screenMode="mobile"
                               >
                                 <div
                                   className="c3"
@@ -38543,7 +38579,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -39202,7 +39238,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     "lastClassName": "c0",
                     "rules": Array [
                       "border-bottom:1px hidden #fff;border-radius:8px;box-shadow:0 1px 6px rgba(32,33,36,0.28);font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;max-width:",
-                      "600",
+                      "400",
                       "px;box-sizing:border-box;font-size:14px;",
                     ],
                   },
@@ -39302,6 +39338,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               onMouseEnter={[Function]}
                               onMouseLeave={[Function]}
                               onMouseUp={[Function]}
+                              screenMode="mobile"
                             >
                               <StyledComponent
                                 forwardedComponent={
@@ -39320,7 +39357,9 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                         [Function],
                                         ";line-height:",
                                         [Function],
-                                        ";vertical-align:top;",
+                                        ";vertical-align:",
+                                        [Function],
+                                        ";",
                                       ],
                                     },
                                     "displayName": "SnippetPreview__BaseUrlOverflowContainer",
@@ -39339,6 +39378,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                 onMouseEnter={[Function]}
                                 onMouseLeave={[Function]}
                                 onMouseUp={[Function]}
+                                screenMode="mobile"
                               >
                                 <div
                                   className="c3"
@@ -42814,7 +42854,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -43484,7 +43524,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     "lastClassName": "c0",
                     "rules": Array [
                       "border-bottom:1px hidden #fff;border-radius:8px;box-shadow:0 1px 6px rgba(32,33,36,0.28);font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;max-width:",
-                      "600",
+                      "400",
                       "px;box-sizing:border-box;font-size:14px;",
                     ],
                   },
@@ -43584,6 +43624,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               onMouseEnter={[Function]}
                               onMouseLeave={[Function]}
                               onMouseUp={[Function]}
+                              screenMode="mobile"
                             >
                               <StyledComponent
                                 forwardedComponent={
@@ -43602,7 +43643,9 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                         [Function],
                                         ";line-height:",
                                         [Function],
-                                        ";vertical-align:top;",
+                                        ";vertical-align:",
+                                        [Function],
+                                        ";",
                                       ],
                                     },
                                     "displayName": "SnippetPreview__BaseUrlOverflowContainer",
@@ -43621,6 +43664,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                 onMouseEnter={[Function]}
                                 onMouseLeave={[Function]}
                                 onMouseUp={[Function]}
+                                screenMode="mobile"
                               >
                                 <div
                                   className="c3"
@@ -46978,7 +47022,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -47859,7 +47903,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -48518,7 +48562,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     "lastClassName": "c0",
                     "rules": Array [
                       "border-bottom:1px hidden #fff;border-radius:8px;box-shadow:0 1px 6px rgba(32,33,36,0.28);font-family:Arial,Roboto-Regular,HelveticaNeue,sans-serif;max-width:",
-                      "600",
+                      "400",
                       "px;box-sizing:border-box;font-size:14px;",
                     ],
                   },
@@ -48618,6 +48662,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               onMouseEnter={[Function]}
                               onMouseLeave={[Function]}
                               onMouseUp={[Function]}
+                              screenMode="mobile"
                             >
                               <StyledComponent
                                 forwardedComponent={
@@ -48636,7 +48681,9 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                         [Function],
                                         ";line-height:",
                                         [Function],
-                                        ";vertical-align:top;",
+                                        ";vertical-align:",
+                                        [Function],
+                                        ";",
                                       ],
                                     },
                                     "displayName": "SnippetPreview__BaseUrlOverflowContainer",
@@ -48655,6 +48702,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                 onMouseEnter={[Function]}
                                 onMouseLeave={[Function]}
                                 onMouseUp={[Function]}
+                                screenMode="mobile"
                               >
                                 <div
                                   className="c3"
@@ -52016,10 +52064,10 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  margin-bottom: 12px;
-  padding-top: 1px;
-  line-height: 20px;
-  vertical-align: top;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
@@ -52707,7 +52755,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -53439,7 +53487,7 @@ exports[`SnippetEditor shows the editor 1`] = `
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }

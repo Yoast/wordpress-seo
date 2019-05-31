@@ -65,10 +65,10 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  margin-bottom: 12px;
-  padding-top: 1px;
-  line-height: 20px;
-  vertical-align: top;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
@@ -266,10 +266,10 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  margin-bottom: 12px;
-  padding-top: 1px;
-  line-height: 20px;
-  vertical-align: top;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
@@ -479,10 +479,10 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  margin-bottom: 12px;
-  padding-top: 1px;
-  line-height: 20px;
-  vertical-align: top;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
@@ -683,10 +683,10 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  margin-bottom: 12px;
-  padding-top: 1px;
-  line-height: 20px;
-  vertical-align: top;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
@@ -887,10 +887,10 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  margin-bottom: 12px;
-  padding-top: 1px;
-  line-height: 20px;
-  vertical-align: top;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
@@ -1047,7 +1047,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -1275,7 +1275,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -1489,7 +1489,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
@@ -1762,10 +1762,10 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  margin-bottom: 12px;
-  padding-top: 1px;
-  line-height: 20px;
-  vertical-align: top;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
@@ -1958,10 +1958,10 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  margin-bottom: 12px;
-  padding-top: 1px;
-  line-height: 20px;
-  vertical-align: top;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
@@ -2176,10 +2176,10 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  margin-bottom: 12px;
-  padding-top: 1px;
-  line-height: 20px;
-  vertical-align: top;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
@@ -2380,10 +2380,10 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  margin-bottom: 12px;
-  padding-top: 1px;
-  line-height: 20px;
-  vertical-align: top;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
@@ -2597,10 +2597,10 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  margin-bottom: 12px;
-  padding-top: 1px;
-  line-height: 20px;
-  vertical-align: top;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
@@ -2815,10 +2815,10 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  margin-bottom: 12px;
-  padding-top: 1px;
-  line-height: 20px;
-  vertical-align: top;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
@@ -3019,10 +3019,10 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  margin-bottom: 12px;
-  padding-top: 1px;
-  line-height: 20px;
-  vertical-align: top;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
@@ -3241,10 +3241,10 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  margin-bottom: 12px;
-  padding-top: 1px;
-  line-height: 20px;
-  vertical-align: top;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
