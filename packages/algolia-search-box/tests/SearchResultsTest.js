@@ -1,12 +1,12 @@
 import React from "react";
 
-import { createComponentWithIntl } from "@yoast/helpers";
+import renderer from "react-test-renderer";
 import SearchResults from "../src/SearchResults";
 
 const post = { permalink: "https://kb.yoast.com/kb/passive-voice/", postTitle: "Post Title", objectID: 1 };
 
 test( "the SearchResults component with results matches the snapshot", () => {
-	const component = createComponentWithIntl(
+	const component = renderer.create(
 		<SearchResults
 			onClick={ () => {} }
 			post={ post }
@@ -23,7 +23,7 @@ test( "the SearchResults component with results matches the snapshot", () => {
 } );
 
 test( "the SearchResults component without results matches the snapshot", () => {
-	const component = createComponentWithIntl(
+	const component = renderer.create(
 		<SearchResults
 			onClick={ () => {} }
 			post={ {} }

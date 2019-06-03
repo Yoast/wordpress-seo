@@ -1,5 +1,4 @@
 import React from "react";
-import { IntlProvider } from "react-intl";
 import styled, { ThemeProvider } from "styled-components";
 import { setLocaleData } from "@wordpress/i18n";
 
@@ -246,17 +245,15 @@ class App extends React.Component {
 	 */
 	render() {
 		return (
-			<IntlProvider locale="en">
-				<ThemeProvider theme={ { isRtl: this.state.isRtl } }>
-					<div>
-						{ this.getMenu() }
-						<LanguageDirectionContainer>
-							{ this.renderLanguageDirectionButton() }
-						</LanguageDirectionContainer>
-						{ this.getContent() }
-					</div>
-				</ThemeProvider>
-			</IntlProvider>
+			<ThemeProvider theme={ { isRtl: this.state.isRtl } }>
+				<div>
+					{ this.getMenu() }
+					<LanguageDirectionContainer>
+						{ this.renderLanguageDirectionButton() }
+					</LanguageDirectionContainer>
+					{ this.getContent() }
+				</div>
+			</ThemeProvider>
 		);
 	}
 }

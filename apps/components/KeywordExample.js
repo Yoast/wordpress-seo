@@ -1,12 +1,10 @@
 // External dependencies.
-import React, { Component } from "react";
-import styled from "styled-components";
-import noop from "lodash/noop";
-
-// Internal dependencies.
-import KeywordInput from "yoast-components/composites/Plugin/Shared/components/KeywordInput";
 import { HelpText, SynonymsInput } from "@yoast/components";
 import { makeOutboundLink } from "@yoast/helpers";
+import noop from "lodash/noop";
+import React, { Component } from "react";
+import styled from "styled-components";
+import { KeywordInput } from "yoast-components";
 
 const HelpTextLink = makeOutboundLink();
 
@@ -17,6 +15,10 @@ const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 248px;
+`;
+
+const KeywordInputContainer = styled.div`
+	margin-bottom: 1em;
 `;
 
 /**
@@ -111,13 +113,15 @@ export default class KeywordExample extends Component {
 						Learn more about the Content Analysis Tool.
 					</HelpTextLink>
 				</HelpText>
-				<KeywordInput
-					id="focus-keyword"
-					label="focus-keyword"
-					onChange={ this.updateKeyword }
-					keyword={ this.state.keyword }
-					onRemoveKeyword={ noop }
-				/>
+				<KeywordInputContainer>
+					<KeywordInput
+						id="focus-keyword"
+						label="focus-keyword"
+						onChange={ this.updateKeyword }
+						keyword={ this.state.keyword }
+						onRemoveKeyword={ noop }
+					/>
+				</KeywordInputContainer>
 				<KeywordInput
 					id="additional-focus-keyword"
 					label="additional-focus-keyword"
@@ -129,6 +133,7 @@ export default class KeywordExample extends Component {
 					} }
 				/>
 				<SynonymsInput
+					id="synonyms"
 					label="Synonyms:"
 					onChange={ this.updateSynonymsInput }
 					value={ this.state.synonyms }

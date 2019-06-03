@@ -174,7 +174,7 @@ exports[`App renders without problems 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-edit IconButton-v5s3bl-0 khhyWe SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-edit IconButton-v5s3bl-0 khhyWe createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
           fill="#000"
           focusable="false"
           role="img"
@@ -196,7 +196,7 @@ exports[`App renders without problems 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-edit SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-edit createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
           fill="#c00"
           focusable="false"
           role="img"
@@ -216,7 +216,7 @@ exports[`App renders without problems 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-search SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-search createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
           fill="currentColor"
           focusable="false"
           role="img"
@@ -231,7 +231,7 @@ exports[`App renders without problems 1`] = `
         IconsButton
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-plus SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-plus createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
           fill="currentColor"
           focusable="false"
           role="img"
@@ -267,7 +267,7 @@ exports[`App renders without problems 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-eye SvgIcon__StyledSvg-sc-1l8fxgb-0 gstTlu"
+          className="yoast-svg-icon yoast-svg-icon-eye createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 dqTDIA"
           fill="#555"
           focusable="false"
           role="img"
@@ -305,7 +305,7 @@ exports[`App renders without problems 1`] = `
           Upsell Button
           <svg
             aria-hidden={true}
-            className="yoast-svg-icon yoast-svg-icon-caret-right UpsellButton__IconComponent-sc-7vlxuh-0 cghYDs SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+            className="yoast-svg-icon yoast-svg-icon-caret-right UpsellButton__IconComponent-sc-7vlxuh-0 cghYDs createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
             fill="#000"
             focusable="false"
             role="img"
@@ -335,7 +335,7 @@ exports[`App renders without problems 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-question-circle SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-question-circle createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
           fill="#0066cd"
           focusable="false"
           role="img"
@@ -355,7 +355,7 @@ exports[`App renders without problems 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-gear SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-gear createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
           fill="#0066cd"
           focusable="false"
           role="img"
@@ -375,7 +375,7 @@ exports[`App renders without problems 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-eye SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-eye createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
           fill="#0066cd"
           focusable="false"
           role="img"
@@ -395,7 +395,7 @@ exports[`App renders without problems 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-key SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-key createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
           fill="#0066cd"
           focusable="false"
           role="img"
@@ -415,7 +415,7 @@ exports[`App renders without problems 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-list SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-list createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
           fill="#0066cd"
           focusable="false"
           role="img"
@@ -435,7 +435,7 @@ exports[`App renders without problems 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-plus SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-plus createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
           fill="#0066cd"
           focusable="false"
           role="img"
@@ -462,7 +462,7 @@ exports[`App renders without problems 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-edit SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-edit createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
           fill="#c00"
           focusable="false"
           role="img"
@@ -482,7 +482,7 @@ exports[`App renders without problems 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-edit IconButton-v5s3bl-0 khhyWe SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-edit IconButton-v5s3bl-0 khhyWe createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
           fill="#c00"
           focusable="false"
           role="img"
@@ -575,7 +575,7 @@ exports[`App renders without problems 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-edit SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-edit createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
           fill="#c00"
           focusable="false"
           role="img"
@@ -595,7 +595,7 @@ exports[`App renders without problems 1`] = `
       >
         <svg
           aria-hidden={true}
-          className="yoast-svg-icon yoast-svg-icon-edit IconButton-v5s3bl-0 khhyWe SvgIcon__StyledSvg-sc-1l8fxgb-0 lphVpO"
+          className="yoast-svg-icon yoast-svg-icon-edit IconButton-v5s3bl-0 khhyWe createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
           fill="#c00"
           focusable="false"
           role="img"

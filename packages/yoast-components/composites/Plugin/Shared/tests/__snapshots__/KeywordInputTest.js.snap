@@ -34,7 +34,6 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
-  margin: 0 0 1em;
 }
 
 .c2 {
@@ -104,14 +103,6 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
   margin-left: -32px;
 }
 
-.c9 {
-  width: 18px;
-  height: 18px;
-  -webkit-flex: none;
-  -ms-flex: none;
-  flex: none;
-}
-
 <div
   className="c0"
 >
@@ -146,7 +137,7 @@ exports[`KeywordInput matches the snapshot by default 1`] = `
     >
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-times-circle c8 c9"
+        className="yoast-svg-icon yoast-svg-icon-times-circle c8 createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 dqTDIA"
         fill="#767676"
         focusable="false"
         role="img"

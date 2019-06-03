@@ -1,7 +1,8 @@
+/* External dependencies */
 import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import isArray from "lodash/isArray";
+
+/* Yoast dependencies */
+import { createSvgIconComponent } from "@yoast/helpers";
 
 const DEFAULT_VIEWBOX = "0 0 1792 1792";
 /* eslint-disable max-len, quote-props */
@@ -58,64 +59,4 @@ export const icons = {
 };
 /* eslint-enable */
 
-/**
- * Returns the SvgIcon component.
- *
- * @param {object} props Component props.
- *
- * @returns {ReactElement} SvgIcon component.
- */
-export default class SvgIcon extends React.Component {
-	/**
-	 * Renders an SVG icon.
-	 *
-	 * @returns {ReactElement|null} The rendered SVG icon.
-	 */
-	render() {
-		const { icon, className, color, size } = this.props;
-		const iconName = icons[ icon ];
-
-		if ( ! iconName ) {
-			console.warn( `Invalid icon name ("${ icon }") passed to the SvgIcon component.` );
-			return null;
-		}
-
-		const path = iconName.path;
-		const viewbox = iconName.viewbox;
-
-		const iconClass = [ "yoast-svg-icon", "yoast-svg-icon-" + icon, className ].filter( Boolean ).join( " " );
-
-		const StyledSvg = styled.svg`
-			width: ${ props => props.size };
-			height: ${ props => props.size };
-			flex: none;
-		`;
-
-		return (
-			<StyledSvg
-				aria-hidden={ true }
-				role="img"
-				focusable="false"
-				size={ size }
-				className={ iconClass }
-				xmlns="http://www.w3.org/2000/svg"
-				viewBox={ viewbox }
-				fill={ color }
-			>
-				{ isArray( path ) ? path : <path d={ path } /> }
-			</StyledSvg>
-		);
-	}
-}
-
-SvgIcon.propTypes = {
-	icon: PropTypes.string.isRequired,
-	color: PropTypes.string,
-	size: PropTypes.string,
-	className: PropTypes.string,
-};
-
-SvgIcon.defaultProps = {
-	size: "16px",
-	color: "currentColor",
-};
+export default createSvgIconComponent( icons );
