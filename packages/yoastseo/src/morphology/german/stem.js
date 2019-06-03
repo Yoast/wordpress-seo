@@ -17,7 +17,7 @@
  */
 const determineR1 = function( word ) {
 	// Start with matching first vowel and non-vowel.
-	let r1Index = word.search( /[aeiouyè][^aeiouyè]/ );
+	let r1Index = word.search( /[aeiouyèäöü][^aeiouyèäöü]/ );
 	// Then add 2 since the R1 index is the index after the first vowel & non-vowel matched with the regex.
 	if ( r1Index !== -1 ) {
 		r1Index += 2;
