@@ -123,7 +123,7 @@ class WPSEO_Taxonomy_Metabox {
 
 		return new WPSEO_Metabox_Section_React(
 			'content',
-			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-metabox-tab-icon-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
+			'<span class="yst-metabox-tab-icon-container">' . WPSEO_Utils::traffic_light_svg() . '</span>' . __( 'Content optimization', 'wordpress-seo' ),
 			$content,
 			array(
 				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
@@ -152,7 +152,7 @@ class WPSEO_Taxonomy_Metabox {
 
 		return new WPSEO_Metabox_Tab_Section(
 			'settings',
-			'<span class="screen-reader-text">' . __( 'Settings', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-admin-generic"></span>',
+			'<span class="dashicons dashicons-admin-generic"></span>' . __( 'Settings', 'wordpress-seo' ),
 			array( $tab ),
 			array(
 				'link_aria_label' => __( 'Settings', 'wordpress-seo' ),
@@ -176,7 +176,7 @@ class WPSEO_Taxonomy_Metabox {
 
 		return new WPSEO_Metabox_Tab_Section(
 			'social',
-			'<span class="screen-reader-text">' . __( 'Social', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-share"></span>',
+			'<span class="dashicons dashicons-share"></span>' . __( 'Social', 'wordpress-seo' ),
 			$tabs,
 			array(
 				'link_aria_label' => __( 'Social', 'wordpress-seo' ),
@@ -205,7 +205,7 @@ class WPSEO_Taxonomy_Metabox {
 		$tab_settings = new WPSEO_Metabox_Form_Tab(
 			$name,
 			$this->social_admin->get_premium_notice( $network ) . $this->taxonomy_tab_content->html( $meta_fields ),
-			'<span class="screen-reader-text">' . $label . '</span><span class="dashicons dashicons-' . $icon . '"></span>',
+			'<span class="dashicons dashicons-' . $icon . '"></span>' . $label,
 			array(
 				'link_aria_label' => $label,
 				'link_class'      => 'yoast-tooltip yoast-tooltip-se',
