@@ -1,4 +1,6 @@
 import cloneDeep from "lodash/cloneDeep";
+import get from "lodash/get";
+import identity from "lodash/identity";
 import merge from "lodash/merge";
 
 import measureTextWidth from "../helpers/measureTextWidth";
@@ -26,6 +28,10 @@ export default function collectAnalysisData( edit, store, customAnalysisData, pl
 	merge( storeData, customAnalysisData.getData() );
 	const editData = edit.getData().getData();
 
+	// The SEO title with replace variables (e.g. `%%site%%`) removed (**not** replaced).
+	const removePlaceholders = get( window, [ "YoastSEO", "wp", "replaceVarsPlugin", "removePlaceholders" ], identity );
+	const titleWithoutReplacements = removePlaceholders( storeData.snippetEditor.data.title );
+
 	// Make a data structure for the paper data.
 	const data = {
 		text: editData.content,
@@ -40,6 +46,7 @@ export default function collectAnalysisData( edit, store, customAnalysisData, pl
 		title: storeData.analysisData.snippet.title || storeData.snippetEditor.data.title,
 		url: storeData.snippetEditor.data.slug,
 		permalink: storeData.settings.snippetEditor.baseUrl + storeData.snippetEditor.data.slug,
+		titleWithoutReplacements,
 	};
 
 	// Modify the data through pluggable.

@@ -620,6 +620,21 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		return parentText;
 	};
 
+	/**
+	 * Removes replace variable placeholders from the given text.
+	 *
+	 * @param {string} text The text to remove the replace variables in.
+	 * @returns {string} The text with no replace variables.
+	 */
+	YoastReplaceVarPlugin.prototype.removePlaceholders = function( text ) {
+		const placeholderStrings = Object.keys( placeholders );
+		placeholderStrings.forEach( placeholder => {
+			const regex = new RegExp( placeholder, "g" );
+			text = text.replace( regex, "" );
+		} );
+		return text.trim();
+	};
+
 	/*
 	 * STATIC VARIABLES
 	 */
