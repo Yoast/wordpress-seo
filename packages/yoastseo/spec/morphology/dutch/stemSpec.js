@@ -23,6 +23,8 @@ const wordsToStem = [
 	[ "zo", "zo" ],
 	// A word with a vowel that should be treated like a consonant
 	[ "groeien", "groei" ],
+	// A word that needs to have the vowel undoubled
+	[ "maan", "man" ],
 ];
 
 describe( "Test for stemming Dutch words", () => {

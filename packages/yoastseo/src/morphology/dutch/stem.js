@@ -46,7 +46,7 @@ const determineR1 = function( word ) {
 const findSuffixStep1 = function( word ) {
 	const a1Index = word.search( /heden$/g );
 	let b1Index = word.search( /([^aeoiuyè]|(g[^e]m)|([^g]em))(en|ene)$/g );
-	let c1Index = word.search( /[^aeoiuyèj](s|se)$/g );
+	let c1Index = word.search( /([^aeoiuyèj]|je)(s|se)$/g );
 	// Exclude the -en and -s endings.
 	if ( b1Index !== -1 ) {
 		b1Index++;
@@ -77,13 +77,13 @@ const findSuffixStep1 = function( word ) {
 	return { index1, optionUsed };
 };
 
-/**
- * Finds the suffix -e if preceded by a valid -e ending (non-vowel).
+/*
+*
+ * Finds the different types of diminutive suffixes.
  *
  * @param {string} word		The word to find the suffix for.
  * @returns {number} index2 	The index of the suffix.
- */
-const findSuffixStep2 = function( word ) {
+const findDiminutiveSuffix = function( word ) {
 	let index2 = word.search( /[^aoeiuyè]e$/ );
 	// Exclude the -e ending.
 	if ( index2 !== -1 ) {
@@ -93,6 +93,25 @@ const findSuffixStep2 = function( word ) {
 	}
 
 	return index2;
+};
+*/
+
+/**
+ * Finds the suffix -e if preceded by a valid -e ending (non-vowel).
+ *
+ * @param {string} word		The word to find the suffix for.
+ * @returns {number} index2 	The index of the suffix.
+ */
+const findSuffixStep3 = function( word ) {
+	let index3 = word.search( /[^aoeiuyè]e$/ );
+	// Exclude the -e ending.
+	if ( index3 !== -1 ) {
+		index3++;
+
+		return index3;
+	}
+
+	return index3;
 };
 
 
@@ -124,13 +143,13 @@ const deleteSuffix1 = function( word, index1, optionUsed, r1Index ) {
 /**
  *
  * @param {string} word		The word to delete the suffix from.
- * @param {number} index2	The index of the suffix.
+ * @param {number} index3	The index of the suffix.
  * @param {number} r1Index 	The R1 index.
  * @returns {string} word 	The word with the deleted suffix.
  */
-const deleteSuffix2 = function( word, index2, r1Index ) {
-	if ( index2 !== 10000 && r1Index !== -1 ) {
-		if ( index2 >= r1Index ) {
+const deleteSuffix3 = function( word, index3, r1Index ) {
+	if ( index3 !== 10000 && r1Index !== -1 ) {
+		if ( index3 >= r1Index ) {
 			word = word.substring( 0, word.length - 1 );
 		}
 	}
@@ -174,15 +193,21 @@ export default function stem( word ) {
 	word = deleteSuffix1( word, index1, optionUsed, r1Index );
 
 	// Find suffix as defined in step 2.
-	const index2 = findSuffixStep2( word );
+	const index3 = findSuffixStep3( word );
 
 	// Delete suffix found in step 2.
-	word = deleteSuffix2( word, index2, r1Index );
+	word = deleteSuffix3( word, index3, r1Index );
 
 	// Undouble stem ending.
 	word = word.replace( /(.*)tt$/g, "$1t" );
 	word = word.replace( /(.*)kk$/g, "$1k" );
 	word = word.replace( /(.*)dd$/g, "$1d" );
+
+	// Undouble vowel
+	word = word.replace( /([^aeiouyè])(aa)([^aeiouyèI])$/g, "$1a$3" );
+	word = word.replace( /([^aeiouyè])(ee)([^aeiouyèI])$/g, "$1e$3" );
+	word = word.replace( /([^aeiouyè])(oo)([^aeiouyèI])$/g, "$1o$3" );
+	word = word.replace( /([^aeiouyè])(uu)([^aeiouyèI])$/g, "$1u$3" );
 
 	// Turn I and Y back into lower case.
 	word = word.replace( /I/g, "i" );
