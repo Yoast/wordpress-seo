@@ -9,7 +9,6 @@ namespace Yoast\WP\Free\Watchers;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Models\Primary_Term as Primary_Term_Indexable;
 use Yoast\WP\Free\WordPress\Integration;
 
@@ -113,15 +112,7 @@ class Primary_Term_Watcher implements Integration {
 			$post_id = $this->get_current_id();
 		}
 
-		// @todo determine if caching is needed here, no database queries are used?
-		$taxonomies = wp_cache_get( 'primary_term_taxonomies_' . $post_id, 'wpseo' );
-		if ( false !== $taxonomies ) {
-			return $taxonomies;
-		}
-
 		$taxonomies = $this->generate_primary_term_taxonomies( $post_id );
-
-		wp_cache_set( 'primary_term_taxonomies_' . $post_id, $taxonomies, 'wpseo' );
 
 		return $taxonomies;
 	}

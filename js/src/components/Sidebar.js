@@ -2,11 +2,11 @@
 import { Fill } from "@wordpress/components";
 import { Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
-import React from "react";
 
 /* Internal dependencies */
 import CollapsibleCornerstone from "../containers/CollapsibleCornerstone";
 import Warning from "../containers/Warning";
+import KeywordInput from "./contentAnalysis/KeywordInput";
 import ReadabilityAnalysis from "./contentAnalysis/ReadabilityAnalysis";
 import SeoAnalysis from "./contentAnalysis/SeoAnalysis";
 import SidebarItem from "./SidebarItem";
@@ -37,7 +37,16 @@ export default function Sidebar( { settings, store, theme } ) {
 						<Warning />
 					</TopLevelProviders>
 				</SidebarItem>
-				{ <SidebarItem renderPriority={ 5 }>
+				{ settings.isKeywordAnalysisActive && <SidebarItem renderPriority={ 8 }>
+					<TopLevelProviders
+						store={ store }
+						theme={ theme }
+						location={ "sidebar" }
+					>
+						<KeywordInput />
+					</TopLevelProviders>
+				</SidebarItem> }
+				{ <SidebarItem renderPriority={ 9 }>
 					<TopLevelProviders
 						store={ store }
 						theme={ theme }

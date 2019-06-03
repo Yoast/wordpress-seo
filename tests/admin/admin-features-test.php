@@ -2,65 +2,72 @@
 
 namespace Yoast\WP\Free\Tests\Admin;
 
+use WPSEO_Admin;
+use WPSEO_GSC;
+use WPSEO_Primary_Term_Admin;
+use Yoast_Dashboard_Widget;
+use Yoast_Notification;
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\Free\Tests\Doubles\Shortlinker;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Admin_Features.
  *
  * @package Yoast\Tests\Admin
  */
-class Admin_Features extends \Yoast\WP\Free\Tests\TestCase {
+class Admin_Features_Test extends TestCase {
 
 	private function get_admin_with_expectations() {
 		$shortlinker = new Shortlinker();
 
 		Monkey\Functions\expect( 'add_query_arg' )
 			->times( 4 )
-			->with( $shortlinker->get_additional_shortlink_data(), \Mockery::pattern( '/https:\/\/yoa.st\/*/' ) )
+			->with( $shortlinker->get_additional_shortlink_data(), Mockery::pattern( '/https:\/\/yoa.st\/*/' ) )
 			->andReturn( 'https://example.org' );
 
 		Monkey\Functions\expect( 'admin_url' )
 			->once()
-			->with( '?page=' . \WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' )
+			->with( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' )
 			->andReturn( 'https://example.org' );
 
 		Monkey\Functions\expect( 'wp_parse_args' )
 			->once()
 			->with(
 				array(
-					'type'         => \Yoast_Notification::WARNING,
+					'type'         => Yoast_Notification::WARNING,
 					'id'           => 'wpseo-upsell-notice',
 					'capabilities' => 'wpseo_manage_options',
 					'priority'     => 0.8,
 				),
 				array(
-					'type'             => \Yoast_Notification::UPDATED,
+					'type'             => Yoast_Notification::UPDATED,
 					'id'               => '',
 					'nonce'            => null,
 					'priority'         => 0.5,
 					'data_json'        => array(),
 					'dismissal_key'    => null,
 					'capabilities'     => array(),
-					'capability_check' => \Yoast_Notification::MATCH_ALL,
+					'capability_check' => Yoast_Notification::MATCH_ALL,
 					'yoast_branding'   => false,
 				)
 			)
 			->andReturn(
 				array(
-					'type'             => \Yoast_Notification::WARNING,
+					'type'             => Yoast_Notification::WARNING,
 					'id'               => 'wpseo-upsell-notice',
 					'nonce'            => null,
 					'priority'         => 0.8,
 					'data_json'        => array(),
 					'dismissal_key'    => null,
 					'capabilities'     => 'wpseo_manage_options',
-					'capability_check' => \Yoast_Notification::MATCH_ALL,
+					'capability_check' => Yoast_Notification::MATCH_ALL,
 					'yoast_branding'   => false,
 				)
 			);
 
-		return new \WPSEO_Admin();
+		return new WPSEO_Admin();
 	}
 
 	/**
@@ -75,9 +82,9 @@ class Admin_Features extends \Yoast\WP\Free\Tests\TestCase {
 		$class_instance = $this->get_admin_with_expectations();
 
 		$admin_features = array(
-			'google_search_console'  => new \WPSEO_GSC(),
-			'primary_category'       => new \WPSEO_Primary_Term_Admin(),
-			'dashboard_widget'       => new \Yoast_Dashboard_Widget(),
+			'google_search_console'  => new WPSEO_GSC(),
+			'primary_category'       => new WPSEO_Primary_Term_Admin(),
+			'dashboard_widget'       => new Yoast_Dashboard_Widget(),
 		);
 
 		$this->assertEquals( $admin_features, $class_instance->get_admin_features() );
@@ -95,8 +102,8 @@ class Admin_Features extends \Yoast\WP\Free\Tests\TestCase {
 		$class_instance = $this->get_admin_with_expectations();
 
 		$admin_features = array(
-			'google_search_console' => new \WPSEO_GSC(),
-			'dashboard_widget'      => new \Yoast_Dashboard_Widget(),
+			'google_search_console' => new WPSEO_GSC(),
+			'dashboard_widget'      => new Yoast_Dashboard_Widget(),
 		);
 
 		$this->assertEquals( $admin_features, $class_instance->get_admin_features() );

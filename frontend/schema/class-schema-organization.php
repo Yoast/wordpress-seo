@@ -19,7 +19,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 	private $context;
 
 	/**
-	 * WPSEO_Schema_Breadcrumb constructor.
+	 * WPSEO_Schema_Organization constructor.
 	 *
 	 * @param WPSEO_Schema_Context $context A value object with context variables.
 	 */

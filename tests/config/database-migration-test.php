@@ -10,6 +10,8 @@ use Yoast\WP\Free\Yoast_Model;
 
 use Brain\Monkey;
 
+use Yoast\WP\Free\Tests\TestCase;
+
 
 /**
  * Class Database_Migration_Test.
@@ -18,7 +20,7 @@ use Brain\Monkey;
  *
  * @package Yoast\Tests
  */
-class Database_Migration_Test extends \Yoast\WP\Free\Tests\TestCase {
+class Database_Migration_Test extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
@@ -334,7 +336,7 @@ class Database_Migration_Test extends \Yoast\WP\Free\Tests\TestCase {
 	/**
 	 * Retrieves a class to mock a FrameworkRunner.
 	 *
-	 * @return FrameworkRunner
+	 * @return \FrameworkRunner
 	 */
 	protected function get_framework_runner_mock() {
 		return $this

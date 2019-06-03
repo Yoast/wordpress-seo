@@ -23,8 +23,7 @@ var imageScoreClass = "image yoast-logo svg";
 	 * @returns {String} A string with label and description with correct text decoration.
 	 */
 	function createSEOScoreLabel( scoreType, status ) {
-		var label = wpseoPostScraperL10n.publish_box.labels[ scoreType ][ status ] || "";
-		return label;
+		return wpseoPostScraperL10n.publish_box.labels[ scoreType ][ status ] || "";
 	}
 
 	/**
@@ -72,6 +71,40 @@ var imageScoreClass = "image yoast-logo svg";
 	}
 
 	/**
+	 * Scrolls to metabox collapsible and opens it when closed.
+	 *
+	 * @param {string} id Metabox collapsible id.
+	 *
+	 * @returns {void}
+	 */
+	function scrollToCollapsible( id ) {
+		const $adminbar = $( "#wpadminbar" );
+		const $collapsible = $( id );
+
+		if ( ! $adminbar || ! $collapsible ) {
+			return;
+		}
+
+		// The adminbar height depends on the viewport width.
+		const adminbarHeight = $adminbar.css( "position" ) === "fixed" ? $adminbar.height() : 0;
+
+		$( [ document.documentElement, document.body ] ).animate( {
+			scrollTop: $collapsible.offset().top - adminbarHeight,
+		}, 1000 );
+
+		// Move focus to the collapsible.
+		$collapsible.focus();
+
+		// The content of the analysis is a sibling of the h2 in the collapsible.
+		const $h2 = $collapsible.parent();
+
+		// If the sibling is not there, the collapsible is collapsed, so we should open it.
+		if ( $h2.siblings().length === 0 ) {
+			$collapsible.click();
+		}
+	}
+
+	/**
 	 * Initializes the publish box score indicators.
 	 *
 	 * @returns {void}
@@ -86,6 +119,20 @@ var imageScoreClass = "image yoast-logo svg";
 		if ( wpseoPostScraperL10n.keywordAnalysisActive === "1" ) {
 			createScoresInPublishBox( "keyword", notAvailableStatus );
 		}
+
+		// Target only the link and use event delegation, as this link doesn't exist on dom ready yet.
+		$( "#content-score" ).on( "click", "[href='#yoast-readability-analysis-collapsible-metabox']", function( event ) {
+			event.preventDefault();
+
+			scrollToCollapsible( "#yoast-readability-analysis-collapsible-metabox" );
+		} );
+
+		// Target only the link and use event delegation, as this link doesn't exist on dom ready yet.
+		$( "#keyword-score" ).on( "click", "[href='#yoast-seo-analysis-collapsible-metabox']", function( event ) {
+			event.preventDefault();
+
+			scrollToCollapsible( "#yoast-seo-analysis-collapsible-metabox" );
+		} );
 	}
 
 	module.exports = {

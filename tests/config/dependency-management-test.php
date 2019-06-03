@@ -3,6 +3,7 @@
 namespace Yoast\WP\Free\Tests\Config;
 
 use Yoast\WP\Free\Config\Dependency_Management;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Dependency_Management_Test.
@@ -11,7 +12,7 @@ use Yoast\WP\Free\Config\Dependency_Management;
  *
  * @package Yoast\Tests
  */
-class Dependency_Management_Test extends \Yoast\WP\Free\Tests\TestCase {
+class Dependency_Management_Test extends TestCase {
 
 	/**
 	 * Tests if the alias is created with ideal conditions.
@@ -40,7 +41,7 @@ class Dependency_Management_Test extends \Yoast\WP\Free\Tests\TestCase {
 			->with( 'My_Class', YOAST_VENDOR_NS_PREFIX . '\My_Class' )
 			->will( $this->returnValue( true ) );
 
-		/** @var Dependency_Management $instance */
+		/** @var \Yoast\WP\Free\Config\Dependency_Management $instance */
 		$instance->ensure_class_alias( YOAST_VENDOR_NS_PREFIX . '\My_Class' );
 	}
 
@@ -67,7 +68,7 @@ class Dependency_Management_Test extends \Yoast\WP\Free\Tests\TestCase {
 			->expects( $this->never() )
 			->method( 'prefixed_available' );
 
-		/** @var Dependency_Management $instance */
+		/** @var \Yoast\WP\Free\Config\Dependency_Management $instance */
 		$instance->ensure_class_alias( 'Unrelated_Class' );
 	}
 
@@ -95,7 +96,7 @@ class Dependency_Management_Test extends \Yoast\WP\Free\Tests\TestCase {
 			->expects( $this->never() )
 			->method( 'class_alias' );
 
-		/** @var Dependency_Management $instance */
+		/** @var \Yoast\WP\Free\Config\Dependency_Management $instance */
 		$instance->ensure_class_alias( YOAST_VENDOR_NS_PREFIX . '\Some_Class' );
 	}
 
@@ -125,7 +126,7 @@ class Dependency_Management_Test extends \Yoast\WP\Free\Tests\TestCase {
 			->expects( $this->never() )
 			->method( 'class_alias' );
 
-		/** @var Dependency_Management $instance */
+		/** @var \Yoast\WP\Free\Config\Dependency_Management $instance */
 		$instance->ensure_class_alias( YOAST_VENDOR_NS_PREFIX . '\Some_Class' );
 	}
 
@@ -138,7 +139,7 @@ class Dependency_Management_Test extends \Yoast\WP\Free\Tests\TestCase {
 		$instance = new Dependency_Management();
 		$instance->initialize();
 
-		$registered_autoloaders = spl_autoload_functions();
+		$registered_autoloaders = \spl_autoload_functions();
 
 		$this->assertContains( array( $instance, 'ensure_class_alias' ), $registered_autoloaders );
 	}

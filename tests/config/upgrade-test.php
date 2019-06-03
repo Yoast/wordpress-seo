@@ -3,13 +3,14 @@
 namespace Yoast\WP\Free\Tests\Config;
 
 use Yoast\WP\Free\Config\Upgrade;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Upgrade_Test.
  *
  * @package Yoast\Tests\Config
  */
-class Upgrade_Test extends \Yoast\WP\Free\Tests\TestCase {
+class Upgrade_Test extends TestCase {
 
 	public function test_do_upgrade() {
 		$migration = $this
@@ -40,7 +41,7 @@ class Upgrade_Test extends \Yoast\WP\Free\Tests\TestCase {
 		$upgrade = new Upgrade( $migration );
 		$upgrade->register_hooks();
 
-		$actual = has_action( 'wpseo_run_upgrade', array( $upgrade, 'do_upgrade' ) );
+		$actual = \has_action( 'wpseo_run_upgrade', array( $upgrade, 'do_upgrade' ) );
 
 		$this->assertEquals( 10, $actual );
 	}
