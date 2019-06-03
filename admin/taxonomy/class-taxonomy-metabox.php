@@ -124,11 +124,7 @@ class WPSEO_Taxonomy_Metabox {
 		return new WPSEO_Metabox_Section_React(
 			'content',
 			'<span class="yst-metabox-tab-icon-container">' . WPSEO_Utils::traffic_light_svg() . '</span>' . __( 'Content optimization', 'wordpress-seo' ),
-			$content,
-			array(
-				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
-			)
+			$content
 		);
 	}
 
@@ -153,11 +149,7 @@ class WPSEO_Taxonomy_Metabox {
 		return new WPSEO_Metabox_Tab_Section(
 			'settings',
 			'<span class="dashicons dashicons-admin-generic"></span>' . __( 'Settings', 'wordpress-seo' ),
-			array( $tab ),
-			array(
-				'link_aria_label' => __( 'Settings', 'wordpress-seo' ),
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
-			)
+			array( $tab )
 		);
 	}
 
@@ -177,11 +169,7 @@ class WPSEO_Taxonomy_Metabox {
 		return new WPSEO_Metabox_Tab_Section(
 			'social',
 			'<span class="dashicons dashicons-share"></span>' . __( 'Social', 'wordpress-seo' ),
-			$tabs,
-			array(
-				'link_aria_label' => __( 'Social', 'wordpress-seo' ),
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
-			)
+			$tabs
 		);
 	}
 
@@ -207,8 +195,6 @@ class WPSEO_Taxonomy_Metabox {
 			$this->social_admin->get_premium_notice( $network ) . $this->taxonomy_tab_content->html( $meta_fields ),
 			'<span class="dashicons dashicons-' . $icon . '"></span>' . $label,
 			array(
-				'link_aria_label' => $label,
-				'link_class'      => 'yoast-tooltip yoast-tooltip-se',
 				'single'          => $this->has_single_social_tab(),
 			)
 		);
