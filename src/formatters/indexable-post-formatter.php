@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Formatters;
 
-use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Models\SEO_Meta;
 
 /**

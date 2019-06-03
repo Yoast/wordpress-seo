@@ -8,7 +8,6 @@
 namespace Yoast\WP\Free;
 
 use Yoast\WP\Free\Exceptions\Missing_Method;
-use YoastSEO_Vendor\ORM;
 
 /**
  * Make Model compatible with WordPress.
@@ -67,7 +66,7 @@ class Yoast_Model {
 	 *
 	 * @var bool $short_table_names
 	 */
-	public static $short_table_names = \false;
+	public static $short_table_names = false;
 
 	/**
 	 * The ORM instance used by this model instance to communicate with the database.

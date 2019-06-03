@@ -1,10 +1,12 @@
 <?php
 
-namespace Yoast\Tests\Formatters;
+namespace Yoast\WP\Free\Tests\Formatters;
 
-use Yoast\Tests\Doubles\Indexable_Post_Formatter_Double as Indexable_Post_Double;
-
+use WPSEO_Meta;
 use Brain\Monkey;
+use Yoast\WP\Free\Tests\Doubles\Indexable_Post_Formatter_Double as Indexable_Post_Double;
+use Yoast\WP\Free\Tests\TestCase;
+use stdClass;
 
 /**
  * Class Indexable_Post_Test.
@@ -14,7 +16,7 @@ use Brain\Monkey;
  *
  * @package Yoast\Tests\Watchers
  */
-class Indexable_Post_Formatter_Test extends \Yoast\Tests\TestCase {
+class Indexable_Post_Formatter_Test extends TestCase {
 
 	/**
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::format
@@ -105,12 +107,12 @@ class Indexable_Post_Formatter_Test extends \Yoast\Tests\TestCase {
 	public function test_get_meta_value() {
 		Monkey\Functions\expect( 'update_post_meta' )
 			->once()
-			->with( 1, \WPSEO_Meta::$meta_prefix . 'a', 'b' )
+			->with( 1, WPSEO_Meta::$meta_prefix . 'a', 'b' )
 			->andReturn( true );
 		Monkey\Functions\expect( 'get_post_custom' )
 			->once()
 			->with( 1 )
-			->andReturn( [ \WPSEO_Meta::$meta_prefix . 'a' => 'b' ] );
+			->andReturn( [ WPSEO_Meta::$meta_prefix . 'a' => 'b' ] );
 		Monkey\Functions\expect( 'maybe_unserialize' )
 			->once()
 			->with( 'b' )
@@ -118,7 +120,7 @@ class Indexable_Post_Formatter_Test extends \Yoast\Tests\TestCase {
 
 		$instance = new Indexable_Post_Double( 1 );
 
-		\WPSEO_Meta::set_value( 'a', 'b', 1 );
+		WPSEO_Meta::set_value( 'a', 'b', 1 );
 
 		$this->assertEquals( 'b', $instance->get_meta_value( 'a' ) );
 	}
@@ -202,12 +204,12 @@ class Indexable_Post_Formatter_Test extends \Yoast\Tests\TestCase {
 	 */
 	public function test_set_link_count() {
 		$formatter = $this
-			->getMockBuilder( '\Yoast\Tests\Doubles\Indexable_Post_Formatter_Double' )
+			->getMockBuilder( '\Yoast\WP\Free\Tests\Doubles\Indexable_Post_Formatter_Double' )
 			->setConstructorArgs( array( 1 ) )
 			->setMethods( array( 'get_seo_meta' ) )
 			->getMock();
 
-		$seo_meta                      = new \stdClass();
+		$seo_meta                      = new stdClass();
 		$seo_meta->internal_link_count = 404;
 		$seo_meta->incoming_link_count = 1337;
 
@@ -216,7 +218,7 @@ class Indexable_Post_Formatter_Test extends \Yoast\Tests\TestCase {
 			->method( 'get_seo_meta' )
 			->will( $this->returnValue( $seo_meta ) );
 
-		$indexable = new \stdClass();
+		$indexable = new stdClass();
 		$indexable = $formatter->set_link_count( $indexable );
 
 		$this->assertAttributeEquals( 404, 'link_count', $indexable );
@@ -230,7 +232,7 @@ class Indexable_Post_Formatter_Test extends \Yoast\Tests\TestCase {
 	 */
 	public function test_set_link_count_with_thrown_exception() {
 		$formatter = $this
-			->getMockBuilder( '\Yoast\Tests\Doubles\Indexable_Post_Formatter_Double' )
+			->getMockBuilder( '\Yoast\WP\Free\Tests\Doubles\Indexable_Post_Formatter_Double' )
 			->setConstructorArgs( array( 1 ) )
 			->setMethods( array( 'get_seo_meta' ) )
 			->getMock();
@@ -241,7 +243,7 @@ class Indexable_Post_Formatter_Test extends \Yoast\Tests\TestCase {
 			->method( 'get_seo_meta' )
 			->will( $this->throwException( new \Exception() ) );
 
-		$indexable = new \stdClass();
+		$indexable = new stdClass();
 		$indexable = $formatter->set_link_count( $indexable );
 	}
 }

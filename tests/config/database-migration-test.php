@@ -1,12 +1,12 @@
 <?php
 
-namespace Yoast\Tests\Config;
+namespace Yoast\WP\Free\Tests\Config;
 
-use Yoast\Tests\Doubles\Database_Migration;
-use Yoast\Tests\Doubles\Database_Migration as Database_Migration_Double;
 use Yoast\WP\Free\Config\Dependency_Management;
-
 use Brain\Monkey;
+use Yoast\WP\Free\Tests\Doubles\Database_Migration;
+use Yoast\WP\Free\Tests\Doubles\Database_Migration as Database_Migration_Double;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Database_Migration_Test.
@@ -15,13 +15,13 @@ use Brain\Monkey;
  *
  * @package Yoast\Tests
  */
-class Database_Migration_Test extends \Yoast\Tests\TestCase {
+class Database_Migration_Test extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
 
 		global $wpdb;
-		$wpdb = $this->createMock( '\stdClass' );
+		$wpdb         = $this->createMock( '\stdClass' );
 		$wpdb->prefix = 'test';
 	}
 
@@ -35,7 +35,7 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 			->andReturn( true );
 
 		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
+			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Database_Migration' )
 			->setConstructorArgs( array( null, new Dependency_Management() ) )
 			->setMethods( array( 'set_defines' ) )
 			->getMock();
@@ -53,7 +53,7 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 	 */
 	public function test_is_usable() {
 		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
+			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Database_Migration' )
 			->disableOriginalConstructor()
 			->setMethods( array( 'get_migration_state' ) )
 			->getMock();
@@ -70,7 +70,7 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 	 */
 	public function test_is_not_usable() {
 		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
+			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Database_Migration' )
 			->disableOriginalConstructor()
 			->setMethods( array( 'get_migration_state' ) )
 			->getMock();
@@ -96,11 +96,13 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 			->disableOriginalConstructor()
 			->setMethods( null )
 			->getMock();
+
 		/**
 		 * @var \Yoast\WP\Free\Config\Database_Migration $instance
 		 */
 		$this->assertTrue( $instance->is_usable() );
 	}
+
 	/**
 	 * Tests if the migrations are usable with transients.
 	 */
@@ -132,7 +134,7 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 			->andReturn( true );
 
 		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
+			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Database_Migration' )
 			->setConstructorArgs( array( null, new Dependency_Management() ) )
 			->setMethods(
 				array(
@@ -162,7 +164,7 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 	 */
 	public function test_initialize_with_exception_thrown() {
 		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
+			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Database_Migration' )
 			->setConstructorArgs( array( null, new Dependency_Management() ) )
 			->setMethods(
 				array(
@@ -223,7 +225,7 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 	 */
 	public function test_set_define_success() {
 		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
+			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Database_Migration' )
 			->setConstructorArgs( array( null, new Dependency_Management() ) )
 			->setMethods(
 				array( 'set_define', 'get_defines' )
@@ -249,7 +251,7 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 	 */
 	public function test_set_define_failed() {
 		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Database_Migration' )
+			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Database_Migration' )
 			->setConstructorArgs( array( null, new Dependency_Management() ) )
 			->setMethods(
 				array( 'set_define', 'get_defines' )
@@ -325,7 +327,7 @@ class Database_Migration_Test extends \Yoast\Tests\TestCase {
 	/**
 	 * Retrieves a class to mock a FrameworkRunner.
 	 *
-	 * @return FrameworkRunner
+	 * @return \FrameworkRunner
 	 */
 	protected function get_framework_runner_mock() {
 		return $this

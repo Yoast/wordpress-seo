@@ -19,7 +19,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	private $context;
 
 	/**
-	 * WPSEO_Schema_Breadcrumb constructor.
+	 * WPSEO_Schema_Article constructor.
 	 *
 	 * @param WPSEO_Schema_Context $context A value object with context variables.
 	 */
@@ -57,7 +57,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			'datePublished'    => mysql2date( DATE_W3C, $post->post_date_gmt, false ),
 			'dateModified'     => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
 			'commentCount'     => $comment_count['approved'],
-			'mainEntityOfPage' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH,
+			'mainEntityOfPage' => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
 		);
 
 		if ( $this->context->site_represents_reference ) {
@@ -105,7 +105,24 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			return $this->context->site_url . WPSEO_Schema_IDs::PERSON_HASH;
 		}
 
-		return get_author_posts_url( $post->post_author ) . WPSEO_Schema_IDs::AUTHOR_HASH;
+		return $this->get_author_posts_url( $post->post_author ) . WPSEO_Schema_IDs::AUTHOR_HASH;
+	}
+
+	/**
+	 * Retrieves the author post URL based on our author archives settings.
+	 *
+	 * @param int $user_id The author's user ID.
+	 *
+	 * @return string unsigned Author posts URL.
+	 */
+	private function get_author_posts_url( $user_id ) {
+		if ( WPSEO_Options::get( 'disable-author', false ) === false ) {
+			return get_author_posts_url( $user_id );
+		}
+		$user = get_userdata( $user_id );
+		$slug = sanitize_title( $user->display_name );
+
+		return $this->context->site_url . 'schema/person/' . $slug . '/';
 	}
 
 	/**

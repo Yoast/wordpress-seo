@@ -1,24 +1,27 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Admin
- */
+
+namespace Yoast\WP\Free\Tests\Admin;
+
+use WPSEO_MyYoast_Proxy;
+use Brain\Monkey;
+use Mockery;
+use Yoast\Tests\Doubles\MyYoast_Proxy_Double;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Unit test class.
  *
  * @group MyYoast
  */
-class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
+class MyYoast_Proxy_Test extends TestCase {
 
 	/**
 	 * @covers WPSEO_MyYoast_Proxy::determine_proxy_options()
 	 */
 	public function test_determine_proxy_options_for_the_research_webworker_file() {
-		/** @var WPSEO_MyYoast_Proxy_Double $instance */
+		/** @var \Yoast\Tests\Doubles\MyYoast_Proxy_Double $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Proxy_Double' )
+			->getMockBuilder( MyYoast_Proxy_Double::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version' ) )
 			->getMock();
 
@@ -43,9 +46,9 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_MyYoast_Proxy::determine_proxy_options()
 	 */
 	public function test_render_proxy_page_for_an_unknown_file() {
-		/** @var WPSEO_MyYoast_Proxy $instance */
+		/** @var \WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Proxy' )
+			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'set_header' ) )
 			->getMock();
 
@@ -68,9 +71,9 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file() {
-		/** @var WPSEO_MyYoast_Proxy $instance */
+		/** @var \WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Proxy' )
+			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
@@ -92,7 +95,7 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->at( 3 ) )
 			->method( 'set_header' )
-			->with( 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
+			->with( 'Cache-Control: max-age=' . MyYoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
 
 		$instance
 			->expects( $this->once() )
@@ -113,9 +116,19 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file_errored_and_wordpress_not_found() {
-		/** @var WPSEO_MyYoast_Proxy $instance */
+		Monkey\Functions\expect( 'wp_remote_get' )
+			->times( 1 )
+			->with( 'https://my.yoast.com/api/downloads/file/analysis-worker?plugin_version=1.0' )
+			->andReturn( 'response' );
+
+		Monkey\Functions\expect( 'wp_remote_retrieve_response_code' )
+			->times( 1 )
+			->with( 'response' )
+			->andReturn( 404 );
+
+		/** @var \WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Proxy' )
+			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
@@ -137,7 +150,7 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->at( 3 ) )
 			->method( 'set_header' )
-			->with( 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
+			->with( 'Cache-Control: max-age=' . MyYoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
 
 		$instance
 			->expects( $this->once() )
@@ -164,9 +177,7 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 			->method( 'set_header' )
 			->with( 'HTTP/1.0 500 Received unexpected response from MyYoast' );
 
-		add_filter( 'pre_http_request', array( $this, 'filter_wp_remote_get__not_found' ) );
 		$instance->render_proxy_page();
-		remove_filter( 'pre_http_request', array( $this, 'filter_wp_remote_get__not_found' ) );
 
 		$this->expectOutput( '', 'wp_remote_get failed, no output expected' );
 	}
@@ -175,9 +186,24 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
 	 */
 	public function test_render_proxy_page_via_wordpress() {
-		/** @var WPSEO_MyYoast_Proxy $instance */
+		Monkey\Functions\expect( 'wp_remote_get' )
+			->times( 1 )
+			->with( 'https://my.yoast.com/api/downloads/file/analysis-worker?plugin_version=1.0' )
+			->andReturn( 'response' );
+
+		Monkey\Functions\expect( 'wp_remote_retrieve_response_code' )
+			->times( 1 )
+			->with( 'response' )
+			->andReturn( 200 );
+
+		Monkey\Functions\expect( 'wp_remote_retrieve_body' )
+			->times( 1 )
+			->with( 'response' )
+			->andReturn( 'success' );
+
+		/** @var \WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Proxy' )
+			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
@@ -196,9 +222,7 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 			->method( 'should_load_url_directly' )
 			->will( $this->returnValue( false ) );
 
-		add_filter( 'pre_http_request', array( $this, 'filter_wp_remote_get__success' ) );
 		$instance->render_proxy_page();
-		remove_filter( 'pre_http_request', array( $this, 'filter_wp_remote_get__success' ) );
 
 		$this->expectOutput( 'success', 'Load URL succeeded, success expected' );
 	}
@@ -207,9 +231,16 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
 	 */
 	public function test_render_proxy_page_via_wordpress_errored() {
-		/** @var WPSEO_MyYoast_Proxy $instance */
+		$wp_error_mock = Mockery::mock( '\WP_Error' );
+
+		Monkey\Functions\expect( 'wp_remote_get' )
+			->times( 1 )
+			->with( 'https://my.yoast.com/api/downloads/file/analysis-worker?plugin_version=1.0' )
+			->andReturn( $wp_error_mock );
+
+		/** @var \WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
-			->getMockBuilder( 'WPSEO_MyYoast_Proxy' )
+			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
 			->getMock();
 
@@ -231,7 +262,7 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->at( 3 ) )
 			->method( 'set_header' )
-			->with( 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
+			->with( 'Cache-Control: max-age=' . MyYoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
 
 		$instance
 			->expects( $this->once() )
@@ -253,55 +284,8 @@ class WPSEO_MyYoast_Proxy_Test extends WPSEO_UnitTestCase {
 			->method( 'set_header' )
 			->with( $this->equalTo( 'HTTP/1.0 500 Unable to retrieve file from MyYoast' ) );
 
-		add_filter( 'pre_http_request', array( $this, 'filter_wp_remote_get__wp_error' ) );
 		$instance->render_proxy_page();
-		remove_filter( 'pre_http_request', array( $this, 'filter_wp_remote_get__wp_error' ) );
 
 		$this->expectOutput( '', 'wp_remote_get failed, no output expected' );
-	}
-
-	/**
-	 * Returns a HTTP request error.
-	 *
-	 * Use this in combination with WordPress's `pre_http_request` filter.
-	 *
-	 * @return WP_Error
-	 */
-	public function filter_wp_remote_get__wp_error() {
-		return new WP_Error();
-	}
-
-	/**
-	 * Returns a successful WP_HTTP_Request_Response as an array.
-	 *
-	 * Use this in combination with WordPress' `pre_http_request` filter.
-	 *
-	 * @return array
-	 */
-	public function filter_wp_remote_get__success() {
-		$response              = new Requests_Response();
-		$response->body        = 'success';
-		$response->raw         = 'success';
-		$response->status_code = 200;
-
-		$http_response = new WP_HTTP_Requests_Response( $response, '' );
-		return $http_response->to_array();
-	}
-
-	/**
-	 * Returns a failed WP_HTTP_Request_Response as an array.
-	 *
-	 * Use this in combination with WordPress' `pre_http_request` filter.
-	 *
-	 * @return array
-	 */
-	public function filter_wp_remote_get__not_found() {
-		$response              = new Requests_Response();
-		$response->body        = 'not found';
-		$response->raw         = 'not found';
-		$response->status_code = 404;
-
-		$http_response = new WP_HTTP_Requests_Response( $response, '' );
-		return $http_response->to_array();
 	}
 }

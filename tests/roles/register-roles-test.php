@@ -1,14 +1,15 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Roles
- */
+
+namespace Yoast\WP\Free\Tests\Roles;
+
+use WPSEO_Register_Roles;
+use WPSEO_Role_Manager_Factory;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Unit Test Class.
  */
-class WPSEO_Register_Roles_Tests extends PHPUnit_Framework_TestCase {
+class Register_Roles_Test extends TestCase {
 
 	public function test_register() {
 		$manager = WPSEO_Role_Manager_Factory::get();

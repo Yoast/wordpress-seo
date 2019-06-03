@@ -218,7 +218,14 @@ module.exports = function( env = { environment: "production" } ) {
 
 				lodash: "lodash",
 
-				...wordpressExternals,
+				// Don't reference window.wp.* externals in this config!
+				"@wordpress/element": [ "wp", "element" ],
+				"@wordpress/data": [ "wp", "data" ],
+				"@wordpress/components": [ "wp",  "components" ],
+				"@wordpress/i18n": [ "wp", "i18n" ],
+				"@wordpress/api-fetch": [ "wp", "apiFetch" ],
+				"@wordpress/rich-text": [ "wp", "richText" ],
+				"@wordpress/compose": [ "wp", "compose" ],
 			},
 			output: {
 				path: paths.jsDist,

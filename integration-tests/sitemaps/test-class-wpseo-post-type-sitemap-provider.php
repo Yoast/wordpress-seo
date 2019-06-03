@@ -89,7 +89,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	public function test_get_index_links_empty_bucket() {
 
 		$this->factory->post->create();
-		$this->excluded_posts = array( $this->factory->post->create() ); // remove this post.
+		$this->excluded_posts = array( $this->factory->post->create() ); // Remove this post.
 		$this->factory->post->create();
 
 		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'exclude_post' ) );

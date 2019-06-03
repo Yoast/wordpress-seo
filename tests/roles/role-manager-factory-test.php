@@ -1,14 +1,14 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Roles
- */
+
+namespace Yoast\WP\Free\Tests\Roles;
+
+use WPSEO_Role_Manager_Factory;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Unit Test Class.
  */
-class WPSEO_Role_Manager_Factory_Tests extends PHPUnit_Framework_TestCase {
+class Role_Manager_Factory_Test extends TestCase {
 
 	public function test_get() {
 		$instance  = WPSEO_Role_Manager_Factory::get();

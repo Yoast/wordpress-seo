@@ -1,8 +1,10 @@
 <?php
 
-namespace Yoast\Tests\Formatters;
+namespace Yoast\WP\Free\Tests\Formatters;
 
-use Yoast\Tests\Doubles\Indexable_Author_Formatter_Double;
+use Yoast\WP\Free\Tests\Doubles\Indexable_Author_Formatter_Double;
+use Yoast\WP\Free\Tests\TestCase;
+use stdClass;
 
 /**
  * Class Indexable_Author_Test.
@@ -12,7 +14,7 @@ use Yoast\Tests\Doubles\Indexable_Author_Formatter_Double;
  *
  * @package Yoast\Tests\Formatters
  */
-class Indexable_Author_Formatter_Test extends \Yoast\Tests\TestCase {
+class Indexable_Author_Formatter_Test extends TestCase {
 
 	/**
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Author_Formatter::format
@@ -42,7 +44,7 @@ class Indexable_Author_Formatter_Test extends \Yoast\Tests\TestCase {
 				)
 			);
 
-		$indexable = new \stdClass();
+		$indexable = new stdClass();
 		$indexable = $formatter->format( $indexable );
 
 		$this->assertAttributeEquals( 'https://permalink', 'permalink', $indexable );

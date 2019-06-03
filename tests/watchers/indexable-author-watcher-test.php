@@ -1,9 +1,10 @@
 <?php
 
-namespace Yoast\Tests\Watchers;
+namespace Yoast\WP\Free\Tests\Watchers;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Watchers\Indexable_Author_Watcher;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Indexable_Author_Test.
@@ -13,7 +14,7 @@ use Yoast\WP\Free\Watchers\Indexable_Author_Watcher;
  *
  * @package Yoast\Tests\Watchers
  */
-class Indexable_Author_Watcher_Test extends \Yoast\Tests\TestCase {
+class Indexable_Author_Watcher_Test extends TestCase {
 
 	/**
 	 * Tests if the expected hooks are registered.
