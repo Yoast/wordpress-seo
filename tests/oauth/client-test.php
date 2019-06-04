@@ -10,7 +10,6 @@ namespace Yoast\WP\Free\Tests\Oauth;
 use Yoast\WP\Free\Oauth\Client;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
-use Brain\Monkey;
 use Yoast\WP\Free\Tests\Doubles\Oauth\Client as Client_Double;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -19,7 +18,7 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @group oauth
  */
-class Oauth_Client_Test extends TestCase {
+class Client_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

@@ -2,9 +2,6 @@
 
 namespace Yoast\WP\Free\Tests\Config;
 
-use Yoast\WP\Free\Config\Database_Migration;
-use Yoast\WP\Free\Config\Dependency_Management;
-use Yoast\WP\Free\WordPress\Integration_Group;
 use Yoast\WP\Free\Tests\Doubles\Plugin as Plugin_Double;
 use Yoast\WP\Free\Tests\TestCase;
 

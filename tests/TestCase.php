@@ -66,11 +66,11 @@ abstract class TestCase extends PHPUnit_Framework_TestCase {
 	 * @param string $description Explanation why this result is expected.
 	 */
 	protected function expectOutput( $expected, $description = '' ) {
-		$output = ob_get_contents();
-		ob_clean();
+		$output = \ob_get_contents();
+		\ob_clean();
 
-		$output   = preg_replace( '|\R|', "\r\n", $output );
-		$expected = preg_replace( '|\R|', "\r\n", $expected );
+		$output   = \preg_replace( '|\R|', "\r\n", $output );
+		$expected = \preg_replace( '|\R|', "\r\n", $expected );
 
 		$this->assertEquals( $expected, $output, $description );
 	}
@@ -79,16 +79,16 @@ abstract class TestCase extends PHPUnit_Framework_TestCase {
 	 * @param string|array $expected Expected output.
 	 */
 	protected function expectOutputContains( $expected ) {
-		$output = preg_replace( '|\R|', "\r\n", ob_get_contents() );
-		ob_clean();
+		$output = \preg_replace( '|\R|', "\r\n", \ob_get_contents() );
+		\ob_clean();
 
-		if ( ! is_array( $expected ) ) {
+		if ( ! \is_array( $expected ) ) {
 			$expected = array( $expected );
 		}
 
 		foreach ( $expected as $needle ) {
-			$found = strpos( $output, $needle );
-			$this->assertTrue( $found !== false, sprintf( 'Expected "%s" to be found in "%s" but couldn\'t find it.', $needle, $output ) );
+			$found = \strpos( $output, $needle );
+			$this->assertTrue( $found !== false, \sprintf( 'Expected "%s" to be found in "%s" but couldn\'t find it.', $needle, $output ) );
 		}
 	}
 }

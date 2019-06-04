@@ -1,17 +1,16 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Roles
- */
+
+namespace Yoast\WP\Free\Tests\Roles;
 
 use Brain\Monkey;
+use WPSEO_Role_Manager_Mock;
 use Yoast\WP\Free\Tests\TestCase;
+use stdClass;
 
 /**
  * Unit Test Class.
  */
-class Capability_Role extends TestCase {
+class Role_Manager_Test extends TestCase {
 
 	public function test_register() {
 		$instance = new WPSEO_Role_Manager_Mock();
@@ -49,7 +48,7 @@ class Capability_Role extends TestCase {
 		$result = $instance->get_capabilities( false );
 		$this->assertEquals( array(), $result );
 
-		$result = $instance->get_capabilities( new StdClass() );
+		$result = $instance->get_capabilities( new stdClass() );
 		$this->assertEquals( array(), $result );
 
 		$result = $instance->get_capabilities( 'fake_role' );
