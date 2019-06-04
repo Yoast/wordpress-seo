@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Formatters;
 
+use Exception;
 use Yoast\WP\Free\Models\SEO_Meta;
 
 /**
@@ -35,9 +36,9 @@ class Indexable_Post_Formatter {
 	/**
 	 * Formats the data.
 	 *
-	 * @param Indexable $indexable The indexable to format.
+	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to format.
 	 *
-	 * @return Indexable The extended indexable.
+	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
 	 */
 	public function format( $indexable ) {
 		$indexable->permalink       = $this->get_permalink();
@@ -62,10 +63,6 @@ class Indexable_Post_Formatter {
 
 		foreach ( $this->get_indexable_lookup() as $meta_key => $indexable_key ) {
 			$indexable->{ $indexable_key } = $this->get_meta_value( $meta_key );
-		}
-
-		foreach ( $this->get_indexable_meta_lookup() as $meta_key => $indexable_key ) {
-			$indexable->set_meta( $indexable_key, $this->get_meta_value( $meta_key ) );
 		}
 
 		$indexable = $this->set_link_count( $indexable );
@@ -132,16 +129,6 @@ class Indexable_Post_Formatter {
 			'title'                 => 'title',
 			'metadesc'              => 'description',
 			'bctitle'               => 'breadcrumb_title',
-		);
-	}
-
-	/**
-	 * Retrieves the indexable meta lookup table.
-	 *
-	 * @return array Lookup table for the indexable meta fields.
-	 */
-	protected function get_indexable_meta_lookup() {
-		return array(
 			'opengraph-title'       => 'og_title',
 			'opengraph-image'       => 'og_image',
 			'opengraph-description' => 'og_description',
@@ -154,9 +141,9 @@ class Indexable_Post_Formatter {
 	/**
 	 * Updates the link count from existing data.
 	 *
-	 * @param Indexable $indexable The indexable to extend.
+	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to extend.
 	 *
-	 * @return Indexable The extended indexable.
+	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
 	 */
 	protected function set_link_count( $indexable ) {
 		try {
@@ -167,7 +154,7 @@ class Indexable_Post_Formatter {
 				$indexable->incoming_link_count = $seo_meta->incoming_link_count;
 			}
 		// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
-		} catch ( \Exception $exception ) {
+		} catch ( Exception $exception ) {
 			// Do nothing...
 		}
 
