@@ -49,6 +49,7 @@ export default function collectAnalysisData( edit, store, customAnalysisData, pl
 		permalink: storeData.settings.snippetEditor.baseUrl + storeData.snippetEditor.data.slug,
 		titleWithoutReplacements,
 		descriptionWithoutReplacements,
+		pageTitle: editData.title,
 	};
 
 	// Modify the data through pluggable.
