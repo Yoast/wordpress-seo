@@ -390,9 +390,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		if ( $post_type === 'page' ) {
 
-			if ( $this->get_page_on_front_id() ) {
+			$page_on_front_id = (int) get_option( 'page_on_front' );
+			if ( $page_on_front_id > 0 ) {
 				$front_page = $this->get_url(
-					get_post( $this->get_page_on_front_id() )
+					get_post( $page_on_front_id )
 				);
 			}
 
@@ -476,12 +477,12 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 *
 	 * @since 11.5
 	 *
-	 * @param string $post_type Post type.
-	 * @param int    $page_id   The page id.
+	 * @param string $post_type       Post type.
+	 * @param int    $archive_page_id The page id.
 	 *
 	 * @return bool True when post type archive is indexable.
 	 */
-	protected function is_post_type_archive_indexable( $post_type, $page_id = -1 ) {
+	protected function is_post_type_archive_indexable( $post_type, $archive_page_id = -1 ) {
 
 		if ( WPSEO_Options::get( 'noindex-ptarchive-' . $post_type, false ) ) {
 			return false;
@@ -492,12 +493,12 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 *
 		 * @since 9.3
 		 *
-		 * @param string $pt_archive_page_id The post_id of the page.
-		 * @param string $post_type          The post type this archive is for.
+		 * @param string $archive_page_id The post_id of the page.
+		 * @param string $post_type       The post type this archive is for.
 		 */
-		$page_id = (int) apply_filters( 'wpseo_sitemap_page_for_post_type_archive', $page_id, $post_type );
+		$archive_page_id = (int) apply_filters( 'wpseo_sitemap_page_for_post_type_archive', $archive_page_id, $post_type );
 
-		if ( $page_id > 0 && WPSEO_Meta::get_value( 'meta-robots-noindex', $page_id ) === '1' ) {
+		if ( $archive_page_id > 0 && WPSEO_Meta::get_value( 'meta-robots-noindex', $archive_page_id ) === '1' ) {
 			return false;
 		}
 
