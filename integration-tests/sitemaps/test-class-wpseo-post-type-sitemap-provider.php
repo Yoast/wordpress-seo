@@ -151,7 +151,6 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $front_page->ID );
 		update_option( 'page_for_posts', 0 );
-		$sitemap_provider->reset();
 
 		$sitemap_links = $sitemap_provider->get_sitemap_links( 'page', 1, 1 );
 		$this->assertContains( get_permalink( $front_page->ID ), $sitemap_links[0] );
@@ -162,7 +161,6 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $front_page->ID );
 		update_option( 'page_for_posts', $posts_page->ID );
-		$sitemap_provider->reset();
 
 		$sitemap_links = $sitemap_provider->get_sitemap_links( 'page', 1, 1 );
 		$this->assertContains( WPSEO_Utils::home_url(), $sitemap_links[0] );
@@ -176,7 +174,6 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		update_option( 'show_on_front', 'posts' );
 		update_option( 'page_on_front', 0 );
 		update_option( 'page_for_posts', 0 );
-		$sitemap_provider->reset();
 
 		$sitemap_links = $sitemap_provider->get_sitemap_links( 'page', 1, 1 );
 		$this->assertContains( WPSEO_Utils::home_url(), $sitemap_links[0] );
