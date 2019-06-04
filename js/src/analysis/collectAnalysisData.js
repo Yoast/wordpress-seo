@@ -28,9 +28,10 @@ export default function collectAnalysisData( edit, store, customAnalysisData, pl
 	merge( storeData, customAnalysisData.getData() );
 	const editData = edit.getData().getData();
 
-	// The SEO title with replace variables (e.g. `%%site%%`) removed (**not** replaced).
+	// The SEO title and meta description with replace variables (e.g. `%%site%%`) removed (**not** replaced).
 	const removePlaceholders = get( window, [ "YoastSEO", "wp", "replaceVarsPlugin", "removePlaceholders" ], identity );
 	const titleWithoutReplacements = removePlaceholders( storeData.snippetEditor.data.title );
+	const descriptionWithoutReplacements = removePlaceholders( storeData.snippetEditor.data.description );
 
 	// Make a data structure for the paper data.
 	const data = {
@@ -47,6 +48,7 @@ export default function collectAnalysisData( edit, store, customAnalysisData, pl
 		url: storeData.snippetEditor.data.slug,
 		permalink: storeData.settings.snippetEditor.baseUrl + storeData.snippetEditor.data.slug,
 		titleWithoutReplacements,
+		descriptionWithoutReplacements,
 	};
 
 	// Modify the data through pluggable.
