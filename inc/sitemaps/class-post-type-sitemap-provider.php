@@ -451,46 +451,68 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Get URL for a post type archive.
 	 *
-	 * @since  5.3
+	 * @since 5.3
 	 *
-	 * @param  string $post_type Post type.
+	 * @param string $post_type Post type.
 	 *
 	 * @return string|bool URL or false if it should be excluded.
 	 */
 	protected function get_post_type_archive_link( $post_type ) {
 
 		$pt_archive_page_id  = -1;
-		$show_posts_on_front = false;
 
 		if ( $post_type === 'post' ) {
-			$pt_archive_page_id  = get_option( 'page_for_posts' );
-			$show_posts_on_front = ( get_option( 'show_on_front' ) === 'posts' );
 
-			// Post archive should be excluded if it isn't front page or posts page.
-			if ( ! $show_posts_on_front && $pt_archive_page_id <= 0 ) {
+			if ( get_option( 'show_on_front' ) === 'posts' ) {
+				return WPSEO_Utils::home_url();
+			}
+
+			$pt_archive_page_id = (int) get_option( 'page_for_posts' );
+
+			// Post archive should be excluded if posts page isn't set.
+			if ( $pt_archive_page_id <= 0 ) {
 				return false;
 			}
+		}
+
+		if ( ! $this->is_post_type_archive_indexable( $post_type, $pt_archive_page_id ) ) {
+			return false;
+		}
+
+		return get_post_type_archive_link( $post_type );
+	}
+
+	/**
+	 * Determines whether a post type archive is indexable.
+	 *
+	 * @since 11.5
+	 *
+	 * @param string $post_type Post type.
+	 * @param int    $page_id   The page id.
+	 *
+	 * @return bool True when post type archive is indexable.
+	 */
+	protected function is_post_type_archive_indexable( $post_type, $page_id = -1 ) {
+
+		if ( WPSEO_Options::get( 'noindex-ptarchive-' . $post_type, false ) ) {
+			return false;
 		}
 
 		/**
 		 * Filter the page which is dedicated to this post type archive.
 		 *
+		 * @since 9.3
+		 *
 		 * @param string $pt_archive_page_id The post_id of the page.
 		 * @param string $post_type          The post type this archive is for.
 		 */
-		$pt_archive_page_id = (int) apply_filters( 'wpseo_sitemap_page_for_post_type_archive', $pt_archive_page_id, $post_type );
+		$page_id = (int) apply_filters( 'wpseo_sitemap_page_for_post_type_archive', $page_id, $post_type );
 
-		if ( WPSEO_Options::get( 'noindex-ptarchive-' . $post_type, false ) ||
-			( $pt_archive_page_id > 0 && WPSEO_Meta::get_value( 'meta-robots-noindex', $pt_archive_page_id ) === '1' )
-		) {
+		if ( $page_id > 0 && WPSEO_Meta::get_value( 'meta-robots-noindex', $page_id ) === '1' ) {
 			return false;
 		}
 
-		if ( $post_type === 'post' && $show_posts_on_front ) {
-			return WPSEO_Utils::home_url();
-		}
-
-		return get_post_type_archive_link( $post_type );
+		return true;
 	}
 
 	/**
