@@ -91,21 +91,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_classifier() {
 		if ( ! isset( self::$classifier ) ) {
-			self::$classifier = new WPSEO_Link_Type_Classifier( $this->get_home_url() );
+			self::$classifier = new WPSEO_Link_Type_Classifier( home_url() );
 		}
 
 		return self::$classifier;
-	}
-
-	/**
-	 * Get Home URL.
-	 *
-	 * This wrapper method keeps up the compatibility with WPML. It returns "original home URL".
-	 *
-	 * @return string
-	 */
-	protected function get_home_url() {
-		return WPSEO_Utils::home_url();
 	}
 
 	/**
@@ -688,5 +677,19 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_options() {
 		_deprecated_function( __METHOD__, 'WPSEO 7.0', 'WPSEO_Options::get' );
+	}
+
+	/**
+	 * Get Home URL.
+	 *
+	 * @deprecated 11.5
+	 * @codeCoverageIgnore
+	 *
+	 * @return string
+	 */
+	protected function get_home_url() {
+		_deprecated_function( __METHOD__, 'WPSEO 11.5', 'WPSEO_Utils::home_url' );
+
+		return WPSEO_Utils::home_url();
 	}
 }
