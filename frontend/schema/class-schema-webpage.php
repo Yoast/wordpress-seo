@@ -133,7 +133,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	/**
 	 * If we have an image, make it the primary image of the page.
 	 *
-	 * @param array WebPage schema data.
+	 * @param array $data WebPage schema data.
 	 */
 	public function add_image( &$data ) {
 		if ( $this->context->has_image ) {
