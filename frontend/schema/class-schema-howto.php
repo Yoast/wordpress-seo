@@ -169,7 +169,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	private function add_step_image( &$schema_step, $step ) {
 		foreach ( $step['text'] as $line ) {
 			if ( is_array( $line ) && isset( $line['key'] ) ) {
-				$image                = new WPSEO_Schema_Image( $this->context->canonical . '#schema-image-'. $line['key'] );
+				$image                = new WPSEO_Schema_Image( $this->context->canonical . '#schema-image-' . $line['key'] );
 				$schema_step['image'] = $image->generate_from_attachment_id( $line['key'] );
 			}
 		}
