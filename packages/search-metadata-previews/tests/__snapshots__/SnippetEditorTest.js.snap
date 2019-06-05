@@ -93,7 +93,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -964,7 +964,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -1569,7 +1569,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -1684,7 +1684,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                   onMouseLeave={[Function]}
                                   onMouseUp={[Function]}
                                 >
-                                  <SnippetPreview__FavIcon
+                                  <SnippetPreview__Favicon
                                     alt=""
                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                   >
@@ -1695,17 +1695,17 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                             "isStatic": true,
                                             "lastClassName": "c4",
                                             "rules": Array [
                                               "width:16px;height:16px;margin-right:12px;vertical-align:middle;",
                                             ],
                                           },
-                                          "displayName": "SnippetPreview__FavIcon",
+                                          "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -1721,7 +1721,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                       />
                                     </StyledComponent>
-                                  </SnippetPreview__FavIcon>
+                                  </SnippetPreview__Favicon>
                                   <SnippetPreview__UrlContentContainer
                                     screenMode="mobile"
                                   >
@@ -1917,7 +1917,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -5239,7 +5239,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -5844,7 +5844,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -5959,7 +5959,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                   onMouseLeave={[Function]}
                                   onMouseUp={[Function]}
                                 >
-                                  <SnippetPreview__FavIcon
+                                  <SnippetPreview__Favicon
                                     alt=""
                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                   >
@@ -5970,17 +5970,17 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                             "isStatic": true,
                                             "lastClassName": "c4",
                                             "rules": Array [
                                               "width:16px;height:16px;margin-right:12px;vertical-align:middle;",
                                             ],
                                           },
-                                          "displayName": "SnippetPreview__FavIcon",
+                                          "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -5996,7 +5996,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                       />
                                     </StyledComponent>
-                                  </SnippetPreview__FavIcon>
+                                  </SnippetPreview__Favicon>
                                   <SnippetPreview__UrlContentContainer
                                     screenMode="mobile"
                                   >
@@ -6192,7 +6192,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -9514,7 +9514,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -10119,7 +10119,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -10234,7 +10234,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                   onMouseLeave={[Function]}
                                   onMouseUp={[Function]}
                                 >
-                                  <SnippetPreview__FavIcon
+                                  <SnippetPreview__Favicon
                                     alt=""
                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                   >
@@ -10245,17 +10245,17 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                             "isStatic": true,
                                             "lastClassName": "c4",
                                             "rules": Array [
                                               "width:16px;height:16px;margin-right:12px;vertical-align:middle;",
                                             ],
                                           },
-                                          "displayName": "SnippetPreview__FavIcon",
+                                          "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -10271,7 +10271,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                       />
                                     </StyledComponent>
-                                  </SnippetPreview__FavIcon>
+                                  </SnippetPreview__Favicon>
                                   <SnippetPreview__UrlContentContainer
                                     screenMode="mobile"
                                   >
@@ -10467,7 +10467,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -13789,7 +13789,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -14394,7 +14394,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -14509,7 +14509,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                   onMouseLeave={[Function]}
                                   onMouseUp={[Function]}
                                 >
-                                  <SnippetPreview__FavIcon
+                                  <SnippetPreview__Favicon
                                     alt=""
                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                   >
@@ -14520,17 +14520,17 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                             "isStatic": true,
                                             "lastClassName": "c4",
                                             "rules": Array [
                                               "width:16px;height:16px;margin-right:12px;vertical-align:middle;",
                                             ],
                                           },
-                                          "displayName": "SnippetPreview__FavIcon",
+                                          "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -14546,7 +14546,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                       />
                                     </StyledComponent>
-                                  </SnippetPreview__FavIcon>
+                                  </SnippetPreview__Favicon>
                                   <SnippetPreview__UrlContentContainer
                                     screenMode="mobile"
                                   >
@@ -14742,7 +14742,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -17891,7 +17891,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -18289,7 +18289,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -18404,7 +18404,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                   onMouseLeave={[Function]}
                                   onMouseUp={[Function]}
                                 >
-                                  <SnippetPreview__FavIcon
+                                  <SnippetPreview__Favicon
                                     alt=""
                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                   >
@@ -18415,17 +18415,17 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                             "isStatic": true,
                                             "lastClassName": "c4",
                                             "rules": Array [
                                               "width:16px;height:16px;margin-right:12px;vertical-align:middle;",
                                             ],
                                           },
-                                          "displayName": "SnippetPreview__FavIcon",
+                                          "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -18441,7 +18441,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                       />
                                     </StyledComponent>
-                                  </SnippetPreview__FavIcon>
+                                  </SnippetPreview__Favicon>
                                   <SnippetPreview__UrlContentContainer
                                     screenMode="mobile"
                                   >
@@ -18637,7 +18637,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -20314,7 +20314,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -20919,7 +20919,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -21034,7 +21034,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                   onMouseLeave={[Function]}
                                   onMouseUp={[Function]}
                                 >
-                                  <SnippetPreview__FavIcon
+                                  <SnippetPreview__Favicon
                                     alt=""
                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                   >
@@ -21045,17 +21045,17 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                             "isStatic": true,
                                             "lastClassName": "c4",
                                             "rules": Array [
                                               "width:16px;height:16px;margin-right:12px;vertical-align:middle;",
                                             ],
                                           },
-                                          "displayName": "SnippetPreview__FavIcon",
+                                          "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -21071,7 +21071,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                       />
                                     </StyledComponent>
-                                  </SnippetPreview__FavIcon>
+                                  </SnippetPreview__Favicon>
                                   <SnippetPreview__UrlContentContainer
                                     screenMode="mobile"
                                   >
@@ -21267,7 +21267,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -24589,7 +24589,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -25194,7 +25194,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -25309,7 +25309,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                   onMouseLeave={[Function]}
                                   onMouseUp={[Function]}
                                 >
-                                  <SnippetPreview__FavIcon
+                                  <SnippetPreview__Favicon
                                     alt=""
                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                   >
@@ -25320,17 +25320,17 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                             "isStatic": true,
                                             "lastClassName": "c4",
                                             "rules": Array [
                                               "width:16px;height:16px;margin-right:12px;vertical-align:middle;",
                                             ],
                                           },
-                                          "displayName": "SnippetPreview__FavIcon",
+                                          "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -25346,7 +25346,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                       />
                                     </StyledComponent>
-                                  </SnippetPreview__FavIcon>
+                                  </SnippetPreview__Favicon>
                                   <SnippetPreview__UrlContentContainer
                                     screenMode="mobile"
                                   >
@@ -25542,7 +25542,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -28691,7 +28691,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -29281,7 +29281,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -30044,7 +30044,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -30676,7 +30676,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -30791,7 +30791,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                   onMouseLeave={[Function]}
                                   onMouseUp={[Function]}
                                 >
-                                  <SnippetPreview__FavIcon
+                                  <SnippetPreview__Favicon
                                     alt=""
                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                   >
@@ -30802,17 +30802,17 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                             "isStatic": true,
                                             "lastClassName": "c4",
                                             "rules": Array [
                                               "width:16px;height:16px;margin-right:12px;vertical-align:middle;",
                                             ],
                                           },
-                                          "displayName": "SnippetPreview__FavIcon",
+                                          "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -30828,7 +30828,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                       />
                                     </StyledComponent>
-                                  </SnippetPreview__FavIcon>
+                                  </SnippetPreview__Favicon>
                                   <SnippetPreview__UrlContentContainer
                                     screenMode="mobile"
                                   >
@@ -31024,7 +31024,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -34355,7 +34355,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -34987,7 +34987,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -35102,7 +35102,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                   onMouseLeave={[Function]}
                                   onMouseUp={[Function]}
                                 >
-                                  <SnippetPreview__FavIcon
+                                  <SnippetPreview__Favicon
                                     alt=""
                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                   >
@@ -35113,17 +35113,17 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                             "isStatic": true,
                                             "lastClassName": "c4",
                                             "rules": Array [
                                               "width:16px;height:16px;margin-right:12px;vertical-align:middle;",
                                             ],
                                           },
-                                          "displayName": "SnippetPreview__FavIcon",
+                                          "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -35139,7 +35139,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                       />
                                     </StyledComponent>
-                                  </SnippetPreview__FavIcon>
+                                  </SnippetPreview__Favicon>
                                   <SnippetPreview__UrlContentContainer
                                     screenMode="mobile"
                                   >
@@ -35335,7 +35335,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -38666,7 +38666,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -39271,7 +39271,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -39386,7 +39386,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                   onMouseLeave={[Function]}
                                   onMouseUp={[Function]}
                                 >
-                                  <SnippetPreview__FavIcon
+                                  <SnippetPreview__Favicon
                                     alt=""
                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                   >
@@ -39397,17 +39397,17 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                             "isStatic": true,
                                             "lastClassName": "c4",
                                             "rules": Array [
                                               "width:16px;height:16px;margin-right:12px;vertical-align:middle;",
                                             ],
                                           },
-                                          "displayName": "SnippetPreview__FavIcon",
+                                          "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -39423,7 +39423,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                       />
                                     </StyledComponent>
-                                  </SnippetPreview__FavIcon>
+                                  </SnippetPreview__Favicon>
                                   <SnippetPreview__UrlContentContainer
                                     screenMode="mobile"
                                   >
@@ -39619,7 +39619,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -42941,7 +42941,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -43557,7 +43557,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -43672,7 +43672,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                   onMouseLeave={[Function]}
                                   onMouseUp={[Function]}
                                 >
-                                  <SnippetPreview__FavIcon
+                                  <SnippetPreview__Favicon
                                     alt=""
                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                   >
@@ -43683,17 +43683,17 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                             "isStatic": true,
                                             "lastClassName": "c4",
                                             "rules": Array [
                                               "width:16px;height:16px;margin-right:12px;vertical-align:middle;",
                                             ],
                                           },
-                                          "displayName": "SnippetPreview__FavIcon",
+                                          "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -43709,7 +43709,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                       />
                                     </StyledComponent>
-                                  </SnippetPreview__FavIcon>
+                                  </SnippetPreview__Favicon>
                                   <SnippetPreview__UrlContentContainer
                                     screenMode="mobile"
                                   >
@@ -43905,7 +43905,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -47109,7 +47109,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -47509,7 +47509,9 @@ exports[`SnippetEditor passes the date prop 1`] = `
               className="c10"
             >
               date string
-               · 
+               
+              ⋅
+               
             </span>
             Test description, %%replacement_variable%%
           </div>
@@ -47990,7 +47992,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -48595,7 +48597,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -48710,7 +48712,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                   onMouseLeave={[Function]}
                                   onMouseUp={[Function]}
                                 >
-                                  <SnippetPreview__FavIcon
+                                  <SnippetPreview__Favicon
                                     alt=""
                                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                   >
@@ -48721,17 +48723,17 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                           "$$typeof": Symbol(react.forward_ref),
                                           "attrs": Array [],
                                           "componentStyle": ComponentStyle {
-                                            "componentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                            "componentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                             "isStatic": true,
                                             "lastClassName": "c4",
                                             "rules": Array [
                                               "width:16px;height:16px;margin-right:12px;vertical-align:middle;",
                                             ],
                                           },
-                                          "displayName": "SnippetPreview__FavIcon",
+                                          "displayName": "SnippetPreview__Favicon",
                                           "foldedComponentIds": Array [],
                                           "render": [Function],
-                                          "styledComponentId": "SnippetPreview__FavIcon-sc-1hxg8jo-19",
+                                          "styledComponentId": "SnippetPreview__Favicon-sc-1hxg8jo-19",
                                           "target": "img",
                                           "toString": [Function],
                                           "warnTooManyClasses": [Function],
@@ -48747,7 +48749,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
                                       />
                                     </StyledComponent>
-                                  </SnippetPreview__FavIcon>
+                                  </SnippetPreview__Favicon>
                                   <SnippetPreview__UrlContentContainer
                                     screenMode="mobile"
                                   >
@@ -48943,7 +48945,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           "isStatic": true,
                           "lastClassName": "c1",
                           "rules": Array [
-                            "padding:12px 16px;&:not(:last-child){margin-bottom:-16px;}",
+                            "padding:12px 16px;&:first-child{margin-bottom:-16px;}",
                           ],
                         },
                         "displayName": "SnippetPreview__MobilePartContainer",
@@ -52840,7 +52842,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -53572,7 +53574,7 @@ exports[`SnippetEditor shows the editor 1`] = `
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 

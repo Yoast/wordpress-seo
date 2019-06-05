@@ -192,7 +192,7 @@ const MobileDescriptionImage = styled.img`
 const MobilePartContainer = styled.div`
 	padding: 12px 16px;
 
-	&:not(:last-child) {
+	&:first-child {
 		margin-bottom: -16px;
 	}
 `;
@@ -214,7 +214,7 @@ const DatePreview = styled.span`
 	color: ${ colorDate };
 `;
 
-const globeFavIconSrc = "data:image/png;base64," +
+const globeFaviconSrc = "data:image/png;base64," +
 	"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iuc" +
 	"x+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnH" +
 	"yqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BY" +
@@ -226,7 +226,7 @@ const globeFavIconSrc = "data:image/png;base64," +
 	"aJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElF" +
 	"TkSuQmCC";
 
-const FavIcon = styled.img`
+const Favicon = styled.img`
 	width: 16px;
 	height: 16px;
 	margin-right: 12px;
@@ -467,9 +467,12 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {?ReactElement} The rendered date.
 	 */
 	renderDate() {
+		// The u22C5 is the unicode character "dot operator" equivalent to `&sdot;`.
+		const separator = this.props.mode === MODE_DESKTOP ? "-" : "\u22C5";
+
 		return this.props.date === ""
 			? null
-			: <DatePreview>{ this.props.date } · </DatePreview>;
+			: <DatePreview>{ this.props.date } { separator } </DatePreview>;
 	}
 
 	/**
@@ -569,7 +572,7 @@ export default class SnippetPreview extends PureComponent {
 				onMouseLeave={ onMouseLeave.bind( null ) }
 				screenMode={ mode }
 			>
-				{ isMobileMode && <FavIcon src={ faviconSrc || globeFavIconSrc } alt="" /> }
+				{ isMobileMode && <Favicon src={ faviconSrc || globeFaviconSrc } alt="" /> }
 				<UrlContentContainer
 					screenMode={ mode }
 				>

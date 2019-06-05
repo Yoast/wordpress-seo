@@ -1124,7 +1124,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -1352,7 +1352,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -1566,7 +1566,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   padding: 12px 16px;
 }
 
-.c1:not(:last-child) {
+.c1:first-child {
   margin-bottom: -16px;
 }
 
@@ -3351,7 +3351,9 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
             className="c11"
           >
             Today
-             · 
+             
+            -
+             
           </span>
           Description
         </div>
