@@ -31,7 +31,7 @@ class Database_Migration_Test extends TestCase {
 	public function test_initialize_with_set_defines_failing() {
 		Monkey\Functions\expect( 'set_transient' )
 			->once()
-			->with( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY, Database_Migration::MIGRATION_STATE_ERROR, DAY_IN_SECONDS )
+			->with( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY, Database_Migration::MIGRATION_STATE_ERROR, \DAY_IN_SECONDS )
 			->andReturn( true );
 
 		$instance = $this
@@ -292,8 +292,8 @@ class Database_Migration_Test extends TestCase {
 
 		$defines = $instance->get_defines( 'table_name' );
 
-		$this->assertArrayHasKey( YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE', $defines );
-		$this->assertArrayHasKey( YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_TS_SCHEMA_TBL_NAME', $defines );
+		$this->assertArrayHasKey( \YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE', $defines );
+		$this->assertArrayHasKey( \YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_TS_SCHEMA_TBL_NAME', $defines );
 
 		$this->assertContains( 'table_name', $defines );
 	}

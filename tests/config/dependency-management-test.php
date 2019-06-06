@@ -38,11 +38,11 @@ class Dependency_Management_Test extends TestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'class_alias' )
-			->with( 'My_Class', YOAST_VENDOR_NS_PREFIX . '\My_Class' )
+			->with( 'My_Class', \YOAST_VENDOR_NS_PREFIX . '\My_Class' )
 			->will( $this->returnValue( true ) );
 
 		/** @var \Yoast\WP\Free\Config\Dependency_Management $instance */
-		$instance->ensure_class_alias( YOAST_VENDOR_NS_PREFIX . '\My_Class' );
+		$instance->ensure_class_alias( \YOAST_VENDOR_NS_PREFIX . '\My_Class' );
 	}
 
 	/**
@@ -97,7 +97,7 @@ class Dependency_Management_Test extends TestCase {
 			->method( 'class_alias' );
 
 		/** @var \Yoast\WP\Free\Config\Dependency_Management $instance */
-		$instance->ensure_class_alias( YOAST_VENDOR_NS_PREFIX . '\Some_Class' );
+		$instance->ensure_class_alias( \YOAST_VENDOR_NS_PREFIX . '\Some_Class' );
 	}
 
 	/**
@@ -127,7 +127,7 @@ class Dependency_Management_Test extends TestCase {
 			->method( 'class_alias' );
 
 		/** @var \Yoast\WP\Free\Config\Dependency_Management $instance */
-		$instance->ensure_class_alias( YOAST_VENDOR_NS_PREFIX . '\Some_Class' );
+		$instance->ensure_class_alias( \YOAST_VENDOR_NS_PREFIX . '\Some_Class' );
 	}
 
 	/**

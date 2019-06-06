@@ -20,11 +20,11 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 		$version          = 'test-version';
 
 		$location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $version );
-		$suffix   = ( YOAST_ENVIRONMENT === 'development' ) ? '' : '.min';
+		$suffix   = ( \YOAST_ENVIRONMENT === 'development' ) ? '' : '.min';
 
 		Monkey\Functions\expect( 'wp_parse_url' )
 			->once()
-			->with( $location->get_asset()->get_src(), PHP_URL_SCHEME )
+			->with( $location->get_asset()->get_src(), \PHP_URL_SCHEME )
 			->andReturnNull();
 
 		Monkey\Functions\expect( 'plugins_url' )
@@ -46,11 +46,11 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 		$version          = 'test-version';
 
 		$location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $version, $custom_file_name );
-		$suffix   = ( YOAST_ENVIRONMENT === 'development' ) ? '' : '.min';
+		$suffix   = ( \YOAST_ENVIRONMENT === 'development' ) ? '' : '.min';
 
 		Monkey\Functions\expect( 'wp_parse_url' )
 			->once()
-			->with( $location->get_asset()->get_src(), PHP_URL_SCHEME )
+			->with( $location->get_asset()->get_src(), \PHP_URL_SCHEME )
 			->andReturnNull();
 
 		Monkey\Functions\expect( 'plugins_url' )
