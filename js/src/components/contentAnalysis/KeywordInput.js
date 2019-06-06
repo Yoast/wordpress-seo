@@ -3,7 +3,6 @@
 /* External dependencies */
 import { Component } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { StyledContainerTopLevel } from "@yoast/components";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { KeywordInput as KeywordInputComponent } from "yoast-components";
@@ -14,8 +13,10 @@ import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import { setMarkerPauseStatus } from "../../redux/actions/markerPauseStatus";
 import HelpLink from "./HelpLink";
 
-const KeywordInputContainer = styled( StyledContainerTopLevel )`
+const KeywordInputContainer = styled.div`
 	padding: 16px;
+	/* Necessary to compensate negative top margin of the collapsible after the keyword input. */
+	border-bottom: 1px solid transparent;
 `;
 
 /**

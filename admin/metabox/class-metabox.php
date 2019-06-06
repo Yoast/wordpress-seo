@@ -271,7 +271,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$content_sections = $this->get_content_sections();
 
 		echo '<div class="wpseo-metabox-content">';
-		echo '<div class="wpseo-metabox-sidebar"><ul>';
+		echo '<div class="wpseo-metabox-menu"><ul role="tablist">';
 
 		foreach ( $content_sections as $content_section ) {
 			if ( $content_section->name === 'premium' ) {
@@ -335,12 +335,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return new WPSEO_Metabox_Section_React(
 			'content',
-			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
-			$content,
-			array(
-				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
-			)
+			WPSEO_Utils::traffic_light_svg() . '<span>' . __( 'Content optimization', 'wordpress-seo' ) . '</span>',
+			$content
 		);
 	}
 
@@ -361,12 +357,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return new WPSEO_Metabox_Tab_Section(
 			'advanced',
-			'<span class="screen-reader-text">' . __( 'Advanced', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-admin-generic"></span>',
-			array( $tab ),
-			array(
-				'link_aria_label' => __( 'Advanced', 'wordpress-seo' ),
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
-			)
+			'<span class="dashicons dashicons-admin-generic"></span>' . __( 'Advanced', 'wordpress-seo' ),
+			array( $tab )
 		);
 	}
 
@@ -379,12 +371,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_addons_meta_section() {
 		return new WPSEO_Metabox_Addon_Tab_Section(
 			'addons',
-			'<span class="screen-reader-text">' . __( 'Add-ons', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-admin-plugins"></span>',
-			array(),
-			array(
-				'link_aria_label' => __( 'Add-ons', 'wordpress-seo' ),
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
-			)
+			'<span class="dashicons dashicons-admin-plugins"></span>' . __( 'Add-ons', 'wordpress-seo' )
 		);
 	}
 
