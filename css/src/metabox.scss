@@ -131,10 +131,7 @@ ul.wpseo-metabox-tabs li.active {
 
 		li {
 			box-shadow: 0 0 2px rgba(0, 0, 0, .2);
-			float: left;
 			height: 32px;
-
-			display: block; /* Microsoft Edge 38. */
 			margin-bottom: 0;
 			text-align: center;
 			position: relative;
@@ -149,9 +146,9 @@ ul.wpseo-metabox-tabs li.active {
 			.yst-traffic-light {
 				height: 20px;
 				width: initial;
-				display: inline-block;
-				vertical-align: middle;
-				margin-right: 8px;
+				/* all the other icons are 20x20 so we need to compensate */
+				margin-right: 10px;
+				margin-left: 4px;
 			}
 
 			span {
@@ -170,7 +167,6 @@ ul.wpseo-metabox-tabs li.active {
 
 			&.active {
 				height: 36px;
-				padding-top: 4px;
 				z-index: 50;
 				background-color: #ffffff;
 				box-shadow: 0 0 2px 1px rgba(0, 0, 0, .2);
@@ -187,6 +183,7 @@ ul.wpseo-metabox-tabs li.active {
 				}
 
 				a {
+					height: 36px;
 					color: #444;
 				}
 
@@ -207,10 +204,8 @@ ul.wpseo-metabox-tabs li.active {
 
 	a {
 		height: 32px;
-		padding: 4px 8px;
-		display: block;
+		padding: 0 8px;
 		text-decoration: none;
-		vertical-align: middle;
 	}
 }
 
