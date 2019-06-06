@@ -157,7 +157,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 							'text' => [
 								'How to step 1 text line',
 								[
-									'key' => 1,
+									'type'   => 'img',
+									'key'    => 1,
+									'ref'    => null,
+									'_owner' => null,
+									'props'  => [
+										'alt' => 'alt text',
+										'src' => 'https://example.com/image.png',
+									],
 								],
 							],
 						],
@@ -204,7 +211,6 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	 *
 	 * @covers \WPSEO_Schema_HowTo::render
 	 * @covers \WPSEO_Schema_HowTo::add_steps
-	 * @covers \WPSEO_Schema_HowTo::add_step_description
 	 */
 	public function test_schema_output_step_with_no_description() {
 		$actual = $this->instance->render(
@@ -295,6 +301,69 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 						'@type' => 'HowToStep',
 						'url'   => 'example.com#step-id-1',
 						'text'  => 'How to step 1 description.',
+					],
+				],
+			]
+		];
+
+		$this->assertEquals( $actual, $expected );
+	}
+
+	/**
+	 * Tests the HowTo schema step output when no jsonName (title) is provided in the step data and an image is added
+	 * in the description.
+	 *
+	 * @covers \WPSEO_Schema_HowTo::render
+	 * @covers \WPSEO_Schema_HowTo::add_steps
+	 * @covers \WPSEO_Schema_HowTo::add_step_image
+	 */
+	public function test_schema_output_with_no_title_and_with_an_image() {
+		$actual = $this->instance->render(
+			[
+				[ '@id' => 'OtherGraphPiece' ],
+			],
+			[
+				'attrs' => [
+					'jsonDescription' => 'description',
+					'name'            => 'title',
+					'steps'           => [
+						[
+							'id'       => 'step-id-1',
+							'jsonText' => '',
+							'text' => [
+								[
+									'type'   => 'img',
+									'key'    => 1,
+									'ref'    => null,
+									'_owner' => null,
+									'props'  => [
+										'alt' => 'alt text',
+										'src' => 'https://example.com/image.png',
+									],
+								],
+							],
+						],
+					],
+				],
+			]
+		);
+
+		$expected = [
+			[
+				'@id' => 'OtherGraphPiece'
+			],
+			[
+				'@type'            => 'HowTo',
+				'@id'              => 'example.com#howto-1',
+				'name'             => 'title',
+				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'description'      => 'description',
+				'step'             => [
+					[
+						'@type' => 'HowToStep',
+						'url'   => 'example.com#step-id-1',
+						'image' => 'https://example.com/image.png',
+						'text'  => '',
 					],
 				],
 			]
