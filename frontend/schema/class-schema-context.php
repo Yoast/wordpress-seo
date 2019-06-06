@@ -148,7 +148,7 @@ class WPSEO_Schema_Context {
 		$this->site_represents_reference = false;
 
 		if ( $this->site_represents === 'person' ) {
-			$this->site_represents_reference = array( '@id' => $this->site_url . WPSEO_Schema_IDs::PERSON_HASH );
+			$this->site_represents_reference = array( '@id' => WPSEO_Schema_Utils::get_user_schema_id( $this->site_user_id, $this ) );
 		}
 
 		if ( $this->site_represents === 'company' ) {
