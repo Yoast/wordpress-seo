@@ -163,9 +163,10 @@ class Primary_Term_Watcher implements Integration {
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
 	 *
-	 * @return Indexable Instance of the indexable.
+	 * @return \Yoast\WP\Free\Models\Indexable Instance of the indexable.
 	 *
-	 * @throws No_Indexable_Found Exception when no indexable could be found for the supplied post.
+	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found Exception when no indexable could be found
+	 *                                                      for the supplied post.
 	 */
 	protected function get_indexable( $post_id, $taxonomy, $auto_create = true ) {
 		$indexable = Primary_Term_Indexable::find_by_postid_and_taxonomy( $post_id, 'post', $auto_create );
@@ -180,7 +181,7 @@ class Primary_Term_Watcher implements Integration {
 	/**
 	 * Deletes the given indexable.
 	 *
-	 * @param Indexable $indexable The indexable to delete.
+	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to delete.
 	 *
 	 * @return void
 	 */

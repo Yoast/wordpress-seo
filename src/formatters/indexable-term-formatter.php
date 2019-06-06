@@ -43,9 +43,9 @@ class Indexable_Term_Formatter {
 	/**
 	 * Formats the data.
 	 *
-	 * @param Indexable $indexable The indexable to format.
+	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to format.
 	 *
-	 * @return Indexable The extended indexable.
+	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
 	 */
 	public function format( $indexable ) {
 		$term_meta = $this->get_meta_data();

@@ -51,7 +51,7 @@ class Indexable extends Yoast_Model {
 	/**
 	 * The Indexable meta data.
 	 *
-	 * @var Indexable_Meta[]
+	 * @var \Yoast\WP\Free\Models\Indexable_Meta[]
 	 */
 	protected $meta_data;
 
@@ -62,7 +62,7 @@ class Indexable extends Yoast_Model {
 	 * @param string $object_type The indexable object type.
 	 * @param bool   $auto_create Optional. Create the indexable if it does not exist.
 	 *
-	 * @return bool|Indexable Instance of indexable.
+	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
 	 */
 	public static function find_by_id_and_type( $object_id, $object_type, $auto_create = true ) {
 		$indexable = Yoast_Model::of_type( 'Indexable' )
@@ -83,13 +83,13 @@ class Indexable extends Yoast_Model {
 	 * @param int    $object_id   The indexable object ID.
 	 * @param string $object_type The indexable object type.
 	 *
-	 * @return bool|Indexable Instance of indexable.
+	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
 	 */
 	public static function create_for_id_and_type( $object_id, $object_type ) {
 		/*
 		 * Indexable instance.
 		 *
-		 * @var Indexable $indexable
+		 * @var \Yoast\WP\Free\Models\Indexable $indexable
 		 */
 		$indexable              = Yoast_Model::of_type( 'Indexable' )->create();
 		$indexable->object_id   = $object_id;
@@ -111,7 +111,7 @@ class Indexable extends Yoast_Model {
 	/**
 	 * Returns the related meta model.
 	 *
-	 * @return Indexable_Meta Array of meta objects.
+	 * @return \Yoast\WP\Free\Models\Indexable_Meta Array of meta objects.
 	 */
 	public function meta() {
 		try {
@@ -233,9 +233,9 @@ class Indexable extends Yoast_Model {
 	 * @param string $meta_key    The meta key to get object for.
 	 * @param bool   $auto_create Optional. Create the indexable if it does not exist.
 	 *
-	 * @return Indexable_Meta
+	 * @return \Yoast\WP\Free\Models\Indexable_Meta
 	 *
-	 * @throws No_Indexable_Found Exception when no Indexable entry could be found.
+	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found Exception when no Indexable entry could be found.
 	 */
 	protected function get_meta( $meta_key, $auto_create = true ) {
 		$this->initialize_meta();

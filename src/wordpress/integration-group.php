@@ -15,14 +15,14 @@ class Integration_Group implements Integration {
 	/**
 	 * List of integrations.
 	 *
-	 * @var Integration[]
+	 * @var \Yoast\WP\Free\WordPress\Integration[]
 	 */
 	protected $integrations = array();
 
 	/**
 	 * Integration_Group constructor.
 	 *
-	 * @param Integration[] $integrations List of integrations to load.
+	 * @param \Yoast\WP\Free\WordPress\Integration[] $integrations List of integrations to load.
 	 *
 	 * @return void
 	 */
@@ -33,7 +33,7 @@ class Integration_Group implements Integration {
 	/**
 	 * Adds an integration to the group.
 	 *
-	 * @param Integration $integration The integration to add.
+	 * @param \Yoast\WP\Free\WordPress\Integration $integration The integration to add.
 	 *
 	 * @return void
 	 */

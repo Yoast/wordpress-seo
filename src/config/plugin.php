@@ -34,22 +34,22 @@ class Plugin implements Integration {
 	/**
 	 * The dependency manager to use.
 	 *
-	 * @var Dependency_Management $dependency_management
+	 * @var \Yoast\WP\Free\Config\Dependency_Management $dependency_management
 	 */
 	protected $dependency_management;
 
 	/**
 	 * The database migration to use.
 	 *
-	 * @var Database_Migration $database_migration
+	 * @var \Yoast\WP\Free\Config\Database_Migration $database_migration
 	 */
 	protected $database_migration;
 
 	/**
 	 * Creates a new plugin instance.
 	 *
-	 * @param Dependency_Management|null $dependency_management Class to manage dependency prefixing.
-	 * @param Database_Migration|null    $database_migration    Class to manage database migrations.
+	 * @param \Yoast\WP\Free\Config\Dependency_Management|null $dependency_management Class to manage dependency prefixing.
+	 * @param \Yoast\WP\Free\Config\Database_Migration|null    $database_migration    Class to manage database migrations.
 	 */
 	public function __construct( Dependency_Management $dependency_management = null, Database_Migration $database_migration = null ) {
 		// @codingStandardsIgnoreStart
@@ -61,7 +61,7 @@ class Plugin implements Integration {
 	/**
 	 * Adds an integration to the stack
 	 *
-	 * @param Integration $integration Integration to add.
+	 * @param \Yoast\WP\Free\WordPress\Integration $integration Integration to add.
 	 *
 	 * @return void
 	 */
@@ -175,7 +175,7 @@ class Plugin implements Integration {
 	 *
 	 * @param array $integrations Integrations to load into the group.
 	 *
-	 * @return Integration_Group.
+	 * @return \Yoast\WP\Free\WordPress\Integration_Group
 	 */
 	protected function get_integration_group( array $integrations = array() ) {
 		return new Integration_Group( $integrations );

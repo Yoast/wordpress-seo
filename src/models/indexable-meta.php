@@ -27,7 +27,7 @@ class Indexable_Meta extends Yoast_Model {
 	 * @param int    $indexable_id The indexable ID.
 	 * @param string $meta_key     The meta key.
 	 *
-	 * @return bool|Indexable_Meta Indexable meta object.
+	 * @return bool|\Yoast\WP\Free\Models\Indexable_Meta Indexable meta object.
 	 */
 	public static function find_meta_for_indexable( $indexable_id, $meta_key ) {
 		return Yoast_Model::of_type( 'Indexable_Meta' )
@@ -42,13 +42,13 @@ class Indexable_Meta extends Yoast_Model {
 	 * @param int    $indexable_id The indexable ID.
 	 * @param string $meta_key     The meta key.
 	 *
-	 * @return bool|Indexable_Meta Indexable meta object.
+	 * @return bool|\Yoast\WP\Free\Models\Indexable_Meta Indexable meta object.
 	 */
 	public static function create_meta_for_indexable( $indexable_id, $meta_key ) {
 		/**
 		 * Indexable instance for the post.
 		 *
-		 * @var Indexable_Meta $indexable_meta
+		 * @var \Yoast\WP\Free\Models\Indexable_Meta $indexable_meta
 		 */
 		$indexable_meta               = Yoast_Model::of_type( 'Indexable_Meta' )->create();
 		$indexable_meta->indexable_id = $indexable_id;
