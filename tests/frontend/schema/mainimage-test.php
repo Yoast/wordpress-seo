@@ -5,7 +5,7 @@ namespace Yoast\WP\Free\Tests\Frontend\Schema;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Schema_Context;
-use WPSEO_Schema_MainImage;
+use WPSEO_Schema_MainImage_Double;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -13,23 +13,55 @@ use Yoast\WP\Free\Tests\TestCase;
  */
 class MainImage_Test extends TestCase {
 
-	/** @var \WPSEO_Schema_Context null */
-	private $context = null;
+	/** @var \WPSEO_Schema_Context */
+	private $context;
+
+	/** @var \WPSEO_Schema_MainImage_Double */
+	private $instance;
+
+	/** @var array */
+	private $schema_from_attachment;
+
+	/** @var array */
+	private $schema_from_url;
 
 	/**
 	 * Sets up the test class.
 	 */
 	public function setUp() {
 		parent::setUp();
-		$this->context = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
-	}
 
-	/**
-	 * Tears down the test class.
-	 */
-	public function tearDown() {
-		$context = null;
-		parent::tearDown();
+		Monkey\Functions\expect( 'wp_get_attachment_caption' )
+			->andReturn( $this->schema_from_attachment['caption'] );
+
+		$this->context            = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
+		$this->context->id        = 1;
+		$this->context->site_url  = 'https://example.com/';
+		$this->context->canonical = $this->context->site_url . 'canonical/';
+
+		$this->schema_from_attachment = [
+			'@type'   => 'ImageObject',
+			'@id'     => $this->context->canonical . '#primaryimage',
+			'url'     => $this->context->site_url . 'attachment-image.jpg',
+			'width'   => 111,
+			'height'  => 222,
+			'caption' => 'image caption',
+		];
+
+		$this->schema_from_url = [
+			'@type' => 'ImageObject',
+			'@id'   => $this->context->canonical . '#primaryimage',
+			'url'   => $this->context->site_url . 'content-image.jpg',
+		];
+
+		$this->instance = $this->getMockBuilder( WPSEO_Schema_MainImage_Double::class )
+			->setMethods( [
+				'get_first_usable_content_image_for_post',
+				'generate_image_schema_from_attachment_id',
+				'generate_image_schema_from_url'
+			] )
+			->setConstructorArgs( [ $this->context ] )
+			->getMock();
 	}
 
 	/**
@@ -42,9 +74,7 @@ class MainImage_Test extends TestCase {
 			->times( 1 )
 			->andReturn( true );
 
-		$class_instance = new WPSEO_Schema_MainImage( $this->context );
-
-		$this->assertEquals( true, $class_instance->is_needed() );
+		$this->assertEquals( true, $this->instance->is_needed() );
 	}
 
 	/**
@@ -57,9 +87,7 @@ class MainImage_Test extends TestCase {
 			->times( 1 )
 			->andReturn( false );
 
-		$class_instance = new WPSEO_Schema_MainImage( $this->context );
-
-		$this->assertEquals( false, $class_instance->is_needed() );
+		$this->assertEquals( false, $this->instance->is_needed() );
 	}
 
 	/**
@@ -74,15 +102,13 @@ class MainImage_Test extends TestCase {
 			->times( 1 )
 			->andReturn( false );
 
-		Monkey\Functions\expect( 'get_post' )
-			->times( 1 )
-			->andReturn( null );
-
-		$class_instance = new WPSEO_Schema_MainImage( $this->context );
+		$this->instance
+			->method( 'get_first_usable_content_image_for_post' )
+			->willReturn( null );
 
 		$this->assertSame(
 			false,
-			$class_instance->generate()
+			$this->instance->generate()
 		);
 	}
 
@@ -93,45 +119,16 @@ class MainImage_Test extends TestCase {
 	 * @covers \WPSEO_Schema_MainImage::get_featured_image
 	 */
 	public function test_generate_with_a_featured_image() {
-		$this->context->id        = 1;
-		$this->context->canonical = 'https://example.com/mainimage-test';
-
 		Monkey\Functions\expect( 'has_post_thumbnail' )
-			->times( 1 )
 			->andReturn( true );
 
-		Monkey\Functions\expect( 'get_post_thumbnail_id' )
-			->times( 1 )
-			->andReturn( $this->context->id );
-
-		Monkey\Functions\expect( 'wp_get_attachment_image_url' )
-			->times( 1 )
-			->andReturn( 'https://example.com/image' );
-
-		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
-			->times( 1 )
-			->with( $this->context->id )
-			->andReturn( [
-				'width'  => 111,
-				'height' => 222,
-			] );
-
-		Monkey\Functions\expect( 'wp_get_attachment_caption' )
-			->times( 1 )
-			->andReturn( 'caption' );
-
-		$class_instance = new WPSEO_Schema_MainImage( $this->context );
+		$this->instance
+			->method( 'generate_image_schema_from_attachment_id' )
+			->willReturn( $this->schema_from_attachment );
 
 		$this->assertEquals(
-			[
-				'@type'   => 'ImageObject',
-				'@id'     => 'https://example.com/mainimage-test#primaryimage',
-				'url'     => 'https://example.com/image',
-				'width'   => 111,
-				'height'  => 222,
-				'caption' => 'caption',
-			],
-			$class_instance->generate()
+			$this->schema_from_attachment,
+			$this->instance->generate()
 		);
 		$this->assertSame( true, $this->context->has_image );
 	}
@@ -144,52 +141,20 @@ class MainImage_Test extends TestCase {
 	 * @covers \WPSEO_Schema_MainImage::get_first_content_image
 	 */
 	public function test_generate_with_a_content_image() {
-		$this->context->id        = 1;
-		$this->context->canonical = 'https://example.com/mainimage-test';
-
 		Monkey\Functions\expect( 'has_post_thumbnail' )
-			->times( 1 )
 			->andReturn( false );
 
-		Monkey\Functions\expect( 'get_post' )
-			->times( 1 )
-			->andReturn( (object) [
-				'ID'           => $this->context->id,
-				'post_content' => '<img src="https://example.com/" />',
-			] );
+		$this->instance
+			->method( 'get_first_usable_content_image_for_post' )
+			->willReturn( $this->context->site_url . 'wp-content/uploads/content-image.jpg' );
 
-		Monkey\Functions\expect( 'wp_cache_get' )
-			->times( 1 )
-			->andReturn( $this->context->id );
-
-		Monkey\Functions\expect( 'wp_get_attachment_image_url' )
-			->times( 1 )
-			->andReturn( 'https://example.com/image' );
-
-		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
-			->times( 1 )
-			->with( $this->context->id )
-			->andReturn( [
-				'width'  => 111,
-				'height' => 222,
-			] );
-
-		Monkey\Functions\expect( 'wp_get_attachment_caption' )
-			->times( 1 )
-			->andReturn( 'caption' );
-
-		$class_instance = new WPSEO_Schema_MainImage( $this->context );
+		$this->instance
+			->method( 'generate_image_schema_from_url' )
+			->willReturn( $this->schema_from_url );
 
 		$this->assertEquals(
-			[
-				'@type'   => 'ImageObject',
-				'@id'     => 'https://example.com/mainimage-test#primaryimage',
-				'url'     => 'https://example.com/image',
-				'width'   => 111,
-				'height'  => 222,
-				'caption' => 'caption',
-			],
-			$class_instance->generate()
+			$this->schema_from_url,
+			$this->instance->generate()
 		);
 		$this->assertSame( true, $this->context->has_image );
 	}

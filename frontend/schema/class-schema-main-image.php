@@ -81,8 +81,7 @@ class WPSEO_Schema_MainImage implements WPSEO_Graph_Piece {
 			return null;
 		}
 
-		$schema_image = new WPSEO_Schema_Image( $image_id );
-		return $schema_image->generate_from_attachment_id( get_post_thumbnail_id() );
+		return $this->generate_image_schema_from_attachment_id( $image_id );
 	}
 
 	/**
@@ -94,12 +93,53 @@ class WPSEO_Schema_MainImage implements WPSEO_Graph_Piece {
 	 * @return array|null The image schema object and null if there is no image in the content.
 	 */
 	private function get_first_content_image( $post_id, $image_id ) {
-		$image_url = WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
+		$image_url = $this->get_first_usable_content_image_for_post( $post_id );
 
 		if ( $image_url === null ) {
 			return null;
 		}
 
+		return $this->generate_image_schema_from_url( $image_id, $image_url );
+	}
+
+	/**
+	 * Gets the post's first usable content image. Null if none is available.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param int $post_id The post id.
+	 *
+	 * @return string|null The image URL.
+	 */
+	protected function get_first_usable_content_image_for_post( $post_id ) {
+		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
+	}
+
+	/**
+	 * Generates image schema from the attachment id.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $image_id The image schema id.
+	 *
+	 * @return array Schema ImageObject array.
+	 */
+	protected function generate_image_schema_from_attachment_id( $image_id ) {
+		$schema_image = new WPSEO_Schema_Image( $image_id );
+		return $schema_image->generate_from_attachment_id( get_post_thumbnail_id() );
+	}
+
+	/**
+	 * Generates image schema from the url.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $image_id  The image schema id.
+	 * @param string $image_url The image URL.
+	 *
+	 * @return array Schema ImageObject array.
+	 */
+	protected function generate_image_schema_from_url( $image_id, $image_url ) {
 		$schema_image = new WPSEO_Schema_Image( $image_id );
 		return $schema_image->generate_from_url( $image_url );
 	}
