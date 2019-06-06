@@ -317,7 +317,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	 * @covers \WPSEO_Schema_HowTo::add_steps
 	 * @covers \WPSEO_Schema_HowTo::add_step_image
 	 */
-	public function test_schema_output_with_no_title_and_with_an_image() {
+	public function test_schema_output_step_with_no_title_and_with_an_image() {
 		$actual = $this->instance->render(
 			[
 				[ '@id' => 'OtherGraphPiece' ],
@@ -370,6 +370,121 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 		];
 
 		$this->assertEquals( $actual, $expected );
+	}
+
+	/**
+	 * Tests the HowTo schema step output when no jsonName (title), jsonText (description) and image are provided.
+	 *
+	 * @covers \WPSEO_Schema_HowTo::render
+	 * @covers \WPSEO_Schema_HowTo::add_steps
+	 * @covers \WPSEO_Schema_HowTo::add_step_image
+	 */
+	public function test_schema_output_step_with_no_content() {
+		$actual = $this->instance->render(
+			[
+				[ '@id' => 'OtherGraphPiece' ],
+			],
+			[
+				'attrs' => [
+					'jsonDescription' => 'description',
+					'name'            => 'title',
+					'steps'           => [
+						[
+							'id'       => 'step-id-1',
+						],
+					],
+				],
+			]
+		);
+
+		$expected = [
+			[
+				'@id' => 'OtherGraphPiece'
+			],
+			[
+				'@type'            => 'HowTo',
+				'@id'              => 'example.com#howto-1',
+				'name'             => 'title',
+				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'description'      => 'description',
+			]
+		];
+
+		$this->assertEquals( $actual, $expected );
+	}
+
+	/**
+	 * Tests the HowTo schema step output when no jsonName (title), jsonText (description) and image are provided.
+	 *
+	 * @covers \WPSEO_Schema_HowTo::render
+	 * @covers \WPSEO_Schema_HowTo::add_steps
+	 * @covers \WPSEO_Schema_HowTo::add_step_description
+	 * @covers \WPSEO_Schema_HowTo::add_duration
+	 */
+	public function test_schema_output_step_with_duration() {
+		$actual = $this->instance->render(
+			[
+				[ '@id' => 'OtherGraphPiece' ],
+			],
+			[
+				'attrs' => [
+					'jsonDescription' => 'description',
+					'name'            => 'title',
+					'hasDuration'     => true,
+					'days'            => 1,
+					'hours'           => 12,
+					'minutes'         => 30,
+					'steps'           => [
+						[
+							'id'       => 'step-id-1',
+							'jsonName' => 'How to step 1',
+							'jsonText' => 'How to step 1 description',
+							'text' => [
+								'How to step 1 description',
+							],
+						],
+					],
+				],
+			]
+		);
+
+		$expected = [
+			[
+				'@id' => 'OtherGraphPiece'
+			],
+			[
+				'@type'            => 'HowTo',
+				'@id'              => 'example.com#howto-1',
+				'name'             => 'title',
+				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'description'      => 'description',
+				'totalTime'        => 'P1DT12H30M',
+				'step'             => [
+					[
+						'@type' => 'HowToStep',
+						'url'   => 'example.com#step-id-1',
+						'name'  => 'How to step 1',
+						'itemListElement' => [
+							[
+								'@type' => 'HowToDirection',
+								'text'  => 'How to step 1 description',
+							]
+						],
+					],
+				],
+			]
+		];
+
+		$this->assertEquals( $actual, $expected );
+	}
+
+	/**
+	 * Tests the is_needed function.
+	 *
+	 * @covers \WPSEO_Schema_HowTo::is_needed
+	 */
+	public function test_is_needed() {
+		$this->assertFalse( $this->instance->is_needed() );
 	}
 
 	/**

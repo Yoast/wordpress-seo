@@ -14,6 +14,8 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	/**
 	 * Determine whether this graph piece is needed or not.
 	 *
+	 * Always false, because this graph piece adds itself using the filter API.
+	 *
 	 * @var bool
 	 */
 	private $is_needed = false;
@@ -157,10 +159,6 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 				}
 			}
 			else if ( empty( $step['jsonText'] ) ) {
-				if ( empty( $step['jsonName'] ) ) {
-					continue;
-				}
-
 				$schema_step['text'] = $step['jsonName'];
 			}
 			else {
