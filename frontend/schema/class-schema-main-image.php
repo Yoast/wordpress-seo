@@ -22,6 +22,8 @@ class WPSEO_Schema_MainImage implements WPSEO_Graph_Piece {
 	/**
 	 * WPSEO_Schema_WebPage constructor.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param WPSEO_Schema_Context $context A value object with context variables.
 	 */
 	public function __construct( WPSEO_Schema_Context $context ) {
