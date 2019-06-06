@@ -102,6 +102,8 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 * Determine whether we're part of an article or a webpage.
 	 *
 	 * @return string A reference URL.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function get_main_schema_id() {
 		if ( WPSEO_Schema_Article::is_article_post_type() ) {
@@ -128,17 +130,31 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 */
 	private function add_steps( &$data, $steps ) {
 		foreach ( $steps as $step ) {
-			if ( empty( $step['jsonName'] ) ) {
-				continue;
-			}
 			$schema_id   = $this->context->canonical . '#' . $step['id'];
 			$schema_step = array(
 				'@type' => 'HowToStep',
-				'name'  => $step['jsonName'],
 				'url'   => $schema_id,
 			);
-			$this->add_step_description( $schema_step, $step );
-			$this->add_step_image( $schema_step, $step );
+
+			if ( empty( $step['jsonName'] ) ) {
+				if ( empty( $step['jsonText'] ) ) {
+					continue;
+				}
+
+				$schema_step['text'] = $step['jsonText'];
+
+			} else if ( empty( $step['jsonText'] ) ) {
+				if ( empty( $step['jsonName' ] ) ) {
+					continue;
+				}
+
+				$schema_step['text'] = $step['jsonName'];
+			} else {
+				$schema_step['name'] = $step['jsonName'];
+
+				$this->add_step_description( $schema_step, $step );
+				$this->add_step_image( $schema_step, $step );
+			}
 
 			$data['step'][] = $schema_step;
 		}
@@ -183,6 +199,8 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 * @param int $id Attachment id.
 	 *
 	 * @return array Image schema.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function get_image_schema( $id ) {
 		$image = new WPSEO_Schema_Image( $this->context->canonical . '#schema-image-' . $id );
