@@ -507,6 +507,8 @@ class SnippetEditor extends React.Component {
 			keyword,
 			wordsToHighlight,
 			showCloseButton,
+			faviconSrc,
+			mobileImageSrc,
 		} = this.props;
 
 		const {
@@ -537,6 +539,8 @@ class SnippetEditor extends React.Component {
 						onMouseLeave={ this.onMouseLeave }
 						onMouseUp={ this.onMouseUp }
 						locale={ locale }
+						faviconSrc={ faviconSrc }
+						mobileImageSrc={ mobileImageSrc }
 						{ ...mappedData }
 					/>
 
@@ -581,6 +585,8 @@ SnippetEditor.propTypes = {
 	locale: PropTypes.string,
 	hasPaperStyle: PropTypes.bool,
 	showCloseButton: PropTypes.bool,
+	faviconSrc: PropTypes.string,
+	mobileImageSrc: PropTypes.string,
 };
 
 SnippetEditor.defaultProps = {
@@ -605,6 +611,8 @@ SnippetEditor.defaultProps = {
 	onChangeAnalysisData: noop,
 	hasPaperStyle: true,
 	showCloseButton: true,
+	faviconSrc: "",
+	mobileImageSrc: "",
 };
 
 export default SnippetEditor;

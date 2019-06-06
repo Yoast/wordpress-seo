@@ -48,7 +48,6 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 
 .c6 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -58,7 +57,6 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 
 .c7 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -67,9 +65,18 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
-.c9 {
+.c8 {
+  font-size: 14px;
+  color: #006621;
+}
+
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -77,7 +84,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   font-size: 13px;
 }
 
-.c8 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -90,11 +97,9 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -152,11 +157,15 @@ exports[`SnippetPreview changes the colors of the description if it was generate
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
           >
-            https://example.org/
+            <span
+              className="c8"
+            >
+              https://example.org/
+            </span>
           </div>
         </div>
         <div
-          className="c8"
+          className="c9"
         />
       </div>
       <div
@@ -177,7 +186,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
           Meta description preview:
         </span>
         <div
-          className="c9"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -238,7 +247,6 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
 
 .c6 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -248,7 +256,6 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
 
 .c7 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -257,9 +264,18 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
-.c9 {
+.c8 {
+  font-size: 14px;
+  color: #006621;
+}
+
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -267,7 +283,7 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
   font-size: 13px;
 }
 
-.c8 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -280,11 +296,9 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -342,11 +356,15 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
           >
-            https://example.org/
+            <span
+              className="c8"
+            >
+              https://example.org/
+            </span>
           </div>
         </div>
         <div
-          className="c8"
+          className="c9"
         />
       </div>
       <div
@@ -367,7 +385,7 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
           Meta description preview:
         </span>
         <div
-          className="c9"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -440,7 +458,6 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 
 .c6 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -450,7 +467,6 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 
 .c7 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -459,9 +475,18 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
-.c9 {
+.c8 {
+  font-size: 14px;
+  color: #006621;
+}
+
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -469,7 +494,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   font-size: 13px;
 }
 
-.c8 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -482,11 +507,9 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -544,11 +567,15 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
           >
-            https://example.org/
+            <span
+              className="c8"
+            >
+              https://example.org/
+            </span>
           </div>
         </div>
         <div
-          className="c8"
+          className="c9"
         />
       </div>
       <div
@@ -569,7 +596,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
           Meta description preview:
         </span>
         <div
-          className="c9"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -633,7 +660,6 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 
 .c6 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -643,7 +669,6 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 
 .c7 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -652,9 +677,18 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
-.c9 {
+.c8 {
+  font-size: 14px;
+  color: #006621;
+}
+
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -662,7 +696,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   font-size: 13px;
 }
 
-.c8 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -675,11 +709,9 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -737,11 +769,15 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
           >
-            https://example.org/this-keyword-url/
+            <span
+              className="c8"
+            >
+              https://example.org/this-keyword-url/
+            </span>
           </div>
         </div>
         <div
-          className="c8"
+          className="c9"
         />
       </div>
       <div
@@ -762,7 +798,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
           Meta description preview:
         </span>
         <div
-          className="c9"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -826,7 +862,6 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
 
 .c6 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -836,7 +871,6 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
 
 .c7 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -845,9 +879,18 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
-.c9 {
+.c8 {
+  font-size: 14px;
+  color: #006621;
+}
+
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -855,7 +898,7 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
   font-size: 13px;
 }
 
-.c8 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -868,11 +911,9 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -930,11 +971,15 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
           >
-            https://example.org/
+            <span
+              className="c8"
+            >
+              https://example.org/
+            </span>
           </div>
         </div>
         <div
-          className="c8"
+          className="c9"
         />
       </div>
       <div
@@ -955,7 +1000,7 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c9"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -989,21 +1034,21 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
 exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] = `
 .c0 {
   border-bottom: 1px hidden #fff;
-  border-radius: 2px;
-  box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
 
-.c2 {
+.c6 {
   cursor: pointer;
   position: relative;
 }
 
-.c3 {
-  color: #1e0fbe;
+.c7 {
+  color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
@@ -1020,18 +1065,18 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   text-overflow: ellipsis;
 }
 
-.c4 {
+.c8 {
   display: inline-block;
   font-size: 16px;
-  line-height: 1.2em;
-  max-height: 2.4em;
+  line-height: 20px;
+  max-height: 40px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.c6 {
+.c2 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -1039,9 +1084,8 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   font-size: 14px;
 }
 
-.c7 {
+.c3 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -1050,29 +1094,48 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-}
-
-.c9 {
-  color: #545454;
-  cursor: pointer;
-  position: relative;
-  max-width: 600px;
-  font-size: 13px;
-  font-size: 14px;
+  margin-bottom: 12px;
+  padding-top: 1px;
   line-height: 20px;
-}
-
-.c1 {
-  padding: 8px 16px;
-}
-
-.c8 {
-  border: 0;
-  border-bottom: 1px solid #DFE1E5;
-  margin: 0;
+  vertical-align: top;
 }
 
 .c5 {
+  font-size: 12px;
+  color: #3c4043;
+}
+
+.c10 {
+  color: #3c4043;
+  font-size: 14px;
+  line-height: 20px;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+}
+
+.c10:after {
+  display: table;
+  content: "";
+  clear: both;
+}
+
+.c1 {
+  padding: 12px 16px;
+}
+
+.c1:first-child {
+  margin-bottom: -16px;
+}
+
+.c4 {
+  width: 16px;
+  height: 16px;
+  margin-right: 12px;
+  vertical-align: middle;
+}
+
+.c9 {
   background-size: 100% 100%;
   display: inline-block;
   height: 12px;
@@ -1087,7 +1150,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   <div
     className="c0"
     onMouseLeave={undefined}
-    width={640}
+    width={null}
   >
     <div
       className="c1"
@@ -1108,15 +1171,36 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
       </span>
       <div
         className="c2"
+      >
+        <div
+          className="c3"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <img
+            alt=""
+            className="c4"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
+          />
+          <span
+            className="c5"
+          >
+            https://example.org
+          </span>
+        </div>
+      </div>
+      <div
+        className="c6"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
-          className="c3"
+          className="c7"
         >
           <span
-            className="c4"
+            className="c8"
           >
             Title
           </span>
@@ -1137,24 +1221,223 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         Url preview:
       </span>
       <div
-        className="c5"
+        className="c9"
       />
+    </div>
+    <div
+      className="c1"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Meta description preview:
+      </span>
       <div
-        className="c6"
+        className="c10"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
       >
         <div
-          className="c7"
+          className="c10"
+        >
+          
+          Description
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
+
+exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
+.c0 {
+  border-bottom: 1px hidden #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
+  max-width: 400px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.c6 {
+  cursor: pointer;
+  position: relative;
+}
+
+.c7 {
+  color: #1967d2;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: normal;
+  margin: 0;
+  display: inline-block;
+  overflow: hidden;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+  max-width: 600px;
+  vertical-align: top;
+  text-overflow: ellipsis;
+}
+
+.c8 {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 20px;
+  max-height: 40px;
+  vertical-align: top;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.c2 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.c3 {
+  display: inline-block;
+  cursor: pointer;
+  position: relative;
+  max-width: 90%;
+  white-space: nowrap;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  margin-bottom: 12px;
+  padding-top: 1px;
+  line-height: 20px;
+  vertical-align: top;
+}
+
+.c5 {
+  font-size: 12px;
+  color: #3c4043;
+}
+
+.c9 {
+  color: #3c4043;
+  font-size: 14px;
+  line-height: 20px;
+  cursor: pointer;
+  position: relative;
+  max-width: 600px;
+}
+
+.c9:after {
+  display: table;
+  content: "";
+  clear: both;
+}
+
+.c1 {
+  padding: 12px 16px;
+}
+
+.c1:first-child {
+  margin-bottom: -16px;
+}
+
+.c4 {
+  width: 16px;
+  height: 16px;
+  margin-right: 12px;
+  vertical-align: middle;
+}
+
+<section>
+  <div
+    className="c0"
+    onMouseLeave={undefined}
+    width={null}
+  >
+    <div
+      className="c1"
+    >
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        SEO title preview:
+      </span>
+      <div
+        className="c2"
+      >
+        <div
+          className="c3"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
-          https://example.org
+          <img
+            alt=""
+            className="c4"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
+          />
+          <span
+            className="c5"
+          >
+            https://example.org
+          </span>
         </div>
       </div>
+      <div
+        className="c6"
+        onMouseEnter={[Function]}
+        onMouseLeave={[Function]}
+        onMouseUp={[Function]}
+      >
+        <div
+          className="c7"
+        >
+          <span
+            className="c8"
+          >
+            Title
+          </span>
+        </div>
+      </div>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        Url preview:
+      </span>
     </div>
-    <hr
-      className="c8"
-    />
     <div
       className="c1"
     >
@@ -1181,195 +1464,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
         <div
           className="c9"
         >
-          Description
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-`;
-
-exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
-.c0 {
-  border-bottom: 1px hidden #fff;
-  border-radius: 2px;
-  box-shadow: 0 1px 2px rgba(0,0,0,.2);
-  font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
-  box-sizing: border-box;
-  font-size: 14px;
-}
-
-.c2 {
-  cursor: pointer;
-  position: relative;
-}
-
-.c3 {
-  color: #1e0fbe;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
-  font-weight: normal;
-  margin: 0;
-  display: inline-block;
-  overflow: hidden;
-  max-width: 600px;
-  vertical-align: top;
-  text-overflow: ellipsis;
-  max-width: 600px;
-  vertical-align: top;
-  text-overflow: ellipsis;
-}
-
-.c4 {
-  display: inline-block;
-  font-size: 16px;
-  line-height: 1.2em;
-  max-height: 2.4em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.c5 {
-  display: inline-block;
-  color: #006621;
-  cursor: pointer;
-  position: relative;
-  max-width: 90%;
-  white-space: nowrap;
-  font-size: 14px;
-}
-
-.c6 {
-  display: inline-block;
-  color: #006621;
-  cursor: pointer;
-  position: relative;
-  max-width: 90%;
-  white-space: nowrap;
-  font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-}
-
-.c8 {
-  color: #545454;
-  cursor: pointer;
-  position: relative;
-  max-width: 600px;
-  font-size: 13px;
-  font-size: 14px;
-  line-height: 20px;
-}
-
-.c1 {
-  padding: 8px 16px;
-}
-
-.c7 {
-  border: 0;
-  border-bottom: 1px solid #DFE1E5;
-  margin: 0;
-}
-
-<section>
-  <div
-    className="c0"
-    onMouseLeave={undefined}
-    width={640}
-  >
-    <div
-      className="c1"
-    >
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        SEO title preview:
-      </span>
-      <div
-        className="c2"
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
-        onMouseUp={[Function]}
-      >
-        <div
-          className="c3"
-        >
-          <span
-            className="c4"
-          >
-            Title
-          </span>
-        </div>
-      </div>
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        Url preview:
-      </span>
-      <div
-        className="c5"
-      >
-        <div
-          className="c6"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-        >
-          https://example.org
-        </div>
-      </div>
-    </div>
-    <hr
-      className="c7"
-    />
-    <div
-      className="c1"
-    >
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        Meta description preview:
-      </span>
-      <div
-        className="c8"
-        onMouseEnter={[Function]}
-        onMouseLeave={[Function]}
-        onMouseUp={[Function]}
-      >
-        <div
-          className="c8"
-        >
+          
           Description
         </div>
       </div>
@@ -1381,21 +1476,21 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 .c0 {
   border-bottom: 1px hidden #fff;
-  border-radius: 2px;
-  box-shadow: 0 1px 2px rgba(0,0,0,.2);
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(32,33,36,0.28);
   font-family: Arial,Roboto-Regular,HelveticaNeue,sans-serif;
-  max-width: 600px;
+  max-width: 400px;
   box-sizing: border-box;
   font-size: 14px;
 }
 
-.c2 {
+.c6 {
   cursor: pointer;
   position: relative;
 }
 
-.c3 {
-  color: #1e0fbe;
+.c7 {
+  color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
   font-size: 18px;
@@ -1412,18 +1507,18 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   text-overflow: ellipsis;
 }
 
-.c4 {
+.c8 {
   display: inline-block;
   font-size: 16px;
-  line-height: 1.2em;
-  max-height: 2.4em;
+  line-height: 20px;
+  max-height: 40px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.c5 {
+.c2 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -1431,9 +1526,8 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   font-size: 14px;
 }
 
-.c6 {
+.c3 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -1442,33 +1536,52 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  margin-bottom: 12px;
+  padding-top: 1px;
+  line-height: 20px;
+  vertical-align: top;
 }
 
-.c8 {
-  color: #545454;
+.c5 {
+  font-size: 12px;
+  color: #3c4043;
+}
+
+.c9 {
+  color: #3c4043;
+  font-size: 14px;
+  line-height: 20px;
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
-  font-size: 14px;
-  line-height: 20px;
+}
+
+.c9:after {
+  display: table;
+  content: "";
+  clear: both;
 }
 
 .c1 {
-  padding: 8px 16px;
+  padding: 12px 16px;
 }
 
-.c7 {
-  border: 0;
-  border-bottom: 1px solid #DFE1E5;
-  margin: 0;
+.c1:first-child {
+  margin-bottom: -16px;
+}
+
+.c4 {
+  width: 16px;
+  height: 16px;
+  margin-right: 12px;
+  vertical-align: middle;
 }
 
 <section>
   <div
     className="c0"
     onMouseLeave={undefined}
-    width={640}
+    width={null}
   >
     <div
       className="c1"
@@ -1489,15 +1602,36 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
       </span>
       <div
         className="c2"
+      >
+        <div
+          className="c3"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+        >
+          <img
+            alt=""
+            className="c4"
+            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iucx+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnHyqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BYXMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TFw4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmtaJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElFTkSuQmCC"
+          />
+          <span
+            className="c5"
+          >
+            https://example.org
+          </span>
+        </div>
+      </div>
+      <div
+        className="c6"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
-          className="c3"
+          className="c7"
         >
           <span
-            className="c4"
+            className="c8"
           >
             Title
           </span>
@@ -1517,22 +1651,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
       >
         Url preview:
       </span>
-      <div
-        className="c5"
-      >
-        <div
-          className="c6"
-          onMouseEnter={[Function]}
-          onMouseLeave={[Function]}
-          onMouseUp={[Function]}
-        >
-          https://example.org
-        </div>
-      </div>
     </div>
-    <hr
-      className="c7"
-    />
     <div
       className="c1"
     >
@@ -1551,14 +1670,15 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
         Meta description preview:
       </span>
       <div
-        className="c8"
+        className="c9"
         onMouseEnter={[Function]}
         onMouseLeave={[Function]}
         onMouseUp={[Function]}
       >
         <div
-          className="c8"
+          className="c9"
         >
+          
           Description
         </div>
       </div>
@@ -1615,7 +1735,6 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 
 .c6 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -1625,7 +1744,6 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 
 .c7 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -1634,9 +1752,18 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
-.c9 {
+.c8 {
+  font-size: 14px;
+  color: #006621;
+}
+
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1644,7 +1771,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   font-size: 13px;
 }
 
-.c8 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -1657,11 +1784,9 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -1719,11 +1844,15 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
           >
-            https://example.org/
+            <span
+              className="c8"
+            >
+              https://example.org/
+            </span>
           </div>
         </div>
         <div
-          className="c8"
+          className="c9"
         />
       </div>
       <div
@@ -1744,7 +1873,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c9"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -1800,7 +1929,6 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 
 .c6 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -1810,7 +1938,6 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 
 .c7 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -1819,9 +1946,18 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
-.c9 {
+.c8 {
+  font-size: 14px;
+  color: #006621;
+}
+
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -1829,7 +1965,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   font-size: 13px;
 }
 
-.c8 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -1859,11 +1995,9 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -1921,11 +2055,15 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
           >
-            https://example.org/
+            <span
+              className="c8"
+            >
+              https://example.org/
+            </span>
           </div>
         </div>
         <div
-          className="c8"
+          className="c9"
         />
       </div>
       <div
@@ -1946,7 +2084,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c9"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -2007,7 +2145,6 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 
 .c6 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -2017,7 +2154,6 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 
 .c7 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -2026,9 +2162,18 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
+  font-size: 14px;
+  color: #006621;
+}
+
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -2038,7 +2183,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   vertical-align: top;
 }
 
-.c9 {
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2046,7 +2191,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   font-size: 13px;
 }
 
-.c9::before {
+.c10::before {
   display: block;
   position: absolute;
   top: -3px;
@@ -2061,11 +2206,9 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -2123,11 +2266,15 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
           >
-            https://example.org/
+            <span
+              className="c8"
+            >
+              https://example.org/
+            </span>
           </div>
         </div>
         <div
-          className="c8"
+          className="c9"
         />
       </div>
       <div
@@ -2148,7 +2295,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
           Meta description preview:
         </span>
         <div
-          className="c9"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -2209,7 +2356,6 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 
 .c7 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -2218,9 +2364,18 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
-.c9 {
+.c8 {
+  font-size: 14px;
+  color: #006621;
+}
+
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2228,7 +2383,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   font-size: 13px;
 }
 
-.c8 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -2240,7 +2395,6 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 
 .c6 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -2263,11 +2417,9 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -2325,11 +2477,15 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
           >
-            https://example.org/
+            <span
+              className="c8"
+            >
+              https://example.org/
+            </span>
           </div>
         </div>
         <div
-          className="c8"
+          className="c9"
         />
       </div>
       <div
@@ -2350,7 +2506,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
           Meta description preview:
         </span>
         <div
-          className="c9"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -2406,7 +2562,6 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 
 .c6 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -2416,7 +2571,6 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 
 .c7 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -2425,9 +2579,18 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
-.c9 {
+.c8 {
+  font-size: 14px;
+  color: #006621;
+}
+
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2435,7 +2598,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   font-size: 13px;
 }
 
-.c8 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -2465,11 +2628,9 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -2527,11 +2688,15 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
           >
-            https://example.org/
+            <span
+              className="c8"
+            >
+              https://example.org/
+            </span>
           </div>
         </div>
         <div
-          className="c8"
+          className="c9"
         />
       </div>
       <div
@@ -2552,7 +2717,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c9"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -2613,7 +2778,6 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 
 .c6 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -2623,7 +2787,6 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 
 .c7 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -2632,9 +2795,18 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
 .c8 {
+  font-size: 14px;
+  color: #006621;
+}
+
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -2644,7 +2816,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   vertical-align: top;
 }
 
-.c9 {
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2652,7 +2824,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   font-size: 13px;
 }
 
-.c9::before {
+.c10::before {
   display: block;
   position: absolute;
   top: -3px;
@@ -2667,11 +2839,9 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -2729,11 +2899,15 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
           >
-            https://example.org/
+            <span
+              className="c8"
+            >
+              https://example.org/
+            </span>
           </div>
         </div>
         <div
-          className="c8"
+          className="c9"
         />
       </div>
       <div
@@ -2754,7 +2928,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
           Meta description preview:
         </span>
         <div
-          className="c9"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -2815,7 +2989,6 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 
 .c7 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -2824,9 +2997,18 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
-.c9 {
+.c8 {
+  font-size: 14px;
+  color: #006621;
+}
+
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -2834,7 +3016,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   font-size: 13px;
 }
 
-.c8 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -2846,7 +3028,6 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 
 .c6 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -2869,11 +3050,9 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -2931,11 +3110,15 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
           >
-            https://example.org/
+            <span
+              className="c8"
+            >
+              https://example.org/
+            </span>
           </div>
         </div>
         <div
-          className="c8"
+          className="c9"
         />
       </div>
       <div
@@ -2956,7 +3139,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
           Meta description preview:
         </span>
         <div
-          className="c9"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
@@ -3017,7 +3200,6 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
 
 .c6 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -3027,7 +3209,6 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
 
 .c7 {
   display: inline-block;
-  color: #006621;
   cursor: pointer;
   position: relative;
   max-width: 90%;
@@ -3036,9 +3217,18 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  margin-bottom: 0;
+  padding-top: 0;
+  line-height: inherit;
+  vertical-align: baseline;
 }
 
-.c9 {
+.c8 {
+  font-size: 14px;
+  color: #006621;
+}
+
+.c10 {
   color: #545454;
   cursor: pointer;
   position: relative;
@@ -3046,7 +3236,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   font-size: 13px;
 }
 
-.c8 {
+.c9 {
   display: inline-block;
   margin-top: 6px;
   margin-left: 6px;
@@ -3056,18 +3246,16 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   vertical-align: top;
 }
 
-.c10 {
-  color: #808080;
+.c11 {
+  color: #70757f;
 }
 
 <section>
   <div
     className="c0 c1"
-    width={640}
   >
     <div
       className="c2"
-      width={600}
     >
       <div
         className=""
@@ -3125,11 +3313,15 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
           >
-            https://example.org/
+            <span
+              className="c8"
+            >
+              https://example.org/
+            </span>
           </div>
         </div>
         <div
-          className="c8"
+          className="c9"
         />
       </div>
       <div
@@ -3150,16 +3342,18 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
           Meta description preview:
         </span>
         <div
-          className="c9"
+          className="c10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           onMouseUp={[Function]}
         >
           <span
-            className="c10"
+            className="c11"
           >
             Today
-             - 
+             
+            -
+             
           </span>
           Description
         </div>
