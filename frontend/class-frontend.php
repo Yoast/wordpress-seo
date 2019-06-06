@@ -1332,9 +1332,18 @@ class WPSEO_Frontend {
 	 * @since 1.1.7
 	 * @return boolean Boolean indicating whether the noindex header was sent.
 	 */
-	public function noindex_feed() {
+	public function noindex_feed(  ) {
 
-		if ( ( is_feed() || is_robots() ) && headers_sent() === false ) {
+		/**
+		 * Allow switching the X-Robots-Tag header for feeds on or off.
+		 *
+		 * @api   boolean $noindex Whether the noindex header should get set (true) or not (false).
+		 *
+		 * @since 11.4
+		 */
+		$noindex = apply_filters( 'wpseo_feed_noindex', true );
+
+		if ( ( is_feed() || is_robots() ) && headers_sent() === false && $noindex === true ) {
 			header( 'X-Robots-Tag: noindex, follow', true );
 
 			return true;
