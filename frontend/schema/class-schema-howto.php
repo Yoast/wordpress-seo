@@ -72,8 +72,13 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 			'@id'              => $this->context->canonical . '#howto-' . $this->counter,
 			'name'             => $this->context->title,
 			'mainEntityOfPage' => array( '@id' => $this->get_main_schema_id() ),
-			'description'      => $block['attrs']['jsonDescription'],
+			'description'      => '',
 		);
+
+		if ( isset( $block['attrs']['jsonDescription'] ) ) {
+			$data['description'] = $block['attrs']['jsonDescription'];
+		}
+
 		$this->add_duration( $data, $block['attrs'] );
 		$this->add_steps( $data, $block['attrs']['steps'] );
 
