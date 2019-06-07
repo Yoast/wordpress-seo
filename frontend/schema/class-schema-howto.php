@@ -206,23 +206,26 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 */
 	private function add_step_image( &$schema_step, $step ) {
 		foreach ( $step['text'] as $line ) {
-			if ( is_array( $line ) && isset( $line['key'] ) ) {
-				$schema_step['image'] = $this->get_image_schema( $line['key'] );
+			if ( is_array( $line ) && isset( $line['type'] ) && $line['type'] === 'img' ) {
+				$schema_step['image'] = $this->get_image_schema( $line['props']['src'] );
 			}
 		}
 	}
 
 	/**
-	 * Generates the image schema from the attachment id.
+	 * Generates the image schema from the attachment $url.
 	 *
-	 * @param int $id Attachment id.
+	 * @param string $url Attachment url.
 	 *
 	 * @return array Image schema.
 	 *
 	 * @codeCoverageIgnore
 	 */
-	protected function get_image_schema( $id ) {
+	protected function get_image_schema( $url ) {
+		$id = WPSEO_Image_Utils::get_attachment_by_url( $url );
+
 		$image = new WPSEO_Schema_Image( $this->context->canonical . '#schema-image-' . $id );
+
 		return $image->generate_from_attachment_id( $id );
 	}
 }
