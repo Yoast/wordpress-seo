@@ -63,8 +63,8 @@ export default function LegacyHowTo( props ) {
 		defaultDurationText,
 	} = props.attributes;
 
-	const classNames       = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
-	const listClassNames   = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
+	const classNames     = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
+	const listClassNames = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
 
 	const timeString = buildDurationString( { days, hours, minutes } );
 

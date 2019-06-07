@@ -8,7 +8,7 @@
 /**
  * Returns schema FAQ data.
  *
- * @since 11.3
+ * @since 11.5
  */
 class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	/**
@@ -19,12 +19,14 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 * @var bool
 	 */
 	private $is_needed = false;
+
 	/**
-	 * The FAQ blocks on the current page.
+	 * The FAQ blocks count on the current page.
 	 *
 	 * @var int
 	 */
 	private $counter;
+
 	/**
 	 * A value object with context variables.
 	 *
@@ -47,7 +49,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Render a list of questions, referencing them by ID.
+	 * Renders a list of questions, referencing them by ID.
 	 *
 	 * @return array $data Our Schema graph.
 	 */
@@ -56,7 +58,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Render the How-To block into our graph.
+	 * Renders the How-To block into our graph.
 	 *
 	 * @param array $graph Our Schema data.
 	 * @param array $block The How-To block content.
@@ -103,7 +105,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Determine whether we're part of an article or a webpage.
+	 * Determines whether we're part of an article or a webpage.
 	 *
 	 * @return string A reference URL.
 	 *
@@ -127,7 +129,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Add the steps to our How-To output.
+	 * Adds the steps to our How-To output.
 	 *
 	 * @param array $data  Our How-To schema data.
 	 * @param array $steps Our How-To block's steps.
@@ -173,7 +175,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Check if we have a step description, if we do, add it.
+	 * Checks if we have a step description, if we do, add it.
 	 *
 	 * @param array $schema_step Our Schema output for the Step.
 	 * @param array $step        The step block data.
@@ -192,7 +194,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Check if we have a step image, if we do, add it.
+	 * Checks if we have a step image, if we do, add it.
 	 *
 	 * @param array $schema_step Our Schema output for the Step.
 	 * @param array $step        The step block data.
@@ -206,7 +208,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Generate image schema from attachment id.
+	 * Generates the image schema from the attachment id.
 	 *
 	 * @param int $id Attachment id.
 	 *

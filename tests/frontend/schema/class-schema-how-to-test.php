@@ -96,7 +96,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 							'id'       => 'step-id-1',
 							'jsonName' => 'How to step 1',
 							'jsonText' => 'How to step 1 description',
-							'text' => [ 'How to step 1 text line' ],
+							'text'     => [ 'How to step 1 text line' ],
 						],
 					],
 				],
@@ -154,7 +154,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 							'id'       => 'step-id-1',
 							'jsonName' => 'How to step 1',
 							'jsonText' => 'How to step 1 description',
-							'text' => [
+							'text'     => [
 								'How to step 1 text line',
 								[
 									'type'   => 'img',
@@ -390,7 +390,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 					'name'            => 'title',
 					'steps'           => [
 						[
-							'id'       => 'step-id-1',
+							'id' => 'step-id-1',
 						],
 					],
 				],
@@ -439,7 +439,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 							'id'       => 'step-id-1',
 							'jsonName' => 'How to step 1',
 							'jsonText' => 'How to step 1 description',
-							'text' => [
+							'text'     => [
 								'How to step 1 description',
 							],
 						],
