@@ -1332,7 +1332,7 @@ class WPSEO_Frontend {
 	 * @since 1.1.7
 	 * @return boolean Boolean indicating whether the noindex header was sent.
 	 */
-	public function noindex_feed(  ) {
+	public function noindex_feed() {
 
 		/**
 		 * Allow switching the X-Robots-Tag header for feeds on or off.
