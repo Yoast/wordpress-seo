@@ -14,7 +14,7 @@ return array(
 	 * For more see: https://github.com/humbug/php-scoper#finders-and-paths
 	 */
 	'finders'                    => [
-		Finder::create()->files()->in( 'vendor/league/oauth2-client' )->name( '*.php' ),
+		Finder::create()->files()->in( 'vendor/league/oauth2-client' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
 	],
 
 	/*

@@ -14,9 +14,9 @@ return array(
 	 * For more see: https://github.com/humbug/php-scoper#finders-and-paths
 	 */
 	'finders'                    => [
-		Finder::create()->files()->in( 'vendor/guzzlehttp/guzzle' )->name( '*.php' ),
-		Finder::create()->files()->in( 'vendor/guzzlehttp/promises' )->name( '*.php' ),
-		Finder::create()->files()->in( 'vendor/guzzlehttp/psr7' )->name( '*.php' ),
+		Finder::create()->files()->in( 'vendor/guzzlehttp/guzzle' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
+		Finder::create()->files()->in( 'vendor/guzzlehttp/promises' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
+		Finder::create()->files()->in( 'vendor/guzzlehttp/psr7' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
 	],
 
 	/*
