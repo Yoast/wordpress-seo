@@ -32,7 +32,8 @@
 		"pimple/pimple": "^3.2",
 		"ruckusing/ruckusing-migrations": "^1.1",
 		"psr/log": "^1.0",
-		"league/oauth2-client": "^2.4"
+		"league/oauth2-client": "^2.4",
+		"symfony/dependency-injection": "^3.4"
 	},
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",
@@ -106,6 +107,7 @@
 			"composer prefix-ruckusing",
 			"composer prefix-idiorm",
 			"composer prefix-oauth2-client",
+			"composer prefix-symfony",
 			"touch ./vendor_prefixed/dependencies-prefixed.txt",
 			"composer du"
 		],
@@ -119,6 +121,9 @@
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet",
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/guzzlehttp --config=config/php-scoper/guzzlehttp.inc.php --force --quiet",
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/psr --config=config/php-scoper/psr.inc.php --force --quiet"
+		],
+		"prefix-symfony": [
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/dependency-injection --config=config/php-scoper/dependency-injection.inc.php --force --quiet"
 		],
 		"post-install-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd",

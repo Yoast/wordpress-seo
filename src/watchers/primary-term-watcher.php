@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Watchers;
 
+use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Models\Primary_Term as Primary_Term_Indexable;
@@ -17,6 +18,10 @@ use Yoast\WP\Free\WordPress\Integration;
  * Watches Posts to save the primary term when set.
  */
 class Primary_Term_Watcher implements Integration {
+
+	public static function get_conditionals() {
+		return [ Indexables_Feature_Flag_Conditional::class ];
+	}
 
 	/**
 	 * Initializes the integration.
@@ -163,7 +168,7 @@ class Primary_Term_Watcher implements Integration {
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
 	 *
-	 * @return Indexable Instance of the indexable.
+	 * @return \Yoast\WP\Free\Models\Indexable Instance of the indexable.
 	 *
 	 * @throws No_Indexable_Found Exception when no indexable could be found for the supplied post.
 	 */
@@ -180,7 +185,7 @@ class Primary_Term_Watcher implements Integration {
 	/**
 	 * Deletes the given indexable.
 	 *
-	 * @param Indexable $indexable The indexable to delete.
+	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to delete.
 	 *
 	 * @return void
 	 */

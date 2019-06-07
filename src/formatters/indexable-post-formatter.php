@@ -16,56 +16,39 @@ use Yoast\WP\Free\Models\SEO_Meta;
 class Indexable_Post_Formatter {
 
 	/**
-	 * The current post ID.
-	 *
-	 * @var int
-	 */
-	protected $post_id;
-
-	/**
-	 * Post constructor.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int $post_id The post ID to use.
-	 */
-	public function __construct( $post_id ) {
-		$this->post_id = $post_id;
-	}
-
-	/**
 	 * Formats the data.
 	 *
+	 * @param int                             $post_id   The post ID to use.
 	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to format.
 	 *
 	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
 	 */
-	public function format( $indexable ) {
-		$indexable->permalink       = $this->get_permalink();
-		$indexable->object_sub_type = $this->get_post_type();
+	public function format( $post_id, $indexable ) {
+		$indexable->permalink       = \get_permalink( $post_id );
+		$indexable->object_sub_type = \get_post_type( $post_id );
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
-			$this->get_meta_value( 'focuskw' ),
-			$this->get_meta_value( 'linkdex' )
+			$this->get_meta_value( $post_id, 'focuskw' ),
+			$this->get_meta_value( $post_id, 'linkdex' )
 		);
 
-		$indexable->is_cornerstone    = ( $this->get_meta_value( 'is_cornerstone' ) === '1' );
+		$indexable->is_cornerstone    = ( $this->get_meta_value( $post_id, 'is_cornerstone' ) === '1' );
 		$indexable->is_robots_noindex = $this->get_robots_noindex(
-			$this->get_meta_value( 'meta-robots-noindex' )
+			$this->get_meta_value( $post_id, 'meta-robots-noindex' )
 		);
 
 		// Set additional meta-robots values.
-		$noindex_advanced = $this->get_meta_value( 'meta-robots-adv' );
+		$noindex_advanced = $this->get_meta_value( $post_id, 'meta-robots-adv' );
 		$meta_robots      = explode( ',', $noindex_advanced );
 		foreach ( $this->get_robots_options() as $meta_robots_option ) {
 			$indexable->{ 'is_robots_' . $meta_robots_option } = in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}
 
 		foreach ( $this->get_indexable_lookup() as $meta_key => $indexable_key ) {
-			$indexable->{ $indexable_key } = $this->get_meta_value( $meta_key );
+			$indexable->{ $indexable_key } = $this->get_meta_value( $post_id, $meta_key );
 		}
 
-		$indexable = $this->set_link_count( $indexable );
+		$indexable = $this->set_link_count( $post_id, $indexable );
 
 		return $indexable;
 	}
@@ -141,13 +124,14 @@ class Indexable_Post_Formatter {
 	/**
 	 * Updates the link count from existing data.
 	 *
+	 * @param int                             $post_id   The post ID to use.
 	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to extend.
 	 *
 	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
 	 */
-	protected function set_link_count( $indexable ) {
+	protected function set_link_count( $post_id, $indexable ) {
 		try {
-			$seo_meta = $this->get_seo_meta();
+			$seo_meta = SEO_Meta::find_by_post_id( $post_id );
 
 			if ( $seo_meta ) {
 				$indexable->link_count          = $seo_meta->internal_link_count;
@@ -166,49 +150,17 @@ class Indexable_Post_Formatter {
 	 *
 	 * @codeCoverageIgnore
 	 *
+	 * @param int    $post_id  The post ID to use.
 	 * @param string $meta_key Meta key to fetch.
 	 *
 	 * @return mixed The value of the indexable entry to use.
 	 */
-	protected function get_meta_value( $meta_key ) {
-		$value = \WPSEO_Meta::get_value( $meta_key, $this->post_id );
+	protected function get_meta_value( $post_id, $meta_key ) {
+		$value = \WPSEO_Meta::get_value( $meta_key, $post_id );
 		if ( is_string( $value ) && $value === '' ) {
 			return null;
 		}
 
 		return $value;
-	}
-
-	/**
-	 * Retrieves the permalink for a post.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return false|string The permalink.
-	 */
-	protected function get_permalink() {
-		return \get_permalink( $this->post_id );
-	}
-
-	/**
-	 * Retrieves the post type of a post.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return false|string The post type.
-	 */
-	protected function get_post_type() {
-		return \get_post_type( $this->post_id );
-	}
-
-	/**
-	 * Retrieves the set SEO Meta for current post id.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return SEO_Meta The SEO meta for current post id.
-	 */
-	protected function get_seo_meta() {
-		return SEO_Meta::find_by_post_id( $this->post_id );
 	}
 }

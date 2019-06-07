@@ -14,44 +14,19 @@ namespace Yoast\WP\Free\Formatters;
 class Indexable_Term_Formatter {
 
 	/**
-	 * The current term ID.
-	 *
-	 * @var int
-	 */
-	protected $term_id;
-
-	/**
-	 * The taxonomy the term belongs to.
-	 *
-	 * @var string
-	 */
-	protected $taxonomy;
-
-	/**
-	 * Term constructor.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int    $term_id  ID of the term to save data for.
-	 * @param string $taxonomy The taxonomy the term belongs to.
-	 */
-	public function __construct( $term_id, $taxonomy ) {
-		$this->term_id  = $term_id;
-		$this->taxonomy = $taxonomy;
-	}
-
-	/**
 	 * Formats the data.
 	 *
-	 * @param Indexable $indexable The indexable to format.
+	 * @param int                             $term_id  ID of the term to save data for.
+	 * @param string                          $taxonomy The taxonomy the term belongs to.
+	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to format.
 	 *
-	 * @return Indexable The extended indexable.
+	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
 	 */
-	public function format( $indexable ) {
-		$term_meta = $this->get_meta_data();
+	public function format( $term_id, $taxonomy, $indexable ) {
+		$term_meta = \WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );
 
-		$indexable->permalink       = $this->get_permalink();
-		$indexable->object_sub_type = $this->taxonomy;
+		$indexable->permalink       = \get_term_link( $term_id, $taxonomy );
+		$indexable->object_sub_type = $taxonomy;
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( 'wpseo_focuskw', $term_meta ),
@@ -164,27 +139,5 @@ class Indexable_Term_Formatter {
 		}
 
 		return $value;
-	}
-
-	/**
-	 * Retrieves the meta data for a term.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool|array The meta data for the term.
-	 */
-	protected function get_meta_data() {
-		return \WPSEO_Taxonomy_Meta::get_term_meta( $this->term_id, $this->taxonomy );
-	}
-
-	/**
-	 * Retrieves the permalink for a term.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return string|\WP_Error The permalink for the term.
-	 */
-	protected function get_permalink() {
-		return \get_term_link( $this->term_id, $this->taxonomy );
 	}
 }

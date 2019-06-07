@@ -20,4 +20,11 @@ interface Integration {
 	 * @return void
 	 */
 	public function register_hooks();
+
+	/**
+	 * Returns the conditionals based in which this integration should be active.
+	 *
+	 * @return array
+	 */
+	public static function get_conditionals();
 }

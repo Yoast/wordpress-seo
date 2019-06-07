@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Watchers;
 
+use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Formatters\Indexable_Author_Formatter;
 use Yoast\WP\Free\WordPress\Integration;
@@ -16,6 +17,24 @@ use Yoast\WP\Free\Models\Indexable;
  * Watches an Author to save the meta information when updated.
  */
 class Indexable_Author_Watcher implements Integration {
+
+	public static function get_conditionals() {
+		return [ Indexables_Feature_Flag_Conditional::class ];
+	}
+
+	/**
+	 * @var Indexable_Author_Formatter
+	 */
+	protected $formatter;
+
+	/**
+	 * Indexable_Author_Watcher constructor.
+	 *
+	 * @param Indexable_Author_Formatter $formatter The post formatter to use
+	 */
+	public function __construct( Indexable_Author_Formatter $formatter ) {
+		$this->formatter = $formatter;
+	}
 
 	/**
 	 * Registers all hooks to WordPress.
@@ -58,8 +77,7 @@ class Indexable_Author_Watcher implements Integration {
 			return;
 		}
 
-		$formatter = $this->get_formatter( $user_id );
-		$indexable = $formatter->format( $indexable );
+		$indexable = $this->formatter->format( $user_id, $indexable );
 
 		$indexable->save();
 	}
@@ -84,18 +102,5 @@ class Indexable_Author_Watcher implements Integration {
 		}
 
 		return $indexable;
-	}
-
-	/**
-	 * Returns formatter for given user.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int $user_id The user ID.
-	 *
-	 * @return Indexable_Author_Formatter Instance.
-	 */
-	protected function get_formatter( $user_id ) {
-		return new Indexable_Author_Formatter( $user_id );
 	}
 }

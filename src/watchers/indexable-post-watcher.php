@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Watchers;
 
+use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Formatters\Indexable_Post_Formatter;
 use Yoast\WP\Free\WordPress\Integration;
@@ -16,6 +17,24 @@ use Yoast\WP\Free\Models\Indexable;
  * Fills the Indexable according to Post data.
  */
 class Indexable_Post_Watcher implements Integration {
+
+	public static function get_conditionals() {
+		return [ Indexables_Feature_Flag_Conditional::class ];
+	}
+
+	/**
+	 * @var Indexable_Post_Formatter
+	 */
+	protected $formatter;
+
+	/**
+	 * Indexable_Post_Watcher constructor.
+	 *
+	 * @param Indexable_Post_Formatter $formatter The post formatter to use
+	 */
+	public function __construct( Indexable_Post_Formatter $formatter ) {
+		$this->formatter = $formatter;
+	}
 
 	/**
 	 * Registers all hooks to WordPress.
@@ -63,8 +82,7 @@ class Indexable_Post_Watcher implements Integration {
 			return;
 		}
 
-		$formatter = $this->get_formatter( $post_id );
-		$indexable = $formatter->format( $indexable );
+		$indexable = $this->formatter->format( $post_id, $indexable );
 
 		$indexable->save();
 	}
@@ -110,31 +128,5 @@ class Indexable_Post_Watcher implements Integration {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Helper function to fetch post meta data from WordPress.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int $post_id Post to use.
-	 *
-	 * @return array|null Data found for the supplied post.
-	 */
-	protected function get_meta_data( $post_id ) {
-		return \get_post_meta( $post_id );
-	}
-
-	/**
-	 * Returns formatter for given post.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int $post_id The post ID.
-	 *
-	 * @return Indexable_Post_Formatter Instance.
-	 */
-	protected function get_formatter( $post_id ) {
-		return new Indexable_Post_Formatter( $post_id );
 	}
 }

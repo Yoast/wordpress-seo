@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Watchers;
 
+use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Formatters\Indexable_Term_Formatter;
 use Yoast\WP\Free\WordPress\Integration;
@@ -16,6 +17,24 @@ use Yoast\WP\Free\Models\Indexable;
  * Watcher for terms to fill the related Indexable.
  */
 class Indexable_Term_Watcher implements Integration {
+
+	public static function get_conditionals() {
+		return [ Indexables_Feature_Flag_Conditional::class ];
+	}
+
+	/**
+	 * @var Indexable_Term_Formatter
+	 */
+	protected $formatter;
+
+	/**
+	 * Indexable_Term_Watcher constructor.
+	 *
+	 * @param Indexable_Term_Formatter $formatter The post formatter to use
+	 */
+	public function __construct( Indexable_Term_Formatter $formatter ) {
+		$this->formatter = $formatter;
+	}
 
 	/**
 	 * Registers all hooks to WordPress.
@@ -66,8 +85,7 @@ class Indexable_Term_Watcher implements Integration {
 			return;
 		}
 
-		$formatter = $this->get_formatter( $term_id, $taxonomy );
-		$indexable = $formatter->format( $indexable );
+		$indexable = $this->formatter->format( $term_id, $taxonomy, $indexable );
 
 		$indexable->save();
 	}
@@ -93,19 +111,5 @@ class Indexable_Term_Watcher implements Integration {
 		}
 
 		return $indexable;
-	}
-
-	/**
-	 * Returns formatter for given taxonomy.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int    $term_id  ID of the term to save data for.
-	 * @param string $taxonomy The taxonomy the term belongs to.
-	 *
-	 * @return Indexable_Term_Formatter Instance.
-	 */
-	protected function get_formatter( $term_id, $taxonomy ) {
-		return new Indexable_Term_Formatter( $term_id, $taxonomy );
 	}
 }
