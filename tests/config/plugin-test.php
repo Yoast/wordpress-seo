@@ -157,7 +157,7 @@ class Plugin_Test extends TestCase {
 
 		$instance->initialize();
 
-		$this->assertAttributeEquals( false, 'initialize_success', $instance );
+		$this->assertAttributeSame( false, 'initialize_success', $instance );
 	}
 
 	/**
@@ -226,7 +226,7 @@ class Plugin_Test extends TestCase {
 
 		$instance->register_hooks();
 
-		$this->assertEquals( ( $action_count + 1 ), \did_action( 'wpseo_load_integrations' ) );
+		$this->assertSame( ( $action_count + 1 ), \did_action( 'wpseo_load_integrations' ) );
 	}
 
 	/**

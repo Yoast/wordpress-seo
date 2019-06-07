@@ -33,7 +33,7 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 			->andReturn( 'asset_location' );
 
 		$actual = $location->get_url( $location->get_asset(), WPSEO_Admin_Asset::TYPE_JS );
-		$this->assertEquals( 'asset_location', $actual );
+		$this->assertSame( 'asset_location', $actual );
 	}
 
 	/**
@@ -59,6 +59,6 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 			->andReturn( 'asset_location' );
 
 		$actual = $location->get_url( $location->get_asset(), WPSEO_Admin_Asset::TYPE_JS );
-		$this->assertEquals( 'asset_location', $actual );
+		$this->assertSame( 'asset_location', $actual );
 	}
 }

@@ -203,7 +203,7 @@ class Database_Migration_Test extends TestCase {
 			new Dependency_Management()
 		);
 
-		$this->assertEquals( 'foo', $instance->get_charset() );
+		$this->assertSame( 'foo', $instance->get_charset() );
 	}
 
 	/**

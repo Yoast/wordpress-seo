@@ -14,6 +14,6 @@ class Role_Manager_Factory_Test extends TestCase {
 		$instance  = WPSEO_Role_Manager_Factory::get();
 		$instance2 = WPSEO_Role_Manager_Factory::get();
 
-		$this->assertEquals( $instance, $instance2 );
+		$this->assertSame( $instance, $instance2 );
 	}
 }
