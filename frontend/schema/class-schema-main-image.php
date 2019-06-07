@@ -8,7 +8,7 @@
 /**
  * Returns ImageObject schema data.
  *
- * @since 10.2
+ * @since 11.5
  */
 class WPSEO_Schema_MainImage implements WPSEO_Graph_Piece {
 
@@ -74,7 +74,7 @@ class WPSEO_Schema_MainImage implements WPSEO_Graph_Piece {
 	 * @param int    $post_id  The post id.
 	 * @param string $image_id The image schema id.
 	 *
-	 * @return array|null The image schema object and null if there is no featured image.
+	 * @return array|null The image schema object or null if there is no featured image.
 	 */
 	private function get_featured_image( $post_id, $image_id ) {
 		if ( ! has_post_thumbnail( $post_id ) ) {
@@ -90,7 +90,7 @@ class WPSEO_Schema_MainImage implements WPSEO_Graph_Piece {
 	 * @param int    $post_id  The post id.
 	 * @param string $image_id The image schema id.
 	 *
-	 * @return array|null The image schema object and null if there is no image in the content.
+	 * @return array|null The image schema object or null if there is no image in the content.
 	 */
 	private function get_first_content_image( $post_id, $image_id ) {
 		$image_url = $this->get_first_usable_content_image_for_post( $post_id );
@@ -109,7 +109,7 @@ class WPSEO_Schema_MainImage implements WPSEO_Graph_Piece {
 	 *
 	 * @param int $post_id The post id.
 	 *
-	 * @return string|null The image URL.
+	 * @return string|null The image URL or null if there is no image.
 	 */
 	protected function get_first_usable_content_image_for_post( $post_id ) {
 		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
