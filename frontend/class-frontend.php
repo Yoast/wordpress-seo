@@ -1337,9 +1337,9 @@ class WPSEO_Frontend {
 		/**
 		 * Allow switching the X-Robots-Tag header for feeds on or off.
 		 *
-		 * @api   boolean $noindex Whether the noindex header should get set (true) or not (false).
+		 * @api boolean $noindex Whether the noindex header should get set (true) or not (false). Defaults to true.
 		 *
-		 * @since 11.4
+		 * @since 11.5
 		 */
 		$noindex = apply_filters( 'wpseo_feed_noindex', true );
 
