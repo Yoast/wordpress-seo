@@ -13,8 +13,8 @@ return array(
 	 *
 	 * For more see: https://github.com/humbug/php-scoper#finders-and-paths
 	 */
-	 'finders'                    => array(
-	 	Finder::create()->files()->in( 'vendor/ruckusing/ruckusing-migrations' ),
+	'finders'                    => array(
+		Finder::create()->files()->in( 'vendor/ruckusing/ruckusing-migrations' )->exclude( [ 'config', 'tests', 'lib/Task/Hello' ] )->name( '*.php' ),
 	),
 
 	/*

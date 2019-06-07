@@ -14,9 +14,9 @@ return array(
 	 * For more see: https://github.com/humbug/php-scoper#finders-and-paths
 	 */
 	'finders'                    => [
-		Finder::create()->files()->in( 'vendor/psr/container' ),
-		Finder::create()->files()->in( 'vendor/psr/http-message' ),
-		Finder::create()->files()->in( 'vendor/psr/log' ),
+		Finder::create()->files()->in( 'vendor/psr/container' )->name( '*.php' ),
+		Finder::create()->files()->in( 'vendor/psr/http-message' )->name( '*.php' ),
+		Finder::create()->files()->in( 'vendor/psr/log' )->exclude( 'Test' )->name( '*.php' ),
 	],
 
 	/*
