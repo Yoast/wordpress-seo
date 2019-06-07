@@ -95,7 +95,7 @@ class Indexable_Author_Formatter {
 	 */
 	protected function get_author_meta( $key ) {
 		$value = \get_the_author_meta( $key, $this->user_id );
-		if ( is_string( $value ) && $value === '' ) {
+		if ( \is_string( $value ) && $value === '' ) {
 			return null;
 		}
 

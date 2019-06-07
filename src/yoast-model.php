@@ -127,7 +127,7 @@ class Yoast_Model {
 			$table_name = 'yoast_' . $table_name;
 		}
 
-		return $wpdb->prefix . strtolower( $table_name );
+		return $wpdb->prefix . \strtolower( $table_name );
 	}
 
 	/**
@@ -430,13 +430,13 @@ class Yoast_Model {
 		if ( $join_class_name === null ) {
 			$base_model      = \explode( '\\', $base_class_name );
 			$base_model_name = \end( $base_model );
-			if ( 0 === strpos( $base_model_name, static::$auto_prefix_models ) ) {
+			if ( 0 === \strpos( $base_model_name, static::$auto_prefix_models ) ) {
 				$base_model_name = \substr( $base_model_name, \strlen( static::$auto_prefix_models ), \strlen( $base_model_name ) );
 			}
 			// Paris wasn't checking the name settings for the associated class.
 			$associated_model      = \explode( '\\', $associated_class_name );
 			$associated_model_name = \end( $associated_model );
-			if ( 0 === strpos( $associated_model_name, static::$auto_prefix_models ) ) {
+			if ( 0 === \strpos( $associated_model_name, static::$auto_prefix_models ) ) {
 				$associated_model_name = \substr( $associated_model_name, \strlen( static::$auto_prefix_models ), \strlen( $associated_model_name ) );
 			}
 			$class_names = array( $base_model_name, $associated_model_name );

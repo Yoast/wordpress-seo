@@ -96,13 +96,13 @@ class Indexable extends Yoast_Model {
 		$indexable->object_type = $object_type;
 
 		Logger::get_logger()->debug(
-			sprintf(
+			\sprintf(
 				/* translators: 1: object ID; 2: object type. */
-				__( 'Indexable created for object %1$s with type %2$s', 'wordpress-seo' ),
+				\__( 'Indexable created for object %1$s with type %2$s', 'wordpress-seo' ),
 				$object_id,
 				$object_type
 			),
-			get_object_vars( $indexable )
+			\get_object_vars( $indexable )
 		);
 
 		return $indexable;
@@ -131,29 +131,29 @@ class Indexable extends Yoast_Model {
 	 */
 	public function save() {
 		if ( ! $this->created_at ) {
-			$this->created_at = gmdate( 'Y-m-d H:i:s' );
+			$this->created_at = \gmdate( 'Y-m-d H:i:s' );
 		}
 
 		if ( $this->updated_at ) {
-			$this->updated_at = gmdate( 'Y-m-d H:i:s' );
+			$this->updated_at = \gmdate( 'Y-m-d H:i:s' );
 		}
 
 		$saved = parent::save();
 
 		if ( $saved ) {
 			Logger::get_logger()->debug(
-				sprintf(
+				\sprintf(
 					/* translators: 1: object ID; 2: object type. */
-					__( 'Indexable saved for object %1$s with type %2$s', 'wordpress-seo' ),
+					\__( 'Indexable saved for object %1$s with type %2$s', 'wordpress-seo' ),
 					$this->object_id,
 					$this->object_type
 				),
-				get_object_vars( $this )
+				\get_object_vars( $this )
 			);
 
 			$this->save_meta();
 
-			do_action( 'wpseo_indexable_saved', $this );
+			\do_action( 'wpseo_indexable_saved', $this );
 		}
 
 		return $saved;
@@ -169,16 +169,16 @@ class Indexable extends Yoast_Model {
 
 		if ( $deleted ) {
 			Logger::get_logger()->debug(
-				sprintf(
+				\sprintf(
 					/* translators: 1: object ID; 2: object type. */
-					__( 'Indexable deleted for object %1$s with type %2$s', 'wordpress-seo' ),
+					\__( 'Indexable deleted for object %1$s with type %2$s', 'wordpress-seo' ),
 					$this->object_id,
 					$this->object_type
 				),
-				get_object_vars( $this )
+				\get_object_vars( $this )
 			);
 
-			do_action( 'wpseo_indexable_deleted', $this );
+			\do_action( 'wpseo_indexable_deleted', $this );
 		}
 
 		return $deleted;
@@ -240,7 +240,7 @@ class Indexable extends Yoast_Model {
 	protected function get_meta( $meta_key, $auto_create = true ) {
 		$this->initialize_meta();
 
-		if ( array_key_exists( $meta_key, $this->meta_data ) ) {
+		if ( \array_key_exists( $meta_key, $this->meta_data ) ) {
 			return $this->meta_data[ $meta_key ];
 		}
 

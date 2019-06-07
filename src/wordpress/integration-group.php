@@ -51,7 +51,7 @@ class Integration_Group implements Integration {
 			$integration->register_hooks();
 		};
 
-		array_map( $register_hooks, $this->integrations );
+		\array_map( $register_hooks, $this->integrations );
 	}
 
 	/**
@@ -66,6 +66,6 @@ class Integration_Group implements Integration {
 			return $integration instanceof Integration;
 		};
 
-		return array_filter( $integrations, $is_integration );
+		return \array_filter( $integrations, $is_integration );
 	}
 }
