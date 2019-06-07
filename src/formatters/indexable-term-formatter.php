@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Formatters;
 
+use WPSEO_Taxonomy_Meta;
 
 /**
  * Formats the term meta to indexable format.
@@ -174,7 +175,7 @@ class Indexable_Term_Formatter {
 	 * @return bool|array The meta data for the term.
 	 */
 	protected function get_meta_data() {
-		return \WPSEO_Taxonomy_Meta::get_term_meta( $this->term_id, $this->taxonomy );
+		return WPSEO_Taxonomy_Meta::get_term_meta( $this->term_id, $this->taxonomy );
 	}
 
 	/**

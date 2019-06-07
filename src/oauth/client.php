@@ -7,6 +7,8 @@
 
 namespace Yoast\WP\Free\Oauth;
 
+use WPSEO_Options;
+use WPSEO_Utils;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
 
@@ -178,7 +180,7 @@ class Client {
 			[
 				'clientId'                => $this->config['clientId'],
 				'clientSecret'            => $this->config['secret'],
-				'redirectUri'             => ( \WPSEO_Utils::is_plugin_network_active() ) ? home_url( 'yoast/oauth/callback' ) : network_home_url( 'yoast/oauth/callback' ),
+				'redirectUri'             => ( WPSEO_Utils::is_plugin_network_active() ) ? home_url( 'yoast/oauth/callback' ) : network_home_url( 'yoast/oauth/callback' ),
 				'urlAuthorize'            => 'https://yoast.com/login/oauth/authorize',
 				'urlAccessToken'          => 'https://yoast.com/login/oauth/token',
 				'urlResourceOwnerDetails' => 'https://my.yoast.com/api/sites/current',
@@ -214,7 +216,7 @@ class Client {
 	 * @return array
 	 */
 	protected function get_option() {
-		$option_value = \WPSEO_Options::get( 'myyoast_oauth', false );
+		$option_value = WPSEO_Options::get( 'myyoast_oauth', false );
 
 		if ( $option_value ) {
 			return wp_parse_args(
@@ -234,9 +236,9 @@ class Client {
 	 * @return void
 	 */
 	protected function update_option() {
-		\WPSEO_Options::set(
+		WPSEO_Options::set(
 			'myyoast_oauth',
-			\WPSEO_Utils::format_json_encode(
+			WPSEO_Utils::format_json_encode(
 				[
 					'config'        => $this->config,
 					'access_tokens' => $this->access_tokens,
