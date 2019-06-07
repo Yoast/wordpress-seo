@@ -9,8 +9,8 @@ namespace Yoast\WP\Free\Watchers;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Formatters\Indexable_Term_Formatter;
-use Yoast\WP\Free\WordPress\Integration;
 use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\WordPress\Integration;
 
 /**
  * Watcher for terms to fill the related Indexable.
