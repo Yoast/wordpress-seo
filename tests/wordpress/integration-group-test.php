@@ -82,7 +82,7 @@ class Integration_Group_Test extends TestCase {
 		$constructor     = $reflected_class->getConstructor();
 		$constructor->invoke( $instance, array( $integration, $no_integration ) );
 
-		$this->assertAttributeEquals( array( $integration ), 'integrations', $instance );
+		$this->assertAttributeSame( array( $integration ), 'integrations', $instance );
 	}
 
 	/**

@@ -133,6 +133,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			new WPSEO_Schema_Organization( $this->context ),
 			new WPSEO_Schema_Person( $this->context ),
 			new WPSEO_Schema_Website( $this->context ),
+			new WPSEO_Schema_MainImage( $this->context ),
 			new WPSEO_Schema_WebPage( $this->context ),
 			new WPSEO_Schema_Breadcrumb( $this->context ),
 			new WPSEO_Schema_Article( $this->context ),

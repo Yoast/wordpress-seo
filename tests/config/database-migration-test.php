@@ -217,7 +217,7 @@ class Database_Migration_Test extends TestCase {
 			$this->get_config()
 		);
 
-		$this->assertEquals( 'foo', $instance->get_charset() );
+		$this->assertSame( 'foo', $instance->get_charset() );
 	}
 
 	/**
