@@ -64,7 +64,6 @@ class Database_Migration {
 	 *                                                                           which configures where the migrations that need to be run
 	 *                                                                           are located, and a 'table_name' string, which configures
 	 *                                                                           the name of the table in which the migration versions are stored.
-	 *
 	 */
 	public function __construct( $wpdb, Dependency_Management $dependency_management, $config ) {
 		$this->wpdb                  = $wpdb;
