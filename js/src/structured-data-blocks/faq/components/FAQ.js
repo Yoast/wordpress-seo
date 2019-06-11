@@ -104,8 +104,8 @@ export default class FAQ extends Component {
 			id: questions[ index ].id,
 			question: newQuestion,
 			answer: newAnswer,
-			jsonQuestion: stripHTML( renderToString( newQuestion ) ),
-			jsonAnswer: stripHTML( renderToString( newAnswer ) ),
+			jsonQuestion: renderToString( newQuestion ),
+			jsonAnswer: renderToString( newAnswer ),
 		};
 
 		const imageSrc = Question.getImageSrc( newAnswer );
