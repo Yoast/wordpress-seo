@@ -18,6 +18,8 @@ class WPSEO_Option_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Option::prevent_disabled_options_update()
 	 */
 	public function test_prevent_disabled_options_update() {
+		$this->skipWithoutMultisite();
+
 		$option_vars = array(
 			'enable_admin_bar_menu',
 			'enable_cornerstone_content',

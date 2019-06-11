@@ -40,15 +40,15 @@ class Database_Migration {
 	protected $wpdb;
 
 	/**
-	 * @var \Dependency_Management
+	 * @var \Yoast\WP\Free\Config\Dependency_Management
 	 */
 	protected $dependency_management;
 
 	/**
 	 * Migrations constructor.
 	 *
-	 * @param \wpdb                 $wpdb                  Database class to use.
-	 * @param Dependency_Management $dependency_management Dependency Management to use.
+	 * @param \wpdb                                       $wpdb                  Database class to use.
+	 * @param \Yoast\WP\Free\Config\Dependency_Management $dependency_management Dependency Management to use.
 	 */
 	public function __construct( $wpdb, Dependency_Management $dependency_management ) {
 		$this->wpdb                  = $wpdb;
@@ -163,7 +163,7 @@ class Database_Migration {
 	/**
 	 * Retrieves the Ruckusing instance to run migrations with.
 	 *
-	 * @return Ruckusing_FrameworkRunner Framework runner to use.
+	 * @return \YoastSEO_Vendor\Ruckusing_FrameworkRunner Framework runner to use.
 	 */
 	protected function get_framework_runner() {
 		$main = new Ruckusing_FrameworkRunner(
@@ -222,11 +222,11 @@ class Database_Migration {
 	 * @return bool True if the define has the value we want it to be.
 	 */
 	protected function set_define( $define, $value ) {
-		if ( defined( $define ) ) {
-			return constant( $define ) === $value;
+		if ( \defined( $define ) ) {
+			return \constant( $define ) === $value;
 		}
 
-		return define( $define, $value );
+		return \define( $define, $value );
 	}
 
 	/**
