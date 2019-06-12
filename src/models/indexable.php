@@ -60,14 +60,14 @@ class Indexable extends Yoast_Model {
 	/**
 	 * The loaded indexable extensions.
 	 *
-	 * @var Indexable_Extension[]
+	 * @var \Yoast\WP\Free\Models\Indexable_Extension[]
 	 */
 	protected $loaded_extensions = [];
 
 	/**
-	 * The registered indexable extensions.
+	 * The registered indexable extension classes.
 	 *
-	 * @var Indexable_Extension[]
+	 * @var string[]
 	 */
 	protected static $extensions = [];
 
