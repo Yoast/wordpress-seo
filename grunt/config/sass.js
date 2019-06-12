@@ -3,7 +3,7 @@
 module.exports = {
 	build: {
 		options: {
-			sourceMap: global.developmentBuild
+			sourceMap: global.developmentBuild,
 		},
 		files: {
 			"css/dist/admin-global-<%= pluginVersionSlug %>.css": [ "css/src/admin-global.scss" ],

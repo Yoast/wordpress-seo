@@ -18,6 +18,11 @@ module.exports = function( grunt ) {
 		pluginSlug: "wordpress-seo",
 		pluginMainFile: "wp-seo.php",
 		paths: {
+			/**
+			 * Gets the config path.
+			 *
+			 * @returns {string} Config path.
+			 */
 			get config() {
 				return this.grunt + "config/";
 			},
@@ -64,9 +69,19 @@ module.exports = function( grunt ) {
 			artifact: "artifact",
 			artifactComposer: "artifact-composer",
 			phptests: "tests/**/*.php",
+			/**
+			 * Gets the config path glob.
+			 *
+			 * @returns {string} Config path glob.
+			 */
 			get config() {
 				return project.paths.config + "*.js";
 			},
+			/**
+			 * Gets the changelog path file.
+			 *
+			 * @returns {string} Changelog path file.
+			 */
 			get changelog() {
 				return project.paths.theme + "changelog.txt";
 			},
@@ -78,7 +93,7 @@ module.exports = function( grunt ) {
 	project.pluginVersionSlug = flattenVersionForFile( pluginVersion );
 
 	// Used to switch between development and release builds.
-	if ( [ 'release', 'release:css', 'release:js', 'artifact', 'deploy:trunk', 'deploy:master' ].includes( process.argv[2] ) ) {
+	if ( [ "release", "release:css", "release:js", "artifact", "deploy:trunk", "deploy:master" ].includes( process.argv[ 2 ] ) ) {
 		global.developmentBuild = false;
 	}
 
