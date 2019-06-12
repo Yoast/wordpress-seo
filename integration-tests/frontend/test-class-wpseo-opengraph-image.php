@@ -13,13 +13,6 @@
 class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Set up class instance.
-	 */
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-	}
-
-	/**
 	 * Provision tests.
 	 */
 	public function setUp() {

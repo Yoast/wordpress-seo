@@ -31,7 +31,6 @@ class WPSEO_Structured_Data_Blocks implements WPSEO_WordPress_Integration {
 
 		$block_integrations = array(
 			new WPSEO_How_To_Block(),
-			new WPSEO_FAQ_Block(),
 		);
 
 		foreach ( $block_integrations as $block_integration ) {

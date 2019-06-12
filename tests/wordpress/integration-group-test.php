@@ -1,8 +1,11 @@
 <?php
 
-namespace Yoast\Tests\WordPress;
+namespace Yoast\WP\Free\Tests\WordPress;
 
 use Yoast\WP\Free\WordPress\Integration_Group;
+use Yoast\WP\Free\Tests\TestCase;
+use ReflectionClass;
+use stdClass;
 
 /**
  * Class Database_Migration_Test.
@@ -11,7 +14,7 @@ use Yoast\WP\Free\WordPress\Integration_Group;
  *
  * @package Yoast\Tests
  */
-class Integration_Group_Test extends \Yoast\Tests\TestCase {
+class Integration_Group_Test extends TestCase {
 
 	/**
 	 * Tests the addition of an integration.
@@ -19,7 +22,7 @@ class Integration_Group_Test extends \Yoast\Tests\TestCase {
 	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::add_integration()
 	 */
 	public function test_add_integrations() {
-		$instance = new \Yoast\WP\Free\WordPress\Integration_Group();
+		$instance = new Integration_Group();
 
 		$integration = $this
 			->getMockBuilder( '\Yoast\WP\Free\WordPress\Integration' )
@@ -50,7 +53,7 @@ class Integration_Group_Test extends \Yoast\Tests\TestCase {
 			->with( $this->equalTo( array( 'a', 'b' ) ) );
 
 		// Trigger the constructor to test the implicit method call.
-		$reflected_class = new \ReflectionClass( $classname );
+		$reflected_class = new ReflectionClass( $classname );
 		$constructor     = $reflected_class->getConstructor();
 		$constructor->invoke( $instance, array( 'a', 'b' ) );
 	}
@@ -72,10 +75,10 @@ class Integration_Group_Test extends \Yoast\Tests\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$no_integration = new \stdClass();
+		$no_integration = new stdClass();
 
 		// Trigger the constructor to test the implicit method call.
-		$reflected_class = new \ReflectionClass( $classname );
+		$reflected_class = new ReflectionClass( $classname );
 		$constructor     = $reflected_class->getConstructor();
 		$constructor->invoke( $instance, array( $integration, $no_integration ) );
 

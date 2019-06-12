@@ -9,7 +9,6 @@ namespace Yoast\WP\Free\Oauth;
 
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
-use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
 
 /**
  * Represents the oAuth client.

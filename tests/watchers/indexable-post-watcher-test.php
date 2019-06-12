@@ -1,11 +1,11 @@
 <?php
 
-namespace Yoast\Tests\Watchers;
+namespace Yoast\WP\Free\Tests\Watchers;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
-
 use Brain\Monkey;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Indexable_Post_Test.
@@ -15,14 +15,7 @@ use Brain\Monkey;
  *
  * @package Yoast\Tests\Watchers
  */
-class Indexable_Post_Watcher_Test extends \Yoast\Tests\TestCase {
-
-	/**
-	 * Sets up the environment for each test.
-	 */
-	public function setUp() {
-		parent::setUp();
-	}
+class Indexable_Post_Watcher_Test extends TestCase {
 
 	/**
 	 * Tests if the expected hooks are registered.

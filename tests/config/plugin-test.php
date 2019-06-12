@@ -1,11 +1,12 @@
 <?php
 
-namespace Yoast\Tests\Config;
+namespace Yoast\WP\Free\Tests\Config;
 
-use Yoast\Tests\Doubles\Plugin as Plugin_Double;
 use Yoast\WP\Free\Config\Database_Migration;
 use Yoast\WP\Free\Config\Dependency_Management;
 use Yoast\WP\Free\WordPress\Integration_Group;
+use Yoast\WP\Free\Tests\Doubles\Plugin as Plugin_Double;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Plugin_Test.
@@ -14,7 +15,7 @@ use Yoast\WP\Free\WordPress\Integration_Group;
  *
  * @package Yoast\Tests\Config
  */
-class Plugin_Test extends \Yoast\Tests\TestCase {
+class Plugin_Test extends TestCase {
 
 	/**
 	 * Tests if the class is based upon the Integration interface.
@@ -29,7 +30,7 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 	 * @covers \Yoast\WP\Free\Config\Plugin::add_integration()
 	 */
 	public function test_add_integration() {
-		$instance = new Plugin_Double( $this->get_dependecy_management_mock(), $this->get_database_migration_mock() );
+		$instance = new Plugin_Double( $this->get_dependency_management_mock(), $this->get_database_migration_mock() );
 
 		$integration = $this
 			->getMockBuilder( '\Yoast\WP\Free\WordPress\Integration' )
@@ -68,7 +69,7 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 	 * @covers \Yoast\WP\Free\Config\Plugin::initialize()
 	 */
 	public function test_initialize() {
-		$dependency_management = $this->get_dependecy_management_mock();
+		$dependency_management = $this->get_dependency_management_mock();
 		$dependency_management
 			->expects( $this->once() )
 			->method( 'initialize' )
@@ -104,7 +105,7 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 	 * @covers \Yoast\WP\Free\Config\Plugin::initialize()
 	 */
 	public function test_initialize_dependency_management_not_initialized() {
-		$dependency_management = $this->get_dependecy_management_mock();
+		$dependency_management = $this->get_dependency_management_mock();
 		$dependency_management
 			->expects( $this->once() )
 			->method( 'initialize' )
@@ -139,7 +140,7 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 	 * @covers \Yoast\WP\Free\Config\Plugin::initialize()
 	 */
 	public function test_initialize_db_migration_not_initialized() {
-		$dependency_management = $this->get_dependecy_management_mock();
+		$dependency_management = $this->get_dependency_management_mock();
 		$dependency_management
 			->expects( $this->once() )
 			->method( 'initialize' )
@@ -177,7 +178,7 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 			'get_integration_group',
 		);
 		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
+			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Plugin' )
 			->setMethods( $methods )
 			->getMock();
 
@@ -224,11 +225,11 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 		$instance = new Plugin_Double();
 		$instance->set_initialize_success( true );
 
-		$action_count = did_action( 'wpseo_load_integrations' );
+		$action_count = \did_action( 'wpseo_load_integrations' );
 
 		$instance->register_hooks();
 
-		$this->assertEquals( ( $action_count + 1 ), did_action( 'wpseo_load_integrations' ) );
+		$this->assertEquals( ( $action_count + 1 ), \did_action( 'wpseo_load_integrations' ) );
 	}
 
 	/**
@@ -238,7 +239,7 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 	 */
 	public function test_register_hooks_not_initialzed() {
 		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
+			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Plugin' )
 			->setMethods( array( 'get_integration_group' ) )
 			->getMock();
 
@@ -258,7 +259,7 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 	 */
 	public function test_add_frontend_integrations() {
 		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
+			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Plugin' )
 			->setMethods( array( 'add_integration' ) )
 			->getMock();
 
@@ -277,7 +278,7 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 	 */
 	public function test_add_admin_integrations() {
 		$instance = $this
-			->getMockBuilder( 'Yoast\Tests\Doubles\Plugin' )
+			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Plugin' )
 			->setMethods( array( 'add_integration' ) )
 			->getMock();
 
@@ -309,9 +310,9 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 	/**
 	 * Mocks a Dependency Management.
 	 *
-	 * @return Dependency_Management
+	 * @return \Yoast\WP\Free\Config\Dependency_Management
 	 */
-	protected function get_dependecy_management_mock() {
+	protected function get_dependency_management_mock() {
 		return $this
 			->getMockBuilder( '\Yoast\WP\Free\Config\Dependency_Management' )
 			->setMethods( array( 'initialize' ) )
@@ -321,13 +322,13 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 	/**
 	 * Mocks a Database Migration.
 	 *
-	 * @return Database_Migration
+	 * @return \Yoast\WP\Free\Config\Database_Migration
 	 */
 	protected function get_database_migration_mock() {
 		return $this
 			->getMockBuilder( '\Yoast\WP\Free\Config\Database_Migration' )
 			->setMethods( array( 'run_migrations', 'is_usable', 'has_migration_error' ) )
-			->setConstructorArgs( array( null, $this->get_dependecy_management_mock() ) )
+			->setConstructorArgs( array( null, $this->get_dependency_management_mock() ) )
 			->getMock();
 	}
 
@@ -336,7 +337,7 @@ class Plugin_Test extends \Yoast\Tests\TestCase {
 	 *
 	 * @param array $integrations List of integrations to load.
 	 *
-	 * @return Integration_Group
+	 * @return \Yoast\WP\Free\WordPress\Integration_Group
 	 */
 	protected function get_integration_group_mock( array $integrations = array() ) {
 		return $this

@@ -9,10 +9,11 @@ function updateTrafficLight( indicator ) {
 	var trafficLight = jQuery( ".yst-traffic-light" );
 	var trafficLightLink = trafficLight.closest( ".wpseo-meta-section-link" );
 	var trafficLightDesc = jQuery( "#wpseo-traffic-light-desc" );
+	var cssClass = indicator.className || "na";
 
 	// Update the traffic light image.
 	trafficLight
-		.attr( "class", "yst-traffic-light " + indicator.className );
+		.attr( "class", "yst-traffic-light " + cssClass );
 
 	// Update the traffic light link.
 	trafficLightLink.attr( "aria-describedby", "wpseo-traffic-light-desc" );

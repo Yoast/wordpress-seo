@@ -5,9 +5,7 @@
  * @package Yoast\Tests\Doubles\Oauth
  */
 
-namespace Yoast\Tests\Doubles\Oauth;
-
-use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface;
+namespace Yoast\WP\Free\Tests\Doubles\Oauth;
 
 /**
  * Test Helper Class.
@@ -19,7 +17,7 @@ class Client extends \Yoast\WP\Free\Oauth\Client {
 	 *
 	 * @param array $access_tokens Access tokens to format.
 	 *
-	 * @return AccessTokenInterface[] Formatted AccessTokens.
+	 * @return \YoastSEO_Vendor\League\OAuth2\Client\Token\AccessTokenInterface[] Formatted AccessTokens.
 	 */
 	public function format_access_tokens( $access_tokens ) {
 		return parent::format_access_tokens( $access_tokens );
