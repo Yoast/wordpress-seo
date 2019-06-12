@@ -4,6 +4,8 @@ var path = require( "path" );
 var loadGruntConfig = require( "load-grunt-config" );
 const { flattenVersionForFile } = require( "./webpack/paths" );
 
+global.developmentBuild = true;
+
 module.exports = function( grunt ) {
 	timeGrunt( grunt );
 
@@ -75,6 +77,11 @@ module.exports = function( grunt ) {
 
 	project.pluginVersionSlug = flattenVersionForFile( pluginVersion );
 
+	// Used to switch between development and release builds
+	if ( [ 'release', 'artifact', 'deploy:trunk', 'deploy:master' ].includes( process.argv[2] ) ) {
+		global.developmentBuild = false;
+	}
+
 	// Load Grunt configurations and tasks
 	loadGruntConfig( grunt, {
 		configPath: path.join( process.cwd(), project.paths.config ),
@@ -84,7 +91,6 @@ module.exports = function( grunt ) {
 				addtextdomain: "grunt-wp-i18n",
 				makepot: "grunt-wp-i18n",
 				glotpress_download: "grunt-glotpress",
-				wpcss: "grunt-wp-css",
 				"update-version": "@yoast/grunt-plugin-tasks",
 				"set-version": "@yoast/grunt-plugin-tasks",
 			},

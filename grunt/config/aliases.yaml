@@ -14,7 +14,6 @@ build:
   - 'build:sass'
   - 'postcss:build'
   - 'rtlcss'
-  - 'cssmin'
 # Optimise images from source to production
 'build:images':
   - 'imagemin'
@@ -112,7 +111,6 @@ release:
   - 'build:i18n'
 'release:css':
   - 'build:css'
-  - 'cssmin'
 'release:js':
   - 'copy:dependencies'
   - 'webpack:buildProd'

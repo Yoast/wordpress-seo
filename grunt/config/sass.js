@@ -1,6 +1,10 @@
 // https://github.com/sindresorhus/grunt-sass
+/* global global */
 module.exports = {
 	build: {
+		options: {
+			sourceMap: global.developmentBuild
+		},
 		files: {
 			"css/dist/admin-global-<%= pluginVersionSlug %>.css": [ "css/src/admin-global.scss" ],
 			"css/dist/adminbar-<%= pluginVersionSlug %>.css": [ "css/src/adminbar.scss" ],

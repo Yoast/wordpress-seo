@@ -1,6 +1,8 @@
 // https://github.com/MohammadYounes/grunt-rtlcss
+/* global global */
 module.exports = {
 	options: {
+		map: global.developmentBuild,
 		clean: true,
 		plugins: [
 			{
@@ -45,7 +47,6 @@ module.exports = {
 		cwd: "<%= paths.css %>",
 		src: [
 			"**/*.css",
-			"!**/*.min.css",
 		],
 		dest: "css/dist",
 		ext: "-rtl.css",
