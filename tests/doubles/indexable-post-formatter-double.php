@@ -47,13 +47,6 @@ class Indexable_Post_Formatter_Double extends Indexable_Post_Formatter {
 	/**
 	 * @inheritdoc
 	 */
-	public function get_indexable_meta_lookup() {
-		return parent::get_indexable_meta_lookup();
-	}
-
-	/**
-	 * @inheritdoc
-	 */
 	public function set_link_count( $indexable ) {
 		return parent::set_link_count( $indexable );
 	}

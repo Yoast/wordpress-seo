@@ -31,7 +31,6 @@ class Indexable_Post_Formatter_Test extends TestCase {
 					'get_post_type',
 					'get_meta_value',
 					'get_indexable_lookup',
-					'get_indexable_meta_lookup',
 				)
 			)
 			->getMock();
@@ -72,25 +71,10 @@ class Indexable_Post_Formatter_Test extends TestCase {
 				)
 			);
 
-		$formatter
-			->expects( $this->once() )
-			->method( 'get_indexable_meta_lookup' )
-			->will(
-				$this->returnValue(
-					array(
-						'opengraph-title' => 'og_title',
-					)
-				)
-			);
-
 		$indexable = $this
 			->getMockBuilder( '\Yoast\WP\Free\Models\Indexable' )
 			->setMethods( array( 'set_meta', '__set' ) )
 			->getMock();
-
-		$indexable
-			->expects( $this->once() )
-			->method( 'set_meta' );
 
 		$indexable
 			->expects( $this->any() )
@@ -185,16 +169,6 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	public function test_get_indexable_lookup() {
 		$instance = new Indexable_Post_Double( 1 );
 		$this->assertInternalType( 'array', $instance->get_indexable_lookup() );
-	}
-
-	/**
-	 * Tests if the meta lookup returns the expected type of data.
-	 *
-	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_indexable_meta_lookup()
-	 */
-	public function test_get_indexable_meta_lookup() {
-		$instance = new Indexable_Post_Double( 1 );
-		$this->assertInternalType( 'array', $instance->get_indexable_meta_lookup() );
 	}
 
 	/**
