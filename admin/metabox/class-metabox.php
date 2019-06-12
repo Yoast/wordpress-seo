@@ -271,7 +271,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$content_sections = $this->get_content_sections();
 
 		echo '<div class="wpseo-metabox-content">';
-		echo '<div class="wpseo-metabox-menu"><ul role="tablist">';
+		echo '<div class="wpseo-metabox-menu"><ul role="tablist" class="yoast-aria-tabs">';
 
 		foreach ( $content_sections as $content_section ) {
 			if ( $content_section->name === 'premium' ) {
