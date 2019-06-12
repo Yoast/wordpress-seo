@@ -5902,7 +5902,7 @@ grunt-eslint@^21.0.0:
     chalk "^2.1.0"
     eslint "^5.0.0"
 
-grunt-glotpress@^0.2.2, "grunt-glotpress@https://github.com/Yoast/grunt-glotpress.git#master":
+grunt-glotpress@^0.2.2:
   version "0.2.2"
   resolved "https://github.com/Yoast/grunt-glotpress.git#6c0b12698cdc3e6e1b686bd74286c5595615e5b2"
   dependencies:
