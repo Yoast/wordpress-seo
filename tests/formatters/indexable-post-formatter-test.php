@@ -106,7 +106,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 
 		WPSEO_Meta::set_value( 'a', 'b', 1 );
 
-		$this->assertEquals( 'b', $instance->get_meta_value( 'a' ) );
+		$this->assertSame( 'b', $instance->get_meta_value( 'a' ) );
 	}
 
 	/**
@@ -147,7 +147,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	public function test_get_keyword_score() {
 		$instance = new Indexable_Post_Double( 1 );
 
-		$this->assertEquals( 100, $instance->get_keyword_score( 'keyword', 100 ) );
+		$this->assertSame( 100, $instance->get_keyword_score( 'keyword', 100 ) );
 	}
 
 	/**
@@ -195,8 +195,8 @@ class Indexable_Post_Formatter_Test extends TestCase {
 		$indexable = new stdClass();
 		$indexable = $formatter->set_link_count( $indexable );
 
-		$this->assertAttributeEquals( 404, 'link_count', $indexable );
-		$this->assertAttributeEquals( 1337, 'incoming_link_count', $indexable );
+		$this->assertAttributeSame( 404, 'link_count', $indexable );
+		$this->assertAttributeSame( 1337, 'incoming_link_count', $indexable );
 	}
 
 	/**

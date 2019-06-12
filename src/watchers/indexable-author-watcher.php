@@ -9,8 +9,8 @@ namespace Yoast\WP\Free\Watchers;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Formatters\Indexable_Author_Formatter;
-use Yoast\WP\Free\WordPress\Integration;
 use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\WordPress\Integration;
 
 /**
  * Watches an Author to save the meta information when updated.
@@ -23,7 +23,7 @@ class Indexable_Author_Watcher implements Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'profile_update', array( $this, 'save_meta' ), PHP_INT_MAX );
+		\add_action( 'profile_update', array( $this, 'save_meta' ), \PHP_INT_MAX );
 		\add_action( 'deleted_user', array( $this, 'delete_meta' ) );
 	}
 
@@ -72,9 +72,10 @@ class Indexable_Author_Watcher implements Integration {
 	 * @param int  $user_id     The user to retrieve the indexable for.
 	 * @param bool $auto_create Optional. Create the indexable when it does not exist yet.
 	 *
-	 * @return Indexable The indexable for the suppied user ID.
+	 * @return \Yoast\WP\Free\Models\Indexable The indexable for the suppied user ID.
 	 *
-	 * @throws No_Indexable_Found Exception when no Indexable could be found for the supplied user.
+	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found Exception when no Indexable could
+	 *                                                      be found for the supplied user.
 	 */
 	protected function get_indexable( $user_id, $auto_create = true ) {
 		$indexable = Indexable::find_by_id_and_type( $user_id, 'user', $auto_create );
@@ -93,7 +94,7 @@ class Indexable_Author_Watcher implements Integration {
 	 *
 	 * @param int $user_id The user ID.
 	 *
-	 * @return Indexable_Author_Formatter Instance.
+	 * @return \Yoast\WP\Free\Formatters\Indexable_Author_Formatter Instance.
 	 */
 	protected function get_formatter( $user_id ) {
 		return new Indexable_Author_Formatter( $user_id );

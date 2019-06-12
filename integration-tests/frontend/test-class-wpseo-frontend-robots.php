@@ -284,6 +284,9 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_noindex_page() {
 		$expected = '<meta name="robots" content="noindex" />' . "\n";
-		$this->expectOutput( $expected, self::$class_instance->noindex_page() );
+
+		self::$class_instance->noindex_page();
+
+		$this->expectOutput( $expected );
 	}
 }

@@ -19,6 +19,7 @@
  * @property string $description               Page description.
  * @property bool   $breadcrumbs_enabled       Whether or not this site has breadcrumbs enabled.
  * @property array  $site_represents_reference A schema @id reference to the piece the site represents.
+ * @property bool   $has_image                 A boolean that determines whether the current URL has a primary image.
  *
  * @since 10.2
  */
@@ -100,6 +101,13 @@ class WPSEO_Schema_Context {
 	 * @var array
 	 */
 	public $site_represents_reference;
+
+	/**
+	 * A boolean that determines whether the current URL has a primary image.
+	 *
+	 * @var bool
+	 */
+	public $has_image = false;
 
 	/**
 	 * WPSEO_Schema_Context constructor.

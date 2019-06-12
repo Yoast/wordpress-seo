@@ -9,8 +9,8 @@ namespace Yoast\WP\Free\Watchers;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Formatters\Indexable_Post_Formatter;
-use Yoast\WP\Free\WordPress\Integration;
 use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\WordPress\Integration;
 
 /**
  * Fills the Indexable according to Post data.
@@ -23,7 +23,7 @@ class Indexable_Post_Watcher implements Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'wp_insert_post', array( $this, 'save_meta' ), PHP_INT_MAX );
+		\add_action( 'wp_insert_post', array( $this, 'save_meta' ), \PHP_INT_MAX );
 		\add_action( 'delete_post', array( $this, 'delete_meta' ) );
 	}
 
@@ -77,9 +77,9 @@ class Indexable_Post_Watcher implements Integration {
 	 * @param int  $post_id     Post to fetch indexable for.
 	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
 	 *
-	 * @return Indexable
+	 * @return \Yoast\WP\Free\Models\Indexable
 	 *
-	 * @throws No_Indexable_Found Exception when no Indexable entry could be found.
+	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found Exception when no Indexable entry could be found.
 	 */
 	protected function get_indexable( $post_id, $auto_create = true ) {
 		$indexable = Indexable::find_by_id_and_type( $post_id, 'post', $auto_create );
@@ -132,7 +132,7 @@ class Indexable_Post_Watcher implements Integration {
 	 *
 	 * @param int $post_id The post ID.
 	 *
-	 * @return Indexable_Post_Formatter Instance.
+	 * @return \Yoast\WP\Free\Formatters\Indexable_Post_Formatter Instance.
 	 */
 	protected function get_formatter( $post_id ) {
 		return new Indexable_Post_Formatter( $post_id );
