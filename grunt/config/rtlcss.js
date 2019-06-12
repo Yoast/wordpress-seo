@@ -46,7 +46,7 @@ module.exports = {
 		expand: true,
 		cwd: "<%= paths.css %>",
 		src: [
-			"**/*.css",
+			"*.css",
 		],
 		dest: "css/dist",
 		ext: "-rtl.css",

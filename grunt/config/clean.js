@@ -25,7 +25,7 @@ module.exports = {
 		"!js/dist/jquery.tablesorter.min.js",
 	],
 	"build-assets-css": [
-		"<%= paths.css %>/*.css",
+		"<%= files.css %>",
 	],
 	artifact: [
 		"<%= files.artifact %>",

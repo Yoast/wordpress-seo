@@ -77,8 +77,8 @@ module.exports = function( grunt ) {
 
 	project.pluginVersionSlug = flattenVersionForFile( pluginVersion );
 
-	// Used to switch between development and release builds
-	if ( [ 'release', 'artifact', 'deploy:trunk', 'deploy:master' ].includes( process.argv[2] ) ) {
+	// Used to switch between development and release builds.
+	if ( [ 'release', 'release:css', 'release:js', 'artifact', 'deploy:trunk', 'deploy:master' ].includes( process.argv[2] ) ) {
 		global.developmentBuild = false;
 	}
 
