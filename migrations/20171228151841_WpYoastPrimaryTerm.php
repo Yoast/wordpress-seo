@@ -15,8 +15,6 @@ class WpYoastPrimaryTerm extends Ruckusing_Migration_Base {
 
 	/**
 	 * Migration up.
-	 *
-	 * @return void
 	 */
 	public function up() {
 		$table_name = $this->get_table_name();

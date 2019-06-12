@@ -9,12 +9,17 @@ namespace Yoast\WP\Free\Models;
 
 use Yoast\WP\Free\Yoast_Model;
 
+/**
+ * Indexable_Extension abstract class, intended to be inherited by add-ons to add additional data to Indexables.
+ *
+ * @package Yoast\WP\Free\Models
+ */
 abstract class Indexable_Extension extends Yoast_Model {
 
 	/**
 	 * @var \Yoast\WP\Free\Models\Indexable
 	 */
-	protected $indexable =  null;
+	protected $indexable = null;
 
 	/**
 	 * Returns the indexable this extension belongs to.
