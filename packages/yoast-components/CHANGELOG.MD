@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 4.27.0
+## 4.27.0 June 11th, 2019
 ### Changed
 * Removes the margin from the `KeywordInput` component.
 
