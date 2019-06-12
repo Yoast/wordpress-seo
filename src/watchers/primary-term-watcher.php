@@ -227,7 +227,7 @@ class Primary_Term_Watcher implements Integration {
 	 * @return int The term ID.
 	 */
 	protected function get_posted_term_id( $taxonomy ) {
-		return \filter_input( INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', FILTER_SANITIZE_NUMBER_INT );
+		return \filter_input( \INPUT_POST, WPSEO_Meta::$form_prefix . 'primary_' . $taxonomy . '_term', \FILTER_SANITIZE_NUMBER_INT );
 	}
 
 	/**
