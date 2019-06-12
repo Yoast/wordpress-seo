@@ -310,5 +310,8 @@ export default function stem( word ) {
 	word = word.replace( /I/g, "i" );
 	word = word.replace( /Y/g, "y" );
 
+	// Remove apostrophe
+	word = word.replace( /(.*)(')$/g, "$1" );
+
 	return word;
 }

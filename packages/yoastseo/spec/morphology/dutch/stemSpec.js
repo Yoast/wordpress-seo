@@ -45,6 +45,8 @@ const wordsToStem = [
 	[ "kettinkje", "ketting" ],
 	// Diminutive noun type i.
 	[ "kuchje", "kuch" ],
+	// A word with the -s suffix preceded by an apostrophe
+	[ "firma's", "firma" ],
 ];
 
 describe( "Test for stemming Dutch words", () => {
