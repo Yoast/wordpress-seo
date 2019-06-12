@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.28.0 June 24th, 2019
+### Changed
+* Updates the CSS autoprefixer configuration to drop support for old Internet Explorer versions.
+
 ## 4.27.0 June 11th, 2019
 ### Changed
 * Removes the margin from the `KeywordInput` component.
