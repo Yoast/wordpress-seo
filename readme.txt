@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 4.9
 Tested up to: 5.2.1
-Stable tag: 11.3
+Stable tag: 11.4
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -107,6 +107,8 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 = 11.4.0 =
 Release Date: June 12th, 2019
+
+Yoast SEO 11.4 is out today. This release features loads of structured data improvements. We’ve improved the way Yoast SEO Schema works with AMP, plus we’ve enhanced our FAQ blocks and added them to the graph. Find out what Yoast SEO 11.4 is all about in [our 11.4 release post](https://yoa.st/release-11-4)!
 
 Enhancements:
 
