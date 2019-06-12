@@ -25,6 +25,26 @@ const wordsToStem = [
 	[ "groeien", "groei" ],
 	// A word that needs to have the vowel undoubled
 	[ "maan", "man" ],
+	// Diminutive noun type a.
+	[ "dingetje", "ding" ],
+	// Diminutive noun type b.
+	[ "baby'tje", "baby" ],
+	// Diminutive noun type c.
+	[ "vrouwtje", "vrouw" ],
+	// Diminutive noun type d.
+	[ "rectortje", "rector" ],
+	// Diminutive noun type e.
+	[ "alligatortje", "alligator" ],
+	// Diminutive noun type f.
+	[ "filmpje", "film" ],
+	// Diminutive noun type g.
+	[ "kostuumpje", "kostum" ],
+	// Diminutive noun type h.
+	[ "kindje", "kind" ],
+	// Diminutive noun type h ending in -inkje.
+	[ "kettinkje", "ketting" ],
+	// Diminutive noun type i.
+	[ "kuchje", "kuch" ],
 ];
 
 describe( "Test for stemming Dutch words", () => {
