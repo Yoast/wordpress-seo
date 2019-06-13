@@ -45,8 +45,14 @@ const wordsToStem = [
 	[ "kettinkje", "ketting" ],
 	// Diminutive noun type i.
 	[ "kuchje", "kuch" ],
+	// Plural diminutive noun.
+	[ "schaapjes", "schap" ],
 	// A word with the -s suffix preceded by an apostrophe
 	[ "firma's", "firma" ],
+	// A word with the -ën suffix.
+	[ "allergieën", "allergie" ],
+	// A word with the -en suffix preceded by a vowel + i
+	[ "aardbeien", "aardbei" ],
 ];
 
 describe( "Test for stemming Dutch words", () => {

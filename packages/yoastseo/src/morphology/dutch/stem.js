@@ -46,14 +46,30 @@ const determineR1 = function( word ) {
  */
 const findSuffixStep1 = function( word ) {
 	const a1Index = word.search( /heden$/g );
-	let b1Index = word.search( /([^aeoiuyèäüëïöáéíóú]|(g[^e]m)|([^g]em))(en|ene)$/g );
-	let c1Index = word.search( /([^aeoiuyèäüëïöáéíóúj]|je)(s|se)$/g );
+	let b1Index = word.search( /([^aeoiuyèäüëïöáéíóú])(en|ene)$/g );
+	let c1Index = word.search( /((g[^e]m)|([^g]em))(en|ene)$/g );
+	let d1Index = word.search( /([aeoiuyèäüëïöáéíóú]i)(en)$/g );
+	let e1Index = word.search( /([aeoiu])(ën)$/g );
+	let f1Index = word.search( /(je)(s)$/g );
+	let g1Index = word.search( /([^aeoiuyèäüëïöáéíóúj])(s|se)$/g );
 	// Exclude the -en and -s endings.
 	if ( b1Index !== -1 ) {
 		b1Index++;
 	}
 	if ( c1Index !== -1 ) {
-		c1Index++;
+		c1Index += 3;
+	}
+	if ( d1Index !== -1 ) {
+		d1Index += 2;
+	}
+	if ( e1Index !== -1 ) {
+		e1Index++;
+	}
+	if ( f1Index !== -1 ) {
+		f1Index += 2;
+	}
+	if ( g1Index !== -1 ) {
+		g1Index++;
 	}
 
 	let optionUsed = "";
@@ -71,6 +87,26 @@ const findSuffixStep1 = function( word ) {
 	} else if ( c1Index !== -1 ) {
 		optionUsed = "c";
 		index1 = c1Index;
+
+		return { index1, optionUsed };
+	} else if ( d1Index !== -1 ) {
+		optionUsed = "d";
+		index1 = d1Index;
+
+		return { index1, optionUsed };
+	} else if ( e1Index !== -1 ) {
+		optionUsed = "e";
+		index1 = e1Index;
+
+		return { index1, optionUsed };
+	} else if ( f1Index !== -1 ) {
+		optionUsed = "f";
+		index1 = f1Index;
+
+		return { index1, optionUsed };
+	} else if ( g1Index !== -1 ) {
+		optionUsed = "g";
+		index1 = g1Index;
 
 		return { index1, optionUsed };
 	}
@@ -210,7 +246,8 @@ const deleteSuffix1 = function( word, index1, optionUsed, r1Index ) {
 				word = word.replace( /(.*)heden$/g, "$1heid" );
 
 				return word;
-			} else if ( optionUsed === "b" || optionUsed === "c" ) {
+			}
+			else {
 				word = word.substring( 0, index1 );
 			}
 		}
@@ -299,6 +336,12 @@ export default function stem( word ) {
 	word = word.replace( /(.*)tt$/g, "$1t" );
 	word = word.replace( /(.*)kk$/g, "$1k" );
 	word = word.replace( /(.*)dd$/g, "$1d" );
+	word = word.replace( /(.*)ss$/g, "$1s" );
+	word = word.replace( /(.*)ll$/g, "$1l" );
+	word = word.replace( /(.*)pp$/g, "$1d" );
+	word = word.replace( /(.*)ff$/g, "$1f" );
+	word = word.replace( /(.*)gg$/g, "$1g" );
+	word = word.replace( /(.*)nn$/g, "$1n" );
 
 	// Undouble vowel
 	word = word.replace( /([^aeiouyèäüëïöáéíóú])(aa)([^aeiouyèäüëïöáéíóúI])$/g, "$1a$3" );
