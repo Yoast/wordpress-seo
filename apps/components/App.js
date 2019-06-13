@@ -17,7 +17,7 @@ import Wizard from "./WizardWrapper";
 import { Loader } from "@yoast/components";
 import FacebookPreviewExample from "./FacebookPreviewExample";
 import LinkSuggestionsWrapper from "./LinkSuggestionsExample";
-import WordCloudWrapper from "./WordCloudWrapper";
+import WordOccurrencesWrapper from "./WordOccurrencesWrapper";
 
 // Setup empty translations to prevent Jed error.
 setLocaleData( { "": {} }, "yoast-components" );
@@ -99,9 +99,9 @@ const components = [
 		component: <FacebookPreviewExample />,
 	},
 	{
-		id: "wordcloud-example",
-		name: "WordCloud",
-		component: <WordCloudWrapper />,
+		id: "wordoccurrences-example",
+		name: "WordOccurrences",
+		component: <WordOccurrencesWrapper />,
 	},
 ];
 

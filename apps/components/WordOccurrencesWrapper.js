@@ -1,7 +1,7 @@
 import React from "react";
 
 import ExamplesContainer from "./ExamplesContainer";
-import WordCloud from "@yoast/components/src/WordCloud";
+import { WordOccurrences } from "@yoast/components";
 
 const initialRelevantWords = [
 	{
@@ -156,7 +156,7 @@ const RelevantWordInputRow = ( props ) => {
 	);
 };
 
-class WordCloudWrapper extends React.Component {
+class WordOccurrencesWrapper extends React.Component {
 	constructor( props ) {
 		super( props );
 
@@ -222,8 +222,8 @@ class WordCloudWrapper extends React.Component {
 				/>
 				<button onClick={ this.addRelevantWordRow }>Add word</button>
 				<button onClick={ this.resetRelevantWords }>Reset</button>
-				<div style={ { marginTop: "150px", maxWidth: "800px", height: "600px" } }>
-					<WordCloud
+				<div style={ { marginTop: "150px", width: "100%", height: "600px" } }>
+					<WordOccurrences
 						words={ this.state.relevantWords }
 						textColor="#A4286A"
 					/>
@@ -233,4 +233,4 @@ class WordCloudWrapper extends React.Component {
 	}
 }
 
-export default WordCloudWrapper;
+export default WordOccurrencesWrapper;

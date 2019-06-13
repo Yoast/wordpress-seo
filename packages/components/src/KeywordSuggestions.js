@@ -7,7 +7,7 @@ import { isFeatureEnabled } from "@yoast/feature-flag";
 
 // Yoast dependencies.
 import WordList from "./WordList";
-import WordCloud from "./WordCloud";
+import WordOccurrences from "./WordOccurrences";
 
 
 /**
@@ -91,7 +91,7 @@ const getKeywordSuggestionExplanation = keywords => {
  */
 const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
 	if ( isFeatureEnabled( "improvedInternalLinking" ) ) {
-		return <WordCloud words={ relevantWords } />;
+		return <WordOccurrences words={ relevantWords } />;
 	}
 
 	const prominentWords = relevantWords.slice( 0, keywordLimit ).map( word => word.getWord() );
