@@ -14,6 +14,7 @@
 			return;
 		}
 
+		// The tab is a DOM element: no need for jQuery methods.
 		tab.focus();
 		tab.click();
 	}
@@ -48,9 +49,9 @@
 
 		wpseoDeactivateAriaTabs( tabs );
 
-		jQuery( tab )
-			.removeAttr( "tabindex" )
-			.attr( "aria-selected", "true" );
+		// The tab is a DOM element: no need for jQuery methods.
+		tab.removeAttribute( "tabindex" );
+		tab.setAttribute( "aria-selected", "true" );
 	}
 
 	/* eslint-disable complexity */
@@ -58,7 +59,7 @@
 	 * Switch tabs in the ARIA tabbed interface.
 	 *
 	 * @param {object} event       jQuery event object.
-	 * @param {object} tabs        jQuery tabs collection.
+	 * @param {object} tabs        The tabs as a jQuery collection.
 	 * @param {string} orientation The tabs orientation: horizontal or vertical.
 	 *
 	 * @returns {void}
@@ -68,24 +69,21 @@
 		const index = tabs.index( jQuery( event.target ) );
 
 		switch ( key ) {
-			// Space bar: Activate current target tab.
+			// Space bar: Activate current targeted tab.
 			case 32: {
 				event.preventDefault();
-				wpseoAriaTabSetActiveAttributes( tabs[ index ], tabs );
 				wpseoAriaTabFocusAndClick( tabs[ index ] );
 				break;
 			}
 			// End key: Activate last tab.
 			case 35: {
 				event.preventDefault();
-				wpseoAriaTabSetActiveAttributes( tabs[ tabs.length - 1 ], tabs );
 				wpseoAriaTabFocusAndClick( tabs[ tabs.length - 1 ] );
 				break;
 			}
 			// Home key: Activate first tab.
 			case 36: {
 				event.preventDefault();
-				wpseoAriaTabSetActiveAttributes( tabs[ 0 ], tabs );
 				wpseoAriaTabFocusAndClick( tabs[ 0 ] );
 				break;
 			}
@@ -94,7 +92,6 @@
 			case 38: {
 				event.preventDefault();
 				const indexForPreviousTab = ( index - 1 ) < 0 ? tabs.length - 1 : index - 1;
-				wpseoAriaTabSetActiveAttributes( tabs[ indexForPreviousTab ], tabs );
 				wpseoAriaTabFocusAndClick( tabs[ indexForPreviousTab ] );
 				break;
 			}
@@ -103,7 +100,6 @@
 			case 40: {
 				event.preventDefault();
 				const indexForNextTab = ( index + 1 ) === tabs.length ? 0 : index + 1;
-				wpseoAriaTabSetActiveAttributes( tabs[ indexForNextTab ], tabs );
 				wpseoAriaTabFocusAndClick( tabs[ indexForNextTab ] );
 				break;
 			}
@@ -112,7 +108,7 @@
 	/* eslint-enable complexity */
 
 	/**
-	 * Makes tabs markup a real ARIA tabbed interface.
+	 * Initializes the ARIA tabbed interface.
 	 *
 	 * @returns {void}
 	 */
@@ -122,12 +118,17 @@
 		const orientation = tablist.attr( "aria-orientation" ) || "horizontal";
 
 		// Set up initial attributes.
-		tabs.attr( "tabindex", "-1" );
+		tabs.attr( {
+			"aria-selected": false,
+			tabIndex: "-1",
+		} );
+		// Set up the initially active tab.
 		tabs.filter( ".yoast-active-tab" )
 			.removeAttr( "tabindex" )
 			.attr( "aria-selected", "true" );
 
 		tabs.on( "keydown", function( event ) {
+			// Return if not Spacebar, End, Home, or Arrow keys.
 			if ( [ 32, 35, 36, 37, 38, 39, 40 ].indexOf( event.which ) === -1 ) {
 				return;
 			}
@@ -208,7 +209,8 @@
 						.addClass( "active" )
 						.find( "[role='tab']" ).addClass( "yoast-active-tab" );
 
-					wpseoAriaTabSetActiveAttributes( jQuery( this ), tabLinks );
+					// Make the clicked tab focusable and set it to aria-selected=true.
+					wpseoAriaTabSetActiveAttributes( this, tabLinks );
 				} );
 		}
 
