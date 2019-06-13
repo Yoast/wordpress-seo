@@ -60,11 +60,10 @@
 	 *
 	 * @param {object} event       jQuery event object.
 	 * @param {object} tabs        The tabs as a jQuery collection.
-	 * @param {string} orientation The tabs orientation: horizontal or vertical.
 	 *
 	 * @returns {void}
 	 */
-	function wpseoAriaTabsSwitch( event, tabs, orientation ) {
+	function wpseoAriaTabsSwitch( event, tabs ) {
 		const key   = event.which;
 		const index = tabs.index( jQuery( event.target ) );
 
@@ -133,7 +132,17 @@
 				return;
 			}
 
-			wpseoAriaTabsSwitch( event, tabs, orientation );
+			// Make Up and Down arrow keys do nothing with horizontal tabs.
+			if ( orientation === "horizontal" && [ 38, 40 ].indexOf( event.which ) !== -1 ) {
+				return;
+			}
+
+			// Make Left and Right arrow keys do nothing with vertical tabs.
+			if ( orientation === "vertical" && [ 37, 39 ].indexOf( event.which ) !== -1 ) {
+				return;
+			}
+
+			wpseoAriaTabsSwitch( event, tabs );
 		} );
 	}
 
