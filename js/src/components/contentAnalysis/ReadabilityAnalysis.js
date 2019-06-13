@@ -1,6 +1,6 @@
 /* global wpseoPostScraperL10n wpseoTermScraperL10n wpseoAdminL10n */
 
-import React from "react";
+import { Component, Fragment, createPortal } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
@@ -21,6 +21,10 @@ const AnalysisHeader = styled.span`
 	display: block;
 `;
 
+const ReadabilityResultsTabContainer = styled.div`
+	padding: 16px;
+`;
+
 let localizedData = {};
 if ( window.wpseoPostScraperL10n ) {
 	localizedData = wpseoPostScraperL10n;
@@ -35,7 +39,34 @@ const StyledHelpLink = styled( HelpLink )`
 /**
  * Redux container for the readability analysis.
  */
-class ReadabilityAnalysis extends React.Component {
+class ReadabilityAnalysis extends Component {
+	renderResults() {
+		return (
+			<Fragment>
+				<AnalysisHeader>
+					{ __( "Analysis results", "wordpress-seo" ) }
+					<StyledHelpLink
+						href={ wpseoAdminL10n[ "shortlinks.readability_analysis_info" ] }
+						className="dashicons"
+					>
+						<span className="screen-reader-text">
+							{ __( "Learn more about the readability analysis", "wordpress-seo" ) }
+						</span>
+					</StyledHelpLink>
+				</AnalysisHeader>
+				<Results
+					canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
+					showLanguageNotice={ false }
+					changeLanguageLink={ localizedData.settings_link }
+					language={ localizedData.language }
+					results={ this.props.results }
+					marksButtonClassName="yoast-tooltip yoast-tooltip-s"
+					marksButtonStatus={ this.props.marksButtonStatus }
+				/>
+			</Fragment>
+		);
+	}
+
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
 
@@ -43,38 +74,33 @@ class ReadabilityAnalysis extends React.Component {
 			score.className = "loading";
 		}
 
+
 		return (
 			<LocationConsumer>
-				{ context => (
-					<Collapsible
-						title={ __( "Readability analysis", "wordpress-seo" ) }
-						titleScreenReaderText={ score.screenReaderReadabilityText }
-						prefixIcon={ getIconForScore( score.className ) }
-						prefixIconCollapsed={ getIconForScore( score.className ) }
-						id={ `yoast-readability-analysis-collapsible-${ context }` }
-					>
-						<AnalysisHeader>
-							{ __( "Analysis results", "wordpress-seo" ) }
-							<StyledHelpLink
-								href={ wpseoAdminL10n[ "shortlinks.readability_analysis_info" ] }
-								className="dashicons"
+				{ location => {
+					if ( location === "sidebar" ) {
+						return (
+							<Collapsible
+								title={ __( "Readability analysis", "wordpress-seo" ) }
+								titleScreenReaderText={ score.screenReaderReadabilityText }
+								prefixIcon={ getIconForScore( score.className ) }
+								prefixIconCollapsed={ getIconForScore( score.className ) }
+								id={ `yoast-readability-analysis-collapsible-${ location }` }
 							>
-								<span className="screen-reader-text">
-									{ __( "Learn more about the readability analysis", "wordpress-seo" ) }
-								</span>
-							</StyledHelpLink>
-						</AnalysisHeader>
-						<Results
-							canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
-							showLanguageNotice={ false }
-							changeLanguageLink={ localizedData.settings_link }
-							language={ localizedData.language }
-							results={ this.props.results }
-							marksButtonClassName="yoast-tooltip yoast-tooltip-s"
-							marksButtonStatus={ this.props.marksButtonStatus }
-						/>
-					</Collapsible>
-				) }
+								{ this.renderResults() }
+							</Collapsible>
+						);
+					}
+
+					if ( location === "metabox" ) {
+						return createPortal(
+							<ReadabilityResultsTabContainer>
+								{ this.renderResults() }
+							</ReadabilityResultsTabContainer>,
+							document.getElementById( "wpseo-metabox-readability-root" )
+						);
+					}
+				} }
 			</LocationConsumer>
 		);
 	}
