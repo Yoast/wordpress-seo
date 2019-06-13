@@ -194,7 +194,7 @@ export default class HowToStep extends Component {
 			{ ! HowToStep.getImageSrc( step.text ) &&
 			<MediaUpload
 				onSelect={ this.onSelectImage }
-				type="image"
+				allowedTypes={ [ "image" ] }
 				value={ step.id }
 				render={ this.getMediaUploadButton }
 			/>
