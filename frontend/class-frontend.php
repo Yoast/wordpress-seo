@@ -1339,7 +1339,7 @@ class WPSEO_Frontend {
 		 *
 		 * @api boolean $noindex Whether the noindex header should get set (true) or not (false). Defaults to true.
 		 *
-		 * @since 11.5
+		 * @since 11.6
 		 */
 		$noindex = apply_filters( 'wpseo_feed_noindex', true );
 
