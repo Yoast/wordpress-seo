@@ -47,29 +47,61 @@ const determineR1 = function( word ) {
 const findSuffixStep1 = function( word ) {
 	const a1Index = word.search( /heden$/g );
 	let b1Index = word.search( /([^aeoiuyèäüëïöáéíóú])(en|ene)$/g );
-	let c1Index = word.search( /((g[^e]m)|([^g]em))(en|ene)$/g );
-	let d1Index = word.search( /([aeoiuyèäüëïöáéíóú]i)(en)$/g );
-	let e1Index = word.search( /([aeoiu])(ën)$/g );
-	let f1Index = word.search( /(je)(s)$/g );
-	let g1Index = word.search( /([^aeoiuyèäüëïöáéíóúj])(s|se)$/g );
-	// Exclude the -en and -s endings.
+	let c1Index = word.search( /([aeoiuyèäüëïöáéíóú]i)(en)$/g );
+	let d1Index = word.search( /([aeoiu])(ën)$/g );
+	let e1Index = word.search( /(je)(s)$/g );
+	let f1Index = word.search( /([^aeoiuyèäüëïöáéíóúj])(s|se)$/g );
+	let g1Index = word.search( /(r)(der|dere)$/g );
+	let h1Index = word.search( /([rfgjklmnpt])(er|ere)$/g );
+	let i1Index = word.search( /(sch)(er|ere)$/g );
+	let j1Index = word.search( /([^r]d)(er|ere)$/g );
+	let k1Index = word.search( /([eoué]e)(ër|ëre)$/g );
+	let l1Index = word.search( /([rfgjklmnpt])(st|ste)$/g );
+	let m1Index = word.search( /(sch)(st|ste)$/g );
+	let n1Index = word.search( /([eoué]e)(st|ste)$/g );
+	let o1Index = word.search( /([ao]I)(est|este)$/g );
+	// Exclude the characters preceding the suffix.
 	if ( b1Index !== -1 ) {
 		b1Index++;
 	}
 	if ( c1Index !== -1 ) {
-		c1Index += 3;
+		c1Index += 2;
 	}
 	if ( d1Index !== -1 ) {
-		d1Index += 2;
+		d1Index++;
 	}
 	if ( e1Index !== -1 ) {
-		e1Index++;
+		e1Index += 2;
 	}
 	if ( f1Index !== -1 ) {
-		f1Index += 2;
+		f1Index++;
 	}
 	if ( g1Index !== -1 ) {
 		g1Index++;
+	}
+	if ( h1Index !== -1 ) {
+		h1Index++;
+	}
+	if ( i1Index !== -1 ) {
+		i1Index += 3;
+	}
+	if ( j1Index !== -1 ) {
+		j1Index += 2;
+	}
+	if ( k1Index !== -1 ) {
+		k1Index += 2;
+	}
+	if ( l1Index !== -1 ) {
+		l1Index++;
+	}
+	if ( m1Index !== -1 ) {
+		m1Index += 3;
+	}
+	if ( n1Index !== -1 ) {
+		n1Index += 2;
+	}
+	if ( o1Index !== -1 ) {
+		o1Index += 2;
 	}
 
 	let optionUsed = "";
@@ -107,6 +139,46 @@ const findSuffixStep1 = function( word ) {
 	} else if ( g1Index !== -1 ) {
 		optionUsed = "g";
 		index1 = g1Index;
+
+		return { index1, optionUsed };
+	} else if ( h1Index !== -1 ) {
+		optionUsed = "h";
+		index1 = h1Index;
+
+		return { index1, optionUsed };
+	} else if ( i1Index !== -1 ) {
+		optionUsed = "i";
+		index1 = i1Index;
+
+		return { index1, optionUsed };
+	} else if ( j1Index !== -1 ) {
+		optionUsed = "j";
+		index1 = j1Index;
+
+		return { index1, optionUsed };
+	} else if ( k1Index !== -1 ) {
+		optionUsed = "k";
+		index1 = k1Index;
+
+		return { index1, optionUsed };
+	} else if ( l1Index !== -1 ) {
+		optionUsed = "l";
+		index1 = l1Index;
+
+		return { index1, optionUsed };
+	} else if ( m1Index !== -1 ) {
+		optionUsed = "m";
+		index1 = m1Index;
+
+		return { index1, optionUsed };
+	} else if ( n1Index !== -1 ) {
+		optionUsed = "n";
+		index1 = n1Index;
+
+		return { index1, optionUsed };
+	} else if ( o1Index !== -1 ) {
+		optionUsed = "o";
+		index1 = o1Index;
 
 		return { index1, optionUsed };
 	}
@@ -216,14 +288,27 @@ const findSuffixStep2 = function( word ) {
  * @returns {number} index3 	The index of the suffix.
  */
 const findSuffixStep3 = function( word ) {
-	let index3 = word.search( /[^aoeiuyèäüëïöáéíóú]e$/ );
-	// Exclude the -e ending.
-	if ( index3 !== -1 ) {
-		index3++;
+	let a3index = word.search( /[^aoeiuyèäüëïöáéíóú]e$/ );
+	let b3index = word.search( /[aoeiu]ë$/ );
+	// Exclude the ending before the suffix.
+	if ( a3index !== -1 ) {
+		a3index++;
+	}
+	if ( b3index !== -1 ) {
+		b3index++;
+	}
+
+	let index3 = 10000;
+
+	if ( a3index !== -1 ) {
+		index3 = a3index;
+
+		return index3;
+	} else if ( b3index !== -1 ) {
+		index3 = b3index;
 
 		return index3;
 	}
-
 	return index3;
 };
 
@@ -244,10 +329,7 @@ const deleteSuffix1 = function( word, index1, optionUsed, r1Index ) {
 		if ( index1 >= r1Index ) {
 			if ( optionUsed === "a" ) {
 				word = word.replace( /(.*)heden$/g, "$1heid" );
-
-				return word;
-			}
-			else {
+			} else {
 				word = word.substring( 0, index1 );
 			}
 		}
