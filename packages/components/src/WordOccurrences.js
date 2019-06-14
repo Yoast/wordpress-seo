@@ -17,6 +17,7 @@ const WordOccurrencesList = styled.ol`
 	list-style: none;
 	padding: 0;
 	width: 100%;
+	margin: 0;
 `;
 
 const WordBarContainer = styled.li`
