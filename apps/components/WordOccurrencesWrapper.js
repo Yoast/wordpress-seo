@@ -225,7 +225,8 @@ class WordOccurrencesWrapper extends React.Component {
 				<div style={ { marginTop: "150px", width: "100%", height: "600px" } }>
 					<WordOccurrences
 						words={ this.state.relevantWords }
-						textColor="#A4286A"
+						showBeforeList={ <p>This is an example text that will be displayed before the list is rendered.</p> }
+						showAfterList={ <p>This is an example text that will be displayed before the list is rendered.</p> }
 					/>
 				</div>
 			</ExamplesContainer>
