@@ -100,7 +100,7 @@ const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
 		/>;
 	}
 
-	const prominentWords = relevantWords.slice( 0, keywordLimit ).map( word => word.getWord() );
+	const prominentWords = relevantWords.slice( 0, keywordLimit ).map( word => word.getCombination() );
 	return (
 		<WordList
 			title={ __( "Prominent words", "yoast-components" ) }
