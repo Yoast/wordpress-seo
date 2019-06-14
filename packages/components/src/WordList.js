@@ -45,19 +45,15 @@ const WordList = ( props ) => {
 WordList.propTypes = {
 	words: PropTypes.array.isRequired,
 	title: PropTypes.string.isRequired,
-	showBeforeList: PropTypes.func,
-	showAfterList: PropTypes.func,
+	showBeforeList: PropTypes.string,
+	showAfterList: PropTypes.string,
 	classNamePrefix: PropTypes.string,
 };
 
 WordList.defaultProps = {
 	classNamePrefix: "",
-	showBeforeList: () => {
-		return "";
-	},
-	showAfterList: () => {
-		return "";
-	},
+	showBeforeList: "",
+	showAfterList: "",
 };
 
 export default WordList;
