@@ -17,6 +17,7 @@ import Researcher from "./src/researcher";
 import SnippetPreview from "./src/snippetPreview";
 import Paper from "./src/values/Paper";
 import AssessmentResult from "./src/values/AssessmentResult";
+import Assessment from "./src/assessment";
 
 export {
 	App,
@@ -30,6 +31,7 @@ export {
 
 	Paper,
 	AssessmentResult,
+	Assessment,
 
 	AnalysisWebWorker,
 	AnalysisWorkerWrapper,
