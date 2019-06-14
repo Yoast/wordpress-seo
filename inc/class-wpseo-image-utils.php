@@ -374,6 +374,10 @@ class WPSEO_Image_Utils {
 	public static function get_first_usable_content_image_for_post( $post_id = null ) {
 		$post = get_post( $post_id );
 
+		if ( $post === null ) {
+			return null;
+		}
+
 		$image_finder = new WPSEO_Content_Images();
 		$images       = $image_finder->get_images( $post->ID, $post );
 

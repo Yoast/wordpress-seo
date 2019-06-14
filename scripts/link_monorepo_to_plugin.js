@@ -4,7 +4,7 @@ const path = require( "path" );
 const readlineSync = require( "readline-sync" );
 const execSync = require( "child_process" ).execSync;
 
-const IS_TRAVIS = process.env.CI === "true";
+const AUTO_CHECKOUT = process.env.AUTO_CHECKOUT_MONOREPO_BRANCH;
 const TRAVIS_BRANCH = process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.TRAVIS_BRANCH;
 
 let monorepoLocation;
@@ -190,7 +190,7 @@ log( `Your monorepo is located in "${ getMonorepoLocationFromFile() }". ` );
 
 log( "Fetching branches of the monorepo." );
 execMonorepoNoOutput( "git fetch" );
-if ( IS_TRAVIS ) {
+if ( AUTO_CHECKOUT ) {
 	const monorepoBranch = checkoutMonorepoBranch( TRAVIS_BRANCH );
 	log( "Checking out " + monorepoBranch + " on the monorepo." );
 }
@@ -198,7 +198,7 @@ if ( IS_TRAVIS ) {
 log( "Pulling the latest monorepo changes." );
 try {
 	execMonorepoNoOutput( "git pull 2>/dev/null" );
-} catch( error ) {
+} catch ( error ) {
 	// No remote is specified.
 	warning( "git could not pull changes from the remote repo.\nIf you are working on a local version of the javascript branch, this is expected behaviour.\nContinuing..." )
 }

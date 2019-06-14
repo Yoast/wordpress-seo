@@ -29,7 +29,7 @@ class Primary_Term extends Yoast_Model {
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
 	 *
-	 * @return bool|Indexable Instance of indexable.
+	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
 	 */
 	public static function find_by_postid_and_taxonomy( $post_id, $taxonomy, $auto_create = true ) {
 		/** @var \Yoast\WP\Free\Models\Primary_Term $indexable */
@@ -53,11 +53,11 @@ class Primary_Term extends Yoast_Model {
 	public function save() {
 
 		if ( ! $this->created_at ) {
-			$this->created_at = gmdate( 'Y-m-d H:i:s' );
+			$this->created_at = \gmdate( 'Y-m-d H:i:s' );
 		}
 
 		if ( $this->updated_at ) {
-			$this->updated_at = gmdate( 'Y-m-d H:i:s' );
+			$this->updated_at = \gmdate( 'Y-m-d H:i:s' );
 		}
 
 		return parent::save();

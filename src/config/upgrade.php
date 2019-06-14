@@ -17,14 +17,14 @@ class Upgrade implements Integration {
 	/**
 	 * The database migration to use.
 	 *
-	 * @var Database_Migration $database_migration
+	 * @var \Yoast\WP\Free\Config\Database_Migration $database_migration
 	 */
 	protected $database_migration;
 
 	/**
 	 * Upgrade constructor.
 	 *
-	 * @param Database_Migration $database_migration Database Migration to use.
+	 * @param \Yoast\WP\Free\Config\Database_Migration $database_migration Database Migration to use.
 	 */
 	public function __construct( Database_Migration $database_migration ) {
 		$this->database_migration = $database_migration;
@@ -38,7 +38,7 @@ class Upgrade implements Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'wpseo_run_upgrade', array( $this, 'do_upgrade' ) );
+		\add_action( 'wpseo_run_upgrade', array( $this, 'do_upgrade' ) );
 	}
 
 	/**

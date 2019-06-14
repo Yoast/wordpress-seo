@@ -71,7 +71,7 @@ class Yoast_Model {
 	/**
 	 * The ORM instance used by this model instance to communicate with the database.
 	 *
-	 * @var ORM $orm
+	 * @var \YoastSEO_Vendor\ORM $orm
 	 */
 	public $orm;
 
@@ -88,7 +88,7 @@ class Yoast_Model {
 	 * @param string $class_name   Type of Model to load.
 	 * @param bool   $yoast_prefix Optional. True to prefix the table name with the Yoast prefix.
 	 *
-	 * @return ORMWrapper Wrapper to use.
+	 * @return \Yoast\WP\Free\ORMWrapper Wrapper to use.
 	 */
 	public static function of_type( $class_name, $yoast_prefix = true ) {
 		// Prepend namespace to the class name.
@@ -105,7 +105,7 @@ class Yoast_Model {
 	 *
 	 * @param string $class_name Type of Model to load.
 	 *
-	 * @return ORMWrapper
+	 * @return \Yoast\WP\Free\ORMWrapper
 	 */
 	public static function of_wp_type( $class_name ) {
 		return static::of_type( $class_name, false );
@@ -127,7 +127,7 @@ class Yoast_Model {
 			$table_name = 'yoast_' . $table_name;
 		}
 
-		return $wpdb->prefix . strtolower( $table_name );
+		return $wpdb->prefix . \strtolower( $table_name );
 	}
 
 	/**
@@ -291,7 +291,7 @@ class Yoast_Model {
 	 * @param string      $class_name      The target class name.
 	 * @param null|string $connection_name The name of the connection.
 	 *
-	 * @return ORMWrapper Instance of the ORM wrapper.
+	 * @return \Yoast\WP\Free\ORMWrapper Instance of the ORM wrapper.
 	 */
 	public static function factory( $class_name, $connection_name = null ) {
 		$class_name = static::$auto_prefix_models . $class_name;
@@ -317,7 +317,7 @@ class Yoast_Model {
 	 * @param null|string $foreign_key_name_in_current_models_table The foreign key in the current models table.
 	 * @param null|string $connection_name                          The name of the connection.
 	 *
-	 * @return ORMWrapper
+	 * @return \Yoast\WP\Free\ORMWrapper
 	 * @throws \Exception When ID of urrent model has a null value.
 	 */
 	protected function has_one_or_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
@@ -349,7 +349,7 @@ class Yoast_Model {
 	 * @param null|string $foreign_key_name_in_current_models_table The foreign key in the current models table.
 	 * @param null|string $connection_name                          The name of the connection.
 	 *
-	 * @return ORMWrapper Instance of the ORM.
+	 * @return \Yoast\WP\Free\ORMWrapper Instance of the ORM.
 	 * @throws \Exception  When ID of current model has a null value.
 	 */
 	protected function has_one( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
@@ -365,7 +365,7 @@ class Yoast_Model {
 	 * @param null|string $foreign_key_name_in_current_models_table The foreign key in the current models table.
 	 * @param null|string $connection_name                          The name of the connection.
 	 *
-	 * @return ORMWrapper Instance of the ORM.
+	 * @return \Yoast\WP\Free\ORMWrapper Instance of the ORM.
 	 * @throws \Exception When ID has a null value.
 	 */
 	protected function has_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
@@ -417,7 +417,7 @@ class Yoast_Model {
 	 * @param null|string $key_in_associated_table The key in the associated table.
 	 * @param null|string $connection_name         The name of the connection.
 	 *
-	 * @return ORMWrapper Instance of the ORM.
+	 * @return \Yoast\WP\Free\ORMWrapper Instance of the ORM.
 	 */
 	protected function has_many_through( $associated_class_name, $join_class_name = null, $key_to_base_table = null, $key_to_associated_table = null, $key_in_base_table = null, $key_in_associated_table = null, $connection_name = null ) {
 		$base_class_name = \get_class( $this );
@@ -430,13 +430,13 @@ class Yoast_Model {
 		if ( $join_class_name === null ) {
 			$base_model      = \explode( '\\', $base_class_name );
 			$base_model_name = \end( $base_model );
-			if ( 0 === strpos( $base_model_name, static::$auto_prefix_models ) ) {
+			if ( 0 === \strpos( $base_model_name, static::$auto_prefix_models ) ) {
 				$base_model_name = \substr( $base_model_name, \strlen( static::$auto_prefix_models ), \strlen( $base_model_name ) );
 			}
 			// Paris wasn't checking the name settings for the associated class.
 			$associated_model      = \explode( '\\', $associated_class_name );
 			$associated_model_name = \end( $associated_model );
-			if ( 0 === strpos( $associated_model_name, static::$auto_prefix_models ) ) {
+			if ( 0 === \strpos( $associated_model_name, static::$auto_prefix_models ) ) {
 				$associated_model_name = \substr( $associated_model_name, \strlen( static::$auto_prefix_models ), \strlen( $associated_model_name ) );
 			}
 			$class_names = array( $base_model_name, $associated_model_name );
@@ -479,7 +479,7 @@ class Yoast_Model {
 	/**
 	 * Set the wrapped ORM instance associated with this Model instance.
 	 *
-	 * @param ORM $orm The ORM instance to set.
+	 * @param \YoastSEO_Vendor\ORM $orm The ORM instance to set.
 	 *
 	 * @return void
 	 */
@@ -673,9 +673,9 @@ class Yoast_Model {
 	 * @param string $name      The method to call.
 	 * @param array  $arguments The arguments to use.
 	 *
-	 * @throws Missing_Method When the method does not exist.
+	 * @throws \Yoast\WP\Free\Exceptions\Missing_Method When the method does not exist.
 	 *
-	 * @return bool|ORMWrapper Result of the call.
+	 * @return bool|\Yoast\WP\Free\ORMWrapper Result of the call.
 	 */
 	public function __call( $name, $arguments ) {
 		$method = \strtolower( \preg_replace( '/([a-z])([A-Z])/', '$1_$2', $name ) );

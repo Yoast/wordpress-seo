@@ -500,6 +500,8 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Notification_Center::dismiss_notification()
 	 */
 	public function test_dismiss_notification_is_per_site() {
+		$this->skipWithoutMultisite();
+
 		$site2 = self::factory()->blog->create();
 
 		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
@@ -526,6 +528,8 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Notification_Center::restore_notification()
 	 */
 	public function test_restore_notification_is_per_site() {
+		$this->skipWithoutMultisite();
+
 		$site2 = self::factory()->blog->create();
 
 		$notification  = new Yoast_Notification( 'notification', $this->fake_notification_defaults );
@@ -558,6 +562,8 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Notification_Center::is_notification_dismissed()
 	 */
 	public function test_is_notification_dismissed_is_per_site() {
+		$this->skipWithoutMultisite();
+
 		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
 			$this->markTestSkipped( 'Skipped because since WordPress 5.1 the hook wpmu_new_blog is deprecated' );
 

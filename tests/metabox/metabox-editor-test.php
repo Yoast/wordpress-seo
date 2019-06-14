@@ -30,25 +30,25 @@ class Metabox_Editor_Test extends TestCase {
 	public function get_flat_version() {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 
-		return $asset_manager->flatten_version( WPSEO_VERSION );
+		return $asset_manager->flatten_version( \WPSEO_VERSION );
 	}
 
 	public function test_add_css_inside_editor_empty() {
 		Monkey\Functions\expect('plugins_url' )
 			->once()
-			->with( 'css/dist/inside-editor-' . $this->get_flat_version() . WPSEO_CSSJS_SUFFIX . '.css', \realpath( __DIR__ . "/../../wp-seo.php" ) )
+			->with( 'css/dist/inside-editor-' . $this->get_flat_version() . \WPSEO_CSSJS_SUFFIX . '.css', \realpath( __DIR__ . "/../../wp-seo.php" ) )
 			->andReturn( 'example.org' );
 
 		$actual = $this->subject->add_css_inside_editor( '' );
 		$expected = 'example.org';
 
-		$this->assertEquals( $expected, $actual );
+		$this->assertSame( $expected, $actual );
 	}
 
 	public function test_add_css_inside_editor_preexisting() {
 		Monkey\Functions\expect('plugins_url' )
 			->once()
-			->with( 'css/dist/inside-editor-' . $this->get_flat_version() . WPSEO_CSSJS_SUFFIX . '.css', \realpath( __DIR__ . "/../../wp-seo.php" ) )
+			->with( 'css/dist/inside-editor-' . $this->get_flat_version() . \WPSEO_CSSJS_SUFFIX . '.css', \realpath( __DIR__ . "/../../wp-seo.php" ) )
 			->andReturn( 'example.org' );
 
 
@@ -56,7 +56,7 @@ class Metabox_Editor_Test extends TestCase {
 
 		$actual = $this->subject->add_css_inside_editor( 'preexisting' );
 
-		$this->assertEquals( $expected, $actual );
+		$this->assertSame( $expected, $actual );
 	}
 
 	public function test_add_custom_element() {
@@ -66,7 +66,7 @@ class Metabox_Editor_Test extends TestCase {
 
 		$actual = $this->subject->add_custom_element( array() );
 
-		$this->assertEquals( $expected, $actual );
+		$this->assertSame( $expected, $actual );
 	}
 
 	public function test_add_custom_element_preexisting() {
@@ -76,13 +76,13 @@ class Metabox_Editor_Test extends TestCase {
 
 		$actual = $this->subject->add_custom_element( array( 'custom_elements' => 'div' ) );
 
-		$this->assertEquals( $expected, $actual );
+		$this->assertSame( $expected, $actual );
 	}
 
 	public function test_add_custom_element_other_properties() {
 		$expected = array(
-			'other_property'  => 'hello world',
 			'custom_elements' => '~yoastmark',
+			'other_property'  => 'hello world',
 		);
 
 		$actual = $this->subject->add_custom_element(
@@ -91,7 +91,8 @@ class Metabox_Editor_Test extends TestCase {
 				'other_property'  => 'hello world',
 			)
 		);
+		ksort( $actual );
 
-		$this->assertEquals( $expected, $actual );
+		$this->assertSame( $expected, $actual );
 	}
 }

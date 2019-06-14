@@ -10,8 +10,8 @@ namespace Yoast\WP\Free\Watchers;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Formatters\Indexable_Term_Formatter;
-use Yoast\WP\Free\WordPress\Integration;
 use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\WordPress\Integration;
 
 /**
  * Watcher for terms to fill the related Indexable.
@@ -42,8 +42,8 @@ class Indexable_Term_Watcher implements Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'edited_term', array( $this, 'save_meta' ), PHP_INT_MAX, 3 );
-		\add_action( 'delete_term', array( $this, 'delete_meta' ), PHP_INT_MAX, 3 );
+		\add_action( 'edited_term', array( $this, 'save_meta' ), \PHP_INT_MAX, 3 );
+		\add_action( 'delete_term', array( $this, 'delete_meta' ), \PHP_INT_MAX, 3 );
 	}
 
 	/**
@@ -99,9 +99,10 @@ class Indexable_Term_Watcher implements Integration {
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
 	 *
-	 * @return Indexable The indexable found for the supplied term.
+	 * @return \Yoast\WP\Free\Models\Indexable The indexable found for the supplied term.
 	 *
-	 * @throws No_Indexable_Found Exception when no indexable could be found for the supplied term.
+	 * @throws \Yoast\WP\Free\Models\No_Indexable_Found Exception when no indexable could be found
+	 *                                                  for the supplied term.
 	 */
 	protected function get_indexable( $term_id, $taxonomy, $auto_create = true ) {
 		$indexable = Indexable::find_by_id_and_type( $term_id, 'term', $auto_create );
