@@ -90,8 +90,14 @@ const getKeywordSuggestionExplanation = keywords => {
  * @returns {JSX.Element} Rendered WordList component.
  */
 const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
+	const showBeforeList = <p>{ getKeywordSuggestionExplanation( relevantWords ) }</p>;
+	const showAfterList = getKeywordResearchArticleLink();
 	if ( isFeatureEnabled( "improvedInternalLinking" ) ) {
-		return <WordOccurrences words={ relevantWords } />;
+		return <WordOccurrences
+			words={ relevantWords }
+			showBeforeList={ showBeforeList }
+			showAfterList={ showAfterList }
+		/>;
 	}
 
 	const prominentWords = relevantWords.slice( 0, keywordLimit ).map( word => word.getWord() );
@@ -100,14 +106,8 @@ const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
 			title={ __( "Prominent words", "yoast-components" ) }
 			words={ prominentWords }
 			classNamePrefix="yoast-keyword-suggestions"
-			showBeforeList={ () => {
-				return  ( <p>{ getKeywordSuggestionExplanation( prominentWords ) }</p> );
-			} }
-			showAfterList={
-				() => {
-					return getKeywordResearchArticleLink();
-				}
-			}
+			showBeforeList={ showBeforeList }
+			showAfterList={ showAfterList }
 		/>
 	);
 };
