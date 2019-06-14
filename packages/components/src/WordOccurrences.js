@@ -98,27 +98,33 @@ class WordOccurrences extends React.Component {
 
 	render() {
 		return (
-			<WordOccurrencesList>
-				{
-					this.state.words.map(
-						( wordObject, index ) => {
-							const width = `${ ( wordObject._occurrences / this.state.occurrences.max ) * 100 }%`;
-							return <WordBar
-								key={ `wordbar-${ index }` }
-								word={ wordObject._word }
-								width={ width }
-								occurrence={ wordObject._occurrences }
-							/>;
-						}
-					)
-				}
-			</WordOccurrencesList>
+			<React.Fragment>
+				{ this.props.showBeforeList }
+				<WordOccurrencesList>
+					{
+						this.state.words.map(
+							( wordObject, index ) => {
+								const width = `${ ( wordObject._occurrences / this.state.occurrences.max ) * 100 }%`;
+								return <WordBar
+									key={ `wordbar-${ index }` }
+									word={ wordObject._word }
+									width={ width }
+									occurrence={ wordObject._occurrences }
+								/>;
+							}
+						)
+					}
+				</WordOccurrencesList>
+				{ this.props.showAfterList }
+			</React.Fragment>
 		);
 	}
 }
 
 WordOccurrences.propTypes = {
 	words: PropTypes.array.isRequired,
+	showBeforeList: PropTypes.string.isRequired,
+	showAfterList: PropTypes.string.isRequired,
 };
 
 export default WordOccurrences;

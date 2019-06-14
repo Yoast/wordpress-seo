@@ -35,9 +35,9 @@ const WordList = ( props ) => {
 	return (
 		<div className={ classNamePrefix }>
 			<p><strong>{ title }</strong></p>
-			{ showBeforeList() }
+			{ showBeforeList }
 			{ list }
-			{ showAfterList() }
+			{ showAfterList }
 		</div>
 	);
 };
