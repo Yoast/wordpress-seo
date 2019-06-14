@@ -63,7 +63,7 @@ module.exports = {
 				cwd: ".",
 				src: [
 					"admin/**",
-					"css/**/*.min.css",
+					"css/**/*.css",
 					"css/main-sitemap.xsl",
 					"deprecated/**",
 					"frontend/**",
