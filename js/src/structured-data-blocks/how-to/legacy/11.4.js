@@ -1,28 +1,27 @@
 /* External dependencies */
-import { __ } from "@wordpress/i18n";
 import PropTypes from "prop-types";
 
 /* Internal dependencies */
 import buildDurationString from "./utils/8.2";
 
 /**
- * This migration is necessary because the HTML markup changed, because in 8.3 the way
- * the "Time needed" text is rendered was changed.
+ * This migration is necessary because the HTML markup changed, because in 11.4 an id
+ * was added to the step content.
  *
- * See https://github.com/Yoast/wordpress-seo/pull/10910.
+ * See https://github.com/Yoast/wordpress-seo/pull/13027.
  */
 
 /**
  * Returns the component of the given How-to step to be rendered in a WordPress post
  * (e.g. not in the editor).
  *
- * @param {object} step The how-to step.
+ * @param {Object} step The how-to step.
  *
- * @returns {Component} The component to be rendered.
+ * @returns {React.Component} The component to be rendered.
  */
-const LegacyHowToStep = ( step ) => {
+function LegacyHowToStep( step ) {
 	return (
-		<li className={ "schema-how-to-step" } key={ step.id }>
+		<li className="schema-how-to-step" key={ step.id }>
 			<strong
 				className="schema-how-to-step-name"
 				key={ step.id + "-name" }
@@ -39,19 +38,19 @@ const LegacyHowToStep = ( step ) => {
 			{ " " }
 		</li>
 	);
-};
+}
 
 /**
  * Returns the component to be used to render
  * the How-to block on Wordpress (e.g. not in the editor).
  *
- * @param {object} props the attributes of the How-to block.
+ * @param {Object} props the attributes of the How-to block.
  *
- * @returns {Component} The component representing a How-to block.
+ * @returns {React.Component} The component representing a How-to block.
  */
 export default function LegacyHowTo( props ) {
-	let { steps } = props.attributes;
 	const {
+		steps,
 		hasDuration,
 		days,
 		hours,
@@ -60,30 +59,27 @@ export default function LegacyHowTo( props ) {
 		unorderedList,
 		additionalListCssClasses,
 		className,
+		durationText,
+		defaultDurationText,
 	} = props.attributes;
 
-	steps = steps
-		? steps.map( ( step ) => {
-			return (
-				<LegacyHowToStep
-					{ ...step }
-					key={ step.id }
-				/>
-			);
-		} )
-		: null;
-
-	const classNames       = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
-	const listClassNames   = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
+	const classNames     = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
+	const listClassNames = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
 
 	const timeString = buildDurationString( { days, hours, minutes } );
+
+	const stepElements = steps.map( step => {
+		return <LegacyHowToStep { ...step } key={ step.id } />;
+	} );
 
 	return (
 		<div className={ classNames }>
 			{ ( hasDuration && typeof timeString === "string" && timeString.length > 0 ) &&
 				<p className="schema-how-to-total-time">
-					{ __( "Time needed:", "wordpress-seo" ) }
-					&nbsp;
+					<span className="schema-how-to-duration-time-text">
+						{ durationText || defaultDurationText }
+						&nbsp;
+					</span>
 					{ timeString + ". " }
 				</p>
 			}
@@ -92,13 +88,13 @@ export default function LegacyHowTo( props ) {
 			</p>
 			{ " " }
 			{ unorderedList
-				? <ul className={ listClassNames }>{ steps }</ul>
-				: <ol className={ listClassNames }>{ steps }</ol>
+				? <ul className={ listClassNames }>{ stepElements }</ul>
+				: <ol className={ listClassNames }>{ stepElements }</ol>
 			}
 		</div>
 	);
 }
 
 LegacyHowTo.propTypes = {
-	attributes: PropTypes.object,
+	attributes: PropTypes.object.isRequired,
 };

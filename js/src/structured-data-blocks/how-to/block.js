@@ -97,6 +97,10 @@ export default () => {
 		deprecated: [
 			{
 				attributes,
+				save: legacy.v11_4,
+			},
+			{
+				attributes,
 				save: legacy.v8_2,
 			},
 		],
