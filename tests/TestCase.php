@@ -5,12 +5,12 @@ namespace Yoast\WP\Free\Tests;
 use WPSEO_Options;
 use Brain\Monkey;
 use Mockery;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 
 /**
  * TestCase base class.
  */
-abstract class TestCase extends PHPUnit_Framework_TestCase {
+abstract class TestCase extends BaseTestCase {
 
 	protected function setUp() {
 		parent::setUp();

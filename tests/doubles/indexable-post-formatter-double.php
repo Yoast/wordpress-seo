@@ -19,8 +19,8 @@ class Indexable_Post_Formatter_Double extends Indexable_Post_Formatter {
 	/**
 	 * @inheritdoc
 	 */
-	public function get_meta_value( $meta_key ) {
-		return parent::get_meta_value( $meta_key );
+	public function get_meta_value( $post_id, $meta_key ) {
+		return parent::get_meta_value( $post_id, $meta_key );
 	}
 
 	/**
@@ -47,14 +47,14 @@ class Indexable_Post_Formatter_Double extends Indexable_Post_Formatter {
 	/**
 	 * @inheritdoc
 	 */
-	public function get_indexable_meta_lookup() {
-		return parent::get_indexable_meta_lookup();
+	public function set_link_count( $post_id, $indexable ) {
+		return parent::set_link_count( $post_id, $indexable );
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	public function set_link_count( $indexable ) {
-		return parent::set_link_count( $indexable );
+	public function get_seo_meta( $post_id ) {
+		return parent::get_seo_meta( $post_id );
 	}
 }

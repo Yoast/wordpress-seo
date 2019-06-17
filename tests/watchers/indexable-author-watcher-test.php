@@ -3,6 +3,7 @@
 namespace Yoast\WP\Free\Tests\Watchers;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
+use Yoast\WP\Free\Formatters\Indexable_Author_Formatter;
 use Yoast\WP\Free\Watchers\Indexable_Author_Watcher;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -22,7 +23,7 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Author_Watcher::register_hooks()
 	 */
 	public function test_register_hooks() {
-		$instance = new Indexable_Author_Watcher();
+		$instance = new Indexable_Author_Watcher( new Indexable_Author_Formatter() );
 		$instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'profile_update', array( $instance, 'save_meta' ) ) );
@@ -37,6 +38,7 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	public function test_delete_meta() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Author_Watcher' )
+			->setConstructorArgs( [ new Indexable_Author_Formatter() ] )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 
@@ -72,6 +74,7 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	public function test_delete_meta_exception() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Author_Watcher' )
+			->setConstructorArgs( [ new Indexable_Author_Formatter() ] )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 
@@ -102,18 +105,18 @@ class Indexable_Author_Watcher_Test extends TestCase {
 
 		$formatter_mock = $this
 			->getMockBuilder( '\Yoast\WP\Free\Formatters\Indexable_Author_Formatter' )
-			->setConstructorArgs( array( $author_id ) )
 			->setMethods( array( 'format' ) )
 			->getMock();
 
 		$formatter_mock
 			->expects( $this->once() )
 			->method( 'format' )
-			->with( $indexable_mock )
+			->with( $author_id, $indexable_mock )
 			->will( $this->returnValue( $indexable_mock ) );
 
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Author_Watcher' )
+			->setConstructorArgs( [ $formatter_mock ] )
 			->setMethods(
 				array(
 					'get_indexable',
@@ -126,11 +129,6 @@ class Indexable_Author_Watcher_Test extends TestCase {
 			->expects( $this->once() )
 			->method( 'get_indexable' )
 			->will( $this->returnValue( $indexable_mock ) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'get_formatter' )
-			->will( $this->returnValue( $formatter_mock ) );
 
 
 		// Set this value to true to let the routine think an indexable has been saved.
@@ -147,6 +145,7 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	public function test_save_meta_exception() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Author_Watcher' )
+			->setConstructorArgs( [ new Indexable_Author_Formatter() ] )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 

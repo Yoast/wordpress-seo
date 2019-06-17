@@ -5,17 +5,25 @@
  * @package Yoast\YoastSEO\Config
  */
 
-namespace Yoast\WP\Free\Config;
+namespace Yoast\WP\Free\Database;
 
+use wpdb;
+use Yoast\WP\Free\Conditionals\Admin_Conditional;
+use Yoast\WP\Free\Config\Dependency_Management;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Loggers\Migration_Logger;
+use Yoast\WP\Free\WordPress\Integration;
 use Yoast\WP\Free\Yoast_Model;
 use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
 
 /**
  * Triggers database migrations and handles results.
  */
-class Database_Migration {
+class Migration_Runner implements Integration {
+
+	public static function get_conditionals() {
+		return [ Admin_Conditional::class ];
+	}
 
 	/**
 	 * @var int
@@ -50,9 +58,16 @@ class Database_Migration {
 	 * @param \wpdb                                       $wpdb                  Database class to use.
 	 * @param \Yoast\WP\Free\Config\Dependency_Management $dependency_management Dependency Management to use.
 	 */
-	public function __construct( $wpdb, Dependency_Management $dependency_management ) {
+	public function __construct( wpdb $wpdb, Dependency_Management $dependency_management ) {
 		$this->wpdb                  = $wpdb;
 		$this->dependency_management = $dependency_management;
+	}
+
+	/**
+	 * Registers hooks with WordPress.
+	 */
+	public function register_hooks() {
+		add_action( 'plugins_loaded', [ $this, 'run_migrations' ] );
 	}
 
 	/**
@@ -102,15 +117,6 @@ class Database_Migration {
 	 */
 	public function has_migration_error() {
 		return ( $this->get_migration_state() === self::MIGRATION_STATE_ERROR );
-	}
-
-	/**
-	 * Retrieves the database charset.
-	 *
-	 * @return string Charset configured for the database.
-	 */
-	protected function get_charset() {
-		return $this->wpdb->charset;
 	}
 
 	/**
@@ -200,7 +206,7 @@ class Database_Migration {
 					'database'  => \DB_NAME,
 					'user'      => \DB_USER,
 					'password'  => \DB_PASSWORD,
-					'charset'   => $this->get_charset(),
+					'charset'   => $this->wpdb->charset,
 					'directory' => '', // This needs to be set, to use the migrations folder as base folder.
 				),
 			),

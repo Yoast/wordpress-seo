@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free;
 
+use YoastSEO_Vendor\ORM;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Loader {
@@ -27,6 +28,8 @@ class Loader {
 	 * @param string[] $classes The integration classes to load.
 	 */
 	public function load() {
+		$this->configure_orm();
+
 		foreach( $this->integrations as $class ) {
 			$conditionals = $class::get_conditionals();
 			foreach( $conditionals as $conditional ) {
@@ -37,6 +40,20 @@ class Loader {
 
 			$this->container->get( $class )->register_hooks();
 		}
-		exit;
+	}
+
+	/**
+	 * Configures the ORM.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	protected function configure_orm() {
+		ORM::configure( 'mysql:host=' . \DB_HOST . ';dbname=' . \DB_NAME );
+		ORM::configure( 'username', \DB_USER );
+		ORM::configure( 'password', \DB_PASSWORD );
+
+		Yoast_Model::$auto_prefix_models = '\\Yoast\\WP\\Free\\Models\\';
 	}
 }

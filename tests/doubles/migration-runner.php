@@ -5,14 +5,7 @@ namespace Yoast\WP\Free\Tests\Doubles;
 /**
  * Test Helper Class.
  */
-class Database_Migration extends \Yoast\WP\Free\Config\Database_Migration {
-
-	/**
-	 * @inheritDoc
-	 */
-	public function get_charset() {
-		return parent::get_charset();
-	}
+class Migration_Runner extends \Yoast\WP\Free\Database\Migration_Runner {
 
 	/**
 	 * @inheritDoc

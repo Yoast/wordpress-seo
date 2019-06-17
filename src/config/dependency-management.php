@@ -16,6 +16,10 @@ class Dependency_Management {
 
 	/**
 	 * Registers the autoloader to create class aliases when needed.
+	 * This is required when this plugin is installed through composer
+	 * as the vendor_prefixed directory will not be included in that case.
+	 * Instead those dependencies are loaded through composer.
+	 * As we still reference the prefixed dependencies this fixes that.
 	 *
 	 * @return bool True on success, false on failure.
 	 */

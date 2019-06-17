@@ -3,6 +3,7 @@
 namespace Yoast\WP\Free\Tests\Watchers;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
+use Yoast\WP\Free\Formatters\Indexable_Post_Formatter;
 use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
 use Brain\Monkey;
 use Yoast\WP\Free\Tests\TestCase;
@@ -23,7 +24,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::register_hooks()
 	 */
 	public function test_register_hooks() {
-		$instance = new Indexable_Post_Watcher();
+		$instance = new Indexable_Post_Watcher( new Indexable_Post_Formatter() );
 		$instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'wp_insert_post', array( $instance, 'save_meta' ) ) );
@@ -38,6 +39,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	public function test_delete_meta() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
+			->setConstructorArgs( [ new Indexable_Post_Formatter() ] )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 
@@ -73,6 +75,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	public function test_delete_meta_exception() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
+			->setConstructorArgs( [ new Indexable_Post_Formatter() ] )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 
@@ -103,18 +106,18 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 		$formatter_mock = $this
 			->getMockBuilder( '\Yoast\WP\Free\Formatters\Indexable_Post_Formatter' )
-			->setConstructorArgs( array( $post_id ) )
 			->setMethods( array( 'format' ) )
 			->getMock();
 
 		$formatter_mock
 			->expects( $this->once() )
 			->method( 'format' )
-			->with( $indexable_mock )
+			->with( $post_id, $indexable_mock )
 			->will( $this->returnValue( $indexable_mock ) );
 
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
+			->setConstructorArgs( [ $formatter_mock ] )
 			->setMethods(
 				array(
 					'is_post_indexable',
@@ -134,11 +137,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->method( 'get_indexable' )
 			->will( $this->returnValue( $indexable_mock ) );
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_formatter' )
-			->will( $this->returnValue( $formatter_mock ) );
-
 
 		// Set this value to true to let the routine think an indexable has been saved.
 		$indexable_mock->id = true;
@@ -154,6 +152,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	public function test_save_meta_is_post_not_indexable() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
+			->setConstructorArgs( [ new Indexable_Post_Formatter() ] )
 			->setMethods( array( 'is_post_indexable', 'get_indexable' ) )
 			->getMock();
 
@@ -186,6 +185,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
+			->setConstructorArgs( [ new Indexable_Post_Formatter() ] )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 

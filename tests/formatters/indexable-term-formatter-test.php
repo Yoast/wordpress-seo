@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\Free\Tests\Formatters;
 
+use Brain\Monkey;
 use Yoast\WP\Free\Tests\Doubles\Indexable_Term_Formatter_Double;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -28,7 +29,7 @@ class Indexable_Term_Formatter_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = new Indexable_Term_Formatter_Double( 1, 'category' );
+		$this->instance = new Indexable_Term_Formatter_Double();
 	}
 
 	/**
@@ -37,38 +38,25 @@ class Indexable_Term_Formatter_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Term_Formatter::format
 	 */
 	public function test_format() {
+		Monkey\Functions\expect( 'get_term_by' )
+			->once()
+			->with( 'id', 1, 'category' )
+			->andReturn( (object) [ 'term_id' => 1 ] );
+
+		Monkey\Functions\expect( 'get_term_link' )
+			->once()
+			->with( 1, 'category' )
+			->andReturn( 'https://example.org/category/1' );
+
 		$formatter = $this
 			->getMockBuilder( '\Yoast\WP\Free\Formatters\Indexable_Term_Formatter' )
-			->setConstructorArgs( array( 1, 'category' ) )
 			->setMethods(
 				array(
-					'get_permalink',
-					'get_meta_data',
 					'get_indexable_lookup',
 					'get_indexable_meta_lookup',
 				)
 			)
 			->getMock();
-
-		$formatter
-			->expects( $this->once() )
-			->method( 'get_permalink' )
-			->will( $this->returnValue( 'https://permalink' ) );
-
-		$formatter
-			->expects( $this->once() )
-			->method( 'get_meta_data' )
-			->will(
-				$this->returnValue(
-					array(
-						'wpseo_focuskw'         => 'focuskeyword',
-						'wpseo_linkdex'         => 'linkdex',
-						'wpseo_noindex'         => 'noindex',
-						'wpseo_title'           => 'title',
-						'wpseo_opengraph-title' => 'opengraph title',
-					)
-				)
-			);
 
 		$formatter
 			->expects( $this->once() )
@@ -104,7 +92,7 @@ class Indexable_Term_Formatter_Test extends TestCase {
 			->expects( $this->exactly( 10 ) )
 			->method( '__set' );
 
-		$formatter->format( $indexable );
+		$formatter->format( 1, 'category', $indexable );
 	}
 
 	/**

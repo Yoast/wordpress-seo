@@ -22,29 +22,25 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::format
 	 */
 	public function test_format() {
+		Monkey\Functions\expect( 'get_permalink' )
+			->once()
+			->with( 1 )
+			->andReturn( 'https://permalink' );
+
+		Monkey\Functions\expect( 'get_post_type' )
+			->once()
+			->with( 1 )
+			->andReturn( 'post' );
+
 		$formatter = $this
 			->getMockBuilder( '\Yoast\WP\Free\Formatters\Indexable_Post_Formatter' )
-			->setConstructorArgs( array( 1 ) )
 			->setMethods(
 				array(
-					'get_permalink',
-					'get_post_type',
 					'get_meta_value',
 					'get_indexable_lookup',
-					'get_indexable_meta_lookup',
 				)
 			)
 			->getMock();
-
-		$formatter
-			->expects( $this->once() )
-			->method( 'get_permalink' )
-			->will( $this->returnValue( 'https://permalink' ) );
-
-		$formatter
-			->expects( $this->once() )
-			->method( 'get_post_type' )
-			->will( $this->returnValue( 'post' ) );
 
 		$formatter
 			->expects( $this->any() )
@@ -68,35 +64,18 @@ class Indexable_Post_Formatter_Test extends TestCase {
 				$this->returnValue(
 					array(
 						'title' => 'title',
-					)
-				)
-			);
-
-		$formatter
-			->expects( $this->once() )
-			->method( 'get_indexable_meta_lookup' )
-			->will(
-				$this->returnValue(
-					array(
 						'opengraph-title' => 'og_title',
 					)
 				)
 			);
 
-		$indexable = $this
-			->getMockBuilder( '\Yoast\WP\Free\Models\Indexable' )
-			->setMethods( array( 'set_meta', '__set' ) )
-			->getMock();
-
-		$indexable
-			->expects( $this->once() )
-			->method( 'set_meta' );
+		$indexable = $this->createMock( '\Yoast\WP\Free\Models\Indexable' );
 
 		$indexable
 			->expects( $this->any() )
 			->method( '__set' );
 
-		$formatter->format( $indexable );
+		$formatter->format( 1, $indexable );
 	}
 
 	/**
@@ -118,11 +97,11 @@ class Indexable_Post_Formatter_Test extends TestCase {
 			->with( 'b' )
 			->andReturn( 'b' );
 
-		$instance = new Indexable_Post_Double( 1 );
+		$instance = new Indexable_Post_Double();
 
 		WPSEO_Meta::set_value( 'a', 'b', 1 );
 
-		$this->assertSame( 'b', $instance->get_meta_value( 'a' ) );
+		$this->assertSame( 'b', $instance->get_meta_value( 1, 'a' ) );
 	}
 
 	/**
@@ -131,7 +110,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_robots_noindex()
 	 */
 	public function test_get_robots_noindex() {
-		$instance = new Indexable_Post_Double( 1 );
+		$instance = new Indexable_Post_Double();
 
 		$this->assertNull( $instance->get_robots_noindex( 0 ) );
 		$this->assertNull( $instance->get_robots_noindex( 3 ) );
@@ -151,7 +130,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_robots_options()
 	 */
 	public function test_get_robots_options() {
-		$instance = new Indexable_Post_Double( 1 );
+		$instance = new Indexable_Post_Double();
 		$this->assertInternalType( 'array', $instance->get_robots_options() );
 	}
 
@@ -161,7 +140,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_keyword_score()
 	 */
 	public function test_get_keyword_score() {
-		$instance = new Indexable_Post_Double( 1 );
+		$instance = new Indexable_Post_Double();
 
 		$this->assertSame( 100, $instance->get_keyword_score( 'keyword', 100 ) );
 	}
@@ -172,7 +151,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_keyword_score()
 	 */
 	public function test_get_keyword_score_with_no_keyword() {
-		$instance = new Indexable_Post_Double( 1 );
+		$instance = new Indexable_Post_Double();
 
 		$this->assertNull( $instance->get_keyword_score( '', 100 ) );
 	}
@@ -183,18 +162,8 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_indexable_lookup()
 	 */
 	public function test_get_indexable_lookup() {
-		$instance = new Indexable_Post_Double( 1 );
+		$instance = new Indexable_Post_Double();
 		$this->assertInternalType( 'array', $instance->get_indexable_lookup() );
-	}
-
-	/**
-	 * Tests if the meta lookup returns the expected type of data.
-	 *
-	 * @covers \Yoast\WP\Free\Formatters\Indexable_Post_Formatter::get_indexable_meta_lookup()
-	 */
-	public function test_get_indexable_meta_lookup() {
-		$instance = new Indexable_Post_Double( 1 );
-		$this->assertInternalType( 'array', $instance->get_indexable_meta_lookup() );
 	}
 
 	/**
@@ -205,7 +174,6 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	public function test_set_link_count() {
 		$formatter = $this
 			->getMockBuilder( '\Yoast\WP\Free\Tests\Doubles\Indexable_Post_Formatter_Double' )
-			->setConstructorArgs( array( 1 ) )
 			->setMethods( array( 'get_seo_meta' ) )
 			->getMock();
 
@@ -219,7 +187,7 @@ class Indexable_Post_Formatter_Test extends TestCase {
 			->will( $this->returnValue( $seo_meta ) );
 
 		$indexable = new stdClass();
-		$indexable = $formatter->set_link_count( $indexable );
+		$indexable = $formatter->set_link_count( 1, $indexable );
 
 		$this->assertAttributeSame( 404, 'link_count', $indexable );
 		$this->assertAttributeSame( 1337, 'incoming_link_count', $indexable );
@@ -233,7 +201,6 @@ class Indexable_Post_Formatter_Test extends TestCase {
 	public function test_set_link_count_with_thrown_exception() {
 		$formatter = $this
 			->getMockBuilder( '\Yoast\WP\Free\Tests\Doubles\Indexable_Post_Formatter_Double' )
-			->setConstructorArgs( array( 1 ) )
 			->setMethods( array( 'get_seo_meta' ) )
 			->getMock();
 
@@ -241,9 +208,10 @@ class Indexable_Post_Formatter_Test extends TestCase {
 		$formatter
 			->expects( $this->once() )
 			->method( 'get_seo_meta' )
+			->with( 1 )
 			->will( $this->throwException( new \Exception() ) );
 
 		$indexable = new stdClass();
-		$indexable = $formatter->set_link_count( $indexable );
+		$indexable = $formatter->set_link_count( 1, $indexable );
 	}
 }

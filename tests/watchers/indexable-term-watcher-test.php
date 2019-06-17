@@ -3,6 +3,7 @@
 namespace Yoast\WP\Free\Tests\Watchers;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
+use Yoast\WP\Free\Formatters\Indexable_Term_Formatter;
 use Yoast\WP\Free\Watchers\Indexable_Term_Watcher;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -22,7 +23,7 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::register_hooks()
 	 */
 	public function test_register_hooks() {
-		$instance = new Indexable_Term_Watcher();
+		$instance = new Indexable_Term_Watcher( new Indexable_Term_Formatter() );
 		$instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'edited_term', array( $instance, 'save_meta' ) ) );
@@ -37,6 +38,7 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	public function test_delete_meta() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Term_Watcher' )
+			->setConstructorArgs( [  new Indexable_Term_Formatter() ] )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 
@@ -71,6 +73,7 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	public function test_delete_meta_exception() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Term_Watcher' )
+			->setConstructorArgs( [  new Indexable_Term_Formatter() ] )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 
@@ -100,19 +103,19 @@ class Indexable_Term_Watcher_Test extends TestCase {
 			->method( 'save' );
 
 		$formatter_mock = $this
-			->getMockBuilder( '\Yoast\WP\Free\Formatters\Indexable_Author_Formatter' )
-			->setConstructorArgs( array( $taxonomy_id ) )
+			->getMockBuilder( '\Yoast\WP\Free\Formatters\Indexable_Term_Formatter' )
 			->setMethods( array( 'format' ) )
 			->getMock();
 
 		$formatter_mock
 			->expects( $this->once() )
 			->method( 'format' )
-			->with( $indexable_mock )
+			->with( $taxonomy_id, 'taxonomy', $indexable_mock )
 			->will( $this->returnValue( $indexable_mock ) );
 
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Term_Watcher' )
+			->setConstructorArgs( [ $formatter_mock ] )
 			->setMethods(
 				array(
 					'get_indexable',
@@ -125,11 +128,6 @@ class Indexable_Term_Watcher_Test extends TestCase {
 			->expects( $this->once() )
 			->method( 'get_indexable' )
 			->will( $this->returnValue( $indexable_mock ) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'get_formatter' )
-			->will( $this->returnValue( $formatter_mock ) );
 
 		// Set this value to true to let the routine think an indexable has been saved.
 		$indexable_mock->id = true;
@@ -145,6 +143,7 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	public function test_save_meta_exception() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Term_Watcher' )
+			->setConstructorArgs( [  new Indexable_Term_Formatter() ] )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 

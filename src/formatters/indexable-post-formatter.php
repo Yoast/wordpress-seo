@@ -131,7 +131,7 @@ class Indexable_Post_Formatter {
 	 */
 	protected function set_link_count( $post_id, $indexable ) {
 		try {
-			$seo_meta = SEO_Meta::find_by_post_id( $post_id );
+			$seo_meta = $this->get_seo_meta( $post_id );
 
 			if ( $seo_meta ) {
 				$indexable->link_count          = $seo_meta->internal_link_count;
@@ -162,5 +162,16 @@ class Indexable_Post_Formatter {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Finds the related SEO Meta model for a given post.
+	 *
+	 * @param int $post_id The post ID to use.
+	 *
+	 * @return \Yoast\WP\Free\Models\SEO_Meta The SEO Meta model
+	 */
+	protected function get_seo_meta( $post_id ) {
+		return SEO_Meta::find_by_post_id( $post_id );
 	}
 }

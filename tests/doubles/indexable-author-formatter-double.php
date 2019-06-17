@@ -12,8 +12,8 @@ class Indexable_Author_Formatter_Double extends Indexable_Author_Formatter {
 	/**
 	 * @inheritdoc
 	 */
-	public function get_meta_data() {
-		return parent::get_meta_data();
+	public function get_meta_data( $user_id ) {
+		return parent::get_meta_data( $user_id );
 	}
 
 	/**
