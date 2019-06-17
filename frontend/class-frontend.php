@@ -1343,7 +1343,7 @@ class WPSEO_Frontend {
 		 */
 		$noindex = apply_filters( 'wpseo_feed_noindex', true );
 
-		if ( ( is_feed() || is_robots() ) && headers_sent() === false && $noindex === true ) {
+		if ( $noindex === true && headers_sent() === false && ( is_feed() || is_robots() ) ) {
 			header( 'X-Robots-Tag: noindex, follow', true );
 
 			return true;
