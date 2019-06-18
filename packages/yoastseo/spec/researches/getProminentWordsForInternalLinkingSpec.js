@@ -9,13 +9,13 @@ const morphologyData = getMorphologyData( "en" );
 
 describe( "relevantWords research", function() {
 	it( "does not break if no morphology support is added for the language", function() {
-		const paper = new Paper( "texte et texte", { locale: "fr_FR" } );
+		const paper = new Paper( "texte et texte et texte et texte", { locale: "fr_FR" } );
 
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 
 		const expected = [
-			new ProminentWord( "texte", "texte", 2 ),
+			new ProminentWord( "texte", "texte", 4 ),
 		];
 
 		const words = prominentWordsResearch( paper, researcher );
@@ -25,14 +25,15 @@ describe( "relevantWords research", function() {
 
 	it( "returns relevant words from the text alone if no attributes are available", function() {
 		const paper = new Paper( "Here are a ton of syllables. Syllables are very important. I think the syllable " +
-			"combinations are even more important. Syllable combinations for the win!" );
+			"combinations are even more important. Syllable combinations for the win! Combinations are awesome. " +
+			"So many combinations!" );
 
 		const researcher = new Researcher( paper );
 		researcher.addResearchData( "morphology", morphologyData );
 
 		const expected = [
+			new ProminentWord( "combinations", "combination", 4 ),
 			new ProminentWord( "syllable", "syllable", 4 ),
-			new ProminentWord( "combinations", "combination", 2 ),
 		];
 
 		const words = prominentWordsResearch( paper, researcher );
@@ -74,20 +75,6 @@ describe( "relevantWords research", function() {
 			// The stems "seo" and "yoast" occur once in the text and once in the attributes: 1 + 1 * 3 = 4
 			new ProminentWord( "SEO", "seo", 4 ),
 			new ProminentWord( "yoast", "yoast", 4 ),
-			// The stems "amaze", "metadescription", "subhead", and "title" occur once in the attributes: 0 + 1 * 3 = 3
-			new ProminentWord( "amazing", "amaze", 3 ),
-			new ProminentWord( "metadescription", "metadescription", 3 ),
-			new ProminentWord( "subheading", "subhead", 3 ),
-			new ProminentWord( "title", "title", 3 ),
-			// All following stems occur twice in the text each: 2 + 0 * 3 = 2
-			new ProminentWord( "allow", "allow", 2 ),
-			new ProminentWord( "bing", "bing", 2 ),
-			new ProminentWord( "connect", "connect", 2 ),
-			new ProminentWord( "google", "google", 2 ),
-			new ProminentWord( "myyoast", "myyoast", 2 ),
-			new ProminentWord( "site", "site", 2 ),
-			new ProminentWord( "update", "update", 2 ),
-			new ProminentWord( "work", "work", 2 ),
 		];
 
 		const words = prominentWordsResearch( paper, researcher );
