@@ -51,7 +51,7 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 	 * Return the 100 top items from the collapsed and sorted list. The number is picked deliberately to prevent larger
 	 * articles from getting too long of lists.
 	 */
-	return take( filterProminentWords( collapsedWords, 2 ), 100 );
+	return take( filterProminentWords( collapsedWords, 4 ), 100 );
 }
 
 
