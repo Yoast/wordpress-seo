@@ -1,5 +1,5 @@
-/* global wpseoPostScraperL10n wpseoTermScraperL10n wpseoAdminL10n */
-
+/* global wpseoPostScraperL10n, wpseoTermScraperL10n, wpseoAdminL10n */
+/* External components */
 import { Component, Fragment, createPortal } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import isNil from "lodash/isNil";
 
+/* Internal components */
 import ScoreIconPortal from "./ScoreIconPortal";
 import Results from "./Results";
 import Collapsible from "../SidebarCollapsible";
@@ -41,6 +42,11 @@ const StyledHelpLink = styled( HelpLink )`
  * Redux container for the readability analysis.
  */
 class ReadabilityAnalysis extends Component {
+	/**
+	 * Renders the Readability Analysis results.
+	 *
+	 * @returns {React.Element} The Readability Analysis results.
+	 */
 	renderResults() {
 		return (
 			<Fragment>
@@ -68,6 +74,11 @@ class ReadabilityAnalysis extends Component {
 		);
 	}
 
+	/**
+	 * Renders the Readability Analysis component.
+	 *
+	 * @returns {React.Element} The Readability Analysis component.
+	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
 
@@ -111,10 +122,15 @@ class ReadabilityAnalysis extends Component {
 }
 
 ReadabilityAnalysis.propTypes = {
-	results: PropTypes.array,
-	marksButtonStatus: PropTypes.string,
-	hideMarksButtons: PropTypes.bool,
+	results: PropTypes.array.isRequired,
+	marksButtonStatus: PropTypes.string.isRequired,
+	/* eslint-disable-next-line react/no-unused-prop-types */
+	hideMarksButtons: PropTypes.bool.isRequired,
 	overallScore: PropTypes.number,
+};
+
+ReadabilityAnalysis.defaultProps = {
+	overallScore: null,
 };
 
 /**

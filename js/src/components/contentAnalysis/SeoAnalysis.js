@@ -206,7 +206,7 @@ class SeoAnalysis extends Component {
 	/**
 	 * Renders the SEO Analysis component.
 	 *
-	 * @returns {ReactElement} The SEO Analysis component.
+	 * @returns {React.Element} The SEO Analysis component.
 	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
