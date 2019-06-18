@@ -58,16 +58,31 @@ class Loader {
 		$this->configure_orm();
 
 		foreach ( $this->integrations as $class ) {
-			$conditionals = $class::get_conditionals();
-			foreach ( $conditionals as $conditional ) {
-				if ( ! $this->container->get( $conditional )->is_met() ) {
-					// Continue the integrations loop, the integration is not loaded and no further conditionals are checked.
-					continue 2;
-				}
+			if ( ! $this->conditionals_are_met( $class ) ) {
+				continue;
 			}
 
 			$this->container->get( $class )->register_hooks();
 		}
+	}
+
+	/**
+	 * Checks if all conditionals of a given integration are met.
+	 *
+	 * @param \Yoast\WP\Free\WordPress\Integration $class The class name of the integration.
+	 *
+	 * @return bool Whether or not all conditionals of the integration are met.
+	 */
+	protected function conditionals_are_met( $class ) {
+		$conditionals = $class::get_conditionals();
+		foreach ( $conditionals as $conditional ) {
+			if ( ! $this->container->get( $conditional )->is_met() ) {
+				// Continue the integrations loop, the integration is not loaded and no further conditionals are checked.
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**

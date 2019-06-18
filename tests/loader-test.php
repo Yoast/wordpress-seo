@@ -22,6 +22,7 @@ class Loader_Test extends TestCase {
 	 * Tests loading an integration without any conditionals.
 	 *
 	 * @covers \Yoast\WP\Free\Loader::register_integration
+	 * @covers \Yoast\WP\Free\Loader::conditionals_are_met
 	 * @covers \Yoast\WP\Free\Loader::load
 	 */
 	public function test_loading_unconditional_integration() {
@@ -40,6 +41,7 @@ class Loader_Test extends TestCase {
 	 * Tests loading an integration with a met conditional.
 	 *
 	 * @covers \Yoast\WP\Free\Loader::register_integration
+	 * @covers \Yoast\WP\Free\Loader::conditionals_are_met
 	 * @covers \Yoast\WP\Free\Loader::load
 	 */
 	public function test_loading_met_conditional_integration() {
@@ -62,6 +64,7 @@ class Loader_Test extends TestCase {
 	 * Tests loading an integration with an unmet conditional.
 	 *
 	 * @covers \Yoast\WP\Free\Loader::register_integration
+	 * @covers \Yoast\WP\Free\Loader::conditionals_are_met
 	 * @covers \Yoast\WP\Free\Loader::load
 	 */
 	public function test_loading_unmet_conditional_integration() {
