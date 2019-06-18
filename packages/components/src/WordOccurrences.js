@@ -74,6 +74,7 @@ WordBar.propTypes = {
  * @returns {ReactElement} The list of words, their occurrences, and bars.
  */
 class WordOccurrences extends React.Component {
+	/* eslint-disable-next-line require-jsdoc */
 	constructor( props ) {
 		super( props );
 
@@ -86,6 +87,7 @@ class WordOccurrences extends React.Component {
 		};
 	}
 
+	/* eslint-disable-next-line require-jsdoc */
 	static getDerivedStateFromProps( props ) {
 		const words = [ ...props.words ];
 		words.sort( ( a, b ) => {
@@ -102,6 +104,10 @@ class WordOccurrences extends React.Component {
 		};
 	}
 
+	/**
+	 * Renders the WordOccurrences component to the DOM.
+	 * @returns {*} The rendered WordOccurrences component.
+	 */
 	render() {
 		return (
 			<React.Fragment>
