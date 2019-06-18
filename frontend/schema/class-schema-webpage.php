@@ -108,6 +108,8 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 * @return string
 	 */
 	private function determine_page_type() {
+		$front_end_page_type = new WPSEO_Frontend_Page_Type();
+
 		switch ( true ) {
 			case is_search():
 				$type = 'SearchResultsPage';
@@ -115,6 +117,8 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			case is_author():
 				$type = 'ProfilePage';
 				break;
+			case $front_end_page_type->is_posts_page():
+			case $front_end_page_type->is_home_posts_page():
 			case is_archive():
 				$type = 'CollectionPage';
 				break;
