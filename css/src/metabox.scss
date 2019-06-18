@@ -22,11 +22,11 @@
 	*, *:before, *:after {
 		box-sizing: inherit;
 	}
+}
 
-	// Reset margins inherited from Gutenberg.
-	& [data-block] {
-		margin: 0;
-	}
+// Reset margins inherited from Gutenberg.
+.DraftEditor-root [data-block] {
+	margin: 0;
 }
 
 /* Hide the taxonomy metabox rich editor when it's first inserted in the form. */
