@@ -76,7 +76,7 @@ test.sh
 /webpack-stats.json
 # Legacy, can be removed in the future.
 .recalibration.yaml
-/src/di/
+/src/generated/
 
 ############
 # Dist files

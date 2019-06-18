@@ -79,7 +79,7 @@ class Indexable_Post_Formatter {
 	 * @return array List of robots values.
 	 */
 	protected function get_robots_options() {
-		return array( 'noimageindex', 'noarchive', 'nosnippet' );
+		return [ 'noimageindex', 'noarchive', 'nosnippet' ];
 	}
 
 	/**
@@ -104,7 +104,7 @@ class Indexable_Post_Formatter {
 	 * @return array Lookup table for the indexable fields.
 	 */
 	protected function get_indexable_lookup() {
-		return array(
+		return [
 			'focuskw'               => 'primary_focus_keyword',
 			'content_score'         => 'readability_score',
 			'canonical'             => 'canonical',
@@ -118,7 +118,7 @@ class Indexable_Post_Formatter {
 			'twitter-title'         => 'twitter_title',
 			'twitter-image'         => 'twitter_image',
 			'twitter-description'   => 'twitter_description',
-		);
+		];
 	}
 
 	/**

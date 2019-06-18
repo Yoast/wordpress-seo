@@ -93,14 +93,14 @@ class Indexable_Term_Formatter {
 	 * @return array Lookup table for the indexable fields.
 	 */
 	protected function get_indexable_lookup() {
-		return array(
+		return [
 			'wpseo_canonical'     => 'canonical',
 			'wpseo_focuskw'       => 'primary_focus_keyword',
 			'wpseo_title'         => 'title',
 			'wpseo_desc'          => 'description',
 			'wpseo_content_score' => 'readability_score',
 			'wpseo_bctitle'       => 'breadcrumb_title',
-		);
+		];
 	}
 
 	/**
@@ -109,14 +109,14 @@ class Indexable_Term_Formatter {
 	 * @return array Lookup table for the indexable meta fields.
 	 */
 	protected function get_indexable_meta_lookup() {
-		return array(
+		return [
 			'wpseo_opengraph-title'       => 'og_title',
 			'wpseo_opengraph-description' => 'og_description',
 			'wpseo_opengraph-image'       => 'og_image',
 			'wpseo_twitter-title'         => 'twitter_title',
 			'wpseo_twitter-description'   => 'twitter_description',
 			'wpseo_twitter-image'         => 'twitter_image',
-		);
+		];
 	}
 
 	/**

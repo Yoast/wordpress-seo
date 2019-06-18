@@ -1,6 +1,11 @@
 <?php
+/**
+ * Yoast SEO Plugin File.
+ *
+ * @package Yoast\YoastSEO\Dependency_Injection
+ */
 
-namespace Yoast\WP\Free;
+namespace Yoast\WP\Free\Dependency_Injection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -10,12 +15,28 @@ use Symfony\Component\Config\Resource\GlobResource;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Definition;
 
+/**
+ * This class is mostly a direct copy-paste of the symfony PhpFileLoader class.
+ * It's been adapted to allow automatic discovery based on not just PSR-4 but also the Yoast standards.
+ */
 class Custom_Loader extends PhpFileLoader {
 
-	public function __construct( $container ) {
+	/**
+	 * Custom_Loader constructor.
+	 *
+	 * @param ContainerBuilder $container The ContainerBuilder to load classes for.
+	 */
+	public function __construct( ContainerBuilder $container ) {
 		parent::__construct( $container, new FileLocator( __DIR__ . '/../..' ) );
 	}
 
+	/**
+	 * Transforms a class derived from the filename by PSR-4 standards to class matching the Yoast standards.
+	 *
+	 * @param string $class The classname as derived from PSR-4 standards.
+	 *
+	 * @return string The classname as it would be in Yoast standards.
+	 */
 	private function transformClass( $class ) {
 		$pieces = explode( '\\', $class );
 		$pieces = array_map( function ( $piece ) {
@@ -30,45 +51,49 @@ class Custom_Loader extends PhpFileLoader {
 	/**
 	 * Registers a set of classes as services using PSR-4 for discovery.
 	 *
-	 * @param Definition $prototype A definition to use as template
-	 * @param string     $namespace The namespace prefix of classes in the scanned directory
-	 * @param string     $resource  The directory to look for classes, glob-patterns allowed
-	 * @param string     $exclude   A globed path of files to exclude
+	 * @param Definition $prototype A definition to use as template.
+	 * @param string     $namespace The namespace prefix of classes in the scanned directory.
+	 * @param string     $resource  The directory to look for classes, glob-patterns allowed.
+	 * @param string     $exclude   A globed path of files to exclude.
+	 *
+	 * @throws InvalidArgumentException If invalid arguments are supplied.
+	 *
+	 * @return void
 	 */
-	public function registerClasses(Definition $prototype, $namespace, $resource, $exclude = null)
-	{
-		if ('\\' !== substr($namespace, -1)) {
-			throw new InvalidArgumentException(sprintf('Namespace prefix must end with a "\\": %s.', $namespace));
+	public function registerClasses( Definition $prototype, $namespace, $resource, $exclude = null ) {
+		if ( '\\' !== substr( $namespace, -1 ) ) {
+			throw new InvalidArgumentException( sprintf( 'Namespace prefix must end with a "\\": %s.', $namespace ) );
 		}
-		if (!preg_match('/^(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+\\\\)++$/', $namespace)) {
-			throw new InvalidArgumentException(sprintf('Namespace is not a valid PSR-4 prefix: %s.', $namespace));
+		if ( ! preg_match( '/^(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+\\\\)++$/', $namespace ) ) {
+			throw new InvalidArgumentException( sprintf( 'Namespace is not a valid PSR-4 prefix: %s.', $namespace ) );
 		}
 
-		$classes = $this->findClasses($namespace, $resource, $exclude);
-		// prepare for deep cloning
-		$serializedPrototype = serialize($prototype);
+		$classes = $this->findClasses( $namespace, $resource, $exclude );
+		// Prepare for deep cloning.
+		$serialized_prototype = serialize( $prototype );
 		$interfaces = [];
-		$singlyImplemented = [];
+		$singly_implemented = [];
 
-		foreach ($classes as $class => $errorMessage) {
-			if (interface_exists($class, false)) {
+		foreach ( $classes as $class => $error_message ) {
+			if ( interface_exists( $class, false ) ) {
 				$interfaces[] = $class;
-			} else {
-				$this->setDefinition($class, $definition = unserialize($serializedPrototype));
-				if (null !== $errorMessage) {
-					$definition->addError($errorMessage);
+			}
+			else {
+				$this->setDefinition( $class, $definition = unserialize( $serialized_prototype ) );
+				if ( null !== $error_message ) {
+					$definition->addError( $error_message );
 
 					continue;
 				}
-				foreach (class_implements($class, false) as $interface) {
-					$singlyImplemented[$interface] = isset($singlyImplemented[$interface]) ? false : $class;
+				foreach ( class_implements( $class, false ) as $interface ) {
+					$singly_implemented[ $interface ] = isset( $singly_implemented[ $interface ] ) ? false : $class;
 				}
 			}
 		}
-		foreach ($interfaces as $interface) {
-			if (!empty($singlyImplemented[$interface])) {
-				$this->container->setAlias($interface, $singlyImplemented[$interface])
-								->setPublic(false);
+		foreach ( $interfaces as $interface ) {
+			if ( ! empty( $singly_implemented[ $interface ] ) ) {
+				$this->container->setAlias( $interface, $singly_implemented[ $interface ] )
+								->setPublic( false );
 			}
 		}
 	}
@@ -76,72 +101,87 @@ class Custom_Loader extends PhpFileLoader {
 	/**
 	 * Registers a definition in the container with its instanceof-conditionals.
 	 *
-	 * @param string     $id
-	 * @param Definition $definition
+	 * @param string     $id         The ID of the definition.
+	 * @param Definition $definition The definition.
+	 *
+	 * @throws InvalidArgumentException If invalid arguments were supplied.
+	 *
+	 * @return void
 	 */
-	protected function setDefinition($id, Definition $definition)
-	{
-		$this->container->removeBindings($id);
+	protected function setDefinition( $id, Definition $definition ) {
+		$this->container->removeBindings( $id );
 
-		if ($this->isLoadingInstanceof) {
-			if (!$definition instanceof ChildDefinition) {
-				throw new InvalidArgumentException(sprintf('Invalid type definition "%s": ChildDefinition expected, "%s" given.', $id, \get_class($definition)));
+		// @codingStandardsIgnoreLine WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar This is from an inherited class not abiding by that standard.
+		if ( $this->isLoadingInstanceof ) {
+			if ( ! $definition instanceof ChildDefinition ) {
+				throw new InvalidArgumentException( sprintf( 'Invalid type definition "%s": ChildDefinition expected, "%s" given.', $id, \get_class( $definition ) ) );
 			}
-			$this->instanceof[$id] = $definition;
-		} else {
-			$this->container->setDefinition($id, $definition instanceof ChildDefinition ? $definition : $definition->setInstanceofConditionals($this->instanceof));
+			$this->instanceof[ $id ] = $definition;
+		}
+		else {
+			$this->container->setDefinition( $id, ( $definition instanceof ChildDefinition ) ? $definition : $definition->setInstanceofConditionals( $this->instanceof ) );
 		}
 	}
 
-	private function findClasses($namespace, $pattern, $excludePattern)
-	{
-		$parameterBag = $this->container->getParameterBag();
+	/**
+	 * Finds classes based on a given pattern and exclude pattern.
+	 *
+	 * @param string $namespace The namespace prefix of classes in the scanned directory.
+	 * @param string $pattern   The directory to look for classes, glob-patterns allowed.
+	 * @param string $exclude   A globed path of files to exclude.
+	 *
+	 * @throws InvalidArgumentException If invalid arguments were supplied.
+	 *
+	 * @return array The found classes.
+	 */
+	private function findClasses( $namespace, $pattern, $exclude ) {
+		$parameter_bag = $this->container->getParameterBag();
 
-		$excludePaths = [];
-		$excludePrefix = null;
-		if ($excludePattern) {
-			$excludePattern = $parameterBag->unescapeValue($parameterBag->resolveValue($excludePattern));
-			foreach ($this->glob($excludePattern, true, $resource) as $path => $info) {
-				if (null === $excludePrefix) {
-					$excludePrefix = $resource->getPrefix();
+		$exclude_paths = [];
+		$exclude_prefix = null;
+		if ( $exclude ) {
+			$exclude = $parameter_bag->unescapeValue( $parameter_bag->resolveValue( $exclude ) );
+			foreach ( $this->glob( $exclude, true, $resource ) as $path => $info ) {
+				if ( null === $exclude_prefix ) {
+					$exclude_prefix = $resource->getPrefix();
 				}
 
-				// normalize Windows slashes
-				$excludePaths[str_replace('\\', '/', $path)] = true;
+				// Normalize Windows slashes.
+				$exclude_paths[ str_replace( '\\', '/', $path ) ] = true;
 			}
 		}
 
-		$pattern = $parameterBag->unescapeValue($parameterBag->resolveValue($pattern));
+		$pattern = $parameter_bag->unescapeValue( $parameter_bag->resolveValue( $pattern ) );
 		$classes = [];
-		$extRegexp = \defined('HHVM_VERSION') ? '/\\.(?:php|hh)$/' : '/\\.php$/';
-		$prefixLen = null;
-		foreach ($this->glob($pattern, true, $resource) as $path => $info) {
-			if (null === $prefixLen) {
-				$prefixLen = \strlen($resource->getPrefix());
+		$ext_regexp = \defined( 'HHVM_VERSION' ) ? '/\\.(?:php|hh)$/' : '/\\.php$/';
+		$prefix_len = null;
+		foreach ( $this->glob( $pattern, true, $resource ) as $path => $info ) {
+			if ( null === $prefix_len ) {
+				$prefix_len = \strlen( $resource->getPrefix() );
 
-				if ($excludePrefix && 0 !== strpos($excludePrefix, $resource->getPrefix())) {
-					throw new InvalidArgumentException(sprintf('Invalid "exclude" pattern when importing classes for "%s": make sure your "exclude" pattern (%s) is a subset of the "resource" pattern (%s)', $namespace, $excludePattern, $pattern));
+				if ( $exclude_prefix && 0 !== strpos( $exclude_prefix, $resource->getPrefix() ) ) {
+					throw new InvalidArgumentException( sprintf( 'Invalid "exclude" pattern when importing classes for "%s": make sure your "exclude" pattern (%s) is a subset of the "resource" pattern (%s)', $namespace, $exclude, $pattern ) );
 				}
 			}
 
-			if (isset($excludePaths[str_replace('\\', '/', $path)])) {
+			if ( isset( $exclude_paths[ str_replace( '\\', '/', $path ) ] ) ) {
 				continue;
 			}
 
-			if (!preg_match($extRegexp, $path, $m) || !$info->isReadable()) {
+			if ( ! preg_match( $ext_regexp, $path, $m ) || ! $info->isReadable() ) {
 				continue;
 			}
-			$class = $namespace.ltrim(str_replace('/', '\\', substr($path, $prefixLen, -\strlen($m[0]))), '\\');
+			$class = $namespace . ltrim( str_replace( '/', '\\', substr( $path, $prefix_len, -\strlen( $m[0] ) ) ), '\\' );
 			$class = $this->transformClass( $class );
 
-			if (!preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+(?:\\\\[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+)*+$/', $class)) {
+			if ( ! preg_match( '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+(?:\\\\[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+)*+$/', $class ) ) {
 				continue;
 			}
 
 			try {
-				$r = $this->container->getReflectionClass($class);
+				$r = $this->container->getReflectionClass( $class );
 			} catch (\ReflectionException $e) {
-				$classes[$class] = sprintf(
+				$classes[ $class ] = sprintf(
 					'While discovering services from namespace "%s", an error was thrown when processing the class "%s": "%s".',
 					$namespace,
 					$class,
@@ -149,22 +189,23 @@ class Custom_Loader extends PhpFileLoader {
 				);
 				continue;
 			}
-			// check to make sure the expected class exists
-			if (!$r) {
-				throw new InvalidArgumentException(sprintf('Expected to find class "%s" in file "%s" while importing services from resource "%s", but it was not found! Check the namespace prefix used with the resource.', $class, $path, $pattern));
+			// Check to make sure the expected class exists.
+			if ( ! $r ) {
+				throw new InvalidArgumentException( sprintf( 'Expected to find class "%s" in file "%s" while importing services from resource "%s", but it was not found! Check the namespace prefix used with the resource.', $class, $path, $pattern ) );
 			}
 
-			if ($r->isInstantiable() || $r->isInterface()) {
-				$classes[$class] = null;
+			if ( $r->isInstantiable() || $r->isInterface() ) {
+				$classes[ $class ] = null;
 			}
 		}
 
-		// track only for new & removed files
-		if ($resource instanceof GlobResource) {
-			$this->container->addResource($resource);
-		} else {
-			foreach ($resource as $path) {
-				$this->container->fileExists($path, false);
+		// Track only for new & removed files.
+		if ( $resource instanceof GlobResource ) {
+			$this->container->addResource( $resource );
+		}
+		else {
+			foreach ( $resource as $path ) {
+				$this->container->fileExists( $path, false );
 			}
 		}
 

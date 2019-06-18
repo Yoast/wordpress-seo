@@ -165,7 +165,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 					$schema_step['text'] = $step['jsonText'];
 				}
 			}
-			else if ( empty( $step['jsonText'] ) ) {
+			elseif ( empty( $step['jsonText'] ) ) {
 				$schema_step['text'] = $step['jsonName'];
 			}
 			else {

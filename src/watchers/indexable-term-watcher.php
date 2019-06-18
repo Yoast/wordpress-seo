@@ -18,6 +18,9 @@ use Yoast\WP\Free\WordPress\Integration;
  */
 class Indexable_Term_Watcher implements Integration {
 
+	/**
+	 * @inheritdoc
+	 */
 	public static function get_conditionals() {
 		return [ Indexables_Feature_Flag_Conditional::class ];
 	}
@@ -30,20 +33,18 @@ class Indexable_Term_Watcher implements Integration {
 	/**
 	 * Indexable_Term_Watcher constructor.
 	 *
-	 * @param Indexable_Term_Formatter $formatter The post formatter to use
+	 * @param Indexable_Term_Formatter $formatter The post formatter to use.
 	 */
 	public function __construct( Indexable_Term_Formatter $formatter ) {
 		$this->formatter = $formatter;
 	}
 
 	/**
-	 * Registers all hooks to WordPress.
-	 *
-	 * @return void
+	 * @inheritdoc
 	 */
 	public function register_hooks() {
-		\add_action( 'edited_term', array( $this, 'save_meta' ), \PHP_INT_MAX, 3 );
-		\add_action( 'delete_term', array( $this, 'delete_meta' ), \PHP_INT_MAX, 3 );
+		\add_action( 'edited_term', [ $this, 'save_meta' ], \PHP_INT_MAX, 3 );
+		\add_action( 'delete_term', [ $this, 'delete_meta' ], \PHP_INT_MAX, 3 );
 	}
 
 	/**

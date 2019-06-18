@@ -39,16 +39,18 @@ class Indexable_Author_Formatter {
 	/**
 	 * Retrieves the meta data for this indexable.
 	 *
+	 * @param int $user_id The user to retrieve the meta data for.
+	 *
 	 * @return array List of meta entries.
 	 */
 	protected function get_meta_data( $user_id ) {
-		$keys = array(
+		$keys = [
 			'wpseo_title',
 			'wpseo_metadesc',
 			'wpseo_noindex_author',
-		);
+		];
 
-		$output = array();
+		$output = [];
 		foreach ( $keys as $key ) {
 			$output[ $key ] = $this->get_author_meta( $user_id, $key );
 		}

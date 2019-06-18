@@ -1,6 +1,6 @@
 <?php
 /**
- * WPSEO plugin file.
+ * Yoast SEO Plugin File.
  *
  * @package Yoast\YoastSEO\Loaders
  */
@@ -8,6 +8,7 @@
 namespace Yoast\WP\Free;
 
 use Yoast\WP\Free\Config\Dependency_Management;
+use Yoast\WP\Free\Dependency_Injection\Container_Compiler;
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
@@ -15,13 +16,14 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$dependency_management= new Dependency_Management();
+$dependency_management = new Dependency_Management();
 $dependency_management->initialize();
 
-if ( defined( 'YOAST_ENVIRONMENT' ) && YOAST_ENVIRONMENT === 'development' && file_exists( __DIR__ . '/../config/dependency-injection/container.php' ) ) {
-	require_once __DIR__ . '/../config/dependency-injection/container.php';
+$development = defined( 'YOAST_ENVIRONMENT' ) && YOAST_ENVIRONMENT === 'development';
+if ( $development && class_exists( '\Yoast\WP\Free\Dependency_Injection\Container_Compiler' ) ) {
+	Container_Compiler::compile( $development );
 }
-require_once __DIR__ . '/di/container.php';
+require_once __DIR__ . '/generated/container.php';
 // Note: this class has to be referenced with it's full namespace as it may not exist before the above line.
-$container = new \Yoast\WP\Free\DI\Cached_Container();
+$container = new \Yoast\WP\Free\Generated\Cached_Container();
 $container->get( Loader::class )->load();

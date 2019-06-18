@@ -55,6 +55,8 @@ class Indexable_Author_Formatter_Test extends TestCase {
 
 	/**
 	 * Tests the noindex expected outcome.
+	 *
+	 * @covers \Yoast\WP\Free\Formatters\Indexable_Author_Formatter::get_noindex_value
 	 */
 	public function test_get_noindex_value() {
 		$instance = new Indexable_Author_Formatter_Double();

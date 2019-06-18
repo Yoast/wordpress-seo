@@ -18,6 +18,9 @@ use Yoast\WP\Free\WordPress\Integration;
  */
 class Indexable_Author_Watcher implements Integration {
 
+	/**
+	 * @inheritdoc
+	 */
 	public static function get_conditionals() {
 		return [ Indexables_Feature_Flag_Conditional::class ];
 	}
@@ -30,20 +33,18 @@ class Indexable_Author_Watcher implements Integration {
 	/**
 	 * Indexable_Author_Watcher constructor.
 	 *
-	 * @param Indexable_Author_Formatter $formatter The post formatter to use
+	 * @param Indexable_Author_Formatter $formatter The post formatter to use.
 	 */
 	public function __construct( Indexable_Author_Formatter $formatter ) {
 		$this->formatter = $formatter;
 	}
 
 	/**
-	 * Registers all hooks to WordPress.
-	 *
-	 * @return void
+	 * @inheritdoc
 	 */
 	public function register_hooks() {
-		\add_action( 'profile_update', array( $this, 'save_meta' ), \PHP_INT_MAX );
-		\add_action( 'deleted_user', array( $this, 'delete_meta' ) );
+		\add_action( 'profile_update', [ $this, 'save_meta' ], \PHP_INT_MAX );
+		\add_action( 'deleted_user', [ $this, 'delete_meta' ] );
 	}
 
 	/**

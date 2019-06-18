@@ -1,10 +1,21 @@
 <?php
+/**
+ * Yoast SEO Plugin File.
+ *
+ * @package WPSEO\Migrations
+ */
 
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
 use Yoast\WP\Free\Yoast_Model;
 
-class WpYoastExpandIndexable extends Ruckusing_Migration_Base
-{
+/**
+ * Class WpYoastExpandIndexable
+ */
+class WpYoastExpandIndexable extends Ruckusing_Migration_Base {
+
+	/**
+	 * Migration up.
+	 */
 	public function up() {
 		$table_name = $this->get_table_name();
 
@@ -22,6 +33,9 @@ class WpYoastExpandIndexable extends Ruckusing_Migration_Base
 		$this->change_column( $table_name, 'canonical', 'mediumtext', array( 'null' => true ) );
 	}
 
+	/**
+	 * Migration down.
+	 */
 	public function down() {
 		$table_name = $this->get_table_name();
 

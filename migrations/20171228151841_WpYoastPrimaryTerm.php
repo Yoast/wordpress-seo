@@ -1,6 +1,6 @@
 <?php
 /**
- * Primary Term table migration.
+ * Yoast SEO Plugin File.
  *
  * @package WPSEO\Migrations
  */

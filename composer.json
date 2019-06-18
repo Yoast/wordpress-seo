@@ -60,7 +60,8 @@
 	"autoload-dev": {
 		"classmap": [
 			"tests/",
-			"integration-tests/"
+			"integration-tests/",
+			"config/"
 		]
 	},
 	"scripts": {
@@ -125,9 +126,12 @@
 		"prefix-symfony": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/dependency-injection --config=config/php-scoper/dependency-injection.inc.php --force --quiet"
 		],
+		"compile-dependency-injection-container": [
+			"Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
+		],
 		"post-install-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd",
-			"Yoast\\WP\\Free\\Config\\Dependency_Management::prefix_dependencies"
+			"Yoast\\WP\\Free\\Composer\\Actions::prefix_dependencies"
 		],
 		"post-update-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd"

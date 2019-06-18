@@ -1,6 +1,6 @@
 <?php
 /**
- * Class WpYoastIndexable
+ * Yoast SEO Plugin File.
  *
  * @package WPSEO\Migrations
  */

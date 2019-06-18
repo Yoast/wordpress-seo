@@ -65,7 +65,7 @@ class ORMWrapper extends ORM {
 		$filter_function = \array_shift( $args );
 		\array_unshift( $args, $this );
 		if ( \method_exists( $this->class_name, $filter_function ) ) {
-			return \call_user_func_array( array( $this->class_name, $filter_function ), $args );
+			return \call_user_func_array( [ $this->class_name, $filter_function ], $args );
 		}
 
 		return null;
@@ -86,7 +86,7 @@ class ORMWrapper extends ORM {
 	public static function for_table( $table_name, $connection_name = parent::DEFAULT_CONNECTION ) {
 		static::_setup_db( $connection_name );
 
-		return new static( $table_name, array(), $connection_name );
+		return new static( $table_name, [], $connection_name );
 	}
 
 	/**

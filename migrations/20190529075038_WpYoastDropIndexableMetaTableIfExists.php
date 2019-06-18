@@ -1,12 +1,20 @@
 <?php
+/**
+ * Yoast SEO Plugin File.
+ *
+ * @package WPSEO\Migrations
+ */
 
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
 use Yoast\WP\Free\Yoast_Model;
 
-class DropIndexableMetaTableIfExists extends Ruckusing_Migration_Base
-{
+/**
+ * Class DropIndexableMetaTableIfExists
+ */
+class WpYoastDropIndexableMetaTableIfExists extends Ruckusing_Migration_Base {
+
 	/**
-	 * Migration up
+	 * Migration up.
 	 */
 	public function up() {
 		$table_name = $this->get_table_name();
@@ -15,6 +23,9 @@ class DropIndexableMetaTableIfExists extends Ruckusing_Migration_Base
 		$this->drop_table( $table_name );
 	}
 
+	/**
+	 * Migration down.
+	 */
 	public function down() {
 		// No down required. This specific table should never exist.
 	}

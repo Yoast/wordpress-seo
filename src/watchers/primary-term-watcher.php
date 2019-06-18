@@ -20,20 +20,19 @@ use Yoast\WP\Free\WordPress\Integration;
  */
 class Primary_Term_Watcher implements Integration {
 
+	/**
+	 * @inheritdoc
+	 */
 	public static function get_conditionals() {
 		return [ Indexables_Feature_Flag_Conditional::class ];
 	}
 
 	/**
-	 * Initializes the integration.
-	 *
-	 * This is the place to register hooks and filters.
-	 *
-	 * @return void
+	 * @inheritdoc
 	 */
 	public function register_hooks() {
-		\add_action( 'save_post', array( $this, 'save_primary_terms' ) );
-		\add_action( 'delete_post', array( $this, 'delete_primary_terms' ) );
+		\add_action( 'save_post', [ $this, 'save_primary_terms' ] );
+		\add_action( 'delete_post', [ $this, 'delete_primary_terms' ] );
 	}
 
 	/**
@@ -115,7 +114,7 @@ class Primary_Term_Watcher implements Integration {
 	 */
 	protected function get_primary_term_taxonomies( $post_id = null ) {
 		if ( null === $post_id ) {
-			$post_id = $this->get_current_id();
+			$post_id = \get_the_ID();
 		}
 
 		$taxonomies = $this->generate_primary_term_taxonomies( $post_id );
@@ -133,7 +132,7 @@ class Primary_Term_Watcher implements Integration {
 	protected function generate_primary_term_taxonomies( $post_id ) {
 		$post_type      = \get_post_type( $post_id );
 		$all_taxonomies = \get_object_taxonomies( $post_type, 'objects' );
-		$all_taxonomies = \array_filter( $all_taxonomies, array( $this, 'filter_hierarchical_taxonomies' ) );
+		$all_taxonomies = \array_filter( $all_taxonomies, [ $this, 'filter_hierarchical_taxonomies' ] );
 
 		/**
 		 * Filters which taxonomies for which the user can choose the primary term.
@@ -198,17 +197,6 @@ class Primary_Term_Watcher implements Integration {
 		catch ( \Exception $exception ) {
 			Logger::get_logger()->notice( $exception->getMessage() );
 		}
-	}
-
-	/**
-	 * Get the current post ID.
-	 *
-	 * @coveCoverageIgnore
-	 *
-	 * @return integer The post ID.
-	 */
-	protected function get_current_id() {
-		return \get_the_ID();
 	}
 
 	/**

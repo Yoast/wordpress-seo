@@ -20,7 +20,7 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	/**
 	 * Tests if the expected hooks are registered.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Author_Watcher::register_hooks()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Author_Watcher::register_hooks
 	 */
 	public function test_register_hooks() {
 		$instance = new Indexable_Author_Watcher( new Indexable_Author_Formatter() );
@@ -33,7 +33,7 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	/**
 	 * Tests if the indexable is being deleted.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Author_Watcher::delete_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Author_Watcher::delete_meta
 	 */
 	public function test_delete_meta() {
 		$instance = $this
@@ -69,7 +69,7 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	/**
 	 * Tests if the indexable is being deleted.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Author_Watcher::delete_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Author_Watcher::delete_meta
 	 */
 	public function test_delete_meta_exception() {
 		$instance = $this
@@ -89,7 +89,7 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	/**
 	 * Tests the save meta functionality.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Author_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Author_Watcher::save_meta
 	 */
 	public function test_save_meta() {
 		$indexable_mock = $this
@@ -140,7 +140,7 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	/**
 	 * Tests the save meta functionality.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Author_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Author_Watcher::save_meta
 	 */
 	public function test_save_meta_exception() {
 		$instance = $this

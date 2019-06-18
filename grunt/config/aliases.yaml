@@ -78,6 +78,8 @@ check:
 'artifact':
   - 'shell:production-prefix-dependencies'
   - 'shell:composer-install-production'
+  - 'shell:compile-dependency-injection-container'
+  - 'shell:remove-dependency-injection-meta'
   # Remove the folders that are already in the vendor_prefixed folder from the vendor folder.
   - 'shell:remove-prefixed-sources'
   # Build like we normally would

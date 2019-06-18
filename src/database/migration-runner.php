@@ -1,6 +1,6 @@
 <?php
 /**
- * Makes sure the database migrations are run.
+ * Yoast SEO Plugin File.
  *
  * @package Yoast\YoastSEO\Config
  */
@@ -9,6 +9,7 @@ namespace Yoast\WP\Free\Database;
 
 use wpdb;
 use Yoast\WP\Free\Conditionals\Admin_Conditional;
+use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Config\Dependency_Management;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Loggers\Migration_Logger;
@@ -21,8 +22,11 @@ use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
  */
 class Migration_Runner implements Integration {
 
+	/**
+	 * @inheritdoc
+	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class ];
+		return [ Admin_Conditional::class, Indexables_Feature_Flag_Conditional::class ];
 	}
 
 	/**
@@ -64,10 +68,10 @@ class Migration_Runner implements Integration {
 	}
 
 	/**
-	 * Registers hooks with WordPress.
+	 * @inheritdoc
 	 */
 	public function register_hooks() {
-		add_action( 'plugins_loaded', [ $this, 'run_migrations' ] );
+		$this->run_migrations();
 	}
 
 	/**
@@ -174,10 +178,7 @@ class Migration_Runner implements Integration {
 	protected function get_framework_runner() {
 		$main = new Ruckusing_FrameworkRunner(
 			$this->get_configuration(),
-			array(
-				'db:migrate',
-				'env=production',
-			),
+			[ 'db:migrate', 'env=production' ],
 			new Migration_Logger()
 		);
 
@@ -197,9 +198,9 @@ class Migration_Runner implements Integration {
 	 * @return array List of configuration elements.
 	 */
 	protected function get_configuration() {
-		return array(
-			'db'             => array(
-				'production' => array(
+		return [
+			'db'             => [
+				'production' => [
 					'type'      => 'mysql',
 					'host'      => \DB_HOST,
 					'port'      => 3306,
@@ -208,15 +209,15 @@ class Migration_Runner implements Integration {
 					'password'  => \DB_PASSWORD,
 					'charset'   => $this->wpdb->charset,
 					'directory' => '', // This needs to be set, to use the migrations folder as base folder.
-				),
-			),
-			'migrations_dir' => array( 'default' => \WPSEO_PATH . 'migrations' ),
+				],
+			],
+			'migrations_dir' => [ 'default' => \WPSEO_PATH . 'migrations' ],
 			// This needs to be set but is not used.
 			'db_dir'         => true,
 			// This needs to be set but is not used.
 			'log_dir'        => true,
 			// This needs to be set but is not used.
-		);
+		];
 	}
 
 	/**
@@ -244,16 +245,16 @@ class Migration_Runner implements Integration {
 	 */
 	protected function get_defines( $table_name ) {
 		if ( $this->dependency_management->prefixed_available() ) {
-			return array(
+			return [
 				\YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE' => \WPSEO_PATH . \YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing',
 				\YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_TS_SCHEMA_TBL_NAME' => $table_name,
-			);
+			];
 		}
 
-		return array(
+		return [
 			'RUCKUSING_BASE'               => \WPSEO_PATH . 'vendor/ruckusing/ruckusing-migrations',
 			'RUCKUSING_TS_SCHEMA_TBL_NAME' => $table_name,
-		);
+		];
 	}
 
 	/**

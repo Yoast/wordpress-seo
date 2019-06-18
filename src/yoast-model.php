@@ -232,16 +232,16 @@ class Yoast_Model {
 	 * @return string The table name.
 	 */
 	protected static function class_name_to_table_name( $class_name ) {
-		$find         = array(
+		$find         = [
 			'/\\\\/',
 			'/(?<=[a-z])([A-Z])/',
 			'/__/',
-		);
-		$replacements = array(
+		];
+		$replacements = [
 			'_',
 			'_$1',
 			'_',
-		);
+		];
 
 		$class_name = \ltrim( $class_name, '\\' );
 		$class_name = \preg_replace( $find, $replacements, $class_name );
@@ -439,7 +439,7 @@ class Yoast_Model {
 			if ( 0 === \strpos( $associated_model_name, static::$auto_prefix_models ) ) {
 				$associated_model_name = \substr( $associated_model_name, \strlen( static::$auto_prefix_models ), \strlen( $associated_model_name ) );
 			}
-			$class_names = array( $base_model_name, $associated_model_name );
+			$class_names = [ $base_model_name, $associated_model_name ];
 			\sort( $class_names, \SORT_STRING );
 			$join_class_name = \implode( '', $class_names );
 		}
@@ -599,7 +599,7 @@ class Yoast_Model {
 	public function as_array() {
 		$args = \func_get_args();
 
-		return \call_user_func_array( array( $this->orm, 'as_array' ), $args );
+		return \call_user_func_array( [ $this->orm, 'as_array' ], $args );
 	}
 
 	/**
@@ -654,12 +654,12 @@ class Yoast_Model {
 	 */
 	public static function __callStatic( $method, $arguments ) {
 		if ( ! \function_exists( 'get_called_class' ) ) {
-			return array();
+			return [];
 		}
 
 		$model = static::factory( \get_called_class() );
 
-		return \call_user_func_array( array( $model, $method ), $arguments );
+		return \call_user_func_array( [ $model, $method ], $arguments );
 	}
 
 	/**
@@ -683,6 +683,6 @@ class Yoast_Model {
 			throw Missing_Method::for_class( \get_class( $this ), $name );
 		}
 
-		return \call_user_func_array( array( $this, $method ), $arguments );
+		return \call_user_func_array( [ $this, $method ], $arguments );
 	}
 }

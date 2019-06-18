@@ -1,6 +1,6 @@
 <?php
 /**
- * Makes sure the dependencies are loaded and the environment is prepared to use them.
+ * Yoast SEO Plugin File.
  *
  * @package Yoast\YoastSEO\Config
  */
@@ -10,7 +10,8 @@ namespace Yoast\WP\Free\Config;
 use Composer\Script\Event;
 
 /**
- * Sets up class aliases and defines required constants.
+ * Makes sure the dependencies are loaded and the environment is prepared to use them.
+ * This is achieved by setting up class aliases and defines required constants.
  */
 class Dependency_Management {
 
@@ -25,8 +26,7 @@ class Dependency_Management {
 	 */
 	public function initialize() {
 		// Prepend the autoloader to the stack, allowing for discovery of prefixed classes.
-		// @codingStandardsIgnoreLine PHPCompatibility.PHP.NewFunctions.class_aliasFound -- PHP >= 5.3 only.
-		return \spl_autoload_register( array( $this, 'ensure_class_alias' ), true, true );
+		return \spl_autoload_register( [ $this, 'ensure_class_alias' ], true, true );
 	}
 
 	/**
@@ -68,32 +68,6 @@ class Dependency_Management {
 	}
 
 	/**
-	 * Prefixes dependencies if composer install is ran with dev mode.
-	 *
-	 * Used in composer in the post-install script hook.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param \Composer\Script\Event $event Composer event that triggered this script.
-	 *
-	 * @return void
-	 */
-	public static function prefix_dependencies( Event $event ) {
-		$io = $event->getIO();
-
-		if ( ! $event->isDevMode() ) {
-			$io->write( 'Not prefixing dependencies.' );
-
-			return;
-		}
-
-		$io->write( 'Prefixing dependencies...' );
-
-		$event_dispatcher = $event->getComposer()->getEventDispatcher();
-		$event_dispatcher->dispatchScript( 'prefix-dependencies', $event->isDevMode() );
-	}
-
-	/**
 	 * Wraps class_exists to make this better testable.
 	 *
 	 * @codeCoverageIgnore
@@ -117,7 +91,6 @@ class Dependency_Management {
 	 * @return bool True on successful alias.
 	 */
 	protected function class_alias( $base, $alias ) {
-		// @codingStandardsIgnoreLine PHPCompatibility.PHP.NewFunctions.class_aliasFound -- PHP >= 5.3 only.
 		return class_alias( $base, $alias );
 	}
 }

@@ -104,7 +104,7 @@ module.exports = function( grunt ) {
 
 		"remove-prefixed-sources": {
 			command: "composer remove league/oauth2-client j4mie/idiorm pimple/pimple ruckusing/ruckusing-migrations psr/log " +
-			"--update-no-dev --optimize-autoloader",
+			"symfony/dependency-injection --update-no-dev --optimize-autoloader",
 		},
 
 		"composer-install-dev": {
@@ -127,6 +127,14 @@ module.exports = function( grunt ) {
 
 		"production-prefix-dependencies": {
 			command: "composer install",
+		},
+
+		"compile-dependency-injection-container": {
+			command: "composer compile-dependency-injection-container",
+		},
+
+		"remove-dependency-injection-meta": {
+			command: "rm ./src/generated/container.php.meta",
 		},
 
 		"php-lint": {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract class for indexable extensions.
+ * Yoast SEO Plugin File.
  *
  * @package Yoast\YoastSEO\Models
  */
@@ -9,12 +9,15 @@ namespace Yoast\WP\Free\Models;
 
 use Yoast\WP\Free\Yoast_Model;
 
+/**
+ * Abstract class for indexable extensions.
+ */
 abstract class Indexable_Extension extends Yoast_Model {
 
 	/**
 	 * @var Indexable
 	 */
-	protected $indexable =  null;
+	protected $indexable = null;
 
 	/**
 	 * Returns the indexable this extension belongs to.
