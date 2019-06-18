@@ -18,6 +18,9 @@ import SnippetPreview from "./src/snippetPreview";
 import Paper from "./src/values/Paper";
 import AssessmentResult from "./src/values/AssessmentResult";
 
+/*
+ * Everything exported here is put on the `yoast.analysis` global in the plugin.
+ */
 export {
 	App,
 	Assessor,
