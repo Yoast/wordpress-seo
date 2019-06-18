@@ -13,20 +13,20 @@ use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Config\Dependency_Management;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Loggers\Migration_Logger;
-use Yoast\WP\Free\WordPress\Integration;
+use Yoast\WP\Free\WordPress\Initializer;
 use Yoast\WP\Free\Yoast_Model;
 use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
 
 /**
  * Triggers database migrations and handles results.
  */
-class Migration_Runner implements Integration {
+class Migration_Runner implements Initializer {
 
 	/**
 	 * @inheritdoc
 	 */
 	public static function get_conditionals() {
-		return [ Admin_Conditional::class, Indexables_Feature_Flag_Conditional::class ];
+		return [ Indexables_Feature_Flag_Conditional::class ];
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Migration_Runner implements Integration {
 	/**
 	 * @inheritdoc
 	 */
-	public function register_hooks() {
+	public function initialize() {
 		$this->run_migrations();
 	}
 

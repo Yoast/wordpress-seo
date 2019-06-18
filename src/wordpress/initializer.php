@@ -10,14 +10,12 @@ namespace Yoast\WP\Free\WordPress;
 /**
  * An interface for registering integrations with WordPress
  */
-interface Integration extends Loadable {
+interface Initializer extends Loadable {
 
 	/**
-	 * Initializes the integration.
-	 *
-	 * This is the place to register hooks and filters.
+	 * Runs this initializer.
 	 *
 	 * @return void
 	 */
-	public function register_hooks();
+	public function initialize();
 }

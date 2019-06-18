@@ -7,8 +7,6 @@
 
 namespace Yoast\WP\Free\Config;
 
-use Composer\Script\Event;
-
 /**
  * Makes sure the dependencies are loaded and the environment is prepared to use them.
  * This is achieved by setting up class aliases and defines required constants.

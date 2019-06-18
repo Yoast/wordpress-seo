@@ -30,7 +30,7 @@ class Container_Compiler {
 
 		if ( ! $cache->isFresh() ) {
 			$container_builder = new ContainerBuilder();
-			$container_builder->addCompilerPass( new Integration_Pass() );
+			$container_builder->addCompilerPass( new Loader_Pass() );
 			$loader = new Custom_Loader( $container_builder );
 			$loader->load( 'config/dependency-injection/services.php' );
 			$container_builder->compile();

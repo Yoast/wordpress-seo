@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free;
 
-use YoastSEO_Vendor\ORM;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -21,6 +20,13 @@ class Loader {
 	 * @var \Yoast\WP\Free\WordPress\Integration[]
 	 */
 	protected $integrations = [];
+
+	/**
+	 * The registered initializer.
+	 *
+	 * @var \Yoast\WP\Free\WordPress\Initializer[]
+	 */
+	protected $initializers = [];
 
 	/**
 	 * The dependency injection container.
@@ -50,13 +56,47 @@ class Loader {
 	}
 
 	/**
-	 * Loads all registered integrations if their conditionals are met.
+	 * Registers a initializer.
+	 *
+	 * @param string $class The class name of the initializer to be loaded.
+	 *
+	 * @return void
+	 */
+	public function register_initializer( $class ) {
+		$this->initializers[] = $class;
+	}
+
+	/**
+	 * Loads all registered classes if their conditionals are met.
 	 *
 	 * @return void
 	 */
 	public function load() {
-		$this->configure_orm();
+		$this->load_initializers();
+		$this->load_integrations();
+	}
 
+	/**
+	 * Loads all registered initializers if their conditionals are met.
+	 *
+	 * @return void
+	 */
+	protected function load_initializers() {
+		foreach ( $this->initializers as $class ) {
+			if ( ! $this->conditionals_are_met( $class ) ) {
+				continue;
+			}
+
+			$this->container->get( $class )->initialize();
+		}
+	}
+
+	/**
+	 * Loads all registered integrations if their conditionals are met.
+	 *
+	 * @return void
+	 */
+	protected function load_integrations() {
 		foreach ( $this->integrations as $class ) {
 			if ( ! $this->conditionals_are_met( $class ) ) {
 				continue;
@@ -83,20 +123,5 @@ class Loader {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Configures the ORM.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	protected function configure_orm() {
-		ORM::configure( 'mysql:host=' . \DB_HOST . ';dbname=' . \DB_NAME );
-		ORM::configure( 'username', \DB_USER );
-		ORM::configure( 'password', \DB_PASSWORD );
-
-		Yoast_Model::$auto_prefix_models = '\\Yoast\\WP\\Free\\Models\\';
 	}
 }

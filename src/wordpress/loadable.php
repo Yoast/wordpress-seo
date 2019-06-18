@@ -10,14 +10,12 @@ namespace Yoast\WP\Free\WordPress;
 /**
  * An interface for registering integrations with WordPress
  */
-interface Integration extends Loadable {
+interface Loadable {
 
 	/**
-	 * Initializes the integration.
+	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * This is the place to register hooks and filters.
-	 *
-	 * @return void
+	 * @return array
 	 */
-	public function register_hooks();
+	public static function get_conditionals();
 }
