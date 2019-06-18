@@ -23,7 +23,7 @@ class WPSEO_Metabox_Section_Readability implements WPSEO_Metabox_Section {
 		printf(
 			'<li role="tab"><a href="#wpseo-meta-section-%1$s" class="wpseo-meta-section-link">%2$s</a></li>',
 			esc_attr( $this->name ),
-			WPSEO_Utils::traffic_light_svg() . '<span>' . __( 'Readability', 'wordpress-seo' ) . '</span>'
+			'<div class="wpseo-score-icon-container" id="wpseo-readability-score-icon"></div><span>' . __( 'Readability', 'wordpress-seo' ) . '</span>'
 		);
 	}
 

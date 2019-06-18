@@ -337,7 +337,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return new WPSEO_Metabox_Section_React(
 			'content',
-			WPSEO_Utils::traffic_light_svg() . '<span>' . __( 'SEO', 'wordpress-seo' ) . '</span>',
+			'<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span><span>' . __( 'SEO', 'wordpress-seo' ) . '</span>',
 			$content
 		);
 	}

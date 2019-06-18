@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import isNil from "lodash/isNil";
 
+import ScoreIconPortal from "./ScoreIconPortal";
 import Results from "./Results";
 import Collapsible from "../SidebarCollapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
@@ -74,7 +75,6 @@ class ReadabilityAnalysis extends Component {
 			score.className = "loading";
 		}
 
-
 		return (
 			<LocationConsumer>
 				{ location => {
@@ -95,6 +95,10 @@ class ReadabilityAnalysis extends Component {
 					if ( location === "metabox" ) {
 						return createPortal(
 							<ReadabilityResultsTabContainer>
+								<ScoreIconPortal
+									scoreIndicator={ score.className }
+									elementId="wpseo-readability-score-icon"
+								/>
 								{ this.renderResults() }
 							</ReadabilityResultsTabContainer>,
 							document.getElementById( "wpseo-metabox-readability-root" )

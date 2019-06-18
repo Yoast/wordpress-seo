@@ -1,5 +1,5 @@
 /* global wpseoAdminL10n */
-
+/* External dependencies */
 import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -8,6 +8,9 @@ import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
 import { YoastSeoIcon } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
+
+/* Internal dependencies */
+import ScoreIconPortal from "./ScoreIconPortal";
 import Collapsible from "../SidebarCollapsible";
 import Results from "./Results";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
@@ -218,6 +221,10 @@ class SeoAnalysis extends Component {
 							/>
 						</Collapsible>
 						{ this.props.shouldUpsell && this.renderKeywordUpsell( context ) }
+						<ScoreIconPortal
+							elementId="wpseo-seo-score-icon"
+							scoreIndicator={ score.className }
+						/>
 					</Fragment>
 				) }
 			</LocationConsumer>
