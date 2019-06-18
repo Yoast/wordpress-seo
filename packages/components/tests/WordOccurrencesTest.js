@@ -10,7 +10,6 @@ const noWords = [];
 
 describe( "WordOccurrences", function() {
 	it( "renders WordOccurrences as list items", () => {
-
 		const wordOccurrences = renderer.create(
 			<WordOccurrences words={ words } showBeforeList={ showBeforeList } showAfterList={ showAfterList } />
 		);
