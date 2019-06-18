@@ -40,4 +40,3 @@ describe( "gets Italian word combinations", function() {
 		expect( words ).toEqual( expected );
 	} );
 } );
-

@@ -28,14 +28,20 @@ import { angleLeft, angleRight } from "../shared";
  * These colors should not be abstracted. They are chosen because Google renders
  * the snippet like this.
  */
-const colorTitle = "#1e0fbe";
-const colorUrl = "#006621";
-const colorDescription = "#545454";
+const colorTitleDesktop         = "#1e0fbe";
+const colorTitleMobile          = "#1967d2";
+const colorUrlDesktop           = "#006621";
+const colorUrlMobile            = "#3c4043";
+const fontSizeUrlDesktop        = "14px";
+const fontSizeUrlMobile         = "12px";
+const colorDescriptionDesktop   = "#545454";
+const colorDescriptionMobile    = "#3c4043";
 const colorGeneratedDescription = "#777";
-const colorDate = "#808080";
+const colorDate                 = "#70757f";
 
-const MAX_WIDTH = 600;
-const WIDTH_PADDING = 20;
+const MAX_WIDTH         = 600;
+const MAX_WIDTH_MOBILE  = 400;
+const WIDTH_PADDING     = 20;
 const DESCRIPTION_LIMIT = 156;
 
 const DesktopContainer = styled( FixedWidthContainer )`
@@ -46,10 +52,10 @@ const DesktopContainer = styled( FixedWidthContainer )`
 
 const MobileContainer = styled.div`
 	border-bottom: 1px hidden #fff;
-	border-radius: 2px;
-	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	border-radius: 8px;
+	box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
 	font-family: Arial, Roboto-Regular, HelveticaNeue, sans-serif;
-	max-width: ${ MAX_WIDTH }px;
+	max-width: ${ MAX_WIDTH_MOBILE }px;
 	box-sizing: border-box;
 	font-size: 14px;
 `;
@@ -85,13 +91,12 @@ function addCaretStyle( WithoutCaret, color, mode ) {
 }
 
 const Title = styled.div`
-	color: ${ colorTitle };
+	color: ${ props => props.screenMode === MODE_DESKTOP ? colorTitleDesktop : colorTitleMobile };
 	text-decoration: none;
 	font-size: 18px;
 	line-height: 1.2;
 	font-weight: normal;
 	margin: 0;
-
 	display: inline-block;
 	overflow: hidden;
 	max-width: ${ MAX_WIDTH }px;
@@ -112,15 +117,15 @@ const TitleUnboundedDesktop = styled.span`
 const TitleUnboundedMobile = styled.span`
 	display: inline-block;
 	font-size: 16px;
-	line-height: 1.2em;
-	max-height: 2.4em; // max two lines of text
+	line-height: 20px;
+	max-height: 40px; // max two lines of text
+	vertical-align: top;
 	overflow: hidden;
 	text-overflow: ellipsis;
 `;
 
 const BaseUrl = styled.div`
 	display: inline-block;
-	color: ${ colorUrl };
 	cursor: pointer;
 	position: relative;
 	max-width: 90%;
@@ -132,25 +137,64 @@ const BaseUrlOverflowContainer = styled( BaseUrl )`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	max-width: 100%;
+	margin-bottom: ${ props => props.screenMode === MODE_DESKTOP ? "0" : "12px" };
+	padding-top: ${ props => props.screenMode === MODE_DESKTOP ? "0" : "1px" };
+	line-height: ${ props => props.screenMode === MODE_DESKTOP ? "inherit" : "20px" };
+	vertical-align: ${ props => props.screenMode === MODE_DESKTOP ? "baseline" : "top" };
+`;
+
+const UrlContentContainer = styled.span`
+	font-size: ${ props => props.screenMode === MODE_DESKTOP ? fontSizeUrlDesktop : fontSizeUrlMobile };
+	color: ${ props => props.screenMode === MODE_DESKTOP ? colorUrlDesktop : colorUrlMobile };
 `;
 
 BaseUrlOverflowContainer.displayName = "SnippetPreview__BaseUrlOverflowContainer";
 
 const DesktopDescription = styled.div`
-	color: ${ props => props.isDescriptionPlaceholder ? colorGeneratedDescription : colorDescription };
+	color: ${ props => props.isDescriptionPlaceholder ? colorGeneratedDescription : colorDescriptionDesktop };
 	cursor: pointer;
 	position: relative;
 	max-width: ${ MAX_WIDTH }px;
 	font-size: 13px;
 `;
 
-const MobileDescription = styled( DesktopDescription )`
+const MobileDescription = styled.div`
+	color: ${ colorDescriptionMobile };
 	font-size: 14px;
 	line-height: 20px;
+	cursor: pointer;
+	position: relative;
+	max-width: ${ MAX_WIDTH }px;
+
+	/* Clearing pseudo element to contain the floated image. */
+	&:after {
+		display: table;
+		content: "";
+		clear: both;
+	}
+`;
+
+const MobileDescriptionImageContainer = styled.div`
+	float: right;
+	width: 104px;
+	height: 104px;
+	margin: 4px 0 4px 16px;
+	border-radius: 8px;
+	overflow: hidden;
+`;
+
+const MobileDescriptionImage = styled.img`
+	display: block;
+	width: 104px;
+	height: 104px;
 `;
 
 const MobilePartContainer = styled.div`
-	padding: 8px 16px;
+	padding: 12px 16px;
+
+	&:first-child {
+		margin-bottom: -16px;
+	}
 `;
 
 const DesktopPartContainer = styled.div`
@@ -170,10 +214,23 @@ const DatePreview = styled.span`
 	color: ${ colorDate };
 `;
 
-const Separator = styled.hr`
-	border: 0;
-	border-bottom: 1px solid #DFE1E5;
-	margin: 0;
+const globeFaviconSrc = "data:image/png;base64," +
+	"iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABs0lEQVR4AWL4//8/RRjO8Iuc" +
+	"x+noO0MWUDo16FYABMGP6ZfUcRnWtm27jVPbtm3bttuH2t3eFPcY9pLz7NxiLjCyVd87pKnH" +
+	"yqXyxtCs8APd0rnyxiu4qSeA3QEDrAwBDrT1s1Rc/OrjLZwqVmOSu6+Lamcpp2KKMA9PH1BY" +
+	"XMe1mUP5qotvXTywsOEEYHXxrY+3cqk6TMkYpNr2FeoY3KIr0RPtn9wQ2unlA+GMkRw6+9TF" +
+	"w4YTwDUzx/JVvARj9KaedXRO8P5B1Du2S32smzqUrcKGEyA+uAgQjKX7zf0boWHGfn71jIKj" +
+	"2689gxp7OAGShNcBUmLMPVjZuiKcA2vuWHHDCQxMCz629kXAIU4ApY15QwggAFbfOP9DhgBJ" +
+	"+nWVJ1AZAfICAj1pAlY6hCADZnveQf7bQIwzVONGJonhLIlS9gr5mFg44Xd+4S3XHoGNPdJl" +
+	"1INIwKyEgHckEhgTe1bGiFY9GSFBYUwLh1IkiJUbY407E7syBSFxKTszEoiE/YdrgCEayDmt" +
+	"aJwCI9uu8TKMuZSVfSa4BpGgzvomBR/INhLGzrqDotp01ZR8pn/1L0JN9d9XNyx0AAAAAElF" +
+	"TkSuQmCC";
+
+const Favicon = styled.img`
+	width: 16px;
+	height: 16px;
+	margin-right: 12px;
+	vertical-align: middle;
 `;
 
 const ampLogo = "data:image/png;base64," +
@@ -410,9 +467,12 @@ export default class SnippetPreview extends PureComponent {
 	 * @returns {?ReactElement} The rendered date.
 	 */
 	renderDate() {
+		// The u22C5 is the unicode character "dot operator" equivalent to `&sdot;`.
+		const separator = this.props.mode === MODE_DESKTOP ? "-" : "\u22C5";
+
 		return this.props.date === ""
 			? null
-			: <DatePreview>{ this.props.date } - </DatePreview>;
+			: <DatePreview>{ this.props.date } { separator } </DatePreview>;
 	}
 
 	/**
@@ -477,7 +537,11 @@ export default class SnippetPreview extends PureComponent {
 			onMouseUp,
 			onMouseEnter,
 			onMouseLeave,
+			mode,
+			faviconSrc,
 		} = this.props;
+
+		const isMobileMode = mode === MODE_MOBILE;
 
 		/*
 		 * We need to replace special characters and diacritics only on the url
@@ -487,7 +551,7 @@ export default class SnippetPreview extends PureComponent {
 		 */
 		let urlContent = replaceSpecialCharactersAndDiacritics( url );
 
-		if ( this.props.mode === MODE_MOBILE ) {
+		if ( isMobileMode ) {
 			urlContent = this.getBreadcrumbs( urlContent );
 		} else {
 			if ( ! hasTrailingSlash( urlContent ) ) {
@@ -506,8 +570,14 @@ export default class SnippetPreview extends PureComponent {
 				onMouseUp={ onMouseUp.bind( null, "url" ) }
 				onMouseEnter={ onMouseEnter.bind( null, "url" ) }
 				onMouseLeave={ onMouseLeave.bind( null ) }
+				screenMode={ mode }
 			>
-				{ urlContent }
+				{ isMobileMode && <Favicon src={ faviconSrc || globeFaviconSrc } alt="" /> }
+				<UrlContentContainer
+					screenMode={ mode }
+				>
+					{ urlContent }
+				</UrlContentContainer>
 			</BaseUrlOverflowContainer>
 		</Url>;
 		/* eslint-enable jsx-a11y/mouse-events-have-key-events */
@@ -579,6 +649,7 @@ export default class SnippetPreview extends PureComponent {
 			onMouseLeave,
 			onMouseEnter,
 			mode,
+			mobileImageSrc,
 		} = this.props;
 
 		const renderedDate = this.renderDate();
@@ -611,6 +682,11 @@ export default class SnippetPreview extends PureComponent {
 						isDescriptionPlaceholder={ this.state.isDescriptionPlaceholder }
 						ref={ this.setDescriptionRef }
 					>
+						{ mobileImageSrc &&
+							<MobileDescriptionImageContainer>
+								<MobileDescriptionImage src={ mobileImageSrc } alt="" />
+							</MobileDescriptionImageContainer>
+						}
 						{ renderedDate }
 						{ highlightWords( locale, wordsToHighlight, this.getDescription() ) }
 					</MobileDescription>
@@ -641,9 +717,9 @@ export default class SnippetPreview extends PureComponent {
 			SnippetTitle,
 		} = this.getPreparedComponents( mode );
 
-		const separator = mode === MODE_DESKTOP ? null : <Separator />;
-		const downArrow = mode === MODE_DESKTOP ? <UrlDownArrow /> : null;
-		const amp       = mode === MODE_DESKTOP || ! isAmp ? null : <Amp />;
+		const isDesktopMode = mode === MODE_DESKTOP;
+		const downArrow     = isDesktopMode ? <UrlDownArrow /> : null;
+		const amp           = isDesktopMode || ! isAmp ? null : <Amp />;
 
 		/*
 		 * The jsx-a11y eslint plugin is asking for an onFocus accompanying the onMouseEnter.
@@ -655,19 +731,24 @@ export default class SnippetPreview extends PureComponent {
 			<section>
 				<Container
 					onMouseLeave={ this.onMouseLeave }
-					width={ MAX_WIDTH + ( 2 * WIDTH_PADDING ) }
+					/*
+					 * MobileContainer doesn't use the width prop: avoid to
+					 * render an invalid `width` HTML attribute on the DOM node.
+					 */
+					width={ isDesktopMode ? MAX_WIDTH + ( 2 * WIDTH_PADDING ) : null }
 					padding={ WIDTH_PADDING }
 				>
 					<PartContainer>
 						<ScreenReaderText>
 							{ __( "SEO title preview", "yoast-components" ) + ":" }
 						</ScreenReaderText>
+						{ ! isDesktopMode && this.renderUrl() }
 						<SnippetTitle
 							onMouseUp={ onMouseUp.bind( null, "title" ) }
 							onMouseEnter={ onMouseEnter.bind( null, "title" ) }
 							onMouseLeave={ onMouseLeave.bind( null ) }
 						>
-							<TitleBounded>
+							<TitleBounded screenMode={ mode }>
 								<TitleUnbounded ref={ this.setTitleRef }>
 									{ this.getTitle() }
 								</TitleUnbounded>
@@ -677,10 +758,9 @@ export default class SnippetPreview extends PureComponent {
 							{ __( "Url preview", "yoast-components" ) + ":" }
 						</ScreenReaderText>
 						{ amp }
-						{ this.renderUrl() }
+						{ isDesktopMode && this.renderUrl() }
 						{ downArrow }
 					</PartContainer>
-					{ separator }
 					<PartContainer>
 						<ScreenReaderText>
 							{ __( "Meta description preview", "yoast-components" ) + ":" }
@@ -733,6 +813,8 @@ SnippetPreview.propTypes = {
 	locale: PropTypes.string,
 	mode: PropTypes.oneOf( MODES ),
 	isAmp: PropTypes.bool,
+	faviconSrc: PropTypes.string,
+	mobileImageSrc: PropTypes.string,
 
 	onMouseUp: PropTypes.func.isRequired,
 	onHover: PropTypes.func,
@@ -750,6 +832,8 @@ SnippetPreview.defaultProps = {
 	activeField: "",
 	mode: DEFAULT_MODE,
 	isAmp: false,
+	faviconSrc: "",
+	mobileImageSrc: "",
 
 	onHover: () => {},
 	onMouseEnter: () => {},

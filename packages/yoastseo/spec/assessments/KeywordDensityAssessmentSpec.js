@@ -4,10 +4,11 @@ import Researcher from "../../src/researcher";
 import Paper from "../../src/values/Paper.js";
 import Mark from "../../src/values/Mark.js";
 import factory from "../specHelpers/factory.js";
-import morphologyData from "../../premium-configuration/data/morphologyData.json";
+import getMorphologyData from "../specHelpers/getMorphologyData";
+
 
 const i18n = factory.buildJed();
-
+const morphologyData = getMorphologyData( "en" );
 const nonkeyword = "nonkeyword, ";
 const keyword = "keyword, ";
 

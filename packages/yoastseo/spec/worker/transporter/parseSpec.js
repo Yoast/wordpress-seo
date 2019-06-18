@@ -5,6 +5,7 @@ import Paper from "../../../src/values/Paper";
 import Participle from "../../../src/values/Participle";
 import Sentence from "../../../src/values/Sentence";
 import SentencePart from "../../../src/values/SentencePart";
+import ProminentWord from "../../../src/values/ProminentWord";
 import WordCombination from "../../../src/values/WordCombination";
 import parse from "../../../src/worker/transporter/parse";
 
@@ -31,6 +32,19 @@ describe( "parse", () => {
 	it( "parses arrays", () => {
 		const serialized = [ "a", 1, "bcdefg", null ];
 		expect( parse( serialized ) ).toEqual( serialized );
+	} );
+
+	it( "parses serialized ProminentWords", () => {
+		const serialized = {
+			_parseClass: "ProminentWord",
+			occurrences: 2,
+			word: "combinations",
+			stem: "combination",
+		};
+
+		const expected = new ProminentWord( "combinations", "combination", 2 );
+
+		expect( parse( serialized ) ).toEqual( expected );
 	} );
 
 	it( "parses serialized WordCombinations", () => {
