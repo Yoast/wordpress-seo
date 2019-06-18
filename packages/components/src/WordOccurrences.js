@@ -30,8 +30,8 @@ const WordBarContainer = styled.li`
 	background:
 		linear-gradient(
 			to right,
-			rgba(164, 40, 106, 0.2) ${ props => props.width },
-			${ props => props.width },
+			rgba(164, 40, 106, 0.2) ${ props => props.barWidth },
+			${ props => props.barWidth },
 			transparent
 		);
 `;
@@ -49,13 +49,12 @@ const WordBarContainer = styled.li`
 const WordBar = ( { word, occurrence, width } ) => {
 	return (
 		<WordBarContainer
-			width={ width }
+			barWidth={ width }
 		>
 			<ProminentWord>{ word }</ProminentWord>
-			<ProminentWordOccurrence
-				aria-label={ sprintf( __( "Number of occurrences: %d.", "yoast-components" ), occurrence ) }
-			>
-				{ occurrence }
+			<ProminentWordOccurrence>
+				<span aria-hidden={ true }>{ occurrence }</span>
+				<span className="screen-reader-text">{ sprintf( __( "%d occurrences", "yoast-components" ), occurrence ) }</span>
 			</ProminentWordOccurrence>
 		</WordBarContainer>
 	);
