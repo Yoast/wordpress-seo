@@ -1,0 +1,222 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WordList renders correctly without items 1`] = `
+Array [
+  <p>
+    I'm a before list paragraph
+  </p>,
+  <ol
+    aria-label="Prominent words"
+    className="iLIVBa"
+  />,
+  <p>
+    I'm an after list paragraph
+  </p>,
+]
+`;
+
+exports[`WordList renders wordlist as list items 1`] = `
+Array [
+  <p>
+    I'm a before list paragraph
+  </p>,
+  <ol
+    aria-label="Prominent words"
+    className="iLIVBa"
+  >
+    <li
+      className="didWQV"
+      width="100%"
+    >
+      <span
+        className="EQarG"
+      >
+        word1
+      </span>
+      <span
+        aria-label="Number of occurrences: 13."
+        className="icotjz"
+      >
+        13
+      </span>
+    </li>
+    <li
+      className="dlrdVL"
+      width="61.53846153846154%"
+    >
+      <span
+        className="EQarG"
+      >
+        word2
+      </span>
+      <span
+        aria-label="Number of occurrences: 8."
+        className="icotjz"
+      >
+        8
+      </span>
+    </li>
+    <li
+      className="cgTCMk"
+      width="46.15384615384615%"
+    >
+      <span
+        className="EQarG"
+      >
+        word3
+      </span>
+      <span
+        aria-label="Number of occurrences: 6."
+        className="icotjz"
+      >
+        6
+      </span>
+    </li>
+  </ol>,
+  <p>
+    I'm an after list paragraph
+  </p>,
+]
+`;
+
+exports[`WordOccurrences renders WordOccurrences as list items 1`] = `
+Array [
+  <p>
+    I'm a before list paragraph
+  </p>,
+  <ol
+    aria-label="Prominent words"
+    className="iLIVBa"
+  >
+    <li
+      className="didWQV"
+      width="100%"
+    >
+      <span
+        className="EQarG"
+      >
+        word1
+      </span>
+      <span
+        aria-label="Number of occurrences: 13."
+        className="icotjz"
+      >
+        13
+      </span>
+    </li>
+    <li
+      className="dlrdVL"
+      width="61.53846153846154%"
+    >
+      <span
+        className="EQarG"
+      >
+        word2
+      </span>
+      <span
+        aria-label="Number of occurrences: 8."
+        className="icotjz"
+      >
+        8
+      </span>
+    </li>
+    <li
+      className="cgTCMk"
+      width="46.15384615384615%"
+    >
+      <span
+        className="EQarG"
+      >
+        word3
+      </span>
+      <span
+        aria-label="Number of occurrences: 6."
+        className="icotjz"
+      >
+        6
+      </span>
+    </li>
+  </ol>,
+  <p>
+    I'm an after list paragraph
+  </p>,
+]
+`;
+
+exports[`WordOccurrences renders correctly without before and after elements 1`] = `
+<ol
+  aria-label="Prominent words"
+  className="iLIVBa"
+>
+  <li
+    className="didWQV"
+    width="100%"
+  >
+    <span
+      className="EQarG"
+    >
+      word1
+    </span>
+    <span
+      aria-label="Number of occurrences: 13."
+      className="icotjz"
+    >
+      13
+    </span>
+  </li>
+  <li
+    className="dlrdVL"
+    width="61.53846153846154%"
+  >
+    <span
+      className="EQarG"
+    >
+      word2
+    </span>
+    <span
+      aria-label="Number of occurrences: 8."
+      className="icotjz"
+    >
+      8
+    </span>
+  </li>
+  <li
+    className="cgTCMk"
+    width="46.15384615384615%"
+  >
+    <span
+      className="EQarG"
+    >
+      word3
+    </span>
+    <span
+      aria-label="Number of occurrences: 6."
+      className="icotjz"
+    >
+      6
+    </span>
+  </li>
+</ol>
+`;
+
+exports[`WordOccurrences renders correctly without items 1`] = `
+Array [
+  <p>
+    I'm a before list paragraph
+  </p>,
+  <ol
+    aria-label="Prominent words"
+    className="iLIVBa"
+  />,
+  <p>
+    I'm an after list paragraph
+  </p>,
+]
+`;
+
+exports[`WordOccurrences renders correctly without words and without before and after elements 1`] = `
+<ol
+  aria-label="Prominent words"
+  className="iLIVBa"
+/>
+`;

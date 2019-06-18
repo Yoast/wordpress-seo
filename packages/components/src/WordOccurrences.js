@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { __, sprintf } from "@wordpress/i18n";
 
-const ProminentWordOccurrence = styled.p`
+const ProminentWordOccurrence = styled.span`
 	display: inline-block;
 	margin: 2px 8px;
 `;
@@ -24,7 +25,7 @@ const WordBarContainer = styled.li`
 	margin: 8px 0;
 	height: calc( 1.375em + 4px );
 	display: flex;
-	width: 100%;
+	max-width: 600px;
 	justify-content: space-between;
 	background:
 		linear-gradient(
@@ -47,9 +48,15 @@ const WordBarContainer = styled.li`
  */
 const WordBar = ( { word, occurrence, width } ) => {
 	return (
-		<WordBarContainer width={ width }>
+		<WordBarContainer
+			width={ width }
+		>
 			<ProminentWord>{ word }</ProminentWord>
-			<ProminentWordOccurrence>{ occurrence }</ProminentWordOccurrence>
+			<ProminentWordOccurrence
+				aria-label={ sprintf( __( "Number of occurrences: %d.", "yoast-components" ), occurrence ) }
+			>
+				{ occurrence }
+			</ProminentWordOccurrence>
 		</WordBarContainer>
 	);
 };
@@ -100,7 +107,9 @@ class WordOccurrences extends React.Component {
 		return (
 			<React.Fragment>
 				{ this.props.showBeforeList }
-				<WordOccurrencesList>
+				<WordOccurrencesList
+					aria-label={ __( "Prominent words", "yoast-components" ) }
+				>
 					{
 						this.state.words.map(
 							( wordObject, index ) => {
@@ -123,8 +132,13 @@ class WordOccurrences extends React.Component {
 
 WordOccurrences.propTypes = {
 	words: PropTypes.array.isRequired,
-	showBeforeList: PropTypes.string.isRequired,
-	showAfterList: PropTypes.string.isRequired,
+	showBeforeList: PropTypes.element,
+	showAfterList: PropTypes.element,
+};
+
+WordOccurrences.defaultProps = {
+	showBeforeList: null,
+	showAfterList: null,
 };
 
 export default WordOccurrences;
