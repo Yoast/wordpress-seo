@@ -1,5 +1,5 @@
 /* global wpseoAdminL10n */
-
+/* External dependencies */
 import { Component, Fragment } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -8,6 +8,9 @@ import { Slot } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
 import { YoastSeoIcon } from "@yoast/components";
 import { colors } from "@yoast/style-guide";
+
+/* Internal dependencies */
+import ScoreIconPortal from "./ScoreIconPortal";
 import Collapsible from "../SidebarCollapsible";
 import Results from "./Results";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
@@ -168,18 +171,42 @@ class SeoAnalysis extends Component {
 	 * @returns {ReactElement} The AnalysisUpsell component.
 	 */
 	renderWordFormsUpsell( location ) {
-		return <AnalysisUpsell
-			url={ location === "sidebar"
-				? wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_sidebar" ]
-				: wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_metabox" ] }
-			alignment={ location === "sidebar" ? "vertical" : "horizontal" }
-		/>;
+		return (
+			<AnalysisUpsell
+				url={ location === "sidebar"
+					? wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_sidebar" ]
+					: wpseoAdminL10n[ "shortlinks.upsell.sidebar.morphology_upsell_metabox" ] }
+				alignment={ location === "sidebar" ? "vertical" : "horizontal" }
+			/>
+		);
+	}
+
+	/**
+	 * Renders the ScoreIconPortal component, which displays a score indication icon in the SEO metabox tab.
+	 *
+	 * @param {string} location       Where this component is rendered.
+	 * @param {string} scoreIndicator String indicating the score.
+	 *
+	 * @returns {React.Element} The rendered score icone portal element.
+	 */
+	renderTabIcon( location, scoreIndicator ) {
+		// The tab icon should only be rendered for the metabox.
+		if ( location !== "metabox" ) {
+			return null;
+		}
+
+		return (
+			<ScoreIconPortal
+				elementId="wpseo-seo-score-icon"
+				scoreIndicator={ scoreIndicator }
+			/>
+		);
 	}
 
 	/**
 	 * Renders the SEO Analysis component.
 	 *
-	 * @returns {ReactElement} The SEO Analysis component.
+	 * @returns {React.Element} The SEO Analysis component.
 	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
@@ -191,7 +218,7 @@ class SeoAnalysis extends Component {
 
 		return (
 			<LocationConsumer>
-				{ context => (
+				{ location => (
 					<Fragment>
 						<Collapsible
 							title={ __( "SEO analysis", "wordpress-seo" ) }
@@ -199,14 +226,14 @@ class SeoAnalysis extends Component {
 							prefixIcon={ getIconForScore( score.className ) }
 							prefixIconCollapsed={ getIconForScore( score.className ) }
 							subTitle={ this.props.keyword }
-							id={ `yoast-seo-analysis-collapsible-${ context }` }
+							id={ `yoast-seo-analysis-collapsible-${ location }` }
 						>
-							<Slot name={ `yoast-synonyms-${ context }` } />
+							<Slot name={ `yoast-synonyms-${ location }` } />
 							{ this.props.shouldUpsell && <Fragment>
-								{ this.renderSynonymsUpsell( context ) }
-								{ this.renderMultipleKeywordsUpsell( context ) }
+								{ this.renderSynonymsUpsell( location ) }
+								{ this.renderMultipleKeywordsUpsell( location ) }
 							</Fragment> }
-							{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell( context ) }
+							{ this.props.shouldUpsellWordFormRecognition && this.renderWordFormsUpsell( location ) }
 							<AnalysisHeader>
 								{ __( "Analysis results", "wordpress-seo" ) }
 							</AnalysisHeader>
@@ -217,7 +244,8 @@ class SeoAnalysis extends Component {
 								marksButtonStatus={ this.props.marksButtonStatus }
 							/>
 						</Collapsible>
-						{ this.props.shouldUpsell && this.renderKeywordUpsell( context ) }
+						{ this.props.shouldUpsell && this.renderKeywordUpsell( location ) }
+						{ this.renderTabIcon( location, score.className ) }
 					</Fragment>
 				) }
 			</LocationConsumer>
