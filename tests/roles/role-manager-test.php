@@ -33,7 +33,7 @@ class Role_Manager_Test extends TestCase {
 		$capabilities = $instance->get_capabilities( 'administrator' );
 
 		$this->assertNotEmpty( $capabilities );
-		$this->assertContains( 'manage_options', array_keys( $capabilities ) );
+		$this->assertArrayHasKey( 'manage_options', $capabilities );
 		$this->assertTrue( $capabilities['manage_options'] );
 	}
 
@@ -46,12 +46,12 @@ class Role_Manager_Test extends TestCase {
 			->andReturn( false );
 
 		$result = $instance->get_capabilities( false );
-		$this->assertEquals( array(), $result );
+		$this->assertSame( array(), $result );
 
 		$result = $instance->get_capabilities( new stdClass() );
-		$this->assertEquals( array(), $result );
+		$this->assertSame( array(), $result );
 
 		$result = $instance->get_capabilities( 'fake_role' );
-		$this->assertEquals( array(), $result );
+		$this->assertSame( array(), $result );
 	}
 }

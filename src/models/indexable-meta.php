@@ -27,7 +27,7 @@ class Indexable_Meta extends Yoast_Model {
 	 * @param int    $indexable_id The indexable ID.
 	 * @param string $meta_key     The meta key.
 	 *
-	 * @return bool|Indexable_Meta Indexable meta object.
+	 * @return bool|\Yoast\WP\Free\Models\Indexable_Meta Indexable meta object.
 	 */
 	public static function find_meta_for_indexable( $indexable_id, $meta_key ) {
 		return Yoast_Model::of_type( 'Indexable_Meta' )
@@ -42,26 +42,26 @@ class Indexable_Meta extends Yoast_Model {
 	 * @param int    $indexable_id The indexable ID.
 	 * @param string $meta_key     The meta key.
 	 *
-	 * @return bool|Indexable_Meta Indexable meta object.
+	 * @return bool|\Yoast\WP\Free\Models\Indexable_Meta Indexable meta object.
 	 */
 	public static function create_meta_for_indexable( $indexable_id, $meta_key ) {
 		/**
 		 * Indexable instance for the post.
 		 *
-		 * @var Indexable_Meta $indexable_meta
+		 * @var \Yoast\WP\Free\Models\Indexable_Meta $indexable_meta
 		 */
 		$indexable_meta               = Yoast_Model::of_type( 'Indexable_Meta' )->create();
 		$indexable_meta->indexable_id = $indexable_id;
 		$indexable_meta->meta_key     = $meta_key;
 
 		Logger::get_logger()->debug(
-			sprintf(
+			\sprintf(
 				/* translators: 1: ID; 2: value of a meta key. */
-				__( 'Indexable meta created for indexable id %1$s with meta key %2$s', 'wordpress-seo' ),
+				\__( 'Indexable meta created for indexable id %1$s with meta key %2$s', 'wordpress-seo' ),
 				$indexable_id,
 				$meta_key
 			),
-			get_object_vars( $indexable_meta )
+			\get_object_vars( $indexable_meta )
 		);
 
 		return $indexable_meta;
@@ -83,24 +83,24 @@ class Indexable_Meta extends Yoast_Model {
 	 */
 	public function save() {
 		if ( ! $this->created_at ) {
-			$this->created_at = gmdate( 'Y-m-d H:i:s' );
+			$this->created_at = \gmdate( 'Y-m-d H:i:s' );
 		}
 
 		if ( $this->updated_at ) {
-			$this->updated_at = gmdate( 'Y-m-d H:i:s' );
+			$this->updated_at = \gmdate( 'Y-m-d H:i:s' );
 		}
 
 		$saved = parent::save();
 
 		if ( $saved ) {
 			Logger::get_logger()->debug(
-				sprintf(
+				\sprintf(
 					/* translators: 1: ID; 2: value of a meta key. */
-					__( 'Indexable meta saved for indexable id %1$s with meta key %2$s', 'wordpress-seo' ),
+					\__( 'Indexable meta saved for indexable id %1$s with meta key %2$s', 'wordpress-seo' ),
 					$this->indexable_id,
 					$this->meta_key
 				),
-				get_object_vars( $this )
+				\get_object_vars( $this )
 			);
 		}
 
@@ -117,8 +117,8 @@ class Indexable_Meta extends Yoast_Model {
 
 		if ( $deleted ) {
 			Logger::get_logger()->debug(
-				__( 'Indexable meta deleted.', 'wordpress-seo' ),
-				get_object_vars( $this )
+				\__( 'Indexable meta deleted.', 'wordpress-seo' ),
+				\get_object_vars( $this )
 			);
 		}
 

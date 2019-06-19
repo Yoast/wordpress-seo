@@ -43,6 +43,6 @@ class Upgrade_Test extends TestCase {
 
 		$actual = \has_action( 'wpseo_run_upgrade', array( $upgrade, 'do_upgrade' ) );
 
-		$this->assertEquals( 10, $actual );
+		$this->assertNotFalse( $actual );
 	}
 }

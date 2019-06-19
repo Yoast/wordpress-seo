@@ -34,6 +34,8 @@ class WPSEO_Option_WPSEO_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Option::prevent_disabled_options_update()
 	 */
 	public function test_verify_features_against_network() {
+		$this->skipWithoutMultisite();
+
 		$options  = WPSEO_Options::get_option( 'wpseo' );
 		$expected = array_fill_keys( $this->feature_vars, true );
 		$this->assertEqualSets( $expected, array_intersect_key( $options, $expected ) );

@@ -37,6 +37,8 @@ class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
 	 * @param bool   $expected_has_cap Whether the expected capability check result is true or false.
 	 */
 	public function test_filter_user_has_wpseo_manage_options_cap( $role, $access, $expected_has_cap ) {
+		$this->skipWithoutMultisite();
+
 		WPSEO_Options::get_instance();
 
 		$options           = get_site_option( 'wpseo_ms', array() );
