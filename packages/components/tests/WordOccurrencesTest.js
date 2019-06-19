@@ -5,7 +5,11 @@ import WordOccurrences from "../src/WordOccurrences";
 
 const showBeforeList = <p>{ "I'm a before list paragraph" }</p>;
 const showAfterList = <p>{ "I'm an after list paragraph" }</p>;
-const words = [ { _word: "word1", _occurrences: 13 }, { _word: "word2", _occurrences: 8 }, { _word: "word3", _occurrences: 6 } ];
+const words = [
+	{ _word: "reviewing", _stem: "review", _occurrences: 13 },
+	{ _word: "code", _stem: "code", _occurrences: 8 },
+	{ _word: "fun", _stem: "fun", _occurrences: 6 },
+];
 const noWords = [];
 
 describe( "WordOccurrences", function() {

@@ -15,7 +15,7 @@ Array [
       <span
         className="EQarG"
       >
-        word1
+        reviewing
       </span>
       <span
         className="icotjz"
@@ -38,7 +38,7 @@ Array [
       <span
         className="EQarG"
       >
-        word2
+        code
       </span>
       <span
         className="icotjz"
@@ -61,7 +61,7 @@ Array [
       <span
         className="EQarG"
       >
-        word3
+        fun
       </span>
       <span
         className="icotjz"
@@ -96,7 +96,7 @@ exports[`WordOccurrences renders correctly without before and after elements 1`]
     <span
       className="EQarG"
     >
-      word1
+      reviewing
     </span>
     <span
       className="icotjz"
@@ -119,7 +119,7 @@ exports[`WordOccurrences renders correctly without before and after elements 1`]
     <span
       className="EQarG"
     >
-      word2
+      code
     </span>
     <span
       className="icotjz"
@@ -142,7 +142,7 @@ exports[`WordOccurrences renders correctly without before and after elements 1`]
     <span
       className="EQarG"
     >
-      word3
+      fun
     </span>
     <span
       className="icotjz"
