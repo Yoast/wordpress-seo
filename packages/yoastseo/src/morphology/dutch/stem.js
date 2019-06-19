@@ -32,302 +32,369 @@ const determineR1 = function( word ) {
 	return r1Index;
 };
 
+/*
+The array contains objects with regexes used to find the suffixes to be removed in the first step. This includes all verb,
+noun, and adjective suffixes, apart from diminutive suffixes, present participle, and positive inflected adjective suffixes
+(those are deleted in subsequent steps).
+
+Each object contains:
+- a name used to identify the suffix index
+- the regex used to find the suffix. The last capturing group of the regex is the suffix. Anything that precedes it is
+	not part of the suffix, but the character(s) that need(s) to precede the suffix in order for it to be removed.
+- the index where the regex is matched
+- the number of characters that precede the suffix
+
+*/
+
+const suffixes1 = [
+	{
+		indexName: "a1Index",
+		regex: /heden$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 0,
+	},
+	{
+		indexName: "b1Index",
+		regex: /([^aeoiuyèäüëïöáéíóú])(en|ene)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 1,
+	},
+	{
+		indexName: "c1Index",
+		regex: /([aeoiuyèäüëïöáéíóú]i)(en)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 2,
+	},
+	{
+		indexName: "d1Index",
+		regex: /([aeoiu])(ën)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 1,
+	},
+	{
+		indexName: "e1Index",
+		regex: /(je)(s)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 2,
+	},
+	{
+		indexName: "f1Index",
+		regex: /([^aeoiuyèäüëïöáéíóúj])(s|se)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 1,
+	},
+	{
+		indexName: "g1Index",
+		regex: /(eerd)(er|ere)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 4,
+	},
+	{
+		indexName: "h1Index",
+		regex: /(r)(der|dere)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 1,
+	},
+	{
+		indexName: "i1Index",
+		regex: /([rfgjklmnpt])(er|ere)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 1,
+	},
+	{
+		indexName: "j1Index",
+		regex: /(sch)(er|ere)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 3,
+	},
+	{
+		indexName: "k1Index",
+		regex: /([^r]d)(er|ere)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 2,
+	},
+	{
+		indexName: "l1Index",
+		regex: /([eoué]e)(ër|ëre)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 2,
+	},
+	{
+		indexName: "m1Index",
+		regex: /([rfgjklmnpt])(st|ste)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 1,
+	},
+	{
+		indexName: "n1Index",
+		regex: /(sch)(st|ste)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 3,
+	},
+	{
+		indexName: "o1Index",
+		regex: /([eoué]e)(st|ste)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 2,
+	},
+	{
+		indexName: "p1Index",
+		regex: /([oa]I)(est|este)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 2,
+	},
+	{
+		indexName: "q1Index",
+		regex: /([oa]I)(er|ere)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 2,
+	},
+
+];
 
 /**
- * Search for the longest among the following suffixes,
- * (a) heden
- * (b) en   ene (preceded by a valid en-ending)
- * (c) s	se (preceded by a valid s-ending)
- * Define a valid en-ending as a non-vowel and not gem
- * Define a valid s-ending as a non-vowel other than j
+ * Search for word suffixes using the regexes specified in the suffixes1 array.
+ * When there is a match, change the value of foundRegexIndex to the index where the regex was matched.
  *
- * @param {string} word The word to check for the suffix.
- * @returns {{index1: number, optionUsed1: string}} The index of the suffix and the kind of suffix used.
+ * @param {string} word		The word to check for suffixes.
+ * @returns {void}
  */
-const findSuffixStep1 = function( word ) {
-	const a1Index = word.search( /heden$/g );
-	let b1Index = word.search( /([^aeoiuyèäüëïöáéíóú])(en|ene)$/g );
-	let c1Index = word.search( /([aeoiuyèäüëïöáéíóú]i)(en)$/g );
-	let d1Index = word.search( /([aeoiu])(ën)$/g );
-	let e1Index = word.search( /(je)(s)$/g );
-	let f1Index = word.search( /([^aeoiuyèäüëïöáéíóúj])(s|se)$/g );
-	let g1Index = word.search( /(r)(der|dere)$/g );
-	let h1Index = word.search( /([rfgjklmnpt])(er|ere)$/g );
-	let i1Index = word.search( /(sch)(er|ere)$/g );
-	let j1Index = word.search( /([^r]d)(er|ere)$/g );
-	let k1Index = word.search( /([eoué]e)(ër|ëre)$/g );
-	let l1Index = word.search( /([rfgjklmnpt])(st|ste)$/g );
-	let m1Index = word.search( /(sch)(st|ste)$/g );
-	let n1Index = word.search( /([eoué]e)(st|ste)$/g );
-	let o1Index = word.search( /([ao]I)(est|este)$/g );
-	// Exclude the characters preceding the suffix.
-	if ( b1Index !== -1 ) {
-		b1Index++;
+const findSuffixesStep1 = function( word ) {
+	for ( const suffix of suffixes1 ) {
+		suffix.foundRegexIndex = word.search( suffix.regex );
 	}
-	if ( c1Index !== -1 ) {
-		c1Index += 2;
-	}
-	if ( d1Index !== -1 ) {
-		d1Index++;
-	}
-	if ( e1Index !== -1 ) {
-		e1Index += 2;
-	}
-	if ( f1Index !== -1 ) {
-		f1Index++;
-	}
-	if ( g1Index !== -1 ) {
-		g1Index++;
-	}
-	if ( h1Index !== -1 ) {
-		h1Index++;
-	}
-	if ( i1Index !== -1 ) {
-		i1Index += 3;
-	}
-	if ( j1Index !== -1 ) {
-		j1Index += 2;
-	}
-	if ( k1Index !== -1 ) {
-		k1Index += 2;
-	}
-	if ( l1Index !== -1 ) {
-		l1Index++;
-	}
-	if ( m1Index !== -1 ) {
-		m1Index += 3;
-	}
-	if ( n1Index !== -1 ) {
-		n1Index += 2;
-	}
-	if ( o1Index !== -1 ) {
-		o1Index += 2;
-	}
-
-	let optionUsed = "";
-	let index1 = 10000;
-	if ( a1Index !== -1 ) {
-		optionUsed = "a";
-		index1 = a1Index;
-
-		return { index1, optionUsed };
-	} else if ( b1Index !== -1 ) {
-		optionUsed = "b";
-		index1 = b1Index;
-
-		return { index1, optionUsed };
-	} else if ( c1Index !== -1 ) {
-		optionUsed = "c";
-		index1 = c1Index;
-
-		return { index1, optionUsed };
-	} else if ( d1Index !== -1 ) {
-		optionUsed = "d";
-		index1 = d1Index;
-
-		return { index1, optionUsed };
-	} else if ( e1Index !== -1 ) {
-		optionUsed = "e";
-		index1 = e1Index;
-
-		return { index1, optionUsed };
-	} else if ( f1Index !== -1 ) {
-		optionUsed = "f";
-		index1 = f1Index;
-
-		return { index1, optionUsed };
-	} else if ( g1Index !== -1 ) {
-		optionUsed = "g";
-		index1 = g1Index;
-
-		return { index1, optionUsed };
-	} else if ( h1Index !== -1 ) {
-		optionUsed = "h";
-		index1 = h1Index;
-
-		return { index1, optionUsed };
-	} else if ( i1Index !== -1 ) {
-		optionUsed = "i";
-		index1 = i1Index;
-
-		return { index1, optionUsed };
-	} else if ( j1Index !== -1 ) {
-		optionUsed = "j";
-		index1 = j1Index;
-
-		return { index1, optionUsed };
-	} else if ( k1Index !== -1 ) {
-		optionUsed = "k";
-		index1 = k1Index;
-
-		return { index1, optionUsed };
-	} else if ( l1Index !== -1 ) {
-		optionUsed = "l";
-		index1 = l1Index;
-
-		return { index1, optionUsed };
-	} else if ( m1Index !== -1 ) {
-		optionUsed = "m";
-		index1 = m1Index;
-
-		return { index1, optionUsed };
-	} else if ( n1Index !== -1 ) {
-		optionUsed = "n";
-		index1 = n1Index;
-
-		return { index1, optionUsed };
-	} else if ( o1Index !== -1 ) {
-		optionUsed = "o";
-		index1 = o1Index;
-
-		return { index1, optionUsed };
-	}
-
-	return { index1, optionUsed };
 };
 
 /**
- * Finds the different types of diminutive suffixes.
- *
- * @param {string} word		The word to find the suffix for.
- * @returns {{index2: number, optionUsed2: string}} The index of the suffix and the kind of suffix used.
+ * Adjust the index so that it excludes the characters preceding the suffix.
+ * @returns {void}
  */
-const findSuffixStep2 = function( word ) {
-	let a2Index = word.search( /(ing)etje$/g );
-	const b2Index = word.search( /'tje$/g );
-	let c2Index = word.search( /(w)tje$/g );
-	let d2Index = word.search( /(ector|actor)tje$/g );
-	let e2Index = word.search( /(ator)tje$/g );
-	let f2Index = word.search( /(lm|rm|em|um)pje$/g );
-	let g2Index = word.search( /(aam|oom|uum|eem)pje$/g );
-	let h2Index = word.search( /([bcdfgkpstvxz])je$/g );
-	let i2Index = word.search( /(ch)je$/g );
-
-	// Exclude the preceding endings.
-	if ( a2Index !== -1 ) {
-		a2Index += 3;
+const adjustSuffixIndex1 = function() {
+	for ( const suffix of suffixes1 ) {
+		if ( suffix.foundRegexIndex !== -1 )  {
+			suffix.foundRegexIndex = suffix.foundRegexIndex + suffix.charactersBeforeSuffix;
+		}
 	}
-	if ( c2Index !== -1 ) {
-		c2Index++;
-	}
-	if ( d2Index !== -1 ) {
-		d2Index += 5;
-	}
-	if ( e2Index !== -1 ) {
-		e2Index += 4;
-	}
-	if ( f2Index !== -1 ) {
-		f2Index += 2;
-	}
-	if ( g2Index !== -1 ) {
-		g2Index += 3;
-	}
-	if ( h2Index !== -1 ) {
-		h2Index++;
-	}
-	if ( i2Index !== -1 ) {
-		i2Index += 2;
-	}
-
-	let optionUsed2 = "";
-	let index2 = 10000;
-	if ( a2Index !== -1 ) {
-		optionUsed2 = "a";
-		index2 = a2Index;
-
-		return { index2, optionUsed2 };
-	} else if ( b2Index !== -1 ) {
-		optionUsed2 = "b";
-		index2 = b2Index;
-
-		return { index2, optionUsed2 };
-	} else if ( c2Index !== -1 ) {
-		optionUsed2 = "c";
-		index2 = c2Index;
-
-		return { index2, optionUsed2 };
-	} else if ( d2Index !== -1 ) {
-		optionUsed2 = "d";
-		index2 = d2Index;
-
-		return { index2, optionUsed2 };
-	} else if ( e2Index !== -1 ) {
-		optionUsed2 = "e";
-		index2 = e2Index;
-
-		return { index2, optionUsed2 };
-	} else if ( f2Index !== -1 ) {
-		optionUsed2 = "f";
-		index2 = f2Index;
-
-		return { index2, optionUsed2 };
-	} else if ( g2Index !== -1 ) {
-		optionUsed2 = "g";
-		index2 = g2Index;
-
-		return { index2, optionUsed2 };
-	} else if ( h2Index !== -1 ) {
-		optionUsed2 = "h";
-		index2 = h2Index;
-
-		return { index2, optionUsed2 };
-	} else if ( i2Index !== -1 ) {
-		optionUsed2 = "i";
-		index2 = i2Index;
-
-		return { index2, optionUsed2 };
-	}
-	return { index2, optionUsed2 };
 };
-
 
 /**
- * Finds the suffix -e if preceded by a valid -e ending (non-vowel).
- *
- * @param {string} word		The word to find the suffix for.
- * @returns {number} index3 	The index of the suffix.
+ * Returns the index and index name of the first suffix that is matched in the array.
+ * @returns {{index1: number, indexName1: string}}	The index of the suffix and the name of the index.
  */
-const findSuffixStep3 = function( word ) {
-	let a3index = word.search( /[^aoeiuyèäüëïöáéíóú]e$/ );
-	let b3index = word.search( /[aoeiu]ë$/ );
-	// Exclude the ending before the suffix.
-	if ( a3index !== -1 ) {
-		a3index++;
+const determineSuffixToDelete1 = function() {
+	for ( const suffix of suffixes1 ) {
+		const index1 = suffix.foundRegexIndex;
+		const indexName1 = suffix.indexName;
+		if ( index1 !== -1 ) {
+			return { index1: index1, indexName1: indexName1 };
+		}
 	}
-	if ( b3index !== -1 ) {
-		b3index++;
-	}
-
-	let index3 = 10000;
-
-	if ( a3index !== -1 ) {
-		index3 = a3index;
-
-		return index3;
-	} else if ( b3index !== -1 ) {
-		index3 = b3index;
-
-		return index3;
-	}
-	return index3;
+	return { index1: 10000, indexName1: "" };
 };
 
+/*
+The array contains objects with regexes used to find the suffixes to be removed in the second step. These are all
+diminutive noun suffixes.
+
+Each object contains:
+- a name used to identify the suffix index
+- the regex used to find the suffix. The last capturing group of the regex is the suffix. Anything that precedes it is
+	not part of the suffix, but the character(s) that need(s) to precede the suffix in order for it to be removed.
+- the index where the regex is matched
+- the number of characters that precede the suffix
+
+*/
+
+const suffixes2 = [
+	{
+		indexName: "a2Index",
+		regex: /(ing)etje$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 3,
+	},
+	{
+		indexName: "b2Index",
+		regex: /'tje$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 0,
+	},
+	{
+		indexName: "c2Index",
+		regex: /(w)tje$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 1,
+	},
+	{
+		indexName: "d2Index",
+		regex: /(ector|actor)tje$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 5,
+	},
+	{
+		indexName: "e2Index",
+		regex: /(ator)tje$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 4,
+	},
+	{
+		indexName: "f2Index",
+		regex: /(lm|rm|em|um)pje$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 2,
+	},
+	{
+		indexName: "g2Index",
+		regex: /(aam|oom|uum|eem)pje$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 3,
+	},
+	{
+		indexName: "h2Index",
+		regex: /([bcdfgkpstvxz])je$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 1,
+	},
+	{
+		indexName: "i2Index",
+		regex: /(ch)je$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 2,
+	},
+];
+
+/**
+ * Search for word suffixes using the regexes specified in the suffixes2 array.
+ * When there is a match, change the value of foundRegexIndex to the index where the regex was matched.
+ *
+ * @param {string} word		The word to check for suffixes.
+ * @returns {void}
+ */
+const findSuffixesStep2 = function( word ) {
+	for ( const suffix of suffixes2 ) {
+		suffix.foundRegexIndex = word.search( suffix.regex );
+	}
+};
+
+/**
+ * Adjust the index so that it excludes the characters preceding the suffix.
+ * @returns {void}
+ */
+const adjustSuffixIndex2 = function() {
+	for ( const suffix of suffixes2 ) {
+		if ( suffix.foundRegexIndex !== -1 )  {
+			suffix.foundRegexIndex = suffix.foundRegexIndex + suffix.charactersBeforeSuffix;
+		}
+	}
+};
+
+/**
+ * Returns the index and index name of the first suffix that is matched in the array.
+ * @returns {{index2: number, indexName2: string}}	The index of the suffix and the name of the index.
+ */
+const determineSuffixToDelete2 = function() {
+	for ( const suffix of suffixes2 ) {
+		const index2 = suffix.foundRegexIndex;
+		const indexName2 = suffix.indexName;
+		if ( index2 !== -1 ) {
+			return { index2: index2, indexName2: indexName2 };
+		}
+	}
+	return { index2: 10000, indexName2: "" };
+};
+
+/*
+The array contains objects with regexes used to find the suffixes to be removed in the last step. These are present
+participle (-end/-ende) and inflected adjective (-e/ë) suffixes.
+
+Each object contains:
+- a name used to identify the suffix index
+- the regex used to find the suffix. The last capturing group of the regex is the suffix. Anything that precedes it is
+	not part of the suffix, but the character(s) that need(s) to precede the suffix in order for it to be removed.
+- the index where the regex is matched
+- the number of characters that precede the suffix
+
+*/
+const suffixes3 = [
+	{
+		indexName: "a3Index",
+		regex: /([^aeoiuyèäüëïöáéíóú])(end|ende)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 1,
+	},
+	{
+		indexName: "b3Index",
+		regex: /([aeoiuyèäüëïöáéíóú]i)(end|ende)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 2,
+	},
+	{
+		indexName: "c3Index",
+		regex: /[^aoeiuyèäüëïöáéíóú]e$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 1,
+	},
+	{
+		indexName: "d3Index",
+		regex: /[aoeiu]ë$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 1,
+	},
+];
+
+/**
+ * Search for word suffixes using the regexes specified in the suffixes3 array.
+ * When there is a match, change the value of foundRegexIndex to the index where the regex was matched.
+ *
+ * @param {string} word		The word to check for suffixes.
+ * @returns {void}
+ */
+const findSuffixesStep3 = function( word ) {
+	for ( const suffix of suffixes3 ) {
+		suffix.foundRegexIndex = word.search( suffix.regex );
+	}
+};
+
+/**
+ * Adjust the index so that it excludes the characters preceding the suffix.
+ * @returns {void}
+ */
+const adjustSuffixIndex3 = function() {
+	for ( const suffix of suffixes3 ) {
+		if ( suffix.foundRegexIndex !== -1 )  {
+			suffix.foundRegexIndex = suffix.foundRegexIndex + suffix.charactersBeforeSuffix;
+		}
+	}
+};
+
+/**
+ * Returns the index of the first suffix that is matched in the array.
+ * @returns {number} index3		The index of the suffix and the name of the index.
+ */
+const determineSuffixToDelete3 = function() {
+	for ( const suffix of suffixes3 ) {
+		const index3 = suffix.foundRegexIndex;
+		if ( index3 !== -1 ) {
+			return index3;
+		}
+	}
+	return 10000;
+};
 
 /**
  * If the -heden suffix was found in R1, replace it with -heid. If another suffix was found in R1, delete it.
- * (The letter of the valid -s or -en ending is not necessarily in R1.)
+ * (The letter of the characters preceding the suffix are not necessarily in R1.)
  *
  * @param {string} word         The word for which to delete the suffix.
  * @param {number} index1       The index of the suffix that was found.
- * @param {string} optionUsed   The type of suffix that was found.
+ * @param {string} indexName1   The type of suffix that was found.
  * @param {number} r1Index      The R1 index.
  *
  * @returns {string} The word with the deleted suffix.
  */
-const deleteSuffix1 = function( word, index1, optionUsed, r1Index ) {
+const deleteSuffix1 = function( word, index1, indexName1, r1Index ) {
 	if ( index1 !== 10000 && r1Index !== -1 ) {
 		if ( index1 >= r1Index ) {
-			if ( optionUsed === "a" ) {
+			if ( indexName1 === "a1Index" ) {
 				word = word.replace( /(.*)heden$/g, "$1heid" );
 			} else {
 				word = word.substring( 0, index1 );
@@ -341,19 +408,20 @@ const deleteSuffix1 = function( word, index1, optionUsed, r1Index ) {
  *
  * If the -je suffix was found in R1 and preceded by -ink, replace the -k with -g in the stemmed word.
  * If another suffix was found in R1, delete it.
+ * (The letter of the characters preceding the suffix are not necessarily in R1.)
  *
  * @param {string} word		The word for which to delete the suffix.
  * @param {number} index2	The index of the suffix that was found.
- * @param {string} optionUsed2	The type of suffix that was found.
+ * @param {string} indexName2	The type of suffix that was found.
  * @param {number} r1Index		The R1 index.
  *
  * @returns {string} The word with the deleted suffix.
  */
-const deleteSuffix2 = function( word, index2, optionUsed2, r1Index ) {
+const deleteSuffix2 = function( word, index2, indexName2, r1Index ) {
 	if ( index2 !== 10000 && r1Index !== -1 ) {
 		if ( index2 >= r1Index ) {
 			word = word.substring( 0, index2 );
-			if ( optionUsed2 === "h" ) {
+			if ( indexName2 === "h2Index" ) {
 				word = word.replace( /(.*)ink$/g, "$1ing" );
 			}
 		}
@@ -363,6 +431,9 @@ const deleteSuffix2 = function( word, index2, optionUsed2, r1Index ) {
 
 /**
  *
+ * Delete the suffix if found in R1.
+ * (The letter of the characters preceding the suffix are not necessarily in R1.)
+ *
  * @param {string} word		The word to delete the suffix from.
  * @param {number} index3	The index of the suffix.
  * @param {number} r1Index 	The R1 index.
@@ -371,12 +442,11 @@ const deleteSuffix2 = function( word, index2, optionUsed2, r1Index ) {
 const deleteSuffix3 = function( word, index3, r1Index ) {
 	if ( index3 !== 10000 && r1Index !== -1 ) {
 		if ( index3 >= r1Index ) {
-			word = word.substring( 0, word.length - 1 );
+			word = word.substring( 0, index3 );
 		}
 	}
 	return word;
 };
-
 
 /**
  * Stems Dutch words.
@@ -395,21 +465,27 @@ export default function stem( word ) {
 	const r1Index = determineR1( word );
 
 	// Find suffix as defined in step 1.
-	const index1 = findSuffixStep1( word ).index1;
-	const optionUsed = findSuffixStep1( word ).optionUsed;
+	findSuffixesStep1( word );
+	adjustSuffixIndex1();
+	const index1 = determineSuffixToDelete1().index1;
+	const indexName1 = determineSuffixToDelete1().indexName1;
 
 	// Delete suffix found in step 1.
-	word = deleteSuffix1( word, index1, optionUsed, r1Index );
+	word = deleteSuffix1( word, index1, indexName1, r1Index );
 
 	// Find suffix as defined in step 2.
-	const index2 = findSuffixStep2( word ).index2;
-	const optionUsed2 = findSuffixStep2( word ).optionUsed2;
+	findSuffixesStep2( word );
+	adjustSuffixIndex2();
+	const index2 = determineSuffixToDelete2().index2;
+	const indexName2 = determineSuffixToDelete2().indexName2;
 
 	// Delete suffix found in step 2.
-	word = deleteSuffix2( word, index2, optionUsed2, r1Index );
+	word = deleteSuffix2( word, index2, indexName2, r1Index );
 
 	// Find suffix as defined in step 3.
-	const index3 = findSuffixStep3( word );
+	findSuffixesStep3( word );
+	adjustSuffixIndex3();
+	const index3 = determineSuffixToDelete3();
 
 	// Delete suffix found in step 3.
 	word = deleteSuffix3( word, index3, r1Index );

@@ -1,73 +1,84 @@
 import stem from "../../../src/morphology/dutch/stem";
 
 const wordsToStem = [
-	// -heden stemmed to -heid
+	// -heden gets replaced with -heid (suffix type a1).
 	[ "mogelijkheden", "mogelijkheid" ],
-	// Suffix category b (-en) preceded by a valid -en ending.
+	// -En suffix preceded by a valid -en ending (suffix type b1).
 	[ "vrouwen", "vrouw" ],
-	// // Suffix category b (-en) not preceded by a valid -en ending.
+	// A word ending in -en not preceded by a valid -en ending.
 	[ "groen", "groen" ],
-	// Suffix category b (-en). R1 preceded by less than 3 characters.
+	// A word ending in -en preceded by a valid -en ending, but with an R1 preceded by less than 3 characters.
 	[ "den", "den" ],
-	// Suffix category b (-en) with undoubling of consonant
+	// -En suffix with a double consonant preceding it (suffix type b1).
 	[ "bakken", "bak" ],
-	// Suffix category c (-s) preceded by a valid -s ending
+	// -S suffix preceded by a valid -s ending (suffix type f1).
 	[ "torens", "toren" ],
-	// Suffix category c (-s) not preceded by a valid -s ending.
+	// -S not preceded by a valid -s ending.
 	[ "prijs", "prijs" ],
-	// Step 2 suffix preceded by a valid -e ending.
-	[ "kleine", "klein" ],
-	// Step 2 suffix not preceded by a valid -e ending.
+	// -E not preceded by a valid -e ending.
 	[ "missie", "missie" ],
 	// A word without an R1.
 	[ "zo", "zo" ],
-	// A word with a vowel that should be treated like a consonant
+	// A word with a vowel that should be treated like a consonant.
 	[ "groeien", "groei" ],
-	// A word that needs to have the vowel undoubled
+	// A word that needs to have the vowel undoubled.
 	[ "maan", "man" ],
-	// Diminutive noun type a.
+	// Suffix -etje (suffix type a2).
 	[ "dingetje", "ding" ],
-	// Diminutive noun type b.
+	// Suffix -tje preceded by an apostrophe (suffix type b2).
 	[ "baby'tje", "baby" ],
-	// Diminutive noun type c.
+	// Suffix -tje preceded by w (suffix type c2).
 	[ "vrouwtje", "vrouw" ],
-	// Diminutive noun type d.
+	// Suffix -tje preceded by -ector (suffix type d2).
 	[ "rectortje", "rector" ],
-	// Diminutive noun type e.
+	// Suffix -tje preceded by -ator (suffix type e2).
 	[ "alligatortje", "alligator" ],
-	// Diminutive noun type f.
+	// Suffix -pje preceded by lm (suffix type f2).
 	[ "filmpje", "film" ],
-	// Diminutive noun type g.
+	// Suffix -pje preceded by uum (suffix type g2).
 	[ "kostuumpje", "kostum" ],
-	// Diminutive noun type h.
+	// Suffix -je preceded by a valid -je ending (suffix type h2)
 	[ "kindje", "kind" ],
-	// Diminutive noun type h ending in -inkje.
+	// Suffix -je preceded by k (suffix type h2)
 	[ "kettinkje", "ketting" ],
-	// Diminutive noun type i.
+	// Suffix -je preceded by ch (suffix type i2).
 	[ "kuchje", "kuch" ],
-	// Plural diminutive noun.
+	// Suffix -jes (suffix type e1).
 	[ "schaapjes", "schap" ],
-	// A word with the -s suffix preceded by an apostrophe.
+	// Suffix -s preceded by an apostrophe.
 	[ "firma's", "firma" ],
-	// A word with the -ën suffix.
+	// Suffix -ën preceded by a valid -ën ending (suffix type d1).
 	[ "allergieën", "allergie" ],
-	// A word with the -en suffix preceded by a vowel + i.
+	// Suffix -en preceded by a vowel + i (suffix type c1).
 	[ "aardbeien", "aardbei" ],
-	// A word with the comparative suffix -rder.
+	// Suffix -der (suffix type h1).
 	[ "lekkerder", "lekker" ],
-	// A word with the comparative suffix -ere.
+	// Suffix -ere preceded by a valid -ere ending (suffix type i1).
 	[ "warmere", "warm" ],
-	// A word with the comparative suffix -ere preceded by d.
+	// Suffix -ere preceded by d (suffix type k1).
 	[ "koudere", "koud" ],
-	// A word with the comparative suffix -ër.
+	// Suffix -er preceded by -eerd (suffix type g1).
+	[ "geconcentreerder", "geconcentreerd" ],
+	// Suffix -ër preceded by a valid -ër ending (suffix type l1).
 	[ "tevreeër", "tevree" ],
-	// A word with the superlative suffix -st.
+	// Suffix -st preceded by a valid -st ending (suffix type m1).
 	[ "warmst", "warm" ],
-	// A word with the comparative suffix -st preceded by a vowel and e.
+	// Suffix -st preceded by a vowel and e (suffix type o1).
 	[ "tevreest", "tevree" ],
-	// A word with the comparative suffix -est.
+	// Suffix -est (suffix type p1).
 	[ "mooiest", "mooi" ],
-
+	// Suffix -er preceded by a vowel and i (suffix type q1).
+	[ "mooier", "mooi" ],
+	// Suffix -end preceded by a consonant (suffix type a3) .
+	[ "werkende", "werk" ],
+	// Suffix -end preceded by a consonant and i (suffix type b3) .
+	[ "werkende", "werk" ],
+	// Suffix -end followed by suffix -er (suffix type a3 + suffix type k1).
+	[ "afwisselender", "afwissel" ],
+	// Suffix -e preceded by a valid -e ending (suffix type c3).
+	[ "kleine", "klein" ],
+	// Suffix -ë preceded by a valid -ë ending (suffix type d3).
+	[ "gedweeë", "gedwee" ],
 ];
 
 describe( "Test for stemming Dutch words", () => {
