@@ -66,7 +66,7 @@ const getKeywordSuggestionExplanation = keywords => {
 	if ( keywords.length === 0 ) {
 		return __(
 			"Once you add a bit more copy, we'll give you a list of words and " +
-			"word combination that occur the most in the content. These give an indication of what your content focuses on.",
+			"word combinations that occur the most in the content. These give an indication of what your content focuses on.",
 			"yoast-components"
 		);
 	}
@@ -90,13 +90,13 @@ const getKeywordSuggestionExplanation = keywords => {
  * @returns {JSX.Element} Rendered WordList component.
  */
 const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
-	const showBeforeList = <p>{ getKeywordSuggestionExplanation( relevantWords ) }</p>;
-	const showAfterList = getKeywordResearchArticleLink();
+	const header = <p>{ getKeywordSuggestionExplanation( relevantWords ) }</p>;
+	const footer = <p>{ getKeywordResearchArticleLink() }</p>;
 	if ( isFeatureEnabled( "improvedInternalLinking" ) ) {
 		return <WordOccurrences
 			words={ relevantWords }
-			showBeforeList={ showBeforeList }
-			showAfterList={ showAfterList }
+			header={ header }
+			footer={ footer }
 		/>;
 	}
 
@@ -106,8 +106,8 @@ const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
 			title={ __( "Prominent words", "yoast-components" ) }
 			words={ prominentWords }
 			classNamePrefix="yoast-keyword-suggestions"
-			showBeforeList={ showBeforeList }
-			showAfterList={ showAfterList }
+			header={ header }
+			footer={ footer }
 		/>
 	);
 };

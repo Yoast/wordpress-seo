@@ -69,12 +69,17 @@ WordBar.propTypes = {
 /**
  * The WordOccurrences list, that contains words, their occurrence, and bars reflecting their relative occurrence.
  *
- * @param {Array} words The array of objects containing words and occurrences.
- *
  * @returns {ReactElement} The list of words, their occurrences, and bars.
  */
 class WordOccurrences extends React.Component {
-	/* eslint-disable-next-line require-jsdoc */
+	/**
+	 * Constructs the WordOccurrences component.
+	 *
+	 * @param {Object}          props        The props object.
+	 * @param {ProminentWord[]} props.words  The array of prominent word objects.
+	 * @param {HTMLElement}     props.header The html to render before the list.
+	 * @param {HTMLElement}     props.footer The html to render after the list.
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -87,13 +92,21 @@ class WordOccurrences extends React.Component {
 		};
 	}
 
-	/* eslint-disable-next-line require-jsdoc */
+	/**
+	 * React lifecycle method. See: https://reactjs.org/docs/react-component.html#static-getderivedstatefromprops
+	 *
+	 * Calculates the component state based in incoming props.
+	 *
+	 * @param {Object} props The incoming props.
+	 *
+	 * @returns {Object} The derived component state.
+	 */
 	static getDerivedStateFromProps( props ) {
 		const words = [ ...props.words ];
 		words.sort( ( a, b ) => {
-			return b._occurrences - a._occurrences;
+			return b.getOccurrences() - a.getOccurrences();
 		} );
-		const allOccurrences = words.map( wordObject => wordObject._occurrences );
+		const allOccurrences = words.map( prominentWord => prominentWord.getOccurrences() );
 
 		return {
 			occurrences: {
@@ -106,30 +119,33 @@ class WordOccurrences extends React.Component {
 
 	/**
 	 * Renders the WordOccurrences component to the DOM.
-	 * @returns {*} The rendered WordOccurrences component.
+	 *
+	 * @returns {ReactElement} The rendered WordOccurrences component.
 	 */
 	render() {
 		return (
 			<React.Fragment>
-				{ this.props.showBeforeList }
+				{ this.props.header }
 				<WordOccurrencesList
 					aria-label={ __( "Prominent words", "yoast-components" ) }
 				>
 					{
 						this.state.words.map(
-							( wordObject, index ) => {
-								const width = `${ ( wordObject._occurrences / this.state.occurrences.max ) * 100 }%`;
+							( prominentWord ) => {
+								const word = prominentWord.getWord();
+								const occurrence = prominentWord.getOccurrences();
+								const width = `${ ( occurrence / this.state.occurrences.max ) * 100 }%`;
 								return <WordBar
-									key={ `wordbar-${ index }` }
-									word={ wordObject._word }
+									key={ `wordbar-${ word }` }
+									word={ word }
 									width={ width }
-									occurrence={ wordObject._occurrences }
+									occurrence={ occurrence }
 								/>;
 							}
 						)
 					}
 				</WordOccurrencesList>
-				{ this.props.showAfterList }
+				{ this.props.footer }
 			</React.Fragment>
 		);
 	}
@@ -137,13 +153,13 @@ class WordOccurrences extends React.Component {
 
 WordOccurrences.propTypes = {
 	words: PropTypes.array.isRequired,
-	showBeforeList: PropTypes.element,
-	showAfterList: PropTypes.element,
+	header: PropTypes.element,
+	footer: PropTypes.element,
 };
 
 WordOccurrences.defaultProps = {
-	showBeforeList: null,
-	showAfterList: null,
+	header: null,
+	footer: null,
 };
 
 export default WordOccurrences;

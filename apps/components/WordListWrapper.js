@@ -11,8 +11,8 @@ const WordListWrapper = () => {
 			<WordList
 				title="WordList example"
 				words={ relevantWords }
-				showBeforeList={ <p>This is an example text that will be displayed before the list is rendered.</p> }
-				showAfterList={ <p>This is and example text that will be displayed after the list is rendered.</p> }
+				header={ <p>This is an example text that will be displayed before the list is rendered.</p> }
+				footer={ <p>This is and example text that will be displayed after the list is rendered.</p> }
 			/>
 		</ExamplesContainer>
 	);

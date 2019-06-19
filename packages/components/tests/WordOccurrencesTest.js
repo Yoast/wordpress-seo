@@ -2,20 +2,21 @@ import React from "react";
 import renderer from "react-test-renderer";
 
 import WordOccurrences from "../src/WordOccurrences";
+import ProminentWord from "yoastseo/src/values/ProminentWord";
 
 const showBeforeList = <p>{ "I'm a before list paragraph" }</p>;
 const showAfterList = <p>{ "I'm an after list paragraph" }</p>;
 const words = [
-	{ _word: "reviewing", _stem: "review", _occurrences: 13 },
-	{ _word: "code", _stem: "code", _occurrences: 8 },
-	{ _word: "fun", _stem: "fun", _occurrences: 6 },
+	new ProminentWord( "reviewing", "review",  13 ),
+	new ProminentWord( "code", "code",  8 ),
+	new ProminentWord( "fun", "fun",  6 ),
 ];
 const noWords = [];
 
 describe( "WordOccurrences", function() {
 	it( "renders WordOccurrences as list items", () => {
 		const wordOccurrences = renderer.create(
-			<WordOccurrences words={ words } showBeforeList={ showBeforeList } showAfterList={ showAfterList } />
+			<WordOccurrences words={ words } header={ showBeforeList } footer={ showAfterList } />
 		);
 
 		const tree = wordOccurrences.toJSON();
@@ -24,7 +25,7 @@ describe( "WordOccurrences", function() {
 
 	it( "renders correctly without items", () => {
 		const wordOccurrences = renderer.create(
-			<WordOccurrences words={ noWords } showBeforeList={ showBeforeList } showAfterList={ showAfterList } />
+			<WordOccurrences words={ noWords } header={ showBeforeList } footer={ showAfterList } />
 		);
 
 		const tree = wordOccurrences.toJSON();

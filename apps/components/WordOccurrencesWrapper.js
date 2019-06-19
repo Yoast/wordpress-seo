@@ -2,108 +2,29 @@ import React from "react";
 
 import ExamplesContainer from "./ExamplesContainer";
 import { WordOccurrences } from "@yoast/components";
+import ProminentWord from "yoastseo/src/values/ProminentWord";
 
 const initialRelevantWords = [
-	{
-		_word: "davids",
-		_stem: "david",
-		_occurrences: 2,
-	},
-	{
-		_word: "goliaths",
-		_stem: "goliath",
-		_occurrences: 6,
-	},
-	{
-		_word: "word",
-		_stem: "word",
-		_occurrences: 3,
-	},
-	{
-		_word: "yoast",
-		_stem: "yoast",
-		_occurrences: 8,
-	},
-	{
-		_word: "test",
-		_stem: "test",
-		_occurrences: 10,
-	},
-	{
-		_word: "apps",
-		_stem: "app",
-		_occurrences: 6,
-	},
-	{
-		_word: "teletubbies",
-		_stem: "teletubby",
-		_occurrences: 11,
-	},
-	{
-		_word: "strange",
-		_stem: "stange",
-		_occurrences: 4,
-	},
-	{
-		_word: "improvisation",
-		_stem: "improvisation",
-		_occurrences: 4,
-	},
-	{
-		_word: "ranking",
-		_stem: "rank",
-		_occurrences: 5,
-	},
-	{
-		_word: "google",
-		_stem: "google",
-		_occurrences: 5,
-	},
-	{
-		_word: "terms",
-		_stem: "term",
-		_occurrences: 8,
-	},
-	{
-		_word: "wordpress",
-		_stem: "wordpress",
-		_occurrences: 9,
-	},
-	{
-		_word: "inspiration",
-		_stem: "inspiration",
-		_occurrences: 2,
-	},
-	{
-		_word: "internal",
-		_stem: "internal",
-		_occurrences: 2,
-	},
-	{
-		_word: "linking",
-		_stem: "link",
-		_occurrences: 2,
-	},
-	{
-		_word: "suggestions",
-		_stem: "suggestion",
-		_occurrences: 3,
-	},
-	{
-		_word: "keyword",
-		_stem: "keyword",
-		_occurrences: 3,
-	},
-	{
-		_word: "analysis",
-		_stem: "analysis",
-		_occurrences: 4,
-	},
-	{
-		_word: "linguïns",
-		_stem: "linguïn",
-		_occurrences: 5,
-	},
+	new ProminentWord( "davids", "david", 2 ),
+	new ProminentWord( "goliaths", "goliath", 6 ),
+	new ProminentWord( "word", "word", 3 ),
+	new ProminentWord( "yoast", "yoast", 8 ),
+	new ProminentWord( "test", "test", 10 ),
+	new ProminentWord( "apps", "app", 6 ),
+	new ProminentWord( "teletubbies", "teletubby", 11 ),
+	new ProminentWord( "strange", "stange", 4 ),
+	new ProminentWord( "improvisation", "improvisation", 4 ),
+	new ProminentWord( "ranking", "rank", 5 ),
+	new ProminentWord( "google", "google", 5 ),
+	new ProminentWord( "terms", "term", 8 ),
+	new ProminentWord( "wordpress", "wordpress", 9 ),
+	new ProminentWord( "inspiration", "inspiration", 2 ),
+	new ProminentWord( "internal", "internal", 2 ),
+	new ProminentWord( "linking", "link", 2 ),
+	new ProminentWord( "suggestions", "suggestion", 3 ),
+	new ProminentWord( "keyword", "keyword", 3 ),
+	new ProminentWord( "analysis", "analysis", 4 ),
+	new ProminentWord( "linguïns", "linguïn", 5 ),
 ];
 
 const RelevantWordInputList = ( props ) => {
@@ -156,14 +77,19 @@ const RelevantWordInputRow = ( props ) => {
 	);
 };
 
+const cloneWords = function ( words ) {
+	return words.map( word => {
+		return new ProminentWord( word.getWord(), word.getStem(), word.getOccurrences() );
+	} );
+};
+
 class WordOccurrencesWrapper extends React.Component {
 	constructor( props ) {
 		super( props );
 
 		this.state = {
-			relevantWords: initialRelevantWords.map( initialWord => Object.assign( {}, initialWord ) ),
+			relevantWords: cloneWords( initialRelevantWords ),
 		};
-
 		this.changeRelevantWord = this.changeRelevantWord.bind( this );
 		this.removeRelevantWord = this.removeRelevantWord.bind( this );
 		this.addRelevantWordRow = this.addRelevantWordRow.bind( this );
@@ -174,7 +100,17 @@ class WordOccurrencesWrapper extends React.Component {
 		this.setState( ( prevState ) => {
 			const nextState = Object.assign( {}, prevState );
 			nextState.relevantWords = [ ...prevState.relevantWords ];
-			nextState.relevantWords[ index ][ type ] = input;
+			switch ( type ) {
+				case "_word":
+					nextState.relevantWords[ index ].setWord( input );
+					break;
+				case "_stem":
+					nextState.relevantWords[ index ]._stem = input;
+					break;
+				case "_occurrences":
+					nextState.relevantWords[ index ].setOccurrences( input );
+					break;
+			}
 			return nextState;
 		} );
 	}
@@ -192,11 +128,7 @@ class WordOccurrencesWrapper extends React.Component {
 	addRelevantWordRow() {
 		this.setState( prevState => {
 			prevState.relevantWords.push(
-				{
-					_word: "",
-					_stem: "",
-					_occurrence: "",
-				}
+				new ProminentWord( "" ),
 			);
 			return (
 				{
@@ -208,7 +140,7 @@ class WordOccurrencesWrapper extends React.Component {
 
 	resetRelevantWords() {
 		this.setState( {
-			relevantWords: initialRelevantWords.map( initialWord => Object.assign( {}, initialWord ) ),
+			relevantWords: cloneWords( initialRelevantWords ),
 		} );
 	}
 
@@ -225,8 +157,8 @@ class WordOccurrencesWrapper extends React.Component {
 				<div style={ { marginTop: "150px", width: "100%", height: "600px" } }>
 					<WordOccurrences
 						words={ this.state.relevantWords }
-						showBeforeList={ <p>This is an example text that will be displayed before the list is rendered.</p> }
-						showAfterList={ <p>This is an example text that will be displayed before the list is rendered.</p> }
+						header={ <p>This is an example text that will be displayed before the list is rendered.</p> }
+						footer={ <p>This is an example text that will be displayed after the list is rendered.</p> }
 					/>
 				</div>
 			</ExamplesContainer>
