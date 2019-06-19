@@ -271,7 +271,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$content_sections = $this->get_content_sections();
 
 		echo '<div class="wpseo-metabox-content">';
-		echo '<div class="wpseo-metabox-sidebar"><ul>';
+		echo '<div class="wpseo-metabox-menu"><ul role="tablist">';
 
 		foreach ( $content_sections as $content_section ) {
 			if ( $content_section->name === 'premium' ) {
@@ -298,7 +298,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_content_sections() {
 		$content_sections = array();
 
-		$content_sections[] = $this->get_content_meta_section();
+		$content_sections[] = $this->get_seo_meta_section();
+		$content_sections[] = $this->get_readability_meta_section();
 
 		// Check if social_admin is an instance of WPSEO_Social_Admin.
 		if ( $this->social_admin instanceof WPSEO_Social_Admin ) {
@@ -317,11 +318,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Returns the metabox section for the content analysis.
+	 * Returns the metabox section for the seo analysis.
 	 *
 	 * @return WPSEO_Metabox_Section
 	 */
-	private function get_content_meta_section() {
+	private function get_seo_meta_section() {
 		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
 
 		$content = $this->get_tab_content( 'general' );
@@ -335,13 +336,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return new WPSEO_Metabox_Section_React(
 			'content',
-			'<span class="screen-reader-text">' . __( 'Content optimization', 'wordpress-seo' ) . '</span><span class="yst-traffic-light-container">' . WPSEO_Utils::traffic_light_svg() . '</span>',
-			$content,
-			array(
-				'link_aria_label' => __( 'Content optimization', 'wordpress-seo' ),
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
-			)
+			'<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span><span>' . __( 'SEO', 'wordpress-seo' ) . '</span>',
+			$content
 		);
+	}
+
+	/**
+	 * Returns the metabox section for the readability analysis.
+	 *
+	 * @return WPSEO_Metabox_Section
+	 */
+	private function get_readability_meta_section() {
+		return new WPSEO_Metabox_Section_Readability();
 	}
 
 	/**
@@ -361,12 +367,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return new WPSEO_Metabox_Tab_Section(
 			'advanced',
-			'<span class="screen-reader-text">' . __( 'Advanced', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-admin-generic"></span>',
-			array( $tab ),
-			array(
-				'link_aria_label' => __( 'Advanced', 'wordpress-seo' ),
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
-			)
+			'<span class="dashicons dashicons-admin-generic"></span>' . __( 'Advanced', 'wordpress-seo' ),
+			array( $tab )
 		);
 	}
 
@@ -379,12 +381,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_addons_meta_section() {
 		return new WPSEO_Metabox_Addon_Tab_Section(
 			'addons',
-			'<span class="screen-reader-text">' . __( 'Add-ons', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-admin-plugins"></span>',
-			array(),
-			array(
-				'link_aria_label' => __( 'Add-ons', 'wordpress-seo' ),
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
-			)
+			'<span class="dashicons dashicons-admin-plugins"></span>' . __( 'Add-ons', 'wordpress-seo' )
 		);
 	}
 
