@@ -7,9 +7,9 @@
 
 namespace Yoast\WP\Free\Config;
 
+use Yoast\WP\Free\Watchers;
 use Yoast\WP\Free\WordPress\Integration;
 use Yoast\WP\Free\WordPress\Integration_Group;
-use Yoast\WP\Free\Watchers;
 
 /**
  * Load Admin integrations.

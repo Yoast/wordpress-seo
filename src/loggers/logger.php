@@ -18,14 +18,14 @@ class Logger {
 	/**
 	 * The instance of the logger.
 	 *
-	 * @var LoggerInterface|null
+	 * @var \YoastSEO_Vendor\Psr\Log\LoggerInterface|null
 	 */
 	protected static $logger;
 
 	/**
 	 * Retrieves an instance of the logger.
 	 *
-	 * @return LoggerInterface The logger.
+	 * @return \YoastSEO_Vendor\Psr\Log\LoggerInterface The logger.
 	 */
 	public static function get_logger() {
 		static $logger;
@@ -40,11 +40,11 @@ class Logger {
 			/**
 			 * Gives the possibility to set override the logger interface.
 			 *
-			 * @api LoggerInterface $logger Instance of NullLogger.
+			 * @api \YoastSEO_Vendor\Psr\Log\LoggerInterface $logger Instance of NullLogger.
 			 *
-			 * @return LoggerInterface The logger object.
+			 * @return \YoastSEO_Vendor\Psr\Log\LoggerInterface The logger object.
 			 */
-			$logger = apply_filters( 'wpseo_logger', $logger );
+			$logger = \apply_filters( 'wpseo_logger', $logger );
 		}
 
 		if ( ! $logger instanceof LoggerInterface ) {
@@ -57,7 +57,7 @@ class Logger {
 	/**
 	 * Sets the logger object.
 	 *
-	 * @param LoggerInterface|null $logger The logger to use.
+	 * @param \YoastSEO_Vendor\Psr\Log\LoggerInterface|null $logger The logger to use.
 	 */
 	public static function set_logger( LoggerInterface $logger = null ) {
 		if ( ! $logger instanceof LoggerInterface ) {

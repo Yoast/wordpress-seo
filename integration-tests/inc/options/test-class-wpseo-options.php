@@ -192,6 +192,8 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::add_ms_option()
 	 */
 	public function test_ms_options_included_in_get_in_multisite() {
+		$this->skipWithoutMultisite();
+
 		$ms_option_keys = array(
 			'access',
 			'defaultblog',
@@ -219,6 +221,8 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::add_ms_option()
 	 */
 	public function test_ms_options_excluded_in_get_non_multisite() {
+		$this->skipWithMultisite();
+
 		$ms_option_keys = array(
 			'access',
 			'defaultblog',

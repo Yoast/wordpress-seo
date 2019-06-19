@@ -10,7 +10,6 @@ namespace Yoast\WP\Free\Tests\Oauth;
 use Yoast\WP\Free\Oauth\Client;
 use YoastSEO_Vendor\League\OAuth2\Client\Provider\GenericProvider;
 use YoastSEO_Vendor\League\OAuth2\Client\Token\AccessToken;
-use Brain\Monkey;
 use Yoast\WP\Free\Tests\Doubles\Oauth\Client as Client_Double;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -19,7 +18,7 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @group oauth
  */
-class Oauth_Client_Test extends TestCase {
+class Client_Test extends TestCase {
 
 	/**
 	 * Holds the instance of the class being tested.
@@ -76,7 +75,7 @@ class Oauth_Client_Test extends TestCase {
 	public function test_format_access_tokens_with_invalid_argument() {
 		$class_instance = new Client_Double();
 
-		$this->assertEquals( [], $class_instance->format_access_tokens( false ) );
+		$this->assertSame( [], $class_instance->format_access_tokens( false ) );
 	}
 
 	/**
@@ -87,7 +86,7 @@ class Oauth_Client_Test extends TestCase {
 	public function test_format_access_tokens_with_empty_array_as_argument() {
 		$class_instance = new Client_Double();
 
-		$this->assertEquals( [], $class_instance->format_access_tokens( [] ) );
+		$this->assertSame( [], $class_instance->format_access_tokens( [] ) );
 	}
 
 	/**
@@ -103,7 +102,7 @@ class Oauth_Client_Test extends TestCase {
 	public function test_save_configuration( array $config, array $expected_config, $message ) {
 		$this->class_instance->save_configuration( $config );
 
-		$this->assertEquals(
+		$this->assertSame(
 			$expected_config,
 			$this->class_instance->get_configuration(),
 			$message
@@ -193,7 +192,7 @@ class Oauth_Client_Test extends TestCase {
 	public function test_get_access_token_with_set_access_tokens() {
 		$this->class_instance->save_access_token( 1, new AccessToken( [ 'access_token' => 'this-is-a-token' ] ) );
 
-		$this->assertEquals( 'this-is-a-token', $this->class_instance->get_access_token() );
+		$this->assertSame( 'this-is-a-token', (string) $this->class_instance->get_access_token() );
 	}
 
 	/**
@@ -205,7 +204,7 @@ class Oauth_Client_Test extends TestCase {
 	public function test_get_access_token_for_user() {
 		$this->class_instance->save_access_token( 1, new AccessToken( [ 'access_token' => 't0k3n' ] ) );
 
-		$this->assertEquals( 't0k3n', $this->class_instance->get_access_token( 1 ) );
+		$this->assertSame( 't0k3n', (string) $this->class_instance->get_access_token( 1 ) );
 	}
 
 	/**

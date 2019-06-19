@@ -51,7 +51,7 @@ class Indexable extends Yoast_Model {
 	/**
 	 * The Indexable meta data.
 	 *
-	 * @var Indexable_Meta[]
+	 * @var \Yoast\WP\Free\Models\Indexable_Meta[]
 	 */
 	protected $meta_data;
 
@@ -62,7 +62,7 @@ class Indexable extends Yoast_Model {
 	 * @param string $object_type The indexable object type.
 	 * @param bool   $auto_create Optional. Create the indexable if it does not exist.
 	 *
-	 * @return bool|Indexable Instance of indexable.
+	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
 	 */
 	public static function find_by_id_and_type( $object_id, $object_type, $auto_create = true ) {
 		$indexable = Yoast_Model::of_type( 'Indexable' )
@@ -83,26 +83,26 @@ class Indexable extends Yoast_Model {
 	 * @param int    $object_id   The indexable object ID.
 	 * @param string $object_type The indexable object type.
 	 *
-	 * @return bool|Indexable Instance of indexable.
+	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
 	 */
 	public static function create_for_id_and_type( $object_id, $object_type ) {
 		/*
 		 * Indexable instance.
 		 *
-		 * @var Indexable $indexable
+		 * @var \Yoast\WP\Free\Models\Indexable $indexable
 		 */
 		$indexable              = Yoast_Model::of_type( 'Indexable' )->create();
 		$indexable->object_id   = $object_id;
 		$indexable->object_type = $object_type;
 
 		Logger::get_logger()->debug(
-			sprintf(
+			\sprintf(
 				/* translators: 1: object ID; 2: object type. */
-				__( 'Indexable created for object %1$s with type %2$s', 'wordpress-seo' ),
+				\__( 'Indexable created for object %1$s with type %2$s', 'wordpress-seo' ),
 				$object_id,
 				$object_type
 			),
-			get_object_vars( $indexable )
+			\get_object_vars( $indexable )
 		);
 
 		return $indexable;
@@ -111,7 +111,7 @@ class Indexable extends Yoast_Model {
 	/**
 	 * Returns the related meta model.
 	 *
-	 * @return Indexable_Meta Array of meta objects.
+	 * @return \Yoast\WP\Free\Models\Indexable_Meta Array of meta objects.
 	 */
 	public function meta() {
 		try {
@@ -131,29 +131,29 @@ class Indexable extends Yoast_Model {
 	 */
 	public function save() {
 		if ( ! $this->created_at ) {
-			$this->created_at = gmdate( 'Y-m-d H:i:s' );
+			$this->created_at = \gmdate( 'Y-m-d H:i:s' );
 		}
 
 		if ( $this->updated_at ) {
-			$this->updated_at = gmdate( 'Y-m-d H:i:s' );
+			$this->updated_at = \gmdate( 'Y-m-d H:i:s' );
 		}
 
 		$saved = parent::save();
 
 		if ( $saved ) {
 			Logger::get_logger()->debug(
-				sprintf(
+				\sprintf(
 					/* translators: 1: object ID; 2: object type. */
-					__( 'Indexable saved for object %1$s with type %2$s', 'wordpress-seo' ),
+					\__( 'Indexable saved for object %1$s with type %2$s', 'wordpress-seo' ),
 					$this->object_id,
 					$this->object_type
 				),
-				get_object_vars( $this )
+				\get_object_vars( $this )
 			);
 
 			$this->save_meta();
 
-			do_action( 'wpseo_indexable_saved', $this );
+			\do_action( 'wpseo_indexable_saved', $this );
 		}
 
 		return $saved;
@@ -169,16 +169,16 @@ class Indexable extends Yoast_Model {
 
 		if ( $deleted ) {
 			Logger::get_logger()->debug(
-				sprintf(
+				\sprintf(
 					/* translators: 1: object ID; 2: object type. */
-					__( 'Indexable deleted for object %1$s with type %2$s', 'wordpress-seo' ),
+					\__( 'Indexable deleted for object %1$s with type %2$s', 'wordpress-seo' ),
 					$this->object_id,
 					$this->object_type
 				),
-				get_object_vars( $this )
+				\get_object_vars( $this )
 			);
 
-			do_action( 'wpseo_indexable_deleted', $this );
+			\do_action( 'wpseo_indexable_deleted', $this );
 		}
 
 		return $deleted;
@@ -233,14 +233,14 @@ class Indexable extends Yoast_Model {
 	 * @param string $meta_key    The meta key to get object for.
 	 * @param bool   $auto_create Optional. Create the indexable if it does not exist.
 	 *
-	 * @return Indexable_Meta
+	 * @return \Yoast\WP\Free\Models\Indexable_Meta
 	 *
-	 * @throws No_Indexable_Found Exception when no Indexable entry could be found.
+	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found Exception when no Indexable entry could be found.
 	 */
 	protected function get_meta( $meta_key, $auto_create = true ) {
 		$this->initialize_meta();
 
-		if ( array_key_exists( $meta_key, $this->meta_data ) ) {
+		if ( \array_key_exists( $meta_key, $this->meta_data ) ) {
 			return $this->meta_data[ $meta_key ];
 		}
 

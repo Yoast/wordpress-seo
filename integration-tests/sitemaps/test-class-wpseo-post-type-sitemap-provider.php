@@ -151,7 +151,6 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $front_page->ID );
 		update_option( 'page_for_posts', 0 );
-		$sitemap_provider->reset();
 
 		$sitemap_links = $sitemap_provider->get_sitemap_links( 'page', 1, 1 );
 		$this->assertContains( get_permalink( $front_page->ID ), $sitemap_links[0] );
@@ -162,7 +161,6 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $front_page->ID );
 		update_option( 'page_for_posts', $posts_page->ID );
-		$sitemap_provider->reset();
 
 		$sitemap_links = $sitemap_provider->get_sitemap_links( 'page', 1, 1 );
 		$this->assertContains( WPSEO_Utils::home_url(), $sitemap_links[0] );
@@ -176,13 +174,12 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		update_option( 'show_on_front', 'posts' );
 		update_option( 'page_on_front', 0 );
 		update_option( 'page_for_posts', 0 );
-		$sitemap_provider->reset();
 
 		$sitemap_links = $sitemap_provider->get_sitemap_links( 'page', 1, 1 );
 		$this->assertContains( WPSEO_Utils::home_url(), $sitemap_links[0] );
 
 		$sitemap_links = $sitemap_provider->get_sitemap_links( 'post', 2, 1 );
-		$this->assertContains( get_post_type_archive_link( 'post' ), $sitemap_links[0] );
+		$this->assertContains( WPSEO_Utils::home_url(), $sitemap_links[0] );
 		$this->assertContains( get_permalink( $post_id ), $sitemap_links[1] );
 
 		update_option( 'show_on_front', $current_show_on_front );
@@ -263,34 +260,23 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_url
 	 */
 	public function test_get_url() {
-		$instance = $this
-			->getMockBuilder( 'WPSEO_Post_Type_Sitemap_Provider_Double' )
-			->setMethods( array( 'get_home_url' ) )
-			->getMock();
+		$current_home     = get_option( 'home' );
+		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_home_url' )
-			->will( $this->returnValue( 'http://example.org' ) );
+		$post_object = $this->factory()->post->create_and_get();
+		$post_url    = $sitemap_provider->get_url( $post_object );
 
-		add_filter( 'wpseo_xml_sitemap_post_url', array( $this, 'set_post_sitemap_url' ) );
+		$this->assertContains( $current_home, $post_url['loc'] );
 
-		/** @var WPSEO_Post_Type_Sitemap_Provider_Double $instance */
-		$instance->set_classifier( null );
-		$this->assertFalse( $instance->get_url( $this->factory->post->create() ) );
+		// Change home URL.
+		update_option( 'home', 'http://example.com' );
+		wp_cache_delete( 'alloptions', 'options' );
 
-		remove_filter( 'wpseo_xml_sitemap_post_url', array( $this, 'set_post_sitemap_url' ) );
-	}
+		$this->assertFalse( $sitemap_provider->get_url( $post_object ) );
 
-	/**
-	 * Helper function to mock sitemap URL.
-	 *
-	 * @param string $url URL to mock.
-	 *
-	 * @return string URL to use.
-	 */
-	public function set_post_sitemap_url( $url ) {
-		return 'http://example.com';
+		// Revert original home URL.
+		update_option( 'home', $current_home );
+		wp_cache_delete( 'alloptions', 'options' );
 	}
 
 	/**

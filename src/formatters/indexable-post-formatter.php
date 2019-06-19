@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Formatters;
 
+use WPSEO_Meta;
 use Yoast\WP\Free\Models\SEO_Meta;
 
 /**
@@ -35,9 +36,9 @@ class Indexable_Post_Formatter {
 	/**
 	 * Formats the data.
 	 *
-	 * @param Indexable $indexable The indexable to format.
+	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to format.
 	 *
-	 * @return Indexable The extended indexable.
+	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
 	 */
 	public function format( $indexable ) {
 		$indexable->permalink       = $this->get_permalink();
@@ -55,9 +56,9 @@ class Indexable_Post_Formatter {
 
 		// Set additional meta-robots values.
 		$noindex_advanced = $this->get_meta_value( 'meta-robots-adv' );
-		$meta_robots      = explode( ',', $noindex_advanced );
+		$meta_robots      = \explode( ',', $noindex_advanced );
 		foreach ( $this->get_robots_options() as $meta_robots_option ) {
-			$indexable->{ 'is_robots_' . $meta_robots_option } = in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
+			$indexable->{ 'is_robots_' . $meta_robots_option } = \in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}
 
 		foreach ( $this->get_indexable_lookup() as $meta_key => $indexable_key ) {
@@ -154,9 +155,9 @@ class Indexable_Post_Formatter {
 	/**
 	 * Updates the link count from existing data.
 	 *
-	 * @param Indexable $indexable The indexable to extend.
+	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to extend.
 	 *
-	 * @return Indexable The extended indexable.
+	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
 	 */
 	protected function set_link_count( $indexable ) {
 		try {
@@ -184,8 +185,8 @@ class Indexable_Post_Formatter {
 	 * @return mixed The value of the indexable entry to use.
 	 */
 	protected function get_meta_value( $meta_key ) {
-		$value = \WPSEO_Meta::get_value( $meta_key, $this->post_id );
-		if ( is_string( $value ) && $value === '' ) {
+		$value = WPSEO_Meta::get_value( $meta_key, $this->post_id );
+		if ( \is_string( $value ) && $value === '' ) {
 			return null;
 		}
 
@@ -219,7 +220,7 @@ class Indexable_Post_Formatter {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @return SEO_Meta The SEO meta for current post id.
+	 * @return \Yoast\WP\Free\Models\SEO_Meta The SEO meta for current post id.
 	 */
 	protected function get_seo_meta() {
 		return SEO_Meta::find_by_post_id( $this->post_id );
