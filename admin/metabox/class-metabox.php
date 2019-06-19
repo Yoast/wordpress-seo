@@ -299,8 +299,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$content_sections = array();
 
 		$content_sections[] = $this->get_seo_meta_section();
-
-		$content_sections[] = $this->get_readabilty_meta_section();
+		$content_sections[] = $this->get_readability_meta_section();
 
 		// Check if social_admin is an instance of WPSEO_Social_Admin.
 		if ( $this->social_admin instanceof WPSEO_Social_Admin ) {
@@ -347,7 +346,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @return WPSEO_Metabox_Section
 	 */
-	private function get_readabilty_meta_section() {
+	private function get_readability_meta_section() {
 		return new WPSEO_Metabox_Section_Readability();
 	}
 
