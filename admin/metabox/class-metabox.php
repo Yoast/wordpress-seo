@@ -298,7 +298,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	private function get_content_sections() {
 		$content_sections = array();
 
-		$content_sections[] = $this->get_content_meta_section();
+		$content_sections[] = $this->get_seo_meta_section();
+		$content_sections[] = $this->get_readability_meta_section();
 
 		// Check if social_admin is an instance of WPSEO_Social_Admin.
 		if ( $this->social_admin instanceof WPSEO_Social_Admin ) {
@@ -317,11 +318,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Returns the metabox section for the content analysis.
+	 * Returns the metabox section for the seo analysis.
 	 *
 	 * @return WPSEO_Metabox_Section
 	 */
-	private function get_content_meta_section() {
+	private function get_seo_meta_section() {
 		wp_nonce_field( 'yoast_free_metabox', 'yoast_free_metabox_nonce' );
 
 		$content = $this->get_tab_content( 'general' );
@@ -335,9 +336,18 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return new WPSEO_Metabox_Section_React(
 			'content',
-			WPSEO_Utils::traffic_light_svg() . '<span>' . __( 'Content optimization', 'wordpress-seo' ) . '</span>',
+			'<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span><span>' . __( 'SEO', 'wordpress-seo' ) . '</span>',
 			$content
 		);
+	}
+
+	/**
+	 * Returns the metabox section for the readability analysis.
+	 *
+	 * @return WPSEO_Metabox_Section
+	 */
+	private function get_readability_meta_section() {
+		return new WPSEO_Metabox_Section_Readability();
 	}
 
 	/**

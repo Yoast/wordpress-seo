@@ -644,39 +644,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	}
 }
 
-// TODO: To be removed when the styled section will use the StyledSection component.
-.yoast-section {
-	box-shadow: 0 1px 2px rgba( 0, 0, 0, .2 );
-	position: relative;
-	background-color: #fff;
-	padding: 0 20px 15px;
-
-	&__heading {
-		padding: 8px 20px;
-		font-size: 1rem;
-		margin: 0 -20px 15px;
-		font-family: "Open Sans", sans-serif;
-		font-weight: 300;
-		color: #555;
-
-		&-icon {
-			padding-left: 44px; // 44 - 20 (icon width) = 24 for the 8px grid
-			background-repeat: no-repeat;
-			background-position: left 20px top 0.6em;
-			background-size: 16px;
-		}
-	}
-
-	*, & {
-		box-sizing: border-box;
-
-		&:before, &:after {
-			box-sizing: border-box;
-		}
-	}
-}
-
-
 .yoast-tooltip.yoast-tooltip-hidden::before,
 .yoast-tooltip.yoast-tooltip-hidden::after {
 	display: none;
@@ -731,4 +698,13 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	.wpseotab.content {
 		padding: 16px 0;
 	}
+}
+
+.wpseo-score-icon-container {
+	height: 20px;
+	width: 20px;
+	margin-right: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
