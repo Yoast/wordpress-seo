@@ -38,13 +38,12 @@ class Schema_Utils_Test extends TestCase {
 		$user_hash  = 'user_hash';
 
 		Monkey\Functions\expect( 'get_userdata' )
-			->times( 1 )
+			->once()
 			->with( $user_id )
 			->andReturn( (object) [ 'user_login' => $user_login ] );
 
 		Monkey\Functions\expect( 'wp_hash' )
-			->times( 1 )
-			->with( [ $user_login, $user_id ] )
+			->once()
 			->andReturn( $user_hash );
 
 		$this->assertEquals(
