@@ -90,7 +90,13 @@ class WPSEO_Taxonomy_Metabox {
 	private function get_content_sections() {
 		$content_sections = array();
 
-		$content_sections[] = $this->get_content_meta_section();
+		$content_sections[] = $this->get_seo_meta_section();
+
+		$readability_analysis = new WPSEO_Metabox_Analysis_Readability();
+		if ( $readability_analysis->is_enabled() ) {
+			$content_sections[] = $this->get_readability_meta_section();
+		}
+
 		$content_sections[] = $this->get_social_meta_section();
 		$content_sections[] = $this->get_settings_meta_section();
 
@@ -102,16 +108,31 @@ class WPSEO_Taxonomy_Metabox {
 	 *
 	 * @return WPSEO_Metabox_Section
 	 */
-	private function get_content_meta_section() {
+	private function get_seo_meta_section() {
 		$taxonomy_content_fields = new WPSEO_Taxonomy_Content_Fields( $this->term );
 		$content                 = $this->taxonomy_tab_content->html( $taxonomy_content_fields->get( $this->term ) );
 
+		$seo_analysis = new WPSEO_Metabox_Analysis_SEO();
+		$label        = __( 'SEO', 'wordpress-seo' );
+
+		if ( $seo_analysis->is_enabled() ) {
+			$label = '<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span>' . $label;
+		}
 
 		return new WPSEO_Metabox_Section_React(
 			'content',
-			'<span class="yst-metabox-tab-icon-container">' . WPSEO_Utils::traffic_light_svg() . '</span>' . __( 'Content optimization', 'wordpress-seo' ),
+			$label,
 			$content
 		);
+	}
+
+	/**
+	 * Returns the metabox section for the readability analysis.
+	 *
+	 * @return WPSEO_Metabox_Section
+	 */
+	private function get_readability_meta_section() {
+		return new WPSEO_Metabox_Section_Readability();
 	}
 
 	/**
