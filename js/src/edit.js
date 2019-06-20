@@ -1,4 +1,4 @@
-/* global window process wp */
+/* global window wp */
 /* External dependencies */
 import React from "react";
 import styled from "styled-components";
