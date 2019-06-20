@@ -90,6 +90,13 @@ ul.wpseo-metabox-tabs li.active {
 	vertical-align: top;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	border-top: 1px solid #e8e8e8;
+
+	&.active {
+		background: #fff;
+		position: relative;
+		/* 1 higher than the active menu item: .wpseo-metabox-menu.active */
+		z-index: 12;
+	}
 }
 
 .wpseo-meta-section.active {
@@ -114,6 +121,7 @@ ul.wpseo-metabox-tabs li.active {
 		padding-left: 16px;
 		display: flex;
 		align-items: flex-end;
+		flex-wrap: wrap;
 
 		li:nth-child(1) {
 			z-index: 10;
@@ -135,9 +143,11 @@ ul.wpseo-metabox-tabs li.active {
 		}
 
 		li {
-			box-shadow: 0 0 2px rgba(0, 0, 0, .2);
+			box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
 			height: 32px;
-			margin-bottom: 0;
+			/* Negative margins are to not have double borders. */
+			margin-left: -1px;
+			margin-bottom: -1px;
 			text-align: center;
 			position: relative;
 			background-color: #f8f8f8;
@@ -146,6 +156,7 @@ ul.wpseo-metabox-tabs li.active {
 				color: #0073aa;
 				display: flex;
 				align-items: center;
+				border: 1px solid #ddd;
 			}
 
 			.yst-traffic-light {
@@ -172,20 +183,10 @@ ul.wpseo-metabox-tabs li.active {
 
 			&.active {
 				height: 36px;
-				z-index: 50;
+				/* 4 px is the difference in height with the inactive tabs. */
+				margin-top: -4px;
+				z-index: 11;
 				background-color: #ffffff;
-				box-shadow: 0 0 2px 1px rgba(0, 0, 0, .2);
-
-				&:after {
-					content: "";
-					display: block;
-					width: 100%;
-					position: absolute;
-					bottom: -4px;
-					background: #fff;
-					height: 4px;
-					left: 0;
-				}
 
 				a {
 					height: 36px;
