@@ -108,6 +108,8 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 11.5.0 =
 Release Date: June 25th, 2019
 
+ Find out what Yoast SEO 11.5 is all about in [our 11.5 release post](https://yoa.st/release-11-5)!
+
 Enhancements:
 
 * Updates the Mobile Snippet Preview.
