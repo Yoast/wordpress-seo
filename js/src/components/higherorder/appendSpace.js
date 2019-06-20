@@ -8,6 +8,11 @@ import React, { Fragment } from "react";
  */
 const appendSpace = function( WrappedComponent ) {
 	return class ComponentWithAppendedSpace extends React.Component {
+		/**
+		 * Renders the React component.
+		 *
+		 * @returns {ReactElement} The rendered component.
+		 */
 		render() {
 			return (
 				<Fragment>

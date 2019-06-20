@@ -259,6 +259,7 @@ PostDataCollector.prototype.getCategoryName = function( li ) {
 	return $.trim( clone.text() );
 };
 
+/* eslint-disable complexity */
 /**
  * When the snippet is updated, update the (hidden) fields on the page.
  *
@@ -300,6 +301,7 @@ PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 			break;
 	}
 };
+/* eslint-enable complexity */
 
 /**
  * The data passed from the snippet editor.
