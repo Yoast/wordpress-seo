@@ -113,7 +113,8 @@ class WPSEO_Taxonomy_Metabox {
 		$content                 = $this->taxonomy_tab_content->html( $taxonomy_content_fields->get( $this->term ) );
 
 		$seo_analysis = new WPSEO_Metabox_Analysis_SEO();
-		$label = __( 'SEO', 'wordpress-seo' );
+		$label        = __( 'SEO', 'wordpress-seo' );
+
 		if ( $seo_analysis->is_enabled() ) {
 			$label = '<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span>' . $label;
 		}
