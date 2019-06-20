@@ -299,7 +299,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$content_sections = array();
 
 		$content_sections[] = $this->get_seo_meta_section();
-		$content_sections[] = $this->get_readability_meta_section();
+
+		if ( $this->analysis_readability->is_enabled() ) {
+			$content_sections[] = $this->get_readability_meta_section();
+		}
 
 		// Check if social_admin is an instance of WPSEO_Social_Admin.
 		if ( $this->social_admin instanceof WPSEO_Social_Admin ) {
@@ -327,6 +330,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$content = $this->get_tab_content( 'general' );
 
+		$label = __( 'SEO', 'wordpress-seo' );
+		if ( $this->analysis_seo->is_enabled() ) {
+			$label = '<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span>' . $label;
+		}
+
 		/**
 		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
 		 *
@@ -336,7 +344,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		return new WPSEO_Metabox_Section_React(
 			'content',
-			'<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span><span>' . __( 'SEO', 'wordpress-seo' ) . '</span>',
+			$label,
 			$content
 		);
 	}
