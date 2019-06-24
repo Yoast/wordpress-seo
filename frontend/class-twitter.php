@@ -34,11 +34,6 @@ class WPSEO_Twitter {
 	public $shown_images = array();
 
 	/**
-	 * @var WPSEO_Frontend_Page_Type
-	 */
-	protected $frontend_page_type;
-
-	/**
 	 * Will hold the Twitter card type being created.
 	 *
 	 * @var string
@@ -63,9 +58,6 @@ class WPSEO_Twitter {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		// Class for determine the current page type.
-		$this->frontend_page_type = new WPSEO_Frontend_Page_Type();
-
 		$this->twitter();
 	}
 
@@ -184,8 +176,8 @@ class WPSEO_Twitter {
 	 * Only used when OpenGraph is inactive.
 	 */
 	protected function description() {
-		if ( $this->frontend_page_type->is_simple_page() ) {
-			$meta_desc = $this->single_description( $this->frontend_page_type->get_simple_page_id() );
+		if ( WPSEO_Frontend_Page_Type::is_simple_page() ) {
+			$meta_desc = $this->single_description( WPSEO_Frontend_Page_Type::get_simple_page_id() );
 		}
 		elseif ( is_category() || is_tax() || is_tag() ) {
 			$meta_desc = $this->taxonomy_description();
@@ -263,8 +255,8 @@ class WPSEO_Twitter {
 	 * Only used when OpenGraph is inactive.
 	 */
 	protected function title() {
-		if ( $this->frontend_page_type->is_simple_page() ) {
-			$title = $this->single_title( $this->frontend_page_type->get_simple_page_id() );
+		if ( WPSEO_Frontend_Page_Type::is_simple_page() ) {
+			$title = $this->single_title( WPSEO_Frontend_Page_Type::get_simple_page_id() );
 		}
 		elseif ( is_category() || is_tax() || is_tag() ) {
 			$title = $this->taxonomy_title();
@@ -445,8 +437,8 @@ class WPSEO_Twitter {
 			return;
 		}
 
-		if ( $this->frontend_page_type->is_simple_page() ) {
-			$post_id = $this->frontend_page_type->get_simple_page_id();
+		if ( WPSEO_Frontend_Page_Type::is_simple_page() ) {
+			$post_id = WPSEO_Frontend_Page_Type::get_simple_page_id();
 
 			if ( $this->image_from_meta_values_output( $post_id ) ) {
 				return;

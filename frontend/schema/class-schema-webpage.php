@@ -115,6 +115,8 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			case is_author():
 				$type = 'ProfilePage';
 				break;
+			case WPSEO_Frontend_Page_Type::is_posts_page():
+			case WPSEO_Frontend_Page_Type::is_home_posts_page():
 			case is_archive():
 				$type = 'CollectionPage';
 				break;

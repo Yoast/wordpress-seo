@@ -11,21 +11,12 @@
 class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Holds the instance of the class being tested.
-	 *
-	 * @var WPSEO_Frontend_Page_Type
-	 */
-	protected $frontend_page_type;
-
-	/**
 	 * Sets the frontend page type object.
 	 *
 	 * @return void;
 	 */
 	public function setUp() {
 		parent::setUp();
-
-		$this->frontend_page_type = new WPSEO_Frontend_Page_Type();
 	}
 
 	/**
@@ -35,8 +26,8 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend_Page_Type::get_simple_page_id()
 	 */
 	public function test_simple_page_default_state() {
-		$this->assertFalse( $this->frontend_page_type->is_simple_page() );
-		$this->assertEquals( 0, $this->frontend_page_type->get_simple_page_id() );
+		$this->assertFalse( WPSEO_Frontend_Page_Type::is_simple_page() );
+		$this->assertEquals( 0, WPSEO_Frontend_Page_Type::get_simple_page_id() );
 	}
 
 	/**
@@ -49,8 +40,8 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 		$post = $this->factory()->post->create_and_get();
 
 		$this->go_to( get_permalink( $post ) );
-		$this->assertTrue( $this->frontend_page_type->is_simple_page() );
-		$this->assertEquals( $post->ID, $this->frontend_page_type->get_simple_page_id() );
+		$this->assertTrue( WPSEO_Frontend_Page_Type::is_simple_page() );
+		$this->assertEquals( $post->ID, WPSEO_Frontend_Page_Type::get_simple_page_id() );
 	}
 
 	/**
@@ -69,8 +60,8 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 		update_option( 'page_for_posts', $home_page->ID );
 
 		$this->go_to( get_permalink( $home_page ) );
-		$this->assertTrue( $this->frontend_page_type->is_simple_page() );
-		$this->assertEquals( $home_page->ID, $this->frontend_page_type->get_simple_page_id() );
+		$this->assertTrue( WPSEO_Frontend_Page_Type::is_simple_page() );
+		$this->assertEquals( $home_page->ID, WPSEO_Frontend_Page_Type::get_simple_page_id() );
 
 		update_option( 'show_on_front', $current_show_on_front );
 		update_option( 'page_for_posts', $current_page_for_posts );
@@ -83,8 +74,8 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Frontend_Page_Type::get_simple_page_id()
 	 */
 	public function test_simple_page_without_a_set_filter_for_the_id() {
-		$this->assertFalse( $this->frontend_page_type->is_simple_page() );
-		$this->assertEquals( 0, $this->frontend_page_type->get_simple_page_id() );
+		$this->assertFalse( WPSEO_Frontend_Page_Type::is_simple_page() );
+		$this->assertEquals( 0, WPSEO_Frontend_Page_Type::get_simple_page_id() );
 	}
 
 	/**
@@ -96,8 +87,8 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	public function test_simple_page_with_a_set_filter_for_the_id() {
 		add_filter( 'wpseo_frontend_page_type_simple_page_id', array( $this, 'simple_page_hook' ) );
 
-		$this->assertTrue( $this->frontend_page_type->is_simple_page() );
-		$this->assertEquals( 100, $this->frontend_page_type->get_simple_page_id() );
+		$this->assertTrue( WPSEO_Frontend_Page_Type::is_simple_page() );
+		$this->assertEquals( 100, WPSEO_Frontend_Page_Type::get_simple_page_id() );
 
 		remove_filter( 'wpseo_frontend_page_type_simple_page_id', array( $this, 'simple_page_hook' ) );
 	}
@@ -108,16 +99,16 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	public function test_is_home_posts_page() {
 
 		$this->go_to_home();
-		$this->assertTrue( $this->frontend_page_type->is_home_posts_page() );
+		$this->assertTrue( WPSEO_Frontend_Page_Type::is_home_posts_page() );
 
 		update_option( 'show_on_front', 'page' );
-		$this->assertFalse( $this->frontend_page_type->is_home_posts_page() );
+		$this->assertFalse( WPSEO_Frontend_Page_Type::is_home_posts_page() );
 
 		// Create and go to post.
 		update_option( 'show_on_front', 'notapage' );
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
-		$this->assertFalse( $this->frontend_page_type->is_home_posts_page() );
+		$this->assertFalse( WPSEO_Frontend_Page_Type::is_home_posts_page() );
 	}
 
 	/**
@@ -127,11 +118,11 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 
 		// On front page.
 		$this->go_to_home();
-		$this->assertFalse( $this->frontend_page_type->is_home_static_page() );
+		$this->assertFalse( WPSEO_Frontend_Page_Type::is_home_static_page() );
 
 		// On front page and show_on_front = page.
 		update_option( 'show_on_front', 'page' );
-		$this->assertFalse( $this->frontend_page_type->is_home_static_page() );
+		$this->assertFalse( WPSEO_Frontend_Page_Type::is_home_static_page() );
 
 		// Create page and set it as front page.
 		$post_id = $this->factory->post->create( array( 'post_type' => 'page' ) );
@@ -139,14 +130,14 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 
 		// On front page, show_on_front = page and on static page.
-		$this->assertTrue( $this->frontend_page_type->is_home_static_page() );
+		$this->assertTrue( WPSEO_Frontend_Page_Type::is_home_static_page() );
 
 		// Go to differen post but preserve previous options.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
 		// Options set but not on front page, should return false.
-		$this->assertFalse( $this->frontend_page_type->is_home_static_page() );
+		$this->assertFalse( WPSEO_Frontend_Page_Type::is_home_static_page() );
 	}
 
 	/**
@@ -157,16 +148,16 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 		// On home with show_on_front != page.
 		update_option( 'show_on_front', 'something' );
 		$this->go_to_home();
-		$this->assertFalse( $this->frontend_page_type->is_posts_page() );
+		$this->assertFalse( WPSEO_Frontend_Page_Type::is_posts_page() );
 
 		// On home with show_on_front = page.
 		update_option( 'show_on_front', 'page' );
-		$this->assertTrue( $this->frontend_page_type->is_posts_page() );
+		$this->assertTrue( WPSEO_Frontend_Page_Type::is_posts_page() );
 
 		// Go to different post but preserve previous options.
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
-		$this->assertFalse( $this->frontend_page_type->is_posts_page() );
+		$this->assertFalse( WPSEO_Frontend_Page_Type::is_posts_page() );
 	}
 
 	/**
