@@ -116,6 +116,6 @@
     }
   },
   "yoast": {
-    "premiumConfiguration": "release-yoast-seo/11.5"
+    "premiumConfiguration": ""
   }
 }
