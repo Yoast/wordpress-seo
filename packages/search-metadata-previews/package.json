@@ -1,6 +1,6 @@
 {
   "name": "@yoast/search-metadata-previews",
-  "version": "1.4.0-rc.0",
+  "version": "1.4.0",
   "private": false,
   "main": "src/index.js",
   "repository": {
@@ -30,7 +30,7 @@
     "prop-types": "^15.6.0",
     "react-transition-group": "^2.7.1",
     "styled-components": "^4.2.0",
-    "yoastseo": "^1.55.0-rc.0"
+    "yoastseo": "^1.55.0"
   },
   "devDependencies": {
     "enzyme": "^3.3.0",
