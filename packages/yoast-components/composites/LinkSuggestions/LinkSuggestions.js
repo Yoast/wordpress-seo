@@ -7,6 +7,7 @@ import Clipboard from "clipboard";
 import interpolateComponents from "interpolate-components";
 import { speak } from "@wordpress/a11y";
 import styled from "styled-components";
+import { isEqual } from "lodash-es";
 
 /* Internal dependencies */
 import { makeOutboundLink } from "@yoast/helpers";
@@ -94,13 +95,27 @@ class LinkSuggestions extends React.Component {
 			},
 		} );
 
+		const noRelevantPostsMessage = __(
+			"We could not find any relevant articles on your website that you could link your post to." );
+
 		const moreCopyMessage = __(
 			"Once you add a bit more copy, we'll give you a list of related " +
 			"content here to which you could link in your post.", "yoast-components" );
 
+		// If there is not enough text to calculate Prominent Words an "Add a bit more copy" message is returned.
+		if ( isEqual( this.props.prominentWords, [] ) ) {
+			return (
+				<div>
+				<p>{ moreCopyMessage }</p>
+				<p>{ articleLink }</p>
+				</div>
+			);
+		}
+
+		// Otherwise we return a message that no relevant posts are found.
 		return (
 			<div>
-				<p>{ moreCopyMessage }</p>
+				<p>{ noRelevantPostsMessage }</p>
 				<p>{ articleLink }</p>
 			</div>
 		);
@@ -223,6 +238,7 @@ class LinkSuggestions extends React.Component {
 
 LinkSuggestions.propTypes = {
 	suggestions: PropTypes.array.isRequired,
+	prominentnWords: PropTypes.array.isRequired,
 	maxSuggestions: PropTypes.number,
 };
 
