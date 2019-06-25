@@ -96,7 +96,7 @@ class LinkSuggestions extends React.Component {
 		} );
 
 		const noRelevantPostsMessage = __(
-			"We could not find any relevant articles on your website that you could link your post to." );
+			"We could not find any relevant articles on your website that you could link your post to.", "yoast-components" );
 
 		const moreCopyMessage = __(
 			"Once you add a bit more copy, we'll give you a list of related " +
@@ -106,8 +106,8 @@ class LinkSuggestions extends React.Component {
 		if ( isEqual( this.props.prominentWords, [] ) ) {
 			return (
 				<div>
-				<p>{ moreCopyMessage }</p>
-				<p>{ articleLink }</p>
+					<p>{ moreCopyMessage }</p>
+					<p>{ articleLink }</p>
 				</div>
 			);
 		}
@@ -238,7 +238,7 @@ class LinkSuggestions extends React.Component {
 
 LinkSuggestions.propTypes = {
 	suggestions: PropTypes.array.isRequired,
-	prominentnWords: PropTypes.array.isRequired,
+	prominentWords: PropTypes.array.isRequired,
 	maxSuggestions: PropTypes.number,
 };
 
