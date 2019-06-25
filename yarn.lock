@@ -841,7 +841,7 @@
   resolved "https://registry.yarnpkg.com/@yoast/feature-flag/-/feature-flag-0.3.0-rc.1.tgz#9880010d8edc2cf907e53df71992033b60038698"
   integrity sha512-Hr6e67Dy/hNT4nRFZlZ4NqMTuLHltO/4zNahSl17nxiplzZ8vA0V/nGTCVJX1zvO9R+bCH5t12rA8uxd6+QKQA==
 
-"@yoast/grunt-plugin-tasks@^1.3.0":
+"@yoast/grunt-plugin-tasks@^1.1.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-1.3.0.tgz#db40cd41cb331fa1a2e2c18db7a2fd7f754badb9"
   integrity sha512-bI9XfAtNZY0xmWASvgKkadE3ad36eacEWRCQ5s7uy6oHJOKYwDQiXNDEYSUMPBTDLxuvP5L7lwpcCFkT6rltDg==
@@ -4862,13 +4862,6 @@ eslint-config-yoast@^5.0.16:
   version "5.0.16"
   resolved "https://registry.yarnpkg.com/eslint-config-yoast/-/eslint-config-yoast-5.0.16.tgz#e9cc86198fb5802df48cd4fd8dd92f1f8429f9d4"
   integrity sha512-dl1StmJZqzzntWyaxP/KCW2MSTQZOnq96uGkQVYt/hTHQl0CEtf9mlXrsaWGmGHPVBybXvgS8F3WyJlgkn4LAQ==
-  dependencies:
-    js-yaml "^3.6.0"
-
-eslint-config-yoast@^5.0.7:
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/eslint-config-yoast/-/eslint-config-yoast-5.0.7.tgz#0dbef1e65963de834b543a1f18ca8ccd890d8ae0"
-  integrity sha512-uvpPQt8t1flXrBF4MV89gItKff9+ps2wdzl2GLVPdS+AFbn1eQDRQIjNk8WFoOcYNxfZLOceHO+gKloYkBW6pA==
   dependencies:
     js-yaml "^3.6.0"
 
