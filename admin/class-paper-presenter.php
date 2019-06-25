@@ -45,6 +45,7 @@ class WPSEO_Paper_Presenter {
 			'expanded'    => false,
 			'help_text'   => '',
 			'title_after' => '',
+			'class'       => '',
 			'view_data'   => array(),
 		);
 
@@ -79,6 +80,7 @@ class WPSEO_Paper_Presenter {
 		}
 
 		$view_variables = array(
+			'class'              => $this->settings['class'],
 			'collapsible'        => $this->settings['collapsible'],
 			'collapsible_config' => $this->collapsible_config(),
 			'title_after'        => $this->settings['title_after'],

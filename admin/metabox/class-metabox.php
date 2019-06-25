@@ -335,6 +335,15 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$label = '<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span>' . $label;
 		}
 
+		$advanced_collapsible = new WPSEO_Paper_Presenter(
+			__( 'Advanced', 'wordpress-seo' ),
+			WPSEO_PATH . 'admin/views/advanced-seo-settings.php',
+			array(
+					'collapsible' => true,
+					'class'       => 'metabox',
+			)
+		);
+
 		/**
 		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
 		 *
@@ -345,7 +354,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return new WPSEO_Metabox_Section_React(
 			'content',
 			$label,
-			$content
+			$content,
+			array(
+				'html_after' => '<div class="wpseo_content_wrapper">' . $advanced_collapsible->get_output() . '</div>'
+			)
 		);
 	}
 
@@ -738,9 +750,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_script( 'metabox' );
 		$asset_manager->enqueue_script( 'admin-media' );
 
+
 		$asset_manager->enqueue_script( 'post-scraper' );
 		$asset_manager->enqueue_script( 'replacevar-plugin' );
 		$asset_manager->enqueue_script( 'shortcode-plugin' );
+
+		$asset_manager->enqueue_script( 'admin-script' );
+		$asset_manager->enqueue_style( 'admin-css' );
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );

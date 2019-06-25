@@ -211,17 +211,33 @@ tr.yst_row.even {
 	}
 
 	.paper.tab-block {
-		max-width: 600px;
-		box-shadow: 0 1px 2px rgba( #000, 0.2 );
-		background-color: #fff;
-		padding: 8px 20px;
+		button.toggleable-container-trigger {
+			width: 100%;
+			padding: 16px;
+			font-size: 1rem;
+		}
+
+		&.metabox {
+			button.toggleable-container-trigger {
+				color: #555;
+			}
+		}
+
+		&.search-appearance {
+			max-width: 600px;
+			box-shadow: 0 1px 2px rgba( #000, 0.2 );
+			background-color: #fff;
+		}
+
+		.paper-container {
+			padding: 0 16px 16px 16px;
+		}
 	}
 
 	.toggleable-container-trigger {
 		border: 0;
 		background: none;
 		cursor: pointer;
-		height: 20px;
 		width: 100%;
 		padding: 0;
 		text-align: left;

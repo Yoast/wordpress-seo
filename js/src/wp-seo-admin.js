@@ -312,7 +312,7 @@ import a11ySpeak from "a11y-speak";
 		// Allow collapsing of the content types sections.
 		jQuery( "body" ).on( "click", "button.toggleable-container-trigger", ( event ) => {
 			const target = jQuery( event.currentTarget );
-			const toggleableContainer = target.parent().siblings( ".toggleable-container" );
+			const toggleableContainer = target.siblings( ".toggleable-container" );
 
 			toggleableContainer.toggleClass( "toggleable-container-hidden" );
 			target

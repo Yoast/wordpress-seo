@@ -22,6 +22,7 @@ $wpseo_rss_presenter = new WPSEO_Paper_Presenter(
 			'has-wrapper'
 		),
 		'paper_id'  => 'settings-rss-feed',
+		'class'     => 'search-appearance',
 	)
 );
 
