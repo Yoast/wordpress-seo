@@ -113,19 +113,14 @@ Release Date: July 9th, 2019
 Enhancements:
 
 * Changes the tabs in the metabox to horizontal tabs.
-* Splits the content optimization into two separate SEO and Readability tabs.
-* Updated HowTo schema output to reflect Google's new guidelines.
-* Filters the Media Modals to show only images.
+* Splits the content optimization tab in the metabox into two separate tabs: an SEO and a Readability tab.
+* Updates HowTo schema output to reflect Google's new guidelines.
+* Makes sure the media modal that is triggered for image uploads only displays images.
 
 Bugfixes:
 
-* Fixes a bug where the Schema `@id` for `Person` could be wrong depending on your knowledge graph settings.
-* Fixes a bug where the latest posts homepage and static posts page type was `WebPage` instead of `CollectionPage`.
-
-Other:
-
-* Changes the Schema `@id` for `Person` to not output the username, using a hash instead.
-* Overrides CSS rules inherited from Gutenberg that break the Snippet Editor title and description.
+* Fixes a bug where the Schema `@id` for `Person` would be incorrect on posts when author archives where disabled. 
+* Fixes a bug where the Schema would contain `WebPage` instead of `CollectionPage` for a latest posts homepage and the static posts page type.
 
 = 11.5.0 =
 Release Date: June 25th, 2019
