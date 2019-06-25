@@ -34,11 +34,11 @@ class Dependency_Management {
 	 */
 	public function ensure_class_alias( $class ) {
 		// If the namespace beings with the dependency class prefix, make an alias for regular class.
-		if ( strpos( $class, YOAST_VENDOR_NS_PREFIX ) !== 0 || $this->prefixed_available() ) {
+		if ( \strpos( $class, \YOAST_VENDOR_NS_PREFIX ) !== 0 || $this->prefixed_available() ) {
 			return;
 		}
 
-		$base = substr( $class, ( strlen( YOAST_VENDOR_NS_PREFIX ) + 1 ) );
+		$base = \substr( $class, ( \strlen( \YOAST_VENDOR_NS_PREFIX ) + 1 ) );
 		if ( ! $this->class_exists( $base ) ) {
 			return;
 		}
@@ -57,7 +57,7 @@ class Dependency_Management {
 		static $available = null;
 
 		if ( $available === null ) {
-			$available = is_file( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/dependencies-prefixed.txt' );
+			$available = \is_file( \WPSEO_PATH . \YOAST_VENDOR_PREFIX_DIRECTORY . '/dependencies-prefixed.txt' );
 		}
 
 		return $available;
@@ -70,7 +70,7 @@ class Dependency_Management {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param Event $event Composer event that triggered this script.
+	 * @param \Composer\Script\Event $event Composer event that triggered this script.
 	 *
 	 * @return void
 	 */
@@ -99,7 +99,7 @@ class Dependency_Management {
 	 * @return bool True if the class exists.
 	 */
 	protected function class_exists( $class ) {
-		return class_exists( $class ) || interface_exists( $class );
+		return \class_exists( $class ) || \interface_exists( $class );
 	}
 
 	/**

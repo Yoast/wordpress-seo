@@ -57,6 +57,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Network_Admin::get_site_choices()
 	 */
 	public function test_get_site_choices() {
+		$this->skipWithoutMultisite();
+
 		$admin = new Yoast_Network_Admin();
 
 		$site_ids = array_map( 'strval', array_merge( array( get_current_blog_id() ), self::factory()->blog->create_many( 5 ) ) );
@@ -79,6 +81,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Network_Admin::get_site_choices()
 	 */
 	public function test_get_site_choices_output() {
+		$this->skipWithoutMultisite();
+
 		$admin = new Yoast_Network_Admin();
 
 		$site = get_site();
@@ -102,6 +106,8 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * @covers Yoast_Network_Admin::get_site_states()
 	 */
 	public function test_get_site_states() {
+		$this->skipWithoutMultisite();
+
 		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
 			$this->markTestSkipped( 'Skipped because since WordPress 5.1 the hook wpmu_new_blog is deprecated' );
 

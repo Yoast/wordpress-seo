@@ -2,9 +2,6 @@
 
 namespace Yoast\WP\Free\Tests\Config;
 
-use Yoast\WP\Free\Config\Database_Migration;
-use Yoast\WP\Free\Config\Dependency_Management;
-use Yoast\WP\Free\WordPress\Integration_Group;
 use Yoast\WP\Free\Tests\Doubles\Plugin as Plugin_Double;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -160,7 +157,7 @@ class Plugin_Test extends TestCase {
 
 		$instance->initialize();
 
-		$this->assertAttributeEquals( false, 'initialize_success', $instance );
+		$this->assertAttributeSame( false, 'initialize_success', $instance );
 	}
 
 	/**
@@ -229,7 +226,7 @@ class Plugin_Test extends TestCase {
 
 		$instance->register_hooks();
 
-		$this->assertEquals( ( $action_count + 1 ), \did_action( 'wpseo_load_integrations' ) );
+		$this->assertSame( ( $action_count + 1 ), \did_action( 'wpseo_load_integrations' ) );
 	}
 
 	/**
