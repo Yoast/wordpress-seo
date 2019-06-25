@@ -5,6 +5,11 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.56.0 July 8th, 2019
+### Changed
+* Changes the following improved internal linking functionality (which is disabled by a feature flag by default):
+  * Bumps the minimum number of required word occurrences from 2 to 4 (when extracting prominent words for internal linking).
+
 ## 1.55.0 June 24th, 2019
 ### Changed
 * Updated the CSS autoprefixer configuration to drop support for old Internet Explorer versions.
