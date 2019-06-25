@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 4.9
-Tested up to: 5.2.1
+Tested up to: 5.2.2
 Stable tag: 11.4
 Requires PHP: 5.2.4
 
