@@ -11,7 +11,9 @@ const wordsToStem = [
 	[ "den", "den" ],
 	// -En suffix with a double consonant preceding it (suffix type b1).
 	[ "bakken", "bak" ],
-	// -S suffix preceded by a valid -s ending (suffix type f1).
+	// Suffix -es preceded by a valid -es ending (suffix type f1).
+	[ "sandwiches", "sandwich" ],
+	// -S suffix preceded by a valid -s ending (suffix type g1).
 	[ "torens", "toren" ],
 	// -S not preceded by a valid -s ending.
 	[ "prijs", "prijs" ],
@@ -57,28 +59,27 @@ const wordsToStem = [
 	[ "warmere", "warm" ],
 	// Suffix -ere preceded by d (suffix type k1).
 	[ "koudere", "koud" ],
-	// Suffix -er preceded by -eerd (suffix type g1).
+	// Suffix -er preceded by -eerd (suffix type h1).
 	[ "geconcentreerder", "geconcentreerd" ],
-	// Suffix -ër preceded by a valid -ër ending (suffix type l1).
+	// Suffix -ër preceded by a valid -ër ending (suffix type m1).
 	[ "tevreeër", "tevree" ],
-	// Suffix -st preceded by a valid -st ending (suffix type m1).
+	// Suffix -st preceded by a valid -st ending (suffix type n1).
 	[ "warmst", "warm" ],
-	// Suffix -st preceded by a vowel and e (suffix type o1).
+	// Suffix -st preceded by a vowel and e (suffix type p1).
 	[ "tevreest", "tevree" ],
-	// Suffix -est (suffix type p1).
+	// Suffix -est (suffix type q1).
 	[ "mooiest", "mooi" ],
-	// Suffix -er preceded by a vowel and i (suffix type q1).
+	// Suffix -er preceded by a vowel and i (suffix type r1).
 	[ "mooier", "mooi" ],
 	// Suffix -end preceded by a consonant (suffix type a3) .
 	[ "werkende", "werk" ],
-	// Suffix -end preceded by a consonant and i (suffix type b3) .
-	[ "werkende", "werk" ],
-	// Suffix -end followed by suffix -er (suffix type a3 + suffix type k1).
+	// Suffix -end followed by suffix -er (suffix type a3 + suffix type l1).
 	[ "afwisselender", "afwissel" ],
 	// Suffix -e preceded by a valid -e ending (suffix type c3).
 	[ "kleine", "klein" ],
 	// Suffix -ë preceded by a valid -ë ending (suffix type d3).
 	[ "gedweeë", "gedwee" ],
+
 ];
 
 describe( "Test for stemming Dutch words", () => {

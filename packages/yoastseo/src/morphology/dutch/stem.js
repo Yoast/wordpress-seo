@@ -55,13 +55,13 @@ const suffixes1 = [
 	},
 	{
 		indexName: "b1Index",
-		regex: /([^aeoiuyèäüëïöáéíóú])(en|ene)$/g,
+		regex: /([^aeoiyèäüëïöáéíóú])(en|ene)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 1,
 	},
 	{
 		indexName: "c1Index",
-		regex: /([aeoiuyèäüëïöáéíóú]i)(en)$/g,
+		regex: /([aeoiyèäüëïöáéíóú]i)(en)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 2,
 	},
@@ -79,72 +79,78 @@ const suffixes1 = [
 	},
 	{
 		indexName: "f1Index",
+		regex: /((ch)|(sh))(es)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 2,
+	},
+	{
+		indexName: "g1Index",
 		regex: /([^aeoiuyèäüëïöáéíóúj])(s|se)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 1,
 	},
 	{
-		indexName: "g1Index",
+		indexName: "h1Index",
 		regex: /(eerd)(er|ere)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 4,
 	},
 	{
-		indexName: "h1Index",
+		indexName: "i1Index",
 		regex: /(r)(der|dere)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 1,
 	},
 	{
-		indexName: "i1Index",
+		indexName: "j1Index",
 		regex: /([rfgjklmnpt])(er|ere)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 1,
 	},
 	{
-		indexName: "j1Index",
+		indexName: "k1Index",
 		regex: /(sch)(er|ere)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 3,
 	},
 	{
-		indexName: "k1Index",
+		indexName: "l1Index",
 		regex: /([^r]d)(er|ere)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 2,
 	},
 	{
-		indexName: "l1Index",
+		indexName: "m1Index",
 		regex: /([eoué]e)(ër|ëre)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 2,
 	},
 	{
-		indexName: "m1Index",
-		regex: /([rfgjklmnpt])(st|ste)$/g,
+		indexName: "n1Index",
+		regex: /([drfgjklmnpt])(st|ste)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 1,
 	},
 	{
-		indexName: "n1Index",
+		indexName: "o1Index",
 		regex: /(sch)(st|ste)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 3,
 	},
 	{
-		indexName: "o1Index",
+		indexName: "p1Index",
 		regex: /([eoué]e)(st|ste)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 2,
 	},
 	{
-		indexName: "p1Index",
+		indexName: "q1Index",
 		regex: /([oa]I)(est|este)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 2,
 	},
 	{
-		indexName: "q1Index",
+		indexName: "r1Index",
 		regex: /([oa]I)(er|ere)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 2,
@@ -456,7 +462,7 @@ const deleteSuffix3 = function( word, index3, r1Index ) {
  * @returns {string} The stemmed word.
  */
 export default function stem( word ) {
-	// Put i in between vowels, initial y, and y after a vowel into upper case.
+	// Put i and e in between vowels, initial y, and y after a vowel into upper case.
 	word = word.replace( /([aeiouyèäüëïöáéíóú])i([aeiouyèäüëïöáéíóú])/g, "$1I$2" );
 	word = word.replace( /^y(.*)/g, "$1Y$2" );
 	word = word.replace( /([aeiouyèäüëïöáéíóú])y(.*)/g, "$1Y$2" );
