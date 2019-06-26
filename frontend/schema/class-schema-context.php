@@ -185,7 +185,8 @@ class WPSEO_Schema_Context {
 				$this->site_represents = false;
 			} else {
 				$this->company_logo_id = WPSEO_Image_Utils::get_attachment_id_from_settings( 'company_logo' );
-				if ( $this->company_logo_id === false ) {
+				// This is not a false check due to how `get_attachment_id_from_settings` works.
+				if ( $this->company_logo_id < 1 ) {
 					$this->site_represents = false;
 				}
 			}
