@@ -1,0 +1,63 @@
+<?php
+
+abstract class WPSEO_Sectioned_Metabox_Tab implements WPSEO_Metabox_Section {
+	/**
+	 * @var string
+	 */
+	public $name;
+
+	/**
+	 * @var string
+	 */
+	protected $link_content;
+
+	/**
+	 * @var string
+	 */
+	protected $link_title;
+
+	/**
+	 * @var string
+	 */
+	protected $link_class;
+
+	/**
+	 * @var string
+	 */
+	protected $link_aria_label;
+
+	public function __construct( $name, $link_content, array $sections = array(), array $options = array() ) {
+		$default_options = array(
+			'link_title'      => '',
+			'link_class'      => '',
+			'link_aria_label' => '',
+		);
+
+		$options = array_merge( $default_options, $options );
+
+		$this->name = $name;
+
+		$this->link_content    = $link_content;
+		$this->link_title      = $options['link_title'];
+		$this->link_class      = $options['link_class'];
+		$this->link_aria_label = $options['link_aria_label'];
+	}
+
+	/**
+	 * Outputs the section link if any section has been added.
+	 */
+	public function display_link() {
+		if ( $this->has_sections() ) {
+			printf(
+				'<li role="presentation"><a role="tab" href="#wpseo-meta-section-%1$s" id="wpseo-meta-tab-%1$s" aria-controls="wpseo-meta-section-%1$s" class="wpseo-meta-section-link %2$s"%3$s%4$s>%5$s</a></li>',
+				esc_attr( $this->name ),
+				esc_attr( $this->link_class ),
+				( '' !== $this->link_title ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
+				( '' !== $this->link_aria_label ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
+				$this->link_content
+			);
+		}
+	}
+
+	abstract protected function has_sections();
+}
