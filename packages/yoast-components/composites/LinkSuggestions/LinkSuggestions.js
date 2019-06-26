@@ -96,7 +96,7 @@ class LinkSuggestions extends React.Component {
 		} );
 
 		const noRelevantPostsMessage = __(
-			"We could not find any relevant articles on your website that you could link your post to.", "yoast-components" );
+			"We could not find any relevant articles on your website that you could link to from your post.", "yoast-components" );
 
 		const moreCopyMessage = __(
 			"Once you add a bit more copy, we'll give you a list of related " +
