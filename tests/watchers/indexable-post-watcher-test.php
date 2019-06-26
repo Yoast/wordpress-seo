@@ -21,22 +21,22 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	/**
 	 * Tests if the expected hooks are registered.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::register_hooks()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::register_hooks
 	 */
 	public function test_register_hooks() {
 		$instance = new Indexable_Post_Watcher( new Indexable_Post_Formatter() );
 		$instance->register_hooks();
 
-		$this->assertNotFalse( \has_action( 'wp_insert_post', array( $instance, 'save_meta' ) ) );
-		$this->assertNotFalse( \has_action( 'delete_post', array( $instance, 'delete_meta' ) ) );
+		$this->assertNotFalse( \has_action( 'wp_insert_post', array( $instance, 'build_indexable' ) ) );
+		$this->assertNotFalse( \has_action( 'delete_post', array( $instance, 'delete_indexable' ) ) );
 	}
 
 	/**
 	 * Tests if the indexable is being deleted.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_indexable
 	 */
-	public function test_delete_meta() {
+	public function test_delete_indexable() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
 			->setConstructorArgs( [ new Indexable_Post_Formatter() ] )
@@ -60,15 +60,15 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->with( $id, false )
 			->will( $this->returnValue( $indexable_mock ) );
 
-		$instance->delete_meta( $id );
+		$instance->delete_indexable( $id );
 	}
 
 	/**
 	 * Tests if the indexable is being deleted.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_indexable
 	 */
-	public function test_delete_meta_exception() {
+	public function test_delete_indexable_exception() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
 			->setConstructorArgs( [ new Indexable_Post_Formatter() ] )
@@ -80,15 +80,15 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->method( 'get_indexable' )
 			->will( $this->throwException( new No_Indexable_Found() ) );
 
-		$instance->delete_meta( 1 );
+		$instance->delete_indexable( 1 );
 	}
 
 	/**
 	 * Tests the save meta functionality.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::build_indexable
 	 */
-	public function test_save_meta() {
+	public function test_build_indexable() {
 		$indexable_mock = $this
 			->getMockBuilder( 'Yoast_Model_Mock' )
 			->setMethods( array( 'save' ) )
@@ -137,15 +137,15 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		// Set this value to true to let the routine think an indexable has been saved.
 		$indexable_mock->id = true;
 
-		$instance->save_meta( $post_id );
+		$instance->build_indexable( $post_id );
 	}
 
 	/**
 	 * Tests the early return for non-indexable post.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::build_indexable
 	 */
-	public function test_save_meta_is_post_not_indexable() {
+	public function test_build_indexable_is_post_not_indexable() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
 			->setConstructorArgs( [ new Indexable_Post_Formatter() ] )
@@ -161,15 +161,15 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( $this->never() )
 			->method( 'get_indexable' );
 
-		$instance->save_meta( 1 );
+		$instance->build_indexable( 1 );
 	}
 
 	/**
 	 * Tests the save meta functionality.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::build_indexable
 	 */
-	public function test_save_meta_exception() {
+	public function test_build_indexable_exception() {
 		Monkey\Functions\expect( 'wp_is_post_revision' )
 			->once()
 			->with( -1 )
@@ -190,6 +190,6 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->method( 'get_indexable' )
 			->will( $this->throwException( new No_Indexable_Found() ) );
 
-		$instance->save_meta( -1 );
+		$instance->build_indexable( -1 );
 	}
 }

@@ -43,8 +43,8 @@ class Indexable_Post_Watcher implements Integration {
 	 * @inheritdoc
 	 */
 	public function register_hooks() {
-		\add_action( 'wp_insert_post', [ $this, 'save_meta' ], \PHP_INT_MAX );
-		\add_action( 'delete_post', [ $this, 'delete_meta' ] );
+		\add_action( 'wp_insert_post', [ $this, 'build_indexable' ], \PHP_INT_MAX );
+		\add_action( 'delete_post', [ $this, 'delete_indexable' ] );
 	}
 
 	/**
@@ -54,7 +54,7 @@ class Indexable_Post_Watcher implements Integration {
 	 *
 	 * @return void
 	 */
-	public function delete_meta( $post_id ) {
+	public function delete_indexable( $post_id ) {
 		try {
 			$indexable = $this->get_indexable( $post_id, false );
 			$indexable->delete();
@@ -70,7 +70,7 @@ class Indexable_Post_Watcher implements Integration {
 	 *
 	 * @return void
 	 */
-	public function save_meta( $post_id ) {
+	public function build_indexable( $post_id ) {
 
 		if ( ! $this->is_post_indexable( $post_id ) ) {
 			return;

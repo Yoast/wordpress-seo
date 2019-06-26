@@ -43,8 +43,8 @@ class Indexable_Term_Watcher implements Integration {
 	 * @inheritdoc
 	 */
 	public function register_hooks() {
-		\add_action( 'edited_term', [ $this, 'save_meta' ], \PHP_INT_MAX, 3 );
-		\add_action( 'delete_term', [ $this, 'delete_meta' ], \PHP_INT_MAX, 3 );
+		\add_action( 'edited_term', [ $this, 'build_indexable' ], \PHP_INT_MAX, 3 );
+		\add_action( 'delete_term', [ $this, 'delete_indexable' ], \PHP_INT_MAX, 3 );
 	}
 
 	/**
@@ -56,7 +56,7 @@ class Indexable_Term_Watcher implements Integration {
 	 *
 	 * @return void
 	 */
-	public function delete_meta( $term_id, $taxonomy_term_id, $taxonomy ) {
+	public function delete_indexable( $term_id, $taxonomy_term_id, $taxonomy ) {
 		try {
 			$indexable = $this->get_indexable( $term_id, $taxonomy, false );
 			$indexable->delete_meta();
@@ -79,7 +79,7 @@ class Indexable_Term_Watcher implements Integration {
 	 *
 	 * @return void
 	 */
-	public function save_meta( $term_id, $taxonomy_term_id, $taxonomy ) {
+	public function build_indexable( $term_id, $taxonomy_term_id, $taxonomy ) {
 		try {
 			$indexable = $this->get_indexable( $term_id, $taxonomy );
 		} catch ( No_Indexable_Found $exception ) {

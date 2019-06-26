@@ -43,8 +43,8 @@ class Indexable_Author_Watcher implements Integration {
 	 * @inheritdoc
 	 */
 	public function register_hooks() {
-		\add_action( 'profile_update', [ $this, 'save_meta' ], \PHP_INT_MAX );
-		\add_action( 'deleted_user', [ $this, 'delete_meta' ] );
+		\add_action( 'profile_update', [ $this, 'build_indexable' ], \PHP_INT_MAX );
+		\add_action( 'deleted_user', [ $this, 'delete_indexable' ] );
 	}
 
 	/**
@@ -54,7 +54,7 @@ class Indexable_Author_Watcher implements Integration {
 	 *
 	 * @return void
 	 */
-	public function delete_meta( $user_id ) {
+	public function delete_indexable( $user_id ) {
 		try {
 			$indexable = $this->get_indexable( $user_id, false );
 			$indexable->delete_meta();
@@ -71,7 +71,7 @@ class Indexable_Author_Watcher implements Integration {
 	 *
 	 * @return void
 	 */
-	public function save_meta( $user_id ) {
+	public function build_indexable( $user_id ) {
 		try {
 			$indexable = $this->get_indexable( $user_id );
 		} catch ( No_Indexable_Found $exception ) {

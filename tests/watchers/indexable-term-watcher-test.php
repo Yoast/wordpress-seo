@@ -20,22 +20,22 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	/**
 	 * Tests if the expected hooks are registered.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::register_hooks()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::register_hooks
 	 */
 	public function test_register_hooks() {
 		$instance = new Indexable_Term_Watcher( new Indexable_Term_Formatter() );
 		$instance->register_hooks();
 
-		$this->assertNotFalse( \has_action( 'edited_term', array( $instance, 'save_meta' ) ) );
-		$this->assertNotFalse( \has_action( 'delete_term', array( $instance, 'delete_meta' ) ) );
+		$this->assertNotFalse( \has_action( 'edited_term', array( $instance, 'build_indexable' ) ) );
+		$this->assertNotFalse( \has_action( 'delete_term', array( $instance, 'delete_indexable' ) ) );
 	}
 
 	/**
 	 * Tests if the indexable is being deleted.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_indexable
 	 */
-	public function test_delete_meta() {
+	public function test_delete_indexable() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Term_Watcher' )
 			->setConstructorArgs( [  new Indexable_Term_Formatter() ] )
@@ -44,7 +44,7 @@ class Indexable_Term_Watcher_Test extends TestCase {
 
 		$indexable_mock = $this
 			->getMockBuilder( 'Yoast\WP\Free\Yoast_Model' )
-			->setMethods( array( 'delete', 'delete_meta' ) )
+			->setMethods( array( 'delete', 'delete_indexable' ) )
 			->getMock();
 
 		$indexable_mock
@@ -53,7 +53,7 @@ class Indexable_Term_Watcher_Test extends TestCase {
 
 		$indexable_mock
 			->expects( $this->once() )
-			->method( 'delete_meta' );
+			->method( 'delete_indexable' );
 		$id = 1;
 
 		$instance
@@ -62,15 +62,15 @@ class Indexable_Term_Watcher_Test extends TestCase {
 			->with( $id, 'taxonomy', false )
 			->will( $this->returnValue( $indexable_mock ) );
 
-		$instance->delete_meta( $id, '', 'taxonomy' );
+		$instance->delete_indexable( $id, '', 'taxonomy' );
 	}
 
 	/**
 	 * Tests if the indexable is being deleted.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_indexable
 	 */
-	public function test_delete_meta_exception() {
+	public function test_delete_indexable_exception() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Term_Watcher' )
 			->setConstructorArgs( [  new Indexable_Term_Formatter() ] )
@@ -82,15 +82,15 @@ class Indexable_Term_Watcher_Test extends TestCase {
 			->method( 'get_indexable' )
 			->will( $this->throwException( new No_Indexable_Found() ) );
 
-		$instance->delete_meta( 1, '', 'taxonomy' );
+		$instance->delete_indexable( 1, '', 'taxonomy' );
 	}
 
 	/**
-	 * Tests the save meta.
+	 * Tests the build indexable function.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::build_indexable
 	 */
-	public function test_save_meta() {
+	public function test_build_indexable() {
 		$taxonomy_id = 1;
 
 		$indexable_mock = $this
@@ -132,15 +132,15 @@ class Indexable_Term_Watcher_Test extends TestCase {
 		// Set this value to true to let the routine think an indexable has been saved.
 		$indexable_mock->id = true;
 
-		$instance->save_meta( $taxonomy_id, '', 'taxonomy' );
+		$instance->build_indexable( $taxonomy_id, '', 'taxonomy' );
 	}
 
 	/**
-	 * Tests the save meta functionality.
+	 * Tests the build indexable functionality.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::build_indexable
 	 */
-	public function test_save_meta_exception() {
+	public function test_build_indexable_exception() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Term_Watcher' )
 			->setConstructorArgs( [  new Indexable_Term_Formatter() ] )
@@ -152,6 +152,6 @@ class Indexable_Term_Watcher_Test extends TestCase {
 			->method( 'get_indexable' )
 			->will( $this->throwException( new No_Indexable_Found() ) );
 
-		$instance->save_meta( -1, '', 'taxonomy' );
+		$instance->build_indexable( -1, '', 'taxonomy' );
 	}
 }
