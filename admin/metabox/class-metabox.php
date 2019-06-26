@@ -309,10 +309,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->social_admin->get_meta_section();
 		}
 
-		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
-			$content_sections[] = $this->get_advanced_meta_section();
-		}
-
 		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
 			$content_sections[] = $this->get_addons_meta_section();
 		}
@@ -335,14 +331,21 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$label = '<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span>' . $label;
 		}
 
-		$advanced_collapsible = new WPSEO_Paper_Presenter(
-			__( 'Advanced', 'wordpress-seo' ),
-			WPSEO_PATH . 'admin/views/advanced-seo-settings.php',
-			array(
+		$html_after = '';
+
+		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
+			$advanced_collapsible = new WPSEO_Paper_Presenter(
+				__( 'Advanced', 'wordpress-seo' ),
+				null,
+				array(
 					'collapsible' => true,
-					'class'       => 'metabox',
-			)
-		);
+					'class'       => 'metabox wpseotab',
+					'content'     => $this->get_tab_content( 'advanced' ),
+				)
+			);
+
+			$html_after = '<div class="wpseo_content_wrapper">' . $advanced_collapsible->get_output() . '</div>';
+		}
 
 		/**
 		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
@@ -356,7 +359,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$label,
 			$content,
 			array(
-				'html_after' => '<div class="wpseo_content_wrapper">' . $advanced_collapsible->get_output() . '</div>'
+				'html_after' => $html_after,
 			)
 		);
 	}
@@ -368,28 +371,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	private function get_readability_meta_section() {
 		return new WPSEO_Metabox_Section_Readability();
-	}
-
-	/**
-	 * Returns the metabox section for the advanced settings.
-	 *
-	 * @return WPSEO_Metabox_Section
-	 */
-	private function get_advanced_meta_section() {
-		$content = $this->get_tab_content( 'advanced' );
-
-		$tab = new WPSEO_Metabox_Form_Tab(
-			'advanced',
-			$content,
-			__( 'Advanced', 'wordpress-seo' ),
-			array( 'single' => true )
-		);
-
-		return new WPSEO_Metabox_Tab_Section(
-			'advanced',
-			'<span class="dashicons dashicons-admin-generic"></span>' . __( 'Advanced', 'wordpress-seo' ),
-			array( $tab )
-		);
 	}
 
 	/**

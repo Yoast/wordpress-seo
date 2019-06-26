@@ -38,7 +38,7 @@ class WPSEO_Paper_Presenter {
 	 * @param string $view_file The path to the view file.
 	 * @param array  $settings  Optional. Settings for the paper.
 	 */
-	public function __construct( $title, $view_file, array $settings = array() ) {
+	public function __construct( $title, $view_file = null, array $settings = array() ) {
 		$defaults = array(
 			'paper_id'    => null,
 			'collapsible' => false,
@@ -46,11 +46,13 @@ class WPSEO_Paper_Presenter {
 			'help_text'   => '',
 			'title_after' => '',
 			'class'       => '',
+			'content'     => '',
 			'view_data'   => array(),
 		);
 
 		$this->settings  = wp_parse_args( $settings, $defaults );
 		$this->title     = $title;
+
 		$this->view_file = $view_file;
 	}
 
@@ -60,7 +62,11 @@ class WPSEO_Paper_Presenter {
 	 * @return string The rendered paper.
 	 */
 	public function get_output() {
-		extract( $this->get_view_variables(), EXTR_SKIP );
+		$view_variables = $this->get_view_variables();
+
+		extract( $view_variables, EXTR_SKIP );
+
+		$content = $this->get_content( $view_variables );
 
 		ob_start();
 		require WPSEO_PATH . 'admin/views/paper-collapsible.php';
@@ -92,6 +98,19 @@ class WPSEO_Paper_Presenter {
 		);
 
 		return array_merge( $this->settings['view_data'], $view_variables );
+	}
+
+	private function get_content( $view_variables ) {
+		if ( $this->view_file !== null ) {
+			ob_start();
+			extract( $view_variables, EXTR_SKIP );
+
+			require( $this->view_file );
+
+			return ob_get_clean();
+		}
+
+		return $this->settings['content'];
 	}
 
 	/**

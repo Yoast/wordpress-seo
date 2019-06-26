@@ -221,6 +221,11 @@ tr.yst_row.even {
 			button.toggleable-container-trigger {
 				color: #555;
 			}
+
+			&.wpseotab {
+				padding: 0;
+				border: 0;
+			}
 		}
 
 		&.search-appearance {
@@ -230,7 +235,7 @@ tr.yst_row.even {
 		}
 
 		.paper-container {
-			padding: 0 16px 16px 16px;
+			padding: 16px;
 		}
 	}
 

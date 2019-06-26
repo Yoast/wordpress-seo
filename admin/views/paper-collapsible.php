@@ -39,7 +39,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	?>
 	<?php echo $help_text->get_panel_html(); ?>
 	<div class="paper-container <?php echo esc_attr( $collapsible_config['class'] ); ?>">
-		<?php require $view_file; ?>
+		<?php echo $content; ?>
 	</div>
 
 </div>
