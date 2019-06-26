@@ -1,24 +1,32 @@
 <?php
+
 namespace Yoast\WP\Free\Tests\Frontend\Schema;
 
-use Yoast\WP\Free\Tests\TestCase;
-use \WPSEO_Schema_WebPage;
-use \WPSEO_Schema_Context;
-use \Mockery;
 use Brain\Monkey;
+use Mockery;
+use WP_Post;
+use WPSEO_Schema_Context;
+use WPSEO_Schema_Utils;
+use WPSEO_Schema_WebPage;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
-* Class WPSEO_Schema_HowTo_Test.
-*
-* @group schema
-*
-* @package Yoast\Tests\Frontend\Schema
-*/
+ * Class WPSEO_Schema_HowTo_Test.
+ *
+ * @group schema
+ *
+ * @package Yoast\Tests\Frontend\Schema
+ */
 class WPSEO_Schema_WebPage_Test extends TestCase {
 	/**
 	 * @var \WPSEO_Schema_WebPage
 	 */
 	private $instance;
+
+	/**
+	 * @var \WPSEO_Schema_Context
+	 */
+	private $context;
 
 	/**
 	 * Test setup.
@@ -36,12 +44,13 @@ class WPSEO_Schema_WebPage_Test extends TestCase {
 			'is_singular'   => false,
 		] );
 
-		$context = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
+		$this->context = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
 
-		$context->title     = 'title';
-		$context->canonical = 'example.com';
+		$this->context->id        = 1;
+		$this->context->title     = 'title';
+		$this->context->canonical = 'example.com';
 
-		$this->instance = new WPSEO_Schema_WebPage( $context );
+		$this->instance = new WPSEO_Schema_WebPage( $this->context );
 	}
 
 	/**
@@ -107,5 +116,49 @@ class WPSEO_Schema_WebPage_Test extends TestCase {
 		$expected = 'CollectionPage';
 
 		$this->assertEquals( $actual['@type'], $expected );
+	}
+
+	/**
+	 * Tests if the add_author adds the author when the site is not represented.
+	 *
+	 * @covers \WPSEO_Schema_WebPage::add_author
+	 */
+	public function test_add_author() {
+		$post              = Mockery::mock( WP_Post::class )->makePartial();
+		$post->post_author = 'author';
+
+		$this->context->site_represents = false;
+
+		Monkey\Functions\expect( 'get_userdata' )
+			->andReturn( (object) [ 'user_login' => 'user_login' ] );
+
+		Monkey\Functions\expect( 'wp_hash' )
+			->andReturn( 'user_hash' );
+
+		$data = $this->instance->add_author( [], $post );
+
+		$this->assertArrayHasKey( 'author', $data );
+	}
+
+	/**
+	 * Tests that add_author does not add the author when the site is represented.
+	 *
+	 * @covers \WPSEO_Schema_WebPage::add_author
+	 */
+	public function test_do_not_add_author() {
+		$post              = Mockery::mock( WP_Post::class )->makePartial();
+		$post->post_author = 'author';
+
+		$this->context->site_represents = true;
+
+		Monkey\Functions\expect( 'get_userdata' )
+			->andReturn( (object) [ 'user_login' => 'user_login' ] );
+
+		Monkey\Functions\expect( 'wp_hash' )
+			->andReturn( 'user_hash' );
+
+		$data = $this->instance->add_author( [], $post );
+
+		$this->assertArrayNotHasKey( 'author', $data );
 	}
 }

@@ -37,6 +37,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase {
 				'absint'         => function( $value ) {
 					return \abs( \intval( $value ) );
 				},
+				'mysql2date'     => null,
 			]
 		);
 

@@ -98,11 +98,22 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 *
 	 * @return array The WebPage schema.
 	 */
-	private function add_author( $data, $post ) {
+	public function add_author( $data, $post ) {
 		if ( $this->context->site_represents === false ) {
 			$data['author'] = array( '@id' => WPSEO_Schema_Utils::get_user_schema_id( $post->post_author, $this->context ) );
 		}
 		return $data;
+	}
+
+	/**
+	 * If we have an image, make it the primary image of the page.
+	 *
+	 * @param array $data WebPage schema data.
+	 */
+	public function add_image( &$data ) {
+		if ( $this->context->has_image ) {
+			$data['primaryImageOfPage'] = array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::PRIMARY_IMAGE_HASH );
+		}
 	}
 
 	/**
@@ -150,16 +161,5 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 		 * @api string $type The WebPage type.
 		 */
 		return apply_filters( 'wpseo_schema_webpage_type', $type );
-	}
-
-	/**
-	 * If we have an image, make it the primary image of the page.
-	 *
-	 * @param array $data WebPage schema data.
-	 */
-	public function add_image( &$data ) {
-		if ( $this->context->has_image ) {
-			$data['primaryImageOfPage'] = array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::PRIMARY_IMAGE_HASH );
-		}
 	}
 }
