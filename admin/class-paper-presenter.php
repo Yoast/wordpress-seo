@@ -100,6 +100,13 @@ class WPSEO_Paper_Presenter {
 		return array_merge( $this->settings['view_data'], $view_variables );
 	}
 
+	/**
+	 * Renders the view file.
+	 *
+	 * @param array $view_variables View variables.
+	 *
+	 * @return string The rendered view file.
+	 */
 	private function get_content( $view_variables ) {
 		if ( $this->view_file !== null ) {
 			ob_start();

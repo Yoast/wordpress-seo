@@ -1,5 +1,13 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin
+ */
 
+/**
+ * Base class for metabox that consist of multiple sections.
+ */
 abstract class WPSEO_Sectioned_Metabox_Tab implements WPSEO_Metabox_Section {
 	/**
 	 * @var string
@@ -26,7 +34,15 @@ abstract class WPSEO_Sectioned_Metabox_Tab implements WPSEO_Metabox_Section {
 	 */
 	protected $link_aria_label;
 
-	public function __construct( $name, $link_content, array $sections = array(), array $options = array() ) {
+	/**
+	 * Constructor.
+	 *
+	 * @param string $name         The name of the section, used as an identifier in the html.
+	 *                             Can only contain URL safe characters.
+	 * @param string $link_content The text content of the section link.
+	 * @param array  $options      Optional link attributes.
+	 */
+	public function __construct( $name, $link_content, array $options = array() ) {
 		$default_options = array(
 			'link_title'      => '',
 			'link_class'      => '',
@@ -59,5 +75,10 @@ abstract class WPSEO_Sectioned_Metabox_Tab implements WPSEO_Metabox_Section {
 		}
 	}
 
+	/**
+	 * Checks whether the tab has any sections.
+	 *
+	 * @return bool Whether the tab has any sections
+	 */
 	abstract protected function has_sections();
 }

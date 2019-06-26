@@ -56,6 +56,11 @@ class WPSEO_Metabox_Collapsibles_Section extends WPSEO_Sectioned_Metabox_Tab {
 		}
 	}
 
+	/**
+	 * Checks whether the tab has any sections.
+	 *
+	 * @return bool Whether the tab has any sections
+	 */
 	protected function has_sections() {
 		return ! empty( $this->collapsibles );
 	}
