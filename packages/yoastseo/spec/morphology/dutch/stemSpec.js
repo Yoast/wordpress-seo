@@ -79,6 +79,9 @@ const wordsToStem = [
 	[ "kleine", "klein" ],
 	// Suffix -ë preceded by a valid -ë ending (suffix type d3).
 	[ "gedweeë", "gedwee" ],
+	[ "lopen", "lop" ],
+	[ "eten", "eet" ],
+	[ "man", "man" ],
 
 ];
 
