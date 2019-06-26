@@ -33,7 +33,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 			);
 		}
 		else {
-			printf( '<h2 class="help-button-inline">' . esc_html( $title ) . $title_after . $help_text->get_button_html() . '</h2>' );
+			printf( '<div class="paper-title"><h2 class="help-button-inline">' . esc_html( $title ) . $title_after . $help_text->get_button_html() . '</h2></div>' );
 		}
 	}
 	?>

@@ -247,6 +247,18 @@ tr.yst_row.even {
 		.paper-container {
 			padding: 16px;
 		}
+
+		.paper-title {
+			padding: 16px;
+
+			h2 {
+				margin: 0;
+			}
+		}
+
+		.tab-block:first-child {
+			margin-top: 0;
+		}
 	}
 
 	.toggleable-container-trigger {
