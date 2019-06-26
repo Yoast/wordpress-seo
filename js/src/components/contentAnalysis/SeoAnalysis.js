@@ -240,7 +240,7 @@ class SeoAnalysis extends Component {
 							<Results
 								showLanguageNotice={ false }
 								results={ this.props.results }
-								marksButtonClassName="yoast-tooltip yoast-tooltip-s"
+								marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 								marksButtonStatus={ this.props.marksButtonStatus }
 							/>
 						</Collapsible>
