@@ -37,6 +37,10 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			return false;
 		}
 
+		if ( $this->context->site_represents === false ) {
+			return false;
+		}
+
 		return self::is_article_post_type( get_post_type() );
 	}
 

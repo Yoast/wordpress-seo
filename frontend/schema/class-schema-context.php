@@ -10,11 +10,12 @@
  *
  * @property string $canonical                 The current page's canonical.
  * @property string $company_name              Holds the company name, if the site represents a company.
+ * @property int    $company_logo_id           Holds the company logo's ID, if the site represents a company.
  * @property int    $id                        The post ID, if there is one.
  * @property string $site_name                 The site's name.
  * @property string $site_represents           Whether this site represents a `company` or a `person`.
  * @property string $site_url                  The site's URL.
- * @property int    $site_user_id              The site's User ID if a site represents a `person`.
+ * @property int    $site_user_id              The site's user ID if a site represents a `person`.
  * @property string $title                     Page title.
  * @property string $description               Page description.
  * @property bool   $breadcrumbs_enabled       Whether or not this site has breadcrumbs enabled.
@@ -38,6 +39,13 @@ class WPSEO_Schema_Context {
 	 * @var string
 	 */
 	public $company_name;
+
+	/**
+	 * Holds the company logo's ID, if the site represents a company.
+	 *
+	 * @var int
+	 */
+	public $company_logo_id;
 
 	/**
 	 * The queried object ID, if there is one.
@@ -172,6 +180,15 @@ class WPSEO_Schema_Context {
 
 		if ( $this->site_represents === 'company' ) {
 			$this->company_name = WPSEO_Options::get( 'company_name' );
+			// Do not use a non-named company.
+			if ( empty( $this->company_name ) ) {
+				$this->site_represents = false;
+			} else {
+				$this->company_logo_id = WPSEO_Image_Utils::get_attachment_id_from_settings( 'company_logo' );
+				if ( $this->company_logo_id === false ) {
+					$this->site_represents = false;
+				}
+			}
 		}
 
 		if ( $this->site_represents === 'person' ) {
