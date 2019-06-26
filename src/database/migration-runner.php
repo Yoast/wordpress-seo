@@ -97,7 +97,7 @@ class Migration_Runner implements Initializer {
 			// Something went wrong...
 			$this->set_failed_state( $exception->getMessage() );
 
-			return false;
+			throw $exception;
 		}
 
 		$this->set_success_state();
