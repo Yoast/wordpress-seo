@@ -211,10 +211,6 @@ tr.yst_row.even {
 	}
 
 	.paper.tab-block {
-		:not(:last-child) {
-			border-bottom: 1px solid #e2e4e7;
-		}
-
 		button.toggleable-container-trigger {
 			width: 100%;
 			padding: 16px;
