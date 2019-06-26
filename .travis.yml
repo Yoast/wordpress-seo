@@ -126,6 +126,7 @@ install:
     phpenv local 7.1
     composer install --no-interaction --no-scripts
     composer prefix-dependencies
+    composer compile-dependency-injection-container
     composer remove humbug/php-scoper --dev --ignore-platform-reqs
     phpenv local --unset
     rm -rf vendor/*
