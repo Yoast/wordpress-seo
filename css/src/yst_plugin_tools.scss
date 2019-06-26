@@ -215,6 +215,16 @@ tr.yst_row.even {
 			width: 100%;
 			padding: 16px;
 			font-size: 1rem;
+
+			&:focus {
+				outline: 1px solid #0066cd;
+				outline-offset: -1px;
+				box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+			}
+
+			&:active {
+				box-shadow: none;
+			}
 		}
 
 		&.metabox {
@@ -264,16 +274,6 @@ tr.yst_row.even {
 		position: absolute;
 		top: -4px; // total width - toggleable-container-icon width / 2
 		left: -4px;
-	}
-
-	.toggleable-container-trigger:focus {
-		outline: none;
-
-		.toggleable-container-icon::after {
-			border-radius: 100%;
-			box-shadow: 0 0 0 1px #5b9dd9,
-			0 0 2px 1px rgba(30, 140, 190, 0.8);
-		}
 	}
 
 	.toggleable-container-hidden {
