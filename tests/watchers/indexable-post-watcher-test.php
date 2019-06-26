@@ -45,16 +45,12 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 		$indexable_mock = $this
 			->getMockBuilder( 'Yoast\WP\Free\Yoast_Model' )
-			->setMethods( array( 'delete', 'delete_meta' ) )
+			->setMethods( array( 'delete' ) )
 			->getMock();
 
 		$indexable_mock
 			->expects( $this->once() )
 			->method( 'delete' );
-
-		$indexable_mock
-			->expects( $this->once() )
-			->method( 'delete_meta' );
 
 		$id = 1;
 
