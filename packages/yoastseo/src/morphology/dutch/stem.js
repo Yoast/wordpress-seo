@@ -496,7 +496,7 @@ export default function stem( word ) {
 	// Delete suffix found in step 3.
 	word = deleteSuffix3( word, index3, r1Index );
 
-	// Undouble stem ending.
+	// Undouble stem ending. // make it more efficient?
 	word = word.replace( /(.*)tt$/g, "$1t" );
 	word = word.replace( /(.*)kk$/g, "$1k" );
 	word = word.replace( /(.*)dd$/g, "$1d" );
@@ -512,6 +512,10 @@ export default function stem( word ) {
 	word = word.replace( /([^aeiouyèäüëïöáéíóú])(ee)([^aeiouyèäüëïöáéíóúI])$/g, "$1e$3" );
 	word = word.replace( /([^aeiouyèäüëïöáéíóú])(oo)([^aeiouyèäüëïöáéíóúI])$/g, "$1o$3" );
 	word = word.replace( /([^aeiouyèäüëïöáéíóú])(uu)([^aeiouyèäüëïöáéíóúI])$/g, "$1u$3" );
+
+	// If stem ends in v, replace it with f. If stem ends in z, replace it with s.
+	word = word.replace( /v$/g, "f" );
+	word = word.replace( /z$/g, "s" );
 
 	// Turn I and Y back into lower case.
 	word = word.replace( /I/g, "i" );

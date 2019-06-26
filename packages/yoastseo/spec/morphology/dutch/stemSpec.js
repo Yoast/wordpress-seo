@@ -79,10 +79,11 @@ const wordsToStem = [
 	[ "kleine", "klein" ],
 	// Suffix -ë preceded by a valid -ë ending (suffix type d3).
 	[ "gedweeë", "gedwee" ],
-	[ "lopen", "lop" ],
-	[ "eten", "eet" ],
-	[ "man", "man" ],
-
+	[ "beloven", "belof" ],
+	[ "lezen", "les" ],
+	[ "graven", "graf" ],
+	[ "luizen", "luis" ],
+	[ "zetten", "zet" ],
 ];
 
 describe( "Test for stemming Dutch words", () => {
