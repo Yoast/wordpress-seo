@@ -67,9 +67,13 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 		if ( is_singular() ) {
 			$this->add_image( $data );
 
-			$post                  = get_post( $this->context->id );
-			$data['datePublished'] = mysql2date( DATE_W3C, $post->post_date_gmt, false );
-			$data['dateModified']  = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
+			$post = get_post( $this->context->id );
+			if ( $post instanceof WP_Post ) {
+				$data['datePublished'] = mysql2date( DATE_W3C, $post->post_date_gmt, false );
+				$data['dateModified']  = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
+
+				$data = $this->add_author( $data, $post );
+			}
 		}
 
 		if ( ! empty( $this->context->description ) ) {
@@ -78,10 +82,26 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 
 		if ( $this->add_breadcrumbs() ) {
 			$data['breadcrumb'] = array(
-				'@id' => $this->context->canonical . WPSEO_Schema_IDs::BREADCRUMB_HASH,
+				'@type' => 'Person',
+				'@id'   => $this->context->canonical . WPSEO_Schema_IDs::BREADCRUMB_HASH,
 			);
 		}
 
+		return $data;
+	}
+
+	/**
+	 * Determine if we should add an author attribute.
+	 *
+	 * @param array   $data The WebPage schema.
+	 * @param WP_Post $post The post the context is representing.
+	 *
+	 * @return array The WebPage schema.
+	 */
+	private function add_author( $data, $post ) {
+		if ( $this->context->site_represents === false ) {
+			$data['author'] = array( '@id' => WPSEO_Schema_Utils::get_user_schema_id( $post->post_author, $this->context ) );
+		}
 		return $data;
 	}
 
