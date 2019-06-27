@@ -82,8 +82,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 
 		if ( $this->add_breadcrumbs() ) {
 			$data['breadcrumb'] = array(
-				'@type' => 'Person',
-				'@id'   => $this->context->canonical . WPSEO_Schema_IDs::BREADCRUMB_HASH,
+				'@id' => $this->context->canonical . WPSEO_Schema_IDs::BREADCRUMB_HASH,
 			);
 		}
 
