@@ -188,6 +188,7 @@ class WPSEO_Schema_Context {
 				}
 
 				$this->company_logo_id = WPSEO_Image_Utils::get_attachment_id_from_settings( 'company_logo' );
+
 				/*
 				 * Do not use a company without a logo.
 				 * This is not a false check due to how `get_attachment_id_from_settings` works.
