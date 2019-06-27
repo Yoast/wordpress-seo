@@ -8,7 +8,6 @@
 namespace Yoast\WP\Free\Database;
 
 use wpdb;
-use Yoast\WP\Free\Conditionals\Admin_Conditional;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Config\Dependency_Management;
 use Yoast\WP\Free\Loggers\Logger;
@@ -89,6 +88,21 @@ class Migration_Runner implements Initializer {
 
 		try {
 			$main = $this->get_framework_runner();
+
+			/**
+			 * @var \YoastSEO_Vendor\Ruckusing_Adapter_MySQL_Base $adapter
+			 */
+			$adapter = $main->get_adapter();
+
+			// Create our own migrations table with a 191 string limit to support older versions of MySQL.
+			// Run this before calling the framework runner so it doesn't create it's own.
+			if ( ! $adapter->has_table( $adapter->get_schema_version_table_name() ) ) {
+				$table = $adapter->create_table( $adapter->get_schema_version_table_name(), [ 'id' => false ] );
+				$table->column( 'version', 'string', [ 'limit' => 191 ] );
+				$table->finish();
+				$adapter->add_index( $adapter->get_schema_version_table_name(), 'version', [ 'unique' => true ] );
+			}
+
 			$main->execute();
 		}
 		catch ( \Exception $exception ) {
@@ -97,7 +111,11 @@ class Migration_Runner implements Initializer {
 			// Something went wrong...
 			$this->set_failed_state( $exception->getMessage() );
 
-			throw $exception;
+			if ( defined( 'YOAST_ENVIRONMENT' ) && YOAST_ENVIRONMENT !== 'production' ) {
+				throw $exception;
+			}
+
+			return false;
 		}
 
 		$this->set_success_state();

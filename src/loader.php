@@ -117,7 +117,6 @@ class Loader {
 		$conditionals = $class::get_conditionals();
 		foreach ( $conditionals as $conditional ) {
 			if ( ! $this->container->get( $conditional )->is_met() ) {
-				// Continue the integrations loop, the integration is not loaded and no further conditionals are checked.
 				return false;
 			}
 		}

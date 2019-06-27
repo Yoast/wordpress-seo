@@ -15,10 +15,13 @@ use Yoast\WP\Free\WordPress\Initializer;
 use Yoast\WP\Free\WordPress\Integration;
 
 /**
- * This will automatically ensure all classes implementing the Integration interface
+ * A pass is a step in the compilation process of the container.
+ *
+ * This step will automatically ensure all classes implementing the Integration interface
  * are registered with the Loader class.
  */
 class Loader_Pass implements CompilerPassInterface {
+
 	/**
 	 * Checks all definitions to ensure all classes implementing the Integration interface
 	 * are registered with the Loader class.
