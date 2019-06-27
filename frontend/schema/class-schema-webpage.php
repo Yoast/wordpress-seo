@@ -90,7 +90,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	}
 
 	/**
-	 * Determine if we should add an author attribute.
+	 * Adds an author property to the $data if the WebPage is not represented.
 	 *
 	 * @param array   $data The WebPage schema.
 	 * @param WP_Post $post The post the context is representing.
