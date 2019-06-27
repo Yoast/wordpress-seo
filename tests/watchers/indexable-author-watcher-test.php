@@ -51,10 +51,6 @@ class Indexable_Author_Watcher_Test extends TestCase {
 			->expects( $this->once() )
 			->method( 'delete' );
 
-		$indexable_mock
-			->expects( $this->once() )
-			->method( 'delete_indexable' );
-
 		$id = 1;
 
 		$instance

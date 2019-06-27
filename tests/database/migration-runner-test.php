@@ -5,6 +5,7 @@ namespace Yoast\WP\Free\Tests\Config;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Free\Config\Dependency_Management;
+use Yoast\WP\Free\Loggers\Migration_Logger;
 use Yoast\WP\Free\Tests\Doubles\Migration_Runner;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -171,6 +172,8 @@ class Migration_Runner_test extends TestCase {
 	/**
 	 * Tests the initializing with an exception being thrown.
 	 *
+	 * @expectedException \Exception
+	 *
 	 * @covers \Yoast\WP\Free\Config\Migration_Runner::run_migrations()
 	 */
 	public function test_initialize_with_exception_thrown() {
@@ -202,7 +205,7 @@ class Migration_Runner_test extends TestCase {
 			->expects( $this->once() )
 			->method( 'set_failed_state' );
 
-		$this->assertFalse( $instance->run_migrations() );
+		$instance->run_migrations();
 	}
 
 	/**
@@ -336,10 +339,23 @@ class Migration_Runner_test extends TestCase {
 	 * @return \FrameworkRunner
 	 */
 	protected function get_framework_runner_mock() {
-		return $this
+		$mock = $this
 			->getMockBuilder( 'FrameworkRunner' )
-			->setMethods( array( 'execute' ) )
+			->setMethods( [ 'execute', 'get_adapter' ] )
 			->getMock();
+
+		$adapter_mock = $this
+			->getMockBuilder( 'Ruckusing_Adapter_MySQL_Base' )
+			->disableOriginalConstructor()
+			->setMethods( [ 'has_table', 'get_schema_version_table_name' ] )
+			->getMock();
+
+		$adapter_mock->method( 'get_schema_version_table_name' )->willReturn( 'yoast_migrations_table' );
+		$adapter_mock->method( 'has_table' )->with( 'yoast_migrations_table' )->willReturn( true );
+
+		$mock->method( 'get_adapter' )->willReturn( $adapter_mock );
+
+		return $mock;
 	}
 
 	protected function get_wpdb_mock() {
