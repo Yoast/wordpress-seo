@@ -178,27 +178,31 @@ class WPSEO_Schema_Context {
 	private function set_site_represents_variables() {
 		$this->site_represents = WPSEO_Options::get( 'company_or_person', false );
 
-		if ( $this->site_represents === 'company' ) {
-			$this->company_name = WPSEO_Options::get( 'company_name' );
-			// Do not use a non-named company.
-			if ( empty( $this->company_name ) ) {
-				$this->site_represents = false;
-			}
-			else {
+		switch ( $this->site_represents ) {
+			case 'company':
+				$this->company_name = WPSEO_Options::get( 'company_name' );
+				// Do not use a non-named company.
+				if ( empty( $this->company_name ) ) {
+					$this->site_represents = false;
+					break;
+				}
+
 				$this->company_logo_id = WPSEO_Image_Utils::get_attachment_id_from_settings( 'company_logo' );
-				// This is not a false check due to how `get_attachment_id_from_settings` works.
+				/*
+				 * Do not use a company without a logo.
+				 * This is not a false check due to how `get_attachment_id_from_settings` works.
+				 */
 				if ( $this->company_logo_id < 1 ) {
 					$this->site_represents = false;
 				}
-			}
-		}
-
-		if ( $this->site_represents === 'person' ) {
-			$this->site_user_id = WPSEO_Options::get( 'company_or_person_user_id', false );
-			// Do not use a non-existing user.
-			if ( $this->site_user_id !== false && get_user_by( 'id', $this->site_user_id ) === false ) {
-				$this->site_represents = false;
-			}
+				break;
+			case 'person':
+				$this->site_user_id = WPSEO_Options::get( 'company_or_person_user_id', false );
+				// Do not use a non-existing user.
+				if ( $this->site_user_id !== false && get_user_by( 'id', $this->site_user_id ) === false ) {
+					$this->site_represents = false;
+				}
+				break;
 		}
 	}
 
