@@ -66,7 +66,14 @@ class WPSEO_Paper_Presenter {
 
 		extract( $view_variables, EXTR_SKIP );
 
-		$content = $this->get_content( $view_variables );
+		$content = '';
+		if ( $this->view_file !== null ) {
+			ob_start();
+			require $this->view_file;
+			$content = ob_get_clean();
+		} else {
+			$content = $this->settings['content'];
+		}
 
 		ob_start();
 		require WPSEO_PATH . 'admin/views/paper-collapsible.php';
@@ -98,26 +105,6 @@ class WPSEO_Paper_Presenter {
 		);
 
 		return array_merge( $this->settings['view_data'], $view_variables );
-	}
-
-	/**
-	 * Renders the view file.
-	 *
-	 * @param array $view_variables View variables.
-	 *
-	 * @return string The rendered view file.
-	 */
-	private function get_content( $view_variables ) {
-		if ( $this->view_file !== null ) {
-			ob_start();
-			extract( $view_variables, EXTR_SKIP );
-
-			require( $this->view_file );
-
-			return ob_get_clean();
-		}
-
-		return $this->settings['content'];
 	}
 
 	/**
