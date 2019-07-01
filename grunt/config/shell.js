@@ -138,8 +138,8 @@ module.exports = function( grunt ) {
 				"-name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
 		},
 
-		"phpcs": {
+		phpcs: {
 			command: "php ./vendor/squizlabs/php_codesniffer/scripts/phpcs",
-		}
+		},
 	};
 };
