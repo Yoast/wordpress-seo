@@ -102,7 +102,7 @@ class WPSEO_Frontend {
 
 		add_action( 'wp', array( $this, 'page_redirect' ), 99 );
 
-		add_action( 'template_redirect', array( $this, 'noindex_feed' ) );
+		add_action( 'template_redirect', array( $this, 'noindex_robots' ) );
 
 		add_filter( 'loginout', array( $this, 'nofollow_link' ) );
 		add_filter( 'register', array( $this, 'nofollow_link' ) );
@@ -1330,9 +1330,9 @@ class WPSEO_Frontend {
 	 * @since 1.1.7
 	 * @return boolean Boolean indicating whether the noindex header was sent.
 	 */
-	public function noindex_feed() {
+	public function noindex_robots() {
 
-		if ( ( is_feed() || is_robots() ) && headers_sent() === false ) {
+		if ( ( is_robots() ) && headers_sent() === false ) {
 			header( 'X-Robots-Tag: noindex, follow', true );
 
 			return true;
