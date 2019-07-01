@@ -67,7 +67,7 @@ class ReadabilityAnalysis extends Component {
 					changeLanguageLink={ localizedData.settings_link }
 					language={ localizedData.language }
 					results={ this.props.results }
-					marksButtonClassName="yoast-tooltip yoast-tooltip-s"
+					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
 					marksButtonStatus={ this.props.marksButtonStatus }
 				/>
 			</Fragment>

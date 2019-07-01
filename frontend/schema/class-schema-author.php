@@ -128,17 +128,6 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	}
 
 	/**
-	 * Returns the string to use in Schema's `@id`.
-	 *
-	 * @param int $user_id The user ID if we're on a user page.
-	 *
-	 * @return string The `@id` string value.
-	 */
-	protected function determine_schema_id( $user_id ) {
-		return get_author_posts_url( $user_id ) . WPSEO_Schema_IDs::AUTHOR_HASH;
-	}
-
-	/**
 	 * Gets the Schema type we use for this class.
 	 *
 	 * @return string[] The schema type.

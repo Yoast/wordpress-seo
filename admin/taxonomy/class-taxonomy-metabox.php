@@ -200,7 +200,7 @@ class WPSEO_Taxonomy_Metabox {
 		$tab_settings = new WPSEO_Metabox_Form_Tab(
 			$name,
 			$this->social_admin->get_premium_notice( $network ) . $this->taxonomy_tab_content->html( $meta_fields ),
-			'<span class="dashicons dashicons-' . $icon . '"></span>' . $label,
+			'<span class="screen-reader-text">' . $label . '</span><span class="dashicons dashicons-' . $icon . '"></span>',
 			array(
 				'single'          => $this->has_single_social_tab(),
 			)
