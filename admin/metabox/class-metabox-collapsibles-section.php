@@ -13,7 +13,7 @@ class WPSEO_Metabox_Collapsibles_Section extends WPSEO_Sectioned_Metabox_Tab {
 	/**
 	 * @var WPSEO_Metabox_Collapsible[]
 	 */
-	public $collapsibles = array();
+	private $collapsibles = array();
 
 	/**
 	 * Constructor.
@@ -21,7 +21,7 @@ class WPSEO_Metabox_Collapsibles_Section extends WPSEO_Sectioned_Metabox_Tab {
 	 * @param string $name         The name of the section, used as an identifier in the html.
 	 *                             Can only contain URL safe characters.
 	 * @param string $link_content The text content of the section link.
-	 * @param array  $collapsibles The metabox tabs (`WPSEO_Metabox_Tabs[]`) to be included in the section.
+	 * @param array  $collapsibles The metabox collapsibles (`WPSEO_Metabox_Collapsible[]`) to be included in the section.
 	 * @param array  $options      Optional link attributes.
 	 */
 	public function __construct( $name, $link_content, array $collapsibles = array(), array $options = array() ) {
@@ -38,18 +38,18 @@ class WPSEO_Metabox_Collapsibles_Section extends WPSEO_Sectioned_Metabox_Tab {
 			printf( '<div id="%1$s" class="wpseo-meta-section">', esc_attr( 'wpseo-meta-section-' . $this->name ) );
 			echo '<div class="wpseo_content_wrapper">';
 
-			foreach ( $this->collapsibles as $tab ) {
-				$collapsible = new WPSEO_Paper_Presenter(
-					$tab->link(),
+			foreach ( $this->collapsibles as $collapsible ) {
+				$collapsible_paper = new WPSEO_Paper_Presenter(
+					$collapsible->link(),
 					null,
 					array(
-						'content'     => $tab->content(),
+						'content'     => $collapsible->content(),
 						'collapsible' => true,
 						'class'       => 'metabox',
 					)
 				);
 
-				echo $collapsible->get_output();
+				echo $collapsible_paper->get_output();
 			}
 
 			echo '</div></div>';

@@ -71,7 +71,8 @@ class WPSEO_Paper_Presenter {
 			ob_start();
 			require $this->view_file;
 			$content = ob_get_clean();
-		} else {
+		}
+		else {
 			$content = $this->settings['content'];
 		}
 
