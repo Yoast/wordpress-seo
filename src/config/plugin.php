@@ -125,7 +125,7 @@ class Plugin implements Integration {
 	 * @return bool
 	 */
 	protected function is_admin() {
-		return is_admin();
+		return \is_admin();
 	}
 
 	/**
@@ -134,7 +134,7 @@ class Plugin implements Integration {
 	 * @return bool
 	 */
 	protected function is_frontend() {
-		return ! is_admin();
+		return ! \is_admin();
 	}
 
 	/**
@@ -163,9 +163,9 @@ class Plugin implements Integration {
 	 * @return void
 	 */
 	protected function configure_orm() {
-		ORM::configure( 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME );
-		ORM::configure( 'username', DB_USER );
-		ORM::configure( 'password', DB_PASSWORD );
+		ORM::configure( 'mysql:host=' . \DB_HOST . ';dbname=' . \DB_NAME );
+		ORM::configure( 'username', \DB_USER );
+		ORM::configure( 'password', \DB_PASSWORD );
 
 		Yoast_Model::$auto_prefix_models = '\\Yoast\\WP\\Free\\Models\\';
 	}
@@ -192,6 +192,6 @@ class Plugin implements Integration {
 		 *
 		 * @api \Yoast\WP\Free\Config\Plugin The Plugin object to register integrations on.
 		 */
-		do_action( 'wpseo_load_integrations', $this );
+		\do_action( 'wpseo_load_integrations', $this );
 	}
 }

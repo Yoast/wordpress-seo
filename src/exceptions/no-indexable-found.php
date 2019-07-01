@@ -8,11 +8,12 @@
 namespace Yoast\WP\Free\Exceptions;
 
 use Yoast\WP\Free\Loggers\Logger;
+use OutOfRangeException;
 
 /**
  * The exception when no indexable could be found.
  */
-class No_Indexable_Found extends \OutOfRangeException {
+class No_Indexable_Found extends OutOfRangeException {
 
 	/**
 	 * Returns an exception when an indexable for a post is not found.

@@ -41,8 +41,8 @@ function errorlog( message ) {
  *
  * @returns {boolean} Whether or not a package is a Yoast package.
  */
-function isYoastPackage( packageName ) {
-	return packageName.includes( "@yoast" ) || legacyYoastPackages.includes( packageName );
+function isYoastMonorepoPackage( packageName ) {
+	return ( packageName.includes( "@yoast" ) && packageName !== "@yoast/grunt-plugin-tasks" ) || legacyYoastPackages.includes( packageName );
 }
 
 /**
@@ -107,8 +107,8 @@ function addPackagesWithFailsafe( packageNames, version = "", flags = "" ) {
 function bumpVersions( args ) {
 	const packages = JSON.parse( fs.readFileSync( "package.json", "utf8" ) ) || {};
 
-	const installedYoastPackages = Object.keys( packages.dependencies || {} ).filter( isYoastPackage );
-	const installedDevYoastPackages = Object.keys( packages.devDependencies || {} ).filter( isYoastPackage );
+	const installedYoastPackages = Object.keys( packages.dependencies || {} ).filter( isYoastMonorepoPackage );
+	const installedDevYoastPackages = Object.keys( packages.devDependencies || {} ).filter( isYoastMonorepoPackage );
 
 	const version = args[ 0 ];
 	addPackagesWithFailsafe( installedYoastPackages, version );

@@ -44,7 +44,7 @@ class Logger {
 			 *
 			 * @return \YoastSEO_Vendor\Psr\Log\LoggerInterface The logger object.
 			 */
-			$logger = apply_filters( 'wpseo_logger', $logger );
+			$logger = \apply_filters( 'wpseo_logger', $logger );
 		}
 
 		if ( ! $logger instanceof LoggerInterface ) {

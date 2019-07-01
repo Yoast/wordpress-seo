@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Formatters;
 
+use WPSEO_Meta;
 use Yoast\WP\Free\Models\SEO_Meta;
 
 /**
@@ -55,9 +56,9 @@ class Indexable_Post_Formatter {
 
 		// Set additional meta-robots values.
 		$noindex_advanced = $this->get_meta_value( 'meta-robots-adv' );
-		$meta_robots      = explode( ',', $noindex_advanced );
+		$meta_robots      = \explode( ',', $noindex_advanced );
 		foreach ( $this->get_robots_options() as $meta_robots_option ) {
-			$indexable->{ 'is_robots_' . $meta_robots_option } = in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
+			$indexable->{ 'is_robots_' . $meta_robots_option } = \in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}
 
 		foreach ( $this->get_indexable_lookup() as $meta_key => $indexable_key ) {
@@ -184,8 +185,8 @@ class Indexable_Post_Formatter {
 	 * @return mixed The value of the indexable entry to use.
 	 */
 	protected function get_meta_value( $meta_key ) {
-		$value = \WPSEO_Meta::get_value( $meta_key, $this->post_id );
-		if ( is_string( $value ) && $value === '' ) {
+		$value = WPSEO_Meta::get_value( $meta_key, $this->post_id );
+		if ( \is_string( $value ) && $value === '' ) {
 			return null;
 		}
 

@@ -1,12 +1,14 @@
-/* global wpseoPostScraperL10n wpseoTermScraperL10n wpseoAdminL10n */
-
-import React from "react";
+/* global wpseoPostScraperL10n, wpseoTermScraperL10n, wpseoAdminL10n */
+/* External components */
+import { Component, Fragment, createPortal } from "@wordpress/element";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 import isNil from "lodash/isNil";
 
+/* Internal components */
+import ScoreIconPortal from "./ScoreIconPortal";
 import Results from "./Results";
 import Collapsible from "../SidebarCollapsible";
 import getIndicatorForScore from "../../analysis/getIndicatorForScore";
@@ -19,6 +21,10 @@ const AnalysisHeader = styled.span`
 	font-weight: bold;
 	margin: 0 0 8px;
 	display: block;
+`;
+
+const ReadabilityResultsTabContainer = styled.div`
+	padding: 16px;
 `;
 
 let localizedData = {};
@@ -35,7 +41,44 @@ const StyledHelpLink = styled( HelpLink )`
 /**
  * Redux container for the readability analysis.
  */
-class ReadabilityAnalysis extends React.Component {
+class ReadabilityAnalysis extends Component {
+	/**
+	 * Renders the Readability Analysis results.
+	 *
+	 * @returns {React.Element} The Readability Analysis results.
+	 */
+	renderResults() {
+		return (
+			<Fragment>
+				<AnalysisHeader>
+					{ __( "Analysis results", "wordpress-seo" ) }
+					<StyledHelpLink
+						href={ wpseoAdminL10n[ "shortlinks.readability_analysis_info" ] }
+						className="dashicons"
+					>
+						<span className="screen-reader-text">
+							{ __( "Learn more about the readability analysis", "wordpress-seo" ) }
+						</span>
+					</StyledHelpLink>
+				</AnalysisHeader>
+				<Results
+					canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
+					showLanguageNotice={ false }
+					changeLanguageLink={ localizedData.settings_link }
+					language={ localizedData.language }
+					results={ this.props.results }
+					marksButtonClassName="yoast-tooltip yoast-tooltip-w"
+					marksButtonStatus={ this.props.marksButtonStatus }
+				/>
+			</Fragment>
+		);
+	}
+
+	/**
+	 * Renders the Readability Analysis component.
+	 *
+	 * @returns {React.Element} The Readability Analysis component.
+	 */
 	render() {
 		const score = getIndicatorForScore( this.props.overallScore );
 
@@ -45,46 +88,49 @@ class ReadabilityAnalysis extends React.Component {
 
 		return (
 			<LocationConsumer>
-				{ context => (
-					<Collapsible
-						title={ __( "Readability analysis", "wordpress-seo" ) }
-						titleScreenReaderText={ score.screenReaderReadabilityText }
-						prefixIcon={ getIconForScore( score.className ) }
-						prefixIconCollapsed={ getIconForScore( score.className ) }
-						id={ `yoast-readability-analysis-collapsible-${ context }` }
-					>
-						<AnalysisHeader>
-							{ __( "Analysis results", "wordpress-seo" ) }
-							<StyledHelpLink
-								href={ wpseoAdminL10n[ "shortlinks.readability_analysis_info" ] }
-								className="dashicons"
+				{ location => {
+					if ( location === "sidebar" ) {
+						return (
+							<Collapsible
+								title={ __( "Readability analysis", "wordpress-seo" ) }
+								titleScreenReaderText={ score.screenReaderReadabilityText }
+								prefixIcon={ getIconForScore( score.className ) }
+								prefixIconCollapsed={ getIconForScore( score.className ) }
+								id={ `yoast-readability-analysis-collapsible-${ location }` }
 							>
-								<span className="screen-reader-text">
-									{ __( "Learn more about the readability analysis", "wordpress-seo" ) }
-								</span>
-							</StyledHelpLink>
-						</AnalysisHeader>
-						<Results
-							canChangeLanguage={ ! ( localizedData.settings_link === "" ) }
-							showLanguageNotice={ false }
-							changeLanguageLink={ localizedData.settings_link }
-							language={ localizedData.language }
-							results={ this.props.results }
-							marksButtonClassName="yoast-tooltip yoast-tooltip-s"
-							marksButtonStatus={ this.props.marksButtonStatus }
-						/>
-					</Collapsible>
-				) }
+								{ this.renderResults() }
+							</Collapsible>
+						);
+					}
+
+					if ( location === "metabox" ) {
+						return createPortal(
+							<ReadabilityResultsTabContainer>
+								<ScoreIconPortal
+									scoreIndicator={ score.className }
+									elementId="wpseo-readability-score-icon"
+								/>
+								{ this.renderResults() }
+							</ReadabilityResultsTabContainer>,
+							document.getElementById( "wpseo-metabox-readability-root" )
+						);
+					}
+				} }
 			</LocationConsumer>
 		);
 	}
 }
 
 ReadabilityAnalysis.propTypes = {
-	results: PropTypes.array,
-	marksButtonStatus: PropTypes.string,
-	hideMarksButtons: PropTypes.bool,
+	results: PropTypes.array.isRequired,
+	marksButtonStatus: PropTypes.string.isRequired,
+	/* eslint-disable-next-line react/no-unused-prop-types */
+	hideMarksButtons: PropTypes.bool.isRequired,
 	overallScore: PropTypes.number,
+};
+
+ReadabilityAnalysis.defaultProps = {
+	overallScore: null,
 };
 
 /**

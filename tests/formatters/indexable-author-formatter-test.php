@@ -47,10 +47,10 @@ class Indexable_Author_Formatter_Test extends TestCase {
 		$indexable = new stdClass();
 		$indexable = $formatter->format( $indexable );
 
-		$this->assertAttributeEquals( 'https://permalink', 'permalink', $indexable );
-		$this->assertAttributeEquals( 'title', 'title', $indexable );
-		$this->assertAttributeEquals( 'description', 'description', $indexable );
-		$this->assertAttributeEquals( true, 'is_robots_noindex', $indexable );
+		$this->assertAttributeSame( 'https://permalink', 'permalink', $indexable );
+		$this->assertAttributeSame( 'title', 'title', $indexable );
+		$this->assertAttributeSame( 'description', 'description', $indexable );
+		$this->assertAttributeSame( true, 'is_robots_noindex', $indexable );
 	}
 
 	/**

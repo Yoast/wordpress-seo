@@ -139,6 +139,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			new WPSEO_Schema_Article( $this->context ),
 			new WPSEO_Schema_Author( $this->context ),
 			new WPSEO_Schema_FAQ( $this->context ),
+			new WPSEO_Schema_HowTo( $this->context ),
 		);
 
 		/**

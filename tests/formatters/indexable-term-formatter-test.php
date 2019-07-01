@@ -127,7 +127,7 @@ class Indexable_Term_Formatter_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Formatters\Indexable_Term_Formatter::get_keyword_score()
 	 */
 	public function test_get_keyword_score() {
-		$this->assertEquals( 100, $this->instance->get_keyword_score( 'keyword', 100 ) );
+		$this->assertSame( 100, $this->instance->get_keyword_score( 'keyword', 100 ) );
 	}
 
 	/**

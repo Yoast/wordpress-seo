@@ -9,8 +9,8 @@ namespace Yoast\WP\Free\Watchers;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
 use Yoast\WP\Free\Formatters\Indexable_Post_Formatter;
-use Yoast\WP\Free\WordPress\Integration;
 use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\WordPress\Integration;
 
 /**
  * Fills the Indexable according to Post data.
@@ -23,7 +23,7 @@ class Indexable_Post_Watcher implements Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'wp_insert_post', array( $this, 'save_meta' ), PHP_INT_MAX );
+		\add_action( 'wp_insert_post', array( $this, 'save_meta' ), \PHP_INT_MAX );
 		\add_action( 'delete_post', array( $this, 'delete_meta' ) );
 	}
 

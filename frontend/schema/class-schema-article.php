@@ -37,6 +37,10 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			return false;
 		}
 
+		if ( $this->context->site_represents === false ) {
+			return false;
+		}
+
 		return self::is_article_post_type( get_post_type() );
 	}
 
@@ -52,7 +56,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			'@type'            => 'Article',
 			'@id'              => $this->context->canonical . WPSEO_Schema_IDs::ARTICLE_HASH,
 			'isPartOf'         => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
-			'author'           => array( '@id' => $this->get_author_url( $post ) ),
+			'author'           => array( '@id' => WPSEO_Schema_Utils::get_user_schema_id( $post->post_author, $this->context ) ),
 			'headline'         => get_the_title(),
 			'datePublished'    => mysql2date( DATE_W3C, $post->post_date_gmt, false ),
 			'dateModified'     => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
@@ -91,38 +95,6 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		$post_types = apply_filters( 'wpseo_schema_article_post_types', array( 'post' ) );
 
 		return in_array( $post_type, $post_types );
-	}
-
-	/**
-	 * Determine the proper author URL.
-	 *
-	 * @param \WP_Post $post Post object.
-	 *
-	 * @return string
-	 */
-	private function get_author_url( $post ) {
-		if ( $this->context->site_represents === 'person' && $this->context->site_user_id === (int) $post->post_author ) {
-			return $this->context->site_url . WPSEO_Schema_IDs::PERSON_HASH;
-		}
-
-		return $this->get_author_posts_url( $post->post_author ) . WPSEO_Schema_IDs::AUTHOR_HASH;
-	}
-
-	/**
-	 * Retrieves the author post URL based on our author archives settings.
-	 *
-	 * @param int $user_id The author's user ID.
-	 *
-	 * @return string unsigned Author posts URL.
-	 */
-	private function get_author_posts_url( $user_id ) {
-		if ( WPSEO_Options::get( 'disable-author', false ) === false ) {
-			return get_author_posts_url( $user_id );
-		}
-		$user = get_userdata( $user_id );
-		$slug = sanitize_title( $user->display_name );
-
-		return $this->context->site_url . 'schema/person/' . $slug . '/';
 	}
 
 	/**
