@@ -76,7 +76,7 @@ class Migration_Runner implements Initializer {
 	/**
 	 * Initializes the migrations.
 	 *
-	 * @throws \Exception Only if YOAST_ENVIRONMENT is not production
+	 * @throws \Exception If the migration fails and YOAST_ENVIRONMENT is not production.
 	 *
 	 * @return bool True on success, false on failure.
 	 */
