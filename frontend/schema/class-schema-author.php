@@ -138,6 +138,7 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 		return $data;
 	}
 
+	/**
 	 * Gets the Schema type we use for this class.
 	 *
 	 * @return string[] The schema type.
