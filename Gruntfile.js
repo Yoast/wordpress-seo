@@ -40,7 +40,6 @@ module.exports = function( grunt ) {
 			sass: [ "<%= paths.sass %>*.scss" ],
 			css: [
 				"css/dist/*.css",
-				"!css/dist/*.min.css",
 			],
 			js: [
 				"js/src/**/*.js",
@@ -89,34 +88,35 @@ module.exports = function( grunt ) {
 			grunt: "Gruntfile.js",
 		},
 		sassFiles: {
-			"css/dist/admin-global-<%= pluginVersionSlug %>.css": [ "css/src/admin-global.scss" ],
-			"css/dist/adminbar-<%= pluginVersionSlug %>.css": [ "css/src/adminbar.scss" ],
-			"css/dist/alerts-<%= pluginVersionSlug %>.css": [ "css/src/alerts.scss" ],
-			"css/dist/dashboard-<%= pluginVersionSlug %>.css": [ "css/src/dashboard.scss" ],
-			"css/dist/edit-page-<%= pluginVersionSlug %>.css": [ "css/src/edit-page.scss" ],
-			"css/dist/featured-image-<%= pluginVersionSlug %>.css": [ " css/src/featured-image.scss" ],
-			"css/dist/inside-editor-<%= pluginVersionSlug %>.css": [ "css/src/inside-editor.scss" ],
-			"css/dist/metabox-<%= pluginVersionSlug %>.css": [ "css/src/metabox.scss" ],
-			"css/dist/metabox-primary-category-<%= pluginVersionSlug %>.css": [ "css/src/metabox-primary-category.scss" ],
-			"css/dist/toggle-switch-<%= pluginVersionSlug %>.css": [ "css/src/toggle-switch.scss" ],
-			"css/dist/wpseo-dismissible-<%= pluginVersionSlug %>.css": [ "css/src/wpseo-dismissible.scss" ],
-			"css/dist/yst_plugin_tools-<%= pluginVersionSlug %>.css": [ "css/src/yst_plugin_tools.scss" ],
-			"css/dist/yoast-extensions-<%= pluginVersionSlug %>.css": [ "css/src/extensions.scss" ],
-			"css/dist/yst_seo_score-<%= pluginVersionSlug %>.css": [ "css/src/yst_seo_score.scss" ],
-			"css/dist/yoast-components-<%= pluginVersionSlug %>.css": [ "css/src/yoast-components.scss" ],
-			"css/dist/filter-explanation-<%= pluginVersionSlug %>.css": [ "css/src/filter-explanation.scss" ],
-			"css/dist/search-appearance-<%= pluginVersionSlug %>.css": [ "css/src/search-appearance.scss" ],
-			"css/dist/structured-data-blocks-<%= pluginVersionSlug %>.css": [ "css/src/structured-data-blocks.scss" ],
+			"css/dist/admin-global-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/admin-global.scss" ],
+			"css/dist/adminbar-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/adminbar.scss" ],
+			"css/dist/alerts-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/alerts.scss" ],
+			"css/dist/dashboard-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/dashboard.scss" ],
+			"css/dist/edit-page-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/edit-page.scss" ],
+			"css/dist/featured-image-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ " css/src/featured-image.scss" ],
+			"css/dist/inside-editor-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/inside-editor.scss" ],
+			"css/dist/metabox-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/metabox.scss" ],
+			"css/dist/metabox-primary-category-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/metabox-primary-category.scss" ],
+			"css/dist/toggle-switch-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/toggle-switch.scss" ],
+			"css/dist/wpseo-dismissible-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/wpseo-dismissible.scss" ],
+			"css/dist/yst_plugin_tools-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/yst_plugin_tools.scss" ],
+			"css/dist/yoast-extensions-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/extensions.scss" ],
+			"css/dist/yst_seo_score-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/yst_seo_score.scss" ],
+			"css/dist/yoast-components-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/yoast-components.scss" ],
+			"css/dist/filter-explanation-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/filter-explanation.scss" ],
+			"css/dist/search-appearance-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/search-appearance.scss" ],
+			"css/dist/structured-data-blocks-<%= pluginVersionSlug %><%= pluginAssetSuffix %>.css": [ "css/src/structured-data-blocks.scss" ],
 		},
 		pkg,
 	};
-
-	project.pluginVersionSlug = flattenVersionForFile( pluginVersion );
 
 	// Used to switch between development and release builds.
 	if ( [ "release", "release:js", "artifact", "deploy:trunk", "deploy:master" ].includes( process.argv[ 2 ] ) ) {
 		global.developmentBuild = false;
 	}
+
+	project.pluginVersionSlug = flattenVersionForFile( pluginVersion );
+	project.pluginAssetSuffix = global.developmentBuild ? "" : ".min";
 
 	// Load Grunt configurations and tasks
 	loadGruntConfig( grunt, {
