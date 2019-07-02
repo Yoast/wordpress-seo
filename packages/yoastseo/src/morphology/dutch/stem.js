@@ -32,6 +32,28 @@ const determineR1 = function( word ) {
 	return r1Index;
 };
 
+/**
+ * Doubles the vowel in stems that belong to words where some of the forms have the vowel doubled. The vowel should
+ * be doubled if we find a non-doubled form of the word so that we always return a unique stem.
+ *
+ * @param {string} word The stem that should have the vowel doubled
+ * @returns {string} The stem with the vowel doubled
+ */
+const doubleVowel = function( word ) {
+	const stemEndingIndex = word.search( /([^aeoiyèäüëïöáéíóú])([aeou])([^aeoiyèäüëïöáéíóúI])$/ );
+	if ( stemEndingIndex !== -1 ) {
+		const letterPrecedingStemEnding = word.charAt( word.length - 4 );
+		const firstLetterStemEnding = word.charAt( word.length - 3 );
+		if ( letterPrecedingStemEnding !== firstLetterStemEnding ) {
+			word = word.replace( /(a)(.)$/g, "aa$2" );
+			word = word.replace( /(e)(.)$/g, "ee$2" );
+			word = word.replace( /(o)(.)$/g, "oo$2" );
+			word = word.replace( /(u)(.)$/g, "uu$2" );
+		}
+	}
+	return word;
+};
+
 /*
 The array contains objects with regexes used to find the suffixes to be removed in the first step. This includes all verb,
 noun, and adjective suffixes, apart from diminutive suffixes, present participle, and positive inflected adjective suffixes
@@ -103,7 +125,7 @@ const suffixes1 = [
 	},
 	{
 		indexName: "j1Index",
-		regex: /([rfgjklmnpt])(er|ere)$/g,
+		regex: /([rfgjklmnptvz])(er|ere)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 1,
 	},
@@ -127,30 +149,36 @@ const suffixes1 = [
 	},
 	{
 		indexName: "n1Index",
+		regex: /(ied|ïed)(st|ste)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 3,
+	},
+	{
+		indexName: "o1Index",
 		regex: /([drfgjklmnpt])(st|ste)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 1,
 	},
 	{
-		indexName: "o1Index",
+		indexName: "p1Index",
 		regex: /(sch)(st|ste)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 3,
 	},
 	{
-		indexName: "p1Index",
+		indexName: "q1Index",
 		regex: /([eoué]e)(st|ste)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 2,
 	},
 	{
-		indexName: "q1Index",
+		indexName: "r1Index",
 		regex: /([oa]I)(est|este)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 2,
 	},
 	{
-		indexName: "r1Index",
+		indexName: "s1Index",
 		regex: /([oa]I)(er|ere)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 2,
@@ -341,9 +369,9 @@ const suffixes3 = [
 	},
 	{
 		indexName: "d3Index",
-		regex: /[aoeiu]ë$/g,
+		regex: /([aoeiu]e)ë$/g,
 		foundRegexIndex: -1,
-		charactersBeforeSuffix: 1,
+		charactersBeforeSuffix: 2,
 	},
 ];
 
@@ -379,16 +407,22 @@ const adjustSuffixIndex3 = function() {
 const determineSuffixToDelete3 = function() {
 	for ( const suffix of suffixes3 ) {
 		const index3 = suffix.foundRegexIndex;
+		const indexName3 = suffix.indexName;
 		if ( index3 !== -1 ) {
-			return index3;
+			return { index3: index3, indexName3: indexName3 };
 		}
 	}
-	return 10000;
+	return { index3: 10000, indexName3: "" };
 };
 
 /**
  * If the -heden suffix was found in R1, replace it with -heid. If another suffix was found in R1, delete it.
  * (The letter of the characters preceding the suffix are not necessarily in R1.)
+ *
+ * If a suffix that requires undoubling of vowel in words that have forms with both double and single vowel is found,
+ * the vowel gets doubled to make the stem.
+ *
+ * If a superlative adjective ending in -iest is found
  *
  * @param {string} word         The word for which to delete the suffix.
  * @param {number} index1       The index of the suffix that was found.
@@ -404,6 +438,12 @@ const deleteSuffix1 = function( word, index1, indexName1, r1Index ) {
 				word = word.replace( /(.*)heden$/g, "$1heid" );
 			} else {
 				word = word.substring( 0, index1 );
+			}
+			if ( indexName1 === "b1Index" || indexName1 === "j1Index" || indexName1 === "l1Index" ) {
+				word = doubleVowel( word );
+			} else if ( indexName1 === "n1Index" ) {
+				word = word.replace( /ied$/g, "id" );
+				word = word.replace( /ïed$/g, "ïd" );
 			}
 		}
 	}
@@ -442,13 +482,17 @@ const deleteSuffix2 = function( word, index2, indexName2, r1Index ) {
  *
  * @param {string} word		The word to delete the suffix from.
  * @param {number} index3	The index of the suffix.
+ * @param {string} indexName3 The name of the index.
  * @param {number} r1Index 	The R1 index.
  * @returns {string} word 	The word with the deleted suffix.
  */
-const deleteSuffix3 = function( word, index3, r1Index ) {
+const deleteSuffix3 = function( word, index3, indexName3, r1Index ) {
 	if ( index3 !== 10000 && r1Index !== -1 ) {
 		if ( index3 >= r1Index ) {
 			word = word.substring( 0, index3 );
+			if ( indexName3 === "a3Index" || indexName3 === "c3Index" ) {
+				word = doubleVowel( word );
+			}
 		}
 	}
 	return word;
@@ -491,31 +535,31 @@ export default function stem( word ) {
 	// Find suffix as defined in step 3.
 	findSuffixesStep3( word );
 	adjustSuffixIndex3();
-	const index3 = determineSuffixToDelete3();
+	const index3 = determineSuffixToDelete3().index3;
+	const indexName3 = determineSuffixToDelete3().indexName3;
 
 	// Delete suffix found in step 3.
-	word = deleteSuffix3( word, index3, r1Index );
+	word = deleteSuffix3( word, index3, indexName3, r1Index );
 
-	// Undouble stem ending. // make it more efficient?
-	word = word.replace( /(.*)tt$/g, "$1t" );
-	word = word.replace( /(.*)kk$/g, "$1k" );
-	word = word.replace( /(.*)dd$/g, "$1d" );
-	word = word.replace( /(.*)ss$/g, "$1s" );
-	word = word.replace( /(.*)ll$/g, "$1l" );
-	word = word.replace( /(.*)pp$/g, "$1d" );
-	word = word.replace( /(.*)ff$/g, "$1f" );
-	word = word.replace( /(.*)gg$/g, "$1g" );
-	word = word.replace( /(.*)nn$/g, "$1n" );
-
-	// Undouble vowel
-	word = word.replace( /([^aeiouyèäüëïöáéíóú])(aa)([^aeiouyèäüëïöáéíóúI])$/g, "$1a$3" );
-	word = word.replace( /([^aeiouyèäüëïöáéíóú])(ee)([^aeiouyèäüëïöáéíóúI])$/g, "$1e$3" );
-	word = word.replace( /([^aeiouyèäüëïöáéíóú])(oo)([^aeiouyèäüëïöáéíóúI])$/g, "$1o$3" );
-	word = word.replace( /([^aeiouyèäüëïöáéíóú])(uu)([^aeiouyèäüëïöáéíóúI])$/g, "$1u$3" );
+	// Undouble consonant
+	word = word.replace( /dd$/g, "d" );
+	word = word.replace( /ff$/g, "f" );
+	word = word.replace( /gg$/g, "g" );
+	word = word.replace( /kk$/g, "k" );
+	word = word.replace( /ll$/g, "l" );
+	word = word.replace( /mm$/g, "m" );
+	word = word.replace( /nn$/g, "n" );
+	word = word.replace( /pp$/g, "p" );
+	word = word.replace( /rr$/g, "r" );
+	word = word.replace( /ss$/g, "s" );
+	word = word.replace( /tt$/g, "t" );
 
 	// If stem ends in v, replace it with f. If stem ends in z, replace it with s.
 	word = word.replace( /v$/g, "f" );
 	word = word.replace( /z$/g, "s" );
+
+	// If stem ends with -iël, replace it wth -ieel.
+	word = word.replace( /iël$/g, "ieel" );
 
 	// Turn I and Y back into lower case.
 	word = word.replace( /I/g, "i" );
