@@ -20,7 +20,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 ?>
-<div class="<?php echo htmlspecialchars( sprintf( 'paper tab-block %1$s', $class ) ) ?>"<?php echo ( $paper_id ) ? ' id="' . esc_attr( 'wpseo-' . $paper_id ) . '"' : ''; ?>>
+<div class="<?php esc_attr_e( sprintf( 'paper tab-block %1$s', $class ) ) ?>"<?php echo ( $paper_id ) ? ' id="' . esc_attr( 'wpseo-' . $paper_id ) . '"' : ''; ?>>
 
 	<?php
 	if ( ! empty( $title ) ) {
@@ -38,7 +38,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	}
 	?>
 	<?php echo $help_text->get_panel_html(); ?>
-	<div class="paper-container <?php echo esc_attr( $collapsible_config['class'] ); ?>">
+	<div class="<?php echo esc_attr( 'paper-container ' . $collapsible_config['class'] ); ?>">
 		<?php echo $content; ?>
 	</div>
 
