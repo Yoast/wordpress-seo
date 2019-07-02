@@ -93,7 +93,7 @@ class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 	public function display_link() {
 		if ( $this->has_tabs() ) {
 			printf(
-				'<li role="tab"><a href="#wpseo-meta-section-%1$s" class="wpseo-meta-section-link %2$s"%3$s%4$s>%5$s</a></li>',
+				'<li role="presentation"><a role="tab" href="#wpseo-meta-section-%1$s" id="wpseo-meta-tab-%1$s" aria-controls="wpseo-meta-section-%1$s" class="wpseo-meta-section-link %2$s"%3$s%4$s>%5$s</a></li>',
 				esc_attr( $this->name ),
 				esc_attr( $this->link_class ),
 				( '' !== $this->link_title ) ? ' title="' . esc_attr( $this->link_title ) . '"' : '',
@@ -108,14 +108,14 @@ class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 	 */
 	public function display_content() {
 		if ( $this->has_tabs() ) {
-			$html  = '<div id="%1$s" class="wpseo-meta-section">';
+			$html  = '<div role="tabpanel" id="wpseo-meta-section-%1$s" aria-labelledby="wpseo-meta-tab-%1$s" tabindex="0" class="wpseo-meta-section">';
 			$html .= '<div class="wpseo-metabox-tabs-div">';
 			$html .= '<ul class="wpseo-metabox-tabs %2$s">%3$s</ul>%4$s';
 			$html .= '</div></div>';
 
 			printf(
 				$html,
-				esc_attr( 'wpseo-meta-section-' . $this->name ),
+				esc_attr( $this->name ),
 				esc_attr( 'wpseo-metabox-tab-' . $this->name ),
 				$this->tab_links(),
 				$this->tab_content()
