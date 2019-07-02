@@ -153,7 +153,7 @@ class WPSEO_Taxonomy_Metabox {
 			)
 		);
 
-		return new WPSEO_Metabox_Tab_Section(
+		return new WPSEO_Abstract_Metabox_Tab_Section(
 			'settings',
 			'<span class="dashicons dashicons-admin-generic"></span>' . __( 'Settings', 'wordpress-seo' ),
 			array( $tab )
@@ -173,7 +173,7 @@ class WPSEO_Taxonomy_Metabox {
 		$tabs[] = $this->create_tab( 'facebook', 'opengraph', 'facebook-alt', __( 'Facebook / Open Graph metadata', 'wordpress-seo' ) );
 		$tabs[] = $this->create_tab( 'twitter', 'twitter', 'twitter', __( 'Twitter metadata', 'wordpress-seo' ) );
 
-		return new WPSEO_Metabox_Tab_Section(
+		return new WPSEO_Abstract_Metabox_Tab_Section(
 			'social',
 			'<span class="dashicons dashicons-share"></span>' . __( 'Social', 'wordpress-seo' ),
 			$tabs

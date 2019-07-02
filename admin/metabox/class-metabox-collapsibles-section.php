@@ -8,7 +8,7 @@
 /**
  * Generates and displays the React root element for a metabox section.
  */
-class WPSEO_Metabox_Collapsibles_Section extends WPSEO_Sectioned_Metabox_Tab {
+class WPSEO_Metabox_Collapsibles_Section extends WPSEO_Abstract_Sectioned_Metabox_Tab {
 
 	/**
 	 * @var WPSEO_Metabox_Collapsible[]

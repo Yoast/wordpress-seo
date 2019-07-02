@@ -66,14 +66,12 @@ class WPSEO_Paper_Presenter {
 
 		extract( $view_variables, EXTR_SKIP );
 
-		$content = '';
+		$content = $this->settings['content'];
+
 		if ( $this->view_file !== null ) {
 			ob_start();
 			require $this->view_file;
 			$content = ob_get_clean();
-		}
-		else {
-			$content = $this->settings['content'];
 		}
 
 		ob_start();

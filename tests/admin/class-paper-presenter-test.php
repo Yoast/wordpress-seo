@@ -16,9 +16,10 @@ class WPSEO_Paper_Presenter_Test extends TestCase {
 	/**
 	 * Tests whether the \WPSEO_Paper_Presenter can be used with a content option instead of a view file.
 	 *
-	 * @covers \WPSEO_Paper_Presenter::get_output
-	 * @covers \WPSEO_Paper_Presenter::get_view_variables
-	 * @covers \WPSEO_Paper_Presenter::collapsible_config
+	 * @covers WPSEO_Paper_Presenter::__construct
+	 * @covers WPSEO_Paper_Presenter::get_output
+	 * @covers WPSEO_Paper_Presenter::get_view_variables
+	 * @covers WPSEO_Paper_Presenter::collapsible_config
 	 */
 	public function test_get_paper_presenter_output_without_view_file() {
 		Monkey\Functions\expect( 'wp_parse_args' )

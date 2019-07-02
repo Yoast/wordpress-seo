@@ -8,7 +8,7 @@
 /**
  * Base class for metabox that consist of multiple sections.
  */
-abstract class WPSEO_Sectioned_Metabox_Tab implements WPSEO_Metabox_Section {
+abstract class WPSEO_Abstract_Sectioned_Metabox_Tab implements WPSEO_Metabox_Section {
 	/**
 	 * @var string
 	 */
