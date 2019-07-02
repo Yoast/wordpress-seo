@@ -66,7 +66,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param mixed  $object_id   The object id.
 	 * @param string $description The test description.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable
 	 */
 	public function test_is_indexable_with_invalid_object_ids( $object_id, $description ) {
 		$this->assertFalse( $this->provider->is_indexable( $object_id ), $description );
@@ -75,7 +75,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the obtaining of a non indexable post.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable
 	 */
 	public function test_is_indexable_with_valid_object_ids_for_non_indexable_posts() {
 		$this->assertFalse( $this->provider->is_indexable( $this->get_revision() ) );
@@ -85,7 +85,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if the post is indexable when having a valid object id.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable
 	 */
 	public function test_is_indexable() {
 		$this->assertTrue( $this->provider->is_indexable( self::factory()->post->create() ) );
@@ -99,7 +99,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param mixed  $object_id   The object id.
 	 * @param string $description The test description.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::get()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::get
 	 */
 	public function test_get_a_non_indexable_post_with_invalid_object_ids( $object_id, $description ) {
 		$this->assertEquals( array(), $this->provider->get( $object_id ), $description );
@@ -108,8 +108,8 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the obtaining of a non indexable post.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::get()
-	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::get
+	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable
 	 */
 	public function test_get_a_non_indexable_post() {
 		$this->assertEquals( array(), $this->provider->get( $this->get_revision() ) );
@@ -119,7 +119,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the getting of an indexable post.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::get()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::get
 	 */
 	public function test_get() {
 		$post = self::factory()->post->create_and_get();
@@ -186,7 +186,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param bool|null $expected       The expected conversion.
 	 * @param string    $description    Description of the test.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_indexable_data()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_indexable_data
 	 *
 	 * @dataProvider indexable_data_conversion_provider
 	 */
@@ -204,7 +204,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param bool|null $expected       The expected conversion.
 	 * @param string    $description    Description of the test.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_advanced()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_advanced
 	 *
 	 * @dataProvider advanced_indexable_data_conversion_provider
 	 */
@@ -222,7 +222,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param bool|null $expected          The expected conversion.
 	 * @param string    $description       Description of the test.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_cornerstone()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_cornerstone
 	 *
 	 * @dataProvider cornerstone_conversion_provider
 	 */
@@ -239,7 +239,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param bool|null $expected    The expected conversion.
 	 * @param string    $description Description of the test.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_cornerstone()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_cornerstone
 	 *
 	 * @dataProvider nofollow_conversion_provider
 	 */
@@ -256,7 +256,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param bool|null $expected    The expected conversion.
 	 * @param string    $description Description of the test.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_noindex()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_noindex
 	 *
 	 * @dataProvider noindex_conversion_provider
 	 */

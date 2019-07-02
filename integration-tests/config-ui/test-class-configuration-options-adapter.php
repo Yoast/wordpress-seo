@@ -27,7 +27,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::add_lookup()
+	 * @covers WPSEO_Configuration_Options_Adapter::add_lookup
 	 */
 	public function test_add_lookup() {
 		$class_name = 'c';
@@ -46,7 +46,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup()
+	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup
 	 */
 	public function test_add_custom_lookup() {
 		$class_name   = 'stdClass';
@@ -68,7 +68,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup()
+	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup
 	 *
 	 * @expectedException        InvalidArgumentException
 	 * @expectedExceptionMessage Custom option must be callable.
@@ -78,7 +78,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup()
+	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup
 	 *
 	 * @expectedException        InvalidArgumentException
 	 * @expectedExceptionMessage Custom option must be callable.
@@ -88,7 +88,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::add_option_lookup()
+	 * @covers WPSEO_Configuration_Options_Adapter::add_option_lookup
 	 */
 	public function test_add_yoast_lookup() {
 		$class_name = 'stdClass';
@@ -106,7 +106,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::add_wordpress_lookup()
+	 * @covers WPSEO_Configuration_Options_Adapter::add_wordpress_lookup
 	 */
 	public function test_add_wordpress_lookup() {
 		$class_name = 'stdClass';
@@ -124,7 +124,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::add_wordpress_lookup()
+	 * @covers WPSEO_Configuration_Options_Adapter::add_wordpress_lookup
 	 *
 	 * @expectedException        InvalidArgumentException
 	 * @expectedExceptionMessage WordPress option must be a string.
@@ -134,7 +134,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::get_option_type()
+	 * @covers WPSEO_Configuration_Options_Adapter::get_option_type
 	 */
 	public function test_get_option_type() {
 		$class_name = 'stdClass';
@@ -147,7 +147,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::get_option()
+	 * @covers WPSEO_Configuration_Options_Adapter::get_option
 	 */
 	public function test_get_option() {
 		$class_name = 'stdClass';
@@ -160,7 +160,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::get()
+	 * @covers WPSEO_Configuration_Options_Adapter::get
 	 */
 	public function test_get_wordpress_option() {
 		$option   = 'blogname';
@@ -176,7 +176,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::get()
+	 * @covers WPSEO_Configuration_Options_Adapter::get
 	 */
 	public function test_get_yoast_option() {
 		$key      = 'version';
@@ -192,7 +192,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::get()
+	 * @covers WPSEO_Configuration_Options_Adapter::get
 	 */
 	public function test_get_custom_option() {
 		$get = array( $this, 'custom_option_get' );
@@ -209,7 +209,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::get()
+	 * @covers WPSEO_Configuration_Options_Adapter::get
 	 */
 	public function test_get_unknown_type() {
 
@@ -225,7 +225,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::set()
+	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_wordpress_option() {
 		$option = uniqid( 'ut' );
@@ -240,7 +240,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::set()
+	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_yoast_option() {
 		$option = 'wpseo_titles';
@@ -261,7 +261,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::set()
+	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_yoast_option_same_value() {
 		$option = 'wpseo_titles';
@@ -281,7 +281,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::set()
+	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_option_unknown_type() {
 		$field = new WPSEO_Config_Field( 'field', 'component' );
@@ -291,7 +291,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::set()
+	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_custom_option() {
 		$catcher = $this

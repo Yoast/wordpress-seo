@@ -17,7 +17,7 @@ class Dependency_Management_Test extends TestCase {
 	/**
 	 * Tests if the alias is created with ideal conditions.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Dependency_Management::ensure_class_alias()
+	 * @covers \Yoast\WP\Free\Config\Dependency_Management::ensure_class_alias
 	 */
 	public function test_ensure_class_alias() {
 		$instance = $this
@@ -48,7 +48,7 @@ class Dependency_Management_Test extends TestCase {
 	/**
 	 * Tests if no alias is created for unrelated class.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Dependency_Management::ensure_class_alias()
+	 * @covers \Yoast\WP\Free\Config\Dependency_Management::ensure_class_alias
 	 */
 	public function test_ensure_class_alias_unrelated_class() {
 		$instance = $this
@@ -75,7 +75,7 @@ class Dependency_Management_Test extends TestCase {
 	/**
 	 * Tests if alias is not created when prefixed dependencies are present.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Dependency_Management::ensure_class_alias()
+	 * @covers \Yoast\WP\Free\Config\Dependency_Management::ensure_class_alias
 	 */
 	public function test_ensure_class_alias_prefix_available() {
 		$instance = $this
@@ -103,7 +103,7 @@ class Dependency_Management_Test extends TestCase {
 	/**
 	 * Tests if class alias is not created when base class does not exist.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Dependency_Management::ensure_class_alias()
+	 * @covers \Yoast\WP\Free\Config\Dependency_Management::ensure_class_alias
 	 */
 	public function test_ensure_class_alias_base_class_does_not_exist() {
 		$instance = $this
@@ -133,7 +133,7 @@ class Dependency_Management_Test extends TestCase {
 	/**
 	 * Tests to make sure the autoloader is registered during initialization.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Dependency_Management::initialize()
+	 * @covers \Yoast\WP\Free\Config\Dependency_Management::initialize
 	 */
 	public function test_registration_of_autoloader() {
 		$instance = new Dependency_Management();

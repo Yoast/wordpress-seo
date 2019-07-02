@@ -18,7 +18,7 @@ class WPSEO_Option_Social_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider validate_option_provider
 	 *
-	 * @covers WPSEO_Option_Social::validate_option()
+	 * @covers WPSEO_Option_Social::validate_option
 	 */
 	public function test_validate_option( $expected, $dirty, $clean, $old ) {
 		$instance = new WPSEO_Option_Social_Double();

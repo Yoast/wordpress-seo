@@ -20,7 +20,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	/**
 	 * Tests if the expected hooks are registered.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::register_hooks()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::register_hooks
 	 */
 	public function test_register_hooks() {
 		$instance = new Indexable_Post_Watcher();
@@ -33,7 +33,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	/**
 	 * Tests if the indexable is being deleted.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_meta
 	 */
 	public function test_delete_meta() {
 		$instance = $this
@@ -68,7 +68,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	/**
 	 * Tests if the indexable is being deleted.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_meta
 	 */
 	public function test_delete_meta_exception() {
 		$instance = $this
@@ -87,7 +87,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	/**
 	 * Tests the save meta functionality.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta
 	 */
 	public function test_save_meta() {
 		$indexable_mock = $this
@@ -149,7 +149,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	/**
 	 * Tests the early return for non-indexable post.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta
 	 */
 	public function test_save_meta_is_post_not_indexable() {
 		$instance = $this
@@ -172,7 +172,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	/**
 	 * Tests the save meta functionality.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta()
+	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta
 	 */
 	public function test_save_meta_exception() {
 		Monkey\Functions\expect( 'wp_is_post_revision' )
