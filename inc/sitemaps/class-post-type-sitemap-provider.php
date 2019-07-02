@@ -411,7 +411,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_post_type_archive_link( $post_type ) {
 
-		$pt_archive_page_id  = -1;
+		$pt_archive_page_id = -1;
 
 		if ( $post_type === 'post' ) {
 

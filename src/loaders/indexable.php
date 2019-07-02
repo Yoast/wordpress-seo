@@ -20,4 +20,3 @@ if ( $has_feature_flag && class_exists( '\Yoast\WP\Free\Config\Plugin' ) ) {
 	$bootstrap->initialize();
 	$bootstrap->register_hooks();
 }
-

@@ -17,24 +17,28 @@
  * @property int                     count
  */
 class WPSEO_Schema_FAQ_Question_List {
+
 	/**
 	 * The Schema array.
 	 *
 	 * @var array
 	 */
 	private $data = array();
+
 	/**
 	 * All the blocks of this block-type.
 	 *
 	 * @var WP_Block_Parser_Block
 	 */
 	private $blocks;
+
 	/**
 	 * Number of questions on the page.
 	 *
 	 * @var int
 	 */
 	private $count;
+
 	/**
 	 * IDs of the questions on the page.
 	 *

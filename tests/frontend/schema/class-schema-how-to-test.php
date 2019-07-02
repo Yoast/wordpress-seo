@@ -15,6 +15,7 @@ use \Mockery;
  * @package Yoast\Tests\Frontend\Schema
  */
 class WPSEO_Schema_HowTo_Test extends TestCase {
+
 	/**
 	 * @var \WPSEO_Schema_HowTo_Double
 	 */
@@ -53,15 +54,15 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			[
 				'attrs' => [
 					'jsonDescription' => 'description',
-					'name' => 'title',
-					'steps' => [],
+					'name'            => 'title',
+					'steps'           => [],
 				],
 			]
 		);
 
 		$expected = [
 			[
-				'@id' => 'OtherGraphPiece'
+				'@id' => 'OtherGraphPiece',
 			],
 			[
 				'@type'            => 'HowTo',
@@ -69,7 +70,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 				'name'             => 'title',
 				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
 				'description'      => 'description',
-			]
+			],
 		];
 
 		$this->assertEquals( $actual, $expected );
@@ -105,7 +106,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 
 		$expected = [
 			[
-				'@id' => 'OtherGraphPiece'
+				'@id' => 'OtherGraphPiece',
 			],
 			[
 				'@type'            => 'HowTo',
@@ -115,18 +116,18 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 				'description'      => 'description',
 				'step'             => [
 					[
-						'@type' => 'HowToStep',
-						'url'   => 'example.com#step-id-1',
-						'name'  => 'How to step 1',
+						'@type'           => 'HowToStep',
+						'url'             => 'example.com#step-id-1',
+						'name'            => 'How to step 1',
 						'itemListElement' => [
 							[
 								'@type' => 'HowToDirection',
 								'text'  => 'How to step 1 description',
-							]
+							],
 						],
 					],
 				],
-			]
+			],
 		];
 
 		$this->assertEquals( $actual, $expected );
@@ -175,7 +176,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 
 		$expected = [
 			[
-				'@id' => 'OtherGraphPiece'
+				'@id' => 'OtherGraphPiece',
 			],
 			[
 				'@type'            => 'HowTo',
@@ -185,19 +186,19 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 				'description'      => 'description',
 				'step'             => [
 					[
-						'@type' => 'HowToStep',
-						'url'   => 'example.com#step-id-1',
-						'name'  => 'How to step 1',
-						'image' => 'https://example.com/image.png',
+						'@type'           => 'HowToStep',
+						'url'             => 'example.com#step-id-1',
+						'name'            => 'How to step 1',
+						'image'           => 'https://example.com/image.png',
 						'itemListElement' => [
 							[
 								'@type' => 'HowToDirection',
 								'text'  => 'How to step 1 description',
-							]
+							],
 						],
 					],
 				],
-			]
+			],
 		];
 
 		$this->assertEquals( $actual, $expected );
@@ -233,7 +234,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 
 		$expected = [
 			[
-				'@id' => 'OtherGraphPiece'
+				'@id' => 'OtherGraphPiece',
 			],
 			[
 				'@type'            => 'HowTo',
@@ -248,7 +249,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 						'text'  => 'How to step 1',
 					],
 				],
-			]
+			],
 		];
 
 		$this->assertEquals( $actual, $expected );
@@ -277,7 +278,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 						[
 							'id'       => 'step-id-1',
 							'jsonText' => 'How to step 1 description.',
-							'text' => [
+							'text'     => [
 								'How to step 1 description.',
 							],
 						],
@@ -288,7 +289,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 
 		$expected = [
 			[
-				'@id' => 'OtherGraphPiece'
+				'@id' => 'OtherGraphPiece',
 			],
 			[
 				'@type'            => 'HowTo',
@@ -303,7 +304,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 						'text'  => 'How to step 1 description.',
 					],
 				],
-			]
+			],
 		];
 
 		$this->assertEquals( $actual, $expected );
@@ -330,7 +331,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 						[
 							'id'       => 'step-id-1',
 							'jsonText' => '',
-							'text' => [
+							'text'     => [
 								[
 									'type'   => 'img',
 									'key'    => 1,
@@ -350,7 +351,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 
 		$expected = [
 			[
-				'@id' => 'OtherGraphPiece'
+				'@id' => 'OtherGraphPiece',
 			],
 			[
 				'@type'            => 'HowTo',
@@ -366,7 +367,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 						'text'  => '',
 					],
 				],
-			]
+			],
 		];
 
 		$this->assertEquals( $actual, $expected );
@@ -399,7 +400,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 
 		$expected = [
 			[
-				'@id' => 'OtherGraphPiece'
+				'@id' => 'OtherGraphPiece',
 			],
 			[
 				'@type'            => 'HowTo',
@@ -407,7 +408,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 				'name'             => 'title',
 				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
 				'description'      => 'description',
-			]
+			],
 		];
 
 		$this->assertEquals( $actual, $expected );
@@ -450,7 +451,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 
 		$expected = [
 			[
-				'@id' => 'OtherGraphPiece'
+				'@id' => 'OtherGraphPiece',
 			],
 			[
 				'@type'            => 'HowTo',
@@ -461,18 +462,18 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 				'totalTime'        => 'P1DT12H30M',
 				'step'             => [
 					[
-						'@type' => 'HowToStep',
-						'url'   => 'example.com#step-id-1',
-						'name'  => 'How to step 1',
+						'@type'           => 'HowToStep',
+						'url'             => 'example.com#step-id-1',
+						'name'            => 'How to step 1',
 						'itemListElement' => [
 							[
 								'@type' => 'HowToDirection',
 								'text'  => 'How to step 1 description',
-							]
+							],
 						],
 					],
 				],
-			]
+			],
 		];
 
 		$this->assertEquals( $actual, $expected );

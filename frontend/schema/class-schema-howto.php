@@ -11,6 +11,7 @@
  * @since 11.5
  */
 class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
+
 	/**
 	 * Determine whether this graph piece is needed or not.
 	 *
@@ -165,7 +166,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 					$schema_step['text'] = $step['jsonText'];
 				}
 			}
-			else if ( empty( $step['jsonText'] ) ) {
+			elseif ( empty( $step['jsonText'] ) ) {
 				$schema_step['text'] = $step['jsonName'];
 			}
 			else {

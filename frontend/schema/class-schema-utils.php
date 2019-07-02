@@ -11,6 +11,7 @@
  * @since 11.6
  */
 class WPSEO_Schema_Utils {
+
 	/**
 	 * Retrieve a users Schema ID.
 	 *
