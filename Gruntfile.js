@@ -4,17 +4,21 @@ var path = require( "path" );
 var loadGruntConfig = require( "load-grunt-config" );
 const { flattenVersionForFile } = require( "./webpack/paths" );
 
-global.developmentBuild = true;
-
 module.exports = function( grunt ) {
 	timeGrunt( grunt );
 
 	const pkg = grunt.file.readJSON( "package.json" );
 	const pluginVersion = pkg.yoast.pluginVersion;
 
-	// Define project configuration
-	var project = {
-		pluginVersion: pluginVersion,
+	// Used to switch between development and release builds.
+	const developmentBuild = ! [ "release", "release:js", "artifact", "deploy:trunk", "deploy:master" ].includes( process.argv[ 2 ] );
+
+	// Define project configuration.
+	const project = {
+		developmentBuild,
+		pluginVersion,
+		pluginVersionSlug: flattenVersionForFile( pluginVersion ),
+		pluginAssetSuffix: developmentBuild ? "" : ".min",
 		pluginSlug: "wordpress-seo",
 		pluginMainFile: "wp-seo.php",
 		paths: {
@@ -110,15 +114,7 @@ module.exports = function( grunt ) {
 		pkg,
 	};
 
-	// Used to switch between development and release builds.
-	if ( [ "release", "release:js", "artifact", "deploy:trunk", "deploy:master" ].includes( process.argv[ 2 ] ) ) {
-		global.developmentBuild = false;
-	}
-
-	project.pluginVersionSlug = flattenVersionForFile( pluginVersion );
-	project.pluginAssetSuffix = global.developmentBuild ? "" : ".min";
-
-	// Load Grunt configurations and tasks
+	// Load Grunt configurations and tasks.
 	loadGruntConfig( grunt, {
 		configPath: path.join( process.cwd(), "node_modules/@yoast/grunt-plugin-tasks/config/" ),
 		overridePath: path.join( process.cwd(), project.paths.config ),
