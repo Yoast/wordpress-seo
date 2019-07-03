@@ -6,9 +6,9 @@
  */
 
 /**
- * Generates and displays the React root element for a metabox section.
+ * Generates and displays a metabox tab that consists of collapsible sections.
  */
-class WPSEO_Metabox_Collapsibles_Section extends WPSEO_Abstract_Sectioned_Metabox_Tab {
+class WPSEO_Metabox_Collapsibles_Sections extends WPSEO_Abstract_Metabox_Tab_With_Sections {
 
 	/**
 	 * @var WPSEO_Metabox_Collapsible[]

@@ -72,7 +72,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	/**
 	 * Returns the metabox section for the social settings.
 	 *
-	 * @return WPSEO_Metabox_Section
+	 * @return WPSEO_Metabox_Collapsibles_Sections
 	 */
 	public function get_meta_section() {
 		$tabs               = array();
@@ -110,7 +110,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			);
 		}
 
-		return new WPSEO_Metabox_Collapsibles_Section(
+		return new WPSEO_Metabox_Collapsibles_Sections(
 			'social',
 			'<span class="dashicons dashicons-share"></span>' . __( 'Social', 'wordpress-seo' ),
 			$tabs
