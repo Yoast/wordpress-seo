@@ -76,8 +76,10 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 			'description'      => '',
 		);
 
-		if ( isset( $block['attrs']['jsonDescription'] ) ) {
-			$data['description'] = $block['attrs']['jsonDescription'];
+		$jsonDescription = strip_tags( $block['attrs']['jsonDescription'], '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' );
+
+		if ( isset( $jsonDescription ) ) {
+			$data['description'] = $jsonDescription;
 		}
 
 		$this->add_duration( $data, $block['attrs'] );
@@ -148,7 +150,10 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 				'url'   => $schema_id,
 			);
 
-			if ( empty( $step['jsonName'] ) ) {
+			$jsonText = strip_tags( $step['jsonText'], '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' );
+			$jsonName = strip_tags( $step['jsonName'] );
+
+			if ( empty( $jsonName ) ) {
 				if ( empty( $step['text'] ) ) {
 					continue;
 				}
@@ -158,19 +163,19 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 				$this->add_step_image( $schema_step, $step );
 
 				// If there is no text and no image, don't output the step.
-				if ( empty( $step['jsonText'] ) && empty( $schema_step['image'] ) ) {
+				if ( empty( $jsonText ) && empty( $schema_step['image'] ) ) {
 					continue;
 				}
 
-				if ( ! empty( $step['jsonText'] ) ) {
-					$schema_step['text'] = $step['jsonText'];
+				if ( ! empty( $jsonText ) ) {
+					$schema_step['text'] = $jsonText;
 				}
 			}
-			elseif ( empty( $step['jsonText'] ) ) {
-				$schema_step['text'] = $step['jsonName'];
+			elseif ( empty( $jsonText ) ) {
+				$schema_step['text'] = $jsonName;
 			}
 			else {
-				$schema_step['name'] = $step['jsonName'];
+				$schema_step['name'] = $jsonName;
 
 				$this->add_step_description( $schema_step, $step );
 				$this->add_step_image( $schema_step, $step );
@@ -187,7 +192,9 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 * @param array $step        The step block data.
 	 */
 	private function add_step_description( &$schema_step, $step ) {
-		if ( empty( $step['jsonText'] ) ) {
+		$jsonText = strip_tags( $step['jsonText'], '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' );
+
+		if ( empty( $jsonText ) ) {
 			return;
 		}
 
@@ -195,7 +202,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 
 		$schema_step['itemListElement'][] = array(
 			'@type' => 'HowToDirection',
-			'text'  => $step['jsonText'],
+			'text'  => $jsonText,
 		);
 	}
 
