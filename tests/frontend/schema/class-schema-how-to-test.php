@@ -98,6 +98,43 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 
 		$this->assertEquals( $actual, $expected );
 	}
+
+	/**
+	 * Tests the HowTo schema output with steps without json name and text.
+	 *
+	 * @covers WPSEO_Schema_HowTo::render
+	 * @covers WPSEO_Schema_HowTo::get_main_schema_id
+	 * @covers WPSEO_Schema_HowTo::add_steps
+	 * @covers WPSEO_Schema_HowTo::add_step_description
+	 */
+	public function test_schema_output_with_steps_without_json_name_and_text() {
+		$actual = $this->instance->render(
+			[
+				[ '@id' => 'OtherGraphPiece' ],
+			],
+			[
+				'attrs' => [
+					'jsonDescription' => 'description',
+					'name'            => 'title',
+					'steps'           => [
+						[
+							'id'       => 'step-id-1',
+							'text'     => [ 'How to step 1 text line' ],
+						],
+					],
+				],
+			]
+		);
+
+		$expected = [
+			[
+				'@id' => 'OtherGraphPiece'
+			],
+			[
+				'@type'            => 'HowTo',
+				'@id'              => 'example.com#howto-1',
+				'name'             => 'title',
+				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
 				'description'      => 'description',
 			]
 		];
