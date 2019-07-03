@@ -3,8 +3,15 @@
 # Build JavaScript from assets to production
 'build:js':
   - 'clean:build-assets-js'
-  - 'copy:dependencies'
+  - 'copy:js-dependencies'
   - 'webpack:buildDev'
+# Build CSS from SCSS to production
+'build:css':
+  - 'clean:build-assets-css'
+  - 'copy:css-dependencies'
+  - 'sass:build'
+  - 'postcss:build'
+  - 'rtlcss:build'
 
 # Build internationalisation features
 'build:i18n':
@@ -80,7 +87,7 @@ release:
   - 'release:js'
   - 'build:i18n'
 'release:js':
-  - 'copy:dependencies'
+  - 'copy:js-dependencies'
   - 'webpack:buildProd'
 
 'deploy:trunk':
