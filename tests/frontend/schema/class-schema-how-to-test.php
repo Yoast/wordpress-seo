@@ -205,9 +205,9 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the HowTo schema output when no jsonText (description) is provided in the step data.
+	 * Tests the HowTo schema output when an empty jsonText (description) is provided in the step data.
 	 *
-	 * In case no description is provided, the HowToStep schema output should have a text attribute containing the description text,
+	 * In case an empty description is provided, the HowToStep schema output should have a text attribute containing the description text,
 	 * instead of a name and itemListElement attribute.
 	 *
 	 * @covers \WPSEO_Schema_HowTo::render
@@ -226,6 +226,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 						[
 							'id'       => 'step-id-1',
 							'jsonName' => 'How to step 1',
+							"jsonText" => '',
 						],
 					],
 				],
@@ -256,9 +257,9 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the HowTo schema step output when no jsonName (title) is provided in the step data.
+	 * Tests the HowTo schema step output when an empty jsonName (title) is provided in the step data.
 	 *
-	 * In case no description is provided, the HowToStep schema output should have a text attribute containing the title
+	 * In case an empty description is provided, the HowToStep schema output should have a text attribute containing the title
 	 * text, instead of a name and itemListElement attribute.
 	 *
 	 * @covers \WPSEO_Schema_HowTo::render
@@ -278,6 +279,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 						[
 							'id'       => 'step-id-1',
 							'jsonText' => 'How to step 1 description.',
+							'jsonName' => '',
 							'text'     => [
 								'How to step 1 description.',
 							],
@@ -311,7 +313,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the HowTo schema step output when no jsonName (title) is provided in the step data and an image is added
+	 * Tests the HowTo schema step output when an empty jsonName (title) is provided in the step data and an image is added
 	 * in the description.
 	 *
 	 * @covers \WPSEO_Schema_HowTo::render
@@ -331,6 +333,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 						[
 							'id'       => 'step-id-1',
 							'jsonText' => '',
+							'jsonName' => '',
 							'text'     => [
 								[
 									'type'   => 'img',
@@ -374,7 +377,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the HowTo schema step output when no jsonName (title), jsonText (description) and image are provided.
+	 * Tests the HowTo schema step output when an empty jsonName (title) and jsonText (description), and no image are provided.
 	 *
 	 * @covers \WPSEO_Schema_HowTo::render
 	 * @covers \WPSEO_Schema_HowTo::add_steps
@@ -391,7 +394,9 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 					'name'            => 'title',
 					'steps'           => [
 						[
-							'id' => 'step-id-1',
+							'jsonText' => '',
+							'jsonName' => '',
+							'id'       => 'step-id-1',
 						],
 					],
 				],
