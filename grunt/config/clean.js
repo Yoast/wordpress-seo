@@ -22,10 +22,11 @@ module.exports = {
 	],
 	"build-assets-js": [
 		"js/dist/*.js",
-		"!js/dist/jquery.tablesorter.min.js",
+		"<%= paths.js %>/select2",
 	],
 	"build-assets-css": [
 		"<%= files.css %>",
+		"<%= paths.css %>/select2",
 	],
 	artifact: [
 		"<%= files.artifact %>",
