@@ -1,16 +1,16 @@
 <?php
 /**
- * Post Formatter for the indexables.
+ * Post Builder for the indexables.
  *
- * @package Yoast\YoastSEO\Formatters
+ * @package Yoast\YoastSEO\Builders
  */
 
-namespace Yoast\WP\Free\Formatters;
+namespace Yoast\WP\Free\Builders;
 
 /**
  * Formats the term meta to indexable format.
  */
-class Indexable_Author_Formatter {
+class Indexable_Author_Builder {
 
 	/**
 	 * Formats the data.
@@ -20,7 +20,7 @@ class Indexable_Author_Formatter {
 	 *
 	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
 	 */
-	public function format( $user_id, $indexable ) {
+	public function build( $user_id, $indexable ) {
 		$meta_data = $this->get_meta_data( $user_id );
 
 		$indexable->permalink              = \get_author_posts_url( $user_id );

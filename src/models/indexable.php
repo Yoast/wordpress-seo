@@ -8,8 +8,7 @@
 namespace Yoast\WP\Free\Models;
 
 use Exception;
-use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\Yoast_Model;
+use Yoast\WP\Free\ORM\Yoast_Model;
 
 /**
  * Indexable table definition.
@@ -105,75 +104,6 @@ class Indexable extends Yoast_Model {
 	}
 
 	/**
-	 * Retrieves an indexable by its ID and type.
-	 *
-	 * @param int    $object_id   The indexable object ID.
-	 * @param string $object_type The indexable object type.
-	 * @param bool   $auto_create Optional. Create the indexable if it does not exist.
-	 *
-	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
-	 */
-	public static function find_by_id_and_type( $object_id, $object_type, $auto_create = true ) {
-		$indexable = Yoast_Model::of_type( 'Indexable' )
-			->where( 'object_id', $object_id )
-			->where( 'object_type', $object_type )
-			->find_one();
-
-		if ( $auto_create && ! $indexable ) {
-			$indexable = self::create_for_id_and_type( $object_id, $object_type );
-		}
-
-		return $indexable;
-	}
-
-	/**
-	 * Retrieves an indexable by it's URL.
-	 *
-	 * @param string $url The indexable url.
-	 */
-	public static function find_by_url( $url ) {
-		$url      = trailingslashit( $url );
-		$url_hash = strlen( $url ) . ':' . md5( $url );
-
-		// Find by both url_hash and url, url_hash is indexed so will be used first by the DB to optimize the query.
-		return Yoast_Model::of_type( 'Indexable' )
-			->where( 'url_hash', $url_hash )
-			->where( 'url', $url )
-			->find_one();
-	}
-
-	/**
-	 * Creates an indexable by its ID and type.
-	 *
-	 * @param int    $object_id   The indexable object ID.
-	 * @param string $object_type The indexable object type.
-	 *
-	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
-	 */
-	public static function create_for_id_and_type( $object_id, $object_type ) {
-		/*
-		 * Indexable instance.
-		 *
-		 * @var \Yoast\WP\Free\Models\Indexable $indexable
-		 */
-		$indexable              = Yoast_Model::of_type( 'Indexable' )->create();
-		$indexable->object_id   = $object_id;
-		$indexable->object_type = $object_type;
-
-		Logger::get_logger()->debug(
-			\sprintf(
-				/* translators: 1: object ID; 2: object type. */
-				\__( 'Indexable created for object %1$s with type %2$s', 'wordpress-seo' ),
-				$object_id,
-				$object_type
-			),
-			\get_object_vars( $indexable )
-		);
-
-		return $indexable;
-	}
-
-	/**
 	 * Enhances the save method.
 	 *
 	 * @return boolean True on succes.
@@ -195,7 +125,7 @@ class Indexable extends Yoast_Model {
 		$saved = parent::save();
 
 		if ( $saved ) {
-			Logger::get_logger()->debug(
+			Yoast_Model::$logger->debug(
 				\sprintf(
 					/* translators: 1: object ID; 2: object type. */
 					\__( 'Indexable saved for object %1$s with type %2$s', 'wordpress-seo' ),
@@ -220,7 +150,7 @@ class Indexable extends Yoast_Model {
 		$deleted = parent::delete();
 
 		if ( $deleted ) {
-			Logger::get_logger()->debug(
+			Yoast_Model::$logger->debug(
 				\sprintf(
 					/* translators: 1: object ID; 2: object type. */
 					\__( 'Indexable deleted for object %1$s with type %2$s', 'wordpress-seo' ),

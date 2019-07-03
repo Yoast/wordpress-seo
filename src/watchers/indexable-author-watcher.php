@@ -8,9 +8,8 @@
 namespace Yoast\WP\Free\Watchers;
 
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
-use Yoast\WP\Free\Exceptions\No_Indexable_Found;
-use Yoast\WP\Free\Formatters\Indexable_Author_Formatter;
-use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\Builders\Indexable_Author_Builder;
+use Yoast\WP\Free\Helpers\Indexable_Helper;
 use Yoast\WP\Free\WordPress\Integration;
 
 /**
@@ -26,17 +25,23 @@ class Indexable_Author_Watcher implements Integration {
 	}
 
 	/**
-	 * @var Indexable_Author_Formatter
+	 * @var Indexable_Helper
 	 */
-	protected $formatter;
+	protected $indexable_helper;
+
+	/**
+	 * @var Indexable_Author_Builder
+	 */
+	protected $builder;
 
 	/**
 	 * Indexable_Author_Watcher constructor.
 	 *
-	 * @param Indexable_Author_Formatter $formatter The post formatter to use.
+	 * @param Indexable_Author_Builder $builder The post builder to use.
 	 */
-	public function __construct( Indexable_Author_Formatter $formatter ) {
-		$this->formatter = $formatter;
+	public function __construct( Indexable_Helper $indexable_helper, Indexable_Author_Builder $builder ) {
+		$this->indexable_helper = $indexable_helper;
+		$this->builder          = $builder;
 	}
 
 	/**
@@ -55,12 +60,13 @@ class Indexable_Author_Watcher implements Integration {
 	 * @return void
 	 */
 	public function delete_indexable( $user_id ) {
-		try {
-			$indexable = $this->get_indexable( $user_id, false );
-			$indexable->delete();
-		} catch ( No_Indexable_Found $exception ) {
+		$indexable = $this->indexable_helper->find_by_id_and_type( $user_id, 'user', false );
+
+		if ( ! $indexable ) {
 			return;
 		}
+
+		$indexable->delete();
 	}
 
 	/**
@@ -71,37 +77,13 @@ class Indexable_Author_Watcher implements Integration {
 	 * @return void
 	 */
 	public function build_indexable( $user_id ) {
-		try {
-			$indexable = $this->get_indexable( $user_id );
-		} catch ( No_Indexable_Found $exception ) {
-			return;
-		}
+		$indexable = $this->indexable_helper->find_by_id_and_type( $user_id, 'user', false );
 
-		$indexable = $this->formatter->format( $user_id, $indexable );
+		// If we haven't found an existing indexable, create it. Otherwise update it.
+		$indexable = $indexable === false
+			? $this->indexable_helper->create_for_id_and_type( $user_id, 'user' )
+			: $this->builder->build( $user_id, $indexable );
 
 		$indexable->save();
-	}
-
-	/**
-	 * Retrieves the indexable for a user.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int  $user_id     The user to retrieve the indexable for.
-	 * @param bool $auto_create Optional. Create the indexable when it does not exist yet.
-	 *
-	 * @return \Yoast\WP\Free\Models\Indexable The indexable for the suppied user ID.
-	 *
-	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found Exception when no Indexable could
-	 *                                                      be found for the supplied user.
-	 */
-	protected function get_indexable( $user_id, $auto_create = true ) {
-		$indexable = Indexable::find_by_id_and_type( $user_id, 'user', $auto_create );
-
-		if ( ! $indexable ) {
-			throw No_Indexable_Found::from_author_id( $user_id );
-		}
-
-		return $indexable;
 	}
 }

@@ -1,19 +1,34 @@
 <?php
 /**
- * Post Formatter for the indexables.
+ * Post Builder for the indexables.
  *
- * @package Yoast\YoastSEO\Formatters
+ * @package Yoast\YoastSEO\Builders
  */
 
-namespace Yoast\WP\Free\Formatters;
+namespace Yoast\WP\Free\Builders;
 
 use Exception;
+use Yoast\WP\Free\Helpers\SEO_Meta_Helper;
 use Yoast\WP\Free\Models\SEO_Meta;
 
 /**
  * Formats the post meta to indexable format.
  */
-class Indexable_Post_Formatter {
+class Indexable_Post_Builder {
+
+	/**
+	 * @var SEO_Meta_Helper
+	 */
+	protected $seo_meta_helper;
+
+	/**
+	 * Indexable_Post_Builder constructor.
+	 *
+	 * @param SEO_Meta_Helper $seo_meta_helper
+	 */
+	public function __construct( SEO_Meta_Helper $seo_meta_helper ) {
+		$this->seo_meta_helper = $seo_meta_helper;
+	}
 
 	/**
 	 * Formats the data.
@@ -23,7 +38,7 @@ class Indexable_Post_Formatter {
 	 *
 	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
 	 */
-	public function format( $post_id, $indexable ) {
+	public function build( $post_id, $indexable ) {
 		$indexable->permalink       = \get_permalink( $post_id );
 		$indexable->object_sub_type = \get_post_type( $post_id );
 
@@ -131,7 +146,7 @@ class Indexable_Post_Formatter {
 	 */
 	protected function set_link_count( $post_id, $indexable ) {
 		try {
-			$seo_meta = $this->get_seo_meta( $post_id );
+			$seo_meta = $this->seo_meta_helper->find_by_post_id( $post_id );
 
 			if ( $seo_meta ) {
 				$indexable->link_count          = $seo_meta->internal_link_count;
@@ -162,16 +177,5 @@ class Indexable_Post_Formatter {
 		}
 
 		return $value;
-	}
-
-	/**
-	 * Finds the related SEO Meta model for a given post.
-	 *
-	 * @param int $post_id The post ID to use.
-	 *
-	 * @return \Yoast\WP\Free\Models\SEO_Meta The SEO Meta model
-	 */
-	protected function get_seo_meta( $post_id ) {
-		return SEO_Meta::find_by_post_id( $post_id );
 	}
 }

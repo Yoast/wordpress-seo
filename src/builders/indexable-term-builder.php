@@ -1,27 +1,28 @@
 <?php
 /**
- * Post Formatter for the indexables.
+ * Post Builder for the indexables.
  *
- * @package Yoast\YoastSEO\Formatters
+ * @package Yoast\YoastSEO\Builders
  */
 
-namespace Yoast\WP\Free\Formatters;
+namespace Yoast\WP\Free\Builders;
 
 /**
  * Formats the term meta to indexable format.
  */
-class Indexable_Term_Formatter {
+class Indexable_Term_Builder {
 
 	/**
 	 * Formats the data.
 	 *
 	 * @param int                             $term_id  ID of the term to save data for.
-	 * @param string                          $taxonomy The taxonomy the term belongs to.
 	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to format.
 	 *
 	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
 	 */
-	public function format( $term_id, $taxonomy, $indexable ) {
+	public function build( $term_id, $indexable ) {
+		$term      = \get_term( $term_id );
+		$taxonomy  = $term->taxonomy;
 		$term_meta = \WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );
 
 		$indexable->permalink       = \get_term_link( $term_id, $taxonomy );

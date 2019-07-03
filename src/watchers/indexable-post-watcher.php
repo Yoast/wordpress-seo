@@ -8,9 +8,8 @@
 namespace Yoast\WP\Free\Watchers;
 
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
-use Yoast\WP\Free\Exceptions\No_Indexable_Found;
-use Yoast\WP\Free\Formatters\Indexable_Post_Formatter;
-use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\Builders\Indexable_Post_Builder;
+use Yoast\WP\Free\Helpers\Indexable_Helper;
 use Yoast\WP\Free\WordPress\Integration;
 
 /**
@@ -26,17 +25,24 @@ class Indexable_Post_Watcher implements Integration {
 	}
 
 	/**
-	 * @var Indexable_Post_Formatter
+	 * @var Indexable_Helper
 	 */
-	protected $formatter;
+	protected $indexable_helper;
+
+	/**
+	 * @var Indexable_Post_Builder
+	 */
+	protected $builder;
 
 	/**
 	 * Indexable_Post_Watcher constructor.
 	 *
-	 * @param Indexable_Post_Formatter $formatter The post formatter to use.
+	 * @param Indexable_Helper       $indexable_helper
+	 * @param Indexable_Post_Builder $builder The post builder to use.
 	 */
-	public function __construct( Indexable_Post_Formatter $formatter ) {
-		$this->formatter = $formatter;
+	public function __construct( Indexable_Helper $indexable_helper, Indexable_Post_Builder $builder ) {
+		$this->indexable_helper = $indexable_helper;
+		$this->builder          = $builder;
 	}
 
 	/**
@@ -55,12 +61,13 @@ class Indexable_Post_Watcher implements Integration {
 	 * @return void
 	 */
 	public function delete_indexable( $post_id ) {
-		try {
-			$indexable = $this->get_indexable( $post_id, false );
-			$indexable->delete();
-		} catch ( No_Indexable_Found $exception ) {
+		$indexable = $this->indexable_helper->find_by_id_and_type( $post_id, 'post', false );
+
+		if ( ! $indexable ) {
 			return;
 		}
+
+		$indexable->delete();
 	}
 
 	/**
@@ -71,42 +78,18 @@ class Indexable_Post_Watcher implements Integration {
 	 * @return void
 	 */
 	public function build_indexable( $post_id ) {
-
 		if ( ! $this->is_post_indexable( $post_id ) ) {
 			return;
 		}
 
-		try {
-			$indexable = $this->get_indexable( $post_id );
-		} catch ( No_Indexable_Found $exception ) {
-			return;
-		}
+		$indexable = $this->indexable_helper->find_by_id_and_type( $post_id, 'post', false );
 
-		$indexable = $this->formatter->format( $post_id, $indexable );
+		// If we haven't found an existing indexable, create it. Otherwise update it.
+		$indexable = $indexable === false
+			? $this->indexable_helper->create_for_id_and_type( $post_id, 'post' )
+			: $this->builder->build( $post_id, $indexable );
 
 		$indexable->save();
-	}
-
-	/**
-	 * Fetches the indexable for a post.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int  $post_id     Post to fetch indexable for.
-	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
-	 *
-	 * @return \Yoast\WP\Free\Models\Indexable
-	 *
-	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found Exception when no Indexable entry could be found.
-	 */
-	protected function get_indexable( $post_id, $auto_create = true ) {
-		$indexable = Indexable::find_by_id_and_type( $post_id, 'post', $auto_create );
-
-		if ( ! $indexable ) {
-			throw No_Indexable_Found::from_post_id( $post_id );
-		}
-
-		return $indexable;
 	}
 
 	/**

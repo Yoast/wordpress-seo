@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\Free\Models;
 
-use Yoast\WP\Free\Yoast_Model;
+use Yoast\WP\Free\ORM\Yoast_Model;
 
 /**
  * Abstract class for indexable extensions.

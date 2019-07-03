@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\Free\Models;
 
-use Yoast\WP\Free\Yoast_Model;
+use Yoast\WP\Free\ORM\Yoast_Model;
 
 /**
  * Primary Term model definition.
@@ -21,29 +21,6 @@ use Yoast\WP\Free\Yoast_Model;
  * @property string $updated_at
  */
 class Primary_Term extends Yoast_Model {
-
-	/**
-	 * Retrieves an indexable by a post ID and taxonomy.
-	 *
-	 * @param int    $post_id     The post the indexable is based upon.
-	 * @param string $taxonomy    The taxonomy the indexable belongs to.
-	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
-	 *
-	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
-	 */
-	public static function find_by_postid_and_taxonomy( $post_id, $taxonomy, $auto_create = true ) {
-		/** @var \Yoast\WP\Free\Models\Primary_Term $indexable */
-		$indexable = Yoast_Model::of_type( 'Primary_Term' )
-			->where( 'post_id', $post_id )
-			->where( 'taxonomy', $taxonomy )
-			->find_one();
-
-		if ( $auto_create && ! $indexable ) {
-			$indexable = Yoast_Model::of_type( 'Primary_Term' )->create();
-		}
-
-		return $indexable;
-	}
 
 	/**
 	 * Enhances the save method.

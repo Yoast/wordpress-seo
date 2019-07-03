@@ -10,6 +10,7 @@ namespace Yoast\WP\Free\Watchers;
 use WPSEO_Meta;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
+use Yoast\WP\Free\Helpers\Primary_Term_Helper;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Models\Primary_Term as Primary_Term_Indexable;
 use Yoast\WP\Free\WordPress\Integration;
@@ -25,6 +26,20 @@ class Primary_Term_Watcher implements Integration {
 	 */
 	public static function get_conditionals() {
 		return [ Indexables_Feature_Flag_Conditional::class ];
+	}
+
+	/**
+	 * @var Primary_Term_Helper
+	 */
+	protected $primary_term_helper;
+
+	/**
+	 * Primary_Term_Watcher constructor.
+	 *
+	 * @param Primary_Term_Helper $primary_term_helper
+	 */
+	public function __construct( Primary_Term_Helper $primary_term_helper ) {
+		$this->primary_term_helper = $primary_term_helper;
 	}
 
 	/**
@@ -174,7 +189,7 @@ class Primary_Term_Watcher implements Integration {
 	 *                                                      for the supplied post.
 	 */
 	protected function get_indexable( $post_id, $taxonomy, $auto_create = true ) {
-		$indexable = Primary_Term_Indexable::find_by_postid_and_taxonomy( $post_id, 'post', $auto_create );
+		$indexable = $this->primary_term_helper->find_by_postid_and_taxonomy( $post_id, 'post', $auto_create );
 
 		if ( ! $indexable ) {
 			throw No_Indexable_Found::from_primary_term( $post_id, $taxonomy );

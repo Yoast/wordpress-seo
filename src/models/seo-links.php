@@ -12,16 +12,11 @@ use Yoast\WP\Free\ORM\Yoast_Model;
 /**
  * Table definition for the SEO Meta table.
  *
- * @property int $object_id
- * @property int $internal_link_count
- * @property int $incoming_link_count
+ * @property int    $id
+ * @property string $url
+ * @property int    $post_id
+ * @property int    $target_post_id
+ * @property string $type
  */
 class SEO_Meta extends Yoast_Model {
-
-	/**
-	 * Overwrites the default ID column name.
-	 *
-	 * @var string
-	 */
-	public static $id_column = 'object_id';
 }

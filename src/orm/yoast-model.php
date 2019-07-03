@@ -5,8 +5,9 @@
  * @package Yoast\YoastSEO
  */
 
-namespace Yoast\WP\Free;
+namespace Yoast\WP\Free\ORM;
 
+use Psr\Log\LoggerInterface;
 use Yoast\WP\Free\Exceptions\Missing_Method;
 
 /**
@@ -56,6 +57,13 @@ class Yoast_Model {
 	 * @var string $auto_prefix_models
 	 */
 	public static $auto_prefix_models = '\Yoast\WP\Free\Models\\';
+
+	/**
+	 * Set a logger to use for all models.
+	 *
+	 * @var LoggerInterface $logger
+	 */
+	public static $logger;
 
 	/**
 	 * Set true to to ignore namespace information when computing table names

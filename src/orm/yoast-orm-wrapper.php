@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO
  */
 
-namespace Yoast\WP\Free;
+namespace Yoast\WP\Free\ORM;
 
 use YoastSEO_Vendor\ORM;
 
