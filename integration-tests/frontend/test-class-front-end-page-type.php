@@ -22,8 +22,8 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation where nothing has been done to manipulate the result.
 	 *
-	 * @covers WPSEO_Frontend_Page_Type::is_simple_page()
-	 * @covers WPSEO_Frontend_Page_Type::get_simple_page_id()
+	 * @covers WPSEO_Frontend_Page_Type::is_simple_page
+	 * @covers WPSEO_Frontend_Page_Type::get_simple_page_id
 	 */
 	public function test_simple_page_default_state() {
 		$this->assertFalse( WPSEO_Frontend_Page_Type::is_simple_page() );
@@ -33,8 +33,8 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation where a single post will be visited.
 	 *
-	 * @covers WPSEO_Frontend_Page_Type::is_simple_page()
-	 * @covers WPSEO_Frontend_Page_Type::get_simple_page_id()
+	 * @covers WPSEO_Frontend_Page_Type::is_simple_page
+	 * @covers WPSEO_Frontend_Page_Type::get_simple_page_id
 	 */
 	public function test_simple_page_with_a_post_being_visited() {
 		$post = $this->factory()->post->create_and_get();
@@ -47,8 +47,8 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation where a page that is set as home will be visited.
 	 *
-	 * @covers WPSEO_Frontend_Page_Type::is_simple_page()
-	 * @covers WPSEO_Frontend_Page_Type::get_simple_page_id()
+	 * @covers WPSEO_Frontend_Page_Type::is_simple_page
+	 * @covers WPSEO_Frontend_Page_Type::get_simple_page_id
 	 */
 	public function test_simple_page_with_a_page_set_as_home_page_being_visited() {
 		$current_page_for_posts = get_option( 'page_for_posts' );
@@ -70,8 +70,8 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation where a filter hook has been set.
 	 *
-	 * @covers WPSEO_Frontend_Page_Type::is_simple_page()
-	 * @covers WPSEO_Frontend_Page_Type::get_simple_page_id()
+	 * @covers WPSEO_Frontend_Page_Type::is_simple_page
+	 * @covers WPSEO_Frontend_Page_Type::get_simple_page_id
 	 */
 	public function test_simple_page_without_a_set_filter_for_the_id() {
 		$this->assertFalse( WPSEO_Frontend_Page_Type::is_simple_page() );
@@ -81,8 +81,8 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation where a filter hook has been set.
 	 *
-	 * @covers WPSEO_Frontend_Page_Type::is_simple_page()
-	 * @covers WPSEO_Frontend_Page_Type::get_simple_page_id()
+	 * @covers WPSEO_Frontend_Page_Type::is_simple_page
+	 * @covers WPSEO_Frontend_Page_Type::get_simple_page_id
 	 */
 	public function test_simple_page_with_a_set_filter_for_the_id() {
 		add_filter( 'wpseo_frontend_page_type_simple_page_id', array( $this, 'simple_page_hook' ) );

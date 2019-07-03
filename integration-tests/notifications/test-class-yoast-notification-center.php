@@ -497,7 +497,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @group ms-required
 	 *
-	 * @covers Yoast_Notification_Center::dismiss_notification()
+	 * @covers Yoast_Notification_Center::dismiss_notification
 	 */
 	public function test_dismiss_notification_is_per_site() {
 		$this->skipWithoutMultisite();
@@ -525,7 +525,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @group ms-required
 	 *
-	 * @covers Yoast_Notification_Center::restore_notification()
+	 * @covers Yoast_Notification_Center::restore_notification
 	 */
 	public function test_restore_notification_is_per_site() {
 		$this->skipWithoutMultisite();
@@ -559,7 +559,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @group ms-required
 	 *
-	 * @covers Yoast_Notification_Center::is_notification_dismissed()
+	 * @covers Yoast_Notification_Center::is_notification_dismissed
 	 */
 	public function test_is_notification_dismissed_is_per_site() {
 		$this->skipWithoutMultisite();
@@ -591,7 +591,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that checking for dismissed notifications falls back to user meta if no user options.
 	 *
-	 * @covers Yoast_Notification_Center::is_notification_dismissed()
+	 * @covers Yoast_Notification_Center::is_notification_dismissed
 	 */
 	public function test_is_notification_dismissed_falls_back_to_user_meta() {
 
@@ -613,7 +613,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that restoring a notification also clears old user metadata.
 	 *
-	 * @covers Yoast_Notification_Center::restore_notification()
+	 * @covers Yoast_Notification_Center::restore_notification
 	 */
 	public function test_restore_notification_clears_user_meta() {
 
@@ -630,7 +630,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that nonces are stripped when notifications are fetched from the database.
 	 *
-	 * @covers Yoast_Notification_Center::retrieve_notifications_from_storage()
+	 * @covers Yoast_Notification_Center::retrieve_notifications_from_storage
 	 */
 	public function test_retrieve_notifications_from_storage_strips_nonces() {
 		$notification_center = Yoast_Notification_Center::get();
@@ -663,7 +663,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that nonces are not stored in the database when persisting notifications.
 	 *
-	 * @covers Yoast_Notification_Center::update_storage()
+	 * @covers Yoast_Notification_Center::update_storage
 	 */
 	public function test_update_storage_strips_nonces() {
 		$notification_center = Yoast_Notification_Center::get();
@@ -685,7 +685,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests removal of a notification when there isn't any with given ID.
 	 *
-	 * @covers Yoast_Notification_Center::remove_notification_by_id()
+	 * @covers Yoast_Notification_Center::remove_notification_by_id
 	 */
 	public function test_remove_notification_by_id_when_no_notification_is_found() {
 		$notification_center = $this
@@ -704,7 +704,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests removal of a notification.
 	 *
-	 * @covers Yoast_Notification_Center::remove_notification_by_id()
+	 * @covers Yoast_Notification_Center::remove_notification_by_id
 	 */
 	public function test_remove_notification_by_id_when_notification_is_found() {
 		$notification_center = $this

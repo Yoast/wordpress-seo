@@ -13,6 +13,7 @@
  * @property WPSEO_Schema_Context $context A value object with context variables.
  */
 class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Piece {
+
 	/**
 	 * A value object with context variables.
 	 *
@@ -125,6 +126,18 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 		 * @api int|bool $user_id The user ID currently determined.
 		 */
 		return apply_filters( 'wpseo_schema_person_user_id', $user_id );
+	}
+
+	/**
+	 * An author should not have an image from options, this only applies to persons.
+	 *
+	 * @param array  $data      The Person schema.
+	 * @param string $schema_id The string used in the `@id` for the schema.
+	 *
+	 * @return array The Person schema.
+	 */
+	private function set_image_from_options( $data, $schema_id ) {
+		return $data;
 	}
 
 	/**

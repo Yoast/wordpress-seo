@@ -33,7 +33,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests getting non existing terms.
 	 *
-	 * @covers WPSEO_Indexable_Service_Term_Provider::get()
+	 * @covers WPSEO_Indexable_Service_Term_Provider::get
 	 */
 	public function test_get_non_existing_term() {
 		$this->assertEquals( array(), $this->provider->get( false ) );
@@ -45,7 +45,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if the term is indexable in various situations.
 	 *
-	 * @covers WPSEO_Indexable_Service_Term_Provider::is_indexable()
+	 * @covers WPSEO_Indexable_Service_Term_Provider::is_indexable
 	 */
 	public function test_is_indexable() {
 		$this->assertFalse( $this->provider->is_indexable( false ) );
@@ -69,7 +69,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the getting of an indexable term.
 	 *
-	 * @covers WPSEO_Indexable_Service_Term_Provider::get()
+	 * @covers WPSEO_Indexable_Service_Term_Provider::get
 	 */
 	public function test_get() {
 		$term = $this
@@ -144,7 +144,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param bool|null $expected    The expected conversion.
 	 * @param string    $description Description of the test.
 	 *
-	 * @covers WPSEO_Indexable_Service_Term_Provider::convert_noindex()
+	 * @covers WPSEO_Indexable_Service_Term_Provider::convert_noindex
 	 *
 	 * @dataProvider noindex_conversion_provider
 	 */
@@ -157,7 +157,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the renaming of indexable data.
 	 *
-	 * @covers WPSEO_Indexable_Service_Term_Provider::rename_indexable_data()
+	 * @covers WPSEO_Indexable_Service_Term_Provider::rename_indexable_data
 	 */
 	public function test_rename_indexable_data() {
 		$supplied_values = array(
@@ -198,7 +198,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the conversion of the indexable data.
 	 *
-	 * @covers WPSEO_Indexable_Service_Term_Provider::convert_indexable_data()
+	 * @covers WPSEO_Indexable_Service_Term_Provider::convert_indexable_data
 	 */
 	public function test_convert_indexable_data() {
 		$instance = $this

@@ -13,6 +13,7 @@
  * @since 1.8
  */
 class WPSEO_Schema implements WPSEO_WordPress_Integration {
+
 	/**
 	 * Holds the parsed blocks for the current page.
 	 *

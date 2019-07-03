@@ -23,7 +23,7 @@ final class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestC
 	/**
 	 * Basic get_url test.
 	 *
-	 * @covers WPSEO_Admin_Asset_Dev_Server_Location::get_url()
+	 * @covers WPSEO_Admin_Asset_Dev_Server_Location::get_url
 	 */
 	public function test_get_url() {
 		$asset = new WPSEO_Admin_Asset( $this->asset_defaults );
@@ -38,7 +38,7 @@ final class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestC
 	/**
 	 * Tests that the constructor accepts a different dev server URL.
 	 *
-	 * @covers WPSEO_Admin_Asset_Dev_Server_Location::get_url()
+	 * @covers WPSEO_Admin_Asset_Dev_Server_Location::get_url
 	 */
 	public function test_get_url_different_url() {
 		$asset = new WPSEO_Admin_Asset( $this->asset_defaults );
@@ -55,8 +55,8 @@ final class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestC
 	 *
 	 * @integration_test
 	 *
-	 * @covers WPSEO_Admin_Asset_Dev_Server_Location::get_url()
-	 * @covers WPSEO_Admin_Asset_SEO_Location::get_url()
+	 * @covers WPSEO_Admin_Asset_Dev_Server_Location::get_url
+	 * @covers WPSEO_Admin_Asset_SEO_Location::get_url
 	 */
 	public function test_get_url_default() {
 		$asset_args        = $this->asset_defaults;

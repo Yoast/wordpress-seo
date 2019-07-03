@@ -30,7 +30,7 @@ class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
 	 *
 	 * @dataProvider data_filter_user_has_wpseo_manage_options_cap
 	 *
-	 * @covers WPSEO_Register_Capabilities::filter_user_has_wpseo_manage_options_cap()
+	 * @covers WPSEO_Register_Capabilities::filter_user_has_wpseo_manage_options_cap
 	 *
 	 * @param string $role             Which role to test. 'network_administrator' is also allowed.
 	 * @param string $access           Access setting value to test. Either 'admin' or 'superadmin'.

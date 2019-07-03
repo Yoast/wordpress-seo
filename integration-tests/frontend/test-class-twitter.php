@@ -285,7 +285,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::image()
+	 * @covers WPSEO_Twitter::image
 	 */
 	public function test_homepage_image() {
 		// Test default image.
@@ -302,7 +302,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::image()
+	 * @covers WPSEO_Twitter::image
 	 */
 	public function test_default_image() {
 		// Create and go to post.
@@ -338,7 +338,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::image()
+	 * @covers WPSEO_Twitter::image
 	 */
 	public function test_meta_value_image() {
 		// Create and go to post.
@@ -355,7 +355,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::image()
+	 * @covers WPSEO_Twitter::image
 	 */
 	public function test_post_thumbnail_image() {
 		$post_id         = $this->factory->post->create();
@@ -375,7 +375,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::image()
+	 * @covers WPSEO_Twitter::image
 	 */
 	public function test_post_content_image() {
 		$url     = 'http://example.com/example.jpg';
@@ -438,7 +438,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::gallery_images_output()
+	 * @covers WPSEO_Twitter::gallery_images_output
 	 */
 	public function test_gallery_images() {
 

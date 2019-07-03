@@ -19,7 +19,7 @@ class Integration_Group_Test extends TestCase {
 	/**
 	 * Tests the addition of an integration.
 	 *
-	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::add_integration()
+	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::add_integration
 	 */
 	public function test_add_integrations() {
 		$instance = new Integration_Group();
@@ -36,7 +36,7 @@ class Integration_Group_Test extends TestCase {
 	/**
 	 * Tests ensure integration is called on constructor.
 	 *
-	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::__construct()
+	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::__construct
 	 */
 	public function test_construct() {
 		$classname = '\Yoast\WP\Free\WordPress\Integration_Group';
@@ -61,7 +61,7 @@ class Integration_Group_Test extends TestCase {
 	/**
 	 * Tests to make sure only Integration instances are used in the Integration Group.
 	 *
-	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::ensure_integration()
+	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::ensure_integration
 	 */
 	public function test_ensure_integration() {
 		$integration = $this
@@ -88,7 +88,7 @@ class Integration_Group_Test extends TestCase {
 	/**
 	 * Tests that register hooks is called on the integration.
 	 *
-	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::register_hooks()
+	 * @covers \Yoast\WP\Free\WordPress\Integration_Group::register_hooks
 	 */
 	public function test_register_hooks() {
 		$integration = $this
