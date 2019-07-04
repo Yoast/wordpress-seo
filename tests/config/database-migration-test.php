@@ -2,11 +2,16 @@
 
 namespace Yoast\WP\Free\Tests\Config;
 
-use Yoast\WP\Free\Config\Dependency_Management;
-use Brain\Monkey;
 use Yoast\WP\Free\Tests\Doubles\Database_Migration;
 use Yoast\WP\Free\Tests\Doubles\Database_Migration as Database_Migration_Double;
+
+use Yoast\WP\Free\Config\Dependency_Management;
+use Yoast\WP\Free\Yoast_Model;
+
+use Brain\Monkey;
+
 use Yoast\WP\Free\Tests\TestCase;
+
 
 /**
  * Class Database_Migration_Test.
@@ -29,14 +34,16 @@ class Database_Migration_Test extends TestCase {
 	 * Tests the initializing with the defining of constants fails.
 	 */
 	public function test_initialize_with_set_defines_failing() {
+		$config = $this->get_config();
+		$transient_key = $this->get_transient_key( $config['table_name'] );
 		Monkey\Functions\expect( 'set_transient' )
 			->once()
-			->with( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY, Database_Migration::MIGRATION_STATE_ERROR, \DAY_IN_SECONDS )
+			->with( $transient_key, Database_Migration::MIGRATION_STATE_ERROR, DAY_IN_SECONDS )
 			->andReturn( true );
 
 		$instance = $this
 			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array( null, new Dependency_Management() ) )
+			->setConstructorArgs( array( null, new Dependency_Management(), $config ) )
 			->setMethods( array( 'set_defines' ) )
 			->getMock();
 
@@ -86,14 +93,16 @@ class Database_Migration_Test extends TestCase {
 	 * Tests if the migrations are usable with transients.
 	 */
 	public function test_is_usable_with_transient() {
+		$config = $this->get_config();
+		$transient_key = $this->get_transient_key( $config['table_name'] );
 		Monkey\Functions\expect( 'get_transient' )
 			->once()
-			->with( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY, Database_Migration::MIGRATION_STATE_SUCCESS )
+			->with( $transient_key, Database_Migration::MIGRATION_STATE_SUCCESS )
 			->andReturn( Database_Migration::MIGRATION_STATE_SUCCESS );
 
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Config\Database_Migration' )
-			->disableOriginalConstructor()
+			->setConstructorArgs( array( null, new Dependency_Management(), $config ) )
 			->setMethods( null )
 			->getMock();
 
@@ -107,14 +116,16 @@ class Database_Migration_Test extends TestCase {
 	 * Tests if the migrations are usable with transients.
 	 */
 	public function test_is_not_usable_with_transient() {
+		$config = $this->get_config();
+		$transient_key = $this->get_transient_key( $config['table_name'] );
 		Monkey\Functions\expect( 'get_transient' )
 			->once()
-			->with( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY, Database_Migration::MIGRATION_STATE_SUCCESS )
+			->with( $transient_key, Database_Migration::MIGRATION_STATE_SUCCESS )
 			->andReturn( Database_Migration::MIGRATION_STATE_ERROR );
 
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Config\Database_Migration' )
-			->disableOriginalConstructor()
+			->setConstructorArgs( array( null, new Dependency_Management(), $config ) )
 			->setMethods( null )
 			->getMock();
 
@@ -128,14 +139,16 @@ class Database_Migration_Test extends TestCase {
 	 * Tests the initializing when everything goes as planned.
 	 */
 	public function test_migration_success() {
+		$config = $this->get_config();
+		$transient_key = $this->get_transient_key( $config['table_name'] );
 		Monkey\Functions\expect( 'delete_transient' )
 			->once()
-			->with( Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY )
+			->with( $transient_key )
 			->andReturn( true );
 
 		$instance = $this
 			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array( null, new Dependency_Management() ) )
+			->setConstructorArgs( array( null, new Dependency_Management(), $config ) )
 			->setMethods(
 				array(
 					'set_defines',
@@ -165,7 +178,7 @@ class Database_Migration_Test extends TestCase {
 	public function test_initialize_with_exception_thrown() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array( null, new Dependency_Management() ) )
+			->setConstructorArgs( array( null, new Dependency_Management(), $this->get_config() ) )
 			->setMethods(
 				array(
 					'set_defines',
@@ -200,7 +213,8 @@ class Database_Migration_Test extends TestCase {
 	public function test_get_charset() {
 		$instance = new Database_Migration_Double(
 			(object) array( 'charset' => 'foo' ),
-			new Dependency_Management()
+			new Dependency_Management(),
+			$this->get_config()
 		);
 
 		$this->assertSame( 'foo', $instance->get_charset() );
@@ -214,7 +228,8 @@ class Database_Migration_Test extends TestCase {
 	public function test_get_configuration() {
 		$instance = new Database_Migration_Double(
 			(object) array( 'charset' => 'foo' ),
-			new Dependency_Management()
+			new Dependency_Management(),
+			$this->get_config()
 		);
 
 		$this->assertInternalType( 'array', $instance->get_configuration() );
@@ -226,7 +241,7 @@ class Database_Migration_Test extends TestCase {
 	public function test_set_define_success() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array( null, new Dependency_Management() ) )
+			->setConstructorArgs( array( null, new Dependency_Management(), $this->get_config() ) )
 			->setMethods(
 				array( 'set_define', 'get_defines' )
 			)
@@ -243,7 +258,7 @@ class Database_Migration_Test extends TestCase {
 			->with( 'my_define', 'define_value' )
 			->will( $this->returnValue( true ) );
 
-		$this->assertTrue( $instance->set_defines( 'table_name' ) );
+		$this->assertTrue( $instance->set_defines() );
 	}
 
 	/**
@@ -252,7 +267,7 @@ class Database_Migration_Test extends TestCase {
 	public function test_set_define_failed() {
 		$instance = $this
 			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Database_Migration' )
-			->setConstructorArgs( array( null, new Dependency_Management() ) )
+			->setConstructorArgs( array( null, new Dependency_Management(), $this->get_config() ) )
 			->setMethods(
 				array( 'set_define', 'get_defines' )
 			)
@@ -269,7 +284,7 @@ class Database_Migration_Test extends TestCase {
 			->with( 'my_define', 'define_value' )
 			->will( $this->returnValue( false ) );
 
-		$this->assertFalse( $instance->set_defines( 'table_name' ) );
+		$this->assertFalse( $instance->set_defines() );
 	}
 
 	/**
@@ -288,14 +303,11 @@ class Database_Migration_Test extends TestCase {
 			->method( 'prefixed_available' )
 			->will( $this->returnValue( true ) );
 
-		$instance = new Database_Migration( null, $dependency_management );
+		$instance = new Database_Migration( null, $dependency_management, $this->get_config() );
 
-		$defines = $instance->get_defines( 'table_name' );
+		$defines = $instance->get_defines();
 
-		$this->assertArrayHasKey( \YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE', $defines );
-		$this->assertArrayHasKey( \YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_TS_SCHEMA_TBL_NAME', $defines );
-
-		$this->assertContains( 'table_name', $defines );
+		$this->assertArrayHasKey( YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE', $defines );
 	}
 
 	/**
@@ -314,14 +326,11 @@ class Database_Migration_Test extends TestCase {
 			->method( 'prefixed_available' )
 			->will( $this->returnValue( false ) );
 
-		$instance = new Database_Migration( null, $dependency_management );
+		$instance = new Database_Migration( null, $dependency_management, $this->get_config() );
 
-		$defines = $instance->get_defines( 'table_name' );
+		$defines = $instance->get_defines();
 
 		$this->assertArrayHasKey( 'RUCKUSING_BASE', $defines );
-		$this->assertArrayHasKey( 'RUCKUSING_TS_SCHEMA_TBL_NAME', $defines );
-
-		$this->assertContains( 'table_name', $defines );
 	}
 
 	/**
@@ -334,5 +343,28 @@ class Database_Migration_Test extends TestCase {
 			->getMockBuilder( 'FrameworkRunner' )
 			->setMethods( array( 'execute' ) )
 			->getMock();
+	}
+
+	/**
+	 * Returns the transient key that is used to store the migration status for a given feature.
+	 *
+	 * @param string $feature_name The name of the feature for which the migration status should be stored.
+	 *
+	 * @return string The transient key.
+	 */
+	protected function get_transient_key( $feature_name ) {
+		return Database_Migration::MIGRATION_ERROR_TRANSIENT_KEY . '_' . Yoast_Model::get_table_name( $feature_name );
+	}
+
+	/**
+	 * Creates and returns a new mock database migration configuration.
+	 *
+	 * @return array
+	 */
+	protected function get_config() {
+		return array(
+			'directory'  => 'test/migrations',
+			'table_name' => 'test_name'
+		);
 	}
 }
