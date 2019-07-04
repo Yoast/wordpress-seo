@@ -11,11 +11,15 @@
 class WPSEO_Meta_Columns {
 
 	/**
+	 * Holds the SEO analysis.
+	 *
 	 * @var WPSEO_Metabox_Analysis_SEO
 	 */
 	private $analysis_seo;
 
 	/**
+	 * Holds the readability analysis.
+	 *
 	 * @var WPSEO_Metabox_Analysis_Readability
 	 */
 	private $analysis_readability;
@@ -717,6 +721,8 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
+	 * Renders the score indicator.
+	 *
 	 * @param WPSEO_Rank $rank  The rank this indicator should have.
 	 * @param string     $title Optional. The title for this rank, defaults to the title of the rank.
 	 *
