@@ -48,20 +48,18 @@ class Indexable_Term_Watcher implements Integration {
 	 * @inheritdoc
 	 */
 	public function register_hooks() {
-		\add_action( 'edited_term', [ $this, 'build_indexable' ], \PHP_INT_MAX, 3 );
-		\add_action( 'delete_term', [ $this, 'delete_indexable' ], \PHP_INT_MAX, 3 );
+		\add_action( 'edited_term', [ $this, 'build_indexable' ], \PHP_INT_MAX );
+		\add_action( 'delete_term', [ $this, 'delete_indexable' ], \PHP_INT_MAX );
 	}
 
 	/**
 	 * Deletes a term from the index.
 	 *
 	 * @param int    $term_id          The Term ID to delete.
-	 * @param int    $taxonomy_term_id The Taxonomy ID the Term belonged to.
-	 * @param string $taxonomy         The taxonomy name the Term belonged to.
 	 *
 	 * @return void
 	 */
-	public function delete_indexable( $term_id, $taxonomy_term_id, $taxonomy ) {
+	public function delete_indexable( $term_id ) {
 		$indexable = $this->indexable_helper->find_by_id_and_type( $term_id, 'term', false );
 
 		if ( ! $indexable ) {
@@ -79,12 +77,10 @@ class Indexable_Term_Watcher implements Integration {
 	 *       class yet.
 	 *
 	 * @param int    $term_id          ID of the term to save data for.
-	 * @param int    $taxonomy_term_id The taxonomy_term_id for the term.
-	 * @param string $taxonomy         The taxonomy the term belongs to.
 	 *
 	 * @return void
 	 */
-	public function build_indexable( $term_id, $taxonomy_term_id, $taxonomy ) {
+	public function build_indexable( $term_id ) {
 		$indexable = $this->indexable_helper->find_by_id_and_type( $term_id, 'term', false );
 
 		// If we haven't found an existing indexable, create it. Otherwise update it.

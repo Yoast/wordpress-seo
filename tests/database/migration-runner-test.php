@@ -5,6 +5,7 @@ namespace Yoast\WP\Free\Tests\Config;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Free\Config\Dependency_Management;
+use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Loggers\Migration_Logger;
 use Yoast\WP\Free\Tests\Doubles\Migration_Runner;
 use Yoast\WP\Free\Tests\TestCase;
@@ -29,18 +30,12 @@ class Migration_Runner_test extends TestCase {
 	 * Tests the initializing with the defining of constants fails.
 	 */
 	public function test_initialize_with_set_defines_failing() {
-		$wpdb = $this->get_wpdb_mock();
-
 		Monkey\Functions\expect( 'set_transient' )
 			->once()
 			->with( Migration_Runner::MIGRATION_ERROR_TRANSIENT_KEY, Migration_Runner::MIGRATION_STATE_ERROR, \DAY_IN_SECONDS )
 			->andReturn( true );
 
-		$instance = $this
-			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Migration_Runner' )
-			->setConstructorArgs( array( $wpdb, new Dependency_Management() ) )
-			->setMethods( array( 'set_defines' ) )
-			->getMock();
+		$instance = $instance = $instance = $this->get_migration_runner_mock( [ 'set_defines' ] );
 
 		$instance
 			->expects( $this->once() )
@@ -54,13 +49,7 @@ class Migration_Runner_test extends TestCase {
 	 * Tests if the migrations are usable.
 	 */
 	public function test_is_usable() {
-		$wpdb = $this->get_wpdb_mock();
-
-		$instance = $this
-			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Migration_Runner' )
-			->setConstructorArgs( array( $wpdb, new Dependency_Management() ) )
-			->setMethods( array( 'get_migration_state' ) )
-			->getMock();
+		$instance = $instance = $instance = $this->get_migration_runner_mock( [ 'get_migration_state' ] );
 
 		$instance->expects( $this->once() )
 			->method( 'get_migration_state' )
@@ -73,13 +62,7 @@ class Migration_Runner_test extends TestCase {
 	 * Tests if the migrations are usable.
 	 */
 	public function test_is_not_usable() {
-		$wpdb = $this->get_wpdb_mock();
-
-		$instance = $this
-			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Migration_Runner' )
-			->setConstructorArgs( array( $wpdb, new Dependency_Management() ) )
-			->setMethods( array( 'get_migration_state' ) )
-			->getMock();
+		$instance = $instance = $instance = $this->get_migration_runner_mock( [ 'get_migration_state' ] );
 
 		$instance->expects( $this->once() )
 			->method( 'get_migration_state' )
@@ -92,18 +75,12 @@ class Migration_Runner_test extends TestCase {
 	 * Tests if the migrations are usable with transients.
 	 */
 	public function test_is_usable_with_transient() {
-		$wpdb = $this->get_wpdb_mock();
-
 		Monkey\Functions\expect( 'get_transient' )
 			->once()
 			->with( Migration_Runner::MIGRATION_ERROR_TRANSIENT_KEY, Migration_Runner::MIGRATION_STATE_SUCCESS )
 			->andReturn( Migration_Runner::MIGRATION_STATE_SUCCESS );
 
-		$instance = $this
-			->getMockBuilder( '\Yoast\WP\Free\Database\Migration_Runner' )
-			->setConstructorArgs( array( $wpdb, new Dependency_Management() ) )
-			->setMethods( null )
-			->getMock();
+		$instance = $instance = $instance = $this->get_migration_runner_mock( null );
 
 		/**
 		 * @var \Yoast\WP\Free\Config\Migration_Runner $instance
@@ -122,11 +99,7 @@ class Migration_Runner_test extends TestCase {
 			->with( Migration_Runner::MIGRATION_ERROR_TRANSIENT_KEY, Migration_Runner::MIGRATION_STATE_SUCCESS )
 			->andReturn( Migration_Runner::MIGRATION_STATE_ERROR );
 
-		$instance = $this
-			->getMockBuilder( '\Yoast\WP\Free\Database\Migration_Runner' )
-			->setConstructorArgs( array( $wpdb, new Dependency_Management() ) )
-			->setMethods( null )
-			->getMock();
+		$instance = $instance = $this->get_migration_runner_mock();
 
 		/**
 		 * @var \Yoast\WP\Free\Config\Migration_Runner $instance
@@ -138,23 +111,15 @@ class Migration_Runner_test extends TestCase {
 	 * Tests the initializing when everything goes as planned.
 	 */
 	public function test_migration_success() {
-		$wpdb = $this->get_wpdb_mock();
-
 		Monkey\Functions\expect( 'delete_transient' )
 			->once()
 			->with( Migration_Runner::MIGRATION_ERROR_TRANSIENT_KEY )
 			->andReturn( true );
 
-		$instance = $this
-			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Migration_Runner' )
-			->setConstructorArgs( array( $wpdb, new Dependency_Management() ) )
-			->setMethods(
-				array(
-					'set_defines',
-					'get_framework_runner',
-				)
-			)
-			->getMock();
+		$instance = $instance = $this->get_migration_runner_mock( [
+			'set_defines',
+			'get_framework_runner',
+		] );
 
 		$instance
 			->expects( $this->once() )
@@ -177,19 +142,11 @@ class Migration_Runner_test extends TestCase {
 	 * @covers \Yoast\WP\Free\Config\Migration_Runner::run_migrations()
 	 */
 	public function test_initialize_with_exception_thrown() {
-		$wpdb = $this->get_wpdb_mock();
-
-		$instance = $this
-			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Migration_Runner' )
-			->setConstructorArgs( array( $wpdb, new Dependency_Management() ) )
-			->setMethods(
-				array(
-					'set_defines',
-					'get_framework_runner',
-					'set_failed_state',
-				)
-			)
-			->getMock();
+		$instance = $instance = $this->get_migration_runner_mock( [
+			'set_defines',
+			'get_framework_runner',
+			'set_failed_state',
+		] );
 
 		$instance
 			->expects( $this->once() )
@@ -214,9 +171,7 @@ class Migration_Runner_test extends TestCase {
 	 * @covers \Yoast\WP\Free\Config\Migration_Runner::get_configuration()
 	 */
 	public function test_get_configuration() {
-		$wpdb = $this->get_wpdb_mock();
-
-		$instance = new Migration_Runner( $wpdb, new Dependency_Management() );
+		$instance = $instance = $this->get_migration_runner_mock();;
 
 		$this->assertInternalType( 'array', $instance->get_configuration() );
 	}
@@ -253,15 +208,7 @@ class Migration_Runner_test extends TestCase {
 	 * @covers \Yoast\WP\Free\Config\Migration_Runner::set_defines()
 	 */
 	public function test_set_define_failed() {
-		$wpdb = $this->get_wpdb_mock();
-
-		$instance = $this
-			->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Migration_Runner' )
-			->setConstructorArgs( array( $wpdb, new Dependency_Management() ) )
-			->setMethods(
-				array( 'set_define', 'get_defines' )
-			)
-			->getMock();
+		$instance = $this->get_migration_runner_mock( [ 'set_define', 'get_defines' ] );
 
 		$instance
 			->expects( $this->once() )
@@ -283,8 +230,6 @@ class Migration_Runner_test extends TestCase {
 	 * @covers \Yoast\WP\Free\Config\Migration_Runner::get_defines()
 	 */
 	public function test_get_defines() {
-		$wpdb = $this->get_wpdb_mock();
-
 		$dependency_management = $this
 			->getMockBuilder( '\Yoast\WP\Free\Config\Dependency_Management' )
 			->setMethods( array( 'prefixed_available' ) )
@@ -295,7 +240,7 @@ class Migration_Runner_test extends TestCase {
 			->method( 'prefixed_available' )
 			->will( $this->returnValue( true ) );
 
-		$instance = new Migration_Runner( $wpdb, $dependency_management );
+		$instance = $this->get_migration_runner_mock( null, $dependency_management );
 
 		$defines = $instance->get_defines( 'table_name' );
 
@@ -311,8 +256,6 @@ class Migration_Runner_test extends TestCase {
 	 * @covers \Yoast\WP\Free\Config\Migration_Runner::get_defines()
 	 */
 	public function test_get_defines_not_prefixed() {
-		$wpdb = $this->get_wpdb_mock();
-
 		$dependency_management = $this
 			->getMockBuilder( '\Yoast\WP\Free\Config\Dependency_Management' )
 			->setMethods( [ 'prefixed_available' ] )
@@ -323,7 +266,7 @@ class Migration_Runner_test extends TestCase {
 			->method( 'prefixed_available' )
 			->will( $this->returnValue( false ) );
 
-		$instance = new Migration_Runner( $wpdb, $dependency_management );
+		$instance = $this->get_migration_runner_mock( null, $dependency_management );
 
 		$defines = $instance->get_defines( 'table_name' );
 
@@ -331,6 +274,20 @@ class Migration_Runner_test extends TestCase {
 		$this->assertArrayHasKey( 'RUCKUSING_TS_SCHEMA_TBL_NAME', $defines );
 
 		$this->assertContains( 'table_name', $defines );
+	}
+
+	protected function get_migration_runner_mock( $methods = null, $dependency_management_mock = null ) {
+		$wpdb             = $this->get_wpdb_mock();
+		$logger           = new Logger();
+
+		if ( ! $dependency_management_mock ) {
+			$dependency_management_mock = new Dependency_Management();
+		}
+
+		return $this->getMockBuilder( 'Yoast\WP\Free\Tests\Doubles\Migration_Runner' )
+					->setConstructorArgs( array( $wpdb, $logger, new Migration_Logger( $logger ), $dependency_management_mock ) )
+					->setMethods( $methods )
+					->getMock();
 	}
 
 	/**

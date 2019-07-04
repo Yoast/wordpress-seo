@@ -11,7 +11,7 @@ use Psr\Log\LoggerInterface;
 use Yoast\WP\Free\Conditionals\No_Conditionals;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\WordPress\Initializer;
-use Yoast\WP\Free\Yoast_Model;
+use Yoast\WP\Free\ORM\Yoast_Model;
 use YoastSEO_Vendor\ORM;
 
 /**

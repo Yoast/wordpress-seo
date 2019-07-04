@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\Free\Models;
 
-use Exception;
+use Yoast\WP\Free\ORM\Extension_Registries\Indexable_Extension_Registry;
 use Yoast\WP\Free\ORM\Yoast_Model;
 
 /**
@@ -57,6 +57,11 @@ use Yoast\WP\Free\ORM\Yoast_Model;
 class Indexable extends Yoast_Model {
 
 	/**
+	 * @var Indexable_Extension_Registry
+	 */
+	protected $registry;
+
+	/**
 	 * The loaded indexable extensions.
 	 *
 	 * @var Indexable_Extension[]
@@ -64,26 +69,14 @@ class Indexable extends Yoast_Model {
 	protected $loaded_extensions = [];
 
 	/**
-	 * The registered indexable extensions.
+	 * Indexable constructor.
 	 *
-	 * @var Indexable_Extension[]
+	 * Note: the argument is here to allow future dependency injection.
+	 *
+	 * @param Indexable_Extension_Registry|null $registry The Indexable registry for extensions.
 	 */
-	protected static $extensions = [];
-
-	/**
-	 * Registers a new indexable extension.
-	 *
-	 * @param string $name       The name of the extension.
-	 * @param string $class_name The class of the extension, must inherit from Indexable_Extension.
-	 *
-	 * @throws Exception If $class_name does not inherit from Indexable_Extension.
-	 */
-	public static function register_extension( $name, $class_name ) {
-		if ( ! is_subclass_of( $class_name, Indexable_Extension::class ) ) {
-			throw new Exception( "$class_name must inherit Indexable_Extension to be registered as an extension." );
-		}
-
-		self::$extensions[ $name ] = $class_name;
+	public function __construct( Indexable_Extension_Registry $registry = null ) {
+		$this->registry = $registry !== null ? $registry : Indexable_Extension_Registry::get_instance();
 	}
 
 	/**
@@ -91,11 +84,15 @@ class Indexable extends Yoast_Model {
 	 *
 	 * @param string $name The name of the extension to load.
 	 *
-	 * @return \Yoast\WP\Free\Models\Indexable_Extension The extension.
+	 * @return \Yoast\WP\Free\Models\Indexable_Extension|bool The extension.
 	 */
 	public function get_extension( $name ) {
+		if ( ! $this->registry->has_extension( $name ) ) {
+			return false;
+		}
+
 		if ( ! $this->loaded_extensions[ $name ] ) {
-			$class_name = self::$extensions[ $name ];
+			$class_name = $this->registry->get_extension( $name );
 
 			$this->loaded_extensions[ $name ] = $this->has_one( $class_name, 'indexable_id', 'id' )->find_one();
 		}

@@ -18,5 +18,5 @@ use Yoast\WP\Free\ORM\Yoast_Model;
  * @property int    $target_post_id
  * @property string $type
  */
-class SEO_Meta extends Yoast_Model {
+class SEO_Links extends Yoast_Model {
 }

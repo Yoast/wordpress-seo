@@ -31,21 +31,26 @@ class Custom_Loader extends PhpFileLoader {
 	}
 
 	/**
-	 * Transforms a class derived from the filename by PSR-4 standards to class matching the Yoast standards.
+	 * Transforms a path to a class name using the class map.
 	 *
-	 * @param string $class The classname as derived from PSR-4 standards.
+	 * @param string $path The path of the class.
 	 *
-	 * @return string The classname as it would be in Yoast standards.
+	 * @return bool|string The classname.
 	 */
-	private function transformClass( $class ) {
-		$pieces = explode( '\\', $class );
-		$pieces = array_map( function ( $piece ) {
-			$parts = explode( '-', $piece );
-			$parts = array_map( 'ucfirst', $parts );
-			return implode( '_', $parts );
-		}, $pieces );
+	private function getClassFromClassMap( $path ) {
+		static $class_map;
 
-		return implode( '\\', $pieces );
+		if ( ! $class_map ) {
+			$class_map  = require( __DIR__ . '/../../vendor/composer/autoload_classmap.php' );
+		}
+
+		foreach ( $class_map as $class => $class_path ) {
+			if ( $path === $class_path ) {
+				return $class;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -171,10 +176,9 @@ class Custom_Loader extends PhpFileLoader {
 			if ( ! preg_match( $ext_regexp, $path, $m ) || ! $info->isReadable() ) {
 				continue;
 			}
-			$class = $namespace . ltrim( str_replace( '/', '\\', substr( $path, $prefix_len, -\strlen( $m[0] ) ) ), '\\' );
-			$class = $this->transformClass( $class );
+			$class = $this->getClassFromClassMap( $path );
 
-			if ( ! preg_match( '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+(?:\\\\[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+)*+$/', $class ) ) {
+			if ( ! $class || ! preg_match( '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+(?:\\\\[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+)*+$/', $class ) ) {
 				continue;
 			}
 

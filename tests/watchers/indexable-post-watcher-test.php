@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\Free\Tests\Watchers;
 
-use Yoast\WP\Free\Exceptions\No_Indexable_Found;
-use Yoast\WP\Free\Formatters\Indexable_Post_Formatter;
+use Yoast\WP\Free\Builders\Indexable_Post_Builder;
+use Yoast\WP\Free\Helpers\Indexable_Helper;
 use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
 use Brain\Monkey;
 use Yoast\WP\Free\Tests\TestCase;
@@ -24,7 +24,14 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::register_hooks
 	 */
 	public function test_register_hooks() {
-		$instance = new Indexable_Post_Watcher( new Indexable_Post_Formatter() );
+		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
+							->disableOriginalConstructor()
+							->getMock();
+		$builder_mock = $this->getMockBuilder( Indexable_Post_Builder::class )
+							->disableOriginalConstructor()
+							->getMock();
+
+		$instance = new Indexable_Post_Watcher( $helper_mock, $builder_mock );
 		$instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'wp_insert_post', array( $instance, 'build_indexable' ) ) );
@@ -37,11 +44,13 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_indexable
 	 */
 	public function test_delete_indexable() {
-		$instance = $this
-			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
-			->setConstructorArgs( [ new Indexable_Post_Formatter() ] )
-			->setMethods( array( 'get_indexable' ) )
-			->getMock();
+		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
+							->disableOriginalConstructor()
+							->setMethods( [ 'find_by_id_and_type' ] )
+							->getMock();
+		$builder_mock = $this->getMockBuilder( Indexable_Post_Builder::class )
+							 ->disableOriginalConstructor()
+							 ->getMock();
 
 		$indexable_mock = $this
 			->getMockBuilder( 'Yoast\WP\Free\Yoast_Model' )
@@ -54,11 +63,12 @@ class Indexable_Post_Watcher_Test extends TestCase {
 
 		$id = 1;
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_indexable' )
-			->with( $id, false )
-			->will( $this->returnValue( $indexable_mock ) );
+		$helper_mock->expects( $this->once() )
+					->method( 'find_by_id_and_type' )
+					->with( $id, 'post', false )
+					->willReturn( $indexable_mock );
+
+		$instance = new Indexable_Post_Watcher( $helper_mock, $builder_mock );
 
 		$instance->delete_indexable( $id );
 	}
@@ -68,19 +78,25 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_indexable
 	 */
-	public function test_delete_indexable_exception() {
-		$instance = $this
-			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
-			->setConstructorArgs( [ new Indexable_Post_Formatter() ] )
-			->setMethods( array( 'get_indexable' ) )
-			->getMock();
+	public function test_delete_indexable_does_not_exist() {
+		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
+							->disableOriginalConstructor()
+							->setMethods( [ 'find_by_id_and_type' ] )
+							->getMock();
+		$builder_mock = $this->getMockBuilder( Indexable_Post_Builder::class )
+							 ->disableOriginalConstructor()
+							 ->getMock();
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_indexable' )
-			->will( $this->throwException( new No_Indexable_Found() ) );
+		$id = 1;
 
-		$instance->delete_indexable( 1 );
+		$helper_mock->expects( $this->once() )
+					->method( 'find_by_id_and_type' )
+					->with( $id, 'post', false )
+					->willReturn( false );
+
+		$instance = new Indexable_Post_Watcher( $helper_mock, $builder_mock );
+
+		$instance->delete_indexable( $id );
 	}
 
 	/**
@@ -89,8 +105,17 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::build_indexable
 	 */
 	public function test_build_indexable() {
+		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
+							->disableOriginalConstructor()
+							->setMethods( [ 'find_by_id_and_type' ] )
+							->getMock();
+		$builder_mock = $this->getMockBuilder( Indexable_Post_Builder::class )
+							 ->disableOriginalConstructor()
+			 				 ->setMethods( [ 'build' ] )
+							 ->getMock();
+
 		$indexable_mock = $this
-			->getMockBuilder( 'Yoast_Model_Mock' )
+			->getMockBuilder( 'Yoast\WP\Free\Yoast_Model' )
 			->setMethods( array( 'save' ) )
 			->getMock();
 
@@ -98,29 +123,22 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->expects( $this->once() )
 			->method( 'save' );
 
-		$post_id = 1;
+		$id = 1;
 
-		$formatter_mock = $this
-			->getMockBuilder( '\Yoast\WP\Free\Formatters\Indexable_Post_Formatter' )
-			->setMethods( array( 'format' ) )
-			->getMock();
+		$helper_mock->expects( $this->once() )
+					->method( 'find_by_id_and_type' )
+					->with( $id, 'post', false )
+					->willReturn( $indexable_mock );
 
-		$formatter_mock
-			->expects( $this->once() )
-			->method( 'format' )
-			->with( $post_id, $indexable_mock )
-			->will( $this->returnValue( $indexable_mock ) );
+		$builder_mock->expects( $this->once() )
+					 ->method( 'build' )
+					 ->with( $id, $indexable_mock )
+					 ->willReturn( $indexable_mock );
 
-		$instance = $this
+		$instance = $instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
-			->setConstructorArgs( [ $formatter_mock ] )
-			->setMethods(
-				array(
-					'is_post_indexable',
-					'get_indexable',
-					'get_formatter',
-				)
-			)
+			->setConstructorArgs( [ $helper_mock, $builder_mock ] )
+			->setMethods( [ 'is_post_indexable' ] )
 			->getMock();
 
 		$instance
@@ -128,16 +146,11 @@ class Indexable_Post_Watcher_Test extends TestCase {
 			->method( 'is_post_indexable' )
 			->will( $this->returnValue( true ) );
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_indexable' )
-			->will( $this->returnValue( $indexable_mock ) );
-
 
 		// Set this value to true to let the routine think an indexable has been saved.
 		$indexable_mock->id = true;
 
-		$instance->build_indexable( $post_id );
+		$instance->build_indexable( $id );
 	}
 
 	/**
@@ -146,20 +159,26 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::build_indexable
 	 */
 	public function test_build_indexable_is_post_not_indexable() {
+		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
+							->disableOriginalConstructor()
+							->setMethods( [ 'find_by_id_and_type' ] )
+							->getMock();
+		$builder_mock = $this->getMockBuilder( Indexable_Post_Builder::class )
+							 ->disableOriginalConstructor()
+							 ->getMock();
+
+		$helper_mock->expects( $this->never() )->method( 'find_by_id_and_type' );
+
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
-			->setConstructorArgs( [ new Indexable_Post_Formatter() ] )
-			->setMethods( array( 'is_post_indexable', 'get_indexable' ) )
+			->setConstructorArgs( [ $helper_mock, $builder_mock ] )
+			->setMethods( array( 'is_post_indexable' ) )
 			->getMock();
 
 		$instance
 			->expects( $this->once() )
 			->method( 'is_post_indexable' )
 			->will( $this->returnValue( false ) );
-
-		$instance
-			->expects( $this->never() )
-			->method( 'get_indexable' );
 
 		$instance->build_indexable( 1 );
 	}
@@ -169,27 +188,50 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::build_indexable
 	 */
-	public function test_build_indexable_exception() {
+	public function test_build_indexable_does_not_exist() {
+		$id = 1;
+
 		Monkey\Functions\expect( 'wp_is_post_revision' )
 			->once()
-			->with( -1 )
+			->with( $id )
 			->andReturn( false );
 		Monkey\Functions\expect( 'wp_is_post_autosave' )
 			->once()
-			->with( -1 )
+			->with( $id )
 			->andReturn( false );
 
-		$instance = $this
-			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
-			->setConstructorArgs( [ new Indexable_Post_Formatter() ] )
-			->setMethods( array( 'get_indexable' ) )
+		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
+							->disableOriginalConstructor()
+							->setMethods( [
+								'find_by_id_and_type',
+								'create_for_id_and_type',
+							] )
+							->getMock();
+		$builder_mock = $this->getMockBuilder( Indexable_Post_Builder::class )
+							 ->disableOriginalConstructor()
+							 ->getMock();
+
+		$indexable_mock = $this
+			->getMockBuilder( 'Yoast\WP\Free\Yoast_Model' )
+			->setMethods( array( 'save' ) )
 			->getMock();
 
-		$instance
+		$indexable_mock
 			->expects( $this->once() )
-			->method( 'get_indexable' )
-			->will( $this->throwException( new No_Indexable_Found() ) );
+			->method( 'save' );
 
-		$instance->build_indexable( -1 );
+		$helper_mock->expects( $this->once() )
+					->method( 'find_by_id_and_type' )
+			        ->with( $id, 'post', false )
+					->willReturn( false );
+
+		$helper_mock->expects( $this->once() )
+					->method( 'create_for_id_and_type' )
+					->with( $id, 'post' )
+					->willReturn( $indexable_mock );
+
+		$instance = new Indexable_Post_Watcher( $helper_mock, $builder_mock );
+
+		$instance->build_indexable( $id );
 	}
 }

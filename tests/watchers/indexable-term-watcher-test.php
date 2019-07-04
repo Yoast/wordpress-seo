@@ -2,8 +2,8 @@
 
 namespace Yoast\WP\Free\Tests\Watchers;
 
-use Yoast\WP\Free\Exceptions\No_Indexable_Found;
-use Yoast\WP\Free\Formatters\Indexable_Term_Formatter;
+use Yoast\WP\Free\Builders\Indexable_Term_Builder;
+use Yoast\WP\Free\Helpers\Indexable_Helper;
 use Yoast\WP\Free\Watchers\Indexable_Term_Watcher;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -23,7 +23,11 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::register_hooks
 	 */
 	public function test_register_hooks() {
-		$instance = new Indexable_Term_Watcher( new Indexable_Term_Formatter() );
+		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
+							->disableOriginalConstructor()
+							->getMock();
+
+		$instance = new Indexable_Term_Watcher( $helper_mock, new Indexable_Term_Builder() );
 		$instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'edited_term', array( $instance, 'build_indexable' ) ) );
@@ -36,12 +40,6 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_indexable
 	 */
 	public function test_delete_indexable() {
-		$instance = $this
-			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Term_Watcher' )
-			->setConstructorArgs( [  new Indexable_Term_Formatter() ] )
-			->setMethods( array( 'get_indexable' ) )
-			->getMock();
-
 		$indexable_mock = $this
 			->getMockBuilder( 'Yoast\WP\Free\Yoast_Model' )
 			->setMethods( array( 'delete', 'delete_indexable' ) )
@@ -53,11 +51,17 @@ class Indexable_Term_Watcher_Test extends TestCase {
 
 		$id = 1;
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_indexable' )
-			->with( $id, 'taxonomy', false )
-			->will( $this->returnValue( $indexable_mock ) );
+		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
+							->disableOriginalConstructor()
+							->setMethods( [ 'find_by_id_and_type' ] )
+							->getMock();
+
+		$helper_mock->expects( $this->once() )
+					->method( 'find_by_id_and_type' )
+					->with( $id, 'term', false )
+					->willReturn( $indexable_mock );
+
+		$instance = new Indexable_Term_Watcher( $helper_mock, new Indexable_Term_Builder() );
 
 		$instance->delete_indexable( $id, '', 'taxonomy' );
 	}
@@ -67,17 +71,20 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_indexable
 	 */
-	public function test_delete_indexable_exception() {
-		$instance = $this
-			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Term_Watcher' )
-			->setConstructorArgs( [  new Indexable_Term_Formatter() ] )
-			->setMethods( array( 'get_indexable' ) )
-			->getMock();
+	public function test_delete_indexable_does_not_exist() {
+		$id = 1;
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_indexable' )
-			->will( $this->throwException( new No_Indexable_Found() ) );
+		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
+							->disableOriginalConstructor()
+							->setMethods( [ 'find_by_id_and_type' ] )
+							->getMock();
+
+		$helper_mock->expects( $this->once() )
+					->method( 'find_by_id_and_type' )
+					->with( $id, 'term', false )
+					->willReturn( false );
+
+		$instance = new Indexable_Term_Watcher( $helper_mock, new Indexable_Term_Builder() );
 
 		$instance->delete_indexable( 1, '', 'taxonomy' );
 	}
@@ -88,48 +95,44 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::build_indexable
 	 */
 	public function test_build_indexable() {
-		$taxonomy_id = 1;
+		$id = 1;
 
 		$indexable_mock = $this
 			->getMockBuilder( 'Yoast_Model_Mock' )
-			->setMethods( array( 'save' ) )
+			->setMethods( [ 'save' ] )
 			->getMock();
 
 		$indexable_mock
 			->expects( $this->once() )
 			->method( 'save' );
 
-		$formatter_mock = $this
-			->getMockBuilder( '\Yoast\WP\Free\Formatters\Indexable_Term_Formatter' )
-			->setMethods( array( 'format' ) )
+		$builder_mock = $this
+			->getMockBuilder( '\Yoast\WP\Free\Builders\Indexable_Term_Builder' )
+			->setMethods( [ 'build' ] )
 			->getMock();
 
-		$formatter_mock
+		$builder_mock
 			->expects( $this->once() )
-			->method( 'format' )
-			->with( $taxonomy_id, 'taxonomy', $indexable_mock )
+			->method( 'build' )
+			->with( $id, $indexable_mock )
 			->will( $this->returnValue( $indexable_mock ) );
 
-		$instance = $this
-			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Term_Watcher' )
-			->setConstructorArgs( [ $formatter_mock ] )
-			->setMethods(
-				array(
-					'get_indexable',
-					'get_formatter',
-				)
-			)
-			->getMock();
+		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
+							->disableOriginalConstructor()
+							->setMethods( [ 'find_by_id_and_type' ] )
+							->getMock();
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_indexable' )
-			->will( $this->returnValue( $indexable_mock ) );
+		$helper_mock->expects( $this->once() )
+					->method( 'find_by_id_and_type' )
+					->with( $id, 'term', false )
+					->willReturn( $indexable_mock );
+
+		$instance = new Indexable_Term_Watcher( $helper_mock, $builder_mock );
 
 		// Set this value to true to let the routine think an indexable has been saved.
 		$indexable_mock->id = true;
 
-		$instance->build_indexable( $taxonomy_id, '', 'taxonomy' );
+		$instance->build_indexable( $id );
 	}
 
 	/**
@@ -137,18 +140,41 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 *
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::build_indexable
 	 */
-	public function test_build_indexable_exception() {
-		$instance = $this
-			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Term_Watcher' )
-			->setConstructorArgs( [  new Indexable_Term_Formatter() ] )
-			->setMethods( array( 'get_indexable' ) )
+	public function test_build_does_not_exist() {
+		$id = 1;
+
+		$indexable_mock = $this
+			->getMockBuilder( 'Yoast_Model_Mock' )
+			->setMethods( [ 'save' ] )
 			->getMock();
 
-		$instance
+		$indexable_mock
 			->expects( $this->once() )
-			->method( 'get_indexable' )
-			->will( $this->throwException( new No_Indexable_Found() ) );
+			->method( 'save' );
 
-		$instance->build_indexable( -1, '', 'taxonomy' );
+		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
+							->disableOriginalConstructor()
+							->setMethods( [
+								'find_by_id_and_type',
+								'create_for_id_and_type',
+							] )
+							->getMock();
+
+		$helper_mock->expects( $this->once() )
+					->method( 'find_by_id_and_type' )
+					->with( $id, 'term', false )
+					->willReturn( false );
+
+		$helper_mock->expects( $this->once() )
+					->method( 'create_for_id_and_type' )
+					->with( $id, 'term' )
+					->willReturn( $indexable_mock );
+
+		$instance = new Indexable_Term_Watcher( $helper_mock, new Indexable_Term_Builder() );
+
+		// Set this value to true to let the routine think an indexable has been saved.
+		$indexable_mock->id = true;
+
+		$instance->build_indexable( $id );
 	}
 }

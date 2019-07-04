@@ -2,19 +2,12 @@
 
 namespace Yoast\WP\Free\Tests\Doubles;
 
-use Yoast\WP\Free\Formatters\Indexable_Term_Formatter;
+use Yoast\WP\Free\Builders\Indexable_Term_Builder;
 
 /**
  * Test Helper Class.
  */
-class Indexable_Term_Formatter_Double extends Indexable_Term_Formatter {
-
-	/**
-	 * @inheritdoc
-	 */
-	public function get_meta_data() {
-		return parent::get_meta_data();
-	}
+class Indexable_Term_Builder_Double extends Indexable_Term_Builder {
 
 	/**
 	 * @inheritdoc

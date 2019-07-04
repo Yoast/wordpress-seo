@@ -13,7 +13,7 @@ use Yoast\WP\Free\Config\Dependency_Management;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Loggers\Migration_Logger;
 use Yoast\WP\Free\WordPress\Initializer;
-use Yoast\WP\Free\Yoast_Model;
+use Yoast\WP\Free\ORM\Yoast_Model;
 use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
 
 /**
@@ -56,13 +56,30 @@ class Migration_Runner implements Initializer {
 	protected $dependency_management;
 
 	/**
+	 * @var \Yoast\WP\Free\Loggers\Logger
+	 */
+	protected $logger;
+
+	/**
+	 * @var \Yoast\WP\Free\Loggers\Migration_Logger
+	 */
+	protected $migration_logger;
+
+	/**
 	 * Migrations constructor.
 	 *
 	 * @param \wpdb                                       $wpdb                  Database class to use.
 	 * @param \Yoast\WP\Free\Config\Dependency_Management $dependency_management Dependency Management to use.
 	 */
-	public function __construct( wpdb $wpdb, Dependency_Management $dependency_management ) {
+	public function __construct(
+		wpdb $wpdb,
+		Logger $logger,
+		Migration_Logger $migration_logger,
+		Dependency_Management $dependency_management
+	) {
 		$this->wpdb                  = $wpdb;
+		$this->logger                = $logger;
+		$this->migration_logger      = $migration_logger;
 		$this->dependency_management = $dependency_management;
 	}
 
@@ -108,7 +125,7 @@ class Migration_Runner implements Initializer {
 			$main->execute();
 		}
 		catch ( \Exception $exception ) {
-			Logger::get_logger()->error( $exception->getMessage() );
+			$this->logger->error( $exception->getMessage() );
 
 			// Something went wrong...
 			$this->set_failed_state( $exception->getMessage() );
@@ -199,7 +216,7 @@ class Migration_Runner implements Initializer {
 		$main = new Ruckusing_FrameworkRunner(
 			$this->get_configuration(),
 			[ 'db:migrate', 'env=production' ],
-			new Migration_Logger()
+			$this->migration_logger
 		);
 
 		/*

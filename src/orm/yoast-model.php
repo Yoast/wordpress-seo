@@ -2,7 +2,7 @@
 /**
  * Yoast extension of the Model class.
  *
- * @package Yoast\YoastSEO
+ * @package Yoast\YoastSEO\ORM
  */
 
 namespace Yoast\WP\Free\ORM;

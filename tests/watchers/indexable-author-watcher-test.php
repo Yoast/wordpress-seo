@@ -3,7 +3,8 @@
 namespace Yoast\WP\Free\Tests\Watchers;
 
 use Yoast\WP\Free\Exceptions\No_Indexable_Found;
-use Yoast\WP\Free\Formatters\Indexable_Author_Formatter;
+use Yoast\WP\Free\Builders\Indexable_Author_Builder;
+use Yoast\WP\Free\Helpers\Indexable_Helper;
 use Yoast\WP\Free\Watchers\Indexable_Author_Watcher;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -23,7 +24,11 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Author_Watcher::register_hooks
 	 */
 	public function test_register_hooks() {
-		$instance = new Indexable_Author_Watcher( new Indexable_Author_Formatter() );
+		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
+							->disableOriginalConstructor()
+							->getMock();
+
+		$instance = new Indexable_Author_Watcher( $helper_mock, new Indexable_Author_Builder() );
 		$instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'profile_update', array( $instance, 'build_indexable' ) ) );
@@ -36,11 +41,10 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	 * @covers \Yoast\WP\Free\Watchers\Indexable_Author_Watcher::delete_indexable
 	 */
 	public function test_delete_indexable() {
-		$instance = $this
-			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Author_Watcher' )
-			->setConstructorArgs( [ new Indexable_Author_Formatter() ] )
-			->setMethods( array( 'get_indexable' ) )
-			->getMock();
+		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
+							->disableOriginalConstructor()
+							->setMethods( [ 'find_by_id_and_type' ] )
+							->getMock();
 
 		$indexable_mock = $this
 			->getMockBuilder( 'Yoast\WP\Free\Yoast_Model' )
@@ -53,11 +57,12 @@ class Indexable_Author_Watcher_Test extends TestCase {
 
 		$id = 1;
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_indexable' )
-			->with( $id, false )
-			->will( $this->returnValue( $indexable_mock ) );
+		$helper_mock->expects( $this->once() )
+					->method( 'find_by_id_and_type' )
+					->with( $id, 'user', false )
+					->willReturn( $indexable_mock );
+
+		$instance = new Indexable_Author_Watcher( $helper_mock, new Indexable_Author_Builder() );
 
 		$instance->delete_indexable( $id );
 	}
@@ -70,7 +75,7 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	public function test_delete_indexable_exception() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Author_Watcher' )
-			->setConstructorArgs( [ new Indexable_Author_Formatter() ] )
+			->setConstructorArgs( [ new Indexable_Author_Builder() ] )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 
@@ -100,7 +105,7 @@ class Indexable_Author_Watcher_Test extends TestCase {
 		$author_id = 1;
 
 		$formatter_mock = $this
-			->getMockBuilder( '\Yoast\WP\Free\Formatters\Indexable_Author_Formatter' )
+			->getMockBuilder( '\Yoast\WP\Free\Builders\Indexable_Author_Builder' )
 			->setMethods( array( 'format' ) )
 			->getMock();
 
@@ -141,7 +146,7 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	public function test_build_indexable_exception() {
 		$instance = $this
 			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Author_Watcher' )
-			->setConstructorArgs( [ new Indexable_Author_Formatter() ] )
+			->setConstructorArgs( [ new Indexable_Author_Builder() ] )
 			->setMethods( array( 'get_indexable' ) )
 			->getMock();
 
