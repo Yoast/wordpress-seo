@@ -3,7 +3,7 @@
 namespace Yoast\WP\Free\Tests\Admin;
 
 use Yoast\WP\Free\Tests\TestCase;
-use \WPSEO_Paper_Presenter;
+use WPSEO_Paper_Presenter;
 use Brain\Monkey;
 
 /**

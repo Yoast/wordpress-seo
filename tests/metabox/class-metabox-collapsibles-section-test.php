@@ -3,8 +3,8 @@
 namespace Yoast\WP\Free\Tests\Admin\Metabox;
 
 use Yoast\WP\Free\Tests\TestCase;
-use \WPSEO_Metabox_Collapsibles_Sections;
-use \WPSEO_Metabox_Collapsible;
+use WPSEO_Metabox_Collapsibles_Sections;
+use WPSEO_Metabox_Collapsible;
 use Brain\Monkey;
 
 /**
