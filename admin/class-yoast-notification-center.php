@@ -25,6 +25,8 @@ class Yoast_Notification_Center {
 	private static $instance = null;
 
 	/**
+	 * Holds the notifications.
+	 *
 	 * @var \Yoast_Notification[]
 	 */
 	private $notifications = array();
@@ -363,9 +365,6 @@ class Yoast_Notification_Center {
 		if ( $echo_as_json ) {
 			$notification_json = array();
 
-			/**
-			 * @var Yoast_Notification[] $notifications
-			 */
 			foreach ( $notifications as $notification ) {
 				$notification_json[] = $notification->render();
 			}
