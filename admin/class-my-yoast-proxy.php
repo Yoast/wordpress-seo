@@ -6,7 +6,7 @@
  */
 
 /**
- * @class WPSEO_MyYoast_Proxy Loads the MyYoast proxy.
+ * Loads the MyYoast proxy.
  *
  * This class registers a proxy page on `admin.php`. Which is reached with the `page=PAGE_IDENTIFIER` parameter.
  * It will read external files and serves them like they are located locally.
