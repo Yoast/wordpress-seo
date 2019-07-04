@@ -24,7 +24,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 
 		$this->context = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
 
-		$this->context->canonical = 'example.com';
+		$this->context->canonical = 'example.com/';
 
 		$this->instance = new WPSEO_Schema_FAQ_Questions_Double( [], [], $this->context );
 	}
@@ -45,9 +45,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 
 		$expected = [
 			'@type'            => 'Question',
-			'@id'              => 'example.com#question-1',
+			'@id'              => 'example.com/#question-1',
 			'position'         => 0,
-			'url'              => 'example.com#question-1',
+			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
@@ -56,7 +56,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			)
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -75,9 +75,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 
 		$expected = [
 			'@type'            => 'Question',
-			'@id'              => 'example.com#question-1',
+			'@id'              => 'example.com/#question-1',
 			'position'         => 0,
-			'url'              => 'example.com#question-1',
+			'url'              => 'example.com/#question-1',
 			'name'             => '',
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
@@ -86,7 +86,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			)
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -105,9 +105,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 
 		$expected = [
 			'@type'            => 'Question',
-			'@id'              => 'example.com#question-1',
+			'@id'              => 'example.com/#question-1',
 			'position'         => 0,
-			'url'              => 'example.com#question-1',
+			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
@@ -116,7 +116,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			)
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -135,9 +135,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 
 		$expected = [
 			'@type'            => 'Question',
-			'@id'              => 'example.com#question-1',
+			'@id'              => 'example.com/#question-1',
 			'position'         => 0,
-			'url'              => 'example.com#question-1',
+			'url'              => 'example.com/#question-1',
 			'name'             => '',
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
@@ -146,7 +146,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			)
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -167,9 +167,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 
 		$expected = [
 			'@type'            => 'Question',
-			'@id'              => 'example.com#question-1',
+			'@id'              => 'example.com/#question-1',
 			'position'         => 0,
-			'url'              => 'example.com#question-1',
+			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
@@ -178,7 +178,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			)
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -199,9 +199,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 
 		$expected = [
 			'@type'            => 'Question',
-			'@id'              => 'example.com#question-1',
+			'@id'              => 'example.com/#question-1',
 			'position'         => 0,
-			'url'              => 'example.com#question-1',
+			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
@@ -210,7 +210,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			)
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -231,9 +231,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 
 		$expected = [
 			'@type'            => 'Question',
-			'@id'              => 'example.com#question-1',
+			'@id'              => 'example.com/#question-1',
 			'position'         => 0,
-			'url'              => 'example.com#question-1',
+			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
@@ -242,7 +242,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			)
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -263,9 +263,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 
 		$expected = [
 			'@type'            => 'Question',
-			'@id'              => 'example.com#question-1',
+			'@id'              => 'example.com/#question-1',
 			'position'         => 0,
-			'url'              => 'example.com#question-1',
+			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
@@ -274,6 +274,6 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			)
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 }

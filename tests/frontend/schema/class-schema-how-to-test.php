@@ -43,7 +43,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 		$this->context = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
 
 		$this->context->title     = 'title';
-		$this->context->canonical = 'example.com';
+		$this->context->canonical = 'example.com/';
 
 		$this->instance = $this->getMockBuilder( WPSEO_Schema_HowTo_Double::class )
 			->setMethods( [ 'get_image_schema' ] )
@@ -90,14 +90,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 			]
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -120,6 +120,8 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 					'steps'           => [
 						[
 							'id'       => 'step-id-1',
+							'jsonText' => '',
+							'jsonName' => '',
 							'text'     => [ 'How to step 1 text line' ],
 						],
 					],
@@ -133,14 +135,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -178,14 +180,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
 						'@type'           => 'HowToStep',
-						'url'             => 'example.com#step-id-1',
+						'url'             => 'example.com/#step-id-1',
 						'name'            => 'How to step 1',
 						'itemListElement' => [
 							[
@@ -198,7 +200,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -249,14 +251,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
 						'@type'           => 'HowToStep',
-						'url'             => 'example.com#step-id-1',
+						'url'             => 'example.com/#step-id-1',
 						'name'            => 'How to step 1',
 						'image'           => 'https://example.com/image.png',
 						'itemListElement' => [
@@ -270,7 +272,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -309,21 +311,21 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
 						'@type' => 'HowToStep',
-						'url'   => 'example.com#step-id-1',
+						'url'   => 'example.com/#step-id-1',
 						'text'  => 'How to step 1',
 					],
 				],
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -366,21 +368,21 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
 						'@type' => 'HowToStep',
-						'url'   => 'example.com#step-id-1',
+						'url'   => 'example.com/#step-id-1',
 						'text'  => 'How to step 1 description.',
 					],
 				],
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -430,14 +432,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
 						'@type' => 'HowToStep',
-						'url'   => 'example.com#step-id-1',
+						'url'   => 'example.com/#step-id-1',
 						'image' => 'https://example.com/image.png',
 						'text'  => '',
 					],
@@ -445,7 +447,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -482,14 +484,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -534,15 +536,15 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'totalTime'        => 'P1DT12H30M',
 				'step'             => [
 					[
 						'@type'           => 'HowToStep',
-						'url'             => 'example.com#step-id-1',
+						'url'             => 'example.com/#step-id-1',
 						'name'            => 'How to step 1',
 						'itemListElement' => [
 							[
@@ -555,7 +557,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -594,14 +596,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
 						'@type'           => 'HowToStep',
-						'url'             => 'example.com#step-id-1',
+						'url'             => 'example.com/#step-id-1',
 						'name'            => 'How to step 1',
 						'itemListElement' => [
 							[
@@ -614,7 +616,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -653,14 +655,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
 						'@type'           => 'HowToStep',
-						'url'             => 'example.com#step-id-1',
+						'url'             => 'example.com/#step-id-1',
 						'name'            => 'How to step 1',
 						'itemListElement' => [
 							[
@@ -673,7 +675,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -712,14 +714,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
 						'@type'           => 'HowToStep',
-						'url'             => 'example.com#step-id-1',
+						'url'             => 'example.com/#step-id-1',
 						'name'            => 'How to step 1',
 						'itemListElement' => [
 							[
@@ -732,7 +734,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -771,14 +773,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
 						'@type'           => 'HowToStep',
-						'url'             => 'example.com#step-id-1',
+						'url'             => 'example.com/#step-id-1',
 						'name'            => 'How to step 1',
 						'itemListElement' => [
 							[
@@ -791,7 +793,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -830,14 +832,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => '<h1>description</h1>',
 				'step'             => [
 					[
 						'@type'           => 'HowToStep',
-						'url'             => 'example.com#step-id-1',
+						'url'             => 'example.com/#step-id-1',
 						'name'            => 'How to step 1',
 						'itemListElement' => [
 							[
@@ -850,7 +852,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -889,14 +891,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
 						'@type'           => 'HowToStep',
-						'url'             => 'example.com#step-id-1',
+						'url'             => 'example.com/#step-id-1',
 						'name'            => 'How to step 1',
 						'itemListElement' => [
 							[
@@ -909,7 +911,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -948,14 +950,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => '<h1>description</h1>',
 				'step'             => [
 					[
 						'@type'           => 'HowToStep',
-						'url'             => 'example.com#step-id-1',
+						'url'             => 'example.com/#step-id-1',
 						'name'            => 'How to step 1',
 						'itemListElement' => [
 							[
@@ -968,7 +970,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
