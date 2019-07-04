@@ -4,8 +4,8 @@ namespace Yoast\WP\Free\Tests\Frontend\Schema;
 
 use Yoast\WP\Free\Tests\TestCase;
 use Brain\Monkey;
-use \WPSEO_Schema_Image;
-use \Mockery;
+use WPSEO_Schema_Image;
+use Mockery;
 
 /**
  * Class WPSEO_Schema_HowTo_Test.
