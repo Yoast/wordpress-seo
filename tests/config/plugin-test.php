@@ -322,10 +322,15 @@ class Plugin_Test extends TestCase {
 	 * @return \Yoast\WP\Free\Config\Database_Migration
 	 */
 	protected function get_database_migration_mock() {
+		$config = array(
+			'directory'  => 'test/migrations',
+			'table_name' => 'test_name'
+		);
 		return $this
 			->getMockBuilder( '\Yoast\WP\Free\Config\Database_Migration' )
 			->setMethods( array( 'run_migrations', 'is_usable', 'has_migration_error' ) )
-			->setConstructorArgs( array( null, $this->get_dependency_management_mock() ) )
+			->setConstructorArgs( array( null, $this->get_dependency_management_mock(), $config ) )
+
 			->getMock();
 	}
 

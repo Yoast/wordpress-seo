@@ -11,16 +11,24 @@
 class WPSEO_Product_Upsell_Notice {
 
 	/**
+	 * Holds the name of the user meta key.
+	 *
+	 * The value of this database field holds whether the user has dismissed this notice or not.
+	 *
 	 * @var string
 	 */
 	const USER_META_DISMISSED = 'wpseo-remove-upsell-notice';
 
 	/**
+	 * Holds the option name.
+	 *
 	 * @var string
 	 */
 	const OPTION_NAME = 'wpseo';
 
 	/**
+	 * Holds the options.
+	 *
 	 * @var array
 	 */
 	protected $options;

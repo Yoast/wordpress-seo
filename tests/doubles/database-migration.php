@@ -24,14 +24,14 @@ class Database_Migration extends \Yoast\WP\Free\Config\Database_Migration {
 	/**
 	 * @inheritDoc
 	 */
-	public function set_defines( $table_name ) {
-		return parent::set_defines( $table_name );
+	public function set_defines() {
+		return parent::set_defines();
 	}
 
 	/**
 	 * @inheritDoc
 	 */
-	public function get_defines( $table_name ) {
-		return parent::get_defines( $table_name );
+	public function get_defines() {
+		return parent::get_defines();
 	}
 }
