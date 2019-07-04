@@ -11,6 +11,8 @@
 class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 
 	/**
+	 * Holds the cache transient key.
+	 *
 	 * @var string
 	 */
 	const CACHE_TRANSIENT_KEY = 'wpseo-dashboard-totals';
@@ -21,6 +23,8 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 	protected $asset_manager;
 
 	/**
+	 * Holds the dashboard statistics.
+	 *
 	 * @var WPSEO_Statistics
 	 */
 	protected $statistics;

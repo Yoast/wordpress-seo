@@ -11,6 +11,8 @@
 class WPSEO_Plugin_Availability {
 
 	/**
+	 * Holds the plugins.
+	 *
 	 * @var array
 	 */
 	protected $plugins = array();
