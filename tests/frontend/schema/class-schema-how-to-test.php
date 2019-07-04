@@ -3,9 +3,9 @@
 namespace Yoast\WP\Free\Tests\Frontend\Schema;
 
 use Yoast\WP\Free\Tests\TestCase;
-use \WPSEO_Schema_HowTo_Double;
-use \WPSEO_Schema_Context;
-use \Mockery;
+use WPSEO_Schema_HowTo_Double;
+use WPSEO_Schema_Context;
+use Mockery;
 
 /**
  * Class WPSEO_Schema_HowTo_Test.

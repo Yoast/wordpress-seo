@@ -74,7 +74,7 @@ class WPSEO_Schema_FAQ_Questions {
 	 *
 	 * @return array unsigned Schema.org Question piece.
 	 */
-	private function generate_question_block( $question ) {
+	protected function generate_question_block( $question ) {
 		return array(
 			'@type'          => 'Question',
 			'@id'            => $this->context->canonical . '#' . $question['id'],
