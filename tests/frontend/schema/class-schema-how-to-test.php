@@ -2,10 +2,12 @@
 
 namespace Yoast\WP\Free\Tests\Frontend\Schema;
 
-use Yoast\WP\Free\Tests\TestCase;
-use WPSEO_Schema_HowTo_Double;
-use WPSEO_Schema_Context;
+use Brain\Monkey;
 use Mockery;
+use WPSEO_Schema_Context;
+use WPSEO_Schema_HowTo_Double;
+use WPSEO_Schema_IDs;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class WPSEO_Schema_HowTo_Test.
@@ -17,9 +19,14 @@ use Mockery;
 class WPSEO_Schema_HowTo_Test extends TestCase {
 
 	/**
-	 * @var \WPSEO_Schema_HowTo_Double
+	 * @var WPSEO_Schema_HowTo_Double
 	 */
 	private $instance;
+
+	/**
+	 * @var WPSEO_Schema_Context
+	 */
+	private $context;
 
 	/**
 	 * Test setup.
@@ -27,24 +34,41 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$context = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
+		Monkey\Functions\stubs( [
+			'get_post_type' => function() {
+				return 'post';
+			},
+		] );
 
-		$context->title     = 'title';
-		$context->canonical = 'example.com';
+		$this->context = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
+
+		$this->context->title     = 'title';
+		$this->context->canonical = 'example.com';
 
 		$this->instance = $this->getMockBuilder( WPSEO_Schema_HowTo_Double::class )
-			->setMethods( [ 'get_main_schema_id', 'get_image_schema' ] )
-			->setConstructorArgs( [ $context ] )
+			->setMethods( [ 'get_image_schema' ] )
+			->setConstructorArgs( [ $this->context ] )
 			->getMock();
 
-		$this->instance->method( 'get_main_schema_id' )->willReturn( 'https://example.com/#article' );
 		$this->instance->method( 'get_image_schema' )->willReturn( 'https://example.com/image.png' );
+	}
+
+	/**
+	 * Tests the main schema id output without site representation.
+	 *
+	 * @covers WPSEO_Schema_HowTo::get_main_schema_id
+	 */
+	public function test_get_main_schema_id_without_site_representation() {
+		$this->context->site_represents = false;
+
+		$this->assertEquals( $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH, $this->instance->get_main_schema_id() );
 	}
 
 	/**
 	 * Tests the HowTo schema output without any steps.
 	 *
-	 * @covers \WPSEO_Schema_HowTo::render
+	 * @covers WPSEO_Schema_HowTo::render
+	 * @covers WPSEO_Schema_HowTo::get_main_schema_id
 	 */
 	public function test_schema_output_no_steps() {
 		$actual = $this->instance->render(
@@ -68,7 +92,50 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'description'      => 'description',
+			]
+		];
+
+		$this->assertEquals( $actual, $expected );
+	}
+
+	/**
+	 * Tests the HowTo schema output with steps without json name and text.
+	 *
+	 * @covers WPSEO_Schema_HowTo::render
+	 * @covers WPSEO_Schema_HowTo::get_main_schema_id
+	 * @covers WPSEO_Schema_HowTo::add_steps
+	 * @covers WPSEO_Schema_HowTo::add_step_description
+	 */
+	public function test_schema_output_with_steps_without_json_name_and_text() {
+		$actual = $this->instance->render(
+			[
+				[ '@id' => 'OtherGraphPiece' ],
+			],
+			[
+				'attrs' => [
+					'jsonDescription' => 'description',
+					'name'            => 'title',
+					'steps'           => [
+						[
+							'id'       => 'step-id-1',
+							'text'     => [ 'How to step 1 text line' ],
+						],
+					],
+				],
+			]
+		);
+
+		$expected = [
+			[
+				'@id' => 'OtherGraphPiece'
+			],
+			[
+				'@type'            => 'HowTo',
+				'@id'              => 'example.com#howto-1',
+				'name'             => 'title',
+				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
 				'description'      => 'description',
 			],
 		];
@@ -79,9 +146,10 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	/**
 	 * Tests the HowTo schema output with steps.
 	 *
-	 * @covers \WPSEO_Schema_HowTo::render
-	 * @covers \WPSEO_Schema_HowTo::add_steps
-	 * @covers \WPSEO_Schema_HowTo::add_step_description
+	 * @covers WPSEO_Schema_HowTo::render
+	 * @covers WPSEO_Schema_HowTo::get_main_schema_id
+	 * @covers WPSEO_Schema_HowTo::add_steps
+	 * @covers WPSEO_Schema_HowTo::add_step_description
 	 */
 	public function test_schema_output_with_steps() {
 		$actual = $this->instance->render(
@@ -112,7 +180,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
@@ -136,10 +204,11 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	/**
 	 * Tests the HowTo schema output with steps and images.
 	 *
-	 * @covers \WPSEO_Schema_HowTo::render
-	 * @covers \WPSEO_Schema_HowTo::add_steps
-	 * @covers \WPSEO_Schema_HowTo::add_step_description
-	 * @covers \WPSEO_Schema_HowTo::add_step_image
+	 * @covers WPSEO_Schema_HowTo::render
+	 * @covers WPSEO_Schema_HowTo::get_main_schema_id
+	 * @covers WPSEO_Schema_HowTo::add_steps
+	 * @covers WPSEO_Schema_HowTo::add_step_description
+	 * @covers WPSEO_Schema_HowTo::add_step_image
 	 */
 	public function test_schema_output_with_steps_and_image() {
 		$actual = $this->instance->render(
@@ -182,7 +251,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
@@ -210,8 +279,9 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	 * In case an empty description is provided, the HowToStep schema output should have a text attribute containing the description text,
 	 * instead of a name and itemListElement attribute.
 	 *
-	 * @covers \WPSEO_Schema_HowTo::render
-	 * @covers \WPSEO_Schema_HowTo::add_steps
+	 * @covers WPSEO_Schema_HowTo::render
+	 * @covers WPSEO_Schema_HowTo::get_main_schema_id
+	 * @covers WPSEO_Schema_HowTo::add_steps
 	 */
 	public function test_schema_output_step_with_no_description() {
 		$actual = $this->instance->render(
@@ -241,7 +311,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
@@ -262,9 +332,10 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	 * In case an empty description is provided, the HowToStep schema output should have a text attribute containing the title
 	 * text, instead of a name and itemListElement attribute.
 	 *
-	 * @covers \WPSEO_Schema_HowTo::render
-	 * @covers \WPSEO_Schema_HowTo::add_steps
-	 * @covers \WPSEO_Schema_HowTo::add_step_description
+	 * @covers WPSEO_Schema_HowTo::render
+	 * @covers WPSEO_Schema_HowTo::get_main_schema_id
+	 * @covers WPSEO_Schema_HowTo::add_steps
+	 * @covers WPSEO_Schema_HowTo::add_step_description
 	 */
 	public function test_schema_output_step_with_no_title() {
 		$actual = $this->instance->render(
@@ -297,7 +368,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
@@ -316,9 +387,10 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	 * Tests the HowTo schema step output when an empty jsonName (title) is provided in the step data and an image is added
 	 * in the description.
 	 *
-	 * @covers \WPSEO_Schema_HowTo::render
-	 * @covers \WPSEO_Schema_HowTo::add_steps
-	 * @covers \WPSEO_Schema_HowTo::add_step_image
+	 * @covers WPSEO_Schema_HowTo::render
+	 * @covers WPSEO_Schema_HowTo::get_main_schema_id
+	 * @covers WPSEO_Schema_HowTo::add_steps
+	 * @covers WPSEO_Schema_HowTo::add_step_image
 	 */
 	public function test_schema_output_step_with_no_title_and_with_an_image() {
 		$actual = $this->instance->render(
@@ -360,7 +432,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
@@ -379,9 +451,10 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	/**
 	 * Tests the HowTo schema step output when an empty jsonName (title) and jsonText (description), and no image are provided.
 	 *
-	 * @covers \WPSEO_Schema_HowTo::render
-	 * @covers \WPSEO_Schema_HowTo::add_steps
-	 * @covers \WPSEO_Schema_HowTo::add_step_image
+	 * @covers WPSEO_Schema_HowTo::render
+	 * @covers WPSEO_Schema_HowTo::get_main_schema_id
+	 * @covers WPSEO_Schema_HowTo::add_steps
+	 * @covers WPSEO_Schema_HowTo::add_step_image
 	 */
 	public function test_schema_output_step_with_no_content() {
 		$actual = $this->instance->render(
@@ -411,7 +484,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
 				'description'      => 'description',
 			],
 		];
@@ -422,10 +495,11 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	/**
 	 * Tests the HowTo schema step output when no jsonName (title), jsonText (description) and image are provided.
 	 *
-	 * @covers \WPSEO_Schema_HowTo::render
-	 * @covers \WPSEO_Schema_HowTo::add_steps
-	 * @covers \WPSEO_Schema_HowTo::add_step_description
-	 * @covers \WPSEO_Schema_HowTo::add_duration
+	 * @covers WPSEO_Schema_HowTo::render
+	 * @covers WPSEO_Schema_HowTo::get_main_schema_id
+	 * @covers WPSEO_Schema_HowTo::add_steps
+	 * @covers WPSEO_Schema_HowTo::add_step_description
+	 * @covers WPSEO_Schema_HowTo::add_duration
 	 */
 	public function test_schema_output_step_with_duration() {
 		$actual = $this->instance->render(
@@ -462,7 +536,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 				'@type'            => 'HowTo',
 				'@id'              => 'example.com#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'https://example.com/#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
 				'description'      => 'description',
 				'totalTime'        => 'P1DT12H30M',
 				'step'             => [
@@ -900,7 +974,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	/**
 	 * Tests the is_needed function.
 	 *
-	 * @covers \WPSEO_Schema_HowTo::is_needed
+	 * @covers WPSEO_Schema_HowTo::is_needed
 	 */
 	public function test_is_needed() {
 		$this->assertFalse( $this->instance->is_needed() );
@@ -909,7 +983,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 	/**
 	 * Tests the generate function.
 	 *
-	 * @covers \WPSEO_Schema_HowTo::generate
+	 * @covers WPSEO_Schema_HowTo::generate
 	 */
 	public function test_generate() {
 		$this->assertEquals( $this->instance->generate(), [] );

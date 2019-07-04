@@ -116,11 +116,9 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 * Determines whether we're part of an article or a webpage.
 	 *
 	 * @return string A reference URL.
-	 *
-	 * @codeCoverageIgnore
 	 */
 	protected function get_main_schema_id() {
-		if ( WPSEO_Schema_Article::is_article_post_type() ) {
+		if ( $this->context->site_represents !== false && WPSEO_Schema_Article::is_article_post_type() ) {
 			return $this->context->canonical . WPSEO_Schema_IDs::ARTICLE_HASH;
 		}
 
@@ -230,10 +228,8 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 * @codeCoverageIgnore
 	 */
 	protected function get_image_schema( $url ) {
-		$id = WPSEO_Image_Utils::get_attachment_by_url( $url );
+		$image = new WPSEO_Schema_Image( $this->context->canonical . '#schema-image-' . md5( $url ) );
 
-		$image = new WPSEO_Schema_Image( $this->context->canonical . '#schema-image-' . $id );
-
-		return $image->generate_from_attachment_id( $id );
+		return $image->generate_from_url( $url );
 	}
 }
