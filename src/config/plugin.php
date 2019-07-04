@@ -53,8 +53,17 @@ class Plugin implements Integration {
 	 */
 	public function __construct( Dependency_Management $dependency_management = null, Database_Migration $database_migration = null ) {
 		// @codingStandardsIgnoreStart
+		$database_migration_config = array(
+			'directory'  => WPSEO_PATH . 'migrations',
+			'table_name' => 'migrations',
+		);
+
 		$this->dependency_management = $dependency_management ?: new Dependency_Management();
-		$this->database_migration    = $database_migration ?: new Database_Migration( $GLOBALS['wpdb'], $this->dependency_management );
+		$this->database_migration    = $database_migration ?: new Database_Migration(
+			$GLOBALS['wpdb'],
+			$this->dependency_management,
+			$database_migration_config
+		);
 		// @codingStandardsIgnoreEnd
 	}
 
