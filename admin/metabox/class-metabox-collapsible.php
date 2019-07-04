@@ -8,7 +8,7 @@
 /**
  * Generates the HTML for a metabox tab.
  */
-class WPSEO_Metabox_Collapsible {
+class WPSEO_Metabox_Collapsible implements WPSEO_Metabox_Tab {
 
 	/**
 	 * @var string

@@ -98,7 +98,6 @@ class WPSEO_Taxonomy_Metabox {
 		}
 
 		$content_sections[] = $this->get_social_meta_section();
-		$content_sections[] = $this->get_settings_meta_section();
 
 		return $content_sections;
 	}
@@ -119,10 +118,31 @@ class WPSEO_Taxonomy_Metabox {
 			$label = '<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span>' . $label;
 		}
 
+		$html_after = '';
+
+		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
+			$taxonomy_settings_fields = new WPSEO_Taxonomy_Settings_Fields( $this->term );
+
+			$advanced_collapsible = new WPSEO_Paper_Presenter(
+				__( 'Advanced', 'wordpress-seo' ),
+				null,
+				array(
+					'collapsible' => true,
+					'class'       => 'metabox wpseotab',
+					'content'     => $this->taxonomy_tab_content->html( $taxonomy_settings_fields->get() ),
+				)
+			);
+
+			$html_after = '<div class="wpseo_content_wrapper">' . $advanced_collapsible->get_output() . '</div>';
+		}
+
 		return new WPSEO_Metabox_Section_React(
 			'content',
 			$label,
-			$content
+			$content,
+			array(
+				'html_after' => $html_after,
+			)
 		);
 	}
 
@@ -136,31 +156,6 @@ class WPSEO_Taxonomy_Metabox {
 	}
 
 	/**
-	 * Returns the metabox section for the settings.
-	 *
-	 * @return WPSEO_Metabox_Section
-	 */
-	private function get_settings_meta_section() {
-		$taxonomy_settings_fields = new WPSEO_Taxonomy_Settings_Fields( $this->term );
-		$content                  = $this->taxonomy_tab_content->html( $taxonomy_settings_fields->get() );
-
-		$tab = new WPSEO_Metabox_Form_Tab(
-			'settings',
-			$content,
-			__( 'Settings', 'wordpress-seo' ),
-			array(
-				'single' => true,
-			)
-		);
-
-		return new WPSEO_Metabox_Tab_Sections(
-			'settings',
-			'<span class="dashicons dashicons-admin-generic"></span>' . __( 'Settings', 'wordpress-seo' ),
-			array( $tab )
-		);
-	}
-
-	/**
 	 * Returns the metabox section for the social settings.
 	 *
 	 * @return WPSEO_Metabox_Section
@@ -169,14 +164,14 @@ class WPSEO_Taxonomy_Metabox {
 		$this->taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
 		$this->social_admin           = new WPSEO_Social_Admin();
 
-		$tabs   = array();
-		$tabs[] = $this->create_tab( 'facebook', 'opengraph', 'facebook-alt', __( 'Facebook / Open Graph metadata', 'wordpress-seo' ) );
-		$tabs[] = $this->create_tab( 'twitter', 'twitter', 'twitter', __( 'Twitter metadata', 'wordpress-seo' ) );
+		$collapsibles = array();
+		$collapsibles[] = $this->create_collapsible( 'facebook', 'opengraph', 'facebook-alt', __( 'Facebook', 'wordpress-seo' ) );
+		$collapsibles[] = $this->create_collapsible( 'twitter', 'twitter', 'twitter', __( 'Twitter', 'wordpress-seo' ) );
 
-		return new WPSEO_Metabox_Tab_Sections(
+		return new WPSEO_Metabox_Collapsibles_Sections(
 			'social',
 			'<span class="dashicons dashicons-share"></span>' . __( 'Social', 'wordpress-seo' ),
-			$tabs
+			$collapsibles
 		);
 	}
 
@@ -188,19 +183,19 @@ class WPSEO_Taxonomy_Metabox {
 	 * @param string $icon    The icon for the tab.
 	 * @param string $label   The label for the tab.
 	 *
-	 * @return WPSEO_Metabox_Form_Tab A WPSEO_Metabox_Form_Tab instance.
+	 * @return WPSEO_Metabox_Tab A WPSEO_Metabox_Tab instance.
 	 */
-	private function create_tab( $name, $network, $icon, $label ) {
+	private function create_collapsible( $name, $network, $icon, $label ) {
 		if ( WPSEO_Options::get( $network ) !== true ) {
 			return new WPSEO_Metabox_Null_Tab();
 		}
 
 		$meta_fields = $this->taxonomy_social_fields->get_by_network( $network );
 
-		$tab_settings = new WPSEO_Metabox_Form_Tab(
+		$tab_settings = new WPSEO_Metabox_Collapsible(
 			$name,
 			$this->social_admin->get_premium_notice( $network ) . $this->taxonomy_tab_content->html( $meta_fields ),
-			'<span class="screen-reader-text">' . $label . '</span><span class="dashicons dashicons-' . $icon . '"></span>',
+			$label,
 			array(
 				'single'          => $this->has_single_social_tab(),
 			)
