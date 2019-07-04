@@ -91,7 +91,7 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests getting the fallback url if the plugin is loaded from a different domain.
 	 *
-	 * @covers WPSEO_Sitemaps_Renderer_Double::get_xsl_url()
+	 * @covers WPSEO_Sitemaps_Renderer_Double::get_xsl_url
 	 */
 	public function test_is_home_url_returned_correctly() {
 		$class_instance = new WPSEO_Sitemaps_Renderer_Double();

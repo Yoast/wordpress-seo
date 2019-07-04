@@ -173,7 +173,7 @@ class Database_Migration_Test extends TestCase {
 	/**
 	 * Tests the initializing with an exception being thrown.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Database_Migration::run_migrations()
+	 * @covers \Yoast\WP\Free\Config\Database_Migration::run_migrations
 	 */
 	public function test_initialize_with_exception_thrown() {
 		$instance = $this
@@ -208,7 +208,7 @@ class Database_Migration_Test extends TestCase {
 	/**
 	 * Tests the retrieval of the charset.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Database_Migration::get_charset()
+	 * @covers \Yoast\WP\Free\Config\Database_Migration::get_charset
 	 */
 	public function test_get_charset() {
 		$instance = new Database_Migration_Double(
@@ -223,7 +223,7 @@ class Database_Migration_Test extends TestCase {
 	/**
 	 * Tests the retrieval of the migration configuration.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Database_Migration::get_configuration()
+	 * @covers \Yoast\WP\Free\Config\Database_Migration::get_configuration
 	 */
 	public function test_get_configuration() {
 		$instance = new Database_Migration_Double(
@@ -236,7 +236,7 @@ class Database_Migration_Test extends TestCase {
 	}
 
 	/**
-	 * @covers \Yoast\WP\Free\Config\Database_Migration::set_defines()
+	 * @covers \Yoast\WP\Free\Config\Database_Migration::set_defines
 	 */
 	public function test_set_define_success() {
 		$instance = $this
@@ -262,7 +262,7 @@ class Database_Migration_Test extends TestCase {
 	}
 
 	/**
-	 * @covers \Yoast\WP\Free\Config\Database_Migration::set_defines()
+	 * @covers \Yoast\WP\Free\Config\Database_Migration::set_defines
 	 */
 	public function test_set_define_failed() {
 		$instance = $this
@@ -290,7 +290,7 @@ class Database_Migration_Test extends TestCase {
 	/**
 	 * Tests if the defines are configured correctly when we are using prefixed dependencies.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Database_Migration::get_defines()
+	 * @covers \Yoast\WP\Free\Config\Database_Migration::get_defines
 	 */
 	public function test_get_defines() {
 		$dependency_management = $this
@@ -313,7 +313,7 @@ class Database_Migration_Test extends TestCase {
 	/**
 	 * Tests if the defines are configured correctly when we are not using prefixed dependencies.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Database_Migration::get_defines()
+	 * @covers \Yoast\WP\Free\Config\Database_Migration::get_defines
 	 */
 	public function test_get_defines_not_prefixed() {
 		$dependency_management = $this

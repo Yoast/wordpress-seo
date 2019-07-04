@@ -11,6 +11,7 @@
  * @since 10.2
  */
 class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
+
 	/**
 	 * A value object with context variables.
 	 *
@@ -147,7 +148,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		$user_data = get_userdata( $user_id );
 		$data      = array(
 			'@type' => $this->type,
-			'@id'   => $this->determine_schema_id( $user_id ),
+			'@id'   => WPSEO_Schema_Utils::get_user_schema_id( $user_id, $this->context ),
 			'name'  => $user_data->display_name,
 		);
 
@@ -197,6 +198,9 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return array    $data      The Person schema.
 	 */
 	private function set_image_from_options( $data, $schema_id ) {
+		if ( $this->context->site_represents !== 'person' ) {
+			return $data;
+		}
 		$person_logo_id = WPSEO_Image_Utils::get_attachment_id_from_settings( 'person_logo' );
 
 		if ( $person_logo_id ) {
@@ -232,26 +236,6 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		$data['image'] = $schema_image->simple_image_object( $url, $user_data->display_name );
 
 		return $data;
-	}
-
-	/**
-	 * Returns the string to use in Schema's `@id`.
-	 *
-	 * @param int $user_id The user ID if we're on a user page.
-	 *
-	 * @return string The `@id` string value.
-	 */
-	protected function determine_schema_id( $user_id ) {
-		switch ( true ) {
-			case ( $this->context->site_represents === 'person' ):
-				$url = $this->context->site_url;
-				break;
-			default:
-				$url = get_author_posts_url( $user_id );
-				break;
-		}
-
-		return $url . WPSEO_Schema_IDs::PERSON_HASH;
 	}
 
 	/**

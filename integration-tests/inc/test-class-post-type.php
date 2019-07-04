@@ -24,7 +24,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the default situation with no custom post types being added.
 	 *
-	 * @covers WPSEO_Post_Type::get_accessible_post_types()
+	 * @covers WPSEO_Post_Type::get_accessible_post_types
 	 */
 	public function test_get_accessible_post_types() {
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
@@ -36,7 +36,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation with a custom public post type.
 	 *
-	 * @covers WPSEO_Post_Type::get_accessible_post_types()
+	 * @covers WPSEO_Post_Type::get_accessible_post_types
 	 */
 	public function test_get_accessible_post_types_with_a_custom_post_type() {
 		register_post_type( 'custom-post-type', array( 'public' => true ) );
@@ -47,7 +47,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation with a custom public post type that is not publicly queryable.
 	 *
-	 * @covers WPSEO_Post_Type::get_accessible_post_types()
+	 * @covers WPSEO_Post_Type::get_accessible_post_types
 	 */
 	public function test_get_accessible_post_types_with_a_custom_post_type_that_is_noy_publicly_queryable() {
 		register_post_type(
@@ -64,7 +64,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation with a custom private post post type.
 	 *
-	 * @covers WPSEO_Post_Type::get_accessible_post_types()
+	 * @covers WPSEO_Post_Type::get_accessible_post_types
 	 */
 	public function test_get_accessible_post_types_with_a_custom_private_post_type() {
 		register_post_type( 'custom-post-type', array( 'public' => false ) );
@@ -75,7 +75,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation with a post type that is set to robots noindex.
 	 *
-	 * @covers WPSEO_Post_Type::get_accessible_post_types()
+	 * @covers WPSEO_Post_Type::get_accessible_post_types
 	 */
 	public function test_get_accessible_post_types_with_a_non_indexable_post_type() {
 		$custom_post_type = register_post_type( 'custom-post-type', array( 'public' => true ) );
@@ -89,7 +89,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation with a post type that isn't set to robots noindex.
 	 *
-	 * @covers WPSEO_Post_Type::get_accessible_post_types()
+	 * @covers WPSEO_Post_Type::get_accessible_post_types
 	 */
 	public function test_get_accessible_post_types_with_an_indexable_post_type() {
 		$custom_post_type = register_post_type( 'custom-post-type', array( 'public' => true ) );
@@ -124,7 +124,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation with a post type that isn't set to robots noindex.
 	 *
-	 * @covers WPSEO_Post_Type::is_post_type_indexable()
+	 * @covers WPSEO_Post_Type::is_post_type_indexable
 	 */
 	public function test_is_post_type_indexable_with_indexable_post_type() {
 		$custom_post_type = register_post_type( 'custom-post-type', array( 'public' => true ) );
@@ -137,7 +137,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation with a post type that is set to robots noindex.
 	 *
-	 * @covers WPSEO_Post_Type::is_post_type_indexable()
+	 * @covers WPSEO_Post_Type::is_post_type_indexable
 	 */
 	public function test_is_post_type_indexable_with_non_indexable_post_type() {
 		$custom_post_type = register_post_type( 'custom-post-type', array( 'public' => true ) );
@@ -150,7 +150,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test the situation where the attachment post type will be filtered.
 	 *
-	 * @covers WPSEO_Post_Type::filter_attachment_post_type()
+	 * @covers WPSEO_Post_Type::filter_attachment_post_type
 	 */
 	public function test_filter_attachment_post_type() {
 		$this->assertNotContains(
@@ -180,7 +180,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether or (custom) post types are enabled in the REST API.
 	 *
-	 * @covers WPSEO_Post_Type::is_rest_enabled()
+	 * @covers WPSEO_Post_Type::is_rest_enabled
 	 */
 	public function test_rest_enabled_post_types() {
 		$this->assertTrue( WPSEO_Post_Type::is_rest_enabled( 'post' ) );

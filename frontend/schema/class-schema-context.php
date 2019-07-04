@@ -10,11 +10,12 @@
  *
  * @property string $canonical                 The current page's canonical.
  * @property string $company_name              Holds the company name, if the site represents a company.
+ * @property int    $company_logo_id           Holds the company logo's ID, if the site represents a company.
  * @property int    $id                        The post ID, if there is one.
  * @property string $site_name                 The site's name.
  * @property string $site_represents           Whether this site represents a `company` or a `person`.
  * @property string $site_url                  The site's URL.
- * @property int    $site_user_id              The site's User ID if a site represents a `person`.
+ * @property int    $site_user_id              The site's user ID if a site represents a `person`.
  * @property string $title                     Page title.
  * @property string $description               Page description.
  * @property bool   $breadcrumbs_enabled       Whether or not this site has breadcrumbs enabled.
@@ -38,6 +39,13 @@ class WPSEO_Schema_Context {
 	 * @var string
 	 */
 	public $company_name;
+
+	/**
+	 * Holds the company logo's ID, if the site represents a company.
+	 *
+	 * @var int
+	 */
+	public $company_logo_id;
 
 	/**
 	 * The queried object ID, if there is one.
@@ -156,7 +164,7 @@ class WPSEO_Schema_Context {
 		$this->site_represents_reference = false;
 
 		if ( $this->site_represents === 'person' ) {
-			$this->site_represents_reference = array( '@id' => $this->site_url . WPSEO_Schema_IDs::PERSON_HASH );
+			$this->site_represents_reference = array( '@id' => WPSEO_Schema_Utils::get_user_schema_id( $this->site_user_id, $this ) );
 		}
 
 		if ( $this->site_represents === 'company' ) {
@@ -170,16 +178,32 @@ class WPSEO_Schema_Context {
 	private function set_site_represents_variables() {
 		$this->site_represents = WPSEO_Options::get( 'company_or_person', false );
 
-		if ( $this->site_represents === 'company' ) {
-			$this->company_name = WPSEO_Options::get( 'company_name' );
-		}
+		switch ( $this->site_represents ) {
+			case 'company':
+				$this->company_name = WPSEO_Options::get( 'company_name' );
+				// Do not use a non-named company.
+				if ( empty( $this->company_name ) ) {
+					$this->site_represents = false;
+					break;
+				}
 
-		if ( $this->site_represents === 'person' ) {
-			$this->site_user_id = WPSEO_Options::get( 'company_or_person_user_id', false );
-			// Do not use a non-existing user.
-			if ( $this->site_user_id !== false && get_user_by( 'id', $this->site_user_id ) === false ) {
-				$this->site_represents = false;
-			}
+				$this->company_logo_id = WPSEO_Image_Utils::get_attachment_id_from_settings( 'company_logo' );
+
+				/*
+				 * Do not use a company without a logo.
+				 * This is not a false check due to how `get_attachment_id_from_settings` works.
+				 */
+				if ( $this->company_logo_id < 1 ) {
+					$this->site_represents = false;
+				}
+				break;
+			case 'person':
+				$this->site_user_id = WPSEO_Options::get( 'company_or_person_user_id', false );
+				// Do not use a non-existing user.
+				if ( $this->site_user_id !== false && get_user_by( 'id', $this->site_user_id ) === false ) {
+					$this->site_represents = false;
+				}
+				break;
 		}
 	}
 

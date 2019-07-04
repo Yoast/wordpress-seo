@@ -13,6 +13,7 @@
  * @since 1.8
  */
 class WPSEO_Schema implements WPSEO_WordPress_Integration {
+
 	/**
 	 * Holds the parsed blocks for the current page.
 	 *
@@ -139,6 +140,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 			new WPSEO_Schema_Article( $this->context ),
 			new WPSEO_Schema_Author( $this->context ),
 			new WPSEO_Schema_FAQ( $this->context ),
+			new WPSEO_Schema_HowTo( $this->context ),
 		);
 
 		/**

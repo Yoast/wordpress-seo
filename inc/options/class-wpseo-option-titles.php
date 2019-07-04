@@ -297,7 +297,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		}
 
 		$this->enriched_defaults = $enriched_defaults;
-		$this->defaults += $enriched_defaults;
+		$this->defaults         += $enriched_defaults;
 	}
 
 	/**

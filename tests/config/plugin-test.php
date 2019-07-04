@@ -24,7 +24,7 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Tests adding an integration.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Plugin::add_integration()
+	 * @covers \Yoast\WP\Free\Config\Plugin::add_integration
 	 */
 	public function test_add_integration() {
 		$instance = new Plugin_Double( $this->get_dependency_management_mock(), $this->get_database_migration_mock() );
@@ -41,7 +41,7 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Tests for default dependeny management class.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Plugin::__construct()
+	 * @covers \Yoast\WP\Free\Config\Plugin::__construct
 	 */
 	public function test_default_dependency_management() {
 		$instance = new Plugin_Double( null, $this->get_database_migration_mock() );
@@ -52,7 +52,7 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Tests for default database migration class.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Plugin::__construct()
+	 * @covers \Yoast\WP\Free\Config\Plugin::__construct
 	 */
 	public function test_default_database_migration() {
 		$instance = new Plugin_Double( null, null );
@@ -63,7 +63,7 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Tests if the initialize calls the expected methods.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Plugin::initialize()
+	 * @covers \Yoast\WP\Free\Config\Plugin::initialize
 	 */
 	public function test_initialize() {
 		$dependency_management = $this->get_dependency_management_mock();
@@ -99,7 +99,7 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Tests early return if dependency management could not complete.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Plugin::initialize()
+	 * @covers \Yoast\WP\Free\Config\Plugin::initialize
 	 */
 	public function test_initialize_dependency_management_not_initialized() {
 		$dependency_management = $this->get_dependency_management_mock();
@@ -134,7 +134,7 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Tests if initialize failed if migration failed.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Plugin::initialize()
+	 * @covers \Yoast\WP\Free\Config\Plugin::initialize
 	 */
 	public function test_initialize_db_migration_not_initialized() {
 		$dependency_management = $this->get_dependency_management_mock();
@@ -163,8 +163,8 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Tests if the expected methods are called during register hooks.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Plugin::register_hooks()
-	 * @covers \Yoast\WP\Free\Config\Plugin::trigger_integration_hook()
+	 * @covers \Yoast\WP\Free\Config\Plugin::register_hooks
+	 * @covers \Yoast\WP\Free\Config\Plugin::trigger_integration_hook
 	 */
 	public function test_register_hooks() {
 		$methods  = array(
@@ -215,8 +215,8 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Tests if the action is called during register hooks.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Plugin::register_hooks()
-	 * @covers \Yoast\WP\Free\Config\Plugin::trigger_integration_hook()
+	 * @covers \Yoast\WP\Free\Config\Plugin::register_hooks
+	 * @covers \Yoast\WP\Free\Config\Plugin::trigger_integration_hook
 	 */
 	public function test_register_hooks_action_is_called() {
 		$instance = new Plugin_Double();
@@ -232,7 +232,7 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Tests if get integration group is not called on failed initialize.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Plugin::register_hooks()
+	 * @covers \Yoast\WP\Free\Config\Plugin::register_hooks
 	 */
 	public function test_register_hooks_not_initialzed() {
 		$instance = $this
@@ -252,7 +252,7 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Tests if frontend integration returns a Frontend object.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Plugin::add_frontend_integrations()
+	 * @covers \Yoast\WP\Free\Config\Plugin::add_frontend_integrations
 	 */
 	public function test_add_frontend_integrations() {
 		$instance = $this
@@ -271,7 +271,7 @@ class Plugin_Test extends TestCase {
 	/**
 	 * Tests if add admin integrations returns an Admin object.
 	 *
-	 * @covers \Yoast\WP\Free\Config\Plugin::add_admin_integrations()
+	 * @covers \Yoast\WP\Free\Config\Plugin::add_admin_integrations
 	 */
 	public function test_add_admin_integrations() {
 		$instance = $this

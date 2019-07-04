@@ -11,7 +11,7 @@
 class WPSEO_Config_Factory_Post_Type_Test extends PHPUnit_Framework_TestCase {
 
 	/**
-	 * @covers WPSEO_Config_Factory_Post_Type::get_fields()
+	 * @covers WPSEO_Config_Factory_Post_Type::get_fields
 	 */
 	public function test_get_fields() {
 

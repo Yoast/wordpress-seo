@@ -23,7 +23,7 @@ class Indexable_Author_Watcher implements Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		\add_action( 'profile_update', array( $this, 'save_meta' ), PHP_INT_MAX );
+		\add_action( 'profile_update', array( $this, 'save_meta' ), \PHP_INT_MAX );
 		\add_action( 'deleted_user', array( $this, 'delete_meta' ) );
 	}
 

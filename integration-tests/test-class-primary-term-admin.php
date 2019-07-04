@@ -75,7 +75,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 	 * - css/metabox-primary-category.css;
 	 * - js/dist/wp-seo-metabox-category.js.
 	 *
-	 * @covers WPSEO_Primary_Term_Admin::enqueue_assets()
+	 * @covers WPSEO_Primary_Term_Admin::enqueue_assets
 	 */
 	public function test_enqueue_assets_EMPTY_taxonomies_DO_NOT_enqueue_scripts() {
 		$this->class_instance->enqueue_assets();
@@ -89,7 +89,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 	 * - css/metabox-primary-category.css;
 	 * - js/dist/wp-seo-metabox-category.js.
 	 *
-	 * @covers WPSEO_Primary_Term_Admin::enqueue_assets()
+	 * @covers WPSEO_Primary_Term_Admin::enqueue_assets
 	 */
 	public function test_enqueue_assets_DO_NOT_enqueue_scripts() {
 		$this->class_instance
@@ -107,7 +107,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 	 * - css/metabox-primary-category.css;
 	 * - js/dist/wp-seo-metabox-category.js.
 	 *
-	 * @covers WPSEO_Primary_Term_Admin::enqueue_assets()
+	 * @covers WPSEO_Primary_Term_Admin::enqueue_assets
 	 */
 	public function test_enqueue_assets_WITH_taxonomies_DO_enqueue_scripts() {
 		global $pagenow;
@@ -141,7 +141,7 @@ class WPSEO_Primary_Term_Admin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Make sure the primary terms are saved.
 	 *
-	 * @covers WPSEO_Primary_Term_Admin::save_primary_terms()
+	 * @covers WPSEO_Primary_Term_Admin::save_primary_terms
 	 */
 	public function test_save_primary_terms_CALLS_save_primary_term() {
 		$taxonomies = array(

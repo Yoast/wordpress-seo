@@ -538,7 +538,7 @@ Page 3/3
 	/**
 	 * Checks the value of the debug mark getter when the premium version is 'active'.
 	 *
-	 * @covers WPSEO_Frontend::head_product_name()
+	 * @covers WPSEO_Frontend::head_product_name
 	 */
 	public function test_head_get_debug_mark_for_premium() {
 		/** @var $frontend WPSEO_Frontend_Double */
@@ -558,7 +558,7 @@ Page 3/3
 	/**
 	 * Checks the value of the debug mark getter when the free version is 'active'.
 	 *
-	 * @covers WPSEO_Frontend::head_product_name()
+	 * @covers WPSEO_Frontend::head_product_name
 	 */
 	public function test_head_get_debug_mark_for_free() {
 		/** @var $frontend WPSEO_Frontend_Double */
@@ -790,7 +790,7 @@ Page 3/3
 	/**
 	 * Tests if the queried post type is fetched properly.
 	 *
-	 * @covers WPSEO_Frontend::get_queried_post_type()
+	 * @covers WPSEO_Frontend::get_queried_post_type
 	 *
 	 * @return void
 	 */
@@ -814,7 +814,7 @@ Page 3/3
 	/**
 	 * Tests for post type when given as multiple items.
 	 *
-	 * @covers WPSEO_Frontend::get_queried_post_type()
+	 * @covers WPSEO_Frontend::get_queried_post_type
 	 *
 	 * @return void
 	 */

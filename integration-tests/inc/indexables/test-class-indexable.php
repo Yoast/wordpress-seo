@@ -20,7 +20,7 @@ class WPSEO_Indexable_Test extends WPSEO_UnitTestCase {
 	 * @param string    $description Description of the test.
 	 *
 	 * @dataProvider noindex_conversion_provider
-	 * @covers       WPSEO_Indexable::get_robots_noindex_value()
+	 * @covers       WPSEO_Indexable::get_robots_noindex_value
 	 */
 	public function test_get_robots_noindex_value( $value, $expected, $description ) {
 		$data = WPSEO_Indexable_Double::get_robots_noindex_value( $value );
@@ -31,7 +31,7 @@ class WPSEO_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the retrieval of data as an array.
 	 *
-	 * @covers WPSEO_Indexable::to_array()
+	 * @covers WPSEO_Indexable::to_array
 	 */
 	public function test_to_array() {
 		$instance = $this
@@ -52,7 +52,7 @@ class WPSEO_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the filtering of updateable data.
 	 *
-	 * @covers WPSEO_Indexable::filter_updateable_data()
+	 * @covers WPSEO_Indexable::filter_updateable_data
 	 */
 	public function test_filter_updateable_data() {
 		$instance = $this

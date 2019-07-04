@@ -15,7 +15,7 @@ class WPSEO_Post_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the creation of a new Post Indexable object.
 	 *
-	 * @covers WPSEO_Post_Indexable::from_object()
+	 * @covers WPSEO_Post_Indexable::from_object
 	 */
 	public function test_from_object() {
 		$post = $this
@@ -35,7 +35,7 @@ class WPSEO_Post_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the creation of an invalid Post Indexable object.
 	 *
-	 * @covers            WPSEO_Post_Indexable::from_object()
+	 * @covers            WPSEO_Post_Indexable::from_object
 	 * @expectedException WPSEO_Invalid_Argument_Exception
 	 */
 	public function test_from_object_invalid_post() {
@@ -45,7 +45,7 @@ class WPSEO_Post_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the updating of an existing Post Indexable object.
 	 *
-	 * @covers WPSEO_Post_Indexable::update()
+	 * @covers WPSEO_Post_Indexable::update
 	 */
 	public function test_update() {
 		$post = $this

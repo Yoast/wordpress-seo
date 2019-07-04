@@ -13,7 +13,7 @@ class WPSEO_Config_Component_Mailchimp_Signup_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the get_identifier.
 	 *
-	 * @covers WPSEO_Config_Component_Mailchimp_Signup::get_identifier()
+	 * @covers WPSEO_Config_Component_Mailchimp_Signup::get_identifier
 	 */
 	public function test_get_identifier() {
 		$mailchimp_signup = new WPSEO_Config_Component_Mailchimp_Signup();
@@ -24,7 +24,7 @@ class WPSEO_Config_Component_Mailchimp_Signup_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the get_field.
 	 *
-	 * @covers WPSEO_Config_Component_Mailchimp_Signup::get_field()
+	 * @covers WPSEO_Config_Component_Mailchimp_Signup::get_field
 	 */
 	public function test_get_field() {
 		$mailchimp_signup = new WPSEO_Config_Component_Mailchimp_Signup();
@@ -35,7 +35,7 @@ class WPSEO_Config_Component_Mailchimp_Signup_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests getting the data.
 	 *
-	 * @covers WPSEO_Config_Component_Mailchimp_Signup::get_data()
+	 * @covers WPSEO_Config_Component_Mailchimp_Signup::get_data
 	 */
 	public function test_get_data() {
 		$mailchimp_signup = new WPSEO_Config_Component_Mailchimp_Signup();
@@ -49,7 +49,7 @@ class WPSEO_Config_Component_Mailchimp_Signup_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests setting the data.
 	 *
-	 * @covers WPSEO_Config_Component_Mailchimp_Signup::set_data()
+	 * @covers WPSEO_Config_Component_Mailchimp_Signup::set_data
 	 */
 	public function test_set_data() {
 		// We explicitly sets the current user ID, because set_data needs to have a current_user.

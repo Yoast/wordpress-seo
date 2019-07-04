@@ -23,12 +23,12 @@ class Role_Manager_Test extends TestCase {
 	}
 
 	public function test_get_capabilities() {
-		$instance     = new WPSEO_Role_Manager_Mock();
+		$instance = new WPSEO_Role_Manager_Mock();
 
-		Monkey\Functions\expect('get_role' )
+		Monkey\Functions\expect( 'get_role' )
 			->once()
 			->with( 'administrator' )
-			->andReturn( (object) array( "capabilities" => array( "manage_options" => true ) ) );
+			->andReturn( (object) array( 'capabilities' => array( 'manage_options' => true ) ) );
 
 		$capabilities = $instance->get_capabilities( 'administrator' );
 
@@ -40,7 +40,7 @@ class Role_Manager_Test extends TestCase {
 	public function test_get_capabilities_bad_input() {
 		$instance = new WPSEO_Role_Manager_Mock();
 
-		Monkey\Functions\expect('get_role' )
+		Monkey\Functions\expect( 'get_role' )
 			->once()
 			->with( 'fake_role' )
 			->andReturn( false );

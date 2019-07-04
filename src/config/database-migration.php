@@ -155,7 +155,7 @@ class Database_Migration {
 	 */
 	protected function set_failed_state( $message ) {
 		// @todo do something with the message.
-		\set_transient( $this->get_error_transient_key(), self::MIGRATION_STATE_ERROR, DAY_IN_SECONDS );
+		\set_transient( $this->get_error_transient_key(), self::MIGRATION_STATE_ERROR, \DAY_IN_SECONDS );
 	}
 
 	/**
@@ -211,11 +211,11 @@ class Database_Migration {
 			'db'             => array(
 				'production' => array(
 					'type'                      => 'mysql',
-					'host'                      => DB_HOST,
+					'host'                      => \DB_HOST,
 					'port'                      => 3306,
-					'database'                  => DB_NAME,
-					'user'                      => DB_USER,
-					'password'                  => DB_PASSWORD,
+					'database'                  => \DB_NAME,
+					'user'                      => \DB_USER,
+					'password'                  => \DB_PASSWORD,
 					'charset'                   => $this->get_charset(),
 					'directory'                 => '', // This needs to be set, to use the migrations folder as base folder.
 					'schema_version_table_name' => $this->config['table_name'],
@@ -254,7 +254,7 @@ class Database_Migration {
 	protected function get_defines() {
 		if ( $this->dependency_management->prefixed_available() ) {
 			return array(
-				YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE' => WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing',
+				\YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE' => WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing',
 			);
 		}
 

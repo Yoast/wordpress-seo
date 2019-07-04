@@ -27,7 +27,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Structure::initialize()
+	 * @covers WPSEO_Configuration_Structure::initialize
 	 */
 	public function test_constructor() {
 		$this->structure->initialize();
@@ -52,7 +52,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Structure::add_step()
+	 * @covers WPSEO_Configuration_Structure::add_step
 	 */
 	public function test_add_step() {
 
@@ -64,7 +64,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Structure::retrieve()
+	 * @covers WPSEO_Configuration_Structure::retrieve
 	 */
 	public function test_retrieve() {
 		$identifier = 'i';
