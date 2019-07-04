@@ -11,16 +11,22 @@
 class WPSEO_Plugin_Compatibility {
 
 	/**
+	 * Holds the current WPSEO version.
+	 *
 	 * @var string
 	 */
 	protected $current_wpseo_version;
 
 	/**
+	 * Holds the availability checker.
+	 *
 	 * @var WPSEO_Plugin_Availability
 	 */
 	protected $availability_checker;
 
 	/**
+	 * Holds the installed plugins.
+	 *
 	 * @var array
 	 */
 	protected $installed_plugins;

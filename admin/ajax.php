@@ -12,10 +12,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 /**
- * @todo this whole thing should probably be a proper class.
- */
-
-/**
  * Convenience function to JSON encode and echo results and then die.
  *
  * @param array $results Results array for encoding.

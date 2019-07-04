@@ -119,7 +119,6 @@ class WPSEO_Admin {
 			$this->initialize_cornerstone_content()
 		);
 
-		/** @var WPSEO_WordPress_Integration $integration */
 		foreach ( $integrations as $integration ) {
 			$integration->register_hooks();
 		}

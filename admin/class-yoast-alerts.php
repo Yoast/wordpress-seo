@@ -11,6 +11,8 @@
 class Yoast_Alerts {
 
 	/**
+	 * Holds the admin page's ID.
+	 *
 	 * @var string
 	 */
 	const ADMIN_PAGE = 'wpseo_dashboard';
@@ -170,7 +172,11 @@ class Yoast_Alerts {
 		// Re-collect alerts.
 		self::collect_alerts();
 
-		/** @noinspection PhpUnusedLocalVariableInspection */
+		/**
+		 * Stops PHPStorm from nagging about this variable being unused. The variable is used in the view.
+		 *
+		 * @noinspection PhpUnusedLocalVariableInspection
+		 */
 		$alerts_data = self::get_template_variables();
 
 		ob_start();
@@ -198,7 +204,11 @@ class Yoast_Alerts {
 	 */
 	public static function show_overview_page() {
 
-		/** @noinspection PhpUnusedLocalVariableInspection */
+		/**
+		 * Stops PHPStorm from nagging about this variable being unused. The variable is used in the view.
+		 *
+		 * @noinspection PhpUnusedLocalVariableInspection
+		 */
 		$alerts_data = self::get_template_variables();
 
 		include WPSEO_PATH . 'admin/views/alerts-dashboard.php';
