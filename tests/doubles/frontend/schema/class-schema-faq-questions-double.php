@@ -14,7 +14,7 @@ class WPSEO_Schema_FAQ_Questions_Double extends WPSEO_Schema_FAQ_Questions {
 	 *
 	 * @param array $question The question to generate schema for.
 	 *
-	 * @return array unsigned Schema.org Question piece.
+	 * @return array Schema.org Question piece.
 	 */
 	public function generate_question_block( $question ) {
 		return parent::generate_question_block( $question );

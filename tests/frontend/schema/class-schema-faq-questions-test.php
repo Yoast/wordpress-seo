@@ -32,7 +32,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	/**
 	 * Tests the FAQ Questions schema output with a question and answer.
 	 *
-	 * @covers \WPSEO_Schema_FAQ_Questions::generate_question_block
+	 * @covers WPSEO_Schema_FAQ_Questions::generate_question_block
 	 */
 	public function test_schema_output() {
 		$actual = $this->instance->generate_question_block(
@@ -62,7 +62,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	/**
 	 * Tests the FAQ Questions schema output with an empty question.
 	 *
-	 * @covers \WPSEO_Schema_FAQ_Questions::generate_question_block
+	 * @covers WPSEO_Schema_FAQ_Questions::generate_question_block
 	 */
 	public function test_schema_output_empty_question() {
 		$actual = $this->instance->generate_question_block(
@@ -92,7 +92,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	/**
 	 * Tests the FAQ Questions schema output with an empty answer.
 	 *
-	 * @covers \WPSEO_Schema_FAQ_Questions::generate_question_block
+	 * @covers WPSEO_Schema_FAQ_Questions::generate_question_block
 	 */
 	public function test_schema_output_empty_answer() {
 		$actual = $this->instance->generate_question_block(
@@ -122,7 +122,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	/**
 	 * Tests the FAQ Questions schema output with an empty question and empty answer.
 	 *
-	 * @covers \WPSEO_Schema_FAQ_Questions::generate_question_block
+	 * @covers WPSEO_Schema_FAQ_Questions::generate_question_block
 	 */
 	public function test_schema_output_empty__question_and_answer() {
 		$actual = $this->instance->generate_question_block(
@@ -154,7 +154,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	 *
 	 * <h1> is one of the tags that is allowed in the Question name output. Therefore, it should be stripped.
 	 *
-	 * @covers \WPSEO_Schema_FAQ_Questions::generate_question_block
+	 * @covers WPSEO_Schema_FAQ_Questions::generate_question_block
 	 */
 	public function test_schema_output_with_allowed_tags_in_jsonanswer() {
 		$actual = $this->instance->generate_question_block(
@@ -186,7 +186,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	 *
 	 * <div> is not allowed in the Question name output. Therefore, it should be stripped.
 	 *
-	 * @covers \WPSEO_Schema_FAQ_Questions::generate_question_block
+	 * @covers WPSEO_Schema_FAQ_Questions::generate_question_block
 	 */
 	public function test_schema_output_with_disallowed_tags_in_jsonanswer() {
 		$actual = $this->instance->generate_question_block(
@@ -218,7 +218,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	 *
 	 * <h1> is one of the tags that is allowed in the Question name output. <div> is not allowed. Therefore, <h1> shouldn't be stripped, but <div> should.
 	 *
-	 * @covers \WPSEO_Schema_FAQ_Questions::generate_question_block
+	 * @covers WPSEO_Schema_FAQ_Questions::generate_question_block
 	 */
 	public function test_schema_output_with_allowed_and_disallowed_tags_in_jsonanswer() {
 		$actual = $this->instance->generate_question_block(
@@ -250,7 +250,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	 *
 	 * No tags are allowed in the Question name output. Therefore, they should be stripped.
 	 *
-	 * @covers \WPSEO_Schema_FAQ_Questions::generate_question_block
+	 * @covers WPSEO_Schema_FAQ_Questions::generate_question_block
 	 */
 	public function test_schema_output_with_allowed_tags_in_jsonquestion() {
 		$actual = $this->instance->generate_question_block(

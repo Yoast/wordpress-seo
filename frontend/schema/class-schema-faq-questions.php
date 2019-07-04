@@ -72,7 +72,7 @@ class WPSEO_Schema_FAQ_Questions {
 	 *
 	 * @param array $question The question to generate schema for.
 	 *
-	 * @return array unsigned Schema.org Question piece.
+	 * @return array Schema.org Question piece.
 	 */
 	protected function generate_question_block( $question ) {
 		return array(

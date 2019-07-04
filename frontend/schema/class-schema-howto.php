@@ -36,6 +36,13 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	private $context;
 
 	/**
+	 * Holds the allowed HTML tags for the jsonText.
+	 *
+	 * @var string
+	 */
+	private $allowed_json_text_tags = '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>';
+
+	/**
 	 * WPSEO_Schema_FAQ constructor.
 	 *
 	 * @param WPSEO_Schema_Context $context A value object with context variables.
@@ -148,7 +155,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 				'url'   => $schema_id,
 			);
 
-			$json_text = strip_tags( $step['jsonText'], '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' );
+			$json_text = strip_tags( $step['jsonText'], $this->allowed_json_text_tags );
 			$json_name = strip_tags( $step['jsonName'] );
 
 			if ( empty( $json_name ) ) {
@@ -190,7 +197,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 * @param array $step        The step block data.
 	 */
 	private function add_step_description( &$schema_step, $step ) {
-		$json_text = strip_tags( $step['jsonText'], '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' );
+		$json_text = strip_tags( $step['jsonText'], $this->allowed_json_text_tags );
 
 		if ( empty( $json_text ) ) {
 			return;
