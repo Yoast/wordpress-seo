@@ -203,12 +203,12 @@ class Yoast_Notification {
 		/**
 		 * Filter capabilities that enable the displaying of this notification.
 		 *
-		 * @since 3.2
-		 *
 		 * @param array              $capabilities The capabilities that must be present for this notification.
 		 * @param Yoast_Notification $notification The notification object.
 		 *
-		 * @return Array of capabilities or empty for no restrictions.
+		 * @return array Array of capabilities or empty for no restrictions.
+		 *
+		 * @since 3.2
 		 */
 		$capabilities = apply_filters( 'wpseo_notification_capabilities', $this->options['capabilities'], $this );
 
@@ -220,12 +220,12 @@ class Yoast_Notification {
 		/**
 		 * Filter capability check to enable all or any capabilities.
 		 *
-		 * @since 3.2
-		 *
 		 * @param string             $capability_check The type of check that will be used to determine if an capability is present.
 		 * @param Yoast_Notification $notification     The notification object.
 		 *
 		 * @return string self::MATCH_ALL or self::MATCH_ANY.
+		 *
+		 * @since 3.2
 		 */
 		$capability_check = apply_filters( 'wpseo_notification_capability_check', $this->options['capability_check'], $this );
 
