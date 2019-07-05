@@ -11,44 +11,25 @@
 class WPSEO_Metabox_Collapsible implements WPSEO_Metabox_Tab {
 
 	/**
+	 * The collapsible's unique identifier.
+	 *
 	 * @var string
 	 */
 	private $name;
 
 	/**
+	 * The content to be displayed inside the collapsible.
+	 *
 	 * @var string
 	 */
 	private $content;
 
 	/**
+	 * The label.
+	 *
 	 * @var string
 	 */
 	private $link_content;
-
-	/**
-	 * @var string
-	 */
-	private $tab_class;
-
-	/**
-	 * @var string
-	 */
-	private $link_class;
-
-	/**
-	 * @var string
-	 */
-	private $link_title;
-
-	/**
-	 * @var string
-	 */
-	private $link_aria_label;
-
-	/**
-	 * @var boolean
-	 */
-	private $single;
 
 	/**
 	 * Constructor.
@@ -56,27 +37,11 @@ class WPSEO_Metabox_Collapsible implements WPSEO_Metabox_Tab {
 	 * @param string $name         The name of the tab, used as an identifier in the html.
 	 * @param string $content      The tab content.
 	 * @param string $link_content The text content of the tab link.
-	 * @param array  $options      Optional link attributes.
 	 */
-	public function __construct( $name, $content, $link_content, array $options = array() ) {
-		$default_options = array(
-			'tab_class'       => '',
-			'link_class'      => '',
-			'link_title'      => '',
-			'link_aria_label' => '',
-			'single'          => false,
-		);
-
-		$options = array_merge( $default_options, $options );
-
+	public function __construct( $name, $content, $link_content ) {
 		$this->name            = $name;
 		$this->content         = $content;
 		$this->link_content    = $link_content;
-		$this->tab_class       = $options['tab_class'];
-		$this->link_class      = $options['link_class'];
-		$this->link_title      = $options['link_title'];
-		$this->link_aria_label = $options['link_aria_label'];
-		$this->single          = $options['single'];
 	}
 
 	/**
@@ -95,5 +60,14 @@ class WPSEO_Metabox_Collapsible implements WPSEO_Metabox_Tab {
 	 */
 	public function content() {
 		return $this->content;
+	}
+
+	/**
+	 * Returns the collapsible's unique identifier.
+	 *
+	 * @return string
+	 */
+	public function get_name() {
+		return $this->name;
 	}
 }
