@@ -258,7 +258,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function do_tab( $id, $heading, $content ) {
 		?>
-		<div id="<?php echo esc_attr( 'wpseo_' . $id ); ?>" class="wpseotab <?php echo esc_attr( $id ); ?>">
+		<div id="<?php echo esc_attr( 'wpseo_' . $id ); ?>" class="wpseotab wpseo-form <?php echo esc_attr( $id ); ?>">
 			<?php echo $content; ?>
 		</div>
 		<?php
@@ -339,7 +339,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				null,
 				array(
 					'collapsible' => true,
-					'class'       => 'metabox wpseotab',
+					'class'       => 'metabox wpseo-form',
 					'content'     => $this->get_tab_content( 'advanced' ),
 				)
 			);

@@ -45,7 +45,7 @@ class WPSEO_Metabox_Collapsibles_Sections extends WPSEO_Abstract_Metabox_Tab_Wit
 					array(
 						'content'     => $collapsible->content(),
 						'collapsible' => true,
-						'class'       => 'metabox',
+						'class'       => 'metabox wpseo-form',
 					)
 				);
 

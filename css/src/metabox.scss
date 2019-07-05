@@ -309,78 +309,89 @@ ul.wpseo-metabox-tabs li {
 }
 
 /* Basic styling for social, advanced, and add-ons tabs content. */
-.wpseotab input,
-.wpseotab label,
-.wpseotab textarea,
-.wpseotab .select2-container,
-.yoast-metabox__description,
-.wpseotab p.error-message {
+.wpseo-form {
+	margin-left: 3px;
+
+	input,
+	label,
+	textarea,
+	.select2-container,
+	p.error-message {
+		max-width: 600px;
+	}
+
+	fieldset {
+		padding-top: 5px;
+	}
+
+	legend {
+		font-weight: 600;
+	}
+
+	/* By default, labels are set to display block. */
+	label {
+		display: block;
+		font-weight: 600;
+	}
+
+	/* Radio buttons and checkboxes labels are set to display inline-block. */
+	input[type="radio"] + label,
+	input[type="checkbox"] + label {
+		display: inline-block;
+		font-weight: 400;
+	}
+
+	/* Default vertical spacing between blocks of controls. */
+	label,
+	fieldset {
+		margin-top: 2em;
+		margin-bottom: 0.5em;
+	}
+
+	input[type="checkbox"],
+	input[type="checkbox"] + label {
+		margin-top: 2em;
+		margin-bottom: 0;
+		font-size: 1em; /* 1em = 13px. Necessary for proper calculation of margins in em. */
+	}
+
+	/* First form controls in a tab need a smaller top margin. */
+	label:first-child,
+	fieldset:first-child,
+	input[type="checkbox"]:first-child,
+	input[type="checkbox"]:first-child + label {
+		margin-top: 10px;
+	}
+
+	/* Radio buttons. */
+	input[type="radio"] {
+		margin-top: 0;
+	}
+
+	input[type="radio"] + label {
+		margin: 0 1em 0 0;
+	}
+
+	/* Descriptions and error messages below the fields. */
+	p.error-message {
+		margin: 0.5em 0;
+	}
+
+	select[multiple] {
+		margin-top: 0;
+	}
+}
+
+.yoast-metabox__description {
 	max-width: 600px;
 }
 
-.wpseotab fieldset {
-	padding-top: 5px;
-}
-
-.wpseotab legend {
-	font-weight: 600;
-}
-
-/* By default, labels are set to display block. */
-.wpseotab label {
-	display: block;
-	font-weight: 600;
-}
-
-/* Radio buttons and checkboxes labels are set to display inline-block. */
-.wpseotab input[type="radio"] + label,
-.wpseotab input[type="checkbox"] + label {
-	display: inline-block;
-	font-weight: 400;
-}
-
-/* Default vertical spacing between blocks of controls. */
-.wpseotab label,
-.wpseotab fieldset {
-	margin-top: 2em;
-	margin-bottom: 0.5em;
-}
-
-.wpseotab input[type="checkbox"],
-.wpseotab input[type="checkbox"] + label {
-	margin-top: 2em;
-	margin-bottom: 0;
-	font-size: 1em; /* 1em = 13px. Necessary for proper calculation of margins in em. */
-}
-
-/* First form controls in a tab need a smaller top margin. */
-.wpseotab label:first-child,
-.wpseotab fieldset:first-child,
-.wpseotab input[type="checkbox"]:first-child,
-.wpseotab input[type="checkbox"]:first-child + label {
-	margin-top: 10px;
-}
-
-/* Radio buttons. */
-.wpseotab input[type="radio"] {
-	margin-top: 0;
-}
-
-.wpseotab input[type="radio"] + label {
-	margin: 0 1em 0 0;
-}
-
 /* Descriptions and error messages below the fields. */
-.yoast-metabox__description,
-.wpseotab p.error-message {
+.yoast-metabox__description {
 	margin: 0.5em 0;
 }
 
-.wpseotab select[multiple] {
-	margin-top: 0;
-}
-
-.wpseotab .wpseo_image_upload_button {
+.wpseo_image_upload_button {
 	margin-left: 3px;
 }
 
