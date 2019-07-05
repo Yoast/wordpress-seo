@@ -8,7 +8,6 @@ import get from "lodash/get";
 
 /* Internal dependencies */
 import HowToStep from "./HowToStep";
-import { stripHTML } from "../../../helpers/stringHelpers";
 import buildDurationString from "../utils/buildDurationString";
 import appendSpace from "../../../components/higherorder/appendSpace";
 
@@ -173,8 +172,8 @@ export default class HowTo extends Component {
 			id: steps[ index ].id,
 			name: newName,
 			text: newText,
-			jsonName: stripHTML( renderToString( newName ) ),
-			jsonText: stripHTML( renderToString( newText ) ),
+			jsonName: renderToString( newName ),
+			jsonText: renderToString( newText ),
 		};
 
 		const imageSrc = HowToStep.getImageSrc( newText );
@@ -581,7 +580,7 @@ export default class HowTo extends Component {
 	onChangeDescription( value ) {
 		this.props.setAttributes( {
 			description: value,
-			jsonDescription: stripHTML( renderToString( value ) ),
+			jsonDescription: renderToString( value ),
 		} );
 	}
 

@@ -72,19 +72,19 @@ class WPSEO_Schema_FAQ_Questions {
 	 *
 	 * @param array $question The question to generate schema for.
 	 *
-	 * @return array unsigned Schema.org Question piece.
+	 * @return array Schema.org Question piece.
 	 */
-	private function generate_question_block( $question ) {
+	protected function generate_question_block( $question ) {
 		return array(
 			'@type'          => 'Question',
 			'@id'            => $this->context->canonical . '#' . $question['id'],
 			'position'       => $this->position ++,
 			'url'            => $this->context->canonical . '#' . $question['id'],
-			'name'           => $question['jsonQuestion'],
+			'name'           => strip_tags( $question['jsonQuestion'] ),
 			'answerCount'    => 1,
 			'acceptedAnswer' => array(
 				'@type' => 'Answer',
-				'text'  => $question['jsonAnswer'],
+				'text'  => strip_tags( $question['jsonAnswer'], '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' ),
 			),
 		);
 	}
