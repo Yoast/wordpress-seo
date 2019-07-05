@@ -686,6 +686,7 @@ class WPSEO_Admin_Init {
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
+
 	/**
 	 * Add an alert if outdated versions of Yoast SEO plugins are running.
 	 *

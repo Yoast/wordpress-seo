@@ -624,9 +624,9 @@ class WPSEO_Sitemaps {
 		}
 
 		$headers = array(
-			$this->http_protocol . ' 200 OK'                                                       => 200,
+			$this->http_protocol . ' 200 OK' => 200,
 			// Prevent the search engines from indexing the XML Sitemap.
-			'X-Robots-Tag: noindex, follow'                                                        => '',
+			'X-Robots-Tag: noindex, follow'  => '',
 			'Content-Type: text/xml; charset=' . esc_attr( $this->renderer->get_output_charset() ) => '',
 		);
 

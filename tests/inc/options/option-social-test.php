@@ -39,10 +39,11 @@ class Option_Social_Test extends TestCase {
 	/**
 	 * Tests validate_option with invalid data.
 	 *
-	 * @param string $expected The expected value.
-	 * @param array  $dirty    New value for the option.
-	 * @param array  $clean    Clean value for the option, normally the defaults.
-	 * @param array  $old      Old value of the option.
+	 * @param string $expected  The expected value.
+	 * @param array  $dirty     New value for the option.
+	 * @param array  $clean     Clean value for the option, normally the defaults.
+	 * @param array  $old       Old value of the option.
+	 * @param string $slug_name The option key.
 	 *
 	 * @dataProvider validate_option_invalid_data_provider
 	 *
@@ -164,29 +165,33 @@ class Option_Social_Test extends TestCase {
 	 * @covers Yoast_Input_Validation::validate_facebook_app_id
 	 */
 	public function test_facebook_app_id_is_invalid() {
-		Monkey\Functions\stubs( [
-			'wp_remote_get' => null,
-			'add_settings_error' => null,
-			'wp_remote_retrieve_response_code' => function () {
-				return 200;
-			},
-		] );
+		Monkey\Functions\stubs(
+			[
+				'wp_remote_get'                    => null,
+				'add_settings_error'               => null,
+				'wp_remote_retrieve_response_code' => function () {
+					return 200;
+				},
+			]
+		);
 
 		// Return an invalid Facebook API response from `http://graph.facebook.com/<APP_ID>` with an invalid ID.
-		Monkey\Functions\stubs( [
-			'wp_remote_retrieve_body' => function () {
-				return WPSEO_Utils::format_json_encode(
-					[
-						'error' => [
-							'message'    => '(#803) Some of the aliases you requested do not exist: yoastInvalidFBAppID',
-							'type'       => 'OAuthException',
-							'code'       => 803,
-							'fbtrace_id' => 'AbXND56LRJ0FDXHfdJUuVIr',
+		Monkey\Functions\stubs(
+			[
+				'wp_remote_retrieve_body' => function () {
+					return WPSEO_Utils::format_json_encode(
+						[
+							'error' => [
+								'message'    => '(#803) Some of the aliases you requested do not exist: yoastInvalidFBAppID',
+								'type'       => 'OAuthException',
+								'code'       => 803,
+								'fbtrace_id' => 'AbXND56LRJ0FDXHfdJUuVIr',
+							],
 						]
-					]
-				);
-			},
-		] );
+					);
+				},
+			]
+		);
 
 		$GLOBALS['wp_settings_errors'] = [
 			[
@@ -197,12 +202,16 @@ class Option_Social_Test extends TestCase {
 			],
 		];
 
-		\add_filter( 'validate_facebook_app_id_api_response_body', function() {
-			return true;
-		} );
+		\add_filter(
+			'validate_facebook_app_id_api_response_body',
+			function() {
+				return true;
+			}
+		);
+
 		$instance = new Option_Social_Double();
-		$clean = [ 'fbadminapp' => '246554168145' ];
-		$dirty = [ 'fbadminapp' => 'yoastInvalidFBAppID' ];
+		$clean    = [ 'fbadminapp' => '246554168145' ];
+		$dirty    = [ 'fbadminapp' => 'yoastInvalidFBAppID' ];
 		$instance->validate_facebook_app_id( 'fbadminapp', $dirty, '246554168145', $clean );
 		$this->assertEquals( [ 'fbadminapp' => '246554168145' ], $clean );
 
@@ -216,39 +225,50 @@ class Option_Social_Test extends TestCase {
 	 */
 	public function test_facebook_app_id_is_valid() {
 		$GLOBALS['wp_settings_errors'] = [];
-		$response_code = 200;
+		$response_code                 = 200;
 
-		Monkey\Functions\stubs( [
-			'wp_remote_get' => null,
-			'add_settings_error' => null,
-			'wp_remote_retrieve_response_code' => function () use ( $response_code ) {
-				return $response_code;
-			},
-		] );
+		Monkey\Functions\stubs(
+			[
+				'wp_remote_get'                    => null,
+				'add_settings_error'               => null,
+				'wp_remote_retrieve_response_code' => function () use ( $response_code ) {
+					return $response_code;
+				},
+			]
+		);
 
 		// Return an invalid Facebook API response from `http://graph.facebook.com/<APP_ID>` with an invalid ID.
-		Monkey\Functions\stubs( [
-			'wp_remote_retrieve_body' => function () {
-				return WPSEO_Utils::format_json_encode(
-					[
-						'category' => 'Just For Fun',
-						'link'     => 'http://www.ilikealot.com/auth/start/facebook/',
-						'name'     => 'Ilikealot',
-						'id'       => '246554168145',
-					]
-				);
-			},
-		] );
+		Monkey\Functions\stubs(
+			[
+				'wp_remote_retrieve_body' => function () {
+					return WPSEO_Utils::format_json_encode(
+						[
+							'category' => 'Just For Fun',
+							'link'     => 'http://www.ilikealot.com/auth/start/facebook/',
+							'name'     => 'Ilikealot',
+							'id'       => '246554168145',
+						]
+					);
+				},
+			]
+		);
 
-		\add_filter( 'validate_facebook_app_id_api_response_code', function () use ( $response_code ) {
-			return $response_code;
-		} );
-		\add_filter( 'validate_facebook_app_id_api_response_body', function() {
-			return true;
-		});
+		\add_filter(
+			'validate_facebook_app_id_api_response_code',
+			function () use ( $response_code ) {
+				return $response_code;
+			}
+		);
+		\add_filter(
+			'validate_facebook_app_id_api_response_body',
+			function() {
+				return true;
+			}
+		);
+
 		$instance = new Option_Social_Double();
-		$clean = [ 'fbadminapp' => '' ];
-		$dirty = [ 'fbadminapp' => '246554168145' ];
+		$clean    = [ 'fbadminapp' => '' ];
+		$dirty    = [ 'fbadminapp' => '246554168145' ];
 		$instance->validate_facebook_app_id( 'fbadminapp', $dirty, '', $clean );
 		$this->assertEquals( [ 'fbadminapp' => '246554168145' ], $clean );
 		unset( $GLOBALS['wp_settings_errors'] );
@@ -260,39 +280,45 @@ class Option_Social_Test extends TestCase {
 	 * @covers WPSEO_Option_Social::validate_facebook_app_id
 	 */
 	public function test_validate_facebook_app_id_adds_settings_error() {
-		Monkey\Functions\stubs( [
-			'wp_remote_get' => null,
-			'wp_remote_retrieve_response_code' => function () {
-				return 200;
-			},
-		] );
+		Monkey\Functions\stubs(
+			[
+				'wp_remote_get'                    => null,
+				'wp_remote_retrieve_response_code' => function () {
+					return 200;
+				},
+			]
+		);
 
 		// Return an invalid Facebook API response from `http://graph.facebook.com/<APP_ID>` with an invalid ID.
-		Monkey\Functions\stubs( [
-			'wp_remote_retrieve_body' => function () {
-				return WPSEO_Utils::format_json_encode(
-					[
-						'error' => [
-							'message'    => '(#803) Some of the aliases you requested do not exist: yoastInvalidFBAppID',
-							'type'       => 'OAuthException',
-							'code'       => 803,
-							'fbtrace_id' => 'AbXND56LRJ0FDXHfdJUuVIr',
+		Monkey\Functions\stubs(
+			[
+				'wp_remote_retrieve_body' => function () {
+					return WPSEO_Utils::format_json_encode(
+						[
+							'error' => [
+								'message'    => '(#803) Some of the aliases you requested do not exist: yoastInvalidFBAppID',
+								'type'       => 'OAuthException',
+								'code'       => 803,
+								'fbtrace_id' => 'AbXND56LRJ0FDXHfdJUuVIr',
+							],
 						]
-					]
-				);
-			},
-		] );
+					);
+				},
+			]
+		);
 
 		$instance = new Option_Social_Double();
 		$clean    = [ 'fbadminapp' => '' ];
 		$dirty    = [ 'fbadminapp' => 'yoastInvalidFBAppID' ];
 
-		$GLOBALS['wp_settings_errors'] = [[
-			'setting' => 'yoast_wpseo_social_options',
-			'code'    => 'fbadminapp',
-			'message' =>'<strong>yoastInvalidFBAppID</strong> does not seem to be a valid Facebook App ID. Please correct.',
-			'type'    => 'notice-error',
-		]];
+		$GLOBALS['wp_settings_errors'] = [
+			[
+				'setting' => 'yoast_wpseo_social_options',
+				'code'    => 'fbadminapp',
+				'message' => '<strong>yoastInvalidFBAppID</strong> does not seem to be a valid Facebook App ID. Please correct.',
+				'type'    => 'notice-error',
+			],
+		];
 
 		Monkey\Functions\expect( 'add_settings_error' )
 			->once()
