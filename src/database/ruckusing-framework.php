@@ -42,9 +42,9 @@ class Ruckusing_Framework {
 	 * @param Migration_Logger      $migration_logger      The migration logger, extends the Ruckusing logger.
 	 */
 	public function __construct( wpdb $wpdb, Dependency_Management $dependency_management, Migration_Logger $migration_logger ) {
-		$this->wpdb = $wpdb;
+		$this->wpdb                  = $wpdb;
 		$this->dependency_management = $dependency_management;
-		$this->migration_logger = $migration_logger;
+		$this->migration_logger      = $migration_logger;
 	}
 
 	/**
@@ -100,14 +100,14 @@ class Ruckusing_Framework {
 		return [
 			'db'             => [
 				'production' => [
-					'type'      => 'mysql',
-					'host'      => \DB_HOST,
-					'port'      => 3306,
-					'database'  => \DB_NAME,
-					'user'      => \DB_USER,
-					'password'  => \DB_PASSWORD,
-					'charset'   => $this->wpdb->charset,
-					'directory' => '', // This needs to be set, to use the migrations folder as base folder.
+					'type'                      => 'mysql',
+					'host'                      => \DB_HOST,
+					'port'                      => 3306,
+					'database'                  => \DB_NAME,
+					'user'                      => \DB_USER,
+					'password'                  => \DB_PASSWORD,
+					'charset'                   => $this->wpdb->charset,
+					'directory'                 => '', // This needs to be set, to use the migrations folder as base folder.
 					'schema_version_table_name' => $migrations_table_name,
 				],
 			],

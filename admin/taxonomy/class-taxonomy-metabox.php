@@ -175,7 +175,7 @@ class WPSEO_Taxonomy_Metabox {
 		$this->taxonomy_social_fields = new WPSEO_Taxonomy_Social_Fields( $this->term );
 		$this->social_admin           = new WPSEO_Social_Admin();
 
-		$collapsibles = array();
+		$collapsibles   = array();
 		$collapsibles[] = $this->create_collapsible( 'facebook', 'opengraph', 'facebook-alt', __( 'Facebook', 'wordpress-seo' ) );
 		$collapsibles[] = $this->create_collapsible( 'twitter', 'twitter', 'twitter', __( 'Twitter', 'wordpress-seo' ) );
 

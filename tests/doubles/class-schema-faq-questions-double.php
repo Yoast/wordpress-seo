@@ -9,6 +9,7 @@
  * Test Helper Class.
  */
 class WPSEO_Schema_FAQ_Questions_Double extends WPSEO_Schema_FAQ_Questions {
+
 	/**
 	 * Generate a Question piece.
 	 *

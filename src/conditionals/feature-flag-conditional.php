@@ -11,6 +11,7 @@ namespace Yoast\WP\Free\Conditionals;
  * Abstract class for creating conditionals based on feature flags.
  */
 abstract class Feature_Flag_Conditional implements Conditional {
+
 	/**
 	 * @inheritdoc
 	 */
@@ -26,5 +27,5 @@ abstract class Feature_Flag_Conditional implements Conditional {
 	 *
 	 * @return string the name of the feature flag.
 	 */
-	protected abstract function get_feature_flag();
+	abstract protected function get_feature_flag();
 }
