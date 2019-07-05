@@ -26,6 +26,7 @@ module.exports = {
 	],
 	"build-assets-css": [
 		"<%= files.css %>",
+		"<%= files.cssMap %>",
 		"<%= paths.css %>/select2",
 	],
 	artifact: [

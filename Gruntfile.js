@@ -45,6 +45,9 @@ module.exports = function( grunt ) {
 			css: [
 				"css/dist/*.css",
 			],
+			cssMap: [
+				"css/dist/*.css.map",
+			],
 			js: [
 				"js/src/**/*.js",
 			],
