@@ -5,6 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+
 ## 0.5.0 July 8th, 2019
 ### Added
 * Changes the following improved internal linking functionality (which is disabled by a feature flag by default):
