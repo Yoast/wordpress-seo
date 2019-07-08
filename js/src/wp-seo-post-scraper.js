@@ -1,4 +1,4 @@
-/* global YoastSEO: true, tinyMCE, wpseoReplaceVarsL10n, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, tinyMCE, wpseoReplaceVarsL10n, wpseoPostScraperL10n, YoastShortcodePlugin, YoastReplaceVarPlugin */
 
 // External dependencies.
 import { App } from "yoastseo";
@@ -9,6 +9,7 @@ import {
 	setSeoResultsForKeyword,
 } from "yoast-components";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
+import { select, subscribe } from "@wordpress/data";
 
 // Internal dependencies.
 import Edit from "./edit";
@@ -16,6 +17,7 @@ import YoastMarkdownPlugin from "./wp-seo-markdown-plugin";
 import tinyMCEHelper from "./wp-seo-tinymce";
 import CompatibilityHelper from "./compatibility/compatibilityHelper";
 import Pluggable from "./Pluggable";
+import requestWordsToHighlight from "./analysis/requestWordsToHighlight.js";
 
 // UI dependencies.
 import publishBox from "./ui/publishBox";
@@ -35,6 +37,7 @@ import snippetEditorHelpers from "./analysis/snippetEditor";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
 import getApplyMarks from "./analysis/getApplyMarks";
 import { refreshDelay } from "./analysis/constants";
+import handleWorkerError from "./analysis/handleWorkerError";
 
 // Redux dependencies.
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
@@ -45,7 +48,6 @@ import { setCornerstoneContent } from "./redux/actions/cornerstoneContent";
 import { refreshSnippetEditor } from "./redux/actions/snippetEditor.js";
 
 // Helper dependencies.
-import "./helpers/babel-polyfill";
 import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
@@ -56,7 +58,8 @@ setYoastComponentsL10n();
 setWordPressSeoL10n();
 
 ( function( $ ) {
-	"use strict"; // eslint-disable-line
+	/* eslint-disable-next-line */
+	"use strict";
 	if ( typeof wpseoPostScraperL10n === "undefined" ) {
 		return;
 	}
@@ -198,7 +201,7 @@ setWordPressSeoL10n();
 	 * @returns {PostDataCollector} The initialized post data collector.
 	 */
 	function initializePostDataCollector( data ) {
-		let postDataCollector = new PostDataCollector( {
+		const postDataCollector = new PostDataCollector( {
 			data,
 			store: editStore,
 		} );
@@ -316,10 +319,10 @@ setWordPressSeoL10n();
 	 * @returns {void}
 	 */
 	function disableYoastSEORenderers( app ) {
-		if( ! isUndefined( app.seoAssessorPresenter ) ) {
+		if ( ! isUndefined( app.seoAssessorPresenter ) ) {
 			app.seoAssessorPresenter.render = function() {};
 		}
-		if( ! isUndefined( app.contentAssessorPresenter ) ) {
+		if ( ! isUndefined( app.contentAssessorPresenter ) ) {
 			app.contentAssessorPresenter.render = function() {};
 			app.contentAssessorPresenter.renderIndividualRatings = function() {};
 		}
@@ -328,20 +331,20 @@ setWordPressSeoL10n();
 	let currentAnalysisData;
 
 	/**
-	 * Rerun the analysis when the title or metadescription in the snippet changes.
+	 * Rerun the analysis when the title or meta description in the snippet changes.
 	 *
-	 * @param {Object} store The store.
-	 * @param {Object} app The YoastSEO app.
+	 * @param {Object}   store            The store.
+	 * @param {Function} _refreshAnalysis Function that triggers a refresh of the analysis.
 	 *
 	 * @returns {void}
 	 */
-	function handleStoreChange( store, app ) {
+	function handleStoreChange( store, _refreshAnalysis ) {
 		const previousAnalysisData = currentAnalysisData || "";
 		currentAnalysisData = store.getState().analysisData.snippet;
 
 		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
 		if ( isDirty ) {
-			app.refresh();
+			_refreshAnalysis();
 		}
 	}
 
@@ -365,12 +368,39 @@ setWordPressSeoL10n();
 					tinyMCEHelper.disableMarkerButtons();
 				},
 				classicEditorShown: () => {
-					if( ! tinyMCEHelper.isTextViewActive() ) {
+					if ( ! tinyMCEHelper.isTextViewActive() ) {
 						tinyMCEHelper.enableMarkerButtons();
 					}
 				},
 			} );
 		}
+	}
+
+	/**
+	 * Toggles the markers status in the state, based on the editor mode.
+	 *
+	 * @param {string} editorMode The editor mode.
+	 * @param {Object} store      The store to update.
+	 *
+	 * @returns {void}
+	 */
+	function toggleMarkers( editorMode, store ) {
+		if ( editorMode === "visual" ) {
+			store.dispatch( setMarkerStatus( "enabled" ) );
+
+			return;
+		}
+
+		store.dispatch( setMarkerStatus( "disabled" ) );
+	}
+
+	/**
+	 * Gets the current editor mode from the state.
+	 *
+	 * @returns {string} The current editor mode.
+	 */
+	function getEditorMode() {
+		return select( "core/edit-post" ).getEditorMode();
 	}
 
 	/**
@@ -408,6 +438,8 @@ setWordPressSeoL10n();
 		const appArgs = getAppArgs( editStore );
 		app = new App( appArgs );
 
+		edit.initializeAnnotations();
+
 		// Expose globals.
 		window.YoastSEO = {};
 		window.YoastSEO.app = app;
@@ -438,21 +470,24 @@ setWordPressSeoL10n();
 			}
 		};
 		YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
-			YoastSEO.analysis.worker.initialize( assessorOptions );
+			YoastSEO.analysis.worker.initialize( assessorOptions ).catch( handleWorkerError );
 			YoastSEO.app.refresh();
 		};
 
-		edit.initializeUsedKeywords( app, "get_focus_keyword_usage" );
+		edit.initializeUsedKeywords( YoastSEO.app.refresh, "get_focus_keyword_usage" );
 
-		postDataCollector.app = app;
-
-		editStore.subscribe( handleStoreChange.bind( null, editStore, app ) );
+		editStore.subscribe( handleStoreChange.bind( null, editStore, YoastSEO.app.refresh ) );
 
 		const replaceVarsPlugin = new YoastReplaceVarPlugin( app, editStore );
-		const shortcodePlugin = new YoastShortcodePlugin( app );
+		const shortcodePlugin = new YoastShortcodePlugin( {
+			registerPlugin: YoastSEO.app.registerPlugin,
+			registerModification: YoastSEO.app.registerModification,
+			pluginReady: YoastSEO.app.pluginReady,
+			pluginReloaded: YoastSEO.app.pluginReloaded,
+		} );
 
 		if ( wpseoPostScraperL10n.markdownEnabled ) {
-			let markdownPlugin = new YoastMarkdownPlugin( app );
+			const markdownPlugin = new YoastMarkdownPlugin( YoastSEO.app.registerPlugin, YoastSEO.app.registerModification );
 			markdownPlugin.register();
 		}
 
@@ -467,12 +502,18 @@ setWordPressSeoL10n();
 			.then( () => {
 				jQuery( window ).trigger( "YoastSEO:ready" );
 			} )
-			.catch( error => console.warn( error ) );
+			.catch( handleWorkerError );
 
 		// Backwards compatibility.
 		YoastSEO.analyzerArgs = appArgs;
 
-		postDataCollector.bindElementEvents( app );
+		postDataCollector.bindElementEvents( debounce( () => refreshAnalysis(
+			YoastSEO.analysis.worker,
+			YoastSEO.analysis.collectData,
+			YoastSEO.analysis.applyMarks,
+			YoastSEO.store,
+			postDataCollector,
+		), refreshDelay ) );
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );
@@ -499,19 +540,19 @@ setWordPressSeoL10n();
 
 		// Save the keyword, in order to compare it to store changes.
 		let focusKeyword = editStore.getState().focusKeyword;
-
+		requestWordsToHighlight( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
 		const refreshAfterFocusKeywordChange = debounce( () => {
 			app.refresh();
 		}, 50 );
 
 		let previousCornerstoneValue = null;
-
 		editStore.subscribe( () => {
 			// Verify whether the focusKeyword changed. If so, trigger refresh:
-			let newFocusKeyword = editStore.getState().focusKeyword;
+			const newFocusKeyword = editStore.getState().focusKeyword;
 
 			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
+				requestWordsToHighlight( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
 
 				$( "#yoast_wpseo_focuskw" ).val( focusKeyword );
 				refreshAfterFocusKeywordChange();
@@ -533,7 +574,7 @@ setWordPressSeoL10n();
 				postDataCollector.setDataFromSnippet( dataWithoutTemplates.description, "snippet_meta" );
 			}
 
-			let currentState = editStore.getState();
+			const currentState = editStore.getState();
 
 			if ( previousCornerstoneValue !== currentState.isCornerstone ) {
 				previousCornerstoneValue = currentState.isCornerstone;
@@ -548,6 +589,23 @@ setWordPressSeoL10n();
 			snippetEditorData.slug = data.slug;
 			snippetEditorData.description = data.description;
 		} );
+
+		if ( isGutenbergDataAvailable() ) {
+			let editorMode = getEditorMode();
+
+			toggleMarkers( editorMode, editStore );
+
+			subscribe( () => {
+				const currentEditorMode = getEditorMode();
+
+				if ( currentEditorMode === editorMode ) {
+					return;
+				}
+
+				editorMode = currentEditorMode;
+				toggleMarkers( editorMode, editStore );
+			} );
+		}
 
 		if ( ! isGutenbergDataAvailable() ) {
 			renderClassicEditorMetabox( editStore );

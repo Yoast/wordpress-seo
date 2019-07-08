@@ -8,7 +8,6 @@ import { IntlProvider as IntlProviderOriginal } from "react-intl";
  * This component will render an IntlProvider when the locale-data promise is resolved.
  */
 class IntlProvider extends React.Component {
-
 	/**
 	 * Renders the provider component.
 	 *
@@ -18,7 +17,8 @@ class IntlProvider extends React.Component {
 		if ( typeof window.Intl === "undefined" ) {
 			return (
 				<div className="notice notice-error">
-					<p>Yoast SEO detected that you are using a browser that doesn't support all the features we require. Please try using a different browser.</p>
+					{ /* eslint-disable-next-line max-len */ }
+					<p>Yoast SEO detected that you are using a browser that does not support all the features we require. Please try using a different browser.</p>
 				</div>
 			);
 		}
@@ -27,7 +27,7 @@ class IntlProvider extends React.Component {
 			<IntlProviderOriginal
 				locale="en"
 				messages={ this.props.messages }
-				>
+			>
 				{ this.props.children }
 			</IntlProviderOriginal>
 		);

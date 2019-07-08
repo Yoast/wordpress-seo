@@ -6,9 +6,9 @@
  */
 
 /**
- * Class WPSEO_Recalculate_Scores
+ * Class WPSEO_Recalculate_Scores.
  *
- * This class handles the SEO score recalculation for all posts with a filled focus keyword
+ * This class handles the SEO score recalculation for all posts with a filled focus keyword.
  */
 class WPSEO_Recalculate_Scores {
 
@@ -44,7 +44,7 @@ class WPSEO_Recalculate_Scores {
 
 		?>
 		<div id="wpseo_recalculate" class="hidden">
-			<p><?php esc_html_e( 'Recalculating SEO scores for all pieces of content with a focus keyword.', 'wordpress-seo' ); ?></p>
+			<p><?php esc_html_e( 'Recalculating SEO scores for all pieces of content with a focus keyphrase.', 'wordpress-seo' ); ?></p>
 
 			<div id="wpseo_progressbar"></div>
 			<p><?php echo $progress; ?></p>

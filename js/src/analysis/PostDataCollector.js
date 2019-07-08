@@ -3,19 +3,21 @@
 /* External dependencies */
 import get from "lodash/get";
 import analysis from "yoastseo";
-const { measureTextWidth } = analysis.helpers;
-const { removeMarks } = analysis.markers;
 
 /* Internal dependencies */
-import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
-import tmceHelper from "../wp-seo-tinymce";
-import { tmceId } from "../wp-seo-tinymce";
-import getIndicatorForScore from "./getIndicatorForScore";
-import { update as updateTrafficLight } from "../ui/trafficLight";
+import measureTextWidth from "../helpers/measureTextWidth";
 import { update as updateAdminBar } from "../ui/adminBar";
 import publishBox from "../ui/publishBox";
+import { update as updateTrafficLight } from "../ui/trafficLight";
+import tmceHelper, { tmceId } from "../wp-seo-tinymce";
+import getI18n from "./getI18n";
+import getIndicatorForScore from "./getIndicatorForScore";
+import isKeywordAnalysisActive from "./isKeywordAnalysisActive";
 
-let $ = jQuery;
+
+const $ = jQuery;
+const { removeMarks } = analysis.markers;
+const i18n = getI18n();
 
 /**
  * Show warning in console when the unsupported CkEditor is used
@@ -25,7 +27,7 @@ let $ = jQuery;
  *
  * @constructor
  */
-let PostDataCollector = function( args ) {
+const PostDataCollector = function( args ) {
 	if ( typeof CKEDITOR === "object" ) {
 		console.warn( "YoastSEO currently doesn't support ckEditor. The content analysis currently only works with the HTML editor or TinyMCE." );
 	}
@@ -281,7 +283,7 @@ PostDataCollector.prototype.setDataFromSnippet = function( value, type ) {
 				this.leavePostNameUntouched = false;
 				return;
 			}
-			if( document.getElementById( "post_name" ) !== null ) {
+			if ( document.getElementById( "post_name" ) !== null ) {
 				document.getElementById( "post_name" ).value = value;
 			}
 			if (
@@ -318,47 +320,46 @@ PostDataCollector.prototype.saveSnippetData = function( data ) {
 /**
  * Calls the event binders.
  *
- * @param {app} app The app object.
+ * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.bindElementEvents = function( app ) {
-	this.inputElementEventBinder( app );
-	this.changeElementEventBinder( app );
+PostDataCollector.prototype.bindElementEvents = function( refreshAnalysis ) {
+	this.inputElementEventBinder( refreshAnalysis );
+	this.changeElementEventBinder( refreshAnalysis );
 };
 
 /**
  * Binds the reanalyze timer on change of dom element.
  *
- * @param {app} app The app object.
+ * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.changeElementEventBinder = function( app ) {
+PostDataCollector.prototype.changeElementEventBinder = function( refreshAnalysis ) {
 	var elems = [ "#yoast-wpseo-primary-category", '.categorychecklist input[name="post_category[]"]' ];
-	for( var i = 0; i < elems.length; i++ ) {
-		$( elems[ i ] ).on( "change", app.refresh.bind( app ) );
+	for ( var i = 0; i < elems.length; i++ ) {
+		$( elems[ i ] ).on( "change", refreshAnalysis );
 	}
 };
 
 /**
  * Binds the renewData function on the change of input elements.
  *
- * @param {app} app The app object.
+ * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
  *
  * @returns {void}
  */
-PostDataCollector.prototype.inputElementEventBinder = function( app ) {
+PostDataCollector.prototype.inputElementEventBinder = function( refreshAnalysis ) {
 	var elems = [ "excerpt", "content", "title" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var elem = document.getElementById( elems[ i ] );
 		if ( elem !== null ) {
-			document.getElementById( elems[ i ] ).addEventListener( "input", app.refresh.bind( app ) );
+			document.getElementById( elems[ i ] ).addEventListener( "input", refreshAnalysis );
 		}
 	}
 
-	tmceHelper.tinyMceEventBinder( app, tmceId );
-
+	tmceHelper.tinyMceEventBinder( refreshAnalysis, tmceId );
 };
 
 /**
@@ -379,13 +380,13 @@ PostDataCollector.prototype.saveScores = function( score, keyword ) {
 
 	if ( "" === keyword ) {
 		indicator.className = "na";
-		indicator.screenReaderText = this.app.i18n.dgettext(
+		indicator.screenReaderText = i18n.dgettext(
 			"js-text-analysis",
-			"Enter a focus keyword to calculate the SEO score"
+			"Enter a focus keyphrase to calculate the SEO score"
 		);
-		indicator.fullText = this.app.i18n.dgettext(
+		indicator.fullText = i18n.dgettext(
 			"js-text-analysis",
-			"Content optimization: Enter a focus keyword to calculate the SEO score"
+			"Content optimization: Enter a focus keyphrase to calculate the SEO score"
 		);
 	}
 

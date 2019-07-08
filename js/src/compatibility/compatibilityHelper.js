@@ -4,7 +4,7 @@ import noop from "lodash/noop";
 
 /* Internal dependencies */
 import DiviHelper from "./diviHelper";
-import VisualComposerHelper from "./visualComposerHelper";
+import VisualComposerHelper from "./VisualComposerHelper";
 
 const DEFAULTS = {
 	classicEditorHidden: noop,
@@ -34,7 +34,7 @@ class CompatibilityHelper {
 		if ( DiviHelper.isActive() ) {
 			this.diviActive = true;
 		}
-		if( VisualComposerHelper.isActive() ) {
+		if ( VisualComposerHelper.isActive() ) {
 			this.vcActive = true;
 		}
 	}

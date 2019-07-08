@@ -6,11 +6,12 @@
  */
 
 /**
- * Class WPSEO_Import_Plugins_Detector
+ * Class WPSEO_Import_Plugins_Detector.
  *
  * Class with functionality to detect whether we should import from another SEO plugin.
  */
 class WPSEO_Import_Plugins_Detector {
+
 	/**
 	 * Plugins we need to import from.
 	 *

@@ -6,11 +6,12 @@
  */
 
 /**
- * Class WPSEO_ImportStatus
+ * Class WPSEO_ImportStatus.
  *
  * Holds the status of and message about imports.
  */
 class WPSEO_Import_Status {
+
 	/**
 	 * The import status.
 	 *

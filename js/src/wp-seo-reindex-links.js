@@ -1,6 +1,6 @@
 /* global yoastReindexLinksData, jQuery, tb_remove */
 
-let settings = yoastReindexLinksData.data;
+const settings = yoastReindexLinksData.data;
 let linkIndexingCompleted = false;
 
 import a11ySpeak from "a11y-speak";
@@ -9,7 +9,6 @@ import a11ySpeak from "a11y-speak";
  * Represents the progressbar for the reindexing for the links.
  */
 class IndexProgressBar {
-
 	/**
 	 * The constructor.
 	 *
@@ -31,7 +30,7 @@ class IndexProgressBar {
 	 */
 	update( countProcessed ) {
 		this.totalProcessed += countProcessed;
-		let newWidth = this.totalProcessed * ( 100 / this.total );
+		const newWidth = this.totalProcessed * ( 100 / this.total );
 
 		this.progressbarTarget.progressbar( "value", Math.round( newWidth ) );
 		this.element.html( this.totalProcessed );
@@ -45,7 +44,6 @@ class IndexProgressBar {
 	complete() {
 		this.progressbarTarget.progressbar( "value", 100 );
 	}
-
 }
 
 /**
@@ -65,7 +63,7 @@ function doReindexRequest( progressbar, resolve ) {
 			xhr.setRequestHeader( "X-WP-Nonce", settings.restApi.nonce );
 		},
 		success: function( response ) {
-			let totalIndexed = parseInt( response, 10 );
+			const totalIndexed = parseInt( response, 10 );
 			if ( totalIndexed !== 0 ) {
 				progressbar.update( totalIndexed );
 
@@ -88,7 +86,7 @@ function doReindexRequest( progressbar, resolve ) {
 function reindexLinks() {
 	// Do request to get post ids
 	return new Promise( ( resolve ) => {
-		let progressbar = new IndexProgressBar( settings.amount );
+		const progressbar = new IndexProgressBar( settings.amount );
 		doReindexRequest( progressbar, resolve );
 	} );
 }
@@ -114,7 +112,7 @@ function completeReindexing() {
 function startReindexing() {
 	a11ySpeak( settings.l10n.calculationInProgress );
 
-	let promises = [];
+	const promises = [];
 	promises.push( reindexLinks() );
 	Promise.all( promises ).then( completeReindexing );
 }
@@ -140,7 +138,7 @@ function openLinkIndexing() {
 function init() {
 	let recalculating = false;
 	jQuery( ".yoast-js-calculate-index-links--all " ).on( "click", function() {
-		if( recalculating === false ) {
+		if ( recalculating === false ) {
 			startReindexing();
 
 			recalculating = true;

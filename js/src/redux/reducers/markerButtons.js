@@ -8,7 +8,7 @@ const INITIAL_STATE = null;
  * @param {Object} state The state.
  * @param {Object} action The action.
  *
- * @returns {Object} The SEO results per keyword.
+ * @returns {Object} The marks button status.
  */
 function setMarkerStatus( state, action ) {
 	return action.marksButtonStatus;
@@ -23,7 +23,7 @@ function setMarkerStatus( state, action ) {
  * @returns {Object} The state.
  */
 function markerStatusReducer( state = INITIAL_STATE, action ) {
-	switch( action.type ) {
+	switch ( action.type ) {
 		case SET_MARKER_STATUS:
 			return setMarkerStatus( state, action );
 		default:

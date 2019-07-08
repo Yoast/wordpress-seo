@@ -12,16 +12,32 @@
  */
 class WPSEO_Sitemaps_Cache {
 
-	/** @var array $cache_clear Holds the options that, when updated, should cause the cache to clear. */
+	/**
+	 * Holds the options that, when updated, should cause the cache to clear.
+	 *
+	 * @var array
+	 */
 	protected static $cache_clear = array();
 
-	/** @var bool $is_enabled Mirror of enabled status for static calls. */
-	protected static $is_enabled = true;
+	/**
+	 * Mirror of enabled status for static calls.
+	 *
+	 * @var bool
+	 */
+	protected static $is_enabled = false;
 
-	/** @var bool $clear_all Holds the flag to clear all cache. */
+	/**
+	 * Holds the flag to clear all cache.
+	 *
+	 * @var bool
+	 */
 	protected static $clear_all = false;
 
-	/** @var array $clear_types Holds the array of types to clear. */
+	/**
+	 * Holds the array of types to clear.
+	 *
+	 * @var array
+	 */
 	protected static $clear_types = array();
 
 	/**
@@ -65,9 +81,9 @@ class WPSEO_Sitemaps_Cache {
 		/**
 		 * Filter if XML sitemap transient cache is enabled.
 		 *
-		 * @param bool $unsigned Enable cache or not, defaults to true
+		 * @param bool $unsigned Enable cache or not, defaults to true.
 		 */
-		return apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', true );
+		return apply_filters( 'wpseo_enable_xml_sitemap_transient_caching', false );
 	}
 
 	/**
@@ -91,7 +107,7 @@ class WPSEO_Sitemaps_Cache {
 	}
 
 	/**
-	 * Get the sitemap that is cached
+	 * Get the sitemap that is cached.
 	 *
 	 * @param string $type Sitemap type.
 	 * @param int    $page Page number to retrieve.
@@ -190,18 +206,28 @@ class WPSEO_Sitemaps_Cache {
 	 * Invalidate sitemap cache for authors.
 	 *
 	 * @param int $user_id User ID.
+	 *
+	 * @return bool True if the sitemap was properly invalidated. False otherwise.
 	 */
 	public static function invalidate_author( $user_id ) {
 
 		$user = get_user_by( 'id', $user_id );
 
+		if ( $user === false ) {
+			return false;
+		}
+
 		if ( 'user_register' === current_action() ) {
 			update_user_meta( $user_id, '_yoast_wpseo_profile_updated', time() );
 		}
 
-		if ( ! in_array( 'subscriber', $user->roles, true ) ) {
-			self::invalidate( 'author' );
+		if ( empty( $user->roles ) || in_array( 'subscriber', $user->roles, true ) ) {
+			return false;
 		}
+
+		self::invalidate( 'author' );
+
+		return true;
 	}
 
 	/**
@@ -282,7 +308,7 @@ class WPSEO_Sitemaps_Cache {
 	}
 
 	/**
-	 * Adds a hook that when given option is updated, the cache is cleared
+	 * Adds a hook that when given option is updated, the cache is cleared.
 	 *
 	 * @since 3.2
 	 *
@@ -295,7 +321,7 @@ class WPSEO_Sitemaps_Cache {
 	}
 
 	/**
-	 * Clears the transient cache when a given option is updated, if that option has been registered before
+	 * Clears the transient cache when a given option is updated, if that option has been registered before.
 	 *
 	 * @since 3.2
 	 *

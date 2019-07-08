@@ -6,6 +6,7 @@ const FactoryProto = function() {};
 FactoryProto.prototype.buildJed = function() {
 	return new Jed( {
 		domain: "js-text-analysis",
+		/* eslint-disable-next-line camelcase */
 		locale_data: {
 			"js-text-analysis": {
 				"": {},

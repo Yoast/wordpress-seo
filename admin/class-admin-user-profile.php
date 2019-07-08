@@ -28,9 +28,9 @@ class WPSEO_Admin_User_Profile {
 	 *
 	 * @since 3.1
 	 *
-	 * @param int    $meta_id The ID of the meta option changed.
+	 * @param int    $meta_id   The ID of the meta option changed.
 	 * @param int    $object_id The ID of the user.
-	 * @param string $meta_key The key of the meta field changed.
+	 * @param string $meta_key  The key of the meta field changed.
 	 */
 	public function clear_author_sitemap_cache( $meta_id, $object_id, $meta_key ) {
 		if ( '_yoast_wpseo_profile_updated' === $meta_key ) {

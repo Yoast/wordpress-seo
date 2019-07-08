@@ -29,11 +29,11 @@ class WPSEO_Sitemaps_Router {
 
 		$wp->add_query_var( 'sitemap' );
 		$wp->add_query_var( 'sitemap_n' );
-		$wp->add_query_var( 'xsl' );
+		$wp->add_query_var( 'yoast-sitemap-xsl' );
 
 		add_rewrite_rule( 'sitemap_index\.xml$', 'index.php?sitemap=1', 'top' );
 		add_rewrite_rule( '([^/]+?)-sitemap([0-9]+)?\.xml$', 'index.php?sitemap=$matches[1]&sitemap_n=$matches[2]', 'top' );
-		add_rewrite_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?xsl=$matches[1]', 'top' );
+		add_rewrite_rule( '([a-z]+)?-?sitemap\.xsl$', 'index.php?yoast-sitemap-xsl=$matches[1]', 'top' );
 	}
 
 	/**
@@ -45,7 +45,7 @@ class WPSEO_Sitemaps_Router {
 	 */
 	public function redirect_canonical( $redirect ) {
 
-		if ( get_query_var( 'sitemap' ) || get_query_var( 'xsl' ) ) {
+		if ( get_query_var( 'sitemap' ) || get_query_var( 'yoast-sitemap-xsl' ) ) {
 			return false;
 		}
 
@@ -61,7 +61,7 @@ class WPSEO_Sitemaps_Router {
 		}
 
 		header( 'X-Redirect-By: Yoast SEO' );
-		wp_redirect( home_url( '/sitemap_index.xml' ), 301 );
+		wp_redirect( home_url( '/sitemap_index.xml' ), 301, 'Yoast SEO' );
 		exit;
 	}
 
@@ -80,13 +80,20 @@ class WPSEO_Sitemaps_Router {
 			$protocol = 'https://';
 		}
 
-		$domain = sanitize_text_field( $_SERVER['SERVER_NAME'] );
-		$path   = sanitize_text_field( $_SERVER['REQUEST_URI'] );
+		$domain = '';
+		if ( isset( $_SERVER['SERVER_NAME'] ) ) {
+			$domain = sanitize_text_field( wp_unslash( $_SERVER['SERVER_NAME'] ) );
+		}
+
+		$path = '';
+		if ( isset( $_SERVER['REQUEST_URI'] ) ) {
+			$path = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+		}
 
 		// Due to different environment configurations, we need to check both SERVER_NAME and HTTP_HOST.
 		$check_urls = array( $protocol . $domain . $path );
 		if ( ! empty( $_SERVER['HTTP_HOST'] ) ) {
-			$check_urls[] = $protocol . sanitize_text_field( $_SERVER['HTTP_HOST'] ) . $path;
+			$check_urls[] = $protocol . sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) . $path;
 		}
 
 		return $wp_query->is_404 && in_array( home_url( '/sitemap.xml' ), $check_urls, true );
@@ -106,13 +113,16 @@ class WPSEO_Sitemaps_Router {
 		$base = $wp_rewrite->using_index_permalinks() ? 'index.php/' : '/';
 
 		/**
-		 * Filter the base URL of the sitemaps
+		 * Filter the base URL of the sitemaps.
 		 *
 		 * @param string $base The string that should be added to home_url() to make the full base URL.
 		 */
 		$base = apply_filters( 'wpseo_sitemaps_base_url', $base );
 
-		// Get the scheme from the configured home url instead of letting WordPress determine the scheme based on the requested URI.
+		/*
+		 * Get the scheme from the configured home URL instead of letting WordPress
+		 * determine the scheme based on the requested URI.
+		 */
 		return home_url( $base . $page, wp_parse_url( get_option( 'home' ), PHP_URL_SCHEME ) );
 	}
 }

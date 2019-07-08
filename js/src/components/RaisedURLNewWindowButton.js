@@ -1,7 +1,11 @@
+// External dependencies.
 import React from "react";
 import PropTypes from "prop-types";
-import RaisedDefaultButton from "./RaisedDefaultButton";
 import InfoIcon from "material-ui/svg-icons/action/info";
+import { makeOutboundLink } from "@yoast/helpers";
+
+// Internal dependencies.
+import RaisedDefaultButton from "./RaisedDefaultButton";
 
 /**
  * Creates the Raised URL Button which opens in a new window.
@@ -11,22 +15,21 @@ import InfoIcon from "material-ui/svg-icons/action/info";
  * @constructor
  */
 const RaisedURLNewWindowButton = ( props ) => {
-	// Exclude the url prop from passing to the button.
-	const buttonProps = Object.assign( {}, props );
-	delete buttonProps.url;
-
 	return (
-		<a href={ props.url } target="_blank"><RaisedDefaultButton { ...buttonProps }/></a>
+		// Remove aria-label to make the OutboundLink a11y message be announced.
+		<RaisedDefaultButton aria-label={ null } { ...props } />
 	);
 };
 
+const RaisedURLNewWindowLink = makeOutboundLink( RaisedURLNewWindowButton );
+
 RaisedURLNewWindowButton.propTypes = {
-	url: PropTypes.string.isRequired,
+	href: PropTypes.string.isRequired,
 	icon: PropTypes.object,
 };
 
 RaisedURLNewWindowButton.defaultProps = {
-	icon: <InfoIcon viewBox="0 0 28 28"/>,
+	icon: <InfoIcon viewBox="0 0 28 28" />,
 };
 
-export default RaisedURLNewWindowButton;
+export default RaisedURLNewWindowLink;

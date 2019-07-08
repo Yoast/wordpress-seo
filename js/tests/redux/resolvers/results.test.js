@@ -3,7 +3,7 @@ import {
 	getResultsForKeyword,
 } from "../../../src/redux/selectors/results";
 
-let state = {
+const state = {
 	activeKeyword: "active",
 	analysis: {
 		seo: {

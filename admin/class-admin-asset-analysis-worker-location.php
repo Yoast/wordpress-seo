@@ -11,14 +11,18 @@
 final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_Asset_Location {
 
 	/**
+	 * Holds the asset's location.
+	 *
 	 * @var WPSEO_Admin_Asset_Location $asset_location.
 	 */
-	protected $asset_location;
+	private $asset_location;
 
 	/**
+	 * Holds the asset itself.
+	 *
 	 * @var WPSEO_Admin_Asset $asset.
 	 */
-	protected $asset;
+	private $asset;
 
 	/**
 	 * Constructs the location of the analysis worker asset.
@@ -32,11 +36,24 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 			$flat_version  = $asset_manager->flatten_version( WPSEO_VERSION );
 		}
 
+		$analysis_worker = 'wp-seo-' . $name . '-' . $flat_version;
+
 		$this->asset_location = WPSEO_Admin_Asset_Manager::create_default_location();
-		$this->asset          = new WPSEO_Admin_Asset( array(
-			'name' => $name,
-			'src'  => 'wp-seo-' . $name . '-' . $flat_version,
-		) );
+		$this->asset          = new WPSEO_Admin_Asset(
+			array(
+				'name' => $name,
+				'src'  => $analysis_worker,
+			)
+		);
+	}
+
+	/**
+	 * Retrieves the analysis worker asset.
+	 *
+	 * @return WPSEO_Admin_Asset The analysis worker asset.
+	 */
+	public function get_asset() {
+		return $this->asset;
 	}
 
 	/**
@@ -47,10 +64,12 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 	 *
 	 * @return string The URL of the asset.
 	 */
-	public function get_url( WPSEO_Admin_Asset $asset = null, $type = WPSEO_Admin_Asset::TYPE_JS ) {
-		if ( $asset === null ) {
-			$asset = $this->asset;
+	public function get_url( WPSEO_Admin_Asset $asset, $type ) {
+		$scheme = wp_parse_url( $asset->get_src(), PHP_URL_SCHEME );
+		if ( in_array( $scheme, array( 'http', 'https' ), true ) ) {
+			return $asset->get_src();
 		}
+
 		return $this->asset_location->get_url( $asset, $type );
 	}
 }

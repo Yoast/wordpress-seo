@@ -6,13 +6,18 @@
  */
 
 /**
- * Class WPSEO_Config_Component_Connect_Google_Search_Console_Mock
+ * Class WPSEO_Config_Component_Connect_Google_Search_Console_Mock.
  */
 class WPSEO_Config_Component_Connect_Google_Search_Console_Mock extends WPSEO_Config_Component_Connect_Google_Search_Console {
-	/** @var string */
+
+	/**
+	 * @var string
+	 */
 	protected $profile;
 
-	/** @var WPSEO_UnitTestCase */
+	/**
+	 * @var WPSEO_UnitTestCase
+	 */
 	protected $test;
 
 	/**
@@ -27,7 +32,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Mock extends WPSEO_Co
 	}
 
 	/**
-	 * Make function public
+	 * Make function public.
 	 *
 	 * @param array $current_data Saved data before changes.
 	 * @param array $data         Data after changes.
@@ -37,7 +42,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Mock extends WPSEO_Co
 	}
 
 	/**
-	 * Get the set service
+	 * Get the set service.
 	 *
 	 * @return WPSEO_GSC_Service
 	 */
@@ -46,7 +51,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Mock extends WPSEO_Co
 	}
 
 	/**
-	 * Get the current settings
+	 * Get the current settings.
 	 *
 	 * @return string
 	 */
@@ -55,7 +60,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console_Mock extends WPSEO_Co
 	}
 
 	/**
-	 * Get mappings
+	 * Get mappings.
 	 *
 	 * @return array
 	 */

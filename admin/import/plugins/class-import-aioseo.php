@@ -9,6 +9,7 @@
  * Class with functionality to import & clean All in One SEO Pack post metadata.
  */
 class WPSEO_Import_AIOSEO extends WPSEO_Plugin_Importer {
+
 	/**
 	 * The plugin name.
 	 *

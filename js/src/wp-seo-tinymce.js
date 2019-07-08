@@ -205,23 +205,23 @@ var termsTmceId = "description";
 	/**
 	 * Binds the renewData functionality to the TinyMCE content field on the change of input elements.
 	 *
-	 * @param {App} app YoastSeo application.
-	 * @param {String} tmceId The ID of the tinyMCE editor.
+	 * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
+	 * @param {string}   tinyMceId       The ID of the tinyMCE editor.
 	 *
 	 * @returns {void}
 	 */
-	function tinyMceEventBinder( app, tmceId ) {
-		addEventHandler( tmceId, [ "input", "change", "cut", "paste" ], app.refresh.bind( app ) );
+	function tinyMceEventBinder( refreshAnalysis, tinyMceId ) {
+		addEventHandler( tinyMceId, [ "input", "change", "cut", "paste" ], refreshAnalysis );
 
-		addEventHandler( tmceId, [ "hide" ], disableMarkerButtons );
+		addEventHandler( tinyMceId, [ "hide" ], disableMarkerButtons );
 
-		let enableEvents = [ "show" ];
-		let compatibilityHelper = new CompatibilityHelper();
+		const enableEvents = [ "show" ];
+		const compatibilityHelper = new CompatibilityHelper();
 		if ( ! compatibilityHelper.isPageBuilderActive() ) {
 			enableEvents.push( "init" );
 		}
 
-		addEventHandler( tmceId, enableEvents, enableMarkerButtons );
+		addEventHandler( tinyMceId, enableEvents, enableMarkerButtons );
 
 		addEventHandler( "content", [ "focus" ], function( evt ) {
 			var editor = evt.target;

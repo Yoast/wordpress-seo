@@ -22,16 +22,25 @@
 		"source": "https://github.com/Yoast/wordpress-seo"
 	},
 	"require": {
+		"php": "^5.6.0||^7.0",
 		"composer/installers": "~1.0",
 		"yoast/license-manager": "1.6.0",
-		"yoast/i18n-module": "^3.0",
+		"yoast/i18n-module": "^3.1.1",
 		"yoast/api-libs": "^2.0",
-		"xrstf/composer-php52": "^1.0.20"
+		"xrstf/composer-php52": "^1.0.20",
+		"j4mie/idiorm": "^1.5",
+		"pimple/pimple": "^3.2",
+		"ruckusing/ruckusing-migrations": "^1.1",
+		"psr/log": "^1.0",
+		"league/oauth2-client": "^2.4"
 	},
 	"require-dev": {
 		"yoast/php-development-environment": "^1.0",
 		"yoast/yoastcs": "~0.4.3",
-		"roave/security-advisories": "dev-master"
+		"phpcompatibility/phpcompatibility-wp": "^2.0.0",
+		"humbug/php-scoper": "^0.6.0",
+		"brain/monkey": "^2.2",
+		"phpunit/phpunit": "^5.7"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -41,30 +50,79 @@
 			"frontend/",
 			"inc/",
 			"deprecated/",
-			"cli/"
+			"cli/",
+			"deprecated/",
+			"vendor_prefixed/",
+			"src/"
 		]
 	},
 	"autoload-dev": {
 		"classmap": [
-			"tests/"
+			"tests/",
+			"integration-tests/"
 		]
 	},
 	"scripts": {
+		"test": [
+			"phpunit -c phpunit.xml.dist"
+		],
+		"integration-test": [
+			"phpunit -c phpunit-integration.xml.dist"
+		],
 		"config-yoastcs": [
-			"\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs",
-			"\"vendor/bin/phpcs\" --config-set default_standard Yoast"
+			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",
+			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set default_standard Yoast"
 		],
 		"check-cs": [
-			"\"vendor/bin/phpcs\""
+			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs"
+		],
+		"premium-check-cs": [
+			"@before-premium-cs",
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --ignore=*/premium/cli/,*/tests/load/wp-seo-premium.php --runtime-set ignore_warnings_on_exit 1",
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs ./premium/cli/ --runtime-set testVersion 5.3- --runtime-set ignore_warnings_on_exit 1",
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs ./tests/load/wp-seo-premium.php --runtime-set testVersion 5.6- --runtime-set ignore_warnings_on_exit 1",
+			"@after-premium-cs"
 		],
 		"check-cs-errors": [
-			"\"vendor/bin/phpcs\" --error-severity=1 --warning-severity=6"
+			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --error-severity=1 --warning-severity=6"
 		],
 		"fix-cs": [
-			"\"vendor/bin/phpcbf\""
+			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcbf"
+		],
+		"premium-fix-cs": [
+			"@before-premium-cs",
+			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf || true",
+			"@after-premium-cs"
+		],
+		"before-premium-cs": [
+			"composer require --dev yoast/yoastcs:~1.2.1 --update-with-dependencies --no-suggest --no-interaction"
+		],
+		"after-premium-cs": [
+			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction",
+			"@php ./scripts/maybe-restore-composer-lock.php",
+			"composer config-yoastcs"
+		],
+		"prefix-dependencies": [
+			"composer prefix-ruckusing",
+			"composer prefix-idiorm",
+			"composer prefix-oauth2-client",
+			"touch ./vendor_prefixed/dependencies-prefixed.txt",
+			"composer du"
+		],
+		"prefix-ruckusing": [
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/ruckusing --config=config/php-scoper/ruckusing.inc.php --force --quiet"
+		],
+		"prefix-idiorm": [
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/j4mie/idiorm --config=config/php-scoper/idiorm.inc.php --force --quiet"
+		],
+		"prefix-oauth2-client": [
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/league/oauth2-client --config=config/php-scoper/oauth2-client.inc.php --force --quiet",
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/guzzlehttp --config=config/php-scoper/guzzlehttp.inc.php --force --quiet",
+			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/psr --config=config/php-scoper/psr.inc.php --force --quiet"
 		],
 		"post-install-cmd": [
-			"xrstf\\Composer52\\Generator::onPostInstallCmd"
+			"xrstf\\Composer52\\Generator::onPostInstallCmd",
+			"Yoast\\WP\\Free\\Config\\Dependency_Management::prefix_dependencies"
 		],
 		"post-update-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd"

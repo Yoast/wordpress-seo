@@ -1,31 +1,25 @@
 /* global yoastWizardConfig */
+// External dependencies.
 import React from "react";
 import ReactDOM from "react-dom";
-import "./helpers/babel-polyfill";
+import ConfigurationWizard, { MessageBox } from "@yoast/configuration-wizard";
+import { setTranslations } from "yoast-components";
+import isUndefined from "lodash/isUndefined";
+import { makeOutboundLink } from "@yoast/helpers";
 
-// Required to make Material UI work with touch screens.
-import injectTapEventPlugin from "react-tap-event-plugin";
-import { OnboardingWizard } from "yoast-components";
-import { MessageBox } from "yoast-components";
-
+// Internal dependencies.
 import MailchimpSignup from "./components/MailchimpSignup";
-import ConfigurationChoices from "./components/ConfigurationChoices";
 import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 import MediaUpload from "./components/MediaUpload";
 import Suggestions from "./components/Suggestions";
 import FinalStep from "./components/FinalStep";
-
-import { setTranslations } from "yoast-components";
-import isUndefined from "lodash/isUndefined";
-
+import WordPressUserSelectorOnboardingWizard from "./components/WordPressUserSelectorOnboardingWizard";
 import YoastIcon from "../../images/Yoast_SEO_Icon.svg";
-
 import { setYoastComponentsL10n } from "./helpers/i18n";
 
-injectTapEventPlugin();
+const PluginConflictLink = makeOutboundLink();
 
 class App extends React.Component {
-
 	/**
 	 * Constructs the App component.
 	 *
@@ -37,7 +31,6 @@ class App extends React.Component {
 		this.state = {
 			isLoading: true,
 		};
-
 		this.getConfig();
 	}
 
@@ -47,7 +40,7 @@ class App extends React.Component {
 	 * @returns {{url: string, headers: {X-WP-Nonce: *}}} Returns the endpoint configuration.
 	 */
 	getEndpoint() {
-		let config = yoastWizardConfig;
+		const config = yoastWizardConfig;
 
 		return {
 			url: `${config.root}${config.namespace}/${config.endpoint_retrieve}`,
@@ -65,8 +58,8 @@ class App extends React.Component {
 	 * @returns {void} Returns nothing.
 	 */
 	setConfig( response ) {
-		let config = response;
-		let endpoint = this.getEndpoint();
+		const config = response;
+		const endpoint = this.getEndpoint();
 
 		if ( ! isUndefined( config.translations ) ) {
 			setTranslations( config.translations );
@@ -79,9 +72,9 @@ class App extends React.Component {
 				MailchimpSignup,
 				MediaUpload,
 				ConnectGoogleSearchConsole,
-				ConfigurationChoices,
 				Suggestions,
 				FinalStep,
+				WordPressUserSelector: WordPressUserSelectorOnboardingWizard,
 			},
 		} );
 
@@ -98,7 +91,7 @@ class App extends React.Component {
 	 * @returns {void} Calls the setConfig function when the request is successful.
 	 */
 	getConfig() {
-		let endpoint = this.getEndpoint();
+		const endpoint = this.getEndpoint();
 
 		return jQuery
 			.ajax( {
@@ -129,25 +122,28 @@ class App extends React.Component {
 		}
 
 		// When there is a config and it's not empty.
-		if ( typeof ( this.state.config ) !== "undefined" && this.state.config !== {} ) {
+		if ( typeof( this.state.config ) !== "undefined" && this.state.config !== {} ) {
 			return (
 				<div>
-					<OnboardingWizard { ...this.state.config } headerIcon={YoastIcon} />
+					<ConfigurationWizard { ...this.state.config } headerIcon={ YoastIcon } />
 				</div>
 			);
 		}
 
-		let message = {
-			/** Translators: {{link}} resolves to the link opening tag to https://yoa.st/configuration-wizard-error-plugin-conflict, {{/link}} resolves to the link closing tag. **/
+		// Disable reason: the anchor has content, as MessageBox uses interpolateComponents.
+		/* eslint-disable jsx-a11y/anchor-has-content */
+		const message = {
+			/* translators: {{link}} resolves to the link opening tag, {{/link}} resolves to the link closing tag. */
 			mixedString:
 			"The configuration wizard could not be started." +
 			" The likely cause is an interfering plugin. Please {{link}}check for plugin conflicts{{/link}} to solve this problem. ",
-			components: { link: <a href="https://yoa.st/configuration-wizard-error-plugin-conflict" target="_blank" /> },
+			components: { link: <PluginConflictLink href="https://yoa.st/configuration-wizard-error-plugin-conflict" /> },
 		};
+		/* eslint-enable jsx-a11y/anchor-has-content */
 
 		return (
 			<div>
-				<MessageBox { ...message } icon={YoastIcon} />
+				<MessageBox { ...message } icon={ YoastIcon } />
 			</div>
 		);
 	}
@@ -155,4 +151,4 @@ class App extends React.Component {
 
 setYoastComponentsL10n();
 
-ReactDOM.render( <App/>, document.getElementById( "wizard" ) );
+ReactDOM.render( <App />, document.getElementById( "wizard" ) );

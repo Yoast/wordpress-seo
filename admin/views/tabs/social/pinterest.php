@@ -3,10 +3,8 @@
  * WPSEO plugin file.
  *
  * @package WPSEO\Admin\Views
- */
-
-/**
- * @var Yoast_Form $yform
+ *
+ * @uses Yoast_Form $yform Form object.
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -30,7 +28,7 @@ echo '<p>';
 printf(
 	/* translators: %1$s / %2$s expands to a link to pinterest.com's help page. */
 	esc_html__( 'To %1$sconfirm your site with Pinterest%2$s, add the meta tag here:', 'wordpress-seo' ),
-	'<a target="_blank" href="https://pinterest.com/settings/#claimWebsite">',
+	'<a target="_blank" href="https://www.pinterest.com/settings/claim">',
 	'</a>'
 );
 echo '</p>';

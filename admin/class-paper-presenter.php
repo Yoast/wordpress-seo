@@ -6,21 +6,28 @@
  */
 
 /**
- * Class WPSEO_presenter_paper
+ * Class WPSEO_presenter_paper.
  */
 class WPSEO_Paper_Presenter {
+
 	/**
-	 * @var string Title of the paper
+	 * Title of the paper.
+	 *
+	 * @var string
 	 */
 	private $title;
 
 	/**
-	 * @var array The view variables.
+	 * The view variables.
+	 *
+	 * @var array
 	 */
 	private $settings;
 
 	/**
-	 * @var string The path to the view file.
+	 * The path to the view file.
+	 *
+	 * @var string
 	 */
 	private $view_file;
 
@@ -55,7 +62,7 @@ class WPSEO_Paper_Presenter {
 		extract( $this->get_view_variables(), EXTR_SKIP );
 
 		ob_start();
-		require WPSEO_PATH . 'admin/views/paper-collapsible.php' ;
+		require WPSEO_PATH . 'admin/views/paper-collapsible.php';
 		$rendered_output = ob_get_clean();
 
 		return $rendered_output;

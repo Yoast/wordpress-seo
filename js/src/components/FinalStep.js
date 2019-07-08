@@ -4,7 +4,6 @@ import React from "react";
  * @summary Final step in the wizard component.
  */
 class FinalStep extends React.Component {
-
 	/**
 	 * Renders the video next to the final congratulation message for completing the wizard
 	 *
@@ -18,8 +17,10 @@ class FinalStep extends React.Component {
 					<p>{ this.props.properties.message }</p>
 				</div>
 				<div className="yoast-wizard--column__push_left yoast-wizard--video-frame">
-					<iframe width="400" height="225" src={ this.props.properties.video.url }
-					        title={ this.props.properties.video.title } frameBorder="0" allowFullScreen/>
+					<iframe
+						width="400" height="225" src={ this.props.properties.video.url }
+						title={ this.props.properties.video.title } frameBorder="0" allowFullScreen={ true }
+					/>
 				</div>
 			</div>
 		);

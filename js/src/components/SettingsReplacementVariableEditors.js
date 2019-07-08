@@ -7,7 +7,7 @@ import ReactDOM from "react-dom";
 import includes from "lodash/includes";
 import map from "lodash/map";
 import { connect } from "react-redux";
-import { replacementVariablesShape } from "yoast-components";
+import { replacementVariablesShape } from "@yoast/search-metadata-previews";
 
 /* Internal dependencies */
 import SettingsReplacementVariableEditor from "./SettingsReplacementVariableEditor";
@@ -111,7 +111,8 @@ class SettingsReplacementVariableEditors extends React.Component {
 					label={ reactReplacevarFieldLabel }
 					replacementVariables={ filteredReplacementVariables }
 					recommendedReplacementVariables={ this.props.recommendedReplacementVariables[ reactReplacevarPageTypeRecommended ] }
-					fieldId={ reactReplacevarFieldId } />,
+					fieldId={ reactReplacevarFieldId }
+				/>,
 				targetElement
 			);
 		} );

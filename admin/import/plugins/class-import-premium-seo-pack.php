@@ -9,6 +9,7 @@
  * Class with functionality to import & clean Premium SEO Pack post metadata.
  */
 class WPSEO_Import_Premium_SEO_Pack extends WPSEO_Import_Squirrly {
+
 	/**
 	 * The plugin name.
 	 *

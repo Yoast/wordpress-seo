@@ -4,11 +4,11 @@
  *
  * @package WPSEO\Admin\Views\Taxonomies
  *
- * @var Yoast_Form                               $yform
- * @var WP_Post_Type                             $wpseo_post_type
- * @var Yoast_View_Utils                         $view_utils
- * @var WPSEO_Admin_Recommended_Replace_Vars     $recommended_replace_vars
- * @var WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
+ * @uses Yoast_Form                               $yform                        Form object.
+ * @uses WP_Post_Type                             $wpseo_post_type
+ * @uses Yoast_View_Utils                         $view_utils
+ * @uses WPSEO_Admin_Recommended_Replace_Vars     $recommended_replace_vars
+ * @uses WPSEO_Admin_Editor_Specific_Replace_Vars $editor_specific_replace_vars
  */
 
 $single_label = $wpseo_post_type->labels->singular_name;
@@ -65,7 +65,7 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 }
 
 /**
- * Allow adding a custom checkboxes to the admin meta page - Post Types tab
+ * Allow adding a custom checkboxes to the admin meta page - Post Types tab.
  *
  * @api  WPSEO_Admin_Pages  $yform  The WPSEO_Admin_Pages object
  * @api  String  $name  The post type name

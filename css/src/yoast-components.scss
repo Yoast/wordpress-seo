@@ -1,7 +1,8 @@
-/* This file is meant to be used exclusively for the Onboarding Wizard. */
+/* This file is meant to be used exclusively for the Configuration Wizard. */
 @import "../../node_modules/sassdash/scss/sassdash";
 @import "wp";
-@import "../../node_modules/yoast-components/css/all.scss";
+@import "../../node_modules/@yoast/configuration-wizard/src/configuration-wizard";
+@import "../../node_modules/@yoast/style-guide/src/colors";
 
 #wizard {
 	overflow: hidden;
@@ -11,7 +12,8 @@
 
 	padding-top: 2em;
 
-	input[type="text"] {
+	input[type="text"],
+	input[type="email"] {
 		min-width: 250px;
 
 		& + div {
@@ -179,6 +181,10 @@
 	&--choice {
 		& > .yoast-wizard--rows {
 			height: 100%;
+			// Only needed for IE 10+. Don't add spaces within brackets for this to work.
+			@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+				width: 100%;
+			}
 		}
 
 		& div {
@@ -234,6 +240,10 @@
 
 			& > div {
 				margin-left: 0;
+				// Only needed for IE 10+. Don't add spaces within brackets for this to work.
+				@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+					width: 95.5%;
+				}
 			}
 
 			& > .yoast-wizard--column__push_ {

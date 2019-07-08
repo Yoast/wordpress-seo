@@ -3,24 +3,22 @@ import { __ } from "@wordpress/i18n";
 
 /* Internal dependencies */
 import HowTo from "./components/HowTo";
+import legacy from "./legacy";
 
 const { registerBlockType } = window.wp.blocks;
 
 const attributes = {
-	jsonTitle: {
-		type: "string",
-	},
 	hasDuration: {
 		type: "boolean",
 	},
 	days: {
-		type: "number",
+		type: "string",
 	},
 	hours: {
-		type: "number",
+		type: "string",
 	},
 	minutes: {
-		type: "number",
+		type: "string",
 	},
 	description: {
 		type: "array",
@@ -39,7 +37,10 @@ const attributes = {
 	unorderedList: {
 		type: "boolean",
 	},
-	headingID: {
+	durationText: {
+		type: "string",
+	},
+	defaultDurationText: {
 		type: "string",
 	},
 };
@@ -76,7 +77,7 @@ export default () => {
 				attributes.steps = [ { id: HowTo.generateId( "how-to-step" ), name: [], text: [] } ];
 			}
 
-			return <HowTo { ...{ attributes, setAttributes, className } }/>;
+			return <HowTo { ...{ attributes, setAttributes, className } } />;
 		},
 
 		/**
@@ -90,7 +91,18 @@ export default () => {
 		 */
 		// eslint-disable-next-line react/display-name
 		save: function( { attributes } ) {
-			return <HowTo.Content { ...attributes }/>;
+			return <HowTo.Content { ...attributes } />;
 		},
+
+		deprecated: [
+			{
+				attributes,
+				save: legacy.v11_4,
+			},
+			{
+				attributes,
+				save: legacy.v8_2,
+			},
+		],
 	} );
 };

@@ -6,12 +6,12 @@
  */
 
 /**
- * This class parses all the values for the general tab in the Yoast SEO settings metabox
+ * This class parses all the values for the general tab in the Yoast SEO settings metabox.
  */
 class WPSEO_Taxonomy_Content_Fields extends WPSEO_Taxonomy_Fields {
 
 	/**
-	 * Returns array with the fields for the general tab
+	 * Returns array with the fields for the general tab.
 	 *
 	 * @return array
 	 */
@@ -48,7 +48,13 @@ class WPSEO_Taxonomy_Content_Fields extends WPSEO_Taxonomy_Fields {
 				''
 			),
 		);
+		/**
+		 * Filter: 'wpseo_taxonomy_content_fields' - Adds the possibility to register additional content fields.
+		 *
+		 * @api array - The additional fields.
+		 */
+		$additional_fields = apply_filters( 'wpseo_taxonomy_content_fields', array() );
 
-		return $this->filter_hidden_fields( $fields );
+		return $this->filter_hidden_fields( array_merge( $fields, $additional_fields ) );
 	}
 }

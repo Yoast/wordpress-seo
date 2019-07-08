@@ -1,48 +1,34 @@
 <?php
 /**
- * WPSEO plugin test file.
+ * PHPUnit bootstrap file
  *
- * @package WPSEO\Tests
+ * @package Wordpress_Seo
  */
 
-// Disable xdebug backtrace.
-if ( function_exists( 'xdebug_disable' ) ) {
-	xdebug_disable();
+define( 'ABSPATH', true );
+define( 'WPSEO_INDEXABLES', true );
+
+define( 'MINUTE_IN_SECONDS', 60 );
+define( 'HOUR_IN_SECONDS', 3600 );
+define( 'DAY_IN_SECONDS', 86400 );
+define( 'WEEK_IN_SECONDS', 604800 );
+define( 'MONTH_IN_SECONDS', 2592000 );
+define( 'YEAR_IN_SECONDS', 31536000 );
+
+define( 'DB_HOST', 'nowhere' );
+define( 'DB_NAME', 'none' );
+define( 'DB_USER', 'nobody' );
+define( 'DB_PASSWORD', 'nothing' );
+
+if ( class_exists( 'opcache_reset' ) ) {
+	opcache_reset();
 }
 
-echo 'Welcome to the Yoast SEO Test Suite' . PHP_EOL;
-echo 'Version: 1.0' . PHP_EOL . PHP_EOL;
+require_once __DIR__ . '/../vendor/autoload.php';
 
-if ( false !== getenv( 'WP_PLUGIN_DIR' ) ) {
-	define( 'WP_PLUGIN_DIR', getenv( 'WP_PLUGIN_DIR' ) );
-} else {
-	define( 'WP_PLUGIN_DIR', dirname( dirname( dirname( __FILE__ ) ) ) );
-}
-
-$GLOBALS['wp_tests_options'] = array(
-	'active_plugins' => array( 'wordpress-seo/wp-seo.php' ),
-);
-
-if ( false !== getenv( 'WP_TESTS_DIR' ) ) {
-	require_once getenv( 'WP_TESTS_DIR' ) . 'includes/bootstrap.php';
-}
-elseif ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
-	require_once getenv( 'WP_DEVELOP_DIR' ) . 'tests/phpunit/includes/bootstrap.php';
+if ( file_exists( __DIR__ . '/../wp-seo-premium.php' ) ) {
+	require_once __DIR__ . '/load/wp-seo-premium.php';
 }
 else {
-	require_once '../../../../tests/phpunit/includes/bootstrap.php';
-}
-
-if ( defined( 'WPSEO_TESTS_PATH' ) && WPSEO_TESTS_PATH !== dirname( __FILE__ ) . '/' ) {
-	echo 'WPSEO_TESTS_PATH is already defined and does not match expected path.';
-	exit( 1 ); // Exit with error code, to make the build fail.
-}
-define( 'WPSEO_TESTS_PATH', dirname( __FILE__ ) . '/' );
-
-// Load autoloader.
-if ( PHP_VERSION_ID <= 53000 ) {
-	require_once dirname( WPSEO_TESTS_PATH ) . '/vendor/autoload_52.php';
-}
-else {
-	require_once dirname( WPSEO_TESTS_PATH ) . '/vendor/autoload.php';
+	require_once __DIR__ . '/load/wp-seo.php';
 }

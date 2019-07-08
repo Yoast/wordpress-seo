@@ -5,69 +5,58 @@ import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import get from "lodash/get";
-import { injectIntl, intlShape } from "react-intl";
-import IntlProvider from "./components/IntlProvider";
+import { __ } from "@wordpress/i18n";
 import { setYoastComponentsL10n } from "./helpers/i18n";
 
-/* Internal dependencies */
-import "./helpers/babel-polyfill";
-import { VideoTutorial, AlgoliaSearcher, HelpCenter as HelpCenterYC, colors, YoastButton } from "yoast-components";
+/* Yoast dependencies */
+import { VideoTutorial, HelpCenter as HelpCenterYC } from "yoast-components";
+import { YoastButton } from "@yoast/components";
+import AlgoliaSearcher from "@yoast/algolia-search-box";
+import { colors } from "@yoast/style-guide";
 
 /**
  * Executes an action with an argument.
+ *
+ * @param {Object} props The component's props.
+ *
+ * @returns {React.Element} The rendered ContactSupport component.
  */
-class ContactSupport extends React.Component {
-	/**
-	 * Execute the contact support callback.
-	 *
-	 * @returns {void}
-	 */
-	execute() {
-		if ( this.props.do ) {
-			this.props.do(
-				this.props.with
-			);
-		}
-	}
-
-	/**
-	 * Render the component.
-	 *
-	 * @returns {ReactElement} ContactSupport component.
-	 */
-	render() {
-		return (
-			<div className="contact-premium-support">
-				{ this.props.paragraphs.map( ( paragraph, index ) => {
-					const { image, content } = paragraph;
-					return (
-						<p key={ index } className="contact-premium-support__content">
-							{ image ? <img src={ image.src } width={ image.width } height={ image.height } alt={ image.alt } /> : null }
-							{ content }
-						</p>
-					);
-				} ) }
-				<YoastButton
-					className="contact-premium-support__button"
-					onClick={ this.execute.bind( this ) }>
-					{ this.props.buttonText }
-				</YoastButton>
-			</div>
-		);
-	}
-}
+const ContactSupport = ( { onClick, paragraphs } ) => {
+	return (
+		<div className="contact-premium-support">
+			{ paragraphs.map( ( paragraph, index ) => {
+				const { image, content } = paragraph;
+				return (
+					<p key={ index } className="contact-premium-support__content">
+						{ image ? <img src={ image.src } width={ image.width } height={ image.height } alt={ image.alt } /> : null }
+						{ content }
+					</p>
+				);
+			} ) }
+			<YoastButton
+				className="contact-premium-support__button"
+				onClick={ onClick }
+			>
+				{ __( "Get support", "wordpress-seo" ) }
+			</YoastButton>
+		</div>
+	);
+};
 
 ContactSupport.propTypes = {
-	buttonText: PropTypes.string,
-	"do": PropTypes.func,
-	"with": PropTypes.any,
 	paragraphs: PropTypes.array.isRequired,
+	onClick: PropTypes.func.isRequired,
 };
 
 /**
  * The help center component.
  */
 class HelpCenter extends React.Component {
+	/**
+	 * The component constructor.
+	 *
+	 * @param {Object} props The component's props.
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -78,6 +67,9 @@ class HelpCenter extends React.Component {
 		};
 
 		window.addEventListener( "hashchange", this.tabChanged.bind( this ) );
+
+		this.onContactSupportClick = this.onContactSupportClick.bind( this );
+		this.updateUsedQueries = this.updateUsedQueries.bind( this );
 	}
 
 	/**
@@ -86,6 +78,16 @@ class HelpCenter extends React.Component {
 	 * @returns {void}
 	 */
 	tabChanged() {
+		/*
+		 * Account for other URL fragment identifiers. For example, the "skip links"
+		 * `#wpbody-content` and `#wp-toolbar` used in WordPress. When the hash
+		 * changes and doesn't contain `#top#`, that means users didn't click on
+		 * one of the Yoast tabs.
+		 */
+		if ( location.hash.indexOf( "#top#" ) === -1 ) {
+			return;
+		}
+
 		const tabId = this.getTabIdFromUrlHash();
 		const videoUrl = this.getVideoUrl( tabId );
 		this.setState( { videoUrl } );
@@ -119,12 +121,10 @@ class HelpCenter extends React.Component {
 	 * @returns {void}
 	 */
 	updateUsedQueries( usedQueries ) {
-		const queries = Object.assign(
-			{},
-			this.state.usedQueries,
-			usedQueries
-		);
-		this.setState( { usedQueries: queries } );
+		this.setState( prevState => ( {
+			...prevState.usedQueries,
+			...usedQueries,
+		} ) );
 	}
 
 	/**
@@ -133,33 +133,43 @@ class HelpCenter extends React.Component {
 	 * @returns {Array} Help center tab data.
 	 */
 	getTabs() {
-		const formatMessage = this.props.intl.formatMessage;
 		const tabs = [];
 
 		// Video tab
 		if ( this.state.videoUrl ) {
 			tabs.push( {
 				id: "video-tutorial",
-				label: formatMessage( { id: "videoTutorial" } ),
+				label: __( "Video tutorial", "wordpress-seo" ),
 				content: <VideoTutorial
 					src={ this.state.videoUrl }
 					title=""
-					paragraphs={ this.props.videoTutorialParagraphs } />,
+					paragraphs={ this.props.videoTutorialParagraphs }
+				/>,
 			} );
 		}
 
 		// Knowledge base
 		tabs.push( {
 			id: "knowledge-base",
-			label: formatMessage( { id: "knowledgeBase" } ),
+			label: __( "Knowledge base", "wordpress-seo" ),
 			content: <AlgoliaSearcher
-				onQueryChange={ this.updateUsedQueries.bind( this ) } />,
+				onQueryChange={ this.updateUsedQueries }
+			/>,
 		} );
 
 		// Additional tabs
 		Array.prototype.push.apply( tabs, this.getAdditionalTabs() );
 
 		return tabs;
+	}
+
+	/**
+	 * Calls the contact support callback props with the used queries.
+	 *
+	 * @returns {void}
+	 */
+	onContactSupportClick() {
+		this.props.onPremiumSupport( this.state.usedQueries );
 	}
 
 	/**
@@ -177,12 +187,10 @@ class HelpCenter extends React.Component {
 		this.props.additionalHelpCenterTabs.map( tab => {
 			let content;
 			if ( this.props.shouldDisplayContactForm === "1" && tab.identifier === "contact-support" ) {
-				const supportButton = this.props.intl.formatMessage( { id: "contactSupport.button" } );
 				content = <ContactSupport
 					paragraphs={ this.props.contactFormParagraphs }
-					buttonText={ supportButton }
-					do={ this.props.onPremiumSupport }
-					with={ this.state.usedQueries } />;
+					onClick={ this.onContactSupportClick }
+				/>;
 			}
 			additionalTabs.push( {
 				id: tab.identifier,
@@ -216,20 +224,17 @@ class HelpCenter extends React.Component {
 }
 
 HelpCenter.propTypes = {
-	onHelpCenterToggle: PropTypes.func,
-	onTabSelect: PropTypes.func,
-	onTabsMounted: PropTypes.func,
-	onPremiumSupport: PropTypes.func,
+	onHelpCenterToggle: PropTypes.func.isRequired,
+	onTabSelect: PropTypes.func.isRequired,
+	onTabsMounted: PropTypes.func.isRequired,
+	onPremiumSupport: PropTypes.func.isRequired,
 	adminTabsData: PropTypes.object.isRequired,
-	additionalHelpCenterTabs: PropTypes.array,
-	videoTutorialParagraphs: PropTypes.array,
-	shouldDisplayContactForm: PropTypes.string,
-	contactFormParagraphs: PropTypes.array,
-	initialTab: PropTypes.string,
-	intl: intlShape.isRequired,
+	additionalHelpCenterTabs: PropTypes.array.isRequired,
+	videoTutorialParagraphs: PropTypes.array.isRequired,
+	shouldDisplayContactForm: PropTypes.string.isRequired,
+	contactFormParagraphs: PropTypes.array.isRequired,
+	initialTab: PropTypes.string.isRequired,
 };
-
-const HelpCenterIntl = injectIntl( HelpCenter );
 
 /**
  * Premium support callback.
@@ -279,21 +284,18 @@ if ( window.wpseoHelpCenterData ) {
 	setYoastComponentsL10n();
 
 	ReactDOM.render(
-		<IntlProvider
-			messages={ wpseoHelpCenterData.translations }>
-			<HelpCenterIntl
-				onHelpCenterToggle={ toggleSidebar }
-				onTabSelect={ handleTabSelect }
-				onTabsMounted={ handleTabsMounted }
-				onPremiumSupport={ onPremiumSupport }
-				initialTab={ wpseoHelpCenterData.initialTab }
-				adminTabsData={ wpseoHelpCenterData.tabs }
-				additionalHelpCenterTabs={ wpseoHelpCenterData.extraTabs }
-				videoTutorialParagraphs={ wpseoHelpCenterData.videoDescriptions }
-				shouldDisplayContactForm={ wpseoHelpCenterData.shouldDisplayContactForm }
-				contactFormParagraphs={ wpseoHelpCenterData.contactSupportParagraphs }
-			/>
-		</IntlProvider>,
+		<HelpCenter
+			onHelpCenterToggle={ toggleSidebar }
+			onTabSelect={ handleTabSelect }
+			onTabsMounted={ handleTabsMounted }
+			onPremiumSupport={ onPremiumSupport }
+			initialTab={ wpseoHelpCenterData.initialTab }
+			adminTabsData={ wpseoHelpCenterData.tabs }
+			additionalHelpCenterTabs={ wpseoHelpCenterData.extraTabs }
+			videoTutorialParagraphs={ wpseoHelpCenterData.videoDescriptions }
+			shouldDisplayContactForm={ wpseoHelpCenterData.shouldDisplayContactForm }
+			contactFormParagraphs={ wpseoHelpCenterData.contactSupportParagraphs }
+		/>,
 		document.getElementById( wpseoHelpCenterData.mountId )
 	);
 }

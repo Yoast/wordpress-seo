@@ -10,10 +10,15 @@
  */
 class WPSEO_Configuration_Page {
 
+	/**
+	 * Admin page identifier.
+	 *
+	 * @var string
+	 */
 	const PAGE_IDENTIFIER = 'wpseo_configurator';
 
 	/**
-	 * Sets the hooks when the user has enought rights and is on the right page.
+	 * Sets the hooks when the user has enough rights and is on the right page.
 	 */
 	public function set_hooks() {
 		if ( ! ( $this->is_config_page() && current_user_can( WPSEO_Configuration_Endpoint::CAPABILITY_RETRIEVE ) ) ) {
@@ -79,6 +84,7 @@ class WPSEO_Configuration_Page {
 		 */
 		wp_enqueue_style( 'forms' );
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->register_wp_assets();
 		$asset_manager->register_assets();
 		$asset_manager->enqueue_script( 'configuration-wizard' );
 		$asset_manager->enqueue_style( 'yoast-components' );
@@ -97,6 +103,11 @@ class WPSEO_Configuration_Page {
 	public function show_wizard() {
 		$this->enqueue_assets();
 		$dashboard_url = admin_url( '/admin.php?page=wpseo_dashboard' );
+		$wizard_title  = sprintf(
+			/* translators: %s expands to Yoast SEO. */
+			__( '%s &rsaquo; Configuration Wizard', 'wordpress-seo' ),
+			'Yoast SEO'
+		);
 		?>
 		<!DOCTYPE html>
 		<!--[if IE 9]>
@@ -108,12 +119,7 @@ class WPSEO_Configuration_Page {
 		<head>
 			<meta name="viewport" content="width=device-width, initial-scale=1"/>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-			<title><?php
-				printf(
-					/* translators: %s expands to Yoast SEO. */
-					esc_html__( '%s &rsaquo; Configuration Wizard', 'wordpress-seo' ),
-					'Yoast SEO' );
-			?></title>
+			<title><?php echo esc_html( $wizard_title ); ?></title>
 			<?php
 			wp_print_head_scripts();
 			wp_print_styles( 'yoast-seo-yoast-components' );
@@ -134,7 +140,7 @@ class WPSEO_Configuration_Page {
 			<a class="button yoast-wizard-return-link" href="<?php echo esc_url( $dashboard_url ); ?>">
 				<span aria-hidden="true" class="dashicons dashicons-no"></span>
 				<?php
-				esc_html_e( 'Close wizard', 'wordpress-seo' );
+				esc_html_e( 'Close the Wizard', 'wordpress-seo' );
 				?>
 			</a>
 		</div>
@@ -188,21 +194,6 @@ class WPSEO_Configuration_Page {
 	 */
 	protected function is_config_page() {
 		return ( filter_input( INPUT_GET, 'page' ) === self::PAGE_IDENTIFIER );
-	}
-
-	/**
-	 * Returns the translations necessary for the configuration wizard.
-	 *
-	 * @deprecated 4.9
-	 *
-	 * @returns array The translations for the configuration wizard.
-	 */
-	public function get_translations() {
-		_deprecated_function( __METHOD__, 'WPSEO 4.9', 'WPSEO_' );
-
-		$translations = new WPSEO_Configuration_Translations( WPSEO_Utils::get_user_locale() );
-
-		return $translations->retrieve();
 	}
 
 	/**

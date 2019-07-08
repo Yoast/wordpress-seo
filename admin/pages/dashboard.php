@@ -22,7 +22,7 @@ if ( isset( $_GET['allow_tracking'] ) && check_admin_referer( 'wpseo_activate_tr
 	WPSEO_Options::set( 'yoast_tracking', ( $_GET['allow_tracking'] === 'yes' ) );
 
 	if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
-		wp_safe_redirect( $_SERVER['HTTP_REFERER'], 307 );
+		wp_safe_redirect( wp_unslash( $_SERVER['HTTP_REFERER'] ), 307 );
 		exit;
 	}
 }

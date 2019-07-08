@@ -27,7 +27,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Double extends WPSEO_Post_Type_Sitemap_Pr
 	/**
 	 * @inheritdoc
 	 */
-	public function get_excluded_posts() {
-		return parent::get_excluded_posts();
+	public function get_excluded_posts( $post_type ) {
+		return parent::get_excluded_posts( $post_type );
 	}
 }

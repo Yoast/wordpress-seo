@@ -6,14 +6,14 @@
  */
 
 /**
- * Class WPSEO_Gutenberg_Compatibility_Double
+ * Class WPSEO_Gutenberg_Compatibility_Double.
  */
 class WPSEO_Gutenberg_Compatibility_Double extends WPSEO_Gutenberg_Compatibility {
 
 	/**
 	 * Sets the installed version for easier testing.
 	 *
-	 * @param $version The version to set.
+	 * @param string|null $version The version to set.
 	 *
 	 * @return void
 	 */
@@ -24,5 +24,4 @@ class WPSEO_Gutenberg_Compatibility_Double extends WPSEO_Gutenberg_Compatibility
 
 		$this->current_version = $version;
 	}
-
 }

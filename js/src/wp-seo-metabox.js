@@ -1,9 +1,164 @@
-/* browser:true */
+/* Browser:true */
 /* global wpseoSelect2Locale */
 
 ( function( $ ) {
-	// eslint-disable-next-line
+	/**
+	 * Focuses and triggers a click on a tab element.
+	 *
+	 * @param {object} tab The tab DOM element.
+	 *
+	 * @returns {void}
+	 */
+	function wpseoAriaTabFocusAndClick( tab ) {
+		if ( ! tab ) {
+			return;
+		}
+
+		// The tab is a DOM element: no need for jQuery methods.
+		tab.focus();
+		tab.click();
+	}
+
+	/**
+	 * Sets all the tabs to be not focusable and semantically not selected.
+	 *
+	 * @param {object} tabs The tabs jQuery collection.
+	 *
+	 * @returns {void}
+	 */
+	function wpseoDeactivateAriaTabs( tabs ) {
+		tabs
+			.attr( {
+				"aria-selected": "false",
+				tabIndex: "-1",
+			} );
+	}
+
+	/**
+	 * Sets a single tab to be focusable and semantically selected.
+	 *
+	 * @param {object} tab  The tab to activate DOM element.
+	 * @param {object} tabs The tabs jQuery collection.
+	 *
+	 * @returns {void}
+	 */
+	function wpseoAriaTabSetActiveAttributes( tab, tabs ) {
+		if ( ! tab ) {
+			return;
+		}
+
+		wpseoDeactivateAriaTabs( tabs );
+
+		// The tab is a DOM element: no need for jQuery methods.
+		tab.removeAttribute( "tabindex" );
+		tab.setAttribute( "aria-selected", "true" );
+	}
+
+	/* eslint-disable complexity */
+	/**
+	 * Switch tabs in the ARIA tabbed interface.
+	 *
+	 * @param {object} event       jQuery event object.
+	 * @param {object} tabs        The tabs as a jQuery collection.
+	 *
+	 * @returns {void}
+	 */
+	function wpseoAriaTabsSwitch( event, tabs ) {
+		const key   = event.which;
+		const index = tabs.index( jQuery( event.target ) );
+
+		switch ( key ) {
+			// Space bar: Activate current targeted tab.
+			case 32: {
+				event.preventDefault();
+				wpseoAriaTabFocusAndClick( tabs[ index ] );
+				break;
+			}
+			// End key: Activate last tab.
+			case 35: {
+				event.preventDefault();
+				wpseoAriaTabFocusAndClick( tabs[ tabs.length - 1 ] );
+				break;
+			}
+			// Home key: Activate first tab.
+			case 36: {
+				event.preventDefault();
+				wpseoAriaTabFocusAndClick( tabs[ 0 ] );
+				break;
+			}
+			// Left and up keys: Activate previous tab.
+			case 37:
+			case 38: {
+				event.preventDefault();
+				const indexForPreviousTab = ( index - 1 ) < 0 ? tabs.length - 1 : index - 1;
+				wpseoAriaTabFocusAndClick( tabs[ indexForPreviousTab ] );
+				break;
+			}
+			// Right and down keys: Activate next tab.
+			case 39:
+			case 40: {
+				event.preventDefault();
+				const indexForNextTab = ( index + 1 ) === tabs.length ? 0 : index + 1;
+				wpseoAriaTabFocusAndClick( tabs[ indexForNextTab ] );
+				break;
+			}
+		}
+	}
+	/* eslint-enable complexity */
+
+	/**
+	 * Initializes the ARIA tabbed interface.
+	 *
+	 * @returns {void}
+	 */
+	function wpseoAriaTabsInit() {
+		const tablist     = jQuery( ".yoast-aria-tabs" );
+		const tabs        = tablist.find( "[role='tab']" );
+		const orientation = tablist.attr( "aria-orientation" ) || "horizontal";
+
+		// Set up initial attributes.
+		tabs.attr( {
+			"aria-selected": false,
+			tabIndex: "-1",
+		} );
+		// Set up the initially active tab.
+		tabs.filter( ".yoast-active-tab" )
+			.removeAttr( "tabindex" )
+			.attr( "aria-selected", "true" );
+
+		tabs.on( "keydown", function( event ) {
+			// Return if not Spacebar, End, Home, or Arrow keys.
+			if ( [ 32, 35, 36, 37, 38, 39, 40 ].indexOf( event.which ) === -1 ) {
+				return;
+			}
+
+			// Make Up and Down arrow keys do nothing with horizontal tabs.
+			if ( orientation === "horizontal" && [ 38, 40 ].indexOf( event.which ) !== -1 ) {
+				return;
+			}
+
+			// Make Left and Right arrow keys do nothing with vertical tabs.
+			if ( orientation === "vertical" && [ 37, 39 ].indexOf( event.which ) !== -1 ) {
+				return;
+			}
+
+			wpseoAriaTabsSwitch( event, tabs );
+		} );
+	}
+
+	/**
+	 * Initializes the meta box tabs, adds event handlers, and manages the tabs visibility.
+	 *
+	 * @returns {void}
+	 */
 	function wpseoInitTabs() {
+		// When there's only one add-on tab, change its link to a span element.
+		var addonsTabsLinks = jQuery( "#wpseo-meta-section-addons .wpseo_tablink" );
+		if ( addonsTabsLinks.length === 1 ) {
+			addonsTabsLinks.replaceWith( "<span class='" + addonsTabsLinks[ 0 ].className + "'>" + addonsTabsLinks.text() + "</span>" );
+		}
+
+		// Tabs within the main tabs, e.g.: Facebook, Twitter, Video, and News.
 		if ( jQuery( ".wpseo-metabox-tabs-div" ).length > 0 ) {
 			jQuery( ".wpseo-metabox-tabs" )
 				.on( "click", "a.wpseo_tablink", function( ev ) {
@@ -12,81 +167,68 @@
 					jQuery( ".wpseo-meta-section.active .wpseo-metabox-tabs li" ).removeClass( "active" );
 					jQuery( ".wpseo-meta-section.active .wpseotab" ).removeClass( "active" );
 
-					// Hide the Yoast tooltip when the element gets clicked.
-					jQuery( this ).addClass( "yoast-tooltip-hidden" );
-
 					var targetElem = jQuery( jQuery( this ).attr( "href" ) );
 					targetElem.addClass( "active" );
 					jQuery( this ).parent( "li" ).addClass( "active" );
 
+					// Not used at the moment.
 					if ( jQuery( this ).hasClass( "scroll" ) ) {
 						jQuery( "html, body" ).animate( {
 							scrollTop: jQuery( targetElem ).offset().top,
 						}, 500 );
 					}
-				} )
-				.on( "mouseleave", "a.wpseo_tablink", function() {
-					// The element can still have focus, ensure to hide the tooltip.
-					jQuery( this ).addClass( "yoast-tooltip-hidden" );
-				} )
-				.on( "blur mouseenter", "a.wpseo_tablink", function() {
-					// Make the element tooltip-able again.
-					jQuery( this ).removeClass( "yoast-tooltip-hidden" );
 				} );
 		}
 
+		// Main tabs.
 		if ( jQuery( ".wpseo-meta-section" ).length > 0 ) {
+			const tabLinks = jQuery( ".wpseo-meta-section-link" );
+
+			// Set active classes on the SEO tab.
+			jQuery( ".wpseo-metabox-menu li" ).filter( function() {
+				return jQuery( this ).find( ".wpseo-meta-section-link" ).attr( "href" ) === "#wpseo-meta-section-content";
+			} )
+				.addClass( "active" )
+				.find( "[role='tab']" ).addClass( "yoast-active-tab" );
+
+
+			// Set active classes on the SEO panel.
 			jQuery( "#wpseo-meta-section-content, .wpseo-meta-section-react" ).addClass( "active" );
 
-			jQuery( ".wpseo-metabox-sidebar li" ).filter( function() {
-				return jQuery( this ).find( ".wpseo-meta-section-link" ).attr( "href" ) === "#wpseo-meta-section-content";
-			} ).addClass( "active" );
-
-			jQuery( "a.wpseo-meta-section-link" )
+			tabLinks
 				.on( "click", function( ev ) {
 					var targetTab = jQuery( this ).attr( "href" ),
-						targetTabElement = jQuery( targetTab ),
-						helpCenterToggleButton = jQuery( ".yoast-help-center__button" );
+						targetTabElement = jQuery( targetTab );
 
 					ev.preventDefault();
 
-					jQuery( ".wpseo-metabox-sidebar li" ).removeClass( "active" );
+					jQuery( ".wpseo-metabox-menu li" )
+						.removeClass( "active" )
+						.find( "[role='tab']" ).removeClass( "yoast-active-tab" );
 					jQuery( ".wpseo-meta-section" ).removeClass( "active" );
 					jQuery( ".wpseo-meta-section-react.active" ).removeClass( "active" );
 
-					// Hide the Yoast tooltip when the element gets clicked.
-					jQuery( this ).addClass( "yoast-tooltip-hidden" );
 					if ( targetTab === "#wpseo-meta-section-content" ) {
 						jQuery( ".wpseo-meta-section-react" ).addClass( "active" );
 					}
 
 					targetTabElement.addClass( "active" );
 
-					// Close the Help Center when clicking on the Go Premium link.
-					if ( targetTab === "#wpseo-meta-section-premium" ) {
-						if ( helpCenterToggleButton.attr( "aria-expanded" ) === "true" ) {
-							helpCenterToggleButton.click();
-						}
-					}
+					jQuery( this ).parent( "li" )
+						.addClass( "active" )
+						.find( "[role='tab']" ).addClass( "yoast-active-tab" );
 
-					jQuery( this ).parent( "li" ).addClass( "active" );
-				} )
-				.on( "mouseleave", function() {
-					// The element can still have focus, ensure to hide the tooltip.
-					jQuery( this ).addClass( "yoast-tooltip-hidden" );
-				} )
-				.on( "blur mouseenter", function() {
-					// Make the element tooltip-able again.
-					jQuery( this ).removeClass( "yoast-tooltip-hidden" );
+					// Make the clicked tab focusable and set it to aria-selected=true.
+					wpseoAriaTabSetActiveAttributes( this, tabLinks );
 				} );
 		}
 
 		jQuery( ".wpseo-metabox-tabs" ).show();
 		// End Tabs code.
-
 	}
 
 	window.wpseoInitTabs = wpseoInitTabs;
+	/* eslint-disable-next-line camelcase */
 	window.wpseo_init_tabs = wpseoInitTabs;
 
 	/**
@@ -101,229 +243,17 @@
 	}
 
 	jQuery( document ).ready( function() {
-		jQuery( ".wpseo-meta-section" ).each( function( _, el ) {
+		// Set up the first tab and panel within the main tabs.
+		jQuery( ".wpseo-meta-section" ).each( function( index, el ) {
 			jQuery( el ).find( ".wpseo-metabox-tabs li:first" ).addClass( "active" );
 			jQuery( el ).find( ".wpseotab:first" ).addClass( "active" );
 		} );
+
+		// Initialize both the main tabs and the tabs within the main tabs.
 		window.wpseo_init_tabs();
+
+		wpseoAriaTabsInit();
 
 		initSelect2();
 	} );
 }( jQuery ) );
-
-/* eslint-disable */
-/* jshint ignore:start */
-/**
- * Cleans up a string, removing script tags etc.
- *
- * @deprecated since version 3.0
- *
- * @param {string} str
- *
- * @returns {string}
- */
-function ystClean( str ) {
-	console.error( "ystClean is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead." );
-
-	return str;
-}
-
-/**
- * Tests whether given element `str` matches `p`.
- *
- * @deprecated since version 3.0
- *
- * @param {string} str The string to match
- * @param {RegExp} p The regex to match
- * @returns {string}
- */
-function ystFocusKwTest( str, p ) {
-	console.error( "ystFocusKwTest is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead." );
-
-	return "";
-}
-
-/**
- * The function name says it all, removes lower case diacritics
- *
- * @deprecated since version 3.0
- *
- * @param {string} str
- * @returns {string}
- */
-function ystRemoveLowerCaseDiacritics( str ) {
-	console.error( "ystRemoveLowerCaseDiacritics is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead." );
-
-	return str;
-}
-
-/**
- * Tests whether the focus keyword is used in title, body and description
- *
- * @deprecated since version 3.0
- */
-function ystTestFocusKw() {
-	console.error( "ystTestFocusKw is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead." );
-}
-
-/**
- * This callback is used for variable replacement
- *
- * This is done through a callback as it _could_ be that `ystReplaceVariables` has to do an AJAX request.
- *
- * @callback replaceVariablesCallback
- * @param {string} str The string with the replaced variables in it
- */
-
-/**
- * Replaces variables either with values from wpseoMetaboxL10n, by grabbing them from the page or (ultimately) getting them through AJAX
- *
- * @deprecated since version 3.0
- *
- * @param {string} str The string with variables to be replaced
- * @param {replaceVariablesCallback} callback Callback function for when the
- */
-function ystReplaceVariables( str, callback ) {
-	console.error( "ystReplaceVariables is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead." );
-
-	callback( str );
-}
-
-/**
- * Replace a variable with a string, through an AJAX call to WP
- *
- * @deprecated since version 3.0
- *
- * @param {string} replaceableVar
- * @param {replaceVariablesCallback} callback
- */
-function ystAjaxReplaceVariables( replaceableVar, callback ) {
-	console.error( "ystAjaxReplaceVariables is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead." );
-}
-
-/**
- * Updates the title in the snippet preview
- *
- * @deprecated since version 3.0
- *
- * @param {boolean} [force = false]
- */
-function ystUpdateTitle( force ) {
-	console.error( "ystUpdateTitle is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead." );
-}
-
-/**
- * Cleans the title before use
- *
- * @deprecated since version 3.0
- *
- * @param {string} title
- * @returns {string}
- */
-function ystSanitizeTitle( title ) {
-	console.error( "ystSanitizeTitle is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead." );
-
-	return title;
-}
-
-/**
- * Updates the meta description in the snippet preview
- *
- * @deprecated since version 3.0
- */
-function ystUpdateDesc() {
-	console.error( "ystUpdateDesc is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead." );
-}
-
-/**
- * Sanitized the description
- *
- * @deprecated since version 3.0
- *
- * @param {string} desc
- * @returns {string}
- */
-function ystSanitizeDesc( desc ) {
-	console.error( "ystSanitizeDesc is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead." );
-
-	return desc;
-}
-
-/**
- * Trims the description to the desired length
- *
- * @deprecated since version 3.0
- *
- * @param {string} desc
- * @returns {string}
- */
-function ystTrimDesc( desc ) {
-	console.error( "ystTrimDesc is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead." );
-
-	return desc;
-}
-
-/**
- * Updates the URL in the snippet preview
- *
- * @deprecated since version 3.0
- */
-function ystUpdateURL() {
-	console.error( "ystUpdateURL is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead." );
-}
-
-/**
- * Bolds the keywords in a string
- *
- * @deprecated since version 3.0
- *
- * @param {string} str
- * @param {boolean} url
- * @returns {string}
- */
-function ystBoldKeywords( str, url ) {
-	console.error( "ystBoldKeywords is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead." );
-
-	return str;
-}
-
-/**
- * Updates the entire snippet preview
- *
- * @deprecated since version 3.0
- */
-function ystUpdateSnippet() {
-	console.error( "ystUpdateSnippet is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead." );
-}
-
-/**
- * Escapres the focus keyword
- *
- * @deprecated since version 3.0
- *
- * @param {string} str
- * @returns {string}
- */
-function ystEscapeFocusKw( str ) {
-	console.error( "ystEscapeFocusKw is deprecated since Yoast SEO 3.0, use YoastSEO.js functionality instead." );
-
-	return str;
-}
-
-window.ystClean = ystClean;
-window.ystFocusKwTest = ystFocusKwTest;
-window.ystRemoveLowerCaseDiacritics = ystRemoveLowerCaseDiacritics;
-window.ystTestFocusKw = ystTestFocusKw;
-window.ystReplaceVariables = ystReplaceVariables;
-window.ystAjaxReplaceVariables = ystAjaxReplaceVariables;
-window.ystUpdateTitle = ystUpdateTitle;
-window.ystSanitizeTitle = ystSanitizeTitle;
-window.ystUpdateDesc = ystUpdateDesc;
-window.ystSanitizeDesc = ystSanitizeDesc;
-window.ystTrimDesc = ystTrimDesc;
-window.ystUpdateURL = ystUpdateURL;
-window.ystBoldKeywords = ystBoldKeywords;
-window.ystUpdateSnippet = ystUpdateSnippet;
-window.ystEscapeFocusKw = ystEscapeFocusKw;
-/* jshint ignore:end */
-/* eslint-enable */

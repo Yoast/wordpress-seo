@@ -1,18 +1,21 @@
 /* External dependencies */
 import PropTypes from "prop-types";
-import HowToStep from "./HowToStep";
-import isUndefined from "lodash/isUndefined";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
+import { speak } from "@wordpress/a11y";
 import toString from "lodash/toString";
+import get from "lodash/get";
 
 /* Internal dependencies */
-import { stripHTML } from "../../../helpers/stringHelpers";
+import HowToStep from "./HowToStep";
 import buildDurationString from "../utils/buildDurationString";
+import appendSpace from "../../../components/higherorder/appendSpace";
 
 const { RichText, InspectorControls } = window.wp.editor;
 const { IconButton, PanelBody, TextControl, ToggleControl } = window.wp.components;
-const { Component, renderToString } = window.wp.element;
+const { Component, renderToString, createRef } = window.wp.element;
+
+const RichTextWithAppendedSpace = appendSpace( RichText.Content );
 
 /**
  * Modified Text Control to provide a better layout experience.
@@ -29,7 +32,6 @@ const SpacedTextControl = styled( TextControl )`
  * A How-to block component.
  */
 export default class HowTo extends Component {
-
 	/**
 	 * Constructs a HowTo editor component.
 	 *
@@ -42,16 +44,85 @@ export default class HowTo extends Component {
 
 		this.state = { focus: "" };
 
-		this.changeStep      = this.changeStep.bind( this );
-		this.insertStep      = this.insertStep.bind( this );
-		this.removeStep      = this.removeStep.bind( this );
-		this.swapSteps       = this.swapSteps.bind( this );
-		this.setFocus        = this.setFocus.bind( this );
-		this.addCSSClasses   = this.addCSSClasses.bind( this );
-		this.getListTypeHelp = this.getListTypeHelp.bind( this );
-		this.toggleListType  = this.toggleListType.bind( this );
+		this.changeStep           = this.changeStep.bind( this );
+		this.insertStep           = this.insertStep.bind( this );
+		this.removeStep           = this.removeStep.bind( this );
+		this.swapSteps            = this.swapSteps.bind( this );
+		this.setFocus             = this.setFocus.bind( this );
+		this.addCSSClasses        = this.addCSSClasses.bind( this );
+		this.getListTypeHelp      = this.getListTypeHelp.bind( this );
+		this.toggleListType       = this.toggleListType.bind( this );
+		this.setDurationText      = this.setDurationText.bind( this );
+		this.setFocusToStep       = this.setFocusToStep.bind( this );
+		this.setStepRef           = this.setStepRef.bind( this );
+		this.moveStepUp           = this.moveStepUp.bind( this );
+		this.moveStepDown         = this.moveStepDown.bind( this );
+		this.focusDescription     = this.focusDescription.bind( this );
+		this.setDescriptionRef    = this.setDescriptionRef.bind( this );
+		this.addDuration          = this.addDuration.bind( this );
+		this.removeDuration       = this.removeDuration.bind( this );
+		this.onChangeDescription  = this.onChangeDescription.bind( this );
+		this.onChangeDays         = this.onChangeDays.bind( this );
+		this.onChangeHours        = this.onChangeHours.bind( this );
+		this.onChangeMinutes      = this.onChangeMinutes.bind( this );
+		this.onAddStepButtonClick = this.onAddStepButtonClick.bind( this );
+		this.daysInput            = createRef();
+		this.addDurationButton    = createRef();
+
+		const defaultDurationText = this.getDefaultDurationText();
+		this.setDefaultDurationText( defaultDurationText );
 
 		this.editorRefs = {};
+	}
+
+	/**
+	 * Returns the default duration text.
+	 *
+	 * @returns {string} The default duration text.
+	 */
+	getDefaultDurationText() {
+		const applyFilters = get( window, "wp.hooks.applyFilters" );
+		let defaultDurationText = __( "Time needed:", "wordpress-seo" );
+
+		if ( applyFilters ) {
+			defaultDurationText = applyFilters( "wpseo_duration_text", defaultDurationText );
+		}
+
+		return defaultDurationText;
+	}
+
+	/**
+	 * Sets the duration text to describe the time the guide in the how-to block takes.
+	 *
+	 * @param {string} text The text to describe the duration.
+	 *
+	 * @returns {void}
+	 */
+	setDurationText( text ) {
+		this.props.setAttributes( { durationText: text } );
+	}
+
+	/**
+	 * Sets the default duration text to describe the time the instructions in the how-to block take, when no duration text
+	 * was provided.
+	 *
+	 * @param {string} text The text to describe the duration.
+	 *
+	 * @returns {void}
+	 */
+	setDefaultDurationText( text ) {
+		this.props.setAttributes( { defaultDurationText: text } );
+	}
+
+	/**
+	 * Handles the Add Step Button click event.
+	 *
+	 * Necessary because insertStep needs to be called without arguments, to assure the step is added properly.
+	 *
+	 * @returns {void}
+	 */
+	onAddStepButtonClick() {
+		this.insertStep( null, [], [], false );
 	}
 
 	/**
@@ -77,7 +148,7 @@ export default class HowTo extends Component {
 	 * @returns {void}
 	 */
 	changeStep( newName, newText, previousName, previousText, index ) {
-		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
+		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
 		// If the index exceeds the number of steps, don't change anything.
 		if ( index >= steps.length ) {
@@ -101,11 +172,11 @@ export default class HowTo extends Component {
 			id: steps[ index ].id,
 			name: newName,
 			text: newText,
-			jsonName: stripHTML( renderToString( newName ) ),
-			jsonText: stripHTML( renderToString( newText ) ),
+			jsonName: renderToString( newName ),
+			jsonText: renderToString( newText ),
 		};
 
-		let imageSrc = HowToStep.getImageSrc( newText );
+		const imageSrc = HowToStep.getImageSrc( newText );
 
 		if ( imageSrc ) {
 			steps[ index ].jsonImageSrc = imageSrc;
@@ -115,19 +186,19 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Inserts an empty step into a how-to block at the given index.
+	 * Inserts an empty Step into a how-to block at the given index.
 	 *
-	 * @param {number} [index]      The index of the step after which a new step should be added.
-	 * @param {string} [name]       The name of the new step.
-	 * @param {string} [text]       The text of the new step.
-	 * @param {bool}   [focus=true] Whether or not to focus the new step.
+	 * @param {number}       [index]      Optional. The index of the Step after which a new Step should be added.
+	 * @param {array|string} [name]       Optional. The title of the new Step. Default: empty.
+	 * @param {array|string} [text]       Optional. The description of the new Step. Default: empty.
+	 * @param {bool}         [focus=true] Optional. Whether or not to focus the new Step. Default: true.
 	 *
 	 * @returns {void}
 	 */
-	insertStep( index, name = [], text = [], focus = true ) {
-		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
+	insertStep( index = null, name = [], text = [], focus = true ) {
+		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
-		if ( isUndefined( index ) ) {
+		if ( index === null ) {
 			index = steps.length - 1;
 		}
 
@@ -150,7 +221,11 @@ export default class HowTo extends Component {
 
 		if ( focus ) {
 			setTimeout( this.setFocus.bind( this, `${ index + 1 }:name` ) );
+			// When moving focus to a newly created step, return and don't use the speak() messaage.
+			return;
 		}
+
+		speak( __( "New step added", "wordpress-seo" ) );
 	}
 
 	/**
@@ -162,8 +237,8 @@ export default class HowTo extends Component {
 	 * @returns {void}
 	 */
 	swapSteps( index1, index2 ) {
-		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
-		let step  = steps[ index1 ];
+		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
+		const step  = steps[ index1 ];
 
 		steps[ index1 ] = steps[ index2 ];
 		steps[ index2 ] = step;
@@ -178,7 +253,7 @@ export default class HowTo extends Component {
 
 		this.props.setAttributes( { steps } );
 
-		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
+		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
 		if ( focusIndex === `${ index1 }` ) {
 			this.setFocus( `${ index2 }:${ subElement }` );
 		}
@@ -196,7 +271,7 @@ export default class HowTo extends Component {
 	 * @returns {void}
 	 */
 	removeStep( index ) {
-		let steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
+		const steps = this.props.attributes.steps ? this.props.attributes.steps.slice() : [];
 
 		steps.splice( index, 1 );
 		this.props.setAttributes( { steps } );
@@ -245,6 +320,53 @@ export default class HowTo extends Component {
 	}
 
 	/**
+	 * Sets the focus to an element within teh specified step.
+	 *
+	 * @param {number} stepIndex      Index of the step to focus.
+	 * @param {string} elementToFocus Name of the element to focus.
+	 *
+	 * @returns {void}
+	 */
+	setFocusToStep( stepIndex, elementToFocus ) {
+		this.setFocus( `${ stepIndex }:${ elementToFocus }` );
+	}
+
+	/**
+	 * Move the step at the specified index one step up.
+	 *
+	 * @param {number} stepIndex Index of the step that should be moved.
+	 *
+	 * @returns {void}
+	 */
+	moveStepUp( stepIndex ) {
+		this.swapSteps( stepIndex, stepIndex - 1 );
+	}
+
+	/**
+	 * Move the step at the specified index one step down.
+	 *
+	 * @param {number} stepIndex Index of the step that should be moved.
+	 *
+	 * @returns {void}
+	 */
+	moveStepDown( stepIndex ) {
+		this.swapSteps( stepIndex, stepIndex + 1 );
+	}
+
+	/**
+	 * Set a reference to the specified step
+	 *
+	 * @param {number} stepIndex Index of the step that should be moved.
+	 * @param {string} part      The part to set a reference too.
+	 * @param {object} ref       The reference object.
+	 *
+	 * @returns {void}
+	 */
+	setStepRef( stepIndex, part, ref ) {
+		this.editorRefs[ `${ stepIndex }:${ part }` ] = ref;
+	}
+
+	/**
 	 * Returns an array of How-to step components to be rendered on screen.
 	 *
 	 * @returns {Component[]} The step components.
@@ -254,7 +376,7 @@ export default class HowTo extends Component {
 			return null;
 		}
 
-		let [ focusIndex, subElement ] = this.state.focus.split( ":" );
+		const [ focusIndex, subElement ] = this.state.focus.split( ":" );
 
 		return this.props.attributes.steps.map( ( step, index ) => {
 			return (
@@ -262,19 +384,14 @@ export default class HowTo extends Component {
 					key={ step.id }
 					step={ step }
 					index={ index }
-					editorRef={ ( part, ref ) => {
-						this.editorRefs[ `${ index }:${ part }` ] = ref;
-					} }
-					onChange={
-						( newName, newText, previousName, previousText ) =>
-							this.changeStep( newName, newText, previousName, previousText, index )
-					}
-					insertStep={ () => this.insertStep( index ) }
-					removeStep={ () => this.removeStep( index ) }
-					onFocus={ ( elementToFocus ) => this.setFocus( `${ index }:${ elementToFocus }` ) }
+					editorRef={ this.setStepRef }
+					onChange={ this.changeStep }
+					insertStep={ this.insertStep }
+					removeStep={ this.removeStep }
+					onFocus={ this.setFocusToStep }
 					subElement={ subElement }
-					onMoveUp={ () => this.swapSteps( index, index - 1 ) }
-					onMoveDown={ () => this.swapSteps( index, index + 1 ) }
+					onMoveUp={ this.moveStepUp }
+					onMoveDown={ this.moveStepDown }
 					isFirst={ index === 0 }
 					isLast={ index === this.props.attributes.steps.length - 1 }
 					isSelected={ focusIndex === `${ index }` }
@@ -310,96 +427,23 @@ export default class HowTo extends Component {
 	}
 
 	/**
-	 * Returns a component to manage this how-to block's duration.
+	 * Renders the how to steps.
 	 *
-	 * @returns {Component} The duration editor component.
+	 * @param {array} steps The steps data.
+	 *
+	 * @returns {array} The HowToStep elements.
 	 */
-	getDuration() {
-		const { attributes, setAttributes } = this.props;
-
-		if ( ! attributes.hasDuration ) {
-			return (
-				<IconButton
-					focus={ true }
-					icon="insert"
-					onClick={ () => setAttributes( { hasDuration: true } ) }
-					className="schema-how-to-duration-button editor-inserter__toggle"
-				>
-					{ __( "Add total time", "wordpress-seo" ) }
-				</IconButton>
-			);
+	static getStepsContent( steps ) {
+		if ( ! steps ) {
+			return null;
 		}
 
-		return (
-			<fieldset className="schema-how-to-duration">
-				<legend
-					className="schema-how-to-duration-legend"
-				>
-					{ __( "Time needed:", "wordpress-seo" ) }
-				</legend>
-				<label
-					htmlFor="schema-how-to-duration-days"
-					className="screen-reader-text"
-				>
-					{ __( "days", "wordpress-seo" ) }
-				</label>
-				<input
-					id="schema-how-to-duration-days"
-					className="schema-how-to-duration-input"
-					type="number"
-					value={ attributes.days }
-					onFocus={ () => this.setFocus( "days" ) }
-					onChange={ ( event ) => {
-						const newValue = this.formatDuration( event.target.value );
-						setAttributes( { days: toString( newValue ) } );
-					} }
-					placeholder="DD"
-				/>
-				<label
-					htmlFor="schema-how-to-duration-hours"
-					className="screen-reader-text"
-				>
-					{ __( "hours", "wordpress-seo" ) }
-				</label>
-				<input
-					id="schema-how-to-duration-hours"
-					className="schema-how-to-duration-input"
-					type="number"
-					value={ attributes.hours }
-					onFocus={ () => this.setFocus( "hours" ) }
-					placeholder="HH"
-					onChange={ ( event ) => {
-						const newValue = this.formatDuration( event.target.value, 23 );
-						setAttributes( { hours: toString( newValue ) } );
-					} }
-				/>
-				<span aria-hidden="true">:</span>
-				<label
-					htmlFor="schema-how-to-duration-minutes"
-					className="screen-reader-text"
-				>
-					{ __( "minutes", "wordpress-seo" ) }
-				</label>
-				<input
-					id="schema-how-to-duration-minutes"
-					className="schema-how-to-duration-input"
-					type="number"
-					value={ attributes.minutes }
-					onFocus={ () => this.setFocus( "minutes" ) }
-					onChange={ ( event ) => {
-						const newValue = this.formatDuration( event.target.value, 59 );
-						setAttributes( { minutes: toString( newValue ) } );
-					} }
-					placeholder="MM"
-				/>
-				<IconButton
-					className="schema-how-to-duration-button editor-inserter__toggle"
-					icon="trash"
-					label={ __( "Delete total time", "wordpress-seo" ) }
-					onClick={ () => setAttributes( { hasDuration: false } ) }
-				/>
-			</fieldset>
-		);
+		return steps.map( step => (
+			<HowToStep.Content
+				{ ...step }
+				key={ step.id }
+			/>
+		) );
 	}
 
 	/**
@@ -411,7 +455,7 @@ export default class HowTo extends Component {
 	 * @returns {Component} The component representing a How-to block.
 	 */
 	static Content( props ) {
-		let {
+		const {
 			steps,
 			hasDuration,
 			days,
@@ -421,18 +465,9 @@ export default class HowTo extends Component {
 			unorderedList,
 			additionalListCssClasses,
 			className,
+			durationText,
+			defaultDurationText,
 		} = props;
-
-		steps = steps
-			? steps.map( ( step ) => {
-				return(
-					<HowToStep.Content
-						{ ...step }
-						key={ step.id }
-					/>
-				);
-			} )
-			: null;
 
 		const classNames       = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
 		const listClassNames   = [ "schema-how-to-steps", additionalListCssClasses ].filter( ( item ) => item ).join( " " );
@@ -443,35 +478,37 @@ export default class HowTo extends Component {
 			<div className={ classNames }>
 				{ ( hasDuration && typeof timeString === "string" && timeString.length > 0 ) &&
 					<p className="schema-how-to-total-time">
-						{ __( "Time needed:", "wordpress-seo" ) }
-						&nbsp;
-						{ timeString }.
+						<span className="schema-how-to-duration-time-text">
+							{ durationText || defaultDurationText }
+							&nbsp;
+						</span>
+						{ timeString + ". " }
 					</p>
 				}
-				<RichText.Content
+				<RichTextWithAppendedSpace
 					tagName="p"
 					className="schema-how-to-description"
 					value={ description }
 				/>
 				{ unorderedList
-					? <ul className={ listClassNames }>{ steps }</ul>
-					: <ol className={ listClassNames }>{ steps }</ol>
+					? <ul className={ listClassNames }>{ HowTo.getStepsContent( steps ) }</ul>
+					: <ol className={ listClassNames }>{ HowTo.getStepsContent( steps ) }</ol>
 				}
 			</div>
 		);
 	}
 
 	/**
-	 * A button to add a step to the front of the list.
+	 * Retrieves a button to add a step at the end of the How-to list.
 	 *
-	 * @returns {Component} a button to add a step
+	 * @returns {Component} The button to add a step.
 	 */
 	getAddStepButton() {
 		return (
 			<IconButton
 				icon="insert"
-				onClick={ () => this.insertStep() }
-				className="editor-inserter__toggle"
+				onClick={ this.onAddStepButtonClick }
+				className="schema-how-to-add-step"
 			>
 				{ __( "Add step", "wordpress-seo" ) }
 			</IconButton>
@@ -514,14 +551,209 @@ export default class HowTo extends Component {
 	}
 
 	/**
+	 * Set focus to the description field.
+	 *
+	 * @returns {void}
+	 */
+	focusDescription() {
+		this.setFocus( "description" );
+	}
+
+	/**
+	 * Set focus to the description field.
+	 *
+	 * @param {object} ref The reference object.
+	 *
+	 * @returns {void}
+	 */
+	setDescriptionRef( ref ) {
+		this.editorRefs.description = ref;
+	}
+
+	/**
+	 * Handles the on change event for the how to description field.
+	 *
+	 * @param {string} value The new description.
+	 *
+	 * @returns {void}
+	 */
+	onChangeDescription( value ) {
+		this.props.setAttributes( {
+			description: value,
+			jsonDescription: renderToString( value ),
+		} );
+	}
+
+	/**
+	 * Enables the duration fields and manages focus.
+	 *
+	 * @returns {void}
+	 */
+	addDuration() {
+		this.props.setAttributes( { hasDuration: true } );
+		setTimeout( () => this.daysInput.current.focus() );
+	}
+
+	/**
+	 * Disables the duration fields and manages focus.
+	 *
+	 * @returns {void}
+	 */
+	removeDuration() {
+		this.props.setAttributes( { hasDuration: false } );
+		// Wait for the Add Duration button to mount.
+		setTimeout( () => {
+			/*
+			 * Prior to Gutenberg 5.3 the IconButton doesn't support refs. The ref
+			 * returns the Component instance and attempting to set focus on it
+			 * triggers a TypeError. To keep it simple, we accept a focus loss.
+			 * Starting from WordPress 5.2, Iconbutton does support refs so this
+			 * check can be removed in the future.
+			 */
+			if ( this.addDurationButton.current instanceof Component ) {
+				return;
+			}
+
+			this.addDurationButton.current.focus();
+		} );
+	}
+
+	/**
+	 * Handles the days input on change event.
+	 *
+	 * @param {SyntheticInputEvent} event The input event.
+	 *
+	 * @returns {void}
+	 */
+	onChangeDays( event ) {
+		const newValue = this.formatDuration( event.target.value );
+		this.props.setAttributes( { days: toString( newValue ) } );
+	}
+
+	/**
+	 * Handles the hours input on change event.
+	 *
+	 * @param {SyntheticInputEvent} event The input event.
+	 *
+	 * @returns {void}
+	 */
+	onChangeHours( event ) {
+		const newValue = this.formatDuration( event.target.value, 23 );
+		this.props.setAttributes( { hours: toString( newValue ) } );
+	}
+
+	/**
+	 * Handles the minutes input on change event.
+	 *
+	 * @param {SyntheticInputEvent} event The input event.
+	 *
+	 * @returns {void}
+	 */
+	onChangeMinutes( event ) {
+		const newValue = this.formatDuration( event.target.value, 59 );
+		this.props.setAttributes( { minutes: toString( newValue ) } );
+	}
+
+	/**
+	 * Returns a component to manage this how-to block's duration.
+	 *
+	 * @returns {Component} The duration editor component.
+	 */
+	getDuration() {
+		const { attributes } = this.props;
+
+		if ( ! attributes.hasDuration ) {
+			return (
+				<IconButton
+					onClick={ this.addDuration }
+					className="schema-how-to-duration-button"
+					ref={ this.addDurationButton }
+					icon="insert"
+				>
+					{ __( "Add total time", "wordpress-seo" ) }
+				</IconButton>
+			);
+		}
+
+		return (
+			<fieldset className="schema-how-to-duration">
+				<span className="schema-how-to-duration-flex-container" role="presentation">
+					<legend
+						className="schema-how-to-duration-legend"
+					>
+						{ attributes.durationText || this.getDefaultDurationText() }
+					</legend>
+					<span className="schema-how-to-duration-time-input">
+						<label
+							htmlFor="schema-how-to-duration-days"
+							className="screen-reader-text"
+						>
+							{ __( "days", "wordpress-seo" ) }
+						</label>
+						<input
+							id="schema-how-to-duration-days"
+							className="schema-how-to-duration-input"
+							type="number"
+							value={ attributes.days }
+							onChange={ this.onChangeDays }
+							placeholder="DD"
+							ref={ this.daysInput }
+						/>
+						<label
+							htmlFor="schema-how-to-duration-hours"
+							className="screen-reader-text"
+						>
+							{ __( "hours", "wordpress-seo" ) }
+						</label>
+						<input
+							id="schema-how-to-duration-hours"
+							className="schema-how-to-duration-input"
+							type="number"
+							value={ attributes.hours }
+							onChange={ this.onChangeHours }
+							placeholder="HH"
+						/>
+						<span aria-hidden="true">:</span>
+						<label
+							htmlFor="schema-how-to-duration-minutes"
+							className="screen-reader-text"
+						>
+							{ __( "minutes", "wordpress-seo" ) }
+						</label>
+						<input
+							id="schema-how-to-duration-minutes"
+							className="schema-how-to-duration-input"
+							type="number"
+							value={ attributes.minutes }
+							onChange={ this.onChangeMinutes }
+							placeholder="MM"
+						/>
+						<IconButton
+							className="schema-how-to-duration-delete-button"
+							icon="trash"
+							label={ __( "Delete total time", "wordpress-seo" ) }
+							onClick={ this.removeDuration }
+						/>
+					</span>
+				</span>
+			</fieldset>
+		);
+	}
+
+	/**
 	 * Adds controls to the editor sidebar to control the given parameters.
 	 *
 	 * @param {boolean} unorderedList     Whether to show the list as an unordered list.
 	 * @param {string}  additionalClasses The additional CSS classes to add to the list.
+	 * @param {string}  durationText      The text to describe the duration.
 	 *
 	 * @returns {Component} The controls to add to the sidebar.
 	 */
-	getSidebar( unorderedList, additionalClasses ) {
+	getSidebar( unorderedList, additionalClasses, durationText ) {
+		if ( durationText === this.getDefaultDurationText() ) {
+			durationText = "";
+		}
+
 		return <InspectorControls>
 			<PanelBody title={ __( "Settings", "wordpress-seo" ) } className="blocks-font-size">
 				<SpacedTextControl
@@ -530,9 +762,16 @@ export default class HowTo extends Component {
 					onChange={ this.addCSSClasses }
 					help={ __( "Optional. This can give you better control over the styling of the steps.", "wordpress-seo" ) }
 				/>
+				<SpacedTextControl
+					label={ __( "Describe the duration of the instruction:", "wordpress-seo" ) }
+					value={ durationText }
+					onChange={ this.setDurationText }
+					help={ __( "Optional. Customize how you want to describe the duration of the instruction", "wordpress-seo" ) }
+					placeholder={ this.getDefaultDurationText() }
+				/>
 				<ToggleControl
 					label={ __( "Unordered list", "wordpress-seo" ) }
-					checked={ unorderedList }
+					checked={ unorderedList || false }
 					onChange={ this.toggleListType }
 					help={ this.getListTypeHelp }
 				/>
@@ -546,7 +785,7 @@ export default class HowTo extends Component {
 	 * @returns {Component} The how-to block editor.
 	 */
 	render() {
-		let { attributes, setAttributes, className } = this.props;
+		const { attributes, className } = this.props;
 
 		const classNames     = [ "schema-how-to", className ].filter( ( item ) => item ).join( " " );
 		const listClassNames = [ "schema-how-to-steps", attributes.additionalListCssClasses ].filter( ( item ) => item ).join( " " );
@@ -559,11 +798,9 @@ export default class HowTo extends Component {
 					className="schema-how-to-description"
 					value={ attributes.description }
 					isSelected={ this.state.focus === "description" }
-					setFocusedElement={ () => this.setFocus( "description" ) }
-					onChange={ ( description ) => setAttributes( { description, jsonDescription: stripHTML( renderToString( description ) ) } ) }
-					unstableOnSetup={ ( ref ) => {
-						this.editorRefs.description = ref;
-					} }
+					setFocusedElement={ this.focusDescription }
+					onChange={ this.onChangeDescription }
+					unstableOnSetup={ this.setDescriptionRef }
 					placeholder={ __( "Enter a description", "wordpress-seo" ) }
 					keepPlaceholderOnFocus={ true }
 				/>
@@ -571,7 +808,7 @@ export default class HowTo extends Component {
 					{ this.getSteps() }
 				</ul>
 				<div className="schema-how-to-buttons">{ this.getAddStepButton() }</div>
-				{ this.getSidebar( attributes.unorderedList, attributes.additionalListCssClasses ) }
+				{ this.getSidebar( attributes.unorderedList, attributes.additionalListCssClasses, attributes.durationText ) }
 			</div>
 		);
 	}
@@ -581,4 +818,8 @@ HowTo.propTypes = {
 	attributes: PropTypes.object.isRequired,
 	setAttributes: PropTypes.func.isRequired,
 	className: PropTypes.string,
+};
+
+HowTo.defaultProps = {
+	className: "",
 };

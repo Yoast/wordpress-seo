@@ -6,14 +6,17 @@
  */
 
 /**
- * Class WPSEO_Abstract_Post_Filter
+ * Class WPSEO_Abstract_Post_Filter.
  */
 abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration {
 
+	/**
+	 * @var string
+	 */
 	const FILTER_QUERY_ARG = 'yoast_filter';
 
 	/**
-	 * Modify the query based on the FILTER_QUERY_ARG variable in $_GET
+	 * Modify the query based on the FILTER_QUERY_ARG variable in $_GET.
 	 *
 	 * @param string $where Query variables.
 	 *
@@ -129,10 +132,12 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 * @return string The url to activate this filter.
 	 */
 	protected function get_filter_url() {
-		return add_query_arg( array(
+		$query_args = array(
 			self::FILTER_QUERY_ARG => $this->get_query_val(),
 			'post_type'            => $this->get_current_post_type(),
-		), 'edit.php' );
+		);
+
+		return add_query_arg( $query_args, 'edit.php' );
 	}
 
 	/**
@@ -151,11 +156,11 @@ abstract class WPSEO_Abstract_Post_Filter implements WPSEO_WordPress_Integration
 	 * @return string The current post type.
 	 */
 	protected function get_current_post_type() {
-		return filter_input(
-			INPUT_GET, 'post_type', FILTER_DEFAULT, array(
-				'options' => array( 'default' => 'post' ),
-			)
+		$filter_options = array(
+			'options' => array( 'default' => 'post' ),
 		);
+
+		return filter_input( INPUT_GET, 'post_type', FILTER_DEFAULT, $filter_options );
 	}
 
 	/**

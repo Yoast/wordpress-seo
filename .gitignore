@@ -21,6 +21,9 @@ nbproject/
 node_modules/
 bower_components/
 premium/node_modules/
+phpcs.xml
+.phpcs.xml
+phpunit.xml
 
 ############
 ## OSes
@@ -55,6 +58,7 @@ temp/
 ## Composer
 ############
 /vendor/
+/vendor_prefixed/
 
 ############
 ## WPSEO
@@ -70,10 +74,19 @@ test.sh
 /gettext.pot
 /.wordpress-svn
 /webpack-stats.json
+# Legacy, can be removed in the future.
+.recalibration.yaml
 
 ############
 # Dist files
 ############
 /languages/
-#/js/dist/
-#/css/dist/
+/js/dist/*
+/js/vendor/*
+/css/dist/*
+
+##############
+# JS Mono Repo
+##############
+/javascript/
+.yoast

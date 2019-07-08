@@ -2,7 +2,6 @@
 
 /* External dependencies */
 import get from "lodash/get";
-import analysis from "yoastseo";
 
 /* Internal dependencies */
 import isKeywordAnalysisActive from "../analysis/isKeywordAnalysisActive";
@@ -11,10 +10,9 @@ import { termsTmceId as tmceId } from "../wp-seo-tinymce";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
+import measureTextWidth from "../helpers/measureTextWidth";
 
-const { measureTextWidth } = analysis.helpers;
-
-let $ = jQuery;
+const $ = jQuery;
 
 /**
  * Show warning in console when the unsupported CkEditor is used.
@@ -242,30 +240,30 @@ TermDataCollector.prototype.saveSnippetData = function( data ) {
 /**
  * Binds TermDataCollector events to elements.
  *
- * @param {app} app The app object.
+ * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
  *
  * @returns {void}
  */
-TermDataCollector.prototype.bindElementEvents = function( app ) {
-	this.inputElementEventBinder( app );
+TermDataCollector.prototype.bindElementEvents = function( refreshAnalysis ) {
+	this.inputElementEventBinder( refreshAnalysis );
 };
 
 /**
  * Binds the renewData function on the change of inputelements.
  *
- * @param {app} app The app object.
+ * @param {Function} refreshAnalysis Function that triggers a refresh of the analysis.
  *
  * @returns {void}
  */
-TermDataCollector.prototype.inputElementEventBinder = function( app ) {
+TermDataCollector.prototype.inputElementEventBinder = function( refreshAnalysis ) {
 	var elems = [ "name", tmceId, "slug", "wpseo_focuskw" ];
 	for ( var i = 0; i < elems.length; i++ ) {
 		var elem = document.getElementById( elems[ i ] );
 		if ( elem !== null ) {
-			document.getElementById( elems[ i ] ).addEventListener( "input", app.refresh.bind( app ) );
+			document.getElementById( elems[ i ] ).addEventListener( "input", refreshAnalysis );
 		}
 	}
-	tmceHelper.tinyMceEventBinder( app, tmceId );
+	tmceHelper.tinyMceEventBinder( refreshAnalysis, tmceId );
 };
 
 /**

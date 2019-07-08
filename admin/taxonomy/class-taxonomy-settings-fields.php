@@ -6,11 +6,14 @@
  */
 
 /**
- * This class parses all the values for the general tab in the Yoast SEO settings metabox
+ * This class parses all the values for the general tab in the Yoast SEO settings metabox.
  */
 class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
+
 	/**
-	 * @var array   Options array for the no-index options, including translated labels
+	 * Options array for the no-index options, including translated labels.
+	 *
+	 * @var array
 	 */
 	private $no_index_options = array();
 
@@ -54,7 +57,7 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	}
 
 	/**
-	 * Translate options text strings for use in the select fields
+	 * Translate options text strings for use in the select fields.
 	 *
 	 * {@internal IMPORTANT: if you want to add a new string (option) somewhere, make sure you add
 	 * that array key to the main options definition array in the class WPSEO_Taxonomy_Meta() as well!!!!}}
@@ -69,7 +72,7 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	}
 
 	/**
-	 * Getting the data for the noindex fields
+	 * Getting the data for the noindex fields.
 	 *
 	 * @return array Array containing the no_index options.
 	 */

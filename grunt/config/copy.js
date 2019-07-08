@@ -1,6 +1,6 @@
 // See https://github.com/gruntjs/grunt-contrib-copy
 module.exports = {
-	dependencies: {
+	"js-dependencies": {
 		files: [
 			{
 				expand: true,
@@ -8,6 +8,10 @@ module.exports = {
 				src: [ "select2.full.min.js", "i18n/*", "!i18n/build.txt" ],
 				dest: "js/dist/select2/",
 			},
+		],
+	},
+	"css-dependencies": {
+		files: [
 			{
 				expand: true,
 				cwd: "node_modules/select2/dist/css/",
@@ -63,7 +67,7 @@ module.exports = {
 				cwd: ".",
 				src: [
 					"admin/**",
-					"css/**/*.min.css",
+					"css/**/*.css",
 					"css/main-sitemap.xsl",
 					"deprecated/**",
 					"frontend/**",
@@ -74,19 +78,27 @@ module.exports = {
 					"js/dist/**/*.min.js",
 					"js/dist/select2/i18n/*.js",
 					"languages/**",
+					"src/**",
 					"vendor/**",
+					"vendor_prefixed/**/*.php",
+					"vendor_prefixed/dependencies-prefixed.txt",
+					"migrations/*.php",
 					"index.php",
 					"license.txt",
 					"readme.txt",
 					"wp-seo.php",
 					"wp-seo-main.php",
 					"wpml-config.xml",
-					"!vendor/bin",
+					"!vendor/bin/**",
 					"!vendor/composer/installed.json",
 					"!vendor/composer/installers/**",
 					"!vendor/yoast/i18n-module/LICENSE",
 					"!vendor/yoast/license-manager/samples/**",
 					"!vendor/yoast/license-manager/class-theme-*",
+					"!vendor_prefixed/ruckusing/config/**",
+					"!vendor_prefixed/ruckusing/tests/**",
+					"!vendor_prefixed/ruckusing/ruckus.php",
+					"!vendor_prefixed/j4mie/idiorm/demo.php",
 					"!**/composer.json",
 					"!**/README.md",
 				],
@@ -100,6 +112,7 @@ module.exports = {
 			cwd: "<%= files.artifact %>",
 			src: [
 				"**/*",
+				"!vendor_prefixed/**",
 			],
 			dest: "<%= files.artifactComposer %>",
 		} ],

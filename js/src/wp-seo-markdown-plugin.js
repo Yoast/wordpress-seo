@@ -4,8 +4,15 @@ import marked from "marked";
  * Plugin to parse markdown in the content before it is analyzed.
  */
 class YoastMarkdownPlugin {
-	constructor( app ) {
-		this._app = app;
+	/**
+	 * Instantiates the YoastMarkdownPlugin.
+	 *
+	 * @param {Function} registerPlugin       Function to register this plugin.
+	 * @param {Function} registerModification Function to register a modification of this plugin.
+	 */
+	constructor( registerPlugin, registerModification ) {
+		this._registerPlugin = registerPlugin;
+		this._registerModification = registerModification;
 	}
 
 	/**
@@ -14,8 +21,8 @@ class YoastMarkdownPlugin {
 	 * @returns {void}
 	 */
 	register() {
-		this._app.registerPlugin( "YoastMarkdownPlugin", { status: "ready" } );
-		this._app.registerModification( "content", this.parseMarkdown.bind( this ), "YoastMarkdownPlugin", 1 );
+		this._registerPlugin( "YoastMarkdownPlugin", { status: "ready" } );
+		this._registerModification( "content", this.parseMarkdown.bind( this ), "YoastMarkdownPlugin", 1 );
 	}
 
 	/**

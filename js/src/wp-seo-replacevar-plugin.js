@@ -1,4 +1,4 @@
-/* global wpseoReplaceVarsL10n, require, wp */
+/* global wpseoReplaceVarsL10n, wp */
 import forEach from "lodash/forEach";
 import filter from "lodash/filter";
 import trim from "lodash/trim";
@@ -9,7 +9,6 @@ import {
 	updateReplacementVariable,
 	refreshSnippetEditor,
 } from "./redux/actions/snippetEditor";
-import "./helpers/babel-polyfill";
 
 import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
@@ -22,6 +21,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		"primary_category",
 		"data_page_title",
 		"data_meta_desc",
+		"excerpt",
 	];
 
 	var placeholders = {};
@@ -139,11 +139,12 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 		if ( ! isGutenbergDataAvailable() ) {
 			return;
 		}
-		let fetchedParents = { 0: "" };
-		let currentParent  = null;
-		const wpData       = window.wp.data;
+		const fetchedParents = { 0: "" };
+
+		let currentParent = null;
+		const wpData      = window.wp.data;
 		wpData.subscribe( () => {
-			let newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
+			const newParent = wpData.select( "core/editor" ).getEditedPostAttribute( "parent" );
 			if ( typeof newParent === "undefined" || currentParent === newParent ) {
 				return;
 			}
@@ -158,19 +159,21 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 				this.declareReloaded();
 				return;
 			}
-			const page = new wp.api.models.Page( { id: newParent } );
-			page.fetch().then(
-				response => {
-					this._currentParentPageTitle = response.title.rendered;
-					fetchedParents[ newParent ]  = this._currentParentPageTitle;
-					this.declareReloaded();
-				}
-			).fail(
-				() => {
-					this._currentParentPageTitle = "";
-					this.declareReloaded();
-				}
-			);
+			wp.api.loadPromise.done( () => {
+				const page = new wp.api.models.Page( { id: newParent } );
+				page.fetch().then(
+					response => {
+						this._currentParentPageTitle = response.title.rendered;
+						fetchedParents[ newParent ]  = this._currentParentPageTitle;
+						this.declareReloaded();
+					}
+				).fail(
+					() => {
+						this._currentParentPageTitle = "";
+						this.declareReloaded();
+					}
+				);
+			} );
 		} );
 	};
 
@@ -220,8 +223,29 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 			// This order currently needs to be maintained until we can figure out a nicer way to replace this.
 			data = this.parentReplace( data );
 			data = this.replaceCustomTaxonomy( data );
+			data = this.replaceByStore( data );
 			data = this.replacePlaceholders( data );
 		}
+
+		return data;
+	};
+
+	/**
+	 * Runs the different replacements on the data-string.
+	 *
+	 * @param {string} data The data that needs its placeholders replaced.
+	 * @returns {string} The data with all its placeholders replaced by actual values.
+	 */
+	YoastReplaceVarPlugin.prototype.replaceByStore = function( data ) {
+		const replacementVariables = this._store.getState().snippetEditor.replacementVariables;
+
+		forEach( replacementVariables, ( replacementVariable ) => {
+			if ( replacementVariable.value === "" ) {
+				return;
+			}
+
+			data = data.replace( "%%"  + replacementVariable.name + "%%", replacementVariable.value );
+		} );
 
 		return data;
 	};
@@ -337,7 +361,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 				label: hierarchicalTermName,
 				checked: isChecked,
 			};
-			if( isChecked && checkHierarchicalTerm.indexOf( hierarchicalTermName ) === -1 ) {
+			if ( isChecked && checkHierarchicalTerm.indexOf( hierarchicalTermName ) === -1 ) {
 				// Only push the categoryName to the checkedCategories array if it's not already in there.
 				checkHierarchicalTerm.push( hierarchicalTermName );
 			}
@@ -556,7 +580,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 	 * @returns {string} The data with all its placeholders replaced by actual values.
 	 */
 	YoastReplaceVarPlugin.prototype.parentReplace = function( data ) {
-		let parent = jQuery( "#parent_id, #parent" ).eq( 0 );
+		const parent = jQuery( "#parent_id, #parent" ).eq( 0 );
 
 		if ( this.hasParentTitle( parent ) ) {
 			data = data.replace( /%%parent_title%%/, this.getParentTitleReplacement( parent ) );

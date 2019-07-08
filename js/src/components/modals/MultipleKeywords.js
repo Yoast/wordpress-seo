@@ -1,11 +1,9 @@
 import React from "react";
 import interpolateComponents from "interpolate-components";
-import { utils } from "yoast-components";
+import { makeOutboundLink } from "@yoast/helpers";
 import { __, sprintf } from "@wordpress/i18n";
 import UpsellBox from "../UpsellBox";
 import PropTypes from "prop-types";
-
-const { makeOutboundLink } = utils;
 
 const PremiumLandingPageLink = makeOutboundLink();
 
@@ -18,8 +16,8 @@ const PremiumLandingPageLink = makeOutboundLink();
  */
 const MultipleKeywords = ( props ) => {
 	const intro = sprintf(
-		/* translators: %1$s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
-		__( "Great news: you can, with %1$s!", "wordpress-seo" ),
+		/* translators: %s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
+		__( "Great news: you can, with %s!", "wordpress-seo" ),
 		"{{link}}Yoast SEO Premium{{/link}}"
 	);
 
@@ -30,24 +28,24 @@ const MultipleKeywords = ( props ) => {
 			"<strong>",
 			"</strong>"
 		),
-		`<strong>${ __( "Superfast internal links suggestions", "wordpress-seo" ) }</strong>`,
+		`<strong>${ __( "Superfast internal linking suggestions", "wordpress-seo" ) }</strong>`,
 		sprintf(
 			/* translators: %1$s expands to a 'strong' start tag, %2$s to a 'strong' end tag. */
 			__( "%1$sSocial media preview%2$s: Facebook & Twitter", "wordpress-seo" ),
 			"<strong>",
 			"</strong>"
 		),
-		`<strong>${__( "24/7 support", "wordpress-seo" )}</strong>`,
+		`<strong>${__( "24/7 email support", "wordpress-seo" )}</strong>`,
 		`<strong>${__( "No ads!", "wordpress-seo" )}</strong>`,
 	];
 
 	// Interpolate links
-	let interpolated = interpolateComponents( {
+	const interpolated = interpolateComponents( {
 		mixedString: intro,
 		components: { link: <PremiumLandingPageLink href={ props.link } /> },
 	} );
 
-	let otherBenefits = sprintf(
+	const otherBenefits = sprintf(
 		/* translators: %s expands to 'Yoast SEO Premium'. */
 		__( "Other benefits of %s for you:", "wordpress-seo" ),
 		"Yoast SEO Premium"
@@ -60,16 +58,16 @@ const MultipleKeywords = ( props ) => {
 			upsellButtonText={
 				sprintf(
 					/* translators: %s expands to 'Yoast SEO Premium'. */
-					__( "Get %s now!", "wordpress-seo" ),
+					__( "Get %s", "wordpress-seo" ),
 					"Yoast SEO Premium"
 				)
 			}
 			upsellButton={ {
 				href: props.buyLink,
-				className: "button button-primary",
+				className: "yoast-button-upsell",
 				rel: null,
 			} }
-			upsellButtonLabel={ __( "1 year free updates and upgrades included!", "wordpress-seo" ) }
+			upsellButtonLabel={ __( "1 year free support and updates included!", "wordpress-seo" ) }
 		/>
 	);
 };

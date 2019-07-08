@@ -3,6 +3,12 @@
  * WPSEO plugin file.
  *
  * @package WPSEO\Admin
+ *
+ * @uses string $id                ID attribute for the fieldset.
+ * @uses string $attributes        Additional attributes for the fieldset.
+ * @uses string $legend_attributes Additional attributes for the legend.
+ * @uses string $legend_content    The legend text.
+ * @uses string $content           The fieldset content, i.e. a set of logically grouped form controls.
  */
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
@@ -11,13 +17,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-/**
- * @var string $id                ID attribute for the fieldset.
- * @var string $attributes        Additional attributes for the fieldset.
- * @var string $legend_attributes Additional attributes for the legend.
- * @var string $legend_content    The legend text.
- * @var string $content           The fieldset content, i.e. a set of logically grouped form controls.
- */
 ?>
 
 <fieldset id="<?php echo esc_attr( $id ); ?>"<?php echo $attributes; ?>>

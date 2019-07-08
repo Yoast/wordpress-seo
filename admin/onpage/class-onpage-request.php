@@ -18,7 +18,7 @@ class WPSEO_OnPage_Request {
 	private $onpage_endpoint = 'https://indexability.yoast.onpage.org/';
 
 	/**
-	 * Doing the remote get and returns the body
+	 * Doing the remote get and returns the body.
 	 *
 	 * @param string $target_url The home url.
 	 * @param array  $parameters Array of extra parameters to send to Ryte.
@@ -27,11 +27,12 @@ class WPSEO_OnPage_Request {
 	 * @throws Exception The error message that can be used to show to the user.
 	 */
 	protected function get_remote( $target_url, $parameters = array() ) {
-		$parameters = array_merge( array(
+		$defaults   = array(
 			'url'          => $target_url,
 			'wp_version'   => $GLOBALS['wp_version'],
 			'yseo_version' => WPSEO_VERSION,
-		), $parameters );
+		);
+		$parameters = array_merge( $defaults, $parameters );
 
 		$url = add_query_arg( $parameters, $this->onpage_endpoint );
 

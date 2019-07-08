@@ -27,7 +27,7 @@ if ( is_array( $wpseo_taxonomies ) && $wpseo_taxonomies !== array() ) {
 			array(
 				'collapsible' => true,
 				'expanded'    => ( $wpseo_taxonomy_index === 0 ),
-				'paper_id'    => $wpseo_taxonomy->name,
+				'paper_id'    => 'settings-' . $wpseo_taxonomy->name,
 				'view_data'   => array(
 					'wpseo_taxonomy'               => $wpseo_taxonomy,
 					'view_utils'                   => $view_utils,
@@ -45,5 +45,5 @@ if ( is_array( $wpseo_taxonomies ) && $wpseo_taxonomies !== array() ) {
 
 unset( $wpseo_taxonomies );
 
-printf( '<h2>%s</h2>', esc_html__( ' Category URLs', 'wordpress-seo' ) );
+printf( '<h2>%s</h2>', esc_html__( 'Category URLs', 'wordpress-seo' ) );
 require dirname( __FILE__ ) . '/taxonomies/category-url.php';

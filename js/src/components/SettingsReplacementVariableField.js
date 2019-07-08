@@ -2,10 +2,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
+	ReplacementVariableEditor,
 	replacementVariablesShape,
 	recommendedReplacementVariablesShape,
-} from "yoast-components";
-import { ReplaceVarEditor } from "yoast-components";
+} from "@yoast/search-metadata-previews";
 import styled from "styled-components";
 
 /* Internal dependencies */
@@ -46,7 +46,7 @@ class SettingsReplacementVariableField extends React.Component {
 
 		return (
 			<SnippetEditorWidthContainer>
-				<ReplaceVarEditor
+				<ReplacementVariableEditor
 					label={ label }
 					fieldId={ fieldId + "-snippet-editor" }
 					isActive={ this.state.isActive }
@@ -59,7 +59,7 @@ class SettingsReplacementVariableField extends React.Component {
 					editorRef={ ref => {
 						this.inputRef = ref;
 					} }
-					/>
+				/>
 			</SnippetEditorWidthContainer>
 		);
 	}

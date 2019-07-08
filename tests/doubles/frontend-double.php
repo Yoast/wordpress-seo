@@ -20,9 +20,9 @@ class WPSEO_Frontend_Double extends WPSEO_Frontend {
 	}
 
 	/**
-	 * Get the singleton instance of this class
+	 * Get the singleton instance of this class.
 	 *
-	 * This needs to be overrwritten to make sure it returns the Double version of this class.
+	 * This needs to be overwritten to make sure it returns the Double version of this class.
 	 *
 	 * @return WPSEO_Frontend_Double
 	 */

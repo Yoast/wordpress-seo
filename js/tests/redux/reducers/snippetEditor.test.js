@@ -20,6 +20,7 @@ describe( "snippet editor reducers", () => {
 					slug: "",
 					description: "",
 				},
+				wordsToHighlight: [],
 				replacementVariables: getDefaultReplaceVariables(),
 				uniqueRefreshValue: "",
 			} );
@@ -61,7 +62,7 @@ describe( "snippet editor reducers", () => {
 		} );
 
 		it( "unescapes/decodes strings in replacement variable values, including variants of the apostrophe", () => {
-			// Value parameter contains all the necessary html entities for the separator. Separators such as |, *, ~ etc. don't need to be escaped in the first place.
+			// Value parameter contains all the necessary html entities for the separator. Separators such as |, *, ~ etc. don't need to be escaped.
 			const action = updateReplacementVariable(
 				"title",
 				"&ndash;&mdash;&middot;&bull;&Star;&laquo;&raquo;&lt;&gt;&quot;&grave;&apos;&#039;&#39;",

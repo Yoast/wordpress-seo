@@ -2,6 +2,9 @@
 import { bundledPlugins } from "yoastseo";
 const UsedKeywordsPlugin = bundledPlugins.usedKeywords;
 
+/**
+ * The assessment that assesses if the keyword has been used before somewhere else.
+ */
 class UsedKeywordsAssessment {
 	/**
 	 * Constructs the used keyword assessment for the analysis worker.
@@ -42,7 +45,7 @@ class UsedKeywordsAssessment {
 	 */
 	updateKeywordUsage( keywordUsage ) {
 		if ( ! this._initialized ) {
-			throw new Error( "UsedKeywordsAssessment must be initialized before keywords can be updated." );
+			throw new Error( "UsedKeywordsAssessment must be initialized before keyphrases can be updated." );
 		}
 
 		this._plugin.updateKeywordUsage( keywordUsage );

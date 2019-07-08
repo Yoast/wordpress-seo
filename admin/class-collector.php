@@ -10,7 +10,11 @@
  */
 class WPSEO_Collector {
 
-	/** @var WPSEO_Collection[] */
+	/**
+	 * Holds the collections.
+	 *
+	 * @var WPSEO_Collection[]
+	 */
 	protected $collections = array();
 
 	/**
@@ -43,6 +47,6 @@ class WPSEO_Collector {
 	 * @return false|string The encode string.
 	 */
 	public function get_as_json() {
-		return wp_json_encode( $this->collect() );
+		return WPSEO_Utils::format_json_encode( $this->collect() );
 	}
 }

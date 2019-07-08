@@ -10,23 +10,50 @@
  */
 class WPSEO_Remote_Request {
 
+	/**
+	 * Holds the post method.
+	 *
+	 * @var string
+	 */
 	const METHOD_POST = 'post';
-	const METHOD_GET  = 'get';
 
-	/** @var string */
+	/**
+	 * Holds the get method.
+	 *
+	 * @var string
+	 */
+	const METHOD_GET = 'get';
+
+	/**
+	 * Holds the endpoint to send the request to.
+	 *
+	 * @var string
+	 */
 	protected $endpoint = '';
 
-	/** @var array */
+	/**
+	 * Holds the arguments to use in this request.
+	 *
+	 * @var array
+	 */
 	protected $args = array(
 		'blocking'  => false,
 		'sslverify' => false,
 		'timeout'   => 2,
 	);
 
-	/** @var WP_Error|null */
+	/**
+	 * Holds the response error.
+	 *
+	 * @var WP_Error|null
+	 */
 	protected $response_error;
 
-	/** @var mixed */
+	/**
+	 * Holds the response body.
+	 *
+	 * @var mixed
+	 */
 	protected $response_body;
 
 	/**

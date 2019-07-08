@@ -9,6 +9,7 @@
  * Class with functionality to import & clean SEO Framework post metadata.
  */
 class WPSEO_Import_SEO_Framework extends WPSEO_Plugin_Importer {
+
 	/**
 	 * The plugin name.
 	 *

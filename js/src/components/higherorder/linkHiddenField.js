@@ -24,7 +24,7 @@ const linkHiddenFields = ( mapFieldsFromProps ) => {
 					const { name, fieldId } = field;
 					const element = document.getElementById( fieldId );
 
-					if( element ) {
+					if ( element ) {
 						this.elements[ name ] = element;
 						state[ name ] = {
 							value: element.value,

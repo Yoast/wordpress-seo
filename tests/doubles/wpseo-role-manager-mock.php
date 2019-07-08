@@ -10,10 +10,18 @@
  */
 class WPSEO_Role_Manager_Mock extends WPSEO_Abstract_Role_Manager {
 
-	/** @var array Added roles. */
+	/**
+	 * Added roles.
+	 *
+	 * @var array
+	 */
 	public $added_roles = array();
 
-	/** @var array Removed roles. */
+	/**
+	 * Removed roles.
+	 *
+	 * @var array
+	 */
 	public $removed_roles = array();
 
 	/**

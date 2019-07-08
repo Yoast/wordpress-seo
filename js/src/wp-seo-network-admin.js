@@ -3,8 +3,6 @@
 import a11ySpeak from "a11y-speak";
 
 ( function( $ ) {
-	"use strict";
-
 	/**
 	 * Displays given settings errors.
 	 *

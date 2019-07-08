@@ -6,29 +6,33 @@
  */
 
 /**
- * Class Yoast_Plugin_Conflict_Ajax
+ * Class Yoast_Plugin_Conflict_Ajax.
  */
 class Yoast_Plugin_Conflict_Ajax {
 
 	/**
+	 * Option identifier where dismissed conflicts are stored.
+	 *
 	 * @var string
 	 */
 	private $option_name = 'wpseo_dismissed_conflicts';
 
 	/**
+	 * List of notification identifiers that have been dismissed.
+	 *
 	 * @var array
 	 */
 	private $dismissed_conflicts = array();
 
 	/**
-	 * Initialize the hooks for the AJAX request
+	 * Initialize the hooks for the AJAX request.
 	 */
 	public function __construct() {
 		add_action( 'wp_ajax_wpseo_dismiss_plugin_conflict', array( $this, 'dismiss_notice' ) );
 	}
 
 	/**
-	 * Handles the dismiss notice request
+	 * Handles the dismiss notice request.
 	 */
 	public function dismiss_notice() {
 		check_ajax_referer( 'dismiss-plugin-conflict' );
@@ -45,7 +49,7 @@ class Yoast_Plugin_Conflict_Ajax {
 	}
 
 	/**
-	 * Getting the user option from the database
+	 * Getting the user option from the database.
 	 *
 	 * @return bool|array
 	 */
@@ -71,7 +75,7 @@ class Yoast_Plugin_Conflict_Ajax {
 	}
 
 	/**
-	 * Storing the conflicting plugins as an user option in the database
+	 * Storing the conflicting plugins as an user option in the database.
 	 *
 	 * @param string $plugin_section Plugin conflict type (such as Open Graph or sitemap).
 	 */
@@ -84,7 +88,7 @@ class Yoast_Plugin_Conflict_Ajax {
 	}
 
 	/**
-	 * Loop through the plugins to compare them with the already stored dismissed plugin conflicts
+	 * Loop through the plugins to compare them with the already stored dismissed plugin conflicts.
 	 *
 	 * @param array $posted_plugins Plugin set to check.
 	 */
@@ -95,7 +99,7 @@ class Yoast_Plugin_Conflict_Ajax {
 	}
 
 	/**
-	 * Check if plugin is already dismissed, if not store it in the array that will be saved later
+	 * Check if plugin is already dismissed, if not store it in the array that will be saved later.
 	 *
 	 * @param string $posted_plugin Plugin to check against dismissed conflicts.
 	 */

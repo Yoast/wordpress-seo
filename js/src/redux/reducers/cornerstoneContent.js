@@ -11,7 +11,7 @@ const INITIAL_STATE = false;
  * @returns {boolean} The state.
  */
 function cornerstoneContentReducer( state = INITIAL_STATE, action ) {
-	switch( action.type ) {
+	switch ( action.type ) {
 		case TOGGLE_CORNERSTONE_CONTENT:
 			return ! state;
 

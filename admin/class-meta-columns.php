@@ -6,16 +6,20 @@
  */
 
 /**
- * Class WPSEO_Meta_Columns
+ * Class WPSEO_Meta_Columns.
  */
 class WPSEO_Meta_Columns {
 
 	/**
+	 * Holds the SEO analysis.
+	 *
 	 * @var WPSEO_Metabox_Analysis_SEO
 	 */
 	private $analysis_seo;
 
 	/**
+	 * Holds the readability analysis.
+	 *
 	 * @var WPSEO_Metabox_Analysis_Readability
 	 */
 	private $analysis_readability;
@@ -75,7 +79,7 @@ class WPSEO_Meta_Columns {
 		$added_columns['wpseo-metadesc'] = __( 'Meta Desc.', 'wordpress-seo' );
 
 		if ( $this->analysis_seo->is_enabled() ) {
-			$added_columns['wpseo-focuskw'] = __( 'Focus KW', 'wordpress-seo' );
+			$added_columns['wpseo-focuskw'] = __( 'Keyphrase', 'wordpress-seo' );
 		}
 
 		return array_merge( $columns, $added_columns );
@@ -129,7 +133,7 @@ class WPSEO_Meta_Columns {
 
 				if ( '' === $focuskw_val ) {
 					echo '<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">',
-						esc_html__( 'Focus keyword not set.', 'wordpress-seo' ),
+						esc_html__( 'Focus keyphrase not set.', 'wordpress-seo' ),
 						'</span>';
 					return;
 				}
@@ -242,9 +246,9 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Generates an <option> element.
 	 *
-	 * @param string $value       The option's value.
-	 * @param string $label       The option's label.
-	 * @param string $selected    HTML selected attribute for an option.
+	 * @param string $value    The option's value.
+	 * @param string $label    The option's label.
+	 * @param string $selected HTML selected attribute for an option.
 	 *
 	 * @return string The generated <option> element.
 	 */
@@ -439,7 +443,7 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Uses the vars to create a complete filter query that can later be executed to filter out posts.
 	 *
-	 * @param array $vars Array containing the variables that will be used in the meta query.
+	 * @param array $vars    Array containing the variables that will be used in the meta query.
 	 * @param array $filters Array containing the filters that we need to apply in the meta query.
 	 *
 	 * @return array Array containing the complete filter query.
@@ -466,7 +470,7 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Creates a Readability score filter.
 	 *
-	 * @param number $low The lower boundary of the score.
+	 * @param number $low  The lower boundary of the score.
 	 * @param number $high The higher boundary of the score.
 	 *
 	 * @return array The Readability Score filter.
@@ -485,7 +489,7 @@ class WPSEO_Meta_Columns {
 	/**
 	 * Creates an SEO score filter.
 	 *
-	 * @param number $low The lower boundary of the score.
+	 * @param number $low  The lower boundary of the score.
 	 * @param number $high The higher boundary of the score.
 	 *
 	 * @return array The SEO score filter.
@@ -613,7 +617,7 @@ class WPSEO_Meta_Columns {
 
 		if ( WPSEO_Meta::get_value( 'focuskw', $post_id ) === '' ) {
 			$rank  = new WPSEO_Rank( WPSEO_Rank::NO_FOCUS );
-			$title = __( 'Focus keyword not set.', 'wordpress-seo' );
+			$title = __( 'Focus keyphrase not set.', 'wordpress-seo' );
 
 			return $this->render_score_indicator( $rank, $title );
 		}
@@ -717,6 +721,8 @@ class WPSEO_Meta_Columns {
 	}
 
 	/**
+	 * Renders the score indicator.
+	 *
 	 * @param WPSEO_Rank $rank  The rank this indicator should have.
 	 * @param string     $title Optional. The title for this rank, defaults to the title of the rank.
 	 *
@@ -727,7 +733,7 @@ class WPSEO_Meta_Columns {
 			$title = $rank->get_label();
 		}
 
-		return '<div aria-hidden="true" title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div><span class="screen-reader-text">' . $title . '</span>';
+		return '<div aria-hidden="true" title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div><span class="screen-reader-text wpseo-score-text">' . $title . '</span>';
 	}
 
 	/**

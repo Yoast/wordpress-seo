@@ -1,14 +1,12 @@
 /* global wpseoReplaceVarsL10n, wpseoSearchAppearance */
 
 /* External dependencies */
-import ReactDOM from "react-dom";
-import React from "react";
+import { render, createPortal, Fragment } from "@wordpress/element";
 import forEach from "lodash/forEach";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 
 /* Internal dependencies */
-import "./helpers/babel-polyfill";
 import SettingsReplacementVariableEditors from "./components/SettingsReplacementVariableEditors";
 import snippetEditorReducer from "./redux/reducers/snippetEditor";
 import configureEnhancers from "./redux/utils/configureEnhancers";
@@ -16,6 +14,8 @@ import getDefaultReplacementVariables from "./values/defaultReplaceVariables";
 import { updateReplacementVariable } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { ThemeProvider } from "styled-components";
+import WordPressUserSelectorSearchAppearance from "./components/WordPressUserSelectorSearchAppearance";
+import LocalSEOUpsell from "./components/LocalSEOUpsell";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -52,26 +52,42 @@ function configureStore() {
 
 const editorElements = document.querySelectorAll( "[data-react-replacevar-editor]" );
 const singleFieldElements = document.querySelectorAll( "[data-react-replacevar-field]" );
+const wpUserSelector = document.getElementById( "wpseo-person-selector" );
+const localSEOElement = document.getElementById( "wpseo-local-seo-upsell" );
 
-if( editorElements.length ) {
-	const element = document.createElement( "div" );
-	document.body.appendChild( element );
+const element = document.createElement( "div" );
+document.body.appendChild( element );
 
-	const store = configureStore();
+const store = configureStore();
 
-	const theme = {
-		isRtl: wpseoSearchAppearance.isRtl,
-	};
+const theme = {
+	isRtl: wpseoSearchAppearance.isRtl,
+};
 
-	ReactDOM.render(
-		<Provider store={ store }>
-			<ThemeProvider theme={ theme }>
+const {
+	showLocalSEOUpsell,
+	localSEOUpsellURL,
+	brushstrokeBackgroundURL,
+} = wpseoSearchAppearance;
+
+render(
+	<Provider store={ store }>
+		<ThemeProvider theme={ theme }>
+			<Fragment>
 				<SettingsReplacementVariableEditors
 					singleFieldElements={ singleFieldElements }
 					editorElements={ editorElements }
 				/>
-			</ThemeProvider>
-		</Provider>,
-		element
-	);
-}
+				{ createPortal( <WordPressUserSelectorSearchAppearance />, wpUserSelector ) }
+				{ showLocalSEOUpsell && createPortal(
+					<LocalSEOUpsell
+						url={ localSEOUpsellURL }
+						backgroundUrl={ brushstrokeBackgroundURL }
+					/>,
+					localSEOElement
+				) }
+			</Fragment>
+		</ThemeProvider>
+	</Provider>,
+	element
+);

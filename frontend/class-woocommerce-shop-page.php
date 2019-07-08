@@ -11,12 +11,39 @@
 class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 
 	/**
-	 * Registers the hooks
+	 * Holds the shop page id.
+	 *
+	 * @var int
+	 */
+	protected static $shop_page_id;
+
+	/**
+	 * True when current page is the shop page.
+	 *
+	 * @var bool
+	 */
+	protected static $is_shop_page;
+
+	/**
+	 * Registers the hooks.
 	 *
 	 * @return void
 	 */
 	public function register_hooks() {
+		if ( ! $this->is_woocommerce_active() ) {
+			return;
+		}
+
 		add_filter( 'wpseo_frontend_page_type_simple_page_id', array( $this, 'get_page_id' ) );
+	}
+
+	/**
+	 * Determines whether or not WooCommerce is active.
+	 *
+	 * @return bool True if woocommerce plugin is active.
+	 */
+	private function is_woocommerce_active() {
+		return WPSEO_Utils::is_woocommerce_active();
 	}
 
 	/**
@@ -40,11 +67,18 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	 * @return bool Whether the current page is the WooCommerce shop page.
 	 */
 	public function is_shop_page() {
-		if ( function_exists( 'is_shop' ) && function_exists( 'wc_get_page_id' ) ) {
-			return is_shop() && ! is_search();
+		global $wp_query;
+
+		// Prevents too early "caching".
+		if ( ! isset( $wp_query ) ) {
+			return false;
 		}
 
-		return false;
+		if ( ! isset( self::$is_shop_page ) ) {
+			self::$is_shop_page = $this->is_woocommerce_active() && is_shop() && ! is_search();
+		}
+
+		return self::$is_shop_page;
 	}
 
 	/**
@@ -53,12 +87,10 @@ class WPSEO_WooCommerce_Shop_Page implements WPSEO_WordPress_Integration {
 	 * @return int The ID of the set page.
 	 */
 	public function get_shop_page_id() {
-		static $shop_page_id;
-
-		if ( ! $shop_page_id ) {
-			$shop_page_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'shop' ) : ( -1 );
+		if ( ! isset( self::$shop_page_id ) ) {
+			self::$shop_page_id = function_exists( 'wc_get_page_id' ) ? wc_get_page_id( 'shop' ) : ( -1 );
 		}
 
-		return $shop_page_id;
+		return self::$shop_page_id;
 	}
 }

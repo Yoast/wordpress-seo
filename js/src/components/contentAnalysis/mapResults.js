@@ -1,7 +1,7 @@
-import analysis from "yoastseo";
-import { colors } from "yoast-components";
+import { helpers } from "yoastseo";
+import { colors } from "@yoast/style-guide";
 
-const { scoreToRating } = analysis.helpers;
+const { scoreToRating } = helpers;
 
 
 /**
@@ -13,6 +13,7 @@ const { scoreToRating } = analysis.helpers;
  * @property {string} id
  * @property {func} marker
  * @property {number} score
+ * @property {string} markerId
  */
 
 /**
@@ -29,17 +30,20 @@ const { scoreToRating } = analysis.helpers;
  * Maps a single results to a result that can be interpreted by yoast-component's ContentAnalysis.
  *
  * @param {object} result Result provided by YoastSEO.js.
+ * @param {string} key    The keyword key to use for the marker id.
  *
  * @returns {MappedResult} The mapped result.
  */
-function mapResult( result ) {
+function mapResult( result, key = "" ) {
+	const id = result.getIdentifier();
 	const mappedResult = {
 		score: result.score,
 		rating: scoreToRating( result.score ),
 		hasMarks: result.hasMarks(),
 		marker: result.getMarker(),
-		id: result.getIdentifier(),
+		id,
 		text: result.text,
+		markerId: key.length > 0 ? `${key}:${id}` : id,
 	};
 
 	// Because of inconsistency between YoastSEO and yoast-components.
@@ -89,7 +93,7 @@ function processResult( mappedResult, mappedResults ) {
 export function getIconForScore( score ) {
 	let icon = { icon: "seo-score-none", color: colors.$color_grey_disabled };
 
-	switch( score ) {
+	switch ( score ) {
 		case "loading":
 			icon = { icon: "loading-spinner", color: colors.$color_green_medium_light };
 			break;
@@ -111,13 +115,14 @@ export function getIconForScore( score ) {
  * Maps results to object, to be used by the ContentAnalysis component.
  *
  * Takes in the YoastSEO.js results and maps them to the appropriate objects, so they can be used by the
- * ContentAnalysis component from yoast-components.
+ * ContentAnalysis component from @yoast/analysis-report.
  *
- * @param {object} results Results provided by YoastSEO.js.
+ * @param {object} results    Results provided by YoastSEO.js.
+ * @param {string} keywordKey The key of the keyword that these results represent.
  *
  * @returns {MappedResults} The mapped results.
  */
-export default function mapResults( results ) {
+export default function mapResults( results, keywordKey = "" ) {
 	let mappedResults = {
 		errorsResults: [],
 		problemsResults: [],
@@ -130,10 +135,10 @@ export default function mapResults( results ) {
 	}
 	for ( let i = 0; i < results.length; i++ ) {
 		const result = results[ i ];
-		if( ! result.text ) {
+		if ( ! result.text ) {
 			continue;
 		}
-		const mappedResult = mapResult( result );
+		const mappedResult = mapResult( result, keywordKey );
 		mappedResults = processResult( mappedResult, mappedResults );
 	}
 	return mappedResults;

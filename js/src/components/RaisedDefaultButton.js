@@ -10,7 +10,7 @@ import RaisedButton from "material-ui/RaisedButton";
  * @constructor
  */
 const RaisedDefaultButton = ( props ) => {
-	let buttonProps = {
+	const buttonProps = {
 		primary: props.type === "primary",
 	};
 
@@ -30,9 +30,9 @@ RaisedDefaultButton.propTypes = {
 
 RaisedDefaultButton.defaultProps = {
 	type: "",
-	disableFocusRipple: true,
+	disableFocusRipple: false,
 	disableTouchRipple: true,
-	disableKeyboardFocus: true,
+	disableKeyboardFocus: false,
 };
 
 export default RaisedDefaultButton;

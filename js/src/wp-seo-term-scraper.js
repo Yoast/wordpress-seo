@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoReplaceVarsL10n, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, wpseoReplaceVarsL10n, wpseoTermScraperL10n, YoastReplaceVarPlugin */
 
 // External dependencies.
 import { App, TaxonomyAssessor } from "yoastseo";
@@ -14,6 +14,7 @@ import debounce from "lodash/debounce";
 import Edit from "./edit";
 import { termsTmceId } from "./wp-seo-tinymce";
 import Pluggable from "./Pluggable";
+import requestWordsToHighlight from "./analysis/requestWordsToHighlight.js";
 
 // UI dependencies.
 import { update as updateTrafficLight } from "./ui/trafficLight";
@@ -32,11 +33,13 @@ import TermDataCollector from "./analysis/TermDataCollector";
 import CustomAnalysisData from "./analysis/CustomAnalysisData";
 import getApplyMarks from "./analysis/getApplyMarks";
 import { refreshDelay } from "./analysis/constants";
+import handleWorkerError from "./analysis/handleWorkerError";
 
 // Redux dependencies.
 import { refreshSnippetEditor, updateData } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { setFocusKeyword } from "./redux/actions/focusKeyword";
+import { setMarkerStatus } from "./redux/actions/markerButtons";
 
 // Helper dependencies.
 import isGutenbergDataAvailable from "./helpers/isGutenbergDataAvailable";
@@ -44,7 +47,6 @@ import {
 	registerReactComponent,
 	renderClassicEditorMetabox,
 } from "./helpers/classicEditor";
-import "./helpers/babel-polyfill";
 
 setYoastComponentsL10n();
 setWordPressSeoL10n();
@@ -181,10 +183,10 @@ window.yoastHideMarkers = true;
 	 * @returns {void}
 	 */
 	function disableYoastSEORenderers( app ) {
-		if( ! isUndefined( app.seoAssessorPresenter ) ) {
+		if ( ! isUndefined( app.seoAssessorPresenter ) ) {
 			app.seoAssessorPresenter.render = function() {};
 		}
-		if( ! isUndefined( app.contentAssessorPresenter ) ) {
+		if ( ! isUndefined( app.contentAssessorPresenter ) ) {
 			app.contentAssessorPresenter.render = function() {};
 			app.contentAssessorPresenter.renderIndividualRatings = function() {};
 		}
@@ -193,20 +195,20 @@ window.yoastHideMarkers = true;
 	let currentAnalysisData;
 
 	/**
-	 * Rerun the analysis when the title or metadescription in the snippet changes.
+	 * Rerun the analysis when the title or meta description in the snippet changes.
 	 *
-	 * @param {Object} store The store.
-	 * @param {Object} app The YoastSEO app.
+	 * @param {Object}   store            The store.
+	 * @param {Function} _refreshAnalysis Function that triggers a refresh of the analysis.
 	 *
 	 * @returns {void}
 	 */
-	function handleStoreChange( store, app ) {
+	function handleStoreChange( store, _refreshAnalysis ) {
 		const previousAnalysisData = currentAnalysisData || "";
 		currentAnalysisData = store.getState().analysisData.snippet;
 
 		const isDirty = ! isShallowEqualObjects( previousAnalysisData, currentAnalysisData );
 		if ( isDirty ) {
-			app.refresh();
+			_refreshAnalysis();
 		}
 	}
 
@@ -234,6 +236,8 @@ window.yoastHideMarkers = true;
 		insertTinyMCE();
 
 		termScraper = new TermDataCollector( { store } );
+
+		store.dispatch( setMarkerStatus( "hidden" ) );
 
 		args = {
 			// ID's of elements that need to trigger updating the analyzer.
@@ -304,10 +308,14 @@ window.yoastHideMarkers = true;
 					YoastSEO.app.pluggable._registerAssessment( YoastSEO.app.cornerStoneSeoAssessor, name, assessment, pluginName );
 			}
 		};
+		YoastSEO.app.changeAssessorOptions = function( assessorOptions ) {
+			YoastSEO.analysis.worker.initialize( assessorOptions ).catch( handleWorkerError );
+			YoastSEO.app.refresh();
+		};
 
-		edit.initializeUsedKeywords( app, "get_term_keyword_usage" );
+		edit.initializeUsedKeywords( YoastSEO.app.refresh, "get_term_keyword_usage" );
 
-		store.subscribe( handleStoreChange.bind( null, store, app ) );
+		store.subscribe( handleStoreChange.bind( null, store, YoastSEO.app.refresh ) );
 
 		if ( isKeywordAnalysisActive() ) {
 			app.seoAssessor = new TaxonomyAssessor( app.i18n );
@@ -318,7 +326,7 @@ window.yoastHideMarkers = true;
 
 		// Init Plugins.
 		YoastSEO.wp = {};
-		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app );
+		YoastSEO.wp.replaceVarsPlugin = new YoastReplaceVarPlugin( app, store );
 
 		// For backwards compatibility.
 		YoastSEO.analyzerArgs = args;
@@ -326,7 +334,13 @@ window.yoastHideMarkers = true;
 		YoastSEO._registerReactComponent = registerReactComponent;
 
 		initTermSlugWatcher();
-		termScraper.bindElementEvents( app );
+		termScraper.bindElementEvents( debounce( () => refreshAnalysis(
+			YoastSEO.analysis.worker,
+			YoastSEO.analysis.collectData,
+			YoastSEO.analysis.applyMarks,
+			YoastSEO.store,
+			termScraper,
+		), refreshDelay ) );
 
 		if ( isKeywordAnalysisActive() ) {
 			initializeKeywordAnalysis( termScraper );
@@ -341,11 +355,11 @@ window.yoastHideMarkers = true;
 			.then( () => {
 				jQuery( window ).trigger( "YoastSEO:ready" );
 			} )
-			.catch( error => console.warn( error ) );
+			.catch( handleWorkerError );
 
 		// Hack needed to make sure Publish box and traffic light are still updated.
 		disableYoastSEORenderers( app );
-		let originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
+		const originalInitAssessorPresenters = app.initAssessorPresenters.bind( app );
 		app.initAssessorPresenters = function() {
 			originalInitAssessorPresenters();
 			disableYoastSEORenderers( app );
@@ -359,7 +373,8 @@ window.yoastHideMarkers = true;
 		// Set the initial snippet editor data.
 		store.dispatch( updateData( snippetEditorData ) );
 
-		let focusKeyword;
+		let focusKeyword = store.getState().focusKeyword;
+		requestWordsToHighlight( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
 
 		const refreshAfterFocusKeywordChange = debounce( () => {
 			app.refresh();
@@ -368,10 +383,12 @@ window.yoastHideMarkers = true;
 		// Subscribe to the store to save the snippet editor data.
 		store.subscribe( () => {
 			// Verify whether the focusKeyword changed. If so, trigger refresh:
-			let newFocusKeyword = store.getState().focusKeyword;
+			const newFocusKeyword = store.getState().focusKeyword;
 
 			if ( focusKeyword !== newFocusKeyword ) {
 				focusKeyword = newFocusKeyword;
+
+				requestWordsToHighlight( YoastSEO.analysis.worker.runResearch, YoastSEO.store, focusKeyword );
 
 				document.getElementById( "hidden_wpseo_focuskw" ).value = focusKeyword;
 				refreshAfterFocusKeywordChange();

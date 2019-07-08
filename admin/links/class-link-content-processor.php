@@ -11,10 +11,14 @@
  */
 class WPSEO_Link_Content_Processor {
 
-	/** @var WPSEO_Link_Storage */
+	/**
+	 * @var WPSEO_Link_Storage
+	 */
 	protected $storage;
 
-	/** @var WPSEO_Meta_Storage */
+	/**
+	 * @var WPSEO_Meta_Storage
+	 */
 	private $count_storage;
 
 	/**

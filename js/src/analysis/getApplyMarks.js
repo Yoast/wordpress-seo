@@ -4,6 +4,7 @@ import noop from "lodash/noop";
 
 import tinyMCEHelper from "../wp-seo-tinymce";
 import { tinyMCEDecorator } from "../decorator/tinyMCE";
+import { isAnnotationAvailable, applyAsAnnotations } from "../decorator/gutenberg";
 
 let decorator = null;
 
@@ -22,6 +23,10 @@ function applyMarks( paper, marks ) {
 		}
 
 		decorator( paper, marks );
+	}
+
+	if ( isAnnotationAvailable() ) {
+		applyAsAnnotations( paper, marks );
 	}
 }
 

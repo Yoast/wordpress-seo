@@ -57,7 +57,6 @@
 	}
 
 	&-button {
-
 		&--extension {
 			color: $color-white;
 			text-transform: uppercase;
@@ -66,16 +65,6 @@
 
 			& + &-activated, & + &-not-activated {
 				margin-left: 0;
-			}
-
-			&-buy {
-				&, &:hover {
-					background-color: $color-pink-dark;
-				}
-
-				&:visited {
-					color: $color-white;
-				}
 			}
 
 			&-installed, &-activated, &-not-activated {
@@ -103,7 +92,16 @@
 					background-color: $color_green_medium;
 				}
 			}
+		}
 
+		&-upsell {
+			width: 100%;
+			margin-bottom: 1em;
+
+			@media only screen and (min-width: $page-width-small) {
+				width: auto;
+				margin-right: 1.36rem;
+			}
 		}
 	}
 
@@ -120,8 +118,13 @@
 	}
 
 	&-promo-extension {
+		// This is already a flex item of the container yoast-promo-extensions.
+		// First we style it as flex item to include fixes for IE11.
+		flex: 0 1 340px;
 		max-width: 340px;
-		padding-bottom: 120px;
+		// Then we style it as flex container to layout its content in a vertical flexbox.
+		display: flex;
+		flex-direction: column;
 		background-color: transparent;
 		border-color: $scheme-academy-secondary;
 		margin-left: $gutter;
@@ -140,20 +143,16 @@
 			}
 		}
 
-
 		.yoast {
 			&-button-container {
-				position: absolute;
-				bottom: 20px;
-				left: 20px;
-				right: 20px;
+				// Push the button container to the bottom leveraging flexbox auto margins.
+				margin-top: auto;
 
 				div.yoast-button--extension {
 					cursor: default;
 				}
 			}
 		}
-
 
 		.yoast-button {
 			width: 100%;
@@ -180,7 +179,10 @@
 					width: 48%;
 				}
 			}
+		}
 
+		.yoast-button-upsell {
+			width: 100%;
 		}
 
 		h3 {
@@ -237,7 +239,7 @@
 		padding-left: calc( 1em + 5px );
 		background-size: 1em;
 		background-repeat: no-repeat;
-		background-position: left 0.2em;
+		background-position: left center;
 
 		&:after {
 			content: " \00BB";
@@ -245,8 +247,8 @@
 
 		.yoast-promo-extension & {
 			display: block;
-			margin: 1em 0 0 0;
-			background-position: left 0.4em;
+			margin: 0;
+			background-position: left center;
 		}
 	}
 

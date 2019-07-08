@@ -7,11 +7,6 @@ const cssDistPath = path.resolve( "css", "dist" );
 
 // Output filename: Entry file (relative to jsSrcPath)
 const entry = {
-	vendor: [
-		"babel-polyfill",
-		"react",
-		"react-dom",
-	],
 	"configuration-wizard": "./configuration-wizard.js",
 	"search-appearance": "./search-appearance.js",
 	"wp-seo-dashboard-widget": "./wp-seo-dashboard-widget.js",
@@ -22,8 +17,6 @@ const entry = {
 	"wp-seo-modal": "./wp-seo-modal.js",
 	"wp-seo-replacevar-plugin": "./wp-seo-replacevar-plugin.js",
 	"wp-seo-structured-data-blocks": "./wp-seo-structured-data-blocks.js",
-	analysis: "./analysis.js",
-	components: "./components.js",
 
 	"wp-seo-admin-global": "./wp-seo-admin-global.js",
 	"wp-seo-admin-gsc": "./wp-seo-admin-gsc.js",
@@ -40,6 +33,7 @@ const entry = {
 	"wp-seo-filter-explanation": "./wp-seo-filter-explanation.js",
 	"wp-seo-quick-edit-handler": "./wp-seo-quick-edit-handler.js",
 	"wp-seo-network-admin": "./wp-seo-network-admin.js",
+	"wp-seo-courses-overview": "./courses-overview.js",
 };
 
 /**
@@ -50,7 +44,7 @@ const entry = {
  * @returns {string} The flattened version.
  */
 function flattenVersionForFile( version ) {
-	let versionParts = version.split( "." );
+	const versionParts = version.split( "." );
 	if ( versionParts.length === 2 && /^\d+$/.test( versionParts[ 1 ] ) ) {
 		versionParts.push( 0 );
 	}

@@ -1,28 +1,17 @@
 # Grunt aliases
 ---
-# Build everything
-build:
-  - 'build:css'
-  - 'build:images'
-  - 'build:js'
-  - 'build:i18n'
-# Build CSS from SCSS to production
-'build:sass':
-  - 'sass:build'
-'build:css':
-  - 'build:sass'
-  - 'postcss:build'
-  - 'wpcss'
-  - 'clean:before-rtlcss'
-  - 'rtlcss'
-  - 'cssmin'
-# Optimise images from source to production
-'build:images':
-  - 'imagemin'
 # Build JavaScript from assets to production
 'build:js':
-  - 'copy:dependencies'
+  - 'clean:build-assets-js'
+  - 'copy:js-dependencies'
   - 'webpack:buildDev'
+# Build CSS from SCSS to production
+'build:css':
+  - 'clean:build-assets-css'
+  - 'copy:css-dependencies'
+  - 'sass:build'
+  - 'postcss:build'
+  - 'rtlcss:build'
 
 # Build internationalisation features
 'build:i18n':
@@ -53,18 +42,9 @@ build:
   - 'i18n-clean-json'
   - 'clean:po-files'
 
-# Check health of the project
-check:
-  - 'check:js'
-  - 'check:php'
-  - 'check:i18n'
-'check:js':
-  - 'eslint'
-'check:php':
-  - 'phplint'
-  - 'phpcs'
-'check:i18n':
-  - 'checktextdomain'
+clean:build-assets:
+  - 'clean:build-assets-js'
+  - 'clean:build-assets-css'
 
 # Update all versions except the stable tag
 'update-version-trunk':
@@ -72,7 +52,10 @@ check:
   - 'update-version:initializer'
 
 'artifact':
-  - 'shell:production-composer-install'
+  - 'shell:production-prefix-dependencies'
+  - 'shell:composer-install-production'
+  # Remove the folders that are already in the vendor_prefixed folder from the vendor folder.
+  - 'shell:remove-prefixed-sources'
   # Build like we normally would
   - 'release'
   # Remove build folder
@@ -81,6 +64,12 @@ check:
   - 'copy:artifact'
   # Create a zip file
   - 'compress:artifact'
+  - 'restore-environment-after-artifact'
+
+'restore-environment-after-artifact':
+  - 'shell:composer-reset-config'
+  - 'shell:composer-reset-lock'
+  - 'shell:composer-install-dev'
 
 'composer-artifact':
   # Create our composer targeted artifact
@@ -88,19 +77,17 @@ check:
   - 'copy:composer-artifact'
   - 'clean:composer-files'
   - 'copy:composer-files'
+  - 'remove-vendor-prefixed-folder'
 
 # Get the project ready for release
 release:
-  - 'build:images'
   - 'clean:build-assets'
-  - 'release:css'
+  - 'build:images'
+  - 'build:css'
   - 'release:js'
   - 'build:i18n'
-'release:css':
-  - 'build:css'
-  - 'cssmin'
 'release:js':
-  - 'copy:dependencies'
+  - 'copy:js-dependencies'
   - 'webpack:buildProd'
 
 'deploy:trunk':

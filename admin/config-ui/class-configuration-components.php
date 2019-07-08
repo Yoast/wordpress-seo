@@ -6,14 +6,22 @@
  */
 
 /**
- * Class WPSEO_Configuration_Components
+ * Class WPSEO_Configuration_Components.
  */
 class WPSEO_Configuration_Components {
 
-	/** @var WPSEO_Config_Component[] List of registered components */
+	/**
+	 * List of registered components.
+	 *
+	 * @var WPSEO_Config_Component[]
+	 */
 	protected $components = array();
 
-	/** @var WPSEO_Configuration_Options_Adapter Adapter */
+	/**
+	 * Adapter.
+	 *
+	 * @var WPSEO_Configuration_Options_Adapter
+	 */
 	protected $adapter;
 
 	/**
@@ -22,12 +30,11 @@ class WPSEO_Configuration_Components {
 	public function initialize() {
 		$this->add_component( new WPSEO_Config_Component_Connect_Google_Search_Console() );
 		$this->add_component( new WPSEO_Config_Component_Mailchimp_Signup() );
-		$this->add_component( new WPSEO_Config_Component_Configuration_Choices() );
 		$this->add_component( new WPSEO_Config_Component_Suggestions() );
 	}
 
 	/**
-	 * Add a component
+	 * Add a component.
 	 *
 	 * @param WPSEO_Config_Component $component Component to add.
 	 */

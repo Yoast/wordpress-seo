@@ -10,9 +10,6 @@
  */
 class WPSEO_OpenGraph {
 
-	/** @var WPSEO_Frontend_Page_Type */
-	protected $frontend_page_type;
-
 	/**
 	 * Class constructor.
 	 */
@@ -21,8 +18,6 @@ class WPSEO_OpenGraph {
 			add_filter( 'fb_meta_tags', array( $this, 'facebook_filter' ), 10, 1 );
 		}
 		else {
-			add_filter( 'language_attributes', array( $this, 'add_opengraph_namespace' ), 15 );
-
 			add_action( 'wpseo_opengraph', array( $this, 'locale' ), 1 );
 			add_action( 'wpseo_opengraph', array( $this, 'type' ), 5 );
 			add_action( 'wpseo_opengraph', array( $this, 'og_title' ), 10 );
@@ -42,9 +37,6 @@ class WPSEO_OpenGraph {
 		}
 		add_filter( 'jetpack_enable_open_graph', '__return_false' );
 		add_action( 'wpseo_head', array( $this, 'opengraph' ), 30 );
-
-		// Class for determine the current page type.
-		$this->frontend_page_type = new WPSEO_Frontend_Page_Type();
 	}
 
 	/**
@@ -106,45 +98,6 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
-	 * Filter for the namespace, adding the OpenGraph namespace.
-	 *
-	 * @link https://developers.facebook.com/docs/web/tutorials/scrumptious/open-graph-object/
-	 *
-	 * @param string $input The input namespace string.
-	 *
-	 * @return string
-	 */
-	public function add_opengraph_namespace( $input ) {
-		$namespaces = array(
-			'og: http://ogp.me/ns#',
-		);
-
-		/**
-		 * Allow for adding additional namespaces to the <html> prefix attributes.
-		 *
-		 * @since 3.9.0
-		 *
-		 * @param array $namespaces Currently registered namespaces which are to be
-		 *                          added to the prefix attribute.
-		 *                          Namespaces are strings and have the following syntax:
-		 *                          ns: http://url.to.namespace/definition
-		 */
-		$namespaces       = apply_filters( 'wpseo_html_namespaces', $namespaces );
-		$namespace_string = implode( ' ', array_unique( $namespaces ) );
-
-		if ( strpos( $input, ' prefix=' ) !== false ) {
-			$regex   = '`prefix=([\'"])(.+?)\1`';
-			$replace = 'prefix="$2 ' . $namespace_string . '"';
-			$input   = preg_replace( $regex, $replace, $input );
-		}
-		else {
-			$input .= ' prefix="' . $namespace_string . '"';
-		}
-
-		return $input;
-	}
-
-	/**
 	 * Outputs the authors FB page.
 	 *
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
@@ -178,6 +131,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
 	 * @return boolean
 	 */
 	public function website_facebook() {
@@ -204,8 +158,8 @@ class WPSEO_OpenGraph {
 
 		$frontend = WPSEO_Frontend::get_instance();
 
-		if ( $this->frontend_page_type->is_simple_page() ) {
-			$post_id = $this->frontend_page_type->get_simple_page_id();
+		if ( WPSEO_Frontend_Page_Type::is_simple_page() ) {
+			$post_id = WPSEO_Frontend_Page_Type::get_simple_page_id();
 			$post    = get_post( $post_id );
 			$title   = WPSEO_Meta::get_value( 'opengraph-title', $post_id );
 
@@ -260,6 +214,7 @@ class WPSEO_OpenGraph {
 	 * Outputs the canonical URL as OpenGraph URL, which consolidates likes and shares.
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
 	 * @return boolean
 	 */
 	public function url() {
@@ -293,10 +248,9 @@ class WPSEO_OpenGraph {
 	/**
 	 * Output the locale, doing some conversions to make sure the proper Facebook locale is outputted.
 	 *
-	 * Last update/compare with FB list done on 2015-03-16 by Rarst
+	 * Last update/compare with FB list done on 2015-03-16 by Rarst.
 	 *
-	 * @see  http://www.facebook.com/translations/FacebookLocales.xml for the list of supported locales
-	 *
+	 * @link http://www.facebook.com/translations/FacebookLocales.xml for the list of supported locales.
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 	 *
 	 * @param bool $echo Whether to echo or return the locale.
@@ -344,6 +298,7 @@ class WPSEO_OpenGraph {
 			'az_AZ', // Azerbaijani.
 			'be_BY', // Belarusian.
 			'bg_BG', // Bulgarian.
+			'bp_IN', // Bhojpuri.
 			'bn_IN', // Bengali.
 			'br_FR', // Breton.
 			'bs_BA', // Bosnian.
@@ -358,17 +313,14 @@ class WPSEO_OpenGraph {
 			'de_DE', // German.
 			'el_GR', // Greek.
 			'en_GB', // English (UK).
-			'en_IN', // English (India).
 			'en_PI', // English (Pirate).
 			'en_UD', // English (Upside Down).
 			'en_US', // English (US).
+			'em_ZM',
 			'eo_EO', // Esperanto.
-			'es_CL', // Spanish (Chile).
-			'es_CO', // Spanish (Colombia).
 			'es_ES', // Spanish (Spain).
 			'es_LA', // Spanish.
 			'es_MX', // Spanish (Mexico).
-			'es_VE', // Spanish (Venezuela).
 			'et_EE', // Estonian.
 			'eu_ES', // Basque.
 			'fa_IR', // Persian.
@@ -389,11 +341,14 @@ class WPSEO_OpenGraph {
 			'hi_IN', // Hindi.
 			'hr_HR', // Croatian.
 			'hu_HU', // Hungarian.
+			'ht_HT', // Haitian Creole.
 			'hy_AM', // Armenian.
 			'id_ID', // Indonesian.
 			'ig_NG', // Igbo.
 			'is_IS', // Icelandic.
 			'it_IT', // Italian.
+			'ik_US',
+			'iu_CA',
 			'ja_JP', // Japanese.
 			'ja_KS', // Japanese (Kansai).
 			'jv_ID', // Javanese.
@@ -402,6 +357,7 @@ class WPSEO_OpenGraph {
 			'km_KH', // Khmer.
 			'kn_IN', // Kannada.
 			'ko_KR', // Korean.
+			'ks_IN', // Kashmiri.
 			'ku_TR', // Kurdish (Kurmanji).
 			'ky_KG', // Kyrgyz.
 			'la_VA', // Latin.
@@ -426,14 +382,20 @@ class WPSEO_OpenGraph {
 			'nl_BE', // Dutch (Belgie).
 			'nl_NL', // Dutch.
 			'nn_NO', // Norwegian (nynorsk).
+			'nr_ZA', // Southern Ndebele.
+			'ns_ZA', // Northern Sotho.
 			'ny_MW', // Chewa.
+			'om_ET', // Oromo.
 			'or_IN', // Oriya.
 			'pa_IN', // Punjabi.
 			'pl_PL', // Polish.
 			'ps_AF', // Pashto.
 			'pt_BR', // Portuguese (Brazil).
 			'pt_PT', // Portuguese (Portugal).
+			'qc_GT', // Quiché.
 			'qu_PE', // Quechua.
+			'qr_GR',
+			'qz_MM', // Burmese (Zawgyi).
 			'rm_CH', // Romansh.
 			'ro_RO', // Romanian.
 			'ru_RU', // Russian.
@@ -442,12 +404,15 @@ class WPSEO_OpenGraph {
 			'sc_IT', // Sardinian.
 			'se_NO', // Northern Sami.
 			'si_LK', // Sinhala.
+			'su_ID', // Sundanese.
 			'sk_SK', // Slovak.
 			'sl_SI', // Slovenian.
 			'sn_ZW', // Shona.
 			'so_SO', // Somali.
 			'sq_AL', // Albanian.
 			'sr_RS', // Serbian.
+			'ss_SZ', // Swazi.
+			'st_ZA', // Southern Sotho.
 			'sv_SE', // Swedish.
 			'sw_KE', // Swahili.
 			'sy_SY', // Syriac.
@@ -459,12 +424,15 @@ class WPSEO_OpenGraph {
 			'tk_TM', // Turkmen.
 			'tl_PH', // Filipino.
 			'tl_ST', // Klingon.
+			'tn_BW', // Tswana.
 			'tr_TR', // Turkish.
+			'ts_ZA', // Tsonga.
 			'tt_RU', // Tatar.
 			'tz_MA', // Tamazight.
 			'uk_UA', // Ukrainian.
 			'ur_PK', // Urdu.
 			'uz_UZ', // Uzbek.
+			've_ZA', // Venda.
 			'vi_VN', // Vietnamese.
 			'wo_SN', // Wolof.
 			'xh_ZA', // Xhosa.
@@ -571,8 +539,8 @@ class WPSEO_OpenGraph {
 			}
 		}
 
-		if ( $this->frontend_page_type->is_simple_page() ) {
-			$post_id = $this->frontend_page_type->get_simple_page_id();
+		if ( WPSEO_Frontend_Page_Type::is_simple_page() ) {
+			$post_id = WPSEO_Frontend_Page_Type::get_simple_page_id();
 			$post    = get_post( $post_id );
 			$ogdesc  = WPSEO_Meta::get_value( 'opengraph-description', $post_id );
 
@@ -590,6 +558,10 @@ class WPSEO_OpenGraph {
 			}
 		}
 
+		if ( is_author() ) {
+			$ogdesc = $frontend->metadesc( false );
+		}
+
 		if ( is_category() || is_tag() || is_tax() ) {
 			$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-description' );
 			if ( $ogdesc === '' ) {
@@ -603,6 +575,7 @@ class WPSEO_OpenGraph {
 			if ( $ogdesc === '' ) {
 				$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'desc' );
 			}
+			$ogdesc = wpseo_replace_vars( $ogdesc, get_queried_object() );
 		}
 
 		// Strip shortcodes if any.
@@ -643,6 +616,7 @@ class WPSEO_OpenGraph {
 	 * Output the article tags as article:tag tags.
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
 	 * @return boolean
 	 */
 	public function tags() {
@@ -667,6 +641,7 @@ class WPSEO_OpenGraph {
 	 * Output the article category as an article:section tag.
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
 	 * @return boolean;
 	 */
 	public function category() {
@@ -706,6 +681,7 @@ class WPSEO_OpenGraph {
 	 * Output the article publish and last modification date.
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
 	 * @return boolean;
 	 */
 	public function publish_date() {
@@ -723,10 +699,12 @@ class WPSEO_OpenGraph {
 			}
 		}
 
-		$pub = get_the_date( DATE_W3C );
+		$post = get_post();
+
+		$pub = mysql2date( DATE_W3C, $post->post_date_gmt, false );
 		$this->og_tag( 'article:published_time', $pub );
 
-		$mod = get_the_modified_date( DATE_W3C );
+		$mod = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
 		if ( $mod !== $pub ) {
 			$this->og_tag( 'article:modified_time', $mod );
 			$this->og_tag( 'og:updated_time', $mod );
@@ -749,10 +727,13 @@ class WPSEO_OpenGraph {
 		}
 	}
 
+	/* ********************* DEPRECATED METHODS ********************* */
+
 	/**
 	 * Outputs the site owner.
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
 	 * @return void
 	 *
 	 * @deprecated 7.1

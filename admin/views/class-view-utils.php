@@ -6,10 +6,15 @@
  */
 
 /**
- * Class Yoast_View_Utils
+ * Class Yoast_View_Utils.
  */
 class Yoast_View_Utils {
-	/** @var Yoast_Form Form to use. */
+
+	/**
+	 * Form to use.
+	 *
+	 * @var Yoast_Form
+	 */
 	protected $form;
 
 	/**

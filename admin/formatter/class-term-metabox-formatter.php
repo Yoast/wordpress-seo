@@ -6,7 +6,7 @@
  */
 
 /**
- * This class provides data for the term metabox by return its values for localization
+ * This class provides data for the term metabox by return its values for localization.
  */
 class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface {
 
@@ -21,7 +21,9 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	private $taxonomy;
 
 	/**
-	 * @var array Array with the WPSEO_Titles options.
+	 * Array with the WPSEO_Titles options.
+	 *
+	 * @var array
 	 */
 	protected $options;
 
@@ -44,7 +46,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	public function get_values() {
 		$values = array();
 
-		// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus kw doubles.
+		// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus keyphrase doubles.
 		if ( is_object( $this->term ) && property_exists( $this->term, 'taxonomy' ) ) {
 			$values = array(
 				'search_url'        => $this->search_url(),
@@ -61,7 +63,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	}
 
 	/**
-	 * Returns the url to search for keyword for the taxonomy
+	 * Returns the url to search for keyword for the taxonomy.
 	 *
 	 * @return string
 	 */
@@ -70,7 +72,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	}
 
 	/**
-	 * Returns the url to edit the taxonomy
+	 * Returns the url to edit the taxonomy.
 	 *
 	 * @return string
 	 */
@@ -81,7 +83,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	}
 
 	/**
-	 * Returns a base URL for use in the JS, takes permalink structure into account
+	 * Returns a base URL for use in the JS, takes permalink structure into account.
 	 *
 	 * @return string
 	 */
@@ -96,7 +98,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	}
 
 	/**
-	 * Counting the number of given keyword used for other term than given term_id
+	 * Counting the number of given keyword used for other term than given term_id.
 	 *
 	 * @return array
 	 */

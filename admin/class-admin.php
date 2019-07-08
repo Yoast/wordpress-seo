@@ -10,7 +10,13 @@
  */
 class WPSEO_Admin {
 
-	/** The page identifier used in WordPress to register the admin page !DO NOT CHANGE THIS! */
+	/**
+	 * The page identifier used in WordPress to register the admin page.
+	 *
+	 * !DO NOT CHANGE THIS!
+	 *
+	 * @var string
+	 */
 	const PAGE_IDENTIFIER = 'wpseo_dashboard';
 
 	/**
@@ -41,14 +47,8 @@ class WPSEO_Admin {
 			add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
 		}
 
-		$this->admin_features = array(
-			// Google Search Console.
-			'google_search_console' => new WPSEO_GSC(),
-			'dashboard_widget'      => new Yoast_Dashboard_Widget(),
-		);
-
-		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
-			$this->admin_features['primary_category']       = new WPSEO_Primary_Term_Admin();
+		if ( WPSEO_Options::get( 'disable-attachment' ) === true ) {
+			add_filter( 'wpseo_accessible_post_types', array( 'WPSEO_Post_Type', 'filter_attachment_post_type' ) );
 		}
 
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' && filter_input( INPUT_GET, 'tool' ) === null ) {
@@ -88,10 +88,17 @@ class WPSEO_Admin {
 
 		$this->initialize_cornerstone_content();
 
-		new Yoast_Modal();
-
 		if ( WPSEO_Utils::is_plugin_network_active() ) {
 			$integrations[] = new Yoast_Network_Admin();
+		}
+
+		$this->admin_features = array(
+			'google_search_console' => new WPSEO_GSC(),
+			'dashboard_widget'      => new Yoast_Dashboard_Widget(),
+		);
+
+		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
+			$this->admin_features['primary_category'] = new WPSEO_Primary_Term_Admin();
 		}
 
 		$integrations[] = new WPSEO_Yoast_Columns();
@@ -101,9 +108,17 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_Admin_Media_Purge_Notification();
 		$integrations[] = new WPSEO_Admin_Gutenberg_Compatibility_Notification();
 		$integrations[] = new WPSEO_Expose_Shortlinks();
-		$integrations   = array_merge( $integrations, $this->initialize_seo_links() );
+		$integrations[] = new WPSEO_MyYoast_Proxy();
+		$integrations[] = new WPSEO_MyYoast_Route();
+		$integrations[] = new WPSEO_Schema_Person_Upgrade_Notification();
 
-		/** @var WPSEO_WordPress_Integration $integration */
+		$integrations = array_merge(
+			$integrations,
+			$this->get_admin_features(),
+			$this->initialize_seo_links(),
+			$this->initialize_cornerstone_content()
+		);
+
 		foreach ( $integrations as $integration ) {
 			$integration->register_hooks();
 		}
@@ -207,21 +222,17 @@ class WPSEO_Admin {
 			array_unshift( $links, $settings_link );
 		}
 
-		if ( class_exists( 'WPSEO_Product_Premium' ) ) {
-			$product_premium   = new WPSEO_Product_Premium();
-			$extension_manager = new WPSEO_Extension_Manager();
-
-			if ( $extension_manager->is_activated( $product_premium->get_slug() ) ) {
-				return $links;
-			}
+		$addon_manager = new WPSEO_Addon_Manager();
+		if ( WPSEO_Utils::is_yoast_seo_premium() && $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::PREMIUM_SLUG ) ) {
+			return $links;
 		}
 
 		// Add link to premium support landing page.
-		$premium_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yb' ) ) . '">' . __( 'Premium Support', 'wordpress-seo' ) . '</a>';
+		$premium_link = '<a style="font-weight: bold;" href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yb' ) ) . '" target="_blank">' . __( 'Premium Support', 'wordpress-seo' ) . '</a>';
 		array_unshift( $links, $premium_link );
 
 		// Add link to docs.
-		$faq_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yc' ) ) . '">' . __( 'FAQ', 'wordpress-seo' ) . '</a>';
+		$faq_link = '<a href="' . esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/1yc' ) ) . '" target="_blank">' . __( 'FAQ', 'wordpress-seo' ) . '</a>';
 		array_unshift( $links, $faq_link );
 
 		return $links;
@@ -246,21 +257,27 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Filter the $contactmethods array and add Facebook, Google+ and Twitter.
+	 * Filter the $contactmethods array and add a set of social profiles.
 	 *
 	 * These are used with the Facebook author, rel="author" and Twitter cards implementation.
+	 *
+	 * @link https://developers.google.com/search/docs/data-types/social-profile
 	 *
 	 * @param array $contactmethods Currently set contactmethods.
 	 *
 	 * @return array $contactmethods with added contactmethods.
 	 */
 	public function update_contactmethods( $contactmethods ) {
-		// Add Google+.
-		$contactmethods['googleplus'] = __( 'Google+', 'wordpress-seo' );
-		// Add Twitter.
-		$contactmethods['twitter'] = __( 'Twitter username (without @)', 'wordpress-seo' );
-		// Add Facebook.
-		$contactmethods['facebook'] = __( 'Facebook profile URL', 'wordpress-seo' );
+		$contactmethods['facebook']   = __( 'Facebook profile URL', 'wordpress-seo' );
+		$contactmethods['instagram']  = __( 'Instagram profile URL', 'wordpress-seo' );
+		$contactmethods['linkedin']   = __( 'LinkedIn profile URL', 'wordpress-seo' );
+		$contactmethods['myspace']    = __( 'MySpace profile URL', 'wordpress-seo' );
+		$contactmethods['pinterest']  = __( 'Pinterest profile URL', 'wordpress-seo' );
+		$contactmethods['soundcloud'] = __( 'SoundCloud profile URL', 'wordpress-seo' );
+		$contactmethods['tumblr']     = __( 'Tumblr profile URL', 'wordpress-seo' );
+		$contactmethods['twitter']    = __( 'Twitter username (without @)', 'wordpress-seo' );
+		$contactmethods['youtube']    = __( 'YouTube profile URL', 'wordpress-seo' );
+		$contactmethods['wikipedia']  = __( 'Wikipedia page about you', 'wordpress-seo' ) . '<br/><small>' . __( '(if one exists)', 'wordpress-seo' ) . '</small>';
 
 		return $contactmethods;
 	}
@@ -288,7 +305,8 @@ class WPSEO_Admin {
 			'variable_warning'        => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
 			'dismiss_about_url'       => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
 			'dismiss_tagline_url'     => $this->get_dismiss_url( 'wpseo-dismiss-tagline-notice' ),
-			'help_video_iframe_title' => __( 'Yoast SEO video tutorial', 'wordpress-seo' ),
+			/* translators: %s: expends to Yoast SEO */
+			'help_video_iframe_title' => sprintf( __( '%s video tutorial', 'wordpress-seo' ), 'Yoast SEO' ),
 			'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
 		);
 	}
@@ -319,17 +337,6 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Initializes Whip to show a notice for outdated PHP versions.
-	 *
-	 * @deprecated 8.1
-	 *
-	 * @return void
-	 */
-	public function check_php_version() {
-		// Intentionally left empty.
-	}
-
-	/**
 	 * Whether we are on the admin dashboard page.
 	 *
 	 * @returns bool
@@ -340,17 +347,17 @@ class WPSEO_Admin {
 
 	/**
 	 * Loads the cornerstone filter.
+	 *
+	 * @return WPSEO_WordPress_Integration[] The integrations to initialize.
 	 */
 	protected function initialize_cornerstone_content() {
 		if ( ! WPSEO_Options::get( 'enable_cornerstone_content' ) ) {
-			return;
+			return array();
 		}
 
-		$cornerstone = new WPSEO_Cornerstone();
-		$cornerstone->register_hooks();
-
-		$cornerstone_filter = new WPSEO_Cornerstone_Filter();
-		$cornerstone_filter->register_hooks();
+		return array(
+			'cornerstone_filter' => new WPSEO_Cornerstone_Filter(),
+		);
 	}
 
 	/**
@@ -408,59 +415,13 @@ class WPSEO_Admin {
 		return $integrations;
 	}
 
-	/********************** DEPRECATED METHODS **********************/
-
-	// @codeCoverageIgnoreStart
-	/**
-	 * Register the menu item and its sub menu's.
-	 *
-	 * @deprecated 5.5
-	 */
-	public function register_settings_page() {
-		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
-	}
-
-	/**
-	 * Register the settings page for the Network settings.
-	 *
-	 * @deprecated 5.5
-	 */
-	public function register_network_settings_page() {
-		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
-	}
-
-	/**
-	 * Load the form for a WPSEO admin page.
-	 *
-	 * @deprecated 5.5
-	 */
-	public function load_page() {
-		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
-	}
-
-	/**
-	 * Loads the form for the network configuration page.
-	 *
-	 * @deprecated 5.5
-	 */
-	public function network_config_page() {
-		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
-	}
-
-	/**
-	 * Filters all advanced settings pages from the given pages.
-	 *
-	 * @deprecated 5.5
-	 * @param array $pages The pages to filter.
-	 */
-	public function filter_settings_pages( array $pages ) {
-		_deprecated_function( __METHOD__, 'WPSEO 5.5.0' );
-	}
+	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
 	 * Cleans stopwords out of the slug, if the slug hasn't been set yet.
 	 *
 	 * @deprecated 7.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -472,6 +433,7 @@ class WPSEO_Admin {
 	 * Filter the stopwords from the slug.
 	 *
 	 * @deprecated 7.0
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -480,51 +442,14 @@ class WPSEO_Admin {
 	}
 
 	/**
-	 * Adds contextual help to the titles & metas page.
+	 * Initializes WHIP to show a notice for outdated PHP versions.
 	 *
-	 * @deprecated 5.6.0
+	 * @deprecated 8.1
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
 	 */
-	public function title_metas_help_tab() {
-		_deprecated_function( __METHOD__, '5.6.0' );
-
-		$screen = get_current_screen();
-
-		$screen->set_help_sidebar( '
-			<p><strong>' . __( 'For more information:', 'wordpress-seo' ) . '</strong></p>
-			<p><a target="_blank" href="https://yoast.com/wordpress-seo/#titles">' . __( 'Title optimization', 'wordpress-seo' ) . '</a></p>
-			<p><a target="_blank" href="https://yoast.com/google-page-title/">' . __( 'Why Google won\'t display the right page title', 'wordpress-seo' ) . '</a></p>'
-		);
-
-		$screen->add_help_tab(
-			array(
-				'id'      => 'basic-help',
-				'title'   => __( 'Template explanation', 'wordpress-seo' ),
-				'content' => "\n\t\t<h2>" . __( 'Template explanation', 'wordpress-seo' ) . "</h2>\n\t\t" . '<p>' .
-					sprintf(
-						/* translators: %1$s expands to Yoast SEO. */
-						__( 'The title &amp; metas settings for %1$s are made up of variables that are replaced by specific values from the page when the page is displayed. The tabs on the left explain the available variables.', 'wordpress-seo' ),
-						'Yoast SEO'
-					) .
-					'</p><p>' . __( 'Note that not all variables can be used in every template.', 'wordpress-seo' ) . '</p>',
-			)
-		);
-
-		$screen->add_help_tab(
-			array(
-				'id'      => 'title-vars',
-				'title'   => __( 'Basic Variables', 'wordpress-seo' ),
-				'content' => "\n\t\t<h2>" . __( 'Basic Variables', 'wordpress-seo' ) . "</h2>\n\t\t" . WPSEO_Replace_Vars::get_basic_help_texts(),
-			)
-		);
-
-		$screen->add_help_tab(
-			array(
-				'id'      => 'title-vars-advanced',
-				'title'   => __( 'Advanced Variables', 'wordpress-seo' ),
-				'content' => "\n\t\t<h2>" . __( 'Advanced Variables', 'wordpress-seo' ) . "</h2>\n\t\t" . WPSEO_Replace_Vars::get_advanced_help_texts(),
-			)
-		);
+	public function check_php_version() {
+		// Intentionally left empty.
 	}
-
-	// @codeCoverageIgnoreEnd
 }

@@ -21,8 +21,8 @@ $wpseo_rss_presenter = new WPSEO_Paper_Presenter(
 			__( 'This feature is used to automatically add content to your RSS, more specifically, it\'s meant to add links back to your blog and your blog posts, so dumb scrapers will automatically add these links too, helping search engines identify you as the original source of the content.', 'wordpress-seo' ),
 			'has-wrapper'
 		),
+		'paper_id'  => 'settings-rss-feed',
 	)
 );
 
 echo $wpseo_rss_presenter->get_output();
-

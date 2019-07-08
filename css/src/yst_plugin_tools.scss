@@ -45,6 +45,10 @@ tr.yst_row.even {
 		float: left;
 		width: 200px;
 		margin: 5px 0;
+		&.error {
+			color: #dc3232;
+			font-weight: bold;
+		}
 	}
 
 	.yoast-inline-label {
@@ -65,7 +69,8 @@ tr.yst_row.even {
 
 	input.textinput,
 	textarea.textinput,
-	select.select {
+	select.select,
+	.select2-container {
 		margin: 0 0 15px 0;
 	}
 
@@ -151,6 +156,11 @@ tr.yst_row.even {
 		padding: 5px 8px;
 	}
 
+	.disabled-note {
+		margin: 0 0 8px;
+		color: #888;
+	}
+
 	/* Search Appearance: title separator. */
 	#separator {
 		margin: 1.5em 0 0.5em;
@@ -177,15 +187,13 @@ tr.yst_row.even {
 			}
 
 			&:checked + label {
-				border: 1px solid #a4286a;
+				border: 3px solid #a4286a;
 				background-color: #fff;
-				box-shadow: inset 0 0 0 2px #a4286a;
+				padding: 7px 4px;
 			}
 
-			&:checked + label,
 			&:focus + label {
-				border-radius: 10px;
-				border-bottom-right-radius: 0;
+				outline: 2px solid #5b9dd9;
 			}
 		}
 	}
@@ -482,8 +490,8 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		border-bottom: 1px solid #a4286a;
 	}
 
-	&_section {
-		padding: 20px 0 20px 0;
+	&__section {
+		padding: 20px 0;
 		border-bottom: 1px solid #ddd;
 
 		h2, a {
@@ -525,15 +533,13 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 			img {
 				width: 40px;
 				height: 40px;
+				margin: 0 10px 0 -50px;
 			}
 
 			p {
 				width: 200px;
-				margin: 0 0 0 10px;
-			}
-
-			.clear {
-				clear: both;
+				margin: 0;
+				padding-left: 50px;
 			}
 		}
 
@@ -561,16 +567,17 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	overflow: hidden;
 	margin-top: 2em;
 
-	&--close {
-		color: #333;
-		text-decoration: none;
-		font-weight: bold;
-		font-size: 16px;
-		border: 1px solid #ccc;
-		padding: 1px 4px;
+	.wp-core-ui &--close {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0;
+		width: 24px;
+		height: 24px;
 	}
 
 	&--header {
+		color: $color-pink-dark;
 		margin-top: 0.3em;
 		font-size: 1.7em;
 		font-weight: bold;
@@ -690,6 +697,84 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	}
 }
 
+/* Styled select. */
+.yoast-styled-select {
+	display: inline-flex;
+	align-items: center;
+	position: relative;
+	margin-bottom: 1em;
+
+	&::after,
+	&::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		pointer-events: none;
+	}
+	&::before {
+		width: 28px;
+		right: 0;
+	}
+	&::after {
+		width: 0;
+		height: 0;
+		border: 4px solid transparent;
+		border-top: 5px solid #555;
+		border-bottom-width: 0;
+		margin: auto;
+		right: 6px;
+		z-index: 1;
+	}
+
+	select {
+		height: 28px;
+		box-sizing: border-box;
+		margin: 0;
+		padding: 4px 32px 4px 8px;
+		max-width: 100%;
+		appearance: none;
+		background: transparent;
+		border: 1px solid #aaa;
+		border-radius: 4px;
+		line-height: 1;
+		color: #32373c;
+
+		&.error {
+			border-color: #dc3232;
+			border-width: 2px;
+		}
+
+		.wpseo_content_wrapper &.select {
+			margin: 0;
+		}
+
+		/* Inherits other focus styles from WordPress */
+		&:focus {
+			border-color: #5b9dd9;
+		}
+
+		/* Reset Firefox selected option inner outline */
+		&:-moz-focusring {
+			color: transparent;
+			text-shadow: 0 0 0 #32373c;
+		}
+
+		&[disabled] {
+			opacity: .75;
+		}
+
+		/* Remove background focus style from IE11 while keeping focus style available on option elements. */
+		&::-ms-value {
+			background: transparent;
+		}
+		/* Remove the default down arrow in IE/Edge. */
+		&::-ms-expand {
+			display: none;
+		}
+	}
+}
+
 /* Responsive layout. */
 @media screen and ( max-width: 1024px ) {
 	.wpseo_content_wrapper,
@@ -705,30 +790,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	#sidebar-container {
 		width: auto;
 		padding: 0;
-	}
-
-	/* Banners sidebar. */
-	.yoast-sidebar {
-
-		&__spot {
-			float: left;
-			width: 50%;
-			border: none;
-			text-align: center;
-
-			& > strong:first-child {
-				display: block;
-				max-width: 261px;
-				margin: 0 auto;
-				text-align: left;
-			}
-
-			ul, p {
-				max-width: 261px;
-				text-align: left;
-				margin: 1em auto;
-			}
-		}
 	}
 }
 
@@ -782,17 +843,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	/* Google Search Console: Reload crawl issues form. */
 	.wpseo-gsc-reload-crawl-issues-form {
 		margin-bottom: 0;
-	}
-
-	/* Banners sidebar. */
-	.yoast-sidebar {
-
-		&__spot {
-			float: none;
-			width: 261px;
-			margin: 0 auto;
-			border-bottom: 1px solid #ddd;
-		}
 	}
 }
 

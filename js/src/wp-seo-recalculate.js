@@ -2,13 +2,11 @@
 /* global ajaxurl */
 /* global require */
 
-import "./helpers/babel-polyfill";
-
 var Jed = require( "jed" );
 
 import {
 	Paper,
-	SEOAssessor,
+	ContentAssessor,
 	TaxonomyAssessor,
 } from "yoastseo";
 
@@ -17,6 +15,7 @@ var isUndefined = require( "lodash/isUndefined" );
 ( function( $ ) {
 	var i18n = new Jed( {
 		domain: "js-text-analysis",
+		/* eslint-disable-next-line camelcase */
 		locale_data: {
 			"js-text-analysis": {
 				"": {},
@@ -49,7 +48,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	 * @returns {void}
 	 */
 	YoastRecalculateScore.prototype.setupAssessors = function() {
-		var postAssessor = new SEOAssessor( i18n );
+		var postAssessor = new ContentAssessor( i18n );
 		var taxonomyAssessor = new TaxonomyAssessor( i18n );
 
 		this.validAssessors = {
@@ -137,6 +136,7 @@ var isUndefined = require( "lodash/isUndefined" );
 	 */
 	YoastRecalculateScore.prototype.getScore = function( item ) {
 		return {
+			/* eslint-disable-next-line camelcase */
 			item_id: this.getItemID( item ),
 			taxonomy: ( item.taxonomy ) ? item.taxonomy : "",
 			score: this.calculateItemScore( item ),

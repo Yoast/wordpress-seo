@@ -16,13 +16,13 @@ class WPSEO_Metabox_Addon_Tab_Section extends WPSEO_Metabox_Tab_Section {
 	 */
 	public function display_content() {
 		?>
-		<div id="wpseo-meta-section-addons" class="wpseo-meta-section">
+		<div role="tabpanel" id="wpseo-meta-section-addons" aria-labelledby="wpseo-meta-tab-addons" tabindex="0" class="wpseo-meta-section">
 			<div class="wpseo-metabox-tabs-div">
 				<ul class="wpseo-metabox-tabs">
 					<?php do_action( 'wpseo_tab_header' ); ?>
 				</ul>
+				<?php do_action( 'wpseo_tab_content' ); ?>
 			</div>
-			<?php do_action( 'wpseo_tab_content' ); ?>
 		</div>
 		<?php
 	}

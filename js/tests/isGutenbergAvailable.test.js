@@ -26,4 +26,10 @@ describe( "isGutenbergDataAvailable", () => {
 		const actual = isGutenbergDataAvailable();
 		expect( actual ).toBe( false );
 	} );
+
+	it( "returns false if wp.data is available but the required selectors not registered", () => {
+		window.wp = { data: { select: () => null } };
+		const actual = isGutenbergDataAvailable();
+		expect( actual ).toBe( false );
+	} );
 } );
