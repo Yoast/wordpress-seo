@@ -1,4 +1,4 @@
-/* global YoastSEO: true, wpseoReplaceVarsL10n, wpseoTermScraperL10n, YoastReplaceVarPlugin, console, require */
+/* global YoastSEO: true, wpseoReplaceVarsL10n, wpseoTermScraperL10n, YoastReplaceVarPlugin */
 
 // External dependencies.
 import { App, TaxonomyAssessor } from "yoastseo";
