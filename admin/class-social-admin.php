@@ -94,7 +94,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				$this->get_social_tab_content( 'opengraph', $social_meta_fields ),
 				__( 'Facebook', 'wordpress-seo' ),
 				array(
-					'single'          => $single,
+					'single' => $single,
 				)
 			);
 		}
@@ -105,7 +105,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 				$this->get_social_tab_content( 'twitter', $social_meta_fields ),
 				__( 'Twitter', 'wordpress-seo' ),
 				array(
-					'single'          => $single,
+					'single' => $single,
 				)
 			);
 		}

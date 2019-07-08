@@ -39,9 +39,9 @@ class WPSEO_Metabox_Collapsible implements WPSEO_Metabox_Tab {
 	 * @param string $link_content The text content of the tab link.
 	 */
 	public function __construct( $name, $content, $link_content ) {
-		$this->name            = $name;
-		$this->content         = $content;
-		$this->link_content    = $link_content;
+		$this->name         = $name;
+		$this->content      = $content;
+		$this->link_content = $link_content;
 	}
 
 	/**

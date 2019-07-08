@@ -15,8 +15,8 @@ $wpseo_general_presenter = new WPSEO_Paper_Presenter(
 	'',
 	dirname( __FILE__ ) . '/paper-content/general-content.php',
 	array(
-		'paper_id'  => 'settings-general',
-		'class'     => 'search-appearance',
+		'paper_id' => 'settings-general',
+		'class'    => 'search-appearance',
 	)
 );
 

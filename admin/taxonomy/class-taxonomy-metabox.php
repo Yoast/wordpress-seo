@@ -197,7 +197,7 @@ class WPSEO_Taxonomy_Metabox {
 			$this->social_admin->get_premium_notice( $network ) . $this->taxonomy_tab_content->html( $meta_fields ),
 			$label,
 			array(
-				'single'          => $this->has_single_social_tab(),
+				'single' => $this->has_single_social_tab(),
 			)
 		);
 

@@ -46,7 +46,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	private $link_aria_label;
 
 	/**
-	 * Aria label to use for the link.
+	 * Additional html content to be displayed within the section.
 	 *
 	 * @var string
 	 */
