@@ -128,7 +128,7 @@ class WPSEO_Taxonomy_Metabox {
 				null,
 				array(
 					'collapsible' => true,
-					'class'       => 'metabox wpseotab',
+					'class'       => 'metabox wpseo-form',
 					'content'     => $this->taxonomy_tab_content->html( $taxonomy_settings_fields->get() ),
 				)
 			);
