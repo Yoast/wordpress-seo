@@ -2,8 +2,11 @@
 
 namespace Yoast\WP\Free\Tests\Watchers;
 
+use Mockery;
 use Yoast\WP\Free\Builders\Indexable_Term_Builder;
+use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Helpers\Indexable_Helper;
+use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Watchers\Indexable_Term_Watcher;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -13,21 +16,36 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group indexables
  * @group watchers
  *
+ * @coversDefaultClass \Yoast\WP\Free\Watchers\Indexable_Term_Watcher
+ * @covers ::<!public>
+ *
  * @package Yoast\Tests\Watchers
  */
 class Indexable_Term_Watcher_Test extends TestCase {
 
 	/**
+	 * Tests if the expected conditionals are in place.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals(
+			[ Indexables_Feature_Flag_Conditional::class ],
+			Indexable_Term_Watcher::get_conditionals()
+		);
+	}
+
+	/**
 	 * Tests if the expected hooks are registered.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::register_hooks
+	 * @covers ::__construct
+	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
-							->disableOriginalConstructor()
-							->getMock();
+		$helper_mock  = Mockery::mock( Indexable_Helper::class );
+		$builder_mock = Mockery::mock( Indexable_Term_Builder::class );
 
-		$instance = new Indexable_Term_Watcher( $helper_mock, new Indexable_Term_Builder() );
+		$instance = new Indexable_Term_Watcher( $helper_mock, $builder_mock );
 		$instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'edited_term', array( $instance, 'build_indexable' ) ) );
@@ -37,100 +55,61 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	/**
 	 * Tests if the indexable is being deleted.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_indexable
+	 * @covers ::delete_indexable
 	 */
 	public function test_delete_indexable() {
-		$indexable_mock = $this
-			->getMockBuilder( 'Yoast\WP\Free\Yoast_Model' )
-			->setMethods( array( 'delete', 'delete_indexable' ) )
-			->getMock();
-
-		$indexable_mock
-			->expects( $this->once() )
-			->method( 'delete' );
-
 		$id = 1;
 
-		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
-							->disableOriginalConstructor()
-							->setMethods( [ 'find_by_id_and_type' ] )
-							->getMock();
+		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock->expects( 'delete' )->once();
 
-		$helper_mock->expects( $this->once() )
-					->method( 'find_by_id_and_type' )
-					->with( $id, 'term', false )
-					->willReturn( $indexable_mock );
+		$helper_mock = Mockery::mock( Indexable_Helper::class );
+		$helper_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( $indexable_mock );
 
-		$instance = new Indexable_Term_Watcher( $helper_mock, new Indexable_Term_Builder() );
+		$builder_mock = Mockery::mock( Indexable_Term_Builder::class );
 
-		$instance->delete_indexable( $id, '', 'taxonomy' );
+		$instance = new Indexable_Term_Watcher( $helper_mock, $builder_mock );
+
+		$instance->delete_indexable( $id );
 	}
 
 	/**
 	 * Tests if the indexable is being deleted.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::delete_indexable
+	 * @covers ::delete_indexable
 	 */
 	public function test_delete_indexable_does_not_exist() {
 		$id = 1;
 
-		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
-							->disableOriginalConstructor()
-							->setMethods( [ 'find_by_id_and_type' ] )
-							->getMock();
+		$helper_mock = Mockery::mock( Indexable_Helper::class );
+		$helper_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( false );
 
-		$helper_mock->expects( $this->once() )
-					->method( 'find_by_id_and_type' )
-					->with( $id, 'term', false )
-					->willReturn( false );
+		$builder_mock = Mockery::mock( Indexable_Term_Builder::class );
 
-		$instance = new Indexable_Term_Watcher( $helper_mock, new Indexable_Term_Builder() );
+		$instance = new Indexable_Term_Watcher( $helper_mock, $builder_mock );
 
-		$instance->delete_indexable( 1, '', 'taxonomy' );
+		$instance->delete_indexable( $id );
 	}
 
 	/**
 	 * Tests the build indexable function.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::build_indexable
+	 * @covers ::build_indexable
 	 */
 	public function test_build_indexable() {
 		$id = 1;
 
-		$indexable_mock = $this
-			->getMockBuilder( 'Yoast_Model_Mock' )
-			->setMethods( [ 'save' ] )
-			->getMock();
+		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock->expects( 'save' )->once();
 
-		$indexable_mock
-			->expects( $this->once() )
-			->method( 'save' );
+		$helper_mock = Mockery::mock( Indexable_Helper::class );
+		$helper_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( $indexable_mock );
+		$helper_mock->expects( 'create_for_id_and_type' )->never();
 
-		$builder_mock = $this
-			->getMockBuilder( '\Yoast\WP\Free\Builders\Indexable_Term_Builder' )
-			->setMethods( [ 'build' ] )
-			->getMock();
-
-		$builder_mock
-			->expects( $this->once() )
-			->method( 'build' )
-			->with( $id, $indexable_mock )
-			->will( $this->returnValue( $indexable_mock ) );
-
-		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
-							->disableOriginalConstructor()
-							->setMethods( [ 'find_by_id_and_type' ] )
-							->getMock();
-
-		$helper_mock->expects( $this->once() )
-					->method( 'find_by_id_and_type' )
-					->with( $id, 'term', false )
-					->willReturn( $indexable_mock );
+		$builder_mock = Mockery::mock( Indexable_Term_Builder::class );
+		$builder_mock->expects( 'build' )->once()->with( $id, $indexable_mock )->andReturn( $indexable_mock );
 
 		$instance = new Indexable_Term_Watcher( $helper_mock, $builder_mock );
-
-		// Set this value to true to let the routine think an indexable has been saved.
-		$indexable_mock->id = true;
 
 		$instance->build_indexable( $id );
 	}
@@ -138,42 +117,22 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	/**
 	 * Tests the build indexable functionality.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Term_Watcher::build_indexable
+	 * @covers ::build_indexable
 	 */
 	public function test_build_does_not_exist() {
 		$id = 1;
 
-		$indexable_mock = $this
-			->getMockBuilder( 'Yoast_Model_Mock' )
-			->setMethods( [ 'save' ] )
-			->getMock();
+		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock->expects( 'save' )->once();
 
-		$indexable_mock
-			->expects( $this->once() )
-			->method( 'save' );
+		$helper_mock = Mockery::mock( Indexable_Helper::class );
+		$helper_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( false );
+		$helper_mock->expects( 'create_for_id_and_type' )->once()->with( $id, 'term' )->andReturn( $indexable_mock );
 
-		$helper_mock = $this->getMockBuilder( Indexable_Helper::class )
-							->disableOriginalConstructor()
-							->setMethods( [
-								'find_by_id_and_type',
-								'create_for_id_and_type',
-							] )
-							->getMock();
+		$builder_mock = Mockery::mock( Indexable_Term_Builder::class );
+		$builder_mock->expects( 'build' )->never();
 
-		$helper_mock->expects( $this->once() )
-					->method( 'find_by_id_and_type' )
-					->with( $id, 'term', false )
-					->willReturn( false );
-
-		$helper_mock->expects( $this->once() )
-					->method( 'create_for_id_and_type' )
-					->with( $id, 'term' )
-					->willReturn( $indexable_mock );
-
-		$instance = new Indexable_Term_Watcher( $helper_mock, new Indexable_Term_Builder() );
-
-		// Set this value to true to let the routine think an indexable has been saved.
-		$indexable_mock->id = true;
+		$instance = new Indexable_Term_Watcher( $helper_mock, $builder_mock );
 
 		$instance->build_indexable( $id );
 	}

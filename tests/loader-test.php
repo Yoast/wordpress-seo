@@ -2,174 +2,175 @@
 
 namespace Yoast\WP\Free\Tests;
 
+use Mockery;
+use Yoast\WP\Free\Conditionals\Conditional;
 use Yoast\WP\Free\Loader;
 use Yoast\WP\Free\Tests\Doubles\Conditional_Double;
 use Yoast\WP\Free\Tests\Doubles\Initializer_Double;
 use Yoast\WP\Free\Tests\Doubles\Integration_Double;
+use Yoast\WP\Free\WordPress\Initializer;
+use Yoast\WP\Free\WordPress\Integration;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class Loader_Test
+ *
+ * @group loader
+ *
+ * @coversDefaultClass \Yoast\WP\Free\Loader
+ * @covers ::<!public>
+ *
+ * @package Yoast\WP\Free\Tests
+ */
 class Loader_Test extends TestCase {
-
-	/**
-	 * @inheritdoc
-	 */
-	public function tearDown() {
-		Integration_Double::$conditionals = [];
-		Initializer_Double::$conditionals = [];
-
-		parent::tearDown();
-	}
 
 	/**
 	 * Tests loading initializers before integrations.
 	 *
-	 * @covers \Yoast\WP\Free\Loader::load
+	 * @covers ::load
 	 */
 	public function test_loading_initializers_before_integrations() {
-		$container = $this->createMock( ContainerInterface::class );
+		$loader_mock = Mockery::mock( Loader::class )->makePartial()
+													 ->shouldAllowMockingProtectedMethods();
+		$loader_mock->expects( 'load_initializers' )->once()->ordered();
+		$loader_mock->expects( 'load_integrations' )->once()->ordered();
 
-		$loader = $this->getMockBuilder( Loader::class )
-					   ->setConstructorArgs( [ $container ] )
-					   ->setMethods( [ 'load_initializers', 'load_integrations' ] )
-					   ->getMock();
-
-		$loader->expects( $this->at( 0 ) )->method( 'load_initializers' )->with();
-		$loader->expects( $this->at( 1 ) )->method( 'load_integrations' )->with();
-
-		$loader->load();
+		$loader_mock->load();
 	}
 
 	/**
 	 * Tests loading an integration without any conditionals.
 	 *
-	 * @covers \Yoast\WP\Free\Loader::register_integration
-	 * @covers \Yoast\WP\Free\Loader::conditionals_are_met
-	 * @covers \Yoast\WP\Free\Loader::load_integrations
-	 * @covers \Yoast\WP\Free\Loader::load
+	 * @covers ::__construct
+	 * @covers ::register_integration
+	 * @covers ::load
 	 */
 	public function test_loading_unconditional_integration() {
-		$integration = new Integration_Double();
-		$container   = $this->createMock( ContainerInterface::class );
-		$container->expects( $this->once() )->method( 'get' )->with( Integration_Double::class )->willReturn( $integration );
+		$integration_mock = Mockery::mock( 'alias:Unconditional_Integration', Integration::class );
+		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [] );
+		$integration_mock->expects( 'register_hooks' )->once();
 
-		$loader = new Loader( $container );
-		$loader->register_integration( Integration_Double::class );
+		$container_mock = Mockery::mock( ContainerInterface::class );
+		$container_mock->expects( 'get' )->once()->with( 'Unconditional_Integration' )->andReturn( $integration_mock );
+
+		$loader = new Loader( $container_mock );
+		$loader->register_integration( 'Unconditional_Integration' );
 		$loader->load();
-
-		$this->assertTrue( $integration->is_registered() );
 	}
 
 	/**
 	 * Tests loading an integration with a met conditional.
 	 *
-	 * @covers \Yoast\WP\Free\Loader::register_integration
-	 * @covers \Yoast\WP\Free\Loader::conditionals_are_met
-	 * @covers \Yoast\WP\Free\Loader::load_integrations
-	 * @covers \Yoast\WP\Free\Loader::load
+	 * @covers ::__construct
+	 * @covers ::register_integration
+	 * @covers ::load
 	 */
 	public function test_loading_met_conditional_integration() {
-		$conditional = new Conditional_Double( true );
-		Integration_Double::$conditionals = [ Conditional_Double::class ];
+		$conditional_mock = Mockery::mock( Conditional::class );
+		$conditional_mock->expects( 'is_met' )->once()->andReturn( true );
 
-		$integration = new Integration_Double();
-		$container   = $this->createMock( ContainerInterface::class );
-		$container->expects( $this->at( 0 ) )->method( 'get' )->with( Conditional_Double::class )->willReturn( $conditional );
-		$container->expects( $this->at( 1 ) )->method( 'get' )->with( Integration_Double::class )->willReturn( $integration );
+		$integration_mock = Mockery::mock( 'alias:Met_Conditional_Integration', Integration::class );
+		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
+		$integration_mock->expects( 'register_hooks' )->once();
 
-		$loader = new Loader( $container );
-		$loader->register_integration( Integration_Double::class );
+		$container_mock = Mockery::mock( ContainerInterface::class );
+		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class' )->andReturn( $conditional_mock );
+		$container_mock->expects( 'get' )->once()->with( 'Met_Conditional_Integration' )->andReturn( $integration_mock );
+
+		$loader = new Loader( $container_mock );
+		$loader->register_integration( 'Met_Conditional_Integration' );
 		$loader->load();
-
-		$this->assertTrue( $integration->is_registered() );
 	}
 
 	/**
 	 * Tests loading an integration with an unmet conditional.
 	 *
-	 * @covers \Yoast\WP\Free\Loader::register_integration
-	 * @covers \Yoast\WP\Free\Loader::conditionals_are_met
-	 * @covers \Yoast\WP\Free\Loader::load_integrations
-	 * @covers \Yoast\WP\Free\Loader::load
+	 * @covers ::__construct
+	 * @covers ::register_integration
+	 * @covers ::load
 	 */
 	public function test_loading_unmet_conditional_integration() {
-		$conditional = new Conditional_Double( false );
-		Integration_Double::$conditionals = [ Conditional_Double::class ];
+		$conditional_mock = Mockery::mock( Conditional::class );
+		$conditional_mock->expects( 'is_met' )->once()->andReturn( false );
 
-		$integration = new Integration_Double();
-		$container   = $this->createMock( ContainerInterface::class );
-		$container->expects( $this->at( 0 ) )->method( 'get' )->with( Conditional_Double::class )->willReturn( $conditional );
+		$integration_mock = Mockery::mock( 'alias:Unmet_Conditional_Integration', Integration::class );
+		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
+		$integration_mock->expects( 'register_hooks' )->never();
 
-		$loader = new Loader( $container );
-		$loader->register_integration( Integration_Double::class );
+		$container_mock = Mockery::mock( ContainerInterface::class );
+		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class' )->andReturn( $conditional_mock );
+		$container_mock->expects( 'get' )->never()->with( 'Unmet_Conditional_Integration' );
+
+		$loader = new Loader( $container_mock );
+		$loader->register_integration( 'Unmet_Conditional_Integration' );
 		$loader->load();
-
-		$this->assertFalse( $integration->is_registered() );
 	}
 
 	/**
 	 * Tests loading an initializer without any conditionals.
 	 *
-	 * @covers \Yoast\WP\Free\Loader::register_initializer
-	 * @covers \Yoast\WP\Free\Loader::conditionals_are_met
-	 * @covers \Yoast\WP\Free\Loader::load_initializers
-	 * @covers \Yoast\WP\Free\Loader::load
+	 * @covers ::__construct
+	 * @covers ::register_initializer
+	 * @covers ::load
 	 */
 	public function test_loading_unconditional_initializer() {
-		$initializer = new Initializer_Double();
-		$container   = $this->createMock( ContainerInterface::class );
-		$container->expects( $this->once() )->method( 'get' )->with( Initializer_Double::class )->willReturn( $initializer );
+		$integration_mock = Mockery::mock( 'alias:Unconditional_Initializer', Initializer::class );
+		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [] );
+		$integration_mock->expects( 'initialize' )->once();
 
-		$loader = new Loader( $container );
-		$loader->register_initializer( Initializer_Double::class );
+		$container_mock = Mockery::mock( ContainerInterface::class );
+		$container_mock->expects( 'get' )->once()->with( 'Unconditional_Initializer' )->andReturn( $integration_mock );
+
+		$loader = new Loader( $container_mock );
+		$loader->register_initializer( 'Unconditional_Initializer' );
 		$loader->load();
-
-		$this->assertTrue( $initializer->is_registered() );
 	}
 
 	/**
 	 * Tests loading an initializer with a met conditional.
 	 *
-	 * @covers \Yoast\WP\Free\Loader::register_initializer
-	 * @covers \Yoast\WP\Free\Loader::conditionals_are_met
-	 * @covers \Yoast\WP\Free\Loader::load_initializers
-	 * @covers \Yoast\WP\Free\Loader::load
+	 * @covers ::__construct
+	 * @covers ::register_initializer
+	 * @covers ::load
 	 */
 	public function test_loading_met_conditional_initializer() {
-		$conditional = new Conditional_Double( true );
-		Initializer_Double::$conditionals = [ Conditional_Double::class ];
+		$conditional_mock = Mockery::mock( Conditional::class );
+		$conditional_mock->expects( 'is_met' )->once()->andReturn( true );
 
-		$initializer = new Initializer_Double();
-		$container   = $this->createMock( ContainerInterface::class );
-		$container->expects( $this->at( 0 ) )->method( 'get' )->with( Conditional_Double::class )->willReturn( $conditional );
-		$container->expects( $this->at( 1 ) )->method( 'get' )->with( Initializer_Double::class )->willReturn( $initializer );
+		$integration_mock = Mockery::mock( 'alias:Met_Conditional_Initializer', Initializer::class );
+		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
+		$integration_mock->expects( 'initialize' )->once();
 
-		$loader = new Loader( $container );
-		$loader->register_initializer( Initializer_Double::class );
+		$container_mock = Mockery::mock( ContainerInterface::class );
+		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class' )->andReturn( $conditional_mock );
+		$container_mock->expects( 'get' )->once()->with( 'Met_Conditional_Initializer' )->andReturn( $integration_mock );
+
+		$loader = new Loader( $container_mock );
+		$loader->register_initializer( 'Met_Conditional_Initializer' );
 		$loader->load();
-
-		$this->assertTrue( $initializer->is_registered() );
 	}
 
 	/**
 	 * Tests loading an initializer with an unmet conditional.
 	 *
-	 * @covers \Yoast\WP\Free\Loader::register_initializer
-	 * @covers \Yoast\WP\Free\Loader::conditionals_are_met
-	 * @covers \Yoast\WP\Free\Loader::load_initializers
-	 * @covers \Yoast\WP\Free\Loader::load
+	 * @covers ::__construct
+	 * @covers ::register_initializer
+	 * @covers ::load
 	 */
 	public function test_loading_unmet_conditional_initializer() {
-		$conditional = new Conditional_Double( false );
-		Initializer_Double::$conditionals = [ Conditional_Double::class ];
+		$conditional_mock = Mockery::mock( Conditional::class );
+		$conditional_mock->expects( 'is_met' )->once()->andReturn( false );
 
-		$initializer = new Initializer_Double();
-		$container   = $this->createMock( ContainerInterface::class );
-		$container->expects( $this->at( 0 ) )->method( 'get' )->with( Conditional_Double::class )->willReturn( $conditional );
+		$integration_mock = Mockery::mock( 'alias:Unmet_Conditional_Initializer', Initializer::class );
+		$integration_mock->expects( 'get_conditionals' )->once()->andReturn( [ 'Conditional_Class' ] );
+		$integration_mock->expects( 'initialize' )->never();
 
-		$loader = new Loader( $container );
-		$loader->register_initializer( Initializer_Double::class );
+		$container_mock = Mockery::mock( ContainerInterface::class );
+		$container_mock->expects( 'get' )->once()->with( 'Conditional_Class' )->andReturn( $conditional_mock );
+		$container_mock->expects( 'get' )->never()->with( 'Unmet_Conditional_Initializer' );
+
+		$loader = new Loader( $container_mock );
+		$loader->register_initializer( 'Unmet_Conditional_Initializer' );
 		$loader->load();
-
-		$this->assertFalse( $initializer->is_registered() );
 	}
 }

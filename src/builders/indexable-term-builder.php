@@ -39,10 +39,6 @@ class Indexable_Term_Builder {
 			$indexable->{ $indexable_key } = $this->get_meta_value( $meta_key, $term_meta );
 		}
 
-		foreach ( $this->get_indexable_meta_lookup() as $meta_key => $indexable_key ) {
-			$indexable->set_meta( $indexable_key, $this->get_meta_value( $meta_key, $term_meta ) );
-		}
-
 		// Not implemented yet.
 		$indexable->is_cornerstone         = false;
 		$indexable->is_robots_nofollow     = null;
@@ -95,22 +91,12 @@ class Indexable_Term_Builder {
 	 */
 	protected function get_indexable_lookup() {
 		return [
-			'wpseo_canonical'     => 'canonical',
-			'wpseo_focuskw'       => 'primary_focus_keyword',
-			'wpseo_title'         => 'title',
-			'wpseo_desc'          => 'description',
-			'wpseo_content_score' => 'readability_score',
-			'wpseo_bctitle'       => 'breadcrumb_title',
-		];
-	}
-
-	/**
-	 * Retrieves the indexable meta lookup table.
-	 *
-	 * @return array Lookup table for the indexable meta fields.
-	 */
-	protected function get_indexable_meta_lookup() {
-		return [
+			'wpseo_canonical'             => 'canonical',
+			'wpseo_focuskw'               => 'primary_focus_keyword',
+			'wpseo_title'                 => 'title',
+			'wpseo_desc'                  => 'description',
+			'wpseo_content_score'         => 'readability_score',
+			'wpseo_bctitle'               => 'breadcrumb_title',
 			'wpseo_opengraph-title'       => 'og_title',
 			'wpseo_opengraph-description' => 'og_description',
 			'wpseo_opengraph-image'       => 'og_image',

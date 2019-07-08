@@ -44,8 +44,9 @@ class Indexable_Post_Builder {
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( $post_id, 'focuskw' ),
-			$this->get_meta_value( $post_id, 'linkdex' )
+			(int) $this->get_meta_value( $post_id, 'linkdex' )
 		);
+		$indexable->readability_score = (int) $this->get_meta_value( $post_id, 'content_score' );
 
 		$indexable->is_cornerstone    = ( $this->get_meta_value( $post_id, 'is_cornerstone' ) === '1' );
 		$indexable->is_robots_noindex = $this->get_robots_noindex(
@@ -53,6 +54,7 @@ class Indexable_Post_Builder {
 		);
 
 		// Set additional meta-robots values.
+		$indexable->is_robots_nofollow = ( $this->get_meta_value( $post_id, 'meta-robots-nofollow' ) === '1' );
 		$noindex_advanced = $this->get_meta_value( $post_id, 'meta-robots-adv' );
 		$meta_robots      = \explode( ',', $noindex_advanced );
 		foreach ( $this->get_robots_options() as $meta_robots_option ) {
@@ -121,9 +123,7 @@ class Indexable_Post_Builder {
 	protected function get_indexable_lookup() {
 		return [
 			'focuskw'               => 'primary_focus_keyword',
-			'content_score'         => 'readability_score',
 			'canonical'             => 'canonical',
-			'meta-robots-nofollow'  => 'is_robots_nofollow',
 			'title'                 => 'title',
 			'metadesc'              => 'description',
 			'bctitle'               => 'breadcrumb_title',
@@ -162,8 +162,6 @@ class Indexable_Post_Builder {
 
 	/**
 	 * Retrieves the current value for the meta field.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @param int    $post_id  The post ID to use.
 	 * @param string $meta_key Meta key to fetch.

@@ -95,8 +95,6 @@ class Indexable_Post_Watcher implements Integration {
 	/**
 	 * Determines if the post can be indexed.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @param int $post_id Post ID to check.
 	 *
 	 * @return bool True if the post can be indexed.

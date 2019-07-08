@@ -72,8 +72,6 @@ class Indexable_Author_Builder {
 	/**
 	 * Retrieves the author meta.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @param int    $user_id The user to retrieve the indexable for.
 	 * @param string $key     The meta entry to retrieve.
 	 *
