@@ -123,6 +123,7 @@ Bugfixes:
 * Fixes a bug where the Schema would contain `WebPage` instead of `CollectionPage` for a latest posts homepage and the static posts page type.
 * Fixes a bug where the Organization and Article Schema nodes would incorrectly be output when a website had not set their organization's name and/or logo.
 * Fixes a bug where the eye marker tooltips would break out of the metabox, which would hide the last part of the tooltip text.
+* Fixes a bug where instances of unfiltered HTML would be allowed in term descriptions where they shouldn't be.
 
 = 11.5.0 =
 Release Date: June 25th, 2019
