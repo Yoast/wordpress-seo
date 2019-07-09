@@ -12,11 +12,14 @@ use Yoast\WP\Free\Tests\TestCase;
  * Unit test class.
  *
  * @group MyYoast
+ *
+ * @coversDefaultClass WPSEO_MyYoast_Proxy
+ * @covers <!public>
  */
 class MyYoast_Proxy_Test extends TestCase {
 
 	/**
-	 * @covers WPSEO_MyYoast_Proxy::determine_proxy_options()
+	 * @covers ::determine_proxy_options
 	 */
 	public function test_determine_proxy_options_for_the_research_webworker_file() {
 		/** @var \Yoast\Tests\Doubles\MyYoast_Proxy_Double $instance */
@@ -42,8 +45,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
-	 * @covers WPSEO_MyYoast_Proxy::determine_proxy_options()
+	 * @covers ::render_proxy_page
+	 * @covers ::determine_proxy_options
 	 */
 	public function test_render_proxy_page_for_an_unknown_file() {
 		/** @var \WPSEO_MyYoast_Proxy $instance */

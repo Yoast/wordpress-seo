@@ -21,7 +21,7 @@ return array(
 		Finder::create()->files()->in( 'vendor/symfony/dependency-injection/Exception' )->name( [
 			'InvalidArgumentException.php', 'LogicException.php', 'RuntimeException.php',
 			'ServiceCircularReferenceException.php', 'ServiceNotFoundException.php', 'EnvNotFoundException.php',
-			'ParameterCircularReferenceException.php',
+			'ParameterCircularReferenceException.php', 'ExceptionInterface.php'
 		] ),
 		Finder::create()->files()->in( 'vendor/symfony/dependency-injection/ParameterBag' )->name( [
 			'FrozenParameterBag.php', 'ParameterBagInterface.php', 'EnvPlaceholderParameterBag.php'

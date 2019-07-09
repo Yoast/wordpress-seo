@@ -10,6 +10,7 @@ namespace Yoast\WP\Free\Dependency_Injection;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Yoast\WP\Free\Conditionals\Conditional;
 use Yoast\WP\Free\Loader;
 use Yoast\WP\Free\WordPress\Initializer;
 use Yoast\WP\Free\WordPress\Integration;
@@ -49,6 +50,10 @@ class Loader_Pass implements CompilerPassInterface {
 
 			if ( is_subclass_of( $class, Integration::class ) ) {
 				$loader_definition->addMethodCall( 'register_integration', [ $class ] );
+				$definition->setPublic( true );
+			}
+
+			if ( is_subclass_of( $class, Conditional::class ) ) {
 				$definition->setPublic( true );
 			}
 		}

@@ -5,8 +5,8 @@ namespace Yoast\WP\Free\Tests\Watchers;
 use Mockery;
 use Yoast\WP\Free\Builders\Indexable_Term_Builder;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
-use Yoast\WP\Free\Helpers\Indexable_Helper;
 use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\Watchers\Indexable_Term_Watcher;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -42,10 +42,10 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		$helper_mock  = Mockery::mock( Indexable_Helper::class );
+		$repository_mock  = Mockery::mock( Indexable_Repository::class );
 		$builder_mock = Mockery::mock( Indexable_Term_Builder::class );
 
-		$instance = new Indexable_Term_Watcher( $helper_mock, $builder_mock );
+		$instance = new Indexable_Term_Watcher( $repository_mock, $builder_mock );
 		$instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'edited_term', array( $instance, 'build_indexable' ) ) );
@@ -63,12 +63,12 @@ class Indexable_Term_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'delete' )->once();
 
-		$helper_mock = Mockery::mock( Indexable_Helper::class );
-		$helper_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( $indexable_mock );
+		$repository_mock = Mockery::mock( Indexable_Repository::class );
+		$repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( $indexable_mock );
 
 		$builder_mock = Mockery::mock( Indexable_Term_Builder::class );
 
-		$instance = new Indexable_Term_Watcher( $helper_mock, $builder_mock );
+		$instance = new Indexable_Term_Watcher( $repository_mock, $builder_mock );
 
 		$instance->delete_indexable( $id );
 	}
@@ -81,12 +81,12 @@ class Indexable_Term_Watcher_Test extends TestCase {
 	public function test_delete_indexable_does_not_exist() {
 		$id = 1;
 
-		$helper_mock = Mockery::mock( Indexable_Helper::class );
-		$helper_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( false );
+		$repository_mock = Mockery::mock( Indexable_Repository::class );
+		$repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( false );
 
 		$builder_mock = Mockery::mock( Indexable_Term_Builder::class );
 
-		$instance = new Indexable_Term_Watcher( $helper_mock, $builder_mock );
+		$instance = new Indexable_Term_Watcher( $repository_mock, $builder_mock );
 
 		$instance->delete_indexable( $id );
 	}
@@ -102,14 +102,14 @@ class Indexable_Term_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'save' )->once();
 
-		$helper_mock = Mockery::mock( Indexable_Helper::class );
-		$helper_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( $indexable_mock );
-		$helper_mock->expects( 'create_for_id_and_type' )->never();
+		$repository_mock = Mockery::mock( Indexable_Repository::class );
+		$repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( $indexable_mock );
+		$repository_mock->expects( 'create_for_id_and_type' )->never();
 
 		$builder_mock = Mockery::mock( Indexable_Term_Builder::class );
 		$builder_mock->expects( 'build' )->once()->with( $id, $indexable_mock )->andReturn( $indexable_mock );
 
-		$instance = new Indexable_Term_Watcher( $helper_mock, $builder_mock );
+		$instance = new Indexable_Term_Watcher( $repository_mock, $builder_mock );
 
 		$instance->build_indexable( $id );
 	}
@@ -125,14 +125,14 @@ class Indexable_Term_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'save' )->once();
 
-		$helper_mock = Mockery::mock( Indexable_Helper::class );
-		$helper_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( false );
-		$helper_mock->expects( 'create_for_id_and_type' )->once()->with( $id, 'term' )->andReturn( $indexable_mock );
+		$repository_mock = Mockery::mock( Indexable_Repository::class );
+		$repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'term', false )->andReturn( false );
+		$repository_mock->expects( 'create_for_id_and_type' )->once()->with( $id, 'term' )->andReturn( $indexable_mock );
 
 		$builder_mock = Mockery::mock( Indexable_Term_Builder::class );
 		$builder_mock->expects( 'build' )->never();
 
-		$instance = new Indexable_Term_Watcher( $helper_mock, $builder_mock );
+		$instance = new Indexable_Term_Watcher( $repository_mock, $builder_mock );
 
 		$instance->build_indexable( $id );
 	}

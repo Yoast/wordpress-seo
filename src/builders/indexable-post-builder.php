@@ -8,8 +8,8 @@
 namespace Yoast\WP\Free\Builders;
 
 use Exception;
-use Yoast\WP\Free\Helpers\SEO_Meta_Helper;
-use Yoast\WP\Free\Models\SEO_Meta;
+use Yoast\WP\Free\Models\Indexable_Extension;
+use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
 
 /**
  * Formats the post meta to indexable format.
@@ -17,17 +17,17 @@ use Yoast\WP\Free\Models\SEO_Meta;
 class Indexable_Post_Builder {
 
 	/**
-	 * @var SEO_Meta_Helper
+	 * @var \Yoast\WP\Free\Repositories\SEO_Meta_Repository
 	 */
-	protected $seo_meta_helper;
+	protected $seo_meta_repository;
 
 	/**
 	 * Indexable_Post_Builder constructor.
 	 *
-	 * @param SEO_Meta_Helper $seo_meta_helper
+	 * @param \Yoast\WP\Free\Repositories\SEO_Meta_Repository $seo_meta_repository
 	 */
-	public function __construct( SEO_Meta_Helper $seo_meta_helper ) {
-		$this->seo_meta_helper = $seo_meta_helper;
+	public function __construct( SEO_Meta_Repository $seo_meta_repository ) {
+		$this->seo_meta_repository = $seo_meta_repository;
 	}
 
 	/**
@@ -146,7 +146,7 @@ class Indexable_Post_Builder {
 	 */
 	protected function set_link_count( $post_id, $indexable ) {
 		try {
-			$seo_meta = $this->seo_meta_helper->find_by_post_id( $post_id );
+			$seo_meta = $this->seo_meta_repository->find_by_post_id( $post_id );
 
 			if ( $seo_meta ) {
 				$indexable->link_count          = $seo_meta->internal_link_count;

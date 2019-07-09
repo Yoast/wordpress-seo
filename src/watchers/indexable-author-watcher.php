@@ -9,7 +9,7 @@ namespace Yoast\WP\Free\Watchers;
 
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Builders\Indexable_Author_Builder;
-use Yoast\WP\Free\Helpers\Indexable_Helper;
+use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\WordPress\Integration;
 
 /**
@@ -25,23 +25,24 @@ class Indexable_Author_Watcher implements Integration {
 	}
 
 	/**
-	 * @var Indexable_Helper
+	 * @var \Yoast\WP\Free\Repositories\Indexable_Repository
 	 */
-	protected $indexable_helper;
+	protected $repository;
 
 	/**
-	 * @var Indexable_Author_Builder
+	 * @var \Yoast\WP\Free\Builders\Indexable_Author_Builder
 	 */
 	protected $builder;
 
 	/**
 	 * Indexable_Author_Watcher constructor.
 	 *
-	 * @param Indexable_Author_Builder $builder The post builder to use.
+	 * @param \Yoast\WP\Free\Repositories\Indexable_Repository $repository The repository to use.
+	 * @param \Yoast\WP\Free\Builders\Indexable_Author_Builder $builder    The post builder to use.
 	 */
-	public function __construct( Indexable_Helper $indexable_helper, Indexable_Author_Builder $builder ) {
-		$this->indexable_helper = $indexable_helper;
-		$this->builder          = $builder;
+	public function __construct( Indexable_Repository $repository, Indexable_Author_Builder $builder ) {
+		$this->repository = $repository;
+		$this->builder    = $builder;
 	}
 
 	/**
@@ -60,7 +61,7 @@ class Indexable_Author_Watcher implements Integration {
 	 * @return void
 	 */
 	public function delete_indexable( $user_id ) {
-		$indexable = $this->indexable_helper->find_by_id_and_type( $user_id, 'user', false );
+		$indexable = $this->repository->find_by_id_and_type( $user_id, 'user', false );
 
 		if ( ! $indexable ) {
 			return;
@@ -77,11 +78,11 @@ class Indexable_Author_Watcher implements Integration {
 	 * @return void
 	 */
 	public function build_indexable( $user_id ) {
-		$indexable = $this->indexable_helper->find_by_id_and_type( $user_id, 'user', false );
+		$indexable = $this->repository->find_by_id_and_type( $user_id, 'user', false );
 
 		// If we haven't found an existing indexable, create it. Otherwise update it.
 		$indexable = $indexable === false
-			? $this->indexable_helper->create_for_id_and_type( $user_id, 'user' )
+			? $this->repository->create_for_id_and_type( $user_id, 'user' )
 			: $this->builder->build( $user_id, $indexable );
 
 		$indexable->save();

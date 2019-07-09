@@ -9,10 +9,7 @@ namespace Yoast\WP\Free\Watchers;
 
 use WPSEO_Meta;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
-use Yoast\WP\Free\Exceptions\No_Indexable_Found;
-use Yoast\WP\Free\Helpers\Primary_Term_Helper;
-use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\Models\Primary_Term as Primary_Term_Indexable;
+use Yoast\WP\Free\Repositories\Primary_Term_Repository;
 use Yoast\WP\Free\WordPress\Integration;
 
 
@@ -29,17 +26,17 @@ class Primary_Term_Watcher implements Integration {
 	}
 
 	/**
-	 * @var Primary_Term_Helper
+	 * @var \Yoast\WP\Free\Repositories\Primary_Term_Repository
 	 */
-	protected $primary_term_helper;
+	protected $repository;
 
 	/**
 	 * Primary_Term_Watcher constructor.
 	 *
-	 * @param Primary_Term_Helper $primary_term_helper
+	 * @param Primary_Term_Repository $repository
 	 */
-	public function __construct( Primary_Term_Helper $primary_term_helper ) {
-		$this->primary_term_helper = $primary_term_helper;
+	public function __construct( Primary_Term_Repository $repository ) {
+		$this->repository = $repository;
 	}
 
 	/**
@@ -59,12 +56,13 @@ class Primary_Term_Watcher implements Integration {
 	 */
 	public function delete_primary_terms( $post_id ) {
 		foreach ( $this->get_primary_term_taxonomies( $post_id ) as $taxonomy ) {
-			try {
-				$indexable = $this->get_indexable( $post_id, $taxonomy->name, false );
-				$indexable->delete();
-			} catch ( No_Indexable_Found $exception ) {
+			$indexable = $this->repository->find_by_postid_and_taxonomy( $post_id, $taxonomy->name, false );
+
+			if ( ! $indexable ) {
 				continue;
 			}
+
+			$indexable->delete();
 		}
 	}
 
@@ -100,17 +98,14 @@ class Primary_Term_Watcher implements Integration {
 			return;
 		}
 
-		try {
-			$primary_term = $this->get_indexable( $post_id, $taxonomy );
+		$term_selected = ! empty( $term_id );
+		$primary_term = $this->repository->find_by_postid_and_taxonomy( $post_id, $taxonomy, $term_selected );
 
-			// Removes the indexable when found.
-			if ( empty( $term_id ) ) {
-				$this->delete_indexable( $primary_term );
-
-				return;
+		// Removes the indexable when found.
+		if ( ! $term_selected ) {
+			if ( $primary_term ) {
+				$primary_term->delete();
 			}
-		}
-		catch ( No_Indexable_Found $exception ) {
 			return;
 		}
 
@@ -175,49 +170,7 @@ class Primary_Term_Watcher implements Integration {
 	}
 
 	/**
-	 * Retrieves an indexable for a primary taxonomy.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int    $post_id     The post the indexable is based upon.
-	 * @param string $taxonomy    The taxonomy the indexable belongs to.
-	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
-	 *
-	 * @return \Yoast\WP\Free\Models\Indexable Instance of the indexable.
-	 *
-	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found Exception when no indexable could be found
-	 *                                                      for the supplied post.
-	 */
-	protected function get_indexable( $post_id, $taxonomy, $auto_create = true ) {
-		$indexable = $this->primary_term_helper->find_by_postid_and_taxonomy( $post_id, 'post', $auto_create );
-
-		if ( ! $indexable ) {
-			throw No_Indexable_Found::from_primary_term( $post_id, $taxonomy );
-		}
-
-		return $indexable;
-	}
-
-	/**
-	 * Deletes the given indexable.
-	 *
-	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to delete.
-	 *
-	 * @return void
-	 */
-	protected function delete_indexable( $indexable ) {
-		try {
-			$indexable->delete();
-		}
-		catch ( \Exception $exception ) {
-			Logger::get_logger()->notice( $exception->getMessage() );
-		}
-	}
-
-	/**
 	 * Checks if the request is a post request.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @return bool Whether the method is a post request.
 	 */
@@ -227,8 +180,6 @@ class Primary_Term_Watcher implements Integration {
 
 	/**
 	 * Retrieves the posted term ID based on the given taxonomy.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @param string $taxonomy The taxonomy to check.
 	 *
@@ -240,8 +191,6 @@ class Primary_Term_Watcher implements Integration {
 
 	/**
 	 * Checks if the referer is valid for given taxonomy.
-	 *
-	 * @codeCoverageIgnore
 	 *
 	 * @param string $taxonomy The taxonomy to validate.
 	 *

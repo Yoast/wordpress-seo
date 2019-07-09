@@ -127,8 +127,8 @@
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/dependency-injection --config=config/php-scoper/dependency-injection.inc.php --force --quiet"
 		],
 		"compile-di": [
-			"rm ./src/generated/container.php",
-			"rm ./src/generated/container.php.meta",
+			"rm -f ./src/generated/container.php",
+			"rm -f ./src/generated/container.php.meta",
 			"composer du",
 			"Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
 		],

@@ -24,11 +24,16 @@ use YoastSEO_Vendor\ORM;
  * @link http://www.php-fig.org/psr/psr-1/
  *
  * @method void setClassName($class_name)
- * @method static \ORMWrapper forTable($table_name, $connection_name = parent::DEFAULT_CONNECTION)
- * @method \Model findOne($id=null)
+ * @method static \Yoast\WP\Free\ORM\ORMWrapper forTable($table_name, $connection_name = parent::DEFAULT_CONNECTION)
+ * @method \Yoast\WP\Free\ORM\\Model findOne($id=null)
  * @method Array|\IdiormResultSet findMany()
  */
 class ORMWrapper extends ORM {
+
+	/**
+	 * @var array
+	 */
+	public static $repositories = [];
 
 	/**
 	 * The wrapped find_one and find_many classes will return an instance or
@@ -58,7 +63,7 @@ class ORMWrapper extends ORM {
 	 * the name of the filter will be passed to the called filter function as
 	 * arguments after the ORM class.
 	 *
-	 * @return \Yoast\WP\Free\ORMWrapper Instance of the ORM wrapper.
+	 * @return \Yoast\WP\Free\ORM\ORMWrapper Instance of the ORM wrapper.
 	 */
 	public function filter() {
 		$args            = \func_get_args();
@@ -81,10 +86,14 @@ class ORMWrapper extends ORM {
 	 * @param string $table_name      The table to create instance for.
 	 * @param string $connection_name The connection name.
 	 *
-	 * @return \Yoast\WP\Free\ORMWrapper Instance of the ORM wrapper.
+	 * @return \Yoast\WP\Free\ORM\ORMWrapper Instance of the ORM wrapper.
 	 */
 	public static function for_table( $table_name, $connection_name = parent::DEFAULT_CONNECTION ) {
 		static::_setup_db( $connection_name );
+
+		if ( self::$repositories[ $table_name ] ) {
+			return new self::$repositories[ $table_name ]( $table_name, [], $connection_name );
+		}
 
 		return new static( $table_name, [], $connection_name );
 	}
@@ -93,16 +102,16 @@ class ORMWrapper extends ORM {
 	 * Method to create an instance of the model class associated with this
 	 * wrapper and populate it with the supplied Idiorm instance.
 	 *
-	 * @param \Yoast\WP\Free\ORMWrapper|\YoastSEO_Vendor\ORM $orm The ORM used by model.
+	 * @param \Yoast\WP\Free\ORM\ORMWrapper|\YoastSEO_Vendor\ORM $orm The ORM used by model.
 	 *
-	 * @return bool|\Yoast\WP\Free\Yoast_Model Instance of the model class.
+	 * @return bool|\Yoast\WP\Free\ORM\Yoast_Model Instance of the model class.
 	 */
 	protected function create_model_instance( $orm ) {
 		if ( $orm === false ) {
 			return false;
 		}
 
-		/** @var \Yoast\WP\Free\Yoast_Model $model */
+		/** @var \Yoast\WP\Free\ORM\Yoast_Model $model */
 		$model = new $this->class_name();
 		$model->set_orm( $orm );
 
@@ -115,7 +124,7 @@ class ORMWrapper extends ORM {
 	 *
 	 * @param null|integer $id The ID to lookup.
 	 *
-	 * @return \Yoast\WP\Free\Yoast_Model Instance of the model.
+	 * @return \Yoast\WP\Free\ORM\Yoast_Model Instance of the model.
 	 */
 	public function find_one( $id = null ) {
 		return $this->create_model_instance( parent::find_one( $id ) );
@@ -142,7 +151,7 @@ class ORMWrapper extends ORM {
 	 *
 	 * @param null|mixed $data The data to pass.
 	 *
-	 * @return \Yoast\WP\Free\ORMWrapper|bool Instance of the ORM.
+	 * @return \Yoast\WP\Free\ORM\Yoast_Model|bool Instance of the ORM.
 	 */
 	public function create( $data = null ) {
 		return $this->create_model_instance( parent::create( $data ) );

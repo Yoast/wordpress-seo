@@ -7,11 +7,9 @@
 
 namespace Yoast\WP\Free\Database;
 
-use wpdb;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Config\Dependency_Management;
 use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\Loggers\Migration_Logger;
 use Yoast\WP\Free\WordPress\Initializer;
 use Yoast\WP\Free\ORM\Yoast_Model;
 use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
@@ -44,16 +42,9 @@ class Migration_Runner implements Initializer {
 	const MIGRATION_ERROR_TRANSIENT_KEY = 'yoast_migration_problem';
 
 	/**
-	 * WPDB instance.
-	 *
-	 * @var \wpdb
+	 * @var \YoastSEO_Vendor\Ruckusing_FrameworkRunner
 	 */
-	protected $wpdb;
-
-	/**
-	 * @var \Yoast\WP\Free\Config\Dependency_Management
-	 */
-	protected $dependency_management;
+	protected $framework_runner;
 
 	/**
 	 * @var \Yoast\WP\Free\Loggers\Logger
@@ -61,26 +52,14 @@ class Migration_Runner implements Initializer {
 	protected $logger;
 
 	/**
-	 * @var \Yoast\WP\Free\Loggers\Migration_Logger
-	 */
-	protected $migration_logger;
-
-	/**
 	 * Migrations constructor.
 	 *
-	 * @param \wpdb                                       $wpdb                  Database class to use.
-	 * @param \Yoast\WP\Free\Config\Dependency_Management $dependency_management Dependency Management to use.
+	 * @param Ruckusing_FrameworkRunner $framework_runner      The Ruckusing framework runner.
+	 * @param Logger                    $logger                A PSR compatible logger.
 	 */
-	public function __construct(
-		wpdb $wpdb,
-		Logger $logger,
-		Migration_Logger $migration_logger,
-		Dependency_Management $dependency_management
-	) {
-		$this->wpdb                  = $wpdb;
+	public function __construct( Ruckusing_FrameworkRunner $framework_runner, Logger $logger ) {
+		$this->framework_runner      = $framework_runner;
 		$this->logger                = $logger;
-		$this->migration_logger      = $migration_logger;
-		$this->dependency_management = $dependency_management;
 	}
 
 	/**
@@ -98,31 +77,23 @@ class Migration_Runner implements Initializer {
 	 * @return bool True on success, false on failure.
 	 */
 	public function run_migrations() {
-		// If the defines could not be set, we do not want to run.
-		if ( ! $this->set_defines( Yoast_Model::get_table_name( 'migrations' ) ) ) {
-			$this->set_failed_state( 'Defines could not be set.' );
-
-			return false;
-		}
-
 		try {
-			$main = $this->get_framework_runner();
-
 			/**
 			 * @var \YoastSEO_Vendor\Ruckusing_Adapter_MySQL_Base $adapter
 			 */
-			$adapter = $main->get_adapter();
+			$adapter = $this->framework_runner->get_adapter();
 
 			// Create our own migrations table with a 191 string limit to support older versions of MySQL.
 			// Run this before calling the framework runner so it doesn't create it's own.
-			if ( ! $adapter->has_table( $adapter->get_schema_version_table_name() ) ) {
-				$table = $adapter->create_table( $adapter->get_schema_version_table_name(), [ 'id' => false ] );
+			$migrations_table_name = $adapter->get_schema_version_table_name();
+			if ( ! $adapter->has_table( $migrations_table_name ) ) {
+				$table = $adapter->create_table( $migrations_table_name, [ 'id' => false ] );
 				$table->column( 'version', 'string', [ 'limit' => 191 ] );
 				$table->finish();
-				$adapter->add_index( $adapter->get_schema_version_table_name(), 'version', [ 'unique' => true ] );
+				$adapter->add_index( $migrations_table_name, 'version', [ 'unique' => true ] );
 			}
 
-			$main->execute();
+			$this->framework_runner->execute();
 		}
 		catch ( \Exception $exception ) {
 			$this->logger->error( $exception->getMessage() );
@@ -161,23 +132,6 @@ class Migration_Runner implements Initializer {
 	}
 
 	/**
-	 * Registers defines needed for Ruckusing to work.
-	 *
-	 * @param string $table_name The Schema table name to use.
-	 *
-	 * @return bool True on success, false when the defines are already set.
-	 */
-	protected function set_defines( $table_name ) {
-		foreach ( $this->get_defines( $table_name ) as $key => $value ) {
-			if ( ! $this->set_define( $key, $value ) ) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
 	 * Handles state persistence for a failed migration environment.
 	 *
 	 * @param string $message Message explaining the reason for the failed state.
@@ -205,93 +159,6 @@ class Migration_Runner implements Initializer {
 	 */
 	protected function get_migration_state() {
 		return \get_transient( $this->get_error_transient_key(), self::MIGRATION_STATE_SUCCESS );
-	}
-
-	/**
-	 * Retrieves the Ruckusing instance to run migrations with.
-	 *
-	 * @return \YoastSEO_Vendor\Ruckusing_FrameworkRunner Framework runner to use.
-	 */
-	protected function get_framework_runner() {
-		$main = new Ruckusing_FrameworkRunner(
-			$this->get_configuration(),
-			[ 'db:migrate', 'env=production' ],
-			$this->migration_logger
-		);
-
-		/*
-		 * As the Ruckusing_FrameworkRunner is setting its own error and exception handlers,
-		 * we need to restore the defaults.
-		 */
-		\restore_error_handler();
-		\restore_exception_handler();
-
-		return $main;
-	}
-
-	/**
-	 * Retrieves the migration configuration.
-	 *
-	 * @return array List of configuration elements.
-	 */
-	protected function get_configuration() {
-		return [
-			'db'             => [
-				'production' => [
-					'type'      => 'mysql',
-					'host'      => \DB_HOST,
-					'port'      => 3306,
-					'database'  => \DB_NAME,
-					'user'      => \DB_USER,
-					'password'  => \DB_PASSWORD,
-					'charset'   => $this->wpdb->charset,
-					'directory' => '', // This needs to be set, to use the migrations folder as base folder.
-				],
-			],
-			'migrations_dir' => [ 'default' => \WPSEO_PATH . 'migrations' ],
-			// This needs to be set but is not used.
-			'db_dir'         => true,
-			// This needs to be set but is not used.
-			'log_dir'        => true,
-			// This needs to be set but is not used.
-		];
-	}
-
-	/**
-	 * Registers a define or makes sure the existing value is the one we can use.
-	 *
-	 * @param string $define Constant to check.
-	 * @param string $value  Value to set when not defined yet.
-	 *
-	 * @return bool True if the define has the value we want it to be.
-	 */
-	protected function set_define( $define, $value ) {
-		if ( \defined( $define ) ) {
-			return \constant( $define ) === $value;
-		}
-
-		return \define( $define, $value );
-	}
-
-	/**
-	 * Retrieves a list of defines that should be set.
-	 *
-	 * @param string $table_name Table name to use.
-	 *
-	 * @return array List of defines to be set.
-	 */
-	protected function get_defines( $table_name ) {
-		if ( $this->dependency_management->prefixed_available() ) {
-			return [
-				\YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE' => \WPSEO_PATH . \YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing',
-				\YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_TS_SCHEMA_TBL_NAME' => $table_name,
-			];
-		}
-
-		return [
-			'RUCKUSING_BASE'               => \WPSEO_PATH . 'vendor/ruckusing/ruckusing-migrations',
-			'RUCKUSING_TS_SCHEMA_TBL_NAME' => $table_name,
-		];
 	}
 
 	/**

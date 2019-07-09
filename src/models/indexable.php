@@ -57,11 +57,6 @@ use Yoast\WP\Free\ORM\Yoast_Model;
 class Indexable extends Yoast_Model {
 
 	/**
-	 * @var Indexable_Extension_Registry
-	 */
-	protected $registry;
-
-	/**
 	 * The loaded indexable extensions.
 	 *
 	 * @var Indexable_Extension[]
@@ -69,35 +64,18 @@ class Indexable extends Yoast_Model {
 	protected $loaded_extensions = [];
 
 	/**
-	 * Indexable constructor.
-	 *
-	 * Note: the argument is here to allow future dependency injection.
-	 *
-	 * @param Indexable_Extension_Registry|null $registry The Indexable registry for extensions.
-	 */
-	public function __construct( Indexable_Extension_Registry $registry = null ) {
-		$this->registry = $registry !== null ? $registry : Indexable_Extension_Registry::get_instance();
-	}
-
-	/**
 	 * Returns an Indexable_Extension by it's name.
 	 *
-	 * @param string $name The name of the extension to load.
+	 * @param string $class_name The class name of the extension to load.
 	 *
 	 * @return \Yoast\WP\Free\Models\Indexable_Extension|bool The extension.
 	 */
-	public function get_extension( $name ) {
-		if ( ! $this->registry->has_extension( $name ) ) {
-			return false;
+	public function get_extension( $class_name ) {
+		if ( ! $this->loaded_extensions[ $class_name ] ) {
+			$this->loaded_extensions[ $class_name ] = $this->has_one( $class_name, 'indexable_id', 'id' )->find_one();
 		}
 
-		if ( ! $this->loaded_extensions[ $name ] ) {
-			$class_name = $this->registry->get_extension( $name );
-
-			$this->loaded_extensions[ $name ] = $this->has_one( $class_name, 'indexable_id', 'id' )->find_one();
-		}
-
-		return $this->loaded_extensions[ $name ];
+		return $this->loaded_extensions[ $class_name ];
 	}
 
 	/**

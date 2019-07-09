@@ -3,14 +3,12 @@
 namespace Yoast\WP\Free\Tests\Builders;
 
 use Mockery;
-use WPSEO_Meta;
 use Brain\Monkey;
 use Yoast\WP\Free\Builders\Indexable_Post_Builder;
-use Yoast\WP\Free\Helpers\SEO_Meta_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\ORM\ORMWrapper;
+use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
 use Yoast\WP\Free\Tests\TestCase;
-use stdClass;
 
 /**
  * Class Indexable_Post_Test.
@@ -26,6 +24,8 @@ use stdClass;
 class Indexable_Post_Builder_Test extends TestCase {
 
 	/**
+	 * Tests building a basic post indexable from postmeta.
+	 *
 	 * @covers ::__construct
 	 * @covers ::build
 	 */
@@ -79,10 +79,10 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'link_count', 5 );
 		$indexable_mock->orm->expects( 'set' )->with( 'incoming_link_count', 2 );
 
-		$meta_helper_mock = Mockery::mock( SEO_Meta_Helper::class );
-		$meta_helper_mock->expects( 'find_by_post_id' )->once()->with( 1 )->andReturn( (object) [ 'internal_link_count' => 5, 'incoming_link_count' => 2 ] );
+		$seo_meta_repository = Mockery::mock( SEO_Meta_Repository::class );
+		$seo_meta_repository->expects( 'find_by_post_id' )->once()->with( 1 )->andReturn( (object) [ 'internal_link_count' => 5, 'incoming_link_count' => 2 ] );
 
-		$builder = new Indexable_Post_Builder( $meta_helper_mock );
+		$builder = new Indexable_Post_Builder( $seo_meta_repository );
 		$builder->build( 1, $indexable_mock );
 	}
 }

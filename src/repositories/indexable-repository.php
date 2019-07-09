@@ -1,69 +1,74 @@
 <?php
 /**
- * Yoast SEO Plugin File.
+ * Yoast extension of the Model class.
  *
- * @package Yoast\YoastSEO\Config
+ * @package Yoast\YoastSEO\ORM\Repositories
  */
 
-namespace Yoast\WP\Free\Helpers;
+namespace Yoast\WP\Free\Repositories;
 
 use Yoast\WP\Free\Builders\Indexable_Author_Builder;
 use Yoast\WP\Free\Builders\Indexable_Post_Builder;
 use Yoast\WP\Free\Builders\Indexable_Term_Builder;
 use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\ORM\Repositories\Indexable_Repository;
-use Psr\Log\LoggerInterface;
+use Yoast\WP\Free\ORM\ORMWrapper;
+use Yoast\WP\Free\ORM\Yoast_Model;
 
 /**
- * Class Indexable_Helper
+ * Class Indexable_Repository
+ *
+ * @package Yoast\WP\Free\ORM\Repositories
  */
-class Indexable_Helper {
+class Indexable_Repository extends ORMWrapper {
 
 	/**
-	 * @var Indexable_Repository
-	 */
-	protected $repository;
-
-	/**
-	 * @var Indexable_Author_Builder
+	 * @var \Yoast\WP\Free\Builders\Indexable_Author_Builder
 	 */
 	protected $author_builder;
 
 	/**
-	 * @var Indexable_Post_Builder
+	 * @var \Yoast\WP\Free\Builders\Indexable_Post_Builder
 	 */
 	protected $post_builder;
 
 	/**
-	 * @var Indexable_Term_Builder
+	 * @var \Yoast\WP\Free\Builders\Indexable_Term_Builder
 	 */
 	protected $term_builder;
 
 	/**
-	 * @var LoggerInterface
+	 * @var \Psr\Log\LoggerInterface
 	 */
 	protected $logger;
 
 	/**
-	 * Indexable_Repository constructor.
+	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @param Indexable_Author_Builder $author_builder
-	 * @param Indexable_Post_Builder   $post_builder
-	 * @param Indexable_Term_Builder   $term_builder
-	 * @param Logger                     $logger
+	 * @param \Yoast\WP\Free\Builders\Indexable_Author_Builder $author_builder
+	 * @param \Yoast\WP\Free\Builders\Indexable_Post_Builder   $post_builder
+	 * @param \Yoast\WP\Free\Builders\Indexable_Term_Builder   $term_builder
+	 * @param \Yoast\WP\Free\Loggers\Logger                    $logger
+	 *
+	 * @return Indexable_Repository
 	 */
-	public function __construct(
-		Indexable_Repository $repository,
+	public static function get_instance(
 		Indexable_Author_Builder $author_builder,
 		Indexable_Post_Builder $post_builder,
 		Indexable_Term_Builder $term_builder,
 		Logger $logger
 	) {
-		$this->repository     = $repository;
-		$this->author_builder = $author_builder;
-		$this->post_builder   = $post_builder;
-		$this->term_builder   = $term_builder;
-		$this->logger         = $logger;
+		ORMWrapper::$repositories[ Yoast_Model::get_table_name( 'Indexable' ) ] = self::class;
+
+		/**
+		 * @var $instance self
+		 */
+		$instance = Yoast_Model::of_type( 'Indexable' );
+		$instance->author_builder = $author_builder;
+		$instance->post_builder   = $post_builder;
+		$instance->term_builder   = $term_builder;
+		$instance->logger         = $logger;
+
+		return $instance;
 	}
 
 	/**
@@ -76,9 +81,9 @@ class Indexable_Helper {
 		$url_hash = strlen( $url ) . ':' . md5( $url );
 
 		// Find by both url_hash and url, url_hash is indexed so will be used first by the DB to optimize the query.
-		return $this->repository->where( 'url_hash', $url_hash )
-						  		->where( 'url', $url )
-						  		->find_one();
+		return $this->where( 'url_hash', $url_hash )
+					->where( 'url', $url )
+					->find_one();
 	}
 
 	/**
@@ -91,9 +96,9 @@ class Indexable_Helper {
 	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
 	 */
 	public function find_by_id_and_type( $object_id, $object_type, $auto_create = true ) {
-		$indexable = $this->repository->where( 'object_id', $object_id )
-									  ->where( 'object_type', $object_type )
-									  ->find_one();
+		$indexable = $this->where( 'object_id', $object_id )
+						  ->where( 'object_type', $object_type )
+						  ->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->create_for_id_and_type( $object_id, $object_type );
@@ -111,12 +116,12 @@ class Indexable_Helper {
 	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
 	 */
 	public function create_for_id_and_type( $object_id, $object_type ) {
-		/*
+		/**
 		 * Indexable instance.
 		 *
 		 * @var \Yoast\WP\Free\Models\Indexable $indexable
 		 */
-		$indexable              = $this->repository->create();
+		$indexable              = $this->create();
 		$indexable->object_id   = $object_id;
 		$indexable->object_type = $object_type;
 

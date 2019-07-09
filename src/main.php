@@ -9,6 +9,7 @@ namespace Yoast\WP\Free;
 
 use Yoast\WP\Free\Config\Dependency_Management;
 use Yoast\WP\Free\Dependency_Injection\Container_Compiler;
+use Yoast\WP\Free\Generated\Cached_Container;
 
 if ( ! defined( 'WPSEO_VERSION' ) ) {
 	header( 'Status: 403 Forbidden' );
@@ -21,9 +22,22 @@ $dependency_management->initialize();
 
 $development = defined( 'YOAST_ENVIRONMENT' ) && YOAST_ENVIRONMENT === 'development';
 if ( $development && class_exists( '\Yoast\WP\Free\Dependency_Injection\Container_Compiler' ) ) {
+	// Exception here is unhandled as it will only occur in development.
 	Container_Compiler::compile( $development );
 }
-require_once __DIR__ . '/generated/container.php';
-// Note: this class has to be referenced with it's full namespace as it may not exist before the above line.
-$container = new \Yoast\WP\Free\Generated\Cached_Container();
-$container->get( Loader::class )->load();
+
+if ( file_exists( __DIR__ . '/generated/container.php' ) ) {
+	require_once __DIR__ . '/generated/container.php';
+	$container = new Cached_Container();
+	try {
+		$container->get( Loader::class )->load();
+	} catch ( \Exception $e ) {
+		if ( $development ) {
+			throw $e;
+		}
+
+		// Don't crash the entire site, simply don't load.
+		// TODO: Add error notifications here.
+	}
+}
+
