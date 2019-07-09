@@ -248,48 +248,60 @@ const suffixes2 = [
 	},
 	{
 		indexName: "b2Index",
+		regex: /(rr|ll|nn|mm)etje$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 2,
+	},
+	{
+		indexName: "c2Index",
 		regex: /'tje$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 0,
 	},
 	{
-		indexName: "c2Index",
+		indexName: "d2Index",
 		regex: /(w)tje$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 1,
 	},
 	{
-		indexName: "d2Index",
+		indexName: "e2Index",
 		regex: /(ector|actor)tje$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 5,
 	},
 	{
-		indexName: "e2Index",
+		indexName: "f2Index",
 		regex: /(ator)tje$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 4,
 	},
 	{
-		indexName: "f2Index",
+		indexName: "g2Index",
+		regex: /(aa|oo|uu)(i)tje$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 2,
+	},
+	{
+		indexName: "h2Index",
 		regex: /(lm|rm|em|um)pje$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 2,
 	},
 	{
-		indexName: "g2Index",
+		indexName: "i2Index",
 		regex: /(aam|oom|uum|eem)pje$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 3,
 	},
 	{
-		indexName: "h2Index",
+		indexName: "j2Index",
 		regex: /([bcdfgkpstvxz])je$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 1,
 	},
 	{
-		indexName: "i2Index",
+		indexName: "k2Index",
 		regex: /(ch)je$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 2,
@@ -467,7 +479,7 @@ const deleteSuffix2 = function( word, index2, indexName2, r1Index ) {
 	if ( index2 !== 10000 && r1Index !== -1 ) {
 		if ( index2 >= r1Index ) {
 			word = word.substring( 0, index2 );
-			if ( indexName2 === "h2Index" ) {
+			if ( indexName2 === "j2Index" ) {
 				word = word.replace( /(.*)ink$/g, "$1ing" );
 			}
 		}
@@ -542,6 +554,7 @@ export default function stem( word ) {
 	word = deleteSuffix3( word, index3, indexName3, r1Index );
 
 	// Undouble consonant
+	word = word.replace( /bb$/g, "b" );
 	word = word.replace( /dd$/g, "d" );
 	word = word.replace( /ff$/g, "f" );
 	word = word.replace( /gg$/g, "g" );

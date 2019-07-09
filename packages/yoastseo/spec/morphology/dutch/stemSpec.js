@@ -27,8 +27,10 @@ const wordsToStem = [
 	[ "maan", "maan" ],
 	// A word with a single vowel
 	[ "man", "man" ],
-	// Suffix -etje.
+	// Suffix -etje preceded by -ing.
 	[ "dingetje", "ding" ],
+	// Suffix -etje preceded by double consonant.
+	[ "bolletje", "bol" ],
 	// Suffix -tje preceded by an apostrophe.
 	[ "baby'tje", "baby" ],
 	// Suffix -tje preceded by w.
