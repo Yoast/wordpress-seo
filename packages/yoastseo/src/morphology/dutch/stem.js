@@ -33,8 +33,8 @@ const determineR1 = function( word ) {
 };
 
 /**
- * Doubles the vowel in stems that belong to words where some of the forms have the vowel doubled. The vowel should
- * be doubled if we find a non-doubled form of the word so that we always return a unique stem.
+ * Doubles the vowel in stems that belong to words that have two stems: one with single vowel, one with double vowel.
+ * If the stem with the single vowel is found, the vowel should be doubled.
  *
  * @param {string} word The stem that should have the vowel doubled
  * @returns {string} The stem with the vowel doubled
@@ -55,7 +55,7 @@ const doubleVowel = function( word ) {
 };
 
 /*
-The array contains objects with regexes used to find the suffixes to be removed in the first step. This includes all verb,
+The array contains objects with regexes used to find the suffixes to be removed in the first step. This includes verb,
 noun, and adjective suffixes, apart from diminutive suffixes, present participle, and positive inflected adjective suffixes
 (those are deleted in subsequent steps).
 
@@ -431,10 +431,10 @@ const determineSuffixToDelete3 = function() {
  * If the -heden suffix was found in R1, replace it with -heid. If another suffix was found in R1, delete it.
  * (The letter of the characters preceding the suffix are not necessarily in R1.)
  *
- * If a suffix that requires undoubling of vowel in words that have forms with both double and single vowel is found,
- * the vowel gets doubled to make the stem.
+ * If a suffix which is preceded by a single vowel in words that have two stems (one with single vowel and one with double vowel)
+ * is found, double the vowel if the stem ending matches the pattern specified in the doubleVowel function.
  *
- * If a superlative adjective ending in -iest is found
+ * If a superlative adjective ending in -iedst/ïedst is found, after stemming -st replaced the -ied/ïed with -id/ïde.
  *
  * @param {string} word         The word for which to delete the suffix.
  * @param {number} index1       The index of the suffix that was found.
