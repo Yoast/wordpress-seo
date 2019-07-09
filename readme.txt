@@ -105,6 +105,19 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 11.7.0 =
+Release Date: July 23rd, 2019
+
+Enhancements:
+
+* Allows a subset of HTML tags in FAQ answer, HowTo description and HowToStep description schema output: <h1>, <h2>, <h3>, <h4>, <h5>, <h6>, <br>, <ol>, <ul>, <li>, <a>, <p>, <b>, <strong>, <i>, <em>, and their closing counterparts.
+* Remove the `noindex` from feeds as this causes issues for podcasts and other feeds.
+* Improves the accessibility of the horizontal tabs in the metabox by implementing an ARIA tabbed user interface.
+
+Bugfixes:
+
+* Fixes a bug where the avatar in the knowledge graph settings would incorrectly overwrite the default user profile picture.
+
 = 11.6.0 =
 Release Date: July 9th, 2019
 
@@ -124,20 +137,6 @@ Bugfixes:
 * Fixes a bug where the Organization and Article Schema nodes would incorrectly be output when a website had not set their organization's name and/or logo.
 * Fixes a bug where the eye marker tooltips would break out of the metabox, which would hide the last part of the tooltip text.
 * Fixes a bug where instances of unfiltered HTML would be allowed in term descriptions where they shouldn't be.
-
-= 11.5.0 =
-Release Date: June 25th, 2019
-
-Yoast SEO 11.5 is out today. This release features a big change that gives you a better idea of how searchers see your snippets on mobile. Yep, we’ve overhauled the mobile snippet preview and brought it up-to-date with Google’s latest changes. And that, of course, includes that shiny favicon. Find out what Yoast SEO 11.5 is all about in [our 11.5 release post](https://yoa.st/release-11-5)!
-
-Enhancements:
-
-* Updates the Mobile Snippet Preview.
-* Moves the primary image for a page out of the `WebPage` piece into its own graph piece.
-
-Bugfixes:
-
-* Fixes missing trailing slash for the homepage on post sitemap. Props to [stodorovic](https://github.com/stodorovic).
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
