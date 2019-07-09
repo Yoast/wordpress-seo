@@ -107,81 +107,81 @@ const suffixes1 = [
 	},
 	{
 		indexName: "g1Index",
-		regex: /([^aeoiuyèäüëïöáéíóúj])(s|se)$/g,
-		foundRegexIndex: -1,
-		charactersBeforeSuffix: 1,
-	},
-	{
-		indexName: "h1Index",
-		regex: /(eerd)(er|ere)$/g,
+		regex: /(eerd)(er|ere|ers)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 4,
 	},
 	{
+		indexName: "h1Index",
+		regex: /(r)(der|dere|ders)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 1,
+	},
+	{
 		indexName: "i1Index",
-		regex: /(r)(der|dere)$/g,
+		regex: /([rfgjklmnptvz])(er|ere|ers)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 1,
 	},
 	{
 		indexName: "j1Index",
-		regex: /([rfgjklmnptvz])(er|ere)$/g,
-		foundRegexIndex: -1,
-		charactersBeforeSuffix: 1,
-	},
-	{
-		indexName: "k1Index",
-		regex: /(sch)(er|ere)$/g,
+		regex: /(sch)(er|ere|ers)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 3,
 	},
 	{
+		indexName: "k1Index",
+		regex: /([^r]d)(er|ere|ers)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 2,
+	},
+	{
 		indexName: "l1Index",
-		regex: /([^r]d)(er|ere)$/g,
+		regex: /([eoué]e)(ër|ëre|ërs)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 2,
 	},
 	{
 		indexName: "m1Index",
-		regex: /([eoué]e)(ër|ëre)$/g,
-		foundRegexIndex: -1,
-		charactersBeforeSuffix: 2,
-	},
-	{
-		indexName: "n1Index",
 		regex: /(ied|ïed)(st|ste)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 3,
 	},
 	{
-		indexName: "o1Index",
+		indexName: "n1Index",
 		regex: /([drfgjklmnpt])(st|ste)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 1,
 	},
 	{
-		indexName: "p1Index",
+		indexName: "o1Index",
 		regex: /(sch)(st|ste)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 3,
 	},
 	{
-		indexName: "q1Index",
+		indexName: "p1Index",
 		regex: /([eoué]e)(st|ste)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 2,
 	},
 	{
-		indexName: "r1Index",
+		indexName: "q1Index",
 		regex: /([oa]I)(est|este)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 2,
 	},
 	{
-		indexName: "s1Index",
-		regex: /([oa]I)(er|ere)$/g,
+		indexName: "r1Index",
+		regex: /([oa]I)(er|ere|ers)$/g,
 		foundRegexIndex: -1,
 		charactersBeforeSuffix: 2,
+	},
+	{
+		indexName: "s1Index",
+		regex: /([^aeoiuyèäüëïöáéíóúj])(s|se)$/g,
+		foundRegexIndex: -1,
+		charactersBeforeSuffix: 1,
 	},
 
 ];
@@ -439,9 +439,9 @@ const deleteSuffix1 = function( word, index1, indexName1, r1Index ) {
 			} else {
 				word = word.substring( 0, index1 );
 			}
-			if ( indexName1 === "b1Index" || indexName1 === "j1Index" || indexName1 === "l1Index" ) {
+			if ( indexName1 === "b1Index" || indexName1 === "i1Index" || indexName1 === "k1Index" ) {
 				word = doubleVowel( word );
-			} else if ( indexName1 === "n1Index" ) {
+			} else if ( indexName1 === "m1Index" ) {
 				word = word.replace( /ied$/g, "id" );
 				word = word.replace( /ïed$/g, "ïd" );
 			}
