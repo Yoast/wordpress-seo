@@ -17,6 +17,9 @@ class MediaUpload extends React.Component {
 				title: this.props.translate( "Choose an image" ),
 				button: { text: this.props.translate( "Choose an image" ) },
 				multiple: false,
+				library: {
+					type: "image",
+				},
 			} ),
 		};
 

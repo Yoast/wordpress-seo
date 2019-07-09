@@ -211,6 +211,9 @@ class WPSEO_Taxonomy {
 
 		foreach ( $filters as $filter ) {
 			remove_filter( $filter, 'wp_filter_kses' );
+			if ( ! current_user_can( 'unfiltered_html' ) ) {
+				add_filter( $filter, 'wp_filter_post_kses' );
+			}
 		}
 		remove_filter( 'term_description', 'wp_kses_data' );
 	}

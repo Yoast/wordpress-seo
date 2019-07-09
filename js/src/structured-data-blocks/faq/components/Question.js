@@ -206,7 +206,7 @@ export default class Question extends Component {
 		return <div className="schema-faq-section-button-container">
 			<MediaUpload
 				onSelect={ this.onSelectImage }
-				type="image"
+				allowedTypes={ [ "image" ] }
 				value={ attributes.id }
 				render={ this.getMediaUploadButton }
 			/>

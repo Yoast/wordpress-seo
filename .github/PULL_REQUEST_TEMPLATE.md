@@ -21,6 +21,9 @@ This PR can be tested by following these steps:
 ## UI changes
 * [ ] This PR changes the UI in the plugin. I have added the 'UI change' label to this PR.
 
+## Documentation
+* [ ] I have written documentation for this change.
+
 ## Quality assurance
 
 * [ ] I have tested this code to the best of my abilities
