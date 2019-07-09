@@ -110,7 +110,7 @@ Release Date: July 23rd, 2019
 
 Enhancements:
 
-* Allows a subset of HTML tags in FAQ answer, HowTo description and HowToStep description schema output: <h1>, <h2>, <h3>, <h4>, <h5>, <h6>, <br>, <ol>, <ul>, <li>, <a>, <p>, <b>, <strong>, <i>, <em>, and their closing counterparts.
+* Allows a subset of HTML tags in FAQ answer, HowTo description and HowToStep description schema output: `<h1>`, `<h2>`, `<h3>`, `<h4>`, `<h5>`, `<h6>`, `<br>`, `<ol>`, `<ul>`, `<li>`, `<a>`, `<p>`, `<b>`, `<strong>`, `<i>`, `<em>`, and their closing counterparts.
 * Remove the `noindex` from feeds as this causes issues for podcasts and other feeds.
 * Improves the accessibility of the horizontal tabs in the metabox by implementing an ARIA tabbed user interface.
 
