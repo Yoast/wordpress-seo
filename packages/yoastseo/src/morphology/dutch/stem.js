@@ -54,6 +54,30 @@ const doubleVowel = function( word ) {
 	return word;
 };
 
+/**
+ * Undoubles consonant if found at the end of the stem. For words that double the consonant to create some forms, we
+ * always want to get a unique stem - the one with single consonant.
+ *
+ * @param {string} word The stem that should have the consonant undoubled
+ * @returns {string} The stem with the undoubled consonant
+ */
+const undoubleConsonant = function( word ) {
+	word = word.replace( /bb$/g, "b" );
+	word = word.replace( /dd$/g, "d" );
+	word = word.replace( /ff$/g, "f" );
+	word = word.replace( /gg$/g, "g" );
+	word = word.replace( /kk$/g, "k" );
+	word = word.replace( /ll$/g, "l" );
+	word = word.replace( /mm$/g, "m" );
+	word = word.replace( /nn$/g, "n" );
+	word = word.replace( /pp$/g, "p" );
+	word = word.replace( /rr$/g, "r" );
+	word = word.replace( /ss$/g, "s" );
+	word = word.replace( /tt$/g, "t" );
+
+	return word;
+};
+
 /*
 The array contains objects with regexes used to find the suffixes to be removed in the first step. This includes verb,
 noun, and adjective suffixes, apart from diminutive suffixes, present participle, and positive inflected adjective suffixes
@@ -554,18 +578,7 @@ export default function stem( word ) {
 	word = deleteSuffix3( word, index3, indexName3, r1Index );
 
 	// Undouble consonant
-	word = word.replace( /bb$/g, "b" );
-	word = word.replace( /dd$/g, "d" );
-	word = word.replace( /ff$/g, "f" );
-	word = word.replace( /gg$/g, "g" );
-	word = word.replace( /kk$/g, "k" );
-	word = word.replace( /ll$/g, "l" );
-	word = word.replace( /mm$/g, "m" );
-	word = word.replace( /nn$/g, "n" );
-	word = word.replace( /pp$/g, "p" );
-	word = word.replace( /rr$/g, "r" );
-	word = word.replace( /ss$/g, "s" );
-	word = word.replace( /tt$/g, "t" );
+	word = undoubleConsonant( word );
 
 	// If stem ends in v, replace it with f. If stem ends in z, replace it with s.
 	word = word.replace( /v$/g, "f" );
