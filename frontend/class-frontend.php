@@ -71,6 +71,13 @@ class WPSEO_Frontend {
 	protected $woocommerce_shop_page;
 
 	/**
+	 * Default title with replace-vars.
+	 *
+	 * @var object
+	 */
+	public static $default_title = '%%title%% %%sep%% %%sitename%%';
+
+	/**
 	 * Class constructor.
 	 *
 	 * Adds and removes a lot of filters.
@@ -303,7 +310,7 @@ class WPSEO_Frontend {
 		$template = WPSEO_Options::get( $index, '' );
 		if ( $template === '' ) {
 			if ( is_singular() ) {
-				return $this->replace_vars( '%%title%% %%sep%% %%sitename%%', $var_source );
+				return $this->replace_vars( self::$default_title, $var_source );
 			}
 
 			return '';
