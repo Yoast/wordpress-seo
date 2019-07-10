@@ -339,7 +339,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				null,
 				array(
 					'collapsible' => true,
-					'class'       => 'metabox wpseo-form',
+					'class'       => 'metabox wpseo-form wpseo-collapsible-container',
 					'content'     => $this->get_tab_content( 'advanced' ),
 				)
 			);
