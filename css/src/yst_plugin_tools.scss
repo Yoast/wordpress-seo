@@ -227,6 +227,11 @@ tr.yst_row.even {
 			}
 		}
 
+		h2.collapsible-header {
+			margin: 0 !important;
+			padding: 0 !important;
+		}
+
 		&.metabox {
 			button.toggleable-container-trigger {
 				color: #555;
@@ -246,6 +251,10 @@ tr.yst_row.even {
 
 		.paper-container {
 			padding: 16px;
+
+			&:first-child {
+				margin-top: 0;
+			}
 		}
 
 		.paper-title {
