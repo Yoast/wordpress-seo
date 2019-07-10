@@ -73,7 +73,7 @@ class WPSEO_Frontend {
 	/**
 	 * Default title with replace-vars.
 	 *
-	 * @var object
+	 * @var string
 	 */
 	public static $default_title = '%%title%% %%sep%% %%sitename%%';
 
