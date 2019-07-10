@@ -102,8 +102,6 @@ class Migration_Runner implements Initializer {
 			$task_manager->execute( $framework_runner, 'db:migrate', [] );
 		}
 		catch ( \Exception $exception ) {
-			var_dump( $exception->getMessage() );
-
 			$this->logger->error( $exception->getMessage() );
 
 			// Something went wrong...
