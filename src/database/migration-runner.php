@@ -8,11 +8,11 @@
 namespace Yoast\WP\Free\Database;
 
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
-use Yoast\WP\Free\Config\Dependency_Management;
 use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\WordPress\Initializer;
 use Yoast\WP\Free\ORM\Yoast_Model;
-use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
+use Yoast\WP\Free\WordPress\Initializer;
+use YoastSEO_Vendor\Ruckusing_Task_Manager;
+use YoastSEO_Vendor\Task_Db_Migrate;
 
 /**
  * Triggers database migrations and handles results.
@@ -39,12 +39,12 @@ class Migration_Runner implements Initializer {
 	/**
 	 * @var string
 	 */
-	const MIGRATION_ERROR_TRANSIENT_KEY = 'yoast_migration_problem';
+	const MIGRATION_ERROR_TRANSIENT_KEY = 'yoast_migration_problem_';
 
 	/**
-	 * @var \YoastSEO_Vendor\Ruckusing_FrameworkRunner
+	 * @var Ruckusing_Framework
 	 */
-	protected $framework_runner;
+	protected $framework;
 
 	/**
 	 * @var \Yoast\WP\Free\Loggers\Logger
@@ -54,38 +54,41 @@ class Migration_Runner implements Initializer {
 	/**
 	 * Migrations constructor.
 	 *
-	 * @param Ruckusing_FrameworkRunner $framework_runner      The Ruckusing framework runner.
+	 * @param Ruckusing_Framework $framework      The Ruckusing framework runner.
 	 * @param Logger                    $logger                A PSR compatible logger.
 	 */
-	public function __construct( Ruckusing_FrameworkRunner $framework_runner, Logger $logger ) {
-		$this->framework_runner      = $framework_runner;
-		$this->logger                = $logger;
+	public function __construct( Ruckusing_Framework $framework, Logger $logger ) {
+		$this->framework = $framework;
+		$this->logger    = $logger;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function initialize() {
-		$this->run_migrations();
+		$this->run_migrations( 'free', Yoast_Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'migrations' );
 	}
 
 	/**
 	 * Initializes the migrations.
 	 *
-	 * @throws \Exception If the migration fails and YOAST_ENVIRONMENT is not production.
+	 * @param string $name                  The name of the migration.
+	 * @param string $migrations_table_name The migrations table name.
+	 * @param string $migrations_directory  The migrations directory.
 	 *
 	 * @return bool True on success, false on failure.
+	 * @throws \Exception If the migration fails and YOAST_ENVIRONMENT is not production.
 	 */
-	public function run_migrations() {
+	public function run_migrations( $name, $migrations_table_name, $migrations_directory ) {
 		try {
+			$framework_runner = $this->framework->get_framework_runner( $migrations_table_name, $migrations_directory );
 			/**
 			 * @var \YoastSEO_Vendor\Ruckusing_Adapter_MySQL_Base $adapter
 			 */
-			$adapter = $this->framework_runner->get_adapter();
+			$adapter = $framework_runner->get_adapter();
 
 			// Create our own migrations table with a 191 string limit to support older versions of MySQL.
 			// Run this before calling the framework runner so it doesn't create it's own.
-			$migrations_table_name = $adapter->get_schema_version_table_name();
 			if ( ! $adapter->has_table( $migrations_table_name ) ) {
 				$table = $adapter->create_table( $migrations_table_name, [ 'id' => false ] );
 				$table->column( 'version', 'string', [ 'limit' => 191 ] );
@@ -93,13 +96,18 @@ class Migration_Runner implements Initializer {
 				$adapter->add_index( $migrations_table_name, 'version', [ 'unique' => true ] );
 			}
 
-			$this->framework_runner->execute();
+			// Create our own task manager so we can set RUCKUSING_BASE to a nonsense directory as it's impossible to
+			// determine the actual directory if the plugin is installed with composer.
+			$task_manager = $this->framework->get_framework_task_manager( $adapter, $migrations_table_name, $migrations_directory );
+			$task_manager->execute( $framework_runner, 'db:migrate', [] );
 		}
 		catch ( \Exception $exception ) {
+			var_dump( $exception->getMessage() );
+
 			$this->logger->error( $exception->getMessage() );
 
 			// Something went wrong...
-			$this->set_failed_state( $exception->getMessage() );
+			$this->set_failed_state( $name, $exception->getMessage() );
 
 			if ( defined( 'YOAST_ENVIRONMENT' ) && YOAST_ENVIRONMENT !== 'production' ) {
 				throw $exception;
@@ -108,7 +116,7 @@ class Migration_Runner implements Initializer {
 			return false;
 		}
 
-		$this->set_success_state();
+		$this->set_success_state( $name );
 
 		return true;
 	}
@@ -116,57 +124,68 @@ class Migration_Runner implements Initializer {
 	/**
 	 * Retrieves the state of the migrations.
 	 *
+	 * @param string $name The name of the migration.
+	 *
 	 * @return bool True if migrations have completed successfully.
 	 */
-	public function is_usable() {
-		return ( $this->get_migration_state() === self::MIGRATION_STATE_SUCCESS );
+	public function is_usable( $name ) {
+		return ( $this->get_migration_state( $name ) === self::MIGRATION_STATE_SUCCESS );
 	}
 
 	/**
 	 * Retrieves the state of the migrations.
 	 *
+	 * @param string $name The name of the migration.
+	 *
 	 * @return bool True if migrations have completed successfully.
 	 */
-	public function has_migration_error() {
-		return ( $this->get_migration_state() === self::MIGRATION_STATE_ERROR );
+	public function has_migration_error( $name ) {
+		return ( $this->get_migration_state( $name ) === self::MIGRATION_STATE_ERROR );
 	}
 
 	/**
 	 * Handles state persistence for a failed migration environment.
 	 *
+	 * @param string $name    The name of the migration.
 	 * @param string $message Message explaining the reason for the failed state.
 	 *
 	 * @return void
 	 */
-	protected function set_failed_state( $message ) {
+	protected function set_failed_state( $name, $message ) {
 		// @todo do something with the message.
-		\set_transient( $this->get_error_transient_key(), self::MIGRATION_STATE_ERROR, \DAY_IN_SECONDS );
+		\set_transient( $this->get_error_transient_key( $name ), self::MIGRATION_STATE_ERROR, \DAY_IN_SECONDS );
 	}
 
 	/**
 	 * Removes the problem state from the system.
 	 *
+	 * @param string $name The name of the migration.
+	 *
 	 * @return void
 	 */
-	protected function set_success_state() {
-		\delete_transient( $this->get_error_transient_key() );
+	protected function set_success_state( $name ) {
+		\delete_transient( $this->get_error_transient_key( $name ) );
 	}
 
 	/**
 	 * Retrieves the current migration state.
 	 *
+	 * @param string $name The name of the migration.
+	 *
 	 * @return int|null Migration state.
 	 */
-	protected function get_migration_state() {
-		return \get_transient( $this->get_error_transient_key(), self::MIGRATION_STATE_SUCCESS );
+	protected function get_migration_state( $name ) {
+		return \get_transient( $this->get_error_transient_key( $name ), self::MIGRATION_STATE_SUCCESS );
 	}
 
 	/**
 	 * Retrieves the error state transient key to use.
 	 *
+	 * @param string $name The name of the migration.
+	 *
 	 * @return string The transient key to use for storing the error state.
 	 */
-	protected function get_error_transient_key() {
-		return self::MIGRATION_ERROR_TRANSIENT_KEY;
+	protected function get_error_transient_key( $name ) {
+		return self::MIGRATION_ERROR_TRANSIENT_KEY . $name;
 	}
 }

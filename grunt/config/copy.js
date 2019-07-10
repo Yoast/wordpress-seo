@@ -1,6 +1,6 @@
 // See https://github.com/gruntjs/grunt-contrib-copy
 module.exports = {
-	dependencies: {
+	"js-dependencies": {
 		files: [
 			{
 				expand: true,
@@ -8,6 +8,10 @@ module.exports = {
 				src: [ "select2.full.min.js", "i18n/*", "!i18n/build.txt" ],
 				dest: "js/dist/select2/",
 			},
+		],
+	},
+	"css-dependencies": {
+		files: [
 			{
 				expand: true,
 				cwd: "node_modules/select2/dist/css/",
@@ -63,7 +67,7 @@ module.exports = {
 				cwd: ".",
 				src: [
 					"admin/**",
-					"css/**/*.min.css",
+					"css/**/*.css",
 					"css/main-sitemap.xsl",
 					"deprecated/**",
 					"frontend/**",

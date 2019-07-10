@@ -207,7 +207,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		$result = $wp_styles->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle' ];
 
 		$this->assertEquals( WPSEO_Admin_Asset_Manager::PREFIX . 'handle', $result->handle );
-		$this->assertEquals( 'http://' . WP_TESTS_DOMAIN . '/wp-content/plugins/wordpress-seo/css/dist/src' . WPSEO_CSSJS_SUFFIX . '.css', $result->src );
+		$this->assertEquals( 'http://' . WP_TESTS_DOMAIN . '/wp-content/plugins/wordpress-seo/css/dist/src.css', $result->src );
 		$this->assertEquals( array( 'deps' ), $result->deps );
 		$this->assertEquals( 'version', $result->ver );
 		$this->assertEquals( 'print', $result->args );

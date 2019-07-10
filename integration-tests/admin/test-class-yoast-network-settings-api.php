@@ -13,7 +13,7 @@ class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests registering a setting.
 	 *
-	 * @covers Yoast_Network_Settings_API::register_setting()
+	 * @covers Yoast_Network_Settings_API::register_setting
 	 */
 	public function test_register_setting() {
 		$api = new Yoast_Network_Settings_API();
@@ -31,7 +31,7 @@ class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests getting registered settings.
 	 *
-	 * @covers Yoast_Network_Settings_API::get_registered_settings()
+	 * @covers Yoast_Network_Settings_API::get_registered_settings
 	 */
 	public function test_get_registered_settings() {
 		$group = 'yst_ms_group';
@@ -53,7 +53,7 @@ class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests getting whitelisted options.
 	 *
-	 * @covers Yoast_Network_Settings_API::get_whitelist_options()
+	 * @covers Yoast_Network_Settings_API::get_whitelist_options
 	 */
 	public function test_get_whitelist_options() {
 		$registered_group   = 'yst_ms_group';
@@ -73,7 +73,7 @@ class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests filtering setting sanitization.
 	 *
-	 * @covers Yoast_Network_Settings_API::filter_sanitize_option()
+	 * @covers Yoast_Network_Settings_API::filter_sanitize_option
 	 */
 	public function test_filter_sanitize_option() {
 		$api = new Yoast_Network_Settings_API();
@@ -89,7 +89,7 @@ class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests filtering setting default.
 	 *
-	 * @covers Yoast_Network_Settings_API::filter_default_option()
+	 * @covers Yoast_Network_Settings_API::filter_default_option
 	 */
 	public function test_filter_default_option() {
 		$api = new Yoast_Network_Settings_API();
@@ -108,7 +108,7 @@ class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the singleton getter.
 	 *
-	 * @covers Yoast_Network_Settings_API::get()
+	 * @covers Yoast_Network_Settings_API::get
 	 */
 	public function test_get() {
 		$this->assertInstanceOf( 'Yoast_Network_Settings_API', Yoast_Network_Settings_API::get() );
@@ -117,7 +117,7 @@ class Yoast_Network_Settings_API_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests checking requirements for the network settings API.
 	 *
-	 * @covers Yoast_Network_Settings_API::meets_requirements()
+	 * @covers Yoast_Network_Settings_API::meets_requirements
 	 */
 	public function test_meets_requirements() {
 		$api = new Yoast_Network_Settings_API();

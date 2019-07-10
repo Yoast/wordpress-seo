@@ -14,14 +14,14 @@ use Yoast\WP\Free\Tests\TestCase;
  * @covers <!public>
  */
 final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
+
 	/**
 	 * Tests the get_url function.
 	 *
 	 * @covers ::get_url
 	 */
 	public function test_get_url() {
-		$version          = 'test-version';
-
+		$version  = 'test-version';
 		$location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $version );
 		$suffix   = ( \YOAST_ENVIRONMENT === 'development' ) ? '' : '.min';
 
@@ -32,7 +32,7 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 
 		Monkey\Functions\expect( 'plugins_url' )
 			->once()
-			->with( 'js/dist/wp-seo-analysis-worker-' . $version . $suffix . '.js', \realpath( __DIR__ . "/../../wp-seo.php" ) )
+			->with( 'js/dist/wp-seo-analysis-worker-' . $version . $suffix . '.js', \realpath( __DIR__ . '/../../wp-seo.php' ) )
 			->andReturn( 'asset_location' );
 
 		$actual = $location->get_url( $location->get_asset(), WPSEO_Admin_Asset::TYPE_JS );
@@ -58,7 +58,7 @@ final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 
 		Monkey\Functions\expect( 'plugins_url' )
 			->once()
-			->with( 'js/dist/wp-seo-' . $custom_file_name . '-' . $version . $suffix . '.js', \realpath( __DIR__ . "/../../wp-seo.php" ) )
+			->with( 'js/dist/wp-seo-' . $custom_file_name . '-' . $version . $suffix . '.js', \realpath( __DIR__ . '/../../wp-seo.php' ) )
 			->andReturn( 'asset_location' );
 
 		$actual = $location->get_url( $location->get_asset(), WPSEO_Admin_Asset::TYPE_JS );

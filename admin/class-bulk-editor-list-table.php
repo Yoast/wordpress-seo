@@ -97,6 +97,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	protected $settings;
 
 	/**
+	 * Holds the pagination config.
+	 *
 	 * @var array
 	 */
 	protected $pagination = array();
@@ -186,7 +188,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Will shown the navigation for the table like pagenavigation and pagefilter.
+	 * Will show the navigation for the table like pagenavigation and pagefilter.
 	 *
 	 * @param string $which Table nav location (such as top).
 	 */
@@ -257,7 +259,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @return array
+	 * Gets the views.
+	 *
+	 * @return array The views.
 	 */
 	public function get_views() {
 		global $wpdb;
@@ -342,6 +346,8 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Outputs extra table navigation.
+	 *
 	 * @param string $which Table nav location (such as top).
 	 */
 	public function extra_tablenav( $which ) {

@@ -19,7 +19,7 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 	 * @param bool|null $expected      The expected converted value.
 	 * @param string    $description   Description of the test.
 	 *
-	 * @covers WPSEO_Term_Indexable::get_robots_noindex_value()
+	 * @covers WPSEO_Term_Indexable::get_robots_noindex_value
 	 *
 	 * @dataProvider robots_noindex_provider
 	 */
@@ -32,7 +32,7 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the creation of a new Term Indexable object.
 	 *
-	 * @covers WPSEO_Term_Indexable::from_object()
+	 * @covers WPSEO_Term_Indexable::from_object
 	 */
 	public function test_from_object() {
 		$term = $this
@@ -52,7 +52,7 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the creation of an invalid Term Indexable object.
 	 *
-	 * @covers            WPSEO_Term_Indexable::from_object()
+	 * @covers            WPSEO_Term_Indexable::from_object
 	 * @expectedException WPSEO_Invalid_Argument_Exception
 	 */
 	public function test_from_object_invalid_term() {
@@ -62,7 +62,7 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the updating of an existing Term Indexable object.
 	 *
-	 * @covers WPSEO_Term_Indexable::update()
+	 * @covers WPSEO_Term_Indexable::update
 	 */
 	public function test_update() {
 		$term = $this

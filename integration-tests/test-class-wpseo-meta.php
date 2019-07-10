@@ -15,7 +15,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if data can be stored.
 	 *
-	 * @covers WPSEO_Meta::set_value()
+	 * @covers WPSEO_Meta::set_value
 	 */
 	public function test_set_value() {
 		// Create and go to post.
@@ -29,7 +29,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if data can be retrieved.
 	 *
-	 * @covers WPSEO_Meta::get_value()
+	 * @covers WPSEO_Meta::get_value
 	 */
 	public function test_get_value() {
 
@@ -55,8 +55,8 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @see self::test_get_value_unregistered_field_serialized()
 	 *
-	 * @covers WPSEO_Meta::set_value()
-	 * @covers WPSEO_Meta::get_value()
+	 * @covers WPSEO_Meta::set_value
+	 * @covers WPSEO_Meta::get_value
 	 */
 	public function test_get_value_non_registered_field() {
 
@@ -80,7 +80,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 * data cannot be confirmed to be expected and thus an empty string will
 	 * be returned.
 	 *
-	 * @covers WPSEO_Meta::get_value()
+	 * @covers WPSEO_Meta::get_value
 	 */
 	public function test_get_value_unregistered_field_serialized() {
 
@@ -100,7 +100,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if a non existing key returns an empty string.
 	 *
-	 * @covers WPSEO_Meta::get_value()
+	 * @covers WPSEO_Meta::get_value
 	 */
 	public function test_get_value_non_existing_key() {
 
@@ -116,7 +116,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if data with slashes remains the same after storing.
 	 *
-	 * @covers WPSEO_Meta::get_value()
+	 * @covers WPSEO_Meta::get_value
 	 */
 	public function test_set_value_slashed() {
 		$post_id = $this->factory->post->create();
@@ -135,8 +135,8 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 * Tests if data, registered as serialized, with slashes remains the same
 	 * after storing.
 	 *
-	 * @covers WPSEO_Meta::set_value()
-	 * @covers WPSEO_Meta::get_value()
+	 * @covers WPSEO_Meta::set_value
+	 * @covers WPSEO_Meta::get_value
 	 */
 	public function test_get_and_set_value_slashed_array() {
 		$post_id = $this->factory->post->create();
@@ -155,8 +155,8 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 * Tests if serialized data, registered as serialized, with slashes remains
 	 * the same after storing.
 	 *
-	 * @covers WPSEO_Meta::set_value()
-	 * @covers WPSEO_Meta::get_value()
+	 * @covers WPSEO_Meta::set_value
+	 * @covers WPSEO_Meta::get_value
 	 */
 	public function test_get_and_set_value_serialized_and_slashed_array() {
 		$post_id = $this->factory->post->create();

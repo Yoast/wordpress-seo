@@ -11,26 +11,36 @@
 class WPSEO_Database_Proxy {
 
 	/**
+	 * Holds the table name.
+	 *
 	 * @var string
 	 */
 	protected $table_name;
 
 	/**
+	 * Determines whether to suppress errors or not.
+	 *
 	 * @var bool
 	 */
 	protected $suppress_errors = true;
 
 	/**
+	 * Determines if this table is multisite.
+	 *
 	 * @var bool
 	 */
 	protected $is_multisite_table = false;
 
 	/**
+	 * Holds the last suppressed state.
+	 *
 	 * @var bool
 	 */
 	protected $last_suppressed_state;
 
 	/**
+	 * Holds the WordPress database object.
+	 *
 	 * @var wpdb
 	 */
 	protected $database;

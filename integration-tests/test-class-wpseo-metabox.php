@@ -29,7 +29,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that on certain pages, assets are not enqueued.
 	 *
-	 * @covers WPSEO_Metabox::enqueue()
+	 * @covers WPSEO_Metabox::enqueue
 	 */
 	public function test_enqueue_not_firing_on_options_page() {
 		global $pagenow;
@@ -45,7 +45,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests that enqueuing the necessary assets, works.
 	 *
-	 * @covers WPSEO_Metabox::enqueue()
+	 * @covers WPSEO_Metabox::enqueue
 	 */
 	public function test_enqueue_firing_on_new_post_page() {
 		global $pagenow;

@@ -39,6 +39,7 @@ abstract class TestCase extends BaseTestCase {
 				'absint'         => function( $value ) {
 					return \abs( \intval( $value ) );
 				},
+				'mysql2date'     => null,
 			]
 		);
 

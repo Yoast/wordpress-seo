@@ -14,7 +14,7 @@ class WPSEO_Option_Titles_Test extends WPSEO_UnitTestCase {
 	 * Tests if the enrich_defaults() cache is properly invalidated
 	 * when a new post type or taxonomy is registered.
 	 *
-	 * @covers WPSEO_Option_Titles::enrich_defaults()
+	 * @covers WPSEO_Option_Titles::enrich_defaults
 	 */
 	public function test_enrich_defaults_cache_invalidation() {
 		$wpseo_option_titles = WPSEO_Option_Titles::get_instance();

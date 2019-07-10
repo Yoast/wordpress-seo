@@ -58,6 +58,8 @@ class WPSEO_Config_Field_Choice_Post_Type extends WPSEO_Config_Field_Choice {
 	}
 
 	/**
+	 * Retrieves the data.
+	 *
 	 * @return bool
 	 */
 	public function get_data() {

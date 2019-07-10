@@ -74,7 +74,7 @@ final class WPSEO_Image_Utils_Test extends WPSEO_UnitTestCase {
 	 * @param integer $attachment_id The attachment id.
 	 * @param string  $message       Message to show when test fails.
 	 *
-	 * @covers WPSEO_Image_Utils::get_data()
+	 * @covers WPSEO_Image_Utils::get_data
 	 */
 	public function test_get_data( $image, $expected, $attachment_id, $message ) {
 		$this->assertEquals(

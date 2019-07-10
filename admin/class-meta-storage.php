@@ -18,11 +18,15 @@ class WPSEO_Meta_Storage implements WPSEO_Installable {
 	const TABLE_NAME = 'yoast_seo_meta';
 
 	/**
+	 * Holds the database's proxy.
+	 *
 	 * @var WPSEO_Database_Proxy
 	 */
 	protected $database_proxy;
 
 	/**
+	 * Holds the prefix of the table.
+	 *
 	 * @deprecated 7.4
 	 *
 	 * @var null|string

@@ -15,16 +15,22 @@
 class WPSEO_Configuration_Options_Adapter {
 
 	/**
+	 * Holds the option type value that indicates: WordPress.
+	 *
 	 * @var string
 	 */
 	const OPTION_TYPE_WORDPRESS = 'wordpress';
 
 	/**
+	 * Holds the option type value that indicates: Yoast.
+	 *
 	 * @var string
 	 */
 	const OPTION_TYPE_YOAST = 'yoast';
 
 	/**
+	 * Holds the option type value that indicates: Custom.
+	 *
 	 * @var string
 	 */
 	const OPTION_TYPE_CUSTOM = 'custom';

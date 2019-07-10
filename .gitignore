@@ -83,10 +83,8 @@ test.sh
 ############
 /languages/
 /js/dist/*
-!/js/dist/select2
 /js/vendor/*
 /css/dist/*
-!/css/dist/select2
 
 ##############
 # JS Mono Repo

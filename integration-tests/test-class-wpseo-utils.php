@@ -41,7 +41,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Utils::is_apache()
+	 * @covers WPSEO_Utils::is_apache
 	 */
 	public function test_wpseo_is_apache() {
 		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.2.22';
@@ -52,7 +52,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Utils::is_nginx()
+	 * @covers WPSEO_Utils::is_nginx
 	 */
 	public function test_wpseo_is_nginx() {
 		$_SERVER['SERVER_SOFTWARE'] = 'nginx/1.5.11';
@@ -63,7 +63,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Utils::trim_nbsp_from_string()
+	 * @covers WPSEO_Utils::trim_nbsp_from_string
 	 */
 	public function test_wpseo_trim_nbsp_from_string() {
 		$old_string = ' This is an old string with&nbsp;as spaces.&nbsp;';
@@ -94,7 +94,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 * Tests translate_score function.
 	 *
 	 * @dataProvider translate_score_provider
-	 * @covers       WPSEO_Utils::translate_score()
+	 * @covers       WPSEO_Utils::translate_score
 	 *
 	 * @param int    $score     The decimal score to translate.
 	 * @param bool   $css_value Whether to return the i18n translated score or the CSS class value.
@@ -171,7 +171,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether the plugin is network-active or not.
 	 *
-	 * @covers WPSEO_Utils::is_plugin_network_active()
+	 * @covers WPSEO_Utils::is_plugin_network_active
 	 */
 	public function test_is_plugin_network_active() {
 		$this->assertFalse( WPSEO_Utils::is_plugin_network_active() );

@@ -116,12 +116,8 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 
 		return new WPSEO_Metabox_Tab_Section(
 			'social',
-			'<span class="screen-reader-text">' . __( 'Social', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-share"></span>',
-			$tabs,
-			array(
-				'link_aria_label' => __( 'Social', 'wordpress-seo' ),
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
-			)
+			'<span class="dashicons dashicons-share"></span>' . __( 'Social', 'wordpress-seo' ),
+			$tabs
 		);
 	}
 

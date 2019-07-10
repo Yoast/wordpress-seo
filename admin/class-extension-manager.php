@@ -18,6 +18,8 @@ class WPSEO_Extension_Manager {
 	const TRANSIENT_CACHE_KEY = 'wpseo_license_active_extensions';
 
 	/**
+	 * Holds the extensions to manage.
+	 *
 	 * @var WPSEO_Extension[]
 	 */
 	protected $extensions = array();

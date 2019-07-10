@@ -27,7 +27,7 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Components::add_component()
+	 * @covers WPSEO_Configuration_Components::add_component
 	 */
 	public function test_add_component() {
 		$component = $this->getMockBuilder( 'WPSEO_Config_Component' )->getMock();
@@ -38,7 +38,7 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Components::set_adapter()
+	 * @covers WPSEO_Configuration_Components::set_adapter
 	 */
 	public function test_set_adapter() {
 		$adapter = $this
@@ -68,7 +68,7 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Components::set_storage()
+	 * @covers WPSEO_Configuration_Components::set_storage
 	 */
 	public function test_set_storage() {
 		$storage = $this
@@ -90,7 +90,7 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Components::set_storage()
+	 * @covers WPSEO_Configuration_Components::set_storage
 	 */
 	public function test_set_storage_on_field() {
 		$component = $this

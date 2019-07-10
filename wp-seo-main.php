@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '11.5-RC1' );
+define( 'WPSEO_VERSION', '11.7-RC1' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -373,7 +373,6 @@ function wpseo_init_rest_api() {
 	$endpoints[] = new WPSEO_Endpoint_Statistics( $statistics_service );
 	$endpoints[] = new WPSEO_Endpoint_MyYoast_Connect();
 
-	/** @var WPSEO_Endpoint[] $endpoints */
 	foreach ( $endpoints as $endpoint ) {
 		$endpoint->register();
 	}

@@ -11,26 +11,36 @@
 class WPSEO_Configuration_Endpoint {
 
 	/**
+	 * Holds the REST namespace.
+	 *
 	 * @var string
 	 */
 	const REST_NAMESPACE = 'yoast/v1';
 
 	/**
+	 * Holds the endpoint to retrieve from.
+	 *
 	 * @var string
 	 */
 	const ENDPOINT_RETRIEVE = 'configurator';
 
 	/**
+	 * Holds the endpoint to store to.
+	 *
 	 * @var string
 	 */
 	const ENDPOINT_STORE = 'configurator';
 
 	/**
+	 * Holds the capability that can retrieve from the endpoint.
+	 *
 	 * @var string
 	 */
 	const CAPABILITY_RETRIEVE = 'wpseo_manage_options';
 
 	/**
+	 * Holds the capability that can store to the endpoint.
+	 *
 	 * @var string
 	 */
 	const CAPABILITY_STORE = 'wpseo_manage_options';

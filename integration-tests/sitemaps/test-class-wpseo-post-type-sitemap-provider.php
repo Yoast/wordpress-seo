@@ -190,7 +190,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the excluded posts with the usage of the filter.
 	 *
-	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts()
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts
 	 */
 	public function test_get_excluded_posts_with_set_filter() {
 		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
@@ -213,7 +213,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the excluded posts with the usage of a filter that returns an invalid value.
 	 *
-	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts()
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts
 	 */
 	public function test_get_excluded_posts_with_set_filter_that_has_invalid_return_value() {
 		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();

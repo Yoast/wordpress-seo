@@ -1,4 +1,4 @@
-/* global wpseoReplaceVarsL10n, require, wp */
+/* global wpseoReplaceVarsL10n, wp */
 import forEach from "lodash/forEach";
 import filter from "lodash/filter";
 import trim from "lodash/trim";

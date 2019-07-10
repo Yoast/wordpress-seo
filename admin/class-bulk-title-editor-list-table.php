@@ -18,7 +18,6 @@ class WPSEO_Bulk_Title_Editor_List_Table extends WPSEO_Bulk_List_Table {
 	 */
 	protected $page_type = 'title';
 
-
 	/**
 	 * Settings with are used in __construct.
 	 *

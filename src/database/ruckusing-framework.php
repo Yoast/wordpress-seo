@@ -10,46 +10,53 @@ namespace Yoast\WP\Free\Database;
 use wpdb;
 use Yoast\WP\Free\Config\Dependency_Management;
 use Yoast\WP\Free\Loggers\Migration_Logger;
-use Yoast\WP\Free\ORM\Yoast_Model;
 use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
+use YoastSEO_Vendor\Ruckusing_Task_Manager;
+use YoastSEO_Vendor\Task_Db_Migrate;
 
 class Ruckusing_Framework {
 
 	/**
-	 * Retrieves the Ruckusing instance to run migrations with.
-	 *
-	 * @return \YoastSEO_Vendor\Ruckusing_FrameworkRunner Framework runner to use.
+	 * @var wpdb
 	 */
-	public static function get_instance(
-		wpdb $wpdb,
-		Dependency_Management $dependency_management,
-		Migration_Logger $logger
-	) {
-		// First set the required constants.
-		self::set_constants( $dependency_management, Yoast_Model::get_table_name( 'migrations' ) );
+	protected $wpdb;
 
-		$configuration = [
-			'db'             => [
-				'production' => [
-					'type'      => 'mysql',
-					'host'      => \DB_HOST,
-					'port'      => 3306,
-					'database'  => \DB_NAME,
-					'user'      => \DB_USER,
-					'password'  => \DB_PASSWORD,
-					'charset'   => $wpdb->charset,
-					'directory' => '', // This needs to be set, to use the migrations folder as base folder.
-				],
-			],
-			'migrations_dir' => [ 'default' => \WPSEO_PATH . 'migrations' ],
-			// This needs to be set but is not used.
-			'db_dir'         => true,
-			// This needs to be set but is not used.
-			'log_dir'        => true,
-			// This needs to be set but is not used.
-		];
+	/**
+	 * @var Dependency_Management
+	 */
+	protected $dependency_management;
 
-		$instance = new Ruckusing_FrameworkRunner( $configuration, [ 'db:migrate', 'env=production' ], $logger );
+	/**
+	 * @var Migration_Logger
+	 */
+	protected $migration_logger;
+
+	/**
+	 * Ruckusing_Framework constructor.
+	 *
+	 * @param wpdb                  $wpdb
+	 * @param Dependency_Management $dependency_management
+	 * @param Migration_Logger      $migration_logger
+	 */
+	public function __construct( wpdb $wpdb, Dependency_Management $dependency_management, Migration_Logger $migration_logger ) {
+		$this->wpdb = $wpdb;
+		$this->dependency_management = $dependency_management;
+		$this->migration_logger = $migration_logger;
+	}
+
+	/**
+	 * Gets the ruckusing framework runner.
+	 *
+	 * @param string $migrations_table_name The migrations table name.
+	 * @param string $migrations_directory  The migrations directory.
+	 *
+	 * @return Ruckusing_FrameworkRunner The framework runner.
+	 */
+	public function get_framework_runner( $migrations_table_name, $migrations_directory ) {
+		$this->maybe_set_constant();
+
+		$configuration = $this->get_configuration( $migrations_table_name, $migrations_directory );
+		$instance      = new Ruckusing_FrameworkRunner( $configuration, [ 'db:migrate', 'env=production' ], $this->migration_logger );
 
 		/*
 		 * As the Ruckusing_FrameworkRunner is setting its own error and exception handlers,
@@ -62,58 +69,70 @@ class Ruckusing_Framework {
 	}
 
 	/**
-	 * Registers defines needed for Ruckusing to work.
+	 * Gets the ruckusing framework task manager.
 	 *
-	 * @param Dependency_Management $dependency_management Dependency management to chech whether or not vendor_prefixed is used.
-	 * @param string                $table_name            The Schema table name to use.
+	 * @param string $migrations_table_name The migrations table name.
+	 * @param string $migrations_directory  The migrations directory.
 	 *
-	 * @return bool True on success, false when the defines are already set.
+	 * @throws \YoastSEO_Vendor\Ruckusing_Exception If any of the arguments are invalid.
+	 *
+	 * @return Ruckusing_Task_Manager The task manager.
 	 */
-	protected static function set_constants( Dependency_Management $dependency_management, $table_name ) {
-		foreach ( self::get_constants( $dependency_management, $table_name ) as $key => $value ) {
-			if ( ! self::set_constant( $key, $value ) ) {
-				return false;
-			}
-		}
+	public function get_framework_task_manager( $adapter, $migrations_table_name, $migrations_directory ) {
+		$task_manager = new Ruckusing_Task_Manager( $adapter, $this->get_configuration( $migrations_table_name, $migrations_directory ) );
+		$task_manager->register_task( 'db:migrate', new Task_Db_Migrate( $adapter ) );
 
-		return true;
+		return $task_manager;
 	}
 
 	/**
-	 * Registers a define or makes sure the existing value is the one we can use.
+	 * Returns the framework configuration for a given migrations table name and directory.
 	 *
-	 * @param string $define Constant to check.
-	 * @param string $value  Value to set when not defined yet.
+	 * @param string $migrations_table_name The migrations table name.
+	 * @param string $migrations_directory  The migrations directory.
 	 *
-	 * @return bool True if the define has the value we want it to be.
+	 * @return array The configuration
 	 */
-	protected static function set_constant( $define, $value ) {
-		if ( \defined( $define ) ) {
-			return \constant( $define ) === $value;
-		}
-
-		return \define( $define, $value );
-	}
-
-	/**
-	 * Retrieves a list of defines that should be set.
-	 *
-	 * @param Dependency_Management $dependency_management Dependency management to chech whether or not vendor_prefixed is used.
-	 * @param string                $table_name            Table name to use.
-	 *
-	 * @return array List of defines to be set.
-	 */
-	protected static function get_constants( Dependency_Management $dependency_management, $table_name ) {
-		if ( $dependency_management->prefixed_available() ) {
-			return [
-				\YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE' => \WPSEO_PATH . \YOAST_VENDOR_PREFIX_DIRECTORY . '/ruckusing',
-				\YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_TS_SCHEMA_TBL_NAME' => $table_name,
-			];
-		}
-
+	public function get_configuration( $migrations_table_name, $migrations_directory ) {
 		return [
-			'RUCKUSING_BASE'               => \WPSEO_PATH . 'vendor/ruckusing/ruckusing-migrations',
-			'RUCKUSING_TS_SCHEMA_TBL_NAME' => $table_name,
+			'db'             => [
+				'production' => [
+					'type'      => 'mysql',
+					'host'      => \DB_HOST,
+					'port'      => 3306,
+					'database'  => \DB_NAME,
+					'user'      => \DB_USER,
+					'password'  => \DB_PASSWORD,
+					'charset'   => $this->wpdb->charset,
+					'directory' => '', // This needs to be set, to use the migrations folder as base folder.
+					'schema_version_table_name' => $migrations_table_name,
+				],
+			],
+			'migrations_dir' => [ 'default' => $migrations_directory ],
+			// This needs to be set but is not used.
+			'db_dir'         => true,
+			// This needs to be set but is not used.
+			'log_dir'        => true,
+			// This needs to be set but is not used.
 		];
+	}
+
+	/**
+	 * Sets the constant required by the ruckusing framework.
+	 *
+	 * @return bool Whether or not the constant is now the correct value.
+	 */
+	public function maybe_set_constant() {
+		$constant_name = $this->dependency_management->prefixed_available()
+			? \YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE'
+			: 'RUCKUSING_BASE';
+
+		$constant_value = \WPSEO_PATH . 'fake-ruckusing';
+
+		if ( \defined( $constant_name ) ) {
+			return \constant( $constant_name ) === $constant_value;
+		}
+
+		return \define( $constant_name, $constant_value );
 	}
 }
