@@ -172,6 +172,7 @@ class WPSEO_Frontend {
 	 * Resets the entire class so canonicals, titles etc can be regenerated.
 	 */
 	public function reset() {
+		self::$instance = null;
 		foreach ( get_class_vars( __CLASS__ ) as $name => $default ) {
 			switch ( $name ) {
 				// Clear the class instance to be re-initialized.
@@ -181,6 +182,7 @@ class WPSEO_Frontend {
 
 				// Exclude these properties from being reset.
 				case 'woocommerce_shop_page':
+				case 'default_title':
 					break;
 
 				// Reset property to the class default.
