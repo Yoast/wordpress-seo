@@ -34,6 +34,8 @@ interface WPSEO_Config_Component {
 	public function set_data( $data );
 
 	/**
+	 * Get onboarding wizard component field.
+	 *
 	 * @return WPSEO_Config_Field
 	 */
 	public function get_field();
