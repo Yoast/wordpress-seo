@@ -35,7 +35,6 @@ if ( file_exists( __DIR__ . '/generated/container.php' ) ) {
 		if ( $development ) {
 			throw $e;
 		}
-
 		// Don't crash the entire site, simply don't load.
 		// TODO: Add error notifications here.
 	}
