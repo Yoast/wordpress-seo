@@ -11,6 +11,8 @@
 class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 
 	/**
+	 * MyYoast admin "page" identifier.
+	 *
 	 * @var string
 	 */
 	const PAGE_IDENTIFIER = 'wpseo_myyoast';
