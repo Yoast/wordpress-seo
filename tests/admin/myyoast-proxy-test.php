@@ -5,7 +5,7 @@ namespace Yoast\WP\Free\Tests\Admin;
 use WPSEO_MyYoast_Proxy;
 use Brain\Monkey;
 use Mockery;
-use Yoast\Tests\Doubles\MyYoast_Proxy_Double;
+use WPSEO_MyYoast_Proxy_Double;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -22,9 +22,9 @@ class MyYoast_Proxy_Test extends TestCase {
 	 * @covers ::determine_proxy_options
 	 */
 	public function test_determine_proxy_options_for_the_research_webworker_file() {
-		/** @var \Yoast\Tests\Doubles\MyYoast_Proxy_Double $instance */
+		/** @var WPSEO_MyYoast_Proxy_Double $instance */
 		$instance = $this
-			->getMockBuilder( MyYoast_Proxy_Double::class )
+			->getMockBuilder( WPSEO_MyYoast_Proxy_Double::class )
 			->setMethods( array( 'get_proxy_file', 'get_plugin_version' ) )
 			->getMock();
 
@@ -98,7 +98,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		$instance
 			->expects( $this->at( 3 ) )
 			->method( 'set_header' )
-			->with( 'Cache-Control: max-age=' . MyYoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
+			->with( 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy::CACHE_CONTROL_MAX_AGE );
 
 		$instance
 			->expects( $this->once() )
@@ -153,7 +153,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		$instance
 			->expects( $this->at( 3 ) )
 			->method( 'set_header' )
-			->with( 'Cache-Control: max-age=' . MyYoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
+			->with( 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy::CACHE_CONTROL_MAX_AGE );
 
 		$instance
 			->expects( $this->once() )
@@ -265,7 +265,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		$instance
 			->expects( $this->at( 3 ) )
 			->method( 'set_header' )
-			->with( 'Cache-Control: max-age=' . MyYoast_Proxy_Double::CACHE_CONTROL_MAX_AGE );
+			->with( 'Cache-Control: max-age=' . WPSEO_MyYoast_Proxy::CACHE_CONTROL_MAX_AGE );
 
 		$instance
 			->expects( $this->once() )

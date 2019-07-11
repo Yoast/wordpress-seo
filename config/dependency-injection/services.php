@@ -28,8 +28,6 @@ $container->register( SEO_Links_Repository::class, SEO_Links_Repository::class )
 
 $excluded_files = [
 	'main.php',
-	'yoast-model.php',
-	'yoast-orm-wrapper.php',
 ];
 
 $excluded_directories = [
@@ -37,6 +35,7 @@ $excluded_directories = [
 	'loaders',
 	'wordpress',
 	'generated',
+	'orm',
 ];
 
 $excluded = implode( ',', array_merge( $excluded_directories, $excluded_files ) );
@@ -50,3 +49,7 @@ $base_definition
 
 /* @var $loader \Yoast\WP\Free\Dependency_Injection\Custom_Loader */
 $loader->registerClasses( $base_definition, 'Yoast\\WP\\Free\\', 'src/*', 'src/{' . $excluded . '}' );
+
+if ( file_exists( __DIR__ . '/../../premium/config/dependency-injection/services.php' ) ) {
+	include __DIR__ . '/../../premium/config/dependency-injection/services.php';
+}

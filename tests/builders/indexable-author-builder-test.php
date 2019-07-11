@@ -7,9 +7,7 @@ use Mockery;
 use Yoast\WP\Free\Builders\Indexable_Author_Builder;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\ORM\ORMWrapper;
-use Yoast\WP\Free\Tests\Doubles\Indexable_Author_Builder_Double;
 use Yoast\WP\Free\Tests\TestCase;
-use stdClass;
 
 /**
  * Class Indexable_Author_Test.
