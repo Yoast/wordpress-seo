@@ -11,31 +11,43 @@
 class WPSEO_Metabox_Tab_Section implements WPSEO_Metabox_Section {
 
 	/**
+	 * An instance of the Metabox Tab class.
+	 *
 	 * @var WPSEO_Metabox_Tab[]
 	 */
 	public $tabs = array();
 
 	/**
+	 * The name of the tab section.
+	 *
 	 * @var string
 	 */
 	public $name;
 
 	/**
+	 * The text content of the section link.
+	 *
 	 * @var string
 	 */
 	private $link_content;
 
 	/**
+	 * The title attribute in the link.
+	 *
 	 * @var string
 	 */
 	private $link_title;
 
 	/**
+	 * The class of the link.
+	 *
 	 * @var string
 	 */
 	private $link_class;
 
 	/**
+	 * The aria label for the link.
+	 *
 	 * @var string
 	 */
 	private $link_aria_label;
