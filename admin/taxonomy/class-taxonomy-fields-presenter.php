@@ -18,6 +18,8 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	private $tax_meta;
 
 	/**
+	 * Constructs the WPSEO_Taxonomy_Fields_Presenter class.
+	 *
 	 * @param stdClass $term The current term.
 	 */
 	public function __construct( $term ) {

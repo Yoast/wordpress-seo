@@ -11,27 +11,35 @@
 class WPSEO_OnPage_Option {
 
 	/**
+	 * Indicates the data is not fetched.
+	 *
 	 * @var int
 	 */
 	const NOT_FETCHED = 99;
 
 	/**
+	 * Indicates the option is indexable.
+	 *
 	 * @var int
 	 */
 	const IS_INDEXABLE = 1;
 
 	/**
+	 * Indicates the option is not indexable.
+	 *
 	 * @var int
 	 */
 	const IS_NOT_INDEXABLE = 0;
 
 	/**
+	 * Indicates the data could not be fetched.
+	 *
 	 * @var int
 	 */
 	const CANNOT_FETCH = -1;
 
 	/**
-	 *  The name of the option where data will be stored.
+	 * The name of the option where data will be stored.
 	 *
 	 * @var string
 	 */

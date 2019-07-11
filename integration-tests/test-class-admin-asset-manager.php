@@ -116,6 +116,8 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether the function register_script() registers the included script.
+	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
 	 */
 	public function test_register_script() {
@@ -166,6 +168,8 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether the registers_script function applies the suffix correctly.
+	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
 	 */
 	public function test_register_script_suffix() {
@@ -186,6 +190,8 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether the register_style registers the included style.
+	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_style
 	 */
 	public function test_register_style() {
@@ -207,7 +213,7 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 		$result = $wp_styles->registered[ WPSEO_Admin_Asset_Manager::PREFIX . 'handle' ];
 
 		$this->assertEquals( WPSEO_Admin_Asset_Manager::PREFIX . 'handle', $result->handle );
-		$this->assertEquals( 'http://' . WP_TESTS_DOMAIN . '/wp-content/plugins/wordpress-seo/css/dist/src' . WPSEO_CSSJS_SUFFIX . '.css', $result->src );
+		$this->assertEquals( 'http://' . WP_TESTS_DOMAIN . '/wp-content/plugins/wordpress-seo/css/dist/src.css', $result->src );
 		$this->assertEquals( array( 'deps' ), $result->deps );
 		$this->assertEquals( 'version', $result->ver );
 		$this->assertEquals( 'print', $result->args );
@@ -236,6 +242,8 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether the register_style applies the suffix correctly.
+	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_script
 	 */
 	public function test_register_style_suffix() {
@@ -256,6 +264,8 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether register_scripts registers multiple scripts correctly.
+	 *
 	 * @covers WPSEO_Admin_Asset_Manager::register_scripts
 	 */
 	public function test_register_scripts() {

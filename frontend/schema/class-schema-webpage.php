@@ -68,10 +68,10 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			$this->add_image( $data );
 
 			$post = get_post( $this->context->id );
-			if ( $post instanceof WP_Post ) {
-				$data['datePublished'] = mysql2date( DATE_W3C, $post->post_date_gmt, false );
-				$data['dateModified']  = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
+			$data['datePublished'] = mysql2date( DATE_W3C, $post->post_date_gmt, false );
+			$data['dateModified']  = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
 
+			if ( get_post_type( $post ) === 'post' ) {
 				$data = $this->add_author( $data, $post );
 			}
 		}

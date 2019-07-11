@@ -43,7 +43,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 		$this->context = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
 
 		$this->context->title     = 'title';
-		$this->context->canonical = 'example.com';
+		$this->context->canonical = 'example.com/';
 
 		$this->instance = $this->getMockBuilder( WPSEO_Schema_HowTo_Double::class )
 			->setMethods( [ 'get_image_schema' ] )
@@ -90,14 +90,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 			]
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -120,6 +120,8 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 					'steps'           => [
 						[
 							'id'       => 'step-id-1',
+							'jsonText' => '',
+							'jsonName' => '',
 							'text'     => [ 'How to step 1 text line' ],
 						],
 					],
@@ -133,14 +135,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -178,14 +180,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
 						'@type'           => 'HowToStep',
-						'url'             => 'example.com#step-id-1',
+						'url'             => 'example.com/#step-id-1',
 						'name'            => 'How to step 1',
 						'itemListElement' => [
 							[
@@ -198,7 +200,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -249,14 +251,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
 						'@type'           => 'HowToStep',
-						'url'             => 'example.com#step-id-1',
+						'url'             => 'example.com/#step-id-1',
 						'name'            => 'How to step 1',
 						'image'           => 'https://example.com/image.png',
 						'itemListElement' => [
@@ -270,13 +272,13 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
-	 * Tests the HowTo schema output when no jsonText (description) is provided in the step data.
+	 * Tests the HowTo schema output when an empty jsonText (description) is provided in the step data.
 	 *
-	 * In case no description is provided, the HowToStep schema output should have a text attribute containing the description text,
+	 * In case an empty description is provided, the HowToStep schema output should have a text attribute containing the description text,
 	 * instead of a name and itemListElement attribute.
 	 *
 	 * @covers WPSEO_Schema_HowTo::render
@@ -296,6 +298,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 						[
 							'id'       => 'step-id-1',
 							'jsonName' => 'How to step 1',
+							"jsonText" => '',
 						],
 					],
 				],
@@ -308,27 +311,27 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
 						'@type' => 'HowToStep',
-						'url'   => 'example.com#step-id-1',
+						'url'   => 'example.com/#step-id-1',
 						'text'  => 'How to step 1',
 					],
 				],
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
-	 * Tests the HowTo schema step output when no jsonName (title) is provided in the step data.
+	 * Tests the HowTo schema step output when an empty jsonName (title) is provided in the step data.
 	 *
-	 * In case no description is provided, the HowToStep schema output should have a text attribute containing the title
+	 * In case an empty description is provided, the HowToStep schema output should have a text attribute containing the title
 	 * text, instead of a name and itemListElement attribute.
 	 *
 	 * @covers WPSEO_Schema_HowTo::render
@@ -349,6 +352,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 						[
 							'id'       => 'step-id-1',
 							'jsonText' => 'How to step 1 description.',
+							'jsonName' => '',
 							'text'     => [
 								'How to step 1 description.',
 							],
@@ -364,25 +368,25 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
 						'@type' => 'HowToStep',
-						'url'   => 'example.com#step-id-1',
+						'url'   => 'example.com/#step-id-1',
 						'text'  => 'How to step 1 description.',
 					],
 				],
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
-	 * Tests the HowTo schema step output when no jsonName (title) is provided in the step data and an image is added
+	 * Tests the HowTo schema step output when an empty jsonName (title) is provided in the step data and an image is added
 	 * in the description.
 	 *
 	 * @covers WPSEO_Schema_HowTo::render
@@ -403,6 +407,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 						[
 							'id'       => 'step-id-1',
 							'jsonText' => '',
+							'jsonName' => '',
 							'text'     => [
 								[
 									'type'   => 'img',
@@ -427,14 +432,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'step'             => [
 					[
 						'@type' => 'HowToStep',
-						'url'   => 'example.com#step-id-1',
+						'url'   => 'example.com/#step-id-1',
 						'image' => 'https://example.com/image.png',
 						'text'  => '',
 					],
@@ -442,11 +447,11 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
-	 * Tests the HowTo schema step output when no jsonName (title), jsonText (description) and image are provided.
+	 * Tests the HowTo schema step output when an empty jsonName (title) and jsonText (description), and no image are provided.
 	 *
 	 * @covers WPSEO_Schema_HowTo::render
 	 * @covers WPSEO_Schema_HowTo::get_main_schema_id
@@ -464,7 +469,9 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 					'name'            => 'title',
 					'steps'           => [
 						[
-							'id' => 'step-id-1',
+							'jsonText' => '',
+							'jsonName' => '',
+							'id'       => 'step-id-1',
 						],
 					],
 				],
@@ -477,14 +484,14 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -529,15 +536,15 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 			[
 				'@type'            => 'HowTo',
-				'@id'              => 'example.com#howto-1',
+				'@id'              => 'example.com/#howto-1',
 				'name'             => 'title',
-				'mainEntityOfPage' => [ '@id' => 'example.com#article' ],
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
 				'totalTime'        => 'P1DT12H30M',
 				'step'             => [
 					[
 						'@type'           => 'HowToStep',
-						'url'             => 'example.com#step-id-1',
+						'url'             => 'example.com/#step-id-1',
 						'name'            => 'How to step 1',
 						'itemListElement' => [
 							[
@@ -550,7 +557,420 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 			],
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests the HowTo schema output with allowed HTML tags in the jsonText.
+	 *
+	 * <h1> is one of the tags that is allowed in the HowToDirection text output. Therefore, it shouldn't be stripped.
+	 *
+	 * @covers \WPSEO_Schema_HowTo::render
+	 * @covers \WPSEO_Schema_HowTo::add_steps
+	 * @covers \WPSEO_Schema_HowTo::add_step_description
+	 */
+	public function test_schema_output_with_allowed_tags_in_jsontext() {
+		$actual = $this->instance->render(
+			[
+				[ '@id' => 'OtherGraphPiece' ],
+			],
+			[
+				'attrs' => [
+					'jsonDescription' => 'description',
+					'name'            => 'title',
+					'steps'           => [
+						[
+							'id'       => 'step-id-1',
+							'jsonName' => 'How to step 1',
+							'jsonText' => '<h1>How to step 1 description</h1>',
+							'text'     => [ 'How to step 1 text line' ],
+						],
+					],
+				],
+			]
+		);
+
+		$expected = [
+			[
+				'@id' => 'OtherGraphPiece',
+			],
+			[
+				'@type'            => 'HowTo',
+				'@id'              => 'example.com/#howto-1',
+				'name'             => 'title',
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
+				'description'      => 'description',
+				'step'             => [
+					[
+						'@type'           => 'HowToStep',
+						'url'             => 'example.com/#step-id-1',
+						'name'            => 'How to step 1',
+						'itemListElement' => [
+							[
+								'@type' => 'HowToDirection',
+								'text'  => '<h1>How to step 1 description</h1>',
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests the HowTo schema output with disallowed HTML tags in the jsonText.
+	 *
+	 * <div> is not allowed in the HowToDirection text output. Therefore, it should be stripped.
+	 *
+	 * @covers \WPSEO_Schema_HowTo::render
+	 * @covers \WPSEO_Schema_HowTo::add_steps
+	 * @covers \WPSEO_Schema_HowTo::add_step_description
+	 */
+	public function test_schema_output_with_disallowed_tags_in_jsontext() {
+		$actual = $this->instance->render(
+			[
+				[ '@id' => 'OtherGraphPiece' ],
+			],
+			[
+				'attrs' => [
+					'jsonDescription' => 'description',
+					'name'            => 'title',
+					'steps'           => [
+						[
+							'id'       => 'step-id-1',
+							'jsonName' => 'How to step 1',
+							'jsonText' => '<div>How to step 1 description</div>',
+							'text'     => [ 'How to step 1 text line' ],
+						],
+					],
+				],
+			]
+		);
+
+		$expected = [
+			[
+				'@id' => 'OtherGraphPiece',
+			],
+			[
+				'@type'            => 'HowTo',
+				'@id'              => 'example.com/#howto-1',
+				'name'             => 'title',
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
+				'description'      => 'description',
+				'step'             => [
+					[
+						'@type'           => 'HowToStep',
+						'url'             => 'example.com/#step-id-1',
+						'name'            => 'How to step 1',
+						'itemListElement' => [
+							[
+								'@type' => 'HowToDirection',
+								'text'  => 'How to step 1 description',
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests the HowTo schema output with allowed and disallowed HTML tags in the jsonText.
+	 *
+	 * <h1> is one of the tags that is allowed in the HowToDirection text output. <div> is not allowed. Therefore, <h1> shouldn't be stripped, but <div> should.
+	 *
+	 * @covers \WPSEO_Schema_HowTo::render
+	 * @covers \WPSEO_Schema_HowTo::add_steps
+	 * @covers \WPSEO_Schema_HowTo::add_step_description
+	 */
+	public function test_schema_output_with_allowed_and_disallowed_tags_in_jsontext() {
+		$actual = $this->instance->render(
+			[
+				[ '@id' => 'OtherGraphPiece' ],
+			],
+			[
+				'attrs' => [
+					'jsonDescription' => 'description',
+					'name'            => 'title',
+					'steps'           => [
+						[
+							'id'       => 'step-id-1',
+							'jsonName' => 'How to step 1',
+							'jsonText' => '<h1><div>How to step 1 description</div></h1>',
+							'text'     => [ 'How to step 1 text line' ],
+						],
+					],
+				],
+			]
+		);
+
+		$expected = [
+			[
+				'@id' => 'OtherGraphPiece',
+			],
+			[
+				'@type'            => 'HowTo',
+				'@id'              => 'example.com/#howto-1',
+				'name'             => 'title',
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
+				'description'      => 'description',
+				'step'             => [
+					[
+						'@type'           => 'HowToStep',
+						'url'             => 'example.com/#step-id-1',
+						'name'            => 'How to step 1',
+						'itemListElement' => [
+							[
+								'@type' => 'HowToDirection',
+								'text'  => '<h1>How to step 1 description</h1>',
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests the HowTo schema output with HTML tags in the jsonName.
+	 *
+	 * No HTML tags are allowed in the step name output. Therefore, they should be stripped.
+	 *
+	 * @covers \WPSEO_Schema_HowTo::render
+	 * @covers \WPSEO_Schema_HowTo::add_steps
+	 * @covers \WPSEO_Schema_HowTo::add_step_description
+	 */
+	public function test_schema_output_with_tags_in_jsonname() {
+		$actual = $this->instance->render(
+			[
+				[ '@id' => 'OtherGraphPiece' ],
+			],
+			[
+				'attrs' => [
+					'jsonDescription' => 'description',
+					'name'            => 'title',
+					'steps'           => [
+						[
+							'id'       => 'step-id-1',
+							'jsonName' => '<h1><div>How to step 1</div></h1>',
+							'jsonText' => 'How to step 1 description',
+							'text'     => [ 'How to step 1 text line' ],
+						],
+					],
+				],
+			]
+		);
+
+		$expected = [
+			[
+				'@id' => 'OtherGraphPiece',
+			],
+			[
+				'@type'            => 'HowTo',
+				'@id'              => 'example.com/#howto-1',
+				'name'             => 'title',
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
+				'description'      => 'description',
+				'step'             => [
+					[
+						'@type'           => 'HowToStep',
+						'url'             => 'example.com/#step-id-1',
+						'name'            => 'How to step 1',
+						'itemListElement' => [
+							[
+								'@type' => 'HowToDirection',
+								'text'  => 'How to step 1 description',
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests the HowTo schema output with allowed HTML tags in the jsonDescription.
+	 *
+	 * <h1> is one of the tags that is allowed in the HowTo description output. Therefore, it shouldn't be stripped.
+	 *
+	 * @covers \WPSEO_Schema_HowTo::render
+	 * @covers \WPSEO_Schema_HowTo::add_steps
+	 * @covers \WPSEO_Schema_HowTo::add_step_description
+	 */
+	public function test_schema_output_with_allowed_tags_in_jsondescription() {
+		$actual = $this->instance->render(
+			[
+				[ '@id' => 'OtherGraphPiece' ],
+			],
+			[
+				'attrs' => [
+					'jsonDescription' => '<h1>description</h1>',
+					'name'            => 'title',
+					'steps'           => [
+						[
+							'id'       => 'step-id-1',
+							'jsonName' => 'How to step 1',
+							'jsonText' => 'How to step 1 description',
+							'text'     => [ 'How to step 1 text line' ],
+						],
+					],
+				],
+			]
+		);
+
+		$expected = [
+			[
+				'@id' => 'OtherGraphPiece',
+			],
+			[
+				'@type'            => 'HowTo',
+				'@id'              => 'example.com/#howto-1',
+				'name'             => 'title',
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
+				'description'      => '<h1>description</h1>',
+				'step'             => [
+					[
+						'@type'           => 'HowToStep',
+						'url'             => 'example.com/#step-id-1',
+						'name'            => 'How to step 1',
+						'itemListElement' => [
+							[
+								'@type' => 'HowToDirection',
+								'text'  => 'How to step 1 description',
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests the HowTo schema output with disallowed HTML tags in the jsonDescription.
+	 *
+	 * <div> is not allowed in the HowTo description output. Therefore, it should be stripped.
+	 *
+	 * @covers \WPSEO_Schema_HowTo::render
+	 * @covers \WPSEO_Schema_HowTo::add_steps
+	 * @covers \WPSEO_Schema_HowTo::add_step_description
+	 */
+	public function test_schema_output_with_disallowed_tags_in_jsondescription() {
+		$actual = $this->instance->render(
+			[
+				[ '@id' => 'OtherGraphPiece' ],
+			],
+			[
+				'attrs' => [
+					'jsonDescription' => '<div>description</div>',
+					'name'            => 'title',
+					'steps'           => [
+						[
+							'id'       => 'step-id-1',
+							'jsonName' => 'How to step 1',
+							'jsonText' => 'How to step 1 description',
+							'text'     => [ 'How to step 1 text line' ],
+						],
+					],
+				],
+			]
+		);
+
+		$expected = [
+			[
+				'@id' => 'OtherGraphPiece',
+			],
+			[
+				'@type'            => 'HowTo',
+				'@id'              => 'example.com/#howto-1',
+				'name'             => 'title',
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
+				'description'      => 'description',
+				'step'             => [
+					[
+						'@type'           => 'HowToStep',
+						'url'             => 'example.com/#step-id-1',
+						'name'            => 'How to step 1',
+						'itemListElement' => [
+							[
+								'@type' => 'HowToDirection',
+								'text'  => 'How to step 1 description',
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests the HowTo schema output with allowed and disallowed HTML tags in the jsonDescription.
+	 *
+	 * <h1> is one of the tags that is allowed in the HowTo description output. <div> is not allowed. Therefore, <h1> shouldn't be stripped, but <div> should.
+	 *
+	 * @covers \WPSEO_Schema_HowTo::render
+	 * @covers \WPSEO_Schema_HowTo::add_steps
+	 * @covers \WPSEO_Schema_HowTo::add_step_description
+	 */
+	public function test_schema_output_with_allowed_and_disallowed_tags_in_jsondescription() {
+		$actual = $this->instance->render(
+			[
+				[ '@id' => 'OtherGraphPiece' ],
+			],
+			[
+				'attrs' => [
+					'jsonDescription' => '<h1><div>description</div></h1>',
+					'name'            => 'title',
+					'steps'           => [
+						[
+							'id'       => 'step-id-1',
+							'jsonName' => 'How to step 1',
+							'jsonText' => 'How to step 1 description',
+							'text'     => [ 'How to step 1 text line' ],
+						],
+					],
+				],
+			]
+		);
+
+		$expected = [
+			[
+				'@id' => 'OtherGraphPiece',
+			],
+			[
+				'@type'            => 'HowTo',
+				'@id'              => 'example.com/#howto-1',
+				'name'             => 'title',
+				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
+				'description'      => '<h1>description</h1>',
+				'step'             => [
+					[
+						'@type'           => 'HowToStep',
+						'url'             => 'example.com/#step-id-1',
+						'name'            => 'How to step 1',
+						'itemListElement' => [
+							[
+								'@type' => 'HowToDirection',
+								'text'  => 'How to step 1 description',
+							],
+						],
+					],
+				],
+			],
+		];
+
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**

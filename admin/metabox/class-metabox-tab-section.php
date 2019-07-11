@@ -11,6 +11,8 @@
 class WPSEO_Metabox_Tab_Sections extends WPSEO_Abstract_Metabox_Tab_With_Sections {
 
 	/**
+	 * An instance of the Metabox Tab class.
+	 *
 	 * @var WPSEO_Metabox_Tab[]
 	 */
 	public $tabs = array();

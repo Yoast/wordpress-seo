@@ -11,21 +11,29 @@
 class WPSEO_GSC_Issue {
 
 	/**
+	 * The URL of the Google Search Console issue.
+	 *
 	 * @var string
 	 */
 	private $url;
 
 	/**
+	 * The time of the first discovery of the Google Search Console issue.
+	 *
 	 * @var DateTime
 	 */
 	private $first_detected;
 
 	/**
+	 * The time of the last crawl of the URL.
+	 *
 	 * @var DateTime
 	 */
 	private $last_crawled;
 
 	/**
+	 * The HTTP response code of the URL.
+	 *
 	 * @var string
 	 */
 	private $response_code;

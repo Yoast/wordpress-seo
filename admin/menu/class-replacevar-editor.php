@@ -92,6 +92,8 @@ class WPSEO_Replacevar_Editor {
 	}
 
 	/**
+	 * Validates the replacement variable editor arguments.
+	 *
 	 * @param array $arguments The arguments to validate.
 	 *
 	 * @throws InvalidArgumentException Thrown when not all required arguments are present.

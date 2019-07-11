@@ -1,28 +1,17 @@
 # Grunt aliases
 ---
-# Build everything
-build:
-  - 'build:css'
-  - 'build:images'
-  - 'build:js'
-  - 'build:i18n'
-# Build CSS from SCSS to production
-'build:sass':
-  - 'sass:build'
-'build:css':
-  - 'clean:build-assets-css'
-  - 'build:sass'
-  - 'postcss:build'
-  - 'rtlcss'
-  - 'cssmin'
-# Optimise images from source to production
-'build:images':
-  - 'imagemin'
 # Build JavaScript from assets to production
 'build:js':
   - 'clean:build-assets-js'
-  - 'copy:dependencies'
+  - 'copy:js-dependencies'
   - 'webpack:buildDev'
+# Build CSS from SCSS to production
+'build:css':
+  - 'clean:build-assets-css'
+  - 'copy:css-dependencies'
+  - 'sass:build'
+  - 'postcss:build'
+  - 'rtlcss:build'
 
 # Build internationalisation features
 'build:i18n':
@@ -56,19 +45,6 @@ build:
 clean:build-assets:
   - 'clean:build-assets-js'
   - 'clean:build-assets-css'
-
-# Check health of the project
-check:
-  - 'check:js'
-  - 'check:php'
-  - 'check:i18n'
-'check:js':
-  - 'eslint'
-'check:php':
-  - 'shell:php-lint'
-  - 'phpcs'
-'check:i18n':
-  - 'checktextdomain'
 
 # Update all versions except the stable tag
 'update-version-trunk':
@@ -105,16 +81,13 @@ check:
 
 # Get the project ready for release
 release:
-  - 'build:images'
   - 'clean:build-assets'
-  - 'release:css'
+  - 'build:images'
+  - 'build:css'
   - 'release:js'
   - 'build:i18n'
-'release:css':
-  - 'build:css'
-  - 'cssmin'
 'release:js':
-  - 'copy:dependencies'
+  - 'copy:js-dependencies'
   - 'webpack:buildProd'
 
 'deploy:trunk':

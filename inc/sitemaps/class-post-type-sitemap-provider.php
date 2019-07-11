@@ -70,6 +70,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
+	 * Retrieves the sitemap links.
+	 *
 	 * @param int $max_entries Entries per sitemap.
 	 *
 	 * @return array
@@ -540,10 +542,13 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		update_meta_cache( 'post', $post_ids );
 
-		return $posts;
+		return $posts;integration-tests\test-class-rewrite.php
+												  integration-tests\test-class-rewrite.php
 	}
 
 	/**
+	 * Constructs an SQL where clause for a given post type.
+	 *
 	 * @param string $post_type Post type slug.
 	 *
 	 * @return string

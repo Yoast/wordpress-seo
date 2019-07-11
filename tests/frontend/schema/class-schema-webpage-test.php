@@ -118,6 +118,78 @@ class WPSEO_Schema_WebPage_Test extends TestCase {
 	}
 
 	/**
+	 * Tests if no author is set for a page.
+	 *
+	 * @covers \WPSEO_Schema_WebPage::generate
+	 * @covers \WPSEO_Schema_WebPage::add_breadcrumbs
+	 * @covers \WPSEO_Schema_WebPage::determine_page_type
+	 * @covers \WPSEO_Frontend_Page_Type::is_posts_page
+	 * @covers \WPSEO_Frontend_Page_Type::is_home_posts_page
+	 */
+	public function test_do_not_add_author_for_page() {
+		Monkey\Functions\stubs( [
+			'is_singular' => true,
+
+		] );
+
+		$this->context->site_represents = false;
+
+		$post = Mockery::mock('WP_Post' );
+		$post->post_date_gmt = '';
+		$post->post_modified_gmt = '';
+
+		Monkey\Functions\expect( 'get_post' )
+			->andReturn( $post );
+
+		Monkey\Functions\expect( 'get_post_type' )
+			->andReturn( 'page' );
+
+		$actual = $this->instance->generate();
+
+		$this->assertArrayNotHasKey( 'author', $actual );
+	}
+
+	/**
+	 * Tests if an author is set for a post when the site is not represented.
+	 *
+	 * @covers \WPSEO_Schema_WebPage::generate
+	 * @covers \WPSEO_Schema_WebPage::add_breadcrumbs
+	 * @covers \WPSEO_Schema_WebPage::determine_page_type
+	 * @covers \WPSEO_Frontend_Page_Type::is_posts_page
+	 * @covers \WPSEO_Frontend_Page_Type::is_home_posts_page
+	 * @covers \WPSEO_Schema_WebPage::add_author
+	 */
+	public function test_add_author_for_post() {
+		Monkey\Functions\stubs( [
+			'is_singular' => true,
+
+		] );
+
+		$this->context->site_represents = false;
+
+		$post = Mockery::mock('WP_Post' );
+		$post->post_date_gmt = '';
+		$post->post_modified_gmt = '';
+		$post->post_author = 'author';
+
+		Monkey\Functions\expect( 'get_post' )
+			->andReturn( $post );
+
+		Monkey\Functions\expect( 'get_post_type' )
+			->andReturn( 'post' );
+
+		Monkey\Functions\expect( 'get_userdata' )
+			->andReturn( (object) [ 'user_login' => 'user_login' ] );
+
+		Monkey\Functions\expect( 'wp_hash' )
+			->andReturn( 'user_hash' );
+
+		$actual = $this->instance->generate();
+
+		$this->assertArrayHasKey( 'author', $actual );
+	}
+
+	/**
 	 * Tests if the add_author adds the author when the site is not represented.
 	 *
 	 * @covers \WPSEO_Schema_WebPage::add_author

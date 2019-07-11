@@ -11,16 +11,22 @@
 class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
+	 * An instance of the Social Admin class.
+	 *
 	 * @var WPSEO_Social_Admin
 	 */
 	protected $social_admin;
 
 	/**
+	 * An instance of the Metabox Analysis SEO class.
+	 *
 	 * @var WPSEO_Metabox_Analysis_SEO
 	 */
 	protected $analysis_seo;
 
 	/**
+	 * An instance of the Metabox Analysis Readability class.
+	 *
 	 * @var WPSEO_Metabox_Analysis_Readability
 	 */
 	protected $analysis_readability;
@@ -948,6 +954,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
+	 * Checks if the page is the post overview page.
+	 *
 	 * @param string $page The page to check for the post overview page.
 	 *
 	 * @return bool Whether or not the given page is the post overview page.
@@ -957,6 +965,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
+	 * Checks if the page is the post edit page.
+	 *
 	 * @param string $page The page to check for the post edit page.
 	 *
 	 * @return bool Whether or not the given page is the post edit page.
