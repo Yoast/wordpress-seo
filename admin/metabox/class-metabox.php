@@ -313,9 +313,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->get_advanced_meta_section();
 		}
 
-		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
-			$content_sections[] = $this->get_addons_meta_section();
-		}
+		$content_sections = array_merge( $content_sections, $this->get_additional_meta_sections() );
 
 		return $content_sections;
 	}
@@ -381,16 +379,46 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Returns a metabox section dedicated to hosting metabox tabs that have been added by other plugins through the
-	 * `wpseo_tab_header` and `wpseo_tab_content` actions.
+	 * Returns metabox sections that have been added by other plugins.
 	 *
-	 * @return WPSEO_Metabox_Section
+	 * @return WPSEO_Metabox_Section_Additional[]
 	 */
-	private function get_addons_meta_section() {
-		return new WPSEO_Metabox_Addon_Tab_Section(
-			'addons',
-			'<span class="dashicons dashicons-admin-plugins"></span>' . __( 'Add-ons', 'wordpress-seo' )
-		);
+	private function get_additional_meta_sections() {
+		$sections = array();
+
+		/**
+		 * Filter: 'yoast_free_additional_metabox_sections' - Allows adding additional tabs to the Yoast SEO metabox.
+		 *
+		 * @since 11.8
+		 *
+		 * @param array[] $sections {
+		 *     An array of arrays with tab specifications.
+		 *
+		 *     @type array $section {
+		 *          A tab specification.
+		 *
+		 *          @type string $name         The name of the tab. Used in the HTML IDs, href and aria properties.
+		 *          @type string $link_content The content of the tab link.
+		 *          @type string $content      The content of the tab.
+		 *          @type array $options {
+		 *              Optional. Extra options.
+		 *
+		 *              @type string $link_class      Optional. The class for the tab link.
+		 *              @type string $link_aria_label Optional. The aria label of the tab link.
+		 *          }
+		 *     }
+		 * }
+		 */
+		$requested_sections = apply_filters( 'yoast_free_additional_metabox_sections', array() );
+
+		foreach ( $requested_sections as $section ) {
+			if ( is_array( $section ) && array_key_exists( 'name', $section ) && array_key_exists( 'link_content', $section ) && array_key_exists( 'content', $section ) ) {
+				$options    = array_key_exists( 'options', $section ) ? $section['options'] : array();
+				$sections[] = new WPSEO_Metabox_Section_Additional( $section['name'], $section['link_content'], $section['content'], $options );
+			}
+		}
+
+		return $sections;
 	}
 
 	/**
