@@ -138,6 +138,8 @@ class WPSEO_Sitemap_Image_Parser {
 	}
 
 	/**
+	 * Get the images in the term description.
+	 *
 	 * @param object $term Term to get images from description for.
 	 *
 	 * @return array
