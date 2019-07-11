@@ -18,11 +18,15 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification implements WPSEO_WordPres
 	private $notification_id = 'wpseo-outdated-gutenberg-plugin';
 
 	/**
+	 * Instance of gutenberg compatibility checker.
+	 *
 	 * @var WPSEO_Gutenberg_Compatibility
 	 */
 	private $compatibility_checker;
 
 	/**
+	 * Instance of Yoast Notification Center.
+	 *
 	 * @var Yoast_Notification_Center
 	 */
 	private $notification_center;
