@@ -11,11 +11,15 @@
 class WPSEO_Taxonomy_Columns {
 
 	/**
+	 * The SEO analysis.
+	 *
 	 * @var WPSEO_Metabox_Analysis_SEO
 	 */
 	private $analysis_seo;
 
 	/**
+	 * The readability analysis.
+	 *
 	 * @var WPSEO_Metabox_Analysis_Readability
 	 */
 	private $analysis_readability;
