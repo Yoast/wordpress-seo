@@ -12,7 +12,6 @@ use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Repositories\Primary_Term_Repository;
 use Yoast\WP\Free\WordPress\Integration;
 
-
 /**
  * Watches Posts to save the primary term when set.
  */
@@ -33,7 +32,7 @@ class Primary_Term_Watcher implements Integration {
 	/**
 	 * Primary_Term_Watcher constructor.
 	 *
-	 * @param Primary_Term_Repository $repository
+	 * @param \Yoast\WP\Free\Repositories\Primary_Term_Repository $repository The primary term repository.
 	 */
 	public function __construct( Primary_Term_Repository $repository ) {
 		$this->repository = $repository;

@@ -39,7 +39,13 @@ class Logger implements LoggerInterface {
 	}
 
 	/**
-	 * @inheritdoc
+	 * Logs with an arbitrary level.
+	 *
+	 * @param mixed  $level   The log level.
+	 * @param string $message The log message.
+	 * @param array  $context The log context.
+	 *
+	 * @return void
 	 */
 	public function log( $level, $message, array $context = array() ) {
 		$this->wrapped_logger->log( $level, $message, $context );

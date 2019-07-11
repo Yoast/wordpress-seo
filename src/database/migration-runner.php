@@ -11,9 +11,6 @@ use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\ORM\Yoast_Model;
 use Yoast\WP\Free\WordPress\Initializer;
-use YoastSEO_Vendor\Ruckusing_Task_Manager;
-use YoastSEO_Vendor\Task_Db_Migrate;
-
 /**
  * Triggers database migrations and handles results.
  */
@@ -54,8 +51,8 @@ class Migration_Runner implements Initializer {
 	/**
 	 * Migrations constructor.
 	 *
-	 * @param Ruckusing_Framework $framework      The Ruckusing framework runner.
-	 * @param Logger                    $logger                A PSR compatible logger.
+	 * @param Ruckusing_Framework $framework The Ruckusing framework runner.
+	 * @param Logger              $logger    A PSR compatible logger.
 	 */
 	public function __construct( Ruckusing_Framework $framework, Logger $logger ) {
 		$this->framework = $framework;

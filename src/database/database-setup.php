@@ -28,7 +28,7 @@ class Database_Setup implements Initializer {
 	/**
 	 * Database_Setup constructor.
 	 *
-	 * @param \Yoast\WP\Free\Loggers\Logger $logger
+	 * @param \Yoast\WP\Free\Loggers\Logger $logger The logger.
 	 */
 	public function __construct( Logger $logger ) {
 		$this->logger = $logger;

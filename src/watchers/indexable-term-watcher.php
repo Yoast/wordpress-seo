@@ -56,7 +56,7 @@ class Indexable_Term_Watcher implements Integration {
 	/**
 	 * Deletes a term from the index.
 	 *
-	 * @param int    $term_id          The Term ID to delete.
+	 * @param int $term_id The Term ID to delete.
 	 *
 	 * @return void
 	 */
@@ -85,9 +85,7 @@ class Indexable_Term_Watcher implements Integration {
 		$indexable = $this->repository->find_by_id_and_type( $term_id, 'term', false );
 
 		// If we haven't found an existing indexable, create it. Otherwise update it.
-		$indexable = $indexable === false
-			? $this->repository->create_for_id_and_type( $term_id, 'term' )
-			: $this->builder->build( $term_id, $indexable );
+		$indexable = $indexable === false ? $this->repository->create_for_id_and_type( $term_id, 'term' ) : $this->builder->build( $term_id, $indexable );
 
 		$indexable->save();
 	}

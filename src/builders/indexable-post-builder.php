@@ -24,7 +24,7 @@ class Indexable_Post_Builder {
 	/**
 	 * Indexable_Post_Builder constructor.
 	 *
-	 * @param \Yoast\WP\Free\Repositories\SEO_Meta_Repository $seo_meta_repository
+	 * @param \Yoast\WP\Free\Repositories\SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
 	 */
 	public function __construct( SEO_Meta_Repository $seo_meta_repository ) {
 		$this->seo_meta_repository = $seo_meta_repository;

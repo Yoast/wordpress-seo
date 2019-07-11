@@ -14,6 +14,9 @@ use YoastSEO_Vendor\Ruckusing_FrameworkRunner;
 use YoastSEO_Vendor\Ruckusing_Task_Manager;
 use YoastSEO_Vendor\Task_Db_Migrate;
 
+/**
+ * Class Ruckusing_Framework
+ */
 class Ruckusing_Framework {
 
 	/**
@@ -34,9 +37,9 @@ class Ruckusing_Framework {
 	/**
 	 * Ruckusing_Framework constructor.
 	 *
-	 * @param wpdb                  $wpdb
-	 * @param Dependency_Management $dependency_management
-	 * @param Migration_Logger      $migration_logger
+	 * @param wpdb                  $wpdb                  The wpdb instance.
+	 * @param Dependency_Management $dependency_management The dependency management checker.
+	 * @param Migration_Logger      $migration_logger      The migration logger, extends the Ruckusing logger.
 	 */
 	public function __construct( wpdb $wpdb, Dependency_Management $dependency_management, Migration_Logger $migration_logger ) {
 		$this->wpdb = $wpdb;
@@ -71,12 +74,12 @@ class Ruckusing_Framework {
 	/**
 	 * Gets the ruckusing framework task manager.
 	 *
-	 * @param string $migrations_table_name The migrations table name.
-	 * @param string $migrations_directory  The migrations directory.
-	 *
-	 * @throws \YoastSEO_Vendor\Ruckusing_Exception If any of the arguments are invalid.
+	 * @param \YoastSEO_Vendor\Ruckusing_Adapter_MySQL_Base $adapter               The MySQL adapter.
+	 * @param string                                        $migrations_table_name The migrations table name.
+	 * @param string                                        $migrations_directory  The migrations directory.
 	 *
 	 * @return Ruckusing_Task_Manager The task manager.
+	 * @throws \YoastSEO_Vendor\Ruckusing_Exception If any of the arguments are invalid.
 	 */
 	public function get_framework_task_manager( $adapter, $migrations_table_name, $migrations_directory ) {
 		$task_manager = new Ruckusing_Task_Manager( $adapter, $this->get_configuration( $migrations_table_name, $migrations_directory ) );
@@ -123,10 +126,7 @@ class Ruckusing_Framework {
 	 * @return bool Whether or not the constant is now the correct value.
 	 */
 	public function maybe_set_constant() {
-		$constant_name = $this->dependency_management->prefixed_available()
-			? \YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE'
-			: 'RUCKUSING_BASE';
-
+		$constant_name  = $this->dependency_management->prefixed_available() ? \YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE': 'RUCKUSING_BASE';
 		$constant_value = \WPSEO_PATH . 'fake-ruckusing';
 
 		if ( \defined( $constant_name ) ) {
