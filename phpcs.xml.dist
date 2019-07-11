@@ -13,6 +13,7 @@
     <exclude-pattern>artifact/*</exclude-pattern>
     <exclude-pattern>.wordpress-svn/*</exclude-pattern>
     <exclude-pattern>config/php-scoper/*</exclude-pattern>
+    <exclude-pattern>src/generated/*</exclude-pattern>
 
     <arg name="extensions" value="php"/>
     <arg value="sp"/>
@@ -68,12 +69,25 @@
 		<exclude-pattern>*/cli/class-cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
+		<exclude-pattern>*/config/*.php$</exclude-pattern>
 	</rule>
 	<rule ref="PHPCompatibility.Keywords.NewKeywords.t_useFound">
 		<exclude-pattern>*/cli/class-cli-*\.php$</exclude-pattern>
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
+		<exclude-pattern>*/config/*.php$</exclude-pattern>
 	</rule>
+	<rule ref="PHPCompatibility.Keywords.NewKeywords.t_dirFound">
+        <exclude-pattern>*/src/*.php$</exclude-pattern>
+        <exclude-pattern>*/config/*.php$</exclude-pattern>
+    </rule>
+    <rule ref="PHPCompatibility.Keywords.NewKeywords.t_traitFound">
+        <exclude-pattern>*/src/*.php$</exclude-pattern>
+    </rule>
+    <rule ref="PHPCompatibility.FunctionUse.NewFunctionParameters.spl_autoload_register_prependFound">
+        <exclude-pattern>*/src/*.php$</exclude-pattern>
+        <exclude-pattern>*/config/*.php$</exclude-pattern>
+    </rule>
 	<rule ref="PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__invokeFound">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
@@ -82,6 +96,7 @@
 	</rule>
 	<rule ref="PHPCompatibility.Keywords.NewKeywords.t_namespaceFound">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
+		<exclude-pattern>*/config/*.php$</exclude-pattern>
 	</rule>
 	<rule ref="PHPCompatibility.FunctionUse.NewFunctions.get_called_classFound">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
@@ -91,9 +106,11 @@
 	</rule>
 	<rule ref="PHPCompatibility.FunctionDeclarations.NewClosure.Found">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
+		<exclude-pattern>*/config/*.php$</exclude-pattern>
 	</rule>
 	<rule ref="PHPCompatibility.Syntax.NewShortArray.Found">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
+		<exclude-pattern>*/config/*.php$</exclude-pattern>
 	</rule>
 	<rule ref="PHPCompatibility.Syntax.NewFunctionArrayDereferencing.Found">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
@@ -103,6 +120,7 @@
 	</rule>
 	<rule ref="PHPCompatibility.Constants.NewMagicClassConstant.Found">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
+		<exclude-pattern>*/config/*.php$</exclude-pattern>
 	</rule>
 
 	<!-- These usages of PHP > 5.2 code are surrounded by the correct safeguards. -->

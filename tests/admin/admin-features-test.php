@@ -16,6 +16,9 @@ use Yoast\WP\Free\Tests\TestCase;
  * Class Admin_Features.
  *
  * @package Yoast\Tests\Admin
+ *
+ * @coversDefaultClass WPSEO_Admin
+ * @covers <!public>
  */
 class Admin_Features_Test extends TestCase {
 
@@ -73,7 +76,7 @@ class Admin_Features_Test extends TestCase {
 	/**
 	 * Test that admin_features returns the correct array when we're editing/creating a post.
 	 *
-	 * @covers WPSEO_Admin::get_admin_features
+	 * @covers ::get_admin_features
 	 */
 	public function test_get_admin_features_ON_post_edit() {
 		global $pagenow;
@@ -93,7 +96,7 @@ class Admin_Features_Test extends TestCase {
 	/**
 	 * When we're not on a post edit page, the primary category should not be added to the array.
 	 *
-	 * @covers WPSEO_Admin::get_admin_features
+	 * @covers ::get_admin_features
 	 */
 	public function test_get_admin_features_NOT_ON_post_edit() {
 		global $pagenow;
@@ -110,7 +113,7 @@ class Admin_Features_Test extends TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Admin::update_contactmethods
+	 * @covers ::update_contactmethods
 	 */
 	public function test_update_contactmethods() {
 		$class_instance = $this->get_admin_with_expectations();

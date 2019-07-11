@@ -14,7 +14,7 @@ return array(
 	 * For more see: https://github.com/humbug/php-scoper#finders-and-paths
 	 */
 	'finders'                    => array(
-		Finder::create()->files()->in( 'vendor/j4mie/idiorm' ),
+		Finder::create()->files()->in( 'vendor/j4mie/idiorm' )->exclude( 'demo.php' )->name( [ '*.php', 'LICENSE', 'composer.json' ] ),
 	),
 
 	/*
