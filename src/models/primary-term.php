@@ -23,20 +23,9 @@ use Yoast\WP\Free\ORM\Yoast_Model;
 class Primary_Term extends Yoast_Model {
 
 	/**
-	 * Enhances the save method.
+	 * Whether nor this model uses timestamps.
 	 *
-	 * @return boolean True on succes.
+	 * @var bool
 	 */
-	public function save() {
-
-		if ( ! $this->created_at ) {
-			$this->created_at = \gmdate( 'Y-m-d H:i:s' );
-		}
-
-		if ( $this->updated_at ) {
-			$this->updated_at = \gmdate( 'Y-m-d H:i:s' );
-		}
-
-		return parent::save();
-	}
+	protected $usesTimestamps = true;
 }

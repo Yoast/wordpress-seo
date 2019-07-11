@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Models;
 
-use Yoast\WP\Free\ORM\Extension_Registries\Indexable_Extension_Registry;
 use Yoast\WP\Free\ORM\Yoast_Model;
 
 /**
@@ -57,6 +56,13 @@ use Yoast\WP\Free\ORM\Yoast_Model;
 class Indexable extends Yoast_Model {
 
 	/**
+	 * Whether nor this model uses timestamps.
+	 *
+	 * @var bool
+	 */
+	protected $usesTimestamps = true;
+
+	/**
 	 * The loaded indexable extensions.
 	 *
 	 * @var Indexable_Extension[]
@@ -84,60 +90,11 @@ class Indexable extends Yoast_Model {
 	 * @return boolean True on succes.
 	 */
 	public function save() {
-		if ( ! $this->created_at ) {
-			$this->created_at = \gmdate( 'Y-m-d H:i:s' );
-		}
-
-		if ( $this->updated_at ) {
-			$this->updated_at = \gmdate( 'Y-m-d H:i:s' );
-		}
-
 		if ( $this->permalink ) {
 			$this->permalink      = trailingslashit( $this->permalink );
 			$this->permalink_hash = strlen( $this->permalink ) . ':' . md5( $this->permalink );
 		}
 
-		$saved = parent::save();
-
-		if ( $saved ) {
-			Yoast_Model::$logger->debug(
-				\sprintf(
-					/* translators: 1: object ID; 2: object type. */
-					\__( 'Indexable saved for object %1$s with type %2$s', 'wordpress-seo' ),
-					$this->object_id,
-					$this->object_type
-				),
-				\get_object_vars( $this )
-			);
-
-			\do_action( 'wpseo_indexable_saved', $this );
-		}
-
-		return $saved;
-	}
-
-	/**
-	 * Enhances the delete method.
-	 *
-	 * @return boolean True on success.
-	 */
-	public function delete() {
-		$deleted = parent::delete();
-
-		if ( $deleted ) {
-			Yoast_Model::$logger->debug(
-				\sprintf(
-					/* translators: 1: object ID; 2: object type. */
-					\__( 'Indexable deleted for object %1$s with type %2$s', 'wordpress-seo' ),
-					$this->object_id,
-					$this->object_type
-				),
-				\get_object_vars( $this )
-			);
-
-			\do_action( 'wpseo_indexable_deleted', $this );
-		}
-
-		return $deleted;
+		return parent::save();
 	}
 }

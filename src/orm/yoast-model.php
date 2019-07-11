@@ -91,6 +91,13 @@ class Yoast_Model {
 	public static $table;
 
 	/**
+	 * Whether or not this model uses timestamps.
+	 *
+	 * @var bool
+	 */
+	protected $usesTimestamps = false;
+
+	/**
 	 * Hacks around the Model to provide WordPress prefix to tables.
 	 *
 	 * @param string $class_name   Type of Model to load.
@@ -616,6 +623,13 @@ class Yoast_Model {
 	 * @return null Nothing.
 	 */
 	public function save() {
+		if ( $this->usesTimestamps ) {
+			if ( ! $this->created_at ) {
+				$this->created_at = \gmdate( 'Y-m-d H:i:s' );
+			}
+			$this->updated_at = \gmdate( 'Y-m-d H:i:s' );
+		}
+
 		return $this->orm->save();
 	}
 
