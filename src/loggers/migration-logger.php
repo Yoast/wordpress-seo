@@ -23,6 +23,8 @@ class Migration_Logger extends Ruckusing_Util_Logger {
 	 * Creates an instance of Ruckusing_Util_Logger.
 	 *
 	 * @codeCoverageIgnore
+	 *
+	 * @param Logger $logger The logger to wrap.
 	 */
 	public function __construct( Logger $logger ) {
 		$this->logger = $logger;

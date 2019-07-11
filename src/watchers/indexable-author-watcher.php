@@ -81,7 +81,7 @@ class Indexable_Author_Watcher implements Integration {
 		$indexable = $this->repository->find_by_id_and_type( $user_id, 'user', false );
 
 		// If we haven't found an existing indexable, create it. Otherwise update it.
-		$indexable = $indexable === false ? $this->repository->create_for_id_and_type( $user_id, 'user' ) : $this->builder->build( $user_id, $indexable );
+		$indexable = ( $indexable === false ) ? $this->repository->create_for_id_and_type( $user_id, 'user' ) : $this->builder->build( $user_id, $indexable );
 
 		$indexable->save();
 	}

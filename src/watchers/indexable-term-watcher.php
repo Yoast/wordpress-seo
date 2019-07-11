@@ -77,7 +77,7 @@ class Indexable_Term_Watcher implements Integration {
 	 *       As this functionality is currently not available for terms, it has not been added in this
 	 *       class yet.
 	 *
-	 * @param int    $term_id          ID of the term to save data for.
+	 * @param int $term_id ID of the term to save data for.
 	 *
 	 * @return void
 	 */
@@ -85,7 +85,7 @@ class Indexable_Term_Watcher implements Integration {
 		$indexable = $this->repository->find_by_id_and_type( $term_id, 'term', false );
 
 		// If we haven't found an existing indexable, create it. Otherwise update it.
-		$indexable = $indexable === false ? $this->repository->create_for_id_and_type( $term_id, 'term' ) : $this->builder->build( $term_id, $indexable );
+		$indexable = ( $indexable === false ) ? $this->repository->create_for_id_and_type( $term_id, 'term' ) : $this->builder->build( $term_id, $indexable );
 
 		$indexable->save();
 	}

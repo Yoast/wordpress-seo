@@ -126,7 +126,7 @@ class Ruckusing_Framework {
 	 * @return bool Whether or not the constant is now the correct value.
 	 */
 	public function maybe_set_constant() {
-		$constant_name  = $this->dependency_management->prefixed_available() ? \YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE': 'RUCKUSING_BASE';
+		$constant_name  = $this->dependency_management->prefixed_available() ? \YOAST_VENDOR_NS_PREFIX . '\RUCKUSING_BASE' : 'RUCKUSING_BASE';
 		$constant_value = \WPSEO_PATH . 'fake-ruckusing';
 
 		if ( \defined( $constant_name ) ) {
