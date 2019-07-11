@@ -130,7 +130,7 @@ module.exports = function( grunt ) {
 		},
 
 		"compile-dependency-injection-container": {
-			command: "composer compile-dependency-injection-container",
+			command: "composer compile-di",
 		},
 
 		"remove-dependency-injection-meta": {
