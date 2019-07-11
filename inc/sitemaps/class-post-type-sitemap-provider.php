@@ -542,8 +542,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		update_meta_cache( 'post', $post_ids );
 
-		return $posts;integration-tests\test-class-rewrite.php
-												  integration-tests\test-class-rewrite.php
+		return $posts;
 	}
 
 	/**
