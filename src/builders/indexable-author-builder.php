@@ -27,7 +27,7 @@ class Indexable_Author_Builder {
 		$indexable->title                  = $meta_data['wpseo_title'];
 		$indexable->description            = $meta_data['wpseo_metadesc'];
 		$indexable->is_cornerstone         = false;
-		$indexable->is_robots_noindex      = $this->get_noindex_value( $meta_data['wpseo_noindex_author'] );
+		$indexable->is_robots_noindex      = ( $meta_data['wpseo_noindex_author'] === 'on' );
 		$indexable->is_robots_nofollow     = null;
 		$indexable->is_robots_noarchive    = null;
 		$indexable->is_robots_noimageindex = null;
@@ -56,17 +56,6 @@ class Indexable_Author_Builder {
 		}
 
 		return $output;
-	}
-
-	/**
-	 * Retrieves the value for noindex.
-	 *
-	 * @param string $noindex Current noindex value.
-	 *
-	 * @return bool True if noindex is selected, false if not.
-	 */
-	protected function get_noindex_value( $noindex ) {
-		return $noindex === 'on';
 	}
 
 	/**

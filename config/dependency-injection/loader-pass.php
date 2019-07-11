@@ -9,6 +9,7 @@ namespace Yoast\WP\Free\Dependency_Injection;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Yoast\WP\Free\Conditionals\Conditional;
 use Yoast\WP\Free\Loader;
@@ -41,21 +42,31 @@ class Loader_Pass implements CompilerPassInterface {
 		$definitions = $container->getDefinitions();
 
 		foreach ( $definitions as $definition ) {
-			$class = $definition->getClass();
+			$this->process_definition( $definition, $loader_definition );
+		}
+	}
 
-			if ( is_subclass_of( $class, Initializer::class ) ) {
-				$loader_definition->addMethodCall( 'register_initializer', [ $class ] );
-				$definition->setPublic( true );
-			}
+	/**
+	 * Processes a definition in the container.
+	 *
+	 * @param \Symfony\Component\DependencyInjection\Definition $definition        The definition to process.
+	 * @param \Symfony\Component\DependencyInjection\Definition $loader_definition The loader definition.
+	 */
+	private function process_definition( Definition $definition, Definition $loader_definition ) {
+		$class = $definition->getClass();
 
-			if ( is_subclass_of( $class, Integration::class ) ) {
-				$loader_definition->addMethodCall( 'register_integration', [ $class ] );
-				$definition->setPublic( true );
-			}
+		if ( is_subclass_of( $class, Initializer::class ) ) {
+			$loader_definition->addMethodCall( 'register_initializer', [ $class ] );
+			$definition->setPublic( true );
+		}
 
-			if ( is_subclass_of( $class, Conditional::class ) ) {
-				$definition->setPublic( true );
-			}
+		if ( is_subclass_of( $class, Integration::class ) ) {
+			$loader_definition->addMethodCall( 'register_integration', [ $class ] );
+			$definition->setPublic( true );
+		}
+
+		if ( is_subclass_of( $class, Conditional::class ) ) {
+			$definition->setPublic( true );
 		}
 	}
 }
