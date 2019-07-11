@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\Free\ORM;
 
-use Psr\Log\LoggerInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerInterface;
 use Yoast\WP\Free\Exceptions\Missing_Method;
 
 /**

@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\Free\Database;
 
-use Psr\Log\LoggerInterface;
+use YoastSEO_Vendor\Psr\Log\LoggerInterface;
 use Yoast\WP\Free\Conditionals\No_Conditionals;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\WordPress\Initializer;
