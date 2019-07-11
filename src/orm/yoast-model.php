@@ -95,7 +95,7 @@ class Yoast_Model {
 	 *
 	 * @var bool
 	 */
-	protected $usesTimestamps = false;
+	protected $uses_timestamps = false;
 
 	/**
 	 * Hacks around the Model to provide WordPress prefix to tables.
@@ -623,7 +623,7 @@ class Yoast_Model {
 	 * @return null Nothing.
 	 */
 	public function save() {
-		if ( $this->usesTimestamps ) {
+		if ( $this->uses_timestamps ) {
 			if ( ! $this->created_at ) {
 				$this->created_at = \gmdate( 'Y-m-d H:i:s' );
 			}

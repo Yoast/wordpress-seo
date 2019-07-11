@@ -60,7 +60,7 @@ class Indexable extends Yoast_Model {
 	 *
 	 * @var bool
 	 */
-	protected $usesTimestamps = true;
+	protected $uses_timestamps = true;
 
 	/**
 	 * The loaded indexable extensions.

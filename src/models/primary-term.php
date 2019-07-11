@@ -27,5 +27,5 @@ class Primary_Term extends Yoast_Model {
 	 *
 	 * @var bool
 	 */
-	protected $usesTimestamps = true;
+	protected $uses_timestamps = true;
 }
