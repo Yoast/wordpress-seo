@@ -36,6 +36,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
+	 * Retrieves the links for the sitemap.
+	 *
 	 * @param int $max_entries Entries per sitemap.
 	 *
 	 * @return array

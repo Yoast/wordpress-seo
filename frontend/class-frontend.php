@@ -61,11 +61,15 @@ class WPSEO_Frontend {
 	private $title = null;
 
 	/**
+	 * An instance of the WPSEO_Frontend_Page_Type class.
+	 *
 	 * @var WPSEO_Frontend_Page_Type
 	 */
 	protected $frontend_page_type;
 
 	/**
+	 * An instance of the WPSEO_WooCommerce_Shop_Page class.
+	 *
 	 * @var WPSEO_WooCommerce_Shop_Page
 	 */
 	protected $woocommerce_shop_page;
