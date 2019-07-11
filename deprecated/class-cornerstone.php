@@ -13,11 +13,15 @@
 class WPSEO_Cornerstone {
 
 	/**
+	 * Holds the cornerstone meta name.
+	 *
 	 * @var string
 	 */
 	const META_NAME = 'is_cornerstone';
 
 	/**
+	 * Holds the cornerstone field name.
+	 *
 	 * @var string
 	 */
 	const FIELD_NAME = 'yoast_wpseo_is_cornerstone';

@@ -47,6 +47,8 @@ class WPSEO_Option_Tab_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests that the save button argument set to false is detected correctly.
+	 *
 	 * @covers WPSEO_Option_Tab::has_save_button
 	 */
 	public function test_has_no_save_button() {
@@ -56,6 +58,8 @@ class WPSEO_Option_Tab_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests that the has save button defaults to true.
+	 *
 	 * @covers WPSEO_Option_Tab::has_save_button
 	 */
 	public function test_has_save_button() {

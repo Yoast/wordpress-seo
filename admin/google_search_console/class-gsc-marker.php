@@ -11,26 +11,36 @@
 class WPSEO_GSC_Marker {
 
 	/**
+	 * Holds the craw issues instance.
+	 *
 	 * @var WPSEO_GSC_Issues
 	 */
 	private $crawl_issues;
 
 	/**
+	 * Holds the URL.
+	 *
 	 * @var string
 	 */
 	private $url = '';
 
 	/**
+	 * Holds the platform (desktop, mobile, feature phone).
+	 *
 	 * @var string
 	 */
 	private $platform;
 
 	/**
+	 * Holds the category.
+	 *
 	 * @var string
 	 */
 	private $category;
 
 	/**
+	 * Holds the result.
+	 *
 	 * @var string
 	 */
 	private $result;

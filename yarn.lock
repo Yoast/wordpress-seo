@@ -714,10 +714,10 @@
   resolved "https://registry.yarnpkg.com/@yoast/feature-flag/-/feature-flag-0.3.0-rc.1.tgz#9880010d8edc2cf907e53df71992033b60038698"
   integrity sha512-Hr6e67Dy/hNT4nRFZlZ4NqMTuLHltO/4zNahSl17nxiplzZ8vA0V/nGTCVJX1zvO9R+bCH5t12rA8uxd6+QKQA==
 
-"@yoast/grunt-plugin-tasks@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-1.4.0.tgz#f8e596c7d6aeae3561116e2f121487e031ddc80e"
-  integrity sha512-j/DC0ps6QCTLtdS4KN8dP+kk+6jniJKxGjIioQAGuZxcR/3OrbgUeFj/9jehTVfLef7aNHIXgY9BYWndnzhyhw==
+"@yoast/grunt-plugin-tasks@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-1.4.1.tgz#69666f698fbb38a085afb5f63a84dce17f36fd14"
+  integrity sha512-U+rU7O/q4a8YkXqqGhDWDF1bo58Y/htyVNtTw3Bst/st7j6JbwjkgEO18lXUp9oU5pzcBMiJ6KgNn497rVxJdA==
   dependencies:
     autoprefixer "^6.3.1"
     babel-eslint "^10.0.1"
@@ -5956,9 +5956,9 @@ grunt-eslint@^21.0.0:
     chalk "^2.1.0"
     eslint "^5.16.0"
 
-"grunt-glotpress@https://github.com/Yoast/grunt-glotpress.git#master":
+"grunt-glotpress@git+https://github.com/Yoast/grunt-glotpress.git#master":
   version "0.3.0"
-  resolved "https://github.com/Yoast/grunt-glotpress.git#e6ccc69c2532d126f5d8a30397ffd012e55b6eec"
+  resolved "git+https://github.com/Yoast/grunt-glotpress.git#e6ccc69c2532d126f5d8a30397ffd012e55b6eec"
   dependencies:
     request "^2.88.0"
     request-promise-native "^1.0.7"

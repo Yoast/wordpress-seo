@@ -232,6 +232,8 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether determine_for_archive correctly returns editor specific replacevars for archive pages.
+	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_archive
 	 */
 	public function test_determine_for_archive_with_a_existing_archive() {

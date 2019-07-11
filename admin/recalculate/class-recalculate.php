@@ -11,6 +11,8 @@
 abstract class WPSEO_Recalculate {
 
 	/**
+	 * Recalculations per page.
+	 *
 	 * @var int
 	 */
 	protected $items_per_page = 20;
