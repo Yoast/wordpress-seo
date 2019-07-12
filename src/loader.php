@@ -109,7 +109,7 @@ class Loader {
 	/**
 	 * Checks if all conditionals of a given integration are met.
 	 *
-	 * @param \Yoast\WP\Free\WordPress\Integration $class The class name of the integration.
+	 * @param \Yoast\WP\Free\WordPress\Loadable $class The class name of the integration.
 	 *
 	 * @return bool Whether or not all conditionals of the integration are met.
 	 */
