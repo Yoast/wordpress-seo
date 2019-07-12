@@ -37,9 +37,20 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 		}
 	}
 	?>
-	<?php echo $help_text->get_panel_html(); ?>
-	<div class="<?php echo esc_attr( 'paper-container ' . $collapsible_config['class'] ); ?>">
-		<?php echo $content; ?>
-	</div>
+	<?php
+
+	echo $help_text->get_panel_html();
+
+	$container_id_attr = '';
+	if ( ! empty( $container_id ) ) {
+		$container_id_attr = sprintf( ' id="%s"', esc_attr( $container_id ) );
+	}
+
+	printf( '<div%1$s class="%2$s">%3$s</div>',
+		$container_id_attr,
+		esc_attr( 'paper-container ' . $collapsible_config['class'] ),
+		$content
+	);
+	?>
 
 </div>

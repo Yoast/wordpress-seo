@@ -39,17 +39,7 @@ class WPSEO_Metabox_Collapsibles_Sections extends WPSEO_Abstract_Metabox_Tab_Wit
 			echo '<div class="wpseo_content_wrapper">';
 
 			foreach ( $this->collapsibles as $collapsible ) {
-				$collapsible_paper = new WPSEO_Paper_Presenter(
-					$collapsible->link(),
-					null,
-					array(
-						'content'     => $collapsible->content(),
-						'collapsible' => true,
-						'class'       => 'metabox wpseo-form wpseo-collapsible-container',
-					)
-				);
-
-				echo $collapsible_paper->get_output();
+				echo $collapsible->content();
 			}
 
 			echo '</div></div>';

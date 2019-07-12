@@ -40,14 +40,15 @@ class WPSEO_Paper_Presenter {
 	 */
 	public function __construct( $title, $view_file = null, array $settings = array() ) {
 		$defaults = array(
-			'paper_id'    => null,
-			'collapsible' => false,
-			'expanded'    => false,
-			'help_text'   => '',
-			'title_after' => '',
-			'class'       => '',
-			'content'     => '',
-			'view_data'   => array(),
+			'paper_id'     => null,
+			'container_id' => null,
+			'collapsible'  => false,
+			'expanded'     => false,
+			'help_text'    => '',
+			'title_after'  => '',
+			'class'        => '',
+			'content'      => '',
+			'view_data'    => array(),
 		);
 
 		$this->settings  = wp_parse_args( $settings, $defaults );
@@ -100,6 +101,7 @@ class WPSEO_Paper_Presenter {
 			'view_file'          => $this->view_file,
 			'title'              => $this->title,
 			'paper_id'           => $this->settings['paper_id'],
+			'container_id'       => $this->settings['container_id'],
 			'yform'              => Yoast_Form::get_instance(),
 		);
 

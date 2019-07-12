@@ -59,7 +59,18 @@ class WPSEO_Metabox_Collapsible implements WPSEO_Metabox_Tab {
 	 * @return string
 	 */
 	public function content() {
-		return $this->content;
+		$collapsible_paper = new WPSEO_Paper_Presenter(
+			$this->link(),
+			null,
+			array(
+				'content'      => $this->content,
+				'collapsible'  => true,
+				'class'        => 'metabox wpseo-form wpseo-collapsible-container',
+				'container_id' => 'wpseo_' . $this->name,
+			)
+		);
+
+		return $collapsible_paper->get_output();
 	}
 
 	/**
