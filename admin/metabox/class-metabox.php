@@ -347,6 +347,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					'collapsible' => true,
 					'class'       => 'metabox wpseo-form wpseo-collapsible-container',
 					'content'     => $this->get_tab_content( 'advanced' ),
+					'paper_id'    => 'collapsible-advanced-settings',
 				)
 			);
 

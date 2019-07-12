@@ -52,6 +52,7 @@ class WPSEO_Paper_Presenter {
 		);
 
 		$this->settings  = wp_parse_args( $settings, $defaults );
+
 		$this->title     = $title;
 
 		$this->view_file = $view_file;

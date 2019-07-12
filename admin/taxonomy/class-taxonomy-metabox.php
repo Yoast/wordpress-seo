@@ -140,6 +140,7 @@ class WPSEO_Taxonomy_Metabox {
 					'collapsible' => true,
 					'class'       => 'metabox wpseo-form wpseo-collapsible-container',
 					'content'     => $this->taxonomy_tab_content->html( $taxonomy_settings_fields->get() ),
+					'paper_id'    => 'collapsible-advanced-settings',
 				)
 			);
 
@@ -205,10 +206,7 @@ class WPSEO_Taxonomy_Metabox {
 		$tab_settings = new WPSEO_Metabox_Collapsible(
 			$name,
 			$this->social_admin->get_premium_notice( $network ) . $this->taxonomy_tab_content->html( $meta_fields ),
-			$label,
-			array(
-				'single' => $this->has_single_social_tab(),
-			)
+			$label
 		);
 
 		return $tab_settings;

@@ -92,10 +92,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			$tabs[] = new WPSEO_Metabox_Collapsible(
 				'facebook',
 				$this->get_social_tab_content( 'opengraph', $social_meta_fields ),
-				__( 'Facebook', 'wordpress-seo' ),
-				array(
-					'single' => $single,
-				)
+				__( 'Facebook', 'wordpress-seo' )
 			);
 		}
 
@@ -103,10 +100,7 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			$tabs[] = new WPSEO_Metabox_Collapsible(
 				'twitter',
 				$this->get_social_tab_content( 'twitter', $social_meta_fields ),
-				__( 'Twitter', 'wordpress-seo' ),
-				array(
-					'single' => $single,
-				)
+				__( 'Twitter', 'wordpress-seo' )
 			);
 		}
 
