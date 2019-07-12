@@ -139,7 +139,24 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			$tab_content .= $this->do_meta_box( $meta_field_defs[ $field_name ], $field_name );
 		}
 
+		$features = new WPSEO_Features();
+		// If premium hide the form to show the social preview instead.
+		if ( $features->is_premium() ) {
+			return $this->hide_form( $tab_content );
+		}
+
 		return $tab_content;
+	}
+
+	/**
+	 * Hides the given output when rendered to HTML.
+	 *
+	 * @param string $tab_content The social tab content.
+	 *
+	 * @return string The content.
+	 */
+	public function hide_form( $tab_content ) {
+		return '<div class="hidden">' . $tab_content . '</div>';
 	}
 
 	/**
