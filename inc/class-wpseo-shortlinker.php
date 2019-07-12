@@ -23,6 +23,7 @@ class WPSEO_Shortlinker {
 			'software'         => $this->get_software(),
 			'software_version' => WPSEO_VERSION,
 			'days_active'      => $this->get_days_active(),
+			'user_language'    => get_user_locale(),
 		);
 	}
 
