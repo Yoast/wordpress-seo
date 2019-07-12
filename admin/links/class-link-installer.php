@@ -11,6 +11,8 @@
 class WPSEO_Link_Installer {
 
 	/**
+	 * Installable objects.
+	 *
 	 * @var WPSEO_Installable[]
 	 */
 	protected $installables = array();

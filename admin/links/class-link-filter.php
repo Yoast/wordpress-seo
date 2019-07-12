@@ -11,6 +11,8 @@
 class WPSEO_Link_Filter {
 
 	/**
+	 * Path to the current page.
+	 *
 	 * @var string|null
 	 */
 	protected $current_page_path;

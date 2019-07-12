@@ -13,11 +13,15 @@
 class WPSEO_Import_Plugin {
 
 	/**
+	 * Holds the status of and message about imports.
+	 *
 	 * @var WPSEO_Import_Status
 	 */
 	public $status;
 
 	/**
+	 * Class with functionality to import meta data from other plugins.
+	 *
 	 * @var WPSEO_Plugin_Importer
 	 */
 	protected $importer;

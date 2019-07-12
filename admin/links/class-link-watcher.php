@@ -11,6 +11,8 @@
 class WPSEO_Link_Watcher {
 
 	/**
+	 * Represents the content processor. It will extract links from the content and saves them for the given post id.
+	 *
 	 * @var WPSEO_Link_Content_Processor
 	 */
 	protected $content_processor;
