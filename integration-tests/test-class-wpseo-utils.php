@@ -121,7 +121,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 			array( 71, true, 'good' ),
 			array( 83, true, 'good' ),
 			array( 100, true, 'good' ),
-			array( 0, false, 'Not available' ),
+			array( 0, false, 'N/A - Focus Keyphrase not set' ),
 			array( 1, false, 'Needs improvement' ),
 			array( 23, false, 'Needs improvement' ),
 			array( 40, false, 'Needs improvement' ),
