@@ -79,7 +79,6 @@ class WPSEO_Upgrade_History {
 	 * @return array
 	 */
 	protected function get_options_data( array $option_names ) {
-		/** @var WPDB $wpdb */
 		$wpdb = $this->get_wpdb();
 
 		$sql = $wpdb->prepare(

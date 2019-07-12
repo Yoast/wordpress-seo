@@ -18,16 +18,22 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	const OPTION_WPSEO_GSC = 'wpseo-gsc';
 
 	/**
+	 * Holds the service instance.
+	 *
 	 * @var WPSEO_GSC_Service
 	 */
 	private $service;
 
 	/**
+	 * Holds the category filter instance.
+	 *
 	 * @var WPSEO_GSC_Category_Filters
 	 */
 	protected $category_filter;
 
 	/**
+	 * Holds the issues instance.
+	 *
 	 * @var WPSEO_GSC_Issues
 	 */
 	protected $issue_fetch;

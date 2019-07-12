@@ -57,11 +57,15 @@ class WPSEO_Sitemaps {
 	private $current_page = 1;
 
 	/**
+	 * The timezone.
+	 *
 	 * @var WPSEO_Sitemap_Timezone
 	 */
 	private $timezone;
 
 	/**
+	 * The sitemaps router.
+	 *
 	 * @since 3.2
 	 *
 	 * @var WPSEO_Sitemaps_Router
@@ -69,6 +73,8 @@ class WPSEO_Sitemaps {
 	public $router;
 
 	/**
+	 * The sitemap renderer.
+	 *
 	 * @since 3.2
 	 *
 	 * @var WPSEO_Sitemaps_Renderer
@@ -76,6 +82,8 @@ class WPSEO_Sitemaps {
 	public $renderer;
 
 	/**
+	 * The sitemap cache.
+	 *
 	 * @since 3.2
 	 *
 	 * @var WPSEO_Sitemaps_Cache
@@ -83,6 +91,8 @@ class WPSEO_Sitemaps {
 	public $cache;
 
 	/**
+	 * The sitemap providers.
+	 *
 	 * @since 3.2
 	 *
 	 * @var WPSEO_Sitemap_Provider[]

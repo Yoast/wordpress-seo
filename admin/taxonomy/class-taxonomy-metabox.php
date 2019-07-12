@@ -11,26 +11,36 @@
 class WPSEO_Taxonomy_Metabox {
 
 	/**
+	 * The term currently being edited.
+	 *
 	 * @var WP_Term
 	 */
 	private $term;
 
 	/**
+	 * The term's taxonomy.
+	 *
 	 * @var string
 	 */
 	private $taxonomy;
 
 	/**
+	 * Renders the taxonomy field.
+	 *
 	 * @var WPSEO_Taxonomy_Fields_Presenter
 	 */
 	private $taxonomy_tab_content;
 
 	/**
+	 * Renders the taxonomy social fields.
+	 *
 	 * @var WPSEO_Taxonomy_Social_Fields
 	 */
 	private $taxonomy_social_fields;
 
 	/**
+	 * This class adds the Social tab to the Yoast SEO metabox and makes sure the settings are saved.
+	 *
 	 * @var WPSEO_Social_Admin
 	 */
 	private $social_admin;

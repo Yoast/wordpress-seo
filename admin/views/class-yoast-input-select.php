@@ -11,16 +11,22 @@
 class Yoast_Input_Select {
 
 	/**
+	 * The id attribute value.
+	 *
 	 * @var string
 	 */
 	private $select_id;
 
 	/**
+	 * The name attribute value.
+	 *
 	 * @var string
 	 */
 	private $select_name;
 
 	/**
+	 * Additional select attributes.
+	 *
 	 * @var array
 	 */
 	private $select_attributes = array();

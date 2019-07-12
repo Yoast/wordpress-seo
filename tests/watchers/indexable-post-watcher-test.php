@@ -2,9 +2,13 @@
 
 namespace Yoast\WP\Free\Tests\Watchers;
 
-use Yoast\WP\Free\Exceptions\No_Indexable_Found;
-use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
 use Brain\Monkey;
+use Mockery;
+use Yoast\WP\Free\Builders\Indexable_Post_Builder;
+use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
+use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\Repositories\Indexable_Repository;
+use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -13,187 +17,175 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group indexables
  * @group watchers
  *
+ * @coversDefaultClass \Yoast\WP\Free\Watchers\Indexable_Post_Watcher
+ * @covers ::<!public>
+ *
  * @package Yoast\Tests\Watchers
  */
 class Indexable_Post_Watcher_Test extends TestCase {
 
 	/**
+	 * Tests if the expected conditionals are in place.
+	 *
+	 * @covers ::get_conditionals
+	 */
+	public function test_get_conditionals() {
+		$this->assertEquals(
+			[ Indexables_Feature_Flag_Conditional::class ],
+			Indexable_Post_Watcher::get_conditionals()
+		);
+	}
+
+	/**
 	 * Tests if the expected hooks are registered.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::register_hooks
+	 * @covers ::__construct
+	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		$instance = new Indexable_Post_Watcher();
+		$repository_mock  = Mockery::mock( Indexable_Repository::class );
+		$builder_mock = Mockery::mock( Indexable_Post_Builder::class );
+
+		$instance = new Indexable_Post_Watcher( $repository_mock, $builder_mock );
 		$instance->register_hooks();
 
-		$this->assertNotFalse( \has_action( 'wp_insert_post', array( $instance, 'save_meta' ) ) );
-		$this->assertNotFalse( \has_action( 'delete_post', array( $instance, 'delete_meta' ) ) );
+		$this->assertNotFalse( \has_action( 'wp_insert_post', array( $instance, 'build_indexable' ) ) );
+		$this->assertNotFalse( \has_action( 'delete_post', array( $instance, 'delete_indexable' ) ) );
 	}
 
 	/**
 	 * Tests if the indexable is being deleted.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_meta
+	 * @covers ::delete_indexable
 	 */
-	public function test_delete_meta() {
-		$instance = $this
-			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
-			->setMethods( array( 'get_indexable' ) )
-			->getMock();
-
-		$indexable_mock = $this
-			->getMockBuilder( 'Yoast\WP\Free\Yoast_Model' )
-			->setMethods( array( 'delete', 'delete_meta' ) )
-			->getMock();
-
-		$indexable_mock
-			->expects( $this->once() )
-			->method( 'delete' );
-
-		$indexable_mock
-			->expects( $this->once() )
-			->method( 'delete_meta' );
-
+	public function test_delete_indexable() {
 		$id = 1;
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_indexable' )
-			->with( $id, false )
-			->will( $this->returnValue( $indexable_mock ) );
+		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock->expects( 'delete' )->once();
 
-		$instance->delete_meta( $id );
+		$repository_mock = Mockery::mock( Indexable_Repository::class );
+		$repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( $indexable_mock );
+
+		$builder_mock = Mockery::mock( Indexable_Post_Builder::class );
+
+		$instance = new Indexable_Post_Watcher( $repository_mock, $builder_mock );
+
+		$instance->delete_indexable( $id );
 	}
 
 	/**
 	 * Tests if the indexable is being deleted.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::delete_meta
+	 * @covers ::delete_indexable
 	 */
-	public function test_delete_meta_exception() {
-		$instance = $this
-			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
-			->setMethods( array( 'get_indexable' ) )
-			->getMock();
+	public function test_delete_indexable_does_not_exist() {
+		$id = 1;
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_indexable' )
-			->will( $this->throwException( new No_Indexable_Found() ) );
+		$repository_mock = Mockery::mock( Indexable_Repository::class );
+		$repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( false );
 
-		$instance->delete_meta( 1 );
+		$builder_mock = Mockery::mock( Indexable_Post_Builder::class );
+
+		$instance = new Indexable_Post_Watcher( $repository_mock, $builder_mock );
+
+		$instance->delete_indexable( $id );
 	}
 
 	/**
 	 * Tests the save meta functionality.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta
+	 * @covers ::build_indexable
 	 */
-	public function test_save_meta() {
-		$indexable_mock = $this
-			->getMockBuilder( 'Yoast_Model_Mock' )
-			->setMethods( array( 'save' ) )
-			->getMock();
+	public function test_build_indexable() {
+		$id = 1;
 
-		$indexable_mock
-			->expects( $this->once() )
-			->method( 'save' );
+		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $id )->andReturn( false );
+		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $id )->andReturn( false );
 
-		$post_id = 1;
+		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock->expects( 'save' )->once();
 
-		$formatter_mock = $this
-			->getMockBuilder( '\Yoast\WP\Free\Formatters\Indexable_Post_Formatter' )
-			->setConstructorArgs( array( $post_id ) )
-			->setMethods( array( 'format' ) )
-			->getMock();
+		$repository_mock = Mockery::mock( Indexable_Repository::class );
+		$repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( $indexable_mock );
+		$repository_mock->expects( 'create_for_id_and_type' )->never();
 
-		$formatter_mock
-			->expects( $this->once() )
-			->method( 'format' )
-			->with( $indexable_mock )
-			->will( $this->returnValue( $indexable_mock ) );
+		$builder_mock = Mockery::mock( Indexable_Post_Builder::class );
+		$builder_mock->expects( 'build' )->once()->with( $id, $indexable_mock )->andReturn( $indexable_mock );
 
-		$instance = $this
-			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
-			->setMethods(
-				array(
-					'is_post_indexable',
-					'get_indexable',
-					'get_formatter',
-				)
-			)
-			->getMock();
+		$instance = new Indexable_Post_Watcher( $repository_mock, $builder_mock );
 
-		$instance
-			->expects( $this->once() )
-			->method( 'is_post_indexable' )
-			->will( $this->returnValue( true ) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'get_indexable' )
-			->will( $this->returnValue( $indexable_mock ) );
-
-		$instance
-			->expects( $this->once() )
-			->method( 'get_formatter' )
-			->will( $this->returnValue( $formatter_mock ) );
-
-
-		// Set this value to true to let the routine think an indexable has been saved.
-		$indexable_mock->id = true;
-
-		$instance->save_meta( $post_id );
+		$instance->build_indexable( $id );
 	}
 
 	/**
 	 * Tests the early return for non-indexable post.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta
+	 * @covers ::build_indexable
 	 */
-	public function test_save_meta_is_post_not_indexable() {
-		$instance = $this
-			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
-			->setMethods( array( 'is_post_indexable', 'get_indexable' ) )
-			->getMock();
+	public function test_build_indexable_is_post_revision() {
+		$id = 1;
 
-		$instance
-			->expects( $this->once() )
-			->method( 'is_post_indexable' )
-			->will( $this->returnValue( false ) );
+		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $id )->andReturn( true );
 
-		$instance
-			->expects( $this->never() )
-			->method( 'get_indexable' );
+		$repository_mock = Mockery::mock( Indexable_Repository::class );
+		$repository_mock->expects( 'find_by_id_and_type' )->never();
+		$repository_mock->expects( 'create_for_id_and_type' )->never();
 
-		$instance->save_meta( 1 );
+		$builder_mock = Mockery::mock( Indexable_Post_Builder::class );
+		$builder_mock->expects( 'build' )->never();
+
+		$instance = new Indexable_Post_Watcher( $repository_mock, $builder_mock );
+
+		$instance->build_indexable( $id );
+	}
+
+	/**
+	 * Tests the early return for non-indexable post.
+	 *
+	 * @covers ::build_indexable
+	 */
+	public function test_build_indexable_is_post_autosave() {
+		$id = 1;
+
+		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $id )->andReturn( false );
+		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $id )->andReturn( true );
+
+		$repository_mock = Mockery::mock( Indexable_Repository::class );
+		$repository_mock->expects( 'find_by_id_and_type' )->never();
+		$repository_mock->expects( 'create_for_id_and_type' )->never();
+
+		$builder_mock = Mockery::mock( Indexable_Post_Builder::class );
+		$builder_mock->expects( 'build' )->never();
+
+		$instance = new Indexable_Post_Watcher( $repository_mock, $builder_mock );
+
+		$instance->build_indexable( $id );
 	}
 
 	/**
 	 * Tests the save meta functionality.
 	 *
-	 * @covers \Yoast\WP\Free\Watchers\Indexable_Post_Watcher::save_meta
+	 * @covers ::build_indexable
 	 */
-	public function test_save_meta_exception() {
-		Monkey\Functions\expect( 'wp_is_post_revision' )
-			->once()
-			->with( -1 )
-			->andReturn( false );
-		Monkey\Functions\expect( 'wp_is_post_autosave' )
-			->once()
-			->with( -1 )
-			->andReturn( false );
+	public function test_build_indexable_does_not_exist() {
+		$id = 1;
 
-		$instance = $this
-			->getMockBuilder( '\Yoast\WP\Free\Watchers\Indexable_Post_Watcher' )
-			->setMethods( array( 'get_indexable' ) )
-			->getMock();
+		Monkey\Functions\expect( 'wp_is_post_revision' )->once()->with( $id )->andReturn( false );
+		Monkey\Functions\expect( 'wp_is_post_autosave' )->once()->with( $id )->andReturn( false );
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_indexable' )
-			->will( $this->throwException( new No_Indexable_Found() ) );
+		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock->expects( 'save' )->once();
 
-		$instance->save_meta( -1 );
+		$repository_mock = Mockery::mock( Indexable_Repository::class );
+		$repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'post', false )->andReturn( false );
+		$repository_mock->expects( 'create_for_id_and_type' )->once()->with( $id, 'post' )->andReturn( $indexable_mock );
+
+		$builder_mock = Mockery::mock( Indexable_Post_Builder::class );
+		$builder_mock->expects( 'build' )->never();
+
+		$instance = new Indexable_Post_Watcher( $repository_mock, $builder_mock );
+
+		$instance->build_indexable( $id );
 	}
 }

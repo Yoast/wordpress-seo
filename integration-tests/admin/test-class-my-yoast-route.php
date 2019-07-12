@@ -256,6 +256,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			);
 
 		/**
+		 * WPSEO_MyYoast_Route_Double instance.
+		 *
 		 * @var WPSEO_MyYoast_Route_Double $instance
 		 */
 		$instance->connect();
@@ -288,6 +290,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( $client ) );
 
 		/**
+		 * WPSEO_MyYoast_Route_Double instance.
+		 *
 		 * @var WPSEO_MyYoast_Route_Double $instance
 		 */
 		$instance->authorize();
@@ -340,6 +344,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			->with( 'http://example.org/authorize' );
 
 		/**
+		 * WPSEO_MyYoast_Route_Double instance.
+		 *
 		 * @var WPSEO_MyYoast_Route_Double $instance
 		 */
 		$instance->authorize();
@@ -372,6 +378,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( $client ) );
 
 		/**
+		 * WPSEO_MyYoast_Route_Double instance.
+		 *
 		 * @var WPSEO_MyYoast_Route_Double $instance
 		 */
 		$instance->complete();
@@ -455,6 +463,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			->method( 'redirect_to_premium_page' );
 
 		/**
+		 * WPSEO_MyYoast_Route_Double instance.
+		 *
 		 * @var WPSEO_MyYoast_Route_Double $instance
 		 */
 		$instance->complete();
@@ -532,6 +542,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			->method( 'redirect_to_premium_page' );
 
 		/**
+		 * WPSEO_MyYoast_Route_Double instance.
+		 *
 		 * @var WPSEO_MyYoast_Route_Double $instance
 		 */
 		$instance->complete();

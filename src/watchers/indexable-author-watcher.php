@@ -7,9 +7,9 @@
 
 namespace Yoast\WP\Free\Watchers;
 
-use Yoast\WP\Free\Exceptions\No_Indexable_Found;
-use Yoast\WP\Free\Formatters\Indexable_Author_Formatter;
-use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
+use Yoast\WP\Free\Builders\Indexable_Author_Builder;
+use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\WordPress\Integration;
 
 /**
@@ -18,13 +18,39 @@ use Yoast\WP\Free\WordPress\Integration;
 class Indexable_Author_Watcher implements Integration {
 
 	/**
-	 * Registers all hooks to WordPress.
+	 * @inheritdoc
+	 */
+	public static function get_conditionals() {
+		return [ Indexables_Feature_Flag_Conditional::class ];
+	}
+
+	/**
+	 * @var \Yoast\WP\Free\Repositories\Indexable_Repository
+	 */
+	protected $repository;
+
+	/**
+	 * @var \Yoast\WP\Free\Builders\Indexable_Author_Builder
+	 */
+	protected $builder;
+
+	/**
+	 * Indexable_Author_Watcher constructor.
 	 *
-	 * @return void
+	 * @param \Yoast\WP\Free\Repositories\Indexable_Repository $repository The repository to use.
+	 * @param \Yoast\WP\Free\Builders\Indexable_Author_Builder $builder    The post builder to use.
+	 */
+	public function __construct( Indexable_Repository $repository, Indexable_Author_Builder $builder ) {
+		$this->repository = $repository;
+		$this->builder    = $builder;
+	}
+
+	/**
+	 * @inheritdoc
 	 */
 	public function register_hooks() {
-		\add_action( 'profile_update', array( $this, 'save_meta' ), \PHP_INT_MAX );
-		\add_action( 'deleted_user', array( $this, 'delete_meta' ) );
+		\add_action( 'profile_update', [ $this, 'build_indexable' ], \PHP_INT_MAX );
+		\add_action( 'deleted_user', [ $this, 'delete_indexable' ] );
 	}
 
 	/**
@@ -34,14 +60,14 @@ class Indexable_Author_Watcher implements Integration {
 	 *
 	 * @return void
 	 */
-	public function delete_meta( $user_id ) {
-		try {
-			$indexable = $this->get_indexable( $user_id, false );
-			$indexable->delete_meta();
-			$indexable->delete();
-		} catch ( No_Indexable_Found $exception ) {
+	public function delete_indexable( $user_id ) {
+		$indexable = $this->repository->find_by_id_and_type( $user_id, 'user', false );
+
+		if ( ! $indexable ) {
 			return;
 		}
+
+		$indexable->delete();
 	}
 
 	/**
@@ -51,52 +77,12 @@ class Indexable_Author_Watcher implements Integration {
 	 *
 	 * @return void
 	 */
-	public function save_meta( $user_id ) {
-		try {
-			$indexable = $this->get_indexable( $user_id );
-		} catch ( No_Indexable_Found $exception ) {
-			return;
-		}
+	public function build_indexable( $user_id ) {
+		$indexable = $this->repository->find_by_id_and_type( $user_id, 'user', false );
 
-		$formatter = $this->get_formatter( $user_id );
-		$indexable = $formatter->format( $indexable );
+		// If we haven't found an existing indexable, create it. Otherwise update it.
+		$indexable = ( $indexable === false ) ? $this->repository->create_for_id_and_type( $user_id, 'user' ) : $this->builder->build( $user_id, $indexable );
 
 		$indexable->save();
-	}
-
-	/**
-	 * Retrieves the indexable for a user.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int  $user_id     The user to retrieve the indexable for.
-	 * @param bool $auto_create Optional. Create the indexable when it does not exist yet.
-	 *
-	 * @return \Yoast\WP\Free\Models\Indexable The indexable for the suppied user ID.
-	 *
-	 * @throws \Yoast\WP\Free\Exceptions\No_Indexable_Found Exception when no Indexable could
-	 *                                                      be found for the supplied user.
-	 */
-	protected function get_indexable( $user_id, $auto_create = true ) {
-		$indexable = Indexable::find_by_id_and_type( $user_id, 'user', $auto_create );
-
-		if ( ! $indexable ) {
-			throw No_Indexable_Found::from_author_id( $user_id );
-		}
-
-		return $indexable;
-	}
-
-	/**
-	 * Returns formatter for given user.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int $user_id The user ID.
-	 *
-	 * @return \Yoast\WP\Free\Formatters\Indexable_Author_Formatter Instance.
-	 */
-	protected function get_formatter( $user_id ) {
-		return new Indexable_Author_Formatter( $user_id );
 	}
 }

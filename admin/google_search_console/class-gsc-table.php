@@ -15,11 +15,15 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 class WPSEO_GSC_Table extends WP_List_Table {
 
 	/**
+	 * Modal height.
+	 *
 	 * @var int
 	 */
 	const FREE_MODAL_HEIGHT = 140;
 
 	/**
+	 * The search phrase.
+	 *
 	 * @var string
 	 */
 	private $search_string;
@@ -39,6 +43,8 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	private $per_page = 50;
 
 	/**
+	 * Current page.
+	 *
 	 * @var integer
 	 */
 	private $current_page = 1;
