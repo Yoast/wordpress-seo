@@ -104,7 +104,7 @@ const wordsToStem = [
 	// An adjective with the superlative stem ending in -ïed
 	[ "paranoïedste", "paranoïd" ],
 	// An adjective with the comparative partitive suffix -ers
-	[ "kleiners", "klein" ],
+	[ "doorsnedes", "doorsnedee" ],
 ];
 
 describe( "Test for stemming Dutch words", () => {
