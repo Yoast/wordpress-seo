@@ -41,7 +41,6 @@ class WPSEO_Paper_Presenter {
 	public function __construct( $title, $view_file = null, array $settings = array() ) {
 		$defaults = array(
 			'paper_id'     => null,
-			'container_id' => null,
 			'collapsible'  => false,
 			'expanded'     => false,
 			'help_text'    => '',
@@ -102,7 +101,6 @@ class WPSEO_Paper_Presenter {
 			'view_file'          => $this->view_file,
 			'title'              => $this->title,
 			'paper_id'           => $this->settings['paper_id'],
-			'container_id'       => $this->settings['container_id'],
 			'yform'              => Yoast_Form::get_instance(),
 		);
 
