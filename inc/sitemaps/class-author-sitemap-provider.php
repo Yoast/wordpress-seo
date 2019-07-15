@@ -27,6 +27,8 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
+	 * Get the links for the sitemap index.
+	 *
 	 * @param int $max_entries Entries per sitemap.
 	 *
 	 * @return array

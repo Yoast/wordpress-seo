@@ -61,14 +61,25 @@ class WPSEO_Frontend {
 	private $title = null;
 
 	/**
+	 * An instance of the WPSEO_Frontend_Page_Type class.
+	 *
 	 * @var WPSEO_Frontend_Page_Type
 	 */
 	protected $frontend_page_type;
 
 	/**
+	 * An instance of the WPSEO_WooCommerce_Shop_Page class.
+	 *
 	 * @var WPSEO_WooCommerce_Shop_Page
 	 */
 	protected $woocommerce_shop_page;
+
+	/**
+	 * Default title with replace-vars.
+	 *
+	 * @var string
+	 */
+	public static $default_title = '%%title%% %%sep%% %%sitename%%';
 
 	/**
 	 * Class constructor.
@@ -165,6 +176,7 @@ class WPSEO_Frontend {
 	 * Resets the entire class so canonicals, titles etc can be regenerated.
 	 */
 	public function reset() {
+		self::$instance = null;
 		foreach ( get_class_vars( __CLASS__ ) as $name => $default ) {
 			switch ( $name ) {
 				// Clear the class instance to be re-initialized.
@@ -174,6 +186,7 @@ class WPSEO_Frontend {
 
 				// Exclude these properties from being reset.
 				case 'woocommerce_shop_page':
+				case 'default_title':
 					break;
 
 				// Reset property to the class default.
@@ -303,7 +316,7 @@ class WPSEO_Frontend {
 		$template = WPSEO_Options::get( $index, '' );
 		if ( $template === '' ) {
 			if ( is_singular() ) {
-				return $this->replace_vars( '%%title%% %%sep%% %%sitename%%', $var_source );
+				return $this->replace_vars( self::$default_title, $var_source );
 			}
 
 			return '';

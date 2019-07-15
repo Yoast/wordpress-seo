@@ -53,6 +53,10 @@ tests_add_filter( 'plugins_url', '_plugins_url', 10, 3 );
 
 /* *****[ Yoast SEO specific configuration ]***** */
 
+if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {
+	define( 'YOAST_ENVIRONMENT', 'test' );
+}
+
 if ( ! defined( 'YOAST_SEO_INDEXABLES' ) ) {
 	define( 'YOAST_SEO_INDEXABLES', true );
 }

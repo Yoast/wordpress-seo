@@ -7,9 +7,9 @@
 
 namespace Yoast\WP\Free\Watchers;
 
-use Yoast\WP\Free\Exceptions\No_Indexable_Found;
-use Yoast\WP\Free\Formatters\Indexable_Term_Formatter;
-use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
+use Yoast\WP\Free\Builders\Indexable_Term_Builder;
+use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\WordPress\Integration;
 
 /**
@@ -18,32 +18,56 @@ use Yoast\WP\Free\WordPress\Integration;
 class Indexable_Term_Watcher implements Integration {
 
 	/**
-	 * Registers all hooks to WordPress.
+	 * @inheritdoc
+	 */
+	public static function get_conditionals() {
+		return [ Indexables_Feature_Flag_Conditional::class ];
+	}
+
+	/**
+	 * @var \Yoast\WP\Free\Repositories\Indexable_Repository
+	 */
+	protected $repository;
+
+	/**
+	 * @var \Yoast\WP\Free\Builders\Indexable_Term_Builder
+	 */
+	protected $builder;
+
+	/**
+	 * Indexable_Term_Watcher constructor.
 	 *
-	 * @return void
+	 * @param \Yoast\WP\Free\Repositories\Indexable_Repository $repository The repository to use.
+	 * @param \Yoast\WP\Free\Builders\Indexable_Term_Builder   $builder    The post builder to use.
+	 */
+	public function __construct( Indexable_Repository $repository, Indexable_Term_Builder $builder ) {
+		$this->repository = $repository;
+		$this->builder    = $builder;
+	}
+
+	/**
+	 * @inheritdoc
 	 */
 	public function register_hooks() {
-		\add_action( 'edited_term', array( $this, 'save_meta' ), \PHP_INT_MAX, 3 );
-		\add_action( 'delete_term', array( $this, 'delete_meta' ), \PHP_INT_MAX, 3 );
+		\add_action( 'edited_term', [ $this, 'build_indexable' ], \PHP_INT_MAX );
+		\add_action( 'delete_term', [ $this, 'delete_indexable' ], \PHP_INT_MAX );
 	}
 
 	/**
 	 * Deletes a term from the index.
 	 *
-	 * @param int    $term_id          The Term ID to delete.
-	 * @param int    $taxonomy_term_id The Taxonomy ID the Term belonged to.
-	 * @param string $taxonomy         The taxonomy name the Term belonged to.
+	 * @param int $term_id The Term ID to delete.
 	 *
 	 * @return void
 	 */
-	public function delete_meta( $term_id, $taxonomy_term_id, $taxonomy ) {
-		try {
-			$indexable = $this->get_indexable( $term_id, $taxonomy, false );
-			$indexable->delete_meta();
-			$indexable->delete();
-		} catch ( No_Indexable_Found $exception ) {
+	public function delete_indexable( $term_id ) {
+		$indexable = $this->repository->find_by_id_and_type( $term_id, 'term', false );
+
+		if ( ! $indexable ) {
 			return;
 		}
+
+		$indexable->delete();
 	}
 
 	/**
@@ -53,60 +77,16 @@ class Indexable_Term_Watcher implements Integration {
 	 *       As this functionality is currently not available for terms, it has not been added in this
 	 *       class yet.
 	 *
-	 * @param int    $term_id          ID of the term to save data for.
-	 * @param int    $taxonomy_term_id The taxonomy_term_id for the term.
-	 * @param string $taxonomy         The taxonomy the term belongs to.
+	 * @param int $term_id ID of the term to save data for.
 	 *
 	 * @return void
 	 */
-	public function save_meta( $term_id, $taxonomy_term_id, $taxonomy ) {
-		try {
-			$indexable = $this->get_indexable( $term_id, $taxonomy );
-		} catch ( No_Indexable_Found $exception ) {
-			return;
-		}
+	public function build_indexable( $term_id ) {
+		$indexable = $this->repository->find_by_id_and_type( $term_id, 'term', false );
 
-		$formatter = $this->get_formatter( $term_id, $taxonomy );
-		$indexable = $formatter->format( $indexable );
+		// If we haven't found an existing indexable, create it. Otherwise update it.
+		$indexable = ( $indexable === false ) ? $this->repository->create_for_id_and_type( $term_id, 'term' ) : $this->builder->build( $term_id, $indexable );
 
 		$indexable->save();
-	}
-
-	/**
-	 * Retrieves an indexable for a term.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int    $term_id     The term the indexable is based upon.
-	 * @param string $taxonomy    The taxonomy the indexable belongs to.
-	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
-	 *
-	 * @return \Yoast\WP\Free\Models\Indexable The indexable found for the supplied term.
-	 *
-	 * @throws \Yoast\WP\Free\Models\No_Indexable_Found Exception when no indexable could be found
-	 *                                                  for the supplied term.
-	 */
-	protected function get_indexable( $term_id, $taxonomy, $auto_create = true ) {
-		$indexable = Indexable::find_by_id_and_type( $term_id, 'term', $auto_create );
-
-		if ( ! $indexable ) {
-			throw No_Indexable_Found::from_term_id( $term_id, $taxonomy );
-		}
-
-		return $indexable;
-	}
-
-	/**
-	 * Returns formatter for given taxonomy.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param int    $term_id  ID of the term to save data for.
-	 * @param string $taxonomy The taxonomy the term belongs to.
-	 *
-	 * @return \Yoast\WP\Free\Formatters\Indexable_Term_Formatter Instance.
-	 */
-	protected function get_formatter( $term_id, $taxonomy ) {
-		return new Indexable_Term_Formatter( $term_id, $taxonomy );
 	}
 }

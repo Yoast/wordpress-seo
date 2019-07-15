@@ -11,6 +11,8 @@
 class WPSEO_Ryte_Service {
 
 	/**
+	 * This class handles the data for the option where the Ryte data is stored.
+	 *
 	 * @var WPSEO_OnPage_Option
 	 */
 	protected $option;

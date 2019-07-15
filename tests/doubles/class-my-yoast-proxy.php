@@ -1,5 +1,4 @@
 <?php
-namespace Yoast\Tests\Doubles;
 
 /**
  * WPSEO plugin test file.
@@ -10,7 +9,7 @@ namespace Yoast\Tests\Doubles;
 /**
  * Test Helper Class.
  */
-class MyYoast_Proxy_Double extends \WPSEO_MyYoast_Proxy {
+class WPSEO_MyYoast_Proxy_Double extends \WPSEO_MyYoast_Proxy {
 
 	/**
 	 * @inheritdoc

@@ -33,7 +33,7 @@ class WPSEO_Metabox_Addon_Tab_Section extends WPSEO_Metabox_Tab_Section {
 	 *
 	 * @return bool
 	 */
-	protected function has_tabs() {
+	protected function has_sections() {
 		return true;
 	}
 }

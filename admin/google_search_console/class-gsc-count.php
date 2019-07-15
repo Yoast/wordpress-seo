@@ -25,6 +25,8 @@ class WPSEO_GSC_Count {
 	const OPTION_CI_COUNTS = 'wpseo_gsc_issues_counts';
 
 	/**
+	 * Service that fetches data from GSC API.
+	 *
 	 * @var WPSEO_GSC_Service
 	 */
 	private $service;
