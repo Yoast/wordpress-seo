@@ -158,14 +158,16 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	protected function add_root_menu( WP_Admin_Bar $wp_admin_bar ) {
 		$title = $this->get_title();
 
-		$score        = '';
-		$settings_url = '';
-		$counter      = '';
-		$alert_popup  = '';
+		$score        	= '';
+		$focus_keyword	= '';
+		$settings_url 	= '';
+		$counter      	= '';
+		$alert_popup  	= '';
 
 		$post = $this->get_singular_post();
 		if ( $post ) {
 			$score = $this->get_post_score( $post );
+			$focus_keyword = $this->get_post_focus_keyword( $post );
 		}
 
 		$term = $this->get_singular_term();
@@ -191,6 +193,15 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			'meta'  => array( 'tabindex' => ! empty( $settings_url ) ? false : '0' ),
 		);
 		$wp_admin_bar->add_menu( $admin_bar_menu_args );
+
+		if ( ! empty( $focus_keyword ) ) {
+			$admin_bar_menu_args = array(
+				'parent' => self::MENU_IDENTIFIER,
+				'id'     => 'wpseo-focus-keyphrase',
+				'title'  => __( 'Focus keyphrase: ', 'wordpress-seo' ) . $focus_keyword,
+			);
+			$wp_admin_bar->add_menu( $admin_bar_menu_args );
+		}
 
 		if ( ! empty( $counter ) ) {
 			$admin_bar_menu_args = array(
