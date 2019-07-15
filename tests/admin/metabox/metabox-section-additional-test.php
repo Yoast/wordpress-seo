@@ -8,6 +8,8 @@ use Brain\Monkey;
 
 /**
  * Unit Test Class.
+ *
+ * @group Metabox
  */
 class Metabox_Section_Additional extends TestCase {
 

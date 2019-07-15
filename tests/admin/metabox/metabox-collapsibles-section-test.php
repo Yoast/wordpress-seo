@@ -9,8 +9,10 @@ use Brain\Monkey;
 
 /**
  * Unit Test Class.
+ *
+ * @group Metabox
  */
-class WPSEO_Metabox_Collapsibles_Section_Test extends TestCase {
+class Metabox_Collapsibles_Section_Test extends TestCase {
 
 	/**
 	 * Tests the output of \WPSEO_Metabox_Collapsibles_Section::display_content.
