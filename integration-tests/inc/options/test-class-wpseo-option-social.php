@@ -19,6 +19,7 @@ class WPSEO_Option_Social_Test extends WPSEO_UnitTestCase {
 	 * @dataProvider validate_option_provider
 	 *
 	 * @covers WPSEO_Option_Social::validate_option
+	 * @covers WPSEO_Option_Social::validate_url
 	 */
 	public function test_validate_option( $expected, $dirty, $clean, $old ) {
 		$instance = new WPSEO_Option_Social_Double();
@@ -72,6 +73,49 @@ class WPSEO_Option_Social_Test extends WPSEO_UnitTestCase {
 				'clean'    => array( 'og_frontpage_image_id' => '' ),
 				'old'      => array(),
 			),
+			array(
+				'expected' => array( 'facebook_site' => '' ),
+				'dirty'    => array( 'facebook_site' => 'invalidurl' ),
+				'clean'    => array( 'facebook_site' => '' ),
+				'old'      => array(),
+			),
+			array(
+				'expected' => array( 'youtube_url' => 'https://www.youtube.com/yoast' ),
+				'dirty'    => array( 'youtube_url' => 'invalidurl' ),
+				'clean'    => array( 'youtube_url' => 'https://www.youtube.com/yoast' ),
+				'old'      => array( 'youtube_url' => 'https://www.youtube.com/yoast' ),
+			),
+			array(
+				'expected' => array( 'youtube_url' => 'https://www.youtube.com/yoast' ),
+				'dirty'    => array( 'youtube_url' => 'https://www.youtube.com/yoast' ),
+				'clean'    => array( 'youtube_url' => 'https://www.youtube.com/yoast' ),
+				'old'      => array(),
+			),
 		);
+	}
+
+	/**
+	 * Tests that submitting an option with an invalid URL adds a WordPress settings error notice.
+	 *
+	 * @covers WPSEO_Option_Social::validate_url
+	 */
+	public function test_validate_url_adds_settings_error() {
+		global $wp_settings_errors;
+
+		$instance = new WPSEO_Option_Social_Double();
+		$clean    = array( 'instagram_url' => '' );
+		$dirty    = array( 'instagram_url' => 'invalidurl' );
+
+		$settings_error_added = false;
+
+		$instance->validate_url( 'instagram_url', $dirty, '', $clean );
+
+		foreach ( $wp_settings_errors as $error ) {
+			if ( $error['setting'] === 'yoast_wpseo_social_options' && $error['code'] === 'instagram_url' ) {
+				$settings_error_added = true;
+			}
+		}
+
+		$this->assertTrue( $settings_error_added );
 	}
 }

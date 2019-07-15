@@ -319,6 +319,9 @@ abstract class WPSEO_Option {
 	}
 
 	/**
+	 * Validates an option as a valid URL. Prints out a WordPress settings error
+	 * notice if the URL is invalid.
+	 *
 	 * @param string $key   Key to check, by type of service.
 	 * @param array  $dirty Dirty data with the new values.
 	 * @param array  $old   Old data.
