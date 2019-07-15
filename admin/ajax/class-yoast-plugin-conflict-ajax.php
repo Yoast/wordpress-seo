@@ -11,11 +11,15 @@
 class Yoast_Plugin_Conflict_Ajax {
 
 	/**
+	 * Option identifier where dismissed conflicts are stored.
+	 *
 	 * @var string
 	 */
 	private $option_name = 'wpseo_dismissed_conflicts';
 
 	/**
+	 * List of notification identifiers that have been dismissed.
+	 *
 	 * @var array
 	 */
 	private $dismissed_conflicts = array();

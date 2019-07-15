@@ -108,6 +108,8 @@ class WPSEO_Breadcrumbs {
 	private $output;
 
 	/**
+	 * Holds the WooCommerce shop page instance.
+	 *
 	 * @var WPSEO_WooCommerce_Shop_Page
 	 */
 	private $woocommerce_shop_page;
@@ -361,7 +363,6 @@ class WPSEO_Breadcrumbs {
 	 * Determine the crumbs which should form the breadcrumb.
 	 */
 	private function set_crumbs() {
-		/** @var WP_Query $wp_query */
 		global $wp_query;
 
 		$this->maybe_add_home_crumb();

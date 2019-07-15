@@ -51,6 +51,9 @@ jQuery( document ).ready(
 				title: wpseoMediaL10n.choose_image,
 				button: { text: wpseoMediaL10n.choose_image },
 				multiple: false,
+				library: {
+					type: "image",
+				},
 			} );
 
 			wpseoCustomUploader.on( "select", function() {

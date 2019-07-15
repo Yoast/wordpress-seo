@@ -25,7 +25,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test sitemap cache not set.
 	 *
-	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data()
+	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data
 	 */
 	public function test_transient_not_set() {
 
@@ -38,9 +38,9 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if the transient cache is set as a cache data object.
 	 *
-	 * @covers WPSEO_Sitemaps_Cache::store_sitemap()
-	 * @covers WPSEO_Sitemaps_Cache::get_sitemap()
-	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data()
+	 * @covers WPSEO_Sitemaps_Cache::store_sitemap
+	 * @covers WPSEO_Sitemaps_Cache::get_sitemap
+	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data
 	 */
 	public function test_transient_cache_data_object() {
 
@@ -63,9 +63,9 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test sitemap cache XML set as string not being validated.
 	 *
-	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data()
-	 * @covers WPSEO_Sitemap_Cache_Data::set_sitemap()
-	 * @covers WPSEO_Sitemap_Cache_Data::is_usable()
+	 * @covers WPSEO_Sitemaps_Cache::get_sitemap_data
+	 * @covers WPSEO_Sitemap_Cache_Data::set_sitemap
+	 * @covers WPSEO_Sitemap_Cache_Data::is_usable
 	 */
 	public function test_transient_string_to_cache_data() {
 

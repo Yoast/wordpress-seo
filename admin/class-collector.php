@@ -11,6 +11,8 @@
 class WPSEO_Collector {
 
 	/**
+	 * Holds the collections.
+	 *
 	 * @var WPSEO_Collection[]
 	 */
 	protected $collections = array();

@@ -104,7 +104,7 @@ module.exports = function( grunt ) {
 
 		"remove-prefixed-sources": {
 			command: "composer remove league/oauth2-client j4mie/idiorm pimple/pimple ruckusing/ruckusing-migrations psr/log " +
-			"--update-no-dev --optimize-autoloader",
+			"symfony/dependency-injection --update-no-dev --optimize-autoloader",
 		},
 
 		"composer-install-dev": {
@@ -129,6 +129,14 @@ module.exports = function( grunt ) {
 			command: "composer install",
 		},
 
+		"compile-dependency-injection-container": {
+			command: "composer compile-di",
+		},
+
+		"remove-dependency-injection-meta": {
+			command: "rm ./src/generated/container.php.meta",
+		},
+
 		"php-lint": {
 			command: "find -L . " +
 				"-path ./vendor -prune -o " +
@@ -136,6 +144,10 @@ module.exports = function( grunt ) {
 				"-path ./node_modules -prune -o " +
 				"-path ./artifact -prune -o " +
 				"-name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
+		},
+
+		phpcs: {
+			command: "php ./vendor/squizlabs/php_codesniffer/scripts/phpcs",
 		},
 	};
 };

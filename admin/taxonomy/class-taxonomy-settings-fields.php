@@ -18,7 +18,9 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	private $no_index_options = array();
 
 	/**
-	 * @param stdClass $term The currenct taxonomy.
+	 * The WPSEO_Taxonomy_Settings_Fields class constructor.
+	 *
+	 * @param stdClass $term The current taxonomy.
 	 */
 	public function __construct( $term ) {
 		parent::__construct( $term );

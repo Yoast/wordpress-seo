@@ -11,6 +11,8 @@
 class WPSEO_Customizer {
 
 	/**
+	 * Holds the customize manager.
+	 *
 	 * @var WP_Customize_Manager
 	 */
 	protected $wp_customize;

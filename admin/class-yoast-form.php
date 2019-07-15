@@ -21,12 +21,16 @@ class Yoast_Form {
 	public static $instance;
 
 	/**
+	 * The short name of the option to use for the current page.
+	 *
 	 * @var string
 	 * @since 2.0
 	 */
 	public $option_name;
 
 	/**
+	 * Option values for the WPSEO_Options.
+	 *
 	 * @var array
 	 * @since 2.0
 	 */

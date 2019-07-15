@@ -11,6 +11,8 @@
 class WPSEO_Structured_Data_Blocks implements WPSEO_WordPress_Integration {
 
 	/**
+	 * An instance of the WPSEO_Admin_Asset_Manager class.
+	 *
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
 	protected $asset_manager;
@@ -28,14 +30,6 @@ class WPSEO_Structured_Data_Blocks implements WPSEO_WordPress_Integration {
 	public function register_hooks() {
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 		add_filter( 'block_categories', array( $this, 'add_block_category' ) );
-
-		$block_integrations = array(
-			new WPSEO_How_To_Block(),
-		);
-
-		foreach ( $block_integrations as $block_integration ) {
-			$block_integration->register_hooks();
-		}
 	}
 
 	/**

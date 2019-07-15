@@ -24,6 +24,11 @@
 	}
 }
 
+// Reset margins inherited from Gutenberg.
+.DraftEditor-root [data-block] {
+	margin: 0;
+}
+
 /* Hide the taxonomy metabox rich editor when it's first inserted in the form. */
 #edittag > #wp-description-wrap {
 	display: none;
@@ -76,38 +81,48 @@ ul.wpseo-metabox-tabs li.active {
 	background-color: #fdfdfd;
 }
 
-.wpseo-meta-section, .wpseo-meta-section-react {
+.wpseo-meta-section,
+.wpseo-meta-section-react {
 	display: none;
 	width: 100%;
 	min-height: 100%;
 	height: auto;
-	max-width: calc( 100% - 50px );
 	vertical-align: top;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	border-top: 1px solid #e8e8e8;
+
+	&.active {
+		background: #fff;
+		position: relative;
+		/* 1 higher than the active menu item: .wpseo-metabox-menu.active */
+		z-index: 12;
+	}
 }
 
 .wpseo-meta-section.active {
 	display: inline-block;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .wpseo-meta-section-react.active {
 	display: block;
 	margin-bottom: 10px;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .wpseo-metabox-content {
 	padding-top: 16px;
-	display: flex;
 }
 
-.wpseo-metabox-sidebar {
-	width: 46px;
+.wpseo-metabox-menu {
 	padding: 0;
 	background-color: #fff;
 
 	ul {
 		margin: 0 1px 0 0;
+		padding-left: 16px;
+		display: flex;
+		align-items: flex-end;
+		flex-wrap: wrap;
+		flex-flow: wrap-reverse;
 
 		li:nth-child(1) {
 			z-index: 10;
@@ -129,26 +144,33 @@ ul.wpseo-metabox-tabs li.active {
 		}
 
 		li {
-			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-
-			display: block; /* Microsoft Edge 38. */
-			margin-bottom: 0;
+			box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+			height: 32px;
+			/* Negative margins are to not have double borders. */
+			margin-left: -1px;
+			margin-bottom: -1px;
 			text-align: center;
 			position: relative;
+			background-color: #f8f8f8;
 
 			a {
-				color: black;
-				padding: 8px 8px;
-				background-color: #f8f8f8;
+				color: #0073aa;
+				display: flex;
+				align-items: center;
+				border: 1px solid #ddd;
 			}
 
 			.yst-traffic-light {
-				margin: 0;
+				height: 20px;
+				width: initial;
+				/* all the other icons are 20x20 so we need to compensate */
+				margin-right: 10px;
+				margin-left: 4px;
 			}
 
 			span {
 				&.dashicons {
-					width: 100%;
+					margin-right: 8px;
 				}
 
 				&.wpseo-buy-premium {
@@ -161,24 +183,15 @@ ul.wpseo-metabox-tabs li.active {
 			}
 
 			&.active {
-				z-index: 50;
-
-				&:after {
-					display: block;
-					float: right;
-					position: absolute;
-					top: 0;
-					right: -3px;
-					width: 3px;
-					height: 46px;
-					background-color: white;
-					content: " ";
-					z-index: 110;
-				}
+				height: 36px;
+				/* 4 px is the difference in height with the inactive tabs. */
+				margin-top: -4px;
+				z-index: 11;
+				background-color: #ffffff;
 
 				a {
-					color: #0073aa;
-					background-color: #ffffff;
+					height: 36px;
+					color: #444;
 				}
 
 				span {
@@ -197,10 +210,9 @@ ul.wpseo-metabox-tabs li.active {
 	}
 
 	a {
-		padding: 5px;
-		display: block;
+		height: 32px;
+		padding: 0 8px;
 		text-decoration: none;
-		vertical-align: middle;
 	}
 }
 
@@ -297,78 +309,87 @@ ul.wpseo-metabox-tabs li {
 }
 
 /* Basic styling for social, advanced, and add-ons tabs content. */
-.wpseotab input,
-.wpseotab label,
-.wpseotab textarea,
-.wpseotab .select2-container,
-.yoast-metabox__description,
-.wpseotab p.error-message {
+.wpseo-form {
+	input,
+	label,
+	textarea,
+	.select2-container,
+	p.error-message {
+		max-width: 600px;
+	}
+
+	fieldset {
+		padding-top: 5px;
+	}
+
+	legend {
+		font-weight: 600;
+	}
+
+	/* By default, labels are set to display block. */
+	label {
+		display: block;
+		font-weight: 600;
+	}
+
+	/* Radio buttons and checkboxes labels are set to display inline-block. */
+	input[type="radio"] + label,
+	input[type="checkbox"] + label {
+		display: inline-block;
+		font-weight: 400;
+	}
+
+	/* Default vertical spacing between blocks of controls. */
+	label,
+	fieldset {
+		margin-top: 2em;
+		margin-bottom: 0.5em;
+	}
+
+	input[type="checkbox"],
+	input[type="checkbox"] + label {
+		margin-top: 2em;
+		margin-bottom: 0;
+		font-size: 1em; /* 1em = 13px. Necessary for proper calculation of margins in em. */
+	}
+
+	/* First form controls in a tab need a smaller top margin. */
+	label:first-child,
+	fieldset:first-child,
+	input[type="checkbox"]:first-child,
+	input[type="checkbox"]:first-child + label {
+		margin-top: 10px;
+	}
+
+	/* Radio buttons. */
+	input[type="radio"] {
+		margin-top: 0;
+	}
+
+	input[type="radio"] + label {
+		margin: 0 1em 0 0;
+	}
+
+	/* Descriptions and error messages below the fields. */
+	p.error-message {
+		margin: 0.5em 0;
+	}
+
+	select[multiple] {
+		margin-top: 0;
+	}
+}
+
+.yoast-metabox__description {
 	max-width: 600px;
 }
 
-.wpseotab fieldset {
-	padding-top: 5px;
-}
-
-.wpseotab legend {
-	font-weight: 600;
-}
-
-/* By default, labels are set to display block. */
-.wpseotab label {
-	display: block;
-	font-weight: 600;
-}
-
-/* Radio buttons and checkboxes labels are set to display inline-block. */
-.wpseotab input[type="radio"] + label,
-.wpseotab input[type="checkbox"] + label {
-	display: inline-block;
-	font-weight: 400;
-}
-
-/* Default vertical spacing between blocks of controls. */
-.wpseotab label,
-.wpseotab fieldset {
-	margin-top: 2em;
-	margin-bottom: 0.5em;
-}
-
-.wpseotab input[type="checkbox"],
-.wpseotab input[type="checkbox"] + label {
-	margin-top: 2em;
-	margin-bottom: 0;
-	font-size: 1em; /* 1em = 13px. Necessary for proper calculation of margins in em. */
-}
-
-/* First form controls in a tab need a smaller top margin. */
-.wpseotab label:first-child,
-.wpseotab fieldset:first-child,
-.wpseotab input[type="checkbox"]:first-child,
-.wpseotab input[type="checkbox"]:first-child + label {
-	margin-top: 10px;
-}
-
-/* Radio buttons. */
-.wpseotab input[type="radio"] {
-	margin-top: 0;
-}
-
-.wpseotab input[type="radio"] + label {
-	margin: 0 1em 0 0;
-}
-
 /* Descriptions and error messages below the fields. */
-.yoast-metabox__description,
-.wpseotab p.error-message {
+.yoast-metabox__description {
 	margin: 0.5em 0;
 }
 
-.wpseotab select[multiple] {
-	margin-top: 0;
-}
-
-.wpseotab .wpseo_image_upload_button {
+.wpseo_image_upload_button {
 	margin-left: 3px;
 }
 
@@ -498,14 +519,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	border: 1px solid #dfdfdf;
 	color: #333;
 	background: #f1f1f1;
-}
-
-/**
- * Lines below came from taxonomy-meta.css
- */
-.yst-traffic-light-container {
-	display: block;
-	height: 30px;
 }
 
 .yst-traffic-light {
@@ -642,39 +655,6 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	}
 }
 
-// TODO: To be removed when the styled section will use the StyledSection component.
-.yoast-section {
-	box-shadow: 0 1px 2px rgba( 0, 0, 0, .2 );
-	position: relative;
-	background-color: #fff;
-	padding: 0 20px 15px;
-
-	&__heading {
-		padding: 8px 20px;
-		font-size: 1rem;
-		margin: 0 -20px 15px;
-		font-family: "Open Sans", sans-serif;
-		font-weight: 300;
-		color: #555;
-
-		&-icon {
-			padding-left: 44px; // 44 - 20 (icon width) = 24 for the 8px grid
-			background-repeat: no-repeat;
-			background-position: left 20px top 0.6em;
-			background-size: 16px;
-		}
-	}
-
-	*, & {
-		box-sizing: border-box;
-
-		&:before, &:after {
-			box-sizing: border-box;
-		}
-	}
-}
-
-
 .yoast-tooltip.yoast-tooltip-hidden::before,
 .yoast-tooltip.yoast-tooltip-hidden::after {
 	display: none;
@@ -729,4 +709,13 @@ ul.wpseo-metabox-tabs li.wpseo-tab-add-keyword {
 	.wpseotab.content {
 		padding: 16px 0;
 	}
+}
+
+.wpseo-score-icon-container {
+	height: 20px;
+	width: 20px;
+	margin-right: 8px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }

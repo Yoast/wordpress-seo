@@ -11,21 +11,29 @@
 class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storable {
 
 	/**
+	 * The namespace of the REST route.
+	 *
 	 * @var string
 	 */
 	const REST_NAMESPACE = 'yoast/v1';
 
 	/**
+	 * The route of the endpoint to retrieve or patch the indexable.
+	 *
 	 * @var string
 	 */
 	const ENDPOINT_SINGULAR = 'indexables/(?P<object_type>\w+)/(?P<object_id>\d+)';
 
 	/**
+	 * The name of the capability needed to retrieve data using the endpoints.
+	 *
 	 * @var string
 	 */
 	const CAPABILITY_RETRIEVE = 'manage_options';
 
 	/**
+	 * The name of the capability needed to store data using the endpoints.
+	 *
 	 * @var string
 	 */
 	const CAPABILITY_STORE = 'manage_options';

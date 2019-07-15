@@ -57,7 +57,7 @@ class WPSEO_Dismissible_Notification_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the handler when the situation is applicable for showing it.
 	 *
-	 * @covers WPSEO_Dismissible_Notification::handle()
+	 * @covers WPSEO_Dismissible_Notification::handle
 	 */
 	public function test_handle_where_situation_is_applicable() {
 		$notification_center = $this
@@ -86,7 +86,7 @@ class WPSEO_Dismissible_Notification_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the handler when the situation is not applicable for showing it.
 	 *
-	 * @covers WPSEO_Dismissible_Notification::handle()
+	 * @covers WPSEO_Dismissible_Notification::handle
 	 */
 	public function test_handle_where_situation_is_not_applicable() {
 		$notification_center = $this
@@ -115,7 +115,7 @@ class WPSEO_Dismissible_Notification_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the dismissal method.
 	 *
-	 * @covers WPSEO_Dismissible_Notification::dismiss()
+	 * @covers WPSEO_Dismissible_Notification::dismiss
 	 */
 	public function test_dismiss() {
 		$handler = $this
@@ -137,7 +137,7 @@ class WPSEO_Dismissible_Notification_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests is_applicable when notices has been dismissed.
 	 *
-	 * @covers WPSEO_Dismissible_Notification::is_applicable()
+	 * @covers WPSEO_Dismissible_Notification::is_applicable
 	 */
 	public function test_is_applicable_with_dismissed_notice() {
 		$instance = $this
@@ -156,7 +156,7 @@ class WPSEO_Dismissible_Notification_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests is_applicable when notices has not been dismissed.
 	 *
-	 * @covers WPSEO_Dismissible_Notification::is_applicable()
+	 * @covers WPSEO_Dismissible_Notification::is_applicable
 	 */
 	public function test_is_applicable_with_non_dismissed_notice() {
 		$instance = $this

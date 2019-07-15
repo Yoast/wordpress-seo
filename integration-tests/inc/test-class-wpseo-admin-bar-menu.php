@@ -70,7 +70,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests adding the admin bar menu, lacking general capabilities.
 	 *
-	 * @covers WPSEO_Admin_Bar_Menu::add_menu()
+	 * @covers WPSEO_Admin_Bar_Menu::add_menu
 	 */
 	public function test_add_menu_lacking_capabilities() {
 		$admin_bar_menu = $this
@@ -105,7 +105,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests adding the admin bar menu.
 	 *
-	 * @covers WPSEO_Admin_Bar_Menu::add_menu()
+	 * @covers WPSEO_Admin_Bar_Menu::add_menu
 	 */
 	public function test_add_menu() {
 		wp_set_current_user( self::$wpseo_manager );
@@ -148,7 +148,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests enqueuing assets when the admin bar is not shown.
 	 *
-	 * @covers WPSEO_Admin_Bar_Menu::enqueue_assets()
+	 * @covers WPSEO_Admin_Bar_Menu::enqueue_assets
 	 */
 	public function test_enqueue_assets_without_admin_bar() {
 		add_filter( 'show_admin_bar', '__return_false' );
@@ -170,7 +170,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests enqueuing assets.
 	 *
-	 * @covers WPSEO_Admin_Bar_Menu::enqueue_assets()
+	 * @covers WPSEO_Admin_Bar_Menu::enqueue_assets
 	 */
 	public function test_enqueue_assets() {
 		add_filter( 'show_admin_bar', '__return_true' );
@@ -194,7 +194,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests registering main hooks.
 	 *
-	 * @covers WPSEO_Admin_Bar_Menu::register_hooks()
+	 * @covers WPSEO_Admin_Bar_Menu::register_hooks
 	 */
 	public function test_register_hooks() {
 		$admin_bar_menu = $this->getMockBuilder( 'WPSEO_Admin_Bar_Menu' )
@@ -216,7 +216,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests checking requirements.
 	 *
-	 * @covers WPSEO_Admin_Bar_Menu::meets_requirements()
+	 * @covers WPSEO_Admin_Bar_Menu::meets_requirements
 	 */
 	public function test_meets_requirements() {
 		$admin_bar_menu = new WPSEO_Admin_Bar_Menu( $this->get_asset_manager() );
@@ -238,7 +238,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation where everything is going well.
 	 *
-	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword()
+	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword
 	 */
 	public function test_get_post_focus_keyword() {
 		$post = self::factory()->post->create_and_get();
@@ -253,7 +253,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation with a non object given as argument.
 	 *
-	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword()
+	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword
 	 */
 	public function test_get_post_focus_keyword_with_invalid_object() {
 		$instance = new WPSEO_Admin_Bar_Menu_Double();
@@ -264,7 +264,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation where the given object doesn't have an ID.
 	 *
-	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword()
+	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword
 	 */
 	public function test_get_post_focus_keyword_with_valid_object_but_no_id_property() {
 		$post     = new stdClass();
@@ -276,7 +276,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation where the page analysis is disabled by filter.
 	 *
-	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword()
+	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword
 	 */
 	public function test_get_post_focus_keyword_with_page_analysis_filter_disabled() {
 		add_filter( 'wpseo_use_page_analysis', '__return_false' );

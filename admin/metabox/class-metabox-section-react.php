@@ -46,6 +46,13 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	private $link_aria_label;
 
 	/**
+	 * Additional html content to be displayed within the section.
+	 *
+	 * @var string
+	 */
+	private $html_after;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param string $name         The name of the section, used as an identifier in the html.
@@ -61,6 +68,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 		$default_options = array(
 			'link_class'      => '',
 			'link_aria_label' => '',
+			'html_after'      => '',
 		);
 
 		$options = wp_parse_args( $options, $default_options );
@@ -68,6 +76,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 		$this->link_content    = $link_content;
 		$this->link_class      = $options['link_class'];
 		$this->link_aria_label = $options['link_aria_label'];
+		$this->html_after      = $options['html_after'];
 	}
 
 	/**
@@ -77,7 +86,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	 */
 	public function display_link() {
 		printf(
-			'<li><a href="#wpseo-meta-section-%1$s" class="wpseo-meta-section-link %2$s"%3$s>%4$s</a></li>',
+			'<li role="presentation"><a role="tab" href="#wpseo-meta-section-%1$s" id="wpseo-meta-tab-%1$s" aria-controls="wpseo-meta-section-%1$s" class="wpseo-meta-section-link %2$s"%3$s>%4$s</a></li>',
 			esc_attr( $this->name ),
 			esc_attr( $this->link_class ),
 			( '' !== $this->link_aria_label ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
@@ -91,9 +100,13 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	 * @return void
 	 */
 	public function display_content() {
-		$html  = sprintf( '<div id="%1$s" class="wpseo-meta-section">', esc_attr( 'wpseo-meta-section-' . $this->name ) );
+		$html  = sprintf(
+			'<div role="tabpanel" id="wpseo-meta-section-%1$s" aria-labelledby="wpseo-meta-tab-%1$s" tabindex="0" class="wpseo-meta-section">',
+			esc_attr( $this->name )
+		);
 		$html .= $this->content;
 		$html .= '<div id="wpseo-metabox-root" class="wpseo-metabox-root"></div>';
+		$html .= $this->html_after;
 		$html .= '</div>';
 
 		echo $html;

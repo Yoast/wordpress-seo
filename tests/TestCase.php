@@ -5,12 +5,14 @@ namespace Yoast\WP\Free\Tests;
 use WPSEO_Options;
 use Brain\Monkey;
 use Mockery;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 
 /**
  * TestCase base class.
  */
-abstract class TestCase extends PHPUnit_Framework_TestCase {
+abstract class TestCase extends BaseTestCase {
+
+	protected $mocked_options = [ 'wpseo', 'wpseo_titles', 'wpseo_taxonomy_meta', 'wpseo_social', 'wpseo_ms' ];
 
 	protected function setUp() {
 		parent::setUp();
@@ -37,6 +39,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase {
 				'absint'         => function( $value ) {
 					return \abs( \intval( $value ) );
 				},
+				'mysql2date'     => null,
 			]
 		);
 
@@ -45,12 +48,12 @@ abstract class TestCase extends PHPUnit_Framework_TestCase {
 
 		Monkey\Functions\expect( 'get_option' )
 			->zeroOrMoreTimes()
-			->with( Mockery::anyOf( 'wpseo', 'wpseo_titles', 'wpseo_taxonomy_meta', 'wpseo_social', 'wpseo_ms' ) )
+			->with( call_user_func_array( 'Mockery::anyOf', $this->mocked_options ) )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_site_option' )
 			->zeroOrMoreTimes()
-			->with( Mockery::anyOf( 'wpseo', 'wpseo_titles', 'wpseo_taxonomy_meta', 'wpseo_social', 'wpseo_ms' ) )
+			->with( call_user_func_array( 'Mockery::anyOf', $this->mocked_options ) )
 			->andReturn( [] );
 	}
 

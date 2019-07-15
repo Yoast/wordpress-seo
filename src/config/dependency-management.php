@@ -1,28 +1,30 @@
 <?php
 /**
- * Makes sure the dependencies are loaded and the environment is prepared to use them.
+ * Yoast SEO Plugin File.
  *
  * @package Yoast\YoastSEO\Config
  */
 
 namespace Yoast\WP\Free\Config;
 
-use Composer\Script\Event;
-
 /**
- * Sets up class aliases and defines required constants.
+ * Makes sure the dependencies are loaded and the environment is prepared to use them.
+ * This is achieved by setting up class aliases and defines required constants.
  */
 class Dependency_Management {
 
 	/**
 	 * Registers the autoloader to create class aliases when needed.
+	 * This is required when this plugin is installed through composer
+	 * as the vendor_prefixed directory will not be included in that case.
+	 * Instead those dependencies are loaded through composer.
+	 * As we still reference the prefixed dependencies this fixes that.
 	 *
 	 * @return bool True on success, false on failure.
 	 */
 	public function initialize() {
 		// Prepend the autoloader to the stack, allowing for discovery of prefixed classes.
-		// @codingStandardsIgnoreLine PHPCompatibility.PHP.NewFunctions.class_aliasFound -- PHP >= 5.3 only.
-		return \spl_autoload_register( array( $this, 'ensure_class_alias' ), true, true );
+		return \spl_autoload_register( [ $this, 'ensure_class_alias' ], true, true );
 	}
 
 	/**
@@ -34,11 +36,11 @@ class Dependency_Management {
 	 */
 	public function ensure_class_alias( $class ) {
 		// If the namespace beings with the dependency class prefix, make an alias for regular class.
-		if ( strpos( $class, YOAST_VENDOR_NS_PREFIX ) !== 0 || $this->prefixed_available() ) {
+		if ( \strpos( $class, \YOAST_VENDOR_NS_PREFIX ) !== 0 || $this->prefixed_available() ) {
 			return;
 		}
 
-		$base = substr( $class, ( strlen( YOAST_VENDOR_NS_PREFIX ) + 1 ) );
+		$base = \substr( $class, ( \strlen( \YOAST_VENDOR_NS_PREFIX ) + 1 ) );
 		if ( ! $this->class_exists( $base ) ) {
 			return;
 		}
@@ -57,36 +59,10 @@ class Dependency_Management {
 		static $available = null;
 
 		if ( $available === null ) {
-			$available = is_file( WPSEO_PATH . YOAST_VENDOR_PREFIX_DIRECTORY . '/dependencies-prefixed.txt' );
+			$available = \is_file( \WPSEO_PATH . \YOAST_VENDOR_PREFIX_DIRECTORY . '/dependencies-prefixed.txt' );
 		}
 
 		return $available;
-	}
-
-	/**
-	 * Prefixes dependencies if composer install is ran with dev mode.
-	 *
-	 * Used in composer in the post-install script hook.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param \Composer\Script\Event $event Composer event that triggered this script.
-	 *
-	 * @return void
-	 */
-	public static function prefix_dependencies( Event $event ) {
-		$io = $event->getIO();
-
-		if ( ! $event->isDevMode() ) {
-			$io->write( 'Not prefixing dependencies.' );
-
-			return;
-		}
-
-		$io->write( 'Prefixing dependencies...' );
-
-		$event_dispatcher = $event->getComposer()->getEventDispatcher();
-		$event_dispatcher->dispatchScript( 'prefix-dependencies', $event->isDevMode() );
 	}
 
 	/**
@@ -99,7 +75,7 @@ class Dependency_Management {
 	 * @return bool True if the class exists.
 	 */
 	protected function class_exists( $class ) {
-		return class_exists( $class ) || interface_exists( $class );
+		return \class_exists( $class ) || \interface_exists( $class );
 	}
 
 	/**
@@ -113,7 +89,6 @@ class Dependency_Management {
 	 * @return bool True on successful alias.
 	 */
 	protected function class_alias( $base, $alias ) {
-		// @codingStandardsIgnoreLine PHPCompatibility.PHP.NewFunctions.class_aliasFound -- PHP >= 5.3 only.
 		return class_alias( $base, $alias );
 	}
 }

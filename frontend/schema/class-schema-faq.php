@@ -11,6 +11,7 @@
  * @since 11.3
  */
 class WPSEO_Schema_FAQ implements WPSEO_Graph_Piece {
+
 	/**
 	 * Determine whether this graph piece is needed or not.
 	 *

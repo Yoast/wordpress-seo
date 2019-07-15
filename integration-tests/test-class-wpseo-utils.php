@@ -11,6 +11,8 @@
 class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Tests whether a user is allowed to access the SEO configuration in various situations.
+	 *
 	 * @covers WPSEO_Utils::grant_access
 	 */
 	public function test_grant_access() {
@@ -41,7 +43,9 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Utils::is_apache()
+	 * Tests whether is_apache correctly returns if the site runs on apache.
+	 *
+	 * @covers WPSEO_Utils::is_apache
 	 */
 	public function test_wpseo_is_apache() {
 		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.2.22';
@@ -52,7 +56,9 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Utils::is_nginx()
+	 * Tests whether is_apache correctly returns if the site runs on nginx.
+	 *
+	 * @covers WPSEO_Utils::is_nginx
 	 */
 	public function test_wpseo_is_nginx() {
 		$_SERVER['SERVER_SOFTWARE'] = 'nginx/1.5.11';
@@ -63,7 +69,9 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Utils::trim_nbsp_from_string()
+	 * Tests whether trim_nbsp_from_string correctly strips no-break spaces.
+	 *
+	 * @covers WPSEO_Utils::trim_nbsp_from_string
 	 */
 	public function test_wpseo_trim_nbsp_from_string() {
 		$old_string = ' This is an old string with&nbsp;as spaces.&nbsp;';
@@ -94,7 +102,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 * Tests translate_score function.
 	 *
 	 * @dataProvider translate_score_provider
-	 * @covers       WPSEO_Utils::translate_score()
+	 * @covers       WPSEO_Utils::translate_score
 	 *
 	 * @param int    $score     The decimal score to translate.
 	 * @param bool   $css_value Whether to return the i18n translated score or the CSS class value.
@@ -171,7 +179,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether the plugin is network-active or not.
 	 *
-	 * @covers WPSEO_Utils::is_plugin_network_active()
+	 * @covers WPSEO_Utils::is_plugin_network_active
 	 */
 	public function test_is_plugin_network_active() {
 		$this->assertFalse( WPSEO_Utils::is_plugin_network_active() );

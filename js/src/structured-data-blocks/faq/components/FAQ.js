@@ -5,7 +5,6 @@ import { speak } from "@wordpress/a11y";
 
 /* Internal dependencies */
 import Question from "./Question";
-import { stripHTML } from "../../../helpers/stringHelpers";
 import appendSpace from "../../../components/higherorder/appendSpace";
 
 const { IconButton } = window.wp.components;
@@ -104,8 +103,8 @@ export default class FAQ extends Component {
 			id: questions[ index ].id,
 			question: newQuestion,
 			answer: newAnswer,
-			jsonQuestion: stripHTML( renderToString( newQuestion ) ),
-			jsonAnswer: stripHTML( renderToString( newAnswer ) ),
+			jsonQuestion: renderToString( newQuestion ),
+			jsonAnswer: renderToString( newAnswer ),
 		};
 
 		const imageSrc = Question.getImageSrc( newAnswer );

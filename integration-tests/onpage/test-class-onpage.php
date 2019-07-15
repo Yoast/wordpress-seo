@@ -234,7 +234,7 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if active is based on the option.
 	 *
-	 * @covers WPSEO_OnPage::is_active()
+	 * @covers WPSEO_OnPage::is_active
 	 */
 	public function test_is_active() {
 		WPSEO_Options::set( 'onpage_indexability', true );
@@ -245,9 +245,9 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if the cronjob is scheduled when enabled.
 	 *
-	 * @covers WPSEO_OnPage::activate_hooks()
-	 * @covers WPSEO_OnPage::schedule_cron()
-	 * @covers WPSEO_OnPage::unschedule_cron()
+	 * @covers WPSEO_OnPage::activate_hooks
+	 * @covers WPSEO_OnPage::schedule_cron
+	 * @covers WPSEO_OnPage::unschedule_cron
 	 */
 	public function test_cron_scheduling() {
 		WPSEO_Options::set( 'onpage_indexability', true );

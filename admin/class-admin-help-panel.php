@@ -11,21 +11,29 @@
 class WPSEO_Admin_Help_Panel {
 
 	/**
+	 * Unique identifier of the element the inline help refers to, used as an identifier in the html.
+	 *
 	 * @var string
 	 */
 	private $id;
 
 	/**
+	 * The Help Button text. Needs a properly escaped string.
+	 *
 	 * @var string
 	 */
 	private $help_button_text;
 
 	/**
+	 * The Help Panel content. Needs a properly escaped string (might contain HTML).
+	 *
 	 * @var string
 	 */
 	private $help_content;
 
 	/**
+	 * Optional Whether to print out a container div element for the Help Panel, used for styling.
+	 *
 	 * @var string
 	 */
 	private $wrapper;

@@ -29,7 +29,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Endpoint::set_service()
+	 * @covers WPSEO_Configuration_Endpoint::set_service
 	 */
 	public function test_set_service() {
 		$service = $this->getMockBuilder( 'WPSEO_Configuration_Service' )->getMock();
@@ -39,7 +39,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Endpoint::can_retrieve_data()
+	 * @covers WPSEO_Configuration_Endpoint::can_retrieve_data
 	 */
 	public function test_can_retrieve_data_fail() {
 		$user_id = $this->factory->user->create();
@@ -50,7 +50,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Endpoint::can_retrieve_data()
+	 * @covers WPSEO_Configuration_Endpoint::can_retrieve_data
 	 */
 	public function test_can_retrieve_data_pass() {
 		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
@@ -61,7 +61,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Endpoint::can_save_data()
+	 * @covers WPSEO_Configuration_Endpoint::can_save_data
 	 */
 	public function test_can_save_data_fail() {
 		$user_id = $this->factory->user->create();
@@ -72,7 +72,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Endpoint::can_save_data()
+	 * @covers WPSEO_Configuration_Endpoint::can_save_data
 	 */
 	public function test_can_save_data_pass() {
 		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
@@ -83,7 +83,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Endpoint::register()
+	 * @covers WPSEO_Configuration_Endpoint::register
 	 *
 	 */
 	public function test_register() {

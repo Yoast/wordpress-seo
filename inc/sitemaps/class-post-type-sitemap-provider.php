@@ -70,6 +70,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
+	 * Retrieves the sitemap links.
+	 *
 	 * @param int $max_entries Entries per sitemap.
 	 *
 	 * @return array
@@ -411,7 +413,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	protected function get_post_type_archive_link( $post_type ) {
 
-		$pt_archive_page_id  = -1;
+		$pt_archive_page_id = -1;
 
 		if ( $post_type === 'post' ) {
 
@@ -544,6 +546,8 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	}
 
 	/**
+	 * Constructs an SQL where clause for a given post type.
+	 *
 	 * @param string $post_type Post type slug.
 	 *
 	 * @return string

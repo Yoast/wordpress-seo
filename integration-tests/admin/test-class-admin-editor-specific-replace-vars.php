@@ -29,7 +29,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests adding replacement variables for page types.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::add_for_page_types()
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::add_for_page_types
 	 */
 	public function test_add_for_page_types() {
 		$this->class_instance->add_for_page_types(
@@ -46,7 +46,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test adding replacement variables for page types with given variables being an empty array.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::add_for_page_types()
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::add_for_page_types
 	 */
 	public function test_add_for_page_types_with_empty_array() {
 		$this->class_instance->add_for_page_types( array( 'post' ), array() );
@@ -61,9 +61,9 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * Tests that get_shared_replace_vars removes all replacement variables that occurs in the editor specific
 	 * replacement variables.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_generic()
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_unique_replacement_variables()
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::extract_names()
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_generic
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_unique_replacement_variables
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::extract_names
 	 */
 	public function test_get_shared_replace_vars_filters_editor_specific_replace_vars() {
 		$replace_vars_list = array(
@@ -232,6 +232,8 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether determine_for_archive correctly returns editor specific replacevars for archive pages.
+	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_archive
 	 */
 	public function test_determine_for_archive_with_a_existing_archive() {
@@ -252,7 +254,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * Tests that has_editor_specific_replace_vars returns true when it has recommended replacement
 	 * variables for the passed page type.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_for_page_type()
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_for_page_type
 	 */
 	public function test_has_editor_specific_replace_vars_existing() {
 		$this->assertEquals( true, $this->class_instance->has_for_page_type( 'post' ) );
@@ -286,7 +288,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the filter for the editor specific replacement variables.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get()
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get
 	 */
 	public function test_editor_specific_replacement_variables_filter() {
 		add_filter( 'wpseo_editor_specific_replace_vars', array( $this, 'filter_editor_specific_replacement_variables' ) );
@@ -314,7 +316,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the filter for the editor specific replacement variables.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get()
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get
 	 */
 	public function test_editor_specific_replacement_variables_filter_with_wrong_return_value() {
 		add_filter( 'wpseo_editor_specific_replace_vars', '__return_false' );

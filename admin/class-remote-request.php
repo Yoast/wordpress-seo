@@ -11,21 +11,29 @@
 class WPSEO_Remote_Request {
 
 	/**
+	 * Holds the post method.
+	 *
 	 * @var string
 	 */
 	const METHOD_POST = 'post';
 
 	/**
+	 * Holds the get method.
+	 *
 	 * @var string
 	 */
 	const METHOD_GET = 'get';
 
 	/**
+	 * Holds the endpoint to send the request to.
+	 *
 	 * @var string
 	 */
 	protected $endpoint = '';
 
 	/**
+	 * Holds the arguments to use in this request.
+	 *
 	 * @var array
 	 */
 	protected $args = array(
@@ -35,11 +43,15 @@ class WPSEO_Remote_Request {
 	);
 
 	/**
+	 * Holds the response error.
+	 *
 	 * @var WP_Error|null
 	 */
 	protected $response_error;
 
 	/**
+	 * Holds the response body.
+	 *
 	 * @var mixed
 	 */
 	protected $response_body;

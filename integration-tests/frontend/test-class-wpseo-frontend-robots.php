@@ -33,7 +33,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 *
 	 * @todo Test post type archives.
 	 * @todo Test with page_for_posts option.
@@ -49,7 +49,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_robots_on_private_blog() {
 		// Go to home.
@@ -64,7 +64,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_with_replytocom_attribute() {
 		// Go to home.
@@ -80,7 +80,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_subpages_with_robots_using_default_state() {
 		// Go to home.
@@ -93,7 +93,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_post_robots_default_state() {
 		WPSEO_Options::set( 'noindex-post', false );
@@ -108,7 +108,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_post_noindex() {
 		// Create and go to post.
@@ -121,7 +121,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_private_post() {
 		// Create and go to post.
@@ -133,7 +133,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_category() {
 		// Go to category page.
@@ -152,7 +152,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_category_noindex() {
 		// Go to category page.
@@ -175,7 +175,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_author_archive() {
 		// Go to author page.
@@ -188,7 +188,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_author_archive_noindex() {
 		// Go to author page.
@@ -207,7 +207,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * Tests whether an author, when set to not appear in search results, gets a noindex.
 	 *
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_individual_archive_noindex() {
 		// Go to author page.
@@ -284,6 +284,9 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_noindex_page() {
 		$expected = '<meta name="robots" content="noindex" />' . "\n";
-		$this->expectOutput( $expected, self::$class_instance->noindex_page() );
+
+		self::$class_instance->noindex_page();
+
+		$this->expectOutput( $expected );
 	}
 }

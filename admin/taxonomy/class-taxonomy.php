@@ -18,11 +18,15 @@ class WPSEO_Taxonomy {
 	private $taxonomy = '';
 
 	/**
+	 * Holds the metabox SEO analysis instance.
+	 *
 	 * @var WPSEO_Metabox_Analysis_SEO
 	 */
 	private $analysis_seo;
 
 	/**
+	 * Holds the metabox readability analysis instance.
+	 *
 	 * @var WPSEO_Metabox_Analysis_Readability
 	 */
 	private $analysis_readability;
@@ -103,6 +107,7 @@ class WPSEO_Taxonomy {
 			$asset_manager->enqueue_style( 'scoring' );
 			$asset_manager->enqueue_script( 'metabox' );
 			$asset_manager->enqueue_script( 'term-scraper' );
+			$asset_manager->enqueue_script( 'admin-script' );
 
 			wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper', 'wpseoTermScraperL10n', $this->localize_term_scraper_script() );
 			$yoast_components_l10n = new WPSEO_Admin_Asset_Yoast_Components_L10n();
@@ -211,6 +216,9 @@ class WPSEO_Taxonomy {
 
 		foreach ( $filters as $filter ) {
 			remove_filter( $filter, 'wp_filter_kses' );
+			if ( ! current_user_can( 'unfiltered_html' ) ) {
+				add_filter( $filter, 'wp_filter_post_kses' );
+			}
 		}
 		remove_filter( 'term_description', 'wp_kses_data' );
 	}
@@ -272,6 +280,8 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
+	 * Determines if a given page is the term overview page.
+	 *
 	 * @param string $page The string to check for the term overview page.
 	 *
 	 * @return bool
@@ -281,6 +291,8 @@ class WPSEO_Taxonomy {
 	}
 
 	/**
+	 * Determines if a given page is the term edit page.
+	 *
 	 * @param string $page The string to check for the term edit page.
 	 *
 	 * @return bool

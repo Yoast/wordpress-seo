@@ -61,14 +61,25 @@ class WPSEO_Frontend {
 	private $title = null;
 
 	/**
+	 * An instance of the WPSEO_Frontend_Page_Type class.
+	 *
 	 * @var WPSEO_Frontend_Page_Type
 	 */
 	protected $frontend_page_type;
 
 	/**
+	 * An instance of the WPSEO_WooCommerce_Shop_Page class.
+	 *
 	 * @var WPSEO_WooCommerce_Shop_Page
 	 */
 	protected $woocommerce_shop_page;
+
+	/**
+	 * Default title with replace-vars.
+	 *
+	 * @var string
+	 */
+	public static $default_title = '%%title%% %%sep%% %%sitename%%';
 
 	/**
 	 * Class constructor.
@@ -102,7 +113,7 @@ class WPSEO_Frontend {
 
 		add_action( 'wp', array( $this, 'page_redirect' ), 99 );
 
-		add_action( 'template_redirect', array( $this, 'noindex_feed' ) );
+		add_action( 'template_redirect', array( $this, 'noindex_robots' ) );
 
 		add_filter( 'loginout', array( $this, 'nofollow_link' ) );
 		add_filter( 'register', array( $this, 'nofollow_link' ) );
@@ -135,7 +146,6 @@ class WPSEO_Frontend {
 		}
 
 		$this->woocommerce_shop_page = new WPSEO_WooCommerce_Shop_Page();
-		$this->frontend_page_type    = new WPSEO_Frontend_Page_Type();
 
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
@@ -166,6 +176,7 @@ class WPSEO_Frontend {
 	 * Resets the entire class so canonicals, titles etc can be regenerated.
 	 */
 	public function reset() {
+		self::$instance = null;
 		foreach ( get_class_vars( __CLASS__ ) as $name => $default ) {
 			switch ( $name ) {
 				// Clear the class instance to be re-initialized.
@@ -175,7 +186,7 @@ class WPSEO_Frontend {
 
 				// Exclude these properties from being reset.
 				case 'woocommerce_shop_page':
-				case 'frontend_page_type':
+				case 'default_title':
 					break;
 
 				// Reset property to the class default.
@@ -305,7 +316,7 @@ class WPSEO_Frontend {
 		$template = WPSEO_Options::get( $index, '' );
 		if ( $template === '' ) {
 			if ( is_singular() ) {
-				return $this->replace_vars( '%%title%% %%sep%% %%sitename%%', $var_source );
+				return $this->replace_vars( self::$default_title, $var_source );
 			}
 
 			return '';
@@ -439,10 +450,10 @@ class WPSEO_Frontend {
 		// that is used to generate default titles.
 		$title_part = '';
 
-		if ( $this->frontend_page_type->is_home_static_page() ) {
+		if ( WPSEO_Frontend_Page_Type::is_home_static_page() ) {
 			$title = $this->get_content_title();
 		}
-		elseif ( $this->frontend_page_type->is_home_posts_page() ) {
+		elseif ( WPSEO_Frontend_Page_Type::is_home_posts_page() ) {
 			$title = $this->get_title_from_options( 'title-home-wpseo' );
 		}
 		elseif ( $this->woocommerce_shop_page->is_shop_page() ) {
@@ -452,8 +463,8 @@ class WPSEO_Frontend {
 				$title = $this->get_post_type_archive_title( $separator, $separator_location );
 			}
 		}
-		elseif ( $this->frontend_page_type->is_simple_page() ) {
-			$post  = get_post( $this->frontend_page_type->get_simple_page_id() );
+		elseif ( WPSEO_Frontend_Page_Type::is_simple_page() ) {
+			$post  = get_post( WPSEO_Frontend_Page_Type::get_simple_page_id() );
 			$title = $this->get_content_title( $post );
 
 			if ( ! is_string( $title ) || '' === $title ) {
@@ -688,7 +699,7 @@ class WPSEO_Frontend {
 		$robots['follow'] = 'follow';
 		$robots['other']  = array();
 
-		if ( is_object( $post ) && $this->frontend_page_type->is_simple_page() ) {
+		if ( is_object( $post ) && WPSEO_Frontend_Page_Type::is_simple_page() ) {
 			$private = 'private' === $post->post_status;
 			$noindex = ! WPSEO_Post_Type::is_post_type_indexable( $post->post_type );
 
@@ -696,7 +707,7 @@ class WPSEO_Frontend {
 				$robots['index'] = 'noindex';
 			}
 
-			$robots = $this->robots_for_single_post( $robots, $this->frontend_page_type->get_simple_page_id() );
+			$robots = $this->robots_for_single_post( $robots, WPSEO_Frontend_Page_Type::get_simple_page_id() );
 		}
 		else {
 			if ( is_search() || is_404() ) {
@@ -897,7 +908,7 @@ class WPSEO_Frontend {
 			elseif ( is_front_page() ) {
 				$canonical = WPSEO_Utils::home_url();
 			}
-			elseif ( $this->frontend_page_type->is_posts_page() ) {
+			elseif ( WPSEO_Frontend_Page_Type::is_posts_page() ) {
 
 				$posts_page_id = get_option( 'page_for_posts' );
 				$canonical     = $this->get_seo_meta_value( 'canonical', $posts_page_id );
@@ -1140,7 +1151,7 @@ class WPSEO_Frontend {
 	private function get_pagination_base() {
 		// If the current page is the frontpage, pagination should use /base/.
 		$base = '';
-		if ( ! is_singular() || $this->frontend_page_type->is_home_static_page() ) {
+		if ( ! is_singular() || WPSEO_Frontend_Page_Type::is_home_static_page() ) {
 			$base = trailingslashit( $GLOBALS['wp_rewrite']->pagination_base );
 		}
 		return $base;
@@ -1204,8 +1215,8 @@ class WPSEO_Frontend {
 			}
 			$metadesc_override = $this->get_seo_meta_value( 'metadesc', $post->ID );
 		}
-		elseif ( $this->frontend_page_type->is_simple_page() ) {
-			$post      = get_post( $this->frontend_page_type->get_simple_page_id() );
+		elseif ( WPSEO_Frontend_Page_Type::is_simple_page() ) {
+			$post      = get_post( WPSEO_Frontend_Page_Type::get_simple_page_id() );
 			$post_type = isset( $post->post_type ) ? $post->post_type : '';
 
 			if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get( 'metadesc-' . $post_type, '' ) !== '' ) {
@@ -1221,7 +1232,7 @@ class WPSEO_Frontend {
 			if ( is_search() ) {
 				$metadesc = '';
 			}
-			elseif ( $this->frontend_page_type->is_home_posts_page() ) {
+			elseif ( WPSEO_Frontend_Page_Type::is_home_posts_page() ) {
 				$template = WPSEO_Options::get( 'metadesc-home-wpseo' );
 				$term     = array();
 
@@ -1229,7 +1240,7 @@ class WPSEO_Frontend {
 					$template = get_bloginfo( 'description' );
 				}
 			}
-			elseif ( $this->frontend_page_type->is_home_static_page() ) {
+			elseif ( WPSEO_Frontend_Page_Type::is_home_static_page() ) {
 				$metadesc = $this->get_seo_meta_value( 'metadesc' );
 				if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get( 'metadesc-' . $post_type, '' ) !== '' ) {
 					$template = WPSEO_Options::get( 'metadesc-' . $post_type );
@@ -1332,9 +1343,9 @@ class WPSEO_Frontend {
 	 * @since 1.1.7
 	 * @return boolean Boolean indicating whether the noindex header was sent.
 	 */
-	public function noindex_feed() {
+	public function noindex_robots() {
 
-		if ( ( is_feed() || is_robots() ) && headers_sent() === false ) {
+		if ( ( is_robots() ) && headers_sent() === false ) {
 			header( 'X-Robots-Tag: noindex, follow', true );
 
 			return true;
@@ -1863,7 +1874,7 @@ class WPSEO_Frontend {
 	public function is_home_posts_page() {
 		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_home_posts_page' );
 
-		return $this->frontend_page_type->is_home_posts_page();
+		return WPSEO_Frontend_Page_Type::is_home_posts_page();
 	}
 
 	/**
@@ -1877,7 +1888,7 @@ class WPSEO_Frontend {
 	public function is_home_static_page() {
 		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_home_static_page' );
 
-		return $this->frontend_page_type->is_home_static_page();
+		return WPSEO_Frontend_Page_Type::is_home_static_page();
 	}
 
 	/**
@@ -1891,7 +1902,7 @@ class WPSEO_Frontend {
 	public function is_posts_page() {
 		_deprecated_function( __FUNCTION__, '7.7', 'WPSEO_Frontend_Page_Type::is_posts_page' );
 
-		return $this->frontend_page_type->is_posts_page();
+		return WPSEO_Frontend_Page_Type::is_posts_page();
 	}
 
 	/**

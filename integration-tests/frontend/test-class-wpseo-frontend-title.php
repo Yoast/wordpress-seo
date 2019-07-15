@@ -105,7 +105,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * Tests if pagination is added to the title.
 	 *
-	 * @covers WPSEO_Frontend::add_paging_to_title()
+	 * @covers WPSEO_Frontend::add_paging_to_title
 	 */
 	public function test_add_paging_to_title() {
 		$input = 'Initial title';
@@ -123,7 +123,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * Tests the add to title behaviour.
 	 *
-	 * @covers WPSEO_Frontend::add_to_title()
+	 * @covers WPSEO_Frontend::add_to_title
 	 */
 	public function test_add_to_title() {
 		$title      = 'Title';
@@ -140,7 +140,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * Tests post type archive title.
 	 *
-	 * @covers WPSEO_Frontend::get_post_type_archive_title()
+	 * @covers WPSEO_Frontend::get_post_type_archive_title
 	 */
 	public function test_get_post_type_archive_title() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
@@ -163,7 +163,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * Tests if the post type archive has a menu title fallback.
 	 *
-	 * @covers WPSEO_Frontend::get_post_type_archive_title()
+	 * @covers WPSEO_Frontend::get_post_type_archive_title
 	 */
 	public function test_get_post_type_archive_title_menu_title_fallback() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
@@ -194,7 +194,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * Tests if the post type archive has a post type name fallback.
 	 *
-	 * @covers WPSEO_Frontend::get_post_type_archive_title()
+	 * @covers WPSEO_Frontend::get_post_type_archive_title
 	 */
 	public function test_get_post_type_archive_title_name_fallback() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
@@ -225,7 +225,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * Tests if the post type archive title falls back on post type name.
 	 *
-	 * @covers WPSEO_Frontend::get_post_type_archive_title()
+	 * @covers WPSEO_Frontend::get_post_type_archive_title
 	 */
 	public function test_get_post_type_archive_title_empty_fallback() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
@@ -256,7 +256,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * Tests if the seo title is a 404 title when an invalid object is presented.
 	 *
-	 * @covers WPSEO_Frontend::get_seo_title()
+	 * @covers WPSEO_Frontend::get_seo_title
 	 */
 	public function test_get_seo_title_no_valid_object() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
@@ -274,7 +274,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * Tests for normal behaviour of the seo title with expected input.
 	 *
-	 * @covers WPSEO_Frontend::get_seo_title()
+	 * @covers WPSEO_Frontend::get_seo_title
 	 */
 	public function test_get_seo_title_with_valid_object() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
@@ -295,7 +295,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * Test if seo title applies replace vars as expected.
 	 *
-	 * @covers WPSEO_Frontend::get_seo_title()
+	 * @covers WPSEO_Frontend::get_seo_title
 	 */
 	public function test_get_seo_title_use_replace_vars() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
@@ -320,7 +320,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * Tests if the global queried object is being used with no supplied input.
 	 *
-	 * @covers WPSEO_Frontend::get_seo_title()
+	 * @covers WPSEO_Frontend::get_seo_title
 	 */
 	public function test_get_seo_title_use_queried_object() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
