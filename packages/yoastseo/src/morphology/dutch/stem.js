@@ -1,5 +1,5 @@
 /**
- * @file German stemming algorithm. Adapted from:
+ * @file Dutch stemming algorithm. Adapted from:
  * @author:
  * @copyright
  * All rights reserved.
