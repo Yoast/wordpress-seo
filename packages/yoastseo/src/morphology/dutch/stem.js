@@ -584,7 +584,7 @@ export default function stem( word ) {
 	word = word.replace( /v$/g, "f" );
 	word = word.replace( /z$/g, "s" );
 
-	// If stem ends with -iël, replace it wth -ieel.
+	// If stem ends with -iël, replace it with -ieel.
 	word = word.replace( /iël$/g, "ieel" );
 
 	// Turn I and Y back into lower case.
