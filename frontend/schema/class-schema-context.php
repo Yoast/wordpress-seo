@@ -187,7 +187,7 @@ class WPSEO_Schema_Context {
 					break;
 				}
 
-				$this->company_logo_id = WPSEO_Image_Utils::get_attachment_id_from_settings( 'company_logo' );
+				$this->company_logo_id = apply_filters( 'wpseo_schema_company_logo_id', WPSEO_Image_Utils::get_attachment_id_from_settings( 'company_logo' ) );
 
 				/*
 				 * Do not use a company without a logo.
