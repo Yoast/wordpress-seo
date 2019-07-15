@@ -5,17 +5,17 @@ import PropTypes from "prop-types";
 /**
  * @summary WordList component.
  *
- * @param {object}   props                 The props to use.
- * @param {string}   props.title           The title of the list.
- * @param {string}   props.classNamePrefix CSS classname prefix for the elements.
- * @param {array}    props.words           The relevant words.
- * @param {function} props.showBeforeList  Function to call before list is shown.
- * @param {function} props.showAfterList   Function to call after list is shown.
+ * @param {object}      props                 The props to use.
+ * @param {string}      props.title           The title of the list.
+ * @param {string}      props.classNamePrefix CSS classname prefix for the elements.
+ * @param {array}       props.words           The relevant words.
+ * @param {HTMLElement} props.header          Function to call before list is shown.
+ * @param {HTMLElement} props.footer          Function to call after list is shown.
  *
  * @returns {JSX.Element} Rendered WordList component.
  */
 const WordList = ( props ) => {
-	const { title, classNamePrefix, words, showBeforeList, showAfterList } = props;
+	const { title, classNamePrefix, words, header, footer } = props;
 
 	const list = (
 		<ol className={ classNamePrefix + "__list" }>
@@ -35,9 +35,9 @@ const WordList = ( props ) => {
 	return (
 		<div className={ classNamePrefix }>
 			<p><strong>{ title }</strong></p>
-			{ showBeforeList() }
+			{ header }
 			{ list }
-			{ showAfterList() }
+			{ footer }
 		</div>
 	);
 };
@@ -45,19 +45,15 @@ const WordList = ( props ) => {
 WordList.propTypes = {
 	words: PropTypes.array.isRequired,
 	title: PropTypes.string.isRequired,
-	showBeforeList: PropTypes.func,
-	showAfterList: PropTypes.func,
+	header: PropTypes.string,
+	footer: PropTypes.string,
 	classNamePrefix: PropTypes.string,
 };
 
 WordList.defaultProps = {
 	classNamePrefix: "",
-	showBeforeList: () => {
-		return "";
-	},
-	showAfterList: () => {
-		return "";
-	},
+	header: "",
+	footer: "",
 };
 
 export default WordList;

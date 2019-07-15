@@ -7,6 +7,7 @@ import { isFeatureEnabled } from "@yoast/feature-flag";
 
 // Yoast dependencies.
 import WordList from "./WordList";
+import WordOccurrences from "./WordOccurrences";
 
 
 /**
@@ -65,7 +66,7 @@ const getKeywordSuggestionExplanation = keywords => {
 	if ( keywords.length === 0 ) {
 		return __(
 			"Once you add a bit more copy, we'll give you a list of words and " +
-			"word combination that occur the most in the content. These give an indication of what your content focuses on.",
+			"word combinations that occur the most in the content. These give an indication of what your content focuses on.",
 			"yoast-components"
 		);
 	}
@@ -89,23 +90,25 @@ const getKeywordSuggestionExplanation = keywords => {
  * @returns {JSX.Element} Rendered WordList component.
  */
 const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
-	const keywords = relevantWords.slice( 0, keywordLimit ).map( word => {
-		return isFeatureEnabled( "improvedInternalLinking" ) ? word.getWord() : word.getCombination();
-	} );
+	const header = <p>{ getKeywordSuggestionExplanation( relevantWords ) }</p>;
+	const footer = <p>{ getKeywordResearchArticleLink() }</p>;
+	if ( isFeatureEnabled( "improvedInternalLinking" ) ) {
+		return <WordOccurrences
+			words={ relevantWords }
+			header={ header }
+			footer={ footer }
+		/>;
+	}
 
-	return ( <WordList
-		title={ __( "Prominent words", "yoast-components" ) }
-		words={ keywords }
-		classNamePrefix="yoast-keyword-suggestions"
-		showBeforeList={ () => {
-			return  ( <p>{ getKeywordSuggestionExplanation( keywords ) }</p> );
-		} }
-		showAfterList={
-			() => {
-				return getKeywordResearchArticleLink();
-			}
-		}
-	/>
+	const prominentWords = relevantWords.slice( 0, keywordLimit ).map( word => word.getCombination() );
+	return (
+		<WordList
+			title={ __( "Prominent words", "yoast-components" ) }
+			words={ prominentWords }
+			classNamePrefix="yoast-keyword-suggestions"
+			header={ header }
+			footer={ footer }
+		/>
 	);
 };
 

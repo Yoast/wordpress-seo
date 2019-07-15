@@ -70,6 +70,7 @@ export { default as Tabs } from "./Tabs";
 export { default as Warning } from "./Warning";
 export { default as YouTubeVideo } from "./YouTubeVideo";
 export { default as WordList } from "./WordList";
+export { default as WordOccurrences } from "./WordOccurrences";
 export { default as Checkbox } from "./Checkbox";
 
 export { ListTable, ZebrafiedListTable } from "./table/ListTable";

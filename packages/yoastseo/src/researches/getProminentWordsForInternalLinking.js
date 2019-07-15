@@ -50,8 +50,11 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 	/*
 	 * Return the 100 top items from the collapsed and sorted list. The number is picked deliberately to prevent larger
 	 * articles from getting too long of lists.
+	 *
+	 * Minimum required occurrences set to 4 in order to avoid premature suggestions of words fro  the paper attributes.
+	 * These get a times-3 boost and would therefore be prominent with just 1 occurrence.
 	 */
-	return take( filterProminentWords( collapsedWords, 2 ), 100 );
+	return take( filterProminentWords( collapsedWords, 4 ), 100 );
 }
 
 

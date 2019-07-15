@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.4.9: June 24th, 2019
+
+###Changes
+
+* Updates the CSS autoprefixer configuration to drop support for old Internet Explorer versions.
 
 ## 1.4.3: September 12th, 2017
 

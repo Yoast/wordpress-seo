@@ -1,6 +1,6 @@
 {
   "name": "yoast-components",
-  "version": "4.27.0",
+  "version": "4.29.0",
   "description": "Yoast Generic Components",
   "homepage": "https://github.com/Yoast/",
   "repository": {
@@ -59,12 +59,12 @@
   "dependencies": {
     "@wordpress/a11y": "^1.0.7",
     "@wordpress/i18n": "^1.1.0",
-    "@yoast/algolia-search-box": "^1.3.0",
-    "@yoast/analysis-report": "^0.4.0",
-    "@yoast/components": "^0.4.0",
-    "@yoast/configuration-wizard": "^1.3.0",
+    "@yoast/algolia-search-box": "^1.4.0",
+    "@yoast/analysis-report": "^0.5.0",
+    "@yoast/components": "^0.5.0",
+    "@yoast/configuration-wizard": "^1.4.0",
     "@yoast/helpers": "^0.4.0-rc.2",
-    "@yoast/search-metadata-previews": "^1.3.0",
+    "@yoast/search-metadata-previews": "^1.5.0",
     "@yoast/style-guide": "^0.4.0-rc.1",
     "algoliasearch": "^3.22.3",
     "clipboard": "^1.5.15",
@@ -84,7 +84,7 @@
     "styled-components": "^4.2.0",
     "whatwg-fetch": "^1.0.0",
     "wicked-good-xpath": "^1.3.0",
-    "yoastseo": "^1.54.0"
+    "yoastseo": "^1.56.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
@@ -94,7 +94,7 @@
     "babel-plugin-styled-components": "^1.10.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.23.0",
-    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babelify": "^7.3.0",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",

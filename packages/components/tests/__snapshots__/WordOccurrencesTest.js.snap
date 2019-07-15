@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WordOccurrences renders WordOccurrences as list items 1`] = `
+Array [
+  <p>
+    I'm a before list paragraph
+  </p>,
+  <ol
+    aria-label="Prominent words"
+    className="iLIVBa"
+  >
+    <li
+      className="didWQV"
+    >
+      <span
+        className="EQarG"
+      >
+        reviewing
+      </span>
+      <span
+        className="icotjz"
+      >
+        <span
+          aria-hidden={true}
+        >
+          13
+        </span>
+        <span
+          className="screen-reader-text"
+        >
+          13 occurrences
+        </span>
+      </span>
+    </li>
+    <li
+      className="dlrdVL"
+    >
+      <span
+        className="EQarG"
+      >
+        code
+      </span>
+      <span
+        className="icotjz"
+      >
+        <span
+          aria-hidden={true}
+        >
+          8
+        </span>
+        <span
+          className="screen-reader-text"
+        >
+          8 occurrences
+        </span>
+      </span>
+    </li>
+    <li
+      className="cgTCMk"
+    >
+      <span
+        className="EQarG"
+      >
+        fun
+      </span>
+      <span
+        className="icotjz"
+      >
+        <span
+          aria-hidden={true}
+        >
+          6
+        </span>
+        <span
+          className="screen-reader-text"
+        >
+          6 occurrences
+        </span>
+      </span>
+    </li>
+  </ol>,
+  <p>
+    I'm an after list paragraph
+  </p>,
+]
+`;
+
+exports[`WordOccurrences renders correctly without before and after elements 1`] = `
+<ol
+  aria-label="Prominent words"
+  className="iLIVBa"
+>
+  <li
+    className="didWQV"
+  >
+    <span
+      className="EQarG"
+    >
+      reviewing
+    </span>
+    <span
+      className="icotjz"
+    >
+      <span
+        aria-hidden={true}
+      >
+        13
+      </span>
+      <span
+        className="screen-reader-text"
+      >
+        13 occurrences
+      </span>
+    </span>
+  </li>
+  <li
+    className="dlrdVL"
+  >
+    <span
+      className="EQarG"
+    >
+      code
+    </span>
+    <span
+      className="icotjz"
+    >
+      <span
+        aria-hidden={true}
+      >
+        8
+      </span>
+      <span
+        className="screen-reader-text"
+      >
+        8 occurrences
+      </span>
+    </span>
+  </li>
+  <li
+    className="cgTCMk"
+  >
+    <span
+      className="EQarG"
+    >
+      fun
+    </span>
+    <span
+      className="icotjz"
+    >
+      <span
+        aria-hidden={true}
+      >
+        6
+      </span>
+      <span
+        className="screen-reader-text"
+      >
+        6 occurrences
+      </span>
+    </span>
+  </li>
+</ol>
+`;
+
+exports[`WordOccurrences renders correctly without items 1`] = `
+Array [
+  <p>
+    I'm a before list paragraph
+  </p>,
+  <ol
+    aria-label="Prominent words"
+    className="iLIVBa"
+  />,
+  <p>
+    I'm an after list paragraph
+  </p>,
+]
+`;
+
+exports[`WordOccurrences renders correctly without words and without before and after elements 1`] = `
+<ol
+  aria-label="Prominent words"
+  className="iLIVBa"
+/>
+`;
