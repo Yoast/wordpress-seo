@@ -72,12 +72,11 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	/**
 	 * Returns the metabox section for the social settings.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section
+	 * @return WPSEO_Metabox_Collapsibles_Sections
 	 */
 	public function get_meta_section() {
 		$tabs               = array();
 		$social_meta_fields = WPSEO_Meta::get_meta_field_defs( 'social' );
-		$single             = true;
 
 		$opengraph = WPSEO_Options::get( 'opengraph' );
 		$twitter   = WPSEO_Options::get( 'twitter' );
@@ -89,32 +88,22 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		wp_nonce_field( 'yoast_free_metabox_social', 'yoast_free_metabox_social_nonce' );
 
 		if ( $opengraph === true ) {
-			$tabs[] = new WPSEO_Metabox_Form_Tab(
+			$tabs[] = new WPSEO_Metabox_Collapsible(
 				'facebook',
 				$this->get_social_tab_content( 'opengraph', $social_meta_fields ),
-				'<span class="screen-reader-text">' . __( 'Facebook / Open Graph metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-facebook-alt"></span>',
-				array(
-					'link_aria_label' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
-					'link_class'      => 'yoast-tooltip yoast-tooltip-se',
-					'single'          => $single,
-				)
+				__( 'Facebook', 'wordpress-seo' )
 			);
 		}
 
 		if ( $twitter === true ) {
-			$tabs[] = new WPSEO_Metabox_Form_Tab(
+			$tabs[] = new WPSEO_Metabox_Collapsible(
 				'twitter',
 				$this->get_social_tab_content( 'twitter', $social_meta_fields ),
-				'<span class="screen-reader-text">' . __( 'Twitter metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-twitter"></span>',
-				array(
-					'link_aria_label' => __( 'Twitter metadata', 'wordpress-seo' ),
-					'link_class'      => 'yoast-tooltip yoast-tooltip-se',
-					'single'          => $single,
-				)
+				__( 'Twitter', 'wordpress-seo' )
 			);
 		}
 
-		return new WPSEO_Metabox_Tab_Section(
+		return new WPSEO_Metabox_Collapsibles_Sections(
 			'social',
 			'<span class="dashicons dashicons-share"></span>' . __( 'Social', 'wordpress-seo' ),
 			$tabs
@@ -143,7 +132,27 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			$tab_content .= $this->do_meta_box( $meta_field_defs[ $field_name ], $field_name );
 		}
 
+		$features = new WPSEO_Features();
+		/**
+		 * If premium hide the form to show the social preview instead, we still need the fields to be output because
+		 * the values of the social preview are saved in the hidden field.
+		 */
+		if ( $features->is_premium() ) {
+			return $this->hide_form( $tab_content );
+		}
+
 		return $tab_content;
+	}
+
+	/**
+	 * Hides the given output when rendered to HTML.
+	 *
+	 * @param string $tab_content The social tab content.
+	 *
+	 * @return string The content.
+	 */
+	public function hide_form( $tab_content ) {
+		return '<div class="hidden">' . $tab_content . '</div>';
 	}
 
 	/**
