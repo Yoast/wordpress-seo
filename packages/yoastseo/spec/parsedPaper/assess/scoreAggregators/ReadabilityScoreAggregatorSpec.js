@@ -94,7 +94,7 @@ describe( "ReadabilityScoreAggregator", () => {
 		it( "should default to a bad indicator", function() {
 			const results = [];
 
-			expect( aggregator.aggregate( results ) ).toBe( READABILITY_SCORES.NEEDS_IMPROVEMENT );
+			expect( aggregator.aggregate( results ) ).toBe( READABILITY_SCORES.NOT_AVAILABLE );
 		} );
 
 		it( "should give worse results based on the negative points", function() {
@@ -113,6 +113,7 @@ describe( "ReadabilityScoreAggregator", () => {
 				{ points: 2, expected: 90 },
 				{ points: 1.9, expected: 90 },
 				{ points: 1, expected: 90 },
+				{ points: 0, expected: 0 },
 			];
 
 			forEach( testCases, function( testCase ) {
@@ -145,6 +146,7 @@ describe( "ReadabilityScoreAggregator", () => {
 				{ points: 4, expected: 60 },
 				{ points: 3, expected: 60 },
 				{ points: 2, expected: 90 },
+				{ points: 0, expected: 0 },
 			];
 
 			forEach( testCases, function( testCase ) {
