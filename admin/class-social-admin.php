@@ -77,7 +77,6 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	public function get_meta_section() {
 		$tabs               = array();
 		$social_meta_fields = WPSEO_Meta::get_meta_field_defs( 'social' );
-		$single             = true;
 
 		$opengraph = WPSEO_Options::get( 'opengraph' );
 		$twitter   = WPSEO_Options::get( 'twitter' );
@@ -134,7 +133,10 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		}
 
 		$features = new WPSEO_Features();
-		// If premium hide the form to show the social preview instead.
+		/**
+		 * If premium hide the form to show the social preview instead, we still need the fields to be output because
+		 * the values of the social preview are saved in the hidden field.
+		 */
 		if ( $features->is_premium() ) {
 			return $this->hide_form( $tab_content );
 		}

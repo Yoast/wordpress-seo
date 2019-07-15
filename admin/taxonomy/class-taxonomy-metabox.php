@@ -211,13 +211,4 @@ class WPSEO_Taxonomy_Metabox {
 
 		return $tab_settings;
 	}
-
-	/**
-	 * Determine whether we only show one social network or two.
-	 *
-	 * @return bool
-	 */
-	private function has_single_social_tab() {
-		return ( WPSEO_Options::get( 'opengraph' ) === false || WPSEO_Options::get( 'twitter' ) === false );
-	}
 }
