@@ -41,12 +41,12 @@ class WPSEO_Metabox_Addon_Tab_Section extends WPSEO_Metabox_Tab_Section {
 			<div class="wpseo-metabox-tabs-div">
 				<ul class="wpseo-metabox-tabs">
 					<?php
-					// @deprecated 11.8
+					// @deprecated 11.8 This functionality has been replaced by the filter: `yoast_free_additional_metabox_sections`.
 					do_action_deprecated( 'wpseo_tab_header', array(), '11.8' );
 					?>
 				</ul>
 				<?php
-				// @deprecated 11.8
+				// @deprecated 11.8 This functionality has been replaced by the filter: `yoast_free_additional_metabox_sections`.
 				do_action_deprecated( 'wpseo_tab_content', array(), '11.8' );
 				?>
 			</div>
