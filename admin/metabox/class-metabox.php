@@ -383,7 +383,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 *
 	 * @return WPSEO_Metabox_Section_Additional[]
 	 */
-	private function get_additional_meta_sections() {
+	protected function get_additional_meta_sections() {
 		$sections = array();
 
 		/**

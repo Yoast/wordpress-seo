@@ -5,7 +5,7 @@ namespace Yoast\WP\Free\Tests\Frontend\Schema;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Schema_Context;
-use WPSEO_Schema_MainImage_Double;
+use Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_MainImage_Double;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -16,7 +16,7 @@ class MainImage_Test extends TestCase {
 	/** @var \WPSEO_Schema_Context */
 	private $context;
 
-	/** @var \WPSEO_Schema_MainImage_Double */
+	/** @var \Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_MainImage_Double */
 	private $instance;
 
 	/** @var array */
@@ -54,7 +54,7 @@ class MainImage_Test extends TestCase {
 			'url'   => $this->context->site_url . 'content-image.jpg',
 		];
 
-		$this->instance = $this->getMockBuilder( WPSEO_Schema_MainImage_Double::class )
+		$this->instance = $this->getMockBuilder( Schema_MainImage_Double::class )
 			->setMethods(
 				[
 					'get_first_usable_content_image_for_post',

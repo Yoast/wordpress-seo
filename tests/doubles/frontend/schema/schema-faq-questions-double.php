@@ -1,14 +1,14 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\Free\Tests\Doubles\Frontend\Schema;
+
+use WPSEO_Schema_FAQ_Questions;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_Schema_FAQ_Questions_Double extends WPSEO_Schema_FAQ_Questions {
+class Schema_FAQ_Questions_Double extends WPSEO_Schema_FAQ_Questions {
+
 	/**
 	 * Generate a Question piece.
 	 *
