@@ -180,7 +180,7 @@ class WPSEO_Schema_Context {
 
 		switch ( $this->site_represents ) {
 			case 'company':
-				$this->company_name = WPSEO_Options::get( 'company_name' );
+				$this->company_name = apply_filters( 'wpseo_schema_company_name', WPSEO_Options::get( 'company_name' ) );
 				// Do not use a non-named company.
 				if ( empty( $this->company_name ) ) {
 					$this->site_represents = false;
