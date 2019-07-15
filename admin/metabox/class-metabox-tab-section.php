@@ -8,7 +8,7 @@
 /**
  * Generates and displays the HTML for a metabox section.
  */
-class WPSEO_Metabox_Tab_Sections extends WPSEO_Abstract_Metabox_Tab_With_Sections {
+class WPSEO_Metabox_Tab_Section extends WPSEO_Abstract_Metabox_Tab_With_Sections {
 
 	/**
 	 * An instance of the Metabox Tab class.
