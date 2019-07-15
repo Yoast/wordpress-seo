@@ -17,7 +17,7 @@
  * @returns {number} The start index of the R1 region.
  */
 const determineR1 = function( word ) {
-	// Start with matching first vowel and non-vowel.
+	// Start with matching the first cluster that consists of a vowel and a non-vowel.
 	let r1Index = word.search( /[aeiouyèäüëïöáéíóú][^aeiouyèäüëïöáéíóú]/ );
 	// Then add 2 since the R1 index is the index after the first vowel & non-vowel matched with the regex.
 	if ( r1Index !== -1 ) {
