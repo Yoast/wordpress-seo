@@ -387,7 +387,9 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$sections = array();
 
 		/**
-		 * Filter: 'yoast_free_additional_metabox_sections' - Allows adding additional tabs to the Yoast SEO metabox.
+		 * Private filter: 'yoast_free_additional_metabox_sections'.
+		 *
+		 * Meant for internal use only. Allows adding additional tabs to the Yoast SEO metabox.
 		 *
 		 * @since 11.8
 		 *
