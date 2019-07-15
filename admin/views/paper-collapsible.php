@@ -50,7 +50,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 	$container_id_attr = '';
 	if ( ! empty( $paper_id ) ) {
-		$container_id_attr = sprintf( ' id="%s"', esc_attr( 'wpseo-' . $paper_id  . '-container' ) );
+		$container_id_attr = sprintf( ' id="%s"', esc_attr( 'wpseo-' . $paper_id . '-container' ) );
 	}
 
 	printf( '<div%1$s class="%2$s">%3$s</div>',
