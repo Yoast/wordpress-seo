@@ -426,7 +426,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 							if ( isset( $old[ $key ] ) ) {
 								$clean[ $key ] = sanitize_title_with_dashes( $old[ $key ] );
 							}
-							/**
+
+							/*
 							 * @todo [JRF => whomever] Maybe change the untranslated $pt name in the
 							 * error message to the nicely translated label ?
 							 */
@@ -462,7 +463,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 							if ( isset( $old[ $key ] ) ) {
 								$clean[ $key ] = sanitize_key( $old[ $key ] );
 							}
-							/**
+
+							/*
 							 * @todo [JRF =? whomever] Maybe change the untranslated $tax name in the
 							 * error message to the nicely translated label ?
 							 */

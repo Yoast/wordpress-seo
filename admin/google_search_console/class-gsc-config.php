@@ -11,6 +11,8 @@
 class WPSEO_GSC_Config {
 
 	/**
+	 * The Google search console configuration.
+	 *
 	 * @var array
 	 */
 	public static $gsc = array(

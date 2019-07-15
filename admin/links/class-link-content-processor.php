@@ -12,11 +12,15 @@
 class WPSEO_Link_Content_Processor {
 
 	/**
+	 * Holds the link storage instance.
+	 *
 	 * @var WPSEO_Link_Storage
 	 */
 	protected $storage;
 
 	/**
+	 * Holds the meta storage instance.
+	 *
 	 * @var WPSEO_Meta_Storage
 	 */
 	private $count_storage;

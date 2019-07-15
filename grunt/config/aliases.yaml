@@ -53,6 +53,8 @@ clean:build-assets:
 
 'artifact':
   - 'shell:production-prefix-dependencies'
+  - 'shell:compile-dependency-injection-container'
+  - 'shell:remove-dependency-injection-meta'
   - 'shell:composer-install-production'
   # Remove the folders that are already in the vendor_prefixed folder from the vendor folder.
   - 'shell:remove-prefixed-sources'

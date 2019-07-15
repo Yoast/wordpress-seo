@@ -83,6 +83,7 @@ module.exports = {
 					"vendor_prefixed/**/*.php",
 					"vendor_prefixed/dependencies-prefixed.txt",
 					"migrations/*.php",
+					"migrations/ruckusing/**/why",
 					"index.php",
 					"license.txt",
 					"readme.txt",

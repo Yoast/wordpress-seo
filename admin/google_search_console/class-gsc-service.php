@@ -11,11 +11,15 @@
 class WPSEO_GSC_Service {
 
 	/**
+	 * Client to connect to the google API.
+	 *
 	 * @var Yoast_Api_Google_Client
 	 */
 	private $client;
 
 	/**
+	 * The google search console profile.
+	 *
 	 * @var string
 	 */
 	private $profile;

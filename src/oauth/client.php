@@ -73,7 +73,7 @@ class Client {
 	 * @return void
 	 */
 	public function save_configuration( array $config ) {
-		$allowed_config_keys = array( 'clientId', 'secret' );
+		$allowed_config_keys = [ 'clientId', 'secret' ];
 		foreach ( $allowed_config_keys as $allowed_config_key ) {
 			if ( ! \array_key_exists( $allowed_config_key, $config ) ) {
 				continue;

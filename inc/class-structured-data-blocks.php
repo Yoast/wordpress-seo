@@ -11,6 +11,8 @@
 class WPSEO_Structured_Data_Blocks implements WPSEO_WordPress_Integration {
 
 	/**
+	 * An instance of the WPSEO_Admin_Asset_Manager class.
+	 *
 	 * @var WPSEO_Admin_Asset_Manager
 	 */
 	protected $asset_manager;

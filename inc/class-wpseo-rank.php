@@ -11,26 +11,36 @@
 class WPSEO_Rank {
 
 	/**
+	 * Constant used for determining a bad SEO rating.
+	 *
 	 * @var string
 	 */
 	const BAD = 'bad';
 
 	/**
+	 * Constant used for determining an OK SEO rating.
+	 *
 	 * @var string
 	 */
 	const OK = 'ok';
 
 	/**
+	 * Constant used for determining a good SEO rating.
+	 *
 	 * @var string
 	 */
 	const GOOD = 'good';
 
 	/**
+	 * Constant used for determining that no focus keyphrase is set.
+	 *
 	 * @var string
 	 */
 	const NO_FOCUS = 'na';
 
 	/**
+	 * Constant used for determining that this content is not indexed.
+	 *
 	 * @var string
 	 */
 	const NO_INDEX = 'noindex';
@@ -73,11 +83,15 @@ class WPSEO_Rank {
 	);
 
 	/**
+	 * The current rank.
+	 *
 	 * @var int
 	 */
 	protected $rank;
 
 	/**
+	 * WPSEO_Rank constructor.
+	 *
 	 * @param int $rank The actual rank.
 	 */
 	public function __construct( $rank ) {
@@ -196,7 +210,9 @@ class WPSEO_Rank {
 	}
 
 	/**
-	 * @return int The starting score for this rank.
+	 * Get the starting score for this rank.
+	 *
+	 * @return int The start score.
 	 */
 	public function get_starting_score() {
 		// No index does not have a starting score.
@@ -208,7 +224,9 @@ class WPSEO_Rank {
 	}
 
 	/**
-	 * @return int The end score for this rank.
+	 * Get the ending score for this rank.
+	 *
+	 * @return int The end score.
 	 */
 	public function get_end_score() {
 		// No index does not have an end score.

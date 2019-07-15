@@ -395,6 +395,8 @@ class WPSEO_Twitter {
 	}
 
 	/**
+	 * Outputs the Twitter image. Using the Facebook image as fallback.
+	 *
 	 * @return bool
 	 */
 	private function taxonomy_image_output() {

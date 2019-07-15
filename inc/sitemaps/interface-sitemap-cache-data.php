@@ -50,6 +50,8 @@ interface WPSEO_Sitemap_Cache_Data_Interface {
 	public function set_status( $usable );
 
 	/**
+	 * Builds the sitemap.
+	 *
 	 * @return string The XML content of the sitemap.
 	 */
 	public function get_sitemap();

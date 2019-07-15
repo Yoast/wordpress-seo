@@ -55,14 +55,14 @@ class WPSEO_Metabox_Addon_Tab_Section extends WPSEO_Metabox_Tab_Section {
 	}
 
 	/**
-	 * `WPSEO_Metabox_Addon_Section` always has "tabs", represented by registered actions. If this is not the case,
+	 * `WPSEO_Metabox_Addon_Section` always has "sections", represented by registered actions. If this is not the case,
 	 * it should not be instantiated.
 	 *
 	 * @deprecated 11.8
 	 *
 	 * @return bool
 	 */
-	protected function has_tabs() {
+	protected function has_sections() {
 		_deprecated_function( __METHOD__, '11.8' );
 		return true;
 	}

@@ -11,16 +11,22 @@
 class WPSEO_Statistics_Service {
 
 	/**
+	 * Cache transient id.
+	 *
 	 * @var string
 	 */
 	const CACHE_TRANSIENT_KEY = 'wpseo-statistics-totals';
 
 	/**
+	 * Class that generates interesting statistics about things.
+	 *
 	 * @var WPSEO_Statistics
 	 */
 	protected $statistics;
 
 	/**
+	 * Statistics labels.
+	 *
 	 * @var string[]
 	 */
 	protected $labels;
