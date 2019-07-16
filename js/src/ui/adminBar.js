@@ -7,7 +7,6 @@
  * @returns {void}
  */
 function updateAdminBar( indicator, keyword ) {
-
 	// Updates the traffic light
 	jQuery( ".adminbar-seo-score" )
 		.attr( "class", "wpseo-score-icon adminbar-seo-score " + indicator.className )
