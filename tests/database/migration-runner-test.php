@@ -5,7 +5,9 @@ namespace Yoast\WP\Free\Tests\Database;
 use Brain\Monkey;
 use Exception;
 use Mockery;
+use Yoast\WP\Free\Conditionals\Admin_Conditional;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
+use Yoast\WP\Free\Database\Migration_Status;
 use Yoast\WP\Free\Database\Ruckusing_Framework;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Database\Migration_Runner;
@@ -19,7 +21,7 @@ use YoastSEO_Vendor\Ruckusing_Task_Manager;
 /**
  * Class Migration_Runner_Test.
  *
- * @group   db-migrations
+ * @group db-migrations
  *
  * @coversDefaultClass \Yoast\WP\Free\Database\Migration_Runner
  * @covers ::<!public>
@@ -42,7 +44,7 @@ class Migration_Runner_test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[ Indexables_Feature_Flag_Conditional::class ],
+			[ Indexables_Feature_Flag_Conditional::class, Admin_Conditional::class ],
 			Migration_Runner::get_conditionals()
 		);
 	}
@@ -60,107 +62,28 @@ class Migration_Runner_test extends TestCase {
 	}
 
 	/**
-	 * Tests if the migrations are usable with transients.
-	 *
-	 * @covers ::__construct
-	 * @covers ::is_usable
-	 */
-	public function test_is_usable() {
-		Monkey\Functions\expect( 'get_transient' )
-			->once()
-			->with( Migration_Runner::MIGRATION_ERROR_TRANSIENT_KEY . 'test', Migration_Runner::MIGRATION_STATE_SUCCESS )
-			->andReturn( Migration_Runner::MIGRATION_STATE_SUCCESS );
-
-		$framework_mock = Mockery::mock( Ruckusing_Framework::class );
-		$logger_mock    = Mockery::mock( Logger::class );
-
-		$instance = new Migration_Runner( $framework_mock, $logger_mock );
-
-		$this->assertTrue( $instance->is_usable( 'test' ) );
-	}
-
-	/**
-	 * Tests if the migrations are usable with transients.
-	 *
-	 * @covers ::__construct
-	 * @covers ::is_usable
-	 */
-	public function test_is_not_usable() {
-		Monkey\Functions\expect( 'get_transient' )
-			->once()
-			->with( Migration_Runner::MIGRATION_ERROR_TRANSIENT_KEY . 'test', Migration_Runner::MIGRATION_STATE_SUCCESS )
-			->andReturn( Migration_Runner::MIGRATION_STATE_ERROR );
-
-		$framework_mock = Mockery::mock( Ruckusing_Framework::class );
-		$logger_mock    = Mockery::mock( Logger::class );
-
-		$instance = new Migration_Runner( $framework_mock, $logger_mock );
-
-		$this->assertFalse( $instance->is_usable( 'test' ) );
-	}
-
-	/**
-	 * Tests the has_migration_error method.
-	 *
-	 * @covers ::has_migration_error
-	 */
-	public function test_has_migration_error() {
-		Monkey\Functions\expect( 'get_transient' )
-			->once()
-			->with( Migration_Runner::MIGRATION_ERROR_TRANSIENT_KEY . 'test', Migration_Runner::MIGRATION_STATE_SUCCESS )
-			->andReturn( Migration_Runner::MIGRATION_STATE_ERROR );
-
-		$framework_mock = Mockery::mock( Ruckusing_Framework::class );
-		$logger_mock    = Mockery::mock( Logger::class );
-
-		$instance = new Migration_Runner( $framework_mock, $logger_mock );
-
-		$this->assertTrue( $instance->has_migration_error( 'test' ) );
-	}
-
-	/**
-	 * Tests the has_migration_error method.
-	 *
-	 * @covers ::has_migration_error
-	 */
-	public function test_has_no_migration_error() {
-		Monkey\Functions\expect( 'get_transient' )
-			->once()
-			->with( Migration_Runner::MIGRATION_ERROR_TRANSIENT_KEY . 'test', Migration_Runner::MIGRATION_STATE_SUCCESS )
-			->andReturn( Migration_Runner::MIGRATION_STATE_SUCCESS );
-
-		$framework_mock = Mockery::mock( Ruckusing_Framework::class );
-		$logger_mock    = Mockery::mock( Logger::class );
-
-		$instance = new Migration_Runner( $framework_mock, $logger_mock );
-
-		$this->assertFalse( $instance->has_migration_error( 'test' ) );
-	}
-
-	/**
 	 * Tests the initializing when everything goes as planned.
 	 *
 	 * @covers ::run_migrations
 	 */
 	public function test_migration_success() {
-		Monkey\Functions\expect( 'delete_transient' )
-			->once()
-			->with( Migration_Runner::MIGRATION_ERROR_TRANSIENT_KEY . 'test' )
-			->andReturn( true );
-
+		$status_mock       = Mockery::mock( Migration_Status::class );
 		$framework_mock    = Mockery::mock( Ruckusing_Framework::class );
 		$runner_mock       = Mockery::mock( Ruckusing_FrameworkRunner::class );
 		$logger_mock       = Mockery::mock( Logger::class );
 		$adapter_mock      = Mockery::mock( Ruckusing_Adapter_MySQL_Base::class );
 		$task_manager_mock = Mockery::mock( Ruckusing_Task_Manager::class );
 
+		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( true );
+		$status_mock->expects( 'lock_migration' )->once()->with( 'test' )->andReturn( true );
+		$status_mock->expects( 'set_success' )->once()->with( 'test' );
 		$framework_mock->expects( 'get_framework_runner' )->once()->with( 'table', 'dir' )->andReturn( $runner_mock );
 		$framework_mock->expects( 'get_framework_task_manager' )->once()->with( $adapter_mock, 'table', 'dir' )->andReturn( $task_manager_mock );
 		$runner_mock->expects( 'get_adapter' )->once()->andReturn( $adapter_mock );
 		$adapter_mock->expects( 'has_table' )->once()->with( 'table' )->andReturn( true );
 		$task_manager_mock->expects( 'execute' )->once()->with( $runner_mock, 'db:migrate', [] );
 
-		$instance = new Migration_Runner( $framework_mock, $logger_mock );
+		$instance = new Migration_Runner( $status_mock, $framework_mock, $logger_mock );
 
 		$this->assertTrue( $instance->run_migrations( 'test', 'table', 'dir' ) );
 	}
@@ -171,11 +94,7 @@ class Migration_Runner_test extends TestCase {
 	 * @covers ::run_migrations
 	 */
 	public function test_migration_success_with_migrations_table() {
-		Monkey\Functions\expect( 'delete_transient' )
-			->once()
-			->with( Migration_Runner::MIGRATION_ERROR_TRANSIENT_KEY . 'test' )
-			->andReturn( true );
-
+		$status_mock       = Mockery::mock( Migration_Status::class );
 		$framework_mock    = Mockery::mock( Ruckusing_Framework::class );
 		$runner_mock       = Mockery::mock( Ruckusing_FrameworkRunner::class );
 		$logger_mock       = Mockery::mock( Logger::class );
@@ -183,6 +102,9 @@ class Migration_Runner_test extends TestCase {
 		$table_mock        = Mockery::mock( Ruckusing_Adapter_MySQL_TableDefinition::class );
 		$task_manager_mock = Mockery::mock( Ruckusing_Task_Manager::class );
 
+		$status_mock->expects( 'should_run_migration' )->once()->with( 'test' )->andReturn( true );
+		$status_mock->expects( 'lock_migration' )->once()->with( 'test' )->andReturn( true );
+		$status_mock->expects( 'set_success' )->once()->with( 'test' );
 		$framework_mock->expects( 'get_framework_runner' )->once()->with( 'table', 'dir' )->andReturn( $runner_mock );
 		$framework_mock->expects( 'get_framework_task_manager' )->once()->with( $adapter_mock, 'table', 'dir' )->andReturn( $task_manager_mock );
 		$runner_mock->expects( 'get_adapter' )->once()->andReturn( $adapter_mock );
@@ -193,7 +115,7 @@ class Migration_Runner_test extends TestCase {
 		$table_mock->expects( 'finish' )->once();
 		$task_manager_mock->expects( 'execute' )->once()->with( $runner_mock, 'db:migrate', [] );
 
-		$instance = new Migration_Runner( $framework_mock, $logger_mock );
+		$instance = new Migration_Runner( $status_mock, $framework_mock, $logger_mock );
 
 		$this->assertTrue( $instance->run_migrations( 'test', 'table', 'dir' ) );
 	}

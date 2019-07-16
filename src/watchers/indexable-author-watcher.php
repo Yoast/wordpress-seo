@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Watchers;
 
+use Yoast\WP\Free\Conditionals\Indexables_Base_Migration_Conditional;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Builders\Indexable_Author_Builder;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
@@ -21,7 +22,7 @@ class Indexable_Author_Watcher implements Integration {
 	 * @inheritdoc
 	 */
 	public static function get_conditionals() {
-		return [ Indexables_Feature_Flag_Conditional::class ];
+		return [ Indexables_Feature_Flag_Conditional::class, Indexables_Base_Migration_Conditional::class ];
 	}
 
 	/**
