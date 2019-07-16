@@ -211,17 +211,76 @@ tr.yst_row.even {
 	}
 
 	.paper.tab-block {
-		max-width: 600px;
-		box-shadow: 0 1px 2px rgba( #000, 0.2 );
+		button.toggleable-container-trigger {
+			width: 100%;
+			padding: 16px;
+			font-size: 1rem;
+
+			&:focus {
+				outline: 1px solid #0066cd;
+				outline-offset: -1px;
+				box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+			}
+
+			&:active {
+				box-shadow: none;
+			}
+		}
+
+		h2.collapsible-header {
+			margin: 0 !important;
+			padding: 0 !important;
+		}
+
+		&.metabox {
+			button.toggleable-container-trigger {
+				color: #555;
+			}
+
+			&.wpseotab {
+				padding: 0;
+				border: 0;
+			}
+		}
+
+		&.search-appearance {
+			max-width: 600px;
+			box-shadow: 0 1px 2px rgba( #000, 0.2 );
+			background-color: #fff;
+		}
+
+		.paper-container {
+			padding: 16px;
+
+			&:first-child {
+				margin-top: 0;
+			}
+		}
+
+		.paper-title {
+			padding: 16px;
+
+			h2 {
+				margin: 0;
+			}
+		}
+
+		.tab-block:first-child {
+			margin-top: 0;
+		}
+	}
+
+	.wpseo-collapsible-container {
 		background-color: #fff;
-		padding: 8px 20px;
+		border-top: 1px solid #e2e4e7;
+		border-bottom: 1px solid #e2e4e7;
+		margin-top: -1px;
 	}
 
 	.toggleable-container-trigger {
 		border: 0;
 		background: none;
 		cursor: pointer;
-		height: 20px;
 		width: 100%;
 		padding: 0;
 		text-align: left;
@@ -243,16 +302,6 @@ tr.yst_row.even {
 		position: absolute;
 		top: -4px; // total width - toggleable-container-icon width / 2
 		left: -4px;
-	}
-
-	.toggleable-container-trigger:focus {
-		outline: none;
-
-		.toggleable-container-icon::after {
-			border-radius: 100%;
-			box-shadow: 0 0 0 1px #5b9dd9,
-			0 0 2px 1px rgba(30, 140, 190, 0.8);
-		}
 	}
 
 	.toggleable-container-hidden {

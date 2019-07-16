@@ -469,7 +469,7 @@ class WPSEO_Admin_Init {
 			$message .= sprintf(
 				/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.0 */
 				__(
-					'If you’ve held off on updating to %2$s and higher because of the new Gutenberg editor, please install the Classic editor plugin. It will give you the same editing experience you have now, but also the security of newer versions of WordPress and %1$s.',
+					'If you’ve held off on updating to %2$s and higher because of the new Gutenberg editor, please install the Classic Editor plugin. It will give you the same editing experience you have now, but also the security of newer versions of WordPress and %1$s.',
 					'wordpress-seo'
 				),
 				'Yoast SEO',
