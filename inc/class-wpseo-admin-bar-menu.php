@@ -194,11 +194,13 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		);
 		$wp_admin_bar->add_menu( $admin_bar_menu_args );
 
-		if ( ! empty( $focus_keyword ) ) {
+		if ( $post ) {
+			$focus_keyword_span = '<span class="ab-item wpseo-focus-keyphrase-ab-item">' . $focus_keyword . '</span>';
+
 			$admin_bar_menu_args = array(
 				'parent' => self::MENU_IDENTIFIER,
 				'id'     => 'wpseo-focus-keyphrase',
-				'title'  => __( 'Focus keyphrase: ', 'wordpress-seo' ) . $focus_keyword,
+				'title'  => sprintf( __( 'Focus keyphrase: %s', 'wordpress-seo' ) , $focus_keyword_span ),
 			);
 			$wp_admin_bar->add_menu( $admin_bar_menu_args );
 		}
