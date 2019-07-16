@@ -82,7 +82,7 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	 */
 	public function provider_get_label() {
 		return array(
-			array( WPSEO_Rank::NO_FOCUS, 'N/A - Focus Keyphrase not set' ),
+			array( WPSEO_Rank::NO_FOCUS, 'Focus Keyphrase not set' ),
 			array( WPSEO_Rank::NO_INDEX, 'No index' ),
 			array( WPSEO_Rank::BAD, 'Needs improvement' ),
 			array( WPSEO_Rank::OK, 'OK' ),
