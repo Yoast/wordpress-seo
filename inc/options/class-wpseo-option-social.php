@@ -43,6 +43,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'twitter_site'          => '', // Text field.
 		'twitter_card_type'     => 'summary_large_image',
 		'youtube_url'           => '',
+		'spotify_url'           => '',
 		'wikipedia_url'         => '',
 		// Form field, but not always available.
 		'fbadminapp'            => '', // Facebook app ID.
@@ -144,6 +145,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 				case 'og_default_image':
 				case 'og_frontpage_image':
 				case 'youtube_url':
+				case 'spotify_url':
 				case 'wikipedia_url':
 					$this->validate_url( $key, $dirty, $old, $clean );
 					break;

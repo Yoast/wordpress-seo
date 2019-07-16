@@ -128,6 +128,7 @@ class Admin_Features_Test extends TestCase {
 				'myspace'    => 'MySpace profile URL',
 				'pinterest'  => 'Pinterest profile URL',
 				'soundcloud' => 'SoundCloud profile URL',
+				'spotify'	 => 'Spotify profile URL',
 				'tumblr'     => 'Tumblr profile URL',
 				'twitter'    => 'Twitter username (without @)',
 				'wikipedia'  => 'Wikipedia page about you<br/><small>(if one exists)</small>',

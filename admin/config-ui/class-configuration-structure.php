@@ -41,6 +41,7 @@ class WPSEO_Configuration_Structure {
 			'profileUrlMySpace',
 			'profileUrlPinterest',
 			'profileUrlYouTube',
+			'profileUrlSpotify',
 			'profileUrlWikipedia',
 		),
 		'multipleAuthors'            => array( 'multipleAuthors' ),

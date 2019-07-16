@@ -88,6 +88,7 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 			'linkedin_url',
 			'myspace_url',
 			'youtube_url',
+			'spotify_url',
 			'pinterest_url',
 			'wikipedia_url',
 		);

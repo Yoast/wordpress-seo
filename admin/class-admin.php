@@ -274,6 +274,7 @@ class WPSEO_Admin {
 		$contactmethods['myspace']    = __( 'MySpace profile URL', 'wordpress-seo' );
 		$contactmethods['pinterest']  = __( 'Pinterest profile URL', 'wordpress-seo' );
 		$contactmethods['soundcloud'] = __( 'SoundCloud profile URL', 'wordpress-seo' );
+		$contactmethods['spotify']	  = __( 'Spotify profile URL', 'wordpress-seo' );
 		$contactmethods['tumblr']     = __( 'Tumblr profile URL', 'wordpress-seo' );
 		$contactmethods['twitter']    = __( 'Twitter username (without @)', 'wordpress-seo' );
 		$contactmethods['youtube']    = __( 'YouTube profile URL', 'wordpress-seo' );

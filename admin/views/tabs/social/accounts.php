@@ -53,6 +53,10 @@ $organization_social_fields = array(
 		'label' => __( 'YouTube URL', 'wordpress-seo' ),
 	),
 	array(
+		'id'    => 'spotify_url',
+		'label' => __( 'Spotify URL', 'wordpress-seo' ),
+	),
+	array(
 		'id'    => 'wikipedia_url',
 		'label' => __( 'Wikipedia URL', 'wordpress-seo' ),
 	),

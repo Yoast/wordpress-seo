@@ -33,6 +33,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		'myspace',
 		'youtube',
 		'soundcloud',
+		'spotify',
 		'tumblr',
 		'wikipedia',
 	);
