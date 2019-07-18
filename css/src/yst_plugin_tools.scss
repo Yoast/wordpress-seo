@@ -74,6 +74,17 @@ tr.yst_row.even {
 		margin: 0 0 15px 0;
 	}
 
+	/* Input validation errors */
+	input.textinput {
+		&[aria-invalid="true"] {
+			color: #000;
+			background: #f9dcdc url(../../images/error-icon.svg) no-repeat calc( 100% - 6px ) center;
+			background-size: 12px;
+			border: 1px solid #dc3232;
+			padding-right: 24px;
+		}
+	}
+
 	/* @todo: check if the .double class is still used. */
 	input.radio,
 	input.checkbox,

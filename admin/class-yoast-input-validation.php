@@ -63,4 +63,25 @@ class Yoast_Input_Validation {
 
 		return $admin_title;
 	}
+
+	/**
+	 * Checks whether a specific form input field was submitted with an invalid value.
+	 *
+	 * @since 11.8
+	 *
+	 * @param string $error_code Must be the same slug-name used for the field variable and for `add_settings_error()`.
+	 *
+	 * @return bool Whether or not the submitted input field contained an invalid value.
+	 */
+	public static function yoast_form_control_has_error( $error_code ) {
+		$errors = get_settings_errors();
+
+		foreach ( $errors as $error ) {
+			if ( $error['code'] === $error_code ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

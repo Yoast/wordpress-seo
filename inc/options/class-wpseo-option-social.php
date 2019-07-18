@@ -192,7 +192,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 							if ( function_exists( 'add_settings_error' ) ) {
 								add_settings_error(
 									$this->group_name, // Slug title of the setting.
-									'_' . $key, // Suffix-ID for the error message box.
+									$key, // Suffix-ID for the error message box.
 									sprintf(
 										/* translators: %s expands to a twitter user name. */
 										__( '%s does not seem to be a valid Twitter user-id. Please correct.', 'wordpress-seo' ),

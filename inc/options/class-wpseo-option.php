@@ -307,7 +307,7 @@ abstract class WPSEO_Option {
 					if ( function_exists( 'add_settings_error' ) ) {
 						add_settings_error(
 							$this->group_name, // Slug title of the setting.
-							'_' . $key, // Suffix-ID for the error message box.
+							$key, // Suffix-ID for the error message box.
 							/* translators: 1: Verification string from user input; 2: Service name. */
 							sprintf( __( '%1$s does not seem to be a valid %2$s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
 							'error' // Error type, either 'error' or 'updated'.
@@ -341,7 +341,7 @@ abstract class WPSEO_Option {
 					$url = WPSEO_Utils::sanitize_url( $dirty[ $key ] );
 					add_settings_error(
 						$this->group_name, // Slug title of the setting.
-						'_' . $key, // Suffix-ID for the error message box.
+						$key, // Suffix-ID for the error message box.
 						sprintf(
 							/* translators: %s expands to an invalid URL. */
 							__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
