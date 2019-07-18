@@ -11,6 +11,7 @@ namespace Yoast\WP\Free\Conditionals;
  * Conditional that is only met when in the admin.
  */
 class Admin_Conditional implements Conditional {
+
 	/**
 	 * @inheritdoc
 	 */

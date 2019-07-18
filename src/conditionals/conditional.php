@@ -13,6 +13,7 @@ namespace Yoast\WP\Free\Conditionals;
  * @package Yoast\WP\Free\Conditionals
  */
 interface Conditional {
+
 	/**
 	 * Returns whether or not this conditional is met.
 	 *

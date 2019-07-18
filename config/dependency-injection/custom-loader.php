@@ -41,7 +41,7 @@ class Custom_Loader extends PhpFileLoader {
 		static $class_map;
 
 		if ( ! $class_map ) {
-			$class_map  = require( __DIR__ . '/../../vendor/composer/autoload_classmap.php' );
+			$class_map = require __DIR__ . '/../../vendor/composer/autoload_classmap.php';
 		}
 
 		foreach ( $class_map as $class => $class_path ) {
@@ -76,8 +76,8 @@ class Custom_Loader extends PhpFileLoader {
 		$classes = $this->findClasses( $namespace, $resource, $exclude );
 		// Prepare for deep cloning.
 		$serialized_prototype = serialize( $prototype );
-		$interfaces = [];
-		$singly_implemented = [];
+		$interfaces           = [];
+		$singly_implemented   = [];
 
 		foreach ( $classes as $class => $error_message ) {
 			if ( interface_exists( $class, false ) ) {
@@ -142,7 +142,7 @@ class Custom_Loader extends PhpFileLoader {
 	private function findClasses( $namespace, $pattern, $exclude ) {
 		$parameter_bag = $this->container->getParameterBag();
 
-		$exclude_paths = [];
+		$exclude_paths  = [];
 		$exclude_prefix = null;
 		if ( $exclude ) {
 			$exclude = $parameter_bag->unescapeValue( $parameter_bag->resolveValue( $exclude ) );
@@ -156,8 +156,8 @@ class Custom_Loader extends PhpFileLoader {
 			}
 		}
 
-		$pattern = $parameter_bag->unescapeValue( $parameter_bag->resolveValue( $pattern ) );
-		$classes = [];
+		$pattern    = $parameter_bag->unescapeValue( $parameter_bag->resolveValue( $pattern ) );
+		$classes    = [];
 		$ext_regexp = \defined( 'HHVM_VERSION' ) ? '/\\.(?:php|hh)$/' : '/\\.php$/';
 		$prefix_len = null;
 		foreach ( $this->glob( $pattern, true, $resource ) as $path => $info ) {
@@ -184,7 +184,7 @@ class Custom_Loader extends PhpFileLoader {
 
 			try {
 				$r = $this->container->getReflectionClass( $class );
-			} catch (\ReflectionException $e) {
+			} catch ( \ReflectionException $e ) {
 				$classes[ $class ] = sprintf(
 					'While discovering services from namespace "%s", an error was thrown when processing the class "%s": "%s".',
 					$namespace,
