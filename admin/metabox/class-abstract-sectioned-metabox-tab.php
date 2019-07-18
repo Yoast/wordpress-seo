@@ -11,26 +11,36 @@
 abstract class WPSEO_Abstract_Metabox_Tab_With_Sections implements WPSEO_Metabox_Section {
 
 	/**
+	 * Holds the name of the tab.
+	 *
 	 * @var string
 	 */
 	public $name;
 
 	/**
+	 * Holds the HTML of the tab header.
+	 *
 	 * @var string
 	 */
 	protected $link_content;
 
 	/**
+	 * Holds the name of the tab header.
+	 *
 	 * @var string
 	 */
 	protected $link_title;
 
 	/**
+	 * Holds the classname of the tab header.
+	 *
 	 * @var string
 	 */
 	protected $link_class;
 
 	/**
+	 * Holds the aria label of the tab header.
+	 *
 	 * @var string
 	 */
 	protected $link_aria_label;

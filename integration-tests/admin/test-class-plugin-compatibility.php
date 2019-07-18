@@ -104,6 +104,11 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( self::$class_instance->get_installed_plugins_compatibility(), $expected );
 	}
 
+	/**
+	 * Tests that the fallback is to mark as compatible.
+	 *
+	 * @covers WPSEO_Plugin_Compatibility::is_compatible
+	 */
 	public function test_without_a_checker_object() {
 		$class_instance = new WPSEO_Plugin_Compatibility( '3.3' );
 
@@ -111,6 +116,11 @@ class WPSEO_Plugin_Compatibility_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( $class_instance->is_compatible( 'test-plugin' ) );
 	}
 
+	/**
+	 * Tests that the list of installed plugins is as expected.
+	 *
+	 * @covers WPSEO_Plugin_Compatibility::get_installed_plugins
+	 */
 	public function test_get_installed_plugins() {
 		$expected = array(
 			'test-plugin' => array(
