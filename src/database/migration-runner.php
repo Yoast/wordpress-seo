@@ -11,6 +11,7 @@ use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\ORM\Yoast_Model;
 use Yoast\WP\Free\WordPress\Initializer;
+
 /**
  * Triggers database migrations and handles results.
  */

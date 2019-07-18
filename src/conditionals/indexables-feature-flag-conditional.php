@@ -11,6 +11,7 @@ namespace Yoast\WP\Free\Conditionals;
  * Conditional for the indexables feature flag.
  */
 class Indexables_Feature_Flag_Conditional extends Feature_Flag_Conditional {
+
 	/**
 	 * @inheritdoc
 	 */

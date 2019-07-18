@@ -43,8 +43,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		$repository_mock  = Mockery::mock( Indexable_Repository::class );
-		$builder_mock = Mockery::mock( Indexable_Post_Builder::class );
+		$repository_mock = Mockery::mock( Indexable_Repository::class );
+		$builder_mock    = Mockery::mock( Indexable_Post_Builder::class );
 
 		$instance = new Indexable_Post_Watcher( $repository_mock, $builder_mock );
 		$instance->register_hooks();
