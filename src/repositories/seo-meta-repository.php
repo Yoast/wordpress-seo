@@ -23,9 +23,7 @@ class SEO_Meta_Repository extends ORMWrapper {
 	 * @return SEO_Meta_Repository
 	 */
 	public static function get_instance() {
-		ORMWrapper::$repositories[ Yoast_Model::get_table_name( 'SEO_Meta' ) ] = self::class;
-
-		return Yoast_Model::of_type( 'SEO_Meta' );
+		return parent::get_instance_for_repository( self::class );
 	}
 
 	/**

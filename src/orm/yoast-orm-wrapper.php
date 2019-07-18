@@ -77,6 +77,26 @@ class ORMWrapper extends ORM {
 	}
 
 	/**
+	 * Factory method intended for use only by repository classes.
+	 *
+	 * @param string $class_name The class name to get the instance for, defaults to self::class.
+	 *
+	 * @return self
+	 */
+	public static function get_instance_for_repository( $class_name ) {
+		if ( preg_match( '@\\\\([\w]+)_Repository$@', $class_name, $matches ) ) {
+			$model_name = $matches[1];
+
+			// This ensures that the object returned by Yoast_Model::of_type is an actual instance of the repository class.
+			self::$repositories[ Yoast_Model::get_table_name( $model_name ) ] = $class_name;
+
+			return Yoast_Model::of_type( $model_name );
+		}
+
+		return null;
+	}
+
+	/**
 	 * Factory method, return an instance of this class bound to the supplied
 	 * table name.
 	 *

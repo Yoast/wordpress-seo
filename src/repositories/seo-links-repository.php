@@ -26,8 +26,6 @@ class SEO_Links_Repository extends ORMWrapper {
 	 * @return SEO_Links_Repository
 	 */
 	public static function get_instance() {
-		ORMWrapper::$repositories[ Yoast_Model::get_table_name( 'SEO_Links' ) ] = self::class;
-
-		return Yoast_Model::of_type( 'SEO_Links' );
+		return parent::get_instance_for_repository( self::class );
 	}
 }

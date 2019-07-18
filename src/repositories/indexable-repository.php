@@ -10,9 +10,9 @@ namespace Yoast\WP\Free\Repositories;
 use Yoast\WP\Free\Builders\Indexable_Author_Builder;
 use Yoast\WP\Free\Builders\Indexable_Post_Builder;
 use Yoast\WP\Free\Builders\Indexable_Term_Builder;
+use Yoast\WP\Free\Helpers\Current_Post_Helper;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\ORM\ORMWrapper;
-use Yoast\WP\Free\ORM\Yoast_Model;
 
 /**
  * Class Indexable_Repository
@@ -37,6 +37,11 @@ class Indexable_Repository extends ORMWrapper {
 	protected $term_builder;
 
 	/**
+	 * @var \Yoast\WP\Free\Helpers\Current_Post_Helper
+	 */
+	protected $current_post_helper;
+
+	/**
 	 * @var \Psr\Log\LoggerInterface
 	 */
 	protected $logger;
@@ -55,20 +60,35 @@ class Indexable_Repository extends ORMWrapper {
 		Indexable_Author_Builder $author_builder,
 		Indexable_Post_Builder $post_builder,
 		Indexable_Term_Builder $term_builder,
+		Current_Post_Helper $current_post_helper,
 		Logger $logger
 	) {
-		ORMWrapper::$repositories[ Yoast_Model::get_table_name( 'Indexable' ) ] = self::class;
-
 		/**
 		 * @var $instance self
 		 */
-		$instance = Yoast_Model::of_type( 'Indexable' );
-		$instance->author_builder = $author_builder;
-		$instance->post_builder   = $post_builder;
-		$instance->term_builder   = $term_builder;
-		$instance->logger         = $logger;
+		$instance = parent::get_instance_for_repository( self::class );
+		$instance->author_builder      = $author_builder;
+		$instance->post_builder        = $post_builder;
+		$instance->term_builder        = $term_builder;
+		$instance->current_post_helper = $current_post_helper;
+		$instance->logger              = $logger;
 
 		return $instance;
+	}
+
+	/**
+	 * Attempts to find the indexable for the current WordPress page. Returns false if no indexable could be found.
+	 * This may be the result of the indexable not existing or of being unable to determine what type of page the
+	 * current page is.
+	 *
+	 * @return bool|\Yoast\WP\Free\Models\Indexable The indexable, false if none could be found.
+	 */
+	public function for_current_page() {
+		if ( $this->current_post_helper->is_simple_page() ) {
+			return $this->find_by_id_and_type( $this->current_post_helper->get_simple_page_id(), 'post' );
+		}
+
+		return false;
 	}
 
 	/**

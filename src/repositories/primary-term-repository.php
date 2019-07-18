@@ -23,9 +23,7 @@ class Primary_Term_Repository extends ORMWrapper {
 	 * @return Primary_Term_Repository
 	 */
 	public static function get_instance() {
-		ORMWrapper::$repositories[ Yoast_Model::get_table_name( 'Primary_Term' ) ] = self::class;
-
-		return Yoast_Model::of_type( 'Primary_Term' );
+		return parent::get_instance_for_repository( self::class );
 	}
 
 	/**

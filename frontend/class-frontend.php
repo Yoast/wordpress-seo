@@ -11,6 +11,8 @@
  */
 class WPSEO_Frontend {
 
+	const METADESC_PRIORITY = 6;
+
 	/**
 	 * Instance of this class.
 	 *
@@ -93,7 +95,7 @@ class WPSEO_Frontend {
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality.
 		add_action( 'wpseo_head', array( $this, 'debug_mark' ), 2 );
-		add_action( 'wpseo_head', array( $this, 'metadesc' ), 6 );
+		add_action( 'wpseo_head', array( $this, 'metadesc' ), self::METADESC_PRIORITY );
 		add_action( 'wpseo_head', array( $this, 'robots' ), 10 );
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );

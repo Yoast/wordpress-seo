@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Watchers;
+namespace Yoast\WP\Free\Tests\Integrations\Watchers;
 
 use Mockery;
 use Yoast\WP\Free\Builders\Indexable_Author_Builder;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\Watchers\Indexable_Author_Watcher;
+use Yoast\WP\Free\Integrations\Watchers\Indexable_Author_Watcher;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -16,7 +16,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group indexables
  * @group watchers
  *
- * @coversDefaultClass \Yoast\WP\Free\Watchers\Indexable_Author_Watcher
+ * @coversDefaultClass \Yoast\WP\Free\Integrations\Watchers\Indexable_Author_Watcher
  * @covers ::<!public>
  *
  * @package Yoast\Tests\Watchers

@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Watchers
  */
 
-namespace Yoast\WP\Free\Watchers;
+namespace Yoast\WP\Free\Integrations\Watchers;
 
 use WPSEO_Meta;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
