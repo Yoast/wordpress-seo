@@ -195,7 +195,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 									$key, // Suffix-ID for the error message box.
 									sprintf(
 										/* translators: %s expands to a twitter user name. */
-										__( '%s does not seem to be a valid Twitter user-id. Please correct.', 'wordpress-seo' ),
+										__( '%s does not seem to be a valid Twitter Username. Please correct.', 'wordpress-seo' ),
 										'<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>'
 									), // The error message.
 									'error' // Error type, either 'error' or 'updated'.

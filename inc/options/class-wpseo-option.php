@@ -343,7 +343,7 @@ abstract class WPSEO_Option {
 						$key, // Suffix-ID for the error message box.
 						sprintf(
 							/* translators: %s expands to an invalid URL. */
-							__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
+							__( '%s does not seem to be a valid URL. Please correct.', 'wordpress-seo' ),
 							'<strong>' . esc_html( $url ) . '</strong>'
 						), // The error message.
 						'error' // Error type, either 'error' or 'updated'.
