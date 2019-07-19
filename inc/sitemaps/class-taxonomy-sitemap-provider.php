@@ -75,7 +75,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$term_args = array(
 			'hide_empty' => $hide_empty,
 			'fields'     => 'ids',
-			'exclude'	 => $exclude_term_ids
+			'exclude'    => $exclude_term_ids
 		);
 
 		foreach ( $taxonomy_names as $taxonomy_name ) {
