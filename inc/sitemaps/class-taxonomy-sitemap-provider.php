@@ -62,11 +62,20 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 */
 		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy_names );
 
+		/**
+		 * Filter to exclude term ids from the XML sitemap.
+		 *
+		 * @param array   $exclude        Defaults to an empty array.
+		 * @param array   $taxonomy_names Array of names for the taxonomies being processed.
+		 */
+		$exclude_term_ids = apply_filters( 'wpseo_sitemap_exclude_term_ids', array(), $taxonomy_names );
+
 		$all_taxonomies = array();
 
 		$term_args = array(
 			'hide_empty' => $hide_empty,
 			'fields'     => 'ids',
+			'exclude'	 => $exclude_term_ids
 		);
 
 		foreach ( $taxonomy_names as $taxonomy_name ) {
@@ -165,7 +174,10 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		/** This filter is documented in inc/sitemaps/class-taxonomy-sitemap-provider.php */
 		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, array( $taxonomy->name ) );
-		$terms      = get_terms( $taxonomy->name, array( 'hide_empty' => $hide_empty ) );
+		/** This filter is documented in inc/sitemaps/class-taxonomy-sitemap-provider.php */
+		$exclude_term_ids = apply_filters( 'wpseo_sitemap_exclude_term_ids', array(), array( $taxonomy->name ) );
+
+		$terms      = get_terms( $taxonomy->name, array( 'hide_empty' => $hide_empty, 'exclude' => $exclude_term_ids ) );
 
 		// If the total term count is lower than the offset, we are on an invalid page.
 		if ( count( $terms ) < $offset ) {
