@@ -252,9 +252,9 @@ abstract class WPSEO_Option {
 	 * Validate webmaster tools & Pinterest verification strings.
 	 *
 	 * @param string $key   Key to check, by type of service.
-	 * @param array  $dirty Dirty data.
+	 * @param array  $dirty Dirty data with the new values.
 	 * @param array  $old   Old data.
-	 * @param array  $clean Clean data by reference.
+	 * @param array  $clean Clean data by reference, normally the default values.
 	 */
 	public function validate_verification_string( $key, $dirty, $old, &$clean ) {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
@@ -301,25 +301,24 @@ abstract class WPSEO_Option {
 					$clean[ $key ] = $meta;
 				}
 				else {
+					// Restore the previous value, if any.
 					if ( isset( $old[ $key ] ) && preg_match( $regex, $old[ $key ] ) ) {
 						$clean[ $key ] = $old[ $key ];
 					}
-					if ( function_exists( 'add_settings_error' ) ) {
-						add_settings_error(
-							$this->group_name, // Slug title of the setting.
-							$key, // Suffix-ID for the error message box.
-							/* translators: 1: Verification string from user input; 2: Service name. */
-							sprintf( __( '%1$s does not seem to be a valid %2$s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
-							'error' // Error type, either 'error' or 'updated'.
-						);
-					}
+					add_settings_error(
+						$this->group_name, // Slug title of the setting.
+						$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
+						/* translators: 1: Verification string from user input; 2: Service name. */
+						sprintf( __( '%1$s does not seem to be a valid %2$s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
+						'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+					);
 				}
 			}
 		}
 	}
 
 	/**
-	 * @param string $key   Key to check, by type of service.
+	 * @param string $key   Key to check, by type of URL setting.
 	 * @param array  $dirty Dirty data.
 	 * @param array  $old   Old data.
 	 * @param array  $clean Clean data by reference.
@@ -350,6 +349,49 @@ abstract class WPSEO_Option {
 						'error' // Error type, either 'error' or 'updated'.
 					);
 				}
+			}
+		}
+	}
+
+ 	/**
+	 * Validates a Facebook App ID.
+	 *
+	 * @param string $key   Key to check, in this case: the Facebook App ID field name.
+	 * @param array  $dirty Dirty data with the new values.
+	 * @param array  $old   Old data.
+	 * @param array  $clean Clean data by reference, normally the default values.
+	 */
+	public function validate_facebook_app_id( $key, $dirty, $old, &$clean ) {
+		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+			$url = 'https://graph.facebook.com/' . $dirty[ $key ];
+
+			$response        = wp_remote_get( $url );
+			$response_code   = wp_remote_retrieve_response_code( $response );
+			$response_body   = wp_remote_retrieve_body( $response );
+			$response_object = json_decode( $response_body );
+
+			/*
+			 * When the request is successful the response code will be 200 and
+			 * the response object will contain an `id` property.
+			 */
+			if ( $response_code === 200 && isset( $response_object->id ) ) {
+				$clean[ $key ] = $dirty[ $key ];
+			}
+			else {
+				// Restore the previous value, if any.
+				if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
+					$clean[ $key ] = $old[ $key ];
+				}
+				add_settings_error(
+					$this->group_name, // Slug title of the setting.
+					$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
+					sprintf(
+						/* translators: %s expands to an invalid Facebook App ID. */
+						__( '%s does not seem to be a valid Facebook App ID. Please correct.', 'wordpress-seo' ),
+						'<strong>' . esc_html( $dirty[ $key ] ) . '</strong>'
+					), // The error message.
+					'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+				);
 			}
 		}
 	}

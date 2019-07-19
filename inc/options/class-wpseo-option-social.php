@@ -219,9 +219,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					break;
 
 				case 'fbadminapp':
-					if ( isset( $dirty[ $key ] ) && ! empty( $dirty[ $key ] ) ) {
-						$clean[ $key ] = $dirty[ $key ];
-					}
+					$this->validate_facebook_app_id( $key, $dirty, $old, $clean );
 					break;
 			}
 		}
