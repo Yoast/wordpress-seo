@@ -84,4 +84,113 @@ class Yoast_Input_Validation {
 
 		return false;
 	}
+
+	/**
+	 * The error descriptions.
+	 *
+	 * @since 11.8
+	 * @var array
+	 */
+	private static $_error_descriptions = array();
+
+	/**
+	 * Sets the error descriptions.
+	 *
+	 * @since 11.8
+	 *
+	 * @param array $descriptions An associative array of error descriptions. For
+	 *                            each entry, the key must be the setting variable.
+	 */
+	public static function set_error_descriptions( $descriptions = array() ) {
+		$defaults     = array(
+			'baiduverify'     => __( 'Baidu verification codes can only contain letters, numbers, hyphens, and underscores.', 'wordpress-seo' ),
+			'fbadminapp'      => __( 'Facebook App IDs can only contain numbers.', 'wordpress-seo' ),
+			'googleverify'    => __( 'Google verification codes can only contain letters, numbers, hyphens, and underscores.', 'wordpress-seo' ),
+			'msverify'        => __( 'Bing confirmation codes can only contain letters from A to F, numbers, hyphens, and underscores.', 'wordpress-seo' ),
+			'pinterestverify' => __( 'Pinterest confirmation codes can only contain letters from A to F, numbers, hyphens, and underscores.', 'wordpress-seo' ),
+			'twitter_site'    => __( 'Twitter usernames can only contain letters, numbers, and underscores.', 'wordpress-seo' ),
+			'yandexverify'    => __( 'Yandex confirmation codes can only contain letters from A to F, numbers, hyphens, and underscores.', 'wordpress-seo' ),
+		);
+
+		$descriptions = wp_parse_args( $descriptions, $defaults );
+
+		self::$_error_descriptions = $descriptions;
+	}
+
+	/**
+	 * Gets all the error descriptions.
+	 *
+	 * @since 11.8
+	 *
+	 * @return array An associative array of error descriptions.
+	 */
+	public static function get_error_descriptions() {
+		return self::$_error_descriptions;
+	}
+
+	/**
+	 * Gets a specific error description.
+	 *
+	 * @since 11.8
+	 *
+	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
+	 * @return string The error description.
+	 */
+	public static function get_error_description( $error_code ) {
+		if ( ! isset( self::$_error_descriptions[ $error_code ] ) ) {
+			return null;
+		}
+
+		return self::$_error_descriptions[ $error_code ];
+	}
+
+	/**
+	 * Gets the aria-invalid HTML attribute based on the submitted invalid value.
+	 *
+	 * @since 11.8
+	 *
+	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
+	 * @return string The aria-invalid HTML attribute or empty string.
+	 */
+	public static function get_the_aria_invalid_attribute( $error_code ) {
+		if ( self::yoast_form_control_has_error( $error_code ) ) {
+			return ' aria-invalid="true"';
+		}
+
+		return '';
+	}
+
+	/**
+	 * Gets the aria-describedby HTML attribute based on the submitted invalid value.
+	 *
+	 * @since 11.8
+	 *
+	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
+	 * @return string The aria-describedby HTML attribute or empty string.
+	 */
+	public static function get_the_aria_describedby_attribute( $error_code ) {
+		if ( self::yoast_form_control_has_error( $error_code ) && self::get_error_description( $error_code ) ) {
+			return ' aria-describedby="' . esc_attr( $error_code ) . '-error-description"';
+		}
+
+		return '';
+	}
+
+	/**
+	 * Gets the error description wrapped in a HTML paragraph.
+	 *
+	 * @since 11.8
+	 *
+	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
+	 * @return string The error description HTML or empty string.
+	 */
+	public static function get_the_error_description( $error_code ) {
+		$error_description = self::get_error_description( $error_code );
+
+		if ( self::yoast_form_control_has_error( $error_code ) && $error_description ) {
+			return '<p id="' . esc_attr( $error_code ) . '-error-description" class="yoast-input-validation__error-description">' . $error_description . '</p>';
+		}
+
+		return '';
+	}
 }

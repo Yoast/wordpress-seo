@@ -82,6 +82,18 @@ tr.yst_row.even {
 			background-size: 12px;
 			border: 1px solid #dc3232;
 			padding-right: 24px;
+
+			&[aria-describedby] {
+				margin-bottom: 0.5rem;
+			}
+		}
+	}
+
+	.yoast-input-validation {
+		&__error-description {
+			padding-left: 200px;
+			margin: 0 0 1rem;
+			color: #8f1919;
 		}
 	}
 
@@ -881,6 +893,17 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		p.desc.label,
 		div.desc.label {
 			padding-left: 0;
+		}
+
+		/* Input validation errors */
+		.textinput[aria-invalid="true"][aria-describedby] + br {
+			display: none;
+		}
+
+		.yoast-input-validation {
+			&__error-description {
+				padding-left: 0;
+			}
 		}
 	}
 
