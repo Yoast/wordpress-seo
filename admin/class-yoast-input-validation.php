@@ -104,7 +104,7 @@ class Yoast_Input_Validation {
 	public static function set_error_descriptions( $descriptions = array() ) {
 		$defaults     = array(
 			'baiduverify'     => __( 'Baidu verification codes can only contain letters, numbers, hyphens, and underscores.', 'wordpress-seo' ),
-			'fbadminapp'      => __( 'Facebook App IDs can only contain numbers.', 'wordpress-seo' ),
+			'fbadminapp'      => __( 'The Facebook App ID you entered doesn\'t exist.', 'wordpress-seo' ),
 			'googleverify'    => __( 'Google verification codes can only contain letters, numbers, hyphens, and underscores.', 'wordpress-seo' ),
 			'msverify'        => __( 'Bing confirmation codes can only contain letters from A to F, numbers, hyphens, and underscores.', 'wordpress-seo' ),
 			'pinterestverify' => __( 'Pinterest confirmation codes can only contain letters from A to F, numbers, hyphens, and underscores.', 'wordpress-seo' ),
