@@ -366,8 +366,9 @@ abstract class WPSEO_Option {
 			$url = 'https://graph.facebook.com/' . $dirty[ $key ];
 
 			$response        = wp_remote_get( $url );
-			$response_code   = wp_remote_retrieve_response_code( $response );
-			$response_body   = wp_remote_retrieve_body( $response );
+			// These filters are used in the tests.
+			$response_code   = apply_filters( 'validate_facebook_app_id_api_response_code', wp_remote_retrieve_response_code( $response ) );
+			$response_body   = apply_filters( 'validate_facebook_app_id_api_response_body', wp_remote_retrieve_body( $response ) );
 			$response_object = json_decode( $response_body );
 
 			/*
