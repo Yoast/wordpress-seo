@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 4.29.0
+## 4.29.0 July 22nd, 2019
 ### Added
 * In the internal linking suggestions component, adds a check for the presence of the prominent words to determine which of the feedback strings should be rendered. If no prominent words are determined for a text (and hence no suggestions), the old message "Once you add a bit more copy..." is rendered. If prominent words are determined, but still no suggestions could be found, a new message is rendered: "We could not find any relevant articles on your website that you could link your post to.".
 
