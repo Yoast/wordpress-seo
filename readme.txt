@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 4.9
 Tested up to: 5.2.2
-Stable tag: 11.6
+Stable tag: 11.7
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -108,7 +108,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 11.7.0 =
 Release Date: July 23rd, 2019
 
-By now you probably know the 11.x releases of Yoast SEO are all about Schema. In this release, we’ve enabled the possibility to use to use a subset of HTML tags in the FAQ and HowTo blocks! Find out all about Yoast SEO 11.7 in [our 11.7 release post](https://yoa.st/release-11-7)!
+By now you probably know the 11.x releases of Yoast SEO are all about Schema. In this release, we’ve enabled the possibility to use a subset of HTML tags in the FAQ and HowTo blocks! Find out all about Yoast SEO 11.7 in [our 11.7 release post](https://yoa.st/release-11-7)!
 
 Enhancements:
 
@@ -134,7 +134,7 @@ Enhancements:
 
 Bugfixes:
 
-* Fixes a bug where the Schema `@id` for `Person` would be incorrect on posts when author archives where disabled. 
+* Fixes a bug where the Schema `@id` for `Person` would be incorrect on posts when author archives where disabled.
 * Fixes a bug where the Schema would contain `WebPage` instead of `CollectionPage` for a latest posts homepage and the static posts page type.
 * Fixes a bug where the Organization and Article Schema nodes would incorrectly be output when a website had not set their organization's name and/or logo.
 * Fixes a bug where the eye marker tooltips would break out of the metabox, which would hide the last part of the tooltip text.
