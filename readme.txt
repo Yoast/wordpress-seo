@@ -105,6 +105,22 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 11.8.0 =
+Release Date: August 6th, 2019
+
+Find out all about Yoast SEO 11.8 in [our 11.8 release post](https://yoa.st/release-11-8)!
+
+Enhancements:
+
+* Moved advanced SEO settings to a collapsible in the SEO tab.
+* Social settings tab in the metabox now contains collapsibles instead of tabs.
+* Adds style for padding to the metabox menu to avoid it being overwritten by custom editor styles. Props to [@emilyatmobtown](https://github.com/emilyatmobtown).
+
+Bugfixes:
+
+* Fixes a bug where the `WP_Query::get_posts()` method would be called multiple times when the query includes several taxonomy terms, resulting in different results. Props to [@Chouby](https://github.com/Chouby).
+* Fixes a bug where the checkbox in the customizer about showing the blog page in the breadcrumbs would do exactly the opposite of what it promised. Props to [@garrett-eclipse](https://github.com/garrett-eclipse).
+
 = 11.7.0 =
 Release Date: July 23rd, 2019
 
@@ -119,26 +135,6 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where the avatar in the knowledge graph settings would incorrectly overwrite the default user profile picture.
-
-= 11.6.0 =
-Release Date: July 9th, 2019
-
-Yoast SEO 11.6 is out today. Of course, we did the regular round of bug fixing, but the focus of this release is two-fold: a new, much easier to use tabbed interface for the meta box and an updated HowTo structured data content block for WordPress. Find out all about Yoast SEO 11.6 in [our 11.6 release post](https://yoa.st/release-11-6)!
-
-Enhancements:
-
-* Changes the tabs in the metabox to horizontal tabs.
-* Splits the content optimization tab in the metabox into two separate tabs: an SEO and a Readability tab.
-* Updates HowTo schema output to reflect Google's new guidelines.
-* Makes sure the media modal that is triggered for image uploads only displays images.
-
-Bugfixes:
-
-* Fixes a bug where the Schema `@id` for `Person` would be incorrect on posts when author archives where disabled.
-* Fixes a bug where the Schema would contain `WebPage` instead of `CollectionPage` for a latest posts homepage and the static posts page type.
-* Fixes a bug where the Organization and Article Schema nodes would incorrectly be output when a website had not set their organization's name and/or logo.
-* Fixes a bug where the eye marker tooltips would break out of the metabox, which would hide the last part of the tooltip text.
-* Fixes a bug where instances of unfiltered HTML would be allowed in term descriptions where they shouldn't be.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
