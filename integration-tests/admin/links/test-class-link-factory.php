@@ -31,6 +31,8 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the building of the links.
+	 *
 	 * @dataProvider link_provider
 	 *
 	 * @param WPSEO_Link_Type_Classifier $classifier The classifier mock.

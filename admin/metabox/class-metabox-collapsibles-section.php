@@ -11,6 +11,8 @@
 class WPSEO_Metabox_Collapsibles_Sections extends WPSEO_Abstract_Metabox_Tab_With_Sections {
 
 	/**
+	 * Holds the tab's collapsibles.
+	 *
 	 * @var WPSEO_Metabox_Collapsible[]
 	 */
 	private $collapsibles = array();
