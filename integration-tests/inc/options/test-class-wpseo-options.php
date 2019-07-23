@@ -106,7 +106,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if the get() function returns a valid result.
 	 *
-	 * @covers WPSEO_Options::get()
+	 * @covers WPSEO_Options::get
 	 */
 	public function test_get_returns_valid_result() {
 		$option                            = WPSEO_Options::get_option( 'wpseo' );
@@ -124,7 +124,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if the get() function returns a valid result.
 	 *
-	 * @covers WPSEO_Options::get()
+	 * @covers WPSEO_Options::get
 	 */
 	public function test_get_returns_null_result() {
 		$result = WPSEO_Options::get( 'non_existent_value' );
@@ -134,7 +134,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if the get() function returns a valid result.
 	 *
-	 * @covers WPSEO_Options::get()
+	 * @covers WPSEO_Options::get
 	 */
 	public function test_get_returns_default_result() {
 		$result = WPSEO_Options::get( 'non_existent_value', array() );
@@ -144,7 +144,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if the get() function returns a valid result.
 	 *
-	 * @covers WPSEO_Options::get()
+	 * @covers WPSEO_Options::get
 	 */
 	public function test_set_works() {
 		$option_before                            = WPSEO_Options::get_option( 'wpseo' );
@@ -188,8 +188,8 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @group ms-required
 	 *
-	 * @covers WPSEO_Options::get()
-	 * @covers WPSEO_Options::add_ms_option()
+	 * @covers WPSEO_Options::get
+	 * @covers WPSEO_Options::add_ms_option
 	 */
 	public function test_ms_options_included_in_get_in_multisite() {
 		$this->skipWithoutMultisite();
@@ -217,8 +217,8 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @group ms-excluded
 	 *
-	 * @covers WPSEO_Options::get()
-	 * @covers WPSEO_Options::add_ms_option()
+	 * @covers WPSEO_Options::get
+	 * @covers WPSEO_Options::add_ms_option
 	 */
 	public function test_ms_options_excluded_in_get_non_multisite() {
 		$this->skipWithMultisite();

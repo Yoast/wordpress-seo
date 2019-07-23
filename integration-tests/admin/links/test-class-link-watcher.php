@@ -63,7 +63,7 @@ class WPSEO_Link_Watcher_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Don't process trash posts.
 	 *
-	 * @covers WPSEO_Link_Watcher::save_post()
+	 * @covers WPSEO_Link_Watcher::save_post
 	 */
 	public function test_skip_trash_posts() {
 

@@ -11,6 +11,7 @@
  * @since 11.5
  */
 class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
+
 	/**
 	 * Determine whether this graph piece is needed or not.
 	 *
@@ -33,6 +34,13 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 * @var WPSEO_Schema_Context
 	 */
 	private $context;
+
+	/**
+	 * Holds the allowed HTML tags for the jsonText.
+	 *
+	 * @var string
+	 */
+	private $allowed_json_text_tags = '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>';
 
 	/**
 	 * WPSEO_Schema_FAQ constructor.
@@ -75,8 +83,10 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 			'description'      => '',
 		);
 
-		if ( isset( $block['attrs']['jsonDescription'] ) ) {
-			$data['description'] = $block['attrs']['jsonDescription'];
+		$json_description = strip_tags( $block['attrs']['jsonDescription'], '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' );
+
+		if ( isset( $json_description ) ) {
+			$data['description'] = $json_description;
 		}
 
 		$this->add_duration( $data, $block['attrs'] );
@@ -145,7 +155,10 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 				'url'   => $schema_id,
 			);
 
-			if ( empty( $step['jsonName'] ) ) {
+			$json_text = strip_tags( $step['jsonText'], $this->allowed_json_text_tags );
+			$json_name = strip_tags( $step['jsonName'] );
+
+			if ( empty( $json_name ) ) {
 				if ( empty( $step['text'] ) ) {
 					continue;
 				}
@@ -155,19 +168,19 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 				$this->add_step_image( $schema_step, $step );
 
 				// If there is no text and no image, don't output the step.
-				if ( empty( $step['jsonText'] ) && empty( $schema_step['image'] ) ) {
+				if ( empty( $json_text ) && empty( $schema_step['image'] ) ) {
 					continue;
 				}
 
-				if ( ! empty( $step['jsonText'] ) ) {
-					$schema_step['text'] = $step['jsonText'];
+				if ( ! empty( $json_text ) ) {
+					$schema_step['text'] = $json_text;
 				}
 			}
-			else if ( empty( $step['jsonText'] ) ) {
-				$schema_step['text'] = $step['jsonName'];
+			elseif ( empty( $json_text ) ) {
+				$schema_step['text'] = $json_name;
 			}
 			else {
-				$schema_step['name'] = $step['jsonName'];
+				$schema_step['name'] = $json_name;
 
 				$this->add_step_description( $schema_step, $step );
 				$this->add_step_image( $schema_step, $step );
@@ -184,7 +197,9 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 	 * @param array $step        The step block data.
 	 */
 	private function add_step_description( &$schema_step, $step ) {
-		if ( empty( $step['jsonText'] ) ) {
+		$json_text = strip_tags( $step['jsonText'], $this->allowed_json_text_tags );
+
+		if ( empty( $json_text ) ) {
 			return;
 		}
 
@@ -192,7 +207,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 
 		$schema_step['itemListElement'][] = array(
 			'@type' => 'HowToDirection',
-			'text'  => $step['jsonText'],
+			'text'  => $json_text,
 		);
 	}
 

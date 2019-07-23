@@ -28,7 +28,7 @@ class WPSEO_Config_Field_Choice_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Config_Field_Choice::add_choice()
+	 * @covers WPSEO_Config_Field_Choice::add_choice
 	 */
 	public function test_add_choice() {
 		$value              = 'yes';

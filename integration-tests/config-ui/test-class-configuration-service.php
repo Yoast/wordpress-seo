@@ -48,7 +48,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test set storage.
 	 *
-	 * @covers WPSEO_Configuration_Service::set_storage()
+	 * @covers WPSEO_Configuration_Service::set_storage
 	 */
 	public function test_set_storage() {
 		$service = new WPSEO_Configuration_Service_Mock();
@@ -61,7 +61,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test set endpoint.
 	 *
-	 * @covers WPSEO_Configuration_Service::set_endpoint()
+	 * @covers WPSEO_Configuration_Service::set_endpoint
 	 */
 	public function test_set_endpoint() {
 		$service  = new WPSEO_Configuration_Service_Mock();
@@ -74,7 +74,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test set options adapter.
 	 *
-	 * @covers WPSEO_Configuration_Service::set_options_adapter()
+	 * @covers WPSEO_Configuration_Service::set_options_adapter
 	 */
 	public function test_set_options_adapter() {
 		$service = new WPSEO_Configuration_Service_Mock();
@@ -87,7 +87,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test set components.
 	 *
-	 * @covers WPSEO_Configuration_Service::set_components()
+	 * @covers WPSEO_Configuration_Service::set_components
 	 */
 	public function test_set_components() {
 		$service    = new WPSEO_Configuration_Service_Mock();
@@ -100,7 +100,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test set structure.
 	 *
-	 * @covers WPSEO_Configuration_Service::set_structure()
+	 * @covers WPSEO_Configuration_Service::set_structure
 	 */
 	public function test_set_structure() {
 		$service   = new WPSEO_Configuration_Service_Mock();
@@ -113,7 +113,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test retrieving configuration.
 	 *
-	 * @covers WPSEO_Configuration_Service::get_configuration()
+	 * @covers WPSEO_Configuration_Service::get_configuration
 	 */
 	public function test_get_configuration() {
 		$storage   = $this->getMockBuilder( 'WPSEO_Configuration_Storage' )->setMethods( array( 'retrieve' ) )->getMock();
@@ -153,7 +153,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test saving configuration function calls.
 	 *
-	 * @covers WPSEO_Configuration_Service::set_configuration()
+	 * @covers WPSEO_Configuration_Service::set_configuration
 	 */
 	public function test_set_configuration() {
 
@@ -188,7 +188,7 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	/**
 	 * Make sure all providers are set with default providers call.
 	 *
-	 * @covers WPSEO_Configuration_Service::set_default_providers()
+	 * @covers WPSEO_Configuration_Service::set_default_providers
 	 */
 	public function test_set_default_providers() {
 		$configuration_service = new WPSEO_Configuration_Service_Mock();

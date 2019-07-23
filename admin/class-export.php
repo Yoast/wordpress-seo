@@ -13,21 +13,29 @@
 class WPSEO_Export {
 
 	/**
+	 * Holds the nonce action.
+	 *
 	 * @var string
 	 */
 	const NONCE_ACTION = 'wpseo_export';
 
 	/**
+	 * Holds the export data.
+	 *
 	 * @var string
 	 */
 	private $export = '';
 
 	/**
+	 * Holds the export error message.
+	 *
 	 * @var string
 	 */
 	private $error = '';
 
 	/**
+	 * Holds whether the export was a success.
+	 *
 	 * @var boolean
 	 */
 	public $success;

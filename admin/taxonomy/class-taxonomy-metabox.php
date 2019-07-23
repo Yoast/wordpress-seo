@@ -66,7 +66,7 @@ class WPSEO_Taxonomy_Metabox {
 
 
 		echo '<div class="wpseo-metabox-content">';
-		echo '<div class="wpseo-metabox-menu"><ul>';
+		printf( '<div class="wpseo-metabox-menu"><ul role="tablist" class="yoast-aria-tabs" aria-label="%s">', $product_title );
 
 		foreach ( $content_sections as $content_section ) {
 			$content_section->display_link();

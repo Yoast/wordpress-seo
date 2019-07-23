@@ -11,6 +11,7 @@
  * @since 10.2
  */
 class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
+
 	/**
 	 * A value object with context variables.
 	 *
@@ -197,6 +198,9 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 * @return array    $data      The Person schema.
 	 */
 	private function set_image_from_options( $data, $schema_id ) {
+		if ( $this->context->site_represents !== 'person' ) {
+			return $data;
+		}
 		$person_logo_id = WPSEO_Image_Utils::get_attachment_id_from_settings( 'person_logo' );
 
 		if ( $person_logo_id ) {

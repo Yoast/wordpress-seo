@@ -118,21 +118,21 @@ class WPSEO_Metabox_Formatter {
 							'<strong>' . __( 'Not available', 'wordpress-seo' ) . '</strong>'
 						),
 						'bad'  => sprintf(
-						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the SEO score. */
+							/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the SEO score. */
 							__( '%1$sSEO%2$s: %3$s', 'wordpress-seo' ),
 							'<a href="#yoast-seo-analysis-collapsible-metabox">',
 							'</a>',
 							'<strong>' . __( 'Needs improvement', 'wordpress-seo' ) . '</strong>'
 						),
 						'ok'   => sprintf(
-						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the SEO score. */
+							/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the SEO score. */
 							__( '%1$sSEO%2$s: %3$s', 'wordpress-seo' ),
 							'<a href="#yoast-seo-analysis-collapsible-metabox">',
 							'</a>',
 							'<strong>' . __( 'OK', 'wordpress-seo' ) . '</strong>'
 						),
 						'good' => sprintf(
-						/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the SEO score. */
+							/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the SEO score. */
 							__( '%1$sSEO%2$s: %3$s', 'wordpress-seo' ),
 							'<a href="#yoast-seo-analysis-collapsible-metabox">',
 							'</a>',

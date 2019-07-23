@@ -13,10 +13,10 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Testing the default situation without any unprocessed posts.
 	 *
-	 * @covers WPSEO_Link_Reindex_Post_Service::reindex()
-	 * @covers WPSEO_Link_Reindex_Post_Service::process_posts()
-	 * @covers WPSEO_Link_Reindex_Post_Service::is_processable()
-	 * @covers WPSEO_Link_Reindex_Post_Service::get_unprocessed_posts()
+	 * @covers WPSEO_Link_Reindex_Post_Service::reindex
+	 * @covers WPSEO_Link_Reindex_Post_Service::process_posts
+	 * @covers WPSEO_Link_Reindex_Post_Service::is_processable
+	 * @covers WPSEO_Link_Reindex_Post_Service::get_unprocessed_posts
 	 */
 	public function test_reindex() {
 		$class_instance = new WPSEO_Link_Reindex_Post_Service();
@@ -27,7 +27,7 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Testing the situation where the needed tables aren't accessible.
 	 *
-	 * @covers WPSEO_Link_Reindex_Post_Service::reindex()
+	 * @covers WPSEO_Link_Reindex_Post_Service::reindex
 	 */
 	public function test_reindex_with_inaccessible_tables() {
 		$class_instance = $this
@@ -48,10 +48,10 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the reindexing functionality with one 'unprocessed' post.
 	 *
-	 * @covers WPSEO_Link_Reindex_Post_Service::reindex()
-	 * @covers WPSEO_Link_Reindex_Post_Service::process_posts()
-	 * @covers WPSEO_Link_Reindex_Post_Service::is_processable()
-	 * @covers WPSEO_Link_Reindex_Post_Service::process_post()
+	 * @covers WPSEO_Link_Reindex_Post_Service::reindex
+	 * @covers WPSEO_Link_Reindex_Post_Service::process_posts
+	 * @covers WPSEO_Link_Reindex_Post_Service::is_processable
+	 * @covers WPSEO_Link_Reindex_Post_Service::process_post
 	 */
 	public function test_reindex_with_posts() {
 		$content_processor = $this->get_content_processor_mock();
@@ -92,7 +92,7 @@ class WPSEO_Link_Reindex_Post_Service_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the reindexing without any posts.
 	 *
-	 * @covers WPSEO_Link_Reindex_Post_Service::reindex()
+	 * @covers WPSEO_Link_Reindex_Post_Service::reindex
 	 */
 	public function test_reindex_without_posts() {
 		$content_processor = $this->get_content_processor_mock();

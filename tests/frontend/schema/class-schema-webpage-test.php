@@ -18,6 +18,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @package Yoast\Tests\Frontend\Schema
  */
 class WPSEO_Schema_WebPage_Test extends TestCase {
+
 	/**
 	 * @var \WPSEO_Schema_WebPage
 	 */
@@ -34,15 +35,17 @@ class WPSEO_Schema_WebPage_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Monkey\Functions\stubs( [
-			'get_bloginfo'  => array( $this, 'get_bloginfo' ),
-			'is_search'     => false,
-			'is_author'     => false,
-			'is_home'       => false,
-			'is_archive'    => false,
-			'is_front_page' => false,
-			'is_singular'   => false,
-		] );
+		Monkey\Functions\stubs(
+			[
+				'get_bloginfo'  => array( $this, 'get_bloginfo' ),
+				'is_search'     => false,
+				'is_author'     => false,
+				'is_home'       => false,
+				'is_archive'    => false,
+				'is_front_page' => false,
+				'is_singular'   => false,
+			]
+		);
 
 		$this->context = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
 
@@ -78,9 +81,7 @@ class WPSEO_Schema_WebPage_Test extends TestCase {
 	 * @covers \WPSEO_Frontend_Page_Type::is_posts_page
 	 */
 	public function test_schema_output_type_is_collection_page_on_static_posts_page() {
-		Monkey\Functions\stubs( [
-			'is_home' => true,
-		] );
+		Monkey\Functions\stubs( [ 'is_home' => true ] );
 
 		Monkey\Functions\expect( 'get_option' )
 			->with( 'show_on_front' )
@@ -103,9 +104,7 @@ class WPSEO_Schema_WebPage_Test extends TestCase {
 	 * @covers \WPSEO_Frontend_Page_Type::is_home_posts_page
 	 */
 	public function test_schema_output_type_is_collection_page_on_homepage_with_posts() {
-		Monkey\Functions\stubs( [
-			'is_home' => true,
-		] );
+		Monkey\Functions\stubs( [ 'is_home' => true ] );
 
 		Monkey\Functions\expect( 'get_option' )
 			->with( 'show_on_front' )

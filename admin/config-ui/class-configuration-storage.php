@@ -11,11 +11,15 @@
 class WPSEO_Configuration_Storage {
 
 	/**
+	 * Holds the configuration options adapter.
+	 *
 	 * @var \WPSEO_Configuration_Options_Adapter
 	 */
 	protected $adapter;
 
 	/**
+	 * Holds the configuration fields.
+	 *
 	 * @var \WPSEO_Config_Field[]
 	 */
 	protected $fields = array();
@@ -102,7 +106,6 @@ class WPSEO_Configuration_Storage {
 	public function retrieve() {
 		$output = array();
 
-		/** @var WPSEO_Config_Field $field */
 		foreach ( $this->fields as $field ) {
 
 			$build = $field->to_array();
@@ -128,7 +131,6 @@ class WPSEO_Configuration_Storage {
 	public function store( $data_to_store ) {
 		$output = array();
 
-		/** @var WPSEO_Config_Field $field */
 		foreach ( $this->fields as $field ) {
 
 			$field_identifier = $field->get_identifier();

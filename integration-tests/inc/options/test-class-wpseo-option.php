@@ -14,8 +14,8 @@ class WPSEO_Option_Test extends WPSEO_UnitTestCase {
 	 * Tests that disabled variables cannot be updated.
 	 *
 	 * @group  ms-required
-	 * @covers WPSEO_Option::validate()
-	 * @covers WPSEO_Option::prevent_disabled_options_update()
+	 * @covers WPSEO_Option::validate
+	 * @covers WPSEO_Option::prevent_disabled_options_update
 	 */
 	public function test_prevent_disabled_options_update() {
 		$this->skipWithoutMultisite();

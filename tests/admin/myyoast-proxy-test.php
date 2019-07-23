@@ -16,7 +16,7 @@ use Yoast\WP\Free\Tests\TestCase;
 class MyYoast_Proxy_Test extends TestCase {
 
 	/**
-	 * @covers WPSEO_MyYoast_Proxy::determine_proxy_options()
+	 * @covers WPSEO_MyYoast_Proxy::determine_proxy_options
 	 */
 	public function test_determine_proxy_options_for_the_research_webworker_file() {
 		/** @var \Yoast\Tests\Doubles\MyYoast_Proxy_Double $instance */
@@ -42,8 +42,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
-	 * @covers WPSEO_MyYoast_Proxy::determine_proxy_options()
+	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page
+	 * @covers WPSEO_MyYoast_Proxy::determine_proxy_options
 	 */
 	public function test_render_proxy_page_for_an_unknown_file() {
 		/** @var \WPSEO_MyYoast_Proxy $instance */
@@ -68,7 +68,7 @@ class MyYoast_Proxy_Test extends TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
+	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file() {
 		/** @var \WPSEO_MyYoast_Proxy $instance */
@@ -113,7 +113,7 @@ class MyYoast_Proxy_Test extends TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
+	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file_errored_and_wordpress_not_found() {
 		Monkey\Functions\expect( 'wp_remote_get' )
@@ -183,7 +183,7 @@ class MyYoast_Proxy_Test extends TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
+	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page
 	 */
 	public function test_render_proxy_page_via_wordpress() {
 		Monkey\Functions\expect( 'wp_remote_get' )
@@ -228,7 +228,7 @@ class MyYoast_Proxy_Test extends TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page()
+	 * @covers WPSEO_MyYoast_Proxy::render_proxy_page
 	 */
 	public function test_render_proxy_page_via_wordpress_errored() {
 		$wp_error_mock = Mockery::mock( '\WP_Error' );

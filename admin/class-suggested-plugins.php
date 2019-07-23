@@ -11,11 +11,15 @@
 class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 
 	/**
+	 * Holds the availability checker.
+	 *
 	 * @var WPSEO_Plugin_Availability
 	 */
 	protected $availability_checker;
 
 	/**
+	 * Holds the notification center.
+	 *
 	 * @var Yoast_Notification_Center
 	 */
 	protected $notification_center;
