@@ -1,7 +1,7 @@
 import cloneDeep from "lodash/cloneDeep";
 import merge from "lodash/merge";
 
-import measureTextWidth from "../helpers/measureTextWidth";
+import measureTextLength from "../helpers/measureTextLength";
 import getContentLocale from "./getContentLocale";
 
 import { Paper } from "yoastseo";
@@ -50,7 +50,7 @@ export default function collectAnalysisData( edit, store, customAnalysisData, pl
 		data.text = pluggable._applyModifications( "content", data.text );
 	}
 
-	data.titleWidth = measureTextWidth( data.title );
+	data.titleLength = measureTextLength( data.title );
 	data.locale = getContentLocale();
 
 	return Paper.parse( data );

@@ -30,7 +30,7 @@ function createMeasurementElement() {
  * @param {string} text The text to measure the width for.
  * @returns {number} The width in pixels.
  */
-export default function measureTextWidth( text ) {
+export default function measureTextLength( text ) {
 	let element = document.getElementById( elementId );
 	if ( ! element ) {
 		element = createMeasurementElement();

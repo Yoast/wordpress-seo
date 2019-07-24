@@ -10,7 +10,7 @@ import { termsTmceId as tmceId } from "../wp-seo-tinymce";
 import getIndicatorForScore from "../analysis/getIndicatorForScore";
 import { update as updateTrafficLight } from "../ui/trafficLight";
 import { update as updateAdminBar } from "../ui/adminBar";
-import measureTextWidth from "../helpers/measureTextWidth";
+import measureTextLength from "../helpers/measureTextLength";
 
 const $ = jQuery;
 
@@ -48,7 +48,7 @@ TermDataCollector.prototype.getData = function() {
 		name: this.getName(),
 		baseUrl: this.getBaseUrl(),
 		pageTitle: this.getPageTitle(),
-		titleWidth: measureTextWidth( this.getTitle() ),
+		titleLength: measureTextLength( this.getTitle() ),
 	};
 
 	const state = this._store.getState();

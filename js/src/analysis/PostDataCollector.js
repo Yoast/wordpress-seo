@@ -5,7 +5,7 @@ import get from "lodash/get";
 import analysis from "yoastseo";
 
 /* Internal dependencies */
-import measureTextWidth from "../helpers/measureTextWidth";
+import measureTextLength from "../helpers/measureTextLength";
 import { update as updateAdminBar } from "../ui/adminBar";
 import publishBox from "../ui/publishBox";
 import { update as updateTrafficLight } from "../ui/trafficLight";
@@ -60,7 +60,7 @@ PostDataCollector.prototype.getData = function() {
 		searchUrl: this.getSearchUrl(),
 		postUrl: this.getPostUrl(),
 		permalink: this.getPermalink(),
-		titleWidth: measureTextWidth( this.getSnippetTitle() ),
+		titleLength: measureTextLength( this.getSnippetTitle() ),
 	};
 
 	const snippetData = {
