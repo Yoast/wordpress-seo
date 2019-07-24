@@ -795,7 +795,7 @@ class WPSEO_Frontend {
 			return $robotsstr;
 		}
 
-		if ( is_string( $robotsstr ) && $robotsstr !== '' &&  ) {
+		if ( is_string( $robotsstr ) && $robotsstr !== '' ) {
 			echo '<meta name="robots" content="', esc_attr( $robotsstr ), '"/>', "\n";
 		}
 	}
