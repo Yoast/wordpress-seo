@@ -71,7 +71,7 @@ class WPSEO_Export {
 			)
 		);
 		echo '</p>';
-		echo '<textarea id="wpseo-export" rows="20" cols="100">' . $this->export . '</textarea>';
+		echo '<textarea id="wpseo-export" rows="20" cols="100">' . esc_textarea( $this->export ) . '</textarea>';
 	}
 
 	/**
@@ -88,7 +88,7 @@ class WPSEO_Export {
 	 */
 	public function set_error_hook() {
 		/* translators: %1$s expands to Yoast SEO */
-		$message = sprintf( __( 'Error creating %1$s export: ', 'wordpress-seo' ), 'Yoast SEO' ) . $this->error;
+		$message = sprintf( esc_html__( 'Error creating %1$s export: ', 'wordpress-seo' ), 'Yoast SEO' ) . $this->error;
 
 		printf(
 			'<div class="notice notice-error"><p>%1$s</p></div>',
