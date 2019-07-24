@@ -679,22 +679,6 @@ class WPSEO_Admin_Init {
 
 		// WordPress hooks that have been deprecated since a Yoast SEO version.
 		$deprecated_filters = array(
-			'wpseo_metakey' => array(
-				'version'     => '6.3',
-				'alternative' => null,
-			),
-			'wpseo_metakeywords' => array(
-				'version'     => '6.3',
-				'alternative' => null,
-			),
-			'wpseo_stopwords' => array(
-				'version'     => '7.0',
-				'alternative' => null,
-			),
-			'wpseo_redirect_orphan_attachment' => array(
-				'version'     => '7.0',
-				'alternative' => null,
-			),
 			'wpseo_genesis_force_adjacent_rel_home' => array(
 				'version'     => '9.4',
 				'alternative' => null,
