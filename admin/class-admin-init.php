@@ -720,13 +720,19 @@ class WPSEO_Admin_Init {
 		global $pagenow;
 
 		if ( $pagenow === 'options-permalink.php' ) {
-			$warning = esc_html__( 'WARNING:', 'wordpress-seo' );
-			/* translators: %1$s and %2$s expand to <i> items to emphasize the word in the middle. */
-			$message = esc_html__( 'Changing your permalinks settings can seriously impact your search engine visibility. It should almost %1$s never %2$s be done on a live website.', 'wordpress-seo' );
-			$link    = esc_html__( 'Learn about why permalinks are important for SEO.', 'wordpress-seo' );
-			$url     = WPSEO_Shortlinker::get( 'https://yoa.st/why-permalinks/' );
-
-			echo '<div class="notice notice-warning"><p><strong>' . $warning . '</strong><br>' . sprintf( $message, '<i>', '</i>' ) . '<br><a href="' . $url . '" target="_blank">' . $link . '</a></p></div>';
+			printf(
+				'<div class="notice notice-warning"><p><strong>%1$s</strong><br>%2$s<br><a href="%3$s" target="_blank">%4$s</a></p></div>',
+				esc_html__( 'WARNING:', 'wordpress-seo' ),
+				sprintf(
+					/* translators: %1$s and %2$s expand to <em> items to emphasize the word in the middle. */
+					esc_html__( 'Changing your permalinks settings can seriously impact your search engine visibility. It should almost %1$s never %2$s be done on a live website.', 'wordpress-seo' ),
+					'<em>',
+					'</em>'
+				),
+				esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/why-permalinks/' ) ),
+				// The link's content.
+				esc_html__( 'Learn about why permalinks are important for SEO.', 'wordpress-seo' )
+			);
 		}
 	}
 }
