@@ -409,7 +409,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				);
 				printf(
 					'<select name="post_type_filter" id="%2$s">%1$s</select>',
-					// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $options is properly escaped.
+					// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: $options is properly escaped above.
 					$options,
 					esc_attr( 'post-type-filter-' . $instance_type )
 				);
