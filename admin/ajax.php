@@ -17,7 +17,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * @param array $results Results array for encoding.
  */
 function wpseo_ajax_json_echo_die( $results ) {
-	// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe
+	// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe.
 	echo WPSEO_Utils::format_json_encode( $results );
 	die();
 }
@@ -275,7 +275,7 @@ function ajax_get_keyword_usage() {
 	}
 
 	wp_die(
-		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe
+		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe.
 		WPSEO_Utils::format_json_encode( WPSEO_Meta::keyword_usage( $keyword, $post_id ) )
 	);
 }
@@ -306,7 +306,7 @@ function ajax_get_term_keyword_usage() {
 	$usage = $usage[ $keyword ];
 
 	wp_die(
-		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe
+		// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe.
 		WPSEO_Utils::format_json_encode( $usage )
 	);
 }
