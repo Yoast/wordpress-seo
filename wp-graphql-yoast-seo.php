@@ -59,7 +59,7 @@ add_action('graphql_register_types', function () {
 
             // Get data
             $seo = array(
-              'title' => trim($wpseo_frontend->get_content_title($post)),
+              'title' => trim($wpseo_frontend->title($post)),
               'metaDesc' => trim($wpseo_frontend->metadesc(false)),
               'focuskw' => trim(get_post_meta($post->ID, '_yoast_wpseo_focuskw', true)),
               'metaKeywords' => trim(get_post_meta($post->ID, '_yoast_wpseo_metakeywords', true)),
