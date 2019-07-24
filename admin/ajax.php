@@ -83,25 +83,6 @@ function wpseo_dismiss_tagline_notice() {
 add_action( 'wp_ajax_wpseo_dismiss_tagline_notice', 'wpseo_dismiss_tagline_notice' );
 
 /**
- * Used in the editor to replace vars for the snippet preview.
- */
-function wpseo_ajax_replace_vars() {
-	global $post;
-	check_ajax_referer( 'wpseo-replace-vars' );
-
-	$post = get_post( intval( filter_input( INPUT_POST, 'post_id' ) ) );
-	global $wp_query;
-	$wp_query->queried_object    = $post;
-	$wp_query->queried_object_id = $post->ID;
-
-	$omit = array( 'excerpt', 'excerpt_only', 'title' );
-	echo wpseo_replace_vars( stripslashes( filter_input( INPUT_POST, 'string' ) ), $post, $omit );
-	die;
-}
-
-add_action( 'wp_ajax_wpseo_replace_vars', 'wpseo_ajax_replace_vars' );
-
-/**
  * Save an individual SEO title from the Bulk Editor.
  */
 function wpseo_save_title() {
@@ -397,4 +378,26 @@ function wpseo_add_fb_admin() {
 	}
 	_deprecated_function( __FUNCTION__, 'WPSEO 7.0', 'This method is deprecated.' );
 	wpseo_ajax_json_echo_die( '' );
+}
+
+/**
+ * Used in the editor to replace vars for the snippet preview.
+ *
+ * @deprecated 11.9
+ * @codeCoverageIgnore
+ */
+function wpseo_ajax_replace_vars() {
+	_deprecated_function( __METHOD__, 'WPSEO 11.9' );
+
+	global $post;
+	check_ajax_referer( 'wpseo-replace-vars' );
+
+	$post = get_post( intval( filter_input( INPUT_POST, 'post_id' ) ) );
+	global $wp_query;
+	$wp_query->queried_object    = $post;
+	$wp_query->queried_object_id = $post->ID;
+
+	$omit = array( 'excerpt', 'excerpt_only', 'title' );
+	echo wpseo_replace_vars( stripslashes( filter_input( INPUT_POST, 'string' ) ), $post, $omit );
+	die;
 }
