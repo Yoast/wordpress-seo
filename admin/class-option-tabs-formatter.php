@@ -64,7 +64,7 @@ class WPSEO_Option_Tabs_Formatter {
 			 */
 			$option_tab_content = apply_filters( 'wpseo_option_tab-' . $tab_filter_name, null, $option_tabs, $tab );
 			if ( ! empty( $option_tab_content ) ) {
-				echo $option_tab_content;
+				echo wp_kses_post( $option_tab_content );
 			}
 
 			if ( empty( $option_tab_content ) ) {
