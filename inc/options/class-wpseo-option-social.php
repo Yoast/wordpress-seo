@@ -203,6 +203,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 							}
 						}
 						unset( $twitter_id );
+
+						Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $dirty[ $key ] );
 					}
 					break;
 

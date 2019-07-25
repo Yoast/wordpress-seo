@@ -103,13 +103,41 @@ class Yoast_Input_Validation {
 	 */
 	public static function set_error_descriptions( $descriptions = array() ) {
 		$defaults     = array(
-			'baiduverify'     => __( 'Baidu verification codes can only contain letters, numbers, hyphens, and underscores.', 'wordpress-seo' ),
-			'fbadminapp'      => __( 'The Facebook App ID you entered doesn\'t exist.', 'wordpress-seo' ),
-			'googleverify'    => __( 'Google verification codes can only contain letters, numbers, hyphens, and underscores.', 'wordpress-seo' ),
-			'msverify'        => __( 'Bing confirmation codes can only contain letters from A to F, numbers, hyphens, and underscores.', 'wordpress-seo' ),
-			'pinterestverify' => __( 'Pinterest confirmation codes can only contain letters from A to F, numbers, hyphens, and underscores.', 'wordpress-seo' ),
-			'twitter_site'    => __( 'Twitter usernames can only contain letters, numbers, and underscores.', 'wordpress-seo' ),
-			'yandexverify'    => __( 'Yandex confirmation codes can only contain letters from A to F, numbers, hyphens, and underscores.', 'wordpress-seo' ),
+			'baiduverify'     => sprintf(
+				/* translators: %s: additional message with the submitted invalid value */
+				esc_html__( 'Baidu verification codes can only contain letters, numbers, hyphens, and underscores. %s', 'wordpress-seo' ),
+				self::get_dirty_value_message( 'baiduverify' )
+			),
+			'fbadminapp'      => sprintf(
+				/* translators: %s: additional message with the submitted invalid value */
+				esc_html__( 'The Facebook App ID you entered doesn\'t exist. %s', 'wordpress-seo' ),
+				self::get_dirty_value_message( 'fbadminapp' )
+			),
+			'googleverify'    => sprintf(
+				/* translators: %s: additional message with the submitted invalid value */
+				esc_html__( 'Google verification codes can only contain letters, numbers, hyphens, and underscores. %s', 'wordpress-seo' ),
+				self::get_dirty_value_message( 'googleverify' )
+			),
+			'msverify'        => sprintf(
+				/* translators: %s: additional message with the submitted invalid value */
+				esc_html__( 'Bing confirmation codes can only contain letters from A to F, numbers, hyphens, and underscores. %s', 'wordpress-seo' ),
+				self::get_dirty_value_message( 'msverify' )
+			),
+			'pinterestverify' => sprintf(
+				/* translators: %s: additional message with the submitted invalid value */
+				esc_html__( 'Pinterest confirmation codes can only contain letters from A to F, numbers, hyphens, and underscores. %s', 'wordpress-seo' ),
+				self::get_dirty_value_message( 'pinterestverify' )
+			),
+			'twitter_site'    => sprintf(
+				/* translators: %s: additional message with the submitted invalid value */
+				esc_html__( 'Twitter usernames can only contain letters, numbers, and underscores. %s', 'wordpress-seo' ),
+				self::get_dirty_value_message( 'twitter_site' )
+			),
+			'yandexverify'    => sprintf(
+				/* translators: %s: additional message with the submitted invalid value */
+				esc_html__( 'Yandex confirmation codes can only contain letters from A to F, numbers, hyphens, and underscores. %s', 'wordpress-seo' ),
+				self::get_dirty_value_message( 'yandexverify' )
+			),
 		);
 
 		$descriptions = wp_parse_args( $descriptions, $defaults );
@@ -189,6 +217,64 @@ class Yoast_Input_Validation {
 
 		if ( self::yoast_form_control_has_error( $error_code ) && $error_description ) {
 			return '<p id="' . esc_attr( $error_code ) . '-error-description" class="yoast-input-validation__error-description">' . $error_description . '</p>';
+		}
+
+		return '';
+	}
+
+	/**
+	 * Adds the submitted invalid value to the WordPress `$wp_settings_errors` global.
+	 *
+	 * @since 11.8
+	 *
+	 * @param string $error_code  Code of the error set via `add_settings_error()`, normally the variable name.
+	 * @param string $dirty_value The submitted invalid value.
+	 * @return void
+	 */
+	public static function add_dirty_value_to_settings_errors( $error_code, $dirty_value ) {
+		global $wp_settings_errors;
+
+		foreach ( $wp_settings_errors as $index => $error ) {
+			if ( $error['code'] === $error_code ) {
+				$wp_settings_errors[ $index ]['dirty'] = $dirty_value;
+			}
+		}
+	}
+
+	/**
+	 * Gets an invalid submitted value.
+	 *
+	 * @since 11.8
+	 *
+	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
+	 * @return string The submitted invalid input field value.
+	 */
+	public static function get_dirty_value( $error_code ) {
+		$errors = get_settings_errors();
+
+		foreach ( $errors as $error ) {
+			if ( $error['code'] === $error_code && isset( $error['dirty'] ) ) {
+				return $error['dirty'];
+			}
+		}
+	}
+
+	/**
+	 * Gets a specific error invalid value message.
+	 *
+	 * @since 11.8
+	 *
+	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
+	 * @return string The error invalid value message or empty string.
+	 */
+	public static function get_dirty_value_message( $error_code ) {
+		$dirty_value = self::get_dirty_value( $error_code );
+
+		if ( $dirty_value ) {
+			return sprintf(
+				__( 'The submitted value was: %s', 'wordpress-seo' ),
+				$dirty_value
+			);
 		}
 
 		return '';

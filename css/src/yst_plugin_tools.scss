@@ -91,6 +91,7 @@ tr.yst_row.even {
 
 	.yoast-input-validation {
 		&__error-description {
+			width: 400px;
 			padding-left: 200px;
 			margin: 0 0 1rem;
 			color: #8f1919;
@@ -902,6 +903,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 		.yoast-input-validation {
 			&__error-description {
+				width: auto;
 				padding-left: 0;
 			}
 		}

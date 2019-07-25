@@ -312,6 +312,8 @@ abstract class WPSEO_Option {
 						sprintf( __( '%1$s does not seem to be a valid %2$s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
 						'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
 					);
+
+					Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $meta );
 				}
 			}
 		}
@@ -393,6 +395,8 @@ abstract class WPSEO_Option {
 					), // The error message.
 					'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
 				);
+
+				Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $dirty[ $key ] );
 			}
 		}
 	}
