@@ -24,5 +24,5 @@ $yform->light_switch(
 	__( 'Remove the categories prefix', 'wordpress-seo' ),
 	$remove_buttons,
 	false,
-	$stripcategorybase_help->get_button_html() . $stripcategorybase_help->get_panel_html()
+	$stripcategorybase_help
 );
