@@ -28,6 +28,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 		check_ajax_referer( 'wpseo_recalculate', 'nonce' );
 
 		wp_die(
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: WPSEO_Utils::format_json_encode is considered safe.
 			WPSEO_Utils::format_json_encode(
 				array(
 					'posts' => $this->calculate_posts(),
@@ -49,6 +50,7 @@ class WPSEO_Recalculate_Scores_Ajax {
 			$response = $fetch_object->get_items_to_recalculate( $paged );
 
 			if ( ! empty( $response ) ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: WPSEO_Utils::format_json_encode is considered safe.
 				wp_die( WPSEO_Utils::format_json_encode( $response ) );
 			}
 		}
