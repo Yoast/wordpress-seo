@@ -1215,6 +1215,89 @@ SVG;
 		return "<script type='application/ld+json' class='" . esc_attr( $class ) . "'>" . self::format_json_encode( $output ) . '</script>' . "\n";
 	}
 
+	/**
+	 * Extends the allowed post tags with input and select tags.
+	 *
+	 * @param array $allowed_post_tags The allowed post tages.
+	 *
+	 * @return array The allowed tags including post tags, input tags and select tags.
+	 */
+	public static function extend_kses_post_with_forms( $allowed_post_tags ) {
+		$input_tags = array(
+			'input' => array(
+				'accept'          => true,
+				'align'           => true,
+				'alt'             => true,
+				'autocomplete'    => true,
+				'autofocus'       => true,
+				'checked'         => true,
+				'dirname'         => true,
+				'disabled'        => true,
+				'form'            => true,
+				'formaction'      => true,
+				'formenctype'     => true,
+				'formmethod'      => true,
+				'formnovalidate'  => true,
+				'formtarget'      => true,
+				'height'          => true,
+				'list'            => true,
+				'max'             => true,
+				'maxlength'       => true,
+				'min'             => true,
+				'multiple'        => true,
+				'name'            => true,
+				'pattern'         => true,
+				'placeholder'     => true,
+				'readonly'        => true,
+				'required'        => true,
+				'size'            => true,
+				'src'             => true,
+				'step'            => true,
+				'type'            => true,
+				'value'           => true,
+				'width'           => true,
+				'accesskey'       => true,
+				'contenteditable' => true,
+				'draggable'       => true,
+				'dropzone'        => true,
+				'hidden'          => true,
+				'lang'            => true,
+				'spellcheck'      => true,
+				'tabindex'        => true,
+				'translate'       => true,
+			),
+			'select' => array(
+				'autofocus'       => true,
+				'disabled'        => true,
+				'form'            => true,
+				'multiple'        => true,
+				'name'            => true,
+				'required'        => true,
+				'size'            => true,
+				'onblur'          => true,
+				'onchange'        => true,
+				'oncontextmenu'   => true,
+				'onfocus'         => true,
+				'oninput'         => true,
+				'oninvalid'       => true,
+				'onreset'         => true,
+				'onsearch'        => true,
+				'onselect'        => true,
+				'onsubmit'        => true,
+				'accesskey'       => true,
+				'contenteditable' => true,
+				'draggable'       => true,
+				'dropzone'        => true,
+				'hidden'          => true,
+				'lang'            => true,
+				'spellcheck'      => true,
+				'tabindex'        => true,
+				'translate'       => true,
+			)
+		);
+		return array_merge_recursive( $allowed_post_tags, $input_tags );
+	}
+
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
