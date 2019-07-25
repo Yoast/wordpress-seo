@@ -26,7 +26,7 @@ use YoastSEO_Vendor\Ruckusing_Task_Manager;
  *
  * @package Yoast\Tests
  */
-class Migration_Runner_test extends TestCase {
+class Migration_Runner_Test extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
@@ -50,7 +50,7 @@ class Migration_Runner_test extends TestCase {
 	/**
 	 * Tests that initialize runs migrations.
 	 *
-	 * @covers ::initialize;
+	 * @covers ::initialize
 	 */
 	public function test_initialize() {
 		$instance = Mockery::mock( Migration_Runner::class )->makePartial();
@@ -204,7 +204,7 @@ class Migration_Runner_test extends TestCase {
 	 * @return wpdb The wpdb mock.
 	 */
 	protected function get_wpdb_mock() {
-		$wpdb = Mockery::mock( 'wpdb' );
+		$wpdb         = Mockery::mock( 'wpdb' );
 		$wpdb->prefix = 'test';
 
 		return $wpdb;

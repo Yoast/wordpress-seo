@@ -98,7 +98,7 @@ class Primary_Term_Watcher implements Integration {
 		}
 
 		$term_selected = ! empty( $term_id );
-		$primary_term = $this->repository->find_by_postid_and_taxonomy( $post_id, $taxonomy, $term_selected );
+		$primary_term  = $this->repository->find_by_postid_and_taxonomy( $post_id, $taxonomy, $term_selected );
 
 		// Removes the indexable when found.
 		if ( ! $term_selected ) {

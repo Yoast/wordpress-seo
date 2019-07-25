@@ -62,7 +62,7 @@ class Indexable_Repository extends ORMWrapper {
 		/**
 		 * @var $instance self
 		 */
-		$instance = Yoast_Model::of_type( 'Indexable' );
+		$instance                 = Yoast_Model::of_type( 'Indexable' );
 		$instance->author_builder = $author_builder;
 		$instance->post_builder   = $post_builder;
 		$instance->term_builder   = $term_builder;
@@ -97,8 +97,8 @@ class Indexable_Repository extends ORMWrapper {
 	 */
 	public function find_by_id_and_type( $object_id, $object_type, $auto_create = true ) {
 		$indexable = $this->where( 'object_id', $object_id )
-						  ->where( 'object_type', $object_type )
-						  ->find_one();
+			->where( 'object_type', $object_type )
+			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->create_for_id_and_type( $object_id, $object_type );
@@ -139,7 +139,7 @@ class Indexable_Repository extends ORMWrapper {
 
 		$this->logger->debug(
 			\sprintf(
-			/* translators: 1: object ID; 2: object type. */
+				/* translators: 1: object ID; 2: object type. */
 				\__( 'Indexable created for object %1$s with type %2$s', 'wordpress-seo' ),
 				$object_id,
 				$object_type

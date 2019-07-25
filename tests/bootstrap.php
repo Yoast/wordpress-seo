@@ -33,4 +33,4 @@ else {
 	require_once __DIR__ . '/load/wp-seo.php';
 }
 
-define( 'YoastSEO_Vendor\RUCKUSING_BASE',  \WPSEO_PATH . 'fake-ruckusing' );
+define( 'YoastSEO_Vendor\RUCKUSING_BASE', \WPSEO_PATH . 'fake-ruckusing' );
