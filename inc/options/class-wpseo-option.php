@@ -369,7 +369,17 @@ abstract class WPSEO_Option {
 
 			$response        = wp_remote_get( $url );
 			// These filters are used in the tests.
+			/**
+			 * Filter: 'validate_facebook_app_id_api_response_code' - Allows to filter the Faceboook API response code.
+			 *
+			 * @api int $response_code The Facebook API response header code.
+			 */
 			$response_code   = apply_filters( 'validate_facebook_app_id_api_response_code', wp_remote_retrieve_response_code( $response ) );
+			/**
+			 * Filter: 'validate_facebook_app_id_api_response_body' - Allows to filter the Faceboook API response body.
+			 *
+			 * @api string $response_body The Facebook API JSON response body.
+			 */
 			$response_body   = apply_filters( 'validate_facebook_app_id_api_response_body', wp_remote_retrieve_body( $response ) );
 			$response_object = json_decode( $response_body );
 
@@ -379,25 +389,25 @@ abstract class WPSEO_Option {
 			 */
 			if ( $response_code === 200 && isset( $response_object->id ) ) {
 				$clean[ $key ] = $dirty[ $key ];
+				return;
 			}
-			else {
-				// Restore the previous value, if any.
-				if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
-					$clean[ $key ] = $old[ $key ];
-				}
-				add_settings_error(
-					$this->group_name, // Slug title of the setting.
-					$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
-					sprintf(
-						/* translators: %s expands to an invalid Facebook App ID. */
-						__( '%s does not seem to be a valid Facebook App ID. Please correct.', 'wordpress-seo' ),
-						'<strong>' . esc_html( $dirty[ $key ] ) . '</strong>'
-					), // The error message.
-					'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
-				);
 
-				Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $dirty[ $key ] );
+			// Restore the previous value, if any.
+			if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
+				$clean[ $key ] = $old[ $key ];
 			}
+			add_settings_error(
+				$this->group_name, // Slug title of the setting.
+				$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
+				sprintf(
+					/* translators: %s expands to an invalid Facebook App ID. */
+					__( '%s does not seem to be a valid Facebook App ID. Please correct.', 'wordpress-seo' ),
+					'<strong>' . esc_html( $dirty[ $key ] ) . '</strong>'
+				), // The error message.
+				'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+			);
+
+			Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $dirty[ $key ] );
 		}
 	}
 

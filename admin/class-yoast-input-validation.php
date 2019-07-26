@@ -8,7 +8,7 @@
 /**
  * Implements server-side user input validation.
  *
- * @since 11.8
+ * @since 11.9
  */
 class Yoast_Input_Validation {
 
@@ -17,7 +17,7 @@ class Yoast_Input_Validation {
 	 *
 	 * The normal pattern is 'yoast' . $option_name . 'options'.
 	 *
-	 * @since 11.8
+	 * @since 11.9
 	 *
 	 * @param string $group_name The option group name.
 	 *
@@ -33,7 +33,7 @@ class Yoast_Input_Validation {
 	 *
 	 * Uses the WordPress `admin_title` filter in the WPSEO_Option subclasses.
 	 *
-	 * @since 11.8
+	 * @since 11.9
 	 *
 	 * @param string $admin_title The page title, with extra context added.
 	 *
@@ -67,7 +67,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Checks whether a specific form input field was submitted with an invalid value.
 	 *
-	 * @since 11.8
+	 * @since 11.9
 	 *
 	 * @param string $error_code Must be the same slug-name used for the field variable and for `add_settings_error()`.
 	 *
@@ -88,7 +88,7 @@ class Yoast_Input_Validation {
 	/**
 	 * The error descriptions.
 	 *
-	 * @since 11.8
+	 * @since 11.9
 	 * @var array
 	 */
 	private static $_error_descriptions = array();
@@ -96,7 +96,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Sets the error descriptions.
 	 *
-	 * @since 11.8
+	 * @since 11.9
 	 *
 	 * @param array $descriptions An associative array of error descriptions. For
 	 *                            each entry, the key must be the setting variable.
@@ -148,7 +148,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets all the error descriptions.
 	 *
-	 * @since 11.8
+	 * @since 11.9
 	 *
 	 * @return array An associative array of error descriptions.
 	 */
@@ -159,7 +159,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets a specific error description.
 	 *
-	 * @since 11.8
+	 * @since 11.9
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 * @return string The error description.
@@ -175,7 +175,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets the aria-invalid HTML attribute based on the submitted invalid value.
 	 *
-	 * @since 11.8
+	 * @since 11.9
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 * @return string The aria-invalid HTML attribute or empty string.
@@ -191,7 +191,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets the aria-describedby HTML attribute based on the submitted invalid value.
 	 *
-	 * @since 11.8
+	 * @since 11.9
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 * @return string The aria-describedby HTML attribute or empty string.
@@ -207,7 +207,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets the error description wrapped in a HTML paragraph.
 	 *
-	 * @since 11.8
+	 * @since 11.9
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 * @return string The error description HTML or empty string.
@@ -225,7 +225,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Adds the submitted invalid value to the WordPress `$wp_settings_errors` global.
 	 *
-	 * @since 11.8
+	 * @since 11.9
 	 *
 	 * @param string $error_code  Code of the error set via `add_settings_error()`, normally the variable name.
 	 * @param string $dirty_value The submitted invalid value.
@@ -236,7 +236,7 @@ class Yoast_Input_Validation {
 
 		foreach ( $wp_settings_errors as $index => $error ) {
 			if ( $error['code'] === $error_code ) {
-				$wp_settings_errors[ $index ]['dirty'] = $dirty_value;
+				$wp_settings_errors[ $index ]['yoast_dirty_value'] = $dirty_value;
 			}
 		}
 	}
@@ -244,7 +244,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets an invalid submitted value.
 	 *
-	 * @since 11.8
+	 * @since 11.9
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 * @return string The submitted invalid input field value.
@@ -253,16 +253,16 @@ class Yoast_Input_Validation {
 		$errors = get_settings_errors();
 
 		foreach ( $errors as $error ) {
-			if ( $error['code'] === $error_code && isset( $error['dirty'] ) ) {
-				return $error['dirty'];
+			if ( $error['code'] === $error_code && isset( $error['yoast_dirty_value'] ) ) {
+				return $error['yoast_dirty_value'];
 			}
 		}
 	}
 
 	/**
-	 * Gets a specific error invalid value message.
+	 * Gets a specific invalid value message.
 	 *
-	 * @since 11.8
+	 * @since 11.9
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 * @return string The error invalid value message or empty string.

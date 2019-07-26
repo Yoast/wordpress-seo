@@ -84,4 +84,58 @@ class Yoast_Input_Validation_Test extends WPSEO_UnitTestCase {
 
 		unset( $GLOBALS['wp_settings_errors'] );
 	}
+
+	/**
+	 * Tests a submitted invalid value is added to the WordPress `$wp_settings_errors` global.
+	 *
+	 * @covers Yoast_Input_Validation::add_dirty_value_to_settings_errors
+	 */
+	public function test_add_dirty_value_to_settings_errors() {
+		global $wp_settings_errors;
+		$added_dirty_value = '';
+
+		add_settings_error(
+			'name_of_input_field_with_error',
+			'name_of_input_field_with_error',
+			'This is the error message',
+			'error'
+		);
+
+		Yoast_Input_Validation::add_dirty_value_to_settings_errors( 'name_of_input_field_with_error', 'Invalid submitted value' );
+
+		foreach ( $wp_settings_errors as $error ) {
+			if ( $error['code'] === 'name_of_input_field_with_error' && isset( $error['yoast_dirty_value'] ) ) {
+				$added_dirty_value = $error['yoast_dirty_value'];
+			}
+		}
+
+		$this->assertEquals( 'Invalid submitted value', $added_dirty_value );
+
+		unset( $GLOBALS['wp_settings_errors'] );
+	}
+
+	/**
+	 * Tests a submitted invalid value is retrieved from the WordPress `$wp_settings_errors` global.
+	 *
+	 * @covers Yoast_Input_Validation::test_get_dirty_value
+	 */
+	public function test_get_dirty_value() {
+		global $wp_settings_errors;
+		$added_dirty_value = '';
+
+		add_settings_error(
+			'name_of_input_field_with_error',
+			'name_of_input_field_with_error',
+			'This is the error message',
+			'error'
+		);
+
+		Yoast_Input_Validation::add_dirty_value_to_settings_errors( 'name_of_input_field_with_error', 'Invalid submitted value' );
+
+		$added_dirty_value = Yoast_Input_Validation::get_dirty_value( 'name_of_input_field_with_error' );
+
+		$this->assertEquals( 'Invalid submitted value', $added_dirty_value );
+
+		unset( $GLOBALS['wp_settings_errors'] );
+	}
 }
