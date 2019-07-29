@@ -31,7 +31,6 @@ class Metabox_Section_Additional extends TestCase {
 	 *
 	 * @covers WPSEO_Metabox_Section_Additional::__construct
 	 * @covers WPSEO_Metabox_Section_Additional::display_content
-	 * @covers WPSEO_Metabox_Section_Additional::display_link
 	 */
 	public function test_display_content() {
 		$section = new WPSEO_Metabox_Section_Additional( 'additional-tab', 'Additional Tab', 'Additional Content' );
@@ -64,6 +63,23 @@ class Metabox_Section_Additional extends TestCase {
 			'aria-controls="wpseo-meta-section-additional-tab"',
 			'additional-class',
 			'aria-label="additional-aria"'
+		] );
+	}
+
+	/**
+	 * Tests the output of \WPSEO_Metabox_Section_Additional::display_link.
+	 *
+	 * @covers WPSEO_Metabox_Section_Additional::__construct
+	 * @covers WPSEO_Metabox_Section_Additional::display_link
+	 */
+	public function test_display_link_no_aria_label() {
+		$section = new WPSEO_Metabox_Section_Additional( 'additional-tab', 'Additional Tab', 'Additional Content', [ 'link_class' => 'additional-class' ] );
+
+		$section->display_link();
+
+		$this->expectOutputNotContains( [
+			'aria-label',
+			'additional-aria'
 		] );
 	}
 }

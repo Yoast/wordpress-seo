@@ -94,4 +94,21 @@ abstract class TestCase extends BaseTestCase {
 			$this->assertTrue( $found !== false, \sprintf( 'Expected "%s" to be found in "%s" but couldn\'t find it.', $needle, $output ) );
 		}
 	}
+
+	/**
+	 * @param string|array $needles Expected output.
+	 */
+	protected function expectOutputNotContains( $needles ) {
+		$output = \preg_replace( '|\R|', "\r\n", \ob_get_contents() );
+		\ob_clean();
+
+		if ( ! \is_array( $needles ) ) {
+			$needles = array( $needles );
+		}
+
+		foreach ( $needles as $needle ) {
+			$found = \strpos( $output, $needle );
+			$this->assertTrue( $found === false, \sprintf( 'Expected "%s" to be found in "%s" but couldn\'t find it.', $needle, $output ) );
+		}
+	}
 }
