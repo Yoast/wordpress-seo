@@ -101,4 +101,19 @@ class Metabox_Test extends TestCase {
 		$this->assertSame( "tab-name", $entry->name );
 		$this->assertSame( "Testing 1 2 3", $entry->content );
 	}
+
+	/**
+	 * Tests that any invalid section entries are ignored. In this case without a name property.
+	 *
+	 * @covers ::get_additional_meta_sections
+	 */
+	public function test_get_additional_meta_sections_ignores_invalid_sections() {
+		Monkey\Filters\expectApplied( 'yoast_free_additional_metabox_sections' )
+			->once()
+			->with( [] )
+			->andReturn( [ [ "link_content" => "Testing Tab", "content" => "Testing 1 2 3" ] ] );
+
+		$actual = $this->instance->get_additional_meta_sections();
+		$this->assertSame( 0, count( $actual ) );
+	}
 }
