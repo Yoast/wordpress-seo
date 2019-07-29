@@ -26,15 +26,15 @@ class Metabox_Collapsibles_Section_Test extends TestCase {
 	 * @covers WPSEO_Metabox_Collapsible::link
 	 */
 	public function test_display_content_with_collapsible() {
-		Monkey\Functions\stubs( [
-			'esc_attr_e',
-		] );
+		Monkey\Functions\stubs( [ 'esc_attr_e' ] );
 
 		Monkey\Functions\expect( 'wp_parse_args' )
 			->once()
-			->andReturnUsing( function( $settings, $defaults ) {
-				return array_merge( $defaults, $settings );
-			} );
+			->andReturnUsing(
+				function( $settings, $defaults ) {
+					return array_merge( $defaults, $settings );
+				}
+			);
 
 		$collapsibles = [];
 
@@ -52,11 +52,13 @@ class Metabox_Collapsibles_Section_Test extends TestCase {
 
 		$section->display_content();
 
-		$this->expectOutputContains( [
-			'Collapsible 1 label',
-			'Collapsible 1 content',
-			'wpseo-meta-section-collapsibles-tab'
-		] );
+		$this->expectOutputContains(
+			[
+				'Collapsible 1 label',
+				'Collapsible 1 content',
+				'wpseo-meta-section-collapsibles-tab',
+			]
+		);
 	}
 
 	/**
@@ -88,8 +90,6 @@ class Metabox_Collapsibles_Section_Test extends TestCase {
 
 		$section->display_link();
 
-		$this->expectOutputContains( [
-			'Metabox Tab Title',
-		] );
+		$this->expectOutputContains( [ 'Metabox Tab Title' ] );
 	}
 }

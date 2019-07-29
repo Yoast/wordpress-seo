@@ -43,6 +43,6 @@ class Database_Setup implements Initializer {
 		ORM::configure( 'password', \DB_PASSWORD );
 
 		Yoast_Model::$auto_prefix_models = '\\Yoast\\WP\\Free\\Models\\';
-		Yoast_Model::$logger = $this->logger;
+		Yoast_Model::$logger             = $this->logger;
 	}
 }

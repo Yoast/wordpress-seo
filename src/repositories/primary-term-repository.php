@@ -40,8 +40,8 @@ class Primary_Term_Repository extends ORMWrapper {
 	public function find_by_postid_and_taxonomy( $post_id, $taxonomy, $auto_create = true ) {
 		/** @var \Yoast\WP\Free\Models\Primary_Term $primary_term */
 		$primary_term = $this->where( 'post_id', $post_id )
-							 ->where( 'taxonomy', $taxonomy )
-							 ->find_one();
+			->where( 'taxonomy', $taxonomy )
+			->find_one();
 
 		if ( $auto_create && ! $primary_term ) {
 			$primary_term = $this->create();

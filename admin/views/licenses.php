@@ -158,7 +158,7 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 						class="yoast-link--license">
 						<?php
 						/* translators: %s expands to the extension title */
-						printf( esc_html( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ), $premium_extension->get_title() );
+						printf( esc_html__( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ), $premium_extension->get_title() );
 						echo $new_tab_message;
 						?>
 					</a>
@@ -168,7 +168,7 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 						class="yoast-link--license">
 						<?php
 						/* translators: %s expands to the extension title */
-						printf( esc_html( 'Activate %s for your site on MyYoast', 'wordpress-seo' ), $premium_extension->get_title() );
+						printf( esc_html__( 'Activate %s for your site on MyYoast', 'wordpress-seo' ), $premium_extension->get_title() );
 						echo $new_tab_message;
 						?>
 					</a>
@@ -242,7 +242,7 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 									class="yoast-link--license">
 									<?php
 									/* translators: %s expands to the extension title */
-									printf( esc_html( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ), $extension->get_title() );
+									printf( esc_html__( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ), $extension->get_title() );
 									echo $new_tab_message;
 									?>
 								</a>
@@ -252,7 +252,7 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 									class="yoast-link--license">
 									<?php
 									/* translators: %s expands to the extension title */
-									printf( esc_html( 'Activate %s for your site on MyYoast', 'wordpress-seo' ), $extension->get_title() );
+									printf( esc_html__( 'Activate %s for your site on MyYoast', 'wordpress-seo' ), $extension->get_title() );
 									echo $new_tab_message;
 									?>
 								</a>

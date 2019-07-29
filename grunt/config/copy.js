@@ -67,6 +67,7 @@ module.exports = {
 				cwd: ".",
 				src: [
 					"admin/**",
+					"config/**",
 					"css/**/*.css",
 					"css/main-sitemap.xsl",
 					"deprecated/**",

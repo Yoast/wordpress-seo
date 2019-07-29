@@ -127,15 +127,12 @@ class Schema_WebPage_Test extends TestCase {
 	 * @covers \WPSEO_Frontend_Page_Type::is_home_posts_page
 	 */
 	public function test_do_not_add_author_for_page() {
-		Monkey\Functions\stubs( [
-			'is_singular' => true,
-
-		] );
+		Monkey\Functions\stubs( [ 'is_singular' => true ] );
 
 		$this->context->site_represents = false;
 
-		$post = Mockery::mock('WP_Post' );
-		$post->post_date_gmt = '';
+		$post                    = Mockery::mock( 'WP_Post' );
+		$post->post_date_gmt     = '';
 		$post->post_modified_gmt = '';
 
 		Monkey\Functions\expect( 'get_post' )
@@ -160,17 +157,14 @@ class Schema_WebPage_Test extends TestCase {
 	 * @covers \WPSEO_Schema_WebPage::add_author
 	 */
 	public function test_add_author_for_post() {
-		Monkey\Functions\stubs( [
-			'is_singular' => true,
-
-		] );
+		Monkey\Functions\stubs( [ 'is_singular' => true ] );
 
 		$this->context->site_represents = false;
 
-		$post = Mockery::mock('WP_Post' );
-		$post->post_date_gmt = '';
+		$post                    = Mockery::mock( 'WP_Post' );
+		$post->post_date_gmt     = '';
 		$post->post_modified_gmt = '';
-		$post->post_author = 'author';
+		$post->post_author       = 'author';
 
 		Monkey\Functions\expect( 'get_post' )
 			->andReturn( $post );

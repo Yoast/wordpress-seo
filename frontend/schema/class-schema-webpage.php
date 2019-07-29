@@ -67,7 +67,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 		if ( is_singular() ) {
 			$this->add_image( $data );
 
-			$post = get_post( $this->context->id );
+			$post                  = get_post( $this->context->id );
 			$data['datePublished'] = mysql2date( DATE_W3C, $post->post_date_gmt, false );
 			$data['dateModified']  = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
 

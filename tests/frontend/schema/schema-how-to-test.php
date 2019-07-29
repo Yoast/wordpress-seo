@@ -34,11 +34,13 @@ class Schema_HowTo_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Monkey\Functions\stubs( [
-			'get_post_type' => function() {
-				return 'post';
-			},
-		] );
+		Monkey\Functions\stubs(
+			[
+				'get_post_type' => function() {
+					return 'post';
+				},
+			]
+		);
 
 		$this->context = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
 
@@ -94,7 +96,7 @@ class Schema_HowTo_Test extends TestCase {
 				'name'             => 'title',
 				'mainEntityOfPage' => [ '@id' => 'example.com/#article' ],
 				'description'      => 'description',
-			]
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -131,7 +133,7 @@ class Schema_HowTo_Test extends TestCase {
 
 		$expected = [
 			[
-				'@id' => 'OtherGraphPiece'
+				'@id' => 'OtherGraphPiece',
 			],
 			[
 				'@type'            => 'HowTo',
@@ -298,7 +300,7 @@ class Schema_HowTo_Test extends TestCase {
 						[
 							'id'       => 'step-id-1',
 							'jsonName' => 'How to step 1',
-							"jsonText" => '',
+							'jsonText' => '',
 						],
 					],
 				],

@@ -28,7 +28,8 @@ class Loader_Test extends TestCase {
 	 */
 	public function test_loading_initializers_before_integrations() {
 		$loader_mock = Mockery::mock( Loader::class )->makePartial()
-													 ->shouldAllowMockingProtectedMethods();
+			->shouldAllowMockingProtectedMethods();
+
 		$loader_mock->expects( 'load_initializers' )->once()->ordered();
 		$loader_mock->expects( 'load_integrations' )->once()->ordered();
 
