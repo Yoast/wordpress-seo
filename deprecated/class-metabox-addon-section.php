@@ -9,14 +9,14 @@
  * Generates and displays a section containing metabox tabs that have been added by other plugins through the
  * `wpseo_tab_header` and `wpseo_tab_content` actions.
  *
- * @deprecated 11.8
+ * @deprecated 11.9
  */
 class WPSEO_Metabox_Addon_Tab_Section extends WPSEO_Metabox_Tab_Section {
 
 	/**
 	 * WPSEO_Metabox_Addon_Tab_Section constructor.
 	 *
-	 * @deprecated 11.8
+	 * @deprecated 11.9
 	 *
 	 * @param string $name         The name of the section, used as an identifier in the html.
 	 *                             Can only contain URL safe characters.
@@ -32,7 +32,7 @@ class WPSEO_Metabox_Addon_Tab_Section extends WPSEO_Metabox_Tab_Section {
 	/**
 	 * Applies the actions for adding a tab to the metabox.
 	 *
-	 * @deprecated 11.8
+	 * @deprecated 11.9
 	 */
 	public function display_content() {
 		_deprecated_function( __METHOD__, '11.8' );
@@ -58,7 +58,7 @@ class WPSEO_Metabox_Addon_Tab_Section extends WPSEO_Metabox_Tab_Section {
 	 * `WPSEO_Metabox_Addon_Section` always has "sections", represented by registered actions. If this is not the case,
 	 * it should not be instantiated.
 	 *
-	 * @deprecated 11.8
+	 * @deprecated 11.9
 	 *
 	 * @return bool
 	 */

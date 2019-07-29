@@ -391,7 +391,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		 *
 		 * Meant for internal use only. Allows adding additional tabs to the Yoast SEO metabox.
 		 *
-		 * @since 11.8
+		 * @since 11.9
 		 *
 		 * @param array[] $sections {
 		 *     An array of arrays with tab specifications.
@@ -416,7 +416,12 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		foreach ( $requested_sections as $section ) {
 			if ( is_array( $section ) && array_key_exists( 'name', $section ) && array_key_exists( 'link_content', $section ) && array_key_exists( 'content', $section ) ) {
 				$options    = array_key_exists( 'options', $section ) ? $section['options'] : array();
-				$sections[] = new WPSEO_Metabox_Section_Additional( $section['name'], $section['link_content'], $section['content'], $options );
+				$sections[] = new WPSEO_Metabox_Section_Additional(
+						$section['name'],
+						$section['link_content'],
+						$section['content'],
+						$options
+				);
 			}
 		}
 

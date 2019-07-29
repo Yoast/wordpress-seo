@@ -2,7 +2,7 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Admin
+ * @package WPSEO\Admin\Metabox
  */
 
 /**
@@ -23,7 +23,7 @@ class WPSEO_Metabox_Section_Additional implements WPSEO_Metabox_Section {
 	 */
 	public $content;
 	/**
-	 * Content to use to display the button to open this content block.
+	 * HTML to use in the tab header.
 	 *
 	 * @var string
 	 */
