@@ -1,32 +1,28 @@
 import stem from "../../../src/morphology/dutch/stem";
+import getMorphologyData from "../../specHelpers/getMorphologyData";
+
+
+const morphologyDataNL = getMorphologyData( "nl" ).nl;
+
+// The first word in each array is the word, the second one is the expected stem.
 
 const wordsToStem = [
 	// -heden gets replaced with -heid (suffix type a1).
 	[ "mogelijkheden", "mogelijkheid" ],
 	// -En suffix preceded by a valid -en ending.
 	[ "vrouwen", "vrouw" ],
-	// A word ending in -en not preceded by a valid -en ending.
-	[ "groen", "groen" ],
-	// A word ending in -en preceded by a valid -en ending, but with an R1 preceded by less than 3 characters.
-	[ "den", "den" ],
-	// -En suffix with a double consonant preceding it.
+	// An adjective with the superlative stem ending in -ïed
+	[ "paranoïedste", "paranoïd" ],
+	// A verb that should have the vowel doubled.
+	[ "maken", "maak" ],
+	// // -En suffix with a double consonant preceding it.
 	[ "bakken", "bak" ],
 	// Suffix -es preceded by a valid -es ending.
 	[ "sandwiches", "sandwich" ],
 	// -S suffix preceded by a valid -s ending.
 	[ "torens", "toren" ],
-	// -S not preceded by a valid -s ending.
-	[ "prijs", "prijs" ],
-	// -E not preceded by a valid -e ending.
-	[ "missie", "missie" ],
-	// A word without an R1.
-	[ "zo", "zo" ],
 	// A word with a vowel that should be treated like a consonant.
 	[ "groeien", "groei" ],
-	// A word with a double vowel
-	[ "maan", "maan" ],
-	// A word with a single vowel
-	[ "man", "man" ],
 	// Suffix -etje preceded by -ing.
 	[ "dingetje", "ding" ],
 	// Suffix -etje preceded by double consonant.
@@ -47,7 +43,7 @@ const wordsToStem = [
 	[ "kindje", "kind" ],
 	// Suffix -je preceded by k.
 	[ "kettinkje", "ketting" ],
-	// Suffix -je preceded by ch..
+	// Suffix -je preceded by ch.
 	[ "kuchje", "kuch" ],
 	// Suffix -jes.
 	[ "schaapjes", "schaap" ],
@@ -56,7 +52,7 @@ const wordsToStem = [
 	// Suffix -ën preceded by a valid -ën ending.
 	[ "allergieën", "allergie" ],
 	// Suffix -en preceded by a vowel + i.
-	[ "aardbeien", "aardbei" ],
+	 [ "aardbeien", "aardbei" ],
 	// Suffix -der.
 	[ "lekkerder", "lekker" ],
 	// Suffix -ere preceded by a valid -ere ending.
@@ -83,8 +79,6 @@ const wordsToStem = [
 	[ "kleine", "klein" ],
 	// Suffix -ë preceded by a valid -ë ending.
 	[ "gedweeë", "gedwee" ],
-	// A verb that should have the vowel doubled.
-	[ "maken", "maak" ],
 	// A present participle verb that should have the vowel doubled
 	[ "rakend", "raak" ],
 	// An adjective that should have the vowel doubled.
@@ -107,8 +101,26 @@ const wordsToStem = [
 	[ "kleiners", "klein" ],
 ];
 
+// These words should not be stemmed (same form should be returned).
+
+const wordsNotToStem = [
+	// A word ending in -en not preceded by a valid -en ending.
+	// "groen",
+	// // A word ending in -en preceded by a valid -en ending, but with an R1 preceded by less than 3 characters.
+	// "den",
+	// // -S not preceded by a valid -s ending.
+	// "prijs",
+	// // -E not preceded by a valid -e ending.
+	// "missie",
+	// // A word without an R1.
+	// "zo",
+	// // A word with a single vowel. Only stems which had one of the specified suffixes should have the vowel doubled.
+	// "man",
+];
+
 describe( "Test for stemming Dutch words", () => {
 	it( "stems Dutch nouns", () => {
-		wordsToStem.forEach( wordToStem => expect( stem( wordToStem[ 0 ] ) ).toBe( wordToStem[ 1 ] ) );
+		wordsToStem.forEach( wordToStem => expect( stem( wordToStem[ 0 ], morphologyDataNL ) ).toBe( wordToStem[ 1 ] ) );
+		wordsNotToStem.forEach( wordNotToStem => expect( stem( wordNotToStem ), morphologyDataNL ).toBe( wordNotToStem ) );
 	} );
 } );
