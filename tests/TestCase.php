@@ -79,6 +79,8 @@ abstract class TestCase extends BaseTestCase {
 	}
 
 	/**
+	 * Tests if the output buffer contains the provided strings.
+	 *
 	 * @param string|array $expected Expected output.
 	 */
 	protected function expectOutputContains( $expected ) {
@@ -96,6 +98,8 @@ abstract class TestCase extends BaseTestCase {
 	}
 
 	/**
+	 * Tests if the output buffer doesn't contain the provided strings.
+	 *
 	 * @param string|array $needles Expected output.
 	 */
 	protected function expectOutputNotContains( $needles ) {
