@@ -1,5 +1,5 @@
 /**
- * @file German stemming algorithm. Adapted from:
+ * @file Dutch stemming algorithm. Adapted from:
  * @author:
  * @copyright
  * All rights reserved.
@@ -17,7 +17,7 @@
  * @returns {number} The start index of the R1 region.
  */
 const determineR1 = function( word ) {
-	// Start with matching first vowel and non-vowel.
+	// Start with matching the first cluster that consists of a vowel and a non-vowel.
 	let r1Index = word.search( /[aeiouyèäüëïöáéíóú][^aeiouyèäüëïöáéíóú]/ );
 	// Then add 2 since the R1 index is the index after the first vowel & non-vowel matched with the regex.
 	if ( r1Index !== -1 ) {
@@ -177,7 +177,7 @@ export default function stem( word, morphologyDataNL ) {
 
 	// Find the start index of the R1 region.
 	const r1Index = determineR1( word );
-
+	
 	// Import the suffixes from all three steps.
 	const suffixSteps = morphologyDataNL.stemming.suffixes;
 
