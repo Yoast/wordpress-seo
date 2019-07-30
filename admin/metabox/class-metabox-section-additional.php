@@ -85,7 +85,7 @@ class WPSEO_Metabox_Section_Additional implements WPSEO_Metabox_Section {
 	 */
 	public function display_content() {
 		$html = sprintf(
-			'<div role="tabpanel" id="wpseo-meta-section-%1$s" aria-labelledby="wpseo-meta-tab-%1$s" tabindex="0" class="wpseo-meta-section">',
+			'<div role="tabpanel" id="wpseo-meta-section-%1$s" aria-labelledby="wpseo-meta-tab-%1$s" tabindex="0" class="wpseo-meta-section wpseo-form">',
 			esc_attr( $this->name )
 		);
 		$html .= $this->content;
