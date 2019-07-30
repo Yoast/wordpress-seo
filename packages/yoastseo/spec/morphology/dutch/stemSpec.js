@@ -98,29 +98,29 @@ const wordsToStem = [
 	// An adjective with the superlative stem ending in -ïed
 	[ "paranoïedste", "paranoïd" ],
 	// An adjective with the comparative partitive suffix -ers
-	[ "doorsnedes", "doorsnedee" ],
+	[ "ronders", "rond" ],
 ];
 
 // These words should not be stemmed (same form should be returned).
 
 const wordsNotToStem = [
 	// A word ending in -en not preceded by a valid -en ending.
-	// "groen",
-	// // A word ending in -en preceded by a valid -en ending, but with an R1 preceded by less than 3 characters.
-	// "den",
-	// // -S not preceded by a valid -s ending.
-	// "prijs",
-	// // -E not preceded by a valid -e ending.
-	// "missie",
-	// // A word without an R1.
-	// "zo",
-	// // A word with a single vowel. Only stems which had one of the specified suffixes should have the vowel doubled.
-	// "man",
+	 "groen",
+	// A word ending in -en preceded by a valid -en ending, but with an R1 preceded by less than 3 characters.
+	 "den",
+	// -S not preceded by a valid -s ending.
+	 "prijs",
+	// -E not preceded by a valid -e ending.
+	 "missie",
+	// A word without an R1.
+	 "zo",
+	// A word with a single vowel. Only stems which had one of the specified suffixes should have the vowel doubled.
+	 "man",
 ];
 
 describe( "Test for stemming Dutch words", () => {
 	it( "stems Dutch nouns", () => {
 		wordsToStem.forEach( wordToStem => expect( stem( wordToStem[ 0 ], morphologyDataNL ) ).toBe( wordToStem[ 1 ] ) );
-		wordsNotToStem.forEach( wordNotToStem => expect( stem( wordNotToStem ), morphologyDataNL ).toBe( wordNotToStem ) );
+		wordsNotToStem.forEach( wordNotToStem => expect( stem( wordNotToStem, morphologyDataNL ) ).toBe( wordNotToStem ) );
 	} );
 } );

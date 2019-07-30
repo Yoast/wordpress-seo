@@ -171,18 +171,18 @@ const findAndDeleteSuffixes = function( word, suffixSteps, r1Index, morphologyDa
  */
 export default function stem( word, morphologyDataNL ) {
 	/** Put i and y in between vowels, initial y, and y after a vowel into upper case. This is because they should
-	 * be treated as consonants so we want to differentiate them from others i's and y's when matching regexes.
+	 * be treated as consonants so we want to differentiate them from other i's and y's when matching regexes.
 	 */
 	word = modifyStem( word, morphologyDataNL.stemming.stemModifications.IAndYToUppercase );
 
 	// Find the start index of the R1 region.
 	const r1Index = determineR1( word );
-	
+
 	// Import the suffixes from all three steps.
 	const suffixSteps = morphologyDataNL.stemming.suffixes;
 
 	/** For each of the three steps, look for suffixes and delete it if one is found in the R1 region, as well as apply
-	    stem modifications if needed.
+	 * stem modifications if needed.
 	 */
 	word = findAndDeleteSuffixes( word, suffixSteps, r1Index, morphologyDataNL );
 
