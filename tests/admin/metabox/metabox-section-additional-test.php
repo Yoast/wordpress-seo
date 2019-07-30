@@ -78,8 +78,7 @@ class Metabox_Section_Additional extends TestCase {
 		$section->display_link();
 
 		$this->expectOutputNotContains( [
-			'aria-label',
-			'additional-aria'
+			'aria-label'
 		] );
 	}
 }
