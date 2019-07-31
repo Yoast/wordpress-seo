@@ -1216,12 +1216,33 @@ SVG;
 	}
 
 	/**
-	 * Extends the allowed post tags with input and select tags.
+	 * Extends the allowed post tags with accessibility-related attributes.
 	 *
-	 * @param array $allowed_post_tags The allowed post tages.
+	 * @param array $allowed_post_tags The allowed post tags.
 	 *
 	 * @return array The allowed tags including post tags, input tags and select tags.
 	 */
+	public static function extend_kses_post_with_a11y( $allowed_post_tags ) {
+		static $a11y_tags;
+
+		if ( isset( $a11y_tags ) === false ) {
+			$a11y_tags = array(
+				'button' => array(
+					'aria-expanded' => true,
+				),
+				'div' => array(
+					'tabindex' => true,
+				),
+			);
+
+			// Add the global allowed attributes to each html element.
+			$a11y_tags = array_map( '_wp_add_global_attributes', $a11y_tags );
+		}
+
+		return array_merge_recursive( $allowed_post_tags, $a11y_tags );
+	}
+
+	/**
 	 * Extends the allowed post tags with input, select and option tags.
 	 *
 	 * @param array $allowed_post_tags The allowed post tags.

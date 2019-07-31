@@ -41,10 +41,12 @@ class WPSEO_Metabox_Collapsibles_Sections extends WPSEO_Abstract_Metabox_Tab_Wit
 			echo '<div class="wpseo_content_wrapper">';
 
 			add_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_forms' ) );
+			add_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_a11y' ) );
 			foreach ( $this->collapsibles as $collapsible ) {
 				echo wp_kses_post( $collapsible->content() );
 			}
 			remove_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_forms' ) );
+			remove_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_a11y' ) );
 
 			echo '</div></div>';
 		}
