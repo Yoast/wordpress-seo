@@ -52,7 +52,9 @@ if ( ! function_exists( '_yoast_display_alerts' ) ) {
 				esc_attr( $notification->get_id() ),
 				esc_attr( $notification->get_nonce() ),
 				esc_attr( $notification->get_json() ),
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $notification can only be an instance of Yoast_Notification; this uses `render`, which is properly escaped.
 				$notification,
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $button is properly escaped.
 				$button
 			);
 		}
