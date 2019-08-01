@@ -134,6 +134,7 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	public function html() {
 		_deprecated_function( __METHOD__, '11.9' );
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: This is deprecated.
 		echo $this->get_html();
 	}
 
