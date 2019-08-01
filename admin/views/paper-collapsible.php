@@ -27,6 +27,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 	<?php
 	if ( ! empty( $title ) ) {
+
 		if ( ! empty( $collapsible ) ) {
 
 			$button_id_attr = '';
@@ -35,21 +36,37 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 			}
 
 			printf(
+<<<<<<< HEAD
 				'<h2 class="collapsible-header %5$s"><button%4$s type="button" class="toggleable-container-trigger" aria-expanded="%3$s">%1$s <span class="toggleable-container-icon dashicons %2$s" aria-hidden="true"></span></button></h2>',
 				esc_html( $title ) . $title_after . $help_text->get_button_html(),
 				$collapsible_config['toggle_icon'],
 				$collapsible_config['expanded'],
 				$button_id_attr,
 				esc_attr( $collapsible_header_class )
+=======
+				'<h2 class="collapsible-header"><button%5$s type="button" class="toggleable-container-trigger" aria-expanded="%4$s">%1$s%2$s <span class="toggleable-container-icon dashicons %3$s" aria-hidden="true"></span></button></h2>',
+				esc_html( $title ) . wp_kses_post( $title_after ),
+				// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is and instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
+				$help_text->get_button_html(),
+				wp_kses_post( $collapsible_config['toggle_icon'] ),
+				esc_attr( $collapsible_config['expanded'] ),
+				esc_attr( $button_id_attr )
+>>>>>>> Escape output in paper-collapsible.php
 			);
 		}
 		else {
-			printf( '<div class="paper-title"><h2 class="help-button-inline">' . esc_html( $title ) . $title_after . $help_text->get_button_html() . '</h2></div>' );
+			echo '<div class="paper-title"><h2 class="help-button-inline">',
+				esc_html( $title ),
+				wp_kses_post( $title_after ),
+				// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is and instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
+				$help_text->get_button_html(),
+				'</h2></div>';
 		}
 	}
 	?>
 	<?php
 
+	// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is and instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
 	echo $help_text->get_panel_html();
 
 	$container_id_attr = '';
@@ -59,9 +76,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 
 	printf(
 		'<div%1$s class="%2$s">%3$s</div>',
+		// phpcs:ignore WordPress.Security.EscapeOutput -- $container_id_attr is escaped above.
 		$container_id_attr,
 		esc_attr( 'paper-container ' . $collapsible_config['class'] ),
-		$content
+		wp_kses_post( $content )
 	);
 	?>
 
