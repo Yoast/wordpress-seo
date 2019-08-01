@@ -30,12 +30,6 @@ class Metabox_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Monkey\Functions\expect( 'wp_parse_args' )
-			->zeroOrMoreTimes()
-			->andReturnUsing( function( $settings, $defaults ) {
-				return \array_merge( $defaults, $settings );
-			} );
-
 		$this->instance = new Metabox_Double();
 	}
 

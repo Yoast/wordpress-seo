@@ -90,7 +90,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 			esc_attr( $this->name ),
 			esc_attr( $this->link_class ),
 			( '' !== $this->link_aria_label ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
-			$this->link_content
+			wp_kses_post( $this->link_content )
 		);
 	}
 
@@ -109,6 +109,13 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 		$html .= $this->html_after;
 		$html .= '</div>';
 
-		echo $html;
+		add_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_forms' ) );
+		add_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_a11y' ) );
+
+		echo wp_kses_post( $html );
+
+		remove_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_forms' ) );
+		remove_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_a11y' ) );
+
 	}
 }
