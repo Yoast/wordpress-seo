@@ -40,7 +40,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
-		_deprecated_constructor( 'WPSEO_Recalibration_Beta', 'WPSEO 10.0' );
+		_deprecated_function( __METHOD__, '10.0' );
 	}
 
 	/**
