@@ -28,14 +28,6 @@ class Metabox_Collapsibles_Section_Test extends TestCase {
 	public function test_display_content_with_collapsible() {
 		Monkey\Functions\stubs( [ 'esc_attr_e' ] );
 
-		Monkey\Functions\expect( 'wp_parse_args' )
-			->once()
-			->andReturnUsing(
-				function( $settings, $defaults ) {
-					return array_merge( $defaults, $settings );
-				}
-			);
-
 		$collapsibles = [];
 
 		$collapsibles[] = new WPSEO_Metabox_Collapsible(

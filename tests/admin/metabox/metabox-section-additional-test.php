@@ -14,19 +14,6 @@ use Brain\Monkey;
 class Metabox_Section_Additional extends TestCase {
 
 	/**
-	 * Sets up the test class.
-	 */
-	public function setUp() {
-		parent::setUp();
-
-		Monkey\Functions\expect( 'wp_parse_args' )
-			->once()
-			->andReturnUsing( function( $settings, $defaults ) {
-				return \array_merge( $defaults, $settings );
-			} );
-	}
-
-	/**
 	 * Tests the output of \WPSEO_Metabox_Section_Additional::display_content.
 	 *
 	 * @covers WPSEO_Metabox_Section_Additional::__construct

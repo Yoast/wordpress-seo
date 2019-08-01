@@ -31,6 +31,7 @@ abstract class TestCase extends BaseTestCase {
 				'esc_attr_x'     => null,
 				'is_admin'       => false,
 				'is_multisite'   => false,
+				'wp_kses_post'   => null,
 				'site_url'       => 'https://www.example.org',
 				'wp_json_encode' => function( $data, $options = 0, $depth = 512 ) {
 					return \json_encode( $data, $options, $depth );
@@ -40,6 +41,9 @@ abstract class TestCase extends BaseTestCase {
 					return \abs( \intval( $value ) );
 				},
 				'mysql2date'     => null,
+				'wp_parse_args' => function( $settings, $defaults ) {
+					return \array_merge( $defaults, $settings );
+				},
 			]
 		);
 

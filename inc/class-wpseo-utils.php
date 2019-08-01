@@ -1219,6 +1219,7 @@ SVG;
 	 * Extends the allowed post tags with accessibility-related attributes.
 	 *
 	 * @param array $allowed_post_tags The allowed post tags.
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The allowed tags including post tags, input tags and select tags.
 	 */
@@ -1246,6 +1247,7 @@ SVG;
 	 * Extends the allowed post tags with input, select and option tags.
 	 *
 	 * @param array $allowed_post_tags The allowed post tags.
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The allowed tags including post tags, input tags, select tags and option tags.
 	 */
