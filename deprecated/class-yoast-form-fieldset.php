@@ -230,6 +230,6 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	 * @param string $attribute The attribute to look for.
 	 */
 	private function parse_attribute( & $value, $attribute ) {
-		$value = sprintf( '%s="%s"', esc_html( $attribute ), esc_attr( $value ) );
+		$value = sprintf( '%s="%s"', sanitize_key( $attribute ), esc_attr( $value ) );
 	}
 }
