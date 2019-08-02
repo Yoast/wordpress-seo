@@ -687,8 +687,8 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * This function normally outputs the robots meta tag but is also used in other places to retrieve
-	 * the meta robots value 
+	 * This function normally outputs the robots meta tag but is also used in other places to retrieve the meta robots value.
+	 *
 	 * @param bool $echo Whether or not to output the meta robots element.
 	 *
 	 * @return string $robotsstr
@@ -790,13 +790,14 @@ class WPSEO_Frontend {
 		if ( strpos( $robotsstr, 'noindex' ) !== false ) {
 			remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		}
-		
+
 		if ( $echo === false ) {
 			return $robotsstr;
 		}
 
 		if ( is_string( $robotsstr ) && $robotsstr !== '' ) {
-			echo '<meta name="robots" content="', esc_attr( $robotsstr ), '"/>', "\n";
+      echo '<meta name="robots" content="', esc_attr( $robotsstr ), '"/>', "\n";
+      return $robotsstr;
 		}
 	}
 
