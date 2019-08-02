@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 4.9
 Tested up to: 5.2.2
-Stable tag: 11.7
+Stable tag: 11.8-RC8
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -112,9 +112,10 @@ Find out all about Yoast SEO 11.8 in [our 11.8 release post](https://yoa.st/rele
 
 Enhancements:
 
-* Moved advanced SEO settings to a collapsible in the SEO tab.
+* Moves advanced SEO settings to a collapsible in the SEO tab.
 * Social settings tab in the metabox now contains collapsibles instead of tabs.
 * Adds style for padding to the metabox menu to avoid it being overwritten by custom editor styles. Props to [@emilyatmobtown](https://github.com/emilyatmobtown).
+* Improves sanitization of the schema output.
 
 Bugfixes:
 
