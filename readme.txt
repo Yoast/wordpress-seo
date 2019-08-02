@@ -112,9 +112,10 @@ Find out all about Yoast SEO 11.8 in [our 11.8 release post](https://yoa.st/rele
 
 Enhancements:
 
-* Moved advanced SEO settings to a collapsible in the SEO tab.
+* Moves advanced SEO settings to a collapsible in the SEO tab.
 * Social settings tab in the metabox now contains collapsibles instead of tabs.
 * Adds style for padding to the metabox menu to avoid it being overwritten by custom editor styles. Props to [@emilyatmobtown](https://github.com/emilyatmobtown).
+* Improves sanitization of the schema output.
 
 Bugfixes:
 
