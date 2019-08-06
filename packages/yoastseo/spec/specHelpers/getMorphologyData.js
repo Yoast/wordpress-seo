@@ -1,10 +1,11 @@
 import en from "../../premium-configuration/data/morphologyData-v2.json";
 import de from "../../premium-configuration/data/morphologyData-de-v3.json";
-
+import nl from "../../premium-configuration/data/morphologyData-nl-v3.json";
 
 const morphologyData = {
 	en,
 	de,
+	nl,
 };
 
 /**
