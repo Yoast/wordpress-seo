@@ -68,7 +68,7 @@ const findSuffix = function( word, suffixStep, r1Index ) {
  * Modifies the stem of the word according to the specified modification type.
  *
  * @param {string} word The stem that needs to be modified.
- * @param {string} modificationGroup The type of modification that needs to be done.
+ * @param {string[]} modificationGroup The type of modification that needs to be done.
  * @returns {string} The modified stem, or the same stem if no modification was made.
  */
 const modifyStem = function( word, modificationGroup ) {
