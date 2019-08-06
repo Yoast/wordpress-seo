@@ -75,7 +75,6 @@ const modifyStem = function( word, modificationGroup ) {
 	const neededReplacement = modificationGroup.find( replacement => word.search( new RegExp( replacement[ 0 ] ) ) !== -1 );
 	if ( typeof neededReplacement !== "undefined" ) {
 		word = word.replace( new RegExp( neededReplacement[ 0 ] ), neededReplacement[ 1 ] );
-		return word;
 	} return word;
 };
 
@@ -98,22 +97,23 @@ const doubleLetterCheck = function( word ) {
  * @param {string} word	 The word from which to delete the suffix.
  * @param {string} suffixStep 	One of the three steps of deleting a suffix.
  * @param {number} suffixIndex	 The index of the found suffix.
- * @param {array} stemModification 	The type of stem modification that needs to be done.
+ * @param {string} stemModification 	The type of stem modification that needs to be done.
  * @param {object} morphologyDataNL	 The Dutch morphology data file.
  * @returns {word} The stemmed and modified word.
  */
 const deleteSuffixAndModifyStem = function( word, suffixStep, suffixIndex, stemModification, morphologyDataNL ) {
-	if ( String( stemModification ) === "hedenToHeid" ) {
+	if ( stemModification === "hedenToHeid" ) {
 		word = modifyStem( word, morphologyDataNL.stemming.stemModifications.hedenToHeid );
 		return word;
-	} word = word.substring( 0, suffixIndex );
-	if ( String( stemModification ) === "changeIedtoId" ) {
+	}
+	word = word.substring( 0, suffixIndex );
+	if ( stemModification === "changeIedtoId" ) {
 		word = modifyStem( word, morphologyDataNL.stemming.stemModifications.iedToId );
 		return word;
-	} else if ( String( stemModification ) === "changeInktoIng" && word.endsWith( "ink" ) ) {
+	} else if ( stemModification === "changeInktoIng" && word.endsWith( "ink" ) ) {
 		word = modifyStem( word, morphologyDataNL.stemming.stemModifications.inkToIng );
 		return word;
-	} else if ( String( stemModification ) === "vowelDoubling" ) {
+	} else if ( stemModification === "vowelDoubling" ) {
 		const doubleLetter = doubleLetterCheck( word );
 		if ( doubleLetter === false ) {
 			word = modifyStem( word, morphologyDataNL.stemming.stemModifications.doubleVowel );
