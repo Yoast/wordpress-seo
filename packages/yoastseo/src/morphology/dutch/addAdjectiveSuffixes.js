@@ -74,7 +74,7 @@ const doubleFinalLetter = function( stemmedWord ) {
  * Modifies the stem if the stem ending matches one of the regexes from a given modification group.
  *
  * @param {string} stemmedWord The stem.
- * @param {array} modificationGroup The type of modification
+ * @param {string[]} modificationGroup The type of modification
  * @returns {{stemmedWord: string, foundModification: boolean}} The stem and information about whether a modification was
  * performed or not.
  */
@@ -167,7 +167,7 @@ export function addInflectedSuffix( morphologyDataNL, stemmedWord ) {
  * Adds the comparative suffixes to the stem. Before adding the suffixes, the stem is modified if needed.
  *
  * @param {Object}      morphologyDataNL    The Dutch morphology data for adjectives.
- * @param {string}      stemmedWord                 The stemmed word for which to get suffixes.
+ * @param {string}      stemmedWord         The stemmed word for which to get suffixes.
  *
  * @returns {string[]} The suffixed adjective forms.
  */
@@ -197,7 +197,7 @@ export function addSuperlativeSuffixes( morphologyDataAdjectives, stemmedWord ) 
  * Adds all suffixes (partitive, inflected, comparative, superlative) to the stem.
  *
  * @param {Object}      morphologyDataNL    The Dutch morphology data for adjectives.
- * @param {string}      stemmedWord                 The stemmed word for which to get suffixes.
+ * @param {string}      stemmedWord         The stemmed word for which to get suffixes.
  *
  * @returns {string[]} The suffixed adjective forms.
  */
