@@ -39,7 +39,7 @@ const determineR1 = function( word ) {
  * @param {string} word 	The word in which to look for suffixes.
  * @param {string} suffixStep	 One of the three steps of findings suffixes.
  * @param {number} r1Index	 The index of the R1 region.
- * @returns {object} The index of the suffix and extra information about whether, and how, the stem will need to be modified.
+ * @returns {Object} The index of the suffix and extra information about whether, and how, the stem will need to be modified.
  */
 const findSuffix = function( word, suffixStep, r1Index ) {
 	for ( const suffixClass in suffixStep ) {
