@@ -56,7 +56,7 @@ const findSuffix = function( word, suffixStep, r1Index ) {
 				if ( suffixIndex >= r1Index ) {
 					return {
 						suffixIndex: suffixIndex,
-						stemModification: ( suffixStep[ suffixClass ].stemModification ),
+						stemModification: suffixStep[ suffixClass ].stemModification,
 					};
 				}
 			}
