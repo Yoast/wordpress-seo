@@ -56,7 +56,7 @@ const findSuffix = function( word, suffixStep, r1Index ) {
 				if ( suffixIndex >= r1Index ) {
 					return {
 						suffixIndex: suffixIndex,
-						stemModification: ( suffixStep[ suffixClass ].stemModification ),
+						stemModification: suffixStep[ suffixClass ].stemModification,
 					};
 				}
 			}
@@ -68,7 +68,7 @@ const findSuffix = function( word, suffixStep, r1Index ) {
  * Modifies the stem of the word according to the specified modification type.
  *
  * @param {string} word The stem that needs to be modified.
- * @param {string} modificationGroup The type of modification that needs to be done.
+ * @param {string[]} modificationGroup The type of modification that needs to be done.
  * @returns {string} The modified stem, or the same stem if no modification was made.
  */
 const modifyStem = function( word, modificationGroup ) {
@@ -99,7 +99,7 @@ const doubleLetterCheck = function( word ) {
  * @param {number} suffixIndex	 The index of the found suffix.
  * @param {string} stemModification 	The type of stem modification that needs to be done.
  * @param {object} morphologyDataNL	 The Dutch morphology data file.
- * @returns {word} The stemmed and modified word.
+ * @returns {string} The stemmed and modified word.
  */
 const deleteSuffixAndModifyStem = function( word, suffixStep, suffixIndex, stemModification, morphologyDataNL ) {
 	if ( stemModification === "hedenToHeid" ) {
