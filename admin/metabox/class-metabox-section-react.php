@@ -46,6 +46,13 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	private $link_aria_label;
 
 	/**
+	 * Additional html content to be displayed within the section.
+	 *
+	 * @var string
+	 */
+	private $html_after;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param string $name         The name of the section, used as an identifier in the html.
@@ -61,6 +68,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 		$default_options = array(
 			'link_class'      => '',
 			'link_aria_label' => '',
+			'html_after'      => '',
 		);
 
 		$options = wp_parse_args( $options, $default_options );
@@ -68,6 +76,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 		$this->link_content    = $link_content;
 		$this->link_class      = $options['link_class'];
 		$this->link_aria_label = $options['link_aria_label'];
+		$this->html_after      = $options['html_after'];
 	}
 
 	/**
@@ -97,6 +106,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 		);
 		$html .= $this->content;
 		$html .= '<div id="wpseo-metabox-root" class="wpseo-metabox-root"></div>';
+		$html .= $this->html_after;
 		$html .= '</div>';
 
 		echo $html;

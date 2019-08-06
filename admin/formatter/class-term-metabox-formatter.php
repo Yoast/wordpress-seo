@@ -11,11 +11,15 @@
 class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface {
 
 	/**
+	 * The term the metabox formatter is for.
+	 *
 	 * @var WP_Term|stdClass
 	 */
 	private $term;
 
 	/**
+	 * The term's taxonomy.
+	 *
 	 * @var stdClass
 	 */
 	private $taxonomy;

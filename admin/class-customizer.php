@@ -11,6 +11,8 @@
 class WPSEO_Customizer {
 
 	/**
+	 * Holds the customize manager.
+	 *
 	 * @var WP_Customize_Manager
 	 */
 	protected $wp_customize;
@@ -66,7 +68,7 @@ class WPSEO_Customizer {
 		$this->wp_customize = $wp_customize;
 
 		$this->breadcrumbs_section();
-		$this->breadcrumbs_blog_remove_setting();
+		$this->breadcrumbs_blog_show_setting();
 		$this->breadcrumbs_separator_setting();
 		$this->breadcrumbs_home_setting();
 		$this->breadcrumbs_prefix_setting();
@@ -99,25 +101,25 @@ class WPSEO_Customizer {
 	}
 
 	/**
-	 * Adds the breadcrumbs remove blog checkbox.
+	 * Adds the breadcrumbs show blog checkbox.
 	 */
-	private function breadcrumbs_blog_remove_setting() {
+	private function breadcrumbs_blog_show_setting() {
 		$index        = 'breadcrumbs-display-blog-page';
 		$control_args = array(
-			'label'           => __( 'Remove blog page from breadcrumbs', 'wordpress-seo' ),
+			'label'           => __( 'Show blog page in breadcrumbs', 'wordpress-seo' ),
 			'type'            => 'checkbox',
-			'active_callback' => array( $this, 'breadcrumbs_blog_remove_active_cb' ),
+			'active_callback' => array( $this, 'breadcrumbs_blog_show_active_cb' ),
 		);
 
 		$this->add_setting_and_control( $index, $control_args );
 	}
 
 	/**
-	 * Returns whether or not to show the breadcrumbs blog remove option.
+	 * Returns whether or not to show the breadcrumbs blog show option.
 	 *
 	 * @return bool
 	 */
-	public function breadcrumbs_blog_remove_active_cb() {
+	public function breadcrumbs_blog_show_active_cb() {
 		return 'page' === get_option( 'show_on_front' );
 	}
 

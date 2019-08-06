@@ -11,6 +11,8 @@
 class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Tests whether wpseo_replace_vars correctly replaces replacevars.
+	 *
 	 * @covers ::wpseo_replace_vars
 	 */
 	public function test_wpseo_replace_vars() {
@@ -50,6 +52,8 @@ class WPSEO_Functions_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests test_wpseo_get_capabilities correctly retrieves capabilities.
+	 *
 	 * @covers ::wpseo_get_capabilities
 	 */
 	public function test_wpseo_get_capabilities() {

@@ -67,6 +67,8 @@ class WPSEO_Sitemaps_Renderer {
 	}
 
 	/**
+	 * Builds the sitemap index.
+	 *
 	 * @param array $links Set of sitemaps index links.
 	 *
 	 * @return string
@@ -91,6 +93,8 @@ class WPSEO_Sitemaps_Renderer {
 	}
 
 	/**
+	 * Builds the sitemap.
+	 *
 	 * @param array  $links        Set of sitemap links.
 	 * @param string $type         Sitemap type.
 	 * @param int    $current_page Current sitemap page number.

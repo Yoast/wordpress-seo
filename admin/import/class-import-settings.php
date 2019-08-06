@@ -20,11 +20,15 @@ class WPSEO_Import_Settings {
 	const NONCE_ACTION = 'wpseo-import-settings';
 
 	/**
+	 * Holds the import status instance.
+	 *
 	 * @var WPSEO_Import_Status
 	 */
 	public $status;
 
 	/**
+	 * Holds the old WPSEO version.
+	 *
 	 * @var string
 	 */
 	private $old_wpseo_version;

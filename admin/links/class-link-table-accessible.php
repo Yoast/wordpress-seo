@@ -11,11 +11,15 @@
 class WPSEO_Link_Table_Accessible {
 
 	/**
+	 * Constant used to determine whether the link table is accessible.
+	 *
 	 * @var string
 	 */
 	const ACCESSIBLE = '0';
 
 	/**
+	 * Constant used to determine whether the link table is inaccessible.
+	 *
 	 * @var string
 	 */
 	const INACCESSBILE = '1';

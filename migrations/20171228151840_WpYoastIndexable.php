@@ -1,12 +1,12 @@
 <?php
 /**
- * Class WpYoastIndexable
+ * Yoast SEO Plugin File.
  *
  * @package WPSEO\Migrations
  */
 
+use Yoast\WP\Free\ORM\Yoast_Model;
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
-use Yoast\WP\Free\Yoast_Model;
 
 /**
  * Indexable migration.

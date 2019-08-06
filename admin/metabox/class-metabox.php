@@ -11,16 +11,22 @@
 class WPSEO_Metabox extends WPSEO_Meta {
 
 	/**
+	 * An instance of the Social Admin class.
+	 *
 	 * @var WPSEO_Social_Admin
 	 */
 	protected $social_admin;
 
 	/**
+	 * An instance of the Metabox Analysis SEO class.
+	 *
 	 * @var WPSEO_Metabox_Analysis_SEO
 	 */
 	protected $analysis_seo;
 
 	/**
+	 * An instance of the Metabox Analysis Readability class.
+	 *
 	 * @var WPSEO_Metabox_Analysis_Readability
 	 */
 	protected $analysis_readability;
@@ -258,7 +264,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function do_tab( $id, $heading, $content ) {
 		?>
-		<div id="<?php echo esc_attr( 'wpseo_' . $id ); ?>" class="wpseotab <?php echo esc_attr( $id ); ?>">
+		<div id="<?php echo esc_attr( 'wpseo_' . $id ); ?>" class="wpseotab wpseo-form <?php echo esc_attr( $id ); ?>">
 			<?php echo $content; ?>
 		</div>
 		<?php
@@ -309,10 +315,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->social_admin->get_meta_section();
 		}
 
-		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
-			$content_sections[] = $this->get_advanced_meta_section();
-		}
-
 		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
 			$content_sections[] = $this->get_addons_meta_section();
 		}
@@ -335,6 +337,23 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$label = '<span class="wpseo-score-icon-container" id="wpseo-seo-score-icon"></span>' . $label;
 		}
 
+		$html_after = '';
+
+		if ( WPSEO_Capability_Utils::current_user_can( 'wpseo_edit_advanced_metadata' ) || WPSEO_Options::get( 'disableadvanced_meta' ) === false ) {
+			$advanced_collapsible = new WPSEO_Paper_Presenter(
+				__( 'Advanced', 'wordpress-seo' ),
+				null,
+				array(
+					'collapsible' => true,
+					'class'       => 'metabox wpseo-form wpseo-collapsible-container',
+					'content'     => $this->get_tab_content( 'advanced' ),
+					'paper_id'    => 'collapsible-advanced-settings',
+				)
+			);
+
+			$html_after = '<div class="wpseo_content_wrapper">' . $advanced_collapsible->get_output() . '</div>';
+		}
+
 		/**
 		 * Filter: 'wpseo_content_meta_section_content' - Allow filtering the metabox content before outputting.
 		 *
@@ -345,7 +364,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		return new WPSEO_Metabox_Section_React(
 			'content',
 			$label,
-			$content
+			$content,
+			array(
+				'html_after' => $html_after,
+			)
 		);
 	}
 
@@ -356,28 +378,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	private function get_readability_meta_section() {
 		return new WPSEO_Metabox_Section_Readability();
-	}
-
-	/**
-	 * Returns the metabox section for the advanced settings.
-	 *
-	 * @return WPSEO_Metabox_Section
-	 */
-	private function get_advanced_meta_section() {
-		$content = $this->get_tab_content( 'advanced' );
-
-		$tab = new WPSEO_Metabox_Form_Tab(
-			'advanced',
-			$content,
-			__( 'Advanced', 'wordpress-seo' ),
-			array( 'single' => true )
-		);
-
-		return new WPSEO_Metabox_Tab_Section(
-			'advanced',
-			'<span class="dashicons dashicons-admin-generic"></span>' . __( 'Advanced', 'wordpress-seo' ),
-			array( $tab )
-		);
 	}
 
 	/**
@@ -738,9 +738,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		$asset_manager->enqueue_script( 'metabox' );
 		$asset_manager->enqueue_script( 'admin-media' );
 
+
 		$asset_manager->enqueue_script( 'post-scraper' );
 		$asset_manager->enqueue_script( 'replacevar-plugin' );
 		$asset_manager->enqueue_script( 'shortcode-plugin' );
+
+		$asset_manager->enqueue_script( 'admin-script' );
+		$asset_manager->enqueue_style( 'admin-css' );
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media', 'wpseoMediaL10n', $this->localize_media_script() );
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'post-scraper', 'wpseoPostScraperL10n', $this->localize_post_scraper_script() );
@@ -951,6 +955,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
+	 * Checks if the page is the post overview page.
+	 *
 	 * @param string $page The page to check for the post overview page.
 	 *
 	 * @return bool Whether or not the given page is the post overview page.
@@ -960,6 +966,8 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
+	 * Checks if the page is the post edit page.
+	 *
 	 * @param string $page The page to check for the post edit page.
 	 *
 	 * @return bool Whether or not the given page is the post edit page.

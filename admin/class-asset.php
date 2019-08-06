@@ -25,21 +25,29 @@ class WPSEO_Admin_Asset {
 	const TYPE_CSS = 'css';
 
 	/**
+	 * The name option identifier.
+	 *
 	 * @var string
 	 */
 	const NAME = 'name';
 
 	/**
+	 * The source option identifier.
+	 *
 	 * @var string
 	 */
 	const SRC = 'src';
 
 	/**
+	 * The dependencies option identifier.
+	 *
 	 * @var string
 	 */
 	const DEPS = 'deps';
 
 	/**
+	 * The version option identifier.
+	 *
 	 * @var string
 	 */
 	const VERSION = 'version';
@@ -47,11 +55,15 @@ class WPSEO_Admin_Asset {
 	/* Style specific. */
 
 	/**
+	 * The media option identifier.
+	 *
 	 * @var string
 	 */
 	const MEDIA = 'media';
 
 	/**
+	 * The rtl option identifier.
+	 *
 	 * @var string
 	 */
 	const RTL = 'rtl';
@@ -59,6 +71,8 @@ class WPSEO_Admin_Asset {
 	/* Script specific. */
 
 	/**
+	 * The "in footer" option identifier.
+	 *
 	 * @var string
 	 */
 	const IN_FOOTER = 'in_footer';
@@ -136,6 +150,8 @@ class WPSEO_Admin_Asset {
 	);
 
 	/**
+	 * Constructs an instance of the WPSEO_Admin_Asset class.
+	 *
 	 * @param array $args The arguments for this asset.
 	 *
 	 * @throws InvalidArgumentException Throws when no name or src has been provided.

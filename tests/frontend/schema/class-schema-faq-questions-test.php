@@ -37,9 +37,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	public function test_schema_output() {
 		$actual = $this->instance->generate_question_block(
 			[
-				'id' => 'question-1',
+				'id'           => 'question-1',
 				'jsonQuestion' => 'Is this a question?',
-				'jsonAnswer' => 'This is an answer',
+				'jsonAnswer'   => 'This is an answer',
 			]
 		);
 
@@ -52,8 +52,8 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
 				'@type' => 'Answer',
-				'text'  => 'This is an answer'
-			)
+				'text'  => 'This is an answer',
+			),
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -67,9 +67,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	public function test_schema_output_empty_question() {
 		$actual = $this->instance->generate_question_block(
 			[
-				'id' => 'question-1',
+				'id'           => 'question-1',
 				'jsonQuestion' => '',
-				'jsonAnswer' => 'This is an answer',
+				'jsonAnswer'   => 'This is an answer',
 			]
 		);
 
@@ -82,8 +82,8 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
 				'@type' => 'Answer',
-				'text'  => 'This is an answer'
-			)
+				'text'  => 'This is an answer',
+			),
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -97,9 +97,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	public function test_schema_output_empty_answer() {
 		$actual = $this->instance->generate_question_block(
 			[
-				'id' => 'question-1',
+				'id'           => 'question-1',
 				'jsonQuestion' => 'Is this a question?',
-				'jsonAnswer' => '',
+				'jsonAnswer'   => '',
 			]
 		);
 
@@ -112,8 +112,8 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
 				'@type' => 'Answer',
-				'text'  => ''
-			)
+				'text'  => '',
+			),
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -127,9 +127,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	public function test_schema_output_empty__question_and_answer() {
 		$actual = $this->instance->generate_question_block(
 			[
-				'id' => 'question-1',
+				'id'           => 'question-1',
 				'jsonQuestion' => '',
-				'jsonAnswer' => '',
+				'jsonAnswer'   => '',
 			]
 		);
 
@@ -142,8 +142,8 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
 				'@type' => 'Answer',
-				'text'  => ''
-			)
+				'text'  => '',
+			),
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -159,9 +159,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	public function test_schema_output_with_allowed_tags_in_jsonanswer() {
 		$actual = $this->instance->generate_question_block(
 			[
-				'id' => 'question-1',
+				'id'           => 'question-1',
 				'jsonQuestion' => 'Is this a question?',
-				'jsonAnswer' => '<h1>This is an answer<h1>',
+				'jsonAnswer'   => '<h1>This is an answer<h1>',
 			]
 		);
 
@@ -174,8 +174,8 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
 				'@type' => 'Answer',
-				'text'  => '<h1>This is an answer<h1>'
-			)
+				'text'  => '<h1>This is an answer<h1>',
+			),
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -191,9 +191,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	public function test_schema_output_with_disallowed_tags_in_jsonanswer() {
 		$actual = $this->instance->generate_question_block(
 			[
-				'id' => 'question-1',
+				'id'           => 'question-1',
 				'jsonQuestion' => 'Is this a question?',
-				'jsonAnswer' => '<div>This is an answer</div>',
+				'jsonAnswer'   => '<div>This is an answer</div>',
 			]
 		);
 
@@ -206,8 +206,8 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
 				'@type' => 'Answer',
-				'text'  => 'This is an answer'
-			)
+				'text'  => 'This is an answer',
+			),
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -223,9 +223,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	public function test_schema_output_with_allowed_and_disallowed_tags_in_jsonanswer() {
 		$actual = $this->instance->generate_question_block(
 			[
-				'id' => 'question-1',
+				'id'           => 'question-1',
 				'jsonQuestion' => 'Is this a question?',
-				'jsonAnswer' => '<div><h1>This is an answer</h1></div>',
+				'jsonAnswer'   => '<div><h1>This is an answer</h1></div>',
 			]
 		);
 
@@ -238,8 +238,8 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
 				'@type' => 'Answer',
-				'text'  => '<h1>This is an answer</h1>'
-			)
+				'text'  => '<h1>This is an answer</h1>',
+			),
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -255,9 +255,9 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 	public function test_schema_output_with_allowed_tags_in_jsonquestion() {
 		$actual = $this->instance->generate_question_block(
 			[
-				'id' => 'question-1',
+				'id'           => 'question-1',
 				'jsonQuestion' => '<h1>Is this a question?</h1>',
-				'jsonAnswer' => 'This is an answer',
+				'jsonAnswer'   => 'This is an answer',
 			]
 		);
 
@@ -270,8 +270,8 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 			'answerCount'      => 1,
 			'acceptedAnswer'   => array(
 				'@type' => 'Answer',
-				'text'  => 'This is an answer'
-			)
+				'text'  => 'This is an answer',
+			),
 		];
 
 		$this->assertEquals( $expected, $actual );

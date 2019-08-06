@@ -504,7 +504,6 @@ class WPSEO_Options {
 	private static function get_pattern_table() {
 		$pattern_table = array();
 		foreach ( self::$options as $option_name => $option_class ) {
-			/** @var WPSEO_Option $instance */
 			$instance = call_user_func( array( $option_class, 'get_instance' ) );
 			foreach ( $instance->get_patterns() as $key ) {
 				$pattern_table[ $key ] = $option_name;

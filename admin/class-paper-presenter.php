@@ -35,17 +35,19 @@ class WPSEO_Paper_Presenter {
 	 * WPSEO_presenter_paper constructor.
 	 *
 	 * @param string $title     The title of the paper.
-	 * @param string $view_file The path to the view file.
+	 * @param string $view_file Optional. The path to the view file. Use the content setting if you do not wish to use a view file.
 	 * @param array  $settings  Optional. Settings for the paper.
 	 */
-	public function __construct( $title, $view_file, array $settings = array() ) {
+	public function __construct( $title, $view_file = null, array $settings = array() ) {
 		$defaults = array(
-			'paper_id'    => null,
-			'collapsible' => false,
-			'expanded'    => false,
-			'help_text'   => '',
-			'title_after' => '',
-			'view_data'   => array(),
+			'paper_id'     => null,
+			'collapsible'  => false,
+			'expanded'     => false,
+			'help_text'    => '',
+			'title_after'  => '',
+			'class'        => '',
+			'content'      => '',
+			'view_data'    => array(),
 		);
 
 		$this->settings  = wp_parse_args( $settings, $defaults );
@@ -59,7 +61,17 @@ class WPSEO_Paper_Presenter {
 	 * @return string The rendered paper.
 	 */
 	public function get_output() {
-		extract( $this->get_view_variables(), EXTR_SKIP );
+		$view_variables = $this->get_view_variables();
+
+		extract( $view_variables, EXTR_SKIP );
+
+		$content = $this->settings['content'];
+
+		if ( $this->view_file !== null ) {
+			ob_start();
+			require $this->view_file;
+			$content = ob_get_clean();
+		}
 
 		ob_start();
 		require WPSEO_PATH . 'admin/views/paper-collapsible.php';
@@ -79,6 +91,7 @@ class WPSEO_Paper_Presenter {
 		}
 
 		$view_variables = array(
+			'class'              => $this->settings['class'],
 			'collapsible'        => $this->settings['collapsible'],
 			'collapsible_config' => $this->collapsible_config(),
 			'title_after'        => $this->settings['title_after'],

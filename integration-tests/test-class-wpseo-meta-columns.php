@@ -114,6 +114,11 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 		);
 	}
 
+	/**
+	 * Determines what dataprovider to use for readability filters.
+	 *
+	 * @return array The readability filters dataprovider.
+	 */
 	public function determine_readability_filters_dataprovider() {
 		return array(
 			array(
@@ -271,6 +276,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether the column heading contains the score.
+	 *
 	 * @covers WPSEO_Meta_Columns::column_heading
 	 */
 	public function test_column_heading_has_score() {
@@ -281,6 +288,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether the column heading contains the focus keyphrase.
+	 *
 	 * @covers WPSEO_Meta_Columns::column_heading
 	 */
 	public function test_column_heading_has_focuskw() {
@@ -291,6 +300,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether the column heading contains the metadescription.
+	 *
 	 * @covers WPSEO_Meta_Columns::column_heading
 	 */
 	public function test_column_heading_has_metadesc() {
@@ -365,6 +376,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the is_valid_filter function for a string.
+	 *
 	 * @covers WPSEO_Meta_Columns::is_valid_filter
 	 */
 	public function test_is_valid_filter() {
@@ -372,6 +385,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the is_valid_filter function for invalid functions.
+	 *
 	 * @covers WPSEO_Meta_Columns::is_valid_filter
 	 */
 	public function test_is_invalid_filter() {
@@ -381,6 +396,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the determine_seo_filters with a dataset.
+	 *
 	 * @param string $filter   SEO filter.
 	 * @param array  $expected The resulting SEO score filter.
 	 *
@@ -394,6 +411,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the determine_readability_filters with a dataset.
+	 *
 	 * @param string $filter   The Readability filter to use to determine what further filter to apply.
 	 * @param array  $expected The Readability score filter.
 	 *
@@ -407,6 +426,8 @@ class WPSEO_Meta_Columns_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the build_filter_query with a dataset.
+	 *
 	 * @param array $vars     Array containing the variables that will be used in the meta query.
 	 * @param array $filters  Array containing the filters that we need to apply in the meta query.
 	 * @param array $expected Array containing the complete filter query.
