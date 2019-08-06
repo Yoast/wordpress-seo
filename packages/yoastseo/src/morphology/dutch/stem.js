@@ -100,7 +100,7 @@ const doubleLetterCheck = function( word ) {
  * @param {number} suffixIndex	 The index of the found suffix.
  * @param {array} stemModification 	The type of stem modification that needs to be done.
  * @param {object} morphologyDataNL	 The Dutch morphology data file.
- * @returns {word} The stemmed and modified word.
+ * @returns {string} The stemmed and modified word.
  */
 const deleteSuffixAndModifyStem = function( word, suffixStep, suffixIndex, stemModification, morphologyDataNL ) {
 	if ( String( stemModification ) === "hedenToHeid" ) {
