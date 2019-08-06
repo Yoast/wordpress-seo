@@ -31,21 +31,6 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 		self::$class_instance = new WPSEO_Author_Sitemap_Provider();
 	}
 
-    /**
-     * Tests whether the author sitemap is empty, when there are no users.
-     *
-     * Checks if an OutOfBoundsException is thrown, when there are no users in the sitemap.
-     *
-     * @expectedException OutOfBoundsException
-     * @expectedExceptionMessage Invalid sitemap page requested
-     *
-     * @covers WPSEO_Author_Sitemap_Provider::get_index_links
-     */
-    public function test_get_index_links_sitemap() {
-        // Checks which users are in the sitemap, there should be none.
-        self::$class_instance->get_sitemap_links( 'author', 10, 1 );
-    }
-
 	/**
 	 * Tests if a user is excluded from the sitemap when there are no posts.
      *
@@ -139,7 +124,10 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_index_links
 	 */
 	public function test_get_index_links_empty_sitemap() {
+        // Doesn't remove authors with no posts.
 		WPSEO_Options::set( 'noindex-author-noposts-wpseo', false );
+
+        // Makes sure the author archives are enabled.
 		WPSEO_Options::set( 'disable-author', false );
 
 		// Fetches the global sitemap.
@@ -162,6 +150,7 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Author_Sitemap_Provider::get_index_links
 	 */
 	public function test_get_index_links_disabled_archive() {
+	    // Disables the author archive.
 		WPSEO_Options::set( 'disable-author', true );
 
 		// Fetches the global sitemap.
@@ -196,5 +185,20 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 
         // Second user should now be in the second sitemap, as the max_entries limit is 1 user.
         $this->assertCount( 1, $second_sitemap_links );
+    }
+
+    /**
+     * Tests whether the author sitemap is empty, when there are no users.
+     *
+     * Checks if an OutOfBoundsException is thrown, when there are no users in the sitemap.
+     *
+     * @expectedException OutOfBoundsException
+     * @expectedExceptionMessage Invalid sitemap page requested
+     *
+     * @covers WPSEO_Author_Sitemap_Provider::get_index_links
+     */
+    public function test_no_users_empty_author_sitemap() {
+        // Checks which users are in the sitemap, there should be none.
+        self::$class_instance->get_sitemap_links( 'author', 10, 1 );
     }
 }
