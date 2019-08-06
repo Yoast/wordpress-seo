@@ -80,6 +80,7 @@ clean:build-assets:
   - 'clean:composer-files'
   - 'copy:composer-files'
   - 'remove-vendor-prefixed-folder'
+  - 'shell:remove-vendor-prefixed-uses'
 
 # Get the project ready for release
 release:

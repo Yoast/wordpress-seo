@@ -17,9 +17,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$dependency_management = new Dependency_Management();
-$dependency_management->initialize();
-
 $development = defined( 'YOAST_ENVIRONMENT' ) && YOAST_ENVIRONMENT === 'development';
 if ( $development && class_exists( '\Yoast\WP\Free\Dependency_Injection\Container_Compiler' ) ) {
 	// Exception here is unhandled as it will only occur in development.

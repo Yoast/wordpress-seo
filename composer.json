@@ -39,9 +39,10 @@
 		"yoast/php-development-environment": "^1.0",
 		"yoast/yoastcs": "~0.4.3",
 		"phpcompatibility/phpcompatibility-wp": "^2.0.0",
-		"humbug/php-scoper": "^0.6.0",
+		"humbug/php-scoper": "^0.12.0",
 		"brain/monkey": "^2.2",
-		"phpunit/phpunit": "^5.7"
+		"phpunit/phpunit": "^5.7",
+		"atanamo/php-codeshift": "^1.0"
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,
@@ -125,6 +126,9 @@
 		],
 		"prefix-symfony": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/symfony/dependency-injection --config=config/php-scoper/dependency-injection.inc.php --force --quiet"
+		],
+		"remove-vendor-prefixed-uses": [
+			"@php ./vendor/atanamo/php-codeshift/bin/codeshift --mod=config/php-codeshift/vendor-prefixing-codemod.php --src=artifact-composer/src"
 		],
 		"compile-di": [
 			"rm -f ./src/generated/container.php",
