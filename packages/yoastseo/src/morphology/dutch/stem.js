@@ -80,7 +80,7 @@ const modifyStem = function( word, modificationGroup ) {
 /**
  * Checks whether the third to last and fourth to last characters are different. If they are, then the doubling vowel
  * modification should be performed. If these characters are the same, no doubling should be performed.
- * For example, in the word 'luttel' third and fourth to last characters are both 't', so the vowel doubling would *not* be 
+ * For example, in the word 'luttel' third and fourth to last characters are both 't', so the vowel doubling would *not* be
  * performed (it would not become 'lutteel').
  *
  * @param {string} word The stemmed word that the check should be executed on.
@@ -166,7 +166,7 @@ const findAndDeleteSuffixes = function( word, suffixSteps, r1Index, morphologyDa
  * @returns {string} The stemmed word.
  */
 export default function stem( word, morphologyDataNL ) {
-	/** 
+	/**
 	 * Put i and y in between vowels, initial y, and y after a vowel into upper case. This is because they should
 	 * be treated as consonants so we want to differentiate them from other i's and y's when matching regexes.
 	 */
