@@ -48,8 +48,8 @@ class Indexable_Term_Watcher_Test extends TestCase {
 		$instance = new Indexable_Term_Watcher( $repository_mock, $builder_mock );
 		$instance->register_hooks();
 
-		$this->assertNotFalse( \has_action( 'edited_term', array( $instance, 'build_indexable' ) ) );
-		$this->assertNotFalse( \has_action( 'delete_term', array( $instance, 'delete_indexable' ) ) );
+		$this->assertNotFalse( \has_action( 'edited_term', [ $instance, 'build_indexable' ] ) );
+		$this->assertNotFalse( \has_action( 'delete_term', [ $instance, 'delete_indexable' ] ) );
 	}
 
 	/**

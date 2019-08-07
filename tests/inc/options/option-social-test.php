@@ -83,56 +83,56 @@ class Option_Social_Test extends TestCase {
 	 * @return array The test data.
 	 */
 	public function validate_option_valid_data_provider() {
-		return array(
-			array(
-				'expected' => array( 'og_default_image_id' => 'value' ),
-				'dirty'    => array(),
-				'clean'    => array( 'og_default_image_id' => 'value' ),
-				'old'      => array(),
-			),
-			array(
-				'expected' => array( 'og_frontpage_image_id' => 'value' ),
-				'dirty'    => array(),
-				'clean'    => array( 'og_frontpage_image_id' => 'value' ),
-				'old'      => array(),
-			),
-			array(
-				'expected' => array( 'og_default_image_id' => '' ),
-				'dirty'    => array( 'og_default_image_id' => '' ),
-				'clean'    => array( 'og_default_image_id' => '' ),
-				'old'      => array(),
-			),
-			array(
-				'expected' => array( 'og_frontpage_image_id' => '' ),
-				'dirty'    => array( 'og_frontpage_image_id' => '' ),
-				'clean'    => array( 'og_frontpage_image_id' => '' ),
-				'old'      => array(),
-			),
-			array(
-				'expected' => array( 'og_default_image_id' => 123 ),
-				'dirty'    => array( 'og_default_image_id' => '123' ),
-				'clean'    => array( 'og_default_image_id' => '' ),
-				'old'      => array(),
-			),
-			array(
-				'expected' => array( 'og_frontpage_image_id' => 0 ),
-				'dirty'    => array( 'og_frontpage_image_id' => 'testen' ),
-				'clean'    => array( 'og_frontpage_image_id' => '' ),
-				'old'      => array(),
-			),
-			array(
-				'expected' => array( 'youtube_url' => 'https://www.youtube.com/yoast' ),
-				'dirty'    => array( 'youtube_url' => 'https://www.youtube.com/yoast' ),
-				'clean'    => array( 'youtube_url' => 'https://www.youtube.com/yoast' ),
-				'old'      => array(),
-			),
-			array(
-				'expected' => array( 'youtube_url' => 'https://www.youtube.com/yoasttube' ),
-				'dirty'    => array( 'youtube_url' => 'https://www.youtube.com/yoasttube' ),
-				'clean'    => array( 'youtube_url' => 'https://www.youtube.com/yoast' ),
-				'old'      => array(),
-			),
-		);
+		return [
+			[
+				'expected' => [ 'og_default_image_id' => 'value' ],
+				'dirty'    => [],
+				'clean'    => [ 'og_default_image_id' => 'value' ],
+				'old'      => [],
+			],
+			[
+				'expected' => [ 'og_frontpage_image_id' => 'value' ],
+				'dirty'    => [],
+				'clean'    => [ 'og_frontpage_image_id' => 'value' ],
+				'old'      => [],
+			],
+			[
+				'expected' => [ 'og_default_image_id' => '' ],
+				'dirty'    => [ 'og_default_image_id' => '' ],
+				'clean'    => [ 'og_default_image_id' => '' ],
+				'old'      => [],
+			],
+			[
+				'expected' => [ 'og_frontpage_image_id' => '' ],
+				'dirty'    => [ 'og_frontpage_image_id' => '' ],
+				'clean'    => [ 'og_frontpage_image_id' => '' ],
+				'old'      => [],
+			],
+			[
+				'expected' => [ 'og_default_image_id' => 123 ],
+				'dirty'    => [ 'og_default_image_id' => '123' ],
+				'clean'    => [ 'og_default_image_id' => '' ],
+				'old'      => [],
+			],
+			[
+				'expected' => [ 'og_frontpage_image_id' => 0 ],
+				'dirty'    => [ 'og_frontpage_image_id' => 'testen' ],
+				'clean'    => [ 'og_frontpage_image_id' => '' ],
+				'old'      => [],
+			],
+			[
+				'expected' => [ 'youtube_url' => 'https://www.youtube.com/yoast' ],
+				'dirty'    => [ 'youtube_url' => 'https://www.youtube.com/yoast' ],
+				'clean'    => [ 'youtube_url' => 'https://www.youtube.com/yoast' ],
+				'old'      => [],
+			],
+			[
+				'expected' => [ 'youtube_url' => 'https://www.youtube.com/yoasttube' ],
+				'dirty'    => [ 'youtube_url' => 'https://www.youtube.com/yoasttube' ],
+				'clean'    => [ 'youtube_url' => 'https://www.youtube.com/yoast' ],
+				'old'      => [],
+			],
+		];
 	}
 
 	/**
@@ -141,22 +141,22 @@ class Option_Social_Test extends TestCase {
 	 * @return array The test data.
 	 */
 	public function validate_option_invalid_data_provider() {
-		return array(
-			array(
-				'expected'  => array( 'facebook_site' => '' ),
-				'dirty'     => array( 'facebook_site' => 'invalidurl' ),
-				'clean'     => array( 'facebook_site' => '' ),
-				'old'       => array(),
+		return [
+			[
+				'expected'  => [ 'facebook_site' => '' ],
+				'dirty'     => [ 'facebook_site' => 'invalidurl' ],
+				'clean'     => [ 'facebook_site' => '' ],
+				'old'       => [],
 				'slug_name' => 'facebook_site',
-			),
-			array(
-				'expected'  => array( 'youtube_url' => 'https://www.youtube.com/yoast' ),
-				'dirty'     => array( 'youtube_url' => 'invalidurl' ),
-				'clean'     => array( 'youtube_url' => 'https://www.youtube.com/yoast' ),
-				'old'       => array( 'youtube_url' => 'https://www.youtube.com/yoast' ),
+			],
+			[
+				'expected'  => [ 'youtube_url' => 'https://www.youtube.com/yoast' ],
+				'dirty'     => [ 'youtube_url' => 'invalidurl' ],
+				'clean'     => [ 'youtube_url' => 'https://www.youtube.com/yoast' ],
+				'old'       => [ 'youtube_url' => 'https://www.youtube.com/yoast' ],
 				'slug_name' => 'youtube_url',
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -177,14 +177,14 @@ class Option_Social_Test extends TestCase {
 		Monkey\Functions\stubs( [
 			'wp_remote_retrieve_body' => function () {
 				return WPSEO_Utils::format_json_encode(
-					array(
-						'error' => array(
+					[
+						'error' => [
 							'message'    => '(#803) Some of the aliases you requested do not exist: yoastInvalidFBAppID',
 							'type'       => 'OAuthException',
 							'code'       => 803,
 							'fbtrace_id' => 'AbXND56LRJ0FDXHfdJUuVIr',
-						)
-					)
+						]
+					]
 				);
 			},
 		] );
@@ -202,10 +202,10 @@ class Option_Social_Test extends TestCase {
 			return true;
 		} );
 		$instance = new Option_Social_Double();
-		$clean = array( 'fbadminapp' => '246554168145' );
-		$dirty = array( 'fbadminapp' => 'yoastInvalidFBAppID' );
+		$clean = [ 'fbadminapp' => '246554168145' ];
+		$dirty = [ 'fbadminapp' => 'yoastInvalidFBAppID' ];
 		$instance->validate_facebook_app_id( 'fbadminapp', $dirty, '246554168145', $clean );
-		$this->assertEquals( array( 'fbadminapp' => '246554168145' ), $clean );
+		$this->assertEquals( [ 'fbadminapp' => '246554168145' ], $clean );
 
 		unset( $GLOBALS['wp_settings_errors'] );
 	}
@@ -231,12 +231,12 @@ class Option_Social_Test extends TestCase {
 		Monkey\Functions\stubs( [
 			'wp_remote_retrieve_body' => function () {
 				return WPSEO_Utils::format_json_encode(
-					array(
+					[
 						'category' => 'Just For Fun',
 						'link'     => 'http://www.ilikealot.com/auth/start/facebook/',
 						'name'     => 'Ilikealot',
 						'id'       => '246554168145',
-					)
+					]
 				);
 			},
 		] );
@@ -248,10 +248,10 @@ class Option_Social_Test extends TestCase {
 			return true;
 		});
 		$instance = new Option_Social_Double();
-		$clean = array( 'fbadminapp' => '' );
-		$dirty = array( 'fbadminapp' => '246554168145' );
+		$clean = [ 'fbadminapp' => '' ];
+		$dirty = [ 'fbadminapp' => '246554168145' ];
 		$instance->validate_facebook_app_id( 'fbadminapp', $dirty, '', $clean );
-		$this->assertEquals( array( 'fbadminapp' => '246554168145' ), $clean );
+		$this->assertEquals( [ 'fbadminapp' => '246554168145' ], $clean );
 		unset( $GLOBALS['wp_settings_errors'] );
 	}
 
@@ -272,21 +272,21 @@ class Option_Social_Test extends TestCase {
 		Monkey\Functions\stubs( [
 			'wp_remote_retrieve_body' => function () {
 				return WPSEO_Utils::format_json_encode(
-					array(
-						'error' => array(
+					[
+						'error' => [
 							'message'    => '(#803) Some of the aliases you requested do not exist: yoastInvalidFBAppID',
 							'type'       => 'OAuthException',
 							'code'       => 803,
 							'fbtrace_id' => 'AbXND56LRJ0FDXHfdJUuVIr',
-						)
-					)
+						]
+					]
 				);
 			},
 		] );
 
 		$instance = new Option_Social_Double();
-		$clean    = array( 'fbadminapp' => '' );
-		$dirty    = array( 'fbadminapp' => 'yoastInvalidFBAppID' );
+		$clean    = [ 'fbadminapp' => '' ];
+		$dirty    = [ 'fbadminapp' => 'yoastInvalidFBAppID' ];
 
 		$GLOBALS['wp_settings_errors'] = [[
 			'setting' => 'yoast_wpseo_social_options',
