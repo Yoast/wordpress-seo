@@ -2,6 +2,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { unescape } from "lodash";
 
 const SelectContainer = styled.div`
 	padding-top: 6px;
@@ -41,7 +42,7 @@ const TaxonomyPicker = ( props ) => {
 								key={ term.id }
 								value={ term.id }
 							>
-								{ term.name }
+								{ unescape( term.name ) }
 							</option>
 						);
 					} )
