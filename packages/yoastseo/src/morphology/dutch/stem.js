@@ -9,7 +9,6 @@
  * Redistribution and use in source and binary forms, with or without modification, is covered by the standard BSD license.
  */
 /**
- *
  * Determines the start index of the R1 region.
  * R1 is the region after the first non-vowel following a vowel. It should include at least 3 letters.
  *
@@ -79,9 +78,10 @@ const modifyStem = function( word, modificationGroup ) {
 };
 
 /**
- * Check whether the third to last and fourth to last characters are different. If they are, then the doubling vowel
- * modification should be performed. For example, in the word 'luttel' third and fourth to last characters are both 't',
- * so the vowel doubling would *not* be performed (it would not become 'lutteel').
+ * Checks whether the third to last and fourth to last characters are different. If they are, then the doubling vowel
+ * modification should be performed. If these characters are the same, no doubling should be performed.
+ * For example, in the word 'luttel' third and fourth to last characters are both 't', so the vowel doubling would *not* be 
+ * performed (it would not become 'lutteel').
  *
  * @param {string} word The stemmed word that the check should be executed on.
  * @returns {boolean} Whether the third and fourth to last characters are different.
@@ -89,7 +89,7 @@ const modifyStem = function( word, modificationGroup ) {
 const isVowelDoublingAllowed = function( word ) {
 	const fourthToLastLetter = word.charAt( word.length - 4 );
 	const thirdToLastLetter = word.charAt( word.length - 3 );
-	return ( fourthToLastLetter !== thirdToLastLetter );
+	return fourthToLastLetter !== thirdToLastLetter;
 };
 
 /**
@@ -137,7 +137,9 @@ const findAndDeleteSuffix = function( word, suffixStep, r1Index, morphologyDataN
 };
 
 /**
- * Finds the suffix for each step, and if one is found it deletes it before going to the next step.
+ * Runs through three stemming steps that process different kinds of suffixes, determines if there is a valid suffix
+ * within the R1 region that can be deleted for stemming and deletes it, as well as applies suffix-specific stem
+ * modifications if needed.
  *
  * @param {string} word 	The word for which to find and delete suffixes.
  * @param {Object} suffixSteps	 All of the suffix steps.
@@ -164,7 +166,8 @@ const findAndDeleteSuffixes = function( word, suffixSteps, r1Index, morphologyDa
  * @returns {string} The stemmed word.
  */
 export default function stem( word, morphologyDataNL ) {
-	/** Put i and y in between vowels, initial y, and y after a vowel into upper case. This is because they should
+	/** 
+	 * Put i and y in between vowels, initial y, and y after a vowel into upper case. This is because they should
 	 * be treated as consonants so we want to differentiate them from other i's and y's when matching regexes.
 	 */
 	word = modifyStem( word, morphologyDataNL.stemming.stemModifications.IAndYToUppercase );
@@ -175,10 +178,7 @@ export default function stem( word, morphologyDataNL ) {
 	// Import the suffixes from all three steps.
 	const suffixSteps = morphologyDataNL.stemming.suffixes;
 
-	/** Runs through three stemming steps that process different kinds of suffixes, determines if there is a valid suffix
-	 * within the R1 region that can be deleted for stemming and deletes it, as well as applies suffix-specific stem
-	 * modifications if needed.
-	 */
+	// Run through the three steps of possible de-suffixation.
 	word = findAndDeleteSuffixes( word, suffixSteps, r1Index, morphologyDataNL );
 
 	// Do final modifications to the stem.
