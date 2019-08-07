@@ -116,6 +116,5 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 
 		remove_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_forms' ) );
 		remove_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_a11y' ) );
-
 	}
 }

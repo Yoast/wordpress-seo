@@ -256,5 +256,4 @@ class Schema_WebPage_Test extends TestCase {
 
 		$this->assertEquals( $actual['description'], $expected );
 	}
-
 }
