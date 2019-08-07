@@ -14,7 +14,7 @@ use PhpParser\NodeVisitorAbstract;
 /**
  * Class Vendor_Prefixing_Visitor
  */
-class Vendor_Prefixing_Visitor extends NodeVisitorAbstract {
+class Remove_Vendor_Prefixing_Visitor extends NodeVisitorAbstract {
 	/**
 	 * @param \PhpParser\Node $node The node being visited.
 	 *
@@ -25,16 +25,10 @@ class Vendor_Prefixing_Visitor extends NodeVisitorAbstract {
 			return $node;
 		}
 
-		$class_name = $node->toString();
-		if ( strpos( $class_name, YOAST_VENDOR_NS_PREFIX ) !== 0 ) {
+		if ( $node->getFirst() !== YOAST_VENDOR_NS_PREFIX ) {
 			return $node;
 		}
 
-		$base_name = substr( $class_name, ( strlen( YOAST_VENDOR_NS_PREFIX ) + 1 ) );
-
-		if ( $node->isFullyQualified() ) {
-			return new Name\FullyQualified( $base_name );
-		}
-		return new Name( $base_name );
+		return $node->slice( 1 );
 	}
 }

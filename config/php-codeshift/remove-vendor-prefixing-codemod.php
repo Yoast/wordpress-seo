@@ -12,7 +12,7 @@ use Codeshift\AbstractCodemod;
 /**
  * Class Vendor_Prefixing_Codemod
  */
-class Vendor_Prefixing_Codemod extends AbstractCodemod {
+class Remove_Vendor_Prefixing_Codemod extends AbstractCodemod {
 	/**
 	 * Sets up the environment required to do the code modifications.
 	 */
@@ -23,9 +23,10 @@ class Vendor_Prefixing_Codemod extends AbstractCodemod {
 		define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 		define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
-		$visitor = new Vendor_Prefixing_Visitor();
-		$this->addTraversalTransform( $visitor );
+		$visitor = new Remove_Vendor_Prefixing_Visitor();
+		$comment_visitor = new Remove_Vendor_Prefixing_Comment_Visitor();
+		$this->addTraversalTransform( $visitor, $comment_visitor );
 	}
 }
 
-return 'Yoast\WP\Free\PHP_CodeShift\Vendor_Prefixing_Codemod';
+return 'Yoast\WP\Free\PHP_CodeShift\Remove_Vendor_Prefixing_Codemod';
