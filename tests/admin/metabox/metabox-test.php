@@ -66,9 +66,9 @@ class Metabox_Test extends TestCase {
 			] ] );
 
 		$actual = $this->instance->get_additional_meta_sections();
-		$this->assertSame( 1, count( $actual ) );
+		$this->assertSame( 1, \count( $actual ) );
 
-		$entry = array_pop( $actual );
+		$entry = \array_pop( $actual );
 		$this->assertInstanceOf( WPSEO_Metabox_Section_Additional::class, $entry );
 
 		$this->assertSame( "tab-name", $entry->name );
@@ -87,9 +87,9 @@ class Metabox_Test extends TestCase {
 			->andReturn( [ "not an array", [ "name" => "tab-name", "link_content" => "Testing Tab", "content" => "Testing 1 2 3" ], 123 ] );
 
 		$actual = $this->instance->get_additional_meta_sections();
-		$this->assertSame( 1, count( $actual ) );
+		$this->assertSame( 1, \count( $actual ) );
 
-		$entry = array_pop( $actual );
+		$entry = \array_pop( $actual );
 		$this->assertInstanceOf( WPSEO_Metabox_Section_Additional::class, $entry );
 
 		$this->assertSame( "tab-name", $entry->name );
@@ -108,6 +108,6 @@ class Metabox_Test extends TestCase {
 			->andReturn( [ [ "link_content" => "Testing Tab", "content" => "Testing 1 2 3" ] ] );
 
 		$actual = $this->instance->get_additional_meta_sections();
-		$this->assertSame( 0, count( $actual ) );
+		$this->assertSame( 0, \count( $actual ) );
 	}
 }

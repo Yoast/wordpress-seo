@@ -8,7 +8,6 @@
 namespace Yoast\WP\Free\Builders;
 
 use Exception;
-use Yoast\WP\Free\Models\Indexable_Extension;
 use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
 
 /**

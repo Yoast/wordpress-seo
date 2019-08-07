@@ -4,7 +4,6 @@ namespace Yoast\WP\Free\Tests;
 
 use WPSEO_Options;
 use Brain\Monkey;
-use Mockery;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 /**
@@ -52,12 +51,12 @@ abstract class TestCase extends BaseTestCase {
 
 		Monkey\Functions\expect( 'get_option' )
 			->zeroOrMoreTimes()
-			->with( call_user_func_array( 'Mockery::anyOf', $this->mocked_options ) )
+			->with( \call_user_func_array( 'Mockery::anyOf', $this->mocked_options ) )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_site_option' )
 			->zeroOrMoreTimes()
-			->with( call_user_func_array( 'Mockery::anyOf', $this->mocked_options ) )
+			->with( \call_user_func_array( 'Mockery::anyOf', $this->mocked_options ) )
 			->andReturn( [] );
 	}
 

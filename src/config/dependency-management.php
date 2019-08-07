@@ -89,6 +89,6 @@ class Dependency_Management {
 	 * @return bool True on successful alias.
 	 */
 	protected function class_alias( $base, $alias ) {
-		return class_alias( $base, $alias );
+		return \class_alias( $base, $alias );
 	}
 }
