@@ -16,7 +16,7 @@ abstract class Feature_Flag_Conditional implements Conditional {
 	 * @inheritdoc
 	 */
 	public function is_met() {
-		$feature_flag = strtoupper( $this->get_feature_flag() );
+		$feature_flag = \strtoupper( $this->get_feature_flag() );
 
 		return \defined( 'YOAST_SEO_' . $feature_flag ) && \constant( 'YOAST_SEO_' . $feature_flag ) === true;
 	}

@@ -6,7 +6,6 @@ use WPSEO_Admin;
 use WPSEO_GSC;
 use WPSEO_Primary_Term_Admin;
 use Yoast_Dashboard_Widget;
-use Yoast_Notification;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Free\Tests\Doubles\Shortlinker;

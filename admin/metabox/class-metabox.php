@@ -417,10 +417,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			if ( is_array( $section ) && array_key_exists( 'name', $section ) && array_key_exists( 'link_content', $section ) && array_key_exists( 'content', $section ) ) {
 				$options    = array_key_exists( 'options', $section ) ? $section['options'] : array();
 				$sections[] = new WPSEO_Metabox_Section_Additional(
-						$section['name'],
-						$section['link_content'],
-						$section['content'],
-						$options
+					$section['name'],
+					$section['link_content'],
+					$section['content'],
+					$options
 				);
 			}
 		}

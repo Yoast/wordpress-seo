@@ -4,7 +4,6 @@ namespace Yoast\WP\Free\Tests;
 
 use WPSEO_Options;
 use Brain\Monkey;
-use Mockery;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 
 /**
@@ -12,8 +11,16 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
  */
 abstract class TestCase extends BaseTestCase {
 
+	/**
+	 * Options being mocked.
+	 *
+	 * @var array
+	 */
 	protected $mocked_options = [ 'wpseo', 'wpseo_titles', 'wpseo_taxonomy_meta', 'wpseo_social', 'wpseo_ms' ];
 
+	/**
+	 * Set up the test fixtures.
+	 */
 	protected function setUp() {
 		parent::setUp();
 		Monkey\setUp();
@@ -41,7 +48,7 @@ abstract class TestCase extends BaseTestCase {
 					return \abs( \intval( $value ) );
 				},
 				'mysql2date'     => null,
-				'wp_parse_args' => function( $settings, $defaults ) {
+				'wp_parse_args'  => function( $settings, $defaults ) {
 					return \array_merge( $defaults, $settings );
 				},
 			]
@@ -52,15 +59,18 @@ abstract class TestCase extends BaseTestCase {
 
 		Monkey\Functions\expect( 'get_option' )
 			->zeroOrMoreTimes()
-			->with( call_user_func_array( 'Mockery::anyOf', $this->mocked_options ) )
+			->with( \call_user_func_array( 'Mockery::anyOf', $this->mocked_options ) )
 			->andReturn( [] );
 
 		Monkey\Functions\expect( 'get_site_option' )
 			->zeroOrMoreTimes()
-			->with( call_user_func_array( 'Mockery::anyOf', $this->mocked_options ) )
+			->with( \call_user_func_array( 'Mockery::anyOf', $this->mocked_options ) )
 			->andReturn( [] );
 	}
 
+	/**
+	 * Tear down the test fixtures.
+	 */
 	protected function tearDown() {
 		Monkey\tearDown();
 		parent::tearDown();
