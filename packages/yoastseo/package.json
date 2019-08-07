@@ -116,6 +116,6 @@
     }
   },
   "yoast": {
-    "premiumConfiguration": "46-dutch-morphology-data"
+    "premiumConfiguration": "feature/Dutch-morphology"
   }
 }
