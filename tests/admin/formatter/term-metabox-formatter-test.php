@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\Free\Tests\Admin\Formatter;
 
-use WPSEO_Term_Metabox_Formatter;
 use Yoast\WP\Free\Tests\Doubles\Admin\Formatter\Term_Metabox_Formatter_Double;
 use Yoast\WP\Free\Tests\TestCase;
 use Brain\Monkey;
@@ -20,14 +19,14 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var Term_Metabox_Formatter_Double
+	 * @var \Yoast\WP\Free\Tests\Doubles\Admin\Formatter\Term_Metabox_Formatter_Double
 	 */
 	private $instance;
 
 	/**
 	 * Mocked stdClass.
 	 *
-	 * @var stdClass
+	 * @var \stdClass
 	 */
 	private $taxonomy;
 
