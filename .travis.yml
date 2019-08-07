@@ -120,14 +120,15 @@ before_install:
 install:
 - |
   if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
-    # The prefix-dependencies task only works on PHP 7.1 and we need to prefix our dependencies to accurately test them.
+    # The prefix-dependencies task only works on PHP 7.2 and we need to prefix our dependencies to accurately test them.
     # So we temporarily switch PHP versions, do a full install and then remove the package.
     # Then switch back to the PHP version we want to test and delete the vendor directory.
-    phpenv local 7.1
+    phpenv local 7.2
     composer install --no-interaction --no-scripts
     composer prefix-dependencies
     composer compile-di
     composer remove humbug/php-scoper --dev --ignore-platform-reqs
+    composer remove atanamo/php-codeshift --dev --ignore-platform-reqs
     phpenv local --unset
     rm -rf vendor/*
   fi
