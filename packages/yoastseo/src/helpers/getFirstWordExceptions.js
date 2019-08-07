@@ -7,6 +7,7 @@ import firstWordExceptionsItalian from "../researches/italian/firstWordException
 import firstWordExceptionsRussian from "../researches/russian/firstWordExceptions.js";
 import firstWordExceptionsPolish from "../researches/polish/firstWordExceptions.js";
 import firstWordExceptionsSwedish from "../researches/swedish/firstWordExceptions.js";
+import firstWordExceptionsPortuguese from "../researches/Portuguese/firstWordExceptions.js";
 import getLanguage from "./getLanguage.js";
 
 /**
@@ -34,6 +35,8 @@ export default function( locale ) {
 			return firstWordExceptionsPolish;
 		case "sv":
 			return firstWordExceptionsSwedish;
+		case "pt":
+			return firstWordExceptionsPortuguese;
 		default:
 		case "en":
 			return firstWordExceptionsEnglish;
