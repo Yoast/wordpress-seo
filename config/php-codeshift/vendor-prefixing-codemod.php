@@ -1,10 +1,21 @@
 <?php
+/**
+ * Yoast SEO Plugin File.
+ *
+ * @package Yoast\YoastSEO\PHP_CodeShift
+ */
 
 namespace Yoast\WP\Free\PHP_CodeShift;
 
 use Codeshift\AbstractCodemod;
 
+/**
+ * Class Vendor_Prefixing_Codemod
+ */
 class Vendor_Prefixing_Codemod extends AbstractCodemod {
+	/**
+	 * Sets up the environment required to do the code modifications.
+	 */
 	public function init() {
 		define( 'YoastSEO_Vendor\RUCKUSING_BASE', __DIR__ . '/../../fake-ruckusing' );
 
