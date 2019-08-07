@@ -181,21 +181,23 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
      *
      * @covers WPSEO_Author_Sitemap_Provider::get_sitemap_links
      */
-    public function test_throw_no_exception_on_second_sitemap() {
-        // Creates two users, without any posts.
-        $author_id = $this->factory->user->create( array( 'role' => 'author' ) );
-        $second_author_id  = $this->factory->user->create( array( 'role' => 'author' ) );
+	public function test_throw_no_exception_on_second_sitemap() {
+		// Creates two users, without any posts.
+		$author_id         = $this->factory->user->create( array( 'role' => 'author' ) );
+		$second_author_id  = $this->factory->user->create( array( 'role' => 'author' ) );
+		$third_author_id   = $this->factory->user->create( array( 'role' => 'author' ) );
 
-        // Creates posts.
-        $this->factory->post->create_many( 3, array( 'post_author' => $author_id ) );
-        $this->factory->post->create_many( 3, array( 'post_author' => $second_author_id ) );
+		// Creates posts.
+		$this->factory->post->create_many( 3, array( 'post_author' => $author_id ) );
+		$this->factory->post->create_many( 3, array( 'post_author' => $second_author_id ) );
+		$this->factory->post->create_many( 3, array( 'post_author' => $third_author_id ) );
 
-        // Checks which users are in the second sitemap.
-        $second_sitemap_links = self::$class_instance->get_sitemap_links( 'author', 1, 2 );
+		// Checks which users are in the second sitemap.
+		$third_sitemap_links = self::$class_instance->get_sitemap_links( 'author', 1, 3 );
 
-        // Second user should now be in the second sitemap, as the max_entries limit is 1 user.
-        $this->assertCount( 1, $second_sitemap_links );
-    }
+		// Third user should be in the third sitemap, as the max_entries limit is 1 user.
+		$this->assertCount( 1, $third_sitemap_links );
+	}
 
     /**
      * Tests whether the author sitemap is empty, when there are no users.
