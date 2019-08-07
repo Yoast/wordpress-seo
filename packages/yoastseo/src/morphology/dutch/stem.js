@@ -37,9 +37,9 @@ const determineR1 = function( word ) {
  * Searches for suffixes in a word.
  *
  * @param {string} word 	The word in which to look for suffixes.
- * @param {string} suffixStep	 One of the three steps of findings suffixes.
+ * @param {Object} suffixStep	 One of the three steps of findings suffixes.
  * @param {number} r1Index	 The index of the R1 region.
- * @returns {object} The index of the suffix and extra information about whether, and how, the stem will need to be modified.
+ * @returns {Object} The index of the suffix and extra information about whether, and how, the stem will need to be modified.
  */
 const findSuffix = function( word, suffixStep, r1Index ) {
 	for ( const suffixClass in suffixStep ) {
@@ -79,46 +79,40 @@ const modifyStem = function( word, modificationGroup ) {
 };
 
 /**
- * Check whether the third to last and fourth to last characters are the same. If they are, then the doubling vowel
- * modification should be skipped.
+ * Check whether the third to last and fourth to last characters are different. If they are, then the doubling vowel
+ * modification should be performed. For example, in the word 'luttel' third and fourth to last characters are both 't',
+ * so the vowel doubling would *not* be performed (it would not become 'lutteel').
  *
  * @param {string} word The stemmed word that the check should be executed on.
- * @returns {boolean} Whether the third and fourth to last characters are the same.
+ * @returns {boolean} Whether the third and fourth to last characters are different.
  */
-const doubleLetterCheck = function( word ) {
+const isVowelDoublingAllowed = function( word ) {
 	const fourthToLastLetter = word.charAt( word.length - 4 );
 	const thirdToLastLetter = word.charAt( word.length - 3 );
-	return ( fourthToLastLetter === thirdToLastLetter );
+	return ( fourthToLastLetter !== thirdToLastLetter );
 };
 
 /**
  * Deletes the suffix and modifies the stem according to the required modifications.
  *
  * @param {string} word	 The word from which to delete the suffix.
- * @param {string} suffixStep 	One of the three steps of deleting a suffix.
+ * @param {Object} suffixStep 	One of the three steps of deleting a suffix.
  * @param {number} suffixIndex	 The index of the found suffix.
  * @param {string} stemModification 	The type of stem modification that needs to be done.
- * @param {object} morphologyDataNL	 The Dutch morphology data file.
+ * @param {Object} morphologyDataNL	 The Dutch morphology data file.
  * @returns {string} The stemmed and modified word.
  */
 const deleteSuffixAndModifyStem = function( word, suffixStep, suffixIndex, stemModification, morphologyDataNL ) {
 	if ( stemModification === "hedenToHeid" ) {
-		word = modifyStem( word, morphologyDataNL.stemming.stemModifications.hedenToHeid );
-		return word;
+		return modifyStem( word, morphologyDataNL.stemming.stemModifications.hedenToHeid );
 	}
 	word = word.substring( 0, suffixIndex );
 	if ( stemModification === "changeIedtoId" ) {
-		word = modifyStem( word, morphologyDataNL.stemming.stemModifications.iedToId );
-		return word;
+		return modifyStem( word, morphologyDataNL.stemming.stemModifications.iedToId );
 	} else if ( stemModification === "changeInktoIng" && word.endsWith( "ink" ) ) {
-		word = modifyStem( word, morphologyDataNL.stemming.stemModifications.inkToIng );
-		return word;
-	} else if ( stemModification === "vowelDoubling" ) {
-		const doubleLetter = doubleLetterCheck( word );
-		if ( doubleLetter === false ) {
-			word = modifyStem( word, morphologyDataNL.stemming.stemModifications.doubleVowel );
-			return word;
-		}
+		return modifyStem( word, morphologyDataNL.stemming.stemModifications.inkToIng );
+	} else if ( stemModification === "vowelDoubling" && isVowelDoublingAllowed( word ) ) {
+		return modifyStem( word, morphologyDataNL.stemming.stemModifications.doubleVowel );
 	}
 	return word;
 };
@@ -128,9 +122,9 @@ const deleteSuffixAndModifyStem = function( word, suffixStep, suffixIndex, stemM
  * Finds and deletes the suffix found in a particular step, and modifies the stem.
  *
  * @param {string} word 	The word for which to find and delete a suffix.
- * @param {string} suffixStep	 One of the three suffix steps.
+ * @param {Object} suffixStep	 One of the three suffix steps.
  * @param {number} r1Index	 The index of the R1 region.
- * @param {object} morphologyDataNL	 The Dutch morphology data file.
+ * @param {Object} morphologyDataNL	 The Dutch morphology data file.
  * @returns {string} The word with the deleted suffix.
  */
 const findAndDeleteSuffix = function( word, suffixStep, r1Index, morphologyDataNL ) {
@@ -145,10 +139,10 @@ const findAndDeleteSuffix = function( word, suffixStep, r1Index, morphologyDataN
 /**
  * Finds the suffix for each step, and if one is found it deletes it before going to the next step.
  *
- * @param {string} word 	The word for which to find and delete suffixes
- * @param {object} suffixSteps	 All of the suffix steps.
+ * @param {string} word 	The word for which to find and delete suffixes.
+ * @param {Object} suffixSteps	 All of the suffix steps.
  * @param {number} r1Index	 The index of the R1 region
- * @param {object} morphologyDataNL 	The Dutch morphology data file.
+ * @param {Object} morphologyDataNL 	The Dutch morphology data file.
  * @returns {string} The word with the delete suffix.
  */
 const findAndDeleteSuffixes = function( word, suffixSteps, r1Index, morphologyDataNL ) {
@@ -165,7 +159,7 @@ const findAndDeleteSuffixes = function( word, suffixSteps, r1Index, morphologyDa
  * Stems Dutch words.
  *
  * @param {string} word  The word to stem.
- * @param {object} morphologyDataNL The Dutch morphology data file.
+ * @param {Object} morphologyDataNL The Dutch morphology data file.
  *
  * @returns {string} The stemmed word.
  */
@@ -181,13 +175,12 @@ export default function stem( word, morphologyDataNL ) {
 	// Import the suffixes from all three steps.
 	const suffixSteps = morphologyDataNL.stemming.suffixes;
 
-	/** For each of the three steps, look for suffixes and delete it if one is found in the R1 region, as well as apply
-	 * stem modifications if needed.
+	/** Runs through three stemming steps that process different kinds of suffixes, determines if there is a valid suffix
+	 * within the R1 region that can be deleted for stemming and deletes it, as well as applies suffix-specific stem
+	 * modifications if needed.
 	 */
 	word = findAndDeleteSuffixes( word, suffixSteps, r1Index, morphologyDataNL );
 
 	// Do final modifications to the stem.
-	word = modifyStem( word, morphologyDataNL.stemming.stemModifications.finalChanges );
-
-	return word;
+	return modifyStem( word, morphologyDataNL.stemming.stemModifications.finalChanges );
 }
