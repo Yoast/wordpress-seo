@@ -15,14 +15,14 @@ use Yoast\WP\Free\ORM\Yoast_Model;
 abstract class Indexable_Extension extends Yoast_Model {
 
 	/**
-	 * @var Indexable
+	 * @var \Yoast\WP\Free\Models\Indexable
 	 */
 	protected $indexable = null;
 
 	/**
 	 * Returns the indexable this extension belongs to.
 	 *
-	 * @return Indexable The indexable.
+	 * @return \Yoast\WP\Free\Models\Indexable The indexable.
 	 */
 	public function indexable() {
 		if ( $this->indexable === null ) {

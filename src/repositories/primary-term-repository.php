@@ -20,7 +20,7 @@ class Primary_Term_Repository extends ORMWrapper {
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @return Primary_Term_Repository
+	 * @return \Yoast\WP\Free\Repositories\Primary_Term_Repository
 	 */
 	public static function get_instance() {
 		ORMWrapper::$repositories[ Yoast_Model::get_table_name( 'Primary_Term' ) ] = self::class;

@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\Free\Tests\Admin\Metabox;
 
-use \WPSEO_Admin_Asset_Manager;
-use \WPSEO_Metabox_Editor;
-use \Brain\Monkey;
+use WPSEO_Admin_Asset_Manager;
+use WPSEO_Metabox_Editor;
+use Brain\Monkey;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -93,7 +93,7 @@ class Metabox_Editor_Test extends TestCase {
 				'other_property'  => 'hello world',
 			)
 		);
-		ksort( $actual );
+		\ksort( $actual );
 
 		$this->assertSame( $expected, $actual );
 	}

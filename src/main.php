@@ -11,22 +11,22 @@ use Yoast\WP\Free\Config\Dependency_Management;
 use Yoast\WP\Free\Dependency_Injection\Container_Compiler;
 use Yoast\WP\Free\Generated\Cached_Container;
 
-if ( ! defined( 'WPSEO_VERSION' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
+if ( ! \defined( 'WPSEO_VERSION' ) ) {
+	\header( 'Status: 403 Forbidden' );
+	\header( 'HTTP/1.1 403 Forbidden' );
 	exit();
 }
 
 $dependency_management = new Dependency_Management();
 $dependency_management->initialize();
 
-$development = defined( 'YOAST_ENVIRONMENT' ) && YOAST_ENVIRONMENT === 'development';
-if ( $development && class_exists( '\Yoast\WP\Free\Dependency_Injection\Container_Compiler' ) ) {
+$development = \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT === 'development';
+if ( $development && \class_exists( '\Yoast\WP\Free\Dependency_Injection\Container_Compiler' ) ) {
 	// Exception here is unhandled as it will only occur in development.
 	Container_Compiler::compile( $development );
 }
 
-if ( file_exists( __DIR__ . '/generated/container.php' ) ) {
+if ( \file_exists( __DIR__ . '/generated/container.php' ) ) {
 	require_once __DIR__ . '/generated/container.php';
 	$container = new Cached_Container();
 	try {

@@ -6,7 +6,6 @@ use Brain\Monkey;
 use Mockery;
 use WP_Post;
 use WPSEO_Schema_Context;
-use WPSEO_Schema_Utils;
 use WPSEO_Schema_WebPage;
 use Yoast\WP\Free\Tests\TestCase;
 
