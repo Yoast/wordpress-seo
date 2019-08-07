@@ -12,8 +12,16 @@ use PHPUnit\Framework\TestCase as BaseTestCase;
  */
 abstract class TestCase extends BaseTestCase {
 
+	/**
+	 * Options being mocked.
+	 *
+	 * @var array
+	 */
 	protected $mocked_options = [ 'wpseo', 'wpseo_titles', 'wpseo_taxonomy_meta', 'wpseo_social', 'wpseo_ms' ];
 
+	/**
+	 * Set up the test fixtures.
+	 */
 	protected function setUp() {
 		parent::setUp();
 		Monkey\setUp();
@@ -41,7 +49,7 @@ abstract class TestCase extends BaseTestCase {
 					return \abs( \intval( $value ) );
 				},
 				'mysql2date'     => null,
-				'wp_parse_args' => function( $settings, $defaults ) {
+				'wp_parse_args'  => function( $settings, $defaults ) {
 					return \array_merge( $defaults, $settings );
 				},
 			]
@@ -61,6 +69,9 @@ abstract class TestCase extends BaseTestCase {
 			->andReturn( [] );
 	}
 
+	/**
+	 * Tear down the test fixtures.
+	 */
 	protected function tearDown() {
 		Monkey\tearDown();
 		parent::tearDown();
