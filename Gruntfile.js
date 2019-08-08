@@ -65,7 +65,7 @@ module.exports = function( grunt ) {
 				/*
 				 * Yoast JS are the @yoast JavaScript packages.
 				 * They (currently) have the `yoast-components` textdomain.
-				 * They get combined with the `yoastComponents` translations.
+				 * They get combined with the `yoastComponents` translations to one yoast-components.pot file.
 				 */
 				yoastJsAlgoliaSearchBox: "<%= paths.languages %>yoast-js-algolia-search-box.pot",
 				yoastJsAnalysisReport: "<%= paths.languages %>yoast-js-analysis-report.pot",
