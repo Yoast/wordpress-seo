@@ -335,14 +335,17 @@ abstract class WPSEO_Option {
 
 			if ( $validated_url === false ) {
 				add_settings_error(
-					$this->group_name, // Slug title of the setting.
-					$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
+					// Slug title of the setting.
+					$this->group_name,
+					// Suffix-ID for the error message box. WordPress prepends `setting-error-`.
+					$key,
 					sprintf(
 						/* translators: %s expands to an invalid URL. */
 						__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
 						'<strong>' . esc_html( $submitted_url ) . '</strong>'
 					),
-					'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+					// CSS class for the WP notice.
+					'notice-error'
 				);
 
 				// Restore the previous URL value, if any.
