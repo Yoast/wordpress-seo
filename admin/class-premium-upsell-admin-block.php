@@ -74,8 +74,8 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			'<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 
 		$upgrade_button = sprintf(
-			'<a id="wpseo-%1$s-popup-button" class="yoast-button-upsell" href="%2$s" target="_blank">%3$s</a>',
-			$this->identifier,
+			'<a id="%1$s" class="yoast-button-upsell" href="%2$s" target="_blank">%3$s</a>',
+			esc_attr( 'wpseo-' . $this->identifier . '-popup-button' ),
 			esc_url( $url ),
 			$button_text
 		);
@@ -98,6 +98,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		'</h2>';
 		echo '<ul class="' . esc_attr( $class . '--motivation' ) . '">' . $arguments_html . '</ul>';
 
+		// @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in $upgrade_button and $button_text above.
 		echo '<p>' . $upgrade_button . '</p>';
 		echo '</div>';
 

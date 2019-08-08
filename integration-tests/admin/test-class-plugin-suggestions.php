@@ -18,6 +18,8 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 	protected $class_instance;
 
 	/**
+	 * Holds the instance of the notification center (double).
+	 *
 	 * @var Yoast_Notification_Center_Double
 	 */
 	protected $notification_center;

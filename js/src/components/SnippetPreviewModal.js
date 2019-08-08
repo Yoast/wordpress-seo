@@ -12,7 +12,7 @@ import { colors, rgba } from "@yoast/style-guide";
 import SnippetEditorWrapper from "../containers/SnippetEditor";
 
 const OverrideOverlayColor = createGlobalStyle`
-	.components-modal__screen-overlay {
+	.yoast-modal__screen-overlay {
 		background-color: ${ rgba( colors.$color_pink_dark, 0.6 ) };
 	}
 `;
@@ -48,16 +48,18 @@ class SnippetPreviewModal extends Component {
 					onClick={ this.openModal }
 					{ ...this.props }
 				/>
-				{ this.state.isOpen && <Modal
-					title={ __( "Snippet preview", "wordpress-seo" ) }
-					onRequestClose={ this.closeModal }
-				>
-					<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
-					<Button isDefault={ true } onClick={ this.closeModal }>
-						{ __( "Close", "wordpress-seo" ) }
-					</Button>
-					<OverrideOverlayColor />
-				</Modal>
+				{ this.state.isOpen &&
+					<Modal
+						title={ __( "Snippet preview", "wordpress-seo" ) }
+						onRequestClose={ this.closeModal }
+						overlayClassName="yoast-modal__screen-overlay"
+					>
+						<SnippetEditorWrapper showCloseButton={ false } hasPaperStyle={ false } />
+						<Button isDefault={ true } onClick={ this.closeModal }>
+							{ __( "Close", "wordpress-seo" ) }
+						</Button>
+						<OverrideOverlayColor />
+					</Modal>
 				}
 			</Fragment>
 		);

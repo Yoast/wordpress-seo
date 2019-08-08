@@ -150,6 +150,8 @@ class WPSEO_Admin_Asset {
 	);
 
 	/**
+	 * Constructs an instance of the WPSEO_Admin_Asset class.
+	 *
 	 * @param array $args The arguments for this asset.
 	 *
 	 * @throws InvalidArgumentException Throws when no name or src has been provided.

@@ -90,7 +90,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 			esc_attr( $this->name ),
 			esc_attr( $this->link_class ),
 			( '' !== $this->link_aria_label ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
-			$this->link_content
+			wp_kses_post( $this->link_content )
 		);
 	}
 
@@ -100,15 +100,19 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	 * @return void
 	 */
 	public function display_content() {
-		$html  = sprintf(
+		add_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_forms' ) );
+		add_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_a11y' ) );
+
+		printf(
 			'<div role="tabpanel" id="wpseo-meta-section-%1$s" aria-labelledby="wpseo-meta-tab-%1$s" tabindex="0" class="wpseo-meta-section">',
 			esc_attr( $this->name )
 		);
-		$html .= $this->content;
-		$html .= '<div id="wpseo-metabox-root" class="wpseo-metabox-root"></div>';
-		$html .= $this->html_after;
-		$html .= '</div>';
+		echo wp_kses_post( $this->content );
+		echo '<div id="wpseo-metabox-root" class="wpseo-metabox-root"></div>';
+		echo wp_kses_post( $this->html_after );
+		echo '</div>';
 
-		echo $html;
+		remove_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_forms' ) );
+		remove_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_a11y' ) );
 	}
 }

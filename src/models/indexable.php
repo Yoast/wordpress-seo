@@ -65,7 +65,7 @@ class Indexable extends Yoast_Model {
 	/**
 	 * The loaded indexable extensions.
 	 *
-	 * @var Indexable_Extension[]
+	 * @var \Yoast\WP\Free\Models\Indexable_Extension[]
 	 */
 	protected $loaded_extensions = [];
 
@@ -91,8 +91,8 @@ class Indexable extends Yoast_Model {
 	 */
 	public function save() {
 		if ( $this->permalink ) {
-			$this->permalink      = trailingslashit( $this->permalink );
-			$this->permalink_hash = strlen( $this->permalink ) . ':' . md5( $this->permalink );
+			$this->permalink      = \trailingslashit( $this->permalink );
+			$this->permalink_hash = \strlen( $this->permalink ) . ':' . \md5( $this->permalink );
 		}
 
 		return parent::save();
