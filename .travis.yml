@@ -105,7 +105,6 @@ cache:
   directories:
     - $HOME/.composer/cache
     - node_modules
-    - $HOME/.phpenv/versions
 
 before_install:
 - export SECURITYCHECK_DIR=/tmp/security-checker
@@ -117,21 +116,15 @@ before_install:
     curl -o- -L https://yarnpkg.com/install.sh | bash
     export PATH=$HOME/.yarn/bin:$PATH
   fi
-- |
-  if [[ $TRAVIS_PHP_VERSION == "5.6" && ! -d $HOME/.phpenv/versions/7.2.21 ]]; then
-    git clone git://github.com/php-build/php-build.git $HOME/php-build-src
-    PREFIX=$HOME/php-build $HOME/php-build-src/install.sh
-    $HOME/php-build/bin/php-build 7.2.21 $HOME/.phpenv/versions/7.2.21
-  fi
 
 install:
 - |
   if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
-    # The prefix-dependencies task only works on PHP 7.2 and we need to prefix our dependencies to accurately test them.
+    # The prefix-dependencies task only works on PHP 7.1 and we need to prefix our dependencies to accurately test them.
     # So we temporarily switch PHP versions, do a full install and then remove the package.
     # Then switch back to the PHP version we want to test and delete the vendor directory.
-    phpenv local 7.2
-    composer install --no-interaction --no-scripts
+    phpenv local 7.1
+    composer install --no-interaction --no-scripts --ignore-platform-reqs
     composer prefix-dependencies
     composer compile-di
     composer remove humbug/php-scoper --dev --ignore-platform-reqs
