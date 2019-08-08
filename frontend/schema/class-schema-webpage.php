@@ -67,7 +67,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 		if ( is_singular() ) {
 			$this->add_image( $data );
 
-			$post = get_post( $this->context->id );
+			$post                  = get_post( $this->context->id );
 			$data['datePublished'] = mysql2date( DATE_W3C, $post->post_date_gmt, false );
 			$data['dateModified']  = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
 
@@ -77,7 +77,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 		}
 
 		if ( ! empty( $this->context->description ) ) {
-			$data['description'] = $this->context->description;
+			$data['description'] = strip_tags( $this->context->description, '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' );
 		}
 
 		if ( $this->add_breadcrumbs() ) {

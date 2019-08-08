@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\Free\Tests\Doubles\Frontend\Schema;
+
+use WPSEO_Schema_HowTo;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_Schema_HowTo_Double extends WPSEO_Schema_HowTo {
+class Schema_HowTo_Double extends WPSEO_Schema_HowTo {
 
 	/**
 	 * Determine whether we're part of an article or a webpage.

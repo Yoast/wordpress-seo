@@ -13,6 +13,7 @@ use Yoast\WP\Free\Builders\Indexable_Term_Builder;
 use Yoast\WP\Free\Helpers\Current_Post_Helper;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\ORM\ORMWrapper;
+use Yoast\WP\Free\ORM\Yoast_Model;
 
 /**
  * Class Indexable_Repository
@@ -54,7 +55,7 @@ class Indexable_Repository extends ORMWrapper {
 	 * @param \Yoast\WP\Free\Builders\Indexable_Term_Builder   $term_builder   The term builder for creating missing indexables.
 	 * @param \Yoast\WP\Free\Loggers\Logger                    $logger         The logger.
 	 *
-	 * @return Indexable_Repository
+	 * @return \Yoast\WP\Free\Repositories\Indexable_Repository
 	 */
 	public static function get_instance(
 		Indexable_Author_Builder $author_builder,
@@ -66,12 +67,11 @@ class Indexable_Repository extends ORMWrapper {
 		/**
 		 * @var $instance self
 		 */
-		$instance = parent::get_instance_for_repository( self::class );
-		$instance->author_builder      = $author_builder;
-		$instance->post_builder        = $post_builder;
-		$instance->term_builder        = $term_builder;
-		$instance->current_post_helper = $current_post_helper;
-		$instance->logger              = $logger;
+		$instance                 = Yoast_Model::of_type( 'Indexable' );
+		$instance->author_builder = $author_builder;
+		$instance->post_builder   = $post_builder;
+		$instance->term_builder   = $term_builder;
+		$instance->logger         = $logger;
 
 		return $instance;
 	}
@@ -97,8 +97,8 @@ class Indexable_Repository extends ORMWrapper {
 	 * @param string $url The indexable url.
 	 */
 	public function find_by_url( $url ) {
-		$url      = trailingslashit( $url );
-		$url_hash = strlen( $url ) . ':' . md5( $url );
+		$url      = \trailingslashit( $url );
+		$url_hash = \strlen( $url ) . ':' . \md5( $url );
 
 		// Find by both url_hash and url, url_hash is indexed so will be used first by the DB to optimize the query.
 		return $this->where( 'url_hash', $url_hash )
@@ -117,8 +117,8 @@ class Indexable_Repository extends ORMWrapper {
 	 */
 	public function find_by_id_and_type( $object_id, $object_type, $auto_create = true ) {
 		$indexable = $this->where( 'object_id', $object_id )
-						  ->where( 'object_type', $object_type )
-						  ->find_one();
+			->where( 'object_type', $object_type )
+			->find_one();
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->create_for_id_and_type( $object_id, $object_type );
@@ -159,7 +159,7 @@ class Indexable_Repository extends ORMWrapper {
 
 		$this->logger->debug(
 			\sprintf(
-			/* translators: 1: object ID; 2: object type. */
+				/* translators: 1: object ID; 2: object type. */
 				\__( 'Indexable created for object %1$s with type %2$s', 'wordpress-seo' ),
 				$object_id,
 				$object_type

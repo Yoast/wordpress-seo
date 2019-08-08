@@ -23,7 +23,7 @@ class SEO_Links_Repository extends ORMWrapper {
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @return SEO_Links_Repository
+	 * @return \Yoast\WP\Free\Repositories\SEO_Links_Repository
 	 */
 	public static function get_instance() {
 		return parent::get_instance_for_repository( self::class );

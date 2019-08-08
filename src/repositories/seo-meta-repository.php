@@ -20,7 +20,7 @@ class SEO_Meta_Repository extends ORMWrapper {
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @return SEO_Meta_Repository
+	 * @return \Yoast\WP\Free\Repositories\SEO_Meta_Repository
 	 */
 	public static function get_instance() {
 		return parent::get_instance_for_repository( self::class );

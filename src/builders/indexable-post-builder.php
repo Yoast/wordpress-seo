@@ -8,7 +8,6 @@
 namespace Yoast\WP\Free\Builders;
 
 use Exception;
-use Yoast\WP\Free\Models\Indexable_Extension;
 use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
 
 /**
@@ -46,6 +45,7 @@ class Indexable_Post_Builder {
 			$this->get_meta_value( $post_id, 'focuskw' ),
 			(int) $this->get_meta_value( $post_id, 'linkdex' )
 		);
+
 		$indexable->readability_score = (int) $this->get_meta_value( $post_id, 'content_score' );
 
 		$indexable->is_cornerstone    = ( $this->get_meta_value( $post_id, 'is_cornerstone' ) === '1' );
@@ -55,8 +55,8 @@ class Indexable_Post_Builder {
 
 		// Set additional meta-robots values.
 		$indexable->is_robots_nofollow = ( $this->get_meta_value( $post_id, 'meta-robots-nofollow' ) === '1' );
-		$noindex_advanced = $this->get_meta_value( $post_id, 'meta-robots-adv' );
-		$meta_robots      = \explode( ',', $noindex_advanced );
+		$noindex_advanced              = $this->get_meta_value( $post_id, 'meta-robots-adv' );
+		$meta_robots                   = \explode( ',', $noindex_advanced );
 		foreach ( $this->get_robots_options() as $meta_robots_option ) {
 			$indexable->{ 'is_robots_' . $meta_robots_option } = \in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}

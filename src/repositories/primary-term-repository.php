@@ -20,7 +20,7 @@ class Primary_Term_Repository extends ORMWrapper {
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @return Primary_Term_Repository
+	 * @return \Yoast\WP\Free\Repositories\Primary_Term_Repository
 	 */
 	public static function get_instance() {
 		return parent::get_instance_for_repository( self::class );
@@ -38,8 +38,8 @@ class Primary_Term_Repository extends ORMWrapper {
 	public function find_by_postid_and_taxonomy( $post_id, $taxonomy, $auto_create = true ) {
 		/** @var \Yoast\WP\Free\Models\Primary_Term $primary_term */
 		$primary_term = $this->where( 'post_id', $post_id )
-							 ->where( 'taxonomy', $taxonomy )
-							 ->find_one();
+			->where( 'taxonomy', $taxonomy )
+			->find_one();
 
 		if ( $auto_create && ! $primary_term ) {
 			$primary_term = $this->create();

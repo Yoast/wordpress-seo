@@ -215,6 +215,11 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 		);
 	}
 
+	/**
+	 * Tests whether all the ranks are instances of the WPSEO_Rank class.
+	 *
+	 * @covers WPSEO_Rank::get_all_ranks
+	 */
 	public function test_get_all_ranks() {
 		$ranks = WPSEO_Rank::get_all_ranks();
 

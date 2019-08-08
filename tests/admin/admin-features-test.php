@@ -6,7 +6,6 @@ use WPSEO_Admin;
 use WPSEO_GSC;
 use WPSEO_Primary_Term_Admin;
 use Yoast_Dashboard_Widget;
-use Yoast_Notification;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Free\Tests\Doubles\Shortlinker;
@@ -34,41 +33,6 @@ class Admin_Features_Test extends TestCase {
 			->once()
 			->with( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' )
 			->andReturn( 'https://example.org' );
-
-		Monkey\Functions\expect( 'wp_parse_args' )
-			->once()
-			->with(
-				array(
-					'type'         => Yoast_Notification::WARNING,
-					'id'           => 'wpseo-upsell-notice',
-					'capabilities' => 'wpseo_manage_options',
-					'priority'     => 0.8,
-				),
-				array(
-					'type'             => Yoast_Notification::UPDATED,
-					'id'               => '',
-					'nonce'            => null,
-					'priority'         => 0.5,
-					'data_json'        => array(),
-					'dismissal_key'    => null,
-					'capabilities'     => array(),
-					'capability_check' => Yoast_Notification::MATCH_ALL,
-					'yoast_branding'   => false,
-				)
-			)
-			->andReturn(
-				array(
-					'type'             => Yoast_Notification::WARNING,
-					'id'               => 'wpseo-upsell-notice',
-					'nonce'            => null,
-					'priority'         => 0.8,
-					'data_json'        => array(),
-					'dismissal_key'    => null,
-					'capabilities'     => 'wpseo_manage_options',
-					'capability_check' => Yoast_Notification::MATCH_ALL,
-					'yoast_branding'   => false,
-				)
-			);
 
 		return new WPSEO_Admin();
 	}
