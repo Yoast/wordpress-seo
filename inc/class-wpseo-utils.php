@@ -1229,11 +1229,24 @@ SVG;
 
 		if ( isset( $a11y_tags ) === false ) {
 			$a11y_tags = array(
-				'button' => array(
+				'button'   => array(
 					'aria-expanded' => true,
 				),
-				'div' => array(
+				'div'      => array(
 					'tabindex' => true,
+				),
+				// Below are attributes that are needed for backwards compatibility (WP < 5.1).
+				'span'     => array(
+					'aria-hidden' => true,
+				),
+				'input'    => array(
+					'aria-describedby' => true,
+				),
+				'select'   => array(
+					'aria-describedby' => true,
+				),
+				'textarea' => array(
+					'aria-describedby' => true,
 				),
 			);
 
@@ -1298,6 +1311,14 @@ SVG;
 					'type'            => true,
 					'value'           => true,
 					'width'           => true,
+
+					/*
+					 * Below are attributes that are needed for backwards compatibility (WP < 5.1).
+					 * They are used for the social media image in the metabox.
+					 * These can be removed once we move to the React versions of the social previews.
+					 */
+					'data-target'     => true,
+					'data-target-id'  => true,
 				),
 				'select' => array(
 					'accesskey'       => true,

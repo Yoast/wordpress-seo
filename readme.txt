@@ -117,7 +117,6 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where the image from the configuration wizard notification was missing an empty alt attribute.
-* Fixes a bug where the snippet preview would overwrite the Gutenberg modal overlay color.
 
 = 11.8.0 =
 Release Date: August 6th, 2019
