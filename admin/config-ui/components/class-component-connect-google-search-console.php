@@ -148,7 +148,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 		$profiles = array();
 		$sites    = $this->gsc_service->get_sites();
 		foreach ( $sites as $site_key => $site_value ) {
-			$profiles[ untrailingslashit( $site_key )  ] = untrailingslashit( $site_value );
+			$profiles[ untrailingslashit( $site_key ) ] = untrailingslashit( $site_value );
 		}
 
 		return $profiles;

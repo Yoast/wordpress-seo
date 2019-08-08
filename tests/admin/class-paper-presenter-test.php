@@ -22,18 +22,10 @@ class WPSEO_Paper_Presenter_Test extends TestCase {
 	 * @covers WPSEO_Paper_Presenter::collapsible_config
 	 */
 	public function test_get_paper_presenter_output_without_view_file() {
-		Monkey\Functions\stubs( [
-			'esc_attr_e',
-		] );
-
-		Monkey\Functions\expect( 'wp_parse_args' )
-			->once()
-			->andReturnUsing( function( $settings, $defaults ) {
-			return array_merge( $defaults, $settings );
-		} );
+		Monkey\Functions\stubs( [ 'esc_attr_e' ] );
 
 		$paper_presenter = new WPSEO_Paper_Presenter( 'paper', null, [ 'content' => 'This is some content' ] );
-		$output = $paper_presenter->get_output();
+		$output          = $paper_presenter->get_output();
 
 		$this->assertContains( 'This is some content', $output );
 	}

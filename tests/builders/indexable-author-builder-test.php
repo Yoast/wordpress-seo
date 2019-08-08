@@ -31,7 +31,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_metadesc', 1 )->andReturn( 'description' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_noindex_author', 1 )->andReturn( 'on' );
 
-		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
@@ -56,7 +56,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_metadesc', 1 )->andReturn( '' );
 		Monkey\Functions\expect( 'get_the_author_meta' )->once()->with( 'wpseo_noindex_author', 1 )->andReturn( '' );
 
-		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', null );

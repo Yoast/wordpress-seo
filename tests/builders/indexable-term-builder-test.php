@@ -22,6 +22,11 @@ use Yoast\WP\Free\Tests\TestCase;
  */
 class Indexable_Term_Builder_Test extends TestCase {
 
+	/**
+	 * Options being mocked.
+	 *
+	 * @var array
+	 */
 	protected $mocked_options = [ 'wpseo', 'wpseo_titles', 'wpseo_social', 'wpseo_ms' ];
 
 	/**
@@ -33,30 +38,32 @@ class Indexable_Term_Builder_Test extends TestCase {
 		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( (object) [ 'taxonomy' => 'category' ] );
 		Monkey\Functions\expect( 'get_term_by' )->once()->with( 'id', 1, 'category' )->andReturn( (object) [ 'term_id' => 1 ] );
 		Monkey\Functions\expect( 'get_term_link' )->once()->with( 1, 'category' )->andReturn( 'https://example.org/category/1' );
-		Monkey\Functions\expect( 'get_option' )->once()->with( 'wpseo_taxonomy_meta' )->andReturn( [
-			'category' => [
-				1 => [
-					'wpseo_focuskw' => 'focuskeyword',
-					'wpseo_linkdex' => '75',
-					'wpseo_noindex' => 'noindex',
-					'wpseo_meta-robots-adv' => '',
-					'wpseo_content_score' => '50',
-					'wpseo_canonical' => 'https://canonical-term',
-					'wpseo_meta-robots-nofollow' => '1',
-					'wpseo_title' => 'title',
-					'wpseo_desc' => 'description',
-					'wpseo_bctitle' => 'breadcrumb_title',
-					'wpseo_opengraph-title'       => 'og_title',
-					'wpseo_opengraph-image'       => 'og_image',
-					'wpseo_opengraph-description' => 'og_description',
-					'wpseo_twitter-title'         => 'twitter_title',
-					'wpseo_twitter-image'         => 'twitter_image',
-					'wpseo_twitter-description'   => 'twitter_description',
-				]
+		Monkey\Functions\expect( 'get_option' )->once()->with( 'wpseo_taxonomy_meta' )->andReturn(
+			[
+				'category' => [
+					1 => [
+						'wpseo_focuskw'               => 'focuskeyword',
+						'wpseo_linkdex'               => '75',
+						'wpseo_noindex'               => 'noindex',
+						'wpseo_meta-robots-adv'       => '',
+						'wpseo_content_score'         => '50',
+						'wpseo_canonical'             => 'https://canonical-term',
+						'wpseo_meta-robots-nofollow'  => '1',
+						'wpseo_title'                 => 'title',
+						'wpseo_desc'                  => 'description',
+						'wpseo_bctitle'               => 'breadcrumb_title',
+						'wpseo_opengraph-title'       => 'og_title',
+						'wpseo_opengraph-image'       => 'og_image',
+						'wpseo_opengraph-description' => 'og_description',
+						'wpseo_twitter-title'         => 'twitter_title',
+						'wpseo_twitter-image'         => 'twitter_image',
+						'wpseo_twitter-description'   => 'twitter_description',
+					],
+				],
 			]
-		] );
+		);
 
-		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://example.org/category/1' );
 		$indexable_mock->orm->expects( 'set' )->with( 'canonical', 'https://canonical-term' );

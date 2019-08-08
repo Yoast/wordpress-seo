@@ -46,6 +46,32 @@ module.exports = {
 		src: "gettext.pot",
 		dest: "<%= files.pot.wordpressSeoJs %>",
 	},
+
+	"makepot-yoast-js-algolia-search-box": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsAlgoliaSearchBox %>",
+	},
+	"makepot-yoast-js-analysis-report": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsAnalysisReport %>",
+	},
+	"makepot-yoast-js-components": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsComponents %>",
+	},
+	"makepot-yoast-js-configuration-wizard": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsConfigurationWizard %>",
+	},
+	"makepot-yoast-js-helpers": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsHelpers %>",
+	},
+	"makepot-yoast-js-search-metadata-previews": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsSearchMetadataPreviews %>",
+	},
+
 	// The default de_CH is formal on WordPress.org, but that one is not translated enough for wordpress-seo.
 	// So we need to copy the `-informal` so we have a good translation.
 	"de_CH-informal": {
@@ -67,6 +93,7 @@ module.exports = {
 				cwd: ".",
 				src: [
 					"admin/**",
+					"config/**",
 					"css/**/*.css",
 					"css/main-sitemap.xsl",
 					"deprecated/**",

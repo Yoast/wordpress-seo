@@ -27,13 +27,6 @@ class WPSEO_Export {
 	private $export = '';
 
 	/**
-	 * Holds the export error message.
-	 *
-	 * @var string
-	 */
-	private $error = '';
-
-	/**
 	 * Holds whether the export was a success.
 	 *
 	 * @var boolean
@@ -71,29 +64,7 @@ class WPSEO_Export {
 			)
 		);
 		echo '</p>';
-		echo '<textarea id="wpseo-export" rows="20" cols="100">' . $this->export . '</textarea>';
-	}
-
-	/**
-	 * Returns true when the property error has a value.
-	 *
-	 * @return bool
-	 */
-	public function has_error() {
-		return ( $this->error !== '' );
-	}
-
-	/**
-	 * Sets the error hook, to display the error to the user.
-	 */
-	public function set_error_hook() {
-		/* translators: %1$s expands to Yoast SEO */
-		$message = sprintf( __( 'Error creating %1$s export: ', 'wordpress-seo' ), 'Yoast SEO' ) . $this->error;
-
-		printf(
-			'<div class="notice notice-error"><p>%1$s</p></div>',
-			$message
-		);
+		echo '<textarea id="wpseo-export" rows="20" cols="100">' . esc_textarea( $this->export ) . '</textarea>';
 	}
 
 	/**
@@ -172,5 +143,33 @@ class WPSEO_Export {
 			$val = '"' . $val . '"';
 		}
 		$this->write_line( $key . ' = ' . $val );
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Returns true when the property error has a value.
+	 *
+	 * @deprecated 11.9 Obsolete since the export setting refactor in 9.2.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool
+	 */
+	public function has_error() {
+		_deprecated_function( __METHOD__, 'WPSEO 11.9' );
+
+		return false;
+	}
+
+	/**
+	 * Sets the error hook, to display the error to the user.
+	 *
+	 * @deprecated 11.9 Obsolete since the export setting refactor in 9.2.
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function set_error_hook() {
+		_deprecated_function( __METHOD__, 'WPSEO 11.9' );
 	}
 }

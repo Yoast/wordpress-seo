@@ -369,13 +369,14 @@ class Yoast_Notification_Center {
 				$notification_json[] = $notification->render();
 			}
 
+			// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe.
 			echo WPSEO_Utils::format_json_encode( $notification_json );
 
 			return;
 		}
 
 		foreach ( $notifications as $notification ) {
-			echo $notification;
+			echo wp_kses_post( $notification );
 		}
 	}
 

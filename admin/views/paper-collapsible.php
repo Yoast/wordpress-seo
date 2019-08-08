@@ -20,7 +20,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 ?>
-<div class="<?php echo esc_attr( 'paper tab-block ' . $class ) ?>"<?php echo ( $paper_id ) ? ' id="' . esc_attr( 'wpseo-' . $paper_id ) . '"' : ''; ?>>
+<div class="<?php echo esc_attr( 'paper tab-block ' . $class ); ?>"<?php echo ( $paper_id ) ? ' id="' . esc_attr( 'wpseo-' . $paper_id ) . '"' : ''; ?>>
 
 	<?php
 	if ( ! empty( $title ) ) {
@@ -53,7 +53,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 		$container_id_attr = sprintf( ' id="%s"', esc_attr( 'wpseo-' . $paper_id . '-container' ) );
 	}
 
-	printf( '<div%1$s class="%2$s">%3$s</div>',
+	printf(
+		'<div%1$s class="%2$s">%3$s</div>',
 		$container_id_attr,
 		esc_attr( 'paper-container ' . $collapsible_config['class'] ),
 		$content

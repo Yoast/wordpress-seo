@@ -12,6 +12,7 @@ namespace Yoast\WP\Free\WordPress;
  * This consists of factory functions to inject WP globals into the dependency container.
  */
 class Wrapper {
+
 	/**
 	 * Wrapper method for returning the wpdb object for use in dependency injection.
 	 *
