@@ -105,6 +105,7 @@ cache:
   directories:
     - $HOME/.composer/cache
     - node_modules
+    - $HOME/.phpenv/versions
 
 before_install:
 - export SECURITYCHECK_DIR=/tmp/security-checker
@@ -123,6 +124,7 @@ install:
     # The prefix-dependencies task only works on PHP 7.2 and we need to prefix our dependencies to accurately test them.
     # So we temporarily switch PHP versions, do a full install and then remove the package.
     # Then switch back to the PHP version we want to test and delete the vendor directory.
+    phpenv install 7.2
     phpenv local 7.2
     composer install --no-interaction --no-scripts
     composer prefix-dependencies
