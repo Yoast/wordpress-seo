@@ -376,7 +376,7 @@ class Yoast_Notification_Center {
 		}
 
 		foreach ( $notifications as $notification ) {
-			echo wp_kses_post( $notification );
+			echo $notification;
 		}
 	}
 
