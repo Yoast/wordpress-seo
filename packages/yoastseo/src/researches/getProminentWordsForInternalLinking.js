@@ -37,11 +37,10 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 	 * and has a title or a metadescription or if the text is at least 400 words if it has neither.
  	 */
 	const textLength = countWords( text );
-	if ( textLength < 300 ) {
-		return result;
-	}
-
-	if ( textLength < 400 && ( ! result.titleAvailable ) && ( ! result.metadescriptionAvailable ) ) {
+	if (
+		( textLength < 300 ) ||
+		( textLength < 400 && ( ! result.titleAvailable ) && ( ! result.metadescriptionAvailable ) )
+	) {
 		return result;
 	}
 

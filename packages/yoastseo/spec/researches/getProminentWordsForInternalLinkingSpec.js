@@ -25,6 +25,43 @@ describe( "relevantWords research", function() {
 		expect( words ).toEqual( expected );
 	} );
 
+	it( "returns no prominent words for texts between 300 and 400 words without title and metadescription", function() {
+		const paper = new Paper( "texte" + " et texte".repeat( 180 ) );
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		const expected = {
+			prominentWords: [],
+			metadescriptionAvailable: false,
+			titleAvailable: false,
+		};
+
+		const words = prominentWordsResearch( paper, researcher );
+
+		expect( words ).toEqual( expected );
+	} );
+
+	it( "does return prominent words for texts between 300 and 400 words with a title", function() {
+		const paper = new Paper( "texte" + " et texte".repeat( 180 ), { title: "Title" } );
+
+		const researcher = new Researcher( paper );
+		researcher.addResearchData( "morphology", morphologyData );
+
+		const expected = {
+			prominentWords: [
+				new ProminentWord( "texte", "texte", 181 ),
+				new ProminentWord( "et", "et", 180 ),
+			],
+			metadescriptionAvailable: false,
+			titleAvailable: true,
+		};
+
+		const words = prominentWordsResearch( paper, researcher );
+
+		expect( words ).toEqual( expected );
+	} );
+
 	it( "does not break if no morphology support is added for the language", function() {
 		const paper = new Paper( "texte " + " et texte".repeat( 399 ), { locale: "fr_FR" } );
 
