@@ -92,7 +92,7 @@ class LinkSuggestions extends React.Component {
 
 	/**
 	 * Renders the component for when there are no link suggestions. If there is not enough text to calculate Prominent Words
-	 * of if no Prominent Words could be found, an "Add a bit more copy" message is returned. Otherwise we return a message
+	 * or if no Prominent Words could be found, an "Add a bit more copy" message is returned. Otherwise we return a message
 	 * that no relevant posts are found.
 	 *
 	 * @returns {React.Element} The rendered empty list

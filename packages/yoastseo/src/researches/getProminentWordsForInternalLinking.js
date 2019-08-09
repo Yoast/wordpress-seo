@@ -34,7 +34,7 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 
 	/**
 	 * We only want to return suggestions (and spend time calculating prominent words) if the text is at least 300 words
-	 * and has a title or a metadescription of if the text is at least 400 words if it has neither.
+	 * and has a title or a metadescription or if the text is at least 400 words if it has neither.
  	 */
 	const textLength = countWords( text );
 	if ( textLength < 300 ) {
