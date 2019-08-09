@@ -7,6 +7,9 @@
 
 namespace Yoast\WP\Free\Helpers;
 
+/**
+ * Class Current_Post_Helper
+ */
 class Current_Post_Helper {
 
 	/**

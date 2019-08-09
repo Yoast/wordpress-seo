@@ -67,11 +67,12 @@ class Indexable_Repository extends ORMWrapper {
 		/**
 		 * @var $instance self
 		 */
-		$instance                 = Yoast_Model::of_type( 'Indexable' );
-		$instance->author_builder = $author_builder;
-		$instance->post_builder   = $post_builder;
-		$instance->term_builder   = $term_builder;
-		$instance->logger         = $logger;
+		$instance                      = parent::get_instance_for_repository( self::class );
+		$instance->author_builder      = $author_builder;
+		$instance->post_builder        = $post_builder;
+		$instance->term_builder        = $term_builder;
+		$instance->current_post_helper = $current_post_helper;
+		$instance->logger              = $logger;
 
 		return $instance;
 	}
