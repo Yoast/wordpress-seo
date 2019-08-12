@@ -334,19 +334,21 @@ abstract class WPSEO_Option {
 			$validated_url = filter_var( $submitted_url, FILTER_VALIDATE_URL );
 
 			if ( $validated_url === false ) {
-				add_settings_error(
-					// Slug title of the setting.
-					$this->group_name,
-					// Suffix-ID for the error message box. WordPress prepends `setting-error-`.
-					$key,
-					sprintf(
-						/* translators: %s expands to an invalid URL. */
-						__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
-						'<strong>' . esc_html( $submitted_url ) . '</strong>'
-					),
-					// CSS class for the WP notice.
-					'notice-error'
-				);
+				if ( function_exists( 'add_settings_error' ) ) {
+					add_settings_error(
+						// Slug title of the setting.
+						$this->group_name,
+						// Suffix-ID for the error message box. WordPress prepends `setting-error-`.
+						$key,
+						sprintf(
+							/* translators: %s expands to an invalid URL. */
+							__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
+							'<strong>' . esc_html( $submitted_url ) . '</strong>'
+						),
+						// CSS class for the WP notice.
+						'notice-error'
+					);
+				}
 
 				// Restore the previous URL value, if any.
 				if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
