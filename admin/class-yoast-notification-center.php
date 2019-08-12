@@ -376,6 +376,7 @@ class Yoast_Notification_Center {
 		}
 
 		foreach ( $notifications as $notification ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Temporarily disabled, see: https://github.com/Yoast/wordpress-seo-premium/issues/2510 and https://github.com/Yoast/wordpress-seo-premium/issues/2511.
 			echo $notification;
 		}
 	}
