@@ -2,9 +2,9 @@
 
 namespace Yoast\WP\Free\Tests;
 
-use WPSEO_Options;
 use Brain\Monkey;
 use PHPUnit\Framework\TestCase as BaseTestCase;
+use WPSEO_Options;
 
 /**
  * TestCase base class.
@@ -40,17 +40,17 @@ abstract class TestCase extends BaseTestCase {
 				'sanitize_text_field' => null,
 				'is_admin'            => false,
 				'is_multisite'        => false,
-                'wp_kses_post'        => null,
+				'wp_kses_post'        => null,
 				'site_url'            => 'https://www.example.org',
-				'wp_json_encode'      => function( $data, $options = 0, $depth = 512 ) {
+				'wp_json_encode'      => function ( $data, $options = 0, $depth = 512 ) {
 					return \json_encode( $data, $options, $depth );
 				},
 				'wp_slash'            => null,
-				'absint'              => function( $value ) {
+				'absint'              => function ( $value ) {
 					return \abs( \intval( $value ) );
 				},
 				'mysql2date'          => null,
-				'wp_parse_args'       => function( $settings, $defaults ) {
+				'wp_parse_args'       => function ( $settings, $defaults ) {
 					return \array_merge( $defaults, $settings );
 				},
 			]
