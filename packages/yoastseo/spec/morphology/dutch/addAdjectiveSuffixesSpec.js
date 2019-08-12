@@ -7,6 +7,7 @@ import {
 	addComparativeSuffixes,
 	addSuperlativeSuffixes,
 	addAllAdjectiveSuffixes,
+	findAndApplyModifications,
 } from "../../../src/morphology/dutch/addAdjectiveSuffixes";
 
 import getMorphologyData from "../../specHelpers/getMorphologyData";
@@ -71,77 +72,69 @@ describe( "Test for getting the right inflected suffixes for various types of ad
 	} );
 } );
 
+describe( "Applies stem modifications", () => {
+	it( "Replaces -ieel with -iël", () => {
+		expect( findAndApplyModifications( "officieel", [ "er", "ers", "ere", "eres" ], morphologyDataNL.addSuffixes.stemModifications ) ).toEqual(
+			"officiël" );
+	} );
+	it( "Doubles the last consonant of a stem", () => {
+		expect( findAndApplyModifications( "zwak", [ "er", "ers", "ere", "eres" ], morphologyDataNL.addSuffixes.stemModifications ) ).toEqual(
+			"zwakk" );
+	} );
+	it( "Changes the -s at the end of the stem to -z", () => {
+		expect( findAndApplyModifications( "grijs", [ "er", "ers", "ere", "eres" ], morphologyDataNL.addSuffixes.stemModifications ) ).toEqual(
+			"grijz" );
+	} );
+	it( "Undoubles a double vowel in a stem", () => {
+		expect( findAndApplyModifications( "zwaar", "e", morphologyDataNL.addSuffixes.stemModifications ) ).toEqual(
+			"zwar" );
+	} );
+	it( "Does not double the last consonant of a stem", () => {
+		expect( findAndApplyModifications( "zwart", [ "er", "ers", "ere", "eres" ], morphologyDataNL.addSuffixes.stemModifications ) ).toEqual(
+			"zwart" );
+	} );
+	it( "Does not change the -s at the end of the stem into -z", () => {
+		expect( findAndApplyModifications( "trots", [ "er", "ers", "ere", "eres" ], morphologyDataNL.addSuffixes.stemModifications ) ).toEqual(
+			"trots" );
+	} );
+	it( "Does not undouble a double vowel", () => {
+		expect( findAndApplyModifications( "zwaar", [ "der", "ders", "dere", "deres" ], morphologyDataNL.addSuffixes.stemModifications ) ).toEqual(
+			"zwaar" );
+	} );
+} );
+
+
 describe( "Adds adjective suffixes", () => {
 	it( "Adds the partitive suffix to a given Dutch stem", () => {
 		expect( addPartitiveSuffix( morphologyDataNL.adjectives, "groen" ) ).toEqual(
 			"groens" );
 	} );
-	it( "Adds the inflected suffix to a given Dutch stem that does not require a stem modification", () => {
-		expect( addInflectedSuffix( morphologyDataNL, "groen" ) ).toEqual(
+	it( "Adds the inflected suffix to an unmodified Dutch stem", () => {
+		expect( addInflectedSuffix( morphologyDataNL.adjectives, morphologyDataNL.addSuffixes.stemModifications, "groen" ) ).toEqual(
 			"groene" );
 	} );
-	it( "Adds the inflected suffix to a given Dutch stem that requires replacing -ieel with -ïel", () => {
-		expect( addInflectedSuffix( morphologyDataNL, "officieel" ) ).toEqual(
+	it( "Adds the inflected suffix to a modified Dutch stem", () => {
+		expect( addInflectedSuffix( morphologyDataNL.adjectives, morphologyDataNL.addSuffixes.stemModifications, "officieel" ) ).toEqual(
 			"officiële" );
 	} );
-	it( "Adds the inflected suffix to a given Dutch stem that needs to have the final consonant doubled", () => {
-		expect( addInflectedSuffix( morphologyDataNL, "zwak" ) ).toEqual(
-			"zwakke" );
-	} );
-	it( "Adds the inflected suffix to a given Dutch stem that needs to have the final consonant voiced", () => {
-		expect( addInflectedSuffix( morphologyDataNL, "grijs" ) ).toEqual(
-			"grijze" );
-	} );
-	it( "Adds the inflected suffix to a given Dutch stem that needs to have a vowel undoubled", () => {
-		expect( addInflectedSuffix( morphologyDataNL, "zwaar" ) ).toEqual(
+	it( "Adds the inflected suffix to a stem that should have the vowel doubled", () => {
+		expect( addInflectedSuffix( morphologyDataNL.adjectives, morphologyDataNL.addSuffixes.stemModifications, "zwaar" ) ).toEqual(
 			"zware" );
 	} );
-	it( "Adds comparative suffixes to a given Dutch stem that does not require a stem modification", () => {
-		expect( addComparativeSuffixes( morphologyDataNL, "groen" ) ).toEqual( [
+	it( "Adds comparative suffixes to an unmodified Dutch stem", () => {
+		expect( addComparativeSuffixes( morphologyDataNL.adjectives, morphologyDataNL.addSuffixes.stemModifications, "groen" ) ).toEqual( [
 			"groener",
 			"groeners",
 			"groenere",
 			"groeneres",
 		], );
 	} );
-	it( "Adds comparative suffixes to a given Dutch stem that requires replacing -ieel with -ïel", () => {
-		expect( addComparativeSuffixes( morphologyDataNL, "officieel" ) ).toEqual( [
-			"officiëler",
-			"officiëlers",
-			"officiëlere",
-			"officiëleres",
-		], );
-	} );
-	it( "Adds comparative suffixes to a given Dutch stem that needs to have the final consonant doubled", () => {
-		expect( addComparativeSuffixes( morphologyDataNL, "zwak" ) ).toEqual( [
+	it( "Adds comparative suffixes to a modified  Dutch stem", () => {
+		expect( addComparativeSuffixes( morphologyDataNL.adjectives, morphologyDataNL.addSuffixes.stemModifications, "zwak" ) ).toEqual( [
 			"zwakker",
 			"zwakkers",
 			"zwakkere",
 			"zwakkeres",
-		], );
-	} );
-	it( "Adds comparative suffixes to a given Dutch stem that needs to have the final consonant voiced", () => {
-		expect( addComparativeSuffixes( morphologyDataNL, "grijs" ) ).toEqual( [
-			"grijzer",
-			"grijzers",
-			"grijzere",
-			"grijzeres",
-		], );
-	} );
-	it( "Adds comparative suffixes to a given Dutch stem that needs to have a vowel undoubled", () => {
-		expect( addComparativeSuffixes( morphologyDataNL, "heet" ) ).toEqual( [
-			"heter",
-			"heters",
-			"hetere",
-			"heteres",
-		], );
-	} );
-	it( "Does not undoubled the vowel in a Dutch stem ending in -r before adding comparative suffixes", () => {
-		expect( addComparativeSuffixes( morphologyDataNL, "zwaar" ) ).toEqual( [
-			"zwaarder",
-			"zwaarders",
-			"zwaardere",
-			"zwaarderes",
 		], );
 	} );
 	it( "Adds superlative suffixes to a given Dutch stem", () => {
@@ -151,7 +144,7 @@ describe( "Adds adjective suffixes", () => {
 		], );
 	} );
 	it( "Adds all adjective suffixes to a given Dutch stem", () => {
-		expect( addAllAdjectiveSuffixes( morphologyDataNL, "groen" ) ).toEqual( [
+		expect( addAllAdjectiveSuffixes( morphologyDataNL.adjectives, morphologyDataNL.addSuffixes.stemModifications, "groen" ) ).toEqual( [
 			"groener",
 			"groeners",
 			"groenere",
@@ -163,7 +156,7 @@ describe( "Adds adjective suffixes", () => {
 		], );
 	} );
 	it( "Does not make a partitive form if stem ends with an s", () => {
-		expect( addAllAdjectiveSuffixes( morphologyDataNL, "boos" ) ).toEqual( [
+		expect( addAllAdjectiveSuffixes( morphologyDataNL.adjectives, morphologyDataNL.addSuffixes.stemModifications, "boos" ) ).toEqual( [
 			"bozer",
 			"bozers",
 			"bozere",
@@ -174,7 +167,7 @@ describe( "Adds adjective suffixes", () => {
 		], );
 	} );
 	it( "Adds all adjective suffixes to a given Dutch stem that requires stem modifications", () => {
-		expect( addAllAdjectiveSuffixes( morphologyDataNL, "hoog" ) ).toEqual( [
+		expect( addAllAdjectiveSuffixes( morphologyDataNL.adjectives, morphologyDataNL.addSuffixes.stemModifications, "hoog" ) ).toEqual( [
 			"hoger",
 			"hogers",
 			"hogere",
