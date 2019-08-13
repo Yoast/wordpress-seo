@@ -13,6 +13,8 @@
 class WPSEO_File_Size_Exception_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Tests that the externally hosted error message is as expected.
+	 *
 	 * @covers WPSEO_File_Size_Exception::externally_hosted
 	 */
 	public function test_externally_hosted_exception() {
@@ -25,6 +27,8 @@ class WPSEO_File_Size_Exception_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests that the unknown exception error message is as expected.
+	 *
 	 * @covers WPSEO_File_Size_Exception::unknown_error
 	 */
 	public function test_unknown_error() {

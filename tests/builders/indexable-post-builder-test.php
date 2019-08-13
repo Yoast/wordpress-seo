@@ -32,28 +32,30 @@ class Indexable_Post_Builder_Test extends TestCase {
 	public function test_build() {
 		Monkey\Functions\expect( 'get_permalink' )->once()->with( 1 )->andReturn( 'https://permalink' );
 		Monkey\Functions\expect( 'get_post_type' )->once()->with( 1 )->andReturn( 'post' );
-		Monkey\Functions\expect( 'get_post_custom' )->with( 1 )->andReturn( [
-			'_yoast_wpseo_focuskw' => [ 'focuskeyword' ],
-			'_yoast_wpseo_linkdex' => [ '100' ],
-			'_yoast_wpseo_is_cornerstone' => [ '1' ],
-			'_yoast_wpseo_meta-robots-noindex' => [ '1' ],
-			'_yoast_wpseo_meta-robots-adv' => [ '' ],
-			'_yoast_wpseo_content_score' => [ '50' ],
-			'_yoast_wpseo_canonical' => [ 'https://canonical' ],
-			'_yoast_wpseo_meta-robots-nofollow' => [ '1' ],
-			'_yoast_wpseo_title' => [ 'title' ],
-			'_yoast_wpseo_metadesc' => [ 'description' ],
-			'_yoast_wpseo_bctitle' => [ 'breadcrumb_title' ],
-			'_yoast_wpseo_opengraph-title'       => [ 'og_title' ],
-			'_yoast_wpseo_opengraph-image'       => [ 'og_image' ],
-			'_yoast_wpseo_opengraph-description' => [ 'og_description' ],
-			'_yoast_wpseo_twitter-title'         => [ 'twitter_title' ],
-			'_yoast_wpseo_twitter-image'         => [ 'twitter_image' ],
-			'_yoast_wpseo_twitter-description'   => [ 'twitter_description' ],
-		] );
+		Monkey\Functions\expect( 'get_post_custom' )->with( 1 )->andReturn(
+			[
+				'_yoast_wpseo_focuskw'               => [ 'focuskeyword' ],
+				'_yoast_wpseo_linkdex'               => [ '100' ],
+				'_yoast_wpseo_is_cornerstone'        => [ '1' ],
+				'_yoast_wpseo_meta-robots-noindex'   => [ '1' ],
+				'_yoast_wpseo_meta-robots-adv'       => [ '' ],
+				'_yoast_wpseo_content_score'         => [ '50' ],
+				'_yoast_wpseo_canonical'             => [ 'https://canonical' ],
+				'_yoast_wpseo_meta-robots-nofollow'  => [ '1' ],
+				'_yoast_wpseo_title'                 => [ 'title' ],
+				'_yoast_wpseo_metadesc'              => [ 'description' ],
+				'_yoast_wpseo_bctitle'               => [ 'breadcrumb_title' ],
+				'_yoast_wpseo_opengraph-title'       => [ 'og_title' ],
+				'_yoast_wpseo_opengraph-image'       => [ 'og_image' ],
+				'_yoast_wpseo_opengraph-description' => [ 'og_description' ],
+				'_yoast_wpseo_twitter-title'         => [ 'twitter_title' ],
+				'_yoast_wpseo_twitter-image'         => [ 'twitter_image' ],
+				'_yoast_wpseo_twitter-description'   => [ 'twitter_description' ],
+			]
+		);
 		Monkey\Functions\expect( 'maybe_unserialize' )->andReturnFirstArg();
 
-		$indexable_mock = Mockery::mock( Indexable::class );
+		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'canonical', 'https://canonical' );
@@ -80,7 +82,12 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'incoming_link_count', 2 );
 
 		$seo_meta_repository = Mockery::mock( SEO_Meta_Repository::class );
-		$seo_meta_repository->expects( 'find_by_post_id' )->once()->with( 1 )->andReturn( (object) [ 'internal_link_count' => 5, 'incoming_link_count' => 2 ] );
+		$seo_meta_repository->expects( 'find_by_post_id' )->once()->with( 1 )->andReturn(
+			(object) [
+				'internal_link_count' => 5,
+				'incoming_link_count' => 2,
+			]
+		);
 
 		$builder = new Indexable_Post_Builder( $seo_meta_repository );
 		$builder->build( 1, $indexable_mock );

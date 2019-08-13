@@ -6,7 +6,6 @@ use Brain\Monkey;
 use Mockery;
 use WP_Post;
 use WPSEO_Schema_Context;
-use WPSEO_Schema_Utils;
 use WPSEO_Schema_WebPage;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -17,7 +16,7 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @package Yoast\Tests\Frontend\Schema
  */
-class WPSEO_Schema_WebPage_Test extends TestCase {
+class Schema_WebPage_Test extends TestCase {
 
 	/**
 	 * @var \WPSEO_Schema_WebPage
@@ -127,15 +126,12 @@ class WPSEO_Schema_WebPage_Test extends TestCase {
 	 * @covers \WPSEO_Frontend_Page_Type::is_home_posts_page
 	 */
 	public function test_do_not_add_author_for_page() {
-		Monkey\Functions\stubs( [
-			'is_singular' => true,
-
-		] );
+		Monkey\Functions\stubs( [ 'is_singular' => true ] );
 
 		$this->context->site_represents = false;
 
-		$post = Mockery::mock('WP_Post' );
-		$post->post_date_gmt = '';
+		$post                    = Mockery::mock( 'WP_Post' );
+		$post->post_date_gmt     = '';
 		$post->post_modified_gmt = '';
 
 		Monkey\Functions\expect( 'get_post' )
@@ -160,17 +156,14 @@ class WPSEO_Schema_WebPage_Test extends TestCase {
 	 * @covers \WPSEO_Schema_WebPage::add_author
 	 */
 	public function test_add_author_for_post() {
-		Monkey\Functions\stubs( [
-			'is_singular' => true,
-
-		] );
+		Monkey\Functions\stubs( [ 'is_singular' => true ] );
 
 		$this->context->site_represents = false;
 
-		$post = Mockery::mock('WP_Post' );
-		$post->post_date_gmt = '';
+		$post                    = Mockery::mock( 'WP_Post' );
+		$post->post_date_gmt     = '';
 		$post->post_modified_gmt = '';
-		$post->post_author = 'author';
+		$post->post_author       = 'author';
 
 		Monkey\Functions\expect( 'get_post' )
 			->andReturn( $post );
@@ -231,5 +224,35 @@ class WPSEO_Schema_WebPage_Test extends TestCase {
 		$data = $this->instance->add_author( [], $post );
 
 		$this->assertArrayNotHasKey( 'author', $data );
+	}
+
+	/**
+	 * Tests if the description in the schema output gets stripped from script tags.
+	 *
+	 * @covers \WPSEO_Schema_WebPage::generate
+	 */
+	public function test_schema_output_strips_script_tags_from_description() {
+		$this->context->description = '<script>this is a malicious script</script>';
+
+		$actual = $this->instance->generate();
+
+		$expected = 'this is a malicious script';
+
+		$this->assertEquals( $actual['description'], $expected );
+	}
+
+	/**
+	 * Tests if the description in the schema output gets stripped from script tags.
+	 *
+	 * @covers \WPSEO_Schema_WebPage::generate
+	 */
+	public function test_schema_output_leaves_h1_tags_in_description() {
+		$this->context->description = '<h1>this is a title</h1>';
+
+		$actual = $this->instance->generate();
+
+		$expected = '<h1>this is a title</h1>';
+
+		$this->assertEquals( $actual['description'], $expected );
 	}
 }

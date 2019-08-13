@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Database;
 
-use YoastSEO_Vendor\Psr\Log\LoggerInterface;
 use Yoast\WP\Free\Conditionals\No_Conditionals;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\WordPress\Initializer;
@@ -21,7 +20,7 @@ class Database_Setup implements Initializer {
 	use No_Conditionals;
 
 	/**
-	 * @var LoggerInterface
+	 * @var \YoastSEO_Vendor\Psr\Log\LoggerInterface
 	 */
 	protected $logger;
 
@@ -43,6 +42,6 @@ class Database_Setup implements Initializer {
 		ORM::configure( 'password', \DB_PASSWORD );
 
 		Yoast_Model::$auto_prefix_models = '\\Yoast\\WP\\Free\\Models\\';
-		Yoast_Model::$logger = $this->logger;
+		Yoast_Model::$logger             = $this->logger;
 	}
 }

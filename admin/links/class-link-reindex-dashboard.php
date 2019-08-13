@@ -65,10 +65,12 @@ class WPSEO_Link_Reindex_Dashboard {
 		echo '<strong>' . esc_html__( 'Text link counter', 'wordpress-seo' ) . '</strong><br/>';
 
 		if ( ! $this->has_unprocessed() ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: `message_already_indexed` is considered a safe method.
 			echo $this->message_already_indexed();
 		}
 
 		if ( $this->has_unprocessed() ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: `message_start_indexing` is considered a safe method.
 			printf( '<span id="reindexLinks">%s</span>', $this->message_start_indexing() );
 		}
 
@@ -100,7 +102,7 @@ class WPSEO_Link_Reindex_Dashboard {
 		if ( $this->has_unprocessed() ) {
 			$progress = sprintf(
 				/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
-				__( 'Text %1$s of %2$s processed.', 'wordpress-seo' ),
+				esc_html__( 'Text %1$s of %2$s processed.', 'wordpress-seo' ),
 				'<span id="wpseo_count_index_links">0</span>',
 				sprintf( '<strong id="wpseo_count_total">%d</strong>', $this->get_unprocessed_count() )
 			);
@@ -116,7 +118,10 @@ class WPSEO_Link_Reindex_Dashboard {
 		);
 		?>
 		<div id="wpseo_index_links_wrapper" class="hidden">
-			<?php echo implode( '<hr />', $blocks ); ?>
+			<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: All inputs are escaped properly.
+				echo implode( '<hr />', $blocks );
+			?>
 			<button onclick="tb_remove();" type="button"
 					class="button"><?php esc_html_e( 'Stop counting', 'wordpress-seo' ); ?></button>
 		</div>
@@ -198,41 +203,5 @@ class WPSEO_Link_Reindex_Dashboard {
 			175,
 			esc_attr__( 'Count links in your texts', 'wordpress-seo' )
 		);
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Add the indexing interface for links to the dashboard.
-	 *
-	 * @deprecated 7.0
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function add_link_index_interface() {
-		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
-
-		$html  = '';
-		$html .= '<h2>' . esc_html__( 'Text link counter', 'wordpress-seo' ) . '</h2>';
-		$html .= '<p>' . sprintf(
-			/* translators: 1: link to yoast.com post about internal linking suggestion. 4: is Yoast.com 3: is anchor closing. */
-			__( 'The links in all your public texts need to be counted. This will provide insights of which texts need more links to them. If you want to know more about the why and how of internal linking, check out %1$sthe article about internal linking on %2$s%3$s.', 'wordpress-seo' ),
-			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/15n' ) . '" target="_blank">',
-			'Yoast.com',
-			'</a>'
-		) . '</p>';
-
-		if ( ! $this->has_unprocessed() ) {
-			$html .= '<p>' . $this->message_already_indexed() . '</p>';
-		}
-
-		if ( $this->has_unprocessed() ) {
-			$html .= '<p id="reindexLinks">' . $this->message_start_indexing() . '</p>';
-		}
-
-		$html .= '<br />';
-
-		echo $html;
 	}
 }
