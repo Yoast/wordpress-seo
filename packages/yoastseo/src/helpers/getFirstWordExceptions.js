@@ -18,27 +18,24 @@ import getLanguage from "./getLanguage.js";
  * @returns {Function} A function that will return the first word exceptions.
  */
 export default function( locale ) {
-	switch ( getLanguage( locale ) ) {
-		case "de":
-			return firstWordExceptionsGerman;
-		case "fr":
-			return firstWordExceptionsFrench;
-		case "es":
-			return firstWordExceptionsSpanish;
-		case "nl":
-			return firstWordExceptionsDutch;
-		case "it":
-			return firstWordExceptionsItalian;
-		case "ru":
-		    return firstWordExceptionsRussian;
-		case "pl":
-			return firstWordExceptionsPolish;
-		case "sv":
-			return firstWordExceptionsSwedish;
-		case "pt":
-			return firstWordExceptionsPortuguese;
-		default:
-		case "en":
-			return firstWordExceptionsEnglish;
+	const firstWordExceptions = {
+		en: firstWordExceptionsEnglish,
+		de: firstWordExceptionsGerman,
+		fr: firstWordExceptionsFrench,
+		es: firstWordExceptionsSpanish,
+		nl: firstWordExceptionsDutch,
+		it: firstWordExceptionsItalian,
+		ru: firstWordExceptionsRussian,
+		pl: firstWordExceptionsPolish,
+		sv: firstWordExceptionsSwedish,
+		pt: firstWordExceptionsPortuguese,
+	};
+
+	// If available, return the language-specific first word exceptions.
+	if ( Object.keys( firstWordExceptions ).includes( getLanguage( locale ) ) ) {
+		return firstWordExceptions[ getLanguage( locale ) ];
 	}
+
+	// Return the English first word exceptions as a default.
+	return firstWordExceptionsEnglish;
 }
