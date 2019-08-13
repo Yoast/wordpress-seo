@@ -124,7 +124,6 @@ export function addInflectedSuffix( morphologyDataAdjectives, morphologyDataStem
 	stemmedWord = findAndApplyModifications( stemmedWord, inflectedSuffix, morphologyDataStemModifications );
 
 	return stemmedWord.concat( inflectedSuffix );
-
 }
 
 /**
