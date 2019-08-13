@@ -107,10 +107,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 */
 	private function re_run_notification() {
 		/* translators: %1$s is a checkmark icon. */
-		$title = sprintf(
-			esc_html__( 'SEO settings configured%1$s', 'wordpress-seo' ),
-			'<span class="dashicons dashicons-yes"></span>'
-		);
+		$title = __( 'SEO settings configured', 'wordpress-seo' );
 
 		$content = sprintf(
 			/* translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the Onboarding Wizard, %3$s is the link closing tag. */
@@ -160,7 +157,10 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 			60
 		);
 		$notification .= '<div class="yoast-container__configuration-wizard--content">';
-		$notification .= '<h3>' . $title . '</h3>';
+		$notification .= sprintf(
+		    '<h3>%s<span class="dashicons dashicons-yes"></span></h3>',
+            esc_html( $title )
+        );
 
 		$notification .= '<p>';
 		$notification .= $content;
