@@ -1,10 +1,15 @@
 import { removeSuffixesBeforeAdding } from "../morphoHelpers/suffixHelpers";
-import { doubleFinalLetter } from "../morphoHelpers/suffixHelpers";
 import { modifyStem } from "../morphoHelpers/suffixHelpers";
 import { applySuffixesToStem } from "../morphoHelpers/suffixHelpers";
 
+/**
+ *
+ * @param {string} stemmedWord  The stem.
+ * @param {string[]} stemEndings The endings to search for in the stem.
+ * @returns {boolean} Whether the stem has one of the endings that were searched for.
+ */
 const shouldConsonantBeVoiced = function( stemmedWord, stemEndings ) {
-	return stemmedWord.search( new RegExp( stemEndings[ 0 ] ) === -1  ) && stemmedWord.search( new RegExp( stemEndings[ 1 ] ) === -1 )
+	return stemmedWord.search( new RegExp( stemEndings[ 0 ] ) === -1  ) && stemmedWord.search( new RegExp( stemEndings[ 1 ] ) === -1 );
 };
 
 /**
@@ -13,47 +18,59 @@ const shouldConsonantBeVoiced = function( stemmedWord, stemEndings ) {
  * suffixes are then added to the modified stem.
  *
  * @param {string} stemmedWord The stem
- * @param {object} morphologyDataNL The Dutch morphology data file
+ * @param {object} morphologyDataAddSuffixes The Dutch morphology data file
  * @returns {string} The modified stem, or the original stem if no modifications were made.
  */
-const findAndApplyModifications = function( stemmedWord, morphologyDataNL ) {
-	const doubleConsonantModification = modifyStem( stemmedWord, morphologyDataNL.addSuffixes.stemModifications.doublingConsonant );
-	if ( doubleConsonantModification.foundModification === true ) {
-		stemmedWord = doubleFinalLetter( stemmedWord );
-		return stemmedWord;
+const findAndApplyModifications = function( stemmedWord, morphologyDataAddSuffixes ) {
+	const triedToDoubleConsonant = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.doublingConsonant );
+	if ( triedToDoubleConsonant ) {
+		return triedToDoubleConsonant;
 	}
-	if ( shouldConsonantBeVoiced( stemmedWord, morphologyDataNL.addSuffixes.otherChecks.noConsonantVoicingVerbs ) ) {
-		const voiceConsonantModification = modifyStem( stemmedWord, morphologyDataNL.addSuffixes.stemModifications.consonantVoicing );
-		if ( voiceConsonantModification.foundModification === true ) {
-			stemmedWord = voiceConsonantModification.stemmedWord;
-			return stemmedWord;
+	if ( shouldConsonantBeVoiced( stemmedWord, morphologyDataAddSuffixes.otherChecks.noConsonantVoicingVerbs ) ) {
+		const triedToVoiceConsonant = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.consonantVoicing );
+		if ( triedToVoiceConsonant ) {
+			return triedToVoiceConsonant;
 		}
 	}
-	const undoubleVowelModificationOther = modifyStem( stemmedWord, morphologyDataNL.addSuffixes.stemModifications.vowelUndoublingOther );
-	if ( undoubleVowelModificationOther.foundModification === true ) {
-		stemmedWord = undoubleVowelModificationOther.stemmedWord;
-		return stemmedWord;
-		}
+	const triedToUndoubleVowel = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.vowelUndoubling );
+	if ( triedToUndoubleVowel ) {
+		return triedToUndoubleVowel;
+	}
 
 	return stemmedWord;
 };
 
+/**
+ *
+ * @param {string} stemmedWord	The stem
+ * @param {Object} morphologyDataAddSuffixes  The Dutch morphology data for adding suffixes.
+ * @param {Object} morphologyDataVerbs  	The Dutch verb morphology data.
+ * @returns {string[]} The suffixed forms.
+ */
+export function addVerbSuffixes( stemmedWord, morphologyDataAddSuffixes, morphologyDataVerbs ) {
+	const suffixDeletions = morphologyDataVerbs.suffixDeletions;
+	const allSuffixesNoStemModification = morphologyDataVerbs.suffixesNoStemModification;
 
-export function addVerbSuffixes( stemmedWord, morphologyDataNL) {
-	const morphologyDataVerbs = morphologyDataNL.verbs;
+	// Remove suffixes that should not be added based on the stem ending.
+	const suffixesWithoutStemModification = removeSuffixesBeforeAdding( suffixDeletions, allSuffixesNoStemModification, stemmedWord );
 
-	const suffixesWithoutStemModification = removeSuffixesBeforeAdding( morphologyDataVerbs.suffixDeletions, morphologyDataVerbs.suffixesNoStemModification, stemmedWord );
-
-	if ( stemmedWord.endsWith(morphologyDataVerbs.notTakingAnySuffixes.some ) ) {
-		return [];
+	// If the stem has a ending that is not possible in a verb, do not add verb suffixes.
+	const nonVerbEndings = morphologyDataVerbs.notTakingAnySuffixes;
+	for ( const ending of nonVerbEndings ) {
+		if ( stemmedWord.endsWith( ending ) ) {
+			return [];
+		}
 	}
 
-	const secondStem = findAndApplyModifications( stemmedWord, morphologyDataNL );
+	// Create a second stem (this is possibly the same as the original stem).
+	const secondStem = findAndApplyModifications( stemmedWord, morphologyDataAddSuffixes );
 
+	// Add -t or -d suffixes to the first stem.
 	const tAndDForms = applySuffixesToStem( stemmedWord, suffixesWithoutStemModification );
 
+	// Add the -en and -end suffixes to the second stem.
 	const enAndEndForms = applySuffixesToStem( secondStem, morphologyDataVerbs.suffixesWithStemModification );
 
-	return tAndDForms.concat(enAndEndForms)
-
+	// Return all suffixed forms.
+	return tAndDForms.concat( enAndEndForms );
 }

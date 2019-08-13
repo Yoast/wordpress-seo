@@ -1,4 +1,4 @@
-import { removeSuffixesBeforeAdding} from "../morphoHelpers/suffixHelpers";
+import { removeSuffixesBeforeAdding } from "../morphoHelpers/suffixHelpers";
 
 /**
  * Adds suffixes to the list of regular suffixes.
