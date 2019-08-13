@@ -61,13 +61,13 @@ describe( "Test for getting the right superlative suffixes for various types of 
 describe( "Test for getting the right inflected suffixes for various types of adjectives", () => {
 	it( "returns inflected -ë- suffix for a stem that ends with a vowel followed by e", () => {
 		expect( getSuffixesInflected( morphologyDataNL.adjectives, "tevree" ) ).toEqual(
-			"ë"
+			[ "ë" ]
 		);
 	} );
 
 	it( "returns inflected -e- suffix for a stem that has an ending other than vowel followed by e", () => {
 		expect( getSuffixesInflected( morphologyDataNL.adjectives, "grappig" ) ).toEqual(
-			"e"
+			[ "e" ]
 		);
 	} );
 } );
@@ -86,7 +86,7 @@ describe( "Applies stem modifications", () => {
 			"grijz" );
 	} );
 	it( "Undoubles a double vowel in a stem", () => {
-		expect( findAndApplyModifications( "zwaar", "e", morphologyDataNL.addSuffixes.stemModifications ) ).toEqual(
+		expect( findAndApplyModifications( "zwaar", [ "e" ], morphologyDataNL.addSuffixes.stemModifications ) ).toEqual(
 			"zwar" );
 	} );
 	it( "Does not double the last consonant of a stem", () => {

@@ -6,7 +6,7 @@ import { modifyStem } from "../morphoHelpers/suffixHelpers";
  * @param {Object}  morphologyDataAdjectives    The Dutch morphology data for adjectives.
  * @param {string}  stemmedWord                 The stemmed word for which to get suffixes.
  *
- * @returns {string} The correct inflected suffixes for the given stem.
+ * @returns {string[]} The correct inflected suffixe for the given stem.
  */
 export function getSuffixesInflected( morphologyDataAdjectives, stemmedWord ) {
 	const takesTremaEnding = morphologyDataAdjectives.takesTremaEnding.slice();
@@ -124,6 +124,7 @@ export function addInflectedSuffix( morphologyDataAdjectives, morphologyDataStem
 	stemmedWord = findAndApplyModifications( stemmedWord, inflectedSuffix, morphologyDataStemModifications );
 
 	return stemmedWord.concat( inflectedSuffix );
+
 }
 
 /**
