@@ -1,20 +1,14 @@
 ## Summary
 
 <!--
-Copy and fill in the following template as many times as there are individual changes.
+Attach one of the following labels to the PR: `changelog: bugfix`, `changelog: enhancement`, `changelog: other`, `changelog: non-user-facing`.
+Specify between square brackets in which package changelog the item should be included, for example: * [yoast-components] Fixes a bug where ....
+If the same changelog item is applicable to multiple packages, add a separate changelog item for all of them.
+If the changelog item is a bugfix, please use the following sentence structure: Fixes a bug where ... would ... (when ...).
 -->
-  * Package(s) involved:
-<!-- Please write only one package, except when the same change is applied to multiple packages. -->
-  * Should the change be included in the package changelog?
-    * [ ] No
-    * [ ] Yes
-  * Should the change be included in one or more plugin changelogs?
-    * [ ] No
-    * [ ] Free
-    * [ ] Premium
-    * [ ] Other (please specify)
-  * Package changelog item (if applicable): 
-  * Plugin changelog item (if applicable): 
+This PR can be summarized in the following changelog entry:
+
+*
 
 ## Relevant technical choices:
 
