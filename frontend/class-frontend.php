@@ -796,8 +796,8 @@ class WPSEO_Frontend {
 		}
 
 		if ( is_string( $robotsstr ) && $robotsstr !== '' ) {
-      echo '<meta name="robots" content="', esc_attr( $robotsstr ), '"/>', "\n";
-      return $robotsstr;
+			echo '<meta name="robots" content="', esc_attr( $robotsstr ), '"/>', "\n";
+			return $robotsstr;
 		}
 	}
 
