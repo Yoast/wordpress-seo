@@ -21,25 +21,32 @@ abstract class TestCase extends BaseTestCase {
 		Monkey\Functions\stubs(
 			[
 				// Null makes it so the function returns it's first argument.
-				'esc_attr'       => null,
-				'esc_html'       => null,
-				'esc_textarea'   => null,
-				'__'             => null,
-				'_x'             => null,
-				'esc_html__'     => null,
-				'esc_html_x'     => null,
-				'esc_attr_x'     => null,
-				'is_admin'       => false,
-				'is_multisite'   => false,
-				'site_url'       => 'https://www.example.org',
-				'wp_json_encode' => function( $data, $options = 0, $depth = 512 ) {
+				'esc_attr'           => null,
+				'esc_html'           => null,
+				'esc_textarea'       => null,
+				'__'                 => null,
+				'_n'                 => function( $single, $plural, $number ) {
+					if ( $number === 1 ) {
+						return $single;
+					}
+					return $plural;
+				},
+				'_x'                 => null,
+				'esc_html__'         => null,
+				'esc_html_x'         => null,
+				'esc_attr_x'         => null,
+				'is_admin'           => false,
+				'is_multisite'       => false,
+				'site_url'           => 'https://www.example.org',
+				'wp_json_encode'     => function ( $data, $options = 0, $depth = 512 ) {
 					return \json_encode( $data, $options, $depth );
 				},
-				'wp_slash'       => null,
-				'absint'         => function( $value ) {
+				'wp_slash'           => null,
+				'absint'             => function ( $value ) {
 					return \abs( \intval( $value ) );
 				},
-				'mysql2date'     => null,
+				'mysql2date'         => null,
+				'number_format_i18n' => null,
 			]
 		);
 
