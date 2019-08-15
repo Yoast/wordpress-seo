@@ -15,7 +15,7 @@ class Yoast_Input_Validation_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the document title is updated when there's an error.
 	 *
-	 * @covers Yoast_Input_Validation::yoast_admin_document_title_errors
+	 * @covers Yoast_Input_Validation::add_yoast_admin_document_title_errors
 	 */
 	public function test_document_title_updated_with_error() {
 		$admin_title = 'Original title';
@@ -27,7 +27,7 @@ class Yoast_Input_Validation_Test extends WPSEO_UnitTestCase {
 			'error'
 		);
 
-		$title_with_error_message = Yoast_Input_Validation::yoast_admin_document_title_errors( $admin_title );
+		$title_with_error_message = Yoast_Input_Validation::add_yoast_admin_document_title_errors( $admin_title );
 
 		$this->assertEquals( 'The form contains 1 error. Original title', $title_with_error_message );
 
@@ -37,7 +37,7 @@ class Yoast_Input_Validation_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the document title is updated when there's more than one error.
 	 *
-	 * @covers Yoast_Input_Validation::yoast_admin_document_title_errors
+	 * @covers Yoast_Input_Validation::add_yoast_admin_document_title_errors
 	 */
 	public function test_document_title_updated_with_errors() {
 		$admin_title = 'Original title';
@@ -56,7 +56,7 @@ class Yoast_Input_Validation_Test extends WPSEO_UnitTestCase {
 			'error'
 		);
 
-		$title_with_error_message = Yoast_Input_Validation::yoast_admin_document_title_errors( $admin_title );
+		$title_with_error_message = Yoast_Input_Validation::add_yoast_admin_document_title_errors( $admin_title );
 
 		$this->assertEquals( 'The form contains 2 errors. Original title', $title_with_error_message );
 
@@ -66,7 +66,7 @@ class Yoast_Input_Validation_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the document title is not updated when the error is not a Yoast SEO error.
 	 *
-	 * @covers Yoast_Input_Validation::yoast_admin_document_title_errors
+	 * @covers Yoast_Input_Validation::add_yoast_admin_document_title_errors
 	 */
 	public function test_document_title_not_updated_with_non_yoast_errors() {
 		$admin_title = 'Original title';
@@ -78,7 +78,7 @@ class Yoast_Input_Validation_Test extends WPSEO_UnitTestCase {
 			'error'
 		);
 
-		$title_with_error_message = Yoast_Input_Validation::yoast_admin_document_title_errors( $admin_title );
+		$title_with_error_message = Yoast_Input_Validation::add_yoast_admin_document_title_errors( $admin_title );
 
 		$this->assertEquals( 'Original title', $title_with_error_message );
 
