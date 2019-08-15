@@ -106,18 +106,15 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 * @return string The notification.
 	 */
 	private function re_run_notification() {
-		/* translators: %1$s is a checkmark icon. */
-		$title = __( 'SEO settings configured', 'wordpress-seo' );
-
 		$content = sprintf(
 			/* translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the Onboarding Wizard, %3$s is the link closing tag. */
-			esc_html__( 'If you want to double-check your %1$s settings, or change something, you can always %2$sre-open the configuration wizard%3$s.', 'wordpress-seo' ),
+			esc_html__( 'If you want to double-check your %1$s settings, or change something, you can always %2$sreopen the configuration wizard%3$s.', 'wordpress-seo' ),
 			'Yoast SEO',
 			'<a href="' . esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) . '">',
 			'</a>'
 		);
 
-		return $this->notification( $title, $content );
+		return $this->notification( __( 'SEO settings configured', 'wordpress-seo' ), $content );
 	}
 
 	/**
@@ -126,8 +123,6 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	 * @return string The notification.
 	 */
 	private function first_time_notification() {
-		$title = __( 'First-time SEO configuration', 'wordpress-seo' );
-
 		$content = sprintf(
 			/* translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the Onboarding Wizard, %3$s is the link closing tag. */
 			esc_html__( 'Get started quickly with the %1$s %2$sconfiguration wizard%3$s!', 'wordpress-seo' ),
@@ -136,7 +131,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 			'</a>'
 		);
 
-		return $this->notification( $title, $content, true );
+		return $this->notification( __( 'First-time SEO configuration', 'wordpress-seo' ), $content, true );
 	}
 
 	/**
@@ -159,8 +154,8 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 		$notification .= '<div class="yoast-container__configuration-wizard--content">';
 		$notification .= sprintf(
 		    '<h3>%s<span class="dashicons dashicons-yes"></span></h3>',
-            esc_html( $title )
-        );
+			esc_html( $title )
+		);
 
 		$notification .= '<p>';
 		$notification .= $content;

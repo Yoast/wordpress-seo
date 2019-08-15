@@ -19,7 +19,7 @@ class WPSEO_Configuration_Notifier_Test extends WPSEO_UnitTestCase {
 		WPSEO_Options::set( 'show_onboarding_notice', false );
 		$notifier = new WPSEO_Configuration_Notifier();
 
-		$this->assertEquals( '<div class="yoast-container yoast-container__configuration-wizard"><img src="http://example.org/wp-content/plugins/wordpress-seo/images/new-to-configuration-notice.svg" height="60" width="60"  alt=""/><div class="yoast-container__configuration-wizard--content"><h3>SEO settings configured<span class="dashicons dashicons-yes"></span></h3><p>If you want to double-check your Yoast SEO settings, or change something, you can always <a href="http://example.org/wp-admin/admin.php?page=wpseo_configurator">re-open the configuration wizard</a>.</p></div></div>', $notifier->notify() );
+		$this->assertEquals( '<div class="yoast-container yoast-container__configuration-wizard"><img src="http://example.org/wp-content/plugins/wordpress-seo/images/new-to-configuration-notice.svg" height="60" width="60" alt="" /><div class="yoast-container__configuration-wizard--content"><h3>SEO settings configured<span class="dashicons dashicons-yes"></span></h3><p>If you want to double-check your Yoast SEO settings, or change something, you can always <a href="http://example.org/wp-admin/admin.php?page=wpseo_configurator">reopen the configuration wizard</a>.</p></div></div>', $notifier->notify() );
 	}
 
 	/**
