@@ -32,6 +32,13 @@ abstract class TestCase extends BaseTestCase {
 				'esc_html'            => null,
 				'esc_textarea'        => null,
 				'__'                  => null,
+				'_n'                  => function ( $single, $plural, $number ) {
+					if ( $number === 1 ) {
+						return $single;
+					}
+
+					return $plural;
+				},
 				'_x'                  => null,
 				'esc_html__'          => null,
 				'esc_html_x'          => null,
@@ -50,6 +57,7 @@ abstract class TestCase extends BaseTestCase {
 					return \abs( \intval( $value ) );
 				},
 				'mysql2date'          => null,
+				'number_format_i18n'  => null,
 				'wp_parse_args'       => function ( $settings, $defaults ) {
 					return \array_merge( $defaults, $settings );
 				},

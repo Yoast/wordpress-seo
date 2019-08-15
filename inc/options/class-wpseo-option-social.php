@@ -81,6 +81,15 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	);
 
 	/**
+	 * Add the actions and filters for the option.
+	 */
+	protected function __construct() {
+		parent::__construct();
+
+		add_filter( 'admin_title', array( 'Yoast_Input_Validation', 'add_yoast_admin_document_title_errors' ) );
+	}
+
+	/**
 	 * Get the singleton instance of this class.
 	 *
 	 * @return object

@@ -147,6 +147,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		add_action( 'unregistered_post_type', array( $this, 'invalidate_enrich_defaults_cache' ) );
 		add_action( 'registered_taxonomy', array( $this, 'invalidate_enrich_defaults_cache' ) );
 		add_action( 'unregistered_taxonomy', array( $this, 'invalidate_enrich_defaults_cache' ) );
+
+		add_filter( 'admin_title', array( 'Yoast_Input_Validation', 'add_yoast_admin_document_title_errors' ) );
 	}
 
 	/**
