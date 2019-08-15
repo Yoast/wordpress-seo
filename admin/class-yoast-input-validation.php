@@ -41,22 +41,20 @@ class Yoast_Input_Validation {
 	 */
 	public static function add_yoast_admin_document_title_errors( $admin_title ) {
 		$errors           = get_settings_errors();
-		$errors_present = false;
-		$count            = 0;
+		$error_count      = 0;
 
 		foreach ( $errors as $error ) {
 			// For now, filter the admin title only in the Yoast SEO settings pages.
 			if ( self::is_yoast_option_group_name( $error['setting'] ) && $error['code'] !== 'settings_updated' ) {
-				$errors_present = true;
-				$count++;
+				$error_count++;
 			}
 		}
 
-		if ( $errors_present ) {
+		if ( $error_count > 0 ) {
 			return sprintf(
 				/* translators: %1$s: amount of errors, %2$s: the admin page title */
-				_n( 'The form contains %1$s error. %2$s', 'The form contains %1$s errors. %2$s', $count, 'wordpress-seo' ),
-				number_format_i18n( $count ),
+				_n( 'The form contains %1$s error. %2$s', 'The form contains %1$s errors. %2$s', $error_count, 'wordpress-seo' ),
+				number_format_i18n( $error_count ),
 				$admin_title
 			);
 		}
