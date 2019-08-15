@@ -27,11 +27,15 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether the link type classify works as expected.
+	 *
 	 * @dataProvider provider_urls
 	 *
 	 * @param string $base_url        URL.
 	 * @param string $url_to_classify URL to classify.
 	 * @param string $expected        Expected output.
+	 *
+	 * @covers WPSEO_Link_Type_Classifier::classify
 	 */
 	public function test_classify( $base_url, $url_to_classify, $expected ) {
 		$classifier = new WPSEO_Link_Type_Classifier( $base_url );
@@ -40,6 +44,8 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Provides a couple of urls.
+	 *
 	 * @return array
 	 */
 	public function provider_urls() {
@@ -58,6 +64,8 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Checks the execution of contains_protocol.
+	 *
+	 * @covers WPSEO_Link_Type_Classifier::classify
 	 */
 	public function test_contains_protocol() {
 		/** @var WPSEO_Link_Type_Classifier $classifier */
@@ -78,6 +86,8 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Checks the execution of is_external_link.
+	 *
+	 * @covers WPSEO_Link_Type_Classifier::classify
 	 */
 	public function test_is_external_link() {
 		/** @var WPSEO_Link_Type_Classifier $classifier */

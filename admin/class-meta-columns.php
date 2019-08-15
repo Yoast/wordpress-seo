@@ -98,10 +98,12 @@ class WPSEO_Meta_Columns {
 
 		switch ( $column_name ) {
 			case 'wpseo-score':
+				// @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in render_score_indicator() method.
 				echo $this->parse_column_score( $post_id );
 				return;
 
 			case 'wpseo-score-readability':
+				// @phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Correctly escaped in render_score_indicator() method.
 				echo $this->parse_column_score_readability( $post_id );
 				return;
 
@@ -733,7 +735,7 @@ class WPSEO_Meta_Columns {
 			$title = $rank->get_label();
 		}
 
-		return '<div aria-hidden="true" title="' . esc_attr( $title ) . '" class="wpseo-score-icon ' . esc_attr( $rank->get_css_class() ) . '"></div><span class="screen-reader-text wpseo-score-text">' . $title . '</span>';
+		return '<div aria-hidden="true" title="' . esc_attr( $title ) . '" class="' . esc_attr( 'wpseo-score-icon ' . $rank->get_css_class() ) . '"></div><span class="screen-reader-text wpseo-score-text">' . esc_html( $title ) . '</span>';
 	}
 
 	/**

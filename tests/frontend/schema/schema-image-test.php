@@ -14,7 +14,7 @@ use Mockery;
  *
  * @package Yoast\Tests\Frontend\Schema
  */
-class WPSEO_Schema_Image_Test extends TestCase {
+class Schema_Image_Test extends TestCase {
 
 	/**
 	 * The `@id` to use for the image schema.
@@ -36,14 +36,16 @@ class WPSEO_Schema_Image_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Monkey\Functions\stubs( [
-			'get_site_url'                => 'https://www.example.com',
-			'wp_cache_get'                => 123,
-			'attachment_url_to_postid'    => 123,
-			'wp_cache_set'                => true,
-			'wp_get_attachment_image_url' => 'https://www.example.com/media/image.png',
-			'wp_get_attachment_caption'   => 'image caption',
-		] );
+		Monkey\Functions\stubs(
+			[
+				'get_site_url'                => 'https://www.example.com',
+				'wp_cache_get'                => 123,
+				'attachment_url_to_postid'    => 123,
+				'wp_cache_set'                => true,
+				'wp_get_attachment_image_url' => 'https://www.example.com/media/image.png',
+				'wp_get_attachment_caption'   => 'image caption',
+			]
+		);
 
 		$this->instance = Mockery::mock( WPSEO_Schema_Image::class, [ self::IMAGE_ID ] )->makePartial();
 	}
@@ -62,9 +64,11 @@ class WPSEO_Schema_Image_Test extends TestCase {
 	 * @covers WPSEO_Image_Utils::attachment_url_to_postid
 	 */
 	public function test_generate_from_url_internal() {
-		Monkey\Functions\stubs( [
-			'wp_get_attachment_metadata' => [],
-		] );
+		Monkey\Functions\stubs(
+			[
+				'wp_get_attachment_metadata' => [],
+			]
+		);
 
 		$image_schema = $this->instance->generate_from_url( 'https://www.example.com/media/image-200x200.jpg' );
 
@@ -91,7 +95,12 @@ class WPSEO_Schema_Image_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
 			->once()
 			->with( 123 )
-			->andReturn( [ 'height' => 120, 'width' => 100 ] );
+			->andReturn(
+				[
+					'height' => 120,
+					'width'  => 100,
+				]
+			);
 
 		$image_schema = $this->instance->generate_from_url( 'https://www.example.com/media/image-200x200.jpg' );
 
@@ -170,10 +179,12 @@ class WPSEO_Schema_Image_Test extends TestCase {
 	 * @covers WPSEO_Schema_Image::add_caption
 	 */
 	public function test_generate_from_attachment_id_image_alt_caption() {
-		Monkey\Functions\stubs( [
-			'wp_get_attachment_metadata' => [],
-			'wp_get_attachment_caption'  => '',
-		] );
+		Monkey\Functions\stubs(
+			[
+				'wp_get_attachment_metadata' => [],
+				'wp_get_attachment_caption'  => '',
+			]
+		);
 
 		Monkey\Functions\expect( 'get_post_meta' )
 			->with( 123, '_wp_attachment_image_alt', true )
@@ -205,7 +216,12 @@ class WPSEO_Schema_Image_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
 			->once()
 			->with( 123 )
-			->andReturn( [ 'height' => 120, 'width' => 100 ] );
+			->andReturn(
+				[
+					'height' => 120,
+					'width'  => 100,
+				]
+			);
 
 		$image_schema = $this->instance->generate_from_attachment_id( 123, 'Different caption' );
 
@@ -234,7 +250,12 @@ class WPSEO_Schema_Image_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_get_attachment_metadata' )
 			->once()
 			->with( 123 )
-			->andReturn( [ 'height' => 120, 'width' => 100 ] );
+			->andReturn(
+				[
+					'height' => 120,
+					'width'  => 100,
+				]
+			);
 
 		$image_schema = $this->instance->generate_from_attachment_id( 123 );
 

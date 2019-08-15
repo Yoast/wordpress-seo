@@ -14,6 +14,7 @@ use Yoast\WP\Free\Dependency_Injection\Container_Compiler;
  * Class to handle Composer actions and events.
  */
 class Actions {
+
 	/**
 	 * Prefixes dependencies if composer install is ran with dev mode.
 	 *

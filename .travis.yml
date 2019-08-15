@@ -191,6 +191,7 @@ before_script:
     curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
     chmod +x ./cc-test-reporter
     ./cc-test-reporter before-build
+    mkdir -p /tmp/coverage
   fi
 - export -f travis_fold
 - export -f travis_time_start
@@ -269,11 +270,18 @@ script:
 - |
   if [[ "$COVERAGE" == "1" ]]; then
     travis_fold start "PHP.coverage" && travis_time_start
-    mkdir -p /tmp/coverage
     vendor/bin/phpunit -c phpunit-integration.xml.dist --coverage-php /tmp/coverage/integration-tests.cov
-    vendor/bin/phpunit --coverage-php /tmp/coverage/tests.cov
-    ./vendor/bin/phpcov merge /tmp/coverage --clover build/logs/clover.xml
     travis_time_finish && travis_fold end "PHP.coverage"
+  fi
+- |
+  if [[ "$COVERAGE" == "1" ]]; then
+    travis_fold start "PHP.coverage" && travis_time_start
+    vendor/bin/phpunit --coverage-php /tmp/coverage/tests.cov
+    travis_time_finish && travis_fold end "PHP.coverage"
+  fi
+- |
+  if [[ "$COVERAGE" == "1" ]]; then
+    ./vendor/bin/phpcov merge /tmp/coverage --clover build/logs/clover.xml
   fi
 # Validate the composer.json file.
 # @link https://getcomposer.org/doc/03-cli.md#validate

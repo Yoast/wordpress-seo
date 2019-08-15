@@ -319,37 +319,53 @@ abstract class WPSEO_Option {
 	}
 
 	/**
+	 * Validates an option as a valid URL. Prints out a WordPress settings error
+	 * notice if the URL is invalid.
+	 *
 	 * @param string $key   Key to check, by type of service.
-	 * @param array  $dirty Dirty data.
+	 * @param array  $dirty Dirty data with the new values.
 	 * @param array  $old   Old data.
-	 * @param array  $clean Clean data by reference.
+	 * @param array  $clean Clean data by reference, normally the default values.
 	 */
 	public function validate_url( $key, $dirty, $old, &$clean ) {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-			$url = WPSEO_Utils::sanitize_url( $dirty[ $key ] );
-			if ( $url !== '' ) {
-				$clean[ $key ] = $url;
-			}
-			else {
+
+			$submitted_url = trim( htmlspecialchars( $dirty[ $key ] ) );
+			$validated_url = filter_var( $submitted_url, FILTER_VALIDATE_URL );
+
+			if ( $validated_url === false ) {
+				if ( function_exists( 'add_settings_error' ) ) {
+					add_settings_error(
+						// Slug title of the setting.
+						$this->group_name,
+						// Suffix-ID for the error message box. WordPress prepends `setting-error-`.
+						$key,
+						sprintf(
+							/* translators: %s expands to an invalid URL. */
+							__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
+							'<strong>' . esc_html( $submitted_url ) . '</strong>'
+						),
+						// CSS class for the WP notice.
+						'notice-error'
+					);
+				}
+
+				// Restore the previous URL value, if any.
 				if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
 					$url = WPSEO_Utils::sanitize_url( $old[ $key ] );
 					if ( $url !== '' ) {
 						$clean[ $key ] = $url;
 					}
 				}
-				if ( function_exists( 'add_settings_error' ) ) {
-					$url = WPSEO_Utils::sanitize_url( $dirty[ $key ] );
-					add_settings_error(
-						$this->group_name, // Slug title of the setting.
-						'_' . $key, // Suffix-ID for the error message box.
-						sprintf(
-							/* translators: %s expands to an invalid URL. */
-							__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
-							'<strong>' . esc_html( $url ) . '</strong>'
-						), // The error message.
-						'error' // Error type, either 'error' or 'updated'.
-					);
-				}
+
+				return;
+			}
+
+			// The URL format is valid, let's sanitize it.
+			$url = WPSEO_Utils::sanitize_url( $validated_url );
+
+			if ( $url !== '' ) {
+				$clean[ $key ] = $url;
 			}
 		}
 	}

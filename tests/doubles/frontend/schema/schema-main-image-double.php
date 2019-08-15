@@ -1,14 +1,13 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Doubles
- */
+
+namespace Yoast\WP\Free\Tests\Doubles\Frontend\Schema;
+
+use WPSEO_Schema_MainImage;
 
 /**
  * Test Helper Class.
  */
-class WPSEO_Schema_MainImage_Double extends WPSEO_Schema_MainImage {
+class Schema_MainImage_Double extends WPSEO_Schema_MainImage {
 
 	/**
 	 * Gets the post's first usable content image. Null if none is available.

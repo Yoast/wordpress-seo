@@ -206,10 +206,40 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	 * @return string
 	 */
 	private function parse_row( $label, WPSEO_Admin_Help_Panel $help, $field ) {
+		// Check if the plugin is premium.
+		$features = new WPSEO_Features();
+		$is_premium = $features->is_premium();
 		if ( $label !== '' || $help !== '' ) {
-			return $label . $help->get_button_html() . $help->get_panel_html() . $field;
+			$row = $label . $help->get_button_html() . $help->get_panel_html() . $field;
+
+			/**
+			 * If premium, hide the field to show the social preview instead. We still need the fields to be output because
+			 * the values of the social preview are saved in the hidden field.
+			 */
+			if ( $is_premium ) {
+				return $this->hide_form( $row );
+			}
+
+			return $row;
 		}
 
+		/**
+		 * If premium, hide the field to show the social preview instead. We still need the fields to be output because
+		 * the values of the social preview are saved in the hidden field.
+		 */
+		if ( $is_premium ) {
+			return $this->hide_form( $field );
+		}
 		return $field;
+	}
+	/**
+	 * Hides the given output when rendered to HTML.
+	 *
+	 * @param string $field The social tab field.
+	 *
+	 * @return string The field.
+	 */
+	public function hide_form( $field ) {
+		return '<div class="hidden">' . $field . '</div>';
 	}
 }
