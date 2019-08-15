@@ -21,8 +21,9 @@ class Input_Validation_Test extends TestCase {
 	public function test_document_title_updated_with_error() {
 		$admin_title = 'Original title';
 
-		Monkey\Functions\expect( 'add_settings_error' )
-			->with( 'yoast-setting-group-name', 'code', 'This is the error message', 'error' );
+		Monkey\Functions\stubs( [
+			'add_settings_error' => null,
+		] );
 
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()
@@ -48,12 +49,9 @@ class Input_Validation_Test extends TestCase {
 	public function test_document_title_updated_with_errors() {
 		$admin_title = 'Original title';
 
-		Monkey\Functions\expect( 'add_settings_error' )
-			->with( 'yoast-setting-first-group-name', 'first-code', 'This is the first error message', 'error' );
-
-		Monkey\Functions\expect( 'add_settings_error' )
-			->with( 'yoast-setting-second-group-name', 'second-code', 'This is the second error message', 'error' );
-
+		Monkey\Functions\stubs( [
+			'add_settings_error' => null,
+		] );
 
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()
@@ -86,8 +84,9 @@ class Input_Validation_Test extends TestCase {
 	public function test_document_title_not_updated_with_non_yoast_errors() {
 		$admin_title = 'Original title';
 
-		Monkey\Functions\expect( 'add_settings_error' )
-			->with( 'new_admin_email', 'invalid_new_admin_email', 'This is the error message', 'error' );
+		Monkey\Functions\stubs( [
+			'add_settings_error' => null,
+		] );
 
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()
@@ -113,8 +112,9 @@ class Input_Validation_Test extends TestCase {
 	public function test_document_title_not_updated_with_settings_updated_error() {
 		$admin_title = 'Original title';
 
-		Monkey\Functions\expect( 'add_settings_error' )
-			->with( 'new_admin_email', 'settings_updated', 'This is the error message', 'error' );
+		Monkey\Functions\stubs( [
+			'add_settings_error' => null,
+		] );
 
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()
