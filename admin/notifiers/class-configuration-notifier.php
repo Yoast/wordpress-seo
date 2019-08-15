@@ -108,13 +108,13 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 	private function re_run_notification() {
 		$content = sprintf(
 			/* translators: %1$s expands to Yoast SEO, %2$s is a link start tag to the Onboarding Wizard, %3$s is the link closing tag. */
-			esc_html__( 'Want to make sure your %1$s settings are still OK? %2$sOpen the configuration wizard again%3$s to validate them.', 'wordpress-seo' ),
+			esc_html__( 'If you want to double-check your %1$s settings, or change something, you can always %2$sreopen the configuration wizard%3$s.', 'wordpress-seo' ),
 			'Yoast SEO',
 			'<a href="' . esc_url( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) ) . '">',
 			'</a>'
 		);
 
-		return $this->notification( __( 'Check SEO configuration', 'wordpress-seo' ), $content );
+		return $this->notification( __( 'SEO settings configured', 'wordpress-seo' ), $content );
 	}
 
 	/**
@@ -152,7 +152,10 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 			60
 		);
 		$notification .= '<div class="yoast-container__configuration-wizard--content">';
-		$notification .= '<h3>' . esc_html( $title ) . '</h3>';
+		$notification .= sprintf(
+		    '<h3>%s<span class="dashicons dashicons-yes"></span></h3>',
+			esc_html( $title )
+		);
 
 		$notification .= '<p>';
 		$notification .= $content;
