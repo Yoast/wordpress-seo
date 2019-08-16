@@ -31,7 +31,7 @@ class WpYoastProminentWordIndexableColumns extends Ruckusing_Migration_Base {
 			$table_name,
 			'prominent_words_version',
 			array(
-				'name' => 'prominent_words_version'
+				'name' => 'prominent_words_version',
 			)
 		);
 	}
@@ -44,7 +44,6 @@ class WpYoastProminentWordIndexableColumns extends Ruckusing_Migration_Base {
 
 		$this->remove_column( $table_name, 'prominent_words_version' );
 		$this->remove_column( $table_name, 'prominent_words_vector_length' );
-		$this->remove_index( $table_name, 'prominent_words_version' );
 	}
 
 	/**
