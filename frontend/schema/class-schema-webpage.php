@@ -77,7 +77,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 		}
 
 		if ( ! empty( $this->context->description ) ) {
-			$data['description'] = $this->context->description;
+			$data['description'] = strip_tags( $this->context->description, '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' );
 		}
 
 		if ( $this->add_breadcrumbs() ) {

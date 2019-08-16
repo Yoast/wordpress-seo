@@ -8,7 +8,7 @@
 /**
  * Implements server-side user input validation.
  *
- * @since 11.9
+ * @since 12.0
  */
 class Yoast_Input_Validation {
 
@@ -17,14 +17,14 @@ class Yoast_Input_Validation {
 	 *
 	 * The normal pattern is 'yoast' . $option_name . 'options'.
 	 *
-	 * @since 11.9
+	 * @since 12.0
 	 *
 	 * @param string $group_name The option group name.
 	 *
 	 * @return bool Whether or not it's an Yoast SEO option group.
 	 */
 	public static function is_yoast_option_group_name( $group_name ) {
-		return ( false !== strpos( $group_name, 'yoast' ) );
+		return ( strpos( $group_name, 'yoast' ) !== false );
 	}
 
 	/**
@@ -33,30 +33,28 @@ class Yoast_Input_Validation {
 	 *
 	 * Uses the WordPress `admin_title` filter in the WPSEO_Option subclasses.
 	 *
-	 * @since 11.9
+	 * @since 12.0
 	 *
 	 * @param string $admin_title The page title, with extra context added.
 	 *
 	 * @return string $admin_title The modified or original admin title.
 	 */
-	public static function yoast_admin_document_title_errors( $admin_title ) {
+	public static function add_yoast_admin_document_title_errors( $admin_title ) {
 		$errors           = get_settings_errors();
-		$there_are_errors = false;
-		$count            = 0;
+		$error_count      = 0;
 
 		foreach ( $errors as $error ) {
 			// For now, filter the admin title only in the Yoast SEO settings pages.
 			if ( self::is_yoast_option_group_name( $error['setting'] ) && $error['code'] !== 'settings_updated' ) {
-				$there_are_errors = true;
-				$count++;
+				$error_count++;
 			}
 		}
 
-		if ( $there_are_errors ) {
+		if ( $error_count > 0 ) {
 			return sprintf(
 				/* translators: %1$s: amount of errors, %2$s: the admin page title */
-				_n( 'The form contains %1$s error. %2$s', 'The form contains %1$s errors. %2$s', $count, 'wordpress-seo' ),
-				number_format_i18n( $count ),
+				_n( 'The form contains %1$s error. %2$s', 'The form contains %1$s errors. %2$s', $error_count, 'wordpress-seo' ),
+				number_format_i18n( $error_count ),
 				$admin_title
 			);
 		}

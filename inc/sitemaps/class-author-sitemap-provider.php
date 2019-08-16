@@ -157,8 +157,8 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$users = $this->get_users( $user_criteria );
 
-		// Determine max page based on the total number of users.
-		if ( $user_criteria['offset'] > count( $users ) ) {
+		// Throw an exception when there are no users in the sitemap.
+		if ( count( $users ) === 0 ) {
 			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 

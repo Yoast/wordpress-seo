@@ -40,7 +40,7 @@ class Migration_Runner implements Initializer {
 	const MIGRATION_ERROR_TRANSIENT_KEY = 'yoast_migration_problem_';
 
 	/**
-	 * @var Ruckusing_Framework
+	 * @var \Yoast\WP\Free\Database\Ruckusing_Framework
 	 */
 	protected $framework;
 
@@ -52,8 +52,8 @@ class Migration_Runner implements Initializer {
 	/**
 	 * Migrations constructor.
 	 *
-	 * @param Ruckusing_Framework $framework The Ruckusing framework runner.
-	 * @param Logger              $logger    A PSR compatible logger.
+	 * @param \Yoast\WP\Free\Database\Ruckusing_Framework $framework The Ruckusing framework runner.
+	 * @param \Yoast\WP\Free\Loggers\Logger               $logger    A PSR compatible logger.
 	 */
 	public function __construct( Ruckusing_Framework $framework, Logger $logger ) {
 		$this->framework = $framework;
@@ -105,7 +105,7 @@ class Migration_Runner implements Initializer {
 			// Something went wrong...
 			$this->set_failed_state( $name, $exception->getMessage() );
 
-			if ( defined( 'YOAST_ENVIRONMENT' ) && YOAST_ENVIRONMENT !== 'production' ) {
+			if ( \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT !== 'production' ) {
 				throw $exception;
 			}
 

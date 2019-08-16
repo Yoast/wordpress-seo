@@ -5,8 +5,8 @@ namespace Yoast\WP\Free\Tests\Frontend\Schema;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Schema_Context;
-use WPSEO_Schema_HowTo_Double;
 use WPSEO_Schema_IDs;
+use Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_HowTo_Double;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -16,15 +16,15 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @package Yoast\Tests\Frontend\Schema
  */
-class WPSEO_Schema_HowTo_Test extends TestCase {
+class Schema_HowTo_Test extends TestCase {
 
 	/**
-	 * @var WPSEO_Schema_HowTo_Double
+	 * @var \Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_HowTo_Double
 	 */
 	private $instance;
 
 	/**
-	 * @var WPSEO_Schema_Context
+	 * @var \WPSEO_Schema_Context
 	 */
 	private $context;
 
@@ -47,7 +47,7 @@ class WPSEO_Schema_HowTo_Test extends TestCase {
 		$this->context->title     = 'title';
 		$this->context->canonical = 'example.com/';
 
-		$this->instance = $this->getMockBuilder( WPSEO_Schema_HowTo_Double::class )
+		$this->instance = $this->getMockBuilder( Schema_HowTo_Double::class )
 			->setMethods( [ 'get_image_schema' ] )
 			->setConstructorArgs( [ $this->context ] )
 			->getMock();

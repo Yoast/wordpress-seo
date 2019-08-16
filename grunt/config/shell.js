@@ -26,6 +26,12 @@ module.exports = function( grunt ) {
 
 		"combine-pots-yoast-components": {
 			fromFiles: [
+				"<%= files.pot.yoastJsAlgoliaSearchBox %>",
+				"<%= files.pot.yoastJsAnalysisReport %>",
+				"<%= files.pot.yoastJsComponents %>",
+				"<%= files.pot.yoastJsConfigurationWizard %>",
+				"<%= files.pot.yoastJsHelpers %>",
+				"<%= files.pot.yoastJsSearchMetadataPreviews %>",
 				"<%= files.pot.yoastComponentsConfigurationWizard %>",
 				"<%= files.pot.yoastComponentsRemaining %>",
 			],
@@ -42,6 +48,25 @@ module.exports = function( grunt ) {
 					" " + files.join( " " ) +
 					" > " + toFile;
 			},
+		},
+
+		"makepot-yoast-js-algolia-search-box": {
+			command: "yarn i18n-yoast-js-algolia-search-box",
+		},
+		"makepot-yoast-js-analysis-report": {
+			command: "yarn i18n-yoast-js-analysis-report",
+		},
+		"makepot-yoast-js-components": {
+			command: "yarn i18n-yoast-js-components",
+		},
+		"makepot-yoast-js-configuration-wizard": {
+			command: "yarn i18n-yoast-js-configuration-wizard",
+		},
+		"makepot-yoast-js-helpers": {
+			command: "yarn i18n-yoast-js-helpers",
+		},
+		"makepot-yoast-js-search-metadata-previews": {
+			command: "yarn i18n-yoast-js-search-metadata-previews",
 		},
 
 		"makepot-yoast-components-configuration-wizard": {

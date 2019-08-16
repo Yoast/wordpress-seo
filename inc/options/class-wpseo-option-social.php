@@ -86,7 +86,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	protected function __construct() {
 		parent::__construct();
 
-		add_filter( 'admin_title', array( 'Yoast_Input_Validation', 'yoast_admin_document_title_errors' ) );
+		add_filter( 'admin_title', array( 'Yoast_Input_Validation', 'add_yoast_admin_document_title_errors' ) );
 	}
 
 	/**

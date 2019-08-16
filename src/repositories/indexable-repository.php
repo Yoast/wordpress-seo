@@ -49,7 +49,7 @@ class Indexable_Repository extends ORMWrapper {
 	 * @param \Yoast\WP\Free\Builders\Indexable_Term_Builder   $term_builder   The term builder for creating missing indexables.
 	 * @param \Yoast\WP\Free\Loggers\Logger                    $logger         The logger.
 	 *
-	 * @return Indexable_Repository
+	 * @return \Yoast\WP\Free\Repositories\Indexable_Repository
 	 */
 	public static function get_instance(
 		Indexable_Author_Builder $author_builder,
@@ -77,8 +77,8 @@ class Indexable_Repository extends ORMWrapper {
 	 * @param string $url The indexable url.
 	 */
 	public function find_by_url( $url ) {
-		$url      = trailingslashit( $url );
-		$url_hash = strlen( $url ) . ':' . md5( $url );
+		$url      = \trailingslashit( $url );
+		$url_hash = \strlen( $url ) . ':' . \md5( $url );
 
 		// Find by both url_hash and url, url_hash is indexed so will be used first by the DB to optimize the query.
 		return $this->where( 'url_hash', $url_hash )

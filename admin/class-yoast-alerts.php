@@ -148,7 +148,7 @@ class Yoast_Alerts {
 				'total' => self::get_active_alert_count(),
 			)
 		);
-		// phpcs:enable
+		// phpcs:enable -- Reason: WPSEO_Utils::format_json_encode is safe.
 	}
 
 	/**

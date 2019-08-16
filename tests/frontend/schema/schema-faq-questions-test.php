@@ -2,10 +2,10 @@
 
 namespace Yoast\WP\Free\Tests\Frontend\Schema;
 
-use Yoast\WP\Free\Tests\TestCase;
-use WPSEO_Schema_Context;
 use Mockery;
-use WPSEO_Schema_FAQ_Questions_Double;
+use WPSEO_Schema_Context;
+use Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_FAQ_Questions_Double;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class WPSEO_Schema_FAQ_Questions_Test.
@@ -14,7 +14,7 @@ use WPSEO_Schema_FAQ_Questions_Double;
  *
  * @package Yoast\Tests\Frontend\Schema
  */
-class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
+class Schema_FAQ_Questions_Test extends TestCase {
 
 	/**
 	 * Test setup.
@@ -26,7 +26,7 @@ class WPSEO_Schema_FAQ_Questions_Test extends TestCase {
 
 		$this->context->canonical = 'example.com/';
 
-		$this->instance = new WPSEO_Schema_FAQ_Questions_Double( [], [], $this->context );
+		$this->instance = new Schema_FAQ_Questions_Double( [], [], $this->context );
 	}
 
 	/**

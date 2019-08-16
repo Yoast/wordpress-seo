@@ -46,6 +46,8 @@ grunt build
 
 Please note that if you change anything in the JavaScript or CSS, you'll have to run `grunt build:js` or `grunt build:css`, respectively.
 
+This repository uses [the Yoast grunt tasks plugin](https://github.com/Yoast/plugin-grunt-tasks).
+
 ### Developing JavaScript dependencies
 
 Yoast SEO uses some JavaScript code that is managed outside of this repository. This code is being maintained in a monorepo: [Yoast/javascript](https://github.com/Yoast/javascript). If you need to change anything in one or more of the packages included in the monorepo, you'll need to do the following:
