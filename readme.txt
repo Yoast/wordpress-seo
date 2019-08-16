@@ -108,7 +108,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 11.9.0 =
 Release Date: August 20th, 2019
 
-Find out all about Yoast SEO 11.9 in [our 11.9 release post](https://yoa.st/release-11-9)!
+Are you ready for another exciting release to round up the Yoast SEO 11 cycle? Because we are! In Yoast SEO 11.9 we have improvements for security and accessibility. Read more about Yoast SEO 11.9 in [our 11.9 release post](https://yoa.st/release-11-9)!
 
 Enhancements:
 
