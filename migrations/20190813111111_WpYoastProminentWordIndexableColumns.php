@@ -23,7 +23,7 @@ class WpYoastProminentWordIndexableColumns extends Ruckusing_Migration_Base {
 			'null'     => true,
 			'limit'    => 11,
 			'unsigned' => true,
-			'default'  => null
+			'default'  => null,
 		) );
 
 		$this->add_column( $table_name, 'prominent_words_vector_length', 'float' );
