@@ -255,6 +255,8 @@ class Yoast_Input_Validation {
 				return $error['yoast_dirty_value'];
 			}
 		}
+
+		return '';
 	}
 
 	/**
