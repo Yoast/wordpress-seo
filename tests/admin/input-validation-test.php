@@ -17,6 +17,7 @@ class Input_Validation_Test extends TestCase {
 	 * Tests the document title is updated when there's an error.
 	 *
 	 * @covers Yoast_Input_Validation::add_yoast_admin_document_title_errors
+	 * @covers Yoast_Input_Validation::is_yoast_option_group_name
 	 */
 	public function test_document_title_updated_with_error() {
 		$admin_title = 'Original title';
@@ -45,6 +46,7 @@ class Input_Validation_Test extends TestCase {
 	 * Tests the document title is updated when there's more than one error.
 	 *
 	 * @covers Yoast_Input_Validation::add_yoast_admin_document_title_errors
+	 * @covers Yoast_Input_Validation::is_yoast_option_group_name
 	 */
 	public function test_document_title_updated_with_errors() {
 		$admin_title = 'Original title';
@@ -80,6 +82,7 @@ class Input_Validation_Test extends TestCase {
 	 * Tests the document title is not updated when the error is not a Yoast SEO error.
 	 *
 	 * @covers Yoast_Input_Validation::add_yoast_admin_document_title_errors
+	 * @covers Yoast_Input_Validation::is_yoast_option_group_name
 	 */
 	public function test_document_title_not_updated_with_non_yoast_errors() {
 		$admin_title = 'Original title';
@@ -108,6 +111,7 @@ class Input_Validation_Test extends TestCase {
 	 * Tests the document title is not updated when the error has the code settings_updated.
 	 *
 	 * @covers Yoast_Input_Validation::add_yoast_admin_document_title_errors
+	 * @covers Yoast_Input_Validation::is_yoast_option_group_name
 	 */
 	public function test_document_title_not_updated_with_settings_updated_error() {
 		$admin_title = 'Original title';
@@ -136,6 +140,7 @@ class Input_Validation_Test extends TestCase {
 	 * Tests a submitted invalid value is retrieved from the WordPress `$wp_settings_errors` global.
 	 *
 	 * @covers Yoast_Input_Validation::get_dirty_value
+	 * @covers Yoast_Input_Validation::add_dirty_value_to_settings_errors
 	 */
 	public function test_get_dirty_value() {
 		$GLOBALS['wp_settings_errors'] = [
