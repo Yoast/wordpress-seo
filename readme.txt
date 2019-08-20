@@ -105,6 +105,24 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 12.0.0 =
+Release Date: September 3rd, 2019
+
+Read more about Yoast SEO 12.0 in [our 12.0 release post](https://yoa.st/release-12-0)!
+
+Enhancements:
+
+* Adds a filter `wpseo_exclude_from_sitemap_by_term_ids` that allows excluding a term from the XML sitemap.
+* Adds a filter `wpseo_xml_sitemap_include_images` that allows excluding images from the XML sitemap.
+* Adds a maximum width to the metabox. Props [@justemoilouise](https://github.com/justemoilouise).
+* Improves the wording in the configuration wizard notification. Props [@emilyatmobtown](https://github.com/emilyatmobtown).
+* Improves user input validation for URLs.
+* Updates the document title with a message to communicate form submission errors have occurred.
+
+Bugfixes:
+
+* Fixes a bug where a 404 error would be shown for half of the author sitemaps in case of multiple author sitemaps.
+
 = 11.9.0 =
 Release Date: August 20th, 2019
 
@@ -118,24 +136,6 @@ Bugfixes:
 
 * Fixes a bug where the image from the configuration wizard notification was missing an empty alt attribute.
 * Fixes a bug where some translations would be missing in the metabox, sidebar, configuration wizard and the help center.
-
-= 11.8.0 =
-Release Date: August 6th, 2019
-
-Release history tells us that the releases in the months of July and August are usually very quiet and not 'that notable'. Due to vacations from team members, the focus is usually on fixing bugs and cleaning up. Not for Yoast SEO 11.8! This new release gives us an enhanced metabox, bug fixes and the help of contributors from outside the company! Find out all about Yoast SEO 11.8 in [our 11.8 release post](https://yoa.st/release-11-8)!
-
-Enhancements:
-
-* Moves advanced SEO settings to a collapsible in the SEO tab.
-* Social settings tab in the metabox now contains collapsibles instead of tabs.
-* Adds style for padding to the metabox menu to avoid it being overwritten by custom editor styles. Props to [@emilyatmobtown](https://github.com/emilyatmobtown).
-* Improves sanitization of the schema output.
-
-Bugfixes:
-
-* Fixes a bug where the `WP_Query::get_posts()` method would be called multiple times when the query includes several taxonomy terms, resulting in different results. Props to [@Chouby](https://github.com/Chouby).
-* Fixes a bug where the checkbox in the customizer about showing the blog page in the breadcrumbs would do exactly the opposite of what it promised. Props to [@garrett-eclipse](https://github.com/garrett-eclipse).
-* Fixes a bug where the snippet title and meta description fields would still be left-to-right when the site was set to a right-to-left language.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
