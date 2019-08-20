@@ -14,7 +14,7 @@ use Mockery;
  *
  * @package Yoast\Tests\Frontend\Schema
  */
-class WPSEO_Schema_Image_Test extends TestCase {
+class Schema_Image_Test extends TestCase {
 
 	/**
 	 * The `@id` to use for the image schema.

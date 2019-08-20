@@ -17,7 +17,7 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @package Yoast\Tests\Frontend\Schema
  */
-class WPSEO_Schema_WebPage_Test extends TestCase {
+class Schema_WebPage_Test extends TestCase {
 
 	/**
 	 * @var \WPSEO_Schema_WebPage

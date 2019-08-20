@@ -31,6 +31,7 @@ abstract class TestCase extends BaseTestCase {
 				'esc_attr_x'     => null,
 				'is_admin'       => false,
 				'is_multisite'   => false,
+				'wp_kses_post'   => null,
 				'site_url'       => 'https://www.example.org',
 				'wp_json_encode' => function( $data, $options = 0, $depth = 512 ) {
 					return \json_encode( $data, $options, $depth );
@@ -40,6 +41,9 @@ abstract class TestCase extends BaseTestCase {
 					return \abs( \intval( $value ) );
 				},
 				'mysql2date'     => null,
+				'wp_parse_args' => function( $settings, $defaults ) {
+					return \array_merge( $defaults, $settings );
+				},
 			]
 		);
 
@@ -79,6 +83,8 @@ abstract class TestCase extends BaseTestCase {
 	}
 
 	/**
+	 * Tests if the output buffer contains the provided strings.
+	 *
 	 * @param string|array $expected Expected output.
 	 */
 	protected function expectOutputContains( $expected ) {
@@ -92,6 +98,25 @@ abstract class TestCase extends BaseTestCase {
 		foreach ( $expected as $needle ) {
 			$found = \strpos( $output, $needle );
 			$this->assertTrue( $found !== false, \sprintf( 'Expected "%s" to be found in "%s" but couldn\'t find it.', $needle, $output ) );
+		}
+	}
+
+	/**
+	 * Tests if the output buffer doesn't contain the provided strings.
+	 *
+	 * @param string|array $needles Expected output.
+	 */
+	protected function expectOutputNotContains( $needles ) {
+		$output = \preg_replace( '|\R|', "\r\n", \ob_get_contents() );
+		\ob_clean();
+
+		if ( ! \is_array( $needles ) ) {
+			$needles = array( $needles );
+		}
+
+		foreach ( $needles as $needle ) {
+			$found = \strpos( $output, $needle );
+			$this->assertTrue( $found === false, \sprintf( 'Expected "%s" to be found in "%s" but couldn\'t find it.', $needle, $output ) );
 		}
 	}
 }

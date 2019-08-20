@@ -2,13 +2,13 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Admin
+ * @package WPSEO\Admin\Metabox
  */
 
 /**
- * Generates and displays the React root element for a metabox section.
+ * Generates and displays an additional metabox section.
  */
-class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
+class WPSEO_Metabox_Section_Additional implements WPSEO_Metabox_Section {
 
 	/**
 	 * Name of the section, used as an identifier in the HTML.
@@ -16,41 +16,30 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	 * @var string
 	 */
 	public $name;
-
 	/**
-	 * Content to use before the React root node.
+	 * Content of the tab's section.
 	 *
 	 * @var string
 	 */
 	public $content;
-
 	/**
-	 * Content to use to display the button to open this content block.
+	 * HTML to use in the tab header.
 	 *
 	 * @var string
 	 */
 	private $link_content;
-
 	/**
 	 * Class to add to the link.
 	 *
 	 * @var string
 	 */
 	private $link_class;
-
 	/**
 	 * Aria label to use for the link.
 	 *
 	 * @var string
 	 */
 	private $link_aria_label;
-
-	/**
-	 * Additional html content to be displayed within the section.
-	 *
-	 * @var string
-	 */
-	private $html_after;
 
 	/**
 	 * Constructor.
@@ -62,21 +51,16 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	 * @param array  $options      Optional link attributes.
 	 */
 	public function __construct( $name, $link_content, $content = '', array $options = array() ) {
-		$this->name    = $name;
-		$this->content = $content;
-
-		$default_options = array(
+		$this->name            = $name;
+		$this->content         = $content;
+		$default_options       = array(
 			'link_class'      => '',
 			'link_aria_label' => '',
-			'html_after'      => '',
 		);
-
-		$options = wp_parse_args( $options, $default_options );
-
+		$options               = wp_parse_args( $options, $default_options );
 		$this->link_content    = $link_content;
 		$this->link_class      = $options['link_class'];
 		$this->link_aria_label = $options['link_aria_label'];
-		$this->html_after      = $options['html_after'];
 	}
 
 	/**
@@ -90,7 +74,7 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 			esc_attr( $this->name ),
 			esc_attr( $this->link_class ),
 			( '' !== $this->link_aria_label ) ? ' aria-label="' . esc_attr( $this->link_aria_label ) . '"' : '',
-			wp_kses_post( $this->link_content )
+			$this->link_content
 		);
 	}
 
@@ -100,19 +84,12 @@ class WPSEO_Metabox_Section_React implements WPSEO_Metabox_Section {
 	 * @return void
 	 */
 	public function display_content() {
-		add_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_forms' ) );
-		add_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_a11y' ) );
-
-		printf(
-			'<div role="tabpanel" id="wpseo-meta-section-%1$s" aria-labelledby="wpseo-meta-tab-%1$s" tabindex="0" class="wpseo-meta-section">',
+		$html = sprintf(
+			'<div role="tabpanel" id="wpseo-meta-section-%1$s" aria-labelledby="wpseo-meta-tab-%1$s" tabindex="0" class="wpseo-meta-section wpseo-form">',
 			esc_attr( $this->name )
 		);
-		echo wp_kses_post( $this->content );
-		echo '<div id="wpseo-metabox-root" class="wpseo-metabox-root"></div>';
-		echo wp_kses_post( $this->html_after );
-		echo '</div>';
-
-		remove_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_forms' ) );
-		remove_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_a11y' ) );
+		$html .= $this->content;
+		$html .= '</div>';
+		echo $html;
 	}
 }

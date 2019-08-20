@@ -1216,6 +1216,155 @@ SVG;
 		return "<script type='application/ld+json' class='" . esc_attr( $class ) . "'>" . self::format_json_encode( $output ) . '</script>' . "\n";
 	}
 
+	/**
+	 * Extends the allowed post tags with accessibility-related attributes.
+	 *
+	 * @param array $allowed_post_tags The allowed post tags.
+	 * @codeCoverageIgnore
+	 *
+	 * @return array The allowed tags including post tags, input tags and select tags.
+	 */
+	public static function extend_kses_post_with_a11y( $allowed_post_tags ) {
+		static $a11y_tags;
+
+		if ( isset( $a11y_tags ) === false ) {
+			$a11y_tags = array(
+				'button'   => array(
+					'aria-expanded' => true,
+				),
+				'div'      => array(
+					'tabindex' => true,
+				),
+				// Below are attributes that are needed for backwards compatibility (WP < 5.1).
+				'span'     => array(
+					'aria-hidden' => true,
+				),
+				'input'    => array(
+					'aria-describedby' => true,
+				),
+				'select'   => array(
+					'aria-describedby' => true,
+				),
+				'textarea' => array(
+					'aria-describedby' => true,
+				),
+			);
+
+			// Add the global allowed attributes to each html element.
+			$a11y_tags = array_map( '_wp_add_global_attributes', $a11y_tags );
+		}
+
+		return array_merge_recursive( $allowed_post_tags, $a11y_tags );
+	}
+
+	/**
+	 * Extends the allowed post tags with input, select and option tags.
+	 *
+	 * @param array $allowed_post_tags The allowed post tags.
+	 * @codeCoverageIgnore
+	 *
+	 * @return array The allowed tags including post tags, input tags, select tags and option tags.
+	 */
+	public static function extend_kses_post_with_forms( $allowed_post_tags ) {
+		static $input_tags;
+
+		if ( isset( $input_tags ) === false ) {
+			$input_tags = array(
+				'input' => array(
+					'accept'          => true,
+					'accesskey'       => true,
+					'align'           => true,
+					'alt'             => true,
+					'autocomplete'    => true,
+					'autofocus'       => true,
+					'checked'         => true,
+					'contenteditable' => true,
+					'dirname'         => true,
+					'disabled'        => true,
+					'draggable'       => true,
+					'dropzone'        => true,
+					'form'            => true,
+					'formaction'      => true,
+					'formenctype'     => true,
+					'formmethod'      => true,
+					'formnovalidate'  => true,
+					'formtarget'      => true,
+					'height'          => true,
+					'hidden'          => true,
+					'lang'            => true,
+					'list'            => true,
+					'max'             => true,
+					'maxlength'       => true,
+					'min'             => true,
+					'multiple'        => true,
+					'name'            => true,
+					'pattern'         => true,
+					'placeholder'     => true,
+					'readonly'        => true,
+					'required'        => true,
+					'size'            => true,
+					'spellcheck'      => true,
+					'src'             => true,
+					'step'            => true,
+					'tabindex'        => true,
+					'translate'       => true,
+					'type'            => true,
+					'value'           => true,
+					'width'           => true,
+
+					/*
+					 * Below are attributes that are needed for backwards compatibility (WP < 5.1).
+					 * They are used for the social media image in the metabox.
+					 * These can be removed once we move to the React versions of the social previews.
+					 */
+					'data-target'     => true,
+					'data-target-id'  => true,
+				),
+				'select' => array(
+					'accesskey'       => true,
+					'autofocus'       => true,
+					'contenteditable' => true,
+					'disabled'        => true,
+					'draggable'       => true,
+					'dropzone'        => true,
+					'form'            => true,
+					'hidden'          => true,
+					'lang'            => true,
+					'multiple'        => true,
+					'name'            => true,
+					'onblur'          => true,
+					'onchange'        => true,
+					'oncontextmenu'   => true,
+					'onfocus'         => true,
+					'oninput'         => true,
+					'oninvalid'       => true,
+					'onreset'         => true,
+					'onsearch'        => true,
+					'onselect'        => true,
+					'onsubmit'        => true,
+					'required'        => true,
+					'size'            => true,
+					'spellcheck'      => true,
+					'tabindex'        => true,
+					'translate'       => true,
+				),
+				'option' => array(
+					'class'    => true,
+					'disabled' => true,
+					'id'       => true,
+					'label'    => true,
+					'selected' => true,
+					'value'    => true,
+				),
+			);
+
+			// Add the global allowed attributes to each html element.
+			$input_tags = array_map( '_wp_add_global_attributes', $input_tags );
+		}
+
+		return array_merge_recursive( $allowed_post_tags, $input_tags );
+	}
+
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
