@@ -168,7 +168,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 					elseif ( function_exists( 'add_settings_error' ) ) {
 						add_settings_error(
 							$this->group_name, // Slug title of the setting.
-							'_' . $key, // Suffix-ID for the error message box.
+							$key, // Suffix-ID for the error message box.
 							/* translators: %1$s expands to the option name and %2$sexpands to Yoast SEO */
 							sprintf( __( '%1$s is not a valid choice for who should be allowed access to the %2$s settings. Value reset to the default.', 'wordpress-seo' ), esc_html( sanitize_text_field( $dirty[ $key ] ) ), 'Yoast SEO' ), // The error message.
 							'error' // Error type, either 'error' or 'updated'.
@@ -189,7 +189,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 							elseif ( function_exists( 'add_settings_error' ) ) {
 								add_settings_error(
 									$this->group_name, // Slug title of the setting.
-									'_' . $key, // Suffix-ID for the error message box.
+									$key, // Suffix-ID for the error message box.
 									esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' )
 										. '<br>'
 										. sprintf(
@@ -205,7 +205,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 						elseif ( function_exists( 'add_settings_error' ) ) {
 							add_settings_error(
 								$this->group_name, // Slug title of the setting.
-								'_' . $key, // Suffix-ID for the error message box.
+								$key, // Suffix-ID for the error message box.
 								esc_html__( 'The default blog setting must be the numeric blog id of the blog you want to use as default.', 'wordpress-seo' ) . '<br>' . esc_html__( 'No numeric value was received.', 'wordpress-seo' ), // The error message.
 								'error' // Error type, either 'error' or 'updated'.
 							);
