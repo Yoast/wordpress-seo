@@ -306,11 +306,17 @@ abstract class WPSEO_Option {
 						$clean[ $key ] = $old[ $key ];
 					}
 					add_settings_error(
-						$this->group_name, // Slug title of the setting.
-						$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
-						/* translators: 1: Verification string from user input; 2: Service name. */
-						sprintf( __( '%1$s does not seem to be a valid %2$s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
-						'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+						// Slug title of the setting.
+						$this->group_name,
+						// Suffix-ID for the error message box. WordPress prepends `setting-error-`.
+						$key,
+						// The error message.
+						sprintf(
+							/* translators: 1: Verification string from user input; 2: Service name. */
+							__( '%1$s does not seem to be a valid %2$s verification string. Please correct.', 'wordpress-seo' ),
+							'<strong>' . esc_html( $meta ) . '</strong>', $service ),
+						// Message type.
+						'error'
 					);
 
 					Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $meta );
@@ -341,13 +347,14 @@ abstract class WPSEO_Option {
 						$this->group_name,
 						// Suffix-ID for the error message box. WordPress prepends `setting-error-`.
 						$key,
+						// The error message.
 						sprintf(
 							/* translators: %s expands to an invalid URL. */
 							__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
 							'<strong>' . esc_html( $submitted_url ) . '</strong>'
 						),
-						// CSS class for the WP notice.
-						'notice-error'
+						// Message type.
+						'error'
 					);
 				}
 
@@ -413,14 +420,18 @@ abstract class WPSEO_Option {
 				$clean[ $key ] = $old[ $key ];
 			}
 			add_settings_error(
-				$this->group_name, // Slug title of the setting.
-				$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
+				// Slug title of the setting.
+				$this->group_name,
+				// Suffix-ID for the error message box. WordPress prepends `setting-error-`.
+				$key,
+				// The error message.
 				sprintf(
 					/* translators: %s expands to an invalid Facebook App ID. */
 					__( '%s does not seem to be a valid Facebook App ID. Please correct.', 'wordpress-seo' ),
 					'<strong>' . esc_html( $dirty[ $key ] ) . '</strong>'
-				), // The error message.
-				'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+				),
+				// Message type.
+				'error'
 			);
 
 			Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $dirty[ $key ] );

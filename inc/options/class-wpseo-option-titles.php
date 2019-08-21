@@ -438,7 +438,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 								$key, // Suffix-id for the error message box.
 								/* translators: %s expands to a post type. */
 								sprintf( __( 'Please select a valid taxonomy for post type "%s"', 'wordpress-seo' ), $post_type ), // The error message.
-								'error' // Error type, either 'error' or 'updated'.
+								'error' // Message type.
 							);
 						}
 					}
@@ -476,7 +476,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 								'_' . $tax, // Suffix-ID for the error message box.
 								/* translators: %s expands to a taxonomy slug. */
 								sprintf( __( 'Please select a valid post type for taxonomy "%s"', 'wordpress-seo' ), $tax ), // The error message.
-								'error' // Error type, either 'error' or 'updated'.
+								'error' // Message type.
 							);
 							unset( $tax );
 						}

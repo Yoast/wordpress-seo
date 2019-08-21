@@ -51,7 +51,7 @@ class Option_Social_Test extends TestCase {
 	public function test_validate_option_with_invalid_data( $expected, $dirty, $clean, $old, $slug_name ) {
 		Monkey\Functions\expect( 'add_settings_error' )
 			->once()
-			->with( 'yoast_wpseo_social_options', $slug_name, "<strong>{$dirty[ $slug_name ]}</strong> does not seem to be a valid url. Please correct.", 'notice-error' );
+			->with( 'yoast_wpseo_social_options', $slug_name, "<strong>{$dirty[ $slug_name ]}</strong> does not seem to be a valid url. Please correct.", 'error' );
 
 		$instance = new Option_Social_Double();
 
@@ -153,7 +153,7 @@ class Option_Social_Test extends TestCase {
 
 		Monkey\Functions\expect( 'add_settings_error' )
 			->once()
-			->with( 'yoast_wpseo_social_options', 'instagram_url', '<strong>invalidurl</strong> does not seem to be a valid url. Please correct.', 'notice-error' );
+			->with( 'yoast_wpseo_social_options', 'instagram_url', '<strong>invalidurl</strong> does not seem to be a valid url. Please correct.', 'error' );
 
 		$clean = array( 'instagram_url' => '' );
 		$dirty = array( 'instagram_url' => 'invalidurl' );
@@ -294,12 +294,12 @@ class Option_Social_Test extends TestCase {
 			'setting' => 'yoast_wpseo_social_options',
 			'code'    => 'fbadminapp',
 			'message' =>'<strong>yoastInvalidFBAppID</strong> does not seem to be a valid Facebook App ID. Please correct.',
-			'type'    => 'notice-error',
+			'type'    => 'error',
 		]];
 
 		Monkey\Functions\expect( 'add_settings_error' )
 			->once()
-			->with( 'yoast_wpseo_social_options', 'fbadminapp', '<strong>yoastInvalidFBAppID</strong> does not seem to be a valid Facebook App ID. Please correct.', 'notice-error' );
+			->with( 'yoast_wpseo_social_options', 'fbadminapp', '<strong>yoastInvalidFBAppID</strong> does not seem to be a valid Facebook App ID. Please correct.', 'error' );
 
 		$instance->validate_facebook_app_id( 'fbadminapp', $dirty, '', $clean );
 
