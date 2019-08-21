@@ -168,6 +168,7 @@ class Indexable_Repository extends ORMWrapper {
 			\get_object_vars( $indexable )
 		);
 
+		$indexable->save();
 		return $indexable;
 	}
 }
