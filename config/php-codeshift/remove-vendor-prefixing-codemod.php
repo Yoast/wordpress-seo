@@ -25,7 +25,8 @@ class Remove_Vendor_Prefixing_Codemod extends AbstractCodemod {
 
 		$visitor = new Remove_Vendor_Prefixing_Visitor();
 		$comment_visitor = new Remove_Vendor_Prefixing_Comment_Visitor();
-		$this->addTraversalTransform( $visitor, $comment_visitor );
+		$array_key_visitor = new Remove_Vendor_Prefixing_Array_Key_Visitor();
+		$this->addTraversalTransform( $visitor, $comment_visitor, $array_key_visitor );
 	}
 }
 
