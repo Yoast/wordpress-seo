@@ -65,7 +65,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Checks whether a specific form input field was submitted with an invalid value.
 	 *
-	 * @since 11.9
+	 * @since 12.1
 	 *
 	 * @param string $error_code Must be the same slug-name used for the field variable and for `add_settings_error()`.
 	 *
@@ -86,7 +86,7 @@ class Yoast_Input_Validation {
 	/**
 	 * The error descriptions.
 	 *
-	 * @since 11.9
+	 * @since 12.1
 	 * @var array
 	 */
 	private static $_error_descriptions = array();
@@ -94,7 +94,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Sets the error descriptions.
 	 *
-	 * @since 11.9
+	 * @since 12.1
 	 *
 	 * @param array $descriptions An associative array of error descriptions. For
 	 *                            each entry, the key must be the setting variable.
@@ -146,7 +146,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets all the error descriptions.
 	 *
-	 * @since 11.9
+	 * @since 12.1
 	 *
 	 * @return array An associative array of error descriptions.
 	 */
@@ -157,7 +157,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets a specific error description.
 	 *
-	 * @since 11.9
+	 * @since 12.1
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 * @return string The error description.
@@ -173,7 +173,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets the aria-invalid HTML attribute based on the submitted invalid value.
 	 *
-	 * @since 11.9
+	 * @since 12.1
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 * @return string The aria-invalid HTML attribute or empty string.
@@ -189,7 +189,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets the aria-describedby HTML attribute based on the submitted invalid value.
 	 *
-	 * @since 11.9
+	 * @since 12.1
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 * @return string The aria-describedby HTML attribute or empty string.
@@ -205,7 +205,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets the error description wrapped in a HTML paragraph.
 	 *
-	 * @since 11.9
+	 * @since 12.1
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 * @return string The error description HTML or empty string.
@@ -223,7 +223,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Adds the submitted invalid value to the WordPress `$wp_settings_errors` global.
 	 *
-	 * @since 11.9
+	 * @since 12.1
 	 *
 	 * @param string $error_code  Code of the error set via `add_settings_error()`, normally the variable name.
 	 * @param string $dirty_value The submitted invalid value.
@@ -242,7 +242,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets an invalid submitted value.
 	 *
-	 * @since 11.9
+	 * @since 12.1
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 * @return string The submitted invalid input field value.
@@ -262,7 +262,7 @@ class Yoast_Input_Validation {
 	/**
 	 * Gets a specific invalid value message.
 	 *
-	 * @since 11.9
+	 * @since 12.1
 	 *
 	 * @param string $error_code Code of the error set via `add_settings_error()`, normally the variable name.
 	 * @return string The error invalid value message or empty string.
