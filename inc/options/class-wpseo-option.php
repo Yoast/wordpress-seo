@@ -359,6 +359,8 @@ abstract class WPSEO_Option {
 					}
 				}
 
+				Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $submitted_url );
+
 				return;
 			}
 

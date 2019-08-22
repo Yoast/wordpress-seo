@@ -40,8 +40,8 @@ class Yoast_Input_Validation {
 	 * @return string $admin_title The modified or original admin title.
 	 */
 	public static function add_yoast_admin_document_title_errors( $admin_title ) {
-		$errors           = get_settings_errors();
-		$error_count      = 0;
+		$errors      = get_settings_errors();
+		$error_count = 0;
 
 		foreach ( $errors as $error ) {
 			// For now, filter the admin title only in the Yoast SEO settings pages.
@@ -106,6 +106,11 @@ class Yoast_Input_Validation {
 				esc_html__( 'Baidu verification codes can only contain letters, numbers, hyphens, and underscores. %s', 'wordpress-seo' ),
 				self::get_dirty_value_message( 'baiduverify' )
 			),
+			'facebook_site'   => sprintf(
+				/* translators: %s: additional message with the submitted invalid value */
+				esc_html__( 'Please check the format of the Facebook Page URL you entered. %s', 'wordpress-seo' ),
+				self::get_dirty_value_message( 'facebook_site' )
+			),
 			'fbadminapp'      => sprintf(
 				/* translators: %s: additional message with the submitted invalid value */
 				esc_html__( 'The Facebook App ID you entered doesn\'t exist. %s', 'wordpress-seo' ),
@@ -116,10 +121,30 @@ class Yoast_Input_Validation {
 				esc_html__( 'Google verification codes can only contain letters, numbers, hyphens, and underscores. %s', 'wordpress-seo' ),
 				self::get_dirty_value_message( 'googleverify' )
 			),
+			'instagram_url'   => sprintf(
+				/* translators: %s: additional message with the submitted invalid value */
+				esc_html__( 'Please check the format of the Instagram URL you entered. %s', 'wordpress-seo' ),
+				self::get_dirty_value_message( 'instagram_url' )
+			),
+			'linkedin_url'    => sprintf(
+				/* translators: %s: additional message with the submitted invalid value */
+				esc_html__( 'Please check the format of the Linkedin URL you entered. %s', 'wordpress-seo' ),
+				self::get_dirty_value_message( 'linkedin_url' )
+			),
 			'msverify'        => sprintf(
 				/* translators: %s: additional message with the submitted invalid value */
 				esc_html__( 'Bing confirmation codes can only contain letters from A to F, numbers, hyphens, and underscores. %s', 'wordpress-seo' ),
 				self::get_dirty_value_message( 'msverify' )
+			),
+			'myspace_url'     => sprintf(
+				/* translators: %s: additional message with the submitted invalid value */
+				esc_html__( 'Please check the format of the MySpace URL you entered. %s', 'wordpress-seo' ),
+				self::get_dirty_value_message( 'myspace_url' )
+			),
+			'pinterest_url'   => sprintf(
+				/* translators: %s: additional message with the submitted invalid value */
+				esc_html__( 'Please check the format of the Pinterest URL you entered. %s', 'wordpress-seo' ),
+				self::get_dirty_value_message( 'pinterest_url' )
 			),
 			'pinterestverify' => sprintf(
 				/* translators: %s: additional message with the submitted invalid value */
@@ -131,10 +156,20 @@ class Yoast_Input_Validation {
 				esc_html__( 'Twitter usernames can only contain letters, numbers, and underscores. %s', 'wordpress-seo' ),
 				self::get_dirty_value_message( 'twitter_site' )
 			),
+			'wikipedia_url'   => sprintf(
+				/* translators: %s: additional message with the submitted invalid value */
+				esc_html__( 'Please check the format of the Wikipedia URL you entered. %s', 'wordpress-seo' ),
+				self::get_dirty_value_message( 'wikipedia_url' )
+			),
 			'yandexverify'    => sprintf(
 				/* translators: %s: additional message with the submitted invalid value */
 				esc_html__( 'Yandex confirmation codes can only contain letters from A to F, numbers, hyphens, and underscores. %s', 'wordpress-seo' ),
 				self::get_dirty_value_message( 'yandexverify' )
+			),
+			'youtube_url'     => sprintf(
+				/* translators: %s: additional message with the submitted invalid value */
+				esc_html__( 'Please check the format of the Youtube URL you entered. %s', 'wordpress-seo' ),
+				self::get_dirty_value_message( 'youtube_url' )
 			),
 		);
 
