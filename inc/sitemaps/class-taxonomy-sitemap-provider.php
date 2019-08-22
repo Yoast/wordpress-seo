@@ -15,6 +15,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @var WPSEO_Sitemap_Image_Parser
 	 */
 	protected static $image_parser;
+
 	/**
 	 * Determines whether images should be included in the XML sitemap.
 	 *
@@ -118,7 +119,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$last_modified_gmt = WPSEO_Sitemaps::get_last_modified_gmt( $tax->object_type );
 
-			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter ++ ) {
+			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter++ ) {
 
 				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
 
@@ -148,7 +149,8 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 				if ( $query->have_posts() ) {
 					$date = $query->posts[0]->post_modified_gmt;
-				} else {
+				}
+				else {
 					$date = $last_modified_gmt;
 				}
 
