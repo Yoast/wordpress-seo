@@ -83,12 +83,19 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$all_taxonomies = array();
 
-		$term_args = array(
-			'hide_empty' => $hide_empty,
-			'fields'     => 'ids',
-		);
-
 		foreach ( $taxonomy_names as $taxonomy_name ) {
+			/**
+			 * Filter the setting of excluding empty terms from the XML sitemap for a specific taxonomy.
+			 *
+			 * @param boolean $exclude       Defaults to the sitewide setting.
+			 * @param string  $taxonomy_name The name of the taxonomy being processed.
+			 */
+			$hide_empty_tax = apply_filters( 'wpseo_sitemap_exclude_empty_terms_taxonomy', $hide_empty, $taxonomy_name );
+
+			$term_args = array(
+				'hide_empty' => $hide_empty_tax,
+				'fields'     => 'ids',
+			);
 			$taxonomy_terms = get_terms( $taxonomy_name, $term_args );
 
 			if ( count( $taxonomy_terms ) > 0 ) {
