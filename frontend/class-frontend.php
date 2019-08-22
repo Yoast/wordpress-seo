@@ -687,13 +687,11 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * This function normally outputs the robots meta tag but is also used in other places to retrieve the meta robots value.
+	 * Retrieves the meta robots value.
 	 *
-	 * @param bool $echo Whether or not to output the meta robots element.
-	 *
-	 * @return string $robotsstr
+	 * @return string
 	 */
-	public function robots( $echo = true ) {
+	public function get_robots() {
 		global $wp_query, $post;
 
 		$robots           = array();
@@ -786,19 +784,27 @@ class WPSEO_Frontend {
 		 */
 		$robotsstr = apply_filters( 'wpseo_robots', $robotsstr );
 
+		return $robotsstr;
+	}
+
+	/**
+	 * Outputs the meta robots value.
+	 *
+	 * @return string
+	 */
+	public function robots() {
+		$robotsstr = $this->get_robots();
+
+		if ( is_string( $robotsstr ) && $robotsstr !== '' ) {
+			echo '<meta name="robots" content="', esc_attr( $robotsstr ), '"/>', "\n";
+		}
+
 		// If a page has a noindex, it should _not_ have a canonical, as these are opposing indexing directives.
 		if ( strpos( $robotsstr, 'noindex' ) !== false ) {
 			remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		}
 
-		if ( $echo === false ) {
-			return $robotsstr;
-		}
-
-		if ( is_string( $robotsstr ) && $robotsstr !== '' ) {
-			echo '<meta name="robots" content="', esc_attr( $robotsstr ), '"/>', "\n";
-			return $robotsstr;
-		}
+		return $robotsstr;
 	}
 
 	/**
