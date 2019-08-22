@@ -160,24 +160,6 @@ class Option_Social_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that submitting an option with an invalid URL adds a WordPress settings error notice.
-	 *
-	 * @covers WPSEO_Option_Social::validate_url
-	 */
-	public function test_validate_url_adds_settings_error() {
-		$instance = new Option_Social_Double();
-
-		Monkey\Functions\expect( 'add_settings_error' )
-			->once()
-			->with( 'yoast_wpseo_social_options', 'instagram_url', '<strong>invalidurl</strong> does not seem to be a valid url. Please correct.', 'notice-error' );
-
-		$clean = array( 'instagram_url' => '' );
-		$dirty = array( 'instagram_url' => 'invalidurl' );
-
-		$instance->validate_url( 'instagram_url', $dirty, '', $clean );
-	}
-
-	/**
 	 * Tests the Facebook App ID validation method with an invalid ID.
 	 *
 	 * @covers Yoast_Input_Validation::validate_facebook_app_id
