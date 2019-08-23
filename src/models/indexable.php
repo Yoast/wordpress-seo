@@ -52,6 +52,9 @@ use Yoast\WP\Free\ORM\Yoast_Model;
  * @property string  $twitter_title
  * @property string  $twitter_description
  * @property string  $twitter_image
+ *
+ * @property int     $prominent_words_version
+ * @property float   $prominent_words_vector_length
  */
 class Indexable extends Yoast_Model {
 
@@ -70,7 +73,7 @@ class Indexable extends Yoast_Model {
 	protected $loaded_extensions = [];
 
 	/**
-	 * Returns an Indexable_Extension by it's name.
+	 * Returns an Indexable_Extension by its name.
 	 *
 	 * @param string $class_name The class name of the extension to load.
 	 *
