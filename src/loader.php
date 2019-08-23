@@ -22,11 +22,18 @@ class Loader {
 	protected $integrations = [];
 
 	/**
-	 * The registered initializer.
+	 * The registered initializers.
 	 *
 	 * @var \Yoast\WP\Free\WordPress\Initializer[]
 	 */
 	protected $initializers = [];
+
+	/**
+	 * The registered commands.
+	 *
+	 * @var \Yoast\WP\Free\WordPress\WP_CLI_Command[]
+	 */
+	protected $commands = [];
 
 	/**
 	 * The dependency injection container.
@@ -56,7 +63,7 @@ class Loader {
 	}
 
 	/**
-	 * Registers a initializer.
+	 * Registers an initializer.
 	 *
 	 * @param string $class The class name of the initializer to be loaded.
 	 *
@@ -67,6 +74,17 @@ class Loader {
 	}
 
 	/**
+	 * Registers a command.
+	 *
+	 * @param string $class The class name of the command to be loaded.
+	 *
+	 * @return void
+	 */
+	public function register_command( $class ) {
+		$this->commands[] = $class;
+	}
+
+	/**
 	 * Loads all registered classes if their conditionals are met.
 	 *
 	 * @return void
@@ -74,6 +92,23 @@ class Loader {
 	public function load() {
 		$this->load_initializers();
 		$this->load_integrations();
+
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+			$this->load_commands();
+		}
+	}
+
+	/**
+	 * Loads all registered commands.
+	 *
+	 * @return void
+	 */
+	protected function load_commands() {
+		foreach ( $this->commands as $command ) {
+			$command = $this->container->get( $command );
+
+			\WP_CLI::add_command( $command->get_name(), [ $command, 'execute' ], $command->get_config() );
+		}
 	}
 
 	/**
