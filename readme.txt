@@ -121,7 +121,7 @@ Enhancements:
 
 Bugfixes:
 
-* Fixes a bug where a 404 error would be shown for half of the author sitemaps in case of multiple author sitemaps.
+* Fixes a bug where a 404 error would be shown for the second sitemap (and up) of the author sitemaps in case of multiple author sitemaps.
 
 = 11.9.0 =
 Release Date: August 20th, 2019
