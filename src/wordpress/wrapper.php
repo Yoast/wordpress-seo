@@ -7,6 +7,8 @@
 
 namespace Yoast\WP\Free\WordPress;
 
+use WPSEO_Replace_Vars;
+
 /**
  * Wrapper class for WordPress globals.
  * This consists of factory functions to inject WP globals into the dependency container.
@@ -33,5 +35,9 @@ class Wrapper {
 		global $wp_query;
 
 		return $wp_query;
+	}
+
+	public static function get_replace_vars() {
+		return new WPSEO_Replace_Vars();
 	}
 }

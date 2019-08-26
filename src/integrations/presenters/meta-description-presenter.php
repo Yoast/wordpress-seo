@@ -9,10 +9,9 @@ namespace Yoast\WP\Free\Integrations\Presenters;
 
 use WPSEO_Frontend;
 use WPSEO_Options;
+use WPSEO_Replace_Vars;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
-use Yoast\WP\Free\Conditionals\Simple_Page_Conditional;
 use Yoast\WP\Free\Helpers\Current_Post_Helper;
-use Yoast\WP\Free\Helpers\Replacement_Variables_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\WordPress\Integration;
@@ -25,7 +24,7 @@ class Meta_Description_Presenter implements Integration {
 	protected $repository;
 
 	/**
-	 * @var Replacement_Variables_Helper
+	 * @var \WPSEO_Replace_Vars
 	 */
 	protected $replacement_variables_helper;
 
@@ -46,12 +45,13 @@ class Meta_Description_Presenter implements Integration {
 	/**
 	 * Meta_Description_Presenter constructor.
 	 *
-	 * @param Indexable_Repository         $repository                   The indexables repository.
-	 * @param Replacement_Variables_Helper $replacement_variables_helper The replacement variables helper.
+	 * @param Indexable_Repository $repository                   The indexables repository.
+	 * @param \WPSEO_Replace_Vars  $replacement_variables_helper The replacement variables helper.
+	 * @param Current_Post_Helper  $current_post_helper          The current post helper.
 	 */
 	public function __construct(
 		Indexable_Repository $repository,
-		Replacement_Variables_Helper $replacement_variables_helper,
+		WPSEO_Replace_Vars $replacement_variables_helper,
 		Current_Post_Helper $current_post_helper
 	) {
 		$this->repository = $repository;

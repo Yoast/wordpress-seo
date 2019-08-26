@@ -8,6 +8,7 @@
 namespace Yoast\WP\Free\Dependency_Injection;
 
 use Symfony\Component\DependencyInjection\Definition;
+use WPSEO_Replace_Vars;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\Repositories\Primary_Term_Repository;
 use Yoast\WP\Free\Repositories\SEO_Links_Repository;
@@ -19,6 +20,9 @@ use Yoast\WP\Free\WordPress\Wrapper;
 // WordPress factory functions.
 $container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb' ] );
 $container->register( 'wp_query', 'WP_Query' )->setFactory( [ Wrapper::class, 'get_wp_query' ] );
+
+// Legacy classes
+$container->register( WPSEO_Replace_Vars::class, WPSEO_Replace_Vars::class )->setFactory( [ Wrapper::class, 'get_replace_vars' ] );
 
 // Model repository factory functions.
 $container->register( Indexable_Repository::class, Indexable_Repository::class )->setFactory( [ Indexable_Repository::class, 'get_instance' ] )->setAutowired( true );
