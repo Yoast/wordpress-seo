@@ -8,10 +8,6 @@
 namespace Yoast\WP\Free\Dependency_Injection;
 
 use Symfony\Component\DependencyInjection\Definition;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\Repositories\Primary_Term_Repository;
-use Yoast\WP\Free\Repositories\SEO_Links_Repository;
-use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
 use Yoast\WP\Free\WordPress\Wrapper;
 
 /* @var $container \Symfony\Component\DependencyInjection\ContainerBuilder */

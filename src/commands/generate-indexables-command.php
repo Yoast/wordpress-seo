@@ -74,7 +74,7 @@ class Generate_Indexables_Command implements WP_CLI_Command {
 	 * @return void
 	 */
 	public function execute() {
-		$this->generate_for_posts();
+		//$this->generate_for_posts();
 		$this->generate_for_terms();
 	}
 
@@ -103,11 +103,11 @@ class Generate_Indexables_Command implements WP_CLI_Command {
 
 	private function generate_for_terms() {
 		$page     = 0;
-		$total    = $this->wpdb->get_var( "SELECT COUNT(ID) FROM {$this->wpdb->terms};" );
+		$total    = $this->wpdb->get_var( "SELECT COUNT(term_id) FROM {$this->wpdb->terms};" );
 		$progress = \WP_CLI\Utils\make_progress_bar( __( 'Indexing terms', 'wordpress-seo' ), $total );
 
 		while ( true ) {
-			$term_ids = $this->wpdb->get_col( $this->wpdb->prepare( "SELECT ID FROM {$this->wpdb->terms} ORDER BY ID ASC LIMIT %d, 25;", $page * 25 ) );
+			$term_ids = $this->wpdb->get_col( $this->wpdb->prepare( "SELECT term_id FROM {$this->wpdb->terms} ORDER BY term_id ASC LIMIT %d, 25;", $page * 25 ) );
 
 			if ( empty( $term_ids ) ) {
 				break;
