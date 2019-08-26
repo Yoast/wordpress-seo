@@ -20,12 +20,6 @@ use Yoast\WP\Free\WordPress\Wrapper;
 $container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb' ] );
 $container->register( 'wp_query', 'WP_Query' )->setFactory( [ Wrapper::class, 'get_wp_query' ] );
 
-// Model repository factory functions.
-$container->register( Indexable_Repository::class, Indexable_Repository::class )->setFactory( [ Indexable_Repository::class, 'get_instance' ] )->setAutowired( true );
-$container->register( Primary_Term_Repository::class, Primary_Term_Repository::class )->setFactory( [ Primary_Term_Repository::class, 'get_instance' ] )->setAutowired( true );
-$container->register( SEO_Meta_Repository::class, SEO_Meta_Repository::class )->setFactory( [ SEO_Meta_Repository::class, 'get_instance' ] )->setAutowired( true );
-$container->register( SEO_Links_Repository::class, SEO_Links_Repository::class )->setFactory( [ SEO_Links_Repository::class, 'get_instance' ] )->setAutowired( true );
-
 $excluded_files = [
 	'main.php',
 ];
