@@ -24,7 +24,7 @@ return array(
 			'ParameterCircularReferenceException.php', 'ExceptionInterface.php'
 		] ),
 		Finder::create()->files()->in( 'vendor/symfony/dependency-injection/ParameterBag' )->name( [
-			'FrozenParameterBag.php', 'ParameterBagInterface.php', 'EnvPlaceholderParameterBag.php'
+			'FrozenParameterBag.php', 'ParameterBagInterface.php', 'EnvPlaceholderParameterBag.php', 'ParameterBag.php'
 		] ),
 	],
 
