@@ -8,7 +8,6 @@
 namespace Yoast\WP\Free\Commands;
 
 use wpdb;
-use Yoast\WP\Free\Watchers\Indexable_Author_Watcher;
 use Yoast\WP\Free\Watchers\Indexable_Post_Watcher;
 use Yoast\WP\Free\Watchers\Indexable_Term_Watcher;
 use Yoast\WP\Free\WordPress\WP_CLI_Command;
@@ -29,24 +28,24 @@ class Generate_Indexables_Command implements WP_CLI_Command {
 	private $term_watcher;
 
 	/**
-	 * @var Indexable_Author_Watcher
-	 */
-	private $author_watcher;
-
-	/**
 	 * @var wpdb
 	 */
 	private $wpdb;
 
+	/**
+	 * Generate_Indexables_Command constructor.
+	 *
+	 * @param Indexable_Post_Watcher   $post_watcher The post watcher, used to build/update indexables for posts.
+	 * @param Indexable_Term_Watcher   $term_watcher The term watcher, used to build/update indexables for posts.
+	 * @param wpdb                     $wpdb         The wpdb instance, used to get lists of all posts and terms.
+	 */
 	public function __construct(
 		Indexable_Post_Watcher $post_watcher,
 		Indexable_Term_Watcher $term_watcher,
-		Indexable_Author_Watcher $author_watcher,
 		wpdb $wpdb
 	) {
 		$this->post_watcher = $post_watcher;
 		$this->term_watcher = $term_watcher;
-		$this->author_watcher = $author_watcher;
 		$this->wpdb = $wpdb;
 	}
 
@@ -74,10 +73,15 @@ class Generate_Indexables_Command implements WP_CLI_Command {
 	 * @return void
 	 */
 	public function execute() {
-		//$this->generate_for_posts();
+		$this->generate_for_posts();
 		$this->generate_for_terms();
 	}
 
+	/**
+	 * Generates indexables for all posts.
+	 *
+	 * @return void
+	 */
 	private function generate_for_posts() {
 		$page     = 0;
 		$total    = $this->wpdb->get_var( "SELECT COUNT(ID) FROM {$this->wpdb->posts};" );
@@ -101,6 +105,11 @@ class Generate_Indexables_Command implements WP_CLI_Command {
 		$progress->finish();
 	}
 
+	/**
+	 * Generates indexables for all terms.
+	 *
+	 * @return void
+	 */
 	private function generate_for_terms() {
 		$page     = 0;
 		$total    = $this->wpdb->get_var( "SELECT COUNT(term_id) FROM {$this->wpdb->terms};" );
