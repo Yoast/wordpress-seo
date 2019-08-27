@@ -157,7 +157,7 @@ class Indexable_Repository extends ORMWrapper {
 	 *
 	 * @return array|\IdiormResultSet Instances of indexables.
 	 */
-	public function find_by_indexable_ids( $indexable_ids ) {
+	public function find_by_indexable_ids( array $indexable_ids ) {
 		return $this->where_id_in( $indexable_ids )->find_many();
 	}
 }
