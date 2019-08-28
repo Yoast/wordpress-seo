@@ -99,8 +99,7 @@ class DashboardWidget extends React.Component {
 		// Developer note: this link should -not- be converted to a shortlink.
 		getPostFeed(
 			"https://yoast.com/feed/widget/?wp_version=" + wpseoDashboardWidgetL10n.wp_version +
-			"&php_version=" + wpseoDashboardWidgetL10n.php_version +
-			"&classic=" + wpseoDashboardWidgetL10n.classic,
+			"&php_version=" + wpseoDashboardWidgetL10n.php_version,
 			2
 		)
 			.then( ( feed ) => {
