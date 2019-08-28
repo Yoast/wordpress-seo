@@ -153,7 +153,12 @@ class Yoast_Form {
 	 */
 	public function admin_footer( $submit = true, $show_sidebar = true ) {
 		if ( $submit ) {
+			echo '<div id="yoast-free-submit-container" class="yoast-free-admin-footer">';
+			if ( WPSEO_Admin_Floating_Save_Button::$saved ) {
+				echo '<p class="message"><span class="dashicons dashicons-yes"></span>Settings saved.</p>';
+			}
 			submit_button( __( 'Save changes', 'wordpress-seo' ) );
+			echo '</div>';
 
 			echo '
 			</form>';
