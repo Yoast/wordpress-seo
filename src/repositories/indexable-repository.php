@@ -87,7 +87,7 @@ class Indexable_Repository extends ORMWrapper {
 	}
 
 	/**
-	 * Retrieves an indexable by its ID and type.
+	 * Retrieves an indexable by the ID and type of the indexable object.
 	 *
 	 * @param int    $object_id   The indexable object ID.
 	 * @param string $object_type The indexable object type.
@@ -178,5 +178,16 @@ class Indexable_Repository extends ORMWrapper {
 		);
 
 		return $indexable;
+	}
+
+	/**
+	 * Retrieves indexables by their IDs.
+	 *
+	 * @param array $indexable_ids The indexable IDs.
+	 *
+	 * @return array|\IdiormResultSet Instances of indexables.
+	 */
+	public function find_by_indexable_ids( array $indexable_ids ) {
+		return $this->where_id_in( $indexable_ids )->find_many();
 	}
 }
