@@ -15,37 +15,43 @@ Improve your WordPress SEO: Write better content and have a fully optimized Word
 
 ### Yoast SEO: the #1 WordPress SEO plugin
 
-Need some help with your search engine optimization? Need an SEO plugin that helps you reach for the stars? Yoast SEO is the original WordPress SEO plugin since 2008. It is the favorite tool of millions of users, ranging from the bakery around the corner to some of the most popular sites on the planet. With Yoast SEO, you get a solid toolset that helps you aim for that number one spot in the search results. Yoast: SEO for everyone.
+Since 2008 Yoast SEO has helped millions of websites worldwide to rank higher in search engines. The SEO plugin helps you with your search engine optimization. Are you not entirely convinced? Yoast SEO is the original WordPress SEO plugin and is the favorite tool of millions of users worldwide!
 
-Yoast SEO does everything in its power to please both visitors and search engine spiders. How? Below you’ll find a small sampling of the powers of Yoast SEO:
+As Yoast’s mission is **SEO for Everyone**, the plugin’s users range from the bakery around the corner to some of the most popular sites on the planet.
 
-#### Taking care of your WordPress SEO
+#### DON’T LET YOUR COMPETITORS WIN
+Do you know who your competitors are in your niche? There’s a reason why they are your competitors: they do what you do. And they might even do it better right now. That does not mean you can't win from them, but it does mean you need all the help to get on top and stay on top! Yoast SEO is here to help you out as we’ve helped millions of people worldwide.
 
-* The most advanced XML Sitemaps functionality at the push of a button.
-* Full control over site breadcrumbs: add a piece of code and you’re good to go.
-* Set canonical URLs to avoid duplicate content. Never have to worry about Google penalties again.
+#### TAKING CARE OF YOUR WORDPRESS SEO
+Yoast SEO does everything in its power to please both visitors and search engine spiders. A dedicated team of developers, testers, architects and SEO experts work daily to improve the plugin with every release. Yoast SEO offers:
 * Title and meta description templating for better branding and consistent snippets in the search results.
-* **[Premium]** Expand Yoast SEO with the News SEO, Video SEO, Local SEO and WooCommerce SEO extensions.
-* **[Premium]** Need help? Yoast SEO Premium users get 1 year free access to our awesome support team.
+* Schema implementations to higher the chance on rich results in search engines.
+* The most advanced XML Sitemaps functionality at the push of a button.
+* Full control over site breadcrumbs.
+* The option to set canonical URLs to avoid duplicate content so you never have to worry about Google penalties again.
+* **[Premium]** the ability to expand Yoast SEO with the News SEO, Video SEO, Local SEO and WooCommerce SEO extensions.
+* **[Premium]** support for our Yoast SEO Premium users.
 
-> Note: some features are Premium. Which means you need Yoast SEO Premium to unlock those features. You can [get Yoast SEO Premium here](https://yoa.st/1v8)!
+#### WRITE KILLER CONTENT WITH YOAST SEO
+We know content is king, that's why Yoast SEO is famous for its Content and SEO analysis. Yoast SEO gives you:
+* A content and SEO analysis: invaluable tools to write SEO-friendly texts without forgetting your audience.
+* A snippet preview that shows you how your post or page will look in the search results. Even on mobile! 
+* An **FAQ** and **HowTo** block for the WordPress editor so search engines know when you are serving a FAQ page or HowTo guides.
+* **[Premium]** Social previews to show you how your content will be shown on Twitter and Facebook.
+* **[Premium]** The Insights tool that shows you what your text focuses on. This way you can keep your article in line with your keyphrases.
+* **[Premium]** The ability to optimize your article for synonyms and related keyphrases.
+* **[Premium] Automatic internal linking suggestions: write your article and get automatic suggested posts to link to! 
 
-#### Write killer content with Yoast SEO
+#### KEEP YOUR SITE IN PERFECT SHAPE
 
-* Content & SEO analysis: Invaluable tools to write SEO-friendly texts.
-* The snippet preview shows you how your post or page will look in the search results - even on mobile. Yoast SEO Premium even has social media previews!
-* **[Premium]** The Insights tool shows you what your text focuses on so you can keep your article in line with your keyphrases.
-* **[Premium]** Synonyms & related keyphrases: Optimize your article for synonyms and related keyphrases.
-* **[Premium]** Automatic internal linking suggestions: write your article and get automatic suggested posts to link to.
-
-#### Keep your site in perfect shape
-
-* Yoast SEO tunes the engine of your site so you can work on creating great content.
-* Our cornerstone content and internal linking features help you optimize your site structure in a breeze.
-* Manage SEO roles: Give your colleagues access to specific sections of the Yoast SEO plugin.
-* Bulk editor: Make large-scale edits to your site.
-* **[Premium]** Social previews to manage the way your page is shared on social networks like Facebook and Twitter.
-* **[Premium]** Redirect manager: It keeps your site healthy by easily redirecting deleted pages and changed URLs.
+Whether you are a **blogger** or **content creator**, a **developer**, an **SEO expert** or a **business owner**: Yoast SEO helps you keep your website in perfect shape. Yoast SEO:
+* Tunes the engine of your website so you can work on creating great content.
+* Gives you cornerstone content and internal linking features to help you optimize your site structure in a breeze.
+* Helps you manage your team: with our SEO roles you can give colleagues access to specific sections of the Yoast SEO plugin.
+* Has a bulk editor so you can make large-scale edits to your website.
+* Translates your content to structured data where possible to help search engines understand your website.
+* **[Premium]** gives you social previews to manage the way your page is shared on social networks like Facebook and Twitter.
+* **[Premium]** has a full redirect manager to keep your site healthy by easily redirecting deleted pages and changed URLs.
 
 ### Premium support
 
@@ -70,29 +76,96 @@ For more info on search engine optimization, check out the following:
 * Follow Yoast on [Facebook](https://facebook.com/yoast) & [Twitter](https://twitter.com/yoast).
 
 == Installation ==
+Starting with Yoast SEO consists of just two steps: installing and setting up the plugin. Yoast SEO is designed to work with your site’s specific needs, so don’t forget to go through the Yoast SEO configuration wizard as explained in the ‘after activation’ step!
 
-=== From within WordPress ===
+= INSTALL YOAST SEO FROM WITHIN WORDPRESS =
 
-1. Visit 'Plugins > Add New'
-1. Search for 'Yoast SEO'
-1. Activate Yoast SEO from your Plugins page.
-1. Go to "after activation" below.
+1. Visit the plugins page within your dashboard and select ‘Add New’;
+1. Search for ‘Yoast SEO’;
+1. Activate Yoast SEO from your Plugins page;
+1. Go to ‘after activation’ below.
 
-=== Manually ===
+= INSTALL YOAST SEO MANUALLY =
 
-1. Upload the `wordpress-seo` folder to the `/wp-content/plugins/` directory
-1. Activate the Yoast SEO plugin through the 'Plugins' menu in WordPress
-1. Go to "after activation" below.
+1. Upload the ‘wordpress-seo’ folder to the /wp-content/plugins/ directory;
+1. Activate the Yoast SEO plugin through the ‘Plugins’ menu in WordPress;
+1. Go to ‘after activation’ below.
 
-=== After activation ===
+= AFTER ACTIVATION =
 
-1. You should see (a notice to start) the Yoast SEO configuration wizard.
-1. Go through the configuration wizard and set up the plugin for your site.
-1. You're done!
+1. You should see (a notice to start) the Yoast SEO configuration wizard;
+1. Go through the configuration wizard and set up the plugin for your site;
+1. You’re done!
 
 == Frequently Asked Questions ==
 
-You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1va).
+= How do the XML Sitemaps in the Yoast SEO plugin work? =
+Having an XML sitemap can be beneficial for SEO, as Google can retrieve essential pages of a website very fast, even if the internal linking of a site isn’t flawless.
+The sitemap index and individual sitemaps are updated automatically as you add or remove content and will include the post types you want search engines to index. Post Types marked as noindex will not appear in the sitemap. [Learn more about XML Sitemaps](https://kb.yoast.com/kb/enable-xml-sitemaps-in-the-wordpress-seo-plugin/).
+
+= How can I add my website to Google Search Console? =
+It is straightforward to add your website to Google Search Console. 
+1. Create a Google Search Console account and login into your account.
+1. Click ‘Add a property’ under the search drop-down.
+1. Enter your website URL in the box and click ‘Continue’.
+1. Click the arrow next to ‘HTML tag’ to expand the option.
+1. Copy the meta tag.
+1. Log in to your WordPress website.
+1. Click on ‘SEO’ in the dashboard.
+1. Click on ‘General’.
+1. Click on the ‘Webmaster Tools’ tab.
+1. Paste the code in the Google field and click ‘Save Changes’.
+1. Go back to Google Search Console and click ‘Verify’.
+
+If you want more details steps, please visit [our article on our knowledge base](https://yoast.com/wordpress/plugins/seo/add-website-google-search-console/).
+
+= How do I implement Yoast SEO breadcrumbs? =
+The steps below are a temporary solution as manual edits made to theme files may be overwritten with future theme updates. Please contact the theme developer for a permanent solution. We’ve written an article about the [importance of breadcrumbs for SEO](https://yoast.com/breadcrumbs-seo/). 
+
+To implement the [breadcrumbs](https://yoast.com/wordpress/plugins/breadcrumbs/) function in Yoast SEO, you will have to edit your theme. We recommend that prior to any editing of the theme files, a backup is taken. Your host provider can help you take a backup.
+Copy the following code into your theme where you want the breadcrumbs to be. If you are not sure, you will need to experiment with placement:
+
+```
+<?php
+*if* ( function_exists(‘yoast_breadcrumb’) ) {
+  yoast_breadcrumb( ‘<p id=“breadcrumbs”>’,’</p>’ );
+}
+?>
+```
+
+Common places where you could place your breadcrumbs are inside your `single.php` and/or `page.php` file just above the page’s title. Another option that makes it really easy in some themes is by just pasting the code in `header.php`at the very end.
+
+In most non-WooTheme themes, this code snippet should not be added to your `functions.php` file. 
+Alternatively, you can manually add the breadcrumb shortcode to individual posts or pages: `[wpseo_breadcrumb]`
+
+If you need more details or a step by step guide, read our [Implementation guide for Yoast SEO breadcrumbs](https://kb.yoast.com/kb/implement-wordpress-seo-breadcrumbs/).
+
+= How do I noindex URLS? =
+Yoast SEO provides multiple options for setting a URL or group of URLs to noindex. [Read more about how to do this in this guide](https://kb.yoast.com/kb/how-do-i-noindex-urls/).
+
+= Google shows the wrong description, how do I fix this? =
+If you’ve crafted nice meta descriptions for your blog posts, nothing is more annoying than Google showing another description for your site completely in the search result snippet. 
+
+Possible causes could be:
+1. wrong description in code
+1. Google cache is outdated
+1. Search term manipulation
+1. Google ignored the meta description
+
+You can [read more here on how to solve the issue with the wrong description](https://kb.yoast.com/kb/my-meta-descriptions-arent-showing-up-in-the-search-result-pages/#cache).
+
+= How often is Yoast SEO updated? =
+Yoast SEO is updated every two weeks. If you want to know why, please read [this post on why we release every two weeks](https://developer.yoast.com/continuous-delivery-at-yoast/)!
+
+= How do I get support? =
+As our free plugin is used by millions of people worldwide, we cannot offer you one on one support. If you have trouble with the Yoast SEO for WordPress plugin, you can get help on the support forums here at [wordpress.org](https://wordpress.org/support/plugin/wordpress-seo/) or by checking out or knowledge base at [kb.yoast.com](https://kb.yoast.com). 
+
+The plugins you buy at Yoast are called ‘premium plugins’ (even if Premium isn’t in its name) and include a complete year of free updates and premium support. This means you can contact our support team if you have questions.
+
+[Read more on how to get support](https://kb.yoast.com/kb/support/#free)
+
+= I have a different question than listed here =
+Your question has most likely been answered on our knowledge base: [kb.yoast.com](https://yoa.st/1va).
 
 == Screenshots ==
 
