@@ -28,7 +28,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -72,7 +72,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 }
 
 .c8 {
-  font-size: 14px;
+  font-size: 16px;
   color: #006621;
 }
 
@@ -81,7 +81,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .c9 {
@@ -227,7 +227,7 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -271,7 +271,7 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
 }
 
 .c8 {
-  font-size: 14px;
+  font-size: 16px;
   color: #006621;
 }
 
@@ -280,7 +280,7 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .c9 {
@@ -438,7 +438,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -482,7 +482,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 }
 
 .c8 {
-  font-size: 14px;
+  font-size: 16px;
   color: #006621;
 }
 
@@ -491,7 +491,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .c9 {
@@ -640,7 +640,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -684,7 +684,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 }
 
 .c8 {
-  font-size: 14px;
+  font-size: 16px;
   color: #006621;
 }
 
@@ -693,7 +693,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .c9 {
@@ -842,7 +842,7 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -886,7 +886,7 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
 }
 
 .c8 {
-  font-size: 14px;
+  font-size: 16px;
   color: #006621;
 }
 
@@ -895,7 +895,7 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .c9 {
@@ -1051,7 +1051,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -1279,7 +1279,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -1493,7 +1493,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -1715,7 +1715,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -1759,7 +1759,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 }
 
 .c8 {
-  font-size: 14px;
+  font-size: 16px;
   color: #006621;
 }
 
@@ -1768,7 +1768,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .c9 {
@@ -1909,7 +1909,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -1953,7 +1953,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 }
 
 .c8 {
-  font-size: 14px;
+  font-size: 16px;
   color: #006621;
 }
 
@@ -1962,7 +1962,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .c9 {
@@ -2125,7 +2125,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -2169,7 +2169,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 }
 
 .c8 {
-  font-size: 14px;
+  font-size: 16px;
   color: #006621;
 }
 
@@ -2188,7 +2188,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .c10::before {
@@ -2336,7 +2336,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -2371,7 +2371,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 }
 
 .c8 {
-  font-size: 14px;
+  font-size: 16px;
   color: #006621;
 }
 
@@ -2380,7 +2380,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .c9 {
@@ -2542,7 +2542,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -2586,7 +2586,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 }
 
 .c8 {
-  font-size: 14px;
+  font-size: 16px;
   color: #006621;
 }
 
@@ -2595,7 +2595,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .c9 {
@@ -2758,7 +2758,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -2802,7 +2802,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 }
 
 .c8 {
-  font-size: 14px;
+  font-size: 16px;
   color: #006621;
 }
 
@@ -2821,7 +2821,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .c10::before {
@@ -2969,7 +2969,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -3004,7 +3004,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 }
 
 .c8 {
-  font-size: 14px;
+  font-size: 16px;
   color: #006621;
 }
 
@@ -3013,7 +3013,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .c9 {
@@ -3180,7 +3180,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -3224,7 +3224,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
 }
 
 .c8 {
-  font-size: 14px;
+  font-size: 16px;
   color: #006621;
 }
 
@@ -3233,7 +3233,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .c9 {

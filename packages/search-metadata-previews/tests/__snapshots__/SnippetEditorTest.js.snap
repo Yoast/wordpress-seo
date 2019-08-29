@@ -20,7 +20,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -891,7 +891,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -1822,7 +1822,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -5166,7 +5168,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -6097,7 +6099,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -9441,7 +9445,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -10372,7 +10376,9 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -13716,7 +13722,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -14647,7 +14653,9 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -17818,7 +17826,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -18542,7 +18550,9 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -20241,7 +20251,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -21172,7 +21182,9 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -24516,7 +24528,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -25447,7 +25459,9 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -28618,7 +28632,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -29208,7 +29222,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -29971,7 +29985,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -30929,7 +30943,9 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -34282,7 +34298,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -35240,7 +35256,9 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -38593,7 +38611,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -39524,7 +39542,9 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -42868,7 +42888,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -43810,7 +43830,9 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -47036,7 +47058,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -47919,7 +47941,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -48850,7 +48872,9 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -52029,7 +52053,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   color: #1e0fbe;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -52073,7 +52097,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 }
 
 .c8 {
-  font-size: 14px;
+  font-size: 16px;
   color: #006621;
 }
 
@@ -52082,7 +52106,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .c9 {
@@ -52769,7 +52793,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
@@ -53501,7 +53525,7 @@ exports[`SnippetEditor shows the editor 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: normal;
   margin: 0;
