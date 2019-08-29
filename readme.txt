@@ -101,7 +101,7 @@ Starting with Yoast SEO consists of just two steps: installing and setting up th
 
 = How do the XML Sitemaps in the Yoast SEO plugin work? =
 Having an XML sitemap can be beneficial for SEO, as Google can retrieve essential pages of a website very fast, even if the internal linking of a site isn’t flawless.
-The sitemap index and individual sitemaps are updated automatically as you add or remove content and will include the post types you want search engines to index. Post Types marked as noindex will not appear in the sitemap. [Learn more about XML Sitemaps](https://kb.yoast.com/kb/enable-xml-sitemaps-in-the-wordpress-seo-plugin/).
+The sitemap index and individual sitemaps are updated automatically as you add or remove content and will include the post types you want search engines to index. Post Types marked as noindex will not appear in the sitemap. [Learn more about XML Sitemaps](https://yoa.st/3qt).
 
 = How can I add my website to Google Search Console? =
 It is straightforward to add your website to Google Search Console. 
@@ -117,12 +117,12 @@ It is straightforward to add your website to Google Search Console.
 1. Paste the code in the Google field and click ‘Save Changes’.
 1. Go back to Google Search Console and click ‘Verify’.
 
-If you want more details steps, please visit [our article on our knowledge base](https://yoast.com/wordpress/plugins/seo/add-website-google-search-console/).
+If you want more details steps, please visit [our article on our knowledge base](https://yoa.st/3qu).
 
 = How do I implement Yoast SEO breadcrumbs? =
-The steps below are a temporary solution as manual edits made to theme files may be overwritten with future theme updates. Please contact the theme developer for a permanent solution. We’ve written an article about the [importance of breadcrumbs for SEO](https://yoast.com/breadcrumbs-seo/). 
+The steps below are a temporary solution as manual edits made to theme files may be overwritten with future theme updates. Please contact the theme developer for a permanent solution. We’ve written an article about the [importance of breadcrumbs for SEO](https://yoa.st/3qv). 
 
-To implement the [breadcrumbs](https://yoast.com/wordpress/plugins/breadcrumbs/) function in Yoast SEO, you will have to edit your theme. We recommend that prior to any editing of the theme files, a backup is taken. Your host provider can help you take a backup.
+To implement the [breadcrumbs]https://yoa.st/3qw) function in Yoast SEO, you will have to edit your theme. We recommend that prior to any editing of the theme files, a backup is taken. Your host provider can help you take a backup.
 Copy the following code into your theme where you want the breadcrumbs to be. If you are not sure, you will need to experiment with placement:
 
 ```
@@ -138,10 +138,10 @@ Common places where you could place your breadcrumbs are inside your `single.php
 In most non-WooTheme themes, this code snippet should not be added to your `functions.php` file. 
 Alternatively, you can manually add the breadcrumb shortcode to individual posts or pages: `[wpseo_breadcrumb]`
 
-If you need more details or a step by step guide, read our [Implementation guide for Yoast SEO breadcrumbs](https://kb.yoast.com/kb/implement-wordpress-seo-breadcrumbs/).
+If you need more details or a step by step guide, read our [Implementation guide for Yoast SEO breadcrumbs](https://yoa.st/3qx).
 
 = How do I noindex URLS? =
-Yoast SEO provides multiple options for setting a URL or group of URLs to noindex. [Read more about how to do this in this guide](https://kb.yoast.com/kb/how-do-i-noindex-urls/).
+Yoast SEO provides multiple options for setting a URL or group of URLs to noindex. [Read more about how to do this in this guide](https://yoa.st/3qy/).
 
 = Google shows the wrong description, how do I fix this? =
 If you’ve crafted nice meta descriptions for your blog posts, nothing is more annoying than Google showing another description for your site completely in the search result snippet. 
@@ -152,17 +152,17 @@ Possible causes could be:
 1. Search term manipulation
 1. Google ignored the meta description
 
-You can [read more here on how to solve the issue with the wrong description](https://kb.yoast.com/kb/my-meta-descriptions-arent-showing-up-in-the-search-result-pages/#cache).
+You can [read more here on how to solve the issue with the wrong description](https://yoa.st/3qz).
 
 = How often is Yoast SEO updated? =
-Yoast SEO is updated every two weeks. If you want to know why, please read [this post on why we release every two weeks](https://developer.yoast.com/continuous-delivery-at-yoast/)!
+Yoast SEO is updated every two weeks. If you want to know why, please read [this post on why we release every two weeks](https://yoa.st/3q-)!
 
 = How do I get support? =
-As our free plugin is used by millions of people worldwide, we cannot offer you one on one support. If you have trouble with the Yoast SEO for WordPress plugin, you can get help on the support forums here at [wordpress.org](https://wordpress.org/support/plugin/wordpress-seo/) or by checking out or knowledge base at [kb.yoast.com](https://kb.yoast.com). 
+As our free plugin is used by millions of people worldwide, we cannot offer you one on one support. If you have trouble with the Yoast SEO for WordPress plugin, you can get help on the support forums here at [wordpress.org](https://wordpress.org/support/plugin/wordpress-seo/) or by checking out or knowledge base at [kb.yoast.com](https://yoa.st/3r1). 
 
 The plugins you buy at Yoast are called ‘premium plugins’ (even if Premium isn’t in its name) and include a complete year of free updates and premium support. This means you can contact our support team if you have questions.
 
-[Read more on how to get support](https://kb.yoast.com/kb/support/#free)
+[Read more on how to get support](https://yoa.st/3r2)
 
 = I have a different question than listed here =
 Your question has most likely been answered on our knowledge base: [kb.yoast.com](https://yoa.st/1va).
