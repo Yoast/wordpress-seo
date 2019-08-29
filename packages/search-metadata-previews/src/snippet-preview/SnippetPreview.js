@@ -32,8 +32,10 @@ const colorTitleDesktop         = "#1e0fbe";
 const colorTitleMobile          = "#1967d2";
 const colorUrlDesktop           = "#006621";
 const colorUrlMobile            = "#3c4043";
-const fontSizeUrlDesktop        = "14px";
+const fontSizeUrlDesktop        = "16px";
 const fontSizeUrlMobile         = "12px";
+const fontSizeTitleDesktop      = "20px";
+const fontSizeTitleMobile       = "28px";
 const colorDescriptionDesktop   = "#545454";
 const colorDescriptionMobile    = "#3c4043";
 const colorGeneratedDescription = "#777";
@@ -93,7 +95,7 @@ function addCaretStyle( WithoutCaret, color, mode ) {
 const Title = styled.div`
 	color: ${ props => props.screenMode === MODE_DESKTOP ? colorTitleDesktop : colorTitleMobile };
 	text-decoration: none;
-	font-size: 18px;
+	font-size: ${ props => props.screenMode === MODE_DESKTOP ? fontSizeTitleDesktop : fontSizeTitleMobile };
 	line-height: 1.2;
 	font-weight: normal;
 	margin: 0;
@@ -155,7 +157,7 @@ const DesktopDescription = styled.div`
 	cursor: pointer;
 	position: relative;
 	max-width: ${ MAX_WIDTH }px;
-	font-size: 13px;
+	font-size: 14px;
 `;
 
 const MobileDescription = styled.div`
