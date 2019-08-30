@@ -95,12 +95,13 @@ class WPSEO_Tracking {
 	 *
 	 * @return WPSEO_Collector The instance of the collector.
 	 */
-	protected function get_collector() {
+	public function get_collector() {
 		$collector = new WPSEO_Collector();
 		$collector->add_collection( new WPSEO_Tracking_Default_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Server_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Theme_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Plugin_Data() );
+		$collector->add_collection( new WPSEO_Tracking_Settings_Data() );
 
 		return $collector;
 	}
