@@ -1574,11 +1574,17 @@ class WPSEO_Frontend {
 			$debug_mark = $this->get_debug_mark();
 
 			/*
-			 * Find all titles, strip them out and add the new one in within the debug marker,
+			 * Find title in head, strip it out and add the new one in within the debug marker,
 			 * so it's easily identified whether a site uses force rewrite.
 			 */
-			$content = preg_replace( '/<title.*?\/title>/i', '', $content );
-			$content = str_replace( $debug_mark, $debug_mark . "\n" . '<title>' . esc_html( $title ) . '</title>', $content );
+			preg_match_all( '/<head.*?\/head>/is', $content, $matches );
+			if ( count( $matches ) && count( $matches[0] ) ) {
+				foreach( $matches[0] as $head ) {
+					$head_without_title = preg_replace( '/<title.*?\/title>/is', '', $head );
+					$content = str_replace( $head, $head_without_title, $content );
+				}
+				$content = str_replace( $debug_mark, $debug_mark . "\n" . '<title>' . esc_html( $title ) . '</title>', $content );
+			}
 		}
 
 		$GLOBALS['wp_query'] = $old_wp_query;
