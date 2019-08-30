@@ -111,24 +111,6 @@ class WPSEO_Plugin_Availability {
 				),
 				'version_sync'  => false,
 			),
-
-			'yoastseo-amp' => array(
-				'url'           => 'https://wordpress.org/plugins/glue-for-yoast-seo-amp/',
-				'title'         => 'Yoast SEO AMP Glue',
-				'description'   => sprintf(
-					/* translators: %1$s expands to Yoast SEO */
-					__( 'Seamlessly integrate %1$s into your AMP pages!', 'wordpress-seo' ),
-					'Yoast SEO'
-				),
-				'installed'     => false,
-				'slug'          => 'glue-for-yoast-seo-amp/yoastseo-amp.php',
-				'_dependencies' => array(
-					'AMP' => array(
-						'slug' => 'amp/amp.php',
-					),
-				),
-				'version_sync'  => false,
-			),
 		);
 	}
 
