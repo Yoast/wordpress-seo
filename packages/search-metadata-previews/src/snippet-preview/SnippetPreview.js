@@ -28,15 +28,18 @@ import { angleLeft, angleRight } from "../shared";
  * These colors should not be abstracted. They are chosen because Google renders
  * the snippet like this.
  */
-const colorTitleDesktop         = "#1a0dab"; // was #1e0fbe
+// Was #1e0fbe
+const colorTitleDesktop         = "#1a0dab";
 const colorTitleMobile          = "#1967d2";
 const colorUrlDesktop           = "#006621";
 const colorUrlMobile            = "#3c4043";
 const colorDescriptionDesktop   = "#545454";
 const colorDescriptionMobile    = "#3c4043";
-const colorGeneratedDescription = "#767676"; // 4.5:1 contrast
+// Changed to have 4.5:1 contrast.
+const colorGeneratedDescription = "#767676";
+// Was #70757f for both desktop and mobile
 const colorDateDesktop          = "#777";
-const colorDateMobile           = "#70757a"; // was #70757f for both desktop and mobile
+const colorDateMobile           = "#70757a";
 
 // Font sizes and line-heights.
 const fontSizeTitleMobile    = "16px";
