@@ -28,18 +28,26 @@ import { angleLeft, angleRight } from "../shared";
  * These colors should not be abstracted. They are chosen because Google renders
  * the snippet like this.
  */
-const colorTitleDesktop         = "#1e0fbe";
+const colorTitleDesktop         = "#1a0dab"; // was #1e0fbe
 const colorTitleMobile          = "#1967d2";
 const colorUrlDesktop           = "#006621";
 const colorUrlMobile            = "#3c4043";
-const fontSizeUrlDesktop        = "16px";
-const fontSizeUrlMobile         = "12px";
-const fontSizeTitleDesktop      = "20px";
-const fontSizeTitleMobile       = "28px";
 const colorDescriptionDesktop   = "#545454";
 const colorDescriptionMobile    = "#3c4043";
-const colorGeneratedDescription = "#777";
-const colorDate                 = "#70757f";
+const colorGeneratedDescription = "#767676"; // 4.5:1 contrast
+const colorDateDesktop          = "#777";
+const colorDateMobile           = "#70757a"; // was #70757f for both desktop and mobile
+
+// Font sizes and line-heights.
+const fontSizeTitleMobile    = "16px";
+const lineHeightTitleMobile  = "20px";
+
+const fontSizeTitleDesktop   = "20px";
+const lineHeightTitleDesktop = "1.3";
+
+const fontSizeUrlMobile      = "12px";
+const fontSizeUrlDesktop     = "16px";
+
 
 const MAX_WIDTH         = 600;
 const MAX_WIDTH_MOBILE  = 400;
@@ -47,7 +55,7 @@ const WIDTH_PADDING     = 20;
 const DESCRIPTION_LIMIT = 156;
 
 const DesktopContainer = styled( FixedWidthContainer )`
-	background-color: white;
+	background-color: #fff;
 	font-family: arial, sans-serif;
 	box-sizing: border-box;
 `;
@@ -81,12 +89,14 @@ function addCaretStyle( WithoutCaret, color, mode ) {
 		&::before {
 			display: block;
 			position: absolute;
-			top: -3px;
+			top: 0;
 			${ getDirectionalStyle( "left", "right" ) }: ${ () => mode === MODE_DESKTOP ? "-22px" : "-40px" };
-			width: 24px;
-			height: 24px;
+			width: 22px;
+			height: 22px;
 			background-image: url( ${ getDirectionalStyle( angleRight( color ), angleLeft( color ) ) } );
-			background-size: 25px;
+			background-size: 24px;
+			background-repeat: no-repeat;
+			background-position: center;
 			content: "";
 		}
 	`;
@@ -96,7 +106,7 @@ const Title = styled.div`
 	color: ${ props => props.screenMode === MODE_DESKTOP ? colorTitleDesktop : colorTitleMobile };
 	text-decoration: none;
 	font-size: ${ props => props.screenMode === MODE_DESKTOP ? fontSizeTitleDesktop : fontSizeTitleMobile };
-	line-height: 1.2;
+	line-height: ${ props => props.screenMode === MODE_DESKTOP ? lineHeightTitleDesktop : lineHeightTitleMobile };
 	font-weight: normal;
 	margin: 0;
 	display: inline-block;
@@ -118,9 +128,8 @@ const TitleUnboundedDesktop = styled.span`
 
 const TitleUnboundedMobile = styled.span`
 	display: inline-block;
-	font-size: 16px;
-	line-height: 20px;
 	max-height: 40px; // max two lines of text
+	padding-top: 1px;
 	vertical-align: top;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -133,6 +142,7 @@ const BaseUrl = styled.div`
 	max-width: 90%;
 	white-space: nowrap;
 	font-size: 14px;
+	vertical-align: top;
 `;
 
 const BaseUrlOverflowContainer = styled( BaseUrl )`
@@ -140,8 +150,8 @@ const BaseUrlOverflowContainer = styled( BaseUrl )`
 	text-overflow: ellipsis;
 	max-width: 100%;
 	margin-bottom: ${ props => props.screenMode === MODE_DESKTOP ? "0" : "12px" };
-	padding-top: ${ props => props.screenMode === MODE_DESKTOP ? "0" : "1px" };
-	line-height: ${ props => props.screenMode === MODE_DESKTOP ? "inherit" : "20px" };
+	padding-top: 1px;
+	line-height: ${ props => props.screenMode === MODE_DESKTOP ? "1.5" : "20px" };
 	vertical-align: ${ props => props.screenMode === MODE_DESKTOP ? "baseline" : "top" };
 `;
 
@@ -157,7 +167,9 @@ const DesktopDescription = styled.div`
 	cursor: pointer;
 	position: relative;
 	max-width: ${ MAX_WIDTH }px;
+	padding-top: ${ props => props.screenMode === MODE_DESKTOP ? "0" : "1px" };
 	font-size: 14px;
+	line-height: 1.57;
 `;
 
 const MobileDescription = styled.div`
@@ -204,7 +216,7 @@ const DesktopPartContainer = styled.div`
 
 const UrlDownArrow = styled.div`
 	display: inline-block;
-	margin-top: 6px;
+	margin-top: 9px;
 	margin-left: 6px;
 	border-top: 5px solid #006621;
 	border-right: 4px solid transparent;
@@ -213,7 +225,7 @@ const UrlDownArrow = styled.div`
 `;
 
 const DatePreview = styled.span`
-	color: ${ colorDate };
+	color: ${ props => props.screenMode === MODE_DESKTOP ? colorDateDesktop : colorDateMobile };
 `;
 
 const globeFaviconSrc = "data:image/png;base64," +
@@ -472,9 +484,8 @@ export default class SnippetPreview extends PureComponent {
 		// The u22C5 is the unicode character "dot operator" equivalent to `&sdot;`.
 		const separator = this.props.mode === MODE_DESKTOP ? "-" : "\u22C5";
 
-		return this.props.date === ""
-			? null
-			: <DatePreview>{ this.props.date } { separator } </DatePreview>;
+		return this.props.date &&
+			<DatePreview screenMode={ this.props.mode }>{ this.props.date } { separator } </DatePreview>;
 	}
 
 	/**
