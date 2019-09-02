@@ -78,16 +78,16 @@ describe( "Alert", () => {
 		expect( tree.children.length ).toBe( 3 );
 
 		// Check the last child is the dismissable button.
-		expect( tree.children[2].type ).toBe( "button" );
+		expect( tree.children[ 2 ].type ).toBe( "button" );
 
 		// Inside the button should be the times SVG.
-		expect( tree.children[2].children.length ).toBe( 1 );
-		expect( tree.children[2].children[0].type ).toBe( "svg" );
-		expect( tree.children[2].children[0].props.className.indexOf( "yoast-svg-icon-times" ) ).not.toBe( -1 );
+		expect( tree.children[ 2 ].children.length ).toBe( 1 );
+		expect( tree.children[ 2 ].children[ 0 ].type ).toBe( "svg" );
+		expect( tree.children[ 2 ].children[ 0 ].props.className.indexOf( "yoast-svg-icon-times" ) ).not.toBe( -1 );
 
 		// Check the dismiss action.
-		expect( typeof tree.children[2].props.onClick ).toBe( "function" );
-		tree.children[2].props.onClick();
+		expect( typeof tree.children[ 2 ].props.onClick ).toBe( "function" );
+		tree.children[ 2 ].props.onClick();
 		expect( dismiss ).toHaveBeenCalledTimes( 1 );
 
 		// Match the snapshot.

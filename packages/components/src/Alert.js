@@ -59,7 +59,6 @@ const AlertDismiss = styled( IconButton )`
  * @returns {Alert} The Alert component.
  */
 class Alert extends React.Component {
-
 	/**
 	 * Returns the colors and icon to be used based on the type provided to the props.
 	 *
