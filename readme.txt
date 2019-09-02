@@ -108,7 +108,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 12.0.0 =
 Release Date: September 3rd, 2019
 
-Read more about Yoast SEO 12.0 in [our 12.0 release post](https://yoa.st/release-12-0)!
+Contrary to what the version number might suggest, Yoast SEO 12.0 isn’t a huge release. It’s simply the next release in our current release schedule, but after hitting 11.9 a couple of weeks ago we had no choice but to go for 12.0. That’s how it goes! But don’t worry, there’s enough interesting stuff in this release, including two new checks for the Portuguese language. Read more about Yoast SEO 12.0 in [our 12.0 release post](https://yoa.st/release-12-0)!
 
 Enhancements:
 
