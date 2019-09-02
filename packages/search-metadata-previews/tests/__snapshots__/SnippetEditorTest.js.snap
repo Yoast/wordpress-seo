@@ -20,8 +20,8 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -36,9 +36,8 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -51,6 +50,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -60,6 +60,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -485,6 +486,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
             className="c9"
           >
             
+            
             Totally different description
           </div>
         </div>
@@ -891,8 +893,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -907,9 +909,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -922,6 +923,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -931,6 +933,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -1614,7 +1617,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                 "isStatic": true,
                                 "lastClassName": "c2",
                                 "rules": Array [
-                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                 ],
                               },
                               "displayName": "SnippetPreview__BaseUrl",
@@ -1648,12 +1651,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                       "isStatic": false,
                                       "lastClassName": "c3",
                                       "rules": Array [
-                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                         "overflow:hidden;text-overflow:ellipsis;max-width:100%;margin-bottom:",
                                         [Function],
-                                        ";padding-top:",
-                                        [Function],
-                                        ";line-height:",
+                                        ";padding-top:1px;line-height:",
                                         [Function],
                                         ";vertical-align:",
                                         [Function],
@@ -1822,7 +1823,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:",
+                                        [Function],
+                                        ";font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -1859,7 +1864,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                             "isStatic": true,
                                             "lastClassName": "c8",
                                             "rules": Array [
-                                              "display:inline-block;font-size:16px;line-height:20px;max-height:40px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
+                                              "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
                                           },
                                           "displayName": "SnippetPreview__TitleUnboundedMobile",
@@ -5166,8 +5171,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -5182,9 +5187,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -5197,6 +5201,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -5206,6 +5211,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -5889,7 +5895,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                 "isStatic": true,
                                 "lastClassName": "c2",
                                 "rules": Array [
-                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                 ],
                               },
                               "displayName": "SnippetPreview__BaseUrl",
@@ -5923,12 +5929,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                       "isStatic": false,
                                       "lastClassName": "c3",
                                       "rules": Array [
-                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                         "overflow:hidden;text-overflow:ellipsis;max-width:100%;margin-bottom:",
                                         [Function],
-                                        ";padding-top:",
-                                        [Function],
-                                        ";line-height:",
+                                        ";padding-top:1px;line-height:",
                                         [Function],
                                         ";vertical-align:",
                                         [Function],
@@ -6097,7 +6101,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:",
+                                        [Function],
+                                        ";font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -6134,7 +6142,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                             "isStatic": true,
                                             "lastClassName": "c8",
                                             "rules": Array [
-                                              "display:inline-block;font-size:16px;line-height:20px;max-height:40px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
+                                              "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
                                           },
                                           "displayName": "SnippetPreview__TitleUnboundedMobile",
@@ -9441,8 +9449,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -9457,9 +9465,8 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -9472,6 +9479,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -9481,6 +9489,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -10164,7 +10173,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                 "isStatic": true,
                                 "lastClassName": "c2",
                                 "rules": Array [
-                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                 ],
                               },
                               "displayName": "SnippetPreview__BaseUrl",
@@ -10198,12 +10207,10 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                       "isStatic": false,
                                       "lastClassName": "c3",
                                       "rules": Array [
-                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                         "overflow:hidden;text-overflow:ellipsis;max-width:100%;margin-bottom:",
                                         [Function],
-                                        ";padding-top:",
-                                        [Function],
-                                        ";line-height:",
+                                        ";padding-top:1px;line-height:",
                                         [Function],
                                         ";vertical-align:",
                                         [Function],
@@ -10372,7 +10379,11 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:",
+                                        [Function],
+                                        ";font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -10409,7 +10420,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                             "isStatic": true,
                                             "lastClassName": "c8",
                                             "rules": Array [
-                                              "display:inline-block;font-size:16px;line-height:20px;max-height:40px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
+                                              "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
                                           },
                                           "displayName": "SnippetPreview__TitleUnboundedMobile",
@@ -13716,8 +13727,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -13732,9 +13743,8 @@ exports[`SnippetEditor closes when calling close() 1`] = `
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -13747,6 +13757,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -13756,6 +13767,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -14439,7 +14451,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                 "isStatic": true,
                                 "lastClassName": "c2",
                                 "rules": Array [
-                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                 ],
                               },
                               "displayName": "SnippetPreview__BaseUrl",
@@ -14473,12 +14485,10 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                       "isStatic": false,
                                       "lastClassName": "c3",
                                       "rules": Array [
-                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                         "overflow:hidden;text-overflow:ellipsis;max-width:100%;margin-bottom:",
                                         [Function],
-                                        ";padding-top:",
-                                        [Function],
-                                        ";line-height:",
+                                        ";padding-top:1px;line-height:",
                                         [Function],
                                         ";vertical-align:",
                                         [Function],
@@ -14647,7 +14657,11 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:",
+                                        [Function],
+                                        ";font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -14684,7 +14698,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                             "isStatic": true,
                                             "lastClassName": "c8",
                                             "rules": Array [
-                                              "display:inline-block;font-size:16px;line-height:20px;max-height:40px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
+                                              "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
                                           },
                                           "displayName": "SnippetPreview__TitleUnboundedMobile",
@@ -17818,8 +17832,8 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -17834,9 +17848,8 @@ exports[`SnippetEditor closes when calling close() 2`] = `
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -17849,6 +17862,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -17858,6 +17872,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -18334,7 +18349,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                 "isStatic": true,
                                 "lastClassName": "c2",
                                 "rules": Array [
-                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                 ],
                               },
                               "displayName": "SnippetPreview__BaseUrl",
@@ -18368,12 +18383,10 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                       "isStatic": false,
                                       "lastClassName": "c3",
                                       "rules": Array [
-                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                         "overflow:hidden;text-overflow:ellipsis;max-width:100%;margin-bottom:",
                                         [Function],
-                                        ";padding-top:",
-                                        [Function],
-                                        ";line-height:",
+                                        ";padding-top:1px;line-height:",
                                         [Function],
                                         ";vertical-align:",
                                         [Function],
@@ -18542,7 +18555,11 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:",
+                                        [Function],
+                                        ";font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -18579,7 +18596,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                                             "isStatic": true,
                                             "lastClassName": "c8",
                                             "rules": Array [
-                                              "display:inline-block;font-size:16px;line-height:20px;max-height:40px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
+                                              "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
                                           },
                                           "displayName": "SnippetPreview__TitleUnboundedMobile",
@@ -20241,8 +20258,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -20257,9 +20274,8 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -20272,6 +20288,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -20281,6 +20298,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -20964,7 +20982,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                 "isStatic": true,
                                 "lastClassName": "c2",
                                 "rules": Array [
-                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                 ],
                               },
                               "displayName": "SnippetPreview__BaseUrl",
@@ -20998,12 +21016,10 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                       "isStatic": false,
                                       "lastClassName": "c3",
                                       "rules": Array [
-                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                         "overflow:hidden;text-overflow:ellipsis;max-width:100%;margin-bottom:",
                                         [Function],
-                                        ";padding-top:",
-                                        [Function],
-                                        ";line-height:",
+                                        ";padding-top:1px;line-height:",
                                         [Function],
                                         ";vertical-align:",
                                         [Function],
@@ -21172,7 +21188,11 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:",
+                                        [Function],
+                                        ";font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -21209,7 +21229,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                             "isStatic": true,
                                             "lastClassName": "c8",
                                             "rules": Array [
-                                              "display:inline-block;font-size:16px;line-height:20px;max-height:40px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
+                                              "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
                                           },
                                           "displayName": "SnippetPreview__TitleUnboundedMobile",
@@ -24516,8 +24536,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -24532,9 +24552,8 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -24547,6 +24566,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -24556,6 +24576,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -25239,7 +25260,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                 "isStatic": true,
                                 "lastClassName": "c2",
                                 "rules": Array [
-                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                 ],
                               },
                               "displayName": "SnippetPreview__BaseUrl",
@@ -25273,12 +25294,10 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                       "isStatic": false,
                                       "lastClassName": "c3",
                                       "rules": Array [
-                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                         "overflow:hidden;text-overflow:ellipsis;max-width:100%;margin-bottom:",
                                         [Function],
-                                        ";padding-top:",
-                                        [Function],
-                                        ";line-height:",
+                                        ";padding-top:1px;line-height:",
                                         [Function],
                                         ";vertical-align:",
                                         [Function],
@@ -25447,7 +25466,11 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:",
+                                        [Function],
+                                        ";font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -25484,7 +25507,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                             "isStatic": true,
                                             "lastClassName": "c8",
                                             "rules": Array [
-                                              "display:inline-block;font-size:16px;line-height:20px;max-height:40px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
+                                              "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
                                           },
                                           "displayName": "SnippetPreview__TitleUnboundedMobile",
@@ -28618,8 +28641,8 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -28634,9 +28657,8 @@ exports[`SnippetEditor highlights a focused field 1`] = `
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -28649,6 +28671,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -28658,6 +28681,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -29083,6 +29107,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
             className="c9"
           >
             
+            
             Test description, %%replacement_variable%%
           </div>
         </div>
@@ -29208,8 +29233,8 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -29224,9 +29249,8 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -29239,6 +29263,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -29248,6 +29273,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -29672,6 +29698,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
           <div
             className="c9"
           >
+            
             
             Test description, %%replacement_variable%%
           </div>
@@ -29971,8 +29998,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -29987,9 +30014,8 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -30002,6 +30028,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -30011,6 +30038,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -30518,12 +30546,14 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
 .c9::before {
   display: block;
   position: absolute;
-  top: -3px;
+  top: 0;
   left: -40px;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23555%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
-  background-size: 25px;
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
   content: "";
 }
 
@@ -30721,7 +30751,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                 "isStatic": true,
                                 "lastClassName": "c2",
                                 "rules": Array [
-                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                 ],
                               },
                               "displayName": "SnippetPreview__BaseUrl",
@@ -30755,12 +30785,10 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                       "isStatic": false,
                                       "lastClassName": "c3",
                                       "rules": Array [
-                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                         "overflow:hidden;text-overflow:ellipsis;max-width:100%;margin-bottom:",
                                         [Function],
-                                        ";padding-top:",
-                                        [Function],
-                                        ";line-height:",
+                                        ";padding-top:1px;line-height:",
                                         [Function],
                                         ";vertical-align:",
                                         [Function],
@@ -30929,7 +30957,11 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:",
+                                        [Function],
+                                        ";font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -30966,7 +30998,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                             "isStatic": true,
                                             "lastClassName": "c8",
                                             "rules": Array [
-                                              "display:inline-block;font-size:16px;line-height:20px;max-height:40px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
+                                              "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
                                           },
                                           "displayName": "SnippetPreview__TitleUnboundedMobile",
@@ -31079,13 +31111,13 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                   ";font-size:14px;line-height:20px;cursor:pointer;position:relative;max-width:",
                                   "600",
                                   "px;&:after{display:table;content:\\"\\";clear:both;}",
-                                  "&::before{display:block;position:absolute;top:-3px;",
+                                  "&::before{display:block;position:absolute;top:0;",
                                   [Function],
                                   ":",
                                   [Function],
-                                  ";width:24px;height:24px;background-image:url( ",
+                                  ";width:22px;height:22px;background-image:url( ",
                                   [Function],
-                                  " );background-size:25px;content:\\"\\";}",
+                                  " );background-size:24px;background-repeat:no-repeat;background-position:center;content:\\"\\";}",
                                 ],
                               },
                               "displayName": "SnippetPreview",
@@ -34282,8 +34314,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -34298,9 +34330,8 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -34313,6 +34344,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -34322,6 +34354,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -34829,12 +34862,14 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
 .c9::before {
   display: block;
   position: absolute;
-  top: -3px;
+  top: 0;
   left: -40px;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   background-image: url( data:image/svg+xml;charset=utf8,%3Csvg%20width%3D%221792%22%20height%3D%221792%22%20viewBox%3D%220%200%201792%201792%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M1152%20896q0%2026-19%2045l-448%20448q-19%2019-45%2019t-45-19-19-45v-896q0-26%2019-45t45-19%2045%2019l448%20448q19%2019%2019%2045z%22%20%2F%3E%3C%2Fsvg%3E );
-  background-size: 25px;
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
   content: "";
 }
 
@@ -35032,7 +35067,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                 "isStatic": true,
                                 "lastClassName": "c2",
                                 "rules": Array [
-                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                 ],
                               },
                               "displayName": "SnippetPreview__BaseUrl",
@@ -35066,12 +35101,10 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                       "isStatic": false,
                                       "lastClassName": "c3",
                                       "rules": Array [
-                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                         "overflow:hidden;text-overflow:ellipsis;max-width:100%;margin-bottom:",
                                         [Function],
-                                        ";padding-top:",
-                                        [Function],
-                                        ";line-height:",
+                                        ";padding-top:1px;line-height:",
                                         [Function],
                                         ";vertical-align:",
                                         [Function],
@@ -35240,7 +35273,11 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:",
+                                        [Function],
+                                        ";font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -35277,7 +35314,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                             "isStatic": true,
                                             "lastClassName": "c8",
                                             "rules": Array [
-                                              "display:inline-block;font-size:16px;line-height:20px;max-height:40px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
+                                              "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
                                           },
                                           "displayName": "SnippetPreview__TitleUnboundedMobile",
@@ -35390,13 +35427,13 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                   ";font-size:14px;line-height:20px;cursor:pointer;position:relative;max-width:",
                                   "600",
                                   "px;&:after{display:table;content:\\"\\";clear:both;}",
-                                  "&::before{display:block;position:absolute;top:-3px;",
+                                  "&::before{display:block;position:absolute;top:0;",
                                   [Function],
                                   ":",
                                   [Function],
-                                  ";width:24px;height:24px;background-image:url( ",
+                                  ";width:22px;height:22px;background-image:url( ",
                                   [Function],
-                                  " );background-size:25px;content:\\"\\";}",
+                                  " );background-size:24px;background-repeat:no-repeat;background-position:center;content:\\"\\";}",
                                 ],
                               },
                               "displayName": "SnippetPreview",
@@ -38593,8 +38630,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -38609,9 +38646,8 @@ exports[`SnippetEditor opens when calling open() 1`] = `
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -38624,6 +38660,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -38633,6 +38670,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -39316,7 +39354,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                 "isStatic": true,
                                 "lastClassName": "c2",
                                 "rules": Array [
-                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                 ],
                               },
                               "displayName": "SnippetPreview__BaseUrl",
@@ -39350,12 +39388,10 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                       "isStatic": false,
                                       "lastClassName": "c3",
                                       "rules": Array [
-                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                         "overflow:hidden;text-overflow:ellipsis;max-width:100%;margin-bottom:",
                                         [Function],
-                                        ";padding-top:",
-                                        [Function],
-                                        ";line-height:",
+                                        ";padding-top:1px;line-height:",
                                         [Function],
                                         ";vertical-align:",
                                         [Function],
@@ -39524,7 +39560,11 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:",
+                                        [Function],
+                                        ";font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -39561,7 +39601,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                             "isStatic": true,
                                             "lastClassName": "c8",
                                             "rules": Array [
-                                              "display:inline-block;font-size:16px;line-height:20px;max-height:40px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
+                                              "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
                                           },
                                           "displayName": "SnippetPreview__TitleUnboundedMobile",
@@ -42868,8 +42908,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -42884,9 +42924,8 @@ exports[`SnippetEditor passes replacement variables to the title and description
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -42899,6 +42938,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -42908,6 +42948,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -43602,7 +43643,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                 "isStatic": true,
                                 "lastClassName": "c2",
                                 "rules": Array [
-                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                 ],
                               },
                               "displayName": "SnippetPreview__BaseUrl",
@@ -43636,12 +43677,10 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                       "isStatic": false,
                                       "lastClassName": "c3",
                                       "rules": Array [
-                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                         "overflow:hidden;text-overflow:ellipsis;max-width:100%;margin-bottom:",
                                         [Function],
-                                        ";padding-top:",
-                                        [Function],
-                                        ";line-height:",
+                                        ";padding-top:1px;line-height:",
                                         [Function],
                                         ";vertical-align:",
                                         [Function],
@@ -43810,7 +43849,11 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:",
+                                        [Function],
+                                        ";font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -43847,7 +43890,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                             "isStatic": true,
                                             "lastClassName": "c8",
                                             "rules": Array [
-                                              "display:inline-block;font-size:16px;line-height:20px;max-height:40px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
+                                              "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
                                           },
                                           "displayName": "SnippetPreview__TitleUnboundedMobile",
@@ -47036,8 +47079,8 @@ exports[`SnippetEditor passes the date prop 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -47052,9 +47095,8 @@ exports[`SnippetEditor passes the date prop 1`] = `
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -47067,6 +47109,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -47076,6 +47119,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -47114,7 +47158,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
 }
 
 .c10 {
-  color: #70757f;
+  color: #70757a;
 }
 
 .c4 {
@@ -47919,8 +47963,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -47935,9 +47979,8 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -47950,6 +47993,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -47959,6 +48003,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -48642,7 +48687,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                 "isStatic": true,
                                 "lastClassName": "c2",
                                 "rules": Array [
-                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                  "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                 ],
                               },
                               "displayName": "SnippetPreview__BaseUrl",
@@ -48676,12 +48721,10 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                       "isStatic": false,
                                       "lastClassName": "c3",
                                       "rules": Array [
-                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;",
+                                        "display:inline-block;cursor:pointer;position:relative;max-width:90%;white-space:nowrap;font-size:14px;vertical-align:top;",
                                         "overflow:hidden;text-overflow:ellipsis;max-width:100%;margin-bottom:",
                                         [Function],
-                                        ";padding-top:",
-                                        [Function],
-                                        ";line-height:",
+                                        ";padding-top:1px;line-height:",
                                         [Function],
                                         ";vertical-align:",
                                         [Function],
@@ -48850,7 +48893,11 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                       "rules": Array [
                                         "color:",
                                         [Function],
-                                        ";text-decoration:none;font-size:18px;line-height:1.2;font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
+                                        ";text-decoration:none;font-size:",
+                                        [Function],
+                                        ";line-height:",
+                                        [Function],
+                                        ";font-weight:normal;margin:0;display:inline-block;overflow:hidden;max-width:",
                                         "600",
                                         "px;vertical-align:top;text-overflow:ellipsis;",
                                         "max-width:",
@@ -48887,7 +48934,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                             "isStatic": true,
                                             "lastClassName": "c8",
                                             "rules": Array [
-                                              "display:inline-block;font-size:16px;line-height:20px;max-height:40px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
+                                              "display:inline-block;max-height:40px;padding-top:1px;vertical-align:top;overflow:hidden;text-overflow:ellipsis;",
                                             ],
                                           },
                                           "displayName": "SnippetPreview__TitleUnboundedMobile",
@@ -52015,7 +52062,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 }
 
 .c0 {
-  background-color: white;
+  background-color: #fff;
   font-family: arial,sans-serif;
   box-sizing: border-box;
 }
@@ -52026,11 +52073,11 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
 }
 
 .c4 {
-  color: #1e0fbe;
+  color: #1a0dab;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 20px;
+  line-height: 1.3;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -52054,6 +52101,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c7 {
@@ -52063,17 +52111,18 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
   margin-bottom: 0;
-  padding-top: 0;
-  line-height: inherit;
+  padding-top: 1px;
+  line-height: 1.5;
   vertical-align: baseline;
 }
 
 .c8 {
-  font-size: 14px;
+  font-size: 16px;
   color: #006621;
 }
 
@@ -52082,12 +52131,14 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
   cursor: pointer;
   position: relative;
   max-width: 600px;
-  font-size: 13px;
+  padding-top: 1px;
+  font-size: 14px;
+  line-height: 1.57;
 }
 
 .c9 {
   display: inline-block;
-  margin-top: 6px;
+  margin-top: 9px;
   margin-left: 6px;
   border-top: 5px solid #006621;
   border-right: 4px solid transparent;
@@ -52471,6 +52522,7 @@ exports[`SnippetEditor renders in desktop mode 1`] = `
             onMouseLeave={[Function]}
             onMouseUp={[Function]}
           >
+            
             Test description, %%replacement_variable%%
           </div>
         </div>
@@ -52769,8 +52821,8 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -52785,9 +52837,8 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -52800,6 +52851,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -52809,6 +52861,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -53281,6 +53334,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
             className="c9"
           >
             
+            
             Test description, %%replacement_variable%%
           </div>
         </div>
@@ -53501,8 +53555,8 @@ exports[`SnippetEditor shows the editor 1`] = `
   color: #1967d2;
   -webkit-text-decoration: none;
   text-decoration: none;
-  font-size: 18px;
-  line-height: 1.2;
+  font-size: 16px;
+  line-height: 20px;
   font-weight: normal;
   margin: 0;
   display: inline-block;
@@ -53517,9 +53571,8 @@ exports[`SnippetEditor shows the editor 1`] = `
 
 .c8 {
   display: inline-block;
-  font-size: 16px;
-  line-height: 20px;
   max-height: 40px;
+  padding-top: 1px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -53532,6 +53585,7 @@ exports[`SnippetEditor shows the editor 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
 }
 
 .c3 {
@@ -53541,6 +53595,7 @@ exports[`SnippetEditor shows the editor 1`] = `
   max-width: 90%;
   white-space: nowrap;
   font-size: 14px;
+  vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
@@ -53965,6 +54020,7 @@ exports[`SnippetEditor shows the editor 1`] = `
           <div
             className="c9"
           >
+            
             
             Test description, %%replacement_variable%%
           </div>
