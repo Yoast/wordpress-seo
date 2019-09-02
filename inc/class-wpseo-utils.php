@@ -1081,6 +1081,22 @@ SVG;
 	}
 
 	/**
+	 * Returns the l10n array for the knowledge graph company info missing.
+	 *
+	 * @return array The l10n array.
+	 */
+	public static function get_knowledge_graph_company_info_missing_l10n() {
+		return array(
+			'URL'     => esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3r3' ) ),
+			/* translators: 1: expands to a link opening tag; 2: expands to a link closing tag */
+			'message' => esc_html__(
+				'A company name and logo need to be set for structured data to work properly. %1$sLearn more about the importance of structured data.%2$s',
+				'wordpress-seo'
+			),
+		);
+	}
+
+	/**
 	 * Retrieves the analysis worker log level. Defaults to errors only.
 	 *
 	 * Uses bool YOAST_SEO_DEBUG as flag to enable logging. Off equals ERROR.
