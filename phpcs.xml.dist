@@ -62,7 +62,10 @@
 	#############################################################################
 	-->
 	<config name="testVersion" value="5.2-"/>
-	<rule ref="PHPCompatibilityWP"/>
+	<rule ref="PHPCompatibilityWP">
+		<!-- Issue related to PHP < 5.2.3, minimum version is 5.2.4. -->
+		<exclude name="PHPCompatibility.FunctionUse.NewFunctionParameters.htmlspecialchars_double_encodeFound"/>
+	</rule>
 
 	<!-- WP-CLI and src (indexables) have a minimum PHP requirement of PHP 5.6. -->
 	<rule ref="PHPCompatibility.LanguageConstructs.NewLanguageConstructs.t_ns_separatorFound">
