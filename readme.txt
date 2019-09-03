@@ -105,6 +105,35 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 12.1.0 =
+Release Date: September 17th, 2019
+
+Read more about Yoast SEO 12.1 in [our 12.1 release post](https://yoa.st/release-12-1)!
+
+Enhancements:
+
+* Adds a `get_robots` method to retrieve the robot HTML without it being output. Props to [@bradymwilliams](https://github.com/bradymwilliams).
+* Adds a filter `yoast_free_schema_company_name` that allows filtering Yoast company name setting. Props to [@andrewgillingham](https://github.com/andrewgillingham).
+* Adds a filter `yoast_free_schema_company_logo_id` that allows filtering Yoast company logo setting. Props to [@andrewgillingham](https://github.com/andrewgillingham).
+* Adds a filter `wpseo_sitemap_exclude_empty_terms_taxonomy` to make the hide or show empty terms decision, per taxonomy.
+* Adds a filter `wpseo_enable_structured_data_blocks` to allow disabling Yoast's Structured Data block editor blocks.
+* Adds collapsible around the hidden problems and notifications on the Yoast dashboard.
+* Improves user input validation in the Yoast settings pages.
+* Improves the snippet preview icon by using the site icon when available.
+* Improves the consistency of the plugin icons.
+
+Bugfixes:
+
+* Changes the `sslverify` argument for remote requests to `true` (the default).
+* Fixes a bug where the primary term selector would not display HTML entities properly. Props to [@dlh01](https://github.com/dlh01).
+
+Other:
+
+* Allows showing specific dashboard feeds based on the wp_version and php_version of a site.
+* Changes desktop snippet preview to match Google's new font sizes.
+* Removes the AMP Glue plugin suggestion from the SEO dashboard when AMP and Yoast SEO are installed. The AMP Glue plugin by Yoast is being discontinued.
+* Removes the `Courses` menu-item in Yoast SEO.
+
 = 12.0.0 =
 Release Date: September 3rd, 2019
 
@@ -124,20 +153,6 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where a 404 error would be shown for the second sitemap (and up) of the author sitemaps in case of multiple author sitemaps.
-
-= 11.9.0 =
-Release Date: August 20th, 2019
-
-Are you ready for another exciting release to round up the Yoast SEO 11 cycle? Because we are! In Yoast SEO 11.9 we have improvements for security and accessibility. Read more about Yoast SEO 11.9 in [our 11.9 release post](https://yoa.st/release-11-9)!
-
-Enhancements:
-
-* Improves security by adding output escaping.
-
-Bugfixes:
-
-* Fixes a bug where the image from the configuration wizard notification was missing an empty alt attribute.
-* Fixes a bug where some translations would be missing in the metabox, sidebar, configuration wizard and the help center.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
