@@ -22,6 +22,11 @@ use Yoast\WP\Free\Tests\TestCase;
  */
 class Indexable_Term_Builder_Test extends TestCase {
 
+	/**
+	 * Options being mocked.
+	 *
+	 * @var array
+	 */
 	protected $mocked_options = [ 'wpseo', 'wpseo_titles', 'wpseo_social', 'wpseo_ms' ];
 
 	/**

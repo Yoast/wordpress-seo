@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\ORM;
 
-use YoastSEO_Vendor\Psr\Log\LoggerInterface;
 use Yoast\WP\Free\Exceptions\Missing_Method;
 
 /**
@@ -61,7 +60,7 @@ class Yoast_Model {
 	/**
 	 * Set a logger to use for all models.
 	 *
-	 * @var LoggerInterface $logger
+	 * @var \YoastSEO_Vendor\Psr\Log\LoggerInterface $logger
 	 */
 	public static $logger;
 

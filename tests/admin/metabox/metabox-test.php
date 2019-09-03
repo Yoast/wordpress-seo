@@ -55,24 +55,28 @@ class Metabox_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'yoast_free_additional_metabox_sections' )
 			->once()
 			->with( [] )
-			->andReturn( [ [
-				"name" => "tab-name",
-				"link_content" => "Testing Tab",
-				"content" => "Testing 1 2 3",
-				"options" => [
-					'link_class' => 'tab-class',
-					'link_aria_label' => 'this-is-a-tab',
-				],
-			] ] );
+			->andReturn(
+				[
+					[
+						'name'         => 'tab-name',
+						'link_content' => 'Testing Tab',
+						'content'      => 'Testing 1 2 3',
+						'options'      => [
+							'link_class'      => 'tab-class',
+							'link_aria_label' => 'this-is-a-tab',
+						],
+					],
+				]
+			);
 
 		$actual = $this->instance->get_additional_meta_sections();
-		$this->assertSame( 1, count( $actual ) );
+		$this->assertSame( 1, \count( $actual ) );
 
-		$entry = array_pop( $actual );
+		$entry = \array_pop( $actual );
 		$this->assertInstanceOf( WPSEO_Metabox_Section_Additional::class, $entry );
 
-		$this->assertSame( "tab-name", $entry->name );
-		$this->assertSame( "Testing 1 2 3", $entry->content );
+		$this->assertSame( 'tab-name', $entry->name );
+		$this->assertSame( 'Testing 1 2 3', $entry->content );
 	}
 
 	/**
@@ -84,16 +88,26 @@ class Metabox_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'yoast_free_additional_metabox_sections' )
 			->once()
 			->with( [] )
-			->andReturn( [ "not an array", [ "name" => "tab-name", "link_content" => "Testing Tab", "content" => "Testing 1 2 3" ], 123 ] );
+			->andReturn(
+				[
+					'not an array',
+					[
+						'name'         => 'tab-name',
+						'link_content' => 'Testing Tab',
+						'content'      => 'Testing 1 2 3',
+					],
+					123,
+				]
+			);
 
 		$actual = $this->instance->get_additional_meta_sections();
-		$this->assertSame( 1, count( $actual ) );
+		$this->assertSame( 1, \count( $actual ) );
 
-		$entry = array_pop( $actual );
+		$entry = \array_pop( $actual );
 		$this->assertInstanceOf( WPSEO_Metabox_Section_Additional::class, $entry );
 
-		$this->assertSame( "tab-name", $entry->name );
-		$this->assertSame( "Testing 1 2 3", $entry->content );
+		$this->assertSame( 'tab-name', $entry->name );
+		$this->assertSame( 'Testing 1 2 3', $entry->content );
 	}
 
 	/**
@@ -105,9 +119,16 @@ class Metabox_Test extends TestCase {
 		Monkey\Filters\expectApplied( 'yoast_free_additional_metabox_sections' )
 			->once()
 			->with( [] )
-			->andReturn( [ [ "link_content" => "Testing Tab", "content" => "Testing 1 2 3" ] ] );
+			->andReturn(
+				[
+					[
+						'link_content' => 'Testing Tab',
+						'content'      => 'Testing 1 2 3',
+					],
+				]
+			);
 
 		$actual = $this->instance->get_additional_meta_sections();
-		$this->assertSame( 0, count( $actual ) );
+		$this->assertSame( 0, \count( $actual ) );
 	}
 }

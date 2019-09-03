@@ -97,6 +97,8 @@ class WPSEO_Option_MS extends WPSEO_Option {
 
 		if ( is_multisite() ) {
 			parent::__construct();
+
+			add_filter( 'admin_title', array( 'Yoast_Input_Validation', 'add_yoast_admin_document_title_errors' ) );
 		}
 	}
 

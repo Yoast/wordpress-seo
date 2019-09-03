@@ -55,17 +55,17 @@ class Loader_Pass implements CompilerPassInterface {
 	private function process_definition( Definition $definition, Definition $loader_definition ) {
 		$class = $definition->getClass();
 
-		if ( is_subclass_of( $class, Initializer::class ) ) {
+		if ( \is_subclass_of( $class, Initializer::class ) ) {
 			$loader_definition->addMethodCall( 'register_initializer', [ $class ] );
 			$definition->setPublic( true );
 		}
 
-		if ( is_subclass_of( $class, Integration::class ) ) {
+		if ( \is_subclass_of( $class, Integration::class ) ) {
 			$loader_definition->addMethodCall( 'register_integration', [ $class ] );
 			$definition->setPublic( true );
 		}
 
-		if ( is_subclass_of( $class, Conditional::class ) ) {
+		if ( \is_subclass_of( $class, Conditional::class ) ) {
 			$definition->setPublic( true );
 		}
 	}
