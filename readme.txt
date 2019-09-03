@@ -114,9 +114,9 @@ Enhancements:
 
 * Adds a filter `wpseo_exclude_from_sitemap_by_term_ids` that allows excluding a term from the XML sitemap.
 * Adds a filter `wpseo_xml_sitemap_include_images` that allows excluding images from the XML sitemap.
-* Adds a maximum width to the metabox. Props [@justemoilouise](https://github.com/justemoilouise).
+* Adds a maximum width to the metabox, props to [@justemoilouise](https://github.com/justemoilouise).
 * Adds support for the assessment that checks whether multiple sentences begin with the same word for Portuguese, props to [amesdigital](https://github.com/amesdigital).
-* Improves the wording in the configuration wizard notification. Props [@emilyatmobtown](https://github.com/emilyatmobtown).
+* Improves the wording in the configuration wizard notification, props to [@emilyatmobtown](https://github.com/emilyatmobtown).
 * Improves user input validation for URLs.
 * Improves the sentence length assessment for Portuguese by increasing the recommended sentence length limit, props to [amesdigital](https://github.com/amesdigital).
 * Updates the document title with a message to communicate form submission errors have occurred.
