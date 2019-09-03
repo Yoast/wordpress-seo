@@ -90,6 +90,7 @@ class WPSEO_Frontend {
 
 		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
 		add_action( 'wp_head', array( $this, 'head' ), 1 );
+		add_action( 'amp_story_head', array( $this, 'head' ), 1 );
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality.
 		add_action( 'wpseo_head', array( $this, 'debug_mark' ), 2 );
@@ -100,10 +101,13 @@ class WPSEO_Frontend {
 
 		// Remove actions that we will handle through our wpseo_head call, and probably change the output of.
 		remove_action( 'wp_head', 'rel_canonical' );
+		remove_action( 'amp_story_head', 'rel_canonical' );
 		remove_action( 'wp_head', 'index_rel_link' );
 		remove_action( 'wp_head', 'start_post_rel_link' );
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
+		remove_action( 'amp_story_head', 'adjacent_posts_rel_link_wp_head' );
 		remove_action( 'wp_head', 'noindex', 1 );
+		remove_action( 'amp_story_head', 'noindex', 1 );
 
 		// When using WP 4.4, just use the new hook.
 		add_filter( 'pre_get_document_title', array( $this, 'title' ), 15 );
