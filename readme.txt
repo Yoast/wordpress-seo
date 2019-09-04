@@ -112,12 +112,13 @@ Read more about Yoast SEO 12.1 in [our 12.1 release post](https://yoa.st/release
 
 Enhancements:
 
-* Adds a `get_robots` method to retrieve the robot HTML without it being output. Props to [@bradymwilliams](https://github.com/bradymwilliams).
+* Updates desktop snippet preview to match Google's new font sizes.
+* Adds collapsible around the hidden problems and notifications on the Yoast dashboard.
 * Adds a filter `yoast_free_schema_company_name` that allows filtering Yoast company name setting. Props to [@andrewgillingham](https://github.com/andrewgillingham).
 * Adds a filter `yoast_free_schema_company_logo_id` that allows filtering Yoast company logo setting. Props to [@andrewgillingham](https://github.com/andrewgillingham).
-* Adds a filter `wpseo_sitemap_exclude_empty_terms_taxonomy` to make the hide or show empty terms decision, per taxonomy.
+* Adds a filter `wpseo_sitemap_exclude_empty_terms_taxonomy` to control hiding empty terms per taxonomy.
 * Adds a filter `wpseo_enable_structured_data_blocks` to allow disabling Yoast's Structured Data block editor blocks.
-* Adds collapsible around the hidden problems and notifications on the Yoast dashboard.
+* Adds a `get_robots` method to retrieve the robot HTML without it being output. Props to [@bradymwilliams](https://github.com/bradymwilliams).
 * Improves user input validation in the Yoast settings pages.
 * Improves the snippet preview icon by using the site icon when available.
 * Improves the consistency of the plugin icons.
@@ -129,8 +130,7 @@ Bugfixes:
 
 Other:
 
-* Allows showing specific dashboard feeds based on the wp_version and php_version of a site.
-* Changes desktop snippet preview to match Google's new font sizes.
+* Allows showing specific dashboard feeds based on the `wp_version` and `php_version` of a site.
 * Removes the AMP Glue plugin suggestion from the SEO dashboard when AMP and Yoast SEO are installed. The AMP Glue plugin by Yoast is being discontinued.
 * Removes the `Courses` menu-item in Yoast SEO.
 
