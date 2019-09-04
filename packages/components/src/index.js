@@ -46,6 +46,7 @@ export { default as KeywordSuggestions } from "./KeywordSuggestions";
 export { default as Label } from "./Label";
 export { default as LanguageNotice, languageNoticePropType } from "./LanguageNotice";
 export { default as Loader } from "./Loader";
+export { default as MultiStepProgress } from "./MultiStepProgress";
 export { default as Notification } from "./Notification";
 export { default as Paper } from "./Paper";
 export { default as ProgressBar } from "./ProgressBar";
