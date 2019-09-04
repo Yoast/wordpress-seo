@@ -1,9 +1,43 @@
 // External dependencies.
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
+
+// Yoast dependencies.
+import { colors } from "@yoast/style-guide";
 
 import SvgIcon from "./SvgIcon";
+
+const SpinnerCSS = createGlobalStyle`
+	.yoast-svg-icon-loading-spinner {
+		animation: rotator 1.4s linear infinite;
+	}
+
+	@keyframes rotator {
+		0% { transform: rotate( 0deg ); }
+		100% { transform: rotate( 270deg ); }
+	}
+
+	.yoast-svg-icon-loading-spinner .path {
+		stroke: #64a60a;
+		stroke-dasharray: 187;
+		stroke-dashoffset: 0;
+		transform-origin: center;
+		animation: dash 1.4s ease-in-out infinite;
+	}
+
+	@keyframes dash {
+		0% { stroke-dashoffset: 187; }
+		50% {
+			stroke-dashoffset: 44;
+			transform: rotate( 135deg );
+		}
+		100% {
+			stroke-dashoffset: 187;
+			transform: rotate( 450deg );
+		}
+	}
+`;
 
 const MultiStepProgressContainer = styled.ol`
 	list-style: none;
@@ -11,8 +45,7 @@ const MultiStepProgressContainer = styled.ol`
 	counter-reset: multi-step-progress-counter;
 	
 	background: white;
-	
-	
+
 	li {
 		counter-increment: multi-step-progress-counter;
 	}
@@ -31,12 +64,12 @@ const MultiStepProgressListItem = styled.li`
 	::before {
 		content: counter( multi-step-progress-counter );
 		font-size: 12px;
-		background: purple;
+		background: ${ colors.$color_pink_dark };
 		border-radius: 50%;
 		width: 16px;
 		height: 16px;
 		padding: 4px;
-		color: white;
+		color: ${ colors.$color_white };
 		text-align: center;
 		display: inline-block;
 	}
@@ -44,7 +77,7 @@ const MultiStepProgressListItem = styled.li`
 
 const MultiStepProgressPendingStatus = styled( MultiStepProgressListItem )`
 	span {
-		color: lightslategray;
+		color: ${ colors.$palette_grey_text_light };
 	}
 `;
 
@@ -61,7 +94,6 @@ const MultiStepProgressFinishedStatus = styled( MultiStepProgressListItem )`
  * A component to track multiple steps in a process.
  */
 class MultiStepProgress extends React.Component {
-
 	/**
 	 * Returns the rendered html.
 	 *
@@ -70,7 +102,7 @@ class MultiStepProgress extends React.Component {
 	render() {
 		return(
 			<MultiStepProgressContainer>
-				{ this.props.steps.map( step => {
+				{ this.props.steps.map( ( step ) => {
 					switch ( step.status ) {
 						case "running":
 							return this.renderBusyState( step );
@@ -89,7 +121,7 @@ class MultiStepProgress extends React.Component {
 
 	renderPendingState( step ) {
 		return (
-			<MultiStepProgressPendingStatus>
+			<MultiStepProgressPendingStatus key="pending">
 				<span>{ step.text }</span>
 			</MultiStepProgressPendingStatus>
 		);
@@ -97,27 +129,28 @@ class MultiStepProgress extends React.Component {
 
 	renderBusyState( step ) {
 		return (
-			<MultiStepProgressBusyStatus>
+			<MultiStepProgressBusyStatus key="123">
 				<span>{ step.text }</span>
-				<SvgIcon icon="loading-spinner" color="grey" />
+				<SvgIcon icon="loading-spinner" />
+				<SpinnerCSS />
 			</MultiStepProgressBusyStatus>
 		);
 	}
 
 	renderFinishedState( step ) {
 		return (
-			<MultiStepProgressFinishedStatus>
+			<MultiStepProgressFinishedStatus key="234">
 				<span>{ step.text }</span>
-				<SvgIcon icon="check" color="green" />
+				<SvgIcon icon="check" color={ colors.$color_green_medium_light } />
 			</MultiStepProgressFinishedStatus>
 		);
 	}
 
 	renderFailedState( step ) {
 		return (
-			<MultiStepProgressFailedStatus>
+			<MultiStepProgressFailedStatus key="345">
 				<span>{ step.text }</span>
-				<SvgIcon icon="times" color="red" />
+				<SvgIcon icon="times" color={ colors.$color_red } />
 			</MultiStepProgressFailedStatus>
 		);
 	}
