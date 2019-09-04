@@ -281,6 +281,15 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Retrieves the value of the static $addons property.
+	 *
+	 * @return array The addon mapping.
+	 */
+	public static function get_addon_mapping() {
+		return self::$addons;
+	}
+
+	/**
 	 * Checks whether a plugin expiry date has been passed.
 	 *
 	 * @param stdClass $subscription Plugin subscription.
