@@ -2369,6 +2369,31 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -2789,6 +2814,31 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -3207,6 +3257,31 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                       "viewbox": "0 0 1792 1792",
                     },
                     "loading-spinner": Object {
+                      "CustomComponent": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "width:",
+                            [Function],
+                            ";height:",
+                            [Function],
+                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                            "#000",
+                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                          ],
+                        },
+                        "displayName": "SvgIcon__StyledSvgSpinner",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                        "target": "svg",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      },
                       "path": Array [
                         <circle
                           className="path"
@@ -3748,6 +3823,31 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -4546,6 +4646,31 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -6644,6 +6769,31 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -7064,6 +7214,31 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -7482,6 +7657,31 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                       "viewbox": "0 0 1792 1792",
                     },
                     "loading-spinner": Object {
+                      "CustomComponent": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "width:",
+                            [Function],
+                            ";height:",
+                            [Function],
+                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                            "#000",
+                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                          ],
+                        },
+                        "displayName": "SvgIcon__StyledSvgSpinner",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                        "target": "svg",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      },
                       "path": Array [
                         <circle
                           className="path"
@@ -8023,6 +8223,31 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -8821,6 +9046,31 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -10919,6 +11169,31 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -11339,6 +11614,31 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -11757,6 +12057,31 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                       "viewbox": "0 0 1792 1792",
                     },
                     "loading-spinner": Object {
+                      "CustomComponent": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "width:",
+                            [Function],
+                            ";height:",
+                            [Function],
+                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                            "#000",
+                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                          ],
+                        },
+                        "displayName": "SvgIcon__StyledSvgSpinner",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                        "target": "svg",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      },
                       "path": Array [
                         <circle
                           className="path"
@@ -12298,6 +12623,31 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -13096,6 +13446,31 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -15194,6 +15569,31 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -15614,6 +16014,31 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -16032,6 +16457,31 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                       "viewbox": "0 0 1792 1792",
                     },
                     "loading-spinner": Object {
+                      "CustomComponent": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "width:",
+                            [Function],
+                            ";height:",
+                            [Function],
+                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                            "#000",
+                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                          ],
+                        },
+                        "displayName": "SvgIcon__StyledSvgSpinner",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                        "target": "svg",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      },
                       "path": Array [
                         <circle
                           className="path"
@@ -16573,6 +17023,31 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -17371,6 +17846,31 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -19089,6 +19589,31 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -19509,6 +20034,31 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -19927,6 +20477,31 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                       "viewbox": "0 0 1792 1792",
                     },
                     "loading-spinner": Object {
+                      "CustomComponent": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "width:",
+                            [Function],
+                            ";height:",
+                            [Function],
+                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                            "#000",
+                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                          ],
+                        },
+                        "displayName": "SvgIcon__StyledSvgSpinner",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                        "target": "svg",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      },
                       "path": Array [
                         <circle
                           className="path"
@@ -21719,6 +22294,31 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -22139,6 +22739,31 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -22557,6 +23182,31 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                       "viewbox": "0 0 1792 1792",
                     },
                     "loading-spinner": Object {
+                      "CustomComponent": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "width:",
+                            [Function],
+                            ";height:",
+                            [Function],
+                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                            "#000",
+                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                          ],
+                        },
+                        "displayName": "SvgIcon__StyledSvgSpinner",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                        "target": "svg",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      },
                       "path": Array [
                         <circle
                           className="path"
@@ -23098,6 +23748,31 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -23896,6 +24571,31 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -25994,6 +26694,31 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -26414,6 +27139,31 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -26832,6 +27582,31 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                       "viewbox": "0 0 1792 1792",
                     },
                     "loading-spinner": Object {
+                      "CustomComponent": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "width:",
+                            [Function],
+                            ";height:",
+                            [Function],
+                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                            "#000",
+                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                          ],
+                        },
+                        "displayName": "SvgIcon__StyledSvgSpinner",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                        "target": "svg",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      },
                       "path": Array [
                         <circle
                           className="path"
@@ -27373,6 +28148,31 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -28171,6 +28971,31 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -31485,6 +32310,31 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -31905,6 +32755,31 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -32323,6 +33198,31 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                       "viewbox": "0 0 1792 1792",
                     },
                     "loading-spinner": Object {
+                      "CustomComponent": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "width:",
+                            [Function],
+                            ";height:",
+                            [Function],
+                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                            "#000",
+                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                          ],
+                        },
+                        "displayName": "SvgIcon__StyledSvgSpinner",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                        "target": "svg",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      },
                       "path": Array [
                         <circle
                           className="path"
@@ -32864,6 +33764,31 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -33662,6 +34587,31 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -35796,6 +36746,31 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -36216,6 +37191,31 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -36634,6 +37634,31 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                       "viewbox": "0 0 1792 1792",
                     },
                     "loading-spinner": Object {
+                      "CustomComponent": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "width:",
+                            [Function],
+                            ";height:",
+                            [Function],
+                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                            "#000",
+                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                          ],
+                        },
+                        "displayName": "SvgIcon__StyledSvgSpinner",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                        "target": "svg",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      },
                       "path": Array [
                         <circle
                           className="path"
@@ -37175,6 +38200,31 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -37973,6 +39023,31 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -40071,6 +41146,31 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -40491,6 +41591,31 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -40909,6 +42034,31 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                       "viewbox": "0 0 1792 1792",
                     },
                     "loading-spinner": Object {
+                      "CustomComponent": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "width:",
+                            [Function],
+                            ";height:",
+                            [Function],
+                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                            "#000",
+                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                          ],
+                        },
+                        "displayName": "SvgIcon__StyledSvgSpinner",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                        "target": "svg",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      },
                       "path": Array [
                         <circle
                           className="path"
@@ -41450,6 +42600,31 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -42248,6 +43423,31 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -44357,6 +45557,31 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -44777,6 +46002,31 @@ exports[`SnippetEditor passes replacement variables to the title and description
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -45195,6 +46445,31 @@ exports[`SnippetEditor passes replacement variables to the title and description
                       "viewbox": "0 0 1792 1792",
                     },
                     "loading-spinner": Object {
+                      "CustomComponent": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "width:",
+                            [Function],
+                            ";height:",
+                            [Function],
+                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                            "#000",
+                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                          ],
+                        },
+                        "displayName": "SvgIcon__StyledSvgSpinner",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                        "target": "svg",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      },
                       "path": Array [
                         <circle
                           className="path"
@@ -45758,6 +47033,31 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -46578,6 +47878,31 @@ exports[`SnippetEditor passes replacement variables to the title and description
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -49397,6 +50722,31 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -49817,6 +51167,31 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                               "viewbox": "0 0 1792 1792",
                             },
                             "loading-spinner": Object {
+                              "CustomComponent": Object {
+                                "$$typeof": Symbol(react.forward_ref),
+                                "attrs": Array [],
+                                "componentStyle": ComponentStyle {
+                                  "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                  "isStatic": false,
+                                  "rules": Array [
+                                    "width:",
+                                    [Function],
+                                    ";height:",
+                                    [Function],
+                                    ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                    "#000",
+                                    ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                  ],
+                                },
+                                "displayName": "SvgIcon__StyledSvgSpinner",
+                                "foldedComponentIds": Array [],
+                                "render": [Function],
+                                "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                "target": "svg",
+                                "toString": [Function],
+                                "warnTooManyClasses": [Function],
+                                "withComponent": [Function],
+                              },
                               "path": Array [
                                 <circle
                                   className="path"
@@ -50235,6 +51610,31 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                       "viewbox": "0 0 1792 1792",
                     },
                     "loading-spinner": Object {
+                      "CustomComponent": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "width:",
+                            [Function],
+                            ";height:",
+                            [Function],
+                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                            "#000",
+                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                          ],
+                        },
+                        "displayName": "SvgIcon__StyledSvgSpinner",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                        "target": "svg",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
+                      },
                       "path": Array [
                         <circle
                           className="path"
@@ -50776,6 +52176,31 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"
@@ -51574,6 +52999,31 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                                       "viewbox": "0 0 1792 1792",
                                     },
                                     "loading-spinner": Object {
+                                      "CustomComponent": Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "attrs": Array [],
+                                        "componentStyle": ComponentStyle {
+                                          "componentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                          "isStatic": false,
+                                          "rules": Array [
+                                            "width:",
+                                            [Function],
+                                            ";height:",
+                                            [Function],
+                                            ";flex:none;animation:loadingSpinnerRotator 1.4s linear infinite;& .path{stroke:",
+                                            "#000",
+                                            ";stroke-dasharray:187;stroke-dashoffset:0;transform-origin:center;animation:loadingSpinnerDash 1.4s ease-in-out infinite;}@keyframes loadingSpinnerRotator{0%{transform:rotate( 0deg );}100%{transform:rotate( 270deg );}}@keyframes loadingSpinnerDash{0%{stroke-dashoffset:187;}50%{stroke-dashoffset:47;transform:rotate( 135deg );}100%{stroke-dashoffset:187;transform:rotate( 450deg );}}",
+                                          ],
+                                        },
+                                        "displayName": "SvgIcon__StyledSvgSpinner",
+                                        "foldedComponentIds": Array [],
+                                        "render": [Function],
+                                        "styledComponentId": "SvgIcon__StyledSvgSpinner-sc-1l8fxgb-0",
+                                        "target": "svg",
+                                        "toString": [Function],
+                                        "warnTooManyClasses": [Function],
+                                        "withComponent": [Function],
+                                      },
                                       "path": Array [
                                         <circle
                                           className="path"

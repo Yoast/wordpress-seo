@@ -40,6 +40,7 @@ const MultiStepProgressListItem = styled.li`
 	svg {
 		position: relative;
 		top: 2px;
+		margin-right: 8px;
 	}
 	
 	::before {
@@ -74,7 +75,7 @@ const MultiStepProgressPendingStatus = styled( MultiStepProgressListItem )`
  */
 const MultiStepProgressRunningStatus = styled( MultiStepProgressListItem )`
 	::before {
-		background-color: #${ colors.$palette_grey_medium_dark };
+		background-color: ${ colors.$palette_grey_medium_dark };
 	}
 `;
 
