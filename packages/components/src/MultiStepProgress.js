@@ -1,43 +1,12 @@
 // External dependencies.
 import React from "react";
 import PropTypes from "prop-types";
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 
 // Yoast dependencies.
 import { colors } from "@yoast/style-guide";
 
 import SvgIcon from "./SvgIcon";
-
-const SpinnerCSS = createGlobalStyle`
-	.yoast-svg-icon-loading-spinner {
-		animation: rotator 1.4s linear infinite;
-	}
-
-	@keyframes rotator {
-		0% { transform: rotate( 0deg ); }
-		100% { transform: rotate( 270deg ); }
-	}
-
-	.yoast-svg-icon-loading-spinner .path {
-		stroke: #64a60a;
-		stroke-dasharray: 187;
-		stroke-dashoffset: 0;
-		transform-origin: center;
-		animation: dash 1.4s ease-in-out infinite;
-	}
-
-	@keyframes dash {
-		0% { stroke-dashoffset: 187; }
-		50% {
-			stroke-dashoffset: 44;
-			transform: rotate( 135deg );
-		}
-		100% {
-			stroke-dashoffset: 187;
-			transform: rotate( 450deg );
-		}
-	}
-`;
 
 const MultiStepProgressContainer = styled.ol`
 	list-style: none;
@@ -52,13 +21,19 @@ const MultiStepProgressContainer = styled.ol`
 `;
 
 const MultiStepProgressListItem = styled.li`
+	margin: 4px 0;
 	padding: 4px;
 	display: flex;
 	flex-direction: row;
-	align-items: center;
+	align-items: baseline;
 	
 	span {
 		margin: 0 8px;
+	}
+	
+	svg {
+		position: relative;
+		top: 2px;
 	}
 	
 	::before {
@@ -66,7 +41,7 @@ const MultiStepProgressListItem = styled.li`
 		font-size: 12px;
 		background: ${ colors.$color_pink_dark };
 		border-radius: 50%;
-		width: 16px;
+		min-width: 16px;
 		height: 16px;
 		padding: 4px;
 		color: ${ colors.$color_white };
@@ -79,9 +54,16 @@ const MultiStepProgressPendingStatus = styled( MultiStepProgressListItem )`
 	span {
 		color: ${ colors.$palette_grey_text_light };
 	}
+	
+	::before {
+		background-color: ${ colors.$palette_grey_medium_dark };
+	}
 `;
 
 const MultiStepProgressBusyStatus = styled( MultiStepProgressListItem )`
+	::before {
+		background-color: #${ colors.$palette_grey_medium_dark };
+	}
 `;
 
 const MultiStepProgressFailedStatus = styled( MultiStepProgressListItem )`
@@ -132,7 +114,6 @@ class MultiStepProgress extends React.Component {
 			<MultiStepProgressBusyStatus key="123">
 				<span>{ step.text }</span>
 				<SvgIcon icon="loading-spinner" />
-				<SpinnerCSS />
 			</MultiStepProgressBusyStatus>
 		);
 	}

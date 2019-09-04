@@ -1,36 +1,48 @@
 /* External dependencies */
 import React from "react";
-import { keyframes, css } from "styled-components";
+import styled from "styled-components";
 
 /* Yoast dependencies */
 import { createSvgIconComponent } from "@yoast/helpers";
+import { colors } from "@yoast/style-guide";
 
-const rotator = keyframes`
-	0% { transform: rotate( 0deg ); }
-	100% { transform: rotate( 270deg ); }
-`;
+/**
+ * Custom styled SVG Component for the spinner.
+ *
+ * @param {Object} props The component's props.
+ *
+ * @returns {React.Element} StyledSvg component.
+ */
+const StyledSvgSpinner = styled.svg`
+	width: ${ props => props.size };
+	height: ${ props => props.size };
+	flex: none;
 
-const dash = keyframes`
-	0% { stroke-dashoffset: 187; }
-	50% {
-		stroke-dashoffset: 187 / 4;
-		transform:rotate( 135deg );
-	}
-	100% {
-		stroke-dashoffset: 187;
-		transform:rotate( 450deg );
-	}
-`;
+	animation: loadingSpinnerRotator 1.4s linear infinite;
 
-const spinnerCss = () => css`
-	animation: ${ rotator } 1.4s linear infinite;
-	
-	.path {
-		stroke: #64a60a;
+	& .path {
+		stroke: ${ colors.$color_black };
 		stroke-dasharray: 187;
 		stroke-dashoffset: 0;
 		transform-origin: center;
-		animation: ${ dash } 1.4s ease-in-out infinite;
+		animation: loadingSpinnerDash 1.4s ease-in-out infinite;
+	}
+
+	@keyframes loadingSpinnerRotator {
+		0% { transform: rotate( 0deg ); }
+		100% { transform: rotate( 270deg ); }
+	}
+
+	@keyframes loadingSpinnerDash {
+		0% { stroke-dashoffset: 187; }
+		50% {
+			stroke-dashoffset: 47;
+			transform:rotate( 135deg );
+		}
+		100% {
+			stroke-dashoffset: 187;
+			transform: rotate( 450deg );
+		}
 	}
 `;
 
@@ -67,7 +79,7 @@ export const icons = {
 	"list": { viewbox: DEFAULT_VIEWBOX, path: "M384 1408q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm0-512q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm-1408-928q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm1408 416v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5zm0-512v192q0 13-9.5 22.5t-22.5 9.5h-1216q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1216q13 0 22.5 9.5t9.5 22.5z" },
 	"loading-spinner": {
 		viewbox: "0 0 66 66",
-		styles: spinnerCss,
+		CustomComponent: StyledSvgSpinner,
 		path: [ <circle
 			key="5" className="path" fill="none" strokeWidth="6" strokeLinecap="round" cx="33"
 			cy="33" r="30"
