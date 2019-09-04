@@ -531,7 +531,7 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 
 	add_filter( 'phpcompat_whitelist', 'yoast_free_phpcompat_whitelist' );
 
-	add_action( 'init', 'WPSEO_Replace_Vars::setup_statics_once' );
+	add_action( 'init', array( 'WPSEO_Replace_Vars', 'setup_statics_once' ) );
 }
 
 // Activation and deactivation hook.
