@@ -2,13 +2,13 @@
 
 exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
 <div
-  className="ezwGoO"
-  color="#00468F"
+  className="jdyQUY"
+  color="#00468f"
 >
   <svg
     aria-hidden={true}
     className="yoast-svg-icon yoast-svg-icon-alert-info kaoJfK createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-    fill="#00468F"
+    fill="#00468f"
     focusable="false"
     role="img"
     size="16px"
@@ -20,13 +20,14 @@ exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
     />
   </svg>
   <div
-    className="hUcXwD"
+    className="jJuGwm"
   >
     Dismissable alert.
   </div>
   <button
     aria-label="Dismiss this alert"
-    className="eJKuRI glyHEG"
+    className="hsHDze"
+    color="#00468f"
     onClick={
       [MockFunction] {
         "calls": Array [
@@ -36,33 +37,20 @@ exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
     }
     type="button"
   >
-    <svg
-      aria-hidden={true}
-      className="yoast-svg-icon yoast-svg-icon-times createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-      fill="#00468F"
-      focusable="false"
-      role="img"
-      size="16px"
-      viewBox="0 0 1792 1792"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"
-      />
-    </svg>
+    ×
   </button>
 </div>
 `;
 
 exports[`Alert the Alert types match the snapshot 1`] = `
 <div
-  className="ftmFzF"
-  color="#8F1919"
+  className="ixIiOx"
+  color="#8f1919"
 >
   <svg
     aria-hidden={true}
     className="yoast-svg-icon yoast-svg-icon-alert-error kaoJfK createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-    fill="#8F1919"
+    fill="#8f1919"
     focusable="false"
     role="img"
     size="16px"
@@ -74,7 +62,7 @@ exports[`Alert the Alert types match the snapshot 1`] = `
     />
   </svg>
   <div
-    className="hUcXwD"
+    className="jJuGwm"
   >
     This is of the type: "error".
   </div>
@@ -83,13 +71,13 @@ exports[`Alert the Alert types match the snapshot 1`] = `
 
 exports[`Alert the Alert types match the snapshot 2`] = `
 <div
-  className="ezwGoO"
-  color="#00468F"
+  className="jdyQUY"
+  color="#00468f"
 >
   <svg
     aria-hidden={true}
     className="yoast-svg-icon yoast-svg-icon-alert-info kaoJfK createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-    fill="#00468F"
+    fill="#00468f"
     focusable="false"
     role="img"
     size="16px"
@@ -101,7 +89,7 @@ exports[`Alert the Alert types match the snapshot 2`] = `
     />
   </svg>
   <div
-    className="hUcXwD"
+    className="jJuGwm"
   >
     This is of the type: "info".
   </div>
@@ -110,7 +98,7 @@ exports[`Alert the Alert types match the snapshot 2`] = `
 
 exports[`Alert the Alert types match the snapshot 3`] = `
 <div
-  className="lkgVhF"
+  className="jmKzNj"
   color="#395315"
 >
   <svg
@@ -128,7 +116,7 @@ exports[`Alert the Alert types match the snapshot 3`] = `
     />
   </svg>
   <div
-    className="hUcXwD"
+    className="jJuGwm"
   >
     This is of the type: "success".
   </div>
@@ -137,13 +125,13 @@ exports[`Alert the Alert types match the snapshot 3`] = `
 
 exports[`Alert the Alert types match the snapshot 4`] = `
 <div
-  className="dWCgXn"
-  color="#674E00"
+  className="jxBTjR"
+  color="#674e00"
 >
   <svg
     aria-hidden={true}
     className="yoast-svg-icon yoast-svg-icon-alert-warning kaoJfK createSvgIconComponent__StyledSvg-sc-1h4gl3a-0 cPnaHk"
-    fill="#674E00"
+    fill="#674e00"
     focusable="false"
     role="img"
     size="16px"
@@ -155,7 +143,7 @@ exports[`Alert the Alert types match the snapshot 4`] = `
     />
   </svg>
   <div
-    className="hUcXwD"
+    className="jJuGwm"
   >
     This is of the type: "warning".
   </div>

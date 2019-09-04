@@ -8,26 +8,26 @@ describe( "Alert", () => {
 		const alerts = [
 			{
 				type: "error",
-				color: "#8F1919",
-				background: "#F9DCDC",
+				color: "#8f1919",
+				background: "#f9dcdc",
 				icon: "alert-error",
 			},
 			{
 				type: "info",
-				color: "#00468F",
-				background: "#CCE5FF",
+				color: "#00468f",
+				background: "#cce5ff",
 				icon: "alert-info",
 			},
 			{
 				type: "success",
 				color: "#395315",
-				background: "#E2F2CC",
+				background: "#e2f2cc",
 				icon: "alert-success",
 			},
 			{
 				type: "warning",
-				color: "#674E00",
-				background: "#FFF3CD",
+				color: "#674e00",
+				background: "#fff3cd",
 				icon: "alert-warning",
 			},
 		];
@@ -80,10 +80,9 @@ describe( "Alert", () => {
 		// Check the last child is the dismissable button.
 		expect( tree.children[ 2 ].type ).toBe( "button" );
 
-		// Inside the button should be the times SVG.
+		// Inside the button should be the times symbol.
 		expect( tree.children[ 2 ].children.length ).toBe( 1 );
-		expect( tree.children[ 2 ].children[ 0 ].type ).toBe( "svg" );
-		expect( tree.children[ 2 ].children[ 0 ].props.className.indexOf( "yoast-svg-icon-times" ) ).not.toBe( -1 );
+		expect( tree.children[ 2 ].children[ 0 ] ).toBe( "×" );
 
 		// Check the dismiss action.
 		expect( typeof tree.children[ 2 ].props.onClick ).toBe( "function" );

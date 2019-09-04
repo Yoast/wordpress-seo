@@ -6,8 +6,9 @@ import { __ } from "@wordpress/i18n";
 
 /* Yoast dependencies */
 import { getDirectionalStyle } from "@yoast/helpers";
-import IconButton from "./buttons/IconButton";
+import Button from "./buttons/Button";
 import SvgIcon from "./SvgIcon";
+import { colors } from "@yoast/style-guide";
 
 const AlertContainer = styled.div`
 	display: flex;
@@ -22,14 +23,23 @@ const AlertContainer = styled.div`
 
 const AlertContent = styled.div`
 	flex-grow: 1;
+	
+	a {
+		color: ${ colors.$color_alert_link_text };
+	}
 `;
 
 const AlertIcon = styled( SvgIcon )`
 	${ getDirectionalStyle( "margin-right: 8px", "margin-left: 8px" ) };
 `;
 
-const AlertDismiss = styled( IconButton )`
+const AlertDismiss = styled( Button )`
 	${ getDirectionalStyle( "margin-left: 8px", "margin-right: 8px" ) };
+	font-size: 24px;
+	line-height: 24px;
+	color: ${ props => props.color };
+	
+	// Override the base button style: get rid of the button styling.
 	min-height: auto;
 	padding: 0;
 
@@ -38,11 +48,6 @@ const AlertDismiss = styled( IconButton )`
 		border: none;
 		background: transparent;
 		box-shadow: none;
-	}
-
-	svg {
-		width: 24px;
-		height: 24px;
 	}
 `;
 
@@ -70,33 +75,27 @@ class Alert extends React.Component {
 		switch ( type ) {
 			case "error":
 				return {
-					color: "#8F1919",
-					background: "#F9DCDC",
+					color: colors.$color_alert_error_text,
+					background: colors.$color_alert_error_background,
 					icon: "alert-error",
 				};
 			case "info":
 				return {
-					color: "#00468F",
-					background: "#CCE5FF",
+					color: colors.$color_alert_info_text,
+					background: colors.$color_alert_info_background,
 					icon: "alert-info",
 				};
 			case "success":
 				return {
-					color: "#395315",
-					background: "#E2F2CC",
+					color: colors.$color_alert_success_text,
+					background: colors.$color_alert_success_background,
 					icon: "alert-success",
 				};
 			case "warning":
 				return {
-					color: "#674E00",
-					background: "#FFF3CD",
+					color: colors.$color_alert_warning_text,
+					background: colors.$color_alert_warning_background,
 					icon: "alert-warning",
-				};
-			default:
-				return {
-					color: "#00468F",
-					background: "#CCE5FF",
-					icon: "alert-info",
 				};
 		}
 	}
@@ -116,11 +115,12 @@ class Alert extends React.Component {
 				typeof this.props.onDismissed === "function"
 					? (
 						<AlertDismiss
-							icon="times"
-							iconColor={ options.color }
+							color={ options.color }
 							onClick={ this.props.onDismissed }
 							aria-label={ __( this.props.dismissAriaLabel, "yoast-components" ) }
-						/>
+						>
+							&times;
+						</AlertDismiss>
 					)
 					: null
 			}
