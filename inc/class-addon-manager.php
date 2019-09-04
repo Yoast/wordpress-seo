@@ -376,12 +376,34 @@ class WPSEO_Addon_Manager {
 	 * @return bool|stdClass Object when request is successful. False if not.
 	 */
 	protected function request_current_sites() {
-		$api_request = new WPSEO_MyYoast_Api_Request( 'sites/current' );
+		$api_request = new WPSEO_MyYoast_Api_Request(
+			'sites/current',
+			array(
+				'headers' => $this->get_addon_headers()
+			)
+		);
+
 		if ( $api_request->fire() ) {
 			return $api_request->get_response();
 		}
 
 		return $this->get_site_information_default();
+	}
+
+	/**
+	 * Retrieves the addons as headers.
+	 *
+	 * @return array The addon headers
+	 */
+	protected function get_addon_headers() {
+		$addon_version_headers = $this->get_installed_addons_versions();
+
+		$headers = array();
+		foreach ( $addon_version_headers as $addon => $version ) {
+			$headers[ $addon . '-version' ] = $version;
+		}
+
+		return $headers;
 	}
 
 	/**
