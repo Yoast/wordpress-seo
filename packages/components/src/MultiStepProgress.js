@@ -8,6 +8,9 @@ import { colors } from "@yoast/style-guide";
 
 import SvgIcon from "./SvgIcon";
 
+/**
+ * Ordered list containing the steps.
+ */
 const MultiStepProgressContainer = styled.ol`
 	list-style: none;
 	padding-left: 2px;
@@ -20,6 +23,9 @@ const MultiStepProgressContainer = styled.ol`
 	}
 `;
 
+/**
+ * List item for a single step.
+ */
 const MultiStepProgressListItem = styled.li`
 	margin: 4px 0;
 	padding: 4px;
@@ -50,6 +56,9 @@ const MultiStepProgressListItem = styled.li`
 	}
 `;
 
+/**
+ * Specific list item for a step in pending state.
+ */
 const MultiStepProgressPendingStatus = styled( MultiStepProgressListItem )`
 	span {
 		color: ${ colors.$palette_grey_text_light };
@@ -60,16 +69,13 @@ const MultiStepProgressPendingStatus = styled( MultiStepProgressListItem )`
 	}
 `;
 
-const MultiStepProgressBusyStatus = styled( MultiStepProgressListItem )`
+/**
+ * Specific list item for a step in running state.
+ */
+const MultiStepProgressRunningStatus = styled( MultiStepProgressListItem )`
 	::before {
 		background-color: #${ colors.$palette_grey_medium_dark };
 	}
-`;
-
-const MultiStepProgressFailedStatus = styled( MultiStepProgressListItem )`
-`;
-
-const MultiStepProgressFinishedStatus = styled( MultiStepProgressListItem )`
 `;
 
 /**
@@ -82,12 +88,12 @@ class MultiStepProgress extends React.Component {
 	 * @returns {React.Element} The rendered html.
 	 */
 	render() {
-		return(
+		return (
 			<MultiStepProgressContainer>
 				{ this.props.steps.map( ( step ) => {
 					switch ( step.status ) {
 						case "running":
-							return this.renderBusyState( step );
+							return this.renderRunningState( step );
 						case "failed":
 							return this.renderFailedState( step );
 						case "finished":
@@ -101,38 +107,66 @@ class MultiStepProgress extends React.Component {
 		);
 	}
 
+	/**
+	 * Renders a list item in pending state.
+	 *
+	 * @param {Object} step Step content.
+	 *
+	 * @returns {React.Element} The list item.
+	 */
 	renderPendingState( step ) {
 		return (
-			<MultiStepProgressPendingStatus key="pending">
+			<MultiStepProgressPendingStatus key={ step.id }>
 				<span>{ step.text }</span>
 			</MultiStepProgressPendingStatus>
 		);
 	}
 
-	renderBusyState( step ) {
+	/**
+	 * Renders a list item in running state.
+	 *
+	 * @param {Object} step Step content.
+	 *
+	 * @returns {React.Element} The list item.
+	 */
+	renderRunningState( step ) {
 		return (
-			<MultiStepProgressBusyStatus key="123">
+			<MultiStepProgressRunningStatus key={ step.id }>
 				<span>{ step.text }</span>
 				<SvgIcon icon="loading-spinner" />
-			</MultiStepProgressBusyStatus>
+			</MultiStepProgressRunningStatus>
 		);
 	}
 
+	/**
+	 * Renders a list item in finished state.
+	 *
+	 * @param {Object} step Step content.
+	 *
+	 * @returns {React.Element} The list item.
+	 */
 	renderFinishedState( step ) {
 		return (
-			<MultiStepProgressFinishedStatus key="234">
+			<MultiStepProgressListItem key={ step.id }>
 				<span>{ step.text }</span>
 				<SvgIcon icon="check" color={ colors.$color_green_medium_light } />
-			</MultiStepProgressFinishedStatus>
+			</MultiStepProgressListItem>
 		);
 	}
 
+	/**
+	 * Renders a list item in failed state.
+	 *
+	 * @param {Object} step Step content.
+	 *
+	 * @returns {React.Element} The list item.
+	 */
 	renderFailedState( step ) {
 		return (
-			<MultiStepProgressFailedStatus key="345">
+			<MultiStepProgressListItem key={ step.id }>
 				<span>{ step.text }</span>
 				<SvgIcon icon="times" color={ colors.$color_red } />
-			</MultiStepProgressFailedStatus>
+			</MultiStepProgressListItem>
 		);
 	}
 }
@@ -143,8 +177,9 @@ MultiStepProgress.defaultProps = {
 
 MultiStepProgress.propTypes = {
 	steps: PropTypes.arrayOf( PropTypes.shape( {
-		status: PropTypes.oneOf( [ "pending", "running", "finished", "failed" ] ),
-		text: PropTypes.string,
+		status: PropTypes.oneOf( [ "pending", "running", "finished", "failed" ] ).isRequired,
+		text: PropTypes.string.isRequired,
+		id: PropTypes.string.isRequired,
 	} ) ),
 };
 
