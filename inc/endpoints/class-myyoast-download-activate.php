@@ -54,7 +54,7 @@ class WPSEO_Endpoint_MyYoast_Download_Activate implements WPSEO_Endpoint {
 
 		try {
 			$plugin_slug = $request->get_param( 'slug' );
-			$plugin_file = $this->find_plugin_file( $plugin_slug );
+			$plugin_file = $this->get_plugin_file( $plugin_slug );
 
 			return new WP_REST_Response( $this->activate_plugin( $plugin_file ) );
 		}
@@ -94,24 +94,20 @@ class WPSEO_Endpoint_MyYoast_Download_Activate implements WPSEO_Endpoint {
 	 *
 	 * @throws WPSEO_REST_Request_Exception When no subscription isn't found for given plugin.
 	 */
-	protected function find_plugin_file( $plugin_slug ) {
-		$plugins       = get_plugins();
-		$plugin_files  = array_keys( $plugins );
-		$target_plugin_file = array_search( $plugin_slug, WPSEO_Addon_Manager::get_addon_mapping(), true );
+	protected function get_plugin_file( $plugin_slug ) {
+		$plugin_file = WPSEO_Addon_Manager::get_plugin_file( $plugin_slug );
 
-		foreach( $plugin_files as $plugin_file ) {
-			if ( false !== strpos( $plugin_file , $target_plugin_file ) ) {
-				return $plugin_file;
-			}
+		if ( ! $plugin_file ) {
+			throw new WPSEO_REST_Request_Exception(
+				sprintf(
+				/* translators: %1$s expands to the plugin slug  */
+					esc_html__( 'Plugin %s is not installed', 'wordpress-seo' ),
+					$plugin_slug
+				)
+			);
 		}
 
-		throw new WPSEO_REST_Request_Exception(
-			sprintf(
-				/* translators: %1$s expands to the plugin slug  */
-				esc_html__( 'Plugin %s is not installed', 'wordpress-seo' ),
-				$plugin_slug
-			)
-		);
+		return $plugin_file;
 	}
 
 	/**

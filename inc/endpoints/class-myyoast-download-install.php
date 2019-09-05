@@ -56,7 +56,7 @@ class WPSEO_Endpoint_MyYoast_Download_Install implements WPSEO_Endpoint {
 			$plugin_slug     = $request->get_param( 'slug' );
 			$plugin_download = $this->find_plugin_download( $plugin_slug );
 
-			return new WP_REST_Response( $this->install_plugin( $plugin_download ) );
+			return new WP_REST_Response( $this->install_plugin( $plugin_download, $plugin_slug ) );
 		}
 		catch( WPSEO_REST_Request_Exception $exception ) {
 			return new WP_REST_Response(
@@ -70,12 +70,17 @@ class WPSEO_Endpoint_MyYoast_Download_Install implements WPSEO_Endpoint {
 	 * Installs the plugin based on the given download.
 	 *
 	 * @param string $plugin_download The url to the download.
+	 * @param string $plugin_slug     The plugin slug to install.
 	 *
 	 * @return bool True when install is successful.
 	 *
 	 * @throws WPSEO_REST_Request_Exception When an WP_Error occurred.
 	 */
-	protected function install_plugin( $plugin_download ) {
+	protected function install_plugin( $plugin_download, $plugin_slug ) {
+		if ( $this->is_installed( $plugin_slug ) ) {
+			return true;
+		}
+
 		$upgrader = new Plugin_Upgrader( new WPSEO_MyYoast_Plugin_Installer_Skin() );
 		$result   = $upgrader->install( $plugin_download );
 		if ( is_wp_error( $result ) ) {
@@ -83,6 +88,17 @@ class WPSEO_Endpoint_MyYoast_Download_Install implements WPSEO_Endpoint {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Checks if the given plugin is installed.
+	 *
+	 * @param string $plugin_slug The plugin slug to check installation status for.
+	 *
+	 * @return bool True when plugin for plugin slug is installed.
+	 */
+	protected function is_installed( $plugin_slug ) {
+		return WPSEO_Addon_Manager::is_installed( $plugin_slug );
 	}
 
 	/**
