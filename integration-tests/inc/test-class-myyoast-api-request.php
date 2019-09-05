@@ -278,9 +278,9 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( array() ) );
 
 		$this->assertEquals(
-			[
+			array(
 				'headers' => array(),
-			],
+			),
 			$instance->enrich_request_arguments( array() )
 		);
 	}
