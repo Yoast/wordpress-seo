@@ -6,6 +6,7 @@ import styled from "styled-components";
 // Yoast dependencies.
 import { colors } from "@yoast/style-guide";
 
+// Internal dependencies.
 import SvgIcon from "./SvgIcon";
 
 const MultiStepProgressContainer = styled.div`
@@ -16,7 +17,7 @@ const MultiStepProgressContainer = styled.div`
  * Ordered list containing the steps.
  */
 const MultiStepProgressList = styled.ol`
-	padding-left: 0;
+	padding: 0;
 	margin: 0;
 
 	list-style: none;

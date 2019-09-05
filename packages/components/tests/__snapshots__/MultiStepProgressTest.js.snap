@@ -9,7 +9,7 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
   role="status"
 >
   <ol
-    className="frrWPd"
+    className="knaceg"
   >
     <li
       className="leOWiI"
@@ -62,6 +62,7 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
       <svg
         aria-hidden={true}
         className="yoast-svg-icon yoast-svg-icon-loading-spinner hMTMhp"
+        color="#000"
         fill="currentColor"
         focusable="false"
         role="img"

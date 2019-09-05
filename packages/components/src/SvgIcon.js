@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 /* Yoast dependencies */
 import { createSvgIconComponent } from "@yoast/helpers";
-import { colors } from "@yoast/style-guide";
 
 /**
  * Custom styled SVG Component for the spinner.
@@ -21,7 +20,7 @@ const StyledSvgSpinner = styled.svg`
 	animation: loadingSpinnerRotator 1.4s linear infinite;
 
 	& .path {
-		stroke: ${ colors.$color_black };
+		stroke: ${ props => props.color };
 		stroke-dasharray: 187;
 		stroke-dashoffset: 0;
 		transform-origin: center;
@@ -45,6 +44,10 @@ const StyledSvgSpinner = styled.svg`
 		}
 	}
 `;
+
+StyledSvgSpinner.defaultProps = {
+	color: "#000",
+};
 
 const DEFAULT_VIEWBOX = "0 0 1792 1792";
 /* eslint-disable max-len, quote-props */
