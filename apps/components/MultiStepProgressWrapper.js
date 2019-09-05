@@ -1,4 +1,9 @@
 import React from "react";
+import styled from "styled-components";
+
+const Container = styled.div`
+	background-color: white;
+`;
 
 import {
 	MultiStepProgress,
@@ -33,7 +38,11 @@ const steps = [
 ];
 
 const MultiStepProgressWrapper = () => {
-	return <MultiStepProgress steps={ steps } />;
+	return (
+		<Container>
+			<MultiStepProgress steps={ steps } />
+		</Container>
+	);
 };
 
 export default MultiStepProgressWrapper;

@@ -8,15 +8,19 @@ import { colors } from "@yoast/style-guide";
 
 import SvgIcon from "./SvgIcon";
 
+const MultiStepProgressContainer = styled.div`
+	padding: 8px;
+`;
+
 /**
  * Ordered list containing the steps.
  */
-const MultiStepProgressContainer = styled.ol`
+const MultiStepProgressList = styled.ol`
+	padding-left: 0;
+	margin: 0;
+
 	list-style: none;
-	padding-left: 2px;
 	counter-reset: multi-step-progress-counter;
-	
-	background: white;
 
 	li {
 		counter-increment: multi-step-progress-counter;
@@ -27,22 +31,29 @@ const MultiStepProgressContainer = styled.ol`
  * List item for a single step.
  */
 const MultiStepProgressListItem = styled.li`
-	margin: 4px 0;
-	padding: 4px;
 	display: flex;
 	flex-direction: row;
 	align-items: baseline;
+
+	margin: 8px 0;
 	
+	:first-child {
+		margin-top: 0;
+	}
+
+	:last-child {
+		margin-bottom: 0;
+	}
+
 	span {
 		margin: 0 8px;
 	}
-	
+
 	svg {
 		position: relative;
 		top: 2px;
-		margin-right: 8px;
 	}
-	
+
 	::before {
 		content: counter( multi-step-progress-counter );
 		font-size: 12px;
@@ -90,20 +101,27 @@ class MultiStepProgress extends React.Component {
 	 */
 	render() {
 		return (
-			<MultiStepProgressContainer>
-				{ this.props.steps.map( ( step ) => {
-					switch ( step.status ) {
-						case "running":
-							return this.renderRunningState( step );
-						case "failed":
-							return this.renderFailedState( step );
-						case "finished":
-							return this.renderFinishedState( step );
-						case "pending":
-						default:
-							return this.renderPendingState( step );
-					}
-				} ) }
+			<MultiStepProgressContainer
+				role="status"
+				aria-live="polite"
+				aria-relevant="additions text"
+				aria-atomic={ true }
+			>
+				<MultiStepProgressList>
+					{ this.props.steps.map( ( step ) => {
+						switch ( step.status ) {
+							case "running":
+								return this.renderRunningState( step );
+							case "failed":
+								return this.renderFailedState( step );
+							case "finished":
+								return this.renderFinishedState( step );
+							case "pending":
+							default:
+								return this.renderPendingState( step );
+						}
+					} ) }
+				</MultiStepProgressList>
 			</MultiStepProgressContainer>
 		);
 	}
