@@ -156,11 +156,9 @@ class WPSEO_Metabox_Formatter {
 	 * @return string The posts' main image url.
 	 */
 	public function get_post_image_url() {
-		$post_id = get_option('page_for_post');
-
+		$post_id = get_option( 'page_for_post' );
 		if ( has_post_thumbnail( $post_id ) ) {
 			return $featured_image_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'single-post-thumbnail' )[0];
-
 		}
 
 		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
