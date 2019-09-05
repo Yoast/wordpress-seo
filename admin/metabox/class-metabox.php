@@ -1060,7 +1060,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	/**
 	 * Output a tab in the Yoast SEO Metabox.
 	 *
-	 * @deprecated         11.9
+	 * @deprecated         12.2
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $id      CSS ID of the tab.
@@ -1068,7 +1068,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * @param string $content Content of the tab. This content should be escaped.
 	 */
 	public function do_tab( $id, $heading, $content ) {
-		_deprecated_function( __METHOD__, '11.9' );
+		_deprecated_function( __METHOD__, '12.2' );
 
 		?>
 		<div id="<?php echo esc_attr( 'wpseo_' . $id ); ?>" class="wpseotab wpseo-form <?php echo esc_attr( $id ); ?>">
