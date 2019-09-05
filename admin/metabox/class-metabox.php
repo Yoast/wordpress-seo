@@ -259,10 +259,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Output the meta box.
 	 */
 	public function meta_box() {
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title is considered safe.
 		$content_sections = $this->get_content_sections();
 
 		echo '<div class="wpseo-metabox-content">';
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title is considered safe.
 		printf( '<div class="wpseo-metabox-menu"><ul role="tablist" class="yoast-aria-tabs" aria-label="%s">', $this->get_product_title() );
 
 		foreach ( $content_sections as $content_section ) {
@@ -1072,7 +1072,10 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		?>
 		<div id="<?php echo esc_attr( 'wpseo_' . $id ); ?>" class="wpseotab wpseo-form <?php echo esc_attr( $id ); ?>">
-			<?php echo $content; ?>
+			<?php
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: deprecated function.
+			echo $content;
+			?>
 		</div>
 		<?php
 	}
