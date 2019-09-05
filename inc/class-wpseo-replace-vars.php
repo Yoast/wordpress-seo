@@ -1446,9 +1446,3 @@ class WPSEO_Replace_Vars {
 		return apply_filters( 'wpseo_terms', $output, $taxonomy );
 	}
 } /* End of class WPSEO_Replace_Vars */
-
-
-/**
- * Setup the class statics when the file is first loaded.
- */
-WPSEO_Replace_Vars::setup_statics_once();
