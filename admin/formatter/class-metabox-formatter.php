@@ -71,6 +71,7 @@ class WPSEO_Metabox_Formatter {
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
 			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
 			'siteIconUrl'               => get_site_icon_url(),
+			'postImageUrl'				=> $this->get_post_image_url(),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
@@ -145,6 +146,24 @@ class WPSEO_Metabox_Formatter {
 			'markdownEnabled'           => $this->is_markdown_enabled(),
 			'analysisHeadingTitle'      => __( 'Analysis', 'wordpress-seo' ),
 		);
+	}
+
+	/**
+	 * Returns the url of the posts' main image.
+	 * If the featured image is not set, returns the first image in the post.
+	 * If there are also no images in the post, returns null.
+	 *
+	 * @return string The posts' main image url.
+	 */
+	public function get_post_image_url() {
+		$post_id = get_option('page_for_post');
+
+		if ( has_post_thumbnail( $post_id ) ) {
+			return $featured_image_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'single-post-thumbnail' )[0];
+
+		}
+
+		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
 	}
 
 	/**
