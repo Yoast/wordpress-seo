@@ -58,7 +58,7 @@ class WPSEO_Endpoint_MyYoast_Download_Install implements WPSEO_Endpoint {
 
 			return new WP_REST_Response( $this->install_plugin( $plugin_download, $plugin_slug ) );
 		}
-		catch( WPSEO_REST_Request_Exception $exception ) {
+		catch ( WPSEO_REST_Request_Exception $exception ) {
 			return new WP_REST_Response(
 				$exception->getMessage(),
 				403
@@ -171,7 +171,7 @@ class WPSEO_Endpoint_MyYoast_Download_Install implements WPSEO_Endpoint {
 			require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 		}
 
-		if( ! class_exists( 'Plugin_Upgrader' ) ) {
+		if ( ! class_exists( 'Plugin_Upgrader' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/class-plugin-upgrader.php' );
 		}
 

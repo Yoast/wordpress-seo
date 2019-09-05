@@ -58,7 +58,7 @@ class WPSEO_Endpoint_MyYoast_Download_Activate implements WPSEO_Endpoint {
 
 			return new WP_REST_Response( $this->activate_plugin( $plugin_file ) );
 		}
-		catch( WPSEO_REST_Request_Exception $exception ) {
+		catch ( WPSEO_REST_Request_Exception $exception ) {
 			return new WP_REST_Response(
 				$exception->getMessage(),
 				403
