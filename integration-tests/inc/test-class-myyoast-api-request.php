@@ -254,7 +254,7 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 				'body'    => array(
 					'This is' => 'the request body',
 				),
-				'headers' => [],
+				'headers' => array(),
 			),
 			$instance->enrich_request_arguments( array() )
 		);
