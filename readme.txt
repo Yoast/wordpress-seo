@@ -114,8 +114,9 @@ Enhancements:
 
 * Updates desktop snippet preview to match Google's new font sizes.
 * Adds collapsible around the hidden problems and notifications on the Yoast dashboard.
-* Adds a filter `yoast_free_schema_company_name` that allows filtering Yoast company name setting. Props to [@andrewgillingham](https://github.com/andrewgillingham).
-* Adds a filter `yoast_free_schema_company_logo_id` that allows filtering Yoast company logo setting. Props to [@andrewgillingham](https://github.com/andrewgillingham).
+* Adds a filter `wpseo_schema_organization_social_profiles` that allows filtering an organizations social profiles in schema. Props to [juliquiron](https://github.com/juliquiron).
+* Adds a filter `wpseo_schema_company_name` that allows filtering Yoast company name setting. Props to [@andrewgillingham](https://github.com/andrewgillingham).
+* Adds a filter `wpseo_free_schema_company_logo_id` that allows filtering Yoast company logo setting. Props to [@andrewgillingham](https://github.com/andrewgillingham).
 * Adds a filter `wpseo_sitemap_exclude_empty_terms_taxonomy` to control hiding empty terms per taxonomy.
 * Adds a filter `wpseo_enable_structured_data_blocks` to allow disabling Yoast's Structured Data block editor blocks.
 * Adds a `get_robots` method to retrieve the robot HTML without it being output. Props to [@bradymwilliams](https://github.com/bradymwilliams).
