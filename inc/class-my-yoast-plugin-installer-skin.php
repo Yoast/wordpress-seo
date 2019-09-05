@@ -28,8 +28,8 @@ class WPSEO_MyYoast_Plugin_Installer_Skin extends WP_Upgrader_Skin {
 	 * Overrides the feedback method by doing nothing.
 	 *
 	 * @param string $string The value to give back as feedback.
-	 *
 	 */
 	public function feedback( $string ) {
+
 	}
 }

@@ -281,12 +281,35 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
-	 * Retrieves the value of the static $addons property.
+	 * Finds the plugin file.
 	 *
-	 * @return array The addon mapping.
+	 * @param string $plugin_slug The plugin slug to search.
+	 *
+	 * @return boolean|string Plugin file when installed, False when plugin isn't installed.
+	 **/
+	public static function get_plugin_file( $plugin_slug ) {
+		$plugins            = get_plugins();
+		$plugin_files       = array_keys( $plugins );
+		$target_plugin_file = array_search( $plugin_slug, self::$addons, true );
+
+		foreach( $plugin_files as $plugin_file ) {
+			if ( false !== strpos( $plugin_file , $target_plugin_file ) ) {
+				return $plugin_file;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks is a plugin is installed.
+	 *
+	 * @param string $plugin_slug The plugin to check.
+	 *
+	 * @return bool True when plugin is installed.
 	 */
-	public static function get_addon_mapping() {
-		return self::$addons;
+	public static function is_installed( $plugin_slug ) {
+		return self::get_plugin_file( $plugin_slug ) !== false;
 	}
 
 	/**
