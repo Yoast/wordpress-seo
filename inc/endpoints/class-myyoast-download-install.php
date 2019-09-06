@@ -19,6 +19,8 @@ class WPSEO_Endpoint_MyYoast_Download_Install implements WPSEO_Endpoint {
 	/**
 	 * Registers the routes for the endpoints.
 	 *
+	 * @codeCoverageIgnore Only contains a WordPress function.
+	 *
 	 * @return void
 	 */
 	public function register() {
@@ -35,6 +37,8 @@ class WPSEO_Endpoint_MyYoast_Download_Install implements WPSEO_Endpoint {
 
 	/**
 	 * Determines whether or not data can be retrieved for the registered endpoints.
+	 *
+	 * @codeCoverageIgnore Only contains a WordPress function.
 	 *
 	 * @return bool Whether or not data can be retrieved.
 	 */
@@ -53,10 +57,10 @@ class WPSEO_Endpoint_MyYoast_Download_Install implements WPSEO_Endpoint {
 		$this->require_dependencies();
 
 		try {
-			$plugin_slug     = $request->get_param( 'slug' );
-			$plugin_download = $this->find_plugin_download( $plugin_slug );
+			$plugin_slug    = $request->get_param( 'slug' );
+			$install_result = $this->install_plugin( $plugin_slug );
 
-			return new WP_REST_Response( $this->install_plugin( $plugin_download, $plugin_slug ) );
+			return new WP_REST_Response( $install_result );
 		}
 		catch ( WPSEO_REST_Request_Exception $exception ) {
 			return new WP_REST_Response(
@@ -67,27 +71,26 @@ class WPSEO_Endpoint_MyYoast_Download_Install implements WPSEO_Endpoint {
 	}
 
 	/**
-	 * Installs the plugin based on the given download.
+	 * Installs the plugin based on the given slug.
 	 *
-	 * @param string $plugin_download The url to the download.
-	 * @param string $plugin_slug     The plugin slug to install.
+	 * @param string $plugin_slug The plugin slug to install.
 	 *
 	 * @return bool True when install is successful.
 	 *
-	 * @throws WPSEO_REST_Request_Exception When an WP_Error occurred.
+	 * @throws WPSEO_REST_Request_Exception When an error occurred.
 	 */
-	protected function install_plugin( $plugin_download, $plugin_slug ) {
+	protected function install_plugin( $plugin_slug ) {
 		if ( $this->is_installed( $plugin_slug ) ) {
 			return true;
 		}
 
-		$upgrader = new Plugin_Upgrader( new WPSEO_MyYoast_Plugin_Installer_Skin() );
-		$result   = $upgrader->install( $plugin_download );
-		if ( is_wp_error( $result ) ) {
-			throw new WPSEO_REST_Request_Exception( $result->get_error_message() );
+		$plugin_download = $this->find_plugin_download( $plugin_slug );
+		$install_result  = $this->run_installation( $plugin_download );
+		if ( is_wp_error( $install_result ) ) {
+			throw new WPSEO_REST_Request_Exception( $install_result->get_error_message() );
 		}
 
-		return $result;
+		return $install_result;
 	}
 
 	/**
@@ -113,7 +116,7 @@ class WPSEO_Endpoint_MyYoast_Download_Install implements WPSEO_Endpoint {
 	protected function find_plugin_download( $plugin_slug ) {
 		$download_urls = $this->get_plugin_downloads();
 
-		if ( ! $download_urls[ $plugin_slug ] ) {
+		if ( empty( $download_urls[ $plugin_slug ] ) ) {
 			throw new WPSEO_REST_Request_Exception(
 				sprintf(
 				/* translators: %1$s expands to the plugin slug  */
@@ -132,8 +135,9 @@ class WPSEO_Endpoint_MyYoast_Download_Install implements WPSEO_Endpoint {
 	 * @return array Array with the download urls.
 	 */
 	protected function get_plugin_downloads() {
-		$subscriptions = $this->get_subscriptions();
+		$subscriptions = $this->request_current_subscriptions();
 		$download_urls = array();
+
 		foreach ( $subscriptions as $subscription ) {
 			$download_urls[ $subscription->product->slug ] = $subscription->product->download;
 		}
@@ -144,9 +148,11 @@ class WPSEO_Endpoint_MyYoast_Download_Install implements WPSEO_Endpoint {
 	/**
 	 * Retrieves the current subscriptions for the current website.
 	 *
+	 * @codeCoverageIgnore Contains external logic.
+	 *
 	 * @return array Subscriptions when set.
 	 */
-	protected function get_subscriptions() {
+	protected function request_current_subscriptions() {
 		$request = new WPSEO_MyYoast_Api_Request( 'sites/current' );
 		if ( $request->fire() ) {
 			$response = $request->get_response();
@@ -164,9 +170,11 @@ class WPSEO_Endpoint_MyYoast_Download_Install implements WPSEO_Endpoint {
 	/**
 	 * Requires the files needed from WordPress itself.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
-	private function require_dependencies() {
+	protected function require_dependencies() {
 		if ( ! class_exists( 'WP_Upgrader' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 		}
@@ -186,5 +194,20 @@ class WPSEO_Endpoint_MyYoast_Download_Install implements WPSEO_Endpoint {
 		if ( ! function_exists( 'request_filesystem_credentials' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/file.php' );
 		}
+	}
+
+	/**
+	 * Runs the installation by using the WordPress installation routine.
+	 *
+	 * @param string $plugin_download The url to the download.
+	 *
+	 * @codeCoverageIgnore Contains WordPress specific logic.
+	 *
+	 * @return bool|WP_Error True when success, WP_Error when something went wrong.
+	 */
+	protected function run_installation( $plugin_download ) {
+		$plugin_upgrader = new Plugin_Upgrader( new WPSEO_MyYoast_Plugin_Installer_Skin() );
+
+		return $plugin_upgrader->install( $plugin_download );
 	}
 }

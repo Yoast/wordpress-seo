@@ -19,6 +19,8 @@ class WPSEO_Endpoint_MyYoast_Download_Activate implements WPSEO_Endpoint {
 	/**
 	 * Registers the routes for the endpoints.
 	 *
+	 * @codeCoverageIgnore Only contains a WordPress function.
+	 *
 	 * @return void
 	 */
 	public function register() {
@@ -35,6 +37,8 @@ class WPSEO_Endpoint_MyYoast_Download_Activate implements WPSEO_Endpoint {
 
 	/**
 	 * Determines whether or not data can be retrieved for the registered endpoints.
+	 *
+	 * @codeCoverageIgnore Only contains a WordPress function.
 	 *
 	 * @return bool Whether or not data can be retrieved.
 	 */
@@ -53,8 +57,12 @@ class WPSEO_Endpoint_MyYoast_Download_Activate implements WPSEO_Endpoint {
 		$this->require_dependencies();
 
 		try {
-			$plugin_slug = $request->get_param( 'slug' );
-			$plugin_file = $this->get_plugin_file( $plugin_slug );
+			$plugin_slug       = $request->get_param( 'slug' );
+			$activation_result = $this->activate_plugin( $plugin_slug );
+
+			return new WP_REST_Response( $activation_result );
+
+
 
 			return new WP_REST_Response( $this->activate_plugin( $plugin_file ) );
 		}
@@ -69,17 +77,18 @@ class WPSEO_Endpoint_MyYoast_Download_Activate implements WPSEO_Endpoint {
 	/**
 	 * Activates the plugin based on the given plugin file.
 	 *
-	 * @param string $plugin_file The plugin to activate.
+	 * @param string $plugin_slug The plugin slug to get download url for.
 	 *
 	 * @return bool True when activation is successful.
 	 *
 	 * @throws WPSEO_REST_Request_Exception When error occurred during activation.
 	 */
-	protected function activate_plugin( $plugin_file ) {
+	protected function activate_plugin( $plugin_slug ) {
+		$plugin_file       = $this->get_plugin_file( $plugin_slug );
+		$activation_result = $this->run_activation( $plugin_file );
 
-		$result = activate_plugin( $plugin_file );
-		if ( $result !== null && is_wp_error( $result ) ) {
-			throw new WPSEO_REST_Request_Exception( $result->get_error_message() );
+		if ( $activation_result !== null && is_wp_error( $activation_result ) ) {
+			throw new WPSEO_REST_Request_Exception( $activation_result->get_error_message() );
 		}
 
 		return true;
@@ -113,11 +122,26 @@ class WPSEO_Endpoint_MyYoast_Download_Activate implements WPSEO_Endpoint {
 	/**
 	 * Requires the files needed from WordPress itself.
 	 *
+	 * @codeCoverageIgnore Only loads a WordPress file.
+	 *
 	 * @return void
 	 */
-	private function require_dependencies() {
+	protected function require_dependencies() {
 		if ( ! function_exists( 'get_plugins' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 		}
+	}
+
+	/**
+	 * Runs the activation by using the WordPress activation routine.
+	 *
+	 * @param string $plugin_file The plugin to activate.
+	 *
+	 * @codeCoverageIgnore Contains WordPress specific logic.
+	 *
+	 * @return bool|WP_Error True when success, WP_Error when something went wrong.
+	 */
+	protected function run_activation( $plugin_file ) {
+		return activate_plugin( $plugin_file );
 	}
 }
