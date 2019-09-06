@@ -150,6 +150,9 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			case is_archive():
 				$type = 'CollectionPage';
 				break;
+			case is_singular( 'amp_story' ):
+				$type = 'BlogPosting';
+				break;
 			default:
 				$type = 'WebPage';
 		}
