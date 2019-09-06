@@ -8,6 +8,8 @@ import { createSvgIconComponent } from "@yoast/helpers";
 /**
  * Custom styled SVG Component for the spinner.
  *
+ * Note this component receives props from `<ComponentToUse>` in `createSvgIconComponent()`.
+ *
  * @param {Object} props The component's props.
  *
  * @returns {React.Element} StyledSvg component.
@@ -20,7 +22,7 @@ const StyledSvgSpinner = styled.svg`
 	animation: loadingSpinnerRotator 1.4s linear infinite;
 
 	& .path {
-		stroke: ${ props => props.color };
+		stroke: ${ props => props.fill };
 		stroke-dasharray: 187;
 		stroke-dashoffset: 0;
 		transform-origin: center;
@@ -44,10 +46,6 @@ const StyledSvgSpinner = styled.svg`
 		}
 	}
 `;
-
-StyledSvgSpinner.defaultProps = {
-	color: "#000",
-};
 
 const DEFAULT_VIEWBOX = "0 0 1792 1792";
 /* eslint-disable max-len, quote-props */

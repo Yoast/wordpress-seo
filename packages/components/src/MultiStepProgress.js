@@ -33,11 +33,10 @@ const MultiStepProgressList = styled.ol`
  */
 const MultiStepProgressListItem = styled.li`
 	display: flex;
-	flex-direction: row;
 	align-items: baseline;
 
 	margin: 8px 0;
-	
+
 	:first-child {
 		margin-top: 0;
 	}
@@ -65,7 +64,6 @@ const MultiStepProgressListItem = styled.li`
 		padding: 4px;
 		color: ${ colors.$color_white };
 		text-align: center;
-		display: inline-block;
 	}
 `;
 
@@ -76,7 +74,7 @@ const MultiStepProgressPendingStatus = styled( MultiStepProgressListItem )`
 	span {
 		color: ${ colors.$palette_grey_text_light };
 	}
-	
+
 	::before {
 		background-color: ${ colors.$palette_grey_medium_dark };
 	}

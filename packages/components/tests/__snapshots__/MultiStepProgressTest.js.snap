@@ -12,7 +12,7 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
     className="knaceg"
   >
     <li
-      className="leOWiI"
+      className="kMQQyg"
     >
       <span>
         This task has finished.
@@ -33,7 +33,7 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
       </svg>
     </li>
     <li
-      className="leOWiI"
+      className="kMQQyg"
     >
       <span>
         This task has failed.
@@ -54,15 +54,14 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
       </svg>
     </li>
     <li
-      className="bhvCVX"
+      className="cVItcS"
     >
       <span>
         This task is running.
       </span>
       <svg
         aria-hidden={true}
-        className="yoast-svg-icon yoast-svg-icon-loading-spinner hMTMhp"
-        color="#000"
+        className="yoast-svg-icon yoast-svg-icon-loading-spinner fPPnRA"
         fill="currentColor"
         focusable="false"
         role="img"
@@ -82,7 +81,7 @@ exports[`MultiStepProgress the MultiStepProgress matches the snapshot 1`] = `
       </svg>
     </li>
     <li
-      className="iVkvRE"
+      className="efeHCA"
     >
       <span>
         This task is pending.
