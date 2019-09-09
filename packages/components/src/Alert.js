@@ -37,20 +37,30 @@ const AlertIcon = styled( SvgIcon )`
 `;
 
 const AlertDismiss = styled( Button )`
-	${ getDirectionalStyle( "margin-left: 8px", "margin-right: 8px" ) };
+	${ getDirectionalStyle( "margin: -8px -8px 0 8px", "margin: 0 8px 0 0" ) };
 	font-size: 24px;
 	line-height: 24px;
 	color: ${ props => props.alertDismissColor };
+	flex-shrink: 0;
+	min-width: 40px;
+	height: 40px;
 
 	// Override the base button style: get rid of the button styling.
-	min-height: auto;
 	padding: 0;
 
-	&, &:hover, &:focus, &:active {
+	&, &:hover, &:active {
 		border-radius: 0;
-		border: none;
+		/* Inherits box-sizing: border-box so this doesn't change the rendered size. */
+		border: 1px solid transparent;
 		background: transparent;
 		box-shadow: none;
+		color: ${ props => props.alertDismissColor };
+	}
+
+	/* Inherits focus style from the Button component. */
+	&:focus {
+		background: transparent;
+		color: ${ props => props.alertDismissColor };
 	}
 `;
 
