@@ -16,7 +16,7 @@ const AlertContainer = styled.div`
 	display: flex;
 	align-items: flex-start;
 	fontSize: 14px;
-	border: 1px solid rgba(0,0,0, 0.2);
+	border: 1px solid rgba(0, 0, 0, 0.2);
 	padding: 16px;
 	color: ${ props => props.alertColor };
 	background: ${ props => props.alertBackground };
@@ -32,6 +32,7 @@ const AlertContent = styled.div`
 `;
 
 const AlertIcon = styled( SvgIcon )`
+	margin-top: 0.125rem;
 	${ getDirectionalStyle( "margin-right: 8px", "margin-left: 8px" ) };
 `;
 
