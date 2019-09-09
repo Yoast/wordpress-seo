@@ -63,6 +63,8 @@ const AlertDismiss = styled( Button )`
  *                                       Controls the colors and icon of the Alert.
  * @param {Function} [props.onDismissed] When supplied this Alert will gain an 'X' button.
  *                                       Note: the function provided should do the actual dismissing!
+ * @param {string}   dismissAriaLabel    The close button aria-label. Must be a translatable string with
+ *                                       text domain.
  *
  * @returns {Alert} The Alert component.
  */
@@ -109,7 +111,8 @@ class Alert extends React.Component {
 	 * @returns {React.Element} The rendered component.
 	 */
 	render() {
-		const options = this.getTypeDisplayOptions( this.props.type );
+		const options          = this.getTypeDisplayOptions( this.props.type );
+		const dismissAriaLabel = this.props.dismissAriaLabel || __( "Dismiss this alert", "yoast-components" );
 
 		return <AlertContainer alertColor={ options.color } alertBackground={ options.background }>
 			<AlertIcon icon={ options.icon } color={ options.color } />
@@ -120,7 +123,7 @@ class Alert extends React.Component {
 						<AlertDismiss
 							alertDismissColor={ options.color }
 							onClick={ this.props.onDismissed }
-							aria-label={ __( this.props.dismissAriaLabel, "yoast-components" ) }
+							aria-label={ dismissAriaLabel }
 						>
 							&times;
 						</AlertDismiss>
@@ -140,7 +143,7 @@ Alert.propTypes = {
 
 Alert.defaultProps = {
 	onDismissed: null,
-	dismissAriaLabel: "Dismiss this alert",
+	dismissAriaLabel: "",
 };
 
 export default Alert;
