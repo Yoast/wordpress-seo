@@ -111,6 +111,7 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_MyYoast_Proxy();
 		$integrations[] = new WPSEO_MyYoast_Route();
 		$integrations[] = new WPSEO_Schema_Person_Upgrade_Notification();
+		$integrations[] = new WPSEO_Plugin_Installation();
 
 		$integrations = array_merge(
 			$integrations,

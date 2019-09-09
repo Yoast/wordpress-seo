@@ -649,6 +649,11 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-element',
 				),
 			),
+			array(
+				'name' => 'plugin-installation',
+				'src'  => 'plugin-installation-' . $flat_version,
+				'deps' => array( 'wp-data', 'wp-element' ),
+			),
 		);
 	}
 
