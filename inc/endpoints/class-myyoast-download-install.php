@@ -6,7 +6,7 @@
  */
 
 /**
- * Represents an implementation of the WPSEO_Endpoint interface to register one or multiple endpoints.
+ * Represents the endpoint for downloading and installing a zip-file from MyYoast.
  */
 class WPSEO_Endpoint_MyYoast_Download_Install implements WPSEO_Endpoint {
 	/**

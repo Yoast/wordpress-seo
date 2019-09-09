@@ -6,7 +6,7 @@
  */
 
 /**
- * Represents an implementation of the WPSEO_Endpoint interface to register one or multiple endpoints.
+ * Represents the endpoint for activating a specific Yoast Plugin on WordPress.
  */
 class WPSEO_Endpoint_MyYoast_Download_Activate implements WPSEO_Endpoint {
 	/**
