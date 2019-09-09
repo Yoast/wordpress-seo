@@ -6,24 +6,26 @@ import { __ } from "@wordpress/i18n";
 
 /* Yoast dependencies */
 import { getDirectionalStyle } from "@yoast/helpers";
+import { colors } from "@yoast/style-guide";
+
+/* Internal dependencies */
 import Button from "./buttons/Button";
 import SvgIcon from "./SvgIcon";
-import { colors } from "@yoast/style-guide";
 
 const AlertContainer = styled.div`
 	display: flex;
-	align-items: flex-start; 
+	align-items: flex-start;
 	fontSize: 14px;
 	border: 1px solid rgba(0,0,0, 0.2);
 	padding: 16px;
-	color: ${ props => props.color };
-	background: ${ props => props.background };
+	color: ${ props => props.alertColor };
+	background: ${ props => props.alertBackground };
 	margin-bottom: 20px;
 `;
 
 const AlertContent = styled.div`
 	flex-grow: 1;
-	
+
 	a {
 		color: ${ colors.$color_alert_link_text };
 	}
@@ -37,8 +39,8 @@ const AlertDismiss = styled( Button )`
 	${ getDirectionalStyle( "margin-left: 8px", "margin-right: 8px" ) };
 	font-size: 24px;
 	line-height: 24px;
-	color: ${ props => props.color };
-	
+	color: ${ props => props.alertDismissColor };
+
 	// Override the base button style: get rid of the button styling.
 	min-height: auto;
 	padding: 0;
@@ -59,7 +61,7 @@ const AlertDismiss = styled( Button )`
  * @param {string}   props.type          The type of Alert. Can be: "error", "info", "success" or "warning".
  *                                       Controls the colors and icon of the Alert.
  * @param {Function} [props.onDismissed] When supplied this Alert will gain an 'X' button.
- *                                       Note: the function provider should do the actual dismissing!
+ *                                       Note: the function provided should do the actual dismissing!
  *
  * @returns {Alert} The Alert component.
  */
@@ -108,14 +110,14 @@ class Alert extends React.Component {
 	render() {
 		const options = this.getTypeDisplayOptions( this.props.type );
 
-		return <AlertContainer color={ options.color } background={ options.background }>
+		return <AlertContainer alertColor={ options.color } alertBackground={ options.background }>
 			<AlertIcon icon={ options.icon } color={ options.color } />
 			<AlertContent>{ this.props.children }</AlertContent>
 			{
 				typeof this.props.onDismissed === "function"
 					? (
 						<AlertDismiss
-							color={ options.color }
+							alertDismissColor={ options.color }
 							onClick={ this.props.onDismissed }
 							aria-label={ __( this.props.dismissAriaLabel, "yoast-components" ) }
 						>

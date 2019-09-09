@@ -42,7 +42,7 @@ describe( "Alert", () => {
 			const tree = component.toJSON();
 
 			// Check the color of the alert.
-			expect( tree.props.color ).toBe( alert.color );
+			expect( tree.props.color ).toBe( alert.alertColor );
 
 			// 2 children: The type icon and the content.
 			expect( tree.children.length ).toBe( 2 );
@@ -61,7 +61,7 @@ describe( "Alert", () => {
 
 			// Check the background of the alert.
 			const { rendered } = component.toTree();
-			expect( rendered.props.background ).toBe( alert.background );
+			expect( rendered.props.background ).toBe( alert.alertBackground );
 		} );
 	} );
 
