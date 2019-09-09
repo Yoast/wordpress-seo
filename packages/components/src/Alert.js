@@ -15,7 +15,8 @@ import SvgIcon from "./SvgIcon";
 const AlertContainer = styled.div`
 	display: flex;
 	align-items: flex-start;
-	fontSize: 14px;
+	font-size: 14px;
+	line-height: 1.5;
 	border: 1px solid rgba(0, 0, 0, 0.2);
 	padding: 16px;
 	color: ${ props => props.alertColor };
@@ -37,21 +38,20 @@ const AlertIcon = styled( SvgIcon )`
 `;
 
 const AlertDismiss = styled( Button )`
-	${ getDirectionalStyle( "margin: -8px -8px 0 8px", "margin: 0 8px 0 0" ) };
+	${ getDirectionalStyle( "margin: -8px -12px -8px 8px", "margin: -8px 8px -12px -8px" ) };
 	font-size: 24px;
-	line-height: 24px;
+	line-height: 1.4;
 	color: ${ props => props.alertDismissColor };
 	flex-shrink: 0;
-	min-width: 40px;
-	height: 40px;
+	min-width: 36px;
+	height: 36px;
 
 	// Override the base button style: get rid of the button styling.
 	padding: 0;
 
 	&, &:hover, &:active {
-		border-radius: 0;
 		/* Inherits box-sizing: border-box so this doesn't change the rendered size. */
-		border: 1px solid transparent;
+		border: 2px solid transparent;
 		background: transparent;
 		box-shadow: none;
 		color: ${ props => props.alertDismissColor };
@@ -61,6 +61,8 @@ const AlertDismiss = styled( Button )`
 	&:focus {
 		background: transparent;
 		color: ${ props => props.alertDismissColor };
+		border-color: ${ colors.$color_yoast_focus };
+		box-shadow: 0px 0px 0px 3px ${ colors.$color_yoast_focus_outer };
 	}
 `;
 

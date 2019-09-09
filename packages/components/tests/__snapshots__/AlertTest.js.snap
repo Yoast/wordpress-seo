@@ -2,7 +2,7 @@
 
 exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
 <div
-  className="jdyQUY"
+  className="biWnNh"
 >
   <svg
     aria-hidden={true}
@@ -25,7 +25,7 @@ exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
   </div>
   <button
     aria-label="Dismiss this alert"
-    className="gXvYl"
+    className="cdwFrw"
     onClick={
       [MockFunction] {
         "calls": Array [
@@ -42,7 +42,7 @@ exports[`Alert passing onDismissed makes the alert dismissable 1`] = `
 
 exports[`Alert the Alert types match the snapshot 1`] = `
 <div
-  className="ixIiOx"
+  className="eIlftt"
 >
   <svg
     aria-hidden={true}
@@ -68,7 +68,7 @@ exports[`Alert the Alert types match the snapshot 1`] = `
 
 exports[`Alert the Alert types match the snapshot 2`] = `
 <div
-  className="jdyQUY"
+  className="biWnNh"
 >
   <svg
     aria-hidden={true}
@@ -94,7 +94,7 @@ exports[`Alert the Alert types match the snapshot 2`] = `
 
 exports[`Alert the Alert types match the snapshot 3`] = `
 <div
-  className="jmKzNj"
+  className="iKPZzS"
 >
   <svg
     aria-hidden={true}
@@ -120,7 +120,7 @@ exports[`Alert the Alert types match the snapshot 3`] = `
 
 exports[`Alert the Alert types match the snapshot 4`] = `
 <div
-  className="jxBTjR"
+  className="lfexDP"
 >
   <svg
     aria-hidden={true}

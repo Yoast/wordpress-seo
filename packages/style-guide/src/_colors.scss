@@ -27,6 +27,7 @@ $palette_blue_light:         #a9a9ce; // Safe to use with $palette_black.
 $palette_blue_medium:        #1e8cbe; // Safe to use with $palette_black.
 $palette_blue_link:          #0073aa; // WordPress color.
 $palette_blue_focus:         #5b9dd9; // WordPress color.
+$palette_yoast_focus:        #007fff; // Standardized Yoast focus style.
 $palette_blue_dark:          #084a67; // Safe to use with $palette_white – $palette_grey_medium.
 $palette_green:              #77b227; // Safe to use with $palette_black.
 $palette_green_light:        #7ad03a; // Safe to use with $palette_black.
@@ -126,6 +127,8 @@ $color_snippet_active:       $palette_grey_dark;
 $color_blue_link:            $palette_blue_link;
 $color_blue_focus:           $palette_blue_focus;
 $color_blue_focus_shadow:    $palette_blue_medium;
+$color_yoast_focus:          $palette_yoast_focus;
+$color_yoast_focus_outer:    rgba( $palette_yoast_focus, 0.25 );
 
 // My Yoast colors.
 $color_grey_medium_dark:     $palette_grey_medium_dark;
