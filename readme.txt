@@ -15,12 +15,12 @@ Improve your WordPress SEO: Write better content and have a fully optimized Word
 
 ### Yoast SEO: the #1 WordPress SEO plugin
 
-Since 2008 Yoast SEO has helped millions of websites worldwide to rank higher in search engines. The SEO plugin helps you with your search engine optimization. Are you not entirely convinced? Yoast SEO is the original WordPress SEO plugin and is the favorite tool of millions of users worldwide!
+Since 2008 Yoast SEO has helped millions of websites worldwide to rank higher in search engines. This WordPress SEO plugin helps you with your search engine optimization. Are you not entirely convinced? Yoast SEO is the favorite WordPress SEO plugin of millions of users worldwide!
 
 As Yoast’s mission is **SEO for Everyone**, the plugin’s users range from the bakery around the corner to some of the most popular sites on the planet.
 
 #### DON’T LET YOUR COMPETITORS WIN
-Do you know who your competitors are in your niche? There’s a reason why they are your competitors: they do what you do. And they might even do it better right now. That does not mean you can't win from them, but it does mean you need all the help to get on top and stay on top! Yoast SEO is here to help you out as we’ve helped millions of people worldwide.
+Do you know who your competitors are in your niche? There’s a reason why they are your competitors: they do what you do. And they might even do it better right now. That does not mean you can't win from them, but it does mean you need all the help to get on top and stay on top! Yoast SEO is here to help you out as we’ve helped millions of people worldwide with their WordPress SEO efforts.
 
 #### TAKING CARE OF YOUR WORDPRESS SEO
 Yoast SEO does everything in its power to please both visitors and search engine spiders. A dedicated team of developers, testers, architects and SEO experts work daily to improve the plugin with every release. Yoast SEO offers:
@@ -29,7 +29,7 @@ Yoast SEO does everything in its power to please both visitors and search engine
 * The most advanced XML Sitemaps functionality at the push of a button.
 * Full control over site breadcrumbs.
 * The option to set canonical URLs to avoid duplicate content so you never have to worry about Google penalties again.
-* **[Premium]** the ability to expand Yoast SEO with the News SEO, Video SEO, Local SEO and WooCommerce SEO extensions.
+* **[Premium]** the ability to expand Yoast SEO with the [News SEO](https://yoa.st/3re), Video SEO, Local SEO and WooCommerce SEO extensions.
 * **[Premium]** support for our Yoast SEO Premium users.
 
 #### WRITE KILLER CONTENT WITH YOAST SEO
