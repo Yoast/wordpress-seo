@@ -131,7 +131,7 @@ Bugfixes:
 Other:
 
 * Allows showing specific dashboard feeds based on the `wp_version` and `php_version` of a site.
-* Removes the AMP Glue plugin suggestion from the SEO dashboard when AMP and Yoast SEO are installed. The AMP Glue plugin by Yoast is being discontinued.
+* Removes the AMP Glue plugin suggestion from the SEO dashboard when AMP and Yoast SEO are installed. The AMP Glue plugin by Yoast will be discontinued soon.
 * Removes the `Courses` menu-item in Yoast SEO.
 
 = 12.0.0 =
