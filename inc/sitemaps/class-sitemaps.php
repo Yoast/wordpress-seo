@@ -104,7 +104,7 @@ class WPSEO_Sitemaps {
 	public function __construct() {
 
 		add_action( 'after_setup_theme', array( $this, 'init_sitemaps_providers' ) );
-		add_action( 'parse_request', array( $this, 'redirect' ), 1 );
+		add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 		add_action( 'wpseo_ping_search_engines', array( __CLASS__, 'ping_search_engines' ) );
 
@@ -213,14 +213,17 @@ class WPSEO_Sitemaps {
 	/**
 	 * Hijack requests for potential sitemaps and XSL files.
 	 *
-	 * @param \WP $input Main WP object.
+	 * @param \WP_Query $query Main query instance.
 	 */
-	public function redirect( $input ) {
-		if ( empty( $input->query_vars['sitemap'] ) ) {
+	public function redirect( $query ) {
+
+		if ( ! $query->is_main_query() ) {
 			return;
 		}
 
-		if ( ! empty( $input->query_vars['yoast-sitemap-xsl'] ) ) {
+		$yoast_sitemap_xsl = get_query_var( 'yoast-sitemap-xsl' );
+
+		if ( ! empty( $yoast_sitemap_xsl ) ) {
 			/*
 			 * This is a method to provide the XSL via the home_url.
 			 * Needed when the site_url and home_url are not the same.
@@ -228,26 +231,32 @@ class WPSEO_Sitemaps {
 			 *
 			 * Whenever home_url and site_url are the same, the file can be loaded directly.
 			 */
-			$this->xsl_output( $input->query_vars['yoast-sitemap-xsl'] );
+			$this->xsl_output( $yoast_sitemap_xsl );
 			$this->sitemap_close();
 
 			return;
 		}
 
-		if ( ! empty( $input->query_vars['sitemap_n'] ) ) {
-			$this->set_n( $input->query_vars['sitemap_n'] );
+		$type = get_query_var( 'sitemap' );
+
+		if ( empty( $type ) ) {
+			return;
 		}
 
-		if ( ! $this->get_sitemap_from_cache( $input->query_vars['sitemap'], $this->current_page ) ) {
-			$this->build_sitemap( $input->query_vars['sitemap'] );
+		$this->set_n( get_query_var( 'sitemap_n' ) );
+
+		if ( ! $this->get_sitemap_from_cache( $type, $this->current_page ) ) {
+			$this->build_sitemap( $type );
 		}
 
 		if ( $this->bad_sitemap ) {
-			wp_redirect( home_url(), 302 );
-			exit;
+			$query->set_404();
+			status_header( 404 );
+
+			return;
 		}
 
-		$this->send_headers( $input->query_vars['sitemap'] );
+		$this->send_headers( $type );
 		$this->output();
 		$this->sitemap_close();
 	}
