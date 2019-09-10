@@ -11,7 +11,6 @@
  * @todo This class could use a general description with some explanation on sitemaps. OR.
  */
 class WPSEO_Sitemaps {
-
 	/**
 	 * Sitemap index identifier.
 	 *
@@ -105,8 +104,7 @@ class WPSEO_Sitemaps {
 	public function __construct() {
 
 		add_action( 'after_setup_theme', array( $this, 'init_sitemaps_providers' ) );
-		add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 99 );
-		add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
+		add_action( 'parse_request', array( $this, 'redirect' ), 1 );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 		add_action( 'wpseo_ping_search_engines', array( __CLASS__, 'ping_search_engines' ) );
 
@@ -139,23 +137,6 @@ class WPSEO_Sitemaps {
 			if ( is_object( $provider ) && $provider instanceof WPSEO_Sitemap_Provider ) {
 				$this->providers[] = $provider;
 			}
-		}
-	}
-
-	/**
-	 * Check the current request URI, if we can determine it's probably an XML sitemap, kill loading the widgets.
-	 */
-	public function reduce_query_load() {
-
-		if ( ! isset( $_SERVER['REQUEST_URI'] ) ) {
-			return;
-		}
-
-		$request_uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-		$extension   = substr( $request_uri, -4 );
-
-		if ( false !== stripos( $request_uri, 'sitemap' ) && in_array( $extension, array( '.xml', '.xsl' ), true ) ) {
-			remove_all_actions( 'widgets_init' );
 		}
 	}
 
@@ -232,17 +213,14 @@ class WPSEO_Sitemaps {
 	/**
 	 * Hijack requests for potential sitemaps and XSL files.
 	 *
-	 * @param \WP_Query $query Main query instance.
+	 * @param \WP $input Main WP object.
 	 */
-	public function redirect( $query ) {
-
-		if ( ! $query->is_main_query() ) {
+	public function redirect( $input ) {
+		if ( empty( $input->query_vars['sitemap'] ) ) {
 			return;
 		}
 
-		$yoast_sitemap_xsl = get_query_var( 'yoast-sitemap-xsl' );
-
-		if ( ! empty( $yoast_sitemap_xsl ) ) {
+		if ( ! empty( $input->query_vars['yoast-sitemap-xsl'] ) ) {
 			/*
 			 * This is a method to provide the XSL via the home_url.
 			 * Needed when the site_url and home_url are not the same.
@@ -250,31 +228,26 @@ class WPSEO_Sitemaps {
 			 *
 			 * Whenever home_url and site_url are the same, the file can be loaded directly.
 			 */
-			$this->xsl_output( $yoast_sitemap_xsl );
+			$this->xsl_output( $input->query_vars['yoast-sitemap-xsl'] );
 			$this->sitemap_close();
 
 			return;
 		}
 
-		$type = get_query_var( 'sitemap' );
-
-		if ( empty( $type ) ) {
-			return;
+		if ( ! empty( $input->query_vars['sitemap_n'] ) ) {
+			$this->set_n( $input->query_vars['sitemap_n'] );
 		}
 
-		$this->set_n( get_query_var( 'sitemap_n' ) );
-
-		if ( ! $this->get_sitemap_from_cache( $type, $this->current_page ) ) {
-			$this->build_sitemap( $type );
+		if ( ! $this->get_sitemap_from_cache( $input->query_vars['sitemap'], $this->current_page ) ) {
+			$this->build_sitemap( $input->query_vars['sitemap'] );
 		}
 
 		if ( $this->bad_sitemap ) {
-			$query->set_404();
-			status_header( 404 );
-
-			return;
+			wp_redirect( home_url(), 302 );
+			exit;
 		}
 
+		$this->send_headers( $input->query_vars['sitemap'] );
 		$this->output();
 		$this->sitemap_close();
 	}
@@ -366,10 +339,12 @@ class WPSEO_Sitemaps {
 				$links = $provider->get_sitemap_links( $type, $entries_per_page, $this->current_page );
 			} catch ( OutOfBoundsException $exception ) {
 				$this->bad_sitemap = true;
+
 				return;
 			}
 
 			$this->sitemap = $this->renderer->get_sitemap( $links, $type, $this->current_page );
+
 			return;
 		}
 
@@ -441,17 +416,9 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Spit out the generated sitemap and relevant headers and encoding information.
+	 * Spit out the generated sitemap.
 	 */
 	public function output() {
-
-		if ( ! headers_sent() ) {
-			header( $this->http_protocol . ' 200 OK', true, 200 );
-			// Prevent the search engines from indexing the XML Sitemap.
-			header( 'X-Robots-Tag: noindex, follow', true );
-			header( 'Content-Type: text/xml; charset=' . esc_attr( $this->renderer->get_output_charset() ) );
-		}
-
 		echo $this->renderer->get_output( $this->sitemap, $this->transient );
 	}
 
@@ -622,5 +589,35 @@ class WPSEO_Sitemaps {
 		}
 
 		return $post_statuses;
+	}
+
+	/**
+	 * Sends all the required HTTP Headers
+	 *
+	 * @param string $type Provide a type for a post_type sitemap, SITEMAP_INDEX_TYPE for the root sitemap.
+	 */
+	private function send_headers( $type ) {
+		$headers = array(
+			$this->http_protocol . ' 200 OK'                                                       => 200,
+			// Prevent the search engines from indexing the XML Sitemap.
+			'X-Robots-Tag: noindex, follow'                                                        => '',
+			'Content-Type: text/xml; charset=' . esc_attr( $this->renderer->get_output_charset() ) => '',
+		);
+
+		/**
+		 * Filter the HTTP headers we send before an XML sitemap.
+		 *
+		 * @param array  $headers The HTTP headers we're going to send out.
+		 * @param string $type    Post type or SITEMAP_INDEX_TYPE.
+		 */
+		$headers = apply_filters( 'wpseo_sitemap_http_headers', $headers, $type );
+
+		foreach ( $headers as $header => $status ) {
+			if ( is_numeric( $status ) ) {
+				header( $header, true, $status );
+				continue;
+			}
+			header( $header, true );
+		}
 	}
 }
