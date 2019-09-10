@@ -249,25 +249,12 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 				)
 			);
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_installed_addon_versions' )
-			->will(
-				$this->returnValue(
-					array(
-						'yoast-seo-wordpress-premium' => '10.0',
-					)
-				)
-			);
-
 		$this->assertEquals(
 			array(
 				'body'    => array(
 					'This is' => 'the request body',
 				),
-				'headers' => array(
-					'yoast-seo-wordpress-premium-version' => '10.0',
-				),
+				'headers' => array(),
 			),
 			$instance->enrich_request_arguments( array() )
 		);
@@ -290,22 +277,9 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 			->method( 'get_request_body' )
 			->will( $this->returnValue( array() ) );
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_installed_addon_versions' )
-			->will(
-				$this->returnValue(
-					array(
-						'yoast-seo-wordpress-premium' => '10.0',
-					)
-				)
-			);
-
 		$this->assertEquals(
 			array(
-				'headers' => array(
-					'yoast-seo-wordpress-premium-version' => '10.0',
-				),
+				'headers' => array(),
 			),
 			$instance->enrich_request_arguments( array() )
 		);

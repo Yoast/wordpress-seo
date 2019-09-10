@@ -281,6 +281,38 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Finds the plugin file.
+	 *
+	 * @param string $plugin_slug The plugin slug to search.
+	 *
+	 * @return boolean|string Plugin file when installed, False when plugin isn't installed.
+	 **/
+	public static function get_plugin_file( $plugin_slug ) {
+		$plugins            = get_plugins();
+		$plugin_files       = array_keys( $plugins );
+		$target_plugin_file = array_search( $plugin_slug, self::$addons, true );
+
+		foreach( $plugin_files as $plugin_file ) {
+			if ( false !== strpos( $plugin_file , $target_plugin_file ) ) {
+				return $plugin_file;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks is a plugin is installed.
+	 *
+	 * @param string $plugin_slug The plugin to check.
+	 *
+	 * @return bool True when plugin is installed.
+	 */
+	public static function is_installed( $plugin_slug ) {
+		return self::get_plugin_file( $plugin_slug ) !== false;
+	}
+
+	/**
 	 * Checks whether a plugin expiry date has been passed.
 	 *
 	 * @param stdClass $subscription Plugin subscription.
@@ -376,12 +408,34 @@ class WPSEO_Addon_Manager {
 	 * @return bool|stdClass Object when request is successful. False if not.
 	 */
 	protected function request_current_sites() {
-		$api_request = new WPSEO_MyYoast_Api_Request( 'sites/current' );
+		$api_request = new WPSEO_MyYoast_Api_Request(
+			'sites/current',
+			array(
+				'headers' => $this->get_addon_headers()
+			)
+		);
+
 		if ( $api_request->fire() ) {
 			return $api_request->get_response();
 		}
 
 		return $this->get_site_information_default();
+	}
+
+	/**
+	 * Retrieves the addons as headers.
+	 *
+	 * @return array The addon headers
+	 */
+	protected function get_addon_headers() {
+		$addon_version_headers = $this->get_installed_addons_versions();
+
+		$headers = array();
+		foreach ( $addon_version_headers as $addon => $version ) {
+			$headers[ $addon . '-version' ] = $version;
+		}
+
+		return $headers;
 	}
 
 	/**
