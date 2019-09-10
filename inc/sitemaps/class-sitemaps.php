@@ -104,6 +104,7 @@ class WPSEO_Sitemaps {
 	public function __construct() {
 
 		add_action( 'after_setup_theme', array( $this, 'init_sitemaps_providers' ) );
+		add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 99 );
 		add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
 		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
 		add_action( 'wpseo_ping_search_engines', array( __CLASS__, 'ping_search_engines' ) );
@@ -137,6 +138,20 @@ class WPSEO_Sitemaps {
 			if ( is_object( $provider ) && $provider instanceof WPSEO_Sitemap_Provider ) {
 				$this->providers[] = $provider;
 			}
+		}
+	}
+
+	/**
+	 * Check the current request URI, if we can determine it's probably an XML sitemap, kill loading the widgets.
+	 */
+	public function reduce_query_load() {
+		if ( ! isset( $_SERVER['REQUEST_URI'] ) ) {
+			return;
+		}
+		$request_uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+		$extension   = substr( $request_uri, -4 );
+		if ( false !== stripos( $request_uri, 'sitemap' ) && in_array( $extension, array( '.xml', '.xsl' ), true ) ) {
+			remove_all_actions( 'widgets_init' );
 		}
 	}
 
