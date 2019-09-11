@@ -144,7 +144,7 @@ class WPSEO_Admin_Pages {
 			'showLocalSEOUpsell'       => $this->should_show_local_seo_upsell(),
 			'localSEOUpsellURL'        => WPSEO_Shortlinker::get( 'https://yoa.st/3mp' ),
 		);
-		$search_appearance_l10n['knowledgeGraphCompanyInfoMissing'] = WPSEO_Utils::get_knowledge_graph_company_info_missing_l10n();
+		$search_appearance_l10n['knowledgeGraphCompanyInfoMissing'] = WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n();
 
 		return $search_appearance_l10n;
 	}
