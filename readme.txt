@@ -67,6 +67,7 @@ Did you know that the [Yoast SEO Premium](https://yoa.st/1v8) also has several e
 * It gives you the option to have **synonyms and related keyphrases**.
 * A **redirect manager** that f.i. helps you prevent 404 Page Not Found errors.
 * **Internal linking** suggestions while you write.
+* Write more natural with our automatic **recognition of word forms**
 * **Cornerstone content checks** to point search engines to your main pages.
 
 The [Yoast SEO Premium plugin](https://yoa.st/1v8) is well worth your investment!
