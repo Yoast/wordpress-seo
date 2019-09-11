@@ -1,54 +1,67 @@
 const INITIAL_STATE = {
 	installing: false,
-	plugins: {},
+	tasks: [],
 };
+
+function updateObjectInArray( array, itemIndex, updatedValues ) {
+	return array.map( ( item, index ) => {
+		if ( index !== itemIndex ) {
+			// This isn't the item we care about - keep it as-is
+			return item;
+		}
+
+		// Otherwise, this is the one we want - return an updated value
+		return {
+			...item,
+			...updatedValues,
+		};
+	} );
+}
 
 export default ( state = INITIAL_STATE, action ) => {
 	switch ( action.type ) {
-		case "PLUGIN_INSTALLATION_INIT":
+		case "SET_QUEUE":
 			return {
-				installing: true,
 				...INITIAL_STATE,
+				tasks: action.tasks,
 			};
-		case "PLUGIN_INSTALLATION_STARTED":
+		case "SET_INSTALLING":
 			return {
 				...state,
-				plugins: {
-					...state.plugins,
-					[ action.plugin ]: {
-						status: "downloading",
-					},
-				},
+				installing: action.installing,
 			};
-		case "PLUGIN_INSTALLATION_FAILED":
+		case "TASK_STARTED":
 			return {
 				...state,
-				plugins: {
-					...state.plugins,
-					[ action.plugin ]: {
+				tasks: updateObjectInArray(
+					state.tasks,
+					action.taskIndex,
+					{
+						status: "running",
+					}
+				),
+			};
+		case "TASK_FAILED":
+			return {
+				...state,
+				tasks: updateObjectInArray(
+					state.tasks,
+					action.taskIndex,
+					{
 						status: "failed",
-					},
-				},
+					}
+				),
 			};
-		case "PLUGIN_INSTALLATION_SUCCESS":
+		case "TASK_SUCCESS":
 			return {
 				...state,
-				plugins: {
-					...state.plugins,
-					[ action.plugin ]: {
-						status: "activating",
-					},
-				},
-			};
-		case "PLUGIN_ACTIVATION_SUCCESS":
-			return {
-				...state,
-				plugins: {
-					...state.plugins,
-					[ action.plugin ]: {
-						status: "success",
-					},
-				},
+				tasks: updateObjectInArray(
+					state.tasks,
+					action.taskIndex,
+					{
+						status: "finished",
+					}
+				),
 			};
 	}
 	return state;
