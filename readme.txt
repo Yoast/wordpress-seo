@@ -26,7 +26,7 @@ Do you know who your competitors are in your niche? There’s a reason why they 
 Yoast SEO does everything in its power to please both visitors and search engine spiders. A dedicated team of developers, testers, architects and SEO experts work daily to improve the plugin with every release. Yoast SEO offers:
 
 * Title and meta description templating for better branding and consistent snippets in the search results.
-* Schema implementations to increase the chance on rich results in search engines.
+* A state-of-the-art Schema implementation helps search engines make sense of your site and increases the chance on those coveted rich results.
 * The most advanced XML Sitemaps functionality at the push of a button.
 * Full control over your site's breadcrumbs.
 * Automatically set canonical URLs to avoid duplicate content.
@@ -43,6 +43,7 @@ We know content is king, that's why Yoast SEO is famous for its readability anal
 * **[Premium]** Social previews to show you how your content will be shown on Twitter and Facebook.
 * **[Premium]** The Insights tool that shows you what your text focuses on. This way you can keep your article in line with your keyphrases.
 * **[Premium]** The ability to optimize your article for synonyms and related keyphrases.
+* **[Premium]** We now recognize different word forms of your keyphrase, like singular and plurals, but also different tenses of verbs (just in English for now). It helps you improve your text in a more natural way.
 * **[Premium]** Automatic internal linking suggestions: write your article and automatically get suggested posts to link to! 
 
 #### KEEP YOUR SITE IN PERFECT SHAPE
