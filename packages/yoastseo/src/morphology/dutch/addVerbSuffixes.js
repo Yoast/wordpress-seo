@@ -3,6 +3,7 @@ import { modifyStem } from "../morphoHelpers/suffixHelpers";
 import { applySuffixesToStem } from "../morphoHelpers/suffixHelpers";
 
 /**
+ * Checks whether the stem has an ending for which the final consonant should not be voiced.
  *
  * @param {string} stemmedWord  The stem.
  * @param {string[]} stemEndings The endings to search for in the stem.
@@ -41,6 +42,7 @@ const findAndApplyModifications = function( stemmedWord, morphologyDataAddSuffix
 };
 
 /**
+ * Add all of the verb suffixes that are needed for the given stem.
  *
  * @param {string} stemmedWord	The stem
  * @param {Object} morphologyDataAddSuffixes  The Dutch morphology data for adding suffixes.
