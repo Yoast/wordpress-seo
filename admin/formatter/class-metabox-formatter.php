@@ -168,7 +168,7 @@ class WPSEO_Metabox_Formatter {
 			return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
 		}
 
-		if ( $term_id ){
+		if ( $term_id ) {
 			return WPSEO_Image_Utils::get_first_usable_description_image_for_term( $term_id );
 		}
 
