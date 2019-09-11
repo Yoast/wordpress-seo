@@ -65,8 +65,8 @@ export default class SnippetEditorExample extends Component {
 			title: "Welcome to the Gutenberg Editor - Local WordPress Dev. Snippet Title Snippet" +
 			" Snippet: %%snippet%% Title: %%title%% Manual: %%snippet_manual%% Type: %%post_type%%" +
 			" %%these%% %%are%% %%not%% %%tags%% and throw in some % here %%%%%%% and %%there too%%",
-			url: "https://local.wordpress.test/welcome-to-the-gutenberg-editor-2/",
-			slug: "welcome-to-the-gutenberg-editor-2",
+			url: "https://local.wordpress.test/welcome-to-the-gutenberg-editor/",
+			slug: "welcome-to-the-gutenberg-editor",
 			description: "Merci, merçi, Of Mountains & Printing Presses The goal of this new editor is to make" +
 			" adding rich content to WordPress simple and enjoyable. This whole post is composed" +
 			" of. Of Mountains & Printing Presses The goal of this new editor is to make adding" +

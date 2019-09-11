@@ -18,6 +18,7 @@ import { Loader } from "@yoast/components";
 import FacebookPreviewExample from "./FacebookPreviewExample";
 import LinkSuggestionsWrapper from "./LinkSuggestionsExample";
 import WordOccurrencesWrapper from "./WordOccurrencesWrapper";
+import MultiStepProgressWrapper from "./MultiStepProgressWrapper";
 
 // Setup empty translations to prevent Jed error.
 setLocaleData( { "": {} }, "yoast-components" );
@@ -102,6 +103,11 @@ const components = [
 		id: "wordoccurrences-example",
 		name: "WordOccurrences",
 		component: <WordOccurrencesWrapper />,
+	},
+	{
+		id: "multi-step-progress",
+		name: "Multi step progress",
+		component: <MultiStepProgressWrapper />,
 	},
 ];
 

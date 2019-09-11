@@ -143,6 +143,34 @@ describe( "gets the sentence beginnings and the count of consecutive duplicates.
 		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
 	} );
 
+	it( "returns an object with sentence beginnings and counts for two sentences in Portuguese starting with different words.", function() {
+		changePaper( { text: "Quem sou? Para onde vou?", locale: "pt_PT" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "quem" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 1 );
+		expect( getSentenceBeginnings()[ 1 ].word ).toBe( "para" );
+		expect( getSentenceBeginnings()[ 1 ].count ).toBe( 1 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for two sentences in Portuguese starting with the same word.", function() {
+		changePaper( { text: "Dora pensa sobre o quanto ela ama sua floresta. Dora ama explorar a floresta, saltando de ramo para ramo entre as árvores altas.", locale: "es_ES" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "dora" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 2 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for three sentences in Portuguese all starting with one of the exception words.", function() {
+		changePaper( { text: "O mês estava frio. O mês foi difícil. O final disso os fez felizes.", locale: "pt_PT" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "o mês" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 2 );
+		expect( getSentenceBeginnings()[ 1 ].word ).toBe( "o final" );
+		expect( getSentenceBeginnings()[ 1 ].count ).toBe( 1 );
+	} );
+
+	it( "returns an object with sentence beginnings and counts for sentences in Portuguese that start with a character with a diacritic.", function() {
+		changePaper( { text: "Não viajo faz muito tempo. Não vi montanhas em anos. Não vi o mar desde que eu era pequeno.", locale: "es_ES" } );
+		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "não" );
+		expect( getSentenceBeginnings()[ 0 ].count ).toBe( 3 );
+	} );
+
 	it( "returns an object with sentence beginnings and counts for two sentences in Dutch starting with different words.", function() {
 		changePaper( { text: "Hallo wereld. Hoe gaat het? ", locale: "nl_NL" } );
 		expect( getSentenceBeginnings()[ 0 ].word ).toBe( "hallo" );

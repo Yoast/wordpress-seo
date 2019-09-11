@@ -11,7 +11,7 @@ import isArray from "lodash/isArray";
  *
  * @returns {React.Element} StyledSvg component.
  */
-const StyledSvg = styled.svg`
+export const StyledSvg = styled.svg`
 	width: ${ props => props.size };
 	height: ${ props => props.size };
 	flex: none;
@@ -43,9 +43,10 @@ class SvgIconSet extends React.Component {
 		const viewbox = iconName.viewbox;
 
 		const iconClass = [ "yoast-svg-icon", "yoast-svg-icon-" + icon, className ].filter( Boolean ).join( " " );
+		const ComponentToUse = iconName.CustomComponent ? iconName.CustomComponent : StyledSvg;
 
 		return (
-			<StyledSvg
+			<ComponentToUse
 				aria-hidden={ true }
 				role="img"
 				focusable="false"
@@ -56,7 +57,7 @@ class SvgIconSet extends React.Component {
 				fill={ color }
 			>
 				{ isArray( path ) ? path : <path d={ path } /> }
-			</StyledSvg>
+			</ComponentToUse>
 		);
 	}
 }
