@@ -35,7 +35,7 @@ This monorepo includes reusable packages:
 - [yoastseo](packages/yoastseo) *[Replaces [YoastSEO.js](https://github.com/yoast//yoastseo.js)]*
   - Text analysis and assessment library in JavaScript. This library can generate interesting metrics about a text and assess these metrics to give you an assessment which can be used to improve the text.
 
-All new package should be [scoped](https://docs.npmjs.com/misc/scope) with `@yoast/` , so they can be published as part of the [Yoast organisation](https://www.npmjs.com/org/yoast).
+All new package should be [scoped](https://docs.npmjs.com/misc/scope) with `@yoast/` , so they can be published as part of the [Yoast organisation](https://www.npmjs.com/org/yoast). When creating a new package with translations, please mind that they need to be added to the pipeline ([for context see this issue](https://github.com/Yoast/wordpress-seo/issues/13360)).
 
 ### javascript/apps
 

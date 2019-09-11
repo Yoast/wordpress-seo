@@ -5,6 +5,15 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.58.0 September 3rd, 2019
+### Enhancements:
+* Implements the assessment that checks whether multiple sentences begin with the same word for Portuguese, props to [amesdigital](https://github.com/amesdigital).
+* Increases the recommended sentence length limit for Portuguese, props to [amesdigital](https://github.com/amesdigital).
+
+## 1.57.0 July 22nd, 2019
+### Changed
+* No user-facing changes.
+
 ## 1.56.0 July 8th, 2019
 ### Changed
 * Changes the following improved internal linking functionality (which is disabled by a feature flag by default):

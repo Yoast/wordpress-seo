@@ -27,6 +27,7 @@ export {
 	wrapInHeading,
 } from "./Collapsible";
 
+export { default as Alert } from "./Alert";
 export { default as ArticleList } from "./ArticleList";
 export { default as Card, FullHeightCard } from "./Card";
 export { default as CardBanner } from "./CardBanner";
@@ -46,6 +47,7 @@ export { default as KeywordSuggestions } from "./KeywordSuggestions";
 export { default as Label } from "./Label";
 export { default as LanguageNotice, languageNoticePropType } from "./LanguageNotice";
 export { default as Loader } from "./Loader";
+export { default as MultiStepProgress } from "./MultiStepProgress";
 export { default as Notification } from "./Notification";
 export { default as Paper } from "./Paper";
 export { default as ProgressBar } from "./ProgressBar";

@@ -1,9 +1,9 @@
-import React from "react";
-import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
 
-import { CourseDetails, FullHeightCard, Warning } from "@yoast/components";
-import { getDirectionalStyle, getCourseFeed, makeOutboundLink } from "@yoast/helpers";
+import { Alert, CourseDetails, FullHeightCard, Warning } from "@yoast/components";
+import { getCourseFeed, getDirectionalStyle, makeOutboundLink } from "@yoast/helpers";
+import React from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
 	max-width: 1024px;
@@ -65,9 +65,13 @@ export default class ComponentsExample extends React.Component {
 
 		this.state = {
 			courses: null,
+			isAlertDismissed: false,
 		};
 
 		this.getFeed( "free" );
+		this.onAlertDismissed = () => {
+			this.setState( { isAlertDismissed: true } );
+		};
 	}
 
 	/**
@@ -121,9 +125,23 @@ export default class ComponentsExample extends React.Component {
 	}
 
 	/**
+	 * Renders a Yoast Alert.
+	 *
+	 * @returns {React.Element} The rendered alert.
+	 */
+	renderAlert( type ) {
+		return <Alert key={ type } type={ type }>
+			{ `This is an Alert of type: "${ type }".` }
+			<br />
+			You can add some content.
+			Including a link <YoastShortLink href="https://yoa.st/why-permalinks/">yoa.st/why-permalinks</YoastShortLink>
+		</Alert>;
+	}
+
+	/**
 	 * Renders all the Component examples.
 	 *
-	 * @returns {ReactElement} The rendered list of the Component examples.
+	 * @returns {React.Element} The rendered list of the Component examples.
 	 */
 	render() {
 		const courses = this.state.courses;
@@ -132,6 +150,15 @@ export default class ComponentsExample extends React.Component {
 		return (
 			<React.Fragment>
 				<Container>
+					<h2>Yoast alerts</h2>
+					{ [ "error", "info", "success", "warning" ].map( this.renderAlert ) }
+					{ ! this.state.isAlertDismissed && <Alert type="info" onDismissed={ this.onAlertDismissed }>
+						This is the dismissable variant.
+						<br />
+						You will have to wrap it in order to do actually dismiss it.
+						<br />
+						Which is currently done through the state of this example.
+					</Alert> }
 					<h2>Yoast warning</h2>
 					<Warning
 						message={ [
