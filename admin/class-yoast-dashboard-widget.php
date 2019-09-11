@@ -134,6 +134,9 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 			'ryte_analyze'     => __( 'Analyze entire site', 'wordpress-seo' ),
 			'ryte_fetch_url'   => esc_attr( add_query_arg( 'wpseo-redo-onpage', '1' ) ) . '#wpseo-dashboard-overview',
 			'ryte_landing_url' => WPSEO_Shortlinker::get( 'https://yoa.st/rytelp' ),
+			'wp_version'       => substr( $GLOBALS['wp_version'], 0, 3 ) . '-' . ( is_plugin_active( 'classic-editor/classic-editor.php' ) ? '1' : '0' ),
+			// @codingStandardsIgnoreLine
+			'php_version'      => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION, // phpcs:ignore PHPCompatibility.Constants.NewConstants -- Does not work in PHP 5.2.3 and 5.2.4.
 		);
 	}
 

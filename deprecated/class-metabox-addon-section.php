@@ -25,7 +25,7 @@ class WPSEO_Metabox_Addon_Tab_Section extends WPSEO_Metabox_Tab_Section {
 	 * @param array  $options      Optional link attributes.
 	 */
 	public function __construct( $name, $link_content, array $tabs = array(), array $options = array() ) {
-		_deprecated_constructor( 'WPSEO_Metabox_Addon_Tab_Section', '11.9' );
+		_deprecated_function( __METHOD__, '11.9' );
 		parent::__construct( $name, $link_content, $tabs, $options );
 	}
 
