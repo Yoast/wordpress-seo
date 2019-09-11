@@ -2,8 +2,10 @@
 
 namespace Yoast\WP\Free\Tests\Inc;
 
+use Brain\Monkey;
 use Mockery;
 use WPSEO_Language_Utils;
+use Yoast\WP\Free\Tests\Doubles\Shortlinker;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -59,10 +61,11 @@ class WPSEO_Language_Utils_Test extends TestCase {
 	 * @covers WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n
 	 */
 	public function test_get_knowledge_graph_company_info_missing_l10n() {
-		$shortlinker = Mockery::mock( 'alias:WPSEO_Shortlinker' )->makePartial();
-		$shortlinker->expects( 'get' )
-			->once()
-			->with( 'https://yoa.st/3r3' )
+		$shortlinker = new Shortlinker();
+
+		Monkey\Functions\expect( 'add_query_arg' )
+			->times( 1 )
+			->with( $shortlinker->get_additional_shortlink_data(), Mockery::pattern( '/https:\/\/yoa.st\/*/' ) )
 			->andReturn( 'https://yoast.com' );
 
 		$this->assertEquals( [
