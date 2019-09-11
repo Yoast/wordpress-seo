@@ -158,7 +158,8 @@ class WPSEO_Metabox_Formatter {
 	private function get_post_image_url() {
 		$post_id = get_option( 'page_for_post' );
 		if ( has_post_thumbnail( $post_id ) ) {
-			return $featured_image_url = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'single-post-thumbnail' )[0];
+			$featured_image_info = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'single-post-thumbnail' );
+			return $featured_image_url = $featured_image_info[0];
 		}
 
 		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
