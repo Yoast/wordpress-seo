@@ -149,20 +149,30 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Returns the url of the posts' main image.
-	 * If the featured image is not set, returns the first image in the post.
-	 * If there are also no images in the post, returns null.
+	 * Returns the url of the posts' or terms' main image.
+	 * If the featured image is not set (post), returns the first image in the post or term.
+	 * If there are also no images in the post or term, returns null.
 	 *
-	 * @return string The posts' main image url.
+	 * @return string The posts' or terms' main image url.
 	 */
 	private function get_post_image_url() {
-		$post_id = get_option( 'page_for_post' );
+		$post_id = get_the_ID();
+		$term_id = filter_input( INPUT_GET, 'tag_ID' );
+
 		if ( has_post_thumbnail( $post_id ) ) {
 			$featured_image_info = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'single-post-thumbnail' );
 			return $featured_image_url = $featured_image_info[0];
 		}
 
-		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
+		if ( $post_id ) {
+			return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
+		}
+
+		if ( $term_id ){
+			return WPSEO_Image_Utils::get_first_usable_description_image_for_term( $term_id );
+		}
+
+		return null;
 	}
 
 	/**

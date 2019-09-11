@@ -23,6 +23,18 @@ class WPSEO_Content_Images {
 	}
 
 	/**
+	 * Retrieves images from the term description.
+	 *
+	 * @param int 	 $term_id          The term ID.
+	 * @param string $term_description The term description.
+	 *
+	 * @return array An array of images found in this post.
+	 */
+	public function get_images_term( $term_id, $term_description ) {
+		return $this->get_images_from_content( $this->get_term_description( $term_id, $term_description ) );
+	}
+
+	/**
 	 * Grabs the images from the content.
 	 *
 	 * @param string $content The post content string.
@@ -96,6 +108,37 @@ class WPSEO_Content_Images {
 		 * @api string $post_content The Post content string.
 		 */
 		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
+
+		if ( ! is_string( $content ) ) {
+			$content = '';
+		}
+
+		return $content;
+	}
+
+	/**
+	 * Retrieves the term description we want to work with.
+	 *
+	 * @param int 		  $term_id 		    The term ID.
+	 * @param string|null $term_description The term description.
+	 *
+	 * @return string The content of the supplied post.
+	 */
+	private function get_term_description( $term_id, $term_description ) {
+		if ( $term_description === null ) {
+			$term_description = term_description( $term_id );
+		}
+
+		if ( $term_description === null ) {
+			return '';
+		}
+
+		/**
+		 * Filter: 'wpseo_pre_analysis_term_description' - Allow filtering the description before analysis.
+		 *
+		 * @api string $term_description The term description string.
+		 */
+		$content = apply_filters( 'wpseo_pre_analysis_term_description', $term_description );
 
 		if ( ! is_string( $content ) ) {
 			$content = '';

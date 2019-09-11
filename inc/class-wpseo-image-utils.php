@@ -394,6 +394,35 @@ class WPSEO_Image_Utils {
 	}
 
 	/**
+	 * Gets the term's first usable content image. Null if none is available.
+	 *
+	 * @param int $term_id The term id.
+	 *
+	 * @return string|null The image URL.
+	 */
+	public static function get_first_usable_description_image_for_term( $term_id = null ) {
+		$term_description = term_description( $term_id );
+
+		if ( $term_id === null ) {
+			return null;
+		}
+
+		$image_finder = new WPSEO_Content_Images();
+		$images       = $image_finder->get_images_term( $term_id, $term_description );
+
+		if ( ! is_array( $images ) || empty( $images ) ) {
+			return null;
+		}
+
+		$image_url = reset( $images );
+		if ( ! $image_url ) {
+			return null;
+		}
+
+		return $image_url;
+	}
+
+	/**
 	 * Retrieves an attachment ID for an image uploaded in the settings.
 	 *
 	 * Due to self::get_attachment_by_url returning 0 instead of false.
