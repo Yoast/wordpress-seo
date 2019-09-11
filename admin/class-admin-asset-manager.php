@@ -652,7 +652,7 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'plugin-installation',
 				'src'  => 'plugin-installation-' . $flat_version,
-				'deps' => array( 'wp-data', 'wp-element' ),
+				'deps' => array( 'wp-data', 'wp-element', 'wp-api-fetch' ),
 			),
 		);
 	}
