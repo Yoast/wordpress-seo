@@ -649,16 +649,6 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-element',
 				),
 			),
-			array(
-				'name' => 'courses-overview',
-				'src'  => 'wp-seo-courses-overview-' . $flat_version,
-				'deps' => array(
-					'wp-element',
-					'wp-i18n',
-					self::PREFIX . 'styled-components',
-					self::PREFIX . 'components',
-				),
-			),
 		);
 	}
 

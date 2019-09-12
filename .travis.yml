@@ -124,10 +124,11 @@ install:
     # So we temporarily switch PHP versions, do a full install and then remove the package.
     # Then switch back to the PHP version we want to test and delete the vendor directory.
     phpenv local 7.1
-    composer install --no-interaction --no-scripts
+    composer install --no-interaction --no-scripts --ignore-platform-reqs
     composer prefix-dependencies
     composer compile-di
     composer remove humbug/php-scoper --dev --ignore-platform-reqs
+    composer remove atanamo/php-codeshift --dev --ignore-platform-reqs
     phpenv local --unset
     rm -rf vendor/*
   fi

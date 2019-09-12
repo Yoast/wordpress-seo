@@ -137,13 +137,16 @@ class WPSEO_Admin_Pages {
 	 * @return array The search appearance variables.
 	 */
 	public function localize_search_appearance_script() {
-		return array(
+		$search_appearance_l10n                    = array(
 			'isRtl'                    => is_rtl(),
 			'userEditUrl'              => add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) ),
 			'brushstrokeBackgroundURL' => plugins_url( 'images/brushstroke_background.svg', WPSEO_FILE ),
 			'showLocalSEOUpsell'       => $this->should_show_local_seo_upsell(),
 			'localSEOUpsellURL'        => WPSEO_Shortlinker::get( 'https://yoa.st/3mp' ),
 		);
+		$search_appearance_l10n['knowledgeGraphCompanyInfoMissing'] = WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n();
+
+		return $search_appearance_l10n;
 	}
 
 	/**

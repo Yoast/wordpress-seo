@@ -807,7 +807,6 @@ class WPSEO_Utils {
 			'wpseo_tools',
 			'wpseo_search_console',
 			'wpseo_licenses',
-			'wpseo_courses',
 		);
 
 		return in_array( $current_page, $yoast_seo_free_pages, true );
