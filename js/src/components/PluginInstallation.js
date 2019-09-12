@@ -1,22 +1,21 @@
+// External dependencies.
 import { connect } from "react-redux";
 import { Component } from "@wordpress/element";
-import * as actions from "../install-plugin/actions";
 import { MultiStepProgress, Modal } from "@yoast/components";
+import PropTypes from "prop-types";
 
+// Internal dependencies.
+import * as actions from "../install-plugin/actions";
+
+/**
+ * Plugin installation modal.
+ */
 class PluginInstallation extends Component {
-	render() {
-		return (
-			<div>
-				<Modal title="Installing your products" isOpen={ true }>
-					<button onClick={ this.props.startInstallation }>Start installation</button>
-					<MultiStepProgress
-						steps={ this.getSteps() }
-					/>
-				</Modal>
-			</div>
-		);
-	}
-
+	/**
+	 * Sets the plugin installation tasks.
+	 *
+	 * @returns {void}
+	 */
 	componentDidMount() {
 		this.props.setQueue( [
 			{
@@ -38,8 +37,31 @@ class PluginInstallation extends Component {
 		] );
 	}
 
+	/**
+	 * Renders the PluginInstallation component.
+	 *
+	 * @returns {React.Element} The rendered PluginInstallation.
+	 */
+	render() {
+		return (
+			<div>
+				<Modal title="Installing your products" isOpen={ true }>
+					<button onClick={ this.props.startInstallation }>Start installation</button>
+					<MultiStepProgress
+						steps={ this.getSteps() }
+					/>
+				</Modal>
+			</div>
+		);
+	}
+
+	/**
+	 * Maps the plugin installation tasks to MultiStepProgress steps.
+	 *
+	 * @returns {Array} MultiStepProgress steps.
+	 */
 	getSteps() {
-		return this.props.pluginInstallation.tasks.map( task => {
+		return this.props.tasks.map( task => {
 			let text = "";
 			switch ( task.type ) {
 				case "INSTALL_PLUGIN":
@@ -56,8 +78,17 @@ class PluginInstallation extends Component {
 	}
 }
 
+PluginInstallation.propTypes = {
+	tasks: PropTypes.array.isRequired,
+	startInstallation: PropTypes.func.isRequired,
+	setQueue: PropTypes.func.isRequired,
+};
+
 export default connect( ( state ) => {
-	return state;
+	return {
+		tasks: state.pluginInstallation.tasks,
+	};
 }, {
-	...actions,
+	startInstallation: actions.startInstallation,
+	setQueue: actions.setQueue,
 } )( PluginInstallation );

@@ -3,6 +3,15 @@ const INITIAL_STATE = {
 	tasks: [],
 };
 
+/**
+ * Updates an object in an existing array and returns a new array.
+ *
+ * @param {Array}  array         The array to update the object in.
+ * @param {number} itemIndex     The item's index.
+ * @param {Object} updatedValues The updated values.
+ *
+ * @returns {Array} The new array.
+ */
 function updateObjectInArray( array, itemIndex, updatedValues ) {
 	return array.map( ( item, index ) => {
 		if ( index !== itemIndex ) {

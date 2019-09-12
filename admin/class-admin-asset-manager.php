@@ -656,7 +656,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-data',
 					'wp-element',
 					'wp-api-fetch',
-					self::PREFIX . 'components'
+					self::PREFIX . 'components',
 				),
 			),
 		);
