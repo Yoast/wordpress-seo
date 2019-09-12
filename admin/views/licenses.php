@@ -107,7 +107,10 @@ $has_valid_premium_subscription = WPSEO_Utils::is_yoast_seo_premium() && $addon_
 
 /* translators: %1$s expands to Yoast SEO. */
 $wpseo_extensions_header = sprintf( __( '%1$s Extensions', 'wordpress-seo' ), 'Yoast SEO' );
-$new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>'
+$new_tab_message         = sprintf(
+	'<span class="screen-reader-text">%1$s</span>',
+	esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' )
+);
 
 ?>
 
@@ -120,8 +123,9 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 			<h2>
 				<?php
 				printf(
-					/* translators: %1$s expands to Yoast SEO Premium */
+					/* translators: 1: expands to Yoast SEO Premium */
 					esc_html__( '%1$s, take your optimization to the next level!', 'wordpress-seo' ),
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 					'<span class="yoast-heading-highlight">' . $premium_extension->get_title() . '</span>'
 				);
 				?>
@@ -157,8 +161,13 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>"
 						class="yoast-link--license">
 						<?php
-						/* translators: %s expands to the extension title */
-						printf( esc_html__( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ), $premium_extension->get_title() );
+						printf(
+							/* translators: %s expands to the extension title */
+							esc_html__( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ),
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
+							$premium_extension->get_title()
+						);
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 						echo $new_tab_message;
 						?>
 					</a>
@@ -167,8 +176,13 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>"
 						class="yoast-link--license">
 						<?php
-						/* translators: %s expands to the extension title */
-						printf( esc_html__( 'Activate %s for your site on MyYoast', 'wordpress-seo' ), $premium_extension->get_title() );
+						printf(
+							/* translators: %s expands to the extension title */
+							esc_html__( 'Activate %s for your site on MyYoast', 'wordpress-seo' ),
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
+							$premium_extension->get_title()
+						);
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 						echo $new_tab_message;
 						?>
 					</a>
@@ -179,8 +193,13 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 				<a target="_blank" href="<?php echo esc_url( $premium_extension->get_buy_url() ); ?>"
 					class="yoast-button-upsell">
 					<?php
-					/* translators: $s expands to Yoast SEO Premium */
-					printf( esc_html__( 'Buy %s', 'wordpress-seo' ), $premium_extension->get_title() );
+					printf(
+						/* translators: $s expands to Yoast SEO Premium */
+						esc_html__( 'Buy %s', 'wordpress-seo' ),
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
+						$premium_extension->get_title()
+					);
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 					echo $new_tab_message;
 					echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 					?>
@@ -190,12 +209,14 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 					class="yoast-link--more-info">
 					<?php
 					printf(
-						/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
+						/* translators: Text between 1: and 2: will only be shown to screen readers. 3: expands to the product name. */
 						esc_html__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 						'<span class="screen-reader-text">',
 						'</span>',
+						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 						$premium_extension->get_title()
 					);
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 					echo $new_tab_message;
 					?>
 				</a>
@@ -212,12 +233,16 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 		<section class="yoast-promo-extensions">
 			<h2>
 				<?php
-				/* translators: %1$s expands to Yoast SEO */
-				$yoast_seo_extensions = sprintf( __( '%1$s extensions', 'wordpress-seo' ), 'Yoast SEO' );
+				/* translators: 1: expands to Yoast SEO */
+				$yoast_seo_extensions = sprintf( esc_html__( '%1$s extensions', 'wordpress-seo' ), 'Yoast SEO' );
 				$yoast_seo_extensions = '<span class="yoast-heading-highlight">' . $yoast_seo_extensions . '</span>';
 
-				/* translators: %1$s expands to Yoast SEO extensions */
-				printf( esc_html__( '%1$s to optimize your site even further', 'wordpress-seo' ), $yoast_seo_extensions );
+				printf(
+					/* translators: 1: expands to Yoast SEO extensions */
+					esc_html__( '%1$s to optimize your site even further', 'wordpress-seo' ),
+					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $yoast_seo_extensions is properly escaped.
+					$yoast_seo_extensions
+				);
 				?>
 			</h2>
 
@@ -241,8 +266,13 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>"
 									class="yoast-link--license">
 									<?php
-									/* translators: %s expands to the extension title */
-									printf( esc_html__( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ), $extension->get_title() );
+									printf(
+										/* translators: %s expands to the extension title */
+										esc_html__( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ),
+										// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
+										$extension->get_title()
+									);
+									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 									echo $new_tab_message;
 									?>
 								</a>
@@ -251,8 +281,13 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>"
 									class="yoast-link--license">
 									<?php
-									/* translators: %s expands to the extension title */
-									printf( esc_html__( 'Activate %s for your site on MyYoast', 'wordpress-seo' ), $extension->get_title() );
+									printf(
+										/* translators: %s expands to the extension title */
+										esc_html__( 'Activate %s for your site on MyYoast', 'wordpress-seo' ),
+										// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
+										$extension->get_title()
+									);
+									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 									echo $new_tab_message;
 									?>
 								</a>
@@ -261,8 +296,13 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 							<a target="_blank" class="yoast-button-upsell"
 								href="<?php echo esc_url( $extension->get_buy_url() ); ?>">
 								<?php
-								/* translators: %s expands to the product name */
-								printf( esc_html__( 'Buy %s', 'wordpress-seo' ), $extension->get_buy_button() );
+								printf(
+									/* translators: %s expands to the product name */
+									esc_html__( 'Buy %s', 'wordpress-seo' ),
+									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The possible `get_buy_button` values are hardcoded (buy_button or title); only passed through the WPSEO_Extensions class.
+									$extension->get_buy_button()
+								);
+								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 								echo $new_tab_message;
 								echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 								?>
@@ -272,12 +312,14 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 								href="<?php echo esc_url( $extension->get_info_url() ); ?>">
 								<?php
 								printf(
-									/* translators: Text between %1$s and %2$s will only be shown to screen readers. %3$s expands to the product name. */
+									/* translators: Text between 1: and 2: will only be shown to screen readers. 3: expands to the product name. */
 									esc_html__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 									'<span class="screen-reader-text">',
 									'</span>',
+									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 									$extension->get_title()
 								);
+								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
 								echo $new_tab_message;
 								?>
 							</a>
