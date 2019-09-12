@@ -232,6 +232,10 @@ class Yoast_Input_Validation {
 	public static function add_dirty_value_to_settings_errors( $error_code, $dirty_value ) {
 		global $wp_settings_errors;
 
+		if ( ! is_array( $wp_settings_errors ) ) {
+			return;
+		}
+
 		foreach ( $wp_settings_errors as $index => $error ) {
 			if ( $error['code'] === $error_code ) {
 				$wp_settings_errors[ $index ]['yoast_dirty_value'] = $dirty_value;
