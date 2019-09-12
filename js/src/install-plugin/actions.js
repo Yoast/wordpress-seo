@@ -52,7 +52,7 @@ async function activatePlugin( pluginSlug ) {
  * @param {object}   task      Task to be executed.
  * @param {number}   taskIndex Task index in queue.
  *
- * @returns {void}
+ * @returns {boolean} Whether the task succeeded.
  */
 async function runTask( dispatch, task, taskIndex ) {
 	dispatch( {
@@ -77,7 +77,7 @@ async function runTask( dispatch, task, taskIndex ) {
 			taskIndex,
 		} );
 
-		return;
+		return false;
 	}
 
 	dispatch( {
@@ -85,6 +85,8 @@ async function runTask( dispatch, task, taskIndex ) {
 		task,
 		taskIndex,
 	} );
+
+	return true;
 }
 
 /**
@@ -106,7 +108,9 @@ export function startInstallation() {
 		} );
 
 		for ( let i = 0; i < state.tasks.length; i++ ) {
-			await runTask( dispatch, state.tasks[ i ], i );
+			if ( ! await runTask( dispatch, state.tasks[ i ], i ) ) {
+				break;
+			}
 		}
 
 		dispatch( {
