@@ -123,6 +123,7 @@ Enhancements:
 * Adds a `get_robots` method to retrieve the robot HTML without it being output. Props to [@bradymwilliams](https://github.com/bradymwilliams).
 * Improves the input validation on the settings pages.
 * Improves the consistency of the plugin icons.
+* Improves the How-to and FAQ blocks styling for better compatibility with latest version of the WordPress blocks editor.
 
 Bugfixes:
 * Fixes a bug where subscription checks would fail on some sites due to certificate verification being disabled.
