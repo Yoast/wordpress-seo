@@ -8,9 +8,11 @@ const store = configureStore();
 const el = document.createElement( "div" );
 document.getElementById( "extensions" ).append( el );
 
-store.subscribe( () => {
-	console.log( store.getState().pluginInstallation );
-} );
+window.onbeforeunload = () => {
+	if ( store.getState().pluginInstallation.installing ) {
+		return "Installing plugins!";
+	}
+};
 
 render(
 	<Provider store={ store }>
@@ -18,4 +20,3 @@ render(
 	</Provider>,
 	el
 );
-
