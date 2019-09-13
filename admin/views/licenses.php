@@ -268,6 +268,15 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 								?>
 							</a>
 
+							<a href="#" id="<?php esc_attr_e( 'wpseo-already-bought-' . $slug ); ?>">
+								<?php
+								/* translators: %s expands to the product name */
+								printf( esc_html__( 'I\'ve already bought %s', 'wordpress-seo' ), $extension->get_buy_button() );
+								echo $new_tab_message;
+								echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
+								?>
+							</a>
+
 							<a target="_blank" class="yoast-link--more-info"
 								href="<?php echo esc_url( $extension->get_info_url() ); ?>">
 								<?php

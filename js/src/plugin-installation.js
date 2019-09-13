@@ -1,6 +1,5 @@
 import { render } from "@wordpress/element";
 import { Provider } from "react-redux";
-import { Modal } from "@yoast/components";
 import configureStore from "./install-plugin/configureStore";
 import PluginInstallation from "./components/PluginInstallation";
 

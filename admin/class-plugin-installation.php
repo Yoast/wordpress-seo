@@ -28,6 +28,10 @@ class WPSEO_Plugin_Installation implements WPSEO_WordPress_Integration {
 				WPSEO_Admin_Asset_Manager::PREFIX . 'plugin-installation',
 				'wpseoPluginInstallationL10n',
 				array(
+					'target'  => array(
+						'domain' =>'https://my.yoast.com',
+						'path'   => '/addsite?url=' . esc_html( home_url() ) . '&plugins=',
+					),
 					'pluginNames' => array(
 						'yoast-seo-wordpress-premium' => 'Yoast SEO Premium',
 						'yoast-seo-local'             => 'Yoast Local SEO',

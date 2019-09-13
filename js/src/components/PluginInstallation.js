@@ -30,6 +30,43 @@ class PluginInstallation extends Component {
 	 * @returns {void}
 	 */
 	componentDidMount() {
+		this.registerPopUpListeners();
+		this.registerMessageListener();
+		this.checkUrlForInstallation();
+	}
+
+	registerPopUpListeners() {
+		const pluginSlugs = Object.keys( wpseoPluginInstallationL10n.pluginNames );
+		const target      = wpseoPluginInstallationL10n.target;
+
+		for ( let i = 0; i < pluginSlugs.length; i++ ) {
+			const linkElement = document.getElementById( `wpseo-already-bought-${ pluginSlugs[ i ] }` );
+
+			if ( ! linkElement ) {
+				continue;
+			}
+
+			linkElement.onclick = () => {
+				window.open(
+					target.domain + target.path + pluginSlugs[ i ],
+					"myyoast",
+					"height=700,width=500,menubar=no"
+				);
+			};
+		}
+	}
+
+	registerMessageListener() {
+		window.addEventListener( "message", event => {
+			if ( event.origin !== "https://my.yoast.com" ) {
+				return;
+			}
+
+			
+		} );
+	}
+
+	checkUrlForInstallation() {
 		const urlParams = new URLSearchParams( window.location.search );
 
 		if ( ! urlParams.has( "install_plugins" ) ) {
