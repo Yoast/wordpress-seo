@@ -149,11 +149,11 @@ class WPSEO_Metabox_Formatter {
 	}
 
 	/**
-	 * Returns the url of the posts' or terms' main image.
+	 * Returns the url of the post's or term's main image.
 	 * If the featured image is not set (post), returns the first image in the post or term.
 	 * If there are also no images in the post or term, returns null.
 	 *
-	 * @return string The posts' or terms' main image url.
+	 * @return string The post's or term's main image url.
 	 */
 	private function get_post_image_url() {
 		$post_id = get_the_ID();
