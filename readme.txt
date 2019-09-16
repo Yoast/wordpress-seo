@@ -108,7 +108,7 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 = 12.1.0 =
 Release Date: September 17th, 2019
 
-Read more about Yoast SEO 12.1 in [our 12.1 release post](https://yoa.st/release-12-1)!
+Yoast SEO 12.1 is out today! It features a couple of changes in order to match the design of Google’s search results pages, this includes those shiny new favicons. In addition to this, we added a number of new filters for our Schema implementation. See what else is new in the latest release of your favorite SEO plugin in [our 12.1 release post](https://yoa.st/release-12-1)!
 
 Enhancements:
 
