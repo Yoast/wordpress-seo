@@ -5,7 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 1.7.0 September 17th, 2019
+## 1.8.0 September 17th, 2019
 ### Enhancements
 
 * Changes desktop snippet preview to match Google's new font sizes. [#345](https://github.com/Yoast/javascript/pull/345)
