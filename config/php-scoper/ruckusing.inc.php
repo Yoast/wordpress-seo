@@ -131,51 +131,15 @@ return array(
 
 			return $replaced;
 		},
-
-		/**
-		 * Prefix generally used defines.
-		 *
-		 * @param string $file_path The path of the current file.
-		 * @param string $prefix   The prefix to be used.
-		 * @param string $content  The content of the specific file.
-		 *
-		 * @return string The modified content.
-		 */
-		function( $file_path, $prefix, $content ) {
-			return str_replace(
-				array( 'define(\'', 'defined(\'' ),
-				array(
-					'define(__NAMESPACE__ . \'\\',
-					'defined(__NAMESPACE__ . \'\\',
-				),
-				$content
-			);
-		},
 	),
 
 	/*
-	 * By default, PHP-Scoper only prefixes code where the namespace is non-global. In other words, non-namespaced
-	 * code is not prefixed. This leaves the majority of classes, functions and constants in PHP - and most extensions,
-	 * untouched.
+	 * By default, PHP-Scoper will not prefix the user defined constants, classes and functions belonging to the global
+	 * namespace. You can however change that setting for them to be prefixed as usual unless explicitly whitelisted.
 	 *
-	 * This is not necessarily a desirable outcome for vendor dependencies which are also not namespaced. To ensure
-	 * they are isolated, you can configure the following which can be a list of strings or callables taking a string
-	 * (the class name) as an argument and return a boolean (true meaning the class is going to prefixed).
-	 *
-	 * For more, see https://github.com/humbug/php-scoper#global-namespace-whitelisting
+	 * https://github.com/humbug/php-scoper#whitelist
 	 */
-	'global_namespace_whitelist' => array(
-		/**
-		 * @param string $class_name The class name that is being parsed.
-		 */
-		function( $class_name ) {
-			return strpos( $class_name, 'Ruckusing' ) === 0;
-		},
-		/**
-		 * @param string $class_name The class name that is being parsed.
-		 */
-		function( $class_name ) {
-			return strpos( $class_name, 'Task_' ) === 0;
-		},
-	),
+	'whitelist-global-constants' => false,
+	'whitelist-global-classes' => false,
+	'whitelist' => [ 'FALSE', 'NULL' ],
 );

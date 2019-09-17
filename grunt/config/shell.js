@@ -162,6 +162,10 @@ module.exports = function( grunt ) {
 			command: "rm ./src/generated/container.php.meta",
 		},
 
+		"remove-vendor-prefixed-uses": {
+			command: "composer remove-vendor-prefixed-uses",
+		},
+
 		"php-lint": {
 			command: "find -L . " +
 				"-path ./vendor -prune -o " +

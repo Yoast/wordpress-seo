@@ -70,6 +70,7 @@ class WPSEO_Metabox_Formatter {
 			'isPremium'                 => WPSEO_Utils::is_yoast_seo_premium(),
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
 			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
+			'siteIconUrl'               => get_site_icon_url(),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
@@ -115,7 +116,7 @@ class WPSEO_Metabox_Formatter {
 							__( '%1$sSEO%2$s: %3$s', 'wordpress-seo' ),
 							'<a href="#yoast-seo-analysis-collapsible-metabox">',
 							'</a>',
-							'<strong>' . __( 'Not available', 'wordpress-seo' ) . '</strong>'
+							'<strong>' . __( 'Focus Keyphrase not set', 'wordpress-seo' ) . '</strong>'
 						),
 						'bad'  => sprintf(
 							/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the SEO score. */

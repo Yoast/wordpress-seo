@@ -28,20 +28,10 @@ return array(
 	'patchers'                   => array(),
 
 	/*
-	 * By default, PHP-Scoper only prefixes code where the namespace is non-global. In other words, non-namespaced
-	 * code is not prefixed. This leaves the majority of classes, functions and constants in PHP - and most extensions,
-	 * untouched.
+	 * By default, PHP-Scoper will not prefix the user defined constants, classes and functions belonging to the global
+	 * namespace. You can however change that setting for them to be prefixed as usual unless explicitly whitelisted.
 	 *
-	 * This is not necessarily a desirable outcome for vendor dependencies which are also not namespaced. To ensure
-	 * they are isolated, you can configure the following which can be a list of strings or callables taking a string
-	 * (the class name) as an argument and return a boolean (true meaning the class is going to prefixed).
-	 *
-	 * For more, see https://github.com/humbug/php-scoper#global-namespace-whitelisting
+	 * https://github.com/humbug/php-scoper#whitelist
 	 */
-	'global_namespace_whitelist' => array(
-		'ORM',
-		function( $class_name ) {
-			return strpos( $class_name, 'Idiorm' ) === 0;
-		},
-	),
+	'whitelist-global-classes'   => false,
 );

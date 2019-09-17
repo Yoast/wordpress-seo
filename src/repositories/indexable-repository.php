@@ -108,6 +108,36 @@ class Indexable_Repository extends ORMWrapper {
 	}
 
 	/**
+	 * Retrieves multiple indexables at once by their IDs and type.
+	 *
+	 * @param int[]  $object_ids  The array of indexable object IDs.
+	 * @param string $object_type The indexable object type.
+	 * @param bool   $auto_create Optional. Create the indexable if it does not exist.
+	 *
+	 * @return \Yoast\WP\Free\Models\Indexable[] An array of indexables.
+	 */
+	public function find_by_multiple_ids_and_type( $object_ids, $object_type, $auto_create = true ) {
+		$indexables = $this
+			->where_in( 'object_id', $object_ids )
+			->where( 'object_type', $object_type )
+			->find_many();
+
+		if ( $auto_create ) {
+			$indexables_available = array_column( $indexables, 'object_id' );
+			$indexables_to_create = array_diff( $object_ids, $indexables_available );
+
+			foreach ( $indexables_to_create as $indexable_to_create ) {
+				$indexable = $this->create_for_id_and_type( $indexable_to_create, $object_type );
+				$indexable->save();
+
+				$indexables[] = $indexable;
+			}
+		}
+
+		return $indexables;
+	}
+
+	/**
 	 * Creates an indexable by its ID and type.
 	 *
 	 * @param int    $object_id   The indexable object ID.

@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '12.0.1' );
+define( 'WPSEO_VERSION', '12.1-RC4' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -333,7 +333,6 @@ function wpseo_init() {
 	$integrations   = array();
 	$integrations[] = new WPSEO_Slug_Change_Watcher();
 	$integrations[] = new WPSEO_Structured_Data_Blocks();
-	$integrations[] = new WPSEO_Courses_Overview();
 
 	foreach ( $integrations as $integration ) {
 		$integration->register_hooks();

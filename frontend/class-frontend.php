@@ -687,11 +687,11 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Output the meta robots value.
+	 * Retrieves the meta robots value.
 	 *
 	 * @return string
 	 */
-	public function robots() {
+	public function get_robots() {
 		global $wp_query, $post;
 
 		$robots           = array();
@@ -783,6 +783,17 @@ class WPSEO_Frontend {
 		 * @api string $robotsstr The meta robots directives to be echoed.
 		 */
 		$robotsstr = apply_filters( 'wpseo_robots', $robotsstr );
+
+		return $robotsstr;
+	}
+
+	/**
+	 * Outputs the meta robots value.
+	 *
+	 * @return string
+	 */
+	public function robots() {
+		$robotsstr = $this->get_robots();
 
 		if ( is_string( $robotsstr ) && $robotsstr !== '' ) {
 			echo '<meta name="robots" content="', esc_attr( $robotsstr ), '"/>', "\n";

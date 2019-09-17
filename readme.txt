@@ -105,6 +105,37 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 
 == Changelog ==
 
+= 12.1.0 =
+Release Date: September 17th, 2019
+
+Yoast SEO 12.1 is out today! It features a couple of changes in order to match the design of Google’s search results pages, this includes those shiny new favicons. In addition to this, we added a number of new filters for our Schema implementation. See what else is new in the latest release of your favorite SEO plugin in [our 12.1 release post](https://yoa.st/release-12-1)!
+
+Enhancements:
+
+* Updates the desktop snippet preview to match Google's new font sizes.
+* Introduces the usage of the site's favicon in the mobile snippet preview.
+* Adds a collapsible around the hidden problems and notifications on the Yoast dashboard.
+* Adds a filter `wpseo_schema_organization_social_profiles` that allows filtering an organization's social profiles in the schema output. Props to [juliquiron](https://github.com/juliquiron).
+* Adds a filter `wpseo_schema_company_name` that allows filtering the company name in the schema output. Props to [@andrewgillingham](https://github.com/andrewgillingham).
+* Adds a filter `wpseo_free_schema_company_logo_id` that allows filtering the company logo in the schema output. Props to [@andrewgillingham](https://github.com/andrewgillingham).
+* Adds a filter `wpseo_sitemap_exclude_empty_terms_taxonomy` to control hiding empty terms per taxonomy.
+* Adds a filter `wpseo_enable_structured_data_blocks` to allow disabling Yoast's structured data block editor blocks.
+* Adds a `get_robots` method to retrieve the robot HTML without it being output. Props to [@bradymwilliams](https://github.com/bradymwilliams).
+* Improves the input validation on the settings pages.
+* Improves the consistency of the plugin icons.
+* Improves the How-to and FAQ blocks styling for better compatibility with latest version of the WordPress blocks editor.
+
+Bugfixes:
+
+* Fixes a bug where subscription checks would fail on some sites due to certificate verification being disabled.
+* Fixes a bug where the primary term selector would not display HTML entities properly. Props to [@dlh01](https://github.com/dlh01).
+
+Other:
+
+* Allows showing specific dashboard feeds based on the `wp_version` and `php_version` of a site.
+* Removes the AMP Glue plugin suggestion from the SEO dashboard when AMP and Yoast SEO are installed. The AMP Glue plugin by Yoast will be discontinued soon.
+* Removes the `Courses` menu-item.
+
 = 12.0.0 =
 Release Date: September 3rd, 2019
 
@@ -124,20 +155,6 @@ Enhancements:
 Bugfixes:
 
 * Fixes a bug where a 404 error would be shown for the second sitemap (and up) of the author sitemaps in case of multiple author sitemaps.
-
-= 11.9.0 =
-Release Date: August 20th, 2019
-
-Are you ready for another exciting release to round up the Yoast SEO 11 cycle? Because we are! In Yoast SEO 11.9 we have improvements for security and accessibility. Read more about Yoast SEO 11.9 in [our 11.9 release post](https://yoa.st/release-11-9)!
-
-Enhancements:
-
-* Improves security by adding output escaping.
-
-Bugfixes:
-
-* Fixes a bug where the image from the configuration wizard notification was missing an empty alt attribute.
-* Fixes a bug where some translations would be missing in the metabox, sidebar, configuration wizard and the help center.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

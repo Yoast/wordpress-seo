@@ -73,6 +73,7 @@ class Edit {
 				baseUrl: this._args.snippetEditorBaseUrl,
 				date: this._args.snippetEditorDate,
 				recommendedReplacementVariables: this._args.recommendedReplaceVars,
+				siteIconUrl: this._localizedData.siteIconUrl,
 			},
 		} ) );
 	}
