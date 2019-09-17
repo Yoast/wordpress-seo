@@ -213,7 +213,7 @@ Enhancements:
 * Adds a collapsible around the hidden problems and notifications on the Yoast dashboard.
 * Adds a filter `wpseo_schema_organization_social_profiles` that allows filtering an organization's social profiles in the schema output. Props to [juliquiron](https://github.com/juliquiron).
 * Adds a filter `wpseo_schema_company_name` that allows filtering the company name in the schema output. Props to [@andrewgillingham](https://github.com/andrewgillingham).
-* Adds a filter `wpseo_free_schema_company_logo_id` that allows filtering the company logo in the schema output. Props to [@andrewgillingham](https://github.com/andrewgillingham).
+* Adds a filter `wpseo_schema_company_logo_id` that allows filtering the company logo in the schema output. Props to [@andrewgillingham](https://github.com/andrewgillingham).
 * Adds a filter `wpseo_sitemap_exclude_empty_terms_taxonomy` to control hiding empty terms per taxonomy.
 * Adds a filter `wpseo_enable_structured_data_blocks` to allow disabling Yoast's structured data block editor blocks.
 * Adds a `get_robots` method to retrieve the robot HTML without it being output. Props to [@bradymwilliams](https://github.com/bradymwilliams).
