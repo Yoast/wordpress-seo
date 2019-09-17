@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 4.9
 Tested up to: 5.2.2
-Stable tag: 12.0
+Stable tag: 12.1
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -204,7 +204,7 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 12.1.0 =
 Release Date: September 17th, 2019
 
-Read more about Yoast SEO 12.1 in [our 12.1 release post](https://yoa.st/release-12-1)!
+Yoast SEO 12.1 is out today! It features a couple of changes in order to match the design of Google’s search results pages, this includes those shiny new favicons. In addition to this, we added a number of new filters for our Schema implementation. See what else is new in the latest release of your favorite SEO plugin in [our 12.1 release post](https://yoa.st/release-12-1)!
 
 Enhancements:
 
@@ -222,6 +222,7 @@ Enhancements:
 * Improves the How-to and FAQ blocks styling for better compatibility with latest version of the WordPress blocks editor.
 
 Bugfixes:
+
 * Fixes a bug where subscription checks would fail on some sites due to certificate verification being disabled.
 * Fixes a bug where the primary term selector would not display HTML entities properly. Props to [@dlh01](https://github.com/dlh01).
 
