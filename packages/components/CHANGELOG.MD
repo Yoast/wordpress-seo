@@ -5,9 +5,14 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 0.7.0 October 1st, 2019
+### Added
+* Adds an `Alert` component.
+* Adds a `MultiStepProgress` component.
+
 ## 0.6.0 September 17th, 2019
 ### Added
-* Adds an Alert component.
+* No user-facing changes.
 
 ## 0.5.0 July 8th, 2019
 ### Added

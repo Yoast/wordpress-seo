@@ -5,9 +5,12 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
-## 0.4.0 September 17th, 2019
+## 0.5.0 October 1st, 2019
 ### Added
 * Adds new status colors: error, info, success, warning.
+
+## 0.4.0 September 17th, 2019
+* No user-facing changes.
 
 ## 0.2.0 May 14th, 2019
 ### Fixed
