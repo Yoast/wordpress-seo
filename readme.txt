@@ -201,6 +201,19 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 12.2.0 =
+Release Date: October 1st, 2019
+
+Read more about Yoast SEO 12.2 in [our 12.2 release post](https://yoa.st/release-12-2)!
+
+Enhancements:
+
+* Adds an alert to the configuration wizard and the knowledge graph settings that is shown when organization information is missing.
+
+Bugfixes:
+
+* Fixes a bug where the banners in the sidebar were no longer responsive.
+
 = 12.1.0 =
 Release Date: September 17th, 2019
 
@@ -231,26 +244,6 @@ Other:
 * Allows showing specific dashboard feeds based on the `wp_version` and `php_version` of a site.
 * Removes the AMP Glue plugin suggestion from the SEO dashboard when AMP and Yoast SEO are installed. The AMP Glue plugin by Yoast will be discontinued soon.
 * Removes the `Courses` menu-item.
-
-= 12.0.0 =
-Release Date: September 3rd, 2019
-
-Contrary to what the version number might suggest, Yoast SEO 12.0 isn’t a huge release. It’s simply the next release in our current release schedule, but after hitting 11.9 a couple of weeks ago we had no choice but to go for 12.0. That’s how it goes! But don’t worry, there’s enough interesting stuff in this release, including two new checks for the Portuguese language. Read more about Yoast SEO 12.0 in [our 12.0 release post](https://yoa.st/release-12-0)!
-
-Enhancements:
-
-* Adds a filter `wpseo_exclude_from_sitemap_by_term_ids` that allows excluding a term from the XML sitemap.
-* Adds a filter `wpseo_xml_sitemap_include_images` that allows excluding images from the XML sitemap.
-* Adds a maximum width to the metabox, props to [@justemoilouise](https://github.com/justemoilouise).
-* Adds support for the assessment that checks whether multiple sentences begin with the same word for Portuguese, props to [amesdigital](https://github.com/amesdigital).
-* Improves the wording in the configuration wizard notification, props to [@emilyatmobtown](https://github.com/emilyatmobtown).
-* Improves user input validation for URLs.
-* Improves the sentence length assessment for Portuguese by increasing the recommended sentence length limit, props to [amesdigital](https://github.com/amesdigital).
-* Updates the document title with a message to communicate form submission errors have occurred.
-
-Bugfixes:
-
-* Fixes a bug where a 404 error would be shown for the second sitemap (and up) of the author sitemaps in case of multiple author sitemaps.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
