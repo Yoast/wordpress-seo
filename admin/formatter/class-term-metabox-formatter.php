@@ -73,14 +73,9 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return string|null The image URL for the social preview.
 	 */
 	protected function get_image_url() {
-		$term_id = filter_input( INPUT_GET, 'tag_ID' );
-
-		if ( $term_id ) {
-			return WPSEO_Image_Utils::get_first_usable_description_image_for_term( $term_id );
-		}
-
-		return null;
+		return WPSEO_Image_Utils::get_first_content_image_for_term( $this->term->term_id );
 	}
+
 
 	/**
 	 * Returns the url to search for keyword for the taxonomy.

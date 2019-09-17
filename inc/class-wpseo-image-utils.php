@@ -381,16 +381,7 @@ class WPSEO_Image_Utils {
 		$image_finder = new WPSEO_Content_Images();
 		$images       = $image_finder->get_images( $post->ID, $post );
 
-		if ( ! is_array( $images ) || empty( $images ) ) {
-			return null;
-		}
-
-		$image_url = reset( $images );
-		if ( ! $image_url ) {
-			return null;
-		}
-
-		return $image_url;
+		return self::get_first_image( $images );
 	}
 
 	/**
@@ -400,26 +391,17 @@ class WPSEO_Image_Utils {
 	 *
 	 * @return string|null The image URL.
 	 */
-	public static function get_first_usable_description_image_for_term( $term_id = null ) {
-		$term_description = term_description( $term_id );
-
+	public static function get_first_content_image_for_term( $term_id = null ) {
 		if ( $term_id === null ) {
 			return null;
 		}
 
+		$term_description = term_description( $term_id );
+
 		$image_finder = new WPSEO_Content_Images();
-		$images       = $image_finder->get_images_term( $term_id, $term_description );
+		$images       = $image_finder->get_images_from_content( $term_description );
 
-		if ( ! is_array( $images ) || empty( $images ) ) {
-			return null;
-		}
-
-		$image_url = reset( $images );
-		if ( ! $image_url ) {
-			return null;
-		}
-
-		return $image_url;
+		return self::get_first_image( $images );
 	}
 
 	/**
@@ -445,5 +427,25 @@ class WPSEO_Image_Utils {
 		}
 
 		return $image_id;
+	}
+
+	/**
+	 * Retrieves the first possible image url from an array of images.
+	 *
+	 * @param array $images The array to extract image url from.
+	 *
+	 * @return null|string The extracted image url when found, null when not found.
+	 */
+	protected static function get_first_image( $images ) {
+		if ( ! is_array( $images ) || empty( $images ) ) {
+			return null;
+		}
+
+		$image_url = reset( $images );
+		if ( ! $image_url ) {
+			return null;
+		}
+
+		return $image_url;
 	}
 }
