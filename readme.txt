@@ -126,6 +126,7 @@ Enhancements:
 * Improves the How-to and FAQ blocks styling for better compatibility with latest version of the WordPress blocks editor.
 
 Bugfixes:
+
 * Fixes a bug where subscription checks would fail on some sites due to certificate verification being disabled.
 * Fixes a bug where the primary term selector would not display HTML entities properly. Props to [@dlh01](https://github.com/dlh01).
 
