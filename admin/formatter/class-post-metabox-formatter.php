@@ -43,10 +43,11 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 */
 	public function get_values() {
 		$values = array(
-			'search_url'          => $this->search_url(),
-			'post_edit_url'       => $this->edit_url(),
-			'base_url'            => $this->base_url_for_js(),
-			'metaDescriptionDate' => '',
+			'search_url'               => $this->search_url(),
+			'post_edit_url'            => $this->edit_url(),
+			'base_url'                 => $this->base_url_for_js(),
+			'metaDescriptionDate'      => '',
+			'social_preview_image_url' => $this->get_image_url(),
 		);
 
 		if ( $this->post instanceof WP_Post ) {
@@ -61,6 +62,26 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		}
 
 		return $values;
+	}
+
+	/**
+	 * Gets the image URL for the post's social preview.
+	 *
+	 * @return string|null The image URL for the social preview.
+	 */
+	protected function get_image_url() {
+		$post_id = $this->post->ID;
+
+		if ( has_post_thumbnail( $post_id ) ) {
+			$featured_image_info = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'single-post-thumbnail' );
+			return $featured_image_url = $featured_image_info[0];
+		}
+
+		if ( $post_id ) {
+			return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
+		}
+
+		return null;
 	}
 
 	/**

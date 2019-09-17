@@ -71,7 +71,6 @@ class WPSEO_Metabox_Formatter {
 			'addKeywordUpsell'          => $this->get_add_keyword_upsell_translations(),
 			'wordFormRecognitionActive' => ( WPSEO_Language_Utils::get_language( get_locale() ) === 'en' ),
 			'siteIconUrl'               => get_site_icon_url(),
-			'postImageUrl'				=> $this->get_post_image_url(),
 
 			/**
 			 * Filter to determine if the markers should be enabled or not.
@@ -146,33 +145,6 @@ class WPSEO_Metabox_Formatter {
 			'markdownEnabled'           => $this->is_markdown_enabled(),
 			'analysisHeadingTitle'      => __( 'Analysis', 'wordpress-seo' ),
 		);
-	}
-
-	/**
-	 * Returns the url of the post's or term's main image.
-	 * If the featured image is not set (post), returns the first image in the post or term.
-	 * If there are also no images in the post or term, returns null.
-	 *
-	 * @return string The post's or term's main image url.
-	 */
-	private function get_post_image_url() {
-		$post_id = get_the_ID();
-		$term_id = filter_input( INPUT_GET, 'tag_ID' );
-
-		if ( has_post_thumbnail( $post_id ) ) {
-			$featured_image_info = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'single-post-thumbnail' );
-			return $featured_image_url = $featured_image_info[0];
-		}
-
-		if ( $post_id ) {
-			return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
-		}
-
-		if ( $term_id ) {
-			return WPSEO_Image_Utils::get_first_usable_description_image_for_term( $term_id );
-		}
-
-		return null;
 	}
 
 	/**

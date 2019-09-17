@@ -53,17 +53,33 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus keyphrase doubles.
 		if ( is_object( $this->term ) && property_exists( $this->term, 'taxonomy' ) ) {
 			$values = array(
-				'search_url'        => $this->search_url(),
-				'post_edit_url'     => $this->edit_url(),
-				'base_url'          => $this->base_url_for_js(),
-				'taxonomy'          => $this->term->taxonomy,
-				'keyword_usage'     => $this->get_focus_keyword_usage(),
-				'title_template'    => $this->get_title_template(),
-				'metadesc_template' => $this->get_metadesc_template(),
+				'search_url'               => $this->search_url(),
+				'post_edit_url'            => $this->edit_url(),
+				'base_url'                 => $this->base_url_for_js(),
+				'taxonomy'                 => $this->term->taxonomy,
+				'keyword_usage'            => $this->get_focus_keyword_usage(),
+				'title_template'           => $this->get_title_template(),
+				'metadesc_template'        => $this->get_metadesc_template(),
+				'social_preview_image_url' => $this->get_image_url(),
 			);
 		}
 
 		return $values;
+	}
+
+	/**
+	 * Gets the image URL for the term's social preview.
+	 *
+	 * @return string|null The image URL for the social preview.
+	 */
+	protected function get_image_url() {
+		$term_id = filter_input( INPUT_GET, 'tag_ID' );
+
+		if ( $term_id ) {
+			return WPSEO_Image_Utils::get_first_usable_description_image_for_term( $term_id );
+		}
+
+		return null;
 	}
 
 	/**
