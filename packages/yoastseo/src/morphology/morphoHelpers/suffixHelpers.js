@@ -1,4 +1,19 @@
 /**
+ * Modifies the stem if the stem ending matches one of the regexes from a given modification group.
+ *
+ * @param {string} stemmedWord The stem.
+ * @param {array} modificationGroup The type of modification.
+ * @returns {string} The modified stem.
+ */
+export function modifyStem( stemmedWord, modificationGroup ) {
+	const neededReplacement = modificationGroup.find( replacement => stemmedWord.search( new RegExp( replacement[ 0 ] ) ) !== -1 );
+
+	if ( typeof neededReplacement !== "undefined" ) {
+		return stemmedWord.replace( new RegExp( neededReplacement[ 0 ] ), neededReplacement[ 1 ] );
+	}
+}
+
+/**
  * Creates word forms from a list of given suffixes and a stem.
  *
  * @param {string}      stem                The stem on which to apply the suffixes.
