@@ -91,7 +91,6 @@ abstract class WPSEO_Health_Check {
 		}
 
 		add_filter( 'site_status_tests', array( $this, 'add_test' ) );
-
 	}
 
 	/**
