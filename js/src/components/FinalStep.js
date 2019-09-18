@@ -16,11 +16,12 @@ class FinalStep extends React.Component {
 					<h2 className="yoast-wizard--heading">{ this.props.properties.title }</h2>
 					<p>{ this.props.properties.message }</p>
 				</div>
-				<div className="yoast-wizard--column__push_left yoast-wizard--video-frame">
-					<iframe
-						width="400" height="225" src={ this.props.properties.video.url }
-						title={ this.props.properties.video.title } frameBorder="0" allowFullScreen={ true }
-					/>
+				<div className="yoast-wizard--column__push_left">
+					<a href={ this.props.properties.href } target="_blank">
+						<img
+							width="100%" height="100%" src={ this.props.properties.image.src } alt={ this.props.properties.image.alt }
+						/>
+					</a>
 				</div>
 			</div>
 		);
