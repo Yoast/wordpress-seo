@@ -232,13 +232,14 @@
 		}
 	}
 
-
 	&-link--more-info {
 		background: url(svg-icon-info($color-pink-dark));
 		padding-left: calc( 1em + 5px );
 		background-size: 1em;
 		background-repeat: no-repeat;
 		background-position: left center;
+		display: inline-block;
+		margin-top: 16px;
 
 		&:after {
 			content: " \00BB";
@@ -257,7 +258,7 @@
 		line-height: 1.88;
 		letter-spacing: 0.01em;
 		text-align: center;
-		display: block;
+		display: inline-block;
 		margin-bottom: 16px;
 		margin-top: 8px;
 	}

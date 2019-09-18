@@ -186,6 +186,15 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 					?>
 				</a>
 
+				<a class="yoast-link--already-bought" href="#" id="<?php echo esc_attr( 'wpseo-already-bought-yoast-seo-wordpress-premium', 'wordpress-seo' ); ?>">
+					<?php
+					/* translators: %s expands to Yoast SEO Premium */
+					printf( esc_html__( 'I\'ve already bought %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
+					echo $new_tab_message;
+					?>
+				</a>
+				<br />
+
 				<a target="_blank" href="<?php echo esc_url( $premium_extension->get_info_url() ); ?>"
 					class="yoast-link--more-info">
 					<?php
@@ -273,7 +282,6 @@ $new_tab_message         = '<span class="screen-reader-text">' . esc_html__( '(O
 								/* translators: %s expands to the product name */
 								printf( esc_html__( 'I\'ve already bought %s', 'wordpress-seo' ), $extension->get_buy_button() );
 								echo $new_tab_message;
-								echo '<span aria-hidden="true" class="yoast-button-upsell__caret"></span>';
 								?>
 							</a>
 
