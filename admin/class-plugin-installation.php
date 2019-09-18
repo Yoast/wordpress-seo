@@ -29,7 +29,7 @@ class WPSEO_Plugin_Installation implements WPSEO_WordPress_Integration {
 				'wpseoPluginInstallationL10n',
 				array(
 					'target'  => array(
-						'domain' =>'http://two.wordpress.test',
+						'domain' => 'http://two.wordpress.test',
 						'path'   => '/wp-admin/admin.php?page=wpseo_popup_page&url=' . esc_html( home_url() ) . '&plugin=',
 					),
 					'pluginNames' => array(

@@ -17,6 +17,13 @@ function setQueue( tasks, single ) {
 	};
 }
 
+/**
+ * Que multiple plugins for installation and activation.
+ *
+ * @param {array<string>} pluginSlugs The plugin slugs.
+ *
+ * @returns {Object} Redux action.
+ */
 export function queueMultiplePluginInstallations( pluginSlugs ) {
 	const queue = [];
 
@@ -36,6 +43,13 @@ export function queueMultiplePluginInstallations( pluginSlugs ) {
 	return setQueue( queue, pluginSlugs.length === 1 ? pluginSlugs[ 0 ] : false );
 }
 
+/**
+ * Queue a single plugin for installation and activation.
+ *
+ * @param {string} pluginSlug The plugin slugs.
+ *
+ * @returns {Object} Redux action.
+ */
 export function queuePluginInstallation( pluginSlug ) {
 	return queueMultiplePluginInstallations( [ pluginSlug ] );
 }
