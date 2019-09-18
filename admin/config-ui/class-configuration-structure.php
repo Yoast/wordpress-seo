@@ -45,10 +45,10 @@ class WPSEO_Configuration_Structure {
 			'profileUrlWikipedia',
 		),
 		'multipleAuthors'            => array( 'multipleAuthors' ),
-		 'connectGoogleSearchConsole' => array(
+		'connectGoogleSearchConsole' => array(
 			'googleSearchConsoleIntro',
 			'connectGoogleSearchConsole',
-		 ),
+		),
 		'titleTemplate'              => array(
 			'titleIntro',
 			'siteName',
