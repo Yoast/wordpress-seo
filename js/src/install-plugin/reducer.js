@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
 	installing: false,
+	singlePluginInstallation: false,
 	tasks: [],
 };
 
@@ -33,6 +34,7 @@ export default ( state = INITIAL_STATE, action ) => {
 			return {
 				...INITIAL_STATE,
 				tasks: action.tasks,
+				singlePluginInstallation: action.singlePluginInstallation,
 			};
 		case "SET_INSTALLING":
 			return {

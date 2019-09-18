@@ -3,17 +3,31 @@
 // External dependencies.
 import { connect } from "react-redux";
 import { Component } from "@wordpress/element";
-import { MultiStepProgress, Modal } from "@yoast/components";
+import { MultiStepProgress, Modal, Alert } from "@yoast/components";
 import PropTypes from "prop-types";
+import { __, sprintf } from "@wordpress/i18n";
+import styled from "styled-components";
 
 // Internal dependencies.
-import * as actions from "../install-plugin/actions";
+import {
+	queueMultiplePluginInstallations,
+	startInstallation,
+} from "../install-plugin/actions";
+
+const CloseButton = styled.a`
+	float: right;
+	cursor: pointer;
+`;
 
 /**
  * Plugin installation modal.
  */
 class PluginInstallation extends Component {
-
+	/**
+	 * PluginInstallation constructor.
+	 *
+	 * @param {Object} props The component's props.
+	 */
 	constructor( props ) {
 		super( props );
 
@@ -35,6 +49,11 @@ class PluginInstallation extends Component {
 		this.checkUrlForInstallation();
 	}
 
+	/**
+	 * Add onClick listeners for the "I've already bought ***" links, rendered in admin/views/licenses.php.
+	 *
+	 * @returns {void}
+	 */
 	registerPopUpListeners() {
 		const pluginSlugs = Object.keys( wpseoPluginInstallationL10n.pluginNames );
 		const target      = wpseoPluginInstallationL10n.target;
@@ -56,16 +75,38 @@ class PluginInstallation extends Component {
 		}
 	}
 
+	/**
+	 * Listen for messages from the popup, that is triggered by registerPopUpListeners.
+	 *
+	 * @returns {void}
+	 */
 	registerMessageListener() {
 		window.addEventListener( "message", event => {
-			if ( event.origin !== "https://my.yoast.com" ) {
+			if ( event.origin !== wpseoPluginInstallationL10n.target.domain ) {
 				return;
 			}
 
-			
+			if ( event.data.plugin ) {
+				this.props.queueMultiplePluginInstallations( [ event.data.plugin ] );
+			} else if ( event.data.plugins ) {
+				this.props.queueMultiplePluginInstallations( event.data.plugins );
+			} else {
+				return;
+			}
+
+			this.setState( {
+				modalOpen: true,
+			} );
+
+			this.props.startInstallation();
 		} );
 	}
 
+	/**
+	 * Check for for the install_plugins URL parameter, and trigger the installation accordingly.
+	 *
+	 * @returns {void}
+	 */
 	checkUrlForInstallation() {
 		const urlParams = new URLSearchParams( window.location.search );
 
@@ -75,36 +116,107 @@ class PluginInstallation extends Component {
 
 		const plugins = urlParams.get( "install_plugins" ).split( "," );
 
-		const queue = [];
-
-		for ( let i = 0; i < plugins.length; i++ ) {
-			queue.push( {
-				type: "INSTALL_PLUGIN",
-				plugin: plugins[ i ],
-			} );
-			queue.push( {
-				type: "ACTIVATE_PLUGIN",
-				plugin: plugins[ i ],
-			} );
-		}
-
-		this.props.setQueue( queue );
+		this.props.queueMultiplePluginInstallations( plugins );
 
 		this.setState( {
 			modalOpen: true,
 		} );
+
+		this.props.startInstallation();
 	}
 
+	/**
+	 * Check whether the modal is open.
+	 *
+	 * @returns {boolean} Whether the modal is open.
+	 */
 	isModalOpen() {
 		return ( this.state.modalOpen && this.props.tasks.length );
 	}
 
+	/**
+	 * Closes the modal when no installation is in progress.
+	 *
+	 * @returns {void}
+	 */
 	closeModal() {
 		if ( this.props.installing ) {
 			return;
 		}
 
 		this.setState( { modalOpen: false } );
+	}
+
+	/**
+	 * Get the name if the single plugin being installed.
+	 *
+	 * @returns {string} The plugin name.
+	 */
+	getPluginName() {
+		if ( this.props.single !== false ) {
+			return wpseoPluginInstallationL10n.pluginNames[ this.props.single ];
+		}
+
+		return "";
+	}
+
+	/**
+	 * Check whether the installation has successfully finished.
+	 *
+	 * @returns {boolean} Whether the installation was successfull.
+	 */
+	isInstallationFinished() {
+		if ( this.props.tasks.length < 1 ) {
+			return false;
+		}
+
+		return this.props.tasks[ this.props.tasks.length - 1 ].status === "finished";
+	}
+
+	/**
+	 * Render the finished message.
+	 *
+	 * @returns {React.Element} The finished installation alert.
+	 */
+	renderFinishedMessage() {
+		if ( ! this.isInstallationFinished() ) {
+			return null;
+		}
+
+		return (
+			<Alert
+				type="success"
+			>
+				{
+					this.props.single
+						? sprintf(
+							// translators 1: Name of the plugin that is installed.
+							__( "Congratulations! %s is successfully installed on your site!", "wordpress-seo" ),
+							this.getPluginName()
+						)
+						: __( "Congratulations! Your products are successfully installed on your website!", "wordpress-seo" )
+				}
+			</Alert>
+		);
+	}
+
+	/**
+	 * Render the close button.
+	 *
+	 * @returns {React.Element} The close button.
+	 */
+	renderCloseButton() {
+		if ( ! this.isInstallationFinished() ) {
+			return null;
+		}
+
+		return (
+			<CloseButton
+				onClick={ this.closeModal }
+			>
+				{ __( "Close this modal", "wordpress-seo" ) }
+			</CloseButton>
+		);
 	}
 
 	/**
@@ -118,14 +230,33 @@ class PluginInstallation extends Component {
 				<Modal
 					appElement={ document.getElementById( "wpseo-app-element" ) }
 					onClose={ this.closeModal }
-					title="Installing your products"
 					isOpen={ this.isModalOpen() }
+					heading={ this.props.single
+						? sprintf(
+							// translators 1: Name of the plugin to be installed.
+							__( "%s installation", "wordpress-seo" ),
+							this.getPluginName()
+						)
+						: __( "Installing your products", "wordpress-seo" )
+					}
+					closeIconButton={ __( "Close", "wordpress-seo" ) }
 				>
-					<button onClick={ this.props.startInstallation }>Start installation</button>
+					<p>
+						{
+							this.props.single
+								? sprintf(
+									// translators 1: Name of the plugin to be installed.
+									__( "Please wait while %s is being installed on your site.", "wordpress-seo" ),
+									this.getPluginName()
+								)
+								: __( "Please wait while your products are being installed on your site.", "wordpress-seo" )
+						}
+					</p>
 					<MultiStepProgress
 						steps={ this.getSteps() }
 					/>
-					<button onClick={ this.closeModal }>Close</button>
+					{ this.renderFinishedMessage() }
+					{ this.renderCloseButton() }
 				</Modal>
 			</div>
 		);
@@ -157,16 +288,21 @@ class PluginInstallation extends Component {
 PluginInstallation.propTypes = {
 	tasks: PropTypes.array.isRequired,
 	installing: PropTypes.bool.isRequired,
+	single: PropTypes.oneOfType( [
+		PropTypes.bool,
+		PropTypes.string,
+	] ).isRequired,
 	startInstallation: PropTypes.func.isRequired,
-	setQueue: PropTypes.func.isRequired,
+	queueMultiplePluginInstallations: PropTypes.func.isRequired,
 };
 
 export default connect( ( state ) => {
 	return {
 		tasks: state.pluginInstallation.tasks,
 		installing: state.pluginInstallation.installing,
+		single: state.pluginInstallation.singlePluginInstallation,
 	};
 }, {
-	startInstallation: actions.startInstallation,
-	setQueue: actions.setQueue,
+	startInstallation,
+	queueMultiplePluginInstallations,
 } )( PluginInstallation );

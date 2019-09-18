@@ -96,7 +96,6 @@
 
 		&-upsell {
 			width: 100%;
-			margin-bottom: 1em;
 
 			@media only screen and (min-width: $page-width-small) {
 				width: auto;
@@ -250,6 +249,17 @@
 			margin: 0;
 			background-position: left center;
 		}
+	}
+
+	&-link--already-bought {
+		font-family: "Open Sans",Arial,sans-serif;
+		font-size: 1rem;
+		line-height: 1.88;
+		letter-spacing: 0.01em;
+		text-align: center;
+		display: block;
+		margin-bottom: 16px;
+		margin-top: 8px;
 	}
 
 	&-heading-highlight {

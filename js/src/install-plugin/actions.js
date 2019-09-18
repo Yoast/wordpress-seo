@@ -4,19 +4,40 @@ import apiFetch from "@wordpress/api-fetch";
 /**
  * Set tasks queue.
  *
- * @param {array} tasks The tasks.
+ * @param {array} tasks  The tasks.
+ * @param {bool}  single Whether or not this is a single plugin installation queue.
  *
  * @returns {Object} Redux action.
  */
-export function setQueue( tasks ) {
-	for ( let i = 0; i < tasks.length; i++ ) {
-		tasks[ i ].status = "pending";
-	}
-
+function setQueue( tasks, single ) {
 	return {
 		type: "SET_QUEUE",
+		singlePluginInstallation: single,
 		tasks,
 	};
+}
+
+export function queueMultiplePluginInstallations( pluginSlugs ) {
+	const queue = [];
+
+	for ( let i = 0; i < pluginSlugs.length; i++ ) {
+		queue.push( {
+			status: "pending",
+			type: "INSTALL_PLUGIN",
+			plugin: pluginSlugs[ i ],
+		} );
+		queue.push( {
+			status: "pending",
+			type: "ACTIVATE_PLUGIN",
+			plugin: pluginSlugs[ i ],
+		} );
+	}
+
+	return setQueue( queue, pluginSlugs.length === 1 ? pluginSlugs[ 0 ] : false );
+}
+
+export function queuePluginInstallation( pluginSlug ) {
+	return queueMultiplePluginInstallations( [ pluginSlug ] );
 }
 
 /**
@@ -26,7 +47,7 @@ export function setQueue( tasks ) {
  *
  * @returns {void}
  */
-async function installPlugin( pluginSlug ) {
+async function installPluginCall( pluginSlug ) {
 	await apiFetch( {
 		path: `/yoast/v1/myyoast/download/install?slug=${ pluginSlug }`,
 	} );
@@ -39,7 +60,7 @@ async function installPlugin( pluginSlug ) {
  *
  * @returns {void}
  */
-async function activatePlugin( pluginSlug ) {
+async function activatePluginCall( pluginSlug ) {
 	await apiFetch( {
 		path: `/yoast/v1/myyoast/download/activate?slug=${ pluginSlug }`,
 	} );
@@ -64,10 +85,10 @@ async function runTask( dispatch, task, taskIndex ) {
 	try {
 		switch ( task.type ) {
 			case "ACTIVATE_PLUGIN":
-				await activatePlugin( task.plugin );
+				await activatePluginCall( task.plugin );
 				break;
 			case "INSTALL_PLUGIN":
-				await installPlugin( task.plugin );
+				await installPluginCall( task.plugin );
 				break;
 		}
 	} catch ( e ) {
