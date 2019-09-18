@@ -78,11 +78,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 			return $featured_image_info[0];
 		}
 
-		if ( $post_id ) {
-			return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
-		}
-
-		return null;
+		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
 	}
 
 	/**
