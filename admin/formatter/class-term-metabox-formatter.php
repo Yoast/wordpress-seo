@@ -38,8 +38,8 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @param WP_Term|stdClass $term     Term.
 	 */
 	public function __construct( $taxonomy, $term ) {
-		$this->term     = $term;
 		$this->taxonomy = $taxonomy;
+		$this->term     = $term;
 	}
 
 	/**
@@ -75,7 +75,6 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	protected function get_image_url() {
 		return WPSEO_Image_Utils::get_first_content_image_for_term( $this->term->term_id );
 	}
-
 
 	/**
 	 * Returns the url to search for keyword for the taxonomy.
