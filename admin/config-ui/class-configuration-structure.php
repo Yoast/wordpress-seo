@@ -96,7 +96,6 @@ class WPSEO_Configuration_Structure {
 		// @codingStandardsIgnoreEnd
 
 		$this->add_step( 'title-template', __( 'Title settings', 'wordpress-seo' ), $this->fields['titleTemplate'] );
-
 		$this->add_step( 'newsletter', __( 'Continue learning', 'wordpress-seo' ), $this->fields['newsletter'], true, true );
 		$this->add_step( 'success', __( 'Success!', 'wordpress-seo' ), $this->fields['success'], true, true );
 	}
