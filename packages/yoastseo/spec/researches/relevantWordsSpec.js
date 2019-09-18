@@ -12,8 +12,8 @@ describe( "relevantWords research", function() {
 
 		const expected = {
 			prominentWords: [],
-			metadescriptionAvailable: false,
-			titleAvailable: false,
+			hasMetaDescription: false,
+			hasTitle: false,
 		};
 
 		// Make sure our words aren't filtered by density.
@@ -38,8 +38,8 @@ describe( "relevantWords research", function() {
 				new WordCombination( [ "combinations" ], 60, functionWords ),
 				new WordCombination( [ "win" ], 30, functionWords ),
 			],
-			metadescriptionAvailable: false,
-			titleAvailable: false,
+			hasMetaDescription: false,
+			hasTitle: false,
 		};
 
 		// Make sure our words aren't filtered by density.

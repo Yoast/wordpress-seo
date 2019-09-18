@@ -6,10 +6,10 @@ import countWords from "../stringProcessing/countWords";
  *
  * @param {Paper} paper The paper to determine the relevant words of.
  *
- * @returns {Object}            result                          A compound result object.
- * @returns {WordCombination[]} result.prominentWords           Relevant words for this paper, filtered and sorted.
- * @returns {boolean}           result.metadescriptionAvailable Whether the metadescription is available in the input paper.
- * @returns {boolean}           result.titleAvailable           Whether the title is available in the input paper.
+ * @returns {Object}            result                     A compound result object.
+ * @returns {WordCombination[]} result.prominentWords      Relevant words for this paper, filtered and sorted.
+ * @returns {boolean}           result.hasMetaDescription  Whether the metadescription is available in the input paper.
+ * @returns {boolean}           result.hasTitle            Whether the title is available in the input paper.
  */
 function relevantWords( paper ) {
 	const text = paper.getText();
@@ -17,8 +17,8 @@ function relevantWords( paper ) {
 	const title = paper.getTitle();
 
 	const result = {};
-	result.metadescriptionAvailable = metadescription !== "";
-	result.titleAvailable = title !== "";
+	result.hasMetaDescription = metadescription !== "";
+	result.hasTitle = title !== "";
 	result.prominentWords = [];
 
 	/**

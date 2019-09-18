@@ -16,8 +16,8 @@ describe( "relevantWords research", function() {
 
 		const expected = {
 			prominentWords: [],
-			metadescriptionAvailable: false,
-			titleAvailable: false,
+			hasMetaDescription: false,
+			hasTitle: false,
 		};
 
 		const words = prominentWordsResearch( paper, researcher );
@@ -33,8 +33,8 @@ describe( "relevantWords research", function() {
 
 		const expected = {
 			prominentWords: [],
-			metadescriptionAvailable: false,
-			titleAvailable: false,
+			hasMetaDescription: false,
+			hasTitle: false,
 		};
 
 		const words = prominentWordsResearch( paper, researcher );
@@ -53,8 +53,8 @@ describe( "relevantWords research", function() {
 				new ProminentWord( "texte", "texte", 181 ),
 				new ProminentWord( "et", "et", 180 ),
 			],
-			metadescriptionAvailable: false,
-			titleAvailable: true,
+			hasMetaDescription: false,
+			hasTitle: true,
 		};
 
 		const words = prominentWordsResearch( paper, researcher );
@@ -70,8 +70,8 @@ describe( "relevantWords research", function() {
 
 		const expected = {
 			prominentWords: [ new ProminentWord( "texte", "texte", 400 ) ],
-			metadescriptionAvailable: false,
-			titleAvailable: false,
+			hasMetaDescription: false,
+			hasTitle: false,
 		};
 
 		const words = prominentWordsResearch( paper, researcher );
@@ -93,8 +93,8 @@ describe( "relevantWords research", function() {
 				new ProminentWord( "syllable", "syllable", 60 ),
 				new ProminentWord( "win", "win", 15 ),
 			],
-			metadescriptionAvailable: false,
-			titleAvailable: false,
+			hasMetaDescription: false,
+			hasTitle: false,
 		};
 
 		const words = prominentWordsResearch( paper, researcher );
@@ -162,8 +162,8 @@ describe( "relevantWords research", function() {
 				new ProminentWord( "users", "user", 6 ),
 				new ProminentWord( "yoastcon", "yoastcon", 6 ),
 			],
-			metadescriptionAvailable: true,
-			titleAvailable: true,
+			hasMetaDescription: true,
+			hasTitle: true,
 		};
 
 		const words = prominentWordsResearch( paper, researcher );

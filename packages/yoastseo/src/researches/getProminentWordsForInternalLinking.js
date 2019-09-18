@@ -17,10 +17,10 @@ import { getSubheadingsTopLevel, removeSubheadingsTopLevel } from "../stringProc
  * @param {Paper}       paper       The paper to determine the prominent words of.
  * @param {Researcher}  researcher  The researcher to use for analysis.
  *
- * @returns {Object}          result                          A compound result object.
- * @returns {ProminentWord[]} result.prominentWords           Prominent words for this paper, filtered and sorted.
- * @returns {boolean}         result.metadescriptionAvailable Whether the metadescription is available in the input paper.
- * @returns {boolean}         result.titleAvailable           Whether the title is available in the input paper.
+ * @returns {Object}          result                    A compound result object.
+ * @returns {ProminentWord[]} result.prominentWords     Prominent words for this paper, filtered and sorted.
+ * @returns {boolean}         result.hasMetaDescription Whether the metadescription is available in the input paper.
+ * @returns {boolean}         result.hasTitle           Whether the title is available in the input paper.
  */
 function getProminentWordsForInternalLinking( paper, researcher ) {
 	const text = paper.getText();
@@ -28,8 +28,8 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 	const title = paper.getTitle();
 
 	const result = {};
-	result.metadescriptionAvailable = metadescription !== "";
-	result.titleAvailable = title !== "";
+	result.hasMetaDescription = metadescription !== "";
+	result.hasTitle = title !== "";
 	result.prominentWords = [];
 
 	/**
@@ -39,7 +39,7 @@ function getProminentWordsForInternalLinking( paper, researcher ) {
 	const textLength = countWords( text );
 	if (
 		( textLength < 300 ) ||
-		( textLength < 400 && ( ! result.titleAvailable ) && ( ! result.metadescriptionAvailable ) )
+		( textLength < 400 && ( ! result.hasTitle ) && ( ! result.hasMetaDescription ) )
 	) {
 		return result;
 	}
