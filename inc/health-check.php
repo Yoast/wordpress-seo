@@ -152,11 +152,11 @@ abstract class WPSEO_Health_Check {
 			$this->badge = array();
 		}
 
-		if ( empty( $this->badge['label'] )  ) {
+		if ( empty( $this->badge['label'] ) ) {
 			$this->badge['label'] = __( 'SEO', 'wordpress-seo' );
 		}
 
-		if ( empty( $this->badge['color'] )  ) {
+		if ( empty( $this->badge['color'] ) ) {
 			$this->badge['color'] = 'green';
 		}
 
