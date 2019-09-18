@@ -27,7 +27,7 @@ abstract class TestCase extends BaseTestCase {
 
 		Monkey\Functions\stubs(
 			[
-				// Null makes it so the function returns it's first argument.
+				// Null makes it so the function returns its first argument.
 				'esc_attr'            => null,
 				'esc_html'            => null,
 				'esc_textarea'        => null,
