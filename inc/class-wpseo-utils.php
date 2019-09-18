@@ -1364,6 +1364,22 @@ SVG;
 		return array_merge_recursive( $allowed_post_tags, $input_tags );
 	}
 
+	/**
+	 * Gets an array of enabled features.
+	 *
+	 * @return string[] The array of enabled features.
+	 */
+	public static function retrieve_enabled_features() {
+		$enabled_features = array();
+		if ( defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
+			$enabled_features = preg_split( '/,\W*/', YOAST_SEO_ENABLED_FEATURES );
+		}
+		// Make the array of enabled features filterable, so features can be enabled at will.
+		$enabled_features = apply_filters( 'wpseo_enable_feature', $enabled_features );
+
+		return $enabled_features;
+	}
+
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
@@ -1403,21 +1419,5 @@ SVG;
 		_deprecated_function( __METHOD__, 'WPSEO 9.5', 'WPSEO_Language_Utils::get_user_locale' );
 
 		return WPSEO_Language_Utils::get_user_locale();
-	}
-
-	/**
-	 * Gets an array of enabled features.
-	 *
-	 * @return string[] The array of enabled features.
-	 */
-	public static function retrieve_enabled_features() {
-		$enabled_features = array();
-		if ( defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
-			$enabled_features = preg_split( '/,\W*/', YOAST_SEO_ENABLED_FEATURES );
-		}
-		// Make the array of enabled features filterable, so features can be enabled at will.
-		$enabled_features = apply_filters( 'wpseo_enable_feature', $enabled_features );
-
-		return $enabled_features;
 	}
 }

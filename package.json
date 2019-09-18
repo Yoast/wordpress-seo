@@ -103,13 +103,13 @@
     "@wordpress/is-shallow-equal": "^1.2.0",
     "@wordpress/rich-text": "^3.2.2",
     "@wordpress/url": "^2.5.0",
-    "@yoast/algolia-search-box": "^1.5.0-rc.0",
-    "@yoast/analysis-report": "^0.6.0-rc.0",
-    "@yoast/components": "^0.6.0-rc.0",
-    "@yoast/configuration-wizard": "^1.5.0-rc.0",
-    "@yoast/helpers": "^0.4.0-rc.2",
-    "@yoast/search-metadata-previews": "^1.8.0-rc.0",
-    "@yoast/style-guide": "^0.4.0-rc.1",
+    "@yoast/algolia-search-box": "^1.6.0-rc.0",
+    "@yoast/analysis-report": "^0.7.0-rc.0",
+    "@yoast/components": "^0.7.0-rc.0",
+    "@yoast/configuration-wizard": "^1.6.0-rc.0",
+    "@yoast/helpers": "^0.5.0-rc.0",
+    "@yoast/search-metadata-previews": "^1.9.0-rc.0",
+    "@yoast/style-guide": "^0.5.0-rc.0",
     "a11y-speak": "git+https://github.com/Yoast/a11y-speak.git#master",
     "babel-polyfill": "^6.26.0",
     "draft-js": "^0.10.5",
@@ -132,10 +132,10 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
-    "yoast-components": "^4.32.0-rc.0",
-    "yoastseo": "^1.59.0-rc.0"
+    "yoast-components": "^4.33.0-rc.0",
+    "yoastseo": "^1.60.0-rc.0"
   },
   "yoast": {
-    "pluginVersion": "12.1-RC4"
+    "pluginVersion": "12.2-RC1"
   }
 }
