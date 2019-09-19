@@ -706,6 +706,9 @@ class WPSEO_Admin_Asset_Manager {
 			array(
 				'name' => 'adminbar',
 				'src'  => 'adminbar-' . $flat_version,
+				'deps' => array(
+					'admin-bar',
+				),
 			),
 			array(
 				'name' => 'primary-category',
