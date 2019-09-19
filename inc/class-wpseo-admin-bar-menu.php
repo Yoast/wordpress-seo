@@ -116,6 +116,19 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Filter the XPaths for which elements should get the data-ampdevmode attribute.
+	 *
+	 * Note that the data-ampdevmode attribute could alternatively be added via the style_loader_tag filter.
+	 *
+	 * @param string[] $xpaths XPaths.
+	 * @return string[] XPaths.
+	 */
+	public function filter_amp_dev_mode_element_xpaths( $xpaths ) {
+		$xpaths[] = '//link[ @id = "yoast-seo-adminbar-css" ]';
+		return $xpaths;
+	}
+
+	/**
 	 * Registers the hooks.
 	 *
 	 * @return void
@@ -129,6 +142,8 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+
+		add_filter( 'amp_dev_mode_element_xpaths', array( $this, 'filter_amp_dev_mode_element_xpaths' ) );
 	}
 
 	/**
