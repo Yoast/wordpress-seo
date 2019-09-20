@@ -266,9 +266,6 @@ class Yoast_Form {
 
 		$class = '';
 		if ( $label_left !== false ) {
-			if ( ! empty( $label_left ) ) {
-				$label_left .= ':';
-			}
 			$this->label( $label_left, array( 'for' => $var ) );
 		}
 		else {
@@ -364,7 +361,7 @@ class Yoast_Form {
 		}
 
 		$this->label(
-			$label . ':',
+			$label,
 			array(
 				'for'   => $var,
 				'class' => 'textinput',
@@ -406,7 +403,7 @@ class Yoast_Form {
 		$val      = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 
 		$this->label(
-			$label . ':',
+			$label,
 			array(
 				'for'   => $var,
 				'class' => 'textinput',
@@ -455,7 +452,7 @@ class Yoast_Form {
 
 		if ( $show_label ) {
 			$this->label(
-				$label . ':',
+				$label,
 				array(
 					'for'   => $var,
 					'class' => 'select',
@@ -505,7 +502,7 @@ class Yoast_Form {
 
 		$var_esc = esc_attr( $var );
 		$this->label(
-			$label . ':',
+			$label,
 			array(
 				'for'   => $var,
 				'class' => 'select',
@@ -544,7 +541,7 @@ class Yoast_Form {
 		$var_esc = esc_attr( $var );
 
 		$this->label(
-			$label . ':',
+			$label,
 			array(
 				'for'   => 'wpseo_' . $var,
 				'class' => 'select',
