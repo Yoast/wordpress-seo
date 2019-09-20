@@ -18,7 +18,7 @@ class WPSEO_Config_Field_Success_Message extends WPSEO_Config_Field {
 
 		$success_message = sprintf(
 			/* translators: %1$s expands to Yoast SEO. */
-			__( '%1$s will now take care of all the needed technical optimization of your site. To really improve your site\'s performance in the search results, it\'s important to know everything our plugin has to offer. Sign up for our free %1$s plugin training, in which you\'ll learn how to use %1$s and how it can help you make the best of your website!'),
+			__( '%1$s will now take care of all the needed technical optimization of your site. To really improve your site\'s performance in the search results, it\'s important to know everything our plugin has to offer. Sign up for our free %1$s plugin training, in which you\'ll learn how to use %1$s and how it can help you make the best of your website!', 'wordpress-seo' ),
 			'Yoast SEO'
 		);
 
