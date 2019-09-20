@@ -12,7 +12,7 @@ use Mockery;
  * Unit Test Class.
  *
  * @coversDefaultClass WPSEO_Post_Metabox_Formatter
- * @group Metabox
+ * @group Formatter
  */
 class Post_Metabox_Formatter_Test extends TestCase {
 
@@ -45,6 +45,8 @@ class Post_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Get the image URL when a featured image is set, and there is no image in the content.
+	 *
+	 * @covers ::get_image_url
 	 */
 	public function test_featured_image_set_content_has_no_image() {
 		$expected = 'https://example.com/media/featured_image.jpg';
@@ -65,6 +67,8 @@ class Post_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Get the image URL when no featured image is set, and there are images in the content.
+	 *
+	 * @covers ::get_image_url
 	 */
 	public function test_no_featured_image_set_content_has_multiple_images() {
 		$expected = 'https://example.com/media/content_image.jpg';
@@ -83,6 +87,8 @@ class Post_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Get the image URL when a featured image is set, and there is an image in the content.
+	 *
+	 * @covers ::get_image_url
 	 */
 	public function test_featured_image_set_content_has_an_image() {
 		$expected = 'https://example.com/media/featured_image.jpg';
@@ -107,6 +113,8 @@ class Post_Metabox_Formatter_Test extends TestCase {
 
 	/**
 	 * Get the image URL when no featured image is set, and there is no image in the content.
+	 *
+	 * @covers ::get_image_url
 	 */
 	public function test_no_featured_image_set_content_has_no_image() {
 		$expected = null;

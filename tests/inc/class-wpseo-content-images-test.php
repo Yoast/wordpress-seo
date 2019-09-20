@@ -34,7 +34,7 @@ class Content_Images_Test extends TestCase {
 	/**
 	 * Test getting images from the post content.
 	 *
-	 * @covers WPSEO_Content_Images::get_images_from_content
+	 * @covers ::get_images_from_content
 	 */
 
 	public function test_get_images_from_content() {
@@ -66,7 +66,7 @@ class Content_Images_Test extends TestCase {
 	/**
 	 * Test what happens when the post content isn't a string.
 	 *
-	 * @covers WPSEO_Content_Images::get_images_from_content
+	 * @covers ::get_images_from_content
 	 */
 
 	public function test_content_is_not_a_string() {
