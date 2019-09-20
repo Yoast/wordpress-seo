@@ -73,6 +73,13 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		$data = $this->add_keywords( $data );
 		$data = $this->add_sections( $data );
 
+		// If using the amp plugin, use amp_get_schemaorg_metadata function to generate ld data and merge with article data.
+		if ( is_singular('amp_story') && function_exists( 'amp_get_schemaorg_metadata' ) ) {
+			$amp_metadata = amp_get_schemaorg_metadata();
+			unset( $amp_metadata['@context'] );
+			$data = wp_parse_args( $amp_metadata, $data );
+		}
+
 		return $data;
 	}
 
@@ -93,7 +100,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		 *
 		 * @api string[] $post_types The post types for which we output Article.
 		 */
-		$post_types = apply_filters( 'wpseo_schema_article_post_types', array( 'post' ) );
+		$post_types = apply_filters( 'wpseo_schema_article_post_types', array( 'post', 'amp_story' ) );
 
 		return in_array( $post_type, $post_types );
 	}
