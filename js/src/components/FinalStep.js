@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 /**
  * @summary Final step in the wizard component.
@@ -17,6 +18,7 @@ class FinalStep extends React.Component {
 					<p>{ this.props.properties.message }</p>
 				</div>
 				<div className="yoast-wizard--column__push_left">
+					{ /* eslint-disable-next-line react/jsx-no-target-blank */ }
 					<a href={ this.props.properties.href } target="_blank" id="plugin-training-image-link">
 						<img
 							width="100%" height="100%" src={ this.props.properties.image.src } alt={ this.props.properties.image.alt }
@@ -27,5 +29,9 @@ class FinalStep extends React.Component {
 		);
 	}
 }
+
+FinalStep.propTypes = {
+	properties: PropTypes.object.isRequired,
+};
 
 export default FinalStep;
