@@ -11,6 +11,7 @@ use Mockery;
  * Unit Test Class.
  *
  * @coversDefaultClass WPSEO_Content_Images
+ *
  * @group ContentImages
  */
 class Content_Images_Test extends TestCase {

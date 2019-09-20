@@ -12,6 +12,7 @@ use Mockery;
  * Unit Test Class.
  *
  * @coversDefaultClass WPSEO_Post_Metabox_Formatter
+ *
  * @group Formatter
  */
 class Post_Metabox_Formatter_Test extends TestCase {
