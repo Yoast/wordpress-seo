@@ -32,13 +32,7 @@ class WPSEO_Plugin_Installation implements WPSEO_WordPress_Integration {
 						'domain' => 'https://my.yoast.com',
 						'path'   => '/addsite?url=' . esc_html( home_url() ) . '&plugin=',
 					),
-					'pluginNames' => array(
-						'yoast-seo-wordpress-premium' => 'Yoast SEO Premium',
-						'yoast-seo-local'             => 'Yoast Local SEO',
-						'yoast-seo-video'             => 'Yoast Video SEO',
-						'yoast-seo-news'              => 'Yoast News SEO',
-						'yoast-seo-woocommerce'       => 'Yoast Woocommerce SEO',
-					),
+					'pluginNames' => WPSEO_Addon_Manager::get_addon_names(),
 				)
 			);
 			$asset_manager->enqueue_script( 'plugin-installation' );

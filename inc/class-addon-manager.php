@@ -73,6 +73,21 @@ class WPSEO_Addon_Manager {
 	);
 
 	/**
+	 * Retrieves the list of addon names.
+	 *
+	 * @return array The list of addons.
+	 */
+	public static function get_addon_names() {
+		return array(
+			'yoast-seo-wordpress-premium' => 'Yoast SEO Premium',
+			'yoast-seo-local'             => 'Yoast Local SEO',
+			'yoast-seo-video'             => 'Yoast Video SEO',
+			'yoast-seo-news'              => 'Yoast News SEO',
+			'yoast-seo-woocommerce'       => 'Yoast Woocommerce SEO',
+		);
+	}
+
+	/**
 	 * Hooks into WordPress.
 	 *
 	 * @codeCoverageIgnore
