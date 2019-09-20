@@ -434,18 +434,18 @@ class WPSEO_Image_Utils {
 	 *
 	 * @param array $images The array to extract image url from.
 	 *
-	 * @return null|string The extracted image url when found, null when not found.
+	 * @return string|null The extracted image url when found, null when not found.
 	 */
 	protected static function get_first_image( $images ) {
-		if ( ! is_array( $images ) || empty( $images ) ) {
+		if ( ! is_array( $images ) ) {
 			return null;
 		}
 
-		$image_url = reset( $images );
-		if ( ! $image_url ) {
+		$images = array_filter( $images );
+		if ( empty( $images ) ) {
 			return null;
 		}
 
-		return $image_url;
+		return reset( $images );
 	}
 }
