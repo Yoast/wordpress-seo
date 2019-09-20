@@ -78,14 +78,16 @@ abstract class WPSEO_Health_Check {
 	 *
 	 * @return array The result.
 	 */
-	abstract public function test();
+	abstract public function run();
 
 	/**
 	 * Registers the test to WordPress.
 	 */
 	public function register_test() {
 		if ( $this->async ) {
-			add_filter( 'wp_ajax_site_status_tests', array( $this, 'add_async_test' ) );
+			add_filter( 'site_status_tests', array( $this, 'add_async_test' ) );
+
+			add_action( 'wp_ajax_health-check-' . $this->get_test_name(), array( $this, 'get_async_test_result' ) );
 
 			return;
 		}
@@ -118,7 +120,7 @@ abstract class WPSEO_Health_Check {
 	 */
 	public function add_async_test( $tests ) {
 		$tests['async'][ $this->name ] = array(
-			'test' => array( $this, 'get_test_result' ),
+			'test' => $this->get_test_name(),
 			'name' => $this->name,
 		);
 
@@ -131,7 +133,7 @@ abstract class WPSEO_Health_Check {
 	 * @return array The formatted test result.
 	 */
 	public function get_test_result() {
-		$this->test();
+		$this->run();
 
 		return array(
 			'label'       => $this->label,
@@ -140,6 +142,13 @@ abstract class WPSEO_Health_Check {
 			'description' => $this->description,
 			'actions'     => $this->actions,
 		);
+	}
+
+	/**
+	 * Formats the test result as an array.
+	 */
+	public function get_async_test_result() {
+		wp_send_json_success( $this->get_test_result() );
 	}
 
 	/**
@@ -161,5 +170,15 @@ abstract class WPSEO_Health_Check {
 		}
 
 		return $this->badge;
+	}
+
+	/**
+	 * WordPress converts the underscore in dashed, just to prevent issues we have
+	 * to do it as well.
+	 *
+	 * @return string The formatted testname.
+	 */
+	protected function get_test_name() {
+		return str_replace( '_', '-', $this->test );
 	}
 }
