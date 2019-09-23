@@ -5,7 +5,6 @@ namespace Yoast\WP\Free\Integrations;
 use Yoast\WP\Free\Conditionals\Front_End_Conditional;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Helpers\Current_Post_Helper;
-use Yoast\WP\Free\Presenters\Head_Presenter;
 use Yoast\WP\Free\Presenters\Presenter_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\WordPress\Integration;
