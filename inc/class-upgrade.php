@@ -141,6 +141,16 @@ class WPSEO_Upgrade {
 			$this->upgrade_123();
 		}
 
+		$upgrade_routines = array(
+			'12.4-RC0' => 'upgrade_124',
+		);
+
+		foreach ( $upgrade_routines as $routine_version => $routine ) {
+			if ( version_compare( $version, $routine_version, '<') ) {
+				$this->$routine();
+			}
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -708,6 +718,13 @@ class WPSEO_Upgrade {
 			$center->remove_notification_by_id( 'wpseo-outdated-yoast-seo-plugin-' . $plugin );
 
 		}
+	}
+
+	/**
+	 * Removes the paginated comments notice when it's set.
+	 */
+	private function upgrade_124() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-page_comments-notice' );
 	}
 
 	/**
