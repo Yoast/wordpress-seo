@@ -26,17 +26,6 @@ class Wrapper {
 		return $wpdb;
 	}
 
-	/**
-	 * Wrapper method for returning the wp_query object for use in dependency injection.
-	 *
-	 * @return \WP_Query The wp_query global.
-	 */
-	public static function get_wp_query() {
-		global $wp_query;
-
-		return $wp_query;
-	}
-
 	public static function get_replace_vars() {
 		return new WPSEO_Replace_Vars();
 	}

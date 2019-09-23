@@ -1,11 +1,11 @@
 <?php
 /**
- * Author watcher to save the meta data to an Indexable.
+ * Presenter of the meta description for post type singles.
  *
  * @package Yoast\YoastSEO\Presenters
  */
 
-namespace Yoast\WP\Free\Integrations\Presenters;
+namespace Yoast\WP\Free\Presenters\Post_Type;
 
 use WPSEO_Frontend;
 use WPSEO_Options;
@@ -13,25 +13,14 @@ use WPSEO_Replace_Vars;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Helpers\Current_Post_Helper;
 use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\WordPress\Integration;
+use Yoast\WP\Free\Presenters\Presenter_Interface;
 
-class Meta_Description_Presenter implements Integration {
-
-	/**
-	 * @var Indexable_Repository
-	 */
-	protected $repository;
+class Meta_Description_Presenter implements Presenter_Interface {
 
 	/**
 	 * @var \WPSEO_Replace_Vars
 	 */
 	protected $replacement_variables_helper;
-
-	/**
-	 * @var Current_Post_Helper
-	 */
-	protected $current_post_helper;
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -45,18 +34,12 @@ class Meta_Description_Presenter implements Integration {
 	/**
 	 * Meta_Description_Presenter constructor.
 	 *
-	 * @param Indexable_Repository $repository                   The indexables repository.
 	 * @param \WPSEO_Replace_Vars  $replacement_variables_helper The replacement variables helper.
-	 * @param Current_Post_Helper  $current_post_helper          The current post helper.
 	 */
 	public function __construct(
-		Indexable_Repository $repository,
-		WPSEO_Replace_Vars $replacement_variables_helper,
-		Current_Post_Helper $current_post_helper
+		WPSEO_Replace_Vars $replacement_variables_helper
 	) {
-		$this->repository = $repository;
 		$this->replacement_variables_helper = $replacement_variables_helper;
-		$this->current_post_helper = $current_post_helper;
 	}
 
 	/**
@@ -74,21 +57,7 @@ class Meta_Description_Presenter implements Integration {
 	/**
 	 * Displays the meta description for post.
 	 */
-	public function present() {
-		if ( ! $this->current_post_helper->is_simple_page() ) {
-			// This presenter currently only handles simple pages so fallback on other pages.
-			WPSEO_Frontend::get_instance()->metadesc();
-			return;
-		}
-
-		$indexable = $this->repository->for_current_page();
-
-		if ( ! $indexable ) {
-			// Fallback in case no indexable could be found.
-			WPSEO_Frontend::get_instance()->metadesc();
-			return;
-		}
-
+	public function present( Indexable $indexable ) {
 		$meta_description = $this->generate_meta_description( $indexable );
 
 		if ( is_string( $meta_description ) && $meta_description !== '' ) {
@@ -115,7 +84,7 @@ class Meta_Description_Presenter implements Integration {
 	 *
 	 * @return string The meta description.
 	 */
-	private function generate_meta_description( Indexable $indexable ) {
+	protected function generate_meta_description( Indexable $indexable ) {
 		$meta_description = $indexable->description;
 
 		if ( ! $meta_description ) {
