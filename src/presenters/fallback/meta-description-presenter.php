@@ -47,11 +47,6 @@ class Meta_Description_Presenter extends Abstract_Meta_Description_Presenter {
 			$meta_description = $this->replacement_variables_helper->replace( $meta_description, \get_post( $indexable->object_id ) );
 		}
 
-		/**
-		 * Filter: 'wpseo_metadesc' - Allow changing the Yoast SEO meta description sentence.
-		 *
-		 * @api string $meta_description The description sentence.
-		 */
-		return apply_filters( 'wpseo_metadesc', trim( $meta_description ) );
+		return $meta_description;
 	}
 }
