@@ -22,8 +22,8 @@ class Canonical_Presenter extends Abstract_Canonical_Presenter {
 		$canonical = $indexable->canonical;
 
 		if ( ! $canonical ) {
-			$post      = get_post( get_queried_object_id() );
-			$canonical = get_permalink( $post->ID );
+			$post      = \get_post( \get_queried_object_id() );
+			$canonical = \get_permalink( $post->ID );
 
 			// Fix paginated pages canonical, but only if the page is truly paginated.
 			if ( \get_query_var( 'page' ) > 1 ) {
