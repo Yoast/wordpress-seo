@@ -75,8 +75,6 @@ abstract class WPSEO_Health_Check {
 
 	/**
 	 * Runs the test and returns the result.
-	 *
-	 * @return array The result.
 	 */
 	abstract public function run();
 
