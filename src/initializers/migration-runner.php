@@ -53,7 +53,7 @@ class Migration_Runner implements Initializer_Interface {
 	 * Migrations constructor.
 	 *
 	 * @param \Yoast\WP\Free\Config\Ruckusing_Framework $framework The Ruckusing framework runner.
-	 * @param \Yoast\WP\Free\Loggers\Logger               $logger    A PSR compatible logger.
+	 * @param \Yoast\WP\Free\Loggers\Logger             $logger    A PSR compatible logger.
 	 */
 	public function __construct( Ruckusing_Framework $framework, Logger $logger ) {
 		$this->framework = $framework;

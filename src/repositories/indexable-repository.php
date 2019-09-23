@@ -50,10 +50,11 @@ class Indexable_Repository extends ORMWrapper {
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @param \Yoast\WP\Free\Builders\Indexable_Author_Builder $author_builder The author builder for creating missing indexables.
-	 * @param \Yoast\WP\Free\Builders\Indexable_Post_Builder   $post_builder   The post builder for creating missing indexables.
-	 * @param \Yoast\WP\Free\Builders\Indexable_Term_Builder   $term_builder   The term builder for creating missing indexables.
-	 * @param \Yoast\WP\Free\Loggers\Logger                    $logger         The logger.
+	 * @param \Yoast\WP\Free\Builders\Indexable_Author_Builder $author_builder      The author builder for creating missing indexables.
+	 * @param \Yoast\WP\Free\Builders\Indexable_Post_Builder   $post_builder        The post builder for creating missing indexables.
+	 * @param \Yoast\WP\Free\Builders\Indexable_Term_Builder   $term_builder        The term builder for creating missing indexables.
+	 * @param \Yoast\WP\Free\Helpers\Current_Post_Helper       $current_post_helper The current post helper.
+	 * @param \Yoast\WP\Free\Loggers\Logger                    $logger              The logger.
 	 *
 	 * @return \Yoast\WP\Free\Repositories\Indexable_Repository
 	 */

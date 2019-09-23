@@ -10,6 +10,9 @@ namespace Yoast\WP\Free\Presenters;
 use WPSEO_Replace_Vars;
 use Yoast\WP\Free\Models\Indexable;
 
+/**
+ * Class Abstract_Meta_Description_Presenter
+ */
 abstract class Abstract_Meta_Description_Presenter implements Presenter_Interface {
 
 	/**
@@ -96,7 +99,7 @@ abstract class Abstract_Meta_Description_Presenter implements Presenter_Interfac
 	/**
 	 * Gets an object to be used as a source of replacement variables.
 	 *
-	 * @param Indexable $indexable The indexable
+	 * @param Indexable $indexable The indexable.
 	 *
 	 * @return array A key => value array of variables that may be replaced.
 	 */

@@ -11,6 +11,9 @@ use WPSEO_Replace_Vars;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presenters\Abstract_Meta_Description_Presenter;
 
+/**
+ * Class Meta_Description_Presenter
+ */
 class Meta_Description_Presenter extends Abstract_Meta_Description_Presenter {
 
 	/**

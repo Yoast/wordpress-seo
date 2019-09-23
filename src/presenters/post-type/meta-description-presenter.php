@@ -11,6 +11,9 @@ use WPSEO_Options;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presenters\Abstract_Meta_Description_Presenter;
 
+/**
+ * Class Meta_Description_Presenter
+ */
 class Meta_Description_Presenter extends Abstract_Meta_Description_Presenter {
 
 	/**
@@ -31,7 +34,7 @@ class Meta_Description_Presenter extends Abstract_Meta_Description_Presenter {
 	/**
 	 * Gets an object to be used as a source of replacement variables.
 	 *
-	 * @param Indexable $indexable The indexable
+	 * @param Indexable $indexable The indexable.
 	 *
 	 * @return array A key => value array of variables that may be replaced.
 	 */

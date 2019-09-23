@@ -1,4 +1,9 @@
 <?php
+/**
+ * Yoast SEO Plugin File.
+ *
+ * @package Yoast\YoastSEO\Integrations
+ */
 
 namespace Yoast\WP\Free\Integrations;
 
@@ -10,6 +15,9 @@ use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class Front_End_Integration.
+ */
 class Front_End_Integration implements Integration_Interface {
 
 	/**
@@ -42,10 +50,10 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Front_End_Integration constructor.
 	 *
-	 * @param Indexable_Repository $indexable_repository
-	 * @param Current_Post_Helper  $current_post_helper
-	 * @param WP_Query_Wrapper     $wp_query_wrapper
-	 * @param ContainerInterface   $service_container
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 * @param Current_Post_Helper  $current_post_helper  The current post helper.
+	 * @param WP_Query_Wrapper     $wp_query_wrapper     The WP Query wrapper.
+	 * @param ContainerInterface   $service_container    The DI container.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
@@ -97,16 +105,13 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function get_presenters() {
 		$page_type = $this->get_page_type();
-
-		return array_filter( array_map( function ( $presenter ) use ( $page_type ) {
-			try {
-				return $this->container->get( "Yoast\WP\Free\Presenters\{$page_type}\{$presenter}_Presenter" );
-			} catch ( \Exception $exception ) {
-				if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {
-					throw $exception;
-				}
-				return null;
+		$debug     = \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true;
+		return array_filter( array_map( function ( $presenter ) use ( $page_type, $debug ) {
+			$invalid_behaviour = ContainerInterface::NULL_ON_INVALID_REFERENCE;
+			if ( $debug ) {
+				$invalid_behaviour = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
 			}
+			return $this->container->get( "Yoast\WP\Free\Presenters\{$page_type}\{$presenter}_Presenter", $invalid_behaviour );
 		}, [
 			'Canonical',
 			'Title',
@@ -121,28 +126,33 @@ class Front_End_Integration implements Integration_Interface {
 		] ) );
 	}
 
+	/**
+	 * Gets the type of the current page.
+	 *
+	 * @return string The page type.
+	 */
 	protected function get_page_type() {
 		$wp_query  = $this->wp_query_wrapper->get_main_query();
 
 		switch ( true ) {
 			case $this->current_post_helper->is_simple_page():
-				return "Post_Type";
+				return 'Post_Type';
 			case $wp_query->is_post_type_archive:
-				return "Post_Type_Archive";
+				return 'Post_Type_Archive';
 			case $wp_query->is_tax || $wp_query->is_tag || $wp_query->is_category:
-				return "Term_Archive";
+				return 'Term_Archive';
 			case $wp_query->is_author:
-				return "Author_Archive";
+				return 'Author_Archive';
 			case $wp_query->is_date:
-				return "Date_Archive";
+				return 'Date_Archive';
 			case $this->current_post_helper->is_home_posts_page() || $this->current_post_helper->is_home_static_page():
-				return "Home_Page";
+				return 'Home_Page';
 			case $wp_query->is_search:
-				return "Search_Result";
+				return 'Search_Result';
 			case $wp_query->is_404:
-				return "Error_Page";
+				return 'Error_Page';
 		}
 
-		return "Fallback";
+		return 'Fallback';
 	}
 }
