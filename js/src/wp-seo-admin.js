@@ -1,14 +1,15 @@
 /* global wpseoAdminGlobalL10n, ajaxurl, wpseoSelect2Locale */
 
 import a11ySpeak from "a11y-speak";
+import { debounce } from "lodash";
 
 ( function() {
 	/**
 	 * Utility function to check whether the given element is fully visible withing the viewport.
 	 *
-	 * @returns {boolean} Whether the element is fully visible in the viewport.
+	 * @returns {HTMLElement} Whether the element is fully visible in the viewport.
 	 */
-	jQuery.fn.isInViewport = function() {
+	jQuery.fn._wpseoIsInViewport = function() {
 		const elementTop = jQuery( this ).offset().top;
 		const elementBottom = elementTop + jQuery( this ).outerHeight();
 
@@ -214,6 +215,33 @@ import a11ySpeak from "a11y-speak";
 		}
 	}
 
+	/**
+	 * Add a resize and scroll listener and determine whether the fixed submit button should be shown.
+	 *
+	 * @returns {void}
+	 */
+	function setFixedSubmitButtonVisibility() {
+		const floatContainer = jQuery( "#wpseo-submit-container-float" );
+		const fixedContainer = jQuery( "#wpseo-submit-container-fixed" );
+
+		/**
+		 * Hides the fixed button at the bottom of the viewport if the submit button at the bottom of the page is visible.
+		 *
+		 * @returns {void}
+		 */
+		function onViewportChange() {
+			if ( floatContainer._wpseoIsInViewport() ) {
+				fixedContainer.hide();
+			} else {
+				fixedContainer.show();
+			}
+		}
+
+		jQuery( window ).on( "resize scroll", debounce( onViewportChange, 100 ) );
+
+		onViewportChange();
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
@@ -335,23 +363,7 @@ import a11ySpeak from "a11y-speak";
 				.find( "span" ).toggleClass( "dashicons-arrow-up-alt2 dashicons-arrow-down-alt2" );
 		} );
 
-		const floatContainer = jQuery( "#wpseo-submit-container-float" );
-		const fixedContainer = jQuery( "#wpseo-submit-container-fixed" );
-
-		jQuery( window ).on( "resize scroll", function() {
-			if ( floatContainer.isInViewport() ) {
-				fixedContainer.hide();
-			} else {
-				fixedContainer.show();
-			}
-		} );
-
-		if ( floatContainer.isInViewport() ) {
-			fixedContainer.hide();
-		} else {
-			fixedContainer.show();
-		}
-
+		setFixedSubmitButtonVisibility();
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
 		initSelect2();
