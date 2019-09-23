@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\Free\Integrations;
 
-use WP_Query;
 use Yoast\WP\Free\Conditionals\Front_End_Conditional;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Helpers\Current_Post_Helper;
@@ -82,7 +81,7 @@ class Front_End_Integration implements Integration {
 
 		if ( ! $wp_query->is_main_query() ) {
 			$old_wp_query = $wp_query;
-			wp_reset_query();
+			\wp_reset_query();
 		}
 
 		$indexable = $this->indexable_repository->for_current_page();

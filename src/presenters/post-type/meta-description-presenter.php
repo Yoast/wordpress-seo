@@ -7,11 +7,9 @@
 
 namespace Yoast\WP\Free\Presenters\Post_Type;
 
-use WPSEO_Frontend;
 use WPSEO_Options;
 use WPSEO_Replace_Vars;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
-use Yoast\WP\Free\Helpers\Current_Post_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presenters\Presenter_Interface;
 
@@ -43,19 +41,9 @@ class Meta_Description_Presenter implements Presenter_Interface {
 	}
 
 	/**
-	 * Initializes the integration.
-	 *
-	 * This is the place to register hooks and filters.
-	 *
-	 * @return void
-	 */
-	public function register_hooks() {
-		\remove_action( 'wpseo_head', [ WPSEO_Frontend::get_instance(), 'metadesc' ], WPSEO_Frontend::METADESC_PRIORITY );
-		\add_action( 'wpseo_head', [ $this, 'present' ], WPSEO_Frontend::METADESC_PRIORITY );
-	}
-
-	/**
 	 * Displays the meta description for post.
+	 *
+	 * @param Indexable $indexable The indexable.
 	 */
 	public function present( Indexable $indexable ) {
 		$meta_description = $this->generate_meta_description( $indexable );

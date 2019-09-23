@@ -28,6 +28,11 @@ class Head_Presenter implements Presenter_Interface {
 		$this->post_type_meta_description_presenter = $post_type_meta_description_presenter;
 	}
 
+	/**
+	 * Calls all presenters for a post type single.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 */
 	public function present( Indexable $indexable ) {
 		$this->post_type_meta_description_presenter->present( $indexable );
 	}
