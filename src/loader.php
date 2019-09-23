@@ -42,6 +42,7 @@ class Loader {
 	 */
 	public function __construct( ContainerInterface $container ) {
 		$this->container = $container;
+		add_filter( 'wpseo_get_class', [ $this->container, 'get' ] );
 	}
 
 	/**

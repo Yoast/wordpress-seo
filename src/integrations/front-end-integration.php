@@ -9,6 +9,8 @@ use Yoast\WP\Free\Presenters\Head_Presenter;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\WordPress\Integration;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
+use Yoast\WP\Free\Presenters\Post_Type\Head_Presenter as Post_Type_Head_Presenter;
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Front_End_Integration implements Integration {
 
@@ -35,9 +37,9 @@ class Front_End_Integration implements Integration {
 	protected $wp_query_wrapper;
 
 	/**
-	 * @var Head_Presenter
+	 * @var ContainerInterface
 	 */
-	protected $head_presenter;
+	protected $container;
 
 	/**
 	 * Front_End_Integration constructor.
@@ -51,12 +53,12 @@ class Front_End_Integration implements Integration {
 		Indexable_Repository $indexable_repository,
 		Current_Post_Helper $current_post_helper,
 		WP_Query_Wrapper $wp_query_wrapper,
-		Head_Presenter $head_presenter
+		ContainerInterface $container
 	) {
 		$this->indexable_repository = $indexable_repository;
 		$this->current_post_helper = $current_post_helper;
 		$this->wp_query_wrapper = $wp_query_wrapper;
-		$this->head_presenter = $head_presenter;
+		$this->container = $container;
 	}
 
 	/**
@@ -85,7 +87,7 @@ class Front_End_Integration implements Integration {
 		}
 
 		$indexable = $this->indexable_repository->for_current_page();
-		$this->head_presenter->present( $indexable );
+		$this->get_head_presenter()->present( $indexable );
 		/**
 		 * Action: 'wpseo_head' - Allow other plugins to output inside the Yoast SEO section of the head section.
 		 */
@@ -93,6 +95,12 @@ class Front_End_Integration implements Integration {
 
 		if ( ! empty( $old_wp_query ) ) {
 			$this->wp_query_wrapper->set_query( $old_wp_query );
+		}
+	}
+
+	public function get_head_presenter() {
+		if ( $this->current_post_helper->is_simple_page() ) {
+			return $this->container->get( Post_Type_Head_Presenter::class );
 		}
 	}
 }
