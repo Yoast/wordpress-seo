@@ -10,8 +10,9 @@ namespace Yoast\WP\Free\Presenters\Post_Type;
 use WPSEO_Options;
 use WPSEO_Replace_Vars;
 use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\Presenters\Abstract_Meta_Description_Presenter;
 
-class Meta_Description_Presenter extends \Yoast\WP\Free\Presenters\Meta_Description_Presenter {
+class Meta_Description_Presenter extends Abstract_Meta_Description_Presenter {
 
 	/**
 	 * @var \WPSEO_Replace_Vars

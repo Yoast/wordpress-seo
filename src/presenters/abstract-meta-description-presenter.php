@@ -9,7 +9,7 @@ namespace Yoast\WP\Free\Presenters;
 
 use Yoast\WP\Free\Models\Indexable;
 
-abstract class Meta_Description_Presenter implements Presenter_Interface {
+abstract class Abstract_Meta_Description_Presenter implements Presenter_Interface {
 
 	/**
 	 * Displays the meta description for post.
