@@ -700,7 +700,7 @@ class WPSEO_Upgrade {
 			'yoast-news-seo',
 			'local-seo-for-yoast-seo',
 			'yoast-woocommerce-seo',
-			'yoast-acf-analysis'
+			'yoast-acf-analysis',
 		);
 
 		$center = Yoast_Notification_Center::get();
