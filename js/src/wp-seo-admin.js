@@ -4,6 +4,21 @@ import a11ySpeak from "a11y-speak";
 
 ( function() {
 	/**
+	 * Utility function to check whether the given element is fully visible withing the viewport.
+	 *
+	 * @returns {boolean} Whether the element is fully visible in the viewport.
+	 */
+	jQuery.fn.isInViewport = function() {
+		const elementTop = jQuery( this ).offset().top;
+		const elementBottom = elementTop + jQuery( this ).outerHeight();
+
+		const viewportTop = jQuery( window ).scrollTop();
+		const viewportBottom = viewportTop + jQuery( window ).height();
+
+		return elementTop > viewportTop && elementBottom < viewportBottom;
+	};
+
+	/**
 	 * Detects the wrong use of variables in title and description templates
 	 *
 	 * @param {element} e The element to verify.
@@ -276,9 +291,9 @@ import a11ySpeak from "a11y-speak";
 			activeTab.addClass( "active" );
 			jQuery( this ).addClass( "nav-tab-active" );
 			if ( activeTab.hasClass( "nosave" ) ) {
-				jQuery( "#yoast-free-submit-container" ).hide();
+				jQuery( "#wpseo-submit-container" ).hide();
 			} else {
-				jQuery( "#yoast-free-submit-container" ).show();
+				jQuery( "#wpseo-submit-container" ).show();
 			}
 		} );
 
@@ -319,6 +334,23 @@ import a11ySpeak from "a11y-speak";
 				.attr( "aria-expanded", ! toggleableContainer.hasClass( "toggleable-container-hidden" ) )
 				.find( "span" ).toggleClass( "dashicons-arrow-up-alt2 dashicons-arrow-down-alt2" );
 		} );
+
+		const floatContainer = jQuery( "#wpseo-submit-container-float" );
+		const fixedContainer = jQuery( "#wpseo-submit-container-fixed" );
+
+		jQuery( window ).on( "resize scroll", function() {
+			if ( floatContainer.isInViewport() ) {
+				fixedContainer.hide();
+			} else {
+				fixedContainer.show();
+			}
+		} );
+
+		if ( floatContainer.isInViewport() ) {
+			fixedContainer.hide();
+		} else {
+			fixedContainer.show();
+		}
 
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
