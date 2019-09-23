@@ -77,22 +77,7 @@ class Front_End_Integration implements Integration {
 	 * Presents the head in the front-end. Resets wp_query if it's not the main query.
 	 */
 	public function call_wpseo_head() {
-		$wp_query     = $this->wp_query_wrapper->get_query();
-		$old_wp_query = null;
-
-		if ( ! $wp_query->is_main_query() ) {
-			$old_wp_query = $wp_query;
-			$this->wp_query_wrapper->reset_query();
-		}
-
-		/**
-		 * Action: 'wpseo_head' - Allow other plugins to output inside the Yoast SEO section of the head section.
-		 */
 		do_action( 'wpseo_head' );
-
-		if ( ! empty( $old_wp_query ) ) {
-			$this->wp_query_wrapper->set_query( $old_wp_query );
-		}
 	}
 
 	/**
@@ -111,16 +96,53 @@ class Front_End_Integration implements Integration {
 	 * @return Presenter_Interface[]
 	 */
 	public function get_presenters() {
-		$page_type  = "Default";
+		$page_type = $this->get_page_type();
 
-		if ( $this->current_post_helper->is_simple_page() ) {
-			$page_type = "Post_Type";
+		return array_filter( array_map( function ( $presenter ) use ( $page_type ) {
+			try {
+				return $this->container->get( "Yoast\WP\Free\Presenters\{$page_type}\{$presenter}_Presenter" );
+			} catch ( \Exception $exception ) {
+				if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {
+					throw $exception;
+				}
+				return null;
+			}
+		}, [
+			'Canonical',
+			'Title',
+			'Meta_Description',
+			'Robots',
+			'Open_Graph_Title',
+			'Open_Graph_Description',
+			'Open_Graph_Image',
+			'Twitter_Title',
+			'Twitter_Description',
+			'Twitter_Image',
+		] ) );
+	}
+
+	protected function get_page_type() {
+		$wp_query  = $this->wp_query_wrapper->get_main_query();
+
+		switch ( true ) {
+			case $this->current_post_helper->is_simple_page():
+				return "Post_Type";
+			case $wp_query->is_post_type_archive:
+				return "Post_Type_Archive";
+			case $wp_query->is_tax || $wp_query->is_tag || $wp_query->is_category:
+				return "Term_Archive";
+			case $wp_query->is_author:
+				return "Author_Archive";
+			case $wp_query->is_date:
+				return "Date_Archive";
+			case $this->current_post_helper->is_home_posts_page() || $this->current_post_helper->is_home_static_page():
+				return "Home_Page";
+			case $wp_query->is_search:
+				return "Search_Result";
+			case $wp_query->is_404:
+				return "Error_Page";
 		}
 
-		return array_map( function ( $presenter ) use ( $page_type ) {
-			return $this->container->get( "Yoast\WP\Free\Presenters\{$page_type}\{$presenter}_Presenter" );
-		}, [
-			"Meta_Description"
-		] );
+		return "Default";
 	}
 }

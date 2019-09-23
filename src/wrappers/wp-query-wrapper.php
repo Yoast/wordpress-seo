@@ -15,6 +15,15 @@ class WP_Query_Wrapper {
 	}
 
 	/**
+	 * Returns the global main WP_Query object.
+	 *
+	 * @return WP_Query The WP_Query object.
+	 */
+	public function get_main_query() {
+		return $GLOBALS['wp_the_query'];
+	}
+
+	/**
 	 * Sets the global WP_Query object.
 	 *
 	 * @param WP_Query $wp_query
