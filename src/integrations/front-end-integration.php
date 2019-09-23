@@ -46,6 +46,7 @@ class Front_End_Integration implements Integration {
 	 * @param Indexable_Repository $indexable_repository
 	 * @param Current_Post_Helper  $current_post_helper
 	 * @param WP_Query_Wrapper     $wp_query_wrapper
+	 * @param ContainerInterface   $container
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
@@ -143,6 +144,6 @@ class Front_End_Integration implements Integration {
 				return "Error_Page";
 		}
 
-		return "Default";
+		return "Fallback";
 	}
 }

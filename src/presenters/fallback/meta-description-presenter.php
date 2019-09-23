@@ -1,13 +1,12 @@
 <?php
 /**
- * Presenter of the meta description for post type singles.
+ * Fallback presenter of the meta description.
  *
  * @package Yoast\YoastSEO\Presenters
  */
 
-namespace Yoast\WP\Free\Presenters\Post_Type;
+namespace Yoast\WP\Free\Presenters\Fallback;
 
-use WPSEO_Options;
 use WPSEO_Replace_Vars;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presenters\Abstract_Meta_Description_Presenter;
@@ -40,10 +39,14 @@ class Meta_Description_Presenter extends Abstract_Meta_Description_Presenter {
 	protected function generate( Indexable $indexable ) {
 		$meta_description = $indexable->description;
 
-		if ( ! $meta_description ) {
-			$meta_description = WPSEO_Options::get( 'metadesc-' . $indexable->object_sub_type );
+		if ( empty( $meta_description ) ) {
+			$meta_description = '';
 		}
 
-		return $this->replacement_variables_helper->replace( $meta_description, \get_post( $indexable->object_id ) );
+		if ( $meta_description !== '' ) {
+			$meta_description = $this->replacement_variables_helper->replace( $meta_description, \get_post( $indexable->object_id ) );
+		}
+
+		return $meta_description;
 	}
 }
