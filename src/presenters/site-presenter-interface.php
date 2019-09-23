@@ -4,7 +4,7 @@ namespace Yoast\WP\Free\Presenters;
 
 interface Site_Presenter_Interface {
 	/**
-	 * Presents an indexable.
+	 * Presents a site wide meta tag.
 	 *
 	 * @return string HTML to be output on the front-end.
 	 */
