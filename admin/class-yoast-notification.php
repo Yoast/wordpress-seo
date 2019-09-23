@@ -316,7 +316,7 @@ class Yoast_Notification {
 		}
 
 		// Build the output DIV.
-		return '<div ' . implode( ' ', $attributes ) . '>' . wp_kses_post( $message ) . '</div>' . PHP_EOL;
+		return '<div ' . implode( ' ', $attributes ) . '>' . $message . '</div>' . PHP_EOL;
 	}
 
 	/**
