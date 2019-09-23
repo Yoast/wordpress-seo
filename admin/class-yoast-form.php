@@ -153,18 +153,21 @@ class Yoast_Form {
 	 */
 	public function admin_footer( $submit = true, $show_sidebar = true ) {
 		if ( $submit ) {
+			$floating_button = new WPSEO_Admin_Saved_Changes_Listener();
 			echo '<div id="wpseo-submit-container">';
 
 			echo '<div id="wpseo-submit-container-float" class="wpseo-admin-submit">';
 			submit_button( __( 'Save changes', 'wordpress-seo' ) );
-			if ( WPSEO_Admin_Floating_Save_Button::$saved ) {
-				echo '<p class="message"><span class="dashicons dashicons-yes"></span>Settings saved.</p>';
+			if ( $floating_button->have_settings_been_saved() ) {
+				echo '<p class="message"><span class="dashicons dashicons-yes"></span>',
+				esc_html__( 'Settings saved.', 'wordpress-seo' ),
+				'</p>';
 			}
 			echo '</div>';
 
 			echo '<div id="wpseo-submit-container-fixed" class="wpseo-admin-submit wpseo-admin-submit-fixed">';
 			submit_button( __( 'Save changes', 'wordpress-seo' ) );
-			if ( WPSEO_Admin_Floating_Save_Button::$saved ) {
+			if ( $floating_button->have_settings_been_saved() ) {
 				echo '<p class="message"><span class="dashicons dashicons-yes"></span>',
 					esc_html__( 'Settings saved.', 'wordpress-seo' ),
 					'</p>';
