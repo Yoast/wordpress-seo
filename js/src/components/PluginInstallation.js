@@ -19,6 +19,10 @@ const CloseButton = styled.a`
 	cursor: pointer;
 `;
 
+const AlertWithMarginTop = styled( Alert )`
+	margin-top: 16px;
+`;
+
 /**
  * Plugin installation modal.
  */
@@ -184,7 +188,7 @@ class PluginInstallation extends Component {
 		}
 
 		return (
-			<Alert
+			<AlertWithMarginTop
 				type="success"
 			>
 				{
@@ -196,7 +200,7 @@ class PluginInstallation extends Component {
 						)
 						: __( "Congratulations! Your products are successfully installed on your website!", "wordpress-seo" )
 				}
-			</Alert>
+			</AlertWithMarginTop>
 		);
 	}
 
