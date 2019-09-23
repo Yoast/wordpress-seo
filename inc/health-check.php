@@ -173,7 +173,7 @@ abstract class WPSEO_Health_Check {
 	}
 
 	/**
-	 * WordPress converts the underscore in dashed, just to prevent issues we have
+	 * WordPress converts the underscores to dashes. To prevent issues we have
 	 * to do it as well.
 	 *
 	 * @return string The formatted testname.
