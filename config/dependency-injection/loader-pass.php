@@ -13,6 +13,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Yoast\WP\Free\Conditionals\Conditional;
 use Yoast\WP\Free\Loader;
+use Yoast\WP\Free\Presenters\Presenter_Interface;
 use Yoast\WP\Free\WordPress\Initializer;
 use Yoast\WP\Free\WordPress\Integration;
 
@@ -36,7 +37,6 @@ class Loader_Pass implements CompilerPassInterface {
 		}
 
 		$loader_definition = $container->getDefinition( Loader::class );
-		$loader_definition->setArgument( 0, new Reference( 'service_container' ) );
 		$loader_definition->setPublic( true );
 
 		$definitions = $container->getDefinitions();
@@ -66,6 +66,10 @@ class Loader_Pass implements CompilerPassInterface {
 		}
 
 		if ( \is_subclass_of( $class, Conditional::class ) ) {
+			$definition->setPublic( true );
+		}
+
+		if ( \is_subclass_of( $class, Presenter_Interface::class ) ) {
 			$definition->setPublic( true );
 		}
 	}

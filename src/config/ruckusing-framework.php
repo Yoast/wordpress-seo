@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Config
  */
 
-namespace Yoast\WP\Free\Database;
+namespace Yoast\WP\Free\Config;
 
 use wpdb;
 use Yoast\WP\Free\Config\Dependency_Management;

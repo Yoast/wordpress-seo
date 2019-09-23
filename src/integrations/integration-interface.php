@@ -5,12 +5,14 @@
  * @package Yoast\YoastSEO\WordPress
  */
 
-namespace Yoast\WP\Free\WordPress;
+namespace Yoast\WP\Free\Integrations;
+
+use Yoast\WP\Free\Loadable_Interface;
 
 /**
  * An interface for registering integrations with WordPress
  */
-interface Integration extends Loadable {
+interface Integration_Interface extends Loadable_Interface {
 
 	/**
 	 * Initializes the integration.

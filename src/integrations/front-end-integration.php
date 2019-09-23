@@ -1,4 +1,9 @@
 <?php
+/**
+ * Yoast SEO Plugin File.
+ *
+ * @package Yoast\YoastSEO\Integrations
+ */
 
 namespace Yoast\WP\Free\Integrations;
 
@@ -7,11 +12,14 @@ use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Helpers\Current_Post_Helper;
 use Yoast\WP\Free\Presenters\Presenter_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\WordPress\Integration;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
-class Front_End_Integration implements Integration {
+/**
+ * Class Front_End_Integration.
+ */
+class Front_End_Integration implements Integration_Interface {
+
 	/**
 	 * @inheritDoc
 	 */
@@ -23,18 +31,27 @@ class Front_End_Integration implements Integration {
 	 * @var Current_Post_Helper
 	 */
 	protected $current_post_helper;
+
 	/**
 	 * @var Indexable_Repository
 	 */
 	protected $indexable_repository;
+
 	/**
 	 * @var WP_Query_Wrapper
 	 */
 	protected $wp_query_wrapper;
+
 	/**
 	 * @var ContainerInterface
 	 */
 	protected $container;
+
+	/**
+	 * The presenters we loop through on each page load.
+	 *
+	 * @var array
+	 */
 	protected $presenters = [
 		'Canonical'              => false,
 		'Title'                  => false,
@@ -58,21 +75,21 @@ class Front_End_Integration implements Integration {
 	/**
 	 * Front_End_Integration constructor.
 	 *
-	 * @param Indexable_Repository $indexable_repository
-	 * @param Current_Post_Helper  $current_post_helper
-	 * @param WP_Query_Wrapper     $wp_query_wrapper
-	 * @param ContainerInterface   $container
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 * @param Current_Post_Helper  $current_post_helper  The current post helper.
+	 * @param WP_Query_Wrapper     $wp_query_wrapper     The WP Query wrapper.
+	 * @param ContainerInterface   $service_container    The DI container.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
 		Current_Post_Helper $current_post_helper,
 		WP_Query_Wrapper $wp_query_wrapper,
-		ContainerInterface $container
+		ContainerInterface $service_container
 	) {
 		$this->indexable_repository = $indexable_repository;
 		$this->current_post_helper  = $current_post_helper;
 		$this->wp_query_wrapper     = $wp_query_wrapper;
-		$this->container            = $container;
+		$this->container            = $service_container;
 	}
 
 	/**
@@ -112,23 +129,21 @@ class Front_End_Integration implements Integration {
 	 * @return Presenter_Interface[]
 	 */
 	public function get_presenters() {
-		$page_type = $this->get_page_type();
+		$page_type         = $this->get_page_type();
+		$invalid_behaviour = ContainerInterface::NULL_ON_INVALID_REFERENCE;
+		if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {
+			$invalid_behaviour = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
+		}
 
-		return array_filter( array_map( function ( $presenter, $site_wide ) use ( $page_type ) {
-			try {
+		return array_filter(
+			array_map( function ( $presenter, $site_wide ) use ( $page_type, $invalid_behaviour ) {
 				if ( $site_wide ) {
-					return $this->container->get( "Yoast\WP\Free\Presenters\Site\{$presenter}_Presenter" );
+					return $this->container->get( "Yoast\WP\Free\Presenters\Site\{$presenter}_Presenter", $invalid_behaviour );
 				}
 
-				return $this->container->get( "Yoast\WP\Free\Presenters\{$page_type}\{$presenter}_Presenter" );
-			} catch ( \Exception $exception ) {
-				if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {
-					throw $exception;
-				}
-
-				return null;
-			}
-		}, array_keys( $this->presenters ), $this->presenters ) );
+				return $this->container->get( "Yoast\WP\Free\Presenters\{$page_type}\{$presenter}_Presenter", $invalid_behaviour );
+			}, array_keys( $this->presenters ), $this->presenters )
+		);
 	}
 
 	/**
@@ -141,23 +156,23 @@ class Front_End_Integration implements Integration {
 
 		switch ( true ) {
 			case $this->current_post_helper->is_simple_page():
-				return "Post_Type";
+				return 'Post_Type';
 			case $wp_query->is_post_type_archive:
-				return "Post_Type_Archive";
+				return 'Post_Type_Archive';
 			case $wp_query->is_tax || $wp_query->is_tag || $wp_query->is_category:
-				return "Term_Archive";
+				return 'Term_Archive';
 			case $wp_query->is_author:
-				return "Author_Archive";
+				return 'Author_Archive';
 			case $wp_query->is_date:
-				return "Date_Archive";
+				return 'Date_Archive';
 			case $this->current_post_helper->is_home_posts_page() || $this->current_post_helper->is_home_static_page():
-				return "Home_Page";
+				return 'Home_Page';
 			case $wp_query->is_search:
-				return "Search_Result";
+				return 'Search_Result';
 			case $wp_query->is_404:
-				return "Error_Page";
+				return 'Error_Page';
 		}
 
-		return "Fallback";
+		return 'Fallback';
 	}
 }

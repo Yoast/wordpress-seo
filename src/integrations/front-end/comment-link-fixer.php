@@ -30,6 +30,11 @@ class Comment_Link_Fixer implements Integration {
 	 */
 	protected $redirect_helper;
 
+	/**
+	 * Comment_Link_Fixer constructor.
+	 *
+	 * @param Redirect_Helper $redirect_helper The redirect helper.
+	 */
 	public function __construct(
 		Redirect_Helper $redirect_helper
 	) {

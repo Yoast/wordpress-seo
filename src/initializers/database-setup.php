@@ -5,18 +5,17 @@
  * @package Yoast\YoastSEO\Config
  */
 
-namespace Yoast\WP\Free\Database;
+namespace Yoast\WP\Free\Initializers;
 
 use Yoast\WP\Free\Conditionals\No_Conditionals;
 use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\WordPress\Initializer;
 use Yoast\WP\Free\ORM\Yoast_Model;
 use YoastSEO_Vendor\ORM;
 
 /**
  * Configures the ORM with the database credentials.
  */
-class Database_Setup implements Initializer {
+class Database_Setup implements Initializer_Interface {
 	use No_Conditionals;
 
 	/**

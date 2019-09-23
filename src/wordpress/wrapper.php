@@ -26,6 +26,11 @@ class Wrapper {
 		return $wpdb;
 	}
 
+	/**
+	 * Factory function for replace vars helper.
+	 *
+	 * @return WPSEO_Replace_Vars The replace vars helper.
+	 */
 	public static function get_replace_vars() {
 		return new WPSEO_Replace_Vars();
 	}

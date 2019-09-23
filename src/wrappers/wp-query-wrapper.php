@@ -1,9 +1,17 @@
 <?php
+/**
+ * Wrapper for WP_Query.
+ *
+ * @package Yoast\YoastSEO\Wrappers
+ */
 
 namespace Yoast\WP\Free\Wrappers;
 
 use WP_Query;
 
+/**
+ * Class WP_Query_Wrapper
+ */
 class WP_Query_Wrapper {
 	/**
 	 * Returns the global WP_Query object.
@@ -26,7 +34,7 @@ class WP_Query_Wrapper {
 	/**
 	 * Sets the global WP_Query object.
 	 *
-	 * @param WP_Query $wp_query
+	 * @param WP_Query $wp_query The WP Query.
 	 */
 	public function set_query( WP_Query $wp_query ) {
 		$GLOBALS['wp_query'] = $wp_query;

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Interface for all presenters.
+ *
+ * @package Yoast\YoastSEO\Presenters
+ */
 
 namespace Yoast\WP\Free\Presenters;
 

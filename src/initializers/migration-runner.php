@@ -5,17 +5,17 @@
  * @package Yoast\YoastSEO\Config
  */
 
-namespace Yoast\WP\Free\Database;
+namespace Yoast\WP\Free\Initializers;
 
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
+use Yoast\WP\Free\Config\Ruckusing_Framework;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\ORM\Yoast_Model;
-use Yoast\WP\Free\WordPress\Initializer;
 
 /**
  * Triggers database migrations and handles results.
  */
-class Migration_Runner implements Initializer {
+class Migration_Runner implements Initializer_Interface {
 
 	/**
 	 * @inheritdoc
@@ -40,7 +40,7 @@ class Migration_Runner implements Initializer {
 	const MIGRATION_ERROR_TRANSIENT_KEY = 'yoast_migration_problem_';
 
 	/**
-	 * @var \Yoast\WP\Free\Database\Ruckusing_Framework
+	 * @var \Yoast\WP\Free\Config\Ruckusing_Framework
 	 */
 	protected $framework;
 
@@ -52,8 +52,8 @@ class Migration_Runner implements Initializer {
 	/**
 	 * Migrations constructor.
 	 *
-	 * @param \Yoast\WP\Free\Database\Ruckusing_Framework $framework The Ruckusing framework runner.
-	 * @param \Yoast\WP\Free\Loggers\Logger               $logger    A PSR compatible logger.
+	 * @param \Yoast\WP\Free\Config\Ruckusing_Framework $framework The Ruckusing framework runner.
+	 * @param \Yoast\WP\Free\Loggers\Logger             $logger    A PSR compatible logger.
 	 */
 	public function __construct( Ruckusing_Framework $framework, Logger $logger ) {
 		$this->framework = $framework;

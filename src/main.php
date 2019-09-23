@@ -16,6 +16,9 @@ if ( ! \defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
+/**
+ * Class Main
+ */
 class Main {
 
 	/**

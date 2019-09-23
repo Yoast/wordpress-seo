@@ -5,12 +5,12 @@
  * @package Yoast\YoastSEO\WordPress
  */
 
-namespace Yoast\WP\Free\WordPress;
+namespace Yoast\WP\Free;
 
 /**
  * An interface for registering integrations with WordPress
  */
-interface Loadable {
+interface Loadable_Interface {
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
