@@ -20,7 +20,7 @@ class WPSEO_Config_Field_Profile_URL_GooglePlus extends WPSEO_Config_Field {
 	 * @deprecated 10.1
 	 */
 	public function __construct() {
-		_deprecated_constructor( 'WPSEO_Config_Field_Profile_URL_GooglePlus', '10.1' );
+		_deprecated_function( __METHOD__, '10.1' );
 	}
 
 	/**

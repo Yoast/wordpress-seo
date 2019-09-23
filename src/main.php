@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free;
 
-use Yoast\WP\Free\Config\Dependency_Management;
 use Yoast\WP\Free\Dependency_Injection\Container_Compiler;
 use Yoast\WP\Free\Generated\Cached_Container;
 

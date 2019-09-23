@@ -6,7 +6,7 @@ import forEach from "lodash/forEach";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 
-/* Internal dependencies */
+/* Yoast dependencies */
 import SettingsReplacementVariableEditors from "./components/SettingsReplacementVariableEditors";
 import snippetEditorReducer from "./redux/reducers/snippetEditor";
 import configureEnhancers from "./redux/utils/configureEnhancers";
@@ -15,6 +15,7 @@ import { updateReplacementVariable } from "./redux/actions/snippetEditor";
 import { setWordPressSeoL10n, setYoastComponentsL10n } from "./helpers/i18n";
 import { ThemeProvider } from "styled-components";
 import WordPressUserSelectorSearchAppearance from "./components/WordPressUserSelectorSearchAppearance";
+import CompanyInfoMissing from "./components/CompanyInfoMissing";
 import LocalSEOUpsell from "./components/LocalSEOUpsell";
 
 setYoastComponentsL10n();
@@ -54,6 +55,7 @@ const editorElements = document.querySelectorAll( "[data-react-replacevar-editor
 const singleFieldElements = document.querySelectorAll( "[data-react-replacevar-field]" );
 const wpUserSelector = document.getElementById( "wpseo-person-selector" );
 const localSEOElement = document.getElementById( "wpseo-local-seo-upsell" );
+const companyInfoMissingElement = document.getElementById( "knowledge-graph-company-warning" );
 
 const element = document.createElement( "div" );
 document.body.appendChild( element );
@@ -68,6 +70,7 @@ const {
 	showLocalSEOUpsell,
 	localSEOUpsellURL,
 	brushstrokeBackgroundURL,
+	knowledgeGraphCompanyInfoMissing,
 } = wpseoSearchAppearance;
 
 render(
@@ -79,6 +82,13 @@ render(
 					editorElements={ editorElements }
 				/>
 				{ createPortal( <WordPressUserSelectorSearchAppearance />, wpUserSelector ) }
+				{ companyInfoMissingElement && createPortal(
+					<CompanyInfoMissing
+						message={ knowledgeGraphCompanyInfoMissing.message }
+						link={ knowledgeGraphCompanyInfoMissing.URL }
+					/>,
+					companyInfoMissingElement
+				) }
 				{ showLocalSEOUpsell && createPortal(
 					<LocalSEOUpsell
 						url={ localSEOUpsellURL }
