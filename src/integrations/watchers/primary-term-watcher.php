@@ -9,13 +9,13 @@ namespace Yoast\WP\Free\Integrations\Watchers;
 
 use WPSEO_Meta;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
+use Yoast\WP\Free\Integrations\Integration_Interface;
 use Yoast\WP\Free\Repositories\Primary_Term_Repository;
-use Yoast\WP\Free\WordPress\Integration;
 
 /**
  * Watches Posts to save the primary term when set.
  */
-class Primary_Term_Watcher implements Integration {
+class Primary_Term_Watcher implements Integration_Interface {
 
 	/**
 	 * @inheritdoc

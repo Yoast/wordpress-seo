@@ -9,13 +9,13 @@ namespace Yoast\WP\Free\Integrations\Watchers;
 
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Builders\Indexable_Post_Builder;
+use Yoast\WP\Free\Integrations\Integration_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\WordPress\Integration;
 
 /**
  * Fills the Indexable according to Post data.
  */
-class Indexable_Post_Watcher implements Integration {
+class Indexable_Post_Watcher implements Integration_Interface {
 
 	/**
 	 * @inheritdoc

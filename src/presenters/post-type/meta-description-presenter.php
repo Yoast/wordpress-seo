@@ -8,27 +8,10 @@
 namespace Yoast\WP\Free\Presenters\Post_Type;
 
 use WPSEO_Options;
-use WPSEO_Replace_Vars;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presenters\Abstract_Meta_Description_Presenter;
 
 class Meta_Description_Presenter extends Abstract_Meta_Description_Presenter {
-
-	/**
-	 * @var \WPSEO_Replace_Vars
-	 */
-	protected $replacement_variables_helper;
-
-	/**
-	 * Meta_Description_Presenter constructor.
-	 *
-	 * @param \WPSEO_Replace_Vars  $replacement_variables_helper The replacement variables helper.
-	 */
-	public function __construct(
-		WPSEO_Replace_Vars $replacement_variables_helper
-	) {
-		$this->replacement_variables_helper = $replacement_variables_helper;
-	}
 
 	/**
 	 * Generates the meta description for an indexable.
@@ -38,12 +21,21 @@ class Meta_Description_Presenter extends Abstract_Meta_Description_Presenter {
 	 * @return string The meta description.
 	 */
 	protected function generate( Indexable $indexable ) {
-		$meta_description = $indexable->description;
-
-		if ( ! $meta_description ) {
-			$meta_description = WPSEO_Options::get( 'metadesc-' . $indexable->object_sub_type );
+		if ( $indexable->description ) {
+			return $indexable->description;
 		}
 
-		return $this->replacement_variables_helper->replace( $meta_description, \get_post( $indexable->object_id ) );
+		return WPSEO_Options::get( 'metadesc-' . $indexable->object_sub_type );
+	}
+
+	/**
+	 * Gets an object to be used as a source of replacement variables.
+	 *
+	 * @param Indexable $indexable The indexable
+	 *
+	 * @return array A key => value array of variables that may be replaced.
+	 */
+	protected function get_replace_vars_object( Indexable $indexable ) {
+		return \get_post( $indexable->object_id );
 	}
 }

@@ -7,11 +7,10 @@ use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Helpers\Current_Post_Helper;
 use Yoast\WP\Free\Presenters\Presenter_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\WordPress\Integration;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
-class Front_End_Integration implements Integration {
+class Front_End_Integration implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
@@ -46,18 +45,18 @@ class Front_End_Integration implements Integration {
 	 * @param Indexable_Repository $indexable_repository
 	 * @param Current_Post_Helper  $current_post_helper
 	 * @param WP_Query_Wrapper     $wp_query_wrapper
-	 * @param ContainerInterface   $container
+	 * @param ContainerInterface   $service_container
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
 		Current_Post_Helper $current_post_helper,
 		WP_Query_Wrapper $wp_query_wrapper,
-		ContainerInterface $container
+		ContainerInterface $service_container
 	) {
 		$this->indexable_repository = $indexable_repository;
 		$this->current_post_helper = $current_post_helper;
 		$this->wp_query_wrapper = $wp_query_wrapper;
-		$this->container = $container;
+		$this->container = $service_container;
 	}
 
 	/**
