@@ -11,7 +11,7 @@ use Yoast\WP\Free\Models\Indexable;
 
 abstract class Abstract_Meta_Description_Presenter implements Presenter_Interface {
 	/**
-	 * Returns the meta description for a post.
+	 * Returns the meta description for a URL.
 	 *
 	 * @param Indexable $indexable The indexable.
 	 *
