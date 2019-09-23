@@ -101,6 +101,9 @@ class Front_End_Integration implements Integration {
 
 		return array_filter( array_map( function ( $presenter ) use ( $page_type ) {
 			try {
+				if ( strpos( $presenter, 'Site_' ) === 0 ) {
+					return $this->container->get( "Yoast\WP\Free\Presenters\{$presenter}_Presenter" );
+				}
 				return $this->container->get( "Yoast\WP\Free\Presenters\{$page_type}\{$presenter}_Presenter" );
 			} catch ( \Exception $exception ) {
 				if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {
@@ -113,15 +116,27 @@ class Front_End_Integration implements Integration {
 			'Title',
 			'Meta_Description',
 			'Robots',
+			'Site_Open_Graph_Locale',
+			'Site_Open_Graph_Site_Name',
+			'Open_Graph_Url',
+			'Open_Graph_Type',
 			'Open_Graph_Title',
 			'Open_Graph_Description',
 			'Open_Graph_Image',
+			'Site_Twitter_Site',
+			'Twitter_Card',
+			'Twitter_Creator',
 			'Twitter_Title',
 			'Twitter_Description',
 			'Twitter_Image',
 		] ) );
 	}
 
+	/**
+	 * Returns the page type for the current request.
+	 *
+	 * @return string Page type.
+	 */
 	protected function get_page_type() {
 		$wp_query  = $this->wp_query_wrapper->get_main_query();
 
