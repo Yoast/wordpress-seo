@@ -31,6 +31,7 @@ class WPSEO_Configuration_Structure {
 		'publishingEntity'           => array(
 			'publishingEntity',
 			'publishingEntityType',
+			'publishingEntityCompanyInfo',
 			'publishingEntityCompanyName',
 			'publishingEntityCompanyLogo',
 			'publishingEntityPersonId',

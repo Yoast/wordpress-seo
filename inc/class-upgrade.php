@@ -132,6 +132,11 @@ class WPSEO_Upgrade {
 			$this->upgrade_111();
 		}
 
+		if ( version_compare( $version, '12.1-RC0', '<' ) ) {
+			/** Reset notifications because we removed the AMP Glue plugin notification */
+			$this->clean_all_notifications();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();

@@ -38,7 +38,6 @@ class WPSEO_Remote_Request {
 	 */
 	protected $args = array(
 		'blocking'  => false,
-		'sslverify' => false,
 		'timeout'   => 2,
 	);
 
