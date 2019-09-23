@@ -6,10 +6,10 @@ use Yoast\WP\Free\Conditionals\Front_End_Conditional;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Helpers\Current_Post_Helper;
 use Yoast\WP\Free\Presenters\Head_Presenter;
+use Yoast\WP\Free\Presenters\Presenter_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\WordPress\Integration;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
-use Yoast\WP\Free\Presenters\Post_Type\Head_Presenter as Post_Type_Head_Presenter;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Front_End_Integration implements Integration {
@@ -47,7 +47,6 @@ class Front_End_Integration implements Integration {
 	 * @param Indexable_Repository $indexable_repository
 	 * @param Current_Post_Helper  $current_post_helper
 	 * @param WP_Query_Wrapper     $wp_query_wrapper
-	 * @param Head_Presenter       $head_presenter
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
@@ -65,7 +64,8 @@ class Front_End_Integration implements Integration {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_action( 'wp_head', [ $this, 'present_head' ], 1 );
+		add_action( 'wp_head', [ $this, 'call_wpseo_head' ], 1 );
+		add_action( 'wpseo_head', [ $this, 'present_head' ], 1 );
 
 		remove_action( 'wp_head', 'rel_canonical' );
 		remove_action( 'wp_head', 'index_rel_link' );
@@ -77,17 +77,15 @@ class Front_End_Integration implements Integration {
 	/**
 	 * Presents the head in the front-end. Resets wp_query if it's not the main query.
 	 */
-	public function present_head() {
-		$wp_query = $this->wp_query_wrapper->get_query();
+	public function call_wpseo_head() {
+		$wp_query     = $this->wp_query_wrapper->get_query();
 		$old_wp_query = null;
 
 		if ( ! $wp_query->is_main_query() ) {
 			$old_wp_query = $wp_query;
-			\wp_reset_query();
+			$this->wp_query_wrapper->reset_query();
 		}
 
-		$indexable = $this->indexable_repository->for_current_page();
-		$this->get_head_presenter()->present( $indexable );
 		/**
 		 * Action: 'wpseo_head' - Allow other plugins to output inside the Yoast SEO section of the head section.
 		 */
@@ -98,9 +96,32 @@ class Front_End_Integration implements Integration {
 		}
 	}
 
-	public function get_head_presenter() {
-		if ( $this->current_post_helper->is_simple_page() ) {
-			return $this->container->get( Post_Type_Head_Presenter::class );
+	/**
+	 * Echoes all applicable presenters for a page.
+	 */
+	public function present_head() {
+		$indexable = $this->indexable_repository->for_current_page();
+		foreach ( $this->get_presenters() as $presenter ) {
+			echo $presenter->present( $indexable );
 		}
+	}
+
+	/**
+	 * Returns all presenters for this page.
+	 *
+	 * @return Presenter_Interface[]
+	 */
+	public function get_presenters() {
+		$page_type  = "Default";
+
+		if ( $this->current_post_helper->is_simple_page() ) {
+			$page_type = "Post_Type";
+		}
+
+		return array_map( function ( $presenter ) use ( $page_type ) {
+			return $this->container->get( "Yoast\WP\Free\Presenters\{$page_type}\{$presenter}_Presenter" );
+		}, [
+			"Meta_Description"
+		] );
 	}
 }
