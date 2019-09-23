@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Presenters
  */
 
-namespace Yoast\WP\Free\Presenters;
+namespace Yoast\WP\Free\Presenters\Site;
 
 final class Site_Open_Graph_Locale_Presenter implements Site_Presenter_Interface {
 	/**

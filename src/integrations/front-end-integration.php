@@ -12,7 +12,6 @@ use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Front_End_Integration implements Integration {
-
 	/**
 	 * @inheritDoc
 	 */
@@ -24,21 +23,37 @@ class Front_End_Integration implements Integration {
 	 * @var Current_Post_Helper
 	 */
 	protected $current_post_helper;
-
 	/**
 	 * @var Indexable_Repository
 	 */
 	protected $indexable_repository;
-
 	/**
 	 * @var WP_Query_Wrapper
 	 */
 	protected $wp_query_wrapper;
-
 	/**
 	 * @var ContainerInterface
 	 */
 	protected $container;
+	protected $presenters = [
+		'Canonical'              => false,
+		'Title'                  => false,
+		'Meta_Description'       => false,
+		'Robots'                 => false,
+		'Open_Graph_Locale'      => true,
+		'Open_Graph_Site_Name'   => true,
+		'Open_Graph_Url'         => false,
+		'Open_Graph_Type'        => false,
+		'Open_Graph_Title'       => false,
+		'Open_Graph_Description' => false,
+		'Open_Graph_Image'       => false,
+		'Twitter_Site'           => true,
+		'Twitter_Card'           => false,
+		'Twitter_Creator'        => false,
+		'Twitter_Title'          => false,
+		'Twitter_Description'    => false,
+		'Twitter_Image'          => false,
+	];
 
 	/**
 	 * Front_End_Integration constructor.
@@ -55,9 +70,9 @@ class Front_End_Integration implements Integration {
 		ContainerInterface $container
 	) {
 		$this->indexable_repository = $indexable_repository;
-		$this->current_post_helper = $current_post_helper;
-		$this->wp_query_wrapper = $wp_query_wrapper;
-		$this->container = $container;
+		$this->current_post_helper  = $current_post_helper;
+		$this->wp_query_wrapper     = $wp_query_wrapper;
+		$this->container            = $container;
 	}
 
 	/**
@@ -99,37 +114,21 @@ class Front_End_Integration implements Integration {
 	public function get_presenters() {
 		$page_type = $this->get_page_type();
 
-		return array_filter( array_map( function ( $presenter ) use ( $page_type ) {
+		return array_filter( array_map( function ( $presenter, $site_wide ) use ( $page_type ) {
 			try {
-				if ( strpos( $presenter, 'Site_' ) === 0 ) {
-					return $this->container->get( "Yoast\WP\Free\Presenters\{$presenter}_Presenter" );
+				if ( $site_wide ) {
+					return $this->container->get( "Yoast\WP\Free\Presenters\Site\{$presenter}_Presenter" );
 				}
+
 				return $this->container->get( "Yoast\WP\Free\Presenters\{$page_type}\{$presenter}_Presenter" );
 			} catch ( \Exception $exception ) {
 				if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {
 					throw $exception;
 				}
+
 				return null;
 			}
-		}, [
-			'Canonical',
-			'Title',
-			'Meta_Description',
-			'Robots',
-			'Site_Open_Graph_Locale',
-			'Site_Open_Graph_Site_Name',
-			'Open_Graph_Url',
-			'Open_Graph_Type',
-			'Open_Graph_Title',
-			'Open_Graph_Description',
-			'Open_Graph_Image',
-			'Site_Twitter_Site',
-			'Twitter_Card',
-			'Twitter_Creator',
-			'Twitter_Title',
-			'Twitter_Description',
-			'Twitter_Image',
-		] ) );
+		}, array_keys( $this->presenters ), $this->presenters ) );
 	}
 
 	/**
@@ -138,7 +137,7 @@ class Front_End_Integration implements Integration {
 	 * @return string Page type.
 	 */
 	protected function get_page_type() {
-		$wp_query  = $this->wp_query_wrapper->get_main_query();
+		$wp_query = $this->wp_query_wrapper->get_main_query();
 
 		switch ( true ) {
 			case $this->current_post_helper->is_simple_page():

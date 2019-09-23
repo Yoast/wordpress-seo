@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Presenters;
+namespace Yoast\WP\Free\Presenters\Site;
 
 interface Site_Presenter_Interface {
 	/**
