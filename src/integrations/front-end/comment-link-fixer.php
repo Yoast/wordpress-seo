@@ -5,19 +5,39 @@
  * @package WPSEO\Frontend
  */
 
+namespace Yoast\WP\Free\Integrations\Front_End;
+
+use Yoast\WP\Free\Conditionals\Front_End_Conditional;
+use Yoast\WP\Free\Helpers\Redirect_Helper;
+use Yoast\WP\Free\WordPress\Integration;
+
 /**
  * Class WPSEO_Remove_Reply_To_Com.
  *
  * @since 7.0
  */
-class WPSEO_Remove_Reply_To_Com implements WPSEO_WordPress_Integration {
+class Comment_Link_Fixer implements Integration {
 
 	/**
-	 * Registers the hooks necessary to handle removing ?replytocom.
-	 *
-	 * @since 7.0
-	 *
-	 * @return void
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Front_End_Conditional::class ];
+	}
+
+	/**
+	 * @var Redirect_Helper
+	 */
+	protected $redirect_helper;
+
+	public function __construct(
+		Redirect_Helper $redirect_helper
+	) {
+		$this->redirect_helper = $redirect_helper;
+	}
+
+	/**
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		if ( $this->clean_reply_to_com() ) {
@@ -46,20 +66,19 @@ class WPSEO_Remove_Reply_To_Com implements WPSEO_WordPress_Integration {
 	 * @return boolean True when redirect has been done.
 	 */
 	public function replytocom_redirect() {
-		if ( isset( $_GET['replytocom'] ) && is_singular() ) {
-			$url          = get_permalink( $GLOBALS['post']->ID );
-			$hash         = sanitize_text_field( wp_unslash( $_GET['replytocom'] ) );
+		if ( isset( $_GET['replytocom'] ) && \is_singular() ) {
+			$url          = \get_permalink( $GLOBALS['post']->ID );
+			$hash         = \sanitize_text_field( \wp_unslash( $_GET['replytocom'] ) );
 			$query_string = '';
 			if ( isset( $_SERVER['QUERY_STRING'] ) ) {
-				$query_string = remove_query_arg( 'replytocom', sanitize_text_field( wp_unslash( $_SERVER['QUERY_STRING'] ) ) );
+				$query_string = \remove_query_arg( 'replytocom', \sanitize_text_field( \wp_unslash( $_SERVER['QUERY_STRING'] ) ) );
 			}
 			if ( ! empty( $query_string ) ) {
 				$url .= '?' . $query_string;
 			}
 			$url .= '#comment-' . $hash;
 
-			$front = WPSEO_Frontend::get_instance();
-			$front->redirect( $url, 301 );
+			$this->redirect_helper->do_redirect( $url, 301 );
 
 			return true;
 		}
