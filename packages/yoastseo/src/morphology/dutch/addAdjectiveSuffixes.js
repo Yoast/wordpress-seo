@@ -80,7 +80,7 @@ export function findAndApplyModifications( stemmedWord, typeSuffix, morphologyDa
 		return triedToDoubleConsonant;
 	}
 
-	const triedToVoiceConsonant = modifyStem( stemmedWord, morphologyDataStemModifications.consonantVoicing );
+	const triedToVoiceConsonant = modifyStem( stemmedWord, morphologyDataStemModifications.consonantVoicingAdjectives );
 	if ( triedToVoiceConsonant ) {
 		return triedToVoiceConsonant;
 	}
