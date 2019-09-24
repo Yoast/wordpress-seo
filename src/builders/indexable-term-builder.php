@@ -26,14 +26,14 @@ class Indexable_Term_Builder {
 		$term = \get_term( $term_id );
 
 		if ( is_wp_error( $term ) ) {
-			throw new \Exception( array_key_first( $term->errors ) );
+			throw new \Exception( current( array_keys( $term->errors ) ) );
 		}
 
 		$taxonomy  = $term->taxonomy;
 		$term_link = \get_term_link( $term_id, $taxonomy );
 
 		if ( is_wp_error( $term_link ) ) {
-			throw new \Exception( array_key_first( $term_link->errors ) );
+			throw new \Exception( current( array_keys( $term_link->errors ) ) );
 		}
 
 		$term_meta = \WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy );

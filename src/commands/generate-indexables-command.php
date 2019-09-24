@@ -34,9 +34,9 @@ class Generate_Indexables_Command implements Command_Interface {
 	/**
 	 * Generate_Indexables_Command constructor.
 	 *
-	 * @param Indexable_Post_Watcher   $post_watcher The post watcher, used to build/update indexables for posts.
-	 * @param Indexable_Term_Watcher   $term_watcher The term watcher, used to build/update indexables for posts.
-	 * @param wpdb                     $wpdb         The wpdb instance, used to get lists of all posts and terms.
+	 * @param Indexable_Post_Watcher $post_watcher The post watcher, used to build/update indexables for posts.
+	 * @param Indexable_Term_Watcher $term_watcher The term watcher, used to build/update indexables for posts.
+	 * @param wpdb                   $wpdb         The wpdb instance, used to get lists of all posts and terms.
 	 */
 	public function __construct(
 		Indexable_Post_Watcher $post_watcher,
@@ -87,13 +87,13 @@ class Generate_Indexables_Command implements Command_Interface {
 		$progress = \WP_CLI\Utils\make_progress_bar( __( 'Indexing posts', 'wordpress-seo' ), $total );
 
 		while ( true ) {
-			$post_ids = $this->wpdb->get_col( $this->wpdb->prepare( "SELECT ID FROM {$this->wpdb->posts} ORDER BY ID ASC LIMIT %d, 25;", $page * 25 ) );
+			$post_ids = $this->wpdb->get_col( $this->wpdb->prepare( "SELECT ID FROM {$this->wpdb->posts} ORDER BY ID ASC LIMIT %d, 25;", ( $page * 25 ) ) );
 
 			if ( empty( $post_ids ) ) {
 				break;
 			}
 
-			foreach( $post_ids as $post_id ) {
+			foreach ( $post_ids as $post_id ) {
 				$this->post_watcher->build_indexable( $post_id );
 				$progress->tick();
 			}
@@ -115,13 +115,13 @@ class Generate_Indexables_Command implements Command_Interface {
 		$progress = \WP_CLI\Utils\make_progress_bar( __( 'Indexing terms', 'wordpress-seo' ), $total );
 
 		while ( true ) {
-			$term_ids = $this->wpdb->get_col( $this->wpdb->prepare( "SELECT term_id FROM {$this->wpdb->terms} ORDER BY term_id ASC LIMIT %d, 25;", $page * 25 ) );
+			$term_ids = $this->wpdb->get_col( $this->wpdb->prepare( "SELECT term_id FROM {$this->wpdb->terms} ORDER BY term_id ASC LIMIT %d, 25;", ( $page * 25 ) ) );
 
 			if ( empty( $term_ids ) ) {
 				break;
 			}
 
-			foreach( $term_ids as $term_id ) {
+			foreach ( $term_ids as $term_id ) {
 				$this->term_watcher->build_indexable( $term_id );
 				$progress->tick();
 			}

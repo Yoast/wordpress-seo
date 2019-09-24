@@ -8,7 +8,7 @@
 namespace Yoast\WP\Free\Helpers;
 
 /**
- * Class Current_Post_Helper
+ * Class Product_Name
  */
 class Product_Name {
 	/**

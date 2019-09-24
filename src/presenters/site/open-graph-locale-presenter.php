@@ -2,11 +2,14 @@
 /**
  * Final presenter class for the Open Graph locale.
  *
- * @package Yoast\YoastSEO\Presenters
+ * @package Yoast\YoastSEO\Presenters\Site
  */
 
 namespace Yoast\WP\Free\Presenters\Site;
 
+/**
+ * Class Open_Graph_Locale_Presenter
+ */
 final class Open_Graph_Locale_Presenter implements Site_Presenter_Interface {
 	/**
 	 * Returns the Open Graph locale for the site.
