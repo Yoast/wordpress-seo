@@ -72,6 +72,7 @@ class Front_End_Integration implements Integration_Interface {
 		'Twitter_Title'          => 'indexable',
 		'Twitter_Description'    => 'indexable',
 		'Twitter_Image'          => 'indexable',
+		'Debug_Marker_Close'     => 'site_wide',
 	];
 
 	/**
