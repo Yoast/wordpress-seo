@@ -25,8 +25,6 @@ class Main {
 	 * Initializes the plugin.
 	 */
 	public function initialize() {
-		$dependency_management = new Dependency_Management();
-		$dependency_management->initialize();
 		$this->load();
 	}
 

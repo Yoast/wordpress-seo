@@ -10,12 +10,11 @@ namespace Yoast\WP\Free\Dependency_Injection;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
 use Yoast\WP\Free\Conditionals\Conditional;
+use Yoast\WP\Free\Initializers\Initializer_Interface;
+use Yoast\WP\Free\Integrations\Integration_Interface;
 use Yoast\WP\Free\Loader;
 use Yoast\WP\Free\Presenters\Presenter_Interface;
-use Yoast\WP\Free\WordPress\Initializer;
-use Yoast\WP\Free\WordPress\Integration;
 
 /**
  * A pass is a step in the compilation process of the container.
@@ -55,12 +54,12 @@ class Loader_Pass implements CompilerPassInterface {
 	private function process_definition( Definition $definition, Definition $loader_definition ) {
 		$class = $definition->getClass();
 
-		if ( \is_subclass_of( $class, Initializer::class ) ) {
+		if ( \is_subclass_of( $class, Initializer_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_initializer', [ $class ] );
 			$definition->setPublic( true );
 		}
 
-		if ( \is_subclass_of( $class, Integration::class ) ) {
+		if ( \is_subclass_of( $class, Integration_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_integration', [ $class ] );
 			$definition->setPublic( true );
 		}
