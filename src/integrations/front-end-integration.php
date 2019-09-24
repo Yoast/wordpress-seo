@@ -10,7 +10,7 @@ namespace Yoast\WP\Free\Integrations;
 use WPSEO_Options;
 use Yoast\WP\Free\Conditionals\Front_End_Conditional;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
-use Yoast\WP\Free\Helpers\Current_Post_Helper;
+use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Presenters\Presenter_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
@@ -29,9 +29,9 @@ class Front_End_Integration implements Integration_Interface {
 	}
 
 	/**
-	 * @var Current_Post_Helper
+	 * @var Current_Page_Helper
 	 */
-	protected $current_post_helper;
+	protected $current_page_helper;
 
 	/**
 	 * @var Indexable_Repository
@@ -106,18 +106,18 @@ class Front_End_Integration implements Integration_Interface {
 	 * Front_End_Integration constructor.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
-	 * @param Current_Post_Helper  $current_post_helper  The current post helper.
+	 * @param Current_Page_Helper  $current_page_helper  The current post helper.
 	 * @param WP_Query_Wrapper     $wp_query_wrapper     The WP Query wrapper.
 	 * @param ContainerInterface   $service_container    The DI container.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
-		Current_Post_Helper $current_post_helper,
+		Current_Page_Helper $current_page_helper,
 		WP_Query_Wrapper $wp_query_wrapper,
 		ContainerInterface $service_container
 	) {
 		$this->indexable_repository = $indexable_repository;
-		$this->current_post_helper  = $current_post_helper;
+		$this->current_page_helper  = $current_page_helper;
 		$this->wp_query_wrapper     = $wp_query_wrapper;
 		$this->container            = $service_container;
 	}
@@ -189,7 +189,7 @@ class Front_End_Integration implements Integration_Interface {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
 		switch ( true ) {
-			case $this->current_post_helper->is_simple_page() || $this->current_post_helper->is_home_static_page():
+			case $this->current_page_helper->is_simple_page() || $this->current_page_helper->is_home_static_page():
 				return 'Post_Type';
 			case $wp_query->is_post_type_archive:
 				return 'Post_Type_Archive';
@@ -199,7 +199,7 @@ class Front_End_Integration implements Integration_Interface {
 				return 'Author_Archive';
 			case $wp_query->is_date:
 				return 'Date_Archive';
-			case $this->current_post_helper->is_home_posts_page():
+			case $this->current_page_helper->is_home_posts_page():
 				return 'Home_Page';
 			case $wp_query->is_search:
 				return 'Search_Result';

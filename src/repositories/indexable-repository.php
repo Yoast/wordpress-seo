@@ -11,7 +11,7 @@ use Yoast\WP\Free\Builders\Indexable_Author_Builder;
 use Yoast\WP\Free\Builders\Indexable_Home_Page_Builder;
 use Yoast\WP\Free\Builders\Indexable_Post_Builder;
 use Yoast\WP\Free\Builders\Indexable_Term_Builder;
-use Yoast\WP\Free\Helpers\Current_Post_Helper;
+use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\ORM\Yoast_Model;
 
@@ -43,9 +43,9 @@ class Indexable_Repository {
 	protected $home_page_builder;
 
 	/**
-	 * @var \Yoast\WP\Free\Helpers\Current_Post_Helper
+	 * @var \Yoast\WP\Free\Helpers\Current_Page_Helper
 	 */
-	protected $current_post_helper;
+	protected $current_page_helper;
 
 	/**
 	 * @var \Psr\Log\LoggerInterface
@@ -58,8 +58,8 @@ class Indexable_Repository {
 	 * @param \Yoast\WP\Free\Builders\Indexable_Author_Builder    $author_builder      The author builder for creating missing indexables.
 	 * @param \Yoast\WP\Free\Builders\Indexable_Post_Builder      $post_builder        The post builder for creating missing indexables.
 	 * @param \Yoast\WP\Free\Builders\Indexable_Term_Builder      $term_builder        The term builder for creating missing indexables.
-	 * @param \Yoast\WP\Free\Builders\Indexable_Home_Page_Builder $home_page_builder  The front page builder for creating missing indexables.
-	 * @param \Yoast\WP\Free\Helpers\Current_Post_Helper          $current_post_helper The current post helper.
+	 * @param \Yoast\WP\Free\Builders\Indexable_Home_Page_Builder $home_page_builder   The front page builder for creating missing indexables.
+	 * @param \Yoast\WP\Free\Helpers\Current_Page_Helper          $current_page_helper The current post helper.
 	 * @param \Yoast\WP\Free\Loggers\Logger                       $logger              The logger.
 	 */
 	public function __construct(
@@ -67,14 +67,14 @@ class Indexable_Repository {
 		Indexable_Post_Builder $post_builder,
 		Indexable_Term_Builder $term_builder,
 		Indexable_Home_Page_Builder $home_page_builder,
-		Current_Post_Helper $current_post_helper,
+		Current_Page_Helper $current_page_helper,
 		Logger $logger
 	) {
 		$this->author_builder      = $author_builder;
 		$this->post_builder        = $post_builder;
 		$this->term_builder        = $term_builder;
 		$this->home_page_builder   = $home_page_builder;
-		$this->current_post_helper = $current_post_helper;
+		$this->current_page_helper = $current_page_helper;
 		$this->logger              = $logger;
 	}
 
@@ -95,13 +95,13 @@ class Indexable_Repository {
 	 * @return bool|\Yoast\WP\Free\Models\Indexable The indexable, false if none could be found.
 	 */
 	public function for_current_page() {
-		if ( $this->current_post_helper->is_simple_page() ) {
-			return $this->find_by_id_and_type( $this->current_post_helper->get_simple_page_id(), 'post' );
+		if ( $this->current_page_helper->is_simple_page() ) {
+			return $this->find_by_id_and_type( $this->current_page_helper->get_simple_page_id(), 'post' );
 		}
-		if ( $this->current_post_helper->is_home_static_page() ) {
-			return $this->find_by_id_and_type( $this->current_post_helper->get_front_page_id(), 'post' );
+		if ( $this->current_page_helper->is_home_static_page() ) {
+			return $this->find_by_id_and_type( $this->current_page_helper->get_front_page_id(), 'post' );
 		}
-		if ( $this->current_post_helper->is_home_posts_page() ) {
+		if ( $this->current_page_helper->is_home_posts_page() ) {
 			return $this->find_home_page();
 		}
 

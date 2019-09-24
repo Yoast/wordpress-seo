@@ -10,7 +10,7 @@ namespace Yoast\WP\Free\Helpers;
 /**
  * Class Current_Post_Helper
  */
-class Current_Post_Helper {
+class Current_Page_Helper {
 
 	/**
 	 * Checks if the currently opened page is a simple page.

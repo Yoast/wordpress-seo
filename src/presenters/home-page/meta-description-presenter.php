@@ -8,7 +8,7 @@
 namespace Yoast\WP\Free\Presenters\Home_Page;
 
 use WPSEO_Options;
-use Yoast\WP\Free\Helpers\Current_Post_Helper;
+use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presenters\Abstract_Meta_Description_Presenter;
 
@@ -17,19 +17,19 @@ use Yoast\WP\Free\Presenters\Abstract_Meta_Description_Presenter;
  */
 class Meta_Description_Presenter extends Abstract_Meta_Description_Presenter {
 	/**
-	 * @var Current_Post_Helper
+	 * @var Current_Page_Helper
 	 */
-	private $current_post_helper;
+	private $current_page_helper;
 
 	/**
 	 * Front_End_Integration constructor.
 	 *
-	 * @param Current_Post_Helper  $current_post_helper  The current post helper.
+	 * @param Current_Page_Helper $current_page_helper The current post helper.
 	 */
 	public function __construct(
-		Current_Post_Helper $current_post_helper
+		Current_Page_Helper $current_page_helper
 	) {
-		$this->current_post_helper  = $current_post_helper;
+		$this->current_page_helper = $current_page_helper;
 	}
 
 	/**
@@ -55,7 +55,7 @@ class Meta_Description_Presenter extends Abstract_Meta_Description_Presenter {
 	 * @return array A key => value array of variables that may be replaced.
 	 */
 	protected function get_replace_vars_object( Indexable $indexable ) {
-		if ( $this->current_post_helper->is_home_static_page() ) {
+		if ( $this->current_page_helper->is_home_static_page() ) {
 			return \get_post( $indexable->object_id );
 		}
 		return [];
