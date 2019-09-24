@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Interface for site presenters.
+ *
+ * @package Yoast\YoastSEO\Presenters\Site
+ */
 namespace Yoast\WP\Free\Presenters\Site;
 
 interface Site_Presenter_Interface {

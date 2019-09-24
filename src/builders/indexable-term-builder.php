@@ -15,17 +15,30 @@ class Indexable_Term_Builder {
 	/**
 	 * Formats the data.
 	 *
-	 * @param int                             $term_id  ID of the term to save data for.
+	 * @param int                             $term_id   ID of the term to save data for.
 	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to format.
 	 *
 	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
+	 *
+	 * @throws \Exception If the term could not be found.
 	 */
 	public function build( $term_id, $indexable ) {
-		$term      = \get_term( $term_id );
-		$taxonomy  = $term->taxonomy;
-		$term_meta = \WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );
+		$term = \get_term( $term_id );
 
-		$indexable->permalink       = \get_term_link( $term_id, $taxonomy );
+		if ( is_wp_error( $term ) ) {
+			throw new \Exception( current( array_keys( $term->errors ) ) );
+		}
+
+		$taxonomy  = $term->taxonomy;
+		$term_link = \get_term_link( $term_id, $taxonomy );
+
+		if ( is_wp_error( $term_link ) ) {
+			throw new \Exception( current( array_keys( $term_link->errors ) ) );
+		}
+
+		$term_meta = \WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy );
+
+		$indexable->permalink       = $term_link;
 		$indexable->object_sub_type = $taxonomy;
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(

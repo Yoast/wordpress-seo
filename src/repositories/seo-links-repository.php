@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Repositories;
 
-use Yoast\WP\Free\ORM\ORMWrapper;
 use Yoast\WP\Free\ORM\Yoast_Model;
 
 /**
@@ -18,14 +17,14 @@ use Yoast\WP\Free\ORM\Yoast_Model;
  *
  * @package Yoast\WP\Free\ORM\Repositories
  */
-class SEO_Links_Repository extends ORMWrapper {
+class SEO_Links_Repository {
 
 	/**
-	 * Returns the instance of this class constructed through the ORM Wrapper.
+	 * Starts a query for this repository.
 	 *
-	 * @return \Yoast\WP\Free\Repositories\SEO_Links_Repository
+	 * @return \Yoast\WP\Free\ORM\ORMWrapper
 	 */
-	public static function get_instance() {
-		return parent::get_instance_for_repository( self::class );
+	public function query() {
+		return Yoast_Model::of_type( 'SEO_Links' );
 	}
 }
