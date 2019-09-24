@@ -44,6 +44,19 @@ class Current_Post_Helper {
 	}
 
 	/**
+	 * Returns the id of the front page.
+	 *
+	 * @return int The id of the front page. 0 if the front page is not a static page.
+	 */
+	public function get_front_page_id() {
+		if ( \get_option( 'show_on_front' ) !== 'page' ) {
+			return 0;
+		}
+
+		return (int) \get_option( 'page_on_front' );
+	}
+
+	/**
 	 * Determine whether this is the homepage and shows posts.
 	 *
 	 * @return bool Whether or not the current page is the homepage that displays posts.
