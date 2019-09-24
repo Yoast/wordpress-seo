@@ -5,6 +5,7 @@ namespace Yoast\WP\Free\Tests\Admin\Inc;
 use WPSEO_Image_Utils;
 use Yoast\WP\Free\Tests\Doubles\Inc\Image_Utils_Double;
 use Yoast\WP\Free\Tests\TestCase;
+use Brain\Monkey;
 
 /**
  * Unit Test Class.
@@ -29,6 +30,44 @@ class Image_Utils_Test extends TestCase {
 		parent::setUp();
 
 		$this->instance = new Image_Utils_Double();
+	}
+
+	/**
+	 * Test whether the first image is returned from a term description.
+	 *
+	 * @covers ::get_first_content_image_for_term
+	 */
+
+	public function test_first_of_multiple_content_images_for_term() {
+
+		$term_descr =
+			'<p>This is a term description. It has several images:</p>
+			<img src=""/>
+			<img src="' . 'https://example.com/media/first_image.jpg' . '"/>
+			<img src="' . 'https://example.com/media/second_image.jpg' . '"/>
+			<p> That were all the images. Done! </p>';
+
+		Monkey\Functions\expect( 'term_description' )
+			->andReturn( $term_descr );
+
+		$first_image = $this->instance->get_first_content_image_for_term( '11' );
+
+		$expected = 'https://example.com/media/first_image.jpg';
+
+		$this->assertEquals( $expected, $first_image );
+	}
+
+	/**
+	 * Test whether null is returned when $term_id is null.
+	 *
+	 * @covers ::get_first_content_image_for_term
+	 */
+
+	public function test_term_id_is_null() {
+
+		$first_image = $this->instance->get_first_content_image_for_term( null );
+
+		$this->assertNull( $first_image );
 	}
 
 	/**
