@@ -39,11 +39,6 @@ class Front_End_Integration implements Integration_Interface {
 	protected $indexable_repository;
 
 	/**
-	 * @var WP_Query_Wrapper
-	 */
-	protected $wp_query_wrapper;
-
-	/**
 	 * @var ContainerInterface
 	 */
 	protected $container;
@@ -107,18 +102,15 @@ class Front_End_Integration implements Integration_Interface {
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
 	 * @param Current_Page_Helper  $current_page_helper  The current post helper.
-	 * @param WP_Query_Wrapper     $wp_query_wrapper     The WP Query wrapper.
 	 * @param ContainerInterface   $service_container    The DI container.
 	 */
 	public function __construct(
 		Indexable_Repository $indexable_repository,
 		Current_Page_Helper $current_page_helper,
-		WP_Query_Wrapper $wp_query_wrapper,
 		ContainerInterface $service_container
 	) {
 		$this->indexable_repository = $indexable_repository;
 		$this->current_page_helper  = $current_page_helper;
-		$this->wp_query_wrapper     = $wp_query_wrapper;
 		$this->container            = $service_container;
 	}
 
@@ -186,24 +178,22 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return string Page type.
 	 */
 	protected function get_page_type() {
-		$wp_query = $this->wp_query_wrapper->get_main_query();
-
 		switch ( true ) {
 			case $this->current_page_helper->is_simple_page() || $this->current_page_helper->is_home_static_page():
 				return 'Post_Type';
-			case $wp_query->is_post_type_archive:
+			case $this->current_page_helper->is_post_type_archive():
 				return 'Post_Type_Archive';
-			case $wp_query->is_tax || $wp_query->is_tag || $wp_query->is_category:
+			case $this->current_page_helper->is_term_archive():
 				return 'Term_Archive';
-			case $wp_query->is_author:
+			case $this->current_page_helper->is_author_archive():
 				return 'Author_Archive';
-			case $wp_query->is_date:
+			case $this->current_page_helper->is_date_archive():
 				return 'Date_Archive';
 			case $this->current_page_helper->is_home_posts_page():
 				return 'Home_Page';
-			case $wp_query->is_search:
+			case $this->current_page_helper->is_search_result():
 				return 'Search_Result';
-			case $wp_query->is_404:
+			case $this->current_page_helper->is_error_page():
 				return 'Error_Page';
 		}
 

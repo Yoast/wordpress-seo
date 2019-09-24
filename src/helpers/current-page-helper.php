@@ -7,10 +7,28 @@
 
 namespace Yoast\WP\Free\Helpers;
 
+use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
+
 /**
  * Class Current_Post_Helper
  */
 class Current_Page_Helper {
+
+	/**
+	 * @var WP_Query_Wrapper
+	 */
+	private $wp_query_wrapper;
+
+	/**
+	 * Current_Page_Helper constructor.
+	 *
+	 * @param WP_Query_Wrapper $wp_query_wrapper
+	 */
+	public function __construct(
+		WP_Query_Wrapper $wp_query_wrapper
+	) {
+		$this->wp_query_wrapper = $wp_query_wrapper;
+	}
 
 	/**
 	 * Checks if the currently opened page is a simple page.
@@ -57,12 +75,38 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Returns the id of the currently opened term archive.
+	 *
+	 * @return int The id of the currently opened term archive.
+	 */
+	public function get_term_id() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		if ( $wp_query->is_category() ) {
+			return $wp_query->get( 'cat' );
+		}
+		if ( $wp_query->is_tag() ) {
+			return $wp_query->get( 'tag_id' );
+		}
+		if ( $wp_query->is_tax() ) {
+			$queried_object = $wp_query->get_queried_object();
+			if ( $queried_object && ! \is_wp_error( $queried_object ) ) {
+				return $queried_object->term_id;
+			}
+		}
+
+		return 0;
+	}
+
+	/**
 	 * Determine whether this is the homepage and shows posts.
 	 *
 	 * @return bool Whether or not the current page is the homepage that displays posts.
 	 */
 	public function is_home_posts_page() {
-		return ( \is_home() && \get_option( 'show_on_front' ) === 'posts' );
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return ( $wp_query->is_home() && \get_option( 'show_on_front' ) === 'posts' );
 	}
 
 	/**
@@ -71,7 +115,9 @@ class Current_Page_Helper {
 	 * @return bool Whether or not the current page is a static frontpage.
 	 */
 	public function is_home_static_page() {
-		return ( \is_front_page() && \get_option( 'show_on_front' ) === 'page' && \is_page( \get_option( 'page_on_front' ) ) );
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return ( $wp_query->is_front_page() && \get_option( 'show_on_front' ) === 'page' && \is_page( \get_option( 'page_on_front' ) ) );
 	}
 
 	/**
@@ -80,6 +126,74 @@ class Current_Page_Helper {
 	 * @return bool Whether or not it's a non-frontpage, statically set posts page.
 	 */
 	public function is_posts_page() {
-		return ( \is_home() && \get_option( 'show_on_front' ) === 'page' );
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return ( $wp_query->is_home && \get_option( 'show_on_front' ) === 'page' );
+	}
+
+	/**
+	 * Determine whether this is a post type archive.
+	 *
+	 * @return bool Whether nor not the current page is a post type archive.
+	 */
+	public function is_post_type_archive() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return $wp_query->is_post_type_archive();
+	}
+
+	/**
+	 * Determine whether this is a term archive.
+	 *
+	 * @return bool Whether nor not the current page is a term archive.
+	 */
+	public function is_term_archive() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return $wp_query->is_tax || $wp_query->is_tag || $wp_query->is_category;
+	}
+
+	/**
+	 * Determine whether this is an author archive.
+	 *
+	 * @return bool Whether nor not the current page is an author archive.
+	 */
+	public function is_author_archive() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return $wp_query->is_author();
+	}
+
+	/**
+	 * Determine whether this is an date archive.
+	 *
+	 * @return bool Whether nor not the current page is an date archive.
+	 */
+	public function is_date_archive() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return $wp_query->is_date();
+	}
+
+	/**
+	 * Determine whether this is a search result.
+	 *
+	 * @return bool Whether nor not the current page is a search result.
+	 */
+	public function is_search_result() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return $wp_query->is_search();
+	}
+
+	/**
+	 * Determine whether this is an error page.
+	 *
+	 * @return bool Whether nor not the current page is an error page.
+	 */
+	public function is_error_page() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return $wp_query->is_404();
 	}
 }
