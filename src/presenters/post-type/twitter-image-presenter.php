@@ -18,56 +18,56 @@ use Yoast\WP\Free\Presenters\Abstract_Twitter_Image_Presenter;
 class Twitter_Image_Presenter extends Abstract_Twitter_Image_Presenter {
 
 	/**
-	 * Generates the Twitter image for an indexable.
+	 * Generates the Twitter image url for an indexable.
 	 *
 	 * @param Indexable $indexable The indexable.
 	 *
-	 * @return string The Twitter image.
+	 * @return string The Twitter image url.
 	 */
 	protected function generate( Indexable $indexable ) {
 		if ( \post_password_required() ) {
 			return '';
 		}
 
-		$image = $this->retrieve_social_image( $indexable );
-		if ( $image ) {
-			return $image;
+		$image_url = $this->retrieve_social_image( $indexable );
+		if ( $image_url ) {
+			return $image_url;
 		}
 
-		$image = $this->retrieve_attachment_image( $indexable->object_id );
-		if ( $image ) {
-			return $image;
+		$image_url = $this->retrieve_attachment_image( $indexable->object_id );
+		if ( $image_url ) {
+			return $image_url;
 		}
 
-		$image = $this->retrieve_featured_image( $indexable->object_id );
-		if ( $image ) {
-			return $image;
+		$image_url = $this->retrieve_featured_image( $indexable->object_id );
+		if ( $image_url ) {
+			return $image_url;
 		}
 
-		$image = $this->retrieve_gallery_image( $indexable->object_id );
-		if ( $image ) {
-			return $image;
+		$image_url = $this->retrieve_gallery_image( $indexable->object_id );
+		if ( $image_url ) {
+			return $image_url;
 		}
 
-		$image = $this->retrieve_content_image( $indexable->object_id );
-		if ( $image ) {
-			return $image;
+		$image_url = $this->retrieve_content_image( $indexable->object_id );
+		if ( $image_url ) {
+			return $image_url;
 		}
 
-		$image = WPSEO_Options::get( 'og_default_image', '' );
-		if ( $image ) {
-			return $image;
+		$image_url = WPSEO_Options::get( 'og_default_image', '' );
+		if ( $image_url ) {
+			return $image_url;
 		}
 
 		return '';
 	}
 
 	/**
-	 * Retrieves Twitter_image from the indexable. If not available, defaults to og_image.
+	 * Retrieves twitter_image from the indexable. If not available, defaults to og_image.
 	 *
 	 * @param Indexable $indexable The indexable.
 	 *
-	 * @return string The image or an empty string when not found.
+	 * @return string The image url or an empty string when not found.
 	 */
 	protected function retrieve_social_image( Indexable $indexable ) {
 		if ( $indexable->twitter_image ) {
@@ -82,11 +82,11 @@ class Twitter_Image_Presenter extends Abstract_Twitter_Image_Presenter {
 	}
 
 	/**
-	 * Retrieves an attachment page's attachment.
+	 * Retrieves an attachment page's attachment url.
 	 *
 	 * @param string $post_id The ID of the post for which to retrieve the image.
 	 *
-	 * @return string The image or an empty string when not found.
+	 * @return string The image url or an empty string when not found.
 	 */
 	protected function retrieve_attachment_image( $post_id ) {
 		if ( ! \get_post_type( $post_id ) === 'attachment' ) {
@@ -104,11 +104,11 @@ class Twitter_Image_Presenter extends Abstract_Twitter_Image_Presenter {
 	}
 
 	/**
-	 * Retrieves the featured image.
+	 * Retrieves the featured image url.
 	 *
 	 * @param int $post_id Post ID to use.
 	 *
-	 * @return string The image or an empty string when not found.
+	 * @return string The image url or an empty string when not found.
 	 */
 	protected function retrieve_featured_image( $post_id ) {
 		if ( ! \function_exists( 'has_post_thumbnail' ) || ! \has_post_thumbnail( $post_id ) ) {
@@ -132,11 +132,11 @@ class Twitter_Image_Presenter extends Abstract_Twitter_Image_Presenter {
 	}
 
 	/**
-	 * Retrieves the first image of a gallery.
+	 * Retrieves the first image url of a gallery.
 	 *
 	 * @param int $post_id Post ID to use.
 	 *
-	 * @return string The image or an empty string when not found.
+	 * @return string The image url or an empty string when not found.
 	 */
 	protected function retrieve_gallery_image( $post_id ) {
 		$post = \get_post( $post_id );
@@ -153,11 +153,11 @@ class Twitter_Image_Presenter extends Abstract_Twitter_Image_Presenter {
 	}
 
 	/**
-	 * Retrieves the image from the content.
+	 * Retrieves the image url from the content.
 	 *
 	 * @param int $post_id The post id to extract the images from.
 	 *
-	 * @return string The image or an empty string when not found.
+	 * @return string The image url or an empty string when not found.
 	 */
 	protected function retrieve_content_image( $post_id ) {
 		$image_url = WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
