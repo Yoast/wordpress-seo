@@ -5,12 +5,12 @@
  * @package Yoast\YoastSEO\WordPress
  */
 
-namespace Yoast\WP\Free\WordPress;
+namespace Yoast\WP\Free\Commands;
 
 /**
  * An interface for registering integrations with WordPress
  */
-interface WP_CLI_Command {
+interface Command_Interface {
 
 	/**
 	 * Returns the name of this command.

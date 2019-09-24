@@ -454,8 +454,6 @@ class WPSEO_Taxonomy_Meta extends WPSEO_Option {
 			$term_id = $term->term_id;
 		}
 		else {
-			var_dump( $term, is_object( $term ) );
-			exit;
 			return false;
 		}
 

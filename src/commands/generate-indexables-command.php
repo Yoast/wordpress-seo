@@ -10,12 +10,11 @@ namespace Yoast\WP\Free\Commands;
 use wpdb;
 use Yoast\WP\Free\Integrations\Watchers\Indexable_Post_Watcher;
 use Yoast\WP\Free\Integrations\Watchers\Indexable_Term_Watcher;
-use Yoast\WP\Free\WordPress\WP_CLI_Command;
 
 /**
  * Formats the term meta to indexable format.
  */
-class Generate_Indexables_Command implements WP_CLI_Command {
+class Generate_Indexables_Command implements Command_Interface {
 
 	/**
 	 * @var Indexable_Post_Watcher
