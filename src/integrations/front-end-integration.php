@@ -48,6 +48,32 @@ class Front_End_Integration implements Integration_Interface {
 	protected $container;
 
 	/**
+	 * The presenters we loop through on each page load.
+	 *
+	 * @var array
+	 */
+	protected $presenters = [
+		'Canonical'              => 'indexable',
+		'Title'                  => 'indexable',
+		'Meta_Description'       => 'indexable',
+		'Robots'                 => 'indexable',
+		'Open_Graph_Locale'      => 'site_wide',
+		'Open_Graph_Site_Name'   => 'site_wide',
+		'Open_Graph_Url'         => 'indexable',
+		'Open_Graph_Type'        => 'indexable',
+		'Open_Graph_Author'      => 'indexable',
+		'Open_Graph_Title'       => 'indexable',
+		'Open_Graph_Description' => 'indexable',
+		'Open_Graph_Image'       => 'indexable',
+		'Twitter_Site'           => 'site_wide',
+		'Twitter_Card'           => 'indexable',
+		'Twitter_Creator'        => 'indexable',
+		'Twitter_Title'          => 'indexable',
+		'Twitter_Description'    => 'indexable',
+		'Twitter_Image'          => 'indexable',
+	];
+
+	/**
 	 * Front_End_Integration constructor.
 	 *
 	 * @param Indexable_Repository $indexable_repository The indexable repository.
@@ -62,9 +88,9 @@ class Front_End_Integration implements Integration_Interface {
 		ContainerInterface $service_container
 	) {
 		$this->indexable_repository = $indexable_repository;
-		$this->current_post_helper = $current_post_helper;
-		$this->wp_query_wrapper = $wp_query_wrapper;
-		$this->container = $service_container;
+		$this->current_post_helper  = $current_post_helper;
+		$this->wp_query_wrapper     = $wp_query_wrapper;
+		$this->container            = $service_container;
 	}
 
 	/**
@@ -104,35 +130,30 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return Presenter_Interface[]
 	 */
 	public function get_presenters() {
-		$page_type = $this->get_page_type();
-		$debug     = \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true;
-		return array_filter( array_map( function ( $presenter ) use ( $page_type, $debug ) {
-			$invalid_behaviour = ContainerInterface::NULL_ON_INVALID_REFERENCE;
-			if ( $debug ) {
-				$invalid_behaviour = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
-			}
-			return $this->container->get( "Yoast\WP\Free\Presenters\{$page_type}\{$presenter}_Presenter", $invalid_behaviour );
-		}, [
-			'Canonical',
-			'Title',
-			'Meta_Description',
-			'Robots',
-			'Open_Graph_Title',
-			'Open_Graph_Description',
-			'Open_Graph_Image',
-			'Twitter_Title',
-			'Twitter_Description',
-			'Twitter_Image',
-		] ) );
+		$page_type         = $this->get_page_type();
+		$invalid_behaviour = ContainerInterface::NULL_ON_INVALID_REFERENCE;
+		if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {
+			$invalid_behaviour = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
+		}
+
+		return array_filter(
+			array_map( function ( $presenter, $type ) use ( $page_type, $invalid_behaviour ) {
+				if ( $type === 'site_wide' ) {
+					return $this->container->get( "Yoast\WP\Free\Presenters\Site\{$presenter}_Presenter", $invalid_behaviour );
+				}
+
+				return $this->container->get( "Yoast\WP\Free\Presenters\{$page_type}\{$presenter}_Presenter", $invalid_behaviour );
+			}, array_keys( $this->presenters ), $this->presenters )
+		);
 	}
 
 	/**
-	 * Gets the type of the current page.
+	 * Returns the page type for the current request.
 	 *
-	 * @return string The page type.
+	 * @return string Page type.
 	 */
 	protected function get_page_type() {
-		$wp_query  = $this->wp_query_wrapper->get_main_query();
+		$wp_query = $this->wp_query_wrapper->get_main_query();
 
 		switch ( true ) {
 			case $this->current_post_helper->is_simple_page():
