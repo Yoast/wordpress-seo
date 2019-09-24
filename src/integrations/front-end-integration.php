@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Integrations;
 
+use WPSEO_Options;
 use Yoast\WP\Free\Conditionals\Front_End_Conditional;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Helpers\Current_Post_Helper;
@@ -52,26 +53,52 @@ class Front_End_Integration implements Integration_Interface {
 	 *
 	 * @var array
 	 */
-	protected $presenters = [
-		'Debug_Marker_Open'      => 'site_wide',
-		'Canonical'              => 'indexable',
-		'Title'                  => 'indexable',
-		'Meta_Description'       => 'indexable',
-		'Robots'                 => 'indexable',
-		'Open_Graph_Locale'      => 'site_wide',
-		'Open_Graph_Site_Name'   => 'site_wide',
-		'Open_Graph_Url'         => 'indexable',
-		'Open_Graph_Type'        => 'indexable',
-		'Open_Graph_Author'      => 'indexable',
-		'Open_Graph_Title'       => 'indexable',
-		'Open_Graph_Description' => 'indexable',
-		'Open_Graph_Image'       => 'indexable',
-		'Twitter_Site'           => 'site_wide',
-		'Twitter_Card'           => 'indexable',
-		'Twitter_Creator'        => 'indexable',
-		'Twitter_Title'          => 'indexable',
-		'Twitter_Description'    => 'indexable',
-		'Twitter_Image'          => 'indexable',
+	protected $base_presenters = [
+		'Debug_Marker_Open' => 'site_wide',
+		'Canonical'         => 'indexable',
+		'Title'             => 'indexable',
+		'Meta_Description'  => 'indexable',
+		'Robots'            => 'indexable',
+	];
+
+	/**
+	 * The OpenGraph specific presenters.
+	 *
+	 * @var array
+	 */
+	protected $open_graph_presenters = [
+		'Open_Graph_Locale'       => 'site_wide',
+		'Open_Graph_Site_Name'    => 'site_wide',
+		'Open_Graph_Url'          => 'indexable',
+		'Open_Graph_Type'         => 'indexable',
+		'Open_Graph_Author'       => 'indexable',
+		'Open_Graph_Section'      => 'indexable',
+		'Open_Graph_Publish_Time' => 'indexable',
+		'Open_Graph_Title'        => 'indexable',
+		'Open_Graph_Description'  => 'indexable',
+		'Open_Graph_Image'        => 'indexable',
+	];
+
+	/**
+	 * The Twitter card specific presenters.
+	 *
+	 * @var array
+	 */
+	protected $twitter_card_presenters = [
+		'Twitter_Site'        => 'site_wide',
+		'Twitter_Card'        => 'indexable',
+		'Twitter_Creator'     => 'indexable',
+		'Twitter_Title'       => 'indexable',
+		'Twitter_Description' => 'indexable',
+		'Twitter_Image'       => 'indexable',
+	];
+
+	/**
+	 * The presenters we want to be last in our output.
+	 *
+	 * @var array
+	 */
+	protected $closing_presenters = [
 		'Debug_Marker_Close'     => 'site_wide',
 	];
 
@@ -135,6 +162,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return Presenter_Interface[]
 	 */
 	public function get_presenters() {
+		$needed_presenters = $this->get_needed_presenters();
 		$page_type         = $this->get_page_type();
 		$invalid_behaviour = ContainerInterface::NULL_ON_INVALID_REFERENCE;
 		if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true && false ) {
@@ -148,7 +176,7 @@ class Front_End_Integration implements Integration_Interface {
 				}
 
 				return $this->container->get( "Yoast\WP\Free\Presenters\\{$page_type}\\{$presenter}_Presenter", $invalid_behaviour );
-			}, array_keys( $this->presenters ), $this->presenters )
+			}, array_keys( $needed_presenters ), $needed_presenters )
 		);
 	}
 
@@ -180,5 +208,30 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		return 'Fallback';
+	}
+
+	/**
+	 * Generate the array of presenters we need for the current request.
+	 *
+	 * @return array
+	 */
+	private function get_needed_presenters() {
+		$presenters = $this->base_presenters;
+		if ( WPSEO_Options::get( 'opengraph' ) === true ) {
+			$presenters = array_merge( $presenters, $this->open_graph_presenters );
+		}
+		if ( WPSEO_Options::get( 'twitter' ) === true ) {
+			$presenters = array_merge( $presenters, $this->twitter_card_presenters );
+		}
+		$presenters = array_merge( $presenters, $this->closing_presenters );
+
+		/**
+		 * Filter 'wpseo_frontend_presenters' - Allow filtering presenters in or out of the request.
+		 *
+		 * @api array List of presenters.
+		 */
+		$presenters = apply_filters( 'wpseo_frontend_presenters', $presenters );
+
+		return $presenters;
 	}
 }
