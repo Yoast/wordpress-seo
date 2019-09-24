@@ -5,7 +5,7 @@
  * @package Yoast\YoastSEO\Presenters
  */
 
-namespace Yoast\WP\Free\Presenters\Post_Type;
+namespace Yoast\WP\Free\Presenters\PostType;
 
 use WPSEO_Post_Type;
 use Yoast\WP\Free\Models\Indexable;
