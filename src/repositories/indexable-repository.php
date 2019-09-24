@@ -8,6 +8,7 @@
 namespace Yoast\WP\Free\Repositories;
 
 use Yoast\WP\Free\Builders\Indexable_Author_Builder;
+use Yoast\WP\Free\Builders\Indexable_Home_Page_Builder;
 use Yoast\WP\Free\Builders\Indexable_Post_Builder;
 use Yoast\WP\Free\Builders\Indexable_Term_Builder;
 use Yoast\WP\Free\Helpers\Current_Post_Helper;
@@ -37,6 +38,11 @@ class Indexable_Repository {
 	protected $term_builder;
 
 	/**
+	 * @var \Yoast\WP\Free\Builders\Indexable_Home_Page_Builder
+	 */
+	protected $home_page_builder;
+
+	/**
 	 * @var \Yoast\WP\Free\Helpers\Current_Post_Helper
 	 */
 	protected $current_post_helper;
@@ -49,23 +55,27 @@ class Indexable_Repository {
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @param \Yoast\WP\Free\Builders\Indexable_Author_Builder $author_builder      The author builder for creating missing indexables.
-	 * @param \Yoast\WP\Free\Builders\Indexable_Post_Builder   $post_builder        The post builder for creating missing indexables.
-	 * @param \Yoast\WP\Free\Builders\Indexable_Term_Builder   $term_builder        The term builder for creating missing indexables.
-	 * @param \Yoast\WP\Free\Helpers\Current_Post_Helper       $current_post_helper The current post helper.
-	 * @param \Yoast\WP\Free\Loggers\Logger                    $logger              The logger.
+	 * @param \Yoast\WP\Free\Builders\Indexable_Author_Builder    $author_builder      The author builder for creating missing indexables.
+	 * @param \Yoast\WP\Free\Builders\Indexable_Post_Builder      $post_builder        The post builder for creating missing indexables.
+	 * @param \Yoast\WP\Free\Builders\Indexable_Term_Builder      $term_builder        The term builder for creating missing indexables.
+	 * @param \Yoast\WP\Free\Builders\Indexable_Home_Page_Builder $home_page_builder  The front page builder for creating missing indexables.
+	 * @param \Yoast\WP\Free\Helpers\Current_Post_Helper          $current_post_helper The current post helper.
+	 * @param \Yoast\WP\Free\Loggers\Logger                       $logger              The logger.
 	 */
 	public function __construct(
 		Indexable_Author_Builder $author_builder,
 		Indexable_Post_Builder $post_builder,
 		Indexable_Term_Builder $term_builder,
+		Indexable_Home_Page_Builder $home_page_builder,
 		Current_Post_Helper $current_post_helper,
 		Logger $logger
 	) {
-		$this->author_builder = $author_builder;
-		$this->post_builder   = $post_builder;
-		$this->term_builder   = $term_builder;
-		$this->logger         = $logger;
+		$this->author_builder      = $author_builder;
+		$this->post_builder        = $post_builder;
+		$this->term_builder        = $term_builder;
+		$this->home_page_builder   = $home_page_builder;
+		$this->current_post_helper = $current_post_helper;
+		$this->logger              = $logger;
 	}
 
 	/**
@@ -88,6 +98,12 @@ class Indexable_Repository {
 		if ( $this->current_post_helper->is_simple_page() ) {
 			return $this->find_by_id_and_type( $this->current_post_helper->get_simple_page_id(), 'post' );
 		}
+		if ( $this->current_post_helper->is_home_static_page() ) {
+			return $this->find_by_id_and_type( $this->current_post_helper->get_front_page_id(), 'post' );
+		}
+		if ( $this->current_post_helper->is_home_posts_page() ) {
+			return $this->find_home_page();
+		}
 
 		return false;
 	}
@@ -106,6 +122,29 @@ class Indexable_Repository {
 					->where( 'url_hash', $url_hash )
 					->where( 'url', $url )
 					->find_one();
+	}
+
+	/**
+	 * Retrieves the homepage indexable.
+	 *
+	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
+	 *
+	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
+	 */
+	public function find_home_page( $auto_create = true ) {
+		/**
+		 * Indexable instance.
+		 *
+		 * @var \Yoast\WP\Free\Models\Indexable $indexable
+		 */
+		$indexable = $this->query()->where( 'object_type', 'home-page' )->find_one();
+
+		if ( $auto_create && ! $indexable ) {
+			$indexable = $this->query()->create( [ 'object_type' => 'home-page' ] );
+			$indexable = $this->home_page_builder->build( $indexable );
+		}
+
+		return $indexable;
 	}
 
 	/**
@@ -174,9 +213,7 @@ class Indexable_Repository {
 		 *
 		 * @var \Yoast\WP\Free\Models\Indexable $indexable
 		 */
-		$indexable              = $this->query()->create();
-		$indexable->object_id   = $object_id;
-		$indexable->object_type = $object_type;
+		$indexable = $this->query()->create( [ 'object_id' => $object_id, 'object_type' => $object_type ] );
 
 		switch ( $object_type ) {
 			case 'post':

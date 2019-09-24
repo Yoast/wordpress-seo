@@ -161,7 +161,7 @@ class Front_End_Integration implements Integration_Interface {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
 		switch ( true ) {
-			case $this->current_post_helper->is_simple_page():
+			case $this->current_post_helper->is_simple_page() || $this->current_post_helper->is_home_static_page():
 				return 'Post_Type';
 			case $wp_query->is_post_type_archive:
 				return 'Post_Type_Archive';
@@ -171,7 +171,7 @@ class Front_End_Integration implements Integration_Interface {
 				return 'Author_Archive';
 			case $wp_query->is_date:
 				return 'Date_Archive';
-			case $this->current_post_helper->is_home_posts_page() || $this->current_post_helper->is_home_static_page():
+			case $this->current_post_helper->is_home_posts_page():
 				return 'Home_Page';
 			case $wp_query->is_search:
 				return 'Search_Result';
