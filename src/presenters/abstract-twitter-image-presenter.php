@@ -15,11 +15,11 @@ use Yoast\WP\Free\Models\Indexable;
 abstract class Abstract_Twitter_Image_Presenter implements Presenter_Interface {
 
 	/**
-	 * Returns the meta description for a post.
+	 * Returns the Twitter image meta tag for a post.
 	 *
 	 * @param Indexable $indexable The indexable.
 	 *
-	 * @return string The meta description tag.
+	 * @return string The Twitter image meta tag.
 	 */
 	public function present( Indexable $indexable ) {
 		$twitter_image = $this->generate( $indexable );
@@ -29,9 +29,9 @@ abstract class Abstract_Twitter_Image_Presenter implements Presenter_Interface {
 
 		if ( is_string( $twitter_image ) && $twitter_image !== '' ) {
 			/**
-			 * Filter: 'wpseo_twitter_metatag_key' - Make the Twitter metatag key filterable.
+			 * Filter: 'wpseo_twitter_metatag_key' - Make the Twitter meta tag key filterable.
 			 *
-			 * @api string $key The Twitter metatag key.
+			 * @api string $key The Twitter meta tag key.
 			 */
 			$metatag_key = apply_filters( 'wpseo_twitter_metatag_key', 'name' );
 
