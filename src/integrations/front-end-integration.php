@@ -53,23 +53,24 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var array
 	 */
 	protected $presenters = [
-		'Canonical'              => false,
-		'Title'                  => false,
-		'Meta_Description'       => false,
-		'Robots'                 => false,
-		'Open_Graph_Locale'      => true,
-		'Open_Graph_Site_Name'   => true,
-		'Open_Graph_Url'         => false,
-		'Open_Graph_Type'        => false,
-		'Open_Graph_Title'       => false,
-		'Open_Graph_Description' => false,
-		'Open_Graph_Image'       => false,
-		'Twitter_Site'           => true,
-		'Twitter_Card'           => false,
-		'Twitter_Creator'        => false,
-		'Twitter_Title'          => false,
-		'Twitter_Description'    => false,
-		'Twitter_Image'          => false,
+		'Canonical'              => 'indexable',
+		'Title'                  => 'indexable',
+		'Meta_Description'       => 'indexable',
+		'Robots'                 => 'indexable',
+		'Open_Graph_Locale'      => 'site_wide',
+		'Open_Graph_Site_Name'   => 'site_wide',
+		'Open_Graph_Url'         => 'indexable',
+		'Open_Graph_Type'        => 'indexable',
+		'Open_Graph_Author'      => 'indexable',
+		'Open_Graph_Title'       => 'indexable',
+		'Open_Graph_Description' => 'indexable',
+		'Open_Graph_Image'       => 'indexable',
+		'Twitter_Site'           => 'site_wide',
+		'Twitter_Card'           => 'indexable',
+		'Twitter_Creator'        => 'indexable',
+		'Twitter_Title'          => 'indexable',
+		'Twitter_Description'    => 'indexable',
+		'Twitter_Image'          => 'indexable',
 	];
 
 	/**
@@ -136,8 +137,8 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		return array_filter(
-			array_map( function ( $presenter, $site_wide ) use ( $page_type, $invalid_behaviour ) {
-				if ( $site_wide ) {
+			array_map( function ( $presenter, $type ) use ( $page_type, $invalid_behaviour ) {
+				if ( $type === 'site_wide' ) {
 					return $this->container->get( "Yoast\WP\Free\Presenters\Site\{$presenter}_Presenter", $invalid_behaviour );
 				}
 
