@@ -36,8 +36,6 @@ class Loader_Pass implements CompilerPassInterface {
 		}
 
 		$loader_definition = $container->getDefinition( Loader::class );
-		$loader_definition->setPublic( true );
-
 		$definitions = $container->getDefinitions();
 
 		foreach ( $definitions as $definition ) {
@@ -56,20 +54,10 @@ class Loader_Pass implements CompilerPassInterface {
 
 		if ( \is_subclass_of( $class, Initializer_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_initializer', [ $class ] );
-			$definition->setPublic( true );
 		}
 
 		if ( \is_subclass_of( $class, Integration_Interface::class ) ) {
 			$loader_definition->addMethodCall( 'register_integration', [ $class ] );
-			$definition->setPublic( true );
-		}
-
-		if ( \is_subclass_of( $class, Conditional::class ) ) {
-			$definition->setPublic( true );
-		}
-
-		if ( \is_subclass_of( $class, Presenter_Interface::class ) ) {
-			$definition->setPublic( true );
 		}
 	}
 }

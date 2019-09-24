@@ -132,7 +132,7 @@ class Front_End_Integration implements Integration_Interface {
 	public function get_presenters() {
 		$page_type         = $this->get_page_type();
 		$invalid_behaviour = ContainerInterface::NULL_ON_INVALID_REFERENCE;
-		if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {
+		if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true && false ) {
 			$invalid_behaviour = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
 		}
 

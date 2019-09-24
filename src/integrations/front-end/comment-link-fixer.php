@@ -9,14 +9,14 @@ namespace Yoast\WP\Free\Integrations\Front_End;
 
 use Yoast\WP\Free\Conditionals\Front_End_Conditional;
 use Yoast\WP\Free\Helpers\Redirect_Helper;
-use Yoast\WP\Free\WordPress\Integration;
+use Yoast\WP\Free\Integrations\Integration_Interface;
 
 /**
  * Class WPSEO_Remove_Reply_To_Com.
  *
  * @since 7.0
  */
-class Comment_Link_Fixer implements Integration {
+class Comment_Link_Fixer implements Integration_Interface {
 
 	/**
 	 * @inheritDoc
