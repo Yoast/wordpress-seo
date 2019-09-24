@@ -53,6 +53,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var array
 	 */
 	protected $presenters = [
+		'Debug_Marker_Open'      => 'site_wide',
 		'Canonical'              => 'indexable',
 		'Title'                  => 'indexable',
 		'Meta_Description'       => 'indexable',
@@ -119,9 +120,11 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function present_head() {
 		$indexable = $this->indexable_repository->for_current_page();
+		echo "\n";
 		foreach ( $this->get_presenters() as $presenter ) {
-			echo $presenter->present( $indexable );
+			echo "\t" . $presenter->present( $indexable ) . "\n";
 		}
+		echo "\n";
 	}
 
 	/**
