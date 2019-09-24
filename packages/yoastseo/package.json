@@ -116,6 +116,6 @@
     }
   },
   "yoast": {
-    "premiumConfiguration": "feature/Dutch-morphology"
+    "premiumConfiguration": "stories/355-noun-suffixes"
   }
 }
