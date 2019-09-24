@@ -53,6 +53,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var array
 	 */
 	protected $presenters = [
+		'Debug_Marker_Open'      => 'site_wide',
 		'Canonical'              => 'indexable',
 		'Title'                  => 'indexable',
 		'Meta_Description'       => 'indexable',
@@ -71,6 +72,7 @@ class Front_End_Integration implements Integration_Interface {
 		'Twitter_Title'          => 'indexable',
 		'Twitter_Description'    => 'indexable',
 		'Twitter_Image'          => 'indexable',
+		'Debug_Marker_Close'     => 'site_wide',
 	];
 
 	/**
@@ -105,6 +107,7 @@ class Front_End_Integration implements Integration_Interface {
 		remove_action( 'wp_head', 'start_post_rel_link' );
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 		remove_action( 'wp_head', 'noindex', 1 );
+		remove_action( 'wp_head', '_wp_render_title_tag', 1 );
 	}
 
 	/**
@@ -119,9 +122,11 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function present_head() {
 		$indexable = $this->indexable_repository->for_current_page();
+		echo "\n";
 		foreach ( $this->get_presenters() as $presenter ) {
-			echo $presenter->present( $indexable );
+			echo "\t" . $presenter->present( $indexable ) . "\n";
 		}
+		echo "\n";
 	}
 
 	/**

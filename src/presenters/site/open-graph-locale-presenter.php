@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\Free\Presenters\Site;
 
-final class Site_Open_Graph_Locale_Presenter implements Site_Presenter_Interface {
+final class Open_Graph_Locale_Presenter implements Site_Presenter_Interface {
 	/**
 	 * Returns the Open Graph locale for the site.
 	 *
