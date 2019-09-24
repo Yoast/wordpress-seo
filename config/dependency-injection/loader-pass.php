@@ -10,11 +10,9 @@ namespace Yoast\WP\Free\Dependency_Injection;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use Yoast\WP\Free\Conditionals\Conditional;
 use Yoast\WP\Free\Initializers\Initializer_Interface;
 use Yoast\WP\Free\Integrations\Integration_Interface;
 use Yoast\WP\Free\Loader;
-use Yoast\WP\Free\Presenters\Presenter_Interface;
 
 /**
  * A pass is a step in the compilation process of the container.
