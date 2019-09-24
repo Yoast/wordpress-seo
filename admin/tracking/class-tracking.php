@@ -81,7 +81,7 @@ class WPSEO_Tracking extends WPSEO_WordPress_Integration {
 		 *
 		 * @api string $is_disabled The disabled state. Default is false.
 		 */
-		if ( apply_filters( 'wpseo_disable_tracking', true ) === true ) {
+		if ( apply_filters( 'wpseo_enable_tracking', false ) === false ) {
 			return false;
 		}
 
