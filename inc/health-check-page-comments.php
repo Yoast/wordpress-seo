@@ -36,11 +36,11 @@ class WPSEO_Health_Check_Page_Comments extends WPSEO_Health_Check {
 		$this->status         = self::STATUS_RECOMMENDED;
 		$this->badge['color'] = 'red';
 
-		$this->description  = __( 'Paging comments is enabled, this is not needed in 999 out of 1000 cases, we recommend to disable it.', 'wordpress-seo' );
+		$this->description  = __( 'Paging comments is enabled. As this is not needed in 999 out of 1000 cases, we recommend you disable it.', 'wordpress-seo' );
 		$this->description .= '<br />';
 		$this->description .= sprintf(
 			/* translators: %1$s resolves to the opening tag of the link to the comment setting page, %2$s resolves to the closing tag of the link */
-			__( 'To fix this uncheck the box in front of the "Break comments into pages..." on the %1$sComment settings page%2$s.', 'wordpress-seo' ),
+			__( 'To fix this, uncheck the box in front of the "Break comments into pages..." on the %1$sComment settings page%2$s.', 'wordpress-seo' ),
 			'<a href="' . esc_url( admin_url( 'options-discussion.php' ) ) . '">',
 			'</a>'
 		);
