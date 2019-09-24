@@ -5,7 +5,6 @@ namespace Yoast\WP\Free\Tests\Inc;
 use WPSEO_Content_Images;
 use Yoast\WP\Free\Tests\TestCase;
 use Brain\Monkey;
-use Mockery;
 
 /**
  * Unit Test Class.
