@@ -1,4 +1,5 @@
 import { getSuffixes } from "../../../src/morphology/dutch/addNounSuffixes";
+import { addNounSuffixes } from "../../../src/morphology/dutch/addNounSuffixes";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataNL = getMorphologyData( "nl" ).nl;
@@ -24,11 +25,9 @@ describe( "Test for getting the right plural suffixes", () => {
 			"s",
 		] );
 	} );
-	it( "returns the default plural suffixes if no predictable stem ending was found", () => {
+	it( "returns the default plural suffix if no suffix could be predicted based on stem ending", () => {
 		expect( getSuffixes( "bal", morphologyDataNL.nouns.suffixes.pluralSuffixes ) ).toEqual( [
 			"en",
-			"es",
-			"ers"
 		] );
 	} );
 } );
@@ -53,11 +52,69 @@ describe( "Test for getting the right diminutive suffixes", () => {
 			"tje",
 		] );
 	} );
-	it( "returns the default diminutive suffixes if no predictable stem ending was found", () => {
+	it( "returns the default diminutive suffixes if no suffix could be predicted based on stem ending", () => {
 		expect( getSuffixes( "hond", morphologyDataNL.nouns.suffixes.diminutiveSuffixes ) ).toEqual( [
 			"je",
 			"etje",
-			"ertje"
+			"ertje",
+		] );
+	} );
+} );
+
+describe( "Adds noun suffixes", () => {
+	it( "Adds noun suffixes to a Dutch stem based on which certain suffixes can be predicted", () => {
+		expect( addNounSuffixes( "baby", morphologyDataNL.addSuffixes, morphologyDataNL.nouns.suffixes ) ).toEqual( [
+			"baby's",
+			"baby'tje",
+		] );
+	} );
+	it( "Adds default noun suffixes to a Dutch stem when the correct suffix cannot be predicted", () => {
+		expect( addNounSuffixes( "hond", morphologyDataNL.addSuffixes, morphologyDataNL.nouns.suffixes ) ).toEqual( [
+			"hondje",
+			"hondertje",
+			"honden",
+			"honders",
+			"hondes",
+			"hondetje",
+		] );
+	} );
+	it( "Creates a second stem with doubled consonant and adds the right suffixes to each stem", () => {
+		expect( addNounSuffixes( "bal", morphologyDataNL.addSuffixes, morphologyDataNL.nouns.suffixes ) ).toEqual( [
+			"ballen",
+			"ballers",
+			"balles",
+			"balletje",
+		] );
+	} );
+	it( "Creates a second stem with voiced consonant and adds the right suffixes to each stem", () => {
+		expect( addNounSuffixes( "huis", morphologyDataNL.addSuffixes, morphologyDataNL.nouns.suffixes ) ).toEqual( [
+			"huisje",
+			"huisertje",
+			"huizen",
+			"huizers",
+			"huizes",
+			"huizetje",
+		] );
+	} );
+	it( "Creates a second stem with an undoubled vowel and adds the right suffixes to each stem", () => {
+		expect( addNounSuffixes( "spoor", morphologyDataNL.addSuffixes, morphologyDataNL.nouns.suffixes ) ).toEqual( [
+			"spoortje",
+			"sporen",
+			"sporers",
+			"spores",
+		] );
+	} );
+	it( "Creates a plural form ending in -heden if the stem ends in -heid", () => {
+		expect( addNounSuffixes( "mogelijkheid", morphologyDataNL.addSuffixes, morphologyDataNL.nouns.suffixes ) ).toEqual( [
+			"mogelijkheden",
+		] );
+	} );
+	it( "Replaces -g with -k in stems ending in -ing before attaching the diminutive suffix", () => {
+		expect( addNounSuffixes( "ketting", morphologyDataNL.addSuffixes, morphologyDataNL.nouns.suffixes ) ).toEqual( [
+			"kettinkje",
+			"kettingen",
+			"kettingers",
+			"kettinges",
 		] );
 	} );
 } );
