@@ -139,10 +139,10 @@ class Front_End_Integration implements Integration_Interface {
 		return array_filter(
 			array_map( function ( $presenter, $type ) use ( $page_type, $invalid_behaviour ) {
 				if ( $type === 'site_wide' ) {
-					return $this->container->get( "Yoast\WP\Free\Presenters\Site\{$presenter}_Presenter", $invalid_behaviour );
+					return $this->container->get( "Yoast\WP\Free\Presenters\Site\\{$presenter}_Presenter", $invalid_behaviour );
 				}
 
-				return $this->container->get( "Yoast\WP\Free\Presenters\{$page_type}\{$presenter}_Presenter", $invalid_behaviour );
+				return $this->container->get( "Yoast\WP\Free\Presenters\\{$page_type}\\{$presenter}_Presenter", $invalid_behaviour );
 			}, array_keys( $this->presenters ), $this->presenters )
 		);
 	}
