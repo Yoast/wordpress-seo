@@ -82,7 +82,7 @@ abstract class WPSEO_Health_Check {
 	 * Registers the test to WordPress.
 	 */
 	public function register_test() {
-		if ( $this->async ) {
+		if ( $this->is_async() ) {
 			add_filter( 'site_status_tests', array( $this, 'add_async_test' ) );
 
 			add_action( 'wp_ajax_health-check-' . $this->get_test_name(), array( $this, 'get_async_test_result' ) );
@@ -178,5 +178,14 @@ abstract class WPSEO_Health_Check {
 	 */
 	protected function get_test_name() {
 		return str_replace( '_', '-', $this->test );
+	}
+
+	/**
+	 * Checks if the health check is async.
+	 *
+	 * @return bool True when check is async.
+	 */
+	protected function is_async() {
+		return ! empty( $this->async );
 	}
 }

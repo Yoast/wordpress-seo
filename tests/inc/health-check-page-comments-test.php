@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Yoast\WP\Free\Tests\Inc;
 
 use Brain\Monkey;
@@ -11,7 +10,7 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @group health-check
  */
-class WPSEO_Health_Check_Page_Comments_test extends TestCase {
+class WPSEO_Health_Check_Page_Comments_Test extends TestCase {
 
 	/**
 	 * Tests the run method when page_comments are disabled.
