@@ -8,7 +8,7 @@
 /**
  * This class handles the tracking routine.
  */
-class WPSEO_Tracking extends WPSEO_WordPress_Integration {
+class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 
 	/**
 	 * The tracking option name.
