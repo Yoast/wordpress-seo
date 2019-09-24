@@ -14,14 +14,14 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 	 * @var array $anonymous_settings contains all of the option_names which need to be
 	 * anonimized before they can be sent elsewhere.
 	 */
-	private $anonymous_settings = [
+	private $anonymous_settings = array(
 		"baiduverify", "googleverify", "msverify", "yandexverify", "website_name",
 		"alternate_website_name", "company_logo", "company_name", "person_name",
 		"person_logo", "person_logo_id", "company_logo_id", "facebook_site",
 		"instagram_url", "linkedin_url", "myspace_url", "pinterest_url",
 		"pinterestverify", "twitter_site", "youtube_url", "wikipedia_url",
 		"fbadminapp",
-	];
+	);
 
 	/**
 	 * Returns the collection data.
