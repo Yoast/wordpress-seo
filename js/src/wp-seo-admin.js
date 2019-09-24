@@ -224,6 +224,10 @@ import { debounce } from "lodash";
 		const floatContainer = jQuery( "#wpseo-submit-container-float" );
 		const fixedContainer = jQuery( "#wpseo-submit-container-fixed" );
 
+		if ( ! floatContainer.length || ! fixedContainer.length ) {
+			return;
+		}
+
 		/**
 		 * Hides the fixed button at the bottom of the viewport if the submit button at the bottom of the page is visible.
 		 *
