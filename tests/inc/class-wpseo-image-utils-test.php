@@ -37,7 +37,6 @@ class Image_Utils_Test extends TestCase {
 	 *
 	 * @covers ::get_first_content_image_for_term
 	 */
-
 	public function test_first_of_multiple_content_images_for_term() {
 
 		$term_descr =
@@ -62,7 +61,6 @@ class Image_Utils_Test extends TestCase {
 	 *
 	 * @covers ::get_first_content_image_for_term
 	 */
-
 	public function test_term_id_is_null() {
 
 		$first_image = $this->instance->get_first_content_image_for_term( null );
@@ -75,7 +73,6 @@ class Image_Utils_Test extends TestCase {
 	 *
 	 * @covers ::get_first_image
 	 */
-
 	public function test_get_first_image() {
 
 		$images = [ 'https://example.com/media/first_image.jpg', 'https://example.com/media/second_image.jpg' ];
@@ -92,7 +89,6 @@ class Image_Utils_Test extends TestCase {
 	 *
 	 * @covers ::get_first_image
 	 */
-
 	public function test_first_elements_are_empty() {
 
 		$images = [ '', '', 'https://example.com/media/first_image.jpg', 'https://example.com/media/second_image.jpg' ];
@@ -109,7 +105,6 @@ class Image_Utils_Test extends TestCase {
 	 *
 	 * @covers ::get_first_image
 	 */
-
 	public function test_not_an_array() {
 
 		$images = 'example_string';
@@ -124,7 +119,6 @@ class Image_Utils_Test extends TestCase {
 	 *
 	 * @covers ::get_first_image
 	 */
-
 	public function test_empty_array() {
 
 		$images = [ ];

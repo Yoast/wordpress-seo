@@ -36,7 +36,6 @@ class Content_Images_Test extends TestCase {
 	 *
 	 * @covers ::get_images_from_content
 	 */
-
 	public function test_get_images_from_content() {
 
 		Monkey\Functions\expect( 'get_home_url' )
@@ -68,7 +67,6 @@ class Content_Images_Test extends TestCase {
 	 *
 	 * @covers ::get_images_from_content
 	 */
-
 	public function test_content_is_not_a_string() {
 
 		$post_content = 123;
