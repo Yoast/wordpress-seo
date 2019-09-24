@@ -146,7 +146,7 @@ class WPSEO_Upgrade {
 		);
 
 		foreach ( $upgrade_routines as $routine_version => $routine ) {
-			if ( version_compare( $version, $routine_version, '<') ) {
+			if ( version_compare( $version, $routine_version, '<' ) ) {
 				$this->$routine();
 			}
 		}
