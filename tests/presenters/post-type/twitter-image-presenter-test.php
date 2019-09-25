@@ -6,6 +6,7 @@
 
 namespace Yoast\WP\Free\Tests\Presenters\Post_Type;
 
+use Yoast\WP\Free\Presenters\Post_Type\Twitter_Image_Presenter;
 use Yoast\WP\Free\Tests\Doubles\Presenters\Post_Type\Twitter_Image_Presenter_Double;
 use Yoast\WP\Free\Tests\TestCase;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
@@ -80,56 +81,209 @@ class Twitter_Image_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
 			->andReturn( false );
-		Monkey\Functions\expect( 'retrieve_social_image' )
+
+		$instance = Mockery::mock( Twitter_Image_Presenter::class )
+			->makePartial()
+			->shouldAllowMockingProtectedMethods();
+
+		$instance
+			->shouldReceive( 'retrieve_social_image' )
 			->with( $indexable )
-			//->once()
+			->once()
 			->andReturn( 'https://example.com/media/image.jpg' );
 
 		$expected = 'https://example.com/media/image.jpg';
-		$image_url = $this->class_instance->generate( $indexable );
+		$image_url = $instance->generate( $indexable );
 		$this->assertEquals( $expected, $image_url );
 	}
 
 	/**
-	 * Tests retrieving the social image when the twitter_image has been set.
+	 * Tests generating the Twitter image url by retrieving an attachment image.
 	 *
-	 * @covers ::retrieve_social_image
+	 * @covers ::generate
 	 */
-	public function test_retrieve_social_image_with_twitter_image_set() {
+	public function test_generate_retrieve_attachment_image() {
 		$indexable                = new Indexable();
 		$indexable->twitter_image = 'https://example.com/media/image.jpg';
 
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->andReturn( false );
+
+		$instance = Mockery::mock( Twitter_Image_Presenter::class )
+			->makePartial()
+			->shouldAllowMockingProtectedMethods();
+
+		$instance->shouldReceive( 'retrieve_social_image' )->andReturnFalse();
+
+		$instance
+			->shouldReceive( 'retrieve_attachment_image' )
+			->with( $indexable->object_id )
+			->once()
+			->andReturn( 'https://example.com/media/image.jpg' );
+
 		$expected = 'https://example.com/media/image.jpg';
-		$image_url = $this->class_instance->retrieve_social_image( $indexable );
+
+		$image_url = $instance->generate( $indexable );
 		$this->assertEquals( $expected, $image_url );
 	}
 
 	/**
-	 * Tests retrieving the social image when the og_image has been set, but the twitter_image hasn't.
+	 * Tests generating the Twitter image url by retrieving a featured image.
 	 *
-	 * @covers ::retrieve_social_image
-	 *
-	 * @todo make this work!
+	 * @covers ::generate
 	 */
-	public function _test_retrieve_social_image_with_og_image_set() {
-		$indexable           = new Indexable();
-		$indexable->og_image = 'https://example.com/media/image.jpg';
+	public function test_generate_retrieve_featured_image() {
+		$indexable                = new Indexable();
+		$indexable->twitter_image = 'https://example.com/media/image.jpg';
 
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->andReturn( false );
+
+		$instance = Mockery::mock( Twitter_Image_Presenter::class )
+						   ->makePartial()
+						   ->shouldAllowMockingProtectedMethods();
+
+		$instance->shouldReceive( 'retrieve_social_image' )->andReturnFalse();
+		$instance->shouldReceive( 'retrieve_attachment_image' )->andReturnFalse();
+
+		$instance
+			->shouldReceive( 'retrieve_featured_image' )
+			->with( $indexable->object_id )
+			->once()
+			->andReturn( 'https://example.com/media/image.jpg' );
 
 		$expected = 'https://example.com/media/image.jpg';
-		$image_url = $this->class_instance->retrieve_social_image( $indexable );
+
+		$image_url = $instance->generate( $indexable );
 		$this->assertEquals( $expected, $image_url );
 	}
 
 	/**
-	 * Tests retrieving the social image when the og_image and twitter_image both haven't been set.
+	 * Tests generating the Twitter image url by retrieving a gallery image.
 	 *
-	 * @covers ::retrieve_social_image
+	 * @covers ::generate
 	 */
-	public function test_retrieve_social_image_with_no_twitter_image_and_og_image_set() {
-		$indexable           = new Indexable();
+	public function test_generate_retrieve_gallery_image() {
+		$indexable                = new Indexable();
+		$indexable->twitter_image = 'https://example.com/media/image.jpg';
 
-		$image_url = $this->class_instance->retrieve_social_image( $indexable );
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->andReturn( false );
+
+		$instance = Mockery::mock( Twitter_Image_Presenter::class )
+						   ->makePartial()
+						   ->shouldAllowMockingProtectedMethods();
+
+		$instance->shouldReceive( 'retrieve_social_image' )->andReturnFalse();
+		$instance->shouldReceive( 'retrieve_attachment_image' )->andReturnFalse();
+		$instance->shouldReceive( 'retrieve_featured_image' )->andReturnFalse();
+
+		$instance
+			->shouldReceive( 'retrieve_gallery_image' )
+			->with( $indexable->object_id )
+			->once()
+			->andReturn( 'https://example.com/media/image.jpg' );
+
+		$expected = 'https://example.com/media/image.jpg';
+
+		$image_url = $instance->generate( $indexable );
+		$this->assertEquals( $expected, $image_url );
+	}
+
+	/**
+	 * Tests generating the Twitter image url by retrieving a content image.
+	 *
+	 * @covers ::generate
+	 */
+	public function test_generate_retrieve_content_image() {
+		$indexable                = new Indexable();
+		$indexable->twitter_image = 'https://example.com/media/image.jpg';
+
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->andReturn( false );
+
+		$instance = Mockery::mock( Twitter_Image_Presenter::class )
+						   ->makePartial()
+						   ->shouldAllowMockingProtectedMethods();
+
+		$instance->shouldReceive( 'retrieve_social_image' )->andReturnFalse();
+		$instance->shouldReceive( 'retrieve_attachment_image' )->andReturnFalse();
+		$instance->shouldReceive( 'retrieve_featured_image' )->andReturnFalse();
+		$instance->shouldReceive( 'retrieve_gallery_image' )->andReturnFalse();
+
+		$instance
+			->shouldReceive( 'retrieve_content_image' )
+			->with( $indexable->object_id )
+			->once()
+			->andReturn( 'https://example.com/media/image.jpg' );
+
+		$expected = 'https://example.com/media/image.jpg';
+
+		$image_url = $instance->generate( $indexable );
+		$this->assertEquals( $expected, $image_url );
+	}
+
+	/**
+	 * Tests generating the Twitter image url by retrieving a default image.
+	 *
+	 * @covers ::generate
+	 */
+	public function test_generate_retrieve_default_image() {
+		$indexable                = new Indexable();
+
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->andReturn( false );
+
+		$instance = Mockery::mock( Twitter_Image_Presenter::class )
+						   ->makePartial()
+						   ->shouldAllowMockingProtectedMethods();
+
+		$instance->shouldReceive( 'retrieve_social_image' )->andReturnFalse();
+		$instance->shouldReceive( 'retrieve_attachment_image' )->andReturnFalse();
+		$instance->shouldReceive( 'retrieve_featured_image' )->andReturnFalse();
+		$instance->shouldReceive( 'retrieve_gallery_image' )->andReturnFalse();
+		$instance->shouldReceive( 'retrieve_content_image' )->andReturnFalse();
+
+		$instance
+			->shouldReceive( 'retrieve_default_image' )
+			->once()
+			->andReturn( 'https://example.com/media/image.jpg' );
+
+		$expected = 'https://example.com/media/image.jpg';
+
+		$image_url = $instance->generate( $indexable );
+		$this->assertEquals( $expected, $image_url );
+	}
+
+	/**
+	 * Tests generating the Twitter image url when there isn't any url.
+	 *
+	 * @covers ::generate
+	 */
+	public function test_generate_return_empty_string() {
+		$indexable                = new Indexable();
+
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->andReturn( false );
+
+		$instance = Mockery::mock( Twitter_Image_Presenter::class )
+						   ->makePartial()
+						   ->shouldAllowMockingProtectedMethods();
+
+		$instance->shouldReceive( 'retrieve_social_image' )->andReturnFalse();
+		$instance->shouldReceive( 'retrieve_attachment_image' )->andReturnFalse();
+		$instance->shouldReceive( 'retrieve_featured_image' )->andReturnFalse();
+		$instance->shouldReceive( 'retrieve_gallery_image' )->andReturnFalse();
+		$instance->shouldReceive( 'retrieve_content_image' )->andReturnFalse();
+		$instance->shouldReceive( 'retrieve_default_image' )->andReturnFalse();
+
+		$image_url = $instance->generate( $indexable );
 		$this->assertEmpty( $image_url );
 	}
 
@@ -227,15 +381,15 @@ class Twitter_Image_Presenter_Test extends TestCase {
 			->once()
 			->andReturn( true );
 		Monkey\Functions\expect( 'apply_filters' )
-			->with ( 'wpseo_twitter_image_size', 'full' )
+			->with( 'wpseo_twitter_image_size', 'full' )
 			->once()
 			->andReturn( 'full' );
-		Monkey\Functions\expect ( 'get_post_thumbnail_id' )
+		Monkey\Functions\expect( 'get_post_thumbnail_id' )
 			->with( $this->mock_post->ID )
 			->once()
 			->andReturn( 11 );
 		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
-			->with ( 11, 'full' )
+			->with( 11, 'full' )
 			->once()
 			->andReturn( [ 'https://example.com/media/image.jpg', '100px', '200px', false ] );
 
@@ -255,15 +409,15 @@ class Twitter_Image_Presenter_Test extends TestCase {
 			->once()
 			->andReturn( true );
 		Monkey\Functions\expect( 'apply_filters' )
-			->with ( 'wpseo_twitter_image_size', 'full' )
+			->with( 'wpseo_twitter_image_size', 'full' )
 			->once()
 			->andReturn( 'full' );
-		Monkey\Functions\expect ( 'get_post_thumbnail_id' )
+		Monkey\Functions\expect( 'get_post_thumbnail_id' )
 			->with( $this->mock_post->ID )
 			->once()
 			->andReturn( 11 );
 		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
-			->with ( 11, 'full' )
+			->with( 11, 'full' )
 			->once()
 			->andReturn( false );
 
@@ -345,11 +499,11 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	public function test_retrieve_content_image() {
 		$expected = 'https://example.com/media/content_image.jpg';
 
-		\Mockery::mock('alias:WPSEO_Image_Utils')
-			->shouldReceive('get_first_usable_content_image_for_post')
+		\Mockery::mock( 'alias:WPSEO_Image_Utils' )
+			->shouldReceive( 'get_first_usable_content_image_for_post' )
 			->with( $this->mock_post->ID )
 			->once()
-			->andReturn($expected);
+			->andReturn( $expected );
 
 		$image_url = $this->class_instance->retrieve_content_image( $this->mock_post->ID );
 		$this->assertEquals( $expected, $image_url );
@@ -361,11 +515,11 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	 * @covers ::retrieve_content_image
 	 */
 	public function test_retrieve_content_image_no_image_in_content() {
-		\Mockery::mock('alias:WPSEO_Image_Utils')
-			->shouldReceive('get_first_usable_content_image_for_post')
+		\Mockery::mock( 'alias:WPSEO_Image_Utils' )
+			->shouldReceive( 'get_first_usable_content_image_for_post' )
 			->with( $this->mock_post->ID )
 			->once()
-			->andReturn(null);
+			->andReturn( null );
 
 		$image_url = $this->class_instance->retrieve_content_image( $this->mock_post->ID );
 		$this->assertEmpty( $image_url );
