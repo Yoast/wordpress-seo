@@ -15,6 +15,15 @@ use Yoast\WP\Free\Models\Indexable;
 abstract class Abstract_Twitter_Image_Presenter implements Presenter_Interface {
 
 	/**
+	 * Generates the Twitter image for an indexable.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return string The Twitter image.
+	 */
+	abstract public function generate( Indexable $indexable );
+
+	/**
 	 * Returns the Twitter image meta tag for a post.
 	 *
 	 * @param Indexable $indexable The indexable.
@@ -77,13 +86,4 @@ abstract class Abstract_Twitter_Image_Presenter implements Presenter_Interface {
 
 		return $twitter_image;
 	}
-
-	/**
-	 * Generates the Twitter image for an indexable.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return string The Twitter image.
-	 */
-	abstract protected function generate( Indexable $indexable );
 }
