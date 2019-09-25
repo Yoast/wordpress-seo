@@ -128,6 +128,9 @@
 	<rule ref="PHPCompatibility.FunctionUse.NewFunctions.array_columnFound">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
+	<rule ref="PHPCompatibility.FunctionDeclarations.NewClosure.ThisFound">
+	    <exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
 
 	<!-- These usages of PHP > 5.2 code are surrounded by the correct safeguards. -->
 	<rule ref="PHPCompatibility.FunctionUse.NewFunctionParameters.parse_ini_file_scanner_modeFound">

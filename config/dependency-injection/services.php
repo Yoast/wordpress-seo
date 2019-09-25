@@ -9,10 +9,6 @@ namespace Yoast\WP\Free\Dependency_Injection;
 
 use Symfony\Component\DependencyInjection\Definition;
 use WPSEO_Replace_Vars;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\Repositories\Primary_Term_Repository;
-use Yoast\WP\Free\Repositories\SEO_Links_Repository;
-use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
 use Yoast\WP\Free\WordPress\Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -21,16 +17,11 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 // WordPress factory functions.
 $container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb' ] );
 
-// Legacy classes
+// Legacy classes.
 $container->register( WPSEO_Replace_Vars::class, WPSEO_Replace_Vars::class )->setFactory( [ Wrapper::class, 'get_replace_vars' ] );
 
-// Model repository factory functions.
-$container->register( Indexable_Repository::class, Indexable_Repository::class )->setFactory( [ Indexable_Repository::class, 'get_instance' ] )->setAutowired( true );
-$container->register( Primary_Term_Repository::class, Primary_Term_Repository::class )->setFactory( [ Primary_Term_Repository::class, 'get_instance' ] )->setAutowired( true );
-$container->register( SEO_Meta_Repository::class, SEO_Meta_Repository::class )->setFactory( [ SEO_Meta_Repository::class, 'get_instance' ] )->setAutowired( true );
-$container->register( SEO_Links_Repository::class, SEO_Links_Repository::class )->setFactory( [ SEO_Links_Repository::class, 'get_instance' ] )->setAutowired( true );
-
-$container->setAlias( ContainerInterface::class, "service_container" );
+// The container itself.
+$container->setAlias( ContainerInterface::class, 'service_container' );
 
 $excluded_files = [
 	'main.php',

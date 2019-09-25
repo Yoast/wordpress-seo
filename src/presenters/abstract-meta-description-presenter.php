@@ -42,7 +42,7 @@ abstract class Abstract_Meta_Description_Presenter implements Presenter_Interfac
 		$meta_description = $this->filter( $this->replace_vars( $this->generate( $indexable ), $indexable ) );
 
 		if ( is_string( $meta_description ) && $meta_description !== '' ) {
-			return '<meta name="description" content="' . \esc_attr( \wp_strip_all_tags( \stripslashes( $meta_description ) ) ) . '"/>' . "\n";
+			return '<meta name="description" content="' . \esc_attr( \wp_strip_all_tags( \stripslashes( $meta_description ) ) ) . '"/>';
 		}
 
 		if ( \current_user_can( 'wpseo_manage_options' ) ) {
@@ -53,7 +53,7 @@ abstract class Abstract_Meta_Description_Presenter implements Presenter_Interfac
 					\esc_html__( 'SEO', 'wordpress-seo' ),
 					\esc_html__( 'Search Appearance', 'wordpress-seo' )
 				) .
-				 ' -->' . "\n";
+				 ' -->';
 		}
 
 		return '';

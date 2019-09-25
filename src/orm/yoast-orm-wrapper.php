@@ -31,11 +31,6 @@ use YoastSEO_Vendor\ORM;
 class ORMWrapper extends ORM {
 
 	/**
-	 * @var array
-	 */
-	public static $repositories = [];
-
-	/**
 	 * The wrapped find_one and find_many classes will return an instance or
 	 * instances of this class.
 	 *
@@ -110,11 +105,6 @@ class ORMWrapper extends ORM {
 	 */
 	public static function for_table( $table_name, $connection_name = parent::DEFAULT_CONNECTION ) {
 		static::_setup_db( $connection_name );
-
-		if ( self::$repositories[ $table_name ] ) {
-			return new self::$repositories[ $table_name ]( $table_name, [], $connection_name );
-		}
-
 		return new static( $table_name, [], $connection_name );
 	}
 

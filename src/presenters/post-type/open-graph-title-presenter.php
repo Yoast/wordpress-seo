@@ -1,20 +1,20 @@
 <?php
 /**
- * Presenter of the meta description for post type singles.
+ * Presenter of the OpenGraph title for post type singles.
  *
  * @package Yoast\YoastSEO\Presenters
  */
 
-namespace Yoast\WP\Free\Presenters\Term_Archive;
+namespace Yoast\WP\Free\Presenters\Post_Type;
 
-use WPSEO_Options;
 use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Presenters\Abstract_Meta_Description_Presenter;
+use Yoast\WP\Free\Presenters\Abstract_Open_Graph_Title_Presenter;
 
 /**
- * Class Meta_Description_Presenter
+ * Class OpenGraph_Title_Presenter
  */
-class Meta_Description_Presenter extends Abstract_Meta_Description_Presenter {
+class Open_Graph_Title_Presenter extends Abstract_Open_Graph_Title_Presenter {
+
 	/**
 	 * Generates the meta description for an indexable.
 	 *
@@ -23,11 +23,11 @@ class Meta_Description_Presenter extends Abstract_Meta_Description_Presenter {
 	 * @return string The meta description.
 	 */
 	protected function generate( Indexable $indexable ) {
-		if ( $indexable->description ) {
-			return $indexable->description;
+		if ( $indexable->og_title ) {
+			return $indexable->og_title;
 		}
 
-		return WPSEO_Options::get( 'metadesc-tax-' . $indexable->object_sub_type );
+		return $this->title_presenter->present( $indexable );
 	}
 
 	/**
@@ -38,6 +38,6 @@ class Meta_Description_Presenter extends Abstract_Meta_Description_Presenter {
 	 * @return array A key => value array of variables that may be replaced.
 	 */
 	protected function get_replace_vars_object( Indexable $indexable ) {
-		return get_term( $indexable->object_id, $indexable->object_sub_type );
+		return \get_post( $indexable->object_id );
 	}
 }
