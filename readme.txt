@@ -218,6 +218,7 @@ Other:
 
 * Changes all mentions of the Yoast SEO for WordPress training, which is now free.
 * Combines the 'Newsletter' and 'You might like' steps in the configuration wizard to a step called 'Continue learning'.
+* Removes the colon from the form labels at the settings pages.
 
 = 12.1.0 =
 Release Date: September 17th, 2019
