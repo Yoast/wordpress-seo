@@ -33,7 +33,7 @@ class Twitter_Image_Presenter extends Abstract_Twitter_Image_Presenter {
 			return $image_url;
 		}
 
-		// When image is empty just retrieve the sidewide default.
+		// When image is empty just retrieve the sitewide default.
 		return $this->retrieve_default_image();
 	}
 
