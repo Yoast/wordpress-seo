@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Presenters;
 
+use WPSEO_Options;
 use Yoast\WP\Free\Models\Indexable;
 
 /**
@@ -53,6 +54,47 @@ abstract class Abstract_Twitter_Image_Presenter implements Presenter_Interface {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Retrieves the site wide default image/
+	 *
+	 * @return string The image url or an empty string when not found.
+	 */
+	protected function retrieve_default_image() {
+		if ( $this->opengraph_enabled() !== true ) {
+			return '';
+		}
+
+		return (string) WPSEO_Options::get( 'og_default_image', '' );
+	}
+
+	/**
+	 * Retrieves twitter_image from the indexable. If not available, defaults to og_image.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return string The image url or an empty string when not found.
+	 */
+	protected function retrieve_social_image( Indexable $indexable ) {
+		if ( $indexable->twitter_image ) {
+			return $indexable->twitter_image;
+		}
+
+		if ( $indexable->og_image && $this->opengraph_enabled() ) {
+			return $indexable->og_image;
+		}
+
+		return '';
+	}
+
+	/**
+	 * Checks if the opengraph feature is enabled.
+	 *
+	 * @return bool True when enabled.
+	 */
+	protected function opengraph_enabled() {
+		return WPSEO_Options::get( 'opengraph' ) === true;
 	}
 
 	/**
