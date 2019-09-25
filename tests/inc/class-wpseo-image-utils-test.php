@@ -71,8 +71,8 @@ class Image_Utils_Test extends TestCase {
 	/**
 	 * Test to run with a provider for the get_first_image method.
 	 *
-	 * @param mixed $images   The images to get first image from.
-	 * @param mixed $expected The expected value.
+	 * @param mixed  $images   The images to get first image from.
+	 * @param mixed  $expected The expected value.
 	 * @param string $message The message to show when the test fails.
 	 *
 	 * @covers ::get_first_image
@@ -105,13 +105,13 @@ class Image_Utils_Test extends TestCase {
 			[
 				'images'   => 'example_string',
 				'expected' => null,
-				'message'  => 'Test whether null is returned when the argument to the get_first_image function is not an array.' ,
+				'message'  => 'Test whether null is returned when the argument to the get_first_image function is not an array.',
 			],
 			[
 				'images'   => [],
 				'expected' => null,
-				'message'  => 'Test whether null is returned when the array is empty.'
-			]
+				'message'  => 'Test whether null is returned when the array is empty.',
+			],
 		];
 	}
 }

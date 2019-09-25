@@ -59,7 +59,7 @@ class Post_Metabox_Formatter_Test extends TestCase {
 			->andReturn( 123 );
 		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
 			->once()
-			->andReturn(  [ 'https://example.com/media/featured_image.jpg' ] );
+			->andReturn( [ 'https://example.com/media/featured_image.jpg' ] );
 
 		$url = $this->instance->get_image_url();
 
@@ -103,7 +103,7 @@ class Post_Metabox_Formatter_Test extends TestCase {
 			->andReturn( 123 );
 		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
 			->once()
-			->andReturn(  [ 'https://example.com/media/featured_image.jpg' ] );
+			->andReturn( [ 'https://example.com/media/featured_image.jpg' ] );
 		Monkey\Functions\expect( 'get_post' )
 			->andReturn( $this->mock_post );
 
