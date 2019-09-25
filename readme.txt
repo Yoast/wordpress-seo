@@ -214,6 +214,11 @@ Bugfixes:
 
 * Fixes a bug where the banners in the sidebar were no longer responsive.
 
+Other:
+
+* Changes all mentions of the Yoast SEO for WordPress training, which is now free.
+* Combines the 'Newsletter' and 'You might like' steps in the configuration wizard to a step called 'Continue learning'.
+
 = 12.1.0 =
 Release Date: September 17th, 2019
 
