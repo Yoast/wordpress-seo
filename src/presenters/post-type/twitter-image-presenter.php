@@ -24,7 +24,7 @@ class Twitter_Image_Presenter extends Abstract_Twitter_Image_Presenter {
 	 *
 	 * @return string The Twitter image url.
 	 */
-	protected function generate( Indexable $indexable ) {
+	public function generate( Indexable $indexable ) {
 		if ( \post_password_required() ) {
 			return '';
 		}
