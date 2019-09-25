@@ -13,6 +13,7 @@ use Yoast\WP\Free\Builders\Indexable_Post_Builder;
 use Yoast\WP\Free\Builders\Indexable_Term_Builder;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Loggers\Logger;
+use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\ORM\Yoast_Model;
 
 /**
@@ -101,7 +102,7 @@ class Indexable_Repository {
 			case $this->current_page_helper->is_home_static_page():
 				return $this->find_by_id_and_type( $this->current_page_helper->get_front_page_id(), 'post' );
 			case $this->current_page_helper->is_home_posts_page():
-				return $this->find_home_page();
+				return $this->find_for_home_page();
 			case $this->current_page_helper->is_term_archive():
 				return $this->find_by_id_and_type( $this->current_page_helper->get_term_id(), 'term' );
 		}
@@ -132,7 +133,7 @@ class Indexable_Repository {
 	 *
 	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
 	 */
-	public function find_home_page( $auto_create = true ) {
+	public function find_for_home_page( $auto_create = true ) {
 		/**
 		 * Indexable instance.
 		 *
@@ -141,8 +142,7 @@ class Indexable_Repository {
 		$indexable = $this->query()->where( 'object_type', 'home-page' )->find_one();
 
 		if ( $auto_create && ! $indexable ) {
-			$indexable = $this->query()->create( [ 'object_type' => 'home-page' ] );
-			$indexable = $this->home_page_builder->build( $indexable );
+			$indexable = $this->create_for_home_page();
 		}
 
 		return $indexable;
@@ -237,6 +237,19 @@ class Indexable_Repository {
 			),
 			\get_object_vars( $indexable )
 		);
+
+		$indexable->save();
+		return $indexable;
+	}
+
+	/**
+	 * Creates an indexable for the homepage.
+	 *
+	 * @return Indexable The home page indexable.
+	 */
+	public function create_for_home_page() {
+		$indexable = $this->query()->create( [ 'object_type' => 'home-page' ] );
+		$indexable = $this->home_page_builder->build( $indexable );
 
 		$indexable->save();
 		return $indexable;

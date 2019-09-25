@@ -8,7 +8,7 @@
 namespace Yoast\WP\Free\Builders;
 
 /**
- * Formats the term meta to indexable format.
+ * Formats the author meta to indexable format.
  */
 class Indexable_Author_Builder {
 

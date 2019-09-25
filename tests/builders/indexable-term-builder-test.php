@@ -35,9 +35,9 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build() {
-		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( (object) [ 'taxonomy' => 'category' ] );
-		Monkey\Functions\expect( 'get_term_by' )->once()->with( 'id', 1, 'category' )->andReturn( (object) [ 'term_id' => 1 ] );
+		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( (object) [ 'taxonomy' => 'category', 'term_id' => 1 ] );
 		Monkey\Functions\expect( 'get_term_link' )->once()->with( 1, 'category' )->andReturn( 'https://example.org/category/1' );
+		Monkey\Functions\expect( 'is_wp_error' )->twice()->andReturn( false );
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'wpseo_taxonomy_meta' )->andReturn(
 			[
 				'category' => [
