@@ -52,6 +52,7 @@ use Yoast\WP\Free\ORM\Yoast_Model;
  * @property string  $twitter_title
  * @property string  $twitter_description
  * @property string  $twitter_image
+ * @property string  $twitter_card
  */
 class Indexable extends Yoast_Model {
 
