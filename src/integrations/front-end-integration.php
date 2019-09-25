@@ -102,7 +102,6 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var array
 	 */
 	protected $singular_presenters = [
-		'Open_Graph_Author',
 		'Open_Graph_Article_Author',
 		'Open_Graph_Article_Publisher',
 		'Open_Graph_Article_Publish_Time',
@@ -230,23 +229,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return array
 	 */
 	private function get_needed_presenters( $page_type ) {
-		$presenters = $this->base_presenters;
-		if ( WPSEO_Options::get( 'opengraph' ) === true ) {
-			$presenters = array_merge( $presenters, $this->open_graph_presenters );
-		}
-		if ( WPSEO_Options::get( 'twitter' ) === true ) {
-			$presenters = array_merge( $presenters, $this->twitter_card_presenters );
-		}
-		$presenters = array_merge( $presenters, $this->closing_presenters );
-
-		// Filter out the presenters only needed for singular pages on non-singular pages.
-		if ( $page_type !== 'Post_Type' ) {
-			$presenters = array_diff( $presenters, $this->singular_presenters );
-		}
-
-		if ( $page_type === 'Error_Page' ) {
-			$presenters = array_merge( $this->base_presenters, $this->closing_presenters );
-		}
+		$presenters = $this->get_presenters_for_page_type( $page_type );
 
 		/**
 		 * Filter 'wpseo_frontend_presenters' - Allow filtering presenters in or out of the request.
@@ -257,4 +240,42 @@ class Front_End_Integration implements Integration_Interface {
 
 		return $presenters;
 	}
+
+	/**
+	 * Filters the presenters based on the page type.
+	 *
+	 * @param string $page_type  The page type.
+	 *
+	 * @return array The array of presenters.
+	 */
+	private function get_presenters_for_page_type( $page_type ) {
+		if ( $page_type === 'Error_Page' ) {
+			return array_merge( $this->base_presenters, $this->closing_presenters );
+		}
+
+		$presenters = $this->get_all_presenters();
+		// Filter out the presenters only needed for singular pages on non-singular pages.
+		if ( $page_type !== 'Post_Type' ) {
+			$presenters = array_diff( $presenters, $this->singular_presenters );
+		}
+
+		return $presenters;
+	}
+
+	/**
+	 * Returns a list of all available presenters based on settings.
+	 *
+	 * @return array Array of presenters.
+	 */
+	private function get_all_presenters() {
+		$presenters = $this->base_presenters;
+		if ( WPSEO_Options::get( 'opengraph' ) === true ) {
+			$presenters = array_merge( $presenters, $this->open_graph_presenters );
+		}
+		if ( WPSEO_Options::get( 'twitter' ) === true ) {
+			$presenters = array_merge( $presenters, $this->twitter_card_presenters );
+		}
+		return array_merge( $presenters, $this->closing_presenters );
+	}
+
 }
