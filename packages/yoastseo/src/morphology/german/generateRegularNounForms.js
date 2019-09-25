@@ -1,3 +1,5 @@
+import { removeSuffixesBeforeAdding } from "../morphoHelpers/suffixHelpers";
+
 /**
  * Adds suffixes to the list of regular suffixes.
  *
@@ -22,29 +24,6 @@ const addSuffixesToRegulars = function( morphologyDataSuffixAdditions, regularSu
 };
 
 /**
- * Deletes suffixes from the list of regular suffixes.
- *
- * @param {Object}          morphologyDataSuffixDeletions   The German data for suffix deletions.
- * @param {Array<string>}   regularSuffixes                 All regular suffixes for German.
- * @param {string}          stemmedWordToCheck              The stem to check.
- *
- * @returns {Array<string>} The modified list of regular suffixes.
- */
-const removeSuffixesFromRegulars = function( morphologyDataSuffixDeletions, regularSuffixes, stemmedWordToCheck ) {
-	for ( const key of Object.keys( morphologyDataSuffixDeletions ) ) {
-		const endingsToCheck = morphologyDataSuffixDeletions[ key ][ 0 ];
-		const suffixesToDelete = morphologyDataSuffixDeletions[ key ][ 1 ];
-
-		// Delete from the regular suffixes if one of the endings match.
-		if ( endingsToCheck.some( ending => stemmedWordToCheck.endsWith( ending ) ) ) {
-			regularSuffixes = regularSuffixes.filter( ending => ! suffixesToDelete.includes( ending ) );
-		}
-	}
-
-	return regularSuffixes;
-};
-
-/**
  * Adds or removes suffixes from the list of regulars depending on the ending of the stem checked.
  *
  * @param {Object}          morphologyDataNouns The German morphology data for nouns.
@@ -58,7 +37,7 @@ const modifyListOfRegularSuffixes = function( morphologyDataNouns, regularSuffix
 	const deletions = morphologyDataNouns.regularSuffixDeletions;
 
 	regularSuffixes = addSuffixesToRegulars( additions, regularSuffixes, stemmedWordToCheck );
-	regularSuffixes = removeSuffixesFromRegulars( deletions, regularSuffixes, stemmedWordToCheck );
+	regularSuffixes = removeSuffixesBeforeAdding( deletions, regularSuffixes, stemmedWordToCheck );
 
 	return regularSuffixes;
 };
