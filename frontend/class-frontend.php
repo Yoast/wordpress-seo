@@ -154,7 +154,7 @@ class WPSEO_Frontend {
 			new WPSEO_Frontend_Primary_Category(),
 			new WPSEO_Schema(),
 			new WPSEO_Handle_404(),
-			//new WPSEO_Remove_Reply_To_Com(), HAS BEEN MOVED TO SRC DIRECTORY!
+			// new WPSEO_Remove_Reply_To_Com(), HAS BEEN MOVED TO SRC DIRECTORY!
 			new WPSEO_OpenGraph_OEmbed(),
 			$this->woocommerce_shop_page,
 		);

@@ -54,5 +54,5 @@ abstract class Abstract_Robots_Presenter implements Presenter_Interface {
 	 *
 	 * @return string The robots output.
 	 */
-	protected abstract function generate( Indexable $indexable );
+	public abstract function generate( Indexable $indexable );
 }
