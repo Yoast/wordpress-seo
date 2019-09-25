@@ -28,7 +28,7 @@ abstract class Abstract_Open_Graph_Title_Presenter implements Presenter_Interfac
 	/**
 	 * @required
 	 *
-	 * @param Title_Presenter $title_presenter
+	 * @param Title_Presenter $title_presenter Title presenter.
 	 */
 	public function set_title_presenter( Title_Presenter $title_presenter ) {
 		$this->title_presenter = $title_presenter;

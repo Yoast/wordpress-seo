@@ -92,7 +92,6 @@ class WPSEO_Frontend {
 	protected function __construct() {
 
 		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
-//		add_action( 'wp_head', array( $this, 'head' ), 1 );
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality.
 		add_action( 'wpseo_head', array( $this, 'debug_mark' ), 2 );
