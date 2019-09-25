@@ -43,6 +43,7 @@ abstract class TestCase extends BaseTestCase {
 				'esc_html__'          => null,
 				'esc_html_x'          => null,
 				'esc_attr_x'          => null,
+				'esc_url'             => null,
 				'esc_url_raw'         => null,
 				'sanitize_text_field' => null,
 				'is_admin'            => false,

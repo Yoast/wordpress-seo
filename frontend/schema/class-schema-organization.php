@@ -102,12 +102,12 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 		}
 
 		/**
-		 * Filter: 'yoast_free_schema_organization_social_profiles' - Allows filtering social profiles for the
+		 * Filter: 'wpseo_schema_organization_social_profiles' - Allows filtering social profiles for the
 		 * represented organization.
 		 *
 		 * @api string[] $profiles
 		 */
-		$profiles = apply_filters( 'yoast_free_schema_organization_social_profiles', $profiles );
+		$profiles = apply_filters( 'wpseo_schema_organization_social_profiles', $profiles );
 
 		return $profiles;
 	}
