@@ -32,6 +32,13 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	protected $endpoint = '';
 
 	/**
+	 * The current time.
+	 *
+	 * @var int
+	 */
+	private $current_time;
+
+	/**
 	 * Constructor setting the threshold.
 	 *
 	 * @param string $endpoint  The endpoint to send the data to.
@@ -40,6 +47,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	public function __construct( $endpoint, $threshold ) {
 		$this->endpoint  = $endpoint;
 		$this->threshold = $threshold;
+		$this->current_time = time();
 	}
 
 	/**
@@ -63,13 +71,11 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 		$request->set_body( $collector->get_as_json() );
 		$request->send();
 
-		update_option( $this->option_name, $current_time, 'yes' );
+		update_option( $this->option_name, $this->current_time, 'yes' );
 	}
 
 	/**
 	 * Returns true when last tracking data was send more than two weeks ago.
-	 *
-	 * @param int $current_time The current timestamp.
 	 *
 	 * @return bool True when tracking data should be send.
 	 */
@@ -90,7 +96,6 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 			return false;
 		}
 
-		$current_time = time();
 		$last_time = get_option( $this->option_name );
 
 		// When there is no data being set.
@@ -98,7 +103,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 			return true;
 		}
 
-		return $this->exceeds_treshhold( $current_time - $last_time );
+		return $this->exceeds_treshhold( $this->current_time - $last_time );
 	}
 
 	/**
