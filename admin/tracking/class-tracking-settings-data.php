@@ -15,12 +15,28 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 	 * anonimized before they can be sent elsewhere.
 	 */
 	private $anonymous_settings = array(
-		"baiduverify", "googleverify", "msverify", "yandexverify", "website_name",
-		"alternate_website_name", "company_logo", "company_name", "person_name",
-		"person_logo", "person_logo_id", "company_logo_id", "facebook_site",
-		"instagram_url", "linkedin_url", "myspace_url", "pinterest_url",
-		"pinterestverify", "twitter_site", "youtube_url", "wikipedia_url",
-		"fbadminapp",
+		'baiduverify',
+		'googleverify',
+		'msverify',
+		'yandexverify',
+		'website_name',
+		'alternate_website_name',
+		'company_logo',
+		'company_name',
+		'person_name',
+		'person_logo',
+		'person_logo_id',
+		'company_logo_id',
+		'facebook_site',
+		'instagram_url',
+		'linkedin_url',
+		'myspace_url',
+		'pinterest_url',
+		'pinterestverify',
+		'twitter_site',
+		'youtube_url',
+		'wikipedia_url',
+		'fbadminapp',
 	);
 
 	/**
@@ -42,8 +58,8 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 	 * @return array The anonymized settings.
 	 */
 	private function anonymize_settings( $settings ) {
-		foreach( $this->anonymous_settings as $setting ) {
-			if ( ! empty ( $settings[ $setting ] ) ) {
+		foreach ( $this->anonymous_settings as $setting ) {
+			if ( ! empty( $settings[ $setting ] ) ) {
 				$settings[ $setting ] = 'used';
 			}
 		}
