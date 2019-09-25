@@ -17,11 +17,11 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 // WordPress factory functions.
 $container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb' ] );
 
-// Legacy classes
+// Legacy classes.
 $container->register( WPSEO_Replace_Vars::class, WPSEO_Replace_Vars::class )->setFactory( [ Wrapper::class, 'get_replace_vars' ] );
 
-// The container itself
-$container->setAlias( ContainerInterface::class, "service_container" );
+// The container itself.
+$container->setAlias( ContainerInterface::class, 'service_container' );
 
 $excluded_files = [
 	'main.php',
