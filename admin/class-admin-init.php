@@ -416,17 +416,17 @@ class WPSEO_Admin_Init {
 		/**
 		 * Calculate the next major WordPress version and convert it to a string.
 		 */
-		$latest_major_wp_version_number = floor( $latest_major_wp_version );
-		$latest_major_wp_version_decimal = $latest_major_wp_version - $latest_major_wp_version_number;
+		$latest_wp_version_number = floor( $latest_major_wp_version );
+		$latest_wp_version_decimal = $latest_major_wp_version - $latest_wp_version_number;
 
 		$next_major_wp_version = bcadd( $latest_major_wp_version, 0.1, 1 );
 
-		if ( $latest_major_wp_version_decimal == .9 ) {
+		if ( $latest_wp_version_decimal == .9 ) {
 			$next_major_wp_version = bcadd( $latest_major_wp_version, 1, 1 );
 		}
 
 		$wp_less_than_50 = version_compare( $wp_version, '5.0', '<' );
-		$wp_less_than_latest_major_version = version_compare( $wp_version, $latest_major_wp_version, '<' );
+		$wp_less_than_latest_version = version_compare( $wp_version, $latest_major_wp_version, '<' );
 
 		$notification_center = Yoast_Notification_Center::get();
 
@@ -474,7 +474,7 @@ class WPSEO_Admin_Init {
 			)
 		);
 
-		if ( $wp_less_than_latest_major_version ) {
+		if ( $wp_less_than_latest_version ) {
 			$notification_center->add_notification( $notification );
 			return;
 		}
