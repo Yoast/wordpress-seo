@@ -51,32 +51,32 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Retrieves the image url from the content.
+	 * Tests retrieving the first image url from the content.
 	 *
 	 * @covers ::retrieve_content_image
 	 */
 	public function test_retrieve_content_image() {
 		$expected = 'https://example.com/media/content_image.jpg';
 
-		$this->mock_post->post_content = 'A post with two images: <img src="https://example.com/media/content_image.jpg"/><img src="https://example.com/media/content_image_2.jpg"/>';
-
-		Monkey\Functions\expect( 'get_post' )
-			->andReturn( $this->mock_post );
+		\Mockery::mock('alias:WPSEO_Image_Utils')
+			->shouldReceive('get_first_usable_content_image_for_post')
+			->once()
+			->andReturn($expected);
 
 		$image_url = $this->class_instance->retrieve_content_image($this->mock_post->ID);
 		$this->assertEquals( $expected, $image_url );
 	}
 
 	/**
-	 * Retrieves the image url from the content.
+	 * Tests whether an empty string is returned when the content contains no image.
 	 *
 	 * @covers ::retrieve_content_image
 	 */
 	public function test_retrieve_content_image_no_image_in_content() {
-		$this->mock_post->post_content = 'A post without two images';
-
-		Monkey\Functions\expect( 'get_post' )
-			->andReturn( $this->mock_post );
+		\Mockery::mock('alias:WPSEO_Image_Utils')
+			->shouldReceive('get_first_usable_content_image_for_post')
+			->once()
+			->andReturn(null);
 
 		$image_url = $this->class_instance->retrieve_content_image($this->mock_post->ID);
 		$this->assertEmpty( $image_url );
