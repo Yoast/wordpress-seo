@@ -419,10 +419,10 @@ class WPSEO_Admin_Init {
 		$latest_major_wp_version_number = floor( $latest_major_wp_version );
 		$latest_major_wp_version_decimal = $latest_major_wp_version - $latest_major_wp_version_number;
 
+		$next_major_wp_version = bcadd( $latest_major_wp_version, 0.1, 1 );
+
 		if ( $latest_major_wp_version_decimal == .9 ) {
 			$next_major_wp_version = bcadd( $latest_major_wp_version, 1, 1 );
-		} else {
-			$next_major_wp_version = bcadd( $latest_major_wp_version, 0.1, 1 );
 		}
 
 		$wp_less_than_50 = version_compare( $wp_version, '5.0', '<' );
