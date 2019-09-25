@@ -37,7 +37,7 @@ class Image_Utils_Test extends TestCase {
 	 *
 	 * @covers ::get_first_content_image_for_term
 	 */
-	public function test_first_of_multiple_content_images_for_term() {
+	public function test_get_first_content_image_for_term() {
 
 		$term_descr =
 			'<p>This is a term description. It has several images:</p>
@@ -61,7 +61,7 @@ class Image_Utils_Test extends TestCase {
 	 *
 	 * @covers ::get_first_content_image_for_term
 	 */
-	public function test_term_id_is_null() {
+	public function test_get_first_content_image_for_term_when_null() {
 
 		$first_image = $this->instance->get_first_content_image_for_term( null );
 

@@ -56,7 +56,7 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	 *
 	 * @covers ::get_image_url
 	 */
-	public function test_description_has_no_images() {
+	public function test_get_image_url_description_has_no_images() {
 		$expected = null;
 
 		Monkey\Functions\expect( 'get_first_content_image_for_term' )
@@ -74,7 +74,7 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	 *
 	 * @covers ::get_image_url
 	 */
-	public function test_description_has_one_image() {
+	public function test_get_image_url_description_has_one_image() {
 		$expected = 'https://example.com/media/first_image.jpg';
 
 		Monkey\Functions\expect( 'get_first_content_image_for_term' )
@@ -92,7 +92,7 @@ class Term_Metabox_Formatter_Test extends TestCase {
 	 *
 	 * @covers ::get_image_url
 	 */
-	public function test_description_has_multiple_images() {
+	public function test_get_image_url_description_has_multiple_images() {
 		$expected = 'https://example.com/media/first_image.jpg';
 
 		Monkey\Functions\expect( 'get_first_content_image_for_term' )

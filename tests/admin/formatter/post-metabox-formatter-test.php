@@ -49,7 +49,7 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	 *
 	 * @covers ::get_image_url
 	 */
-	public function test_featured_image_set_content_has_no_image() {
+	public function test_get_image_url_featured_image_set_content_has_no_image() {
 		$expected = 'https://example.com/media/featured_image.jpg';
 
 		Monkey\Functions\expect( 'has_post_thumbnail' )
@@ -71,7 +71,7 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	 *
 	 * @covers ::get_image_url
 	 */
-	public function test_no_featured_image_set_content_has_multiple_images() {
+	public function test_get_image_url_no_featured_image_set_content_has_multiple_images() {
 		$expected = 'https://example.com/media/content_image.jpg';
 
 		$this->mock_post->post_content = '<img src="https://example.com/media/content_image.jpg"/><img src="https://example.com/media/content_image_2.jpg"/>';
@@ -91,7 +91,7 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	 *
 	 * @covers ::get_image_url
 	 */
-	public function test_featured_image_set_content_has_an_image() {
+	public function test_get_image_url_featured_image_set_content_has_an_image() {
 		$expected = 'https://example.com/media/featured_image.jpg';
 
 		$this->mock_post->post_content = '<img src="https://example.com/media/content_image.jpg"/><img src="https://example.com/media/content_image_2.jpg"/>';
@@ -117,7 +117,7 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	 *
 	 * @covers ::get_image_url
 	 */
-	public function test_no_featured_image_set_content_has_no_image() {
+	public function test_get_image_url_no_featured_image_set_content_has_no_image() {
 		$expected = null;
 
 		Monkey\Functions\expect( 'has_post_thumbnail' )

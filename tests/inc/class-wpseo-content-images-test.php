@@ -67,7 +67,7 @@ class Content_Images_Test extends TestCase {
 	 *
 	 * @covers ::get_images_from_content
 	 */
-	public function test_content_is_not_a_string() {
+	public function test_get_images_from_when_content_not_a_string() {
 
 		$post_content = 123;
 
