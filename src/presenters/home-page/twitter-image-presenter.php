@@ -25,7 +25,7 @@ class Twitter_Image_Presenter extends Abstract_Twitter_Image_Presenter {
 	public function generate( Indexable $indexable ) {
 		$image_url = $this->retrieve_social_image( $indexable );
 
-		// When image is empty just retrieve the sidewide default.
+		// When image is empty just retrieve the sitewide default.
 		if ( ! $image_url ) {
 			$image_url = $this->retrieve_default_image();
 		}
