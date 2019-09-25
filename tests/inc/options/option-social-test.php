@@ -7,6 +7,7 @@ use WPSEO_Option_Social;
 use Yoast\WP\Free\Tests\Doubles\Inc\Options\Option_Social_Double;
 use Yoast\WP\Free\Tests\TestCase;
 use WPSEO_Utils;
+use Yoast_Input_Validation;
 
 /**
  * Unit Test Class.
@@ -49,16 +50,31 @@ class Option_Social_Test extends TestCase {
 	 * @covers WPSEO_Option_Social::validate_option
 	 */
 	public function test_validate_option_with_invalid_data( $expected, $dirty, $clean, $old, $slug_name ) {
+		$message = "<strong>{$dirty[ $slug_name ]}</strong> does not seem to be a valid url. Please correct.";
+
 		Monkey\Functions\expect( 'add_settings_error' )
 			->once()
-			->with( 'yoast_wpseo_social_options', $slug_name, "<strong>{$dirty[ $slug_name ]}</strong> does not seem to be a valid url. Please correct.", 'notice-error' );
+			->with( 'yoast_wpseo_social_options', $slug_name, $message, 'notice-error' );
 
 		$instance = new Option_Social_Double();
+
+		$GLOBALS['wp_settings_errors'] = [
+			[
+				'setting' => 'yoast_wpseo_social_options',
+				'code'    => $slug_name,
+				'message' => $message,
+				'type'    => 'notice-error',
+			],
+		];
+
+		Yoast_Input_Validation::add_dirty_value_to_settings_errors( $slug_name, 'Invalid submitted value' );
 
 		$this->assertEquals(
 			$expected,
 			$instance->validate_option( $dirty, $clean, $old )
 		);
+
+		unset( $GLOBALS['wp_settings_errors'] );
 	}
 
 	/**
@@ -141,24 +157,6 @@ class Option_Social_Test extends TestCase {
 				'slug_name' => 'youtube_url',
 			),
 		);
-	}
-
-	/**
-	 * Tests that submitting an option with an invalid URL adds a WordPress settings error notice.
-	 *
-	 * @covers WPSEO_Option_Social::validate_url
-	 */
-	public function test_validate_url_adds_settings_error() {
-		$instance = new Option_Social_Double();
-
-		Monkey\Functions\expect( 'add_settings_error' )
-			->once()
-			->with( 'yoast_wpseo_social_options', 'instagram_url', '<strong>invalidurl</strong> does not seem to be a valid url. Please correct.', 'notice-error' );
-
-		$clean = array( 'instagram_url' => '' );
-		$dirty = array( 'instagram_url' => 'invalidurl' );
-
-		$instance->validate_url( 'instagram_url', $dirty, '', $clean );
 	}
 
 	/**
