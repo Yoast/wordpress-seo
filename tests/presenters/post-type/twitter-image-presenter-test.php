@@ -52,12 +52,50 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the generate function when a password is required.
+	 *
+	 * @covers ::generate
+	 */
+	public function test_generate_password_required() {
+		$indexable = new Indexable();
+
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->andReturn( true );
+
+		$image_url = $this->class_instance->generate( $indexable );
+		$this->assertEmpty( $image_url );
+	}
+
+	/**
+	 * Tests generating the Twitter image url by retrieving a social image.
+	 *
+	 * @covers ::generate
+	 */
+	public function test_generate_retrieve_social_image() {
+		$indexable                = new Indexable();
+		$indexable->twitter_image = 'https://example.com/media/image.jpg';
+
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->andReturn( false );
+		Monkey\Functions\expect( 'retrieve_social_image' )
+			->with( $indexable )
+			//->once()
+			->andReturn( 'https://example.com/media/image.jpg' );
+
+		$expected = 'https://example.com/media/image.jpg';
+		$image_url = $this->class_instance->generate( $indexable );
+		$this->assertEquals( $expected, $image_url );
+	}
+
+	/**
 	 * Tests retrieving the social image when the twitter_image has been set.
 	 *
 	 * @covers ::retrieve_social_image
 	 */
 	public function test_retrieve_social_image_with_twitter_image_set() {
-		$indexable                    = new Indexable();
+		$indexable                = new Indexable();
 		$indexable->twitter_image = 'https://example.com/media/image.jpg';
 
 		$expected = 'https://example.com/media/image.jpg';
