@@ -17,13 +17,15 @@ const singleWords = [ "ahányszor", "ahelyett", "ahelyt", "ahogy", "ahol", "ahon
 	"valamennyi", "valamint", "valóban", "végezetül", "végül", "végülis", "viszont" ];
 
 const multipleWords =  [ "abba hogy", "abban hogy", "abból hogy", "addig amíg", "addig hogy", "addig míg", "afelé hogy",
-	"ahelyett hogy", "ahhoz hogy", "akként hogy", "akkorra hogy", "amaitt hogy", "amellett hogy", "amint csak",
+	"ahelyett hogy", "ahhoz hogy", "akként hogy", "akkorra hogy", "amiatt hogy", "amellett hogy", "amint csak",
 	"anélkül hogy", "annak okáért", "annyi hogy", "annyi mint", "annyira hogy", "annyira mint", "arra hogy",
-	"arról hogy", "attól fogva hogy", "attól hogy", "avégett hogy", "avégre hogy", "az ellen hogy", "az iránt hogy",
-	"azelőtt hogy", "azért hogy", "azok után", "azon hogy", "azonkívül hogy", "azóta hogy", "aztán pedig", "azután hogy",
-	"ha ugyan", "hogy sem", "hogy sem mint", "hol hol", "holott pedig", "igaz hogy", "így tehát", "még akkor is",
-	"még ha", "mert különben", "mert tény hogy", "mind mind", "mindenek előtt", "mindezek után", "mint sem",
-	"mint sem hogy", "nem úgy mint", "oda hogy", "oly módon hogy", "sem hogy", "tény hogy", "úgy hogy", "úgy mint" ];
+	"arra hogy", "arról hogy", "attól fogva hogy", "attól hogy", "avégett hogy", "avégre hogy", "az ellen hogy",
+	"az iránt hogy", "azelőtt hogy", "azért hogy", "azért hogy", "azok után", "azon hogy", "azonkívül hogy",
+	"azóta hogy", "aztán pedig", "azután hogy", "azzal hogy", "ennek folytán", "ha csak", "ha egyébként", "ha egyszer",
+	"ha egyszer", "ha is", "ha különben", "ha ugyan", "hogy sem", "hogy sem mint", "hol hol", "holott pedig",
+	"igaz hogy", "így tehát", "még akkor is", "még ha", "mert különben", "mert tény hogy", "mind mind", "mindenek előtt",
+	"mindezek után", "mint sem", "mint sem hogy", "nem úgy mint", "oda hogy", "oly módon hogy", "sem hogy", "tény hogy",
+	"úgy hogy", "úgy mint" ];
 
 /**
  * Returns an list with transition words to be used by the assessments.
