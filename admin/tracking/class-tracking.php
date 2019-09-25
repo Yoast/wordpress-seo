@@ -8,7 +8,7 @@
 /**
  * This class handles the tracking routine.
  */
-class WPSEO_Tracking {
+class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 
 	/**
 	 * The tracking option name.
@@ -45,10 +45,15 @@ class WPSEO_Tracking {
 	/**
 	 * Registers all hooks to WordPress.
 	 */
-	public function send() {
+	public function register_hooks() {
+		add_action( 'admin_init', array( $this, 'send' ), 1 );
+	}
 
-		$current_time = time();
-		if ( ! $this->should_send_tracking( $current_time ) ) {
+	/**
+	 * Sends the tracking data.
+	 */
+	public function send() {
+		if ( ! $this->should_send_tracking() ) {
 			return;
 		}
 
@@ -68,7 +73,24 @@ class WPSEO_Tracking {
 	 *
 	 * @return bool True when tracking data should be send.
 	 */
-	protected function should_send_tracking( $current_time ) {
+	protected function should_send_tracking() {
+		global $pagenow;
+
+		/**
+		 * Filter: 'wpseo_disable_tracking' - Disables the data tracking of Yoast SEO Premium.
+		 *
+		 * @api string $is_disabled The disabled state. Default is false.
+		 */
+		if ( apply_filters( 'wpseo_enable_tracking', false ) === false ) {
+			return false;
+		}
+
+		// Because we don't want to possibly block plugin actions with our routines.
+		if ( in_array( $pagenow, array( 'plugins.php', 'plugin-install.php', 'plugin-editor.php' ), true ) ) {
+			return false;
+		}
+
+		$current_time = time();
 		$last_time = get_option( $this->option_name );
 
 		// When there is no data being set.
@@ -95,12 +117,13 @@ class WPSEO_Tracking {
 	 *
 	 * @return WPSEO_Collector The instance of the collector.
 	 */
-	protected function get_collector() {
+	public function get_collector() {
 		$collector = new WPSEO_Collector();
 		$collector->add_collection( new WPSEO_Tracking_Default_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Server_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Theme_Data() );
 		$collector->add_collection( new WPSEO_Tracking_Plugin_Data() );
+		$collector->add_collection( new WPSEO_Tracking_Settings_Data() );
 
 		return $collector;
 	}

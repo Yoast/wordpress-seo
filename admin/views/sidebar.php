@@ -58,6 +58,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 				</div>
 				<div class="wp-clearfix">
 					<p>
+						<strong><?php echo esc_html_x( 'Free:', 'course', 'wordpress-seo' ); ?></strong>
 						<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jv' ); ?>" target="_blank">
 							<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/yoast_seo_for_wp_2.svg' ); ?>" alt="">
 							<strong>
