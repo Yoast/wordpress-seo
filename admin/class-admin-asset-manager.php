@@ -372,6 +372,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'admin-script',
 				'src'  => 'wp-seo-admin-' . $flat_version,
 				'deps' => array(
+					'lodash',
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
