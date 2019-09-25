@@ -22,7 +22,7 @@ class Current_Page_Helper {
 	/**
 	 * Current_Page_Helper constructor.
 	 *
-	 * @param WP_Query_Wrapper $wp_query_wrapper
+	 * @param WP_Query_Wrapper $wp_query_wrapper The wrapper for WP_Query.
 	 */
 	public function __construct(
 		WP_Query_Wrapper $wp_query_wrapper
