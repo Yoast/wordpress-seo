@@ -8,6 +8,7 @@ namespace Yoast\WP\Free\Tests\Presenters\Post_Type;
 
 use Yoast\WP\Free\Tests\Doubles\Presenters\Post_Type\Twitter_Image_Presenter_Double;
 use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Brain\Monkey;
 use Mockery;
 
@@ -48,6 +49,49 @@ class Twitter_Image_Presenter_Test extends TestCase {
 		$this->mock_post->post_content = '';
 
 		$this->class_instance = new Twitter_Image_Presenter_Double();
+	}
+
+	/**
+	 * Tests retrieving the social image when the twitter_image has been set.
+	 *
+	 * @covers ::retrieve_social_image
+	 */
+	public function test_retrieve_social_image_with_twitter_image_set() {
+		$indexable                    = new Indexable();
+		$indexable->twitter_image = 'https://example.com/media/image.jpg';
+
+		$expected = 'https://example.com/media/image.jpg';
+		$image_url = $this->class_instance->retrieve_social_image( $indexable );
+		$this->assertEquals( $expected, $image_url );
+	}
+
+	/**
+	 * Tests retrieving the social image when the og_image has been set, but the twitter_image hasn't.
+	 *
+	 * @covers ::retrieve_social_image
+	 *
+	 * @todo make this work!
+	 */
+	public function _test_retrieve_social_image_with_og_image_set() {
+		$indexable           = new Indexable();
+		$indexable->og_image = 'https://example.com/media/image.jpg';
+
+
+		$expected = 'https://example.com/media/image.jpg';
+		$image_url = $this->class_instance->retrieve_social_image( $indexable );
+		$this->assertEquals( $expected, $image_url );
+	}
+
+	/**
+	 * Tests retrieving the social image when the og_image and twitter_image both haven't been set.
+	 *
+	 * @covers ::retrieve_social_image
+	 */
+	public function test_retrieve_social_image_with_no_twitter_image_and_og_image_set() {
+		$indexable           = new Indexable();
+
+		$image_url = $this->class_instance->retrieve_social_image( $indexable );
+		$this->assertEmpty( $image_url );
 	}
 
 	/**
