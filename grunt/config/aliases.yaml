@@ -78,6 +78,8 @@ clean:build-assets:
   - 'copy:artifact'
   # Create a zip file
   - 'compress:artifact'
+  # Remove build folder
+  - 'clean:artifact'
   - 'restore-environment-after-artifact'
 
 'restore-environment-after-artifact':
