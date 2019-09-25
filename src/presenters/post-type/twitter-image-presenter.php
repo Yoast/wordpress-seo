@@ -54,28 +54,9 @@ class Twitter_Image_Presenter extends Abstract_Twitter_Image_Presenter {
 			return $image_url;
 		}
 
-		$image_url = WPSEO_Options::get( 'og_default_image', '' );
+		$image_url = $this->retrieve_default_image();
 		if ( $image_url ) {
 			return $image_url;
-		}
-
-		return '';
-	}
-
-	/**
-	 * Retrieves twitter_image from the indexable. If not available, defaults to og_image.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return string The image url or an empty string when not found.
-	 */
-	protected function retrieve_social_image( Indexable $indexable ) {
-		if ( $indexable->twitter_image ) {
-			return $indexable->twitter_image;
-		}
-
-		if ( $indexable->og_image && WPSEO_Options::get( 'opengraph' ) === true ) {
-			return $indexable->og_image;
 		}
 
 		return '';
