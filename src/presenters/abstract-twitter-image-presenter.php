@@ -8,6 +8,7 @@
 namespace Yoast\WP\Free\Presenters;
 
 use WPSEO_Options;
+use WPSEO_Utils;
 use Yoast\WP\Free\Models\Indexable;
 
 /**
@@ -43,7 +44,7 @@ abstract class Abstract_Twitter_Image_Presenter implements Presenter_Interface {
 			 *
 			 * @api string $key The Twitter meta tag key.
 			 */
-			$metatag_key = apply_filters( 'wpseo_twitter_metatag_key', 'name' );
+			$metatag_key = \apply_filters( 'wpseo_twitter_metatag_key', 'name' );
 
 			// Output meta.
 			return sprintf(
@@ -91,6 +92,8 @@ abstract class Abstract_Twitter_Image_Presenter implements Presenter_Interface {
 	/**
 	 * Checks if the opengraph feature is enabled.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool True when enabled.
 	 */
 	protected function opengraph_enabled() {
@@ -121,8 +124,8 @@ abstract class Abstract_Twitter_Image_Presenter implements Presenter_Interface {
 	 * @return string The formatted Twitter image.
 	 */
 	private function format( $twitter_image ) {
-		if ( \WPSEO_Utils::is_url_relative( $twitter_image ) === true && strpos( $twitter_image, '/' ) === 0 ) {
-			$parsed_url    = wp_parse_url( home_url() );
+		if ( WPSEO_Utils::is_url_relative( $twitter_image ) === true && \strpos( $twitter_image, '/' ) === 0 ) {
+			$parsed_url    = \wp_parse_url( \home_url() );
 			$twitter_image = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $twitter_image;
 		}
 
