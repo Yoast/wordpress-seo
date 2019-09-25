@@ -61,19 +61,15 @@ const checkSentencesForTransitionWords = function( sentences, transitionWords ) 
 	const results = [];
 
 	sentences.forEach( sentence => {
+		const twoPartMatches = matchTwoPartTransitionWords( sentence, transitionWords.twoPartTransitionWords() );
 
-		// Some languages don't have two-part transition words.
-		if( transitionWords.twoPartTransitionWords().length ) {
-			const twoPartMatches = matchTwoPartTransitionWords( sentence, transitionWords.twoPartTransitionWords() );
+		if ( twoPartMatches !== null ) {
+			results.push( {
+				sentence: sentence,
+				transitionWords: twoPartMatches,
+			} );
 
-			if ( twoPartMatches !== null ) {
-				results.push( {
-					sentence: sentence,
-					transitionWords: twoPartMatches,
-				} );
-
-				return;
-			}
+			return;
 		}
 
 		const transitionWordMatches = matchTransitionWords( sentence, transitionWords.transitionWords );

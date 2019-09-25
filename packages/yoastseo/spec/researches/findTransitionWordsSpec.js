@@ -408,14 +408,14 @@ describe( "a test for finding transition words from a string", function() {
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 	it( "returns 1 when a two-part transition word is found in a sentence (Hungarian)", function() {
-		// Transition word: addig...amíg
-		mockPaper = new Paper( "Én sem tudom addig, amíg rá nem jövök, hogy az élet komoly-e vagy sem", { locale: "hu_HU" } );
+		// Transition word: ahogy, akkor
+		mockPaper = new Paper( "Csak később, ahogy felnőttem, akkor kezdődött a sok baj.", { locale: "hu_HU" } );
 		result = transitionWordsResearch( mockPaper );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 1 );
 	} );
 	it( "returns 0 when no transition words are present in a sentence (Hungarian)", function() {
-		mockPaper = new Paper( "Nem beszélek magyarul", { locale: "hu_HU" } );
+		mockPaper = new Paper( "Nem beszélek magyarul.", { locale: "hu_HU" } );
 		result = transitionWordsResearch( mockPaper );
 		expect( result.totalSentences ).toBe( 1 );
 		expect( result.transitionWordSentences ).toBe( 0 );

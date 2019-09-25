@@ -43,6 +43,8 @@ import twoPartTransitionWordsSwedish from "../researches/swedish/twoPartTransiti
 
 import transitionWordsHungarianFactory from "../researches/hungarian/transitionWords.js";
 const transitionWordsHungarian = transitionWordsHungarianFactory().allWords;
+import twoPartTransitionWordsHungarian from "../researches/hungarian/twoPartTransitionWords.js";
+
 import getLanguage from "./getLanguage.js";
 
 
@@ -108,7 +110,7 @@ export default function( locale ) {
 		case "hu":
 			return {
 				transitionWords: transitionWordsHungarian,
-				twoPartTransitionWords: function() { return []; },
+				twoPartTransitionWords: twoPartTransitionWordsHungarian,
 			};
 		default:
 		case "en":
