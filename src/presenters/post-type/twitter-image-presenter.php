@@ -89,7 +89,8 @@ class Twitter_Image_Presenter extends Abstract_Twitter_Image_Presenter {
 	 * @return string The image url or an empty string when not found.
 	 */
 	protected function retrieve_attachment_image( $post_id ) {
-		if ( ! \get_post_type( $post_id ) === 'attachment' ) {
+
+		if ( \get_post_type( $post_id ) !== 'attachment' ) {
 			return '';
 		}
 
