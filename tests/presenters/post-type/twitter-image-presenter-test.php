@@ -17,6 +17,7 @@ use Mockery;
  *
  * @coversDefaultClass \Yoast\WP\Free\Presenters\Post_Type\Twitter_Image_Presenter
  *
+ * @group twitter
  * @group twitter-image
  */
 class Twitter_Image_Presenter_Test extends TestCase {
