@@ -10,6 +10,17 @@ use Yoast\WP\Free\Presenters\Post_Type\Twitter_Image_Presenter;
 class Twitter_Image_Presenter_Double extends Twitter_Image_Presenter {
 
 	/**
+	 * Retrieves an attachment page's attachment url.
+	 *
+	 * @param string $post_id The ID of the post for which to retrieve the image.
+	 *
+	 * @return string The image url or an empty string when not found.
+	 */
+	public function retrieve_attachment_image( $post_id ) {
+		return parent::retrieve_attachment_image( $post_id );
+	}
+
+	/**
 	 * Retrieves the featured image url.
 	 *
 	 * @param int $post_id Post ID to use.

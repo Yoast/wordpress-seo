@@ -6,7 +6,6 @@
 
 namespace Yoast\WP\Free\Tests\Presenters\Post_Type;
 
-use Yoast\WP\Free\Presenters\Post_Type\Twitter_Image_Presenter;
 use Yoast\WP\Free\Tests\Doubles\Presenters\Post_Type\Twitter_Image_Presenter_Double;
 use Yoast\WP\Free\Tests\TestCase;
 use Brain\Monkey;
@@ -52,6 +51,64 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	}
 
 	/**
+	 * Tests retrieving an attachment page's attachment url when the post type is not attachment.
+	 *
+	 * @covers ::retrieve_attachment_image
+	 */
+	public function test_retrieve_attachment_image_post_type_is_not_attachment() {
+		Monkey\Functions\expect( 'get_post_type' )
+			->with( $this->mock_post->ID )
+			->once()
+			->andReturn( 'page' );
+
+		$image_url = $this->class_instance->retrieve_attachment_image( $this->mock_post->ID );
+		$this->assertEmpty( $image_url );
+	}
+
+	/**
+	 * Tests retrieving an attachment page's attachment url when the image is of an allowed mimetype.
+	 *
+	 * @covers ::retrieve_attachment_image
+	 */
+	public function test_retrieve_attachment_image_with_allowed_mimetype() {
+		Monkey\Functions\expect( 'get_post_type' )
+			->with( $this->mock_post->ID )
+			->once()
+			->andReturn( 'attachment' );
+		Monkey\Functions\expect( 'get_post_mime_type' )
+			->with( $this->mock_post->ID )
+			->once()
+			->andReturn( 'image/jpeg' );
+		Monkey\Functions\expect( 'wp_get_attachment_url' )
+			->with( $this->mock_post->ID )
+			->once()
+			->andReturn( 'https://example.com/media/image.jpg' );
+
+		$expected = 'https://example.com/media/image.jpg';
+		$image_url = $this->class_instance->retrieve_attachment_image( $this->mock_post->ID );
+		$this->assertEquals( $expected, $image_url );
+	}
+
+	/**
+	 * Tests retrieving an attachment page's attachment url when the image is not of an allowed mimetype.
+	 *
+	 * @covers ::retrieve_attachment_image
+	 */
+	public function test_retrieve_attachment_image_with_nonallowed_mimetype() {
+		Monkey\Functions\expect( 'get_post_type' )
+			->with( $this->mock_post->ID )
+			->once()
+			->andReturn( 'attachment' );
+		Monkey\Functions\expect( 'get_post_mime_type' )
+			->with( $this->mock_post->ID )
+			->once()
+			->andReturn( 'image/svg+xml' );
+
+		$image_url = $this->class_instance->retrieve_attachment_image( $this->mock_post->ID );
+		$this->assertEmpty( $image_url );
+	}
+
+	/**
 	 * Tests retrieving the featured image url when the has_post_thumbnail function does not exist.
 	 *
 	 * @covers ::retrieve_featured_image
@@ -69,6 +126,7 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	public function test_retrieve_featured_image_no_post_thumbnail() {
 		Monkey\Functions\expect( 'has_post_thumbnail' )
 			->with( $this->mock_post->ID )
+			->once()
 			->andReturn( false );
 
 		$image_url = $this->class_instance->retrieve_featured_image( $this->mock_post->ID );
@@ -83,15 +141,19 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	public function test_retrieve_featured_image_post_has_thumbnail_and_image_attached() {
 		Monkey\Functions\expect( 'has_post_thumbnail' )
 			->with( $this->mock_post->ID )
+			->once()
 			->andReturn( true );
 		Monkey\Functions\expect( 'apply_filters' )
 			->with ( 'wpseo_twitter_image_size', 'full' )
+			->once()
 			->andReturn( 'full' );
 		Monkey\Functions\expect ( 'get_post_thumbnail_id' )
 			->with( $this->mock_post->ID )
+			->once()
 			->andReturn( 11 );
 		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
-			->with ( get_post_thumbnail_id( $this->mock_post->ID ), 'full' )
+			->with ( 11, 'full' )
+			->once()
 			->andReturn( [ 'https://example.com/media/image.jpg', '100px', '200px', false ] );
 
 		$expected = 'https://example.com/media/image.jpg';
@@ -107,15 +169,19 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	public function test_retrieve_featured_image_post_has_thumbnail() {
 		Monkey\Functions\expect( 'has_post_thumbnail' )
 			->with( $this->mock_post->ID )
+			->once()
 			->andReturn( true );
 		Monkey\Functions\expect( 'apply_filters' )
 			->with ( 'wpseo_twitter_image_size', 'full' )
+			->once()
 			->andReturn( 'full' );
 		Monkey\Functions\expect ( 'get_post_thumbnail_id' )
 			->with( $this->mock_post->ID )
+			->once()
 			->andReturn( 11 );
 		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
-			->with ( get_post_thumbnail_id( $this->mock_post->ID ), 'full' )
+			->with ( 11, 'full' )
+			->once()
 			->andReturn( false );
 
 		$image_url = $this->class_instance->retrieve_featured_image( $this->mock_post->ID );
@@ -130,9 +196,11 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	public function test_retrieve_gallery_image_when_gallery_is_absent() {
 		Monkey\Functions\expect( 'get_post' )
 			->with( $this->mock_post->ID )
+			->once()
 			->andReturn( $this->mock_post );
 		Monkey\Functions\expect( 'has_shortcode' )
 			->with( $this->mock_post->post_content, 'gallery' )
+			->once()
 			->andReturn( false );
 		Monkey\Functions\expect( 'get_post_gallery_images' )
 			->never();
@@ -149,11 +217,14 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	public function test_retrieve_gallery_image_when_gallery_is_empty() {
 		Monkey\Functions\expect( 'get_post' )
 			->with( $this->mock_post->ID )
+			->once()
 			->andReturn( $this->mock_post );
 		Monkey\Functions\expect( 'has_shortcode' )
 			->with( $this->mock_post->post_content, 'gallery' )
+			->once()
 			->andReturn( true );
 		Monkey\Functions\expect( 'get_post_gallery_images' )
+			->once()
 			->andReturn( [] );
 
 		$image_url = $this->class_instance->retrieve_gallery_image( $this->mock_post->ID );
@@ -168,11 +239,14 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	public function test_retrieve_gallery_image_when_gallery_is_present() {
 		Monkey\Functions\expect( 'get_post' )
 			->with( $this->mock_post->ID )
+			->once()
 			->andReturn( $this->mock_post );
 		Monkey\Functions\expect( 'has_shortcode' )
 			->with( $this->mock_post->post_content, 'gallery' )
+			->once()
 			->andReturn( true );
 		Monkey\Functions\expect( 'get_post_gallery_images' )
+			->once()
 			->andReturn( [ 'https://example.com/media/image.jpg', 'https://example.com/media/image2.jpg' ] );
 
 		$expected = 'https://example.com/media/image.jpg';
