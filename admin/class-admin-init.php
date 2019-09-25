@@ -390,9 +390,9 @@ class WPSEO_Admin_Init {
 	/**
 	 * Gets the latest released major WordPress version from the WordPress stable-check api.
 	 *
-	 * @return string $latest_released_major_wp_version The latest released major WordPress version.
+	 * @return string $latest_major_wp_version The latest released major WordPress version.
 	 */
-	private function get_latest_released_major_wordpress_version(){
+	private function get_latest_major_wordpress_version(){
 		$stability_check_api_url = 'http://api.wordpress.org/core/stable-check/1.0/';
 		$wp_version_stability_json = file_get_contents( $stability_check_api_url );
 		$wp_version_stability_object = json_decode( $wp_version_stability_json );
@@ -411,7 +411,7 @@ class WPSEO_Admin_Init {
 	public function wordpress_upgrade_notice() {
 		global $wp_version;
 
-		$latest_major_wp_version = $this->get_latest_released_major_wordpress_version();
+		$latest_major_wp_version = $this->get_latest_major_wordpress_version();
 
 		/**
 		 * Calculate the next major WordPress version and convert it to a string.
