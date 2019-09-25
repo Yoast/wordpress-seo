@@ -390,17 +390,14 @@ class WPSEO_Admin_Init {
 	/**
 	 * Gets the latest released major WordPress version from the WordPress stable-check api.
 	 *
-	 * @return string $latest_major_wp_version The latest released major WordPress version.
+	 * @return float The latest released major WordPress version.
 	 */
 	private function get_latest_major_wordpress_version() {
-		$stability_check_api_url = 'http://api.wordpress.org/core/stable-check/1.0/';
-		$wp_version_stability_json = file_get_contents( $stability_check_api_url );
-		$wp_version_stability_object = json_decode( $wp_version_stability_json );
-		$wp_version_stability_array = (array) $wp_version_stability_object;
-		$latest_wp_version_string = array_search( 'latest', $wp_version_stability_array, true );
-		$latest_major_wp_version = floatval( $latest_wp_version_string );
+		$wp_version_stability     = json_decode( file_get_contents( 'http://api.wordpress.org/core/stable-check/1.0/' ) );
+		$latest_wp_version_string = array_search( 'latest', (array) $wp_version_stability, true );
 
-		return $latest_major_wp_version;
+		// Strip the patch version and convert to a float.
+		return floatval( $latest_wp_version_string );
 	}
 
 	/**
@@ -412,20 +409,9 @@ class WPSEO_Admin_Init {
 		global $wp_version;
 
 		$latest_major_wp_version = $this->get_latest_major_wordpress_version();
+		$next_major_wp_version   = number_format( ( $latest_major_wp_version + 0.1 ), 1 );
 
-		/**
-		 * Calculate the next major WordPress version and convert it to a string.
-		 */
-		$latest_wp_version_number = floor( $latest_major_wp_version );
-		$latest_wp_version_decimal = ( $latest_major_wp_version - $latest_wp_version_number );
-
-		$next_major_wp_version = bcadd( $latest_major_wp_version, 0.1, 1 );
-
-		if ( $latest_wp_version_decimal === .9 ) {
-			$next_major_wp_version = bcadd( $latest_major_wp_version, 1, 1 );
-		}
-
-		$wp_less_than_50 = version_compare( $wp_version, '5.0', '<' );
+		$wp_less_than_50             = version_compare( $wp_version, '5.0', '<' );
 		$wp_less_than_latest_version = version_compare( $wp_version, $latest_major_wp_version, '<' );
 
 		$notification_center = Yoast_Notification_Center::get();
