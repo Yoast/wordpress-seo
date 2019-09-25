@@ -58,7 +58,7 @@ abstract class Abstract_Twitter_Image_Presenter implements Presenter_Interface {
 	}
 
 	/**
-	 * Retrieves the site wide default image/
+	 * Retrieves the site wide default image.
 	 *
 	 * @return string The image url or an empty string when not found.
 	 */
