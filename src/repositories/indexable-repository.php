@@ -95,14 +95,15 @@ class Indexable_Repository {
 	 * @return bool|\Yoast\WP\Free\Models\Indexable The indexable, false if none could be found.
 	 */
 	public function for_current_page() {
-		if ( $this->current_page_helper->is_simple_page() ) {
-			return $this->find_by_id_and_type( $this->current_page_helper->get_simple_page_id(), 'post' );
-		}
-		if ( $this->current_page_helper->is_home_static_page() ) {
-			return $this->find_by_id_and_type( $this->current_page_helper->get_front_page_id(), 'post' );
-		}
-		if ( $this->current_page_helper->is_home_posts_page() ) {
-			return $this->find_home_page();
+		switch ( true ) {
+			case $this->current_page_helper->is_simple_page():
+				return $this->find_by_id_and_type( $this->current_page_helper->get_simple_page_id(), 'post' );
+			case $this->current_page_helper->is_home_static_page():
+				return $this->find_by_id_and_type( $this->current_page_helper->get_front_page_id(), 'post' );
+			case $this->current_page_helper->is_home_posts_page():
+				return $this->find_home_page();
+			case $this->current_page_helper->is_term_archive():
+				return $this->find_by_id_and_type( $this->current_page_helper->get_term_id(), 'term' );
 		}
 
 		return false;
