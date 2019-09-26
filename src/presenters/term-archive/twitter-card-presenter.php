@@ -27,7 +27,6 @@ class Twitter_Card_Presenter extends Abstract_Twitter_Card_Presenter {
 		}
 
 		// @todo THIS IS WRONG, AND JUST EXAMPLE CODE
-
 		return '';
 	}
 }
