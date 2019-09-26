@@ -32,11 +32,11 @@ abstract class Abstract_Title_Presenter implements Presenter_Interface {
 	}
 
 	/**
-	 * Returns the meta description for a post.
+	 * Returns the title for a post.
 	 *
 	 * @param Indexable $indexable The indexable.
 	 *
-	 * @return string The meta description tag.
+	 * @return string The title tag.
 	 */
 	public function present( Indexable $indexable ) {
 		$title = $this->filter( $this->replace_vars( $this->generate( $indexable ), $indexable ) );
@@ -49,11 +49,11 @@ abstract class Abstract_Title_Presenter implements Presenter_Interface {
 	}
 
 	/**
-	 * Run the meta description content through the `wpseo_metadesc` filter.
+	 * Run the title content through the `wpseo_title` filter.
 	 *
-	 * @param string $title The meta description to filter.
+	 * @param string $title The title to filter.
 	 *
-	 * @return string $title The filtered meta description.
+	 * @return string $title The filtered title.
 	 */
 	private function filter( $title ) {
 		/**
@@ -65,25 +65,25 @@ abstract class Abstract_Title_Presenter implements Presenter_Interface {
 	}
 
 	/**
-	 * Replace replacement variables in the meta description.
+	 * Replace replacement variables in the title.
 	 *
-	 * @param string    $title The meta description.
-	 * @param Indexable $indexable        The indexable.
+	 * @param string    $title     The title.
+	 * @param Indexable $indexable The indexable.
 	 *
-	 * @return string The meta description with replacement variables replaced.
+	 * @return string The title with replacement variables replaced.
 	 */
 	private function replace_vars( $title, Indexable $indexable ) {
 		return $this->replace_vars_helper->replace( $title, $this->get_replace_vars_object( $indexable ) );
 	}
 
 	/**
-	 * Generates the meta description for an indexable.
+	 * Generates the title for an indexable.
 	 *
 	 * @param Indexable $indexable The indexable.
 	 *
-	 * @return string The meta description.
+	 * @return string The title.
 	 */
-	protected abstract function generate( Indexable $indexable );
+	abstract public function generate( Indexable $indexable );
 
 	/**
 	 * Gets an object to be used as a source of replacement variables.

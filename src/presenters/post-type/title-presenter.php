@@ -22,7 +22,7 @@ class Title_Presenter extends Abstract_Title_Presenter {
 	 *
 	 * @return string The title.
 	 */
-	protected function generate( Indexable $indexable ) {
+	public function generate( Indexable $indexable ) {
 		if ( $indexable->title ) {
 			return $indexable->title;
 		}
