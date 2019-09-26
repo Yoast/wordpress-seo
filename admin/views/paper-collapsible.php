@@ -42,7 +42,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 				$help_text->get_button_html(),
 				wp_kses_post( $collapsible_config['toggle_icon'] ),
 				esc_attr( $collapsible_config['expanded'] ),
-				esc_attr( $button_id_attr )
+				// phpcs:ignore WordPress.Security.EscapeOutput -- $button_id_attr is escaped above.
+				$button_id_attr
 			);
 		}
 		else {
