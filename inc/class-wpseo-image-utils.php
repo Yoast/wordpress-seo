@@ -371,10 +371,11 @@ class WPSEO_Image_Utils {
 	 *
 	 * @return string|null The image URL.
 	 */
-	public static function get_first_usable_content_image_for_post( $post_id = null ) {
+	public static function get_first_usable_content_image_for_post( $post_id ) {
 		$post = get_post( $post_id );
 
-		if ( $post === null ) {
+		// We know get_post() returns the post or null.
+		if ( ! $post ) {
 			return null;
 		}
 
@@ -391,8 +392,13 @@ class WPSEO_Image_Utils {
 	 *
 	 * @return string|null The image URL.
 	 */
-	public static function get_first_content_image_for_term( $term_id = null ) {
+	public static function get_first_content_image_for_term( $term_id ) {
 		$term_description = term_description( $term_id );
+
+		// We know term_description() returns a string which may be empty.
+		if ( $term_description === '' ) {
+			return null;
+		}
 
 		$image_finder = new WPSEO_Content_Images();
 		$images       = $image_finder->get_images_from_content( $term_description );
