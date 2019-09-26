@@ -7,8 +7,8 @@
 
 namespace Yoast\WP\Free\Builders;
 
-use WPSEO_Options;
-use WPSEO_Utils;
+use Yoast\WP\Free\Helpers\Options_Helper;
+use Yoast\WP\Free\Helpers\Url_Helper;
 
 /**
  * Formats the homepage meta to indexable format.
@@ -16,19 +16,27 @@ use WPSEO_Utils;
 class Indexable_Home_Page_Builder {
 
 	/**
-	 * @var Indexable_Post_Builder
+	 * @var Options_Helper
 	 */
-	protected $post_builder;
+	private $options_helper;
 
 	/**
-	 * Indexable_Homepage_Builder constructor.
+	 * @var Url_Helper
+	 */
+	private $url_helper;
+
+	/**
+	 * Indexable_Home_Page_Builder constructor.
 	 *
-	 * @param Indexable_Post_Builder $post_builder The post builder.
+	 * @param Options_Helper $options_helper The options helper.
+	 * @param Url_Helper     $url_helper     The url helper.
 	 */
 	public function __construct(
-		Indexable_Post_Builder $post_builder
+		Options_Helper $options_helper,
+		Url_Helper $url_helper
 	) {
-		$this->post_builder = $post_builder;
+		$this->options_helper = $options_helper;
+		$this->url_helper     = $url_helper;
 	}
 
 	/**
@@ -40,19 +48,20 @@ class Indexable_Home_Page_Builder {
 	 */
 	public function build( $indexable ) {
 		$indexable->object_type      = 'home-page';
-		$indexable->title            = WPSEO_Options::get( 'title-home-wpseo' );
-		$indexable->breadcrumb_title = WPSEO_Options::get( 'breadcrumbs-home' );
-		$indexable->canonical        = WPSEO_Utils::home_url();
-		$indexable->description      = WPSEO_Options::get( 'metadesc-home-wpseo' );
+		$indexable->title            = $this->options_helper->get( 'title-home-wpseo' );
+		$indexable->breadcrumb_title = $this->options_helper->get( 'breadcrumbs-home' );
+		$indexable->permalink        = $this->url_helper->home();
+		$indexable->canonical        = $indexable->permalink;
+		$indexable->description      = $this->options_helper->get( 'metadesc-home-wpseo' );
 		if ( empty( $indexable->description ) ) {
 			$indexable->description = \get_bloginfo( 'description' );
 		}
 
-		$indexable->is_robots_noindex = (string) \get_option( 'blog_public' ) === '0';
+		$indexable->is_robots_noindex = \get_option( 'blog_public' ) === '0';
 
-		$indexable->og_title       = WPSEO_Options::get( 'og_frontpage_title' );
-		$indexable->og_image       = WPSEO_Options::get( 'og_frontpage_image' );
-		$indexable->og_description = WPSEO_Options::get( 'og_frontpage_desc' );
+		$indexable->og_title       = $this->options_helper->get( 'og_frontpage_title' );
+		$indexable->og_image       = $this->options_helper->get( 'og_frontpage_image' );
+		$indexable->og_description = $this->options_helper->get( 'og_frontpage_desc' );
 
 		return $indexable;
 	}
