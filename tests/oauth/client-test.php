@@ -14,7 +14,7 @@ use Yoast\WP\Free\Tests\Doubles\Oauth\Client as Client_Double;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class Oauth_Test.
+ * Class Client_Test.
  *
  * @group oauth
  */
