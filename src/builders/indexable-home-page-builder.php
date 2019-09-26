@@ -33,7 +33,7 @@ class Indexable_Home_Page_Builder {
 			$indexable->description = \get_bloginfo( 'description' );
 		}
 
-		$indexable->is_robots_noindex = (string) \get_option( 'blog_public' ) === '0';
+		$indexable->is_robots_noindex = \get_option( 'blog_public' ) === '0';
 
 		$indexable->og_title       = WPSEO_Options::get( 'og_frontpage_title' );
 		$indexable->og_image       = WPSEO_Options::get( 'og_frontpage_image' );
