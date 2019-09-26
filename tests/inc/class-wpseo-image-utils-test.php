@@ -57,18 +57,6 @@ class Image_Utils_Test extends TestCase {
 	}
 
 	/**
-	 * Test whether null is returned when $term_id is null.
-	 *
-	 * @covers ::get_first_content_image_for_term
-	 */
-	public function test_get_first_content_image_for_term_when_null() {
-
-		$first_image = $this->instance->get_first_content_image_for_term( null );
-
-		$this->assertNull( $first_image );
-	}
-
-	/**
 	 * Test to run with a provider for the get_first_image method.
 	 *
 	 * @param mixed  $images   The images to get first image from.
