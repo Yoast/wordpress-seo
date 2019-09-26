@@ -30,7 +30,7 @@ class WPSEO_Metabox_Tab_Section extends WPSEO_Abstract_Metabox_Tab_With_Sections
 	 * @param array  $options      Optional link attributes.
 	 */
 	public function __construct( $name, $link_content, array $tabs = array(), array $options = array() ) {
-		_deprecated_function( __METHOD__, '11.9' );
+		_deprecated_function( __METHOD__, 'WPSEO 11.9' );
 
 		parent::__construct( $name, $link_content, $options );
 
@@ -53,7 +53,7 @@ class WPSEO_Metabox_Tab_Section extends WPSEO_Abstract_Metabox_Tab_With_Sections
 	 * @return bool Whether or not the tab is valid.
 	 */
 	protected function is_valid_tab( $tab ) {
-		_deprecated_function( __METHOD__, '11.9' );
+		_deprecated_function( __METHOD__, 'WPSEO 11.9' );
 
 		if ( $tab instanceof WPSEO_Metabox_Tab && ! $tab instanceof WPSEO_Metabox_Null_Tab ) {
 			return true;
@@ -69,7 +69,7 @@ class WPSEO_Metabox_Tab_Section extends WPSEO_Abstract_Metabox_Tab_With_Sections
 	 * @codeCoverageIgnore
 	 */
 	public function display_content() {
-		_deprecated_function( __METHOD__, '11.9' );
+		_deprecated_function( __METHOD__, 'WPSEO 11.9' );
 
 		if ( $this->has_sections() ) {
 			$html  = '<div role="tabpanel" id="wpseo-meta-section-%1$s" aria-labelledby="wpseo-meta-tab-%1$s" tabindex="0" class="wpseo-meta-section">';
@@ -99,7 +99,7 @@ class WPSEO_Metabox_Tab_Section extends WPSEO_Abstract_Metabox_Tab_With_Sections
 	 * @param WPSEO_Metabox_Tab $tab Tab to add.
 	 */
 	public function add_tab( WPSEO_Metabox_Tab $tab ) {
-		_deprecated_function( __METHOD__, '11.9' );
+		_deprecated_function( __METHOD__, 'WPSEO 11.9' );
 
 		$this->tabs[] = $tab;
 	}
@@ -113,7 +113,7 @@ class WPSEO_Metabox_Tab_Section extends WPSEO_Abstract_Metabox_Tab_With_Sections
 	 * @return bool
 	 */
 	protected function has_sections() {
-		_deprecated_function( __METHOD__, '11.9' );
+		_deprecated_function( __METHOD__, 'WPSEO 11.9' );
 
 		return ! empty( $this->tabs );
 	}
@@ -127,7 +127,7 @@ class WPSEO_Metabox_Tab_Section extends WPSEO_Abstract_Metabox_Tab_With_Sections
 	 * @return string
 	 */
 	private function tab_links() {
-		_deprecated_function( __METHOD__, '11.9' );
+		_deprecated_function( __METHOD__, 'WPSEO 11.9' );
 
 		$links = '';
 		foreach ( $this->tabs as $tab ) {
@@ -145,7 +145,7 @@ class WPSEO_Metabox_Tab_Section extends WPSEO_Abstract_Metabox_Tab_With_Sections
 	 * @return string
 	 */
 	private function tab_content() {
-		_deprecated_function( __METHOD__, '11.9' );
+		_deprecated_function( __METHOD__, 'WPSEO 11.9' );
 
 		$content = '';
 		foreach ( $this->tabs as $tab ) {
@@ -163,7 +163,7 @@ class WPSEO_Metabox_Tab_Section extends WPSEO_Abstract_Metabox_Tab_With_Sections
 	 * @return string The name of the tab section.
 	 */
 	public function get_name() {
-		_deprecated_function( __METHOD__, '11.9' );
+		_deprecated_function( __METHOD__, 'WPSEO 11.9' );
 
 		return $this->name;
 	}
