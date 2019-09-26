@@ -74,7 +74,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 		$post_id = $this->post->ID;
 
 		if ( has_post_thumbnail( $post_id ) ) {
-			$featured_image_info = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'single-post-thumbnail' );
+			$featured_image_info = wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), 'thumbnail' );
 			return $featured_image_info[0];
 		}
 
