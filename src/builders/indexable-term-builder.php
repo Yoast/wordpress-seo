@@ -35,7 +35,6 @@ class Indexable_Term_Builder {
 		if ( is_wp_error( $term_link ) ) {
 			throw new \Exception( current( array_keys( $term_link->errors ) ) );
 		}
-
 		$term_meta = \WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy );
 
 		$indexable->permalink       = $term_link;
@@ -128,7 +127,7 @@ class Indexable_Term_Builder {
 	 * @return null|string The meta value.
 	 */
 	protected function get_meta_value( $meta_key, $term_meta ) {
-		if ( ! \array_key_exists( $meta_key, $term_meta ) ) {
+		if ( ! $term_meta || ! \array_key_exists( $meta_key, $term_meta ) ) {
 			return null;
 		}
 
