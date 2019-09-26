@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Presenters\Fallback;
 
-use WPSEO_Replace_Vars;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presenters\Abstract_Meta_Description_Presenter;
 
@@ -23,7 +22,7 @@ class Meta_Description_Presenter extends Abstract_Meta_Description_Presenter {
 	 *
 	 * @return string The meta description.
 	 */
-	protected function generate( Indexable $indexable ) {
+	public function generate( Indexable $indexable ) {
 		if ( $indexable->description ) {
 			return $indexable->description;
 		}

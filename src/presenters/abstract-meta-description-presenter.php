@@ -32,6 +32,15 @@ abstract class Abstract_Meta_Description_Presenter implements Presenter_Interfac
 	}
 
 	/**
+	 * Generates the meta description for an indexable.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return string The meta description.
+	 */
+	abstract public function generate( Indexable $indexable );
+
+	/**
 	 * Returns the meta description for a post.
 	 *
 	 * @param Indexable $indexable The indexable.
@@ -86,15 +95,6 @@ abstract class Abstract_Meta_Description_Presenter implements Presenter_Interfac
 	private function replace_vars( $meta_description, Indexable $indexable ) {
 		return $this->replace_vars_helper->replace( $meta_description, $this->get_replace_vars_object( $indexable ) );
 	}
-
-	/**
-	 * Generates the meta description for an indexable.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return string The meta description.
-	 */
-	protected abstract function generate( Indexable $indexable );
 
 	/**
 	 * Gets an object to be used as a source of replacement variables.

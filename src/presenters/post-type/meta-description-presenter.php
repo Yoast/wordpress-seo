@@ -23,7 +23,7 @@ class Meta_Description_Presenter extends Abstract_Meta_Description_Presenter {
 	 *
 	 * @return string The meta description.
 	 */
-	protected function generate( Indexable $indexable ) {
+	public function generate( Indexable $indexable ) {
 		if ( $indexable->description ) {
 			return $indexable->description;
 		}
