@@ -19,7 +19,9 @@ abstract class Abstract_Twitter_Title_Presenter implements Presenter_Interface {
 	protected $replace_vars_helper;
 
 	/**
-	 * @param Indexable $indexable
+	 * Returns the Twitter title.
+	 *
+	 * @param Indexable $indexable The indexable.
 	 *
 	 * @return string The Twitter title tag.
 	 */

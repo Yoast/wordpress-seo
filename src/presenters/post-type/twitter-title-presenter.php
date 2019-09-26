@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Presenter of the Twitter title for post type singles.
  *
@@ -24,7 +23,7 @@ class Twitter_Title_Presenter extends Abstract_Twitter_Title_Presenter {
 	/**
 	 * Class constructor.
 	 *
-	 * @param Title_Presenter $title_presenter
+	 * @param Title_Presenter $title_presenter The title presenter.
 	 */
 	public function __construct( Title_Presenter $title_presenter ) {
 		$this->title_presenter = $title_presenter;
