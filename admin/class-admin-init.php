@@ -449,7 +449,7 @@ class WPSEO_Admin_Init {
 				'wordpress-seo'
 			),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/old-wp-support' ) . '" target="_blank" rel="nofollow">',
-			'</a>'
+			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
 
 		$notification = new Yoast_Notification(
