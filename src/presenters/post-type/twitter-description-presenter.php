@@ -36,7 +36,7 @@ class Twitter_Description_Presenter extends Abstract_Twitter_Description_Present
 			return $indexable->twitter_description;
 		}
 
-		$twitter_description = $this->meta_description_presenter->generate( $indexable );
+		$twitter_description = $this->get_meta_description( $indexable );
 		if ( $twitter_description ) {
 			return $twitter_description;
 		}

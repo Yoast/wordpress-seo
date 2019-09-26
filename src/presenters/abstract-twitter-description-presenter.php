@@ -80,6 +80,17 @@ abstract class Abstract_Twitter_Description_Presenter implements Presenter_Inter
 	}
 
 	/**
+	 * Retrieves the meta description.
+	 *
+	 * @param Indexable $indexable  The indexable.
+	 *
+	 * @return string The meta description.
+	 */
+	protected function get_meta_description( Indexable $indexable ) {
+		return $this->meta_description_presenter->generate( $indexable );
+	}
+
+	/**
 	 * Run the Twitter description through the `wpseo_twitter_description` filter.
 	 *
 	 * @param string $twitter_description The Twitter description to filter.
