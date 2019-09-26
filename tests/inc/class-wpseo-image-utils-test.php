@@ -73,7 +73,7 @@ class Image_Utils_Test extends TestCase {
 	 *
 	 * @param mixed  $images   The images to get first image from.
 	 * @param mixed  $expected The expected value.
-	 * @param string $message The message to show when the test fails.
+	 * @param string $message  The message to show when the test fails.
 	 *
 	 * @covers ::get_first_image
 	 *
