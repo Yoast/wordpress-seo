@@ -16,7 +16,7 @@ abstract class Abstract_Twitter_Card_Presenter implements Presenter_Interface {
 	/**
 	 * Presents the twitter card meta tag.
 	 *
-	 * @param Indexable $indexable The indexable
+	 * @param Indexable $indexable The indexable.
 	 *
 	 * @return string The twitter card tag.
 	 */
