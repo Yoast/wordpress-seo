@@ -346,16 +346,6 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests retrieving the featured image url when the has_post_thumbnail function does not exist.
-	 *
-	 * @covers ::retrieve_featured_image
-	 */
-	public function test_retrieve_featured_image_function_does_not_exist() {
-		$image_url = $this->class_instance->retrieve_featured_image( $this->mock_post->ID );
-		$this->assertEmpty( $image_url );
-	}
-
-	/**
 	 * Tests retrieving the featured image url when the post has no image attached.
 	 *
 	 * @covers ::retrieve_featured_image

@@ -93,10 +93,6 @@ class Twitter_Image_Presenter extends Abstract_Twitter_Image_Presenter {
 	 * @return string The image url or an empty string when not found.
 	 */
 	protected function retrieve_featured_image( $post_id ) {
-		if ( ! \function_exists( 'has_post_thumbnail' ) ) {
-			return '';
-		}
-
 		if ( ! \has_post_thumbnail( $post_id ) ) {
 			return '';
 		}
