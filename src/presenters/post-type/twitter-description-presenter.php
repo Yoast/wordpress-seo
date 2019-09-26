@@ -41,7 +41,7 @@ class Twitter_Description_Presenter extends Abstract_Twitter_Description_Present
 			return $twitter_description;
 		}
 
-		$twitter_description = $this->excerpt_description();
+		$twitter_description = $this->excerpt_description( $indexable );
 		if ( $twitter_description ) {
 			return $twitter_description;
 		}
@@ -52,10 +52,12 @@ class Twitter_Description_Presenter extends Abstract_Twitter_Description_Present
 	/**
 	 * Generates a description based on the excerpt.
 	 *
+	 * @param Indexable $indexable The indexable.
+	 *
 	 * @return string The excerpt description.
 	 */
-	protected function excerpt_description() {
-		return wp_strip_all_tags( get_the_excerpt() );
+	protected function excerpt_description( Indexable $indexable ) {
+		return \wp_strip_all_tags( \get_the_excerpt( $indexable->object_id ) );
 	}
 
 	/**
