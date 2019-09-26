@@ -55,8 +55,8 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	/**
 	 * Checks if the home page indexable needs to be rebuild based on option values.
 	 *
-	 * @param array  $old_value The old value of the option.
-	 * @param array  $new_value The new value of the option.
+	 * @param array $old_value The old value of the option.
+	 * @param array $new_value The new value of the option.
 	 *
 	 * @return void
 	 */
@@ -101,7 +101,9 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * Saves the home page.
+	 * Saves the post type archive.
+	 *
+	 * @param string $post_type The post type.
 	 *
 	 * @return void
 	 */
