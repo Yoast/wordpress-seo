@@ -6,6 +6,7 @@
 
 namespace Yoast\WP\Free\Tests\Presenters\Post_Type;
 
+use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Presenters\Post_Type\Twitter_Image_Presenter;
 use Yoast\WP\Free\Tests\Doubles\Presenters\Post_Type\Twitter_Image_Presenter_Double;
 use Yoast\WP\Free\Tests\TestCase;
@@ -38,6 +39,11 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	protected $mock_post;
 
 	/**
+	 * @var Image_Helper|\Mockery\MockInterface
+	 */
+	protected $image_helper_mock;
+
+	/**
 	 * Sets up the test instance.
 	 *
 	 * @return void
@@ -50,7 +56,8 @@ class Twitter_Image_Presenter_Test extends TestCase {
 		$this->mock_post->ID           = 1;
 		$this->mock_post->post_content = '';
 
-		$this->class_instance = new Twitter_Image_Presenter_Double();
+		$this->image_helper_mock = Mockery::mock( Image_Helper::class );
+		$this->class_instance    = new Twitter_Image_Presenter_Double( $this->image_helper_mock );
 	}
 
 	/**
@@ -489,8 +496,8 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	public function test_retrieve_content_image() {
 		$expected = 'https://example.com/media/content_image.jpg';
 
-		\Mockery::mock( 'alias:WPSEO_Image_Utils' )
-			->shouldReceive( 'get_first_usable_content_image_for_post' )
+		$this->image_helper_mock
+			->expects( 'get_first_usable_content_image_for_post' )
 			->with( $this->mock_post->ID )
 			->once()
 			->andReturn( $expected );
@@ -505,8 +512,8 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	 * @covers ::retrieve_content_image
 	 */
 	public function test_retrieve_content_image_no_image_in_content() {
-		\Mockery::mock( 'alias:WPSEO_Image_Utils' )
-			->shouldReceive( 'get_first_usable_content_image_for_post' )
+		$this->image_helper_mock
+			->expects( 'get_first_usable_content_image_for_post' )
 			->with( $this->mock_post->ID )
 			->once()
 			->andReturn( null );

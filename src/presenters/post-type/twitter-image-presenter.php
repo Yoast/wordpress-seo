@@ -7,8 +7,8 @@
 
 namespace Yoast\WP\Free\Presenters\Post_Type;
 
-use WPSEO_Image_Utils;
-use WPSEO_Options;
+use Yoast\WP\Free\Helpers\Image_Helper;
+use Yoast\WP\Free\Tests\Mocks\WPSEO_Image_Utils;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presenters\Abstract_Twitter_Image_Presenter;
 
@@ -16,6 +16,22 @@ use Yoast\WP\Free\Presenters\Abstract_Twitter_Image_Presenter;
  * Class Twitter_Image_Presenter
  */
 class Twitter_Image_Presenter extends Abstract_Twitter_Image_Presenter {
+
+	/**
+	 * Image helper.
+	 *
+	 * @var Image_Helper
+	 */
+	private $image_helper;
+
+	/**
+	 * Twitter_Image_Presenter constructor.
+	 *
+	 * @param Image_Helper $image_helper The image helper.
+	 */
+	public function __construct( Image_Helper $image_helper ) {
+		$this->image_helper = $image_helper;
+	}
 
 	/**
 	 * Generates the Twitter image url for an indexable.
@@ -142,7 +158,7 @@ class Twitter_Image_Presenter extends Abstract_Twitter_Image_Presenter {
 	 * @return string The image url or an empty string when not found.
 	 */
 	protected function retrieve_content_image( $post_id ) {
-		$image_url = WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
+		$image_url = $this->image_helper->get_first_usable_content_image_for_post( $post_id );
 
 		if ( $image_url === null ) {
 			return '';
