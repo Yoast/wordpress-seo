@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract presenter class for the OpenGraph title.
+ * Abstract presenter class for the Twitter card type.
  *
  * @package Yoast\YoastSEO\Presenters
  */
@@ -10,7 +10,7 @@ namespace Yoast\WP\Free\Presenters;
 use Yoast\WP\Free\Models\Indexable;
 
 /**
- * Class Abstract_Title_Presenter
+ * Class Abstract_Twitter_Card_Presenter
  */
 abstract class Abstract_Twitter_Card_Presenter implements Presenter_Interface {
 	/**
@@ -44,11 +44,11 @@ abstract class Abstract_Twitter_Card_Presenter implements Presenter_Interface {
 	}
 
 	/**
-	 * Generates the twitter card type for an indexable.
+	 * Generates the Twitter card type for an indexable.
 	 *
 	 * @param Indexable $indexable The indexable.
 	 *
-	 * @return string The title.
+	 * @return string The Twitter card type.
 	 */
 	abstract public function generate( Indexable $indexable );
 }
