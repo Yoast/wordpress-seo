@@ -6,7 +6,6 @@ use Brain\Monkey;
 use Mockery;
 use WP_Post;
 use WPSEO_Schema_Context;
-use WPSEO_Schema_Utils;
 use WPSEO_Schema_WebPage;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -225,5 +224,35 @@ class Schema_WebPage_Test extends TestCase {
 		$data = $this->instance->add_author( [], $post );
 
 		$this->assertArrayNotHasKey( 'author', $data );
+	}
+
+	/**
+	 * Tests if the description in the schema output gets stripped from script tags.
+	 *
+	 * @covers \WPSEO_Schema_WebPage::generate
+	 */
+	public function test_schema_output_strips_script_tags_from_description() {
+		$this->context->description = '<script>this is a malicious script</script>';
+
+		$actual = $this->instance->generate();
+
+		$expected = 'this is a malicious script';
+
+		$this->assertEquals( $actual['description'], $expected );
+	}
+
+	/**
+	 * Tests if the description in the schema output gets stripped from script tags.
+	 *
+	 * @covers \WPSEO_Schema_WebPage::generate
+	 */
+	public function test_schema_output_leaves_h1_tags_in_description() {
+		$this->context->description = '<h1>this is a title</h1>';
+
+		$actual = $this->instance->generate();
+
+		$expected = '<h1>this is a title</h1>';
+
+		$this->assertEquals( $actual['description'], $expected );
 	}
 }

@@ -24,7 +24,7 @@ class Custom_Loader extends PhpFileLoader {
 	/**
 	 * Custom_Loader constructor.
 	 *
-	 * @param ContainerBuilder $container The ContainerBuilder to load classes for.
+	 * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container The ContainerBuilder to load classes for.
 	 */
 	public function __construct( ContainerBuilder $container ) {
 		parent::__construct( $container, new FileLocator( __DIR__ . '/../..' ) );
@@ -56,41 +56,43 @@ class Custom_Loader extends PhpFileLoader {
 	/**
 	 * Registers a set of classes as services using PSR-4 for discovery.
 	 *
-	 * @param Definition $prototype A definition to use as template.
-	 * @param string     $namespace The namespace prefix of classes in the scanned directory.
-	 * @param string     $resource  The directory to look for classes, glob-patterns allowed.
-	 * @param string     $exclude   A globed path of files to exclude.
+	 * @param \Symfony\Component\DependencyInjection\Definition $prototype A definition to use as template.
+	 * @param string                                            $namespace The namespace prefix of classes
+	 *                                                                     in the scanned directory.
+	 * @param string                                            $resource  The directory to look for classes,
+	 *                                                                     glob-patterns allowed.
+	 * @param string                                            $exclude   A globed path of files to exclude.
 	 *
 	 * @throws InvalidArgumentException If invalid arguments are supplied.
 	 *
 	 * @return void
 	 */
 	public function registerClasses( Definition $prototype, $namespace, $resource, $exclude = null ) {
-		if ( '\\' !== substr( $namespace, -1 ) ) {
-			throw new InvalidArgumentException( sprintf( 'Namespace prefix must end with a "\\": %s.', $namespace ) );
+		if ( '\\' !== \substr( $namespace, -1 ) ) {
+			throw new InvalidArgumentException( \sprintf( 'Namespace prefix must end with a "\\": %s.', $namespace ) );
 		}
-		if ( ! preg_match( '/^(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+\\\\)++$/', $namespace ) ) {
-			throw new InvalidArgumentException( sprintf( 'Namespace is not a valid PSR-4 prefix: %s.', $namespace ) );
+		if ( ! \preg_match( '/^(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+\\\\)++$/', $namespace ) ) {
+			throw new InvalidArgumentException( \sprintf( 'Namespace is not a valid PSR-4 prefix: %s.', $namespace ) );
 		}
 
 		$classes = $this->findClasses( $namespace, $resource, $exclude );
 		// Prepare for deep cloning.
-		$serialized_prototype = serialize( $prototype );
+		$serialized_prototype = \serialize( $prototype );
 		$interfaces           = [];
 		$singly_implemented   = [];
 
 		foreach ( $classes as $class => $error_message ) {
-			if ( interface_exists( $class, false ) ) {
+			if ( \interface_exists( $class, false ) ) {
 				$interfaces[] = $class;
 			}
 			else {
-				$this->setDefinition( $class, $definition = unserialize( $serialized_prototype ) );
+				$this->setDefinition( $class, $definition = \unserialize( $serialized_prototype ) );
 				if ( null !== $error_message ) {
 					$definition->addError( $error_message );
 
 					continue;
 				}
-				foreach ( class_implements( $class, false ) as $interface ) {
+				foreach ( \class_implements( $class, false ) as $interface ) {
 					$singly_implemented[ $interface ] = isset( $singly_implemented[ $interface ] ) ? false : $class;
 				}
 			}
@@ -106,8 +108,8 @@ class Custom_Loader extends PhpFileLoader {
 	/**
 	 * Registers a definition in the container with its instanceof-conditionals.
 	 *
-	 * @param string     $id         The ID of the definition.
-	 * @param Definition $definition The definition.
+	 * @param string                                            $id         The ID of the definition.
+	 * @param \Symfony\Component\DependencyInjection\Definition $definition The definition.
 	 *
 	 * @throws InvalidArgumentException If invalid arguments were supplied.
 	 *
@@ -119,7 +121,7 @@ class Custom_Loader extends PhpFileLoader {
 		// @codingStandardsIgnoreLine WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar This is from an inherited class not abiding by that standard.
 		if ( $this->isLoadingInstanceof ) {
 			if ( ! $definition instanceof ChildDefinition ) {
-				throw new InvalidArgumentException( sprintf( 'Invalid type definition "%s": ChildDefinition expected, "%s" given.', $id, \get_class( $definition ) ) );
+				throw new InvalidArgumentException( \sprintf( 'Invalid type definition "%s": ChildDefinition expected, "%s" given.', $id, \get_class( $definition ) ) );
 			}
 			$this->instanceof[ $id ] = $definition;
 		}
@@ -152,7 +154,7 @@ class Custom_Loader extends PhpFileLoader {
 				}
 
 				// Normalize Windows slashes.
-				$exclude_paths[ str_replace( '\\', '/', $path ) ] = true;
+				$exclude_paths[ \str_replace( '\\', '/', $path ) ] = true;
 			}
 		}
 
@@ -164,28 +166,28 @@ class Custom_Loader extends PhpFileLoader {
 			if ( null === $prefix_len ) {
 				$prefix_len = \strlen( $resource->getPrefix() );
 
-				if ( $exclude_prefix && 0 !== strpos( $exclude_prefix, $resource->getPrefix() ) ) {
-					throw new InvalidArgumentException( sprintf( 'Invalid "exclude" pattern when importing classes for "%s": make sure your "exclude" pattern (%s) is a subset of the "resource" pattern (%s)', $namespace, $exclude, $pattern ) );
+				if ( $exclude_prefix && 0 !== \strpos( $exclude_prefix, $resource->getPrefix() ) ) {
+					throw new InvalidArgumentException( \sprintf( 'Invalid "exclude" pattern when importing classes for "%s": make sure your "exclude" pattern (%s) is a subset of the "resource" pattern (%s)', $namespace, $exclude, $pattern ) );
 				}
 			}
 
-			if ( isset( $exclude_paths[ str_replace( '\\', '/', $path ) ] ) ) {
+			if ( isset( $exclude_paths[ \str_replace( '\\', '/', $path ) ] ) ) {
 				continue;
 			}
 
-			if ( ! preg_match( $ext_regexp, $path, $m ) || ! $info->isReadable() ) {
+			if ( ! \preg_match( $ext_regexp, $path, $m ) || ! $info->isReadable() ) {
 				continue;
 			}
 			$class = $this->getClassFromClassMap( $path );
 
-			if ( ! $class || ! preg_match( '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+(?:\\\\[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+)*+$/', $class ) ) {
+			if ( ! $class || ! \preg_match( '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+(?:\\\\[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+)*+$/', $class ) ) {
 				continue;
 			}
 
 			try {
 				$r = $this->container->getReflectionClass( $class );
 			} catch ( \ReflectionException $e ) {
-				$classes[ $class ] = sprintf(
+				$classes[ $class ] = \sprintf(
 					'While discovering services from namespace "%s", an error was thrown when processing the class "%s": "%s".',
 					$namespace,
 					$class,
@@ -195,7 +197,7 @@ class Custom_Loader extends PhpFileLoader {
 			}
 			// Check to make sure the expected class exists.
 			if ( ! $r ) {
-				throw new InvalidArgumentException( sprintf( 'Expected to find class "%s" in file "%s" while importing services from resource "%s", but it was not found! Check the namespace prefix used with the resource.', $class, $path, $pattern ) );
+				throw new InvalidArgumentException( \sprintf( 'Expected to find class "%s" in file "%s" while importing services from resource "%s", but it was not found! Check the namespace prefix used with the resource.', $class, $path, $pattern ) );
 			}
 
 			if ( $r->isInstantiable() || $r->isInterface() ) {

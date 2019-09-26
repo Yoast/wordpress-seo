@@ -69,6 +69,7 @@ class WPSEO_Taxonomy_Metabox {
 			$product_title .= ' Premium';
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $product_title is hardcoded.
 		printf( '<div id="wpseo_meta" class="postbox yoast wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
 
 		echo '<div class="inside">';
@@ -76,6 +77,7 @@ class WPSEO_Taxonomy_Metabox {
 
 
 		echo '<div class="wpseo-metabox-content">';
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $product_title is hardcoded.
 		printf( '<div class="wpseo-metabox-menu"><ul role="tablist" class="yoast-aria-tabs" aria-label="%s">', $product_title );
 
 		foreach ( $content_sections as $content_section ) {
@@ -202,13 +204,34 @@ class WPSEO_Taxonomy_Metabox {
 		}
 
 		$meta_fields = $this->taxonomy_social_fields->get_by_network( $network );
+		$content     = $this->taxonomy_tab_content->html( $meta_fields );
+
+		/**
+		 * If premium hide the form to show the social preview instead, we still need the fields to be output because
+		 * the values of the social preview are saved in the hidden field.
+		 */
+		$features = new WPSEO_Features();
+		if ( $features->is_premium() ) {
+			$content = $this->hide_form( $content );
+		}
 
 		$tab_settings = new WPSEO_Metabox_Collapsible(
 			$name,
-			$this->social_admin->get_premium_notice( $network ) . $this->taxonomy_tab_content->html( $meta_fields ),
+			$this->social_admin->get_premium_notice( $network ) . $content,
 			$label
 		);
 
 		return $tab_settings;
+	}
+
+	/**
+	 * Hides the given output when rendered to HTML.
+	 *
+	 * @param string $tab_content The social tab content.
+	 *
+	 * @return string The content.
+	 */
+	private function hide_form( $tab_content ) {
+		return '<div class="hidden">' . $tab_content . '</div>';
 	}
 }

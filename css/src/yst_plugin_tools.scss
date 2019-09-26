@@ -74,6 +74,30 @@ tr.yst_row.even {
 		margin: 0 0 15px 0;
 	}
 
+	/* Input validation errors */
+	input.textinput {
+		&[aria-invalid="true"] {
+			color: #000;
+			background: #f9dcdc url(../../images/error-icon.svg) no-repeat calc( 100% - 6px ) center;
+			background-size: 12px;
+			border: 1px solid #dc3232;
+			padding-right: 24px;
+
+			&[aria-describedby] {
+				margin-bottom: 0.5rem;
+			}
+		}
+	}
+
+	.yoast-input-validation {
+		&__error-description {
+			width: 400px;
+			padding-left: 200px;
+			margin: 0 0 1rem;
+			color: #8f1919;
+		}
+	}
+
 	/* @todo: check if the .double class is still used. */
 	input.radio,
 	input.checkbox,
@@ -244,7 +268,7 @@ tr.yst_row.even {
 		}
 
 		&.search-appearance {
-			max-width: 600px;
+			max-width: 632px; // Width of 600px + 2 times padding of 16px making the inner max width the wanted 600px.
 			box-shadow: 0 1px 2px rgba( #000, 0.2 );
 			background-color: #fff;
 		}
@@ -840,6 +864,28 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		width: auto;
 		padding: 0;
 	}
+
+	/* Make the banners with product lists appear next to each other. */
+	.yoast-sidebar {
+
+		&__product-list {
+			display: flex;
+			border-bottom: 1px solid #ddd;
+
+			div p {
+				word-wrap: break-word;
+				width: calc( 100% - 50px );
+			}
+
+			.yoast-sidebar__section {
+				border-bottom: none;
+
+				&:first-child {
+					margin-right: 40px;
+				}
+			}
+		}
+	}
 }
 
 @media screen and ( max-width: 782px ) {
@@ -871,6 +917,18 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		div.desc.label {
 			padding-left: 0;
 		}
+
+		/* Input validation errors */
+		.textinput[aria-invalid="true"][aria-describedby] + br {
+			display: none;
+		}
+
+		.yoast-input-validation {
+			&__error-description {
+				width: auto;
+				padding-left: 0;
+			}
+		}
 	}
 
 	.wp-core-ui .button.wpseo-gsc-save-profile {
@@ -892,6 +950,25 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	/* Google Search Console: Reload crawl issues form. */
 	.wpseo-gsc-reload-crawl-issues-form {
 		margin-bottom: 0;
+	}
+
+	/* Make the banners with product lists appear below each other. */
+	.yoast-sidebar {
+
+		&__product-list {
+			display: block;
+			border-bottom: none;
+
+			.yoast-sidebar__section {
+				border-bottom: 1px solid #ddd;
+
+				p {
+					word-wrap: break-word;
+					width: calc( 100% - 50px );
+					padding-left: 50px;
+				}
+			}
+		}
 	}
 }
 

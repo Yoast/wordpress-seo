@@ -124,10 +124,11 @@ install:
     # So we temporarily switch PHP versions, do a full install and then remove the package.
     # Then switch back to the PHP version we want to test and delete the vendor directory.
     phpenv local 7.1
-    composer install --no-interaction --no-scripts
+    composer install --no-interaction --no-scripts --ignore-platform-reqs
     composer prefix-dependencies
     composer compile-di
     composer remove humbug/php-scoper --dev --ignore-platform-reqs
+    composer remove atanamo/php-codeshift --dev --ignore-platform-reqs
     phpenv local --unset
     rm -rf vendor/*
   fi
@@ -191,6 +192,7 @@ before_script:
     curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
     chmod +x ./cc-test-reporter
     ./cc-test-reporter before-build
+    mkdir -p /tmp/coverage
   fi
 - export -f travis_fold
 - export -f travis_time_start
@@ -269,11 +271,18 @@ script:
 - |
   if [[ "$COVERAGE" == "1" ]]; then
     travis_fold start "PHP.coverage" && travis_time_start
-    mkdir -p /tmp/coverage
     vendor/bin/phpunit -c phpunit-integration.xml.dist --coverage-php /tmp/coverage/integration-tests.cov
-    vendor/bin/phpunit --coverage-php /tmp/coverage/tests.cov
-    ./vendor/bin/phpcov merge /tmp/coverage --clover build/logs/clover.xml
     travis_time_finish && travis_fold end "PHP.coverage"
+  fi
+- |
+  if [[ "$COVERAGE" == "1" ]]; then
+    travis_fold start "PHP.coverage" && travis_time_start
+    vendor/bin/phpunit --coverage-php /tmp/coverage/tests.cov
+    travis_time_finish && travis_fold end "PHP.coverage"
+  fi
+- |
+  if [[ "$COVERAGE" == "1" ]]; then
+    ./vendor/bin/phpcov merge /tmp/coverage --clover build/logs/clover.xml
   fi
 # Validate the composer.json file.
 # @link https://getcomposer.org/doc/03-cli.md#validate

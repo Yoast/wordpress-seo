@@ -198,8 +198,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph_Image::set_front_page_image
 	 */
 	public function test_frontpage_image() {
-		WPSEO_Options::set( 'og_frontpage_image', '/frontpage.png' );
-		WPSEO_Options::set( 'og_default_image', '/test.png' );
+		WPSEO_Options::set( 'og_frontpage_image', 'http://example.org/frontpage.png' );
+		WPSEO_Options::set( 'og_default_image', 'http://example.org/test.png' );
 
 		$current_page_on_front = get_option( 'page_on_front' );
 		$current_show_on_front = get_option( 'show_on_front' );
@@ -217,7 +217,7 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 		 * With a static frontpage, the image should be the default image, or the
 		 * image from the static front page itself, not the frontpage image.
 		 */
-		$this->assertEquals( $this->sample_array(), $class_instance->get_images() );
+		$this->assertEquals( $this->sample_array( false ), $class_instance->get_images() );
 
 		update_option( 'show_on_front', $current_show_on_front );
 		update_option( 'page_on_front', $current_page_on_front );
@@ -340,12 +340,12 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 * Test our default image fallback.
 	 */
 	public function test_set_images_default() {
-		WPSEO_Options::set( 'og_default_image', '/test.png' );
+		WPSEO_Options::set( 'og_default_image', 'http://example.org/test.png' );
 		$this->go_to_home();
 
 		$class_instance = $this->setup_class();
 
-		$this->assertEquals( $this->sample_array(), $class_instance->get_images() );
+		$this->assertEquals( $this->sample_array( false ), $class_instance->get_images() );
 	}
 
 	/**
@@ -437,8 +437,8 @@ class WPSEO_OpenGraph_Image_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_images_from_content() {
 		$image_url    = 'https://cdn.yoast.com/app/uploads/2018/03/Caroline_Blog_SEO_FI-600x314.jpg';
-		$post_content = '<p>This is a post. It has an image hosted on a cdn:</p>	
-		<img src="' . $image_url . '"/>	
+		$post_content = '<p>This is a post. It has an image hosted on a cdn:</p>
+		<img src="' . $image_url . '"/>
 		<p>End of post</p>';
 
 		$post_id = self::factory()->post->create(

@@ -16,24 +16,28 @@ class WPSEO_Metabox_Section_Additional implements WPSEO_Metabox_Section {
 	 * @var string
 	 */
 	public $name;
+
 	/**
 	 * Content of the tab's section.
 	 *
 	 * @var string
 	 */
 	public $content;
+
 	/**
 	 * HTML to use in the tab header.
 	 *
 	 * @var string
 	 */
 	private $link_content;
+
 	/**
 	 * Class to add to the link.
 	 *
 	 * @var string
 	 */
 	private $link_class;
+
 	/**
 	 * Aria label to use for the link.
 	 *
@@ -84,7 +88,7 @@ class WPSEO_Metabox_Section_Additional implements WPSEO_Metabox_Section {
 	 * @return void
 	 */
 	public function display_content() {
-		$html = sprintf(
+		$html  = sprintf(
 			'<div role="tabpanel" id="wpseo-meta-section-%1$s" aria-labelledby="wpseo-meta-tab-%1$s" tabindex="0" class="wpseo-meta-section wpseo-form">',
 			esc_attr( $this->name )
 		);

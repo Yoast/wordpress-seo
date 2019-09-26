@@ -252,9 +252,9 @@ abstract class WPSEO_Option {
 	 * Validate webmaster tools & Pinterest verification strings.
 	 *
 	 * @param string $key   Key to check, by type of service.
-	 * @param array  $dirty Dirty data.
+	 * @param array  $dirty Dirty data with the new values.
 	 * @param array  $old   Old data.
-	 * @param array  $clean Clean data by reference.
+	 * @param array  $clean Clean data by reference, normally the default values.
 	 */
 	public function validate_verification_string( $key, $dirty, $old, &$clean ) {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
@@ -301,56 +301,137 @@ abstract class WPSEO_Option {
 					$clean[ $key ] = $meta;
 				}
 				else {
+					// Restore the previous value, if any.
 					if ( isset( $old[ $key ] ) && preg_match( $regex, $old[ $key ] ) ) {
 						$clean[ $key ] = $old[ $key ];
 					}
+
 					if ( function_exists( 'add_settings_error' ) ) {
 						add_settings_error(
 							$this->group_name, // Slug title of the setting.
-							'_' . $key, // Suffix-ID for the error message box.
+							$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
 							/* translators: 1: Verification string from user input; 2: Service name. */
 							sprintf( __( '%1$s does not seem to be a valid %2$s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
-							'error' // Error type, either 'error' or 'updated'.
+							'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
 						);
 					}
+
+					Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $meta );
 				}
 			}
 		}
 	}
 
 	/**
-	 * @param string $key   Key to check, by type of service.
-	 * @param array  $dirty Dirty data.
+	 * Validates an option as a valid URL. Prints out a WordPress settings error
+	 * notice if the URL is invalid.
+	 *
+	 * @param string $key   Key to check, by type of URL setting.
+	 * @param array  $dirty Dirty data with the new values.
 	 * @param array  $old   Old data.
-	 * @param array  $clean Clean data by reference.
+	 * @param array  $clean Clean data by reference, normally the default values.
 	 */
 	public function validate_url( $key, $dirty, $old, &$clean ) {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
-			$url = WPSEO_Utils::sanitize_url( $dirty[ $key ] );
-			if ( $url !== '' ) {
-				$clean[ $key ] = $url;
-			}
-			else {
+
+			$submitted_url = trim( htmlspecialchars( $dirty[ $key ] ) );
+			$validated_url = filter_var( WPSEO_Utils::sanitize_url( $submitted_url ), FILTER_VALIDATE_URL );
+
+			if ( $validated_url === false ) {
+				if ( function_exists( 'add_settings_error' ) ) {
+					add_settings_error(
+						// Slug title of the setting.
+						$this->group_name,
+						// Suffix-ID for the error message box. WordPress prepends `setting-error-`.
+						$key,
+						sprintf(
+							/* translators: %s expands to an invalid URL. */
+							__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
+							'<strong>' . esc_html( $submitted_url ) . '</strong>'
+						),
+						// CSS class for the WP notice.
+						'notice-error'
+					);
+				}
+
+				// Restore the previous URL value, if any.
 				if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
 					$url = WPSEO_Utils::sanitize_url( $old[ $key ] );
 					if ( $url !== '' ) {
 						$clean[ $key ] = $url;
 					}
 				}
-				if ( function_exists( 'add_settings_error' ) ) {
-					$url = WPSEO_Utils::sanitize_url( $dirty[ $key ] );
-					add_settings_error(
-						$this->group_name, // Slug title of the setting.
-						'_' . $key, // Suffix-ID for the error message box.
-						sprintf(
-							/* translators: %s expands to an invalid URL. */
-							__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
-							'<strong>' . esc_html( $url ) . '</strong>'
-						), // The error message.
-						'error' // Error type, either 'error' or 'updated'.
-					);
-				}
+
+				Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $submitted_url );
+
+				return;
 			}
+
+			// The URL format is valid, let's sanitize it.
+			$url = WPSEO_Utils::sanitize_url( $validated_url );
+
+			if ( $url !== '' ) {
+				$clean[ $key ] = $url;
+			}
+		}
+	}
+
+ 	/**
+	 * Validates a Facebook App ID.
+	 *
+	 * @param string $key   Key to check, in this case: the Facebook App ID field name.
+	 * @param array  $dirty Dirty data with the new values.
+	 * @param array  $old   Old data.
+	 * @param array  $clean Clean data by reference, normally the default values.
+	 */
+	public function validate_facebook_app_id( $key, $dirty, $old, &$clean ) {
+		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
+			$url = 'https://graph.facebook.com/' . $dirty[ $key ];
+
+			$response        = wp_remote_get( $url );
+			// These filters are used in the tests.
+			/**
+			 * Filter: 'validate_facebook_app_id_api_response_code' - Allows to filter the Faceboook API response code.
+			 *
+			 * @api int $response_code The Facebook API response header code.
+			 */
+			$response_code   = apply_filters( 'validate_facebook_app_id_api_response_code', wp_remote_retrieve_response_code( $response ) );
+			/**
+			 * Filter: 'validate_facebook_app_id_api_response_body' - Allows to filter the Faceboook API response body.
+			 *
+			 * @api string $response_body The Facebook API JSON response body.
+			 */
+			$response_body   = apply_filters( 'validate_facebook_app_id_api_response_body', wp_remote_retrieve_body( $response ) );
+			$response_object = json_decode( $response_body );
+
+			/*
+			 * When the request is successful the response code will be 200 and
+			 * the response object will contain an `id` property.
+			 */
+			if ( $response_code === 200 && isset( $response_object->id ) ) {
+				$clean[ $key ] = $dirty[ $key ];
+				return;
+			}
+
+			// Restore the previous value, if any.
+			if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
+				$clean[ $key ] = $old[ $key ];
+			}
+
+			if ( function_exists( 'add_settings_error' ) ) {
+				add_settings_error(
+					$this->group_name, // Slug title of the setting.
+					$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
+					sprintf(
+					/* translators: %s expands to an invalid Facebook App ID. */
+						__( '%s does not seem to be a valid Facebook App ID. Please correct.', 'wordpress-seo' ),
+						'<strong>' . esc_html( $dirty[ $key ] ) . '</strong>'
+					), // The error message.
+					'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+				);
+			}
+
+			Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $dirty[ $key ] );
 		}
 	}
 

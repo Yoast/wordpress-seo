@@ -1,8 +1,24 @@
 /* global wpseoAdminGlobalL10n, ajaxurl, wpseoSelect2Locale */
 
 import a11ySpeak from "a11y-speak";
+import { debounce } from "lodash";
 
 ( function() {
+	/**
+	 * Utility function to check whether the given element is fully visible withing the viewport.
+	 *
+	 * @returns {HTMLElement} Whether the element is fully visible in the viewport.
+	 */
+	jQuery.fn._wpseoIsInViewport = function() {
+		const elementTop = jQuery( this ).offset().top;
+		const elementBottom = elementTop + jQuery( this ).outerHeight();
+
+		const viewportTop = jQuery( window ).scrollTop();
+		const viewportBottom = viewportTop + jQuery( window ).height();
+
+		return elementTop > viewportTop && elementBottom < viewportBottom;
+	};
+
 	/**
 	 * Detects the wrong use of variables in title and description templates
 	 *
@@ -199,6 +215,37 @@ import a11ySpeak from "a11y-speak";
 		}
 	}
 
+	/**
+	 * Add a resize and scroll listener and determine whether the fixed submit button should be shown.
+	 *
+	 * @returns {void}
+	 */
+	function setFixedSubmitButtonVisibility() {
+		const floatContainer = jQuery( "#wpseo-submit-container-float" );
+		const fixedContainer = jQuery( "#wpseo-submit-container-fixed" );
+
+		if ( ! floatContainer.length || ! fixedContainer.length ) {
+			return;
+		}
+
+		/**
+		 * Hides the fixed button at the bottom of the viewport if the submit button at the bottom of the page is visible.
+		 *
+		 * @returns {void}
+		 */
+		function onViewportChange() {
+			if ( floatContainer._wpseoIsInViewport() ) {
+				fixedContainer.hide();
+			} else {
+				fixedContainer.show();
+			}
+		}
+
+		jQuery( window ).on( "resize scroll", debounce( onViewportChange, 100 ) );
+
+		onViewportChange();
+	}
+
 	window.wpseoDetectWrongVariables = wpseoDetectWrongVariables;
 	window.setWPOption = setWPOption;
 	window.wpseoCopyHomeMeta = wpseoCopyHomeMeta;
@@ -276,9 +323,9 @@ import a11ySpeak from "a11y-speak";
 			activeTab.addClass( "active" );
 			jQuery( this ).addClass( "nav-tab-active" );
 			if ( activeTab.hasClass( "nosave" ) ) {
-				jQuery( "#submit" ).hide();
+				jQuery( "#wpseo-submit-container" ).hide();
 			} else {
-				jQuery( "#submit" ).show();
+				jQuery( "#wpseo-submit-container" ).show();
 			}
 		} );
 
@@ -320,6 +367,7 @@ import a11ySpeak from "a11y-speak";
 				.find( "span" ).toggleClass( "dashicons-arrow-up-alt2 dashicons-arrow-down-alt2" );
 		} );
 
+		setFixedSubmitButtonVisibility();
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
 		initSelect2();

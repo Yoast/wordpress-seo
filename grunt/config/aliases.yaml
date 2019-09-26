@@ -24,6 +24,18 @@
   - 'shell:makepot-yoast-components-configuration-wizard'
   - 'shell:makepot-wordpress-seo'
   - 'copy:makepot-wordpress-seo'
+  - 'shell:makepot-yoast-js-algolia-search-box'
+  - 'copy:makepot-yoast-js-algolia-search-box'
+  - 'shell:makepot-yoast-js-analysis-report'
+  - 'copy:makepot-yoast-js-analysis-report'
+  - 'shell:makepot-yoast-js-components'
+  - 'copy:makepot-yoast-js-components'
+  - 'shell:makepot-yoast-js-configuration-wizard'
+  - 'copy:makepot-yoast-js-configuration-wizard'
+  - 'shell:makepot-yoast-js-helpers'
+  - 'copy:makepot-yoast-js-helpers'
+  - 'shell:makepot-yoast-js-search-metadata-previews'
+  - 'copy:makepot-yoast-js-search-metadata-previews'
   - 'shell:makepot-yoast-components-remaining'
   - 'shell:combine-pots-yoast-components'
   - 'shell:makepot-yoastseojs'
@@ -80,6 +92,7 @@ clean:build-assets:
   - 'clean:composer-files'
   - 'copy:composer-files'
   - 'remove-vendor-prefixed-folder'
+  - 'shell:remove-vendor-prefixed-uses'
 
 # Get the project ready for release
 release:

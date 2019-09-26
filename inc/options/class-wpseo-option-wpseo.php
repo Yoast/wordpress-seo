@@ -131,6 +131,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		add_action( 'add_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
 		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
 
+		add_filter( 'admin_title', array( 'Yoast_Input_Validation', 'add_yoast_admin_document_title_errors' ) );
+
 		/**
 		 * Filter the `wpseo` option defaults.
 		 *

@@ -3,7 +3,6 @@
 namespace Yoast\WP\Free\Tests\Database;
 
 use Brain\Monkey;
-use Exception;
 use Mockery;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Database\Ruckusing_Framework;
@@ -201,7 +200,7 @@ class Migration_Runner_Test extends TestCase {
 	/**
 	 * Returns a wpdb mock.
 	 *
-	 * @return wpdb The wpdb mock.
+	 * @return \wpdb The wpdb mock.
 	 */
 	protected function get_wpdb_mock() {
 		$wpdb         = Mockery::mock( 'wpdb' );

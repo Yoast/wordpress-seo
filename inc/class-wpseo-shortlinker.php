@@ -116,7 +116,7 @@ class WPSEO_Shortlinker {
 				$cohort = '6-30';
 				break;
 			default:
-				$cohort = '>30';
+				$cohort = '30plus';
 		}
 		return $cohort;
 	}

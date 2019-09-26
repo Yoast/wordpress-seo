@@ -49,7 +49,7 @@ class Indexable_Repository extends ORMWrapper {
 	 * @param \Yoast\WP\Free\Builders\Indexable_Term_Builder   $term_builder   The term builder for creating missing indexables.
 	 * @param \Yoast\WP\Free\Loggers\Logger                    $logger         The logger.
 	 *
-	 * @return Indexable_Repository
+	 * @return \Yoast\WP\Free\Repositories\Indexable_Repository
 	 */
 	public static function get_instance(
 		Indexable_Author_Builder $author_builder,
@@ -77,8 +77,8 @@ class Indexable_Repository extends ORMWrapper {
 	 * @param string $url The indexable url.
 	 */
 	public function find_by_url( $url ) {
-		$url      = trailingslashit( $url );
-		$url_hash = strlen( $url ) . ':' . md5( $url );
+		$url      = \trailingslashit( $url );
+		$url_hash = \strlen( $url ) . ':' . \md5( $url );
 
 		// Find by both url_hash and url, url_hash is indexed so will be used first by the DB to optimize the query.
 		return $this->where( 'url_hash', $url_hash )
@@ -105,6 +105,36 @@ class Indexable_Repository extends ORMWrapper {
 		}
 
 		return $indexable;
+	}
+
+	/**
+	 * Retrieves multiple indexables at once by their IDs and type.
+	 *
+	 * @param int[]  $object_ids  The array of indexable object IDs.
+	 * @param string $object_type The indexable object type.
+	 * @param bool   $auto_create Optional. Create the indexable if it does not exist.
+	 *
+	 * @return \Yoast\WP\Free\Models\Indexable[] An array of indexables.
+	 */
+	public function find_by_multiple_ids_and_type( $object_ids, $object_type, $auto_create = true ) {
+		$indexables = $this
+			->where_in( 'object_id', $object_ids )
+			->where( 'object_type', $object_type )
+			->find_many();
+
+		if ( $auto_create ) {
+			$indexables_available = array_column( $indexables, 'object_id' );
+			$indexables_to_create = array_diff( $object_ids, $indexables_available );
+
+			foreach ( $indexables_to_create as $indexable_to_create ) {
+				$indexable = $this->create_for_id_and_type( $indexable_to_create, $object_type );
+				$indexable->save();
+
+				$indexables[] = $indexable;
+			}
+		}
+
+		return $indexables;
 	}
 
 	/**
