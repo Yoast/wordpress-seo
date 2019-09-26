@@ -371,7 +371,7 @@ class WPSEO_Image_Utils {
 	 *
 	 * @return string|null The image URL.
 	 */
-	public static function get_first_usable_content_image_for_post( $post_id ) {
+	public static function get_first_usable_content_image_for_post( $post_id = null ) {
 		$post = get_post( $post_id );
 
 		// We know get_post() returns the post or null.
