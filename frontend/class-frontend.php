@@ -780,7 +780,7 @@ class WPSEO_Frontend {
 		if ( $robotsstr !== '' ) {
 			$robotsstr .= ', ';
 		}
-		$robotsstr .= 'max-snippet:-1, max-image-preview:large; max-video-preview:-1';
+		$robotsstr .= 'max-snippet:-1, max-image-preview:large, max-video-preview:-1';
 
 		/**
 		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
