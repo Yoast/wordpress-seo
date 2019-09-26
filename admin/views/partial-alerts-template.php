@@ -81,7 +81,10 @@ if ( ! $active ) {
 		<p><?php echo esc_html( $wpseo_i18n_summary ); ?></p>
 
 		<div class="container yoast-alerts-active" id="<?php echo esc_attr( 'yoast-' . $type . '-active' ); ?>">
-			<?php echo _yoast_display_alerts( $active, 'active' ); ?>
+            <?php
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_alerts is considered a safe function.
+            echo _yoast_display_alerts( $active, 'active' );
+            ?>
 		</div>
 
 		<?php
@@ -98,6 +101,7 @@ if ( ! $active ) {
 					'collapsible_header_class' => 'yoast-alert',
 				)
 			);
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: current usage is considered safe.
 			echo $dismissed_paper->get_output();
 		}
 		?>
