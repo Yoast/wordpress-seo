@@ -392,10 +392,6 @@ class WPSEO_Image_Utils {
 	 * @return string|null The image URL.
 	 */
 	public static function get_first_content_image_for_term( $term_id = null ) {
-		if ( $term_id === null ) {
-			return null;
-		}
-
 		$term_description = term_description( $term_id );
 
 		$image_finder = new WPSEO_Content_Images();
