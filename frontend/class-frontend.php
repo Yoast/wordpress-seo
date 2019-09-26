@@ -777,7 +777,7 @@ class WPSEO_Frontend {
 		$robotsstr = preg_replace( '`^index,follow,?`', '', $robotsstr );
 		$robotsstr = str_replace( array( 'noodp,', 'noodp' ), '', $robotsstr );
 
-		if ( strpos( $robotsstr, 'noindex' ) === false ) {
+		if ( strpos( $robotsstr, 'noindex' ) === false && strpos( $robotsstr, 'nosnippet' ) === false ) {
 			if ( $robotsstr !== '' ) {
 				$robotsstr .= ', ';
 			}
