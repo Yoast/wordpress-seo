@@ -13,7 +13,6 @@ use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Presenters\Presenter_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
-use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -50,9 +49,17 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	protected $base_presenters = [
 		'Debug_Marker_Open' => 'site_wide',
-		'Canonical'         => 'indexable',
 		'Title'             => 'indexable',
 		'Meta_Description'  => 'indexable',
+	];
+
+	/**
+	 * The presenters we loop through on each page load.
+	 *
+	 * @var array
+	 */
+	protected $indexing_directive_presenters = [
+		'Canonical'         => 'indexable',
 		'Robots'            => 'indexable',
 	];
 
@@ -62,16 +69,17 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var array
 	 */
 	protected $open_graph_presenters = [
-		'Open_Graph_Locale'       => 'site_wide',
-		'Open_Graph_Site_Name'    => 'site_wide',
-		'Open_Graph_Url'          => 'indexable',
-		'Open_Graph_Type'         => 'indexable',
-		'Open_Graph_Author'       => 'indexable',
-		'Open_Graph_Section'      => 'indexable',
-		'Open_Graph_Publish_Time' => 'indexable',
-		'Open_Graph_Title'        => 'indexable',
-		'Open_Graph_Description'  => 'indexable',
-		'Open_Graph_Image'        => 'indexable',
+		'Open_Graph_Locale'                => 'site_wide',
+		'Open_Graph_Type'                  => 'indexable',
+		'Open_Graph_Title'                 => 'indexable',
+		'Open_Graph_Description'           => 'indexable',
+		'Open_Graph_Url'                   => 'indexable',
+		'Open_Graph_Site_Name'             => 'site_wide',
+		'Open_Graph_Article_Publisher'     => 'site_wide',
+		'Open_Graph_Article_Author'        => 'indexable',
+		'Open_Graph_Article_Publish_Time'  => 'indexable',
+		'Open_Graph_Article_Modified_Time' => 'indexable',
+		'Open_Graph_Image'                 => 'indexable',
 	];
 
 	/**
@@ -80,12 +88,25 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var array
 	 */
 	protected $twitter_card_presenters = [
-		'Twitter_Site'        => 'site_wide',
 		'Twitter_Card'        => 'indexable',
-		'Twitter_Creator'     => 'indexable',
 		'Twitter_Title'       => 'indexable',
 		'Twitter_Description' => 'indexable',
 		'Twitter_Image'       => 'indexable',
+		'Twitter_Creator'     => 'indexable',
+		'Twitter_Site'        => 'site_wide',
+	];
+
+	/**
+	 * Presenters that are only needed on singular pages.
+	 *
+	 * @var array
+	 */
+	protected $singular_presenters = [
+		'Open_Graph_Article_Author',
+		'Open_Graph_Article_Publisher',
+		'Open_Graph_Article_Publish_Time',
+		'Open_Graph_Article_Modified_Time',
+		'Twitter_Creator',
 	];
 
 	/**
@@ -154,8 +175,8 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return Presenter_Interface[]
 	 */
 	public function get_presenters() {
-		$needed_presenters = $this->get_needed_presenters();
 		$page_type         = $this->get_page_type();
+		$needed_presenters = $this->get_needed_presenters( $page_type );
 		$invalid_behaviour = ContainerInterface::NULL_ON_INVALID_REFERENCE;
 		if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true && false ) {
 			$invalid_behaviour = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
@@ -203,17 +224,12 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Generate the array of presenters we need for the current request.
 	 *
+	 * @param string $page_type The page type we're retrieving presenters for.
+	 *
 	 * @return array
 	 */
-	private function get_needed_presenters() {
-		$presenters = $this->base_presenters;
-		if ( WPSEO_Options::get( 'opengraph' ) === true ) {
-			$presenters = array_merge( $presenters, $this->open_graph_presenters );
-		}
-		if ( WPSEO_Options::get( 'twitter' ) === true ) {
-			$presenters = array_merge( $presenters, $this->twitter_card_presenters );
-		}
-		$presenters = array_merge( $presenters, $this->closing_presenters );
+	private function get_needed_presenters( $page_type ) {
+		$presenters = $this->get_presenters_for_page_type( $page_type );
 
 		/**
 		 * Filter 'wpseo_frontend_presenters' - Allow filtering presenters in or out of the request.
@@ -224,4 +240,42 @@ class Front_End_Integration implements Integration_Interface {
 
 		return $presenters;
 	}
+
+	/**
+	 * Filters the presenters based on the page type.
+	 *
+	 * @param string $page_type  The page type.
+	 *
+	 * @return array The array of presenters.
+	 */
+	private function get_presenters_for_page_type( $page_type ) {
+		if ( $page_type === 'Error_Page' ) {
+			return array_merge( $this->base_presenters, $this->closing_presenters );
+		}
+
+		$presenters = $this->get_all_presenters();
+		// Filter out the presenters only needed for singular pages on non-singular pages.
+		if ( $page_type !== 'Post_Type' ) {
+			$presenters = array_diff( $presenters, $this->singular_presenters );
+		}
+
+		return $presenters;
+	}
+
+	/**
+	 * Returns a list of all available presenters based on settings.
+	 *
+	 * @return array Array of presenters.
+	 */
+	private function get_all_presenters() {
+		$presenters = $this->base_presenters;
+		if ( WPSEO_Options::get( 'opengraph' ) === true ) {
+			$presenters = array_merge( $presenters, $this->open_graph_presenters );
+		}
+		if ( WPSEO_Options::get( 'twitter' ) === true ) {
+			$presenters = array_merge( $presenters, $this->twitter_card_presenters );
+		}
+		return array_merge( $presenters, $this->closing_presenters );
+	}
+
 }

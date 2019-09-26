@@ -8,7 +8,7 @@
 namespace Yoast\WP\Free\Presenters\Site;
 
 /**
- * Class Open_Graph_Locale_Presenter
+ * Class Site_Open_Graph_Locale_Presenter
  */
 final class Open_Graph_Locale_Presenter implements Site_Presenter_Interface {
 	/**
