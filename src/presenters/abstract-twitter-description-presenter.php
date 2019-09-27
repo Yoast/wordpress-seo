@@ -87,6 +87,8 @@ abstract class Abstract_Twitter_Description_Presenter implements Presenter_Inter
 	/**
 	 * Gets an object to be used as a source of replacement variables.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param Indexable $indexable The indexable.
 	 *
 	 * @return array A key => value array of variables that may be replaced.
