@@ -30,6 +30,15 @@ abstract class Abstract_Twitter_Description_Presenter implements Presenter_Inter
 	protected $replace_vars_helper;
 
 	/**
+	 * Generates the Twitter card type for an indexable.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return string The description.
+	 */
+	abstract public function generate( Indexable $indexable );
+
+	/**
 	 * Generates the description and returns the meta value.
 	 *
 	 * @param Indexable $indexable The indexable to use.
@@ -49,16 +58,9 @@ abstract class Abstract_Twitter_Description_Presenter implements Presenter_Inter
 	}
 
 	/**
-	 * Generates the Twitter card type for an indexable.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return string The title.
-	 */
-	abstract public function generate( Indexable $indexable );
-
-	/**
 	 * @required
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * Sets the replace vars helper, used by DI.
 	 *
@@ -66,6 +68,20 @@ abstract class Abstract_Twitter_Description_Presenter implements Presenter_Inter
 	 */
 	public function set_replace_vars_helper( WPSEO_Replace_Vars $replace_vars_helper ) {
 		$this->replace_vars_helper = $replace_vars_helper;
+	}
+
+	/**
+	 * Replace replacement variables in the description.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param string    $description The description.
+	 * @param Indexable $indexable   The indexable.
+	 *
+	 * @return string The description with replacement variables replaced.
+	 */
+	protected function replace_vars( $description, Indexable $indexable ) {
+		return $this->replace_vars_helper->replace( $description, $this->get_replace_vars_object( $indexable ) );
 	}
 
 	/**
@@ -82,7 +98,7 @@ abstract class Abstract_Twitter_Description_Presenter implements Presenter_Inter
 	/**
 	 * Retrieves the meta description.
 	 *
-	 * @param Indexable $indexable  The indexable.
+	 * @param Indexable $indexable The indexable.
 	 *
 	 * @return string The meta description.
 	 */
@@ -104,19 +120,5 @@ abstract class Abstract_Twitter_Description_Presenter implements Presenter_Inter
 		 * @api string $twitter_description The description string.
 		 */
 		return apply_filters( 'wpseo_twitter_description', $twitter_description );
-	}
-
-	/**
-	 * Replace replacement variables in the title.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param string    $title     The title.
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return string The title with replacement variables replaced.
-	 */
-	private function replace_vars( $title, Indexable $indexable ) {
-		return $this->replace_vars_helper->replace( $title, $this->get_replace_vars_object( $indexable ) );
 	}
 }
