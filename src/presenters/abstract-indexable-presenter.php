@@ -10,6 +10,9 @@ namespace Yoast\WP\Free\Presenters;
 use WPSEO_Replace_Vars;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 
+/**
+ * Class Abstract_Indexable_Presenter
+ */
 abstract class Abstract_Indexable_Presenter {
 
 	/**

@@ -1,6 +1,8 @@
 <?php
 /**
  * Presentation object for indexables.
+ *
+ * @package Yoast\YoastSEO\Presentations
  */
 
 namespace Yoast\WP\Free\Presentations;

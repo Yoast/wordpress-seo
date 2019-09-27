@@ -184,7 +184,7 @@ class Front_End_Integration implements Integration_Interface {
 		$presentation = $this->container->get( "Yoast\WP\Free\Presentations\Indexable_{$page_type}_Presentation", ContainerInterface::NULL_ON_INVALID_REFERENCE );
 
 		if ( ! $presentation ) {
-			$presentation = $this->container->get( "Yoast\WP\Free\Presentations\Indexable_Presentation" );
+			$presentation = $this->container->get( 'Yoast\WP\Free\Presentations\Indexable_Presentation' );
 		}
 
 		return $presentation->of( $indexable );

@@ -1,6 +1,8 @@
 <?php
 /**
  * Presentation object for indexables.
+ *
+ * @package Yoast\YoastSEO\Presentations
  */
 
 namespace Yoast\WP\Free\Presentations;
@@ -23,6 +25,12 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 	 */
 	private $current_page_helper;
 
+	/**
+	 * Indexable_Home_Page_Presentation constructor.
+	 *
+	 * @param Options_Helper      $options_helper      The options helper.
+	 * @param Current_Page_Helper $current_page_helper The current page helper.
+	 */
 	public function __construct(
 		Options_Helper $options_helper,
 		Current_Page_Helper $current_page_helper
@@ -31,6 +39,9 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 		$this->current_page_helper = $current_page_helper;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function generate_meta_description() {
 		if ( $this->model->description ) {
 			return $this->model->description;
@@ -39,6 +50,9 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 		return $this->options_helper->get( 'metadesc-home-wpseo' );
 	}
 
+	/**
+	 * @inheritDoc
+	 */
 	public function generate_replace_vars_object() {
 		if ( $this->current_page_helper->is_home_static_page() ) {
 			return \get_post( $this->model->object_id );

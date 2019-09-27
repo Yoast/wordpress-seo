@@ -25,9 +25,7 @@ class Twitter_Image_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Sets the url helper as dependency.
 	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param Url_Helper $url_helper
+	 * @param Url_Helper $url_helper The url helper.
 	 */
 	public function __construct( Url_Helper $url_helper ) {
 		$this->url_helper = $url_helper;
@@ -41,6 +39,10 @@ class Twitter_Image_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The template.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
+		if ( \post_password_required() ) {
+			return '';
+		}
+
 		$twitter_image = $this->format( $presentation->twitter_image );
 		$twitter_image = $this->filter( $twitter_image );
 		$twitter_image = \esc_url( $twitter_image );

@@ -1,6 +1,8 @@
 <?php
 /**
  * The abstract presentation class.
+ *
+ * @package Yoast\YoastSEO\Presentations
  */
 
 namespace Yoast\WP\Free\Presentations;
