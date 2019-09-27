@@ -19,7 +19,7 @@ use Brain\Monkey;
  * @group twitter
  * @group twitter-image
  */
-class Twitter_Image_Presenter_Test extends TestCase {
+class Abstract_Twitter_Image_Presenter_Test extends TestCase {
 
 	/**
 	 * Tests the presentation of a relative image.
@@ -185,6 +185,4 @@ class Twitter_Image_Presenter_Test extends TestCase {
 
 		$this->assertEquals( 'opengraph_image.jpg', $instance->retrieve_social_image( $indexable ) );
 	}
-
-
 }

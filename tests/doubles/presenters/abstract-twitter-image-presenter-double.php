@@ -7,19 +7,7 @@ use Yoast\WP\Free\Presenters\Abstract_Twitter_Image_Presenter;
 /**
  * Test Helper Class.
  */
-class Abstract_Twitter_Image_Presenter_Double extends Abstract_Twitter_Image_Presenter {
-
-	/**
-	 * Generates the Twitter image for an indexable.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return string The Twitter image.
-	 */
-	public function generate( Indexable $indexable ) {
-		// Do nothing.
-		return '';
-	}
+abstract class Abstract_Twitter_Image_Presenter_Double extends Abstract_Twitter_Image_Presenter {
 
 	/**
 	 * Retrieves the site wide default image/
