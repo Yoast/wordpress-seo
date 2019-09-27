@@ -1,27 +1,27 @@
 <?php
 /**
- * Abstract presenter class for the Twitter card type.
+ * Presenter class for the OpenGraph title.
  *
  * @package Yoast\YoastSEO\Presenters
  */
 
 namespace Yoast\WP\Free\Presenters;
 
-use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\Presentations\Indexable_Presentation;
 
 /**
- * Class Abstract_Twitter_Card_Presenter
+ * Class Abstract_Title_Presenter
  */
-abstract class Abstract_Twitter_Card_Presenter implements Presenter_Interface {
+class Twitter_Card_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Presents the twitter card meta tag.
 	 *
-	 * @param Indexable $indexable The indexable.
+	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *
 	 * @return string The twitter card tag.
 	 */
-	public function present( Indexable $indexable ) {
-		$card_type = $this->filter( $this->generate( $indexable ) );
+	public function present( Indexable_Presentation $presentation ) {
+		$card_type = $this->filter( $presentation->twitter_card );
 		if ( is_string( $card_type ) && $card_type !== '' ) {
 			return sprintf( '<meta name="twitter:card" content="%s" />', $card_type );
 		}
@@ -44,13 +44,4 @@ abstract class Abstract_Twitter_Card_Presenter implements Presenter_Interface {
 		 */
 		return (string) trim( \apply_filters( 'wpseo_twitter_card_type', $card_type ) );
 	}
-
-	/**
-	 * Generates the Twitter card type for an indexable.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return string The Twitter card type.
-	 */
-	abstract public function generate( Indexable $indexable );
 }
