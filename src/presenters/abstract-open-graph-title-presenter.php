@@ -9,41 +9,13 @@ namespace Yoast\WP\Free\Presenters;
 
 use WPSEO_Replace_Vars;
 use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Presenters\Post_Type\Title_Presenter;
 
 /**
  * Class Abstract_Title_Presenter
  */
-abstract class Abstract_Open_Graph_Title_Presenter implements Presenter_Interface {
-	/**
-	 * @var Title_Presenter
-	 */
-	protected $title_presenter;
-
-	/**
-	 * @var WPSEO_Replace_Vars
-	 */
-	protected $replace_vars_helper;
-
-	/**
-	 * @required
-	 *
-	 * @param Title_Presenter $title_presenter Title presenter.
-	 */
-	public function set_title_presenter( Title_Presenter $title_presenter ) {
-		$this->title_presenter = $title_presenter;
-	}
-
-	/**
-	 * @required
-	 *
-	 * Sets the replace vars helper, used by DI.
-	 *
-	 * @param \WPSEO_Replace_Vars $replace_vars_helper The replace vars helper.
-	 */
-	public function set_replace_vars_helper( WPSEO_Replace_Vars $replace_vars_helper ) {
-		$this->replace_vars_helper = $replace_vars_helper;
-	}
+class Open_Graph_Title_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
 	 * Returns the title for a post.
@@ -52,8 +24,8 @@ abstract class Abstract_Open_Graph_Title_Presenter implements Presenter_Interfac
 	 *
 	 * @return string The title tag.
 	 */
-	public function present( Indexable $indexable ) {
-		$title = $this->filter( $this->replace_vars( $this->generate( $indexable ), $indexable ) );
+	public function present( Indexable_Presentation $presentation ) {
+		$title = $this->filter( $this->replace_vars( $presentation->og_title, $presentation ) );
 
 		if ( is_string( $title ) && $title !== '' ) {
 			return '<meta property="og:title" value="' . \esc_attr( \wp_strip_all_tags( \stripslashes( $title ) ) ) . '"/>';
@@ -76,37 +48,5 @@ abstract class Abstract_Open_Graph_Title_Presenter implements Presenter_Interfac
 		 * @api string $title The title.
 		 */
 		return (string) trim( \apply_filters( 'wpseo_title', $title ) );
-	}
-
-	/**
-	 * Replace replacement variables in the title.
-	 *
-	 * @param string    $title     The title.
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return string The title with replacement variables replaced.
-	 */
-	private function replace_vars( $title, Indexable $indexable ) {
-		return $this->replace_vars_helper->replace( $title, $this->get_replace_vars_object( $indexable ) );
-	}
-
-	/**
-	 * Generates the title for an indexable.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return string The title.
-	 */
-	protected abstract function generate( Indexable $indexable );
-
-	/**
-	 * Gets an object to be used as a source of replacement variables.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return array A key => value array of variables that may be replaced.
-	 */
-	protected function get_replace_vars_object( Indexable $indexable ) {
-		return [];
 	}
 }
