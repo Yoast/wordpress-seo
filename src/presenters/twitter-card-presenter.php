@@ -10,15 +10,15 @@ namespace Yoast\WP\Free\Presenters;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 
 /**
- * Class Abstract_Title_Presenter
+ * Class Twitter_Card_Presenter
  */
 class Twitter_Card_Presenter extends Abstract_Indexable_Presenter {
 	/**
-	 * Presents the twitter card meta tag.
+	 * Presents the Twitter card meta tag.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *
-	 * @return string The twitter card tag.
+	 * @return string The Twitter card tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
 		$card_type = $this->filter( $presentation->twitter_card );

@@ -33,7 +33,7 @@ class Abstract_Presentation {
 	 */
 	public function of( $model ) {
 		if ( ! $this->is_prototype ) {
-			throw new Exception( "Attempting to create a model presentation from another model presentation. Use the prototype presentation gained from DI instead." );
+			throw new Exception( 'Attempting to create a model presentation from another model presentation. Use the prototype presentation gained from DI instead.' );
 		}
 
 		// Clone self to allow stateful services that do benefit from DI.
@@ -54,7 +54,7 @@ class Abstract_Presentation {
 	 */
 	public function __get( $name ) {
 		if ( $this->is_prototype ) {
-			throw new Exception( "Attempting property access on prototype presentation. Use Presentation::of( \$model ) to get a model presentation." );
+			throw new Exception( 'Attempting property access on prototype presentation. Use Presentation::of( \$model ) to get a model presentation.' );
 		}
 		$generator = "generate_$name";
 		if ( method_exists( $this, $generator ) ) {
