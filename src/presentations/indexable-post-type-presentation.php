@@ -119,7 +119,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		// When OpenGraph is disabled just return empty string.
-		if ( ! $this->options_helper->get( 'opengraph' ) !== true ) {
+		if ( $this->options_helper->get( 'opengraph' ) !== true ) {
 			return '';
 		}
 
