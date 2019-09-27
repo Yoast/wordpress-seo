@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Presenters;
 
-use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 
 /**
@@ -18,7 +17,7 @@ class Open_Graph_Title_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the title for a post.
 	 *
-	 * @param Indexable $indexable The indexable.
+	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *
 	 * @return string The title tag.
 	 */

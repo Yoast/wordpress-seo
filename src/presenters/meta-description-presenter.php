@@ -17,7 +17,7 @@ class Meta_Description_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the meta description for a post.
 	 *
-	 * @param Indexable_Presentation $presentation The indexable.
+	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *
 	 * @return string The meta description tag.
 	 */

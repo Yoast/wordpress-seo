@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Presenters;
 
-use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 
 /**
@@ -18,7 +17,7 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Returns the meta description for a post.
 	 *
-	 * @param Indexable $indexable The indexable.
+	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *
 	 * @return string The meta description tag.
 	 */
