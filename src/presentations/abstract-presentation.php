@@ -65,4 +65,16 @@ class Abstract_Presentation {
 		}
 		throw new Exception( "Property $name has no generator. Expected function $generator." );
 	}
+
+	/**
+	 * Magic isset for ensuring methods that have a generator are recognised.
+	 *
+	 * @param string $name The property to get.
+	 *
+	 * @return bool Whether or not there is a generator for the requested property.
+	 */
+	public function __isset( $name ) {
+		return method_exists( $this, "generate_$name" );
+
+	}
 }
