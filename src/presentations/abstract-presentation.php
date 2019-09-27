@@ -57,9 +57,9 @@ class Abstract_Presentation {
 			throw new Exception( "Attempting property access on prototype presentation. Use Presentation::of( \$model ) to get a model presentation." );
 		}
 		$generator = "generate_$name";
-		if ( method_exists( $this->presentation, $generator ) ) {
-			$this->{$name} = $this->presentation->$generator( $this->indexable );
-			return $this{$name};
+		if ( method_exists( $this, $generator ) ) {
+			$this->{$name} = $this->$generator();
+			return $this->{$name};
 		}
 		throw new Exception( "Property $name has no generator. Expected function $generator." );
 	}

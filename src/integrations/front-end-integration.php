@@ -206,7 +206,7 @@ class Front_End_Integration implements Integration_Interface {
 		return array_filter(
 			array_map( function ( $presenter ) use ( $page_type, $invalid_behaviour ) {
 				return $this->container->get( "Yoast\WP\Free\Presenters\\{$presenter}_Presenter", $invalid_behaviour );
-			}, array_keys( $needed_presenters ), $needed_presenters )
+			}, $needed_presenters )
 		);
 	}
 
