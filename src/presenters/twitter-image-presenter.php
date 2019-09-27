@@ -35,6 +35,7 @@ class Twitter_Image_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
 	 * Presents a presentation.
+	 *
 	 * @param Indexable_Presentation $presentation The presentation to present.
 	 *
 	 * @return string The template.
