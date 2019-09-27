@@ -208,6 +208,7 @@ Read more about Yoast SEO 12.2 in [our 12.2 release post](https://yoa.st/release
 
 Enhancements:
 
+* Adds default robots meta settings to opt in to all snippet display features, to prevent affected websites in Europe from having snippet display issues.
 * Adds an alert to the configuration wizard and the knowledge graph settings that is shown when organization information is missing.
 
 Bugfixes:
