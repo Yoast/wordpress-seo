@@ -268,7 +268,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @return array Array of presenters.
 	 */
 	private function get_all_presenters() {
-		$presenters = $this->base_presenters;
+		$presenters = array_merge( $this->base_presenters, $this->indexing_directive_presenters );
 		if ( WPSEO_Options::get( 'opengraph' ) === true ) {
 			$presenters = array_merge( $presenters, $this->open_graph_presenters );
 		}
