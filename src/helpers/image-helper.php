@@ -39,23 +39,18 @@ class Image_Helper {
 	/**
 	 * Gets the featured image url.
 	 *
-	 * @param int $post_id Post ID to use.
+	 * @param int    $post_id    Post ID to use.
+	 * @param string $image_size The image size to retrieve.
 	 *
 	 * @return string The image url or an empty string when not found.
 	 */
-	public function get_featured_image( $post_id ) {
+	public function get_featured_image( $post_id, $image_size = 'full' ) {
 		if ( ! \has_post_thumbnail( $post_id ) ) {
 			return '';
 		}
 
-		/**
-		 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size.
-		 *
-		 * @api string $featured_img Image size string.
-		 */
-		$image_size = \apply_filters( 'wpseo_twitter_image_size', 'full' );
-
-		$featured_image = \wp_get_attachment_image_src( get_post_thumbnail_id( $post_id ), $image_size );
+		$thumbnail_id   = \get_post_thumbnail_id( $post_id );
+		$featured_image = \wp_get_attachment_image_src( $thumbnail_id, $image_size );
 
 		if ( ! $featured_image ) {
 			return '';
@@ -93,12 +88,25 @@ class Image_Helper {
 	 * @return string The image url or an empty string when not found.
 	 */
 	public function get_post_content_image( $post_id ) {
-		$image_url = WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
+		$image_url = $this->get_first_usable_content_image_for_post( $post_id );
 
 		if ( $image_url === null ) {
 			return '';
 		}
 
 		return $image_url;
+	}
+
+	/**
+	 * Retrieves the first usable content image for a post.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param int $post_id The post id to extract the images from.
+	 *
+	 * @return string|null
+	 */
+	protected function get_first_usable_content_image_for_post( $post_id ) {
+		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
 	}
 }
