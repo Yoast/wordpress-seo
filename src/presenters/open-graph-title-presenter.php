@@ -1,19 +1,17 @@
 <?php
 /**
- * Abstract presenter class for the OpenGraph title.
+ * Presenter class for the OpenGraph title.
  *
  * @package Yoast\YoastSEO\Presenters
  */
 
 namespace Yoast\WP\Free\Presenters;
 
-use WPSEO_Replace_Vars;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Post_Type\Title_Presenter;
 
 /**
- * Class Abstract_Title_Presenter
+ * Class Title_Presenter
  */
 class Open_Graph_Title_Presenter extends Abstract_Indexable_Presenter {
 
