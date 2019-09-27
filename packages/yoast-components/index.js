@@ -63,7 +63,7 @@ export { SiteSEOReport as SeoAssessment } from "@yoast/analysis-report";
 export { default as VideoTutorial } from "./composites/HelpCenter/views/VideoTutorial";
 export { default as KeywordInput } from "./composites/Plugin/Shared/components/KeywordInput";
 export { insightsReducer } from "./redux/reducers/insights";
-export { setProminentWords } from "./redux/actions/insights";
+export { setWordsForInsights } from "./redux/actions/insights";
 export {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
