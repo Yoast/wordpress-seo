@@ -45,4 +45,37 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	public function generate_replace_vars_object() {
 		return \get_term( $this->model->object_id, $this->model->object_sub_type );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_twitter_image() {
+		$twitter_image = parent::generate_twitter_image();
+
+		if ( $twitter_image ) {
+			return $twitter_image;
+		}
+
+		// When OpenGraph is disabled just return empty string.
+		if ( ! $this->options_helper->get( 'opengraph' ) !== true ) {
+			return '';
+		}
+
+		if ( ! empty( $this->og_images ) ) {
+			return \reset( $this->og_images );
+		}
+
+		/**
+		 * Filter: wpseo_twitter_taxonomy_image - Allow developers to set a custom Twitter image for taxonomies.
+		 *
+		 * @api bool|string $unsigned Return string to supply image to use, false to use no image.
+		 */
+		$twitter_image = \apply_filters( 'wpseo_twitter_taxonomy_image', false );
+		if ( is_string( $twitter_image ) && $twitter_image !== '' ) {
+			return $twitter_image;
+		}
+
+		// When image is empty just retrieve the sitewide default.
+		return (string) $this->options_helper->get( 'og_default_image', '' );
+	}
 }
