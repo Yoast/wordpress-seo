@@ -97,7 +97,13 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $image_url;
 		}
 
-		$image_url = $this->image_helper->get_featured_image( $this->model->object_id );
+		/**
+		 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size.
+		 *
+		 * @api string $featured_img Image size string.
+		 */
+		$image_size = \apply_filters( 'wpseo_twitter_image_size', 'full' );
+		$image_url  = $this->image_helper->get_featured_image( $this->model->object_id, $image_size );
 		if ( $image_url ) {
 			return $image_url;
 		}
