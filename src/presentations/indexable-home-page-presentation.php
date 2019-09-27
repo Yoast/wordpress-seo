@@ -45,4 +45,27 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 		}
 		return [];
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_twitter_image() {
+		$twitter_image = parent::generate_twitter_image();
+
+		if ( $twitter_image ) {
+			return $twitter_image;
+		}
+
+		// When OpenGraph is disabled just return empty string.
+		if ( ! $this->options_helper->get( 'opengraph' ) !== true ) {
+			return '';
+		}
+
+		if ( ! empty( $this->og_images ) ) {
+			return \reset( $this->og_images );
+		}
+
+		// When image is empty just retrieve the sitewide default.
+		return (string) $this->options_helper->get( 'og_default_image', '' );
+	}
 }
