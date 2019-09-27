@@ -8,14 +8,14 @@ namespace Yoast\WP\Free\Tests\Presenters;
 use Mockery;
 use Yoast\WP\Free\Helpers\Url_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Twitter_Image_Presenter;
+use Yoast\WP\Free\Presenters\Twitter\Image_Presenter;
 use Yoast\WP\Free\Tests\TestCase;
 use Brain\Monkey;
 
 /**
  * Class Twitter_Image_Presenter_Test.
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Twitter_Image_Presenter
+ * @coversDefaultClass \Yoast\WP\Free\Presenters\Twitter\Image_Presenter
  *
  * @group twitter
  * @group twitter-image
@@ -28,7 +28,7 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	private $url_helper;
 
 	/**
-	 * @var Twitter_Image_Presenter
+	 * @var Image_Presenter
 	 */
 	private $instance;
 
@@ -37,9 +37,11 @@ class Twitter_Image_Presenter_Test extends TestCase {
 	 */
 	public function setUp() {
 		$this->url_helper = Mockery::mock( Url_Helper::class )->makePartial();
-		$this->instance   = new Twitter_Image_Presenter( $this->url_helper );
+		$this->instance   = new Image_Presenter( $this->url_helper );
 
-		return parent::setUp();
+		parent::setUp();
+
+		Monkey\Functions\expect( 'post_password_required' )->andReturn( false );
 	}
 
 	/**

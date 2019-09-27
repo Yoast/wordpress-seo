@@ -2,17 +2,18 @@
 /**
  * Presenter class for the OpenGraph title.
  *
- * @package Yoast\YoastSEO\Presenters
+ * @package Yoast\YoastSEO\Presenters\Twitter
  */
 
-namespace Yoast\WP\Free\Presenters;
+namespace Yoast\WP\Free\Presenters\Twitter;
 
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
+use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
 
 /**
  * Class Twitter_Card_Presenter
  */
-class Twitter_Card_Presenter extends Abstract_Indexable_Presenter {
+class Card_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Presents the Twitter card meta tag.
 	 *
