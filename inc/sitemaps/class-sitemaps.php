@@ -271,7 +271,6 @@ class WPSEO_Sitemaps {
 			return;
 		}
 
-		$this->send_headers( $type );
 		$this->output();
 		$this->sitemap_close();
 	}
@@ -443,6 +442,7 @@ class WPSEO_Sitemaps {
 	 * Spit out the generated sitemap.
 	 */
 	public function output() {
+		$this->send_headers();
 		echo $this->renderer->get_output( $this->sitemap, $this->transient );
 	}
 
@@ -616,11 +616,9 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Sends all the required HTTP Headers
-	 *
-	 * @param string $type Provide a type for a post_type sitemap, SITEMAP_INDEX_TYPE for the root sitemap.
+	 * Sends all the required HTTP Headers.
 	 */
-	private function send_headers( $type ) {
+	private function send_headers() {
 		$headers = array(
 			$this->http_protocol . ' 200 OK'                                                       => 200,
 			// Prevent the search engines from indexing the XML Sitemap.
@@ -632,9 +630,8 @@ class WPSEO_Sitemaps {
 		 * Filter the HTTP headers we send before an XML sitemap.
 		 *
 		 * @param array  $headers The HTTP headers we're going to send out.
-		 * @param string $type    Post type or SITEMAP_INDEX_TYPE.
 		 */
-		$headers = apply_filters( 'wpseo_sitemap_http_headers', $headers, $type );
+		$headers = apply_filters( 'wpseo_sitemap_http_headers', $headers );
 
 		foreach ( $headers as $header => $status ) {
 			if ( is_numeric( $status ) ) {
