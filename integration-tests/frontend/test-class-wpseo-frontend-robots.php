@@ -45,7 +45,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->go_to( get_home_url() );
 
 		// Test home page with no special options.
-		$this->assertEquals( '', self::$class_instance->robots() );
+		$this->assertEquals( 'max-snippet:-1, max-image-preview:large, max-video-preview:-1', self::$class_instance->robots() );
 	}
 
 	/**
@@ -88,7 +88,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Test 'paged' query var.
 		set_query_var( 'paged', 2 );
-		$this->assertEquals( '', self::$class_instance->robots() );
+		$this->assertEquals( 'max-snippet:-1, max-image-preview:large, max-video-preview:-1', self::$class_instance->robots() );
 		set_query_var( 'paged', 0 );
 	}
 
@@ -103,7 +103,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->go_to( get_permalink( $post_id ) );
 
 		// Test regular post with no special options.
-		$expected = '';
+		$expected = 'max-snippet:-1, max-image-preview:large, max-video-preview:-1';
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 	}
 
@@ -147,7 +147,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->go_to( $category_link );
 
 		// Test regular category with no special options.
-		$expected = '';
+		$expected = 'max-snippet:-1, max-image-preview:large, max-video-preview:-1';
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 	}
 
@@ -183,7 +183,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->go_to( get_author_posts_url( $user_id ) );
 
 		// Test author archive with no special options.
-		$expected = '';
+		$expected = 'max-snippet:-1, max-image-preview:large, max-video-preview:-1';
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 	}
 
@@ -221,7 +221,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		// Test that when this is _not_ set, we also do NOT have a noindex.
 		$user_id = $this->factory->user->create();
 		$this->go_to( get_author_posts_url( $user_id ) );
-		$expected = ''; // The default "index,follow" is automatically set to empty string.
+		$expected = 'max-snippet:-1, max-image-preview:large, max-video-preview:-1'; // The default "index,follow" is automatically set to empty string.
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 	}
 
