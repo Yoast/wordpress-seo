@@ -123,6 +123,19 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * @covers WPSEO_Frontend::robots
 	 */
+	public function test_post_nosnippet() {
+		// Create and go to post.
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
+		// Test nosnippet option.
+		WPSEO_Meta::set_value( 'meta-robots-adv', 'nosnippet', $post_id );
+		$this->assertEquals( 'nosnippet', self::$class_instance->robots() );
+	}
+
+	/**
+	 * @covers WPSEO_Frontend::robots
+	 */
 	public function test_private_post() {
 		// Create and go to post.
 		$post_id = $this->factory->post->create( array( 'post_status' => 'private' ) );
