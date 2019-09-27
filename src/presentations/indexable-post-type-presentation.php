@@ -31,6 +31,17 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
+	public function generate_title() {
+		if ( $this->model->title ) {
+			return $this->model->title;
+		}
+
+		return $this->options_helper->get( 'title-' . $this->model->object_sub_type );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function generate_meta_description() {
 		if ( $this->model->description ) {
 			return $this->model->description;
