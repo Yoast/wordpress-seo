@@ -22,7 +22,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param Options_Helper $options_helper
+	 * @param Options_Helper $options_helper The options helper.
 	 */
 	public function __construct(
 		Options_Helper $options_helper

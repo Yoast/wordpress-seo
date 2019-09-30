@@ -61,7 +61,7 @@ class Indexable_Home_Page_Watcher implements Integration_Interface {
 	 *
 	 * @param array  $old_value The old value of the option.
 	 * @param array  $new_value The new value of the option.
-	 * @param string $option    The name of hte option.
+	 * @param string $option    The name of the option.
 	 *
 	 * @return void
 	 */

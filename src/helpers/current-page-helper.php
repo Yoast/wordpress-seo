@@ -99,6 +99,15 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Returns the post type of the main query.
+	 *
+	 * @return string The post type of the main query.
+	 */
+	public function get_queried_post_type() {
+		return $this->wp_query_wrapper->get_main_query()->get_queried_post_type();
+	}
+
+	/**
 	 * Determine whether this is the homepage and shows posts.
 	 *
 	 * @return bool Whether or not the current page is the homepage that displays posts.
