@@ -13,6 +13,7 @@ use Yoast\WP\Free\Builders\Indexable_Term_Builder;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\ORM\ORMWrapper;
 use Yoast\WP\Free\ORM\Yoast_Model;
+use YoastSEO_Vendor\ORM;
 
 /**
  * Class Indexable_Repository
@@ -42,12 +43,18 @@ class Indexable_Repository extends ORMWrapper {
 	protected $logger;
 
 	/**
+	 * @var \wpdb
+	 */
+	protected $wpdb;
+
+	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
 	 * @param \Yoast\WP\Free\Builders\Indexable_Author_Builder $author_builder The author builder for creating missing indexables.
 	 * @param \Yoast\WP\Free\Builders\Indexable_Post_Builder   $post_builder   The post builder for creating missing indexables.
 	 * @param \Yoast\WP\Free\Builders\Indexable_Term_Builder   $term_builder   The term builder for creating missing indexables.
 	 * @param \Yoast\WP\Free\Loggers\Logger                    $logger         The logger.
+	 * @param \wpdb                                            $wpdb           The WordPress database instance.
 	 *
 	 * @return \Yoast\WP\Free\Repositories\Indexable_Repository
 	 */
@@ -55,7 +62,8 @@ class Indexable_Repository extends ORMWrapper {
 		Indexable_Author_Builder $author_builder,
 		Indexable_Post_Builder $post_builder,
 		Indexable_Term_Builder $term_builder,
-		Logger $logger
+		Logger $logger,
+		\wpdb $wpdb
 	) {
 		ORMWrapper::$repositories[ Yoast_Model::get_table_name( 'Indexable' ) ] = self::class;
 
@@ -67,6 +75,7 @@ class Indexable_Repository extends ORMWrapper {
 		$instance->post_builder   = $post_builder;
 		$instance->term_builder   = $term_builder;
 		$instance->logger         = $logger;
+		$instance->wpdb           = $wpdb;
 
 		return $instance;
 	}
@@ -189,5 +198,85 @@ class Indexable_Repository extends ORMWrapper {
 	 */
 	public function find_by_indexable_ids( array $indexable_ids ) {
 		return $this->where_id_in( $indexable_ids )->find_many();
+	}
+
+	/**
+	 * Creates a query that can find posts with outdated prominent words.
+	 *
+	 * @param int      $updated_version The version required for posts to be up-to-date.
+	 * @param string[] $post_types      The post types to find outdated posts for.
+	 *
+	 * @return \ORM Returns an ORM instance that can be used to execute the query.
+	 */
+	protected function create_query_for_outdated_prominent_words_posts( $updated_version, $post_types ) {
+		$prefix = $this->wpdb->prefix;
+		$posts_table = $prefix . 'posts';
+
+		// Because we need it in the subquery we can't do $this->select.
+		$indexables_table = Yoast_Model::get_table_name( 'Indexable' );
+
+		$post_statuses = array( 'future', 'draft', 'pending', 'private', 'publish' );
+
+		// Create a "?" placeholder for every post type to put in the query.
+		$post_types_placeholders = implode( ',', array_fill( 0, count( $post_types ), '?' ) );
+
+		$subquery = <<<QUERY
+			SELECT `object_id` FROM {$indexables_table}
+			WHERE `prominent_words_version` = ?
+			AND `object_type` = 'post'
+			AND `object_sub_type` IN ( {$post_types_placeholders} )
+QUERY;
+		$subquery_values = array_merge( [ $updated_version ], $post_types );
+
+		/*
+		 * The subquery selects all indexables that are up-to-date. Using NOT IN we
+		 * can then find all posts that are out-of-date.
+		 */
+		$query = ORM::for_table( $posts_table )
+		            ->select( 'ID' )
+		            ->where_raw( '`ID` NOT IN (' . $subquery . ')', $subquery_values )
+		            ->where_in( 'post_status', $post_statuses )
+		            ->where_in( 'post_type', $post_types );
+
+		return $query;
+	}
+
+	/**
+	 * Counts posts that have oudated prominent words.
+	 *
+	 * @param int      $updated_version The version required for posts to be up-to-date.
+	 * @param string[] $post_types The post types to count posts for.
+	 * @return int The amount of posts that have outdated prominent words.
+	 */
+	public function count_posts_with_outdated_prominent_words( $updated_version, array $post_types ) {
+		// Empty post types would syntax error the query, so early return with no results.
+		if ( empty( $post_types ) ) {
+			return 0;
+		}
+
+		$query = $this->create_query_for_outdated_prominent_words_posts( $updated_version, $post_types );
+
+		return $query->count();
+	}
+
+	/**
+	 * Finds posts that have outdated prominent words.
+	 *
+	 * @param int      $updated_version The version required for posts to be up-to-date.
+	 * @param string[] $post_types The post types to find posts for.
+	 * @param int      $limit      The maximum amount of posts to return.
+	 * @return int[]               The IDs of the outdated posts.
+	 */
+	public function find_posts_with_outdated_prominent_words( $updated_version, array $post_types, $limit = 10 ) {
+		// Empty post types would syntax error the query, so early return with no results.
+		if ( empty( $post_types ) ) {
+			return [];
+		}
+
+		$query = $this->create_query_for_outdated_prominent_words_posts( $updated_version, $post_types );
+
+		return array_map( function( $result ) {
+			return $result['ID'];
+		}, $query->limit( $limit )->find_array() );
 	}
 }
