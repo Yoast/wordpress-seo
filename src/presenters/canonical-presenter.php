@@ -22,6 +22,10 @@ class Canonical_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The canonical tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
+		if ( \in_array( 'noindex', $presentation->robots, true ) ) {
+			return '';
+		}
+
 		$canonical = $this->filter( $presentation->canonical );
 		if ( \is_string( $canonical ) && $canonical !== '' ) {
 			return \sprintf( '<link rel="canonical" href="%s" />', \esc_url( $canonical, null, 'other' ) );
