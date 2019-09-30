@@ -7,22 +7,22 @@
 
 namespace Yoast\WP\Free\Presenters;
 
-use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\Presentations\Indexable_Presentation;
 
 /**
- * Class Abstract_Meta_Robots_Presenter
+ * Class Robots_Presenter
  */
-abstract class Abstract_Robots_Presenter implements Presenter_Interface {
+class Robots_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
 	 * Returns the robots output.
 	 *
-	 * @param Indexable $indexable The indexable.
+	 * @param Indexable_Presentation $presentation The indexable presentation.
 	 *
 	 * @return string The robots output tag.
 	 */
-	public function present( Indexable $indexable ) {
-		$robots = $this->filter( $this->generate( $indexable ) );
+	public function present( Indexable_Presentation $presentation ) {
+		$robots = $this->filter( \implode( ',', $presentation->robots ) );
 
 		if ( is_string( $robots ) && $robots !== '' ) {
 			return sprintf( '<meta name="robots" content="%s"/>', esc_attr( $robots ) );
@@ -46,13 +46,4 @@ abstract class Abstract_Robots_Presenter implements Presenter_Interface {
 		 */
 		return (string) apply_filters( 'wpseo_robots', $robots );
 	}
-
-	/**
-	 * Generates the robots output for an indexable.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return string The robots output.
-	 */
-	public abstract function generate( Indexable $indexable );
 }

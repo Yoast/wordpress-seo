@@ -7,6 +7,8 @@
 
 namespace Yoast\WP\Free\Presentations;
 
+use Yoast\WP\Free\Helpers\Current_Page_Helper;
+use Yoast\WP\Free\Helpers\Robots_Helper;
 use Yoast\WP\Free\Models\Indexable;
 
 /**
@@ -40,6 +42,29 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $model;
 
 	/**
+	 * @var Robots_Helper
+	 */
+	protected $robots_helper;
+
+	/**
+	 * @var Current_Page_Helper
+	 */
+	protected $current_page_helper;
+
+	/**
+	 * @required
+	 *
+	 * Used by dependency injection container to inject the Robots_Helper.
+	 *
+	 * @param Robots_Helper       $robots_helper       The robots helper.
+	 * @param Current_Page_Helper $current_page_helper Current page helper.
+	 */
+	public function set_helpers( Robots_Helper $robots_helper, Current_Page_Helper $current_page_helper ) {
+		$this->robots_helper       = $robots_helper;
+		$this->current_page_helper = $current_page_helper;
+	}
+
+	/**
 	 * Generates the title.
 	 *
 	 * @return string The title.
@@ -69,29 +94,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The robots value.
 	 */
 	public function generate_robots() {
-		$robots = [
-			'index'        => ( $this->model->is_robots_noindex === '1' ) ? 'noindex' : 'index',
-			'follow'       => ( $this->model->is_robots_nofollow === '1' ) ? 'nofollow' : 'follow',
-			'noimageindex' => ( $this->model->is_robots_noimageindex === '1' ) ? 'noimageindex' : null,
-			'noarchive'    => ( $this->model->is_robots_noarchive === '1' ) ? 'noarchive' : null,
-			'nosnippet'    => ( $this->model->is_robots_nosnippet === '1' ) ? 'nosnippet' : null,
-		];
+		$robots = $this->robots_helper->get_base_values( $this->model );
 
-		// The option `blog_public` is set in Settings > Reading > Search Engine Visibility.
-		if ( (string) \get_option( 'blog_public' ) === '0' ) {
-			$robots['index'] = 'noindex';
-		};
-
-		// Remove null values.
-		$robots = array_filter( $robots );
-
-		// If robots index and follow are set, they can be excluded because they are default values.
-		if ( $robots['index'] === 'index' && $robots['follow'] === 'follow' ) {
-			unset( $robots['index'] );
-			unset( $robots['follow'] );
-		}
-
-		return $robots;
+		return $this->robots_helper->after_generate( $robots );
 	}
 
 	/**
