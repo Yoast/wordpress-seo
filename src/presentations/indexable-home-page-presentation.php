@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Presentations;
 
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 
 /**
@@ -21,22 +20,14 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 	private $options_helper;
 
 	/**
-	 * @var Current_Page_Helper
-	 */
-	private $current_page_helper;
-
-	/**
 	 * Indexable_Home_Page_Presentation constructor.
 	 *
-	 * @param Options_Helper      $options_helper      The options helper.
-	 * @param Current_Page_Helper $current_page_helper The current page helper.
+	 * @param Options_Helper $options_helper The options helper.
 	 */
 	public function __construct(
-		Options_Helper $options_helper,
-		Current_Page_Helper $current_page_helper
+		Options_Helper $options_helper
 	) {
-		$this->options_helper      = $options_helper;
-		$this->current_page_helper = $current_page_helper;
+		$this->options_helper = $options_helper;
 	}
 
 	/**
@@ -53,11 +44,23 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_replace_vars_object() {
-		if ( $this->current_page_helper->is_home_static_page() ) {
-			return \get_post( $this->model->object_id );
+	public function generate_twitter_description() {
+		$twitter_description = parent::generate_twitter_description();
+
+		if ( $twitter_description ) {
+			return $twitter_description;
 		}
-		return [];
+
+		if ( $this->meta_description ) {
+			return $this->meta_description;
+		}
+
+		$excerpt = \wp_strip_all_tags( \get_the_excerpt( $this->model->object_id ) );
+		if ( $excerpt ) {
+			return $excerpt;
+		}
+
+		return '';
 	}
 
 	/**

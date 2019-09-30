@@ -3,7 +3,7 @@
  * WPSEO plugin test file.
  */
 
-namespace Yoast\WP\Free\Tests\Presenters;
+namespace Yoast\WP\Free\Tests\Presenters\Twitter;
 
 use Mockery;
 use Yoast\WP\Free\Helpers\Url_Helper;
@@ -21,7 +21,7 @@ use Brain\Monkey;
  * @group twitter
  * @group twitter-image
  */
-class Twitter_Image_Presenter_Test extends TestCase {
+class Image_Presenter_Test extends TestCase {
 
 	/**
 	 * @var Url_Helper|Mockery\MockInterface
