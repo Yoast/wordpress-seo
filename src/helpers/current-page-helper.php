@@ -105,8 +105,8 @@ class Current_Page_Helper {
 	 */
 	public function get_queried_post_type() {
 		$post_type = $this->wp_query_wrapper->get_main_query()->get( 'post_type' );
-		if ( is_array( $post_type ) ) {
-			$post_type = reset( $post_type );
+		if ( \is_array( $post_type ) ) {
+			$post_type = \reset( $post_type );
 		}
 
 		return $post_type;
