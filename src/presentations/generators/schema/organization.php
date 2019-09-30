@@ -2,7 +2,7 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Frontend\Schema
+ * @package Yoast\WP\Free\Presentations\Generators\Schema
  */
 
 namespace Yoast\WP\Free\Presentations\Generators\Schema;
@@ -93,7 +93,7 @@ class Organization extends Abstract_Schema_Piece {
 		 *
 		 * @api string[] $profiles
 		 */
-		$profiles = apply_filters( 'wpseo_schema_organization_social_profiles', $profiles );
+		$profiles = \apply_filters( 'wpseo_schema_organization_social_profiles', $profiles );
 
 		return $profiles;
 	}

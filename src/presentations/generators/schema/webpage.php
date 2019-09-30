@@ -2,7 +2,7 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Frontend\Schema
+ * @package Yoast\WP\Free\Presentations\Generators\Schema
  */
 
 namespace Yoast\WP\Free\Presentations\Generators\Schema;
@@ -36,7 +36,7 @@ class WebPage extends Abstract_Schema_Piece {
 			'@type'      => $this->determine_page_type(),
 			'@id'        => $this->context->canonical . $this->id_helper->webpage_hash,
 			'url'        => $this->context->canonical,
-			'inLanguage' => get_bloginfo( 'language' ),
+			'inLanguage' => \get_bloginfo( 'language' ),
 			'name'       => $this->context->title,
 			'isPartOf'   => array(
 				'@id' => $this->context->site_url . $this->id_helper->website_hash,
@@ -52,17 +52,17 @@ class WebPage extends Abstract_Schema_Piece {
 		if ( \is_singular() ) {
 			$this->add_image( $data );
 
-			$post                  = get_post( $this->context->id );
-			$data['datePublished'] = mysql2date( DATE_W3C, $post->post_date_gmt, false );
-			$data['dateModified']  = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
+			$post                  = \get_post( $this->context->id );
+			$data['datePublished'] = \mysql2date( DATE_W3C, $post->post_date_gmt, false );
+			$data['dateModified']  = \mysql2date( DATE_W3C, $post->post_modified_gmt, false );
 
-			if ( get_post_type( $post ) === 'post' ) {
+			if ( \get_post_type( $post ) === 'post' ) {
 				$data = $this->add_author( $data, $post );
 			}
 		}
 
 		if ( ! empty( $this->context->description ) ) {
-			$data['description'] = strip_tags( $this->context->description, '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' );
+			$data['description'] = \strip_tags( $this->context->description, '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' );
 		}
 
 		if ( $this->add_breadcrumbs() ) {
@@ -106,7 +106,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @return bool
 	 */
 	private function add_breadcrumbs() {
-		if ( is_front_page() ) {
+		if ( $this->current_page_helper->is_home_posts_page() || $this->current_page_helper->is_home_static_page() ) {
 			return false;
 		}
 

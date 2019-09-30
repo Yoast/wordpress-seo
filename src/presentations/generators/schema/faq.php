@@ -2,7 +2,7 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Frontend\Schema
+ * @package Yoast\WP\Free\Presentations\Generators\Schema
  */
 
 namespace Yoast\WP\Free\Presentations\Generators\Schema;
@@ -48,8 +48,8 @@ class FAQ extends Abstract_Schema_Piece {
 	) {
 		parent::__construct( $context, $id_helper, $current_page_helper );
 
-		add_action( 'wpseo_pre_schema_block_type_yoast/faq-block', array( $this, 'prepare_schema' ), 10, 1 );
-		add_filter( 'wpseo_schema_block_yoast/faq-block', array( $this, 'render_schema_questions' ), 10, 2 );
+		\add_action( 'wpseo_pre_schema_block_type_yoast/faq-block', array( $this, 'prepare_schema' ), 10, 1 );
+		\add_filter( 'wpseo_schema_block_yoast/faq-block', array( $this, 'render_schema_questions' ), 10, 2 );
 	}
 
 	/**
@@ -60,7 +60,7 @@ class FAQ extends Abstract_Schema_Piece {
 	public function prepare_schema( $blocks ) {
 		$this->blocks    = $blocks;
 		$this->is_needed = true;
-		add_filter( 'wpseo_schema_webpage_type', array( $this, 'change_schema_page_type' ) );
+		\add_filter( 'wpseo_schema_webpage_type', array( $this, 'change_schema_page_type' ) );
 	}
 
 	/**
@@ -71,7 +71,7 @@ class FAQ extends Abstract_Schema_Piece {
 	 * @return array $page_type The page type that's now an array.
 	 */
 	public function change_schema_page_type( $page_type ) {
-		if ( ! is_array( $page_type ) ) {
+		if ( ! \is_array( $page_type ) ) {
 			$page_type = array( $page_type );
 		}
 		$page_type[] = 'FAQPage';

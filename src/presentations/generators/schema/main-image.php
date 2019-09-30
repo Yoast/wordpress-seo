@@ -2,7 +2,7 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Frontend\Schema
+ * @package Yoast\WP\Free\Presentations\Generators\Schema
  */
 
 namespace Yoast\WP\Free\Presentations\Generators\Schema;

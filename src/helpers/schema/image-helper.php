@@ -2,7 +2,7 @@
 /**
  * WPSEO plugin file.
  *
- * @package Yoast\WP\Free\Helpers
+ * @package Yoast\WP\Free\Helpers\Schema
  */
 
 namespace Yoast\WP\Free\Helpers\Schema;

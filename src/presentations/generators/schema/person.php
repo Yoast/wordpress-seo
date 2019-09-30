@@ -2,7 +2,7 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Frontend\Schema
+ * @package Yoast\WP\Free\Presentations\Generators\Schema
  */
 
 namespace Yoast\WP\Free\Presentations\Generators\Schema;
@@ -85,7 +85,7 @@ class Person extends Abstract_Schema_Piece {
 		 *
 		 * @api int|bool $user_id The user ID currently determined.
 		 */
-		return apply_filters( 'wpseo_schema_person_user_id', $user_id );
+		return \apply_filters( 'wpseo_schema_person_user_id', $user_id );
 	}
 
 	/**
@@ -104,7 +104,7 @@ class Person extends Abstract_Schema_Piece {
 		 * @api string[] $social_profiles The array of social profiles to retrieve. Each should be a user meta field
 		 *                                key. As they are retrieved using the WordPress function `get_the_author_meta`.
 		 */
-		$social_profiles = apply_filters( 'wpseo_schema_person_social_profiles', $this->social_profiles, $user_id );
+		$social_profiles = \apply_filters( 'wpseo_schema_person_social_profiles', $this->social_profiles, $user_id );
 		$output          = array();
 		foreach ( $social_profiles as $profile ) {
 			$social_url = $this->url_social_site( $profile, $user_id );
@@ -138,7 +138,7 @@ class Person extends Abstract_Schema_Piece {
 		}
 
 		$social_profiles = $this->get_social_profiles( $user_id );
-		if ( is_array( $social_profiles ) ) {
+		if ( \is_array( $social_profiles ) ) {
 			$data['sameAs'] = $social_profiles;
 		}
 
@@ -161,7 +161,7 @@ class Person extends Abstract_Schema_Piece {
 			$data = $this->set_image_from_avatar( $data, $user_data, $schema_id );
 		}
 
-		if ( is_array( $this->type ) && in_array( 'Organization', $this->type ) ) {
+		if ( \is_array( $this->type ) && \in_array( 'Organization', $this->type ) ) {
 			$data['logo'] = array( '@id' => $schema_id );
 		}
 
@@ -200,12 +200,12 @@ class Person extends Abstract_Schema_Piece {
 	 */
 	private function set_image_from_avatar( $data, $user_data, $schema_id ) {
 		// If we don't have an image in our settings, fall back to an avatar, if we're allowed to.
-		$show_avatars = get_option( 'show_avatars' );
+		$show_avatars = \get_option( 'show_avatars' );
 		if ( ! $show_avatars ) {
 			return $data;
 		}
 
-		$url = get_avatar_url( $user_data->user_email );
+		$url = \get_avatar_url( $user_data->user_email );
 		if ( empty( $url ) ) {
 			return $data;
 		}
@@ -224,7 +224,7 @@ class Person extends Abstract_Schema_Piece {
 	 * @return string
 	 */
 	protected function url_social_site( $social_site, $user_id = false ) {
-		$url = get_the_author_meta( $social_site, $user_id );
+		$url = \get_the_author_meta( $social_site, $user_id );
 
 		if ( ! empty( $url ) ) {
 			switch ( $social_site ) {

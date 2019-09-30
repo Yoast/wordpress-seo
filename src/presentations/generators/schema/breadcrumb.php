@@ -2,7 +2,7 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Frontend\Schema
+ * @package Yoast\WP\Free\Presentations\Generators\Schema
  */
 
 namespace Yoast\WP\Free\Presentations\Generators\Schema;
@@ -59,7 +59,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 				continue;
 			}
 
-			if ( ! array_key_exists( 'url', $breadcrumb ) || ! array_key_exists( 'text', $breadcrumb ) ) {
+			if ( ! \array_key_exists( 'url', $breadcrumb ) || ! \array_key_exists( 'text', $breadcrumb ) ) {
 				$broken = true;
 				break;
 			}
@@ -67,7 +67,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 			$this->index     = $index;
 		}
 
-		if ( is_paged() ) {
+		if ( \is_paged() ) {
 			$list_elements[] = $this->add_paginated_state();
 		}
 
@@ -95,8 +95,9 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 */
 	private function add_breadcrumb( $index, $breadcrumb ) {
 		if ( empty( $breadcrumb['url'] ) ) {
-			if ( is_paged() ) {
+			if ( \is_paged() ) {
 				// Retrieve the un-paginated state of the current page.
+				// @todo this _really_ needs to be replaced by something else, but we don't have the unpaged canonical I think.
 				$breadcrumb['url'] = \WPSEO_Frontend::get_instance()->canonical( false, true );
 			}
 			else {

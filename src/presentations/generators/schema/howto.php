@@ -2,7 +2,7 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Frontend\Schema
+ * @package Yoast\WP\Free\Presentations\Generators\Schema
  */
 
 namespace Yoast\WP\Free\Presentations\Generators\Schema;
@@ -91,7 +91,7 @@ class HowTo extends Abstract_Schema_Piece {
 			'description'      => '',
 		);
 
-		$json_description = strip_tags( $block['attrs']['jsonDescription'], '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' );
+		$json_description = \strip_tags( $block['attrs']['jsonDescription'], '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' );
 
 		if ( isset( $json_description ) ) {
 			$data['description'] = $json_description;
@@ -163,8 +163,8 @@ class HowTo extends Abstract_Schema_Piece {
 				'url'   => $schema_id,
 			);
 
-			$json_text = strip_tags( $step['jsonText'], $this->allowed_json_text_tags );
-			$json_name = strip_tags( $step['jsonName'] );
+			$json_text = \strip_tags( $step['jsonText'], $this->allowed_json_text_tags );
+			$json_name = \strip_tags( $step['jsonName'] );
 
 			if ( empty( $json_name ) ) {
 				if ( empty( $step['text'] ) ) {
@@ -206,7 +206,7 @@ class HowTo extends Abstract_Schema_Piece {
 	 * @param array $step        The step block data.
 	 */
 	private function add_step_description( &$schema_step, $step ) {
-		$json_text = strip_tags( $step['jsonText'], $this->allowed_json_text_tags );
+		$json_text = \strip_tags( $step['jsonText'], $this->allowed_json_text_tags );
 
 		if ( empty( $json_text ) ) {
 			return;
@@ -228,7 +228,7 @@ class HowTo extends Abstract_Schema_Piece {
 	 */
 	private function add_step_image( &$schema_step, $step ) {
 		foreach ( $step['text'] as $line ) {
-			if ( is_array( $line ) && isset( $line['type'] ) && $line['type'] === 'img' ) {
+			if ( \is_array( $line ) && isset( $line['type'] ) && $line['type'] === 'img' ) {
 				$schema_step['image'] = $this->get_image_schema( $line['props']['src'] );
 			}
 		}
@@ -244,7 +244,7 @@ class HowTo extends Abstract_Schema_Piece {
 	 * @codeCoverageIgnore
 	 */
 	protected function get_image_schema( $url ) {
-		$schema_id = $this->context->canonical . '#schema-image-' . md5( $url );
+		$schema_id = $this->context->canonical . '#schema-image-' . \md5( $url );
 
 		return Image_Helper::generate_from_url( $schema_id, $url );
 	}

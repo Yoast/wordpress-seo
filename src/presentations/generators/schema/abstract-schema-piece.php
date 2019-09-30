@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package Yoast\WP\Free\Presentations\Generators\Schema
+ */
 
 namespace Yoast\WP\Free\Presentations\Generators\Schema;
 
