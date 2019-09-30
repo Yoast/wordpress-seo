@@ -5,6 +5,16 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.61.0 October 14th, 2019
+### Added
+* Adds the transition word assessment for Hungarian, props to [9abor](https://github.com/9abor)
+
+## 1.60.0 September 30th, 2019
+No user-facing changes.
+
+## 1.59.0 September 16th, 2019
+No user-facing changes.
+
 ## 1.58.0 September 3rd, 2019
 ### Enhancements:
 * Implements the assessment that checks whether multiple sentences begin with the same word for Portuguese, props to [amesdigital](https://github.com/amesdigital).
