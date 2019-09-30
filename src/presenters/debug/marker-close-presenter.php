@@ -1,19 +1,20 @@
 <?php
 /**
- * Final presenter class for the Open Graph locale.
+ * Final presenter class for the debug close marker.
  *
- * @package Yoast\YoastSEO\Presenters\Site
+ * @package Yoast\YoastSEO\Presenters\Debug
  */
 
-namespace Yoast\WP\Free\Presenters;
+namespace Yoast\WP\Free\Presenters\Debug;
 
 use Yoast\WP\Free\Helpers\Product_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
+use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
 
 /**
- * Class Debug_Marker_Open_Presenter
+ * Class Debug_Marker_Close_Presenter
  */
-final class Debug_Marker_Open_Presenter extends Abstract_Indexable_Presenter {
+final class Marker_Close_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
 	 * @var Product_Helper
@@ -40,14 +41,8 @@ final class Debug_Marker_Open_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	public function present( Indexable_Presentation $presentation ) {
 		return sprintf(
-			'<!-- This site is optimized with the %1$s %2$s - https://yoast.com/wordpress/plugins/seo/ -->',
-			\esc_html( $this->product_helper->get_name() ),
-			/**
-			 * Filter: 'wpseo_hide_version' - can be used to hide the Yoast SEO version in the debug marker (only available in Yoast SEO Premium).
-			 *
-			 * @api bool
-			 */
-			( ( \apply_filters( 'wpseo_hide_version', false ) && \WPSEO_Utils::is_yoast_seo_premium() ) ? '' : 'v' . \WPSEO_VERSION )
+			"<!-- / %s. -->\n\n",
+			\esc_html( $this->product_helper->get_name() )
 		);
 	}
 }

@@ -83,6 +83,7 @@
 	<rule ref="PHPCompatibility.Keywords.NewKeywords.t_dirFound">
         <exclude-pattern>*/src/*.php$</exclude-pattern>
         <exclude-pattern>*/config/*.php$</exclude-pattern>
+		<exclude-pattern>ruckusing.conf.php$</exclude-pattern>
     </rule>
     <rule ref="PHPCompatibility.Keywords.NewKeywords.t_traitFound">
         <exclude-pattern>*/src/*.php$</exclude-pattern>
@@ -114,6 +115,8 @@
 	<rule ref="PHPCompatibility.Syntax.NewShortArray.Found">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 		<exclude-pattern>*/config/*.php$</exclude-pattern>
+		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
+		<exclude-pattern>ruckusing.conf.php$</exclude-pattern>
 	</rule>
 	<rule ref="PHPCompatibility.Syntax.NewFunctionArrayDereferencing.Found">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>

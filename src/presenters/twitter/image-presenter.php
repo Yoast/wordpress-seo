@@ -2,18 +2,19 @@
 /**
  * Presenter class for the Twitter image.
  *
- * @package Yoast\YoastSEO\Presenters
+ * @package Yoast\YoastSEO\Presenters\Twitter
  */
 
-namespace Yoast\WP\Free\Presenters;
+namespace Yoast\WP\Free\Presenters\Twitter;
 
 use Yoast\WP\Free\Helpers\Url_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
+use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
 
 /**
  * Class Twitter_Image_Presenter
  */
-class Twitter_Image_Presenter extends Abstract_Indexable_Presenter {
+class Image_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
 	 * The url helper.

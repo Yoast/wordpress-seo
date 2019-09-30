@@ -50,7 +50,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var array
 	 */
 	protected $base_presenters = [
-		'Debug_Marker_Open',
+		'Debug\Marker_Open',
 		'Title',
 		'Meta_Description',
 	];
@@ -71,17 +71,17 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var array
 	 */
 	protected $open_graph_presenters = [
-		'Open_Graph_Locale',
-		'Open_Graph_Type',
-		'Open_Graph_Title',
-		'Open_Graph_Description',
-		'Open_Graph_Url',
-		'Open_Graph_Site_Name',
-		'Open_Graph_Article_Publisher',
-		'Open_Graph_Article_Author',
-		'Open_Graph_Article_Publish_Time',
-		'Open_Graph_Article_Modified_Time',
-		'Open_Graph_Image',
+		'Open_Graph\Locale',
+		'Open_Graph\Type',
+		'Open_Graph\Title',
+		'Open_Graph\Description',
+		'Open_Graph\Url',
+		'Open_Graph\Site_Name',
+		'Open_Graph\Article_Publisher',
+		'Open_Graph\Article_Author',
+		'Open_Graph\Article_Publish_Time',
+		'Open_Graph\Article_Modified_Time',
+		'Open_Graph\Image',
 	];
 
 	/**
@@ -90,12 +90,12 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var array
 	 */
 	protected $twitter_card_presenters = [
-		'Twitter_Card',
-		'Twitter_Title',
-		'Twitter_Description',
-		'Twitter_Image',
-		'Twitter_Creator',
-		'Twitter_Site',
+		'Twitter\Card',
+		'Twitter\Title',
+		'Twitter\Description',
+		'Twitter\Image',
+		'Twitter\Creator',
+		'Twitter\Site',
 	];
 
 	/**
@@ -104,11 +104,11 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var array
 	 */
 	protected $singular_presenters = [
-		'Open_Graph_Article_Author',
-		'Open_Graph_Article_Publisher',
-		'Open_Graph_Article_Publish_Time',
-		'Open_Graph_Article_Modified_Time',
-		'Twitter_Creator',
+		'Open_Graph\Article_Author',
+		'Open_Graph\Article_Publisher',
+		'Open_Graph\Article_Publish_Time',
+		'Open_Graph\Article_Modified_Time',
+		'Twitter\Creator',
 	];
 
 	/**

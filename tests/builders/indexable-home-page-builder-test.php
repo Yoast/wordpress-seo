@@ -25,13 +25,6 @@ use Yoast\WP\Free\Tests\TestCase;
 class Indexable_Home_Page_Builder_Test extends TestCase {
 
 	/**
-	 * Options being mocked.
-	 *
-	 * @var array
-	 */
-	protected $mocked_options = [ 'wpseo', 'wpseo_taxonomy_meta', 'wpseo_ms' ];
-
-	/**
 	 * Tests the formatting of the indexable data.
 	 *
 	 * @covers ::build

@@ -22,7 +22,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param Options_Helper $options_helper
+	 * @param Options_Helper $options_helper The options helper.
 	 */
 	public function __construct(
 		Options_Helper $options_helper
@@ -58,13 +58,9 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $twitter_image;
 		}
 
-		// When OpenGraph is disabled just return empty string.
-		if ( ! $this->options_helper->get( 'opengraph' ) !== true ) {
-			return '';
-		}
-
-		if ( ! empty( $this->og_images ) ) {
-			return \reset( $this->og_images );
+		// When OpenGraph image is set and the OpenGraph feature is enabled.
+		if ( $this->model->og_image && $this->options_helper->get( 'opengraph' ) === true ) {
+			return $this->model->og_image;
 		}
 
 		/**
@@ -77,7 +73,10 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $twitter_image;
 		}
 
-		// When image is empty just retrieve the sitewide default.
-		return (string) $this->options_helper->get( 'og_default_image', '' );
+		if ( $this->options_helper->get( 'opengraph' ) === true ) {
+			return (string) $this->options_helper->get( 'og_default_image', '' );
+		}
+
+		return '';
 	}
 }
