@@ -619,6 +619,10 @@ class WPSEO_Sitemaps {
 	 * Sends all the required HTTP Headers.
 	 */
 	private function send_headers() {
+		if ( headers_sent() ) {
+			return;
+		}
+
 		$headers = array(
 			$this->http_protocol . ' 200 OK'                                                       => 200,
 			// Prevent the search engines from indexing the XML Sitemap.
