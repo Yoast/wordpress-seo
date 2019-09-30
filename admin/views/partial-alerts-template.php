@@ -82,7 +82,8 @@ if ( ! $active ) {
 			<?php echo _yoast_display_alerts( $active, 'active' ); ?>
 		</div>
 
-		<?php if ( $dismissed ) {
+		<?php
+		if ( $dismissed ) {
 			$dismissed_paper = new WPSEO_Paper_Presenter(
 				esc_html( $i18n_muted_issues_title ),
 				null,
@@ -96,7 +97,8 @@ if ( ! $active ) {
 				)
 			);
 			echo $dismissed_paper->get_output();
-		} ?>
+		}
+		?>
 
 	<?php else : ?>
 
