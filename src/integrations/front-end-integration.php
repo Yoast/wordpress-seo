@@ -117,6 +117,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @var array
 	 */
 	protected $closing_presenters = [
+		'Schema',
 		'Debug_Marker_Close',
 	];
 
@@ -142,6 +143,9 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		add_action( 'wp_head', [ $this, 'call_wpseo_head' ], 1 );
+		add_action( 'amp_post_template_head', [ $this, 'call_wpseo_head' ], 9 );
+		// @todo Walk through AMP post template and unhook all the stuff they don't need to because we do it.
+
 		add_action( 'wpseo_head', [ $this, 'present_head' ], 1 );
 
 		remove_action( 'wp_head', 'rel_canonical' );
@@ -167,9 +171,12 @@ class Front_End_Integration implements Integration_Interface {
 		$presentation = $this->get_presentation( $indexable );
 		echo "\n";
 		foreach ( $this->get_presenters() as $presenter ) {
-			echo "\t" . $presenter->present( $presentation ) . "\n";
+			$output = $presenter->present( $presentation );
+			if ( ! empty( $output ) ) {
+				echo "\t" . $output . "\n";
+			}
 		}
-		echo "\n";
+		echo "\n\n";
 	}
 
 	/**

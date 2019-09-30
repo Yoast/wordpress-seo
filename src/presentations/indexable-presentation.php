@@ -7,7 +7,11 @@
 
 namespace Yoast\WP\Free\Presentations;
 
+use Yoast\WP\Free\Helpers\Current_Page_Helper;
+use Yoast\WP\Free\Helpers\Schema\ID_Helper;
 use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
+use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 
 /**
  * Class Indexable_Presentation
@@ -26,6 +30,7 @@ use Yoast\WP\Free\Models\Indexable;
  * @property string og_article_publish_time
  * @property string og_article_modified_time
  * @property string og_locale
+ * @property array  schema
  * @property string twitter_card
  * @property string twitter_title
  * @property string twitter_description
@@ -48,6 +53,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 		if ( $this->model->title ) {
 			return $this->model->title;
 		}
+
 		return '';
 	}
 
@@ -60,6 +66,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 		if ( $this->model->description ) {
 			return $this->model->description;
 		}
+
 		return '';
 	}
 
@@ -103,6 +110,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 		if ( $this->model->canonical ) {
 			return $this->model->canonical;
 		}
+
 		return '';
 	}
 
@@ -460,5 +468,19 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_replace_vars_object() {
 		return [];
+	}
+
+	/**
+	 * Generates the schema for the page.
+	 *
+	 * @return array The Schema object.
+	 */
+	public function generate_schema() {
+		static $schema_generator;
+		if ( ! isset( $schema_generator ) ) {
+			$schema_generator = new Schema_Generator( $this->model, new ID_Helper(), new Current_Page_Helper( new WP_Query_Wrapper() ) );
+		}
+
+		return $schema_generator->generate();
 	}
 }
