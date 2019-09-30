@@ -7,10 +7,10 @@
 
 namespace Yoast\WP\Free\Presentations;
 
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Meta_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
+use Yoast\WP\Free\Helpers\Post_Type_Helper;
 
 /**
  * Class Indexable_Presentation
@@ -20,40 +20,41 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * @var Image_Helper
 	 */
-	private $image_helper;
+	protected $image_helper;
 
 	/**
 	 * @var Options_Helper
 	 */
-	private $options_helper;
+	protected $options_helper;
+
+	/**
+	 * @var Post_Type_Helper
+	 */
+	protected $post_type_helper;
 
 	/**
 	 * @var Meta_Helper
 	 */
-	private $meta_helper;
-	/**
-	 * @var Current_Page_Helper
-	 */
-	private $current_page_helper;
+	protected $meta_helper;
 
 	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param Options_Helper      $options_helper      The options helper.
-	 * @param Meta_Helper         $meta_helper         The meta helper.
-	 * @param Current_Page_Helper $current_page_helper The current page helper.
-	 * @param Image_Helper        $image_helper        The image helper.
+	 * @param Options_Helper   $options_helper   The options helper.
+	 * @param Post_Type_Helper $post_type_helper The post type helper.
+	 * @param Meta_Helper      $meta_helper      The meta helper.
+	 * @param Image_Helper     $image_helper     The image helper.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
+		Post_Type_Helper $post_type_helper,
 		Meta_Helper $meta_helper,
-		Current_Page_Helper $current_page_helper,
 		Image_Helper $image_helper
 	) {
-		$this->options_helper = $options_helper;
-		$this->meta_helper    = $meta_helper;
-		$this->current_page_helper = $current_page_helper;
-		$this->image_helper   = $image_helper;
+		$this->options_helper      = $options_helper;
+		$this->post_type_helper    = $post_type_helper;
+		$this->meta_helper         = $meta_helper;
+		$this->image_helper        = $image_helper;
 	}
 
 	/**
@@ -106,6 +107,29 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 */
 	public function generate_replace_vars_object() {
 		return \get_post( $this->model->object_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_robots() {
+		$robots = array_merge(
+			$this->robots_helper->get_base_values( $this->model ),
+			[
+				'noimageindex' => ( $this->model->is_robots_noimageindex === true ) ? 'noimageindex' : null,
+				'noarchive'    => ( $this->model->is_robots_noarchive === true ) ? 'noarchive' : null,
+				'nosnippet'    => ( $this->model->is_robots_nosnippet === true ) ? 'nosnippet' : null,
+			]
+		);
+
+		$private           = \get_post_status( $this->model->object_id ) === 'private';
+		$post_type_noindex = ! $this->post_type_helper->is_indexable( $this->model->object_id );
+
+		if ( $private || $post_type_noindex ) {
+			$robots['index'] = 'noindex';
+		}
+
+		return $this->robots_helper->after_generate( $robots );
 	}
 
 	/**

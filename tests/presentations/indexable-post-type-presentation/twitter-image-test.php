@@ -7,6 +7,7 @@ use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Meta_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
+use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Tests\TestCase;
@@ -48,11 +49,11 @@ class Twitter_Image_Test extends TestCase {
 	public function setUp() {
 		$this->option_helper = Mockery::mock( Options_Helper::class );
 		$meta_helper         = Mockery::mock( Meta_Helper::class );
-		$current_page_helper = Mockery::mock( Current_Page_Helper::class );
+		$post_type_helper    = Mockery::mock( Post_Type_Helper::class );
 		$this->image_helper  = Mockery::mock( Image_Helper::class );
 		$this->indexable     = new Indexable();
 
-		$presentation   = new Indexable_Post_Type_Presentation( $this->option_helper, $meta_helper, $current_page_helper, $this->image_helper );
+		$presentation   = new Indexable_Post_Type_Presentation( $this->option_helper, $post_type_helper, $meta_helper, $this->image_helper );
 		$this->instance = $presentation->of( $this->indexable );
 
 		return parent::setUp();
