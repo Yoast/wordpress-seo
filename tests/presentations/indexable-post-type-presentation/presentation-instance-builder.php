@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Presentation;
+namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 
 use Mockery;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;

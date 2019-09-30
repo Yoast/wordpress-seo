@@ -44,12 +44,8 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 */
 	public function test_generate_robots_dont_index_post_type() {
-		$this->indexable->object_id = 1337;
-
-		$this->current_page_helper
-			->expects( 'get_queried_post_type' )
-			->once()
-			->andReturn( 'post' );
+		$this->indexable->object_id       = 1337;
+		$this->indexable->object_sub_type = 'post';
 
 		$this->options_helper
 			->expects( 'get' )
@@ -71,12 +67,8 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 */
 	public function test_generate_robots_index_post_type() {
-		$this->indexable->object_id = 1337;
-
-		$this->current_page_helper
-			->expects( 'get_queried_post_type' )
-			->once()
-			->andReturn( 'post' );
+		$this->indexable->object_id       = 1337;
+		$this->indexable->object_sub_type = 'post';
 
 		$this->options_helper
 			->expects( 'get' )

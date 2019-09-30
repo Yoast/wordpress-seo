@@ -36,9 +36,7 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 	public function generate_robots() {
 		$robots = $this->robots_helper->get_base_values( $this->model );
 
-		$post_type = $this->current_page_helper->get_queried_post_type();
-
-		if ( $this->options_helper->get( 'noindex-ptarchive-' . $post_type, false ) ) {
+		if ( $this->options_helper->get( 'noindex-ptarchive-' . $this->model->object_sub_type, false ) ) {
 			$robots['index'] = 'noindex';
 		}
 

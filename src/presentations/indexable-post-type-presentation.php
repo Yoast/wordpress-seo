@@ -51,10 +51,10 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		Meta_Helper $meta_helper,
 		Image_Helper $image_helper
 	) {
-		$this->options_helper      = $options_helper;
-		$this->post_type_helper    = $post_type_helper;
-		$this->meta_helper         = $meta_helper;
-		$this->image_helper        = $image_helper;
+		$this->options_helper   = $options_helper;
+		$this->post_type_helper = $post_type_helper;
+		$this->meta_helper      = $meta_helper;
+		$this->image_helper     = $image_helper;
 	}
 
 	/**

@@ -4,7 +4,6 @@ namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 
 use Brain\Monkey;
 use Yoast\WP\Free\Tests\TestCase;
-use Yoast\WP\Free\Tests\Presentations\Indexable_Presentation\Presentation_Instance_Builder;
 
 /**
  * Class WPSEO_Schema_FAQ_Questions_Test.
