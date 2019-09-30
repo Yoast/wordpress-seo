@@ -183,11 +183,11 @@ class WPSEO_Schema_Context {
 				$company_name = WPSEO_Options::get( 'company_name' );
 
 				/**
-				 * Filter: 'yoast_free_schema_company_name' - Allows filtering company name
+				 * Filter: 'wpseo_schema_company_name' - Allows filtering company name
 				 *
 				 * @api string $company_name.
 				 */
-				$this->company_name = apply_filters( 'yoast_free_schema_company_name', $company_name );
+				$this->company_name = apply_filters( 'wpseo_schema_company_name', $company_name );
 
 				// Do not use a non-named company.
 				if ( empty( $this->company_name ) ) {
@@ -198,11 +198,11 @@ class WPSEO_Schema_Context {
 				$company_logo_id = WPSEO_Image_Utils::get_attachment_id_from_settings( 'company_logo' );
 
 				/**
-				 * Filter: 'yoast_free_schema_company_logo_id' - Allows filtering company logo id
+				 * Filter: 'wpseo_schema_company_logo_id' - Allows filtering company logo id
 				 *
 				 * @api integer $company_logo_id.
 				 */
-				$this->company_logo_id = apply_filters( 'yoast_free_schema_company_logo_id', $company_logo_id );
+				$this->company_logo_id = apply_filters( 'wpseo_schema_company_logo_id', $company_logo_id );
 
 				/*
 				 * Do not use a company without a logo.

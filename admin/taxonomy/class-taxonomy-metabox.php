@@ -69,6 +69,7 @@ class WPSEO_Taxonomy_Metabox {
 			$product_title .= ' Premium';
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $product_title is hardcoded.
 		printf( '<div id="wpseo_meta" class="postbox yoast wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
 
 		echo '<div class="inside">';
@@ -76,6 +77,7 @@ class WPSEO_Taxonomy_Metabox {
 
 
 		echo '<div class="wpseo-metabox-content">';
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $product_title is hardcoded.
 		printf( '<div class="wpseo-metabox-menu"><ul role="tablist" class="yoast-aria-tabs" aria-label="%s">', $product_title );
 
 		foreach ( $content_sections as $content_section ) {

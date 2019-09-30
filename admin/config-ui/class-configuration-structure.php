@@ -31,6 +31,7 @@ class WPSEO_Configuration_Structure {
 		'publishingEntity'           => array(
 			'publishingEntity',
 			'publishingEntityType',
+			'publishingEntityCompanyInfo',
 			'publishingEntityCompanyName',
 			'publishingEntityCompanyLogo',
 			'publishingEntityPersonId',
@@ -53,8 +54,10 @@ class WPSEO_Configuration_Structure {
 			'siteName',
 			'separator',
 		),
-		'newsletter'                 => array( 'mailchimpSignup' ),
-		'suggestions'                => array( 'suggestions' ),
+		'newsletter'                 => array(
+			'mailchimpSignup',
+			'suggestions',
+		),
 		'success'                    => array( 'successMessage' ),
 	);
 
@@ -93,9 +96,7 @@ class WPSEO_Configuration_Structure {
 		// @codingStandardsIgnoreEnd
 
 		$this->add_step( 'title-template', __( 'Title settings', 'wordpress-seo' ), $this->fields['titleTemplate'] );
-
-		$this->add_step( 'newsletter', __( 'Newsletter', 'wordpress-seo' ), $this->fields['newsletter'], true, true );
-		$this->add_step( 'suggestions', __( 'You might like', 'wordpress-seo' ), $this->fields['suggestions'], true, true );
+		$this->add_step( 'newsletter', __( 'Continue learning', 'wordpress-seo' ), $this->fields['newsletter'], true, true );
 		$this->add_step( 'success', __( 'Success!', 'wordpress-seo' ), $this->fields['success'], true, true );
 	}
 

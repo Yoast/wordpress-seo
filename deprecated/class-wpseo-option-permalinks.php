@@ -40,7 +40,7 @@ class WPSEO_Option_Permalinks {
 	 * @return void
 	 */
 	protected function __construct() {
-		_deprecated_constructor( __CLASS__, 'WPSEO 7.0' );
+		_deprecated_function( __METHOD__, '7.0' );
 	}
 
 	/**

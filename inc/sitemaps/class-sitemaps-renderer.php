@@ -196,11 +196,11 @@ class WPSEO_Sitemaps_Renderer {
 			$date = $this->timezone->format_date( $url['lastmod'] );
 		}
 
-		$url['loc'] = htmlspecialchars( $url['loc'] );
+		$url['loc'] = htmlspecialchars( $url['loc'], ENT_COMPAT, $this->output_charset, false );
 
 		$output  = "\t<sitemap>\n";
 		$output .= "\t\t<loc>" . $url['loc'] . "</loc>\n";
-		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . htmlspecialchars( $date ) . "</lastmod>\n";
+		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . htmlspecialchars( $date, ENT_COMPAT, $this->output_charset, false ) . "</lastmod>\n";
 		$output .= "\t</sitemap>\n";
 
 		return $output;
@@ -225,11 +225,11 @@ class WPSEO_Sitemaps_Renderer {
 			$date = $this->timezone->format_date( $url['mod'] );
 		}
 
-		$url['loc'] = htmlspecialchars( $url['loc'] );
+		$url['loc'] = htmlspecialchars( $url['loc'], ENT_COMPAT, $this->output_charset, false );
 
 		$output  = "\t<url>\n";
 		$output .= "\t\t<loc>" . $this->encode_url_rfc3986( $url['loc'] ) . "</loc>\n";
-		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . htmlspecialchars( $date ) . "</lastmod>\n";
+		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . htmlspecialchars( $date, ENT_COMPAT, $this->output_charset, false ) . "</lastmod>\n";
 
 		if ( empty( $url['images'] ) ) {
 			$url['images'] = array();
