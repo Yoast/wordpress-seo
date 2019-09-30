@@ -25,4 +25,15 @@ class Url_Helper {
 	public function home( $path = '', $scheme = null ) {
 		return WPSEO_Utils::home_url( $path, $scheme );
 	}
+
+	/**
+	 * Check whether a url is relative.
+	 *
+	 * @param string $url URL string to check.
+	 *
+	 * @return bool True when url is relative.
+	 */
+	public function is_relative( $url ) {
+		return WPSEO_Utils::is_url_relative( $url );
+	}
 }

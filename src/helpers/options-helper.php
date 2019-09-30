@@ -1,6 +1,6 @@
 <?php
 /**
- * A helper object for redirects.
+ * A helper object for options.
  *
  * @package Yoast\YoastSEO\Helpers
  */
@@ -8,7 +8,7 @@
 namespace Yoast\WP\Free\Helpers;
 
 /**
- * Class Redirect_Helper
+ * Class Options_Helper
  */
 class Options_Helper {
 
