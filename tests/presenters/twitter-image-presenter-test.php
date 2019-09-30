@@ -17,6 +17,7 @@ use Brain\Monkey;
  *
  * @coversDefaultClass \Yoast\WP\Free\Presenters\Twitter\Image_Presenter
  *
+ * @group presentations
  * @group twitter
  * @group twitter-image
  */

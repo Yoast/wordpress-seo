@@ -58,7 +58,6 @@ class Twitter_Image_Test extends TestCase {
 		return parent::setUp();
 	}
 
-
 	/**
 	 * Tests the situation where the twitter image is given.
 	 *
