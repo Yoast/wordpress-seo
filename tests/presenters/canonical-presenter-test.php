@@ -30,7 +30,9 @@ class Canonical_Presenter_Test extends TestCase {
 	public function test_present() {
 		$instance     = new Canonical_Presenter();
 		$presentation = new Indexable_Presentation();
+
 		$presentation->canonical = 'https://permalink';
+		$presentation->robots    = [];
 
 		$this->assertEquals(
 			'<link rel="canonical" href="https://permalink" />',
@@ -39,7 +41,7 @@ class Canonical_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests retrieval of the default image with opengraph being disabled.
+	 * Tests the presentation of the canonical when it's empty.
 	 *
 	 * @covers ::present
 	 * @covers ::filter
@@ -47,13 +49,15 @@ class Canonical_Presenter_Test extends TestCase {
 	public function test_present_empty() {
 		$instance     = new Canonical_Presenter();
 		$presentation = new Indexable_Presentation();
+
 		$presentation->canonical = '';
+		$presentation->robots    = [];
 
 		$this->assertEmpty( $instance->present( $presentation ) );
 	}
 
 	/**
-	 * Tests retrieval of the default image with opengraph being disabled.
+	 * Tests the presentation of the canonical with filter.
 	 *
 	 * @covers ::present
 	 * @covers ::filter
@@ -61,7 +65,9 @@ class Canonical_Presenter_Test extends TestCase {
 	public function test_present_with_filter() {
 		$instance     = new Canonical_Presenter();
 		$presentation = new Indexable_Presentation();
+
 		$presentation->canonical = 'https://permalink';
+		$presentation->robots    = [];
 
 		Monkey\Filters\expectApplied( 'wpseo_canonical' )->once()->with( 'https://permalink' )->andReturn( 'https://filtered' );
 
@@ -69,5 +75,21 @@ class Canonical_Presenter_Test extends TestCase {
 			'<link rel="canonical" href="https://filtered" />',
 			$instance->present( $presentation )
 		);
+	}
+
+	/**
+	 * Tests the presentation of the canonical when robots is noindex.
+	 *
+	 * @covers ::present
+	 * @covers ::filter
+	 */
+	public function test_present_when_robots_is_noindex() {
+		$instance     = new Canonical_Presenter();
+		$presentation = new Indexable_Presentation();
+
+		$presentation->canonical = 'https://permalink';
+		$presentation->robots    = [ 'noindex' ];
+
+		$this->assertEmpty( $instance->present( $presentation ) );
 	}
 }
