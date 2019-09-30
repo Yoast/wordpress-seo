@@ -36,7 +36,7 @@ class Current_Page_Helper {
 	 * @return bool Whether the currently opened page is a simple page.
 	 */
 	public function is_simple_page() {
-		return self::get_simple_page_id() > 0;
+		return $this->get_simple_page_id() > 0;
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Current_Page_Helper {
 			return \get_the_ID();
 		}
 
-		if ( self::is_posts_page() ) {
+		if ( $this->is_posts_page() ) {
 			return \get_option( 'page_for_posts' );
 		}
 
