@@ -70,21 +70,6 @@ class Twitter_Image_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where no twitter image is set and the opengraph is disabled.
-	 *
-	 * @covers ::generate_twitter_image
-	 */
-	public function test_with_opengraph_disabled() {
-		$this->option_helper
-			->expects( 'get' )
-			->once()
-			->with( 'opengraph' )
-			->andReturnFalse();
-
-		$this->assertEmpty( $this->instance->generate_twitter_image() );
-	}
-
-	/**
 	 * Tests the situation where the opengraph image is given.
 	 *
 	 * @covers ::generate_twitter_image
@@ -101,18 +86,30 @@ class Twitter_Image_Test extends TestCase {
 		$this->assertEquals( 'facebook_image.jpg', $this->instance->generate_twitter_image() );
 	}
 
+
+	/**
+	 * Tests the situation where no twitter image is set and the opengraph is disabled.
+	 *
+	 * @covers ::generate_twitter_image
+	 */
+	public function _test_with_opengraph_disabled() {
+		$this->option_helper
+			->expects( 'get' )
+			->twice()
+			->with( 'opengraph' )
+			->andReturnFalse();
+
+		$this->indexable->og_image = 'facebook_image.jpg';
+
+		$this->assertEmpty( $this->instance->generate_twitter_image() );
+	}
+
 	/**
 	 * Tests the situation for an attachment.
 	 *
 	 * @covers ::generate_twitter_image
 	 */
 	public function test_for_an_attachment() {
-		$this->option_helper
-			->expects( 'get' )
-			->once()
-			->with( 'opengraph' )
-			->andReturnTrue();
-
 		$this->image_helper
 			->expects( 'get_attachment_image' )
 			->once()
@@ -127,12 +124,6 @@ class Twitter_Image_Test extends TestCase {
 	 * @covers ::generate_twitter_image
 	 */
 	public function test_with_a_featured_image() {
-		$this->option_helper
-			->expects( 'get' )
-			->once()
-			->with( 'opengraph' )
-			->andReturnTrue();
-
 		$this->image_helper
 			->expects( 'get_attachment_image' )
 			->once()
@@ -152,12 +143,6 @@ class Twitter_Image_Test extends TestCase {
 	 * @covers ::generate_twitter_image
 	 */
 	public function test_with_a_gallery_image() {
-		$this->option_helper
-			->expects( 'get' )
-			->once()
-			->with( 'opengraph' )
-			->andReturnTrue();
-
 		$this->image_helper
 			->expects( 'get_attachment_image' )
 			->once()
@@ -183,12 +168,6 @@ class Twitter_Image_Test extends TestCase {
 	 * @covers ::generate_twitter_image
 	 */
 	public function test_with_a_post_content_image() {
-		$this->option_helper
-			->expects( 'get' )
-			->once()
-			->with( 'opengraph' )
-			->andReturnTrue();
-
 		$this->image_helper
 			->expects( 'get_attachment_image' )
 			->once()
@@ -244,5 +223,38 @@ class Twitter_Image_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->assertEquals( 'default_image.jpg', $this->instance->generate_twitter_image() );
+	}
+	/**
+	 * Tests the situation where the default image is not given.
+	 *
+	 * @covers ::generate_twitter_image
+	 */
+	public function test_with_no_default_image_given() {
+		$this->option_helper
+			->expects( 'get' )
+			->once()
+			->andReturn( false );
+
+		$this->image_helper
+			->expects( 'get_attachment_image' )
+			->once()
+			->andReturnFalse( );
+
+		$this->image_helper
+			->expects( 'get_featured_image' )
+			->once()
+			->andReturnFalse();
+
+		$this->image_helper
+			->expects( 'get_gallery_image' )
+			->once()
+			->andReturnFalse();
+
+		$this->image_helper
+			->expects( 'get_post_content_image' )
+			->once()
+			->andReturnFalse();
+
+		$this->assertEmpty( $this->instance->generate_twitter_image() );
 	}
 }

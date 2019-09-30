@@ -68,9 +68,11 @@ class Twitter_Image_Test extends TestCase {
 	public function test_with_opengraph_disabled() {
 		$this->option_helper
 			->expects( 'get' )
-			->once()
+			->twice()
 			->with( 'opengraph' )
 			->andReturnFalse();
+
+		$this->indexable->og_image = 'facebook_image.jpg';
 
 		$this->assertEmpty( $this->instance->generate_twitter_image() );
 	}
@@ -104,5 +106,19 @@ class Twitter_Image_Test extends TestCase {
 			->andReturn( true, 'default_image.jpg' );
 
 		$this->assertEquals( 'default_image.jpg', $this->instance->generate_twitter_image() );
+	}
+
+	/**
+	 * Tests the situation where the default image is given.
+	 *
+	 * @covers ::generate_twitter_image
+	 */
+	public function test_with_no_default_image() {
+		$this->option_helper
+			->expects( 'get' )
+			->once()
+			->andReturnFalse();
+
+		$this->assertEmpty( $this->instance->generate_twitter_image() );
 	}
 }
