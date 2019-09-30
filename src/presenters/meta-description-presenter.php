@@ -24,14 +24,14 @@ class Meta_Description_Presenter extends Abstract_Indexable_Presenter {
 	public function present( Indexable_Presentation $presentation ) {
 		$meta_description = $this->filter( $this->replace_vars( $presentation->meta_description, $presentation ) );
 
-		if ( is_string( $meta_description ) && $meta_description !== '' ) {
-			return '<meta name="description" content="' . \esc_attr( \wp_strip_all_tags( \stripslashes( $meta_description ) ) ) . '"/>';
+		if ( \is_string( $meta_description ) && $meta_description !== '' ) {
+			return sprintf( '<meta name="description" content="%s"/>', \esc_attr( \wp_strip_all_tags( \stripslashes( $meta_description ) ) ) );
 		}
 
 		if ( \current_user_can( 'wpseo_manage_options' ) ) {
 			return '<!-- ' .
-				sprintf(
-				/* Translators: %1$s resolves to the SEO menu item, %2$s resolves to the Search Appearance submenu item. */
+				\sprintf(
+					/* Translators: %1$s resolves to the SEO menu item, %2$s resolves to the Search Appearance submenu item. */
 					\esc_html__( 'Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [%1$s - %2$s] menu and set up a template.', 'wordpress-seo' ),
 					\esc_html__( 'SEO', 'wordpress-seo' ),
 					\esc_html__( 'Search Appearance', 'wordpress-seo' )
