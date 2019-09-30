@@ -10,9 +10,9 @@ namespace Yoast\WP\Free\Presentations\Generators;
 interface Generator_Interface {
 
 	/**
-	 * Returns an outputtable string.
+	 * Returns a string, or other Thing that the associated presenter can handle.
 	 *
-	 * @return string
+	 * @return mixed
 	 */
 	public function generate();
 }
