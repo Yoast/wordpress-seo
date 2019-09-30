@@ -204,7 +204,7 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 12.2.0 =
 Release Date: October 1st, 2019
 
-Read more about Yoast SEO 12.2 in [our 12.2 release post](https://yoa.st/release-12-2)!
+Yoast SEO 12.2 is a release full of the regular bug fixes and enhancements, but also a new addition to meta robots. Last week, Google announced a new way to give publishers more control over what the search engine can show in the results. This change, however, seems not driven by customer demand, but rather by law. Find out what this is all about and why we chose to automatically opt sites in for this in [our 12.2 release post](https://yoa.st/release-12-2)!
 
 Enhancements:
 
