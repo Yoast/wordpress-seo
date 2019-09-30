@@ -15,6 +15,7 @@ use Yoast\WP\Free\Builders\Indexable_Term_Builder;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\ORM\ORMWrapper;
 use Yoast\WP\Free\ORM\Yoast_Model;
 
 /**
@@ -91,7 +92,7 @@ class Indexable_Repository {
 	/**
 	 * Starts a query for this repository.
 	 *
-	 * @return \Yoast\WP\Free\ORM\ORMWrapper
+	 * @return ORMWrapper
 	 */
 	public function query() {
 		return Yoast_Model::of_type( 'Indexable' );
@@ -118,7 +119,7 @@ class Indexable_Repository {
 				return $this->find_for_post_type_archive( $this->current_page_helper->get_queried_post_type() );
 		}
 
-		return false;
+		return $this->query()->create( [ 'object_type' => 'unknown' ] );
 	}
 
 	/**
