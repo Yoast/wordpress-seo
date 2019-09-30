@@ -2,13 +2,6 @@
 
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 
-use Mockery;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Meta_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -21,41 +14,15 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group twitter-image
  */
 class Twitter_Image_Test extends TestCase {
+	use Presentation_Instance_Builder;
 
 	/**
-	 * @var Options_Helper|Mockery\MockInterface
-	 */
-	protected $option_helper;
-
-	/**
-	 * @var Image_Helper|Mockery\MockInterface
-	 */
-	protected $image_helper;
-
-	/**
-	 * @var Indexable
-	 */
-	protected $indexable;
-
-	/**
-	 * @var Indexable_Post_Type_Presentation
-	 */
-	protected $instance;
-
-	/**
-	 * Does the setup for testing.
+	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->option_helper = Mockery::mock( Options_Helper::class );
-		$meta_helper         = Mockery::mock( Meta_Helper::class );
-		$current_page_helper = Mockery::mock( Current_Page_Helper::class );
-		$this->image_helper  = Mockery::mock( Image_Helper::class );
-		$this->indexable     = new Indexable();
+		parent::setUp();
 
-		$presentation   = new Indexable_Post_Type_Presentation( $this->option_helper, $meta_helper, $current_page_helper, $this->image_helper );
-		$this->instance = $presentation->of( $this->indexable );
-
-		return parent::setUp();
+		$this->setInstance();
 	}
 
 	/**
@@ -75,7 +42,7 @@ class Twitter_Image_Test extends TestCase {
 	 * @covers ::generate_twitter_image
 	 */
 	public function test_with_opengraph_image() {
-		$this->option_helper
+		$this->options_helper
 			->expects( 'get' )
 			->once()
 			->with( 'opengraph' )
@@ -93,7 +60,7 @@ class Twitter_Image_Test extends TestCase {
 	 * @covers ::generate_twitter_image
 	 */
 	public function _test_with_opengraph_disabled() {
-		$this->option_helper
+		$this->options_helper
 			->expects( 'get' )
 			->twice()
 			->with( 'opengraph' )
@@ -138,7 +105,7 @@ class Twitter_Image_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the sitatuion where the gallery image is given.
+	 * Tests the situation where the gallery image is given.
 	 *
 	 * @covers ::generate_twitter_image
 	 */
@@ -197,7 +164,7 @@ class Twitter_Image_Test extends TestCase {
 	 * @covers ::generate_twitter_image
 	 */
 	public function test_with_default_image() {
-		$this->option_helper
+		$this->options_helper
 			->expects( 'get' )
 			->twice()
 			->andReturn( true, 'default_image.jpg' );
@@ -230,7 +197,7 @@ class Twitter_Image_Test extends TestCase {
 	 * @covers ::generate_twitter_image
 	 */
 	public function test_with_no_default_image_given() {
-		$this->option_helper
+		$this->options_helper
 			->expects( 'get' )
 			->once()
 			->andReturn( false );

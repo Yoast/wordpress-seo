@@ -17,7 +17,7 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 	/**
 	 * @var Options_Helper
 	 */
-	private $options_helper;
+	protected $options_helper;
 
 	/**
 	 * Indexable_Home_Page_Presentation constructor.
