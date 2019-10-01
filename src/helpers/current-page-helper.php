@@ -22,7 +22,7 @@ class Current_Page_Helper {
 	/**
 	 * Current_Page_Helper constructor.
 	 *
-	 * @param WP_Query_Wrapper $wp_query_wrapper WP Query wrapper.
+	 * @param WP_Query_Wrapper $wp_query_wrapper The wrapper for WP_Query.
 	 */
 	public function __construct(
 		WP_Query_Wrapper $wp_query_wrapper
@@ -36,7 +36,7 @@ class Current_Page_Helper {
 	 * @return bool Whether the currently opened page is a simple page.
 	 */
 	public function is_simple_page() {
-		return self::get_simple_page_id() > 0;
+		return $this->get_simple_page_id() > 0;
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Current_Page_Helper {
 			return \get_the_ID();
 		}
 
-		if ( self::is_posts_page() ) {
+		if ( $this->is_posts_page() ) {
 			return \get_option( 'page_for_posts' );
 		}
 
@@ -96,6 +96,20 @@ class Current_Page_Helper {
 		}
 
 		return 0;
+	}
+
+	/**
+	 * Returns the post type of the main query.
+	 *
+	 * @return string The post type of the main query.
+	 */
+	public function get_queried_post_type() {
+		$post_type = $this->wp_query_wrapper->get_main_query()->get( 'post_type' );
+		if ( \is_array( $post_type ) ) {
+			$post_type = \reset( $post_type );
+		}
+
+		return $post_type;
 	}
 
 	/**

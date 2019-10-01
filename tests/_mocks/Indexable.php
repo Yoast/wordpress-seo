@@ -1,6 +1,5 @@
 <?php
 namespace Yoast\WP\Free\Tests\Mocks;
-
 /**
  * Class Indexable
  *
@@ -24,25 +23,18 @@ class Indexable extends \Yoast\WP\Free\Models\Indexable {
 	public $is_robots_noarchive;
 	public $is_robots_noimageindex;
 	public $is_robots_nosnippet;
-
 	public $title;
 	public $description;
 	public $breadcrumb_title;
-
 	public $is_cornerstone;
-
 	public $primary_focus_keyword;
 	public $primary_focus_keyword_score;
-
 	public $readability_score;
-
 	public $link_count;
 	public $incoming_link_count;
-
 	public $og_title;
 	public $og_description;
 	public $og_image;
-
 	public $twitter_title;
 	public $twitter_description;
 	public $twitter_image;

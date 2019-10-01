@@ -1,6 +1,6 @@
 <?php
 /**
- * A helper object for WordPress posts.
+ * A helper object for redirects.
  *
  * @package Yoast\YoastSEO\Helpers
  */
@@ -8,7 +8,7 @@
 namespace Yoast\WP\Free\Helpers;
 
 /**
- * Class Current_Post_Helper
+ * Class Redirect_Helper
  */
 class Redirect_Helper {
 

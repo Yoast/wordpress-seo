@@ -71,7 +71,7 @@ class Indexable extends Yoast_Model {
 	protected $loaded_extensions = [];
 
 	/**
-	 * Returns an Indexable_Extension by it's name.
+	 * Returns an Indexable_Extension by its name.
 	 *
 	 * @param string $class_name The class name of the extension to load.
 	 *
