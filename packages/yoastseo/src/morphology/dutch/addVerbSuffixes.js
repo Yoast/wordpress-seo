@@ -10,7 +10,8 @@ import { applySuffixesToStem } from "../morphoHelpers/suffixHelpers";
  * @returns {boolean} Whether the stem has one of the endings that were searched for.
  */
 const shouldConsonantBeVoiced = function( stemmedWord, stemEndings ) {
-	return stemmedWord.search( new RegExp( stemEndings[ 0 ] ) === -1  ) && stemmedWord.search( new RegExp( stemEndings[ 1 ] ) === -1 );
+	const matchedEnding = stemEndings.find( stemEnding => stemmedWord.search( new RegExp( stemEnding ) ) !== -1 );
+	return typeof matchedEnding === "undefined";
 };
 
 /**
@@ -27,8 +28,8 @@ const findAndApplyModifications = function( stemmedWord, morphologyDataAddSuffix
 	if ( triedToDoubleConsonant ) {
 		return triedToDoubleConsonant;
 	}
-	if ( shouldConsonantBeVoiced( stemmedWord, morphologyDataAddSuffixes.otherChecks.noConsonantVoicingVerbs ) ) {
-		const triedToVoiceConsonant = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.consonantVoicing );
+	if ( shouldConsonantBeVoiced( stemmedWord, morphologyDataAddSuffixes.otherChecks.noConsonantVoicingNounsVerbs ) ) {
+		const triedToVoiceConsonant = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.consonantVoicingNounsVerbs );
 		if ( triedToVoiceConsonant ) {
 			return triedToVoiceConsonant;
 		}
