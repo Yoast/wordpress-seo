@@ -81,7 +81,7 @@ const moveSuffixes = function( suffix, oldGroup, newGroup ) {
  */
 const shouldConsonantBeVoiced = function( stemmedWord, stemEndings ) {
 	const matchedEnding = stemEndings.find( stemEnding => stemmedWord.search( new RegExp( stemEnding ) ) !== -1 );
-	return typeof matchedEnding === "undefined"
+	return typeof matchedEnding === "undefined";
 };
 
 /**
@@ -98,7 +98,7 @@ const findAndApplyModifications = function( stemmedWord, morphologyDataAddSuffix
 	if ( triedToDoubleConsonant ) {
 		return triedToDoubleConsonant;
 	}
-	if ( shouldConsonantBeVoiced ( stemmedWord, morphologyDataAddSuffixes.otherChecks.noConsonantVoicingNounsVerbs ) ) {
+	if ( shouldConsonantBeVoiced( stemmedWord, morphologyDataAddSuffixes.otherChecks.noConsonantVoicingNounsVerbs ) ) {
 		const triedToVoiceConsonant = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.consonantVoicingNounsVerbs );
 		if ( triedToVoiceConsonant ) {
 			return triedToVoiceConsonant;
