@@ -112,6 +112,7 @@ class Indexable_Term_Builder {
 			'wpseo_opengraph-title'       => 'og_title',
 			'wpseo_opengraph-description' => 'og_description',
 			'wpseo_opengraph-image'       => 'og_image',
+			'wpseo_opengraph-image-id'    => 'og_image_id',
 			'wpseo_twitter-title'         => 'twitter_title',
 			'wpseo_twitter-description'   => 'twitter_description',
 			'wpseo_twitter-image'         => 'twitter_image',
