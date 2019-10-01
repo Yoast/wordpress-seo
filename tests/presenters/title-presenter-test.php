@@ -75,7 +75,7 @@ class Title_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the presenter returns an empty title when the title is empty.
+	 * Tests whether the presenter returns an empty string when the title is empty.
 	 *
 	 * @covers ::present
 	 */
@@ -91,10 +91,9 @@ class Title_Presenter_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_strip_all_tags' )
 			->andReturn( '' );
 
-		$expected = '';
 		$actual = $this->instance->present( $this->indexable_presentation );
 
-		$this->assertEquals( $expected, $actual );
+		$this->assertEmpty( $actual );
 	}
 
 	/**

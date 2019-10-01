@@ -25,7 +25,7 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 		$twitter_title = (string) $this->filter( $presentation->twitter_title );
 
 		if ( $twitter_title !== '' ) {
-			return sprintf( '<meta name="twitter:title" content="%s" />', $twitter_title );
+			return \sprintf( '<meta name="twitter:title" content="%s" />', $twitter_title );
 		}
 
 		return '';
