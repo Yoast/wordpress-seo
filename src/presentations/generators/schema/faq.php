@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Presentations\Generators\Schema;
 
+use WP_Block_Parser_Block;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Schema\Context_Helper;
 use Yoast\WP\Free\Helpers\Schema\FAQ_Question_List_Helper;
@@ -37,9 +38,9 @@ class FAQ extends Abstract_Schema_Piece {
 	/**
 	 * FAQ constructor.
 	 *
-	 * @param Context_Helper      $context A value object with context variables.
-	 * @param ID_Helper           $id_helper
-	 * @param Current_Page_Helper $current_page_helper
+	 * @param Context_Helper      $context             A value object with context variables.
+	 * @param ID_Helper           $id_helper           A helper to retrieve Schema ID's.
+	 * @param Current_Page_Helper $current_page_helper A helper to determine the current page.
 	 */
 	public function __construct(
 		Context_Helper $context,
@@ -85,7 +86,7 @@ class FAQ extends Abstract_Schema_Piece {
 	 * @return array $data Our Schema graph.
 	 */
 	public function generate() {
-		$question_list = new FAQ_Question_List_Helper( $this->context, $this->id_helper);
+		$question_list = new FAQ_Question_List_Helper( $this->context, $this->id_helper );
 		$graph         = $question_list->generate( $this->blocks );
 
 		return $graph;
@@ -94,8 +95,8 @@ class FAQ extends Abstract_Schema_Piece {
 	/**
 	 * Add the Questions in our FAQ blocks as separate pieces to the graph.
 	 *
-	 * @param array                 $graph   Schema data for the current page.
-	 * @param \WP_Block_Parser_Block $block   The block data array.
+	 * @param array                 $graph Schema data for the current page.
+	 * @param WP_Block_Parser_Block $block The block data array.
 	 *
 	 * @return array $data Our Schema graph.
 	 */

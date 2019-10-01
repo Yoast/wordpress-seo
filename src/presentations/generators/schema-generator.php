@@ -13,6 +13,11 @@ use Yoast\WP\Free\Helpers\Schema\Context_Helper;
 use Yoast\WP\Free\Helpers\Schema\ID_Helper;
 use Yoast\WP\Free\Models\Indexable;
 
+/**
+ * Class Schema_Generator
+ *
+ * @package Yoast\WP\Free\Presentations\Generators
+ */
 class Schema_Generator implements Generator_Interface {
 
 	/**
@@ -43,17 +48,17 @@ class Schema_Generator implements Generator_Interface {
 	/**
 	 * Schema_Generator constructor.
 	 *
-	 * @param Indexable           $model
-	 * @param ID_Helper           $id_helper
-	 * @param Current_Page_Helper $current_page_helper
+	 * @param Indexable           $model               The Indexable model.
+	 * @param ID_Helper           $id_helper           A helper to retrieve Schema ID's.
+	 * @param Current_Page_Helper $current_page_helper A helper to determine current page.
 	 */
 	public function __construct(
 		Indexable $model,
 		ID_Helper $id_helper,
 		Current_Page_Helper $current_page_helper
 	) {
-		$this->model   = $model;
-		$this->id_helper = $id_helper;
+		$this->model               = $model;
+		$this->id_helper           = $id_helper;
 		$this->current_page_helper = $current_page_helper;
 
 		$this->context = new Context_Helper( $this->model, $this->id_helper );

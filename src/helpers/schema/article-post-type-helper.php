@@ -7,6 +7,11 @@
 
 namespace Yoast\WP\Free\Helpers\Schema;
 
+/**
+ * Class Article_Post_Type_Helper
+ *
+ * @package Yoast\WP\Free\Helpers\Schema
+ */
 class Article_Post_Type_Helper {
 
 	/**

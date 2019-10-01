@@ -59,8 +59,8 @@ class FAQ_Question_List_Helper {
 	/**
 	 * FAQ_Question_List_Helper constructor.
 	 *
-	 * @param Context_Helper $context A value object with context variables.
-	 * @param ID_Helper      $id_helper
+	 * @param Context_Helper $context   A value object with context variables.
+	 * @param ID_Helper      $id_helper A helper to retrieve Schema ID's.
 	 */
 	public function __construct(
 		Context_Helper $context,
@@ -74,7 +74,7 @@ class FAQ_Question_List_Helper {
 	/**
 	 * Find an image based on its URL and generate a Schema object for it.
 	 *
-	 * @param $blocks
+	 * @param WP_Block_Parser_Block[] $blocks An array of question blocks.
 	 *
 	 * @return array The Schema with a question list added.
 	 */

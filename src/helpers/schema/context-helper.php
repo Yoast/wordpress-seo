@@ -134,8 +134,8 @@ class Context_Helper {
 	/**
 	 * Context_Helper constructor.
 	 *
-	 * @param Indexable $model
-	 * @param ID_Helper $id_helper
+	 * @param Indexable $model     The Indexable model.
+	 * @param ID_Helper $id_helper A helper to retrieve Schema ID's.
 	 */
 	public function __construct(
 		Indexable $model,

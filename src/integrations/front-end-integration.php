@@ -143,8 +143,9 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		add_action( 'wp_head', [ $this, 'call_wpseo_head' ], 1 );
-		add_action( 'amp_post_template_head', [ $this, 'call_wpseo_head' ], 9 );
+
 		// @todo Walk through AMP post template and unhook all the stuff they don't need to because we do it.
+		add_action( 'amp_post_template_head', [ $this, 'call_wpseo_head' ], 9 );
 
 		add_action( 'wpseo_head', [ $this, 'present_head' ], 1 );
 

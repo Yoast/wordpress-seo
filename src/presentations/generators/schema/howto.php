@@ -46,9 +46,9 @@ class HowTo extends Abstract_Schema_Piece {
 	/**
 	 * HowTo constructor.
 	 *
-	 * @param Context_Helper      $context A value object with context variables.
-	 * @param ID_Helper           $id_helper
-	 * @param Current_Page_Helper $current_page_helper
+	 * @param Context_Helper      $context             A value object with context variables.
+	 * @param ID_Helper           $id_helper           A helper to retrieve Schema ID's.
+	 * @param Current_Page_Helper $current_page_helper A helper to determine the current page.
 	 *
 	 * @codeCoverageIgnore
 	 */
@@ -82,7 +82,7 @@ class HowTo extends Abstract_Schema_Piece {
 	 * @return mixed
 	 */
 	public function render( $graph, $block ) {
-		$this->counter++;
+		$this->counter ++;
 		$data = array(
 			'@type'            => 'HowTo',
 			'@id'              => $this->context->canonical . '#howto-' . $this->counter,

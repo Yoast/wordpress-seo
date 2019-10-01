@@ -77,7 +77,7 @@ class WebPage extends Abstract_Schema_Piece {
 	/**
 	 * Adds an author property to the $data if the WebPage is not represented.
 	 *
-	 * @param array   $data The WebPage schema.
+	 * @param array    $data The WebPage schema.
 	 * @param \WP_Post $post The post the context is representing.
 	 *
 	 * @return array The WebPage schema.
@@ -86,6 +86,7 @@ class WebPage extends Abstract_Schema_Piece {
 		if ( $this->context->site_represents === false ) {
 			$data['author'] = array( '@id' => $this->id_helper->get_user_schema_id( $post->post_author, $this->context ) );
 		}
+
 		return $data;
 	}
 

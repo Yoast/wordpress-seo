@@ -83,7 +83,7 @@ class ID_Helper {
 	/**
 	 * Retrieve a users Schema ID.
 	 *
-	 * @param int                  $user_id The ID of the User you need a Schema ID for.
+	 * @param int            $user_id The ID of the User you need a Schema ID for.
 	 * @param Context_Helper $context A value object with context variables.
 	 *
 	 * @return string The user's schema ID.
@@ -108,6 +108,7 @@ class ID_Helper {
 
 		if ( defined( 'self::' . $name ) ) {
 			$this->{$name} = constant( 'self::' . $name );
+
 			return $this->{$name};
 		}
 		throw new Exception( "Property $name does not exist." );

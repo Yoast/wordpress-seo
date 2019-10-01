@@ -7,6 +7,11 @@
 
 namespace Yoast\WP\Free\Helpers\Schema;
 
+/**
+ * Class Image_Helper
+ *
+ * @package Yoast\WP\Free\Helpers\Schema
+ */
 class Image_Helper {
 	/**
 	 * Find an image based on its URL and generate a Schema object for it.
