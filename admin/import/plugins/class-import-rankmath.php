@@ -78,6 +78,10 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 			'old_key' => 'rank_math_twitter_image_id',
 			'new_key' => 'twitter-image-id',
 		),
+		array(
+			'old_key' => 'rank_math_focus_keyword',
+			'new_key' => 'focuskw'
+		)
 	);
 
 	/**
@@ -95,6 +99,10 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 
 		// Return %% to % so our import is non-destructive.
 		$wpdb->query( "UPDATE $wpdb->postmeta SET meta_value = REPLACE( meta_value, '%%', '%' ) WHERE meta_key IN ( 'rank_math_description', 'rank_math_title' )" );
+
+		if ( $return ) {
+			$this->import_settings();
+		}
 
 		return $return;
 	}
@@ -118,6 +126,29 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 				$value = implode( ',', $post_meta->meta_value );
 				update_post_meta( $post_meta->post_id, '_yoast_wpseo_meta-robots-adv', $value );
 			}
+		}
+	}
+
+	/**
+	 * Imports some of the RankMath settings.
+	 */
+	private function import_settings() {
+		$settings = array(
+			'title_separator'      => 'separator',
+			'homepage_title'       => 'title-home-wpseo',
+			'homepage_description' => 'metadesc-home-wpseo',
+			'author_archive_title' => 'title-author-wpseo',
+			'date_archive_title'   => 'title-archive-wpseo',
+			'search_title'         => 'title-search-wpseo',
+			'404_title'            => 'title-404-wpseo'
+		);
+		$options  = get_option( 'rank-math-options-titles' );
+
+		foreach ( $settings as $import_setting_key => $setting_key ) {
+			$value = $options[ $import_setting_key ];
+			// Make sure replace vars work
+			$value = str_replace( '%', '%%', $value );
+			WPSEO_Options::set( $setting_key, $value );
 		}
 	}
 }
