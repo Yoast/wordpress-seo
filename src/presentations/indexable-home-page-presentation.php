@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Presentations;
 
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 
 /**
@@ -21,22 +20,14 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 	protected $options_helper;
 
 	/**
-	 * @var Current_Page_Helper
-	 */
-	protected $current_page_helper;
-
-	/**
 	 * Indexable_Home_Page_Presentation constructor.
 	 *
-	 * @param Options_Helper      $options_helper      The options helper.
-	 * @param Current_Page_Helper $current_page_helper The current page helper.
+	 * @param Options_Helper $options_helper The options helper.
 	 */
 	public function __construct(
-		Options_Helper $options_helper,
-		Current_Page_Helper $current_page_helper
+		Options_Helper $options_helper
 	) {
-		$this->options_helper      = $options_helper;
-		$this->current_page_helper = $current_page_helper;
+		$this->options_helper = $options_helper;
 	}
 
 	/**
@@ -48,16 +39,6 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 		}
 
 		return $this->options_helper->get( 'metadesc-home-wpseo' );
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function generate_replace_vars_object() {
-		if ( $this->current_page_helper->is_home_static_page() ) {
-			return \get_post( $this->model->object_id );
-		}
-		return [];
 	}
 
 	/**
