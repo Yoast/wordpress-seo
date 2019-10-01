@@ -161,7 +161,7 @@ class Yoast_Form {
 			$settings_changed_listener->show_success_message();
 			echo '</div>';
 
-			echo '<div id="wpseo-submit-container-fixed" class="wpseo-admin-submit wpseo-admin-submit-fixed">';
+			echo '<div id="wpseo-submit-container-fixed" class="wpseo-admin-submit wpseo-admin-submit-fixed" style="display: none;">';
 			submit_button( __( 'Save changes', 'wordpress-seo' ) );
 			$settings_changed_listener->show_success_message();
 			echo '</div>';
