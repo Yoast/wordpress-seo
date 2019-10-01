@@ -64,6 +64,13 @@ class Indexable extends Yoast_Model {
 	protected $uses_timestamps = true;
 
 	/**
+	 * Which columns contain boolean values.
+	 *
+	 * @var array
+	 */
+	protected $boolean_columns = [  'is_robots_noindex', 'is_robots_nofollow', 'is_robots_noarchive', 'is_robots_noimageindex', 'is_robots_nosnippet' ];
+
+	/**
 	 * The loaded indexable extensions.
 	 *
 	 * @var \Yoast\WP\Free\Models\Indexable_Extension[]
