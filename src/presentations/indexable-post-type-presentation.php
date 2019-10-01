@@ -53,6 +53,39 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the open graph images.
+	 *
+	 * @return array The open graph images.
+	 */
+	public function generate_og_images() {
+		$images = parent::generate_og_images();
+
+		if ( ! empty( $images ) ) {
+			return $images;
+		}
+
+		$featured_image_id = $this->image_helper->get_featured_image_id( $this->model->object_id );
+		if ( $featured_image_id ) {
+			$featured_image_url = $this->get_attachment_url_by_id( $featured_image_id );
+			if ( $featured_image_url ) {
+				return [ $featured_image_url ];
+			}
+		}
+
+		$content_image = $this->image_helper->get_post_content_image( $this->model->object_id );
+		if ( $content_image ) {
+			return [ $content_image ];
+		}
+
+		$default_image = $this->get_default_og_image();
+		if ( $default_image ) {
+			return [ $default_image ];
+		}
+
+		return [];
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	public function generate_og_type() {
