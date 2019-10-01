@@ -51,22 +51,24 @@ const getPluralSuffixes = function( stemmedWord, morphologyDataPluralSuffixes ) 
 
 	if ( typeof extraPluralSuffixes !== "undefined" ) {
 		pluralSuffixes = pluralSuffixes.concat( extraPluralSuffixes );
-	} return pluralSuffixes;
+	}
+	return pluralSuffixes;
 };
 
 /**
+ * Searches for a given suffix in an array, and if found, moves it to another array.
  *
  * @param {string} suffix The suffix to search for and to move to a different group if it is found.
- * @param {array} suffixGroup The group in which the suffix should be searched for.
- * @param {array} newSuffixGroup The group that the suffix should be moved to if found.
+ * @param {array} oldGroup The group in which the suffix should be searched for.
+ * @param {array} newGroup The group that the suffix should be moved to if found.
  * @returns {void}
  */
-const regroupSuffixes = function( suffix, suffixGroup, newSuffixGroup ) {
-	const suffixIndex = suffixGroup.indexOf( suffix );
+const moveSuffixes = function( suffix, oldGroup, newGroup ) {
+	const suffixIndex = oldGroup.indexOf( suffix );
 
 	if ( suffixIndex !== -1 ) {
-		suffixGroup.splice( suffixIndex, 1 );
-		newSuffixGroup.push( suffix );
+		oldGroup.splice( suffixIndex, 1 );
+		newGroup.push( suffix );
 	}
 };
 
@@ -78,7 +80,8 @@ const regroupSuffixes = function( suffix, suffixGroup, newSuffixGroup ) {
  * @returns {boolean} Whether the stem has one of the endings that were searched for.
  */
 const shouldConsonantBeVoiced = function( stemmedWord, stemEndings ) {
-	return stemmedWord.search( new RegExp( stemEndings[ 0 ] ) === -1  ) && stemmedWord.search( new RegExp( stemEndings[ 1 ] ) === -1 );
+	return stemEndings.find( stemEnding => stemmedWord.search( new RegExp( stemEnding ) ) !== -1 );
+	// return stemmedWord.search( new RegExp( stemEndings[ 0 ] ) === -1  ) && stemmedWord.search( new RegExp( stemEndings[ 1 ] ) === -1 );
 };
 
 /**
@@ -95,7 +98,7 @@ const findAndApplyModifications = function( stemmedWord, morphologyDataAddSuffix
 	if ( triedToDoubleConsonant ) {
 		return triedToDoubleConsonant;
 	}
-	if ( shouldConsonantBeVoiced( stemmedWord, morphologyDataAddSuffixes.otherChecks.noConsonantVoicingNounsVerbs ) ) {
+	if ( typeof shouldConsonantBeVoiced( stemmedWord, morphologyDataAddSuffixes.otherChecks.noConsonantVoicingNounsVerbs ) !== "undefined" ) {
 		const triedToVoiceConsonant = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.consonantVoicingNounsVerbs );
 		if ( triedToVoiceConsonant ) {
 			return triedToVoiceConsonant;
@@ -134,14 +137,13 @@ export function addNounSuffixes( stemmedWord, morphologyDataAddSuffixes, morphol
 
 	const suffixesForModifiedStem = [];
 	const kjeSuffix = [];
-	let kjeStem = "";
 
 	// Make extra suffixes groups for suffixes that require a stem modification.
-	regroupSuffixes( "en", pluralSuffixes, suffixesForModifiedStem );
-	regroupSuffixes( "ers", pluralSuffixes, suffixesForModifiedStem );
-	regroupSuffixes( "es", pluralSuffixes, suffixesForModifiedStem );
-	regroupSuffixes( "etje", diminutiveSuffixes, suffixesForModifiedStem );
-	regroupSuffixes( "kje", diminutiveSuffixes, kjeSuffix );
+	moveSuffixes( "en", pluralSuffixes, suffixesForModifiedStem );
+	moveSuffixes( "ers", pluralSuffixes, suffixesForModifiedStem );
+	moveSuffixes( "es", pluralSuffixes, suffixesForModifiedStem );
+	moveSuffixes( "etje", diminutiveSuffixes, suffixesForModifiedStem );
+	moveSuffixes( "kje", diminutiveSuffixes, kjeSuffix );
 
 	// Join the diminutive and plural suffixes that do not require a stem modification.
 	const suffixesForUnmodifiedStem = pluralSuffixes.concat( diminutiveSuffixes );
@@ -152,7 +154,7 @@ export function addNounSuffixes( stemmedWord, morphologyDataAddSuffixes, morphol
 	/* If the kje suffix exists, remove the last character of the stem, attach the suffix to the stem, and add the resulting
 	form to the noun forms array. */
 	if ( kjeSuffix.length > 0 ) {
-		kjeStem = stemmedWord.slice( 0, -1 );
+		const kjeStem = stemmedWord.slice( 0, -1 );
 		const kjeForm = kjeStem.concat( kjeSuffix );
 		nounForms = nounForms.concat( kjeForm );
 	}
