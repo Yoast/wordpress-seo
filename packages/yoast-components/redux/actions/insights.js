@@ -1,24 +1,22 @@
 /*
  * Action types
  */
-const prefix = "INSIGHTS_";
-
-export const SET_PROMINENT_WORDS = `${ prefix }SET_PROMINENT_WORDS`;
+export const SET_WORDS_FOR_INSIGHTS = "SET_WORDS_FOR_INSIGHTS";
 
 /*
  * Action creators
  */
 
 /**
- * An action creator for setting the prominent words.
+ * An action creator for setting the prominent words for insights.
  *
- * @param {array} prominentWords The prominent words.
+ * @param {array} wordsForInsights The prominent words to be used for insights.
  *
- * @returns {Object} A set prominent words action.
+ * @returns {Object} A set words for insights action.
  */
-export function setProminentWords( prominentWords ) {
+export function setWordsForInsights( wordsForInsights ) {
 	return {
-		type: SET_PROMINENT_WORDS,
-		prominentWords: prominentWords,
+		type: SET_WORDS_FOR_INSIGHTS,
+		wordsForInsights: wordsForInsights,
 	};
 }

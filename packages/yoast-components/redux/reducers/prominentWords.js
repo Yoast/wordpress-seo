@@ -1,4 +1,4 @@
-import { SET_PROMINENT_WORDS } from "../actions/insights";
+import { SET_WORDS_FOR_INSIGHTS } from "../actions/insights";
 
 /**
  * Initial state
@@ -13,10 +13,10 @@ const INITIAL_STATE = [];
  *
  * @returns {Object} The updated prominent words object.
  */
-export function prominentWordsReducer( state = INITIAL_STATE, action ) {
+export function wordsForInsightsReducer( state = INITIAL_STATE, action ) {
 	switch ( action.type ) {
-		case SET_PROMINENT_WORDS:
-			return action.prominentWords;
+		case SET_WORDS_FOR_INSIGHTS:
+			return action.wordsForInsights;
 		default:
 			return state;
 	}
