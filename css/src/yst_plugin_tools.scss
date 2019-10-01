@@ -864,6 +864,28 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		width: auto;
 		padding: 0;
 	}
+
+	/* Make the banners with product lists appear next to each other. */
+	.yoast-sidebar {
+
+		&__product-list {
+			display: flex;
+			border-bottom: 1px solid #ddd;
+
+			div p {
+				word-wrap: break-word;
+				width: calc( 100% - 50px );
+			}
+
+			.yoast-sidebar__section {
+				border-bottom: none;
+
+				&:first-child {
+					margin-right: 40px;
+				}
+			}
+		}
+	}
 }
 
 @media screen and ( max-width: 782px ) {
@@ -928,6 +950,25 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	/* Google Search Console: Reload crawl issues form. */
 	.wpseo-gsc-reload-crawl-issues-form {
 		margin-bottom: 0;
+	}
+
+	/* Make the banners with product lists appear below each other. */
+	.yoast-sidebar {
+
+		&__product-list {
+			display: block;
+			border-bottom: none;
+
+			.yoast-sidebar__section {
+				border-bottom: 1px solid #ddd;
+
+				p {
+					word-wrap: break-word;
+					width: calc( 100% - 50px );
+					padding-left: 50px;
+				}
+			}
+		}
 	}
 }
 

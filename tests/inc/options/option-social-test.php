@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin\Metabox;
+namespace Yoast\WP\Free\Tests\Inc\Options;
 
 use Brain\Monkey;
 use WPSEO_Option_Social;
