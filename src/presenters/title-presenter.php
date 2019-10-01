@@ -22,10 +22,11 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The document title tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$title = $this->filter( $this->replace_vars( $presentation->title, $presentation ) );
+		$title = (string) $this->filter( $this->replace_vars( $presentation->title, $presentation ) );
+		$title = \wp_strip_all_tags( \stripslashes( $title ) );
 
-		if ( is_string( $title ) && $title !== '' ) {
-			return '<title>' . \esc_html( \wp_strip_all_tags( \stripslashes( $title ) ) ) . '</title>';
+		if ( $title !== '' ) {
+			return '<title>' . \esc_html( $title ) . '</title>';
 		}
 
 		return '';
@@ -44,6 +45,6 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @api string $title The title.
 		 */
-		return (string) trim( \apply_filters( 'wpseo_title', $title ) );
+		return \trim( \apply_filters( 'wpseo_title', $title ) );
 	}
 }
