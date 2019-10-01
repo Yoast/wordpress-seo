@@ -18,7 +18,7 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\Free\Presenters\Title_Presenter
  *
- * @group twitter-title
+ * @group title-presenter
  */
 class Title_Presenter_Test extends TestCase {
 	/**
