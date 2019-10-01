@@ -138,11 +138,6 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $this->model->og_image;
 		}
 
-		$image_url = $this->image_helper->get_attachment_image( $this->model->object_id );
-		if ( $image_url ) {
-			return $image_url;
-		}
-
 		/**
 		 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size.
 		 *

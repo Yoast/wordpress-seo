@@ -70,32 +70,12 @@ class Twitter_Image_Test extends TestCase {
 
 		$this->assertEmpty( $this->instance->generate_twitter_image() );
 	}
-
-	/**
-	 * Tests the situation for an attachment.
-	 *
-	 * @covers ::generate_twitter_image
-	 */
-	public function test_for_an_attachment() {
-		$this->image_helper
-			->expects( 'get_attachment_image' )
-			->once()
-			->andReturn( 'attachment_image.jpg' );
-
-		$this->assertEquals( 'attachment_image.jpg', $this->instance->generate_twitter_image() );
-	}
-
 	/**
 	 * Tests the situation where the featured image is given.
 	 *
 	 * @covers ::generate_twitter_image
 	 */
 	public function test_with_a_featured_image() {
-		$this->image_helper
-			->expects( 'get_attachment_image' )
-			->once()
-			->andReturnFalse( );
-
 		$this->image_helper
 			->expects( 'get_featured_image' )
 			->once()
@@ -110,16 +90,11 @@ class Twitter_Image_Test extends TestCase {
 	 * @covers ::generate_twitter_image
 	 */
 	public function test_with_a_gallery_image() {
-		$this->image_helper
-			->expects( 'get_attachment_image' )
-			->once()
-			->andReturnFalse( );
 
 		$this->image_helper
 			->expects( 'get_featured_image' )
 			->once()
 			->andReturnFalse();
-
 
 		$this->image_helper
 			->expects( 'get_gallery_image' )
@@ -135,11 +110,6 @@ class Twitter_Image_Test extends TestCase {
 	 * @covers ::generate_twitter_image
 	 */
 	public function test_with_a_post_content_image() {
-		$this->image_helper
-			->expects( 'get_attachment_image' )
-			->once()
-			->andReturnFalse( );
-
 		$this->image_helper
 			->expects( 'get_featured_image' )
 			->once()
@@ -170,11 +140,6 @@ class Twitter_Image_Test extends TestCase {
 			->andReturn( true, 'default_image.jpg' );
 
 		$this->image_helper
-			->expects( 'get_attachment_image' )
-			->once()
-			->andReturnFalse( );
-
-		$this->image_helper
 			->expects( 'get_featured_image' )
 			->once()
 			->andReturnFalse();
@@ -201,11 +166,6 @@ class Twitter_Image_Test extends TestCase {
 			->expects( 'get' )
 			->once()
 			->andReturn( false );
-
-		$this->image_helper
-			->expects( 'get_attachment_image' )
-			->once()
-			->andReturnFalse( );
 
 		$this->image_helper
 			->expects( 'get_featured_image' )
