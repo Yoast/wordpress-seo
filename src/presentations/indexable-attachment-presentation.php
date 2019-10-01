@@ -62,7 +62,6 @@ class Indexable_Attachment_Presentation extends Indexable_Post_Type_Presentation
 			return $image_url;
 		}
 
-
 		return (string) $this->get_default_og_image();
 	}
 }
