@@ -36,4 +36,24 @@ class Url_Helper {
 	public function is_relative( $url ) {
 		return WPSEO_Utils::is_url_relative( $url );
 	}
+
+	/**
+	 * Get the relative path of the image.
+	 *
+	 * @param string $url Image URL.
+	 *
+	 * @return string The expanded image URL.
+	 */
+	public function get_relative_path( $url ) {
+		if ( $url[0] !== '/' ) {
+			return $url;
+		}
+
+		// If it's a relative URL, it's relative to the domain, not necessarily to the WordPress install, we
+		// want to preserve domain name and URL scheme (http / https) though.
+		$parsed_url = \wp_parse_url( \home_url() );
+		$url        = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $url;
+
+		return $url;
+	}
 }
