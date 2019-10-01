@@ -135,6 +135,24 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
+	public function generate_twitter_description() {
+		$twitter_description = parent::generate_twitter_description();
+
+		if ( $twitter_description ) {
+			return $twitter_description;
+		}
+
+		$excerpt = \wp_strip_all_tags( \get_the_excerpt( $this->model->object_id ) );
+		if ( $excerpt ) {
+			return $excerpt;
+		}
+
+		return '';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function generate_twitter_image() {
 		$twitter_image = parent::generate_twitter_image();
 
