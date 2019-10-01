@@ -15,6 +15,20 @@ use WPSEO_Image_Utils;
 class Image_Helper {
 
 	/**
+	 * Image types that are supported by OpenGraph.
+	 *
+	 * @var array
+	 */
+	private static $valid_image_types = [ 'image/jpeg', 'image/gif', 'image/png' ];
+
+	/**
+	 * Image extensions that are supported by OpenGraph.
+	 *
+	 * @var array
+	 */
+	private static $valid_image_extensions = [ 'jpeg', 'jpg', 'gif', 'png' ];
+
+	/**
 	 * Gets an attachment page's attachment url.
 	 *
 	 * @param string $post_id The ID of the post for which to retrieve the image.
@@ -26,14 +40,61 @@ class Image_Helper {
 			return '';
 		}
 
-		$mime_type         = \get_post_mime_type( $post_id );
-		$allowed_mimetypes = [ 'image/jpeg', 'image/png', 'image/gif' ];
-
-		if ( ! in_array( $mime_type, $allowed_mimetypes, false ) ) {
+		if ( ! $this->is_valid_attachment( $post_id ) ) {
 			return '';
 		}
 
 		return \wp_get_attachment_url( $post_id );
+	}
+
+	/**
+	 * Find the right version of an image based on size.
+	 *
+	 * @param int    $attachment_id Attachment ID.
+	 * @param string $size          Size name.
+	 *
+	 * @return array|false Returns an array with image data on success, false on failure.
+	 */
+	public function get_image( $attachment_id, $size ) {
+		return \WPSEO_image_utils::get_image( $attachment_id, $size );
+	}
+
+	/**
+	 * Determines whether or not the wanted attachment is considered valid.
+	 *
+	 * @param int $attachment_id The attachment ID to get the attachment by.
+	 *
+	 * @return bool Whether or not the attachment is valid.
+	 */
+	public function is_valid_attachment( $attachment_id ) {
+		$attachment = \get_post_mime_type( $attachment_id );
+
+		if ( $attachment === false ) {
+			return false;
+		}
+
+		return $this->is_valid_image_type( $attachment );
+	}
+
+	/**
+	 * Checks if the given extension is a valid extension
+	 * @param $image_extension
+	 *
+	 * @return bool
+	 */
+	public function is_extension_valid( $image_extension ) {
+		return \in_array( $image_extension, static::$valid_image_extensions, true );
+	}
+
+	/**
+	 * Determines whether the passed mime type is a valid image type.
+	 *
+	 * @param string $mime_type The detected mime type.
+	 *
+	 * @return bool Whether or not the attachment is a valid image type.
+	 */
+	public function is_valid_image_type( $mime_type ) {
+		return \in_array( $mime_type, static::$valid_image_types, true );
 	}
 
 	/**
@@ -45,18 +106,33 @@ class Image_Helper {
 	 * @return string The image url or an empty string when not found.
 	 */
 	public function get_featured_image( $post_id, $image_size = 'full' ) {
-		if ( ! \has_post_thumbnail( $post_id ) ) {
+		$featured_image_id = $this->get_featured_image_id( $post_id );
+		if ( ! $featured_image_id ) {
 			return '';
 		}
 
-		$thumbnail_id   = \get_post_thumbnail_id( $post_id );
-		$featured_image = \wp_get_attachment_image_src( $thumbnail_id, $image_size );
+		$featured_image = \wp_get_attachment_image_src( $featured_image_id, $image_size );
 
 		if ( ! $featured_image ) {
 			return '';
 		}
 
 		return $featured_image[0];
+	}
+
+	/**
+	 * Retrieves the ID of the featured image.
+	 *
+	 * @param int $post_id The post id to get featured image id for.
+	 *
+	 * @return int|bool ID when found, false when not.
+	 */
+	public function get_featured_image_id( $post_id ) {
+		if ( ! \has_post_thumbnail( $post_id ) ) {
+			return false;
+		}
+
+		return \get_post_thumbnail_id( $post_id );
 	}
 
 	/**
@@ -95,6 +171,28 @@ class Image_Helper {
 		}
 
 		return $image_url;
+	}
+
+	/**
+	 * Retrieves the attachment variations for given attachments.
+	 *
+	 * @param int   $attachment_id The attachment id.
+	 * @param array $image_params  The image parameters to get dimensions for.
+	 *
+	 * @return bool|string The attachment url or false when no variations found.
+	 */
+	public function get_attachment_variations( $attachment_id, $image_params = [] ) {
+		$variations = \WPSEO_Image_Utils::get_variations( $attachment_id );
+		$variations = \WPSEO_Image_Utils::filter_usable_dimensions( $image_params, $variations );
+		$variations = \WPSEO_Image_Utils::filter_usable_file_size( $variations );
+
+		// If we are left without variations, there is no valid variation for this attachment.
+		if ( empty( $variations ) ) {
+			return false;
+		}
+
+		// The variations are ordered so the first variations is by definition the best one.
+		return \reset( $variations );
 	}
 
 	/**
