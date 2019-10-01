@@ -7,9 +7,6 @@
 
 namespace Yoast\WP\Free\Presentations;
 
-use Yoast\WP\Free\Helpers\Meta_Helper;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 
 /**
@@ -18,43 +15,19 @@ use Yoast\WP\Free\Helpers\Post_Type_Helper;
 class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 
 	/**
-	 * @var Image_Helper
-	 */
-	protected $image_helper;
-
-	/**
-	 * @var Options_Helper
-	 */
-	protected $options_helper;
-
-	/**
 	 * @var Post_Type_Helper
 	 */
 	protected $post_type_helper;
 
 	/**
-	 * @var Meta_Helper
-	 */
-	protected $meta_helper;
-
-	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param Options_Helper   $options_helper   The options helper.
 	 * @param Post_Type_Helper $post_type_helper The post type helper.
-	 * @param Meta_Helper      $meta_helper      The meta helper.
-	 * @param Image_Helper     $image_helper     The image helper.
 	 */
 	public function __construct(
-		Options_Helper $options_helper,
-		Post_Type_Helper $post_type_helper,
-		Meta_Helper $meta_helper,
-		Image_Helper $image_helper
+		Post_Type_Helper $post_type_helper
 	) {
-		$this->options_helper   = $options_helper;
 		$this->post_type_helper = $post_type_helper;
-		$this->meta_helper      = $meta_helper;
-		$this->image_helper     = $image_helper;
 	}
 
 	/**

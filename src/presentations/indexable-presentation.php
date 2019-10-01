@@ -8,6 +8,8 @@
 namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
+use Yoast\WP\Free\Helpers\Image_Helper;
+use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
 use Yoast\WP\Free\Models\Indexable;
 
@@ -52,16 +54,32 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $current_page_helper;
 
 	/**
+	 * @var Image_Helper
+	 */
+	protected $image_helper;
+
+	/**
+	 * @var Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
 	 * @required
 	 *
 	 * Used by dependency injection container to inject the Robots_Helper.
 	 *
 	 * @param Robots_Helper       $robots_helper       The robots helper.
-	 * @param Current_Page_Helper $current_page_helper Current page helper.
+	 * @param Image_Helper        $image_helper        The image helper.
+	 * @param Options_Helper      $options_helper      The options helper.
 	 */
-	public function set_helpers( Robots_Helper $robots_helper, Current_Page_Helper $current_page_helper ) {
-		$this->robots_helper       = $robots_helper;
-		$this->current_page_helper = $current_page_helper;
+	public function set_helpers(
+		Robots_Helper $robots_helper,
+		Image_Helper $image_helper,
+		Options_Helper $options_helper
+	) {
+		$this->robots_helper  = $robots_helper;
+		$this->image_helper   = $image_helper;
+		$this->options_helper = $options_helper;
 	}
 
 	/**

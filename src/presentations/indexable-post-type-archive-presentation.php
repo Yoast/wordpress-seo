@@ -15,22 +15,6 @@ use Yoast\WP\Free\Helpers\Options_Helper;
 class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 
 	/**
-	 * @var Options_Helper
-	 */
-	private $options_helper;
-
-	/**
-	 * Indexable_Post_Type_Presentation constructor.
-	 *
-	 * @param Options_Helper $options_helper The options helper.
-	 */
-	public function __construct(
-		Options_Helper $options_helper
-	) {
-		$this->options_helper = $options_helper;
-	}
-
-	/**
 	 * @inheritDoc
 	 */
 	public function generate_robots() {

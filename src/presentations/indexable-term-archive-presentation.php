@@ -7,28 +7,10 @@
 
 namespace Yoast\WP\Free\Presentations;
 
-use Yoast\WP\Free\Helpers\Options_Helper;
-
 /**
  * Class Indexable_Presentation
  */
 class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
-
-	/**
-	 * @var Options_Helper
-	 */
-	private $options_helper;
-
-	/**
-	 * Indexable_Post_Type_Presentation constructor.
-	 *
-	 * @param Options_Helper $options_helper The options helper.
-	 */
-	public function __construct(
-		Options_Helper $options_helper
-	) {
-		$this->options_helper = $options_helper;
-	}
 
 	/**
 	 * @inheritDoc
