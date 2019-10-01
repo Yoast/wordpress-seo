@@ -152,7 +152,7 @@ class RankMath_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory()->post->create();
 		update_post_meta( $post_id, 'rank_math_title', 'Test title' );
 		update_post_meta( $post_id, 'rank_math_description', 'Test description' );
-		update_post_meta( $post_id, 'rank_math_robots', 'noindex,nofollow' );
+		update_post_meta( $post_id, 'rank_math_robots', 'a:2:{i:0;s:7:"noindex";i:1;s:8:"nofollow";}' );
 		update_post_meta( $post_id, 'rank_math_twitter_title', 'Test Twitter title' );
 		update_post_meta( $post_id, 'rank_math_twitter_description', 'Test Twitter description' );
 

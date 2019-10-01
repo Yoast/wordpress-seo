@@ -80,8 +80,8 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 		),
 		array(
 			'old_key' => 'rank_math_focus_keyword',
-			'new_key' => 'focuskw'
-		)
+			'new_key' => 'focuskw',
+		),
 	);
 
 	/**
@@ -140,15 +140,30 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 			'author_archive_title' => 'title-author-wpseo',
 			'date_archive_title'   => 'title-archive-wpseo',
 			'search_title'         => 'title-search-wpseo',
-			'404_title'            => 'title-404-wpseo'
+			'404_title'            => 'title-404-wpseo',
 		);
 		$options  = get_option( 'rank-math-options-titles' );
 
 		foreach ( $settings as $import_setting_key => $setting_key ) {
 			$value = $options[ $import_setting_key ];
-			// Make sure replace vars work
+			// Make sure replace vars work.
 			$value = str_replace( '%', '%%', $value );
 			WPSEO_Options::set( $setting_key, $value );
 		}
+	}
+
+	/**
+	 * Removes the plugin data from the database.
+	 *
+	 * @return bool Cleanup status.
+	 */
+	protected function cleanup() {
+		$return = parent::cleanup();
+		if ( $return ) {
+			global $wpdb;
+			$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'rank-math-%'" );
+			$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '%rank_math%'" );
+		}
+		return $return;
 	}
 }
