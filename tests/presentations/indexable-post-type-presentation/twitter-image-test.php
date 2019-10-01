@@ -136,8 +136,8 @@ class Twitter_Image_Test extends TestCase {
 	public function test_with_default_image() {
 		$this->options_helper
 			->expects( 'get' )
-			->twice()
-			->andReturn( true, 'default_image.jpg' );
+			->times( 3 )
+			->andReturn( true, 0, 'default_image.jpg' );
 
 		$this->image_helper
 			->expects( 'get_featured_image' )

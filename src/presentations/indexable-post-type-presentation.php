@@ -159,10 +159,6 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $image_url;
 		}
 
-		if ( $this->options_helper->get( 'opengraph' ) === true ) {
-			return (string) $this->options_helper->get( 'og_default_image', '' );
-		}
-
-		return '';
+		return (string) $this->get_default_og_image();
 	}
 }
