@@ -9,9 +9,9 @@ import { modifyStem } from "../morphoHelpers/suffixHelpers";
  * @returns {string[]} The correct inflected suffixe for the given stem.
  */
 export function getSuffixesInflected( morphologyDataAdjectives, stemmedWord ) {
-	const takesTremaEnding = morphologyDataAdjectives.takesTremaEnding.slice();
+	const takesTremaEEnding = morphologyDataAdjectives.takesTremaEEnding.slice();
 
-	if ( stemmedWord.search( new RegExp( takesTremaEnding ) ) !== -1 ) {
+	if ( stemmedWord.search( new RegExp( takesTremaEEnding ) ) !== -1 ) {
 		return morphologyDataAdjectives.inflectedSuffixTremaE;
 	}
 
@@ -29,14 +29,14 @@ export function getSuffixesInflected( morphologyDataAdjectives, stemmedWord ) {
 export function getSuffixesComparative( morphologyDataAdjectives, stemmedWord ) {
 	const takesDerEnding = morphologyDataAdjectives.takesComparativeDerEnding.slice();
 	const takesREnding = morphologyDataAdjectives.takesComparativeREnding.slice();
-	const takesTremaEnding = morphologyDataAdjectives.takesTremaEnding.slice();
+	const takesTremaEEnding = morphologyDataAdjectives.takesTremaEEnding.slice();
 
 	if ( stemmedWord.endsWith( takesDerEnding ) ) {
 		return morphologyDataAdjectives.comparativeSuffixesDer;
 	} else if ( stemmedWord.search( new RegExp( takesREnding ) ) !== -1 ) {
 		return morphologyDataAdjectives.comparativeSuffixesR;
-	} else if ( stemmedWord.search( new RegExp( takesTremaEnding ) ) !== -1 ) {
-		return morphologyDataAdjectives.comparativeSuffixesTrema;
+	} else if ( stemmedWord.search( new RegExp( takesTremaEEnding ) ) !== -1 ) {
+		return morphologyDataAdjectives.comparativeSuffixesTremaE;
 	}
 
 	return morphologyDataAdjectives.comparativeSuffixesEr;
