@@ -21,9 +21,9 @@ class Twitter_Description_Test extends TestCase {
 	 * Does the setup for testing.
 	 */
 	public function setUp() {
-		$this->setInstance();
+		parent::setUp();
 
-		return parent::setUp();
+		$this->setInstance();
 	}
 
 	/**

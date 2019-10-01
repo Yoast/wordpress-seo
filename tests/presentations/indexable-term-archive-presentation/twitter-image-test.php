@@ -3,6 +3,7 @@
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Term_Archive_Presentation;
 
 use Yoast\WP\Free\Tests\TestCase;
+use Brain\Monkey;
 
 /**
  * Class Abstract_Robots_Presenter_Test
@@ -20,9 +21,9 @@ class Twitter_Image_Test extends TestCase {
 	 * Does the setup for testing.
 	 */
 	public function setUp() {
-		$this->setInstance();
+		parent::setUp();
 
-		return parent::setUp();
+		$this->setInstance();
 	}
 
 	/**
@@ -76,7 +77,7 @@ class Twitter_Image_Test extends TestCase {
 	 * @covers ::generate_twitter_image
 	 */
 	public function test_with_applied_filter_returning_false() {
-		\Brain\Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Functions\expect( 'apply_filters' )
 			->once()
 			->with( 'wpseo_twitter_taxonomy_image', false )
 			->andReturn( false );
@@ -96,7 +97,7 @@ class Twitter_Image_Test extends TestCase {
 	 * @covers ::generate_twitter_image
 	 */
 	public function test_with_applied_filter() {
-		\Brain\Monkey\Functions\expect( 'apply_filters' )
+		Monkey\Functions\expect( 'apply_filters' )
 			->once()
 			->with( 'wpseo_twitter_taxonomy_image', false )
 			->andReturn( 'filtered_image.jpg' );
