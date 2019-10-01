@@ -15,11 +15,11 @@ use Yoast\WP\Free\Presentations\Indexable_Presentation;
 class Title_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
-	 * Returns the meta description for a post.
+	 * Returns the document title.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *
-	 * @return string The meta description tag.
+	 * @return string The document title tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
 		$title = $this->filter( $this->replace_vars( $presentation->title, $presentation ) );
@@ -32,11 +32,11 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	}
 
 	/**
-	 * Run the meta description content through the `wpseo_metadesc` filter.
+	 * Run the document title through the `wpseo_title` filter.
 	 *
-	 * @param string $title The meta description to filter.
+	 * @param string $title The document title to filter.
 	 *
-	 * @return string $title The filtered meta description.
+	 * @return string $title The filtered document title.
 	 */
 	private function filter( $title ) {
 		/**
