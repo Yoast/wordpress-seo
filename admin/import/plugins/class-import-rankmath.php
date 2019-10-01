@@ -114,16 +114,16 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 		global $wpdb;
 		$post_metas = $wpdb->get_results( "SELECT post_id, meta_value FROM $wpdb->postmeta WHERE meta_key = 'rank_math_robots'" );
 		foreach ( $post_metas as $post_meta ) {
-			$post_meta->meta_value = unserialize( $post_meta->meta_value );
+			$robots_values = unserialize( $post_meta->meta_value );
 			foreach ( array( 'noindex', 'nofollow' ) as $directive ) {
-				$directive_key = array_search( $directive, $post_meta->meta_value );
+				$directive_key = array_search( $directive, $robots_values );
 				if ( $directive_key !== false ) {
 					update_post_meta( $post_meta->post_id, '_yoast_wpseo_meta-robots-' . $directive, 1 );
-					unset( $post_meta->meta_value[ $directive_key ] );
+					unset( $robots_values[ $directive_key ] );
 				}
 			}
-			if ( count( $post_meta->meta_value ) > 0 ) {
-				$value = implode( ',', $post_meta->meta_value );
+			if ( count( $robots_values ) > 0 ) {
+				$value = implode( ',', $robots_values );
 				update_post_meta( $post_meta->post_id, '_yoast_wpseo_meta-robots-adv', $value );
 			}
 		}
@@ -145,10 +145,12 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 		$options  = get_option( 'rank-math-options-titles' );
 
 		foreach ( $settings as $import_setting_key => $setting_key ) {
-			$value = $options[ $import_setting_key ];
-			// Make sure replace vars work.
-			$value = str_replace( '%', '%%', $value );
-			WPSEO_Options::set( $setting_key, $value );
+			if ( ! empty( $options[ $import_setting_key ] ) ) {
+				$value = $options[ $import_setting_key ];
+				// Make sure replace vars work.
+				$value = str_replace( '%', '%%', $value );
+				WPSEO_Options::set( $setting_key, $value );
+			}
 		}
 	}
 

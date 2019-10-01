@@ -82,10 +82,12 @@ class RankMath_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Import_RankMath::import
 	 * @covers WPSEO_Import_RankMath::meta_key_clone
 	 * @covers WPSEO_Import_RankMath::meta_keys_clone
+	 * @covers WPSEO_Import_RankMath::import_settings
 	 */
 	public function test_import() {
 		$post_id = $this->setup_post();
-		$result  = $this->class_instance->run_import();
+		$this->setup_options();
+		$result = $this->class_instance->run_import();
 
 		$seo_title       = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'title', true );
 		$seo_desc        = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'metadesc', true );
@@ -94,6 +96,9 @@ class RankMath_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
 		$twitter_title   = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'twitter-title', true );
 		$twitter_desc    = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'twitter-description', true );
 
+		$homepage_title = WPSEO_Options::get( 'title-home-wpseo' );
+		$homepage_desc  = WPSEO_Options::get( 'metadesc-home-wpseo' );
+
 		$this->assertEquals( 1, $robots_noindex );
 		$this->assertEquals( 1, $robots_nofollow );
 		$this->assertEquals( 'Test title', $seo_title );
@@ -101,6 +106,9 @@ class RankMath_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( 'Test Twitter title', $twitter_title );
 		$this->assertEquals( 'Test Twitter description', $twitter_desc );
 		$this->assertEquals( $this->status( 'import', true ), $result );
+
+		$this->assertEquals( 'Test homepage title', $homepage_title );
+		$this->assertEquals( 'Test homepage description', $homepage_desc );
 	}
 
 	/**
@@ -125,6 +133,9 @@ class RankMath_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
 		$seo_title = get_post_meta( $post_id, 'rank_math_title', true );
 		$seo_desc  = get_post_meta( $post_id, 'rank_math_description', true );
 
+		$title_option = get_option( 'rank-math-options-titles' );
+
+		$this->assertEquals( $title_option, false );
 		$this->assertEquals( $seo_title, false );
 		$this->assertEquals( $seo_desc, false );
 		$this->assertEquals( $this->status( 'cleanup', true ), $result );
@@ -152,10 +163,20 @@ class RankMath_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory()->post->create();
 		update_post_meta( $post_id, 'rank_math_title', 'Test title' );
 		update_post_meta( $post_id, 'rank_math_description', 'Test description' );
-		update_post_meta( $post_id, 'rank_math_robots', 'a:2:{i:0;s:7:"noindex";i:1;s:8:"nofollow";}' );
+		update_post_meta( $post_id, 'rank_math_robots', array( 'noindex', 'follow' ) );
 		update_post_meta( $post_id, 'rank_math_twitter_title', 'Test Twitter title' );
 		update_post_meta( $post_id, 'rank_math_twitter_description', 'Test Twitter description' );
 
 		return $post_id;
+	}
+
+	/**
+	 * Sets up a fake RankMath settings array.
+	 */
+	private function setup_options() {
+		update_option( 'rank-math-options-titles', array(
+			'homepage_title'       => 'Test homepage title',
+			'homepage_description' => 'Test homepage description',
+		) );
 	}
 }
