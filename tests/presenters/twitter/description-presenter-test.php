@@ -11,7 +11,7 @@ use Yoast\WP\Free\Presenters\Twitter\Description_Presenter;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class Twitter_Image_Presenter_Test.
+ * Class Description_Presenter_Test.
  *
  * @coversDefaultClass \Yoast\WP\Free\Presenters\Twitter\Description_Presenter
  *
@@ -65,7 +65,7 @@ class Description_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the presentation of a relative image.
+	 * Tests the presentation of an empty description.
 	 *
 	 * @covers ::present
 	 * @covers ::filter
