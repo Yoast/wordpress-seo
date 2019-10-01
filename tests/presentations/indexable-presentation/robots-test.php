@@ -26,7 +26,7 @@ class Robots_Test extends TestCase {
 	/**
 	 * @var Indexable_Presentation
 	 */
-	private $instance;
+	protected $instance;
 
 	/**
 	 * Sets up the test class.
