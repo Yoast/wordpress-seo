@@ -11,7 +11,7 @@ use YoastSEO_Vendor\Ruckusing_Migration_Base;
 /**
  * Class WpYoastExpandIndexable
  */
-class WpYoastAddTwitteRcardField extends Ruckusing_Migration_Base {
+class WpYoastAddTwitterCardField extends Ruckusing_Migration_Base {
 
 	/**
 	 * Migration up.
