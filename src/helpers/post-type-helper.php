@@ -19,7 +19,7 @@ class Post_Type_Helper {
 	 *
 	 * @return bool True when post type is set to index.
 	 */
-	public static function is_indexable( $post_type_name ) {
+	public function is_indexable( $post_type_name ) {
 		return \WPSEO_Post_Type::is_post_type_indexable( $post_type_name );
 	}
 }
