@@ -52,6 +52,7 @@ use Yoast\WP\Free\ORM\Yoast_Model;
  * @property string  $twitter_title
  * @property string  $twitter_description
  * @property string  $twitter_image
+ * @property string  $twitter_card
  */
 class Indexable extends Yoast_Model {
 
@@ -61,6 +62,13 @@ class Indexable extends Yoast_Model {
 	 * @var bool
 	 */
 	protected $uses_timestamps = true;
+
+	/**
+	 * Which columns contain boolean values.
+	 *
+	 * @var array
+	 */
+	protected $boolean_columns = [  'is_robots_noindex', 'is_robots_nofollow', 'is_robots_noarchive', 'is_robots_noimageindex', 'is_robots_nosnippet' ];
 
 	/**
 	 * The loaded indexable extensions.
