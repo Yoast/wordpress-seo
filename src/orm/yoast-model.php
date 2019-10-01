@@ -535,7 +535,7 @@ class Yoast_Model {
 	 */
 	public function __set( $property, $value ) {
 		if ( $value !== null && \in_array( $property, $this->boolean_columns, true ) ) {
-			$value = $value ? '1' : '0';
+			$value = ( $value ) ? '1' : '0';
 		}
 
 		$this->orm->set( $property, $value );

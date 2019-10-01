@@ -8,6 +8,8 @@
 namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Helpers\Options_Helper;
+use Yoast\WP\Free\Helpers\Taxonomy_Helper;
+use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 
 /**
  * Class Indexable_Presentation
@@ -20,14 +22,30 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	private $options_helper;
 
 	/**
+	 * @var WP_Query_Wrapper
+	 */
+	private $wp_query_wrapper;
+
+	/**
+	 * @var Taxonomy_Helper
+	 */
+	private $taxonomy_helper;
+
+	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Options_Helper   $options_helper   The options helper.
+	 * @param WP_Query_Wrapper $wp_query_wrapper The wp query wrapper.
+	 * @param Taxonomy_Helper  $taxonomy_helper  The Taxonomy helper.
 	 */
 	public function __construct(
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		WP_Query_Wrapper $wp_query_wrapper,
+		Taxonomy_Helper $taxonomy_helper
 	) {
-		$this->options_helper = $options_helper;
+		$this->options_helper   = $options_helper;
+		$this->wp_query_wrapper = $wp_query_wrapper;
+		$this->taxonomy_helper  = $taxonomy_helper;
 	}
 
 	/**
@@ -96,5 +114,42 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		}
 
 		return '';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_robots() {
+		$robots = $this->robots_helper->get_base_values( $this->model );
+
+		/**
+		 * If its a multiple terms archive page return a noindex.
+		 */
+		if ( $this->current_page_helper->is_multiple_terms_page() ) {
+			$robots['index'] = 'noindex';
+			return $this->robots_helper->after_generate( $robots );
+		}
+
+		/**
+		 * @var \WP_Term $term
+		 */
+		$term = $this->wp_query_wrapper->get_query()->get_queried_object();
+
+		/**
+		 * First we get the no index option for this taxonomy, because it can be overwritten the indexable value for
+		 * this specific term.
+		 */
+		if ( ! $this->taxonomy_helper->is_indexable( $term->taxonomy ) ) {
+			$robots['index'] = 'noindex';
+		}
+
+		/**
+		 * Overwrite the index directive when there is a term specific directive set.
+		 */
+		if ( $this->model->is_robots_noindex !== null ) {
+			$robots['index'] = ( $this->model->is_robots_noindex ) ? 'noindex' : 'index';
+		}
+
+		return $this->robots_helper->after_generate( $robots );
 	}
 }
