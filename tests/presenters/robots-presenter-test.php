@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\YoastSEO\Tests\Presenters
+ */
 
 namespace Yoast\WP\Free\Tests\Presenters;
 
