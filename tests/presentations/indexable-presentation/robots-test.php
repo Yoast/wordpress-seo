@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\YoastSEO\Tests\Presentations\Indexable_Presentation
+ */
 
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Presentation;
 
@@ -10,11 +15,11 @@ use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class WPSEO_Schema_FAQ_Questions_Test.
+ * Class Robots_Test
  *
- * @group schema
+ * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
  *
- * @package Yoast\Tests\Frontend\Schema
+ * @group robots
  */
 class Robots_Test extends TestCase {
 
@@ -45,12 +50,12 @@ class Robots_Test extends TestCase {
 
 		$robots_helper->expects( 'get_base_values' )
 			->andReturn( [
-				'index' =>  'index',
+				'index' => 'index',
 				'follow' => 'follow',
 			] );
 		$robots_helper->expects( 'after_generate' )
 			->with( [
-				'index' =>  'index',
+				'index' => 'index',
 				'follow' => 'follow',
 			] )
 			->andReturnUsing( function( $robots ) {
@@ -63,7 +68,7 @@ class Robots_Test extends TestCase {
 
 		$actual = $this->instance->generate_robots();
 		$expected = [
-			'index' =>  'noindex',
+			'index' => 'noindex',
 			'follow' => 'follow',
 		];
 

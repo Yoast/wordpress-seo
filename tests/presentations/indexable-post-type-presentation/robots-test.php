@@ -1,4 +1,9 @@
 <?php
+/**
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\YoastSEO\Tests\Presentations\Indexable_Post_Type_Presentation
+ */
 
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 
@@ -6,13 +11,11 @@ use Brain\Monkey;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class WPSEO_Schema_FAQ_Questions_Test.
- *
- * @group schema
+ * Class Robots_Test
  *
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
  *
- * @package Yoast\Tests\Frontend\Schema
+ * @group robots
  */
 class Robots_Test extends TestCase {
 	use Presentation_Instance_Builder;
