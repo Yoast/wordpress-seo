@@ -142,10 +142,6 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $twitter_description;
 		}
 
-		if ( $this->meta_description ) {
-			return $this->meta_description;
-		}
-
 		$excerpt = \wp_strip_all_tags( \get_the_excerpt( $this->model->object_id ) );
 		if ( $excerpt ) {
 			return $excerpt;

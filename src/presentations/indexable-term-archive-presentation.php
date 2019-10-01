@@ -58,10 +58,6 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $twitter_description;
 		}
 
-		if ( $this->meta_description ) {
-			return $this->meta_description;
-		}
-
 		$excerpt = \wp_strip_all_tags( \term_description( $this->model->object_id ) );
 		if ( $excerpt ) {
 			return $excerpt;

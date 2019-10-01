@@ -23,8 +23,8 @@ class Description_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The template.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$twitter_description = $this->filter( $presentation->twitter_description );
-		$twitter_description = $this->replace_vars( $twitter_description, $presentation );
+		$twitter_description = $this->replace_vars( $presentation->twitter_description, $presentation );
+		$twitter_description = $this->filter( $twitter_description );
 
 		if ( $twitter_description ) {
 			return '<meta name="twitter:description" content="' . \esc_attr( $twitter_description ) . '" />';
