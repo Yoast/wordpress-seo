@@ -63,7 +63,7 @@ class Robots_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_robots' )
 			->once()
-			->with( 'index,nofollow')
+			->with( 'index,nofollow' )
 			->andReturn( 'noindex' );
 
 		$actual = $this->instance->present( $indexable_presentation );
