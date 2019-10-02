@@ -5,7 +5,7 @@ namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class Abstract_Robots_Presenter_Test
+ * Class OG_Images_Test
  *
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
  *
@@ -13,7 +13,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group opengraph
  * @group opengraph-image
  */
-class OG_Image_Test extends TestCase {
+class OG_Images_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -38,18 +38,44 @@ class OG_Image_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the og image id is set.
+	 * Tests the situation where the featured image id is set.
 	 *
 	 * @covers ::generate_og_images
 	 */
-	public function test_with_og_image_id() {
-		$this->indexable->og_image    = null;
-		$this->indexable->og_image_id = 1;
+	public function test_with_featured_image_id() {
+		$this->image_helper
+			->expects( 'get_featured_image_id' )
+			->once()
+			->andReturn( 1 );
 
 		$this->instance
 			->expects( 'get_attachment_url_by_id' )
 			->once()
 			->andReturn( 'facebook_image.jpg' );
+
+		$this->assertEquals( [ 'facebook_image.jpg' ], $this->instance->generate_og_images() );
+	}
+
+	/**
+	 * Tests the situation where the content image is used.
+	 *
+	 * @covers ::generate_og_images
+	 */
+	public function test_with_content_image() {
+		$this->image_helper
+			->expects( 'get_featured_image_id' )
+			->once()
+			->andReturn( 1 );
+
+		$this->instance
+			->expects( 'get_attachment_url_by_id' )
+			->once()
+			->andReturnFalse();
+
+		$this->image_helper
+			->expects( 'get_post_content_image' )
+			->once()
+			->andReturn(  'facebook_image.jpg'  );
 
 		$this->assertEquals( [ 'facebook_image.jpg' ], $this->instance->generate_og_images() );
 	}
