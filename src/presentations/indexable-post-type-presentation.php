@@ -7,9 +7,6 @@
 
 namespace Yoast\WP\Free\Presentations;
 
-use Yoast\WP\Free\Helpers\Meta_Helper;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 
 /**
@@ -18,43 +15,19 @@ use Yoast\WP\Free\Helpers\Post_Type_Helper;
 class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 
 	/**
-	 * @var Image_Helper
-	 */
-	protected $image_helper;
-
-	/**
-	 * @var Options_Helper
-	 */
-	protected $options_helper;
-
-	/**
 	 * @var Post_Type_Helper
 	 */
 	protected $post_type_helper;
 
 	/**
-	 * @var Meta_Helper
-	 */
-	protected $meta_helper;
-
-	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param Options_Helper   $options_helper   The options helper.
 	 * @param Post_Type_Helper $post_type_helper The post type helper.
-	 * @param Meta_Helper      $meta_helper      The meta helper.
-	 * @param Image_Helper     $image_helper     The image helper.
 	 */
 	public function __construct(
-		Options_Helper $options_helper,
-		Post_Type_Helper $post_type_helper,
-		Meta_Helper $meta_helper,
-		Image_Helper $image_helper
+		Post_Type_Helper $post_type_helper
 	) {
-		$this->options_helper   = $options_helper;
 		$this->post_type_helper = $post_type_helper;
-		$this->meta_helper      = $meta_helper;
-		$this->image_helper     = $image_helper;
 	}
 
 	/**
@@ -77,6 +50,39 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		return $this->options_helper->get( 'metadesc-' . $this->model->object_sub_type );
+	}
+
+	/**
+	 * Generates the open graph images.
+	 *
+	 * @return array The open graph images.
+	 */
+	public function generate_og_images() {
+		$images = parent::generate_og_images();
+
+		if ( ! empty( $images ) ) {
+			return $images;
+		}
+
+		$featured_image_id = $this->image_helper->get_featured_image_id( $this->model->object_id );
+		if ( $featured_image_id ) {
+			$featured_image_url = $this->get_attachment_url_by_id( $featured_image_id );
+			if ( $featured_image_url ) {
+				return [ $featured_image_url ];
+			}
+		}
+
+		$content_image = $this->image_helper->get_post_content_image( $this->model->object_id );
+		if ( $content_image ) {
+			return [ $content_image ];
+		}
+
+		$default_image = $this->get_default_og_image();
+		if ( $default_image ) {
+			return [ $default_image ];
+		}
+
+		return [];
 	}
 
 	/**
@@ -149,11 +155,6 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $this->model->og_image;
 		}
 
-		$image_url = $this->image_helper->get_attachment_image( $this->model->object_id );
-		if ( $image_url ) {
-			return $image_url;
-		}
-
 		/**
 		 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size.
 		 *
@@ -175,10 +176,6 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $image_url;
 		}
 
-		if ( $this->options_helper->get( 'opengraph' ) === true ) {
-			return (string) $this->options_helper->get( 'og_default_image', '' );
-		}
-
-		return '';
+		return (string) $this->get_default_og_image();
 	}
 }

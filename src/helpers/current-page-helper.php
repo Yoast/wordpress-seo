@@ -168,6 +168,17 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Determine whether this is an attachment page.
+	 *
+	 * @return bool Whether nor not the current page is an attachment page.
+	 */
+	public function is_attachment() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return $wp_query->is_attachment;
+	}
+
+	/**
 	 * Determine whether this is an author archive.
 	 *
 	 * @return bool Whether nor not the current page is an author archive.
@@ -209,5 +220,27 @@ class Current_Page_Helper {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
 		return $wp_query->is_404();
+	}
+
+	/**
+	 * Determine whether this page is an taxonomy archive page for multiple terms (url: /term-1,term2/).
+	 *
+	 * @return bool Whether or not the current page is an archive page for multiple terms.
+	 */
+	public function is_multiple_terms_page() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		if ( ! $this->is_term_archive() ) {
+			return false;
+		}
+
+		$term          = $wp_query->get_queried_object();
+		$queried_terms = $wp_query->tax_query->queried_terms;
+
+		if ( empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
+			return false;
+		}
+
+		return \count( $queried_terms[ $term->taxonomy ]['terms'] ) > 1;
 	}
 }

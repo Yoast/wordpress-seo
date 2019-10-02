@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Archive_Presentation;
+namespace Yoast\WP\Free\Tests\Presentations\Indexable_Home_Page_Presentation;
 
 use Mockery;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
-use Yoast\WP\Free\Presentations\Indexable_Post_Type_Archive_Presentation;
+use Yoast\WP\Free\Presentations\Indexable_Home_Page_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
 
 /**
@@ -21,7 +21,7 @@ trait Presentation_Instance_Builder {
 	protected $indexable;
 
 	/**
-	 * @var Indexable_Post_Type_Archive_Presentation
+	 * @var Indexable_Home_Page_Presentation
 	 */
 	protected $instance;
 
@@ -38,15 +38,20 @@ trait Presentation_Instance_Builder {
 	/**
 	 * @var Mockery\Mock
 	 */
-	protected $current_page_helper;
+	protected $meta_helper;
 
 	/**
-	 * @var Image_Helper
+	 * @var Mockery\Mock
 	 */
 	protected $image_helper;
 
 	/**
-	 * Builds an instance of Indexable_Post_Type_Presentation.
+	 * @var Current_Page_Helper
+	 */
+	protected $current_page_helper;
+
+	/**
+	 * Builds an instance of Indexable_Home_Page_Presentation.
 	 */
 	protected function setInstance() {
 		$this->indexable = new Indexable();
@@ -56,7 +61,7 @@ trait Presentation_Instance_Builder {
 		$this->image_helper        = Mockery::mock( Image_Helper::class );
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 
-		$instance = new Indexable_Post_Type_Archive_Presentation();
+		$instance = new Indexable_Home_Page_Presentation();
 
 		$this->instance = $instance->of( $this->indexable );
 		$this->instance->set_helpers(

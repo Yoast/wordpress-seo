@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
+namespace Yoast\WP\Free\Tests\Presentations\Indexable_Attachment_Presentation;
 
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Abstract_Robots_Presenter_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
+ * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Attachment_Presentation
  *
  * @group presentations
  * @group twitter
@@ -20,9 +20,9 @@ class Twitter_Image_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		parent::setUp();
-
 		$this->setInstance();
+
+		parent::setUp();
 	}
 
 	/**
@@ -59,75 +59,36 @@ class Twitter_Image_Test extends TestCase {
 	 *
 	 * @covers ::generate_twitter_image
 	 */
-	public function _test_with_opengraph_disabled() {
+	public function test_with_opengraph_disabled() {
 		$this->options_helper
 			->expects( 'get' )
 			->twice()
 			->with( 'opengraph' )
 			->andReturnFalse();
 
+		$this->image_helper
+			->expects( 'get_attachment_image' )
+			->once()
+			->andReturn( '' );
+
 		$this->indexable->og_image = 'facebook_image.jpg';
 
 		$this->assertEmpty( $this->instance->generate_twitter_image() );
 	}
+
 	/**
-	 * Tests the situation where the featured image is given.
+	 * Tests the situation for an attachment.
 	 *
 	 * @covers ::generate_twitter_image
 	 */
-	public function test_with_a_featured_image() {
+	public function test_for_an_attachment() {
 		$this->image_helper
-			->expects( 'get_featured_image' )
+			->expects( 'get_attachment_image' )
 			->once()
 			->andReturn( 'attachment_image.jpg' );
 
 		$this->assertEquals( 'attachment_image.jpg', $this->instance->generate_twitter_image() );
 	}
-
-	/**
-	 * Tests the situation where the gallery image is given.
-	 *
-	 * @covers ::generate_twitter_image
-	 */
-	public function test_with_a_gallery_image() {
-
-		$this->image_helper
-			->expects( 'get_featured_image' )
-			->once()
-			->andReturnFalse();
-
-		$this->image_helper
-			->expects( 'get_gallery_image' )
-			->once()
-			->andReturn( 'gallery_image.jpg' );
-
-		$this->assertEquals( 'gallery_image.jpg', $this->instance->generate_twitter_image() );
-	}
-
-	/**
-	 * Tests the situation where the post image is given.
-	 *
-	 * @covers ::generate_twitter_image
-	 */
-	public function test_with_a_post_content_image() {
-		$this->image_helper
-			->expects( 'get_featured_image' )
-			->once()
-			->andReturnFalse();
-
-		$this->image_helper
-			->expects( 'get_gallery_image' )
-			->once()
-			->andReturnFalse();
-
-		$this->image_helper
-			->expects( 'get_post_content_image' )
-			->once()
-			->andReturn( 'post_content_image.jpg' );
-
-		$this->assertEquals( 'post_content_image.jpg', $this->instance->generate_twitter_image() );
-	}
-
 	/**
 	 * Tests the situation where the default image is given.
 	 *
@@ -140,17 +101,7 @@ class Twitter_Image_Test extends TestCase {
 			->andReturn( true, 0, 'default_image.jpg' );
 
 		$this->image_helper
-			->expects( 'get_featured_image' )
-			->once()
-			->andReturnFalse();
-
-		$this->image_helper
-			->expects( 'get_gallery_image' )
-			->once()
-			->andReturnFalse();
-
-		$this->image_helper
-			->expects( 'get_post_content_image' )
+			->expects( 'get_attachment_image' )
 			->once()
 			->andReturnFalse();
 
@@ -168,19 +119,10 @@ class Twitter_Image_Test extends TestCase {
 			->andReturn( false );
 
 		$this->image_helper
-			->expects( 'get_featured_image' )
+			->expects( 'get_attachment_image' )
 			->once()
-			->andReturnFalse();
+			->andReturnFalse( );
 
-		$this->image_helper
-			->expects( 'get_gallery_image' )
-			->once()
-			->andReturnFalse();
-
-		$this->image_helper
-			->expects( 'get_post_content_image' )
-			->once()
-			->andReturnFalse();
 
 		$this->assertEmpty( $this->instance->generate_twitter_image() );
 	}

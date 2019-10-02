@@ -48,6 +48,7 @@ use Yoast\WP\Free\ORM\Yoast_Model;
  * @property string  $og_title
  * @property string  $og_description
  * @property string  $og_image
+ * @property string  $og_image_id
  *
  * @property string  $twitter_title
  * @property string  $twitter_description
@@ -68,7 +69,7 @@ class Indexable extends Yoast_Model {
 	 *
 	 * @var array
 	 */
-	protected $boolean_columns = [  'is_robots_noindex', 'is_robots_nofollow', 'is_robots_noarchive', 'is_robots_noimageindex', 'is_robots_nosnippet' ];
+	protected $boolean_columns = [ 'is_robots_noindex', 'is_robots_nofollow', 'is_robots_noarchive', 'is_robots_noimageindex', 'is_robots_nosnippet' ];
 
 	/**
 	 * The loaded indexable extensions.

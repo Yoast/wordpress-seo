@@ -23,7 +23,7 @@ trait Presentation_Instance_Builder {
 	protected $indexable;
 
 	/**
-	 * @var Indexable_Post_Type_Presentation
+	 * @var Indexable_Post_Type_Presentation|Mockery\MockInterface
 	 */
 	protected $instance;
 
@@ -36,11 +36,6 @@ trait Presentation_Instance_Builder {
 	 * @var Mockery\Mock
 	 */
 	protected $robots_helper;
-
-	/**
-	 * @var Mockery\Mock
-	 */
-	protected $current_page_helper;
 
 	/**
 	 * @var Mockery\Mock
@@ -58,6 +53,11 @@ trait Presentation_Instance_Builder {
 	protected $image_helper;
 
 	/**
+	 * @var Current_Page_Helper
+	 */
+	protected $current_page_helper;
+
+	/**
 	 * Builds an instance of Indexable_Post_Type_Presentation.
 	 */
 	protected function setInstance() {
@@ -66,20 +66,22 @@ trait Presentation_Instance_Builder {
 		$this->options_helper      = Mockery::mock( Options_Helper::class );
 		$this->post_type_helper    = Mockery::mock( Post_Type_Helper::class );
 		$this->robots_helper       = Mockery::mock( Robots_Helper::class );
-		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$this->meta_helper         = Mockery::mock( Meta_Helper::class );
 		$this->image_helper        = Mockery::mock( Image_Helper::class );
+		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 
-		$instance = new Indexable_Post_Type_Presentation(
-			$this->options_helper,
-			$this->post_type_helper,
-			$this->meta_helper,
-			$this->image_helper
-		);
+		$instance = Mockery::mock(
+			Indexable_Post_Type_Presentation::class,
+			[ $this->post_type_helper ]
+		)
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
 
 		$this->instance = $instance->of( $this->indexable );
 		$this->instance->set_helpers(
 			$this->robots_helper,
+			$this->image_helper,
+			$this->options_helper,
 			$this->current_page_helper
 		);
 	}

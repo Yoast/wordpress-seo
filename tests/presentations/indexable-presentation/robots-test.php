@@ -4,6 +4,8 @@ namespace Yoast\WP\Free\Tests\Presentations\Indexable_Presentation;
 
 use Mockery;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
+use Yoast\WP\Free\Helpers\Image_Helper;
+use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
@@ -41,6 +43,8 @@ class Robots_Test extends TestCase {
 	 */
 	public function test_generate_robots() {
 		$robots_helper       = Mockery::mock( Robots_Helper::class );
+		$image_helper        = Mockery::mock( Image_Helper::class );
+		$options_helper      = Mockery::mock( Options_Helper::class );
 		$current_page_helper = Mockery::mock( Current_Page_Helper::class );
 
 		$robots_helper->expects( 'get_base_values' )
@@ -59,7 +63,7 @@ class Robots_Test extends TestCase {
 				return $robots;
 			} );
 
-		$this->instance->set_helpers( $robots_helper, $current_page_helper );
+		$this->instance->set_helpers( $robots_helper, $image_helper, $options_helper, $current_page_helper );
 
 		$actual = $this->instance->generate_robots();
 		$expected = [
