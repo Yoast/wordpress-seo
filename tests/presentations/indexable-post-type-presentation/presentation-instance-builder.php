@@ -5,7 +5,6 @@ namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 use Mockery;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Meta_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
@@ -45,11 +44,6 @@ trait Presentation_Instance_Builder {
 	/**
 	 * @var Mockery\Mock
 	 */
-	protected $meta_helper;
-
-	/**
-	 * @var Mockery\Mock
-	 */
 	protected $image_helper;
 
 	/**
@@ -66,7 +60,6 @@ trait Presentation_Instance_Builder {
 		$this->options_helper      = Mockery::mock( Options_Helper::class );
 		$this->post_type_helper    = Mockery::mock( Post_Type_Helper::class );
 		$this->robots_helper       = Mockery::mock( Robots_Helper::class );
-		$this->meta_helper         = Mockery::mock( Meta_Helper::class );
 		$this->image_helper        = Mockery::mock( Image_Helper::class );
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 
