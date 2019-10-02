@@ -38,6 +38,12 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		'mime-type' => 'type',
 	];
 
+	/**
+	 * Image_Presenter constructor.
+	 *
+	 * @param Image_Helper $image_helper The image helper.
+	 * @param Url_Helper   $url_helper   The url helper.
+	 */
 	public function __construct( Image_Helper $image_helper, Url_Helper $url_helper ) {
 		$this->image_helper = $image_helper;
 		$this->url_helper   = $url_helper;
@@ -62,13 +68,13 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 
 		$images = array_map( [ $this, 'filter' ], $images );
 		foreach ( $images as $image_index => $image_meta ) {
-			$image_url = $image_meta[ 'url' ];
+			$image_url = $image_meta['url'];
 
 			$return .= '<meta property="og:image" value="' . esc_url( $image_url ) . '"/>';
 
 			// Adds secure URL if detected. Not all services implement this, so the regular one also needs to be rendered.
 			if ( strpos( $image_meta['url'], 'https://' ) === 0 ) {
-				$return .= '<meta property="og:image:secure_url" value="' .esc_url( $image_url ) . '"/>';
+				$return .= '<meta property="og:image:secure_url" value="' . esc_url( $image_url ) . '"/>';
 			}
 
 			foreach ( static::$image_tags as $key => $value ) {
@@ -83,17 +89,24 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		return $return;
 	}
 
-	protected function format_image( $attachment ) {
+	/**
+	 * Formats the image. To have all images the same format.
+	 *
+	 * @param array|string $image The attachment to format.
+	 *
+	 * @return array|string The formatted attachment.
+	 */
+	protected function format_image( $image ) {
 		// In the past `add_image` accepted an image url, so leave this for backwards compatibility.
-		if ( is_string( $attachment ) && $attachment !== '' ) {
-			$attachment = [ 'url' => $attachment ];
+		if ( is_string( $image ) && $image !== '' ) {
+			$image = [ 'url' => $image ];
 		}
 
-		if ( $this->url_helper->is_relative( $attachment['url'] ) ) {
-			$attachment['url'] = $this->url_helper->get_relative_path( $attachment['url']);
+		if ( $this->url_helper->is_relative( $image['url'] ) ) {
+			$image['url'] = $this->url_helper->get_relative_path( $image['url'] );
 		}
 
-		return $attachment;
+		return $image;
 	}
 
 	/**
@@ -109,7 +122,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		$image_extension = $this->get_extension_from_url( $image['url'] );
-		$is_valid        =  $this->image_helper->is_extension_valid( $image_extension );
+		$is_valid        = $this->image_helper->is_extension_valid( $image_extension );
 
 		/**
 		 * Filter: 'wpseo_opengraph_is_valid_image_url' - Allows extra validation for an image url.
@@ -141,9 +154,6 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 
 		return $image;
 	}
-
-
-	// Na helper verplaatsen wat hieronder staat
 
 	/**
 	 * Determines the file extension of the passed URL.
