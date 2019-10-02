@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Presentations;
 
-use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Taxonomy_Helper;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 
@@ -15,11 +14,6 @@ use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
  * Class Indexable_Presentation
  */
 class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
-
-	/**
-	 * @var Options_Helper
-	 */
-	private $options_helper;
 
 	/**
 	 * @var WP_Query_Wrapper
@@ -34,16 +28,13 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param Options_Helper   $options_helper   The options helper.
 	 * @param WP_Query_Wrapper $wp_query_wrapper The wp query wrapper.
 	 * @param Taxonomy_Helper  $taxonomy_helper  The Taxonomy helper.
 	 */
 	public function __construct(
-		Options_Helper $options_helper,
 		WP_Query_Wrapper $wp_query_wrapper,
 		Taxonomy_Helper $taxonomy_helper
 	) {
-		$this->options_helper   = $options_helper;
 		$this->wp_query_wrapper = $wp_query_wrapper;
 		$this->taxonomy_helper  = $taxonomy_helper;
 	}
@@ -64,6 +55,24 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	 */
 	public function generate_replace_vars_object() {
 		return \get_term( $this->model->object_id, $this->model->object_sub_type );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_og_images() {
+		$images = parent::generate_og_images();
+
+		if ( ! empty( $images ) ) {
+			return $images;
+		}
+
+		$default_image = $this->get_default_og_image();
+		if ( $default_image ) {
+			return [ $default_image ];
+		}
+
+		return [];
 	}
 
 	/**
@@ -109,11 +118,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $twitter_image;
 		}
 
-		if ( $this->options_helper->get( 'opengraph' ) === true ) {
-			return (string) $this->options_helper->get( 'og_default_image', '' );
-		}
-
-		return '';
+		return (string) $this->get_default_og_image();
 	}
 
 	/**

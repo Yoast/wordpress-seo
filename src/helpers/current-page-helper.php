@@ -168,6 +168,17 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Determine whether this is an attachment page.
+	 *
+	 * @return bool Whether nor not the current page is an attachment page.
+	 */
+	public function is_attachment() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return $wp_query->is_attachment;
+	}
+
+	/**
 	 * Determine whether this is an author archive.
 	 *
 	 * @return bool Whether nor not the current page is an author archive.

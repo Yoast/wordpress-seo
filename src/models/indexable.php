@@ -48,6 +48,7 @@ use Yoast\WP\Free\ORM\Yoast_Model;
  * @property string  $og_title
  * @property string  $og_description
  * @property string  $og_image
+ * @property string  $og_image_id
  *
  * @property string  $twitter_title
  * @property string  $twitter_description

@@ -8,6 +8,8 @@
 namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
+use Yoast\WP\Free\Helpers\Image_Helper;
+use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
 use Yoast\WP\Free\Models\Indexable;
 
@@ -52,15 +54,34 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $current_page_helper;
 
 	/**
+	 * @var Image_Helper
+	 */
+	protected $image_helper;
+
+	/**
+	 * @var Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
 	 * @required
 	 *
 	 * Used by dependency injection container to inject the Robots_Helper.
 	 *
 	 * @param Robots_Helper       $robots_helper       The robots helper.
-	 * @param Current_Page_Helper $current_page_helper Current page helper.
+	 * @param Image_Helper        $image_helper        The image helper.
+	 * @param Options_Helper      $options_helper      The options helper.
+	 * @param Current_Page_Helper $current_page_helper The current page helper.
 	 */
-	public function set_helpers( Robots_Helper $robots_helper, Current_Page_Helper $current_page_helper ) {
+	public function set_helpers(
+		Robots_Helper $robots_helper,
+		Image_Helper $image_helper,
+		Options_Helper $options_helper,
+		Current_Page_Helper $current_page_helper
+	) {
 		$this->robots_helper       = $robots_helper;
+		$this->image_helper        = $image_helper;
+		$this->options_helper      = $options_helper;
 		$this->current_page_helper = $current_page_helper;
 	}
 
@@ -152,6 +173,13 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The open graph images.
 	 */
 	public function generate_og_images() {
+		if ( $this->model->og_image_id ) {
+			$attachment = $this->get_attachment_url_by_id( $this->model->og_image_id );
+			if ( $attachment ) {
+				return [ $attachment ];
+			}
+		}
+
 		if ( $this->model->og_image ) {
 			return [ $this->model->og_image ];
 		}
@@ -469,5 +497,71 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_replace_vars_object() {
 		return [];
+	}
+
+	/**
+	 * Retrieves the attachment by a given image id.
+	 *
+	 * @param int $attachment_id The attachment id.
+	 *
+	 * @return string|false The url when found, false when not.
+	 */
+	protected function get_attachment_url_by_id( $attachment_id ) {
+		/**
+		 * Filter: 'wpseo_opengraph_image_size' - Allow overriding the image size used
+		 * for OpenGraph sharing. If this filter is used, the defined size will always be
+		 * used for the og:image. The image will still be rejected if it is too small.
+		 *
+		 * Only use this filter if you manually want to determine the best image size
+		 * for the `og:image` tag.
+		 *
+		 * Use the `wpseo_image_sizes` filter if you want to use our logic. That filter
+		 * can be used to add an image size that needs to be taken into consideration
+		 * within our own logic.
+		 *
+		 * @api string|false $size Size string.
+		 */
+		$override_image_size = apply_filters( 'wpseo_opengraph_image_size', null );
+
+		if ( $override_image_size ) {
+			return $this->image_helper->get_image( $attachment_id, $override_image_size );
+		}
+
+		return $this->image_helper->get_attachment_variations(
+			$attachment_id,
+			[
+				'min_width'  => 200,
+				'max_width'  => 2000,
+				'min_height' => 200,
+				'max_height' => 2000,
+			]
+		);
+	}
+
+	/**
+	 * Retrieves the default OpenGraph image.
+	 *
+	 * @return string|false The retrieved image.
+	 */
+	protected function get_default_og_image() {
+		if ( $this->options_helper->get( 'opengraph' ) !== true ) {
+			return '';
+		}
+
+		$default_image_id  = $this->options_helper->get( 'og_default_image_id', '' );
+
+		if ( $default_image_id ) {
+			$attachment_url = $this->get_attachment_url_by_id( $this->model->og_image_id );
+			if ( $attachment_url ) {
+				return $attachment_url;
+			}
+		}
+
+		$default_image_url = $this->options_helper->get( 'og_default_image', '' );
+		if ( $default_image_url ) {
+			return $default_image_url;
+		}
+
+		return '';
 	}
 }
