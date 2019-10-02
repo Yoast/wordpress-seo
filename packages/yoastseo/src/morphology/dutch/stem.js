@@ -94,6 +94,20 @@ const modifyStem = function( word, modificationGroup ) {
 	} return word;
 };
 
+const exceptionCheckVowelDoubling = function( word, morphologyDataNLNoVowelDoubling ) {
+	for (const exceptionWord of morphologyDataNLNoVowelDoubling) {
+		if (word === exceptionWord) {
+			return true
+		}
+	}
+};
+
+const ruleCheckVowelDoubling = function( word ) {
+	const fourthToLastLetter = word.charAt( word.length - 4 );
+	const thirdToLastLetter = word.charAt( word.length - 3 );
+	return fourthToLastLetter !== thirdToLastLetter;
+};
+
 /**
  * Checks whether the third to last and fourth to last characters are different. If they are, then the doubling vowel
  * modification should be performed. If these characters are the same, no doubling should be performed.
@@ -101,12 +115,18 @@ const modifyStem = function( word, modificationGroup ) {
  * performed (it would not become 'lutteel').
  *
  * @param {string} word The stemmed word that the check should be executed on.
+ * @param {Object} morphologyDataNLNoVowelDoubling Exception list of words that should not have the vowel doubled.
  * @returns {boolean} Whether the third and fourth to last characters are different.
  */
 const isVowelDoublingAllowed = function( word, morphologyDataNLNoVowelDoubling ) {
-	const fourthToLastLetter = word.charAt( word.length - 4 );
-	const thirdToLastLetter = word.charAt( word.length - 3 );
-	return fourthToLastLetter !== thirdToLastLetter;
+
+	const isOnExceptionList = exceptionCheckVowelDoubling( word, morphologyDataNLNoVowelDoubling );
+
+	const vowelIsPrecededByTwoSameLetters = ruleCheckVowelDoubling( word );
+
+	if( !isOnExceptionList && vowelIsPrecededByTwoSameLetters ) {
+		return true
+	}
 };
 
 /**
@@ -128,12 +148,11 @@ const deleteSuffixAndModifyStem = function( word, suffixStep, suffixIndex, stemM
 		return modifyStem( word, morphologyDataNL.stemming.stemModifications.iedToId );
 	} else if ( stemModification === "changeInktoIng" && word.endsWith( "ink" ) ) {
 		return modifyStem( word, morphologyDataNL.stemming.stemModifications.inkToIng );
-	} else if ( stemModification === "vowelDoubling" && isVowelDoublingAllowed( word ) ) {
+	} else if ( stemModification === "vowelDoubling" && isVowelDoublingAllowed( word, morphologyDataNL.stemming.stemExceptions.noVowelDoubling ) ) {
 		return modifyStem( word, morphologyDataNL.stemming.stemModifications.doubleVowel );
 	}
 	return word;
 };
-
 
 /**
  * Finds and deletes the suffix found in a particular step, and modifies the stem.
