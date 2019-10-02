@@ -6,9 +6,11 @@ use Mockery;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class WPSEO_Schema_FAQ_Questions_Test.
+ * Class Robots_Test.
  *
- * @group schema
+ * @group presentations
+ * @group robots
+ *
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Term_Archive_Presentation
  *
  * @package Yoast\Tests\Frontend\Schema

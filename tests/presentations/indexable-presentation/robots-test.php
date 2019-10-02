@@ -12,9 +12,10 @@ use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class WPSEO_Schema_FAQ_Questions_Test.
+ * Class Robots_Test.
  *
- * @group schema
+ * @group presentations
+ * @group robots
  *
  * @package Yoast\Tests\Frontend\Schema
  */
