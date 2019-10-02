@@ -5,13 +5,12 @@ namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Archive_Presenta
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class WPSEO_Schema_FAQ_Questions_Test.
+ * Class Robots_Test.
  *
- * @group schema
+ * @group presentations
+ * @group robots
  *
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Archive_Presentation
- *
- * @package Yoast\Tests\Frontend\Schema
  */
 class Robots_Test extends TestCase {
 	use Presentation_Instance_Builder;
@@ -24,7 +23,8 @@ class Robots_Test extends TestCase {
 
 		$this->setInstance();
 
-		$this->robots_helper->expects( 'get_base_values' )
+		$this->robots_helper
+			->expects( 'get_base_values' )
 			->andReturn( [
 				'index'  => 'index',
 				'follow' => 'follow',
@@ -33,7 +33,7 @@ class Robots_Test extends TestCase {
 		$this->robots_helper
 			->expects( 'after_generate' )
 			->once()
-			->andReturnUsing( function( $robots ) {
+			->andReturnUsing( function ( $robots ) {
 				return array_filter( $robots );
 			} );
 	}
@@ -52,10 +52,10 @@ class Robots_Test extends TestCase {
 			->with( 'noindex-ptarchive-post', false )
 			->andReturn( true );
 
-		$actual = $this->instance->generate_robots();
+		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index'        => 'noindex',
-			'follow'       => 'follow',
+			'index'  => 'noindex',
+			'follow' => 'follow',
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -75,10 +75,10 @@ class Robots_Test extends TestCase {
 			->with( 'noindex-ptarchive-post', false )
 			->andReturn( false );
 
-		$actual = $this->instance->generate_robots();
+		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index'        => 'index',
-			'follow'       => 'follow',
+			'index'  => 'index',
+			'follow' => 'follow',
 		];
 
 		$this->assertEquals( $expected, $actual );

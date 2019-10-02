@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presenters;
+namespace Yoast\WP\Free\Tests\Helpers;
 
 use Brain\Monkey;
 use Yoast\WP\Free\Helpers\Robots_Helper;
@@ -10,10 +10,9 @@ use Yoast\WP\Free\Tests\TestCase;
 /**
  * Class Robots_Helper_Test
  *
- * @group presenters
- * @coversDefaultClass \Yoast\WP\Free\Helpers\Robots_Helper
+ * @group helpers
  *
- * @package Yoast\WP\Free\Tests\Presenters
+ * @coversDefaultClass \Yoast\WP\Free\Helpers\Robots_Helper
  */
 class Robots_Helper_Test extends TestCase {
 
@@ -49,7 +48,7 @@ class Robots_Helper_Test extends TestCase {
 			'follow' => 'nofollow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -70,7 +69,7 @@ class Robots_Helper_Test extends TestCase {
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -91,7 +90,7 @@ class Robots_Helper_Test extends TestCase {
 
 		$expected = [];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -115,7 +114,7 @@ class Robots_Helper_Test extends TestCase {
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -141,7 +140,7 @@ class Robots_Helper_Test extends TestCase {
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 
 		unset( $_GET['replytocom'] );
 	}
@@ -169,6 +168,6 @@ class Robots_Helper_Test extends TestCase {
 			'noimageindex' => 'noimageindex',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 }
