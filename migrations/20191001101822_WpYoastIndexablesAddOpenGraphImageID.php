@@ -4,8 +4,10 @@
  *
  * @package WPSEO\Migrations
  */
+
 use Yoast\WP\Free\ORM\Yoast_Model;
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
+
 /**
  * Class WpYoastIndexablesAddOpenGraphImageID
  */
