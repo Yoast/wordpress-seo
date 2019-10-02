@@ -706,8 +706,8 @@ class WPSEO_Upgrade {
 			'yoast-acf-analysis',
 		);
 
-		$this->remove_default_from_option('wpseo_social', 'google_plus_url');
-		$this->remove_default_from_option('wpseo_social', 'plus-publisher');
+		$this->remove_default_from_option( 'wpseo_social', 'google_plus_url' );
+		$this->remove_default_from_option( 'wpseo_social', 'plus-publisher' );
 
 		$center = Yoast_Notification_Center::get();
 		foreach ( $plugins as $plugin ) {
@@ -812,9 +812,9 @@ class WPSEO_Upgrade {
 			return;
 		}
 
-		unset( $data[$default_name] );
+		unset( $data[ $default_name ] );
 
-		//Re-save the option without the removed default.
+		// Re-save the option without the removed default.
 		update_option( $option_name, $data );
 	}
 
