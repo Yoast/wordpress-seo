@@ -691,7 +691,10 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 12.3 upgrade.
+	 *
 	 * Removes the about notice when its still in the database.
+	 * Removes the google plus defaults from the database.
 	 */
 	private function upgrade_123() {
 		$plugins = array(
@@ -702,6 +705,9 @@ class WPSEO_Upgrade {
 			'yoast-woocommerce-seo',
 			'yoast-acf-analysis',
 		);
+
+		$this->remove_default_from_option('wpseo_social', 'google_plus_url');
+		$this->remove_default_from_option('wpseo_social', 'plus-publisher');
 
 		$center = Yoast_Notification_Center::get();
 		foreach ( $plugins as $plugin ) {
@@ -789,6 +795,26 @@ class WPSEO_Upgrade {
 		 * The option framework will remove any settings that are not configured
 		 * for this option, removing any migrated settings.
 		 */
+		update_option( $option_name, $data );
+	}
+
+	/**
+	 * Removes old default from option.
+	 *
+	 * @param string $option_name Option name.
+	 * @param string $default_name Default name.
+	 *
+	 * @return void
+	 */
+	protected function remove_default_from_option( $option_name, $default_name ) {
+		$data = get_option( $option_name, array() );
+		if ( ! is_array( $data ) || $data === array() ) {
+			return;
+		}
+
+		unset( $data[$default_name] );
+
+		//Re-save the option without the removed default.
 		update_option( $option_name, $data );
 	}
 
