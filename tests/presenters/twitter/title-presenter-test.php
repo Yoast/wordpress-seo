@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\YoastSEO\Tests\Twitter\Presenters
- */
 
 namespace Yoast\WP\Free\Tests\Twitter\Presenters;
 

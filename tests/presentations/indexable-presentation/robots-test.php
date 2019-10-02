@@ -1,9 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\YoastSEO\Tests\Presentations\Indexable_Presentation
- */
 
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Presentation;
 
