@@ -6,7 +6,7 @@ use Brain\Monkey;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class Robots_Test.
+ * Class Robots_Test
  *
  * @group presentations
  * @group robots

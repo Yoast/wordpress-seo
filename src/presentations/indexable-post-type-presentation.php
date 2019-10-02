@@ -95,22 +95,6 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_twitter_title() {
-		if ( $this->model->twitter_title ) {
-			return $this->model->twitter_title;
-		}
-
-		$title = $this->meta_helper->get_value( 'twitter-title', $this->current_page_helper->get_simple_page_id() );
-		if ( ! is_string( $title ) ) {
-			return '';
-		}
-
-		return $this->title;
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function generate_replace_vars_object() {
 		return \get_post( $this->model->object_id );
 	}

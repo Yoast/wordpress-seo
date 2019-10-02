@@ -12,7 +12,9 @@ use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class Robots_Test.
+ * Class Robots_Test
+ *
+ * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
  *
  * @group presentations
  * @group robots
@@ -22,7 +24,7 @@ class Robots_Test extends TestCase {
 	/**
 	 * @var Indexable_Presentation
 	 */
-	private $instance;
+	protected $instance;
 
 	/**
 	 * Sets up the test class.
@@ -49,13 +51,13 @@ class Robots_Test extends TestCase {
 		$robots_helper
 			->expects( 'get_base_values' )
 			->andReturn( [
-				'index'  => 'index',
+				'index' => 'index',
 				'follow' => 'follow',
 			] );
 		$robots_helper
 			->expects( 'after_generate' )
 			->with( [
-				'index'  => 'index',
+				'index' => 'index',
 				'follow' => 'follow',
 			] )
 			->andReturnUsing( function ( $robots ) {
@@ -68,7 +70,7 @@ class Robots_Test extends TestCase {
 
 		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index'  => 'noindex',
+			'index' => 'noindex',
 			'follow' => 'follow',
 		];
 

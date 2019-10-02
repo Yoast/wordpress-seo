@@ -1,7 +1,4 @@
 <?php
-/**
- * WPSEO plugin test file.
- */
 
 namespace Yoast\WP\Free\Tests\Presenters\Twitter;
 
@@ -13,7 +10,7 @@ use Yoast\WP\Free\Tests\TestCase;
 use Brain\Monkey;
 
 /**
- * Class Twitter_Image_Presenter_Test.
+ * Class Image_Presenter_Test.
  *
  * @coversDefaultClass \Yoast\WP\Free\Presenters\Twitter\Image_Presenter
  *
