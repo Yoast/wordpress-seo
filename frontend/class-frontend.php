@@ -734,7 +734,7 @@ class WPSEO_Frontend {
 					$robots['index'] = 'noindex';
 				}
 				$curauth = $wp_query->get_queried_object();
-				if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', false ) && count_user_posts( $curauth->ID, 'any' ) === 0 ) {
+				if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', false ) && ! $this->user_has_posts( $curauth->ID ) ) {
 					$robots['index'] = 'noindex';
 				}
 				if ( get_user_meta( $curauth->ID, 'wpseo_noindex_author', true ) === 'on' ) {
@@ -1789,6 +1789,19 @@ class WPSEO_Frontend {
 		$replacer = new WPSEO_Replace_Vars();
 
 		return $replacer->replace( $string, $args, $omit );
+	}
+
+	/**
+	 * Checks whether a user has public posts.
+	 *
+	 * @param string $user_id The user ID.
+	 *
+	 * @return bool Whether the user has public posts.
+	 */
+	protected function user_has_posts( $user_id ) {
+		$user_post_count = (int) count_user_posts( $user_id, get_post_types( array( 'public' => true ) ), true );
+
+		return $user_post_count > 0;
 	}
 
 	/**
