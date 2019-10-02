@@ -9,6 +9,7 @@ import { makeOutboundLink } from "@yoast/helpers";
 const LinkSuggestionWrapper = styled.div`
 	width: 100%;
 	display: block;
+	min-height: 40px;
 	margin-bottom: 5px;
 `;
 
