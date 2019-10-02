@@ -201,9 +201,12 @@ const MobileDescriptionImageContainer = styled.div`
 `;
 
 const MobileDescriptionImage = styled.img`
-	display: block;
-	width: 104px;
-	height: 104px;
+	/* Higher specificity is necessary to make sure inherited CSS rules don't alter the image ratio. */
+	&&& {
+		display: block;
+		width: 104px;
+		height: 104px;
+	}
 `;
 
 const MobilePartContainer = styled.div`
