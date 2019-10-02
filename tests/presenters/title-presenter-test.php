@@ -13,6 +13,7 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\Free\Presenters\Title_Presenter
  *
+ * @group presenters
  * @group title-presenter
  */
 class Title_Presenter_Test extends TestCase {
