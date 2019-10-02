@@ -22,7 +22,7 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The Twitter title tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$twitter_title = (string) $this->filter( $presentation->twitter_title );
+		$twitter_title = (string) $this->filter( $this->replace_vars( $presentation->twitter_title, $presentation ) );
 
 		if ( $twitter_title !== '' ) {
 			return \sprintf( '<meta name="twitter:title" content="%s" />', $twitter_title );
