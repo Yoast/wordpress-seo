@@ -18,15 +18,15 @@ class Indexable_Attachment_Presentation extends Indexable_Post_Type_Presentation
 	 * @return array The open graph images.
 	 */
 	public function generate_og_images() {
-		if ( $this->model->og_image_id === null && $this->model->og_image ) {
-			return [ $this->model->og_image ];
-		}
-
 		if ( $this->model->og_image_id ) {
 			$attachment = $this->get_attachment_url_by_id( $this->model->og_image_id );
 			if ( $attachment ) {
 				return [ $attachment ];
 			}
+		}
+
+		if ( $this->model->og_image ) {
+			return [ $this->model->og_image ];
 		}
 
 		if ( \wp_attachment_is_image( $this->model->object_id ) ) {

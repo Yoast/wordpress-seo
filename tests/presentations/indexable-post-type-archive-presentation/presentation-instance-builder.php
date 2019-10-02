@@ -4,6 +4,7 @@ namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Archive_Presenta
 
 use Mockery;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
+use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Post_Type_Archive_Presentation;
@@ -40,6 +41,11 @@ trait Presentation_Instance_Builder {
 	protected $current_page_helper;
 
 	/**
+	 * @var Image_Helper
+	 */
+	protected $image_helper;
+
+	/**
 	 * Builds an instance of Indexable_Post_Type_Presentation.
 	 */
 	protected function setInstance() {
@@ -47,13 +53,16 @@ trait Presentation_Instance_Builder {
 
 		$this->options_helper      = Mockery::mock( Options_Helper::class );
 		$this->robots_helper       = Mockery::mock( Robots_Helper::class );
+		$this->image_helper        = Mockery::mock( Image_Helper::class );
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 
-		$instance = new Indexable_Post_Type_Archive_Presentation( $this->options_helper );
+		$instance = new Indexable_Post_Type_Archive_Presentation();
 
 		$this->instance = $instance->of( $this->indexable );
 		$this->instance->set_helpers(
 			$this->robots_helper,
+			$this->image_helper,
+			$this->options_helper,
 			$this->current_page_helper
 		);
 	}

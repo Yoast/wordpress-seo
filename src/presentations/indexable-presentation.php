@@ -71,15 +71,18 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @param Robots_Helper       $robots_helper       The robots helper.
 	 * @param Image_Helper        $image_helper        The image helper.
 	 * @param Options_Helper      $options_helper      The options helper.
+	 * @param Current_Page_Helper $current_page_helper The current page helper.
 	 */
 	public function set_helpers(
 		Robots_Helper $robots_helper,
 		Image_Helper $image_helper,
-		Options_Helper $options_helper
+		Options_Helper $options_helper,
+		Current_Page_Helper $current_page_helper
 	) {
-		$this->robots_helper  = $robots_helper;
-		$this->image_helper   = $image_helper;
-		$this->options_helper = $options_helper;
+		$this->robots_helper       = $robots_helper;
+		$this->image_helper        = $image_helper;
+		$this->options_helper      = $options_helper;
+		$this->current_page_helper = $current_page_helper;
 	}
 
 	/**
@@ -170,15 +173,15 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The open graph images.
 	 */
 	public function generate_og_images() {
-		if ( $this->model->og_image_id === null && $this->model->og_image ) {
-			return [ $this->model->og_image ];
-		}
-
 		if ( $this->model->og_image_id ) {
 			$attachment = $this->get_attachment_url_by_id( $this->model->og_image_id );
 			if ( $attachment ) {
 				return [ $attachment ];
 			}
+		}
+
+		if ( $this->model->og_image ) {
+			return [ $this->model->og_image ];
 		}
 
 		return [];

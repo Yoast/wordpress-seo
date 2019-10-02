@@ -19,14 +19,14 @@ class Image_Helper {
 	 *
 	 * @var array
 	 */
-	private static $valid_image_types = [ 'image/jpeg', 'image/gif', 'image/png' ];
+	protected static $valid_image_types = [ 'image/jpeg', 'image/gif', 'image/png' ];
 
 	/**
 	 * Image extensions that are supported by OpenGraph.
 	 *
 	 * @var array
 	 */
-	private static $valid_image_extensions = [ 'jpeg', 'jpg', 'gif', 'png' ];
+	protected static $valid_image_extensions = [ 'jpeg', 'jpg', 'gif', 'png' ];
 
 	/**
 	 * Gets an attachment page's attachment url.
@@ -78,9 +78,10 @@ class Image_Helper {
 
 	/**
 	 * Checks if the given extension is a valid extension
-	 * @param $image_extension
 	 *
-	 * @return bool
+	 * @param string $image_extension The image extension.
+	 *
+	 * @return bool True when valid.
 	 */
 	public function is_extension_valid( $image_extension ) {
 		return \in_array( $image_extension, static::$valid_image_extensions, true );

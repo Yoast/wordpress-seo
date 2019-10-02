@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Attachment_Presentation;
+namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Abstract_Robots_Presenter_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Attachment_Presentation
+ * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
  * @group opengraph
@@ -55,32 +55,20 @@ class OG_Image_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the attachment itself is given.
-	 *
-	 * @covers ::generate_og_images
-	 */
-	public function test_with_attachment() {
-		\Brain\Monkey\Functions\expect( 'wp_attachment_is_image' )
-			->once()
-			->andReturn( true );
-
-		$this->instance
-			->expects( 'get_attachment_url_by_id' )
-			->once()
-			->andReturn( 'attachment.jpg' );
-
-		$this->assertEquals( [ 'attachment.jpg' ], $this->instance->generate_og_images() );
-	}
-
-	/**
 	 * Tests the situation where the default og image is given.
 	 *
 	 * @covers ::generate_og_images
 	 */
 	public function test_with_the_default_og_image() {
-		\Brain\Monkey\Functions\expect( 'wp_attachment_is_image' )
+		$this->image_helper
+			->expects( 'get_featured_image_id' )
 			->once()
-			->andReturn( false );
+			->andReturnFalse();
+
+		$this->image_helper
+			->expects( 'get_post_content_image' )
+			->once()
+			->andReturnFalse();
 
 		$this->instance
 			->expects( 'get_default_og_image' )
@@ -96,9 +84,15 @@ class OG_Image_Test extends TestCase {
 	 * @covers ::generate_og_images
 	 */
 	public function test_with_no_applicable_situation() {
-		\Brain\Monkey\Functions\expect( 'wp_attachment_is_image' )
+		$this->image_helper
+			->expects( 'get_featured_image_id' )
 			->once()
-			->andReturn( false );
+			->andReturnFalse();
+
+		$this->image_helper
+			->expects( 'get_post_content_image' )
+			->once()
+			->andReturnFalse();
 
 		$this->instance
 			->expects( 'get_default_og_image' )

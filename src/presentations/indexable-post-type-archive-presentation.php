@@ -7,8 +7,6 @@
 
 namespace Yoast\WP\Free\Presentations;
 
-use Yoast\WP\Free\Helpers\Options_Helper;
-
 /**
  * Class Indexable_Presentation
  */

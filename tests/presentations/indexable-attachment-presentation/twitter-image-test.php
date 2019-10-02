@@ -66,6 +66,11 @@ class Twitter_Image_Test extends TestCase {
 			->with( 'opengraph' )
 			->andReturnFalse();
 
+		$this->image_helper
+			->expects( 'get_attachment_image' )
+			->once()
+			->andReturn( '' );
+
 		$this->indexable->og_image = 'facebook_image.jpg';
 
 		$this->assertEmpty( $this->instance->generate_twitter_image() );
@@ -98,7 +103,7 @@ class Twitter_Image_Test extends TestCase {
 		$this->image_helper
 			->expects( 'get_attachment_image' )
 			->once()
-			->andReturnFalse( );
+			->andReturnFalse();
 
 		$this->assertEquals( 'default_image.jpg', $this->instance->generate_twitter_image() );
 	}
