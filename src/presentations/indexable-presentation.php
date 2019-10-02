@@ -411,18 +411,18 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generates the twitter card type.
+	 * Generates the Twitter card type.
 	 *
-	 * @return string The twitter card type.
+	 * @return string The Twitter card type.
 	 */
 	public function generate_twitter_card() {
 		return '';
 	}
 
 	/**
-	 * Generates the twitter title.
+	 * Generates the Twitter title.
 	 *
-	 * @return string The twitter title.
+	 * @return string The Twitter title.
 	 */
 	public function generate_twitter_title() {
 		if ( $this->model->twitter_title ) {
@@ -437,9 +437,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generates the twitter description.
+	 * Generates the Twitter description.
 	 *
-	 * @return string The twitter description.
+	 * @return string The Twitter description.
 	 */
 	public function generate_twitter_description() {
 		if ( $this->model->twitter_description ) {
@@ -454,9 +454,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generates the twitter image.
+	 * Generates the Twitter image.
 	 *
-	 * @return string The twitter image.
+	 * @return string The Twitter image.
 	 */
 	public function generate_twitter_image() {
 		if ( $this->model->twitter_image ) {
