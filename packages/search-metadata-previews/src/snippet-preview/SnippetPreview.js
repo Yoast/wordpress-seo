@@ -202,8 +202,9 @@ const MobileDescriptionImageContainer = styled.div`
 
 const MobileDescriptionImage = styled.img`
 	display: block;
-	width: 104px;
-	height: 104px;
+	/* The !important is used to make sure inherited CSS rules don't alter the image ratio. */
+	width: 104px !important;
+	height: 104px !important;
 `;
 
 const MobilePartContainer = styled.div`
