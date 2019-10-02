@@ -390,14 +390,18 @@ class WPSEO_Admin_Init {
 	/**
 	 * Gets the latest released major WordPress version from the WordPress stable-check api.
 	 *
-	 * @return float The latest released major WordPress version.
+	 * @return float The latest released major WordPress version. 0 The stable-check api doesn't respond.
 	 */
 	private function get_latest_major_wordpress_version() {
-		$wp_version_stability     = json_decode( file_get_contents( 'http://api.wordpress.org/core/stable-check/1.0/' ) );
-		$latest_wp_version_string = array_search( 'latest', (array) $wp_version_stability, true );
+		$response  = wp_remote_get( 'http://api.wordpress.org/core/stable-check/1.0/' );
+		if ( is_wp_error( $response ) ) {
+			return 0;
+		}
+
+		$wp_version_latest = (array) json_decode( $response['body'] );
 
 		// Strip the patch version and convert to a float.
-		return floatval( $latest_wp_version_string );
+		return (float) array_search( 'latest', $wp_version_latest, true );
 	}
 
 	/**
@@ -408,7 +412,7 @@ class WPSEO_Admin_Init {
 	public function wordpress_upgrade_notice() {
 		global $wp_version;
 
-		$latest_major_wp_version = $this->get_latest_major_wordpress_version();
+		$latest_major_wp_version = number_format( $this->get_latest_major_wordpress_version(), 1 );
 		$next_major_wp_version   = number_format( ( $latest_major_wp_version + 0.1 ), 1 );
 
 		$wp_less_than_50             = version_compare( $wp_version, '5.0', '<' );
@@ -461,6 +465,12 @@ class WPSEO_Admin_Init {
 		);
 
 		if ( $wp_less_than_latest_version ) {
+			// if the latest WordPress version is not known, do not initiate the WordPress upgrade notice.
+			if ( $this->get_latest_major_wordpress_version() === 0 ) {
+				$notification_center->remove_notification( $notification );
+				return;
+			}
+
 			$notification_center->add_notification( $notification );
 			return;
 		}
