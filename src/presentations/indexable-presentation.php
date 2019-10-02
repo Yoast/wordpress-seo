@@ -429,6 +429,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_title;
 		}
 
+		if ( $this->title ) {
+			return $this->title;
+		}
+
 		return '';
 	}
 

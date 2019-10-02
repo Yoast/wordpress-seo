@@ -64,6 +64,17 @@ class Twitter_Title_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the situation where no Twitter title is given, but the general title has been set.
+	 *
+	 * @covers ::generate_twitter_title
+	 */
+	public function test_generate_twitter_title_with_set_general_title() {
+		$this->indexable->title = 'General title';
+
+		$this->assertEquals( 'General title', $this->instance->generate_twitter_title() );
+	}
+
+	/**
 	 * Tests the situation where an empty value is returned.
 	 *
 	 * @covers ::generate_twitter_title
