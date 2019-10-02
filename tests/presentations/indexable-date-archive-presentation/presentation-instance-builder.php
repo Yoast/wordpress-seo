@@ -1,14 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
+namespace Yoast\WP\Free\Tests\Presentations\Indexable_Date_Archive_Presentation;
 
 use Mockery;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
-use Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation;
+use Yoast\WP\Free\Presentations\Indexable_Date_Archive_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
 
 /**
@@ -22,7 +21,7 @@ trait Presentation_Instance_Builder {
 	protected $indexable;
 
 	/**
-	 * @var Indexable_Post_Type_Presentation|Mockery\MockInterface
+	 * @var Indexable_Date_Archive_Presentation
 	 */
 	protected $instance;
 
@@ -39,15 +38,10 @@ trait Presentation_Instance_Builder {
 	/**
 	 * @var Mockery\Mock
 	 */
-	protected $post_type_helper;
-
-	/**
-	 * @var Mockery\Mock
-	 */
 	protected $image_helper;
 
 	/**
-	 * @var Current_Page_Helper
+	 * @var Mockery\Mock
 	 */
 	protected $current_page_helper;
 
@@ -58,17 +52,11 @@ trait Presentation_Instance_Builder {
 		$this->indexable = new Indexable();
 
 		$this->options_helper      = Mockery::mock( Options_Helper::class );
-		$this->post_type_helper    = Mockery::mock( Post_Type_Helper::class );
 		$this->robots_helper       = Mockery::mock( Robots_Helper::class );
-		$this->image_helper        = Mockery::mock( Image_Helper::class );
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
+		$this->image_helper        = Mockery::mock( Image_Helper::class );
 
-		$instance = Mockery::mock(
-			Indexable_Post_Type_Presentation::class,
-			[ $this->post_type_helper ]
-		)
-			->shouldAllowMockingProtectedMethods()
-			->makePartial();
+		$instance = new Indexable_Date_Archive_Presentation( $this->options_helper );
 
 		$this->instance = $instance->of( $this->indexable );
 		$this->instance->set_helpers(
