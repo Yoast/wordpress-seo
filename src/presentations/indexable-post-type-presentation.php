@@ -10,7 +10,7 @@ namespace Yoast\WP\Free\Presentations;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 
 /**
- * Class Indexable_Presentation
+ * Class Indexable_Post_Type_Presentation
  */
 class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 
