@@ -22,7 +22,7 @@ trait Presentation_Instance_Builder {
 	protected $indexable;
 
 	/**
-	 * @var Indexable_Attachment_Presentation
+	 * @var Indexable_Attachment_Presentation|Mockery\MockInterface
 	 */
 	protected $instance;
 
@@ -63,9 +63,10 @@ trait Presentation_Instance_Builder {
 		$this->meta_helper         = Mockery::mock( Meta_Helper::class );
 		$this->image_helper        = Mockery::mock( Image_Helper::class );
 
-		$instance = new Indexable_Attachment_Presentation(
-			$this->post_type_helper,
-		);
+		$instance = Mockery::mock(
+			Indexable_Attachment_Presentation::class,
+			[ $this->post_type_helper ]
+		)->shouldAllowMockingProtectedMethods()->makePartial();
 
 		$this->instance = $instance->of( $this->indexable );
 		$this->instance->set_helpers(

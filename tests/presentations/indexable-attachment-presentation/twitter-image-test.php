@@ -59,7 +59,7 @@ class Twitter_Image_Test extends TestCase {
 	 *
 	 * @covers ::generate_twitter_image
 	 */
-	public function _test_with_opengraph_disabled() {
+	public function test_with_opengraph_disabled() {
 		$this->options_helper
 			->expects( 'get' )
 			->twice()
