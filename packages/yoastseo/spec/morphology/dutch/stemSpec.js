@@ -116,6 +116,8 @@ const wordsNotToStem = [
 	 "zo",
 	// A word with a single vowel. Only stems which had one of the specified suffixes should have the vowel doubled.
 	 "man",
+	// A word on the exception list of words not to stem.
+	"kerst",
 ];
 
 describe( "Test for stemming Dutch words", () => {

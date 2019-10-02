@@ -8,6 +8,22 @@
  *
  * Redistribution and use in source and binary forms, with or without modification, is covered by the standard BSD license.
  */
+
+/**
+ * Checks whether the word ends with what looks like a suffix but is actually part of the stem, and therefore should not be stemmed.
+ *
+ * @param {string} word The word to check.
+ * @param {Object} morphologyDataNLWordsNotToStem The exception list of words that should not be stemmed.
+ * @returns {boolean} Whether or not the word should be stemmed
+ */
+const shouldNotBeStemmed = function( word, morphologyDataNLWordsNotToStem ) {
+	for ( const wordNotToStem of morphologyDataNLWordsNotToStem ) {
+		if ( word === wordNotToStem ) {
+			return true
+		}
+	}
+};
+
 /**
  * Determines the start index of the R1 region.
  * R1 is the region after the first non-vowel following a vowel. It should include at least 3 letters.
@@ -15,6 +31,7 @@
  * @param {string} word The word for which to determine the R1 region.
  * @returns {number} The start index of the R1 region.
  */
+
 const determineR1 = function( word ) {
 	// Start with matching the first cluster that consists of a vowel and a non-vowel.
 	let r1Index = word.search( /[aeiouyèäüëïöáéíóú][^aeiouyèäüëïöáéíóú]/ );
@@ -86,7 +103,7 @@ const modifyStem = function( word, modificationGroup ) {
  * @param {string} word The stemmed word that the check should be executed on.
  * @returns {boolean} Whether the third and fourth to last characters are different.
  */
-const isVowelDoublingAllowed = function( word ) {
+const isVowelDoublingAllowed = function( word, morphologyDataNLNoVowelDoubling ) {
 	const fourthToLastLetter = word.charAt( word.length - 4 );
 	const thirdToLastLetter = word.charAt( word.length - 3 );
 	return fourthToLastLetter !== thirdToLastLetter;
@@ -166,6 +183,12 @@ const findAndDeleteSuffixes = function( word, suffixSteps, r1Index, morphologyDa
  * @returns {string} The stemmed word.
  */
 export default function stem( word, morphologyDataNL ) {
+
+	// Return the word if it should not be stemmed.
+	if ( shouldNotBeStemmed( word, morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions ) ) {
+		return word
+	}
+
 	/**
 	 * Put i and y in between vowels, initial y, and y after a vowel into upper case. This is because they should
 	 * be treated as consonants so we want to differentiate them from other i's and y's when matching regexes.
