@@ -93,6 +93,10 @@ const wordsToStem = [
 	[ "wisselen", "wissel" ],
 	// A word that should not have the vowel doubled because it is on an exception list.
 	[ "motoren", "motor" ],
+	// A word that should not have the vowel doubled because the preceding syllable contains a diphthong.
+	[ "duivelen", "duivel" ],
+	// A word that should have the vowel doubled, even though the vowel is preceded by two same consonants.
+	[ "nivelleren", "nivelleer" ],
 	// A word that should have the consonant undoubled.
 	[ "mannen", "man" ],
 	// An adjective with stem ending in -iël.

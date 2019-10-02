@@ -94,18 +94,22 @@ const modifyStem = function( word, modificationGroup ) {
 	} return word;
 };
 
-const exceptionCheckVowelDoubling = function( word, morphologyDataNLNoVowelDoubling ) {
-	for (const exceptionWord of morphologyDataNLNoVowelDoubling) {
-		if (word === exceptionWord) {
-			return true
-		}
-	}
+const firstExceptionCheckVowelDoubling = function( word, morphologyDataNLWordsWithoutVowelDoubling ) {
+	return ( morphologyDataNLWordsWithoutVowelDoubling.includes( word ) )
 };
 
-const ruleCheckVowelDoubling = function( word ) {
+const secondExceptionCheckVowelDoubling = function( word, morphologyDataNLWordsWithVowelDoubling ) {
+	if ( morphologyDataNLWordsWithVowelDoubling.includes( word ) )  {
+		return true
+	}
+
 	const fourthToLastLetter = word.charAt( word.length - 4 );
 	const thirdToLastLetter = word.charAt( word.length - 3 );
 	return fourthToLastLetter !== thirdToLastLetter;
+};
+
+const thirdExceptionCheckVowelDoubling = function( word, morphologyDataNLRuleForNoVowelDoubling ) {
+	return ( word.search( new RegExp( morphologyDataNLRuleForNoVowelDoubling ) ) ) === -1
 };
 
 /**
@@ -115,16 +119,18 @@ const ruleCheckVowelDoubling = function( word ) {
  * performed (it would not become 'lutteel').
  *
  * @param {string} word The stemmed word that the check should be executed on.
- * @param {Object} morphologyDataNLNoVowelDoubling Exception list of words that should not have the vowel doubled.
+ * @param {Object} morphologyDataNLStemmingExceptions The Dutch morphology data for stemming exceptions.
  * @returns {boolean} Whether the third and fourth to last characters are different.
  */
-const isVowelDoublingAllowed = function( word, morphologyDataNLNoVowelDoubling ) {
+const isVowelDoublingAllowed = function( word, morphologyDataNLStemmingExceptions ) {
 
-	const isOnExceptionList = exceptionCheckVowelDoubling( word, morphologyDataNLNoVowelDoubling );
+	const firstCheck = firstExceptionCheckVowelDoubling( word, morphologyDataNLStemmingExceptions.noVowelDoubling.words );
 
-	const vowelIsPrecededByTwoSameLetters = ruleCheckVowelDoubling( word );
+	const secondCheck = secondExceptionCheckVowelDoubling( word, morphologyDataNLStemmingExceptions.getVowelDoubling );
 
-	if( !isOnExceptionList && vowelIsPrecededByTwoSameLetters ) {
+	const thirdCheck = thirdExceptionCheckVowelDoubling(  word, morphologyDataNLStemmingExceptions.noVowelDoubling.rule );
+
+	if( !firstCheck && secondCheck && thirdCheck  ) {
 		return true
 	}
 };
@@ -148,7 +154,7 @@ const deleteSuffixAndModifyStem = function( word, suffixStep, suffixIndex, stemM
 		return modifyStem( word, morphologyDataNL.stemming.stemModifications.iedToId );
 	} else if ( stemModification === "changeInktoIng" && word.endsWith( "ink" ) ) {
 		return modifyStem( word, morphologyDataNL.stemming.stemModifications.inkToIng );
-	} else if ( stemModification === "vowelDoubling" && isVowelDoublingAllowed( word, morphologyDataNL.stemming.stemExceptions.noVowelDoubling ) ) {
+	} else if ( stemModification === "vowelDoubling" && isVowelDoublingAllowed( word, morphologyDataNL.stemming.stemExceptions ) ) {
 		return modifyStem( word, morphologyDataNL.stemming.stemModifications.doubleVowel );
 	}
 	return word;
