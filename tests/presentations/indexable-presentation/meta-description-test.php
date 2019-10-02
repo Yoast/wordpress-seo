@@ -13,7 +13,7 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
  *
- * @group presentations2
+ * @group presentations
  */
 class Meta_Description_Test extends TestCase {
 
