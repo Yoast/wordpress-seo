@@ -2,10 +2,6 @@
 
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Presentation;
 
-use Mockery;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -16,33 +12,15 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group presentations
  */
 class Meta_Description_Test extends TestCase {
+	use Presentation_Instance_Builder;
 
 	/**
-	 * @var Options_Helper|Mockery\MockInterface
-	 */
-	protected $option_helper;
-
-	/**
-	 * @var Indexable
-	 */
-	protected $indexable;
-
-	/**
-	 * @var Indexable_Presentation
-	 */
-	protected $instance;
-
-	/**
-	 * Does the setup for testing.
+	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->option_helper = Mockery::mock( Options_Helper::class );
-		$this->indexable     = new Indexable();
+		parent::setUp();
 
-		$presentation   = Mockery::mock( Indexable_Presentation::class )->makePartial();
-		$this->instance = $presentation->of( $this->indexable );
-
-		return parent::setUp();
+		$this->setInstance();
 	}
 
 	/**
@@ -50,7 +28,7 @@ class Meta_Description_Test extends TestCase {
 	 *
 	 * ::covers generate_meta_description
 	 */
-	public function test_generate_meta_description_with_set_meta_description() {
+	public function test_generate_meta_description_when_meta_description_is_given() {
 		$this->indexable->description = 'Example of meta description';
 
 		$this->assertEquals( 'Example of meta description', $this->instance->generate_meta_description() );
