@@ -7,6 +7,8 @@
 
 namespace Yoast\WP\Free\Helpers;
 
+use WPSEO_Post_Type;
+
 /**
  * Class Post_Type_Helper
  */
@@ -20,6 +22,15 @@ class Post_Type_Helper {
 	 * @return bool True when post type is set to index.
 	 */
 	public function is_indexable( $post_type_name ) {
-		return \WPSEO_Post_Type::is_post_type_indexable( $post_type_name );
+		return WPSEO_Post_Type::is_post_type_indexable( $post_type_name );
+	}
+
+	/**
+	 * Returns an array with the public post types.
+	 *
+	 * @return array Array with all the public post_types.
+	 */
+	public function get_public_post_types() {
+		return \get_post_types( array( 'public' => true ) );
 	}
 }

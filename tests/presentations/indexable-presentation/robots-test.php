@@ -12,19 +12,19 @@ use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class Robots_Test.
+ * Class Robots_Test
+ *
+ * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
  *
  * @group presentations
  * @group robots
- *
- * @package Yoast\Tests\Frontend\Schema
  */
 class Robots_Test extends TestCase {
 
 	/**
 	 * @var Indexable_Presentation
 	 */
-	private $instance;
+	protected $instance;
 
 	/**
 	 * Sets up the test class.
@@ -48,17 +48,19 @@ class Robots_Test extends TestCase {
 		$options_helper      = Mockery::mock( Options_Helper::class );
 		$current_page_helper = Mockery::mock( Current_Page_Helper::class );
 
-		$robots_helper->expects( 'get_base_values' )
+		$robots_helper
+			->expects( 'get_base_values' )
 			->andReturn( [
-				'index' =>  'index',
+				'index' => 'index',
 				'follow' => 'follow',
 			] );
-		$robots_helper->expects( 'after_generate' )
+		$robots_helper
+			->expects( 'after_generate' )
 			->with( [
-				'index' =>  'index',
+				'index' => 'index',
 				'follow' => 'follow',
 			] )
-			->andReturnUsing( function( $robots ) {
+			->andReturnUsing( function ( $robots ) {
 				$robots['index'] = 'noindex';
 
 				return $robots;
@@ -66,9 +68,9 @@ class Robots_Test extends TestCase {
 
 		$this->instance->set_helpers( $robots_helper, $image_helper, $options_helper, $current_page_helper );
 
-		$actual = $this->instance->generate_robots();
+		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index' =>  'noindex',
+			'index' => 'noindex',
 			'follow' => 'follow',
 		];
 

@@ -12,8 +12,6 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group robots
  *
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Term_Archive_Presentation
- *
- * @package Yoast\Tests\Frontend\Schema
  */
 class Robots_Test extends TestCase {
 	use Presentation_Instance_Builder;
@@ -26,9 +24,10 @@ class Robots_Test extends TestCase {
 
 		$this->setInstance();
 
-		$this->robots_helper->expects( 'after_generate' )
+		$this->robots_helper
+			->expects( 'after_generate' )
 			->once()
-			->andReturnUsing( function( $robots ) {
+			->andReturnUsing( function ( $robots ) {
 				return $robots;
 			} );
 	}
@@ -60,9 +59,9 @@ class Robots_Test extends TestCase {
 			->with( 'category' )
 			->andReturn( true );
 
-		$actual = $this->instance->generate_robots();
+		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index' =>  'index',
+			'index'  => 'index',
 			'follow' => 'follow',
 		];
 
@@ -96,9 +95,9 @@ class Robots_Test extends TestCase {
 			->with( 'category' )
 			->andReturn( false );
 
-		$actual = $this->instance->generate_robots();
+		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index' =>  'noindex',
+			'index'  => 'noindex',
 			'follow' => 'follow',
 		];
 
@@ -135,9 +134,9 @@ class Robots_Test extends TestCase {
 
 		$this->indexable->is_robots_noindex = false;
 
-		$actual = $this->instance->generate_robots();
+		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index' =>  'index',
+			'index'  => 'index',
 			'follow' => 'follow',
 		];
 
@@ -174,9 +173,9 @@ class Robots_Test extends TestCase {
 
 		$this->indexable->is_robots_noindex = true;
 
-		$actual = $this->instance->generate_robots();
+		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index' =>  'noindex',
+			'index'  => 'noindex',
 			'follow' => 'follow',
 		];
 
@@ -207,9 +206,9 @@ class Robots_Test extends TestCase {
 			->expects( 'is_indexable' )
 			->never();
 
-		$actual = $this->instance->generate_robots();
+		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index' =>  'noindex',
+			'index'  => 'noindex',
 			'follow' => 'follow',
 		];
 

@@ -10,7 +10,7 @@ namespace Yoast\WP\Free\Presentations;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 
 /**
- * Class Indexable_Presentation
+ * Class Indexable_Post_Type_Presentation
  */
 class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 
@@ -90,22 +90,6 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 */
 	public function generate_og_type() {
 		return 'article';
-	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function generate_twitter_title() {
-		if ( $this->model->twitter_title ) {
-			return $this->model->twitter_title;
-		}
-
-		$title = $this->meta_helper->get_value( 'twitter-title', $this->current_page_helper->get_simple_page_id() );
-		if ( ! is_string( $title ) ) {
-			return '';
-		}
-
-		return $this->title;
 	}
 
 	/**
