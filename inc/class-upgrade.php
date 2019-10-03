@@ -141,6 +141,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_123();
 		}
 
+		if ( version_compare( $version, '12.4-RC0', '<' ) ) {
+			$this->upgrade_124();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -694,7 +698,6 @@ class WPSEO_Upgrade {
 	 * Performs the 12.3 upgrade.
 	 *
 	 * Removes the about notice when its still in the database.
-	 * Removes the google plus defaults from the database.
 	 */
 	private function upgrade_123() {
 		$plugins = array(
@@ -706,14 +709,20 @@ class WPSEO_Upgrade {
 			'yoast-acf-analysis',
 		);
 
-		$this->remove_option_key( 'wpseo_social', 'google_plus_url' );
-		$this->remove_option_key( 'wpseo_social', 'plus-publisher' );
-
 		$center = Yoast_Notification_Center::get();
 		foreach ( $plugins as $plugin ) {
 			$center->remove_notification_by_id( 'wpseo-outdated-yoast-seo-plugin-' . $plugin );
-
 		}
+	}
+
+	/**
+	 * Performs the 12.4 upgrade.
+	 *
+	 * Removes the Google plus defaults from the database.
+	 */
+	private function upgrade_124() {
+		$this->remove_option_key( 'wpseo_social', 'google_plus_url' );
+		$this->remove_option_key( 'wpseo_social', 'plus-publisher' );
 	}
 
 	/**
@@ -801,7 +810,7 @@ class WPSEO_Upgrade {
 	/**
 	 * Removes old default from option.
 	 *
-	 * @param string $option_name Option name.
+	 * @param string $option_name  Option name.
 	 * @param string $default_name Default name.
 	 *
 	 * @return void
