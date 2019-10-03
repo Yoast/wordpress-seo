@@ -18,7 +18,7 @@ class Content_Images_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var WPSEO_Content_Images
+	 * @var \WPSEO_Content_Images
 	 */
 	private $instance;
 
@@ -43,7 +43,7 @@ class Content_Images_Test extends TestCase {
 
 		$external_image1      = 'https://example.com/media/first_image.jpg';
 		$external_image2      = 'https://example.com/media/second_image.jpg';
-		$non_attachment_image = get_home_url() . '/wp-content/plugins/wordpress-seo/integration-tests/assets/yoast.png';
+		$non_attachment_image = \get_home_url() . '/wp-content/plugins/wordpress-seo/integration-tests/assets/yoast.png';
 
 		$post_content =
 			'<p>This is a post. It has several images:</p>

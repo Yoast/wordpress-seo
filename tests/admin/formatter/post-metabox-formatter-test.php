@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\Free\Tests\Admin\Formatter;
 
-use WPSEO_Post_Metabox_Formatter;
 use Yoast\WP\Free\Tests\Doubles\Admin\Formatter\Post_Metabox_Formatter_Double;
 use Yoast\WP\Free\Tests\TestCase;
 use Brain\Monkey;
@@ -20,7 +19,7 @@ class Post_Metabox_Formatter_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var Post_Metabox_Formatter_Double
+	 * @var \Yoast\WP\Free\Tests\Doubles\Admin\Formatter\Post_Metabox_Formatter_Double
 	 */
 	private $instance;
 

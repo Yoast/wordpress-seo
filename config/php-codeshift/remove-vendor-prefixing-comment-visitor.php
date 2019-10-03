@@ -23,8 +23,8 @@ class Remove_Vendor_Prefixing_Comment_Visitor extends NodeVisitorAbstract {
 	public function leaveNode( Node $node ) {
 		$comment = $node->getDocComment();
 
-		if ( $comment && strpos( $comment->getText(), YOAST_VENDOR_NS_PREFIX ) !== false ) {
-			$updated_text    = str_replace( YOAST_VENDOR_NS_PREFIX . '\\', '', $comment->getText() );
+		if ( $comment && \strpos( $comment->getText(), \YOAST_VENDOR_NS_PREFIX ) !== false ) {
+			$updated_text    = \str_replace( \YOAST_VENDOR_NS_PREFIX . '\\', '', $comment->getText() );
 			$updated_comment = new Doc( $updated_text, $comment->getLine(), $comment->getFilePos(), $comment->getTokenPos() );
 			$node->setDocComment( $updated_comment );
 		}

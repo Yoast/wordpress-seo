@@ -3,7 +3,6 @@
 namespace Yoast\WP\Free\Tests\Inc\Options;
 
 use Brain\Monkey;
-use WPSEO_Option_Social;
 use Yoast\WP\Free\Tests\Doubles\Inc\Options\Option_Social_Double;
 use Yoast\WP\Free\Tests\TestCase;
 use WPSEO_Utils;
@@ -198,7 +197,7 @@ class Option_Social_Test extends TestCase {
 			],
 		];
 
-		add_filter( 'validate_facebook_app_id_api_response_body', function() {
+		\add_filter( 'validate_facebook_app_id_api_response_body', function() {
 			return true;
 		} );
 		$instance = new Option_Social_Double();
@@ -241,10 +240,10 @@ class Option_Social_Test extends TestCase {
 			},
 		] );
 
-		add_filter( 'validate_facebook_app_id_api_response_code', function () use ( $response_code ) {
+		\add_filter( 'validate_facebook_app_id_api_response_code', function () use ( $response_code ) {
 			return $response_code;
 		} );
-		add_filter( 'validate_facebook_app_id_api_response_body', function() {
+		\add_filter( 'validate_facebook_app_id_api_response_body', function() {
 			return true;
 		});
 		$instance = new Option_Social_Double();
