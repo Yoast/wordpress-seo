@@ -28,6 +28,16 @@ class Option_Social_Test extends TestCase {
 	 * @covers WPSEO_Option_Social::validate_option
 	 */
 	public function test_validate_option_with_valid_data( $expected, $dirty, $clean, $old ) {
+		Monkey\Functions\stubs(
+			[
+				'get_bloginfo' => function ( $show ) {
+					if ( $show === 'charset' ) {
+						return 'UTF-8';
+					}
+				},
+			]
+		);
+
 		$instance = new Option_Social_Double();
 
 		$this->assertEquals(
@@ -55,6 +65,16 @@ class Option_Social_Test extends TestCase {
 		Monkey\Functions\expect( 'add_settings_error' )
 			->once()
 			->with( 'yoast_wpseo_social_options', $slug_name, $message, 'notice-error' );
+
+		Monkey\Functions\stubs(
+			[
+				'get_bloginfo' => function ( $show ) {
+					if ( $show === 'charset' ) {
+						return 'UTF-8';
+					}
+				},
+			]
+		);
 
 		$instance = new Option_Social_Double();
 
