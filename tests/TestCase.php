@@ -113,7 +113,7 @@ abstract class TestCase extends BaseTestCase {
 		\ob_clean();
 
 		if ( ! \is_array( $expected ) ) {
-			$expected = array( $expected );
+			$expected = [ $expected ];
 		}
 
 		foreach ( $expected as $needle ) {
@@ -132,7 +132,7 @@ abstract class TestCase extends BaseTestCase {
 		\ob_clean();
 
 		if ( ! \is_array( $needles ) ) {
-			$needles = array( $needles );
+			$needles = [ $needles ];
 		}
 
 		foreach ( $needles as $needle ) {

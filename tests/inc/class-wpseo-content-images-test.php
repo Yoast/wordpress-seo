@@ -57,7 +57,7 @@ class Content_Images_Test extends TestCase {
 
 		$images_array = $this->instance->get_images_from_content( $post_content );
 
-		$expected = array( $external_image1, $external_image2, $non_attachment_image );
+		$expected = [ $external_image1, $external_image2, $non_attachment_image ];
 
 		$this->assertEquals( $expected, $images_array );
 	}
@@ -73,7 +73,7 @@ class Content_Images_Test extends TestCase {
 
 		$images_array = $this->instance->get_images_from_content( $post_content );
 
-		$expected = array();
+		$expected = [];
 
 		$this->assertEquals( $expected, $images_array );
 	}
