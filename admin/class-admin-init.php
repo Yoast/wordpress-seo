@@ -393,7 +393,7 @@ class WPSEO_Admin_Init {
 	 * @return float The latest released major WordPress version. 0 The stable-check api doesn't respond.
 	 */
 	private function get_latest_major_wordpress_version() {
-		$response  = wp_remote_get( 'http://api.wordpress.org/core/stable-check/1.0/' );
+		$response = wp_remote_get( 'http://api.wordpress.org/core/stable-check/1.0/' );
 		if ( is_wp_error( $response ) ) {
 			return 0;
 		}
@@ -465,7 +465,7 @@ class WPSEO_Admin_Init {
 		);
 
 		if ( $wp_less_than_latest_version ) {
-			// if the latest WordPress version is not known, do not initiate the WordPress upgrade notice.
+			// If the latest WordPress version is not known, do not initiate the WordPress upgrade notice.
 			if ( $this->get_latest_major_wordpress_version() === 0 ) {
 				$notification_center->remove_notification( $notification );
 				return;
