@@ -57,10 +57,6 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The image tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		if ( \post_password_required() ) {
-			return '';
-		}
-
 		$return = '';
 		$images = (array) $presentation->og_images;
 		$images = array_map( [ $this, 'format_image' ], $images );

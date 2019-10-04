@@ -58,6 +58,10 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @return array The open graph images.
 	 */
 	public function generate_og_images() {
+		if ( \post_password_required() ) {
+			return [];
+		}
+
 		$images = parent::generate_og_images();
 
 		if ( ! empty( $images ) ) {
