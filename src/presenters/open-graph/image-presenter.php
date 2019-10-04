@@ -41,6 +41,8 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Image_Presenter constructor.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param Image_Helper $image_helper The image helper.
 	 * @param Url_Helper   $url_helper   The url helper.
 	 */
@@ -57,19 +59,24 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The image tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$return = '';
 		$images = (array) $presentation->og_images;
+
 		$images = array_map( [ $this, 'format_image' ], $images );
 		$images = array_filter( $images, [ $this, 'is_image_url_valid' ] );
-
 		$images = array_map( [ $this, 'filter' ], $images );
+
+		if ( empty( $images ) ) {
+			return '';
+		}
+
+		$return = '';
 		foreach ( $images as $image_index => $image_meta ) {
 			$image_url = $image_meta['url'];
 
 			$return .= '<meta property="og:image" value="' . esc_url( $image_url ) . '"/>';
 
 			// Adds secure URL if detected. Not all services implement this, so the regular one also needs to be rendered.
-			if ( strpos( $image_meta['url'], 'https://' ) === 0 ) {
+			if ( strpos( $image_url, 'https://' ) === 0 ) {
 				$return .= '<meta property="og:image:secure_url" value="' . esc_url( $image_url ) . '"/>';
 			}
 
@@ -94,7 +101,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	protected function format_image( $image ) {
 		// In the past `add_image` accepted an image url, so leave this for backwards compatibility.
-		if ( is_string( $image ) && $image !== '' ) {
+		if ( \is_string( $image ) && $image !== '' ) {
 			$image = [ 'url' => $image ];
 		}
 
@@ -117,7 +124,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 			return false;
 		}
 
-		$image_extension = $this->get_extension_from_url( $image['url'] );
+		$image_extension = $this->url_helper->get_extension_from_url( $image['url'] );
 		$is_valid        = $this->image_helper->is_extension_valid( $image_extension );
 
 		/**
@@ -127,7 +134,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param string $url The image url to validate.
 		 */
-		return apply_filters( 'wpseo_opengraph_is_valid_image_url', $is_valid, $image['url'] );
+		return (bool) apply_filters( 'wpseo_opengraph_is_valid_image_url', $is_valid, $image['url'] );
 	}
 
 	/**
@@ -137,7 +144,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @return array The filtered image.
 	 */
-	private function filter( array $image ) {
+	protected function filter( array $image ) {
 		/**
 		 * Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image.
 		 *
@@ -149,41 +156,5 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		return $image;
-	}
-
-	/**
-	 * Determines the file extension of the passed URL.
-	 *
-	 * @param string $url The URL.
-	 *
-	 * @return string The extension.
-	 */
-	protected function get_extension_from_url( $url ) {
-		$extension = '';
-		$path      = $this->get_image_url_path( $url );
-
-		if ( $path === '' ) {
-			return $extension;
-		}
-
-		$parts = explode( '.', $path );
-
-		if ( ! empty( $parts ) ) {
-			$extension = end( $parts );
-		}
-
-		return $extension;
-	}
-
-
-	/**
-	 * Gets the image path from the passed URL.
-	 *
-	 * @param string $url The URL to get the path from.
-	 *
-	 * @return string The path of the image URL. Returns an empty string if URL parsing fails.
-	 */
-	protected function get_image_url_path( $url ) {
-		return (string) wp_parse_url( $url, PHP_URL_PATH );
 	}
 }
