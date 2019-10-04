@@ -97,7 +97,7 @@ describe( "ReadabilityScoreAggregator", () => {
 			expect( aggregator.aggregate( results ) ).toBe( READABILITY_SCORES.NOT_AVAILABLE );
 		} );
 
-		it( "should give worse results based on the negative points", function() {
+		it( "should give worse results based on the total penalty", function() {
 			aggregator.isFullySupported = () => true;
 			const results = [
 				new AssessmentResult(),
@@ -106,19 +106,19 @@ describe( "ReadabilityScoreAggregator", () => {
 			aggregator.getValidResults = () => results;
 
 			const testCases = [
-				{ points: 7, expected: 30 },
-				{ points: 6, expected: 60 },
-				{ points: 9, expected: 30 },
-				{ points: 4, expected: 90 },
-				{ points: 2, expected: 90 },
-				{ points: 1.9, expected: 90 },
-				{ points: 1, expected: 90 },
-				{ points: 0, expected: 90 },
+				{ totalPenalty: 7, expected: 30 },
+				{ totalPenalty: 6, expected: 60 },
+				{ totalPenalty: 9, expected: 30 },
+				{ totalPenalty: 4, expected: 90 },
+				{ totalPenalty: 2, expected: 90 },
+				{ totalPenalty: 1.9, expected: 90 },
+				{ totalPenalty: 1, expected: 90 },
+				{ totalPenalty: 0, expected: 90 },
 			];
 
 			forEach( testCases, function( testCase ) {
-				const points = testCase.points;
-				aggregator.calculatePenalty = () => points;
+				const totalPenalty = testCase.totalPenalty;
+				aggregator.calculatePenalty = () => totalPenalty;
 
 				const actual = aggregator.aggregate( results );
 
@@ -136,22 +136,22 @@ describe( "ReadabilityScoreAggregator", () => {
 			aggregator.setLocale( "non-existing-language_XYZ" );
 		} );
 
-		it( "should give worse results based on the negative points", function() {
+		it( "should give worse results based on the total penalty", function() {
 			const results = [
 				new AssessmentResult( { text: "Result #1", score: 9 } ),
 				new AssessmentResult( { text: "Result #2", score: 6 } ),
 			];
 			const testCases = [
-				{ points: 6, expected: 30 },
-				{ points: 4, expected: 60 },
-				{ points: 3, expected: 60 },
-				{ points: 2, expected: 90 },
-				{ points: 0, expected: 90 },
+				{ totalPenalty: 6, expected: 30 },
+				{ totalPenalty: 4, expected: 60 },
+				{ totalPenalty: 3, expected: 60 },
+				{ totalPenalty: 2, expected: 90 },
+				{ totalPenalty: 0, expected: 90 },
 			];
 
 			forEach( testCases, function( testCase ) {
-				const points = testCase.points;
-				aggregator.calculatePenalty = () => points;
+				const totalPenalty = testCase.totalPenalty;
+				aggregator.calculatePenalty = () => totalPenalty;
 
 				const actual = aggregator.aggregate( results );
 
