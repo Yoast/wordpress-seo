@@ -47,6 +47,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 				'_yoast_wpseo_bctitle'               => [ 'breadcrumb_title' ],
 				'_yoast_wpseo_opengraph-title'       => [ 'og_title' ],
 				'_yoast_wpseo_opengraph-image'       => [ 'og_image' ],
+				'_yoast_wpseo_opengraph-image-id'    => [ 'og_image_id' ],
 				'_yoast_wpseo_opengraph-description' => [ 'og_description' ],
 				'_yoast_wpseo_twitter-title'         => [ 'twitter_title' ],
 				'_yoast_wpseo_twitter-image'         => [ 'twitter_image' ],
@@ -65,6 +66,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_title', 'og_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'og_image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', 'og_image_id' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_description', 'og_description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_title', 'twitter_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );

@@ -11,7 +11,7 @@ use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
 
 /**
- * Class Twitter_Title_Presenter
+ * Class Title_Presenter
  */
 class Title_Presenter extends Abstract_Indexable_Presenter {
 	/**
@@ -22,10 +22,10 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The Twitter title tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$twitter_title = $this->filter( $presentation->twitter_title );
+		$twitter_title = (string) $this->filter( $this->replace_vars( $presentation->twitter_title, $presentation ) );
 
-		if ( is_string( $twitter_title ) && $twitter_title !== '' ) {
-			return sprintf( '<meta name="twitter:title" content="%s" />', $twitter_title );
+		if ( $twitter_title !== '' ) {
+			return \sprintf( '<meta name="twitter:title" content="%s" />', $twitter_title );
 		}
 
 		return '';
@@ -44,6 +44,6 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @api string $twitter_title The Twitter title.
 		 */
-		return (string) trim( \apply_filters( 'wpseo_twitter_title', $twitter_title ) );
+		return \trim( \apply_filters( 'wpseo_twitter_title', $twitter_title ) );
 	}
 }

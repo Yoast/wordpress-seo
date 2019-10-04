@@ -1625,7 +1625,6 @@ class WPSEO_Frontend {
 	 * @return bool
 	 */
 	protected function is_multiple_terms_query() {
-
 		global $wp_query;
 
 		if ( ! is_tax() && ! is_tag() && ! is_category() ) {
