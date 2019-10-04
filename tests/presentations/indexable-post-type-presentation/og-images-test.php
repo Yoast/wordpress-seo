@@ -3,6 +3,7 @@
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 
 use Yoast\WP\Free\Tests\TestCase;
+use Brain\Monkey;
 
 /**
  * Class OG_Images_Test
@@ -20,9 +21,22 @@ class OG_Images_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->setInstance();
-
 		parent::setUp();
+
+		$this->setInstance();
+	}
+
+	/**
+	 * Tests the situation where the featured image id is set.
+	 *
+	 * @covers ::generate_og_images
+	 */
+	public function test_for_password_protected_post() {
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->andReturn( true );
+
+		$this->assertEmpty( $this->instance->generate_og_images() );
 	}
 
 	/**
@@ -31,6 +45,10 @@ class OG_Images_Test extends TestCase {
 	 * @covers ::generate_og_images
 	 */
 	public function test_with_og_image() {
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->andReturn( false );
+
 		$this->indexable->og_image    = 'facebook_image.jpg';
 		$this->indexable->og_image_id = null;
 
@@ -43,6 +61,10 @@ class OG_Images_Test extends TestCase {
 	 * @covers ::generate_og_images
 	 */
 	public function test_with_featured_image_id() {
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->andReturn( false );
+
 		$this->image_helper
 			->expects( 'get_featured_image_id' )
 			->once()
@@ -62,6 +84,10 @@ class OG_Images_Test extends TestCase {
 	 * @covers ::generate_og_images
 	 */
 	public function test_with_content_image() {
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->andReturn( false );
+
 		$this->image_helper
 			->expects( 'get_featured_image_id' )
 			->once()
@@ -75,7 +101,7 @@ class OG_Images_Test extends TestCase {
 		$this->image_helper
 			->expects( 'get_post_content_image' )
 			->once()
-			->andReturn(  'facebook_image.jpg'  );
+			->andReturn( 'facebook_image.jpg'  );
 
 		$this->assertEquals( [ 'facebook_image.jpg' ], $this->instance->generate_og_images() );
 	}
@@ -86,6 +112,10 @@ class OG_Images_Test extends TestCase {
 	 * @covers ::generate_og_images
 	 */
 	public function test_with_the_default_og_image() {
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->andReturn( false );
+
 		$this->image_helper
 			->expects( 'get_featured_image_id' )
 			->once()
@@ -110,6 +140,10 @@ class OG_Images_Test extends TestCase {
 	 * @covers ::generate_og_images
 	 */
 	public function test_with_no_applicable_situation() {
+		Monkey\Functions\expect( 'post_password_required' )
+			->once()
+			->andReturn( false );
+
 		$this->image_helper
 			->expects( 'get_featured_image_id' )
 			->once()
@@ -127,5 +161,4 @@ class OG_Images_Test extends TestCase {
 
 		$this->assertEquals( [], $this->instance->generate_og_images() );
 	}
-
 }
