@@ -3,6 +3,7 @@
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Presentation;
 
 use Yoast\WP\Free\Tests\TestCase;
+use Brain\Monkey;
 
 /**
  * Class OG_Locale_Test
@@ -24,11 +25,67 @@ class OG_Locale_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether an empty string is returned.
+	 * Tests whether the locale is returned.
 	 *
-	 * ::covers generate_og_article_modified_time
+	 * ::covers generate_og_locale
 	 */
-	public function test_generate_og_article_modified_time_and_return_empty() {
-		$this->assertEmpty( $this->instance->generate_og_article_modified_time() );
+	public function test_generate_og_locale() {
+		Monkey\Functions\expect( 'get_locale' )
+			->andReturn( 'en_US' );
+
+		$this->assertEquals( 'en_US', $this->instance->generate_og_locale() );
+	}
+
+	/**
+	 * Tests whether the wpseo_locale filter is applied.
+	 *
+	 * ::covers generate_og_locale
+	 */
+	public function test_generate_og_locale_with_filter() {
+		Monkey\Functions\expect( 'get_locale' )
+			->once()
+			->andReturn( 'en_US' );
+
+		Monkey\Functions\expect( 'apply_filters' )
+			->once()
+			->andReturn( 'en_GB' );
+
+		$this->assertEquals( 'en_GB', $this->instance->generate_og_locale() );
+	}
+
+	/**
+	 * Tests whether the locale is returned after fixing the locale.
+	 *
+	 * ::covers generate_og_locale
+	 */
+	public function test_generate_og_locale_when_fix_locales_is_set() {
+		Monkey\Functions\expect( 'get_locale' )
+			->andReturn( 'uk' );
+
+		$this->assertEquals( 'uk_UA', $this->instance->generate_og_locale() );
+	}
+
+	/**
+	 * Tests whether the locale is returned after it is converted.
+	 *
+	 * ::covers generate_og_locale
+	 */
+	public function test_generate_og_locale_when_converting() {
+		Monkey\Functions\expect( 'get_locale' )
+			->andReturn( 'es' );
+
+		$this->assertEquals( 'es_ES', $this->instance->generate_og_locale() );
+	}
+
+	/**
+	 * Tests whether en_US is used as a fallback.
+	 *
+	 * ::covers generate_og_locale
+	 */
+	public function test_generate_og_locale_with_fallback() {
+		Monkey\Functions\expect( 'get_locale' )
+			->andReturn( 'xx' );
+
+		$this->assertEquals( 'en_US', $this->instance->generate_og_locale() );
 	}
 }
