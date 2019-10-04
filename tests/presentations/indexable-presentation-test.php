@@ -1,4 +1,5 @@
 <?php
+
 namespace Yoast\WP\Free\Tests\Presentations;
 
 use Mockery;
