@@ -361,7 +361,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			'nb_NO', // Norwegian (bokmal).
 			'nd_ZW', // Ndebele.
 			'ne_NP', // Nepali.
-			'nl_BE', // Dutch (Belgie).
+			'nl_BE', // Dutch (Belgium).
 			'nl_NL', // Dutch.
 			'nn_NO', // Norwegian (nynorsk).
 			'nr_ZA', // Southern Ndebele.

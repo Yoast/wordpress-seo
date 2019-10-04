@@ -5,13 +5,13 @@ namespace Yoast\WP\Free\Tests\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class OG_Type_Test
+ * Class OG_URL_Test
  *
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
  *
  * @group presentations
  */
-class OG_Type_Test extends TestCase {
+class OG_URL_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -24,11 +24,12 @@ class OG_Type_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the OG type is given.
+	 * Tests the situation where the canonical is returned.
 	 *
-	 * ::covers generate_og_type
+	 * ::covers generate_og_url
 	 */
-	public function test_generate_og_type() {
-		$this->assertEquals( 'website', $this->instance->generate_og_type() );
+	public function test_generate_og_url_and_return_canonical() {
+		$this->indexable->canonical = 'Example of canonical';
+		$this->assertEquals( 'Example of canonical', $this->instance->generate_og_url() );
 	}
 }
