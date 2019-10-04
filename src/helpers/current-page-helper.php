@@ -62,6 +62,17 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Returns the id of the currently opened author archive.
+	 *
+	 * @return int The id of the currently opened author archive.
+	 */
+	public function get_author_id() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return $wp_query->get( 'author' );
+	}
+
+	/**
 	 * Returns the id of the front page.
 	 *
 	 * @return int The id of the front page. 0 if the front page is not a static page.

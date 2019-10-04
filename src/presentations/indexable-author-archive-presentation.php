@@ -52,6 +52,24 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the title.
+	 *
+	 * @return string The title.
+	 */
+	public function generate_title() {
+		if ( $this->model->title ) {
+			return $this->model->title;
+		}
+
+		$options_title = $this->options_helper->get( 'title-author-wpseo' );
+		if ( $options_title ) {
+			return $options_title;
+		}
+
+		return '';
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
