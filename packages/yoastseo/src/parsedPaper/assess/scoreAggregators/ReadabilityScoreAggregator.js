@@ -39,7 +39,7 @@ const PENALTY_MAPPING_PARTIAL_SUPPORT = {
 /**
  * The scores that can be given on the readability analysis.
  *
- * @type {{GOOD: number, OKAY: number, NEEDS_IMPROVEMENT: number}}
+ * @type {{GOOD: number, OKAY: number, NEEDS_IMPROVEMENT: number, NOT_AVAILABLE: number}}
  * @const
  *
  * @memberOf module:parsedPaper/assess
@@ -48,6 +48,7 @@ export const READABILITY_SCORES = {
 	GOOD: 90,
 	OKAY: 60,
 	NEEDS_IMPROVEMENT: 30,
+    NOT_AVAILABLE: 0,
 };
 
 /**
@@ -186,11 +187,11 @@ class ReadabilityScoreAggregator extends ScoreAggregator {
 		const validResults = this.getValidResults( results );
 
 		/*
-		 * If you have no content, you have a red indicator.
+		 * If you have no content, you have a gray indicator.
 		 * (Assume that one result always means the 'no content' assessment result).
 		 */
 		if ( validResults.length <= 1 ) {
-			return READABILITY_SCORES.NEEDS_IMPROVEMENT;
+			return READABILITY_SCORES.NOT_AVAILABLE;
 		}
 
 		const penalty = this.calculatePenalty( validResults );
