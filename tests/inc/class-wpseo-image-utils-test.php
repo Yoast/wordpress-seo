@@ -41,8 +41,8 @@ class Image_Utils_Test extends TestCase {
 		$term_descr =
 			'<p>This is a term description. It has several images:</p>
 			<img src=""/>
-			<img src="' . 'https://example.com/media/first_image.jpg' . '"/>
-			<img src="' . 'https://example.com/media/second_image.jpg' . '"/>
+			<img src="https://example.com/media/first_image.jpg"/>
+			<img src="https://example.com/media/second_image.jpg"/>
 			<p> That were all the images. Done! </p>';
 
 		Monkey\Functions\expect( 'term_description' )

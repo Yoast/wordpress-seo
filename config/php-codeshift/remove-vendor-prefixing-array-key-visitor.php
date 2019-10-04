@@ -16,6 +16,7 @@ use PhpParser\NodeVisitorAbstract;
  * Class Vendor_Prefixing_Visitor
  */
 class Remove_Vendor_Prefixing_Array_Key_Visitor extends NodeVisitorAbstract {
+
 	/**
 	 * @param \PhpParser\Node $node The node being visited.
 	 *
