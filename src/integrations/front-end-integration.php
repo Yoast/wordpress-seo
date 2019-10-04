@@ -167,6 +167,10 @@ class Front_End_Integration implements Integration_Interface {
 		$presentation = $this->get_presentation( $indexable );
 		echo "\n";
 		foreach ( $this->get_presenters() as $presenter ) {
+			if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {
+				echo '<!-- ' . get_class( $presenter ) . ' -->';
+			}
+
 			echo "\t" . $presenter->present( $presentation ) . "\n";
 		}
 		echo "\n";
