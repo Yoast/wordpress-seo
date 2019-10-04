@@ -113,7 +113,7 @@ describe( "ReadabilityScoreAggregator", () => {
 				{ points: 2, expected: 90 },
 				{ points: 1.9, expected: 90 },
 				{ points: 1, expected: 90 },
-				{ points: 0, expected: 0 },
+				{ points: 0, expected: 90 },
 			];
 
 			forEach( testCases, function( testCase ) {
@@ -146,7 +146,7 @@ describe( "ReadabilityScoreAggregator", () => {
 				{ points: 4, expected: 60 },
 				{ points: 3, expected: 60 },
 				{ points: 2, expected: 90 },
-				{ points: 0, expected: 0 },
+				{ points: 0, expected: 90 },
 			];
 
 			forEach( testCases, function( testCase ) {
