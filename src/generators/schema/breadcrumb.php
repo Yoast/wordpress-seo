@@ -7,34 +7,47 @@
 
 namespace Yoast\WP\Free\Presentations\Generators\Schema;
 
+use Yoast\WP\Free\Context\Meta_Tags_Context;
+use Yoast\WP\Free\Helpers\Current_Page_Helper;
+
 /**
  * Returns schema Breadcrumb data.
  *
  * @since 10.2
  */
 class Breadcrumb extends Abstract_Schema_Piece {
+
 	/**
-	 * Current position in the List.
-	 *
-	 * @var int
+	 * @var Current_Page_Helper
 	 */
-	private $index;
+	private $current_page_helper;
+
+	/**
+	 * Breadcrumb constructor.
+	 *
+	 * @param Current_Page_Helper $current_page_helper
+	 */
+	public function __construct( Current_Page_Helper $current_page_helper ) {
+		$this->current_page_helper = $current_page_helper;
+	}
 
 	/**
 	 * Determine if we should add a breadcrumb attribute.
 	 *
+	 * @param Meta_Tags_Context $context The meta tags context.
+	 *
 	 * @return bool
 	 */
-	public function is_needed() {
-		if ( $this->current_page_helper->is_error_page() ) {
+	public function is_needed( Meta_Tags_Context $context ) {
+		if ( $context->indexable->object_type === 'error-page' ) {
 			return false;
 		}
 
-		if ( $this->current_page_helper->is_home_static_page() || $this->current_page_helper->is_home_posts_page() ) {
+		if ( $context->indexable->object_type === 'home-page' || $this->current_page_helper->is_home_static_page() ) {
 			return false;
 		}
 
-		if ( $this->context->breadcrumbs_enabled ) {
+		if ( $context->breadcrumbs_enabled ) {
 			return true;
 		}
 
@@ -46,13 +59,15 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 *
 	 * @link https://developers.google.com/search/docs/data-types/breadcrumb
 	 *
+	 * @param Meta_Tags_Context $context The meta tags context.
+	 *
 	 * @return bool|array Array on success, false on failure.
 	 */
-	public function generate() {
+	public function generate( Meta_Tags_Context $context ) {
 		$breadcrumbs_instance = \WPSEO_Breadcrumbs::get_instance();
 		$breadcrumbs          = $breadcrumbs_instance->get_links();
 		$broken               = false;
-		$list_elements        = array();
+		$list_elements        = [];
 
 		foreach ( $breadcrumbs as $index => $breadcrumb ) {
 			if ( ! empty( $breadcrumb['hide_in_schema'] ) ) {
@@ -63,17 +78,16 @@ class Breadcrumb extends Abstract_Schema_Piece {
 				$broken = true;
 				break;
 			}
-			$list_elements[] = $this->add_breadcrumb( $index, $breadcrumb );
-			$this->index     = $index;
+			$list_elements[] = $this->add_breadcrumb( $index, $breadcrumb, $context );
 		}
 
 		if ( \is_paged() ) {
-			$list_elements[] = $this->add_paginated_state();
+			$list_elements[] = $this->add_paginated_state( $index, $context );
 		}
 
 		$data = array(
 			'@type'           => 'BreadcrumbList',
-			'@id'             => $this->context->canonical . $this->id_helper->breadcrumb_hash,
+			'@id'             => $context->canonical . $this->id_helper->breadcrumb_hash,
 			'itemListElement' => $list_elements,
 		);
 
@@ -88,52 +102,46 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	/**
 	 * Returns a breadcrumb array.
 	 *
-	 * @param int   $index      The position in the list.
-	 * @param array $breadcrumb The breadcrumb array.
+	 * @param int               $index      The position in the list.
+	 * @param array             $breadcrumb The breadcrumb array.
+	 * @param Meta_Tags_Context $context    The meta tags context.
 	 *
 	 * @return array A breadcrumb listItem.
 	 */
-	private function add_breadcrumb( $index, $breadcrumb ) {
+	private function add_breadcrumb( $index, $breadcrumb, Meta_Tags_Context $context ) {
 		if ( empty( $breadcrumb['url'] ) ) {
-			if ( \is_paged() ) {
-				// Retrieve the un-paginated state of the current page.
-				// @todo this _really_ needs to be replaced by something else, but we don't have the unpaged canonical I think.
-				$breadcrumb['url'] = \WPSEO_Frontend::get_instance()->canonical( false, true );
-			}
-			else {
-				$breadcrumb['url'] = $this->context->canonical;
-			}
+			$breadcrumb['url'] = $context->canonical;
 		}
 
 		if ( empty( $breadcrumb['text'] ) ) {
-			$breadcrumb['url'] = $this->context->title;
+			$breadcrumb['text'] = $context->title;
 		}
 
-		return array(
+		return [
 			'@type'    => 'ListItem',
 			'position' => ( $index + 1 ),
-			'item'     => array(
+			'item'     => [
 				'@type' => 'WebPage',
 				'@id'   => $breadcrumb['url'],
 				'url'   => $breadcrumb['url'], // For future proofing, we're trying to change the standard for this.
 				'name'  => $breadcrumb['text'],
-			),
-		);
+			],
+		];
 	}
 
 	/**
 	 * Adds the paginated state to the breadcrumb array.
 	 *
+	 * @param int               $index   The index.
+	 * @param Meta_Tags_Context $context The meta tags context.
+	 *
 	 * @return array A breadcrumb listItem.
 	 */
-	private function add_paginated_state() {
-		$this->index++;
+	private function add_paginated_state( $index, Meta_Tags_Context $context ) {
 		return $this->add_breadcrumb(
-			$this->index,
-			array(
-				'url'  => $this->context->canonical,
-				'text' => $this->context->title,
-			)
+			( $index + 1 ),
+			[ 'url'  => $context->canonical, 'text' => $context->title ],
+			$context
 		);
 	}
 }

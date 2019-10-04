@@ -90,7 +90,6 @@ class WPSEO_Frontend {
 	 * Adds and removes a lot of filters.
 	 */
 	protected function __construct() {
-
 		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality.
@@ -151,7 +150,7 @@ class WPSEO_Frontend {
 
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
-			// new WPSEO_Schema(), -- Has been moved to SRC directory.
+			new WPSEO_Schema(), // -- Has been moved to SRC directory.
 			new WPSEO_Handle_404(),
 			// new WPSEO_Remove_Reply_To_Com(), HAS BEEN MOVED TO SRC DIRECTORY!
 			new WPSEO_OpenGraph_OEmbed(),

@@ -15,6 +15,20 @@ use WPSEO_Image_Utils;
 class Image_Helper {
 
 	/**
+	 * Retrieves an attachment ID for an image uploaded in the settings.
+	 *
+	 * Due to self::get_attachment_by_url returning 0 instead of false.
+	 * 0 is also a possibility when no ID is available.
+	 *
+	 * @param string $setting The setting the image is stored in.
+	 *
+	 * @return int|bool The attachment id, or false or 0 if no ID is available.
+	 */
+	public function get_attachment_id_from_settings( $setting ) {
+		return WPSEO_Image_Utils::get_attachment_id_from_settings( $setting );
+	}
+
+	/**
 	 * Gets an attachment page's attachment url.
 	 *
 	 * @param string $post_id The ID of the post for which to retrieve the image.
@@ -106,7 +120,7 @@ class Image_Helper {
 	 *
 	 * @return string|null
 	 */
-	protected function get_first_usable_content_image_for_post( $post_id ) {
+	public function get_first_usable_content_image_for_post( $post_id ) {
 		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
 	}
 }

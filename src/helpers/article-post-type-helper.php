@@ -5,14 +5,14 @@
  * @package Yoast\WP\Free\Helpers\Schema
  */
 
-namespace Yoast\WP\Free\Helpers\Schema;
+namespace Yoast\WP\Free\Helpers;
 
 /**
- * Class Article_Post_Type_Helper
+ * Class Article_Helper
  *
- * @package Yoast\WP\Free\Helpers\Schema
+ * @package Yoast\WP\Free\Helpers
  */
-class Article_Post_Type_Helper {
+class Article_Helper {
 
 	/**
 	 * Determines whether a given post type should have Article schema.
@@ -21,9 +21,9 @@ class Article_Post_Type_Helper {
 	 *
 	 * @return bool True if it has article schema, false if not.
 	 */
-	public static function is_article_post_type( $post_type = null ) {
+	public function is_article_post_type( $post_type = null ) {
 		if ( is_null( $post_type ) ) {
-			$post_type = get_post_type();
+			$post_type = \get_post_type();
 		}
 
 		/**
@@ -31,8 +31,8 @@ class Article_Post_Type_Helper {
 		 *
 		 * @api string[] $post_types The post types for which we output Article.
 		 */
-		$post_types = apply_filters( 'wpseo_schema_article_post_types', array( 'post' ) );
+		$post_types = \apply_filters( 'wpseo_schema_article_post_types', [ 'post' ] );
 
-		return in_array( $post_type, $post_types );
+		return \in_array( $post_type, $post_types );
 	}
 }

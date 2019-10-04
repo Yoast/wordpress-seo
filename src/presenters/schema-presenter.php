@@ -39,7 +39,7 @@ class Schema_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Action: 'wpseo_json_ld' - Output Schema before the main schema from Yoast SEO is put out.
 		 */
-		do_action( 'wpseo_json_ld' );
+		//do_action( 'wpseo_json_ld' );
 
 		if ( is_array( $presentation->schema ) ) {
 			$output = \WPSEO_Utils::format_json_encode( $presentation->schema );

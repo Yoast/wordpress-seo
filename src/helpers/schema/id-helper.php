@@ -7,6 +7,9 @@
 
 namespace Yoast\WP\Free\Helpers\Schema;
 
+use Exception;
+use Yoast\WP\Free\Context\Meta_Tags_Context;
+
 /**
  * Schema utility functions.
  *
@@ -83,8 +86,8 @@ class ID_Helper {
 	/**
 	 * Retrieve a users Schema ID.
 	 *
-	 * @param int            $user_id The ID of the User you need a Schema ID for.
-	 * @param Context_Helper $context A value object with context variables.
+	 * @param int               $user_id The ID of the User you need a Schema ID for.
+	 * @param Meta_Tags_Context $context A value object with context variables.
 	 *
 	 * @return string The user's schema ID.
 	 */
@@ -106,10 +109,8 @@ class ID_Helper {
 	public function __get( $name ) {
 		$name = strtoupper( $name );
 
-		if ( defined( 'self::' . $name ) ) {
-			$this->{$name} = constant( 'self::' . $name );
-
-			return $this->{$name};
+		if ( \defined( 'self::' . $name ) ) {
+			return \constant( 'self::' . $name );
 		}
 		throw new Exception( "Property $name does not exist." );
 	}

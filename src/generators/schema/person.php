@@ -7,7 +7,9 @@
 
 namespace Yoast\WP\Free\Presentations\Generators\Schema;
 
-use Yoast\WP\Free\Helpers\Schema\Image_Helper;
+use Yoast\WP\Free\Context\Meta_Tags_Context;
+use Yoast\WP\Free\Helpers\Image_Helper;
+use Yoast\WP\Free\Helpers\Schema;
 
 /**
  * Returns schema Person data.
@@ -20,7 +22,7 @@ class Person extends Abstract_Schema_Piece {
 	 *
 	 * @var string[]
 	 */
-	private $social_profiles = array(
+	private $social_profiles = [
 		'facebook',
 		'instagram',
 		'linkedin',
@@ -31,43 +33,64 @@ class Person extends Abstract_Schema_Piece {
 		'soundcloud',
 		'tumblr',
 		'wikipedia',
-	);
+	];
 
 	/**
 	 * The Schema type we use for this class.
 	 *
 	 * @var string[]
 	 */
-	protected $type = array(
-		'Person',
-		'Organization',
-	);
+	protected $type = [ 'Person', 'Organization' ];
+
+	/**
+	 * @var Image_Helper
+	 */
+	private $image_helper;
+
+	/**
+	 * @var Schema\Image_Helper
+	 */
+	private $schema_image_helper;
+
+	/**
+	 * Main_Image constructor.
+	 *
+	 * @param Image_Helper        $image_helper
+	 * @param Schema\Image_Helper $schema_image_helper
+	 */
+	public function __construct(
+		Image_Helper $image_helper,
+		Schema\Image_Helper $schema_image_helper
+	) {
+		$this->image_helper        = $image_helper;
+		$this->schema_image_helper = $schema_image_helper;
+	}
 
 	/**
 	 * Determine whether we should return Person schema.
 	 *
+	 * @param Meta_Tags_Context $context The meta tags context.
+	 *
 	 * @return bool
 	 */
-	public function is_needed() {
-		if ( ( $this->context->site_represents === 'person' ) || $this->current_page_helper->is_author_archive() ) {
-			return true;
-		}
-
-		return false;
+	public function is_needed( Meta_Tags_Context $context ) {
+		return $context->site_represents === 'person' || $context->indexable->object_type === 'author';
 	}
 
 	/**
 	 * Returns Person Schema data.
 	 *
+	 * @param Meta_Tags_Context $context The meta tags context.
+	 *
 	 * @return bool|array Person data on success, false on failure.
 	 */
-	public function generate() {
-		$user_id = $this->determine_user_id();
+	public function generate( Meta_Tags_Context $context ) {
+		$user_id = $this->determine_user_id( $context );
 		if ( ! $user_id ) {
 			return false;
 		}
 
-		$data = $this->build_person_data( $user_id );
+		$data = $this->build_person_data( $user_id, $context );
 
 		return $data;
 	}
@@ -77,15 +100,13 @@ class Person extends Abstract_Schema_Piece {
 	 *
 	 * @return bool|int User ID or false upon return.
 	 */
-	protected function determine_user_id() {
-		$user_id = $this->context->site_user_id;
-
+	protected function determine_user_id( Meta_Tags_Context $context ) {
 		/**
 		 * Filter: 'wpseo_schema_person_user_id' - Allows filtering of user ID used for person output.
 		 *
 		 * @api int|bool $user_id The user ID currently determined.
 		 */
-		return \apply_filters( 'wpseo_schema_person_user_id', $user_id );
+		return \apply_filters( 'wpseo_schema_person_user_id', $context->site_user_id );
 	}
 
 	/**
@@ -105,7 +126,7 @@ class Person extends Abstract_Schema_Piece {
 		 *                                key. As they are retrieved using the WordPress function `get_the_author_meta`.
 		 */
 		$social_profiles = \apply_filters( 'wpseo_schema_person_social_profiles', $this->social_profiles, $user_id );
-		$output          = array();
+		$output          = [];
 		foreach ( $social_profiles as $profile ) {
 			$social_url = $this->url_social_site( $profile, $user_id );
 			if ( $social_url ) {
@@ -123,15 +144,15 @@ class Person extends Abstract_Schema_Piece {
 	 *
 	 * @return array An array of Schema Person data.
 	 */
-	protected function build_person_data( $user_id ) {
+	protected function build_person_data( $user_id, Meta_Tags_Context $context ) {
 		$user_data = \get_userdata( $user_id );
-		$data      = array(
+		$data      = [
 			'@type' => $this->type,
-			'@id'   => $this->id_helper->get_user_schema_id( $user_id, $this->context ),
+			'@id'   => $this->id_helper->get_user_schema_id( $user_id, $context ),
 			'name'  => $user_data->display_name,
-		);
+		];
 
-		$data = $this->add_image( $data, $user_data );
+		$data = $this->add_image( $data, $user_data, $context );
 
 		if ( ! empty( $user_data->description ) ) {
 			$data['description'] = $user_data->description;
@@ -148,21 +169,22 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Returns an ImageObject for the persons avatar.
 	 *
-	 * @param array    $data      The Person schema.
-	 * @param \WP_User $user_data User data.
+	 * @param array             $data      The Person schema.
+	 * @param \WP_User          $user_data User data.
+	 * @param Meta_Tags_Context $context   The meta tags context.
 	 *
 	 * @return array $data The Person schema.
 	 */
-	protected function add_image( $data, $user_data ) {
-		$schema_id = $this->context->site_url . $this->id_helper->person_logo_hash;
+	protected function add_image( $data, $user_data, Meta_Tags_Context $context ) {
+		$schema_id = $context->site_url . $this->id_helper->person_logo_hash;
 
-		$data = $this->set_image_from_options( $data, $schema_id );
+		$data = $this->set_image_from_options( $data, $schema_id, $context );
 		if ( ! isset( $data['image'] ) ) {
 			$data = $this->set_image_from_avatar( $data, $user_data, $schema_id );
 		}
 
 		if ( \is_array( $this->type ) && \in_array( 'Organization', $this->type ) ) {
-			$data['logo'] = array( '@id' => $schema_id );
+			$data['logo'] = [ '@id' => $schema_id ];
 		}
 
 		return $data;
@@ -171,19 +193,20 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Generate the person image from our settings.
 	 *
-	 * @param array  $data      The Person schema.
-	 * @param string $schema_id The string used in the `@id` for the schema.
+	 * @param array             $data      The Person schema.
+	 * @param string            $schema_id The string used in the `@id` for the schema.
+	 * @param Meta_Tags_Context $context   The meta tags context.
 	 *
-	 * @return array    $data      The Person schema.
+	 * @return array The Person schema.
 	 */
-	private function set_image_from_options( $data, $schema_id ) {
-		if ( $this->context->site_represents !== 'person' ) {
+	protected function set_image_from_options( $data, $schema_id, Meta_Tags_Context $context ) {
+		if ( $context->site_represents !== 'person' ) {
 			return $data;
 		}
-		$person_logo_id = \WPSEO_Image_Utils::get_attachment_id_from_settings( 'person_logo' );
+		$person_logo_id = $this->image_helper->get_attachment_id_from_settings( 'person_logo' );
 
 		if ( $person_logo_id ) {
-			$data['image'] = Image_Helper::generate_from_attachment_id( $schema_id, $person_logo_id, $data['name'] );
+			$data['image'] = $this->schema_image_helper->generate_from_attachment_id( $schema_id, $person_logo_id, $data['name'] );
 		}
 
 		return $data;
@@ -196,9 +219,9 @@ class Person extends Abstract_Schema_Piece {
 	 * @param \WP_User $user_data User data.
 	 * @param string   $schema_id The string used in the `@id` for the schema.
 	 *
-	 * @return array    $data      The Person schema.
+	 * @return array The Person schema.
 	 */
-	private function set_image_from_avatar( $data, $user_data, $schema_id ) {
+	protected function set_image_from_avatar( $data, $user_data, $schema_id ) {
 		// If we don't have an image in our settings, fall back to an avatar, if we're allowed to.
 		$show_avatars = \get_option( 'show_avatars' );
 		if ( ! $show_avatars ) {
@@ -210,7 +233,7 @@ class Person extends Abstract_Schema_Piece {
 			return $data;
 		}
 
-		$data['image'] = Image_Helper::simple_image_object( $schema_id, $url, $user_data->display_name );
+		$data['image'] = $this->schema_image_helper->simple_image_object( $schema_id, $url, $user_data->display_name );
 
 		return $data;
 	}
@@ -226,12 +249,8 @@ class Person extends Abstract_Schema_Piece {
 	protected function url_social_site( $social_site, $user_id = false ) {
 		$url = \get_the_author_meta( $social_site, $user_id );
 
-		if ( ! empty( $url ) ) {
-			switch ( $social_site ) {
-				case 'twitter':
-					$url = 'https://twitter.com/' . $url;
-					break;
-			}
+		if ( ! empty( $url ) && $social_site === 'twitter' ) {
+			$url = 'https://twitter.com/' . $url;
 		}
 
 		return $url;

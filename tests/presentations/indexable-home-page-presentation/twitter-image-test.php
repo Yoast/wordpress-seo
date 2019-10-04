@@ -44,7 +44,7 @@ class Twitter_Image_Test extends TestCase {
 		$this->indexable     = new Indexable();
 
 		$presentation   = new Indexable_Home_Page_Presentation( $this->option_helper, $current_page_helper );
-		$this->instance = $presentation->of( $this->indexable );
+		$this->instance = $presentation->of( [ 'model' => $this->indexable ] );
 
 		return parent::setUp();
 	}
