@@ -7,10 +7,10 @@
 
 namespace Yoast\WP\Free\Presenters\Open_Graph;
 
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
+use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
+use Yoast\WP\Free\Values\Open_Graph\Images;
 
 /**
  * Class Image_Presenter
@@ -18,14 +18,9 @@ use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
 class Image_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
-	 * @var Image_Helper
+	 * @var Open_Graph_Image_Helper
 	 */
-	protected $image_helper;
-
-	/**
-	 * @var Url_Helper
-	 */
-	protected $url_helper;
+	protected $open_graph_image_helper;
 
 	/**
 	 * Image tags that we output for each image.
@@ -43,12 +38,10 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param Image_Helper $image_helper The image helper.
-	 * @param Url_Helper   $url_helper   The url helper.
+	 * @param Open_Graph_Image_Helper $open_graph_image_helper The image helper.
 	 */
-	public function __construct( Image_Helper $image_helper, Url_Helper $url_helper ) {
-		$this->image_helper = $image_helper;
-		$this->url_helper   = $url_helper;
+	public function __construct( Open_Graph_Image_Helper $open_graph_image_helper ) {
+		$this->open_graph_image_helper = $open_graph_image_helper;
 	}
 
 	/**
@@ -59,10 +52,28 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The image tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
+		$open_graph_images = new Images( $this->open_graph_image_helper );
+
+		/**
+		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the OpenGraph tags.
+		 *
+		 * @api WPSEO_OpenGraph_Image The current object.
+		 */
+		do_action( 'wpseo_add_opengraph_images', $open_graph_images );
+
 		$images = (array) $presentation->og_images;
 
-		$images = array_map( [ $this, 'format_image' ], $images );
-		$images = array_filter( $images, [ $this, 'is_image_url_valid' ] );
+		array_walk( $images, [ $open_graph_images, 'add_image' ] );
+
+		/**
+		 * Filter: wpseo_add_opengraph_additional_images - Allows to add additional images to the OpenGraph tags.
+		 *
+		 * @api WPSEO_OpenGraph_Image The current object.
+		 */
+		do_action( 'wpseo_add_opengraph_additional_images', $open_graph_images );
+
+		$images = array_map( [ $this->open_graph_image_helper, 'format_image' ], $images );
+		$images = array_filter( $images, [ $this->open_graph_image_helper, 'is_image_url_valid' ] );
 		$images = array_map( [ $this, 'filter' ], $images );
 
 		if ( empty( $images ) ) {
@@ -90,51 +101,6 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		return $return;
-	}
-
-	/**
-	 * Formats the image. To have all images the same format.
-	 *
-	 * @param array|string $image The attachment to format.
-	 *
-	 * @return array|string The formatted attachment.
-	 */
-	protected function format_image( $image ) {
-		// In the past `add_image` accepted an image url, so leave this for backwards compatibility.
-		if ( \is_string( $image ) && $image !== '' ) {
-			$image = [ 'url' => $image ];
-		}
-
-		if ( $this->url_helper->is_relative( $image['url'] ) ) {
-			$image['url'] = $this->url_helper->get_relative_path( $image['url'] );
-		}
-
-		return $image;
-	}
-
-	/**
-	 * Determines whether the passed URL is considered valid.
-	 *
-	 * @param array $image The image array.
-	 *
-	 * @return bool Whether or not the URL is a valid image.
-	 */
-	protected function is_image_url_valid( array $image ) {
-		if ( empty( $image['url'] ) || ! is_string( $image['url'] ) ) {
-			return false;
-		}
-
-		$image_extension = $this->url_helper->get_extension_from_url( $image['url'] );
-		$is_valid        = $this->image_helper->is_extension_valid( $image_extension );
-
-		/**
-		 * Filter: 'wpseo_opengraph_is_valid_image_url' - Allows extra validation for an image url.
-		 *
-		 * @api bool - Current validation result.
-		 *
-		 * @param string $url The image url to validate.
-		 */
-		return (bool) apply_filters( 'wpseo_opengraph_is_valid_image_url', $is_valid, $image['url'] );
 	}
 
 	/**

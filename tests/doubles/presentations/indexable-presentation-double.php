@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WPSEO plugin test file.
  *
