@@ -48,18 +48,6 @@ class Image_Helper {
 	}
 
 	/**
-	 * Find the right version of an image based on size.
-	 *
-	 * @param int    $attachment_id Attachment ID.
-	 * @param string $size          Size name.
-	 *
-	 * @return array|false Returns an array with image data on success, false on failure.
-	 */
-	public function get_image( $attachment_id, $size ) {
-		return \WPSEO_image_utils::get_image( $attachment_id, $size );
-	}
-
-	/**
 	 * Determines whether or not the wanted attachment is considered valid.
 	 *
 	 * @param int $attachment_id The attachment ID to get the attachment by.
@@ -67,13 +55,13 @@ class Image_Helper {
 	 * @return bool Whether or not the attachment is valid.
 	 */
 	public function is_valid_attachment( $attachment_id ) {
-		$attachment = \get_post_mime_type( $attachment_id );
+		$post_mime_type = \get_post_mime_type( $attachment_id );
 
-		if ( $attachment === false ) {
+		if ( $post_mime_type === false ) {
 			return false;
 		}
 
-		return $this->is_valid_image_type( $attachment );
+		return $this->is_valid_image_type( $post_mime_type );
 	}
 
 	/**
@@ -175,7 +163,23 @@ class Image_Helper {
 	}
 
 	/**
-	 * Retrieves the attachment variations for given attachments.
+	 * Find the right version of an image based on size.*
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 *
+	 * @param int    $attachment_id Attachment ID.
+	 * @param string $size          Size name.
+	 *
+	 * @return array|false Returns an array with image data on success, false on failure.
+	 */
+	public function get_image( $attachment_id, $size ) {
+		return \WPSEO_image_utils::get_image( $attachment_id, $size );
+	}
+
+	/**
+	 * Retrieves the attachment variations for given attachments.*
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @param int   $attachment_id The attachment id.
 	 * @param array $image_params  The image parameters to get dimensions for.
@@ -199,7 +203,7 @@ class Image_Helper {
 	/**
 	 * Retrieves the first usable content image for a post.
 	 *
-	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @param int $post_id The post id to extract the images from.
 	 *

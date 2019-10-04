@@ -525,7 +525,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 		 *
 		 * @api string|false $size Size string.
 		 */
-		$override_image_size = apply_filters( 'wpseo_opengraph_image_size', null );
+		$override_image_size = \apply_filters( 'wpseo_opengraph_image_size', null );
 
 		if ( $override_image_size ) {
 			return $this->image_helper->get_image( $attachment_id, $override_image_size );
@@ -553,9 +553,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 		}
 
 		$default_image_id  = $this->options_helper->get( 'og_default_image_id', '' );
-
 		if ( $default_image_id ) {
-			$attachment_url = $this->get_attachment_url_by_id( $this->model->og_image_id );
+			$attachment_url = $this->get_attachment_url_by_id( $default_image_id );
 			if ( $attachment_url ) {
 				return $attachment_url;
 			}
