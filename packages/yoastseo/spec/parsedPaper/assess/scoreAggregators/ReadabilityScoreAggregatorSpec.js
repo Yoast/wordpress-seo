@@ -91,7 +91,7 @@ describe( "ReadabilityScoreAggregator", () => {
 			aggregator.setLocale( "en_US" );
 		} );
 
-		it( "should default to a bad indicator", function() {
+		it( "should default to a 'not available' indicator", function() {
 			const results = [];
 
 			expect( aggregator.aggregate( results ) ).toBe( READABILITY_SCORES.NOT_AVAILABLE );
