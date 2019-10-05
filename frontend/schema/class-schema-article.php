@@ -52,6 +52,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 */
 	public function generate() {
 		$post          = get_post( $this->context->id );
+		$comments_open = comments_open( $this->context->id );
 		$comment_count = get_comment_count( $this->context->id );
 		$data          = array(
 			'@type'            => 'Article',
@@ -61,9 +62,12 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			'headline'         => get_the_title(),
 			'datePublished'    => mysql2date( DATE_W3C, $post->post_date_gmt, false ),
 			'dateModified'     => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
-			'commentCount'     => $comment_count['approved'],
 			'mainEntityOfPage' => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
 		);
+
+		if ( $comments_open || $comment_count['approved'] !== 0 ){
+			$data['commentCount'] = $comment_count['approved'];
+		}
 
 		if ( $this->context->site_represents_reference ) {
 			$data['publisher'] = $this->context->site_represents_reference;
