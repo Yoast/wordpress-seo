@@ -65,7 +65,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			'mainEntityOfPage' => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
 		);
 
-		if ( $comments_open || $comment_count['approved'] !== 0 ){
+		if ( $comments_open || $comment_count['approved'] !== 0 ) {
 			$data['commentCount'] = $comment_count['approved'];
 		}
 
