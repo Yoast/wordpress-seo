@@ -749,6 +749,7 @@ export default class SnippetPreview extends PureComponent {
 		return (
 			<section>
 				<Container
+					id="yoast-snippet-preview-container"
 					onMouseLeave={ this.onMouseLeave }
 					/*
 					 * MobileContainer doesn't use the width prop: avoid to
