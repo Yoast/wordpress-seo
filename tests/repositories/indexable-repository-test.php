@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\Free\Tests\Repositories;
 
+use Mockery\Mock;
 use Yoast\WP\Free\Builders\Indexable_Author_Builder;
 use Yoast\WP\Free\Builders\Indexable_Post_Builder;
 use Yoast\WP\Free\Builders\Indexable_Term_Builder;
@@ -28,6 +29,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 	public function wpdbsetup() {
 
 		global $wpdb;
+
+		/*
+		 * This cannot be `prefix_` because a different test might mess it up.
+		 * That is the disadvantage of globals.
+		 */
 		$wpdb->prefix = 'prefix';
 	}
 
@@ -62,32 +68,13 @@ class Indexable_Post_Builder_Test extends TestCase {
 		return parent::setUp();
 	}
 
-	public function get_pdo_type($param ) {
-		if (\is_null($param)) {
-			$type = \PDO::PARAM_NULL;
-		} else {
-			if (\is_bool($param)) {
-				$type = \PDO::PARAM_BOOL;
-			} else {
-				if (\is_int($param)) {
-					$type = \PDO::PARAM_INT;
-				} else {
-					$type = \PDO::PARAM_STR;
-				}
-			}
-		}
-
-		return $type;
-	}
-
 	public function expect_pdo_query( $expected_query, $expected_parameters, $return_rows ) {
 		$statement = \Mockery::mock( \PDOStatement::class );
 
 		foreach ( $expected_parameters as $index => $expected_parameter ) {
 			$statement->shouldReceive( 'bindParam' )
 			          ->once()
-				// PDO indexes start at 1
-				      ->with( $index + 1, $expected_parameter, $this->get_pdo_type( $expected_parameter ) );
+			          ->with( \Mockery::any(), $expected_parameter, \Mockery::any() );
 		}
 
 		$statement->shouldReceive( 'execute' );
@@ -120,8 +107,11 @@ class Indexable_Post_Builder_Test extends TestCase {
 	}
 
 	public function test_count_posts_with_outdated_prominent_words() {
-		// Putting the query here makes this test verify that we are doing the optimal query we intend.
-		// If the ORM has a change that changes this query, we want to verify we are still doing something we intend.
+		/*
+		 * Certain ORM changes can sometimes lead to a change in the query we intend to test.
+		 * To make sure it does not happen, we specify the query here,
+		 * where it cannot be influenced by other code.
+		 */
 		$expected_query = '
 			SELECT COUNT(*) AS `count` FROM `custom_prefix_posts` WHERE `ID` NOT IN (
 				SELECT `object_id` FROM prefixyoast_indexable

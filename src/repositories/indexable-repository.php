@@ -203,6 +203,13 @@ class Indexable_Repository extends ORMWrapper {
 	/**
 	 * Creates a query that can find posts with outdated prominent words.
 	 *
+	 * Why is this method here even though it's internal linking functionality:
+	 *
+	 * 1. Prominent words are required to determine internal linking suggestions for any indexable.
+	 * 2. The prominent words algorithm can be updated to a new version, this version is saved on an indexable.
+	 * 3. Outdated posts need to be queried in combination with indexables.
+	 * 4. Therefore this method querying both the posts table and the indexables table resides here.
+	 *
 	 * @param int      $updated_version The version required for posts to be up-to-date.
 	 * @param string[] $post_types      The post types to find outdated posts for.
 	 *
@@ -244,6 +251,9 @@ QUERY;
 	/**
 	 * Counts posts that have outdated prominent words.
 	 *
+	 * Uses the above function to create the query because the query is the same as finding posts.
+	 * See the above function for more information.
+	 *
 	 * @param int      $updated_version The version required for posts to be up-to-date.
 	 * @param string[] $post_types The post types to count posts for.
 	 * @return int The amount of posts that have outdated prominent words.
@@ -261,6 +271,9 @@ QUERY;
 
 	/**
 	 * Finds posts that have outdated prominent words.
+	 *
+	 * Uses the above function to create the query because the query is the same as counting posts.
+	 * See the above function for more information.
 	 *
 	 * @param int      $updated_version The version required for posts to be up-to-date.
 	 * @param string[] $post_types The post types to find posts for.
