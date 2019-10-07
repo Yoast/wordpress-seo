@@ -24,7 +24,11 @@ class WPSEO_Image_Utils {
 		 */
 		$url = preg_replace( '/(.*)-\d+x\d+\.(jpg|png|gif)$/', '$1.$2', $url );
 		
-		$uploads = wp_get_upload_dir();
+		static $uploads;
+
+		if ( $uploads === null ) {
+			$uploads = wp_get_upload_dir();
+		}
 
 		// Don't try to do this for external URLs.
 		if ( strpos( $url, $uploads['baseurl'] ) !== 0 ) {
