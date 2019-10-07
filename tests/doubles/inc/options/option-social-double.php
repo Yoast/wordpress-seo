@@ -31,7 +31,6 @@ class Option_Social_Double extends WPSEO_Option_Social {
 		return parent::validate_option( $dirty, $clean, $old );
 	}
 
-
 	/**
 	 * Validates a Facebook App ID.
 	 *

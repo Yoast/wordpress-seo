@@ -27,7 +27,7 @@ abstract class TestCase extends BaseTestCase {
 
 		Monkey\Functions\stubs(
 			[
-				// Null makes it so the function returns it's first argument.
+				// Null makes it so the function returns its first argument.
 				'esc_attr'            => null,
 				'esc_html'            => null,
 				'esc_textarea'        => null,
@@ -113,7 +113,7 @@ abstract class TestCase extends BaseTestCase {
 		\ob_clean();
 
 		if ( ! \is_array( $expected ) ) {
-			$expected = array( $expected );
+			$expected = [ $expected ];
 		}
 
 		foreach ( $expected as $needle ) {
@@ -132,7 +132,7 @@ abstract class TestCase extends BaseTestCase {
 		\ob_clean();
 
 		if ( ! \is_array( $needles ) ) {
-			$needles = array( $needles );
+			$needles = [ $needles ];
 		}
 
 		foreach ( $needles as $needle ) {

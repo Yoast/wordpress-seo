@@ -68,9 +68,12 @@ class WPSEO_Language_Utils_Test extends TestCase {
 			->with( $shortlinker->get_additional_shortlink_data(), Mockery::pattern( '/https:\/\/yoa.st\/*/' ) )
 			->andReturn( 'https://yoast.com' );
 
-		$this->assertEquals( [
-			'URL'     => 'https://yoast.com',
-			'message' => 'A company name and logo need to be set for structured data to work properly. %1$sLearn more about the importance of structured data.%2$s',
-		], WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n() );
+		$this->assertEquals(
+			[
+				'URL'     => 'https://yoast.com',
+				'message' => 'A company name and logo need to be set for structured data to work properly. %1$sLearn more about the importance of structured data.%2$s',
+			],
+			WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n()
+		);
 	}
 }
