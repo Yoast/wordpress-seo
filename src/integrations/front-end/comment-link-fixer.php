@@ -46,8 +46,8 @@ class Comment_Link_Fixer implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		if ( $this->clean_reply_to_com() ) {
-			add_filter( 'comment_reply_link', array( $this, 'remove_reply_to_com' ) );
-			add_action( 'template_redirect', array( $this, 'replytocom_redirect' ), 1 );
+			add_filter( 'comment_reply_link', [ $this, 'remove_reply_to_com' ] );
+			add_action( 'template_redirect', [ $this, 'replytocom_redirect' ], 1 );
 		}
 	}
 

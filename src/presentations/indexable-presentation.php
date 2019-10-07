@@ -248,7 +248,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 		$locale = \apply_filters( 'wpseo_locale', \get_locale() );
 
 		// Catch some weird locales served out by WP that are not easily doubled up.
-		$fix_locales = array(
+		$fix_locales = [
 			'ca' => 'ca_ES',
 			'en' => 'en_US',
 			'el' => 'el_GR',
@@ -258,7 +258,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			'uk' => 'uk_UA',
 			'vi' => 'vi_VN',
 			'zh' => 'zh_CN',
-		);
+		];
 
 		if ( isset( $fix_locales[ $locale ] ) ) {
 			$locale = $fix_locales[ $locale ];
@@ -270,7 +270,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 		}
 
 		// These are the locales FB supports.
-		$fb_valid_fb_locales = array(
+		$fb_valid_fb_locales = [
 			'af_ZA', // Afrikaans.
 			'ak_GH', // Akan.
 			'am_ET', // Amharic.
@@ -425,7 +425,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			'zh_TW', // Traditional Chinese (Taiwan).
 			'zu_ZA', // Zulu.
 			'zz_TR', // Zazaki.
-		);
+		];
 
 		// Check to see if the locale is a valid FB one, if not, use en_US as a fallback.
 		if ( ! in_array( $locale, $fb_valid_fb_locales, true ) ) {
