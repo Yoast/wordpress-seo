@@ -24,7 +24,7 @@ $container->register( 'wp_query', 'WP_Query' )->setFactory( [ Wrapper::class, 'g
 $container->register( Indexable_Repository::class, Indexable_Repository::class )->setFactory( [ Indexable_Repository::class, 'get_instance' ] )->setAutowired( true );
 $container->register( Primary_Term_Repository::class, Primary_Term_Repository::class )->setFactory( [ Primary_Term_Repository::class, 'get_instance' ] )->setAutowired( true );
 $container->register( SEO_Meta_Repository::class, SEO_Meta_Repository::class )->setFactory( [ SEO_Meta_Repository::class, 'get_instance' ] )->setAutowired( true );
-$container->register( SEO_Links_Repository::class, SEO_Links_Repository::class )->setFactory( [ SEO_Links_Repository::class, 'get_instance' ] )->setAutowired( true );// Classes from the root namespace required in the namespaced area.
+$container->register( SEO_Links_Repository::class, SEO_Links_Repository::class )->setFactory( [ SEO_Links_Repository::class, 'get_instance' ] )->setAutowired( true );
 
 // Classes from the root namespace required in namespaced and autowired code.
 $container->register( \WPSEO_Replace_Vars::class, \WPSEO_Replace_Vars::class )->setAutowired( true );

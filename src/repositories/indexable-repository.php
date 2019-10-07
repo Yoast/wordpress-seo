@@ -206,7 +206,7 @@ class Indexable_Repository extends ORMWrapper {
 	 * @param int      $updated_version The version required for posts to be up-to-date.
 	 * @param string[] $post_types      The post types to find outdated posts for.
 	 *
-	 * @return \ORM Returns an ORM instance that can be used to execute the query.
+	 * @return ORM Returns an ORM instance that can be used to execute the query.
 	 */
 	protected function create_query_for_outdated_prominent_words_posts( $updated_version, $post_types ) {
 		$prefix = $this->wpdb->prefix;
@@ -217,7 +217,7 @@ class Indexable_Repository extends ORMWrapper {
 
 		$post_statuses = array( 'future', 'draft', 'pending', 'private', 'publish' );
 
-		// Create a "?" placeholder for every post type to put in the query.
+		// Create a "?" placeholder for every post type to put in the prepared statement.
 		$post_types_placeholders = implode( ',', array_fill( 0, count( $post_types ), '?' ) );
 
 		$subquery = <<<QUERY
@@ -242,7 +242,7 @@ QUERY;
 	}
 
 	/**
-	 * Counts posts that have oudated prominent words.
+	 * Counts posts that have outdated prominent words.
 	 *
 	 * @param int      $updated_version The version required for posts to be up-to-date.
 	 * @param string[] $post_types The post types to count posts for.
@@ -264,7 +264,7 @@ QUERY;
 	 *
 	 * @param int      $updated_version The version required for posts to be up-to-date.
 	 * @param string[] $post_types The post types to find posts for.
-	 * @param int      $limit      The maximum amount of posts to return.
+	 * @param int      $limit      The maximum number of posts to return.
 	 * @return int[]               The IDs of the outdated posts.
 	 */
 	public function find_posts_with_outdated_prominent_words( $updated_version, array $post_types, $limit = 10 ) {
