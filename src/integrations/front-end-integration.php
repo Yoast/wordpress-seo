@@ -63,6 +63,7 @@ class Front_End_Integration implements Integration_Interface {
 		'Debug\Marker_Open',
 		'Title',
 		'Meta_Description',
+		'Robots',
 	];
 
 	/**
@@ -72,7 +73,6 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	protected $indexing_directive_presenters = [
 		'Canonical',
-		'Robots',
 	];
 
 	/**
@@ -265,6 +265,8 @@ class Front_End_Integration implements Integration_Interface {
 		switch ( true ) {
 			case $this->current_page_helper->is_attachment():
 				return 'Attachment';
+			case $this->current_page_helper->is_search_result():
+				return 'Search_Result_Page';
 			case $this->current_page_helper->is_simple_page() || $this->current_page_helper->is_home_static_page():
 				return 'Post_Type';
 			case $this->current_page_helper->is_post_type_archive():
@@ -277,8 +279,6 @@ class Front_End_Integration implements Integration_Interface {
 				return 'Date_Archive';
 			case $this->current_page_helper->is_home_posts_page():
 				return 'Home_Page';
-			case $this->current_page_helper->is_search_result():
-				return 'Search_Result';
 			case $this->current_page_helper->is_error_page():
 				return 'Error_Page';
 		}

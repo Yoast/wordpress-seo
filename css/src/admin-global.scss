@@ -520,6 +520,16 @@ td.column-wpseo-linked {
 	}
 }
 
+body.folded {
+	.wpseo-admin-submit-fixed {
+		left: 36px;
+
+		@media screen and (max-width: 782px) {
+			left: 0;
+		}
+	}
+}
+
 .wpseo-admin-submit {
 	z-index: 5;
 	display: flex;

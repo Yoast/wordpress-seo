@@ -9,6 +9,7 @@
  * Class to load assets required for structured data blocks.
  */
 class WPSEO_Structured_Data_Blocks implements WPSEO_WordPress_Integration {
+
 	/**
 	 * An instance of the WPSEO_Admin_Asset_Manager class.
 	 *
@@ -68,7 +69,7 @@ class WPSEO_Structured_Data_Blocks implements WPSEO_WordPress_Integration {
 			$categories[] = array(
 				'slug'  => 'yoast-structured-data-blocks',
 				'title' => sprintf(
-				/* translators: %1$s expands to Yoast. */
+					/* translators: %1$s expands to Yoast. */
 					__( '%1$s Structured Data Blocks', 'wordpress-seo' ),
 					'Yoast'
 				),
