@@ -1,5 +1,22 @@
 # Yoast SEO PHP testsuite
 
+## Table of contents
+
+- [Testing](#testing)
+  * [Configuration](#configuration)
+    + [Setting environment variables](#setting-environment-variables)
+    + [Configuring WordPress unit tests in VVV](#configuring-wordpress-unit-tests-in-vvv)
+    + [PhpStorm Setup](#phpstorm-setup)
+  * [Running the tests](#running-the-tests)
+    + [Integration tests](#integration-tests)
+    + [Unit tests](#unit-tests)
+    + [Coverage](#coverage)
+- [Linting](#linting)
+  * [Syntax errors](#syntax-errors)
+  * [Codestyle](#codestyle)
+  * [Configuration](#configuration-1)
+  * [Running the codestyle](#running-the-codestyle)
+
 ## Testing
 
 ### Configuration
@@ -45,10 +62,10 @@ To run multisite tests, add an environment variable:
 
 ### Running the tests
 
-#### 'Old' integration tests
+#### Integration tests
 - `composer integration-test`
 
-#### Brainmonkey tests
+#### Unit tests
 - (First time) `composer global require phpunit/phpunit:5.7`
 - `composer test`
 
@@ -72,11 +89,11 @@ To check for syntax errors, run `find -L . -path ./vendor -prune -o -path ./node
 ### Codestyle
 We use a combination of coding standards to check our code against: WPCS, PHPCompatibility, and [our own YoastCS sniffs](https://github.com/Yoast/yoastcs).
 
-#### Configuration
+### Configuration
 1. `composer install`
 2. `composer config-yoastcs`. 
 
-#### Running the codestyle
+### Running the codestyle
 - To check everything: `composer check-cs`
 - When you only want to output the errors (not the warnings): `composer check-cs-errors`
 - To auto-fix errors and warnings: `composer fix-cs`
