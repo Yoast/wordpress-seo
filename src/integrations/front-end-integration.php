@@ -53,6 +53,7 @@ class Front_End_Integration implements Integration_Interface {
 		'Debug\Marker_Open',
 		'Title',
 		'Meta_Description',
+		'Robots',
 	];
 
 	/**
@@ -62,7 +63,6 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	protected $indexing_directive_presenters = [
 		'Canonical',
-		'Robots',
 	];
 
 	/**
@@ -232,7 +232,7 @@ class Front_End_Integration implements Integration_Interface {
 			case $this->current_page_helper->is_home_posts_page():
 				return 'Home_Page';
 			case $this->current_page_helper->is_search_result():
-				return 'Search_Result';
+				return 'Search_Result_Page';
 			case $this->current_page_helper->is_error_page():
 				return 'Error_Page';
 		}
