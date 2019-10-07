@@ -1,4 +1,9 @@
 <?php
+/**
+ * Class that contains all relevant data for rendering the meta tags.
+ *
+ * @package Yoast\YoastSEO\Context
+ */
 
 namespace Yoast\WP\Free\Context;
 

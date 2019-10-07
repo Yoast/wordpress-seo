@@ -87,10 +87,10 @@ class Schema_Generator implements Generator_Interface {
 	 *
 	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
-	 * @return array
+	 * @return array The graph.
 	 */
 	public function generate( Meta_Tags_Context $context ) {
-		$graph = array();
+		$graph = [];
 
 		$pieces = $this->get_graph_pieces( $context );
 
@@ -121,7 +121,7 @@ class Schema_Generator implements Generator_Interface {
 
 			$graph_pieces = $piece->generate( $context );
 			// If only a single graph piece was returned.
-			if ( isset( $graph_pieces[ '@type' ] ) ) {
+			if ( isset( $graph_pieces['@type'] ) ) {
 				$graph_pieces = [ $graph_pieces ];
 			}
 

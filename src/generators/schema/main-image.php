@@ -31,8 +31,8 @@ class Main_Image extends Abstract_Schema_Piece {
 	/**
 	 * Main_Image constructor.
 	 *
-	 * @param Image_Helper        $image_helper
-	 * @param Schema\Image_Helper $schema_image_helper
+	 * @param Image_Helper        $image_helper        The image helper.
+	 * @param Schema\Image_Helper $schema_image_helper The schema image helper.
 	 */
 	public function __construct(
 		Image_Helper $image_helper,

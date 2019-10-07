@@ -26,7 +26,7 @@ class WebPage extends Abstract_Schema_Piece {
 	/**
 	 * WebPage constructor.
 	 *
-	 * @param Current_Page_Helper $current_page_helper
+	 * @param Current_Page_Helper $current_page_helper The current page helper.
 	 */
 	public function __construct( Current_Page_Helper $current_page_helper ) {
 		$this->current_page_helper = $current_page_helper;
@@ -45,6 +45,8 @@ class WebPage extends Abstract_Schema_Piece {
 
 	/**
 	 * Returns WebPage schema data.
+	 *
+	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return array WebPage schema data.
 	 */
@@ -82,9 +84,9 @@ class WebPage extends Abstract_Schema_Piece {
 		}
 
 		if ( $this->add_breadcrumbs( $context ) ) {
-			$data['breadcrumb'] = array(
+			$data['breadcrumb'] = [
 				'@id' => $context->canonical . $this->id_helper->breadcrumb_hash,
-			);
+			];
 		}
 
 		return $data;

@@ -26,7 +26,7 @@ class Article extends Abstract_Schema_Piece {
 	/**
 	 * Article constructor.
 	 *
-	 * @param Article_Helper   $article_helper
+	 * @param Article_Helper $article_helper The article helper.
 	 */
 	public function __construct( Article_Helper $article_helper ) {
 		$this->article_helper = $article_helper;
@@ -34,6 +34,8 @@ class Article extends Abstract_Schema_Piece {
 
 	/**
 	 * Determines whether or not a piece should be added to the graph.
+	 *
+	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return bool
 	 */
@@ -63,17 +65,17 @@ class Article extends Abstract_Schema_Piece {
 	 */
 	public function generate( Meta_Tags_Context $context ) {
 		$comment_count = \get_comment_count( $context->id );
-		$data          = array(
+		$data          = [
 			'@type'            => 'Article',
 			'@id'              => $context->canonical . $this->id_helper->article_hash,
-			'isPartOf'         => array( '@id' => $context->canonical . $this->id_helper->webpage_hash ),
-			'author'           => array( '@id' => $this->id_helper->get_user_schema_id( $context->post->post_author, $context ) ),
+			'isPartOf'         => [ '@id' => $context->canonical . $this->id_helper->webpage_hash ],
+			'author'           => [ '@id' => $this->id_helper->get_user_schema_id( $context->post->post_author, $context ) ],
 			'headline'         => $context->title,
 			'datePublished'    => mysql2date( DATE_W3C, $context->post->post_date_gmt, false ),
 			'dateModified'     => mysql2date( DATE_W3C, $context->post->post_modified_gmt, false ),
 			'commentCount'     => $comment_count['approved'],
-			'mainEntityOfPage' => array( '@id' => $context->canonical . $this->id_helper->webpage_hash ),
-		);
+			'mainEntityOfPage' => [ '@id' => $context->canonical . $this->id_helper->webpage_hash ],
+		];
 
 		if ( $context->site_represents_reference ) {
 			$data['publisher'] = $context->site_represents_reference;
@@ -89,7 +91,8 @@ class Article extends Abstract_Schema_Piece {
 	/**
 	 * Adds tags as keywords, if tags are assigned.
 	 *
-	 * @param array $data Article data.
+	 * @param array             $data    Article data.
+	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return array $data Article data.
 	 */
@@ -107,7 +110,8 @@ class Article extends Abstract_Schema_Piece {
 	/**
 	 * Adds categories as sections, if categories are assigned.
 	 *
-	 * @param array $data Article data.
+	 * @param array             $data    Article data.
+	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return array $data Article data.
 	 */
@@ -135,7 +139,7 @@ class Article extends Abstract_Schema_Piece {
 	private function add_terms( $data, $key, $taxonomy, Meta_Tags_Context $context ) {
 		$terms = \get_the_terms( $context->id, $taxonomy );
 		if ( \is_array( $terms ) ) {
-			$keywords = array();
+			$keywords = [];
 			foreach ( $terms as $term ) {
 				// We are checking against the WordPress internal translation.
 				// @codingStandardsIgnoreLine
@@ -159,9 +163,9 @@ class Article extends Abstract_Schema_Piece {
 	 */
 	private function add_image( $data, Meta_Tags_Context $context ) {
 		if ( $context->has_image ) {
-			$data['image'] = array(
+			$data['image'] = [
 				'@id' => $context->canonical . $this->id_helper->primary_image_hash,
-			);
+			];
 		}
 
 		return $data;

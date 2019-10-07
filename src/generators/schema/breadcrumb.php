@@ -25,7 +25,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	/**
 	 * Breadcrumb constructor.
 	 *
-	 * @param Current_Page_Helper $current_page_helper
+	 * @param Current_Page_Helper $current_page_helper The current page helper.
 	 */
 	public function __construct( Current_Page_Helper $current_page_helper ) {
 		$this->current_page_helper = $current_page_helper;
@@ -85,11 +85,11 @@ class Breadcrumb extends Abstract_Schema_Piece {
 			$list_elements[] = $this->add_paginated_state( $index, $context );
 		}
 
-		$data = array(
+		$data = [
 			'@type'           => 'BreadcrumbList',
 			'@id'             => $context->canonical . $this->id_helper->breadcrumb_hash,
 			'itemListElement' => $list_elements,
-		);
+		];
 
 		// Only output if JSON is correctly formatted.
 		if ( ! $broken ) {
@@ -140,7 +140,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	private function add_paginated_state( $index, Meta_Tags_Context $context ) {
 		return $this->add_breadcrumb(
 			( $index + 1 ),
-			[ 'url'  => $context->canonical, 'text' => $context->title ],
+			[ 'url' => $context->canonical, 'text' => $context->title ],
 			$context
 		);
 	}

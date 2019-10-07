@@ -25,7 +25,7 @@ class Website extends Abstract_Schema_Piece {
 	/**
 	 * Website constructor.
 	 *
-	 * @param Options_Helper $options_helper
+	 * @param Options_Helper $options_helper The options helper.
 	 */
 	public function __construct( Options_Helper $options_helper ) {
 		$this->options_helper = $options_helper;
@@ -51,15 +51,14 @@ class Website extends Abstract_Schema_Piece {
 	 * @since 1.5.7
 	 *
 	 * @link  https://developers.google.com/structured-data/site-name
-	 *
 	 */
 	public function generate( Meta_Tags_Context $context ) {
-		$data = array(
+		$data = [
 			'@type'     => 'WebSite',
 			'@id'       => $context->site_url . $this->id_helper->website_hash,
 			'url'       => $context->site_url,
 			'name'      => $context->site_name,
-		);
+		];
 
 		if ( $context->site_represents_reference ) {
 			$data['publisher'] = $context->site_represents_reference;

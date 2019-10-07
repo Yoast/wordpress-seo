@@ -32,7 +32,7 @@ class HowTo extends Abstract_Schema_Piece {
 	 * @return bool
 	 */
 	public function is_needed( Meta_Tags_Context $context ) {
-		return ! empty( $context->blocks[ 'yoast/how-to-block' ] );
+		return ! empty( $context->blocks['yoast/how-to-block'] );
 	}
 
 	/**
@@ -45,12 +45,12 @@ class HowTo extends Abstract_Schema_Piece {
 	public function generate( Meta_Tags_Context $context ) {
 		$graph = [];
 
-		foreach ( $context->blocks[ 'yoast/how-to-block' ] as $index => $block ) {
+		foreach ( $context->blocks['yoast/how-to-block'] as $index => $block ) {
 			$data = [
 				'@type'            => 'HowTo',
 				'@id'              => $context->canonical . '#howto-' . $index,
 				'name'             => $context->title,
-				'mainEntityOfPage' => array( '@id' => $context->main_schema_id ),
+				'mainEntityOfPage' => [ '@id' => $context->main_schema_id ],
 				'description'      => '',
 			];
 
@@ -97,10 +97,10 @@ class HowTo extends Abstract_Schema_Piece {
 	private function add_steps( &$data, $steps, Meta_Tags_Context $context ) {
 		foreach ( $steps as $step ) {
 			$schema_id   = $context->canonical . '#' . $step['id'];
-			$schema_step = array(
+			$schema_step = [
 				'@type' => 'HowToStep',
 				'url'   => $schema_id,
-			);
+			];
 
 			$json_text = \strip_tags( $step['jsonText'], $this->allowed_json_text_tags );
 			$json_name = \strip_tags( $step['jsonName'] );
@@ -151,12 +151,12 @@ class HowTo extends Abstract_Schema_Piece {
 			return;
 		}
 
-		$schema_step['itemListElement'] = array();
-
-		$schema_step['itemListElement'][] = array(
-			'@type' => 'HowToDirection',
-			'text'  => $json_text,
-		);
+		$schema_step['itemListElement'] = [
+			[
+				'@type' => 'HowToDirection',
+				'text'  => $json_text,
+			],
+		];
 	}
 
 	/**

@@ -9,12 +9,17 @@ namespace Yoast\WP\Free\Helpers;
 
 use WP_Block_Parser_Block;
 
+/**
+ * Class Blocks_Helper
+ */
 class Blocks_Helper {
 
 	/**
-	 * @param $post_id
+	 * Returns all blocks in a given post.
 	 *
-	 * @return array
+	 * @param int $post_id The post id.
+	 *
+	 * @return array The blocks in a block-type => WP_Block_Parser_Block[] format.
 	 */
 	public function get_all_blocks_from_post( $post_id ) {
 		if ( ! \function_exists( 'parse_blocks' ) ) {
@@ -26,9 +31,11 @@ class Blocks_Helper {
 	}
 
 	/**
-	 * @param $content
+	 * Returns all blocks in a given content.
 	 *
-	 * @return array
+	 * @param string $content The content.
+	 *
+	 * @return array The blocks in a block-type => WP_Block_Parser_Block[] format.
 	 */
 	public function get_all_blocks_from_content( $content ) {
 		if ( ! \function_exists( 'parse_blocks' ) ) {
@@ -41,17 +48,21 @@ class Blocks_Helper {
 	}
 
 	/**
-	 * @param WP_Block_Parser_Block[] $blocks
-	 * @param $collection
+	 * Collects an array of blocks into an organised collection.
+	 *
+	 * @param WP_Block_Parser_Block[] $blocks     The blocks.
+	 * @param array                   $collection The collection.
+	 *
+	 * @return array The blocks in a block-type => WP_Block_Parser_Block[] format.
 	 */
 	private function collect_blocks( $blocks, $collection ) {
 		foreach ( $blocks as $block ) {
 			if ( ! isset( $collection[ $block['blockName'] ] ) || ! \is_array( $collection[ $block['blockName'] ] ) ) {
-				$collection[ $block['blockName'] ] = array();
+				$collection[ $block['blockName'] ] = [];
 			}
 			$collection[ $block['blockName'] ][] = $block;
 
-			if ( $block->innerBlocks ) {
+			if ( $block['innerBlocks'] ) {
 				$collection = $this->collect_blocks( $blocks, $collection );
 			}
 		}

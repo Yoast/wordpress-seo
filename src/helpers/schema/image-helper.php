@@ -111,10 +111,10 @@ class Image_Helper {
 	 * @return array an empty ImageObject
 	 */
 	private function generate_object( $schema_id ) {
-		return array(
+		return [
 			'@type' => 'ImageObject',
 			'@id'   => $schema_id,
-		);
+		];
 	}
 
 	/**

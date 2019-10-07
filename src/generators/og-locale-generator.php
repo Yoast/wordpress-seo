@@ -9,7 +9,18 @@ namespace Yoast\WP\Free\Presentations\Generators;
 
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 
+/**
+ * Class OG_Locale_Generator
+ */
 class OG_Locale_Generator implements Generator_Interface {
+
+	/**
+	 * Generates the OG Locale.
+	 *
+	 * @param Meta_Tags_Context $context The context.
+	 *
+	 * @return string The OG locale.
+	 */
 	public function generate( Meta_Tags_Context $context ) {
 		/**
 		 * Filter: 'wpseo_locale' - Allow changing the locale output.
@@ -21,7 +32,7 @@ class OG_Locale_Generator implements Generator_Interface {
 		$locale = \apply_filters( 'wpseo_locale', \get_locale() );
 
 		// Catch some weird locales served out by WP that are not easily doubled up.
-		$fix_locales = array(
+		$fix_locales = [
 			'ca' => 'ca_ES',
 			'en' => 'en_US',
 			'el' => 'el_GR',
@@ -31,7 +42,7 @@ class OG_Locale_Generator implements Generator_Interface {
 			'uk' => 'uk_UA',
 			'vi' => 'vi_VN',
 			'zh' => 'zh_CN',
-		);
+		];
 
 		if ( isset( $fix_locales[ $locale ] ) ) {
 			$locale = $fix_locales[ $locale ];
@@ -43,7 +54,7 @@ class OG_Locale_Generator implements Generator_Interface {
 		}
 
 		// These are the locales FB supports.
-		$fb_valid_fb_locales = array(
+		$fb_valid_fb_locales = [
 			'af_ZA', // Afrikaans.
 			'ak_GH', // Akan.
 			'am_ET', // Amharic.
@@ -198,7 +209,7 @@ class OG_Locale_Generator implements Generator_Interface {
 			'zh_TW', // Traditional Chinese (Taiwan).
 			'zu_ZA', // Zulu.
 			'zz_TR', // Zazaki.
-		);
+		];
 
 		// Check to see if the locale is a valid FB one, if not, use en_US as a fallback.
 		if ( ! in_array( $locale, $fb_valid_fb_locales, true ) ) {

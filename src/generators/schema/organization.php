@@ -30,8 +30,8 @@ class Organization extends Abstract_Schema_Piece {
 	/**
 	 * Organization constructor.
 	 *
-	 * @param Image_Helper   $image_helper
-	 * @param Options_Helper $options_helper
+	 * @param Image_Helper   $image_helper   The image helper.
+	 * @param Options_Helper $options_helper The options helper.
 	 */
 	public function __construct(
 		Image_Helper $image_helper,
@@ -84,8 +84,8 @@ class Organization extends Abstract_Schema_Piece {
 	 * @return array $profiles An array of social profiles.
 	 */
 	private function fetch_social_profiles() {
-		$profiles        = array();
-		$social_profiles = array(
+		$profiles        = [];
+		$social_profiles = [
 			'facebook_site',
 			'instagram_url',
 			'linkedin_url',
@@ -93,7 +93,7 @@ class Organization extends Abstract_Schema_Piece {
 			'youtube_url',
 			'pinterest_url',
 			'wikipedia_url',
-		);
+		];
 		foreach ( $social_profiles as $profile ) {
 			if ( $this->options_helper->get( $profile, '' ) !== '' ) {
 				$profiles[] = $this->options_helper->get( $profile );

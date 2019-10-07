@@ -25,7 +25,7 @@ class FAQ extends Abstract_Schema_Piece {
 	/**
 	 * Article constructor.
 	 *
-	 * @param Article_Helper $article_helper
+	 * @param Article_Helper $article_helper The article helper.
 	 */
 	public function __construct( Article_Helper $article_helper ) {
 		$this->article_helper = $article_helper;
@@ -34,10 +34,12 @@ class FAQ extends Abstract_Schema_Piece {
 	/**
 	 * Determines whether or not a piece should be added to the graph.
 	 *
+	 * @param Meta_Tags_Context $context The meta tags context.
+	 *
 	 * @return bool
 	 */
 	public function is_needed( Meta_Tags_Context $context ) {
-		$needed = empty( $context->blocks[ 'yoast/faq-block' ] );
+		$needed = empty( $context->blocks['yoast/faq-block'] );
 
 		if ( $needed ) {
 			if ( ! \is_array( $context->schema_page_type ) ) {
@@ -59,7 +61,7 @@ class FAQ extends Abstract_Schema_Piece {
 	public function generate( Meta_Tags_Context $context ) {
 		$ids   = [];
 		$graph = [];
-		foreach ( $context->blocks[ 'yoast/faq-block' ][ 'attrs' ][ 'questions' ] as $index => $question ) {
+		foreach ( $context->blocks['yoast/faq-block']['attrs']['questions'] as $index => $question ) {
 			if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
 				continue;
 			}
@@ -72,7 +74,7 @@ class FAQ extends Abstract_Schema_Piece {
 			[
 				'@type'            => 'ItemList',
 				'mainEntityOfPage' => [ '@id' => $context->main_schema_id ],
-				'numberOfItems'    => count( $context->blocks[ 'yoast/faq-block' ][ 'attrs' ][ 'questions' ] ),
+				'numberOfItems'    => count( $context->blocks['yoast/faq-block']['attrs']['questions'] ),
 				'itemListElement'  => $ids,
 			]
 		);

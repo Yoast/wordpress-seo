@@ -131,8 +131,6 @@ class Front_End_Integration implements Integration_Interface {
 		'Debug\Marker_Close',
 	];
 
-	private $time;
-
 	/**
 	 * Front_End_Integration constructor.
 	 *
@@ -222,6 +220,7 @@ class Front_End_Integration implements Integration_Interface {
 	 *
 	 * @param Indexable         $indexable The indexable to get a presentation of.
 	 * @param Meta_Tags_Context $context   The current meta tags context.
+	 * @param string            $page_type The page type.
 	 *
 	 * @return Indexable_Presentation The indexable presentation.
 	 */
@@ -238,6 +237,8 @@ class Front_End_Integration implements Integration_Interface {
 
 	/**
 	 * Returns all presenters for this page.
+	 *
+	 * @param string $page_type The page type.
 	 *
 	 * @return Abstract_Indexable_Presenter[] The presenters.
 	 */

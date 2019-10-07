@@ -33,7 +33,9 @@ class Author extends Person {
 	/**
 	 * Author constructor.
 	 *
-	 * @param Article_Helper $article_helper
+	 * @param Article_Helper      $article_helper      The article helper.
+	 * @param Image_Helper        $image_helper        The image helper.
+	 * @param Schema\Image_Helper $schema_image_helper The schema image helper.
 	 */
 	public function __construct(
 		Article_Helper $article_helper,
@@ -73,6 +75,8 @@ class Author extends Person {
 	/**
 	 * Returns Person Schema data.
 	 *
+	 * @param Meta_Tags_Context $context The meta tags context.
+	 *
 	 * @return bool|array Person data on success, false on failure.
 	 */
 	public function generate( Meta_Tags_Context $context ) {
@@ -85,9 +89,9 @@ class Author extends Person {
 
 		// If this is an author page, the Person object is the main object, so we set it as such here.
 		if ( $context->indexable->object_type === 'author' ) {
-			$data['mainEntityOfPage'] = array(
+			$data['mainEntityOfPage'] = [
 				'@id' => $context->canonical . $this->id_helper->webpage_hash,
-			);
+			];
 		}
 
 		return $data;

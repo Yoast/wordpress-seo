@@ -22,9 +22,9 @@ class Schema_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The meta description tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$deprecated_data = array(
+		$deprecated_data = [
 			'_deprecated' => 'Please use the "wpseo_schema_*" filters to extend the Yoast SEO schema data - see the WPSEO_Schema class.',
-		);
+		];
 
 		/**
 		 * Filter: 'wpseo_json_ld_output' - Allows disabling Yoast's schema output entirely.
@@ -32,14 +32,14 @@ class Schema_Presenter extends Abstract_Indexable_Presenter {
 		 * @api mixed If false or an empty array is returned, disable our output.
 		 */
 		$return = apply_filters( 'wpseo_json_ld_output', $deprecated_data, '' );
-		if ( $return === array() || $return === false ) {
+		if ( $return === [] || $return === false ) {
 			return '';
 		}
 
 		/**
 		 * Action: 'wpseo_json_ld' - Output Schema before the main schema from Yoast SEO is put out.
 		 */
-		//do_action( 'wpseo_json_ld' );
+		do_action( 'wpseo_json_ld' );
 
 		if ( is_array( $presentation->schema ) ) {
 			$output = \WPSEO_Utils::format_json_encode( $presentation->schema );

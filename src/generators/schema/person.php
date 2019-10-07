@@ -55,8 +55,8 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Main_Image constructor.
 	 *
-	 * @param Image_Helper        $image_helper
-	 * @param Schema\Image_Helper $schema_image_helper
+	 * @param Image_Helper        $image_helper        The image helper.
+	 * @param Schema\Image_Helper $schema_image_helper The schema image helper.
 	 */
 	public function __construct(
 		Image_Helper $image_helper,
@@ -97,6 +97,8 @@ class Person extends Abstract_Schema_Piece {
 
 	/**
 	 * Determines a User ID for the Person data.
+	 *
+	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return bool|int User ID or false upon return.
 	 */
@@ -140,7 +142,8 @@ class Person extends Abstract_Schema_Piece {
 	/**
 	 * Builds our array of Schema Person data for a given user ID.
 	 *
-	 * @param int $user_id The user ID to use.
+	 * @param int               $user_id The user ID to use.
+	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return array An array of Schema Person data.
 	 */
@@ -183,7 +186,7 @@ class Person extends Abstract_Schema_Piece {
 			$data = $this->set_image_from_avatar( $data, $user_data, $schema_id );
 		}
 
-		if ( \is_array( $this->type ) && \in_array( 'Organization', $this->type ) ) {
+		if ( \is_array( $this->type ) && \in_array( 'Organization', $this->type, true ) ) {
 			$data['logo'] = [ '@id' => $schema_id ];
 		}
 

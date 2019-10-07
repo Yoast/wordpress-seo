@@ -71,16 +71,4 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 
 		return (string) $this->get_default_og_image();
 	}
-
-	/**
-	 * This should fall back to default behaviour, because it should use the home page indexable.
-	 * The "Static page" fallback to a post-type page is already handled in
-	 * front-end-integration.php.
-	 *
-	 * @codeCoverageIgnore
-	 * @inheritDoc
-	 */
-	public function generate_robots() {
-		return parent::generate_robots();
-	}
 }
