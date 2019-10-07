@@ -144,7 +144,6 @@ class Image_Helper {
 
 		return \reset( $images );
 	}
-
 	/**
 	 * Gets the image url from the content.
 	 *
@@ -177,7 +176,7 @@ class Image_Helper {
 	}
 
 	/**
-	 * Retrieves the attachment variations for given attachments.*
+	 * Retrieves the attachment variations for given attachments.
 	 *
 	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
@@ -198,6 +197,19 @@ class Image_Helper {
 
 		// The variations are ordered so the first variations is by definition the best one.
 		return \reset( $variations );
+	}
+
+	/**
+	 * Find an attachment ID for a given URL.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 *
+	 * @param string $url The URL to find the attachment for.
+	 *
+	 * @return int The found attachment ID, or 0 if none was found.
+	 */
+	public function get_attachment_by_url( $url ) {
+		return WPSEO_Image_Utils::get_attachment_by_url( $url );
 	}
 
 	/**
