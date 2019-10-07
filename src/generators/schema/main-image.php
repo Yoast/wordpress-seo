@@ -105,7 +105,7 @@ class Main_Image extends Abstract_Schema_Piece {
 	 * @return array|null The image schema object or null if there is no image in the content.
 	 */
 	private function get_first_content_image( $post_id, $image_id ) {
-		$image_url = $this->image_helper->get_first_usable_content_image_for_post( $post_id );
+		$image_url = $this->image_helper->get_post_content_image( $post_id );
 
 		if ( $image_url === null ) {
 			return null;

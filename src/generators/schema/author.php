@@ -63,10 +63,7 @@ class Author extends Person {
 			$this->article_helper->is_article_post_type( $context->indexable->object_sub_type )
 		) {
 			// If the author is the user the site represents, no need for an extra author block.
-			if ( (int) $context->post->post_author === $context->site_user_id ) {
-				return false;
-			}
-			return true;
+			return (int) $context->post->post_author !== $context->site_user_id;
 		}
 
 		return false;
@@ -105,13 +102,9 @@ class Author extends Person {
 	 * @return bool|int User ID or false upon return.
 	 */
 	protected function determine_user_id( Meta_Tags_Context $context ) {
-		switch ( true ) {
-			case $context->indexable->object_type === 'author':
-				$user_id = $context->indexable->object_id;
-				break;
-			default:
-				$user_id = (int) $context->post->post_author;
-				break;
+		$user_id = (int) $context->post->post_author;
+		if ( $context->indexable->object_type === 'author' ) {
+			$user_id = $context->indexable->object_id;
 		}
 
 		/**

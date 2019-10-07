@@ -12,8 +12,6 @@ use Yoast\WP\Free\Helpers\Article_Helper;
 
 /**
  * Returns schema Article data.
- *
- * @since 10.2
  */
 class Article extends Abstract_Schema_Piece {
 
@@ -137,17 +135,22 @@ class Article extends Abstract_Schema_Piece {
 	 */
 	private function add_terms( $data, $key, $taxonomy, Meta_Tags_Context $context ) {
 		$terms = \get_the_terms( $context->id, $taxonomy );
-		if ( \is_array( $terms ) ) {
-			$keywords = [];
-			foreach ( $terms as $term ) {
-				// We are checking against the WordPress internal translation.
-				// @codingStandardsIgnoreLine
-				if ( $term->name !== __( 'Uncategorized' ) ) {
-					$keywords[] = $term->name;
-				}
-			}
-			$data[ $key ] = implode( ',', $keywords );
+
+		if ( ! \is_array( $terms ) ) {
+			return $data;
 		}
+
+		$terms = array_filter( $terms, function( $term ) {
+			// We are checking against the WordPress internal translation.
+			// @codingStandardsIgnoreLine
+			return $term->name !== __( 'Uncategorized' );
+		} );
+
+		if ( empty( $terms ) ) {
+			return $data;
+		}
+
+		$data[ $key ] = implode( ',', wp_list_pluck( $terms, 'name' ) );
 
 		return $data;
 	}

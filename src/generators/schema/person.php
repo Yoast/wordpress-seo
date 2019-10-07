@@ -90,9 +90,7 @@ class Person extends Abstract_Schema_Piece {
 			return false;
 		}
 
-		$data = $this->build_person_data( $user_id, $context );
-
-		return $data;
+		return $this->build_person_data( $user_id, $context );
 	}
 
 	/**

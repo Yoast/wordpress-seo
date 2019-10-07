@@ -94,7 +94,7 @@ class ID_Helper {
 	public function get_user_schema_id( $user_id, $context ) {
 		$user = get_userdata( $user_id );
 
-		return $context->site_url . self::PERSON_HASH . wp_hash( $user->user_login . $user_id );
+		return $context->site_url . $this->person_hash . wp_hash( $user->user_login . $user_id );
 	}
 
 	/**
@@ -109,8 +109,8 @@ class ID_Helper {
 	public function __get( $name ) {
 		$name = strtoupper( $name );
 
-		if ( \defined( 'self::' . $name ) ) {
-			return \constant( 'self::' . $name );
+		if ( \defined( 'static::' . $name ) ) {
+			return \constant( 'static::' . $name );
 		}
 		throw new Exception( "Property $name does not exist." );
 	}

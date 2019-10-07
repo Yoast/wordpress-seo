@@ -81,22 +81,20 @@ class Breadcrumb extends Abstract_Schema_Piece {
 			$list_elements[] = $this->add_breadcrumb( $index, $breadcrumb, $context );
 		}
 
+		// Only output if JSON is correctly formatted.
+		if ( $broken ) {
+			return false;
+		}
+
 		if ( \is_paged() ) {
 			$list_elements[] = $this->add_paginated_state( $index, $context );
 		}
 
-		$data = [
+		return [
 			'@type'           => 'BreadcrumbList',
 			'@id'             => $context->canonical . $this->id_helper->breadcrumb_hash,
 			'itemListElement' => $list_elements,
 		];
-
-		// Only output if JSON is correctly formatted.
-		if ( ! $broken ) {
-			return $data;
-		}
-
-		return false;
 	}
 
 	/**

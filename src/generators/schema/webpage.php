@@ -10,6 +10,7 @@ namespace Yoast\WP\Free\Presentations\Generators\Schema;
 use WP_Post;
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
+use Yoast\WP\Free\Helpers\Schema\HTML_Helper;
 
 /**
  * Returns schema WebPage data.
@@ -24,12 +25,22 @@ class WebPage extends Abstract_Schema_Piece {
 	private $current_page_helper;
 
 	/**
+	 * @var HTML_Helper
+	 */
+	private $html_helper;
+
+	/**
 	 * WebPage constructor.
 	 *
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
+	 * @param HTML_Helper         $html_helper         The HTML helper.
 	 */
-	public function __construct( Current_Page_Helper $current_page_helper ) {
+	public function __construct(
+		Current_Page_Helper $current_page_helper,
+		HTML_Helper $html_helper
+	) {
 		$this->current_page_helper = $current_page_helper;
+		$this->html_helper         = $html_helper;
 	}
 
 	/**
@@ -80,7 +91,7 @@ class WebPage extends Abstract_Schema_Piece {
 		}
 
 		if ( ! empty( $context->description ) ) {
-			$data['description'] = \strip_tags( $context->description, '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' );
+			$data['description'] = $this->html_helper->sanitize( $context->description );
 		}
 
 		if ( $this->add_breadcrumbs( $context ) ) {

@@ -219,7 +219,7 @@ class Image_Helper {
 	 *
 	 * @return string|null
 	 */
-	public function get_first_usable_content_image_for_post( $post_id ) {
+	protected function get_first_usable_content_image_for_post( $post_id ) {
 		return WPSEO_Image_Utils::get_first_usable_content_image_for_post( $post_id );
 	}
 }

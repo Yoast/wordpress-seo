@@ -102,20 +102,22 @@ class Website extends Abstract_Schema_Piece {
 		 *
 		 * @api bool $display_search Whether or not to display json+ld search on the frontend.
 		 */
-		if ( ! \apply_filters( 'disable_wpseo_json_ld_search', false ) ) {
-			/**
-			 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for Yoast SEO.
-			 *
-			 * @api string $search_url The search URL for this site with a `{search_term_string}` variable.
-			 */
-			$search_url = \apply_filters( 'wpseo_json_ld_search_url', $context->site_url . '?s={search_term_string}' );
-
-			$data['potentialAction'] = [
-				'@type'       => 'SearchAction',
-				'target'      => $search_url,
-				'query-input' => 'required name=search_term_string',
-			];
+		if ( \apply_filters( 'disable_wpseo_json_ld_search', false ) ) {
+			return $data;
 		}
+
+		/**
+		 * Filter: 'wpseo_json_ld_search_url' - Allows filtering of the search URL for Yoast SEO.
+		 *
+		 * @api string $search_url The search URL for this site with a `{search_term_string}` variable.
+		 */
+		$search_url = \apply_filters( 'wpseo_json_ld_search_url', $context->site_url . '?s={search_term_string}' );
+
+		$data['potentialAction'] = [
+			'@type'       => 'SearchAction',
+			'target'      => $search_url,
+			'query-input' => 'required name=search_term_string',
+		];
 
 		return $data;
 	}

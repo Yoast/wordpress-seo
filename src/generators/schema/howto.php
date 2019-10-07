@@ -8,6 +8,7 @@
 namespace Yoast\WP\Free\Presentations\Generators\Schema;
 
 use Yoast\WP\Free\Context\Meta_Tags_Context;
+use Yoast\WP\Free\Helpers\Schema\HTML_Helper;
 use Yoast\WP\Free\Helpers\Schema\Image_Helper;
 
 /**
@@ -18,11 +19,28 @@ use Yoast\WP\Free\Helpers\Schema\Image_Helper;
 class HowTo extends Abstract_Schema_Piece {
 
 	/**
-	 * Holds the allowed HTML tags for the jsonText.
-	 *
-	 * @var string
+	 * @var HTML_Helper
 	 */
-	private $allowed_json_text_tags = '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>';
+	private $html_helper;
+
+	/**
+	 * @var Image_Helper
+	 */
+	private $image_helper;
+
+	/**
+	 * HowTo constructor.
+	 *
+	 * @param HTML_Helper  $html_helper  The HTML helper.
+	 * @param Image_Helper $image_helper The schema image helper.
+	 */
+	public function __construct(
+		HTML_Helper $html_helper,
+		Image_Helper $image_helper
+	) {
+		$this->html_helper  = $html_helper;
+		$this->image_helper = $image_helper;
+	}
 
 	/**
 	 * Determines whether or not a piece should be added to the graph.
@@ -54,7 +72,7 @@ class HowTo extends Abstract_Schema_Piece {
 				'description'      => '',
 			];
 
-			$json_description = \strip_tags( $block['attrs']['jsonDescription'], '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' );
+			$json_description = $this->html_helper->sanitize( $block['attrs']['jsonDescription'] );
 
 			if ( isset( $json_description ) ) {
 				$data['description'] = $json_description;
@@ -76,14 +94,16 @@ class HowTo extends Abstract_Schema_Piece {
 	 * @param array $attributes The block data attributes.
 	 */
 	private function add_duration( &$data, $attributes ) {
-		if ( ! empty( $attributes['hasDuration'] ) && $attributes['hasDuration'] ) {
-			$days    = empty( $attributes['days'] ) ? 0 : $attributes['days'];
-			$hours   = empty( $attributes['hours'] ) ? 0 : $attributes['hours'];
-			$minutes = empty( $attributes['minutes'] ) ? 0 : $attributes['minutes'];
+		if ( empty( $attributes['hasDuration'] ) && $attributes['hasDuration'] ) {
+			return;
+		}
 
-			if ( ( $days + $hours + $minutes ) > 0 ) {
-				$data['totalTime'] = 'P' . $days . 'DT' . $hours . 'H' . $minutes . 'M';
-			}
+		$days    = empty( $attributes['days'] ) ? 0 : $attributes['days'];
+		$hours   = empty( $attributes['hours'] ) ? 0 : $attributes['hours'];
+		$minutes = empty( $attributes['minutes'] ) ? 0 : $attributes['minutes'];
+
+		if ( ( $days + $hours + $minutes ) > 0 ) {
+			$data['totalTime'] = 'P' . $days . 'DT' . $hours . 'H' . $minutes . 'M';
 		}
 	}
 
@@ -102,7 +122,7 @@ class HowTo extends Abstract_Schema_Piece {
 				'url'   => $schema_id,
 			];
 
-			$json_text = \strip_tags( $step['jsonText'], $this->allowed_json_text_tags );
+			$json_text = $this->html_helper->sanitize( $step['jsonText'] );
 			$json_name = \strip_tags( $step['jsonName'] );
 
 			if ( empty( $json_name ) ) {
@@ -145,7 +165,7 @@ class HowTo extends Abstract_Schema_Piece {
 	 * @param array $step        The step block data.
 	 */
 	private function add_step_description( &$schema_step, $step ) {
-		$json_text = \strip_tags( $step['jsonText'], $this->allowed_json_text_tags );
+		$json_text = $this->html_helper->sanitize( $step['jsonText'] );
 
 		if ( empty( $json_text ) ) {
 			return;
@@ -187,6 +207,6 @@ class HowTo extends Abstract_Schema_Piece {
 	protected function get_image_schema( $url, Meta_Tags_Context $context ) {
 		$schema_id = $context->canonical . '#schema-image-' . \md5( $url );
 
-		return Image_Helper::generate_from_url( $schema_id, $url );
+		return $this->image_helper->generate_from_url( $schema_id, $url );
 	}
 }

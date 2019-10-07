@@ -9,6 +9,7 @@ namespace Yoast\WP\Free\Presentations\Generators\Schema;
 
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Helpers\Article_Helper;
+use Yoast\WP\Free\Helpers\Schema\HTML_Helper;
 
 /**
  * Returns schema FAQ data.
@@ -23,12 +24,22 @@ class FAQ extends Abstract_Schema_Piece {
 	private $article_helper;
 
 	/**
+	 * @var HTML_Helper
+	 */
+	private $html_helper;
+
+	/**
 	 * Article constructor.
 	 *
 	 * @param Article_Helper $article_helper The article helper.
+	 * @param HTML_Helper    $html_helper    The HTML helper.
 	 */
-	public function __construct( Article_Helper $article_helper ) {
+	public function __construct(
+		Article_Helper $article_helper,
+		HTML_Helper $html_helper
+	) {
 		$this->article_helper = $article_helper;
+		$this->html_helper    = $html_helper;
 	}
 
 	/**
@@ -39,16 +50,16 @@ class FAQ extends Abstract_Schema_Piece {
 	 * @return bool
 	 */
 	public function is_needed( Meta_Tags_Context $context ) {
-		$needed = empty( $context->blocks['yoast/faq-block'] );
-
-		if ( $needed ) {
-			if ( ! \is_array( $context->schema_page_type ) ) {
-				$context->schema_page_type = [ $context->schema_page_type ];
-			}
-			$context->schema_page_type[] = 'FAQPage';
+		if ( empty( $context->blocks['yoast/faq-block'] ) ) {
+			return false;
 		}
 
-		return $needed;
+		if ( ! \is_array( $context->schema_page_type ) ) {
+			$context->schema_page_type = [ $context->schema_page_type ];
+		}
+		$context->schema_page_type[] = 'FAQPage';
+
+		return true;
 	}
 
 	/**
@@ -97,11 +108,11 @@ class FAQ extends Abstract_Schema_Piece {
 			'@id'            => $context->canonical . '#' . $question['id'],
 			'position'       => $position,
 			'url'            => $context->canonical . '#' . $question['id'],
-			'name'           => strip_tags( $question['jsonQuestion'] ),
+			'name'           => \strip_tags( $question['jsonQuestion'] ),
 			'answerCount'    => 1,
 			'acceptedAnswer' => [
 				'@type' => 'Answer',
-				'text'  => strip_tags( $question['jsonAnswer'], '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' ),
+				'text'  => $this->html_helper->sanitize( $question['jsonAnswer'] ),
 			],
 		];
 	}

@@ -150,22 +150,23 @@ class Article_Test extends TestCase {
 			->once()
 			->with( 'post_tag' )
 			->andReturn( 'post_tag' );
-		Monkey\Functions\expect( 'get_the_terms' )->once()->with( 5, 'post_tag' )->andReturn(
-			[
-				(object) [ 'name' => 'Tag1' ],
-				(object) [ 'name' => 'Tag2' ],
-				(object) [ 'name' => 'Uncategorized' ],
-			]
-		);
+
+		$terms = [
+			(object) [ 'name' => 'Tag1' ],
+			(object) [ 'name' => 'Tag2' ],
+			(object) [ 'name' => 'Uncategorized' ],
+		];
+		Monkey\Functions\expect( 'get_the_terms' )->once()->with( 5, 'post_tag' )->andReturn( $terms );
+		Monkey\Functions\expect( 'wp_list_pluck' )->once()->with( array_slice( $terms, 0, 2 ), 'name' )->andReturn( [ 'Tag1', 'Tag2' ] );
+
 		Monkey\Filters\expectApplied( 'wpseo_schema_article_sections_taxonomy' )
 			->once()
 			->with( 'category' )
 			->andReturn( 'category' );
-		Monkey\Functions\expect( 'get_the_terms' )->with( 5, 'category' )->andReturn(
-			[
-				(object) [ 'name' => 'Category1' ],
-			]
-		);
+
+		$categories = [ (object) [ 'name' => 'Category1' ] ];
+		Monkey\Functions\expect( 'get_the_terms' )->with( 5, 'category' )->andReturn( $categories );
+		Monkey\Functions\expect( 'wp_list_pluck' )->once()->with( $categories, 'name' )->andReturn( [ 'Category1' ] );
 
 		$this->assertEquals(
 			[
