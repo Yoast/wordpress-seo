@@ -1,15 +1,21 @@
 <?php
+/**
+ * Generator object for the Open Graph image.
+ *
+ * @package Yoast\YoastSEO\Generators
+ */
 
 namespace Yoast\WP\Free\Generators;
 
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Values\Open_Graph\Images;
 
+/**
+ * Represents the generator class for the Open Graph images.
+ */
 class OG_Image_Generator {
 
 	/**
@@ -29,6 +35,8 @@ class OG_Image_Generator {
 
 	/**
 	 * Images constructor.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param Open_Graph_Image_Helper $open_graph_image_helper Image helper for OpenGraph.
 	 * @param Image_Helper            $image_helper            The image helper.
@@ -52,14 +60,7 @@ class OG_Image_Generator {
 	 * @return array The images.
 	 */
 	public function generate( Indexable $indexable ) {
-		if ( $this->options_helper->get( 'opengraph' ) !== true ) {
-			return [];
-		}
-
-		$image_container = new Images(
-			$this->open_graph_image_helper,
-			$this->image_helper
-		);
+		$image_container = $this->get_image_container();
 
 		/**
 		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the OpenGraph tags.
@@ -69,30 +70,7 @@ class OG_Image_Generator {
 		do_action( 'wpseo_add_opengraph_images', $image_container );
 
 		$this->add_from_indexable( $indexable, $image_container );
-
-		switch ( $indexable->object_type ) {
-			case 'post':
-				if ( $indexable->object_sub_type === 'attachment' ) {
-					if ( \wp_attachment_is_image( $indexable->object_id ) ) {
-						$image_container->add_image_by_id( $indexable->object_id );
-					}
-
-					break;
-				}
-
-				$featured_image_id = $this->image_helper->get_featured_image_id( $indexable->object_id );
-				if ( $featured_image_id ) {
-					$image_container->add_image_by_id( $featured_image_id );
-
-					break;
-				}
-
-				$content_image = $this->image_helper->get_post_content_image( $indexable->object_id );
-
-				$image_container->add_image_by_url( $content_image );
-
-				break;
-		}
+		$this->add_for_object_type( $indexable, $image_container );
 
 		/**
 		 * Filter: wpseo_add_opengraph_additional_images - Allows to add additional images to the OpenGraph tags.
@@ -124,20 +102,76 @@ class OG_Image_Generator {
 		}
 	}
 
+	/**
+	 * Adds the images for the indexable object type.
+	 *
+	 * @param Indexable $indexable       The indexable.
+	 * @param Images    $image_container The image container.
+	 */
+	protected function add_for_object_type( Indexable $indexable, Images $image_container ) {
+		if ( $image_container->has_images() ) {
+			return;
+		}
+
+		switch ( $indexable->object_type ) {
+			case 'post' :
+				if ( $indexable->object_sub_type === 'attachment' ) {
+					$this->add_for_attachment( $indexable->object_id, $image_container );
+
+					return;
+				}
+
+				$this->add_for_post_type( $indexable, $image_container );
+
+				break;
+		}
+	}
+
+	/**
+	 * Adds the image for an attachment.
+	 *
+	 * @param int    $attachment_id   The attachment id.
+	 * @param Images $image_container The image container.
+	 */
+	protected function add_for_attachment( $attachment_id, Images $image_container ) {
+		if ( ! \wp_attachment_is_image( $attachment_id ) ) {
+			return;
+		}
+
+		$image_container->add_image_by_id( $attachment_id );
+	}
+
+	/**
+	 * Adds the images for a post type.
+	 *
+	 * @param Indexable $indexable       The indexable.
+	 * @param Images    $image_container The image container.
+	 */
+	protected function add_for_post_type( Indexable $indexable, Images $image_container ) {
+		$featured_image_id = $this->image_helper->get_featured_image_id( $indexable->object_id );
+		if ( $featured_image_id ) {
+			$image_container->add_image_by_id( $featured_image_id );
+
+			return;
+		}
+
+		$content_image = $this->image_helper->get_post_content_image( $indexable->object_id );
+		if ( $content_image ) {
+			$image_container->add_image_by_url( $content_image );
+		}
+	}
 
 	/**
 	 * Retrieves the default OpenGraph image.
 	 *
 	 * @param Images $image_container The image container.
-	 *
-	 * @return mixed|string|void|null
 	 */
 	protected function add_from_default( Images $image_container ) {
 		if ( $image_container->has_images() ) {
 			return;
 		}
 
-		$default_image_id  = $this->options_helper->get( 'og_default_image_id', '' );
+		$default_image_id = $this->options_helper->get( 'og_default_image_id', '' );
 		if ( $default_image_id ) {
 			$image_container->add_image_by_id( $default_image_id );
 
@@ -148,6 +182,19 @@ class OG_Image_Generator {
 		if ( $default_image_url ) {
 			$image_container->add_image_by_url( $default_image_url );
 		}
+	}
 
+	/**
+	 * Retrieves an instance of the image container.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return Images The image container.
+	 */
+	protected function get_image_container() {
+		return new Images(
+			$this->open_graph_image_helper,
+			$this->image_helper
+		);
 	}
 }
