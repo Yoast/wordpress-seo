@@ -57,7 +57,9 @@ abstract class TestCase extends BaseTestCase {
 				'absint'              => function ( $value ) {
 					return \abs( \intval( $value ) );
 				},
-				'mysql2date'          => null,
+				'mysql2date'          => function ( $format, $date ) {
+					return $date;
+				},
 				'number_format_i18n'  => null,
 				'wp_parse_args'       => function ( $settings, $defaults ) {
 					return \array_merge( $defaults, $settings );

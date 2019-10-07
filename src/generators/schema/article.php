@@ -9,7 +9,6 @@ namespace Yoast\WP\Free\Presentations\Generators\Schema;
 
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Helpers\Article_Helper;
-use Yoast\WP\Free\Helpers\Schema_ID_Helper;
 
 /**
  * Returns schema Article data.
@@ -71,8 +70,8 @@ class Article extends Abstract_Schema_Piece {
 			'isPartOf'         => [ '@id' => $context->canonical . $this->id_helper->webpage_hash ],
 			'author'           => [ '@id' => $this->id_helper->get_user_schema_id( $context->post->post_author, $context ) ],
 			'headline'         => $context->title,
-			'datePublished'    => mysql2date( DATE_W3C, $context->post->post_date_gmt, false ),
-			'dateModified'     => mysql2date( DATE_W3C, $context->post->post_modified_gmt, false ),
+			'datePublished'    => \mysql2date( DATE_W3C, $context->post->post_date_gmt, false ),
+			'dateModified'     => \mysql2date( DATE_W3C, $context->post->post_modified_gmt, false ),
 			'commentCount'     => $comment_count['approved'],
 			'mainEntityOfPage' => [ '@id' => $context->canonical . $this->id_helper->webpage_hash ],
 		];
