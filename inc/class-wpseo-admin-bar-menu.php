@@ -158,15 +158,15 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	protected function add_root_menu( WP_Admin_Bar $wp_admin_bar ) {
 		$title = $this->get_title();
 
-		$score        	= '';
-		$focus_keyword	= '';
-		$settings_url 	= '';
-		$counter      	= '';
-		$alert_popup  	= '';
+		$score         = '';
+		$focus_keyword = '';
+		$settings_url  = '';
+		$counter       = '';
+		$alert_popup   = '';
 
 		$post = $this->get_singular_post();
 		if ( $post ) {
-			$score = $this->get_post_score( $post );
+			$score         = $this->get_post_score( $post );
 			$focus_keyword = $this->get_post_focus_keyword( $post );
 		}
 
@@ -195,12 +195,13 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$wp_admin_bar->add_menu( $admin_bar_menu_args );
 
 		if ( $post ) {
-			$focus_keyword_span = '<span class="ab-item wpseo-focus-keyphrase-ab-item">' . $focus_keyword . '</span>';
-
+			if ( empty( $focus_keyword ) ) {
+				$focus_keyword = '<em>not set</em>';
+			}
 			$admin_bar_menu_args = array(
 				'parent' => self::MENU_IDENTIFIER,
 				'id'     => 'wpseo-focus-keyphrase',
-				'title'  => sprintf( __( 'Focus keyphrase: %s', 'wordpress-seo' ) , $focus_keyword_span ),
+				'title'  => sprintf( __( 'Focus keyphrase: %s', 'wordpress-seo' ), '<span class="ab-item wpseo-focus-keyphrase-ab-item">' . $focus_keyword . '</span>' ),
 			);
 			$wp_admin_bar->add_menu( $admin_bar_menu_args );
 		}
@@ -257,19 +258,19 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 		$submenu_items = array(
 			array(
-				'id'     => 'wpseo-kwresearchtraining',
-				'title'  => __( 'Keyword research training', 'wordpress-seo' ),
-				'href'   => WPSEO_Shortlinker::get( 'https://yoa.st/wp-admin-bar' ),
+				'id'    => 'wpseo-kwresearchtraining',
+				'title' => __( 'Keyword research training', 'wordpress-seo' ),
+				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/wp-admin-bar' ),
 			),
 			array(
-				'id'     => 'wpseo-adwordsexternal',
-				'title'  => __( 'Google Ads', 'wordpress-seo' ),
-				'href'   => $adwords_url,
+				'id'    => 'wpseo-adwordsexternal',
+				'title' => __( 'Google Ads', 'wordpress-seo' ),
+				'href'  => $adwords_url,
 			),
 			array(
-				'id'     => 'wpseo-googleinsights',
-				'title'  => __( 'Google Trends', 'wordpress-seo' ),
-				'href'   => $trends_url,
+				'id'    => 'wpseo-googleinsights',
+				'title' => __( 'Google Trends', 'wordpress-seo' ),
+				'href'  => $trends_url,
 			),
 		);
 
@@ -316,60 +317,60 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$encoded_url   = urlencode( $url );
 		$submenu_items = array(
 			array(
-				'id'     => 'wpseo-inlinks',
-				'title'  => __( 'Check links to this URL', 'wordpress-seo' ),
-				'href'   => 'https://search.google.com/search-console/links/drilldown?resource_id=' . urlencode( get_option( 'siteurl' ) ) . '&type=EXTERNAL&target=' . $encoded_url . '&domain=',
+				'id'    => 'wpseo-inlinks',
+				'title' => __( 'Check links to this URL', 'wordpress-seo' ),
+				'href'  => 'https://search.google.com/search-console/links/drilldown?resource_id=' . urlencode( get_option( 'siteurl' ) ) . '&type=EXTERNAL&target=' . $encoded_url . '&domain=',
 			),
 			array(
-				'id'     => 'wpseo-kwdensity',
-				'title'  => __( 'Check Keyphrase Density', 'wordpress-seo' ),
+				'id'    => 'wpseo-kwdensity',
+				'title' => __( 'Check Keyphrase Density', 'wordpress-seo' ),
 				// HTTPS not available.
-				'href'   => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . $encoded_url . '&keyword=' . urlencode( $focus_keyword ),
+				'href'  => 'http://www.zippy.co.uk/keyworddensity/index.php?url=' . $encoded_url . '&keyword=' . urlencode( $focus_keyword ),
 			),
 			array(
-				'id'     => 'wpseo-cache',
-				'title'  => __( 'Check Google Cache', 'wordpress-seo' ),
-				'href'   => '//webcache.googleusercontent.com/search?strip=1&q=cache:' . $encoded_url,
+				'id'    => 'wpseo-cache',
+				'title' => __( 'Check Google Cache', 'wordpress-seo' ),
+				'href'  => '//webcache.googleusercontent.com/search?strip=1&q=cache:' . $encoded_url,
 			),
 			array(
-				'id'     => 'wpseo-header',
-				'title'  => __( 'Check Headers', 'wordpress-seo' ),
-				'href'   => '//quixapp.com/headers/?r=' . urlencode( $url ),
+				'id'    => 'wpseo-header',
+				'title' => __( 'Check Headers', 'wordpress-seo' ),
+				'href'  => '//quixapp.com/headers/?r=' . urlencode( $url ),
 			),
 			array(
-				'id'     => 'wpseo-structureddata',
-				'title'  => __( 'Google Structured Data Test', 'wordpress-seo' ),
-				'href'   => 'https://search.google.com/structured-data/testing-tool#url=' . $encoded_url,
+				'id'    => 'wpseo-structureddata',
+				'title' => __( 'Google Structured Data Test', 'wordpress-seo' ),
+				'href'  => 'https://search.google.com/structured-data/testing-tool#url=' . $encoded_url,
 			),
 			array(
-				'id'     => 'wpseo-facebookdebug',
-				'title'  => __( 'Facebook Debugger', 'wordpress-seo' ),
-				'href'   => '//developers.facebook.com/tools/debug/og/object?q=' . $encoded_url,
+				'id'    => 'wpseo-facebookdebug',
+				'title' => __( 'Facebook Debugger', 'wordpress-seo' ),
+				'href'  => '//developers.facebook.com/tools/debug/og/object?q=' . $encoded_url,
 			),
 			array(
-				'id'     => 'wpseo-pinterestvalidator',
-				'title'  => __( 'Pinterest Rich Pins Validator', 'wordpress-seo' ),
-				'href'   => 'https://developers.pinterest.com/tools/url-debugger/?link=' . $encoded_url,
+				'id'    => 'wpseo-pinterestvalidator',
+				'title' => __( 'Pinterest Rich Pins Validator', 'wordpress-seo' ),
+				'href'  => 'https://developers.pinterest.com/tools/url-debugger/?link=' . $encoded_url,
 			),
 			array(
-				'id'     => 'wpseo-htmlvalidation',
-				'title'  => __( 'HTML Validator', 'wordpress-seo' ),
-				'href'   => '//validator.w3.org/check?uri=' . $encoded_url,
+				'id'    => 'wpseo-htmlvalidation',
+				'title' => __( 'HTML Validator', 'wordpress-seo' ),
+				'href'  => '//validator.w3.org/check?uri=' . $encoded_url,
 			),
 			array(
-				'id'     => 'wpseo-cssvalidation',
-				'title'  => __( 'CSS Validator', 'wordpress-seo' ),
-				'href'   => '//jigsaw.w3.org/css-validator/validator?uri=' . $encoded_url,
+				'id'    => 'wpseo-cssvalidation',
+				'title' => __( 'CSS Validator', 'wordpress-seo' ),
+				'href'  => '//jigsaw.w3.org/css-validator/validator?uri=' . $encoded_url,
 			),
 			array(
-				'id'     => 'wpseo-pagespeed',
-				'title'  => __( 'Google Page Speed Test', 'wordpress-seo' ),
-				'href'   => '//developers.google.com/speed/pagespeed/insights/?url=' . $encoded_url,
+				'id'    => 'wpseo-pagespeed',
+				'title' => __( 'Google Page Speed Test', 'wordpress-seo' ),
+				'href'  => '//developers.google.com/speed/pagespeed/insights/?url=' . $encoded_url,
 			),
 			array(
-				'id'     => 'wpseo-google-mobile-friendly',
-				'title'  => __( 'Mobile-Friendly Test', 'wordpress-seo' ),
-				'href'   => 'https://www.google.com/webmasters/tools/mobile-friendly/?url=' . $encoded_url,
+				'id'    => 'wpseo-google-mobile-friendly',
+				'title' => __( 'Mobile-Friendly Test', 'wordpress-seo' ),
+				'href'  => 'https://www.google.com/webmasters/tools/mobile-friendly/?url=' . $encoded_url,
 			),
 		);
 
@@ -483,10 +484,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Gets the current post if in a singular post context.
 	 *
-	 * @global string       $pagenow Current page identifier.
+	 * @return WP_Post|null Post object, or null if not in singular context.
 	 * @global WP_Post|null $post    Current post object, or null if none available.
 	 *
-	 * @return WP_Post|null Post object, or null if not in singular context.
+	 * @global string       $pagenow Current page identifier.
 	 */
 	protected function get_singular_post() {
 		global $pagenow, $post;
@@ -559,11 +560,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Gets the current term if in a singular term context.
 	 *
-	 * @global string       $pagenow  Current page identifier.
+	 * @return WP_Term|null Term object, or null if not in singular context.
 	 * @global WP_Query     $wp_query Current query object.
 	 * @global WP_Term|null $tag      Current term object, or null if none available.
 	 *
-	 * @return WP_Term|null Term object, or null if not in singular context.
+	 * @global string       $pagenow  Current page identifier.
 	 */
 	protected function get_singular_term() {
 		global $pagenow, $wp_query, $tag;
