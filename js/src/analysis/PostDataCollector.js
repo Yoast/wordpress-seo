@@ -391,7 +391,7 @@ PostDataCollector.prototype.saveScores = function( score, keyword ) {
 	}
 
 	updateTrafficLight( indicator );
-	updateAdminBar( indicator );
+	updateAdminBar( indicator, keyword );
 
 	publishBox.updateScore( "keyword", indicator.className );
 
