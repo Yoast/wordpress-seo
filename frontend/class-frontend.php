@@ -1579,7 +1579,7 @@ class WPSEO_Frontend {
 			 */
 			preg_match_all( '/<head.*?\/head>/is', $content, $matches );
 			if ( count( $matches ) && count( $matches[0] ) ) {
-				foreach( $matches[0] as $head ) {
+				foreach ( $matches[0] as $head ) {
 					$head_without_title = preg_replace( '/<title.*?\/title>/is', '', $head );
 					$content = str_replace( $head, $head_without_title, $content );
 				}
