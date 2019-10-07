@@ -89,6 +89,9 @@
 		"check-cs-errors": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --error-severity=1 --warning-severity=6"
 		],
+		"check-staged-cs": [
+			"Yoast\\WP\\Free\\Composer\\Actions::check_staged_cs"
+		],
 		"fix-cs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcbf"
 		],
