@@ -35,6 +35,8 @@ class Images {
 	/**
 	 * Images constructor.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param Open_Graph_Image_Helper $open_graph_image_helper Image helper for OpenGraph.
 	 * @param Image_Helper            $image_helper            The image helper.
 	 */
@@ -48,6 +50,8 @@ class Images {
 
 	/**
 	 * Outputs the images.
+	 *
+	 * @codeCoverageIgnore - The method is empty, nothing to test.
 	 *
 	 * @return void
 	 */
