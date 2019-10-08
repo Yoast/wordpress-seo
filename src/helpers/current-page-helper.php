@@ -216,7 +216,7 @@ class Current_Page_Helper {
 	 *
 	 * @return bool Whether nor not the current page is a 404 page.
 	 */
-	public function is_404_page() {
+	public function is_404() {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
 		return $wp_query->is_404();

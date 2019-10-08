@@ -20,7 +20,7 @@ class Indexable_System_Page_Builder {
 	 */
 	const OPTION_MAPPING = [
 		'search-result' => 'title-search-wpseo',
-		'404-page'      => 'title-404-wpseo',
+		'404'           => 'title-404-wpseo',
 	];
 
 	/**
@@ -50,7 +50,7 @@ class Indexable_System_Page_Builder {
 	public function build( $object_sub_type, Indexable $indexable ) {
 		$indexable->object_type       = 'system-page';
 		$indexable->object_sub_type   = $object_sub_type;
-		$indexable->title             = $this->options_helper->get( self::OPTION_MAPPING[ $object_sub_type ] );
+		$indexable->title             = $this->options_helper->get( static::OPTION_MAPPING[ $object_sub_type ] );
 		$indexable->is_robots_noindex = true;
 
 		return $indexable;
