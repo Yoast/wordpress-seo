@@ -11,6 +11,7 @@ use Yoast\WP\Free\Builders\Indexable_Author_Builder;
 use Yoast\WP\Free\Builders\Indexable_Home_Page_Builder;
 use Yoast\WP\Free\Builders\Indexable_Post_Builder;
 use Yoast\WP\Free\Builders\Indexable_Post_Type_Archive_Builder;
+use Yoast\WP\Free\Builders\Indexable_Search_Result_Builder;
 use Yoast\WP\Free\Builders\Indexable_Term_Builder;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Loggers\Logger;
@@ -46,6 +47,16 @@ class Indexable_Repository {
 	protected $home_page_builder;
 
 	/**
+	 * @var Indexable_Post_Type_Archive_Builder
+	 */
+	private $post_type_archive_builder;
+
+	/**
+	 * @var Indexable_Search_Result_Builder
+	 */
+	private $search_result_builder;
+
+	/**
 	 * @var \Yoast\WP\Free\Helpers\Current_Page_Helper
 	 */
 	protected $current_page_helper;
@@ -54,10 +65,6 @@ class Indexable_Repository {
 	 * @var \Psr\Log\LoggerInterface
 	 */
 	protected $logger;
-	/**
-	 * @var Indexable_Post_Type_Archive_Builder
-	 */
-	private $post_type_archive_builder;
 
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
@@ -67,6 +74,7 @@ class Indexable_Repository {
 	 * @param Indexable_Term_Builder              $term_builder              The term builder for creating missing indexables.
 	 * @param Indexable_Home_Page_Builder         $home_page_builder         The front page builder for creating missing indexables.
 	 * @param Indexable_Post_Type_Archive_Builder $post_type_archive_builder The post type archive builder for creating missing indexables.
+	 * @param Indexable_Search_Result_Builder     $search_result_builder     The search result builder for creating missing indexables.
 	 * @param Current_Page_Helper                 $current_page_helper       The current post helper.
 	 * @param Logger                              $logger                    The logger.
 	 */
@@ -76,6 +84,7 @@ class Indexable_Repository {
 		Indexable_Term_Builder $term_builder,
 		Indexable_Home_Page_Builder $home_page_builder,
 		Indexable_Post_Type_Archive_Builder $post_type_archive_builder,
+		Indexable_Search_Result_Builder $search_result_builder,
 		Current_Page_Helper $current_page_helper,
 		Logger $logger
 	) {
@@ -84,9 +93,9 @@ class Indexable_Repository {
 		$this->term_builder              = $term_builder;
 		$this->home_page_builder         = $home_page_builder;
 		$this->post_type_archive_builder = $post_type_archive_builder;
+		$this->search_result_builder     = $search_result_builder;
 		$this->current_page_helper       = $current_page_helper;
 		$this->logger                    = $logger;
-
 	}
 
 	/**
@@ -117,6 +126,8 @@ class Indexable_Repository {
 				return $this->find_by_id_and_type( $this->current_page_helper->get_term_id(), 'term' );
 			case $this->current_page_helper->is_post_type_archive():
 				return $this->find_for_post_type_archive( $this->current_page_helper->get_queried_post_type() );
+			case $this->current_page_helper->is_search_result():
+				return $this->find_for_search_result();
 		}
 
 		return $this->query()->create( [ 'object_type' => 'unknown' ] );
@@ -183,6 +194,28 @@ class Indexable_Repository {
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->create_for_post_type_archive( $post_type );
+		}
+
+		return $indexable;
+	}
+
+	/**
+	 * Retrieves the search result indexable.
+	 *
+	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
+	 *
+	 * @return bool|Indexable Instance of indexable.
+	 */
+	public function find_for_search_result( $auto_create = true ) {
+		/**
+		 * Indexable instance.
+		 *
+		 * @var Indexable $indexable
+		 */
+		$indexable = $this->query()->where( 'object_type', 'search-result' )->find_one();
+
+		if ( $auto_create && ! $indexable ) {
+			$indexable = $this->create_for_search_result();
 		}
 
 		return $indexable;
@@ -305,6 +338,19 @@ class Indexable_Repository {
 	public function create_for_post_type_archive( $post_type ) {
 		$indexable = $this->query()->create();
 		$indexable = $this->post_type_archive_builder->build( $post_type, $indexable );
+
+		$indexable->save();
+		return $indexable;
+	}
+
+	/**
+	 * Creates an indexable for search results.
+	 *
+	 * @return Indexable The search result indexable.
+	 */
+	public function create_for_search_result() {
+		$indexable = $this->query()->create( [ 'object_type' => 'home-page' ] );
+		$indexable = $this->search_result_builder->build( $indexable );
 
 		$indexable->save();
 		return $indexable;
