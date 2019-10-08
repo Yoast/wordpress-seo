@@ -13,6 +13,7 @@ use WPSEO_Replace_Vars;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Schema\ID_Helper;
+use Yoast\WP\Free\Helpers\Site_Helper;
 use Yoast\WP\Free\Helpers\Url_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presentations\Abstract_Presentation;
@@ -35,6 +36,7 @@ use Yoast\WP\Free\Presentations\Indexable_Presentation;
  * @property bool        breadcrumbs_enabled
  * @property string      schema_page_type
  * @property string      main_schema_id
+ * @property bool        open_graph_enabled
  */
 class Meta_Tags_Context extends Abstract_Presentation {
 
@@ -82,10 +84,16 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @var ID_Helper
 	 */
 	private $id_helper;
+
 	/**
 	 * @var WPSEO_Replace_Vars
 	 */
 	private $replace_vars_helper;
+
+	/**
+	 * @var Site_Helper
+	 */
+	private $site_helper;
 
 	/**
 	 * Meta_Tags_Context constructor.
@@ -95,19 +103,22 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @param Image_Helper       $image_helper        The image helper.
 	 * @param ID_Helper          $id_helper           The schema id helper.
 	 * @param WPSEO_Replace_Vars $replace_vars_helper The replace vars helper.
+	 * @param Site_Helper        $site_helper         The site helper.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
 		Url_Helper $url_helper,
 		Image_Helper $image_helper,
 		ID_Helper $id_helper,
-		WPSEO_Replace_Vars $replace_vars_helper
+		WPSEO_Replace_Vars $replace_vars_helper,
+		Site_Helper $site_helper
 	) {
 		$this->options_helper      = $options_helper;
 		$this->url_helper          = $url_helper;
 		$this->image_helper        = $image_helper;
 		$this->id_helper           = $id_helper;
 		$this->replace_vars_helper = $replace_vars_helper;
+		$this->site_helper         = $site_helper;
 	}
 
 	/**
@@ -158,6 +169,15 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		return \get_bloginfo( 'name' );
+	}
+
+	/**
+	 * Generates the site name from the WordPress options.
+	 *
+	 * @return string The site name.
+	 */
+	public function generate_wordpress_site_name() {
+		return $this->site_helper->get_site_name();
 	}
 
 	/**
@@ -228,12 +248,14 @@ class Meta_Tags_Context extends Abstract_Presentation {
 				if ( $this->company_logo_id < 1 ) {
 					$this->site_represents = false;
 				}
+
 				return 'company';
 			case 'person':
 				// Do not use a non-existing user.
 				if ( $this->site_user_id !== false && \get_user_by( 'id', $this->site_user_id ) === false ) {
 					return false;
 				}
+
 				return 'person';
 		}
 
@@ -252,6 +274,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		if ( $this->site_represents === 'company' ) {
 			return [ '@id' => $this->site_url . $this->id_helper->organization_hash ];
 		}
+
 		return false;
 	}
 
@@ -265,6 +288,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		if ( ! $breadcrumbs_enabled ) {
 			$breadcrumbs_enabled = $this->options_helper->get( 'breadcrumbs-enable', false );
 		}
+
 		return $breadcrumbs_enabled;
 	}
 
@@ -317,3 +341,5 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		return $this->canonical . $this->id_helper->webpage_hash;
 	}
 }
+
+class_alias( Meta_Tags_Context::class, 'WPSEO_Schema_Context' );

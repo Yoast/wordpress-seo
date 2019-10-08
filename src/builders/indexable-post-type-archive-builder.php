@@ -21,7 +21,7 @@ class Indexable_Post_Type_Archive_Builder {
 	private $options_helper;
 
 	/**
-	 * Indexable_Home_Page_Builder constructor.
+	 * Indexable_Post_Type_Archive_Builder constructor.
 	 *
 	 * @param Options_Helper $options_helper The options helper.
 	 */

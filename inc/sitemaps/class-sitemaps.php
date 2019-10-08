@@ -561,8 +561,8 @@ class WPSEO_Sitemaps {
 		}
 
 		// Ping Google and Bing.
-		wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $url, array( 'blocking' => false ) );
-		wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $url, array( 'blocking' => false ) );
+		wp_remote_get( 'https://www.google.com/ping?sitemap=' . $url, array( 'blocking' => false ) );
+		wp_remote_get( 'https://www.bing.com/ping?sitemap=' . $url, array( 'blocking' => false ) );
 	}
 
 	/**

@@ -8,6 +8,7 @@
 namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Context\Meta_Tags_Context;
+use Yoast\WP\Free\Generators\OG_Image_Generator;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
@@ -38,6 +39,7 @@ use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
  * @property string twitter_title
  * @property string twitter_description
  * @property string twitter_image
+ * @property string twitter_creator
  * @property array  replace_vars_object
  */
 class Indexable_Presentation extends Abstract_Presentation {
@@ -56,6 +58,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @var Schema_Generator
 	 */
 	protected $schema_generator;
+
+	/**
+	 * @var OG_Image_Generator
+	 */
+	protected $og_image_generator;
 
 	/**
 	 * @var OG_Locale_Generator
@@ -89,16 +96,21 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * @param Schema_Generator    $schema_generator    The schema generator.
 	 * @param OG_Locale_Generator $og_locale_generator The OG locale generator.
+	 * @param OG_Image_Generator  $og_image_generator  The OG image generator.
 	 */
 	public function set_generators(
 		Schema_Generator $schema_generator,
-		OG_Locale_Generator $og_locale_generator
+		OG_Locale_Generator $og_locale_generator,
+		OG_Image_Generator $og_image_generator
 	) {
 		$this->schema_generator    = $schema_generator;
 		$this->og_locale_generator = $og_locale_generator;
+		$this->og_image_generator  = $og_image_generator;
 	}
 
 	/**
+	 * @required
+	 *
 	 * Used by dependency injection container to inject the Robots_Helper.
 	 *
 	 * @param Robots_Helper       $robots_helper       The robots helper.
@@ -209,18 +221,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The open graph images.
 	 */
 	public function generate_og_images() {
-		if ( $this->model->og_image_id ) {
-			$attachment = $this->get_attachment_url_by_id( $this->model->og_image_id );
-			if ( $attachment ) {
-				return [ $attachment ];
-			}
+		if ( $this->context->open_graph_enabled === false ) {
+			return [];
 		}
 
-		if ( $this->model->og_image ) {
-			return [ $this->model->og_image ];
-		}
-
-		return [];
+		return $this->og_image_generator->generate( $this->context );
 	}
 
 	/**
@@ -275,6 +280,15 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_og_locale() {
 		return $this->og_locale_generator->generate( $this->context );
+	}
+
+	/**
+	 * Generates the open graph site name.
+	 *
+	 * @return string The open graph site name.
+	 */
+	public function generate_og_site_name() {
+		return $this->context->wordpress_site_name;
 	}
 
 	/**
@@ -334,6 +348,15 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
+	 * Generates the Twitter creator.
+	 *
+	 * @return string The Twitter creator.
+	 */
+	public function generate_twitter_creator() {
+		return '';
+	}
+
+	/**
 	 * Generates the replace vars object.
 	 *
 	 * @return array The replace vars object.
@@ -373,7 +396,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 		 *
 		 * @api string|false $size Size string.
 		 */
-		$override_image_size = apply_filters( 'wpseo_opengraph_image_size', null );
+		$override_image_size = \apply_filters( 'wpseo_opengraph_image_size', null );
 
 		if ( $override_image_size ) {
 			return $this->image_helper->get_image( $attachment_id, $override_image_size );
@@ -400,10 +423,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return '';
 		}
 
-		$default_image_id  = $this->options_helper->get( 'og_default_image_id', '' );
-
+		$default_image_id = $this->options_helper->get( 'og_default_image_id', '' );
 		if ( $default_image_id ) {
-			$attachment_url = $this->get_attachment_url_by_id( $this->model->og_image_id );
+			$attachment_url = $this->get_attachment_url_by_id( $default_image_id );
 			if ( $attachment_url ) {
 				return $attachment_url;
 			}

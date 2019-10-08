@@ -5,7 +5,7 @@ namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class Abstract_Robots_Presenter_Test
+ * Class Twitter_Image_Test
  *
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
  *
