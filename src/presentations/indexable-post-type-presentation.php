@@ -156,4 +156,29 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 
 		return (string) $this->get_default_og_image();
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_twitter_creator() {
+		$twitter_creator = \ltrim( \trim( \get_the_author_meta( 'twitter', $this->context->post->post_author ) ), '@' );
+
+		/**
+		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by Yoast SEO.
+		 *
+		 * @api string $twitter The twitter account name string.
+		 */
+		$twitter_creator = \apply_filters( 'wpseo_twitter_creator_account', $twitter_creator );
+
+		if ( \is_string( $twitter_creator ) && $twitter_creator !== '' ) {
+			return '@' . $twitter_creator;
+		}
+
+		$site_twitter = $this->options_helper->get( 'twitter_site', '' );
+		if ( \is_string( $site_twitter ) && $site_twitter !== '' ) {
+			return '@' . $site_twitter;
+		}
+
+		return '';
+	}
 }
