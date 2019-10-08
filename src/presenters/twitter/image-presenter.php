@@ -12,7 +12,7 @@ use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
 
 /**
- * Class Twitter_Image_Presenter
+ * Class Image_Presenter
  */
 class Image_Presenter extends Abstract_Indexable_Presenter {
 

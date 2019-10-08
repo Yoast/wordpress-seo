@@ -129,6 +129,7 @@ class Indexable_Post_Builder {
 			'bctitle'               => 'breadcrumb_title',
 			'opengraph-title'       => 'og_title',
 			'opengraph-image'       => 'og_image',
+			'opengraph-image-id'    => 'og_image_id',
 			'opengraph-description' => 'og_description',
 			'twitter-title'         => 'twitter_title',
 			'twitter-image'         => 'twitter_image',

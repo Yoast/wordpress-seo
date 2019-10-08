@@ -11,7 +11,7 @@ use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
 
 /**
- * Class Twitter_Card_Presenter
+ * Class Card_Presenter
  */
 class Card_Presenter extends Abstract_Indexable_Presenter {
 	/**
