@@ -92,6 +92,9 @@
 		"check-staged-cs": [
 			"Yoast\\WP\\Free\\Composer\\Actions::check_staged_cs"
 		],
+		"check-branch-cs": [
+			"Yoast\\WP\\Free\\Composer\\Actions::check_branch_cs"
+		],
 		"fix-cs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcbf"
 		],
