@@ -190,7 +190,7 @@ class Image_Helper {
 	}
 
 	/**
-	 * Retrieves the attachment variations for given attachments.
+	 * Retrieves the best attachment variation for the given attachment.
 	 *
 	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
@@ -199,7 +199,7 @@ class Image_Helper {
 	 *
 	 * @return bool|string The attachment url or false when no variations found.
 	 */
-	public function get_attachment_variations( $attachment_id, $image_params = [] ) {
+	public function get_best_attachment_variation( $attachment_id, $image_params = [] ) {
 		$variations = \WPSEO_Image_Utils::get_variations( $attachment_id );
 		$variations = \WPSEO_Image_Utils::filter_usable_dimensions( $image_params, $variations );
 		$variations = \WPSEO_Image_Utils::filter_usable_file_size( $variations );

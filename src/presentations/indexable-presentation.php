@@ -392,7 +392,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->image_helper->get_image( $attachment_id, $override_image_size );
 		}
 
-		return $this->image_helper->get_attachment_variations(
+		$attachment = $this->image_helper->get_best_attachment_variation(
 			$attachment_id,
 			[
 				'min_width'  => 200,
@@ -401,6 +401,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 				'max_height' => 2000,
 			]
 		);
+
+		return $attachment['url'];
 	}
 
 	/**
