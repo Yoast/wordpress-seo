@@ -279,7 +279,7 @@ class Front_End_Integration implements Integration_Interface {
 				return 'Date_Archive';
 			case $this->current_page_helper->is_home_posts_page():
 				return 'Home_Page';
-			case $this->current_page_helper->is_error_page():
+			case $this->current_page_helper->is_404_page():
 				return 'Error_Page';
 		}
 

@@ -3,25 +3,25 @@
 namespace Yoast\WP\Free\Tests\Integrations\Watchers;
 
 use Mockery;
-use Yoast\WP\Free\Builders\Indexable_Search_Result_Builder;
+use Yoast\WP\Free\Builders\Indexable_System_Page_Builder;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
-use Yoast\WP\Free\Integrations\Watchers\Indexable_Search_Result_Watcher;
+use Yoast\WP\Free\Integrations\Watchers\Indexable_System_Page_Watcher;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class Indexable_Search_Result_Watcher_Test.
+ * Class Indexable_System_Page_Watcher_Test.
  *
  * @group indexables
  * @group watchers
  *
- * @coversDefaultClass \Yoast\WP\Free\Integrations\Watchers\Indexable_Search_Result_Watcher
+ * @coversDefaultClass \Yoast\WP\Free\Integrations\Watchers\Indexable_System_Page_Watcher
  * @covers ::<!public>
  *
  * @package Yoast\Tests\Watchers
  */
-class Indexable_Search_Result_Watcher_Test extends TestCase {
+class Indexable_System_Page_Watcher_Test extends TestCase {
 
 	/**
 	 * Tests if the expected conditionals are in place.
@@ -31,7 +31,7 @@ class Indexable_Search_Result_Watcher_Test extends TestCase {
 	public function test_get_conditionals() {
 		$this->assertEquals(
 			[ Indexables_Feature_Flag_Conditional::class ],
-			Indexable_Search_Result_Watcher::get_conditionals()
+			Indexable_System_Page_Watcher::get_conditionals()
 		);
 	}
 
@@ -43,9 +43,9 @@ class Indexable_Search_Result_Watcher_Test extends TestCase {
 	 */
 	public function test_register_hooks() {
 		$repository_mock = Mockery::mock( Indexable_Repository::class );
-		$builder_mock    = Mockery::mock( Indexable_Search_Result_Builder::class );
+		$builder_mock    = Mockery::mock( Indexable_System_Page_Builder::class );
 
-		$instance = new Indexable_Search_Result_Watcher( $repository_mock, $builder_mock );
+		$instance = new Indexable_System_Page_Watcher( $repository_mock, $builder_mock );
 		$instance->register_hooks();
 
 		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $instance, 'check_option' ] ) );
@@ -63,12 +63,12 @@ class Indexable_Search_Result_Watcher_Test extends TestCase {
 		$indexable_mock->expects( 'save' )->once();
 
 		$repository_mock = Mockery::mock( Indexable_Repository::class );
-		$repository_mock->expects( 'find_for_search_result' )->once()->with( false )->andReturn( $indexable_mock );
+		$repository_mock->expects( 'find_for_system_page' )->once()->with( 'search-result', false )->andReturn( $indexable_mock );
 
-		$builder_mock = Mockery::mock( Indexable_Search_Result_Builder::class );
-		$builder_mock->expects( 'build' )->once()->with( $indexable_mock )->andReturn( $indexable_mock );
+		$builder_mock = Mockery::mock( Indexable_System_Page_Builder::class );
+		$builder_mock->expects( 'build' )->once()->with( 'search-result', $indexable_mock )->andReturn( $indexable_mock );
 
-		$instance = new Indexable_Search_Result_Watcher( $repository_mock, $builder_mock );
+		$instance = new Indexable_System_Page_Watcher( $repository_mock, $builder_mock );
 		$instance->check_option( [ 'title-search-wpseo' => 'bar' ], [ 'title-search-wpseo' => 'baz' ] );
 	}
 
@@ -84,12 +84,12 @@ class Indexable_Search_Result_Watcher_Test extends TestCase {
 		$indexable_mock->expects( 'save' )->never();
 
 		$repository_mock = Mockery::mock( Indexable_Repository::class );
-		$repository_mock->expects( 'find_for_search_result' )->never();
+		$repository_mock->expects( 'find_for_system_page' )->never();
 
-		$builder_mock = Mockery::mock( Indexable_Search_Result_Builder::class );
+		$builder_mock = Mockery::mock( Indexable_System_Page_Builder::class );
 		$builder_mock->expects( 'build' )->never();
 
-		$instance = new Indexable_Search_Result_Watcher( $repository_mock, $builder_mock );
+		$instance = new Indexable_System_Page_Watcher( $repository_mock, $builder_mock );
 		$instance->check_option( [ 'other_key' => 'bar' ], [ 'other_key' => 'baz' ] );
 	}
 
@@ -104,13 +104,13 @@ class Indexable_Search_Result_Watcher_Test extends TestCase {
 		$indexable_mock->expects( 'save' )->once();
 
 		$repository_mock = Mockery::mock( Indexable_Repository::class );
-		$repository_mock->expects( 'find_for_search_result' )->once()->with( false )->andReturn( false );
-		$repository_mock->expects( 'create_for_search_result' )->once()->andReturn( $indexable_mock );
+		$repository_mock->expects( 'find_for_system_page' )->once()->with( '404-page', false )->andReturn( false );
+		$repository_mock->expects( 'create_for_system_page' )->once()->with( '404-page' )->andReturn( $indexable_mock );
 
-		$builder_mock = Mockery::mock( Indexable_Search_Result_Builder::class );
+		$builder_mock = Mockery::mock( Indexable_System_Page_Builder::class );
 		$builder_mock->expects( 'build' )->never();
 
-		$instance = new Indexable_Search_Result_Watcher( $repository_mock, $builder_mock );
-		$instance->build_indexable();
+		$instance = new Indexable_System_Page_Watcher( $repository_mock, $builder_mock );
+		$instance->build_indexable( '404-page' );
 	}
 }
