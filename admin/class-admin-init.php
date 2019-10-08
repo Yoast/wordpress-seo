@@ -44,6 +44,7 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'unsupported_php_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'wordpress_upgrade_notice' ), 15 );
+		add_action( 'admin_init', array( $this, 'organization_logo_notice' ), 15 );
 		add_action( 'admin_init', array( $this->asset_manager, 'register_assets' ) );
 		add_action( 'admin_init', array( $this, 'show_hook_deprecation_warnings' ) );
 		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ) );
@@ -475,6 +476,51 @@ class WPSEO_Admin_Init {
 			return;
 		}
 		$notification_center->remove_notification( $notification );
+	}
+
+	/**
+	 * Display notice to upload Organization Logo from Media Library.
+	 */
+	public function organization_logo_notice() {
+		$info_message = sprintf(
+			/* translators: %1$s resolves to the opening tag of the link to the comment setting page, %2$s resolves to the closing tag of the link */
+			__( '%1$sOrganization Logo is not uploaded via Media Library%2$s%3$sTo fix this, upload the Organization Logo under Knowledge Graph & Schema.org on the %4$sSearch Appearance page%5$s.', 'wordpress-seo' ),
+			'<strong>',
+			'</strong>',
+			'<br/>',
+			'<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_titles' ) ) . '">',
+			'</a>'
+		);
+
+		$notification_options = array(
+			'type'         => Yoast_Notification::WARNING,
+			'id'           => 'wpseo-dismiss-organization_logo-notice',
+			'capabilities' => 'wpseo_manage_options',
+		);
+
+		$notification = new Yoast_Notification( $info_message, $notification_options );
+
+		$notification_center = Yoast_Notification_Center::get();
+		if ( $this->is_wpmedia_org_logo() ) {
+			$notification_center->add_notification( $notification );
+		}
+		else {
+			$notification_center->remove_notification( $notification );
+		}
+	}
+
+	/**
+	 * Is Organization Logo from Media Library.
+	 *
+	 * @return bool
+	 */
+	public function is_wpmedia_org_logo() {
+		$url = WPSEO_Options::get( 'company_logo', false );
+		if ( ! $url ) {
+			return 0;
+		}
+		$uploads = wp_get_upload_dir();
+		return strpos( $url, $uploads['baseurl'] ) !== 0;
 	}
 
 	/**
