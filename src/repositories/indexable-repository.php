@@ -72,11 +72,6 @@ class Indexable_Repository {
 	private $date_archive_builder;
 
 	/**
-	 * @var Indexable_Post_Type_Archive_Builder
-	 */
-	private $post_type_archive_builder;
-
-	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
 	 * @param Indexable_Author_Builder            $author_builder            The author builder for creating missing indexables.
@@ -143,8 +138,6 @@ class Indexable_Repository {
 				return $this->query()->create( [ 'object_type' => 'search-result-page', 'title' ] );
 			case $this->current_page_helper->is_post_type_archive():
 				return $this->find_for_post_type_archive( $this->current_page_helper->get_queried_post_type() );
-			case $this->current_page_helper->is_search_result():
-				return $this->find_for_search_result();
 		}
 
 		return $this->query()->create( [ 'object_type' => 'unknown' ] );
