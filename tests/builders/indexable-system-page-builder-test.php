@@ -34,7 +34,8 @@ class Indexable_System_Page_Builder_Test extends TestCase {
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
-		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'search-result' );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'system-page' );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_sub_type', 'search-result' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'search_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', true );
 
