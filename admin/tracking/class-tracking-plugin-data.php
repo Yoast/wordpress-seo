@@ -38,7 +38,7 @@ class WPSEO_Tracking_Plugin_Data implements WPSEO_Collection {
 
 		$plugin_data = array();
 		foreach ( $plugins as $plugin ) {
-			$plugin_key = sanitize_title( $plugin['name'] );
+			$plugin_key                 = sanitize_title( $plugin['name'] );
 			$plugin_data[ $plugin_key ] = $plugin;
 		}
 

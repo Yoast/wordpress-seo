@@ -153,7 +153,7 @@ class WPSEO_Configuration_Notifier implements WPSEO_Listener {
 		);
 		$notification .= '<div class="yoast-container__configuration-wizard--content">';
 		$notification .= sprintf(
-		    '<h3>%s<span class="dashicons dashicons-yes"></span></h3>',
+			'<h3>%s<span class="dashicons dashicons-yes"></span></h3>',
 			esc_html( $title )
 		);
 

@@ -38,6 +38,7 @@ class WPSEO_Plugin_Compatibility {
 	 * WPSEO_Plugin_Compatibility constructor.
 	 *
 	 * @deprecated 12.3
+	 * @codeCoverageIgnore
 	 *
 	 * @param string     $version              The version to check against.
 	 * @param null|class $availability_checker The checker to use.
@@ -55,6 +56,7 @@ class WPSEO_Plugin_Compatibility {
 	 * Retrieves the availability checker.
 	 *
 	 * @deprecated 12.3
+	 * @codeCoverageIgnore
 	 *
 	 * @param null|object $checker The checker to set.
 	 *
@@ -75,6 +77,7 @@ class WPSEO_Plugin_Compatibility {
 	 * Wraps the availability checker's get_installed_plugins method.
 	 *
 	 * @deprecated 12.3
+	 * @codeCoverageIgnore
 	 *
 	 * @return array Array containing all the installed plugins.
 	 */
@@ -88,6 +91,7 @@ class WPSEO_Plugin_Compatibility {
 	 * Creates a list of installed plugins and whether or not they are compatible.
 	 *
 	 * @deprecated 12.3
+	 * @codeCoverageIgnore
 	 *
 	 * @return array Array containing the installed plugins and compatibility.
 	 */
@@ -106,6 +110,7 @@ class WPSEO_Plugin_Compatibility {
 	 * Checks whether or not a plugin is compatible.
 	 *
 	 * @deprecated 12.3
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $plugin The plugin to look for and match.
 	 *
@@ -129,6 +134,7 @@ class WPSEO_Plugin_Compatibility {
 	 * Gets the major/minor version of the plugin for easier comparing.
 	 *
 	 * @deprecated 12.3
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $version The version to trim.
 	 *

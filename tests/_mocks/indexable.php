@@ -35,6 +35,7 @@ class Indexable extends \Yoast\WP\Free\Models\Indexable {
 	public $og_title;
 	public $og_description;
 	public $og_image;
+	public $og_image_id;
 	public $twitter_title;
 	public $twitter_description;
 	public $twitter_image;

@@ -36,7 +36,7 @@ class Schema_WebPage_Test extends TestCase {
 
 		Monkey\Functions\stubs(
 			[
-				'get_bloginfo'  => array( $this, 'get_bloginfo' ),
+				'get_bloginfo'  => [ $this, 'get_bloginfo' ],
 				'is_search'     => false,
 				'is_author'     => false,
 				'is_home'       => false,

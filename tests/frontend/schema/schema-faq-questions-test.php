@@ -50,10 +50,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => 'This is an answer',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -80,10 +80,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => '',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => 'This is an answer',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -110,10 +110,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => '',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -140,10 +140,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => '',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => '',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -172,10 +172,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => '<h1>This is an answer<h1>',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -204,10 +204,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => 'This is an answer',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -236,10 +236,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => '<h1>This is an answer</h1>',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -268,10 +268,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => 'This is an answer',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );

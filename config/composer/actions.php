@@ -62,4 +62,21 @@ class Actions {
 
 		$io->write( 'The dependency injection container has been compiled.' );
 	}
+
+	/**
+	 * Runs PHPCS on the staged files.
+	 *
+	 * Used the composer check-staged-cs command.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public static function check_staged_cs() {
+		\exec( 'git diff --staged --name-only', $files );
+		$files = array_filter( $files, function ( $file ) {
+			return substr( $file, -4 ) === '.php';
+		} );
+		\system( 'composer check-cs -- ' . implode( ' ', $files ) );
+	}
 }

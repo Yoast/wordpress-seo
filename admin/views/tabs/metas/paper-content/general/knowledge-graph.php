@@ -47,12 +47,12 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 		<?php
 
 		/*
-		* Render the `knowledge-graph-company-warning` div when the company name or logo are not set.
-		* This div is used as React render root in `js/src/search-appearance.js`.
-		*/
+		 * Render the `knowledge-graph-company-warning` div when the company name or logo are not set.
+		 * This div is used as React render root in `js/src/search-appearance.js`.
+		 */
 		$is_company_info_missing = empty( $yform->options['company_name'] ) || empty( $yform->options['company_logo'] );
 		if ( $is_company_info_missing ) :
-		?>
+			?>
 		<div id="knowledge-graph-company-warning"></div>
 		<?php endif; ?>
 

@@ -42,7 +42,7 @@ class Primary_Term_Repository {
 							 ->find_one();
 
 		if ( $auto_create && ! $primary_term ) {
-			$primary_term = $this->create();
+			$primary_term = $this->query()->create();
 		}
 
 		return $primary_term;
