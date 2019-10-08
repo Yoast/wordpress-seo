@@ -41,8 +41,6 @@ class Indexable_Search_Result_Builder {
 	public function build( Indexable $indexable ) {
 		$indexable->object_type       = 'search-result';
 		$indexable->title             = $this->options_helper->get( 'title-search-wpseo' );
-		$indexable->permalink         = \get_search_link();
-		$indexable->canonical         = $indexable->permalink;
 		$indexable->is_robots_noindex = true;
 
 		return $indexable;

@@ -124,6 +124,8 @@ class Indexable_Repository {
 				return $this->find_for_home_page();
 			case $this->current_page_helper->is_term_archive():
 				return $this->find_by_id_and_type( $this->current_page_helper->get_term_id(), 'term' );
+			case $this->current_page_helper->is_search_result():
+				return $this->query()->create( [ 'object_type' => 'search-result-page', 'title'] );
 			case $this->current_page_helper->is_post_type_archive():
 				return $this->find_for_post_type_archive( $this->current_page_helper->get_queried_post_type() );
 			case $this->current_page_helper->is_search_result():

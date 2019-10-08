@@ -32,15 +32,10 @@ class Indexable_Search_Result_Builder_Test extends TestCase {
 		$options_helper_mock = Mockery::mock( Options_Helper::class );
 		$options_helper_mock->expects( 'get' )->with( 'title-search-wpseo' )->andReturn( 'search_title' );
 
-		Monkey\Functions\expect( 'get_search_link' )->once()->andReturn( 'https://permalink' );
-
 		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'search-result' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'search_title' );
-		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
-		$indexable_mock->orm->expects( 'get' )->with( 'permalink' )->andReturn( 'https://permalink' );
-		$indexable_mock->orm->expects( 'set' )->with( 'canonical', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', true );
 
 		$builder = new Indexable_Search_Result_Builder( $options_helper_mock );
