@@ -28,12 +28,12 @@ class Image_Helper {
 	 *
 	 * @var array
 	 */
-	private $image_params = array(
+	private $image_params = [
 		'min_width'  => 200,
 		'max_width'  => 2000,
 		'min_height' => 200,
 		'max_height' => 2000,
-	);
+	];
 
 	/**
 	 * Image_Helper constructor.

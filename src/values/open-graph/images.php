@@ -87,7 +87,7 @@ class Images {
 	public function add_image( $attachment ) {
 		// In the past `add_image` accepted an image url, so leave this for backwards compatibility.
 		if ( is_string( $attachment ) ) {
-			$attachment = array( 'url' => $attachment );
+			$attachment = [ 'url' => $attachment ];
 		}
 
 		if ( ! is_array( $attachment ) || empty( $attachment['url'] ) ) {
