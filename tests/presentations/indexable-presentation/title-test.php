@@ -40,7 +40,7 @@ class Title_Test extends TestCase {
 		$this->indexable     = new Indexable();
 
 		$presentation   = Mockery::mock( Indexable_Presentation::class )->makePartial();
-		$this->instance = $presentation->of( $this->indexable );
+		$this->instance = $presentation->of( [ 'model' => $this->indexable ] );
 
 		return parent::setUp();
 	}

@@ -63,7 +63,7 @@ trait Presentation_Instance_Builder {
 
 		$instance = new Indexable_Home_Page_Presentation();
 
-		$this->instance = $instance->of( $this->indexable );
+		$this->instance = $instance->of( [ 'model' => $this->indexable ] );
 		$this->instance->set_helpers(
 			$this->robots_helper,
 			$this->image_helper,
