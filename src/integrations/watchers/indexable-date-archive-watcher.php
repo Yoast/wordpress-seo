@@ -13,7 +13,7 @@ use Yoast\WP\Free\Integrations\Integration_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 
 /**
- * Watches the home page options to save the meta information when updated.
+ * Watches the date archive options to save the meta information when updated.
  */
 class Indexable_Date_Archive_Watcher implements Integration_Interface {
 

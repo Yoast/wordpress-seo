@@ -1,6 +1,6 @@
 <?php
 /**
- * Homepage Builder for the indexables.
+ * Date Archive Builder for the indexables.
  *
  * @package Yoast\YoastSEO\Builders
  */
@@ -10,7 +10,7 @@ namespace Yoast\WP\Free\Builders;
 use Yoast\WP\Free\Helpers\Options_Helper;
 
 /**
- * Formats the homepage meta to indexable format.
+ * Formats the date archive meta to indexable format.
  */
 class Indexable_Date_Archive_Builder {
 

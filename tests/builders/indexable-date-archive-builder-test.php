@@ -12,12 +12,12 @@ use Yoast\WP\Free\ORM\ORMWrapper;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class Indexable_Author_Test.
+ * Class Indexable_Date_Archive_Builder_Test.
  *
  * @group indexables
  * @group builders
  *
- * @coversDefaultClass \Yoast\WP\Free\Builders\Indexable_Author_Builder
+ * @coversDefaultClass \Yoast\WP\Free\Builders\Indexable_Date_Archive_Builder
  * @covers ::<!public>
  *
  * @package Yoast\Tests\Builders
