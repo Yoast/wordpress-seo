@@ -51,8 +51,21 @@ class Indexable_Post_Builder_Test extends TestCase {
 			$wpdb
 		);
 
+		$this->setUpPdoMock();
+
+		return parent::setUp();
+	}
+
+	/**
+	 * Sets up a mock of PDO
+	 *
+	 * PDO is the database layer that the ORM uses. To test that the correct
+	 * commands are send to the database we mock the PDO layer in this method.
+	 */
+	public function setUpPdoMock() {
 		$this->db = \Mockery::mock( \PDO::class );
 
+		// This is necessary because the ORM calls getAttribute.
 		$this->db
 			->shouldReceive( 'getAttribute' )
 			->andReturnUsing( function( $key ) {
@@ -64,8 +77,6 @@ class Indexable_Post_Builder_Test extends TestCase {
 			} );
 
 		ORM::set_db( $this->db );
-
-		return parent::setUp();
 	}
 
 	public function expect_pdo_query( $expected_query, $expected_parameters, $return_rows ) {
