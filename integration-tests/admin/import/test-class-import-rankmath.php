@@ -96,8 +96,9 @@ class RankMath_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
 		$twitter_title   = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'twitter-title', true );
 		$twitter_desc    = get_post_meta( $post_id, WPSEO_Meta::$meta_prefix . 'twitter-description', true );
 
-		$homepage_title = WPSEO_Options::get( 'title-home-wpseo' );
-		$homepage_desc  = WPSEO_Options::get( 'metadesc-home-wpseo' );
+		$homepage_title      = WPSEO_Options::get( 'title-home-wpseo' );
+		$homepage_desc       = WPSEO_Options::get( 'metadesc-home-wpseo' );
+		$post_title_template = WPSEO_Options::get( 'title-post' );
 
 		$this->assertEquals( 1, $robots_noindex );
 		$this->assertEquals( 1, $robots_nofollow );
@@ -109,6 +110,7 @@ class RankMath_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( 'Test homepage title', $homepage_title );
 		$this->assertEquals( 'Test homepage description', $homepage_desc );
+		$this->assertEquals( 'Test post title template %%sep%% %%sitename%%', $post_title_template );
 	}
 
 	/**
@@ -177,6 +179,7 @@ class RankMath_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
 		update_option( 'rank-math-options-titles', array(
 			'homepage_title'       => 'Test homepage title',
 			'homepage_description' => 'Test homepage description',
+			'pt_post_title'        => 'Test post title template %sep% %sitename%',
 		) );
 	}
 }

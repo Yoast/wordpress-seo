@@ -141,6 +141,8 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 			'date_archive_title'   => 'title-archive-wpseo',
 			'search_title'         => 'title-search-wpseo',
 			'404_title'            => 'title-404-wpseo',
+			'pt_post_title'        => 'title-post',
+			'pt_page_title'        => 'title-page',
 		);
 		$options  = get_option( 'rank-math-options-titles' );
 
@@ -166,6 +168,7 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 			$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'rank-math-%'" );
 			$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '%rank_math%'" );
 		}
+
 		return $return;
 	}
 }
