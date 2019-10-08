@@ -66,9 +66,11 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_id', 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'term' );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_sub_type', 'category' );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://example.org/category/1' );
 		$indexable_mock->orm->expects( 'set' )->with( 'canonical', 'https://canonical-term' );
-		$indexable_mock->orm->expects( 'set' )->with( 'object_sub_type', 'category' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'breadcrumb_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );

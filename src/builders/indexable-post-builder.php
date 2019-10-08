@@ -38,8 +38,10 @@ class Indexable_Post_Builder {
 	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
 	 */
 	public function build( $post_id, $indexable ) {
-		$indexable->permalink       = \get_permalink( $post_id );
+		$indexable->object_id       = $post_id;
+		$indexable->object_type     = 'post';
 		$indexable->object_sub_type = \get_post_type( $post_id );
+		$indexable->permalink       = \get_permalink( $post_id );
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( $post_id, 'focuskw' ),
