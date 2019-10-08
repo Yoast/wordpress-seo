@@ -91,7 +91,7 @@ class Indexable_Presentation_Test extends TestCase {
 			->andReturn( null );
 
 		$this->image_helper
-			->expects( 'get_attachment_variations' )
+			->expects( 'get_best_attachment_variation' )
 			->once()
 			->with(
 				1337,
@@ -102,7 +102,7 @@ class Indexable_Presentation_Test extends TestCase {
 					'max_height' => 2000,
 				]
 			)
-			->andReturn( 'image.jpg' );
+			->andReturn( [ 'url' => 'image.jpg' ] );
 
 		$this->assertEquals( 'image.jpg', $this->instance->get_attachment_url_by_id( 1337 ) );
 	}
