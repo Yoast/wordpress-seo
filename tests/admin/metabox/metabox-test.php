@@ -13,7 +13,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group Metabox
  *
  * @coversDefaultClass \WPSEO_Metabox
- * @covers <!public>
+ * @covers ::<!public>
  */
 class Metabox_Test extends TestCase {
 

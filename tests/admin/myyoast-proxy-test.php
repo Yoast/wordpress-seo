@@ -14,7 +14,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group MyYoast
  *
  * @coversDefaultClass WPSEO_MyYoast_Proxy
- * @covers <!public>
+ * @covers ::<!public>
  */
 class MyYoast_Proxy_Test extends TestCase {
 
