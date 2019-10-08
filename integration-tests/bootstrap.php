@@ -51,6 +51,9 @@ tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 // Overwrite the plugin URL to not include the full path.
 tests_add_filter( 'plugins_url', '_plugins_url', 10, 3 );
 
+// Make sure the tests never register as being in development mode.
+tests_add_filter( 'yoast_seo_development_mode', '__return_false' );
+
 /* *****[ Yoast SEO specific configuration ]***** */
 
 if ( ! defined( 'YOAST_ENVIRONMENT' ) ) {

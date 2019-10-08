@@ -9,6 +9,7 @@
  * Sitemap provider for author archives.
  */
 class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
+
 	/**
 	 * Holds image parser instance.
 	 *

@@ -84,7 +84,6 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * @covers WPSEO_Configuration_Endpoint::register
-	 *
 	 */
 	public function test_register() {
 

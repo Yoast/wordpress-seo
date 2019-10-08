@@ -83,7 +83,7 @@
 	<rule ref="PHPCompatibility.Keywords.NewKeywords.t_dirFound">
         <exclude-pattern>*/src/*.php$</exclude-pattern>
         <exclude-pattern>*/config/*.php$</exclude-pattern>
-		<exclude-pattern>ruckusing.conf.php$</exclude-pattern>
+		<exclude-pattern>*/ruckusing\.conf\.php$</exclude-pattern>
     </rule>
     <rule ref="PHPCompatibility.Keywords.NewKeywords.t_traitFound">
         <exclude-pattern>*/src/*.php$</exclude-pattern>
@@ -116,7 +116,7 @@
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 		<exclude-pattern>*/config/*.php$</exclude-pattern>
 		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
-		<exclude-pattern>ruckusing.conf.php$</exclude-pattern>
+		<exclude-pattern>*/ruckusing\.conf\.php$</exclude-pattern>
 	</rule>
 	<rule ref="PHPCompatibility.Syntax.NewFunctionArrayDereferencing.Found">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
@@ -148,4 +148,31 @@
 	<rule ref="PHPCompatibility.FunctionUse.NewFunctionParameters.array_unique_sort_flagsFound">
 		<exclude-pattern>*/inc/sitemaps/class-sitemap-image-parser\.php$</exclude-pattern>
 	</rule>
+
+	<!--
+	#############################################################################
+	TEMPORARY TWEAK
+	YoastCS will demand short arrays, but until support for WP < 5.2 has been
+	dropped, this can - for now - only be allowed (and enforced) for the folders
+	containing PHP 5.6+ code.
+	#############################################################################
+	-->
+
+	<rule ref="Generic.Arrays.DisallowShortArraySyntax">
+		<exclude-pattern>*/ruckusing\.conf\.php$</exclude-pattern>
+		<exclude-pattern>*/config/*\.php$</exclude-pattern>
+		<exclude-pattern>*/migrations/*\.php$</exclude-pattern>
+		<exclude-pattern>*/src/*\.php$</exclude-pattern>
+		<exclude-pattern>*/tests/*\.php$</exclude-pattern>
+	</rule>
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax">
+		<exclude-pattern>*/wp-seo-main\.php$</exclude-pattern>
+		<exclude-pattern>*/admin/*\.php$</exclude-pattern>
+		<exclude-pattern>*/cli/*\.php$</exclude-pattern>
+		<exclude-pattern>*/frontend/*\.php$</exclude-pattern>
+		<exclude-pattern>*/inc/*\.php$</exclude-pattern>
+		<exclude-pattern>*/integration-tests/*\.php$</exclude-pattern>
+		<exclude-pattern>*/scripts/*\.php$</exclude-pattern>
+	</rule>
+
 </ruleset>

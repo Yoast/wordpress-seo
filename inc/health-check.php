@@ -10,8 +10,19 @@
  */
 abstract class WPSEO_Health_Check {
 
+	/**
+	 * @var string
+	 */
 	const STATUS_GOOD = 'good';
+
+	/**
+	 * @var string
+	 */
 	const STATUS_RECOMMENDED = 'recommended';
+
+	/**
+	 * @var string
+	 */
 	const STATUS_CRITICAL = 'critical';
 
 	/**

@@ -25,7 +25,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		/** @var \Yoast\WP\Free\Tests\Doubles\Admin\MyYoast_Proxy_Double $instance */
 		$instance = $this
 			->getMockBuilder( MyYoast_Proxy_Double::class )
-			->setMethods( array( 'get_proxy_file', 'get_plugin_version' ) )
+			->setMethods( [ 'get_proxy_file', 'get_plugin_version' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -36,10 +36,10 @@ class MyYoast_Proxy_Test extends TestCase {
 				->method( 'get_plugin_version' )
 				->will( $this->returnValue( '1.0' ) );
 
-		$expected = array(
+		$expected = [
 			'content_type' => 'text/javascript; charset=UTF-8',
 			'url'          => 'https://my.yoast.com/api/downloads/file/analysis-worker?plugin_version=1.0',
-		);
+		];
 
 		$this->assertEquals( $expected, $instance->determine_proxy_options() );
 	}
@@ -52,7 +52,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		/** @var \WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
-			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'set_header' ) )
+			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'set_header' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -77,7 +77,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		/** @var \WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
-			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
+			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ] )
 			->getMock();
 
 		$instance
@@ -132,7 +132,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		/** @var \WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
-			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
+			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ] )
 			->getMock();
 
 		$instance
@@ -207,7 +207,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		/** @var \WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
-			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
+			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ] )
 			->getMock();
 
 		$instance
@@ -244,7 +244,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		/** @var \WPSEO_MyYoast_Proxy $instance */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
-			->setMethods( array( 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ) )
+			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ] )
 			->getMock();
 
 		$instance

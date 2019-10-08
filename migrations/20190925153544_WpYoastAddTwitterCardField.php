@@ -19,7 +19,7 @@ class WpYoastAddTwitterCardField extends Ruckusing_Migration_Base {
 	public function up() {
 		$table_name = $this->get_table_name();
 
-		$this->add_column( $table_name, 'twitter_card', 'string', array( 'null' => true, 'limit' => 191 ) );
+		$this->add_column( $table_name, 'twitter_card', 'string', [ 'null' => true, 'limit' => 191 ] );
 	}
 
 	/**
