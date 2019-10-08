@@ -23,7 +23,7 @@ class WPSEO_Image_Utils {
 		 * we strip out the size part of an image URL.
 		 */
 		$url = preg_replace( '/(.*)-\d+x\d+\.(jpg|png|gif)$/', '$1.$2', $url );
-		
+
 		static $uploads;
 
 		if ( $uploads === null ) {
