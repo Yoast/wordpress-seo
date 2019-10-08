@@ -30,15 +30,15 @@ class Indexable_Search_Result_Watcher implements Integration_Interface {
 	protected $repository;
 
 	/**
-	 * @var \Yoast\WP\Free\Builders\Indexable_Search_Result_Builder
+	 * @var Indexable_Search_Result_Builder
 	 */
 	protected $builder;
 
 	/**
 	 * Indexable_Author_Watcher constructor.
 	 *
-	 * @param \Yoast\WP\Free\Repositories\Indexable_Repository    $repository The repository to use.
-	 * @param \Yoast\WP\Free\Builders\Indexable_Search_Result_Builder $builder    The post builder to use.
+	 * @param Indexable_Repository            $repository The repository to use.
+	 * @param Indexable_Search_Result_Builder $builder    The post builder to use.
 	 */
 	public function __construct( Indexable_Repository $repository, Indexable_Search_Result_Builder $builder ) {
 		$this->repository = $repository;
@@ -55,23 +55,22 @@ class Indexable_Search_Result_Watcher implements Integration_Interface {
 	/**
 	 * Checks if the home page indexable needs to be rebuild based on option values.
 	 *
-	 * @param array  $old_value The old value of the option.
-	 * @param array  $new_value The new value of the option.
-	 * @param string $option    The name of the option.
+	 * @param array $old_value The old value of the option.
+	 * @param array $new_value The new value of the option.
 	 *
 	 * @return void
 	 */
 	public function check_option( $old_value, $new_value ) {
 		// If both values aren't set they haven't changed.
-		if ( ! isset( $old_value[ 'title-search-wpseo' ] ) && ! isset( $new_value[ 'title-search-wpseo' ] ) ) {
+		if ( ! isset( $old_value['title-search-wpseo'] ) && ! isset( $new_value['title-search-wpseo'] ) ) {
 			return;
 		}
 
 		// If the value was set but now isn't, is set but wasn't or is not the same it has changed.
 		if (
-			! isset( $old_value[ 'title-search-wpseo' ] ) ||
-			! isset( $new_value[ 'title-search-wpseo' ] ) ||
-			$old_value[ 'title-search-wpseo' ] !== $new_value[ 'title-search-wpseo' ]
+			! isset( $old_value['title-search-wpseo'] ) ||
+			! isset( $new_value['title-search-wpseo'] ) ||
+			$old_value['title-search-wpseo'] !== $new_value['title-search-wpseo']
 		) {
 			$this->build_indexable();
 		}
