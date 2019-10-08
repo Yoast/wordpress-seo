@@ -3,11 +3,8 @@
 namespace Yoast\WP\Free\Tests\Presenters\Open_Graph;
 
 use Mockery;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Presenters\Open_Graph\Image_Presenter;
-use Yoast\WP\Free\Tests\Doubles\Presenters\Open_Graph\Image_Presenter_Double;
 use Yoast\WP\Free\Tests\TestCase;
 use Brain\Monkey;
 
@@ -23,7 +20,7 @@ use Brain\Monkey;
 class Image_Presenter_Test extends TestCase {
 
 	/**
-	 * @var Image_Presenter_Double|Mockery\MockInterface
+	 * @var Image_Presenter|Mockery\MockInterface
 	 */
 	protected $instance;
 

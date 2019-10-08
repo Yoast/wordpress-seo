@@ -77,16 +77,16 @@ trait Presentation_Instance_Builder {
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$this->og_image_helper     = Mockery::mock( OG_Image_Helper::class );
 
-		$this->context             = Mockery::mock( Meta_Tags_Context::class )->makePartial();
+		$this->context = Mockery::mock( Meta_Tags_Context::class );
 
-		$this->og_image_generator  = Mockery::mock(
+		$this->og_image_generator = Mockery::mock(
 			OG_Image_Generator::class,
 			[
 				$this->og_image_helper,
 				$this->image_helper,
 				$this->options_helper,
 			]
-		)->makePartial();
+		);
 
 		$instance = Mockery::mock( Indexable_Presentation::class )
 			->shouldAllowMockingProtectedMethods()

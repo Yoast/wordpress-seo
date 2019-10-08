@@ -7,10 +7,8 @@
 
 namespace Yoast\WP\Free\Presenters\Open_Graph;
 
-use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
-use Yoast\WP\Free\Values\Open_Graph\Images;
 
 /**
  * Class Image_Presenter

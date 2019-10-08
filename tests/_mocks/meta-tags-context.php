@@ -63,6 +63,11 @@ class Meta_Tags_Context extends \Yoast\WP\Free\Context\Meta_Tags_Context {
 	/**
 	 * @var string
 	 */
+	public $wordpress_site_name;
+
+	/**
+	 * @var string
+	 */
 	public $site_url;
 
 	/**

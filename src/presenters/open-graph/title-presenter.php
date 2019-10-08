@@ -26,7 +26,7 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 		$title = $this->filter( $this->replace_vars( $presentation->og_title, $presentation ) );
 
 		if ( is_string( $title ) && $title !== '' ) {
-			return '<meta property="og:title" value="' . \esc_attr( \wp_strip_all_tags( \stripslashes( $title ) ) ) . '"/>';
+			return '<meta property="og:title" content="' . \esc_attr( \wp_strip_all_tags( \stripslashes( $title ) ) ) . '"/>';
 		}
 
 		return '';

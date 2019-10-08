@@ -282,6 +282,15 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
+	 * Generates the open graph site name.
+	 *
+	 * @return string The open graph site name.
+	 */
+	public function generate_og_site_name() {
+		return $this->context->wordpress_site_name;
+	}
+
+	/**
 	 * Generates the Twitter card type.
 	 *
 	 * @return string The Twitter card type.
@@ -404,7 +413,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return '';
 		}
 
-		$default_image_id  = $this->options_helper->get( 'og_default_image_id', '' );
+		$default_image_id = $this->options_helper->get( 'og_default_image_id', '' );
 		if ( $default_image_id ) {
 			$attachment_url = $this->get_attachment_url_by_id( $default_image_id );
 			if ( $attachment_url ) {
