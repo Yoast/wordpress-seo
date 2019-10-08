@@ -60,24 +60,6 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_og_images() {
-		$images = parent::generate_og_images();
-
-		if ( ! empty( $images ) ) {
-			return $images;
-		}
-
-		$default_image = $this->get_default_og_image();
-		if ( $default_image ) {
-			return [ $default_image ];
-		}
-
-		return [];
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function generate_twitter_description() {
 		$twitter_description = parent::generate_twitter_description();
 

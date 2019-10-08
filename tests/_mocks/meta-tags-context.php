@@ -3,12 +3,6 @@ namespace Yoast\WP\Free\Tests\Mocks;
 
 use WP_Block_Parser_Block;
 use WP_Post;
-use WPSEO_Replace_Vars;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Schema\ID_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 
 /**
@@ -110,6 +104,11 @@ class Meta_Tags_Context extends \Yoast\WP\Free\Context\Meta_Tags_Context {
 	 * @var string
 	 */
 	public $main_schema_id;
+
+	/**
+	 * @var bool
+	 */
+	public $open_graph_enabled = true;
 
 	/**
 	 * Meta_Tags_Context constructor.

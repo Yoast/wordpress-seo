@@ -6,7 +6,7 @@ use Yoast\WP\Free\Tests\TestCase;
 use Brain\Monkey;
 
 /**
- * Class Abstract_Robots_Presenter_Test
+ * Class Twitter_Image_Test
  *
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Term_Archive_Presentation
  *
