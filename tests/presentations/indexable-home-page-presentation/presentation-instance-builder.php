@@ -21,7 +21,7 @@ trait Presentation_Instance_Builder {
 	protected $indexable;
 
 	/**
-	 * @var Indexable_Home_Page_Presentation
+	 * @var Indexable_Home_Page_Presentation|Mockery\MockInterface
 	 */
 	protected $instance;
 
@@ -61,7 +61,9 @@ trait Presentation_Instance_Builder {
 		$this->image_helper        = Mockery::mock( Image_Helper::class );
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 
-		$instance = new Indexable_Home_Page_Presentation();
+		$instance = Mockery::mock(Indexable_Home_Page_Presentation::class )
+			->makePartial()
+			->shouldAllowMockingProtectedMethods();
 
 		$this->instance = $instance->of( [ 'model' => $this->indexable ] );
 		$this->instance->set_helpers(

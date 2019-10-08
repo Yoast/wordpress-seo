@@ -13,6 +13,7 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
  *
+ * @group presentations
  * @group title-test
  */
 class Title_Test extends TestCase {

@@ -208,6 +208,7 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	private function get_context( Indexable $indexable ) {
 		$blocks = [];
+		$post   = null;
 		if ( $indexable->object_type === 'post' ) {
 			$post   = \get_post( $indexable->object_id );
 			$blocks = $this->blocks_helper->get_all_blocks_from_content( $post->post_content );

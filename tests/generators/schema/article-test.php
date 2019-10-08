@@ -134,7 +134,7 @@ class Article_Test extends TestCase {
 	public function test_generate() {
 		$this->context_mock->id                      = 5;
 		$this->context_mock->title                   = 'the-title';
-		$this->context_mock->canonical               = "https://permalink";
+		$this->context_mock->canonical               = 'https://permalink';
 		$this->context_mock->has_image               = true;
 		$this->context_mock->post->post_author       = '3';
 		$this->context_mock->post->post_date_gmt     = '2345-12-12 12:12:12';
