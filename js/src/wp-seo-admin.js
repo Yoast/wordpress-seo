@@ -242,6 +242,14 @@ import { debounce } from "lodash";
 		}
 
 		jQuery( window ).on( "resize scroll", debounce( onViewportChange, 100 ) );
+		jQuery( window ).on( "yoast-seo-tab-change", onViewportChange );
+
+		const messages = jQuery( ".wpseo-message" );
+		if ( messages.length ) {
+			window.setTimeout( () => {
+				messages.fadeOut();
+			}, 5000 );
+		}
 
 		onViewportChange();
 	}
@@ -327,6 +335,8 @@ import { debounce } from "lodash";
 			} else {
 				jQuery( "#wpseo-submit-container" ).show();
 			}
+
+			jQuery( window ).trigger( "yoast-seo-tab-change" );
 		} );
 
 		// Handle the Company or Person select.
@@ -367,9 +377,10 @@ import { debounce } from "lodash";
 				.find( "span" ).toggleClass( "dashicons-arrow-up-alt2 dashicons-arrow-down-alt2" );
 		} );
 
-		setFixedSubmitButtonVisibility();
 		wpseoCopyHomeMeta();
 		setInitialActiveTab();
 		initSelect2();
+		// Should be called after the initial active tab has been set.
+		setFixedSubmitButtonVisibility();
 	} );
 }() );

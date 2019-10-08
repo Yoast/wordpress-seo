@@ -54,6 +54,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 						'wpseo_bctitle'               => 'breadcrumb_title',
 						'wpseo_opengraph-title'       => 'og_title',
 						'wpseo_opengraph-image'       => 'og_image',
+						'wpseo_opengraph-image-id'    => 'og_image_id',
 						'wpseo_opengraph-description' => 'og_description',
 						'wpseo_twitter-title'         => 'twitter_title',
 						'wpseo_twitter-image'         => 'twitter_image',
@@ -73,6 +74,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_title', 'og_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'og_image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', 'og_image_id' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_description', 'og_description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_title', 'twitter_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );

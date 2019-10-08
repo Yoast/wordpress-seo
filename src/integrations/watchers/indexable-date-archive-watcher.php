@@ -61,7 +61,7 @@ class Indexable_Date_Archive_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function check_option( $old_value, $new_value ) {
-		$relevant_keys = ['title-archive-wpseo', 'breadcrumbs-archiveprefix', 'metadesc-archive-wpseo', 'noindex-archive-wpseo' ];
+		$relevant_keys = [ 'title-archive-wpseo', 'breadcrumbs-archiveprefix', 'metadesc-archive-wpseo', 'noindex-archive-wpseo' ];
 
 		foreach ( $relevant_keys as $key ) {
 			// If both values aren't set they haven't changed.

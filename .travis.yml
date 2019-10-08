@@ -236,7 +236,7 @@ script:
       SKIP_CLI="-o -path ./cli -prune"
     fi
     if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then
-      find -L . -path ./vendor -prune -o -path ./node_modules -prune $SKIP_CLI -o -path ./migrations -prune -o -path ./src -prune -o -path ./tests -prune -o -path ./config -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
+      find -L . -path ./ruckusing.conf.php -prune -o -path ./vendor -prune -o -path ./node_modules -prune $SKIP_CLI -o -path ./migrations -prune -o -path ./src -prune -o -path ./tests -prune -o -path ./config -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
     else
       find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
     fi
@@ -247,9 +247,9 @@ script:
   if [[ "$PHPCS" == "1" ]]; then
     travis_fold start "PHP.code-style" && travis_time_start
     if [[ -d "premium" ]]; then
-      composer premium-check-cs
+      composer premium-check-cs -- -n
     else
-      vendor/bin/phpcs -q --runtime-set ignore_warnings_on_exit 1
+      vendor/bin/phpcs -qn
     fi
     travis_time_finish && travis_fold end "PHP.code-style"
   fi
