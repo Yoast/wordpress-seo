@@ -99,6 +99,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
+	 * @required
+	 *
 	 * Used by dependency injection container to inject the Robots_Helper.
 	 *
 	 * @param Robots_Helper       $robots_helper       The robots helper.
