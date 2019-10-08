@@ -13,6 +13,7 @@ use Yoast\WP\Free\Models\Indexable;
  * Class Robots_Helper
  */
 class Robots_Helper {
+
 	/**
 	 * Gets the default robots settings applicable for all types of pages.
 	 *
