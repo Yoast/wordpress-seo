@@ -561,8 +561,8 @@ class WPSEO_Sitemaps {
 		}
 
 		// Ping Google and Bing.
-		wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $url, array( 'blocking' => false ) );
-		wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $url, array( 'blocking' => false ) );
+		wp_remote_get( 'https://www.google.com/ping?sitemap=' . $url, array( 'blocking' => false ) );
+		wp_remote_get( 'https://www.bing.com/ping?sitemap=' . $url, array( 'blocking' => false ) );
 	}
 
 	/**
@@ -624,9 +624,9 @@ class WPSEO_Sitemaps {
 		}
 
 		$headers = array(
-			$this->http_protocol . ' 200 OK'                                                       => 200,
+			$this->http_protocol . ' 200 OK' => 200,
 			// Prevent the search engines from indexing the XML Sitemap.
-			'X-Robots-Tag: noindex, follow'                                                        => '',
+			'X-Robots-Tag: noindex, follow'  => '',
 			'Content-Type: text/xml; charset=' . esc_attr( $this->renderer->get_output_charset() ) => '',
 		);
 

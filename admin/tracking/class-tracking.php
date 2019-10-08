@@ -45,8 +45,8 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	 * @param int    $threshold The limit for the option.
 	 */
 	public function __construct( $endpoint, $threshold ) {
-		$this->endpoint  = $endpoint;
-		$this->threshold = $threshold;
+		$this->endpoint     = $endpoint;
+		$this->threshold    = $threshold;
 		$this->current_time = time();
 	}
 

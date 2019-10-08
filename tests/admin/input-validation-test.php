@@ -22,20 +22,20 @@ class Input_Validation_Test extends TestCase {
 	public function test_document_title_updated_with_error() {
 		$admin_title = 'Original title';
 
-		Monkey\Functions\stubs( [
-			'add_settings_error' => null,
-		] );
+		Monkey\Functions\stubs( [ 'add_settings_error' => null ] );
 
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()
-			->andReturn( [
+			->andReturn(
 				[
-					'setting' => 'yoast-setting-group-name',
-					'code'    => 'code',
-					'message' => 'This is the error message',
-					'type'    => 'error',
-				],
-			] );
+					[
+						'setting' => 'yoast-setting-group-name',
+						'code'    => 'code',
+						'message' => 'This is the error message',
+						'type'    => 'error',
+					],
+				]
+			);
 
 		$title_with_error_message = Yoast_Input_Validation::add_yoast_admin_document_title_errors( $admin_title );
 
@@ -51,27 +51,26 @@ class Input_Validation_Test extends TestCase {
 	public function test_document_title_updated_with_errors() {
 		$admin_title = 'Original title';
 
-		Monkey\Functions\stubs( [
-			'add_settings_error' => null,
-		] );
+		Monkey\Functions\stubs( [ 'add_settings_error' => null ] );
 
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()
-			->andReturn( [
+			->andReturn(
 				[
-					'setting' => 'yoast-setting-first-group-name',
-					'code'    => 'first-code',
-					'message' => 'This is the first error message',
-					'type'    => 'error',
-				],
-				[
-					'setting' => 'yoast-setting-second-group-name',
-					'code'    => 'second-code',
-					'message' => 'This is the second error message',
-					'type'    => 'error',
-				],
-			] );
-
+					[
+						'setting' => 'yoast-setting-first-group-name',
+						'code'    => 'first-code',
+						'message' => 'This is the first error message',
+						'type'    => 'error',
+					],
+					[
+						'setting' => 'yoast-setting-second-group-name',
+						'code'    => 'second-code',
+						'message' => 'This is the second error message',
+						'type'    => 'error',
+					],
+				]
+			);
 
 		$title_with_error_message = Yoast_Input_Validation::add_yoast_admin_document_title_errors( $admin_title );
 
@@ -87,20 +86,20 @@ class Input_Validation_Test extends TestCase {
 	public function test_document_title_not_updated_with_non_yoast_errors() {
 		$admin_title = 'Original title';
 
-		Monkey\Functions\stubs( [
-			'add_settings_error' => null,
-		] );
+		Monkey\Functions\stubs( [ 'add_settings_error' => null ] );
 
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()
-			->andReturn( [
+			->andReturn(
 				[
-					'setting' => 'new_admin_email',
-					'code'    => 'invalid_new_admin_email',
-					'message' => 'This is the error message',
-					'type'    => 'error',
-				],
-			] );
+					[
+						'setting' => 'new_admin_email',
+						'code'    => 'invalid_new_admin_email',
+						'message' => 'This is the error message',
+						'type'    => 'error',
+					],
+				]
+			);
 
 		$title_with_error_message = Yoast_Input_Validation::add_yoast_admin_document_title_errors( $admin_title );
 
@@ -116,20 +115,20 @@ class Input_Validation_Test extends TestCase {
 	public function test_document_title_not_updated_with_settings_updated_error() {
 		$admin_title = 'Original title';
 
-		Monkey\Functions\stubs( [
-			'add_settings_error' => null,
-		] );
+		Monkey\Functions\stubs( [ 'add_settings_error' => null ] );
 
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()
-			->andReturn( [
+			->andReturn(
 				[
-					'setting' => 'new_admin_email',
-					'code'    => 'settings_updated',
-					'message' => 'This is the error message',
-					'type'    => 'error',
-				],
-			] );
+					[
+						'setting' => 'new_admin_email',
+						'code'    => 'settings_updated',
+						'message' => 'This is the error message',
+						'type'    => 'error',
+					],
+				]
+			);
 
 		$title_with_error_message = Yoast_Input_Validation::add_yoast_admin_document_title_errors( $admin_title );
 
@@ -152,21 +151,21 @@ class Input_Validation_Test extends TestCase {
 			],
 		];
 
-		Monkey\Functions\stubs( [
-			'add_settings_error' => null,
-		] );
+		Monkey\Functions\stubs( [ 'add_settings_error' => null ] );
 
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()
-			->andReturn( [
+			->andReturn(
 				[
-					'setting'           => 'name_of_input_field_with_error',
-					'code'              => 'name_of_input_field_with_error',
-					'message'           => 'This is the error message',
-					'type'              => 'error',
-					'yoast_dirty_value' => 'Invalid submitted value',
-				],
-			] );
+					[
+						'setting'           => 'name_of_input_field_with_error',
+						'code'              => 'name_of_input_field_with_error',
+						'message'           => 'This is the error message',
+						'type'              => 'error',
+						'yoast_dirty_value' => 'Invalid submitted value',
+					],
+				]
+			);
 
 		Yoast_Input_Validation::add_dirty_value_to_settings_errors( 'name_of_input_field_with_error', 'Invalid submitted value' );
 
@@ -192,21 +191,21 @@ class Input_Validation_Test extends TestCase {
 			],
 		];
 
-		Monkey\Functions\stubs( [
-			'add_settings_error' => null,
-		] );
+		Monkey\Functions\stubs( [ 'add_settings_error' => null ] );
 
 		Monkey\Functions\expect( 'get_settings_errors' )
 			->once()
-			->andReturn( [
+			->andReturn(
 				[
-					'setting'           => 'name_of_input_field_with_error',
-					'code'              => 'name_of_input_field_with_error',
-					'message'           => 'This is the error message',
-					'type'              => 'error',
-					'yoast_dirty_value' => 'Invalid submitted value',
-				],
-			] );
+					[
+						'setting'           => 'name_of_input_field_with_error',
+						'code'              => 'name_of_input_field_with_error',
+						'message'           => 'This is the error message',
+						'type'              => 'error',
+						'yoast_dirty_value' => 'Invalid submitted value',
+					],
+				]
+			);
 
 		Yoast_Input_Validation::add_dirty_value_to_settings_errors( 'name_of_input_field_with_error', 'Invalid submitted value' );
 

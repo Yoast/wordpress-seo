@@ -213,7 +213,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @return void
 	 */
-	private function import_taxonomy_description( & $tax_meta, $taxonomy, $term_id ) {
+	private function import_taxonomy_description( &$tax_meta, $taxonomy, $term_id ) {
 		$description = get_option( 'wpseo_' . $taxonomy . '_' . $term_id, false );
 		if ( $description !== false ) {
 			// Import description.
@@ -230,7 +230,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @return void
 	 */
-	private function import_taxonomy_robots( & $tax_meta, $taxonomy, $term_id ) {
+	private function import_taxonomy_robots( &$tax_meta, $taxonomy, $term_id ) {
 		$wpseo_robots = get_option( 'wpseo_' . $taxonomy . '_' . $term_id . '_robots', false );
 		if ( $wpseo_robots === false ) {
 			return;

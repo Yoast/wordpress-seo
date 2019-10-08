@@ -17,7 +17,7 @@ class Role_Manager_Test extends TestCase {
 
 		$this->assertNotContains( 'role', $instance->get_roles() );
 
-		$instance->register( 'role', 'My Role', array() );
+		$instance->register( 'role', 'My Role', [] );
 
 		$this->assertContains( 'role', $instance->get_roles() );
 	}
@@ -28,7 +28,7 @@ class Role_Manager_Test extends TestCase {
 		Monkey\Functions\expect( 'get_role' )
 			->once()
 			->with( 'administrator' )
-			->andReturn( (object) array( 'capabilities' => array( 'manage_options' => true ) ) );
+			->andReturn( (object) [ 'capabilities' => [ 'manage_options' => true ] ] );
 
 		$capabilities = $instance->get_capabilities( 'administrator' );
 
@@ -46,12 +46,12 @@ class Role_Manager_Test extends TestCase {
 			->andReturn( false );
 
 		$result = $instance->get_capabilities( false );
-		$this->assertSame( array(), $result );
+		$this->assertSame( [], $result );
 
 		$result = $instance->get_capabilities( new stdClass() );
-		$this->assertSame( array(), $result );
+		$this->assertSame( [], $result );
 
 		$result = $instance->get_capabilities( 'fake_role' );
-		$this->assertSame( array(), $result );
+		$this->assertSame( [], $result );
 	}
 }

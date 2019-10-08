@@ -6,7 +6,7 @@
  */
 
 /**
- * A Wordpress integration that listens for whether the SEO changes have been saved successfully.
+ * A WordPress integration that listens for whether the SEO changes have been saved successfully.
  */
 class WPSEO_Admin_Settings_Changed_Listener implements WPSEO_WordPress_Integration {
 
