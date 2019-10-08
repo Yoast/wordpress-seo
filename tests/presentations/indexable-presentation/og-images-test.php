@@ -26,19 +26,14 @@ class OG_Images_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the og_image_id is set.
+	 * Tests the situation where the featured image id is set.
 	 *
 	 * @covers ::generate_og_images
 	 */
-	public function test_with_og_image_id() {
-		$this->indexable->og_image_id = 2;
+	public function test_with_opengraph_disabled() {
+		$this->context->open_graph_enabled = false;
 
-		$this->instance
-			->expects( 'get_attachment_url_by_id' )
-			->once()
-			->andReturn( 'default_image.jpg' );
-
-		$this->assertEquals( [ 'default_image.jpg' ], $this->instance->generate_og_images() );
+		$this->assertEmpty( $this->instance->generate_og_images() );
 	}
 
 	/**
@@ -46,29 +41,16 @@ class OG_Images_Test extends TestCase {
 	 *
 	 * @covers ::generate_og_images
 	 */
-	public function test_with__og_image() {
-		$this->indexable->og_image = 'default_image.jpg';
+	public function test_with_generator_result() {
+		$this->indexable->og_image = 'facebook_image.jpg';
 
-		$this->instance
-			->expects( 'get_attachment_url_by_id' )
+		$this->og_image_generator
+			->expects( 'generate' )
 			->once()
-			->andReturnFalse();
+			->with( $this->context )
+			->andReturn( [ 'facebook_image.jpg' ] );
 
-		$this->assertEquals( [ 'default_image.jpg' ], $this->instance->generate_og_images() );
-	}
-
-	/**
-	 * Tests the situation where no situation is applicable.
-	 *
-	 * @covers ::generate_og_images
-	 */
-	public function test_with_no_applicable_situation() {
-		$this->instance
-			->expects( 'get_default_og_image' )
-			->once()
-			->andReturnFalse();
-
-		$this->assertEquals( [], $this->instance->generate_og_images() );
+		$this->assertEquals( [ 'facebook_image.jpg' ], $this->instance->generate_og_images() );
 	}
 
 }

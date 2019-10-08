@@ -112,6 +112,11 @@ class Meta_Tags_Context extends \Yoast\WP\Free\Context\Meta_Tags_Context {
 	public $main_schema_id;
 
 	/**
+	 * @var bool
+	 */
+	public $open_graph_enabled = true;
+
+	/**
 	 * Meta_Tags_Context constructor.
 	 */
 	public function __construct() {

@@ -7,16 +7,18 @@
 
 namespace Yoast\WP\Free\Generators;
 
+use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\Presentations\Generators\Generator_Interface;
 use Yoast\WP\Free\Values\Open_Graph\Images;
 
 /**
  * Represents the generator class for the Open Graph images.
  */
-class OG_Image_Generator {
+class OG_Image_Generator implements Generator_Interface {
 
 	/**
 	 * @var Open_Graph_Image_Helper
@@ -55,11 +57,12 @@ class OG_Image_Generator {
 	/**
 	 * Retrieves the images for an indexable.
 	 *
-	 * @param Indexable $indexable The indexable to get the images for.
+	 * @param Meta_Tags_Context $context The context.
 	 *
 	 * @return array The images.
 	 */
-	public function generate( Indexable $indexable ) {
+	public function generate( Meta_Tags_Context $context ) {
+		$indexable       = $context->indexable;
 		$image_container = $this->get_image_container();
 
 		/**

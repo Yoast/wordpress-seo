@@ -18,11 +18,6 @@ use Yoast\WP\Free\Values\Open_Graph\Images;
 class Image_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
-	 * @var Open_Graph_Image_Helper
-	 */
-	protected $open_graph_image_helper;
-
-	/**
 	 * Image tags that we output for each image.
 	 *
 	 * @var array
@@ -34,17 +29,6 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	];
 
 	/**
-	 * Image_Presenter constructor.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param Open_Graph_Image_Helper $open_graph_image_helper The image helper.
-	 */
-	public function __construct( Open_Graph_Image_Helper $open_graph_image_helper ) {
-		$this->open_graph_image_helper = $open_graph_image_helper;
-	}
-
-	/**
 	 * Returns the image for a post.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
@@ -52,29 +36,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The image tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$open_graph_images = new Images( $this->open_graph_image_helper );
-
-		/**
-		 * Filter: wpseo_add_opengraph_images - Allow developers to add images to the OpenGraph tags.
-		 *
-		 * @api WPSEO_OpenGraph_Image The current object.
-		 */
-		do_action( 'wpseo_add_opengraph_images', $open_graph_images );
-
-		$images = (array) $presentation->og_images;
-
-		array_walk( $images, [ $open_graph_images, 'add_image' ] );
-
-		/**
-		 * Filter: wpseo_add_opengraph_additional_images - Allows to add additional images to the OpenGraph tags.
-		 *
-		 * @api WPSEO_OpenGraph_Image The current object.
-		 */
-		do_action( 'wpseo_add_opengraph_additional_images', $open_graph_images );
-
-		$images = array_map( [ $this->open_graph_image_helper, 'format_image' ], $images );
-		$images = array_filter( $images, [ $this->open_graph_image_helper, 'is_image_url_valid' ] );
-		$images = array_map( [ $this, 'filter' ], $images );
+		$images = array_map( [ $this, 'filter' ], $presentation->og_images );
 
 		if ( empty( $images ) ) {
 			return '';

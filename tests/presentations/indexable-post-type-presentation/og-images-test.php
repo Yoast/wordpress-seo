@@ -27,32 +27,11 @@ class OG_Images_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the featured image id is set.
-	 *
-	 * @covers ::generate_og_images
-	 */
-	public function test_with_opengraph_disabled() {
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'opengraph' )
-			->once()
-			->andReturnFalse();
-
-		$this->assertEmpty( $this->instance->generate_og_images() );
-	}
-
-	/**
-	 * Tests the situation where the featured image id is set.
+	 * Tests the situation where the post is password protected.
 	 *
 	 * @covers ::generate_og_images
 	 */
 	public function test_for_password_protected_post() {
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'opengraph' )
-			->once()
-			->andReturnTrue();
-
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
 			->andReturn( true );
@@ -61,23 +40,23 @@ class OG_Images_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the og image is set.
+	 * Tests the situation where the parent method is called.
 	 *
 	 * @covers ::generate_og_images
 	 */
-	public function test_with_og_image() {
-		$this->options_helper
-			->expects( 'get' )
-			->with( 'opengraph' )
-			->once()
-			->andReturnTrue();
-
+	public function test_with_parent_call() {
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
 			->andReturn( false );
 
 		$this->indexable->og_image    = 'facebook_image.jpg';
 		$this->indexable->og_image_id = null;
+
+		$this->og_image_generator
+			->expects( 'generate' )
+			->once()
+			->with( $this->context )
+			->andReturn( [ 'facebook_image.jpg' ] );
 
 		$this->assertEquals( [ 'facebook_image.jpg' ], $this->instance->generate_og_images() );
 	}

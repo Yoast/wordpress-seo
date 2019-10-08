@@ -9,6 +9,7 @@ use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Url_Helper;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
+use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\Free\Tests\TestCase;
 use Yoast\WP\Free\Values\Open_Graph\Images;
 
@@ -54,6 +55,11 @@ class OG_Image_Generator_Test extends TestCase {
 	protected $image_container;
 
 	/**
+	 * @var Mockery\MockInterface|Meta_Tags_Context
+	 */
+	protected $context;
+
+	/**
 	 * Setup the test.
 	 */
 	public function setUp() {
@@ -77,7 +83,9 @@ class OG_Image_Generator_Test extends TestCase {
 			->once()
 			->andReturn( $this->image_container );
 
-		$this->indexable = new Indexable();
+		$this->indexable          = new Indexable();
+		$this->context            = Mockery::mock( Meta_Tags_Context::class );
+		$this->context->indexable = $this->indexable;
 	}
 
 	/**
@@ -97,7 +105,7 @@ class OG_Image_Generator_Test extends TestCase {
 			->once()
 			->with( 1337 );
 
-		$this->instance->generate( $this->indexable );
+		$this->instance->generate( $this->context );
 	}
 
 	/**
@@ -118,7 +126,7 @@ class OG_Image_Generator_Test extends TestCase {
 			->once()
 			->with( 'image.jpg' );
 
-		$this->instance->generate( $this->indexable );
+		$this->instance->generate( $this->context );
 	}
 
 	/**
@@ -138,7 +146,7 @@ class OG_Image_Generator_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		$this->instance->generate( $this->indexable );
+		$this->instance->generate( $this->context );
 	}
 
 	/**
@@ -158,7 +166,7 @@ class OG_Image_Generator_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		$this->instance->generate( $this->indexable );
+		$this->instance->generate( $this->context );
 	}
 
 	/**
@@ -184,7 +192,7 @@ class OG_Image_Generator_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->instance->generate( $this->indexable );
+		$this->instance->generate( $this->context );
 	}
 
 	/**
@@ -216,7 +224,7 @@ class OG_Image_Generator_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->instance->generate( $this->indexable );
+		$this->instance->generate( $this->context );
 	}
 
 	/**
@@ -245,7 +253,7 @@ class OG_Image_Generator_Test extends TestCase {
 			->with( 1 )
 			->andReturnNull();
 
-		$this->instance->generate( $this->indexable );
+		$this->instance->generate( $this->context );
 	}
 
 	/**
@@ -280,7 +288,7 @@ class OG_Image_Generator_Test extends TestCase {
 			->andReturnNull();
 
 
-		$this->instance->generate( $this->indexable );
+		$this->instance->generate( $this->context );
 	}
 
 	/**
@@ -309,7 +317,7 @@ class OG_Image_Generator_Test extends TestCase {
 			->with( 1 )
 			->andReturnNull();
 
-		$this->instance->generate( $this->indexable );
+		$this->instance->generate( $this->context );
 	}
 
 	/**
@@ -344,7 +352,7 @@ class OG_Image_Generator_Test extends TestCase {
 			->with( 'image.jpg' )
 			->andReturnNull();
 
-		$this->instance->generate( $this->indexable );
+		$this->instance->generate( $this->context );
 	}
 
 	/**
@@ -362,6 +370,6 @@ class OG_Image_Generator_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		$this->instance->generate( $this->indexable );
+		$this->instance->generate( $this->context );
 	}
 }

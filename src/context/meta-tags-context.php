@@ -35,6 +35,7 @@ use Yoast\WP\Free\Presentations\Indexable_Presentation;
  * @property bool        breadcrumbs_enabled
  * @property string      schema_page_type
  * @property string      main_schema_id
+ * @property bool        open_graph_enabled
  */
 class Meta_Tags_Context extends Abstract_Presentation {
 
