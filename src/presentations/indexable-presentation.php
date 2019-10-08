@@ -39,6 +39,7 @@ use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
  * @property string twitter_title
  * @property string twitter_description
  * @property string twitter_image
+ * @property string twitter_creator
  * @property array  replace_vars_object
  */
 class Indexable_Presentation extends Abstract_Presentation {
@@ -343,6 +344,15 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_image;
 		}
 
+		return '';
+	}
+
+	/**
+	 * Generates the Twitter creator.
+	 *
+	 * @return string The Twitter creator.
+	 */
+	public function generate_twitter_creator() {
 		return '';
 	}
 
