@@ -247,7 +247,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 
 		$instance = new WPSEO_Admin_Bar_Menu_Double();
 
-		$this->assertEquals( 'focus keyword', $instance->get_post_focus_keyword() );
+		$this->assertEquals( 'focus keyword', $instance->get_post_focus_keyword( $post->ID ) );
 	}
 
 	/**
@@ -262,18 +262,6 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the situation where the given object doesn't have an ID.
-	 *
-	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword
-	 */
-	public function test_get_post_focus_keyword_with_valid_object_but_no_id_property() {
-		$post     = new stdClass();
-		$instance = new WPSEO_Admin_Bar_Menu_Double();
-
-		$this->assertEquals( '', $instance->get_post_focus_keyword( $post ) );
-	}
-
-	/**
 	 * Tests the situation where the page analysis is disabled by filter.
 	 *
 	 * @covers WPSEO_Admin_Bar_Menu::get_post_focus_keyword
@@ -284,7 +272,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 		$post     = self::factory()->post->create_and_get();
 		$instance = new WPSEO_Admin_Bar_Menu_Double();
 
-		$this->assertEquals( '', $instance->get_post_focus_keyword( $post ) );
+		$this->assertEquals( '', $instance->get_post_focus_keyword( $post->ID ) );
 	}
 
 	/**
