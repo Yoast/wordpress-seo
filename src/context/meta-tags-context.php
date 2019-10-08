@@ -318,3 +318,5 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		return $this->canonical . $this->id_helper->webpage_hash;
 	}
 }
+
+class_alias( Meta_Tags_Context::class, 'WPSEO_Schema_Context' );

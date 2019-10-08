@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract presenter class for the meta description.
+ * Presenter class for the meta description.
  *
  * @package Yoast\YoastSEO\Presenters
  */
@@ -25,7 +25,7 @@ class Meta_Description_Presenter extends Abstract_Indexable_Presenter {
 		$meta_description = $this->filter( $this->replace_vars( $presentation->meta_description, $presentation ) );
 
 		if ( \is_string( $meta_description ) && $meta_description !== '' ) {
-			return \sprintf( '<meta name="description" content="%s"/>', \esc_attr( \wp_strip_all_tags( \stripslashes( $meta_description ) ) ) );
+			return \sprintf( '<meta name="description" content="%s" />', \esc_attr( \wp_strip_all_tags( \stripslashes( $meta_description ) ) ) );
 		}
 
 		if ( \current_user_can( 'wpseo_manage_options' ) ) {
