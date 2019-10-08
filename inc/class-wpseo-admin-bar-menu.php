@@ -94,6 +94,8 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		elseif ( is_network_admin() ) {
 			$this->add_network_settings_submenu( $wp_admin_bar );
 		}
+
+		$this->add_focus_keyword_submenu( $wp_admin_bar );
 	}
 
 	/**
@@ -158,17 +160,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	protected function add_root_menu( WP_Admin_Bar $wp_admin_bar ) {
 		$title = $this->get_title();
 
-		$score         = '';
-		$focus_keyword = '';
-		$settings_url  = '';
-		$counter       = '';
-		$alert_popup   = '';
-
-		$post = $this->get_singular_post();
-		if ( $post ) {
-			$score         = $this->get_post_score( $post );
-			$focus_keyword = $this->get_post_focus_keyword( $post );
-		}
+		$settings_url = '';
+		$counter      = '';
+		$alert_popup  = '';
 
 		$term = $this->get_singular_term();
 		if ( $term ) {
@@ -186,6 +180,12 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			$alert_popup = $this->get_notification_alert_popup();
 		}
 
+		$score   = '';
+		$post_id = $this->get_singular_post_id();
+		if ( $post_id ) {
+			$score = $this->get_post_score( $post_id );
+		}
+
 		$admin_bar_menu_args = array(
 			'id'    => self::MENU_IDENTIFIER,
 			'title' => $title . $score . $counter . $alert_popup,
@@ -193,18 +193,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			'meta'  => array( 'tabindex' => ! empty( $settings_url ) ? false : '0' ),
 		);
 		$wp_admin_bar->add_menu( $admin_bar_menu_args );
-
-		if ( $post ) {
-			if ( empty( $focus_keyword ) ) {
-				$focus_keyword = '<em>not set</em>';
-			}
-			$admin_bar_menu_args = array(
-				'parent' => self::MENU_IDENTIFIER,
-				'id'     => 'wpseo-focus-keyphrase',
-				'title'  => sprintf( __( 'Focus keyphrase: %s', 'wordpress-seo' ), '<span class="ab-item wpseo-focus-keyphrase-ab-item">' . $focus_keyword . '</span>' ),
-			);
-			$wp_admin_bar->add_menu( $admin_bar_menu_args );
-		}
 
 		if ( ! empty( $counter ) ) {
 			$admin_bar_menu_args = array(
@@ -229,6 +217,50 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	}
 
 	/**
+	 * Adds the focus keyword item.
+	 *
+	 * @param WP_Admin_Bar $wp_admin_bar Admin bar instance to add the menu to.
+	 *
+	 * @return void
+	 */
+	protected function add_focus_keyword_submenu( WP_Admin_Bar $wp_admin_bar ) {
+		$post_id = $this->get_singular_post_id();
+		if ( ! $post_id ) {
+			return;
+		}
+
+		$focus_keyword = $this->get_post_focus_keyword( $post_id );
+		if ( empty( $focus_keyword ) ) {
+			$focus_keyword = '<em>not set</em>';
+		}
+
+		$wp_admin_bar->add_group(
+			array(
+				'parent' => self::MENU_IDENTIFIER,
+				'id'     => 'wpseo_post_info',
+				'meta'   => array(
+					'class' => 'ab-sub-secondary',
+				),
+			)
+		);
+
+		$admin_bar_menu_args = array(
+			'parent' => 'wpseo_post_info',
+			'id'     => 'wpseo-focus-keyphrase-heading',
+			/* translators: %s expands to the post type. */
+			'title'  => sprintf( __( 'Focus keyphrase for this %s:', 'wordpress-seo' ), get_post_type() ),
+		);
+		$wp_admin_bar->add_menu( $admin_bar_menu_args );
+
+		$admin_bar_menu_args = array(
+			'parent' => 'wpseo_post_info',
+			'id'     => 'wpseo-focus-keyphrase',
+			'title'  => '<span class="ab-item wpseo-focus-keyphrase-ab-item">' . $focus_keyword . '</span>',
+		);
+		$wp_admin_bar->add_menu( $admin_bar_menu_args );
+	}
+
+	/**
 	 * Adds the admin bar keyword research submenu.
 	 *
 	 * @param WP_Admin_Bar $wp_admin_bar Admin bar instance to add the menu to.
@@ -239,9 +271,9 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$adwords_url = 'https://yoa.st/keywordplanner';
 		$trends_url  = 'https://yoa.st/google-trends';
 
-		$post = $this->get_singular_post();
-		if ( $post ) {
-			$focus_keyword = $this->get_post_focus_keyword( $post );
+		$post_id = $this->get_singular_post_id();
+		if ( $post_id ) {
+			$focus_keyword = $this->get_post_focus_keyword( $post_id );
 
 			if ( ! empty( $focus_keyword ) ) {
 				$trends_url .= '#q=' . urlencode( $focus_keyword );
@@ -299,11 +331,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 
 		if ( ! $url ) {
 			return;
-		}
-
-		$post = $this->get_singular_post();
-		if ( $post ) {
-			$focus_keyword = $this->get_post_focus_keyword( $post );
 		}
 
 		$menu_args = array(
@@ -484,61 +511,56 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Gets the current post if in a singular post context.
 	 *
-	 * @return WP_Post|null Post object, or null if not in singular context.
+	 * @return bool|int False when not singular, Post ID when it is.
+	 *
 	 * @global WP_Post|null $post    Current post object, or null if none available.
 	 *
 	 * @global string       $pagenow Current page identifier.
 	 */
-	protected function get_singular_post() {
+	protected function get_singular_post_id() {
 		global $pagenow, $post;
 
 		if ( ! is_singular() && ( ! is_blog_admin() || ! WPSEO_Metabox::is_post_edit( $pagenow ) ) ) {
-			return null;
+			return false;
 		}
 
 		if ( ! isset( $post ) || ! is_object( $post ) || ! $post instanceof WP_Post ) {
-			return null;
+			return false;
 		}
 
-		return $post;
+		return $post->ID;
 	}
 
 	/**
 	 * Gets the focus keyword for a given post.
 	 *
-	 * @param WP_Post $post Post object to get its focus keyword.
+	 * @param int $post_id Post ID.
 	 *
-	 * @return string Focus keyword, or empty string if none available.
+	 * @return string|bool Focus keyword, or empty string if none available. False when we shouldn't have one.
 	 */
-	protected function get_post_focus_keyword( $post ) {
-		if ( ! is_object( $post ) || ! property_exists( $post, 'ID' ) ) {
-			return '';
-		}
-
+	protected function get_post_focus_keyword( $post_id ) {
 		/**
 		 * Filter: 'wpseo_use_page_analysis' Determines if the analysis should be enabled.
 		 *
 		 * @api bool Determines if the analysis should be enabled.
 		 */
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
-			return '';
+			return false;
 		}
 
-		return WPSEO_Meta::get_value( 'focuskw', $post->ID );
+		$focus_keyword = WPSEO_Meta::get_value( 'focuskw', $post_id );
+
+		return $focus_keyword;
 	}
 
 	/**
 	 * Gets the score for a given post.
 	 *
-	 * @param WP_Post $post Post object to get its score.
+	 * @param int $post_id Post ID.
 	 *
 	 * @return string Score markup, or empty string if none available.
 	 */
-	protected function get_post_score( $post ) {
-		if ( ! is_object( $post ) || ! property_exists( $post, 'ID' ) ) {
-			return '';
-		}
-
+	protected function get_post_score( $post_id ) {
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) !== true ) {
 			return '';
 		}
@@ -547,11 +569,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
 		if ( $analysis_seo->is_enabled() ) {
-			return $this->get_score( WPSEO_Meta::get_value( 'linkdex', $post->ID ) );
+			return $this->get_score( WPSEO_Meta::get_value( 'linkdex', $post_id ) );
 		}
 
 		if ( $analysis_readability->is_enabled() ) {
-			return $this->get_score( WPSEO_Meta::get_value( 'content_score', $post->ID ) );
+			return $this->get_score( WPSEO_Meta::get_value( 'content_score', $post_id ) );
 		}
 
 		return '';

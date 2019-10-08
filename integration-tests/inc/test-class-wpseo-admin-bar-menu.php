@@ -247,7 +247,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 
 		$instance = new WPSEO_Admin_Bar_Menu_Double();
 
-		$this->assertEquals( 'focus keyword', $instance->get_post_focus_keyword( $post ) );
+		$this->assertEquals( 'focus keyword', $instance->get_post_focus_keyword() );
 	}
 
 	/**
