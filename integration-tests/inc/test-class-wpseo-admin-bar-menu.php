@@ -34,6 +34,7 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 		'add_keyword_research_submenu',
 		'add_analysis_submenu',
 		'add_settings_submenu',
+		'add_focus_keyword_submenu',
 		'add_network_settings_submenu',
 	);
 
@@ -136,6 +137,11 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 		$admin_bar_menu
 			->expects( $this->once() )
 			->method( 'add_settings_submenu' )
+			->with( $wp_admin_bar );
+
+		$admin_bar_menu
+			->expects( $this->once() )
+			->method( 'add_focus_keyword_submenu' )
 			->with( $wp_admin_bar );
 
 		$admin_bar_menu
