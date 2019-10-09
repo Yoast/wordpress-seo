@@ -30,6 +30,10 @@ class Container_Compiler {
 		$cache = new ConfigCache( $file, $debug );
 
 		if ( ! $cache->isFresh() ) {
+			if ( ! defined( 'WPSEO_VERSION' ) ) {
+				define( 'WPSEO_VERSION', 'COMPILING' );
+			}
+
 			$container_builder = new ContainerBuilder();
 			$container_builder->addCompilerPass( new Loader_Pass() );
 			$loader = new Custom_Loader( $container_builder );

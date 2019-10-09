@@ -83,6 +83,7 @@
 	<rule ref="PHPCompatibility.Keywords.NewKeywords.t_dirFound">
         <exclude-pattern>*/src/*.php$</exclude-pattern>
         <exclude-pattern>*/config/*.php$</exclude-pattern>
+		<exclude-pattern>*/ruckusing\.conf\.php$</exclude-pattern>
     </rule>
     <rule ref="PHPCompatibility.Keywords.NewKeywords.t_traitFound">
         <exclude-pattern>*/src/*.php$</exclude-pattern>
@@ -114,6 +115,8 @@
 	<rule ref="PHPCompatibility.Syntax.NewShortArray.Found">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
 		<exclude-pattern>*/config/*.php$</exclude-pattern>
+		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
+		<exclude-pattern>*/ruckusing\.conf\.php$</exclude-pattern>
 	</rule>
 	<rule ref="PHPCompatibility.Syntax.NewFunctionArrayDereferencing.Found">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
@@ -127,6 +130,12 @@
 	</rule>
 	<rule ref="PHPCompatibility.FunctionUse.NewFunctions.array_columnFound">
 		<exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.FunctionDeclarations.NewClosure.ThisFound">
+	    <exclude-pattern>*/src/*.php$</exclude-pattern>
+	</rule>
+	<rule ref="PHPCompatibility.InitialValue.NewConstantArraysUsingConst.Found">
+	    <exclude-pattern>*/src/*.php$</exclude-pattern>
 	</rule>
 
 	<!-- These usages of PHP > 5.2 code are surrounded by the correct safeguards. -->
@@ -153,7 +162,9 @@
 	-->
 
 	<rule ref="Generic.Arrays.DisallowShortArraySyntax">
+		<exclude-pattern>*/ruckusing\.conf\.php$</exclude-pattern>
 		<exclude-pattern>*/config/*\.php$</exclude-pattern>
+		<exclude-pattern>*/migrations/*\.php$</exclude-pattern>
 		<exclude-pattern>*/src/*\.php$</exclude-pattern>
 		<exclude-pattern>*/tests/*\.php$</exclude-pattern>
 	</rule>
@@ -164,7 +175,6 @@
 		<exclude-pattern>*/frontend/*\.php$</exclude-pattern>
 		<exclude-pattern>*/inc/*\.php$</exclude-pattern>
 		<exclude-pattern>*/integration-tests/*\.php$</exclude-pattern>
-		<exclude-pattern>*/migrations/*\.php$</exclude-pattern>
 		<exclude-pattern>*/scripts/*\.php$</exclude-pattern>
 	</rule>
 

@@ -8,7 +8,7 @@
 namespace Yoast\WP\Free\Builders;
 
 /**
- * Formats the term meta to indexable format.
+ * Formats the author meta to indexable format.
  */
 class Indexable_Author_Builder {
 
@@ -23,6 +23,8 @@ class Indexable_Author_Builder {
 	public function build( $user_id, $indexable ) {
 		$meta_data = $this->get_meta_data( $user_id );
 
+		$indexable->object_id              = $user_id;
+		$indexable->object_type            = 'user';
 		$indexable->permalink              = \get_author_posts_url( $user_id );
 		$indexable->title                  = $meta_data['wpseo_title'];
 		$indexable->description            = $meta_data['wpseo_metadesc'];

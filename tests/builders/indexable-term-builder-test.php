@@ -35,9 +35,9 @@ class Indexable_Term_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build() {
-		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( (object) [ 'taxonomy' => 'category' ] );
-		Monkey\Functions\expect( 'get_term_by' )->once()->with( 'id', 1, 'category' )->andReturn( (object) [ 'term_id' => 1 ] );
+		Monkey\Functions\expect( 'get_term' )->once()->with( 1 )->andReturn( (object) [ 'taxonomy' => 'category', 'term_id' => 1 ] );
 		Monkey\Functions\expect( 'get_term_link' )->once()->with( 1, 'category' )->andReturn( 'https://example.org/category/1' );
+		Monkey\Functions\expect( 'is_wp_error' )->twice()->andReturn( false );
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'wpseo_taxonomy_meta' )->andReturn(
 			[
 				'category' => [
@@ -54,6 +54,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 						'wpseo_bctitle'               => 'breadcrumb_title',
 						'wpseo_opengraph-title'       => 'og_title',
 						'wpseo_opengraph-image'       => 'og_image',
+						'wpseo_opengraph-image-id'    => 'og_image_id',
 						'wpseo_opengraph-description' => 'og_description',
 						'wpseo_twitter-title'         => 'twitter_title',
 						'wpseo_twitter-image'         => 'twitter_image',
@@ -65,14 +66,17 @@ class Indexable_Term_Builder_Test extends TestCase {
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_id', 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'term' );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_sub_type', 'category' );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://example.org/category/1' );
 		$indexable_mock->orm->expects( 'set' )->with( 'canonical', 'https://canonical-term' );
-		$indexable_mock->orm->expects( 'set' )->with( 'object_sub_type', 'category' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'breadcrumb_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_title', 'og_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'og_image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', 'og_image_id' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_description', 'og_description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_title', 'twitter_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );

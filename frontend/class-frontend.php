@@ -11,6 +11,9 @@
  */
 class WPSEO_Frontend {
 
+	const METADESC_PRIORITY = 6;
+	const ROBOTS_PRIORITY   = 10;
+
 	/**
 	 * Instance of this class.
 	 *
@@ -87,14 +90,12 @@ class WPSEO_Frontend {
 	 * Adds and removes a lot of filters.
 	 */
 	protected function __construct() {
-
 		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
-		add_action( 'wp_head', array( $this, 'head' ), 1 );
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality.
 		add_action( 'wpseo_head', array( $this, 'debug_mark' ), 2 );
-		add_action( 'wpseo_head', array( $this, 'metadesc' ), 6 );
-		add_action( 'wpseo_head', array( $this, 'robots' ), 10 );
+		add_action( 'wpseo_head', array( $this, 'metadesc' ), self::METADESC_PRIORITY );
+		add_action( 'wpseo_head', array( $this, 'robots' ), self::ROBOTS_PRIORITY );
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
 
@@ -149,9 +150,9 @@ class WPSEO_Frontend {
 
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
-			new WPSEO_Schema(),
+			// new WPSEO_Schema(), // -- Has been moved to SRC directory.
 			new WPSEO_Handle_404(),
-			new WPSEO_Remove_Reply_To_Com(),
+			// new WPSEO_Remove_Reply_To_Com(), HAS BEEN MOVED TO SRC DIRECTORY!
 			new WPSEO_OpenGraph_OEmbed(),
 			$this->woocommerce_shop_page,
 		);
@@ -1631,7 +1632,6 @@ class WPSEO_Frontend {
 	 * @return bool
 	 */
 	protected function is_multiple_terms_query() {
-
 		global $wp_query;
 
 		if ( ! is_tax() && ! is_tag() && ! is_category() ) {

@@ -145,13 +145,19 @@
 		],
 		"post-install-cmd": [
 			"xrstf\\Composer52\\Generator::onPostInstallCmd",
-			"Yoast\\WP\\Free\\Composer\\Actions::prefix_dependencies"
+			"Yoast\\WP\\Free\\Composer\\Actions::prefix_dependencies",
+			"Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
 		],
 		"post-update-cmd": [
-			"xrstf\\Composer52\\Generator::onPostInstallCmd"
+			"xrstf\\Composer52\\Generator::onPostInstallCmd",
+            "Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
 		],
 		"post-autoload-dump": [
-			"xrstf\\Composer52\\Generator::onPostInstallCmd"
-		]
+			"xrstf\\Composer52\\Generator::onPostInstallCmd",
+            "Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
+		],
+        "generate-migration": [
+          "./vendor/bin/ruckus.php db:generate"
+        ]
 	}
 }
