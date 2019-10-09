@@ -23,6 +23,8 @@ class Images extends Base_Images {
 	/**
 	 * Sets the helpers.
 	 *
+	 * @codeCoverageIgnore - Is handled by DI-container.
+	 *
 	 * @required
 	 *
 	 * @param Open_Graph_Image_Helper $open_graph_image Image helper for OpenGraph.
@@ -45,12 +47,12 @@ class Images extends Base_Images {
 	/**
 	 * Adds an image to the list by attachment ID.
 	 *
-	 * @param int $attachment_id The attachment ID to add.
+	 * @param int $image_id The attachment ID to add.
 	 *
 	 * @return void
 	 */
-	public function add_image_by_id( $attachment_id ) {
-		$attachment = $this->open_graph_image->get_image_url_by_id( $attachment_id );
+	public function add_image_by_id( $image_id ) {
+		$attachment = $this->open_graph_image->get_image_url_by_id( $image_id );
 
 		if ( $attachment ) {
 			$this->add_image( $attachment );

@@ -15,7 +15,7 @@ use Yoast\WP\Free\Helpers\Url_Helper;
  *
  * @package Yoast\WP\Free\Values
  */
-class Images {
+abstract class Images {
 
 	/**
 	 * Holds the images that have been put out as OG image.
@@ -46,6 +46,15 @@ class Images {
 		$this->image = $image;
 		$this->url   = $url;
 	}
+
+	/**
+	 * Adds an image to the list by attachment ID.
+	 *
+	 * @param int $image_id The attachment ID to add.
+	 *
+	 * @return void
+	 */
+	abstract public function add_image_by_id( $image_id );
 
 	/**
 	 * Return the images array.
