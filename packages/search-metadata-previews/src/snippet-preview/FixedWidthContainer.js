@@ -109,12 +109,13 @@ export default class FixedWidthContainer extends Component {
 	 * @returns {React.Element} The rendered element.
 	 */
 	render() {
-		const { width, padding, children, className } = this.props;
+		const { width, padding, children, className, id } = this.props;
 
 		const innerWidth = width - 2 * padding;
 
 		return <React.Fragment>
 			<FixedWidth
+				id={ id }
 				className={ className }
 				widthValue={ width }
 				paddingValue={ padding }
@@ -138,8 +139,15 @@ export default class FixedWidthContainer extends Component {
 }
 
 FixedWidthContainer.propTypes = {
-	width: PropTypes.number,
+	id: PropTypes.string,
+	width: PropTypes.number.isRequired,
 	padding: PropTypes.number,
-	children: PropTypes.node,
+	children: PropTypes.node.isRequired,
 	className: PropTypes.string,
+};
+
+FixedWidthContainer.defaultProps = {
+	id: "",
+	padding: 0,
+	className: "",
 };
