@@ -73,6 +73,8 @@ class Indexable_Post_Builder {
 			$indexable->{ 'is_robots_' . $meta_robots_option } = \in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}
 
+		$this->reset_social_images( $indexable );
+
 		foreach ( $this->get_indexable_lookup() as $meta_key => $indexable_key ) {
 			$indexable->{ $indexable_key } = $this->get_meta_value( $post_id, $meta_key );
 		}
@@ -193,14 +195,26 @@ class Indexable_Post_Builder {
 	}
 
 	/**
+	 * Resets the social images.
+	 *
+	 * @param Indexable $indexable The indexable to set images for.
+	 */
+	protected function reset_social_images( Indexable $indexable ) {
+		$indexable->og_image        = null;
+		$indexable->og_image_id     = null;
+		$indexable->og_image_source = null;
+
+		$indexable->twitter_image        = null;
+		$indexable->twitter_image_id     = null;
+		$indexable->twitter_image_source = null;
+	}
+
+	/**
 	 * Handles the social images.
 	 *
 	 * @param Indexable $indexable The indexable to handle.
 	 */
 	protected function handle_social_images( Indexable $indexable ) {
-		$indexable->og_image_source      = null;
-		$indexable->twitter_image_source = null;
-
 		// When source is empty and the image or image id is set.
 		if ( $indexable->og_image || $indexable->og_image_id ) {
 			$indexable->og_image_source = 'set-by-user';
