@@ -215,7 +215,7 @@ class Indexable_Post_Builder {
 	 * @param Indexable $indexable The indexable to handle.
 	 */
 	protected function handle_social_images( Indexable $indexable ) {
-		// When source is empty and the image or image id is set.
+		// When the image or image id is set.
 		if ( $indexable->og_image || $indexable->og_image_id ) {
 			$indexable->og_image_source = 'set-by-user';
 		}
@@ -261,10 +261,10 @@ class Indexable_Post_Builder {
 			];
 		}
 
-		$image_url = $this->image_helper->get_gallery_image( $indexable->object_id );
-		if ( $image_url ) {
+		$gallery_image = $this->image_helper->get_gallery_image( $indexable->object_id );
+		if ( $gallery_image ) {
 			return [
-				'image'  => $image_url,
+				'image'  => $gallery_image,
 				'source' => 'gallery-image',
 			];
 		}
@@ -272,7 +272,7 @@ class Indexable_Post_Builder {
 		$content_image = $this->image_helper->get_post_content_image( $indexable->object_id );
 		if ( $content_image ) {
 			return [
-				'image'  => $image_url,
+				'image'  => $content_image,
 				'source' => 'first-content-image',
 			];
 		}
