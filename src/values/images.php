@@ -78,7 +78,7 @@ class Images {
 			return null;
 		}
 
-		$attachment_id = $this->image_helper->get_attachment_by_url( $url );
+		$attachment_id = $this->image->get_attachment_by_url( $url );
 
 		if ( $attachment_id ) {
 			$this->add_image_by_id( $attachment_id );
