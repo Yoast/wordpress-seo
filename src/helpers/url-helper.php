@@ -17,6 +17,8 @@ class Url_Helper {
 	/**
 	 * Retrieve home URL with proper trailing slash.
 	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 *
 	 * @param string      $path   Path relative to home URL.
 	 * @param string|null $scheme Scheme to apply.
 	 *
@@ -28,6 +30,8 @@ class Url_Helper {
 
 	/**
 	 * Check whether a url is relative.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @param string $url URL string to check.
 	 *
@@ -57,5 +61,38 @@ class Url_Helper {
 		$url        = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $url;
 
 		return $url;
+	}
+
+	/**
+	 * Gets the path from the passed URL.
+	 *
+	 * @param string $url The URL to get the path from.
+	 *
+	 * @return string The path of the URL. Returns an empty string if URL parsing fails.
+	 */
+	public function get_url_path( $url ) {
+		return (string) \wp_parse_url( $url, PHP_URL_PATH );
+	}
+
+	/**
+	 * Determines the file extension of the given url.
+	 *
+	 * @param string $url The URL.
+	 *
+	 * @return string The extension.
+	 */
+	public function get_extension_from_url( $url ) {
+		$path = $this->get_url_path( $url );
+
+		if ( $path === '' ) {
+			return '';
+		}
+
+		$parts = \explode( '.', $path );
+		if ( empty( $parts ) ) {
+			return '';
+		}
+
+		return \end( $parts );
 	}
 }

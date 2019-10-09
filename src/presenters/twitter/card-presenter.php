@@ -24,7 +24,7 @@ class Card_Presenter extends Abstract_Indexable_Presenter {
 	public function present( Indexable_Presentation $presentation ) {
 		$card_type = $this->filter( $presentation->twitter_card );
 		if ( is_string( $card_type ) && $card_type !== '' ) {
-			return sprintf( '<meta name="twitter:card" content="%s" />', $card_type );
+			return sprintf( '<meta name="twitter:card" content="%s" />', \esc_attr( $card_type ) );
 		}
 
 		return '';

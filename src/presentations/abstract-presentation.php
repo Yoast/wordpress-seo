@@ -27,20 +27,22 @@ class Abstract_Presentation {
 	/**
 	 * Creates a model presentation.
 	 *
-	 * @param mixed $model The model that this is a presentation of.
+	 * @param array $data The data that this is a presentation of.
 	 *
-	 * @return self A model presentation.
+	 * @return static A model presentation.
 	 *
 	 * @throws Exception If attempting to create a model presentation from another model presentation.
 	 */
-	public function of( $model ) {
+	public function of( $data ) {
 		if ( ! $this->is_prototype ) {
 			throw new Exception( 'Attempting to create a model presentation from another model presentation. Use the prototype presentation gained from DI instead.' );
 		}
 
 		// Clone self to allow stateful services that do benefit from DI.
 		$presentation = clone $this;
-		$presentation->model = $model;
+		foreach ( $data as $key => $value ) {
+			$presentation->{$key} = $value;
+		}
 		$presentation->is_prototype = false;
 		return $presentation;
 	}
@@ -56,7 +58,7 @@ class Abstract_Presentation {
 	 */
 	public function __get( $name ) {
 		if ( $this->is_prototype ) {
-			throw new Exception( 'Attempting property access on prototype presentation. Use Presentation::of( \$model ) to get a model presentation.' );
+			throw new Exception( 'Attempting property access on prototype presentation. Use Presentation::of( $data ) to get a model presentation.' );
 		}
 		$generator = "generate_$name";
 		if ( method_exists( $this, $generator ) ) {
@@ -75,6 +77,5 @@ class Abstract_Presentation {
 	 */
 	public function __isset( $name ) {
 		return method_exists( $this, "generate_$name" );
-
 	}
 }

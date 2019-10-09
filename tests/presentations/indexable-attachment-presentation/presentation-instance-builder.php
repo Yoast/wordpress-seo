@@ -75,7 +75,7 @@ trait Presentation_Instance_Builder {
 			[ $this->post_type_helper ]
 		)->shouldAllowMockingProtectedMethods()->makePartial();
 
-		$this->instance = $instance->of( $this->indexable );
+		$this->instance = $instance->of( [ 'model' => $this->indexable ] );
 		$this->instance->set_helpers(
 			$this->robots_helper,
 			$this->image_helper,

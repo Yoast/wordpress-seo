@@ -24,7 +24,7 @@ trait Presentation_Instance_Builder {
 	protected $indexable;
 
 	/**
-	 * @var Indexable_Term_Archive_Presentation
+	 * @var Indexable_Term_Archive_Presentation|Mockery\MockInterface
 	 */
 	protected $instance;
 
@@ -72,12 +72,17 @@ trait Presentation_Instance_Builder {
 		$this->wp_query_wrapper = Mockery::mock( WP_Query_Wrapper::class );
 		$this->taxonomy_helper  = Mockery::mock( Taxonomy_Helper::class );
 
-		$instance = new Indexable_Term_Archive_Presentation(
-			$this->wp_query_wrapper,
-			$this->taxonomy_helper
-		);
+		$instance = Mockery::mock(
+			Indexable_Term_Archive_Presentation::class,
+			[
+				$this->wp_query_wrapper,
+				$this->taxonomy_helper
+			]
+		)
+			->makePartial()
+			->shouldAllowMockingProtectedMethods();
 
-		$this->instance = $instance->of( $this->indexable );
+		$this->instance = $instance->of( [ 'model' => $this->indexable ] );
 		$this->instance->set_helpers(
 			$this->robots_helper,
 			$this->image_helper,

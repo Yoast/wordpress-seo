@@ -37,8 +37,10 @@ class Indexable_Term_Builder {
 		}
 		$term_meta = \WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy );
 
-		$indexable->permalink       = $term_link;
+		$indexable->object_id       = $term_id;
+		$indexable->object_type     = 'term';
 		$indexable->object_sub_type = $taxonomy;
+		$indexable->permalink       = $term_link;
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( 'wpseo_focuskw', $term_meta ),

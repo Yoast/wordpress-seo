@@ -18,7 +18,7 @@ class WpYoastIndexablesAddOpenGraphImageID extends Ruckusing_Migration_Base {
 	 */
 	public function up() {
 		$table_name = $this->get_table_name();
-		$this->add_column( $table_name, 'og_image_id', 'string', array( 'null' => true, 'limit' => 191 ) );
+		$this->add_column( $table_name, 'og_image_id', 'string', [ 'null' => true, 'limit' => 191 ] );
 	}
 
 	/**

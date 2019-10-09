@@ -15,6 +15,20 @@ use WPSEO_Image_Utils;
 class Image_Helper {
 
 	/**
+	 * Retrieves an attachment ID for an image uploaded in the settings.
+	 *
+	 * Due to self::get_attachment_by_url returning 0 instead of false.
+	 * 0 is also a possibility when no ID is available.
+	 *
+	 * @param string $setting The setting the image is stored in.
+	 *
+	 * @return int|bool The attachment id, or false or 0 if no ID is available.
+	 */
+	public function get_attachment_id_from_settings( $setting ) {
+		return WPSEO_Image_Utils::get_attachment_id_from_settings( $setting );
+	}
+
+	/**
 	 * Image types that are supported by OpenGraph.
 	 *
 	 * @var array
@@ -48,18 +62,6 @@ class Image_Helper {
 	}
 
 	/**
-	 * Find the right version of an image based on size.
-	 *
-	 * @param int    $attachment_id Attachment ID.
-	 * @param string $size          Size name.
-	 *
-	 * @return array|false Returns an array with image data on success, false on failure.
-	 */
-	public function get_image( $attachment_id, $size ) {
-		return \WPSEO_image_utils::get_image( $attachment_id, $size );
-	}
-
-	/**
 	 * Determines whether or not the wanted attachment is considered valid.
 	 *
 	 * @param int $attachment_id The attachment ID to get the attachment by.
@@ -67,13 +69,13 @@ class Image_Helper {
 	 * @return bool Whether or not the attachment is valid.
 	 */
 	public function is_valid_attachment( $attachment_id ) {
-		$attachment = \get_post_mime_type( $attachment_id );
+		$post_mime_type = \get_post_mime_type( $attachment_id );
 
-		if ( $attachment === false ) {
+		if ( $post_mime_type === false ) {
 			return false;
 		}
 
-		return $this->is_valid_image_type( $attachment );
+		return $this->is_valid_image_type( $post_mime_type );
 	}
 
 	/**
@@ -156,7 +158,6 @@ class Image_Helper {
 
 		return \reset( $images );
 	}
-
 	/**
 	 * Gets the image url from the content.
 	 *
@@ -175,14 +176,30 @@ class Image_Helper {
 	}
 
 	/**
-	 * Retrieves the attachment variations for given attachments.
+	 * Find the right version of an image based on size.*
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 *
+	 * @param int    $attachment_id Attachment ID.
+	 * @param string $size          Size name.
+	 *
+	 * @return array|false Returns an array with image data on success, false on failure.
+	 */
+	public function get_image( $attachment_id, $size ) {
+		return \WPSEO_image_utils::get_image( $attachment_id, $size );
+	}
+
+	/**
+	 * Retrieves the best attachment variation for the given attachment.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @param int   $attachment_id The attachment id.
 	 * @param array $image_params  The image parameters to get dimensions for.
 	 *
 	 * @return bool|string The attachment url or false when no variations found.
 	 */
-	public function get_attachment_variations( $attachment_id, $image_params = [] ) {
+	public function get_best_attachment_variation( $attachment_id, $image_params = [] ) {
 		$variations = \WPSEO_Image_Utils::get_variations( $attachment_id );
 		$variations = \WPSEO_Image_Utils::filter_usable_dimensions( $image_params, $variations );
 		$variations = \WPSEO_Image_Utils::filter_usable_file_size( $variations );
@@ -197,9 +214,22 @@ class Image_Helper {
 	}
 
 	/**
+	 * Find an attachment ID for a given URL.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 *
+	 * @param string $url The URL to find the attachment for.
+	 *
+	 * @return int The found attachment ID, or 0 if none was found.
+	 */
+	public function get_attachment_by_url( $url ) {
+		return WPSEO_Image_Utils::get_attachment_by_url( $url );
+	}
+
+	/**
 	 * Retrieves the first usable content image for a post.
 	 *
-	 * @codeCoverageIgnore
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
 	 * @param int $post_id The post id to extract the images from.
 	 *

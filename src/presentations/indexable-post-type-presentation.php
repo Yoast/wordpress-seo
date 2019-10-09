@@ -24,9 +24,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 *
 	 * @param Post_Type_Helper $post_type_helper The post type helper.
 	 */
-	public function __construct(
-		Post_Type_Helper $post_type_helper
-	) {
+	public function __construct( Post_Type_Helper $post_type_helper ) {
 		$this->post_type_helper = $post_type_helper;
 	}
 
@@ -58,31 +56,11 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @return array The open graph images.
 	 */
 	public function generate_og_images() {
-		$images = parent::generate_og_images();
-
-		if ( ! empty( $images ) ) {
-			return $images;
+		if ( \post_password_required() ) {
+			return [];
 		}
 
-		$featured_image_id = $this->image_helper->get_featured_image_id( $this->model->object_id );
-		if ( $featured_image_id ) {
-			$featured_image_url = $this->get_attachment_url_by_id( $featured_image_id );
-			if ( $featured_image_url ) {
-				return [ $featured_image_url ];
-			}
-		}
-
-		$content_image = $this->image_helper->get_post_content_image( $this->model->object_id );
-		if ( $content_image ) {
-			return [ $content_image ];
-		}
-
-		$default_image = $this->get_default_og_image();
-		if ( $default_image ) {
-			return [ $default_image ];
-		}
-
-		return [];
+		return parent::generate_og_images();
 	}
 
 	/**
@@ -177,5 +155,30 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		return (string) $this->get_default_og_image();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_twitter_creator() {
+		$twitter_creator = \ltrim( \trim( \get_the_author_meta( 'twitter', $this->context->post->post_author ) ), '@' );
+
+		/**
+		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by Yoast SEO.
+		 *
+		 * @api string $twitter The twitter account name string.
+		 */
+		$twitter_creator = \apply_filters( 'wpseo_twitter_creator_account', $twitter_creator );
+
+		if ( \is_string( $twitter_creator ) && $twitter_creator !== '' ) {
+			return '@' . $twitter_creator;
+		}
+
+		$site_twitter = $this->options_helper->get( 'twitter_site', '' );
+		if ( \is_string( $site_twitter ) && $site_twitter !== '' ) {
+			return '@' . $site_twitter;
+		}
+
+		return '';
 	}
 }

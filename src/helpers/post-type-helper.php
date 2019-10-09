@@ -31,6 +31,6 @@ class Post_Type_Helper {
 	 * @return array Array with all the public post_types.
 	 */
 	public function get_public_post_types() {
-		return \get_post_types( array( 'public' => true ) );
+		return \get_post_types( [ 'public' => true ] );
 	}
 }

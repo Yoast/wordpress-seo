@@ -7,11 +7,15 @@
 
 namespace Yoast\WP\Free\Presentations;
 
+use Yoast\WP\Free\Context\Meta_Tags_Context;
+use Yoast\WP\Free\Generators\OG_Image_Generator;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
 use Yoast\WP\Free\Models\Indexable;
+use Yoast\WP\Free\Presentations\Generators\OG_Locale_Generator;
+use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
 
 /**
  * Class Indexable_Presentation
@@ -30,10 +34,12 @@ use Yoast\WP\Free\Models\Indexable;
  * @property string og_article_publish_time
  * @property string og_article_modified_time
  * @property string og_locale
+ * @property array  schema
  * @property string twitter_card
  * @property string twitter_title
  * @property string twitter_description
  * @property string twitter_image
+ * @property string twitter_creator
  * @property array  replace_vars_object
  */
 class Indexable_Presentation extends Abstract_Presentation {
@@ -44,6 +50,26 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $model;
 
 	/**
+	 * @var Meta_Tags_Context
+	 */
+	protected $context;
+
+	/**
+	 * @var Schema_Generator
+	 */
+	protected $schema_generator;
+
+	/**
+	 * @var OG_Image_Generator
+	 */
+	protected $og_image_generator;
+
+	/**
+	 * @var OG_Locale_Generator
+	 */
+	private $og_locale_generator;
+
+	/**
 	 * @var Robots_Helper
 	 */
 	protected $robots_helper;
@@ -51,7 +77,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * @var Current_Page_Helper
 	 */
-	protected $current_page_helper;
+	protected $current_page;
 
 	/**
 	 * @var Image_Helper
@@ -62,6 +88,25 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @var Options_Helper
 	 */
 	protected $options_helper;
+
+	/**
+	 * @required
+	 *
+	 * Sets the generator dependencies.
+	 *
+	 * @param Schema_Generator    $schema_generator    The schema generator.
+	 * @param OG_Locale_Generator $og_locale_generator The OG locale generator.
+	 * @param OG_Image_Generator  $og_image_generator  The OG image generator.
+	 */
+	public function set_generators(
+		Schema_Generator $schema_generator,
+		OG_Locale_Generator $og_locale_generator,
+		OG_Image_Generator $og_image_generator
+	) {
+		$this->schema_generator    = $schema_generator;
+		$this->og_locale_generator = $og_locale_generator;
+		$this->og_image_generator  = $og_image_generator;
+	}
 
 	/**
 	 * @required
@@ -79,10 +124,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 		Options_Helper $options_helper,
 		Current_Page_Helper $current_page_helper
 	) {
-		$this->robots_helper       = $robots_helper;
-		$this->image_helper        = $image_helper;
-		$this->options_helper      = $options_helper;
-		$this->current_page_helper = $current_page_helper;
+		$this->robots_helper  = $robots_helper;
+		$this->image_helper   = $image_helper;
+		$this->options_helper = $options_helper;
+		$this->current_page   = $current_page_helper;
 	}
 
 	/**
@@ -94,6 +139,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 		if ( $this->model->title ) {
 			return $this->model->title;
 		}
+
 		return '';
 	}
 
@@ -106,6 +152,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 		if ( $this->model->description ) {
 			return $this->model->description;
 		}
+
 		return '';
 	}
 
@@ -129,6 +176,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 		if ( $this->model->canonical ) {
 			return $this->model->canonical;
 		}
+
 		return '';
 	}
 
@@ -173,18 +221,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The open graph images.
 	 */
 	public function generate_og_images() {
-		if ( $this->model->og_image_id ) {
-			$attachment = $this->get_attachment_url_by_id( $this->model->og_image_id );
-			if ( $attachment ) {
-				return [ $attachment ];
-			}
+		if ( $this->context->open_graph_enabled === false ) {
+			return [];
 		}
 
-		if ( $this->model->og_image ) {
-			return [ $this->model->og_image ];
-		}
-
-		return [];
+		return $this->og_image_generator->generate( $this->context );
 	}
 
 	/**
@@ -238,204 +279,16 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return string The open graph locale.
 	 */
 	public function generate_og_locale() {
-		/**
-		 * Filter: 'wpseo_locale' - Allow changing the locale output.
-		 *
-		 * Note that this filter is different from `wpseo_og_locale`, which is run _after_ the OG specific filtering.
-		 *
-		 * @api string Locale string.
-		 */
-		$locale = \apply_filters( 'wpseo_locale', \get_locale() );
+		return $this->og_locale_generator->generate( $this->context );
+	}
 
-		// Catch some weird locales served out by WP that are not easily doubled up.
-		$fix_locales = array(
-			'ca' => 'ca_ES',
-			'en' => 'en_US',
-			'el' => 'el_GR',
-			'et' => 'et_EE',
-			'ja' => 'ja_JP',
-			'sq' => 'sq_AL',
-			'uk' => 'uk_UA',
-			'vi' => 'vi_VN',
-			'zh' => 'zh_CN',
-		);
-
-		if ( isset( $fix_locales[ $locale ] ) ) {
-			$locale = $fix_locales[ $locale ];
-		}
-
-		// Convert locales like "es" to "es_ES", in case that works for the given locale (sometimes it does).
-		if ( strlen( $locale ) === 2 ) {
-			$locale = strtolower( $locale ) . '_' . strtoupper( $locale );
-		}
-
-		// These are the locales FB supports.
-		$fb_valid_fb_locales = array(
-			'af_ZA', // Afrikaans.
-			'ak_GH', // Akan.
-			'am_ET', // Amharic.
-			'ar_AR', // Arabic.
-			'as_IN', // Assamese.
-			'ay_BO', // Aymara.
-			'az_AZ', // Azerbaijani.
-			'be_BY', // Belarusian.
-			'bg_BG', // Bulgarian.
-			'bp_IN', // Bhojpuri.
-			'bn_IN', // Bengali.
-			'br_FR', // Breton.
-			'bs_BA', // Bosnian.
-			'ca_ES', // Catalan.
-			'cb_IQ', // Sorani Kurdish.
-			'ck_US', // Cherokee.
-			'co_FR', // Corsican.
-			'cs_CZ', // Czech.
-			'cx_PH', // Cebuano.
-			'cy_GB', // Welsh.
-			'da_DK', // Danish.
-			'de_DE', // German.
-			'el_GR', // Greek.
-			'en_GB', // English (UK).
-			'en_PI', // English (Pirate).
-			'en_UD', // English (Upside Down).
-			'en_US', // English (US).
-			'em_ZM',
-			'eo_EO', // Esperanto.
-			'es_ES', // Spanish (Spain).
-			'es_LA', // Spanish.
-			'es_MX', // Spanish (Mexico).
-			'et_EE', // Estonian.
-			'eu_ES', // Basque.
-			'fa_IR', // Persian.
-			'fb_LT', // Leet Speak.
-			'ff_NG', // Fulah.
-			'fi_FI', // Finnish.
-			'fo_FO', // Faroese.
-			'fr_CA', // French (Canada).
-			'fr_FR', // French (France).
-			'fy_NL', // Frisian.
-			'ga_IE', // Irish.
-			'gl_ES', // Galician.
-			'gn_PY', // Guarani.
-			'gu_IN', // Gujarati.
-			'gx_GR', // Classical Greek.
-			'ha_NG', // Hausa.
-			'he_IL', // Hebrew.
-			'hi_IN', // Hindi.
-			'hr_HR', // Croatian.
-			'hu_HU', // Hungarian.
-			'ht_HT', // Haitian Creole.
-			'hy_AM', // Armenian.
-			'id_ID', // Indonesian.
-			'ig_NG', // Igbo.
-			'is_IS', // Icelandic.
-			'it_IT', // Italian.
-			'ik_US',
-			'iu_CA',
-			'ja_JP', // Japanese.
-			'ja_KS', // Japanese (Kansai).
-			'jv_ID', // Javanese.
-			'ka_GE', // Georgian.
-			'kk_KZ', // Kazakh.
-			'km_KH', // Khmer.
-			'kn_IN', // Kannada.
-			'ko_KR', // Korean.
-			'ks_IN', // Kashmiri.
-			'ku_TR', // Kurdish (Kurmanji).
-			'ky_KG', // Kyrgyz.
-			'la_VA', // Latin.
-			'lg_UG', // Ganda.
-			'li_NL', // Limburgish.
-			'ln_CD', // Lingala.
-			'lo_LA', // Lao.
-			'lt_LT', // Lithuanian.
-			'lv_LV', // Latvian.
-			'mg_MG', // Malagasy.
-			'mi_NZ', // Maori.
-			'mk_MK', // Macedonian.
-			'ml_IN', // Malayalam.
-			'mn_MN', // Mongolian.
-			'mr_IN', // Marathi.
-			'ms_MY', // Malay.
-			'mt_MT', // Maltese.
-			'my_MM', // Burmese.
-			'nb_NO', // Norwegian (bokmal).
-			'nd_ZW', // Ndebele.
-			'ne_NP', // Nepali.
-			'nl_BE', // Dutch (Belgie).
-			'nl_NL', // Dutch.
-			'nn_NO', // Norwegian (nynorsk).
-			'nr_ZA', // Southern Ndebele.
-			'ns_ZA', // Northern Sotho.
-			'ny_MW', // Chewa.
-			'om_ET', // Oromo.
-			'or_IN', // Oriya.
-			'pa_IN', // Punjabi.
-			'pl_PL', // Polish.
-			'ps_AF', // Pashto.
-			'pt_BR', // Portuguese (Brazil).
-			'pt_PT', // Portuguese (Portugal).
-			'qc_GT', // Quiché.
-			'qu_PE', // Quechua.
-			'qr_GR',
-			'qz_MM', // Burmese (Zawgyi).
-			'rm_CH', // Romansh.
-			'ro_RO', // Romanian.
-			'ru_RU', // Russian.
-			'rw_RW', // Kinyarwanda.
-			'sa_IN', // Sanskrit.
-			'sc_IT', // Sardinian.
-			'se_NO', // Northern Sami.
-			'si_LK', // Sinhala.
-			'su_ID', // Sundanese.
-			'sk_SK', // Slovak.
-			'sl_SI', // Slovenian.
-			'sn_ZW', // Shona.
-			'so_SO', // Somali.
-			'sq_AL', // Albanian.
-			'sr_RS', // Serbian.
-			'ss_SZ', // Swazi.
-			'st_ZA', // Southern Sotho.
-			'sv_SE', // Swedish.
-			'sw_KE', // Swahili.
-			'sy_SY', // Syriac.
-			'sz_PL', // Silesian.
-			'ta_IN', // Tamil.
-			'te_IN', // Telugu.
-			'tg_TJ', // Tajik.
-			'th_TH', // Thai.
-			'tk_TM', // Turkmen.
-			'tl_PH', // Filipino.
-			'tl_ST', // Klingon.
-			'tn_BW', // Tswana.
-			'tr_TR', // Turkish.
-			'ts_ZA', // Tsonga.
-			'tt_RU', // Tatar.
-			'tz_MA', // Tamazight.
-			'uk_UA', // Ukrainian.
-			'ur_PK', // Urdu.
-			'uz_UZ', // Uzbek.
-			've_ZA', // Venda.
-			'vi_VN', // Vietnamese.
-			'wo_SN', // Wolof.
-			'xh_ZA', // Xhosa.
-			'yi_DE', // Yiddish.
-			'yo_NG', // Yoruba.
-			'zh_CN', // Simplified Chinese (China).
-			'zh_HK', // Traditional Chinese (Hong Kong).
-			'zh_TW', // Traditional Chinese (Taiwan).
-			'zu_ZA', // Zulu.
-			'zz_TR', // Zazaki.
-		);
-
-		// Check to see if the locale is a valid FB one, if not, use en_US as a fallback.
-		if ( ! in_array( $locale, $fb_valid_fb_locales, true ) ) {
-			$locale = strtolower( substr( $locale, 0, 2 ) ) . '_' . strtoupper( substr( $locale, 0, 2 ) );
-			if ( ! in_array( $locale, $fb_valid_fb_locales, true ) ) {
-				$locale = 'en_US';
-			}
-		}
-
-		return $locale;
+	/**
+	 * Generates the open graph site name.
+	 *
+	 * @return string The open graph site name.
+	 */
+	public function generate_og_site_name() {
+		return $this->context->wordpress_site_name;
 	}
 
 	/**
@@ -495,12 +348,30 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
+	 * Generates the Twitter creator.
+	 *
+	 * @return string The Twitter creator.
+	 */
+	public function generate_twitter_creator() {
+		return '';
+	}
+
+	/**
 	 * Generates the replace vars object.
 	 *
 	 * @return array The replace vars object.
 	 */
 	public function generate_replace_vars_object() {
 		return [];
+	}
+
+	/**
+	 * Generates the schema for the page.
+	 *
+	 * @return array The Schema object.
+	 */
+	public function generate_schema() {
+		return $this->schema_generator->generate( $this->context );
 	}
 
 	/**
@@ -525,13 +396,13 @@ class Indexable_Presentation extends Abstract_Presentation {
 		 *
 		 * @api string|false $size Size string.
 		 */
-		$override_image_size = apply_filters( 'wpseo_opengraph_image_size', null );
+		$override_image_size = \apply_filters( 'wpseo_opengraph_image_size', null );
 
 		if ( $override_image_size ) {
 			return $this->image_helper->get_image( $attachment_id, $override_image_size );
 		}
 
-		return $this->image_helper->get_attachment_variations(
+		$attachment = $this->image_helper->get_best_attachment_variation(
 			$attachment_id,
 			[
 				'min_width'  => 200,
@@ -540,6 +411,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 				'max_height' => 2000,
 			]
 		);
+
+		return $attachment['url'];
 	}
 
 	/**
@@ -552,10 +425,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return '';
 		}
 
-		$default_image_id  = $this->options_helper->get( 'og_default_image_id', '' );
-
+		$default_image_id = $this->options_helper->get( 'og_default_image_id', '' );
 		if ( $default_image_id ) {
-			$attachment_url = $this->get_attachment_url_by_id( $this->model->og_image_id );
+			$attachment_url = $this->get_attachment_url_by_id( $default_image_id );
 			if ( $attachment_url ) {
 				return $attachment_url;
 			}

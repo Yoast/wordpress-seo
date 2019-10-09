@@ -7,6 +7,8 @@
 
 namespace Yoast\WP\Free;
 
+use Yoast\WP\Free\Commands\Command_Interface;
+use Yoast\WP\Free\Integrations\Integration_Interface;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,21 +19,21 @@ class Loader {
 	/**
 	 * The registered integrations.
 	 *
-	 * @var \Yoast\WP\Free\WordPress\Integration[]
+	 * @var Integration_Interface[]
 	 */
 	protected $integrations = [];
 
 	/**
 	 * The registered initializers.
 	 *
-	 * @var \Yoast\WP\Free\WordPress\Initializer[]
+	 * @var Integration_Interface[]
 	 */
 	protected $initializers = [];
 
 	/**
 	 * The registered commands.
 	 *
-	 * @var \Yoast\WP\Free\WordPress\WP_CLI_Command[]
+	 * @var Command_Interface[]
 	 */
 	protected $commands = [];
 
@@ -145,7 +147,7 @@ class Loader {
 	/**
 	 * Checks if all conditionals of a given integration are met.
 	 *
-	 * @param \Yoast\WP\Free\WordPress\Integration $class The class name of the integration.
+	 * @param Integration_Interface $class The class name of the integration.
 	 *
 	 * @return bool Whether or not all conditionals of the integration are met.
 	 */

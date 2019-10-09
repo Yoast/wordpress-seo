@@ -33,7 +33,7 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	protected $post_type_helper;
 
 	/**
-	 * Indexable_Post_Type_Presentation constructor.
+	 * Indexable_Author_Archive_Presentation constructor.
 	 *
 	 * @param WP_Query_Wrapper $wp_query_wrapper The wp query wrapper.
 	 * @param User_Helper      $user_helper      The user helper.

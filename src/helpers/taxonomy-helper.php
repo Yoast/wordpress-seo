@@ -7,8 +7,6 @@
 
 namespace Yoast\WP\Free\Helpers;
 
-use \WP_Term;
-
 /**
  * Class Taxonomy_Helper
  */

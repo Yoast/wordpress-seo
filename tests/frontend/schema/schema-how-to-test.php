@@ -4,9 +4,9 @@ namespace Yoast\WP\Free\Tests\Frontend\Schema;
 
 use Brain\Monkey;
 use Mockery;
-use WPSEO_Schema_Context;
 use WPSEO_Schema_IDs;
 use Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_HowTo_Double;
+use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -42,7 +42,7 @@ class Schema_HowTo_Test extends TestCase {
 			]
 		);
 
-		$this->context = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
+		$this->context = Mockery::mock( Meta_Tags_Context::class )->makePartial();
 
 		$this->context->title     = 'title';
 		$this->context->canonical = 'example.com/';

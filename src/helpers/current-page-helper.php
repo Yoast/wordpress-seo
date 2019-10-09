@@ -223,11 +223,11 @@ class Current_Page_Helper {
 	}
 
 	/**
-	 * Determine whether this is an error page.
+	 * Determine whether this is a 404 page.
 	 *
-	 * @return bool Whether nor not the current page is an error page.
+	 * @return bool Whether nor not the current page is a 404 page.
 	 */
-	public function is_error_page() {
+	public function is_404() {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
 		return $wp_query->is_404();
