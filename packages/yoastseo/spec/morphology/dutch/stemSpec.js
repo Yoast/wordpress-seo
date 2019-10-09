@@ -101,10 +101,12 @@ const wordsToStem = [
 	[ "mannen", "man" ],
 	// An adjective with stem ending in -iël.
 	[ "officiële", "officieel" ],
-	// An adjective with the superlative stem ending in -ïed
+	// An adjective with the superlative stem ending in -ïed.
 	[ "paranoïedste", "paranoïd" ],
-	// An adjective with the comparative partitive suffix -ers
+	// An adjective with the comparative partitive suffix -ers.
 	[ "ronders", "rond" ],
+	// An adjective with stem ending in -rd.
+	[ "absurder", "absurd" ],
 ];
 
 // These words should not be stemmed (same form should be returned).
