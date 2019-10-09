@@ -107,7 +107,6 @@ const wordsToStem = [
 	[ "ronders", "rond" ],
 	// An adjective with stem ending in -rd.
 	[ "absurder", "absurd" ],
-];
 
 // These words should not be stemmed (same form should be returned).
 
