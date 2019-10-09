@@ -49,15 +49,17 @@ use Yoast\WP\Free\ORM\Yoast_Model;
  * @property string  $og_description
  * @property string  $og_image
  * @property string  $og_image_id
+ * @property string  $og_image_source
  *
  * @property string  $twitter_title
  * @property string  $twitter_description
  * @property string  $twitter_image
+ * @property string  $twitter_image_id
+ * @property string  $twitter_image_source
+ * @property string  $twitter_card
  *
  * @property int     $prominent_words_version
  * @property float   $prominent_words_vector_length
- *
- * @property string  $twitter_card
  */
 class Indexable extends Yoast_Model {
 
