@@ -43,9 +43,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		if ( \post_password_required() ) {
 			return '';
 		}
-
-		$twitter_image = $this->format( $presentation->twitter_image );
-		$twitter_image = $this->filter( $twitter_image );
+		$twitter_image = $this->filter( $presentation->twitter_image );
 		$twitter_image = \esc_url( $twitter_image );
 
 		if ( is_string( $twitter_image ) && $twitter_image !== '' ) {
@@ -69,21 +67,5 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		 * @api string $img Image URL string.
 		 */
 		return (string) apply_filters( 'wpseo_twitter_image', $twitter_image );
-	}
-
-	/**
-	 * Formats the Twitter images to make sure we have an absolute image url.
-	 *
-	 * @param string $twitter_image The Twitter image to format.
-	 *
-	 * @return string The formatted Twitter image.
-	 */
-	private function format( $twitter_image ) {
-		if ( $this->url_helper->is_relative( $twitter_image ) === true && \strpos( $twitter_image, '/' ) === 0 ) {
-			$parsed_url    = \wp_parse_url( \home_url() );
-			$twitter_image = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $twitter_image;
-		}
-
-		return $twitter_image;
 	}
 }
