@@ -119,10 +119,6 @@ const secondExceptionCheckVowelDoubling = function( word, wordsWithVowelDoubling
 	if ( wordsWithVowelDoubling.includes( word ) )  {
 		return true;
 	}
-	const fourthToLastLetter = word.charAt( word.length - 4 );
-	const thirdToLastLetter = word.charAt( word.length - 3 );
-	return fourthToLastLetter !== thirdToLastLetter;
-};
 
 /**
  * Checks whether the vowel matches a regex. If it does, it means that its vowel should not be doubled.
