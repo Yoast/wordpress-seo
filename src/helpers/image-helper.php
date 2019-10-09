@@ -62,6 +62,25 @@ class Image_Helper {
 	}
 
 	/**
+	 * Gets an attachment page's attachment url.
+	 *
+	 * @param string $attachment_id The attachment id.
+	 *
+	 * @return bool True when attachment is an image.
+	 */
+	public function is_attachment_valid_image( $attachment_id ) {
+		if ( ! \wp_attachment_is_image( $attachment_id ) ) {
+			return false;
+		}
+
+		if ( ! $this->is_valid_attachment( $attachment_id ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Determines whether or not the wanted attachment is considered valid.
 	 *
 	 * @param int $attachment_id The attachment ID to get the attachment by.

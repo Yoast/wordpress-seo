@@ -51,6 +51,10 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	public function register_hooks() {
 		\add_action( 'wp_insert_post', [ $this, 'build_indexable' ], \PHP_INT_MAX );
 		\add_action( 'delete_post', [ $this, 'delete_indexable' ] );
+
+		\add_action( 'edit_attachment',[ $this, 'build_indexable' ], \PHP_INT_MAX );
+		\add_action( 'add_attachment', [ $this, 'build_indexable' ], \PHP_INT_MAX );
+		\add_action( 'delete_attachment', [ $this, 'delete_indexable' ] );
 	}
 
 	/**
