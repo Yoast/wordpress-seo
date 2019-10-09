@@ -121,6 +121,17 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
+	public function generate_twitter_image() {
+		if ( \post_password_required() ) {
+			return '';
+		}
+
+		return parent::generate_twitter_image();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function generate_twitter_creator() {
 		$twitter_creator = \ltrim( \trim( \get_the_author_meta( 'twitter', $this->context->post->post_author ) ), '@' );
 

@@ -40,9 +40,6 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The template.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		if ( \post_password_required() ) {
-			return '';
-		}
 		$twitter_image = $this->filter( $presentation->twitter_image );
 		$twitter_image = \esc_url( $twitter_image );
 
