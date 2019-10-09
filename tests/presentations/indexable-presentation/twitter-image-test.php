@@ -12,6 +12,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group presentations
  */
 class Twitter_Image_Test extends TestCase {
+
 	use Presentation_Instance_Builder;
 
 	/**
@@ -29,17 +30,65 @@ class Twitter_Image_Test extends TestCase {
 	 * ::covers generate_twitter_image
 	 */
 	public function test_generate_twitter_image() {
-		$this->indexable->twitter_image = 'Example of Twitter image';
+		$this->indexable->twitter_image = 'twitter_image.jpg';
 
-		$this->assertEquals( 'Example of Twitter image', $this->instance->generate_twitter_image() );
+		$this->twitter_image_generator
+			->expects( 'generate' )
+			->once()
+			->with( $this->context )
+			->andReturn(
+				[
+					'twitter_image.jpg' => [
+						'url' => 'twitter_image.jpg',
+					],
+				]
+			);
+
+		$this->assertEquals( 'twitter_image.jpg', $this->instance->generate_twitter_image() );
 	}
 
 	/**
-	 * Tests the situation where an empty value is returned.
+	 * Tests the situation where an empty value is returned and Open Grapg is disabled.
 	 *
 	 * ::covers generate_twitter_image
 	 */
-	public function test_generate_twitter_image_with_empty_return_value() {
+	public function test_generate_twitter_image_with_empty_return_value_and_open_graph_disabled() {
+		$this->context->open_graph_enabled = false;
+
+		$this->twitter_image_generator
+			->expects( 'generate' )
+			->once()
+			->with( $this->context )
+			->andReturn( [] );
+
 		$this->assertEmpty( $this->instance->generate_twitter_image() );
+	}
+
+	/**
+	 * Tests the situation where an empty value is returned and Open Graph is enabled and is giving
+	 * an image.
+	 *
+	 * ::covers generate_twitter_image
+	 */
+	public function test_generate_twitter_image_with_empty_return_value_and_open_graph_enabled() {
+		$this->twitter_image_generator
+			->expects( 'generate' )
+			->once()
+			->with( $this->context )
+			->andReturn( [] );
+
+		$this->og_image_generator
+			->expects( 'generate' )
+			->once()
+			->with( $this->context )
+			->andReturn(
+				[
+					'og_image.jpg' => [
+						'url' => 'og_image.jpg',
+					],
+				]
+			);
+
+		$this->assertEquals( 'og_image.jpg', $this->instance->generate_twitter_image() );
 	}
 }

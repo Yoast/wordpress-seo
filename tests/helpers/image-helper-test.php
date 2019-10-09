@@ -92,78 +92,6 @@ class Image_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests getting the featured image for a post without an image attached.
-	 *
-	 * @covers ::get_featured_image
-	 */
-	public function test_get_featured_image_no_post_thumbnail() {
-		Monkey\Functions\expect( 'has_post_thumbnail' )
-			->with( 100 )
-			->once()
-			->andReturn( false );
-
-		$this->assertEmpty( $this->instance->get_featured_image( 100 ) );
-	}
-
-	/**
-	 * Tests getting the featured image for a post with an image attached.
-	 *
-	 * @covers ::get_featured_image
-	 */
-	public function test_get_featured_image_post_has_thumbnail_and_image_attached() {
-		Monkey\Functions\expect( 'has_post_thumbnail' )
-			->with( 100 )
-			->once()
-			->andReturn( true );
-
-		Monkey\Functions\expect( 'get_post_thumbnail_id' )
-			->with( 100 )
-			->once()
-			->andReturn( 11 );
-
-		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
-			->with( 11, 'full' )
-			->once()
-			->andReturn(
-				[
-					'https://example.com/media/image.jpg',
-					'100px',
-					'200px',
-					false,
-				]
-			);
-
-		$this->assertEquals(
-			'https://example.com/media/image.jpg',
-			$this->instance->get_featured_image( 100 )
-		);
-	}
-
-	/**
-	 * Tests getting the featured image for a post with a thumbnail but no full image attached.
-	 *
-	 * @covers ::get_featured_image
-	 */
-	public function test_get_featured_image_post_has_thumbnail() {
-		Monkey\Functions\expect( 'has_post_thumbnail' )
-			->with( 100 )
-			->once()
-			->andReturn( true );
-
-		Monkey\Functions\expect( 'get_post_thumbnail_id' )
-			->with( 100 )
-			->once()
-			->andReturn( 11 );
-
-		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
-			->with( 11, 'full' )
-			->once()
-			->andReturn( false );
-
-		$this->assertEmpty( $this->instance->get_featured_image( 100 ) );
-	}
-
-	/**
 	 * Tests retrieving the first image url of a gallery when there is no gallery.
 	 *
 	 * @covers ::get_gallery_image
@@ -172,7 +100,7 @@ class Image_Helper_Test extends TestCase {
 		Monkey\Functions\expect( 'get_post' )
 			->with( 100 )
 			->once()
-			->andReturn( (object) [ 'post_content' => '' ]  );
+			->andReturn( (object) [ 'post_content' => '' ] );
 
 		Monkey\Functions\expect( 'has_shortcode' )
 			->with( '', 'gallery' )

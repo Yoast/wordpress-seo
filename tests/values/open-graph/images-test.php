@@ -36,16 +36,23 @@ class Images_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * @var Url_Helper|Mockery\Mock
+	 */
+	protected $url_helper;
+
+	/**
 	 * Setup the tests.
 	 */
 	public function setUp() {
 		parent::setUp();
 
 		$this->image_helper            = Mockery::mock( Image_Helper::class )->makePartial();
+		$this->url_helper              = Mockery::mock( Url_Helper::class )->makePartial();
 		$this->open_graph_image_helper = Mockery::mock(
 			Open_Graph_Image_Helper::class, [ new Url_Helper(), $this->image_helper ]
 		)->makePartial();
-		$this->instance = new Images( $this->open_graph_image_helper, $this->image_helper );
+		$this->instance = new Images( $this->image_helper, $this->url_helper );
+		$this->instance->set_helpers( $this->open_graph_image_helper );
 	}
 
 	/**
