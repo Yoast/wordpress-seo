@@ -9,6 +9,7 @@ namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Generators\OG_Image_Generator;
+use Yoast\WP\Free\Generators\Twitter_Image_Generator;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
@@ -65,6 +66,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $og_image_generator;
 
 	/**
+	 * @var Twitter_Image_Generator
+	 */
+	protected $twitter_image_generator;
+
+	/**
 	 * @var OG_Locale_Generator
 	 */
 	private $og_locale_generator;
@@ -94,18 +100,21 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * Sets the generator dependencies.
 	 *
-	 * @param Schema_Generator    $schema_generator    The schema generator.
-	 * @param OG_Locale_Generator $og_locale_generator The OG locale generator.
-	 * @param OG_Image_Generator  $og_image_generator  The OG image generator.
+	 * @param Schema_Generator        $schema_generator        The schema generator.
+	 * @param OG_Locale_Generator     $og_locale_generator     The OG locale generator.
+	 * @param OG_Image_Generator      $og_image_generator      The OG image generator.
+	 * @param Twitter_Image_Generator $twitter_image_generator The Twitter image generator.
 	 */
 	public function set_generators(
 		Schema_Generator $schema_generator,
 		OG_Locale_Generator $og_locale_generator,
-		OG_Image_Generator $og_image_generator
+		OG_Image_Generator $og_image_generator,
+		Twitter_Image_Generator $twitter_image_generator
 	) {
-		$this->schema_generator    = $schema_generator;
-		$this->og_locale_generator = $og_locale_generator;
-		$this->og_image_generator  = $og_image_generator;
+		$this->schema_generator        = $schema_generator;
+		$this->og_locale_generator     = $og_locale_generator;
+		$this->og_image_generator      = $og_image_generator;
+		$this->twitter_image_generator = $twitter_image_generator;
 	}
 
 	/**
@@ -340,11 +349,18 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return string The Twitter image.
 	 */
 	public function generate_twitter_image() {
-		if ( $this->model->twitter_image ) {
-			return $this->model->twitter_image;
+		$images = $this->twitter_image_generator->generate( $this->context );
+		if ( empty( $images ) && $this->context->open_graph_enabled === true ) {
+			$images = $this->og_images;
 		}
 
-		return '';
+		if ( empty( $images ) ) {
+			return '';
+		}
+
+		$image = \reset( $images );
+
+		return $image['url'];
 	}
 
 	/**
