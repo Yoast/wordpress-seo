@@ -38,7 +38,7 @@ class Type_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the presenter returns the correct title.
+	 * Tests whether the presenter returns the correct open graph type.
 	 *
 	 * @covers ::present
 	 */
@@ -52,11 +52,11 @@ class Type_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the presenter returns an empty string when the title is empty.
+	 * Tests whether the presenter returns an empty string when the open graph type is empty.
 	 *
 	 * @covers ::present
 	 */
-	public function test_present_title_is_empty() {
+	public function test_present_type_is_empty() {
 		$this->indexable_presentation->og_type = '';
 
 		$actual = $this->instance->present( $this->indexable_presentation );
