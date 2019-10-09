@@ -16,6 +16,8 @@ export default () => {
 		keywords: [
 			__( "FAQ", "wordpress-seo" ),
 			__( "Frequently Asked Questions", "wordpress-seo" ),
+			"Google",
+			__( "Schema", "wordpress-seo" ),
 		],
 		// Allow only one FAQ block per post.
 		supports: {
