@@ -11,7 +11,7 @@ use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
 
 /**
- * Class Title_Presenter
+ * Class Type_Presenter
  */
 class Type_Presenter extends Abstract_Indexable_Presenter {
 
