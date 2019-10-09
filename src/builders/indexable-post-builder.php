@@ -8,6 +8,8 @@
 namespace Yoast\WP\Free\Builders;
 
 use Exception;
+use Yoast\WP\Free\Helpers\Image_Helper;
+use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
 
 /**
@@ -21,12 +23,22 @@ class Indexable_Post_Builder {
 	protected $seo_meta_repository;
 
 	/**
+	 * @var Image_Helper
+	 */
+	protected $image_helper;
+
+	/**
 	 * Indexable_Post_Builder constructor.
 	 *
 	 * @param \Yoast\WP\Free\Repositories\SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
+	 * @param Image_Helper                                    $image_helper        The image helper.
 	 */
-	public function __construct( SEO_Meta_Repository $seo_meta_repository ) {
+	public function __construct(
+		SEO_Meta_Repository $seo_meta_repository,
+		Image_Helper $image_helper
+	) {
 		$this->seo_meta_repository = $seo_meta_repository;
+		$this->image_helper        = $image_helper;
 	}
 
 	/**
@@ -63,9 +75,13 @@ class Indexable_Post_Builder {
 			$indexable->{ 'is_robots_' . $meta_robots_option } = \in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}
 
+		$this->reset_social_images( $indexable );
+
 		foreach ( $this->get_indexable_lookup() as $meta_key => $indexable_key ) {
 			$indexable->{ $indexable_key } = $this->get_meta_value( $post_id, $meta_key );
 		}
+
+		$this->handle_social_images( $indexable );
 
 		$indexable = $this->set_link_count( $post_id, $indexable );
 
@@ -178,5 +194,123 @@ class Indexable_Post_Builder {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Resets the social images.
+	 *
+	 * @param Indexable $indexable The indexable to set images for.
+	 */
+	protected function reset_social_images( Indexable $indexable ) {
+		$indexable->og_image        = null;
+		$indexable->og_image_id     = null;
+		$indexable->og_image_source = null;
+
+		$indexable->twitter_image        = null;
+		$indexable->twitter_image_id     = null;
+		$indexable->twitter_image_source = null;
+	}
+
+	/**
+	 * Handles the social images.
+	 *
+	 * @param Indexable $indexable The indexable to handle.
+	 */
+	protected function handle_social_images( Indexable $indexable ) {
+		// When the image or image id is set.
+		if ( $indexable->og_image || $indexable->og_image_id ) {
+			$indexable->og_image_source = 'set-by-user';
+		}
+
+		if ( $indexable->twitter_image || $indexable->twitter_image_id ) {
+			$indexable->twitter_image_source = 'set-by-user';
+		}
+
+		// When image sources are set already.
+		if ( $indexable->og_image_source && $indexable->twitter_image_source ) {
+			return;
+		}
+
+		$alternative_image = $this->find_alternative_image( $indexable );
+		if ( ! empty( $alternative_image ) ) {
+			$this->set_alternative_image( $alternative_image, $indexable );
+		}
+	}
+
+	/**
+	 * Finds an alternative image for the social image.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return array|bool False when not found, array with data when found.
+	 */
+	protected function find_alternative_image( Indexable $indexable ) {
+		if (
+			$indexable->object_sub_type === 'attachment' &&
+			$this->image_helper->is_attachment_valid_image( $indexable->object_id )
+		) {
+			return [
+				'image_id' => $indexable->object_id,
+				'source'   => 'attachment-image',
+			];
+		}
+
+		$featured_image_id = $this->image_helper->get_featured_image_id( $indexable->object_id );
+		if ( $featured_image_id ) {
+			return [
+				'image_id' => $featured_image_id,
+				'source'   => 'featured-image',
+			];
+		}
+
+		$gallery_image = $this->image_helper->get_gallery_image( $indexable->object_id );
+		if ( $gallery_image ) {
+			return [
+				'image'  => $gallery_image,
+				'source' => 'gallery-image',
+			];
+		}
+
+		$content_image = $this->image_helper->get_post_content_image( $indexable->object_id );
+		if ( $content_image ) {
+			return [
+				'image'  => $content_image,
+				'source' => 'first-content-image',
+			];
+		}
+
+		return false;
+	}
+
+	/**
+	 * Sets the alternative on an indexable.
+	 *
+	 * @param array     $alternative_image The alternative image to set.
+	 * @param Indexable $indexable         The indexable to set image for.
+	 */
+	protected function set_alternative_image( array $alternative_image, Indexable $indexable ) {
+		if ( ! empty( $alternative_image['image_id'] ) ) {
+			if ( ! $indexable->og_image_source && ! $indexable->og_image_id ) {
+				$indexable->og_image_id     = $alternative_image['image_id'];
+				$indexable->og_image_source = $alternative_image['source'];
+			}
+
+			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
+				$indexable->twitter_image_id     = $alternative_image['image_id'];
+				$indexable->twitter_image_source = $alternative_image['source'];
+			}
+		}
+
+		if ( ! empty( $alternative_image['image'] ) ) {
+			if ( ! $indexable->og_image_source && ! $indexable->og_image_id ) {
+				$indexable->og_image        = $alternative_image['image'];
+				$indexable->og_image_source = $alternative_image['source'];
+			}
+
+			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
+				$indexable->twitter_image        = $alternative_image['image'];
+				$indexable->twitter_image_source = $alternative_image['source'];
+			}
+		}
 	}
 }

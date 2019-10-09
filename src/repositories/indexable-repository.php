@@ -128,8 +128,8 @@ class Indexable_Repository {
 				return $this->find_for_system_page( 'search-result' );
 			case $this->current_page->is_post_type_archive():
 				return $this->find_for_post_type_archive( $this->current_page->get_queried_post_type() );
-			case $this->current_page_helper->is_author_archive():
-				return $this->find_by_id_and_type( $this->current_page_helper->get_author_id(), 'user' );
+			case $this->current_page->is_author_archive():
+				return $this->find_by_id_and_type( $this->current_page->get_author_id(), 'user' );
 			case $this->current_page->is_404():
 				return $this->find_for_system_page( '404' );
 		}
