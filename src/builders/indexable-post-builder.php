@@ -198,10 +198,8 @@ class Indexable_Post_Builder {
 	 * @param Indexable $indexable The indexable to handle.
 	 */
 	protected function handle_social_images( Indexable $indexable ) {
-		// When both image sources are set already.
-		if ( $indexable->og_image_source && $indexable->twitter_image_source ) {
-			return;
-		}
+		$indexable->og_image_source      = null;
+		$indexable->twitter_image_source = null;
 
 		// When source is empty and the image or image id is set.
 		if ( $indexable->og_image || $indexable->og_image_id ) {
