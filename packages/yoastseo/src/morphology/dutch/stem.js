@@ -119,6 +119,7 @@ const secondExceptionCheckVowelDoubling = function( word, wordsWithVowelDoubling
 	if ( wordsWithVowelDoubling.includes( word ) )  {
 		return true;
 	}
+};
 
 /**
  * Checks whether the vowel matches a regex. If it does, it means that its vowel should not be doubled.
