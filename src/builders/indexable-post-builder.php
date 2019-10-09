@@ -306,7 +306,7 @@ class Indexable_Post_Builder {
 			}
 
 			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
-				$indexable->twitter_image        = $alternative_image['image_id'];
+				$indexable->twitter_image        = $alternative_image['image'];
 				$indexable->twitter_image_source = $alternative_image['source'];
 			}
 		}
