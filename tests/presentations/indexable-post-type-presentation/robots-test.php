@@ -49,6 +49,7 @@ class Robots_Test extends TestCase {
 		$this->indexable->is_robots_noarchive    = true;
 		$this->indexable->is_robots_noimageindex = true;
 		$this->indexable->object_id              = 1337;
+		$this->indexable->object_sub_type        = 'post';
 
 		Monkey\Functions\expect( 'get_post_status' )
 			->once()
@@ -57,7 +58,7 @@ class Robots_Test extends TestCase {
 
 		$this->post_type_helper->expects( 'is_indexable' )
 							   ->once()
-							   ->with( 1337 )
+							   ->with( 'post' )
 							   ->andReturn( true );
 
 		$actual   = $this->instance->generate_robots();
@@ -78,7 +79,8 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 */
 	public function test_generate_robots_private_post() {
-		$this->indexable->object_id = 1337;
+		$this->indexable->object_id       = 1337;
+		$this->indexable->object_sub_type = 'post';
 
 		Monkey\Functions\expect( 'get_post_status' )
 			->once()
@@ -88,7 +90,7 @@ class Robots_Test extends TestCase {
 		$this->post_type_helper
 			->expects( 'is_indexable' )
 			->once()
-			->with( 1337 )
+			->with( 'post' )
 			->andReturn( true );
 
 		$actual   = $this->instance->generate_robots();
@@ -106,7 +108,8 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 */
 	public function test_generate_robots_post_type_not_indexable() {
-		$this->indexable->object_id = 1337;
+		$this->indexable->object_id       = 1337;
+		$this->indexable->object_sub_type = 'post';
 
 		Monkey\Functions\expect( 'get_post_status' )
 			->once()
@@ -116,7 +119,7 @@ class Robots_Test extends TestCase {
 		$this->post_type_helper
 			->expects( 'is_indexable' )
 			->once()
-			->with( 1337 )
+			->with( 'post' )
 			->andReturn( false );
 
 		$actual   = $this->instance->generate_robots();
