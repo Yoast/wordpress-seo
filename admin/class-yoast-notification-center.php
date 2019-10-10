@@ -289,9 +289,17 @@ class Yoast_Notification_Center {
 	 */
 	public function add_notification( Yoast_Notification $notification ) {
 
+		/**
+		 * Allow users to disable notifications
+		 *
+		 * @var bool   True to disable the notification, else false.
+		 * @var string Notification ID.
+		 */
+		$disable_notification = (bool) apply_filters( 'wpseo_disable_notification', false, $notification->get_id() );
+
 		$callback = array( $this, __METHOD__ );
 		$args     = func_get_args();
-		if ( $this->queue_transaction( $callback, $args ) ) {
+		if ( $disable_notification || $this->queue_transaction( $callback, $args ) ) {
 			return;
 		}
 
