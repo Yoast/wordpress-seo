@@ -33,40 +33,54 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	protected $post_type_helper;
 
 	/**
+	 * @var Options_Helper
+	 */
+	protected $options_helper;
+
+	/**
 	 * Indexable_Author_Archive_Presentation constructor.
 	 *
 	 * @param WP_Query_Wrapper $wp_query_wrapper The wp query wrapper.
 	 * @param User_Helper      $user_helper      The user helper.
 	 * @param Post_Type_Helper $post_type_helper The post type helper.
+	 * @param Options_Helper   $options_helper   The options helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		WP_Query_Wrapper $wp_query_wrapper,
 		User_Helper $user_helper,
-		Post_Type_Helper $post_type_helper
+		Post_Type_Helper $post_type_helper,
+		Options_Helper $options_helper
 	) {
 		$this->wp_query_wrapper = $wp_query_wrapper;
 		$this->user_helper      = $user_helper;
 		$this->post_type_helper = $post_type_helper;
+		$this->options_helper   = $options_helper;
 	}
 
 	/**
-	 * Generates the title.
-	 *
-	 * @return string The title.
+	 * @inheritDoc
 	 */
 	public function generate_title() {
 		if ( $this->model->title ) {
 			return $this->model->title;
 		}
 
-		$options_title = $this->options_helper->get( 'title-author-wpseo' );
+		$title_option  = 'title-author-wpseo';
+		$options_title = $this->options_helper->get( $title_option );
 		if ( $options_title ) {
 			return $options_title;
 		}
 
-		return '';
+		return $this->options_helper->get_title_default( $title_option );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_twitter_title() {
+		return $this->title;
 	}
 
 	/**
