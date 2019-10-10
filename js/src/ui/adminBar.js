@@ -2,7 +2,7 @@
  * Updates the admin bar for the page.
  *
  * @param {Object} indicator The indicator for the keyword score.
- * @param {string} keyword The focus keyphrase for the post.
+ * @param {string} keyword   The focus keyphrase for the post.
  *
  * @returns {void}
  */
@@ -12,7 +12,7 @@ function updateAdminBar( indicator, keyword ) {
 		.attr( "class", "wpseo-score-icon adminbar-seo-score " + indicator.className )
 		.find( ".adminbar-seo-score-text" ).text( indicator.screenReaderText );
 
-	// Updates the focus keyhprase in the menu
+	// Updates the focus keyphrase in the menu
 	const keywordMenuElement = jQuery( "#wp-admin-bar-wpseo-focus-keyphrase" );
 
 	if ( keyword === "" ) {
