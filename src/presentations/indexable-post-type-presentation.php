@@ -91,7 +91,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		);
 
 		$private           = \get_post_status( $this->model->object_id ) === 'private';
-		$post_type_noindex = ! $this->post_type_helper->is_indexable( $this->model->object_id );
+		$post_type_noindex = ! $this->post_type_helper->is_indexable( $this->model->object_sub_type );
 
 		if ( $private || $post_type_noindex ) {
 			$robots['index'] = 'noindex';
