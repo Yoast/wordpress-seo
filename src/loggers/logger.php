@@ -47,7 +47,7 @@ class Logger implements LoggerInterface {
 	 *
 	 * @return void
 	 */
-	public function log( $level, $message, array $context = array() ) {
+	public function log( $level, $message, array $context = [] ) {
 		$this->wrapped_logger->log( $level, $message, $context );
 	}
 }

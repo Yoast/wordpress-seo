@@ -49,8 +49,8 @@ class Indexable_Post_Watcher_Test extends TestCase {
 		$instance = new Indexable_Post_Watcher( $repository_mock, $builder_mock );
 		$instance->register_hooks();
 
-		$this->assertNotFalse( \has_action( 'wp_insert_post', array( $instance, 'build_indexable' ) ) );
-		$this->assertNotFalse( \has_action( 'delete_post', array( $instance, 'delete_indexable' ) ) );
+		$this->assertNotFalse( \has_action( 'wp_insert_post', [ $instance, 'build_indexable' ] ) );
+		$this->assertNotFalse( \has_action( 'delete_post', [ $instance, 'delete_indexable' ] ) );
 	}
 
 	/**
