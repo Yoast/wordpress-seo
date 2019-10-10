@@ -219,11 +219,6 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		$focus_keyword = $this->get_post_focus_keyword( $post_id );
-		if ( empty( $focus_keyword ) ) {
-			$focus_keyword = '<em>not set</em>';
-		}
-
 		$wp_admin_bar->add_group(
 			array(
 				'parent' => self::MENU_IDENTIFIER,
@@ -233,6 +228,18 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 				),
 			)
 		);
+
+		$focus_keyword = $this->get_post_focus_keyword( $post_id );
+		if ( empty( $focus_keyword ) ) {
+			$admin_bar_menu_args = array(
+				'parent' => 'wpseo_post_info',
+				'id'     => 'wpseo-focus-keyphrase-heading',
+				/* translators: %s expands to the post type. */
+				'title'  => sprintf( __( 'Focus keyphrase for this %s not set.', 'wordpress-seo' ), get_post_type() ),
+			);
+			$wp_admin_bar->add_menu( $admin_bar_menu_args );
+			return;
+		}
 
 		$admin_bar_menu_args = array(
 			'parent' => 'wpseo_post_info',
