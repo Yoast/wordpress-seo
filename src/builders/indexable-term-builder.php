@@ -15,18 +15,32 @@ class Indexable_Term_Builder {
 	/**
 	 * Formats the data.
 	 *
-	 * @param int                             $term_id  ID of the term to save data for.
+	 * @param int                             $term_id   ID of the term to save data for.
 	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to format.
 	 *
 	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
+	 *
+	 * @throws \Exception If the term could not be found.
 	 */
 	public function build( $term_id, $indexable ) {
-		$term      = \get_term( $term_id );
-		$taxonomy  = $term->taxonomy;
-		$term_meta = \WPSEO_Taxonomy_Meta::get_term_meta( $term_id, $taxonomy );
+		$term = \get_term( $term_id );
 
-		$indexable->permalink       = \get_term_link( $term_id, $taxonomy );
+		if ( is_wp_error( $term ) ) {
+			throw new \Exception( current( array_keys( $term->errors ) ) );
+		}
+
+		$taxonomy  = $term->taxonomy;
+		$term_link = \get_term_link( $term_id, $taxonomy );
+
+		if ( is_wp_error( $term_link ) ) {
+			throw new \Exception( current( array_keys( $term_link->errors ) ) );
+		}
+		$term_meta = \WPSEO_Taxonomy_Meta::get_term_meta( $term, $taxonomy );
+
+		$indexable->object_id       = $term_id;
+		$indexable->object_type     = 'term';
 		$indexable->object_sub_type = $taxonomy;
+		$indexable->permalink       = $term_link;
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
 			$this->get_meta_value( 'wpseo_focuskw', $term_meta ),
@@ -100,6 +114,7 @@ class Indexable_Term_Builder {
 			'wpseo_opengraph-title'       => 'og_title',
 			'wpseo_opengraph-description' => 'og_description',
 			'wpseo_opengraph-image'       => 'og_image',
+			'wpseo_opengraph-image-id'    => 'og_image_id',
 			'wpseo_twitter-title'         => 'twitter_title',
 			'wpseo_twitter-description'   => 'twitter_description',
 			'wpseo_twitter-image'         => 'twitter_image',
@@ -115,7 +130,7 @@ class Indexable_Term_Builder {
 	 * @return null|string The meta value.
 	 */
 	protected function get_meta_value( $meta_key, $term_meta ) {
-		if ( ! \array_key_exists( $meta_key, $term_meta ) ) {
+		if ( ! $term_meta || ! \array_key_exists( $meta_key, $term_meta ) ) {
 			return null;
 		}
 

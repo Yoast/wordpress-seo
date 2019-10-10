@@ -5,9 +5,9 @@ namespace Yoast\WP\Free\Tests\Database;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
-use Yoast\WP\Free\Database\Ruckusing_Framework;
+use Yoast\WP\Free\Config\Ruckusing_Framework;
 use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\Database\Migration_Runner;
+use Yoast\WP\Free\Initializers\Migration_Runner;
 use Yoast\WP\Free\ORM\Yoast_Model;
 use Yoast\WP\Free\Tests\TestCase;
 use YoastSEO_Vendor\Ruckusing_Adapter_MySQL_Base;
@@ -20,7 +20,7 @@ use YoastSEO_Vendor\Ruckusing_Task_Manager;
  *
  * @group   db-migrations
  *
- * @coversDefaultClass \Yoast\WP\Free\Database\Migration_Runner
+ * @coversDefaultClass \Yoast\WP\Free\Initializers\Migration_Runner
  * @covers ::<!public>
  *
  * @package Yoast\Tests

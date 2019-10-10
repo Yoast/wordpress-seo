@@ -11,7 +11,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * Tests WPSEO_Admin_Asset.
  *
  * @coversDefaultClass WPSEO_Admin_Asset_Analysis_Worker_Location
- * @covers <!public>
+ * @covers ::<!public>
  */
 final class Admin_Asset_Analysis_Worker_Location_Test extends TestCase {
 
