@@ -81,10 +81,10 @@ if ( ! $active ) {
 		<p><?php echo esc_html( $wpseo_i18n_summary ); ?></p>
 
 		<div class="container yoast-alerts-active" id="<?php echo esc_attr( 'yoast-' . $type . '-active' ); ?>">
-            <?php
+			<?php
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_alerts is considered a safe function.
-            echo _yoast_display_alerts( $active, 'active' );
-            ?>
+			echo _yoast_display_alerts( $active, 'active' );
+			?>
 		</div>
 
 		<?php
