@@ -508,11 +508,10 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Gets the current post if in a singular post context.
 	 *
-	 * @return bool|int False when not singular, Post ID when it is.
-	 *
 	 * @global WP_Post|null $post    Current post object, or null if none available.
-	 *
 	 * @global string       $pagenow Current page identifier.
+	 *
+	 * @return bool|int False when not singular, Post ID when it is.
 	 */
 	protected function get_singular_post_id() {
 		global $pagenow, $post;
@@ -579,11 +578,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	/**
 	 * Gets the current term if in a singular term context.
 	 *
-	 * @return WP_Term|null Term object, or null if not in singular context.
 	 * @global WP_Query     $wp_query Current query object.
 	 * @global WP_Term|null $tag      Current term object, or null if none available.
-	 *
 	 * @global string       $pagenow  Current page identifier.
+	 *
+	 * @return WP_Term|null Term object, or null if not in singular context.
 	 */
 	protected function get_singular_term() {
 		global $pagenow, $wp_query, $tag;
