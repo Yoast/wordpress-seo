@@ -170,4 +170,45 @@ class Images_Test extends TestCase {
 
 		$this->assertEquals( -1, $this->instance->add_image_by_url( 'image.jpg' ) );
 	}
+
+	/**
+	 * Test adding an image by id.
+	 *
+	 * @covers ::add_image_by_id
+	 */
+	public function test_add_image_by_id() {
+		$this->image_helper
+			->expects( 'get_attachment_image_src' )
+			->once()
+			->with( 1337, 'full' )
+			->andReturn( 'image.jpg' );
+
+		$this->instance->add_image_by_id( 1337 );
+
+		$this->assertEquals(
+			[
+				'image.jpg' => [
+					'url' => 'image.jpg',
+				],
+			],
+			$this->instance->get_images()
+		);
+	}
+
+	/**
+	 * Test adding an image by id with no image being found.
+	 *
+	 * @covers ::add_image_by_id
+	 */
+	public function test_add_image_by_id_no_image_found() {
+		$this->image_helper
+			->expects( 'get_attachment_image_src' )
+			->once()
+			->with( 1337, 'full' )
+			->andReturnFalse();
+
+		$this->instance->add_image_by_id( 1337 );
+
+		$this->assertEquals( [], $this->instance->get_images() );
+	}
 }
