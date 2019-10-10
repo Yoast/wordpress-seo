@@ -132,6 +132,6 @@ class Image_Helper {
 			return $this->image_helper->get_image( $attachment_id, $override_image_size );
 		}
 
-		return $this->image_helper->get_attachment_variations( $attachment_id, $this->image_params );
+		return $this->image_helper->get_best_attachment_variation( $attachment_id, $this->image_params );
 	}
 }

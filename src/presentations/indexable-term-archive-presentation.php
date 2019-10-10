@@ -112,7 +112,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		/**
 		 * If its a multiple terms archive page return a noindex.
 		 */
-		if ( $this->current_page_helper->is_multiple_terms_page() ) {
+		if ( $this->current_page->is_multiple_terms_page() ) {
 			$robots['index'] = 'noindex';
 			return $this->robots_helper->after_generate( $robots );
 		}

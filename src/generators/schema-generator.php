@@ -23,7 +23,7 @@ class Schema_Generator implements Generator_Interface {
 	/**
 	 * @var Current_Page_Helper
 	 */
-	private $current_page_helper;
+	private $current_page;
 
 	/**
 	 * @var ID_Helper
@@ -65,8 +65,8 @@ class Schema_Generator implements Generator_Interface {
 		Schema\FAQ $faq_generator,
 		Schema\HowTo $how_to_generator
 	) {
-		$this->id_helper           = $id_helper;
-		$this->current_page_helper = $current_page_helper;
+		$this->id_helper    = $id_helper;
+		$this->current_page = $current_page_helper;
 
 		$this->generators = [
 			$organization_generator,
