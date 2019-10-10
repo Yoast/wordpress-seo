@@ -22,7 +22,7 @@ class WebPage extends Abstract_Schema_Piece {
 	/**
 	 * @var Current_Page_Helper
 	 */
-	private $current_page_helper;
+	private $current_page;
 
 	/**
 	 * @var HTML_Helper
@@ -39,8 +39,8 @@ class WebPage extends Abstract_Schema_Piece {
 		Current_Page_Helper $current_page_helper,
 		HTML_Helper $html_helper
 	) {
-		$this->current_page_helper = $current_page_helper;
-		$this->html_helper         = $html_helper;
+		$this->current_page = $current_page_helper;
+		$this->html_helper  = $html_helper;
 	}
 
 	/**
@@ -140,7 +140,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 * @return bool
 	 */
 	private function add_breadcrumbs( Meta_Tags_Context $context ) {
-		if ( $context->indexable->object_type === 'home-page' || $this->current_page_helper->is_home_static_page() ) {
+		if ( $context->indexable->object_type === 'home-page' || $this->current_page->is_home_static_page() ) {
 			return false;
 		}
 

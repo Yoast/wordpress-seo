@@ -20,7 +20,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	/**
 	 * @var Current_Page_Helper
 	 */
-	private $current_page_helper;
+	private $current_page;
 
 	/**
 	 * Breadcrumb constructor.
@@ -28,7 +28,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
 	 */
 	public function __construct( Current_Page_Helper $current_page_helper ) {
-		$this->current_page_helper = $current_page_helper;
+		$this->current_page = $current_page_helper;
 	}
 
 	/**
@@ -43,7 +43,7 @@ class Breadcrumb extends Abstract_Schema_Piece {
 			return false;
 		}
 
-		if ( $context->indexable->object_type === 'home-page' || $this->current_page_helper->is_home_static_page() ) {
+		if ( $context->indexable->object_type === 'home-page' || $this->current_page->is_home_static_page() ) {
 			return false;
 		}
 

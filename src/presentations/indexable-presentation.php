@@ -77,7 +77,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * @var Current_Page_Helper
 	 */
-	protected $current_page_helper;
+	protected $current_page;
 
 	/**
 	 * @var Image_Helper
@@ -124,10 +124,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 		Options_Helper $options_helper,
 		Current_Page_Helper $current_page_helper
 	) {
-		$this->robots_helper       = $robots_helper;
-		$this->image_helper        = $image_helper;
-		$this->options_helper      = $options_helper;
-		$this->current_page_helper = $current_page_helper;
+		$this->robots_helper  = $robots_helper;
+		$this->image_helper   = $image_helper;
+		$this->options_helper = $options_helper;
+		$this->current_page   = $current_page_helper;
 	}
 
 	/**
@@ -402,7 +402,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->image_helper->get_image( $attachment_id, $override_image_size );
 		}
 
-		return $this->image_helper->get_attachment_variations(
+		$attachment = $this->image_helper->get_best_attachment_variation(
 			$attachment_id,
 			[
 				'min_width'  => 200,
@@ -411,6 +411,8 @@ class Indexable_Presentation extends Abstract_Presentation {
 				'max_height' => 2000,
 			]
 		);
+
+		return $attachment['url'];
 	}
 
 	/**

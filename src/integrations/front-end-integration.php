@@ -42,7 +42,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * @var Current_Page_Helper
 	 */
-	protected $current_page_helper;
+	protected $current_page;
 
 	/**
 	 * @var Indexable_Repository
@@ -148,7 +148,7 @@ class Front_End_Integration implements Integration_Interface {
 		ContainerInterface $service_container
 	) {
 		$this->indexable_repository = $indexable_repository;
-		$this->current_page_helper  = $current_page_helper;
+		$this->current_page         = $current_page_helper;
 		$this->blocks_helper        = $blocks_helper;
 		$this->meta_tags_context    = $meta_tags_context;
 		$this->container            = $service_container;
@@ -264,23 +264,23 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	protected function get_page_type() {
 		switch ( true ) {
-			case $this->current_page_helper->is_attachment():
+			case $this->current_page->is_attachment():
 				return 'Attachment';
-			case $this->current_page_helper->is_search_result():
+			case $this->current_page->is_search_result():
 				return 'Search_Result_Page';
-			case $this->current_page_helper->is_simple_page() || $this->current_page_helper->is_home_static_page():
+			case $this->current_page->is_simple_page() || $this->current_page->is_home_static_page():
 				return 'Post_Type';
-			case $this->current_page_helper->is_post_type_archive():
+			case $this->current_page->is_post_type_archive():
 				return 'Post_Type_Archive';
-			case $this->current_page_helper->is_term_archive():
+			case $this->current_page->is_term_archive():
 				return 'Term_Archive';
-			case $this->current_page_helper->is_author_archive():
+			case $this->current_page->is_author_archive():
 				return 'Author_Archive';
-			case $this->current_page_helper->is_date_archive():
+			case $this->current_page->is_date_archive():
 				return 'Date_Archive';
-			case $this->current_page_helper->is_home_posts_page():
+			case $this->current_page->is_home_posts_page():
 				return 'Home_Page';
-			case $this->current_page_helper->is_error_page():
+			case $this->current_page->is_404():
 				return 'Error_Page';
 		}
 

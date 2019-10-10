@@ -62,6 +62,25 @@ class Image_Helper {
 	}
 
 	/**
+	 * Gets an attachment page's attachment url.
+	 *
+	 * @param string $attachment_id The attachment id.
+	 *
+	 * @return bool True when attachment is an image.
+	 */
+	public function is_attachment_valid_image( $attachment_id ) {
+		if ( ! \wp_attachment_is_image( $attachment_id ) ) {
+			return false;
+		}
+
+		if ( ! $this->is_valid_attachment( $attachment_id ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Determines whether or not the wanted attachment is considered valid.
 	 *
 	 * @param int $attachment_id The attachment ID to get the attachment by.
@@ -190,7 +209,7 @@ class Image_Helper {
 	}
 
 	/**
-	 * Retrieves the attachment variations for given attachments.
+	 * Retrieves the best attachment variation for the given attachment.
 	 *
 	 * @codeCoverageIgnore - We have to write test when this method contains own code.
 	 *
@@ -199,7 +218,7 @@ class Image_Helper {
 	 *
 	 * @return bool|string The attachment url or false when no variations found.
 	 */
-	public function get_attachment_variations( $attachment_id, $image_params = [] ) {
+	public function get_best_attachment_variation( $attachment_id, $image_params = [] ) {
 		$variations = \WPSEO_Image_Utils::get_variations( $attachment_id );
 		$variations = \WPSEO_Image_Utils::filter_usable_dimensions( $image_params, $variations );
 		$variations = \WPSEO_Image_Utils::filter_usable_file_size( $variations );

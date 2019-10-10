@@ -61,7 +61,7 @@ class Image_Presenter_Test extends TestCase {
 		$presentation->og_images = [ $image ];
 
 		$this->assertEquals(
-			'<meta property="og:image" value="https://example.com/image.jpg"/><meta property="og:image:secure_url" value="https://example.com/image.jpg"/><meta property="og:image:width" value="100"/><meta property="og:image:height" value="100"/>',
+			'<meta property="og:image" value="https://example.com/image.jpg"/>' . PHP_EOL . '<meta property="og:image:secure_url" value="https://example.com/image.jpg"/>' . PHP_EOL . '<meta property="og:image:width" value="100"/>' . PHP_EOL . '<meta property="og:image:height" value="100"/>',
 			$this->instance->present( $presentation )
 		);
 	}

@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\Free\Integrations\Watchers;
 
-use Yoast\WP\Free\Builders\Indexable_Search_Result_Builder;
+use Yoast\WP\Free\Builders\Indexable_System_Page_Builder;
 use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Integrations\Integration_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
@@ -15,7 +15,7 @@ use Yoast\WP\Free\Repositories\Indexable_Repository;
 /**
  * Watches the search result options to save the meta information when updated.
  */
-class Indexable_Search_Result_Watcher implements Integration_Interface {
+class Indexable_System_Page_Watcher implements Integration_Interface {
 
 	/**
 	 * @inheritdoc
@@ -30,17 +30,17 @@ class Indexable_Search_Result_Watcher implements Integration_Interface {
 	protected $repository;
 
 	/**
-	 * @var Indexable_Search_Result_Builder
+	 * @var Indexable_System_Page_Builder
 	 */
 	protected $builder;
 
 	/**
 	 * Indexable_Author_Watcher constructor.
 	 *
-	 * @param Indexable_Repository            $repository The repository to use.
-	 * @param Indexable_Search_Result_Builder $builder    The post builder to use.
+	 * @param Indexable_Repository          $repository The repository to use.
+	 * @param Indexable_System_Page_Builder $builder    The post builder to use.
 	 */
-	public function __construct( Indexable_Repository $repository, Indexable_Search_Result_Builder $builder ) {
+	public function __construct( Indexable_Repository $repository, Indexable_System_Page_Builder $builder ) {
 		$this->repository = $repository;
 		$this->builder    = $builder;
 	}
@@ -61,29 +61,33 @@ class Indexable_Search_Result_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function check_option( $old_value, $new_value ) {
-		// If both values aren't set they haven't changed.
-		if ( ! isset( $old_value['title-search-wpseo'] ) && ! isset( $new_value['title-search-wpseo'] ) ) {
-			return;
-		}
+		foreach ( Indexable_System_Page_Builder::OPTION_MAPPING as $type => $option ) {
+			// If both values aren't set they haven't changed.
+			if ( ! isset( $old_value[ $option ] ) && ! isset( $new_value[ $option ] ) ) {
+				return;
+			}
 
-		// If the value was set but now isn't, is set but wasn't or is not the same it has changed.
-		if (
-			! isset( $old_value['title-search-wpseo'] ) ||
-			! isset( $new_value['title-search-wpseo'] ) ||
-			$old_value['title-search-wpseo'] !== $new_value['title-search-wpseo']
-		) {
-			$this->build_indexable();
+			// If the value was set but now isn't, is set but wasn't or is not the same it has changed.
+			if (
+				! isset( $old_value[ $option ] ) ||
+				! isset( $new_value[ $option ] ) ||
+				$old_value[ $option ] !== $new_value[ $option ]
+			) {
+				$this->build_indexable( $type );
+			}
 		}
 	}
 
 	/**
 	 * Saves the search result.
 	 *
+	 * @param string $type The type of no index page.
+	 *
 	 * @return void
 	 */
-	public function build_indexable() {
-		$indexable = $this->repository->find_for_search_result( false );
-		$indexable = ( $indexable === false ) ? $this->repository->create_for_search_result() : $this->builder->build( $indexable );
+	public function build_indexable( $type ) {
+		$indexable = $this->repository->find_for_system_page( $type, false );
+		$indexable = ( $indexable === false ) ? $this->repository->create_for_system_page( $type ) : $this->builder->build( $type, $indexable );
 		$indexable->save();
 	}
 }
