@@ -48,6 +48,11 @@
 	color: #f18500;
 }
 
+.yoast-hidden,
+:not(.wp-admin) .wpseo-focus-keyphrase-empty + #wp-admin-bar-wpseo-focus-keyphrase {
+	display: none;
+}
+
 @media screen and ( max-width: 782px ) {
 	.adminbar-seo-score {
 		margin: 16px 10px 0 2px !important;

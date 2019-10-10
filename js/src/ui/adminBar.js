@@ -12,17 +12,22 @@ function updateAdminBar( indicator, keyword ) {
 		.attr( "class", "wpseo-score-icon adminbar-seo-score " + indicator.className )
 		.find( ".adminbar-seo-score-text" ).text( indicator.screenReaderText );
 
-	// Updates the focus keyphrase in the menu
+	const keywordHeading     = jQuery( "#wp-admin-bar-wpseo-focus-keyphrase-heading" );
 	const keywordMenuElement = jQuery( "#wp-admin-bar-wpseo-focus-keyphrase" );
 
+	// Updates the focus keyphrase in the menu
+	keywordMenuElement.find( ".wpseo-focus-keyphrase-ab-item" ).text( keyword );
+
 	if ( keyword === "" ) {
+		const notSetText = keywordHeading.find( ".wpseo-focus-keyphrase-is-not-set-text" ).text();
+		keywordHeading.find( ".ab-item" ).text( notSetText );
 		keywordMenuElement.hide();
 	}
 
 	if ( keyword !== "" && typeof keyword !== "undefined" ) {
-		keywordMenuElement
-			.show()
-			.find( ".wpseo-focus-keyphrase-ab-item" ).text( keyword );
+		const setText = keywordHeading.find( ".wpseo-focus-keyphrase-is-set-text" ).text();
+		keywordHeading.find( ".ab-item" ).text( setText );
+		keywordMenuElement.show();
 	}
 }
 

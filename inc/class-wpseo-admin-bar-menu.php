@@ -230,31 +230,46 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		);
 
 		$focus_keyword = $this->get_post_focus_keyword( $post_id );
+
+		$admin_bar_keyphrase_menu_item_args = array(
+			'parent' => 'wpseo_post_info',
+			'id'     => 'wpseo-focus-keyphrase',
+			'title'  => '<span class="ab-item wpseo-focus-keyphrase-ab-item">' . $focus_keyword . '</span>',
+		);
+
+		/* translators: %s expands to the post type. */
+		$focus_keyword_is_set_text     = sprintf( __( 'Focus keyphrase for this %s:', 'wordpress-seo' ), get_post_type() );
+		/* translators: %s expands to the post type. */
+		$focus_keyword_is_not_set_text = sprintf( __( 'Focus keyphrase for this %s not set', 'wordpress-seo' ), get_post_type() );
+
+		$hidden_text_strings = '<span class="wpseo-focus-keyphrase-is-set-text yoast-hidden">' . $focus_keyword_is_set_text . '</span>' .
+			'<span class="wpseo-focus-keyphrase-is-not-set-text yoast-hidden">' . $focus_keyword_is_not_set_text . '</span>';
+
 		if ( empty( $focus_keyword ) ) {
 			$admin_bar_menu_args = array(
 				'parent' => 'wpseo_post_info',
 				'id'     => 'wpseo-focus-keyphrase-heading',
-				/* translators: %s expands to the post type. */
-				'title'  => sprintf( __( 'Focus keyphrase for this %s not set.', 'wordpress-seo' ), get_post_type() ),
+				'title'  => $focus_keyword_is_not_set_text,
+				'meta'   => array(
+					'html'  => $hidden_text_strings,
+					'class' => 'wpseo-focus-keyphrase-empty',
+				),
 			);
 			$wp_admin_bar->add_menu( $admin_bar_menu_args );
+			$wp_admin_bar->add_menu( $admin_bar_keyphrase_menu_item_args );
 			return;
 		}
 
 		$admin_bar_menu_args = array(
 			'parent' => 'wpseo_post_info',
 			'id'     => 'wpseo-focus-keyphrase-heading',
-			/* translators: %s expands to the post type. */
-			'title'  => sprintf( __( 'Focus keyphrase for this %s:', 'wordpress-seo' ), get_post_type() ),
+			'title'  => $focus_keyword_is_set_text,
+			'meta'   => array(
+				'html' => $hidden_text_strings,
+			),
 		);
 		$wp_admin_bar->add_menu( $admin_bar_menu_args );
-
-		$admin_bar_menu_args = array(
-			'parent' => 'wpseo_post_info',
-			'id'     => 'wpseo-focus-keyphrase',
-			'title'  => '<span class="ab-item wpseo-focus-keyphrase-ab-item">' . $focus_keyword . '</span>',
-		);
-		$wp_admin_bar->add_menu( $admin_bar_menu_args );
+		$wp_admin_bar->add_menu( $admin_bar_keyphrase_menu_item_args );
 	}
 
 	/**
