@@ -9,6 +9,8 @@ namespace Yoast\WP\Free\Builders;
 
 use Exception;
 use Yoast\WP\Free\Helpers\Image_Helper;
+use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
+use Yoast\WP\Free\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
 
@@ -18,7 +20,7 @@ use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
 class Indexable_Post_Builder {
 
 	/**
-	 * @var \Yoast\WP\Free\Repositories\SEO_Meta_Repository
+	 * @var SEO_Meta_Repository
 	 */
 	protected $seo_meta_repository;
 
@@ -28,17 +30,33 @@ class Indexable_Post_Builder {
 	protected $image_helper;
 
 	/**
+	 * @var Open_Graph_Image_Helper
+	 */
+	protected $open_graph_image;
+
+	/**
+	 * @var Twitter_Image_Helper
+	 */
+	protected $twitter_image;
+
+	/**
 	 * Indexable_Post_Builder constructor.
 	 *
-	 * @param \Yoast\WP\Free\Repositories\SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
-	 * @param Image_Helper                                    $image_helper        The image helper.
+	 * @param SEO_Meta_Repository     $seo_meta_repository The SEO Meta repository.
+	 * @param Image_Helper            $image_helper        The image helper.
+	 * @param Open_Graph_Image_Helper $open_graph_image    The Open Graph image helper.
+	 * @param Twitter_Image_Helper    $twitter_image       The Twitter image helper.
 	 */
 	public function __construct(
 		SEO_Meta_Repository $seo_meta_repository,
-		Image_Helper $image_helper
+		Image_Helper $image_helper,
+		Open_Graph_Image_Helper $open_graph_image,
+		Twitter_Image_Helper $twitter_image
 	) {
 		$this->seo_meta_repository = $seo_meta_repository;
 		$this->image_helper        = $image_helper;
+		$this->open_graph_image    = $open_graph_image;
+		$this->twitter_image       = $twitter_image;
 	}
 
 	/**
@@ -291,11 +309,13 @@ class Indexable_Post_Builder {
 	protected function set_alternative_image( array $alternative_image, Indexable $indexable ) {
 		if ( ! empty( $alternative_image['image_id'] ) ) {
 			if ( ! $indexable->og_image_source && ! $indexable->og_image_id ) {
+				$indexable->og_image        = $this->open_graph_image->get_image_url_by_id( $alternative_image['image_id'] );
 				$indexable->og_image_id     = $alternative_image['image_id'];
 				$indexable->og_image_source = $alternative_image['source'];
 			}
 
 			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
+				$indexable->twitter_image        = $this->twitter_image->get_by_id( $alternative_image['image_id'] );
 				$indexable->twitter_image_id     = $alternative_image['image_id'];
 				$indexable->twitter_image_source = $alternative_image['source'];
 			}
