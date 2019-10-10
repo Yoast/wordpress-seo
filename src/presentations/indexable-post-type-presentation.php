@@ -122,39 +122,11 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_twitter_image() {
-		$twitter_image = parent::generate_twitter_image();
-
-		if ( $twitter_image ) {
-			return $twitter_image;
+		if ( \post_password_required() ) {
+			return '';
 		}
 
-		// When OpenGraph image is set and the OpenGraph feature is enabled.
-		if ( $this->model->og_image && $this->options_helper->get( 'opengraph' ) === true ) {
-			return $this->model->og_image;
-		}
-
-		/**
-		 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size.
-		 *
-		 * @api string $featured_img Image size string.
-		 */
-		$image_size = \apply_filters( 'wpseo_twitter_image_size', 'full' );
-		$image_url  = $this->image_helper->get_featured_image( $this->model->object_id, $image_size );
-		if ( $image_url ) {
-			return $image_url;
-		}
-
-		$image_url = $this->image_helper->get_gallery_image( $this->model->object_id );
-		if ( $image_url ) {
-			return $image_url;
-		}
-
-		$image_url = $this->image_helper->get_post_content_image( $this->model->object_id );
-		if ( $image_url ) {
-			return $image_url;
-		}
-
-		return (string) $this->get_default_og_image();
+		return parent::generate_twitter_image();
 	}
 
 	/**

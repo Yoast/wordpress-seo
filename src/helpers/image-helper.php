@@ -133,7 +133,19 @@ class Image_Helper {
 			return '';
 		}
 
-		$featured_image = \wp_get_attachment_image_src( $featured_image_id, $image_size );
+		return $this->get_attachment_image_src( $featured_image_id, $image_size );
+	}
+
+	/**
+	 * Retrieves the image source for an attachment.
+	 *
+	 * @param int    $attachment_id The attachment.
+	 * @param string $image_size    The image size to retrieve.
+	 *
+	 * @return string The image url or an empty string when not found.
+	 */
+	public function get_attachment_image_src( $attachment_id, $image_size = 'full' ) {
+		$featured_image = \wp_get_attachment_image_src( $attachment_id, $image_size );
 
 		if ( ! $featured_image ) {
 			return '';
