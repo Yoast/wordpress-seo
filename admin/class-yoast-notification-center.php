@@ -302,16 +302,16 @@ class Yoast_Notification_Center {
 
 		$notification_id = $notification->get_id();
 
-		/**
-		 * Allow users to disable notifications
-		 *
-		 * @var bool   True to disable the notification, else false.
-		 * @var string Notification ID.
-		 */
-		$disable_notification = (bool) apply_filters( 'wpseo_disable_notification', false, $notification_id );
-
 		// Empty notifications are always added.
 		if ( $notification_id !== '' ) {
+
+			/**
+			 * Allow users to disable notifications
+			 *
+			 * @var bool   True to disable the notification, else false.
+			 * @var string Notification ID.
+			 */
+			$disable_notification = (bool) apply_filters( 'wpseo_disable_notification', false, $notification_id );
 
 			if ( $disable_notification ) {
 				$this->remove_notification_by_id( $notification_id, false );
