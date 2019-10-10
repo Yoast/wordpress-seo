@@ -23,6 +23,9 @@ class WPSEO_Schema_Utils {
 	public static function get_user_schema_id( $user_id, $context ) {
 		$user = get_userdata( $user_id );
 
-		return $context->site_url . WPSEO_Schema_IDs::PERSON_HASH . wp_hash( $user->user_login . $user_id );
+		if ( is_object( $user ) && isset( $user->user_login ) ) {
+			return $context->site_url . WPSEO_Schema_IDs::PERSON_HASH . wp_hash( $user->user_login . $user_id );
+		}
+		return $context->site_url . WPSEO_Schema_IDs::PERSON_HASH;
 	}
 }

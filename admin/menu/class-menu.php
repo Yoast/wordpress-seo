@@ -88,10 +88,6 @@ class WPSEO_Menu implements WPSEO_WordPress_Integration {
 				require_once WPSEO_PATH . 'admin/pages/licenses.php';
 				break;
 
-			case 'wpseo_courses':
-				require_once WPSEO_PATH . 'admin/pages/courses.php';
-				break;
-
 			case 'wpseo_files':
 				require_once WPSEO_PATH . 'admin/views/tool-file-editor.php';
 				break;

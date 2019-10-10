@@ -29,7 +29,6 @@
  *   - on change of wpseo[yoast_tracking], the cron schedule will be adjusted accordingly
  *   - on change of wpseo and wpseo_title, some caches will be cleared
  *
- *
  * [Important information about add/updating/changing these classes]
  * - Make sure that option array key names are unique across options. The WPSEO_Options::get_all()
  *   method merges most options together. If any of them have non-unique names, even if they
@@ -305,13 +304,16 @@ abstract class WPSEO_Option {
 					if ( isset( $old[ $key ] ) && preg_match( $regex, $old[ $key ] ) ) {
 						$clean[ $key ] = $old[ $key ];
 					}
-					add_settings_error(
-						$this->group_name, // Slug title of the setting.
-						$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
-						/* translators: 1: Verification string from user input; 2: Service name. */
-						sprintf( __( '%1$s does not seem to be a valid %2$s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
-						'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
-					);
+
+					if ( function_exists( 'add_settings_error' ) ) {
+						add_settings_error(
+							$this->group_name, // Slug title of the setting.
+							$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
+							/* translators: 1: Verification string from user input; 2: Service name. */
+							sprintf( __( '%1$s does not seem to be a valid %2$s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
+							'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+						);
+					}
 
 					Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $meta );
 				}
@@ -332,7 +334,7 @@ abstract class WPSEO_Option {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 
 			$submitted_url = trim( htmlspecialchars( $dirty[ $key ] ) );
-			$validated_url = filter_var( $submitted_url, FILTER_VALIDATE_URL );
+			$validated_url = filter_var( WPSEO_Utils::sanitize_url( $submitted_url ), FILTER_VALIDATE_URL );
 
 			if ( $validated_url === false ) {
 				if ( function_exists( 'add_settings_error' ) ) {
@@ -359,6 +361,8 @@ abstract class WPSEO_Option {
 					}
 				}
 
+				Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $submitted_url );
+
 				return;
 			}
 
@@ -371,7 +375,7 @@ abstract class WPSEO_Option {
 		}
 	}
 
- 	/**
+	/**
 	 * Validates a Facebook App ID.
 	 *
 	 * @param string $key   Key to check, in this case: the Facebook App ID field name.
@@ -383,14 +387,14 @@ abstract class WPSEO_Option {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 			$url = 'https://graph.facebook.com/' . $dirty[ $key ];
 
-			$response        = wp_remote_get( $url );
+			$response = wp_remote_get( $url );
 			// These filters are used in the tests.
 			/**
 			 * Filter: 'validate_facebook_app_id_api_response_code' - Allows to filter the Faceboook API response code.
 			 *
 			 * @api int $response_code The Facebook API response header code.
 			 */
-			$response_code   = apply_filters( 'validate_facebook_app_id_api_response_code', wp_remote_retrieve_response_code( $response ) );
+			$response_code = apply_filters( 'validate_facebook_app_id_api_response_code', wp_remote_retrieve_response_code( $response ) );
 			/**
 			 * Filter: 'validate_facebook_app_id_api_response_body' - Allows to filter the Faceboook API response body.
 			 *
@@ -412,16 +416,19 @@ abstract class WPSEO_Option {
 			if ( isset( $old[ $key ] ) && $old[ $key ] !== '' ) {
 				$clean[ $key ] = $old[ $key ];
 			}
-			add_settings_error(
-				$this->group_name, // Slug title of the setting.
-				$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
-				sprintf(
-					/* translators: %s expands to an invalid Facebook App ID. */
-					__( '%s does not seem to be a valid Facebook App ID. Please correct.', 'wordpress-seo' ),
-					'<strong>' . esc_html( $dirty[ $key ] ) . '</strong>'
-				), // The error message.
-				'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
-			);
+
+			if ( function_exists( 'add_settings_error' ) ) {
+				add_settings_error(
+					$this->group_name, // Slug title of the setting.
+					$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
+					sprintf(
+						/* translators: %s expands to an invalid Facebook App ID. */
+						__( '%s does not seem to be a valid Facebook App ID. Please correct.', 'wordpress-seo' ),
+						'<strong>' . esc_html( $dirty[ $key ] ) . '</strong>'
+					), // The error message.
+					'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+				);
+			}
 
 			Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $dirty[ $key ] );
 		}
@@ -767,7 +774,7 @@ abstract class WPSEO_Option {
 		$options = (array) $options;
 
 		/*
-		$filtered = array();
+			$filtered = array();
 
 			if ( $defaults !== array() ) {
 				foreach ( $defaults as $key => $default_value ) {

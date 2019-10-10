@@ -118,10 +118,10 @@ class WPSEO_Help_Center {
 				/* translators: %s expands to Yoast SEO */
 				'title'       => sprintf( __( 'Want to be a %s Expert?', 'wordpress-seo' ), 'Yoast SEO' ),
 				/* translators: %1$s expands to Yoast SEO */
-				'description' => sprintf( __( 'Follow our %1$s for WordPress training and become a certified %1$s Expert!', 'wordpress-seo' ), 'Yoast SEO' ),
+				'description' => sprintf( __( 'Follow our free %1$s for WordPress training and become a certified %1$s Expert!', 'wordpress-seo' ), 'Yoast SEO' ),
 				'link'        => WPSEO_Shortlinker::get( 'https://yoa.st/wordpress-training-vt' ),
 				/* translators: %s expands to Yoast SEO */
-				'linkText'    => sprintf( __( 'Enroll in the %s for WordPress training', 'wordpress-seo' ), 'Yoast SEO' ),
+				'linkText'    => sprintf( __( 'Enroll in the free %s for WordPress training', 'wordpress-seo' ), 'Yoast SEO' ),
 			);
 		}
 

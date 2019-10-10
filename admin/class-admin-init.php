@@ -40,7 +40,6 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'permalink_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'page_comments_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
-		add_action( 'admin_init', array( $this, 'yoast_plugin_compatibility_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'yoast_plugin_suggestions_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'unsupported_php_notice' ), 15 );
@@ -341,56 +340,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Add an alert if outdated versions of Yoast SEO plugins are running.
-	 */
-	public function yoast_plugin_compatibility_notification() {
-		$compatibility_checker = new WPSEO_Plugin_Compatibility( WPSEO_VERSION );
-		$plugins               = $compatibility_checker->get_installed_plugins_compatibility();
-
-		$notification_center = Yoast_Notification_Center::get();
-
-		foreach ( $plugins as $name => $plugin ) {
-			$type         = ( $plugin['active'] ) ? Yoast_Notification::ERROR : Yoast_Notification::WARNING;
-			$notification = $this->get_yoast_seo_compatibility_notification( $name, $plugin, $type );
-
-			if ( $plugin['active'] && $plugin['compatible'] === false ) {
-				$notification_center->add_notification( $notification );
-
-				continue;
-			}
-
-			$notification_center->remove_notification( $notification );
-		}
-	}
-
-	/**
-	 * Build Yoast SEO compatibility problem notification.
-	 *
-	 * @param string $name   The plugin name to use for the unique ID.
-	 * @param array  $plugin The plugin to retrieve the data from.
-	 * @param string $level  The severity level to use for the notification.
-	 *
-	 * @return Yoast_Notification
-	 */
-	private function get_yoast_seo_compatibility_notification( $name, $plugin, $level = Yoast_Notification::WARNING ) {
-		$info_message = sprintf(
-			/* translators: %1$s expands to Yoast SEO, %2$s expands to the plugin version, %3$s expands to the plugin name */
-			__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
-			'Yoast SEO',
-			$plugin['version'],
-			$plugin['title']
-		);
-
-		return new Yoast_Notification(
-			$info_message,
-			array(
-				'id'   => 'wpseo-outdated-yoast-seo-plugin-' . $name,
-				'type' => $level,
-			)
-		);
-	}
-
-	/**
 	 * Shows the notice for recalculating the post. the Notice will only be shown if the user hasn't dismissed it before.
 	 */
 	public function recalculate_notice() {
@@ -439,6 +388,23 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Gets the latest released major WordPress version from the WordPress stable-check api.
+	 *
+	 * @return float The latest released major WordPress version. 0 The stable-check api doesn't respond.
+	 */
+	private function get_latest_major_wordpress_version() {
+		$response = wp_remote_get( 'http://api.wordpress.org/core/stable-check/1.0/' );
+		if ( is_wp_error( $response ) ) {
+			return 0;
+		}
+
+		$wp_version_latest = (array) json_decode( $response['body'] );
+
+		// Strip the patch version and convert to a float.
+		return (float) array_search( 'latest', $wp_version_latest, true );
+	}
+
+	/**
 	 * Creates a WordPress upgrade notification in the notification center.
 	 *
 	 * @return void
@@ -446,13 +412,16 @@ class WPSEO_Admin_Init {
 	public function wordpress_upgrade_notice() {
 		global $wp_version;
 
-		$wordpress_less_than_50 = version_compare( $wp_version, '5.0', '<' );
-		$wordpress_less_than_52 = version_compare( $wp_version, '5.2', '<' );
+		$latest_major_wp_version = number_format( $this->get_latest_major_wordpress_version(), 1 );
+		$next_major_wp_version   = number_format( ( $latest_major_wp_version + 0.1 ), 1 );
+
+		$wp_less_than_50             = version_compare( $wp_version, '5.0', '<' );
+		$wp_less_than_latest_version = version_compare( $wp_version, $latest_major_wp_version, '<' );
 
 		$notification_center = Yoast_Notification_Center::get();
 
 		$message = sprintf(
-			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag, %3$s expands to a html break, %4$s expands to Yoast, %5$s expands to Yoast SEO, %6$s expands to 5.2, %7$s expands to 5.3 */
+			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag, %3$s expands to a html break, %4$s expands to Yoast, %5$s expands to Yoast SEO, %6$s expands to the latest major released WP version, %7$s expands to the next major WP release version */
 			__(
 				'%1$sUpgrade WordPress to the most recent version%2$s%3$sWe’ve noticed that you’re not on the latest WordPress version, which might cause an issue soon. %4$s (for reasons of security and stability) only supports the current and previous version of WordPress. When the next version of WordPress comes out, that means that we will support WordPress %6$s and %7$s. This means you will not get any updates to %5$s until you update your WordPress, so please make sure to upgrade to the latest WordPress version soon!%3$s%3$s',
 				'wordpress-seo'
@@ -462,10 +431,10 @@ class WPSEO_Admin_Init {
 			'<br/>',
 			'Yoast',
 			'Yoast SEO',
-			'5.2',
-			'5.3'
+			$latest_major_wp_version,
+			$next_major_wp_version
 		);
-		if ( $wordpress_less_than_50 ) {
+		if ( $wp_less_than_50 ) {
 			$message .= sprintf(
 				/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.0 */
 				__(
@@ -484,7 +453,7 @@ class WPSEO_Admin_Init {
 				'wordpress-seo'
 			),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/old-wp-support' ) . '" target="_blank" rel="nofollow">',
-			'</a>'
+			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
 
 		$notification = new Yoast_Notification(
@@ -495,7 +464,13 @@ class WPSEO_Admin_Init {
 			)
 		);
 
-		if ( $wordpress_less_than_52 ) {
+		if ( $wp_less_than_latest_version ) {
+			// If the latest WordPress version is not known, do not initiate the WordPress upgrade notice.
+			if ( $this->get_latest_major_wordpress_version() === 0 ) {
+				$notification_center->remove_notification( $notification );
+				return;
+			}
+
 			$notification_center->add_notification( $notification );
 			return;
 		}
@@ -734,5 +709,17 @@ class WPSEO_Admin_Init {
 				esc_html__( 'Learn about why permalinks are important for SEO.', 'wordpress-seo' )
 			);
 		}
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * Add an alert if outdated versions of Yoast SEO plugins are running.
+	 *
+	 * @deprecated 12.3
+	 * @codeCoverageIgnore
+	 */
+	public function yoast_plugin_compatibility_notification() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.3' );
 	}
 }

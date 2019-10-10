@@ -119,6 +119,7 @@ function wpseo_get_rendered_tab( $table, $id ) {
 
 ?>
 <script>
+	// phpcs:ignore WordPress.Security.OutputEscaping -- WPSEO_Utils::format_json_encode is safe.
 	var wpseoBulkEditorNonce = <?php echo WPSEO_Utils::format_json_encode( wp_create_nonce( 'wpseo-bulk-editor' ) ); ?>;
 
 	// eslint-disable-next-line

@@ -153,7 +153,20 @@ class Yoast_Form {
 	 */
 	public function admin_footer( $submit = true, $show_sidebar = true ) {
 		if ( $submit ) {
+			$settings_changed_listener = new WPSEO_Admin_Settings_Changed_Listener();
+			echo '<div id="wpseo-submit-container">';
+
+			echo '<div id="wpseo-submit-container-float" class="wpseo-admin-submit">';
 			submit_button( __( 'Save changes', 'wordpress-seo' ) );
+			$settings_changed_listener->show_success_message();
+			echo '</div>';
+
+			echo '<div id="wpseo-submit-container-fixed" class="wpseo-admin-submit wpseo-admin-submit-fixed" style="display: none;">';
+			submit_button( __( 'Save changes', 'wordpress-seo' ) );
+			$settings_changed_listener->show_success_message();
+			echo '</div>';
+
+			echo '</div>';
 
 			echo '
 			</form>';
@@ -266,9 +279,6 @@ class Yoast_Form {
 
 		$class = '';
 		if ( $label_left !== false ) {
-			if ( ! empty( $label_left ) ) {
-				$label_left .= ':';
-			}
 			$this->label( $label_left, array( 'for' => $var ) );
 		}
 		else {
@@ -364,7 +374,7 @@ class Yoast_Form {
 		}
 
 		$this->label(
-			$label . ':',
+			$label,
 			array(
 				'for'   => $var,
 				'class' => 'textinput',
@@ -406,7 +416,7 @@ class Yoast_Form {
 		$val      = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 
 		$this->label(
-			$label . ':',
+			$label,
 			array(
 				'for'   => $var,
 				'class' => 'textinput',
@@ -455,7 +465,7 @@ class Yoast_Form {
 
 		if ( $show_label ) {
 			$this->label(
-				$label . ':',
+				$label,
 				array(
 					'for'   => $var,
 					'class' => 'select',
@@ -505,7 +515,7 @@ class Yoast_Form {
 
 		$var_esc = esc_attr( $var );
 		$this->label(
-			$label . ':',
+			$label,
 			array(
 				'for'   => $var,
 				'class' => 'select',
@@ -544,7 +554,7 @@ class Yoast_Form {
 		$var_esc = esc_attr( $var );
 
 		$this->label(
-			$label . ':',
+			$label,
 			array(
 				'for'   => 'wpseo_' . $var,
 				'class' => 'select',

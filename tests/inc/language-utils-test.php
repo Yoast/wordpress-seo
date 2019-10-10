@@ -1,17 +1,22 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package WPSEO\Tests\Inc
- */
+
+namespace Yoast\WP\Free\Tests\Inc;
+
+use Brain\Monkey;
+use Mockery;
+use WPSEO_Language_Utils;
+use Yoast\WP\Free\Tests\Doubles\Shortlinker;
+use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Unit Test Class.
+ *
+ * @group language-utils
  */
-class WPSEO_Language_Utils_Test extends PHPUnit_Framework_TestCase {
+class WPSEO_Language_Utils_Test extends TestCase {
 
 	/**
-	 * Test the get_language function with no argument.
+	 * Tests the get_language function with no argument.
 	 *
 	 * @covers WPSEO_Language_Utils::get_language
 	 */
@@ -22,7 +27,7 @@ class WPSEO_Language_Utils_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test the get_language with the en_GB argument.
+	 * Tests the get_language with the en_GB argument.
 	 *
 	 * @covers WPSEO_Language_Utils::get_language
 	 */
@@ -32,6 +37,11 @@ class WPSEO_Language_Utils_Test extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( 'en', $language );
 	}
 
+	/**
+	 * Tests the get_language with other languages.
+	 *
+	 * @covers WPSEO_Language_Utils::get_language
+	 */
 	public function test_get_language() {
 		$this->assertEquals( 'en', WPSEO_Language_Utils::get_language( '' ) );
 		$this->assertEquals( 'en', WPSEO_Language_Utils::get_language( 'a' ) );
@@ -43,5 +53,27 @@ class WPSEO_Language_Utils_Test extends PHPUnit_Framework_TestCase {
 		$this->assertEquals( 'en', WPSEO_Language_Utils::get_language( 'xxxx' ) );
 		$this->assertEquals( 'en', WPSEO_Language_Utils::get_language( 'xxxx_XX' ) );
 		$this->assertEquals( 'en', WPSEO_Language_Utils::get_language( '_XX' ) );
+	}
+
+	/**
+	 * Tests the l10n object for the knowledge graph missing company info.
+	 *
+	 * @covers WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n
+	 */
+	public function test_get_knowledge_graph_company_info_missing_l10n() {
+		$shortlinker = new Shortlinker();
+
+		Monkey\Functions\expect( 'add_query_arg' )
+			->times( 1 )
+			->with( $shortlinker->get_additional_shortlink_data(), Mockery::pattern( '/https:\/\/yoa.st\/*/' ) )
+			->andReturn( 'https://yoast.com' );
+
+		$this->assertEquals(
+			[
+				'URL'     => 'https://yoast.com',
+				'message' => 'A company name and logo need to be set for structured data to work properly. %1$sLearn more about the importance of structured data.%2$s',
+			],
+			WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n()
+		);
 	}
 }
