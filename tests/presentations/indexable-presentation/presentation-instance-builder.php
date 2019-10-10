@@ -21,6 +21,7 @@ use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
  * Trait Presentation_Instance_Builder
  */
 trait Presentation_Instance_Builder {
+	use Presentation_Instance_Generator_Builder;
 
 	/**
 	 * @var Indexable
@@ -115,33 +116,4 @@ trait Presentation_Instance_Builder {
 		$this->context->indexable = $this->indexable;
 	}
 
-	/**
-	 * Sets the instance generators.
-	 */
-	protected function set_instance_generators() {
-		$this->og_image_generator = Mockery::mock(
-			OG_Image_Generator::class,
-			[
-				$this->og_image_helper,
-				$this->image_helper,
-				$this->options_helper,
-				$this->url_helper,
-			]
-		);
-
-		$this->twitter_image_generator = Mockery::mock(
-			Twitter_Image_Generator::class,
-			[
-				$this->image_helper,
-				$this->url_helper,
-			]
-		);
-
-		$this->instance->set_generators(
-			Mockery::mock( Schema_Generator::class ),
-			new OG_Locale_Generator(),
-			$this->og_image_generator,
-			$this->twitter_image_generator
-		);
-	}
 }

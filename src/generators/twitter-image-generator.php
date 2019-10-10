@@ -9,10 +9,11 @@ namespace Yoast\WP\Free\Generators;
 
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Helpers\Image_Helper;
+use Yoast\WP\Free\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\Free\Helpers\Url_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presentations\Generators\Generator_Interface;
-use Yoast\WP\Free\Values\Open_Graph\Images;
+use Yoast\WP\Free\Values\Twitter\Images;
 
 /**
  * Represents the generator class for the Open Graph images.
@@ -30,6 +31,11 @@ class Twitter_Image_Generator implements Generator_Interface {
 	protected $url;
 
 	/**
+	 * @var Twitter_Image_Helper
+	 */
+	protected $twitter_image;
+
+	/**
 	 * Images constructor.
 	 *
 	 * @codeCoverageIgnore
@@ -37,9 +43,10 @@ class Twitter_Image_Generator implements Generator_Interface {
 	 * @param Image_Helper $image The image helper.
 	 * @param Url_Helper   $url   The url helper.
 	 */
-	public function __construct( Image_Helper $image, Url_Helper $url ) {
-		$this->image = $image;
-		$this->url   = $url;
+	public function __construct( Image_Helper $image, Url_Helper $url, Twitter_Image_Helper $twitter_image ) {
+		$this->image         = $image;
+		$this->url           = $url;
+		$this->twitter_image = $twitter_image;
 	}
 
 	/**
@@ -83,6 +90,9 @@ class Twitter_Image_Generator implements Generator_Interface {
 	 * @return Images The image container.
 	 */
 	protected function get_image_container() {
-		return new Images( $this->image, $this->url );
+		$image_container = new Images( $this->image, $this->url );
+		$image_container->set_helpers( $this->twitter_image );
+
+		return $image_container;
 	}
 }

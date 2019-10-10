@@ -21,11 +21,11 @@ class Images extends Base_Images {
 	protected $twitter_image;
 
 	/**
+	 * @required
+	 *
 	 * Sets the helpers.
 	 *
 	 * @codeCoverageIgnore - Is handled by DI-container.
-	 *
-	 * @required
 	 *
 	 * @param Twitter_Image_Helper $twitter_image Image helper for OpenGraph.
 	 */

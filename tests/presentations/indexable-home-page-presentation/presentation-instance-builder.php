@@ -16,7 +16,6 @@ use Yoast\WP\Free\Tests\Presentations\Indexable_Presentation\Presentation_Instan
  * Trait Presentation_Instance_Builder
  */
 trait Presentation_Instance_Builder {
-
 	use Presentation_Instance_Generator_Builder;
 
 	/**
