@@ -289,17 +289,9 @@ class Yoast_Notification_Center {
 	 */
 	public function add_notification( Yoast_Notification $notification ) {
 
-		/**
-		 * Allow users to disable notifications
-		 *
-		 * @var bool   True to disable the notification, else false.
-		 * @var string Notification ID.
-		 */
-		$disable_notification = (bool) apply_filters( 'wpseo_disable_notification', false, $notification->get_id() );
-
 		$callback = array( $this, __METHOD__ );
 		$args     = func_get_args();
-		if ( $disable_notification || $this->queue_transaction( $callback, $args ) ) {
+		if ( $this->queue_transaction( $callback, $args ) ) {
 			return;
 		}
 
@@ -310,8 +302,21 @@ class Yoast_Notification_Center {
 
 		$notification_id = $notification->get_id();
 
+		/**
+		 * Allow users to disable notifications
+		 *
+		 * @var bool   True to disable the notification, else false.
+		 * @var string Notification ID.
+		 */
+		$disable_notification = (bool) apply_filters( 'wpseo_disable_notification', false, $notification_id );
+
 		// Empty notifications are always added.
 		if ( $notification_id !== '' ) {
+
+			if ( $disable_notification ) {
+				$this->remove_notification_by_id( $notification_id, false );
+				return;
+			}
 
 			// If notification ID exists in notifications, don't add again.
 			$present_notification = $this->get_notification_by_id( $notification_id );
