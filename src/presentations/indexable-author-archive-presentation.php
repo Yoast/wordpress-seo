@@ -9,7 +9,6 @@ namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Helpers\User_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 
 /**
@@ -33,30 +32,22 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	protected $post_type_helper;
 
 	/**
-	 * @var Options_Helper
-	 */
-	protected $options_helper;
-
-	/**
 	 * Indexable_Author_Archive_Presentation constructor.
 	 *
 	 * @param WP_Query_Wrapper $wp_query_wrapper The wp query wrapper.
 	 * @param User_Helper      $user_helper      The user helper.
 	 * @param Post_Type_Helper $post_type_helper The post type helper.
-	 * @param Options_Helper   $options_helper   The options helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		WP_Query_Wrapper $wp_query_wrapper,
 		User_Helper $user_helper,
-		Post_Type_Helper $post_type_helper,
-		Options_Helper $options_helper
+		Post_Type_Helper $post_type_helper
 	) {
 		$this->wp_query_wrapper = $wp_query_wrapper;
 		$this->user_helper      = $user_helper;
 		$this->post_type_helper = $post_type_helper;
-		$this->options_helper   = $options_helper;
 	}
 
 	/**
