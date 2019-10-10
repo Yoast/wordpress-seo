@@ -11,6 +11,8 @@ use Brain\Monkey;
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
+ * @group twitter
+ * @group twitter-image
  */
 class Twitter_Image_Test extends TestCase {
 
@@ -28,14 +30,14 @@ class Twitter_Image_Test extends TestCase {
 	/**
 	 * Tests the situation where the post is password protected.
 	 *
-	 * @covers ::generate_og_images
+	 * @covers ::generate_twitter_image
 	 */
 	public function test_for_password_protected_post() {
 		Monkey\Functions\expect( 'post_password_required' )
 			->once()
 			->andReturn( true );
 
-		$this->assertEmpty( $this->instance->generate_og_images() );
+		$this->assertEmpty( $this->instance->generate_twitter_image() );
 	}
 
 	/**

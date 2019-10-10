@@ -15,10 +15,15 @@ use Yoast\WP\Free\Helpers\Url_Helper;
  *
  * @package Yoast\WP\Free\Values
  */
-abstract class Images {
+class Images {
 
 	/**
-	 * Holds the images that have been put out as OG image.
+	 * @var string
+	 */
+	public $image_size = 'full';
+
+	/**
+	 * Holds the images that have been put out as image.
 	 *
 	 * @var array
 	 */
@@ -32,7 +37,7 @@ abstract class Images {
 	/**
 	 * @var Url_Helper
 	 */
-	private $url;
+	protected $url;
 
 	/**
 	 * Images constructor.
@@ -48,13 +53,18 @@ abstract class Images {
 	}
 
 	/**
-	 * Adds an image to the list by attachment ID.
+	 * Adds an image to the list by image ID.
 	 *
-	 * @param int $image_id The attachment ID to add.
+	 * @param int $image_id The image ID to add.
 	 *
 	 * @return void
 	 */
-	abstract public function add_image_by_id( $image_id );
+	public function add_image_by_id( $image_id ) {
+		$image = $this->image->get_attachment_image_src( $image_id, $this->image_size );
+		if ( $image ) {
+			$this->add_image( $image );
+		}
+	}
 
 	/**
 	 * Return the images array.
@@ -75,11 +85,11 @@ abstract class Images {
 	}
 
 	/**
-	 * Adds an image based on a given URL, and attempts to be smart about it.
+	 * Adds an image based on a given URL.
 	 *
 	 * @param string $url The given URL.
 	 *
-	 * @return null|number Returns the found attachment ID if it exists. Otherwise -1.
+	 * @return null|number Returns the found image ID if it exists. Otherwise -1.
 	 *                     If the URL is empty we return null.
 	 */
 	public function add_image_by_url( $url ) {
@@ -87,12 +97,12 @@ abstract class Images {
 			return null;
 		}
 
-		$attachment_id = $this->image->get_attachment_by_url( $url );
+		$image_id = $this->image->get_attachment_by_url( $url );
 
-		if ( $attachment_id ) {
-			$this->add_image_by_id( $attachment_id );
+		if ( $image_id ) {
+			$this->add_image_by_id( $image_id );
 
-			return $attachment_id;
+			return $image_id;
 		}
 
 		$this->add_image( $url );
@@ -101,7 +111,7 @@ abstract class Images {
 	}
 
 	/**
-	 * Adds an images to the local storage.
+	 * Adds an image to the list of images.
 	 *
 	 * @param string|array $image Image array.
 	 *
@@ -112,7 +122,7 @@ abstract class Images {
 			$image = [ 'url' => $image ];
 		}
 
-		if ( ! is_array( $image ) || empty( $image['url'] ) ) {
+		if ( ! is_array( $image ) || empty( $image['url'] ) || ! is_string( $image['url'] )  ) {
 			return;
 		}
 

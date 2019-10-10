@@ -48,7 +48,7 @@ class Twitter_Image_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where an empty value is returned and Open Grapg is disabled.
+	 * Tests the situation where an empty value is returned and Open Graph is disabled.
 	 *
 	 * ::covers generate_twitter_image
 	 */

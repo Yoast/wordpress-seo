@@ -45,9 +45,9 @@ class Images extends Base_Images {
 	}
 
 	/**
-	 * Adds an image to the list by attachment ID.
+	 * Adds an image to the list by image ID.
 	 *
-	 * @param int $image_id The attachment ID to add.
+	 * @param int $image_id The image ID to add.
 	 *
 	 * @return void
 	 */
