@@ -36,15 +36,15 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 			}
 
 			printf(
-				'<h2 class="%6$s"><button%5$s type="button" class="toggleable-container-trigger" aria-expanded="%4$s">%1$s%2$s <span class="toggleable-container-icon dashicons %3$s" aria-hidden="true"></span></button></h2>',
-				esc_html( $title ) . wp_kses_post( $title_after ),
-				// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is and instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
-				$help_text->get_button_html(),
-				wp_kses_post( $collapsible_config['toggle_icon'] ),
-				esc_attr( $collapsible_config['expanded'] ),
+				'<h2 class="%1$s"><button%2$s type="button" class="toggleable-container-trigger" aria-expanded="%3$s">%4$s%5$s <span class="toggleable-container-icon dashicons %6$s" aria-hidden="true"></span></button></h2>',
+				esc_attr( 'collapsible-header ' . $collapsible_header_class ),
 				// phpcs:ignore WordPress.Security.EscapeOutput -- $button_id_attr is escaped above.
 				$button_id_attr,
-				esc_attr( 'collapsible-header ' . $collapsible_header_class )
+				esc_attr( $collapsible_config['expanded'] ),
+				// phpcs:ignore WordPress.Security.EscapeOutput -- $help_text is and instance of WPSEO_Admin_Help_Panel, which escapes it's own output.
+				$help_text->get_button_html(),
+				esc_html( $title ) . wp_kses_post( $title_after ),
+				wp_kses_post( $collapsible_config['toggle_icon'] )
 			);
 		}
 		else {
