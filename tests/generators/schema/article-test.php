@@ -18,7 +18,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group generators
  * @group schema
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Generators\Schema\Article;
+ * @coversDefaultClass \Yoast\WP\Free\Presentations\Generators\Schema\Article
  * @covers ::<!public>
  *
  * @package Yoast\WP\Free\Tests\Generators\Schema
