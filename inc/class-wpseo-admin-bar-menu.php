@@ -164,26 +164,16 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$counter      = '';
 		$alert_popup  = '';
 
-		$term = $this->get_singular_term();
-		if ( $term ) {
-			$score = $this->get_term_score( $term );
-		}
-
 		$can_manage_options = $this->can_manage_options();
 
 		if ( $can_manage_options ) {
 			$settings_url = $this->get_settings_page_url();
 		}
 
+		$score = $this->get_score();
 		if ( empty( $score ) && ! is_network_admin() && $can_manage_options ) {
 			$counter     = $this->get_notification_counter();
 			$alert_popup = $this->get_notification_alert_popup();
-		}
-
-		$score   = '';
-		$post_id = $this->get_singular_post_id();
-		if ( $post_id ) {
-			$score = $this->get_post_score( $post_id );
 		}
 
 		$admin_bar_menu_args = array(
@@ -569,11 +559,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
 		if ( $analysis_seo->is_enabled() ) {
-			return $this->get_score( WPSEO_Meta::get_value( 'linkdex', $post_id ) );
+			return $this->get_score_element( WPSEO_Meta::get_value( 'linkdex', $post_id ) );
 		}
 
 		if ( $analysis_readability->is_enabled() ) {
-			return $this->get_score( WPSEO_Meta::get_value( 'content_score', $post_id ) );
+			return $this->get_score_element( WPSEO_Meta::get_value( 'content_score', $post_id ) );
 		}
 
 		return '';
@@ -618,11 +608,11 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
 		if ( $analysis_seo->is_enabled() ) {
-			return $this->get_score( WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'linkdex' ) );
+			return $this->get_score_element( WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'linkdex' ) );
 		}
 
 		if ( $analysis_readability->is_enabled() ) {
-			return $this->get_score( WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'content_score' ) );
+			return $this->get_score_element( WPSEO_Taxonomy_Meta::get_term_meta( $term->term_id, $term->taxonomy, 'content_score' ) );
 		}
 
 		return '';
@@ -635,7 +625,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 *
 	 * @return string Score markup.
 	 */
-	protected function get_score( $score ) {
+	protected function get_score_element( $score ) {
 		$score_class      = WPSEO_Utils::translate_score( $score );
 		$translated_score = WPSEO_Utils::translate_score( $score, false );
 		/* translators: %s expands to the SEO score. */
@@ -708,5 +698,26 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 */
 	protected function can_manage_options() {
 		return is_network_admin() && current_user_can( 'wpseo_manage_network_options' ) || ! is_network_admin() && WPSEO_Capability_Utils::current_user_can( 'wpseo_manage_options' );
+	}
+
+	/**
+	 * Determine the score for the current content.
+	 *
+	 * @return string
+	 */
+	protected function get_score() {
+		$score = '';
+
+		$term = $this->get_singular_term();
+		if ( $term ) {
+			$score = $this->get_term_score( $term );
+		}
+
+		$post_id = $this->get_singular_post_id();
+		if ( $post_id ) {
+			$score = $this->get_post_score( $post_id );
+		}
+
+		return $score;
 	}
 }

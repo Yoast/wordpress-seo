@@ -106,7 +106,14 @@ class WPSEO_Admin_Bar_Menu_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests adding the admin bar menu.
 	 *
+	 * @group test
+	 *
 	 * @covers WPSEO_Admin_Bar_Menu::add_menu
+	 * @covers WPSEO_Admin_Bar_Menu::add_root_menu
+	 * @covers WPSEO_Admin_Bar_Menu::add_analysis_submenu
+	 * @covers WPSEO_Admin_Bar_Menu::add_focus_keyword_submenu
+	 * @covers WPSEO_Admin_Bar_Menu::add_keyword_research_submenu
+	 * @covers WPSEO_Admin_Bar_Menu::add_settings_submenu
 	 */
 	public function test_add_menu() {
 		wp_set_current_user( self::$wpseo_manager );
