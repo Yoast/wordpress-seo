@@ -223,6 +223,7 @@ class Indexable_Post_Builder {
 		$indexable->og_image        = null;
 		$indexable->og_image_id     = null;
 		$indexable->og_image_source = null;
+		$indexable->og_image_meta   = null;
 
 		$indexable->twitter_image        = null;
 		$indexable->twitter_image_id     = null;
@@ -307,9 +308,15 @@ class Indexable_Post_Builder {
 	 * @param Indexable $indexable         The indexable to set image for.
 	 */
 	protected function set_alternative_image( array $alternative_image, Indexable $indexable ) {
+
 		if ( ! empty( $alternative_image['image_id'] ) ) {
 			if ( ! $indexable->og_image_source && ! $indexable->og_image_id ) {
-				$indexable->og_image        = $this->open_graph_image->get_image_url_by_id( $alternative_image['image_id'] );
+				$og_image = $this->open_graph_image->get_image_url_by_id( $alternative_image['image_id'] );
+
+				if ( ! empty( $og_image ) ) {
+					$indexable->og_image      = $og_image['url'];
+					$indexable->og_image_meta = wp_json_encode( $og_image );
+				}
 				$indexable->og_image_id     = $alternative_image['image_id'];
 				$indexable->og_image_source = $alternative_image['source'];
 			}

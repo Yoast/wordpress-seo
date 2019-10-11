@@ -67,6 +67,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'breadcrumb_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
+
 		$indexable_mock->orm->expects( 'set' )->with( 'og_title', 'og_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'og_image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image', null );
@@ -76,7 +77,10 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image_source', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image_source', 'featured-image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'og_image_meta', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'og_image_meta', '{"url":"og_image.jpg"}' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_description', 'og_description' );
+
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_title', 'twitter_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', null );
@@ -124,7 +128,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$open_graph_image
 			->expects( 'get_image_url_by_id' )
 			->once()
-			->andReturn( 'og_image.jpg' );
+			->andReturn( [ 'url' => 'og_image.jpg' ] );
 
 		$twitter_image = Mockery::mock( \Yoast\WP\Free\Helpers\Twitter\Image_Helper::class );
 		$twitter_image
