@@ -36,7 +36,7 @@ class Robots_Test extends TestCase {
 
 		$instance = new Indexable_Presentation();
 
-		$this->instance = $instance->of( $indexable );
+		$this->instance = $instance->of( [ 'model' =>$indexable ] );
 	}
 
 	/**

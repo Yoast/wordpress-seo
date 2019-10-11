@@ -24,9 +24,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 *
 	 * @param Post_Type_Helper $post_type_helper The post type helper.
 	 */
-	public function __construct(
-		Post_Type_Helper $post_type_helper
-	) {
+	public function __construct( Post_Type_Helper $post_type_helper ) {
 		$this->post_type_helper = $post_type_helper;
 	}
 
@@ -58,31 +56,11 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @return array The open graph images.
 	 */
 	public function generate_og_images() {
-		$images = parent::generate_og_images();
-
-		if ( ! empty( $images ) ) {
-			return $images;
+		if ( \post_password_required() ) {
+			return [];
 		}
 
-		$featured_image_id = $this->image_helper->get_featured_image_id( $this->model->object_id );
-		if ( $featured_image_id ) {
-			$featured_image_url = $this->get_attachment_url_by_id( $featured_image_id );
-			if ( $featured_image_url ) {
-				return [ $featured_image_url ];
-			}
-		}
-
-		$content_image = $this->image_helper->get_post_content_image( $this->model->object_id );
-		if ( $content_image ) {
-			return [ $content_image ];
-		}
-
-		$default_image = $this->get_default_og_image();
-		if ( $default_image ) {
-			return [ $default_image ];
-		}
-
-		return [];
+		return parent::generate_og_images();
 	}
 
 	/**
@@ -113,7 +91,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		);
 
 		$private           = \get_post_status( $this->model->object_id ) === 'private';
-		$post_type_noindex = ! $this->post_type_helper->is_indexable( $this->model->object_id );
+		$post_type_noindex = ! $this->post_type_helper->is_indexable( $this->model->object_sub_type );
 
 		if ( $private || $post_type_noindex ) {
 			$robots['index'] = 'noindex';
@@ -144,38 +122,35 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_twitter_image() {
-		$twitter_image = parent::generate_twitter_image();
-
-		if ( $twitter_image ) {
-			return $twitter_image;
+		if ( \post_password_required() ) {
+			return '';
 		}
 
-		// When OpenGraph image is set and the OpenGraph feature is enabled.
-		if ( $this->model->og_image && $this->options_helper->get( 'opengraph' ) === true ) {
-			return $this->model->og_image;
-		}
+		return parent::generate_twitter_image();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_twitter_creator() {
+		$twitter_creator = \ltrim( \trim( \get_the_author_meta( 'twitter', $this->context->post->post_author ) ), '@' );
 
 		/**
-		 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size.
+		 * Filter: 'wpseo_twitter_creator_account' - Allow changing the Twitter account as output in the Twitter card by Yoast SEO.
 		 *
-		 * @api string $featured_img Image size string.
+		 * @api string $twitter The twitter account name string.
 		 */
-		$image_size = \apply_filters( 'wpseo_twitter_image_size', 'full' );
-		$image_url  = $this->image_helper->get_featured_image( $this->model->object_id, $image_size );
-		if ( $image_url ) {
-			return $image_url;
+		$twitter_creator = \apply_filters( 'wpseo_twitter_creator_account', $twitter_creator );
+
+		if ( \is_string( $twitter_creator ) && $twitter_creator !== '' ) {
+			return '@' . $twitter_creator;
 		}
 
-		$image_url = $this->image_helper->get_gallery_image( $this->model->object_id );
-		if ( $image_url ) {
-			return $image_url;
+		$site_twitter = $this->options_helper->get( 'twitter_site', '' );
+		if ( \is_string( $site_twitter ) && $site_twitter !== '' ) {
+			return '@' . $site_twitter;
 		}
 
-		$image_url = $this->image_helper->get_post_content_image( $this->model->object_id );
-		if ( $image_url ) {
-			return $image_url;
-		}
-
-		return (string) $this->get_default_og_image();
+		return '';
 	}
 }

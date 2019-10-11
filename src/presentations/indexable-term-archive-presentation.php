@@ -60,24 +60,6 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_og_images() {
-		$images = parent::generate_og_images();
-
-		if ( ! empty( $images ) ) {
-			return $images;
-		}
-
-		$default_image = $this->get_default_og_image();
-		if ( $default_image ) {
-			return [ $default_image ];
-		}
-
-		return [];
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function generate_twitter_description() {
 		$twitter_description = parent::generate_twitter_description();
 
@@ -96,41 +78,13 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_twitter_image() {
-		$twitter_image = parent::generate_twitter_image();
-
-		if ( $twitter_image ) {
-			return $twitter_image;
-		}
-
-		// When OpenGraph image is set and the OpenGraph feature is enabled.
-		if ( $this->model->og_image && $this->options_helper->get( 'opengraph' ) === true ) {
-			return $this->model->og_image;
-		}
-
-		/**
-		 * Filter: wpseo_twitter_taxonomy_image - Allow developers to set a custom Twitter image for taxonomies.
-		 *
-		 * @api bool|string $unsigned Return string to supply image to use, false to use no image.
-		 */
-		$twitter_image = \apply_filters( 'wpseo_twitter_taxonomy_image', false );
-		if ( is_string( $twitter_image ) && $twitter_image !== '' ) {
-			return $twitter_image;
-		}
-
-		return (string) $this->get_default_og_image();
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function generate_robots() {
 		$robots = $this->robots_helper->get_base_values( $this->model );
 
 		/**
 		 * If its a multiple terms archive page return a noindex.
 		 */
-		if ( $this->current_page_helper->is_multiple_terms_page() ) {
+		if ( $this->current_page->is_multiple_terms_page() ) {
 			$robots['index'] = 'noindex';
 			return $this->robots_helper->after_generate( $robots );
 		}

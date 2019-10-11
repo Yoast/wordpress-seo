@@ -86,7 +86,7 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 
 			// If the value was set but now isn't, is set but wasn't or is not the same it has changed.
 			if (
-				! in_array( $post_type, $post_types_rebuild ) &&
+				! in_array( $post_type, $post_types_rebuild, true ) &&
 				(
 					! isset( $old_value[ $key ] ) ||
 					! isset( $new_value[ $key ] ) ||

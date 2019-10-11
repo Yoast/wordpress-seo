@@ -8,9 +8,11 @@
 namespace Yoast\WP\Free\Repositories;
 
 use Yoast\WP\Free\Builders\Indexable_Author_Builder;
+use Yoast\WP\Free\Builders\Indexable_Date_Archive_Builder;
 use Yoast\WP\Free\Builders\Indexable_Home_Page_Builder;
 use Yoast\WP\Free\Builders\Indexable_Post_Builder;
 use Yoast\WP\Free\Builders\Indexable_Post_Type_Archive_Builder;
+use Yoast\WP\Free\Builders\Indexable_System_Page_Builder;
 use Yoast\WP\Free\Builders\Indexable_Term_Builder;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Loggers\Logger;
@@ -46,18 +48,28 @@ class Indexable_Repository {
 	protected $home_page_builder;
 
 	/**
+	 * @var Indexable_Post_Type_Archive_Builder
+	 */
+	private $post_type_archive_builder;
+
+	/**
+	 * @var Indexable_System_Page_Builder
+	 */
+	private $system_page_builder;
+
+	/**
 	 * @var \Yoast\WP\Free\Helpers\Current_Page_Helper
 	 */
-	protected $current_page_helper;
+	protected $current_page;
 
 	/**
 	 * @var \Psr\Log\LoggerInterface
 	 */
 	protected $logger;
 	/**
-	 * @var Indexable_Post_Type_Archive_Builder
+	 * @var Indexable_Date_Archive_Builder
 	 */
-	private $post_type_archive_builder;
+	private $date_archive_builder;
 
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
@@ -67,6 +79,8 @@ class Indexable_Repository {
 	 * @param Indexable_Term_Builder              $term_builder              The term builder for creating missing indexables.
 	 * @param Indexable_Home_Page_Builder         $home_page_builder         The front page builder for creating missing indexables.
 	 * @param Indexable_Post_Type_Archive_Builder $post_type_archive_builder The post type archive builder for creating missing indexables.
+	 * @param Indexable_Date_Archive_Builder      $date_archive_builder      The date archive builder for creating missing indexables.
+	 * @param Indexable_System_Page_Builder       $system_page_builder       The search result builder for creating missing indexables.
 	 * @param Current_Page_Helper                 $current_page_helper       The current post helper.
 	 * @param Logger                              $logger                    The logger.
 	 */
@@ -76,6 +90,8 @@ class Indexable_Repository {
 		Indexable_Term_Builder $term_builder,
 		Indexable_Home_Page_Builder $home_page_builder,
 		Indexable_Post_Type_Archive_Builder $post_type_archive_builder,
+		Indexable_Date_Archive_Builder $date_archive_builder,
+		Indexable_System_Page_Builder $system_page_builder,
 		Current_Page_Helper $current_page_helper,
 		Logger $logger
 	) {
@@ -84,9 +100,10 @@ class Indexable_Repository {
 		$this->term_builder              = $term_builder;
 		$this->home_page_builder         = $home_page_builder;
 		$this->post_type_archive_builder = $post_type_archive_builder;
-		$this->current_page_helper       = $current_page_helper;
+		$this->date_archive_builder      = $date_archive_builder;
+		$this->system_page_builder       = $system_page_builder;
+		$this->current_page              = $current_page_helper;
 		$this->logger                    = $logger;
-
 	}
 
 	/**
@@ -107,16 +124,22 @@ class Indexable_Repository {
 	 */
 	public function for_current_page() {
 		switch ( true ) {
-			case $this->current_page_helper->is_simple_page():
-				return $this->find_by_id_and_type( $this->current_page_helper->get_simple_page_id(), 'post' );
-			case $this->current_page_helper->is_home_static_page():
-				return $this->find_by_id_and_type( $this->current_page_helper->get_front_page_id(), 'post' );
-			case $this->current_page_helper->is_home_posts_page():
+			case $this->current_page->is_simple_page():
+				return $this->find_by_id_and_type( $this->current_page->get_simple_page_id(), 'post' );
+			case $this->current_page->is_home_static_page():
+				return $this->find_by_id_and_type( $this->current_page->get_front_page_id(), 'post' );
+			case $this->current_page->is_home_posts_page():
 				return $this->find_for_home_page();
-			case $this->current_page_helper->is_term_archive():
-				return $this->find_by_id_and_type( $this->current_page_helper->get_term_id(), 'term' );
-			case $this->current_page_helper->is_post_type_archive():
-				return $this->find_for_post_type_archive( $this->current_page_helper->get_queried_post_type() );
+			case $this->current_page->is_term_archive():
+				return $this->find_by_id_and_type( $this->current_page->get_term_id(), 'term' );
+			case $this->current_page->is_date_archive():
+				return $this->find_for_date_archive();
+			case $this->current_page->is_search_result():
+				return $this->find_for_system_page( 'search-result' );
+			case $this->current_page->is_post_type_archive():
+				return $this->find_for_post_type_archive( $this->current_page->get_queried_post_type() );
+			case $this->current_page->is_404():
+				return $this->find_for_system_page( '404' );
 		}
 
 		return $this->query()->create( [ 'object_type' => 'unknown' ] );
@@ -163,6 +186,28 @@ class Indexable_Repository {
 	}
 
 	/**
+	 * Retrieves the date archive indexable.
+	 *
+	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
+	 *
+	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
+	 */
+	public function find_for_date_archive( $auto_create = true ) {
+		/**
+		 * Indexable instance.
+		 *
+		 * @var \Yoast\WP\Free\Models\Indexable $indexable
+		 */
+		$indexable = $this->query()->where( 'object_type', 'date-archive' )->find_one();
+
+		if ( $auto_create && ! $indexable ) {
+			$indexable = $this->create_for_date_archive();
+		}
+
+		return $indexable;
+	}
+
+	/**
 	 * Retrieves an indexable for a post type archive.
 	 *
 	 * @param string $post_type   The post type.
@@ -183,6 +228,32 @@ class Indexable_Repository {
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->create_for_post_type_archive( $post_type );
+		}
+
+		return $indexable;
+	}
+
+	/**
+	 * Retrieves the indexable for a system page.
+	 *
+	 * @param string $object_sub_type The type of system page.
+	 * @param bool   $auto_create     Optional. Create the indexable if it does not exist.
+	 *
+	 * @return bool|Indexable Instance of indexable.
+	 */
+	public function find_for_system_page( $object_sub_type, $auto_create = true ) {
+		/**
+		 * Indexable instance.
+		 *
+		 * @var Indexable $indexable
+		 */
+		$indexable = $this->query()
+						  ->where( 'object_type', 'system-page' )
+						  ->where( 'object_sub_type', $object_sub_type )
+						  ->find_one();
+
+		if ( $auto_create && ! $indexable ) {
+			$indexable = $this->create_for_system_page( $object_sub_type );
 		}
 
 		return $indexable;
@@ -226,8 +297,8 @@ class Indexable_Repository {
 						   ->find_many();
 
 		if ( $auto_create ) {
-			$indexables_available = array_column( $indexables, 'object_id' );
-			$indexables_to_create = array_diff( $object_ids, $indexables_available );
+			$indexables_available = \array_column( $indexables, 'object_id' );
+			$indexables_to_create = \array_diff( $object_ids, $indexables_available );
 
 			foreach ( $indexables_to_create as $indexable_to_create ) {
 				$indexable = $this->create_for_id_and_type( $indexable_to_create, $object_type );
@@ -254,7 +325,7 @@ class Indexable_Repository {
 		 *
 		 * @var Indexable $indexable
 		 */
-		$indexable = $this->query()->create( [ 'object_id' => $object_id, 'object_type' => $object_type ] );
+		$indexable = $this->query()->create();
 
 		switch ( $object_type ) {
 			case 'post':
@@ -288,8 +359,21 @@ class Indexable_Repository {
 	 * @return Indexable The home page indexable.
 	 */
 	public function create_for_home_page() {
-		$indexable = $this->query()->create( [ 'object_type' => 'home-page' ] );
+		$indexable = $this->query()->create();
 		$indexable = $this->home_page_builder->build( $indexable );
+
+		$indexable->save();
+		return $indexable;
+	}
+
+	/**
+	 * Creates an indexable for the date archive.
+	 *
+	 * @return Indexable The date archive indexable.
+	 */
+	public function create_for_date_archive() {
+		$indexable = $this->query()->create();
+		$indexable = $this->date_archive_builder->build( $indexable );
 
 		$indexable->save();
 		return $indexable;
@@ -305,6 +389,21 @@ class Indexable_Repository {
 	public function create_for_post_type_archive( $post_type ) {
 		$indexable = $this->query()->create();
 		$indexable = $this->post_type_archive_builder->build( $post_type, $indexable );
+
+		$indexable->save();
+		return $indexable;
+	}
+
+	/**
+	 * Creates an indexable for a system page.
+	 *
+	 * @param string $object_sub_type The type of system page.
+	 *
+	 * @return Indexable The search result indexable.
+	 */
+	public function create_for_system_page( $object_sub_type ) {
+		$indexable = $this->query()->create();
+		$indexable = $this->system_page_builder->build( $object_sub_type, $indexable );
 
 		$indexable->save();
 		return $indexable;

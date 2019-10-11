@@ -134,6 +134,7 @@ export function mapStateToProps( state ) {
 		date: state.settings.snippetEditor.date,
 		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
 		faviconSrc: state.settings.snippetEditor.siteIconUrl,
+		mobileImageSrc: state.settings.snippetEditor.socialPreviewImageURL,
 	};
 }
 

@@ -33,6 +33,8 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_id', 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'user' );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
@@ -58,6 +60,8 @@ class Indexable_Author_Builder_Test extends TestCase {
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_id', 1 );
+		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'user' );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', null );

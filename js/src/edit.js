@@ -74,6 +74,7 @@ class Edit {
 				date: this._args.snippetEditorDate,
 				recommendedReplacementVariables: this._args.recommendedReplaceVars,
 				siteIconUrl: this._localizedData.siteIconUrl,
+				socialPreviewImageURL: this._localizedData.social_preview_image_url,
 			},
 		} ) );
 	}

@@ -4,8 +4,8 @@ namespace Yoast\WP\Free\Tests\Frontend\Schema;
 
 use Brain\Monkey;
 use Mockery;
-use WPSEO_Schema_Context;
 use Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_MainImage_Double;
+use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -34,7 +34,7 @@ class MainImage_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_get_attachment_caption' )
 			->andReturn( $this->schema_from_attachment['caption'] );
 
-		$this->context            = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
+		$this->context            = Mockery::mock( Meta_Tags_Context::class )->makePartial();
 		$this->context->id        = 1;
 		$this->context->site_url  = 'https://example.com/';
 		$this->context->canonical = $this->context->site_url . 'canonical/';

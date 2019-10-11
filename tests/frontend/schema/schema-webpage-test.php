@@ -5,8 +5,8 @@ namespace Yoast\WP\Free\Tests\Frontend\Schema;
 use Brain\Monkey;
 use Mockery;
 use WP_Post;
-use WPSEO_Schema_Context;
 use WPSEO_Schema_WebPage;
+use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -36,7 +36,7 @@ class Schema_WebPage_Test extends TestCase {
 
 		Monkey\Functions\stubs(
 			[
-				'get_bloginfo'  => array( $this, 'get_bloginfo' ),
+				'get_bloginfo'  => [ $this, 'get_bloginfo' ],
 				'is_search'     => false,
 				'is_author'     => false,
 				'is_home'       => false,
@@ -46,7 +46,7 @@ class Schema_WebPage_Test extends TestCase {
 			]
 		);
 
-		$this->context = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
+		$this->context = Mockery::mock( Meta_Tags_Context::class )->makePartial();
 
 		$this->context->id        = 1;
 		$this->context->title     = 'title';

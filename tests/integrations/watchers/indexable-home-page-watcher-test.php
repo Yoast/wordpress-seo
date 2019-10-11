@@ -3,7 +3,6 @@
 namespace Yoast\WP\Free\Tests\Integrations\Watchers;
 
 use Mockery;
-use Yoast\WP\Free\Builders\Indexable_Author_Builder;
 use Yoast\WP\Free\Builders\Indexable_Home_Page_Builder;
 use Yoast\WP\Free\Integrations\Watchers\Indexable_Home_Page_Watcher;
 use Yoast\WP\Free\Models\Indexable;
