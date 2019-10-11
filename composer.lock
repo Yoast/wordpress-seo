@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a525ab14f9b4b61080e28202f36a8f9",
+    "content-hash": "3c25b5d30473627d687ee840f7520ef2",
     "packages": [
         {
             "name": "composer/installers",
@@ -875,44 +875,6 @@
                 "MIT"
             ],
             "time": "2016-04-16T21:52:24+00:00"
-        },
-        {
-            "name": "yoast/api-libs",
-            "version": "2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Yoast/api-libs.git",
-                "reference": "e7361081a1d6ae79c0b96c8363379435ea736ef8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Yoast/api-libs/zipball/e7361081a1d6ae79c0b96c8363379435ea736ef8",
-                "reference": "e7361081a1d6ae79c0b96c8363379435ea736ef8",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "class-api-libs.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Team Yoast",
-                    "email": "support@yoast.com",
-                    "homepage": "https://yoast.com"
-                }
-            ],
-            "description": "Shared API libraries for Yoast projects.",
-            "homepage": "https://github.com/Yoast/api-libs",
-            "keywords": [
-                "wordpress"
-            ],
-            "time": "2015-07-14T10:25:59+00:00"
         },
         {
             "name": "yoast/i18n-module",
