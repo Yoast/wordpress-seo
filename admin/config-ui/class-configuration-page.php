@@ -170,7 +170,6 @@ class WPSEO_Configuration_Page {
 	 * @return array The API endpoint config.
 	 */
 	public function get_config() {
-		$service = new WPSEO_GSC_Service();
 		$config  = array(
 			'namespace'         => WPSEO_Configuration_Endpoint::REST_NAMESPACE,
 			'endpoint_retrieve' => WPSEO_Configuration_Endpoint::ENDPOINT_RETRIEVE,
@@ -179,8 +178,8 @@ class WPSEO_Configuration_Page {
 			'root'              => esc_url_raw( rest_url() ),
 			'ajaxurl'           => admin_url( 'admin-ajax.php' ),
 			'finishUrl'         => admin_url( 'admin.php?page=wpseo_dashboard&configuration=finished' ),
-			'gscAuthURL'        => $service->get_client()->createAuthUrl(),
-			'gscProfiles'       => $service->get_sites(),
+			'gscAuthURL'        => '',
+			'gscProfiles'       => array(),
 			'gscNonce'          => wp_create_nonce( 'wpseo-gsc-ajax-security' ),
 		);
 
