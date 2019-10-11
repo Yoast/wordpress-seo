@@ -38,7 +38,7 @@ class Title_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the default title is returned when there is no title.
+	 * Tests whether the default title is returned when no title is set.
 	 *
 	 * @covers ::generate_title
 	 */
