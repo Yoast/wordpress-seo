@@ -96,7 +96,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 
 		// Save profile.
 		$has_saved = update_option(
-			WPSEO_GSC::OPTION_WPSEO_GSC,
+			'wpseo-gsc',
 			array( 'profile' => $data['profile'] )
 		);
 
