@@ -7,99 +7,88 @@
 
 /**
  * Class WPSEO_GSC_Service.
+ *
+ * @deprecated 11.4
+ *
+ * @codeCoverageIgnore
  */
 class WPSEO_GSC_Service {
 
 	/**
-	 * Client to connect to the google API.
-	 *
-	 * @var Yoast_Api_Google_Client
-	 */
-	private $client;
-
-	/**
-	 * The google search console profile.
-	 *
-	 * @var string
-	 */
-	private $profile;
-
-	/**
 	 * Search Console service constructor.
+	 *
+	 * @deprecated 11.4
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $profile Profile name.
 	 */
 	public function __construct( $profile = '' ) {
-		$this->profile = $profile;
-
-		$this->set_client();
+		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
 	}
 
 	/**
 	 * Returns the client.
 	 *
+	 * @deprecated 11.4
+	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return Yoast_Api_Google_Client
 	 */
 	public function get_client() {
-		return $this->client;
+		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+
+		return null;
 	}
 
 	/**
 	 * Removes the option and calls the clients clear_data method to clear that one as well.
+	 *
+	 * @deprecated 11.4
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function clear_data() {
-		// Clear client data.
-		$this->client->clear_data();
+		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
 	}
 
 	/**
 	 * Get all sites that are registered in the GSC panel.
 	 *
+	 * @deprecated 11.4
+	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return array
 	 */
 	public function get_sites() {
-		$sites = array();
+		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
 
-		$response_json = $this->client->do_request( 'sites', true );
-
-		// Do list sites request.
-		if ( ! empty( $response_json->siteEntry ) ) {
-			foreach ( $response_json->siteEntry as $entry ) {
-				$sites[ str_ireplace( 'sites/', '', (string) $entry->siteUrl ) ] = (string) $entry->siteUrl;
-			}
-
-			// Sorting the retrieved sites.
-			asort( $sites );
-		}
-
-		return $sites;
+		return array();
 	}
 
 	/**
 	 * Get crawl issues.
 	 *
+	 * @deprecated 11.4
+	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return array
 	 */
 	public function get_crawl_issue_counts() {
-		// Setup crawl error list.
-		$crawl_error_counts = $this->get_crawl_error_counts( $this->profile );
+		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
 
-		$return = array();
-		// Ignore coding standards for object properties.
-		if ( ! empty( $crawl_error_counts->countPerTypes ) ) {
-			foreach ( $crawl_error_counts->countPerTypes as $category ) {
-				$return[ $category->platform ][ $category->category ] = array(
-					'count'      => $category->entries[0]->count,
-					'last_fetch' => null,
-				);
-			}
-		}
-
-		return $return;
+		return array();
 	}
 
 	/**
 	 * Sending request to mark issue as fixed.
+	 *
+	 * @deprecated 11.4
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $url      Issue URL.
 	 * @param string $platform Platform (desktop, mobile, feature phone).
@@ -108,12 +97,17 @@ class WPSEO_GSC_Service {
 	 * @return bool
 	 */
 	public function mark_as_fixed( $url, $platform, $category ) {
-		$response = $this->client->do_request( 'sites/' . urlencode( $this->profile ) . '/urlCrawlErrorsSamples/' . urlencode( ltrim( $url, '/' ) ) . '?category=' . WPSEO_GSC_Mapper::category_to_api( $category ) . '&platform=' . WPSEO_GSC_Mapper::platform_to_api( $platform ) . '', false, 'DELETE' );
-		return ( $response->getResponseHttpCode() === 204 );
+		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+
+		return false;
 	}
 
 	/**
 	 * Fetching the issues from the GSC API.
+	 *
+	 * @deprecated 11.4
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $platform Platform (desktop, mobile, feature phone).
 	 * @param string $category Issue type.
@@ -121,79 +115,8 @@ class WPSEO_GSC_Service {
 	 * @return mixed
 	 */
 	public function fetch_category_issues( $platform, $category ) {
-		$issues = $this->client->do_request(
-			'sites/' . urlencode( $this->profile ) . '/urlCrawlErrorsSamples?category=' . $category . '&platform=' . $platform,
-			true
-		);
+		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
 
-		if ( ! empty( $issues->urlCrawlErrorSample ) ) {
-			return $issues->urlCrawlErrorSample;
-		}
-	}
-
-	/**
-	 * Setting the GSC client.
-	 */
-	private function set_client() {
-		try {
-			new Yoast_Api_Libs( '2.0' );
-		}
-		catch ( Exception $exception ) {
-			if ( $exception->getMessage() === 'required_version' ) {
-				$this->incompatible_api_libs(
-					__( 'Yoast plugins share some code between them to make your site faster. As a result of that, we need all Yoast plugins to be up to date. We\'ve detected this isn\'t the case, so please update the Yoast plugins that aren\'t up to date yet.', 'wordpress-seo' )
-				);
-			}
-		}
-
-		if ( class_exists( 'Yoast_Api_Google_Client' ) === false ) {
-			$this->incompatible_api_libs(
-				sprintf(
-					/* translators: %1$s expands to Yoast SEO, %2$s expands to Google Analytics by Yoast */
-					__(
-						'%1$s detected you’re using a version of %2$s which is not compatible with %1$s. Please update %2$s to the latest version to use this feature.',
-						'wordpress-seo'
-					),
-					'Yoast SEO',
-					'Google Analytics by Yoast'
-				)
-			);
-
-			wp_redirect( admin_url( 'admin.php?page=' . WPSEO_Admin::PAGE_IDENTIFIER ) );
-			exit;
-		}
-
-		$this->client = new Yoast_Api_Google_Client( WPSEO_GSC_Config::$gsc, 'wpseo-gsc', 'https://www.googleapis.com/webmasters/v3/' );
-	}
-
-	/**
-	 * Adding notice that the api libs has the wrong version.
-	 *
-	 * @param string $notice Message string.
-	 */
-	private function incompatible_api_libs( $notice ) {
-		Yoast_Notification_Center::get()->add_notification(
-			new Yoast_Notification( $notice, array( 'type' => Yoast_Notification::ERROR ) )
-		);
-	}
-
-	/**
-	 * Getting the crawl error counts.
-	 *
-	 * @param string $profile Profile name string.
-	 *
-	 * @return object|bool
-	 */
-	private function get_crawl_error_counts( $profile ) {
-		$crawl_error_counts = $this->client->do_request(
-			'sites/' . urlencode( $profile ) . '/urlCrawlErrorsCounts/query',
-			true
-		);
-
-		if ( ! empty( $crawl_error_counts ) ) {
-			return $crawl_error_counts;
-		}
-
-		return false;
+		return array();
 	}
 }
