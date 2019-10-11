@@ -31,7 +31,6 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		// @todo Fill in the correct fallback title
-		return 'Fallback title';
+		return $this->options_helper->get_title_default( 'title-home-wpseo' );
 	}
 }
