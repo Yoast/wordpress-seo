@@ -46,54 +46,15 @@ class Image_Presenter_Test extends TestCase {
 	 * Tests the presentation of a relative image.
 	 *
 	 * @covers ::present
-	 * @covers ::format
 	 * @covers ::filter
 	 */
 	public function test_present() {
 		$presentation = new Indexable_Presentation();
-		$presentation->twitter_image = '/relative_image.jpg';
-
-		$this->url_helper
-			->expects( 'is_relative' )
-			->once()
-			->andReturnTrue();
-
-		Monkey\Functions\expect( 'wp_parse_url' )
-			->with( 'https://example.org' )
-			->once()
-			->andReturn(
-				[
-					'scheme' => 'https',
-					'host'   => 'example.org'
-				]
-			);
-
-		Monkey\Functions\expect( 'home_url' )
-			->once()
-			->andReturn( 'https://example.org' );
+		$presentation->twitter_image = 'relative_image.jpg';
 
 		$this->assertEquals(
-			'<meta name="twitter:image" content="https://example.org/relative_image.jpg" />',
+			'<meta name="twitter:image" content="relative_image.jpg" />',
 			$this->instance->present( $presentation )
 		);
-	}
-
-	/**
-	 * Tests retrieval of the default image with opengraph being disabled.
-	 *
-	 * @covers ::present
-	 * @covers ::format
-	 * @covers ::filter
-	 */
-	public function test_present_with_wrong_image_type_returned() {
-		$presentation = new Indexable_Presentation();
-		$presentation->twitter_image = '';
-
-		$this->url_helper
-			->expects( 'is_relative' )
-			->once()
-			->andReturnFalse();
-
-		$this->assertEmpty( $this->instance->present( $presentation ) );
 	}
 }

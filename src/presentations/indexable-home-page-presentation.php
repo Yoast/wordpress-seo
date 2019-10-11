@@ -22,22 +22,4 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 
 		return $this->options_helper->get( 'metadesc-home-wpseo' );
 	}
-
-	/**
-	 * @inheritDoc
-	 */
-	public function generate_twitter_image() {
-		$twitter_image = parent::generate_twitter_image();
-
-		if ( $twitter_image ) {
-			return $twitter_image;
-		}
-
-		// When OpenGraph image is set and the OpenGraph feature is enabled.
-		if ( $this->model->og_image && $this->options_helper->get( 'opengraph' ) === true ) {
-			return $this->model->og_image;
-		}
-
-		return (string) $this->get_default_og_image();
-	}
 }

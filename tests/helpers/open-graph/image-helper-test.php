@@ -54,52 +54,6 @@ class Image_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the case where a 'non' relative url is given.
-	 *
-	 * @covers ::format_image
-	 */
-	public function test_format_image_with_string_given() {
-		$this->url_helper
-			->expects( 'is_relative' )
-			->once()
-			->with( 'image.jpg' )
-			->andReturnFalse();
-
-		$this->assertEquals(
-			[
-				'url' => 'image.jpg',
-			],
-			$this->instance->format_image( 'image.jpg' )
-		);
-	}
-
-	/**
-	 * Tests the case where a relative url is given.
-	 *
-	 * @covers ::format_image
-	 */
-	public function test_format_image_with_relative_image_url_given() {
-		$this->url_helper
-			->expects( 'is_relative' )
-			->once()
-			->with( 'image.jpg' )
-			->andReturnTrue();
-
-		$this->url_helper
-			->expects( 'get_relative_path' )
-			->once()
-			->with( 'image.jpg' )
-			->andReturn( 'https://example.org/image.jpg' );
-
-		$this->assertEquals(
-			[
-				'url' => 'https://example.org/image.jpg',
-			],
-			$this->instance->format_image( 'image.jpg' )
-		);
-	}
-
-	/**
 	 * Tests the case where the url was missing in the given param.
 	 *
 	 * @covers ::is_image_url_valid

@@ -268,8 +268,6 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	protected function get_page_type() {
 		switch ( true ) {
-			case $this->current_page->is_attachment():
-				return 'Attachment';
 			case $this->current_page->is_search_result():
 				return 'Search_Result_Page';
 			case $this->current_page->is_simple_page() || $this->current_page->is_home_static_page():
