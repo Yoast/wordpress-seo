@@ -67,12 +67,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 		$container_id_attr = sprintf( ' id="%s"', esc_attr( $paper_id_prefix . $paper_id . '-container' ) );
 	}
 
-	add_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_forms' ) );
-	add_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_a11y' ) );
-	$content = wp_kses_post( $content );
-	remove_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_forms' ) );
-	remove_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_a11y' ) );
-
 	printf(
 		'<div%1$s class="%2$s">%3$s</div>',
 		// phpcs:ignore WordPress.Security.EscapeOutput -- $container_id_attr is escaped above.
