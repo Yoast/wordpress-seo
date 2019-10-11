@@ -8,7 +8,7 @@
 /**
  * Class WPSEO_GSC_Settings.
  *
- * @deprecated 11.4
+ * @deprecated 12.5
  *
  * @codeCoverageIgnore
  */
@@ -17,38 +17,38 @@ class WPSEO_GSC_Settings {
 	/**
 	 * Clear all data from the database.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @param WPSEO_GSC_Service $service Service class instance.
 	 */
 	public static function clear_data( WPSEO_GSC_Service $service ) {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Reloading all the issues.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public static function reload_issues() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * When authorization is successful return true, otherwise false.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return bool
 	 */
 	public static function validate_authorization() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return null;
 	}
@@ -56,7 +56,7 @@ class WPSEO_GSC_Settings {
 	/**
 	 * Get the GSC profile.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *

@@ -8,7 +8,7 @@
 /**
  * Class WPSEO_GSC_Config.
  *
- * @deprecated 11.4
+ * @deprecated 12.5
  *
  * @codeCoverageIgnore
  */
@@ -17,7 +17,7 @@ class WPSEO_GSC_Config {
 	/**
 	 * The Google search console configuration.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *

@@ -8,7 +8,7 @@
 /**
  * Class WPSEO_GSC_Marker.
  *
- * @deprecated 11.4
+ * @deprecated 12.5
  *
  * @codeCoverageIgnore
  */
@@ -19,27 +19,27 @@ class WPSEO_GSC_Marker {
 	 *
 	 * If param URL is given, the request is performed by a bulk action.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $url Optional URL.
 	 */
 	public function __construct( $url = '' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Getting the response for the AJAX request.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_response() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return '';
 	}

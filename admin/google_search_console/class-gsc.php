@@ -29,14 +29,14 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	/**
 	 * Registers the hooks.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function register_hooks() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
@@ -45,59 +45,59 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	 * If the Google Search Console has no credentials, show a notification
 	 * for the user to give them a heads up. This message is dismissable.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function register_gsc_notification() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Makes sure the settings will be registered, so data can be stored.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function register_settings() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Displays the table.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function display_table() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Loads the admin redirects scripts.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function page_scripts() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Sets the screen options.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -108,7 +108,7 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	 * @return mixed The screen option value. False when not errors_per_page.
 	 */
 	public function set_screen_option( $status, $option, $value ) {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return false;
 	}
@@ -116,14 +116,14 @@ class WPSEO_GSC implements WPSEO_WordPress_Integration {
 	/**
 	 * Sets the tab help on top of the screen.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
 	public function set_help() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
