@@ -86,6 +86,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		 */
 		if ( $this->current_page->is_multiple_terms_page() ) {
 			$robots['index'] = 'noindex';
+
 			return $this->robots_helper->after_generate( $robots );
 		}
 
@@ -110,5 +111,17 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		}
 
 		return $this->robots_helper->after_generate( $robots );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_title() {
+		if ( $this->model->title ) {
+			return $this->model->title;
+		}
+
+		// @todo Fill in the correct fallback title
+		return 'Fallback title';
 	}
 }
