@@ -3,11 +3,9 @@
  *
  * @deprecated 12.5
  *
- * @param {string} category The category count to update.
- *
  * @returns {void}
  */
-function wpseoUpdateCategoryCount( category ) {
+function wpseoUpdateCategoryCount() {
 	console.error( "This function is deprecated since WPSEO 12.5" );
 }
 
@@ -16,14 +14,9 @@ function wpseoUpdateCategoryCount( category ) {
  *
  * @deprecated 12.5
  *
- * @param {string} nonce    The nonce for the request
- * @param {string} platform The platform to mark the issue for.
- * @param {string} category The category to mark the issue for.
- * @param {string} url      The url to mark as fixed.
- *
  * @returns {void}
  */
-function wpseoSendMarkAsFixed( nonce, platform, category, url ) {
+function wpseoSendMarkAsFixed() {
 	console.error( "This function is deprecated since WPSEO 12.5" );
 }
 
@@ -32,11 +25,9 @@ function wpseoSendMarkAsFixed( nonce, platform, category, url ) {
  *
  * @deprecated 12.5
  *
- * @param {string} url The URL that has been fixed.
- *
  * @returns {void}
  */
-function wpseoMarkAsFixed( url ) {
+function wpseoMarkAsFixed() {
 	console.error( "This function is deprecated since WPSEO 12.5" );
 }
 
