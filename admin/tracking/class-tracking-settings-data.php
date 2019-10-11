@@ -183,7 +183,7 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 	 * @return bool
 	 */
 	public function filter_settings( $option_name ) {
-		return ! in_array( $option_name, $this->include_list );
+		return in_array( $option_name, $this->include_list );
 	}
 
 	/**
