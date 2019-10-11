@@ -51,13 +51,7 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		$title_option  = 'title-archive-wpseo';
-		$options_title = $this->options_helper->get( $title_option );
-		if ( $options_title ) {
-			return $options_title;
-		}
-
-		return $this->options_helper->get_title_default( $title_option );
+		return $this->options_helper->get_title_default( 'title-archive-wpseo' );
 	}
 
 	/**

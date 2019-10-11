@@ -38,32 +38,11 @@ class Title_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the options title is returned when there is no indexable title.
+	 * Tests whether the default title is returned when no title is set.
 	 *
 	 * @covers ::generate_title
 	 */
-	public function test_title_without_indexable() {
-		$this->options_helper
-			->expects( 'get' )
-			->once()
-			->with( 'title-archive-wpseo' )
-			->andReturn( 'Options title' );
-
-		$this->assertEquals( 'Options title', $this->instance->generate_title() );
-	}
-
-	/**
-	 * Tests whether the default title is returned when there is no options title.
-	 *
-	 * @covers ::generate_title
-	 */
-	public function test_title_without_options_title() {
-		$this->options_helper
-			->expects( 'get' )
-			->once()
-			->with( 'title-archive-wpseo' )
-			->andReturn( '' );
-
+	public function test_title_without_set_title() {
 		$this->options_helper
 			->expects( 'get_title_default' )
 			->once()

@@ -31,9 +31,7 @@ class Indexable_Search_Result_Page_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		$title_option  = 'title-search-wpseo';
-
-		return $this->options_helper->get_title_default( $title_option );
+		return $this->options_helper->get_title_default( 'title-search-wpseo' );
 	}
 
 	/**
