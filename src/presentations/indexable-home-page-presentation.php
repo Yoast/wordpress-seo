@@ -22,4 +22,16 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 
 		return $this->options_helper->get( 'metadesc-home-wpseo' );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_title() {
+		if ( $this->model->title ) {
+			return $this->model->title;
+		}
+
+		// @todo Fill in the correct fallback title
+		return 'Fallback title';
+	}
 }
