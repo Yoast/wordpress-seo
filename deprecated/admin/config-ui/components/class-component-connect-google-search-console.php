@@ -8,7 +8,7 @@
 /**
  * Class WPSEO_Config_Component_Connect_Google_Search_Console.
  *
- * @deprecated 11.4
+ * @deprecated 12.5
  *
  * @codeCoverageIgnore
  */
@@ -38,38 +38,38 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	/**
 	 * WPSEO_Config_Component_Connect_Google_Search_Console constructor.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Set the Google Search Console service.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @param mixed $service Set service to use.
 	 */
 	public function set_gsc_service( $service ) {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Gets the component identifier.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return string
 	 */
 	public function get_identifier() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return 'ConnectGoogleSearchConsole';
 	}
@@ -77,14 +77,14 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	/**
 	 * Gets the field.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return null
 	 */
 	public function get_field() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return null;
 	}
@@ -92,14 +92,14 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	/**
 	 * Get the data for the field.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return mixed
 	 */
 	public function get_data() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return array();
 	}
@@ -112,7 +112,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	 * @return mixed
 	 */
 	public function set_data( $data ) {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return array();
 	}

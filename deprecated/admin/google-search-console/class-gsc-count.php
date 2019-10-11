@@ -8,7 +8,7 @@
 /**
  * Class WPSEO_GSC_Count.
  *
- * @deprecated 11.4
+ * @deprecated 12.5
  *
  * @codeCoverageIgnore
  */
@@ -31,20 +31,20 @@ class WPSEO_GSC_Count {
 	/**
 	 * Fetching the counts
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @param WPSEO_GSC_Service $service Service class instance.
 	 */
 	public function __construct( WPSEO_GSC_Service $service ) {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Getting the counts for given platform and return them as an array.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -53,7 +53,7 @@ class WPSEO_GSC_Count {
 	 * @return array
 	 */
 	public function get_platform_counts( $platform ) {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return array();
 	}
@@ -61,14 +61,14 @@ class WPSEO_GSC_Count {
 	/**
 	 * Return the fetched issues.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return array
 	 */
 	public function get_issues() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return $this->issues;
 	}
@@ -76,7 +76,7 @@ class WPSEO_GSC_Count {
 	/**
 	 * Listing the issues an gives them back as fetched issues.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -84,13 +84,13 @@ class WPSEO_GSC_Count {
 	 * @param string $category Issue category.
 	 */
 	public function list_issues( $platform, $category ) {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Getting the counts for given platform and category.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -100,7 +100,7 @@ class WPSEO_GSC_Count {
 	 * @return integer
 	 */
 	public function get_issue_count( $platform, $category ) {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return 0;
 	}
@@ -108,7 +108,7 @@ class WPSEO_GSC_Count {
 	/**
 	 * Update the count of the issues.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -117,17 +117,17 @@ class WPSEO_GSC_Count {
 	 * @param integer $new_count Updated count.
 	 */
 	public function update_issue_count( $platform, $category, $new_count ) {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Fetching the counts from the GSC API.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function fetch_counts() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 }

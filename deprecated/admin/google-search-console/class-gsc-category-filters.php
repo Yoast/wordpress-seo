@@ -11,7 +11,7 @@
  * This class will get all category counts from the options and will parse the filter links that are displayed above
  * the crawl issue tables.
  *
- * @deprecated 11.4
+ * @deprecated 12.5
  *
  * @codeCoverageIgnore
  */
@@ -22,27 +22,27 @@ class WPSEO_GSC_Category_Filters {
 	 *
 	 * Setting the hook to create the issues categories as the links.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @param array $platform_counts Set of issue counts by platform.
 	 */
 	public function __construct( array $platform_counts ) {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Returns the value of the current category.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return mixed|string
 	 */
 	public function get_category() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return '';
 	}
@@ -50,7 +50,7 @@ class WPSEO_GSC_Category_Filters {
 	/**
 	 * Returns the current filters as an array.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -59,7 +59,7 @@ class WPSEO_GSC_Category_Filters {
 	 * @return array
 	 */
 	public function as_array() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return array();
 	}

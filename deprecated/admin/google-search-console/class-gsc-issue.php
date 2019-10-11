@@ -8,7 +8,7 @@
 /**
  * Class WPSEO_GSC_Issue.
  *
- * @deprecated 11.4
+ * @deprecated 12.5
  *
  * @codeCoverageIgnore
  */
@@ -17,7 +17,7 @@ class WPSEO_GSC_Issue {
 	/**
 	 * Search Console issue class constructor.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -27,20 +27,20 @@ class WPSEO_GSC_Issue {
 	 * @param string   $response_code  HTTP response code.
 	 */
 	public function __construct( $url, DateTime $first_detected, DateTime $last_crawled, $response_code ) {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Put the class properties in array.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return array
 	 */
 	public function to_array() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return array();
 	}

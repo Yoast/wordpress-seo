@@ -8,7 +8,7 @@
 /**
  * Class WPSEO_GSC_Service.
  *
- * @deprecated 11.4
+ * @deprecated 12.5
  *
  * @codeCoverageIgnore
  */
@@ -17,27 +17,27 @@ class WPSEO_GSC_Service {
 	/**
 	 * Search Console service constructor.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $profile Profile name.
 	 */
 	public function __construct( $profile = '' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Returns the client.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return Yoast_Api_Google_Client
 	 */
 	public function get_client() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return null;
 	}
@@ -45,25 +45,25 @@ class WPSEO_GSC_Service {
 	/**
 	 * Removes the option and calls the clients clear_data method to clear that one as well.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function clear_data() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Get all sites that are registered in the GSC panel.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return array
 	 */
 	public function get_sites() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return array();
 	}
@@ -71,14 +71,14 @@ class WPSEO_GSC_Service {
 	/**
 	 * Get crawl issues.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return array
 	 */
 	public function get_crawl_issue_counts() {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return array();
 	}
@@ -86,7 +86,7 @@ class WPSEO_GSC_Service {
 	/**
 	 * Sending request to mark issue as fixed.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -97,7 +97,7 @@ class WPSEO_GSC_Service {
 	 * @return bool
 	 */
 	public function mark_as_fixed( $url, $platform, $category ) {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return false;
 	}
@@ -105,7 +105,7 @@ class WPSEO_GSC_Service {
 	/**
 	 * Fetching the issues from the GSC API.
 	 *
-	 * @deprecated 11.4
+	 * @deprecated 12.5
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -115,7 +115,7 @@ class WPSEO_GSC_Service {
 	 * @return mixed
 	 */
 	public function fetch_category_issues( $platform, $category ) {
-		_deprecated_function( __METHOD__, 'WPSEO 11.4' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
 		return array();
 	}

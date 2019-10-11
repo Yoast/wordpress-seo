@@ -1,20 +1,20 @@
 /**
  * Decrement current category count by one.
  *
- * @deprecated 11.4
+ * @deprecated 12.5
  *
  * @param {string} category The category count to update.
  *
  * @returns {void}
  */
 function wpseoUpdateCategoryCount( category ) {
-	console.error( "This function is deprecated since WPSEO 11.4" );
+	console.error( "This function is deprecated since WPSEO 12.5" );
 }
 
 /**
  * Sends the request to mark the given url as fixed.
  *
- * @deprecated 11.4
+ * @deprecated 12.5
  *
  * @param {string} nonce    The nonce for the request
  * @param {string} platform The platform to mark the issue for.
@@ -24,20 +24,20 @@ function wpseoUpdateCategoryCount( category ) {
  * @returns {void}
  */
 function wpseoSendMarkAsFixed( nonce, platform, category, url ) {
-	console.error( "This function is deprecated since WPSEO 11.4" );
+	console.error( "This function is deprecated since WPSEO 12.5" );
 }
 
 /**
  * Marks a search console crawl issue as fixed.
  *
- * @deprecated 11.4
+ * @deprecated 12.5
  *
  * @param {string} url The URL that has been fixed.
  *
  * @returns {void}
  */
 function wpseoMarkAsFixed( url ) {
-	console.error( "This function is deprecated since WPSEO 11.4" );
+	console.error( "This function is deprecated since WPSEO 12.5" );
 }
 
 window.wpseoUpdateCategoryCount = wpseoUpdateCategoryCount;
