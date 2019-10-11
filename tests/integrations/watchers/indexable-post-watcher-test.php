@@ -5,7 +5,6 @@ namespace Yoast\WP\Free\Tests\Integrations\Watchers;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Free\Builders\Indexable_Post_Builder;
-use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\Integrations\Watchers\Indexable_Post_Watcher;
@@ -31,7 +30,7 @@ class Indexable_Post_Watcher_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[ Indexables_Feature_Flag_Conditional::class ],
+			[],
 			Indexable_Post_Watcher::get_conditionals()
 		);
 	}
