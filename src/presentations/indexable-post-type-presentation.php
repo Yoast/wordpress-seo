@@ -7,8 +7,10 @@
 
 namespace Yoast\WP\Free\Presentations;
 
+use Cassandra\Date;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
-use Yoast\WP\Free\Helpers\User_Helper;
+use Yoast\WP\Free\Helpers\Rel_Adjacent_Helper;
+use Yoast\WP\Free\Wrappers\WP_Rewrite_Wrapper;
 use Yoast\WP\Free\Helpers\Date_Helper;
 
 /**
@@ -22,21 +24,116 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	protected $post_type;
 
 	/**
-	 * @var User_Helper
+	 * @var WP_Rewrite_Wrapper
 	 */
-	protected $user;
+	protected $wp_rewrite_wrapper;
+
+	/**
+	 * @var Rel_Adjacent_Helper
+	 */
+	protected $rel_adjacent;
+
+	/**
+	 * @var Date_Helper
+	 */
+	protected $date;
 
 	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param Post_Type_Helper $post_type  The post type helper.
-	 * @param User_Helper      $user       The user helper.
-	 * @param Date_Helper      $date       The date helper.
+	 * @param Post_Type_Helper    $post_type          The post type helper.
+	 * @param WP_Rewrite_Wrapper  $wp_rewrite_wrapper The WP_Rewrite wrapper.
+	 * @param Rel_Adjacent_Helper $rel_adjacent       The rel adjacent helper.
+	 * @param Date_Helper         $date               The date helper.
 	 */
-	public function __construct( Post_Type_Helper $post_type, User_Helper $user, Date_Helper $date ) {
-		$this->post_type = $post_type;
-		$this->user      = $user;
-		$this->date      = $date;
+	public function __construct(
+		Post_Type_Helper $post_type,
+		WP_Rewrite_Wrapper $wp_rewrite_wrapper,
+		Rel_Adjacent_Helper $rel_adjacent,
+		Date_Helper $date
+	) {
+		$this->post_type          = $post_type;
+		$this->wp_rewrite_wrapper = $wp_rewrite_wrapper;
+		$this->rel_adjacent       = $rel_adjacent;
+		$this->date               = $date;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_canonical() {
+		if ( $this->model->canonical ) {
+			return $this->model->canonical;
+		}
+
+		$canonical = get_permalink( $this->model->object_id );
+
+		// Fix paginated pages canonical, but only if the page is truly paginated.
+		$page_number = \get_query_var( 'page' );
+		if ( $page_number > 1 ) {
+			$number_of_pages = $this->model->number_of_pages;
+			if ( $number_of_pages && $page_number <= $number_of_pages ) {
+				if ( ! $this->wp_rewrite_wrapper->get()->using_permalinks() ) {
+
+					$canonical = \add_query_arg( 'page', $page_number, $canonical );
+				}
+				else {
+					$canonical = \user_trailingslashit( \trailingslashit( $canonical ) . $page_number );
+				}
+			}
+		}
+
+		return $this->canonical_helper->after_generate( $canonical );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_rel_prev() {
+		$number_of_pages = ( $this->model->number_of_pages === null ) ? null : (int) $this->model->number_of_pages;
+
+		if ( $number_of_pages === null ) {
+			return '';
+		}
+
+		if ( $this->rel_adjacent->is_disabled() ) {
+			return '';
+		}
+
+		$current_page = \max( 1, (int) \get_query_var( 'page' ) );
+
+		if ( $current_page < 2  ) {
+			return '';
+		}
+
+		$url = \get_permalink( $this->model->object_id );
+
+		return $this->rel_adjacent->get_paginated_url( $url, ( $current_page - 1 ) );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_rel_next() {
+		$number_of_pages = ( $this->model->number_of_pages === null ) ? null : (int) $this->model->number_of_pages;
+
+		if ( $number_of_pages === null ) {
+			return '';
+		}
+
+		if ( $this->rel_adjacent->is_disabled() ) {
+			return '';
+		}
+
+		$current_page = \max( 1, (int) \get_query_var( 'page' ) );
+
+		if ( $this->model->number_of_pages <= $current_page ) {
+			return '';
+		}
+
+		$url = \get_permalink( $this->model->object_id );
+
+		return $this->rel_adjacent->get_paginated_url( $url, ( $current_page + 1 ) );
 	}
 
 	/**

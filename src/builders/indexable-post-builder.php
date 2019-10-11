@@ -103,6 +103,8 @@ class Indexable_Post_Builder {
 
 		$indexable = $this->set_link_count( $post_id, $indexable );
 
+		$indexable->number_of_pages = $this->get_number_of_pages_for_post( $post_id );
+
 		return $indexable;
 	}
 
@@ -341,6 +343,25 @@ class Indexable_Post_Builder {
 				$indexable->twitter_image_source = $alternative_image['source'];
 			}
 		}
+	}
+
+	/**
+	 * Gets the number of pages for a post.
+	 *
+	 * @param int $post_id The post id.
+	 *
+	 * @return int|null The number of pages or null if the post isn't paginated.
+	 */
+	protected function get_number_of_pages_for_post( $post_id ) {
+		$post = \get_post( $post_id );
+
+		$number_of_pages = ( \substr_count( $post->post_content, '<!--nextpage-->' ) + 1 );
+
+		if ( $number_of_pages <= 1 ) {
+			return null;
+		}
+
+		return $number_of_pages;
 	}
 
 	/**

@@ -42,28 +42,6 @@ class Url_Helper {
 	}
 
 	/**
-	 * Get the relative path of the image.
-	 *
-	 * @param string $url Image URL.
-	 *
-	 * @return string The expanded image URL.
-	 */
-	public function get_relative_path( $url ) {
-		if ( $url[0] !== '/' ) {
-			return $url;
-		}
-
-		/*
-			If it's a relative URL, it's relative to the domain, not necessarily to the WordPress install, we
-			want to preserve domain name and URL scheme (http / https) though.
-		*/
-		$parsed_url = \wp_parse_url( \home_url() );
-		$url        = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $url;
-
-		return $url;
-	}
-
-	/**
 	 * Gets the path from the passed URL.
 	 *
 	 * @param string $url The URL to get the path from.
@@ -89,10 +67,30 @@ class Url_Helper {
 		}
 
 		$parts = \explode( '.', $path );
-		if ( empty( $parts ) ) {
+		if ( empty( $parts ) || count( $parts ) === 1 ) {
 			return '';
 		}
 
 		return \end( $parts );
+	}
+
+	/**
+	 * Parse the home URL setting to find the base URL for relative URLs.
+	 *
+	 * @param string $path Optional path string.
+	 *
+	 * @return string
+	 */
+	public function build_absolute_url( $path = null ) {
+		$path      = \wp_parse_url( $path, PHP_URL_PATH );
+		$url_parts = \wp_parse_url( \home_url() );
+
+		$base_url = \trailingslashit( $url_parts['scheme'] . '://' . $url_parts['host'] );
+
+		if ( ! \is_null( $path ) ) {
+			$base_url .= \ltrim( $path, '/' );
+		}
+
+		return $base_url;
 	}
 }

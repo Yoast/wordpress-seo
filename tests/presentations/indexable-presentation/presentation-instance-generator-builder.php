@@ -2,11 +2,13 @@
 
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Presentation;
 
+use http\Url;
 use Mockery;
 use Yoast\WP\Free\Generators\OG_Image_Generator;
 use Yoast\WP\Free\Generators\Twitter_Image_Generator;
 use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as OG_Image_Helper;
 use Yoast\WP\Free\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
+use Yoast\WP\Free\Helpers\Url_Helper;
 use Yoast\WP\Free\Presentations\Generators\OG_Locale_Generator;
 use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
@@ -39,11 +41,17 @@ trait Presentation_Instance_Generator_Builder {
 	protected $twitter_image_generator;
 
 	/**
+	 * @var Url_Helper|Mockery\MockInterface
+	 */
+	protected $url_helper;
+
+	/**
 	 * Sets the instance generators.
 	 */
 	protected function set_instance_generators() {
 		$this->og_image_helper = Mockery::mock( OG_Image_Helper::class );
 		$this->twitter_helper  = Mockery::mock( Twitter_Image_Helper::class );
+		$this->url_helper      = Mockery::mock( Url_Helper::class );
 
 		$this->og_image_generator = Mockery::mock(
 			OG_Image_Generator::class,
