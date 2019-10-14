@@ -37,6 +37,7 @@ use Yoast\WP\Free\Presentations\Indexable_Presentation;
  * @property string      schema_page_type
  * @property string      main_schema_id
  * @property bool        open_graph_enabled
+ * @property string      open_graph_publisher
  */
 class Meta_Tags_Context extends Abstract_Presentation {
 
@@ -299,6 +300,15 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 */
 	public function generate_open_graph_enabled() {
 		return $this->options_helper->get( 'opengraph' ) === true;
+	}
+
+	/**
+	 * Returns the open graph publisher.
+	 *
+	 * @return string The open graph publisher.
+	 */
+	public function generate_open_graph_publisher() {
+		return $this->options_helper->get( 'facebook_site', '' );
 	}
 
 	/**

@@ -71,6 +71,22 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the open graph article publisher.
+	 *
+	 * @return string The open graph article publisher.
+	 */
+	public function generate_og_article_publisher() {
+
+		$og_article_publisher = $this->context->open_graph_publisher;
+
+		if ( $og_article_publisher ) {
+			return $og_article_publisher;
+		}
+
+		return '';
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	public function generate_replace_vars_object() {
