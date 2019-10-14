@@ -12,7 +12,7 @@ use YoastSEO_Vendor\Psr\Log\LoggerTrait;
 use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
- * Creates an instance of a logger object.
+ * Our logger class.
  */
 class Logger implements LoggerInterface {
 	use LoggerTrait;
@@ -47,7 +47,7 @@ class Logger implements LoggerInterface {
 	 *
 	 * @return void
 	 */
-	public function log( $level, $message, array $context = array() ) {
+	public function log( $level, $message, array $context = [] ) {
 		$this->wrapped_logger->log( $level, $message, $context );
 	}
 }

@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Repositories;
 
-use Yoast\WP\Free\ORM\ORMWrapper;
 use Yoast\WP\Free\ORM\Yoast_Model;
 
 /**
@@ -15,16 +14,14 @@ use Yoast\WP\Free\ORM\Yoast_Model;
  *
  * @package Yoast\WP\Free\ORM\Repositories
  */
-class Primary_Term_Repository extends ORMWrapper {
+class Primary_Term_Repository {
 
 	/**
-	 * Returns the instance of this class constructed through the ORM Wrapper.
+	 * Starts a query for this repository.
 	 *
-	 * @return \Yoast\WP\Free\Repositories\Primary_Term_Repository
+	 * @return \Yoast\WP\Free\ORM\ORMWrapper
 	 */
-	public static function get_instance() {
-		ORMWrapper::$repositories[ Yoast_Model::get_table_name( 'Primary_Term' ) ] = self::class;
-
+	public function query() {
 		return Yoast_Model::of_type( 'Primary_Term' );
 	}
 
@@ -39,12 +36,13 @@ class Primary_Term_Repository extends ORMWrapper {
 	 */
 	public function find_by_postid_and_taxonomy( $post_id, $taxonomy, $auto_create = true ) {
 		/** @var \Yoast\WP\Free\Models\Primary_Term $primary_term */
-		$primary_term = $this->where( 'post_id', $post_id )
-			->where( 'taxonomy', $taxonomy )
-			->find_one();
+		$primary_term = $this->query()
+							 ->where( 'post_id', $post_id )
+							 ->where( 'taxonomy', $taxonomy )
+							 ->find_one();
 
 		if ( $auto_create && ! $primary_term ) {
-			$primary_term = $this->create();
+			$primary_term = $this->query()->create();
 		}
 
 		return $primary_term;

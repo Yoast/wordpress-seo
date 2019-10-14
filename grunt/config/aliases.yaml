@@ -78,8 +78,7 @@ clean:build-assets:
   - 'copy:artifact'
   # Create a zip file
   - 'compress:artifact'
-  # Remove build folder
-  - 'clean:artifact'
+  # There is no `clean:artifact` here because the `wp_deploy` needs the `artifact` folder.
   - 'restore-environment-after-artifact'
 
 'restore-environment-after-artifact':

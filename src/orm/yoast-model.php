@@ -97,6 +97,13 @@ class Yoast_Model {
 	protected $uses_timestamps = false;
 
 	/**
+	 * Which columns contain boolean values.
+	 *
+	 * @var array
+	 */
+	protected $boolean_columns = [];
+
+	/**
 	 * Hacks around the Model to provide WordPress prefix to tables.
 	 *
 	 * @param string $class_name   Type of Model to load.
@@ -332,7 +339,7 @@ class Yoast_Model {
 	 * @param null|string $connection_name                          The name of the connection.
 	 *
 	 * @return \Yoast\WP\Free\ORM\ORMWrapper
-	 * @throws \Exception When ID of urrent model has a null value.
+	 * @throws \Exception When ID of current model has a null value.
 	 */
 	protected function has_one_or_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
 		$base_table_name  = static::get_table_name_for_class( \get_class( $this ) );
@@ -481,11 +488,11 @@ class Yoast_Model {
 			->select( "{$associated_table_name}.*" )
 			->join(
 				$join_table_name,
-				array(
+				[
 					"{$associated_table_name}.{$associated_table_id_column}",
 					'=',
 					"{$join_table_name}.{$key_to_associated_table}",
-				)
+				]
 			)
 			->where( "{$join_table_name}.{$key_to_base_table}", $this->{$base_table_id_column} );
 	}
@@ -509,7 +516,13 @@ class Yoast_Model {
 	 * @return null|string The value of the property
 	 */
 	public function __get( $property ) {
-		return $this->orm->get( $property );
+		$value = $this->orm->get( $property );
+
+		if ( $value !== null && \in_array( $property, $this->boolean_columns, true ) ) {
+			return (bool) $value;
+		}
+
+		return $value;
 	}
 
 	/**
@@ -521,6 +534,10 @@ class Yoast_Model {
 	 * @return void
 	 */
 	public function __set( $property, $value ) {
+		if ( $value !== null && \in_array( $property, $this->boolean_columns, true ) ) {
+			$value = ( $value ) ? '1' : '0';
+		}
+
 		$this->orm->set( $property, $value );
 	}
 

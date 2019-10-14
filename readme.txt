@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 4.9
-Tested up to: 5.2.2
-Stable tag: 12.1
+Tested up to: 5.2.3
+Stable tag: 12.2
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -30,8 +30,8 @@ Yoast SEO does everything in its power to please both visitors and search engine
 * The most advanced XML Sitemaps functionality at the push of a button.
 * Full control over your site's breadcrumbs.
 * Automatically set canonical URLs to avoid duplicate content.
+* **[Premium]** support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
 * **[Premium]** the ability to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) and [WooCommerce SEO](https://yoa.st/3rh) extensions.
-* **[Premium]** support for our Yoast SEO Premium users.
 
 #### WRITE KILLER CONTENT WITH YOAST SEO
 We know content is king, that's why Yoast SEO is famous for its readability analysis and its SEO analysis. Yoast SEO gives you:
@@ -209,10 +209,25 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 12.3.0 =
+Release Date: October 15th, 2019
+
+Enhancements:
+
+* Adds the transition word assessment for Hungarian. Props to [@9abor](https://github.com/9abor).
+* Includes the admin bar CSS in AMP dev mode. Props to [@westonruter](https://github.com/westonruter).
+* Shows a floating `Save changes` button on Yoast SEO admin pages when the normal button is not visible in the browser window.
+* Improves user input validation feedback and suggestions for error correction.
+* Introduces a new filter `wpseo_sitemap_http_headers` which allows filtering the HTTP headers we send for XML sitemaps.
+
+Other:
+
+* Removes the notification that would be thrown if add-ons with a lower version number than the plugin were installed. The `yoast_plugin_compatibility_notification` method has been deprecated.
+
 = 12.2.0 =
 Release Date: October 1st, 2019
 
-Read more about Yoast SEO 12.2 in [our 12.2 release post](https://yoa.st/release-12-2)!
+Yoast SEO 12.2 is a release full of the regular bug fixes and enhancements, but also a new addition to meta robots. Last week, Google announced a new way to give publishers more control over what the search engine can show in the results. This change, however, seems not driven by customer demand, but rather by law. Find out what this is all about and why we chose to automatically opt sites in for this in [our 12.2 release post](https://yoa.st/release-12-2)!
 
 Enhancements:
 
@@ -228,37 +243,6 @@ Other:
 * Changes all mentions of the Yoast SEO for WordPress training, which is now free.
 * Combines the 'Newsletter' and 'You might like' steps in the configuration wizard to a step called 'Continue learning'.
 * Removes the colon from the form labels at the settings pages.
-
-= 12.1.0 =
-Release Date: September 17th, 2019
-
-Yoast SEO 12.1 is out today! It features a couple of changes in order to match the design of Google’s search results pages, this includes those shiny new favicons. In addition to this, we added a number of new filters for our Schema implementation. See what else is new in the latest release of your favorite SEO plugin in [our 12.1 release post](https://yoa.st/release-12-1)!
-
-Enhancements:
-
-* Updates the desktop snippet preview to match Google's new font sizes.
-* Introduces the usage of the site's favicon in the mobile snippet preview.
-* Adds a collapsible around the hidden problems and notifications on the Yoast dashboard.
-* Adds a filter `wpseo_schema_organization_social_profiles` that allows filtering an organization's social profiles in the schema output. Props to [juliquiron](https://github.com/juliquiron).
-* Adds a filter `wpseo_schema_company_name` that allows filtering the company name in the schema output. Props to [@andrewgillingham](https://github.com/andrewgillingham).
-* Adds a filter `wpseo_schema_company_logo_id` that allows filtering the company logo in the schema output. Props to [@andrewgillingham](https://github.com/andrewgillingham).
-* Adds a filter `wpseo_sitemap_exclude_empty_terms_taxonomy` to control hiding empty terms per taxonomy.
-* Adds a filter `wpseo_enable_structured_data_blocks` to allow disabling Yoast's structured data block editor blocks.
-* Adds a `get_robots` method to retrieve the robot HTML without it being output. Props to [@bradymwilliams](https://github.com/bradymwilliams).
-* Improves the input validation on the settings pages.
-* Improves the consistency of the plugin icons.
-* Improves the How-to and FAQ blocks styling for better compatibility with latest version of the WordPress blocks editor.
-
-Bugfixes:
-
-* Fixes a bug where subscription checks would fail on some sites due to certificate verification being disabled.
-* Fixes a bug where the primary term selector would not display HTML entities properly. Props to [@dlh01](https://github.com/dlh01).
-
-Other:
-
-* Allows showing specific dashboard feeds based on the `wp_version` and `php_version` of a site.
-* Removes the AMP Glue plugin suggestion from the SEO dashboard when AMP and Yoast SEO are installed. The AMP Glue plugin by Yoast will be discontinued soon.
-* Removes the `Courses` menu-item.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

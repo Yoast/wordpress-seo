@@ -3,8 +3,8 @@
 namespace Yoast\WP\Free\Tests\Frontend\Schema;
 
 use Mockery;
-use WPSEO_Schema_Context;
 use Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_FAQ_Questions_Double;
+use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -22,7 +22,7 @@ class Schema_FAQ_Questions_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->context = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
+		$this->context = Mockery::mock( Meta_Tags_Context::class )->makePartial();
 
 		$this->context->canonical = 'example.com/';
 
@@ -50,10 +50,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => 'This is an answer',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -80,10 +80,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => '',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => 'This is an answer',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -110,10 +110,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => '',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -140,10 +140,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => '',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => '',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -172,10 +172,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => '<h1>This is an answer<h1>',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -204,10 +204,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => 'This is an answer',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -236,10 +236,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => '<h1>This is an answer</h1>',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -268,10 +268,10 @@ class Schema_FAQ_Questions_Test extends TestCase {
 			'url'              => 'example.com/#question-1',
 			'name'             => 'Is this a question?',
 			'answerCount'      => 1,
-			'acceptedAnswer'   => array(
+			'acceptedAnswer'   => [
 				'@type' => 'Answer',
 				'text'  => 'This is an answer',
-			),
+			],
 		];
 
 		$this->assertEquals( $expected, $actual );
