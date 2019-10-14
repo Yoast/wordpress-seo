@@ -74,7 +74,7 @@ class Article_Publisher_Presenter_Test extends TestCase {
 	public function test_present_filter() {
 		$this->presentation->og_article_publisher = 'https://example.com';
 
-		Monkey\Filters\expectApplied( 'wpseo_opengraph_author_facebook' )
+		Monkey\Filters\expectApplied( 'wpseo_og_article_publisher' )
 			->once()
 			->with( 'https://example.com' )
 			->andReturn( 'https://otherpublisher.com' );
