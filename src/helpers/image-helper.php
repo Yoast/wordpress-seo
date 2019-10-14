@@ -29,25 +29,6 @@ class Image_Helper {
 	protected static $valid_image_extensions = [ 'jpeg', 'jpg', 'gif', 'png' ];
 
 	/**
-	 * Gets an attachment page's attachment url.
-	 *
-	 * @param string $attachment_id The attachment id.
-	 *
-	 * @return bool True when attachment is an image.
-	 */
-	public function is_attachment_valid_image( $attachment_id ) {
-		if ( ! \wp_attachment_is_image( $attachment_id ) ) {
-			return false;
-		}
-
-		if ( ! $this->is_valid_attachment( $attachment_id ) ) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Determines whether or not the wanted attachment is considered valid.
 	 *
 	 * @param int $attachment_id The attachment ID to get the attachment by.
@@ -55,8 +36,11 @@ class Image_Helper {
 	 * @return bool Whether or not the attachment is valid.
 	 */
 	public function is_valid_attachment( $attachment_id ) {
-		$post_mime_type = \get_post_mime_type( $attachment_id );
+		if ( ! \wp_attachment_is_image( $attachment_id ) ) {
+			return false;
+		}
 
+		$post_mime_type = \get_post_mime_type( $attachment_id );
 		if ( $post_mime_type === false ) {
 			return false;
 		}
