@@ -4,8 +4,12 @@ namespace Yoast\WP\Free\Tests\Repositories;
 
 use Mockery\Mock;
 use Yoast\WP\Free\Builders\Indexable_Author_Builder;
+use Yoast\WP\Free\Builders\Indexable_Home_Page_Builder;
 use Yoast\WP\Free\Builders\Indexable_Post_Builder;
+use Yoast\WP\Free\Builders\Indexable_Post_Type_Archive_Builder;
+use Yoast\WP\Free\Builders\Indexable_System_Page_Builder;
 use Yoast\WP\Free\Builders\Indexable_Term_Builder;
+use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\Tests\TestCase;
@@ -43,10 +47,14 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$wpdb = \Mockery::mock( \wpdb::class );
 		$wpdb->prefix = 'custom_prefix_';
 
-		$this->repository = Indexable_Repository::get_instance(
+		$this->repository = new Indexable_Repository(
 			\Mockery::mock(Indexable_Author_Builder::class ),
 			\Mockery::mock( Indexable_Post_Builder::class ),
 			\Mockery::mock( Indexable_Term_Builder::class ),
+			\Mockery::mock( Indexable_Home_Page_Builder::class ),
+			\Mockery::mock( Indexable_Post_Type_Archive_Builder::class ),
+			\Mockery::mock( Indexable_System_Page_Builder::class ),
+			\Mockery::mock( Current_Page_Helper::class ),
 			new Logger(),
 			$wpdb
 		);
