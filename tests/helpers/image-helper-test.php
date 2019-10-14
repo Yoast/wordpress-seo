@@ -139,11 +139,30 @@ class Image_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests if the attachment is a valid image.
+	 *
+	 * @covers ::is_valid_attachment
+	 */
+	public function test_is_attachment_valid_image() {
+		Monkey\Functions\expect( 'wp_attachment_is_image' )
+			->once()
+			->with( 1337 )
+			->andReturn( false );
+
+		$this->assertFalse( $this->instance->is_valid_attachment( 1337 ) );
+	}
+
+	/**
 	 * Test if the attachment is valid with false given as mimetype.
 	 *
 	 * @covers ::is_valid_attachment
 	 */
 	public function test_is_valid_attachment_no_mime_type() {
+		Monkey\Functions\expect( 'wp_attachment_is_image' )
+			->once()
+			->with( 100 )
+			->andReturn( true );
+
 		Monkey\Functions\expect( 'get_post_mime_type' )
 			->once()
 			->with( 100 )
@@ -158,6 +177,11 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::is_valid_attachment
 	 */
 	public function test_is_valid_attachment() {
+		Monkey\Functions\expect( 'wp_attachment_is_image' )
+			->once()
+			->with( 100 )
+			->andReturn( true );
+
 		Monkey\Functions\expect( 'get_post_mime_type' )
 			->once()
 			->with( 100 )
@@ -188,6 +212,34 @@ class Image_Helper_Test extends TestCase {
 	 */
 	public function test_is_valid_image_type() {
 		$this->assertTrue( $this->instance->is_valid_image_type( 'image/jpeg' ) );
+	}
+
+	/**
+	 * Test retrieval of the attachment images source.
+	 *
+	 * @covers ::get_attachment_image_source
+	 */
+	public function test_get_attachment_image_source() {
+		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
+			->once()
+			->with( 1337, 'full' )
+			->andReturn( [ 'image.jpg', 500, 600 ] );
+
+		$this->assertEquals( 'image.jpg', $this->instance->get_attachment_image_source( 1337 ) );
+	}
+
+	/**
+	 * Test retrieval of the attachment images source.
+	 *
+	 * @covers ::get_attachment_image_source
+	 */
+	public function test_get_attachment_image_source_no_image_found() {
+		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
+			->once()
+			->with( 1337, 'full' )
+			->andReturn( '' );
+
+		$this->assertEquals( '', $this->instance->get_attachment_image_source( 1337 ) );
 	}
 
 	/**

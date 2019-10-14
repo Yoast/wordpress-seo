@@ -197,6 +197,8 @@ class Image_Helper {
 	 * Due to self::get_attachment_by_url returning 0 instead of false.
 	 * 0 is also a possibility when no ID is available.
 	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 *
 	 * @param string $setting The setting the image is stored in.
 	 *
 	 * @return int|bool The attachment id, or false or 0 if no ID is available.
