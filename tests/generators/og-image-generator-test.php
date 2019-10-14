@@ -140,10 +140,10 @@ class OG_Image_Generator_Test extends TestCase {
 	 */
 	public function test_generate_with_image_url_from_indexable_with_og_image_meta() {
 		$this->indexable->og_image      = 'image.jpg';
-		$this->indexable->og_image_meta = [
+		$this->indexable->og_image_meta = json_encode( [
 			'height' => 1024,
 			'width'  => 2048,
-		];
+		] );
 
 		$this->instance->expects( 'add_from_default' )->andReturnNull();
 
