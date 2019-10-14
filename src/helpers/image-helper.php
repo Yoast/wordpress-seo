@@ -79,13 +79,13 @@ class Image_Helper {
 	 * @return string The image url or an empty string when not found.
 	 */
 	public function get_attachment_image_source( $attachment_id, $image_size = 'full' ) {
-		$featured_image = \wp_get_attachment_image_src( $attachment_id, $image_size );
+		$attachment = \wp_get_attachment_image_src( $attachment_id, $image_size );
 
-		if ( ! $featured_image ) {
+		if ( ! $attachment ) {
 			return '';
 		}
 
-		return $featured_image[0];
+		return $attachment[0];
 	}
 
 	/**
