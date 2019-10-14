@@ -103,7 +103,7 @@ class OG_Image_Generator implements Generator_Interface {
 	protected function add_from_indexable( Indexable $indexable, Images $image_container ) {
 		if ( $indexable->og_image ) {
 			$meta_data = [];
-			if ( $indexable->og_image_meta ) {
+			if ( $indexable->og_image_meta && is_string( $indexable->og_image_meta ) ) {
 				$meta_data = json_decode( $indexable->og_image_meta, true );
 			}
 
