@@ -104,12 +104,12 @@ class OG_Image_Generator implements Generator_Interface {
 		if ( $indexable->og_image ) {
 			$meta_data = [];
 			if ( $indexable->og_image_meta ) {
-				$meta_data = \maybe_unserialize( $indexable->og_image_meta );
+				$meta_data = json_decode( $indexable->og_image_meta, true );
 			}
 
 			$image_container->add_image(
 				\array_merge_recursive(
-					$meta_data,
+					(array) $meta_data,
 					[
 						'url' => $indexable->og_image,
 					]
