@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\Free\Tests\Generators;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Free\Generators\OG_Image_Generator;
 use Yoast\WP\Free\Helpers\Image_Helper;
@@ -145,10 +144,6 @@ class OG_Image_Generator_Test extends TestCase {
 			'height' => 1024,
 			'width'  => 2048,
 		];
-
-		Monkey\Functions\expect( 'maybe_unserialize' )
-			->with( $this->indexable->og_image_meta )
-			->andReturn( $this->indexable->og_image_meta );
 
 		$this->instance->expects( 'add_from_default' )->andReturnNull();
 
