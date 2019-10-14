@@ -71,6 +71,22 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the open graph article author.
+	 *
+	 * @return string The open graph article author.
+	 */
+	public function generate_og_article_author() {
+
+		$og_article_author = get_the_author_meta( 'facebook', get_post( $this->model->object_id )->post_author );
+
+		if ( $og_article_author ) {
+			return $og_article_author;
+		}
+
+		return '';
+	}
+
+	/**
 	 * Generates the open graph article publisher.
 	 *
 	 * @return string The open graph article publisher.
