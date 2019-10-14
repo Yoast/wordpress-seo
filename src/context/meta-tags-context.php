@@ -15,6 +15,7 @@ use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Schema\ID_Helper;
 use Yoast\WP\Free\Helpers\Site_Helper;
 use Yoast\WP\Free\Helpers\Url_Helper;
+use Yoast\WP\Free\Helpers\User_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presentations\Abstract_Presentation;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
@@ -97,6 +98,11 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	private $site_helper;
 
 	/**
+	 * @var User_Helper
+	 */
+	private $user;
+
+	/**
 	 * Meta_Tags_Context constructor.
 	 *
 	 * @param Options_Helper     $options_helper      The options helper.
@@ -105,6 +111,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @param ID_Helper          $id_helper           The schema id helper.
 	 * @param WPSEO_Replace_Vars $replace_vars_helper The replace vars helper.
 	 * @param Site_Helper        $site_helper         The site helper.
+	 * @param User_Helper        $user                The user helper.
 	 */
 	public function __construct(
 		Options_Helper $options_helper,
@@ -112,7 +119,8 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		Image_Helper $image_helper,
 		ID_Helper $id_helper,
 		WPSEO_Replace_Vars $replace_vars_helper,
-		Site_Helper $site_helper
+		Site_Helper $site_helper,
+		User_Helper $user
 	) {
 		$this->options_helper      = $options_helper;
 		$this->url_helper          = $url_helper;
@@ -120,6 +128,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		$this->id_helper           = $id_helper;
 		$this->replace_vars_helper = $replace_vars_helper;
 		$this->site_helper         = $site_helper;
+		$this->user                = $user;
 	}
 
 	/**
@@ -308,6 +317,13 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	 * @return string The open graph publisher.
 	 */
 	public function generate_open_graph_publisher() {
+		if ( $this->site_represents === 'company' ) {
+			return $this->options_helper->get( 'facebook_site', '' );
+		}
+		if ( $this->site_represents === 'person' ) {
+			return $this->user->get_the_author_meta( 'facebook', $this->site_user_id );
+		}
+
 		return $this->options_helper->get( 'facebook_site', '' );
 	}
 

@@ -113,7 +113,6 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @return string The open graph article publisher.
 	 */
 	public function generate_og_article_publisher() {
-
 		$og_article_publisher = $this->context->open_graph_publisher;
 
 		if ( $og_article_publisher ) {
