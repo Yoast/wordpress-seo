@@ -15,20 +15,6 @@ use WPSEO_Image_Utils;
 class Image_Helper {
 
 	/**
-	 * Retrieves an attachment ID for an image uploaded in the settings.
-	 *
-	 * Due to self::get_attachment_by_url returning 0 instead of false.
-	 * 0 is also a possibility when no ID is available.
-	 *
-	 * @param string $setting The setting the image is stored in.
-	 *
-	 * @return int|bool The attachment id, or false or 0 if no ID is available.
-	 */
-	public function get_attachment_id_from_settings( $setting ) {
-		return WPSEO_Image_Utils::get_attachment_id_from_settings( $setting );
-	}
-
-	/**
 	 * Image types that are supported by OpenGraph.
 	 *
 	 * @var array
@@ -219,6 +205,20 @@ class Image_Helper {
 	 */
 	public function get_attachment_by_url( $url ) {
 		return WPSEO_Image_Utils::get_attachment_by_url( $url );
+	}
+
+	/**
+	 * Retrieves an attachment ID for an image uploaded in the settings.
+	 *
+	 * Due to self::get_attachment_by_url returning 0 instead of false.
+	 * 0 is also a possibility when no ID is available.
+	 *
+	 * @param string $setting The setting the image is stored in.
+	 *
+	 * @return int|bool The attachment id, or false or 0 if no ID is available.
+	 */
+	public function get_attachment_id_from_settings( $setting ) {
+		return WPSEO_Image_Utils::get_attachment_id_from_settings( $setting );
 	}
 
 	/**
