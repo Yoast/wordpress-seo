@@ -5,6 +5,9 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.34.1 October 14th, 2019
+No user-facing changes.
+
 ## 4.34.0 October 14th, 2019
 ### Fixed
 * Fixes a bug where internal linking suggestions were not aligned correctly, but were indented instead.
