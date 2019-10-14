@@ -7,7 +7,8 @@ use Yoast\WP\Free\Tests\TestCase;
 /**
  * Class Robots_Test.
  *
- * @group schema
+ * @group presentations
+ * @group robots
  *
  * @package Yoast\Tests\Presentations\Indexable_Date_Archive_Presentation
  */

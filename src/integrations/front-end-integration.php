@@ -191,6 +191,10 @@ class Front_End_Integration implements Integration_Interface {
 		$presenters   = $this->get_presenters( $page_type );
 		echo "\n";
 		foreach ( $presenters as $presenter ) {
+			if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {
+				echo '<!-- ' . get_class( $presenter ) . ' -->';
+			}
+
 			$output = $presenter->present( $presentation );
 			if ( ! empty( $output ) ) {
 				echo "\t" . $output . "\n";
