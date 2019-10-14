@@ -5,6 +5,7 @@ namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 use Mockery;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
+use Yoast\WP\Free\Helpers\Meta_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
@@ -62,6 +63,11 @@ trait Presentation_Instance_Builder {
 	protected $url_helper;
 
 	/**
+	 * @var Url_Helper|Mockery\MockInterface
+	 */
+	protected $meta_helper;
+
+	/**
 	 * @var Meta_Tags_Context|Mockery\MockInterface
 	 */
 	protected $context;
@@ -79,10 +85,11 @@ trait Presentation_Instance_Builder {
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$this->context             = Mockery::mock( Meta_Tags_Context::class )->makePartial();
 		$this->url_helper          = Mockery::mock( Url_Helper::class );
+		$this->meta_helper         = Mockery::mock( Meta_Helper::class );
 
 		$instance = Mockery::mock(
 			Indexable_Post_Type_Presentation::class,
-			[ $this->post_type_helper ]
+			[ $this->post_type_helper, $this->meta_helper ]
 		)
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
