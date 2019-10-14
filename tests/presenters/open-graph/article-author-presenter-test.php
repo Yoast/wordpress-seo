@@ -4,21 +4,21 @@ namespace Yoast\WP\Free\Tests\Presenters;
 
 use Brain\Monkey;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Open_Graph\Article_Publisher_Presenter;
+use Yoast\WP\Free\Presenters\Open_Graph\Article_Author_Presenter;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class Article_Publisher_Presenter
+ * Class Article_Author_Presenter_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Open_Graph\Article_Publisher_Presenter
+ * @coversDefaultClass \Yoast\WP\Free\Presenters\Open_Graph\Article_Author_Presenter
  *
  * @group presenters
  * @group open-graph
  */
-class Article_Publisher_Presenter_Test extends TestCase {
+class Article_Author_Presenter_Test extends TestCase {
 
 	/**
-	 * @var Article_Publisher_Presenter
+	 * @var Article_Author_Presenter
 	 */
 	protected $instance;
 
@@ -31,7 +31,7 @@ class Article_Publisher_Presenter_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->instance     = new Article_Publisher_Presenter();
+		$this->instance     = new Article_Author_Presenter();
 		$this->presentation = new Indexable_Presentation();
 
 		return parent::setUp();
@@ -43,9 +43,9 @@ class Article_Publisher_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present() {
-		$this->presentation->og_article_publisher = 'https://example.com';
+		$this->presentation->og_article_author = 'https://facebook.com/author';
 
-		$expected = '<meta property="article:publisher" content="https://example.com" />';
+		$expected = '<meta property="article:author" content="https://facebook.com/author" />';
 		$actual   = $this->instance->present( $this->presentation );
 
 		$this->assertEquals( $expected, $actual );
@@ -56,8 +56,8 @@ class Article_Publisher_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 */
-	public function test_present_empty_article_publisher() {
-		$this->presentation->og_article_publisher = '';
+	public function test_present_empty_article_author() {
+		$this->presentation->og_article_author = '';
 
 		$expected = '';
 		$actual   = $this->instance->present( $this->presentation );
@@ -72,14 +72,14 @@ class Article_Publisher_Presenter_Test extends TestCase {
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
-		$this->presentation->og_article_publisher = 'https://example.com';
+		$this->presentation->og_article_author = 'https://facebook.com/author';
 
-		Monkey\Filters\expectApplied( 'wpseo_og_article_publisher' )
+		Monkey\Filters\expectApplied( 'wpseo_opengraph_author_facebook' )
 			->once()
-			->with( 'https://example.com' )
-			->andReturn( 'https://otherpublisher.com' );
+			->with( 'https://facebook.com/author' )
+			->andReturn( 'https://facebook.com/newauthor' );
 
-		$expected = '<meta property="article:publisher" content="https://otherpublisher.com" />';
+		$expected = '<meta property="article:author" content="https://facebook.com/newauthor" />';
 		$actual   = $this->instance->present( $this->presentation );
 
 		$this->assertEquals( $expected, $actual );

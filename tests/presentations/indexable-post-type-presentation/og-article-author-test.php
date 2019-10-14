@@ -22,6 +22,7 @@ class OG_Article_Author_Test extends TestCase {
 		parent::setUp();
 
 		$this->setInstance();
+		$this->indexable->object_id = 1;
 	}
 
 	/**
@@ -31,6 +32,54 @@ class OG_Article_Author_Test extends TestCase {
 	 */
 	public function test_generate_og_article_author() {
 
-		$this->assertEquals( 'article', $this->instance->generate_og_article_author() );
+		$this->post_helper
+			->expects( 'get_post' )
+			->with( 1 )
+			->once()
+			->andReturn( (object) [ 'post_author' => 2 ] );
+
+		$this->user_helper
+			->expects( 'get_the_author_meta' )
+			->with( 'facebook', 2 )
+			->once()
+			->andReturn( 'http://facebook.com/author' );
+
+		$this->assertEquals( 'http://facebook.com/author', $this->instance->generate_og_article_author() );
+	}
+
+	/**
+	 * Tests the situation where no article author is given.
+	 *
+	 * ::covers generate_og_article_author
+	 */
+	public function test_generate_og_article_author_no_author() {
+		$this->post_helper
+			->expects( 'get_post' )
+			->with( 1 )
+			->once()
+			->andReturn( (object) [ 'post_author' => 2 ] );
+
+		$this->user_helper
+			->expects( 'get_the_author_meta' )
+			->with( 'facebook', 2 )
+			->once()
+			->andReturn( '' );
+
+		$this->assertEmpty( $this->instance->generate_og_article_author() );
+	}
+
+	/**
+	 * Tests the situation where no article post is given.
+	 *
+	 * ::covers generate_og_article_author
+	 */
+	public function test_generate_og_article_author_no_post() {
+		$this->post_helper
+			->expects( 'get_post' )
+			->with( 1 )
+			->once()
+			->andReturn( null );
+
+		$this->assertEmpty( $this->instance->generate_og_article_author() );
 	}
 }

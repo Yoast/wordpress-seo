@@ -8,7 +8,7 @@ use Yoast\WP\Free\Presenters\Open_Graph\Article_Publisher_Presenter;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class Article_Publisher_Presenter
+ * Class Article_Publisher_Presenter_Test
  *
  * @coversDefaultClass \Yoast\WP\Free\Presenters\Open_Graph\Article_Publisher_Presenter
  *
@@ -66,7 +66,7 @@ class Article_Publisher_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the presenter returns the correct publisher, when the `wpseo_opengraph_author_facebook` filter is applied.
+	 * Tests whether the presenter returns the correct publisher, when the `wpseo_og_article_publisher` filter is applied.
 	 *
 	 * @covers ::present
 	 * @covers ::filter
