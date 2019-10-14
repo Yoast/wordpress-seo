@@ -45,25 +45,6 @@ class Image_Helper {
 	/**
 	 * Gets an attachment page's attachment url.
 	 *
-	 * @param string $post_id The ID of the post for which to retrieve the image.
-	 *
-	 * @return string The image url or an empty string when not found.
-	 */
-	public function get_attachment_image( $post_id ) {
-		if ( \get_post_type( $post_id ) !== 'attachment' ) {
-			return '';
-		}
-
-		if ( ! $this->is_valid_attachment( $post_id ) ) {
-			return '';
-		}
-
-		return \wp_get_attachment_url( $post_id );
-	}
-
-	/**
-	 * Gets an attachment page's attachment url.
-	 *
 	 * @param string $attachment_id The attachment id.
 	 *
 	 * @return bool True when attachment is an image.
@@ -117,23 +98,6 @@ class Image_Helper {
 	 */
 	public function is_valid_image_type( $mime_type ) {
 		return \in_array( $mime_type, static::$valid_image_types, true );
-	}
-
-	/**
-	 * Gets the featured image url.
-	 *
-	 * @param int    $post_id    Post ID to use.
-	 * @param string $image_size The image size to retrieve.
-	 *
-	 * @return string The image url or an empty string when not found.
-	 */
-	public function get_featured_image( $post_id, $image_size = 'full' ) {
-		$featured_image_id = $this->get_featured_image_id( $post_id );
-		if ( ! $featured_image_id ) {
-			return '';
-		}
-
-		return $this->get_attachment_image_src( $featured_image_id, $image_size );
 	}
 
 	/**

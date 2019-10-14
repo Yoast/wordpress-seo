@@ -33,65 +33,6 @@ class Image_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests generating the Twitter image url by retrieving an attachment image.
-	 *
-	 * @covers ::get_attachment_image
-	 */
-	public function test_generate_retrieve_attachment() {
-		Monkey\Functions\expect( 'get_post_type' )
-			->once()
-			->with( 100 )
-			->andReturn( 'attachment' );
-
-		$this->instance
-			->expects( 'is_valid_attachment' )
-			->once()
-			->with( 100 )
-			->andReturnTrue();
-
-		Monkey\Functions\expect( 'wp_get_attachment_url' )
-			->once()
-			->with( 100 )
-			->andReturn( 'attachment.jpg' );
-
-		$this->assertEquals( 'attachment.jpg', $this->instance->get_attachment_image( 100 ) );
-	}
-
-	/**
-	 * Tests getting the attachment image for a non attachment.
-	 *
-	 * @covers ::get_attachment_image
-	 */
-	public function test_retrieve_attachment_post_type_mismatch() {
-		Monkey\Functions\expect( 'get_post_type' )
-			->once()
-			->with( 100 )
-			->andReturn( 'post' );
-
-		$this->assertEquals( '', $this->instance->get_attachment_image( 100 ) );
-	}
-
-	/**
-	 * Tests getting the attachment image for an attachment with a wrong mimetype.
-	 *
-	 * @covers ::get_attachment_image
-	 */
-	public function test_retrieve_attachment_bad_mimetype() {
-		Monkey\Functions\expect( 'get_post_type' )
-			->once()
-			->with( 100 )
-			->andReturn( 'attachment' );
-
-		$this->instance
-			->expects( 'is_valid_attachment' )
-			->once()
-			->with( 100 )
-			->andReturnFalse();
-
-		$this->assertEquals( '', $this->instance->get_attachment_image( 100 ) );
-	}
-
-	/**
 	 * Tests retrieving the first image url of a gallery when there is no gallery.
 	 *
 	 * @covers ::get_gallery_image
