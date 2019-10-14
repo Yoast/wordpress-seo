@@ -1,6 +1,6 @@
 <?php
 /**
- * A helper object for meta.
+ * A helper object for the user.
  *
  * @package Yoast\YoastSEO\Helpers
  */
@@ -36,5 +36,17 @@ class User_Helper {
 	 */
 	public function count_posts( $user_id, $post_type = 'post' ) {
 		return (int) \count_user_posts( $user_id, $post_type, true );
+	}
+
+	/**
+	 * Retrieves the requested data of the author of the current post.
+	 *
+	 * @param string    $field   Optional. The user field to retrieve. Default empty.
+	 * @param int|false $user_id Optional. User ID.
+	 *
+	 * @return string The author's field from the current author's DB object, otherwise an empty string.
+	 */
+	public function get_the_author_meta( $field, $user_id ) {
+		return \get_the_author_meta( $field, $user_id );
 	}
 }

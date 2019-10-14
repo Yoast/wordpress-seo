@@ -7,7 +7,9 @@
 
 namespace Yoast\WP\Free\Presentations;
 
+use Yoast\WP\Free\Helpers\Post_Helper;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
+use Yoast\WP\Free\Helpers\User_Helper;
 
 /**
  * Class Indexable_Post_Type_Presentation
@@ -20,12 +22,26 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	protected $post_type_helper;
 
 	/**
+	 * @var Post_Helper
+	 */
+	protected $post;
+
+	/**
+	 * @var User_Helper
+	 */
+	protected $user;
+
+	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
 	 * @param Post_Type_Helper $post_type_helper The post type helper.
+	 * @param Post_Helper      $post             The post helper.
+	 * @param User_Helper      $user             The user helper.
 	 */
-	public function __construct( Post_Type_Helper $post_type_helper ) {
+	public function __construct( Post_Type_Helper $post_type_helper, Post_Helper $post, User_Helper $user ) {
 		$this->post_type_helper = $post_type_helper;
+		$this->post             = $post;
+		$this->user             = $user;
 	}
 
 	/**
@@ -76,8 +92,13 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @return string The open graph article author.
 	 */
 	public function generate_og_article_author() {
+		$post = $this->post->get_post( $this->model->object_id );
 
-		$og_article_author = get_the_author_meta( 'facebook', get_post( $this->model->object_id )->post_author );
+		if ( ! $post ) {
+			return '';
+		}
+
+		$og_article_author = $this->user->get_the_author_meta( 'facebook', $post->post_author );
 
 		if ( $og_article_author ) {
 			return $og_article_author;
