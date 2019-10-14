@@ -9,7 +9,6 @@ namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Helpers\User_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 
 /**
@@ -49,6 +48,30 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 		$this->wp_query_wrapper = $wp_query_wrapper;
 		$this->user_helper      = $user_helper;
 		$this->post_type_helper = $post_type_helper;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_title() {
+		if ( $this->model->title ) {
+			return $this->model->title;
+		}
+
+		$title_option  = 'title-author-wpseo';
+		$options_title = $this->options_helper->get( $title_option );
+		if ( $options_title ) {
+			return $options_title;
+		}
+
+		return $this->options_helper->get_title_default( $title_option );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_twitter_title() {
+		return $this->title;
 	}
 
 	/**

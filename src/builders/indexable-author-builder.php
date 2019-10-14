@@ -1,6 +1,6 @@
 <?php
 /**
- * Post Builder for the indexables.
+ * Author Builder for the indexables.
  *
  * @package Yoast\YoastSEO\Builders
  */
