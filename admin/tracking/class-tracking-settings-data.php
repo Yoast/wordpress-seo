@@ -46,6 +46,9 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		'fbadminapp',
 	);
 
+	/**
+	 * @var array $include_list contains the option_names for the options we want to track.
+	 */
 	private $include_list = array(
 		'ms_defaults_set',
 		'version',
