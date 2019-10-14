@@ -168,22 +168,12 @@ class WPSEO_Tracking_Settings_Data implements WPSEO_Collection {
 		$this->include_list = apply_filters( 'wpseo_tracking_settings_include_list', $this->include_list );
 
 		$options = WPSEO_Options::get_all();
-		$options = array_filter( $options, array( $this, 'filter_settings' ), ARRAY_FILTER_USE_KEY );
+		// returns the settings of which the keys intersect with the values of the include list.
+		$options = array_intersect_key( $options, array_flip( $this->include_list ) );
 
 		return array(
 			'settings' => $this->anonymize_settings( $options ),
 		);
-	}
-
-	/**
-	 * Filters the options against an include list.
-	 *
-	 * @param $option_name
-	 * @param $option
-	 * @return bool
-	 */
-	public function filter_settings( $option_name ) {
-		return in_array( $option_name, $this->include_list );
 	}
 
 	/**
