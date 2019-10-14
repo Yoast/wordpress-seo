@@ -212,6 +212,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 12.3.0 =
 Release Date: October 15th, 2019
 
+While some of our checks are independent of languages, Yoast SEO has special skills to adapt the various content analyses to different languages from around the world. In Yoast SEO 12.3, we’re taking the first steps to add another language to the list: Hungarian. In addition, this release features a number of enhancement and fixes. Read [our 12.3 release post](https://yoa.st/release-12-3) to find out more!
+
 Enhancements:
 
 * Adds the transition word assessment for Hungarian. Props to [@9abor](https://github.com/9abor).
