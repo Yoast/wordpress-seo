@@ -53,7 +53,8 @@ tr.yst_row.even {
 
 	.yoast-inline-label {
 		float: none;
-		margin: 0;
+		display: inline-block;
+		margin: 0 0 8px;
 	}
 
 	input.textinput,
