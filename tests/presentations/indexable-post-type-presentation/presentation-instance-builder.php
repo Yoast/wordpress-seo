@@ -6,7 +6,6 @@ use Mockery;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Post_Helper;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
 use Yoast\WP\Free\Helpers\Url_Helper;
@@ -64,11 +63,6 @@ trait Presentation_Instance_Builder {
 	protected $url_helper;
 
 	/**
-	 * @var Post_Helper|Mockery\MockInterface
-	 */
-	protected $post_helper;
-
-	/**
 	 * @var User_Helper|Mockery\MockInterface
 	 */
 	protected $user_helper;
@@ -91,14 +85,12 @@ trait Presentation_Instance_Builder {
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$this->context             = Mockery::mock( Meta_Tags_Context::class )->makePartial();
 		$this->url_helper          = Mockery::mock( Url_Helper::class );
-		$this->post_helper         = Mockery::mock( Post_Helper::class );
 		$this->user_helper         = Mockery::mock( User_Helper::class );
 
 		$instance = Mockery::mock(
 			Indexable_Post_Type_Presentation::class,
 			[
 				$this->post_type_helper,
-				$this->post_helper,
 				$this->user_helper,
 			]
 		)

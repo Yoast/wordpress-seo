@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Presentations;
 
-use Yoast\WP\Free\Helpers\Post_Helper;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Helpers\User_Helper;
 
@@ -22,11 +21,6 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	protected $post_type_helper;
 
 	/**
-	 * @var Post_Helper
-	 */
-	protected $post;
-
-	/**
 	 * @var User_Helper
 	 */
 	protected $user;
@@ -35,12 +29,10 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
 	 * @param Post_Type_Helper $post_type_helper The post type helper.
-	 * @param Post_Helper      $post             The post helper.
 	 * @param User_Helper      $user             The user helper.
 	 */
-	public function __construct( Post_Type_Helper $post_type_helper, Post_Helper $post, User_Helper $user ) {
+	public function __construct( Post_Type_Helper $post_type_helper, User_Helper $user ) {
 		$this->post_type_helper = $post_type_helper;
-		$this->post             = $post;
 		$this->user             = $user;
 	}
 
