@@ -48,11 +48,11 @@ class Post_Type_Helper {
 	/**
 	 * Retrieves the post excerpt (without tags).
 	 *
-	 * @param int|\WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
+	 * @param int $post_id Post ID.
 	 *
 	 * @return string Post excerpt (without tags).
 	 */
-	public function get_the_excerpt( $post = null ) {
-		return \wp_strip_all_tags( (string) \get_the_excerpt( $post ) );
+	public function get_the_excerpt( $post_id ) {
+		return \wp_strip_all_tags( \get_the_excerpt( $post_id ) );
 	}
 }
