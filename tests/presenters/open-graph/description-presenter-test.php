@@ -37,6 +37,8 @@ class Description_Presenter_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
+		parent::setUp();
+
 		$this->instance     = new Description_Presenter();
 		$this->presentation = new Indexable_Presentation();
 		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
@@ -50,8 +52,6 @@ class Description_Presenter_Test extends TestCase {
 			->andReturnUsing( function ( $string ) {
 				return $string;
 			} );
-
-		return parent::setUp();
 	}
 
 	/**

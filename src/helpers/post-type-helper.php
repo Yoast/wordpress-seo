@@ -52,7 +52,7 @@ class Post_Type_Helper {
 	 *
 	 * @return string Post excerpt (without tags).
 	 */
-	public function get_the_excerpt( $post ) {
+	public function get_the_excerpt( $post = null ) {
 		return \wp_strip_all_tags( (string) \get_the_excerpt( $post ) );
 	}
 }

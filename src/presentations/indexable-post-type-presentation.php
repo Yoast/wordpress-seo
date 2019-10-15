@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Presentations;
 
-use Yoast\WP\Free\Helpers\Meta_Helper;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 
 /**
@@ -21,19 +20,12 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	protected $post_type;
 
 	/**
-	 * @var Meta_Helper
-	 */
-	protected $meta;
-
-	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
 	 * @param Post_Type_Helper $post_type The post type helper.
-	 * @param Meta_Helper      $meta      The meta helper.
 	 */
-	public function __construct( Post_Type_Helper $post_type, Meta_Helper $meta ) {
+	public function __construct( Post_Type_Helper $post_type ) {
 		$this->post_type = $post_type;
-		$this->meta      = $meta;
 	}
 
 	/**
@@ -63,10 +55,8 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 */
 	public function generate_og_description() {
 		if ( $this->model->og_description ) {
-			return $this->model->og_description;
+			$og_description = $this->model->og_description;
 		}
-
-		$og_description = $this->meta->get_value( 'opengraph-description', $this->model->object_id );
 
 		if ( empty( $og_description ) ) {
 			$og_description = $this->meta_description;
