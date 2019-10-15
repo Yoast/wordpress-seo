@@ -217,7 +217,7 @@ class Image_Helper {
 	 * @return array|false Returns an array with image data on success, false on failure.
 	 */
 	public function get_image( $attachment_id, $size ) {
-		return \WPSEO_image_utils::get_image( $attachment_id, $size );
+		return \WPSEO_Image_Utils::get_image( $attachment_id, $size );
 	}
 
 	/**
