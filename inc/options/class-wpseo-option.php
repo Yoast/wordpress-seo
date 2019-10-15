@@ -335,7 +335,7 @@ abstract class WPSEO_Option {
 		if ( isset( $dirty[ $key ] ) && $dirty[ $key ] !== '' ) {
 
 			$submitted_url = trim( htmlspecialchars( $dirty[ $key ] ) );
-			$validated_url = filter_var( $submitted_url, FILTER_VALIDATE_URL );
+			$validated_url = filter_var( WPSEO_Utils::sanitize_url( $submitted_url ), FILTER_VALIDATE_URL );
 
 			if ( $validated_url === false ) {
 				if ( function_exists( 'add_settings_error' ) ) {
@@ -361,6 +361,8 @@ abstract class WPSEO_Option {
 						$clean[ $key ] = $url;
 					}
 				}
+
+				Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $submitted_url );
 
 				return;
 			}

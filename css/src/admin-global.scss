@@ -519,3 +519,58 @@ td.column-wpseo-linked {
 		}
 	}
 }
+
+body.folded {
+	.wpseo-admin-submit-fixed {
+		left: 36px;
+
+		@media screen and (max-width: 782px) {
+			left: 0;
+		}
+	}
+}
+
+.wpseo-admin-submit {
+	z-index: 5;
+	display: flex;
+	padding: 16px 0;
+	justify-content: flex-start;
+	align-items: baseline;
+	margin: 0;
+
+	&.wpseo-admin-submit-fixed {
+		padding: 16px;
+		position: fixed;
+		bottom: 0;
+		left: 160px;
+		right: 281px;
+		background-color: white;
+		max-width: 800px;
+		box-shadow: 0 1px 8px 1px rgba(0,0,0,0.5);
+		margin: 0 16px;
+
+		@media screen and (max-width: 1024px) {
+			right: 0;
+		}
+		@media only screen and (max-width: 960px) {
+			left: 36px;
+		}
+		@media screen and (max-width: 782px) {
+			left: 0;
+			margin: 0;
+		}
+	}
+
+	p.submit {
+		padding: 0;
+		margin: 0;
+	}
+
+	p.wpseo-message {
+		margin: 0 16px 0 0;
+		padding: 0;
+		color: $color-green-medium;
+	}
+}
+
+

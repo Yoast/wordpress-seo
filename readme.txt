@@ -5,7 +5,7 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 4.9
-Tested up to: 5.2.3
+Tested up to: 5.2.4
 Stable tag: 12.2
 Requires PHP: 5.2.4
 
@@ -30,8 +30,8 @@ Yoast SEO does everything in its power to please both visitors and search engine
 * The most advanced XML Sitemaps functionality at the push of a button.
 * Full control over your site's breadcrumbs.
 * Automatically set canonical URLs to avoid duplicate content.
+* **[Premium]** support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
 * **[Premium]** the ability to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) and [WooCommerce SEO](https://yoa.st/3rh) extensions.
-* **[Premium]** support for our Yoast SEO Premium users.
 
 #### WRITE KILLER CONTENT WITH YOAST SEO
 We know content is king, that's why Yoast SEO is famous for its readability analysis and its SEO analysis. Yoast SEO gives you:
@@ -101,20 +101,20 @@ For more info on search engine optimization and WordPress SEO in specific, check
 == Installation ==
 Starting with Yoast SEO consists of just two steps: installing and setting up the plugin. Yoast SEO is designed to work with your site’s specific needs, so don’t forget to go through the Yoast SEO configuration wizard as explained in the ‘after activation’ step!
 
-= INSTALL YOAST SEO FROM WITHIN WORDPRESS =
+### INSTALL YOAST SEO FROM WITHIN WORDPRESS
 
 1. Visit the plugins page within your dashboard and select ‘Add New’;
 1. Search for ‘Yoast SEO’;
 1. Activate Yoast SEO from your Plugins page;
 1. Go to ‘after activation’ below.
 
-= INSTALL YOAST SEO MANUALLY =
+### INSTALL YOAST SEO MANUALLY
 
 1. Upload the ‘wordpress-seo’ folder to the /wp-content/plugins/ directory;
 1. Activate the Yoast SEO plugin through the ‘Plugins’ menu in WordPress;
 1. Go to ‘after activation’ below.
 
-= AFTER ACTIVATION =
+### AFTER ACTIVATION
 
 1. You should see (a notice to start) the Yoast SEO configuration wizard;
 1. Go through the configuration wizard and set up the plugin for your site;
@@ -123,10 +123,12 @@ Starting with Yoast SEO consists of just two steps: installing and setting up th
 == Frequently Asked Questions ==
 
 = How do the XML Sitemaps in the Yoast SEO plugin work? =
+
 Having an XML sitemap can be beneficial for SEO, as Google can retrieve essential pages of a website very fast, even if the internal linking of a site isn’t flawless.
 The sitemap index and individual sitemaps are updated automatically as you add or remove content and will include the post types you want search engines to index. Post Types marked as noindex will not appear in the sitemap. [Learn more about XML Sitemaps](https://yoa.st/3qt).
 
 = How can I add my website to Google Search Console? =
+
 It is straightforward to add your website to Google Search Console. 
 1. Create a Google Search Console account and login into your account.
 1. Click ‘Add a property’ under the search drop-down.
@@ -143,6 +145,7 @@ It is straightforward to add your website to Google Search Console.
 If you want more details steps, please visit [our article on our knowledge base](https://yoa.st/3qu).
 
 = How do I implement Yoast SEO breadcrumbs? =
+
 The steps below are a temporary solution as manual edits made to theme files may be overwritten with future theme updates. Please contact the theme developer for a permanent solution. We’ve written an article about the [importance of breadcrumbs for SEO](https://yoa.st/3qv). 
 
 To implement the [breadcrumbs]https://yoa.st/3qw) function in Yoast SEO, you will have to edit your theme. We recommend that prior to any editing of the theme files, a backup is taken. Your host provider can help you take a backup.
@@ -164,23 +167,27 @@ Alternatively, you can manually add the breadcrumb shortcode to individual posts
 If you need more details or a step by step guide, read our [Implementation guide for Yoast SEO breadcrumbs](https://yoa.st/3qx).
 
 = How do I noindex URLS? =
+
 Yoast SEO provides multiple options for setting a URL or group of URLs to noindex. [Read more about how to do this in this guide](https://yoa.st/3qy/).
 
 = Google shows the wrong description, how do I fix this? =
+
 If you’ve crafted nice meta descriptions for your blog posts, nothing is more annoying than Google showing another description for your site completely in the search result snippet. 
 
 Possible causes could be:
 1. wrong description in code
-1. Google cache is outdated
-1. Search term manipulation
-1. Google ignored the meta description
+2. Google cache is outdated
+3. Search term manipulation
+4. Google ignored the meta description
 
 You can [read more here on how to solve the issue with the wrong description](https://yoa.st/3qz).
 
 = How often is Yoast SEO updated? =
+
 Yoast SEO is updated every two weeks. If you want to know why, please read [this post on why we release every two weeks](https://yoa.st/3q-)!
 
 = How do I get support? =
+
 As our free plugin is used by millions of people worldwide, we cannot offer you all one on one support. If you have trouble with the Yoast SEO for WordPress plugin, you can get help on the support forums here at [wordpress.org](https://wordpress.org/support/plugin/wordpress-seo/) or by checking out or knowledge base at [kb.yoast.com](https://yoa.st/3r1). 
 
 The plugins you buy at Yoast are called ‘premium plugins’ (even if Premium isn’t in its name) and include a complete year of free updates and premium support. This means you can contact our support team if you have any questions about that plugin.
@@ -188,6 +195,7 @@ The plugins you buy at Yoast are called ‘premium plugins’ (even if Premium i
 [Read more on how to get support](https://yoa.st/3r2)
 
 = I have a different question than listed here =
+
 Your question has most likely been answered on our knowledge base: [kb.yoast.com](https://yoa.st/1va).
 
 == Screenshots ==
@@ -200,6 +208,23 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
+
+= 12.3.0 =
+Release Date: October 15th, 2019
+
+While some of our checks are independent of languages, Yoast SEO has special skills to adapt the various content analyses to different languages from around the world. In Yoast SEO 12.3, we’re taking the first steps to add another language to the list: Hungarian. In addition, this release features a number of enhancement and fixes. Read [our 12.3 release post](https://yoa.st/release-12-3) to find out more!
+
+Enhancements:
+
+* Adds the transition word assessment for Hungarian. Props to [@9abor](https://github.com/9abor).
+* Includes the admin bar CSS in AMP dev mode. Props to [@westonruter](https://github.com/westonruter).
+* Shows a floating `Save changes` button on Yoast SEO admin pages when the normal button is not visible in the browser window.
+* Improves user input validation feedback and suggestions for error correction.
+* Introduces a new filter `wpseo_sitemap_http_headers` which allows filtering the HTTP headers we send for XML sitemaps.
+
+Other:
+
+* Removes the notification that would be thrown if add-ons with a lower version number than the plugin were installed. The `yoast_plugin_compatibility_notification` method has been deprecated.
 
 = 12.2.0 =
 Release Date: October 1st, 2019
@@ -220,37 +245,6 @@ Other:
 * Changes all mentions of the Yoast SEO for WordPress training, which is now free.
 * Combines the 'Newsletter' and 'You might like' steps in the configuration wizard to a step called 'Continue learning'.
 * Removes the colon from the form labels at the settings pages.
-
-= 12.1.0 =
-Release Date: September 17th, 2019
-
-Yoast SEO 12.1 is out today! It features a couple of changes in order to match the design of Google’s search results pages, this includes those shiny new favicons. In addition to this, we added a number of new filters for our Schema implementation. See what else is new in the latest release of your favorite SEO plugin in [our 12.1 release post](https://yoa.st/release-12-1)!
-
-Enhancements:
-
-* Updates the desktop snippet preview to match Google's new font sizes.
-* Introduces the usage of the site's favicon in the mobile snippet preview.
-* Adds a collapsible around the hidden problems and notifications on the Yoast dashboard.
-* Adds a filter `wpseo_schema_organization_social_profiles` that allows filtering an organization's social profiles in the schema output. Props to [juliquiron](https://github.com/juliquiron).
-* Adds a filter `wpseo_schema_company_name` that allows filtering the company name in the schema output. Props to [@andrewgillingham](https://github.com/andrewgillingham).
-* Adds a filter `wpseo_schema_company_logo_id` that allows filtering the company logo in the schema output. Props to [@andrewgillingham](https://github.com/andrewgillingham).
-* Adds a filter `wpseo_sitemap_exclude_empty_terms_taxonomy` to control hiding empty terms per taxonomy.
-* Adds a filter `wpseo_enable_structured_data_blocks` to allow disabling Yoast's structured data block editor blocks.
-* Adds a `get_robots` method to retrieve the robot HTML without it being output. Props to [@bradymwilliams](https://github.com/bradymwilliams).
-* Improves the input validation on the settings pages.
-* Improves the consistency of the plugin icons.
-* Improves the How-to and FAQ blocks styling for better compatibility with latest version of the WordPress blocks editor.
-
-Bugfixes:
-
-* Fixes a bug where subscription checks would fail on some sites due to certificate verification being disabled.
-* Fixes a bug where the primary term selector would not display HTML entities properly. Props to [@dlh01](https://github.com/dlh01).
-
-Other:
-
-* Allows showing specific dashboard feeds based on the `wp_version` and `php_version` of a site.
-* Removes the AMP Glue plugin suggestion from the SEO dashboard when AMP and Yoast SEO are installed. The AMP Glue plugin by Yoast will be discontinued soon.
-* Removes the `Courses` menu-item.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
