@@ -45,6 +45,6 @@ class Article_Publisher_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @api bool|string $unsigned The OpenGraph article publisher URL, return false to disable.
 		 */
-		return (string) trim( \apply_filters( 'wpseo_og_article_publisher', $article_publisher ) );
+		return trim( \apply_filters( 'wpseo_og_article_publisher', $article_publisher ) );
 	}
 }

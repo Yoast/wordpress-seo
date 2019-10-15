@@ -45,6 +45,6 @@ class Article_Author_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @api bool|string $unsigned The Facebook author URL, return false to disable.
 		 */
-		return (string) trim( \apply_filters( 'wpseo_opengraph_author_facebook', $article_author ) );
+		return trim( \apply_filters( 'wpseo_opengraph_author_facebook', $article_author ) );
 	}
 }
