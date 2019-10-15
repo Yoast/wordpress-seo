@@ -23,6 +23,14 @@ class Open_Graph_Description_Test extends TestCase {
 
 		$this->setInstance();
 		$this->indexable->object_id = 1;
+
+		$this->post_type_helper
+			->expects( 'strip_shortcodes' )
+			->withAnyArgs()
+			->once()
+			->andReturnUsing( function( $string ) {
+				return $string;
+			} );
 	}
 
 	/**
@@ -32,14 +40,6 @@ class Open_Graph_Description_Test extends TestCase {
 	 */
 	public function test_with_og_description() {
 		$this->indexable->og_description = 'OpenGraph description';
-
-		$this->post_type_helper
-			->expects( 'strip_shortcodes' )
-			->withAnyArgs()
-			->once()
-			->andReturnUsing( function( $string ) {
-				return $string;
-			});
 
 		$this->assertEquals( 'OpenGraph description', $this->instance->generate_og_description() );
 	}
@@ -60,17 +60,9 @@ class Open_Graph_Description_Test extends TestCase {
 
 		$this->post_type_helper
 			->expects( 'get_the_excerpt' )
-			->with( 1 )
+			->with( $this->indexable->object_id )
 			->once()
 			->andReturn( 'Excerpt description' );
-
-		$this->post_type_helper
-			->expects( 'strip_shortcodes' )
-			->withAnyArgs()
-			->once()
-			->andReturnUsing( function( $string ) {
-				return $string;
-			});
 
 		$this->assertEquals( 'Excerpt description', $this->instance->generate_og_description() );
 	}
