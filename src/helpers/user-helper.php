@@ -39,12 +39,12 @@ class User_Helper {
 	}
 
 	/**
-	 * Retrieves the requested data of the author of the current post.
+	 * Retrieves the requested data of the author.
 	 *
-	 * @param string    $field   Optional. The user field to retrieve. Default empty.
-	 * @param int|false $user_id Optional. User ID.
+	 * @param string    $field  The user field to retrieve.
+	 * @param int|false $user_id User ID.
 	 *
-	 * @return string The author's field from the current author's DB object, otherwise an empty string.
+	 * @return string The author's field from the current author's DB object.
 	 */
 	public function get_the_author_meta( $field, $user_id ) {
 		return \get_the_author_meta( $field, $user_id );
