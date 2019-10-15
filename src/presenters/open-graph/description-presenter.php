@@ -25,7 +25,7 @@ class Description_Presenter extends Abstract_Indexable_Presenter {
 	public function present( Indexable_Presentation $presentation ) {
 		$description = $this->filter( $this->replace_vars( $presentation->og_description, $presentation ) );
 
-		if ( $description !== '' ) {
+		if ( is_string( $description ) && $description !== '' ) {
 			return sprintf( '<meta property="og:description" content="%s" />', \esc_attr( $description ) );
 		}
 
@@ -45,6 +45,6 @@ class Description_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @api string The description.
 		 */
-		return (string) trim( \apply_filters( 'wpseo_opengraph_desc', $description ) );
+		return trim( \apply_filters( 'wpseo_opengraph_desc', $description ) );
 	}
 }
