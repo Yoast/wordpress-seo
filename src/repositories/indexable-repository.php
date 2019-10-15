@@ -405,7 +405,7 @@ class Indexable_Repository {
 		// Because we need it in the subquery we can't do $this->select.
 		$indexables_table = Yoast_Model::get_table_name( 'Indexable' );
 
-		$post_statuses = array( 'future', 'draft', 'pending', 'private', 'publish' );
+		$post_statuses = [ 'future', 'draft', 'pending', 'private', 'publish' ];
 
 		// Create a "?" placeholder for every post type to put in the prepared statement.
 		$post_types_placeholders = implode( ',', array_fill( 0, count( $post_types ), '?' ) );

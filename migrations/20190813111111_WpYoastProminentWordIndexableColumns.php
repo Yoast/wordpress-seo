@@ -19,20 +19,20 @@ class WpYoastProminentWordIndexableColumns extends Ruckusing_Migration_Base {
 	public function up() {
 		$table_name = $this->get_table_name();
 
-		$this->add_column( $table_name, 'prominent_words_version', 'integer', array(
+		$this->add_column( $table_name, 'prominent_words_version', 'integer', [
 			'null'     => true,
 			'limit'    => 11,
 			'unsigned' => true,
 			'default'  => null,
-		) );
+		] );
 
 		$this->add_column( $table_name, 'prominent_words_vector_length', 'float' );
 		$this->add_index(
 			$table_name,
 			'prominent_words_version',
-			array(
+			[
 				'name' => 'prominent_words_version',
-			)
+			]
 		);
 	}
 
