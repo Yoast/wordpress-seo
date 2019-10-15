@@ -90,6 +90,7 @@ trait Presentation_Instance_Builder {
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$this->og_image_helper     = Mockery::mock( OG_Image_Helper::class );
 		$this->url_helper          = Mockery::mock( Url_Helper::class );
+		$this->post_type_helper    = Mockery::mock( Post_Type_Helper::class );
 
 		$this->context = Mockery::mock( Meta_Tags_Context::class );
 
@@ -108,7 +109,8 @@ trait Presentation_Instance_Builder {
 			$this->robots_helper,
 			$this->image_helper,
 			$this->options_helper,
-			$this->current_page_helper
+			$this->current_page_helper,
+			$this->post_type_helper
 		);
 
 		$this->set_instance_generators();

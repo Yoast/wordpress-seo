@@ -89,7 +89,7 @@ class Front_End_Integration implements Integration_Interface {
 		'Open_Graph\Site_Name',
 		'Open_Graph\Article_Publisher',
 		'Open_Graph\Article_Author',
-		'Open_Graph\Article_Publish_Time',
+		'Open_Graph\Article_Published_Time',
 		'Open_Graph\Article_Modified_Time',
 		'Open_Graph\Image',
 	];
@@ -116,7 +116,7 @@ class Front_End_Integration implements Integration_Interface {
 	protected $singular_presenters = [
 		'Open_Graph\Article_Author',
 		'Open_Graph\Article_Publisher',
-		'Open_Graph\Article_Publish_Time',
+		'Open_Graph\Article_Published_Time',
 		'Open_Graph\Article_Modified_Time',
 		'Twitter\Creator',
 	];
