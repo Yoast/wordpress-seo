@@ -239,10 +239,16 @@ class Indexable_Post_Builder {
 		// When the image or image id is set.
 		if ( $indexable->og_image || $indexable->og_image_id ) {
 			$indexable->og_image_source = 'set-by-user';
+
+			$this->set_og_image_meta_data( $indexable );
 		}
 
 		if ( $indexable->twitter_image || $indexable->twitter_image_id ) {
 			$indexable->twitter_image_source = 'set-by-user';
+		}
+
+		if ( $indexable->twitter_image_id ) {
+			$indexable->twitter_image = $this->twitter_image->get_by_id( $indexable->twitter_image_id );
 		}
 
 		// When image sources are set already.
@@ -311,14 +317,10 @@ class Indexable_Post_Builder {
 
 		if ( ! empty( $alternative_image['image_id'] ) ) {
 			if ( ! $indexable->og_image_source && ! $indexable->og_image_id ) {
-				$og_image = $this->open_graph_image->get_image_url_by_id( $alternative_image['image_id'] );
-
-				if ( ! empty( $og_image ) ) {
-					$indexable->og_image      = $og_image['url'];
-					$indexable->og_image_meta = wp_json_encode( $og_image );
-				}
 				$indexable->og_image_id     = $alternative_image['image_id'];
 				$indexable->og_image_source = $alternative_image['source'];
+
+				$this->set_og_image_meta_data( $indexable );
 			}
 
 			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
@@ -338,6 +340,24 @@ class Indexable_Post_Builder {
 				$indexable->twitter_image        = $alternative_image['image'];
 				$indexable->twitter_image_source = $alternative_image['source'];
 			}
+		}
+	}
+
+	/**
+	 * Sets the OG image meta data for an og image
+	 *
+	 * @param Indexable $indexable The indexable.
+	 */
+	protected function set_og_image_meta_data( Indexable $indexable ) {
+		if ( ! $indexable->og_image_id ) {
+			return;
+		}
+
+		$image = $this->open_graph_image->get_image_url_by_id( $indexable->og_image_id );
+
+		if ( ! empty( $image ) ) {
+			$indexable->og_image      = $image['url'];
+			$indexable->og_image_meta = wp_json_encode( $image );
 		}
 	}
 }
