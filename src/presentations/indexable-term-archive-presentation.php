@@ -12,6 +12,8 @@ use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 
 /**
  * Class Indexable_Presentation
+ *
+ * @property \WP_Term $replace_vars_object
  */
 class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 
@@ -91,15 +93,10 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		}
 
 		/**
-		 * @var \WP_Term $term
-		 */
-		$term = $this->wp_query_wrapper->get_query()->get_queried_object();
-
-		/**
 		 * First we get the no index option for this taxonomy, because it can be overwritten the indexable value for
 		 * this specific term.
 		 */
-		if ( ! $this->taxonomy_helper->is_indexable( $term->taxonomy ) ) {
+		if ( ! $this->taxonomy_helper->is_indexable( $this->replace_vars_object->taxonomy ) ) {
 			$robots['index'] = 'noindex';
 		}
 
@@ -121,7 +118,8 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		// @todo Fill in the correct fallback title
-		return 'Fallback title';
+		$title = $this->options_helper->get_title_default( 'title-tax-' . $this->replace_vars_object->taxonomy );
+
+		return $title;
 	}
 }
