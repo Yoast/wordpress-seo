@@ -77,7 +77,7 @@ class OG_Image_Generator_Test extends TestCase {
 			Open_Graph_Image_Helper::class,
 			[ $this->url_helper, $this->image_helper ]
 		);
-		$this->image_container        = Mockery::mock( Images::class )->makePartial();
+		$this->image_container        = Mockery::mock( Images::class, [ $this->image_helper, $this->url_helper ] )->makePartial();
 
 		$this->instance = Mockery::mock(
 			OG_Image_Generator::class,
@@ -120,15 +120,43 @@ class OG_Image_Generator_Test extends TestCase {
 	 * @covers ::add_from_indexable
 	 */
 	public function test_generate_with_image_url_from_indexable() {
-		$expected_image            = 'image.jpg';
-		$this->indexable->og_image = $expected_image;
+		$this->indexable->og_image = 'image.jpg';
 
 		$this->instance->expects( 'add_from_default' )->andReturnNull();
 
 		$this->image_container
-			->expects( 'add_image_by_url' )
+			->expects( 'add_image' )
 			->once()
-			->with( 'image.jpg' );
+			->with( [ 'url' => 'image.jpg' ] );
+
+		$this->instance->generate( $this->context );
+	}
+
+	/**
+	 * Tests the og_image set for an indexable.
+	 *
+	 * @covers ::generate
+	 * @covers ::add_from_indexable
+	 */
+	public function test_generate_with_image_url_from_indexable_with_og_image_meta() {
+		$this->indexable->og_image      = 'image.jpg';
+		$this->indexable->og_image_meta = json_encode( [
+			'height' => 1024,
+			'width'  => 2048,
+		] );
+
+		$this->instance->expects( 'add_from_default' )->andReturnNull();
+
+		$this->image_container
+			->expects( 'add_image' )
+			->once()
+			->with(
+				[
+					'height' => 1024,
+					'width'  => 2048,
+					'url'    => 'image.jpg',
+				]
+			);
 
 		$this->instance->generate( $this->context );
 	}

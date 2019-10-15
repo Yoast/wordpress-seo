@@ -9,6 +9,8 @@ namespace Yoast\WP\Free\Builders;
 
 use Exception;
 use Yoast\WP\Free\Helpers\Image_Helper;
+use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
+use Yoast\WP\Free\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
 
@@ -18,7 +20,7 @@ use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
 class Indexable_Post_Builder {
 
 	/**
-	 * @var \Yoast\WP\Free\Repositories\SEO_Meta_Repository
+	 * @var SEO_Meta_Repository
 	 */
 	protected $seo_meta_repository;
 
@@ -28,17 +30,33 @@ class Indexable_Post_Builder {
 	protected $image_helper;
 
 	/**
+	 * @var Open_Graph_Image_Helper
+	 */
+	protected $open_graph_image;
+
+	/**
+	 * @var Twitter_Image_Helper
+	 */
+	protected $twitter_image;
+
+	/**
 	 * Indexable_Post_Builder constructor.
 	 *
-	 * @param \Yoast\WP\Free\Repositories\SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
-	 * @param Image_Helper                                    $image_helper        The image helper.
+	 * @param SEO_Meta_Repository     $seo_meta_repository The SEO Meta repository.
+	 * @param Image_Helper            $image_helper        The image helper.
+	 * @param Open_Graph_Image_Helper $open_graph_image    The Open Graph image helper.
+	 * @param Twitter_Image_Helper    $twitter_image       The Twitter image helper.
 	 */
 	public function __construct(
 		SEO_Meta_Repository $seo_meta_repository,
-		Image_Helper $image_helper
+		Image_Helper $image_helper,
+		Open_Graph_Image_Helper $open_graph_image,
+		Twitter_Image_Helper $twitter_image
 	) {
 		$this->seo_meta_repository = $seo_meta_repository;
 		$this->image_helper        = $image_helper;
+		$this->open_graph_image    = $open_graph_image;
+		$this->twitter_image       = $twitter_image;
 	}
 
 	/**
@@ -205,6 +223,7 @@ class Indexable_Post_Builder {
 		$indexable->og_image        = null;
 		$indexable->og_image_id     = null;
 		$indexable->og_image_source = null;
+		$indexable->og_image_meta   = null;
 
 		$indexable->twitter_image        = null;
 		$indexable->twitter_image_id     = null;
@@ -220,10 +239,16 @@ class Indexable_Post_Builder {
 		// When the image or image id is set.
 		if ( $indexable->og_image || $indexable->og_image_id ) {
 			$indexable->og_image_source = 'set-by-user';
+
+			$this->set_og_image_meta_data( $indexable );
 		}
 
 		if ( $indexable->twitter_image || $indexable->twitter_image_id ) {
 			$indexable->twitter_image_source = 'set-by-user';
+		}
+
+		if ( $indexable->twitter_image_id ) {
+			$indexable->twitter_image = $this->twitter_image->get_by_id( $indexable->twitter_image_id );
 		}
 
 		// When image sources are set already.
@@ -289,13 +314,17 @@ class Indexable_Post_Builder {
 	 * @param Indexable $indexable         The indexable to set image for.
 	 */
 	protected function set_alternative_image( array $alternative_image, Indexable $indexable ) {
+
 		if ( ! empty( $alternative_image['image_id'] ) ) {
 			if ( ! $indexable->og_image_source && ! $indexable->og_image_id ) {
 				$indexable->og_image_id     = $alternative_image['image_id'];
 				$indexable->og_image_source = $alternative_image['source'];
+
+				$this->set_og_image_meta_data( $indexable );
 			}
 
 			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
+				$indexable->twitter_image        = $this->twitter_image->get_by_id( $alternative_image['image_id'] );
 				$indexable->twitter_image_id     = $alternative_image['image_id'];
 				$indexable->twitter_image_source = $alternative_image['source'];
 			}
@@ -311,6 +340,24 @@ class Indexable_Post_Builder {
 				$indexable->twitter_image        = $alternative_image['image'];
 				$indexable->twitter_image_source = $alternative_image['source'];
 			}
+		}
+	}
+
+	/**
+	 * Sets the OG image meta data for an og image
+	 *
+	 * @param Indexable $indexable The indexable.
+	 */
+	protected function set_og_image_meta_data( Indexable $indexable ) {
+		if ( ! $indexable->og_image_id ) {
+			return;
+		}
+
+		$image = $this->open_graph_image->get_image_url_by_id( $indexable->og_image_id );
+
+		if ( ! empty( $image ) ) {
+			$indexable->og_image      = $image['url'];
+			$indexable->og_image_meta = wp_json_encode( $image );
 		}
 	}
 }
