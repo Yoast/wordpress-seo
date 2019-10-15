@@ -333,7 +333,7 @@ class Yoast_Form {
 
 		$help_class = ! empty( $help ) ? ' switch-container__has-help' : '';
 
-		$strong_class = ( $strong ) ? ' switch-light-visual-label__strong': '';
+		$strong_class = ( $strong ) ? ' switch-light-visual-label__strong' : '';
 
 		echo '<div class="switch-container', $help_class, '">',
 		'<span class="switch-light-visual-label' . $strong_class . '" id="', esc_attr( $var . '-label' ), '">', esc_html( $label ), '</span>' . $help,
