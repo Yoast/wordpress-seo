@@ -31,10 +31,8 @@ class OG_Article_Author_Test extends TestCase {
 	 * ::covers generate_og_article_author
 	 */
 	public function test_generate_og_article_author() {
-
-		$this->post_helper
-			->expects( 'get_post' )
-			->with( 1 )
+		$this->instance
+			->expects( 'generate_replace_vars_object' )
 			->once()
 			->andReturn( (object) [ 'post_author' => 2 ] );
 
@@ -53,9 +51,8 @@ class OG_Article_Author_Test extends TestCase {
 	 * ::covers generate_og_article_author
 	 */
 	public function test_generate_og_article_author_no_author() {
-		$this->post_helper
-			->expects( 'get_post' )
-			->with( 1 )
+		$this->instance
+			->expects( 'generate_replace_vars_object' )
 			->once()
 			->andReturn( (object) [ 'post_author' => 2 ] );
 
@@ -64,21 +61,6 @@ class OG_Article_Author_Test extends TestCase {
 			->with( 'facebook', 2 )
 			->once()
 			->andReturn( '' );
-
-		$this->assertEmpty( $this->instance->generate_og_article_author() );
-	}
-
-	/**
-	 * Tests the situation where no article post is given.
-	 *
-	 * ::covers generate_og_article_author
-	 */
-	public function test_generate_og_article_author_no_post() {
-		$this->post_helper
-			->expects( 'get_post' )
-			->with( 1 )
-			->once()
-			->andReturn( null );
 
 		$this->assertEmpty( $this->instance->generate_og_article_author() );
 	}

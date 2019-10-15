@@ -92,11 +92,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @return string The open graph article author.
 	 */
 	public function generate_og_article_author() {
-		$post = $this->post->get_post( $this->model->object_id );
-
-		if ( ! $post ) {
-			return '';
-		}
+		$post = $this->replace_vars_object;
 
 		$og_article_author = $this->user->get_the_author_meta( 'facebook', $post->post_author );
 
