@@ -33,7 +33,9 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		// @todo Fill in the correct fallback title
-		return 'Fallback title';
+		$post_type = $this->model->object_sub_type;
+		$title     = $this->options_helper->get_title_default( 'title-ptarchive-' . $post_type );
+
+		return $title;
 	}
 }
