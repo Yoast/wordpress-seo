@@ -433,6 +433,10 @@
 		margin: 8px 0;
 		font-weight: 400;
 		line-height: 2;
+
+		&__strong {
+			font-weight: 600;
+		}
 	}
 
 	.switch-container {
