@@ -55,4 +55,15 @@ class Post_Type_Helper {
 	public function get_the_excerpt( $post_id ) {
 		return \wp_strip_all_tags( \get_the_excerpt( $post_id ) );
 	}
+
+	/**
+	 * Retrieves the post type of the current post.
+	 *
+	 * @param WP_Post $post The post.
+	 *
+	 * @return string|false          Post type on success, false on failure.
+	 */
+	public function get_post_type( $post = null ) {
+		return \get_post_type( $post );
+	}
 }

@@ -130,6 +130,41 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the open graph article published time.
+	 *
+	 * @return string The open graph article published time.
+	 */
+	public function generate_og_article_published_time() {
+		if ( $this->model->object_sub_type !== 'post' ) {
+			/**
+			 * Filter: 'wpseo_opengraph_show_publish_date' - Allow showing publication date for other post types.
+			 *
+			 * @api bool Whether or not to show publish date.
+			 *
+			 * @param string $post_type The current URL's post type.
+			 */
+			if ( ! apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post_type->get_post_type( $this->context->post ) ) ) {
+				return '';
+			}
+		}
+
+		return \mysql2date( DATE_W3C, $this->context->post->post_date_gmt, false );
+	}
+
+	/**
+	 * Generates the open graph article modified time.
+	 *
+	 * @return string The open graph article modified time.
+	 */
+	public function generate_og_article_modified_time() {
+		if ( $this->context->post->post_modified_gmt !== $this->context->post->post_date_gmt ) {
+			return \mysql2date( DATE_W3C, $this->context->post->post_modified_gmt, false );
+		}
+
+		return '';
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	public function generate_replace_vars_object() {
