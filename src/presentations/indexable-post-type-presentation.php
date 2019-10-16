@@ -143,7 +143,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			 *
 			 * @param string $post_type The current URL's post type.
 			 */
-			if ( ! apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post_type_helper->get_post_type( $this->context->post ) ) ) {
+			if ( ! apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post_type->get_post_type( $this->context->post ) ) ) {
 				return '';
 			}
 		}
