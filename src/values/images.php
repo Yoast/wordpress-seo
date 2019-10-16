@@ -60,7 +60,7 @@ class Images {
 	 * @return void
 	 */
 	public function add_image_by_id( $image_id ) {
-		$image = $this->image->get_attachment_image_src( $image_id, $this->image_size );
+		$image = $this->image->get_attachment_image_source( $image_id, $this->image_size );
 		if ( $image ) {
 			$this->add_image( $image );
 		}
