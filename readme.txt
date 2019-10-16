@@ -216,7 +216,7 @@ Read [our 12.4 release post](https://yoa.st/release-12-4) to find out more!
 
 Enhancements:
 
-* Adds "Google" and "schema" as keywords to the structured data Gutenberg blocks to make them show up for those search terms in the block search as well.
+* Adds "schema" as keyword to the structured data blocks to make them show up for that search term in the block search as well.
 * Adds an image to the mobile snippet preview for posts and terms.
 * Changes the readability score for empty content from "Needs Improvement" with a red icon to "Not Available" with a gray icon. Props to [emilyatmobtown](https://github.com/emilyatmobtown).
 * Updates the URLs used to ping Google and Bing about the location of a sitemap. Props to [@emilyatmobtown](https://github.com/emilyatmobtown).
