@@ -3,7 +3,6 @@
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Term_Archive_Presentation;
 
 use Yoast\WP\Free\Tests\TestCase;
-use Brain\Monkey;
 
 /**
  * Class Twitter_Description_Test
@@ -24,6 +23,7 @@ class Twitter_Description_Test extends TestCase {
 		parent::setUp();
 
 		$this->setInstance();
+		$this->indexable->object_id = 1;
 	}
 
 	/**
@@ -45,40 +45,16 @@ class Twitter_Description_Test extends TestCase {
 	public function test_with_term_description() {
 		$this->options_helper
 			->expects( 'get' )
+			->withAnyArgs()
 			->once()
 			->andReturn( '' );
 
-		Monkey\Functions\expect( 'wp_strip_all_tags' )
-			->once()
-			->andReturn( 'Term description' );
-
-		Monkey\Functions\expect( 'term_description' )
+		$this->taxonomy_helper
+			->expects( 'get_term_description' )
+			->with( $this->indexable->object_id )
 			->once()
 			->andReturn( 'Term description' );
 
 		$this->assertEquals( 'Term description', $this->instance->generate_twitter_description() );
 	}
-
-	/**
-	 * Tests the situation where the meta description is given.
-	 *
-	 * @covers ::generate_twitter_description
-	 */
-	public function test_with_no_term_description() {
-		$this->options_helper
-			->expects( 'get' )
-			->once()
-			->andReturn( '' );
-
-		Monkey\Functions\expect( 'wp_strip_all_tags' )
-			->once()
-			->andReturn( '' );
-
-		Monkey\Functions\expect( 'term_description' )
-			->once()
-			->andReturn( '' );
-
-		$this->assertEmpty( $this->instance->generate_twitter_description() );
-	}
-
 }
