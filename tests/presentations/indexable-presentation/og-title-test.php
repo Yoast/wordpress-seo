@@ -10,8 +10,8 @@ use Yoast\WP\Free\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
  *
  * @group presentations
- * @group og
- * @group og_title
+ * @group opengraph
+ * @group opengraph-title
  */
 class OG_Title_Test extends TestCase {
 	use Presentation_Instance_Builder;
