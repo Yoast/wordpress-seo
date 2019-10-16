@@ -77,6 +77,23 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
+	public function generate_meta_description() {
+		if ( $this->model->description ) {
+			return $this->model->description;
+		}
+
+		$title_option  = 'metadesc-author-wpseo';
+		$options_title = $this->options_helper->get( $title_option );
+		if ( $options_title ) {
+			return $options_title;
+		}
+
+		return $this->options_helper->get_title_default( $title_option );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function generate_robots() {
 		$robots = $this->robots_helper->get_base_values( $this->model );
 
