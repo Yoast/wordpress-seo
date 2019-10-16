@@ -148,7 +148,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			}
 		}
 
-		return mysql2date( DATE_W3C, $this->context->post->post_date_gmt, false );
+		return \mysql2date( DATE_W3C, $this->context->post->post_date_gmt, false );
 	}
 
 	/**
@@ -158,7 +158,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 */
 	public function generate_og_article_modified_time() {
 		if ( $this->context->post->post_modified_gmt !== $this->context->post->post_date_gmt ) {
-			return mysql2date( DATE_W3C, $this->context->post->post_modified_gmt, false );
+			return \mysql2date( DATE_W3C, $this->context->post->post_modified_gmt, false );
 		}
 
 		return '';
