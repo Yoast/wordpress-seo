@@ -304,7 +304,7 @@ class Yoast_Form {
 	 * @param array  $buttons Array of two visual labels for the buttons (defaults Disabled/Enabled).
 	 * @param bool   $reverse Reverse order of buttons (default true).
 	 * @param string $help    Inline Help that will be printed out before the visible toggles text.
-	 * @param bool   $strong  The visual label displayed in strong text.
+	 * @param bool   $strong  Whether the visual label is displayed in strong text. Default is false.
 	 */
 	public function light_switch( $var, $label, $buttons = array(), $reverse = true, $help = '', $strong = false ) {
 
