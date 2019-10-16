@@ -42,6 +42,7 @@ use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
  * @property string twitter_description
  * @property string twitter_image
  * @property string twitter_creator
+ * @property string twitter_site
  * @property array  replace_vars_object
  */
 class Indexable_Presentation extends Abstract_Presentation {
