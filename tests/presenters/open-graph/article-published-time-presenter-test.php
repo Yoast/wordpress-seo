@@ -38,7 +38,7 @@ class Article_Published_Time_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the presenter returns the correct title.
+	 * Tests whether the presenter returns the correct published time tag.
 	 *
 	 * @covers ::present
 	 */
@@ -52,7 +52,7 @@ class Article_Published_Time_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the presenter with an empty published tiem.
+	 * Tests the presenter with an empty published time.
 	 *
 	 * @covers ::present
 	 */
