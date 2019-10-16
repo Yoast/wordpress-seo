@@ -49,6 +49,12 @@ class OG_Article_Modified_Time_Test extends TestCase {
 			'post_modified_gmt' => '2019-11-09T12:34:56+00:00',
 		];
 
+		$this->date_helper
+			->expects( 'mysql_date_to_w3c_format' )
+			->with( '2019-11-09T12:34:56+00:00' )
+			->once()
+			->andReturn( '2019-11-09T12:34:56+00:00' );
+
 		$actual              = $this->instance->generate_og_article_modified_time();
 		$expected            = '2019-11-09T12:34:56+00:00';
 		$this->assertEquals( $expected, $actual );
