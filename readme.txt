@@ -217,16 +217,15 @@ Read [our 12.4 release post](https://yoa.st/release-12-4) to find out more!
 Enhancements:
 
 * Adds "Google" and "schema" as keywords to the structured data Gutenberg blocks to make them show up for those search terms in the block search as well.
-* Adds an image to the new mobile snippet preview for posts and terms.
-* Changes Readability for empty content from "Needs Improvement" with a red icon to "Not Available" with a gray icon. Props to [emilyatmobtown](https://github.com/emilyatmobtown).
-* Updates URLs to ping Google and Bing with a sitemap. Props to [@emilyatmobtown](https://github.com/emilyatmobtown).
-* Increases the specificity of the width and height CSS of the MobileDescriptionImage.
-* Enhances the old WP version notice, by getting and calculating the current and next WP version.
+* Adds an image to the mobile snippet preview for posts and terms.
+* Changes the readability score for empty content from "Needs Improvement" with a red icon to "Not Available" with a gray icon. Props to [emilyatmobtown](https://github.com/emilyatmobtown).
+* Updates the URLs used to ping Google and Bing about the location of a sitemap. Props to [@emilyatmobtown](https://github.com/emilyatmobtown).
+* Makes the notice about running an old WordPress version more specific by showing the installed WordPress version and the latest WordPress version.
 
 Bugfixes:
 
-* Fixes a bug where it is impossible to open the media library for social images on attachment pages.
-* Fixes a bug where a nested paragraph was present in the "noindex" metabox warning.
+* Fixes a bug where no Twitter and Facebook image could be set for attachment pages.
+* Fixes a bug where a nested paragraph would be present in the "noindex" metabox warning.
 * Fixes a bug where Google+ data would still be exported in the settings export.
 
 = 12.3.0 =
