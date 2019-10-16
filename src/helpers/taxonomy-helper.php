@@ -36,4 +36,15 @@ class Taxonomy_Helper {
 	public function is_indexable( $taxonomy ) {
 		return ! $this->options_helper->get( 'noindex-tax-' . $taxonomy, false );
 	}
+
+	/**
+	 * Retrieves the term description (without tags).
+	 *
+	 * @param int $term_id Term ID.
+	 *
+	 * @return string Term description (without tags).
+	 */
+	public function get_term_description( $term_id ) {
+		return \wp_strip_all_tags( \term_description( $term_id ) );
+	}
 }
