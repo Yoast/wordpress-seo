@@ -221,6 +221,7 @@ Enhancements:
 * Changes the readability score for empty content from "Needs Improvement" with a red icon to "Not Available" with a gray icon. Props to [emilyatmobtown](https://github.com/emilyatmobtown).
 * Updates the URLs used to ping Google and Bing about the location of a sitemap. Props to [@emilyatmobtown](https://github.com/emilyatmobtown).
 * Makes the notice about running an old WordPress version more specific by showing the installed WordPress version and the latest WordPress version.
+* Adds information about enabling Open Graph to the Twitter settings. Props to [@stevenfranks](https://github.com/stevenfranks).
 
 Bugfixes:
 
