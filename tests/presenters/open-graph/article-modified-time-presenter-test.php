@@ -39,7 +39,7 @@ class Article_Modified_Time_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the presenter returns the correct title.
+	 * Tests whether the presenter returns the correct modified time tag.
 	 *
 	 * @covers ::present
 	 */
@@ -53,11 +53,11 @@ class Article_Modified_Time_Presenter_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the presenter with an empty published tiem.
+	 * Tests the presenter with an empty modified time.
 	 *
 	 * @covers ::present
 	 */
-	public function test_present_empty_published_time() {
+	public function test_present_empty_modified_time() {
 		$this->presentation->og_article_modified_time = '';
 
 		$actual   = $this->instance->present( $this->presentation );
