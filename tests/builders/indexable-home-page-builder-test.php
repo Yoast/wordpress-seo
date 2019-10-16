@@ -79,7 +79,6 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$url_helper_mock = Mockery::mock( Url_Helper::class );
 		$url_helper_mock->expects( 'home' )->once()->with()->andReturn( 'https://permalink' );
 		Monkey\Functions\expect( 'get_option' )->once()->with( 'blog_public' )->andReturn( '1' );
-		Monkey\Functions\expect( 'get_bloginfo' )->once()->with( 'description' )->andReturn( 'fallback_description' );
 
 		$indexable_mock      = Mockery::mock( Indexable::class );
 		$indexable_mock->orm = Mockery::mock( ORMWrapper::class );
@@ -90,8 +89,8 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'get' )->with( 'permalink' )->andReturn( 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'canonical', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
 		$indexable_mock->orm->expects( 'offsetExists' )->with( 'description' )->andReturn( false );
-		$indexable_mock->orm->expects( 'set' )->with( 'description', 'fallback_description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_title', 'home_og_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'home_og_image' );
