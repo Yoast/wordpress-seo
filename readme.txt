@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 4.9
-Tested up to: 5.2.3
-Stable tag: 12.2
+Tested up to: 5.2.4
+Stable tag: 12.3
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -209,8 +209,30 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 12.4.0 =
+Release Date: October 29th, 2019
+
+Read [our 12.4 release post](https://yoa.st/release-12-4) to find out more!
+
+Enhancements:
+
+* Adds "Google" and "schema" as keywords to the structured data Gutenberg blocks to make them show up for those search terms in the block search as well.
+* Adds an image to the new mobile snippet preview for posts and terms.
+* Changes Readability for empty content from "Needs Improvement" with a red icon to "Not Available" with a gray icon. Props to [emilyatmobtown](https://github.com/emilyatmobtown).
+* Updates URLs to ping Google and Bing with a sitemap. Props to [@emilyatmobtown](https://github.com/emilyatmobtown).
+* Increases the specificity of the width and height CSS of the MobileDescriptionImage.
+* Enhances the old WP version notice, by getting and calculating the current and next WP version.
+
+Bugfixes:
+
+* Fixes a bug where it is impossible to open the media library for social images on attachment pages.
+* Fixes a bug where a nested paragraph was present in the "noindex" metabox warning.
+* Fixes a bug where Google+ data would still be exported in the settings export.
+
 = 12.3.0 =
 Release Date: October 15th, 2019
+
+While some of our checks are independent of languages, Yoast SEO has special skills to adapt the various content analyses to different languages from around the world. In Yoast SEO 12.3, we’re taking the first steps to add another language to the list: Hungarian. In addition, this release features a number of enhancement and fixes. Read [our 12.3 release post](https://yoa.st/release-12-3) to find out more!
 
 Enhancements:
 
@@ -223,26 +245,6 @@ Enhancements:
 Other:
 
 * Removes the notification that would be thrown if add-ons with a lower version number than the plugin were installed. The `yoast_plugin_compatibility_notification` method has been deprecated.
-
-= 12.2.0 =
-Release Date: October 1st, 2019
-
-Yoast SEO 12.2 is a release full of the regular bug fixes and enhancements, but also a new addition to meta robots. Last week, Google announced a new way to give publishers more control over what the search engine can show in the results. This change, however, seems not driven by customer demand, but rather by law. Find out what this is all about and why we chose to automatically opt sites in for this in [our 12.2 release post](https://yoa.st/release-12-2)!
-
-Enhancements:
-
-* Adds default robots meta settings to opt in to all snippet display features, to prevent affected websites in Europe from having snippet display issues.
-* Adds an alert to the configuration wizard and the knowledge graph settings that is shown when organization information is missing.
-
-Bugfixes:
-
-* Fixes a bug where the banners in the sidebar were no longer responsive.
-
-Other:
-
-* Changes all mentions of the Yoast SEO for WordPress training, which is now free.
-* Combines the 'Newsletter' and 'You might like' steps in the configuration wizard to a step called 'Continue learning'.
-* Removes the colon from the form labels at the settings pages.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
