@@ -27,7 +27,7 @@ class OG_Article_Publisher_Test extends TestCase {
 	/**
 	 * Tests the situation where the article author is given.
 	 *
-	 * ::covers generate_og_article_publisher
+	 * @covers ::generate_og_article_publisher
 	 */
 	public function test_generate_og_article_publisher() {
 
@@ -39,7 +39,7 @@ class OG_Article_Publisher_Test extends TestCase {
 	/**
 	 * Tests the situation where no article author is given.
 	 *
-	 * ::covers generate_og_article_author
+	 * @covers ::generate_og_article_author
 	 */
 	public function test_generate_og_article_publisher_no_publisher() {
 		$this->context->open_graph_publisher = '';

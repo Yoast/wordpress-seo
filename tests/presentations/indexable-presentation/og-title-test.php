@@ -26,7 +26,7 @@ class OG_Title_Test extends TestCase {
 	/**
 	 * Tests the situation where the OG title is given.
 	 *
-	 * ::covers generate_og_title
+	 * @covers ::generate_og_title
 	 */
 	public function test_generate_og_title_when_og_title_is_given() {
 		$this->indexable->og_title = 'Example of OG title';
@@ -37,7 +37,7 @@ class OG_Title_Test extends TestCase {
 	/**
 	 * Tests the situation where the OG title is not given, and the general title is returned.
 	 *
-	 * ::covers generate_og_title
+	 * @covers ::generate_og_title
 	 */
 	public function test_generate_og_title_with_general_title() {
 		$this->indexable->title = 'Example of general title';
