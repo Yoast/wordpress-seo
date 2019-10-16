@@ -28,7 +28,7 @@ class OG_Article_Author_Test extends TestCase {
 	/**
 	 * Tests the situation where the article author is given.
 	 *
-	 * ::covers generate_og_article_author
+	 * @covers ::generate_og_article_author
 	 */
 	public function test_generate_og_article_author() {
 		$this->instance
@@ -48,7 +48,7 @@ class OG_Article_Author_Test extends TestCase {
 	/**
 	 * Tests the situation where no article author is given.
 	 *
-	 * ::covers generate_og_article_author
+	 * @covers ::generate_og_article_author
 	 */
 	public function test_generate_og_article_author_no_author() {
 		$this->instance

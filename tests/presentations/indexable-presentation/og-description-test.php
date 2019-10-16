@@ -26,7 +26,7 @@ class OG_Description_Test extends TestCase {
 	/**
 	 * Tests the situation where the OG description is given.
 	 *
-	 * ::covers generate_og_description
+	 * @covers ::generate_og_description
 	 */
 	public function test_generate_og_description_when_og_description_is_given() {
 		$this->indexable->og_description = 'Example of OG description';
@@ -37,7 +37,7 @@ class OG_Description_Test extends TestCase {
 	/**
 	 * Tests the situation where the OG description is not given, and the meta description is returned.
 	 *
-	 * ::covers generate_og_description
+	 * @covers ::generate_og_description
 	 */
 	public function test_generate_og_description_with_meta_description() {
 		$this->indexable->description = 'Example of meta description';

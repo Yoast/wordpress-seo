@@ -15,20 +15,6 @@ use WPSEO_Image_Utils;
 class Image_Helper {
 
 	/**
-	 * Retrieves an attachment ID for an image uploaded in the settings.
-	 *
-	 * Due to self::get_attachment_by_url returning 0 instead of false.
-	 * 0 is also a possibility when no ID is available.
-	 *
-	 * @param string $setting The setting the image is stored in.
-	 *
-	 * @return int|bool The attachment id, or false or 0 if no ID is available.
-	 */
-	public function get_attachment_id_from_settings( $setting ) {
-		return WPSEO_Image_Utils::get_attachment_id_from_settings( $setting );
-	}
-
-	/**
 	 * Image types that are supported by OpenGraph.
 	 *
 	 * @var array
@@ -43,44 +29,6 @@ class Image_Helper {
 	protected static $valid_image_extensions = [ 'jpeg', 'jpg', 'gif', 'png' ];
 
 	/**
-	 * Gets an attachment page's attachment url.
-	 *
-	 * @param string $post_id The ID of the post for which to retrieve the image.
-	 *
-	 * @return string The image url or an empty string when not found.
-	 */
-	public function get_attachment_image( $post_id ) {
-		if ( \get_post_type( $post_id ) !== 'attachment' ) {
-			return '';
-		}
-
-		if ( ! $this->is_valid_attachment( $post_id ) ) {
-			return '';
-		}
-
-		return \wp_get_attachment_url( $post_id );
-	}
-
-	/**
-	 * Gets an attachment page's attachment url.
-	 *
-	 * @param string $attachment_id The attachment id.
-	 *
-	 * @return bool True when attachment is an image.
-	 */
-	public function is_attachment_valid_image( $attachment_id ) {
-		if ( ! \wp_attachment_is_image( $attachment_id ) ) {
-			return false;
-		}
-
-		if ( ! $this->is_valid_attachment( $attachment_id ) ) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Determines whether or not the wanted attachment is considered valid.
 	 *
 	 * @param int $attachment_id The attachment ID to get the attachment by.
@@ -88,8 +36,11 @@ class Image_Helper {
 	 * @return bool Whether or not the attachment is valid.
 	 */
 	public function is_valid_attachment( $attachment_id ) {
-		$post_mime_type = \get_post_mime_type( $attachment_id );
+		if ( ! \wp_attachment_is_image( $attachment_id ) ) {
+			return false;
+		}
 
+		$post_mime_type = \get_post_mime_type( $attachment_id );
 		if ( $post_mime_type === false ) {
 			return false;
 		}
@@ -120,23 +71,6 @@ class Image_Helper {
 	}
 
 	/**
-	 * Gets the featured image url.
-	 *
-	 * @param int    $post_id    Post ID to use.
-	 * @param string $image_size The image size to retrieve.
-	 *
-	 * @return string The image url or an empty string when not found.
-	 */
-	public function get_featured_image( $post_id, $image_size = 'full' ) {
-		$featured_image_id = $this->get_featured_image_id( $post_id );
-		if ( ! $featured_image_id ) {
-			return '';
-		}
-
-		return $this->get_attachment_image_src( $featured_image_id, $image_size );
-	}
-
-	/**
 	 * Retrieves the image source for an attachment.
 	 *
 	 * @param int    $attachment_id The attachment.
@@ -144,14 +78,14 @@ class Image_Helper {
 	 *
 	 * @return string The image url or an empty string when not found.
 	 */
-	public function get_attachment_image_src( $attachment_id, $image_size = 'full' ) {
-		$featured_image = \wp_get_attachment_image_src( $attachment_id, $image_size );
+	public function get_attachment_image_source( $attachment_id, $image_size = 'full' ) {
+		$attachment = \wp_get_attachment_image_src( $attachment_id, $image_size );
 
-		if ( ! $featured_image ) {
+		if ( ! $attachment ) {
 			return '';
 		}
 
-		return $featured_image[0];
+		return $attachment[0];
 	}
 
 	/**
@@ -217,7 +151,7 @@ class Image_Helper {
 	 * @return array|false Returns an array with image data on success, false on failure.
 	 */
 	public function get_image( $attachment_id, $size ) {
-		return \WPSEO_image_utils::get_image( $attachment_id, $size );
+		return \WPSEO_Image_Utils::get_image( $attachment_id, $size );
 	}
 
 	/**
@@ -255,6 +189,22 @@ class Image_Helper {
 	 */
 	public function get_attachment_by_url( $url ) {
 		return WPSEO_Image_Utils::get_attachment_by_url( $url );
+	}
+
+	/**
+	 * Retrieves an attachment ID for an image uploaded in the settings.
+	 *
+	 * Due to self::get_attachment_by_url returning 0 instead of false.
+	 * 0 is also a possibility when no ID is available.
+	 *
+	 * @codeCoverageIgnore - We have to write test when this method contains own code.
+	 *
+	 * @param string $setting The setting the image is stored in.
+	 *
+	 * @return int|bool The attachment id, or false or 0 if no ID is available.
+	 */
+	public function get_attachment_id_from_settings( $setting ) {
+		return WPSEO_Image_Utils::get_attachment_id_from_settings( $setting );
 	}
 
 	/**

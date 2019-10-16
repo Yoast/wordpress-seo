@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
+namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Archive_Presentation;
 
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Title_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
+ * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Archive_Presentation
  *
  * @group presentations
  * @group title
@@ -19,9 +19,9 @@ class Title_Test extends TestCase {
 	 * Does the setup for testing.
 	 */
 	public function setUp() {
-		parent::setUp();
-
 		$this->setInstance();
+
+		parent::setUp();
 	}
 
 	/**
@@ -41,12 +41,12 @@ class Title_Test extends TestCase {
 	 * @covers ::generate_title
 	 */
 	public function test_with_default_fallback() {
-		$this->indexable->object_sub_type = 'post';
+		$this->indexable->object_sub_type = 'posttype';
 
 		$this->options_helper
-			->expects( 'get' )
+			->expects( 'get_title_default' )
 			->once()
-			->with( 'title-post' )
+			->with( 'title-ptarchive-posttype' )
 			->andReturn( 'This is the title' );
 
 		$this->assertEquals( 'This is the title', $this->instance->generate_title() );

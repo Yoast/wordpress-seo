@@ -26,7 +26,7 @@ class OG_Type_Test extends TestCase {
 	/**
 	 * Tests the situation where the OG type is given.
 	 *
-	 * ::covers generate_og_type
+	 * @covers ::generate_og_type
 	 */
 	public function test_generate_og_type() {
 		$this->assertEquals( 'website', $this->instance->generate_og_type() );

@@ -26,7 +26,7 @@ class Canonical_Test extends TestCase {
 	/**
 	 * Tests the situation where the canonical is given.
 	 *
-	 * ::covers generate_canonical
+	 * @covers ::generate_canonical
 	 */
 	public function test_generate_canonical_when_canonical_is_given() {
 		$this->indexable->canonical = 'Example of canonical';
@@ -37,7 +37,7 @@ class Canonical_Test extends TestCase {
 	/**
 	 * Tests the situation where an empty value is returned.
 	 *
-	 * ::covers generate_canonical
+	 * @covers ::generate_canonical
 	 */
 	public function test_generate_canonical_with_empty_return_value() {
 		$this->assertEmpty( $this->instance->generate_canonical() );
