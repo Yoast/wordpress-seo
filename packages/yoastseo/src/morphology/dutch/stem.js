@@ -145,13 +145,8 @@ const thirdExceptionCheckVowelDoubling = function( word, noVowelDoublingRegex ) 
  */
 const isVowelDoublingAllowed = function( word, morphologyDataNLStemmingExceptions ) {
 	const firstCheck = firstExceptionCheckVowelDoubling( word, morphologyDataNLStemmingExceptions.noVowelDoubling.words );
-	console.log("firstcheck", firstCheck)
-
 	const secondCheck = secondExceptionCheckVowelDoubling( word, morphologyDataNLStemmingExceptions.getVowelDoubling );
-	console.log("secondcheck", secondCheck)
-
 	const thirdCheck = thirdExceptionCheckVowelDoubling(  word, morphologyDataNLStemmingExceptions.noVowelDoubling.rule );
-	console.log("thirdcheck", thirdCheck)
 
 	if ( ! firstCheck && secondCheck && thirdCheck  ) {
 		return true;
