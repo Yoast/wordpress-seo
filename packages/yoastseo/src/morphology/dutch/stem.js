@@ -119,7 +119,11 @@ const secondExceptionCheckVowelDoubling = function( word, wordsWithVowelDoubling
 	if ( wordsWithVowelDoubling.includes( word ) )  {
 		return true;
 	}
+	const fourthToLastLetter = word.charAt( word.length - 4 );
+	const thirdToLastLetter = word.charAt( word.length - 3 );
+	return fourthToLastLetter !== thirdToLastLetter;
 };
+
 
 /**
  * Checks whether the vowel matches a regex. If it does, it means that its vowel should not be doubled.
@@ -141,10 +145,13 @@ const thirdExceptionCheckVowelDoubling = function( word, noVowelDoublingRegex ) 
  */
 const isVowelDoublingAllowed = function( word, morphologyDataNLStemmingExceptions ) {
 	const firstCheck = firstExceptionCheckVowelDoubling( word, morphologyDataNLStemmingExceptions.noVowelDoubling.words );
+	console.log("firstcheck", firstCheck)
 
 	const secondCheck = secondExceptionCheckVowelDoubling( word, morphologyDataNLStemmingExceptions.getVowelDoubling );
+	console.log("secondcheck", secondCheck)
 
 	const thirdCheck = thirdExceptionCheckVowelDoubling(  word, morphologyDataNLStemmingExceptions.noVowelDoubling.rule );
+	console.log("thirdcheck", thirdCheck)
 
 	if ( ! firstCheck && secondCheck && thirdCheck  ) {
 		return true;
