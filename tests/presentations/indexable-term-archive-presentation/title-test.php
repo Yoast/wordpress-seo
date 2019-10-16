@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
+namespace Yoast\WP\Free\Tests\Presentations\Indexable_Term_Archive_Presentation;
 
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Title_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
+ * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Term_Archive_Presentation
  *
  * @group presentations
  * @group title
@@ -41,12 +41,17 @@ class Title_Test extends TestCase {
 	 * @covers ::generate_title
 	 */
 	public function test_with_default_fallback() {
-		$this->indexable->object_sub_type = 'post';
+		$this->instance
+			->expects( 'generate_replace_vars_object' )
+			->once()
+			->andReturn( (object) [
+				'taxonomy' => 'category',
+			] );
 
 		$this->options_helper
-			->expects( 'get' )
+			->expects( 'get_title_default' )
 			->once()
-			->with( 'title-post' )
+			->with( 'title-tax-category' )
 			->andReturn( 'This is the title' );
 
 		$this->assertEquals( 'This is the title', $this->instance->generate_title() );

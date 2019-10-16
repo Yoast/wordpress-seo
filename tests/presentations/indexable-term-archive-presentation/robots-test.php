@@ -27,7 +27,7 @@ class Robots_Test extends TestCase {
 		$this->robots_helper
 			->expects( 'after_generate' )
 			->once()
-			->andReturnUsing( function ( $robots ) {
+			->andReturnUsing( function( $robots ) {
 				return $robots;
 			} );
 	}
@@ -38,7 +38,12 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 */
 	public function test_generate_robots() {
-		$this->setup_wp_query_wrapper();
+		$this->instance
+			->expects( 'generate_replace_vars_object' )
+			->once()
+			->andReturn( (object) [
+				'taxonomy' => 'category',
+			] );
 
 		$this->robots_helper
 			->expects( 'get_base_values' )
@@ -74,7 +79,12 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 */
 	public function test_generate_robots_taxonomy_not_indexable() {
-		$this->setup_wp_query_wrapper();
+		$this->instance
+			->expects( 'generate_replace_vars_object' )
+			->once()
+			->andReturn( (object) [
+				'taxonomy' => 'category',
+			] );
 
 		$this->robots_helper
 			->expects( 'get_base_values' )
@@ -111,7 +121,12 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 */
 	public function test_generate_robots_taxonomy_not_indexable_term_indexable() {
-		$this->setup_wp_query_wrapper();
+		$this->instance
+			->expects( 'generate_replace_vars_object' )
+			->once()
+			->andReturn( (object) [
+				'taxonomy' => 'category',
+			] );
 
 		$this->robots_helper
 			->expects( 'get_base_values' )
@@ -150,7 +165,12 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 */
 	public function test_generate_robots_taxonomy_indexable_term_not_indexable() {
-		$this->setup_wp_query_wrapper();
+		$this->instance
+			->expects( 'generate_replace_vars_object' )
+			->once()
+			->andReturn( (object) [
+				'taxonomy' => 'category',
+			] );
 
 		$this->robots_helper
 			->expects( 'get_base_values' )

@@ -48,7 +48,7 @@ class Twitter_Title_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the Twitter title is given.
+	 * Tests the situation where the Twitter title is set.
 	 *
 	 * @covers ::generate_twitter_title
 	 */
@@ -59,14 +59,25 @@ class Twitter_Title_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where no Twitter title is given, but the general title has been set.
+	 * Tests the situation where no Twitter title is set, but the OG title is set.
 	 *
 	 * @covers ::generate_twitter_title
 	 */
-	public function test_generate_twitter_title_with_set_general_title() {
-		$this->indexable->title = 'General title';
+	public function test_generate_twitter_title_with_set_og_title() {
+		$this->indexable->og_title = 'OG title';
 
-		$this->assertEquals( 'General title', $this->instance->generate_twitter_title() );
+		$this->assertEquals( 'OG title', $this->instance->generate_twitter_title() );
+	}
+
+	/**
+	 * Tests the situation where no Twitter and OG titles are set, but the SEO title is set.
+	 *
+	 * @covers ::generate_twitter_title
+	 */
+	public function test_generate_twitter_title_with_set_seo_title() {
+		$this->indexable->title = 'SEO title';
+
+		$this->assertEquals( 'SEO title', $this->instance->generate_twitter_title() );
 	}
 
 	/**

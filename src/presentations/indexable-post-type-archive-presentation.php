@@ -24,4 +24,18 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 
 		return $this->robots_helper->after_generate( $robots );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_title() {
+		if ( $this->model->title ) {
+			return $this->model->title;
+		}
+
+		$post_type = $this->model->object_sub_type;
+		$title     = $this->options_helper->get_title_default( 'title-ptarchive-' . $post_type );
+
+		return $title;
+	}
 }
