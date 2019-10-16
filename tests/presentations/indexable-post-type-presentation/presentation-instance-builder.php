@@ -107,7 +107,8 @@ trait Presentation_Instance_Builder {
 			$this->robots_helper,
 			$this->image_helper,
 			$this->options_helper,
-			$this->current_page_helper
+			$this->current_page_helper,
+			$this->user_helper
 		);
 
 		$this->set_instance_generators();
