@@ -239,7 +239,7 @@ class Image_Helper_Test extends TestCase {
 			->with( 1337, 'full' )
 			->andReturn( '' );
 
-		$this->assertEquals( '', $this->instance->get_attachment_image_source( 1337 ) );
+		$this->assertEmpty( $this->instance->get_attachment_image_source( 1337 ) );
 	}
 
 	/**
@@ -274,6 +274,4 @@ class Image_Helper_Test extends TestCase {
 
 		$this->assertFalse( $this->instance->get_featured_image_id( 100 ) );
 	}
-
-
 }
