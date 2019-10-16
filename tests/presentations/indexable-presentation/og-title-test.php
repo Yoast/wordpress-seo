@@ -10,6 +10,8 @@ use Yoast\WP\Free\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
  *
  * @group presentations
+ * @group opengraph
+ * @group opengraph-title
  */
 class OG_Title_Test extends TestCase {
 	use Presentation_Instance_Builder;
@@ -24,23 +26,23 @@ class OG_Title_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the OG title is given.
+	 * Tests the situation where the OG title is set.
 	 *
 	 * @covers ::generate_og_title
 	 */
-	public function test_generate_og_title_when_og_title_is_given() {
+	public function test_generate_og_title_when_og_title_is_set() {
 		$this->indexable->og_title = 'Example of OG title';
 
 		$this->assertEquals( 'Example of OG title', $this->instance->generate_og_title() );
 	}
 
 	/**
-	 * Tests the situation where the OG title is not given, and the general title is returned.
+	 * Tests the situation where the OG title is not set, and the SEO title is returned.
 	 *
 	 * @covers ::generate_og_title
 	 */
-	public function test_generate_og_title_with_general_title() {
-		$this->indexable->title = 'Example of general title';
-		$this->assertEquals( 'Example of general title', $this->instance->generate_og_title() );
+	public function test_generate_og_title_with_seo_title() {
+		$this->indexable->title = 'Example of SEO title';
+		$this->assertEquals( 'Example of SEO title', $this->instance->generate_og_title() );
 	}
 }

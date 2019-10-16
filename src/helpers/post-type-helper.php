@@ -33,4 +33,26 @@ class Post_Type_Helper {
 	public function get_public_post_types() {
 		return \get_post_types( [ 'public' => true ] );
 	}
+
+	/**
+	 * Removes all shortcode tags from the given content.
+	 *
+	 * @param string $content Content to remove all the shortcode tags from.
+	 *
+	 * @return string Content without shortcode tags.
+	 */
+	public function strip_shortcodes( $content ) {
+		return \strip_shortcodes( $content );
+	}
+
+	/**
+	 * Retrieves the post excerpt (without tags).
+	 *
+	 * @param int $post_id Post ID.
+	 *
+	 * @return string Post excerpt (without tags).
+	 */
+	public function get_the_excerpt( $post_id ) {
+		return \wp_strip_all_tags( \get_the_excerpt( $post_id ) );
+	}
 }

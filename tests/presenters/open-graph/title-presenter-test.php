@@ -14,7 +14,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\Free\Presenters\Open_Graph\Title_Presenter
  *
  * @group presenters
- * @group open-graph
+ * @group opengraph
  */
 class Title_Presenter_Test extends TestCase {
 	/**

@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
+namespace Yoast\WP\Free\Tests\Presentations\Indexable_Home_Page_Presentation;
 
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Title_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
+ * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Home_Page_Presentation
  *
  * @group presentations
  * @group title
@@ -19,9 +19,9 @@ class Title_Test extends TestCase {
 	 * Does the setup for testing.
 	 */
 	public function setUp() {
-		parent::setUp();
-
 		$this->setInstance();
+
+		parent::setUp();
 	}
 
 	/**
@@ -30,9 +30,9 @@ class Title_Test extends TestCase {
 	 * @covers ::generate_title
 	 */
 	public function test_with_title() {
-		$this->indexable->title = 'Title';
+		$this->indexable->title = 'Homepage title';
 
-		$this->assertEquals( 'Title', $this->instance->generate_title() );
+		$this->assertEquals( 'Homepage title', $this->instance->generate_title() );
 	}
 
 	/**
@@ -41,15 +41,13 @@ class Title_Test extends TestCase {
 	 * @covers ::generate_title
 	 */
 	public function test_with_default_fallback() {
-		$this->indexable->object_sub_type = 'post';
-
 		$this->options_helper
-			->expects( 'get' )
+			->expects( 'get_title_default' )
 			->once()
-			->with( 'title-post' )
-			->andReturn( 'This is the title' );
+			->with( 'title-home-wpseo' )
+			->andReturn( 'The homepage title' );
 
-		$this->assertEquals( 'This is the title', $this->instance->generate_title() );
+		$this->assertEquals( 'The homepage title', $this->instance->generate_title() );
 	}
 
 }
