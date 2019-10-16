@@ -3,7 +3,6 @@
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 
 use Yoast\WP\Free\Tests\TestCase;
-use Brain\Monkey;
 
 /**
  * Class Twitter_Description_Test
@@ -21,9 +20,10 @@ class Twitter_Description_Test extends TestCase {
 	 * Does the setup for testing.
 	 */
 	public function setUp() {
-		$this->setInstance();
-
 		parent::setUp();
+
+		$this->setInstance();
+		$this->indexable->object_id = 1;
 	}
 
 	/**
@@ -48,11 +48,9 @@ class Twitter_Description_Test extends TestCase {
 			->once()
 			->andReturn( '' );
 
-		Monkey\Functions\expect( 'wp_strip_all_tags' )
-			->once()
-			->andReturn( 'The excerpt as description' );
-
-		Monkey\Functions\expect( 'get_the_excerpt' )
+		$this->post_type_helper
+			->expects( 'get_the_excerpt' )
+			->with( $this->indexable->object_id )
 			->once()
 			->andReturn( 'The excerpt as description' );
 
@@ -70,11 +68,9 @@ class Twitter_Description_Test extends TestCase {
 			->once()
 			->andReturn( '' );
 
-		Monkey\Functions\expect( 'wp_strip_all_tags' )
-			->once()
-			->andReturn( '' );
-
-		Monkey\Functions\expect( 'get_the_excerpt' )
+		$this->post_type_helper
+			->expects( 'get_the_excerpt' )
+			->with( $this->indexable->object_id )
 			->once()
 			->andReturn( '' );
 

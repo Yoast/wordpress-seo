@@ -5,6 +5,7 @@ namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 use Mockery;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
+use Yoast\WP\Free\Helpers\Meta_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
