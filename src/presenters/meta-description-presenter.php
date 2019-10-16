@@ -38,9 +38,10 @@ class Meta_Description_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	public function present( Indexable_Presentation $presentation ) {
 		$meta_description = $this->filter( $this->replace_vars( $presentation->meta_description, $presentation ) );
+		$meta_description = $this->string->strip_all_tags( \stripslashes( $meta_description ) );
 
 		if ( \is_string( $meta_description ) && $meta_description !== '' ) {
-			return \sprintf( '<meta name="description" content="%s" />', \esc_attr( $this->string->strip_all_tags( \stripslashes( $meta_description ) ) ) );
+			return \sprintf( '<meta name="description" content="%s" />', \esc_attr( $meta_description ) );
 		}
 
 		if ( \current_user_can( 'wpseo_manage_options' ) ) {

@@ -37,10 +37,10 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The document title tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$title = (string) $this->filter( $this->replace_vars( $presentation->title, $presentation ) );
+		$title = $this->filter( $this->replace_vars( $presentation->title, $presentation ) );
 		$title = $this->string->strip_all_tags( \stripslashes( $title ) );
 
-		if ( $title !== '' ) {
+		if ( \is_string( $title ) && $title !== '' ) {
 			return '<title>' . \esc_html( $title ) . '</title>';
 		}
 
