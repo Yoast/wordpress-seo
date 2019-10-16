@@ -133,6 +133,19 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the open graph article modified time.
+	 *
+	 * @return string The open graph article modified time.
+	 */
+	public function generate_og_article_modified_time() {
+		if ( $this->context->post->post_modified_gmt !== $this->context->post->post_date_gmt ) {
+			return mysql2date( DATE_W3C, $this->context->post->post_modified_gmt, false );
+		}
+
+		return '';
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	public function generate_replace_vars_object() {

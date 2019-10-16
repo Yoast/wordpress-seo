@@ -13,7 +13,6 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @group presenters
  * @group open-graph
- * @group testing
  */
 class Article_Modified_Time_Presenter_Test extends TestCase {
 
