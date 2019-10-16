@@ -10,7 +10,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
- * @group open-graph
+ * @group opengraph
  */
 class OG_Article_Publisher_Test extends TestCase {
 	use Presentation_Instance_Builder;

@@ -11,7 +11,7 @@ use Brain\Monkey;
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
- * @group open-graph
+ * @group opengraph
  */
 class OG_Article_Published_Time_Test extends TestCase {
 	use Presentation_Instance_Builder;
