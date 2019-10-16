@@ -15,6 +15,20 @@ use WPSEO_Post_Type;
 class Post_Type_Helper {
 
 	/**
+	 * @var String_Helper
+	 */
+	private $string;
+
+	/**
+	 * Taxonomy_Helper constructor.
+	 *
+	 * @param String_Helper $string The string helper.
+	 */
+	public function __construct( String_Helper $string ) {
+		$this->string = $string;
+	}
+
+	/**
 	 * Checks if the request post type is public and indexable.
 	 *
 	 * @param string $post_type_name The name of the post type to lookup.
@@ -53,6 +67,6 @@ class Post_Type_Helper {
 	 * @return string Post excerpt (without tags).
 	 */
 	public function get_the_excerpt( $post_id ) {
-		return \wp_strip_all_tags( \get_the_excerpt( $post_id ) );
+		return $this->string->strip_all_tags( \get_the_excerpt( $post_id ) );
 	}
 }
