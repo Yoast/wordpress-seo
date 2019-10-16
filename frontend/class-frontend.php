@@ -1052,6 +1052,11 @@ class WPSEO_Frontend {
 			return;
 		}
 
+		if ( is_search() ) {
+			$this->rel_links_search();
+			return;
+		}
+
 		$this->rel_links_archive();
 	}
 
@@ -1081,6 +1086,37 @@ class WPSEO_Frontend {
 
 		if ( $page < $num_pages ) {
 			$this->adjacent_rel_link( 'next', $url, ( $page + 1 ), 'page' );
+		}
+	}
+
+	/**
+	 * Output the rel prev/next links for a search result page.
+	 *
+	 * @return void
+	 */
+	protected function rel_links_search() {
+		$num_pages = 1;
+
+		global $paged, $wp_query;
+
+		if ( ! $max_page ) {
+			$max_page = $wp_query->max_num_pages;
+		}
+
+		if ( ! $paged ) {
+			$paged = 1;
+		}
+
+		// Maybe output the prev link
+		if ( $paged > 1 ) {
+			$this->adjacent_rel_link( 'prev', previous_posts( false ), ( $page - 1 ), 'page' );
+		}
+
+		$nextpage = intval( $paged ) + 1;
+
+		// Maybe output the next link
+		if ( $nextpage <= $max_page ) {
+			$this->adjacent_rel_link( 'next', next_posts( $max_page, false ), ( $page + 1 ), 'page' );
 		}
 	}
 
