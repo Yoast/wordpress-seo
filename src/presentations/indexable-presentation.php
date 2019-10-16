@@ -14,6 +14,7 @@ use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
+use Yoast\WP\Free\Helpers\User_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presentations\Generators\OG_Locale_Generator;
 use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
@@ -96,6 +97,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $options_helper;
 
 	/**
+	 * @var User_Helper
+	 */
+	protected $user;
+
+	/**
 	 * @required
 	 *
 	 * Sets the generator dependencies.
@@ -126,17 +132,20 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @param Image_Helper        $image_helper        The image helper.
 	 * @param Options_Helper      $options_helper      The options helper.
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
+	 * @param User_Helper         $user                The user helper.
 	 */
 	public function set_helpers(
 		Robots_Helper $robots_helper,
 		Image_Helper $image_helper,
 		Options_Helper $options_helper,
-		Current_Page_Helper $current_page_helper
+		Current_Page_Helper $current_page_helper,
+		User_Helper $user
 	) {
 		$this->robots_helper  = $robots_helper;
 		$this->image_helper   = $image_helper;
 		$this->options_helper = $options_helper;
 		$this->current_page   = $current_page_helper;
+		$this->user           = $user;
 	}
 
 	/**
@@ -370,6 +379,28 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_twitter_creator() {
 		return '';
+	}
+
+	/**
+	 * Generates the Twitter site.
+	 *
+	 * @return string The Twitter site.
+	 */
+	public function generate_twitter_site() {
+		switch ( $this->context->site_represents ) {
+			case 'person' :
+				$twitter = $this->user->get_the_author_meta( 'twitter', (int) $this->context->site_user_id );
+				if ( empty( $twitter ) ) {
+					$twitter = $this->options_helper->get( 'twitter_site' );
+				}
+				break;
+			case 'company' :
+			default:
+				$twitter = $this->options_helper->get( 'twitter_site' );
+				break;
+		}
+
+		return $twitter;
 	}
 
 	/**
