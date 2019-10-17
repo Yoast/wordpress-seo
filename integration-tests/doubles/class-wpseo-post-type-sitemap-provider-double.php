@@ -11,7 +11,11 @@
 class WPSEO_Post_Type_Sitemap_Provider_Double extends WPSEO_Post_Type_Sitemap_Provider {
 
 	/**
-	 * @inheritdoc
+	 * Produce array of URL parts for given post object.
+	 *
+	 * @param object $post Post object to get URL parts for.
+	 *
+	 * @return array|bool
 	 */
 	public function get_url( $post ) {
 		return parent::get_url( $post );
@@ -19,13 +23,19 @@ class WPSEO_Post_Type_Sitemap_Provider_Double extends WPSEO_Post_Type_Sitemap_Pr
 
 	/**
 	 * Sets the classifier.
+	 *
+	 * @param object $classifier The classifier for a link.
 	 */
 	public function set_classifier( $classifier ) {
 		self::$classifier = $classifier;
 	}
 
 	/**
-	 * @inheritdoc
+	 * Retrieves a list with the excluded post ids.
+	 *
+	 * @param string $post_type Post type.
+	 *
+	 * @return array Array with post ids to exclude.
 	 */
 	public function get_excluded_posts( $post_type ) {
 		return parent::get_excluded_posts( $post_type );
