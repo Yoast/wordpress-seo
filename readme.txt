@@ -241,6 +241,7 @@ Enhancements:
 * Shows a floating `Save changes` button on Yoast SEO admin pages when the normal button is not visible in the browser window.
 * Improves user input validation feedback and suggestions for error correction.
 * Introduces a new filter `wpseo_sitemap_http_headers` which allows filtering the HTTP headers we send for XML sitemaps.
+* Adds a RankMath post meta value importer.
 
 Other:
 
