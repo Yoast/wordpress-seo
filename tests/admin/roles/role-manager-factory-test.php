@@ -10,6 +10,11 @@ use Yoast\WP\Free\Tests\TestCase;
  */
 class Role_Manager_Factory_Test extends TestCase {
 
+	/**
+	 * Tests getting the role manager.
+	 *
+	 * @covers WPSEO_Role_Manager_Factory::get
+	 */
 	public function test_get() {
 		$instance  = WPSEO_Role_Manager_Factory::get();
 		$instance2 = WPSEO_Role_Manager_Factory::get();
