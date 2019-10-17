@@ -25,31 +25,56 @@ class Title_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the title is set.
+	 * Tests the situation where the specific post's SEO title is set.
 	 *
 	 * @covers ::generate_title
 	 */
-	public function test_with_title() {
-		$this->indexable->title = 'Title';
+	public function test_with_specific_post_seo_title() {
+		$this->indexable->title = 'Specific post SEO title';
 
-		$this->assertEquals( 'Title', $this->instance->generate_title() );
+		$this->assertEquals( 'Specific post SEO title', $this->instance->generate_title() );
 	}
 
 	/**
-	 * Tests the situation where the title is not set and we fall back to the options title.
+	 * Tests the situation where the specific post's SEO title is not set,
+	 * but the SEO title for posts in general is set.
 	 *
 	 * @covers ::generate_title
 	 */
-	public function test_with_default_fallback() {
+	public function test_with_general_post_seo_title() {
 		$this->indexable->object_sub_type = 'post';
 
 		$this->options_helper
 			->expects( 'get' )
 			->once()
 			->with( 'title-post' )
-			->andReturn( 'This is the title' );
+			->andReturn( 'General post SEO title' );
 
-		$this->assertEquals( 'This is the title', $this->instance->generate_title() );
+		$this->assertEquals( 'General post SEO title', $this->instance->generate_title() );
 	}
 
+	/**
+	 * Tests the situation where the specific post's SEO title is not set,
+	 * and the SEO title for posts in general is not set,
+	 * and therefore we fall back to the installation default title for posts.
+	 *
+	 * @covers ::generate_title
+	 */
+	public function test_with_post_installation_default_title() {
+		$this->indexable->object_sub_type = 'post';
+
+		$this->options_helper
+			->expects( 'get' )
+			->once()
+			->with( 'title-post' )
+			->andReturn( '' );
+
+		$this->options_helper
+			->expects( 'get_title_default' )
+			->once()
+			->with( 'title-post' )
+			->andReturn( 'Post installation default title' );
+
+		$this->assertEquals( 'Post installation default title', $this->instance->generate_title() );
+	}
 }

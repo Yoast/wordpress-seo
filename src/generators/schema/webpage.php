@@ -40,7 +40,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 *
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
 	 * @param HTML_Helper         $html_helper         The HTML helper.
-	 * @param Date_Helper         $date_helper         The Date helper.
+	 * @param Date_Helper         $date_helper         The date helper.
 	 */
 	public function __construct(
 		Current_Page_Helper $current_page_helper,

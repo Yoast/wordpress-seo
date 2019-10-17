@@ -7,6 +7,7 @@ use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
+use Yoast\WP\Free\Helpers\User_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Search_Result_Page_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
 
@@ -46,6 +47,11 @@ trait Presentation_Instance_Builder {
 	protected $current_page_helper;
 
 	/**
+	 * @var User_Helper|Mockery\MockInterface
+	 */
+	protected $user;
+
+	/**
 	 * Builds an instance of Indexable_Search_Result_Page_Presentation.
 	 */
 	protected function setInstance() {
@@ -55,6 +61,7 @@ trait Presentation_Instance_Builder {
 		$this->image_helper        = Mockery::mock( Image_Helper::class );
 		$this->robots_helper       = Mockery::mock( Robots_Helper::class );
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
+		$this->user                = Mockery::mock( User_Helper::class );
 
 		$instance = new Indexable_Search_Result_Page_Presentation();
 
@@ -63,7 +70,8 @@ trait Presentation_Instance_Builder {
 			$this->robots_helper,
 			$this->image_helper,
 			$this->options_helper,
-			$this->current_page_helper
+			$this->current_page_helper,
+			$this->user
 		);
 	}
 }
