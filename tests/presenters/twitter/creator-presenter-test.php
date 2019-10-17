@@ -26,9 +26,9 @@ class Creator_Presenter_Test extends TestCase {
 	 * Setup of the tests.
 	 */
 	public function setUp() {
-		$this->instance = new Creator_Presenter();
+		parent::setUp();
 
-		return parent::setUp();
+		$this->instance = new Creator_Presenter();
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Creator_Presenter_Test extends TestCase {
 	 *
 	 * @covers ::present
 	 */
-	public function test_present_with_empty_twitter_description() {
+	public function test_present_with_empty_twitter_creator() {
 		$presentation = new Indexable_Presentation();
 		$presentation->twitter_creator = '';
 
