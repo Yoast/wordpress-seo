@@ -29,7 +29,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
 	 * @param Post_Type_Helper $post_type The post type helper.
-	 * @param User_Helper      $user             The user helper.
+	 * @param User_Helper      $user      The user helper.
 	 */
 	public function __construct( Post_Type_Helper $post_type, User_Helper $user ) {
 		$this->post_type = $post_type;
@@ -44,7 +44,15 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		return $this->options_helper->get( 'title-' . $this->model->object_sub_type );
+		// Get SEO title as entered in Search appearance.
+		$post_type = $this->model->object_sub_type;
+		$title     = $this->options_helper->get( 'title-' . $this->model->object_sub_type );
+		if ( $title ) {
+			return $title;
+		}
+
+		// Get installation default title.
+		return $this->options_helper->get_title_default( 'title-' . $post_type );
 	}
 
 	/**
