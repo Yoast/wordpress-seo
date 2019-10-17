@@ -9,7 +9,6 @@ namespace Yoast\WP\Free\Integrations;
 
 use WPSEO_Options;
 use Yoast\WP\Free\Conditionals\Front_End_Conditional;
-use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Helpers\Blocks_Helper;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
@@ -36,7 +35,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
-		return [ Front_End_Conditional::class, Indexables_Feature_Flag_Conditional::class ];
+		return [ Front_End_Conditional::class ];
 	}
 
 	/**
