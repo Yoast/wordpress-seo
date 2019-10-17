@@ -147,9 +147,9 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			/**
 			 * Filter: 'wpseo_opengraph_show_publish_date' - Allow showing publication date for other post types.
 			 *
-			 * @param string $post_type The current URL's post type.
-			 *
 			 * @api bool Whether or not to show publish date.
+			 *
+			 * @param string $post_type The current URL's post type.
 			 */
 			if ( ! apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post_type->get_post_type( $this->context->post ) ) ) {
 				return '';
