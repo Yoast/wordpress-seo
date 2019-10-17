@@ -10,6 +10,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
  *
  * @group presentations
+ * @group twitter
  */
 class Twitter_Image_Test extends TestCase {
 
