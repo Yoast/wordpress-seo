@@ -1095,13 +1095,9 @@ class WPSEO_Frontend {
 	 * @return void
 	 */
 	protected function rel_links_search() {
-		$num_pages = 1;
-
 		global $paged, $wp_query;
 
-		if ( ! $max_page ) {
-			$max_page = $wp_query->max_num_pages;
-		}
+		$max_page = $wp_query->max_num_pages;
 
 		if ( ! $paged ) {
 			$paged = 1;
