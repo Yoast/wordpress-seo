@@ -28,7 +28,7 @@ class Replace_Vars_Object_Test extends TestCase {
 	/**
 	 * Tests whether the term is returned.
 	 *
-	 * ::covers generate_replace_vars_object
+	 * @covers ::generate_replace_vars_object
 	 */
 	public function test_generate_replace_vars_object() {
 		Monkey\Functions\expect( 'get_post' )

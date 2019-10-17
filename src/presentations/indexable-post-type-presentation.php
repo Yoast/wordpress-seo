@@ -18,7 +18,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * @var Post_Type_Helper
 	 */
-	protected $post_type_helper;
+	protected $post_type;
 
 	/**
 	 * @var User_Helper
@@ -28,12 +28,12 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param Post_Type_Helper $post_type_helper The post type helper.
+	 * @param Post_Type_Helper $post_type The post type helper.
 	 * @param User_Helper      $user             The user helper.
 	 */
-	public function __construct( Post_Type_Helper $post_type_helper, User_Helper $user ) {
-		$this->post_type_helper = $post_type_helper;
-		$this->user             = $user;
+	public function __construct( Post_Type_Helper $post_type, User_Helper $user ) {
+		$this->post_type = $post_type;
+		$this->user      = $user;
 	}
 
 	/**
@@ -56,6 +56,25 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		return $this->options_helper->get( 'metadesc-' . $this->model->object_sub_type );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_og_description() {
+		if ( $this->model->og_description ) {
+			$og_description = $this->model->og_description;
+		}
+
+		if ( empty( $og_description ) ) {
+			$og_description = $this->meta_description;
+		}
+
+		if ( empty( $og_description ) ) {
+			$og_description = $this->post_type->get_the_excerpt( $this->model->object_id );
+		}
+
+		return $this->post_type->strip_shortcodes( $og_description );
 	}
 
 	/**
@@ -111,6 +130,41 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the open graph article published time.
+	 *
+	 * @return string The open graph article published time.
+	 */
+	public function generate_og_article_published_time() {
+		if ( $this->model->object_sub_type !== 'post' ) {
+			/**
+			 * Filter: 'wpseo_opengraph_show_publish_date' - Allow showing publication date for other post types.
+			 *
+			 * @api bool Whether or not to show publish date.
+			 *
+			 * @param string $post_type The current URL's post type.
+			 */
+			if ( ! apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post_type->get_post_type( $this->context->post ) ) ) {
+				return '';
+			}
+		}
+
+		return \mysql2date( DATE_W3C, $this->context->post->post_date_gmt, false );
+	}
+
+	/**
+	 * Generates the open graph article modified time.
+	 *
+	 * @return string The open graph article modified time.
+	 */
+	public function generate_og_article_modified_time() {
+		if ( $this->context->post->post_modified_gmt !== $this->context->post->post_date_gmt ) {
+			return \mysql2date( DATE_W3C, $this->context->post->post_modified_gmt, false );
+		}
+
+		return '';
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	public function generate_replace_vars_object() {
@@ -131,7 +185,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		);
 
 		$private           = \get_post_status( $this->model->object_id ) === 'private';
-		$post_type_noindex = ! $this->post_type_helper->is_indexable( $this->model->object_sub_type );
+		$post_type_noindex = ! $this->post_type->is_indexable( $this->model->object_sub_type );
 
 		if ( $private || $post_type_noindex ) {
 			$robots['index'] = 'noindex';
@@ -150,12 +204,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $twitter_description;
 		}
 
-		$excerpt = \wp_strip_all_tags( \get_the_excerpt( $this->model->object_id ) );
-		if ( $excerpt ) {
-			return $excerpt;
-		}
-
-		return '';
+		return $this->post_type->get_the_excerpt( $this->model->object_id );
 	}
 
 	/**

@@ -50,6 +50,7 @@ use Yoast\WP\Free\ORM\Yoast_Model;
  * @property string  $og_image
  * @property string  $og_image_id
  * @property string  $og_image_source
+ * @property string  $og_image_meta
  *
  * @property string  $twitter_title
  * @property string  $twitter_description

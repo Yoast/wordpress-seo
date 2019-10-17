@@ -28,7 +28,7 @@ class Twitter_Image_Test extends TestCase {
 	/**
 	 * Tests the situation where the Twitter image is given.
 	 *
-	 * ::covers generate_twitter_image
+	 * @covers ::generate_twitter_image
 	 */
 	public function test_generate_twitter_image() {
 		$this->indexable->twitter_image = 'twitter_image.jpg';
@@ -51,7 +51,7 @@ class Twitter_Image_Test extends TestCase {
 	/**
 	 * Tests the situation where an empty value is returned and Open Graph is disabled.
 	 *
-	 * ::covers generate_twitter_image
+	 * @covers ::generate_twitter_image
 	 */
 	public function test_generate_twitter_image_with_empty_return_value_and_open_graph_disabled() {
 		$this->context->open_graph_enabled = false;
@@ -69,7 +69,7 @@ class Twitter_Image_Test extends TestCase {
 	 * Tests the situation where an empty value is returned and Open Graph is enabled and is giving
 	 * an image.
 	 *
-	 * ::covers generate_twitter_image
+	 * @covers ::generate_twitter_image
 	 */
 	public function test_generate_twitter_image_with_empty_return_value_and_open_graph_enabled() {
 		$this->twitter_image_generator

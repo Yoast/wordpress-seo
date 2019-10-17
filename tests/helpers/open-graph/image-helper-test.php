@@ -2,6 +2,7 @@
 
 namespace Yoast\WP\Free\Tests\Helpers\Open_Graph;
 
+use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Free\Helpers\Image_Helper as Base_Image_Helper;
 use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper;
@@ -14,7 +15,6 @@ use Yoast\WP\Free\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\Free\Helpers\Open_Graph\Image_Helper
  *
  * @group helpers
- * @group test
  */
 class Image_Helper_Test extends TestCase {
 
@@ -37,6 +37,8 @@ class Image_Helper_Test extends TestCase {
 	 * Setup.
 	 */
 	public function setUp() {
+		parent::setUp();
+
 		$this->url_helper   = Mockery::mock( Url_Helper::class )->makePartial();
 		$this->image_helper = Mockery::mock( Base_Image_Helper::class )->makePartial();
 
@@ -46,11 +48,7 @@ class Image_Helper_Test extends TestCase {
 				$this->url_helper,
 				$this->image_helper,
 			]
-		)
-			->makePartial()
-			->shouldAllowMockingProtectedMethods();
-
-		parent::setUp();
+		)->makePartial();
 	}
 
 	/**
@@ -89,4 +87,90 @@ class Image_Helper_Test extends TestCase {
 		);
 	}
 
+	/**
+	 * Tests retrieval of the overridden image size.
+	 *
+	 * @covers ::get_override_image_size
+	 */
+	public function test_get_override_image_size() {
+		Monkey\Functions\expect( 'apply_filters' )
+			->with( 'wpseo_opengraph_image_size', null )
+			->once()
+			->andReturn( 'full' );
+
+		$this->assertEquals( 'full', $this->instance->get_override_image_size() );
+	}
+
+	/**
+	 * Tests retrieval of the overridden image size.
+	 *
+	 * @covers ::get_image_url_by_id
+	 */
+	public function test_get_image_url_by_id_for_invalid_attachment() {
+		$this->image_helper
+			->expects( 'is_valid_attachment' )
+			->with( 1337 )
+			->once()
+			->andReturnFalse();
+
+		$this->assertFalse( $this->instance->get_image_url_by_id( 1337 ) );
+	}
+
+	/**
+	 * Tests retrieval of the overridden image size.
+	 *
+	 * @covers ::get_image_url_by_id
+	 */
+	public function test_get_image_url_by_id_for_overridden_image_size() {
+		$this->image_helper
+			->expects( 'is_valid_attachment' )
+			->with( 1337 )
+			->once()
+			->andReturnTrue();
+
+		$this->image_helper
+			->expects( 'get_image' )
+			->with( 1337, 'full' )
+			->once()
+			->andReturn( 'image.jpg' );
+
+		$this->instance
+			->expects( 'get_override_image_size' )
+			->once()
+			->andReturn( 'full' );
+
+		$this->assertEquals( 'image.jpg', $this->instance->get_image_url_by_id( 1337 ) );
+	}
+	/**
+	 * Tests retrieval of the overridden image size.
+	 *
+	 * @covers ::get_image_url_by_id
+	 */
+	public function test_get_image_url_by_id_with_best_attachment_variation() {
+		$image_params = [
+			'min_width'  => 200,
+			'max_width'  => 2000,
+			'min_height' => 200,
+			'max_height' => 2000,
+		];
+
+		$this->image_helper
+			->expects( 'is_valid_attachment' )
+			->with( 1337 )
+			->once()
+			->andReturnTrue();
+
+		$this->image_helper
+			->expects( 'get_best_attachment_variation' )
+			->with( 1337, $image_params )
+			->once()
+			->andReturn( 'image.jpg' );
+
+		$this->instance
+			->expects( 'get_override_image_size' )
+			->once()
+			->andReturn( null );
+
+		$this->assertEquals( 'image.jpg', $this->instance->get_image_url_by_id( 1337 ) );
+	}
 }

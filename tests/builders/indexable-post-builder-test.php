@@ -67,6 +67,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'breadcrumb_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
+
 		$indexable_mock->orm->expects( 'set' )->with( 'og_title', 'og_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'og_image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image', null );
@@ -75,10 +76,13 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image_source', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image_source', 'featured-image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'og_image_meta', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_description', 'og_description' );
+
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_title', 'twitter_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image.jpg' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_id', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_id', 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', null );
@@ -97,10 +101,10 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'incoming_link_count', 2 );
 
 		$indexable_mock->orm->expects( 'get' )->once()->with( 'og_image' );
-		$indexable_mock->orm->expects( 'get' )->twice()->with( 'og_image_id' );
+		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'og_image_id' );
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'og_image_source' );
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image' );
-		$indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image_id' );
+		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'twitter_image_id' );
 		$indexable_mock->orm->expects( 'get' )->with( 'object_sub_type' );
 		$indexable_mock->orm->expects( 'get' )->with( 'object_id' );
 
@@ -118,7 +122,20 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->once()
 			->andReturn( 1 );
 
-		$builder = new Indexable_Post_Builder( $seo_meta_repository, $image_helper );
+		$open_graph_image = Mockery::mock( \Yoast\WP\Free\Helpers\Open_Graph\Image_Helper::class );
+
+		$twitter_image = Mockery::mock( \Yoast\WP\Free\Helpers\Twitter\Image_Helper::class );
+		$twitter_image
+			->expects( 'get_by_id' )
+			->once()
+			->andReturn( 'twitter_image.jpg' );
+
+		$builder = new Indexable_Post_Builder(
+			$seo_meta_repository,
+			$image_helper,
+			$open_graph_image,
+			$twitter_image
+		);
 		$builder->build( 1, $indexable_mock );
 	}
 }

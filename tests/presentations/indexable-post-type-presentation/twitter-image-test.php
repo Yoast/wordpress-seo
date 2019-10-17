@@ -43,7 +43,7 @@ class Twitter_Image_Test extends TestCase {
 	/**
 	 * Tests the situation where the Twitter image is given.
 	 *
-	 * ::covers generate_twitter_image
+	 * @covers ::generate_twitter_image
 	 */
 	public function test_generate_twitter_image() {
 		Monkey\Functions\expect( 'post_password_required' )

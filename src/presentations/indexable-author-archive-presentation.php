@@ -50,13 +50,13 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		$title_option  = 'title-author-wpseo';
-		$options_title = $this->options_helper->get( $title_option );
-		if ( $options_title ) {
-			return $options_title;
+		$option_titles_key  = 'title-author-wpseo';
+		$title = $this->options_helper->get( $option_titles_key );
+		if ( $title ) {
+			return $title;
 		}
 
-		return $this->options_helper->get_title_default( $title_option );
+		return $this->options_helper->get_title_default( $option_titles_key );
 	}
 
 	/**
@@ -64,6 +64,23 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	 */
 	public function generate_twitter_title() {
 		return $this->title;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_meta_description() {
+		if ( $this->model->description ) {
+			return $this->model->description;
+		}
+
+		$option_titles_key  = 'metadesc-author-wpseo';
+		$description = $this->options_helper->get( $option_titles_key );
+		if ( $description ) {
+			return $description;
+		}
+
+		return $this->options_helper->get_title_default( $option_titles_key );
 	}
 
 	/**

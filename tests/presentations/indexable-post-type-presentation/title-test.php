@@ -19,13 +19,13 @@ class Title_Test extends TestCase {
 	 * Does the setup for testing.
 	 */
 	public function setUp() {
-		$this->setInstance();
-
 		parent::setUp();
+
+		$this->setInstance();
 	}
 
 	/**
-	 * Tests the situation where the title is given.
+	 * Tests the situation where the title is set.
 	 *
 	 * @covers ::generate_title
 	 */
@@ -36,11 +36,11 @@ class Title_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the title is not set and we fall back to the template.
+	 * Tests the situation where the title is not set and we fall back to the options title.
 	 *
 	 * @covers ::generate_title
 	 */
-	public function test_with_template_fallback() {
+	public function test_with_default_fallback() {
 		$this->indexable->object_sub_type = 'post';
 
 		$this->options_helper

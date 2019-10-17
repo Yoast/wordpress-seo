@@ -76,7 +76,7 @@ class Image_Helper {
 	}
 
 	/**
-	 * Retrieves the overriden image size value.
+	 * Retrieves the overridden image size value.
 	 *
 	 * @return string|null The image size when overriden by filter or null when not.
 	 */

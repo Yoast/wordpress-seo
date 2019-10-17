@@ -9,7 +9,7 @@ use Yoast\WP\Free\Tests\TestCase;
 use Yoast\WP\Free\Values\Images;
 
 /**
- * Class OG_Image_Generator_Test
+ * Class Images_Test
  *
  * @coversDefaultClass \Yoast\WP\Free\Values\Images
  *

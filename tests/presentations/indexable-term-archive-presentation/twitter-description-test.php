@@ -48,10 +48,6 @@ class Twitter_Description_Test extends TestCase {
 			->once()
 			->andReturn( '' );
 
-		Monkey\Functions\expect( 'wp_strip_all_tags' )
-			->once()
-			->andReturn( 'Term description' );
-
 		Monkey\Functions\expect( 'term_description' )
 			->once()
 			->andReturn( 'Term description' );
@@ -67,10 +63,6 @@ class Twitter_Description_Test extends TestCase {
 	public function test_with_no_term_description() {
 		$this->options_helper
 			->expects( 'get' )
-			->once()
-			->andReturn( '' );
-
-		Monkey\Functions\expect( 'wp_strip_all_tags' )
 			->once()
 			->andReturn( '' );
 

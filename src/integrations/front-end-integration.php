@@ -89,7 +89,7 @@ class Front_End_Integration implements Integration_Interface {
 		'Open_Graph\Site_Name',
 		'Open_Graph\Article_Publisher',
 		'Open_Graph\Article_Author',
-		'Open_Graph\Article_Publish_Time',
+		'Open_Graph\Article_Published_Time',
 		'Open_Graph\Article_Modified_Time',
 		'Open_Graph\Image',
 	];
@@ -116,7 +116,7 @@ class Front_End_Integration implements Integration_Interface {
 	protected $singular_presenters = [
 		'Open_Graph\Article_Author',
 		'Open_Graph\Article_Publisher',
-		'Open_Graph\Article_Publish_Time',
+		'Open_Graph\Article_Published_Time',
 		'Open_Graph\Article_Modified_Time',
 		'Twitter\Creator',
 	];
@@ -189,7 +189,7 @@ class Front_End_Integration implements Integration_Interface {
 		$context      = $this->get_context( $indexable );
 		$presentation = $this->get_presentation( $indexable, $context, $page_type );
 		$presenters   = $this->get_presenters( $page_type );
-		echo "\n";
+		echo PHP_EOL;
 		foreach ( $presenters as $presenter ) {
 			if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {
 				echo '<!-- ' . get_class( $presenter ) . ' -->';
@@ -197,10 +197,10 @@ class Front_End_Integration implements Integration_Interface {
 
 			$output = $presenter->present( $presentation );
 			if ( ! empty( $output ) ) {
-				echo "\t" . $output . "\n";
+				echo "\t" . $output . PHP_EOL;
 			}
 		}
-		echo "\n\n";
+		echo PHP_EOL . PHP_EOL;
 	}
 
 	/**

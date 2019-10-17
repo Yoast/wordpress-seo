@@ -33,7 +33,7 @@ use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
  * @property string og_url
  * @property string og_article_publisher
  * @property string og_article_author
- * @property string og_article_publish_time
+ * @property string og_article_published_time
  * @property string og_article_modified_time
  * @property string og_locale
  * @property array  schema
@@ -275,11 +275,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generates the open graph article publish time.
+	 * Generates the open graph article published time.
 	 *
-	 * @return string The open graph article publish time.
+	 * @return string The open graph article published time.
 	 */
-	public function generate_og_article_publish_time() {
+	public function generate_og_article_published_time() {
 		return '';
 	}
 
@@ -327,6 +327,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 	public function generate_twitter_title() {
 		if ( $this->model->twitter_title ) {
 			return $this->model->twitter_title;
+		}
+
+		if ( $this->model->og_title ) {
+			return $this->model->og_title;
 		}
 
 		if ( $this->title ) {
