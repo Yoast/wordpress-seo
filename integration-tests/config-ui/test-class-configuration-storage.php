@@ -27,6 +27,8 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests adding a field.
+	 *
 	 * @covers WPSEO_Configuration_Storage::add_field
 	 */
 	public function test_add_field() {
@@ -40,6 +42,8 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests setting the adapter.
+	 *
 	 * @covers WPSEO_Configuration_Storage::set_adapter
 	 * @covers WPSEO_Configuration_Storage::get_adapter
 	 */
@@ -51,6 +55,8 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the method that checks if a value is not null.
+	 *
 	 * @covers WPSEO_Configuration_Storage::is_not_null
 	 */
 	public function test_is_not_null() {
@@ -196,6 +202,8 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the retrieval of data from the storage.
+	 *
 	 * @covers WPSEO_Configuration_Storage::retrieve
 	 */
 	public function test_retrieve() {
@@ -253,6 +261,8 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the storage of data.
+	 *
 	 * @covers WPSEO_Configuration_Storage::store
 	 */
 	public function test_store() {
