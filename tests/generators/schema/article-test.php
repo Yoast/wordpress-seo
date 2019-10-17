@@ -6,6 +6,7 @@ use Brain\Monkey;
 use Mockery;
 use stdClass;
 use Yoast\WP\Free\Helpers\Article_Helper;
+use Yoast\WP\Free\Helpers\Date_Helper;
 use Yoast\WP\Free\Helpers\Schema\ID_Helper;
 use Yoast\WP\Free\Presentations\Generators\Schema\Article;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
@@ -32,6 +33,11 @@ class Article_Test extends TestCase {
 	private $article_helper_mock;
 
 	/**
+	 * @var Mockery\MockInterface|Date_Helper
+	 */
+	private $date_helper_mock;
+
+	/**
 	 * @var Article
 	 */
 	private $instance;
@@ -52,7 +58,8 @@ class Article_Test extends TestCase {
 		$this->id_helper_mock->webpage_hash       = '#webpage-hash';
 		$this->id_helper_mock->primary_image_hash = '#primary-image-hash';
 		$this->article_helper_mock                = Mockery::mock( Article_Helper::class );
-		$this->instance                           = new Article( $this->article_helper_mock );
+		$this->date_helper_mock                   = Mockery::mock( Date_Helper::class );
+		$this->instance                           = new Article( $this->article_helper_mock, $this->date_helper_mock );
 		$this->context_mock                       = new Meta_Tags_Context();
 		$this->context_mock->indexable            = new Indexable();
 		$this->context_mock->post                 = new stdClass();
@@ -167,6 +174,18 @@ class Article_Test extends TestCase {
 		$categories = [ (object) [ 'name' => 'Category1' ] ];
 		Monkey\Functions\expect( 'get_the_terms' )->with( 5, 'category' )->andReturn( $categories );
 		Monkey\Functions\expect( 'wp_list_pluck' )->once()->with( $categories, 'name' )->andReturn( [ 'Category1' ] );
+
+		$this->date_helper_mock
+			->expects( 'mysql_date_to_w3c_format' )
+			->once()
+			->with( '2345-12-12 12:12:12' )
+			->andReturn( '2345-12-12 12:12:12' );
+
+		$this->date_helper_mock
+			->expects( 'mysql_date_to_w3c_format' )
+			->once()
+			->with( '2345-12-12 23:23:23' )
+			->andReturn( '2345-12-12 23:23:23' );
 
 		$this->assertEquals(
 			[

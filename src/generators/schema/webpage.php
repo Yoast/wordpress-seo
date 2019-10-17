@@ -10,6 +10,7 @@ namespace Yoast\WP\Free\Presentations\Generators\Schema;
 use WP_Post;
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
+use Yoast\WP\Free\Helpers\Date_Helper;
 use Yoast\WP\Free\Helpers\Schema\HTML_Helper;
 
 /**
@@ -30,17 +31,25 @@ class WebPage extends Abstract_Schema_Piece {
 	private $html_helper;
 
 	/**
+	 * @var Date_Helper
+	 */
+	private $date_helper;
+
+	/**
 	 * WebPage constructor.
 	 *
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
 	 * @param HTML_Helper         $html_helper         The HTML helper.
+	 * @param Date_Helper         $date_helper         The date helper.
 	 */
 	public function __construct(
 		Current_Page_Helper $current_page_helper,
-		HTML_Helper $html_helper
+		HTML_Helper $html_helper,
+		Date_Helper $date_helper
 	) {
 		$this->current_page = $current_page_helper;
 		$this->html_helper  = $html_helper;
+		$this->date_helper  = $date_helper;
 	}
 
 	/**
@@ -82,8 +91,8 @@ class WebPage extends Abstract_Schema_Piece {
 		if ( $context->indexable->object_type === 'post' ) {
 			$this->add_image( $data, $context );
 
-			$data['datePublished'] = \mysql2date( DATE_W3C, $context->post->post_date_gmt, false );
-			$data['dateModified']  = \mysql2date( DATE_W3C, $context->post->post_modified_gmt, false );
+			$data['datePublished'] = $this->date_helper->mysql_date_to_w3c_format( $context->post->post_date_gmt );
+			$data['dateModified']  = $this->date_helper->mysql_date_to_w3c_format( $context->post->post_modified_gmt );
 
 			if ( $context->indexable->object_sub_type === 'post' ) {
 				$data = $this->add_author( $data, $context->post, $context );
