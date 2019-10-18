@@ -82,6 +82,9 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 
 		foreach ( $pieces as $piece ) {
 			$class = str_replace( 'wpseo_schema_', '', strtolower( get_class( $piece ) ) );
+			if ( property_exists( $piece, 'identifier' ) ) {
+				$class = $piece->identifier;
+			}
 
 			/**
 			 * Filter: 'wpseo_schema_needs_<class name>' - Allows changing which graph pieces we output.
