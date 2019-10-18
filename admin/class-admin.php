@@ -93,7 +93,7 @@ class WPSEO_Admin {
 		}
 
 		$this->admin_features = array(
-			'dashboard_widget'      => new Yoast_Dashboard_Widget(),
+			'dashboard_widget' => new Yoast_Dashboard_Widget(),
 		);
 
 		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
