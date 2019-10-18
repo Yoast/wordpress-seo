@@ -39,7 +39,6 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', array( $this, 'blog_public_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'permalink_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'page_comments_notice' ), 15 );
-		add_action( 'admin_init', array( $this, 'ga_compatibility_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'yoast_plugin_suggestions_notification' ), 15 );
 		add_action( 'admin_init', array( $this, 'recalculate_notice' ), 15 );
 		add_action( 'admin_init', array( $this, 'unsupported_php_notice' ), 15 );
@@ -249,41 +248,13 @@ class WPSEO_Admin_Init {
 	/**
 	 * Shows a notice to the user if they have Google Analytics for WordPress 5.4.3 installed because it causes an error
 	 * on the google search console page.
+	 *
+	 * @deprecated 12.5
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function ga_compatibility_notice() {
-
-		$notification        = $this->get_compatibility_notification();
-		$notification_center = Yoast_Notification_Center::get();
-
-		if ( defined( 'GAWP_VERSION' ) && '5.4.3' === GAWP_VERSION ) {
-			$notification_center->add_notification( $notification );
-		}
-		else {
-			$notification_center->remove_notification( $notification );
-		}
-	}
-
-	/**
-	 * Build compatibility problem notification.
-	 *
-	 * @return Yoast_Notification
-	 */
-	private function get_compatibility_notification() {
-		$info_message = sprintf(
-			/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.4.3, %3$s expands to Google Analytics by Yoast */
-			__( '%1$s detected you are using version %2$s of %3$s, please update to the latest version to prevent compatibility issues.', 'wordpress-seo' ),
-			'Yoast SEO',
-			'5.4.3',
-			'Google Analytics by Yoast'
-		);
-
-		return new Yoast_Notification(
-			$info_message,
-			array(
-				'id'   => 'gawp-compatibility-notice',
-				'type' => Yoast_Notification::ERROR,
-			)
-		);
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
