@@ -39,7 +39,6 @@ class WPSEO_Configuration_Storage {
 			new WPSEO_Config_Field_Title_Intro(),
 			new WPSEO_Config_Field_Site_Name(),
 			new WPSEO_Config_Field_Separator(),
-			new WPSEO_Config_Field_Google_Search_Console_Intro(),
 			new WPSEO_Config_Field_Profile_URL_Facebook(),
 			new WPSEO_Config_Field_Profile_URL_Twitter(),
 			new WPSEO_Config_Field_Profile_URL_Instagram(),
