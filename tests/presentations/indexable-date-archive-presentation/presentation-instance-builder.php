@@ -2,8 +2,6 @@
 
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Date_Archive_Presentation;
 
-use Mockery;
-use Yoast\WP\Free\Helpers\Canonical_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Date_Archive_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Tests\Presentations\Presentation_Instance_Helpers;

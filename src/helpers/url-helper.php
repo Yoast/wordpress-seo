@@ -75,6 +75,25 @@ class Url_Helper {
 	}
 
 	/**
+	 * Ensures that the given url is an absolute url.
+	 *
+	 * @param string $url The url that needs to be absolute.
+	 *
+	 * @return string The absolute url.
+	 */
+	public function ensure_absolute_url( $url ) {
+		if ( ! is_string( $url ) || $url === '' ) {
+			return $url;
+		}
+
+		if ( $this->is_relative( $url ) === true ) {
+			return $this->build_absolute_url( $url );
+		}
+
+		return $url;
+	}
+
+	/**
 	 * Parse the home URL setting to find the base URL for relative URLs.
 	 *
 	 * @param string $path Optional path string.

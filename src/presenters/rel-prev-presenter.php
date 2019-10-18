@@ -26,7 +26,7 @@ class Rel_Prev_Presenter extends Abstract_Indexable_Presenter {
 			return '';
 		}
 
-		$rel_prev = $presentation->rel_prev;
+		$rel_prev = $this->filter( $presentation->rel_prev );
 		if ( \is_string( $rel_prev ) && $rel_prev !== '' ) {
 			$link = \sprintf( '<link rel="prev" href="%s" />', \esc_url( $rel_prev ) );
 
@@ -35,7 +35,7 @@ class Rel_Prev_Presenter extends Abstract_Indexable_Presenter {
 			 *
 			 * @api string $unsigned The full `<link` element.
 			 */
-			return \apply_filters( 'wpseo_next_rel_link', $link );
+			return \apply_filters( 'wpseo_prev_rel_link', $link );
 		}
 
 		return '';

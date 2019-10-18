@@ -3,13 +3,7 @@
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Author_Archive_Presentation;
 
 use Mockery;
-use Yoast\WP\Free\Helpers\Canonical_Helper;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
-use Yoast\WP\Free\Helpers\Robots_Helper;
-use Yoast\WP\Free\Helpers\User_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Author_Archive_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Tests\Presentations\Presentation_Instance_Helpers;

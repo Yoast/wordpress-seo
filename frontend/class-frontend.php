@@ -995,7 +995,6 @@ class WPSEO_Frontend {
 		if ( is_string( $canonical ) && $canonical !== '' ) {
 			// Force canonical links to be absolute, relative is NOT an option.
 			if ( WPSEO_Utils::is_url_relative( $canonical ) === true ) {
-
 				$canonical = $this->base_url( $canonical );
 			}
 		}

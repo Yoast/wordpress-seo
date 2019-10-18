@@ -16,7 +16,7 @@ use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
 class Url_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
-	 * Returns the open graph url for a post.
+	 * Returns the open graph url.
 	 *
 	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *

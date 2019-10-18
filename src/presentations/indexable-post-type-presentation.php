@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Presentations;
 
-use Cassandra\Date;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Helpers\Rel_Adjacent_Helper;
 use Yoast\WP\Free\Wrappers\WP_Rewrite_Wrapper;
@@ -66,7 +65,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $this->model->canonical;
 		}
 
-		$canonical = get_permalink( $this->model->object_id );
+		$canonical = $this->model->permalink;
 
 		// Fix paginated pages canonical, but only if the page is truly paginated.
 		$page_number = \get_query_var( 'page' );
@@ -74,7 +73,6 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			$number_of_pages = $this->model->number_of_pages;
 			if ( $number_of_pages && $page_number <= $number_of_pages ) {
 				if ( ! $this->wp_rewrite_wrapper->get()->using_permalinks() ) {
-
 					$canonical = \add_query_arg( 'page', $page_number, $canonical );
 				}
 				else {
@@ -83,16 +81,14 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			}
 		}
 
-		return $this->canonical_helper->after_generate( $canonical );
+		return $this->url->ensure_absolute_url( $canonical );
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function generate_rel_prev() {
-		$number_of_pages = ( $this->model->number_of_pages === null ) ? null : (int) $this->model->number_of_pages;
-
-		if ( $number_of_pages === null ) {
+		if ( $this->model->number_of_pages === null ) {
 			return '';
 		}
 
@@ -101,23 +97,18 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		$current_page = \max( 1, (int) \get_query_var( 'page' ) );
-
 		if ( $current_page < 2  ) {
 			return '';
 		}
 
-		$url = \get_permalink( $this->model->object_id );
-
-		return $this->rel_adjacent->get_paginated_url( $url, ( $current_page - 1 ) );
+		return $this->rel_adjacent->get_paginated_url( $this->model->permalink, ( $current_page - 1 ) );
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function generate_rel_next() {
-		$number_of_pages = ( $this->model->number_of_pages === null ) ? null : (int) $this->model->number_of_pages;
-
-		if ( $number_of_pages === null ) {
+		if ( $this->model->number_of_pages === null ) {
 			return '';
 		}
 
@@ -126,14 +117,11 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		$current_page = \max( 1, (int) \get_query_var( 'page' ) );
-
 		if ( $this->model->number_of_pages <= $current_page ) {
 			return '';
 		}
 
-		$url = \get_permalink( $this->model->object_id );
-
-		return $this->rel_adjacent->get_paginated_url( $url, ( $current_page + 1 ) );
+		return $this->rel_adjacent->get_paginated_url( $this->model->permalink, ( $current_page + 1 ) );
 	}
 
 	/**

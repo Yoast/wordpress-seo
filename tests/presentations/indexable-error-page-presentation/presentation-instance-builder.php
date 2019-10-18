@@ -2,12 +2,6 @@
 
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Error_Page_Presentation;
 
-use Mockery;
-use Yoast\WP\Free\Helpers\Canonical_Helper;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Robots_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Error_Page_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Tests\Presentations\Presentation_Instance_Helpers;
@@ -27,31 +21,6 @@ trait Presentation_Instance_Builder {
 	 * @var Indexable_Error_Page_Presentation
 	 */
 	protected $instance;
-
-	/**
-	 * @var Mockery\Mock
-	 */
-	protected $options_helper;
-
-	/**
-	 * @var Mockery\Mock
-	 */
-	protected $robots_helper;
-
-	/**
-	 * @var Mockery\Mock
-	 */
-	protected $image_helper;
-
-	/**
-	 * @var Mockery\Mock
-	 */
-	protected $current_page_helper;
-
-	/**
-	 * @var Canonical_Helper|Mockery\Mock
-	 */
-	protected $canonical_helper;
 
 	/**
 	 * Builds an instance of Indexable_Error_Page_Presentation.

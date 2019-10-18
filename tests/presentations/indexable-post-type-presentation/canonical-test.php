@@ -60,7 +60,7 @@ class Canonical_Test extends TestCase {
 			->with( 'page' )
 			->andReturn( 0 );
 
-		$this->canonical_helper
+		$this->url_helper
 			->expects( 'after_generate' )
 			->once()
 			->andReturnUsing( function( $val ) {
@@ -100,7 +100,7 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( true );
 
-		$this->canonical_helper
+		$this->url_helper
 			->expects( 'after_generate' )
 			->once()
 			->andReturnUsing( function( $val ) {
@@ -145,7 +145,7 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		$this->canonical_helper
+		$this->url_helper
 			->expects( 'after_generate' )
 			->once()
 			->andReturnUsing( function( $val ) {

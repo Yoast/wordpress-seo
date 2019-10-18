@@ -13,6 +13,7 @@ use Yoast\WP\Free\Presentations\Indexable_Presentation;
  * Class Rel_Next_Presenter
  */
 class Rel_Next_Presenter extends Abstract_Indexable_Presenter {
+
 	/**
 	 * Returns the rel prev meta tag.
 	 *

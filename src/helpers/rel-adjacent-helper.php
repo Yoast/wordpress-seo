@@ -30,6 +30,8 @@ class Rel_Adjacent_Helper {
 
 	/**
 	 * Checks whether adjacent rel links are disabled.
+	 *
+	 * @return bool Whether adjacent rel links are disabled or not.
 	 */
 	public function is_disabled() {
 		/**
@@ -54,8 +56,7 @@ class Rel_Adjacent_Helper {
 		if ( $this->wp_rewrite_wrapper->get()->using_permalinks() ) {
 			return \user_trailingslashit( \trailingslashit( $url ) . $pagination_base . $page );
 		}
-		else {
-			return \add_query_arg( $query_arg, $page, $url );
-		}
+
+		return \add_query_arg( $query_arg, $page, $url );
 	}
 }

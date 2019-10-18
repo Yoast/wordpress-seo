@@ -14,7 +14,7 @@ use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
-use Yoast\WP\Free\Helpers\Canonical_Helper;
+use Yoast\WP\Free\Helpers\Url_Helper;
 use Yoast\WP\Free\Helpers\User_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presentations\Generators\OG_Locale_Generator;
@@ -101,9 +101,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $options_helper;
 
 	/**
-	 * @var Canonical_Helper
+	 * @var Url_Helper
 	 */
-	protected $canonical_helper;
+	protected $url;
 
 	/**
 	 * @var User_Helper
@@ -141,7 +141,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @param Image_Helper        $image_helper        The image helper.
 	 * @param Options_Helper      $options_helper      The options helper.
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
-	 * @param Canonical_Helper    $canonical_helper    The Canonical helper.
+	 * @param Url_Helper          $url_helper          The URL helper.
 	 * @param User_Helper         $user                The user helper.
 	 */
 	public function set_helpers(
@@ -149,15 +149,15 @@ class Indexable_Presentation extends Abstract_Presentation {
 		Image_Helper $image_helper,
 		Options_Helper $options_helper,
 		Current_Page_Helper $current_page_helper,
-		Canonical_Helper $canonical_helper,
+		Url_Helper $url_helper,
 		User_Helper $user
 	) {
-		$this->robots_helper    = $robots_helper;
-		$this->image_helper     = $image_helper;
-		$this->options_helper   = $options_helper;
-		$this->current_page     = $current_page_helper;
-		$this->canonical_helper = $canonical_helper;
-		$this->user             = $user;
+		$this->robots_helper  = $robots_helper;
+		$this->image_helper   = $image_helper;
+		$this->options_helper = $options_helper;
+		$this->current_page   = $current_page_helper;
+		$this->url            = $url_helper;
+		$this->user           = $user;
 	}
 
 	/**
