@@ -67,7 +67,6 @@ class Admin_Features_Test extends TestCase {
 		$class_instance = $this->get_admin_with_expectations();
 
 		$admin_features = [
-			'google_search_console' => new WPSEO_GSC(),
 			'dashboard_widget'      => new Yoast_Dashboard_Widget(),
 		];
 
