@@ -7,13 +7,23 @@
 
 /**
  * Class WPSEO_Config_Field_Google_Search_Console_Intro.
+ *
+ * @deprecated 12.5
+ *
+ * @codeCoverageIgnore
  */
 class WPSEO_Config_Field_Google_Search_Console_Intro extends WPSEO_Config_Field {
 
 	/**
 	 * WPSEO_Config_Field_Social_Profiles_Intro constructor.
+	 *
+	 * @deprecated 12.5
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
+
 		parent::__construct( 'googleSearchConsoleIntro', 'HTML' );
 
 		$html =
