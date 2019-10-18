@@ -8,7 +8,6 @@
 namespace Yoast\WP\Free\Integrations\Watchers;
 
 use Yoast\WP\Free\Builders\Indexable_System_Page_Builder;
-use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Integrations\Integration_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 
@@ -21,7 +20,7 @@ class Indexable_System_Page_Watcher implements Integration_Interface {
 	 * @inheritdoc
 	 */
 	public static function get_conditionals() {
-		return [ Indexables_Feature_Flag_Conditional::class ];
+		return [];
 	}
 
 	/**
