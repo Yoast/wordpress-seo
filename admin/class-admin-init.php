@@ -393,15 +393,21 @@ class WPSEO_Admin_Init {
 	 * @return float The latest released major WordPress version. 0 The stable-check api doesn't respond.
 	 */
 	private function get_latest_major_wordpress_version() {
-		$response = wp_remote_get( 'http://api.wordpress.org/core/stable-check/1.0/' );
-		if ( is_wp_error( $response ) ) {
+		$core_updates = get_core_updates( array( 'dismissed' => true ) );
+
+		if ( $core_updates === false ) {
 			return 0;
 		}
 
-		$wp_version_latest = (array) json_decode( $response['body'] );
+		$wp_version_latest = get_bloginfo( 'version' );
+		foreach ( $core_updates as $update ) {
+			if ( $update->response === 'upgrade' && version_compare( $update->version, $wp_version_latest, '>' ) ) {
+				$wp_version_latest = $update->version;
+			}
+		}
 
 		// Strip the patch version and convert to a float.
-		return (float) array_search( 'latest', $wp_version_latest, true );
+		return (float) $wp_version_latest;
 	}
 
 	/**

@@ -26,7 +26,7 @@ class Twitter_Card_Test extends TestCase {
 	/**
 	 * Tests whether an empty string is returned.
 	 *
-	 * ::covers generate_twitter_card
+	 * @covers ::generate_twitter_card
 	 */
 	public function test_generate_twitter_card_and_return_empty() {
 		$this->assertEmpty( $this->instance->generate_twitter_card() );

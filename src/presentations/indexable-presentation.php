@@ -9,10 +9,12 @@ namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Generators\OG_Image_Generator;
+use Yoast\WP\Free\Generators\Twitter_Image_Generator;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
+use Yoast\WP\Free\Helpers\User_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presentations\Generators\OG_Locale_Generator;
 use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
@@ -31,7 +33,7 @@ use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
  * @property string og_url
  * @property string og_article_publisher
  * @property string og_article_author
- * @property string og_article_publish_time
+ * @property string og_article_published_time
  * @property string og_article_modified_time
  * @property string og_locale
  * @property array  schema
@@ -40,6 +42,7 @@ use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
  * @property string twitter_description
  * @property string twitter_image
  * @property string twitter_creator
+ * @property string twitter_site
  * @property array  replace_vars_object
  */
 class Indexable_Presentation extends Abstract_Presentation {
@@ -63,6 +66,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @var OG_Image_Generator
 	 */
 	protected $og_image_generator;
+
+	/**
+	 * @var Twitter_Image_Generator
+	 */
+	protected $twitter_image_generator;
 
 	/**
 	 * @var OG_Locale_Generator
@@ -90,22 +98,30 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $options_helper;
 
 	/**
+	 * @var User_Helper
+	 */
+	protected $user;
+
+	/**
 	 * @required
 	 *
 	 * Sets the generator dependencies.
 	 *
-	 * @param Schema_Generator    $schema_generator    The schema generator.
-	 * @param OG_Locale_Generator $og_locale_generator The OG locale generator.
-	 * @param OG_Image_Generator  $og_image_generator  The OG image generator.
+	 * @param Schema_Generator        $schema_generator        The schema generator.
+	 * @param OG_Locale_Generator     $og_locale_generator     The OG locale generator.
+	 * @param OG_Image_Generator      $og_image_generator      The OG image generator.
+	 * @param Twitter_Image_Generator $twitter_image_generator The Twitter image generator.
 	 */
 	public function set_generators(
 		Schema_Generator $schema_generator,
 		OG_Locale_Generator $og_locale_generator,
-		OG_Image_Generator $og_image_generator
+		OG_Image_Generator $og_image_generator,
+		Twitter_Image_Generator $twitter_image_generator
 	) {
-		$this->schema_generator    = $schema_generator;
-		$this->og_locale_generator = $og_locale_generator;
-		$this->og_image_generator  = $og_image_generator;
+		$this->schema_generator        = $schema_generator;
+		$this->og_locale_generator     = $og_locale_generator;
+		$this->og_image_generator      = $og_image_generator;
+		$this->twitter_image_generator = $twitter_image_generator;
 	}
 
 	/**
@@ -117,17 +133,20 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @param Image_Helper        $image_helper        The image helper.
 	 * @param Options_Helper      $options_helper      The options helper.
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
+	 * @param User_Helper         $user                The user helper.
 	 */
 	public function set_helpers(
 		Robots_Helper $robots_helper,
 		Image_Helper $image_helper,
 		Options_Helper $options_helper,
-		Current_Page_Helper $current_page_helper
+		Current_Page_Helper $current_page_helper,
+		User_Helper $user
 	) {
 		$this->robots_helper  = $robots_helper;
 		$this->image_helper   = $image_helper;
 		$this->options_helper = $options_helper;
 		$this->current_page   = $current_page_helper;
+		$this->user           = $user;
 	}
 
 	/**
@@ -256,11 +275,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	}
 
 	/**
-	 * Generates the open graph article publish time.
+	 * Generates the open graph article published time.
 	 *
-	 * @return string The open graph article publish time.
+	 * @return string The open graph article published time.
 	 */
-	public function generate_og_article_publish_time() {
+	public function generate_og_article_published_time() {
 		return '';
 	}
 
@@ -310,6 +329,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_title;
 		}
 
+		if ( $this->model->og_title ) {
+			return $this->model->og_title;
+		}
+
 		if ( $this->title ) {
 			return $this->title;
 		}
@@ -340,11 +363,18 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return string The Twitter image.
 	 */
 	public function generate_twitter_image() {
-		if ( $this->model->twitter_image ) {
-			return $this->model->twitter_image;
+		$images = $this->twitter_image_generator->generate( $this->context );
+		if ( empty( $images ) && $this->context->open_graph_enabled === true ) {
+			$images = $this->og_images;
 		}
 
-		return '';
+		if ( empty( $images ) ) {
+			return '';
+		}
+
+		$image = \reset( $images );
+
+		return $image['url'];
 	}
 
 	/**
@@ -354,6 +384,28 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_twitter_creator() {
 		return '';
+	}
+
+	/**
+	 * Generates the Twitter site.
+	 *
+	 * @return string The Twitter site.
+	 */
+	public function generate_twitter_site() {
+		switch ( $this->context->site_represents ) {
+			case 'person' :
+				$twitter = $this->user->get_the_author_meta( 'twitter', (int) $this->context->site_user_id );
+				if ( empty( $twitter ) ) {
+					$twitter = $this->options_helper->get( 'twitter_site' );
+				}
+				break;
+			case 'company' :
+			default:
+				$twitter = $this->options_helper->get( 'twitter_site' );
+				break;
+		}
+
+		return $twitter;
 	}
 
 	/**
@@ -372,72 +424,5 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_schema() {
 		return $this->schema_generator->generate( $this->context );
-	}
-
-	/**
-	 * Retrieves the attachment by a given image id.
-	 *
-	 * @param int $attachment_id The attachment id.
-	 *
-	 * @return string|false The url when found, false when not.
-	 */
-	protected function get_attachment_url_by_id( $attachment_id ) {
-		/**
-		 * Filter: 'wpseo_opengraph_image_size' - Allow overriding the image size used
-		 * for OpenGraph sharing. If this filter is used, the defined size will always be
-		 * used for the og:image. The image will still be rejected if it is too small.
-		 *
-		 * Only use this filter if you manually want to determine the best image size
-		 * for the `og:image` tag.
-		 *
-		 * Use the `wpseo_image_sizes` filter if you want to use our logic. That filter
-		 * can be used to add an image size that needs to be taken into consideration
-		 * within our own logic.
-		 *
-		 * @api string|false $size Size string.
-		 */
-		$override_image_size = \apply_filters( 'wpseo_opengraph_image_size', null );
-
-		if ( $override_image_size ) {
-			return $this->image_helper->get_image( $attachment_id, $override_image_size );
-		}
-
-		$attachment = $this->image_helper->get_best_attachment_variation(
-			$attachment_id,
-			[
-				'min_width'  => 200,
-				'max_width'  => 2000,
-				'min_height' => 200,
-				'max_height' => 2000,
-			]
-		);
-
-		return $attachment['url'];
-	}
-
-	/**
-	 * Retrieves the default OpenGraph image.
-	 *
-	 * @return string|false The retrieved image.
-	 */
-	protected function get_default_og_image() {
-		if ( $this->options_helper->get( 'opengraph' ) !== true ) {
-			return '';
-		}
-
-		$default_image_id = $this->options_helper->get( 'og_default_image_id', '' );
-		if ( $default_image_id ) {
-			$attachment_url = $this->get_attachment_url_by_id( $default_image_id );
-			if ( $attachment_url ) {
-				return $attachment_url;
-			}
-		}
-
-		$default_image_url = $this->options_helper->get( 'og_default_image', '' );
-		if ( $default_image_url ) {
-			return $default_image_url;
-		}
-
-		return '';
 	}
 }

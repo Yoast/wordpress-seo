@@ -4,7 +4,6 @@ namespace Yoast\WP\Free\Tests\Database;
 
 use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Config\Ruckusing_Framework;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Initializers\Migration_Runner;
@@ -41,7 +40,7 @@ class Migration_Runner_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[ Indexables_Feature_Flag_Conditional::class ],
+			[],
 			Migration_Runner::get_conditionals()
 		);
 	}

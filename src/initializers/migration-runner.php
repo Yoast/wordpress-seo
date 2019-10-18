@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Initializers;
 
-use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Config\Ruckusing_Framework;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\ORM\Yoast_Model;
@@ -21,7 +20,7 @@ class Migration_Runner implements Initializer_Interface {
 	 * @inheritdoc
 	 */
 	public static function get_conditionals() {
-		return [ Indexables_Feature_Flag_Conditional::class ];
+		return [];
 	}
 
 	/**

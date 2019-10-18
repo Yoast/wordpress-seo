@@ -14,7 +14,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
  *
  * @group presentations
- * @group title-test
+ * @group title
  */
 class Title_Test extends TestCase {
 
@@ -47,14 +47,14 @@ class Title_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the title is given.
+	 * Tests the situation where the SEO title is given.
 	 *
 	 * @covers ::generate_title
 	 */
 	public function test_generate_title_with_set_title() {
-		$this->indexable->title = 'Title';
+		$this->indexable->title = 'SEO title';
 
-		$this->assertEquals( 'Title', $this->instance->generate_title() );
+		$this->assertEquals( 'SEO title', $this->instance->generate_title() );
 	}
 
 	/**

@@ -26,7 +26,7 @@ class OG_Article_Publisher_Test extends TestCase {
 	/**
 	 * Tests whether an empty string is returned.
 	 *
-	 * ::covers generate_og_article_publisher
+	 * @covers ::generate_og_article_publisher
 	 */
 	public function test_generate_og_article_publisher_and_return_empty() {
 		$this->assertEmpty( $this->instance->generate_og_article_publisher() );

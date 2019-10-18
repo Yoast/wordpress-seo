@@ -9,6 +9,7 @@ use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
 use Yoast\WP\Free\Helpers\Taxonomy_Helper;
+use Yoast\WP\Free\Helpers\User_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Term_Archive_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
@@ -59,6 +60,11 @@ trait Presentation_Instance_Builder {
 	protected $current_page_helper;
 
 	/**
+	 * @var User_Helper|Mockery\MockInterface
+	 */
+	protected $user;
+
+	/**
 	 * Builds an instance of Indexable_Post_Type_Presentation.
 	 */
 	protected function setInstance() {
@@ -68,6 +74,7 @@ trait Presentation_Instance_Builder {
 		$this->robots_helper       = Mockery::mock( Robots_Helper::class );
 		$this->image_helper        = Mockery::mock( Image_Helper::class );
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
+		$this->user                = Mockery::mock( User_Helper::class );
 
 		$this->wp_query_wrapper = Mockery::mock( WP_Query_Wrapper::class );
 		$this->taxonomy_helper  = Mockery::mock( Taxonomy_Helper::class );
@@ -76,7 +83,7 @@ trait Presentation_Instance_Builder {
 			Indexable_Term_Archive_Presentation::class,
 			[
 				$this->wp_query_wrapper,
-				$this->taxonomy_helper
+				$this->taxonomy_helper,
 			]
 		)
 			->makePartial()
@@ -87,7 +94,8 @@ trait Presentation_Instance_Builder {
 			$this->robots_helper,
 			$this->image_helper,
 			$this->options_helper,
-			$this->current_page_helper
+			$this->current_page_helper,
+			$this->user
 		);
 	}
 }

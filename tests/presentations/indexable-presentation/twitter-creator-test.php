@@ -27,7 +27,7 @@ class Twitter_Creator_Test extends TestCase {
 	/**
 	 * Tests the generation of the default twitter creator, an empty string.
 	 *
-	 * ::covers generate_twitter_creator
+	 * @covers ::generate_twitter_creator
 	 */
 	public function test_generate_twitter_creator() {
 		$this->assertEquals( '', $this->instance->generate_twitter_creator() );

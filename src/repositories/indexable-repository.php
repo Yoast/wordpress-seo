@@ -8,6 +8,7 @@
 namespace Yoast\WP\Free\Repositories;
 
 use Yoast\WP\Free\Builders\Indexable_Author_Builder;
+use Yoast\WP\Free\Builders\Indexable_Date_Archive_Builder;
 use Yoast\WP\Free\Builders\Indexable_Home_Page_Builder;
 use Yoast\WP\Free\Builders\Indexable_Post_Builder;
 use Yoast\WP\Free\Builders\Indexable_Post_Type_Archive_Builder;
@@ -66,6 +67,10 @@ class Indexable_Repository {
 	 * @var \Psr\Log\LoggerInterface
 	 */
 	protected $logger;
+	/**
+	 * @var Indexable_Date_Archive_Builder
+	 */
+	private $date_archive_builder;
 
 	/**
 	 * @var \wpdb
@@ -80,6 +85,7 @@ class Indexable_Repository {
 	 * @param Indexable_Term_Builder              $term_builder              The term builder for creating missing indexables.
 	 * @param Indexable_Home_Page_Builder         $home_page_builder         The front page builder for creating missing indexables.
 	 * @param Indexable_Post_Type_Archive_Builder $post_type_archive_builder The post type archive builder for creating missing indexables.
+	 * @param Indexable_Date_Archive_Builder      $date_archive_builder      The date archive builder for creating missing indexables.
 	 * @param Indexable_System_Page_Builder       $system_page_builder       The search result builder for creating missing indexables.
 	 * @param Current_Page_Helper                 $current_page_helper       The current post helper.
 	 * @param Logger                              $logger                    The logger.
@@ -91,6 +97,7 @@ class Indexable_Repository {
 		Indexable_Term_Builder $term_builder,
 		Indexable_Home_Page_Builder $home_page_builder,
 		Indexable_Post_Type_Archive_Builder $post_type_archive_builder,
+		Indexable_Date_Archive_Builder $date_archive_builder,
 		Indexable_System_Page_Builder $system_page_builder,
 		Current_Page_Helper $current_page_helper,
 		Logger $logger,
@@ -101,6 +108,7 @@ class Indexable_Repository {
 		$this->term_builder              = $term_builder;
 		$this->home_page_builder         = $home_page_builder;
 		$this->post_type_archive_builder = $post_type_archive_builder;
+		$this->date_archive_builder      = $date_archive_builder;
 		$this->system_page_builder       = $system_page_builder;
 		$this->current_page              = $current_page_helper;
 		$this->logger                    = $logger;
@@ -132,10 +140,14 @@ class Indexable_Repository {
 				return $this->find_for_home_page();
 			case $this->current_page->is_term_archive():
 				return $this->find_by_id_and_type( $this->current_page->get_term_id(), 'term' );
+			case $this->current_page->is_date_archive():
+				return $this->find_for_date_archive();
 			case $this->current_page->is_search_result():
 				return $this->find_for_system_page( 'search-result' );
 			case $this->current_page->is_post_type_archive():
 				return $this->find_for_post_type_archive( $this->current_page->get_queried_post_type() );
+			case $this->current_page->is_author_archive():
+				return $this->find_by_id_and_type( $this->current_page->get_author_id(), 'user' );
 			case $this->current_page->is_404():
 				return $this->find_for_system_page( '404' );
 		}
@@ -178,6 +190,28 @@ class Indexable_Repository {
 
 		if ( $auto_create && ! $indexable ) {
 			$indexable = $this->create_for_home_page();
+		}
+
+		return $indexable;
+	}
+
+	/**
+	 * Retrieves the date archive indexable.
+	 *
+	 * @param bool $auto_create Optional. Create the indexable if it does not exist.
+	 *
+	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
+	 */
+	public function find_for_date_archive( $auto_create = true ) {
+		/**
+		 * Indexable instance.
+		 *
+		 * @var \Yoast\WP\Free\Models\Indexable $indexable
+		 */
+		$indexable = $this->query()->where( 'object_type', 'date-archive' )->find_one();
+
+		if ( $auto_create && ! $indexable ) {
+			$indexable = $this->create_for_date_archive();
 		}
 
 		return $indexable;
@@ -337,6 +371,19 @@ class Indexable_Repository {
 	public function create_for_home_page() {
 		$indexable = $this->query()->create();
 		$indexable = $this->home_page_builder->build( $indexable );
+
+		$indexable->save();
+		return $indexable;
+	}
+
+	/**
+	 * Creates an indexable for the date archive.
+	 *
+	 * @return Indexable The date archive indexable.
+	 */
+	public function create_for_date_archive() {
+		$indexable = $this->query()->create();
+		$indexable = $this->date_archive_builder->build( $indexable );
 
 		$indexable->save();
 		return $indexable;

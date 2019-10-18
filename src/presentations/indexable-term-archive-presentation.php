@@ -12,6 +12,8 @@ use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 
 /**
  * Class Indexable_Presentation
+ *
+ * @property \WP_Term $replace_vars_object
  */
 class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 
@@ -78,34 +80,6 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
-	public function generate_twitter_image() {
-		$twitter_image = parent::generate_twitter_image();
-
-		if ( $twitter_image ) {
-			return $twitter_image;
-		}
-
-		// When OpenGraph image is set and the OpenGraph feature is enabled.
-		if ( $this->model->og_image && $this->options_helper->get( 'opengraph' ) === true ) {
-			return $this->model->og_image;
-		}
-
-		/**
-		 * Filter: wpseo_twitter_taxonomy_image - Allow developers to set a custom Twitter image for taxonomies.
-		 *
-		 * @api bool|string $unsigned Return string to supply image to use, false to use no image.
-		 */
-		$twitter_image = \apply_filters( 'wpseo_twitter_taxonomy_image', false );
-		if ( is_string( $twitter_image ) && $twitter_image !== '' ) {
-			return $twitter_image;
-		}
-
-		return (string) $this->get_default_og_image();
-	}
-
-	/**
-	 * @inheritDoc
-	 */
 	public function generate_robots() {
 		$robots = $this->robots_helper->get_base_values( $this->model );
 
@@ -114,19 +88,15 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		 */
 		if ( $this->current_page->is_multiple_terms_page() ) {
 			$robots['index'] = 'noindex';
+
 			return $this->robots_helper->after_generate( $robots );
 		}
-
-		/**
-		 * @var \WP_Term $term
-		 */
-		$term = $this->wp_query_wrapper->get_query()->get_queried_object();
 
 		/**
 		 * First we get the no index option for this taxonomy, because it can be overwritten the indexable value for
 		 * this specific term.
 		 */
-		if ( ! $this->taxonomy_helper->is_indexable( $term->taxonomy ) ) {
+		if ( ! $this->taxonomy_helper->is_indexable( $this->replace_vars_object->taxonomy ) ) {
 			$robots['index'] = 'noindex';
 		}
 
@@ -138,5 +108,18 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		}
 
 		return $this->robots_helper->after_generate( $robots );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_title() {
+		if ( $this->model->title ) {
+			return $this->model->title;
+		}
+
+		$title = $this->options_helper->get_title_default( 'title-tax-' . $this->replace_vars_object->taxonomy );
+
+		return $title;
 	}
 }

@@ -8,6 +8,8 @@
 namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
+use Yoast\WP\Free\Helpers\User_Helper;
+use Yoast\WP\Free\Helpers\Date_Helper;
 
 /**
  * Class Indexable_Post_Type_Presentation
@@ -17,15 +19,24 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * @var Post_Type_Helper
 	 */
-	protected $post_type_helper;
+	protected $post_type;
+
+	/**
+	 * @var User_Helper
+	 */
+	protected $user;
 
 	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param Post_Type_Helper $post_type_helper The post type helper.
+	 * @param Post_Type_Helper $post_type  The post type helper.
+	 * @param User_Helper      $user       The user helper.
+	 * @param Date_Helper      $date       The date helper.
 	 */
-	public function __construct( Post_Type_Helper $post_type_helper ) {
-		$this->post_type_helper = $post_type_helper;
+	public function __construct( Post_Type_Helper $post_type, User_Helper $user, Date_Helper $date ) {
+		$this->post_type = $post_type;
+		$this->user      = $user;
+		$this->date      = $date;
 	}
 
 	/**
@@ -36,7 +47,15 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		return $this->options_helper->get( 'title-' . $this->model->object_sub_type );
+		// Get SEO title as entered in Search appearance.
+		$post_type = $this->model->object_sub_type;
+		$title     = $this->options_helper->get( 'title-' . $this->model->object_sub_type );
+		if ( $title ) {
+			return $title;
+		}
+
+		// Get installation default title.
+		return $this->options_helper->get_title_default( 'title-' . $post_type );
 	}
 
 	/**
@@ -48,6 +67,25 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		return $this->options_helper->get( 'metadesc-' . $this->model->object_sub_type );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_og_description() {
+		if ( $this->model->og_description ) {
+			$og_description = $this->model->og_description;
+		}
+
+		if ( empty( $og_description ) ) {
+			$og_description = $this->meta_description;
+		}
+
+		if ( empty( $og_description ) ) {
+			$og_description = $this->post_type->get_the_excerpt( $this->model->object_id );
+		}
+
+		return $this->post_type->strip_shortcodes( $og_description );
 	}
 
 	/**
@@ -71,6 +109,73 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
+	 * Generates the open graph article author.
+	 *
+	 * @return string The open graph article author.
+	 */
+	public function generate_og_article_author() {
+		$post = $this->replace_vars_object;
+
+		$og_article_author = $this->user->get_the_author_meta( 'facebook', $post->post_author );
+
+		if ( $og_article_author ) {
+			return $og_article_author;
+		}
+
+		return '';
+	}
+
+	/**
+	 * Generates the open graph article publisher.
+	 *
+	 * @return string The open graph article publisher.
+	 */
+	public function generate_og_article_publisher() {
+		$og_article_publisher = $this->context->open_graph_publisher;
+
+		if ( $og_article_publisher ) {
+			return $og_article_publisher;
+		}
+
+		return '';
+	}
+
+	/**
+	 * Generates the open graph article published time.
+	 *
+	 * @return string The open graph article published time.
+	 */
+	public function generate_og_article_published_time() {
+		if ( $this->model->object_sub_type !== 'post' ) {
+			/**
+			 * Filter: 'wpseo_opengraph_show_publish_date' - Allow showing publication date for other post types.
+			 *
+			 * @api bool Whether or not to show publish date.
+			 *
+			 * @param string $post_type The current URL's post type.
+			 */
+			if ( ! apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post_type->get_post_type( $this->context->post ) ) ) {
+				return '';
+			}
+		}
+
+		return $this->date->mysql_date_to_w3c_format( $this->context->post->post_date_gmt );
+	}
+
+	/**
+	 * Generates the open graph article modified time.
+	 *
+	 * @return string The open graph article modified time.
+	 */
+	public function generate_og_article_modified_time() {
+		if ( $this->context->post->post_modified_gmt !== $this->context->post->post_date_gmt ) {
+			return $this->date->mysql_date_to_w3c_format( $this->context->post->post_modified_gmt );
+		}
+
+		return '';
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	public function generate_replace_vars_object() {
@@ -91,7 +196,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		);
 
 		$private           = \get_post_status( $this->model->object_id ) === 'private';
-		$post_type_noindex = ! $this->post_type_helper->is_indexable( $this->model->object_id );
+		$post_type_noindex = ! $this->post_type->is_indexable( $this->model->object_sub_type );
 
 		if ( $private || $post_type_noindex ) {
 			$robots['index'] = 'noindex';
@@ -110,51 +215,18 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $twitter_description;
 		}
 
-		$excerpt = \wp_strip_all_tags( \get_the_excerpt( $this->model->object_id ) );
-		if ( $excerpt ) {
-			return $excerpt;
-		}
-
-		return '';
+		return $this->post_type->get_the_excerpt( $this->model->object_id );
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function generate_twitter_image() {
-		$twitter_image = parent::generate_twitter_image();
-
-		if ( $twitter_image ) {
-			return $twitter_image;
+		if ( \post_password_required() ) {
+			return '';
 		}
 
-		// When OpenGraph image is set and the OpenGraph feature is enabled.
-		if ( $this->model->og_image && $this->options_helper->get( 'opengraph' ) === true ) {
-			return $this->model->og_image;
-		}
-
-		/**
-		 * Filter: 'wpseo_twitter_image_size' - Allow changing the Twitter Card image size.
-		 *
-		 * @api string $featured_img Image size string.
-		 */
-		$image_size = \apply_filters( 'wpseo_twitter_image_size', 'full' );
-		$image_url  = $this->image_helper->get_featured_image( $this->model->object_id, $image_size );
-		if ( $image_url ) {
-			return $image_url;
-		}
-
-		$image_url = $this->image_helper->get_gallery_image( $this->model->object_id );
-		if ( $image_url ) {
-			return $image_url;
-		}
-
-		$image_url = $this->image_helper->get_post_content_image( $this->model->object_id );
-		if ( $image_url ) {
-			return $image_url;
-		}
-
-		return (string) $this->get_default_og_image();
+		return parent::generate_twitter_image();
 	}
 
 	/**

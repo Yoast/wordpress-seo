@@ -41,7 +41,7 @@ final class Marker_Close_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	public function present( Indexable_Presentation $presentation ) {
 		return sprintf(
-			"<!-- / %s. -->\n\n",
+			'<!-- / %s. -->' . PHP_EOL . PHP_EOL,
 			\esc_html( $this->product_helper->get_name() )
 		);
 	}

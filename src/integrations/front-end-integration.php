@@ -9,7 +9,6 @@ namespace Yoast\WP\Free\Integrations;
 
 use WPSEO_Options;
 use Yoast\WP\Free\Conditionals\Front_End_Conditional;
-use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Helpers\Blocks_Helper;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
@@ -36,7 +35,7 @@ class Front_End_Integration implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
-		return [ Front_End_Conditional::class, Indexables_Feature_Flag_Conditional::class ];
+		return [ Front_End_Conditional::class ];
 	}
 
 	/**
@@ -89,7 +88,7 @@ class Front_End_Integration implements Integration_Interface {
 		'Open_Graph\Site_Name',
 		'Open_Graph\Article_Publisher',
 		'Open_Graph\Article_Author',
-		'Open_Graph\Article_Publish_Time',
+		'Open_Graph\Article_Published_Time',
 		'Open_Graph\Article_Modified_Time',
 		'Open_Graph\Image',
 	];
@@ -116,7 +115,7 @@ class Front_End_Integration implements Integration_Interface {
 	protected $singular_presenters = [
 		'Open_Graph\Article_Author',
 		'Open_Graph\Article_Publisher',
-		'Open_Graph\Article_Publish_Time',
+		'Open_Graph\Article_Published_Time',
 		'Open_Graph\Article_Modified_Time',
 		'Twitter\Creator',
 	];
@@ -189,14 +188,18 @@ class Front_End_Integration implements Integration_Interface {
 		$context      = $this->get_context( $indexable );
 		$presentation = $this->get_presentation( $indexable, $context, $page_type );
 		$presenters   = $this->get_presenters( $page_type );
-		echo "\n";
+		echo PHP_EOL;
 		foreach ( $presenters as $presenter ) {
+			if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {
+				echo '<!-- ' . get_class( $presenter ) . ' -->';
+			}
+
 			$output = $presenter->present( $presentation );
 			if ( ! empty( $output ) ) {
-				echo "\t" . $output . "\n";
+				echo "\t" . $output . PHP_EOL;
 			}
 		}
-		echo "\n\n";
+		echo PHP_EOL . PHP_EOL;
 	}
 
 	/**
@@ -264,8 +267,6 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	protected function get_page_type() {
 		switch ( true ) {
-			case $this->current_page->is_attachment():
-				return 'Attachment';
 			case $this->current_page->is_search_result():
 				return 'Search_Result_Page';
 			case $this->current_page->is_simple_page() || $this->current_page->is_home_static_page():

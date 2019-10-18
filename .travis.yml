@@ -24,10 +24,10 @@ stages:
 jobs:
   fast_finish: true
   include:
+    - php: 7.2
+      env: WP_VERSION=latest PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=lts/* AUTO_CHECKOUT_MONOREPO_BRANCH=1
     - php: 7.3
-      env: WP_VERSION=latest PHPLINT=1 PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=lts/* AUTO_CHECKOUT_MONOREPO_BRANCH=1
-    - php: 7.3
-      env: WP_VERSION=latest WP_MULTISITE=1 COVERAGE=1
+      env: WP_VERSION=latest PHPLINT=1 WP_MULTISITE=1 COVERAGE=1
     - php: 5.6
       env: WP_VERSION=latest PHPUNIT=1
       # Use 'trusty' to test against MySQL 5.6, 'xenial' contains 5.7 by default.
@@ -39,7 +39,7 @@ jobs:
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
     - php: "7.4snapshot"
-      env: WP_VERSION=latest PHPUNIT=1
+      env: WP_VERSION=master PHPUNIT=1
     - stage: 🚀 deployment
       name: "Deploy to S3"
       if: branch = deploy # Only build when on the `deploy` branch, this functionality is not used yet and is taking a long time to complete.
@@ -97,7 +97,7 @@ jobs:
   allow_failures:
     # Allow failures for unstable builds.
     - php: "7.4snapshot"
-      env: WP_VERSION=latest PHPUNIT=1
+      env: WP_VERSION=master PHPUNIT=1
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
 cache:

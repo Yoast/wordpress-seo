@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Helpers\Open_Graph;
 
+use Yoast\WP\Free\Helpers\Image_Helper as Base_Image_Helper;
 use Yoast\WP\Free\Helpers\Url_Helper;
 
 /**
@@ -18,8 +19,9 @@ class Image_Helper {
 	 * @var Url_Helper
 	 */
 	private $url_helper;
+
 	/**
-	 * @var \Yoast\WP\Free\Helpers\Image_Helper
+	 * @var Base_Image_Helper
 	 */
 	private $image_helper;
 
@@ -40,31 +42,12 @@ class Image_Helper {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @param Url_Helper                          $url_helper   The url helper.
-	 * @param \Yoast\WP\Free\Helpers\Image_Helper $image_helper The image helper.
+	 * @param Url_Helper        $url_helper   The url helper.
+	 * @param Base_Image_Helper $image_helper The image helper.
 	 */
-	public function __construct( Url_Helper $url_helper, \Yoast\WP\Free\Helpers\Image_Helper $image_helper ) {
+	public function __construct( Url_Helper $url_helper, Base_Image_Helper $image_helper ) {
 		$this->url_helper   = $url_helper;
 		$this->image_helper = $image_helper;
-	}
-
-	/**
-	 * Formats the image. To have all images the same format.
-	 *
-	 * @param array|string $image The attachment to format.
-	 *
-	 * @return array|string The formatted attachment.
-	 */
-	public function format_image( $image ) {
-		if ( \is_string( $image ) && $image !== '' ) {
-			$image = [ 'url' => $image ];
-		}
-
-		if ( $this->url_helper->is_relative( $image['url'] ) ) {
-			$image['url'] = $this->url_helper->get_relative_path( $image['url'] );
-		}
-
-		return $image;
 	}
 
 	/**
@@ -93,7 +76,7 @@ class Image_Helper {
 	}
 
 	/**
-	 * Retrieves the overriden image size value.
+	 * Retrieves the overridden image size value.
 	 *
 	 * @return string|null The image size when overriden by filter or null when not.
 	 */

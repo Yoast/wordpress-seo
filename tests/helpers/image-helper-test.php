@@ -33,137 +33,6 @@ class Image_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests generating the Twitter image url by retrieving an attachment image.
-	 *
-	 * @covers ::get_attachment_image
-	 */
-	public function test_generate_retrieve_attachment() {
-		Monkey\Functions\expect( 'get_post_type' )
-			->once()
-			->with( 100 )
-			->andReturn( 'attachment' );
-
-		$this->instance
-			->expects( 'is_valid_attachment' )
-			->once()
-			->with( 100 )
-			->andReturnTrue();
-
-		Monkey\Functions\expect( 'wp_get_attachment_url' )
-			->once()
-			->with( 100 )
-			->andReturn( 'attachment.jpg' );
-
-		$this->assertEquals( 'attachment.jpg', $this->instance->get_attachment_image( 100 ) );
-	}
-
-	/**
-	 * Tests getting the attachment image for a non attachment.
-	 *
-	 * @covers ::get_attachment_image
-	 */
-	public function test_retrieve_attachment_post_type_mismatch() {
-		Monkey\Functions\expect( 'get_post_type' )
-			->once()
-			->with( 100 )
-			->andReturn( 'post' );
-
-		$this->assertEquals( '', $this->instance->get_attachment_image( 100 ) );
-	}
-
-	/**
-	 * Tests getting the attachment image for an attachment with a wrong mimetype.
-	 *
-	 * @covers ::get_attachment_image
-	 */
-	public function test_retrieve_attachment_bad_mimetype() {
-		Monkey\Functions\expect( 'get_post_type' )
-			->once()
-			->with( 100 )
-			->andReturn( 'attachment' );
-
-		$this->instance
-			->expects( 'is_valid_attachment' )
-			->once()
-			->with( 100 )
-			->andReturnFalse();
-
-		$this->assertEquals( '', $this->instance->get_attachment_image( 100 ) );
-	}
-
-	/**
-	 * Tests getting the featured image for a post without an image attached.
-	 *
-	 * @covers ::get_featured_image
-	 */
-	public function test_get_featured_image_no_post_thumbnail() {
-		Monkey\Functions\expect( 'has_post_thumbnail' )
-			->with( 100 )
-			->once()
-			->andReturn( false );
-
-		$this->assertEmpty( $this->instance->get_featured_image( 100 ) );
-	}
-
-	/**
-	 * Tests getting the featured image for a post with an image attached.
-	 *
-	 * @covers ::get_featured_image
-	 */
-	public function test_get_featured_image_post_has_thumbnail_and_image_attached() {
-		Monkey\Functions\expect( 'has_post_thumbnail' )
-			->with( 100 )
-			->once()
-			->andReturn( true );
-
-		Monkey\Functions\expect( 'get_post_thumbnail_id' )
-			->with( 100 )
-			->once()
-			->andReturn( 11 );
-
-		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
-			->with( 11, 'full' )
-			->once()
-			->andReturn(
-				[
-					'https://example.com/media/image.jpg',
-					'100px',
-					'200px',
-					false,
-				]
-			);
-
-		$this->assertEquals(
-			'https://example.com/media/image.jpg',
-			$this->instance->get_featured_image( 100 )
-		);
-	}
-
-	/**
-	 * Tests getting the featured image for a post with a thumbnail but no full image attached.
-	 *
-	 * @covers ::get_featured_image
-	 */
-	public function test_get_featured_image_post_has_thumbnail() {
-		Monkey\Functions\expect( 'has_post_thumbnail' )
-			->with( 100 )
-			->once()
-			->andReturn( true );
-
-		Monkey\Functions\expect( 'get_post_thumbnail_id' )
-			->with( 100 )
-			->once()
-			->andReturn( 11 );
-
-		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
-			->with( 11, 'full' )
-			->once()
-			->andReturn( false );
-
-		$this->assertEmpty( $this->instance->get_featured_image( 100 ) );
-	}
-
-	/**
 	 * Tests retrieving the first image url of a gallery when there is no gallery.
 	 *
 	 * @covers ::get_gallery_image
@@ -172,7 +41,7 @@ class Image_Helper_Test extends TestCase {
 		Monkey\Functions\expect( 'get_post' )
 			->with( 100 )
 			->once()
-			->andReturn( (object) [ 'post_content' => '' ]  );
+			->andReturn( (object) [ 'post_content' => '' ] );
 
 		Monkey\Functions\expect( 'has_shortcode' )
 			->with( '', 'gallery' )
@@ -270,11 +139,30 @@ class Image_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests if the attachment is a valid image.
+	 *
+	 * @covers ::is_valid_attachment
+	 */
+	public function test_is_attachment_valid_image() {
+		Monkey\Functions\expect( 'wp_attachment_is_image' )
+			->once()
+			->with( 1337 )
+			->andReturn( false );
+
+		$this->assertFalse( $this->instance->is_valid_attachment( 1337 ) );
+	}
+
+	/**
 	 * Test if the attachment is valid with false given as mimetype.
 	 *
 	 * @covers ::is_valid_attachment
 	 */
 	public function test_is_valid_attachment_no_mime_type() {
+		Monkey\Functions\expect( 'wp_attachment_is_image' )
+			->once()
+			->with( 100 )
+			->andReturn( true );
+
 		Monkey\Functions\expect( 'get_post_mime_type' )
 			->once()
 			->with( 100 )
@@ -289,6 +177,11 @@ class Image_Helper_Test extends TestCase {
 	 * @covers ::is_valid_attachment
 	 */
 	public function test_is_valid_attachment() {
+		Monkey\Functions\expect( 'wp_attachment_is_image' )
+			->once()
+			->with( 100 )
+			->andReturn( true );
+
 		Monkey\Functions\expect( 'get_post_mime_type' )
 			->once()
 			->with( 100 )
@@ -319,6 +212,34 @@ class Image_Helper_Test extends TestCase {
 	 */
 	public function test_is_valid_image_type() {
 		$this->assertTrue( $this->instance->is_valid_image_type( 'image/jpeg' ) );
+	}
+
+	/**
+	 * Test retrieval of the attachment images source.
+	 *
+	 * @covers ::get_attachment_image_source
+	 */
+	public function test_get_attachment_image_source() {
+		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
+			->once()
+			->with( 1337, 'full' )
+			->andReturn( [ 'image.jpg', 500, 600 ] );
+
+		$this->assertEquals( 'image.jpg', $this->instance->get_attachment_image_source( 1337 ) );
+	}
+
+	/**
+	 * Test retrieval of the attachment images source.
+	 *
+	 * @covers ::get_attachment_image_source
+	 */
+	public function test_get_attachment_image_source_no_image_found() {
+		Monkey\Functions\expect( 'wp_get_attachment_image_src' )
+			->once()
+			->with( 1337, 'full' )
+			->andReturn( '' );
+
+		$this->assertEmpty( $this->instance->get_attachment_image_source( 1337 ) );
 	}
 
 	/**
@@ -353,6 +274,4 @@ class Image_Helper_Test extends TestCase {
 
 		$this->assertFalse( $this->instance->get_featured_image_id( 100 ) );
 	}
-
-
 }
