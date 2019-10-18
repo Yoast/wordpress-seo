@@ -647,6 +647,11 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		padding: 0;
 		width: 24px;
 		height: 24px;
+		background: #f7f7f7;
+		color: #555;
+		border-color: #ccc;
+		box-shadow: 0 1px 0 #ccc;
+		min-height: 0;
 	}
 
 	&--header {
