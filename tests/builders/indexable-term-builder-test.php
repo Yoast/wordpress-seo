@@ -5,6 +5,7 @@ namespace Yoast\WP\Free\Tests\Builders;
 use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Free\Builders\Indexable_Term_Builder;
+use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\ORM\ORMWrapper;
 use Yoast\WP\Free\Tests\TestCase;
@@ -76,10 +77,21 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_title', 'og_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'og_image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'og_image', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'image.jpg' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', 'og_image_id' );
+		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'og_image_source', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'og_image_source', 'first-content-image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'og_image_meta', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_description', 'og_description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_title', 'twitter_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'image.jpg' );
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_id', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', null );
+		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'first-content-image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_description', 'twitter_description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_cornerstone', false );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', true );
@@ -91,7 +103,27 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'primary_focus_keyword_score', 75 );
 		$indexable_mock->orm->expects( 'set' )->with( 'readability_score', 50 );
 
-		$builder = new Indexable_Term_Builder();
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'og_image' );
+		$indexable_mock->orm->expects( 'get' )->times( 2 )->with( 'og_image_id' );
+		$indexable_mock->orm->expects( 'get' )->twice()->with( 'og_image_source' );
+		$indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image' );
+		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'twitter_image_id' );
+		$indexable_mock->orm->expects( 'get' )->with( 'object_id' );
+
+		$image_helper     = Mockery::mock( Image_Helper::class );
+		$open_graph_image = Mockery::mock( \Yoast\WP\Free\Helpers\Open_Graph\Image_Helper::class );
+		$twitter_image    = Mockery::mock( \Yoast\WP\Free\Helpers\Twitter\Image_Helper::class );
+
+		$image_helper
+			->expects( 'get_term_content_image' )
+			->once()
+			->andReturn( 'image.jpg' );
+
+		$builder = new Indexable_Term_Builder(
+			$image_helper,
+			$open_graph_image,
+			$twitter_image
+		);
 		$builder->build( 1, $indexable_mock );
 	}
 }
