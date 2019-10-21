@@ -333,16 +333,6 @@ tr.yst_row.even {
 	}
 }
 
-/* Google Search Console: Reload crawl issues form. */
-.wpseo-gsc-reload-crawl-issues-form {
-	position: relative;
-	top: 9px;
-}
-
-.wp-core-ui .button.wpseo-gsc-save-profile {
-	margin-left: 200px;
-}
-
 /* Styles for Yoast specific content. */
 .wpseo_content_wrapper h3 {
 	font-size: 1.15em;
@@ -935,28 +925,9 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 			}
 		}
 	}
-
-	.wp-core-ui .button.wpseo-gsc-save-profile {
-		margin-left: 0;
-	}
-
-	/* Google Search Console: Reload crawl issues form. */
-	.wpseo-gsc-reload-crawl-issues-form {
-		top: 0;
-		margin: 1em 0;
-	}
-
-	.wpseo-gsc-reload-crawl-issues-form .alignright {
-		float: none;
-	}
 }
 
 @media screen and ( max-width: 600px ) {
-	/* Google Search Console: Reload crawl issues form. */
-	.wpseo-gsc-reload-crawl-issues-form {
-		margin-bottom: 0;
-	}
-
 	/* Make the banners with product lists appear below each other. */
 	.yoast-sidebar {
 
