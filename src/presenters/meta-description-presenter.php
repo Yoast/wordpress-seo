@@ -7,12 +7,27 @@
 
 namespace Yoast\WP\Free\Presenters;
 
+use Yoast\WP\Free\Helpers\String_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 
 /**
  * Class Abstract_Meta_Description_Presenter
  */
 class Meta_Description_Presenter extends Abstract_Indexable_Presenter {
+
+	/**
+	 * @var String_Helper
+	 */
+	private $string;
+
+	/**
+	 * Meta_Description_Presenter constructor.
+	 *
+	 * @param String_Helper $string The string helper.
+	 */
+	public function __construct( String_Helper $string ) {
+		$this->string = $string;
+	}
 
 	/**
 	 * Returns the meta description for a post.
@@ -23,9 +38,10 @@ class Meta_Description_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	public function present( Indexable_Presentation $presentation ) {
 		$meta_description = $this->filter( $this->replace_vars( $presentation->meta_description, $presentation ) );
+		$meta_description = $this->string->strip_all_tags( \stripslashes( $meta_description ) );
 
 		if ( \is_string( $meta_description ) && $meta_description !== '' ) {
-			return \sprintf( '<meta name="description" content="%s" />', \esc_attr( \wp_strip_all_tags( \stripslashes( $meta_description ) ) ) );
+			return \sprintf( '<meta name="description" content="%s" />', \esc_attr( $meta_description ) );
 		}
 
 		if ( \current_user_can( 'wpseo_manage_options' ) ) {

@@ -4,6 +4,7 @@ namespace Yoast\WP\Free\Tests\Presenters;
 
 use Mockery;
 use Brain\Monkey;
+use Yoast\WP\Free\Helpers\String_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Presenters\Title_Presenter;
 use Yoast\WP\Free\Tests\TestCase;
@@ -33,18 +34,32 @@ class Title_Presenter_Test extends TestCase {
 	protected $replace_vars;
 
 	/**
+	 * @var Mockery\MockInterface
+	 */
+	protected $string;
+
+	/**
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
+		parent::setUp();
 
-		$this->instance = new Title_Presenter();
+		$this->replace_vars = Mockery::mock( \WPSEO_Replace_Vars::class );
+		$this->string       = Mockery::mock( String_Helper::class );
+
+		$this->instance = new Title_Presenter( $this->string );
 		$this->instance->set_replace_vars_helper( $this->replace_vars );
 
-		$this->indexable_presentation = new Indexable_Presentation();
+		$this->indexable_presentation                      = new Indexable_Presentation();
 		$this->indexable_presentation->replace_vars_object = [];
 
-		return parent::setUp();
+		$this->string
+			->expects( 'strip_all_tags' )
+			->withAnyArgs()
+			->once()
+			->andReturnUsing( function ( $string ) {
+				return $string;
+			} );
 	}
 
 	/**
@@ -57,15 +72,12 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function( $str ) {
+			->andReturnUsing( function ( $str ) {
 				return $str;
 			} );
 
-		Monkey\Functions\expect( 'wp_strip_all_tags' )
-			->andReturn( 'example_title' );
-
 		$expected = '<title>example_title</title>';
-		$actual = $this->instance->present( $this->indexable_presentation );
+		$actual   = $this->instance->present( $this->indexable_presentation );
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -80,12 +92,9 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function( $str ) {
+			->andReturnUsing( function ( $str ) {
 				return $str;
 			} );
-
-		Monkey\Functions\expect( 'wp_strip_all_tags' )
-			->andReturn( '' );
 
 		$actual = $this->instance->present( $this->indexable_presentation );
 
@@ -103,7 +112,7 @@ class Title_Presenter_Test extends TestCase {
 
 		$this->replace_vars
 			->expects( 'replace' )
-			->andReturnUsing( function( $str ) {
+			->andReturnUsing( function ( $str ) {
 				return $str;
 			} );
 
@@ -112,11 +121,8 @@ class Title_Presenter_Test extends TestCase {
 			->with( 'example_title' )
 			->andReturn( 'exampletitle' );
 
-		Monkey\Functions\expect( 'wp_strip_all_tags' )
-			->andReturn( 'exampletitle' );
-
 		$expected = '<title>exampletitle</title>';
-		$actual = $this->instance->present( $this->indexable_presentation );
+		$actual   = $this->instance->present( $this->indexable_presentation );
 
 		$this->assertEquals( $expected, $actual );
 	}

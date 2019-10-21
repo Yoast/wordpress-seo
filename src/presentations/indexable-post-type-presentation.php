@@ -9,6 +9,7 @@ namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Helpers\User_Helper;
+use Yoast\WP\Free\Helpers\Date_Helper;
 
 /**
  * Class Indexable_Post_Type_Presentation
@@ -28,12 +29,14 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param Post_Type_Helper $post_type The post type helper.
-	 * @param User_Helper      $user             The user helper.
+	 * @param Post_Type_Helper $post_type  The post type helper.
+	 * @param User_Helper      $user       The user helper.
+	 * @param Date_Helper      $date       The date helper.
 	 */
-	public function __construct( Post_Type_Helper $post_type, User_Helper $user ) {
+	public function __construct( Post_Type_Helper $post_type, User_Helper $user, Date_Helper $date ) {
 		$this->post_type = $post_type;
 		$this->user      = $user;
+		$this->date      = $date;
 	}
 
 	/**
@@ -44,7 +47,15 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $this->model->title;
 		}
 
-		return $this->options_helper->get( 'title-' . $this->model->object_sub_type );
+		// Get SEO title as entered in Search appearance.
+		$post_type = $this->model->object_sub_type;
+		$title     = $this->options_helper->get( 'title-' . $this->model->object_sub_type );
+		if ( $title ) {
+			return $title;
+		}
+
+		// Get installation default title.
+		return $this->options_helper->get_title_default( 'title-' . $post_type );
 	}
 
 	/**
@@ -148,7 +159,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			}
 		}
 
-		return \mysql2date( DATE_W3C, $this->context->post->post_date_gmt, false );
+		return $this->date->mysql_date_to_w3c_format( $this->context->post->post_date_gmt );
 	}
 
 	/**
@@ -158,7 +169,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 */
 	public function generate_og_article_modified_time() {
 		if ( $this->context->post->post_modified_gmt !== $this->context->post->post_date_gmt ) {
-			return \mysql2date( DATE_W3C, $this->context->post->post_modified_gmt, false );
+			return $this->date->mysql_date_to_w3c_format( $this->context->post->post_modified_gmt );
 		}
 
 		return '';

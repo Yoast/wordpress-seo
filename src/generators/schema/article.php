@@ -9,6 +9,7 @@ namespace Yoast\WP\Free\Presentations\Generators\Schema;
 
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Helpers\Article_Helper;
+use Yoast\WP\Free\Helpers\Date_Helper;
 
 /**
  * Returns schema Article data.
@@ -21,12 +22,19 @@ class Article extends Abstract_Schema_Piece {
 	private $article_helper;
 
 	/**
+	 * @var Date_Helper
+	 */
+	private $date_helper;
+
+	/**
 	 * Article constructor.
 	 *
 	 * @param Article_Helper $article_helper The article helper.
+	 * @param Date_Helper    $date_helper    The date helper.
 	 */
-	public function __construct( Article_Helper $article_helper ) {
+	public function __construct( Article_Helper $article_helper, Date_Helper $date_helper ) {
 		$this->article_helper = $article_helper;
+		$this->date_helper    = $date_helper;
 	}
 
 	/**
@@ -68,8 +76,8 @@ class Article extends Abstract_Schema_Piece {
 			'isPartOf'         => [ '@id' => $context->canonical . $this->id_helper->webpage_hash ],
 			'author'           => [ '@id' => $this->id_helper->get_user_schema_id( $context->post->post_author, $context ) ],
 			'headline'         => $context->title,
-			'datePublished'    => \mysql2date( DATE_W3C, $context->post->post_date_gmt, false ),
-			'dateModified'     => \mysql2date( DATE_W3C, $context->post->post_modified_gmt, false ),
+			'datePublished'    => $this->date_helper->mysql_date_to_w3c_format( $context->post->post_date_gmt ),
+			'dateModified'     => $this->date_helper->mysql_date_to_w3c_format( $context->post->post_modified_gmt ),
 			'commentCount'     => $comment_count['approved'],
 			'mainEntityOfPage' => [ '@id' => $context->canonical . $this->id_helper->webpage_hash ],
 		];

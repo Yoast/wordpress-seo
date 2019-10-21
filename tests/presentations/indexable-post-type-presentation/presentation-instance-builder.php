@@ -4,6 +4,7 @@ namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 
 use Mockery;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
+use Yoast\WP\Free\Helpers\Date_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Meta_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
@@ -69,6 +70,11 @@ trait Presentation_Instance_Builder {
 	protected $user_helper;
 
 	/**
+	 * @var Date_Helper|Mockery\MockInterface
+	 */
+	protected $date_helper;
+
+	/**
 	 * @var Meta_Tags_Context|Mockery\MockInterface
 	 */
 	protected $context;
@@ -87,12 +93,14 @@ trait Presentation_Instance_Builder {
 		$this->context             = Mockery::mock( Meta_Tags_Context::class )->makePartial();
 		$this->url_helper          = Mockery::mock( Url_Helper::class );
 		$this->user_helper         = Mockery::mock( User_Helper::class );
+		$this->date_helper         = Mockery::mock( Date_Helper::class );
 
 		$instance = Mockery::mock(
 			Indexable_Post_Type_Presentation::class,
 			[
 				$this->post_type_helper,
 				$this->user_helper,
+				$this->date_helper,
 			]
 		)
 			->shouldAllowMockingProtectedMethods()
@@ -108,7 +116,8 @@ trait Presentation_Instance_Builder {
 			$this->robots_helper,
 			$this->image_helper,
 			$this->options_helper,
-			$this->current_page_helper
+			$this->current_page_helper,
+			$this->user_helper
 		);
 
 		$this->set_instance_generators();
