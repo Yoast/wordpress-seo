@@ -5,15 +5,15 @@ namespace Yoast\WP\Free\Tests\Presentations\Indexable_Term_Archive_Presentation;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class Twitter_Description_Test
+ * Class Open_Graph_Description_Test
  *
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Term_Archive_Presentation
  *
  * @group presentations
- * @group twitter
- * @group twitter-description
+ * @group opengraph
+ * @group opengraph-description
  */
-class Twitter_Description_Test extends TestCase {
+class Open_Graph_Description_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -27,20 +27,20 @@ class Twitter_Description_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where the twitter description is given.
+	 * Tests the situation where the OpenGraph description is given.
 	 *
-	 * @covers ::generate_twitter_description
+	 * @covers ::generate_og_description
 	 */
-	public function test_with_set_twitter_description() {
-		$this->indexable->twitter_description = 'Twitter description';
+	public function test_with_set_og_description() {
+		$this->indexable->og_description = 'OpenGraph description';
 
-		$this->assertEquals( 'Twitter description', $this->instance->generate_twitter_description() );
+		$this->assertEquals( 'OpenGraph description', $this->instance->generate_og_description() );
 	}
 
 	/**
 	 * Tests the situation where the meta description is given.
 	 *
-	 * @covers ::generate_twitter_description
+	 * @covers ::generate_og_description
 	 */
 	public function test_with_term_description() {
 		$this->options_helper
@@ -55,6 +55,6 @@ class Twitter_Description_Test extends TestCase {
 			->once()
 			->andReturn( 'Term description' );
 
-		$this->assertEquals( 'Term description', $this->instance->generate_twitter_description() );
+		$this->assertEquals( 'Term description', $this->instance->generate_og_description() );
 	}
 }

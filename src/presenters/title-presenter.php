@@ -7,12 +7,27 @@
 
 namespace Yoast\WP\Free\Presenters;
 
+use Yoast\WP\Free\Helpers\String_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 
 /**
  * Class Title_Presenter
  */
 class Title_Presenter extends Abstract_Indexable_Presenter {
+
+	/**
+	 * @var String_Helper
+	 */
+	private $string;
+
+	/**
+	 * Title_Presenter constructor.
+	 *
+	 * @param String_Helper $string The string helper.
+	 */
+	public function __construct( String_Helper $string ) {
+		$this->string = $string;
+	}
 
 	/**
 	 * Returns the document title.
@@ -22,10 +37,10 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The document title tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$title = (string) $this->filter( $this->replace_vars( $presentation->title, $presentation ) );
-		$title = \wp_strip_all_tags( \stripslashes( $title ) );
+		$title = $this->filter( $this->replace_vars( $presentation->title, $presentation ) );
+		$title = $this->string->strip_all_tags( \stripslashes( $title ) );
 
-		if ( $title !== '' ) {
+		if ( \is_string( $title ) && $title !== '' ) {
 			return '<title>' . \esc_html( $title ) . '</title>';
 		}
 
