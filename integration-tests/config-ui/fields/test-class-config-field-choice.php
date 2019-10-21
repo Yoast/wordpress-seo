@@ -11,6 +11,8 @@
 class WPSEO_Config_Field_Choice_Test extends PHPUnit_Framework_TestCase {
 
 	/**
+	 * Tests the retrieval of the set component.
+	 *
 	 * @covers WPSEO_Config_Field_Choice::__construct
 	 */
 	public function test_component() {
@@ -21,6 +23,8 @@ class WPSEO_Config_Field_Choice_Test extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test choices exist as property.
+	 *
+	 * @covers WPSEO_Config_Field_Choice::__construct
 	 */
 	public function test_choices_property() {
 		$field = new WPSEO_Config_Field_Choice( 'field' );
@@ -28,6 +32,8 @@ class WPSEO_Config_Field_Choice_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests if choices are added to the field.
+	 *
 	 * @covers WPSEO_Config_Field_Choice::add_choice
 	 */
 	public function test_add_choice() {

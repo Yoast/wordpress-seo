@@ -27,6 +27,8 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests if the construct sets the required things properly.
+	 *
 	 * @covers WPSEO_Configuration_Structure::initialize
 	 */
 	public function test_constructor() {
@@ -51,6 +53,8 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the addition of a step.
+	 *
 	 * @covers WPSEO_Configuration_Structure::add_step
 	 */
 	public function test_add_step() {
@@ -63,6 +67,8 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the retrieval of the structure.
+	 *
 	 * @covers WPSEO_Configuration_Structure::retrieve
 	 */
 	public function test_retrieve() {
