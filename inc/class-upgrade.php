@@ -50,7 +50,7 @@ class WPSEO_Upgrade {
 			/** Reset notifications because we removed the AMP Glue plugin notification */
 			'12.1-RC0'  => 'clean_all_notifications',
 			'12.3-RC0'  => 'upgrade_123',
-			'12.4-RC0'  => 'upgrade_124'
+			'12.4-RC0'  => 'upgrade_124',
 		);
 
 		array_walk( $routines, array( $this, 'run_upgrade_routine' ), $version );
@@ -73,9 +73,9 @@ class WPSEO_Upgrade {
 	/**
 	 * Runs the upgrade routine.
 	 *
-	 * @param string  $routine         The method to call.
-	 * @param string  $version         The new version.
-	 * @param string  $current_version The current set version.
+	 * @param string $routine         The method to call.
+	 * @param string $version         The new version.
+	 * @param string $current_version The current set version.
 	 *
 	 * @return void
 	 */
@@ -356,6 +356,8 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Updates the internal_link_count column to support improved functionality.
+	 *
+	 * @param string $version The current version to compare with.
 	 */
 	private function upgrade_50_51( $version ) {
 		global $wpdb;
