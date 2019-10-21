@@ -1,9 +1,17 @@
 <?php
+/**
+ * Trait for determine the social image to use in the indexable.
+ *
+ * @package Yoast\YoastSEO\Builders
+ */
 
 namespace Yoast\WP\Free\Builders;
 
 use Yoast\WP\Free\Models\Indexable;
 
+/**
+ * Represents the trait used in builders for handling social images.
+ */
 trait Indexable_Social_Image_Trait {
 
 	/**
@@ -13,7 +21,6 @@ trait Indexable_Social_Image_Trait {
 	 * @param Indexable $indexable         The indexable to set image for.
 	 */
 	protected function set_alternative_image( array $alternative_image, Indexable $indexable ) {
-
 		if ( ! empty( $alternative_image['image_id'] ) ) {
 			if ( ! $indexable->og_image_source && ! $indexable->og_image_id ) {
 				$indexable->og_image_id     = $alternative_image['image_id'];
