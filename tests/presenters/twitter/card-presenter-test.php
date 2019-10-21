@@ -3,22 +3,22 @@
 namespace Yoast\WP\Free\Tests\Presenters\Twitter;
 
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Twitter\Creator_Presenter;
+use Yoast\WP\Free\Presenters\Twitter\Card_Presenter;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class Creator_Presenter_Test.
+ * Class Card_Presenter_Test.
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Twitter\Creator_Presenter
+ * @coversDefaultClass \Yoast\WP\Free\Presenters\Twitter\Card_Presenter
  *
  * @group presenters
  * @group twitter
- * @group twitter-creator
+ * @group twitter-card
  */
-class Creator_Presenter_Test extends TestCase {
+class Card_Presenter_Test extends TestCase {
 
 	/**
-	 * @var Creator_Presenter
+	 * @var Card_Presenter
 	 */
 	protected $instance;
 
@@ -28,20 +28,21 @@ class Creator_Presenter_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = new Creator_Presenter();
+		$this->instance = new Card_Presenter();
 	}
 
 	/**
 	 * Tests the presentation for a set twitter creator.
 	 *
 	 * @covers ::present
+	 * @covers ::filter
 	 */
 	public function test_present() {
-		$presentation                  = new Indexable_Presentation();
-		$presentation->twitter_creator = '@TwitterHandle';
+		$presentation               = new Indexable_Presentation();
+		$presentation->twitter_card = 'summary';
 
 		$this->assertEquals(
-			'<meta name="twitter:creator" content="@TwitterHandle" />',
+			'<meta name="twitter:card" content="summary" />',
 			$this->instance->present( $presentation )
 		);
 	}
@@ -50,10 +51,11 @@ class Creator_Presenter_Test extends TestCase {
 	 * Tests the presentation of an empty creator.
 	 *
 	 * @covers ::present
+	 * @covers ::filter
 	 */
 	public function test_present_with_empty_twitter_creator() {
-		$presentation                  = new Indexable_Presentation();
-		$presentation->twitter_creator = '';
+		$presentation               = new Indexable_Presentation();
+		$presentation->twitter_card = '';
 
 		$this->assertEmpty( $this->instance->present( $presentation ) );
 	}
