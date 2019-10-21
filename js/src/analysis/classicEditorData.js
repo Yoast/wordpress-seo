@@ -1,9 +1,12 @@
+/* global wp */
+
 /* External dependencies */
 import analysis from "yoastseo";
 const { removeMarks } = analysis.markers;
+import { isUndefined, debounce } from "lodash";
 
 /* Internal dependencies */
-import { updateReplacementVariable } from "../redux/actions/snippetEditor";
+import { updateReplacementVariable, updateData } from "../redux/actions/snippetEditor";
 import {
 	excerptFromContent,
 	fillReplacementVariables,
@@ -11,7 +14,6 @@ import {
 	mapCustomTaxonomies,
 } from "../helpers/replacementVariableHelpers";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
-import debounce from "lodash/debounce";
 
 /**
  * Represents the classic editor data.
@@ -51,6 +53,103 @@ class ClassicEditorData {
 		fillReplacementVariables( this._initialData, this._store );
 		this.subscribeToElements();
 		this.subscribeToStore();
+		this.subscribeToSocialPreviewImage();
+	}
+
+	/**
+	 * Initialize social preview image functionality.
+	 *
+	 * @returns {void}
+	 */
+	subscribeToSocialPreviewImage() {
+		if ( isUndefined( wp.media ) || isUndefined( wp.media.featuredImage ) ) {
+			return;
+		}
+
+		const url = this.getFeaturedImage() || this.getContentImage() || null;
+
+		this.setFeaturedImageInSnippetPreview( url );
+
+		$( "#postimagediv" ).on( "click", "#remove-post-thumbnail", () => {
+			this.featuredImageIsSet = false;
+
+			this.setFeaturedImageInSnippetPreview( this.getContentImage() );
+		} );
+
+		const featuredImage = wp.media.featuredImage.frame();
+
+		featuredImage.on( "select", () => {
+			const newUrl = featuredImage.state().get( "selection" ).first().attributes.url;
+			this.setFeaturedImageInSnippetPreview( newUrl );
+		} );
+
+		tmceHelper.addEventHandler( tmceId, [ "change" ], debounce( () => {
+			if ( this.featuredImageIsSet ) {
+				return;
+			}
+
+			this.setFeaturedImageInSnippetPreview( this.getContentImage() );
+		}, 1000 ) );
+	}
+
+	/**
+	 * Gets the featured image source from the DOM.
+	 *
+	 * @returns {string} The url to the featured image.
+	 */
+	getFeaturedImage() {
+		var postThumbnail = $( ".attachment-post-thumbnail" );
+		if ( postThumbnail.length > 0 ) {
+			return $( postThumbnail.get( 0 ) ).attr( "src" );
+		}
+
+		this.featuredImageIsSet = false;
+
+		return null;
+	}
+
+	/**
+	 * Set the featured image for the snippet preview.
+	 *
+	 * @param {string} url The image URL.
+	 *
+	 * @returns {void}
+	 */
+	setFeaturedImageInSnippetPreview( url ) {
+		this._store.dispatch( updateData( { socialPreviewImageURL: url } ) );
+	}
+
+	/**
+	 * Returns the image from the content.
+	 *
+	 * @returns {string} The first image found in the content.
+	 */
+	getContentImage() {
+		if ( this.featuredImageIsSet ) {
+			return "";
+		}
+
+		var content = this.getContent();
+
+		var images = analysis.string.imageInText( content );
+		var image  = "";
+
+		if ( images.length === 0 ) {
+			return image;
+		}
+
+		do {
+			var currentImage = images.shift();
+			currentImage = $( currentImage );
+
+			var imageSource = currentImage.prop( "src" );
+
+			if ( imageSource ) {
+				image = imageSource;
+			}
+		} while ( "" === image && images.length > 0 );
+
+		return image;
 	}
 
 	/**
@@ -225,6 +324,10 @@ class ClassicEditorData {
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
 			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt_only ) );
 		}
+		// Handle image change.
+		if ( this._previousData.socialPreviewImageURL !== newData.socialPreviewImageURL ) {
+			this.setFeaturedImageInSnippetPreview( newData.socialPreviewImageURL );
+		}
 	}
 
 	/**
@@ -258,6 +361,7 @@ class ClassicEditorData {
 			excerpt_only: this.getExcerpt( false ),
 			slug: this.getSlug(),
 			content: this.getContent(),
+			socialPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
 		};
 	}
 
@@ -273,6 +377,7 @@ class ClassicEditorData {
 			excerpt: this.getExcerpt(),
 			// eslint-disable-next-line
 			excerpt_only: this.getExcerpt( false ),
+			socialPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
 		};
 	}
 }
