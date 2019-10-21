@@ -388,6 +388,29 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
+	 * Gets the latest released major WordPress version from the WordPress stable-check api.
+	 *
+	 * @return float The latest released major WordPress version. 0 The stable-check api doesn't respond.
+	 */
+	private function get_latest_major_wordpress_version() {
+		$core_updates = get_core_updates( array( 'dismissed' => true ) );
+
+		if ( $core_updates === false ) {
+			return 0;
+		}
+
+		$wp_version_latest = get_bloginfo( 'version' );
+		foreach ( $core_updates as $update ) {
+			if ( $update->response === 'upgrade' && version_compare( $update->version, $wp_version_latest, '>' ) ) {
+				$wp_version_latest = $update->version;
+			}
+		}
+
+		// Strip the patch version and convert to a float.
+		return (float) $wp_version_latest;
+	}
+
+	/**
 	 * Creates a WordPress upgrade notification in the notification center.
 	 *
 	 * @return void
@@ -395,13 +418,16 @@ class WPSEO_Admin_Init {
 	public function wordpress_upgrade_notice() {
 		global $wp_version;
 
-		$wordpress_less_than_50 = version_compare( $wp_version, '5.0', '<' );
-		$wordpress_less_than_52 = version_compare( $wp_version, '5.2', '<' );
+		$latest_major_wp_version = number_format( $this->get_latest_major_wordpress_version(), 1 );
+		$next_major_wp_version   = number_format( ( $latest_major_wp_version + 0.1 ), 1 );
+
+		$wp_less_than_50             = version_compare( $wp_version, '5.0', '<' );
+		$wp_less_than_latest_version = version_compare( $wp_version, $latest_major_wp_version, '<' );
 
 		$notification_center = Yoast_Notification_Center::get();
 
 		$message = sprintf(
-			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag, %3$s expands to a html break, %4$s expands to Yoast, %5$s expands to Yoast SEO, %6$s expands to 5.2, %7$s expands to 5.3 */
+			/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag, %3$s expands to a html break, %4$s expands to Yoast, %5$s expands to Yoast SEO, %6$s expands to the latest major released WP version, %7$s expands to the next major WP release version */
 			__(
 				'%1$sUpgrade WordPress to the most recent version%2$s%3$sWe’ve noticed that you’re not on the latest WordPress version, which might cause an issue soon. %4$s (for reasons of security and stability) only supports the current and previous version of WordPress. When the next version of WordPress comes out, that means that we will support WordPress %6$s and %7$s. This means you will not get any updates to %5$s until you update your WordPress, so please make sure to upgrade to the latest WordPress version soon!%3$s%3$s',
 				'wordpress-seo'
@@ -411,10 +437,10 @@ class WPSEO_Admin_Init {
 			'<br/>',
 			'Yoast',
 			'Yoast SEO',
-			'5.2',
-			'5.3'
+			$latest_major_wp_version,
+			$next_major_wp_version
 		);
-		if ( $wordpress_less_than_50 ) {
+		if ( $wp_less_than_50 ) {
 			$message .= sprintf(
 				/* translators: %1$s expands to Yoast SEO, %2$s expands to 5.0 */
 				__(
@@ -433,7 +459,7 @@ class WPSEO_Admin_Init {
 				'wordpress-seo'
 			),
 			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/old-wp-support' ) . '" target="_blank" rel="nofollow">',
-			'</a>'
+			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
 		);
 
 		$notification = new Yoast_Notification(
@@ -444,7 +470,13 @@ class WPSEO_Admin_Init {
 			)
 		);
 
-		if ( $wordpress_less_than_52 ) {
+		if ( $wp_less_than_latest_version ) {
+			// If the latest WordPress version is not known, do not initiate the WordPress upgrade notice.
+			if ( $this->get_latest_major_wordpress_version() === 0 ) {
+				$notification_center->remove_notification( $notification );
+				return;
+			}
+
 			$notification_center->add_notification( $notification );
 			return;
 		}
@@ -686,6 +718,7 @@ class WPSEO_Admin_Init {
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
+
 	/**
 	 * Add an alert if outdated versions of Yoast SEO plugins are running.
 	 *

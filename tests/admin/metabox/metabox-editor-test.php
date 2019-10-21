@@ -62,36 +62,36 @@ class Metabox_Editor_Test extends TestCase {
 	}
 
 	public function test_add_custom_element() {
-		$expected = array(
+		$expected = [
 			'custom_elements' => '~yoastmark',
-		);
+		];
 
-		$actual = $this->subject->add_custom_element( array() );
+		$actual = $this->subject->add_custom_element( [] );
 
 		$this->assertSame( $expected, $actual );
 	}
 
 	public function test_add_custom_element_preexisting() {
-		$expected = array(
+		$expected = [
 			'custom_elements' => 'div,~yoastmark',
-		);
+		];
 
-		$actual = $this->subject->add_custom_element( array( 'custom_elements' => 'div' ) );
+		$actual = $this->subject->add_custom_element( [ 'custom_elements' => 'div' ] );
 
 		$this->assertSame( $expected, $actual );
 	}
 
 	public function test_add_custom_element_other_properties() {
-		$expected = array(
+		$expected = [
 			'custom_elements' => '~yoastmark',
 			'other_property'  => 'hello world',
-		);
+		];
 
 		$actual = $this->subject->add_custom_element(
-			array(
+			[
 				'custom_elements' => '',
 				'other_property'  => 'hello world',
-			)
+			]
 		);
 		\ksort( $actual );
 

@@ -66,6 +66,10 @@ class WPSEO_Upgrade {
 
 		array_walk( $routines['after'], array( $this, 'run_upgrade_routine' ), $version );
 
+		if ( version_compare( $version, '12.4-RC0', '<' ) ) {
+			$this->upgrade_124();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -632,6 +636,8 @@ class WPSEO_Upgrade {
 	}
 
 	/**
+	 * Performs the 12.3 upgrade.
+	 *
 	 * Removes the about notice when its still in the database.
 	 */
 	private function upgrade_123() {
@@ -647,8 +653,17 @@ class WPSEO_Upgrade {
 		$center = Yoast_Notification_Center::get();
 		foreach ( $plugins as $plugin ) {
 			$center->remove_notification_by_id( 'wpseo-outdated-yoast-seo-plugin-' . $plugin );
-
 		}
+	}
+
+	/**
+	 * Performs the 12.4 upgrade.
+	 *
+	 * Removes the Google plus defaults from the database.
+	 */
+	private function upgrade_124() {
+		$this->cleanup_option_data( 'wpseo_social', 'google_plus_url' );
+		$this->cleanup_option_data( 'wpseo_social', 'plus-publisher' );
 	}
 
 	/**

@@ -18,6 +18,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 }
 
 ?>
+<?php /* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $attributes is properly escaped in parse_attribute via get_attributes in class-yoast-input-select.php. */ ?>
 <select <?php echo $attributes; ?>name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $id ); ?>">
 	<?php foreach ( $options as $option_attribute_value => $option_html_value ) : ?>
 	<option value="<?php echo esc_attr( $option_attribute_value ); ?>"<?php echo selected( $selected, $option_attribute_value, false ); ?>><?php echo esc_html( $option_html_value ); ?></option>

@@ -134,7 +134,7 @@ class Yoast_Input_Select {
 	 * @param string $value     The value of the attribute.
 	 * @param string $attribute The attribute to look for.
 	 */
-	private function parse_attribute( & $value, $attribute ) {
-		$value = sprintf( '%s="%s"', esc_html( $attribute ), esc_attr( $value ) );
+	private function parse_attribute( &$value, $attribute ) {
+		$value = sprintf( '%s="%s"', sanitize_key( $attribute ), esc_attr( $value ) );
 	}
 }

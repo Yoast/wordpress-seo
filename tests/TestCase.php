@@ -27,7 +27,7 @@ abstract class TestCase extends BaseTestCase {
 
 		Monkey\Functions\stubs(
 			[
-				// Null makes it so the function returns it's first argument.
+				// Null makes it so the function returns its first argument.
 				'esc_attr'            => null,
 				'esc_html'            => null,
 				'esc_textarea'        => null,
@@ -61,6 +61,22 @@ abstract class TestCase extends BaseTestCase {
 				'number_format_i18n'  => null,
 				'wp_parse_args'       => function ( $settings, $defaults ) {
 					return \array_merge( $defaults, $settings );
+				},
+				'wp_strip_all_tags'   => function ( $string, $remove_breaks = false ) {
+					$string = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
+					$string = strip_tags( $string );
+
+					if ( $remove_breaks ) {
+						$string = preg_replace( '/[\r\n\t ]+/', ' ', $string );
+					}
+
+					return trim( $string );
+				},
+				'get_bloginfo'       => function ( $show ) {
+					switch ( $show ) {
+						case 'charset': return 'UTF-8';
+					}
+					return $show;
 				},
 			]
 		);
@@ -113,7 +129,7 @@ abstract class TestCase extends BaseTestCase {
 		\ob_clean();
 
 		if ( ! \is_array( $expected ) ) {
-			$expected = array( $expected );
+			$expected = [ $expected ];
 		}
 
 		foreach ( $expected as $needle ) {
@@ -132,7 +148,7 @@ abstract class TestCase extends BaseTestCase {
 		\ob_clean();
 
 		if ( ! \is_array( $needles ) ) {
-			$needles = array( $needles );
+			$needles = [ $needles ];
 		}
 
 		foreach ( $needles as $needle ) {

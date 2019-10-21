@@ -380,7 +380,7 @@ class Yoast_Notification {
 	 * @param string $value Attribute value.
 	 * @param string $key   Attribute name.
 	 */
-	private function parse_attributes( & $value, $key ) {
-		$value = sprintf( '%s="%s"', $key, esc_attr( $value ) );
+	private function parse_attributes( &$value, $key ) {
+		$value = sprintf( '%s="%s"', sanitize_key( $key ), esc_attr( $value ) );
 	}
 }

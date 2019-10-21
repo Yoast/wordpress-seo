@@ -11,7 +11,9 @@
 class WPSEO_Opengraph_Image_Double extends WPSEO_OpenGraph_Image {
 
 	/**
-	 * @inheritdoc
+	 * Sets the images based on the page type.
+	 *
+	 * @return void
 	 */
 	public function set_images() {
 		parent::set_images();
