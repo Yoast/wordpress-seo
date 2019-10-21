@@ -7,12 +7,49 @@
 
 namespace Yoast\WP\Free\Builders;
 
+use Yoast\WP\Free\Helpers\Image_Helper;
+use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
+use Yoast\WP\Free\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\Free\Models\Indexable;
 
 /**
  * Represents the trait used in builders for handling social images.
  */
 trait Indexable_Social_Image_Trait {
+
+	/**
+	 * @var Image_Helper
+	 */
+	protected $image_helper;
+
+	/**
+	 * @var Open_Graph_Image_Helper
+	 */
+	protected $open_graph_image;
+
+	/**
+	 * @var Twitter_Image_Helper
+	 */
+	protected $twitter_image;
+
+	/**
+	 * Sets the helpers for the trait.
+	 *
+	 * @required
+	 *
+	 * @param Image_Helper            $image_helper     The image helper.
+	 * @param Open_Graph_Image_Helper $open_graph_image The Open Graph image helper.
+	 * @param Twitter_Image_Helper    $twitter_image    The Twitter image helper.
+	 */
+	public function set_social_image_helpers(
+		Image_Helper $image_helper,
+		Open_Graph_Image_Helper $open_graph_image,
+		Twitter_Image_Helper $twitter_image
+	) {
+		$this->image_helper     = $image_helper;
+		$this->open_graph_image = $open_graph_image;
+		$this->twitter_image    = $twitter_image;
+	}
 
 	/**
 	 * Sets the alternative on an indexable.

@@ -8,9 +8,6 @@
 namespace Yoast\WP\Free\Builders;
 
 use Exception;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
-use Yoast\WP\Free\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
 
@@ -26,38 +23,12 @@ class Indexable_Post_Builder {
 	protected $seo_meta_repository;
 
 	/**
-	 * @var Image_Helper
-	 */
-	protected $image_helper;
-
-	/**
-	 * @var Open_Graph_Image_Helper
-	 */
-	protected $open_graph_image;
-
-	/**
-	 * @var Twitter_Image_Helper
-	 */
-	protected $twitter_image;
-
-	/**
 	 * Indexable_Post_Builder constructor.
 	 *
-	 * @param SEO_Meta_Repository     $seo_meta_repository The SEO Meta repository.
-	 * @param Image_Helper            $image_helper        The image helper.
-	 * @param Open_Graph_Image_Helper $open_graph_image    The Open Graph image helper.
-	 * @param Twitter_Image_Helper    $twitter_image       The Twitter image helper.
+	 * @param SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
 	 */
-	public function __construct(
-		SEO_Meta_Repository $seo_meta_repository,
-		Image_Helper $image_helper,
-		Open_Graph_Image_Helper $open_graph_image,
-		Twitter_Image_Helper $twitter_image
-	) {
+	public function __construct( SEO_Meta_Repository $seo_meta_repository ) {
 		$this->seo_meta_repository = $seo_meta_repository;
-		$this->image_helper        = $image_helper;
-		$this->open_graph_image    = $open_graph_image;
-		$this->twitter_image       = $twitter_image;
 	}
 
 	/**
@@ -91,13 +62,13 @@ class Indexable_Post_Builder {
 		$noindex_advanced              = $this->get_meta_value( $post_id, 'meta-robots-adv' );
 		$meta_robots                   = \explode( ',', $noindex_advanced );
 		foreach ( $this->get_robots_options() as $meta_robots_option ) {
-			$indexable->{ 'is_robots_' . $meta_robots_option } = \in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
+			$indexable->{'is_robots_' . $meta_robots_option} = \in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}
 
 		$this->reset_social_images( $indexable );
 
 		foreach ( $this->get_indexable_lookup() as $meta_key => $indexable_key ) {
-			$indexable->{ $indexable_key } = $this->get_meta_value( $post_id, $meta_key );
+			$indexable->{$indexable_key} = $this->get_meta_value( $post_id, $meta_key );
 		}
 
 		$this->handle_social_images( $indexable );
@@ -190,7 +161,7 @@ class Indexable_Post_Builder {
 				$indexable->link_count          = $seo_meta->internal_link_count;
 				$indexable->incoming_link_count = $seo_meta->incoming_link_count;
 			}
-		// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
+			// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 		} catch ( Exception $exception ) {
 			// Do nothing...
 		}

@@ -7,9 +7,6 @@
 
 namespace Yoast\WP\Free\Builders;
 
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
-use Yoast\WP\Free\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\Free\Models\Indexable;
 
 /**
@@ -17,38 +14,6 @@ use Yoast\WP\Free\Models\Indexable;
  */
 class Indexable_Term_Builder {
 	use Indexable_Social_Image_Trait;
-
-	/**
-	 * @var Image_Helper
-	 */
-	protected $image_helper;
-
-	/**
-	 * @var Open_Graph_Image_Helper
-	 */
-	protected $open_graph_image;
-
-	/**
-	 * @var Twitter_Image_Helper
-	 */
-	protected $twitter_image;
-
-	/**
-	 * Indexable_Term_Builder constructor.
-	 *
-	 * @param Image_Helper            $image_helper        The image helper.
-	 * @param Open_Graph_Image_Helper $open_graph_image    The Open Graph image helper.
-	 * @param Twitter_Image_Helper    $twitter_image       The Twitter image helper.
-	 */
-	public function __construct(
-		Image_Helper $image_helper,
-		Open_Graph_Image_Helper $open_graph_image,
-		Twitter_Image_Helper $twitter_image
-	) {
-		$this->image_helper     = $image_helper;
-		$this->open_graph_image = $open_graph_image;
-		$this->twitter_image    = $twitter_image;
-	}
 
 	/**
 	 * Formats the data.
@@ -90,7 +55,7 @@ class Indexable_Term_Builder {
 		$this->reset_social_images( $indexable );
 
 		foreach ( $this->get_indexable_lookup() as $meta_key => $indexable_key ) {
-			$indexable->{ $indexable_key } = $this->get_meta_value( $meta_key, $term_meta );
+			$indexable->{$indexable_key} = $this->get_meta_value( $meta_key, $term_meta );
 		}
 
 		$this->handle_social_images( $indexable );
