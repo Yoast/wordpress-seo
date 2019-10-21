@@ -6,14 +6,14 @@ use Mockery;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Author_Archive_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
-use Yoast\WP\Free\Tests\Presentations\Presentation_Instance_Helpers;
+use Yoast\WP\Free\Tests\Presentations\Presentation_Instance_Dependencies;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 
 /**
  * Trait Presentation_Instance_Builder
  */
 trait Presentation_Instance_Builder {
-	use Presentation_Instance_Helpers;
+	use Presentation_Instance_Dependencies;
 
 	/**
 	 * @var Indexable
@@ -51,6 +51,6 @@ trait Presentation_Instance_Builder {
 
 		$this->instance = $instance->of( [ 'model' => $this->indexable ] );
 
-		$this->set_instance_helpers( $this->instance );
+		$this->set_instance_dependencies( $this->instance );
 	}
 }

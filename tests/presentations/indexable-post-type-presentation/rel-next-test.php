@@ -80,6 +80,7 @@ class Rel_Next_Test extends TestCase {
 	public function test_next_url() {
 		$this->indexable->object_id       = 1337;
 		$this->indexable->number_of_pages = 2;
+		$this->indexable->permalink       = 'https://example.com/my-post';
 
 		$this->rel_adjacent
 			->expects( 'is_disabled' )
@@ -90,11 +91,6 @@ class Rel_Next_Test extends TestCase {
 			->with( 'page' )
 			->once()
 			->andReturn( 1 );
-
-		Monkey\Functions\expect( 'get_permalink' )
-			->with( 1337 )
-			->once()
-			->andReturn( 'https://example.com/my-post' );
 
 		$this->rel_adjacent
 			->expects( 'get_paginated_url' )

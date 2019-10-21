@@ -49,11 +49,7 @@ class Canonical_Test extends TestCase {
 	 */
 	public function test_without_canonical() {
 		$this->indexable->object_id = 1337;
-
-		Monkey\Functions\expect( 'get_permalink' )
-			->once()
-			->with( 1337 )
-			->andReturn( 'https://example.com/permalink' );
+		$this->indexable->permalink = 'https://example.com/permalink';
 
 		Monkey\Functions\expect( 'get_query_var' )
 			->once()
@@ -61,7 +57,7 @@ class Canonical_Test extends TestCase {
 			->andReturn( 0 );
 
 		$this->url_helper
-			->expects( 'after_generate' )
+			->expects( 'ensure_absolute_url' )
 			->once()
 			->andReturnUsing( function( $val ) {
 				return $val;
@@ -78,17 +74,13 @@ class Canonical_Test extends TestCase {
 	public function test_with_pagination() {
 		$this->indexable->object_id       = 1337;
 		$this->indexable->number_of_pages = 2;
+		$this->indexable->permalink       = 'https://example.com/permalink';
 
 		$this->wp_rewrite = Mockery::mock( 'WP_Rewrite' );
 		$this->wp_rewrite_wrapper
 			->expects( 'get' )
 			->zeroOrMoreTimes()
 			->andReturn( $this->wp_rewrite );
-
-		Monkey\Functions\expect( 'get_permalink' )
-			->once()
-			->with( 1337 )
-			->andReturn( 'https://example.com/permalink' );
 
 		Monkey\Functions\expect( 'get_query_var' )
 			->once()
@@ -101,7 +93,7 @@ class Canonical_Test extends TestCase {
 			->andReturn( true );
 
 		$this->url_helper
-			->expects( 'after_generate' )
+			->expects( 'ensure_absolute_url' )
 			->once()
 			->andReturnUsing( function( $val ) {
 				return $val;
@@ -118,17 +110,13 @@ class Canonical_Test extends TestCase {
 	public function test_with_pagination_no_permalink_structure() {
 		$this->indexable->object_id       = 1337;
 		$this->indexable->number_of_pages = 2;
+		$this->indexable->permalink       = 'https://example.com/?post=123';
 
 		$this->wp_rewrite = Mockery::mock( 'WP_Rewrite' );
 		$this->wp_rewrite_wrapper
 			->expects( 'get' )
 			->zeroOrMoreTimes()
 			->andReturn( $this->wp_rewrite );
-
-		Monkey\Functions\expect( 'get_permalink' )
-			->once()
-			->with( 1337 )
-			->andReturn( 'https://example.com/?post=123' );
 
 		Monkey\Functions\expect( 'get_query_var' )
 			->once()
@@ -146,7 +134,7 @@ class Canonical_Test extends TestCase {
 			->andReturn( false );
 
 		$this->url_helper
-			->expects( 'after_generate' )
+			->expects( 'ensure_absolute_url' )
 			->once()
 			->andReturnUsing( function( $val ) {
 				return $val;

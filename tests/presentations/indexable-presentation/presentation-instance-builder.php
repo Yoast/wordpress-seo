@@ -3,19 +3,18 @@
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Presentation;
 
 use Mockery;
-use Yoast\WP\Free\Tests\Presentations\Presentation_Instance_Helpers;
 use Yoast\WP\Free\Generators\OG_Image_Generator;
 use Yoast\WP\Free\Generators\Twitter_Image_Generator;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
+use Yoast\WP\Free\Tests\Presentations\Presentation_Instance_Dependencies;
 
 /**
  * Trait Presentation_Instance_Builder
  */
 trait Presentation_Instance_Builder {
-	use Presentation_Instance_Helpers;
-	use Presentation_Instance_Generator_Builder;
+	use Presentation_Instance_Dependencies;
 
 	/**
 	 * @var Indexable
@@ -61,9 +60,7 @@ trait Presentation_Instance_Builder {
 			]
 		);
 
-		$this->set_instance_helpers( $this->instance );
-
-		$this->set_instance_generators();
+		$this->set_instance_dependencies( $this->instance );
 
 		$this->context->indexable = $this->indexable;
 	}
