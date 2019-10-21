@@ -65,11 +65,10 @@ const getKeywordSuggestionExplanation = keywords => {
  *
  * @param {string}   title           The title of the list.
  * @param {WordCombination[]|ProminentWord[]}   relevantWords   The relevant words.
- * @param {number}   keywordLimit    The maximum number of keywords to display.
  *
  * @returns {JSX.Element} Rendered WordList component.
  */
-const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
+const KeywordSuggestions = ( { relevantWords } ) => {
 	const header = <p>{ getKeywordSuggestionExplanation( relevantWords ) }</p>;
 	const footer = <p>{ getKeywordResearchArticleLink() }</p>;
 	return (
@@ -83,11 +82,6 @@ const KeywordSuggestions = ( { relevantWords, keywordLimit } ) => {
 
 KeywordSuggestions.propTypes = {
 	relevantWords: PropTypes.arrayOf( PropTypes.object ).isRequired,
-	keywordLimit: PropTypes.number,
-};
-
-KeywordSuggestions.defaultProps = {
-	keywordLimit: 5,
 };
 
 export default KeywordSuggestions;
