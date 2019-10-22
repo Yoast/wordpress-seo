@@ -13,7 +13,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * Class Indexable_Term_Test.
  *
  * @group indexables
- * @group formatters
+ * @group builders
  *
  * @coversDefaultClass \Yoast\WP\Free\Builders\Indexable_Term_Builder
  * @covers ::<!public>
