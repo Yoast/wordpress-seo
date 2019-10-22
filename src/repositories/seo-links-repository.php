@@ -12,9 +12,6 @@ use Yoast\WP\Free\ORM\Yoast_Model;
 /**
  * Class SEO_Links_Repository
  *
- * WARNING: This class merely exists for type hints and dependency injection.
- * Instances of this class will actually be instances of ORMWrapper and any functions and/or methods here will not be represented.
- *
  * @package Yoast\WP\Free\ORM\Repositories
  */
 class SEO_Links_Repository {

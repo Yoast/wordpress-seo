@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Repositories;
 
+use Yoast\WP\Free\Models\Primary_Term;
 use Yoast\WP\Free\ORM\Yoast_Model;
 
 /**
@@ -26,15 +27,15 @@ class Primary_Term_Repository {
 	}
 
 	/**
-	 * Retrieves an indexable by a post ID and taxonomy.
+	 * Retrieves a primary term by a post ID and taxonomy.
 	 *
 	 * @param int    $post_id     The post the indexable is based upon.
 	 * @param string $taxonomy    The taxonomy the indexable belongs to.
 	 * @param bool   $auto_create Optional. Creates an indexable if it does not exist yet.
 	 *
-	 * @return bool|\Yoast\WP\Free\Models\Indexable Instance of indexable.
+	 * @return Primary_Term|null Instance of a primary term.
 	 */
-	public function find_by_postid_and_taxonomy( $post_id, $taxonomy, $auto_create = true ) {
+	public function find_by_post_id_and_taxonomy( $post_id, $taxonomy, $auto_create = true ) {
 		/** @var \Yoast\WP\Free\Models\Primary_Term $primary_term */
 		$primary_term = $this->query()
 							 ->where( 'post_id', $post_id )

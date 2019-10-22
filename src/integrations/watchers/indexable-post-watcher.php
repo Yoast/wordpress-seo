@@ -7,8 +7,9 @@
 
 namespace Yoast\WP\Free\Integrations\Watchers;
 
-use Yoast\WP\Free\Builders\Indexable_Post_Builder;
+use Yoast\WP\Free\Builders\Indexable_Builder;
 use Yoast\WP\Free\Integrations\Integration_Interface;
+use Yoast\WP\Free\Repositories\Indexable_Hierarchy_Repository;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 
 /**
@@ -24,24 +25,35 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @var \Yoast\WP\Free\Repositories\Indexable_Repository
+	 * @var Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
-	 * @var \Yoast\WP\Free\Builders\Indexable_Post_Builder
+	 * @var Indexable_Builder
 	 */
 	protected $builder;
 
 	/**
+	 * @var Indexable_Hierarchy_Repository
+	 */
+	private $hierarchy_repository;
+
+	/**
 	 * Indexable_Post_Watcher constructor.
 	 *
-	 * @param \Yoast\WP\Free\Repositories\Indexable_Repository $repository The repository to use.
-	 * @param \Yoast\WP\Free\Builders\Indexable_Post_Builder   $builder    The post builder to use.
+	 * @param Indexable_Repository           $repository           The repository to use.
+	 * @param Indexable_Builder              $builder              The post builder to use.
+	 * @param Indexable_Hierarchy_Repository $hierarchy_repository The hierarchy repository to use.
 	 */
-	public function __construct( Indexable_Repository $repository, Indexable_Post_Builder $builder ) {
-		$this->repository = $repository;
-		$this->builder    = $builder;
+	public function __construct(
+		Indexable_Repository $repository,
+		Indexable_Builder $builder,
+		Indexable_Hierarchy_Repository $hierarchy_repository
+	) {
+		$this->repository           = $repository;
+		$this->builder              = $builder;
+		$this->hierarchy_repository = $hierarchy_repository;
 	}
 
 	/**
@@ -70,6 +82,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 			return;
 		}
 
+		$this->hierarchy_repository->clear_ancestors( $indexable->id );
 		$indexable->delete();
 	}
 
@@ -86,9 +99,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 		}
 
 		$indexable = $this->repository->find_by_id_and_type( $post_id, 'post', false );
-
-		// If we haven't found an existing indexable, create it. Otherwise update it.
-		$indexable = ( $indexable === false ) ? $this->repository->create_for_id_and_type( $post_id, 'post' ) : $this->builder->build( $post_id, $indexable );
+		$indexable = $this->builder->build_for_id_and_type( $post_id, 'post', $indexable );
 
 		$indexable->save();
 	}
