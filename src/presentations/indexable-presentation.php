@@ -358,7 +358,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_title;
 		}
 
-		if ( $this->options_helper->get( 'opengraph' ) === true ) {
+		if ( $this->context->open_graph_enabled === true ) {
 			if ( $this->model->og_title ) {
 				return $this->model->og_title;
 			}
@@ -381,7 +381,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_description;
 		}
 
-		if ( $this->options_helper->get( 'opengraph' ) === true ) {
+		if ( $this->context->open_graph_enabled === true ) {
 			if ( $this->model->og_description ) {
 				return $this->model->og_description;
 			}
