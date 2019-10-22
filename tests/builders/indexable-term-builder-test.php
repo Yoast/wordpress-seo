@@ -119,11 +119,14 @@ class Indexable_Term_Builder_Test extends TestCase {
 			->once()
 			->andReturn( 'image.jpg' );
 
-		$builder = new Indexable_Term_Builder(
+		$builder = new Indexable_Term_Builder();
+
+		$builder->set_social_image_helpers(
 			$image_helper,
 			$open_graph_image,
 			$twitter_image
 		);
+
 		$builder->build( 1, $indexable_mock );
 	}
 }
