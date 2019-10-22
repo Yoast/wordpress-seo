@@ -31,6 +31,10 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * @covers ::build
 	 */
 	public function test_build() {
+		Monkey\Functions\expect( 'get_post' )->once()->with( 1 )->andReturn( (object) [
+			'post_content' => 'The content of the post',
+		] );
+
 		Monkey\Functions\expect( 'get_permalink' )->once()->with( 1 )->andReturn( 'https://permalink' );
 		Monkey\Functions\expect( 'get_post_type' )->once()->with( 1 )->andReturn( 'post' );
 		Monkey\Functions\expect( 'get_post_custom' )->with( 1 )->andReturn(
@@ -99,6 +103,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'readability_score', 50 );
 		$indexable_mock->orm->expects( 'set' )->with( 'link_count', 5 );
 		$indexable_mock->orm->expects( 'set' )->with( 'incoming_link_count', 2 );
+		$indexable_mock->orm->expects( 'set' )->with( 'number_of_pages', null );
 
 		$indexable_mock->orm->expects( 'get' )->once()->with( 'og_image' );
 		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'og_image_id' );

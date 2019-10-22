@@ -126,8 +126,8 @@ class Images {
 			return;
 		}
 
-		if ( $this->url->is_relative( $image['url'] ) ) {
-			$image['url'] = $this->url->get_relative_path( $image['url'] );
+		if ( $this->url->is_relative( $image['url'] ) && $image['url'][0] === '/' ) {
+			$image['url'] = $this->url->build_absolute_url( $image['url'] );
 		}
 
 		if ( array_key_exists( $image['url'], $this->images ) ) {
