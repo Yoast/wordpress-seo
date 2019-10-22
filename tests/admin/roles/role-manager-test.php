@@ -12,6 +12,11 @@ use stdClass;
  */
 class Role_Manager_Test extends TestCase {
 
+	/**
+	 * Tests the registration of a role.
+	 *`
+	 * @covers WPSEO_Abstract_Role_Manager::register
+	 */
 	public function test_register() {
 		$instance = new WPSEO_Role_Manager_Mock();
 
@@ -22,6 +27,11 @@ class Role_Manager_Test extends TestCase {
 		$this->assertContains( 'role', $instance->get_roles() );
 	}
 
+	/**
+	 * Tests the retrieval of the capabilities.
+	 *
+	 * @covers WPSEO_Abstract_Role_Manager::get_capabilities
+	 */
 	public function test_get_capabilities() {
 		$instance = new WPSEO_Role_Manager_Mock();
 
@@ -37,6 +47,11 @@ class Role_Manager_Test extends TestCase {
 		$this->assertTrue( $capabilities['manage_options'] );
 	}
 
+	/**
+	 * Tests retrieval of capabilities with bad input given.
+	 *
+	 * @covers WPSEO_Abstract_Role_Manager::get_capabilities
+	 */
 	public function test_get_capabilities_bad_input() {
 		$instance = new WPSEO_Role_Manager_Mock();
 

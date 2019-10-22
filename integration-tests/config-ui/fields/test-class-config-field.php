@@ -11,6 +11,8 @@
 class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 
 	/**
+	 * Tests if the constructor works.
+	 *
 	 * @covers WPSEO_Config_Field::__construct
 	 * @covers WPSEO_Config_Field::get_identifier
 	 * @covers WPSEO_Config_Field::get_component
@@ -27,6 +29,8 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests if the properties are set the expected way.
+	 *
 	 * @covers WPSEO_Config_Field::set_property
 	 * @covers WPSEO_Config_Field::get_properties
 	 */
@@ -46,6 +50,8 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the retrieval of the set data.
+	 *
 	 * @covers WPSEO_Config_Field::get_data
 	 */
 	public function test_get_data() {
@@ -58,6 +64,7 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the setting of required field.
 	 * @covers WPSEO_Config_Field::set_requires
 	 * @covers WPSEO_Config_Field::get_requires
 	 */
@@ -79,6 +86,8 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests if the data is converted to an array as expected.
+	 *
 	 * @covers WPSEO_Config_Field::to_array
 	 */
 	public function test_to_array() {
@@ -91,6 +100,8 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests if the field has set the fields it requires.
+	 *
 	 * @covers WPSEO_Config_Field::to_array
 	 */
 	public function test_to_array_requires() {
@@ -105,6 +116,8 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests if the field properties are converted to an array.
+	 *
 	 * @covers WPSEO_Config_Field::to_array
 	 */
 	public function test_to_array_properties() {

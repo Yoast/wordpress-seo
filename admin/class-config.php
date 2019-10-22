@@ -163,7 +163,7 @@ class WPSEO_Admin_Pages {
 		$addon_manager = new WPSEO_Addon_Manager();
 
 		return ! WPSEO_Utils::is_yoast_seo_premium()
-			&& ! $addon_manager->has_valid_subscription( WPSEO_Addon_Manager::LOCAL_SLUG );
+			&& ! ( defined( 'WPSEO_LOCAL_FILE' ) );
 	}
 
 	/**

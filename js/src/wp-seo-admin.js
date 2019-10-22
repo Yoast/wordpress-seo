@@ -157,12 +157,6 @@ import { debounce } from "lodash";
 			width: select2Width,
 			language: wpseoSelect2Locale,
 		} );
-
-		// Select2 for profile in Search Console
-		jQuery( "#profile" ).select2( {
-			width: select2Width,
-			language: wpseoSelect2Locale,
-		} );
 	}
 
 	/**
