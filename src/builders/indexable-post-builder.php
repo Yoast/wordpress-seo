@@ -75,6 +75,8 @@ class Indexable_Post_Builder {
 
 		$indexable = $this->set_link_count( $post_id, $indexable );
 
+		$indexable->number_of_pages = $this->get_number_of_pages_for_post( $post_id );
+
 		return $indexable;
 	}
 
@@ -229,5 +231,78 @@ class Indexable_Post_Builder {
 		}
 
 		return false;
+	}
+  
+	/**
+	 * Sets the alternative on an indexable.
+	 *
+	 * @param array     $alternative_image The alternative image to set.
+	 * @param Indexable $indexable         The indexable to set image for.
+	 */
+	protected function set_alternative_image( array $alternative_image, Indexable $indexable ) {
+
+		if ( ! empty( $alternative_image['image_id'] ) ) {
+			if ( ! $indexable->og_image_source && ! $indexable->og_image_id ) {
+				$indexable->og_image_id     = $alternative_image['image_id'];
+				$indexable->og_image_source = $alternative_image['source'];
+
+				$this->set_og_image_meta_data( $indexable );
+			}
+
+			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
+				$indexable->twitter_image        = $this->twitter_image->get_by_id( $alternative_image['image_id'] );
+				$indexable->twitter_image_id     = $alternative_image['image_id'];
+				$indexable->twitter_image_source = $alternative_image['source'];
+			}
+		}
+
+		if ( ! empty( $alternative_image['image'] ) ) {
+			if ( ! $indexable->og_image_source && ! $indexable->og_image_id ) {
+				$indexable->og_image        = $alternative_image['image'];
+				$indexable->og_image_source = $alternative_image['source'];
+			}
+
+			if ( ! $indexable->twitter_image && ! $indexable->twitter_image_id ) {
+				$indexable->twitter_image        = $alternative_image['image'];
+				$indexable->twitter_image_source = $alternative_image['source'];
+			}
+		}
+	}
+
+	/**
+	 * Gets the number of pages for a post.
+	 *
+	 * @param int $post_id The post id.
+	 *
+	 * @return int|null The number of pages or null if the post isn't paginated.
+	 */
+	protected function get_number_of_pages_for_post( $post_id ) {
+		$post = \get_post( $post_id );
+
+		$number_of_pages = ( \substr_count( $post->post_content, '<!--nextpage-->' ) + 1 );
+
+		if ( $number_of_pages <= 1 ) {
+			return null;
+		}
+
+		return $number_of_pages;
+	}
+
+	/**
+	 * Sets the OG image meta data for an og image
+	 *
+	 * @param Indexable $indexable The indexable.
+	 */
+	protected function set_og_image_meta_data( Indexable $indexable ) {
+		if ( ! $indexable->og_image_id ) {
+			return;
+		}
+
+		$image = $this->open_graph_image->get_image_url_by_id( $indexable->og_image_id );
+
+		if ( ! empty( $image ) ) {
+			$indexable->og_image      = $image['url'];
+			$indexable->og_image_meta = wp_json_encode( $image );
+		}
 	}
 }

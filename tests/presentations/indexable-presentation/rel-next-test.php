@@ -5,15 +5,13 @@ namespace Yoast\WP\Free\Tests\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class Twitter_Card_Test
+ * Class Rel_Next_Test
  *
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
  *
  * @group presentations
- * @group twitter
- * @group twitter-card
  */
-class Twitter_Card_Test extends TestCase {
+class Rel_Next_Test extends TestCase {
 	use Presentation_Instance_Builder;
 
 	/**
@@ -28,11 +26,9 @@ class Twitter_Card_Test extends TestCase {
 	/**
 	 * Tests whether an empty string is returned.
 	 *
-	 * @covers ::generate_twitter_card
+	 * ::covers generate_rel_next
 	 */
-	public function test_generate_twitter_card() {
-		$this->context->twitter_card = 'summary';
-
-		$this->assertEquals( 'summary', $this->instance->generate_twitter_card() );
+	public function test_generate_rel_next_and_return_empty() {
+		$this->assertEmpty( $this->instance->generate_rel_next() );
 	}
 }

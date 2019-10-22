@@ -16,8 +16,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\Free\Presenters\Canonical_Presenter
  *
  * @group presentations
- * @group twitter
- * @group twitter-image
+ * @group canonical
  */
 class Canonical_Presenter_Test extends TestCase {
 

@@ -72,6 +72,8 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	protected $indexing_directive_presenters = [
 		'Canonical',
+		'Rel_Prev',
+		'Rel_Next',
 	];
 
 	/**
@@ -118,6 +120,8 @@ class Front_End_Integration implements Integration_Interface {
 		'Open_Graph\Article_Published_Time',
 		'Open_Graph\Article_Modified_Time',
 		'Twitter\Creator',
+		'Rel_Prev',
+		'Rel_Next',
 	];
 
 	/**
