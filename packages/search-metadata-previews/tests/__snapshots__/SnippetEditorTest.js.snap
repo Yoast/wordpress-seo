@@ -274,7 +274,7 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c6"
@@ -297,6 +297,20 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
             </span>
           </div>
         </div>
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
         <div
           className="c10"
           onMouseEnter={[Function]}
@@ -313,20 +327,6 @@ exports[`SnippetEditor accepts a custom data mapping function 1`] = `
             </span>
           </div>
         </div>
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          Url preview:
-        </span>
       </div>
       <div
         className="c5"
@@ -1468,7 +1468,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                             }
                           }
                         >
-                          SEO title preview:
+                          Url preview:
                         </span>
                       </ScreenReaderText>
                       <SnippetPreview__BaseUrl>
@@ -1634,6 +1634,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseUrl>
+                      <ScreenReaderText>
+                        <span
+                          className="screen-reader-text"
+                          style={
+                            Object {
+                              "clip": "rect(1px, 1px, 1px, 1px)",
+                              "height": "1px",
+                              "overflow": "hidden",
+                              "position": "absolute",
+                              "width": "1px",
+                            }
+                          }
+                        >
+                          SEO title preview:
+                        </span>
+                      </ScreenReaderText>
                       <SnippetPreview__BaseTitle
                         onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
@@ -1757,22 +1773,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseTitle>
-                      <ScreenReaderText>
-                        <span
-                          className="screen-reader-text"
-                          style={
-                            Object {
-                              "clip": "rect(1px, 1px, 1px, 1px)",
-                              "height": "1px",
-                              "overflow": "hidden",
-                              "position": "absolute",
-                              "width": "1px",
-                            }
-                          }
-                        >
-                          Url preview:
-                        </span>
-                      </ScreenReaderText>
                     </div>
                   </StyledComponent>
                 </SnippetPreview__MobilePartContainer>
@@ -5062,7 +5062,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                             }
                           }
                         >
-                          SEO title preview:
+                          Url preview:
                         </span>
                       </ScreenReaderText>
                       <SnippetPreview__BaseUrl>
@@ -5228,6 +5228,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseUrl>
+                      <ScreenReaderText>
+                        <span
+                          className="screen-reader-text"
+                          style={
+                            Object {
+                              "clip": "rect(1px, 1px, 1px, 1px)",
+                              "height": "1px",
+                              "overflow": "hidden",
+                              "position": "absolute",
+                              "width": "1px",
+                            }
+                          }
+                        >
+                          SEO title preview:
+                        </span>
+                      </ScreenReaderText>
                       <SnippetPreview__BaseTitle
                         onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
@@ -5351,22 +5367,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseTitle>
-                      <ScreenReaderText>
-                        <span
-                          className="screen-reader-text"
-                          style={
-                            Object {
-                              "clip": "rect(1px, 1px, 1px, 1px)",
-                              "height": "1px",
-                              "overflow": "hidden",
-                              "position": "absolute",
-                              "width": "1px",
-                            }
-                          }
-                        >
-                          Url preview:
-                        </span>
-                      </ScreenReaderText>
                     </div>
                   </StyledComponent>
                 </SnippetPreview__MobilePartContainer>
@@ -8656,7 +8656,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                             }
                           }
                         >
-                          SEO title preview:
+                          Url preview:
                         </span>
                       </ScreenReaderText>
                       <SnippetPreview__BaseUrl>
@@ -8822,6 +8822,22 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseUrl>
+                      <ScreenReaderText>
+                        <span
+                          className="screen-reader-text"
+                          style={
+                            Object {
+                              "clip": "rect(1px, 1px, 1px, 1px)",
+                              "height": "1px",
+                              "overflow": "hidden",
+                              "position": "absolute",
+                              "width": "1px",
+                            }
+                          }
+                        >
+                          SEO title preview:
+                        </span>
+                      </ScreenReaderText>
                       <SnippetPreview__BaseTitle
                         onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
@@ -8945,22 +8961,6 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseTitle>
-                      <ScreenReaderText>
-                        <span
-                          className="screen-reader-text"
-                          style={
-                            Object {
-                              "clip": "rect(1px, 1px, 1px, 1px)",
-                              "height": "1px",
-                              "overflow": "hidden",
-                              "position": "absolute",
-                              "width": "1px",
-                            }
-                          }
-                        >
-                          Url preview:
-                        </span>
-                      </ScreenReaderText>
                     </div>
                   </StyledComponent>
                 </SnippetPreview__MobilePartContainer>
@@ -12250,7 +12250,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                             }
                           }
                         >
-                          SEO title preview:
+                          Url preview:
                         </span>
                       </ScreenReaderText>
                       <SnippetPreview__BaseUrl>
@@ -12416,6 +12416,22 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseUrl>
+                      <ScreenReaderText>
+                        <span
+                          className="screen-reader-text"
+                          style={
+                            Object {
+                              "clip": "rect(1px, 1px, 1px, 1px)",
+                              "height": "1px",
+                              "overflow": "hidden",
+                              "position": "absolute",
+                              "width": "1px",
+                            }
+                          }
+                        >
+                          SEO title preview:
+                        </span>
+                      </ScreenReaderText>
                       <SnippetPreview__BaseTitle
                         onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
@@ -12539,22 +12555,6 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseTitle>
-                      <ScreenReaderText>
-                        <span
-                          className="screen-reader-text"
-                          style={
-                            Object {
-                              "clip": "rect(1px, 1px, 1px, 1px)",
-                              "height": "1px",
-                              "overflow": "hidden",
-                              "position": "absolute",
-                              "width": "1px",
-                            }
-                          }
-                        >
-                          Url preview:
-                        </span>
-                      </ScreenReaderText>
                     </div>
                   </StyledComponent>
                 </SnippetPreview__MobilePartContainer>
@@ -15464,7 +15464,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                             }
                           }
                         >
-                          SEO title preview:
+                          Url preview:
                         </span>
                       </ScreenReaderText>
                       <SnippetPreview__BaseUrl>
@@ -15630,6 +15630,22 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseUrl>
+                      <ScreenReaderText>
+                        <span
+                          className="screen-reader-text"
+                          style={
+                            Object {
+                              "clip": "rect(1px, 1px, 1px, 1px)",
+                              "height": "1px",
+                              "overflow": "hidden",
+                              "position": "absolute",
+                              "width": "1px",
+                            }
+                          }
+                        >
+                          SEO title preview:
+                        </span>
+                      </ScreenReaderText>
                       <SnippetPreview__BaseTitle
                         onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
@@ -15753,22 +15769,6 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseTitle>
-                      <ScreenReaderText>
-                        <span
-                          className="screen-reader-text"
-                          style={
-                            Object {
-                              "clip": "rect(1px, 1px, 1px, 1px)",
-                              "height": "1px",
-                              "overflow": "hidden",
-                              "position": "absolute",
-                              "width": "1px",
-                            }
-                          }
-                        >
-                          Url preview:
-                        </span>
-                      </ScreenReaderText>
                     </div>
                   </StyledComponent>
                 </SnippetPreview__MobilePartContainer>
@@ -17331,7 +17331,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                             }
                           }
                         >
-                          SEO title preview:
+                          Url preview:
                         </span>
                       </ScreenReaderText>
                       <SnippetPreview__BaseUrl>
@@ -17497,6 +17497,22 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseUrl>
+                      <ScreenReaderText>
+                        <span
+                          className="screen-reader-text"
+                          style={
+                            Object {
+                              "clip": "rect(1px, 1px, 1px, 1px)",
+                              "height": "1px",
+                              "overflow": "hidden",
+                              "position": "absolute",
+                              "width": "1px",
+                            }
+                          }
+                        >
+                          SEO title preview:
+                        </span>
+                      </ScreenReaderText>
                       <SnippetPreview__BaseTitle
                         onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
@@ -17620,22 +17636,6 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseTitle>
-                      <ScreenReaderText>
-                        <span
-                          className="screen-reader-text"
-                          style={
-                            Object {
-                              "clip": "rect(1px, 1px, 1px, 1px)",
-                              "height": "1px",
-                              "overflow": "hidden",
-                              "position": "absolute",
-                              "width": "1px",
-                            }
-                          }
-                        >
-                          Url preview:
-                        </span>
-                      </ScreenReaderText>
                     </div>
                   </StyledComponent>
                 </SnippetPreview__MobilePartContainer>
@@ -20925,7 +20925,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                             }
                           }
                         >
-                          SEO title preview:
+                          Url preview:
                         </span>
                       </ScreenReaderText>
                       <SnippetPreview__BaseUrl>
@@ -21091,6 +21091,22 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseUrl>
+                      <ScreenReaderText>
+                        <span
+                          className="screen-reader-text"
+                          style={
+                            Object {
+                              "clip": "rect(1px, 1px, 1px, 1px)",
+                              "height": "1px",
+                              "overflow": "hidden",
+                              "position": "absolute",
+                              "width": "1px",
+                            }
+                          }
+                        >
+                          SEO title preview:
+                        </span>
+                      </ScreenReaderText>
                       <SnippetPreview__BaseTitle
                         onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
@@ -21214,22 +21230,6 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseTitle>
-                      <ScreenReaderText>
-                        <span
-                          className="screen-reader-text"
-                          style={
-                            Object {
-                              "clip": "rect(1px, 1px, 1px, 1px)",
-                              "height": "1px",
-                              "overflow": "hidden",
-                              "position": "absolute",
-                              "width": "1px",
-                            }
-                          }
-                        >
-                          Url preview:
-                        </span>
-                      </ScreenReaderText>
                     </div>
                   </StyledComponent>
                 </SnippetPreview__MobilePartContainer>
@@ -23820,7 +23820,7 @@ exports[`SnippetEditor highlights a focused field 1`] = `
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c6"
@@ -23843,6 +23843,20 @@ exports[`SnippetEditor highlights a focused field 1`] = `
             </span>
           </div>
         </div>
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
         <div
           className="c10"
           onMouseEnter={[Function]}
@@ -23859,20 +23873,6 @@ exports[`SnippetEditor highlights a focused field 1`] = `
             </span>
           </div>
         </div>
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          Url preview:
-        </span>
       </div>
       <div
         className="c5"
@@ -24207,7 +24207,7 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c6"
@@ -24230,6 +24230,20 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
             </span>
           </div>
         </div>
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
         <div
           className="c10"
           onMouseEnter={[Function]}
@@ -24246,20 +24260,6 @@ exports[`SnippetEditor highlights a hovered field 1`] = `
             </span>
           </div>
         </div>
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          Url preview:
-        </span>
       </div>
       <div
         className="c5"
@@ -25322,7 +25322,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                             }
                           }
                         >
-                          SEO title preview:
+                          Url preview:
                         </span>
                       </ScreenReaderText>
                       <SnippetPreview__BaseUrl>
@@ -25488,6 +25488,22 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseUrl>
+                      <ScreenReaderText>
+                        <span
+                          className="screen-reader-text"
+                          style={
+                            Object {
+                              "clip": "rect(1px, 1px, 1px, 1px)",
+                              "height": "1px",
+                              "overflow": "hidden",
+                              "position": "absolute",
+                              "width": "1px",
+                            }
+                          }
+                        >
+                          SEO title preview:
+                        </span>
+                      </ScreenReaderText>
                       <SnippetPreview__BaseTitle
                         onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
@@ -25611,22 +25627,6 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseTitle>
-                      <ScreenReaderText>
-                        <span
-                          className="screen-reader-text"
-                          style={
-                            Object {
-                              "clip": "rect(1px, 1px, 1px, 1px)",
-                              "height": "1px",
-                              "overflow": "hidden",
-                              "position": "absolute",
-                              "width": "1px",
-                            }
-                          }
-                        >
-                          Url preview:
-                        </span>
-                      </ScreenReaderText>
                     </div>
                   </StyledComponent>
                 </SnippetPreview__MobilePartContainer>
@@ -28954,7 +28954,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                             }
                           }
                         >
-                          SEO title preview:
+                          Url preview:
                         </span>
                       </ScreenReaderText>
                       <SnippetPreview__BaseUrl>
@@ -29120,6 +29120,22 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseUrl>
+                      <ScreenReaderText>
+                        <span
+                          className="screen-reader-text"
+                          style={
+                            Object {
+                              "clip": "rect(1px, 1px, 1px, 1px)",
+                              "height": "1px",
+                              "overflow": "hidden",
+                              "position": "absolute",
+                              "width": "1px",
+                            }
+                          }
+                        >
+                          SEO title preview:
+                        </span>
+                      </ScreenReaderText>
                       <SnippetPreview__BaseTitle
                         onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
@@ -29243,22 +29259,6 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseTitle>
-                      <ScreenReaderText>
-                        <span
-                          className="screen-reader-text"
-                          style={
-                            Object {
-                              "clip": "rect(1px, 1px, 1px, 1px)",
-                              "height": "1px",
-                              "overflow": "hidden",
-                              "position": "absolute",
-                              "width": "1px",
-                            }
-                          }
-                        >
-                          Url preview:
-                        </span>
-                      </ScreenReaderText>
                     </div>
                   </StyledComponent>
                 </SnippetPreview__MobilePartContainer>
@@ -32557,7 +32557,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                             }
                           }
                         >
-                          SEO title preview:
+                          Url preview:
                         </span>
                       </ScreenReaderText>
                       <SnippetPreview__BaseUrl>
@@ -32723,6 +32723,22 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseUrl>
+                      <ScreenReaderText>
+                        <span
+                          className="screen-reader-text"
+                          style={
+                            Object {
+                              "clip": "rect(1px, 1px, 1px, 1px)",
+                              "height": "1px",
+                              "overflow": "hidden",
+                              "position": "absolute",
+                              "width": "1px",
+                            }
+                          }
+                        >
+                          SEO title preview:
+                        </span>
+                      </ScreenReaderText>
                       <SnippetPreview__BaseTitle
                         onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
@@ -32846,22 +32862,6 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseTitle>
-                      <ScreenReaderText>
-                        <span
-                          className="screen-reader-text"
-                          style={
-                            Object {
-                              "clip": "rect(1px, 1px, 1px, 1px)",
-                              "height": "1px",
-                              "overflow": "hidden",
-                              "position": "absolute",
-                              "width": "1px",
-                            }
-                          }
-                        >
-                          Url preview:
-                        </span>
-                      </ScreenReaderText>
                     </div>
                   </StyledComponent>
                 </SnippetPreview__MobilePartContainer>
@@ -36162,7 +36162,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
                             }
                           }
                         >
-                          SEO title preview:
+                          Url preview:
                         </span>
                       </ScreenReaderText>
                       <SnippetPreview__BaseUrl>
@@ -36328,6 +36328,22 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseUrl>
+                      <ScreenReaderText>
+                        <span
+                          className="screen-reader-text"
+                          style={
+                            Object {
+                              "clip": "rect(1px, 1px, 1px, 1px)",
+                              "height": "1px",
+                              "overflow": "hidden",
+                              "position": "absolute",
+                              "width": "1px",
+                            }
+                          }
+                        >
+                          SEO title preview:
+                        </span>
+                      </ScreenReaderText>
                       <SnippetPreview__BaseTitle
                         onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
@@ -36451,22 +36467,6 @@ exports[`SnippetEditor passes replacement variables to the title and description
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseTitle>
-                      <ScreenReaderText>
-                        <span
-                          className="screen-reader-text"
-                          style={
-                            Object {
-                              "clip": "rect(1px, 1px, 1px, 1px)",
-                              "height": "1px",
-                              "overflow": "hidden",
-                              "position": "absolute",
-                              "width": "1px",
-                            }
-                          }
-                        >
-                          Url preview:
-                        </span>
-                      </ScreenReaderText>
                     </div>
                   </StyledComponent>
                 </SnippetPreview__MobilePartContainer>
@@ -39116,7 +39116,7 @@ exports[`SnippetEditor passes the date prop 1`] = `
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c6"
@@ -39139,6 +39139,20 @@ exports[`SnippetEditor passes the date prop 1`] = `
             </span>
           </div>
         </div>
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
         <div
           className="c10"
           onMouseEnter={[Function]}
@@ -39155,20 +39169,6 @@ exports[`SnippetEditor passes the date prop 1`] = `
             </span>
           </div>
         </div>
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          Url preview:
-        </span>
       </div>
       <div
         className="c5"
@@ -40317,7 +40317,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                             }
                           }
                         >
-                          SEO title preview:
+                          Url preview:
                         </span>
                       </ScreenReaderText>
                       <SnippetPreview__BaseUrl>
@@ -40483,6 +40483,22 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseUrl>
+                      <ScreenReaderText>
+                        <span
+                          className="screen-reader-text"
+                          style={
+                            Object {
+                              "clip": "rect(1px, 1px, 1px, 1px)",
+                              "height": "1px",
+                              "overflow": "hidden",
+                              "position": "absolute",
+                              "width": "1px",
+                            }
+                          }
+                        >
+                          SEO title preview:
+                        </span>
+                      </ScreenReaderText>
                       <SnippetPreview__BaseTitle
                         onMouseEnter={[Function]}
                         onMouseLeave={[Function]}
@@ -40606,22 +40622,6 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                           </div>
                         </StyledComponent>
                       </SnippetPreview__BaseTitle>
-                      <ScreenReaderText>
-                        <span
-                          className="screen-reader-text"
-                          style={
-                            Object {
-                              "clip": "rect(1px, 1px, 1px, 1px)",
-                              "height": "1px",
-                              "overflow": "hidden",
-                              "position": "absolute",
-                              "width": "1px",
-                            }
-                          }
-                        >
-                          Url preview:
-                        </span>
-                      </ScreenReaderText>
                     </div>
                   </StyledComponent>
                 </SnippetPreview__MobilePartContainer>
@@ -43807,7 +43807,7 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c6"
@@ -43830,6 +43830,20 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
             </span>
           </div>
         </div>
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
         <div
           className="c10"
           onMouseEnter={[Function]}
@@ -43846,20 +43860,6 @@ exports[`SnippetEditor renders the snippet editor without a close button when sh
             </span>
           </div>
         </div>
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          Url preview:
-        </span>
       </div>
       <div
         className="c5"
@@ -44289,7 +44289,7 @@ exports[`SnippetEditor shows the editor 1`] = `
             }
           }
         >
-          SEO title preview:
+          Url preview:
         </span>
         <div
           className="c6"
@@ -44312,6 +44312,20 @@ exports[`SnippetEditor shows the editor 1`] = `
             </span>
           </div>
         </div>
+        <span
+          className="screen-reader-text"
+          style={
+            Object {
+              "clip": "rect(1px, 1px, 1px, 1px)",
+              "height": "1px",
+              "overflow": "hidden",
+              "position": "absolute",
+              "width": "1px",
+            }
+          }
+        >
+          SEO title preview:
+        </span>
         <div
           className="c10"
           onMouseEnter={[Function]}
@@ -44328,20 +44342,6 @@ exports[`SnippetEditor shows the editor 1`] = `
             </span>
           </div>
         </div>
-        <span
-          className="screen-reader-text"
-          style={
-            Object {
-              "clip": "rect(1px, 1px, 1px, 1px)",
-              "height": "1px",
-              "overflow": "hidden",
-              "position": "absolute",
-              "width": "1px",
-            }
-          }
-        >
-          Url preview:
-        </span>
       </div>
       <div
         className="c5"
