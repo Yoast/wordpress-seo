@@ -44,7 +44,7 @@ class Robots_Helper_Test extends TestCase {
 		$actual = $this->instance->get_base_values( $indexable );
 
 		$expected = [
-			'index' => 'noindex',
+			'index'  => 'noindex',
 			'follow' => 'nofollow',
 		];
 
@@ -65,7 +65,7 @@ class Robots_Helper_Test extends TestCase {
 		$actual = $this->instance->get_base_values( $indexable );
 
 		$expected = [
-			'index' => 'index',
+			'index'  => 'index',
 			'follow' => 'follow',
 		];
 
@@ -84,7 +84,7 @@ class Robots_Helper_Test extends TestCase {
 			->andReturn( '1' );
 
 		$actual = $this->instance->after_generate( [
-			'index' => 'index',
+			'index'  => 'index',
 			'follow' => 'follow',
 		] );
 
@@ -109,12 +109,12 @@ class Robots_Helper_Test extends TestCase {
 			->andReturn( '0' );
 
 		$actual = $this->instance->after_generate( [
-			'index' => 'index',
+			'index'  => 'index',
 			'follow' => 'follow',
 		] );
 
 		$expected = [
-			'index' => 'noindex',
+			'index'  => 'noindex',
 			'follow' => 'follow',
 		];
 
@@ -135,12 +135,12 @@ class Robots_Helper_Test extends TestCase {
 		$_GET['replytocom'] = '123';
 
 		$actual = $this->instance->after_generate( [
-			'index' => 'index',
+			'index'  => 'index',
 			'follow' => 'follow',
 		] );
 
 		$expected = [
-			'index' => 'noindex',
+			'index'  => 'noindex',
 			'follow' => 'follow',
 		];
 
@@ -161,11 +161,11 @@ class Robots_Helper_Test extends TestCase {
 			->andReturn( '1' );
 
 		$actual = $this->instance->after_generate( [
-			'index' => 'index',
-			'follow' => 'follow',
+			'index'        => 'index',
+			'follow'       => 'follow',
 			'noimageindex' => 'noimageindex',
-			'nosnippet' => null,
-			'noarchive' => null,
+			'nosnippet'    => null,
+			'noarchive'    => null,
 		] );
 
 		$expected = [
