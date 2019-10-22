@@ -50,8 +50,15 @@ class Robots_Helper {
 		$robots = array_filter( $robots );
 
 		// If robots index and follow are set, they can be excluded because they are default values.
-		if ( $robots['index'] === 'index' && $robots['follow'] === 'follow' ) {
+		if ( ! empty( $robots['index'] ) && $robots['index'] === 'index' &&
+		     ! empty( $robots['follow'] ) && $robots['follow'] === 'follow' ) {
 			unset( $robots['index'], $robots['follow'] );
+		}
+
+		if ( ! empty( $robots['nosnippet'] ) && ! empty( $robots['noindex'] ) ) {
+			$robots['max-snippet']       = 'max-snippet:-1';
+			$robots['max-image-preview'] = 'max-image-preview:large';
+			$robots['max-video-preview'] = 'max-video-preview:-1';
 		}
 
 		return $robots;
