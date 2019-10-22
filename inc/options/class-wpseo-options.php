@@ -92,6 +92,10 @@ class WPSEO_Options {
 			return;
 		}
 
+		if ( ! array_key_exists( $option_name, self::$options ) ) {
+			self::$options[ $option_name ] = get_class( $option_instance );
+		}
+
 		if ( $option_instance->include_in_all === true ) {
 			self::$option_names[ $option_name ] = $option_name;
 		}
