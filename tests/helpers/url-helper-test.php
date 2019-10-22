@@ -4,7 +4,6 @@ namespace Yoast\WP\Free\Tests\Helpers;
 
 use Brain\Monkey;
 use Yoast\WP\Free\Helpers\Url_Helper;
-use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -31,18 +30,18 @@ class Url_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * @covers ::get_relative_path
+	 * @covers ::build_absolute_url
 	 */
 	public function test_build_absolute_url() {
-		Monkey\Functions\stubs( [
-			'home_url' => '',
-		] );
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'home_url' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->with( '/my-page', PHP_URL_PATH )
+			->withArgs( [ '/my-page', PHP_URL_PATH ] )
 			->andReturn( '/my-page' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
+			->withArgs( [ 'home_url' ] )
 			->andReturn( [
 				'scheme' => 'https',
 				'host'   => 'example.com',
@@ -55,18 +54,18 @@ class Url_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * @covers ::get_relative_path
+	 * @covers ::build_absolute_url
 	 */
 	public function test_build_absolute_url_relative_url() {
-		Monkey\Functions\stubs( [
-			'home_url' => '',
-		] );
+		Monkey\Functions\expect( 'home_url' )
+			->andReturn( 'home_url' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
-			->with( 'https://example.com/my-page', PHP_URL_PATH )
+			->withArgs( [ 'https://example.com/my-page', PHP_URL_PATH ] )
 			->andReturn( '/my-page' );
 
 		Monkey\Functions\expect( 'wp_parse_url' )
+			->withArgs([ 'home_url' ] )
 			->andReturn( [
 				'scheme' => 'https',
 				'host'   => 'example.com',
