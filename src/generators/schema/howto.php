@@ -120,11 +120,11 @@ class HowTo extends Abstract_Schema_Piece {
 				'url'   => $schema_id,
 			];
 
-			if ( isset ( $step['jsonText'] ) ) {
+			if ( isset( $step['jsonText'] ) ) {
 				$json_text = $this->html_helper->sanitize( $step['jsonText'] );
 			}
 
-			if ( isset ( $step['jsonName'] ) ) {
+			if ( isset( $step['jsonName'] ) ) {
 				$json_name = \strip_tags( $step['jsonName'] );
 			}
 
