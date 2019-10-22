@@ -91,6 +91,9 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'primary_focus_keyword_score', 75 );
 		$indexable_mock->orm->expects( 'set' )->with( 'readability_score', 50 );
 
+		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'canonical' )->andReturnTrue();
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'canonical' )->andReturn( 'https://canonical-term' );
+
 		$builder = new Indexable_Term_Builder();
 		$builder->build( 1, $indexable_mock );
 	}

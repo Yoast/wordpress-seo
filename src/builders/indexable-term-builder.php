@@ -53,6 +53,10 @@ class Indexable_Term_Builder {
 			$indexable->{ $indexable_key } = $this->get_meta_value( $meta_key, $term_meta );
 		}
 
+		if ( empty( $indexable->canonical ) ) {
+			$indexable->canonical = $indexable->permalink;
+		}
+
 		// Not implemented yet.
 		$indexable->is_cornerstone         = false;
 		$indexable->is_robots_nofollow     = null;
