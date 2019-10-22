@@ -5,10 +5,12 @@
  * @package WPSEO\Tests\Doubles
  */
 
+namespace Yoast\WP\Free\Tests\Doubles\Inc;
+
 /**
  * Test Helper Class.
  */
-class WPSEO_Addon_Manager_Double extends WPSEO_Addon_Manager {
+class Addon_Manager_Double extends \WPSEO_Addon_Manager {
 
 	/**
 	 * Checks if the given plugin_file belongs to a Yoast addon.
@@ -59,5 +61,25 @@ class WPSEO_Addon_Manager_Double extends WPSEO_Addon_Manager {
 	 */
 	public function get_active_addons() {
 		return parent::get_active_addons();
+	}
+
+	/**
+	 * Checks whether a plugin expiry date has been passed.
+	 *
+	 * @param stdClass $subscription Plugin subscription.
+	 *
+	 * @return bool Has the plugin expired.
+	 */
+	public function has_subscription_expired( $subscription ) {
+		return parent::has_subscription_expired( $subscription );
+	}
+
+	/**
+	 * Checks if there are any installed addons.
+	 *
+	 * @return bool True when there are installed Yoast addons.
+	 */
+	public function has_installed_addons() {
+		return parent::has_installed_addons();
 	}
 }
