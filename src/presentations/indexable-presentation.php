@@ -379,6 +379,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_description;
 		}
 
+		if ( $this->model->og_description ) {
+			return $this->model->og_description;
+		}
+
 		if ( $this->meta_description ) {
 			return $this->meta_description;
 		}
