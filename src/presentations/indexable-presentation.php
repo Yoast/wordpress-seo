@@ -345,7 +345,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return string The Twitter card type.
 	 */
 	public function generate_twitter_card() {
-		return '';
+		return $this->context->twitter_card;
 	}
 
 	/**

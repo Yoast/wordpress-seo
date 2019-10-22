@@ -23,6 +23,7 @@ class Card_Presenter extends Abstract_Indexable_Presenter {
 	 */
 	public function present( Indexable_Presentation $presentation ) {
 		$card_type = $this->filter( $presentation->twitter_card );
+
 		if ( is_string( $card_type ) && $card_type !== '' ) {
 			return sprintf( '<meta name="twitter:card" content="%s" />', \esc_attr( $card_type ) );
 		}
@@ -31,7 +32,7 @@ class Card_Presenter extends Abstract_Indexable_Presenter {
 	}
 
 	/**
-	 * Run the card type through the `wpseo_twitter_card_type` filter.
+	 * Runs the card type through the `wpseo_twitter_card_type` filter.
 	 *
 	 * @param string $card_type The card type to filter.
 	 *
@@ -43,6 +44,6 @@ class Card_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @api string $card_type The card type.
 		 */
-		return (string) trim( \apply_filters( 'wpseo_twitter_card_type', $card_type ) );
+		return \trim( \apply_filters( 'wpseo_twitter_card_type', $card_type ) );
 	}
 }
