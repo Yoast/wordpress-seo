@@ -36,6 +36,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'object_id', 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'user' );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
+		$indexable_mock->orm->expects( 'set' )->with( 'canonical', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_cornerstone', false );
@@ -44,6 +45,8 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noarchive', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noimageindex', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_nosnippet', null );
+
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'permalink' )->andReturn( 'https://permalink' );
 
 		$builder = new Indexable_Author_Builder();
 		$builder->build( 1, $indexable_mock );
@@ -63,6 +66,7 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'object_id', 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'object_type', 'user' );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
+		$indexable_mock->orm->expects( 'set' )->with( 'canonical', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'title', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_cornerstone', false );
@@ -71,6 +75,8 @@ class Indexable_Author_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noarchive', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noimageindex', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_nosnippet', null );
+
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'permalink' )->andReturn( 'https://permalink' );
 
 		$builder = new Indexable_Author_Builder();
 		$builder->build( 1, $indexable_mock );

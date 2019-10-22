@@ -26,6 +26,7 @@ class Indexable_Author_Builder {
 		$indexable->object_id              = $user_id;
 		$indexable->object_type            = 'user';
 		$indexable->permalink              = \get_author_posts_url( $user_id );
+		$indexable->canonical              = $indexable->permalink;
 		$indexable->title                  = $meta_data['wpseo_title'];
 		$indexable->description            = $meta_data['wpseo_metadesc'];
 		$indexable->is_cornerstone         = false;
