@@ -88,7 +88,11 @@ class Robots_Helper_Test extends TestCase {
 			'follow' => 'follow',
 		] );
 
-		$expected = [];
+		$expected = [
+			'max-snippet'       => 'max-snippet:-1',
+			'max-image-preview' => 'max-image-preview:large',
+			'max-video-preview' => 'max-video-preview:-1',
+		];
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -165,31 +169,7 @@ class Robots_Helper_Test extends TestCase {
 		] );
 
 		$expected = [
-			'noimageindex' => 'noimageindex',
-		];
-
-		$this->assertEquals( $expected, $actual );
-	}
-
-	/**
-	 * Tests if additional values are set when noindex and nosnippet are set.
-	 *
-	 * @covers ::after_generate
-	 */
-	public function test_after_generate_with_no_index_and_nosnippet() {
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'blog_public' )
-			->andReturn( '1' );
-
-		$actual = $this->instance->after_generate( [
-			'index'     => 'noindex',
-			'nosnippet' => 'nosnippet',
-		] );
-
-		$expected = [
-			'index'             => 'noindex',
-			'nosnippet'         => 'nosnippet',
+			'noimageindex'      => 'noimageindex',
 			'max-snippet'       => 'max-snippet:-1',
 			'max-image-preview' => 'max-image-preview:large',
 			'max-video-preview' => 'max-video-preview:-1',
