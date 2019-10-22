@@ -55,7 +55,7 @@ class Robots_Helper {
 			unset( $robots['index'], $robots['follow'] );
 		}
 
-		if ( ! empty( $robots['nosnippet'] ) && ! empty( $robots['noindex'] ) ) {
+		if ( ! empty( $robots['nosnippet'] ) && ! empty( $robots['index'] ) && $robots['index'] === 'noindex' ) {
 			$robots['max-snippet']       = 'max-snippet:-1';
 			$robots['max-image-preview'] = 'max-image-preview:large';
 			$robots['max-video-preview'] = 'max-video-preview:-1';

@@ -183,12 +183,12 @@ class Robots_Helper_Test extends TestCase {
 			->andReturn( '1' );
 
 		$actual = $this->instance->after_generate( [
-			'noindex'   => 'noindex',
+			'index'     => 'noindex',
 			'nosnippet' => 'nosnippet',
 		] );
 
 		$expected = [
-			'noindex'           => 'noindex',
+			'index'             => 'noindex',
 			'nosnippet'         => 'nosnippet',
 			'max-snippet'       => 'max-snippet:-1',
 			'max-image-preview' => 'max-image-preview:large',
