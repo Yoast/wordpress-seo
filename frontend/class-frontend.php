@@ -12,7 +12,6 @@
 class WPSEO_Frontend {
 
 	const METADESC_PRIORITY = 6;
-	const ROBOTS_PRIORITY   = 10;
 
 	/**
 	 * Instance of this class.
