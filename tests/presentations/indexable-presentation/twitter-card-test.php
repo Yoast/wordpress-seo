@@ -10,6 +10,8 @@ use Yoast\WP\Free\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
  *
  * @group presentations
+ * @group twitter
+ * @group twitter-card
  */
 class Twitter_Card_Test extends TestCase {
 	use Presentation_Instance_Builder;
@@ -28,7 +30,9 @@ class Twitter_Card_Test extends TestCase {
 	 *
 	 * @covers ::generate_twitter_card
 	 */
-	public function test_generate_twitter_card_and_return_empty() {
-		$this->assertEmpty( $this->instance->generate_twitter_card() );
+	public function test_generate_twitter_card() {
+		$this->context->twitter_card = 'summary';
+
+		$this->assertEquals( 'summary', $this->instance->generate_twitter_card() );
 	}
 }

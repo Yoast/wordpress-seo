@@ -39,9 +39,11 @@
 	height: auto;
 }
 
-/* Select2 specific fixes for WordPress */
-.select2-search__field {
+/* Select2 specific fixes for WordPress: they generally need high specificity */
+.select2-container .select2-search--dropdown .select2-search__field {
 	margin: 0;
+	padding: 0 8px;
+	min-height: 30px;
 }
 
 .select2-results__option,
@@ -53,6 +55,7 @@
 .select2-container .select2-search--inline .select2-search__field {
 	margin-top: 6px !important;
 	line-height: inherit;
+	min-height: 0;
 }
 
 .yoast-label-strong {
@@ -572,5 +575,3 @@ body.folded {
 		color: $color-green-medium;
 	}
 }
-
-

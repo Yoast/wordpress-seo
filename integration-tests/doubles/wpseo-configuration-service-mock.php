@@ -11,6 +11,8 @@
 class WPSEO_Configuration_Service_Mock extends WPSEO_Configuration_Service {
 
 	/**
+	 * Returns a property if that property is set.
+	 *
 	 * @param string $item Property to get.
 	 *
 	 * @return null|mixed

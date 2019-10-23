@@ -13,16 +13,32 @@ use Yoast\WP\Free\Tests\TestCase;
  */
 class MainImage_Test extends TestCase {
 
-	/** @var \WPSEO_Schema_Context */
+	/**
+	 * The schema context.
+	 *
+	 * @var \WPSEO_Schema_Context
+	 */
 	private $context;
 
-	/** @var \Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_MainImage_Double */
+	/**
+	 * Test instance that is test
+	 *
+	 * @var \Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_MainImage_Double
+	 */
 	private $instance;
 
-	/** @var array */
+	/**
+	 * Attachment data values.
+	 *
+	 * @var array
+	 */
 	private $schema_from_attachment;
 
-	/** @var array */
+	/**
+	 * URL data values.
+	 *
+	 * @var array
+	 */
 	private $schema_from_url;
 
 	/**
@@ -108,10 +124,7 @@ class MainImage_Test extends TestCase {
 			->method( 'get_first_usable_content_image_for_post' )
 			->willReturn( null );
 
-		$this->assertSame(
-			false,
-			$this->instance->generate()
-		);
+		$this->assertFalse( $this->instance->generate() );
 	}
 
 	/**
@@ -132,7 +145,7 @@ class MainImage_Test extends TestCase {
 			$this->schema_from_attachment,
 			$this->instance->generate()
 		);
-		$this->assertSame( true, $this->context->has_image );
+		$this->assertTrue( $this->context->has_image );
 	}
 
 	/**
@@ -158,6 +171,6 @@ class MainImage_Test extends TestCase {
 			$this->schema_from_url,
 			$this->instance->generate()
 		);
-		$this->assertSame( true, $this->context->has_image );
+		$this->assertTrue( $this->context->has_image );
 	}
 }

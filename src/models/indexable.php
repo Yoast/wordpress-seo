@@ -44,6 +44,7 @@ use Yoast\WP\Free\ORM\Yoast_Model;
  *
  * @property int     $link_count
  * @property int     $incoming_link_count
+ * @property int     $number_of_pages
  *
  * @property string  $og_title
  * @property string  $og_description

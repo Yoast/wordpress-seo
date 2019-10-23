@@ -14,6 +14,7 @@ use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
+use Yoast\WP\Free\Helpers\Url_Helper;
 use Yoast\WP\Free\Helpers\User_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presentations\Generators\OG_Locale_Generator;
@@ -26,6 +27,8 @@ use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
  * @property string meta_description
  * @property array  robots
  * @property string canonical
+ * @property string rel_next
+ * @property string rel_prev
  * @property string og_type
  * @property string og_title
  * @property string og_description
@@ -98,6 +101,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	protected $options_helper;
 
 	/**
+	 * @var Url_Helper
+	 */
+	protected $url;
+
+	/**
 	 * @var User_Helper
 	 */
 	protected $user;
@@ -133,6 +141,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @param Image_Helper        $image_helper        The image helper.
 	 * @param Options_Helper      $options_helper      The options helper.
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
+	 * @param Url_Helper          $url_helper          The URL helper.
 	 * @param User_Helper         $user                The user helper.
 	 */
 	public function set_helpers(
@@ -140,12 +149,14 @@ class Indexable_Presentation extends Abstract_Presentation {
 		Image_Helper $image_helper,
 		Options_Helper $options_helper,
 		Current_Page_Helper $current_page_helper,
+		Url_Helper $url_helper,
 		User_Helper $user
 	) {
 		$this->robots_helper  = $robots_helper;
 		$this->image_helper   = $image_helper;
 		$this->options_helper = $options_helper;
 		$this->current_page   = $current_page_helper;
+		$this->url            = $url_helper;
 		$this->user           = $user;
 	}
 
@@ -196,6 +207,24 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->canonical;
 		}
 
+		return '';
+	}
+
+	/**
+	 * Generates the rel prev.
+	 *
+	 * @return string The rel prev value.
+	 */
+	public function generate_rel_prev() {
+		return '';
+	}
+
+	/**
+	 * Generates the rel next.
+	 *
+	 * @return string The rel prev next.
+	 */
+	public function generate_rel_next() {
 		return '';
 	}
 
@@ -316,7 +345,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return string The Twitter card type.
 	 */
 	public function generate_twitter_card() {
-		return '';
+		return $this->context->twitter_card;
 	}
 
 	/**
