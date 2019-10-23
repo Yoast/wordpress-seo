@@ -232,7 +232,7 @@ class Indexable_Post_Builder {
 
 		return false;
 	}
-  
+
 	/**
 	 * Sets the alternative on an indexable.
 	 *
