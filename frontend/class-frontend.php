@@ -1169,19 +1169,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Outputs the meta description element or returns the description text.
-	 *
-	 * @param bool $echo Echo or return output flag.
-	 *
-	 * @return string
-	 */
-	public function metadesc( $echo = true ) {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
-
-		return '';
-	}
-
-	/**
 	 * Based on the redirect meta value, this function determines whether it should redirect the current post / page.
 	 *
 	 * @return boolean
@@ -1808,5 +1795,18 @@ class WPSEO_Frontend {
 		_deprecated_function( __METHOD__, 'WPSEO 10.1.3' );
 
 		return false;
+	}
+
+	/**
+	 * Outputs the meta description element or returns the description text.
+	 *
+	 * @param bool $echo Echo or return output flag.
+	 *
+	 * @return string
+	 */
+	public function metadesc( $echo = true ) {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
 	}
 }
