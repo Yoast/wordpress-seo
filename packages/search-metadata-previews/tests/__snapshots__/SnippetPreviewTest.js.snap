@@ -101,6 +101,7 @@ exports[`SnippetPreview changes the colors of the description if it was generate
 <section>
   <div
     className="c0 c1"
+    id="yoast-snippet-preview-container"
   >
     <div
       className="c2"
@@ -305,6 +306,7 @@ exports[`SnippetPreview highlights a keyword in different morphological forms 1`
 <section>
   <div
     className="c0 c1"
+    id="yoast-snippet-preview-container"
   >
     <div
       className="c2"
@@ -521,6 +523,7 @@ exports[`SnippetPreview highlights keywords even if they are transliterated 1`] 
 <section>
   <div
     className="c0 c1"
+    id="yoast-snippet-preview-container"
   >
     <div
       className="c2"
@@ -728,6 +731,7 @@ exports[`SnippetPreview highlights keywords inside the description and url 1`] =
 <section>
   <div
     className="c0 c1"
+    id="yoast-snippet-preview-container"
   >
     <div
       className="c2"
@@ -935,6 +939,7 @@ exports[`SnippetPreview highlights separate words from the keyphrase 1`] = `
 <section>
   <div
     className="c0 c1"
+    id="yoast-snippet-preview-container"
   >
     <div
       className="c2"
@@ -1175,6 +1180,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
 <section>
   <div
     className="c0"
+    id="yoast-snippet-preview-container"
     onMouseLeave={undefined}
     width={null}
   >
@@ -1193,7 +1199,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
           }
         }
       >
-        SEO title preview:
+        Url preview:
       </span>
       <div
         className="c2"
@@ -1216,6 +1222,20 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
           </span>
         </div>
       </div>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        SEO title preview:
+      </span>
       <div
         className="c6"
         onMouseEnter={[Function]}
@@ -1232,20 +1252,6 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
           </span>
         </div>
       </div>
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        Url preview:
-      </span>
       <div
         className="c9"
       />
@@ -1394,6 +1400,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
 <section>
   <div
     className="c0"
+    id="yoast-snippet-preview-container"
     onMouseLeave={undefined}
     width={null}
   >
@@ -1412,7 +1419,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
           }
         }
       >
-        SEO title preview:
+        Url preview:
       </span>
       <div
         className="c2"
@@ -1435,6 +1442,20 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
           </span>
         </div>
       </div>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        SEO title preview:
+      </span>
       <div
         className="c6"
         onMouseEnter={[Function]}
@@ -1451,20 +1472,6 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
           </span>
         </div>
       </div>
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        Url preview:
-      </span>
     </div>
     <div
       className="c1"
@@ -1610,6 +1617,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
 <section>
   <div
     className="c0"
+    id="yoast-snippet-preview-container"
     onMouseLeave={undefined}
     width={null}
   >
@@ -1628,7 +1636,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
           }
         }
       >
-        SEO title preview:
+        Url preview:
       </span>
       <div
         className="c2"
@@ -1651,6 +1659,20 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
           </span>
         </div>
       </div>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        SEO title preview:
+      </span>
       <div
         className="c6"
         onMouseEnter={[Function]}
@@ -1667,20 +1689,6 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
           </span>
         </div>
       </div>
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        Url preview:
-      </span>
     </div>
     <div
       className="c1"
@@ -1819,6 +1827,7 @@ exports[`SnippetPreview renders a SnippetPreview that looks like Google 1`] = `
 <section>
   <div
     className="c0 c1"
+    id="yoast-snippet-preview-container"
   >
     <div
       className="c2"
@@ -2037,6 +2046,7 @@ exports[`SnippetPreview renders a caret on activation 1`] = `
 <section>
   <div
     className="c0 c1"
+    id="yoast-snippet-preview-container"
   >
     <div
       className="c2"
@@ -2255,6 +2265,7 @@ exports[`SnippetPreview renders a caret on activation 2`] = `
 <section>
   <div
     className="c0 c1"
+    id="yoast-snippet-preview-container"
   >
     <div
       className="c2"
@@ -2473,6 +2484,7 @@ exports[`SnippetPreview renders a caret on activation 3`] = `
 <section>
   <div
     className="c0 c1"
+    id="yoast-snippet-preview-container"
   >
     <div
       className="c2"
@@ -2691,6 +2703,7 @@ exports[`SnippetPreview renders a caret on hover 1`] = `
 <section>
   <div
     className="c0 c1"
+    id="yoast-snippet-preview-container"
   >
     <div
       className="c2"
@@ -2909,6 +2922,7 @@ exports[`SnippetPreview renders a caret on hover 2`] = `
 <section>
   <div
     className="c0 c1"
+    id="yoast-snippet-preview-container"
   >
     <div
       className="c2"
@@ -3127,6 +3141,7 @@ exports[`SnippetPreview renders a caret on hover 3`] = `
 <section>
   <div
     className="c0 c1"
+    id="yoast-snippet-preview-container"
   >
     <div
       className="c2"
@@ -3335,6 +3350,7 @@ exports[`SnippetPreview shows the date if a date is passed 1`] = `
 <section>
   <div
     className="c0 c1"
+    id="yoast-snippet-preview-container"
   >
     <div
       className="c2"
