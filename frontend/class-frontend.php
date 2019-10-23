@@ -93,7 +93,6 @@ class WPSEO_Frontend {
 		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality.
-		add_action( 'wpseo_head', array( $this, 'debug_mark' ), 2 );
 		add_action( 'wpseo_head', array( $this, 'metadesc' ), self::METADESC_PRIORITY );
 		add_action( 'wpseo_head', array( $this, 'robots' ), self::ROBOTS_PRIORITY );
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
