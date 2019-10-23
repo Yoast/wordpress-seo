@@ -246,7 +246,7 @@ class WPSEO_Twitter {
 	 * @return string
 	 */
 	private function fallback_description() {
-		return trim( WPSEO_Frontend::get_instance()->metadesc( false ) );
+		return '';
 	}
 
 	/**

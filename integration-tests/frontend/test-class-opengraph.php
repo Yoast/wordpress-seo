@@ -399,18 +399,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_OpenGraph::description
-	 */
-	public function test_description_frontpage() {
-
-		$this->go_to_home();
-
-		$expected_frontpage_description = self::$class_instance->description( false );
-
-		$this->assertEquals( get_bloginfo( 'description' ), $expected_frontpage_description );
-	}
-
-	/**
 	 * Tests static page set as front page.
 	 */
 	public function test_static_front_page() {
@@ -432,10 +420,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		WPSEO_Meta::set_value( 'opengraph-title', 'OG title', $post_id );
 		$title = self::$class_instance->og_title( false );
 		$this->assertEquals( 'OG title', $title );
-
-		WPSEO_Meta::set_value( 'metadesc', 'SEO description', $post_id );
-		$description = self::$class_instance->description( false );
-		$this->assertEquals( 'SEO description', $description );
 
 		WPSEO_Meta::set_value( 'opengraph-description', 'OG description', $post_id );
 		$description = self::$class_instance->description( false );
@@ -473,10 +457,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$title = self::$class_instance->og_title( false );
 		$this->assertEquals( 'OG title', $title );
 
-		WPSEO_Meta::set_value( 'metadesc', 'SEO description', $post_id );
-		$description = self::$class_instance->description( false );
-		$this->assertEquals( 'SEO description', $description );
-
 		WPSEO_Meta::set_value( 'opengraph-description', 'OG description', $post_id );
 		$description = self::$class_instance->description( false );
 		$this->assertEquals( 'OG description', $description );
@@ -511,54 +491,6 @@ EXPECTED;
 		$opengraph_description = self::$class_instance->description( false );
 		WPSEO_Meta::set_value( 'opengraph-description', '', $post_id );
 		$this->assertEquals( $expected_opengraph_description, $opengraph_description );
-	}
-
-	/**
-	 * Test meta description.
-	 */
-	public function test_description_single_post_metadesc() {
-		$expected_meta_description = 'This is with a meta-description';
-
-		// Creates the post.
-		$post_id = $this->factory->post->create();
-
-		WPSEO_Meta::set_value( 'metadesc', $expected_meta_description, $post_id );
-
-		$this->go_to( get_permalink( $post_id ) );
-
-		// Checking meta-description and after obtaining its value, reset the meta value for it.
-		$meta_description = self::$class_instance->description( false );
-		$this->assertEquals( $expected_meta_description, $meta_description );
-	}
-
-	/**
-	 * Test description from excerpt.
-	 */
-	public function test_description_single_post_excerpt() {
-		// Creates the post.
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		// Checking with the excerpt.
-		$expected = get_the_excerpt();
-		$excerpt  = self::$class_instance->description( false );
-
-		$this->assertEquals( $expected, $excerpt );
-	}
-
-	/**
-	 * @covers WPSEO_OpenGraph::description
-	 */
-	public function test_description_category() {
-
-		$expected_meta_description = '';
-
-		$category_id = wp_create_category( 'Yoast SEO' );
-		$this->go_to( get_category_link( $category_id ) );
-
-		// Checking meta-description and after obtaining its value, reset the meta value for it.
-		$meta_description = self::$class_instance->description( false );
-		$this->assertEquals( $expected_meta_description, $meta_description );
 	}
 
 	/**
