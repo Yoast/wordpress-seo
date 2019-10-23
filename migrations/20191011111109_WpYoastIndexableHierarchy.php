@@ -1,6 +1,7 @@
 <?php
 
 use Yoast\WP\Free\ORM\Yoast_Model;
+use YoastSEO_Vendor\Ruckusing_Migration_Base;
 
 class WpYoastIndexableHierarchy extends Ruckusing_Migration_Base
 {

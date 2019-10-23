@@ -8,7 +8,7 @@
 namespace Yoast\WP\Free\Builders;
 
 use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\ORM\Yoast_Model;
+use Yoast\WP\Free\Repositories\Indexable_Repository;
 
 /**
  * Formats the author meta to indexable format.
@@ -56,6 +56,11 @@ class Indexable_Builder {
 	private $hierarchy_builder;
 
 	/**
+	 * @var Indexable_Repository
+	 */
+	private $indexable_repository;
+
+	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
 	 * @param Indexable_Author_Builder            $author_builder            The author builder for creating missing indexables.
@@ -88,6 +93,17 @@ class Indexable_Builder {
 	}
 
 	/**
+	 * @required
+	 *
+	 * Sets the indexable repository. Done to avoid circular dependencies.
+	 *
+	 * @param Indexable_Repository $indexable_repository The indexable repository.
+	 */
+	public function set_indexable_repository( Indexable_Repository $indexable_repository ) {
+		$this->indexable_repository = $indexable_repository;
+	}
+
+	/**
 	 * Creates an indexable by its ID and type.
 	 *
 	 * @param int       $object_id   The indexable object ID.
@@ -97,26 +113,29 @@ class Indexable_Builder {
 	 * @return bool|Indexable Instance of indexable.
 	 * @throws \Exception
 	 */
-	public function build_for_id_and_type( $object_id, $object_type, $indexable = null ) {
-		if ( $indexable === null ) {
-			$indexable = $this->create();
+	public function build_for_id_and_type( $object_id, $object_type, $indexable = false ) {
+		if ( ! $indexable ) {
+			$indexable = $this->indexable_repository->query()->create();
 		}
 
 		switch ( $object_type ) {
 			case 'post':
 				$indexable = $this->post_builder->build( $object_id, $indexable );
-				$this->hierarchy_builder->build( $indexable );
 				break;
 			case 'user':
 				$indexable = $this->author_builder->build( $object_id, $indexable );
 				break;
 			case 'term':
 				$indexable = $this->term_builder->build( $object_id, $indexable );
-				$this->hierarchy_builder->build( $indexable );
 				break;
 		}
 
 		$indexable->save();
+
+		if ( in_array( $object_type, [ 'post', 'term' ] ) ) {
+			$this->hierarchy_builder->build( $indexable );
+		}
+
 		return $indexable;
 	}
 
@@ -127,9 +146,9 @@ class Indexable_Builder {
 	 *
 	 * @return Indexable The home page indexable.
 	 */
-	public function build_for_home_page( $indexable = null ) {
-		if ( $indexable === null ) {
-			$indexable = $this->create();
+	public function build_for_home_page( $indexable = false ) {
+		if ( ! $indexable ) {
+			$indexable = $this->indexable_repository->query()->create();
 		}
 		$indexable = $this->home_page_builder->build( $indexable );
 
@@ -144,9 +163,9 @@ class Indexable_Builder {
 	 *
 	 * @return Indexable The date archive indexable.
 	 */
-	public function build_for_date_archive( $indexable = null ) {
-		if ( $indexable === null ) {
-			$indexable = $this->create();
+	public function build_for_date_archive( $indexable = false ) {
+		if ( ! $indexable ) {
+			$indexable = $this->indexable_repository->query()->create();
 		}
 		$indexable = $this->date_archive_builder->build( $indexable );
 
@@ -162,9 +181,9 @@ class Indexable_Builder {
 	 *
 	 * @return Indexable The post type archive indexable.
 	 */
-	public function build_for_post_type_archive( $post_type, $indexable = null ) {
-		if ( $indexable === null ) {
-			$indexable = $this->create();
+	public function build_for_post_type_archive( $post_type, $indexable = false ) {
+		if ( ! $indexable ) {
+			$indexable = $this->indexable_repository->query()->create();
 		}
 		$indexable = $this->post_type_archive_builder->build( $post_type, $indexable );
 
@@ -180,22 +199,13 @@ class Indexable_Builder {
 	 *
 	 * @return Indexable The search result indexable.
 	 */
-	public function build_for_system_page( $object_sub_type, $indexable = null ) {
-		if ( $indexable === null ) {
-			$indexable = $this->create();
+	public function build_for_system_page( $object_sub_type, $indexable = false ) {
+		if ( ! $indexable ) {
+			$indexable = $this->indexable_repository->query()->create();
 		}
 		$indexable = $this->system_page_builder->build( $object_sub_type, $indexable );
 
 		$indexable->save();
 		return $indexable;
-	}
-
-	/**
-	 * Creates an empty indexable.
-	 *
-	 * @return Indexable The empty indexable.
-	 */
-	private function create() {
-		return Yoast_Model::of_type( 'Indexable' )->create();
 	}
 }

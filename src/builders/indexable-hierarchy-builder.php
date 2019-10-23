@@ -129,7 +129,7 @@ class Indexable_Hierarchy_Builder {
 			$primary_term = $this->find_deepest_term( $terms );
 		}
 
-		$ancestor = $this->indexable_repository->find_by_id_and_type( $primary_term->term_id, 'term' );
+		$ancestor = $this->indexable_repository->find_by_id_and_type( (int) $primary_term->term_id, 'term' );
 		$this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
 		$this->add_ancestors_for_term( $indexable_id, $ancestor->object_id, $depth + 1 );
 	}
@@ -178,16 +178,16 @@ class Indexable_Hierarchy_Builder {
 		 * As we could still have two subcategories, from different parent categories,
 		 * let's pick the one with the lowest ordered ancestor.
 		 */
-		$parents_count = 0;
+		$parents_count = -1;
 		$term_order    = 9999; // Because ASC.
 		foreach ( $terms_by_id as $term ) {
 			$parents = $this->get_term_parents( $term );
 
-			if ( count( $parents ) < $parents_count ) {
+			$new_parents_count = count( $parents );
+
+			if ( $new_parents_count < $parents_count ) {
 				continue;
 			}
-
-			$parents_count = count( $parents );
 
 			$parent_order = 9999; // Set default order.
 			foreach ( $parents as $parent ) {
@@ -197,10 +197,12 @@ class Indexable_Hierarchy_Builder {
 			}
 
 			// Check if parent has lowest order.
-			if ( $parent_order < $term_order ) {
+			if ( $new_parents_count > $parents_count || $parent_order < $term_order ) {
 				$term_order   = $parent_order;
 				$deepest_term = $term;
 			}
+
+			$parents_count = $new_parents_count;
 		}
 
 		return $deepest_term;
@@ -209,15 +211,15 @@ class Indexable_Hierarchy_Builder {
 	/**
 	 * Get a term's parents.
 	 *
-	 * @param object $term Term to get the parents for.
+	 * @param WP_Term $term Term to get the parents for.
 	 *
 	 * @return WP_Term[] An array of all this term's parents.
 	 */
 	private function get_term_parents( $term ) {
 		$tax     = $term->taxonomy;
 		$parents = [];
-		while ( $term->parent !== 0 ) {
-			$term      = get_term( $term->parent, $tax );
+		while ( (int) $term->parent !== 0 ) {
+			$term      = \get_term( $term->parent, $tax );
 			$parents[] = $term;
 		}
 
