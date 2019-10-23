@@ -116,7 +116,7 @@ class ClassicEditorData {
 	 * @returns {void}
 	 */
 	setFeaturedImageInSnippetPreview( url ) {
-		this._store.dispatch( updateData( { socialPreviewImageURL: url } ) );
+		this._store.dispatch( updateData( { snippetPreviewImageURL: url } ) );
 	}
 
 	/**
@@ -129,20 +129,20 @@ class ClassicEditorData {
 			return "";
 		}
 
-		var content = this.getContent();
+		const content = this.getContent();
 
-		var images = analysis.string.imageInText( content );
-		var image  = "";
+		const images = analysis.string.imageInText( content );
+		let image  = "";
 
 		if ( images.length === 0 ) {
 			return image;
 		}
 
 		do {
-			var currentImage = images.shift();
+			let currentImage = images.shift();
 			currentImage = $( currentImage );
 
-			var imageSource = currentImage.prop( "src" );
+			const imageSource = currentImage.prop( "src" );
 
 			if ( imageSource ) {
 				image = imageSource;
@@ -325,8 +325,8 @@ class ClassicEditorData {
 			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt_only ) );
 		}
 		// Handle image change.
-		if ( this._previousData.socialPreviewImageURL !== newData.socialPreviewImageURL ) {
-			this.setFeaturedImageInSnippetPreview( newData.socialPreviewImageURL );
+		if ( this._previousData.snippetPreviewImageURL !== newData.snippetPreviewImageURL ) {
+			this.setFeaturedImageInSnippetPreview( newData.snippetPreviewImageURL );
 		}
 	}
 
@@ -361,7 +361,7 @@ class ClassicEditorData {
 			excerpt_only: this.getExcerpt( false ),
 			slug: this.getSlug(),
 			content: this.getContent(),
-			socialPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
+			snippetPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
 		};
 	}
 
@@ -377,7 +377,7 @@ class ClassicEditorData {
 			excerpt: this.getExcerpt(),
 			// eslint-disable-next-line
 			excerpt_only: this.getExcerpt( false ),
-			socialPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
+			snippetPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
 		};
 	}
 }

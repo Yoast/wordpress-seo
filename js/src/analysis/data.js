@@ -178,7 +178,7 @@ class Data {
 			excerpt: this.getExcerpt(),
 			// eslint-disable-next-line camelcase
 			excerpt_only: this.getExcerpt( false ),
-			socialPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
+			snippetPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
 		};
 	}
 
@@ -251,8 +251,8 @@ class Data {
 			this._store.dispatch( updateData( { slug: newData.slug } ) );
 		}
 		// Handle snippet preview image change.
-		if ( this._data.socialPreviewImageURL !== newData.socialPreviewImageURL ) {
-			this._store.dispatch( updateData( { socialPreviewImageURL: newData.socialPreviewImageURL } ) );
+		if ( this._data.snippetPreviewImageURL !== newData.snippetPreviewImageURL ) {
+			this._store.dispatch( updateData( { snippetPreviewImageURL: newData.snippetPreviewImageURL } ) );
 		}
 	}
 
