@@ -36,8 +36,8 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	/**
 	 * Indexable_Author_Watcher constructor.
 	 *
-	 * @param Indexable_Repository  $repository The repository to use.
-	 * @param Indexable_Builder     $builder    The post builder to use.
+	 * @param Indexable_Repository $repository The repository to use.
+	 * @param Indexable_Builder    $builder    The post builder to use.
 	 */
 	public function __construct( Indexable_Repository $repository, Indexable_Builder $builder ) {
 		$this->repository = $repository;

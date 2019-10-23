@@ -70,7 +70,7 @@ class Indexable_Builder {
 	 * @param Indexable_Post_Type_Archive_Builder $post_type_archive_builder The post type archive builder for creating missing indexables.
 	 * @param Indexable_Date_Archive_Builder      $date_archive_builder      The date archive builder for creating missing indexables.
 	 * @param Indexable_System_Page_Builder       $system_page_builder       The search result builder for creating missing indexables.
-	 * @param Indexable_Hierarchy_Builder         $hierarchy_builder
+	 * @param Indexable_Hierarchy_Builder         $hierarchy_builder         The hierarchy builder for creating the indexable hierarchy.
 	 */
 	public function __construct(
 		Indexable_Author_Builder $author_builder,
@@ -111,7 +111,8 @@ class Indexable_Builder {
 	 * @param Indexable $indexable   Optional. An existing indexable to overwrite.
 	 *
 	 * @return bool|Indexable Instance of indexable.
-	 * @throws \Exception
+	 *
+	 * @throws \Exception If the object_id could not be found.
 	 */
 	public function build_for_id_and_type( $object_id, $object_type, $indexable = false ) {
 		if ( ! $indexable ) {
@@ -132,7 +133,7 @@ class Indexable_Builder {
 
 		$indexable->save();
 
-		if ( in_array( $object_type, [ 'post', 'term' ] ) ) {
+		if ( in_array( $object_type, [ 'post', 'term' ], true ) ) {
 			$this->hierarchy_builder->build( $indexable );
 		}
 

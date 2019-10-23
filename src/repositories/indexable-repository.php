@@ -39,7 +39,7 @@ class Indexable_Repository {
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @param Indexable_Builder   $builder
+	 * @param Indexable_Builder   $builder             The indexable builder.
 	 * @param Current_Page_Helper $current_page_helper The current post helper.
 	 * @param Logger              $logger              The logger.
 	 */

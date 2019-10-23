@@ -1,12 +1,21 @@
 <?php
+/**
+ * Yoast SEO Plugin File.
+ *
+ * @package WPSEO\Migrations
+ */
 
 use Yoast\WP\Free\ORM\Yoast_Model;
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
 
-class WpYoastIndexableHierarchy extends Ruckusing_Migration_Base
-{
-    public function up()
-    {
+/**
+ * Class WpYoastIndexableHierarchy
+ */
+class WpYoastIndexableHierarchy extends Ruckusing_Migration_Base {
+	/**
+	 * Migration up.
+	 */
+	public function up() {
 		$table_name = $this->get_table_name();
 
 		$indexable_table = $this->create_table( $table_name, [ 'id' => false ] );
@@ -29,12 +38,14 @@ class WpYoastIndexableHierarchy extends Ruckusing_Migration_Base
 		$this->add_index( $table_name, 'indexable_id', [ 'name' => 'indexable_id' ] );
 		$this->add_index( $table_name, 'ancestor_id', [ 'name' => 'ancestor_id' ] );
 		$this->add_index( $table_name, 'depth', [ 'name' => 'depth' ] );
-	}//up()
+	}
 
-    public function down()
-    {
+	/**
+	 * Migration up.
+	 */
+	public function down() {
 		$this->drop_table( $this->get_table_name() );
-    }//down()
+	}
 
 	/**
 	 * Retrieves the table name to use.
