@@ -595,37 +595,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
-	 *
-	 * @return string The marker that will be echoed.
-	 */
-	public function debug_mark() {
-		$marker = $this->get_debug_mark();
-
-		echo "\n${marker}\n";
-
-		return '';
-	}
-
-	/**
-	 * Returns the debug marker, which is also used for title replacement when force rewrite is active.
-	 *
-	 * @return string The generated marker.
-	 */
-	public function get_debug_mark() {
-		return sprintf(
-			'<!-- This site is optimized with the %1$s %2$s - https://yoast.com/wordpress/plugins/seo/ -->',
-			esc_html( $this->head_product_name() ),
-			/**
-			 * Filter: 'wpseo_hide_version' - can be used to hide the Yoast SEO version in the debug marker (only available in Yoast SEO Premium).
-			 *
-			 * @api bool
-			 */
-			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : 'v' . WPSEO_VERSION )
-		);
-	}
-
-	/**
 	 * Output Webmaster Tools authentication strings.
 	 */
 	public function webmaster_tools_authentication() {
