@@ -647,8 +647,6 @@ class WPSEO_Frontend {
 		 */
 		do_action( 'wpseo_head' );
 
-		echo $this->show_closing_debug_mark();
-
 		if ( ! empty( $old_wp_query ) ) {
 			$GLOBALS['wp_query'] = $old_wp_query;
 			unset( $old_wp_query );
@@ -1544,19 +1542,6 @@ class WPSEO_Frontend {
 
 		wp_reset_query();
 
-		// Only replace the debug marker when it is hooked.
-		if ( $this->show_debug_marker() ) {
-			$title      = $this->title( '' );
-			$debug_mark = $this->get_debug_mark();
-
-			/*
-			 * Find all titles, strip them out and add the new one in within the debug marker,
-			 * so it's easily identified whether a site uses force rewrite.
-			 */
-			$content = preg_replace( '/<title.*?\/title>/i', '', $content );
-			$content = str_replace( $debug_mark, $debug_mark . "\n" . '<title>' . esc_html( $title ) . '</title>', $content );
-		}
-
 		$GLOBALS['wp_query'] = $old_wp_query;
 
 		echo $content;
@@ -1570,19 +1555,6 @@ class WPSEO_Frontend {
 	public function force_rewrite_output_buffer() {
 		$this->ob_started = true;
 		ob_start();
-	}
-
-	/**
-	 * Get the product name in the head section.
-	 *
-	 * @return string
-	 */
-	private function head_product_name() {
-		if ( $this->is_premium() ) {
-			return 'Yoast SEO Premium plugin';
-		}
-
-		return 'Yoast SEO plugin';
 	}
 
 	/**
@@ -1626,31 +1598,6 @@ class WPSEO_Frontend {
 		header( 'X-Redirect-By: Yoast SEO' );
 		wp_safe_redirect( $location, $status, 'Yoast SEO' );
 		exit;
-	}
-
-	/**
-	 * Checks if the debug mark action has been added.
-	 *
-	 * @return bool True when the action exists.
-	 */
-	protected function show_debug_marker() {
-		return has_action( 'wpseo_head', array( $this, 'debug_mark' ) ) !== false;
-	}
-
-	/**
-	 * Shows the closing debug mark.
-	 *
-	 * @return string The closing debug mark comment.
-	 */
-	protected function show_closing_debug_mark() {
-		if ( ! $this->show_debug_marker() ) {
-			return '';
-		}
-
-		return sprintf(
-			"<!-- / %s. -->\n\n",
-			esc_html( $this->head_product_name() )
-		);
 	}
 
 	/**
@@ -1919,5 +1866,35 @@ class WPSEO_Frontend {
 		_deprecated_function( __METHOD__, 'WPSEO 10.1.3' );
 
 		return false;
+	}
+
+	/**
+	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return string The marker that will be echoed.
+	 */
+	public function debug_mark() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * Returns the debug marker, which is also used for title replacement when force rewrite is active.
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return string The generated marker.
+	 */
+	public function get_debug_mark() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
 	}
 }
