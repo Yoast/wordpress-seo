@@ -3,7 +3,7 @@
 namespace Yoast\WP\Free\Tests\Integrations\Watchers;
 
 use Mockery;
-use Yoast\WP\Free\Builders\Indexable_Post_Type_Archive_Builder;
+use Yoast\WP\Free\Builders\Indexable_Builder;
 use Yoast\WP\Free\Integrations\Watchers\Indexable_Post_Type_Archive_Watcher;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
@@ -21,6 +21,29 @@ use Yoast\WP\Free\Tests\TestCase;
  * @package Yoast\Tests\Watchers
  */
 class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
+
+	/**
+	 * @var Mockery\MockInterface|Indexable_Repository
+	 */
+	private $repository_mock;
+
+	/**
+	 * @var Mockery\MockInterface|Indexable_Builder
+	 */
+	private $builder_mock;
+
+	/**
+	 * @var Indexable_Post_Type_Archive_Watcher
+	 */
+	private $instance;
+
+	public function setUp() {
+		$this->repository_mock = Mockery::mock( Indexable_Repository::class );
+		$this->builder_mock    = Mockery::mock( Indexable_Builder::class );
+		$this->instance        = new Indexable_Post_Type_Archive_Watcher( $this->repository_mock, $this->builder_mock );
+
+		return parent::setUp();
+	}
 
 	/**
 	 * Tests if the expected conditionals are in place.
@@ -41,13 +64,8 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		$repository_mock = Mockery::mock( Indexable_Repository::class );
-		$builder_mock    = Mockery::mock( Indexable_Post_Type_Archive_Builder::class );
-
-		$instance = new Indexable_Post_Type_Archive_Watcher( $repository_mock, $builder_mock );
-		$instance->register_hooks();
-
-		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $instance, 'check_option' ] ) );
+		$this->instance->register_hooks();
+		$this->assertNotFalse( \has_action( 'update_option_wpseo_titles', [ $this->instance, 'check_option' ] ) );
 	}
 
 	/**
@@ -61,14 +79,10 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'save' )->once();
 
-		$repository_mock = Mockery::mock( Indexable_Repository::class );
-		$repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $indexable_mock );
+		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $indexable_mock );
+		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', $indexable_mock )->andReturn( $indexable_mock );
 
-		$builder_mock = Mockery::mock( Indexable_Post_Type_Archive_Builder::class );
-		$builder_mock->expects( 'build' )->once()->with( 'my-post-type', $indexable_mock )->andReturn( $indexable_mock );
-
-		$instance = new Indexable_Post_Type_Archive_Watcher( $repository_mock, $builder_mock );
-		$instance->check_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'baz' ] );
+		$this->instance->check_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'baz' ] );
 	}
 
 	/**
@@ -82,14 +96,10 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'save' )->once();
 
-		$repository_mock = Mockery::mock( Indexable_Repository::class );
-		$repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $indexable_mock );
+		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $indexable_mock );
+		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', $indexable_mock )->andReturn( $indexable_mock );
 
-		$builder_mock = Mockery::mock( Indexable_Post_Type_Archive_Builder::class );
-		$builder_mock->expects( 'build' )->once()->with( 'my-post-type', $indexable_mock )->andReturn( $indexable_mock );
-
-		$instance = new Indexable_Post_Type_Archive_Watcher( $repository_mock, $builder_mock );
-		$instance->check_option( [], [ 'title-ptarchive-my-post-type' => 'baz' ] );
+		$this->instance->check_option( [], [ 'title-ptarchive-my-post-type' => 'baz' ] );
 	}
 
 	/**
@@ -106,16 +116,13 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 		$other_indexable_mock = Mockery::mock( Indexable::class );
 		$other_indexable_mock->expects( 'save' )->once();
 
-		$repository_mock = Mockery::mock( Indexable_Repository::class );
-		$repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $indexable_mock );
-		$repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'other-post-type', false )->andReturn( $other_indexable_mock );
+		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $indexable_mock );
+		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'other-post-type', false )->andReturn( $other_indexable_mock );
 
-		$builder_mock = Mockery::mock( Indexable_Post_Type_Archive_Builder::class );
-		$builder_mock->expects( 'build' )->once()->with( 'my-post-type', $indexable_mock )->andReturn( $indexable_mock );
-		$builder_mock->expects( 'build' )->once()->with( 'other-post-type', $other_indexable_mock )->andReturn( $other_indexable_mock );
+		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', $indexable_mock )->andReturn( $indexable_mock );
+		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'other-post-type', $other_indexable_mock )->andReturn( $other_indexable_mock );
 
-		$instance = new Indexable_Post_Type_Archive_Watcher( $repository_mock, $builder_mock );
-		$instance->check_option( [ 'title-ptarchive-my-post-type' => 'baz' ], [ 'title-ptarchive-other-post-type' => 'baz' ] );
+		$this->instance->check_option( [ 'title-ptarchive-my-post-type' => 'baz' ], [ 'title-ptarchive-other-post-type' => 'baz' ] );
 	}
 
 	/**
@@ -126,17 +133,8 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * @covers ::build_indexable
 	 */
 	public function test_update_wpseo_titles_value_same_value() {
-		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->never();
-
-		$repository_mock = Mockery::mock( Indexable_Repository::class );
-		$repository_mock->expects( 'find_for_post_type_archive' )->never();
-
-		$builder_mock = Mockery::mock( Indexable_Post_Type_Archive_Builder::class );
-		$builder_mock->expects( 'build' )->never();
-
-		$instance = new Indexable_Post_Type_Archive_Watcher( $repository_mock, $builder_mock );
-		$instance->check_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'bar' ] );
+		// No assertions made so this will fail if any method is called on our mocks.
+		$this->instance->check_option( [ 'title-ptarchive-my-post-type' => 'bar' ], [ 'title-ptarchive-my-post-type' => 'bar' ] );
 	}
 
 	/**
@@ -147,17 +145,8 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 	 * @covers ::build_indexable
 	 */
 	public function test_update_wpseo_titles_value_without_change() {
-		$indexable_mock = Mockery::mock( Indexable::class );
-		$indexable_mock->expects( 'save' )->never();
-
-		$repository_mock = Mockery::mock( Indexable_Repository::class );
-		$repository_mock->expects( 'find_for_post_type_archive' )->never();
-
-		$builder_mock = Mockery::mock( Indexable_Post_Type_Archive_Builder::class );
-		$builder_mock->expects( 'build' )->never();
-
-		$instance = new Indexable_Post_Type_Archive_Watcher( $repository_mock, $builder_mock );
-		$instance->check_option( [ 'other_key' => 'bar' ], [ 'other_key' => 'baz' ] );
+		// No assertions made so this will fail if any method is called on our mocks.
+		$this->instance->check_option( [ 'other_key' => 'bar' ], [ 'other_key' => 'baz' ] );
 	}
 
 	/**
@@ -170,14 +159,9 @@ class Indexable_Post_Type_Archive_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'save' )->once();
 
-		$repository_mock = Mockery::mock( Indexable_Repository::class );
-		$repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( false );
-		$repository_mock->expects( 'create_for_post_type_archive' )->once()->with( 'my-post-type' )->andReturn( $indexable_mock );
+		$this->repository_mock->expects( 'find_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( false );
+		$this->builder_mock->expects( 'build_for_post_type_archive' )->once()->with( 'my-post-type', false )->andReturn( $indexable_mock );
 
-		$builder_mock = Mockery::mock( Indexable_Post_Type_Archive_Builder::class );
-		$builder_mock->expects( 'build' )->never();
-
-		$instance = new Indexable_Post_Type_Archive_Watcher( $repository_mock, $builder_mock );
-		$instance->build_indexable( 'my-post-type' );
+		$this->instance->build_indexable( 'my-post-type' );
 	}
 }
