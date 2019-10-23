@@ -1183,29 +1183,9 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function metadesc( $echo = true ) {
-		if ( is_null( $this->metadesc ) ) {
-			$this->generate_metadesc();
-		}
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
 
-		if ( $echo === false ) {
-			return $this->metadesc;
-		}
-
-		if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
-			echo '<meta name="description" content="', esc_attr( wp_strip_all_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
-			return '';
-		}
-
-		if ( current_user_can( 'wpseo_manage_options' ) && is_singular() ) {
-			echo '<!-- ';
-			printf(
-				/* Translators: %1$s resolves to the SEO menu item, %2$s resolves to the Search Appearance submenu item. */
-				esc_html__( 'Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [%1$s - %2$s] menu and set up a template.', 'wordpress-seo' ),
-				esc_html__( 'SEO', 'wordpress-seo' ),
-				esc_html__( 'Search Appearance', 'wordpress-seo' )
-			);
-			echo ' -->' . "\n";
-		}
+		return '';
 	}
 
 	/**
