@@ -220,6 +220,7 @@ class Front_End_Integration implements Integration_Interface {
 			$post   = \get_post( $indexable->object_id );
 			$blocks = $this->blocks_helper->get_all_blocks_from_content( $post->post_content );
 		}
+
 		return $this->meta_tags_context->of( [ 'indexable' => $indexable, 'blocks' => $blocks, 'post' => $post ] );
 	}
 
@@ -240,6 +241,7 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		$context->presentation = $presentation->of( [ 'model' => $indexable, 'context' => $context ] );
+
 		return $context->presentation;
 	}
 
@@ -258,7 +260,7 @@ class Front_End_Integration implements Integration_Interface {
 		}
 
 		return array_filter(
-			array_map( function ( $presenter ) use ( $page_type, $invalid_behaviour ) {
+			array_map( function( $presenter ) use ( $page_type, $invalid_behaviour ) {
 				return $this->container->get( "Yoast\WP\Free\Presenters\\{$presenter}_Presenter", $invalid_behaviour );
 			}, $needed_presenters )
 		);
@@ -315,7 +317,7 @@ class Front_End_Integration implements Integration_Interface {
 	/**
 	 * Filters the presenters based on the page type.
 	 *
-	 * @param string $page_type  The page type.
+	 * @param string $page_type The page type.
 	 *
 	 * @return Abstract_Indexable_Presenter[] The presenters.
 	 */
@@ -343,9 +345,10 @@ class Front_End_Integration implements Integration_Interface {
 		if ( WPSEO_Options::get( 'opengraph' ) === true ) {
 			$presenters = array_merge( $presenters, $this->open_graph_presenters );
 		}
-		if ( WPSEO_Options::get( 'twitter' ) === true ) {
+		if ( WPSEO_Options::get( 'twitter' ) === true && apply_filters( 'wpseo_output_twitter_card', true ) !== false ) {
 			$presenters = array_merge( $presenters, $this->twitter_card_presenters );
 		}
+
 		return array_merge( $presenters, $this->closing_presenters );
 	}
 }
