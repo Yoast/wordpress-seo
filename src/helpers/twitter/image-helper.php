@@ -8,7 +8,6 @@
 namespace Yoast\WP\Free\Helpers\Twitter;
 
 use Yoast\WP\Free\Helpers\Image_Helper as Base_Image_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
 
 /**
  * Class Image_Helper
@@ -53,6 +52,6 @@ class Image_Helper {
 	 * @return string The image url.
 	 */
 	public function get_by_id( $image_id ) {
-		return $this->image->get_attachment_image_src( $image_id, $this->get_image_size() );
+		return $this->image->get_attachment_image_source( $image_id, $this->get_image_size() );
 	}
 }

@@ -25,20 +25,20 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * @var Taxonomy_Helper
 	 */
-	private $taxonomy_helper;
+	private $taxonomy;
 
 	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
 	 * @param WP_Query_Wrapper $wp_query_wrapper The wp query wrapper.
-	 * @param Taxonomy_Helper  $taxonomy_helper  The Taxonomy helper.
+	 * @param Taxonomy_Helper  $taxonomy         The Taxonomy helper.
 	 */
 	public function __construct(
 		WP_Query_Wrapper $wp_query_wrapper,
-		Taxonomy_Helper $taxonomy_helper
+		Taxonomy_Helper $taxonomy
 	) {
 		$this->wp_query_wrapper = $wp_query_wrapper;
-		$this->taxonomy_helper  = $taxonomy_helper;
+		$this->taxonomy         = $taxonomy;
 	}
 
 	/**
@@ -62,6 +62,18 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
+	public function generate_og_description() {
+		$og_description = parent::generate_og_description();
+		if ( $og_description ) {
+			return $og_description;
+		}
+
+		return $this->taxonomy->get_term_description( $this->model->object_id );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function generate_twitter_description() {
 		$twitter_description = parent::generate_twitter_description();
 
@@ -69,12 +81,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return $twitter_description;
 		}
 
-		$excerpt = \wp_strip_all_tags( \term_description( $this->model->object_id ) );
-		if ( $excerpt ) {
-			return $excerpt;
-		}
-
-		return '';
+		return $this->taxonomy->get_term_description( $this->model->object_id );
 	}
 
 	/**
@@ -96,7 +103,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		 * First we get the no index option for this taxonomy, because it can be overwritten the indexable value for
 		 * this specific term.
 		 */
-		if ( ! $this->taxonomy_helper->is_indexable( $this->replace_vars_object->taxonomy ) ) {
+		if ( ! $this->taxonomy->is_indexable( $this->replace_vars_object->taxonomy ) ) {
 			$robots['index'] = 'noindex';
 		}
 

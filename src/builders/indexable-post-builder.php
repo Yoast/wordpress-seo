@@ -8,9 +8,6 @@
 namespace Yoast\WP\Free\Builders;
 
 use Exception;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as Open_Graph_Image_Helper;
-use Yoast\WP\Free\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
 
@@ -18,6 +15,7 @@ use Yoast\WP\Free\Repositories\SEO_Meta_Repository;
  * Formats the post meta to indexable format.
  */
 class Indexable_Post_Builder {
+	use Indexable_Social_Image_Trait;
 
 	/**
 	 * @var SEO_Meta_Repository
@@ -25,38 +23,12 @@ class Indexable_Post_Builder {
 	protected $seo_meta_repository;
 
 	/**
-	 * @var Image_Helper
-	 */
-	protected $image_helper;
-
-	/**
-	 * @var Open_Graph_Image_Helper
-	 */
-	protected $open_graph_image;
-
-	/**
-	 * @var Twitter_Image_Helper
-	 */
-	protected $twitter_image;
-
-	/**
 	 * Indexable_Post_Builder constructor.
 	 *
-	 * @param SEO_Meta_Repository     $seo_meta_repository The SEO Meta repository.
-	 * @param Image_Helper            $image_helper        The image helper.
-	 * @param Open_Graph_Image_Helper $open_graph_image    The Open Graph image helper.
-	 * @param Twitter_Image_Helper    $twitter_image       The Twitter image helper.
+	 * @param SEO_Meta_Repository $seo_meta_repository The SEO Meta repository.
 	 */
-	public function __construct(
-		SEO_Meta_Repository $seo_meta_repository,
-		Image_Helper $image_helper,
-		Open_Graph_Image_Helper $open_graph_image,
-		Twitter_Image_Helper $twitter_image
-	) {
+	public function __construct( SEO_Meta_Repository $seo_meta_repository ) {
 		$this->seo_meta_repository = $seo_meta_repository;
-		$this->image_helper        = $image_helper;
-		$this->open_graph_image    = $open_graph_image;
-		$this->twitter_image       = $twitter_image;
 	}
 
 	/**
@@ -90,18 +62,20 @@ class Indexable_Post_Builder {
 		$noindex_advanced              = $this->get_meta_value( $post_id, 'meta-robots-adv' );
 		$meta_robots                   = \explode( ',', $noindex_advanced );
 		foreach ( $this->get_robots_options() as $meta_robots_option ) {
-			$indexable->{ 'is_robots_' . $meta_robots_option } = \in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
+			$indexable->{'is_robots_' . $meta_robots_option} = \in_array( $meta_robots_option, $meta_robots, true ) ? 1 : null;
 		}
 
 		$this->reset_social_images( $indexable );
 
 		foreach ( $this->get_indexable_lookup() as $meta_key => $indexable_key ) {
-			$indexable->{ $indexable_key } = $this->get_meta_value( $post_id, $meta_key );
+			$indexable->{$indexable_key} = $this->get_meta_value( $post_id, $meta_key );
 		}
 
 		$this->handle_social_images( $indexable );
 
 		$indexable = $this->set_link_count( $post_id, $indexable );
+
+		$indexable->number_of_pages = $this->get_number_of_pages_for_post( $post_id );
 
 		return $indexable;
 	}
@@ -189,7 +163,7 @@ class Indexable_Post_Builder {
 				$indexable->link_count          = $seo_meta->internal_link_count;
 				$indexable->incoming_link_count = $seo_meta->incoming_link_count;
 			}
-		// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
+			// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 		} catch ( Exception $exception ) {
 			// Do nothing...
 		}
@@ -212,54 +186,6 @@ class Indexable_Post_Builder {
 		}
 
 		return $value;
-	}
-
-	/**
-	 * Resets the social images.
-	 *
-	 * @param Indexable $indexable The indexable to set images for.
-	 */
-	protected function reset_social_images( Indexable $indexable ) {
-		$indexable->og_image        = null;
-		$indexable->og_image_id     = null;
-		$indexable->og_image_source = null;
-		$indexable->og_image_meta   = null;
-
-		$indexable->twitter_image        = null;
-		$indexable->twitter_image_id     = null;
-		$indexable->twitter_image_source = null;
-	}
-
-	/**
-	 * Handles the social images.
-	 *
-	 * @param Indexable $indexable The indexable to handle.
-	 */
-	protected function handle_social_images( Indexable $indexable ) {
-		// When the image or image id is set.
-		if ( $indexable->og_image || $indexable->og_image_id ) {
-			$indexable->og_image_source = 'set-by-user';
-
-			$this->set_og_image_meta_data( $indexable );
-		}
-
-		if ( $indexable->twitter_image || $indexable->twitter_image_id ) {
-			$indexable->twitter_image_source = 'set-by-user';
-		}
-
-		if ( $indexable->twitter_image_id ) {
-			$indexable->twitter_image = $this->twitter_image->get_by_id( $indexable->twitter_image_id );
-		}
-
-		// When image sources are set already.
-		if ( $indexable->og_image_source && $indexable->twitter_image_source ) {
-			return;
-		}
-
-		$alternative_image = $this->find_alternative_image( $indexable );
-		if ( ! empty( $alternative_image ) ) {
-			$this->set_alternative_image( $alternative_image, $indexable );
-		}
 	}
 
 	/**
@@ -341,6 +267,25 @@ class Indexable_Post_Builder {
 				$indexable->twitter_image_source = $alternative_image['source'];
 			}
 		}
+	}
+
+	/**
+	 * Gets the number of pages for a post.
+	 *
+	 * @param int $post_id The post id.
+	 *
+	 * @return int|null The number of pages or null if the post isn't paginated.
+	 */
+	protected function get_number_of_pages_for_post( $post_id ) {
+		$post = \get_post( $post_id );
+
+		$number_of_pages = ( \substr_count( $post->post_content, '<!--nextpage-->' ) + 1 );
+
+		if ( $number_of_pages <= 1 ) {
+			return null;
+		}
+
+		return $number_of_pages;
 	}
 
 	/**

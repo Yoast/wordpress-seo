@@ -7,10 +7,13 @@
 
 namespace Yoast\WP\Free\Builders;
 
+use Yoast\WP\Free\Models\Indexable;
+
 /**
  * Formats the term meta to indexable format.
  */
 class Indexable_Term_Builder {
+	use Indexable_Social_Image_Trait;
 
 	/**
 	 * Formats the data.
@@ -49,9 +52,13 @@ class Indexable_Term_Builder {
 
 		$indexable->is_robots_noindex = $this->get_noindex_value( $this->get_meta_value( 'wpseo_noindex', $term_meta ) );
 
+		$this->reset_social_images( $indexable );
+
 		foreach ( $this->get_indexable_lookup() as $meta_key => $indexable_key ) {
-			$indexable->{ $indexable_key } = $this->get_meta_value( $meta_key, $term_meta );
+			$indexable->{$indexable_key} = $this->get_meta_value( $meta_key, $term_meta );
 		}
+
+		$this->handle_social_images( $indexable );
 
 		// Not implemented yet.
 		$indexable->is_cornerstone         = false;
@@ -140,5 +147,24 @@ class Indexable_Term_Builder {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Finds an alternative image for the social image.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return array|bool False when not found, array with data when found.
+	 */
+	protected function find_alternative_image( Indexable $indexable ) {
+		$content_image = $this->image_helper->get_term_content_image( $indexable->object_id );
+		if ( $content_image ) {
+			return [
+				'image'  => $content_image,
+				'source' => 'first-content-image',
+			];
+		}
+
+		return false;
 	}
 }

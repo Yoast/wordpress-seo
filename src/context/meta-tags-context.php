@@ -39,6 +39,7 @@ use Yoast\WP\Free\Presentations\Indexable_Presentation;
  * @property string      main_schema_id
  * @property bool        open_graph_enabled
  * @property string      open_graph_publisher
+ * @property string      twitter_card
  */
 class Meta_Tags_Context extends Abstract_Presentation {
 
@@ -325,6 +326,15 @@ class Meta_Tags_Context extends Abstract_Presentation {
 		}
 
 		return $this->options_helper->get( 'facebook_site', '' );
+	}
+
+	/**
+	 * Returns the twitter card type.
+	 *
+	 * @return string The twitter card type.
+	 */
+	public function generate_twitter_card() {
+		return $this->options_helper->get( 'twitter_card_type' );
 	}
 
 	/**

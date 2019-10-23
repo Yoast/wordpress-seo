@@ -18,30 +18,30 @@
 
 /* Only target browsers with support for media queries. */
 @media only screen {
- 	.switch-light,
+	.switch-light,
 	.switch-toggle {
 		position: relative;
 		display: block;
 		padding: 0 !important;
 	}
 
-    .switch-light::after,
+	.switch-light::after,
 	.switch-toggle::after {
 		clear: both;
 		content: "";
 		display: table;
 	}
 
-    .switch-light *,
-    .switch-light *:before,
-    .switch-light *:after,
-    .switch-toggle *,
-    .switch-toggle *:before,
-    .switch-toggle *:after {
+	.switch-light *,
+	.switch-light *:before,
+	.switch-light *:after,
+	.switch-toggle *,
+	.switch-toggle *:before,
+	.switch-toggle *:after {
 		box-sizing: border-box;
 	}
 
-    .switch-light a,
+	.switch-light a,
 	.switch-toggle a {
 		display: block;
 		-webkit-transition: all 0.2s ease-out;
@@ -49,10 +49,10 @@
 		transition: all 0.2s ease-out;
 	}
 
-    .switch-light label,
-    .switch-light > span,
-    .switch-toggle label,
-    .switch-toggle > span,
+	.switch-light label,
+	.switch-light > span,
+	.switch-toggle label,
+	.switch-toggle > span,
 	.switch-light-visual-label {
 		line-height: 2;
 		vertical-align: middle;
@@ -89,27 +89,27 @@
 	}
 
 	.switch-light span span {
-	    position: relative;
-	    z-index: 2;
-	    display: block;
-	    float: left;
-	    width: 50%;
-	    text-align: center;
-	    -webkit-user-select: none;
-	    -moz-user-select: none;
-	    -ms-user-select: none;
-	    user-select: none;
+		position: relative;
+		z-index: 2;
+		display: block;
+		float: left;
+		width: 50%;
+		text-align: center;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
 	}
 
 	.switch-light a {
-	    position: absolute;
-	    right: 50%;
-	    top: 0;
-	    z-index: 1;
-	    display: block;
-	    width: 50%;
-	    height: 100%;
-	    padding: 0;
+		position: absolute;
+		right: 50%;
+		top: 0;
+		z-index: 1;
+		display: block;
+		width: 50%;
+		height: 100%;
+		padding: 0;
 	}
 
 	.switch-toggle input {
@@ -433,6 +433,10 @@
 		margin: 8px 0;
 		font-weight: 400;
 		line-height: 2;
+
+		&__strong {
+			font-weight: 600;
+		}
 	}
 
 	.switch-container {

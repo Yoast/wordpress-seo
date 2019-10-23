@@ -35,7 +35,7 @@ class Canonical_Presenter extends Abstract_Indexable_Presenter {
 	}
 
 	/**
-	 * Run the canonical content through the `wpseo_metadesc` filter.
+	 * Run the canonical content through the `wpseo_canonical` filter.
 	 *
 	 * @param string $canonical The canonical to filter.
 	 *

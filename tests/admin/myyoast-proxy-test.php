@@ -241,7 +241,11 @@ class MyYoast_Proxy_Test extends TestCase {
 			->with( 'https://my.yoast.com/api/downloads/file/analysis-worker?plugin_version=1.0' )
 			->andReturn( $wp_error_mock );
 
-		/** @var \WPSEO_MyYoast_Proxy $instance */
+		/**
+		 * It acts like an instance of WPSEO_MyYoast_Proxy.
+		 *
+		 * @var WPSEO_MyYoast_Proxy $instance
+		 */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
 			->setMethods( [ 'get_proxy_file', 'get_plugin_version', 'should_load_url_directly', 'set_header', 'load_url' ] )

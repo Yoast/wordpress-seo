@@ -7,10 +7,14 @@
 
 /**
  * Unit Test Class.
+ *
+ * @group bla
  */
 class WPSEO_Link_Utils_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Tests whether a URL part is extracted correctly from a URL.
+	 *
 	 * @covers WPSEO_Link_Utils::get_url_part
 	 */
 	public function test_get_url_part() {

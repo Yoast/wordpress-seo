@@ -15,15 +15,22 @@ class Taxonomy_Helper {
 	/**
 	 * @var Options_Helper
 	 */
-	private $options_helper;
+	private $options;
+
+	/**
+	 * @var String_Helper
+	 */
+	private $string;
 
 	/**
 	 * Taxonomy_Helper constructor.
 	 *
-	 * @param Options_Helper $options_helper The options helper.
+	 * @param Options_Helper $options The options helper.
+	 * @param String_Helper  $string  The string helper.
 	 */
-	public function __construct( Options_Helper $options_helper ) {
-		$this->options_helper = $options_helper;
+	public function __construct( Options_Helper $options, String_Helper $string ) {
+		$this->options = $options;
+		$this->string  = $string;
 	}
 
 	/**
@@ -34,6 +41,17 @@ class Taxonomy_Helper {
 	 * @return bool True when taxonomy is set to index.
 	 */
 	public function is_indexable( $taxonomy ) {
-		return ! $this->options_helper->get( 'noindex-tax-' . $taxonomy, false );
+		return ! $this->options->get( 'noindex-tax-' . $taxonomy, false );
+	}
+
+	/**
+	 * Retrieves the term description (without tags).
+	 *
+	 * @param int $term_id Term ID.
+	 *
+	 * @return string Term description (without tags).
+	 */
+	public function get_term_description( $term_id ) {
+		return $this->string->strip_all_tags( \term_description( $term_id ) );
 	}
 }
