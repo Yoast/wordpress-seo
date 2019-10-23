@@ -5,6 +5,9 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 0.8.0 October 14th, 2019
+* No user-facing changes.
+
 ## 0.4.0 June 11th, 2019
 ### Changed
 * Added a margin of 16px to the left of the marker button, so the link and button are not too close.
