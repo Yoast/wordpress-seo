@@ -136,11 +136,15 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->andReturn( 'twitter_image.jpg' );
 
 		$builder = new Indexable_Post_Builder(
-			$seo_meta_repository,
+			$seo_meta_repository
+		);
+
+		$builder->set_social_image_helpers(
 			$image_helper,
 			$open_graph_image,
 			$twitter_image
 		);
+
 		$builder->build( 1, $indexable_mock );
 	}
 }

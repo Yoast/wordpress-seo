@@ -76,7 +76,6 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	 */
 	public function generate_twitter_description() {
 		$twitter_description = parent::generate_twitter_description();
-
 		if ( $twitter_description ) {
 			return $twitter_description;
 		}

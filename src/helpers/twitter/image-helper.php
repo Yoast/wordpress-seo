@@ -8,7 +8,6 @@
 namespace Yoast\WP\Free\Helpers\Twitter;
 
 use Yoast\WP\Free\Helpers\Image_Helper as Base_Image_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
 
 /**
  * Class Image_Helper
