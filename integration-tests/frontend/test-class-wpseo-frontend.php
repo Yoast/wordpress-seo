@@ -629,30 +629,6 @@ Page 3/3
 	}
 
 	/**
-	 * Tests the situation where the closing debug mark shouldn't be shown.
-	 *
-	 * @covers WPSEO_Frontend::show_closing_debug_mark
-	 */
-	public function test_show_closing_debug_mark_with_debug_mark_hook_not_being_set() {
-		/** @var $frontend WPSEO_Frontend_Double */
-		$frontend = $this
-			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'show_debug_marker' ) )
-			->getMock();
-
-		$frontend
-			->expects( $this->once() )
-			->method( 'show_debug_marker' )
-			->will( $this->returnValue( false ) );
-
-		$frontend->head();
-
-		$output = $this->getActualOutput();
-
-		$this->assertFalse( stripos( $output, '<!-- / Yoast SEO plugin. -->' ) );
-	}
-
-	/**
 	 * @covers WPSEO_Frontend::force_rewrite_output_buffer
 	 */
 	public function test_force_rewrite_output_buffer() {
