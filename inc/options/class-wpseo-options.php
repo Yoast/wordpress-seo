@@ -62,7 +62,7 @@ class WPSEO_Options {
 		self::$backfill->register_hooks();
 
 		foreach ( self::$options as $option_name => $option_class ) {
-			self::register_option( $option_name, $option_class::get_instance() );
+			self::register_option( $option_name, call_user_func( array( $option_class, 'get_instance' ) ) );
 		}
 	}
 
