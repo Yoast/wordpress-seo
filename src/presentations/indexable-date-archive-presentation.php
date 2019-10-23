@@ -15,6 +15,13 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
+	public function generate_canonical() {
+		return $this->current_page->get_date_archive_permalink();
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function generate_robots() {
 		$robots = $this->robots_helper->get_base_values( $this->model );
 
