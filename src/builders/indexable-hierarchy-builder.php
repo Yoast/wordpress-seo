@@ -113,7 +113,12 @@ class Indexable_Hierarchy_Builder {
 		}
 
 		$primary_term_id = $this->find_primary_term_id_for_post( $post );
-		$ancestor        = $this->indexable_repository->find_by_id_and_type( $primary_term_id, 'term' );
+
+		if ( $primary_term_id === 0 ) {
+			return;
+		}
+
+		$ancestor = $this->indexable_repository->find_by_id_and_type( $primary_term_id, 'term' );
 		$this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
 		$this->add_ancestors_for_term( $indexable_id, $ancestor->object_id, ( $depth + 1 ) );
 	}

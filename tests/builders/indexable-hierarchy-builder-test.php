@@ -136,7 +136,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 2;
 
-		Monkey\Functions\expect( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_parent' => 0, 'post_type' => 'post' ] );
+		Monkey\Functions\expect( 'get_post' )->with( 1 )->andReturn( (object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ] );
 		Monkey\Functions\expect( 'get_term' )->with( 2 )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ] );
 
 		$this->indexable_hierarchy_repository->expects( 'clear_ancestors' )->with( 1 )->andReturn( true );
@@ -175,7 +175,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$grand_parent_indexable->object_type = 'term';
 		$grand_parent_indexable->object_id   = 3;
 
-		Monkey\Functions\expect( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_parent' => 0, 'post_type' => 'post' ] );
+		Monkey\Functions\expect( 'get_post' )->with( 1 )->andReturn( (object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ] );
 		Monkey\Functions\expect( 'get_term' )->with( 2 )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 3 ] );
 		Monkey\Functions\expect( 'get_term' )->with( 3, 'tag' )->andReturn( (object) [ 'term_id' => 3, 'taxonomy' => 'tag', 'parent' => 0 ] );
 
@@ -209,7 +209,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$parent_indexable->object_type = 'term';
 		$parent_indexable->object_id   = 2;
 
-		Monkey\Functions\expect( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_parent' => 0, 'post_type' => 'post' ] );
+		Monkey\Functions\expect( 'get_post' )->with( 1 )->andReturn( (object) [ 'ID' => 1,'post_parent' => 0, 'post_type' => 'post' ] );
 		Monkey\Functions\expect( 'get_the_terms' )->with( 1, 'tag' )->andReturn( [ (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ] ] );
 		Monkey\Functions\expect( 'get_term' )->with( 2 )->andReturn( (object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ] );
 
@@ -246,7 +246,7 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 		$grand_parent_indexable->object_type = 'term';
 		$grand_parent_indexable->object_id   = 4;
 
-		Monkey\Functions\expect( 'get_post' )->with( 1 )->andReturn( (object) [ 'post_parent' => 0, 'post_type' => 'post' ] );
+		Monkey\Functions\expect( 'get_post' )->with( 1 )->andReturn( (object) [ 'ID' => 1, 'post_parent' => 0, 'post_type' => 'post' ] );
 		Monkey\Functions\expect( 'get_the_terms' )->with( 1, 'tag' )->andReturn( [
 			(object) [ 'term_id' => 2, 'taxonomy' => 'tag', 'parent' => 0 ],
 			(object) [ 'term_id' => 3, 'taxonomy' => 'tag', 'parent' => 4 ],
