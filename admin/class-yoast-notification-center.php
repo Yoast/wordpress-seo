@@ -145,7 +145,7 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Check if the nofitication is being dismissed.
+	 * Checks if the notification is being dismissed.
 	 *
 	 * @param string|Yoast_Notification $notification Notification to check dismissal of.
 	 * @param string                    $meta_value   Value to set the meta value to if dismissed.
