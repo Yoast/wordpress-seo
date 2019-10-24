@@ -166,6 +166,10 @@ class WPSEO_Taxonomy {
 	 * @param string $taxonomy The taxonomy the term belongs to.
 	 */
 	public function update_term( $term_id, $tt_id, $taxonomy ) {
+		if ( is_multisite() && ms_is_switched() ) {
+			return;
+		}
+
 		/* Create post array with only our values. */
 		$new_meta_data = array();
 		foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {

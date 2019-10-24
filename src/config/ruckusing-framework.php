@@ -20,16 +20,22 @@ use YoastSEO_Vendor\Task_Db_Migrate;
 class Ruckusing_Framework {
 
 	/**
+	 * The database object.
+	 *
 	 * @var \wpdb
 	 */
 	protected $wpdb;
 
 	/**
+	 * The dependency management checker.
+	 *
 	 * @var \Yoast\WP\Free\Config\Dependency_Management
 	 */
 	protected $dependency_management;
 
 	/**
+	 * The migration logger object.
+	 *
 	 * @var \Yoast\WP\Free\Loggers\Migration_Logger
 	 */
 	protected $migration_logger;

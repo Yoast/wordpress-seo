@@ -26,9 +26,9 @@ class WPSEO_Configuration_Structure {
 	 * @var array
 	 */
 	private $fields = array(
-		'environment_type'           => array( 'environment_type' ),
-		'siteType'                   => array( 'siteType' ),
-		'publishingEntity'           => array(
+		'environment_type' => array( 'environment_type' ),
+		'siteType'         => array( 'siteType' ),
+		'publishingEntity' => array(
 			'publishingEntity',
 			'publishingEntityType',
 			'publishingEntityCompanyInfo',
@@ -44,21 +44,17 @@ class WPSEO_Configuration_Structure {
 			'profileUrlYouTube',
 			'profileUrlWikipedia',
 		),
-		'multipleAuthors'            => array( 'multipleAuthors' ),
-		'connectGoogleSearchConsole' => array(
-			'googleSearchConsoleIntro',
-			'connectGoogleSearchConsole',
-		),
-		'titleTemplate'              => array(
+		'multipleAuthors'  => array( 'multipleAuthors' ),
+		'titleTemplate'    => array(
 			'titleIntro',
 			'siteName',
 			'separator',
 		),
-		'newsletter'                 => array(
+		'newsletter'       => array(
 			'mailchimpSignup',
 			'suggestions',
 		),
-		'success'                    => array( 'successMessage' ),
+		'success'          => array( 'successMessage' ),
 	);
 
 	/**
@@ -86,14 +82,6 @@ class WPSEO_Configuration_Structure {
 			__( 'Multiple authors', 'wordpress-seo' ),
 			$this->fields['multipleAuthors']
 		);
-		// @codingStandardsIgnoreStart -- These lines are commented out temporarily, see next line.
-		// Commented out since 11.1.1 patch because Google removed their GSC API.
-//		$this->add_step(
-//			'connect-google-search-console',
-//			__( 'Google Search Console', 'wordpress-seo' ),
-//			$this->fields['connectGoogleSearchConsole']
-//		);
-		// @codingStandardsIgnoreEnd
 
 		$this->add_step( 'title-template', __( 'Title settings', 'wordpress-seo' ), $this->fields['titleTemplate'] );
 		$this->add_step( 'newsletter', __( 'Continue learning', 'wordpress-seo' ), $this->fields['newsletter'], true, true );

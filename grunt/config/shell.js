@@ -76,7 +76,6 @@ module.exports = function( grunt ) {
 				"node_modules/yoast-components/composites/OnboardingWizard/**/*.js",
 
 				// Only these 3 files have the old i18n-calypso system:
-				"<%= paths.js %>components/ConnectGoogleSearchConsole.js",
 				"<%= paths.js %>components/MailchimpSignup.js",
 				"<%= paths.js %>components/MediaUpload.js",
 			],

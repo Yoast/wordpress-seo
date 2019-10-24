@@ -2,19 +2,15 @@
 
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Archive_Presentation;
 
-use Mockery;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Helpers\Image_Helper;
-use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Robots_Helper;
-use Yoast\WP\Free\Helpers\User_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Post_Type_Archive_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
+use Yoast\WP\Free\Tests\Presentations\Presentation_Instance_Dependencies;
 
 /**
  * Trait Presentation_Instance_Builder
  */
 trait Presentation_Instance_Builder {
+	use Presentation_Instance_Dependencies;
 
 	/**
 	 * @var Indexable
@@ -27,53 +23,15 @@ trait Presentation_Instance_Builder {
 	protected $instance;
 
 	/**
-	 * @var Mockery\Mock
-	 */
-	protected $options_helper;
-
-	/**
-	 * @var Mockery\Mock
-	 */
-	protected $robots_helper;
-
-	/**
-	 * @var Mockery\Mock
-	 */
-	protected $current_page_helper;
-
-	/**
-	 * @var Image_Helper
-	 */
-	protected $image_helper;
-
-	/**
-	 * @var User_Helper|Mockery\MockInterface
-	 */
-	protected $user;
-
-	/**
 	 * Builds an instance of Indexable_Post_Type_Presentation.
 	 */
 	protected function setInstance() {
 		$this->indexable = new Indexable();
 
-		$this->options_helper      = Mockery::mock( Options_Helper::class );
-		$this->robots_helper       = Mockery::mock( Robots_Helper::class );
-		$this->image_helper        = Mockery::mock( Image_Helper::class );
-		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
-		$this->user                = Mockery::mock( User_Helper::class );
-
-		$instance = Mockery::mock( Indexable_Post_Type_Archive_Presentation::class )
-			->makePartial()
-			->shouldAllowMockingProtectedMethods();
+		$instance = new Indexable_Post_Type_Archive_Presentation();
 
 		$this->instance = $instance->of( [ 'model' => $this->indexable ] );
-		$this->instance->set_helpers(
-			$this->robots_helper,
-			$this->image_helper,
-			$this->options_helper,
-			$this->current_page_helper,
-			$this->user
-		);
+
+		$this->set_instance_dependencies( $this->instance );
 	}
 }

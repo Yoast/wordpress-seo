@@ -745,6 +745,15 @@ abstract class WPSEO_Option {
 	}
 
 	/**
+	 * Retrieves the option name.
+	 *
+	 * @return string The set option name.
+	 */
+	public function get_option_name() {
+		return $this->option_name;
+	}
+
+	/**
 	 * Concrete classes *may* contain a clean_option method which will clean out old/renamed
 	 * values within the option.
 	 */

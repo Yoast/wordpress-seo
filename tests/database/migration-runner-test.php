@@ -26,6 +26,9 @@ use YoastSEO_Vendor\Ruckusing_Task_Manager;
  */
 class Migration_Runner_Test extends TestCase {
 
+	/**
+	 * Setup the tests.
+	 */
 	public function setUp() {
 		parent::setUp();
 
