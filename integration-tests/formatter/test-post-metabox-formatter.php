@@ -11,6 +11,8 @@
 class WPSEO_Post_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * The post.
+	 *
 	 * @var WP_Post
 	 */
 	private $post;
