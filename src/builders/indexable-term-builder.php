@@ -60,10 +60,6 @@ class Indexable_Term_Builder {
 
 		$this->handle_social_images( $indexable );
 
-		if ( empty( $indexable->canonical ) ) {
-			$indexable->canonical = $indexable->permalink;
-		}
-
 		// Not implemented yet.
 		$indexable->is_cornerstone         = false;
 		$indexable->is_robots_nofollow     = null;

@@ -48,8 +48,6 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'home_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'home_breadcrumb_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
-		$indexable_mock->orm->expects( 'get' )->with( 'permalink' )->andReturn( 'https://permalink' );
-		$indexable_mock->orm->expects( 'set' )->with( 'canonical', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'home_meta_description' );
 		$indexable_mock->orm->expects( 'offsetExists' )->with( 'description' )->andReturn( true );
 		$indexable_mock->orm->expects( 'get' )->with( 'description' )->andReturn( 'home_meta_description' );
@@ -86,8 +84,6 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'home_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'home_breadcrumb_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
-		$indexable_mock->orm->expects( 'get' )->with( 'permalink' )->andReturn( 'https://permalink' );
-		$indexable_mock->orm->expects( 'set' )->with( 'canonical', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
 		$indexable_mock->orm->expects( 'offsetExists' )->with( 'description' )->andReturn( false );

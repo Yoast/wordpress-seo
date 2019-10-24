@@ -103,9 +103,6 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'primary_focus_keyword_score', 75 );
 		$indexable_mock->orm->expects( 'set' )->with( 'readability_score', 50 );
 
-		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'canonical' )->andReturnTrue();
-		$indexable_mock->orm->expects( 'get' )->once()->with( 'canonical' )->andReturn( 'https://canonical-term' );
-
 		$indexable_mock->orm->expects( 'get' )->once()->with( 'og_image' );
 		$indexable_mock->orm->expects( 'get' )->times( 2 )->with( 'og_image_id' );
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'og_image_source' );
