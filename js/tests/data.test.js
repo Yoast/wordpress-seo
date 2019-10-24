@@ -83,9 +83,6 @@ describe( "getPostAttribute", () => {
 
 describe( "collectGutenbergData", () => {
 	it( "collects the GutenbergData", () => {
-		const retriever = ( attribute ) => {
-			return attribute;
-		};
 		const expected = {
 			content: "content",
 			title: "title",
@@ -93,9 +90,14 @@ describe( "collectGutenbergData", () => {
 			excerpt: "excerpt",
 			// eslint-disable-next-line camelcase
 			excerpt_only: "excerpt",
+			snippetPreviewImageURL: "featured-image",
 		};
 
-		const actual = data.collectGutenbergData( retriever );
+		const mockGetFeaturedImage = jest.fn();
+		mockGetFeaturedImage.mockReturnValue( "featured-image" );
+		data.getFeaturedImage = mockGetFeaturedImage;
+
+		const actual = data.collectGutenbergData();
 		expect( actual ).toEqual( expected );
 	} );
 } );
