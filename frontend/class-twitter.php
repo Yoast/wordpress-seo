@@ -8,7 +8,7 @@
 /**
  * This class handles the Twitter card functionality.
  *
- * @link https://dev.twitter.com/docs/cards
+ * @link https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/abouts-cards
  */
 class WPSEO_Twitter {
 
@@ -101,7 +101,7 @@ class WPSEO_Twitter {
 	 *
 	 * This defaults to summary but can be filtered using the <code>wpseo_twitter_card_type</code> filter.
 	 *
-	 * @link https://dev.twitter.com/docs/cards
+	 * @link https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/abouts-cards
 	 */
 	protected function type() {
 		$this->determine_card_type();
