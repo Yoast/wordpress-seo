@@ -62,7 +62,7 @@ class WPSEO_Options {
 		self::$backfill->register_hooks();
 
 		foreach ( self::$options as $option_name => $option_class ) {
-			self::register_option( call_user_func( array( $option_class, 'get_instance' ) ), $option_name );
+			self::register_option( call_user_func( array( $option_class, 'get_instance' ) ) );
 		}
 	}
 
@@ -83,12 +83,9 @@ class WPSEO_Options {
 	 * Registers an option to the options list.
 	 *
 	 * @param WPSEO_Option $option_instance Instance of the option.
-	 * @param string       $option_name     The option name to register.
 	 */
-	public static function register_option( WPSEO_Option $option_instance, $option_name = null ) {
-		if ( $option_name === null ) {
-			$option_name = $option_instance->get_option_name();
-		}
+	public static function register_option( WPSEO_Option $option_instance ) {
+		$option_name = $option_instance->get_option_name();
 
 		if ( $option_instance->multisite_only && ! self::is_multisite() ) {
 			unset( self::$options[ $option_name ], self::$option_names[ $option_name ] );
