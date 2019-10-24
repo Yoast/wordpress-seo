@@ -12,7 +12,6 @@
 class WPSEO_Frontend {
 
 	const METADESC_PRIORITY = 6;
-	const ROBOTS_PRIORITY   = 10;
 
 	/**
 	 * Instance of this class.
@@ -95,7 +94,6 @@ class WPSEO_Frontend {
 		// The head function here calls action wpseo_head, to which we hook all our functionality.
 		add_action( 'wpseo_head', array( $this, 'debug_mark' ), 2 );
 		add_action( 'wpseo_head', array( $this, 'metadesc' ), self::METADESC_PRIORITY );
-		add_action( 'wpseo_head', array( $this, 'robots' ), self::ROBOTS_PRIORITY );
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
 
@@ -688,169 +686,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Retrieves the meta robots value.
-	 *
-	 * @return string
-	 */
-	public function get_robots() {
-		global $wp_query, $post;
-
-		$robots           = array();
-		$robots['index']  = 'index';
-		$robots['follow'] = 'follow';
-		$robots['other']  = array();
-
-		if ( is_object( $post ) && WPSEO_Frontend_Page_Type::is_simple_page() ) {
-			$private = 'private' === $post->post_status;
-			$noindex = ! WPSEO_Post_Type::is_post_type_indexable( $post->post_type );
-
-			if ( $noindex || $private ) {
-				$robots['index'] = 'noindex';
-			}
-
-			$robots = $this->robots_for_single_post( $robots, WPSEO_Frontend_Page_Type::get_simple_page_id() );
-		}
-		else {
-			if ( is_search() || is_404() ) {
-				$robots['index'] = 'noindex';
-			}
-			elseif ( is_tax() || is_tag() || is_category() ) {
-				$term = $wp_query->get_queried_object();
-				if ( is_object( $term ) && ( WPSEO_Options::get( 'noindex-tax-' . $term->taxonomy, false ) ) ) {
-					$robots['index'] = 'noindex';
-				}
-
-				// Three possible values, index, noindex and default, do nothing for default.
-				$term_meta = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' );
-				if ( is_string( $term_meta ) && 'default' !== $term_meta ) {
-					$robots['index'] = $term_meta;
-				}
-
-				if ( $this->is_multiple_terms_query() ) {
-					$robots['index'] = 'noindex';
-				}
-			}
-			elseif ( is_author() ) {
-				if ( WPSEO_Options::get( 'noindex-author-wpseo', false ) ) {
-					$robots['index'] = 'noindex';
-				}
-				$curauth = $wp_query->get_queried_object();
-				if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', false ) && count_user_posts( $curauth->ID, 'any' ) === 0 ) {
-					$robots['index'] = 'noindex';
-				}
-				if ( get_user_meta( $curauth->ID, 'wpseo_noindex_author', true ) === 'on' ) {
-					$robots['index'] = 'noindex';
-				}
-			}
-			elseif ( is_date() && WPSEO_Options::get( 'noindex-archive-wpseo', false ) ) {
-				$robots['index'] = 'noindex';
-			}
-			elseif ( is_home() ) {
-				$page_for_posts = get_option( 'page_for_posts' );
-				if ( $page_for_posts ) {
-					$robots = $this->robots_for_single_post( $robots, $page_for_posts );
-				}
-				unset( $page_for_posts );
-			}
-			elseif ( is_post_type_archive() ) {
-				$post_type = $this->get_queried_post_type();
-
-				if ( WPSEO_Options::get( 'noindex-ptarchive-' . $post_type, false ) ) {
-					$robots['index'] = 'noindex';
-				}
-			}
-
-			unset( $robot );
-		}
-
-		// Force override to respect the WP settings.
-		if ( '0' === (string) get_option( 'blog_public' ) || isset( $_GET['replytocom'] ) ) {
-			$robots['index'] = 'noindex';
-		}
-
-		$robotsstr = $robots['index'] . ',' . $robots['follow'];
-
-		if ( $robots['other'] !== array() ) {
-			$robots['other'] = array_unique( $robots['other'] ); // @todo Most likely no longer needed, needs testing.
-			$robotsstr      .= ',' . implode( ',', $robots['other'] );
-		}
-
-		$robotsstr = preg_replace( '`^index,follow,?`', '', $robotsstr );
-		$robotsstr = str_replace( array( 'noodp,', 'noodp' ), '', $robotsstr );
-
-		if ( strpos( $robotsstr, 'noindex' ) === false && strpos( $robotsstr, 'nosnippet' ) === false ) {
-			if ( $robotsstr !== '' ) {
-				$robotsstr .= ', ';
-			}
-			$robotsstr .= 'max-snippet:-1, max-image-preview:large, max-video-preview:-1';
-		}
-
-		/**
-		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
-		 *
-		 * @api string $robotsstr The meta robots directives to be echoed.
-		 */
-		$robotsstr = apply_filters( 'wpseo_robots', $robotsstr );
-
-		return $robotsstr;
-	}
-
-	/**
-	 * Outputs the meta robots value.
-	 *
-	 * @return string
-	 */
-	public function robots() {
-		$robotsstr = $this->get_robots();
-
-		if ( is_string( $robotsstr ) && $robotsstr !== '' ) {
-			echo '<meta name="robots" content="', esc_attr( $robotsstr ), '"/>', "\n";
-		}
-
-		// If a page has a noindex, it should _not_ have a canonical, as these are opposing indexing directives.
-		if ( strpos( $robotsstr, 'noindex' ) !== false ) {
-			remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
-		}
-
-		return $robotsstr;
-	}
-
-	/**
-	 * Determine $robots values for a single post.
-	 *
-	 * @param array $robots  Robots data array.
-	 * @param int   $post_id The post ID for which to determine the $robots values, defaults to current post.
-	 *
-	 * @return array
-	 */
-	public function robots_for_single_post( $robots, $post_id = 0 ) {
-		$noindex = $this->get_seo_meta_value( 'meta-robots-noindex', $post_id );
-		if ( $noindex === '1' ) {
-			$robots['index'] = 'noindex';
-		}
-		elseif ( $noindex === '2' ) {
-			$robots['index'] = 'index';
-		}
-
-		if ( $this->get_seo_meta_value( 'meta-robots-nofollow', $post_id ) === '1' ) {
-			$robots['follow'] = 'nofollow';
-		}
-
-		$meta_robots_adv = $this->get_seo_meta_value( 'meta-robots-adv', $post_id );
-
-		if ( $meta_robots_adv !== '' && ( $meta_robots_adv !== '-' && $meta_robots_adv !== 'none' ) ) {
-			$meta_robots_adv = explode( ',', $meta_robots_adv );
-			foreach ( $meta_robots_adv as $robot ) {
-				$robots['other'][] = $robot;
-			}
-			unset( $robot );
-		}
-		unset( $meta_robots_adv );
-
-		return $robots;
-	}
-
-	/**
 	 * This function normally outputs the canonical but is also used in other places to retrieve
 	 * the canonical URL for the current page.
 	 *
@@ -1345,14 +1180,6 @@ class WPSEO_Frontend {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Outputs noindex values for the current page.
-	 */
-	public function noindex_page() {
-		remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
-		echo '<meta name="robots" content="noindex" />', "\n";
 	}
 
 	/**
@@ -1951,5 +1778,64 @@ class WPSEO_Frontend {
 		_deprecated_function( __METHOD__, 'WPSEO 10.1.3' );
 
 		return false;
+	}
+
+	/**
+	 * Outputs the meta robots value.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @return string
+	 */
+	public function robots() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * Retrieves the meta robots value.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @return string
+	 */
+	public function get_robots() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * Determines $robots values for a single post.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @param array $robots  Robots data array.
+	 * @param int   $post_id The post ID for which to determine the $robots values, defaults to current post.
+	 *
+	 * @return array
+	 */
+	public function robots_for_single_post( $robots, $post_id = 0 ) {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return array();
+	}
+
+	/**
+	 * Outputs noindex values for the current page.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 */
+	public function noindex_page() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
 	}
 }
