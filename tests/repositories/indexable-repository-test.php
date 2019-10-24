@@ -4,6 +4,7 @@ namespace Yoast\WP\Free\Tests\Repositories;
 
 use Mockery\Mock;
 use Yoast\WP\Free\Builders\Indexable_Author_Builder;
+use Yoast\WP\Free\Builders\Indexable_Date_Archive_Builder;
 use Yoast\WP\Free\Builders\Indexable_Home_Page_Builder;
 use Yoast\WP\Free\Builders\Indexable_Post_Builder;
 use Yoast\WP\Free\Builders\Indexable_Post_Type_Archive_Builder;
@@ -18,7 +19,7 @@ use YoastSEO_Vendor\ORM;
 /**
  * @group indexables
  */
-class Indexable_Post_Builder_Test extends TestCase {
+class Indexable_Repository_Test extends TestCase {
 
 	/**
 	 * @var Indexable_Repository
@@ -34,6 +35,10 @@ class Indexable_Post_Builder_Test extends TestCase {
 
 		global $wpdb;
 
+		if ( !isset( $wpdb ) ) {
+			$wpdb = new \stdClass();
+		}
+
 		/*
 		 * This cannot be `prefix_` because a different test might mess it up.
 		 * That is the disadvantage of globals.
@@ -48,11 +53,12 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$wpdb->prefix = 'custom_prefix_';
 
 		$this->repository = new Indexable_Repository(
-			\Mockery::mock(Indexable_Author_Builder::class ),
+			\Mockery::mock( Indexable_Author_Builder::class ),
 			\Mockery::mock( Indexable_Post_Builder::class ),
 			\Mockery::mock( Indexable_Term_Builder::class ),
 			\Mockery::mock( Indexable_Home_Page_Builder::class ),
 			\Mockery::mock( Indexable_Post_Type_Archive_Builder::class ),
+			\Mockery::mock( Indexable_Date_Archive_Builder::class ),
 			\Mockery::mock( Indexable_System_Page_Builder::class ),
 			\Mockery::mock( Current_Page_Helper::class ),
 			new Logger(),
