@@ -23,16 +23,22 @@ use Yoast\WP\Free\Tests\TestCase;
 class Addon_Manager_Test extends TestCase {
 
 	/**
+	 * Dummy future date for use by the tests.
+	 *
 	 * @var string|null Date in the future.
 	 */
 	private $future_date = null;
 
 	/**
+	 * Dummy past date for use by the tests.
+	 *
 	 * @var string|null Date in the past.
 	 */
 	private $past_date = null;
 
 	/**
+	 * Holds the instance of the class being tested.
+	 *
 	 * @var Mockery\Mock|Addon_Manager_Double
 	 */
 	protected $instance;

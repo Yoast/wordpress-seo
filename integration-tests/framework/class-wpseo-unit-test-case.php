@@ -11,6 +11,8 @@
 abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 
 	/**
+	 * Adds slashes to the value of $key in the $_POST array, and then updates the $_REQUEST array.
+	 *
 	 * @param string $key   Key to be used with PHP superglobals.
 	 * @param mixed  $value Value to assign to it.
 	 */
@@ -20,6 +22,8 @@ abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Unsets a given variable in $_POST and $_REQUEST.
+	 *
 	 * @param string $key Key as used with PHP superglobal.
 	 */
 	protected function unset_post( $key ) {
@@ -50,6 +54,8 @@ abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether the output contains the expected value.
+	 *
 	 * @param string|array $expected Expected output.
 	 */
 	protected function expectOutputContains( $expected ) {
