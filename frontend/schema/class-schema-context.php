@@ -132,7 +132,7 @@ class WPSEO_Schema_Context {
 		$front             = WPSEO_Frontend::get_instance();
 		$this->canonical   = $front->canonical( false, false, true );
 		$this->title       = $front->title( '' );
-		$this->description = $front->metadesc( false );
+		$this->description = '';
 		$this->id          = get_queried_object_id();
 
 		// Site level variables.

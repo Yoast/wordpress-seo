@@ -158,39 +158,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::description
-	 */
-	public function test_twitter_description_excerpt() {
-		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		// Test excerpt.
-		$expected = $this->metatag( 'description', get_the_excerpt() );
-
-		ob_clean();
-		self::$class_instance->description();
-		$this->expectOutput( $expected );
-	}
-
-	/**
-	 * @covers WPSEO_Twitter::description
-	 */
-	public function test_twitter_description_metadesc() {
-		// Create and go to post.
-		$post_id = $this->factory->post->create();
-
-		// Test wpseo meta.
-		WPSEO_Meta::set_value( 'metadesc', 'Meta description', $post_id );
-
-		$this->go_to( get_permalink( $post_id ) );
-		$expected = $this->metatag( 'description', WPSEO_Frontend::get_instance()->metadesc( false ) );
-
-		self::$class_instance->description();
-		$this->expectOutput( $expected );
-	}
-
-	/**
 	 * Tests static page set as front page.
 	 */
 	public function test_static_front_page() {
@@ -212,10 +179,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		WPSEO_Meta::set_value( 'twitter-title', 'Twitter title', $post_id );
 		self::$class_instance->title();
 		$this->expectOutput( $this->metatag( 'title', 'Twitter title' ) );
-
-		WPSEO_Meta::set_value( 'metadesc', 'SEO description', $post_id );
-		self::$class_instance->description();
-		$this->expectOutput( $this->metatag( 'description', 'SEO description' ) );
 
 		WPSEO_Meta::set_value( 'twitter-description', 'Twitter description', $post_id );
 		self::$class_instance->description();
@@ -252,10 +215,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		WPSEO_Meta::set_value( 'twitter-title', 'Twitter title', $post_id );
 		self::$class_instance->title();
 		$this->expectOutput( $this->metatag( 'title', 'Twitter title' ) );
-
-		WPSEO_Meta::set_value( 'metadesc', 'SEO description', $post_id );
-		self::$class_instance->description();
-		$this->expectOutput( $this->metatag( 'description', 'SEO description' ) );
 
 		WPSEO_Meta::set_value( 'twitter-description', 'Twitter description', $post_id );
 		self::$class_instance->description();

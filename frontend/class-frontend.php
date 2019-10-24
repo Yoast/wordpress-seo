@@ -49,13 +49,6 @@ class WPSEO_Frontend {
 	private $canonical_unpaged = null;
 
 	/**
-	 * Holds the pages meta description.
-	 *
-	 * @var string
-	 */
-	private $metadesc = null;
-
-	/**
 	 * Holds the generated title for the page.
 	 *
 	 * @var string
@@ -92,7 +85,6 @@ class WPSEO_Frontend {
 		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality.
-		add_action( 'wpseo_head', array( $this, 'metadesc' ), self::METADESC_PRIORITY );
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
 
@@ -978,154 +970,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Outputs the meta description element or returns the description text.
-	 *
-	 * @param bool $echo Echo or return output flag.
-	 *
-	 * @return string
-	 */
-	public function metadesc( $echo = true ) {
-		if ( is_null( $this->metadesc ) ) {
-			$this->generate_metadesc();
-		}
-
-		if ( $echo === false ) {
-			return $this->metadesc;
-		}
-
-		if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
-			echo '<meta name="description" content="', esc_attr( wp_strip_all_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
-			return '';
-		}
-
-		if ( current_user_can( 'wpseo_manage_options' ) && is_singular() ) {
-			echo '<!-- ';
-			printf(
-				/* Translators: %1$s resolves to the SEO menu item, %2$s resolves to the Search Appearance submenu item. */
-				esc_html__( 'Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [%1$s - %2$s] menu and set up a template.', 'wordpress-seo' ),
-				esc_html__( 'SEO', 'wordpress-seo' ),
-				esc_html__( 'Search Appearance', 'wordpress-seo' )
-			);
-			echo ' -->' . "\n";
-		}
-	}
-
-	/**
-	 * Generates the meta description text.
-	 */
-	private function generate_metadesc() {
-		global $post, $wp_query;
-
-		$metadesc          = '';
-		$metadesc_override = false;
-		$post_type         = '';
-		$template          = '';
-
-		if ( is_object( $post ) && ( isset( $post->post_type ) && $post->post_type !== '' ) ) {
-			$post_type = $post->post_type;
-		}
-
-		if ( $this->woocommerce_shop_page->is_shop_page() ) {
-			$post      = get_post( $this->woocommerce_shop_page->get_shop_page_id() );
-			$post_type = $this->get_queried_post_type();
-
-			if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get( 'metadesc-ptarchive-' . $post_type, '' ) !== '' ) {
-				$template = WPSEO_Options::get( 'metadesc-ptarchive-' . $post_type );
-				$term     = $post;
-			}
-			$metadesc_override = $this->get_seo_meta_value( 'metadesc', $post->ID );
-		}
-		elseif ( WPSEO_Frontend_Page_Type::is_simple_page() ) {
-			$post      = get_post( WPSEO_Frontend_Page_Type::get_simple_page_id() );
-			$post_type = isset( $post->post_type ) ? $post->post_type : '';
-
-			if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get( 'metadesc-' . $post_type, '' ) !== '' ) {
-				$template = WPSEO_Options::get( 'metadesc-' . $post_type );
-				$term     = $post;
-			}
-
-			if ( is_object( $post ) ) {
-				$metadesc_override = $this->get_seo_meta_value( 'metadesc', $post->ID );
-			}
-		}
-		else {
-			if ( is_search() ) {
-				$metadesc = '';
-			}
-			elseif ( WPSEO_Frontend_Page_Type::is_home_posts_page() ) {
-				$template = WPSEO_Options::get( 'metadesc-home-wpseo' );
-				$term     = array();
-
-				if ( empty( $template ) ) {
-					$template = get_bloginfo( 'description' );
-				}
-			}
-			elseif ( WPSEO_Frontend_Page_Type::is_home_static_page() ) {
-				$metadesc = $this->get_seo_meta_value( 'metadesc' );
-				if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get( 'metadesc-' . $post_type, '' ) !== '' ) {
-					$template = WPSEO_Options::get( 'metadesc-' . $post_type );
-				}
-			}
-			elseif ( is_category() || is_tag() || is_tax() ) {
-				$term              = $wp_query->get_queried_object();
-				$metadesc_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
-				if ( is_object( $term ) && isset( $term->taxonomy ) && WPSEO_Options::get( 'metadesc-tax-' . $term->taxonomy, '' ) !== '' ) {
-					$template = WPSEO_Options::get( 'metadesc-tax-' . $term->taxonomy );
-				}
-			}
-			elseif ( is_author() ) {
-				$author_id = get_query_var( 'author' );
-				$metadesc  = get_the_author_meta( 'wpseo_metadesc', $author_id );
-				if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && WPSEO_Options::get( 'metadesc-author-wpseo', '' ) !== '' ) {
-					$template = WPSEO_Options::get( 'metadesc-author-wpseo' );
-				}
-			}
-			elseif ( is_post_type_archive() ) {
-				$post_type = $this->get_queried_post_type();
-				if ( WPSEO_Options::get( 'metadesc-ptarchive-' . $post_type, '' ) !== '' ) {
-					$template = WPSEO_Options::get( 'metadesc-ptarchive-' . $post_type );
-				}
-			}
-			elseif ( is_archive() ) {
-				$template = WPSEO_Options::get( 'metadesc-archive-wpseo' );
-			}
-
-			// If we're on a paginated page, and the template doesn't change for paginated pages, bail.
-			if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && get_query_var( 'paged' ) && get_query_var( 'paged' ) > 1 && $template !== '' ) {
-				if ( strpos( $template, '%%page' ) === false ) {
-					$metadesc = '';
-				}
-			}
-		}
-
-		$post_data = $post;
-
-		if ( is_string( $metadesc_override ) && '' !== $metadesc_override ) {
-			$metadesc = $metadesc_override;
-			if ( isset( $term ) ) {
-				$post_data = $term;
-			}
-		}
-		elseif ( ( ! is_string( $metadesc ) || '' === $metadesc ) && '' !== $template ) {
-			if ( ! isset( $term ) ) {
-				$term = $wp_query->get_queried_object();
-			}
-
-			$metadesc  = $template;
-			$post_data = $term;
-		}
-
-		$metadesc = $this->replace_vars( $metadesc, $post_data );
-
-		/**
-		 * Filter: 'wpseo_metadesc' - Allow changing the Yoast SEO meta description sentence.
-		 *
-		 * @api string $metadesc The description sentence.
-		 */
-		$this->metadesc = apply_filters( 'wpseo_metadesc', trim( $metadesc ) );
-	}
-
-	/**
 	 * Based on the redirect meta value, this function determines whether it should redirect the current post / page.
 	 *
 	 * @return boolean
@@ -1782,5 +1626,18 @@ class WPSEO_Frontend {
 	 */
 	public function noindex_page() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+	}
+
+	/**
+	 * Outputs the meta description element or returns the description text.
+	 *
+	 * @param bool $echo Echo or return output flag.
+	 *
+	 * @return string
+	 */
+	public function metadesc( $echo = true ) {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
 	}
 }
