@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Builders;
 
+use WP_Post;
 use WP_Term;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Models\Indexable;
@@ -111,25 +112,8 @@ class Indexable_Hierarchy_Builder {
 			return;
 		}
 
-		$main_taxonomy = $this->options->get( 'post_types-' . $post->post_type . '-maintax' );
-
-		if ( ! $main_taxonomy || $main_taxonomy === '0' ) {
-			return;
-		}
-
-		$primary_term = $this->primary_term_repository->find_by_post_id_and_taxonomy( $post_id, $main_taxonomy, false );
-
-		if ( ! $primary_term ) {
-			$terms = \get_the_terms( $post_id, $main_taxonomy );
-
-			if ( ! is_array( $terms ) || empty( $terms ) ) {
-				return;
-			}
-
-			$primary_term = $this->find_deepest_term( $terms );
-		}
-
-		$ancestor = $this->indexable_repository->find_by_id_and_type( (int) $primary_term->term_id, 'term' );
+		$primary_term_id = $this->find_primary_term_id_for_post( $post );
+		$ancestor        = $this->indexable_repository->find_by_id_and_type( $primary_term_id, 'term' );
 		$this->indexable_hierarchy_repository->add_ancestor( $indexable_id, $ancestor->id, $depth );
 		$this->add_ancestors_for_term( $indexable_id, $ancestor->object_id, ( $depth + 1 ) );
 	}
@@ -155,13 +139,42 @@ class Indexable_Hierarchy_Builder {
 	}
 
 	/**
+	 * Gets the primary term ID for a post.
+	 *
+	 * @param WP_Post $post The post.
+	 *
+	 * @return int The primary term ID. 0 if none exists.
+	 */
+	private function find_primary_term_id_for_post( $post ) {
+		$main_taxonomy = $this->options->get( 'post_types-' . $post->post_type . '-maintax' );
+
+		if ( ! $main_taxonomy || $main_taxonomy === '0' ) {
+			return 0;
+		}
+
+		$primary_term = $this->primary_term_repository->find_by_post_id_and_taxonomy( $post->ID, $main_taxonomy, false );
+
+		if ( $primary_term ) {
+			return $primary_term->term_id;
+		}
+
+		$terms = \get_the_terms( $post->ID, $main_taxonomy );
+
+		if ( ! is_array( $terms ) || empty( $terms ) ) {
+			return 0;
+		}
+
+		return $this->find_deepest_term_id( $terms );
+	}
+
+	/**
 	 * Find the deepest term in an array of term objects.
 	 *
 	 * @param array $terms Terms set.
 	 *
-	 * @return WP_Term The deepest term.
+	 * @return int The deepest term ID.
 	 */
-	private function find_deepest_term( $terms ) {
+	private function find_deepest_term_id( $terms ) {
 		/*
 		 * Let's find the deepest term in this array, by looping through and then
 		 * unsetting every term that is used as a parent by another one in the array.
@@ -180,6 +193,7 @@ class Indexable_Hierarchy_Builder {
 		 */
 		$parents_count = -1;
 		$term_order    = 9999; // Because ASC.
+		$deepest_term  = reset( $terms_by_id );
 		foreach ( $terms_by_id as $term ) {
 			$parents = $this->get_term_parents( $term );
 
@@ -205,7 +219,7 @@ class Indexable_Hierarchy_Builder {
 			$parents_count = $new_parents_count;
 		}
 
-		return $deepest_term;
+		return $deepest_term->term_id;
 	}
 
 	/**

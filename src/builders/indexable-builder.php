@@ -115,9 +115,7 @@ class Indexable_Builder {
 	 * @throws \Exception If the object_id could not be found.
 	 */
 	public function build_for_id_and_type( $object_id, $object_type, $indexable = false ) {
-		if ( ! $indexable ) {
-			$indexable = $this->indexable_repository->query()->create();
-		}
+		$indexable = $this->ensure_indexable( $indexable );
 
 		switch ( $object_type ) {
 			case 'post':
@@ -129,6 +127,8 @@ class Indexable_Builder {
 			case 'term':
 				$indexable = $this->term_builder->build( $object_id, $indexable );
 				break;
+			default:
+				return $indexable;
 		}
 
 		$indexable->save();
@@ -148,13 +148,10 @@ class Indexable_Builder {
 	 * @return Indexable The home page indexable.
 	 */
 	public function build_for_home_page( $indexable = false ) {
-		if ( ! $indexable ) {
-			$indexable = $this->indexable_repository->query()->create();
-		}
+		$indexable = $this->ensure_indexable( $indexable );
 		$indexable = $this->home_page_builder->build( $indexable );
 
-		$indexable->save();
-		return $indexable;
+		return $this->save_indexable( $indexable );
 	}
 
 	/**
@@ -165,13 +162,10 @@ class Indexable_Builder {
 	 * @return Indexable The date archive indexable.
 	 */
 	public function build_for_date_archive( $indexable = false ) {
-		if ( ! $indexable ) {
-			$indexable = $this->indexable_repository->query()->create();
-		}
+		$indexable = $this->ensure_indexable( $indexable );
 		$indexable = $this->date_archive_builder->build( $indexable );
 
-		$indexable->save();
-		return $indexable;
+		return $this->save_indexable( $indexable );
 	}
 
 	/**
@@ -183,13 +177,10 @@ class Indexable_Builder {
 	 * @return Indexable The post type archive indexable.
 	 */
 	public function build_for_post_type_archive( $post_type, $indexable = false ) {
-		if ( ! $indexable ) {
-			$indexable = $this->indexable_repository->query()->create();
-		}
+		$indexable = $this->ensure_indexable( $indexable );
 		$indexable = $this->post_type_archive_builder->build( $post_type, $indexable );
 
-		$indexable->save();
-		return $indexable;
+		return $this->save_indexable( $indexable );
 	}
 
 	/**
@@ -201,12 +192,34 @@ class Indexable_Builder {
 	 * @return Indexable The search result indexable.
 	 */
 	public function build_for_system_page( $object_sub_type, $indexable = false ) {
-		if ( ! $indexable ) {
-			$indexable = $this->indexable_repository->query()->create();
-		}
+		$indexable = $this->ensure_indexable( $indexable );
 		$indexable = $this->system_page_builder->build( $object_sub_type, $indexable );
 
-		$indexable->save();
+		return $this->save_indexable( $indexable );
+	}
+
+	/**
+	 * Ensures we have a valid indexable. Creates one if false is passed.
+	 *
+	 * @param Indexable|false $indexable The indexable.
+	 *
+	 * @return Indexable The indexable;
+	 */
+	private function ensure_indexable( $indexable ) {
+		if ( ! $indexable ) {
+			return $this->indexable_repository->query()->create();
+		}
 		return $indexable;
+	}
+
+	/**
+	 * Saves and returns an indexable.
+	 *
+	 * @param Indexable $indexable The indexable.
+	 *
+	 * @return Indexable The indexable.
+	 */
+	private function save_indexable( $indexable ) {
+		return $this->save_indexable( $indexable );
 	}
 }
