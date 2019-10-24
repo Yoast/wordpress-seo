@@ -89,7 +89,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'image.jpg' );
-		$indexable_mock->orm->expects( 'set' )->times(2 )->with( 'twitter_image_id', null );
+		$indexable_mock->orm->expects( 'set' )->times( 2 )->with( 'twitter_image_id', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'first-content-image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_description', 'twitter_description' );
