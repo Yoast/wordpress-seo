@@ -79,7 +79,6 @@ class WPSEO_Twitter {
 
 		$this->type();
 		$this->description();
-		$this->title();
 		$this->site_twitter();
 
 		if ( ! post_password_required() ) {
@@ -247,75 +246,6 @@ class WPSEO_Twitter {
 	 */
 	private function fallback_description() {
 		return trim( WPSEO_Frontend::get_instance()->metadesc( false ) );
-	}
-
-	/**
-	 * Displays the title for Twitter.
-	 *
-	 * Only used when OpenGraph is inactive.
-	 */
-	protected function title() {
-		if ( WPSEO_Frontend_Page_Type::is_simple_page() ) {
-			$title = $this->single_title( WPSEO_Frontend_Page_Type::get_simple_page_id() );
-		}
-		elseif ( is_category() || is_tax() || is_tag() ) {
-			$title = $this->taxonomy_title();
-		}
-		else {
-			$title = $this->fallback_title();
-		}
-
-		$title = wpseo_replace_vars( $title, get_queried_object() );
-
-		/**
-		 * Filter: 'wpseo_twitter_title' - Allow changing the Twitter title as output in the Twitter card by Yoast SEO.
-		 *
-		 * @api string $twitter The title string.
-		 */
-		$title = apply_filters( 'wpseo_twitter_title', $title );
-		if ( is_string( $title ) && $title !== '' ) {
-			$this->output_metatag( 'title', $title );
-		}
-	}
-
-	/**
-	 * Returns the Twitter title for a single post.
-	 *
-	 * @param int $post_id Post ID.
-	 *
-	 * @return string
-	 */
-	private function single_title( $post_id = 0 ) {
-		$title = WPSEO_Meta::get_value( 'twitter-title', $post_id );
-		if ( ! is_string( $title ) || $title === '' ) {
-			return $this->fallback_title();
-		}
-
-		return $title;
-	}
-
-	/**
-	 * Getting the title for the taxonomy.
-	 *
-	 * @return bool|mixed|string
-	 */
-	private function taxonomy_title() {
-		$title = WPSEO_Taxonomy_Meta::get_meta_without_term( 'twitter-title' );
-
-		if ( ! is_string( $title ) || $title === '' ) {
-			return $this->fallback_title();
-		}
-
-		return $title;
-	}
-
-	/**
-	 * Returns the Twitter title for any page.
-	 *
-	 * @return string
-	 */
-	private function fallback_title() {
-		return WPSEO_Frontend::get_instance()->title( '' );
 	}
 
 	/**
