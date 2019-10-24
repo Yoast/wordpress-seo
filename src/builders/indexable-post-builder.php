@@ -143,6 +143,7 @@ class Indexable_Post_Builder {
 			'opengraph-description' => 'og_description',
 			'twitter-title'         => 'twitter_title',
 			'twitter-image'         => 'twitter_image',
+			'twitter-image-id'      => 'twitter_image_id',
 			'twitter-description'   => 'twitter_description',
 		];
 	}
