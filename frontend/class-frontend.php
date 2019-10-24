@@ -1811,7 +1811,7 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Determine $robots values for a single post.
+	 * Determines $robots values for a single post.
 	 *
 	 * @codeCoverageIgnore
 	 *
