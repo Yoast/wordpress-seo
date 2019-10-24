@@ -28,6 +28,7 @@ class Migration_Runner implements Initializer {
 
 	/**
 	 * The value for a migration success state.
+	 *
 	 * @var int
 	 */
 	const MIGRATION_STATE_SUCCESS = 0;
