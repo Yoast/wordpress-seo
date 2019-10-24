@@ -13,7 +13,9 @@ namespace Yoast\WP\Free\Conditionals;
 abstract class Feature_Flag_Conditional implements Conditional {
 
 	/**
-	 * @inheritdoc
+	 * Returns whether or not this conditional is met.
+	 *
+	 * @return boolean Whether or not the conditional is met.
 	 */
 	public function is_met() {
 		$feature_flag = \strtoupper( $this->get_feature_flag() );
