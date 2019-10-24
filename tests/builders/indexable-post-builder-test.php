@@ -87,7 +87,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image.jpg' );
-		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_id', null );
+		$indexable_mock->orm->expects( 'set' )->times( 2 )->with( 'twitter_image_id', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_id', 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'featured-image' );
