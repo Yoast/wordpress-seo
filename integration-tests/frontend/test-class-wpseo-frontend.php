@@ -46,39 +46,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::get_debug_mark
-	 */
-	public function test_debug_mark() {
-		// Test if the version number is shown in the debug marker.
-		$this->assertContains( 'v' . WPSEO_VERSION, self::$class_instance->get_debug_mark() );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::get_debug_mark
-	 */
-	public function test_debug_mark_hide_version_only_in_premium() {
-		add_filter( 'wpseo_hide_version', '__return_true' );
-
-		self::$class_instance->set_is_premium( false );
-		// Test if the version number is shown in the debug marker.
-		$this->assertContains( 'v' . WPSEO_VERSION, self::$class_instance->get_debug_mark() );
-
-		self::$class_instance->set_is_premium( true );
-		// Test if the version number is shown in the debug marker.
-		$this->assertNotContains( 'v' . WPSEO_VERSION, self::$class_instance->get_debug_mark() );
-
-		remove_filter( 'wpseo_hide_version', '__return_true' );
-	}
-
-	/**
-	 * @covers WPSEO_Frontend::get_debug_mark
-	 */
-	public function test_debug_mark_contains_hard_link() {
-		// Test if the version number is shown in the debug marker.
-		$this->assertContains( 'https://yoast.com/wordpress/plugins/seo/', self::$class_instance->get_debug_mark() );
-	}
-
-	/**
 	 * @covers WPSEO_Frontend::webmaster_tools_authentication
 	 */
 	public function test_webmaster_tools_authentication_home() {
@@ -495,137 +462,13 @@ Page 3/3
 	}
 
 	/**
-	 * Tests the situation for flush cache when the debug_mark is not being hooked.
+	 * Tests the situation for flush cache with output buffering not turned on.
 	 *
 	 * @covers WPSEO_Frontend::flush_cache
 	 */
 	public function test_flush_cache_with_output_buffering_not_turned_on() {
 		// Should not run when output buffering is not turned on.
 		$this->assertFalse( self::$class_instance->flush_cache() );
-	}
-
-	/**
-	 * Tests the situation for flush cache when the debug_mark is not being hooked.
-	 *
-	 * @covers WPSEO_Frontend::flush_cache
-	 */
-	public function test_flush_cache_with_debug_mark_hook_not_being_set() {
-		/** @var $frontend WPSEO_Frontend_Double */
-		$frontend = $this
-			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'show_debug_marker', 'get_debug_mark' ) )
-			->getMock();
-
-		$frontend
-			->expects( $this->never() )
-			->method( 'get_debug_mark' );
-
-		$frontend
-			->expects( $this->once() )
-			->method( 'show_debug_marker' )
-			->will( $this->returnValue( false ) );
-
-		// Enables the output buffering.
-		$frontend->force_rewrite_output_buffer();
-
-		// Run function.
-		$result = $frontend->flush_cache();
-
-		// Run assertions.
-		$this->assertTrue( $result );
-	}
-
-	/**
-	 * Checks the value of the debug mark getter when the premium version is 'active'.
-	 *
-	 * @covers WPSEO_Frontend::head_product_name
-	 */
-	public function test_head_get_debug_mark_for_premium() {
-		/** @var $frontend WPSEO_Frontend_Double */
-		$frontend = $this
-			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'is_premium' ) )
-			->getMock();
-
-		$frontend
-			->expects( $this->once() )
-			->method( 'is_premium' )
-			->will( $this->returnValue( true ) );
-
-		$this->assertNotFalse( stripos( $frontend->get_debug_mark(), 'Premium' ) );
-	}
-
-	/**
-	 * Checks the value of the debug mark getter when the free version is 'active'.
-	 *
-	 * @covers WPSEO_Frontend::head_product_name
-	 */
-	public function test_head_get_debug_mark_for_free() {
-		/** @var $frontend WPSEO_Frontend_Double */
-		$frontend = $this
-			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'is_premium' ) )
-			->getMock();
-
-		$frontend
-			->expects( $this->once() )
-			->method( 'is_premium' )
-			->will( $this->returnValue( false ) );
-
-		$this->assertFalse( stripos( $frontend->get_debug_mark(), 'Premium' ) );
-	}
-
-	/**
-	 * Tests the situation for flush cache when the debug_mark is being hooked.
-	 *
-	 * @covers WPSEO_Frontend::flush_cache
-	 */
-	public function test_flush_cache_with_debug_mark_hook_being_set() {
-		/** @var $frontend WPSEO_Frontend_Double */
-		$frontend = $this
-			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'show_debug_marker', 'get_debug_mark' ) )
-			->getMock();
-
-		$frontend
-			->expects( $this->once() )
-			->method( 'show_debug_marker' )
-			->will( $this->returnValue( true ) );
-
-		$frontend
-			->expects( $this->exactly( 1 ) )
-			->method( 'get_debug_mark' );
-
-		// Enables the output buffering.
-		$frontend->force_rewrite_output_buffer();
-
-		// Run function.
-		$result = $frontend->flush_cache();
-
-		// Run assertions.
-		$this->assertTrue( $result );
-	}
-
-	/**
-	 * Tests the situation where the closing debug mark should be shown.
-	 *
-	 * @covers WPSEO_Frontend::show_closing_debug_mark
-	 */
-	public function test_show_closing_debug_mark_with_debug_mark_hook_being_set() {
-		/** @var $frontend WPSEO_Frontend_Double */
-		$frontend = $this
-			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'show_debug_marker' ) )
-			->getMock();
-
-		$frontend
-			->expects( $this->once() )
-			->method( 'show_debug_marker' )
-			->will( $this->returnValue( true ) );
-
-		$frontend->head();
-
-		$this->expectOutputContains( '<!-- / Yoast SEO plugin. -->' );
 	}
 
 	/**
