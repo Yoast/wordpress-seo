@@ -20,6 +20,11 @@ use Yoast\WP\Free\Tests\TestCase;
  */
 class Admin_Features_Test extends TestCase {
 
+	/**
+	 * Returns an instance with set expectations for the dependencies.
+	 *
+	 * @return WPSEO_Admin Instance to test against.
+	 */
 	private function get_admin_with_expectations() {
 		$shortlinker = new Shortlinker();
 
@@ -74,6 +79,8 @@ class Admin_Features_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the update of contactmethods.
+	 *
 	 * @covers ::update_contactmethods
 	 */
 	public function test_update_contactmethods() {
