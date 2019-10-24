@@ -102,6 +102,8 @@ class ClassicEditorData {
 	getFeaturedImage() {
 		var postThumbnail = $( ".attachment-post-thumbnail" );
 		if ( postThumbnail.length > 0 ) {
+			this.featuredImageIsSet = true;
+
 			return $( postThumbnail.get( 0 ) ).attr( "src" );
 		}
 
