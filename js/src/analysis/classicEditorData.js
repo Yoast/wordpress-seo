@@ -53,15 +53,15 @@ class ClassicEditorData {
 		fillReplacementVariables( this._initialData, this._store );
 		this.subscribeToElements();
 		this.subscribeToStore();
-		this.subscribeToSocialPreviewImage();
+		this.subscribeToSnippetPreviewImage();
 	}
 
 	/**
-	 * Initialize social preview image functionality.
+	 * Initialize snippet preview image functionality.
 	 *
 	 * @returns {void}
 	 */
-	subscribeToSocialPreviewImage() {
+	subscribeToSnippetPreviewImage() {
 		if ( isUndefined( wp.media ) || isUndefined( wp.media.featuredImage ) ) {
 			return;
 		}
