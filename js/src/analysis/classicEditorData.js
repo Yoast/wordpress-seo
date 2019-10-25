@@ -70,19 +70,25 @@ class ClassicEditorData {
 
 		const url = this.getFeaturedImage() || this.getContentImage() || null;
 
-		this.setFeaturedImageInSnippetPreview( url );
+		this.setImageInSnippetPreview( url );
 
 		$( "#postimagediv" ).on( "click", "#remove-post-thumbnail", () => {
 			this.featuredImageIsSet = false;
 
-			this.setFeaturedImageInSnippetPreview( this.getContentImage() );
+			this.setImageInSnippetPreview( this.getContentImage() );
 		} );
 
 		const featuredImage = wp.media.featuredImage.frame();
 
 		featuredImage.on( "select", () => {
 			const newUrl = featuredImage.state().get( "selection" ).first().attributes.url;
-			this.setFeaturedImageInSnippetPreview( newUrl );
+
+			if ( ! newUrl ) {
+				return;
+			}
+
+			this.featuredImageIsSet = true;
+			this.setImageInSnippetPreview( newUrl );
 		} );
 
 		tmceHelper.addEventHandler( tmceId, [ "change" ], debounce( () => {
@@ -90,7 +96,7 @@ class ClassicEditorData {
 				return;
 			}
 
-			this.setFeaturedImageInSnippetPreview( this.getContentImage() );
+			this.setImageInSnippetPreview( this.getContentImage() );
 		}, 1000 ) );
 	}
 
@@ -119,7 +125,7 @@ class ClassicEditorData {
 	 *
 	 * @returns {void}
 	 */
-	setFeaturedImageInSnippetPreview( url ) {
+	setImageInSnippetPreview( url ) {
 		this._store.dispatch( updateData( { snippetPreviewImageURL: url } ) );
 	}
 
@@ -330,7 +336,7 @@ class ClassicEditorData {
 		}
 		// Handle image change.
 		if ( this._previousData.snippetPreviewImageURL !== newData.snippetPreviewImageURL ) {
-			this.setFeaturedImageInSnippetPreview( newData.snippetPreviewImageURL );
+			this.setImageInSnippetPreview( newData.snippetPreviewImageURL );
 		}
 	}
 
@@ -365,7 +371,6 @@ class ClassicEditorData {
 			excerpt_only: this.getExcerpt( false ),
 			slug: this.getSlug(),
 			content: this.getContent(),
-			snippetPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
 		};
 	}
 
@@ -381,7 +386,6 @@ class ClassicEditorData {
 			excerpt: this.getExcerpt(),
 			// eslint-disable-next-line
 			excerpt_only: this.getExcerpt( false ),
-			snippetPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
 		};
 	}
 }
