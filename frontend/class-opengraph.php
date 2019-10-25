@@ -534,9 +534,6 @@ class WPSEO_OpenGraph {
 			if ( WPSEO_Options::get( 'og_frontpage_desc', '' ) !== '' ) {
 				$ogdesc = wpseo_replace_vars( WPSEO_Options::get( 'og_frontpage_desc' ), null );
 			}
-			else {
-				$ogdesc = $frontend->metadesc( false );
-			}
 		}
 
 		if ( WPSEO_Frontend_Page_Type::is_simple_page() ) {
@@ -547,27 +544,14 @@ class WPSEO_OpenGraph {
 			// Replace Yoast SEO Variables.
 			$ogdesc = wpseo_replace_vars( $ogdesc, $post );
 
-			// Use metadesc if $ogdesc is empty.
-			if ( $ogdesc === '' ) {
-				$ogdesc = $frontend->metadesc( false );
-			}
-
 			// Tag og:description is still blank so grab it from get_the_excerpt().
 			if ( ! is_string( $ogdesc ) || ( is_string( $ogdesc ) && $ogdesc === '' ) ) {
 				$ogdesc = str_replace( '[&hellip;]', '&hellip;', wp_strip_all_tags( get_the_excerpt() ) );
 			}
 		}
 
-		if ( is_author() ) {
-			$ogdesc = $frontend->metadesc( false );
-		}
-
 		if ( is_category() || is_tag() || is_tax() ) {
 			$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-description' );
-			if ( $ogdesc === '' ) {
-				$ogdesc = $frontend->metadesc( false );
-			}
-
 			if ( $ogdesc === '' ) {
 				$ogdesc = wp_strip_all_tags( term_description() );
 			}

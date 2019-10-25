@@ -465,6 +465,8 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests if the notification is not being dismissed.
+	 *
 	 * @covers Yoast_Notification_Center::maybe_dismiss_notification
 	 */
 	public function test_maybe_dismiss_notification() {

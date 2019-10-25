@@ -12,7 +12,6 @@
 class WPSEO_Frontend {
 
 	const METADESC_PRIORITY = 6;
-	const ROBOTS_PRIORITY   = 10;
 
 	/**
 	 * Instance of this class.
@@ -48,13 +47,6 @@ class WPSEO_Frontend {
 	 * @var string
 	 */
 	private $canonical_unpaged = null;
-
-	/**
-	 * Holds the pages meta description.
-	 *
-	 * @var string
-	 */
-	private $metadesc = null;
 
 	/**
 	 * Holds the generated title for the page.
@@ -93,9 +85,6 @@ class WPSEO_Frontend {
 		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
 
 		// The head function here calls action wpseo_head, to which we hook all our functionality.
-		add_action( 'wpseo_head', array( $this, 'debug_mark' ), 2 );
-		add_action( 'wpseo_head', array( $this, 'metadesc' ), self::METADESC_PRIORITY );
-		add_action( 'wpseo_head', array( $this, 'robots' ), self::ROBOTS_PRIORITY );
 		add_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
 		add_action( 'wpseo_head', array( $this, 'adjacent_rel_links' ), 21 );
 
@@ -596,37 +585,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
-	 *
-	 * @return string The marker that will be echoed.
-	 */
-	public function debug_mark() {
-		$marker = $this->get_debug_mark();
-
-		echo "\n${marker}\n";
-
-		return '';
-	}
-
-	/**
-	 * Returns the debug marker, which is also used for title replacement when force rewrite is active.
-	 *
-	 * @return string The generated marker.
-	 */
-	public function get_debug_mark() {
-		return sprintf(
-			'<!-- This site is optimized with the %1$s %2$s - https://yoast.com/wordpress/plugins/seo/ -->',
-			esc_html( $this->head_product_name() ),
-			/**
-			 * Filter: 'wpseo_hide_version' - can be used to hide the Yoast SEO version in the debug marker (only available in Yoast SEO Premium).
-			 *
-			 * @api bool
-			 */
-			( ( apply_filters( 'wpseo_hide_version', false ) && $this->is_premium() ) ? '' : 'v' . WPSEO_VERSION )
-		);
-	}
-
-	/**
 	 * Output Webmaster Tools authentication strings.
 	 */
 	public function webmaster_tools_authentication() {
@@ -679,175 +637,10 @@ class WPSEO_Frontend {
 		 */
 		do_action( 'wpseo_head' );
 
-		echo $this->show_closing_debug_mark();
-
 		if ( ! empty( $old_wp_query ) ) {
 			$GLOBALS['wp_query'] = $old_wp_query;
 			unset( $old_wp_query );
 		}
-	}
-
-	/**
-	 * Retrieves the meta robots value.
-	 *
-	 * @return string
-	 */
-	public function get_robots() {
-		global $wp_query, $post;
-
-		$robots           = array();
-		$robots['index']  = 'index';
-		$robots['follow'] = 'follow';
-		$robots['other']  = array();
-
-		if ( is_object( $post ) && WPSEO_Frontend_Page_Type::is_simple_page() ) {
-			$private = 'private' === $post->post_status;
-			$noindex = ! WPSEO_Post_Type::is_post_type_indexable( $post->post_type );
-
-			if ( $noindex || $private ) {
-				$robots['index'] = 'noindex';
-			}
-
-			$robots = $this->robots_for_single_post( $robots, WPSEO_Frontend_Page_Type::get_simple_page_id() );
-		}
-		else {
-			if ( is_search() || is_404() ) {
-				$robots['index'] = 'noindex';
-			}
-			elseif ( is_tax() || is_tag() || is_category() ) {
-				$term = $wp_query->get_queried_object();
-				if ( is_object( $term ) && ( WPSEO_Options::get( 'noindex-tax-' . $term->taxonomy, false ) ) ) {
-					$robots['index'] = 'noindex';
-				}
-
-				// Three possible values, index, noindex and default, do nothing for default.
-				$term_meta = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' );
-				if ( is_string( $term_meta ) && 'default' !== $term_meta ) {
-					$robots['index'] = $term_meta;
-				}
-
-				if ( $this->is_multiple_terms_query() ) {
-					$robots['index'] = 'noindex';
-				}
-			}
-			elseif ( is_author() ) {
-				if ( WPSEO_Options::get( 'noindex-author-wpseo', false ) ) {
-					$robots['index'] = 'noindex';
-				}
-				$curauth = $wp_query->get_queried_object();
-				if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', false ) && count_user_posts( $curauth->ID, 'any' ) === 0 ) {
-					$robots['index'] = 'noindex';
-				}
-				if ( get_user_meta( $curauth->ID, 'wpseo_noindex_author', true ) === 'on' ) {
-					$robots['index'] = 'noindex';
-				}
-			}
-			elseif ( is_date() && WPSEO_Options::get( 'noindex-archive-wpseo', false ) ) {
-				$robots['index'] = 'noindex';
-			}
-			elseif ( is_home() ) {
-				$page_for_posts = get_option( 'page_for_posts' );
-				if ( $page_for_posts ) {
-					$robots = $this->robots_for_single_post( $robots, $page_for_posts );
-				}
-				unset( $page_for_posts );
-			}
-			elseif ( is_post_type_archive() ) {
-				$post_type = $this->get_queried_post_type();
-
-				if ( WPSEO_Options::get( 'noindex-ptarchive-' . $post_type, false ) ) {
-					$robots['index'] = 'noindex';
-				}
-			}
-
-			unset( $robot );
-		}
-
-		// Force override to respect the WP settings.
-		if ( '0' === (string) get_option( 'blog_public' ) || isset( $_GET['replytocom'] ) ) {
-			$robots['index'] = 'noindex';
-		}
-
-		$robotsstr = $robots['index'] . ',' . $robots['follow'];
-
-		if ( $robots['other'] !== array() ) {
-			$robots['other'] = array_unique( $robots['other'] ); // @todo Most likely no longer needed, needs testing.
-			$robotsstr      .= ',' . implode( ',', $robots['other'] );
-		}
-
-		$robotsstr = preg_replace( '`^index,follow,?`', '', $robotsstr );
-		$robotsstr = str_replace( array( 'noodp,', 'noodp' ), '', $robotsstr );
-
-		if ( strpos( $robotsstr, 'noindex' ) === false && strpos( $robotsstr, 'nosnippet' ) === false ) {
-			if ( $robotsstr !== '' ) {
-				$robotsstr .= ', ';
-			}
-			$robotsstr .= 'max-snippet:-1, max-image-preview:large, max-video-preview:-1';
-		}
-
-		/**
-		 * Filter: 'wpseo_robots' - Allows filtering of the meta robots output of Yoast SEO.
-		 *
-		 * @api string $robotsstr The meta robots directives to be echoed.
-		 */
-		$robotsstr = apply_filters( 'wpseo_robots', $robotsstr );
-
-		return $robotsstr;
-	}
-
-	/**
-	 * Outputs the meta robots value.
-	 *
-	 * @return string
-	 */
-	public function robots() {
-		$robotsstr = $this->get_robots();
-
-		if ( is_string( $robotsstr ) && $robotsstr !== '' ) {
-			echo '<meta name="robots" content="', esc_attr( $robotsstr ), '"/>', "\n";
-		}
-
-		// If a page has a noindex, it should _not_ have a canonical, as these are opposing indexing directives.
-		if ( strpos( $robotsstr, 'noindex' ) !== false ) {
-			remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
-		}
-
-		return $robotsstr;
-	}
-
-	/**
-	 * Determine $robots values for a single post.
-	 *
-	 * @param array $robots  Robots data array.
-	 * @param int   $post_id The post ID for which to determine the $robots values, defaults to current post.
-	 *
-	 * @return array
-	 */
-	public function robots_for_single_post( $robots, $post_id = 0 ) {
-		$noindex = $this->get_seo_meta_value( 'meta-robots-noindex', $post_id );
-		if ( $noindex === '1' ) {
-			$robots['index'] = 'noindex';
-		}
-		elseif ( $noindex === '2' ) {
-			$robots['index'] = 'index';
-		}
-
-		if ( $this->get_seo_meta_value( 'meta-robots-nofollow', $post_id ) === '1' ) {
-			$robots['follow'] = 'nofollow';
-		}
-
-		$meta_robots_adv = $this->get_seo_meta_value( 'meta-robots-adv', $post_id );
-
-		if ( $meta_robots_adv !== '' && ( $meta_robots_adv !== '-' && $meta_robots_adv !== 'none' ) ) {
-			$meta_robots_adv = explode( ',', $meta_robots_adv );
-			foreach ( $meta_robots_adv as $robot ) {
-				$robots['other'][] = $robot;
-			}
-			unset( $robot );
-		}
-		unset( $meta_robots_adv );
-
-		return $robots;
 	}
 
 	/**
@@ -1177,154 +970,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Outputs the meta description element or returns the description text.
-	 *
-	 * @param bool $echo Echo or return output flag.
-	 *
-	 * @return string
-	 */
-	public function metadesc( $echo = true ) {
-		if ( is_null( $this->metadesc ) ) {
-			$this->generate_metadesc();
-		}
-
-		if ( $echo === false ) {
-			return $this->metadesc;
-		}
-
-		if ( is_string( $this->metadesc ) && $this->metadesc !== '' ) {
-			echo '<meta name="description" content="', esc_attr( wp_strip_all_tags( stripslashes( $this->metadesc ) ) ), '"/>', "\n";
-			return '';
-		}
-
-		if ( current_user_can( 'wpseo_manage_options' ) && is_singular() ) {
-			echo '<!-- ';
-			printf(
-				/* Translators: %1$s resolves to the SEO menu item, %2$s resolves to the Search Appearance submenu item. */
-				esc_html__( 'Admin only notice: this page does not show a meta description because it does not have one, either write it for this page specifically or go into the [%1$s - %2$s] menu and set up a template.', 'wordpress-seo' ),
-				esc_html__( 'SEO', 'wordpress-seo' ),
-				esc_html__( 'Search Appearance', 'wordpress-seo' )
-			);
-			echo ' -->' . "\n";
-		}
-	}
-
-	/**
-	 * Generates the meta description text.
-	 */
-	private function generate_metadesc() {
-		global $post, $wp_query;
-
-		$metadesc          = '';
-		$metadesc_override = false;
-		$post_type         = '';
-		$template          = '';
-
-		if ( is_object( $post ) && ( isset( $post->post_type ) && $post->post_type !== '' ) ) {
-			$post_type = $post->post_type;
-		}
-
-		if ( $this->woocommerce_shop_page->is_shop_page() ) {
-			$post      = get_post( $this->woocommerce_shop_page->get_shop_page_id() );
-			$post_type = $this->get_queried_post_type();
-
-			if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get( 'metadesc-ptarchive-' . $post_type, '' ) !== '' ) {
-				$template = WPSEO_Options::get( 'metadesc-ptarchive-' . $post_type );
-				$term     = $post;
-			}
-			$metadesc_override = $this->get_seo_meta_value( 'metadesc', $post->ID );
-		}
-		elseif ( WPSEO_Frontend_Page_Type::is_simple_page() ) {
-			$post      = get_post( WPSEO_Frontend_Page_Type::get_simple_page_id() );
-			$post_type = isset( $post->post_type ) ? $post->post_type : '';
-
-			if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get( 'metadesc-' . $post_type, '' ) !== '' ) {
-				$template = WPSEO_Options::get( 'metadesc-' . $post_type );
-				$term     = $post;
-			}
-
-			if ( is_object( $post ) ) {
-				$metadesc_override = $this->get_seo_meta_value( 'metadesc', $post->ID );
-			}
-		}
-		else {
-			if ( is_search() ) {
-				$metadesc = '';
-			}
-			elseif ( WPSEO_Frontend_Page_Type::is_home_posts_page() ) {
-				$template = WPSEO_Options::get( 'metadesc-home-wpseo' );
-				$term     = array();
-
-				if ( empty( $template ) ) {
-					$template = get_bloginfo( 'description' );
-				}
-			}
-			elseif ( WPSEO_Frontend_Page_Type::is_home_static_page() ) {
-				$metadesc = $this->get_seo_meta_value( 'metadesc' );
-				if ( ( $metadesc === '' && $post_type !== '' ) && WPSEO_Options::get( 'metadesc-' . $post_type, '' ) !== '' ) {
-					$template = WPSEO_Options::get( 'metadesc-' . $post_type );
-				}
-			}
-			elseif ( is_category() || is_tag() || is_tax() ) {
-				$term              = $wp_query->get_queried_object();
-				$metadesc_override = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'desc' );
-				if ( is_object( $term ) && isset( $term->taxonomy ) && WPSEO_Options::get( 'metadesc-tax-' . $term->taxonomy, '' ) !== '' ) {
-					$template = WPSEO_Options::get( 'metadesc-tax-' . $term->taxonomy );
-				}
-			}
-			elseif ( is_author() ) {
-				$author_id = get_query_var( 'author' );
-				$metadesc  = get_the_author_meta( 'wpseo_metadesc', $author_id );
-				if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && WPSEO_Options::get( 'metadesc-author-wpseo', '' ) !== '' ) {
-					$template = WPSEO_Options::get( 'metadesc-author-wpseo' );
-				}
-			}
-			elseif ( is_post_type_archive() ) {
-				$post_type = $this->get_queried_post_type();
-				if ( WPSEO_Options::get( 'metadesc-ptarchive-' . $post_type, '' ) !== '' ) {
-					$template = WPSEO_Options::get( 'metadesc-ptarchive-' . $post_type );
-				}
-			}
-			elseif ( is_archive() ) {
-				$template = WPSEO_Options::get( 'metadesc-archive-wpseo' );
-			}
-
-			// If we're on a paginated page, and the template doesn't change for paginated pages, bail.
-			if ( ( ! is_string( $metadesc ) || $metadesc === '' ) && get_query_var( 'paged' ) && get_query_var( 'paged' ) > 1 && $template !== '' ) {
-				if ( strpos( $template, '%%page' ) === false ) {
-					$metadesc = '';
-				}
-			}
-		}
-
-		$post_data = $post;
-
-		if ( is_string( $metadesc_override ) && '' !== $metadesc_override ) {
-			$metadesc = $metadesc_override;
-			if ( isset( $term ) ) {
-				$post_data = $term;
-			}
-		}
-		elseif ( ( ! is_string( $metadesc ) || '' === $metadesc ) && '' !== $template ) {
-			if ( ! isset( $term ) ) {
-				$term = $wp_query->get_queried_object();
-			}
-
-			$metadesc  = $template;
-			$post_data = $term;
-		}
-
-		$metadesc = $this->replace_vars( $metadesc, $post_data );
-
-		/**
-		 * Filter: 'wpseo_metadesc' - Allow changing the Yoast SEO meta description sentence.
-		 *
-		 * @api string $metadesc The description sentence.
-		 */
-		$this->metadesc = apply_filters( 'wpseo_metadesc', trim( $metadesc ) );
-	}
-
-	/**
 	 * Based on the redirect meta value, this function determines whether it should redirect the current post / page.
 	 *
 	 * @return boolean
@@ -1345,14 +990,6 @@ class WPSEO_Frontend {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Outputs noindex values for the current page.
-	 */
-	public function noindex_page() {
-		remove_action( 'wpseo_head', array( $this, 'canonical' ), 20 );
-		echo '<meta name="robots" content="noindex" />', "\n";
 	}
 
 	/**
@@ -1576,19 +1213,6 @@ class WPSEO_Frontend {
 
 		wp_reset_query();
 
-		// Only replace the debug marker when it is hooked.
-		if ( $this->show_debug_marker() ) {
-			$title      = $this->title( '' );
-			$debug_mark = $this->get_debug_mark();
-
-			/*
-			 * Find all titles, strip them out and add the new one in within the debug marker,
-			 * so it's easily identified whether a site uses force rewrite.
-			 */
-			$content = preg_replace( '/<title.*?\/title>/i', '', $content );
-			$content = str_replace( $debug_mark, $debug_mark . "\n" . '<title>' . esc_html( $title ) . '</title>', $content );
-		}
-
 		$GLOBALS['wp_query'] = $old_wp_query;
 
 		echo $content;
@@ -1602,19 +1226,6 @@ class WPSEO_Frontend {
 	public function force_rewrite_output_buffer() {
 		$this->ob_started = true;
 		ob_start();
-	}
-
-	/**
-	 * Get the product name in the head section.
-	 *
-	 * @return string
-	 */
-	private function head_product_name() {
-		if ( $this->is_premium() ) {
-			return 'Yoast SEO Premium plugin';
-		}
-
-		return 'Yoast SEO plugin';
 	}
 
 	/**
@@ -1658,31 +1269,6 @@ class WPSEO_Frontend {
 		header( 'X-Redirect-By: Yoast SEO' );
 		wp_safe_redirect( $location, $status, 'Yoast SEO' );
 		exit;
-	}
-
-	/**
-	 * Checks if the debug mark action has been added.
-	 *
-	 * @return bool True when the action exists.
-	 */
-	protected function show_debug_marker() {
-		return has_action( 'wpseo_head', array( $this, 'debug_mark' ) ) !== false;
-	}
-
-	/**
-	 * Shows the closing debug mark.
-	 *
-	 * @return string The closing debug mark comment.
-	 */
-	protected function show_closing_debug_mark() {
-		if ( ! $this->show_debug_marker() ) {
-			return '';
-		}
-
-		return sprintf(
-			"<!-- / %s. -->\n\n",
-			esc_html( $this->head_product_name() )
-		);
 	}
 
 	/**
@@ -1951,5 +1537,107 @@ class WPSEO_Frontend {
 		_deprecated_function( __METHOD__, 'WPSEO 10.1.3' );
 
 		return false;
+	}
+
+	/**
+	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return string The marker that will be echoed.
+	 */
+	public function debug_mark() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * Returns the debug marker, which is also used for title replacement when force rewrite is active.
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return string The generated marker.
+	 */
+	public function get_debug_mark() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * Outputs the meta robots value.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @return string
+	 */
+	public function robots() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * Retrieves the meta robots value.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @return string
+	 */
+	public function get_robots() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * Determines $robots values for a single post.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @param array $robots  Robots data array.
+	 * @param int   $post_id The post ID for which to determine the $robots values, defaults to current post.
+	 *
+	 * @return array
+	 */
+	public function robots_for_single_post( $robots, $post_id = 0 ) {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return array();
+	}
+
+	/**
+	 * Outputs noindex values for the current page.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 */
+	public function noindex_page() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+	}
+
+	/**
+	 * Outputs the meta description element or returns the description text.
+	 *
+	 * @param bool $echo Echo or return output flag.
+	 *
+	 * @return string
+	 */
+	public function metadesc( $echo = true ) {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
 	}
 }

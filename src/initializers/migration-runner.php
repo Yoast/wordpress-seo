@@ -17,33 +17,45 @@ use Yoast\WP\Free\ORM\Yoast_Model;
 class Migration_Runner implements Initializer_Interface {
 
 	/**
-	 * @inheritdoc
+	 * Retrieves the conditionals for the migrations.
+	 *
+	 * @return array The conditionals.
 	 */
 	public static function get_conditionals() {
 		return [];
 	}
 
 	/**
+	 * The value for a migration success state.
+	 *
 	 * @var int
 	 */
 	const MIGRATION_STATE_SUCCESS = 0;
 
 	/**
+	 * The value for a migration state error.
+	 *
 	 * @var int
 	 */
 	const MIGRATION_STATE_ERROR = 1;
 
 	/**
+	 * The value that communicates a migration problem.
+	 *
 	 * @var string
 	 */
 	const MIGRATION_ERROR_TRANSIENT_KEY = 'yoast_migration_problem_';
 
 	/**
+	 * The Ruckusing framework runner.
+	 *
 	 * @var \Yoast\WP\Free\Config\Ruckusing_Framework
 	 */
 	protected $framework;
 
 	/**
+	 * The logger object.
+	 *
 	 * @var \Yoast\WP\Free\Loggers\Logger
 	 */
 	protected $logger;
@@ -60,7 +72,11 @@ class Migration_Runner implements Initializer_Interface {
 	}
 
 	/**
-	 * @inheritdoc
+	 * Runs this initializer.
+	 *
+	 * @throws \Exception When a migration errored.
+	 *
+	 * @return void
 	 */
 	public function initialize() {
 		$this->run_migrations( 'free', Yoast_Model::get_table_name( 'migrations' ), \WPSEO_PATH . 'migrations' );
@@ -80,6 +96,8 @@ class Migration_Runner implements Initializer_Interface {
 		try {
 			$framework_runner = $this->framework->get_framework_runner( $migrations_table_name, $migrations_directory );
 			/**
+			 * This variable represents Ruckusing_Adapter_MySQL_Base adapter.
+			 *
 			 * @var \YoastSEO_Vendor\Ruckusing_Adapter_MySQL_Base $adapter
 			 */
 			$adapter = $framework_runner->get_adapter();

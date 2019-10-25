@@ -135,6 +135,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the sitemap links for the different homepage possibilities.
+	 *
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_sitemap_links
 	 */
 	public function test_get_sitemap_links() {
