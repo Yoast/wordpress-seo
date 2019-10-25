@@ -62,6 +62,8 @@ class Webmaster_Tools_Meta implements Integration_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
+	 * @codeCoverageIgnore 
+	 *
 	 * @return array The conditionals.
 	 */
 	public static function get_conditionals() {
@@ -70,6 +72,8 @@ class Webmaster_Tools_Meta implements Integration_Interface {
 
 	/**
 	 * Sets the helpers.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param Options_Helper      $options      The options helper.
 	 * @param Current_Page_Helper $current_page The current page helper.
@@ -82,10 +86,12 @@ class Webmaster_Tools_Meta implements Integration_Interface {
 	/**
 	 * Initializes the integration.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'wpseo_head', [ $this, 'render_meta_tags' ], 15 );
+		\add_action( 'wpseo_head', [ $this, 'render_meta_tags' ], 15 );
 	}
 
 	/**
@@ -96,8 +102,8 @@ class Webmaster_Tools_Meta implements Integration_Interface {
 			return;
 		}
 
-		$webmaster_tools = array_map( [ $this, 'set_tag_value' ], static::$webmaster_tools );
-		$webmaster_tools = array_filter( $webmaster_tools, [ $this, 'has_tag_value' ] );
+		$webmaster_tools = \array_map( [ $this, 'set_tag_value' ], static::$webmaster_tools );
+		$webmaster_tools = \array_filter( $webmaster_tools, [ $this, 'has_tag_value' ] );
 		array_walk( $webmaster_tools, [ $this, 'render_meta_tag' ] );
 	}
 
