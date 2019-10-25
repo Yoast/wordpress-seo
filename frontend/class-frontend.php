@@ -49,32 +49,11 @@ class WPSEO_Frontend {
 	private $canonical_unpaged = null;
 
 	/**
-	 * Holds the generated title for the page.
-	 *
-	 * @var string
-	 */
-	private $title = null;
-
-	/**
-	 * An instance of the WPSEO_Frontend_Page_Type class.
-	 *
-	 * @var WPSEO_Frontend_Page_Type
-	 */
-	protected $frontend_page_type;
-
-	/**
 	 * An instance of the WPSEO_WooCommerce_Shop_Page class.
 	 *
 	 * @var WPSEO_WooCommerce_Shop_Page
 	 */
 	protected $woocommerce_shop_page;
-
-	/**
-	 * Default title with replace-vars.
-	 *
-	 * @var string
-	 */
-	public static $default_title = '%%title%% %%sep%% %%sitename%%';
 
 	/**
 	 * Class constructor.
@@ -94,10 +73,6 @@ class WPSEO_Frontend {
 		remove_action( 'wp_head', 'start_post_rel_link' );
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 		remove_action( 'wp_head', 'noindex', 1 );
-
-		// When using WP 4.4, just use the new hook.
-		add_filter( 'pre_get_document_title', array( $this, 'title' ), 15 );
-		add_filter( 'wp_title', array( $this, 'title' ), 15, 3 );
 
 		add_filter( 'thematic_doctitle', array( $this, 'title' ), 15 );
 
@@ -210,378 +185,6 @@ class WPSEO_Frontend {
 	 */
 	public function fix_woo_title( $title ) {
 		return $this->title( $title );
-	}
-
-	/**
-	 * Used for static home and posts pages as well as singular titles.
-	 *
-	 * @param object|null $object If filled, object to get the title for.
-	 *
-	 * @return string
-	 */
-	public function get_content_title( $object = null ) {
-		if ( $object === null ) {
-			$object = $GLOBALS['wp_query']->get_queried_object();
-		}
-
-		$title = $this->get_seo_title( $object );
-		if ( $title !== '' ) {
-			return $title;
-		}
-
-		$post_type = ( isset( $object->post_type ) ? $object->post_type : $object->query_var );
-
-		return $this->get_title_from_options( 'title-' . $post_type, $object );
-	}
-
-	/**
-	 * Retrieves the SEO title set in the SEO widget.
-	 *
-	 * @param null $object Object to retrieve the title from.
-	 *
-	 * @return string The SEO title for the specified object, or queried object if not supplied.
-	 */
-	public function get_seo_title( $object = null ) {
-		if ( $object === null ) {
-			$object = $GLOBALS['wp_query']->get_queried_object();
-		}
-
-		if ( ! is_object( $object ) ) {
-			return $this->get_title_from_options( 'title-404-wpseo' );
-		}
-
-		$title = $this->get_seo_meta_value( 'title', $object->ID );
-
-		if ( $title !== '' ) {
-			return $this->replace_vars( $title, $object );
-		}
-
-		return $title;
-	}
-
-	/**
-	 * Used for category, tag, and tax titles.
-	 *
-	 * @return string
-	 */
-	public function get_taxonomy_title() {
-		$object = $GLOBALS['wp_query']->get_queried_object();
-
-		$title = WPSEO_Taxonomy_Meta::get_term_meta( $object, $object->taxonomy, 'title' );
-
-		if ( is_string( $title ) && $title !== '' ) {
-			return $this->replace_vars( $title, $object );
-		}
-
-		return $this->get_title_from_options( 'title-tax-' . $object->taxonomy, $object );
-	}
-
-	/**
-	 * Used for author titles.
-	 *
-	 * @return string
-	 */
-	public function get_author_title() {
-		$author_id = get_query_var( 'author' );
-		$title     = trim( get_the_author_meta( 'wpseo_title', $author_id ) );
-
-		if ( $title !== '' ) {
-			return $this->replace_vars( $title, array() );
-		}
-
-		return $this->get_title_from_options( 'title-author-wpseo' );
-	}
-
-	/**
-	 * Simple function to use to pull data from $options.
-	 *
-	 * All titles pulled from options will be run through the $this->replace_vars function.
-	 *
-	 * @param string       $index      Name of the page to get the title from the settings for.
-	 * @param object|array $var_source Possible object to pull variables from.
-	 *
-	 * @return string
-	 */
-	public function get_title_from_options( $index, $var_source = array() ) {
-		$template = WPSEO_Options::get( $index, '' );
-		if ( $template === '' ) {
-			if ( is_singular() ) {
-				return $this->replace_vars( self::$default_title, $var_source );
-			}
-
-			return '';
-		}
-
-		return $this->replace_vars( $template, $var_source );
-	}
-
-	/**
-	 * Get the default title for the current page.
-	 *
-	 * This is the fallback title generator used when a title hasn't been set for the specific content, taxonomy, author
-	 * details, or in the options. It scrubs off any present prefix before or after the title (based on $seplocation) in
-	 * order to prevent duplicate seperations from appearing in the title (this happens when a prefix is supplied to the
-	 * wp_title call on singular pages).
-	 *
-	 * @param string $sep         The separator used between variables.
-	 * @param string $seplocation Whether the separator should be left or right.
-	 * @param string $title       Possible title that's already set.
-	 *
-	 * @return string
-	 */
-	public function get_default_title( $sep, $seplocation, $title = '' ) {
-		if ( 'right' === $seplocation ) {
-			$regex = '`\s*' . preg_quote( trim( $sep ), '`' ) . '\s*`u';
-		}
-		else {
-			$regex = '`^\s*' . preg_quote( trim( $sep ), '`' ) . '\s*`u';
-		}
-		$title = preg_replace( $regex, '', $title );
-
-		if ( ! is_string( $title ) || ( is_string( $title ) && $title === '' ) ) {
-			$title = WPSEO_Utils::get_site_name();
-			$title = $this->add_paging_to_title( $sep, $seplocation, $title );
-			$title = $this->add_to_title( $sep, $seplocation, $title, wp_strip_all_tags( get_bloginfo( 'description' ), true ) );
-
-			return $title;
-		}
-
-		$title = $this->add_paging_to_title( $sep, $seplocation, $title );
-		$title = $this->add_to_title( $sep, $seplocation, $title, wp_strip_all_tags( get_bloginfo( 'name' ), true ) );
-
-		return $title;
-	}
-
-	/**
-	 * This function adds paging details to the title.
-	 *
-	 * @param string $sep         Separator used in the title.
-	 * @param string $seplocation Whether the separator should be left or right.
-	 * @param string $title       The title to append the paging info to.
-	 *
-	 * @return string
-	 */
-	public function add_paging_to_title( $sep, $seplocation, $title ) {
-		global $wp_query;
-
-		if ( ! empty( $wp_query->query_vars['paged'] ) && $wp_query->query_vars['paged'] > 1 ) {
-			return $this->add_to_title( $sep, $seplocation, $title, $wp_query->query_vars['paged'] . '/' . $wp_query->max_num_pages );
-		}
-
-		return $title;
-	}
-
-	/**
-	 * Add part to title, while ensuring that the $seplocation variable is respected.
-	 *
-	 * @param string $sep         Separator used in the title.
-	 * @param string $seplocation Whether the separator should be left or right.
-	 * @param string $title       The title to append the title_part to.
-	 * @param string $title_part  The part to append to the title.
-	 *
-	 * @return string
-	 */
-	public function add_to_title( $sep, $seplocation, $title, $title_part ) {
-		if ( 'right' === $seplocation ) {
-			return $title . $sep . $title_part;
-		}
-
-		return $title_part . $sep . $title;
-	}
-
-	/**
-	 * Main title function.
-	 *
-	 * @param string $title              Title that might have already been set.
-	 * @param string $separator          Separator determined in theme (unused).
-	 * @param string $separator_location Whether the separator should be left or right.
-	 *
-	 * @return string
-	 */
-	public function title( $title, $separator = '', $separator_location = '' ) {
-		if ( is_null( $this->title ) ) {
-			$this->title = $this->generate_title( $title, $separator_location );
-		}
-
-		return $this->title;
-	}
-
-	/**
-	 * Main title generation function.
-	 *
-	 * @param string $title              Title that might have already been set.
-	 * @param string $separator_location Whether the separator should be left or right.
-	 *
-	 * @return string
-	 */
-	private function generate_title( $title, $separator_location ) {
-
-		if ( is_feed() ) {
-			return $title;
-		}
-
-		$separator = $this->replace_vars( '%%sep%%', array() );
-		$separator = ' ' . trim( $separator ) . ' ';
-
-		if ( '' === trim( $separator_location ) ) {
-			$separator_location = ( is_rtl() ) ? 'left' : 'right';
-		}
-
-		// This needs to be kept track of in order to generate
-		// default titles for singular pages.
-		$original_title = $title;
-
-		// This flag is used to determine if any additional
-		// processing should be done to the title after the
-		// main section of title generation completes.
-		$modified_title = true;
-
-		// This variable holds the page-specific title part
-		// that is used to generate default titles.
-		$title_part = '';
-
-		if ( WPSEO_Frontend_Page_Type::is_home_static_page() ) {
-			$title = $this->get_content_title();
-		}
-		elseif ( WPSEO_Frontend_Page_Type::is_home_posts_page() ) {
-			$title = $this->get_title_from_options( 'title-home-wpseo' );
-		}
-		elseif ( $this->woocommerce_shop_page->is_shop_page() ) {
-			$title = $this->get_woocommerce_title();
-
-			if ( ! is_string( $title ) || $title === '' ) {
-				$title = $this->get_post_type_archive_title( $separator, $separator_location );
-			}
-		}
-		elseif ( WPSEO_Frontend_Page_Type::is_simple_page() ) {
-			$post  = get_post( WPSEO_Frontend_Page_Type::get_simple_page_id() );
-			$title = $this->get_content_title( $post );
-
-			if ( ! is_string( $title ) || '' === $title ) {
-				$title_part = $original_title;
-			}
-		}
-		elseif ( is_search() ) {
-			$title = $this->get_title_from_options( 'title-search-wpseo' );
-
-			if ( ! is_string( $title ) || '' === $title ) {
-				/* translators: %s expands to the search phrase. */
-				$title_part = sprintf( __( 'Search for "%s"', 'wordpress-seo' ), esc_html( get_search_query() ) );
-			}
-		}
-		elseif ( is_category() || is_tag() || is_tax() ) {
-			$title = $this->get_taxonomy_title();
-
-			if ( ! is_string( $title ) || '' === $title ) {
-				if ( is_category() ) {
-					$title_part = single_cat_title( '', false );
-				}
-				elseif ( is_tag() ) {
-					$title_part = single_tag_title( '', false );
-				}
-				else {
-					$title_part = single_term_title( '', false );
-					if ( $title_part === '' ) {
-						$term       = $GLOBALS['wp_query']->get_queried_object();
-						$title_part = $term->name;
-					}
-				}
-			}
-		}
-		elseif ( is_author() ) {
-			$title = $this->get_author_title();
-
-			if ( ! is_string( $title ) || '' === $title ) {
-				$title_part = get_the_author_meta( 'display_name', get_query_var( 'author' ) );
-			}
-		}
-		elseif ( is_post_type_archive() ) {
-			$title = $this->get_post_type_archive_title( $separator, $separator_location );
-		}
-		elseif ( is_archive() ) {
-			$title = $this->get_title_from_options( 'title-archive-wpseo' );
-
-			// @todo [JRF => Yoast] Should these not use the archive default if no title found ?
-			// WPSEO_Options::get_default( 'wpseo_titles', 'title-archive-wpseo' )
-			// Replacement would be needed!
-			if ( empty( $title ) ) {
-				if ( is_month() ) {
-					/* translators: %s expands to a time period, i.e. month name, year or specific date. */
-					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), single_month_title( ' ', false ) );
-				}
-				elseif ( is_year() ) {
-					/* translators: %s expands to a time period, i.e. month name, year or specific date. */
-					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_query_var( 'year' ) );
-				}
-				elseif ( is_day() ) {
-					/* translators: %s expands to a time period, i.e. month name, year or specific date. */
-					$title_part = sprintf( __( '%s Archives', 'wordpress-seo' ), get_the_date() );
-				}
-				else {
-					$title_part = __( 'Archives', 'wordpress-seo' );
-				}
-			}
-		}
-		elseif ( is_404() ) {
-
-			$title = $this->get_title_from_options( 'title-404-wpseo' );
-
-			// @todo [JRF => Yoast] Should these not use the 404 default if no title found ?
-			// WPSEO_Options::get_default( 'wpseo_titles', 'title-404-wpseo' )
-			// Replacement would be needed!
-			if ( empty( $title ) ) {
-				$title_part = __( 'Page not found', 'wordpress-seo' );
-			}
-		}
-		else {
-			// In case the page type is unknown, leave the title alone.
-			$modified_title = false;
-
-			// If you would like to generate a default title instead,
-			// the following code could be used
-			// $title_part = $title;
-			// instead of the line above.
-		}
-
-		if ( ( $modified_title && empty( $title ) ) || ! empty( $title_part ) ) {
-			$title = $this->get_default_title( $separator, $separator_location, $title_part );
-		}
-
-		if ( defined( 'ICL_LANGUAGE_CODE' ) && false !== strpos( $title, ICL_LANGUAGE_CODE ) ) {
-			$title = str_replace( ' @' . ICL_LANGUAGE_CODE, '', $title );
-		}
-
-		/**
-		 * Filter: 'wpseo_title' - Allow changing the Yoast SEO <title> output.
-		 *
-		 * @api string $title The page title being put out.
-		 */
-
-		return esc_html( wp_strip_all_tags( stripslashes( apply_filters( 'wpseo_title', $title ) ), true ) );
-	}
-
-	/**
-	 * Function used when title needs to be force overridden.
-	 *
-	 * @return string
-	 */
-	public function force_wp_title() {
-		global $wp_query;
-		$old_wp_query = null;
-
-		if ( ! $wp_query->is_main_query() ) {
-			$old_wp_query = $wp_query;
-			wp_reset_query();
-		}
-
-		$title = $this->title( '' );
-
-		if ( ! empty( $old_wp_query ) ) {
-			$GLOBALS['wp_query'] = $old_wp_query;
-			unset( $old_wp_query );
-		}
-
-		return $title;
 	}
 
 	/**
@@ -1272,58 +875,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Builds the title for a post type archive.
-	 *
-	 * @param string $separator          The title separator.
-	 * @param string $separator_location The location of the title separator.
-	 *
-	 * @return string The title to use on a post type archive.
-	 */
-	protected function get_post_type_archive_title( $separator, $separator_location ) {
-		$post_type = $this->get_queried_post_type();
-
-		$title = $this->get_title_from_options( 'title-ptarchive-' . $post_type );
-
-		if ( ! is_string( $title ) || '' === $title ) {
-			$post_type_obj = get_post_type_object( $post_type );
-			$title_part    = '';
-
-			if ( isset( $post_type_obj->labels->menu_name ) ) {
-				$title_part = $post_type_obj->labels->menu_name;
-			}
-			elseif ( isset( $post_type_obj->name ) ) {
-				$title_part = $post_type_obj->name;
-			}
-
-			$title = $this->get_default_title( $separator, $separator_location, $title_part );
-		}
-
-		return $title;
-	}
-
-	/**
-	 * Retrieves the WooCommerce title.
-	 *
-	 * @return string The WooCommerce title.
-	 */
-	protected function get_woocommerce_title() {
-		$shop_page_id = $this->woocommerce_shop_page->get_shop_page_id();
-		$post         = get_post( $shop_page_id );
-		$title        = $this->get_seo_title( $post );
-
-		if ( is_string( $title ) && $title !== '' ) {
-			return $title;
-		}
-
-		if ( $shop_page_id !== -1 && is_archive() ) {
-			$title = $this->get_template( 'title-' . $post->post_type );
-			$title = $this->replace_vars( $title, $post );
-		}
-
-		return $title;
-	}
-
-	/**
 	 * Retrieves a template from the options.
 	 *
 	 * @param string $template The template to retrieve.
@@ -1540,6 +1091,25 @@ class WPSEO_Frontend {
 	}
 
 	/**
+	 * Main title function.
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $title              Title that might have already been set.
+	 * @param string $separator          Separator determined in theme (unused).
+	 * @param string $separator_location Whether the separator should be left or right.
+	 *
+	 * @return string
+	 */
+	public function title( $title, $separator = '', $separator_location = '' ) {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
 	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
 	 *
 	 * @deprecated 12.7
@@ -1626,6 +1196,168 @@ class WPSEO_Frontend {
 	 */
 	public function noindex_page() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+	}
+
+	/**
+	 * Used for static home and posts pages as well as singular titles.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @param object|null $object If filled, object to get the title for.
+	 *
+	 * @return string
+	 */
+	public function get_content_title( $object = null ) {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * Retrieves the SEO title set in the SEO widget.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @param null $object Object to retrieve the title from.
+	 *
+	 * @return string The SEO title for the specified object, or queried object if not supplied.
+	 */
+	public function get_seo_title( $object = null ) {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * Used for category, tag, and tax titles.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @return string
+	 */
+	public function get_taxonomy_title() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * Used for author titles.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @return string
+	 */
+	public function get_author_title() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * Simple function to use to pull data from $options.
+	 *
+	 * All titles pulled from options will be run through the $this->replace_vars function.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @param string       $index      Name of the page to get the title from the settings for.
+	 * @param object|array $var_source Possible object to pull variables from.
+	 *
+	 * @return string
+	 */
+	public function get_title_from_options( $index, $var_source = array() ) {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * Get the default title for the current page.
+	 *
+	 * This is the fallback title generator used when a title hasn't been set for the specific content, taxonomy, author
+	 * details, or in the options. It scrubs off any present prefix before or after the title (based on $seplocation) in
+	 * order to prevent duplicate seperations from appearing in the title (this happens when a prefix is supplied to the
+	 * wp_title call on singular pages).
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @param string $sep         The separator used between variables.
+	 * @param string $seplocation Whether the separator should be left or right.
+	 * @param string $title       Possible title that's already set.
+	 *
+	 * @return string
+	 */
+	public function get_default_title( $sep, $seplocation, $title = '' ) {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * This function adds paging details to the title.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @param string $sep         Separator used in the title.
+	 * @param string $seplocation Whether the separator should be left or right.
+	 * @param string $title       The title to append the paging info to.
+	 *
+	 * @return string
+	 */
+	public function add_paging_to_title( $sep, $seplocation, $title ) {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * Add part to title, while ensuring that the $seplocation variable is respected.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @param string $sep         Separator used in the title.
+	 * @param string $seplocation Whether the separator should be left or right.
+	 * @param string $title       The title to append the title_part to.
+	 * @param string $title_part  The part to append to the title.
+	 *
+	 * @return string
+	 */
+	public function add_to_title( $sep, $seplocation, $title, $title_part ) {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * Function used when title needs to be force overridden.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @return string
+	 */
+	public function force_wp_title() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
 	}
 
 	/**
