@@ -23,7 +23,6 @@ class WPSEO_OpenGraph {
 			add_action( 'wpseo_opengraph', array( $this, 'og_title' ), 10 );
 			add_action( 'wpseo_opengraph', array( $this, 'app_id' ), 20 );
 			add_action( 'wpseo_opengraph', array( $this, 'description' ), 11 );
-			add_action( 'wpseo_opengraph', array( $this, 'url' ), 12 );
 			add_action( 'wpseo_opengraph', array( $this, 'site_name' ), 13 );
 			add_action( 'wpseo_opengraph', array( $this, 'website_facebook' ), 14 );
 			if ( is_singular() && ! is_front_page() ) {
@@ -205,41 +204,6 @@ class WPSEO_OpenGraph {
 
 		if ( $echo === false ) {
 			return $title;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Outputs the canonical URL as OpenGraph URL, which consolidates likes and shares.
-	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
-	 *
-	 * @return boolean
-	 */
-	public function url() {
-		$url         = WPSEO_Frontend::get_instance()->canonical( false, false );
-		$unpaged_url = WPSEO_Frontend::get_instance()->canonical( false, true );
-
-		/*
-		 * If the unpaged URL is the same as the normal URL but just with pagination added, use that.
-		 * This makes sure we always use the unpaged URL when we can, but doesn't break for overridden canonicals.
-		 */
-		if ( is_string( $unpaged_url ) && strpos( $url, $unpaged_url ) === 0 ) {
-			$url = $unpaged_url;
-		}
-
-		/**
-		 * Filter: 'wpseo_opengraph_url' - Allow changing the OpenGraph URL.
-		 *
-		 * @api string $unsigned Canonical URL.
-		 */
-		$url = apply_filters( 'wpseo_opengraph_url', $url );
-
-		if ( is_string( $url ) && $url !== '' ) {
-			$this->og_tag( 'og:url', esc_url( $url ) );
-
-			return true;
 		}
 
 		return false;
@@ -742,5 +706,21 @@ class WPSEO_OpenGraph {
 		_deprecated_function( 'WPSEO_OpenGraph::image_output', '7.4', 'WPSEO_OpenGraph::image' );
 
 		$this->image( $image );
+	}
+
+	/**
+	 * Outputs the canonical URL as OpenGraph URL, which consolidates likes and shares.
+	 *
+	 * @deprecated 12.7
+	 * @codeCoverageIgnore
+	 *
+	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
+	 * @return boolean
+	 */
+	public function url() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return false;
 	}
 } /* End of class */
