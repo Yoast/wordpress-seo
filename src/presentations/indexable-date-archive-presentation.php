@@ -7,16 +7,45 @@
 
 namespace Yoast\WP\Free\Presentations;
 
+use Yoast\WP\Free\Helpers\Rel_Adjacent_Helper;
+
 /**
- * Class Indexable_Presentation
+ * Class Indexable_Date_Archive_Presentation
  */
 class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
+
+	/**
+	 * Holds the rel adjacent helper instance.
+	 *
+	 * @var Rel_Adjacent_Helper
+	 */
+	protected $rel_adjacent;
+
+	/**
+	 * Indexable_Date_Archive_Presentation constructor.
+	 *
+	 * @param Rel_Adjacent_Helper $rel_adjacent The rel adjacent helper.
+	 *
+	 * @codeCoverageIgnore
+	 */
+	public function __construct(
+		Rel_Adjacent_Helper $rel_adjacent
+	) {
+		$this->rel_adjacent = $rel_adjacent;
+	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function generate_canonical() {
-		return $this->current_page->get_date_archive_permalink();
+		$canonical = $this->current_page->get_date_archive_permalink();
+
+		$current_page = $this->current_page->get_current_archive_page();
+		if ( $current_page > 1 ) {
+			return $this->rel_adjacent->get_paginated_url( $canonical, $current_page );
+		}
+
+		return $canonical;
 	}
 
 	/**
