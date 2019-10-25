@@ -708,8 +708,6 @@ class WPSEO_OpenGraph {
 		$this->image( $image );
 	}
 
-
-
 	/**
 	 * Outputs the canonical URL as OpenGraph URL, which consolidates likes and shares.
 	 *
