@@ -72,11 +72,25 @@ class Rel_Adjacent_Helper_Test extends TestCase {
 	 *
 	 * @covers ::get_paginated_url
 	 */
-	public function test_get_paginated_url_using_permalinks() {
+	public function test_get_paginated_url_using_permalinks_without_pagination_base() {
 		$this->using_permalinks( true );
 
-		$actual   = $this->instance->get_paginated_url( 'https://example.com/my-post', 2 );
+		$actual   = $this->instance->get_paginated_url( 'https://example.com/my-post/', 2, false );
 		$expected = 'https://example.com/my-post/2/';
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests that `get_paginated_url` returns the url without a url parameter with a pagination base part.
+	 *
+	 * @covers ::get_paginated_url
+	 */
+	public function test_get_paginated_url_using_permalinks_with_pagination_base() {
+		$this->using_permalinks( true );
+
+		$actual   = $this->instance->get_paginated_url( 'https://example.com/my-post/', 2, true );
+		$expected = 'https://example.com/my-post/page/2/';
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -91,11 +105,30 @@ class Rel_Adjacent_Helper_Test extends TestCase {
 
 		Monkey\Functions\expect( 'add_query_arg' )
 			->once()
-			->with( 'paged', 2, 'https://example.com/my-post' )
-			->andReturn( 'https://example.com/my-post?paged=2' );
+			->with( 'page', 2, 'https://example.com/my-post/' )
+			->andReturn( 'https://example.com/my-post?page=2' );
 
-		$actual   = $this->instance->get_paginated_url( 'https://example.com/my-post', 2 );
-		$expected = 'https://example.com/my-post?paged=2';
+		$actual   = $this->instance->get_paginated_url( 'https://example.com/my-post/', 2 );
+		$expected = 'https://example.com/my-post?page=2';
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests that `get_paginated_url` returns the url with a url parameter with a custom pagination query name.
+	 *
+	 * @covers ::get_paginated_url
+	 */
+	public function test_get_paginated_url_not_using_permalinks_with_custom_pagination_query_name() {
+		$this->using_permalinks( false );
+
+		Monkey\Functions\expect( 'add_query_arg' )
+			->once()
+			->with( 'custom', 2, 'https://example.com/my-post/' )
+			->andReturn( 'https://example.com/my-post?custom=2' );
+
+		$actual   = $this->instance->get_paginated_url( 'https://example.com/my-post/', 2, false, 'custom' );
+		$expected = 'https://example.com/my-post?custom=2';
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -106,7 +139,8 @@ class Rel_Adjacent_Helper_Test extends TestCase {
 	 * @param bool $using_permalinks Returns value of $wp_rewrite->using_permalinks.
 	 */
 	private function using_permalinks( $using_permalinks ) {
-		$wp_rewrite_mock = Mockery::mock( 'WP_Rewrite' );
+		$wp_rewrite_mock                  = Mockery::mock( 'WP_Rewrite' );
+		$wp_rewrite_mock->pagination_base = 'page';
 
 		$wp_rewrite_mock
 			->expects( 'using_permalinks' )
@@ -116,4 +150,4 @@ class Rel_Adjacent_Helper_Test extends TestCase {
 			->expects( 'get' )
 			->andReturn( $wp_rewrite_mock );
 	}
- }
+}
