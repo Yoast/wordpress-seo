@@ -145,6 +145,28 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Returns the current page for paged archives.
+	 *
+	 * @return int The current archive page.
+	 */
+	public function get_current_archive_page() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return (int) $wp_query->get( 'paged' );
+	}
+
+	/**
+	 * Returns the current page for paged post types.
+	 *
+	 * @return int The current post page.
+	 */
+	public function get_current_post_page() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return (int) $wp_query->get( 'page' );
+	}
+
+	/**
 	 * Determine whether this is the homepage and shows posts.
 	 *
 	 * @return bool Whether or not the current page is the homepage that displays posts.
