@@ -220,6 +220,7 @@ class Indexable_Builder {
 	 * @return Indexable The indexable.
 	 */
 	private function save_indexable( $indexable ) {
-		return $this->save_indexable( $indexable );
+		$indexable->save();
+		return $indexable;
 	}
 }
