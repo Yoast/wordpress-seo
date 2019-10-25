@@ -14,8 +14,8 @@ class WPML implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
-		add_action( 'wpseo_home_url', [ $this, 'filter_home_url_before' ] );
-		add_filter( 'home_url', 	  [ $this, 'filter_home_url_after' ], 100 );
+		add_action( 'wpseo_home_url', 	[ $this, 'filter_home_url_before' ] );
+		add_filter( 'home_url', 		[ $this, 'filter_home_url_after' ], 100 );
 	}
 
 	/**
