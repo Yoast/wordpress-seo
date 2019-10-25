@@ -20,6 +20,13 @@ class WPSEO_Twitter {
 	public static $instance;
 
 	/**
+	 * Images.
+	 *
+	 * @var array
+	 */
+	public $shown_images = array();
+
+	/**
 	 * Class constructor.
 	 *
 	 * @codeCoverageIgnore
