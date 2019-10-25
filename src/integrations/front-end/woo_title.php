@@ -33,7 +33,6 @@ class Woo_Title implements Integration_Interface {
 		add_filter( 'woo_title', [ $this, 'fix_woo_title' ], 99 );
 	}
 
-
 	/**
 	 * Filters the title for woo_title.
 	 *
