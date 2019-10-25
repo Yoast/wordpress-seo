@@ -190,21 +190,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_OpenGraph::url
-	 */
-	public function test_url() {
-
-		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		$url     = get_permalink( $post_id );
-		$this->go_to( $url );
-		$expected_url = $url;
-
-		$this->assertTrue( self::$class_instance->url() );
-		$this->expectOutput( '<meta property="og:url" content="' . $expected_url . '" />' . "\n" );
-	}
-
-	/**
 	 * @covers WPSEO_OpenGraph::locale
 	 */
 	public function test_locale() {
