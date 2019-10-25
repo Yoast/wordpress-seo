@@ -5,7 +5,7 @@ namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 use Mockery;
 use Yoast\WP\Free\Helpers\Date_Helper;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
-use Yoast\WP\Free\Helpers\Rel_Adjacent_Helper;
+use Yoast\WP\Free\Helpers\Pagination_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
@@ -38,9 +38,11 @@ trait Presentation_Instance_Builder {
 	protected $context;
 
 	/**
-	 * @var Rel_Adjacent_Helper|Mockery\MockInterface
+	 * Holds the Pagination_Helper interface.
+	 *
+	 * @var Pagination_Helper|Mockery\MockInterface
 	 */
-	protected $rel_adjacent;
+	protected $pagination;
 
 	/**
 	 * @var Date_Helper
@@ -55,14 +57,14 @@ trait Presentation_Instance_Builder {
 
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
 		$this->context          = Mockery::mock( Meta_Tags_Context::class )->makePartial();
-		$this->rel_adjacent     = Mockery::mock( Rel_Adjacent_Helper::class );
+		$this->pagination       = Mockery::mock( Pagination_Helper::class );
 		$this->date_helper      = Mockery::mock( Date_Helper::class );
 
 		$instance = Mockery::mock(
 			Indexable_Post_Type_Presentation::class,
 			[
 				$this->post_type_helper,
-				$this->rel_adjacent,
+				$this->pagination,
 				$this->date_helper,
 			]
 		)

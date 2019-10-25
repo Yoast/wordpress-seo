@@ -3,7 +3,7 @@
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Term_Archive_Presentation;
 
 use Mockery;
-use Yoast\WP\Free\Helpers\Rel_Adjacent_Helper;
+use Yoast\WP\Free\Helpers\Pagination_Helper;
 use Yoast\WP\Free\Helpers\Taxonomy_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Term_Archive_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
@@ -45,11 +45,11 @@ trait Presentation_Instance_Builder {
 	protected $taxonomy_helper;
 
 	/**
-	 * Holds the Rel_Adjacent_Helper instance.
+	 * Holds the Pagination_Helper instance.
 	 *
-	 * @var Rel_Adjacent_Helper|Mockery\MockInterface
+	 * @var Pagination_Helper|Mockery\MockInterface
 	 */
-	protected $rel_adjacent;
+	protected $pagination;
 
 	/**
 	 * Builds an instance of Indexable_Term_Archive_Presentation.
@@ -59,14 +59,14 @@ trait Presentation_Instance_Builder {
 
 		$this->wp_query_wrapper = Mockery::mock( WP_Query_Wrapper::class );
 		$this->taxonomy_helper  = Mockery::mock( Taxonomy_Helper::class );
-		$this->rel_adjacent     = Mockery::mock( Rel_Adjacent_Helper::class );
+		$this->pagination       = Mockery::mock( Pagination_Helper::class );
 
 		$instance = Mockery::mock(
 			Indexable_Term_Archive_Presentation::class,
 			[
 				$this->wp_query_wrapper,
 				$this->taxonomy_helper,
-				$this->rel_adjacent,
+				$this->pagination,
 			]
 		)
 			->makePartial()

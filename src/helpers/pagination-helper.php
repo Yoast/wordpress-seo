@@ -1,6 +1,6 @@
 <?php
 /**
- * A helper object for the rel "next" and "prev" meta tags.
+ * A helper object for pagination.
  *
  * @package Yoast\WP\Free\Helpers
  */
@@ -10,9 +10,11 @@ namespace Yoast\WP\Free\Helpers;
 use Yoast\WP\Free\Wrappers\WP_Rewrite_Wrapper;
 
 /**
- * Class Rel_Adjacent_Helper
+ * Class Pagination_Helper.
+ *
+ * Used for the canonical URL and the rel "next" and "prev" meta tags.
  */
-class Rel_Adjacent_Helper {
+class Pagination_Helper {
 
 	/**
 	 * Holds the WP rewrite wrapper instance.
@@ -22,7 +24,7 @@ class Rel_Adjacent_Helper {
 	private $wp_rewrite_wrapper;
 
 	/**
-	 * Rel_Adjacent_Helper constructor.
+	 * Pagination_Helper constructor.
 	 *
 	 * @param WP_Rewrite_Wrapper $wp_rewrite_wrapper The rewrite wrapper.
 	 *
@@ -37,7 +39,7 @@ class Rel_Adjacent_Helper {
 	 *
 	 * @return bool Whether adjacent rel links are disabled or not.
 	 */
-	public function is_disabled() {
+	public function is_rel_adjacent_disabled() {
 		/**
 		 * Filter: 'wpseo_disable_adjacent_rel_links' - Allows disabling of Yoast adjacent links if this is being handled by other code.
 		 *

@@ -8,7 +8,7 @@
 namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
-use Yoast\WP\Free\Helpers\Rel_Adjacent_Helper;
+use Yoast\WP\Free\Helpers\Pagination_Helper;
 use Yoast\WP\Free\Helpers\Date_Helper;
 
 /**
@@ -17,16 +17,22 @@ use Yoast\WP\Free\Helpers\Date_Helper;
 class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 
 	/**
+	 * Holds the Post_Type_Helper instance.
+	 *
 	 * @var Post_Type_Helper
 	 */
 	protected $post_type;
 
 	/**
-	 * @var Rel_Adjacent_Helper
+	 * Holds the Pagination_Helper instance.
+	 *
+	 * @var Pagination_Helper
 	 */
-	protected $rel_adjacent;
+	protected $pagination;
 
 	/**
+	 * Holds the Date_Helper instance.
+	 *
 	 * @var Date_Helper
 	 */
 	protected $date;
@@ -34,20 +40,20 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param Post_Type_Helper    $post_type    The post type helper.
-	 * @param Rel_Adjacent_Helper $rel_adjacent The rel adjacent helper.
-	 * @param Date_Helper         $date         The date helper.
+	 * @param Post_Type_Helper  $post_type  The post type helper.
+	 * @param Pagination_Helper $pagination The pagination helper.
+	 * @param Date_Helper       $date       The date helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		Post_Type_Helper $post_type,
-		Rel_Adjacent_Helper $rel_adjacent,
+		Pagination_Helper $pagination,
 		Date_Helper $date
 	) {
-		$this->post_type    = $post_type;
-		$this->rel_adjacent = $rel_adjacent;
-		$this->date         = $date;
+		$this->post_type  = $post_type;
+		$this->pagination = $pagination;
+		$this->date       = $date;
 	}
 
 	/**
@@ -65,7 +71,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		if ( $current_page > 1 ) {
 			$number_of_pages = $this->model->number_of_pages;
 			if ( $number_of_pages && $current_page <= $number_of_pages ) {
-				$canonical = $this->rel_adjacent->get_paginated_url( $canonical, $current_page, false );
+				$canonical = $this->pagination->get_paginated_url( $canonical, $current_page, false );
 			}
 		}
 
@@ -80,7 +86,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		if ( $this->rel_adjacent->is_disabled() ) {
+		if ( $this->pagination->is_rel_adjacent_disabled() ) {
 			return '';
 		}
 
@@ -94,7 +100,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return $this->model->permalink;
 		}
 
-		return $this->rel_adjacent->get_paginated_url( $this->model->permalink, ( $current_page - 1 ), false );
+		return $this->pagination->get_paginated_url( $this->model->permalink, ( $current_page - 1 ), false );
 	}
 
 	/**
@@ -105,7 +111,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		if ( $this->rel_adjacent->is_disabled() ) {
+		if ( $this->pagination->is_rel_adjacent_disabled() ) {
 			return '';
 		}
 
@@ -114,7 +120,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		return $this->rel_adjacent->get_paginated_url( $this->model->permalink, ( $current_page + 1 ), false );
+		return $this->pagination->get_paginated_url( $this->model->permalink, ( $current_page + 1 ), false );
 	}
 
 	/**
@@ -231,7 +237,6 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			 * @param string $post_type The current URL's post type.
 			 *
 			 * @api bool Whether or not to show publish date.
-			 *
 			 */
 			if ( ! apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post_type->get_post_type( $this->context->post ) ) ) {
 				return '';

@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\Free\Presentations;
 
-use Yoast\WP\Free\Helpers\Rel_Adjacent_Helper;
+use Yoast\WP\Free\Helpers\Pagination_Helper;
 
 /**
  * Class Indexable_Presentation
@@ -15,23 +15,23 @@ use Yoast\WP\Free\Helpers\Rel_Adjacent_Helper;
 class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 
 	/**
-	 * Holds the Rel_Adjacent_Helper instance.
+	 * Holds the Pagination_Helper instance.
 	 *
-	 * @var Rel_Adjacent_Helper
+	 * @var Pagination_Helper
 	 */
-	protected $rel_adjacent;
+	protected $pagination;
 
 	/**
 	 * Indexable_Date_Archive_Presentation constructor.
 	 *
-	 * @param Rel_Adjacent_Helper $rel_adjacent The rel adjacent helper.
+	 * @param Pagination_Helper $pagination The pagination helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct(
-		Rel_Adjacent_Helper $rel_adjacent
+		Pagination_Helper $pagination
 	) {
-		$this->rel_adjacent = $rel_adjacent;
+		$this->pagination = $pagination;
 	}
 
 	/**
@@ -48,7 +48,7 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 
 		$current_page = $this->current_page->get_current_archive_page();
 		if ( $current_page > 1 ) {
-			return $this->rel_adjacent->get_paginated_url( $this->model->permalink, $current_page );
+			return $this->pagination->get_paginated_url( $this->model->permalink, $current_page );
 		}
 
 		return $this->model->permalink;

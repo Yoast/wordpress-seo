@@ -59,7 +59,7 @@ class Canonical_Test extends TestCase {
 			->once()
 			->andReturn( 2 );
 
-		$this->rel_adjacent
+		$this->pagination
 			->expects( 'get_paginated_url' )
 			->with( 'https://permalink', 2 )
 			->once()

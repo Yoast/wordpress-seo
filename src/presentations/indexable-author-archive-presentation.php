@@ -8,7 +8,7 @@
 namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
-use Yoast\WP\Free\Helpers\Rel_Adjacent_Helper;
+use Yoast\WP\Free\Helpers\Pagination_Helper;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 
 /**
@@ -31,29 +31,29 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	protected $post_type_helper;
 
 	/**
-	 * Holds the rel adjacent helper instance.
+	 * Holds the Pagination_Helper instance.
 	 *
-	 * @var Rel_Adjacent_Helper
+	 * @var Pagination_Helper
 	 */
-	protected $rel_adjacent;
+	protected $pagination;
 
 	/**
 	 * Indexable_Author_Archive_Presentation constructor.
 	 *
-	 * @param WP_Query_Wrapper    $wp_query_wrapper The wp query wrapper.
-	 * @param Post_Type_Helper    $post_type_helper The post type helper.
-	 * @param Rel_Adjacent_Helper $rel_adjacent     The rel adjacent helper.
+	 * @param WP_Query_Wrapper  $wp_query_wrapper The wp query wrapper.
+	 * @param Post_Type_Helper  $post_type_helper The post type helper.
+	 * @param Pagination_Helper $pagination       The pagination helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		WP_Query_Wrapper $wp_query_wrapper,
 		Post_Type_Helper $post_type_helper,
-		Rel_Adjacent_Helper $rel_adjacent
+		Pagination_Helper $pagination
 	) {
 		$this->wp_query_wrapper = $wp_query_wrapper;
 		$this->post_type_helper = $post_type_helper;
-		$this->rel_adjacent     = $rel_adjacent;
+		$this->pagination       = $pagination;
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 
 		$current_page = $this->current_page->get_current_archive_page();
 		if ( $current_page > 1 ) {
-			return $this->rel_adjacent->get_paginated_url( $this->model->permalink, $current_page );
+			return $this->pagination->get_paginated_url( $this->model->permalink, $current_page );
 		}
 
 		return $this->model->permalink;

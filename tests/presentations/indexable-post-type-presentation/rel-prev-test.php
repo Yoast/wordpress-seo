@@ -43,8 +43,8 @@ class Rel_Prev_Test extends TestCase {
 	public function test_disabled_by_filter() {
 		$this->indexable->number_of_pages = 2;
 
-		$this->rel_adjacent
-			->expects( 'is_disabled' )
+		$this->pagination
+			->expects( 'is_rel_adjacent_disabled' )
 			->once()
 			->andReturnTrue();
 
@@ -59,8 +59,8 @@ class Rel_Prev_Test extends TestCase {
 	public function test_no_previous_page() {
 		$this->indexable->number_of_pages = 1;
 
-		$this->rel_adjacent
-			->expects( 'is_disabled' )
+		$this->pagination
+			->expects( 'is_rel_adjacent_disabled' )
 			->once()
 			->andReturnFalse();
 
@@ -82,8 +82,8 @@ class Rel_Prev_Test extends TestCase {
 		$this->indexable->number_of_pages = 3;
 		$this->indexable->permalink       = 'https://example.com/my-post/';
 
-		$this->rel_adjacent
-			->expects( 'is_disabled' )
+		$this->pagination
+			->expects( 'is_rel_adjacent_disabled' )
 			->once()
 			->andReturnFalse();
 
@@ -92,7 +92,7 @@ class Rel_Prev_Test extends TestCase {
 			->once()
 			->andReturn( 3 );
 
-		$this->rel_adjacent
+		$this->pagination
 			->expects( 'get_paginated_url' )
 			->with( 'https://example.com/my-post/', 2, false )
 			->once()
@@ -114,8 +114,8 @@ class Rel_Prev_Test extends TestCase {
 		$this->indexable->number_of_pages = 2;
 		$this->indexable->permalink       = 'https://example.com/my-post/';
 
-		$this->rel_adjacent
-			->expects( 'is_disabled' )
+		$this->pagination
+			->expects( 'is_rel_adjacent_disabled' )
 			->once()
 			->andReturnFalse();
 

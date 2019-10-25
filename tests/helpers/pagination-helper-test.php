@@ -4,21 +4,21 @@ namespace Yoast\WP\Free\Tests\Helpers;
 
 use Mockery;
 use Brain\Monkey;
-use Yoast\WP\Free\Helpers\Rel_Adjacent_Helper;
+use Yoast\WP\Free\Helpers\Pagination_Helper;
 use Yoast\WP\Free\Tests\TestCase;
 use Yoast\WP\Free\Wrappers\WP_Rewrite_Wrapper;
 
 /**
- * Class Rel_Adjacent_Helper_Test
+ * Class Pagination_Helper_Test.
  *
  * @group helpers
  *
- * @coversDefaultClass \Yoast\WP\Free\Helpers\Rel_Adjacent_Helper
+ * @coversDefaultClass \Yoast\WP\Free\Helpers\Pagination_Helper
  */
-class Rel_Adjacent_Helper_Test extends TestCase {
+class Pagination_Helper_Test extends TestCase {
 
 	/**
-	 * @var Rel_Adjacent_Helper
+	 * @var Pagination_Helper
 	 */
 	private $instance;
 
@@ -35,19 +35,19 @@ class Rel_Adjacent_Helper_Test extends TestCase {
 
 		$this->wp_rewrite_wrapper = Mockery::mock( WP_Rewrite_Wrapper::class );
 
-		$this->instance = new Rel_Adjacent_Helper( $this->wp_rewrite_wrapper );
+		$this->instance = new Pagination_Helper( $this->wp_rewrite_wrapper );
 	}
 
 	/**
 	 * Tests that `is_disabled` returns false by default.
 	 *
-	 * @covers ::is_disabled
+	 * @covers ::is_rel_adjacent_disabled
 	 */
 	public function test_is_disabled_false() {
 		Monkey\Filters\expectApplied( 'wpseo_disable_adjacent_rel_links' )
 			->with( false );
 
-		$actual = $this->instance->is_disabled();
+		$actual = $this->instance->is_rel_adjacent_disabled();
 
 		$this->assertFalse( $actual );
 	}
@@ -55,14 +55,14 @@ class Rel_Adjacent_Helper_Test extends TestCase {
 	/**
 	 * Tests that `is_disabled` returns true if the `wpseo_disable_adjacent_rel_links` filter is applied with true.
 	 *
-	 * @covers ::is_disabled
+	 * @covers ::is_rel_adjacent_disabled
 	 */
 	public function test_is_disabled_true() {
 		Monkey\Filters\expectApplied( 'wpseo_disable_adjacent_rel_links' )
 			->with( false )
 			->andReturn( true );
 
-		$actual = $this->instance->is_disabled();
+		$actual = $this->instance->is_rel_adjacent_disabled();
 
 		$this->assertTrue( $actual );
 	}

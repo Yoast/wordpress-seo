@@ -3,7 +3,7 @@
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Date_Archive_Presentation;
 
 use Mockery;
-use Yoast\WP\Free\Helpers\Rel_Adjacent_Helper;
+use Yoast\WP\Free\Helpers\Pagination_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Date_Archive_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Tests\Presentations\Presentation_Instance_Dependencies;
@@ -25,11 +25,11 @@ trait Presentation_Instance_Builder {
 	protected $instance;
 
 	/**
-	 * Holds the rel adjacent helper instance.
+	 * Holds the Pagination_Helper instance.
 	 *
-	 * @var Rel_Adjacent_Helper|Mockery\MockInterface
+	 * @var Pagination_Helper|Mockery\MockInterface
 	 */
-	protected $rel_adjacent;
+	protected $pagination;
 
 	/**
 	 * Builds an instance of Indexable_Post_Type_Presentation.
@@ -37,9 +37,9 @@ trait Presentation_Instance_Builder {
 	protected function setInstance() {
 		$this->indexable = new Indexable();
 
-		$this->rel_adjacent = Mockery::mock( Rel_Adjacent_Helper::class );
+		$this->pagination = Mockery::mock( Pagination_Helper::class );
 
-		$instance = new Indexable_Date_Archive_Presentation( $this->rel_adjacent );
+		$instance = new Indexable_Date_Archive_Presentation( $this->pagination );
 
 		$this->instance = $instance->of( [ 'model' => $this->indexable ] );
 
