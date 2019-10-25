@@ -15,6 +15,8 @@ import {
 } from "../helpers/replacementVariableHelpers";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
 
+const $ = jQuery;
+
 /**
  * Represents the classic editor data.
  */
