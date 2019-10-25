@@ -9,7 +9,6 @@ namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Helpers\Rel_Adjacent_Helper;
-use Yoast\WP\Free\Wrappers\WP_Rewrite_Wrapper;
 use Yoast\WP\Free\Helpers\Date_Helper;
 
 /**
@@ -21,11 +20,6 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @var Post_Type_Helper
 	 */
 	protected $post_type;
-
-	/**
-	 * @var WP_Rewrite_Wrapper
-	 */
-	protected $wp_rewrite_wrapper;
 
 	/**
 	 * @var Rel_Adjacent_Helper
@@ -40,21 +34,20 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param Post_Type_Helper    $post_type          The post type helper.
-	 * @param WP_Rewrite_Wrapper  $wp_rewrite_wrapper The WP_Rewrite wrapper.
-	 * @param Rel_Adjacent_Helper $rel_adjacent       The rel adjacent helper.
-	 * @param Date_Helper         $date               The date helper.
+	 * @param Post_Type_Helper    $post_type    The post type helper.
+	 * @param Rel_Adjacent_Helper $rel_adjacent The rel adjacent helper.
+	 * @param Date_Helper         $date         The date helper.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		Post_Type_Helper $post_type,
-		WP_Rewrite_Wrapper $wp_rewrite_wrapper,
 		Rel_Adjacent_Helper $rel_adjacent,
 		Date_Helper $date
 	) {
-		$this->post_type          = $post_type;
-		$this->wp_rewrite_wrapper = $wp_rewrite_wrapper;
-		$this->rel_adjacent       = $rel_adjacent;
-		$this->date               = $date;
+		$this->post_type    = $post_type;
+		$this->rel_adjacent = $rel_adjacent;
+		$this->date         = $date;
 	}
 
 	/**
@@ -68,16 +61,11 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		$canonical = $this->model->permalink;
 
 		// Fix paginated pages canonical, but only if the page is truly paginated.
-		$page_number = \get_query_var( 'page' );
-		if ( $page_number > 1 ) {
+		$current_page = $this->current_page->get_current_post_page();
+		if ( $current_page > 1 ) {
 			$number_of_pages = $this->model->number_of_pages;
-			if ( $number_of_pages && $page_number <= $number_of_pages ) {
-				if ( ! $this->wp_rewrite_wrapper->get()->using_permalinks() ) {
-					$canonical = \add_query_arg( 'page', $page_number, $canonical );
-				}
-				else {
-					$canonical = \user_trailingslashit( \trailingslashit( $canonical ) . $page_number );
-				}
+			if ( $number_of_pages && $current_page <= $number_of_pages ) {
+				$canonical = $this->rel_adjacent->get_paginated_url( $canonical, $current_page, false );
 			}
 		}
 
@@ -96,12 +84,17 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		$current_page = \max( 1, (int) \get_query_var( 'page' ) );
-		if ( $current_page < 2  ) {
+		$current_page = \max( 1, $this->current_page->get_current_post_page() );
+		// Check if there is a previous page.
+		if ( $current_page < 2 ) {
 			return '';
 		}
+		// Check if the previous page is the first page.
+		if ( $current_page === 2 ) {
+			return $this->model->permalink;
+		}
 
-		return $this->rel_adjacent->get_paginated_url( $this->model->permalink, ( $current_page - 1 ) );
+		return $this->rel_adjacent->get_paginated_url( $this->model->permalink, ( $current_page - 1 ), false );
 	}
 
 	/**
@@ -116,12 +109,12 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		$current_page = \max( 1, (int) \get_query_var( 'page' ) );
+		$current_page = \max( 1, $this->current_page->get_current_post_page() );
 		if ( $this->model->number_of_pages <= $current_page ) {
 			return '';
 		}
 
-		return $this->rel_adjacent->get_paginated_url( $this->model->permalink, ( $current_page + 1 ) );
+		return $this->rel_adjacent->get_paginated_url( $this->model->permalink, ( $current_page + 1 ), false );
 	}
 
 	/**
@@ -235,9 +228,10 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			/**
 			 * Filter: 'wpseo_opengraph_show_publish_date' - Allow showing publication date for other post types.
 			 *
+			 * @param string $post_type The current URL's post type.
+			 *
 			 * @api bool Whether or not to show publish date.
 			 *
-			 * @param string $post_type The current URL's post type.
 			 */
 			if ( ! apply_filters( 'wpseo_opengraph_show_publish_date', false, $this->post_type->get_post_type( $this->context->post ) ) ) {
 				return '';

@@ -64,8 +64,8 @@ class Rel_Prev_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		Monkey\Functions\expect( 'get_query_var' )
-			->with( 'page' )
+		$this->current_page_helper
+			->expects( 'get_current_post_page' )
 			->once()
 			->andReturn( 2 );
 
@@ -79,26 +79,52 @@ class Rel_Prev_Test extends TestCase {
 	 */
 	public function test_previous_url() {
 		$this->indexable->object_id       = 1337;
-		$this->indexable->number_of_pages = 2;
-		$this->indexable->permalink       = 'https://example.com/my-post';
+		$this->indexable->number_of_pages = 3;
+		$this->indexable->permalink       = 'https://example.com/my-post/';
 
 		$this->rel_adjacent
 			->expects( 'is_disabled' )
 			->once()
 			->andReturnFalse();
 
-		Monkey\Functions\expect( 'get_query_var' )
-			->with( 'page' )
+		$this->current_page_helper
+			->expects( 'get_current_post_page' )
 			->once()
-			->andReturn( 2 );
+			->andReturn( 3 );
 
 		$this->rel_adjacent
 			->expects( 'get_paginated_url' )
-			->with( 'https://example.com/my-post', 1 )
+			->with( 'https://example.com/my-post/', 2, false )
 			->once()
-			->andReturn( 'https://example.com/my-post/1/' );
+			->andReturn( 'https://example.com/my-post/2/' );
 
-		$expected = 'https://example.com/my-post/1/';
+		$expected = 'https://example.com/my-post/2/';
+		$actual   = $this->instance->generate_rel_prev();
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests whether the correct url is returned for the previous page when the previous page is the first page.
+	 *
+	 * @covers ::generate_rel_prev
+	 */
+	public function test_previous_url_is_first_page() {
+		$this->indexable->object_id       = 1337;
+		$this->indexable->number_of_pages = 2;
+		$this->indexable->permalink       = 'https://example.com/my-post/';
+
+		$this->rel_adjacent
+			->expects( 'is_disabled' )
+			->once()
+			->andReturnFalse();
+
+		$this->current_page_helper
+			->expects( 'get_current_post_page' )
+			->once()
+			->andReturn( 2 );
+
+		$expected = 'https://example.com/my-post/';
 		$actual   = $this->instance->generate_rel_prev();
 
 		$this->assertEquals( $expected, $actual );

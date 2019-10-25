@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 
-use Brain\Monkey;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -64,8 +63,8 @@ class Rel_Next_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		Monkey\Functions\expect( 'get_query_var' )
-			->with( 'page' )
+		$this->current_page_helper
+			->expects( 'get_current_post_page' )
 			->once()
 			->andReturn( 2 );
 
@@ -87,14 +86,14 @@ class Rel_Next_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		Monkey\Functions\expect( 'get_query_var' )
-			->with( 'page' )
+		$this->current_page_helper
+			->expects( 'get_current_post_page' )
 			->once()
 			->andReturn( 1 );
 
 		$this->rel_adjacent
 			->expects( 'get_paginated_url' )
-			->with( 'https://example.com/my-post', 2 )
+			->with( 'https://example.com/my-post', 2, false )
 			->once()
 			->andReturn( 'https://example.com/my-post/2/' );
 
