@@ -1105,14 +1105,16 @@ class WPSEO_Frontend {
 
 		// Maybe output the prev link.
 		if ( $paged > 1 ) {
-			$this->adjacent_rel_link( 'prev', previous_posts( false ), ( $paged - 1 ), 'page' );
+			// Pass a "page" of -1 to prevent duplicate addition of query arg
+			$this->adjacent_rel_link( 'prev', previous_posts( false ), -1 );
 		}
 
 		$nextpage = ( intval( $paged ) + 1 );
 
 		// Maybe output the next link.
 		if ( $nextpage <= $max_page ) {
-			$this->adjacent_rel_link( 'next', next_posts( $max_page, false ), ( $paged + 1 ), 'page' );
+			// Pass a "page" of -1 to prevent duplicate addition of query arg
+			$this->adjacent_rel_link( 'next', next_posts( $max_page, false ), -1 );
 		}
 	}
 
