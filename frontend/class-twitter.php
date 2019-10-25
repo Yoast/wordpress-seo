@@ -51,6 +51,8 @@ class WPSEO_Twitter {
 	 * @return object
 	 */
 	public static function get_instance() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
 		if ( ! ( self::$instance instanceof self ) ) {
 			self::$instance = new self();
 		}
