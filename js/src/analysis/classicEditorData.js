@@ -103,14 +103,15 @@ class ClassicEditorData {
 	/**
 	 * Gets the featured image source from the DOM.
 	 *
-	 * @returns {string} The url to the featured image.
+	 * @returns {string|null} The url to the featured image.
 	 */
 	getFeaturedImage() {
-		var postThumbnail = $( ".attachment-post-thumbnail" );
-		if ( postThumbnail.length > 0 ) {
+		const postThumbnail = $( "#set-post-thumbnail img" ).attr( "src" );
+
+		if ( postThumbnail ) {
 			this.featuredImageIsSet = true;
 
-			return $( postThumbnail.get( 0 ) ).attr( "src" );
+			return postThumbnail;
 		}
 
 		this.featuredImageIsSet = false;
