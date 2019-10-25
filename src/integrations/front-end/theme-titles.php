@@ -47,7 +47,8 @@ class Theme_Titles implements Integration_Interface {
 			'WPSEO 12.7',
 			esc_html(
 				sprintf(
-					__( 'This theme doesn\'t have proper theme support for %1$s.', 'wordpress-seo' )
+					__( 'This theme doesn\'t have proper theme support for the %1$s.', 'wordpress-seo' ),
+					'title-tag'
 				)
 			)
 		);
