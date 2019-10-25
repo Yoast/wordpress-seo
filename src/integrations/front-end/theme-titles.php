@@ -45,11 +45,9 @@ class Theme_Titles implements Integration_Interface {
 		_deprecated_function(
 			__METHOD__,
 			'WPSEO 12.7',
-			esc_html(
-				sprintf(
-					__( 'This theme doesn\'t have proper theme support for the %1$s.', 'wordpress-seo' ),
-					'title-tag'
-				)
+			esc_html__(
+				'a theme that has proper title-tag theme support, or adapt your theme to have that support',
+				'wordpress-seo'
 			)
 		);
 
