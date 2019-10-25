@@ -207,6 +207,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->canonical;
 		}
 
+		if ( $this->model->permalink ) {
+			return $this->model->permalink;
+		}
+
 		return '';
 	}
 
