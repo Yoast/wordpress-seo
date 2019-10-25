@@ -150,24 +150,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	/**
 	 * @covers WPSEO_OpenGraph::og_title
 	 */
-	public function test_og_title() {
-
-		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		$expected_title = WPSEO_Frontend::get_instance()->title( '' );
-		$expected_html  = '<meta property="og:title" content="' . $expected_title . '" />' . "\n";
-
-		$this->assertTrue( self::$class_instance->og_title() );
-		$this->expectOutput( $expected_html );
-
-		$this->assertEquals( self::$class_instance->og_title( false ), $expected_title );
-	}
-
-	/**
-	 * @covers WPSEO_OpenGraph::og_title
-	 */
 	public function test_og_title_with_variables() {
 		$expected_title = 'Test title';
 		// Create and go to post.
@@ -187,21 +169,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->expectOutput( $expected_html );
 
 		$this->assertEquals( self::$class_instance->og_title( false ), $expected_title );
-	}
-
-	/**
-	 * @covers WPSEO_OpenGraph::url
-	 */
-	public function test_url() {
-
-		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		$url     = get_permalink( $post_id );
-		$this->go_to( $url );
-		$expected_url = $url;
-
-		$this->assertTrue( self::$class_instance->url() );
-		$this->expectOutput( '<meta property="og:url" content="' . $expected_url . '" />' . "\n" );
 	}
 
 	/**
@@ -413,10 +380,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		update_option( 'page_on_front', $post_id );
 		$this->go_to_home();
 
-		WPSEO_Meta::set_value( 'title', 'SEO title', $post_id );
-		$title = self::$class_instance->og_title( false );
-		$this->assertEquals( 'SEO title', $title );
-
 		WPSEO_Meta::set_value( 'opengraph-title', 'OG title', $post_id );
 		$title = self::$class_instance->og_title( false );
 		$this->assertEquals( 'OG title', $title );
@@ -448,10 +411,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		);
 		update_option( 'page_for_posts', $post_id );
 		$this->go_to( get_permalink( $post_id ) );
-
-		WPSEO_Meta::set_value( 'title', 'SEO title', $post_id );
-		$title = self::$class_instance->og_title( false );
-		$this->assertEquals( 'SEO title', $title );
 
 		WPSEO_Meta::set_value( 'opengraph-title', 'OG title', $post_id );
 		$title = self::$class_instance->og_title( false );
