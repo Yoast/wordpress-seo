@@ -272,12 +272,13 @@ class Indexable_Repository {
 	 * @return Indexable[] All ancestors of the given indexable.
 	 */
 	public function get_ancestors( Indexable $indexable, $static_ancestor_wheres = [] ) {
-		$ancestor_query = $this->query()
-							   ->table_alias( 'i' )
-							   ->select( 'i.*' )
-							   ->join( 'indexable_hierarchy', 'i.id = ih.ancestor_id', 'ih' )
-							   ->where( 'ih.indexable_id', $indexable->id )
-							   ->order_by_desc( 'ih.depth' );
+		$hierarchy_table = Yoast_Model::get_table_name( 'Indexable_Hierarchy' );
+		$ancestor_query  = $this->query()
+								->table_alias( 'i' )
+								->select( 'i.*' )
+								->join( $hierarchy_table, 'i.id = ih.ancestor_id', 'ih' )
+								->where( 'ih.indexable_id', $indexable->id )
+								->order_by_desc( 'ih.depth' );
 
 		if ( ! empty( $static_ancestor_wheres ) ) {
 			$ancestor_queries = array_map( function ( $where ) {

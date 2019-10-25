@@ -8,6 +8,7 @@
 namespace Yoast\WP\Free\Dependency_Injection;
 
 use Symfony\Component\DependencyInjection\Definition;
+use WPSEO_Breadcrumbs;
 use WPSEO_Replace_Vars;
 use Yoast\WP\Free\WordPress\Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
@@ -19,6 +20,9 @@ $container->register( 'wpdb', 'wpdb' )->setFactory( [ Wrapper::class, 'get_wpdb'
 
 // Legacy classes.
 $container->register( WPSEO_Replace_Vars::class, WPSEO_Replace_Vars::class )->setFactory( [ Wrapper::class, 'get_replace_vars' ] );
+
+// Backwards-compatibility classes in the global namespace.
+$container->register( WPSEO_Breadcrumbs::class, WPSEO_Breadcrumbs::class )->setAutowired( true );
 
 // The container itself.
 $container->setAlias( ContainerInterface::class, 'service_container' );
@@ -33,6 +37,7 @@ $excluded_directories = [
 	'wordpress',
 	'generated',
 	'orm',
+	'backwards-compatibility',
 ];
 
 $excluded = \implode( ',', \array_merge( $excluded_directories, $excluded_files ) );

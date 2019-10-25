@@ -64,10 +64,9 @@ class Breadcrumb extends Abstract_Schema_Piece {
 	 * @return bool|array Array on success, false on failure.
 	 */
 	public function generate( Meta_Tags_Context $context ) {
-		$breadcrumbs_instance = \WPSEO_Breadcrumbs::get_instance();
-		$breadcrumbs          = $breadcrumbs_instance->get_links();
-		$broken               = false;
-		$list_elements        = [];
+		$breadcrumbs   = $context->presentation->breadcrumbs;
+		$broken        = false;
+		$list_elements = [];
 
 		foreach ( $breadcrumbs as $index => $breadcrumb ) {
 			if ( ! empty( $breadcrumb['hide_in_schema'] ) ) {
