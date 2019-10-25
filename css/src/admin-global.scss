@@ -573,4 +573,35 @@ body.folded {
 	}
 }
 
-
+.yoast_bf_sale {
+	position: relative;
+	margin: 10px 0;
+	max-width: 1012px;
+	height: 100px;
+	background: url(../../images/yoasie_banner_bf.gif) no-repeat;
+	.close {
+		text-align: center;
+		position: absolute;
+		right: 5px;
+		top: 5px;
+		background: transparent;
+		color: #000;
+		border-radius: 50%;
+		width: 17px;
+		font-weight: bold;
+		text-decoration: none;
+		&:hover {
+			cursor: pointer;
+			color: #fff;
+			background: #000;
+		}
+	}
+	.target {
+		display: block;
+		width: 100%;
+		height: 100%;
+		&:hover {
+			cursor: url('../../images/crosshair.svg'), pointer;
+		}
+	}
+}
