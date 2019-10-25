@@ -46,7 +46,7 @@ class Woo_Title implements Integration_Interface {
 			'WPSEO 12.7',
 			esc_html(
 				sprintf(
-					__( 'This theme doesn\'t have proper theme support for %1$s.', 'wp_title' )
+					__( 'This theme doesn\'t have proper theme support for %1$s.', 'wordpress-seo' )
 				)
 			)
 		);
