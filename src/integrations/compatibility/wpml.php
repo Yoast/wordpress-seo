@@ -37,15 +37,6 @@ class WPML implements Integration_Interface {
 	 */
 	public function filter_home_url_before() {
 		add_filter( 'wpml_get_home_url', [ $this, 'wpml_get_home_url' ], 10, 2 );
-
-		$home_url = home_url();
-
-		// If the plugin is network activated, use the network home URL.
-		if ( WPSEO_Utils::is_plugin_network_active() ) {
-			$home_url = network_home_url();
-		}
-
-		return $home_url;
 	}
 
 	/**
