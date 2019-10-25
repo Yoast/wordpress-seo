@@ -11,8 +11,6 @@
  */
 class WPSEO_Frontend {
 
-	const METADESC_PRIORITY = 6;
-
 	/**
 	 * Instance of this class.
 	 *
@@ -1615,6 +1613,10 @@ class WPSEO_Frontend {
 
 	/**
 	 * Outputs the meta description element or returns the description text.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
 	 *
 	 * @param bool $echo Echo or return output flag.
 	 *
