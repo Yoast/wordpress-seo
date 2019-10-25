@@ -13,7 +13,7 @@ use Yoast\WP\Free\Integrations\Integration_Interface;
 /**
  * Notify the user by giving a deprecated notice.
  */
-class Thematic_Doctitle implements Integration_Interface {
+class Theme_Titles implements Integration_Interface {
 
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
@@ -31,6 +31,7 @@ class Thematic_Doctitle implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		add_filter( 'thematic_doctitle', [ $this, 'title' ], 15 );
+		add_filter( 'woo_title', [ $this, 'title' ], 99 );
 	}
 
 	/**
