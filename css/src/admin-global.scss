@@ -58,6 +58,19 @@
 	min-height: 0;
 }
 
+/* Turn off select2 fixed height */
+.wpseo-admin-page {
+	.select2-container {
+		.select2-selection--single {
+			height: auto;
+
+			.select2-selection__arrow {
+				height: 100%;
+			}
+		}
+	}
+}
+
 .yoast-label-strong {
 	font-weight: 600;
 }
