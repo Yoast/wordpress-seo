@@ -11,8 +11,6 @@
  */
 class WPSEO_Frontend {
 
-	const METADESC_PRIORITY = 6;
-
 	/**
 	 * Instance of this class.
 	 *
@@ -68,8 +66,6 @@ class WPSEO_Frontend {
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 		remove_action( 'wp_head', 'noindex', 1 );
 
-		add_filter( 'thematic_doctitle', array( $this, 'title' ), 15 );
-
 		add_action( 'wp', array( $this, 'page_redirect' ), 99 );
 
 		add_action( 'template_redirect', array( $this, 'noindex_robots' ) );
@@ -80,8 +76,6 @@ class WPSEO_Frontend {
 		// Add support for shortcodes to category descriptions.
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 
-		// Fix the WooThemes woo_title() output.
-		add_filter( 'woo_title', array( $this, 'fix_woo_title' ), 99 );
 
 		if ( WPSEO_Options::get( 'disable-date', false )
 			|| WPSEO_Options::get( 'disable-author', false )
@@ -157,17 +151,6 @@ class WPSEO_Frontend {
 		}
 
 		return self::$instance;
-	}
-
-	/**
-	 * Override Woo's title with our own.
-	 *
-	 * @param string $title Title string.
-	 *
-	 * @return string
-	 */
-	public function fix_woo_title( $title ) {
-		return $this->title( $title );
 	}
 
 	/**
@@ -985,11 +968,32 @@ class WPSEO_Frontend {
 	/**
 	 * Outputs the meta description element or returns the description text.
 	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
 	 * @param bool $echo Echo or return output flag.
 	 *
 	 * @return string
 	 */
 	public function metadesc( $echo = true ) {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+
+		return '';
+	}
+
+	/**
+	 * Override Woo's title with our own.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 *
+	 * @param string $title Title string.
+	 *
+	 * @return string
+	 */
+	public function fix_woo_title( $title ) {
 		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
 
 		return '';
