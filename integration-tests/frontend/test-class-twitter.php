@@ -54,18 +54,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::site_twitter
-	 */
-	public function test_site_twitter() {
-		// Test valid option.
-		WPSEO_Options::set( 'twitter_site', 'yoast' );
-		$expected = $this->metatag( 'site', '@yoast' );
-
-		self::$class_instance->site_twitter();
-		$this->expectOutput( $expected );
-	}
-
-	/**
 	 * @covers WPSEO_Twitter::author
 	 */
 	public function test_author_twitter() {
