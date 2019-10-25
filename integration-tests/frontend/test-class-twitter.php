@@ -59,7 +59,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		self::$class_instance->twitter();
 
 		$expected = '<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:description" content="Twitter Test Excerpt" />
 ';
 		$this->expectOutput( $expected );
 	}
@@ -143,26 +142,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests static page set as front page.
-	 */
-	public function test_static_front_page() {
-
-		$post_id = $this->factory->post->create(
-			array(
-				'post_title' => 'front-page',
-				'post_type'  => 'page',
-			)
-		);
-		update_option( 'show_on_front', 'page' );
-		update_option( 'page_on_front', $post_id );
-		$this->go_to_home();
-
-		WPSEO_Meta::set_value( 'twitter-description', 'Twitter description', $post_id );
-		self::$class_instance->description();
-		$this->expectOutput( $this->metatag( 'description', 'Twitter description' ) );
-	}
-
-	/**
 	 * Tests static page set as posts page.
 	 */
 	public function test_static_posts_page() {
@@ -184,10 +163,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		);
 		update_option( 'page_for_posts', $post_id );
 		$this->go_to( get_permalink( $post_id ) );
-
-		WPSEO_Meta::set_value( 'twitter-description', 'Twitter description', $post_id );
-		self::$class_instance->description();
-		$this->expectOutput( $this->metatag( 'description', 'Twitter description' ) );
 
 		$image_url = 'https://example.com/image.png';
 		WPSEO_Meta::set_value( 'twitter-image', $image_url, $post_id );
@@ -315,23 +290,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Testing with a twitter meta description set for the taxonomy.
-	 *
-	 * @covers WPSEO_Twitter::description
-	 */
-	public function test_taxonomy_description() {
-		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
-
-		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'wpseo_twitter-description', 'Custom taxonomy twitter description' );
-
-		$this->go_to( get_term_link( $term_id, 'category' ) );
-
-		self::$class_instance->description();
-
-		$this->expectOutput( $this->metatag( 'description', 'Custom taxonomy twitter description' ) );
-	}
-
-	/**
 	 * Testing with a twitter meta image set for the taxonomy.
 	 *
 	 * @covers WPSEO_Twitter::image
@@ -371,31 +329,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		self::$class_instance->type();
 		self::$class_instance->image();
-		$this->expectOutput( $expected );
-	}
-
-	/**
-	 * @covers WPSEO_Twitter::description
-	 */
-	public function test_twitter_description_with_variables() {
-		$expected_title = 'Post title';
-
-		// Create and go to post.
-		$post_id   = $this->factory->post->create();
-		$post_args = array(
-			'ID'         => $post_id,
-			'post_title' => $expected_title,
-		);
-		wp_update_post( $post_args );
-
-		// Test wpseo meta.
-		WPSEO_Meta::set_value( 'twitter-description', '%%title%%', $post_id );
-
-		$this->go_to( get_permalink( $post_id ) );
-
-		$expected = $this->metatag( 'description', $expected_title );
-
-		self::$class_instance->description();
 		$this->expectOutput( $expected );
 	}
 }
