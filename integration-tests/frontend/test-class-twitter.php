@@ -49,7 +49,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	public function test_twitter() {
 		$post_id = $this->factory->post->create(
 			array(
-				'post_title'   => 'Twitter Test Post',
 				'post_excerpt' => 'Twitter Test Excerpt',
 				'post_type'    => 'post',
 				'post_status'  => 'publish',
@@ -61,7 +60,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		$expected = '<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:description" content="Twitter Test Excerpt" />
-<meta name="twitter:title" content="Twitter Test Post - Test Blog" />
 ';
 		$this->expectOutput( $expected );
 	}
@@ -145,19 +143,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Twitter::title
-	 */
-	public function test_twitter_title() {
-		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		$expected = $this->metatag( 'title', WPSEO_Frontend::get_instance()->title( '' ) );
-		self::$class_instance->title();
-		$this->expectOutput( $expected );
-	}
-
-	/**
 	 * Tests static page set as front page.
 	 */
 	public function test_static_front_page() {
@@ -171,14 +156,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $post_id );
 		$this->go_to_home();
-
-		WPSEO_Meta::set_value( 'title', 'SEO title', $post_id );
-		self::$class_instance->title();
-		$this->expectOutput( $this->metatag( 'title', 'SEO title' ) );
-
-		WPSEO_Meta::set_value( 'twitter-title', 'Twitter title', $post_id );
-		self::$class_instance->title();
-		$this->expectOutput( $this->metatag( 'title', 'Twitter title' ) );
 
 		WPSEO_Meta::set_value( 'twitter-description', 'Twitter description', $post_id );
 		self::$class_instance->description();
@@ -207,14 +184,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		);
 		update_option( 'page_for_posts', $post_id );
 		$this->go_to( get_permalink( $post_id ) );
-
-		WPSEO_Meta::set_value( 'title', 'SEO title', $post_id );
-		self::$class_instance->title();
-		$this->expectOutput( $this->metatag( 'title', 'SEO title' ) );
-
-		WPSEO_Meta::set_value( 'twitter-title', 'Twitter title', $post_id );
-		self::$class_instance->title();
-		$this->expectOutput( $this->metatag( 'title', 'Twitter title' ) );
 
 		WPSEO_Meta::set_value( 'twitter-description', 'Twitter description', $post_id );
 		self::$class_instance->description();
@@ -346,23 +315,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Testing with a twitter title set for the taxonomy.
-	 *
-	 * @covers WPSEO_Twitter::title
-	 */
-	public function test_taxonomy_title() {
-		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
-
-		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'wpseo_twitter-title', 'Custom taxonomy twitter title' );
-
-		$this->go_to( get_term_link( $term_id, 'category' ) );
-
-		self::$class_instance->title();
-
-		$this->expectOutput( $this->metatag( 'title', 'Custom taxonomy twitter title' ) );
-	}
-
-	/**
 	 * Testing with a twitter meta description set for the taxonomy.
 	 *
 	 * @covers WPSEO_Twitter::description
@@ -419,37 +371,6 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		self::$class_instance->type();
 		self::$class_instance->image();
-		$this->expectOutput( $expected );
-	}
-
-	/**
-	 * @covers WPSEO_Twitter::twitter
-	 */
-	public function test_twitter_action_execution() {
-		self::$class_instance->twitter();
-		$this->assertEquals( 1, did_action( 'wpseo_twitter' ) );
-		ob_clean();
-	}
-
-	/**
-	 * @covers WPSEO_Twitter::title
-	 */
-	public function test_twitter_title_with_variables() {
-		$expected_title = 'Test title';
-		// Create and go to post.
-		$post_id   = $this->factory->post->create();
-		$post_args = array(
-			'ID'         => $post_id,
-			'post_title' => $expected_title,
-		);
-		wp_update_post( $post_args );
-		WPSEO_Meta::set_value( 'twitter-title', '%%title%%', $post_id );
-
-		$this->go_to( get_permalink( $post_id ) );
-
-		$expected = $this->metatag( 'title', $expected_title );
-
-		self::$class_instance->title();
 		$this->expectOutput( $expected );
 	}
 

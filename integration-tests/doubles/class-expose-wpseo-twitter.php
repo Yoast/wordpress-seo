@@ -22,10 +22,6 @@ class Expose_WPSEO_Twitter extends WPSEO_Twitter {
 		return parent::author();
 	}
 
-	public function title() {
-		return parent::title();
-	}
-
 	public function description() {
 		return parent::description();
 	}
