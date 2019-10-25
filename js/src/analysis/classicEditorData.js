@@ -1,4 +1,4 @@
-/* global wp */
+/* global wp jQuery */
 
 /* External dependencies */
 import analysis from "yoastseo";
@@ -15,6 +15,8 @@ import {
 } from "../helpers/replacementVariableHelpers";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
 
+const $ = jQuery;
+
 /**
  * Represents the classic editor data.
  */
@@ -30,7 +32,7 @@ class ClassicEditorData {
 	 *
 	 * @returns {void}
 	 */
-	constructor( refresh, store, settings = { tinyMceId: "" } ) {
+	constructor( refresh, store, settings = { tinyMceId: tmceId } ) {
 		this._refresh = refresh;
 		this._store = store;
 		this._initialData = {};
@@ -66,41 +68,52 @@ class ClassicEditorData {
 			return;
 		}
 
-		const url = this.getFeaturedImage() || this.getContentImage() || null;
-
-		this.setFeaturedImageInSnippetPreview( url );
-
 		$( "#postimagediv" ).on( "click", "#remove-post-thumbnail", () => {
 			this.featuredImageIsSet = false;
 
-			this.setFeaturedImageInSnippetPreview( this.getContentImage() );
+			this.setImageInSnippetPreview( this.getContentImage() );
 		} );
 
 		const featuredImage = wp.media.featuredImage.frame();
 
 		featuredImage.on( "select", () => {
 			const newUrl = featuredImage.state().get( "selection" ).first().attributes.url;
-			this.setFeaturedImageInSnippetPreview( newUrl );
+
+			if ( ! newUrl ) {
+				return;
+			}
+
+			this.featuredImageIsSet = true;
+			this.setImageInSnippetPreview( newUrl );
 		} );
 
-		tmceHelper.addEventHandler( tmceId, [ "change" ], debounce( () => {
+		tmceHelper.addEventHandler( this._settings.tinyMceId, [ "init" ], () => {
+			const url = this.getFeaturedImage() || this.getContentImage() || null;
+
+			this.setImageInSnippetPreview( url );
+		} );
+
+		tmceHelper.addEventHandler( this._settings.tinyMceId, [ "change" ], debounce( () => {
 			if ( this.featuredImageIsSet ) {
 				return;
 			}
 
-			this.setFeaturedImageInSnippetPreview( this.getContentImage() );
+			this.setImageInSnippetPreview( this.getContentImage() );
 		}, 1000 ) );
 	}
 
 	/**
 	 * Gets the featured image source from the DOM.
 	 *
-	 * @returns {string} The url to the featured image.
+	 * @returns {string|null} The url to the featured image.
 	 */
 	getFeaturedImage() {
-		var postThumbnail = $( ".attachment-post-thumbnail" );
-		if ( postThumbnail.length > 0 ) {
-			return $( postThumbnail.get( 0 ) ).attr( "src" );
+		const postThumbnail = $( "#set-post-thumbnail img" ).attr( "src" );
+
+		if ( postThumbnail ) {
+			this.featuredImageIsSet = true;
+
+			return postThumbnail;
 		}
 
 		this.featuredImageIsSet = false;
@@ -115,7 +128,7 @@ class ClassicEditorData {
 	 *
 	 * @returns {void}
 	 */
-	setFeaturedImageInSnippetPreview( url ) {
+	setImageInSnippetPreview( url ) {
 		this._store.dispatch( updateData( { snippetPreviewImageURL: url } ) );
 	}
 
@@ -205,11 +218,7 @@ class ClassicEditorData {
 	 * @returns {string} The content of the document.
 	 */
 	getContent() {
-		let tinyMceId = this._settings.tinyMceId;
-
-		if ( tinyMceId === "" ) {
-			tinyMceId = tmceId;
-		}
+		const tinyMceId = this._settings.tinyMceId;
 
 		return removeMarks( tmceHelper.getContentTinyMce( tinyMceId ) );
 	}
@@ -326,7 +335,7 @@ class ClassicEditorData {
 		}
 		// Handle image change.
 		if ( this._previousData.snippetPreviewImageURL !== newData.snippetPreviewImageURL ) {
-			this.setFeaturedImageInSnippetPreview( newData.snippetPreviewImageURL );
+			this.setImageInSnippetPreview( newData.snippetPreviewImageURL );
 		}
 	}
 
@@ -361,7 +370,6 @@ class ClassicEditorData {
 			excerpt_only: this.getExcerpt( false ),
 			slug: this.getSlug(),
 			content: this.getContent(),
-			snippetPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
 		};
 	}
 
@@ -377,7 +385,6 @@ class ClassicEditorData {
 			excerpt: this.getExcerpt(),
 			// eslint-disable-next-line
 			excerpt_only: this.getExcerpt( false ),
-			snippetPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
 		};
 	}
 }
