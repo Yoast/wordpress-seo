@@ -1,4 +1,4 @@
-/* global wp */
+/* global wp jQuery */
 
 /* External dependencies */
 import analysis from "yoastseo";
@@ -32,7 +32,7 @@ class ClassicEditorData {
 	 *
 	 * @returns {void}
 	 */
-	constructor( refresh, store, settings = { tinyMceId: "" } ) {
+	constructor( refresh, store, settings = { tinyMceId: tmceId } ) {
 		this._refresh = refresh;
 		this._store = store;
 		this._initialData = {};
@@ -68,10 +68,6 @@ class ClassicEditorData {
 			return;
 		}
 
-		const url = this.getFeaturedImage() || this.getContentImage() || null;
-
-		this.setImageInSnippetPreview( url );
-
 		$( "#postimagediv" ).on( "click", "#remove-post-thumbnail", () => {
 			this.featuredImageIsSet = false;
 
@@ -91,7 +87,13 @@ class ClassicEditorData {
 			this.setImageInSnippetPreview( newUrl );
 		} );
 
-		tmceHelper.addEventHandler( tmceId, [ "change" ], debounce( () => {
+		tmceHelper.addEventHandler( this._settings.tinyMceId, [ "init" ], () => {
+			const url = this.getFeaturedImage() || this.getContentImage() || null;
+
+			this.setImageInSnippetPreview( url );
+		} );
+
+		tmceHelper.addEventHandler( this._settings.tinyMceId, [ "change" ], debounce( () => {
 			if ( this.featuredImageIsSet ) {
 				return;
 			}
@@ -216,11 +218,7 @@ class ClassicEditorData {
 	 * @returns {string} The content of the document.
 	 */
 	getContent() {
-		let tinyMceId = this._settings.tinyMceId;
-
-		if ( tinyMceId === "" ) {
-			tinyMceId = tmceId;
-		}
+		const tinyMceId = this._settings.tinyMceId;
 
 		return removeMarks( tmceHelper.getContentTinyMce( tinyMceId ) );
 	}
