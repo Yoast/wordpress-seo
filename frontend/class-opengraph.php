@@ -164,7 +164,7 @@ class WPSEO_OpenGraph {
 			$title   = WPSEO_Meta::get_value( 'opengraph-title', $post_id );
 
 			if ( $title === '' ) {
-				$title = $frontend->title( '' );
+				$title = '';
 			}
 			else {
 				// Replace Yoast SEO Variables.
@@ -177,7 +177,7 @@ class WPSEO_OpenGraph {
 		elseif ( is_category() || is_tax() || is_tag() ) {
 			$title = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-title' );
 			if ( $title === '' ) {
-				$title = $frontend->title( '' );
+				$title = '';
 			}
 			else {
 				// Replace Yoast SEO Variables.
@@ -185,7 +185,7 @@ class WPSEO_OpenGraph {
 			}
 		}
 		else {
-			$title = $frontend->title( '' );
+			$title = '';
 		}
 
 		/**
