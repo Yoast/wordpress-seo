@@ -72,17 +72,19 @@ class FAQ extends Abstract_Schema_Piece {
 	public function generate( Meta_Tags_Context $context ) {
 		$ids   = [];
 		$graph = [];
-		if ( isset( $context->blocks['yoast/faq-block']['attrs']['questions'] ) ) {
-			foreach ( $context->blocks['yoast/faq-block']['attrs']['questions'] as $index => $question ) {
+		$amountOfBlocks = count( $context->blocks['yoast/faq-block'] );
+		$numberOfItems = 0;
+
+		for( $blockNumber = 0; $blockNumber < $amountOfBlocks; $blockNumber++ ) {
+			foreach ( $context->blocks['yoast/faq-block'][ $blockNumber ]['attrs']['questions'] as $index => $question ) {
 				if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
 					continue;
 				}
 				$ids[]   = [ '@id' => $context->canonical . '#' . $question['id'] ];
 				$graph[] = $this->generate_question_block( $question, $index, $context );
 			}
-		}
-		else {
-			return $graph;
+
+			$numberOfItems = count( $context->blocks['yoast/faq-block'][ $blockNumber ]['attrs']['questions'] );
 		}
 
 		\array_unshift(
@@ -90,7 +92,7 @@ class FAQ extends Abstract_Schema_Piece {
 			[
 				'@type'            => 'ItemList',
 				'mainEntityOfPage' => [ '@id' => $context->main_schema_id ],
-				'numberOfItems'    => count( $context->blocks['yoast/faq-block']['attrs']['questions'] ),
+				'numberOfItems'    => $numberOfItems,
 				'itemListElement'  => $ids,
 			]
 		);
