@@ -54,7 +54,7 @@ export default function Metabox( { settings, store, theme } ) {
 					>
 						<Collapsible
 							id={ "yoast-snippet-editor-metabox" }
-							title={ __( "Google search result preview", "wordpress-seo" ) } initialIsOpen={ true }
+							title={ __( "Google preview", "wordpress-seo" ) } initialIsOpen={ true }
 						>
 							<SnippetEditor hasPaperStyle={ false } />
 						</Collapsible>
