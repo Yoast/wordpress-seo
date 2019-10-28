@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.12.0 November 11th, 2019
+### Fixes
+ * Fixes a bug where the Snippet Preview elements had misplaced visually hidden text.
+
 ## 1.11.0 October 29th, 2019
 ### Enhancements:
  * Increases the specificity of the width and height CSS of the `MobileDescriptionImage`.
