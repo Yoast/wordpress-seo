@@ -62,7 +62,7 @@ class Webmaster_Tools_Meta implements Integration_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
-	 * @codeCoverageIgnore 
+	 * @codeCoverageIgnore
 	 *
 	 * @return array The conditionals.
 	 */
