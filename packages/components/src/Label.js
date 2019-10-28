@@ -10,7 +10,13 @@ import PropTypes from "prop-types";
  */
 const Label = ( props ) => {
 	return (
-		<label htmlFor={ props.for } { ...props.optionalAttributes }>{ props.children }</label>
+		<label
+			htmlFor={ props.for }
+			className={ props.className }
+			{ ...props.optionalAttributes }
+		>
+			{ props.children }
+		</label>
 	);
 };
 
@@ -27,6 +33,7 @@ Label.propTypes = {
 		className: PropTypes.string,
 	} ),
 	children: PropTypes.any.isRequired,
+	className: PropTypes.string,
 };
 
 /**
@@ -36,6 +43,7 @@ Label.propTypes = {
  */
 Label.defaultProps = {
 	htmlFor: "",
+	className: "",
 };
 
 export default Label;
