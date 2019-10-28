@@ -46,7 +46,6 @@ class Indexable_Post_Type_Archive_Builder {
 		$indexable->description       = $this->options_helper->get( 'metadesc-ptarchive-' . $post_type );
 		$indexable->breadcrumb_title  = $this->options_helper->get( 'bctitle-ptarchive-' . $post_type );
 		$indexable->permalink         = \get_post_type_archive_link( $post_type );
-		$indexable->canonical         = $indexable->permalink;
 		$indexable->is_robots_noindex = $this->options_helper->get( 'noindex-ptarchive-' . $post_type );
 
 		return $indexable;

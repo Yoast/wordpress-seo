@@ -124,6 +124,49 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Returns the permalink of the currently opened date archive.
+	 *
+	 * @return string The permalink of the currently opened date archive.
+	 */
+	public function get_date_archive_permalink() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		if ( $wp_query->is_day() ) {
+			return \get_day_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ), $wp_query->get( 'day' ) );
+		}
+		if ( $wp_query->is_month() ) {
+			return \get_month_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ) );
+		}
+		if ( $wp_query->is_year() ) {
+			return \get_year_link( $wp_query->get( 'year' ) );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Returns the current page for paged archives.
+	 *
+	 * @return int The current archive page.
+	 */
+	public function get_current_archive_page() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return (int) $wp_query->get( 'paged' );
+	}
+
+	/**
+	 * Returns the current page for paged post types.
+	 *
+	 * @return int The current post page.
+	 */
+	public function get_current_post_page() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return (int) $wp_query->get( 'page' );
+	}
+
+	/**
 	 * Determine whether this is the homepage and shows posts.
 	 *
 	 * @return bool Whether or not the current page is the homepage that displays posts.

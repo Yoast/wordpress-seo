@@ -19,17 +19,17 @@ use Yoast\WP\Free\Helpers\Robots_Helper;
 
 trait Presentation_Instance_Dependencies {
 	/**
-	 * @var Options_Helper|Mockery\Mock
+	 * @var Options_Helper|Mockery\MockInterface
 	 */
 	protected $options_helper;
 
 	/**
-	 * @var Robots_Helper|Mockery\Mock
+	 * @var Robots_Helper|Mockery\MockInterface
 	 */
 	protected $robots_helper;
 
 	/**
-	 * @var Image_Helper|Mockery\Mock
+	 * @var Image_Helper|Mockery\MockInterface
 	 */
 	protected $image_helper;
 
