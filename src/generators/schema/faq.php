@@ -84,7 +84,7 @@ class FAQ extends Abstract_Schema_Piece {
 				$graph[] = $this->generate_question_block( $question, $index, $context );
 			}
 
-			$numberOfItems = count( $context->blocks['yoast/faq-block'][ $block_number ]['attrs']['questions'] );
+			$number_of_items = count( $context->blocks['yoast/faq-block'][ $block_number ]['attrs']['questions'] );
 		}
 
 		\array_unshift(
