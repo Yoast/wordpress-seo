@@ -7,7 +7,7 @@
  * Author URI:      https://www.ashleyhitchcock.com
  * Text Domain:     wp-graphql-yoast-seo
  * Domain Path:     /languages
- * Version:         2.0.0
+ * Version:         2.0.1
  *
  * @package         WP_Graphql_YOAST_SEO
  */
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 }
 
 add_action('graphql_register_types', function () {
-  $post_types = \WPGraphQL::$allowed_post_types;
+  $post_types = \WPGraphQL::get_allowed_post_types();
 
   register_graphql_object_type('SEO', [
     'fields' => [
