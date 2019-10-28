@@ -254,4 +254,15 @@ class Current_Page_Helper {
 
 		return \count( $queried_terms[ $term->taxonomy ]['terms'] ) > 1;
 	}
+
+	/**
+	 * Checks if the current page is the front page.
+	 *
+	 * @return bool Whether or not the current page is the front page.
+	 */
+	public function is_front_page() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return $wp_query->is_front_page();
+	}
 }

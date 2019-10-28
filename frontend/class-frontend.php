@@ -59,8 +59,6 @@ class WPSEO_Frontend {
 	 * Adds and removes a lot of filters.
 	 */
 	protected function __construct() {
-		add_action( 'wp_head', array( $this, 'front_page_specific_init' ), 0 );
-
 		// Remove actions that we will handle through our wpseo_head call, and probably change the output of.
 		remove_action( 'wp_head', 'rel_canonical' );
 		remove_action( 'wp_head', 'index_rel_link' );
@@ -117,17 +115,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Initialize the functions that only need to run on the frontpage.
-	 */
-	public function front_page_specific_init() {
-		if ( ! is_front_page() ) {
-			return;
-		}
-
-		add_action( 'wpseo_head', array( $this, 'webmaster_tools_authentication' ), 90 );
-	}
-
-	/**
 	 * Resets the entire class so canonicals, titles etc can be regenerated.
 	 */
 	public function reset() {
@@ -164,41 +151,6 @@ class WPSEO_Frontend {
 		}
 
 		return self::$instance;
-	}
-
-	/**
-	 * Output Webmaster Tools authentication strings.
-	 */
-	public function webmaster_tools_authentication() {
-		// Baidu.
-		$this->webmaster_tools_helper( 'baiduverify', 'baidu-site-verification' );
-
-		// Bing.
-		$this->webmaster_tools_helper( 'msverify', 'msvalidate.01' );
-
-		// Google.
-		$this->webmaster_tools_helper( 'googleverify', 'google-site-verification' );
-
-		// Pinterest.
-		$this->webmaster_tools_helper( 'pinterestverify', 'p:domain_verify' );
-
-		// Yandex.
-		$this->webmaster_tools_helper( 'yandexverify', 'yandex-verification' );
-	}
-
-	/**
-	 * Helper function for authentication.
-	 *
-	 * @param string $option_key Option key.
-	 * @param string $tag_name   The tag name.
-	 *
-	 * @return void
-	 */
-	private function webmaster_tools_helper( $option_key, $tag_name ) {
-		$auth = WPSEO_Options::get( $option_key, '' );
-		if ( $auth !== '' ) {
-			printf( '<meta name="%1$s" content="%2$s" />' . "\n", $tag_name, $auth );
-		}
 	}
 
 	/**
@@ -1081,4 +1033,26 @@ class WPSEO_Frontend {
 		return '';
 	}
 
+
+	/**
+	 * Initialize the functions that only need to run on the frontpage.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 */
+	public function front_page_specific_init() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+	}
+
+	/**
+	 * Output Webmaster Tools authentication strings.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated 12.7
+	 */
+	public function webmaster_tools_authentication() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+	}
 }
