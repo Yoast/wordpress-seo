@@ -37,6 +37,10 @@ class Theme_Titles implements Integration_Interface {
 	/**
 	 * Filters the title for thematic_doctitle.
 	 *
+	 * @deprecated xx.x
+	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $title The title.
 	 *
 	 * @return string The title.
@@ -44,7 +48,7 @@ class Theme_Titles implements Integration_Interface {
 	public function title( $title ) {
 		_deprecated_function(
 			__METHOD__,
-			'WPSEO 12.7',
+			'WPSEO xx.x',
 			esc_html__(
 				'a theme that has proper title-tag theme support, or adapt your theme to have that support',
 				'wordpress-seo'

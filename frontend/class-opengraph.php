@@ -711,7 +711,7 @@ class WPSEO_OpenGraph {
 	/**
 	 * Outputs the canonical URL as OpenGraph URL, which consolidates likes and shares.
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 * @codeCoverageIgnore
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
@@ -719,7 +719,7 @@ class WPSEO_OpenGraph {
 	 * @return boolean
 	 */
 	public function url() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return false;
 	}
