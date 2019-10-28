@@ -1,6 +1,13 @@
 <?php
+/**
+ * WPSEO plugin file.
+ *
+ * @package WPSEO\Admin
+ */
 
-
+/**
+ * Class WPSEO_Admin_Banner.
+ */
 class WPSEO_Admin_Banner implements WPSEO_WordPress_Integration {
 	/**
 	 * Registers all hooks to WordPress.
@@ -12,16 +19,11 @@ class WPSEO_Admin_Banner implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Render the admin banner.
+	 * Renders the admin banner.
 	 */
 	public function banner() {
 		if ( isset( $_GET['yst_dismiss_bf'] ) ) {
-			if ( $_GET['yst_dismiss_bf'] === '1' ) {
-				WPSEO_Options::set( 'bf_banner_2019_dismissed', true );
-			}
-			if ( $_GET['yst_dismiss_bf'] === '0' ) {
-				WPSEO_Options::set( 'bf_banner_2019_dismissed', false );
-			}
+			WPSEO_Options::set( 'bf_banner_2019_dismissed', $_GET['yst_dismiss_bf'] === '1' );
 		}
 
 		if ( ! $this->should_run_banner() ) {
@@ -31,10 +33,10 @@ class WPSEO_Admin_Banner implements WPSEO_WordPress_Integration {
 		$close_url = add_query_arg( array( 'yst_dismiss_bf' => 1 ) );
 
 		?>
-        <div class="yoast_bf_sale">
-            <a class="close" href="<?php echo $close_url; ?>" aria-label="Dismiss the Yoast Black Friday Banner">X</a>
-            <a class="target" href="https://yoa.st/bf-sale-2019"></a>
-        </div>
+		<div class="yoast_bf_sale">
+			<a class="close" href="<?php echo esc_url( $close_url ); ?>" aria-label="Dismiss the Yoast Black Friday Banner">X</a>
+			<a class="target" href="<?php echo esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/bf-sale-2019' ) ); ?>"></a>
+		</div>
 		<?php
 	}
 
