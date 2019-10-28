@@ -592,10 +592,11 @@ body.folded {
 
 .yoast_bf_sale {
 	position: relative;
-	margin: 10px 0;
+	margin: 10px 10px 10px 0;
 	max-width: 1012px;
 	height: 100px;
 	background: url(../../images/yoasie_banner_bf.gif) no-repeat;
+	background-size: contain;
 	.close {
 		z-index: 1;
 		text-align: center;
