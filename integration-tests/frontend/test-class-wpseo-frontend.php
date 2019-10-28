@@ -46,15 +46,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::head
-	 */
-	public function test_head() {
-		self::$class_instance->head();
-
-		$this->assertEquals( 1, did_action( 'wpseo_head' ) );
-	}
-
-	/**
 	 * @covers WPSEO_Frontend::nofollow_link
 	 */
 	public function test_nofollow_link() {
