@@ -623,7 +623,7 @@ class WPSEO_OpenGraph {
 	public function site_owner() {
 		// As this is a frontend method, we want to make sure it is not displayed for non-logged in users.
 		if ( function_exists( 'wp_get_current_user' ) && current_user_can( 'manage_options' ) ) {
-			_deprecated_function( 'WPSEO_OpenGraph::site_owner', '7.1', null );
+			_deprecated_function( __METHOD__, '7.1', null );
 		}
 	}
 
@@ -636,7 +636,7 @@ class WPSEO_OpenGraph {
 	 * @codeCoverageIgnore
 	 */
 	public function image_output( $image = false ) {
-		_deprecated_function( 'WPSEO_OpenGraph::image_output', '7.4', 'WPSEO_OpenGraph::image' );
+		_deprecated_function( __METHOD__, '7.4', 'WPSEO_OpenGraph::image' );
 
 		$this->image( $image );
 	}
