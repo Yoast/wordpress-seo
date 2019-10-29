@@ -20,7 +20,6 @@ class WPSEO_OpenGraph {
 		else {
 			add_action( 'wpseo_opengraph', array( $this, 'locale' ), 1 );
 			add_action( 'wpseo_opengraph', array( $this, 'type' ), 5 );
-			add_action( 'wpseo_opengraph', array( $this, 'og_title' ), 10 );
 			add_action( 'wpseo_opengraph', array( $this, 'app_id' ), 20 );
 			add_action( 'wpseo_opengraph', array( $this, 'description' ), 11 );
 			add_action( 'wpseo_opengraph', array( $this, 'site_name' ), 13 );
@@ -83,7 +82,6 @@ class WPSEO_OpenGraph {
 	 */
 	public function facebook_filter( $meta_tags ) {
 		$meta_tags['http://ogp.me/ns#type']  = $this->type( false );
-		$meta_tags['http://ogp.me/ns#title'] = $this->og_title( false );
 
 		// Filter the locale too because the Facebook plugin locale code is not as good as ours.
 		$meta_tags['http://ogp.me/ns#locale'] = $this->locale( false );
