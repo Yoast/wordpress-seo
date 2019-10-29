@@ -146,6 +146,7 @@ class WPSEO_Upgrade {
 		}
 
 		if ( version_compare( $version, '12.5-RC0', '<' ) ) {
+			// We have to run this by hook, because otherwise the theme support check isn't available.
 			add_action( 'init', array( $this, 'upgrade_125' ) );
 		}
 
