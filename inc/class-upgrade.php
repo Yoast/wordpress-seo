@@ -146,7 +146,7 @@ class WPSEO_Upgrade {
 		}
 
 		if ( version_compare( $version, '12.5-RC0', '<' ) ) {
-			$this->upgrade_125();
+			add_action( 'init', array( $this, 'upgrade_125' ) );
 		}
 
 		// Since 3.7.
@@ -732,7 +732,7 @@ class WPSEO_Upgrade {
 	/**
 	 * Performs the 12.5 upgrade.
 	 */
-	private function upgrade_125() {
+	public function upgrade_125() {
 		if ( WPSEO_Options::get( 'forcerewritetitle', false ) && current_theme_supports( 'title-tag' ) ) {
 			WPSEO_Options::set( 'forcerewritetitle', false );
 		}
