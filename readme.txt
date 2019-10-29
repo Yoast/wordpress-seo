@@ -217,6 +217,10 @@ Bugfixes:
 * Fixes a bug for terms where keywords and snippet preview data would be synced across all languages in a MultilingualPress multisite environment.
 * Fixes a bug where the Snippet Preview elements had misplaced visually hidden text.
 
+Other:
+
+* Deprecates the Google Search Console.
+
 = 12.4.0 =
 Release Date: October 29th, 2019
 
