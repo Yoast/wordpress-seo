@@ -620,30 +620,17 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	}
 }
 
-/* Premium Upsell Admin Block
+/*
+ * Premium Upsell Admin Block
  * @since 5.1
  */
-.yoast_premium_upsell_admin_block {
+.yoast_premium_upsell {
 	border: 1px solid #ccc;
 	background-color: #fff;
 	padding: 10px;
 	max-width: 640px;
 	overflow: hidden;
 	margin-top: 2em;
-
-	.wp-core-ui &--close {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 0;
-		width: 24px;
-		height: 24px;
-		background: #f7f7f7;
-		color: #555;
-		border-color: #ccc;
-		box-shadow: 0 1px 0 #ccc;
-		min-height: 0;
-	}
 
 	&--header {
 		color: $color-pink-dark;

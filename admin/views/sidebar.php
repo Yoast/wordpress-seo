@@ -45,55 +45,6 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 		</div>
 		<div class="yoast-sidebar__product-list">
 			<div class="yoast-sidebar__section">
-				<h2><?php esc_html_e( 'Improve your SEO skills', 'wordpress-seo' ); ?></h2>
-				<div class="wp-clearfix">
-					<p>
-						<strong><?php echo esc_html_x( 'Free:', 'course', 'wordpress-seo' ); ?></strong>
-						<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/2oi' ); ?>" target="_blank">
-							<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/SEO_for_beginners.svg' ); ?>" alt="">
-							<strong><?php esc_html_e( 'SEO for Beginners training', 'wordpress-seo' ); ?></strong>
-							<?php
-								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
-								echo $new_tab_message;
-							?>
-						</a><br>
-						<?php esc_html_e( 'Get quick wins to make your site rank higher in search engines.', 'wordpress-seo' ); ?>
-					</p>
-				</div>
-				<div class="wp-clearfix">
-					<p>
-						<strong><?php echo esc_html_x( 'Free:', 'course', 'wordpress-seo' ); ?></strong>
-						<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jv' ); ?>" target="_blank">
-							<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/yoast_seo_for_wp_2.svg' ); ?>" alt="">
-							<strong>
-								<?php
-									/* translators: %s expands to Yoast SEO */
-									printf( esc_html__( '%s for WordPress training', 'wordpress-seo' ), 'Yoast SEO' );
-								?>
-							</strong>
-							<?php
-								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
-								echo $new_tab_message;
-							?>
-						</a><br>
-						<?php esc_html_e( 'Don’t waste time figuring out the best settings yourself.', 'wordpress-seo' ); ?>
-					</p>
-				</div>
-				<div class="wp-clearfix">
-					<p>
-						<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/3lj' ); ?>" target="_blank">
-							<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/all-round-SEO.svg' ); ?>" alt="">
-							<strong><?php esc_html_e( 'All-around SEO training', 'wordpress-seo' ); ?></strong>
-							<?php
-								// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
-								echo $new_tab_message;
-							?>
-						</a><br>
-						<?php esc_html_e( 'Learn practical SEO skills to rank higher in Google.', 'wordpress-seo' ); ?>
-					</p>
-				</div>
-			</div>
-			<div class="yoast-sidebar__section">
 				<h2>
 					<?php
 						/* translators: %s expands to Yoast SEO */
