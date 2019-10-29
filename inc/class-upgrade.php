@@ -146,7 +146,12 @@ class WPSEO_Upgrade {
 		}
 
 		if ( version_compare( $version, '12.5-RC0', '<' ) ) {
-			$this->upgrade_125();
+			/*
+			 * We have to run this by hook, because otherwise:
+			 * - the theme support check isn't available.
+			 * - the notification center notifications are not filled yet.
+			 */
+			add_action( 'init', array( $this, 'upgrade_125' ) );
 		}
 
 		// Since 3.7.
@@ -730,11 +735,14 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Performs the 12.5 upgrade.
-	 *
-	 * Removes the WordPress update notification, because it is no longer necessary when WordPress
-	 * 5.3 is released.
 	 */
-	private function upgrade_125() {
+	public function upgrade_125() {
+		// Disables the force rewrite title when the theme supports it through WordPress.
+		if ( WPSEO_Options::get( 'forcerewritetitle', false ) && current_theme_supports( 'title-tag' ) ) {
+			WPSEO_Options::set( 'forcerewritetitle', false );
+		}
+
+		// Removes the WordPress update notification, because it is no longer necessary when WordPress 5.3 is released.
 		$center = Yoast_Notification_Center::get();
 		$center->remove_notification_by_id( 'wpseo-dismiss-wordpress-upgrade' );
 	}
