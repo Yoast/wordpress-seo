@@ -31,10 +31,10 @@ class WPSEO_Twitter {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 */
 	public function __construct() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
 	/**
@@ -42,10 +42,10 @@ class WPSEO_Twitter {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 */
 	public function twitter() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
 	/**
@@ -53,12 +53,12 @@ class WPSEO_Twitter {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @return object
 	 */
 	public static function get_instance() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		if ( ! ( self::$instance instanceof self ) ) {
 			self::$instance = new self();
