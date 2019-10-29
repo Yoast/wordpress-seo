@@ -21,7 +21,6 @@ class WPSEO_OpenGraph {
 			add_action( 'wpseo_opengraph', array( $this, 'locale' ), 1 );
 			add_action( 'wpseo_opengraph', array( $this, 'type' ), 5 );
 			add_action( 'wpseo_opengraph', array( $this, 'app_id' ), 20 );
-			add_action( 'wpseo_opengraph', array( $this, 'description' ), 11 );
 			add_action( 'wpseo_opengraph', array( $this, 'site_name' ), 13 );
 			add_action( 'wpseo_opengraph', array( $this, 'website_facebook' ), 14 );
 			if ( is_singular() && ! is_front_page() ) {
@@ -85,11 +84,6 @@ class WPSEO_OpenGraph {
 
 		// Filter the locale too because the Facebook plugin locale code is not as good as ours.
 		$meta_tags['http://ogp.me/ns#locale'] = $this->locale( false );
-
-		$ogdesc = $this->description( false );
-		if ( ! empty( $ogdesc ) ) {
-			$meta_tags['http://ogp.me/ns#description'] = $ogdesc;
-		}
 
 		return $meta_tags;
 	}
@@ -417,68 +411,6 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
-	 * Output the OpenGraph description, specific OG description first, if not, grab the meta description.
-	 *
-	 * @param bool $echo Whether to echo or return the description.
-	 *
-	 * @return string $ogdesc
-	 */
-	public function description( $echo = true ) {
-		$ogdesc   = '';
-		$frontend = WPSEO_Frontend::get_instance();
-
-		if ( is_front_page() ) {
-			if ( WPSEO_Options::get( 'og_frontpage_desc', '' ) !== '' ) {
-				$ogdesc = wpseo_replace_vars( WPSEO_Options::get( 'og_frontpage_desc' ), null );
-			}
-		}
-
-		if ( WPSEO_Frontend_Page_Type::is_simple_page() ) {
-			$post_id = WPSEO_Frontend_Page_Type::get_simple_page_id();
-			$post    = get_post( $post_id );
-			$ogdesc  = WPSEO_Meta::get_value( 'opengraph-description', $post_id );
-
-			// Replace Yoast SEO Variables.
-			$ogdesc = wpseo_replace_vars( $ogdesc, $post );
-
-			// Tag og:description is still blank so grab it from get_the_excerpt().
-			if ( ! is_string( $ogdesc ) || ( is_string( $ogdesc ) && $ogdesc === '' ) ) {
-				$ogdesc = str_replace( '[&hellip;]', '&hellip;', wp_strip_all_tags( get_the_excerpt() ) );
-			}
-		}
-
-		if ( is_category() || is_tag() || is_tax() ) {
-			$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-description' );
-			if ( $ogdesc === '' ) {
-				$ogdesc = wp_strip_all_tags( term_description() );
-			}
-
-			if ( $ogdesc === '' ) {
-				$ogdesc = WPSEO_Taxonomy_Meta::get_meta_without_term( 'desc' );
-			}
-			$ogdesc = wpseo_replace_vars( $ogdesc, get_queried_object() );
-		}
-
-		// Strip shortcodes if any.
-		$ogdesc = strip_shortcodes( $ogdesc );
-
-		/**
-		 * Filter: 'wpseo_opengraph_desc' - Allow changing the OpenGraph description.
-		 *
-		 * @api string $ogdesc The description string.
-		 */
-		$ogdesc = trim( apply_filters( 'wpseo_opengraph_desc', $ogdesc ) );
-
-		if ( is_string( $ogdesc ) && $ogdesc !== '' ) {
-			if ( $echo !== false ) {
-				$this->og_tag( 'og:description', $ogdesc );
-			}
-		}
-
-		return $ogdesc;
-	}
-
-	/**
 	 * Output the site name straight from the blog info.
 	 */
 	public function site_name() {
@@ -673,5 +605,21 @@ class WPSEO_OpenGraph {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return false;
+	}
+
+	/**
+	 * Outputs the OpenGraph description, specific OG description first, if not, grabs the meta description.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
+	 * @param bool $echo Whether to echo or return the description.
+	 *
+	 * @return string $ogdesc
+	 */
+	public function description( $echo = true ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return '';
 	}
 } /* End of class */
