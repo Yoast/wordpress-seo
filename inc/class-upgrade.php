@@ -145,6 +145,10 @@ class WPSEO_Upgrade {
 			$this->upgrade_124();
 		}
 
+		if ( version_compare( $version, '12.5-RC0', '<' ) ) {
+			$this->upgrade_125();
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -722,6 +726,17 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_124() {
 		$this->cleanup_option_data( 'wpseo_social' );
+	}
+
+	/**
+	 * Performs the 12.5 upgrade.
+	 *
+	 * Removes the WordPress update notification, because it is no longer necessary when WordPress
+	 * 5.3 is released.
+	 */
+	private function upgrade_125() {
+		$center = Yoast_Notification_Center::get();
+		$center->remove_notification_by_id( 'wpseo-dismiss-wordpress-upgrade' );
 	}
 
 	/**
