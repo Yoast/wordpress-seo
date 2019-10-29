@@ -1230,6 +1230,7 @@ SVG;
 			$a11y_tags = array(
 				'button'   => array(
 					'aria-expanded' => true,
+					'aria-controls' => true,
 				),
 				'div'      => array(
 					'tabindex' => true,

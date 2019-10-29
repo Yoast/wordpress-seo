@@ -75,7 +75,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		/* translators: %s expands to the post type name. */
 		WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['title'] = __( 'Allow search engines to show this %s in search results?', 'wordpress-seo' );
 		if ( '0' === (string) get_option( 'blog_public' ) ) {
-			WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<p class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</p>';
+			WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<span class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</span>';
 		}
 		/* translators: %1$s expands to Yes or No,  %2$s expands to the post type name.*/
 		WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['options']['0'] = __( 'Default for %2$s, currently: %1$s', 'wordpress-seo' );
@@ -747,9 +747,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
-		if ( get_queried_object_id() !== 0 ) {
+		$post_id = get_queried_object_id();
+		if ( empty( $post_id ) && isset( $_GET['post'] ) ) {
+			$post_id = sanitize_text_field( $_GET['post'] );
+		}
+
+		if ( $post_id !== 0 ) {
 			// Enqueue files needed for upload functionality.
-			wp_enqueue_media( array( 'post' => get_queried_object_id() ) );
+			wp_enqueue_media( array( 'post' => $post_id ) );
 		}
 
 		$asset_manager->enqueue_style( 'metabox-css' );

@@ -123,8 +123,8 @@ class Indexable_Repository extends ORMWrapper {
 			->find_many();
 
 		if ( $auto_create ) {
-			$indexables_available = array_column( $indexables, 'object_id' );
-			$indexables_to_create = array_diff( $object_ids, $indexables_available );
+			$indexables_available = \array_column( $indexables, 'object_id' );
+			$indexables_to_create = \array_diff( $object_ids, $indexables_available );
 
 			foreach ( $indexables_to_create as $indexable_to_create ) {
 				$indexable = $this->create_for_id_and_type( $indexable_to_create, $object_type );

@@ -156,7 +156,7 @@ class WPSEO_Schema_HowTo implements WPSEO_Graph_Piece {
 			);
 
 			$json_text = strip_tags( $step['jsonText'], $this->allowed_json_text_tags );
-			$json_name = strip_tags( $step['jsonName'] );
+			$json_name = wp_strip_all_tags( $step['jsonName'] );
 
 			if ( empty( $json_name ) ) {
 				if ( empty( $step['text'] ) ) {

@@ -209,6 +209,26 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 12.4.0 =
+Release Date: October 29th, 2019
+
+After releasing several updates to our snippet preview in previous releases, Yoast SEO 12.4 now shows an image for your post in the mobile snippet preview, just like Google would. We have several other improvements and fixes for you in store with Yoast SEO 12.4. Find out more in [our 12.4 release post](https://yoa.st/release-12-4)!
+
+Enhancements:
+
+* Adds "schema" as keyword to the structured data blocks to make them show up for that search term in the block search as well.
+* Adds an image to the mobile snippet preview for posts and terms.
+* Changes the readability score for empty content from "Needs Improvement" with a red icon to "Not Available" with a gray icon. Props to [emilyatmobtown](https://github.com/emilyatmobtown).
+* Updates the URLs used to ping Google and Bing about the location of a sitemap. Props to [@emilyatmobtown](https://github.com/emilyatmobtown).
+* Makes the notice about running an old WordPress version more specific by showing the installed WordPress version and the latest WordPress version.
+* Adds information about enabling Open Graph to the Twitter settings. Props to [@stevenfranks](https://github.com/stevenfranks).
+
+Bugfixes:
+
+* Fixes a bug where no Twitter and Facebook image could be set for attachment pages.
+* Fixes a bug where a nested paragraph would be present in the "noindex" metabox warning.
+* Fixes a bug where Google+ data would still be exported in the settings export.
+
 = 12.3.0 =
 Release Date: October 15th, 2019
 
@@ -221,30 +241,11 @@ Enhancements:
 * Shows a floating `Save changes` button on Yoast SEO admin pages when the normal button is not visible in the browser window.
 * Improves user input validation feedback and suggestions for error correction.
 * Introduces a new filter `wpseo_sitemap_http_headers` which allows filtering the HTTP headers we send for XML sitemaps.
+* Adds a RankMath post meta value importer.
 
 Other:
 
 * Removes the notification that would be thrown if add-ons with a lower version number than the plugin were installed. The `yoast_plugin_compatibility_notification` method has been deprecated.
-
-= 12.2.0 =
-Release Date: October 1st, 2019
-
-Yoast SEO 12.2 is a release full of the regular bug fixes and enhancements, but also a new addition to meta robots. Last week, Google announced a new way to give publishers more control over what the search engine can show in the results. This change, however, seems not driven by customer demand, but rather by law. Find out what this is all about and why we chose to automatically opt sites in for this in [our 12.2 release post](https://yoa.st/release-12-2)!
-
-Enhancements:
-
-* Adds default robots meta settings to opt in to all snippet display features, to prevent affected websites in Europe from having snippet display issues.
-* Adds an alert to the configuration wizard and the knowledge graph settings that is shown when organization information is missing.
-
-Bugfixes:
-
-* Fixes a bug where the banners in the sidebar were no longer responsive.
-
-Other:
-
-* Changes all mentions of the Yoast SEO for WordPress training, which is now free.
-* Combines the 'Newsletter' and 'You might like' steps in the configuration wizard to a step called 'Continue learning'.
-* Removes the colon from the form labels at the settings pages.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

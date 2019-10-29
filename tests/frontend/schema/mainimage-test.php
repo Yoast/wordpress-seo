@@ -31,9 +31,6 @@ class MainImage_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		Monkey\Functions\expect( 'wp_get_attachment_caption' )
-			->andReturn( $this->schema_from_attachment['caption'] );
-
 		$this->context            = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
 		$this->context->id        = 1;
 		$this->context->site_url  = 'https://example.com/';

@@ -80,7 +80,7 @@ class WPSEO_Schema_FAQ_Questions {
 			'@id'            => $this->context->canonical . '#' . $question['id'],
 			'position'       => $this->position ++,
 			'url'            => $this->context->canonical . '#' . $question['id'],
-			'name'           => strip_tags( $question['jsonQuestion'] ),
+			'name'           => wp_strip_all_tags( $question['jsonQuestion'] ),
 			'answerCount'    => 1,
 			'acceptedAnswer' => array(
 				'@type' => 'Answer',
