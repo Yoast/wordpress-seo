@@ -569,8 +569,6 @@ class WPSEO_OpenGraph {
 	 */
 	public function image_output( $image = false ) {
 		_deprecated_function( __METHOD__, '7.4', 'WPSEO_OpenGraph::image' );
-
-		$this->image( $image );
 	}
 
 	/**
