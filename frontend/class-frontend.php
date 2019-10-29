@@ -76,7 +76,6 @@ class WPSEO_Frontend {
 		// Add support for shortcodes to category descriptions.
 		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
 
-
 		if ( WPSEO_Options::get( 'disable-date', false )
 			|| WPSEO_Options::get( 'disable-author', false )
 			|| WPSEO_Options::get( 'disable-post_format', false )
@@ -84,9 +83,6 @@ class WPSEO_Frontend {
 			add_action( 'wp', array( $this, 'archive_redirect' ) );
 		}
 		add_action( 'template_redirect', array( $this, 'attachment_redirect' ), 1 );
-
-		add_filter( 'the_content_feed', array( $this, 'embed_rssfooter' ) );
-		add_filter( 'the_excerpt_rss', array( $this, 'embed_rssfooter_excerpt' ) );
 
 		// For WordPress functions below 4.4.
 		if ( WPSEO_Options::get( 'forcerewritetitle', false ) && ! current_theme_supports( 'title-tag' ) ) {
@@ -294,113 +290,6 @@ class WPSEO_Frontend {
 		header( 'X-Redirect-By: Yoast SEO' );
 		wp_redirect( $attachment_url, 301, 'Yoast SEO' );
 		exit;
-	}
-
-	/**
-	 * Replaces the possible RSS variables with their actual values.
-	 *
-	 * @param string $content The RSS content that should have the variables replaced.
-	 *
-	 * @return string
-	 */
-	public function rss_replace_vars( $content ) {
-		global $post;
-
-		/**
-		 * Allow the developer to determine whether or not to follow the links in the bits Yoast SEO adds to the RSS feed, defaults to true.
-		 *
-		 * @api   bool $unsigned Whether or not to follow the links in RSS feed, defaults to true.
-		 *
-		 * @since 1.4.20
-		 */
-		$no_follow      = apply_filters( 'nofollow_rss_links', true );
-		$no_follow_attr = '';
-		if ( $no_follow === true ) {
-			$no_follow_attr = 'rel="nofollow" ';
-		}
-
-		$author_link = '';
-		if ( is_object( $post ) ) {
-			$author_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_author_posts_url( $post->post_author ) ) . '">' . esc_html( get_the_author() ) . '</a>';
-		}
-
-		$post_link      = '<a ' . $no_follow_attr . 'href="' . esc_url( get_permalink() ) . '">' . esc_html( get_the_title() ) . '</a>';
-		$blog_link      = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . esc_html( get_bloginfo( 'name' ) ) . '</a>';
-		$blog_desc_link = '<a ' . $no_follow_attr . 'href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . esc_html( get_bloginfo( 'name' ) ) . ' - ' . esc_html( get_bloginfo( 'description' ) ) . '</a>';
-
-		$content = stripslashes( trim( $content ) );
-		$content = str_replace( '%%AUTHORLINK%%', $author_link, $content );
-		$content = str_replace( '%%POSTLINK%%', $post_link, $content );
-		$content = str_replace( '%%BLOGLINK%%', $blog_link, $content );
-		$content = str_replace( '%%BLOGDESCLINK%%', $blog_desc_link, $content );
-
-		return $content;
-	}
-
-	/**
-	 * Adds the RSS footer (or header) to the full RSS feed item.
-	 *
-	 * @param string $content Feed item content.
-	 *
-	 * @return string
-	 */
-	public function embed_rssfooter( $content ) {
-		return $this->embed_rss( $content, 'full' );
-	}
-
-	/**
-	 * Adds the RSS footer (or header) to the excerpt RSS feed item.
-	 *
-	 * @param string $content Feed item excerpt.
-	 *
-	 * @return string
-	 */
-	public function embed_rssfooter_excerpt( $content ) {
-		return $this->embed_rss( $content, 'excerpt' );
-	}
-
-	/**
-	 * Adds the RSS footer and/or header to an RSS feed item.
-	 *
-	 * @since 1.4.14
-	 *
-	 * @param string $content Feed item content.
-	 * @param string $context Feed item context, either 'excerpt' or 'full'.
-	 *
-	 * @return string
-	 */
-	public function embed_rss( $content, $context = 'full' ) {
-
-		/**
-		 * Filter: 'wpseo_include_rss_footer' - Allow the RSS footer to be dynamically shown/hidden.
-		 *
-		 * @api boolean $show_embed Indicates if the RSS footer should be shown or not.
-		 *
-		 * @param string $context The context of the RSS content - 'full' or 'excerpt'.
-		 */
-		if ( ! apply_filters( 'wpseo_include_rss_footer', true, $context ) ) {
-			return $content;
-		}
-
-		if ( is_feed() ) {
-			$before = '';
-			$after  = '';
-
-			if ( WPSEO_Options::get( 'rssbefore', '' ) !== '' ) {
-				$before = wpautop( $this->rss_replace_vars( WPSEO_Options::get( 'rssbefore' ) ) );
-			}
-			if ( WPSEO_Options::get( 'rssafter', '' ) !== '' ) {
-				$after = wpautop( $this->rss_replace_vars( WPSEO_Options::get( 'rssafter' ) ) );
-			}
-			if ( $before !== '' || $after !== '' ) {
-				if ( ( isset( $context ) && $context === 'excerpt' ) && trim( $content ) !== '' ) {
-					$content = wpautop( $content );
-				}
-				$content = $before . $content . $after;
-			}
-		}
-
-		return $content;
 	}
 
 	/**
@@ -1054,5 +943,76 @@ class WPSEO_Frontend {
 	 */
 	public function webmaster_tools_authentication() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+	}
+
+	/**
+	 * Replaces the possible RSS variables with their actual values.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated xx.x
+	 *
+	 * @param string $content The RSS content that should have the variables replaced.
+	 *
+	 * @return string
+	 */
+	public function rss_replace_vars( $content ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return $content;
+	}
+
+	/**
+	 * Adds the RSS footer (or header) to the full RSS feed item.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated xx.x
+	 *
+	 * @param string $content Feed item content.
+	 *
+	 * @return string
+	 */
+	public function embed_rssfooter( $content ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return $content;
+	}
+
+	/**
+	 * Adds the RSS footer (or header) to the excerpt RSS feed item.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated xx.x
+	 *
+	 * @param string $content Feed item excerpt.
+	 *
+	 * @return string
+	 */
+	public function embed_rssfooter_excerpt( $content ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return $content;
+	}
+
+	/**
+	 * Adds the RSS footer and/or header to an RSS feed item.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated xx.x
+	 *
+	 * @since 1.4.14
+	 *
+	 * @param string $content Feed item content.
+	 * @param string $context Feed item context, either 'excerpt' or 'full'.
+	 *
+	 * @return string
+	 */
+	public function embed_rss( $content, $context = 'full' ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return $content;
 	}
 }
