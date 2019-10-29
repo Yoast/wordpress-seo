@@ -145,71 +145,6 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
-	 * Outputs the SEO title as OpenGraph title.
-	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
-	 *
-	 * @param bool $echo Whether or not to echo the output.
-	 *
-	 * @return string|boolean
-	 */
-	public function og_title( $echo = true ) {
-
-		$frontend = WPSEO_Frontend::get_instance();
-
-		if ( WPSEO_Frontend_Page_Type::is_simple_page() ) {
-			$post_id = WPSEO_Frontend_Page_Type::get_simple_page_id();
-			$post    = get_post( $post_id );
-			$title   = WPSEO_Meta::get_value( 'opengraph-title', $post_id );
-
-			if ( $title === '' ) {
-				$title = '';
-			}
-			else {
-				// Replace Yoast SEO Variables.
-				$title = wpseo_replace_vars( $title, $post );
-			}
-		}
-		elseif ( is_front_page() ) {
-			$title = ( WPSEO_Options::get( 'og_frontpage_title', '' ) !== '' ) ? WPSEO_Options::get( 'og_frontpage_title' ) : $frontend->title( '' );
-		}
-		elseif ( is_category() || is_tax() || is_tag() ) {
-			$title = WPSEO_Taxonomy_Meta::get_meta_without_term( 'opengraph-title' );
-			if ( $title === '' ) {
-				$title = '';
-			}
-			else {
-				// Replace Yoast SEO Variables.
-				$title = wpseo_replace_vars( $title, $GLOBALS['wp_query']->get_queried_object() );
-			}
-		}
-		else {
-			$title = '';
-		}
-
-		/**
-		 * Filter: 'wpseo_opengraph_title' - Allow changing the title specifically for OpenGraph.
-		 *
-		 * @api string $unsigned The title string.
-		 */
-		$title = trim( apply_filters( 'wpseo_opengraph_title', $title ) );
-
-		if ( is_string( $title ) && $title !== '' ) {
-			if ( $echo !== false ) {
-				$this->og_tag( 'og:title', $title );
-
-				return true;
-			}
-		}
-
-		if ( $echo === false ) {
-			return $title;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Output the locale, doing some conversions to make sure the proper Facebook locale is outputted.
 	 *
 	 * Last update/compare with FB list done on 2015-03-16 by Rarst.
@@ -719,6 +654,24 @@ class WPSEO_OpenGraph {
 	 * @return boolean
 	 */
 	public function url() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return false;
+	}
+
+	/**
+	 * Outputs the SEO title as OpenGraph title.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
+	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
+	 * @param bool $echo Whether or not to echo the output.
+	 *
+	 * @return string|boolean
+	 */
+	public function og_title( $echo = true ) {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return false;
