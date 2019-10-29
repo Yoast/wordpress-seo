@@ -1,7 +1,15 @@
-<?php namespace Yoast\WP\Free\Conditionals;
+<?php
+/**
+ * Yoast SEO Plugin File.
+ *
+ * @package Yoast\YoastSEO\Conditionals
+ */
+
+namespace Yoast\WP\Free\Conditionals;
 
 /**
  * Class WPML_Conditional
+ *
  * @package Yoast\WP\Free\Conditionals
  */
 class WPML_Conditional implements Conditional {
@@ -12,6 +20,6 @@ class WPML_Conditional implements Conditional {
 	 * @return boolean Whether or not the conditional is met.
 	 */
 	public function is_met() {
-		return function_exists( 'icl_object_id' );
+		return defined( 'WPML_PLUGIN_FILE' );
 	}
 }

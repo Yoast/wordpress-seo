@@ -1107,6 +1107,10 @@ SVG;
 	 * @return string The home url.
 	 */
 	public static function get_home_url() {
+
+		/**
+		 * Action: 'wpseo_home_url' - Allows overriding of the home URL.
+		 */
 		do_action( 'wpseo_home_url' );
 
 		// If the plugin is network activated, use the network home URL.
