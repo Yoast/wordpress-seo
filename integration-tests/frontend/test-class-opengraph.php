@@ -201,25 +201,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests static page set as front page.
-	 */
-	public function test_static_front_page() {
-
-		$post_id = $this->factory->post->create(
-			array(
-				'post_type'  => 'page',
-			)
-		);
-		update_option( 'show_on_front', 'page' );
-		update_option( 'page_on_front', $post_id );
-		$this->go_to_home();
-
-		WPSEO_Meta::set_value( 'opengraph-description', 'OG description', $post_id );
-		$description = self::$class_instance->description( false );
-		$this->assertEquals( 'OG description', $description );
-	}
-
-	/**
 	 * Tests static page set as posts page.
 	 */
 	public function test_static_posts_page() {
@@ -240,10 +221,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		update_option( 'page_for_posts', $post_id );
 		$this->go_to( get_permalink( $post_id ) );
 
-		WPSEO_Meta::set_value( 'opengraph-description', 'OG description', $post_id );
-		$description = self::$class_instance->description( false );
-		$this->assertEquals( 'OG description', $description );
-
 		$image_url       = 'https://example.com/image.png';
 		$expected_output = <<<EXPECTED
 <meta property="og:image" content="{$image_url}" />
@@ -256,24 +233,6 @@ EXPECTED;
 		$result = trim( ob_get_clean() );
 
 		$this->assertEquals( $expected_output, $result );
-	}
-
-	/**
-	 * @covers WPSEO_OpenGraph::description
-	 */
-	public function test_description_single_post_opengraph_description() {
-		$expected_opengraph_description = 'This is with a opengraph-description';
-
-		// Creates the post.
-		$post_id = $this->factory->post->create();
-
-		$this->go_to( get_permalink( $post_id ) );
-
-		// Checking opengraph-description and after obtaining its value, reset the meta value for it.
-		WPSEO_Meta::set_value( 'opengraph-description', $expected_opengraph_description, $post_id );
-		$opengraph_description = self::$class_instance->description( false );
-		WPSEO_Meta::set_value( 'opengraph-description', '', $post_id );
-		$this->assertEquals( $expected_opengraph_description, $opengraph_description );
 	}
 
 	/**
