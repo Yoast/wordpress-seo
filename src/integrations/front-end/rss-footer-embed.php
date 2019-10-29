@@ -26,6 +26,8 @@ class RSS_Footer_Embed implements Integration_Interface {
 	/**
 	 * Returns the conditionals based in which this loadable should be active.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return array The conditionals.
 	 */
 	public static function get_conditionals() {
@@ -35,6 +37,8 @@ class RSS_Footer_Embed implements Integration_Interface {
 	/**
 	 * Sets the required helpers.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param Options_Helper $options The options helper.
 	 */
 	public function __construct( Options_Helper $options ) {
@@ -43,6 +47,8 @@ class RSS_Footer_Embed implements Integration_Interface {
 
 	/**
 	 * Initializes the integration.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @return void
 	 */
@@ -59,7 +65,7 @@ class RSS_Footer_Embed implements Integration_Interface {
 	 * @return string
 	 */
 	public function embed_rssfooter( $content ) {
-		if ( ! $this->include_rss_footer( 'full' ) || ! $this->is_configured() ) {
+		if ( ! $this->include_rss_footer( 'full' ) ) {
 			return $content;
 		}
 
@@ -74,11 +80,11 @@ class RSS_Footer_Embed implements Integration_Interface {
 	 * @return string
 	 */
 	public function embed_rssfooter_excerpt( $content ) {
-		if ( ! $this->include_rss_footer( 'excerpt' ) || ! $this->is_configured() ) {
+		if ( ! $this->include_rss_footer( 'excerpt' ) ) {
 			return $content;
 		}
 
-		return $this->embed_rss( \wpautop( $content ), 'excerpt' );
+		return $this->embed_rss( \wpautop( $content ) );
 	}
 
 	/**
@@ -100,7 +106,11 @@ class RSS_Footer_Embed implements Integration_Interface {
 		 *
 		 * @param string $context The context of the RSS content - 'full' or 'excerpt'.
 		 */
-		return apply_filters( 'wpseo_include_rss_footer', true, $context );
+		if ( ! apply_filters( 'wpseo_include_rss_footer', true, $context ) ) {
+			return false;
+		}
+
+		return $this->is_configured();
 	}
 
 	/**
@@ -118,11 +128,10 @@ class RSS_Footer_Embed implements Integration_Interface {
 	 * @since 1.4.14
 	 *
 	 * @param string $content Feed item content.
-	 * @param string $context Feed item context, either 'excerpt' or 'full'.
 	 *
 	 * @return string The content to add.
 	 */
-	protected function embed_rss( $content, $context = 'full' ) {
+	protected function embed_rss( $content ) {
 		$before  = $this->rss_replace_vars( $this->options->get( 'rssbefore', '' ) );
 		$after   = $this->rss_replace_vars( $this->options->get( 'rssafter', '' ) );
 		$content = $before . $content . $after;
@@ -142,10 +151,10 @@ class RSS_Footer_Embed implements Integration_Interface {
 			return $content;
 		}
 
-		$replace_vars = $this->get_replace_vars();
+		$replace_vars = $this->get_replace_vars( $this->get_link_template(), get_post() );
 
 		$content = stripslashes( trim( $content ) );
-		$content = str_replace( array_keys( $replace_vars ), array_values( $replace_vars ), $content );
+		$content = str_ireplace( array_keys( $replace_vars ), array_values( $replace_vars ), $content );
 
 		return \wpautop( $content );
 	}
@@ -153,12 +162,14 @@ class RSS_Footer_Embed implements Integration_Interface {
 	/**
 	 * Retrieves the replacement variables.
 	 *
+	 * @codeCoverageIgnore It just contains too much WordPress functions.
+	 *
+	 * @param string $link_template The link template.
+	 * @param mixed  $post          The post to use.
+	 *
 	 * @return array The replacement variables.
 	 */
-	protected function get_replace_vars() {
-		$post          = get_post();
-		$link_template = $this->get_link_template();
-
+	protected function get_replace_vars( $link_template, $post ) {
 		$author_link = '';
 		if ( is_object( $post ) ) {
 			$author_link = sprintf( $link_template, esc_url( get_author_posts_url( $post->post_author ) ), esc_html( get_the_author() ) );
