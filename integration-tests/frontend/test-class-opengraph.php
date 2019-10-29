@@ -148,30 +148,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_OpenGraph::og_title
-	 */
-	public function test_og_title_with_variables() {
-		$expected_title = 'Test title';
-		// Create and go to post.
-		$post_id   = $this->factory->post->create();
-		$post_args = array(
-			'ID'         => $post_id,
-			'post_title' => $expected_title,
-		);
-		wp_update_post( $post_args );
-		WPSEO_Meta::set_value( 'opengraph-title', '%%title%%', $post_id );
-
-		$this->go_to( get_permalink( $post_id ) );
-
-		$expected_html = '<meta property="og:title" content="' . $expected_title . '" />' . "\n";
-
-		$this->assertTrue( self::$class_instance->og_title() );
-		$this->expectOutput( $expected_html );
-
-		$this->assertEquals( self::$class_instance->og_title( false ), $expected_title );
-	}
-
-	/**
 	 * @covers WPSEO_OpenGraph::locale
 	 */
 	public function test_locale() {
@@ -372,17 +348,12 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$post_id = $this->factory->post->create(
 			array(
-				'post_title' => 'front-page',
 				'post_type'  => 'page',
 			)
 		);
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $post_id );
 		$this->go_to_home();
-
-		WPSEO_Meta::set_value( 'opengraph-title', 'OG title', $post_id );
-		$title = self::$class_instance->og_title( false );
-		$this->assertEquals( 'OG title', $title );
 
 		WPSEO_Meta::set_value( 'opengraph-description', 'OG description', $post_id );
 		$description = self::$class_instance->description( false );
@@ -396,7 +367,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$post_id = $this->factory->post->create(
 			array(
-				'post_title' => 'front-page',
 				'post_type'  => 'page',
 			)
 		);
@@ -405,16 +375,11 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$post_id = $this->factory->post->create(
 			array(
-				'post_title' => 'blog-page',
 				'post_type'  => 'page',
 			)
 		);
 		update_option( 'page_for_posts', $post_id );
 		$this->go_to( get_permalink( $post_id ) );
-
-		WPSEO_Meta::set_value( 'opengraph-title', 'OG title', $post_id );
-		$title = self::$class_instance->og_title( false );
-		$this->assertEquals( 'OG title', $title );
 
 		WPSEO_Meta::set_value( 'opengraph-description', 'OG description', $post_id );
 		$description = self::$class_instance->description( false );
@@ -588,29 +553,6 @@ EXPECTED;
 		$modified_output = '<meta property="article:modified_time" content="' . $modified_time . '" />' . "\n" . '<meta property="og:updated_time" content="' . $modified_time . '" />' . "\n";
 		$this->assertTrue( self::$class_instance->publish_date() );
 		$this->expectOutput( $published_output . $modified_output );
-	}
-
-	/**
-	 * Testing with an Open Graph title for the taxonomy.
-	 *
-	 * @covers WPSEO_OpenGraph::opengraph
-	 */
-	public function test_taxonomy_title() {
-		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
-
-		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'wpseo_opengraph-title', 'Custom taxonomy open graph title' );
-
-		$this->go_to( get_term_link( $term_id, 'category' ) );
-
-		$class_instance = new WPSEO_OpenGraph();
-
-		ob_start();
-
-		$class_instance->opengraph();
-
-		$output = ob_get_clean();
-
-		$this->assertContains( '<meta property="og:title" content="Custom taxonomy open graph title" />', $output );
 	}
 
 	/**
