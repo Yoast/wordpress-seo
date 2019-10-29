@@ -115,7 +115,7 @@ class RSS_Footer_Embed_Test extends TestCase {
 
 		Monkey\Functions\expect( 'get_post' )->andReturn( $post );
 		Monkey\Functions\when( 'wpautop' )->returnArg( 1 );
-		Monkey\Filters\expectApplied( 'nofollow_rss_links' )
+		Monkey\Filters\expectApplied( 'wpseo_nofollow_rss_links' )
 			->with( true )
 			->once()
 			->andReturn( false );
@@ -169,7 +169,7 @@ class RSS_Footer_Embed_Test extends TestCase {
 
 		Monkey\Functions\expect( 'get_post' )->andReturn( $post );
 		Monkey\Functions\when( 'wpautop' )->returnArg( 1 );
-		Monkey\Filters\expectApplied( 'nofollow_rss_links' )
+		Monkey\Filters\expectApplied( 'wpseo_nofollow_rss_links' )
 			->with( true )
 			->once()
 			->andReturn( true );
