@@ -625,4 +625,16 @@ class WPSEO_Admin_Init {
 	public function yoast_plugin_compatibility_notification() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.3' );
 	}
+
+	/**
+	 * Creates a WordPress upgrade notification in the notification center.
+	 *
+	 * @deprecated 12.5
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function wordpress_upgrade_notice() {
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
+	}
 }
