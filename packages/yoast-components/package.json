@@ -106,7 +106,6 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-postcss": "^0.8.0",
     "grunt-sass": "^2.0.0",
-    "grunt-scss-to-json": "^1.0.1",
     "jest": "^22.4.3",
     "jest-cli": "^22.4.3",
     "jest-mock": "^22.4.3",
