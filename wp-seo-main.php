@@ -402,10 +402,6 @@ function wpseo_frontend_init() {
  * Instantiate the different social classes on the frontend.
  */
 function wpseo_frontend_head_init() {
-	if ( WPSEO_Options::get( 'twitter' ) === true ) {
-		add_action( 'wpseo_head', array( 'WPSEO_Twitter', 'get_instance' ), 40 );
-	}
-
 	if ( WPSEO_Options::get( 'opengraph' ) === true ) {
 		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph();
 	}
