@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
 Tested up to: 5.3
-Stable tag: 12.3
+Stable tag: 12.4
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -209,6 +209,14 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 12.5.0 =
+Release Date: November 12th, 2019
+
+Bugfixes:
+
+* Fixes a bug for terms where keywords and snippet preview data would be synced across all languages in a MultilingualPress multisite environment.
+* Fixes a bug where the Snippet Preview elements had misplaced visually hidden text.
+
 = 12.4.0 =
 Release Date: October 29th, 2019
 
@@ -228,24 +236,6 @@ Bugfixes:
 * Fixes a bug where no Twitter and Facebook image could be set for attachment pages.
 * Fixes a bug where a nested paragraph would be present in the "noindex" metabox warning.
 * Fixes a bug where Google+ data would still be exported in the settings export.
-
-= 12.3.0 =
-Release Date: October 15th, 2019
-
-While some of our checks are independent of languages, Yoast SEO has special skills to adapt the various content analyses to different languages from around the world. In Yoast SEO 12.3, we’re taking the first steps to add another language to the list: Hungarian. In addition, this release features a number of enhancement and fixes. Read [our 12.3 release post](https://yoa.st/release-12-3) to find out more!
-
-Enhancements:
-
-* Adds the transition word assessment for Hungarian. Props to [@9abor](https://github.com/9abor).
-* Includes the admin bar CSS in AMP dev mode. Props to [@westonruter](https://github.com/westonruter).
-* Shows a floating `Save changes` button on Yoast SEO admin pages when the normal button is not visible in the browser window.
-* Improves user input validation feedback and suggestions for error correction.
-* Introduces a new filter `wpseo_sitemap_http_headers` which allows filtering the HTTP headers we send for XML sitemaps.
-* Adds a RankMath post meta value importer.
-
-Other:
-
-* Removes the notification that would be thrown if add-ons with a lower version number than the plugin were installed. The `yoast_plugin_compatibility_notification` method has been deprecated.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
