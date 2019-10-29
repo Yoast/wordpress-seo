@@ -145,6 +145,11 @@ class WPSEO_Upgrade {
 			$this->upgrade_124();
 		}
 
+		if ( version_compare( $version, '12.5-RC0', '<' ) ) {
+			// We have to run this by hook, because otherwise the theme support check isn't available.
+			add_action( 'init', array( $this, 'upgrade_125' ) );
+		}
+
 		// Since 3.7.
 		$upsell_notice = new WPSEO_Product_Upsell_Notice();
 		$upsell_notice->set_upgrade_notice();
@@ -722,6 +727,15 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_124() {
 		$this->cleanup_option_data( 'wpseo_social' );
+	}
+
+	/**
+	 * Performs the 12.5 upgrade.
+	 */
+	public function upgrade_125() {
+		if ( WPSEO_Options::get( 'forcerewritetitle', false ) && current_theme_supports( 'title-tag' ) ) {
+			WPSEO_Options::set( 'forcerewritetitle', false );
+		}
 	}
 
 	/**
