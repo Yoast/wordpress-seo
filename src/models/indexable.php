@@ -59,6 +59,8 @@ use Yoast\WP\Free\ORM\Yoast_Model;
  * @property string  $twitter_image_id
  * @property string  $twitter_image_source
  * @property string  $twitter_card
+ *
+ * @property int     $prominent_words_version
  */
 class Indexable extends Yoast_Model {
 
