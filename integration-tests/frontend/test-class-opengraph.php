@@ -77,30 +77,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_OpenGraph::facebook_filter
-	 */
-	public function test_facebook_filter() {
-
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		$c      = self::$class_instance;
-		$result = $c->facebook_filter( array() );
-
-		// Test if values were filtered.
-		$this->assertArrayHasKey( 'http://ogp.me/ns#type', $result );
-		$this->assertArrayHasKey( 'http://ogp.me/ns#title', $result );
-		$this->assertArrayHasKey( 'http://ogp.me/ns#locale', $result );
-		$this->assertArrayHasKey( 'http://ogp.me/ns#description', $result );
-
-		// Test filter values.
-		$this->assertEquals( $result['http://ogp.me/ns#type'], $c->type( false ) );
-		$this->assertEquals( $result['http://ogp.me/ns#title'], $c->og_title( false ) );
-		$this->assertEquals( $result['http://ogp.me/ns#locale'], $c->locale( false ) );
-		$this->assertEquals( $result['http://ogp.me/ns#description'], $c->description( false ) );
-	}
-
-	/**
 	 * @covers WPSEO_OpenGraph::article_author_facebook
 	 */
 	public function test_article_author_facebook() {
