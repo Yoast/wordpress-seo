@@ -7869,15 +7869,6 @@ grunt-postcss@^0.9.0:
     diff "^3.0.0"
     postcss "^6.0.11"
 
-grunt-sass@^1.1.0:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/grunt-sass/-/grunt-sass-1.2.1.tgz#fb87b6caac46fb32d45177fd2e4b6ff7468c1919"
-  integrity sha1-+4e2yqxG+zLUUXf9Lktv90aMGRk=
-  dependencies:
-    each-async "^1.0.0"
-    node-sass "^3.7.0"
-    object-assign "^4.0.1"
-
 grunt-sass@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/grunt-sass/-/grunt-sass-2.1.0.tgz#b7ba1d85ef4c2d9b7d8195fe65f664ac7554efa1"
@@ -7888,9 +7879,9 @@ grunt-sass@^2.0.0:
     object-assign "^4.0.1"
 
 grunt-sass@^3.0.0:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/grunt-sass/-/grunt-sass-3.0.2.tgz#b4f01567ce3df4460fcc788e9e5e4c65263425ed"
-  integrity sha512-Ogq4cWqBre71gZIkgxIxevgzZHSIIsrKu/5yvPDl4Mvib0A4TRTJEQUdpQ0YV1iai0DPjayz02vDJE6KUVHQ2w==
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/grunt-sass/-/grunt-sass-3.1.0.tgz#a5936cc2a80ec08092d9f31c101dc307d1e4f71c"
+  integrity sha512-90s27H7FoCDcA8C8+R0GwC+ntYD3lG6S/jqcavWm3bn9RiJTmSfOvfbFa1PXx4NbBWuiGQMLfQTj/JvvqT5w6A==
 
 grunt-scss-to-json@^1.0.1:
   version "1.0.1"
@@ -11649,7 +11640,7 @@ node-releases@^1.1.8:
   dependencies:
     semver "^5.3.0"
 
-node-sass@^3.1.2, node-sass@^3.7.0:
+node-sass@^3.1.2:
   version "3.13.1"
   resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-3.13.1.tgz#7240fbbff2396304b4223527ed3020589c004fc2"
   integrity sha1-ckD7v/I5YwS0IjUn7TAgWJwAT8I=
