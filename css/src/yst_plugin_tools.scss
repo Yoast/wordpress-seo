@@ -558,12 +558,13 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		padding: 20px 0;
 		border-bottom: 1px solid #ddd;
 
-		h2, a {
+		h2 {
+			margin-top: 0;
 			color: #a4286a;
 		}
 
-		h2 {
-			margin-top: 0;
+		a {
+			color: #0085ba;
 		}
 
 		ul {
@@ -584,26 +585,24 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 		div {
 			position: relative;
-			margin: 10px 0;
-
-			a {
-				color: #0085ba;
-			}
-
-			img, p {
-				float: left;
-			}
+			margin: 10px 0 20px 0;
 
 			img {
-				width: 40px;
-				height: 40px;
-				margin: 0 10px 0 -50px;
+				float: right;
+				width: 70px;
+				height: 70px;
+				margin: 0 0 0 10px;
+
+				&.alignleft {
+					margin: 0 10px 0 0;
+					float: left;
+				}
 			}
 
 			p {
-				width: 200px;
+				float: left;
+				width: 100%;
 				margin: 0;
-				padding-left: 50px;
 			}
 		}
 

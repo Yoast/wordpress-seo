@@ -38,7 +38,7 @@ $extensions = array(
 			'title'         => 'Local SEO',
 			'display_title' => 'Stop losing customers to other local businesses',
 			'desc'          => __( 'Rank better locally and in Google Maps, without breaking a sweat!', 'wordpress-seo' ),
-			'image'         => plugins_url( 'images/extensions-local.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
+			'image'         => plugins_url( 'images/local_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 			'benefits'      => array(
 				__( 'Get better search results in local search', 'wordpress-seo' ),
 				__( 'Easily insert Google Maps, a store locator, opening hours and more', 'wordpress-seo' ),
@@ -54,7 +54,7 @@ $extensions = array(
 			'title'         => 'Video SEO',
 			'display_title' => 'Start ranking better for your videos',
 			'desc'          => __( 'Optimize your videos to show them off in search results and get more clicks!', 'wordpress-seo' ),
-			'image'         => plugins_url( 'images/extensions-video.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
+			'image'         => plugins_url( 'images/video_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 			'benefits'      => array(
 				__( 'Show your videos in Google Videos', 'wordpress-seo' ),
 				__( 'Enhance the experience of sharing posts with videos', 'wordpress-seo' ),
@@ -69,7 +69,7 @@ $extensions = array(
 			'title'         => 'News SEO',
 			'display_title' => 'Everything you need for Google News',
 			'desc'          => __( 'Are you in Google News? Increase your traffic from Google News by optimizing for it!', 'wordpress-seo' ),
-			'image'         => plugins_url( 'images/extensions-news.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
+			'image'         => plugins_url( 'images/news_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 			'benefits'      => array(
 				__( 'Optimize your site for Google News', 'wordpress-seo' ),
 				__( 'Immediately pings Google on the publication of a new post', 'wordpress-seo' ),
@@ -89,7 +89,7 @@ if ( WPSEO_Utils::is_woocommerce_active() ) {
 			'display_title' => 'Make your products stand out in Google',
 			/* translators: %1$s expands to Yoast SEO */
 			'desc'          => sprintf( __( 'Seamlessly integrate WooCommerce with %1$s and get extra features!', 'wordpress-seo' ), 'Yoast SEO' ),
-			'image'         => plugins_url( 'images/extensions-woo.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
+			'image'         => plugins_url( 'images/woo_plugin_assistant.svg?v=' . WPSEO_VERSION, WPSEO_FILE ),
 			'benefits'      => array(
 				sprintf( __( 'Improve sharing on Facebook and Pinterest', 'wordpress-seo' ) ),
 				/* translators: %1$s expands to Yoast, %2$s expands to WooCommerce */
@@ -248,16 +248,17 @@ $new_tab_message         = sprintf(
 
 			<?php foreach ( $extensions as $slug => $extension ) : ?>
 				<section class="yoast-promoblock secondary yoast-promo-extension">
-					<img alt="" width="280" height="147" src="<?php echo esc_attr( $extension->get_image() ); ?>"/>
-					<h3><?php echo esc_html( $extension->get_display_title() ); ?></h3>
-
+					<h3>
+                        <img alt="" width="100" height="100" src="<?php echo esc_attr( $extension->get_image() ); ?>"/>
+						<?php echo esc_html( $extension->get_display_title() ); ?>
+                    </h3>
 					<ul class="yoast-list--usp">
 						<?php foreach ( $extension->get_benefits() as $benefit ) : ?>
 							<li><?php echo esc_html( $benefit ); ?></li>
 						<?php endforeach; ?>
 					</ul>
 
-					<div class="yoast-button-container">
+                    <div class="yoast-button-container">
 						<?php if ( $extension_list->is_installed( $extension->get_title() ) ) : ?>
 							<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-installed"><?php esc_html_e( 'Installed', 'wordpress-seo' ); ?></div>
 
