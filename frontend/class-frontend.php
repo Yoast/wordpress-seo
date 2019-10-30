@@ -929,7 +929,7 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Send a Robots HTTP header preventing URL from being indexed in the search results while allowing search engines
+	 * Sends a Robots HTTP header preventing URL from being indexed in the search results while allowing search engines
 	 * to follow the links in the object at the URL.
 	 *
 	 * @codeCoverageIgnore

@@ -35,7 +35,7 @@ class Indexing_Controls implements Integration_Interface {
 	}
 
 	/**
-	 * Send a Robots HTTP header preventing URL from being indexed in the search results while allowing search engines
+	 * Sends a Robots HTTP header preventing URL from being indexed in the search results while allowing search engines
 	 * to follow the links in the object at the URL.
 	 *
 	 * @since 1.1.7
@@ -64,7 +64,7 @@ class Indexing_Controls implements Integration_Interface {
 	/**
 	 * Sets the x-robots-tag to noindex follow.
 	 *
-	 * @codeCoverageIgnore To difficult to test.
+	 * @codeCoverageIgnore Too difficult to test.
 	 */
 	protected function set_robots_header() {
 		if ( headers_sent() === false ) {

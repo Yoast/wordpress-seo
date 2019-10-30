@@ -68,7 +68,7 @@ class Indexing_Controls_Test extends TestCase {
 	}
 
 	/**
-	 * Tests if the link is converted to a no follow one.
+	 * Tests if the link is converted to a no-follow one.
 	 *
 	 * @covers ::nofollow_link
 	 */
