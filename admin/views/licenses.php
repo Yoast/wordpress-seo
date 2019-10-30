@@ -25,7 +25,6 @@ $premium_extension = new WPSEO_Extension(
 		'title'    => 'Yoast SEO Premium',
 		/* translators: %1$s expands to Yoast SEO */
 		'desc'     => sprintf( __( 'The premium version of %1$s with more features & support.', 'wordpress-seo' ), 'Yoast SEO' ),
-		'image'    => plugins_url( 'images/extensions-premium-ribbon.png?v=' . WPSEO_VERSION, WPSEO_FILE ),
 		'benefits' => array(),
 	)
 );
@@ -123,7 +122,7 @@ $new_tab_message         = sprintf(
 			<h2>
 				<?php
 				printf(
-					/* translators: 1: expands to Yoast SEO Premium */
+				/* translators: 1: expands to Yoast SEO Premium */
 					esc_html__( '%1$s, take your optimization to the next level!', 'wordpress-seo' ),
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 					'<span class="yoast-heading-highlight">' . $premium_extension->get_title() . '</span>'
@@ -159,10 +158,10 @@ $new_tab_message         = sprintf(
 				<?php if ( $has_valid_premium_subscription ) : ?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php esc_html_e( 'Activated', 'wordpress-seo' ); ?></div>
 					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>"
-						class="yoast-link--license">
+					   class="yoast-link--license">
 						<?php
 						printf(
-							/* translators: %s expands to the extension title */
+						/* translators: %s expands to the extension title */
 							esc_html__( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ),
 							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 							$premium_extension->get_title()
@@ -174,10 +173,10 @@ $new_tab_message         = sprintf(
 				<?php else : ?>
 					<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-not-activated"><?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?></div>
 					<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>"
-						class="yoast-link--license">
+					   class="yoast-link--license">
 						<?php
 						printf(
-							/* translators: %s expands to the extension title */
+						/* translators: %s expands to the extension title */
 							esc_html__( 'Activate %s for your site on MyYoast', 'wordpress-seo' ),
 							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 							$premium_extension->get_title()
@@ -191,10 +190,10 @@ $new_tab_message         = sprintf(
 			<?php else : ?>
 
 				<a target="_blank" href="<?php echo esc_url( $premium_extension->get_buy_url() ); ?>"
-					class="yoast-button-upsell">
+				   class="yoast-button-upsell">
 					<?php
 					printf(
-						/* translators: $s expands to Yoast SEO Premium */
+					/* translators: $s expands to Yoast SEO Premium */
 						esc_html__( 'Buy %s', 'wordpress-seo' ),
 						// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 						$premium_extension->get_title()
@@ -206,10 +205,10 @@ $new_tab_message         = sprintf(
 				</a>
 
 				<a target="_blank" href="<?php echo esc_url( $premium_extension->get_info_url() ); ?>"
-					class="yoast-link--more-info">
+				   class="yoast-link--more-info">
 					<?php
 					printf(
-						/* translators: Text between 1: and 2: will only be shown to screen readers. 3: expands to the product name. */
+					/* translators: Text between 1: and 2: will only be shown to screen readers. 3: expands to the product name. */
 						esc_html__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 						'<span class="screen-reader-text">',
 						'</span>',
@@ -238,7 +237,7 @@ $new_tab_message         = sprintf(
 				$yoast_seo_extensions = '<span class="yoast-heading-highlight">' . $yoast_seo_extensions . '</span>';
 
 				printf(
-					/* translators: 1: expands to Yoast SEO extensions */
+				/* translators: 1: expands to Yoast SEO extensions */
 					esc_html__( '%1$s to optimize your site even further', 'wordpress-seo' ),
 					// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $yoast_seo_extensions is properly escaped.
 					$yoast_seo_extensions
@@ -249,26 +248,26 @@ $new_tab_message         = sprintf(
 			<?php foreach ( $extensions as $slug => $extension ) : ?>
 				<section class="yoast-promoblock secondary yoast-promo-extension">
 					<h3>
-                        <img alt="" width="100" height="100" src="<?php echo esc_attr( $extension->get_image() ); ?>"/>
+						<img alt="" width="100" height="100" src="<?php echo esc_attr( $extension->get_image() ); ?>"/>
 						<?php echo esc_html( $extension->get_display_title() ); ?>
-                    </h3>
+					</h3>
 					<ul class="yoast-list--usp">
 						<?php foreach ( $extension->get_benefits() as $benefit ) : ?>
 							<li><?php echo esc_html( $benefit ); ?></li>
 						<?php endforeach; ?>
 					</ul>
 
-                    <div class="yoast-button-container">
+					<div class="yoast-button-container">
 						<?php if ( $extension_list->is_installed( $extension->get_title() ) ) : ?>
 							<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-installed"><?php esc_html_e( 'Installed', 'wordpress-seo' ); ?></div>
 
 							<?php if ( $addon_manager->has_valid_subscription( $slug ) ) : ?>
 								<div class="yoast-button yoast-button--noarrow yoast-button--extension yoast-button--extension-activated"><?php esc_html_e( 'Activated', 'wordpress-seo' ); ?></div>
 								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13k' ); ?>"
-									class="yoast-link--license">
+								   class="yoast-link--license">
 									<?php
 									printf(
-										/* translators: %s expands to the extension title */
+									/* translators: %s expands to the extension title */
 										esc_html__( 'Manage your %s subscription on MyYoast', 'wordpress-seo' ),
 										// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 										$extension->get_title()
@@ -280,10 +279,10 @@ $new_tab_message         = sprintf(
 							<?php else : ?>
 								<div class="yoast-button yoast-button--noarrow  yoast-button--extension yoast-button--extension-not-activated"><?php esc_html_e( 'Not activated', 'wordpress-seo' ); ?></div>
 								<a target="_blank" href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/13i' ); ?>"
-									class="yoast-link--license">
+								   class="yoast-link--license">
 									<?php
 									printf(
-										/* translators: %s expands to the extension title */
+									/* translators: %s expands to the extension title */
 										esc_html__( 'Activate %s for your site on MyYoast', 'wordpress-seo' ),
 										// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The `get_title` value is hardcoded; only passed through the WPSEO_Extensions class.
 										$extension->get_title()
@@ -295,10 +294,10 @@ $new_tab_message         = sprintf(
 							<?php endif; ?>
 						<?php else : ?>
 							<a target="_blank" class="yoast-button-upsell"
-								href="<?php echo esc_url( $extension->get_buy_url() ); ?>">
+							   href="<?php echo esc_url( $extension->get_buy_url() ); ?>">
 								<?php
 								printf(
-									/* translators: %s expands to the product name */
+								/* translators: %s expands to the product name */
 									esc_html__( 'Buy %s', 'wordpress-seo' ),
 									// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: The possible `get_buy_button` values are hardcoded (buy_button or title); only passed through the WPSEO_Extensions class.
 									$extension->get_buy_button()
@@ -310,10 +309,10 @@ $new_tab_message         = sprintf(
 							</a>
 
 							<a target="_blank" class="yoast-link--more-info"
-								href="<?php echo esc_url( $extension->get_info_url() ); ?>">
+							   href="<?php echo esc_url( $extension->get_info_url() ); ?>">
 								<?php
 								printf(
-									/* translators: Text between 1: and 2: will only be shown to screen readers. 3: expands to the product name. */
+								/* translators: Text between 1: and 2: will only be shown to screen readers. 3: expands to the product name. */
 									esc_html__( 'More information %1$sabout %3$s%2$s', 'wordpress-seo' ),
 									'<span class="screen-reader-text">',
 									'</span>',
