@@ -53,8 +53,8 @@ class RSS_Footer_Embed implements Integration_Interface {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_filter( 'the_content_feed', array( $this, 'embed_rssfooter' ) );
-		add_filter( 'the_excerpt_rss', array( $this, 'embed_rssfooter_excerpt' ) );
+		add_filter( 'the_content_feed', [ $this, 'embed_rssfooter' ] );
+		add_filter( 'the_excerpt_rss', [ $this, 'embed_rssfooter_excerpt' ] );
 	}
 
 	/**
