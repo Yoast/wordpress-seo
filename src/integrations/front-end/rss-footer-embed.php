@@ -24,7 +24,7 @@ class RSS_Footer_Embed implements Integration_Interface {
 	protected $options;
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
+	 * Returns the conditionals based on which this loadable should be active.
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -92,7 +92,7 @@ class RSS_Footer_Embed implements Integration_Interface {
 	 *
 	 * @param string $context The context of the RSS content.
 	 *
-	 * @return bool Whether or not the rss footer should included.
+	 * @return bool Whether or not the RSS footer should included.
 	 */
 	protected function include_rss_footer( $context ) {
 		if ( ! is_feed() ) {
