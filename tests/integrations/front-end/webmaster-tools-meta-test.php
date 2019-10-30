@@ -1,7 +1,9 @@
 <?php
 /**
-* WPSEO plugin test file.
-*/
+ * WPSEO plugin test file.
+ *
+ * @package Yoast\WP\Free\Tests\Integrations\Front_End
+ */
 
 namespace Yoast\WP\Free\Tests\Integrations\Front_End;
 
@@ -12,14 +14,14 @@ use Yoast\WP\Free\Integrations\Front_End\Webmaster_Tools_Meta;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
-* Unit Test Class.
-*
-* @coversDefaultClass \Yoast\WP\Free\Integrations\Front_End\Webmaster_Tools_Meta
-* @covers ::<!public>
+ * Unit Test Class.
+ *
+ * @coversDefaultClass \Yoast\WP\Free\Integrations\Front_End\Webmaster_Tools_Meta
+ * @covers ::<!public>
  *
  * @group integrations
  * @group front-end
-*/
+ */
 class Webmaster_Tools_Meta_Test extends TestCase {
 
 	/**

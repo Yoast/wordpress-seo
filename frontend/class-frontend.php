@@ -68,9 +68,6 @@ class WPSEO_Frontend {
 
 		add_action( 'wp', array( $this, 'page_redirect' ), 99 );
 
-		// Add support for shortcodes to category descriptions.
-		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
-
 		if ( WPSEO_Options::get( 'disable-date', false )
 			|| WPSEO_Options::get( 'disable-author', false )
 			|| WPSEO_Options::get( 'disable-post_format', false )
@@ -387,21 +384,6 @@ class WPSEO_Frontend {
 		return $replacer->replace( $string, $args, $omit );
 	}
 
-	/**
-	 * Adds shortcode support to category descriptions.
-	 *
-	 * @param string $desc String to add shortcodes in.
-	 *
-	 * @return string Content with shortcodes filtered out.
-	 */
-	public function custom_category_descriptions_add_shortcode_support( $desc ) {
-		// Wrap in output buffering to prevent shortcodes that echo stuff instead of return from breaking things.
-		ob_start();
-		$desc = do_shortcode( $desc );
-		ob_end_clean();
-		return $desc;
-	}
-
 	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
@@ -548,6 +530,23 @@ class WPSEO_Frontend {
 		_deprecated_function( __METHOD__, 'WPSEO 10.1.3' );
 
 		return false;
+	}
+
+	/**
+	 * Adds shortcode support to category descriptions.
+	 *
+	 * @deprecated xx.x
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $desc String to add shortcodes in.
+	 *
+	 * @return string Content with shortcodes filtered out.
+	 */
+	public function custom_category_descriptions_add_shortcode_support( $desc ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return '';
 	}
 
 	/**
