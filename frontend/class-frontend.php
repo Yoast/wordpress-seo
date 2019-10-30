@@ -26,27 +26,6 @@ class WPSEO_Frontend {
 	private $ob_started = false;
 
 	/**
-	 * Holds the canonical URL for the current page.
-	 *
-	 * @var string
-	 */
-	private $canonical = null;
-
-	/**
-	 * Holds the canonical URL for the current page that cannot be overriden by a manual canonical input.
-	 *
-	 * @var string
-	 */
-	private $canonical_no_override = null;
-
-	/**
-	 * Holds the canonical URL for the current page without pagination.
-	 *
-	 * @var string
-	 */
-	private $canonical_unpaged = null;
-
-	/**
 	 * An instance of the WPSEO_WooCommerce_Shop_Page class.
 	 *
 	 * @var WPSEO_WooCommerce_Shop_Page
@@ -81,10 +60,6 @@ class WPSEO_Frontend {
 		if ( WPSEO_Options::get( 'forcerewritetitle', false ) && ! current_theme_supports( 'title-tag' ) ) {
 			add_action( 'template_redirect', array( $this, 'force_rewrite_output_buffer' ), 99999 );
 			add_action( 'wp_footer', array( $this, 'flush_cache' ), - 1 );
-		}
-
-		if ( WPSEO_Options::get( 'title_test', 0 ) > 0 ) {
-			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
 
 		$this->woocommerce_shop_page = new WPSEO_WooCommerce_Shop_Page();
@@ -345,28 +320,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Check if term archive query is for multiple terms (/term-1,term2/ or /term-1+term-2/).
-	 *
-	 * @return bool
-	 */
-	protected function is_multiple_terms_query() {
-		global $wp_query;
-
-		if ( ! is_tax() && ! is_tag() && ! is_category() ) {
-			return false;
-		}
-
-		$term          = get_queried_object();
-		$queried_terms = $wp_query->tax_query->queried_terms;
-
-		if ( empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
-			return false;
-		}
-
-		return count( $queried_terms[ $term->taxonomy ]['terms'] ) > 1;
-	}
-
-	/**
 	 * Retrieves a template from the options.
 	 *
 	 * @param string $template The template to retrieve.
@@ -491,8 +444,7 @@ class WPSEO_Frontend {
 	public function remove_reply_to_com( $link ) {
 		_deprecated_function( 'WPSEO_Frontend::remove_reply_to_com', '7.0', 'WPSEO_Remove_Reply_To_Com::remove_reply_to_com' );
 
-		$remove_replytocom = new WPSEO_Remove_Reply_To_Com();
-		return $remove_replytocom->remove_reply_to_com( $link );
+		return '';
 	}
 
 	/**
@@ -506,8 +458,7 @@ class WPSEO_Frontend {
 	public function replytocom_redirect() {
 		_deprecated_function( 'WPSEO_Frontend::replytocom_redirect', '7.0', 'WPSEO_Remove_Reply_To_Com::replytocom_redirect' );
 
-		$remove_replytocom = new WPSEO_Remove_Reply_To_Com();
-		return $remove_replytocom->replytocom_redirect();
+		return false;
 	}
 
 	/**
