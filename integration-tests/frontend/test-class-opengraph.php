@@ -77,30 +77,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_OpenGraph::facebook_filter
-	 */
-	public function test_facebook_filter() {
-
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		$c      = self::$class_instance;
-		$result = $c->facebook_filter( array() );
-
-		// Test if values were filtered.
-		$this->assertArrayHasKey( 'http://ogp.me/ns#type', $result );
-		$this->assertArrayHasKey( 'http://ogp.me/ns#title', $result );
-		$this->assertArrayHasKey( 'http://ogp.me/ns#locale', $result );
-		$this->assertArrayHasKey( 'http://ogp.me/ns#description', $result );
-
-		// Test filter values.
-		$this->assertEquals( $result['http://ogp.me/ns#type'], $c->type( false ) );
-		$this->assertEquals( $result['http://ogp.me/ns#title'], $c->og_title( false ) );
-		$this->assertEquals( $result['http://ogp.me/ns#locale'], $c->locale( false ) );
-		$this->assertEquals( $result['http://ogp.me/ns#description'], $c->description( false ) );
-	}
-
-	/**
 	 * @covers WPSEO_OpenGraph::article_author_facebook
 	 */
 	public function test_article_author_facebook() {
@@ -145,30 +121,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 		$this->assertTrue( self::$class_instance->website_facebook() );
 		$this->expectOutput( '<meta property="article:publisher" content="http://facebook.com/mysite/" />' . "\n" );
-	}
-
-	/**
-	 * @covers WPSEO_OpenGraph::og_title
-	 */
-	public function test_og_title_with_variables() {
-		$expected_title = 'Test title';
-		// Create and go to post.
-		$post_id   = $this->factory->post->create();
-		$post_args = array(
-			'ID'         => $post_id,
-			'post_title' => $expected_title,
-		);
-		wp_update_post( $post_args );
-		WPSEO_Meta::set_value( 'opengraph-title', '%%title%%', $post_id );
-
-		$this->go_to( get_permalink( $post_id ) );
-
-		$expected_html = '<meta property="og:title" content="' . $expected_title . '" />' . "\n";
-
-		$this->assertTrue( self::$class_instance->og_title() );
-		$this->expectOutput( $expected_html );
-
-		$this->assertEquals( self::$class_instance->og_title( false ), $expected_title );
 	}
 
 	/**
@@ -249,154 +201,12 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the opengraph-image (Facebook Image) is added to opengraph.
-	 *
-	 * @covers WPSEO_OpenGraph::image
-	 */
-	public function test_image_IS_SINGULAR_and_HAS_open_graph_image() {
-		$post_id = $this->factory->post->create();
-		$image   = get_site_url() . '/wp-content/plugins/wordpress-seo/integration-tests/assets/small.png';
-
-		$this->go_to( get_permalink( $post_id ) );
-
-		WPSEO_Meta::set_value( 'opengraph-image', $image, $post_id );
-
-		$class_instance = new WPSEO_OpenGraph();
-
-		ob_start();
-
-		$class_instance->opengraph();
-
-		$output = ob_get_clean();
-
-		$expected_output = '<meta property="og:image" content="' . $image . '" />';
-
-		$this->assertContains( $expected_output, $output );
-	}
-
-	/**
-	 * Test if the content image does not get added to opengraph when there is an opengraph-image (Facebook Image).
-	 *
-	 * @covers WPSEO_OpenGraph::image
-	 */
-	public function test_image_IS_SINGULAR_and_HAS_open_graph_image_AND_HAS_content_images() {
-		$post_id = $this->factory->post->create(
-			array(
-				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/integration-tests/yoast.png" />',
-			)
-		);
-
-		$image = get_site_url() . '/wp-content/plugins/wordpress-seo/integration-tests/assets/small.png';
-
-		$this->go_to( get_permalink( $post_id ) );
-
-		WPSEO_Meta::set_value( 'opengraph-image', $image, $post_id );
-
-		$class_instance = new WPSEO_OpenGraph();
-
-		ob_start();
-
-		$class_instance->opengraph();
-
-		$output = ob_get_clean();
-
-		$expected_output = '<meta property="og:image" content="' . get_site_url() . '/wp-content/plugins/wordpress-seo/integration-tests/yoast.png" />';
-
-		$this->assertNotContains( $expected_output, $output );
-	}
-
-	/**
-	 * Test if featured image does not get added to opengraph when the image is too small.
-	 *
-	 * @covers WPSEO_OpenGraph::image
-	 */
-	public function test_image_IS_SINGULAR_AND_HAS_featured_image_AND_HAS_WRONG_size() {
-		$post_id   = $this->factory->post->create();
-		$image     = '/assets/small.png';
-		$attach_id = $this->create_featured_image( $image, $post_id );
-
-		update_post_meta( $post_id, '_thumbnail_id', $attach_id );
-
-		$this->go_to( get_permalink( $post_id ) );
-
-		$class_instance = new WPSEO_OpenGraph();
-
-		ob_start();
-
-		$class_instance->opengraph();
-
-		$output = ob_get_clean();
-
-		list( $src )     = wp_get_attachment_image_src( $attach_id, 'full' );
-		$expected_output = '<meta property="og:image" content="' . $src . '" />';
-
-		wp_delete_attachment( $attach_id, true );
-
-		$this->assertNotContains( $expected_output, $output );
-	}
-
-	/**
-	 * Test if featured image gets added to opengraph when it is the correct size.
-	 *
-	 * @covers WPSEO_OpenGraph::image
-	 */
-	public function test_image_IS_SINGULAR_AND_HAS_featured_image_AND_HAS_RIGHT_size() {
-		$post_id   = $this->factory->post->create();
-		$image     = '/assets/yoast.png';
-		$attach_id = $this->create_featured_image( $image, $post_id );
-
-		update_post_meta( $post_id, '_thumbnail_id', $attach_id );
-
-		$this->go_to( get_permalink( $post_id ) );
-
-		$class_instance = new WPSEO_OpenGraph();
-
-		ob_start();
-
-		$class_instance->opengraph();
-
-		$output = ob_get_clean();
-
-		list( $src )     = wp_get_attachment_image_src( $attach_id, 'full' );
-		$expected_output = '<meta property="og:image" content="' . $src . '" />';
-
-		wp_delete_attachment( $attach_id, true );
-
-		$this->assertContains( $expected_output, $output );
-	}
-
-	/**
-	 * Tests static page set as front page.
-	 */
-	public function test_static_front_page() {
-
-		$post_id = $this->factory->post->create(
-			array(
-				'post_title' => 'front-page',
-				'post_type'  => 'page',
-			)
-		);
-		update_option( 'show_on_front', 'page' );
-		update_option( 'page_on_front', $post_id );
-		$this->go_to_home();
-
-		WPSEO_Meta::set_value( 'opengraph-title', 'OG title', $post_id );
-		$title = self::$class_instance->og_title( false );
-		$this->assertEquals( 'OG title', $title );
-
-		WPSEO_Meta::set_value( 'opengraph-description', 'OG description', $post_id );
-		$description = self::$class_instance->description( false );
-		$this->assertEquals( 'OG description', $description );
-	}
-
-	/**
 	 * Tests static page set as posts page.
 	 */
 	public function test_static_posts_page() {
 
 		$post_id = $this->factory->post->create(
 			array(
-				'post_title' => 'front-page',
 				'post_type'  => 'page',
 			)
 		);
@@ -405,20 +215,11 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 
 		$post_id = $this->factory->post->create(
 			array(
-				'post_title' => 'blog-page',
 				'post_type'  => 'page',
 			)
 		);
 		update_option( 'page_for_posts', $post_id );
 		$this->go_to( get_permalink( $post_id ) );
-
-		WPSEO_Meta::set_value( 'opengraph-title', 'OG title', $post_id );
-		$title = self::$class_instance->og_title( false );
-		$this->assertEquals( 'OG title', $title );
-
-		WPSEO_Meta::set_value( 'opengraph-description', 'OG description', $post_id );
-		$description = self::$class_instance->description( false );
-		$this->assertEquals( 'OG description', $description );
 
 		$image_url       = 'https://example.com/image.png';
 		$expected_output = <<<EXPECTED
@@ -432,24 +233,6 @@ EXPECTED;
 		$result = trim( ob_get_clean() );
 
 		$this->assertEquals( $expected_output, $result );
-	}
-
-	/**
-	 * @covers WPSEO_OpenGraph::description
-	 */
-	public function test_description_single_post_opengraph_description() {
-		$expected_opengraph_description = 'This is with a opengraph-description';
-
-		// Creates the post.
-		$post_id = $this->factory->post->create();
-
-		$this->go_to( get_permalink( $post_id ) );
-
-		// Checking opengraph-description and after obtaining its value, reset the meta value for it.
-		WPSEO_Meta::set_value( 'opengraph-description', $expected_opengraph_description, $post_id );
-		$opengraph_description = self::$class_instance->description( false );
-		WPSEO_Meta::set_value( 'opengraph-description', '', $post_id );
-		$this->assertEquals( $expected_opengraph_description, $opengraph_description );
 	}
 
 	/**
@@ -588,105 +371,6 @@ EXPECTED;
 		$modified_output = '<meta property="article:modified_time" content="' . $modified_time . '" />' . "\n" . '<meta property="og:updated_time" content="' . $modified_time . '" />' . "\n";
 		$this->assertTrue( self::$class_instance->publish_date() );
 		$this->expectOutput( $published_output . $modified_output );
-	}
-
-	/**
-	 * Testing with an Open Graph title for the taxonomy.
-	 *
-	 * @covers WPSEO_OpenGraph::opengraph
-	 */
-	public function test_taxonomy_title() {
-		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
-
-		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'wpseo_opengraph-title', 'Custom taxonomy open graph title' );
-
-		$this->go_to( get_term_link( $term_id, 'category' ) );
-
-		$class_instance = new WPSEO_OpenGraph();
-
-		ob_start();
-
-		$class_instance->opengraph();
-
-		$output = ob_get_clean();
-
-		$this->assertContains( '<meta property="og:title" content="Custom taxonomy open graph title" />', $output );
-	}
-
-	/**
-	 * Testing with an Open Graph meta description for the taxonomy.
-	 *
-	 * @covers WPSEO_OpenGraph::description
-	 */
-	public function test_taxonomy_description() {
-		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
-
-		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'opengraph-description', 'Custom taxonomy open graph description' );
-
-		$this->go_to( get_term_link( $term_id, 'category' ) );
-
-		$class_instance = new WPSEO_OpenGraph();
-
-		ob_start();
-
-		$class_instance->opengraph();
-
-		$output = ob_get_clean();
-
-		$this->assertContains( '<meta property="og:description" content="Custom taxonomy open graph description" />', $output );
-	}
-
-	/**
-	 * Testing with an Open Graph meta description for the taxonomy.
-	 *
-	 * @covers WPSEO_OpenGraph::description
-	 */
-	public function test_taxonomy_description_with_replacevars() {
-		$expected_title = 'Test title';
-		$term_args      = array(
-			'taxonomy' => 'category',
-			'name'     => $expected_title,
-		);
-		$term_id        = $this->factory->term->create( $term_args );
-
-		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'opengraph-description', '%%term_title%%' );
-
-		$this->go_to( get_term_link( $term_id, 'category' ) );
-
-		$class_instance = new WPSEO_OpenGraph();
-
-		ob_start();
-
-		$class_instance->opengraph();
-
-		$output = ob_get_clean();
-
-		$expected_html = '<meta property="og:description" content="' . $expected_title . '" />' . "\n";
-
-		$this->assertContains( $expected_html, $output );
-	}
-
-	/**
-	 * Testing with an Open Graph meta image for the taxonomy.
-	 *
-	 * @covers WPSEO_OpenGraph::image
-	 */
-	public function test_taxonomy_image() {
-		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
-
-		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'wpseo_opengraph-image', home_url( 'custom_twitter_image.png' ) );
-
-		$this->go_to( get_term_link( $term_id, 'category' ) );
-
-		$class_instance = new WPSEO_OpenGraph();
-
-		ob_start();
-
-		$class_instance->opengraph();
-
-		$output = ob_get_clean();
-
-		$this->assertContains( '<meta property="og:image" content="' . home_url( 'custom_twitter_image.png' ) . '" />', $output );
 	}
 
 	/**

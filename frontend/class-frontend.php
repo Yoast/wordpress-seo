@@ -536,7 +536,7 @@ class WPSEO_Frontend {
 	/**
 	 * Main title function.
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -547,7 +547,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function title( $title, $separator = '', $separator_location = '' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -555,14 +555,14 @@ class WPSEO_Frontend {
 	/**
 	 * Outputs or returns the debug marker, which is also used for title replacement when force rewrite is active.
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The marker that will be echoed.
 	 */
 	public function debug_mark() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -570,14 +570,14 @@ class WPSEO_Frontend {
 	/**
 	 * Returns the debug marker, which is also used for title replacement when force rewrite is active.
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @return string The generated marker.
 	 */
 	public function get_debug_mark() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -587,12 +587,12 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @return string
 	 */
 	public function robots() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -602,12 +602,12 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @return string
 	 */
 	public function get_robots() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -617,7 +617,7 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @param array $robots  Robots data array.
 	 * @param int   $post_id The post ID for which to determine the $robots values, defaults to current post.
@@ -625,7 +625,7 @@ class WPSEO_Frontend {
 	 * @return array
 	 */
 	public function robots_for_single_post( $robots, $post_id = 0 ) {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return array();
 	}
@@ -635,10 +635,10 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 */
 	public function noindex_page() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
 	/**
@@ -646,14 +646,14 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @param object|null $object If filled, object to get the title for.
 	 *
 	 * @return string
 	 */
 	public function get_content_title( $object = null ) {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -663,14 +663,14 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @param null $object Object to retrieve the title from.
 	 *
 	 * @return string The SEO title for the specified object, or queried object if not supplied.
 	 */
 	public function get_seo_title( $object = null ) {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -680,12 +680,12 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @return string
 	 */
 	public function get_taxonomy_title() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -695,12 +695,12 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @return string
 	 */
 	public function get_author_title() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -712,7 +712,7 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @param string       $index      Name of the page to get the title from the settings for.
 	 * @param object|array $var_source Possible object to pull variables from.
@@ -720,7 +720,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function get_title_from_options( $index, $var_source = array() ) {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -735,7 +735,7 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @param string $sep         The separator used between variables.
 	 * @param string $seplocation Whether the separator should be left or right.
@@ -744,7 +744,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function get_default_title( $sep, $seplocation, $title = '' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -754,7 +754,7 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @param string $sep         Separator used in the title.
 	 * @param string $seplocation Whether the separator should be left or right.
@@ -763,7 +763,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function add_paging_to_title( $sep, $seplocation, $title ) {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -773,7 +773,7 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @param string $sep         Separator used in the title.
 	 * @param string $seplocation Whether the separator should be left or right.
@@ -783,7 +783,7 @@ class WPSEO_Frontend {
 	 * @return string
 	 */
 	public function add_to_title( $sep, $seplocation, $title, $title_part ) {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -793,12 +793,12 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @return string
 	 */
 	public function force_wp_title() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -808,14 +808,14 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @param bool $echo Echo or return output flag.
 	 *
 	 * @return string
 	 */
 	public function metadesc( $echo = true ) {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -825,14 +825,14 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @param string $title Title string.
 	 *
 	 * @return string
 	 */
 	public function fix_woo_title( $title ) {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -842,13 +842,13 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @link  http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
 	 * @since 1.0.3
 	 */
 	public function adjacent_rel_links() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
 	/**
@@ -857,7 +857,7 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 *
 	 * @param bool $echo        Whether or not to output the canonical element.
 	 * @param bool $un_paged    Whether or not to return the canonical with or without pagination added to the URL.
@@ -866,7 +866,7 @@ class WPSEO_Frontend {
 	 * @return string $canonical
 	 */
 	public function canonical( $echo = true, $un_paged = false, $no_override = false ) {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
 	}
@@ -877,10 +877,10 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 */
 	public function front_page_specific_init() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
 	/**
@@ -888,10 +888,10 @@ class WPSEO_Frontend {
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @deprecated 12.7
+	 * @deprecated xx.x
 	 */
 	public function webmaster_tools_authentication() {
-		_deprecated_function( __METHOD__, 'WPSEO 12.7' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
 	/**

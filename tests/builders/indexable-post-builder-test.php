@@ -15,7 +15,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * Class Indexable_Post_Test.
  *
  * @group indexables
- * @group formatters
+ * @group builders
  *
  * @coversDefaultClass \Yoast\WP\Free\Builders\Indexable_Post_Builder
  * @covers ::<!public>
