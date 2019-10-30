@@ -28,8 +28,8 @@ tr.yst_row {
 
 #sidebar-container {
 	/* For historical reasons banner images have a 261px width. */
-	width: 261px;
-	padding: 0 0 0 19px;
+	width: 300px;
+	padding-left: 20px;
 }
 
 /* @todo: check this. */
@@ -555,8 +555,11 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	}
 
 	&__section {
-		padding: 20px 0;
-		border-bottom: 1px solid #ddd;
+		box-shadow: 0 1px 6px 0 rgba(0,0,0,.3);
+		border: 1px solid #dcdcdc;
+		background-color: #fff;
+		padding: 16px;
+		margin: 10px 0 20px 0;
 
 		h2 {
 			margin-top: 0;
@@ -624,9 +627,10 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
  * @since 5.1
  */
 .yoast_premium_upsell {
-	border: 1px solid #ccc;
+	box-shadow: 0 1px 6px 0 rgba(0,0,0,.3);
+	border: 1px solid #dcdcdc;
+	padding: 16px;
 	background-color: #fff;
-	padding: 10px;
 	max-width: 640px;
 	overflow: hidden;
 	margin-top: 2em;
