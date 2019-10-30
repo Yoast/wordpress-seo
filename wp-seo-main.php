@@ -292,7 +292,6 @@ function wpseo_init() {
 
 	if ( version_compare( WPSEO_Options::get( 'version', 1 ), WPSEO_VERSION, '<' ) ) {
 		if ( function_exists( 'opcache_reset' ) ) {
-			// @codingStandardsIgnoreLine
 			@opcache_reset();
 		}
 
