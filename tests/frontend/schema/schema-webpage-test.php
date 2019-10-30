@@ -19,11 +19,15 @@ use Yoast\WP\Free\Tests\TestCase;
 class Schema_WebPage_Test extends TestCase {
 
 	/**
+	 * The instance to test.
+	 *
 	 * @var \WPSEO_Schema_WebPage
 	 */
 	private $instance;
 
 	/**
+	 * The schema context.
+	 *
 	 * @var \WPSEO_Schema_Context
 	 */
 	private $context;

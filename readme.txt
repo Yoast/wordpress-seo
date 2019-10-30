@@ -4,10 +4,10 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
-Requires at least: 4.9
-Tested up to: 5.2.4
-Stable tag: 12.3
-Requires PHP: 5.2.4
+Requires at least: 5.2
+Tested up to: 5.3
+Stable tag: 12.4
+Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -209,42 +209,37 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 12.4.0 =
-Release Date: October 29th, 2019
-
-Read [our 12.4 release post](https://yoa.st/release-12-4) to find out more!
-
-Enhancements:
-
-* Adds "Google" and "schema" as keywords to the structured data Gutenberg blocks to make them show up for those search terms in the block search as well.
-* Adds an image to the new mobile snippet preview for posts and terms.
-* Changes Readability for empty content from "Needs Improvement" with a red icon to "Not Available" with a gray icon. Props to [emilyatmobtown](https://github.com/emilyatmobtown).
-* Updates URLs to ping Google and Bing with a sitemap. Props to [@emilyatmobtown](https://github.com/emilyatmobtown).
-* Increases the specificity of the width and height CSS of the MobileDescriptionImage.
-* Enhances the old WP version notice, by getting and calculating the current and next WP version.
+= 12.5.0 =
+Release Date: November 12th, 2019
 
 Bugfixes:
 
-* Fixes a bug where it is impossible to open the media library for social images on attachment pages.
-* Fixes a bug where a nested paragraph was present in the "noindex" metabox warning.
-* Fixes a bug where Google+ data would still be exported in the settings export.
-
-= 12.3.0 =
-Release Date: October 15th, 2019
-
-While some of our checks are independent of languages, Yoast SEO has special skills to adapt the various content analyses to different languages from around the world. In Yoast SEO 12.3, we’re taking the first steps to add another language to the list: Hungarian. In addition, this release features a number of enhancement and fixes. Read [our 12.3 release post](https://yoa.st/release-12-3) to find out more!
-
-Enhancements:
-
-* Adds the transition word assessment for Hungarian. Props to [@9abor](https://github.com/9abor).
-* Includes the admin bar CSS in AMP dev mode. Props to [@westonruter](https://github.com/westonruter).
-* Shows a floating `Save changes` button on Yoast SEO admin pages when the normal button is not visible in the browser window.
-* Improves user input validation feedback and suggestions for error correction.
-* Introduces a new filter `wpseo_sitemap_http_headers` which allows filtering the HTTP headers we send for XML sitemaps.
+* Fixes a bug for terms where keywords and snippet preview data would be synced across all languages in a MultilingualPress multisite environment.
+* Fixes a bug where the Snippet Preview elements had misplaced visually hidden text.
 
 Other:
 
-* Removes the notification that would be thrown if add-ons with a lower version number than the plugin were installed. The `yoast_plugin_compatibility_notification` method has been deprecated.
+* Deprecates the Google Search Console.
+
+= 12.4.0 =
+Release Date: October 29th, 2019
+
+After releasing several updates to our snippet preview in previous releases, Yoast SEO 12.4 now shows an image for your post in the mobile snippet preview, just like Google would. We have several other improvements and fixes for you in store with Yoast SEO 12.4. Find out more in [our 12.4 release post](https://yoa.st/release-12-4)!
+
+Enhancements:
+
+* Adds "schema" as keyword to the structured data blocks to make them show up for that search term in the block search as well.
+* Adds an image to the mobile snippet preview for posts and terms.
+* Changes the readability score for empty content from "Needs Improvement" with a red icon to "Not Available" with a gray icon. Props to [emilyatmobtown](https://github.com/emilyatmobtown).
+* Updates the URLs used to ping Google and Bing about the location of a sitemap. Props to [@emilyatmobtown](https://github.com/emilyatmobtown).
+* Makes the notice about running an old WordPress version more specific by showing the installed WordPress version and the latest WordPress version.
+* Adds information about enabling Open Graph to the Twitter settings. Props to [@stevenfranks](https://github.com/stevenfranks).
+
+Bugfixes:
+
+* Fixes a bug where no Twitter and Facebook image could be set for attachment pages.
+* Fixes a bug where a nested paragraph would be present in the "noindex" metabox warning.
+* Fixes a bug where Google+ data would still be exported in the settings export.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

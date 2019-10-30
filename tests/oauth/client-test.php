@@ -90,6 +90,8 @@ class Client_Test extends TestCase {
 	}
 
 	/**
+	 * Tests saving the configuration.
+	 *
 	 * @dataProvider save_configuration_provider
 	 *
 	 * @param array  $config          The config to save.

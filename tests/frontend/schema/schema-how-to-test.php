@@ -19,11 +19,15 @@ use Yoast\WP\Free\Tests\TestCase;
 class Schema_HowTo_Test extends TestCase {
 
 	/**
+	 * The instance to test.
+	 *
 	 * @var \Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_HowTo_Double
 	 */
 	private $instance;
 
 	/**
+	 * The schema context.
+	 *
 	 * @var \WPSEO_Schema_Context
 	 */
 	private $context;

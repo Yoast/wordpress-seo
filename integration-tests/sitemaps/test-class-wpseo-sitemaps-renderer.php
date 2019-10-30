@@ -29,6 +29,8 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests retrieval of a sitemap index.
+	 *
 	 * @covers WPSEO_Sitemaps_Renderer::get_index
 	 */
 	public function test_get_index() {
@@ -48,6 +50,8 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests retrieval of a sitemap.
+	 *
 	 * @covers WPSEO_Sitemaps_Renderer::get_sitemap
 	 */
 	public function test_get_sitemap() {
