@@ -68,83 +68,59 @@ class Redirects implements Integration_Interface {
 
 	/**
 	 * When certain archives are disabled, this redirects those to the homepage.
-	 *
-	 * @return boolean False when no redirect was triggered.
 	 */
 	public function archive_redirect() {
-		if (
-			( $this->options->get( 'disable-date', false ) && $this->current_page->is_date_archive() ) ||
-			( $this->options->get( 'disable-author', false ) && $this->current_page->is_author_archive() ) ||
-			( $this->options->get( 'disable-post_format', false ) && $this->current_page->is_post_format_archive() )
-		) {
+		if ( $this->need_archive_redirect() ) {
 			$this->do_safe_redirect( get_bloginfo( 'url' ), 301 );
-
-			return true;
 		}
-
-		return false;
 	}
 
 	/**
 	 * Based on the redirect meta value, this function determines whether it should redirect the current post / page.
-	 *
-	 * @return boolean
 	 */
 	public function page_redirect() {
-		if ( ! is_singular() ) {
-			return false;
+		if ( ! $this->current_page->is_simple_page() ) {
+			return;
 		}
 
 		$post = get_post();
 		if ( ! is_object( $post ) ) {
-			return false;
+			return;
 		}
 
 		$redirect = $this->meta->get_value( 'redirect', $post->ID );
 		if ( $redirect === '' ) {
-			return false;
+			return;
 		}
 
 		$this->do_redirect( $redirect );
-		return true;
 	}
 
 
 	/**
 	 * If the option to disable attachment URLs is checked, this performs the redirect to the attachment.
-	 *
-	 * @return bool Returns success status.
 	 */
 	public function attachment_redirect() {
-		if ( ! $this->current_page->is_attachment() || $this->options->get( 'disable-attachment', false ) === false ) {
-			return false;
+		if ( ! $this->current_page->is_attachment() ) {
+			return;
 		}
 
-		/**
-		 * Allow the developer to change the target redirection URL for attachments.
-		 *
-		 * @api   string $attachment_url The attachment URL for the queried object.
-		 * @api   object $queried_object The queried object.
-		 *
-		 * @since 7.5.3
-		 */
-		$url = apply_filters(
-			'wpseo_attachment_redirect_url',
-			\wp_get_attachment_url( \get_queried_object_id() ),
-			\get_queried_object()
-		);
-
-		if ( ! empty( $url ) ) {
-			$this->do_redirect( $url );
-
-			return true;
+		if ( $this->options->get( 'disable-attachment', false ) === false ) {
+			return;
 		}
 
-		return false;
+		$url = $this->get_attachment_url();
+		if ( empty( $url ) ) {
+			return;
+		}
+
+		$this->do_redirect( $url );
 	}
 
 	/**
 	 * Wraps wp_safe_redirect to allow testing for redirects.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $location The path to redirect to.
 	 * @param int    $status   Status code to use.
@@ -156,9 +132,11 @@ class Redirects implements Integration_Interface {
 	}
 
 	/**
-	 * Performs the redirect from the attachment page to the image file itself.
+	 * Wraps safe_redirect to allow testing for redirects.
 	 *
-	 * @param string $location The attachment image url.
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $location The path to redirect to.
 	 * @param int    $status   Status code to use.
 	 *
 	 * @return void
@@ -167,5 +145,52 @@ class Redirects implements Integration_Interface {
 		\header( 'X-Redirect-By: Yoast SEO' );
 		\wp_redirect( $location, $status, 'Yoast SEO' );
 		exit;
+	}
+
+	/**
+	 * Checks if certain archive pages are disabled to determine if a archive redirect is needed.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool Whether or not to redirect an archive page.
+	 */
+	protected function need_archive_redirect() {
+		if ( $this->options->get( 'disable-date', false ) && $this->current_page->is_date_archive()
+		) {
+			return true;
+		}
+
+		if ( $this->options->get( 'disable-author', false ) && $this->current_page->is_author_archive() ) {
+			return true;
+		}
+
+		if ( $this->options->get( 'disable-post_format', false ) && $this->current_page->is_post_format_archive() ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Retrieves the attachment url for the current page.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return string The attachment url.
+	 */
+	protected function get_attachment_url() {
+		/**
+		 * Allow the developer to change the target redirection URL for attachments.
+		 *
+		 * @api   string $attachment_url The attachment URL for the queried object.
+		 * @api   object $queried_object The queried object.
+		 *
+		 * @since 7.5.3
+		 */
+		return apply_filters(
+			'wpseo_attachment_redirect_url',
+			\wp_get_attachment_url( \get_queried_object_id() ),
+			\get_queried_object()
+		);
 	}
 }
