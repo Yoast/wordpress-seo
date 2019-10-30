@@ -45,13 +45,6 @@ trait Presentation_Instance_Builder {
 	protected $post_type_helper;
 
 	/**
-	 * Holds the Pagination_Helper instance.
-	 *
-	 * @var Pagination_Helper|Mockery\MockInterface
-	 */
-	protected $pagination;
-
-	/**
 	 * Builds an instance of Indexable_Author_Presentation.
 	 */
 	protected function setInstance() {
@@ -59,12 +52,10 @@ trait Presentation_Instance_Builder {
 
 		$this->wp_query_wrapper = Mockery::mock( WP_Query_Wrapper::class );
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
-		$this->pagination       = Mockery::mock( Pagination_Helper::class );
 
 		$instance = new Indexable_Author_Archive_Presentation(
 			$this->wp_query_wrapper,
-			$this->post_type_helper,
-			$this->pagination
+			$this->post_type_helper
 		);
 
 		$this->instance = $instance->of( [ 'model' => $this->indexable ] );

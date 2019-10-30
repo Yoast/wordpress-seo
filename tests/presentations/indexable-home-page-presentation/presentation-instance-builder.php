@@ -39,9 +39,7 @@ trait Presentation_Instance_Builder {
 
 		$this->pagination = Mockery::mock( Pagination_Helper::class );
 
-		$instance = Mockery::mock( Indexable_Home_Page_Presentation::class, [ $this->pagination ] )
-			->makePartial()
-			->shouldAllowMockingProtectedMethods();
+		$instance = new Indexable_Home_Page_Presentation();
 
 		$this->instance = $instance->of( [ 'model' => $this->indexable ] );
 

@@ -134,9 +134,9 @@ class Current_Page_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests that get_current_archive_page retrieves `paged` from the query as integer.
+	 * Tests that get_current_archive_page_number retrieves `paged` from the query as integer.
 	 *
-	 * @covers ::get_current_archive_page
+	 * @covers ::get_current_archive_page_number
 	 */
 	public function test_get_current_archive_page() {
 		$wp_query = Mockery::mock( 'WP_Query' );
@@ -147,13 +147,13 @@ class Current_Page_Helper_Test extends TestCase {
 			->once()
 			->andReturn( $wp_query );
 
-		$this->assertEquals( 2, $this->instance->get_current_archive_page() );
+		$this->assertEquals( 2, $this->instance->get_current_archive_page_number() );
 	}
 
 	/**
-	 * Tests that get_current_archive_page retrieves `page` from the query as integer.
+	 * Tests that get_current_archive_page_number retrieves `page` from the query as integer.
 	 *
-	 * @covers ::get_current_post_page
+	 * @covers ::get_current_post_page_number
 	 */
 	public function test_get_current_post_page() {
 		$wp_query = Mockery::mock( 'WP_Query' );
@@ -164,6 +164,6 @@ class Current_Page_Helper_Test extends TestCase {
 			->once()
 			->andReturn( $wp_query );
 
-		$this->assertEquals( 2, $this->instance->get_current_post_page() );
+		$this->assertEquals( 2, $this->instance->get_current_post_page_number() );
 	}
 }

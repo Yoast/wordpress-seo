@@ -7,32 +7,11 @@
 
 namespace Yoast\WP\Free\Presentations;
 
-use Yoast\WP\Free\Helpers\Pagination_Helper;
-
 /**
  * Class Indexable_Date_Archive_Presentation
  */
 class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
-
-	/**
-	 * Holds the Pagination_Helper instance.
-	 *
-	 * @var Pagination_Helper
-	 */
-	protected $pagination;
-
-	/**
-	 * Indexable_Date_Archive_Presentation constructor.
-	 *
-	 * @param Pagination_Helper $pagination The pagination helper.
-	 *
-	 * @codeCoverageIgnore
-	 */
-	public function __construct(
-		Pagination_Helper $pagination
-	) {
-		$this->pagination = $pagination;
-	}
+	use Archive_Adjacent;
 
 	/**
 	 * @inheritDoc
@@ -40,7 +19,7 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	public function generate_canonical() {
 		$canonical = $this->current_page->get_date_archive_permalink();
 
-		$current_page = $this->current_page->get_current_archive_page();
+		$current_page = $this->current_page->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
 			return $this->pagination->get_paginated_url( $canonical, $current_page );
 		}

@@ -46,7 +46,7 @@ class Canonical_Test extends TestCase {
 		$this->indexable->permalink = 'https://example.com/permalink/';
 
 		$this->current_page_helper
-			->expects( 'get_current_post_page' )
+			->expects( 'get_current_post_page_number' )
 			->once()
 			->andReturn( 0 );
 
@@ -71,7 +71,7 @@ class Canonical_Test extends TestCase {
 		$this->indexable->permalink       = 'https://example.com/permalink/';
 
 		$this->current_page_helper
-			->expects( 'get_current_post_page' )
+			->expects( 'get_current_post_page_number' )
 			->once()
 			->andReturn( 2 );
 

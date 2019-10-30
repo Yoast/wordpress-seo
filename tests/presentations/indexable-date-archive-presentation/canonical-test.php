@@ -36,7 +36,7 @@ class Canonical_Test extends TestCase {
 			->andReturn( 'https://permalink' );
 
 		$this->current_page_helper
-			->expects( 'get_current_archive_page' )
+			->expects( 'get_current_archive_page_number' )
 			->once()
 			->andReturn( 0 );
 
@@ -55,7 +55,7 @@ class Canonical_Test extends TestCase {
 			->andReturn( 'https://permalink' );
 
 		$this->current_page_helper
-			->expects( 'get_current_archive_page' )
+			->expects( 'get_current_archive_page_number' )
 			->once()
 			->andReturn( 2 );
 

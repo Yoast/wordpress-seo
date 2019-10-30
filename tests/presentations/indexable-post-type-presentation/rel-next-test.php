@@ -64,7 +64,7 @@ class Rel_Next_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->current_page_helper
-			->expects( 'get_current_post_page' )
+			->expects( 'get_current_post_page_number' )
 			->once()
 			->andReturn( 2 );
 
@@ -87,7 +87,7 @@ class Rel_Next_Test extends TestCase {
 			->andReturnFalse();
 
 		$this->current_page_helper
-			->expects( 'get_current_post_page' )
+			->expects( 'get_current_post_page_number' )
 			->once()
 			->andReturn( 1 );
 

@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Helpers;
 
+use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 use Yoast\WP\Free\Wrappers\WP_Rewrite_Wrapper;
 
 /**
@@ -21,17 +22,29 @@ class Pagination_Helper {
 	 *
 	 * @var WP_Rewrite_Wrapper WP_Rewrite wrapper.
 	 */
-	private $wp_rewrite_wrapper;
+	protected $wp_rewrite_wrapper;
+
+	/**
+	 * Holds the WP query wrapper instance.
+	 *
+	 * @var WP_Query_Wrapper WP_Query wrapper.
+	 */
+	protected $wp_query_wrapper;
 
 	/**
 	 * Pagination_Helper constructor.
 	 *
 	 * @param WP_Rewrite_Wrapper $wp_rewrite_wrapper The rewrite wrapper.
+	 * @param WP_Query_Wrapper   $wp_query_wrapper   The query wrapper.
 	 *
 	 * @codeCoverageIgnore
 	 */
-	public function __construct( WP_Rewrite_Wrapper $wp_rewrite_wrapper ) {
+	public function __construct(
+		WP_Rewrite_Wrapper $wp_rewrite_wrapper,
+		WP_Query_Wrapper $wp_query_wrapper
+	) {
 		$this->wp_rewrite_wrapper = $wp_rewrite_wrapper;
+		$this->wp_query_wrapper   = $wp_query_wrapper;
 	}
 
 	/**
@@ -71,5 +84,16 @@ class Pagination_Helper {
 		}
 
 		return \add_query_arg( $pagination_query_name, $page, \user_trailingslashit( $url ) );
+	}
+
+	/**
+	 * Gets the number of archive pages.
+	 *
+	 * @return int The number of archive pages.
+	 */
+	public function get_number_of_archive_pages() {
+		$wp_query = $this->wp_query_wrapper->get_query();
+
+		return (int) $wp_query->max_num_pages;
 	}
 }
