@@ -6,7 +6,7 @@
 namespace Yoast\WP\Free\Tests\Presenters;
 
 use Mockery;
-use Yoast\WP\Free\Helpers\Rel_Adjacent_Helper;
+use Yoast\WP\Free\Helpers\Pagination_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Presenters\Rel_Next_Presenter;
 use Yoast\WP\Free\Tests\TestCase;

@@ -15,7 +15,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * Class Indexable_Post_Test.
  *
  * @group indexables
- * @group formatters
+ * @group builders
  *
  * @coversDefaultClass \Yoast\WP\Free\Builders\Indexable_Post_Builder
  * @covers ::<!public>
@@ -87,7 +87,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image.jpg' );
-		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_id', null );
+		$indexable_mock->orm->expects( 'set' )->times( 2 )->with( 'twitter_image_id', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_id', 1 );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'featured-image' );
@@ -136,11 +136,15 @@ class Indexable_Post_Builder_Test extends TestCase {
 			->andReturn( 'twitter_image.jpg' );
 
 		$builder = new Indexable_Post_Builder(
-			$seo_meta_repository,
+			$seo_meta_repository
+		);
+
+		$builder->set_social_image_helpers(
 			$image_helper,
 			$open_graph_image,
 			$twitter_image
 		);
+
 		$builder->build( 1, $indexable_mock );
 	}
 }

@@ -37,6 +37,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_title' )->andReturn( 'home_og_title' );
 		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_desc' )->andReturn( 'home_og_description' );
 		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_image' )->andReturn( 'home_og_image' );
+		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_image_id' )->andReturn( 1337 );
 
 		$url_helper_mock = Mockery::mock( Url_Helper::class );
 		$url_helper_mock->expects( 'home' )->once()->with()->andReturn( 'https://permalink' );
@@ -48,14 +49,13 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'home_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'home_breadcrumb_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
-		$indexable_mock->orm->expects( 'get' )->with( 'permalink' )->andReturn( 'https://permalink' );
-		$indexable_mock->orm->expects( 'set' )->with( 'canonical', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'home_meta_description' );
 		$indexable_mock->orm->expects( 'offsetExists' )->with( 'description' )->andReturn( true );
 		$indexable_mock->orm->expects( 'get' )->with( 'description' )->andReturn( 'home_meta_description' );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_title', 'home_og_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'home_og_image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', 1337 );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_description', 'home_og_description' );
 
 		$builder = new Indexable_Home_Page_Builder( $options_helper_mock, $url_helper_mock );
@@ -75,6 +75,7 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_title' )->andReturn( 'home_og_title' );
 		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_desc' )->andReturn( 'home_og_description' );
 		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_image' )->andReturn( 'home_og_image' );
+		$options_helper_mock->expects( 'get' )->with( 'og_frontpage_image_id' )->andReturn( 1337 );
 
 		$url_helper_mock = Mockery::mock( Url_Helper::class );
 		$url_helper_mock->expects( 'home' )->once()->with()->andReturn( 'https://permalink' );
@@ -86,14 +87,13 @@ class Indexable_Home_Page_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'title', 'home_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'breadcrumb_title', 'home_breadcrumb_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'permalink', 'https://permalink' );
-		$indexable_mock->orm->expects( 'get' )->with( 'permalink' )->andReturn( 'https://permalink' );
-		$indexable_mock->orm->expects( 'set' )->with( 'canonical', 'https://permalink' );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'description', 'description' );
 		$indexable_mock->orm->expects( 'offsetExists' )->with( 'description' )->andReturn( false );
 		$indexable_mock->orm->expects( 'set' )->with( 'is_robots_noindex', false );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_title', 'home_og_title' );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_image', 'home_og_image' );
+		$indexable_mock->orm->expects( 'set' )->with( 'og_image_id', 1337 );
 		$indexable_mock->orm->expects( 'set' )->with( 'og_description', 'home_og_description' );
 
 		$builder = new Indexable_Home_Page_Builder( $options_helper_mock, $url_helper_mock );

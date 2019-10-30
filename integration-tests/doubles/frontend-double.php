@@ -65,13 +65,6 @@ class WPSEO_Frontend_Double extends WPSEO_Frontend {
 		return parent::get_queried_post_type();
 	}
 
-	/**
-	 * @inheritdoc
-	 */
-	public function get_post_type_archive_title( $separator, $separator_location ) {
-		return parent::get_post_type_archive_title( $separator, $separator_location );
-	}
-
 	public function set_is_premium( $premium ) {
 		$this->is_premium = (bool) $premium;
 	}

@@ -7,8 +7,8 @@ use Yoast\WP\Free\Tests\TestCase;
 /**
  * Class Robots_Test.
  *
- * @group presentations
- * @group robots
+ * @group   presentations
+ * @group   robots
  *
  * @package Yoast\Tests\Presentations\Indexable_Date_Archive_Presentation
  */
@@ -31,17 +31,17 @@ class Robots_Test extends TestCase {
 		$this->robots_helper
 			->expects( 'get_base_values' )
 			->andReturn( [
-				'index' =>  'index',
+				'index'  => 'index',
 				'follow' => 'follow',
 			] );
 
 		$this->robots_helper
 			->expects( 'after_generate' )
 			->with( [
-				'index' =>  'index',
+				'index'  => 'index',
 				'follow' => 'follow',
 			] )
-			->andReturnUsing( function( $robots ) {
+			->andReturnUsing( function ( $robots ) {
 				return $robots;
 			} );
 
@@ -51,13 +51,13 @@ class Robots_Test extends TestCase {
 			->with( 'noindex-archive-wpseo', false )
 			->andReturn( false );
 
-		$actual = $this->instance->generate_robots();
+		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index' =>  'index',
+			'index'  => 'index',
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 
 	/**
@@ -67,17 +67,17 @@ class Robots_Test extends TestCase {
 		$this->robots_helper
 			->expects( 'get_base_values' )
 			->andReturn( [
-				'index' =>  'index',
+				'index'  => 'index',
 				'follow' => 'follow',
 			] );
 
 		$this->robots_helper
 			->expects( 'after_generate' )
 			->with( [
-				'index' =>  'noindex',
+				'index'  => 'noindex',
 				'follow' => 'follow',
 			] )
-			->andReturnUsing( function( $robots ) {
+			->andReturnUsing( function ( $robots ) {
 				return $robots;
 			} );
 
@@ -87,12 +87,12 @@ class Robots_Test extends TestCase {
 			->with( 'noindex-archive-wpseo', false )
 			->andReturn( true );
 
-		$actual = $this->instance->generate_robots();
+		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index' =>  'noindex',
+			'index'  => 'noindex',
 			'follow' => 'follow',
 		];
 
-		$this->assertEquals( $actual, $expected );
+		$this->assertEquals( $expected, $actual );
 	}
 }

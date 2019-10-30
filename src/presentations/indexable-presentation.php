@@ -207,6 +207,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->canonical;
 		}
 
+		if ( $this->model->permalink ) {
+			return $this->model->permalink;
+		}
+
 		return '';
 	}
 
@@ -358,7 +362,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 			return $this->model->twitter_title;
 		}
 
-		if ( $this->model->og_title ) {
+		if ( $this->model->og_title && $this->context->open_graph_enabled === true ) {
 			return $this->model->og_title;
 		}
 
@@ -377,6 +381,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 	public function generate_twitter_description() {
 		if ( $this->model->twitter_description ) {
 			return $this->model->twitter_description;
+		}
+
+		if ( $this->model->og_description && $this->context->open_graph_enabled === true ) {
+			return $this->model->og_description;
 		}
 
 		if ( $this->meta_description ) {

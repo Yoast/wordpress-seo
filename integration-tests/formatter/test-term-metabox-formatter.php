@@ -11,11 +11,15 @@
 class WPSEO_Term_Metabox_Formatter_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Holds the term instance.
+	 *
 	 * @var WP_Term|stdClass
 	 */
 	private $term;
 
 	/**
+	 * Holds the taxonomy instance.
+	 *
 	 * @var WP_Taxonomy|stdClass
 	 */
 	private $taxonomy;
