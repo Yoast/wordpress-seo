@@ -10,8 +10,6 @@
  */
 class WPSEO_Frontend_Double extends WPSEO_Frontend {
 
-	protected $is_premium = false;
-
 	/**
 	 * Exposes the constructor to the public.
 	 */
@@ -41,35 +39,4 @@ class WPSEO_Frontend_Double extends WPSEO_Frontend {
 		$this->woocommerce_shop_page = $woocommerce_shop_page;
 	}
 
-	/**
-	 * Short-circuit redirecting.
-	 *
-	 * @param string $location The path to redirect to.
-	 * @param int    $status   Status code to use.
-	 */
-	public function redirect( $location, $status = 302 ) {
-		// Intentionally left empty to remove actual redirection code to be able to test it.
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function do_attachment_redirect( $attachment_url ) {
-		// Intentionally left empty to remove actual redirection code to be able to test it.
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function get_queried_post_type() {
-		return parent::get_queried_post_type();
-	}
-
-	public function set_is_premium( $premium ) {
-		$this->is_premium = (bool) $premium;
-	}
-
-	public function is_premium() {
-		return $this->is_premium;
-	}
 }

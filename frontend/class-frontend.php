@@ -201,68 +201,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Check if this plugin is the premium version of WPSEO.
-	 *
-	 * @return bool
-	 */
-	protected function is_premium() {
-		return WPSEO_Utils::is_yoast_seo_premium();
-	}
-
-	/**
-	 * Retrieves a template from the options.
-	 *
-	 * @param string $template The template to retrieve.
-	 *
-	 * @return string The set template.
-	 */
-	protected function get_template( $template ) {
-		return WPSEO_Options::get( $template );
-	}
-
-	/**
-	 * Retrieves the queried post type.
-	 *
-	 * @return string The queried post type.
-	 */
-	protected function get_queried_post_type() {
-		$post_type = get_query_var( 'post_type' );
-		if ( is_array( $post_type ) ) {
-			$post_type = reset( $post_type );
-		}
-
-		return $post_type;
-	}
-
-	/**
-	 * Retrieves the SEO Meta value for the supplied key and optional post.
-	 *
-	 * @param string $key     The key to retrieve.
-	 * @param int    $post_id Optional. The post to retrieve the key for.
-	 *
-	 * @return string Meta value.
-	 */
-	protected function get_seo_meta_value( $key, $post_id = 0 ) {
-		return WPSEO_Meta::get_value( $key, $post_id );
-	}
-
-	/**
-	 * Replaces the dynamic variables in a string.
-	 *
-	 * @param string $string The string to replace the variables in.
-	 * @param array  $args   The object some of the replacement values might come from,
-	 *                       could be a post, taxonomy or term.
-	 * @param array  $omit   Variables that should not be replaced by this function.
-	 *
-	 * @return string The replaced string.
-	 */
-	protected function replace_vars( $string, $args, $omit = array() ) {
-		$replacer = new WPSEO_Replace_Vars();
-
-		return $replacer->replace( $string, $args, $omit );
-	}
-
-	/**
 	 * Adds shortcode support to category descriptions.
 	 *
 	 * @param string $desc String to add shortcodes in.

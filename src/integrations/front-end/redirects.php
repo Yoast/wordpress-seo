@@ -155,8 +155,7 @@ class Redirects implements Integration_Interface {
 	 * @return bool Whether or not to redirect an archive page.
 	 */
 	protected function need_archive_redirect() {
-		if ( $this->options->get( 'disable-date', false ) && $this->current_page->is_date_archive()
-		) {
+		if ( $this->options->get( 'disable-date', false ) && $this->current_page->is_date_archive() ) {
 			return true;
 		}
 
