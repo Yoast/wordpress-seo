@@ -29,4 +29,6 @@ $archives_help = new WPSEO_Admin_Help_Panel(
 );
 
 echo '<p class="help-button-inline"><strong>' . esc_html__( 'Archives settings help', 'wordpress-seo' ) . $archives_help->get_button_html() . '</strong><p>';
+
+// phpcs:ignore WordPress --sniffs=WordPress.Security.EscapeOutput -- get_output output is properly escaped.
 echo $archives_help->get_panel_html();
