@@ -38,7 +38,11 @@ class WPSEO_WooCommerce_Shop_Page_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_WooCommerce_Shop_Page::get_page_id
 	 */
 	public function test_get_page_id_for_non_shop_page() {
-		/** @var $woocommerce_shop_page WPSEO_WooCommerce_Shop_Page */
+		/**
+		 * The test instance.
+		 *
+		 * @var $woocommerce_shop_page WPSEO_WooCommerce_Shop_Page
+		 */
 		$woocommerce_shop_page = $this
 			->getMockBuilder( 'WPSEO_WooCommerce_Shop_Page_Double' )
 			->setMethods( array( 'is_shop_page', 'get_shop_page_id' ) )
@@ -62,7 +66,11 @@ class WPSEO_WooCommerce_Shop_Page_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_WooCommerce_Shop_Page::get_page_id
 	 */
 	public function test_get_page_id_for_shop_page() {
-		/** @var $woocommerce_shop_page WPSEO_WooCommerce_Shop_Page */
+		/**
+		 * The test instance.
+		 *
+		 * @var $woocommerce_shop_page WPSEO_WooCommerce_Shop_Page
+		 */
 		$woocommerce_shop_page = $this
 			->getMockBuilder( 'WPSEO_WooCommerce_Shop_Page_Double' )
 			->setMethods( array( 'is_shop_page', 'get_shop_page_id' ) )
@@ -88,7 +96,11 @@ class WPSEO_WooCommerce_Shop_Page_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_WooCommerce_Shop_Page::get_shop_page_id
 	 */
 	public function test_get_page_id_for_shop_page_with_missing_get_page_id_function() {
-		/** @var $woocommerce_shop_page WPSEO_WooCommerce_Shop_Page */
+		/**
+		 * The test instance.
+		 *
+		 * @var $woocommerce_shop_page WPSEO_WooCommerce_Shop_Page
+		 */
 		$woocommerce_shop_page = $this
 			->getMockBuilder( 'WPSEO_WooCommerce_Shop_Page_Double' )
 			->setMethods( array( 'is_shop_page' ) )
