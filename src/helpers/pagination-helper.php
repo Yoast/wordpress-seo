@@ -96,4 +96,26 @@ class Pagination_Helper {
 
 		return (int) $wp_query->max_num_pages;
 	}
+
+	/**
+	 * Returns the current page for paged archives.
+	 *
+	 * @return int The current archive page.
+	 */
+	public function get_current_archive_page_number() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return (int) $wp_query->get( 'paged' );
+	}
+
+	/**
+	 * Returns the current page for paged post types.
+	 *
+	 * @return int The current post page.
+	 */
+	public function get_current_post_page_number() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return (int) $wp_query->get( 'page' );
+	}
 }

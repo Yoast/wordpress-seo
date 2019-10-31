@@ -143,6 +143,40 @@ class Pagination_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that get_current_archive_page_number retrieves `paged` from the query as integer.
+	 *
+	 * @covers ::get_current_archive_page_number
+	 */
+	public function test_get_current_archive_page() {
+		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query->expects( 'get' )->with( 'paged' )->once()->andReturn( '2' );
+
+		$this->wp_query_wrapper
+			->expects( 'get_main_query' )
+			->once()
+			->andReturn( $wp_query );
+
+		$this->assertEquals( 2, $this->instance->get_current_archive_page_number() );
+	}
+
+	/**
+	 * Tests that get_current_archive_page_number retrieves `page` from the query as integer.
+	 *
+	 * @covers ::get_current_post_page_number
+	 */
+	public function test_get_current_post_page() {
+		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query->expects( 'get' )->with( 'page' )->once()->andReturn( '2' );
+
+		$this->wp_query_wrapper
+			->expects( 'get_main_query' )
+			->once()
+			->andReturn( $wp_query );
+
+		$this->assertEquals( 2, $this->instance->get_current_post_page_number() );
+	}
+
+	/**
 	 * Mocks the return value of $wp_rewrite->using_permalinks.
 	 *
 	 * @param bool $using_permalinks Returns value of $wp_rewrite->using_permalinks.

@@ -67,7 +67,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		$canonical = $this->model->permalink;
 
 		// Fix paginated pages canonical, but only if the page is truly paginated.
-		$current_page = $this->current_page->get_current_post_page_number();
+		$current_page = $this->pagination->get_current_post_page_number();
 		if ( $current_page > 1 ) {
 			$number_of_pages = $this->model->number_of_pages;
 			if ( $number_of_pages && $current_page <= $number_of_pages ) {
@@ -90,7 +90,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		$current_page = \max( 1, $this->current_page->get_current_post_page_number() );
+		$current_page = \max( 1, $this->pagination->get_current_post_page_number() );
 		// Check if there is a previous page.
 		if ( $current_page < 2 ) {
 			return '';
@@ -115,7 +115,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		$current_page = \max( 1, $this->current_page->get_current_post_page_number() );
+		$current_page = \max( 1, $this->pagination->get_current_post_page_number() );
 		if ( $this->model->number_of_pages <= $current_page ) {
 			return '';
 		}

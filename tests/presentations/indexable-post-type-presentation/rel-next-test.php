@@ -63,7 +63,7 @@ class Rel_Next_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->current_page_helper
+		$this->pagination
 			->expects( 'get_current_post_page_number' )
 			->once()
 			->andReturn( 2 );
@@ -86,7 +86,7 @@ class Rel_Next_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->current_page_helper
+		$this->pagination
 			->expects( 'get_current_post_page_number' )
 			->once()
 			->andReturn( 1 );

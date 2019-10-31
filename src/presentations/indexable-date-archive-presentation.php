@@ -19,7 +19,7 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	public function generate_canonical() {
 		$canonical = $this->current_page->get_date_archive_permalink();
 
-		$current_page = $this->current_page->get_current_archive_page_number();
+		$current_page = $this->pagination->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
 			return $this->pagination->get_paginated_url( $canonical, $current_page );
 		}

@@ -12,8 +12,7 @@ use Yoast\WP\Free\Helpers\Pagination_Helper;
 /**
  * Class Archive_Adjacent
  *
- * @property \Yoast\WP\Free\Helpers\Current_Page_Helper $current_page The current page helper.
- * @property \Yoast\WP\Free\Models\Indexable            $model        The indexable.
+ * @property \Yoast\WP\Free\Models\Indexable $model The indexable.
  */
 trait Archive_Adjacent {
 
@@ -45,7 +44,7 @@ trait Archive_Adjacent {
 			return '';
 		}
 
-		$current_page = \max( 1, $this->current_page->get_current_archive_page_number() );
+		$current_page = \max( 1, $this->pagination->get_current_archive_page_number() );
 		// Check if there is a previous page.
 		if ( $current_page === 1 ) {
 			return '';
@@ -66,7 +65,7 @@ trait Archive_Adjacent {
 			return '';
 		}
 
-		$current_page = \max( 1, $this->current_page->get_current_archive_page_number() );
+		$current_page = \max( 1, $this->pagination->get_current_archive_page_number() );
 		if ( $this->pagination->get_number_of_archive_pages() <= $current_page ) {
 			return '';
 		}

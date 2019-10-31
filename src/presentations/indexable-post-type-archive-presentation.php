@@ -21,7 +21,7 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		$current_page = $this->current_page->get_current_archive_page_number();
+		$current_page = $this->pagination->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
 			return $this->pagination->get_paginated_url( $this->model->permalink, $current_page );
 		}

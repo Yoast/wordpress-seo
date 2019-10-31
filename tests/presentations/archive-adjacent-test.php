@@ -62,7 +62,7 @@ class Archive_Adjacent_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		$this->current_page_helper
+		$this->pagination
 			->expects( 'get_current_archive_page_number' )
 			->once()
 			->andReturn( 1 );
@@ -83,7 +83,7 @@ class Archive_Adjacent_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		$this->current_page_helper
+		$this->pagination
 			->expects( 'get_current_archive_page_number' )
 			->once()
 			->andReturn( 2 );
@@ -104,7 +104,7 @@ class Archive_Adjacent_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		$this->current_page_helper
+		$this->pagination
 			->expects( 'get_current_archive_page_number' )
 			->once()
 			->andReturn( 3 );
@@ -143,7 +143,7 @@ class Archive_Adjacent_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		$this->current_page_helper
+		$this->pagination
 			->expects( 'get_current_archive_page_number' )
 			->once()
 			->andReturn( 6 );
@@ -169,7 +169,7 @@ class Archive_Adjacent_Test extends TestCase {
 			->once()
 			->andReturn( false );
 
-		$this->current_page_helper
+		$this->pagination
 			->expects( 'get_current_archive_page_number' )
 			->once()
 			->andReturn( 5 );

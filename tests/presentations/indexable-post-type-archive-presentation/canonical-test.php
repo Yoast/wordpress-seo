@@ -42,7 +42,7 @@ class Canonical_Test extends TestCase {
 	public function test_without_pagination() {
 		$this->indexable->permalink = 'https://example.com/custom-post-type/';
 
-		$this->current_page_helper
+		$this->pagination
 			->expects( 'get_current_archive_page_number' )
 			->once()
 			->andReturn( 0 );
@@ -58,7 +58,7 @@ class Canonical_Test extends TestCase {
 	public function test_with_pagination() {
 		$this->indexable->permalink = 'https://example.com/custom-post-type/';
 
-		$this->current_page_helper
+		$this->pagination
 			->expects( 'get_current_archive_page_number' )
 			->once()
 			->andReturn( 2 );
