@@ -150,7 +150,7 @@ class Data {
 			return "";
 		}
 
-		let generatedSlug = this.getPostAttribute( "generated_slug" );
+		let generatedSlug = this.getPostAttribute( "generated_slug" ) || "";
 
 		/**
 		 * This should be removed when the following issue is resolved:
@@ -173,7 +173,7 @@ class Data {
 	collectGutenbergData() {
 		return {
 			content: this.getPostAttribute( "content" ),
-			title: this.getPostAttribute( "title" ),
+			title: this.getPostAttribute( "title" ) || "",
 			slug: this.getSlug(),
 			excerpt: this.getExcerpt(),
 			// eslint-disable-next-line camelcase
@@ -212,7 +212,7 @@ class Data {
 		let image = "";
 
 		if ( images.length === 0 ) {
-			return null;
+			return "";
 		}
 
 		do {
@@ -264,7 +264,7 @@ class Data {
 	 * @returns {string} The excerpt.
 	 */
 	getExcerpt( useFallBack = true ) {
-		const excerpt = this.getPostAttribute( "excerpt" );
+		const excerpt = this.getPostAttribute( "excerpt" ) || "";
 		if ( excerpt !== "" || useFallBack === false ) {
 			return excerpt;
 		}
