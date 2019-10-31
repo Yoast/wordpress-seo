@@ -68,11 +68,6 @@ class WPSEO_Frontend {
 
 		add_action( 'wp', array( $this, 'page_redirect' ), 99 );
 
-		add_action( 'template_redirect', array( $this, 'noindex_robots' ) );
-
-		add_filter( 'loginout', array( $this, 'nofollow_link' ) );
-		add_filter( 'register', array( $this, 'nofollow_link' ) );
-
 		if ( WPSEO_Options::get( 'disable-date', false )
 			|| WPSEO_Options::get( 'disable-author', false )
 			|| WPSEO_Options::get( 'disable-post_format', false )
@@ -191,35 +186,6 @@ class WPSEO_Frontend {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Send a Robots HTTP header preventing URL from being indexed in the search results while allowing search engines
-	 * to follow the links in the object at the URL.
-	 *
-	 * @since 1.1.7
-	 * @return boolean Boolean indicating whether the noindex header was sent.
-	 */
-	public function noindex_robots() {
-
-		if ( ( is_robots() ) && headers_sent() === false ) {
-			header( 'X-Robots-Tag: noindex, follow', true );
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Adds rel="nofollow" to a link, only used for login / registration links.
-	 *
-	 * @param string $input The link element as a string.
-	 *
-	 * @return string
-	 */
-	public function nofollow_link( $input ) {
-		return str_replace( '<a ', '<a rel="nofollow" ', $input );
 	}
 
 	/**
@@ -959,6 +925,39 @@ class WPSEO_Frontend {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return $content;
+	}
+
+	/**
+	 * Sends a Robots HTTP header preventing URL from being indexed in the search results while allowing search engines
+	 * to follow the links in the object at the URL.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated xx.x
+	 *
+	 * @since 1.1.7
+	 * @return boolean Boolean indicating whether the noindex header was sent.
+	 */
+	public function noindex_robots() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return false;
+	}
+	/**
+	 * Adds rel="nofollow" to a link, only used for login / registration links.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated xx.x
+	 *
+	 * @param string $input The link element as a string.
+	 *
+	 * @return string
+	 */
+	public function nofollow_link( $input ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return '';
 	}
 
 	/**
