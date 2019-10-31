@@ -33,19 +33,14 @@ class WPML implements Integration_Interface {
 	}
 
 	/**
-	 * Returns the home url with the following modifications:
-	 *
-	 * In case of a multisite setup we return the network_home_url.
-	 * In case of no multisite setup we return the home_url while overriding the WPML filter.
-	 *
-	 * @codeCoverageIgnore
+	 * Adds a filter to WPML's wpml_get_home_url filter to ensure we get the unmanipulated home URL.
 	 */
 	public function filter_home_url_before() {
 		add_filter( 'wpml_get_home_url', [ $this, 'wpml_get_home_url' ], 10, 2 );
 	}
 
 	/**
-	 * Removes the wpml_get_home_url filter to return the WPML, language-enrichted home URL.
+	 * Removes the wpml_get_home_url filter to return the WPML, language-enriched home URL.
 	 *
 	 * @param string $home_url The filtered home URL.
 	 *

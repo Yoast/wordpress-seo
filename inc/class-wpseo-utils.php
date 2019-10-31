@@ -1104,7 +1104,11 @@ SVG;
 	/**
 	 * In case WPML is installed, returns the original home_url and not the WPML version.
 	 *
+	 * In case of a multisite setup we return the network_home_url.
+	 *
 	 * @return string The home url.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public static function get_home_url() {
 
@@ -1113,7 +1117,7 @@ SVG;
 		 */
 		do_action( 'wpseo_home_url' );
 
-		// If the plugin is network activated, use the network home URL.
+		// If the plugin is network-activated, use the network home URL.
 		if ( WPSEO_Utils::is_plugin_network_active() ) {
 			return network_home_url();
 		}
