@@ -45,14 +45,6 @@ class WPSEO_Frontend {
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 		remove_action( 'wp_head', 'noindex', 1 );
 
-		add_action( 'template_redirect', array( $this, 'noindex_robots' ) );
-
-		add_filter( 'loginout', array( $this, 'nofollow_link' ) );
-		add_filter( 'register', array( $this, 'nofollow_link' ) );
-
-		// Add support for shortcodes to category descriptions.
-		add_filter( 'category_description', array( $this, 'custom_category_descriptions_add_shortcode_support' ) );
-
 		// For WordPress functions below 4.4.
 		if ( WPSEO_Options::get( 'forcerewritetitle', false ) && ! current_theme_supports( 'title-tag' ) ) {
 			add_action( 'template_redirect', array( $this, 'force_rewrite_output_buffer' ), 99999 );
@@ -139,35 +131,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Send a Robots HTTP header preventing URL from being indexed in the search results while allowing search engines
-	 * to follow the links in the object at the URL.
-	 *
-	 * @since 1.1.7
-	 * @return boolean Boolean indicating whether the noindex header was sent.
-	 */
-	public function noindex_robots() {
-
-		if ( ( is_robots() ) && headers_sent() === false ) {
-			header( 'X-Robots-Tag: noindex, follow', true );
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Adds rel="nofollow" to a link, only used for login / registration links.
-	 *
-	 * @param string $input The link element as a string.
-	 *
-	 * @return string
-	 */
-	public function nofollow_link( $input ) {
-		return str_replace( '<a ', '<a rel="nofollow" ', $input );
-	}
-
-	/**
 	 * Used in the force rewrite functionality this retrieves the output, replaces the title with the proper SEO
 	 * title and then flushes the output.
 	 */
@@ -198,21 +161,6 @@ class WPSEO_Frontend {
 	public function force_rewrite_output_buffer() {
 		$this->ob_started = true;
 		ob_start();
-	}
-
-	/**
-	 * Adds shortcode support to category descriptions.
-	 *
-	 * @param string $desc String to add shortcodes in.
-	 *
-	 * @return string Content with shortcodes filtered out.
-	 */
-	public function custom_category_descriptions_add_shortcode_support( $desc ) {
-		// Wrap in output buffering to prevent shortcodes that echo stuff instead of return from breaking things.
-		ob_start();
-		$desc = do_shortcode( $desc );
-		ob_end_clean();
-		return $desc;
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
@@ -359,6 +307,23 @@ class WPSEO_Frontend {
 		_deprecated_function( __METHOD__, 'WPSEO 10.1.3' );
 
 		return false;
+	}
+
+	/**
+	 * Adds shortcode support to category descriptions.
+	 *
+	 * @deprecated xx.x
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $desc String to add shortcodes in.
+	 *
+	 * @return string Content with shortcodes filtered out.
+	 */
+	public function custom_category_descriptions_add_shortcode_support( $desc ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return '';
 	}
 
 	/**
@@ -811,6 +776,39 @@ class WPSEO_Frontend {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return $content;
+	}
+
+	/**
+	 * Sends a Robots HTTP header preventing URL from being indexed in the search results while allowing search engines
+	 * to follow the links in the object at the URL.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated xx.x
+	 *
+	 * @since 1.1.7
+	 * @return boolean Boolean indicating whether the noindex header was sent.
+	 */
+	public function noindex_robots() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return false;
+	}
+	/**
+	 * Adds rel="nofollow" to a link, only used for login / registration links.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated xx.x
+	 *
+	 * @param string $input The link element as a string.
+	 *
+	 * @return string
+	 */
+	public function nofollow_link( $input ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return '';
 	}
 
 	/**

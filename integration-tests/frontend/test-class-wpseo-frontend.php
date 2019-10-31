@@ -45,14 +45,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 		update_option( 'posts_per_page', 10 );
 	}
 
-	/**
-	 * @covers WPSEO_Frontend::nofollow_link
-	 */
-	public function test_nofollow_link() {
-		$input    = '<a href="#">A link</a>';
-		$expected = str_replace( '<a ', '<a rel="nofollow" ', $input );
-		$this->assertEquals( $expected, self::$class_instance->nofollow_link( $input ) );
-	}
 
 
 	/**
