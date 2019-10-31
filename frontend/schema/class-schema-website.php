@@ -55,7 +55,7 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 		);
 
 		if ( get_bloginfo( 'description' ) ) {
-			$data['description'] = $this->context->description;
+			$data['description'] = $this->context->site_description;
 		}
 
 		if ( $this->context->site_represents_reference ) {
