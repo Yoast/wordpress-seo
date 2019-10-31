@@ -66,7 +66,6 @@ trait Presentation_Instance_Builder {
 			[
 				$this->wp_query_wrapper,
 				$this->taxonomy_helper,
-				$this->pagination,
 			]
 		)
 			->makePartial()
@@ -75,5 +74,6 @@ trait Presentation_Instance_Builder {
 		$this->instance = $instance->of( [ 'model' => $this->indexable ] );
 
 		$this->set_instance_dependencies( $this->instance );
+		$this->instance->set_archive_adjacent_helpers( $this->pagination );
 	}
 }

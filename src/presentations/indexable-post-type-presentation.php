@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Presentations;
 
+use Yoast\WP\Free\Helpers\Pagination_Helper;
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Helpers\Date_Helper;
 
@@ -30,19 +31,29 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	protected $date;
 
 	/**
+	 * Holds the Pagination_Helper instance.
+	 *
+	 * @var Pagination_Helper
+	 */
+	protected $pagination;
+
+	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param Post_Type_Helper $post_type The post type helper.
-	 * @param Date_Helper      $date      The date helper.
+	 * @param Post_Type_Helper  $post_type  The post type helper.
+	 * @param Date_Helper       $date       The date helper.
+	 * @param Pagination_Helper $pagination The pagination helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		Post_Type_Helper $post_type,
-		Date_Helper $date
+		Date_Helper $date,
+		Pagination_Helper $pagination
 	) {
-		$this->post_type = $post_type;
-		$this->date      = $date;
+		$this->post_type  = $post_type;
+		$this->date       = $date;
+		$this->pagination = $pagination;
 	}
 
 	/**

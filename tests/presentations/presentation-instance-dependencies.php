@@ -91,7 +91,6 @@ trait Presentation_Instance_Dependencies {
 		$this->user_helper         = Mockery::mock( User_Helper::class );
 		$this->og_image_helper     = Mockery::mock( OG_Image_Helper::class );
 		$this->twitter_helper      = Mockery::mock( Twitter_Image_Helper::class );
-		$this->pagination          = Mockery::mock( Pagination_Helper::class );
 
 		$presentation_instance->set_helpers(
 			$this->robots_helper,
@@ -99,8 +98,7 @@ trait Presentation_Instance_Dependencies {
 			$this->options_helper,
 			$this->current_page_helper,
 			$this->url_helper,
-			$this->user_helper,
-			$this->pagination
+			$this->user_helper
 		);
 
 		$this->og_image_generator = Mockery::mock(
