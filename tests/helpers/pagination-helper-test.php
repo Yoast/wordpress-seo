@@ -143,6 +143,23 @@ class Pagination_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests that get_number_of_archive_pages retrieves `max_number_pages` from the query as integer.
+	 *
+	 * @covers ::get_number_of_archive_pages
+	 */
+	public function test_get_number_of_archive_pages() {
+		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query->max_num_pages = '6';
+
+		$this->wp_query_wrapper
+			->expects( 'get_query' )
+			->once()
+			->andReturn( $wp_query );
+
+		$this->assertEquals( 6, $this->instance->get_number_of_archive_pages() );
+	}
+
+	/**
 	 * Tests that get_current_archive_page_number retrieves `paged` from the query as integer.
 	 *
 	 * @covers ::get_current_archive_page_number
