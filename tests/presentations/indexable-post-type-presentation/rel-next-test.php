@@ -10,6 +10,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
+ * @group adjacent
  */
 class Rel_Next_Test extends TestCase {
 	use Presentation_Instance_Builder;
