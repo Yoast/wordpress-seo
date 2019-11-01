@@ -277,6 +277,17 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Checks if the current page is the post format archive.
+	 *
+	 * @return bool Whether or not the current page is the post format archive.
+	 */
+	public function is_post_format_archive() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return $wp_query->is_tax( 'post_format' );
+	}
+
+	/**
 	 * Determine whether this page is an taxonomy archive page for multiple terms (url: /term-1,term2/).
 	 *
 	 * @return bool Whether or not the current page is an archive page for multiple terms.
