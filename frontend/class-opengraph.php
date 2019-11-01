@@ -14,20 +14,16 @@ class WPSEO_OpenGraph {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		if ( isset( $GLOBALS['fb_ver'] ) || class_exists( 'Facebook_Loader', false ) ) {
-			add_filter( 'fb_meta_tags', array( $this, 'facebook_filter' ), 10, 1 );
-		}
-		else {
-			add_action( 'wpseo_opengraph', array( $this, 'app_id' ), 20 );
-			add_action( 'wpseo_opengraph', array( $this, 'site_name' ), 13 );
-			if ( is_singular() && ! is_front_page() ) {
-				add_action( 'wpseo_opengraph', array( $this, 'tags' ), 16 );
-				add_action( 'wpseo_opengraph', array( $this, 'category' ), 17 );
-				add_action( 'wpseo_opengraph', array( $this, 'publish_date' ), 19 );
-			}
+		add_action( 'wpseo_opengraph', array( $this, 'app_id' ), 20 );
+		add_action( 'wpseo_opengraph', array( $this, 'site_name' ), 13 );
 
-			add_action( 'wpseo_opengraph', array( $this, 'image' ), 30 );
+		if ( is_singular() && ! is_front_page() ) {
+			add_action( 'wpseo_opengraph', array( $this, 'tags' ), 16 );
+			add_action( 'wpseo_opengraph', array( $this, 'category' ), 17 );
+			add_action( 'wpseo_opengraph', array( $this, 'publish_date' ), 19 );
 		}
+
+		add_action( 'wpseo_opengraph', array( $this, 'image' ), 30 );
 		add_filter( 'jetpack_enable_open_graph', '__return_false' );
 		add_action( 'wpseo_head', array( $this, 'opengraph' ), 30 );
 	}
