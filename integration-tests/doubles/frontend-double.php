@@ -35,13 +35,6 @@ class WPSEO_Frontend_Double extends WPSEO_Frontend {
 	}
 
 	/**
-	 * @param WPSEO_WooCommerce_Shop_Page $woocommerce_shop_page Shop page object.
-	 */
-	public function set_woocommerce_shop_page( WPSEO_WooCommerce_Shop_Page $woocommerce_shop_page ) {
-		$this->woocommerce_shop_page = $woocommerce_shop_page;
-	}
-
-	/**
 	 * Short-circuit redirecting.
 	 *
 	 * @param string $location The path to redirect to.
