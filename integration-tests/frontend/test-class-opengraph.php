@@ -77,53 +77,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_OpenGraph::article_author_facebook
-	 */
-	public function test_article_author_facebook() {
-
-		// Test not on singular page.
-		$this->assertFalse( self::$class_instance->article_author_facebook() );
-
-		// Create post with author.
-		$author_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
-		$post_id   = $this->factory->post->create( array( 'post_author' => $author_id ) );
-		$this->go_to( get_permalink( $post_id ) );
-
-		// On post page but facebook meta not set.
-		$this->assertFalse( self::$class_instance->article_author_facebook() );
-
-		// Add facebook meta to post author.
-		$post   = get_post( $post_id );
-		$author = $post->post_author;
-		add_user_meta( $author, 'facebook', 'facebook_author' );
-
-		// Test final output.
-		$this->assertTrue( self::$class_instance->article_author_facebook() );
-		$this->expectOutput( '<meta property="article:author" content="facebook_author" />' . "\n" );
-	}
-
-	/**
-	 * @covers WPSEO_OpenGraph::website_facebook
-	 */
-	public function test_website_facebook() {
-		// Option not set.
-		$this->assertFalse( self::$class_instance->website_facebook() );
-
-		// Set option.
-		WPSEO_Options::set( 'facebook_site', 'http://facebook.com/mysite/' );
-
-		// Test home output.
-		$this->go_to_home();
-		$this->assertFalse( self::$class_instance->website_facebook() );
-
-		// Test singular output.
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-		$this->assertTrue( self::$class_instance->website_facebook() );
-		$this->expectOutput( '<meta property="article:publisher" content="http://facebook.com/mysite/" />' . "\n" );
-	}
-
-	/**
 	 * @covers WPSEO_OpenGraph::locale
 	 */
 	public function test_locale() {
