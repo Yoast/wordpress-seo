@@ -26,27 +26,6 @@ class WPSEO_Frontend {
 	private $ob_started = false;
 
 	/**
-	 * Holds the canonical URL for the current page.
-	 *
-	 * @var string
-	 */
-	private $canonical = null;
-
-	/**
-	 * Holds the canonical URL for the current page that cannot be overriden by a manual canonical input.
-	 *
-	 * @var string
-	 */
-	private $canonical_no_override = null;
-
-	/**
-	 * Holds the canonical URL for the current page without pagination.
-	 *
-	 * @var string
-	 */
-	private $canonical_unpaged = null;
-
-	/**
 	 * Class constructor.
 	 *
 	 * Adds and removes a lot of filters.
@@ -59,24 +38,10 @@ class WPSEO_Frontend {
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 		remove_action( 'wp_head', 'noindex', 1 );
 
-		add_action( 'wp', array( $this, 'page_redirect' ), 99 );
-
-		if ( WPSEO_Options::get( 'disable-date', false )
-			|| WPSEO_Options::get( 'disable-author', false )
-			|| WPSEO_Options::get( 'disable-post_format', false )
-		) {
-			add_action( 'wp', array( $this, 'archive_redirect' ) );
-		}
-		add_action( 'template_redirect', array( $this, 'attachment_redirect' ), 1 );
-
 		// For WordPress functions below 4.4.
 		if ( WPSEO_Options::get( 'forcerewritetitle', false ) && ! current_theme_supports( 'title-tag' ) ) {
 			add_action( 'template_redirect', array( $this, 'force_rewrite_output_buffer' ), 99999 );
 			add_action( 'wp_footer', array( $this, 'flush_cache' ), - 1 );
-		}
-
-		if ( WPSEO_Options::get( 'title_test', 0 ) > 0 ) {
-			add_filter( 'wpseo_title', array( $this, 'title_test_helper' ) );
 		}
 
 		$integrations = array(
@@ -156,96 +121,6 @@ class WPSEO_Frontend {
 	}
 
 	/**
-	 * Based on the redirect meta value, this function determines whether it should redirect the current post / page.
-	 *
-	 * @return boolean
-	 */
-	public function page_redirect() {
-		if ( is_singular() ) {
-			global $post;
-			if ( ! isset( $post ) || ! is_object( $post ) ) {
-				return false;
-			}
-
-			$redir = $this->get_seo_meta_value( 'redirect', $post->ID );
-			if ( $redir !== '' ) {
-				header( 'X-Redirect-By: Yoast SEO' );
-				wp_redirect( $redir, 301, 'Yoast SEO' );
-				exit;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * When certain archives are disabled, this redirects those to the homepage.
-	 *
-	 * @return boolean False when no redirect was triggered.
-	 */
-	public function archive_redirect() {
-		global $wp_query;
-
-		if (
-			( WPSEO_Options::get( 'disable-date', false ) && $wp_query->is_date ) ||
-			( WPSEO_Options::get( 'disable-author', false ) && $wp_query->is_author ) ||
-			( WPSEO_Options::get( 'disable-post_format', false ) && $wp_query->is_tax( 'post_format' ) )
-		) {
-			$this->redirect( get_bloginfo( 'url' ), 301 );
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * If the option to disable attachment URLs is checked, this performs the redirect to the attachment.
-	 *
-	 * @return bool Returns succes status.
-	 */
-	public function attachment_redirect() {
-		if ( WPSEO_Options::get( 'disable-attachment', false ) === false ) {
-			return false;
-		}
-		if ( ! is_attachment() ) {
-			return false;
-		}
-
-		/**
-		 * Allow the developer to change the target redirection URL for attachments.
-		 *
-		 * @api   string $attachment_url The attachment URL for the queried object.
-		 * @api   object $queried_object The queried object.
-		 *
-		 * @since 7.5.3
-		 */
-		$url = apply_filters( 'wpseo_attachment_redirect_url', wp_get_attachment_url( get_queried_object_id() ), get_queried_object() );
-
-
-		if ( ! empty( $url ) ) {
-			$this->do_attachment_redirect( $url );
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Performs the redirect from the attachment page to the image file itself.
-	 *
-	 * @param string $attachment_url The attachment image url.
-	 *
-	 * @return void
-	 */
-	public function do_attachment_redirect( $attachment_url ) {
-		header( 'X-Redirect-By: Yoast SEO' );
-		wp_redirect( $attachment_url, 301, 'Yoast SEO' );
-		exit;
-	}
-
-	/**
 	 * Used in the force rewrite functionality this retrieves the output, replaces the title with the proper SEO
 	 * title and then flushes the output.
 	 */
@@ -276,102 +151,6 @@ class WPSEO_Frontend {
 	public function force_rewrite_output_buffer() {
 		$this->ob_started = true;
 		ob_start();
-	}
-
-	/**
-	 * Check if this plugin is the premium version of WPSEO.
-	 *
-	 * @return bool
-	 */
-	protected function is_premium() {
-		return WPSEO_Utils::is_yoast_seo_premium();
-	}
-
-	/**
-	 * Check if term archive query is for multiple terms (/term-1,term2/ or /term-1+term-2/).
-	 *
-	 * @return bool
-	 */
-	protected function is_multiple_terms_query() {
-		global $wp_query;
-
-		if ( ! is_tax() && ! is_tag() && ! is_category() ) {
-			return false;
-		}
-
-		$term          = get_queried_object();
-		$queried_terms = $wp_query->tax_query->queried_terms;
-
-		if ( empty( $queried_terms[ $term->taxonomy ]['terms'] ) ) {
-			return false;
-		}
-
-		return count( $queried_terms[ $term->taxonomy ]['terms'] ) > 1;
-	}
-
-	/**
-	 * Wraps wp_safe_redirect to allow testing for redirects.
-	 *
-	 * @param string $location The path to redirect to.
-	 * @param int    $status   Status code to use.
-	 */
-	public function redirect( $location, $status = 302 ) {
-		header( 'X-Redirect-By: Yoast SEO' );
-		wp_safe_redirect( $location, $status, 'Yoast SEO' );
-		exit;
-	}
-
-	/**
-	 * Retrieves a template from the options.
-	 *
-	 * @param string $template The template to retrieve.
-	 *
-	 * @return string The set template.
-	 */
-	protected function get_template( $template ) {
-		return WPSEO_Options::get( $template );
-	}
-
-	/**
-	 * Retrieves the queried post type.
-	 *
-	 * @return string The queried post type.
-	 */
-	protected function get_queried_post_type() {
-		$post_type = get_query_var( 'post_type' );
-		if ( is_array( $post_type ) ) {
-			$post_type = reset( $post_type );
-		}
-
-		return $post_type;
-	}
-
-	/**
-	 * Retrieves the SEO Meta value for the supplied key and optional post.
-	 *
-	 * @param string $key     The key to retrieve.
-	 * @param int    $post_id Optional. The post to retrieve the key for.
-	 *
-	 * @return string Meta value.
-	 */
-	protected function get_seo_meta_value( $key, $post_id = 0 ) {
-		return WPSEO_Meta::get_value( $key, $post_id );
-	}
-
-	/**
-	 * Replaces the dynamic variables in a string.
-	 *
-	 * @param string $string The string to replace the variables in.
-	 * @param array  $args   The object some of the replacement values might come from,
-	 *                       could be a post, taxonomy or term.
-	 * @param array  $omit   Variables that should not be replaced by this function.
-	 *
-	 * @return string The replaced string.
-	 */
-	protected function replace_vars( $string, $args, $omit = array() ) {
-		$replacer = new WPSEO_Replace_Vars();
-
-		return $replacer->replace( $string, $args, $omit );
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
@@ -431,8 +210,7 @@ class WPSEO_Frontend {
 	public function remove_reply_to_com( $link ) {
 		_deprecated_function( 'WPSEO_Frontend::remove_reply_to_com', '7.0', 'WPSEO_Remove_Reply_To_Com::remove_reply_to_com' );
 
-		$remove_replytocom = new WPSEO_Remove_Reply_To_Com();
-		return $remove_replytocom->remove_reply_to_com( $link );
+		return '';
 	}
 
 	/**
@@ -446,8 +224,7 @@ class WPSEO_Frontend {
 	public function replytocom_redirect() {
 		_deprecated_function( 'WPSEO_Frontend::replytocom_redirect', '7.0', 'WPSEO_Remove_Reply_To_Com::replytocom_redirect' );
 
-		$remove_replytocom = new WPSEO_Remove_Reply_To_Com();
-		return $remove_replytocom->replytocom_redirect();
+		return false;
 	}
 
 	/**
@@ -897,6 +674,80 @@ class WPSEO_Frontend {
 	 * @deprecated xx.x
 	 */
 	public function webmaster_tools_authentication() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+	}
+
+	/**
+	 * When certain archives are disabled, this redirects those to the homepage.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated xx.x
+	 *
+	 * @return boolean False when no redirect was triggered.
+	 */
+	public function archive_redirect() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return false;
+	}
+
+	/**
+	 * Based on the redirect meta value, this function determines whether it should redirect the current post / page.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated xx.x
+	 *
+	 * @return boolean Whether or not the current post / page should be redirected.
+	 */
+	public function page_redirect() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return false;
+	}
+
+	/**
+	 * If the option to disable attachment URLs is checked, this performs the redirect to the attachment.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated xx.x
+	 *
+	 * @return bool Returns success status.
+	 */
+	public function attachment_redirect() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return false;
+	}
+
+	/**
+	 * Performs the redirect from the attachment page to the image file itself.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated xx.x
+	 *
+	 * @param string $attachment_url The attachment image url.
+	 *
+	 * @return void
+	 */
+	public function do_attachment_redirect( $attachment_url ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+	}
+
+	/**
+	 * Wraps wp_safe_redirect to allow testing for redirects.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @deprecated xx.x
+	 *
+	 * @param string $location The path to redirect to.
+	 * @param int    $status   Status code to use.
+	 */
+	public function redirect( $location, $status = 302 ) {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
