@@ -4,6 +4,6 @@
     "type": "wordpress-plugin",
     "require": {
         "wp-graphql/wp-graphql": "^0.3.8",
-        "yoast/wordpress-seo": "^12.3",
+        "yoast/wordpress-seo": "^12.3"
     }
 }
