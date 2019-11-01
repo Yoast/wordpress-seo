@@ -15,7 +15,6 @@ class WPSEO_OpenGraph {
 	 */
 	public function __construct() {
 		add_action( 'wpseo_opengraph', array( $this, 'app_id' ), 20 );
-		add_action( 'wpseo_opengraph', array( $this, 'site_name' ), 13 );
 
 		if ( is_singular() && ! is_front_page() ) {
 			add_action( 'wpseo_opengraph', array( $this, 'tags' ), 16 );
@@ -74,21 +73,6 @@ class WPSEO_OpenGraph {
 	public function image( $image = false ) {
 		$opengraph_image = new WPSEO_OpenGraph_Image( $image, $this );
 		$opengraph_image->show();
-	}
-
-	/**
-	 * Output the site name straight from the blog info.
-	 */
-	public function site_name() {
-		/**
-		 * Filter: 'wpseo_opengraph_site_name' - Allow changing the OpenGraph site name.
-		 *
-		 * @api string $unsigned Blog name string.
-		 */
-		$name = apply_filters( 'wpseo_opengraph_site_name', get_bloginfo( 'name' ) );
-		if ( is_string( $name ) && $name !== '' ) {
-			$this->og_tag( 'og:site_name', $name );
-		}
 	}
 
 	/**
@@ -194,8 +178,6 @@ class WPSEO_OpenGraph {
 
 	/**
 	 * Outputs the Facebook app_id.
-	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 	 *
 	 * @return void
 	 */
@@ -374,5 +356,17 @@ class WPSEO_OpenGraph {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return [];
+	}
+
+	/**
+	 * Outputs the site name straight from the blog info.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function site_name() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 } /* End of class */
