@@ -8,6 +8,7 @@
 namespace Yoast\WP\Free\Integrations\Third_Party;
 
 use WPSEO_Replace_Vars;
+use Yoast\WP\Free\Conditionals\Front_End_Conditional;
 use Yoast\WP\Free\Conditionals\WooCommerce_Conditional;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Integrations\Integration_Interface;
@@ -29,12 +30,11 @@ class WooCommerce implements Integration_Interface {
 	private $replace_vars;
 
 	/**
-	 * Returns the conditionals based in which this loadable should be active.
-	 *
-	 * @return array The conditionals.
+	 * @codeCoverageIgnore
+	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
-		return [ WooCommerce_Conditional::class ];
+		return [ WooCommerce_Conditional::class, Front_End_Conditional::class ];
 	}
 
 	/**
@@ -49,9 +49,8 @@ class WooCommerce implements Integration_Interface {
 	}
 
 	/**
-	 * Initializes the integration.
-	 *
-	 * @return void
+	 * @codeCoverageIgnore
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		\add_filter( 'wpseo_frontend_page_type_simple_page_id', [ $this, 'get_page_id' ] );
@@ -131,6 +130,8 @@ class WooCommerce implements Integration_Interface {
 	/**
 	 * Checks if the current page is a WooCommerce shop page.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return bool True when the page is a shop page.
 	 */
 	protected function is_shop_page() {
@@ -139,6 +140,8 @@ class WooCommerce implements Integration_Interface {
 
 	/**
 	 * Uses template for the given option name and replace the replacement variables on it.
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $option_name The option name to get the template for.
 	 *
