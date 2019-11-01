@@ -19,7 +19,6 @@ class WPSEO_OpenGraph {
 		}
 		else {
 			add_action( 'wpseo_opengraph', array( $this, 'locale' ), 1 );
-			add_action( 'wpseo_opengraph', array( $this, 'type' ), 5 );
 			add_action( 'wpseo_opengraph', array( $this, 'app_id' ), 20 );
 			add_action( 'wpseo_opengraph', array( $this, 'site_name' ), 13 );
 			if ( is_singular() && ! is_front_page() ) {
@@ -302,53 +301,6 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
-	 * Output the OpenGraph type.
-	 *
-	 * @param boolean $echo Whether to echo or return the type.
-	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/object/
-	 *
-	 * @return string $type
-	 */
-	public function type( $echo = true ) {
-
-		if ( is_front_page() || is_home() ) {
-			$type = 'website';
-		}
-		elseif ( is_singular() ) {
-
-			// This'll usually only be changed by plugins right now.
-			$type = WPSEO_Meta::get_value( 'og_type' );
-
-			if ( $type === '' ) {
-				$type = 'article';
-			}
-		}
-		else {
-			// We use "object" for archives etc. as article doesn't apply there.
-			$type = 'object';
-		}
-
-		/**
-		 * Filter: 'wpseo_opengraph_type' - Allow changing the OpenGraph type of the page.
-		 *
-		 * @api string $type The OpenGraph type string.
-		 */
-		$type = apply_filters( 'wpseo_opengraph_type', $type );
-
-		if ( is_string( $type ) && $type !== '' ) {
-			if ( $echo !== false ) {
-				$this->og_tag( 'og:type', $type );
-			}
-			else {
-				return $type;
-			}
-		}
-
-		return '';
-	}
-
-	/**
 	 * Create new WPSEO_OpenGraph_Image class and get the images to set the og:image.
 	 *
 	 * @param string|bool $image Optional. Image URL.
@@ -604,5 +556,22 @@ class WPSEO_OpenGraph {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return false;
+	}
+
+
+	/**
+	 * Outputs the OpenGraph type.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+
+	 * @param boolean $echo Whether to echo or return the type.
+	 *
+	 * @return string $type
+	 */
+	public function type( $echo = true ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return '';
 	}
 } /* End of class */

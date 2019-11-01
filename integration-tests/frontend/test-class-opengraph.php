@@ -96,22 +96,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_OpenGraph::type
-	 */
-	public function test_type() {
-		$this->assertEquals( 'website', self::$class_instance->type( false ) );
-
-		$category_id = wp_create_category( 'Yoast SEO' );
-		$this->go_to( get_category_link( $category_id ) );
-		$this->assertEquals( 'object', self::$class_instance->type( false ) );
-
-		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-		$this->assertEquals( 'article', self::$class_instance->type( false ) );
-	}
-
-	/**
 	 * Test if the function og_tag gets called when there is a front page image.
 	 *
 	 * @covers WPSEO_OpenGraph::image
