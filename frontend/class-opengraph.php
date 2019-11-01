@@ -22,9 +22,7 @@ class WPSEO_OpenGraph {
 			add_action( 'wpseo_opengraph', array( $this, 'type' ), 5 );
 			add_action( 'wpseo_opengraph', array( $this, 'app_id' ), 20 );
 			add_action( 'wpseo_opengraph', array( $this, 'site_name' ), 13 );
-			add_action( 'wpseo_opengraph', array( $this, 'website_facebook' ), 14 );
 			if ( is_singular() && ! is_front_page() ) {
-				add_action( 'wpseo_opengraph', array( $this, 'article_author_facebook' ), 15 );
 				add_action( 'wpseo_opengraph', array( $this, 'tags' ), 16 );
 				add_action( 'wpseo_opengraph', array( $this, 'category' ), 17 );
 				add_action( 'wpseo_opengraph', array( $this, 'publish_date' ), 19 );
@@ -86,54 +84,6 @@ class WPSEO_OpenGraph {
 		$meta_tags['http://ogp.me/ns#locale'] = $this->locale( false );
 
 		return $meta_tags;
-	}
-
-	/**
-	 * Outputs the authors FB page.
-	 *
-	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
-	 *
-	 * @return boolean
-	 */
-	public function article_author_facebook() {
-		if ( ! is_singular() ) {
-			return false;
-		}
-
-		/**
-		 * Filter: 'wpseo_opengraph_author_facebook' - Allow developers to filter the Yoast SEO post authors facebook profile URL.
-		 *
-		 * @api bool|string $unsigned The Facebook author URL, return false to disable.
-		 */
-		$facebook = apply_filters( 'wpseo_opengraph_author_facebook', get_the_author_meta( 'facebook', $GLOBALS['post']->post_author ) );
-
-		if ( $facebook && ( is_string( $facebook ) && $facebook !== '' ) ) {
-			$this->og_tag( 'article:author', $facebook );
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Outputs the websites FB page.
-	 *
-	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
-	 *
-	 * @return boolean
-	 */
-	public function website_facebook() {
-
-		if ( 'article' === $this->type( false ) && WPSEO_Options::get( 'facebook_site', '' ) !== '' ) {
-			$this->og_tag( 'article:publisher', WPSEO_Options::get( 'facebook_site' ) );
-
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -619,5 +569,40 @@ class WPSEO_OpenGraph {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return '';
+	}
+
+	/**
+	 * Outputs the author's FB page.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+
+	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
+	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
+	 * @return boolean
+	 */
+	public function article_author_facebook() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return false;
+	}
+
+
+	/**
+	 * Outputs the website's FB page.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+
+	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
+	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
+	 * @return boolean
+	 */
+	public function website_facebook() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return false;
 	}
 } /* End of class */
