@@ -77,25 +77,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_OpenGraph::locale
-	 */
-	public function test_locale() {
-		global $locale;
-
-		$this->assertEquals( 'en_US', self::$class_instance->locale( false ) );
-
-		$locale = 'ca';
-		$this->assertEquals( 'ca_ES', self::$class_instance->locale( false ) );
-
-		$locale = 'nl';
-		$this->assertEquals( 'nl_NL', self::$class_instance->locale( false ) );
-
-		$locale = 'nl_NL';
-		$this->assertEquals( 'nl_NL', self::$class_instance->locale( true ) );
-		$this->expectOutput( '<meta property="og:locale" content="nl_NL" />' . "\n" );
-	}
-
-	/**
 	 * Test if the function og_tag gets called when there is a front page image.
 	 *
 	 * @covers WPSEO_OpenGraph::image
