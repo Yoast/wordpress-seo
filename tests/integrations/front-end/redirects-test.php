@@ -106,7 +106,7 @@ class Redirects_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the page redirect for a non simple page.
+	 * Tests the page redirect for a non-simple page.
 	 *
 	 * @covers ::page_redirect
 	 */
@@ -142,7 +142,7 @@ class Redirects_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the page redirect for a simple page that hasn't a redirect value set.
+	 * Tests the page redirect for a simple page that doesn't have a redirect value set.
 	 *
 	 * @covers ::page_redirect
 	 */
@@ -196,7 +196,7 @@ class Redirects_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the attachment redirect on a non attachment page.
+	 * Tests the attachment redirect on a non-attachment page.
 	 *
 	 * @covers ::attachment_redirect
 	 */

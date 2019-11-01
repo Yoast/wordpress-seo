@@ -179,7 +179,7 @@ class Redirects implements Integration_Interface {
 	 */
 	protected function get_attachment_url() {
 		/**
-		 * Allow the developer to change the target redirection URL for attachments.
+		 * Allows the developer to change the target redirection URL for attachments.
 		 *
 		 * @api   string $attachment_url The attachment URL for the queried object.
 		 * @api   object $queried_object The queried object.

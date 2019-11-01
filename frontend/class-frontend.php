@@ -709,7 +709,7 @@ class WPSEO_Frontend {
 	 *
 	 * @deprecated xx.x
 	 *
-	 * @return boolean
+	 * @return boolean Whether or not the current post / page should be redirected.
 	 */
 	public function page_redirect() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
