@@ -53,12 +53,12 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * @var Indexable
 	 */
-	protected $model;
+	public $model;
 
 	/**
 	 * @var Meta_Tags_Context
 	 */
-	protected $context;
+	public $context;
 
 	/**
 	 * @var Schema_Generator

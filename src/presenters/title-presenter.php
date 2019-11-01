@@ -37,8 +37,10 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The document title tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$title = $this->filter( $this->replace_vars( $presentation->title, $presentation ) );
+		$title = $this->replace_vars( $presentation->title, $presentation );
+		$title = $this->filter( $title, $presentation );
 		$title = $this->string->strip_all_tags( \stripslashes( $title ) );
+		$title = trim( $title );
 
 		if ( \is_string( $title ) && $title !== '' ) {
 			return '<title>' . \esc_html( $title ) . '</title>';
@@ -50,16 +52,18 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the document title through the `wpseo_title` filter.
 	 *
-	 * @param string $title The document title to filter.
+	 * @param string                 $title        The document title to filter.
+	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *
 	 * @return string $title The filtered document title.
 	 */
-	private function filter( $title ) {
+	private function filter( $title, Indexable_Presentation $presentation ) {
 		/**
 		 * Filter: 'wpseo_title' - Allow changing the Yoast SEO generated title.
 		 *
-		 * @api string $title The title.
+		 * @api   string                 $title        The title.
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \trim( \apply_filters( 'wpseo_title', $title ) );
+		return \apply_filters( 'wpseo_title', $title, $presentation );
 	}
 }
