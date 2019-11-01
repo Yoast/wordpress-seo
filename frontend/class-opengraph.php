@@ -296,7 +296,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @deprecated xx.x
 	 * @codeCoverageIgnore
-
+	 *
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 	 *
@@ -314,7 +314,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @deprecated xx.x
 	 * @codeCoverageIgnore
-
+	 *
 	 * @link https://developers.facebook.com/blog/post/2013/06/19/platform-updates--new-open-graph-tags-for-media-publishers-and-more/
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
 	 *
@@ -332,7 +332,7 @@ class WPSEO_OpenGraph {
 	 *
 	 * @deprecated xx.x
 	 * @codeCoverageIgnore
-
+	 *
 	 * @param boolean $echo Whether to echo or return the type.
 	 *
 	 * @return string $type
@@ -344,7 +344,7 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
-	 * Output the locale, doing some conversions to make sure the proper Facebook locale is outputted.
+	 * Outputs the locale, doing some conversions to make sure the proper Facebook locale is output.
 	 *
 	 * Last update/compare with FB list done on 2015-03-16 by Rarst.
 	 *
