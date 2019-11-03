@@ -1,14 +1,8 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\Free\Tests\Inc
- */
 
 namespace Yoast\WP\Free\Tests\Inc;
 
 use Mockery;
-use WPSEO_Addon_Manager;
 use WPSEO_Utils;
 use Yoast\WP\Free\Tests\Doubles\Inc\Addon_Manager_Double;
 use Yoast\WP\Free\Tests\TestCase;
@@ -39,7 +33,7 @@ class Addon_Manager_Test extends TestCase {
 	/**
 	 * Holds the instance of the class being tested.
 	 *
-	 * @var Mockery\Mock|Addon_Manager_Double
+	 * @var \Mockery\Mock|\Yoast\WP\Free\Tests\Doubles\Inc\Addon_Manager_Double
 	 */
 	protected $instance;
 
@@ -703,7 +697,7 @@ class Addon_Manager_Test extends TestCase {
 	 * @return \stdClass Subscriptions.
 	 */
 	protected function get_subscriptions() {
-		return json_decode(
+		return \json_decode(
 			WPSEO_Utils::format_json_encode(
 				[
 					'wp-seo-premium.php' => [
@@ -743,7 +737,7 @@ class Addon_Manager_Test extends TestCase {
 	 */
 	protected function get_future_date() {
 		if ( $this->future_date === null ) {
-			$this->future_date = gmdate( 'Y-m-d\TH:i:s\Z', ( time() + DAY_IN_SECONDS ) );
+			$this->future_date = \gmdate( 'Y-m-d\TH:i:s\Z', ( \time() + \DAY_IN_SECONDS ) );
 		}
 
 		return $this->future_date;
@@ -756,7 +750,7 @@ class Addon_Manager_Test extends TestCase {
 	 */
 	protected function get_past_date() {
 		if ( $this->past_date === null ) {
-			$this->past_date = gmdate( 'Y-m-d\TH:i:s\Z', ( time() - DAY_IN_SECONDS ) );
+			$this->past_date = \gmdate( 'Y-m-d\TH:i:s\Z', ( \time() - \DAY_IN_SECONDS ) );
 		}
 		return $this->past_date;
 	}
