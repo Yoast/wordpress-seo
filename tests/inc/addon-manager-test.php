@@ -197,11 +197,11 @@ class Addon_Manager_Test extends TestCase {
 	 * @covers ::get_subscription
 	 */
 	public function test_get_subscription() {
-		$subscription = (object) array(
-			'product' => (object) array(
+		$subscription = (object) [
+			'product' => (object) [
 				'slug' => 'wordpress-seo',
-			),
-		);
+			],
+		];
 
 		$this->instance
 			->expects( 'get_subscriptions' )
@@ -220,11 +220,11 @@ class Addon_Manager_Test extends TestCase {
 	 * @covers ::get_subscription
 	 */
 	public function test_get_subscription_not_found() {
-		$subscription = (object) array(
-			'product' => (object) array(
+		$subscription = (object) [
+			'product' => (object) [
 				'slug' => 'wordpress-seo',
-			),
-		);
+			],
+		];
 
 		$this->instance
 			->expects( 'get_subscriptions' )
@@ -431,7 +431,7 @@ class Addon_Manager_Test extends TestCase {
 	 */
 	public function test_convert_subscription_to_plugin() {
 		$this->assertEquals(
-			(object) array(
+			(object) [
 				'new_version'   => '10.0',
 				'name'          => 'Extension',
 				'slug'          => 'yoast-seo-wordpress-premium',
@@ -440,13 +440,13 @@ class Addon_Manager_Test extends TestCase {
 				'homepage'      => 'https://example.org/store',
 				'download_link' => 'https://example.org/extension.zip',
 				'package'       => 'https://example.org/extension.zip',
-				'sections'      => array(
+				'sections'      => [
 					'changelog' => 'changelog',
-				),
-			),
+				],
+			],
 			$this->instance->convert_subscription_to_plugin(
-				(object) array(
-					'product' => (object) array(
+				(object) [
+					'product' => (object) [
 						'version'      => '10.0',
 						'name'         => 'Extension',
 						'slug'         => 'yoast-seo-wordpress-premium',
@@ -454,8 +454,8 @@ class Addon_Manager_Test extends TestCase {
 						'store_url'    => 'https://example.org/store',
 						'download'     => 'https://example.org/extension.zip',
 						'changelog'    => 'changelog',
-					),
-				)
+					],
+				]
 			)
 		);
 	}
@@ -478,7 +478,7 @@ class Addon_Manager_Test extends TestCase {
 			);
 
 		$this->assertEquals(
-			array(),
+			[],
 			$this->instance->get_installed_addons()
 		);
 	}
@@ -521,11 +521,11 @@ class Addon_Manager_Test extends TestCase {
 			);
 
 		$this->assertEquals(
-			array(
-				'wp-seo-premium.php' => array(
+			[
+				'wp-seo-premium.php' => [
 					'Version' => '10.0',
-				),
-			),
+				],
+			],
 			$this->instance->get_installed_addons()
 		);
 	}
