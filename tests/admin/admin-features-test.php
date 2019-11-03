@@ -16,7 +16,6 @@ use Yoast\WP\Free\Tests\TestCase;
  * @package Yoast\Tests\Admin
  *
  * @coversDefaultClass WPSEO_Admin
- * @covers <!public>
  */
 class Admin_Features_Test extends TestCase {
 
