@@ -539,17 +539,13 @@ class Addon_Manager_Test extends TestCase {
 		$this->instance
 			->expects( 'get_plugins' )
 			->once()
-			->andReturn( [
-				'wp-seo-premium.php'         => [
-					'Version' => '10.0',
-				],
-				'no-yoast-seo-extension-php' => [
-					'Version' => '10.0',
-				],
-				'wpseo-news.php'             => [
-					'Version' => '9.5',
-				],
-			] );
+			->andReturn(
+				[
+					'wp-seo-premium.php'         => [ 'Version' => '10.0' ],
+					'no-yoast-seo-extension-php' => [ 'Version' => '10.0' ],
+					'wpseo-news.php'             => [ 'Version' => '9.5' ],
+				]
+			);
 
 		$this->instance
 			->expects( 'is_plugin_active' )

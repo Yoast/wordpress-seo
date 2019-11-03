@@ -72,9 +72,10 @@ abstract class TestCase extends BaseTestCase {
 
 					return trim( $string );
 				},
-				'get_bloginfo'       => function ( $show ) {
+				'get_bloginfo'        => function ( $show ) {
 					switch ( $show ) {
-						case 'charset': return 'UTF-8';
+						case 'charset':
+							return 'UTF-8';
 					}
 					return $show;
 				},
