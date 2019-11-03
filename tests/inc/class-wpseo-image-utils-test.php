@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin\Inc;
+namespace Yoast\WP\Free\Tests\Inc;
 
 use Yoast\WP\Free\Tests\Doubles\Inc\Image_Utils_Double;
 use Yoast\WP\Free\Tests\TestCase;
