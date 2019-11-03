@@ -162,7 +162,7 @@ class Option_Social_Test extends TestCase {
 	/**
 	 * Tests the Facebook App ID validation method with an invalid ID.
 	 *
-	 * @covers Yoast_Input_Validation::validate_facebook_app_id
+	 * @covers WPSEO_Option_Social::validate_facebook_app_id
 	 */
 	public function test_facebook_app_id_is_invalid() {
 		Monkey\Functions\stubs(
@@ -221,7 +221,7 @@ class Option_Social_Test extends TestCase {
 	/**
 	 * Tests the Facebook App ID validation method with a valid ID.
 	 *
-	 * @covers Yoast_Input_Validation::validate_facebook_app_id
+	 * @covers WPSEO_Option_Social::validate_facebook_app_id
 	 */
 	public function test_facebook_app_id_is_valid() {
 		$GLOBALS['wp_settings_errors'] = [];
