@@ -233,7 +233,7 @@ class WPSEO_MyYoast_Api_Request {
 				return array( 'token' => $access_token->getToken() );
 			}
 		}
-			// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
+		// @codingStandardsIgnoreLine Generic.CodeAnalysis.EmptyStatement.DetectedCATCH -- There is nothing to do.
 		catch ( WPSEO_MyYoast_Bad_Request_Exception $bad_request ) {
 			// Do nothing.
 		}

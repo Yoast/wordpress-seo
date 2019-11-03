@@ -107,9 +107,13 @@ class Actions {
 	 */
 	private static function check_cs_for_changed_files( $compare ) {
 		\exec( 'git diff --name-only --diff-filter=d ' . escapeshellarg( $compare ), $files );
-		$files = array_filter( $files, function ( $file ) {
-			return substr( $file, -4 ) === '.php';
-		} );
+		$files = array_filter(
+			$files,
+			function ( $file ) {
+				return substr( $file, -4 ) === '.php';
+			}
+		);
+
 		if ( empty( $files ) ) {
 			echo 'No files to compare! Exiting.';
 			return;

@@ -9,6 +9,7 @@
  * Class WPSEO_Admin_Banner.
  */
 class WPSEO_Admin_Banner implements WPSEO_WordPress_Integration {
+
 	/**
 	 * Registers all hooks to WordPress.
 	 *
