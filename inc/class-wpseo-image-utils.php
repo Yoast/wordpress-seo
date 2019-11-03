@@ -126,7 +126,8 @@ class WPSEO_Image_Utils {
 		}
 
 		/**
-		 * Filter: 'wpseo_image_image_weight_limit' - Determines what the maximum weight (in bytes) of an image is allowed to be, default is 2 MB.
+		 * Filter: 'wpseo_image_image_weight_limit' - Determines what the maximum weight
+		 * (in bytes) of an image is allowed to be, default is 2 MB.
 		 *
 		 * @api int - The maximum weight (in bytes) of an image.
 		 */
@@ -281,7 +282,7 @@ class WPSEO_Image_Utils {
 	 *    @type int    $min_height    Minimum height of image.
 	 *    @type int    $max_height    Maximum height of image.
 	 * }
-	 * @param array $variations The variations that should be considered.
+	 * @param array $variations        The variations that should be considered.
 	 *
 	 * @return array Whether a variation is fit for display or not.
 	 */
