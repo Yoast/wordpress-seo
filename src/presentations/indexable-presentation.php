@@ -34,11 +34,13 @@ use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
  * @property string og_description
  * @property array  og_images
  * @property string og_url
+ * @property string og_site_name
  * @property string og_article_publisher
  * @property string og_article_author
  * @property string og_article_published_time
  * @property string og_article_modified_time
  * @property string og_locale
+ * @property string og_fb_app_id
  * @property array  schema
  * @property string twitter_card
  * @property string twitter_title
@@ -332,6 +334,15 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_og_locale() {
 		return $this->og_locale_generator->generate( $this->context );
+	}
+
+	/**
+	 * Generates the open graph Facebook app ID.
+	 *
+	 * @return string The open graph Facebook app ID.
+	 */
+	public function generate_og_fb_app_id() {
+		return $this->options_helper->get( 'fbadminapp', '' );
 	}
 
 	/**
