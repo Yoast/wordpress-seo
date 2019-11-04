@@ -64,10 +64,18 @@ class Force_Rewrite_Title implements Integration_Interface {
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
+		// When the option is disabled.
+		if ( ! $this->options->get( 'forcerewritetitle', false ) ) {
+			return;
+		}
 
+		// For WordPress versions below 4.4.
+		if ( \current_theme_supports( 'title-tag' ) ) {
+			return;
+		}
 
 		add_action( 'template_redirect', [ $this, 'force_rewrite_output_buffer' ], 99999 );
-		add_action( 'wp_footer', [ $this, 'flush_cache' ], -1 );
+		add_action( 'wp_footer', [ $this, 'flush_cache' ], - 1 );
 	}
 
 	/**
