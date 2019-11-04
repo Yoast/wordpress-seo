@@ -93,6 +93,7 @@ class Front_End_Integration implements Integration_Interface {
 		'Open_Graph\Article_Published_Time',
 		'Open_Graph\Article_Modified_Time',
 		'Open_Graph\Image',
+		'Open_Graph\FB_App_ID',
 	];
 
 	/**
@@ -191,6 +192,7 @@ class Front_End_Integration implements Integration_Interface {
 		$page_type    = $this->get_page_type();
 		$context      = $this->get_context( $indexable );
 		$presentation = $this->get_presentation( $indexable, $context, $page_type );
+
 		$presenters   = $this->get_presenters( $page_type );
 		echo PHP_EOL;
 		foreach ( $presenters as $presenter ) {
@@ -348,7 +350,6 @@ class Front_End_Integration implements Integration_Interface {
 		if ( WPSEO_Options::get( 'twitter' ) === true && apply_filters( 'wpseo_output_twitter_card', true ) !== false ) {
 			$presenters = array_merge( $presenters, $this->twitter_card_presenters );
 		}
-
 		return array_merge( $presenters, $this->closing_presenters );
 	}
 }
