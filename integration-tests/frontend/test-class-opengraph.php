@@ -77,88 +77,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_OpenGraph::article_author_facebook
-	 */
-	public function test_article_author_facebook() {
-
-		// Test not on singular page.
-		$this->assertFalse( self::$class_instance->article_author_facebook() );
-
-		// Create post with author.
-		$author_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
-		$post_id   = $this->factory->post->create( array( 'post_author' => $author_id ) );
-		$this->go_to( get_permalink( $post_id ) );
-
-		// On post page but facebook meta not set.
-		$this->assertFalse( self::$class_instance->article_author_facebook() );
-
-		// Add facebook meta to post author.
-		$post   = get_post( $post_id );
-		$author = $post->post_author;
-		add_user_meta( $author, 'facebook', 'facebook_author' );
-
-		// Test final output.
-		$this->assertTrue( self::$class_instance->article_author_facebook() );
-		$this->expectOutput( '<meta property="article:author" content="facebook_author" />' . "\n" );
-	}
-
-	/**
-	 * @covers WPSEO_OpenGraph::website_facebook
-	 */
-	public function test_website_facebook() {
-		// Option not set.
-		$this->assertFalse( self::$class_instance->website_facebook() );
-
-		// Set option.
-		WPSEO_Options::set( 'facebook_site', 'http://facebook.com/mysite/' );
-
-		// Test home output.
-		$this->go_to_home();
-		$this->assertFalse( self::$class_instance->website_facebook() );
-
-		// Test singular output.
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-		$this->assertTrue( self::$class_instance->website_facebook() );
-		$this->expectOutput( '<meta property="article:publisher" content="http://facebook.com/mysite/" />' . "\n" );
-	}
-
-	/**
-	 * @covers WPSEO_OpenGraph::locale
-	 */
-	public function test_locale() {
-		global $locale;
-
-		$this->assertEquals( 'en_US', self::$class_instance->locale( false ) );
-
-		$locale = 'ca';
-		$this->assertEquals( 'ca_ES', self::$class_instance->locale( false ) );
-
-		$locale = 'nl';
-		$this->assertEquals( 'nl_NL', self::$class_instance->locale( false ) );
-
-		$locale = 'nl_NL';
-		$this->assertEquals( 'nl_NL', self::$class_instance->locale( true ) );
-		$this->expectOutput( '<meta property="og:locale" content="nl_NL" />' . "\n" );
-	}
-
-	/**
-	 * @covers WPSEO_OpenGraph::type
-	 */
-	public function test_type() {
-		$this->assertEquals( 'website', self::$class_instance->type( false ) );
-
-		$category_id = wp_create_category( 'Yoast SEO' );
-		$this->go_to( get_category_link( $category_id ) );
-		$this->assertEquals( 'object', self::$class_instance->type( false ) );
-
-		// Create and go to post.
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-		$this->assertEquals( 'article', self::$class_instance->type( false ) );
-	}
-
-	/**
 	 * Test if the function og_tag gets called when there is a front page image.
 	 *
 	 * @covers WPSEO_OpenGraph::image
@@ -236,71 +154,6 @@ EXPECTED;
 	}
 
 	/**
-	 * @covers WPSEO_OpenGraph::site_name
-	 */
-	public function test_site_name() {
-		$instance = $this
-			->getMockBuilder( 'WPSEO_OpenGraph' )
-			->setMethods( array( 'og_tag' ) )
-			->getMock();
-
-		$instance
-			->expects( $this->never() )
-			->method( 'og_tag' );
-
-		$current_site_name = get_bloginfo( 'name' );
-
-		update_option( 'blogname', '' );
-
-		$instance->site_name();
-
-		update_option( 'blogname', $current_site_name );
-	}
-
-	/**
-	 * @covers WPSEO_OpenGraph::site_name
-	 */
-	public function test_site_name_with_a_set_name() {
-		$instance = $this
-			->getMockBuilder( 'WPSEO_OpenGraph' )
-			->setMethods( array( 'og_tag' ) )
-			->getMock();
-
-		$instance
-			->expects( $this->once() )
-			->method( 'og_tag' )
-			->with( 'og:site_name', 'Sitename' );
-
-		$current_site_name = get_bloginfo( 'name' );
-
-		update_option( 'blogname', 'Sitename' );
-
-		$instance->site_name();
-
-		update_option( 'blogname', $current_site_name );
-	}
-
-	/**
-	 * @covers WPSEO_OpenGraph::site_name
-	 */
-	public function test_site_name_with_a_non_string_name() {
-		$instance = $this
-			->getMockBuilder( 'WPSEO_OpenGraph' )
-			->setMethods( array( 'og_tag' ) )
-			->getMock();
-
-		$instance
-			->expects( $this->never() )
-			->method( 'og_tag' );
-
-		add_filter( 'wpseo_opengraph_site_name', '__return_false' );
-
-		$instance->site_name();
-
-		remove_filter( 'wpseo_opengraph_site_name', '__return_false' );
-	}
-
-	/**
 	 * @covers WPSEO_OpenGraph::tags
 	 */
 	public function test_tags() {
@@ -340,37 +193,6 @@ EXPECTED;
 
 		$this->assertTrue( self::$class_instance->category() );
 		$this->expectOutput( '<meta property="article:section" content="Category Name" />' . "\n" );
-	}
-
-	/**
-	 * @covers WPSEO_OpenGraph::publish_date
-	 */
-	public function test_publish_date() {
-
-		// Not on singular, should return false.
-		$this->assertFalse( self::$class_instance->publish_date() );
-
-		// Create post, without tags.
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		// Test published_time tags output.
-		$published_time   = get_the_date( DATE_W3C );
-		$published_output = '<meta property="article:published_time" content="' . $published_time . '" />' . "\n";
-		$this->assertTrue( self::$class_instance->publish_date() );
-		$this->expectOutput( $published_output );
-
-		// Modify post time.
-		global $post;
-		$post                    = get_post( $post_id );
-		$post->post_modified     = gmdate( 'Y-m-d H:i:s', ( time() + 1 ) );
-		$post->post_modified_gmt = gmdate( 'Y-m-d H:i:s', ( time() + 1 + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) );
-
-		// Test modified tags output.
-		$modified_time   = get_the_modified_date( DATE_W3C );
-		$modified_output = '<meta property="article:modified_time" content="' . $modified_time . '" />' . "\n" . '<meta property="og:updated_time" content="' . $modified_time . '" />' . "\n";
-		$this->assertTrue( self::$class_instance->publish_date() );
-		$this->expectOutput( $published_output . $modified_output );
 	}
 
 	/**
