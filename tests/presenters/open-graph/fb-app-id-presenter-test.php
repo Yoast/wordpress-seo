@@ -11,7 +11,7 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\Free\Presenters\Open_Graph\FB_App_ID_Presenter
  *
- * @group presentations2
+ * @group presenters
  * @group opengraph
  */
 class FB_App_ID_Presenter_Test extends TestCase {
