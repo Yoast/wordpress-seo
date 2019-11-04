@@ -15,7 +15,7 @@ use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 /**
  * Class Force_Rewrite_Titles
  */
-class Force_Rewrite_Titles implements Integration_Interface {
+class Force_Rewrite_Title implements Integration_Interface {
 
 	/**
 	 * The options helper.
@@ -70,7 +70,7 @@ class Force_Rewrite_Titles implements Integration_Interface {
 		}
 
 		// For WordPress versions below 4.4.
-		if ( current_theme_supports( 'title-tag' ) ) {
+		if ( \current_theme_supports( 'title-tag' ) ) {
 			return;
 		}
 
@@ -87,23 +87,23 @@ class Force_Rewrite_Titles implements Integration_Interface {
 			return false;
 		}
 
-		$content = ob_get_clean();
+		$content = $this->get_buffered_output();
 
 		$old_wp_query = $this->wp_query->get_query();
 
-		wp_reset_query();
+		\wp_reset_query();
 
 		// When the file has the debug mark.
 		if ( preg_match( '/(?\'before\'.*)<!-- This site is optimized with the Yoast SEO( Premium)? plugin .* -->/is', $content, $matches ) ) {
 			$content_before = preg_replace( '/<title.*?\/title>/i', '', $matches['before'] );
-			$content        = str_replace( $matches['before'], $content_before . PHP_EOL, $content );
+			$content        = str_replace( $matches['before'], $content_before, $content );
 
 			unset( $content_before, $matches );
 		}
 
 		if ( preg_match( '/<!-- \/ Yoast SEO( Premium)? plugin. -->(?\'after\'.*)/is', $content, $matches ) ) {
 			$content_after = preg_replace( '/<title.*?\/title>/i', '', $matches['after'] );
-			$content       = str_replace( $matches['after'], $content_after . PHP_EOL, $content );
+			$content       = str_replace( $matches['after'], $content_after, $content );
 
 			unset( $content_after, $matches );
 		}
@@ -120,6 +120,26 @@ class Force_Rewrite_Titles implements Integration_Interface {
 	 */
 	public function force_rewrite_output_buffer() {
 		$this->ob_started = true;
-		ob_start();
+		$this->start_output_buffering();
+	}
+
+	/**
+	 * Starts the output buffering.
+	 *
+	 * @codeCoverageIgnore
+	 */
+	protected function start_output_buffering() {
+		\ob_start();
+	}
+
+	/**
+	 * Retrieves the buffered output.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return false|string The buffered output.
+	 */
+	protected function get_buffered_output() {
+		return \ob_get_clean();
 	}
 }
