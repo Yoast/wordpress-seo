@@ -19,7 +19,6 @@ class WPSEO_OpenGraph {
 		if ( is_singular() && ! is_front_page() ) {
 			add_action( 'wpseo_opengraph', array( $this, 'tags' ), 16 );
 			add_action( 'wpseo_opengraph', array( $this, 'category' ), 17 );
-			add_action( 'wpseo_opengraph', array( $this, 'publish_date' ), 19 );
 		}
 
 		add_action( 'wpseo_opengraph', array( $this, 'image' ), 30 );
@@ -138,42 +137,6 @@ class WPSEO_OpenGraph {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Output the article publish and last modification date.
-	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
-	 *
-	 * @return boolean;
-	 */
-	public function publish_date() {
-
-		if ( ! is_singular( 'post' ) ) {
-			/**
-			 * Filter: 'wpseo_opengraph_show_publish_date' - Allow showing publication date for other post types.
-			 *
-			 * @api bool $unsigned Whether or not to show publish date.
-			 *
-			 * @param string $post_type The current URL's post type.
-			 */
-			if ( false === apply_filters( 'wpseo_opengraph_show_publish_date', false, get_post_type() ) ) {
-				return false;
-			}
-		}
-
-		$post = get_post();
-
-		$pub = mysql2date( DATE_W3C, $post->post_date_gmt, false );
-		$this->og_tag( 'article:published_time', $pub );
-
-		$mod = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
-		if ( $mod !== $pub ) {
-			$this->og_tag( 'article:modified_time', $mod );
-			$this->og_tag( 'og:updated_time', $mod );
-		}
-
-		return true;
 	}
 
 	/**
@@ -368,5 +331,21 @@ class WPSEO_OpenGraph {
 	 */
 	public function site_name() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+	}
+
+	/**
+	 * Outputs the article publish and last modification date.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
+	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
+	 * @return boolean;
+	 */
+	public function publish_date() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return true;
 	}
 } /* End of class */

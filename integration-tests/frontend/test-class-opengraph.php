@@ -196,37 +196,6 @@ EXPECTED;
 	}
 
 	/**
-	 * @covers WPSEO_OpenGraph::publish_date
-	 */
-	public function test_publish_date() {
-
-		// Not on singular, should return false.
-		$this->assertFalse( self::$class_instance->publish_date() );
-
-		// Create post, without tags.
-		$post_id = $this->factory->post->create();
-		$this->go_to( get_permalink( $post_id ) );
-
-		// Test published_time tags output.
-		$published_time   = get_the_date( DATE_W3C );
-		$published_output = '<meta property="article:published_time" content="' . $published_time . '" />' . "\n";
-		$this->assertTrue( self::$class_instance->publish_date() );
-		$this->expectOutput( $published_output );
-
-		// Modify post time.
-		global $post;
-		$post                    = get_post( $post_id );
-		$post->post_modified     = gmdate( 'Y-m-d H:i:s', ( time() + 1 ) );
-		$post->post_modified_gmt = gmdate( 'Y-m-d H:i:s', ( time() + 1 + ( get_option( 'gmt_offset' ) * HOUR_IN_SECONDS ) ) );
-
-		// Test modified tags output.
-		$modified_time   = get_the_modified_date( DATE_W3C );
-		$modified_output = '<meta property="article:modified_time" content="' . $modified_time . '" />' . "\n" . '<meta property="og:updated_time" content="' . $modified_time . '" />' . "\n";
-		$this->assertTrue( self::$class_instance->publish_date() );
-		$this->expectOutput( $published_output . $modified_output );
-	}
-
-	/**
 	 * Tests the rendering of article:section for a post with two categories.
 	 *
 	 * @covers WPSEO_OpenGraph::category
