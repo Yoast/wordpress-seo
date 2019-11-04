@@ -34,12 +34,13 @@ use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
  * @property string og_description
  * @property array  og_images
  * @property string og_url
+ * @property string og_site_name
  * @property string og_article_publisher
  * @property string og_article_author
  * @property string og_article_published_time
  * @property string og_article_modified_time
  * @property string og_locale
- * @property string fb_app_id
+ * @property string og_fb_app_id
  * @property array  schema
  * @property string twitter_card
  * @property string twitter_title
