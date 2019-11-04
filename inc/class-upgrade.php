@@ -742,6 +742,9 @@ class WPSEO_Upgrade {
 			WPSEO_Options::set( 'forcerewritetitle', false );
 		}
 
+		global $wpdb;
+		$wpdb->query( "DELETE FROM $wpdb->usermeta WHERE meta_key = 'wp_yoast_promo_hide_premium_upsell_admin_block'" );
+
 		// Removes the WordPress update notification, because it is no longer necessary when WordPress 5.3 is released.
 		$center = Yoast_Notification_Center::get();
 		$center->remove_notification_by_id( 'wpseo-dismiss-wordpress-upgrade' );
