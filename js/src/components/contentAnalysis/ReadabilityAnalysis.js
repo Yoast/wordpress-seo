@@ -124,8 +124,6 @@ class ReadabilityAnalysis extends Component {
 ReadabilityAnalysis.propTypes = {
 	results: PropTypes.array.isRequired,
 	marksButtonStatus: PropTypes.string.isRequired,
-	/* eslint-disable-next-line react/no-unused-prop-types */
-	hideMarksButtons: PropTypes.bool.isRequired,
 	overallScore: PropTypes.number,
 };
 
@@ -145,7 +143,7 @@ function mapStateToProps( state, ownProps ) {
 	const marksButtonStatus = ownProps.hideMarksButtons ? "disabled" : state.marksButtonStatus;
 
 	return {
-		results: state.analysis.readability.results,
+		results: state.analysis.readability.results || [],
 		marksButtonStatus: marksButtonStatus,
 		overallScore: state.analysis.readability.overallScore,
 	};
