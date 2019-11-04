@@ -349,6 +349,7 @@ class Front_End_Integration implements Integration_Interface {
 		if ( WPSEO_Options::get( 'twitter' ) === true && apply_filters( 'wpseo_output_twitter_card', true ) !== false ) {
 			$presenters = array_merge( $presenters, $this->twitter_card_presenters );
 		}
+
 		return array_merge( $presenters, $this->closing_presenters );
 	}
 }
