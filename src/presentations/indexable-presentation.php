@@ -342,13 +342,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return string The open graph Facebook app ID.
 	 */
 	public function generate_og_fb_app_id() {
-		$fb_app_id = $this->options_helper->get( 'fbadminapp', '' );
-
-		if ( $fb_app_id ) {
-			return $fb_app_id;
-		}
-
-		return '';
+		return $this->options_helper->get( 'fbadminapp', '' );
 	}
 
 	/**
