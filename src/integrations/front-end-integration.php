@@ -192,7 +192,6 @@ class Front_End_Integration implements Integration_Interface {
 		$page_type    = $this->get_page_type();
 		$context      = $this->get_context( $indexable );
 		$presentation = $this->get_presentation( $indexable, $context, $page_type );
-
 		$presenters   = $this->get_presenters( $page_type );
 		echo PHP_EOL;
 		foreach ( $presenters as $presenter ) {
