@@ -212,6 +212,10 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 12.5.0 =
 Release Date: November 12th, 2019
 
+Enhancements:
+
+* Updated banners to new assistant style.
+
 Bugfixes:
 
 * Fixes a bug for terms where keywords and snippet preview data would be synced across all languages in a MultilingualPress multisite environment.
