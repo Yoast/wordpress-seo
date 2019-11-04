@@ -318,7 +318,7 @@ class WPSEO_OpenGraph {
 	public function facebook_filter( $meta_tags ) {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
-		return [];
+		return array();
 	}
 
 	/**
