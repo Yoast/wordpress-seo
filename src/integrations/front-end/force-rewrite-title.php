@@ -94,19 +94,12 @@ class Force_Rewrite_Title implements Integration_Interface {
 		\wp_reset_query();
 
 		// When the file has the debug mark.
-		if ( preg_match( '/(?\'before\'.*)<!-- This site is optimized with the Yoast SEO( Premium)? plugin .* -->/is', $content, $matches ) ) {
-			$content_before = preg_replace( '/<title.*?\/title>/i', '', $matches['before'] );
-			$content        = str_replace( $matches['before'], $content_before, $content );
+		if ( preg_match( '/(?\'before\'.*)<!-- This site is optimized with the Yoast SEO.*<!-- \/ Yoast SEO( Premium)? plugin. -->(?\'after\'.*)/is', $content, $matches ) ) {
+			$content = $this->replace_titles_from_content( $content, $matches );
 
-			unset( $content_before, $matches );
+			unset( $matches );
 		}
 
-		if ( preg_match( '/<!-- \/ Yoast SEO( Premium)? plugin. -->(?\'after\'.*)/is', $content, $matches ) ) {
-			$content_after = preg_replace( '/<title.*?\/title>/i', '', $matches['after'] );
-			$content       = str_replace( $matches['after'], $content_after, $content );
-
-			unset( $content_after, $matches );
-		}
 
 		$GLOBALS['wp_query'] = $old_wp_query;
 
@@ -121,6 +114,41 @@ class Force_Rewrite_Title implements Integration_Interface {
 	public function force_rewrite_output_buffer() {
 		$this->ob_started = true;
 		$this->start_output_buffering();
+	}
+
+	/**
+	 * Replaces the titles from the parts that contains a title.
+	 *
+	 * @param string $content          The content to remove the titles from.
+	 * @param array  $parts_with_title The parts containing a title.
+	 *
+	 * @return string The modified content.
+	 */
+	protected function replace_titles_from_content( $content, $parts_with_title ) {
+		if ( isset( $parts_with_title['before'] ) && is_string( $parts_with_title['before'] ) ) {
+			$content = $this->replace_title( $parts_with_title['before'], $content );
+		}
+
+		if ( isset( $parts_with_title['after'] ) ) {
+			$content = $this->replace_title( $parts_with_title['after'], $content );
+		}
+
+		return $content;
+	}
+
+	/**
+	 * Removes the title from the part that contains the title and put this modified part back
+	 * into the content.
+	 *
+	 * @param string $part_with_title The part with the title that needs to be replaced.
+	 * @param string $content         The entire content.
+	 *
+	 * @return string The altered content.
+	 */
+	protected function replace_title( $part_with_title, $content ) {
+		$part_without_title = preg_replace( '/<title.*?\/title>/i', '', $part_with_title );
+
+		return str_replace( $part_with_title, $part_without_title, $content );
 	}
 
 	/**
