@@ -8,6 +8,8 @@
 /**
  * This class handles the Twitter card functionality.
  *
+ * @deprecated xx.x
+ *
  * @link https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/abouts-cards
  */
 class WPSEO_Twitter {
