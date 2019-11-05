@@ -4,24 +4,30 @@
  *
  * @package Yoast\WP\Free\Presentations\Generators\Schema
  */
+
 namespace Yoast\WP\Free\Presentations\Generators\Schema;
+
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Helpers\Article_Helper;
 use Yoast\WP\Free\Helpers\Schema\HTML_Helper;
+
 /**
  * Returns schema FAQ data.
  *
  * @since 11.3
  */
 class FAQ extends Abstract_Schema_Piece {
+
 	/**
 	 * @var Article_Helper
 	 */
 	private $article_helper;
+
 	/**
 	 * @var HTML_Helper
 	 */
 	private $html_helper;
+
 	/**
 	 * Article constructor.
 	 *
@@ -35,6 +41,7 @@ class FAQ extends Abstract_Schema_Piece {
 		$this->article_helper = $article_helper;
 		$this->html_helper    = $html_helper;
 	}
+
 	/**
 	 * Determines whether or not a piece should be added to the graph.
 	 *
@@ -46,12 +53,15 @@ class FAQ extends Abstract_Schema_Piece {
 		if ( empty( $context->blocks['yoast/faq-block'] ) ) {
 			return false;
 		}
+
 		if ( ! \is_array( $context->schema_page_type ) ) {
 			$context->schema_page_type = [ $context->schema_page_type ];
 		}
 		$context->schema_page_type[] = 'FAQPage';
+
 		return true;
 	}
+
 	/**
 	 * Render a list of questions, referencing them by ID.
 	 *
@@ -64,6 +74,7 @@ class FAQ extends Abstract_Schema_Piece {
 		$graph = [];
 		$number_of_blocks = count( $context->blocks['yoast/faq-block'] );
 		$number_of_items = 0;
+
 		for ( $block_number = 0; $block_number < $number_of_blocks; $block_number++ ) {
 			foreach ( $context->blocks['yoast/faq-block'][ $block_number ]['attrs']['questions'] as $index => $question ) {
 				if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
@@ -74,6 +85,7 @@ class FAQ extends Abstract_Schema_Piece {
 				$number_of_items = count( $context->blocks['yoast/faq-block'][ $block_number ]['attrs']['questions'] );
 			}
 		}
+
 		\array_unshift(
 			$graph,
 			[
@@ -83,8 +95,10 @@ class FAQ extends Abstract_Schema_Piece {
 				'itemListElement'  => $ids,
 			]
 		);
+
 		return $graph;
 	}
+
 	/**
 	 * Generate a Question piece.
 	 *

@@ -4,24 +4,30 @@
  *
  * @package Yoast\WP\Free\Presentations\Generators\Schema
  */
+
 namespace Yoast\WP\Free\Presentations\Generators\Schema;
+
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Helpers\Schema\HTML_Helper;
 use Yoast\WP\Free\Helpers\Schema\Image_Helper;
+
 /**
  * Returns schema FAQ data.
  *
  * @since 11.5
  */
 class HowTo extends Abstract_Schema_Piece {
+
 	/**
 	 * @var HTML_Helper
 	 */
 	private $html_helper;
+
 	/**
 	 * @var Image_Helper
 	 */
 	private $image_helper;
+
 	/**
 	 * HowTo constructor.
 	 *
@@ -35,6 +41,7 @@ class HowTo extends Abstract_Schema_Piece {
 		$this->html_helper  = $html_helper;
 		$this->image_helper = $image_helper;
 	}
+
 	/**
 	 * Determines whether or not a piece should be added to the graph.
 	 *
@@ -45,6 +52,7 @@ class HowTo extends Abstract_Schema_Piece {
 	public function is_needed( Meta_Tags_Context $context ) {
 		return ! empty( $context->blocks['yoast/how-to-block'] );
 	}
+
 	/**
 	 * Renders a list of questions, referencing them by ID.
 	 *
@@ -54,6 +62,7 @@ class HowTo extends Abstract_Schema_Piece {
 	 */
 	public function generate( Meta_Tags_Context $context ) {
 		$graph = [];
+
 		foreach ( $context->blocks['yoast/how-to-block'] as $index => $block ) {
 			$data = [
 				'@type'            => 'HowTo',
@@ -62,15 +71,20 @@ class HowTo extends Abstract_Schema_Piece {
 				'mainEntityOfPage' => [ '@id' => $context->main_schema_id ],
 				'description'      => '',
 			];
+
 			if ( isset( $block['attrs']['jsonDescription'] ) ) {
 				$data['description'] = $this->html_helper->sanitize( $block['attrs']['jsonDescription'] );
 			}
+
 			$this->add_duration( $data, $block['attrs'] );
 			$this->add_steps( $data, $block['attrs']['steps'], $context );
+
 			$graph[] = $data;
 		}
+
 		return $graph;
 	}
+
 	/**
 	 * Adds the duration of the task to the Schema.
 	 *
@@ -81,13 +95,16 @@ class HowTo extends Abstract_Schema_Piece {
 		if ( empty( $attributes['hasDuration'] ) ) {
 			return;
 		}
+
 		$days    = empty( $attributes['days'] ) ? 0 : $attributes['days'];
 		$hours   = empty( $attributes['hours'] ) ? 0 : $attributes['hours'];
 		$minutes = empty( $attributes['minutes'] ) ? 0 : $attributes['minutes'];
+
 		if ( ( $days + $hours + $minutes ) > 0 ) {
 			$data['totalTime'] = 'P' . $days . 'DT' . $hours . 'H' . $minutes . 'M';
 		}
 	}
+
 	/**
 	 * Adds the steps to our How-To output.
 	 *
@@ -102,37 +119,47 @@ class HowTo extends Abstract_Schema_Piece {
 				'@type' => 'HowToStep',
 				'url'   => $schema_id,
 			];
+
 			if ( isset( $step['jsonText'] ) ) {
 				$json_text = $this->html_helper->sanitize( $step['jsonText'] );
 			}
+
 			if ( isset( $step['jsonName'] ) ) {
 				$json_name = \strip_tags( $step['jsonName'] );
 			}
+
 			if ( empty( $json_name ) ) {
 				if ( empty( $step['text'] ) ) {
 					continue;
 				}
+
 				$schema_step['text'] = '';
 				$this->add_step_image( $schema_step, $step, $context );
+
 				// If there is no text and no image, don't output the step.
 				if ( empty( $json_text ) && empty( $schema_step['image'] ) ) {
 					continue;
 				}
+
 				if ( ! empty( $json_text ) ) {
 					$schema_step['text'] = $json_text;
 				}
 			}
+
 			elseif ( empty( $json_text ) ) {
 				$schema_step['text'] = $json_name;
 			}
+
 			else {
 				$schema_step['name'] = $json_name;
 				$this->add_step_description( $schema_step, $step );
 				$this->add_step_image( $schema_step, $step, $context );
 			}
+
 			$data['step'][] = $schema_step;
 		}
 	}
+
 	/**
 	 * Checks if we have a step description, if we do, add it.
 	 *
@@ -141,9 +168,11 @@ class HowTo extends Abstract_Schema_Piece {
 	 */
 	private function add_step_description( &$schema_step, $step ) {
 		$json_text = $this->html_helper->sanitize( $step['jsonText'] );
+
 		if ( empty( $json_text ) ) {
 			return;
 		}
+
 		$schema_step['itemListElement'] = [
 			[
 				'@type' => 'HowToDirection',
@@ -151,6 +180,7 @@ class HowTo extends Abstract_Schema_Piece {
 			],
 		];
 	}
+
 	/**
 	 * Checks if we have a step image, if we do, add it.
 	 *
@@ -165,6 +195,7 @@ class HowTo extends Abstract_Schema_Piece {
 			}
 		}
 	}
+
 	/**
 	 * Generates the image schema from the attachment $url.
 	 *
@@ -177,6 +208,7 @@ class HowTo extends Abstract_Schema_Piece {
 	 */
 	protected function get_image_schema( $url, Meta_Tags_Context $context ) {
 		$schema_id = $context->canonical . '#schema-image-' . \md5( $url );
+
 		return $this->image_helper->generate_from_url( $schema_id, $url );
 	}
 }
