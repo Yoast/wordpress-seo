@@ -13,7 +13,7 @@ use Yoast\WP\Free\Integrations\Integration_Interface;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 
 /**
- * Class Force_Rewrite_Titles
+ * Class Force_Rewrite_Title
  */
 class Force_Rewrite_Title implements Integration_Interface {
 
@@ -44,7 +44,7 @@ class Force_Rewrite_Title implements Integration_Interface {
 	 * @codeCoverageIgnore
 	 *
 	 * @param Options_Helper   $options  Options helper.
-	 * @param WP_Query_Wrapper $wp_query The wp query wrapper.
+	 * @param WP_Query_Wrapper $wp_query WP query wrapper.
 	 */
 	public function __construct( Options_Helper $options, WP_Query_Wrapper $wp_query ) {
 		$this->options  = $options;
@@ -99,7 +99,6 @@ class Force_Rewrite_Title implements Integration_Interface {
 
 			unset( $matches );
 		}
-
 
 		$GLOBALS['wp_query'] = $old_wp_query;
 
