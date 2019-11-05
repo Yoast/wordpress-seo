@@ -33,17 +33,17 @@ class Article_Author_Presenter extends Abstract_Indexable_Presenter {
 	}
 
 	/**
-	 * Run the author through the `wpseo_opengraph_author_facebook` filter.
+	 * Run the article author's Facebook URL through the `wpseo_opengraph_author_facebook` filter.
 	 *
-	 * @param string $article_author The article author to filter.
+	 * @param string $article_author The article author's Facebook URL to filter.
 	 *
-	 * @return string The filtered article author.
+	 * @return string The filtered article author's Facebook URL.
 	 */
 	private function filter( $article_author ) {
 		/**
-		 * Filter: 'wpseo_opengraph_author_facebook' - Allow developers to filter the Yoast SEO post authors facebook profile URL.
+		 * Filter: 'wpseo_opengraph_author_facebook' - Allow developers to filter the article author's Facebook URL.
 		 *
-		 * @api bool|string $article_author The Facebook author URL, return false to disable.
+		 * @api bool|string $article_author The article author's Facebook URL, return false to disable.
 		 */
 		return trim( \apply_filters( 'wpseo_opengraph_author_facebook', $article_author ) );
 	}

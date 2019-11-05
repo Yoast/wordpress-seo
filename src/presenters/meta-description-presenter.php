@@ -37,8 +37,10 @@ class Meta_Description_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The meta description tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$meta_description = $this->filter( $this->replace_vars( $presentation->meta_description, $presentation ) );
+		$meta_description = $this->replace_vars( $presentation->meta_description, $presentation );
+		$meta_description = $this->filter( $meta_description, $presentation );
 		$meta_description = $this->string->strip_all_tags( \stripslashes( $meta_description ) );
+		$meta_description = trim( $meta_description );
 
 		if ( \is_string( $meta_description ) && $meta_description !== '' ) {
 			return \sprintf( '<meta name="description" content="%s" />', \esc_attr( $meta_description ) );
@@ -61,16 +63,18 @@ class Meta_Description_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the meta description content through the `wpseo_metadesc` filter.
 	 *
-	 * @param string $meta_description The meta description to filter.
+	 * @param string                 $meta_description The meta description to filter.
+	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *
 	 * @return string $meta_description The filtered meta description.
 	 */
-	private function filter( $meta_description ) {
+	private function filter( $meta_description, Indexable_Presentation $presentation ) {
 		/**
 		 * Filter: 'wpseo_metadesc' - Allow changing the Yoast SEO meta description sentence.
 		 *
-		 * @api string $meta_description The description sentence.
+		 * @api   string                 $meta_description The description sentence.
+		 * @param Indexable_Presentation $presentation     The presentation of an indexable.
 		 */
-		return (string) trim( \apply_filters( 'wpseo_metadesc', $meta_description ) );
+		return \apply_filters( 'wpseo_metadesc', $meta_description, $presentation );
 	}
 }

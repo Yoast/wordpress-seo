@@ -16,14 +16,13 @@ use Yoast\WP\Free\Tests\TestCase;
  * @package Yoast\Tests\Admin
  *
  * @coversDefaultClass WPSEO_Admin
- * @covers ::<!public>
  */
 class Admin_Features_Test extends TestCase {
 
 	/**
 	 * Returns an instance with set expectations for the dependencies.
 	 *
-	 * @return WPSEO_Admin Instance to test against.
+	 * @return \WPSEO_Admin Instance to test against.
 	 */
 	private function get_admin_with_expectations() {
 		$shortlinker = new Shortlinker();

@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Presentations;
 
+use Yoast\WP\Free\Helpers\Pagination_Helper;
 use Yoast\WP\Free\Helpers\Taxonomy_Helper;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 
@@ -18,27 +19,67 @@ use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 
 	/**
+	 * Holds the WP query wrapper instance.
+	 *
 	 * @var WP_Query_Wrapper
 	 */
 	private $wp_query_wrapper;
 
 	/**
+	 * Holds the taxonomy helper instance.
+	 *
 	 * @var Taxonomy_Helper
 	 */
 	private $taxonomy;
 
 	/**
+	 * Holds the Pagination_Helper instance.
+	 *
+	 * @var Pagination_Helper
+	 */
+	private $pagination;
+
+	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param WP_Query_Wrapper $wp_query_wrapper The wp query wrapper.
-	 * @param Taxonomy_Helper  $taxonomy         The Taxonomy helper.
+	 * @param WP_Query_Wrapper  $wp_query_wrapper The wp query wrapper.
+	 * @param Taxonomy_Helper   $taxonomy         The Taxonomy helper.
+	 * @param Pagination_Helper $pagination       The pagination helper.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		WP_Query_Wrapper $wp_query_wrapper,
-		Taxonomy_Helper $taxonomy
+		Taxonomy_Helper $taxonomy,
+		Pagination_Helper $pagination
 	) {
 		$this->wp_query_wrapper = $wp_query_wrapper;
 		$this->taxonomy         = $taxonomy;
+		$this->pagination       = $pagination;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_canonical() {
+		if ( $this->is_multiple_terms_query() ) {
+			return '';
+		}
+
+		if ( $this->model->canonical ) {
+			return $this->model->canonical;
+		}
+
+		if ( ! $this->model->permalink ) {
+			return '';
+		}
+
+		$current_page = $this->current_page->get_current_archive_page();
+		if ( $current_page > 1 ) {
+			return $this->pagination->get_paginated_url( $this->model->permalink, $current_page );
+		}
+
+		return $this->model->permalink;
 	}
 
 	/**
@@ -127,5 +168,20 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 		$title = $this->options_helper->get_title_default( 'title-tax-' . $this->replace_vars_object->taxonomy );
 
 		return $title;
+	}
+
+	/**
+	 * Checks if term archive query is for multiple terms (/term-1,term-2/ or /term-1+term-2/).
+	 *
+	 * @return bool Whether the query contains multiple terms.
+	 */
+	protected function is_multiple_terms_query() {
+		$queried_terms = $this->wp_query_wrapper->get_query()->tax_query->queried_terms;
+
+		if ( empty( $queried_terms[ $this->replace_vars_object->taxonomy ]['terms'] ) ) {
+			return false;
+		}
+
+		return \count( $queried_terms[ $this->replace_vars_object->taxonomy ]['terms'] ) > 1;
 	}
 }

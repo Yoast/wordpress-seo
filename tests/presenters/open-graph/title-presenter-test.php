@@ -116,7 +116,7 @@ class Title_Presenter_Test extends TestCase {
 				return $str;
 			} );
 
-		Monkey\Filters\expectApplied( 'wpseo_title' )
+		Monkey\Filters\expectApplied( 'wpseo_og_title' )
 			->once()
 			->with( 'example_title' )
 			->andReturn( 'exampletitle' );
