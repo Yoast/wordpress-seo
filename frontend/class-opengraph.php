@@ -14,10 +14,6 @@ class WPSEO_OpenGraph {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		if ( is_singular() && ! is_front_page() ) {
-			add_action( 'wpseo_opengraph', array( $this, 'category' ), 17 );
-		}
-
 		add_filter( 'jetpack_enable_open_graph', '__return_false' );
 		add_action( 'wpseo_head', array( $this, 'opengraph' ), 30 );
 	}
@@ -58,45 +54,7 @@ class WPSEO_OpenGraph {
 		return true;
 	}
 
-	/**
-	 * Output the article category as an article:section tag.
-	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
-	 *
-	 * @return boolean;
-	 */
-	public function category() {
 
-		if ( ! is_singular() ) {
-			return false;
-		}
-
-		$post = get_post();
-		if ( ! $post ) {
-			return false;
-		}
-
-		$primary_term     = new WPSEO_Primary_Term( 'category', $post->ID );
-		$primary_category = $primary_term->get_primary_term();
-
-		if ( $primary_category ) {
-			// We can only show one section here, so we take the first one.
-			$this->og_tag( 'article:section', get_cat_name( $primary_category ) );
-
-			return true;
-		}
-
-		$terms = get_the_category();
-
-		if ( ! is_wp_error( $terms ) && is_array( $terms ) && ! empty( $terms ) ) {
-			// We can only show one section here, so we take the first one.
-			$term = reset( $terms );
-			$this->og_tag( 'article:section', $term->name );
-			return true;
-		}
-
-		return false;
-	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
 
@@ -333,6 +291,22 @@ class WPSEO_OpenGraph {
 	 * @return boolean
 	 */
 	public function tags() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return false;
+	}
+
+	/**
+	 * Output the article category as an article:section tag.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
+	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
+	 * @return boolean;
+	 */
+	public function category() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return false;
