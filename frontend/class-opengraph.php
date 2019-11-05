@@ -63,18 +63,6 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
-	 * Create new WPSEO_OpenGraph_Image class and get the images to set the og:image.
-	 *
-	 * @param string|bool $image Optional. Image URL.
-	 *
-	 * @return void
-	 */
-	public function image( $image = false ) {
-		$opengraph_image = new WPSEO_OpenGraph_Image( $image, $this );
-		$opengraph_image->show();
-	}
-
-	/**
 	 * Output the article tags as article:tag tags.
 	 *
 	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
@@ -347,5 +335,19 @@ class WPSEO_OpenGraph {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return true;
+	}
+
+	/**
+	 * Creates new WPSEO_OpenGraph_Image class and get the images to set the og:image.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+
+	 * @param string|bool $image Optional. Image URL.
+	 *
+	 * @return void
+	 */
+	public function image( $image = false ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 } /* End of class */
