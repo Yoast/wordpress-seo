@@ -2,7 +2,6 @@
 
 namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
 
-use Brain\Monkey;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -11,6 +10,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
+ * @group adjacent
  */
 class Rel_Prev_Test extends TestCase {
 	use Presentation_Instance_Builder;
@@ -64,10 +64,10 @@ class Rel_Prev_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->current_page_helper
-			->expects( 'get_current_post_page' )
+		$this->pagination
+			->expects( 'get_current_post_page_number' )
 			->once()
-			->andReturn( 2 );
+			->andReturn( 1 );
 
 		$this->assertEmpty( $this->instance->generate_rel_next() );
 	}
@@ -87,8 +87,8 @@ class Rel_Prev_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->current_page_helper
-			->expects( 'get_current_post_page' )
+		$this->pagination
+			->expects( 'get_current_post_page_number' )
 			->once()
 			->andReturn( 3 );
 
@@ -119,8 +119,8 @@ class Rel_Prev_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->current_page_helper
-			->expects( 'get_current_post_page' )
+		$this->pagination
+			->expects( 'get_current_post_page_number' )
 			->once()
 			->andReturn( 2 );
 

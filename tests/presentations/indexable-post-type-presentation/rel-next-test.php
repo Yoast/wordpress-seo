@@ -10,6 +10,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
  *
  * @group presentations
+ * @group adjacent
  */
 class Rel_Next_Test extends TestCase {
 	use Presentation_Instance_Builder;
@@ -63,8 +64,8 @@ class Rel_Next_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->current_page_helper
-			->expects( 'get_current_post_page' )
+		$this->pagination
+			->expects( 'get_current_post_page_number' )
 			->once()
 			->andReturn( 2 );
 
@@ -86,8 +87,8 @@ class Rel_Next_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->current_page_helper
-			->expects( 'get_current_post_page' )
+		$this->pagination
+			->expects( 'get_current_post_page_number' )
 			->once()
 			->andReturn( 1 );
 

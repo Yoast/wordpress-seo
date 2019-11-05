@@ -25,12 +25,8 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	 * Indexable_Date_Archive_Presentation constructor.
 	 *
 	 * @param Pagination_Helper $pagination The pagination helper.
-	 *
-	 * @codeCoverageIgnore
 	 */
-	public function __construct(
-		Pagination_Helper $pagination
-	) {
+	public function __construct( Pagination_Helper $pagination ) {
 		$this->pagination = $pagination;
 	}
 
@@ -40,7 +36,7 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	public function generate_canonical() {
 		$canonical = $this->current_page->get_date_archive_permalink();
 
-		$current_page = $this->current_page->get_current_archive_page();
+		$current_page = $this->pagination->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
 			return $this->pagination->get_paginated_url( $canonical, $current_page );
 		}
@@ -77,5 +73,42 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	 */
 	public function generate_twitter_title() {
 		return $this->title;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_rel_prev() {
+		if ( $this->pagination->is_rel_adjacent_disabled() ) {
+			return '';
+		}
+
+		$current_page = \max( 1, $this->pagination->get_current_archive_page_number() );
+		// Check if there is a previous page.
+		if ( $current_page === 1 ) {
+			return '';
+		}
+		// Check if the previous page is the first page.
+		if ( $current_page === 2 ) {
+			return $this->current_page->get_date_archive_permalink();
+		}
+
+		return $this->pagination->get_paginated_url( $this->current_page->get_date_archive_permalink(), ( $current_page - 1 ) );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_rel_next() {
+		if ( $this->pagination->is_rel_adjacent_disabled() ) {
+			return '';
+		}
+
+		$current_page = \max( 1, $this->pagination->get_current_archive_page_number() );
+		if ( $this->pagination->get_number_of_archive_pages() <= $current_page ) {
+			return '';
+		}
+
+		return $this->pagination->get_paginated_url( $this->current_page->get_date_archive_permalink(), ( $current_page + 1 ) );
 	}
 }

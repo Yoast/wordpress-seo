@@ -8,13 +8,13 @@
 namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
-use Yoast\WP\Free\Helpers\Pagination_Helper;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 
 /**
  * Class Indexable_Author_Archive_Presentation
  */
 class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
+	use Archive_Adjacent;
 
 	/**
 	 * Holds the WP query wrapper instance.
@@ -31,29 +31,19 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	protected $post_type_helper;
 
 	/**
-	 * Holds the Pagination_Helper instance.
-	 *
-	 * @var Pagination_Helper
-	 */
-	protected $pagination;
-
-	/**
 	 * Indexable_Author_Archive_Presentation constructor.
 	 *
-	 * @param WP_Query_Wrapper  $wp_query_wrapper The wp query wrapper.
-	 * @param Post_Type_Helper  $post_type_helper The post type helper.
-	 * @param Pagination_Helper $pagination       The pagination helper.
+	 * @param WP_Query_Wrapper $wp_query_wrapper The wp query wrapper.
+	 * @param Post_Type_Helper $post_type_helper The post type helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		WP_Query_Wrapper $wp_query_wrapper,
-		Post_Type_Helper $post_type_helper,
-		Pagination_Helper $pagination
+		Post_Type_Helper $post_type_helper
 	) {
 		$this->wp_query_wrapper = $wp_query_wrapper;
 		$this->post_type_helper = $post_type_helper;
-		$this->pagination       = $pagination;
 	}
 
 	/**
@@ -68,7 +58,7 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		$current_page = $this->current_page->get_current_archive_page();
+		$current_page = $this->pagination->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
 			return $this->pagination->get_paginated_url( $this->model->permalink, $current_page );
 		}

@@ -145,28 +145,6 @@ class Current_Page_Helper {
 	}
 
 	/**
-	 * Returns the current page for paged archives.
-	 *
-	 * @return int The current archive page.
-	 */
-	public function get_current_archive_page() {
-		$wp_query = $this->wp_query_wrapper->get_main_query();
-
-		return (int) $wp_query->get( 'paged' );
-	}
-
-	/**
-	 * Returns the current page for paged post types.
-	 *
-	 * @return int The current post page.
-	 */
-	public function get_current_post_page() {
-		$wp_query = $this->wp_query_wrapper->get_main_query();
-
-		return (int) $wp_query->get( 'page' );
-	}
-
-	/**
 	 * Determine whether this is the homepage and shows posts.
 	 *
 	 * @return bool Whether or not the current page is the homepage that displays posts.
@@ -174,7 +152,19 @@ class Current_Page_Helper {
 	public function is_home_posts_page() {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
-		return ( $wp_query->is_home() && \get_option( 'show_on_front' ) === 'posts' );
+		if ( ! $wp_query->is_home() ) {
+			return false;
+		}
+
+		/*
+		 * Whether the static page's `Homepage` option is actually not set to a page.
+		 * Otherwise WordPress proceeds to handle the homepage as a `Your latest posts` page.
+		 */
+		if ( \get_option( 'page_on_front' ) === '0' ) {
+			return true;
+		}
+
+		return \get_option( 'show_on_front' ) === 'posts';
 	}
 
 	/**
@@ -186,6 +176,17 @@ class Current_Page_Helper {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
 		return ( $wp_query->is_front_page() && \get_option( 'show_on_front' ) === 'page' && \is_page( \get_option( 'page_on_front' ) ) );
+	}
+
+	/**
+	 * Determine whether this is the static posts page.
+	 *
+	 * @return bool Whether or not the current page is a static posts page.
+	 */
+	public function is_static_posts_page() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return ( (int) \get_option( 'page_for_posts' ) ) === $wp_query->get_queried_object_id();
 	}
 
 	/**

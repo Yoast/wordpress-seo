@@ -121,8 +121,6 @@ class Front_End_Integration implements Integration_Interface {
 		'Open_Graph\Article_Published_Time',
 		'Open_Graph\Article_Modified_Time',
 		'Twitter\Creator',
-		'Rel_Prev',
-		'Rel_Next',
 	];
 
 	/**
@@ -255,6 +253,7 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function get_presenters( $page_type ) {
 		$needed_presenters = $this->get_needed_presenters( $page_type );
+
 		$invalid_behaviour = ContainerInterface::NULL_ON_INVALID_REFERENCE;
 		if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true && false ) {
 			$invalid_behaviour = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;
@@ -276,6 +275,10 @@ class Front_End_Integration implements Integration_Interface {
 		switch ( true ) {
 			case $this->current_page->is_search_result():
 				return 'Search_Result_Page';
+			case $this->current_page->is_static_posts_page():
+				return 'Static_Posts_Page';
+			case $this->current_page->is_home_posts_page():
+				return 'Home_Page';
 			case $this->current_page->is_simple_page() || $this->current_page->is_home_static_page():
 				return 'Post_Type';
 			case $this->current_page->is_post_type_archive():
@@ -286,8 +289,6 @@ class Front_End_Integration implements Integration_Interface {
 				return 'Author_Archive';
 			case $this->current_page->is_date_archive():
 				return 'Date_Archive';
-			case $this->current_page->is_home_posts_page():
-				return 'Home_Page';
 			case $this->current_page->is_404():
 				return 'Error_Page';
 		}

@@ -6,6 +6,7 @@ use Mockery;
 use Brain\Monkey;
 use Yoast\WP\Free\Helpers\Pagination_Helper;
 use Yoast\WP\Free\Tests\TestCase;
+use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 use Yoast\WP\Free\Wrappers\WP_Rewrite_Wrapper;
 
 /**
@@ -20,12 +21,19 @@ class Pagination_Helper_Test extends TestCase {
 	/**
 	 * @var Pagination_Helper
 	 */
-	private $instance;
+	protected $instance;
 
 	/**
 	 * @var WP_Rewrite_Wrapper|Mockery\MockInterface
 	 */
-	private $wp_rewrite_wrapper;
+	protected $wp_rewrite_wrapper;
+
+	/**
+	 * Holds the WP query wrapper instance.
+	 *
+	 * @var WP_Query_Wrapper WP_Query wrapper.
+	 */
+	protected $wp_query_wrapper;
 
 	/**
 	 * Sets up the test class.
@@ -34,8 +42,9 @@ class Pagination_Helper_Test extends TestCase {
 		parent::setUp();
 
 		$this->wp_rewrite_wrapper = Mockery::mock( WP_Rewrite_Wrapper::class );
+		$this->wp_query_wrapper   = Mockery::mock( WP_Query_Wrapper::class );
 
-		$this->instance = new Pagination_Helper( $this->wp_rewrite_wrapper );
+		$this->instance = new Pagination_Helper( $this->wp_rewrite_wrapper, $this->wp_query_wrapper );
 	}
 
 	/**
@@ -131,6 +140,57 @@ class Pagination_Helper_Test extends TestCase {
 		$expected = 'https://example.com/my-post?custom=2';
 
 		$this->assertEquals( $expected, $actual );
+	}
+
+	/**
+	 * Tests that get_number_of_archive_pages retrieves `max_number_pages` from the query as integer.
+	 *
+	 * @covers ::get_number_of_archive_pages
+	 */
+	public function test_get_number_of_archive_pages() {
+		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query->max_num_pages = '6';
+
+		$this->wp_query_wrapper
+			->expects( 'get_query' )
+			->once()
+			->andReturn( $wp_query );
+
+		$this->assertEquals( 6, $this->instance->get_number_of_archive_pages() );
+	}
+
+	/**
+	 * Tests that get_current_archive_page_number retrieves `paged` from the query as integer.
+	 *
+	 * @covers ::get_current_archive_page_number
+	 */
+	public function test_get_current_archive_page() {
+		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query->expects( 'get' )->with( 'paged' )->once()->andReturn( '2' );
+
+		$this->wp_query_wrapper
+			->expects( 'get_main_query' )
+			->once()
+			->andReturn( $wp_query );
+
+		$this->assertEquals( 2, $this->instance->get_current_archive_page_number() );
+	}
+
+	/**
+	 * Tests that get_current_archive_page_number retrieves `page` from the query as integer.
+	 *
+	 * @covers ::get_current_post_page_number
+	 */
+	public function test_get_current_post_page() {
+		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query->expects( 'get' )->with( 'page' )->once()->andReturn( '2' );
+
+		$this->wp_query_wrapper
+			->expects( 'get_main_query' )
+			->once()
+			->andReturn( $wp_query );
+
+		$this->assertEquals( 2, $this->instance->get_current_post_page_number() );
 	}
 
 	/**

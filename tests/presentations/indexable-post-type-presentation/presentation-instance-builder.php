@@ -38,16 +38,16 @@ trait Presentation_Instance_Builder {
 	protected $context;
 
 	/**
-	 * Holds the Pagination_Helper interface.
+	 * @var Date_Helper
+	 */
+	protected $date_helper;
+
+	/**
+	 * Holds the Pagination_Helper instance.
 	 *
 	 * @var Pagination_Helper|Mockery\MockInterface
 	 */
 	protected $pagination;
-
-	/**
-	 * @var Date_Helper
-	 */
-	protected $date_helper;
 
 	/**
 	 * Builds an instance of Indexable_Post_Type_Presentation.
@@ -57,15 +57,15 @@ trait Presentation_Instance_Builder {
 
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );
 		$this->context          = Mockery::mock( Meta_Tags_Context::class )->makePartial();
-		$this->pagination       = Mockery::mock( Pagination_Helper::class );
 		$this->date_helper      = Mockery::mock( Date_Helper::class );
+		$this->pagination       = Mockery::mock( Pagination_Helper::class );
 
 		$instance = Mockery::mock(
 			Indexable_Post_Type_Presentation::class,
 			[
 				$this->post_type_helper,
-				$this->pagination,
 				$this->date_helper,
+				$this->pagination,
 			]
 		)
 			->shouldAllowMockingProtectedMethods()
