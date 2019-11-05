@@ -1,5 +1,3 @@
-/* global jQuery */
-
 import debounce from "lodash/debounce";
 import { string } from "yoastseo";
 
@@ -17,7 +15,7 @@ import {
 	reapplyAnnotationsForSelectedBlock,
 } from "../decorator/gutenberg";
 
-const $ = jQuery;
+const $ = global.jQuery;
 
 /**
  * Represents the data.
