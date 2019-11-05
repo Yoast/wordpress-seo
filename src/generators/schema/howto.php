@@ -134,6 +134,7 @@ class HowTo extends Abstract_Schema_Piece {
 				}
 
 				$schema_step['text'] = '';
+
 				$this->add_step_image( $schema_step, $step, $context );
 
 				// If there is no text and no image, don't output the step.
@@ -149,7 +150,6 @@ class HowTo extends Abstract_Schema_Piece {
 			elseif ( empty( $json_text ) ) {
 				$schema_step['text'] = $json_name;
 			}
-
 			else {
 				$schema_step['name'] = $json_name;
 				$this->add_step_description( $schema_step, $step );
