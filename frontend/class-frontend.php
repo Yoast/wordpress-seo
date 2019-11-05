@@ -26,13 +26,6 @@ class WPSEO_Frontend {
 	private $ob_started = false;
 
 	/**
-	 * An instance of the WPSEO_WooCommerce_Shop_Page class.
-	 *
-	 * @var WPSEO_WooCommerce_Shop_Page
-	 */
-	protected $woocommerce_shop_page;
-
-	/**
 	 * Class constructor.
 	 *
 	 * Adds and removes a lot of filters.
@@ -51,15 +44,12 @@ class WPSEO_Frontend {
 			add_action( 'wp_footer', array( $this, 'flush_cache' ), - 1 );
 		}
 
-		$this->woocommerce_shop_page = new WPSEO_WooCommerce_Shop_Page();
-
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
 			// new WPSEO_Schema(), // -- Has been moved to SRC directory.
 			new WPSEO_Handle_404(),
 			// new WPSEO_Remove_Reply_To_Com(), HAS BEEN MOVED TO SRC DIRECTORY!
 			new WPSEO_OpenGraph_OEmbed(),
-			$this->woocommerce_shop_page,
 		);
 
 		foreach ( $integrations as $integration ) {

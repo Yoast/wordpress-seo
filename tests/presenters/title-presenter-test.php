@@ -118,7 +118,7 @@ class Title_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_title' )
 			->once()
-			->with( 'example_title' )
+			->with( 'example_title', Mockery::type( Indexable_Presentation::class ) )
 			->andReturn( 'exampletitle' );
 
 		$expected = '<title>exampletitle</title>';
