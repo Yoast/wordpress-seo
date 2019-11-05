@@ -15,6 +15,8 @@ import {
 	reapplyAnnotationsForSelectedBlock,
 } from "../decorator/gutenberg";
 
+const $ = global.jQuery;
+
 /**
  * Represents the data.
  */

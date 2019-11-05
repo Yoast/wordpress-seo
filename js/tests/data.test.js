@@ -1,3 +1,6 @@
+// Mock the jQuery global before importing data.
+global.jQuery = {};
+
 import Data from "../src/analysis/data.js";
 
 const wpData = {};
