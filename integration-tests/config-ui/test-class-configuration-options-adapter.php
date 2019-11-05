@@ -252,6 +252,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 
 	/**
 	 * Tests setting a WordPress option.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_wordpress_option() {

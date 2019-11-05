@@ -176,10 +176,13 @@ class RankMath_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
 	 * Sets up a fake RankMath settings array.
 	 */
 	private function setup_options() {
-		update_option( 'rank-math-options-titles', array(
-			'homepage_title'       => 'Test homepage title',
-			'homepage_description' => 'Test homepage description',
-			'pt_post_title'        => 'Test post title template %sep% %sitename%',
-		) );
+		update_option(
+			'rank-math-options-titles',
+			array(
+				'homepage_title'       => 'Test homepage title',
+				'homepage_description' => 'Test homepage description',
+				'pt_post_title'        => 'Test post title template %sep% %sitename%',
+			)
+		);
 	}
 }

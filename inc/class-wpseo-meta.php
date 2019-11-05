@@ -672,7 +672,7 @@ class WPSEO_Meta {
 	/**
 	 * Deletes a meta value for a post.
 	 *
-	 * @param string $key The internal key of the meta value to change (without prefix).
+	 * @param string $key     The internal key of the meta value to change (without prefix).
 	 * @param int    $post_id The ID of the post to change the meta for.
 	 *
 	 * @return bool Whether the value was changed.

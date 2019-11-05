@@ -14,7 +14,6 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group MyYoast
  *
  * @coversDefaultClass WPSEO_MyYoast_Proxy
- * @covers ::<!public>
  */
 class MyYoast_Proxy_Test extends TestCase {
 
@@ -256,7 +255,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		/**
 		 * It acts like an instance of WPSEO_MyYoast_Proxy.
 		 *
-		 * @var WPSEO_MyYoast_Proxy $instance
+		 * @var \WPSEO_MyYoast_Proxy $instance
 		 */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )
