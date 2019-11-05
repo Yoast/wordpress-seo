@@ -21,7 +21,6 @@ class WPSEO_OpenGraph {
 			add_action( 'wpseo_opengraph', array( $this, 'category' ), 17 );
 		}
 
-		add_action( 'wpseo_opengraph', array( $this, 'image' ), 30 );
 		add_filter( 'jetpack_enable_open_graph', '__return_false' );
 		add_action( 'wpseo_head', array( $this, 'opengraph' ), 30 );
 	}
@@ -60,18 +59,6 @@ class WPSEO_OpenGraph {
 		echo '<meta property="', esc_attr( $property ), '" content="', esc_attr( $content ), '" />', "\n";
 
 		return true;
-	}
-
-	/**
-	 * Create new WPSEO_OpenGraph_Image class and get the images to set the og:image.
-	 *
-	 * @param string|bool $image Optional. Image URL.
-	 *
-	 * @return void
-	 */
-	public function image( $image = false ) {
-		$opengraph_image = new WPSEO_OpenGraph_Image( $image, $this );
-		$opengraph_image->show();
 	}
 
 	/**
@@ -347,5 +334,19 @@ class WPSEO_OpenGraph {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return true;
+	}
+
+	/**
+	 * Creates new WPSEO_OpenGraph_Image class and get the images to set the og:image.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+
+	 * @param string|bool $image Optional. Image URL.
+	 *
+	 * @return void
+	 */
+	public function image( $image = false ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 } /* End of class */
