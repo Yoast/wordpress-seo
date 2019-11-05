@@ -46,6 +46,13 @@ class WPSEO_Twitter {
 	 */
 	public function twitter() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		/**
+		 * Action: 'wpseo_twitter' - Hook to add all Yoast SEO Twitter output to so they're close together.
+		 *
+		 * @deprecated xx.x
+		 */
+		do_action_deprecated( 'wpseo_twitter', 'xx.x');
 	}
 
 	/**
