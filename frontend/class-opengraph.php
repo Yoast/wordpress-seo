@@ -14,8 +14,6 @@ class WPSEO_OpenGraph {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		add_action( 'wpseo_opengraph', array( $this, 'app_id' ), 20 );
-
 		if ( is_singular() && ! is_front_page() ) {
 			add_action( 'wpseo_opengraph', array( $this, 'tags' ), 16 );
 			add_action( 'wpseo_opengraph', array( $this, 'category' ), 17 );
@@ -124,18 +122,6 @@ class WPSEO_OpenGraph {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Outputs the Facebook app_id.
-	 *
-	 * @return void
-	 */
-	public function app_id() {
-		$app_id = WPSEO_Options::get( 'fbadminapp', '' );
-		if ( $app_id !== '' ) {
-			$this->og_tag( 'fb:app_id', $app_id );
-		}
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
@@ -347,6 +333,18 @@ class WPSEO_OpenGraph {
 	 * @return void
 	 */
 	public function image( $image = false ) {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+	}
+
+	/**
+	 * Outputs the Facebook app_id.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function app_id() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 } /* End of class */
