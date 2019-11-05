@@ -152,6 +152,7 @@ class HowTo extends Abstract_Schema_Piece {
 			}
 			else {
 				$schema_step['name'] = $json_name;
+
 				$this->add_step_description( $schema_step, $step );
 				$this->add_step_image( $schema_step, $step, $context );
 			}
