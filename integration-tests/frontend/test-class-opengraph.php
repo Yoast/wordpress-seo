@@ -77,83 +77,6 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Test if the function og_tag gets called when there is a front page image.
-	 *
-	 * @covers WPSEO_OpenGraph::image
-	 */
-	public function test_image_HAS_front_page_image() {
-
-		$stub =
-			$this
-				->getMockBuilder( 'WPSEO_OpenGraph' )
-				->setMethods( array( 'og_tag' ) )
-				->getMock();
-
-		WPSEO_Options::set( 'og_frontpage_image', get_site_url() . '/wp-content/uploads/2015/01/iphone5_ios7-300x198.jpg' );
-
-		$stub
-			->expects( $this->once() )
-			->method( 'og_tag' );
-
-		$stub->image();
-	}
-
-	/**
-	 * Test if the function og_tag does not get called when there is no front page image.
-	 *
-	 * @covers WPSEO_OpenGraph::image
-	 */
-	public function test_image_HAS_NO_image() {
-
-		$stub =
-			$this
-				->getMockBuilder( 'WPSEO_OpenGraph' )
-				->setMethods( array( 'og_tag' ) )
-				->getMock();
-
-		$stub
-			->expects( $this->never() )
-			->method( 'og_tag' );
-
-		$stub->image();
-	}
-
-	/**
-	 * Tests static page set as posts page.
-	 */
-	public function test_static_posts_page() {
-
-		$post_id = $this->factory->post->create(
-			array(
-				'post_type'  => 'page',
-			)
-		);
-		update_option( 'show_on_front', 'page' );
-		update_option( 'page_on_front', $post_id );
-
-		$post_id = $this->factory->post->create(
-			array(
-				'post_type'  => 'page',
-			)
-		);
-		update_option( 'page_for_posts', $post_id );
-		$this->go_to( get_permalink( $post_id ) );
-
-		$image_url       = 'https://example.com/image.png';
-		$expected_output = <<<EXPECTED
-<meta property="og:image" content="{$image_url}" />
-<meta property="og:image:secure_url" content="{$image_url}" />
-EXPECTED;
-		WPSEO_Meta::set_value( 'opengraph-image', $image_url, $post_id );
-
-		ob_start();
-		self::$class_instance->image( false );
-		$result = trim( ob_get_clean() );
-
-		$this->assertEquals( $expected_output, $result );
-	}
-
-	/**
 	 * @covers WPSEO_OpenGraph::tags
 	 */
 	public function test_tags() {
@@ -282,29 +205,5 @@ EXPECTED;
 		unset( $categories[0] );
 
 		return $categories;
-	}
-
-	/**
-	 * @param string  $image   Path.
-	 * @param integer $post_id Post ID.
-	 *
-	 * @return int
-	 */
-	private function create_featured_image( $image, $post_id ) {
-
-		$basename       = basename( $image );
-		$upload_dir     = wp_upload_dir();
-		$source_image   = dirname( __FILE__ ) . '/..' . $image;
-		$featured_image = $upload_dir['path'] . '/' . $basename;
-
-		copy( $source_image, $featured_image ); // Prevent original from deletion.
-
-		$file_array = array(
-			'name'     => $basename,
-			'tmp_name' => $featured_image,
-		);
-		$attach_id  = media_handle_sideload( $file_array, $post_id );
-
-		return $attach_id;
 	}
 }
