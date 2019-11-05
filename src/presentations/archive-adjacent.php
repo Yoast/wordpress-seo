@@ -12,16 +12,10 @@ use Yoast\WP\Free\Helpers\Pagination_Helper;
 /**
  * Class Archive_Adjacent
  *
- * @property \Yoast\WP\Free\Models\Indexable $model The indexable.
+ * @property \Yoast\WP\Free\Models\Indexable          $model      The indexable.
+ * @property \Yoast\WP\Free\Helpers\Pagination_Helper $pagination The pagination helper.
  */
 trait Archive_Adjacent {
-
-	/**
-	 * Holds the Pagination_Helper instance.
-	 *
-	 * @var Pagination_Helper
-	 */
-	protected $pagination;
 
 	/**
 	 * Sets the helpers for the trait.
