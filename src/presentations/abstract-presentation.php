@@ -17,7 +17,7 @@ class Abstract_Presentation {
 	/**
 	 * @var mixed
 	 */
-	protected $model;
+	public $model;
 
 	/**
 	 * @var bool

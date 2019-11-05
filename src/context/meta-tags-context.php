@@ -28,6 +28,7 @@ use Yoast\WP\Free\Presentations\Indexable_Presentation;
  * @property string      description
  * @property string      id
  * @property string      site_name
+ * @property string      wordpress_site_name
  * @property string      site_url
  * @property string      company_name
  * @property int         company_logo_id
@@ -185,7 +186,7 @@ class Meta_Tags_Context extends Abstract_Presentation {
 	/**
 	 * Generates the site name from the WordPress options.
 	 *
-	 * @return string The site name.
+	 * @return string The site name from the WordPress options.
 	 */
 	public function generate_wordpress_site_name() {
 		return $this->site_helper->get_site_name();

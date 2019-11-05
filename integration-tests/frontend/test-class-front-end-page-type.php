@@ -94,7 +94,9 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::is_home_posts_page
+	 * Tests if the current page is the home posts page.
+	 *
+	 * @covers WPSEO_Frontend_Page_Type::is_home_posts_page
 	 */
 	public function test_is_home_posts_page() {
 
@@ -112,7 +114,9 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::is_home_static_page
+	 * Tests if the current page is a static page set as home page.
+	 *
+	 * @covers WPSEO_Frontend_Page_Type::is_home_static_page
 	 */
 	public function test_is_home_static_page() {
 
@@ -141,7 +145,9 @@ class WPSEO_Frontend_Page_Type_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::is_posts_page
+	 * Tests if the current page is a posts page.
+	 *
+	 * @covers WPSEO_Frontend_Page_Type::is_posts_page
 	 */
 	public function test_is_posts_page() {
 

@@ -150,7 +150,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			foreach ( $terms as $term ) {
 				// We are checking against the WordPress internal translation.
 				// @codingStandardsIgnoreLine
-				if ( $term->name !== __( 'Uncategorized' ) ) {
+				if ( $term->name !== __( 'Uncategorized', 'default' ) ) {
 					$keywords[] = $term->name;
 				}
 			}

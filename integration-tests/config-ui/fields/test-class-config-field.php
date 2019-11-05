@@ -65,6 +65,7 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Tests the setting of required field.
+	 *
 	 * @covers WPSEO_Config_Field::set_requires
 	 * @covers WPSEO_Config_Field::get_requires
 	 */
