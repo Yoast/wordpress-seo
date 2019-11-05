@@ -163,7 +163,6 @@ class WPSEO_OpenGraph {
 		return false;
 	}
 
-
 	/**
 	 * Outputs the website's FB page.
 	 *
@@ -180,7 +179,6 @@ class WPSEO_OpenGraph {
 
 		return false;
 	}
-
 
 	/**
 	 * Outputs the OpenGraph type.
@@ -290,7 +288,7 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
-	 * Output the article tags as article:tag tags.
+	 * Outputs the article tags as article:tag tags.
 	 *
 	 * @deprecated xx.x
 	 * @codeCoverageIgnore
@@ -306,7 +304,7 @@ class WPSEO_OpenGraph {
 	}
 
 	/**
-	 * Output the article category as an article:section tag.
+	 * Outputs the article category as an article:section tag.
 	 *
 	 * @deprecated xx.x
 	 * @codeCoverageIgnore
