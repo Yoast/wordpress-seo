@@ -19,13 +19,6 @@ class WPSEO_Frontend {
 	public static $instance;
 
 	/**
-	 * Toggle indicating whether output buffering has been started.
-	 *
-	 * @var boolean
-	 */
-	private $ob_started = false;
-
-	/**
 	 * Class constructor.
 	 *
 	 * Adds and removes a lot of filters.
@@ -37,12 +30,6 @@ class WPSEO_Frontend {
 		remove_action( 'wp_head', 'start_post_rel_link' );
 		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
 		remove_action( 'wp_head', 'noindex', 1 );
-
-		// For WordPress functions below 4.4.
-		if ( WPSEO_Options::get( 'forcerewritetitle', false ) && ! current_theme_supports( 'title-tag' ) ) {
-			add_action( 'template_redirect', array( $this, 'force_rewrite_output_buffer' ), 99999 );
-			add_action( 'wp_footer', array( $this, 'flush_cache' ), - 1 );
-		}
 
 		$integrations = array(
 			new WPSEO_Frontend_Primary_Category(),
@@ -118,39 +105,6 @@ class WPSEO_Frontend {
 			$GLOBALS['wp_query'] = $old_wp_query;
 			unset( $old_wp_query );
 		}
-	}
-
-	/**
-	 * Used in the force rewrite functionality this retrieves the output, replaces the title with the proper SEO
-	 * title and then flushes the output.
-	 */
-	public function flush_cache() {
-
-		global $wp_query;
-
-		if ( $this->ob_started !== true ) {
-			return false;
-		}
-
-		$content = ob_get_clean();
-
-		$old_wp_query = $wp_query;
-
-		wp_reset_query();
-
-		$GLOBALS['wp_query'] = $old_wp_query;
-
-		echo $content;
-
-		return true;
-	}
-
-	/**
-	 * Starts the output buffer so it can later be fixed by flush_cache().
-	 */
-	public function force_rewrite_output_buffer() {
-		$this->ob_started = true;
-		ob_start();
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
@@ -853,5 +807,26 @@ class WPSEO_Frontend {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return $content;
+	}
+
+	/**
+	 * Used in the force rewrite functionality this retrieves the output, replaces the title with the proper SEO
+	 * title and then flushes the output.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated xx.x
+	 */
+	public function flush_cache() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+	}
+
+	/**
+	 * Starts the output buffer so it can later be fixed by flush_cache().
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated xx.x
+	 */
+	public function force_rewrite_output_buffer() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 }
