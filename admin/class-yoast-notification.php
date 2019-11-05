@@ -72,6 +72,7 @@ class Yoast_Notification {
 	private $defaults = array(
 		'type'             => self::UPDATED,
 		'id'               => '',
+		'user'             => null,
 		'nonce'            => null,
 		'priority'         => 0.5,
 		'data_json'        => array(),
@@ -256,7 +257,8 @@ class Yoast_Notification {
 	 * @return bool
 	 */
 	private function has_capability( $capability ) {
-		return current_user_can( $capability );
+		$user = $this->options['user'];
+		return in_array( $capability, $user->get_role_caps(), true );
 	}
 
 	/**
@@ -369,6 +371,11 @@ class Yoast_Notification {
 		// Set default capabilities when not supplied.
 		if ( empty( $options['capabilities'] ) || array() === $options['capabilities'] ) {
 			$options['capabilities'] = array( 'wpseo_manage_options' );
+		}
+
+		// Set to the current user if not supplied.
+		if ( $options['user'] === null ) {
+			$options['user'] = wp_get_current_user();
 		}
 
 		return $options;
