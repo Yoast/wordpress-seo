@@ -13,7 +13,8 @@ use Yoast\WP\Free\Helpers\Pagination_Helper;
  * Class Archive_Adjacent
  *
  * @property \Yoast\WP\Free\Models\Indexable          $model      The indexable.
- * @property \Yoast\WP\Free\Helpers\Pagination_Helper $pagination The pagination helper.
+ * @property \Yoast\WP\Free\Helpers\Pagination_Helper $pagination The pagination helper. Should be defined in the parent
+ *                                                                class because of trait issues in PHP 5.6.
  */
 trait Archive_Adjacent {
 

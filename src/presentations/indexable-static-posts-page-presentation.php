@@ -13,6 +13,7 @@ use Yoast\WP\Free\Helpers\Pagination_Helper;
  * Class Indexable_Static_Posts_Page_Presentation
  */
 class Indexable_Static_Posts_Page_Presentation extends Indexable_Post_Type_Presentation {
+
 	/**
 	 * @var Pagination_Helper
 	 */
