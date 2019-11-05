@@ -18,57 +18,6 @@ class WPSEO_OpenGraph_Image {
 	const EXTERNAL_IMAGE_ID = '-1';
 
 	/**
-	 * Holds the images that have been put out as OG image.
-	 *
-	 * @var array
-	 */
-	protected $images = array();
-
-	/**
-	 * Holds the WPSEO_OpenGraph instance, so we can call og_tag.
-	 *
-	 * @var WPSEO_OpenGraph
-	 */
-	private $opengraph;
-
-	/**
-	 * Image tags that we output for each image.
-	 *
-	 * @var array
-	 */
-	private $image_tags = array(
-		'width'     => 'width',
-		'height'    => 'height',
-		'mime-type' => 'type',
-	);
-
-	/**
-	 * The parameters we have for Facebook images.
-	 *
-	 * @var array
-	 */
-	private $image_params = array(
-		'min_width'  => 200,
-		'max_width'  => 2000,
-		'min_height' => 200,
-		'max_height' => 2000,
-	);
-
-	/**
-	 * Image types that are supported by OpenGraph.
-	 *
-	 * @var array
-	 */
-	private $valid_image_types = array( 'image/jpeg', 'image/gif', 'image/png' );
-
-	/**
-	 * Image extensions that are supported by OpenGraph.
-	 *
-	 * @var array
-	 */
-	private $valid_image_extensions = array( 'jpeg', 'jpg', 'gif', 'png' );
-
-	/**
 	 * Constructor.
 	 *
 	 * @deprecated xx.x
