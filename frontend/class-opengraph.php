@@ -15,7 +15,6 @@ class WPSEO_OpenGraph {
 	 */
 	public function __construct() {
 		if ( is_singular() && ! is_front_page() ) {
-			add_action( 'wpseo_opengraph', array( $this, 'tags' ), 16 );
 			add_action( 'wpseo_opengraph', array( $this, 'category' ), 17 );
 		}
 
@@ -57,31 +56,6 @@ class WPSEO_OpenGraph {
 		echo '<meta property="', esc_attr( $property ), '" content="', esc_attr( $content ), '" />', "\n";
 
 		return true;
-	}
-
-	/**
-	 * Output the article tags as article:tag tags.
-	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
-	 *
-	 * @return boolean
-	 */
-	public function tags() {
-		if ( ! is_singular() ) {
-			return false;
-		}
-
-		$tags = get_the_tags();
-		if ( ! is_wp_error( $tags ) && ( is_array( $tags ) && $tags !== array() ) ) {
-
-			foreach ( $tags as $tag ) {
-				$this->og_tag( 'article:tag', $tag->name );
-			}
-
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -346,5 +320,21 @@ class WPSEO_OpenGraph {
 	 */
 	public function app_id() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+	}
+
+	/**
+	 * Output the article tags as article:tag tags.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
+	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
+	 * @return boolean
+	 */
+	public function tags() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return false;
 	}
 } /* End of class */
