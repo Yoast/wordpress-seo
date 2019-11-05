@@ -7,30 +7,45 @@
 
 /**
  * This code adds the OpenGraph output.
+ *
+ * @deprecated xx.x
  */
 class WPSEO_OpenGraph {
 
+	/* ********************* DEPRECATED METHODS ********************* */
+
 	/**
 	 * Class constructor.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
-		add_filter( 'jetpack_enable_open_graph', '__return_false' );
-		add_action( 'wpseo_head', array( $this, 'opengraph' ), 30 );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
 	/**
 	 * Main OpenGraph output.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
 	 */
 	public function opengraph() {
-		wp_reset_query();
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
 		/**
 		 * Action: 'wpseo_opengraph' - Hook to add all Facebook OpenGraph output to so they're close together.
+		 *
+		 * @deprecated xx.x
 		 */
-		do_action( 'wpseo_opengraph' );
+		do_action_deprecated( 'wpseo_opengraph', 'xx.x');
 	}
 
 	/**
 	 * Internal function to output FB tags. This also adds an output filter to each bit of output based on the property.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $property Property attribute value.
 	 * @param string $content  Content attribute value.
@@ -38,25 +53,19 @@ class WPSEO_OpenGraph {
 	 * @return boolean
 	 */
 	public function og_tag( $property, $content ) {
-		$og_property = str_replace( ':', '_', $property );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
 		/**
 		 * Filter: 'wpseo_og_' . $og_property - Allow developers to change the content of specific OG meta tags.
 		 *
+		 * @deprecated xx.x
+		 *
 		 * @api string $content The content of the property.
 		 */
-		$content = apply_filters( 'wpseo_og_' . $og_property, $content );
-		if ( empty( $content ) ) {
-			return false;
-		}
-
-		echo '<meta property="', esc_attr( $property ), '" content="', esc_attr( $content ), '" />', "\n";
+		$content = apply_filters_deprecated( 'wpseo_og_' . $og_property, $content, 'xx.x');
 
 		return true;
 	}
-
-
-
-	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
 	 * Outputs the site owner.
