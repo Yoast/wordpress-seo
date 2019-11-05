@@ -90,10 +90,10 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 		}
 		// Check if the previous page is the first page.
 		if ( $current_page === 2 ) {
-			return $this->canonical;
+			return $this->current_page->get_date_archive_permalink();
 		}
 
-		return $this->pagination->get_paginated_url( $this->canonical, ( $current_page - 1 ) );
+		return $this->pagination->get_paginated_url( $this->current_page->get_date_archive_permalink(), ( $current_page - 1 ) );
 	}
 
 	/**
@@ -109,6 +109,6 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		return $this->pagination->get_paginated_url( $this->canonical, ( $current_page + 1 ) );
+		return $this->pagination->get_paginated_url( $this->current_page->get_date_archive_permalink(), ( $current_page + 1 ) );
 	}
 }

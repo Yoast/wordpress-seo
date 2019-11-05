@@ -68,7 +68,7 @@ class Rel_Next_Test extends TestCase {
 	 * @covers ::generate_rel_next
 	 */
 	public function test_generate_rel_prev_is_not_the_last_page() {
-		$this->instance->canonical = 'https://example.com/canonical/';
+		$this->instance->canonical = 'https://example.com/2019/11/page/5/';
 
 		$this->pagination
 			->expects( 'is_rel_adjacent_disabled' )
@@ -87,10 +87,15 @@ class Rel_Next_Test extends TestCase {
 
 		$this->pagination
 			->expects( 'get_paginated_url' )
-			->with( 'https://example.com/canonical/', 6 )
+			->with( 'https://example.com/2019/11/', 6 )
 			->once()
-			->andReturn( 'https://example.com/canonical/page/6/' );
+			->andReturn( 'https://example.com/2019/11/page/6/' );
 
-		$this->assertEquals( 'https://example.com/canonical/page/6/', $this->instance->generate_rel_next() );
+		$this->current_page_helper
+			->expects( 'get_date_archive_permalink' )
+			->once()
+			->andReturn( 'https://example.com/2019/11/' );
+
+		$this->assertEquals( 'https://example.com/2019/11/page/6/', $this->instance->generate_rel_next() );
 	}
 }
