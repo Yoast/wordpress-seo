@@ -538,10 +538,28 @@ class Yoast_Notification_Center {
 			return;
 		}
 
-		$notifications = array_map( array( $this, 'notification_to_array' ), $notifications );
+		$this->store_notifications( $notifications );
+	}
 
-		// Save the notifications to the storage.
-		update_user_option( get_current_user_id(), self::STORAGE_KEY, $notifications );
+	/**
+	 * Stores the notifications to its respective user's storage.
+	 *
+	 * @param array|Yoast_Notification[] $notifications The notifications to store.
+	 *
+	 * @return void
+	 */
+	private function store_notifications( $notifications ) {
+		// Create an array mapping user id to a list of the user's notifications.
+		$notifications_per_users = array();
+		foreach ( $notifications as $notification ) {
+			$user_id = $notification->get_user()->ID;
+			$notifications_per_users[ $user_id  ][] = $this->notification_to_array( $notification );
+		}
+
+		// For each user: store its respective notifications.
+		foreach ( $notifications_per_users as $user_id=>$notifications_per_user ) {
+			update_user_option( $user_id, self::STORAGE_KEY, $notifications_per_user );
+		}
 	}
 
 	/**
