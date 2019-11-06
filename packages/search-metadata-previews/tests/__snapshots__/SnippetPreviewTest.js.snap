@@ -1199,7 +1199,7 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
           }
         }
       >
-        SEO title preview:
+        Url preview:
       </span>
       <div
         className="c2"
@@ -1222,6 +1222,20 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
           </span>
         </div>
       </div>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        SEO title preview:
+      </span>
       <div
         className="c6"
         onMouseEnter={[Function]}
@@ -1238,20 +1252,6 @@ exports[`SnippetPreview mobile mode renders an AMP logo when isAmp is true 1`] =
           </span>
         </div>
       </div>
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        Url preview:
-      </span>
       <div
         className="c9"
       />
@@ -1419,7 +1419,7 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
           }
         }
       >
-        SEO title preview:
+        Url preview:
       </span>
       <div
         className="c2"
@@ -1442,6 +1442,20 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
           </span>
         </div>
       </div>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        SEO title preview:
+      </span>
       <div
         className="c6"
         onMouseEnter={[Function]}
@@ -1458,20 +1472,6 @@ exports[`SnippetPreview mobile mode renders differently than desktop 1`] = `
           </span>
         </div>
       </div>
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        Url preview:
-      </span>
     </div>
     <div
       className="c1"
@@ -1636,7 +1636,7 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
           }
         }
       >
-        SEO title preview:
+        Url preview:
       </span>
       <div
         className="c2"
@@ -1659,6 +1659,20 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
           </span>
         </div>
       </div>
+      <span
+        className="screen-reader-text"
+        style={
+          Object {
+            "clip": "rect(1px, 1px, 1px, 1px)",
+            "height": "1px",
+            "overflow": "hidden",
+            "position": "absolute",
+            "width": "1px",
+          }
+        }
+      >
+        SEO title preview:
+      </span>
       <div
         className="c6"
         onMouseEnter={[Function]}
@@ -1675,20 +1689,6 @@ exports[`SnippetPreview renders a SnippetPreview in the default mode 1`] = `
           </span>
         </div>
       </div>
-      <span
-        className="screen-reader-text"
-        style={
-          Object {
-            "clip": "rect(1px, 1px, 1px, 1px)",
-            "height": "1px",
-            "overflow": "hidden",
-            "position": "absolute",
-            "width": "1px",
-          }
-        }
-      >
-        Url preview:
-      </span>
     </div>
     <div
       className="c1"
