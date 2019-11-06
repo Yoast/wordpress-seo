@@ -63,7 +63,7 @@ class Rel_Prev_Test extends TestCase {
 	 * @covers ::generate_rel_prev
 	 */
 	public function test_generate_rel_prev_is_second_page() {
-		$this->instance->canonical = 'https://example.com/canonical/';
+		$this->instance->canonical = 'https://example.com/2019/11/';
 
 		$this->pagination
 			->expects( 'is_rel_adjacent_disabled' )
@@ -75,7 +75,12 @@ class Rel_Prev_Test extends TestCase {
 			->once()
 			->andReturn( 2 );
 
-		$this->assertEquals( 'https://example.com/canonical/', $this->instance->generate_rel_prev() );
+		$this->current_page_helper
+			->expects( 'get_date_archive_permalink' )
+			->once()
+			->andReturn( 'https://example.com/2019/11/' );
+
+		$this->assertEquals( 'https://example.com/2019/11/', $this->instance->generate_rel_prev() );
 	}
 
 	/**
