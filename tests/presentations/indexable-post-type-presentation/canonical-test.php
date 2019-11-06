@@ -45,8 +45,8 @@ class Canonical_Test extends TestCase {
 		$this->indexable->object_id = 1337;
 		$this->indexable->permalink = 'https://example.com/permalink/';
 
-		$this->current_page_helper
-			->expects( 'get_current_post_page' )
+		$this->pagination
+			->expects( 'get_current_post_page_number' )
 			->once()
 			->andReturn( 0 );
 
@@ -70,8 +70,8 @@ class Canonical_Test extends TestCase {
 		$this->indexable->number_of_pages = 2;
 		$this->indexable->permalink       = 'https://example.com/permalink/';
 
-		$this->current_page_helper
-			->expects( 'get_current_post_page' )
+		$this->pagination
+			->expects( 'get_current_post_page_number' )
 			->once()
 			->andReturn( 2 );
 

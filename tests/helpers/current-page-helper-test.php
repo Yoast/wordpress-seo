@@ -132,38 +132,4 @@ class Current_Page_Helper_Test extends TestCase {
 
 		$this->assertEmpty( $this->instance->get_date_archive_permalink() );
 	}
-
-	/**
-	 * Tests that get_current_archive_page retrieves `paged` from the query as integer.
-	 *
-	 * @covers ::get_current_archive_page
-	 */
-	public function test_get_current_archive_page() {
-		$wp_query = Mockery::mock( 'WP_Query' );
-		$wp_query->expects( 'get' )->with( 'paged' )->once()->andReturn( '2' );
-
-		$this->wp_query_wrapper
-			->expects( 'get_main_query' )
-			->once()
-			->andReturn( $wp_query );
-
-		$this->assertEquals( 2, $this->instance->get_current_archive_page() );
-	}
-
-	/**
-	 * Tests that get_current_archive_page retrieves `page` from the query as integer.
-	 *
-	 * @covers ::get_current_post_page
-	 */
-	public function test_get_current_post_page() {
-		$wp_query = Mockery::mock( 'WP_Query' );
-		$wp_query->expects( 'get' )->with( 'page' )->once()->andReturn( '2' );
-
-		$this->wp_query_wrapper
-			->expects( 'get_main_query' )
-			->once()
-			->andReturn( $wp_query );
-
-		$this->assertEquals( 2, $this->instance->get_current_post_page() );
-	}
 }

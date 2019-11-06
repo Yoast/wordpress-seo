@@ -7,8 +7,8 @@
 
 namespace Yoast\WP\Free\Presentations;
 
-use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Helpers\Pagination_Helper;
+use Yoast\WP\Free\Helpers\Post_Type_Helper;
 use Yoast\WP\Free\Helpers\Date_Helper;
 
 /**
@@ -24,13 +24,6 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	protected $post_type;
 
 	/**
-	 * Holds the Pagination_Helper instance.
-	 *
-	 * @var Pagination_Helper
-	 */
-	protected $pagination;
-
-	/**
 	 * Holds the Date_Helper instance.
 	 *
 	 * @var Date_Helper
@@ -38,22 +31,29 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	protected $date;
 
 	/**
+	 * Holds the Pagination_Helper instance.
+	 *
+	 * @var Pagination_Helper
+	 */
+	protected $pagination;
+
+	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
 	 * @param Post_Type_Helper  $post_type  The post type helper.
-	 * @param Pagination_Helper $pagination The pagination helper.
 	 * @param Date_Helper       $date       The date helper.
+	 * @param Pagination_Helper $pagination The pagination helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		Post_Type_Helper $post_type,
-		Pagination_Helper $pagination,
-		Date_Helper $date
+		Date_Helper $date,
+		Pagination_Helper $pagination
 	) {
 		$this->post_type  = $post_type;
-		$this->pagination = $pagination;
 		$this->date       = $date;
+		$this->pagination = $pagination;
 	}
 
 	/**
@@ -67,7 +67,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		$canonical = $this->model->permalink;
 
 		// Fix paginated pages canonical, but only if the page is truly paginated.
-		$current_page = $this->current_page->get_current_post_page();
+		$current_page = $this->pagination->get_current_post_page_number();
 		if ( $current_page > 1 ) {
 			$number_of_pages = $this->model->number_of_pages;
 			if ( $number_of_pages && $current_page <= $number_of_pages ) {
@@ -90,7 +90,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		$current_page = \max( 1, $this->current_page->get_current_post_page() );
+		$current_page = \max( 1, $this->pagination->get_current_post_page_number() );
 		// Check if there is a previous page.
 		if ( $current_page < 2 ) {
 			return '';
@@ -115,7 +115,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		$current_page = \max( 1, $this->current_page->get_current_post_page() );
+		$current_page = \max( 1, $this->pagination->get_current_post_page_number() );
 		if ( $this->model->number_of_pages <= $current_page ) {
 			return '';
 		}

@@ -8,6 +8,8 @@
 /**
  * This class handles the Twitter card functionality.
  *
+ * @deprecated xx.x
+ *
  * @link https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/abouts-cards
  */
 class WPSEO_Twitter {
@@ -29,9 +31,8 @@ class WPSEO_Twitter {
 	/**
 	 * Class constructor.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @deprecated xx.x
+	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
@@ -40,30 +41,31 @@ class WPSEO_Twitter {
 	/**
 	 * Outputs the Twitter Card code on singular pages.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @deprecated xx.x
+	 * @codeCoverageIgnore
 	 */
 	public function twitter() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		/**
+		 * Action: 'wpseo_twitter' - Hook to add all Yoast SEO Twitter output to so they're close together.
+		 *
+		 * @deprecated xx.x
+		 */
+		do_action_deprecated( 'wpseo_twitter', 'xx.x');
 	}
 
 	/**
 	 * Get the singleton instance of this class.
 	 *
-	 * @codeCoverageIgnore
-	 *
 	 * @deprecated xx.x
+	 * @codeCoverageIgnore
 	 *
 	 * @return object
 	 */
 	public static function get_instance() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
-		if ( ! ( self::$instance instanceof self ) ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
+		return null;
 	}
 } /* End of class */

@@ -31,7 +31,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * Holds the Pagination_Helper instance.
 	 *
-	 * @var Pagination_Helper|Mockery\MockInterface
+	 * @var Pagination_Helper
 	 */
 	protected $pagination;
 
@@ -43,10 +43,11 @@ trait Presentation_Instance_Builder {
 
 		$this->pagination = Mockery::mock( Pagination_Helper::class );
 
-		$instance = new Indexable_Post_Type_Archive_Presentation( $this->pagination );
+		$instance = new Indexable_Post_Type_Archive_Presentation();
 
 		$this->instance = $instance->of( [ 'model' => $this->indexable ] );
 
 		$this->set_instance_dependencies( $this->instance );
+		$this->instance->set_archive_adjacent_helpers( $this->pagination );
 	}
 }

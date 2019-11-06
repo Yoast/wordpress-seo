@@ -7,37 +7,45 @@
 
 /**
  * This code adds the OpenGraph output.
+ *
+ * @deprecated xx.x
  */
 class WPSEO_OpenGraph {
 
+	/* ********************* DEPRECATED METHODS ********************* */
+
 	/**
 	 * Class constructor.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
-		add_action( 'wpseo_opengraph', array( $this, 'app_id' ), 20 );
-
-		if ( is_singular() && ! is_front_page() ) {
-			add_action( 'wpseo_opengraph', array( $this, 'tags' ), 16 );
-			add_action( 'wpseo_opengraph', array( $this, 'category' ), 17 );
-		}
-
-		add_filter( 'jetpack_enable_open_graph', '__return_false' );
-		add_action( 'wpseo_head', array( $this, 'opengraph' ), 30 );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
 	/**
 	 * Main OpenGraph output.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
 	 */
 	public function opengraph() {
-		wp_reset_query();
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
 		/**
 		 * Action: 'wpseo_opengraph' - Hook to add all Facebook OpenGraph output to so they're close together.
+		 *
+		 * @deprecated xx.x
 		 */
-		do_action( 'wpseo_opengraph' );
+		do_action_deprecated( 'wpseo_opengraph', 'xx.x');
 	}
 
 	/**
 	 * Internal function to output FB tags. This also adds an output filter to each bit of output based on the property.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $property Property attribute value.
 	 * @param string $content  Content attribute value.
@@ -45,100 +53,19 @@ class WPSEO_OpenGraph {
 	 * @return boolean
 	 */
 	public function og_tag( $property, $content ) {
-		$og_property = str_replace( ':', '_', $property );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
 		/**
 		 * Filter: 'wpseo_og_' . $og_property - Allow developers to change the content of specific OG meta tags.
 		 *
+		 * @deprecated xx.x
+		 *
 		 * @api string $content The content of the property.
 		 */
-		$content = apply_filters( 'wpseo_og_' . $og_property, $content );
-		if ( empty( $content ) ) {
-			return false;
-		}
-
-		echo '<meta property="', esc_attr( $property ), '" content="', esc_attr( $content ), '" />', "\n";
+		$content = apply_filters_deprecated( 'wpseo_og_' . $og_property, $content, 'xx.x');
 
 		return true;
 	}
-
-	/**
-	 * Output the article tags as article:tag tags.
-	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
-	 *
-	 * @return boolean
-	 */
-	public function tags() {
-		if ( ! is_singular() ) {
-			return false;
-		}
-
-		$tags = get_the_tags();
-		if ( ! is_wp_error( $tags ) && ( is_array( $tags ) && $tags !== array() ) ) {
-
-			foreach ( $tags as $tag ) {
-				$this->og_tag( 'article:tag', $tag->name );
-			}
-
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Output the article category as an article:section tag.
-	 *
-	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
-	 *
-	 * @return boolean;
-	 */
-	public function category() {
-
-		if ( ! is_singular() ) {
-			return false;
-		}
-
-		$post = get_post();
-		if ( ! $post ) {
-			return false;
-		}
-
-		$primary_term     = new WPSEO_Primary_Term( 'category', $post->ID );
-		$primary_category = $primary_term->get_primary_term();
-
-		if ( $primary_category ) {
-			// We can only show one section here, so we take the first one.
-			$this->og_tag( 'article:section', get_cat_name( $primary_category ) );
-
-			return true;
-		}
-
-		$terms = get_the_category();
-
-		if ( ! is_wp_error( $terms ) && is_array( $terms ) && ! empty( $terms ) ) {
-			// We can only show one section here, so we take the first one.
-			$term = reset( $terms );
-			$this->og_tag( 'article:section', $term->name );
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Outputs the Facebook app_id.
-	 *
-	 * @return void
-	 */
-	public function app_id() {
-		$app_id = WPSEO_Options::get( 'fbadminapp', '' );
-		if ( $app_id !== '' ) {
-			$this->og_tag( 'fb:app_id', $app_id );
-		}
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
 
 	/**
 	 * Outputs the site owner.
@@ -236,7 +163,6 @@ class WPSEO_OpenGraph {
 		return false;
 	}
 
-
 	/**
 	 * Outputs the website's FB page.
 	 *
@@ -253,7 +179,6 @@ class WPSEO_OpenGraph {
 
 		return false;
 	}
-
 
 	/**
 	 * Outputs the OpenGraph type.
@@ -348,5 +273,49 @@ class WPSEO_OpenGraph {
 	 */
 	public function image( $image = false ) {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+	}
+
+	/**
+	 * Outputs the Facebook app_id.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function app_id() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+	}
+
+	/**
+	 * Outputs the article tags as article:tag tags.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
+	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
+	 * @return boolean
+	 */
+	public function tags() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return false;
+	}
+
+	/**
+	 * Outputs the article category as an article:section tag.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
+	 * @link https://developers.facebook.com/docs/reference/opengraph/object-type/article/
+	 *
+	 * @return boolean;
+	 */
+	public function category() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		return false;
 	}
 } /* End of class */

@@ -72,10 +72,8 @@ class HowTo extends Abstract_Schema_Piece {
 				'description'      => '',
 			];
 
-			$json_description = $this->html_helper->sanitize( $block['attrs']['jsonDescription'] );
-
-			if ( isset( $json_description ) ) {
-				$data['description'] = $json_description;
+			if ( isset( $block['attrs']['jsonDescription'] ) ) {
+				$data['description'] = $this->html_helper->sanitize( $block['attrs']['jsonDescription'] );
 			}
 
 			$this->add_duration( $data, $block['attrs'] );
@@ -94,7 +92,7 @@ class HowTo extends Abstract_Schema_Piece {
 	 * @param array $attributes The block data attributes.
 	 */
 	private function add_duration( &$data, $attributes ) {
-		if ( empty( $attributes['hasDuration'] ) && $attributes['hasDuration'] ) {
+		if ( empty( $attributes['hasDuration'] ) ) {
 			return;
 		}
 
@@ -122,8 +120,13 @@ class HowTo extends Abstract_Schema_Piece {
 				'url'   => $schema_id,
 			];
 
-			$json_text = $this->html_helper->sanitize( $step['jsonText'] );
-			$json_name = \strip_tags( $step['jsonName'] );
+			if ( isset( $step['jsonText'] ) ) {
+				$json_text = $this->html_helper->sanitize( $step['jsonText'] );
+			}
+
+			if ( isset( $step['jsonName'] ) ) {
+				$json_name = \strip_tags( $step['jsonName'] );
+			}
 
 			if ( empty( $json_name ) ) {
 				if ( empty( $step['text'] ) ) {

@@ -7,7 +7,6 @@
 
 namespace Yoast\WP\Free\Presentations;
 
-use Yoast\WP\Free\Helpers\Pagination_Helper;
 use Yoast\WP\Free\Helpers\Taxonomy_Helper;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 
@@ -17,6 +16,7 @@ use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
  * @property \WP_Term $replace_vars_object
  */
 class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
+	use Archive_Adjacent;
 
 	/**
 	 * Holds the WP query wrapper instance.
@@ -33,29 +33,19 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	private $taxonomy;
 
 	/**
-	 * Holds the Pagination_Helper instance.
-	 *
-	 * @var Pagination_Helper
-	 */
-	private $pagination;
-
-	/**
 	 * Indexable_Post_Type_Presentation constructor.
 	 *
-	 * @param WP_Query_Wrapper  $wp_query_wrapper The wp query wrapper.
-	 * @param Taxonomy_Helper   $taxonomy         The Taxonomy helper.
-	 * @param Pagination_Helper $pagination       The pagination helper.
+	 * @param WP_Query_Wrapper $wp_query_wrapper The wp query wrapper.
+	 * @param Taxonomy_Helper  $taxonomy         The Taxonomy helper.
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public function __construct(
 		WP_Query_Wrapper $wp_query_wrapper,
-		Taxonomy_Helper $taxonomy,
-		Pagination_Helper $pagination
+		Taxonomy_Helper $taxonomy
 	) {
 		$this->wp_query_wrapper = $wp_query_wrapper;
 		$this->taxonomy         = $taxonomy;
-		$this->pagination       = $pagination;
 	}
 
 	/**
@@ -74,7 +64,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		$current_page = $this->current_page->get_current_archive_page();
+		$current_page = $this->pagination->get_current_archive_page_number();
 		if ( $current_page > 1 ) {
 			return $this->pagination->get_paginated_url( $this->model->permalink, $current_page );
 		}
