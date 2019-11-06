@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Roles;
+namespace Yoast\WP\Free\Tests\Admin\Roles;
 
 use WPSEO_Register_Roles;
 use WPSEO_Role_Manager_Factory;

@@ -82,6 +82,7 @@ class Front_End_Integration implements Integration_Interface {
 		'Open_Graph\Article_Published_Time',
 		'Open_Graph\Article_Modified_Time',
 		'Open_Graph\Image',
+		'Open_Graph\FB_App_ID',
 	];
 
 	/**
@@ -109,8 +110,6 @@ class Front_End_Integration implements Integration_Interface {
 		'Open_Graph\Article_Published_Time',
 		'Open_Graph\Article_Modified_Time',
 		'Twitter\Creator',
-		'Rel_Prev',
-		'Rel_Next',
 	];
 
 	/**
@@ -192,6 +191,7 @@ class Front_End_Integration implements Integration_Interface {
 	 */
 	public function get_presenters( $page_type ) {
 		$needed_presenters = $this->get_needed_presenters( $page_type );
+
 		$invalid_behaviour = ContainerInterface::NULL_ON_INVALID_REFERENCE;
 		if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true && false ) {
 			$invalid_behaviour = ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE;

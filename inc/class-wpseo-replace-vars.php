@@ -1438,7 +1438,8 @@ class WPSEO_Replace_Vars {
 		unset( $terms, $term );
 
 		/**
-		 * Allows filtering of the terms list used to replace %%category%%, %%tag%% and %%ct_<custom-tax-name>%% variables.
+		 * Allows filtering of the terms list used to replace %%category%%, %%tag%%
+		 * and %%ct_<custom-tax-name>%% variables.
 		 *
 		 * @api    string    $output    Comma-delimited string containing the terms.
 		 * @api    string    $taxonomy  The taxonomy of the terms.

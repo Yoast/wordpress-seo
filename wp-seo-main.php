@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '12.4-RC2' );
+define( 'WPSEO_VERSION', '12.5-RC2' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -394,21 +394,6 @@ function wpseo_frontend_init() {
 		 */
 		add_filter( 'bbp_get_breadcrumb', '__return_false' );
 	}
-
-	add_action( 'template_redirect', 'wpseo_frontend_head_init', 999 );
-}
-
-/**
- * Instantiate the different social classes on the frontend.
- */
-function wpseo_frontend_head_init() {
-	if ( WPSEO_Options::get( 'twitter' ) === true ) {
-		add_action( 'wpseo_head', array( 'WPSEO_Twitter', 'get_instance' ), 40 );
-	}
-
-	if ( WPSEO_Options::get( 'opengraph' ) === true ) {
-		$GLOBALS['wpseo_og'] = new WPSEO_OpenGraph();
-	}
 }
 
 /**
@@ -679,4 +664,16 @@ function yoast_free_phpcompat_whitelist( $ignored ) {
 	$ignored[] = $path . 'vendor_prefixed/ruckusing/lib/Ruckusing/Adapter/Sqlite3/Base.php';
 
 	return $ignored;
+}
+
+/* ********************* DEPRECATED METHODS ********************* */
+
+/**
+ * Instantiate the different social classes on the frontend.
+ *
+ * @deprecated xx.x
+ * @codeCoverageIgnore
+ */
+function wpseo_frontend_head_init() {
+	_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 }

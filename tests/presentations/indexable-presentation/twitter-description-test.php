@@ -27,16 +27,6 @@ class Twitter_Description_Test extends TestCase {
 	protected $option_helper;
 
 	/**
-	 * @var Indexable
-	 */
-	protected $indexable;
-
-	/**
-	 * @var Indexable_Presentation
-	 */
-	protected $instance;
-
-	/**
 	 * Does the setup for testing.
 	 */
 	public function setUp() {

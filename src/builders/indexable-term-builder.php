@@ -129,6 +129,7 @@ class Indexable_Term_Builder {
 			'wpseo_twitter-title'         => 'twitter_title',
 			'wpseo_twitter-description'   => 'twitter_description',
 			'wpseo_twitter-image'         => 'twitter_image',
+			'wpseo_twitter-image-id'      => 'twitter_image_id',
 		];
 	}
 

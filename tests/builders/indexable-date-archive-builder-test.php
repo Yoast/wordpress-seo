@@ -2,11 +2,9 @@
 
 namespace Yoast\WP\Free\Tests\Builders;
 
-use Brain\Monkey;
 use Mockery;
 use Yoast\WP\Free\Builders\Indexable_Date_Archive_Builder;
 use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Url_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\ORM\ORMWrapper;
 use Yoast\WP\Free\Tests\TestCase;

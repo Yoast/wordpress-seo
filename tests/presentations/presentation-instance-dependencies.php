@@ -6,6 +6,7 @@ use Mockery;
 use Yoast\WP\Free\Generators\OG_Image_Generator;
 use Yoast\WP\Free\Generators\Twitter_Image_Generator;
 use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as OG_Image_Helper;
+use Yoast\WP\Free\Helpers\Pagination_Helper;
 use Yoast\WP\Free\Helpers\Twitter\Image_Helper as Twitter_Image_Helper;
 use Yoast\WP\Free\Helpers\Url_Helper;
 use Yoast\WP\Free\Helpers\User_Helper;
@@ -18,18 +19,19 @@ use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Helpers\Robots_Helper;
 
 trait Presentation_Instance_Dependencies {
+
 	/**
-	 * @var Options_Helper|Mockery\Mock
+	 * @var Options_Helper|Mockery\MockInterface
 	 */
 	protected $options_helper;
 
 	/**
-	 * @var Robots_Helper|Mockery\Mock
+	 * @var Robots_Helper|Mockery\MockInterface
 	 */
 	protected $robots_helper;
 
 	/**
-	 * @var Image_Helper|Mockery\Mock
+	 * @var Image_Helper|Mockery\MockInterface
 	 */
 	protected $image_helper;
 
@@ -57,6 +59,13 @@ trait Presentation_Instance_Dependencies {
 	 * @var Twitter_Image_Helper|Mockery\MockInterface
 	 */
 	protected $twitter_helper;
+
+	/**
+	 * Holds the Pagination_Helper instance.
+	 *
+	 * @var Pagination_Helper|Mockery\MockInterface
+	 */
+	protected $pagination;
 
 	/**
 	 * @var OG_Image_Generator|Mockery\MockInterface
