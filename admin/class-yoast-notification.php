@@ -197,7 +197,7 @@ class Yoast_Notification {
 	 */
 	public function match_capabilities() {
 		// Super Admin can do anything.
-		if ( is_multisite() && is_super_admin() ) {
+		if ( is_multisite() && is_super_admin( $this->options['user'] ) ) {
 			return true;
 		}
 
