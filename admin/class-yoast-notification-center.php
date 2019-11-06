@@ -557,7 +557,7 @@ class Yoast_Notification_Center {
 		}
 
 		// For each user: store its respective notifications.
-		foreach ( $notifications_per_users as $user_id=>$notifications_per_user ) {
+		foreach ( $notifications_per_users as $user_id => $notifications_per_user ) {
 			update_user_option( $user_id, self::STORAGE_KEY, $notifications_per_user );
 		}
 	}
