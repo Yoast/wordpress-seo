@@ -1,9 +1,5 @@
 import { addVerbSuffixes } from "../../../src/morphology/dutch/addVerbSuffixes";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
-import {
-	generateInfinitiveTremaEn,
-	generateNoConsonantDoublingInf
-} from "../../../src/morphology/dutch/generateVerbExceptionForms";
 
 const morphologyDataNL = getMorphologyData( "nl" ).nl;
 
