@@ -3,6 +3,7 @@
 namespace Yoast\WP\Free\Tests\Presentations;
 
 use Mockery;
+use Yoast\WP\Free\Generators\Breadcrumbs_Generator;
 use Yoast\WP\Free\Generators\OG_Image_Generator;
 use Yoast\WP\Free\Generators\Twitter_Image_Generator;
 use Yoast\WP\Free\Helpers\Open_Graph\Image_Helper as OG_Image_Helper;
@@ -124,7 +125,8 @@ trait Presentation_Instance_Dependencies {
 			Mockery::mock( Schema_Generator::class ),
 			new OG_Locale_Generator(),
 			$this->og_image_generator,
-			$this->twitter_image_generator
+			$this->twitter_image_generator,
+			Mockery::mock( Breadcrumbs_Generator::class )
 		);
 	}
 }
