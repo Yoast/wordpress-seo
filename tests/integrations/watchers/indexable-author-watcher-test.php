@@ -4,6 +4,7 @@ namespace Yoast\WP\Free\Tests\Integrations\Watchers;
 
 use Mockery;
 use Yoast\WP\Free\Builders\Indexable_Author_Builder;
+use Yoast\WP\Free\Builders\Indexable_Builder;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\Integrations\Watchers\Indexable_Author_Watcher;
@@ -21,6 +22,29 @@ use Yoast\WP\Free\Tests\TestCase;
  * @package Yoast\Tests\Watchers
  */
 class Indexable_Author_Watcher_Test extends TestCase {
+
+	/**
+	 * @var Mockery\MockInterface|Indexable_Repository
+	 */
+	private $repository_mock;
+
+	/**
+	 * @var Mockery\MockInterface|Indexable_Builder
+	 */
+	private $builder_mock;
+
+	/**
+	 * @var Indexable_Author_Watcher
+	 */
+	private $instance;
+
+	public function setUp() {
+		$this->repository_mock = Mockery::mock( Indexable_Repository::class );
+		$this->builder_mock    = Mockery::mock( Indexable_Builder::class );
+		$this->instance        = new Indexable_Author_Watcher( $this->repository_mock, $this->builder_mock );
+
+		return parent::setUp();
+	}
 
 	/**
 	 * Tests if the expected conditionals are in place.
@@ -41,13 +65,10 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
-		$repository_mock = Mockery::mock( Indexable_Repository::class );
+		$this->instance->register_hooks();
 
-		$instance = new Indexable_Author_Watcher( $repository_mock, new Indexable_Author_Builder() );
-		$instance->register_hooks();
-
-		$this->assertNotFalse( \has_action( 'profile_update', [ $instance, 'build_indexable' ] ) );
-		$this->assertNotFalse( \has_action( 'deleted_user', [ $instance, 'delete_indexable' ] ) );
+		$this->assertNotFalse( \has_action( 'profile_update', [ $this->instance, 'build_indexable' ] ) );
+		$this->assertNotFalse( \has_action( 'deleted_user', [ $this->instance, 'delete_indexable' ] ) );
 	}
 
 	/**
@@ -61,12 +82,9 @@ class Indexable_Author_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'delete' )->once();
 
-		$repository_mock = Mockery::mock( Indexable_Repository::class );
-		$repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'user', false )->andReturn( $indexable_mock );
+		$this->repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'user', false )->andReturn( $indexable_mock );
 
-		$instance = new Indexable_Author_Watcher( $repository_mock, new Indexable_Author_Builder() );
-
-		$instance->delete_indexable( $id );
+		$this->instance->delete_indexable( $id );
 	}
 
 	/**
@@ -77,12 +95,9 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	public function test_delete_indexable_not_found() {
 		$id = 1;
 
-		$repository_mock = Mockery::mock( Indexable_Repository::class );
-		$repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'user', false )->andReturn( false );
+		$this->repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'user', false )->andReturn( false );
 
-		$instance = new Indexable_Author_Watcher( $repository_mock, new Indexable_Author_Builder() );
-
-		$instance->delete_indexable( $id );
+		$this->instance->delete_indexable( $id );
 	}
 
 	/**
@@ -96,15 +111,10 @@ class Indexable_Author_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'save' )->once();
 
-		$repository_mock = Mockery::mock( Indexable_Repository::class );
-		$repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'user', false )->andReturn( $indexable_mock );
+		$this->repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'user', false )->andReturn( $indexable_mock );
+		$this->builder_mock->expects( 'build_for_id_and_type' )->once()->with( $id, 'user', $indexable_mock )->andReturn( $indexable_mock );
 
-		$builder_mock = Mockery::mock( Indexable_Author_Builder::class );
-		$builder_mock->expects( 'build' )->once()->with( $id, $indexable_mock )->andReturn( $indexable_mock );
-
-		$instance = new Indexable_Author_Watcher( $repository_mock, $builder_mock );
-
-		$instance->build_indexable( $id );
+		$this->instance->build_indexable( $id );
 	}
 
 	/**
@@ -118,15 +128,9 @@ class Indexable_Author_Watcher_Test extends TestCase {
 		$indexable_mock = Mockery::mock( Indexable::class );
 		$indexable_mock->expects( 'save' )->once();
 
-		$repository_mock = Mockery::mock( Indexable_Repository::class );
-		$repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'user', false )->andReturn( false );
-		$repository_mock->expects( 'create_for_id_and_type' )->once()->with( $id, 'user' )->andReturn( $indexable_mock );
+		$this->repository_mock->expects( 'find_by_id_and_type' )->once()->with( $id, 'user', false )->andReturn( false );
+		$this->builder_mock->expects( 'build_for_id_and_type' )->once()->with( $id, 'user', false )->andReturn( $indexable_mock );
 
-		$builder_mock = Mockery::mock( Indexable_Author_Builder::class );
-		$builder_mock->expects( 'build' )->never();
-
-		$instance = new Indexable_Author_Watcher( $repository_mock, $builder_mock );
-
-		$instance->build_indexable( $id );
+		$this->instance->build_indexable( $id );
 	}
 }

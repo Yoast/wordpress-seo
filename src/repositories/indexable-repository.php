@@ -7,13 +7,7 @@
 
 namespace Yoast\WP\Free\Repositories;
 
-use Yoast\WP\Free\Builders\Indexable_Author_Builder;
-use Yoast\WP\Free\Builders\Indexable_Date_Archive_Builder;
-use Yoast\WP\Free\Builders\Indexable_Home_Page_Builder;
-use Yoast\WP\Free\Builders\Indexable_Post_Builder;
-use Yoast\WP\Free\Builders\Indexable_Post_Type_Archive_Builder;
-use Yoast\WP\Free\Builders\Indexable_System_Page_Builder;
-use Yoast\WP\Free\Builders\Indexable_Term_Builder;
+use Yoast\WP\Free\Builders\Indexable_Builder;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Models\Indexable;
@@ -28,34 +22,9 @@ use Yoast\WP\Free\ORM\Yoast_Model;
 class Indexable_Repository {
 
 	/**
-	 * @var \Yoast\WP\Free\Builders\Indexable_Author_Builder
+	 * @var Indexable_Builder
 	 */
-	protected $author_builder;
-
-	/**
-	 * @var \Yoast\WP\Free\Builders\Indexable_Post_Builder
-	 */
-	protected $post_builder;
-
-	/**
-	 * @var \Yoast\WP\Free\Builders\Indexable_Term_Builder
-	 */
-	protected $term_builder;
-
-	/**
-	 * @var \Yoast\WP\Free\Builders\Indexable_Home_Page_Builder
-	 */
-	protected $home_page_builder;
-
-	/**
-	 * @var Indexable_Post_Type_Archive_Builder
-	 */
-	private $post_type_archive_builder;
-
-	/**
-	 * @var Indexable_System_Page_Builder
-	 */
-	private $system_page_builder;
+	private $builder;
 
 	/**
 	 * @var \Yoast\WP\Free\Helpers\Current_Page_Helper
@@ -66,44 +35,23 @@ class Indexable_Repository {
 	 * @var \Psr\Log\LoggerInterface
 	 */
 	protected $logger;
-	/**
-	 * @var Indexable_Date_Archive_Builder
-	 */
-	private $date_archive_builder;
 
 	/**
 	 * Returns the instance of this class constructed through the ORM Wrapper.
 	 *
-	 * @param Indexable_Author_Builder            $author_builder            The author builder for creating missing indexables.
-	 * @param Indexable_Post_Builder              $post_builder              The post builder for creating missing indexables.
-	 * @param Indexable_Term_Builder              $term_builder              The term builder for creating missing indexables.
-	 * @param Indexable_Home_Page_Builder         $home_page_builder         The front page builder for creating missing indexables.
-	 * @param Indexable_Post_Type_Archive_Builder $post_type_archive_builder The post type archive builder for creating missing indexables.
-	 * @param Indexable_Date_Archive_Builder      $date_archive_builder      The date archive builder for creating missing indexables.
-	 * @param Indexable_System_Page_Builder       $system_page_builder       The search result builder for creating missing indexables.
-	 * @param Current_Page_Helper                 $current_page_helper       The current post helper.
-	 * @param Logger                              $logger                    The logger.
+	 * @param Indexable_Builder   $builder             The indexable builder.
+	 * @param Current_Page_Helper $current_page_helper The current post helper.
+	 * @param Logger              $logger              The logger.
 	 */
 	public function __construct(
-		Indexable_Author_Builder $author_builder,
-		Indexable_Post_Builder $post_builder,
-		Indexable_Term_Builder $term_builder,
-		Indexable_Home_Page_Builder $home_page_builder,
-		Indexable_Post_Type_Archive_Builder $post_type_archive_builder,
-		Indexable_Date_Archive_Builder $date_archive_builder,
-		Indexable_System_Page_Builder $system_page_builder,
+		Indexable_Builder $builder,
 		Current_Page_Helper $current_page_helper,
 		Logger $logger
 	) {
-		$this->author_builder            = $author_builder;
-		$this->post_builder              = $post_builder;
-		$this->term_builder              = $term_builder;
-		$this->home_page_builder         = $home_page_builder;
-		$this->post_type_archive_builder = $post_type_archive_builder;
-		$this->date_archive_builder      = $date_archive_builder;
-		$this->system_page_builder       = $system_page_builder;
-		$this->current_page              = $current_page_helper;
-		$this->logger                    = $logger;
+		$this->builder      = $builder;
+		$this->current_page = $current_page_helper;
+		$this->logger       = $logger;
+
 	}
 
 	/**
@@ -181,7 +129,7 @@ class Indexable_Repository {
 		$indexable = $this->query()->where( 'object_type', 'home-page' )->find_one();
 
 		if ( $auto_create && ! $indexable ) {
-			$indexable = $this->create_for_home_page();
+			$indexable = $this->builder->build_for_home_page();
 		}
 
 		return $indexable;
@@ -203,7 +151,7 @@ class Indexable_Repository {
 		$indexable = $this->query()->where( 'object_type', 'date-archive' )->find_one();
 
 		if ( $auto_create && ! $indexable ) {
-			$indexable = $this->create_for_date_archive();
+			$indexable = $this->builder->build_for_date_archive();
 		}
 
 		return $indexable;
@@ -229,7 +177,7 @@ class Indexable_Repository {
 						  ->find_one();
 
 		if ( $auto_create && ! $indexable ) {
-			$indexable = $this->create_for_post_type_archive( $post_type );
+			$indexable = $this->builder->build_for_post_type_archive( $post_type );
 		}
 
 		return $indexable;
@@ -255,7 +203,7 @@ class Indexable_Repository {
 						  ->find_one();
 
 		if ( $auto_create && ! $indexable ) {
-			$indexable = $this->create_for_system_page( $object_sub_type );
+			$indexable = $this->builder->build_for_system_page( $object_sub_type );
 		}
 
 		return $indexable;
@@ -277,7 +225,7 @@ class Indexable_Repository {
 						  ->find_one();
 
 		if ( $auto_create && ! $indexable ) {
-			$indexable = $this->create_for_id_and_type( $object_id, $object_type );
+			$indexable = $this->builder->build_for_id_and_type( $object_id, $object_type );
 		}
 
 		return $indexable;
@@ -303,7 +251,7 @@ class Indexable_Repository {
 			$indexables_to_create = \array_diff( $object_ids, $indexables_available );
 
 			foreach ( $indexables_to_create as $indexable_to_create ) {
-				$indexable = $this->create_for_id_and_type( $indexable_to_create, $object_type );
+				$indexable = $this->builder->build_for_id_and_type( $indexable_to_create, $object_type );
 				$indexable->save();
 
 				$indexables[] = $indexable;
@@ -314,100 +262,31 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Creates an indexable by its ID and type.
+	 * Returns all ancestors of a given indexable. Optionally prepending a set of static ancestors.
 	 *
-	 * @param int    $object_id   The indexable object ID.
-	 * @param string $object_type The indexable object type.
+	 * @param Indexable $indexable              The indexable to find the ancestors of.
+	 * @param array     $static_ancestor_wheres Optional. The where conditions by which to find static ancestors.
+	 *                                          Should be an array of arrays with the inner arrays containing find
+	 *                                          conditions.
 	 *
-	 * @return bool|Indexable Instance of indexable.
+	 * @return Indexable[] All ancestors of the given indexable.
 	 */
-	public function create_for_id_and_type( $object_id, $object_type ) {
-		/**
-		 * Indexable instance.
-		 *
-		 * @var Indexable $indexable
-		 */
-		$indexable = $this->query()->create();
+	public function get_ancestors( Indexable $indexable, $static_ancestor_wheres = [] ) {
+		$ancestor_query = $this->query()
+							   ->table_alias( 'i' )
+							   ->select( 'i.*' )
+							   ->join( 'indexable_hierarchy', 'i.id = ih.ancestor_id', 'ih' )
+							   ->where( 'ih.indexable_id', $indexable->id )
+							   ->order_by_desc( 'ih.depth' );
 
-		switch ( $object_type ) {
-			case 'post':
-				$indexable = $this->post_builder->build( $object_id, $indexable );
-				break;
-			case 'user':
-				$indexable = $this->author_builder->build( $object_id, $indexable );
-				break;
-			case 'term':
-				$indexable = $this->term_builder->build( $object_id, $indexable );
-				break;
+		if ( ! empty( $static_ancestor_wheres ) ) {
+			$ancestor_queries = array_map( function ( $where ) {
+				return $this->query()->where( $where )->limit( 1 )->get_sql();
+			}, $static_ancestor_wheres );
+			$ancestor_queries[] = $ancestor_query->get_sql();
+			$ancestor_query     = $this->query()->raw_query( '( ' . implode( ' ) UNION ALL ( ', $ancestor_queries ) . ' )' );
 		}
 
-		$this->logger->debug(
-			\sprintf(
-				/* translators: 1: object ID; 2: object type. */
-				\__( 'Indexable created for object %1$s with type %2$s', 'wordpress-seo' ),
-				$object_id,
-				$object_type
-			),
-			\get_object_vars( $indexable )
-		);
-
-		$indexable->save();
-		return $indexable;
-	}
-
-	/**
-	 * Creates an indexable for the homepage.
-	 *
-	 * @return Indexable The home page indexable.
-	 */
-	public function create_for_home_page() {
-		$indexable = $this->query()->create();
-		$indexable = $this->home_page_builder->build( $indexable );
-
-		$indexable->save();
-		return $indexable;
-	}
-
-	/**
-	 * Creates an indexable for the date archive.
-	 *
-	 * @return Indexable The date archive indexable.
-	 */
-	public function create_for_date_archive() {
-		$indexable = $this->query()->create();
-		$indexable = $this->date_archive_builder->build( $indexable );
-
-		$indexable->save();
-		return $indexable;
-	}
-
-	/**
-	 * Creates an indexable for a post type archive.
-	 *
-	 * @param string $post_type The post type.
-	 *
-	 * @return Indexable The post type archive indexable.
-	 */
-	public function create_for_post_type_archive( $post_type ) {
-		$indexable = $this->query()->create();
-		$indexable = $this->post_type_archive_builder->build( $post_type, $indexable );
-
-		$indexable->save();
-		return $indexable;
-	}
-
-	/**
-	 * Creates an indexable for a system page.
-	 *
-	 * @param string $object_sub_type The type of system page.
-	 *
-	 * @return Indexable The search result indexable.
-	 */
-	public function create_for_system_page( $object_sub_type ) {
-		$indexable = $this->query()->create();
-		$indexable = $this->system_page_builder->build( $object_sub_type, $indexable );
-
-		$indexable->save();
-		return $indexable;
+		return $ancestor_query->find_many();
 	}
 }

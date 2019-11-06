@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\Free\Integrations\Watchers;
 
-use Yoast\WP\Free\Builders\Indexable_Home_Page_Builder;
+use Yoast\WP\Free\Builders\Indexable_Builder;
 use Yoast\WP\Free\Integrations\Integration_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 
@@ -24,22 +24,22 @@ class Indexable_Home_Page_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @var \Yoast\WP\Free\Repositories\Indexable_Repository
+	 * @var Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
-	 * @var \Yoast\WP\Free\Builders\Indexable_Home_Page_Builder
+	 * @var Indexable_Builder
 	 */
 	protected $builder;
 
 	/**
 	 * Indexable_Author_Watcher constructor.
 	 *
-	 * @param \Yoast\WP\Free\Repositories\Indexable_Repository    $repository The repository to use.
-	 * @param \Yoast\WP\Free\Builders\Indexable_Home_Page_Builder $builder    The post builder to use.
+	 * @param Indexable_Repository $repository The repository to use.
+	 * @param Indexable_Builder    $builder    The post builder to use.
 	 */
-	public function __construct( Indexable_Repository $repository, Indexable_Home_Page_Builder $builder ) {
+	public function __construct( Indexable_Repository $repository, Indexable_Builder $builder ) {
 		$this->repository = $repository;
 		$this->builder    = $builder;
 	}
@@ -95,7 +95,7 @@ class Indexable_Home_Page_Watcher implements Integration_Interface {
 	 */
 	public function build_indexable() {
 		$indexable = $this->repository->find_for_home_page( false );
-		$indexable = ( $indexable === false ) ? $this->repository->create_for_home_page() : $this->builder->build( $indexable );
+		$indexable = $this->builder->build_for_home_page( $indexable );
 		$indexable->save();
 	}
 }

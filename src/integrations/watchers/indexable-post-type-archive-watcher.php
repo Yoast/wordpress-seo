@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\Free\Integrations\Watchers;
 
-use Yoast\WP\Free\Builders\Indexable_Post_Type_Archive_Builder;
+use Yoast\WP\Free\Builders\Indexable_Builder;
 use Yoast\WP\Free\Integrations\Integration_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 
@@ -24,22 +24,22 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	}
 
 	/**
-	 * @var \Yoast\WP\Free\Repositories\Indexable_Repository
+	 * @var Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
-	 * @var \Yoast\WP\Free\Builders\Indexable_Post_Type_Archive_Builder
+	 * @var Indexable_Builder
 	 */
 	protected $builder;
 
 	/**
 	 * Indexable_Author_Watcher constructor.
 	 *
-	 * @param Indexable_Repository                $repository The repository to use.
-	 * @param Indexable_Post_Type_Archive_Builder $builder    The post builder to use.
+	 * @param Indexable_Repository $repository The repository to use.
+	 * @param Indexable_Builder    $builder    The post builder to use.
 	 */
-	public function __construct( Indexable_Repository $repository, Indexable_Post_Type_Archive_Builder $builder ) {
+	public function __construct( Indexable_Repository $repository, Indexable_Builder $builder ) {
 		$this->repository = $repository;
 		$this->builder    = $builder;
 	}
@@ -108,7 +108,7 @@ class Indexable_Post_Type_Archive_Watcher implements Integration_Interface {
 	 */
 	public function build_indexable( $post_type ) {
 		$indexable = $this->repository->find_for_post_type_archive( $post_type, false );
-		$indexable = ( $indexable === false ) ? $this->repository->create_for_post_type_archive( $post_type ) : $this->builder->build( $post_type, $indexable );
+		$indexable = $this->builder->build_for_post_type_archive( $post_type, $indexable );
 		$indexable->save();
 	}
 }

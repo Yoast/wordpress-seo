@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Integrations\Watchers;
 
+use Yoast\WP\Free\Builders\Indexable_Builder;
 use Yoast\WP\Free\Builders\Indexable_System_Page_Builder;
 use Yoast\WP\Free\Integrations\Integration_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
@@ -29,17 +30,17 @@ class Indexable_System_Page_Watcher implements Integration_Interface {
 	protected $repository;
 
 	/**
-	 * @var Indexable_System_Page_Builder
+	 * @var Indexable_Builder
 	 */
 	protected $builder;
 
 	/**
 	 * Indexable_Author_Watcher constructor.
 	 *
-	 * @param Indexable_Repository          $repository The repository to use.
-	 * @param Indexable_System_Page_Builder $builder    The post builder to use.
+	 * @param Indexable_Repository $repository The repository to use.
+	 * @param Indexable_Builder    $builder    The post builder to use.
 	 */
-	public function __construct( Indexable_Repository $repository, Indexable_System_Page_Builder $builder ) {
+	public function __construct( Indexable_Repository $repository, Indexable_Builder $builder ) {
 		$this->repository = $repository;
 		$this->builder    = $builder;
 	}
@@ -86,7 +87,7 @@ class Indexable_System_Page_Watcher implements Integration_Interface {
 	 */
 	public function build_indexable( $type ) {
 		$indexable = $this->repository->find_for_system_page( $type, false );
-		$indexable = ( $indexable === false ) ? $this->repository->create_for_system_page( $type ) : $this->builder->build( $type, $indexable );
+		$indexable = $this->builder->build_for_system_page( $type, $indexable );
 		$indexable->save();
 	}
 }
