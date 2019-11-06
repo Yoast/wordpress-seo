@@ -16,31 +16,43 @@ use Yoast\WP\Free\Presentations\Indexable_Presentation;
 class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 
 	/**
+	 * The id attribute.
+	 *
 	 * @var string
 	 */
 	private $id;
 
 	/**
+	 * The class name attribute.
+	 *
 	 * @var string
 	 */
 	private $class;
 
 	/**
+	 * The wrapper element name.
+	 *
 	 * @var string
 	 */
 	private $wrapper;
 
 	/**
+	 * Separator to use.
+	 *
 	 * @var string
 	 */
 	private $separator;
 
 	/**
+	 * The element.
+	 *
 	 * @var string
 	 */
 	private $element;
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;
@@ -145,7 +157,8 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			$link      .= '<' . $this->get_element() . '>';
 			$title_attr = isset( $breadcrumb['title'] ) ? 'title="' . esc_attr( $breadcrumb['title'] ) . '"' : '';
 			$link      .= '<a href="' . esc_url( $breadcrumb['url'] ) . '" ' . $title_attr . ' >' . $text . '</a>';
-		} elseif ( $index === ( $total - 1) ) {
+		}
+		elseif ( $index === ( $total - 1) ) {
 			// If it's the last element.
 			$inner_elm = 'span';
 			if ( $this->options->get( 'breadcrumbs-boldlast' ) === true ) {
@@ -158,7 +171,8 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 				$link .= '</' . $this->get_element() . '>';
 				$index--;
 			}
-		} else {
+		}
+		else {
 			// It's not the last element and has no url.
 			$link .= '<span>' . $text . '</span>';
 		}
@@ -177,7 +191,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Retrieves HTML ID attribute.
 	 *
-	 * @return string
+	 * @return string The id attribute.
 	 */
 	private function get_id() {
 		if ( ! $this->id ) {
@@ -198,7 +212,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Retrieves HTML Class attribute.
 	 *
-	 * @return string
+	 * @return string The class attribute.
 	 */
 	private function get_class() {
 		if ( ! $this->class ) {
@@ -213,14 +227,13 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 			}
 		}
 
-
 		return $this->class;
 	}
 
 	/**
 	 * Retrieves the wrapper element name.
 	 *
-	 * @return string
+	 * @return string The wrapper element name.
 	 */
 	private function get_wrapper() {
 		if ( ! $this->wrapper ) {
@@ -237,25 +250,27 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Retrieves the separator.
 	 *
-	 * @return string
+	 * @return string The separator.
 	 */
 	private function get_separator() {
 		if ( ! $this->separator ) {
 			$this->separator = \apply_filters( 'wpseo_breadcrumb_separator', $this->options->get( 'breadcrumbs-sep' ) );
 			$this->separator = ' ' . $this->separator . ' ';
 		}
+
 		return $this->separator;
 	}
 
 	/**
 	 * Retrieves the crumb element name.
 	 *
-	 * @return string
+	 * @return string The element to use.
 	 */
 	private function get_element() {
 		if ( ! $this->element ) {
 			$this->element = \esc_attr( \apply_filters( 'wpseo_breadcrumb_single_link_wrapper', 'span' ) );
 		}
+
 		return $this->element;
 	}
 }

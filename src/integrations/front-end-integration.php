@@ -9,15 +9,8 @@ namespace Yoast\WP\Free\Integrations;
 
 use WPSEO_Options;
 use Yoast\WP\Free\Conditionals\Front_End_Conditional;
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Blocks_Helper;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Memoizer\Meta_Tags_Context_Memoizer;
-use Yoast\WP\Free\Memoizer\Presentation_Memoizer;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -26,18 +19,13 @@ use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 class Front_End_Integration implements Integration_Interface {
 
 	/**
-	 * @inheritDoc
-	 */
-	public static function get_conditionals() {
-		return [ Front_End_Conditional::class ];
-	}
-
-	/**
 	 * @var Meta_Tags_Context_Memoizer
 	 */
 	private $context_memoizer;
 
 	/**
+	 * The container.
+	 *
 	 * @var ContainerInterface
 	 */
 	protected $container;
@@ -123,10 +111,17 @@ class Front_End_Integration implements Integration_Interface {
 	];
 
 	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Front_End_Conditional::class ];
+	}
+
+	/**
 	 * Front_End_Integration constructor.
 	 *
-	 * @param Meta_Tags_Context_Memoizer $context_memoizer
-	 * @param ContainerInterface         $service_container    The DI container.
+	 * @param Meta_Tags_Context_Memoizer $context_memoizer  The meta tags context memoizer.
+	 * @param ContainerInterface         $service_container The DI container.
 	 */
 	public function __construct(
 		Meta_Tags_Context_Memoizer $context_memoizer,
@@ -166,8 +161,8 @@ class Front_End_Integration implements Integration_Interface {
 	 * Echoes all applicable presenters for a page.
 	 */
 	public function present_head() {
-		$context      = $this->context_memoizer->for_current_page();
-		$presenters   = $this->get_presenters( $context->page_type );
+		$context    = $this->context_memoizer->for_current_page();
+		$presenters = $this->get_presenters( $context->page_type );
 		echo PHP_EOL;
 		foreach ( $presenters as $presenter ) {
 			if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {

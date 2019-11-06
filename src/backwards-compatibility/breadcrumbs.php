@@ -37,11 +37,15 @@ class WPSEO_Breadcrumbs implements Initializer_Interface {
 	public static $after = '';
 
 	/**
+	 * The memoizer for the meta tags context.
+	 *
 	 * @var Meta_Tags_Context_Memoizer
 	 */
 	private $context_memoizer;
 
 	/**
+	 * Breadcrumbs presenter.
+	 *
 	 * @var Breadcrumbs_Presenter
 	 */
 	private $presenter;
@@ -50,7 +54,7 @@ class WPSEO_Breadcrumbs implements Initializer_Interface {
 	 * @inheritDoc
 	 */
 	public static function get_conditionals() {
-		return [ Front_End_Conditional::class];
+		return [ Front_End_Conditional::class ];
 	}
 
 	/**
@@ -101,7 +105,7 @@ class WPSEO_Breadcrumbs implements Initializer_Interface {
 	/**
 	 * Magic method to use in case the class would be send to string.
 	 *
-	 * @return string
+	 * @return string The rendered breadcrumbs.
 	 */
 	public function __toString() {
 		return self::$before . $this->render() . self::$after;
@@ -123,16 +127,18 @@ class WPSEO_Breadcrumbs implements Initializer_Interface {
 	 */
 	public function get_links() {
 		$context = $this->context_memoizer->for_current_page();
+
 		return $context->presentation->breadcrumbs;
 	}
 
 	/**
 	 * Renders the breadcrumbs.
 	 *
-	 * @return string
+	 * @return string The rendered breadcrumbs.
 	 */
 	private function render() {
 		$context = $this->context_memoizer->for_current_page();
+
 		return $this->presenter->present( $context->presentation );
 	}
 }

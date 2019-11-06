@@ -6,6 +6,7 @@
  */
 
 namespace Yoast\WP\Free\Generators;
+
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Helpers\Options_Helper;
 use Yoast\WP\Free\Models\Indexable;
@@ -18,11 +19,15 @@ use Yoast\WP\Free\Repositories\Indexable_Repository;
 class Breadcrumbs_Generator implements Generator_Interface {
 
 	/**
+	 * Indexable repository.
+	 *
 	 * @var Indexable_Repository
 	 */
 	private $repository;
 
 	/**
+	 * The options helper.
+	 *
 	 * @var Options_Helper
 	 */
 	private $options;

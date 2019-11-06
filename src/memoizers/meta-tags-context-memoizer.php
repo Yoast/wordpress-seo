@@ -13,6 +13,9 @@ use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 
+/**
+ * Class Meta_Tags_Context_Memoizer
+ */
 class Meta_Tags_Context_Memoizer {
 
 	/**
@@ -48,11 +51,11 @@ class Meta_Tags_Context_Memoizer {
 	/**
 	 * Meta_Tags_Context_Memoizer constructor.
 	 *
-	 * @param Blocks_Helper         $blocks            The blocks helper.
-	 * @param Current_Page_Helper   $current_page
-	 * @param Indexable_Repository  $repository
-	 * @param Meta_Tags_Context     $context_prototype The meta tags context prototype.
-	 * @param Presentation_Memoizer $presentation_memoizer
+	 * @param Blocks_Helper         $blocks                The blocks helper.
+	 * @param Current_Page_Helper   $current_page          The current page helper.
+	 * @param Indexable_Repository  $repository            Indexable repository.
+	 * @param Meta_Tags_Context     $context_prototype     The meta tags context prototype.
+	 * @param Presentation_Memoizer $presentation_memoizer Memoizer for the presentation.
 	 */
 	public function __construct(
 		Blocks_Helper $blocks,
@@ -75,14 +78,14 @@ class Meta_Tags_Context_Memoizer {
 	 * @return Meta_Tags_Context The meta tags context.
 	 */
 	public function for_current_page() {
-		if ( ! isset( $this->cache[ 'current_page' ] ) ) {
+		if ( ! isset( $this->cache['current_page'] ) ) {
 			$indexable = $this->repository->for_current_page();
 			$page_type = $this->current_page->get_page_type();
 
-			$this->cache[ 'current_page' ] = $this->get( $indexable, $page_type );
+			$this->cache['current_page'] = $this->get( $indexable, $page_type );
 		}
 
-		return $this->cache[ 'current_page' ];
+		return $this->cache['current_page'];
 	}
 
 	/**
@@ -124,7 +127,7 @@ class Meta_Tags_Context_Memoizer {
 	 *                                        "current-page" clears the current-page context.
 	 */
 	public function clear( $indexable = null ) {
-		if ( $indexable instanceof Indexable) {
+		if ( $indexable instanceof Indexable ) {
 			unset( $this->cache[ $indexable->id ] );
 			return;
 		}

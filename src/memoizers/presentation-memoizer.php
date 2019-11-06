@@ -12,14 +12,21 @@ use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class Presentation_Memoizer
+ */
 class Presentation_Memoizer {
 
 	/**
+	 * The service container.
+	 *
 	 * @var ContainerInterface
 	 */
 	private $container;
 
 	/**
+	 * Cache with indexable presentations.
+	 *
 	 * @var Indexable_Presentation[]
 	 */
 	private $cache = [];
@@ -27,7 +34,7 @@ class Presentation_Memoizer {
 	/**
 	 * Presentation_Memoizer constructor.
 	 *
-	 * @param ContainerInterface $service_container
+	 * @param ContainerInterface $service_container The service container.
 	 */
 	public function __construct( ContainerInterface $service_container ) {
 		$this->container = $service_container;
@@ -63,7 +70,7 @@ class Presentation_Memoizer {
 	 * @param Indexable|int $indexable Optional. The indexable or indexable id to clear the memoization of.
 	 */
 	public function clear( $indexable = null ) {
-		if ( $indexable instanceof Indexable) {
+		if ( $indexable instanceof Indexable ) {
 			unset( $this->cache[ $indexable->id ] );
 			return;
 		}
