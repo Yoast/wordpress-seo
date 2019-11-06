@@ -1,5 +1,9 @@
 import { addVerbSuffixes } from "../../../src/morphology/dutch/addVerbSuffixes";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
+import {
+	generateInfinitiveTremaEn,
+	generateNoConsonantDoublingInf
+} from "../../../src/morphology/dutch/generateVerbExceptionForms";
 
 const morphologyDataNL = getMorphologyData( "nl" ).nl;
 
@@ -67,5 +71,14 @@ describe( "Test for getting the right verb suffixes depending on the stem ending
 	} );
 	it( "return an empty array for a stem that has a non-verb ending", () => {
 		expect( addVerbSuffixes( "bakkerij", morphologyDataNL.addSuffixes, morphologyDataNL.verbs ) ).toEqual( [] );
+	} );
+	it( "creates the infinitive forms of verbs which do not need to double their final consonant before adding -en", () => {
+		expect( addVerbSuffixes( "weerspiegel", morphologyDataNL.addSuffixes, morphologyDataNL.verbs ) ).toEqual( [
+			"weerspiegelt",
+			"weerspiegelde",
+			"weerspiegelden",
+			"weerspiegelen",
+			"weerspiegelend",
+		] );
 	} );
 } );
