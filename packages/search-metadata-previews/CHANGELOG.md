@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.11.0 October 29th, 2019
+### Enhancements:
+ * Increases the specificity of the width and height CSS of the `MobileDescriptionImage`.
+
 ## 1.10.1 October 14th, 2019
 * No user-facing changes.
 
