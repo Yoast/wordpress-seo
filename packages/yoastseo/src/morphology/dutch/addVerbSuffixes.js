@@ -57,28 +57,6 @@ export function findAndApplyModifications( stemmedWord, morphologyDataAddSuffixe
 	}
 	return stemmedWord;
 }
- * @param {string} stemmedWord The stem
- * @param {object} morphologyDataAddSuffixes The Dutch morphology data file
- * @returns {string} The modified stem, or the original stem if no modifications were made.
- */
-const findAndApplyModifications = function( stemmedWord, morphologyDataAddSuffixes ) {
-	const triedToDoubleConsonant = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.doublingConsonant );
-	if ( triedToDoubleConsonant ) {
-		return triedToDoubleConsonant;
-	}
-	if ( shouldConsonantBeVoiced( stemmedWord, morphologyDataAddSuffixes.otherChecks.noConsonantVoicingVerbs ) ) {
-		const triedToVoiceConsonant = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.consonantVoicing );
-		if ( triedToVoiceConsonant ) {
-			return triedToVoiceConsonant;
-		}
-	}
-	const triedToUndoubleVowel = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.vowelUndoubling );
-	if ( triedToUndoubleVowel ) {
-		return triedToUndoubleVowel;
-	}
-
-	return stemmedWord;
-};
 
 /**
  * Add all of the verb suffixes that are needed for the given stem.
@@ -106,9 +84,6 @@ export function addVerbSuffixes( stemmedWord, morphologyDataAddSuffixes, morphol
 	// Create a second stem (this is possibly the same as the original stem).
 	const secondStem = findAndApplyModifications( stemmedWord, morphologyDataAddSuffixes, morphologyDataVerbs );
 
-	// Create a second stem (this is possibly the same as the original stem).
-	const secondStem = findAndApplyModifications( stemmedWord, morphologyDataAddSuffixes );
-
 	// Add -t or -d suffixes to the first stem.
 	const tAndDForms = applySuffixesToStem( stemmedWord, suffixesWithoutStemModification );
 
@@ -119,9 +94,5 @@ export function addVerbSuffixes( stemmedWord, morphologyDataAddSuffixes, morphol
 	// Return all suffixed forms.
 	const allVerbForms = tAndDForms.concat( enAndEndForms );
 	return  flatten( allVerbForms );
-	// Add the -en and -end suffixes to the second stem.
-	const enAndEndForms = applySuffixesToStem( secondStem, morphologyDataVerbs.suffixesWithStemModification );
-
-	// Return all suffixed forms.
-	return tAndDForms.concat( enAndEndForms );
 }
+
