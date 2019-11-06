@@ -7,6 +7,8 @@
 
 /**
  * Class WPSEO_OpenGraph_Image.
+ *
+ * @deprecated xx.x
  */
 class WPSEO_OpenGraph_Image {
 
