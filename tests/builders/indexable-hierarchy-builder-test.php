@@ -229,8 +229,6 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * Tests building the hierarchy of a post with term parents.
 	 *
 	 * @covers ::build
-	 *
-	 * @group test
 	 */
 	public function test_deepest_term_parent() {
 		$indexable = new Indexable();
@@ -274,8 +272,6 @@ class Indexable_Hierarchy_Builder_Test extends TestCase {
 	 * Tests building the hierarchy of a term with term parents.
 	 *
 	 * @covers ::build
-	 *
-	 * @group test
 	 */
 	public function test_term() {
 		$indexable = new Indexable();
