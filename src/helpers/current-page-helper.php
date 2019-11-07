@@ -320,4 +320,15 @@ class Current_Page_Helper {
 
 		return $wp_query->is_front_page();
 	}
+
+	/**
+	 * Retrieves the current admin page.
+	 *
+	 * @return string The current page.
+	 */
+	public function get_current_admin_page() {
+		global $pagenow;
+
+		return $pagenow;
+	}
 }

@@ -32,7 +32,6 @@ class WPSEO_Frontend {
 		remove_action( 'wp_head', 'noindex', 1 );
 
 		$integrations = array(
-			new WPSEO_Frontend_Primary_Category(),
 			// new WPSEO_Schema(), // -- Has been moved to SRC directory.
 			new WPSEO_Handle_404(),
 			// new WPSEO_Remove_Reply_To_Com(), HAS BEEN MOVED TO SRC DIRECTORY!
