@@ -141,6 +141,9 @@
 			"rm -f ./src/generated/container.php.meta",
 			"composer du",
 			"Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
+		],
+		"post-install-cmd": [
+			"Yoast\\WP\\Free\\Composer\\Actions::prefix_dependencies"
 		]
 	}
 }
