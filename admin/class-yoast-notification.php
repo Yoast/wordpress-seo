@@ -110,6 +110,15 @@ class Yoast_Notification {
 	}
 
 	/**
+	 * Retrieve the user to show the notification for.
+	 *
+	 * @return WP_User The user to show this notification for.
+	 */
+	public function get_user() {
+		return $this->options['user'];
+	}
+
+	/**
 	 * Retrieve nonce identifier.
 	 *
 	 * @return null|string Nonce for this Notification.
