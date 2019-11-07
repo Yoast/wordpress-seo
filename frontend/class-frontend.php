@@ -33,7 +33,6 @@ class WPSEO_Frontend {
 
 		$integrations = array(
 			// new WPSEO_Schema(), // -- Has been moved to SRC directory.
-			new WPSEO_Handle_404(),
 			// new WPSEO_Remove_Reply_To_Com(), HAS BEEN MOVED TO SRC DIRECTORY!
 			new WPSEO_OpenGraph_OEmbed(),
 		);
