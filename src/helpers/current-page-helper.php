@@ -192,7 +192,7 @@ class Current_Page_Helper {
 			return false;
 		}
 
-		return ( (int) \get_option( 'page_for_posts' ) ) === $wp_query->get_queried_object_id();
+		return $page_for_posts === $wp_query->get_queried_object_id();
 	}
 
 	/**
