@@ -40,4 +40,18 @@ class Indexable_Search_Result_Page_Presentation extends Indexable_Presentation {
 	public function generate_twitter_title() {
 		return $this->title;
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_og_url() {
+		$search_query = \get_search_query();
+
+		// Regex catches case when /search/page/N without search term is itself mistaken for search term.
+		if ( ! empty( $search_query ) && ! preg_match( '|^page/\d+$|', $search_query ) ) {
+			return get_search_link();
+		}
+
+		return '';
+	}
 }

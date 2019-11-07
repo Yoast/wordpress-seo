@@ -37,4 +37,11 @@ class Indexable_Static_Posts_Page_Presentation extends Indexable_Post_Type_Prese
 
 		return $this->model->permalink;
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_og_url() {
+		return $this->url->home();
+	}
 }

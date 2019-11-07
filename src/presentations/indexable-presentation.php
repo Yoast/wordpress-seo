@@ -289,7 +289,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return string The open graph url.
 	 */
 	public function generate_og_url() {
-		return $this->canonical;
+		if ( $this->model->canonical ) {
+			return $this->model->canonical;
+		}
+
+		return $this->model->permalink;
 	}
 
 	/**

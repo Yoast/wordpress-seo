@@ -54,4 +54,11 @@ class Indexable_Home_Page_Presentation extends Indexable_Presentation {
 
 		return $this->options_helper->get_title_default( 'title-home-wpseo' );
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function generate_og_url() {
+		return $this->url->home();
+	}
 }
