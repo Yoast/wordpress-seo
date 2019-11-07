@@ -86,6 +86,9 @@
 			"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs ./tests/load/wp-seo-premium.php ./tests/premium/ --runtime-set testVersion 5.6- --runtime-set ignore_warnings_on_exit 1",
 			"@after-premium-cs"
 		],
+		"check-cs-errors": [
+			"@check-cs -n"
+		],
 		"check-staged-cs": [
 			"Yoast\\WP\\Free\\Composer\\Actions::check_staged_cs"
 		],
