@@ -286,15 +286,6 @@ class Indexable_Repository {
 				return $this->query()->where( $where )->limit( 1 )->find_many();
 			}, $static_ancestor_wheres );
 			$ancestor_queries[] = $ancestor_query->find_many();
-
-			$home_page = $this->query()
-			                  ->where_not_equal( 'id', $indexable->id )
-			                  ->where( 'object_type', 'home-page' )
-			                  ->find_one();
-
-			if ( $home_page ) {
-				$ancestor_queries[] = [ $home_page ];
-			}
 		}
 
 

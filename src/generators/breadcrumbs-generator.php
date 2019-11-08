@@ -56,7 +56,7 @@ class Breadcrumbs_Generator implements Generator_Interface {
 	public function generate( Meta_Tags_Context $context ) {
 		$static_ancestors = [];
 		if ( $this->options->get( 'breadcrumbs-home' ) !== '' ) {
-			$static_ancestors[] = [ 'object_type' => 'homepage' ];
+			$static_ancestors[] = [ 'object_type' => 'home-page' ];
 		}
 		$page_for_posts = \get_option( 'page_for_posts' );
 		if ( $this->should_have_blog_crumb( $page_for_posts ) ) {
