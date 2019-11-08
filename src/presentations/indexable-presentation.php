@@ -28,6 +28,7 @@ use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
  * @property string title
  * @property string meta_description
  * @property array  robots
+ * @property array  googlebot
  * @property string canonical
  * @property string rel_next
  * @property string rel_prev
@@ -208,6 +209,15 @@ class Indexable_Presentation extends Abstract_Presentation {
 		$robots = $this->robots_helper->get_base_values( $this->model );
 
 		return $this->robots_helper->after_generate( $robots );
+	}
+
+	/**
+	 * Generates the googlebot value.
+	 *
+	 * @return array The googlebot value.
+	 */
+	public function generate_googlebot() {
+		return [ 'max-snippet:-1', 'max-image-preview:large', 'max-video-preview:-1' ];
 	}
 
 	/**

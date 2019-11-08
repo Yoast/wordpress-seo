@@ -26,6 +26,8 @@ class Robots_Test extends TestCase {
 
 	/**
 	 * Tests whether generate_robots calls the right functions of the robot helper.
+	 *
+	 * @covers ::generate_robots
 	 */
 	public function test_generate_robots() {
 		$this->robots_helper

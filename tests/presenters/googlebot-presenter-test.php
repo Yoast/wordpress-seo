@@ -5,22 +5,22 @@ namespace Yoast\WP\Free\Tests\Presenters;
 use Mockery;
 use Brain\Monkey;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
-use Yoast\WP\Free\Presenters\Robots_Presenter;
+use Yoast\WP\Free\Presenters\Googlebot_Presenter;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
- * Class Robots_Presenter_Test
+ * Class Googlebot_Presenter_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presenters\Robots_Presenter
+ * @coversDefaultClass \Yoast\WP\Free\Presenters\Googlebot_Presenter
  *
  * @group presenters
  *
  * @package Yoast\WP\Free\Tests\Presenters
  */
-class Robots_Presenter_Test extends TestCase {
+class Googlebot_Presenter_Test extends TestCase {
 
 	/**
-	 * @var Robots_Presenter
+	 * @var Googlebot_Presenter
 	 */
 	private $instance;
 
@@ -30,7 +30,7 @@ class Robots_Presenter_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance = Mockery::mock( Robots_Presenter::class )
+		$this->instance = Mockery::mock( Googlebot_Presenter::class )
 			->makePartial()
 			->shouldAllowMockingProtectedMethods();
 	}
@@ -42,37 +42,31 @@ class Robots_Presenter_Test extends TestCase {
 	 */
 	public function test_present() {
 		$indexable_presentation = new Indexable_Presentation();
-		$indexable_presentation->robots = [
-			'index'  => 'index',
-			'follow' => 'nofollow',
-		];
+		$indexable_presentation->googlebot = [ 'one', 'two', 'three' ];
 
-		$actual   = $this->instance->present( $indexable_presentation );
-		$expected = '<meta name="robots" content="index,nofollow"/>';
+		$actual = $this->instance->present( $indexable_presentation );
+		$expected = '<meta name="googlebot" content="one,two,three"/>';
 
 		$this->assertEquals( $actual, $expected );
 	}
 
 	/**
-	 * Tests whether the presenter returns the correct meta tag, when the `wpseo_robots` filter is applied.
+	 * Tests whether the presenter returns the correct meta tag, when the `wpseo_googlebot` filter is applied.
 	 *
 	 * @covers ::present
 	 * @covers ::filter
 	 */
 	public function test_present_filter() {
 		$indexable_presentation = new Indexable_Presentation();
-		$indexable_presentation->robots = [
-			'index'  => 'index',
-			'follow' => 'nofollow',
-		];
+		$indexable_presentation->googlebot = [ 'one', 'two', 'three' ];
 
-		Monkey\Filters\expectApplied( 'wpseo_robots' )
+		Monkey\Filters\expectApplied( 'wpseo_googlebot' )
 			->once()
-			->with( 'index,nofollow' )
-			->andReturn( 'noindex' );
+			->with( 'one,two,three' )
+			->andReturn( 'one,two' );
 
-		$actual   = $this->instance->present( $indexable_presentation );
-		$expected = '<meta name="robots" content="noindex"/>';
+		$actual = $this->instance->present( $indexable_presentation );
+		$expected = '<meta name="googlebot" content="one,two"/>';
 
 		$this->assertEquals( $actual, $expected );
 	}
@@ -84,7 +78,7 @@ class Robots_Presenter_Test extends TestCase {
 	 */
 	public function test_present_empty() {
 		$indexable_presentation = new Indexable_Presentation();
-		$indexable_presentation->robots = [];
+		$indexable_presentation->googlebot = [];
 
 		$this->assertEmpty( $this->instance->present( $indexable_presentation ) );
 	}

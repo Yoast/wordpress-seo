@@ -88,13 +88,7 @@ class Robots_Helper_Test extends TestCase {
 			'follow' => 'follow',
 		] );
 
-		$expected = [
-			'max-snippet'       => 'max-snippet:-1',
-			'max-image-preview' => 'max-image-preview:large',
-			'max-video-preview' => 'max-video-preview:-1',
-		];
-
-		$this->assertEquals( $expected, $actual );
+		$this->assertEmpty( $actual );
 	}
 
 	/**
@@ -170,9 +164,6 @@ class Robots_Helper_Test extends TestCase {
 
 		$expected = [
 			'noimageindex'      => 'noimageindex',
-			'max-snippet'       => 'max-snippet:-1',
-			'max-image-preview' => 'max-image-preview:large',
-			'max-video-preview' => 'max-video-preview:-1',
 		];
 
 		$this->assertEquals( $expected, $actual );
