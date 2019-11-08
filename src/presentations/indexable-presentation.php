@@ -206,9 +206,10 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @return array The robots value.
 	 */
 	public function generate_robots() {
-		$robots = $this->robots_helper->get_base_values( $this->model );
-
-		return $this->robots_helper->after_generate( $robots );
+		return [
+			'index'  => ( $this->model->is_robots_noindex === true ) ? 'noindex' : 'index',
+			'follow' => ( $this->model->is_robots_nofollow === true ) ? 'nofollow' : 'follow',
+		];
 	}
 
 	/**

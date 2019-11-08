@@ -111,7 +111,7 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = $this->robots_helper->get_base_values( $this->model );
+		$robots = parent::generate_robots();
 
 		// Global option: "Show author archives in search results".
 		if ( $this->options_helper->get( 'noindex-author-wpseo', false ) ) {

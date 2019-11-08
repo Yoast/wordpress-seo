@@ -118,7 +118,7 @@ class Indexable_Term_Archive_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = $this->robots_helper->get_base_values( $this->model );
+		$robots = parent::generate_robots();
 
 		/**
 		 * If its a multiple terms archive page return a noindex.

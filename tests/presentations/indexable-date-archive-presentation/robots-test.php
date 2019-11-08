@@ -28,13 +28,6 @@ class Robots_Test extends TestCase {
 	 * Tests whether generate_robots calls the right functions of the robot helper.
 	 */
 	public function test_generate_robots() {
-		$this->robots_helper
-			->expects( 'get_base_values' )
-			->andReturn( [
-				'index'  => 'index',
-				'follow' => 'follow',
-			] );
-
 		$this->options_helper
 			->expects( 'get' )
 			->once()
@@ -54,12 +47,6 @@ class Robots_Test extends TestCase {
 	 * Tests whether generate_robots return noindex if archive indexation has been disabled.
 	 */
 	public function test_generate_robots_date_archive_noindex() {
-		$this->robots_helper
-			->expects( 'get_base_values' )
-			->andReturn( [
-				'index'  => 'index',
-				'follow' => 'follow',
-			] );
 		$this->options_helper
 			->expects( 'get' )
 			->once()

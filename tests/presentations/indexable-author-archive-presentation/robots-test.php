@@ -23,14 +23,6 @@ class Robots_Test extends TestCase {
 		parent::setUp();
 
 		$this->setInstance();
-
-		$this->robots_helper
-			->expects( 'get_base_values' )
-			->once()
-			->andReturn( [
-				'index'  => 'index',
-				'follow' => 'follow',
-			] );
 	}
 
 	/**

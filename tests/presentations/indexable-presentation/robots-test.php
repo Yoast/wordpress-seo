@@ -30,12 +30,6 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 */
 	public function test_generate_robots() {
-		$this->robots_helper
-			->expects( 'get_base_values' )
-			->andReturn( [
-				'index' => 'index',
-				'follow' => 'follow',
-			] );
 		$actual   = $this->instance->generate_robots();
 		$expected = [
 			'index'  => 'index',
