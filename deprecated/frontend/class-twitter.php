@@ -52,7 +52,7 @@ class WPSEO_Twitter {
 		 *
 		 * @deprecated xx.x
 		 */
-		do_action_deprecated( 'wpseo_twitter', 'xx.x');
+		do_action_deprecated( 'wpseo_twitter', 'WPSEO xx.x');
 	}
 
 	/**

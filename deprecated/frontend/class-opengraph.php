@@ -38,7 +38,7 @@ class WPSEO_OpenGraph {
 		 *
 		 * @deprecated xx.x
 		 */
-		do_action_deprecated( 'wpseo_opengraph', 'xx.x');
+		do_action_deprecated( 'wpseo_opengraph', 'WPSEO xx.x');
 	}
 
 	/**
@@ -62,7 +62,7 @@ class WPSEO_OpenGraph {
 		 *
 		 * @api string $content The content of the property.
 		 */
-		$content = apply_filters_deprecated( 'wpseo_og_' . $og_property, $content, 'xx.x');
+		$content = apply_filters_deprecated( 'wpseo_og_' . $og_property, $content, 'WPSEO xx.x');
 
 		return true;
 	}

@@ -19,7 +19,7 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 	 * @deprecated xx.x
 	 */
 	public function register_hooks() {
-		_deprecated_function( __METHOD__, 'xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
 	/**
@@ -39,7 +39,7 @@ class WPSEO_OpenGraph_OEmbed implements WPSEO_WordPress_Integration {
 	 * @return array An array of oEmbed data with modified values where appropriate.
 	 */
 	public function set_oembed_data( $data, $post ) {
-		_deprecated_function( __METHOD__, 'xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 
 		return $data;
 	}

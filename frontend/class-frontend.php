@@ -184,7 +184,7 @@ class WPSEO_Frontend {
 	 * @deprecated xx.x
 	 */
 	public function head() {
-		_deprecated_function( __METHOD__, 'xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
 	/**
@@ -194,7 +194,7 @@ class WPSEO_Frontend {
 	 * @deprecated xx.x
 	 */
 	public function reset() {
-		_deprecated_function( __METHOD__, 'xx.x' );
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
 
 	/**
