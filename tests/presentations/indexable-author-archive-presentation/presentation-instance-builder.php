@@ -54,7 +54,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * Builds an instance of Indexable_Author_Presentation.
 	 */
-	protected function setInstance() {
+	protected function set_instance() {
 		$this->indexable = new Indexable();
 
 		$this->wp_query_wrapper = Mockery::mock( WP_Query_Wrapper::class );

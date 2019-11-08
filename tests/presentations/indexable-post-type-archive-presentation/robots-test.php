@@ -21,7 +21,7 @@ class Robots_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->setInstance();
+		$this->set_instance();
 
 		$this->robots_helper
 			->expects( 'get_base_values' )

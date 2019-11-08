@@ -20,7 +20,7 @@ class OG_URL_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->setInstance();
+		$this->set_instance();
 	}
 
 	/**

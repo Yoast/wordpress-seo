@@ -25,7 +25,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * Builds an instance of Indexable_Error_Page_Presentation.
 	 */
-	protected function setInstance() {
+	protected function set_instance() {
 		$this->indexable = new Indexable();
 
 		$instance = new Indexable_Error_Page_Presentation();

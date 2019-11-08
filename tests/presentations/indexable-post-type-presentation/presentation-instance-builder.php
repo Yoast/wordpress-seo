@@ -52,7 +52,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * Builds an instance of Indexable_Post_Type_Presentation.
 	 */
-	protected function setInstance() {
+	protected function set_instance() {
 		$this->indexable = new Indexable();
 
 		$this->post_type_helper = Mockery::mock( Post_Type_Helper::class );

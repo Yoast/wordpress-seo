@@ -17,6 +17,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group title
  */
 class Title_Test extends TestCase {
+	use Presentation_Instance_Builder;
 
 	/**
 	 * @var Options_Helper|Mockery\MockInterface
@@ -37,11 +38,7 @@ class Title_Test extends TestCase {
 	 * Does the setup for testing.
 	 */
 	public function setUp() {
-		$this->option_helper = Mockery::mock( Options_Helper::class );
-		$this->indexable     = new Indexable();
-
-		$presentation   = Mockery::mock( Indexable_Presentation::class )->makePartial();
-		$this->instance = $presentation->of( [ 'model' => $this->indexable ] );
+		$this->set_instance();
 
 		return parent::setUp();
 	}
