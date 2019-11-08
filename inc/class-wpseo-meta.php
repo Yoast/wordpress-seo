@@ -163,10 +163,9 @@ class WPSEO_Meta {
 			'meta-robots-adv'      => array(
 				'type'          => 'multiselect',
 				'title'         => '', // Translation added later.
-				'default_value' => '', // = site-wide default.
+				'default_value' => '',
 				'description'   => '', // Translation added later.
 				'options'       => array(
-					'none'         => '', // Translation added later.
 					'noimageindex' => '', // Translation added later.
 					'noarchive'    => '', // Translation added later.
 					'nosnippet'    => '', // Translation added later.
@@ -495,24 +494,18 @@ class WPSEO_Meta {
 		if ( is_array( $meta_value ) && $meta_value !== array() ) {
 			$meta_value = array_map( 'trim', $meta_value );
 
-			if ( in_array( 'none', $meta_value, true ) ) {
-				// None is one of the selected values, takes priority over everything else.
-				$clean = 'none';
-			}
-			else {
-				// Individual selected entries.
-				$cleaning = array();
-				foreach ( $meta_value as $value ) {
-					if ( isset( $options[ $value ] ) ) {
-						$cleaning[] = $value;
-					}
+			// Individual selected entries.
+			$cleaning = array();
+			foreach ( $meta_value as $value ) {
+				if ( isset( $options[ $value ] ) ) {
+					$cleaning[] = $value;
 				}
+			}
 
-				if ( $cleaning !== array() ) {
-					$clean = implode( ',', $cleaning );
-				}
-				unset( $cleaning, $value );
+			if ( $cleaning !== array() ) {
+				$clean = implode( ',', $cleaning );
 			}
+			unset( $cleaning, $value );
 		}
 
 		return $clean;
@@ -802,13 +795,7 @@ class WPSEO_Meta {
 					continue;
 				}
 
-				if ( $key === 'meta-robots-adv' ) {
-					$query[] = $wpdb->prepare(
-						"( meta_key = %s AND ( meta_value = 'none' OR meta_value = '-' ) )",
-						self::$meta_prefix . $key
-					);
-				}
-				elseif ( isset( $field_def['options'] ) && is_array( $field_def['options'] ) && $field_def['options'] !== array() ) {
+				if ( isset( $field_def['options'] ) && is_array( $field_def['options'] ) && $field_def['options'] !== array() ) {
 					$valid = $field_def['options'];
 					// Remove the default value from the valid options.
 					unset( $valid[ $field_def['default_value'] ] );
