@@ -285,10 +285,13 @@ class Indexable_Repository {
 			$ancestor_queries = array_map( function ( $where ) {
 				return $this->query()->where( $where )->limit( 1 )->find_many();
 			}, $static_ancestor_wheres );
-			$ancestor_queries[] = $ancestor_query->find_many();
 		}
 
+		$ancestor_queries[] = $ancestor_query->find_many();
 
+		if ( empty( $ancestor_queries ) ) {
+			return [];
+		}
 
 		return array_merge( ...$ancestor_queries );
 	}
