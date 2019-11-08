@@ -22,7 +22,8 @@ class Googlebot_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The googlebot output tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$googlebot = $this->filter( \implode( ',', $presentation->googlebot ) );
+		$googlebot = \implode( ',', $presentation->googlebot );
+		$googlebot = $this->filter( $googlebot );
 
 		if ( is_string( $googlebot ) && $googlebot !== '' ) {
 			return sprintf( '<meta name="googlebot" content="%s"/>', esc_attr( $googlebot ) );
