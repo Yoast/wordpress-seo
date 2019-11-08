@@ -772,7 +772,6 @@ class WPSEO_Meta {
 		// Delete old keys.
 		delete_post_meta_by_key( self::$meta_prefix . 'meta-robots' );
 
-
 		/*
 		 * Remove all default values and (most) invalid option values.
 		 * Invalid option values for the multiselect (meta-robots-adv) field will be dealt with seperately.
@@ -844,7 +843,6 @@ class WPSEO_Meta {
 			}
 		}
 		unset( $query, $meta_ids, $count, $object_id );
-
 
 		/*
 		 * Deal with the multiselect (meta-robots-adv) field.
