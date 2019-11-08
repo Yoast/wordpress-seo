@@ -20,7 +20,6 @@ use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
  *
  * @group integrations
  * @group front-end
- * @group test
  */
 class Handle_404_Test extends TestCase {
 	/**
