@@ -604,7 +604,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 				$html = $content;
 			}
 			else {
-				$html = $label . $help_button . $help_panel . $content . $description;
+				$html = $label . $description . $help_button . $help_panel . $content;
 			}
 		}
 
