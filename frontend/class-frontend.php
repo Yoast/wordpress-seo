@@ -24,13 +24,6 @@ class WPSEO_Frontend {
 	 * Adds and removes a lot of filters.
 	 */
 	protected function __construct() {
-		// Remove actions that we will handle through our wpseo_head call, and probably change the output of.
-		remove_action( 'wp_head', 'rel_canonical' );
-		remove_action( 'wp_head', 'index_rel_link' );
-		remove_action( 'wp_head', 'start_post_rel_link' );
-		remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head' );
-		remove_action( 'wp_head', 'noindex', 1 );
-
 		$integrations = array(
 			// new WPSEO_Schema(), // -- Has been moved to SRC directory.
 			// new WPSEO_Remove_Reply_To_Com(), HAS BEEN MOVED TO SRC DIRECTORY!
