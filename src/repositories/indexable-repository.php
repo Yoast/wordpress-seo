@@ -280,14 +280,25 @@ class Indexable_Repository {
 								->where( 'ih.indexable_id', $indexable->id )
 								->order_by_desc( 'ih.depth' );
 
+		$ancestor_queries = [];
 		if ( ! empty( $static_ancestor_wheres ) ) {
 			$ancestor_queries = array_map( function ( $where ) {
-				return $this->query()->where( $where )->limit( 1 )->get_sql();
+				return $this->query()->where( $where )->limit( 1 )->find_many();
 			}, $static_ancestor_wheres );
-			$ancestor_queries[] = $ancestor_query->get_sql();
-			$ancestor_query     = $this->query()->raw_query( '( ' . implode( ' ) UNION ALL ( ', $ancestor_queries ) . ' )' );
+			$ancestor_queries[] = $ancestor_query->find_many();
+
+			$home_page = $this->query()
+			                  ->where_not_equal( 'id', $indexable->id )
+			                  ->where( 'object_type', 'home-page' )
+			                  ->find_one();
+
+			if ( $home_page ) {
+				$ancestor_queries[] = [ $home_page ];
+			}
 		}
 
-		return $ancestor_query->find_many();
+
+
+		return array_merge( ...$ancestor_queries );
 	}
 }
