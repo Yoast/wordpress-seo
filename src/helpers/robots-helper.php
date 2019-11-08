@@ -37,14 +37,6 @@ class Robots_Helper {
 	 * @return array The robots settings with applied changes.
 	 */
 	public function after_generate( array $robots ) {
-		// Remove null values.
-		$robots = array_filter( $robots );
-
-		// If robots index and follow are set, they can be excluded because they are default values.
-		if ( ! empty( $robots['index'] ) && $robots['index'] === 'index' &&
-		     ! empty( $robots['follow'] ) && $robots['follow'] === 'follow' ) {
-			unset( $robots['index'], $robots['follow'] );
-		}
 
 		return $robots;
 	}
