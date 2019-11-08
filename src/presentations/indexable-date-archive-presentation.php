@@ -113,7 +113,9 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the open graph url.
+	 *
+	 * @return string The open graph url.
 	 */
 	public function generate_og_url() {
 		return $this->current_page->get_date_archive_permalink();

@@ -42,7 +42,9 @@ class Indexable_Search_Result_Page_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the open graph url.
+	 *
+	 * @return string The open graph url.
 	 */
 	public function generate_og_url() {
 		$search_query = \get_search_query();

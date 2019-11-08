@@ -39,7 +39,9 @@ class Indexable_Static_Posts_Page_Presentation extends Indexable_Post_Type_Prese
 	}
 
 	/**
-	 * @inheritDoc
+	 * Generates the open graph url.
+	 *
+	 * @return string The open graph url.
 	 */
 	public function generate_og_url() {
 		return $this->url->home();
