@@ -186,7 +186,9 @@ class Current_Page_Helper {
 	public function is_static_posts_page() {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
-		return ( (int) \get_option( 'page_for_posts' ) ) === $wp_query->get_queried_object_id();
+		$page_for_posts = (int) \get_option( 'page_for_posts' );
+
+		return ( $page_for_posts > 0 && $page_for_posts === $wp_query->get_queried_object_id() );
 	}
 
 	/**

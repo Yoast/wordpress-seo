@@ -111,4 +111,13 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 
 		return $this->pagination->get_paginated_url( $this->current_page->get_date_archive_permalink(), ( $current_page + 1 ) );
 	}
+
+	/**
+	 * Generates the open graph url.
+	 *
+	 * @return string The open graph url.
+	 */
+	public function generate_og_url() {
+		return $this->current_page->get_date_archive_permalink();
+	}
 }

@@ -132,4 +132,77 @@ class Current_Page_Helper_Test extends TestCase {
 
 		$this->assertEmpty( $this->instance->get_date_archive_permalink() );
 	}
+
+	/**
+	 * Tests that is_static_posts_page returns false if the page_for_posts option is "0".
+	 *
+	 * @covers ::is_static_posts_page
+	 */
+	public function test_is_static_posts_page_invalid_page_for_posts() {
+		$wp_query = Mockery::mock( 'WP_Query' );
+
+		$this->wp_query_wrapper
+			->expects( 'get_main_query' )
+			->once()
+			->andReturn( $wp_query );
+
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'page_for_posts' )
+			->once()
+			->andReturn( '0' );
+
+		$this->assertFalse( $this->instance->is_static_posts_page() );
+	}
+
+	/**
+	 * Tests that is_static_posts_page returns true if the page_for_posts option is the same as the
+	 * queried object id.
+	 *
+	 * @covers ::is_static_posts_page
+	 */
+	public function test_is_static_posts_page_same_object_id() {
+		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query
+			->expects( 'get_queried_object_id' )
+			->once()
+			->andReturn( 1 );
+
+		$this->wp_query_wrapper
+			->expects( 'get_main_query' )
+			->once()
+			->andReturn( $wp_query );
+
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'page_for_posts' )
+			->once()
+			->andReturn( '1' );
+
+		$this->assertTrue( $this->instance->is_static_posts_page() );
+	}
+
+	/**
+	 * Tests that is_static_posts_page returns true if the page_for_posts option is different than
+	 * the queried object id.
+	 *
+	 * @covers ::is_static_posts_page
+	 */
+	public function test_is_static_posts_page_different_object_id() {
+		$wp_query = Mockery::mock( 'WP_Query' );
+		$wp_query
+			->expects( 'get_queried_object_id' )
+			->once()
+			->andReturn( 2 );
+
+		$this->wp_query_wrapper
+			->expects( 'get_main_query' )
+			->once()
+			->andReturn( $wp_query );
+
+		Monkey\Functions\expect( 'get_option' )
+			->with( 'page_for_posts' )
+			->once()
+			->andReturn( '1' );
+
+		$this->assertFalse( $this->instance->is_static_posts_page() );
+	}
 }
