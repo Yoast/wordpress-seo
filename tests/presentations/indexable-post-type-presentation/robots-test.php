@@ -30,13 +30,6 @@ class Robots_Test extends TestCase {
 				'index'  => 'index',
 				'follow' => 'follow',
 			] );
-
-		$this->robots_helper
-			->expects( 'after_generate' )
-			->once()
-			->andReturnUsing( function ( $robots ) {
-				return array_filter( $robots );
-			} );
 	}
 
 	/**
@@ -95,8 +88,11 @@ class Robots_Test extends TestCase {
 
 		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index'  => 'noindex',
-			'follow' => 'follow',
+			'index'        => 'noindex',
+			'follow'       => 'follow',
+			'noimageindex' => null,
+			'noarchive'    => null,
+			'nosnippet'    => null,
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -124,8 +120,11 @@ class Robots_Test extends TestCase {
 
 		$actual   = $this->instance->generate_robots();
 		$expected = [
-			'index'  => 'noindex',
-			'follow' => 'follow',
+			'index'        => 'noindex',
+			'follow'       => 'follow',
+			'noimageindex' => null,
+			'noarchive'    => null,
+			'nosnippet'    => null,
 		];
 
 		$this->assertEquals( $expected, $actual );

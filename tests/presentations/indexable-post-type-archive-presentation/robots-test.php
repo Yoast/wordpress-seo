@@ -29,13 +29,6 @@ class Robots_Test extends TestCase {
 				'index'  => 'index',
 				'follow' => 'follow',
 			] );
-
-		$this->robots_helper
-			->expects( 'after_generate' )
-			->once()
-			->andReturnUsing( function ( $robots ) {
-				return array_filter( $robots );
-			} );
 	}
 
 	/**

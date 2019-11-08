@@ -39,7 +39,7 @@ class Indexable_Post_Type_Archive_Presentation extends Indexable_Presentation {
 			$robots['index'] = 'noindex';
 		}
 
-		return $this->robots_helper->after_generate( $robots );
+		return $robots;
 	}
 
 	/**

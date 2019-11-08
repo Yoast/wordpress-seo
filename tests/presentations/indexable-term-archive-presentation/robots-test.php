@@ -23,13 +23,6 @@ class Robots_Test extends TestCase {
 		parent::setUp();
 
 		$this->setInstance();
-
-		$this->robots_helper
-			->expects( 'after_generate' )
-			->once()
-			->andReturnUsing( function( $robots ) {
-				return $robots;
-			} );
 	}
 
 	/**

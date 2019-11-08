@@ -35,16 +35,6 @@ class Robots_Test extends TestCase {
 				'follow' => 'follow',
 			] );
 
-		$this->robots_helper
-			->expects( 'after_generate' )
-			->with( [
-				'index'  => 'index',
-				'follow' => 'follow',
-			] )
-			->andReturnUsing( function ( $robots ) {
-				return $robots;
-			} );
-
 		$this->options_helper
 			->expects( 'get' )
 			->once()
@@ -70,17 +60,6 @@ class Robots_Test extends TestCase {
 				'index'  => 'index',
 				'follow' => 'follow',
 			] );
-
-		$this->robots_helper
-			->expects( 'after_generate' )
-			->with( [
-				'index'  => 'noindex',
-				'follow' => 'follow',
-			] )
-			->andReturnUsing( function ( $robots ) {
-				return $robots;
-			} );
-
 		$this->options_helper
 			->expects( 'get' )
 			->once()
