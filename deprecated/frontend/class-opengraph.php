@@ -32,13 +32,6 @@ class WPSEO_OpenGraph {
 	 */
 	public function opengraph() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
-
-		/**
-		 * Action: 'wpseo_opengraph' - Hook to add all Facebook OpenGraph output to so they're close together.
-		 *
-		 * @deprecated xx.x
-		 */
-		do_action_deprecated( 'wpseo_opengraph', 'WPSEO xx.x');
 	}
 
 	/**
