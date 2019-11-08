@@ -19,15 +19,6 @@ class WPSEO_Frontend {
 	public static $instance;
 
 	/**
-	 * Class constructor.
-	 *
-	 * Adds and removes a lot of filters.
-	 */
-	protected function __construct() {
-
-	}
-
-	/**
 	 * Get the singleton instance of this class.
 	 *
 	 * @return WPSEO_Frontend

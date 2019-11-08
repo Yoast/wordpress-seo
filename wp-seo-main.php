@@ -383,17 +383,6 @@ function wpseo_init_rest_api() {
  */
 function wpseo_frontend_init() {
 	add_action( 'init', 'initialize_wpseo_front' );
-
-	if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
-		/**
-		 * If breadcrumbs are active (which they supposedly are if the users has enabled this settings,
-		 * there's no reason to have bbPress breadcrumbs as well.
-		 *
-		 * {@internal The class itself is only loaded when the template tag is encountered
-		 *            via the template tag function in the wpseo-functions.php file.}}
-		 */
-		add_filter( 'bbp_get_breadcrumb', '__return_false' );
-	}
 }
 
 /**
