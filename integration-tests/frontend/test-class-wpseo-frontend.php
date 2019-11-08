@@ -41,7 +41,6 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->reset_post_types();
 
 		ob_clean();
-		self::$class_instance->reset();
 		update_option( 'posts_per_page', 10 );
 	}
 }

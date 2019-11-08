@@ -24,40 +24,7 @@ class WPSEO_Frontend {
 	 * Adds and removes a lot of filters.
 	 */
 	protected function __construct() {
-		$integrations = array(
-			// new WPSEO_Schema(), // -- Has been moved to SRC directory.
-			// new WPSEO_Remove_Reply_To_Com(), HAS BEEN MOVED TO SRC DIRECTORY!
-		);
 
-		foreach ( $integrations as $integration ) {
-			$integration->register_hooks();
-		}
-	}
-
-	/**
-	 * Resets the entire class so canonicals, titles etc can be regenerated.
-	 */
-	public function reset() {
-		self::$instance = null;
-		foreach ( get_class_vars( __CLASS__ ) as $name => $default ) {
-			switch ( $name ) {
-				// Clear the class instance to be re-initialized.
-				case 'instance':
-					self::$instance = null;
-					break;
-
-				// Exclude these properties from being reset.
-				case 'woocommerce_shop_page':
-				case 'default_title':
-					break;
-
-				// Reset property to the class default.
-				default:
-					$this->$name = $default;
-					break;
-			}
-		}
-		WPSEO_Options::ensure_options_exist();
 	}
 
 	/**
@@ -71,30 +38,6 @@ class WPSEO_Frontend {
 		}
 
 		return self::$instance;
-	}
-
-	/**
-	 * Main wrapper function attached to wp_head. This combines all the output on the frontend of the Yoast SEO plugin.
-	 */
-	public function head() {
-		global $wp_query;
-
-		$old_wp_query = null;
-
-		if ( ! $wp_query->is_main_query() ) {
-			$old_wp_query = $wp_query;
-			wp_reset_query();
-		}
-
-		/**
-		 * Action: 'wpseo_head' - Allow other plugins to output inside the Yoast SEO section of the head section.
-		 */
-		do_action( 'wpseo_head' );
-
-		if ( ! empty( $old_wp_query ) ) {
-			$GLOBALS['wp_query'] = $old_wp_query;
-			unset( $old_wp_query );
-		}
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
@@ -241,6 +184,26 @@ class WPSEO_Frontend {
 		_deprecated_function( __METHOD__, 'WPSEO 10.1.3' );
 
 		return false;
+	}
+
+	/**
+	 * Main wrapper function attached to wp_head. This combines all the output on the frontend of the Yoast SEO plugin.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated xx.x
+	 */
+	public function head() {
+		_deprecated_function( __METHOD__, 'xx.x' );
+	}
+
+	/**
+	 * Resets the entire class so canonicals, titles etc can be regenerated.
+	 *
+	 * @codeCoverageIgnore
+	 * @deprecated xx.x
+	 */
+	public function reset() {
+		_deprecated_function( __METHOD__, 'xx.x' );
 	}
 
 	/**
