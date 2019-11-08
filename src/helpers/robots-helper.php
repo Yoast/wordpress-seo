@@ -37,16 +37,6 @@ class Robots_Helper {
 	 * @return array The robots settings with applied changes.
 	 */
 	public function after_generate( array $robots ) {
-		// The option `blog_public` is set in Settings > Reading > Search Engine Visibility.
-		if ( (string) \get_option( 'blog_public' ) === '0' ) {
-			$robots['index'] = 'noindex';
-		}
-
-		// When users view a reply to a comment, this URL parameter is set. These should never be indexed separately.
-		if ( isset( $_GET['replytocom'] ) ) {
-			$robots['index'] = 'noindex';
-		}
-
 		// Remove null values.
 		$robots = array_filter( $robots );
 
