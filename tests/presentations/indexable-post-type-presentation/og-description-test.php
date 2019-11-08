@@ -21,7 +21,7 @@ class Open_Graph_Description_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->setInstance();
+		$this->set_instance();
 		$this->indexable->object_id = 1;
 
 		$this->post_type_helper

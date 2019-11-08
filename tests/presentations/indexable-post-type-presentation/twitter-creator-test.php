@@ -21,7 +21,7 @@ class Twitter_Creator_Test extends TestCase {
 	 * Does the setup for testing.
 	 */
 	public function setUp() {
-		$this->setInstance();
+		$this->set_instance();
 
 		$this->context->post = (object) [ 'post_author' => 1337 ];
 

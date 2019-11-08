@@ -34,7 +34,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * Builds an instance of Indexable_Home_Page_Presentation.
 	 */
-	protected function setInstance() {
+	protected function set_instance() {
 		$this->indexable = new Indexable();
 
 		$this->pagination = Mockery::mock( Pagination_Helper::class );

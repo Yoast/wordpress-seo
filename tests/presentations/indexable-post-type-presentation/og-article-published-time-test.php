@@ -22,7 +22,7 @@ class OG_Article_Published_Time_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->setInstance();
+		$this->set_instance();
 	}
 
 	/**

@@ -20,7 +20,7 @@ class OG_Images_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->setInstance();
+		$this->set_instance();
 
 		parent::setUp();
 	}
