@@ -92,11 +92,6 @@ class Indexable_Presentation extends Abstract_Presentation {
 	private $breadcrumbs_generator;
 
 	/**
-	 * @var Robots_Helper
-	 */
-	protected $robots_helper;
-
-	/**
 	 * @var Current_Page_Helper
 	 */
 	protected $current_page;
@@ -151,7 +146,6 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 *
 	 * Used by dependency injection container to inject the Robots_Helper.
 	 *
-	 * @param Robots_Helper       $robots_helper       The robots helper.
 	 * @param Image_Helper        $image_helper        The image helper.
 	 * @param Options_Helper      $options_helper      The options helper.
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
@@ -159,14 +153,12 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @param User_Helper         $user                The user helper.
 	 */
 	public function set_helpers(
-		Robots_Helper $robots_helper,
 		Image_Helper $image_helper,
 		Options_Helper $options_helper,
 		Current_Page_Helper $current_page_helper,
 		Url_Helper $url_helper,
 		User_Helper $user
 	) {
-		$this->robots_helper  = $robots_helper;
 		$this->image_helper   = $image_helper;
 		$this->options_helper = $options_helper;
 		$this->current_page   = $current_page_helper;
