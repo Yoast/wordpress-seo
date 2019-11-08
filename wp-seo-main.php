@@ -17,7 +17,6 @@ if ( ! function_exists( 'add_filter' ) ) {
  */
 define( 'WPSEO_VERSION', '12.5-RC2' );
 
-
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
 }
@@ -381,24 +380,6 @@ function wpseo_init_rest_api() {
 /**
  * Used to load the required files on the plugins_loaded hook, instead of immediately.
  */
-function wpseo_frontend_init() {
-	add_action( 'init', 'initialize_wpseo_front' );
-
-	if ( WPSEO_Options::get( 'breadcrumbs-enable' ) === true ) {
-		/**
-		 * If breadcrumbs are active (which they supposedly are if the users has enabled this settings,
-		 * there's no reason to have bbPress breadcrumbs as well.
-		 *
-		 * {@internal The class itself is only loaded when the template tag is encountered
-		 *            via the template tag function in the wpseo-functions.php file.}}
-		 */
-		add_filter( 'bbp_get_breadcrumb', '__return_false' );
-	}
-}
-
-/**
- * Used to load the required files on the plugins_loaded hook, instead of immediately.
- */
 function wpseo_admin_init() {
 	new WPSEO_Admin_Init();
 }
@@ -499,9 +480,6 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 		else {
 			add_action( 'plugins_loaded', 'wpseo_admin_init', 15 );
 		}
-	}
-	else {
-		add_action( 'plugins_loaded', 'wpseo_frontend_init', 15 );
 	}
 
 	add_action( 'plugins_loaded', 'load_yoast_notifications' );
@@ -675,5 +653,15 @@ function yoast_free_phpcompat_whitelist( $ignored ) {
  * @codeCoverageIgnore
  */
 function wpseo_frontend_head_init() {
+	_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+}
+
+/**
+ * Used to load the required files on the plugins_loaded hook, instead of immediately.
+ *
+ * @deprecated xx.x
+ * @codeCoverageIgnore
+ */
+function wpseo_frontend_init() {
 	_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 }
