@@ -44,7 +44,7 @@ trait Presentation_Instance_Builder {
 	/**
 	 * Builds an instance of Indexable_Search_Result_Page_Presentation.
 	 */
-	protected function setInstance() {
+	protected function set_instance() {
 		$this->indexable = new Indexable();
 
 		$this->post_type  = Mockery::mock( Post_Type_Helper::class );

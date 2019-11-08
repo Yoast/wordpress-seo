@@ -20,7 +20,7 @@ class OG_Article_Author_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->setInstance();
+		$this->set_instance();
 	}
 
 	/**

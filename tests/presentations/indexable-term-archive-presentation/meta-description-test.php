@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
+namespace Yoast\WP\Free\Tests\Presentations\Indexable_Term_Archive_Presentation;
 
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Meta_Description_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
+ * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Term_Archive_Presentation
  *
  * @group presentations
  * @group meta-description
@@ -19,7 +19,7 @@ class Meta_Description_Test extends TestCase {
 	 * Does the setup for testing.
 	 */
 	public function setUp() {
-		$this->setInstance();
+		$this->set_instance();
 
 		return parent::setUp();
 	}
@@ -48,7 +48,7 @@ class Meta_Description_Test extends TestCase {
 		$this->options_helper
 			->expects( 'get' )
 			->once()
-			->with( 'metadesc-post' )
+			->with( 'metadesc-tax-post' )
 			->andReturn( 'This is the home meta description' );
 
 		$this->assertEquals( 'This is the home meta description', $this->instance->generate_meta_description() );

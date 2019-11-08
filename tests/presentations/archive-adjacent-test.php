@@ -33,7 +33,7 @@ class Archive_Adjacent_Test extends TestCase {
 
 		$this->pagination = Mockery::mock( Pagination_Helper::class );
 
-		$this->setInstance();
+		$this->set_instance();
 		$this->instance->set_archive_adjacent_helpers( $this->pagination );
 	}
 

@@ -19,7 +19,7 @@ class WordPress_Site_Name_Test extends TestCase {
 	 * Sets up the test class.
 	 */
 	public function setUp() {
-		$this->setInstance();
+		$this->set_instance();
 
 		return parent::setUp();
 	}
