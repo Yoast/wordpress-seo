@@ -29,9 +29,8 @@ class Robots_Presenter_Test extends TestCase {
 		parent::setUp();
 
 		$this->instance = Mockery::mock( Robots_Presenter::class )
-			->makePartial();
-
-		$this->instance->shouldAllowMockingProtectedMethods();
+			->makePartial()
+			->shouldAllowMockingProtectedMethods();
 	}
 
 	/**
