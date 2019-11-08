@@ -163,10 +163,9 @@ class WPSEO_Meta {
 			'meta-robots-adv'      => array(
 				'type'          => 'multiselect',
 				'title'         => '', // Translation added later.
-				'default_value' => '-', // = site-wide default.
+				'default_value' => '', // = site-wide default.
 				'description'   => '', // Translation added later.
 				'options'       => array(
-					'-'            => '', // Site-wide default - translation added later.
 					'none'         => '', // Translation added later.
 					'noimageindex' => '', // Translation added later.
 					'noarchive'    => '', // Translation added later.
@@ -352,13 +351,6 @@ class WPSEO_Meta {
 				$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( WPSEO_Options::get( 'noindex-' . $post_type, false ) === true ) ? $field_defs['meta-robots-noindex']['options']['1'] : $field_defs['meta-robots-noindex']['options']['2'] ), $post_type_object->label );
 				$field_defs['meta-robots-nofollow']['title']       = sprintf( $field_defs['meta-robots-nofollow']['title'], $post_type_object->labels->singular_name );
 
-				/* Adjust the robots advanced 'site-wide default' text string based on those settings. */
-				$robots_adv = __( 'None', 'wordpress-seo' );
-
-				$field_defs['meta-robots-adv']['options']['-'] = sprintf( $field_defs['meta-robots-adv']['options']['-'], $robots_adv );
-				unset( $robots_adv );
-
-
 				/* Don't show the breadcrumb title field if breadcrumbs aren't enabled. */
 				if ( WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
 					unset( $field_defs['bctitle'] );
@@ -506,10 +498,6 @@ class WPSEO_Meta {
 			if ( in_array( 'none', $meta_value, true ) ) {
 				// None is one of the selected values, takes priority over everything else.
 				$clean = 'none';
-			}
-			elseif ( in_array( '-', $meta_value, true ) ) {
-				// Site-wide defaults is one of the selected values, takes priority over individual selected entries.
-				$clean = '-';
 			}
 			else {
 				// Individual selected entries.
