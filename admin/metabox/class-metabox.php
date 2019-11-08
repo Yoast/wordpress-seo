@@ -62,7 +62,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Translate text strings for use in the meta box.
+	 * Translates text strings for use in the meta box.
 	 *
 	 * IMPORTANT: if you want to add a new string (option) somewhere, make sure you add that array key to
 	 * the main meta box definition array in the class WPSEO_Meta() as well!!!!
@@ -175,7 +175,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Pass variables to js for use with the post-scraper.
+	 * Passes variables to js for use with the post-scraper.
 	 *
 	 * @return array
 	 */
@@ -204,7 +204,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Pass some variables to js for replacing variables.
+	 * Passes some variables to js for replacing variables.
 	 */
 	public function localize_replace_vars_script() {
 		return array(
@@ -244,7 +244,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Pass some variables to js for the edit / post page overview, etc.
+	 * Passes some variables to js for the edit / post page overview, etc.
 	 *
 	 * @return array
 	 */
@@ -256,7 +256,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Output the meta box.
+	 * Outputs the meta box.
 	 */
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
@@ -365,7 +365,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Returns metabox sections that have been added by other plugins.
+	 * Returns the metabox sections that have been added by other plugins.
 	 *
 	 * @return WPSEO_Metabox_Section_Additional[]
 	 */
@@ -615,7 +615,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Save the WP SEO metadata for posts.
+	 * Saves the WP SEO metadata for posts.
 	 *
 	 * {@internal $_POST parameters are validated via sanitize_post_meta().}}
 	 *
@@ -793,7 +793,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		);
 
 		/**
-		 * Remove the emoji script as it is incompatible with both React and any
+		 * Removes the emoji script as it is incompatible with both React and any
 		 * contenteditable fields.
 		 */
 		remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
@@ -817,7 +817,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Pass some variables to js for upload module.
+	 * Passes some variables to js for upload module.
 	 *
 	 * @return array
 	 */
@@ -1063,7 +1063,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Output a tab in the Yoast SEO Metabox.
+	 * Outputs a tab in the Yoast SEO Metabox.
 	 *
 	 * @deprecated         12.2
 	 * @codeCoverageIgnore
