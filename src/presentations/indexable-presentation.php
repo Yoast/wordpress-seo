@@ -8,6 +8,7 @@
 namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Context\Meta_Tags_Context;
+use Yoast\WP\Free\Generators\Breadcrumbs_Generator;
 use Yoast\WP\Free\Generators\OG_Image_Generator;
 use Yoast\WP\Free\Generators\Twitter_Image_Generator;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
@@ -50,6 +51,7 @@ use Yoast\WP\Free\Presentations\Generators\Schema_Generator;
  * @property string twitter_creator
  * @property string twitter_site
  * @property array  replace_vars_object
+ * @property array  breadcrumbs
  */
 class Indexable_Presentation extends Abstract_Presentation {
 
@@ -82,6 +84,11 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @var OG_Locale_Generator
 	 */
 	private $og_locale_generator;
+
+	/**
+	 * @var Breadcrumbs_Generator
+	 */
+	private $breadcrumbs_generator;
 
 	/**
 	 * @var Robots_Helper
@@ -122,17 +129,20 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 * @param OG_Locale_Generator     $og_locale_generator     The OG locale generator.
 	 * @param OG_Image_Generator      $og_image_generator      The OG image generator.
 	 * @param Twitter_Image_Generator $twitter_image_generator The Twitter image generator.
+	 * @param Breadcrumbs_Generator   $breadcrumbs_generator   The breadcrumbs generator.
 	 */
 	public function set_generators(
 		Schema_Generator $schema_generator,
 		OG_Locale_Generator $og_locale_generator,
 		OG_Image_Generator $og_image_generator,
-		Twitter_Image_Generator $twitter_image_generator
+		Twitter_Image_Generator $twitter_image_generator,
+		Breadcrumbs_Generator $breadcrumbs_generator
 	) {
 		$this->schema_generator        = $schema_generator;
 		$this->og_locale_generator     = $og_locale_generator;
 		$this->og_image_generator      = $og_image_generator;
 		$this->twitter_image_generator = $twitter_image_generator;
+		$this->breadcrumbs_generator   = $breadcrumbs_generator;
 	}
 
 	/**
@@ -477,5 +487,14 @@ class Indexable_Presentation extends Abstract_Presentation {
 	 */
 	public function generate_schema() {
 		return $this->schema_generator->generate( $this->context );
+	}
+
+	/**
+	 * Generates the breadcrumbs for the page.
+	 *
+	 * @return array The breadcrumbs.
+	 */
+	public function generate_breadcrumbs() {
+		return $this->breadcrumbs_generator->generate( $this->context );
 	}
 }

@@ -272,21 +272,27 @@ class Indexable_Repository {
 	 * @return Indexable[] All ancestors of the given indexable.
 	 */
 	public function get_ancestors( Indexable $indexable, $static_ancestor_wheres = [] ) {
-		$ancestor_query = $this->query()
-							   ->table_alias( 'i' )
-							   ->select( 'i.*' )
-							   ->join( 'indexable_hierarchy', 'i.id = ih.ancestor_id', 'ih' )
-							   ->where( 'ih.indexable_id', $indexable->id )
-							   ->order_by_desc( 'ih.depth' );
+		$hierarchy_table = Yoast_Model::get_table_name( 'Indexable_Hierarchy' );
+		$ancestor_query  = $this->query()
+								->table_alias( 'i' )
+								->select( 'i.*' )
+								->join( $hierarchy_table, 'i.id = ih.ancestor_id', 'ih' )
+								->where( 'ih.indexable_id', $indexable->id )
+								->order_by_desc( 'ih.depth' );
 
+		$ancestor_queries = [];
 		if ( ! empty( $static_ancestor_wheres ) ) {
 			$ancestor_queries = array_map( function ( $where ) {
-				return $this->query()->where( $where )->limit( 1 )->get_sql();
+				return $this->query()->where( $where )->limit( 1 )->find_many();
 			}, $static_ancestor_wheres );
-			$ancestor_queries[] = $ancestor_query->get_sql();
-			$ancestor_query     = $this->query()->raw_query( '( ' . implode( ' ) UNION ALL ( ', $ancestor_queries ) . ' )' );
 		}
 
-		return $ancestor_query->find_many();
+		$ancestor_queries[] = $ancestor_query->find_many();
+
+		if ( empty( $ancestor_queries ) ) {
+			return [];
+		}
+
+		return array_merge( ...$ancestor_queries );
 	}
 }

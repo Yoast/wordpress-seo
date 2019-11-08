@@ -58,6 +58,10 @@ class Indexable_Term_Builder {
 			$indexable->{$indexable_key} = $this->get_meta_value( $meta_key, $term_meta );
 		}
 
+		if ( empty( $indexable->breadcrumb_title ) ) {
+			$indexable->breadcrumb_title = $term->name;
+		}
+
 		$this->handle_social_images( $indexable );
 
 		// Not implemented yet.

@@ -71,6 +71,10 @@ class Indexable_Post_Builder {
 			$indexable->{$indexable_key} = $this->get_meta_value( $post_id, $meta_key );
 		}
 
+		if ( empty( $indexable->breadcrumb_title ) ) {
+			$indexable->breadcrumb_title = \wp_strip_all_tags( \get_the_title( $post_id ), true );
+		}
+
 		$this->handle_social_images( $indexable );
 
 		$indexable = $this->set_link_count( $post_id, $indexable );

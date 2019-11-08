@@ -113,6 +113,9 @@ class Indexable_Post_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'get' )->with( 'object_sub_type' );
 		$indexable_mock->orm->expects( 'get' )->with( 'object_id' );
 
+		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
+
 		$seo_meta_repository = Mockery::mock( SEO_Meta_Repository::class );
 		$seo_meta_repository->expects( 'find_by_post_id' )->once()->with( 1 )->andReturn(
 			(object) [

@@ -31,6 +31,34 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Returns the page type for the current request.
+	 *
+	 * @return string Page type.
+	 */
+	public function get_page_type() {
+		switch ( true ) {
+			case $this->is_search_result():
+				return 'Search_Result_Page';
+			case $this->is_simple_page() || $this->is_home_static_page():
+				return 'Post_Type';
+			case $this->is_post_type_archive():
+				return 'Post_Type_Archive';
+			case $this->is_term_archive():
+				return 'Term_Archive';
+			case $this->is_author_archive():
+				return 'Author_Archive';
+			case $this->is_date_archive():
+				return 'Date_Archive';
+			case $this->is_home_posts_page():
+				return 'Home_Page';
+			case $this->is_404():
+				return 'Error_Page';
+		}
+
+		return 'Fallback';
+	}
+
+	/**
 	 * Checks if the currently opened page is a simple page.
 	 *
 	 * @return bool Whether the currently opened page is a simple page.

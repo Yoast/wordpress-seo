@@ -41,6 +41,7 @@ use Yoast\WP\Free\Presentations\Indexable_Presentation;
  * @property bool        open_graph_enabled
  * @property string      open_graph_publisher
  * @property string      twitter_card
+ * @property string      page_type
  */
 class Meta_Tags_Context extends Abstract_Presentation {
 

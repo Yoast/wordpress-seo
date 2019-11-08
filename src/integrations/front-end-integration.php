@@ -9,46 +9,23 @@ namespace Yoast\WP\Free\Integrations;
 
 use WPSEO_Options;
 use Yoast\WP\Free\Conditionals\Front_End_Conditional;
-use Yoast\WP\Free\Context\Meta_Tags_Context;
-use Yoast\WP\Free\Helpers\Blocks_Helper;
-use Yoast\WP\Free\Helpers\Current_Page_Helper;
-use Yoast\WP\Free\Models\Indexable;
-use Yoast\WP\Free\Presentations\Indexable_Presentation;
+use Yoast\WP\Free\Memoizer\Meta_Tags_Context_Memoizer;
 use Yoast\WP\Free\Presenters\Abstract_Indexable_Presenter;
-use Yoast\WP\Free\Repositories\Indexable_Repository;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class Front_End_Integration.
  */
 class Front_End_Integration implements Integration_Interface {
-	/**
-	 * @var Meta_Tags_Context
-	 */
-	private $meta_tags_context;
-	/**
-	 * @var Blocks_Helper
-	 */
-	private $blocks_helper;
 
 	/**
-	 * @inheritDoc
+	 * @var Meta_Tags_Context_Memoizer
 	 */
-	public static function get_conditionals() {
-		return [ Front_End_Conditional::class ];
-	}
+	private $context_memoizer;
 
 	/**
-	 * @var Current_Page_Helper
-	 */
-	protected $current_page;
-
-	/**
-	 * @var Indexable_Repository
-	 */
-	protected $indexable_repository;
-
-	/**
+	 * The container.
+	 *
 	 * @var ContainerInterface
 	 */
 	protected $container;
@@ -134,26 +111,24 @@ class Front_End_Integration implements Integration_Interface {
 	];
 
 	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Front_End_Conditional::class ];
+	}
+
+	/**
 	 * Front_End_Integration constructor.
 	 *
-	 * @param Indexable_Repository $indexable_repository The indexable repository.
-	 * @param Current_Page_Helper  $current_page_helper  The current post helper.
-	 * @param Blocks_Helper        $blocks_helper        The blocks helper.
-	 * @param Meta_Tags_Context    $meta_tags_context    The meta tags context prototype.
-	 * @param ContainerInterface   $service_container    The DI container.
+	 * @param Meta_Tags_Context_Memoizer $context_memoizer  The meta tags context memoizer.
+	 * @param ContainerInterface         $service_container The DI container.
 	 */
 	public function __construct(
-		Indexable_Repository $indexable_repository,
-		Current_Page_Helper $current_page_helper,
-		Blocks_Helper $blocks_helper,
-		Meta_Tags_Context $meta_tags_context,
+		Meta_Tags_Context_Memoizer $context_memoizer,
 		ContainerInterface $service_container
 	) {
-		$this->indexable_repository = $indexable_repository;
-		$this->current_page         = $current_page_helper;
-		$this->blocks_helper        = $blocks_helper;
-		$this->meta_tags_context    = $meta_tags_context;
-		$this->container            = $service_container;
+		$this->container        = $service_container;
+		$this->context_memoizer = $context_memoizer;
 	}
 
 	/**
@@ -186,62 +161,20 @@ class Front_End_Integration implements Integration_Interface {
 	 * Echoes all applicable presenters for a page.
 	 */
 	public function present_head() {
-		$indexable    = $this->indexable_repository->for_current_page();
-		$page_type    = $this->get_page_type();
-		$context      = $this->get_context( $indexable );
-		$presentation = $this->get_presentation( $indexable, $context, $page_type );
-		$presenters   = $this->get_presenters( $page_type );
+		$context    = $this->context_memoizer->for_current_page();
+		$presenters = $this->get_presenters( $context->page_type );
 		echo PHP_EOL;
 		foreach ( $presenters as $presenter ) {
 			if ( \defined( 'WPSEO_DEBUG' ) && WPSEO_DEBUG === true ) {
 				echo '<!-- ' . get_class( $presenter ) . ' -->';
 			}
 
-			$output = $presenter->present( $presentation );
+			$output = $presenter->present( $context->presentation );
 			if ( ! empty( $output ) ) {
 				echo "\t" . $output . PHP_EOL;
 			}
 		}
 		echo PHP_EOL . PHP_EOL;
-	}
-
-	/**
-	 * Gets the meta tags context given an indexable.
-	 *
-	 * @param Indexable $indexable The indexable.
-	 *
-	 * @return Meta_Tags_Context The meta tags context.
-	 */
-	private function get_context( Indexable $indexable ) {
-		$blocks = [];
-		$post   = null;
-		if ( $indexable->object_type === 'post' ) {
-			$post   = \get_post( $indexable->object_id );
-			$blocks = $this->blocks_helper->get_all_blocks_from_content( $post->post_content );
-		}
-
-		return $this->meta_tags_context->of( [ 'indexable' => $indexable, 'blocks' => $blocks, 'post' => $post ] );
-	}
-
-	/**
-	 * Gets the presentation of an indexable for a specific page type.
-	 *
-	 * @param Indexable         $indexable The indexable to get a presentation of.
-	 * @param Meta_Tags_Context $context   The current meta tags context.
-	 * @param string            $page_type The page type.
-	 *
-	 * @return Indexable_Presentation The indexable presentation.
-	 */
-	private function get_presentation( Indexable $indexable, Meta_Tags_Context $context, $page_type ) {
-		$presentation = $this->container->get( "Yoast\WP\Free\Presentations\Indexable_{$page_type}_Presentation", ContainerInterface::NULL_ON_INVALID_REFERENCE );
-
-		if ( ! $presentation ) {
-			$presentation = $this->container->get( Indexable_Presentation::class );
-		}
-
-		$context->presentation = $presentation->of( [ 'model' => $indexable, 'context' => $context ] );
-
-		return $context->presentation;
 	}
 
 	/**
@@ -264,36 +197,6 @@ class Front_End_Integration implements Integration_Interface {
 				return $this->container->get( "Yoast\WP\Free\Presenters\\{$presenter}_Presenter", $invalid_behaviour );
 			}, $needed_presenters )
 		);
-	}
-
-	/**
-	 * Returns the page type for the current request.
-	 *
-	 * @return string Page type.
-	 */
-	protected function get_page_type() {
-		switch ( true ) {
-			case $this->current_page->is_search_result():
-				return 'Search_Result_Page';
-			case $this->current_page->is_static_posts_page():
-				return 'Static_Posts_Page';
-			case $this->current_page->is_home_posts_page():
-				return 'Home_Page';
-			case $this->current_page->is_simple_page() || $this->current_page->is_home_static_page():
-				return 'Post_Type';
-			case $this->current_page->is_post_type_archive():
-				return 'Post_Type_Archive';
-			case $this->current_page->is_term_archive():
-				return 'Term_Archive';
-			case $this->current_page->is_author_archive():
-				return 'Author_Archive';
-			case $this->current_page->is_date_archive():
-				return 'Date_Archive';
-			case $this->current_page->is_404():
-				return 'Error_Page';
-		}
-
-		return 'Fallback';
 	}
 
 	/**

@@ -44,10 +44,41 @@ class Indexable_Post_Type_Archive_Builder {
 		$indexable->object_sub_type   = $post_type;
 		$indexable->title             = $this->options_helper->get( 'title-ptarchive-' . $post_type );
 		$indexable->description       = $this->options_helper->get( 'metadesc-ptarchive-' . $post_type );
-		$indexable->breadcrumb_title  = $this->options_helper->get( 'bctitle-ptarchive-' . $post_type );
+		$indexable->breadcrumb_title  = $this->get_breadcrumb_title( $post_type );
 		$indexable->permalink         = \get_post_type_archive_link( $post_type );
 		$indexable->is_robots_noindex = $this->options_helper->get( 'noindex-ptarchive-' . $post_type );
 
 		return $indexable;
+	}
+
+	/**
+	 * Returns the fallback breadcrumb title for a given post.
+	 *
+	 * @param string $post_type The post type to get the fallback breadcrumb title for.
+	 *
+	 * @return string
+	 */
+	private function get_breadcrumb_title( $post_type ) {
+		$options_breadcrumb_title = $this->options_helper->get( 'bctitle-ptarchive-' . $post_type );
+
+		if ( $options_breadcrumb_title !== '' ) {
+			return $options_breadcrumb_title;
+		}
+
+		$post_type_obj = \get_post_type_object( $post_type );
+
+		if ( ! is_object( $post_type_obj ) ) {
+			return '';
+		}
+
+		if ( isset( $post_type_obj->label ) && $post_type_obj->label !== '' ) {
+			return $post_type_obj->label;
+		}
+
+		if ( isset( $post_type_obj->labels->menu_name ) && $post_type_obj->labels->menu_name !== '' ) {
+			return $post_type_obj->labels->menu_name;
+		}
+
+		return $post_type_obj->name;
 	}
 }

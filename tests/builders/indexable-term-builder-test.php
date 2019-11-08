@@ -110,6 +110,10 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'twitter_image_id' );
 		$indexable_mock->orm->expects( 'get' )->with( 'object_id' );
 
+
+		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
+
 		$image_helper     = Mockery::mock( Image_Helper::class );
 		$open_graph_image = Mockery::mock( \Yoast\WP\Free\Helpers\Open_Graph\Image_Helper::class );
 		$twitter_image    = Mockery::mock( \Yoast\WP\Free\Helpers\Twitter\Image_Helper::class );
