@@ -7,6 +7,7 @@ namespace Yoast\WP\Free\Tests\Integrations\Front_End;
 
 use Brain\Monkey;
 use Mockery;
+use Yoast\WP\Free\Helpers\Robots_Helper;
 use Yoast\WP\Free\Integrations\Front_End\Indexing_Controls;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -22,6 +23,13 @@ use Yoast\WP\Free\Tests\TestCase;
 class Indexing_Controls_Test extends TestCase {
 
 	/**
+	 * Robots helper.
+	 *
+	 * @var Mockery\MockInterface|Robots_Helper
+	 */
+	private $robots;
+
+	/**
 	 * The test instance.
 	 *
 	 * @var Indexing_Controls|Mockery\MockInterface
@@ -34,8 +42,10 @@ class Indexing_Controls_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
+		$this->robots   = Mockery::mock( Robots_Helper::class );
 		$this->instance = Mockery::mock( Indexing_Controls::class )->makePartial()->shouldAllowMockingProtectedMethods();
 	}
+
 	/**
 	 * Tests the situation where the request is performed by a robot.
 	 *
@@ -78,5 +88,4 @@ class Indexing_Controls_Test extends TestCase {
 			$this->instance->nofollow_link( '<a href="#">A link</a>' )
 		);
 	}
-
 }

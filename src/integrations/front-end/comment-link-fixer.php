@@ -9,6 +9,7 @@ namespace Yoast\WP\Free\Integrations\Front_End;
 
 use Yoast\WP\Free\Conditionals\Front_End_Conditional;
 use Yoast\WP\Free\Helpers\Redirect_Helper;
+use Yoast\WP\Free\Helpers\Robots_Helper;
 use Yoast\WP\Free\Integrations\Integration_Interface;
 
 /**
@@ -19,26 +20,40 @@ use Yoast\WP\Free\Integrations\Integration_Interface;
 class Comment_Link_Fixer implements Integration_Interface {
 
 	/**
+	 * The redirects helper.
+	 *
+	 * @var Redirect_Helper
+	 */
+	protected $redirect_helper;
+
+	/**
+	 * The robots helper.
+	 *
+	 * @var Robots_Helper
+	 */
+	protected $robots;
+
+	/**
 	 * @inheritDoc
+	 * @codeCoverageIgnore
 	 */
 	public static function get_conditionals() {
 		return [ Front_End_Conditional::class ];
 	}
 
 	/**
-	 * @var Redirect_Helper
-	 */
-	protected $redirect_helper;
-
-	/**
 	 * Comment_Link_Fixer constructor.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param Redirect_Helper $redirect_helper The redirect helper.
+	 * @param Robots_Helper   $robots The robots helper.
 	 */
 	public function __construct(
-		Redirect_Helper $redirect_helper
+		Redirect_Helper $redirect_helper, Robots_Helper $robots
 	) {
 		$this->redirect_helper = $redirect_helper;
+		$this->robots          = $robots;
 	}
 
 	/**
@@ -46,8 +61,13 @@ class Comment_Link_Fixer implements Integration_Interface {
 	 */
 	public function register_hooks() {
 		if ( $this->clean_reply_to_com() ) {
-			add_filter( 'comment_reply_link', [ $this, 'remove_reply_to_com' ] );
-			add_action( 'template_redirect', [ $this, 'replytocom_redirect' ], 1 );
+			\add_filter( 'comment_reply_link', [ $this, 'remove_reply_to_com' ] );
+			\add_action( 'template_redirect', [ $this, 'replytocom_redirect' ], 1 );
+		}
+
+		// When users view a reply to a comment, this URL parameter is set. These should never be indexed separately.
+		if ( filter_input( INPUT_GET, 'replytocom' ) ) {
+			\add_filter( 'wpseo_robots', [ $this->robots, 'set_robots_no_index' ], 10, 2 );
 		}
 	}
 
