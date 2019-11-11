@@ -21,7 +21,6 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @group integrations
  * @group front-end
- * @group test
  */
 class OpenGraph_OEmbed_Test extends TestCase {
 
