@@ -330,7 +330,7 @@ class Yoast_Notification_Center {
 	 * @return null|Yoast_Notification
 	 */
 	public function get_notification_by_id( $notification_id, $user_id = null ) {
-		$user_id = ( $user_id !== null ? $user_id : get_current_user_id() );
+		$user_id = ( ! is_null( $user_id ) ? $user_id : get_current_user_id() );
 
 		$notifications_for_user = $this->get_notifications_for_user( $user_id );
 
@@ -575,7 +575,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Returns the notifications for the given user.
 	 *
-	 * @param $user_id
+	 * @param int $user_id The id of the user to check.
 	 *
 	 * @return Yoast_Notification[] The notifications for the user with the given ID.
 	 */
@@ -586,6 +586,11 @@ class Yoast_Notification_Center {
 		return array();
 	}
 
+	/**
+	 * Returns the notifications for the current WordPress user.
+	 *
+	 * @return Yoast_Notification[] The notifications for the current user.
+	 */
 	private function get_notifications_for_current_user() {
 		$current_user_id = get_current_user_id();
 		return $this->get_notifications_for_user( $current_user_id );
