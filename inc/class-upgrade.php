@@ -44,7 +44,7 @@ class WPSEO_Upgrade {
 			'7.5.3'     => 'upgrade_753',
 			'7.7-RC0'   => 'upgrade_77',
 			'7.7.2-RC0' => 'upgrade_772',
-			'9.0-RC0'   => 'upgrade90',
+			'9.0-RC0'   => 'upgrade_90',
 			'10.0-RC0'  => 'upgrade_100',
 			'11.1-RC0'  => 'upgrade_111',
 			/** Reset notifications because we removed the AMP Glue plugin notification */
@@ -584,7 +584,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade90() {
+	private function upgrade_90() {
 		global $wpdb;
 
 		// Invalidate all sitemap cache transients.
