@@ -210,7 +210,7 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 == Changelog ==
 
 = 12.5.0 =
-Release Date: November 12th, 2019
+Release Date: November 13th, 2019
 
 Enhancements:
 
