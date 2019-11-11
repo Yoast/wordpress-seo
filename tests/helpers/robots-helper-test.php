@@ -56,7 +56,7 @@ class Robots_Helper_Test extends TestCase {
 		$presentation->robots = [ 'index' => 'index', 'follow' => 'follow' ];
 
 		$this->assertEquals(
-			'index,follow',
+			'noindex,follow',
 			$this->instance->set_robots_no_index( 'index,follow', $presentation )
 		);
 	}
