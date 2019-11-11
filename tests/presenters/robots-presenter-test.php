@@ -68,7 +68,7 @@ class Robots_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_robots' )
 			->once()
-			->with( 'index,nofollow' )
+			->with( 'index,nofollow', $indexable_presentation )
 			->andReturn( 'noindex' );
 
 		$actual   = $this->instance->present( $indexable_presentation );
@@ -87,5 +87,27 @@ class Robots_Presenter_Test extends TestCase {
 		$indexable_presentation->robots = [];
 
 		$this->assertEmpty( $this->instance->present( $indexable_presentation ) );
+	}
+
+	/**
+	 * Tests if the default and null values are removed from the robots options array.
+	 *
+	 * @covers ::present
+	 * @covers ::remove_defaults
+	 */
+	public function test_present_with_filtering_default_and_null_values() {
+		$indexable_presentation = new Indexable_Presentation();
+		$indexable_presentation->robots = [
+			'index'        => 'index',
+			'follow'       => 'follow',
+			'noimageindex' => 'noimageindex',
+			'nosnippet'    => null,
+			'noarchive'    => null,
+		];
+
+		$actual   = $this->instance->present( $indexable_presentation );
+		$expected = '<meta name="robots" content="noimageindex"/>';
+
+		$this->assertEquals( $actual, $expected );
 	}
 }

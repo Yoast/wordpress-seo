@@ -22,20 +22,6 @@ class Robots_Test extends TestCase {
 		parent::setUp();
 
 		$this->set_instance();
-
-		$this->robots_helper
-			->expects( 'get_base_values' )
-			->andReturn( [
-				'index'  => 'index',
-				'follow' => 'follow',
-			] );
-
-		$this->robots_helper
-			->expects( 'after_generate' )
-			->once()
-			->andReturnUsing( function ( $robots ) {
-				return array_filter( $robots );
-			} );
 	}
 
 	/**

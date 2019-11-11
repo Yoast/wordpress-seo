@@ -9,12 +9,21 @@ namespace Yoast\WP\Free\Integrations\Front_End;
 
 use Yoast\WP\Free\Conditionals\Front_End_Conditional;
 use Yoast\WP\Free\Helpers\Options_Helper;
+use Yoast\WP\Free\Helpers\Robots_Helper;
 use Yoast\WP\Free\Integrations\Integration_Interface;
+use Yoast\WP\Free\Presentations\Indexable_Presentation;
 
 /**
  * Class Indexing_Controls
  */
 class Indexing_Controls implements Integration_Interface {
+
+	/**
+	 * The robots helper.
+	 *
+	 * @var Robots_Helper
+	 */
+	protected $robots;
 
 	/**
 	 * @codeCoverageIgnore
@@ -26,9 +35,23 @@ class Indexing_Controls implements Integration_Interface {
 
 	/**
 	 * @codeCoverageIgnore
+	 *
+	 * @param Robots_Helper $robots The robots helper.
+	 */
+	public function __construct( Robots_Helper $robots ) {
+		$this->robots = $robots;
+	}
+
+	/**
+	 * @codeCoverageIgnore
 	 * @inheritDoc
 	 */
 	public function register_hooks() {
+		// The option `blog_public` is set in Settings > Reading > Search Engine Visibility.
+		if ( (string) \get_option( 'blog_public' ) === '0' ) {
+			\add_filter( 'wpseo_robots', [ $this->robots, 'set_robots_no_index' ], 10, 2 );
+		}
+
 		\add_action( 'template_redirect', [ $this, 'noindex_robots' ] );
 		\add_filter( 'loginout', [ $this, 'nofollow_link' ] );
 		\add_filter( 'register', [ $this, 'nofollow_link' ] );

@@ -23,13 +23,6 @@ class Robots_Test extends TestCase {
 		parent::setUp();
 
 		$this->set_instance();
-
-		$this->robots_helper
-			->expects( 'after_generate' )
-			->once()
-			->andReturnUsing( function( $robots ) {
-				return $robots;
-			} );
 	}
 
 	/**
@@ -43,15 +36,6 @@ class Robots_Test extends TestCase {
 			->once()
 			->andReturn( (object) [
 				'taxonomy' => 'category',
-			] );
-
-		$this->robots_helper
-			->expects( 'get_base_values' )
-			->once()
-			->with( $this->indexable )
-			->andReturn( [
-				'index'  => 'index',
-				'follow' => 'follow',
 			] );
 
 		$this->current_page_helper
@@ -86,15 +70,6 @@ class Robots_Test extends TestCase {
 				'taxonomy' => 'category',
 			] );
 
-		$this->robots_helper
-			->expects( 'get_base_values' )
-			->once()
-			->with( $this->indexable )
-			->andReturn( [
-				'index'  => 'index',
-				'follow' => 'follow',
-			] );
-
 		$this->current_page_helper
 			->expects( 'is_multiple_terms_page' )
 			->once()
@@ -126,15 +101,6 @@ class Robots_Test extends TestCase {
 			->once()
 			->andReturn( (object) [
 				'taxonomy' => 'category',
-			] );
-
-		$this->robots_helper
-			->expects( 'get_base_values' )
-			->once()
-			->with( $this->indexable )
-			->andReturn( [
-				'index'  => 'index',
-				'follow' => 'follow',
 			] );
 
 		$this->current_page_helper
@@ -172,15 +138,6 @@ class Robots_Test extends TestCase {
 				'taxonomy' => 'category',
 			] );
 
-		$this->robots_helper
-			->expects( 'get_base_values' )
-			->once()
-			->with( $this->indexable )
-			->andReturn( [
-				'index'  => 'noindex',
-				'follow' => 'follow',
-			] );
-
 		$this->current_page_helper
 			->expects( 'is_multiple_terms_page' )
 			->once()
@@ -208,15 +165,6 @@ class Robots_Test extends TestCase {
 	 * @covers ::generate_robots
 	 */
 	public function test_generate_robots_multi_terms_page() {
-		$this->robots_helper
-			->expects( 'get_base_values' )
-			->once()
-			->with( $this->indexable )
-			->andReturn( [
-				'index'  => 'index',
-				'follow' => 'follow',
-			] );
-
 		$this->current_page_helper
 			->expects( 'is_multiple_terms_page' )
 			->once()

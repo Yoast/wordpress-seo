@@ -48,13 +48,13 @@ class Indexable_Date_Archive_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = $this->robots_helper->get_base_values( $this->model );
+		$robots = parent::generate_robots();
 
 		if ( $this->options_helper->get( 'noindex-archive-wpseo', false ) ) {
 			$robots['index'] = 'noindex';
 		}
 
-		return $this->robots_helper->after_generate( $robots );
+		return $robots;
 	}
 
 	/**

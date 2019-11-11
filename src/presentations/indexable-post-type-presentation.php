@@ -270,8 +270,9 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
+		$robots = parent::generate_robots();
 		$robots = array_merge(
-			$this->robots_helper->get_base_values( $this->model ),
+			$robots,
 			[
 				'noimageindex' => ( $this->model->is_robots_noimageindex === true ) ? 'noimageindex' : null,
 				'noarchive'    => ( $this->model->is_robots_noarchive === true ) ? 'noarchive' : null,
@@ -286,7 +287,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			$robots['index'] = 'noindex';
 		}
 
-		return $this->robots_helper->after_generate( $robots );
+		return $robots;
 	}
 
 	/**
