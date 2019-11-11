@@ -5,6 +5,7 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+
 ## 0.9.0 November 11th, 2019
 ### Added
 * Improves the `InputField` styling for consistency with the new WordPress 5.3 admin styles.
