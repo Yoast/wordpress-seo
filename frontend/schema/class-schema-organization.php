@@ -101,6 +101,14 @@ class WPSEO_Schema_Organization implements WPSEO_Graph_Piece {
 			$profiles[] = 'https://twitter.com/' . WPSEO_Options::get( 'twitter_site' );
 		}
 
+		/**
+		 * Filter: 'wpseo_schema_organization_social_profiles' - Allows filtering social profiles for the
+		 * represented organization.
+		 *
+		 * @api string[] $profiles
+		 */
+		$profiles = apply_filters( 'wpseo_schema_organization_social_profiles', $profiles );
+
 		return $profiles;
 	}
 }

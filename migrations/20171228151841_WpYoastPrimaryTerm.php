@@ -26,28 +26,28 @@ class WpYoastPrimaryTerm extends Ruckusing_Migration_Base {
 		$indexable_table->column(
 			'post_id',
 			'integer',
-			array(
+			[
 				'unsigned' => true,
 				'null'     => false,
 				'limit'    => 11,
-			)
+			]
 		);
 		$indexable_table->column(
 			'term_id',
 			'integer',
-			array(
+			[
 				'unsigned' => true,
 				'null'     => false,
 				'limit'    => 11,
-			)
+			]
 		);
 		$indexable_table->column(
 			'taxonomy',
 			'string',
-			array(
+			[
 				'null'  => false,
 				'limit' => 191,
-			)
+			]
 		);
 
 		// Executes the SQL to create the table.
@@ -55,24 +55,24 @@ class WpYoastPrimaryTerm extends Ruckusing_Migration_Base {
 
 		$this->add_index(
 			$table_name,
-			array(
+			[
 				'post_id',
 				'taxonomy',
-			),
-			array(
+			],
+			[
 				'name' => 'post_taxonomy',
-			)
+			]
 		);
 
 		$this->add_index(
 			$table_name,
-			array(
+			[
 				'post_id',
 				'term_id',
-			),
-			array(
+			],
+			[
 				'name' => 'post_term',
-			)
+			]
 		);
 
 		$this->add_timestamps( $table_name );

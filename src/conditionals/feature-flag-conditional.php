@@ -11,11 +11,14 @@ namespace Yoast\WP\Free\Conditionals;
  * Abstract class for creating conditionals based on feature flags.
  */
 abstract class Feature_Flag_Conditional implements Conditional {
+
 	/**
-	 * @inheritdoc
+	 * Returns whether or not this conditional is met.
+	 *
+	 * @return boolean Whether or not the conditional is met.
 	 */
 	public function is_met() {
-		$feature_flag = strtoupper( $this->get_feature_flag() );
+		$feature_flag = \strtoupper( $this->get_feature_flag() );
 
 		return \defined( 'YOAST_SEO_' . $feature_flag ) && \constant( 'YOAST_SEO_' . $feature_flag ) === true;
 	}
@@ -26,5 +29,5 @@ abstract class Feature_Flag_Conditional implements Conditional {
 	 *
 	 * @return string the name of the feature flag.
 	 */
-	protected abstract function get_feature_flag();
+	abstract protected function get_feature_flag();
 }

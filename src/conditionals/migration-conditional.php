@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\Free\Conditionals;
 
-use Yoast\WP\Free\Database\Migration_Status;
+use Yoast\WP\Free\Config\Migration_Status;
 
 /**
  * Abstract class for creating conditionals based on migrations.
@@ -15,14 +15,14 @@ use Yoast\WP\Free\Database\Migration_Status;
 abstract class Migration_Conditional implements Conditional {
 
 	/**
-	 * @var \Yoast\WP\Free\Database\Migration_Status
+	 * @var Migration_Status
 	 */
 	protected $migration_status;
 
 	/**
 	 * Feature_Flag_Conditional constructor.
 	 *
-	 * @param \Yoast\WP\Free\Database\Migration_Status $migration_status The migration status object.
+	 * @param Migration_Status $migration_status The migration status object.
 	 */
 	public function __construct( Migration_Status $migration_status ) {
 		$this->migration_status = $migration_status;

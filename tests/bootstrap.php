@@ -20,7 +20,7 @@ define( 'DB_NAME', 'none' );
 define( 'DB_USER', 'nobody' );
 define( 'DB_PASSWORD', 'nothing' );
 
-if ( class_exists( 'opcache_reset' ) ) {
+if ( function_exists( 'opcache_reset' ) ) {
 	opcache_reset();
 }
 
@@ -33,4 +33,4 @@ else {
 	require_once __DIR__ . '/load/wp-seo.php';
 }
 
-define( 'YoastSEO_Vendor\RUCKUSING_BASE',  \WPSEO_PATH . 'fake-ruckusing' );
+define( 'YoastSEO_Vendor\RUCKUSING_BASE', \WPSEO_PATH . 'fake-ruckusing' );

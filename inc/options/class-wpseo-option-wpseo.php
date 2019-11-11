@@ -29,6 +29,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ms_defaults_set'                 => false,
 		// Non-form field, should only be set via validation routine.
 		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
+		// Non-form field, should be set by dismissing banner.
+		'bf_banner_2019_dismissed'        => false,
 
 		// Form fields.
 		'disableadvanced_meta'            => true,
@@ -130,6 +132,8 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		/* Clear the cache on update/add. */
 		add_action( 'add_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
 		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
+
+		add_filter( 'admin_title', array( 'Yoast_Input_Validation', 'add_yoast_admin_document_title_errors' ) );
 
 		/**
 		 * Filter the `wpseo` option defaults.
@@ -240,6 +244,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 				 * (and don't need to be either as long as the default is false).
 				 */
 				case 'ms_defaults_set':
+				case 'bf_banner_2019_dismissed':
 					if ( isset( $dirty[ $key ] ) ) {
 						$clean[ $key ] = WPSEO_Utils::validate_bool( $dirty[ $key ] );
 					}

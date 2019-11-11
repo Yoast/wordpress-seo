@@ -132,7 +132,7 @@ class WPSEO_Schema_Context {
 		$front             = WPSEO_Frontend::get_instance();
 		$this->canonical   = $front->canonical( false, false, true );
 		$this->title       = $front->title( '' );
-		$this->description = $front->metadesc( false );
+		$this->description = '';
 		$this->id          = get_queried_object_id();
 
 		// Site level variables.
@@ -180,14 +180,29 @@ class WPSEO_Schema_Context {
 
 		switch ( $this->site_represents ) {
 			case 'company':
-				$this->company_name = WPSEO_Options::get( 'company_name' );
+				$company_name = WPSEO_Options::get( 'company_name' );
+
+				/**
+				 * Filter: 'wpseo_schema_company_name' - Allows filtering company name
+				 *
+				 * @api string $company_name.
+				 */
+				$this->company_name = apply_filters( 'wpseo_schema_company_name', $company_name );
+
 				// Do not use a non-named company.
 				if ( empty( $this->company_name ) ) {
 					$this->site_represents = false;
 					break;
 				}
 
-				$this->company_logo_id = WPSEO_Image_Utils::get_attachment_id_from_settings( 'company_logo' );
+				$company_logo_id = WPSEO_Image_Utils::get_attachment_id_from_settings( 'company_logo' );
+
+				/**
+				 * Filter: 'wpseo_schema_company_logo_id' - Allows filtering company logo id
+				 *
+				 * @api integer $company_logo_id.
+				 */
+				$this->company_logo_id = apply_filters( 'wpseo_schema_company_logo_id', $company_logo_id );
 
 				/*
 				 * Do not use a company without a logo.

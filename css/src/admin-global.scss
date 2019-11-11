@@ -39,9 +39,11 @@
 	height: auto;
 }
 
-/* Select2 specific fixes for WordPress */
-.select2-search__field {
+/* Select2 specific fixes for WordPress: they generally need high specificity */
+.select2-container .select2-search--dropdown .select2-search__field {
 	margin: 0;
+	padding: 0 8px;
+	min-height: 30px;
 }
 
 .select2-results__option,
@@ -53,6 +55,21 @@
 .select2-container .select2-search--inline .select2-search__field {
 	margin-top: 6px !important;
 	line-height: inherit;
+	min-height: 0;
+}
+
+/* Turn off select2 fixed height */
+.wpseo-metabox,
+.wpseo-admin-page {
+	.select2-container {
+		.select2-selection--single {
+			height: auto;
+
+			.select2-selection__arrow {
+				height: 100%;
+			}
+		}
+	}
 }
 
 .yoast-label-strong {
@@ -516,6 +533,94 @@ td.column-wpseo-linked {
 
 		.rtl & {
 			background-image: url(svg-icon-caret-left());
+		}
+	}
+}
+
+body.folded {
+	.wpseo-admin-submit-fixed {
+		left: 36px;
+
+		@media screen and (max-width: 782px) {
+			left: 0;
+		}
+	}
+}
+
+.wpseo-admin-submit {
+	z-index: 5;
+	display: flex;
+	padding: 16px 0;
+	justify-content: flex-start;
+	align-items: baseline;
+	margin: 0;
+
+	&.wpseo-admin-submit-fixed {
+		padding: 16px;
+		position: fixed;
+		bottom: 0;
+		left: 160px;
+		right: 281px;
+		background-color: white;
+		max-width: 800px;
+		box-shadow: 0 1px 8px 1px rgba(0,0,0,0.5);
+		margin: 0 16px;
+
+		@media screen and (max-width: 1024px) {
+			right: 0;
+		}
+		@media only screen and (max-width: 960px) {
+			left: 36px;
+		}
+		@media screen and (max-width: 782px) {
+			left: 0;
+			margin: 0;
+		}
+	}
+
+	p.submit {
+		padding: 0;
+		margin: 0;
+	}
+
+	p.wpseo-message {
+		margin: 0 16px 0 0;
+		padding: 0;
+		color: $color-green-medium;
+	}
+}
+
+.yoast_bf_sale {
+	position: relative;
+	margin: 10px 10px 10px 0;
+	max-width: 1012px;
+	height: 100px;
+	background: url(../../images/yoasie_banner_bf.gif) no-repeat;
+	background-size: contain;
+	.close {
+		z-index: 1;
+		text-align: center;
+		position: absolute;
+		right: 5px;
+		top: 5px;
+		background: transparent;
+		color: #000;
+		border-radius: 50%;
+		width: 17px;
+		font-weight: bold;
+		text-decoration: none;
+		&:hover {
+			cursor: pointer;
+			color: #fff;
+			background: #000;
+		}
+	}
+	.target {
+		display: block;
+		width: 100%;
+		height: 100%;
+		&:hover {
+			cursor: url('../../images/crosshair.svg'), pointer;
 		}
 	}
 }

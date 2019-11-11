@@ -29,6 +29,8 @@ class WPSEO_Sitemap_Image_Parser_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the get_images function.
+	 *
 	 * @covers WPSEO_Sitemap_Image_Parser::get_images
 	 */
 	public function test_get_images() {
@@ -49,12 +51,18 @@ class WPSEO_Sitemap_Image_Parser_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the get_gallery_attachments function.
+	 *
 	 * @covers WPSEO_Sitemap_Image_Parser::get_gallery_attachments
 	 *
 	 * @link https://github.com/Yoast/wordpress-seo/issues/8634
 	 */
 	public function test_parse_galleries() {
-		/** @var WPSEO_Sitemap_Image_Parser_Double $image_parser */
+		/**
+		 * The test instance.
+		 *
+		 * @var WPSEO_Sitemap_Image_Parser_Double $image_parser
+		 */
 		$image_parser = $this->getMockBuilder( 'WPSEO_Sitemap_Image_Parser_Double' )
 			->setMethods( array( 'get_content_galleries', 'get_gallery_attachments' ) )
 			->getMock();

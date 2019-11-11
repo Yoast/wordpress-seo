@@ -75,7 +75,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		/* translators: %s expands to the post type name. */
 		WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['title'] = __( 'Allow search engines to show this %s in search results?', 'wordpress-seo' );
 		if ( '0' === (string) get_option( 'blog_public' ) ) {
-			WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<p class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</p>';
+			WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['description'] = '<span class="error-message">' . __( 'Warning: even though you can set the meta robots setting here, the entire site is set to noindex in the sitewide privacy settings, so these settings won\'t have an effect.', 'wordpress-seo' ) . '</span>';
 		}
 		/* translators: %1$s expands to Yes or No,  %2$s expands to the post type name.*/
 		WPSEO_Meta::$meta_fields['advanced']['meta-robots-noindex']['options']['0'] = __( 'Default for %2$s, currently: %1$s', 'wordpress-seo' );
@@ -256,27 +256,13 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Output a tab in the Yoast SEO Metabox.
-	 *
-	 * @param string $id      CSS ID of the tab.
-	 * @param string $heading Heading for the tab.
-	 * @param string $content Content of the tab. This content should be escaped.
-	 */
-	public function do_tab( $id, $heading, $content ) {
-		?>
-		<div id="<?php echo esc_attr( 'wpseo_' . $id ); ?>" class="wpseotab wpseo-form <?php echo esc_attr( $id ); ?>">
-			<?php echo $content; ?>
-		</div>
-		<?php
-	}
-
-	/**
 	 * Output the meta box.
 	 */
 	public function meta_box() {
 		$content_sections = $this->get_content_sections();
 
 		echo '<div class="wpseo-metabox-content">';
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $this->get_product_title is considered safe.
 		printf( '<div class="wpseo-metabox-menu"><ul role="tablist" class="yoast-aria-tabs" aria-label="%s">', $this->get_product_title() );
 
 		foreach ( $content_sections as $content_section ) {
@@ -315,9 +301,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			$content_sections[] = $this->social_admin->get_meta_section();
 		}
 
-		if ( has_action( 'wpseo_tab_header' ) || has_action( 'wpseo_tab_content' ) ) {
-			$content_sections[] = $this->get_addons_meta_section();
-		}
+		$content_sections = array_merge( $content_sections, $this->get_additional_meta_sections() );
 
 		return $content_sections;
 	}
@@ -381,16 +365,53 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	}
 
 	/**
-	 * Returns a metabox section dedicated to hosting metabox tabs that have been added by other plugins through the
-	 * `wpseo_tab_header` and `wpseo_tab_content` actions.
+	 * Returns metabox sections that have been added by other plugins.
 	 *
-	 * @return WPSEO_Metabox_Section
+	 * @return WPSEO_Metabox_Section_Additional[]
 	 */
-	private function get_addons_meta_section() {
-		return new WPSEO_Metabox_Addon_Tab_Section(
-			'addons',
-			'<span class="dashicons dashicons-admin-plugins"></span>' . __( 'Add-ons', 'wordpress-seo' )
-		);
+	protected function get_additional_meta_sections() {
+		$sections = array();
+
+		/**
+		 * Private filter: 'yoast_free_additional_metabox_sections'.
+		 *
+		 * Meant for internal use only. Allows adding additional tabs to the Yoast SEO metabox.
+		 *
+		 * @since 11.9
+		 *
+		 * @param array[] $sections {
+		 *     An array of arrays with tab specifications.
+		 *
+		 *     @type array $section {
+		 *          A tab specification.
+		 *
+		 *          @type string $name         The name of the tab. Used in the HTML IDs, href and aria properties.
+		 *          @type string $link_content The content of the tab link.
+		 *          @type string $content      The content of the tab.
+		 *          @type array $options {
+		 *              Optional. Extra options.
+		 *
+		 *              @type string $link_class      Optional. The class for the tab link.
+		 *              @type string $link_aria_label Optional. The aria label of the tab link.
+		 *          }
+		 *     }
+		 * }
+		 */
+		$requested_sections = apply_filters( 'yoast_free_additional_metabox_sections', array() );
+
+		foreach ( $requested_sections as $section ) {
+			if ( is_array( $section ) && array_key_exists( 'name', $section ) && array_key_exists( 'link_content', $section ) && array_key_exists( 'content', $section ) ) {
+				$options    = array_key_exists( 'options', $section ) ? $section['options'] : array();
+				$sections[] = new WPSEO_Metabox_Section_Additional(
+					$section['name'],
+					$section['link_content'],
+					$section['content'],
+					$options
+				);
+			}
+		}
+
+		return $sections;
 	}
 
 	/**
@@ -726,9 +747,14 @@ class WPSEO_Metabox extends WPSEO_Meta {
 			return;
 		}
 
-		if ( get_queried_object_id() !== 0 ) {
+		$post_id = get_queried_object_id();
+		if ( empty( $post_id ) && isset( $_GET['post'] ) ) {
+			$post_id = sanitize_text_field( $_GET['post'] );
+		}
+
+		if ( $post_id !== 0 ) {
 			// Enqueue files needed for upload functionality.
-			wp_enqueue_media( array( 'post' => get_queried_object_id() ) );
+			wp_enqueue_media( array( 'post' => $post_id ) );
 		}
 
 		$asset_manager->enqueue_style( 'metabox-css' );
@@ -737,7 +763,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$asset_manager->enqueue_script( 'metabox' );
 		$asset_manager->enqueue_script( 'admin-media' );
-
 
 		$asset_manager->enqueue_script( 'post-scraper' );
 		$asset_manager->enqueue_script( 'replacevar-plugin' );
@@ -1035,5 +1060,28 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 */
 	public function setup_page_analysis() {
 		_deprecated_function( __METHOD__, 'WPSEO 9.6' );
+	}
+
+	/**
+	 * Output a tab in the Yoast SEO Metabox.
+	 *
+	 * @deprecated         12.2
+	 * @codeCoverageIgnore
+	 *
+	 * @param string $id      CSS ID of the tab.
+	 * @param string $heading Heading for the tab.
+	 * @param string $content Content of the tab. This content should be escaped.
+	 */
+	public function do_tab( $id, $heading, $content ) {
+		_deprecated_function( __METHOD__, '12.2' );
+
+		?>
+		<div id="<?php echo esc_attr( 'wpseo_' . $id ); ?>" class="wpseotab wpseo-form <?php echo esc_attr( $id ); ?>">
+			<?php
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: deprecated function.
+			echo $content;
+			?>
+		</div>
+		<?php
 	}
 }

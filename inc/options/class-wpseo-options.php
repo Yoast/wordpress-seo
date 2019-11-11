@@ -33,6 +33,13 @@ class WPSEO_Options {
 	protected static $option_instances = array();
 
 	/**
+	 * Array with the option names.
+	 *
+	 * @var array
+	 */
+	protected static $option_names = array();
+
+	/**
 	 * Instance of this class.
 	 *
 	 * @var object
@@ -54,17 +61,8 @@ class WPSEO_Options {
 		self::$backfill = new WPSEO_Options_Backfill();
 		self::$backfill->register_hooks();
 
-		$is_multisite = is_multisite();
-
 		foreach ( self::$options as $option_name => $option_class ) {
-			$instance = call_user_func( array( $option_class, 'get_instance' ) );
-
-			if ( ! $instance->multisite_only || $is_multisite ) {
-				self::$option_instances[ $option_name ] = $instance;
-			}
-			else {
-				unset( self::$options[ $option_name ] );
-			}
+			self::register_option( call_user_func( array( $option_class, 'get_instance' ) ) );
 		}
 	}
 
@@ -79,6 +77,31 @@ class WPSEO_Options {
 		}
 
 		return self::$instance;
+	}
+
+	/**
+	 * Registers an option to the options list.
+	 *
+	 * @param WPSEO_Option $option_instance Instance of the option.
+	 */
+	public static function register_option( WPSEO_Option $option_instance ) {
+		$option_name = $option_instance->get_option_name();
+
+		if ( $option_instance->multisite_only && ! self::is_multisite() ) {
+			unset( self::$options[ $option_name ], self::$option_names[ $option_name ] );
+
+			return;
+		}
+
+		if ( ! array_key_exists( $option_name, self::$options ) ) {
+			self::$options[ $option_name ] = get_class( $option_instance );
+		}
+
+		if ( $option_instance->include_in_all === true ) {
+			self::$option_names[ $option_name ] = $option_name;
+		}
+
+		self::$option_instances[ $option_name ] = $option_instance;
 	}
 
 	/**
@@ -152,18 +175,21 @@ class WPSEO_Options {
 	 * @return array Array of option names.
 	 */
 	public static function get_option_names() {
-		static $option_names = array();
-
+		$option_names = array_values( self::$option_names );
 		if ( $option_names === array() ) {
 			foreach ( self::$option_instances as $option_name => $option_object ) {
 				if ( $option_object->include_in_all === true ) {
 					$option_names[] = $option_name;
 				}
 			}
-			$option_names = apply_filters( 'wpseo_options', $option_names );
 		}
 
-		return $option_names;
+		/**
+		 * Filter: wpseo_options - Allow developers to change the option name to include.
+		 *
+		 * @api array The option names to include in get_all and reset().
+		 */
+		return apply_filters( 'wpseo_options', $option_names );
 	}
 
 	/**
@@ -472,6 +498,21 @@ class WPSEO_Options {
 		$ms_option = self::get_option( 'wpseo_ms' );
 
 		return array_merge( $option, $ms_option );
+	}
+
+	/**
+	 * Checks if installation is multisite.
+	 *
+	 * @return bool True when is multisite.
+	 */
+	protected static function is_multisite() {
+		static $is_multisite;
+
+		if ( $is_multisite === null ) {
+			$is_multisite = is_multisite();
+		}
+
+		return $is_multisite;
 	}
 
 	/**

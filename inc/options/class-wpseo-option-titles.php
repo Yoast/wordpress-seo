@@ -27,8 +27,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @var array
 	 */
 	protected $defaults = array(
-		// Non-form fields, set via (ajax) function.
-		'title_test'                    => 0,
 		// Form fields.
 		'forcerewritetitle'             => false,
 		'separator'                     => 'sc-dash',
@@ -126,8 +124,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 	 * @var array
 	 */
 	public $ms_exclude = array(
-		/* Theme dependent. */
-		'title_test',
 		'forcerewritetitle',
 	);
 
@@ -147,6 +143,8 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 		add_action( 'unregistered_post_type', array( $this, 'invalidate_enrich_defaults_cache' ) );
 		add_action( 'registered_taxonomy', array( $this, 'invalidate_enrich_defaults_cache' ) );
 		add_action( 'unregistered_taxonomy', array( $this, 'invalidate_enrich_defaults_cache' ) );
+
+		add_filter( 'admin_title', array( 'Yoast_Input_Validation', 'add_yoast_admin_document_title_errors' ) );
 	}
 
 	/**
@@ -433,7 +431,7 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 							 */
 							add_settings_error(
 								$this->group_name, // Slug title of the setting.
-								'_' . $key, // Suffix-id for the error message box.
+								$key, // Suffix-id for the error message box.
 								/* translators: %s expands to a post type. */
 								sprintf( __( 'Please select a valid taxonomy for post type "%s"', 'wordpress-seo' ), $post_type ), // The error message.
 								'error' // Error type, either 'error' or 'updated'.
@@ -487,7 +485,6 @@ class WPSEO_Option_Titles extends WPSEO_Option {
 				case 'company_or_person_user_id':
 				case 'company_logo_id':
 				case 'person_logo_id':
-				case 'title_test': /* Integer field - not in form. */
 					if ( isset( $dirty[ $key ] ) ) {
 						$int = WPSEO_Utils::validate_int( $dirty[ $key ] );
 						if ( $int !== false && $int >= 0 ) {

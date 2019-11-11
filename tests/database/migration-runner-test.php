@@ -2,15 +2,11 @@
 
 namespace Yoast\WP\Free\Tests\Database;
 
-use Brain\Monkey;
-use Exception;
 use Mockery;
-use Yoast\WP\Free\Conditionals\Admin_Conditional;
-use Yoast\WP\Free\Conditionals\Indexables_Feature_Flag_Conditional;
-use Yoast\WP\Free\Database\Migration_Status;
-use Yoast\WP\Free\Database\Ruckusing_Framework;
+use Yoast\WP\Free\Config\Migration_Status;
+use Yoast\WP\Free\Config\Ruckusing_Framework;
 use Yoast\WP\Free\Loggers\Logger;
-use Yoast\WP\Free\Database\Migration_Runner;
+use Yoast\WP\Free\Initializers\Migration_Runner;
 use Yoast\WP\Free\ORM\Yoast_Model;
 use Yoast\WP\Free\Tests\TestCase;
 use YoastSEO_Vendor\Ruckusing_Adapter_MySQL_Base;
@@ -23,13 +19,16 @@ use YoastSEO_Vendor\Ruckusing_Task_Manager;
  *
  * @group db-migrations
  *
- * @coversDefaultClass \Yoast\WP\Free\Database\Migration_Runner
+ * @coversDefaultClass \Yoast\WP\Free\Initializers\Migration_Runner
  * @covers ::<!public>
  *
  * @package Yoast\Tests
  */
-class Migration_Runner_test extends TestCase {
+class Migration_Runner_Test extends TestCase {
 
+	/**
+	 * Setup the tests.
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -44,7 +43,7 @@ class Migration_Runner_test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[ Indexables_Feature_Flag_Conditional::class, Admin_Conditional::class ],
+			[],
 			Migration_Runner::get_conditionals()
 		);
 	}
@@ -52,7 +51,7 @@ class Migration_Runner_test extends TestCase {
 	/**
 	 * Tests that initialize runs migrations.
 	 *
-	 * @covers ::initialize;
+	 * @covers ::initialize
 	 */
 	public function test_initialize() {
 		$instance = Mockery::mock( Migration_Runner::class )->makePartial();
@@ -123,10 +122,10 @@ class Migration_Runner_test extends TestCase {
 	/**
 	 * Returns a wpdb mock.
 	 *
-	 * @return wpdb The wpdb mock.
+	 * @return \wpdb The wpdb mock.
 	 */
 	protected function get_wpdb_mock() {
-		$wpdb = Mockery::mock( 'wpdb' );
+		$wpdb         = Mockery::mock( 'wpdb' );
 		$wpdb->prefix = 'test';
 
 		return $wpdb;

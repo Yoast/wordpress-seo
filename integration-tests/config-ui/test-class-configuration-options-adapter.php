@@ -27,6 +27,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Tests adding a lookup.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::add_lookup
 	 */
 	public function test_add_lookup() {
@@ -46,6 +48,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Tests adding a custom lookup.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup
 	 */
 	public function test_add_custom_lookup() {
@@ -68,6 +72,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Tests adding a custom lookup with no get callable get argument given.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup
 	 *
 	 * @expectedException        InvalidArgumentException
@@ -78,6 +84,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Tests adding a custom lookup with no set callable argument given.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup
 	 *
 	 * @expectedException        InvalidArgumentException
@@ -88,6 +96,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Tests adding a Yoast lookup.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::add_option_lookup
 	 */
 	public function test_add_yoast_lookup() {
@@ -106,6 +116,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Tests adding a WordPress lookup.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::add_wordpress_lookup
 	 */
 	public function test_add_wordpress_lookup() {
@@ -124,6 +136,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Test adding a WordPress lookup for a non string. Resulting in an exception.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::add_wordpress_lookup
 	 *
 	 * @expectedException        InvalidArgumentException
@@ -134,6 +148,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Test getting the option type.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::get_option_type
 	 */
 	public function test_get_option_type() {
@@ -147,6 +163,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Tests getting an option.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::get_option
 	 */
 	public function test_get_option() {
@@ -160,6 +178,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Tests getting a WordPress option.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::get
 	 */
 	public function test_get_wordpress_option() {
@@ -176,6 +196,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Tests getting a Yoast option.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::get
 	 */
 	public function test_get_yoast_option() {
@@ -192,6 +214,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Test retrieval of a custom option.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::get
 	 */
 	public function test_get_custom_option() {
@@ -209,6 +233,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Tests retrieval of an field dat has an unknown type.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::get
 	 */
 	public function test_get_unknown_type() {
@@ -225,6 +251,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Tests setting a WordPress option.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_wordpress_option() {
@@ -240,6 +268,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Tests setting a Yoast option.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_yoast_option() {
@@ -261,6 +291,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Tests setting a Yoast option that already has the same value.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_yoast_option_same_value() {
@@ -281,6 +313,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Tests the setting of a custom option that has an unknown type.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_option_unknown_type() {
@@ -291,6 +325,8 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
+	 * Tests the setting of a custom option.
+	 *
 	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_custom_option() {
@@ -316,7 +352,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @return string
+	 * Callback function for overriding the option value.
+	 *
+	 * @return string The custom option value.
 	 */
 	public function custom_option_get() {
 		return 'custom_option_get';

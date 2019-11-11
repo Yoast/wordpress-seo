@@ -145,7 +145,7 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Check if the nofitication is being dismissed.
+	 * Checks if the notification is being dismissed.
 	 *
 	 * @param string|Yoast_Notification $notification Notification to check dismissal of.
 	 * @param string                    $meta_value   Value to set the meta value to if dismissed.
@@ -369,12 +369,14 @@ class Yoast_Notification_Center {
 				$notification_json[] = $notification->render();
 			}
 
+			// phpcs:ignore WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe.
 			echo WPSEO_Utils::format_json_encode( $notification_json );
 
 			return;
 		}
 
 		foreach ( $notifications as $notification ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Temporarily disabled, see: https://github.com/Yoast/wordpress-seo-premium/issues/2510 and https://github.com/Yoast/wordpress-seo-premium/issues/2511.
 			echo $notification;
 		}
 	}

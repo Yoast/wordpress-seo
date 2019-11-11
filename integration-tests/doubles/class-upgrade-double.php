@@ -16,28 +16,42 @@ class WPSEO_Upgrade_Double extends WPSEO_Upgrade {
 	}
 
 	/**
-	 * @inheritdoc
+	 * Cleans the option to make sure only relevant settings are there.
+	 *
+	 * @param string $option_name Option name save.
+	 *
+	 * @return void
 	 */
 	public function cleanup_option_data( $option_name ) {
 		parent::cleanup_option_data( $option_name );
 	}
 
 	/**
-	 * @inheritdoc
+	 * Retrieves the option value directly from the database.
+	 *
+	 * @param string $option_name Option to retrieve.
+	 *
+	 * @return array|mixed The content of the option if exists, otherwise an empty array.
 	 */
 	public function get_option_from_database( $option_name ) {
 		return parent::get_option_from_database( $option_name );
 	}
 
 	/**
-	 * @inheritdoc
+	 * Saves an option setting to where it should be stored.
+	 *
+	 * @param array       $source_data    The option containing the value to be migrated.
+	 * @param string      $source_setting Name of the key in the "from" option.
+	 * @param string|null $target_setting Name of the key in the "to" option.
+	 *
+	 * @return void
 	 */
 	public function save_option_setting( $source_data, $source_setting, $target_setting = null ) {
 		parent::save_option_setting( $source_data, $source_setting, $target_setting );
 	}
 
 	/**
-	 * @inheritdoc
+	 * Runs the needed cleanup after an update, setting the DB version to latest version, flushing caches etc.
 	 */
 	public function finish_up() {
 		parent::finish_up();

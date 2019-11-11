@@ -27,6 +27,8 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests adding a component.
+	 *
 	 * @covers WPSEO_Configuration_Components::add_component
 	 */
 	public function test_add_component() {
@@ -38,6 +40,8 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests setting the adapter.
+	 *
 	 * @covers WPSEO_Configuration_Components::set_adapter
 	 */
 	public function test_set_adapter() {
@@ -68,6 +72,8 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests setting the storage.
+	 *
 	 * @covers WPSEO_Configuration_Components::set_storage
 	 */
 	public function test_set_storage() {
@@ -90,6 +96,8 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests setting the storage on the field.
+	 *
 	 * @covers WPSEO_Configuration_Components::set_storage
 	 */
 	public function test_set_storage_on_field() {

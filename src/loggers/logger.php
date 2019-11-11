@@ -12,13 +12,15 @@ use YoastSEO_Vendor\Psr\Log\LoggerTrait;
 use YoastSEO_Vendor\Psr\Log\NullLogger;
 
 /**
- * Creates an instance of a logger object.
+ * Our logger class.
  */
 class Logger implements LoggerInterface {
 	use LoggerTrait;
 
 	/**
-	 * @var LoggerInterface
+	 * The logger object.
+	 *
+	 * @var \YoastSEO_Vendor\Psr\Log\LoggerInterface
 	 */
 	protected $wrapped_logger;
 
@@ -31,9 +33,9 @@ class Logger implements LoggerInterface {
 		/**
 		 * Gives the possibility to set override the logger interface.
 		 *
-		 * @api \Psr\Log\LoggerInterface $logger Instance of NullLogger.
+		 * @api \YoastSEO_Vendor\Psr\Log\LoggerInterface $logger Instance of NullLogger.
 		 *
-		 * @return \Psr\Log\LoggerInterface The logger object.
+		 * @return \YoastSEO_Vendor\Psr\Log\LoggerInterface The logger object.
 		 */
 		$this->wrapped_logger = \apply_filters( 'wpseo_logger', $this->wrapped_logger );
 	}
@@ -47,7 +49,7 @@ class Logger implements LoggerInterface {
 	 *
 	 * @return void
 	 */
-	public function log( $level, $message, array $context = array() ) {
+	public function log( $level, $message, array $context = [] ) {
 		$this->wrapped_logger->log( $level, $message, $context );
 	}
 }

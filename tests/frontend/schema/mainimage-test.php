@@ -4,8 +4,8 @@ namespace Yoast\WP\Free\Tests\Frontend\Schema;
 
 use Brain\Monkey;
 use Mockery;
-use WPSEO_Schema_Context;
-use WPSEO_Schema_MainImage_Double;
+use Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_MainImage_Double;
+use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -13,16 +13,32 @@ use Yoast\WP\Free\Tests\TestCase;
  */
 class MainImage_Test extends TestCase {
 
-	/** @var \WPSEO_Schema_Context */
+	/**
+	 * The schema context.
+	 *
+	 * @var \WPSEO_Schema_Context
+	 */
 	private $context;
 
-	/** @var \WPSEO_Schema_MainImage_Double */
+	/**
+	 * Test instance that is test
+	 *
+	 * @var \Yoast\WP\Free\Tests\Doubles\Frontend\Schema\Schema_MainImage_Double
+	 */
 	private $instance;
 
-	/** @var array */
+	/**
+	 * Attachment data values.
+	 *
+	 * @var array
+	 */
 	private $schema_from_attachment;
 
-	/** @var array */
+	/**
+	 * URL data values.
+	 *
+	 * @var array
+	 */
 	private $schema_from_url;
 
 	/**
@@ -34,7 +50,7 @@ class MainImage_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_get_attachment_caption' )
 			->andReturn( $this->schema_from_attachment['caption'] );
 
-		$this->context            = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
+		$this->context            = Mockery::mock( Meta_Tags_Context::class )->makePartial();
 		$this->context->id        = 1;
 		$this->context->site_url  = 'https://example.com/';
 		$this->context->canonical = $this->context->site_url . 'canonical/';
@@ -54,7 +70,7 @@ class MainImage_Test extends TestCase {
 			'url'   => $this->context->site_url . 'content-image.jpg',
 		];
 
-		$this->instance = $this->getMockBuilder( WPSEO_Schema_MainImage_Double::class )
+		$this->instance = $this->getMockBuilder( Schema_MainImage_Double::class )
 			->setMethods(
 				[
 					'get_first_usable_content_image_for_post',
@@ -108,10 +124,7 @@ class MainImage_Test extends TestCase {
 			->method( 'get_first_usable_content_image_for_post' )
 			->willReturn( null );
 
-		$this->assertSame(
-			false,
-			$this->instance->generate()
-		);
+		$this->assertFalse( $this->instance->generate() );
 	}
 
 	/**
@@ -132,7 +145,7 @@ class MainImage_Test extends TestCase {
 			$this->schema_from_attachment,
 			$this->instance->generate()
 		);
-		$this->assertSame( true, $this->context->has_image );
+		$this->assertTrue( $this->context->has_image );
 	}
 
 	/**
@@ -158,6 +171,6 @@ class MainImage_Test extends TestCase {
 			$this->schema_from_url,
 			$this->instance->generate()
 		);
-		$this->assertSame( true, $this->context->has_image );
+		$this->assertTrue( $this->context->has_image );
 	}
 }

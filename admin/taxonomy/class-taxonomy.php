@@ -166,6 +166,10 @@ class WPSEO_Taxonomy {
 	 * @param string $taxonomy The taxonomy the term belongs to.
 	 */
 	public function update_term( $term_id, $tt_id, $taxonomy ) {
+		if ( is_multisite() && ms_is_switched() ) {
+			return;
+		}
+
 		/* Create post array with only our values. */
 		$new_meta_data = array();
 		foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
@@ -399,9 +403,8 @@ class WPSEO_Taxonomy {
 	 * @return string Content with shortcodes filtered out.
 	 */
 	public function custom_category_descriptions_add_shortcode_support( $desc ) {
-		_deprecated_function( __FUNCTION__, 'WPSEO 7.9.0', 'WPSEO_Frontend::custom_category_descriptions_add_shortcode_support' );
+		_deprecated_function( __FUNCTION__, 'WPSEO 7.9.0' );
 
-		$frontend = WPSEO_Frontend::get_instance();
-		return $frontend->custom_category_descriptions_add_shortcode_support( $desc );
+		return '';
 	}
 }

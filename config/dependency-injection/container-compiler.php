@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
  * This class is responsible for compiling the dependency injection container.
  */
 class Container_Compiler {
+
 	/**
 	 * Compiles the dependency injection container.
 	 *
@@ -29,6 +30,10 @@ class Container_Compiler {
 		$cache = new ConfigCache( $file, $debug );
 
 		if ( ! $cache->isFresh() ) {
+			if ( ! defined( 'WPSEO_VERSION' ) ) {
+				define( 'WPSEO_VERSION', 'COMPILING' );
+			}
+
 			$container_builder = new ContainerBuilder();
 			$container_builder->addCompilerPass( new Loader_Pass() );
 			$loader = new Custom_Loader( $container_builder );
@@ -36,9 +41,14 @@ class Container_Compiler {
 			$container_builder->compile();
 
 			$dumper = new PhpDumper( $container_builder );
-			$code   = $dumper->dump( [ 'class' => 'Cached_Container', 'namespace' => 'Yoast\WP\Free\Generated' ] );
-			$code   = str_replace( 'Symfony\\Component\\DependencyInjection', 'YoastSEO_Vendor\\Symfony\\Component\\DependencyInjection', $code );
-			$code   = str_replace( 'Symfony\\\\Component\\\\DependencyInjection', 'YoastSEO_Vendor\\\\Symfony\\\\Component\\\\DependencyInjection', $code );
+			$code   = $dumper->dump(
+				[
+					'class'     => 'Cached_Container',
+					'namespace' => 'Yoast\WP\Free\Generated',
+				]
+			);
+			$code   = \str_replace( 'Symfony\\Component\\DependencyInjection', 'YoastSEO_Vendor\\Symfony\\Component\\DependencyInjection', $code );
+			$code   = \str_replace( 'Symfony\\\\Component\\\\DependencyInjection', 'YoastSEO_Vendor\\\\Symfony\\\\Component\\\\DependencyInjection', $code );
 
 			$cache->write( $code, $container_builder->getResources() );
 		}

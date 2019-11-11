@@ -34,3 +34,15 @@ function wpseo_add_template_variables_helpcenter() {
 
 	return '';
 }
+
+if ( ! function_exists( 'initialize_wpseo_front' ) ) {
+	/**
+	 * Wraps frontend class.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 */
+	function initialize_wpseo_front() {
+		_deprecated_function( __FUNCTION__, 'WPSEO xx.x' );
+	}
+}

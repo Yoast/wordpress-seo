@@ -31,6 +31,8 @@ use YoastSEO_Vendor\ORM;
 class ORMWrapper extends ORM {
 
 	/**
+	 * Contains the repositories.
+	 *
 	 * @var array
 	 */
 	public static $repositories = [];
@@ -90,11 +92,6 @@ class ORMWrapper extends ORM {
 	 */
 	public static function for_table( $table_name, $connection_name = parent::DEFAULT_CONNECTION ) {
 		static::_setup_db( $connection_name );
-
-		if ( self::$repositories[ $table_name ] ) {
-			return new self::$repositories[ $table_name ]( $table_name, [], $connection_name );
-		}
-
 		return new static( $table_name, [], $connection_name );
 	}
 
@@ -111,7 +108,11 @@ class ORMWrapper extends ORM {
 			return false;
 		}
 
-		/** @var \Yoast\WP\Free\ORM\Yoast_Model $model */
+		/**
+		 * An instance of Yoast_Model is being made.
+		 *
+		 * @var \Yoast\WP\Free\ORM\Yoast_Model $model
+		 */
 		$model = new $this->class_name();
 		$model->set_orm( $orm );
 
@@ -155,5 +156,14 @@ class ORMWrapper extends ORM {
 	 */
 	public function create( $data = null ) {
 		return $this->create_model_instance( parent::create( $data ) );
+	}
+
+	/**
+	 * Returns the select query as SQL.
+	 *
+	 * @return string The select query in SQL.
+	 */
+	public function get_sql() {
+		return $this->_build_select();
 	}
 }

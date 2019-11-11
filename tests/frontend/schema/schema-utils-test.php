@@ -5,8 +5,8 @@ namespace Yoast\WP\Free\Tests\Frontend\Schema;
 use Brain\Monkey;
 use Mockery;
 use WPSEO_Schema_Utils;
-use WPSEO_Schema_Context;
 use WPSEO_Schema_IDs;
+use Yoast\WP\Free\Tests\Mocks\Meta_Tags_Context;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -14,7 +14,11 @@ use Yoast\WP\Free\Tests\TestCase;
  */
 class Schema_Utils_Test extends TestCase {
 
-	/** @var \WPSEO_Schema_Context */
+	/**
+	 * The schema context object.
+	 *
+	 * @var \WPSEO_Schema_Context
+	 */
 	private $context;
 
 	/**
@@ -23,7 +27,7 @@ class Schema_Utils_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->context           = Mockery::mock( WPSEO_Schema_Context::class )->makePartial();
+		$this->context           = Mockery::mock( Meta_Tags_Context::class )->makePartial();
 		$this->context->site_url = 'https://example.com/';
 	}
 

@@ -11,15 +11,6 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-if ( ! function_exists( 'initialize_wpseo_front' ) ) {
-	/**
-	 * Wraps frontend class.
-	 */
-	function initialize_wpseo_front() {
-		WPSEO_Frontend::get_instance();
-	}
-}
-
 if ( ! function_exists( 'yoast_breadcrumb' ) ) {
 	/**
 	 * Template tag for breadcrumbs.

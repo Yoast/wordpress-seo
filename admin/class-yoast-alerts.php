@@ -141,12 +141,14 @@ class Yoast_Alerts {
 	private function output_ajax_response( $type ) {
 
 		$html = $this->get_view_html( $type );
+		// phpcs:disable WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe.
 		echo WPSEO_Utils::format_json_encode(
 			array(
 				'html'  => $html,
 				'total' => self::get_active_alert_count(),
 			)
 		);
+		// phpcs:enable -- Reason: WPSEO_Utils::format_json_encode is safe.
 	}
 
 	/**

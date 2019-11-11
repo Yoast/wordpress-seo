@@ -72,26 +72,6 @@ class WPSEO_Config_Component_Suggestions implements WPSEO_Config_Component {
 			)
 		);
 
-		$field->add_suggestion(
-			/* translators: %1$s resolves to Yoast SEO, %2$s resolves to Yoast SEO plugin training */
-			sprintf( __( 'Get the most out of %1$s with the %2$s', 'wordpress-seo' ), 'Yoast SEO', 'Yoast SEO plugin training' ),
-			/* translators: %1$s resolves to Yoast SEO */
-			sprintf( __( 'Do you want to know all the ins and outs of the %1$s plugin? Do you want to learn all about our advanced settings? Want to be able to really get the most out of the %1$s plugin? Check out our %1$s plugin training and start outranking the competition!', 'wordpress-seo' ), 'Yoast SEO' ),
-			array(
-				'label' => 'Yoast SEO plugin training',
-				'type'  => 'link',
-				'href'  => WPSEO_Shortlinker::get( 'https://yoa.st/wizard-suggestion-plugin-course' ),
-			),
-			array(
-				'url'   => WPSEO_Shortlinker::get( 'https://yoa.st/video-plugin-course' ),
-				'title' => sprintf(
-					/* translators: %1$s expands to Yoast SEO plugin training. */
-					__( '%1$s video', 'wordpress-seo' ),
-					'Yoast SEO plugin training'
-				),
-			)
-		);
-
 		// When we are running in Yoast SEO Premium and don't have Local SEO installed, show Local SEO as suggestion.
 		if ( WPSEO_Utils::is_yoast_seo_premium() && ! defined( 'WPSEO_LOCAL_FILE' ) ) {
 			$field->add_suggestion(

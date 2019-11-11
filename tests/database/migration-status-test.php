@@ -3,7 +3,7 @@
 namespace Yoast\WP\Free\Tests\Database;
 
 use Brain\Monkey;
-use Yoast\WP\Free\Database\Migration_Status;
+use Yoast\WP\Free\Config\Migration_Status;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -11,7 +11,7 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @group db-migrations
  *
- * @coversDefaultClass \Yoast\WP\Free\Database\Migration_Status
+ * @coversDefaultClass \Yoast\WP\Free\Config\Migration_Status
  * @covers ::<!public>
  *
  * @package Yoast\Tests

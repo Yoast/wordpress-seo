@@ -1,4 +1,5 @@
 import debounce from "lodash/debounce";
+import { string } from "yoastseo";
 
 import {
 	updateReplacementVariable,
@@ -104,11 +105,26 @@ class Data {
 	}
 
 	/**
+	 * Gets the media data by id.
+	 *
+	 * @param {number} mediaId The media item id.
+	 *
+	 * @returns {Object} The media object.
+	 */
+	getMediaById( mediaId ) {
+		if ( ! this._coreDataSelect ) {
+			this._coreDataSelect = this._wpData.select( "core" );
+		}
+
+		return this._coreDataSelect.getMedia( mediaId );
+	}
+
+	/**
 	 * Retrieves the Gutenberg data for the passed post attribute.
 	 *
 	 * @param {string} attribute The post attribute you'd like to retrieve.
 	 *
-	 * @returns {string} The post attribute.
+	 * @returns {string|number} The post attribute.
 	 */
 	getPostAttribute( attribute ) {
 		if ( ! this._coreEditorSelect ) {
@@ -134,7 +150,7 @@ class Data {
 			return "";
 		}
 
-		let generatedSlug = this.getPostAttribute( "generated_slug" );
+		let generatedSlug = this.getPostAttribute( "generated_slug" ) || "";
 
 		/**
 		 * This should be removed when the following issue is resolved:
@@ -157,12 +173,60 @@ class Data {
 	collectGutenbergData() {
 		return {
 			content: this.getPostAttribute( "content" ),
-			title: this.getPostAttribute( "title" ),
+			title: this.getPostAttribute( "title" ) || "",
 			slug: this.getSlug(),
 			excerpt: this.getExcerpt(),
 			// eslint-disable-next-line camelcase
 			excerpt_only: this.getExcerpt( false ),
+			snippetPreviewImageURL: this.getFeaturedImage() || this.getContentImage(),
 		};
+	}
+
+	/**
+	 * Gets the source URL for the featured image.
+	 *
+	 * @returns {null|string} The source URL.
+	 */
+	getFeaturedImage() {
+		const featuredImage = this.getPostAttribute( "featured_media" );
+		if ( featuredImage ) {
+			const mediaObj = this.getMediaById( featuredImage );
+
+			if ( mediaObj ) {
+				return mediaObj.source_url;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the image from the content.
+	 *
+	 * @returns {string} The first image found in the content.
+	 */
+	getContentImage() {
+		const content = this._coreEditorSelect.getEditedPostContent();
+
+		const images = string.imageInText( content );
+		let image = "";
+
+		if ( images.length === 0 ) {
+			return "";
+		}
+
+		do {
+			var currentImage = images.shift();
+			currentImage = $( currentImage );
+
+			var imageSource = currentImage.prop( "src" );
+
+			if ( imageSource ) {
+				image = imageSource;
+			}
+		} while ( "" === image && images.length > 0 );
+
+		return image;
 	}
 
 	/**
@@ -186,6 +250,10 @@ class Data {
 		if ( this._data.slug !== newData.slug ) {
 			this._store.dispatch( updateData( { slug: newData.slug } ) );
 		}
+		// Handle snippet preview image change.
+		if ( this._data.snippetPreviewImageURL !== newData.snippetPreviewImageURL ) {
+			this._store.dispatch( updateData( { snippetPreviewImageURL: newData.snippetPreviewImageURL } ) );
+		}
 	}
 
 	/**
@@ -196,7 +264,7 @@ class Data {
 	 * @returns {string} The excerpt.
 	 */
 	getExcerpt( useFallBack = true ) {
-		const excerpt = this.getPostAttribute( "excerpt" );
+		const excerpt = this.getPostAttribute( "excerpt" ) || "";
 		if ( excerpt !== "" || useFallBack === false ) {
 			return excerpt;
 		}

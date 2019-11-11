@@ -11,11 +11,15 @@
 class WPSEO_Link_Filter_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Tests whether the internal link fragment filter filters as expected.
+	 *
 	 * @dataProvider link_provider
 	 *
 	 * @param string     $current_page Current page.
 	 * @param WPSEO_Link $link         Link object.
 	 * @param bool       $expected     Expected output.
+	 *
+	 * @covers WPSEO_Link_Filter::internal_link_with_fragment_filter
 	 */
 	public function test_internal_link_with_fragment_filter( $current_page, WPSEO_Link $link, $expected ) {
 		$filter = new WPSEO_Link_Filter( $current_page );

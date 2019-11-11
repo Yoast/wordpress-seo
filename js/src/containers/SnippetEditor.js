@@ -133,6 +133,8 @@ export function mapStateToProps( state ) {
 		baseUrl: state.settings.snippetEditor.baseUrl,
 		date: state.settings.snippetEditor.date,
 		recommendedReplacementVariables: state.settings.snippetEditor.recommendedReplacementVariables,
+		faviconSrc: state.settings.snippetEditor.siteIconUrl,
+		mobileImageSrc: state.snippetEditor.data.snippetPreviewImageURL,
 	};
 }
 
