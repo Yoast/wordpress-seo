@@ -7,7 +7,7 @@
  * Author URI:      https://www.ashleyhitchcock.com
  * Text Domain:     wp-graphql-yoast-seo
  * Domain Path:     /languages
- * Version:         2.0.1
+ * Version:         2.1.0
  *
  * @package         WP_Graphql_YOAST_SEO
  */
@@ -17,6 +17,7 @@ if (!defined('ABSPATH')) {
 
 add_action('graphql_register_types', function () {
   $post_types = \WPGraphQL::get_allowed_post_types();
+  $taxonomies = \WPGraphQL::get_allowed_taxonomies();
 
   register_graphql_object_type('SEO', [
     'fields' => [
@@ -78,6 +79,63 @@ add_action('graphql_register_types', function () {
           }
         ]);
       endif;
+    }
+  }
+  
+  if (!empty($taxonomies) && is_array($taxonomies)) {
+    foreach ($taxonomies as $tax) {
+
+			$taxonomy = get_taxonomy( $tax );
+			
+			if ( empty( $taxonomy ) || ! isset( $taxonomy->graphql_single_name ) ) {
+				return;
+			}
+			
+
+        register_graphql_field($taxonomy->graphql_single_name, 'seo', [
+          'type' => 'SEO',
+          'description' => __('The Yoast SEO data of the ' . $taxonomy->label . ' taxonomy.', 'wp-graphql'),
+          'resolve' => function ($term) {
+
+            $term_obj = get_term($term->term_id);
+
+            query_posts( array(
+              'tax_query' => array(
+                array(
+                'taxonomy' => $term_obj->taxonomy,
+                'terms' => $term_obj->term_id,
+                'field' => 'term_id'
+                 )
+              )
+            ) );
+            the_post();
+  
+            $wpseo_frontend = WPSEO_Frontend::get_instance();
+            $wpseo_frontend->reset();
+          
+            $meta =	WPSEO_Taxonomy_Meta::get_term_meta($term_obj->term_id, $term_obj->taxonomy);
+             
+            // Get data
+            $seo = array(
+              'title' => trim($wpseo_frontend->title($post)) ,
+              'metaDesc' => trim($wpseo_frontend->metadesc( false )),
+                 'focuskw' => trim($meta['_yoast_wpseo_focuskw']),
+              'metaKeywords' => trim($meta['_yoast_wpseo_metakeywords']),
+              'metaRobotsNoindex' => trim($meta['_yoast_wpseo_meta-robots-noindex']),
+              'metaRobotsNofollow' => trim($meta['_yoast_wpseo_meta-robots-nofollow']),
+              'opengraphTitle' => trim($meta['_yoast_wpseo_opengraph-title']),
+              'opengraphDescription' => trim($meta['_yoast_wpseo_opengraph-description']),
+              'opengraphImage' => trim($meta['_yoast_wpseo_opengraph-image']),
+              'twitterTitle' => trim($meta['_yoast_wpseo_twitter-title']),
+              'twitterDescription' => trim($meta['_yoast_wpseo_twitter-description']),
+              'twitterImage' => trim($meta['_yoast_wpseo_twitter-image'])
+            );
+            wp_reset_query();
+  
+            return !empty($seo) ? $seo : null;
+          }
+        ]);  
+
     }
   }
 });
