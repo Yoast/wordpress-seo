@@ -27,7 +27,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Holds the notifications.
 	 *
-	 * @var \Yoast_Notification[]
+	 * @var \Yoast_Notification[][]
 	 */
 	private $notifications = array();
 
@@ -301,12 +301,13 @@ class Yoast_Notification_Center {
 		}
 
 		$notification_id = $notification->get_id();
+		$user_id         = $notification->get_user_id();
 
 		// Empty notifications are always added.
 		if ( $notification_id !== '' ) {
 
 			// If notification ID exists in notifications, don't add again.
-			$present_notification = $this->get_notification_by_id( $notification_id );
+			$present_notification = $this->get_notification_by_id( $notification_id, $user_id );
 			if ( ! is_null( $present_notification ) ) {
 				$this->remove_notification( $present_notification, false );
 			}
@@ -317,19 +318,23 @@ class Yoast_Notification_Center {
 		}
 
 		// Add to list.
-		$this->notifications[] = $notification;
+		$this->notifications[ $user_id ][] = $notification;
 	}
 
 	/**
-	 * Get the notification by ID.
+	 * Get the notification by ID and user ID.
 	 *
 	 * @param string $notification_id The ID of the notification to search for.
+	 * @param string $user_id         The ID of the user.
 	 *
 	 * @return null|Yoast_Notification
 	 */
-	public function get_notification_by_id( $notification_id ) {
+	public function get_notification_by_id( $notification_id, $user_id = null ) {
+		$user_id = ( $user_id !== null ? $user_id : get_current_user_id() );
 
-		foreach ( $this->notifications as & $notification ) {
+		$notifications_for_user = $this->get_notifications_for_user( $user_id );
+
+		foreach ( $notifications_for_user as & $notification ) {
 			if ( $notification_id === $notification->get_id() ) {
 				return $notification;
 			}
@@ -397,9 +402,13 @@ class Yoast_Notification_Center {
 
 		$index = false;
 
+		// ID of the user to show the notification for, defaults to current user id.
+		$user_id                = $notification->get_user_id();
+		$notifications_for_user = $this->get_notifications_for_user( $user_id );
+
 		// Match persistent Notifications by ID, non persistent by item in the array.
 		if ( $notification->is_persistent() ) {
-			foreach ( $this->notifications as $current_index => $present_notification ) {
+			foreach ( $notifications_for_user as $current_index => $present_notification ) {
 				if ( $present_notification->get_id() === $notification->get_id() ) {
 					$index = $current_index;
 					break;
@@ -407,7 +416,7 @@ class Yoast_Notification_Center {
 			}
 		}
 		else {
-			$index = array_search( $notification, $this->notifications, true );
+			$index = array_search( $notification, $notifications_for_user, true );
 		}
 
 		if ( false === $index ) {
@@ -419,8 +428,8 @@ class Yoast_Notification_Center {
 			$this->clear_dismissal( $notification );
 		}
 
-		unset( $this->notifications[ $index ] );
-		$this->notifications = array_values( $this->notifications );
+		unset( $notifications_for_user[ $index ] );
+		$this->notifications[ $user_id ] = array_values( $notifications_for_user );
 	}
 
 	/**
@@ -449,8 +458,7 @@ class Yoast_Notification_Center {
 	 * @return int Number of notifications
 	 */
 	public function get_notification_count( $dismissed = false ) {
-
-		$notifications = $this->get_notifications();
+		$notifications = $this->get_notifications_for_current_user();
 		$notifications = array_filter( $notifications, array( $this, 'filter_persistent_notifications' ) );
 
 		if ( ! $dismissed ) {
@@ -478,8 +486,7 @@ class Yoast_Notification_Center {
 	 * @return array|Yoast_Notification[] Sorted Notifications
 	 */
 	public function get_sorted_notifications() {
-
-		$notifications = $this->get_notifications();
+		$notifications = $this->get_notifications_for_current_user();
 		if ( empty( $notifications ) ) {
 			return array();
 		}
@@ -573,6 +580,25 @@ class Yoast_Notification_Center {
 	}
 
 	/**
+	 * Returns the notifications for the given user.
+	 *
+	 * @param $user_id
+	 *
+	 * @return Yoast_Notification[] The notifications for the user with the given ID.
+	 */
+	public function get_notifications_for_user( $user_id ) {
+		if ( array_key_exists( $user_id, $this->notifications ) ) {
+			return $this->notifications[ $user_id ];
+		}
+		return array();
+	}
+
+	private function get_notifications_for_current_user() {
+		$current_user_id = get_current_user_id();
+		return $this->get_notifications_for_user( $current_user_id );
+	}
+
+	/**
 	 * Get newly added notifications.
 	 *
 	 * @return array
@@ -613,7 +639,9 @@ class Yoast_Notification_Center {
 
 		$this->notifications_retrieved = true;
 
-		$stored_notifications = get_user_option( self::STORAGE_KEY, get_current_user_id() );
+		$user_id = get_current_user_id();
+
+		$stored_notifications = get_user_option( self::STORAGE_KEY, $user_id );
 
 		// Check if notifications are stored.
 		if ( empty( $stored_notifications ) ) {
@@ -625,7 +653,7 @@ class Yoast_Notification_Center {
 			// Apply array_values to ensure we get a 0-indexed array.
 			$notifications = array_values( array_filter( $notifications, array( $this, 'filter_notification_current_user' ) ) );
 
-			$this->notifications = $notifications;
+			$this->notifications[ $user_id ] = $notifications;
 		}
 	}
 
@@ -689,7 +717,7 @@ class Yoast_Notification_Center {
 	 */
 	private function filter_dismissed_notifications( Yoast_Notification $notification ) {
 
-		return ! $this->maybe_dismiss_notification( $notification );
+		return ! self::maybe_dismiss_notification( $notification );
 	}
 
 	/**
