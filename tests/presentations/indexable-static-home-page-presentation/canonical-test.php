@@ -1,14 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
+namespace Yoast\WP\Free\Tests\Presentations\Indexable_Static_Home_Page_Presentation;
 
-use Mockery;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Canonical_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
+ * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Static_Home_Page_Presentation
  *
  * @group presentations
  * @group canonical
@@ -81,6 +80,7 @@ class Canonical_Test extends TestCase {
 		$this->pagination
 			->expects( 'get_paginated_url' )
 			->once()
+			->with( 'https://example.com/permalink/', 2, true )
 			->andReturn( 'https://example.com/permalink/2/' );
 
 		$this->url_helper

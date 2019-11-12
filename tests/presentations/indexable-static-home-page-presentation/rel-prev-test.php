@@ -1,13 +1,13 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Presentations\Indexable_Post_Type_Presentation;
+namespace Yoast\WP\Free\Tests\Presentations\Indexable_Static_Home_Page_Presentation;
 
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
  * Class Rel_Prev_Test
  *
- * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Post_Type_Presentation
+ * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Static_Home_Page_Presentation
  *
  * @group presentations
  * @group adjacent
@@ -98,7 +98,7 @@ class Rel_Prev_Test extends TestCase {
 
 		$this->pagination
 			->expects( 'get_paginated_url' )
-			->with( 'https://example.com/my-post/', 2, false )
+			->with( 'https://example.com/my-post/', 2, true )
 			->once()
 			->andReturn( 'https://example.com/my-post/2/' );
 
