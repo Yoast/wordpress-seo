@@ -64,3 +64,16 @@ export function applySuffixesToStems( stems, suffixes, appendToStem = "" ) {
 		return list.concat( stemWithSuffixes );
 	}, [] );
 }
+
+/**
+ * Adds a prefix and a suffix to a stem in order to create a past participle form
+ *
+ * @param {string}  stemmedWord             The stemmed word for which to create the past participle form.
+ * @param {Object}  affixes                 The suffix and prefix data.
+ * @param {string}  [additionalPrefix = ""] An additional prefix to attach to the beginning of the participle.
+ *
+ * @returns {string} The participle form.
+ */
+export function addParticipleAffixes( stemmedWord, affixes, additionalPrefix = "" ) {
+	return additionalPrefix + affixes.prefix + stemmedWord + affixes.suffix;
+}
