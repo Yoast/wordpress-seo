@@ -45,7 +45,7 @@ class Site_Presenter extends Abstract_Indexable_Presenter {
 		/**
 		 * Filter: 'wpseo_twitter_site' - Allow changing the Twitter site account as output in the Twitter card by Yoast SEO.
 		 *
-		 * @api string $unsigned Twitter site account string.
+		 * @api string $twitter_site Twitter site account string.
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
