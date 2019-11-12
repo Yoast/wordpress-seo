@@ -9,6 +9,7 @@ namespace Yoast\WP\Free\Dependency_Injection;
 
 use Symfony\Component\DependencyInjection\Definition;
 use WPSEO_Breadcrumbs;
+use WPSEO_Frontend;
 use WPSEO_Replace_Vars;
 use Yoast\WP\Free\WordPress\Wrapper;
 use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
@@ -23,6 +24,7 @@ $container->register( WPSEO_Replace_Vars::class, WPSEO_Replace_Vars::class )->se
 
 // Backwards-compatibility classes in the global namespace.
 $container->register( WPSEO_Breadcrumbs::class, WPSEO_Breadcrumbs::class )->setAutowired( true );
+$container->register( WPSEO_Frontend::class, WPSEO_Frontend::class )->setAutowired( true );
 
 // The container itself.
 $container->setAlias( ContainerInterface::class, 'service_container' );
