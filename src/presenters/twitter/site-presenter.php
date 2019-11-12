@@ -23,10 +23,10 @@ class Site_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The Twitter site tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$twitter_site = $this->filter( $presentation->twitter_site );
+		$twitter_site = $this->filter( $presentation->twitter_site, $presentation );
 		$twitter_site = $this->get_twitter_id( $twitter_site );
 
-		if ( is_string( $twitter_site ) && $twitter_site !== '' ) {
+		if ( \is_string( $twitter_site ) && $twitter_site !== '' ) {
 			return \sprintf( '<meta name="twitter:site" content="%s" />', \esc_attr( '@' . $twitter_site ) );
 		}
 
@@ -36,17 +36,20 @@ class Site_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the Twitter site through the `wpseo_twitter_site` filter.
 	 *
-	 * @param string $twitter_site The Twitter site to filter.
+	 * @param string                 $twitter_site The Twitter site to filter.
+	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *
 	 * @return string The filtered Twitter site.
 	 */
-	private function filter( $twitter_site ) {
+	private function filter( $twitter_site, Indexable_Presentation $presentation ) {
 		/**
 		 * Filter: 'wpseo_twitter_site' - Allow changing the Twitter site account as output in the Twitter card by Yoast SEO.
 		 *
 		 * @api string $unsigned Twitter site account string.
+		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return apply_filters( 'wpseo_twitter_site', $twitter_site );
+		return \apply_filters( 'wpseo_twitter_site', $twitter_site, $presentation );
 	}
 
 	/**
@@ -60,7 +63,7 @@ class Site_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string|bool Twitter ID or false if it failed to get a valid Twitter ID.
 	 */
 	private function get_twitter_id( $id ) {
-		if ( preg_match( '`([A-Za-z0-9_]{1,25})$`', $id, $match ) ) {
+		if ( \preg_match( '`([A-Za-z0-9_]{1,25})$`', $id, $match ) ) {
 			return $match[1];
 		}
 

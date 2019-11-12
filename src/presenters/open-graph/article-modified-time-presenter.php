@@ -24,8 +24,8 @@ class Article_Modified_Time_Presenter extends Abstract_Indexable_Presenter {
 	public function present( Indexable_Presentation $presentation ) {
 		$modified_time = $presentation->og_article_modified_time;
 
-		if ( is_string( $modified_time ) && $modified_time !== '' ) {
-			return sprintf( '<meta property="article:modified_time" content="%s" />', \esc_attr( $modified_time ) );
+		if ( \is_string( $modified_time ) && $modified_time !== '' ) {
+			return \sprintf( '<meta property="article:modified_time" content="%s" />', \esc_attr( $modified_time ) );
 		}
 
 		return '';

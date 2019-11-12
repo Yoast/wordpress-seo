@@ -23,23 +23,26 @@ final class Locale_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The debug close marker.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$locale = $this->filter( $presentation->og_locale );
+		$locale = $this->filter( $presentation->og_locale, $presentation );
 		return '<meta property="og:locale" content="' . \esc_attr( $locale ) . '" />';
 	}
 
 	/**
 	 * Run the locale through the `wpseo_og_locale` filter.
 	 *
-	 * @param string $locale The locale to filter.
+	 * @param string                 $locale       The locale to filter.
+	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *
 	 * @return string $locale The filtered locale.
 	 */
-	private function filter( $locale ) {
+	private function filter( $locale, $presentation ) {
 		/**
 		 * Filter: 'wpseo_og_locale' - Allow changing the Yoast SEO OpenGraph locale.
 		 *
 		 * @api string The locale string
+		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) trim( \apply_filters( 'wpseo_og_locale', $locale ) );
+		return (string) \trim( \apply_filters( 'wpseo_og_locale', $locale, $presentation ) );
 	}
 }
