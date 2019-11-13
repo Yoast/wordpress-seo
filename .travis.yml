@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-- lts/*
+- "10.16"
 - node
 matrix:
   allow_failures:
@@ -15,7 +15,7 @@ stages:
 jobs:
   include:
     - stage: 🚀 rc-deployment
-      node_js: lts/*
+      node_js: "10.16"
       name: "Deploy to the npm rc channel"
       script: skip
       deploy:
@@ -26,7 +26,7 @@ jobs:
           # Branch condition is in the stages configuration
           all_branches: true
     - stage: 🚀 deployment
-      node_js: lts/*
+      node_js: "10.16"
       name: "Deploy to the npm latest channel"
       script: skip
       deploy:

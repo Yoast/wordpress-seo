@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 0.8.0 October 14th, 2019
+### Other
+* Adds a className prop to the AlertContainer.
+
 ## 0.7.0 September 30th, 2019
 ### Added
 * Adds an `Alert` component.
