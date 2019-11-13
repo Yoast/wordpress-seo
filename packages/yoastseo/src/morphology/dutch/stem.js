@@ -13,15 +13,11 @@
  * Checks whether the word ends with what looks like a suffix but is actually part of the stem, and therefore should not be stemmed.
  *
  * @param {string} word The word to check.
- * @param {Object} morphologyDataNLWordsNotToStem The exception list of words that should not be stemmed.
+ * @param {string[]} wordsNotToStem The exception list of words that should not be stemmed.
  * @returns {boolean} Whether or not the word should be stemmed.
  */
-const shouldNotBeStemmed = function( word, morphologyDataNLWordsNotToStem ) {
-	for ( const wordNotToStem of morphologyDataNLWordsNotToStem ) {
-		if ( word === wordNotToStem ) {
-			return true;
-		}
-	}
+const shouldNotBeStemmed = function( word, wordsNotToStem ) {
+	return ( wordsNotToStem.includes( word ) );
 };
 
 /**
@@ -94,63 +90,69 @@ const modifyStem = function( word, modificationGroup ) {
 };
 
 /**
- * Checks whether the word is on the list of words that should not have the vowel doubled.
+ * Checks whether the stem is on an exception of words that should have the vowel doubled. These words are exceptions
+ * to another exception check (isVowelPrecededByDoubleConsonant), according to which they should NOT have the vowel doubled.
  *
- * @param {string} word The word to search for on the exception list.
- * @param {Object} wordsWithoutVowelDoubling The exception list of words that should not have the vowel doubled.
- * @returns {boolean} Whether the word is on the exception list.
+ * @param {string} word The stemmed word to check.
+ * @param {string[]} wordsWithVowelDoubling The exception list of words that should have the vowel doubled.
+ * @returns {boolean} Whether the stem is on the exception list.
  */
-const firstExceptionCheckVowelDoubling = function( word, wordsWithoutVowelDoubling ) {
+const isWordOnVowelDoublingList = function( word, wordsWithVowelDoubling ) {
+	return ( wordsWithVowelDoubling.includes( word ) );
+};
+
+/**
+ * Checks whether the stem is on the list of words that should NOT have the vowel doubled.
+ *
+ * @param {string} word The stemmed word to search for on the exception list.
+ * @param {Object} wordsWithoutVowelDoubling The exception list of words that should not have the vowel doubled.
+ * @returns {boolean} Whether the stem is on the exception list.
+ */
+const isWordOnNoVowelDoublingList = function( word, wordsWithoutVowelDoubling ) {
 	return ( wordsWithoutVowelDoubling.includes( word ) );
 };
 
 /**
- * Checks whether the third to last and fourth to last characters of the word at different. If they are, it
- * means that vowel doubling is allowed. For example, in the word 'luttel', the third and fourth to last characters
- * are both t's so it should not become 'lutteel'. Also, before comparing the characters, checks whether the word is
- * on an exception list of words that should have the vowel doubled despite the fact that the third and fourth
- * character are the same.
+ * Checks whether the third to last and fourth to last characters of the stem are the same. This, in principle, checks
+ * whether the last vowel of the stem is preceded by a double consonant (as only consonants can precede the vowel).
+ * If the third and fourth to last characters are the same, it means that vowel doubling is allowed. For example, in the
+ * word 'luttel', the third and fourth to last characters are both t's so it should not become 'lutteel'.
  *
- * @param {string} word The word to check.
- * @param {Object} wordsWithVowelDoubling The exception list of words that should have the vowel doubled.
+ * @param {string} word The stemmed word to check.
  * @returns {boolean} Whether the vowel should be doubled or not.
  */
-const secondExceptionCheckVowelDoubling = function( word, wordsWithVowelDoubling ) {
-	if ( wordsWithVowelDoubling.includes( word ) )  {
-		return true;
-	}
+const isVowelPrecededByDoubleConsonant = function( word ) {
 	const fourthToLastLetter = word.charAt( word.length - 4 );
 	const thirdToLastLetter = word.charAt( word.length - 3 );
 	return fourthToLastLetter !== thirdToLastLetter;
 };
 
-
 /**
- * Checks whether the vowel matches a regex. If it does, it means that its vowel should not be doubled.
+ * Checks whether the second to last syllable contains a diphthong. If it does, the vowel in the last syllable should
+ * not be doubled.
  *
- * @param {string} word The word to check.
+ * @param {string} word The stemmed word to check.
  * @param {string} noVowelDoublingRegex The regex to match a word with.
  * @returns {boolean} Whether the vowel should be doubled or not.
  */
-const thirdExceptionCheckVowelDoubling = function( word, noVowelDoublingRegex ) {
+const doesPrecedingSyllableContainDiphthong = function( word, noVowelDoublingRegex ) {
 	return ( word.search( new RegExp( noVowelDoublingRegex ) ) ) === -1;
 };
 
 /**
- * Checks whether the final vowel of the stem should be doubled by going through three checks.
+ * Checks whether the final vowel of the stem should be doubled by going through four checks.
  *
  * @param {string} word The stemmed word that the check should be executed on.
  * @param {Object} morphologyDataNLStemmingExceptions The Dutch morphology data for stemming exceptions.
  * @returns {boolean} Whether the vowel should be doubled or not.
  */
 const isVowelDoublingAllowed = function( word, morphologyDataNLStemmingExceptions ) {
-	const firstCheck = firstExceptionCheckVowelDoubling( word, morphologyDataNLStemmingExceptions.noVowelDoubling.words );
-	const secondCheck = secondExceptionCheckVowelDoubling( word, morphologyDataNLStemmingExceptions.getVowelDoubling );
-	const thirdCheck = thirdExceptionCheckVowelDoubling(  word, morphologyDataNLStemmingExceptions.noVowelDoubling.rule );
+	const firstCheck = isWordOnVowelDoublingList( word, morphologyDataNLStemmingExceptions.getVowelDoubling );
+	const secondCheck = isWordOnNoVowelDoublingList( word, morphologyDataNLStemmingExceptions.noVowelDoubling.words );
+	const thirdCheck = isVowelPrecededByDoubleConsonant( word );
+	const fourthCheck = doesPrecedingSyllableContainDiphthong(  word, morphologyDataNLStemmingExceptions.noVowelDoubling.rule );
 
-	if ( ! firstCheck && secondCheck && thirdCheck  ) {
-		return true;
-	}
+	return firstCheck || ( ! secondCheck && thirdCheck && fourthCheck );
 };
 
 /**
