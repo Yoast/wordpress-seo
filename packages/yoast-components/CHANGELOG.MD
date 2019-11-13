@@ -5,6 +5,13 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.36.0 November 11th, 2019
+### Enhancements
+* Improves the `KeywordInput` and `SynonymsInput` styling for consistency with the new WordPress 5.3 admin styles.
+
+## 4.35.0 October 28th, 2019
+No user-facing changes.
+
 ## 4.34.1 October 14th, 2019
 No user-facing changes.
 
