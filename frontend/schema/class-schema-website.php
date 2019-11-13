@@ -54,6 +54,10 @@ class WPSEO_Schema_Website implements WPSEO_Graph_Piece {
 			'name'      => $this->context->site_name,
 		);
 
+		if ( get_bloginfo( 'description' ) ) {
+			$data['description'] = $this->context->site_description;
+		}
+
 		if ( $this->context->site_represents_reference ) {
 			$data['publisher'] = $this->context->site_represents_reference;
 		}

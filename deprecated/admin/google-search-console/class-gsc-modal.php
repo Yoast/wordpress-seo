@@ -7,64 +7,52 @@
 
 /**
  * Represents the Google Search Console modal.
+ *
+ * @deprecated 12.5
+ *
+ * @codeCoverageIgnore
  */
 class WPSEO_GSC_Modal {
 
 	/**
-	 * Path to the modal view.
-	 *
-	 * @var string
-	 */
-	protected $view;
-
-	/**
-	 * The modal height.
-	 *
-	 * @var int
-	 */
-	protected $height;
-
-	/**
-	 * Variables to be passed to the view.
-	 *
-	 * @var array
-	 */
-	protected $view_vars;
-
-	/**
 	 * Sets the required attributes for this object.
+	 *
+	 * @deprecated 12.5
+	 *
+	 * @codeCoverageIgnore
 	 *
 	 * @param string $view      The file with the view content.
 	 * @param int    $height    The height that the modal will get.
 	 * @param array  $view_vars The attributes to use in the view.
 	 */
 	public function __construct( $view, $height, array $view_vars = array() ) {
-		$this->view      = $view;
-		$this->height    = $height;
-		$this->view_vars = $view_vars;
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 
 	/**
 	 * Returns the height of the modal.
 	 *
+	 * @deprecated 12.5
+	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return int The set height.
 	 */
 	public function get_height() {
-		return $this->height;
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
+		return 0;
 	}
 
 	/**
 	 * Loads the view of the modal.
 	 *
+	 * @deprecated 12.5
+	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @param string $unique_id An unique identifier for the modal.
 	 */
 	public function load_view( $unique_id ) {
-		extract( $this->view_vars );
-
-		echo '<div id="' . esc_attr( 'redirect-' . $unique_id ) . '" class="hidden">';
-		echo '<div class="form-wrap wpseo_content_wrapper">';
-		require $this->view;
-		echo '</div>';
-		echo '</div>';
+		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 }

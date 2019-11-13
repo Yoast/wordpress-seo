@@ -1,14 +1,8 @@
 <?php
-/**
- * WPSEO plugin test file.
- *
- * @package Yoast\WP\Free\Tests\Inc
- */
 
 namespace Yoast\WP\Free\Tests\Inc;
 
 use Mockery;
-use WPSEO_Addon_Manager;
 use WPSEO_Utils;
 use Yoast\WP\Free\Tests\Doubles\Inc\Addon_Manager_Double;
 use Yoast\WP\Free\Tests\TestCase;
@@ -23,17 +17,23 @@ use Yoast\WP\Free\Tests\TestCase;
 class Addon_Manager_Test extends TestCase {
 
 	/**
+	 * Dummy future date for use by the tests.
+	 *
 	 * @var string|null Date in the future.
 	 */
 	private $future_date = null;
 
 	/**
+	 * Dummy past date for use by the tests.
+	 *
 	 * @var string|null Date in the past.
 	 */
 	private $past_date = null;
 
 	/**
-	 * @var Mockery\Mock|Addon_Manager_Double
+	 * Holds the instance of the class being tested.
+	 *
+	 * @var \Mockery\Mock|\Yoast\WP\Free\Tests\Doubles\Inc\Addon_Manager_Double
 	 */
 	protected $instance;
 
@@ -191,11 +191,11 @@ class Addon_Manager_Test extends TestCase {
 	 * @covers ::get_subscription
 	 */
 	public function test_get_subscription() {
-		$subscription = (object) array(
-			'product' => (object) array(
+		$subscription = (object) [
+			'product' => (object) [
 				'slug' => 'wordpress-seo',
-			),
-		);
+			],
+		];
 
 		$this->instance
 			->expects( 'get_subscriptions' )
@@ -214,11 +214,11 @@ class Addon_Manager_Test extends TestCase {
 	 * @covers ::get_subscription
 	 */
 	public function test_get_subscription_not_found() {
-		$subscription = (object) array(
-			'product' => (object) array(
+		$subscription = (object) [
+			'product' => (object) [
 				'slug' => 'wordpress-seo',
-			),
-		);
+			],
+		];
 
 		$this->instance
 			->expects( 'get_subscriptions' )
@@ -425,7 +425,7 @@ class Addon_Manager_Test extends TestCase {
 	 */
 	public function test_convert_subscription_to_plugin() {
 		$this->assertEquals(
-			(object) array(
+			(object) [
 				'new_version'   => '10.0',
 				'name'          => 'Extension',
 				'slug'          => 'yoast-seo-wordpress-premium',
@@ -434,13 +434,13 @@ class Addon_Manager_Test extends TestCase {
 				'homepage'      => 'https://example.org/store',
 				'download_link' => 'https://example.org/extension.zip',
 				'package'       => 'https://example.org/extension.zip',
-				'sections'      => array(
+				'sections'      => [
 					'changelog' => 'changelog',
-				),
-			),
+				],
+			],
 			$this->instance->convert_subscription_to_plugin(
-				(object) array(
-					'product' => (object) array(
+				(object) [
+					'product' => (object) [
 						'version'      => '10.0',
 						'name'         => 'Extension',
 						'slug'         => 'yoast-seo-wordpress-premium',
@@ -448,8 +448,8 @@ class Addon_Manager_Test extends TestCase {
 						'store_url'    => 'https://example.org/store',
 						'download'     => 'https://example.org/extension.zip',
 						'changelog'    => 'changelog',
-					),
-				)
+					],
+				]
 			)
 		);
 	}
@@ -472,7 +472,7 @@ class Addon_Manager_Test extends TestCase {
 			);
 
 		$this->assertEquals(
-			array(),
+			[],
 			$this->instance->get_installed_addons()
 		);
 	}
@@ -515,11 +515,11 @@ class Addon_Manager_Test extends TestCase {
 			);
 
 		$this->assertEquals(
-			array(
-				'wp-seo-premium.php' => array(
+			[
+				'wp-seo-premium.php' => [
 					'Version' => '10.0',
-				),
-			),
+				],
+			],
 			$this->instance->get_installed_addons()
 		);
 	}
@@ -533,17 +533,13 @@ class Addon_Manager_Test extends TestCase {
 		$this->instance
 			->expects( 'get_plugins' )
 			->once()
-			->andReturn( [
-				'wp-seo-premium.php'         => [
-					'Version' => '10.0',
-				],
-				'no-yoast-seo-extension-php' => [
-					'Version' => '10.0',
-				],
-				'wpseo-news.php'             => [
-					'Version' => '9.5',
-				],
-			] );
+			->andReturn(
+				[
+					'wp-seo-premium.php'         => [ 'Version' => '10.0' ],
+					'no-yoast-seo-extension-php' => [ 'Version' => '10.0' ],
+					'wpseo-news.php'             => [ 'Version' => '9.5' ],
+				]
+			);
 
 		$this->instance
 			->expects( 'is_plugin_active' )
@@ -701,7 +697,7 @@ class Addon_Manager_Test extends TestCase {
 	 * @return \stdClass Subscriptions.
 	 */
 	protected function get_subscriptions() {
-		return json_decode(
+		return \json_decode(
 			WPSEO_Utils::format_json_encode(
 				[
 					'wp-seo-premium.php' => [
@@ -741,7 +737,7 @@ class Addon_Manager_Test extends TestCase {
 	 */
 	protected function get_future_date() {
 		if ( $this->future_date === null ) {
-			$this->future_date = gmdate( 'Y-m-d\TH:i:s\Z', ( time() + DAY_IN_SECONDS ) );
+			$this->future_date = \gmdate( 'Y-m-d\TH:i:s\Z', ( \time() + \DAY_IN_SECONDS ) );
 		}
 
 		return $this->future_date;
@@ -754,7 +750,7 @@ class Addon_Manager_Test extends TestCase {
 	 */
 	protected function get_past_date() {
 		if ( $this->past_date === null ) {
-			$this->past_date = gmdate( 'Y-m-d\TH:i:s\Z', ( time() - DAY_IN_SECONDS ) );
+			$this->past_date = \gmdate( 'Y-m-d\TH:i:s\Z', ( \time() - \DAY_IN_SECONDS ) );
 		}
 		return $this->past_date;
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Roles;
+namespace Yoast\WP\Free\Tests\Admin\Roles;
 
 use WPSEO_Register_Roles;
 use WPSEO_Role_Manager_Factory;
@@ -11,6 +11,11 @@ use Yoast\WP\Free\Tests\TestCase;
  */
 class Register_Roles_Test extends TestCase {
 
+	/**
+	 * Tests registration of the roles.
+	 *
+	 * @covers WPSEO_Register_Roles::register
+	 */
 	public function test_register() {
 		$manager = WPSEO_Role_Manager_Factory::get();
 

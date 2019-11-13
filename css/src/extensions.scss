@@ -25,7 +25,6 @@
 		margin: 0;
 		border: 0;
 		padding-bottom: 1.88rem;
-		border-top: 1px solid $scheme-academy-secondary;
 		position: relative;
 	}
 
@@ -125,8 +124,7 @@
 		// Then we style it as flex container to layout its content in a vertical flexbox.
 		display: flex;
 		flex-direction: column;
-		background-color: transparent;
-		border-color: $scheme-academy-secondary;
+		background-color: #fff;
 		margin-left: $gutter;
 
 		&:first-child {
@@ -134,8 +132,9 @@
 		}
 
 		img {
-			width: 100%;
-			height: auto;
+			float: right;
+			width: 100px;
+			height: 100px;
 			margin-bottom: 0.8rem;
 
 			@media screen and (max-width: 900px) {
@@ -214,7 +213,6 @@
 
 	&-link--license,
 	&-link--more-info {
-		font-family: $font-stack-default;
 		color: $color-pink-dark;
 		font-weight: 600;
 	}

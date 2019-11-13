@@ -9,7 +9,6 @@ import { makeOutboundLink } from "@yoast/helpers";
 
 // Internal dependencies.
 import MailchimpSignup from "./components/MailchimpSignup";
-import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 import MediaUpload from "./components/MediaUpload";
 import Suggestions from "./components/Suggestions";
 import FinalStep from "./components/FinalStep";
@@ -72,7 +71,6 @@ class App extends React.Component {
 			customComponents: {
 				MailchimpSignup,
 				MediaUpload,
-				ConnectGoogleSearchConsole,
 				Suggestions,
 				FinalStep,
 				WordPressUserSelector: WordPressUserSelectorOnboardingWizard,

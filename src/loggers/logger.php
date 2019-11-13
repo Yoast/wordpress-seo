@@ -18,6 +18,8 @@ class Logger implements LoggerInterface {
 	use LoggerTrait;
 
 	/**
+	 * The logger object.
+	 *
 	 * @var \YoastSEO_Vendor\Psr\Log\LoggerInterface
 	 */
 	protected $wrapped_logger;

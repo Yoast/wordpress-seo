@@ -30,6 +30,12 @@ const Styles = createGlobalStyle`
 			&__input input {
 				box-shadow: none;
 				margin: 0;
+				min-height: 0;
+				line-height: 1.4;
+
+				&:focus {
+					box-shadow: none;
+				}
 			}
 
 			&__menu {

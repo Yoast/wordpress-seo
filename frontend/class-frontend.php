@@ -1461,7 +1461,8 @@ class WPSEO_Frontend {
 		global $post;
 
 		/**
-		 * Allow the developer to determine whether or not to follow the links in the bits Yoast SEO adds to the RSS feed, defaults to true.
+		 * Allow the developer to determine whether or not to follow the links
+		 * in the bits Yoast SEO adds to the RSS feed, defaults to true.
 		 *
 		 * @api   bool $unsigned Whether or not to follow the links in RSS feed, defaults to true.
 		 *
