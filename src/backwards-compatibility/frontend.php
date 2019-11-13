@@ -136,8 +136,6 @@ class WPSEO_Frontend implements Initializer_Interface {
 
 	/**
 	 * Outputs the meta robots value.
-	 *
-	 * @return string The robots.
 	 */
 	public function robots() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
