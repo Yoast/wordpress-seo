@@ -212,14 +212,12 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 12.5.0 =
 Release Date: November 13th, 2019
 
-Enhancements:
-
-* Updated banners to new assistant style.
+These last couple of months here at Yoast SEO HQ have all been about building better things. Behind the scenes, we’re making good progress at getting our flagship plugins ready for the future. While we’re busy building the future, we also stick to our regular two-week release schedule, which means it’s time to introduce Yoast SEO 12.5. Find out more in [our 12.5 release post](https://yoa.st/release-12-5)!
 
 Bugfixes:
 
 * Fixes a bug for terms where keywords and snippet preview data would be synced across all languages in a MultilingualPress multisite environment.
-* Fixes a bug where the Snippet Preview elements had misplaced visually hidden text.
+* Fixes a bug where the visually hidden text in the snippet preview was misplaced.
 
 Other:
 
