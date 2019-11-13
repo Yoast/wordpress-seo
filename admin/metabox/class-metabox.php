@@ -554,7 +554,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 					' name="' . $esc_form_key . '"' .
 					' value="' . esc_attr( $meta_value ) . '"' . $aria_describedby .
 					' readonly="readonly"' .
-					' />';
+					' /> ';
 				$content .= '<input' .
 					' id="' . esc_attr( $esc_form_key ) . '_button"' .
 					' class="wpseo_image_upload_button button"' .

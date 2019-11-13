@@ -29,6 +29,8 @@ class WPSEO_Taxonomy_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the retrieval of the index links.
+	 *
 	 * @covers WPSEO_Taxonomy_Sitemap_Provider::get_index_links
 	 */
 	public function test_get_index_links() {
@@ -53,6 +55,8 @@ class WPSEO_Taxonomy_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests retrieval of the sitemap links.
+	 *
 	 * @covers WPSEO_Taxonomy_Sitemap_Provider::get_sitemap_links
 	 */
 	public function test_get_sitemap_links() {

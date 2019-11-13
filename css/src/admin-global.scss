@@ -39,9 +39,11 @@
 	height: auto;
 }
 
-/* Select2 specific fixes for WordPress */
-.select2-search__field {
+/* Select2 specific fixes for WordPress: they generally need high specificity */
+.select2-container .select2-search--dropdown .select2-search__field {
 	margin: 0;
+	padding: 0 8px;
+	min-height: 30px;
 }
 
 .select2-results__option,
@@ -53,6 +55,21 @@
 .select2-container .select2-search--inline .select2-search__field {
 	margin-top: 6px !important;
 	line-height: inherit;
+	min-height: 0;
+}
+
+/* Turn off select2 fixed height */
+.wpseo-metabox,
+.wpseo-admin-page {
+	.select2-container {
+		.select2-selection--single {
+			height: auto;
+
+			.select2-selection__arrow {
+				height: 100%;
+			}
+		}
+	}
 }
 
 .yoast-label-strong {
@@ -270,6 +287,36 @@ td.column-wpseo-linked {
 	word-wrap: normal;
 }
 
+// Temporary adjustments for form controls styling changed in WordPress 5.3.
+.yoast {
+	// Reset 1px margin inherited from WordPress.
+	input {
+		margin: 0;
+	}
+
+	// Make inputs same height as buttons and selects.
+	input[type="text"],
+	input[type="password"],
+	input[type="date"],
+	input[type="datetime"],
+	input[type="datetime-local"],
+	input[type="email"],
+	input[type="month"],
+	input[type="number"],
+	input[type="search"],
+	input[type="tel"],
+	input[type="time"],
+	input[type="url"],
+	input[type="week"] {
+		padding: 0 8px;
+		vertical-align: top;
+		/* inherits font size 14px */
+		line-height: 1.85714285; /* 26px vs. 28px from core */
+		/* Only necessary for IE11 */
+		min-height: 28px; /* 28px vs. 30px from core */
+	}
+}
+
 @media screen and ( max-width: 782px ) {
 	.yoast-settings {
 		padding-left: 0;
@@ -300,6 +347,31 @@ td.column-wpseo-linked {
 	.yoast-settings__group--checkbox .yoast-settings__checkbox + label,
 	.yoast-settings__group--radio .yoast-settings__radio + label {
 		padding-top: 4px;
+	}
+
+	// Temporary adjustments for form controls styling changed in WordPress 5.3.
+	.yoast {
+		// Make inputs same height as buttons and selects.
+		input[type="text"],
+		input[type="password"],
+		input[type="date"],
+		input[type="datetime"],
+		input[type="datetime-local"],
+		input[type="email"],
+		input[type="month"],
+		input[type="number"],
+		input[type="search"],
+		input[type="tel"],
+		input[type="time"],
+		input[type="url"],
+		input[type="week"] {
+			padding: 0 10px;
+			vertical-align: top;
+			/* inherits font size 16px */
+			line-height: 1.875; /* 30px */
+			/* Only necessary for IE11 */
+			min-height: 32px;
+		}
 	}
 
 	.yoast-settings input[type="text"],

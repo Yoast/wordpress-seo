@@ -30,6 +30,11 @@ class WPSEO_Taxonomy_Social_Fields_Test extends WPSEO_UnitTestCase {
 		WPSEO_Options::set( 'opengraph', true );
 	}
 
+	/**
+	 * Retrieves an instance of the WPSEO_Taxonomy_Social_Fields
+	 *
+	 * @return WPSEO_Taxonomy_Social_Fields The instance
+	 */
 	public function get_class_instance() {
 		return new WPSEO_Taxonomy_Social_Fields( $this->term );
 	}

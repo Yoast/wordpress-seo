@@ -14,7 +14,11 @@ use Yoast\WP\Free\Tests\TestCase;
  */
 class Schema_Utils_Test extends TestCase {
 
-	/** @var \WPSEO_Schema_Context */
+	/**
+	 * The schema context object.
+	 *
+	 * @var \WPSEO_Schema_Context
+	 */
 	private $context;
 
 	/**

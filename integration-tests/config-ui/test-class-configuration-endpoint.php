@@ -29,6 +29,8 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the setting of the service.
+	 *
 	 * @covers WPSEO_Configuration_Endpoint::set_service
 	 */
 	public function test_set_service() {
@@ -39,6 +41,8 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests if data can retrieved, resulting in a failure.
+	 *
 	 * @covers WPSEO_Configuration_Endpoint::can_retrieve_data
 	 */
 	public function test_can_retrieve_data_fail() {
@@ -50,6 +54,8 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests if data can retrieved.
+	 *
 	 * @covers WPSEO_Configuration_Endpoint::can_retrieve_data
 	 */
 	public function test_can_retrieve_data_pass() {
@@ -61,6 +67,8 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests if data can saved that results in false.
+	 *
 	 * @covers WPSEO_Configuration_Endpoint::can_save_data
 	 */
 	public function test_can_save_data_fail() {
@@ -72,6 +80,8 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests if data can saved.
+	 *
 	 * @covers WPSEO_Configuration_Endpoint::can_save_data
 	 */
 	public function test_can_save_data_pass() {
@@ -83,6 +93,8 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests if the endpoint is registered.
+	 *
 	 * @covers WPSEO_Configuration_Endpoint::register
 	 */
 	public function test_register() {

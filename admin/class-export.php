@@ -51,7 +51,7 @@ class WPSEO_Export {
 			return;
 		}
 
-		echo '<p>';
+		echo '<p id="wpseo-settings-export-desc">';
 		printf(
 			/* translators: %1$s expands to Import settings */
 			esc_html__(
@@ -64,7 +64,9 @@ class WPSEO_Export {
 			)
 		);
 		echo '</p>';
-		echo '<textarea id="wpseo-export" rows="20" cols="100">' . esc_textarea( $this->export ) . '</textarea>';
+		/* translators: %1$s expands to Yoast SEO */
+		echo '<label for="wpseo-settings-export" class="yoast-inline-label">' . sprintf( __( 'Your %1$s settings:', 'wordpress-seo' ), 'Yoast SEO' ) . '</label><br />';
+		echo '<textarea id="wpseo-settings-export" rows="20" cols="100" aria-describedby="wpseo-settings-export-desc">' . esc_textarea( $this->export ) . '</textarea>';
 	}
 
 	/**
