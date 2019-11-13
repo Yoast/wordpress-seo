@@ -123,7 +123,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		);
 
 		if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', true ) ) {
-			$defaults['who']                 = '';
+			$defaults['who']                 = ''; // Otherwise it cancels out next argument.
 			$defaults['has_published_posts'] = array( 'post' );
 		}
 

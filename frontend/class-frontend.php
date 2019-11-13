@@ -734,8 +734,8 @@ class WPSEO_Frontend {
 					$robots['index'] = 'noindex';
 				}
 				$curauth = $wp_query->get_queried_object();
-				$user_utils = new WPSEO_User_Utils();
-				if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', false ) && ! $user_utils->user_has_posts( $curauth->ID ) ) {
+				$user_has_posts = ( (int) count_user_posts( $curauth->ID, array( 'post' ), true ) ) > 0;
+				if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', false ) && ! $user_has_posts ) {
 					$robots['index'] = 'noindex';
 				}
 				if ( get_user_meta( $curauth->ID, 'wpseo_noindex_author', true ) === 'on' ) {
