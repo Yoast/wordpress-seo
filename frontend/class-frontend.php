@@ -5,6 +5,8 @@
  * @package WPSEO\Frontend
  */
 
+use Yoast\WP\Free\Helpers\Author_Archive_Helper;
+
 /**
  * Main frontend class for Yoast SEO, responsible for the SEO output as well as removing
  * default WordPress output.
@@ -734,7 +736,8 @@ class WPSEO_Frontend {
 					$robots['index'] = 'noindex';
 				}
 				$curauth = $wp_query->get_queried_object();
-				$user_has_posts = ( (int) count_user_posts( $curauth->ID, WPSEO_Post_Type::get_author_archive_post_types(), true ) ) > 0;
+				$author_archive = new Author_Archive_Helper();
+				$user_has_posts = ( (int) count_user_posts( $curauth->ID, $author_archive->get_author_archive_post_types(), true ) ) > 0;
 				if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', false ) && ! $user_has_posts ) {
 					$robots['index'] = 'noindex';
 				}

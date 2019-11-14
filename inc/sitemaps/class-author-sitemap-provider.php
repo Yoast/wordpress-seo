@@ -5,6 +5,8 @@
  * @package WPSEO\XML_Sitemaps
  */
 
+use Yoast\WP\Free\Helpers\Author_Archive_Helper;
+
 /**
  * Sitemap provider for author archives.
  */
@@ -124,7 +126,8 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', true ) ) {
 			$defaults['who']                 = ''; // Otherwise it cancels out next argument.
-			$defaults['has_published_posts'] = WPSEO_Post_Type::get_author_archive_post_types();
+			$author_archive = new Author_Archive_Helper();
+			$defaults['has_published_posts'] = $author_archive->get_author_archive_post_types();
 		}
 
 		return get_users( array_merge( $defaults, $arguments ) );
