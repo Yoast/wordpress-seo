@@ -343,7 +343,11 @@ function wpseo_init() {
 
 	// When namespaces are not available, stop further execution.
 	if ( version_compare( PHP_VERSION, '5.6.0', '>=' ) ) {
-		require_once WPSEO_PATH . 'src/main.php';
+		require_once WPSEO_PATH . 'src/functions.php';
+
+		// Initializes the Yoast indexables for the first time.
+		yoast();
+
 		// require_once WPSEO_PATH . 'src/loaders/oauth.php'; Temporarily disabled.
 	}
 }
