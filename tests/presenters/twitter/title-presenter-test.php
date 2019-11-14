@@ -13,6 +13,7 @@ use Yoast\WP\Free\Tests\TestCase;
  *
  * @coversDefaultClass \Yoast\WP\Free\Presenters\Twitter\Title_Presenter
  *
+ * @group presenters
  * @group twitter-title
  */
 class Title_Presenter_Test extends TestCase {
@@ -98,7 +99,7 @@ class Title_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_twitter_title' )
 			->once()
-			->with( 'twitter_example_title' )
+			->with( 'twitter_example_title', $this->indexable_presentation )
 			->andReturn( 'twitterexampletitle' );
 
 		$expected = '<meta name="twitter:title" content="twitterexampletitle" />';
