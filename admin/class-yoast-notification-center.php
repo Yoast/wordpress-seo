@@ -529,14 +529,16 @@ class Yoast_Notification_Center {
 	 */
 	public function update_storage() {
 
-		$notifications = $this->get_notifications();
+		$notifications = $this->notifications;
 
-		/**
-		 * Filter: 'yoast_notifications_before_storage' - Allows developer to filter notifications before saving them.
-		 *
-		 * @api Yoast_Notification[] $notifications
-		 */
-		$notifications = apply_filters( 'yoast_notifications_before_storage', $notifications );
+		foreach ( $notifications as $user_id => $notifications_for_user ) {
+			/**
+			 * Filter: 'yoast_notifications_before_storage' - Allows developer to filter notifications before saving them.
+			 *
+			 * @api Yoast_Notification[] $notifications
+			 */
+			$notifications[ $user_id ] = apply_filters( 'yoast_notifications_before_storage', $notifications_for_user );
+		}
 
 		// No notifications to store, clear storage if it was previously present.
 		if ( empty( $notifications ) ) {
@@ -568,8 +570,10 @@ class Yoast_Notification_Center {
 	 * @return array|Yoast_Notification[] Registered notifications.
 	 */
 	public function get_notifications() {
-
-		return $this->notifications;
+		if ( $this->notifications ) {
+			return array_merge( ...$this->notifications );
+		}
+		return array();
 	}
 
 	/**
