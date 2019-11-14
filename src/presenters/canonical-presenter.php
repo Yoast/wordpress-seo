@@ -50,6 +50,6 @@ class Canonical_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return (string) trim( \apply_filters( 'wpseo_canonical', $canonical, $presentation ) );
+		return (string) \trim( \apply_filters( 'wpseo_canonical', $canonical, $presentation ) );
 	}
 }
