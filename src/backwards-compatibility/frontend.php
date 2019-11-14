@@ -96,7 +96,7 @@ class WPSEO_Frontend implements Initializer_Interface {
 	/**
 	 * Retrieves an instance of the class.
 	 *
-	 * @return WPSEO_Breadcrumbs The instance.
+	 * @return static The instance.
 	 */
 	public static function get_instance() {
 		return self::$instance;
