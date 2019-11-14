@@ -121,7 +121,6 @@ class OG_Image_Generator implements Generator_Interface {
 
 		if ( $indexable->og_image_id ) {
 			$image_container->add_image_by_id( $indexable->og_image_id );
-
 		}
 	}
 
