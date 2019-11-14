@@ -531,14 +531,28 @@ class Yoast_Notification_Center {
 
 		$notifications = $this->notifications;
 
-		foreach ( $notifications as $user_id => $notifications_for_user ) {
-			/**
-			 * Filter: 'yoast_notifications_before_storage' - Allows developer to filter notifications before saving them.
-			 *
-			 * @api Yoast_Notification[] $notifications
-			 */
-			$notifications[ $user_id ] = apply_filters( 'yoast_notifications_before_storage', $notifications_for_user );
+		/**
+		 * @var Yoast_Notification[] $merged_notifications
+		 */
+		$merged_notifications = array();
+		if ( ! empty( $notifications ) ) {
+			$merged_notifications = array_merge( ...$notifications );
 		}
+
+		/**
+		 * Filter: 'yoast_notifications_before_storage' - Allows developer to filter notifications before saving them.
+		 *
+		 * @api Yoast_Notification[] $notifications
+		 */
+		$merged_notifications = apply_filters( 'yoast_notifications_before_storage', $merged_notifications );
+
+
+		// Split notifications again on user ID.
+		$split_notifications = array();
+		foreach ( $merged_notifications as $notification ) {
+			$split_notifications[ $notification->get_user_id() ][] = $notification;
+		}
+		$notifications = $split_notifications;
 
 		// No notifications to store, clear storage if it was previously present.
 		if ( empty( $notifications ) ) {
