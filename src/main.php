@@ -22,10 +22,29 @@ if ( ! \defined( 'WPSEO_VERSION' ) ) {
 class Main {
 
 	/**
+	 * The DI container.
+	 *
+	 * @var Cached_Container|null
+	 */
+	private $container;
+
+	/**
 	 * Initializes the plugin.
 	 */
 	public function initialize() {
 		$this->load();
+	}
+
+	/**
+	 * Retrieves an instance from the container.
+	 *
+	 * @param string $class_name The classname to get the instance for.
+	 *
+	 * @return object The instance from the container.
+	 * @throws \Exception
+	 */
+	public function get_instance( $class_name ) {
+		return $this->container->get( $class_name );
 	}
 
 	/**
@@ -35,13 +54,13 @@ class Main {
 	 */
 	public function load() {
 		try {
-			$container = $this->get_container();
+			$this->container = $this->get_container();
 
-			if ( ! $container ) {
+			if ( ! $this->container ) {
 				return;
 			}
 
-			$container->get( Loader::class )->load();
+			$this->container->get( Loader::class )->load();
 		} catch ( \Exception $e ) {
 			if ( $this->is_development() ) {
 				throw $e;
