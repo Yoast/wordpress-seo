@@ -282,7 +282,11 @@ class Yoast_Notification {
 	private function has_capability( $capability ) {
 		$user = $this->options['user'];
 
-		return $user->get_role_caps()[ $capability ];
+		$role_caps = $user->get_role_caps();
+		if ( array_key_exists( $capability, $role_caps ) ) {
+			return $role_caps[ $capability ];
+		}
+		return false;
 	}
 
 	/**
