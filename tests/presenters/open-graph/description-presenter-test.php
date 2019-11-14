@@ -93,7 +93,7 @@ class Description_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_desc' )
 			->once()
-			->with( 'My description' )
+			->with( 'My description', $this->presentation )
 			->andReturn( 'My filtered description' );
 
 		$expected = '<meta property="og:description" content="My filtered description" />';

@@ -62,7 +62,7 @@ class Googlebot_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_googlebot' )
 			->once()
-			->with( 'one,two,three' )
+			->with( 'one,two,three', $indexable_presentation )
 			->andReturn( 'one,two' );
 
 		$actual = $this->instance->present( $indexable_presentation );

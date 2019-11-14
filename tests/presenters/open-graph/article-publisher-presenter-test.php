@@ -76,7 +76,7 @@ class Article_Publisher_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_og_article_publisher' )
 			->once()
-			->with( 'https://example.com' )
+			->with( 'https://example.com', $this->presentation )
 			->andReturn( 'https://otherpublisher.com' );
 
 		$expected = '<meta property="article:publisher" content="https://otherpublisher.com" />';

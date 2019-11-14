@@ -76,7 +76,7 @@ class Type_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_type' )
 			->once()
-			->with( 'website' )
+			->with( 'website', $this->indexable_presentation )
 			->andReturn( 'article' );
 
 		$expected = '<meta property="og:type" value="article"/>';

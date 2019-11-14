@@ -72,7 +72,7 @@ class Site_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_twitter_site' )
 			->once()
-			->with( '@TwitterHandle' )
+			->with( '@TwitterHandle', $presentation )
 			->andReturn( '@AlteredTwitterHandle' );
 
 		$this->assertEquals(
