@@ -22,11 +22,10 @@
 		"source": "https://github.com/Yoast/wordpress-seo"
 	},
 	"require": {
-		"php": "^5.6.0||^7.0",
+		"php": "^5.6.20||^7.0",
 		"composer/installers": "~1.0",
 		"yoast/license-manager": "1.6.0",
 		"yoast/i18n-module": "^3.1.1",
-		"xrstf/composer-php52": "^1.0.20",
 		"j4mie/idiorm": "^1.5",
 		"pimple/pimple": "^3.2",
 		"ruckusing/ruckusing-migrations": "^1.1",
@@ -144,14 +143,7 @@
 			"Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
 		],
 		"post-install-cmd": [
-			"xrstf\\Composer52\\Generator::onPostInstallCmd",
 			"Yoast\\WP\\Free\\Composer\\Actions::prefix_dependencies"
-		],
-		"post-update-cmd": [
-			"xrstf\\Composer52\\Generator::onPostInstallCmd"
-		],
-		"post-autoload-dump": [
-			"xrstf\\Composer52\\Generator::onPostInstallCmd"
 		]
 	}
 }

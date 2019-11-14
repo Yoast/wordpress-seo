@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3c25b5d30473627d687ee840f7520ef2",
+    "content-hash": "772e8a868261705aa5b446d2736982d5",
     "packages": [
         {
             "name": "composer/installers",
@@ -844,37 +844,6 @@
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
             "time": "2019-05-19T14:11:39+00:00"
-        },
-        {
-            "name": "xrstf/composer-php52",
-            "version": "v1.0.20",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/composer-php52/composer-php52.git",
-                "reference": "bd41459d5e27df8d33057842b32377c39e97a5a8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/composer-php52/composer-php52/zipball/bd41459d5e27df8d33057842b32377c39e97a5a8",
-                "reference": "bd41459d5e27df8d33057842b32377c39e97a5a8",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-default": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "xrstf\\Composer52": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "time": "2016-04-16T21:52:24+00:00"
         },
         {
             "name": "yoast/i18n-module",
@@ -3722,7 +3691,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^5.6.0||^7.0"
+        "php": "^5.6.20||^7.0"
     },
     "platform-dev": []
 }
