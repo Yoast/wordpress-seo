@@ -9,6 +9,7 @@ namespace Yoast\WP\Free;
 
 use Yoast\WP\Free\Dependency_Injection\Container_Compiler;
 use Yoast\WP\Free\Generated\Cached_Container;
+use Yoast\WP\Free\Memoizer\Meta_Tags_Context_Memoizer;
 
 if ( ! \defined( 'WPSEO_VERSION' ) ) {
 	\header( 'Status: 403 Forbidden' );
