@@ -117,20 +117,4 @@ class WPSEO_Post_Type {
 	public static function has_metabox_enabled( $post_type ) {
 		return WPSEO_Options::get( 'display-metabox-pt-' . $post_type, false );
 	}
-
-	/**
-	 * Gets the array of post types that are shown on an author's archive.
-	 *
-	 * @return array The post types that are shown on an author archive.
-	 */
-	public static function get_author_archive_post_types() {
-		/**
-		 * Filters the array of post types that are shown on an author's archive.
-		 *
-		 * @since 12.7
-		 *
-		 * @param array $args The post types that are shown on an author archive.
-		 */
-		return apply_filters( 'wpseo_author_archive_post_types', array( 'post' ) );
-	}
 }
