@@ -48,6 +48,23 @@ class Main {
 	}
 
 	/**
+	 * Retrieves the presentation for the current page.
+	 *
+	 * @return Presentations\Indexable_Presentation The presentation for current page.
+	 */
+	public function get_current_page_presentation() {
+		/**
+		 * The value returned by get_instance.
+		 *
+		 * @var Memoizer\Meta_Tags_Context_Memoizer $context
+		 */
+		$context      = $this->get_instance( Meta_Tags_Context_Memoizer::class );
+		$presentation = $context->for_current_page()->presentation;
+
+		return $presentation;
+	}
+
+	/**
 	 * Loads the plugin.
 	 *
 	 * @throws \Exception If loading fails and YOAST_ENVIRONMENT is development.
