@@ -118,7 +118,7 @@ class Title_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_og_title' )
 			->once()
-			->with( 'example_title' )
+			->with( 'example_title', $this->indexable_presentation )
 			->andReturn( 'exampletitle' );
 
 		$expected = '<meta property="og:title" content="exampletitle"/>';

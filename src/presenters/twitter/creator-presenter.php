@@ -24,8 +24,8 @@ class Creator_Presenter extends Abstract_Indexable_Presenter {
 	public function present( Indexable_Presentation $presentation ) {
 		$twitter_creator = $presentation->twitter_creator;
 
-		if ( is_string( $twitter_creator ) && $twitter_creator !== '' ) {
-			return sprintf( '<meta name="twitter:creator" content="%s" />', esc_attr( $twitter_creator ) );
+		if ( \is_string( $twitter_creator ) && $twitter_creator !== '' ) {
+			return \sprintf( '<meta name="twitter:creator" content="%s" />', \esc_attr( $twitter_creator ) );
 		}
 
 		return '';

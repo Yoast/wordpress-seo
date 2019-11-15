@@ -108,7 +108,7 @@ class OG_Image_Generator implements Generator_Interface {
 			}
 
 			$image_container->add_image(
-				\array_merge_recursive(
+				\array_merge(
 					(array) $meta_data,
 					[
 						'url' => $indexable->og_image,
@@ -121,7 +121,6 @@ class OG_Image_Generator implements Generator_Interface {
 
 		if ( $indexable->og_image_id ) {
 			$image_container->add_image_by_id( $indexable->og_image_id );
-
 		}
 	}
 

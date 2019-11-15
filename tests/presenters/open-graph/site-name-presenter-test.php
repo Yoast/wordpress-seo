@@ -76,7 +76,7 @@ class Site_Name_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_site_name' )
 			->once()
-			->with( 'My Site' )
+			->with( 'My Site', $this->presentation )
 			->andReturn( 'My Site' );
 
 		$expected = '<meta property="og:site_name" content="My Site" />';
