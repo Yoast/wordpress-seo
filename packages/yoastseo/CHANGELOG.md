@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
 
+## 1.62.0 October 29th, 2019
+### Enhancements:
+ * Adds a new Readability Score of 0 and "Not Available". Changes Readability for empty content from "Needs Improvement" to "Not Available". Props to [emilyatmobtown](https://github.com/emilyatmobtown)
+
 ## 1.61.0 October 14th, 2019
 ### Added
 * Adds the transition word assessment for Hungarian, props to [9abor](https://github.com/9abor)
