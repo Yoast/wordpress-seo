@@ -10,6 +10,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * @coversDefaultClass \Yoast\WP\Free\Presentations\Indexable_Presentation
  *
  * @group presentations
+ * @group canonical
  */
 class Canonical_Test extends TestCase {
 	use Presentation_Instance_Builder;
@@ -20,7 +21,7 @@ class Canonical_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->setInstance();
+		$this->set_instance();
 	}
 
 	/**
@@ -28,10 +29,21 @@ class Canonical_Test extends TestCase {
 	 *
 	 * @covers ::generate_canonical
 	 */
-	public function test_generate_canonical_when_canonical_is_given() {
-		$this->indexable->canonical = 'Example of canonical';
+	public function test_with_canonical() {
+		$this->indexable->canonical = 'https://example.com/canonical';
 
-		$this->assertEquals( 'Example of canonical', $this->instance->generate_canonical() );
+		$this->assertEquals( 'https://example.com/canonical', $this->instance->generate_canonical() );
+	}
+
+	/**
+	 * Tests the situation where the permalink is given.
+	 *
+	 * @covers ::generate_canonical
+	 */
+	public function test_with_permalink() {
+		$this->indexable->permalink = 'https://example.com/permalink';
+
+		$this->assertEquals( 'https://example.com/permalink', $this->instance->generate_canonical() );
 	}
 
 	/**
@@ -39,7 +51,7 @@ class Canonical_Test extends TestCase {
 	 *
 	 * @covers ::generate_canonical
 	 */
-	public function test_generate_canonical_with_empty_return_value() {
+	public function test_without_canonical_or_permalink() {
 		$this->assertEmpty( $this->instance->generate_canonical() );
 	}
 }

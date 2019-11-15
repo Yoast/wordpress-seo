@@ -51,7 +51,6 @@ class Indexable_Home_Page_Builder {
 		$indexable->title            = $this->options_helper->get( 'title-home-wpseo' );
 		$indexable->breadcrumb_title = $this->options_helper->get( 'breadcrumbs-home' );
 		$indexable->permalink        = $this->url_helper->home();
-		$indexable->canonical        = $indexable->permalink;
 		$indexable->description      = $this->options_helper->get( 'metadesc-home-wpseo' );
 		if ( empty( $indexable->description ) ) {
 			$indexable->description = \get_bloginfo( 'description' );
@@ -61,6 +60,7 @@ class Indexable_Home_Page_Builder {
 
 		$indexable->og_title       = $this->options_helper->get( 'og_frontpage_title' );
 		$indexable->og_image       = $this->options_helper->get( 'og_frontpage_image' );
+		$indexable->og_image_id    = $this->options_helper->get( 'og_frontpage_image_id' );
 		$indexable->og_description = $this->options_helper->get( 'og_frontpage_desc' );
 
 		return $indexable;

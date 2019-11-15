@@ -22,7 +22,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	 *
 	 * @var string
 	 */
-	protected $identifier = 'premium_upsell_admin_block';
+	protected $identifier = 'premium_upsell';
 
 	/**
 	 * Registers which hook the block will be displayed on.
@@ -39,9 +39,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	 * @return void
 	 */
 	public function register_hooks() {
-		if ( ! $this->is_hidden() ) {
-			add_action( $this->hook, array( $this, 'render' ) );
-		}
+		add_action( $this->hook, array( $this, 'render' ) );
 	}
 
 	/**
@@ -65,9 +63,6 @@ class WPSEO_Premium_Upsell_Admin_Block {
 
 		$class = $this->get_html_class();
 
-		/* translators: %s expands to "Yoast SEO Premium". */
-		$dismiss_msg = sprintf( __( 'Dismiss %s upgrade notice', 'wordpress-seo' ), 'Yoast SEO Premium' );
-
 		/* translators: %s expands to Yoast SEO Premium */
 		$button_text  = esc_html( sprintf( __( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' ) );
 		$button_text .= '<span class="screen-reader-text">' . esc_html__( '(Opens in a new browser tab)', 'wordpress-seo' ) . '</span>' .
@@ -81,12 +76,6 @@ class WPSEO_Premium_Upsell_Admin_Block {
 		);
 
 		echo '<div class="' . esc_attr( $class ) . '">';
-		printf(
-			'<a href="%1$s" style="" class="alignright button %2$s" aria-label="%3$s"><span class="dashicons dashicons-no-alt"></span></a>',
-			esc_url( add_query_arg( array( $this->get_query_variable_name() => 1 ) ) ),
-			esc_attr( $class . '--close' ),
-			esc_attr( $dismiss_msg )
-		);
 
 		echo '<div>';
 		echo '<h2 class="' . esc_attr( $class . '--header' ) . '">' .
@@ -120,45 +109,6 @@ class WPSEO_Premium_Upsell_Admin_Block {
 			esc_attr( $class . '--argument' ),
 			$argument
 		);
-	}
-
-	/**
-	 * Checks if the block is hidden by the user.
-	 *
-	 * @return bool False when it should be shown, True if it should be hidden.
-	 */
-	protected function is_hidden() {
-		$transient_name = $this->get_option_name();
-
-		$hide = (bool) get_user_option( $transient_name );
-		if ( ! $hide ) {
-			$query_variable_name = $this->get_query_variable_name();
-			if ( filter_input( INPUT_GET, $query_variable_name, FILTER_VALIDATE_INT ) === 1 ) {
-				// No expiration time, so this would normally not expire, but it wouldn't be copied to other sites etc.
-				update_user_option( get_current_user_id(), $transient_name, true );
-				$hide = true;
-			}
-		}
-
-		return $hide;
-	}
-
-	/**
-	 * Retrieves the option name to use.
-	 *
-	 * @return string The name of the option to save the data in.
-	 */
-	protected function get_option_name() {
-		return 'yoast_promo_hide_' . $this->identifier;
-	}
-
-	/**
-	 * Retrieves the query variable to use for dismissing the block.
-	 *
-	 * @return string The name of the query variable to use.
-	 */
-	protected function get_query_variable_name() {
-		return 'yoast_promo_hide_' . $this->identifier;
 	}
 
 	/**

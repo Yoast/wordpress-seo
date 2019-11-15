@@ -22,12 +22,12 @@ class Twitter_Description_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->setInstance();
+		$this->set_instance();
 		$this->indexable->object_id = 1;
 	}
 
 	/**
-	 * Tests the situation where the twitter description is given.
+	 * Tests the situation where the Twitter description is given.
 	 *
 	 * @covers ::generate_twitter_description
 	 */
@@ -43,11 +43,9 @@ class Twitter_Description_Test extends TestCase {
 	 * @covers ::generate_twitter_description
 	 */
 	public function test_with_term_description() {
-		$this->options_helper
-			->expects( 'get' )
-			->withAnyArgs()
-			->once()
-			->andReturn( '' );
+		$this->indexable->twitter_description = '';
+		$this->indexable->og_description      = '';
+		$this->instance->meta_description     = '';
 
 		$this->taxonomy_helper
 			->expects( 'get_term_description' )

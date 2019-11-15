@@ -23,7 +23,7 @@ class Meta_Description_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->setInstance();
+		$this->set_instance();
 	}
 
 	/**

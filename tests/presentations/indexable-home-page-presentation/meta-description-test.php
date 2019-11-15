@@ -19,7 +19,7 @@ class Meta_Description_Test extends TestCase {
 	 * Does the setup for testing.
 	 */
 	public function setUp() {
-		$this->setInstance();
+		$this->set_instance();
 
 		return parent::setUp();
 	}

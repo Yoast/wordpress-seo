@@ -58,6 +58,10 @@ class Indexable_Term_Builder {
 			$indexable->{$indexable_key} = $this->get_meta_value( $meta_key, $term_meta );
 		}
 
+		if ( empty( $indexable->breadcrumb_title ) ) {
+			$indexable->breadcrumb_title = $term->name;
+		}
+
 		$this->handle_social_images( $indexable );
 
 		// Not implemented yet.
@@ -125,6 +129,7 @@ class Indexable_Term_Builder {
 			'wpseo_twitter-title'         => 'twitter_title',
 			'wpseo_twitter-description'   => 'twitter_description',
 			'wpseo_twitter-image'         => 'twitter_image',
+			'wpseo_twitter-image-id'      => 'twitter_image_id',
 		];
 	}
 

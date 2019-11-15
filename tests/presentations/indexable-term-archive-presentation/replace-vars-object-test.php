@@ -21,7 +21,7 @@ class Replace_Vars_Object_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->setInstance();
+		$this->set_instance();
 		$this->indexable->object_id = 11;
 		$this->indexable->object_sub_type = 'Object subtype';
 	}

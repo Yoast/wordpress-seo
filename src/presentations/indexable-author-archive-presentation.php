@@ -8,20 +8,24 @@
 namespace Yoast\WP\Free\Presentations;
 
 use Yoast\WP\Free\Helpers\Post_Type_Helper;
-use Yoast\WP\Free\Helpers\User_Helper;
 use Yoast\WP\Free\Wrappers\WP_Query_Wrapper;
 
 /**
  * Class Indexable_Author_Archive_Presentation
  */
 class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
+	use Archive_Adjacent;
 
 	/**
+	 * Holds the WP query wrapper instance.
+	 *
 	 * @var WP_Query_Wrapper
 	 */
 	protected $wp_query_wrapper;
 
 	/**
+	 * Holds the post type helper instance.
+	 *
 	 * @var Post_Type_Helper
 	 */
 	protected $post_type_helper;
@@ -45,13 +49,33 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	/**
 	 * @inheritDoc
 	 */
+	public function generate_canonical() {
+		if ( $this->model->canonical ) {
+			return $this->model->canonical;
+		}
+
+		if ( ! $this->model->permalink ) {
+			return '';
+		}
+
+		$current_page = $this->pagination->get_current_archive_page_number();
+		if ( $current_page > 1 ) {
+			return $this->pagination->get_paginated_url( $this->model->permalink, $current_page );
+		}
+
+		return $this->model->permalink;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function generate_title() {
 		if ( $this->model->title ) {
 			return $this->model->title;
 		}
 
-		$option_titles_key  = 'title-author-wpseo';
-		$title = $this->options_helper->get( $option_titles_key );
+		$option_titles_key = 'title-author-wpseo';
+		$title             = $this->options_helper->get( $option_titles_key );
 		if ( $title ) {
 			return $title;
 		}
@@ -74,8 +98,8 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 			return $this->model->description;
 		}
 
-		$option_titles_key  = 'metadesc-author-wpseo';
-		$description = $this->options_helper->get( $option_titles_key );
+		$option_titles_key = 'metadesc-author-wpseo';
+		$description       = $this->options_helper->get( $option_titles_key );
 		if ( $description ) {
 			return $description;
 		}
@@ -87,13 +111,13 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_robots() {
-		$robots = $this->robots_helper->get_base_values( $this->model );
+		$robots = parent::generate_robots();
 
 		// Global option: "Show author archives in search results".
 		if ( $this->options_helper->get( 'noindex-author-wpseo', false ) ) {
 			$robots['index'] = 'noindex';
 
-			return $this->robots_helper->after_generate( $robots );
+			return $robots;
 		}
 
 		$current_author = $this->wp_query_wrapper->get_query()->get_queried_object();
@@ -102,7 +126,7 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 		if ( $current_author === false ) {
 			$robots['index'] = 'noindex';
 
-			return $this->robots_helper->after_generate( $robots );
+			return $robots;
 		}
 
 		$public_post_types = $this->post_type_helper->get_public_post_types();
@@ -111,16 +135,16 @@ class Indexable_Author_Archive_Presentation extends Indexable_Presentation {
 		if ( $this->options_helper->get( 'noindex-author-noposts-wpseo', false ) && $this->user->count_posts( $current_author->ID, $public_post_types ) === 0 ) {
 			$robots['index'] = 'noindex';
 
-			return $this->robots_helper->after_generate( $robots );
+			return $robots;
 		}
 
 		// User option: "Do not allow search engines to show this author's archives in search results".
 		if ( $this->user->get_meta( $current_author->ID, 'wpseo_noindex_author', true ) === 'on' ) {
 			$robots['index'] = 'noindex';
 
-			return $this->robots_helper->after_generate( $robots );
+			return $robots;
 		}
 
-		return $this->robots_helper->after_generate( $robots );
+		return $robots;
 	}
 }

@@ -280,7 +280,7 @@ class WPSEO_Admin_Bar_Menu implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	protected function add_analysis_submenu( WP_Admin_Bar $wp_admin_bar ) {
-		$url           = WPSEO_Frontend::get_instance()->canonical( false );
+		$url           = yoastseo()->get_current_page_presentation()->canonical;
 		$focus_keyword = '';
 
 		if ( ! $url ) {

@@ -19,36 +19,24 @@ use Yoast\WP\Free\Tests\TestCase;
  */
 class Twitter_Description_Test extends TestCase {
 
+	use Presentation_Instance_Builder;
+
 	/**
 	 * @var Options_Helper|Mockery\MockInterface
 	 */
 	protected $option_helper;
 
 	/**
-	 * @var Indexable
-	 */
-	protected $indexable;
-
-	/**
-	 * @var Indexable_Presentation
-	 */
-	protected $instance;
-
-	/**
 	 * Does the setup for testing.
 	 */
 	public function setUp() {
-		$this->option_helper = Mockery::mock( Options_Helper::class );
-		$this->indexable     = new Indexable();
+		parent::setUp();
 
-		$presentation   = Mockery::mock( Indexable_Presentation::class )->makePartial();
-		$this->instance = $presentation->of( [ 'model' => $this->indexable ] );
-
-		return parent::setUp();
+		$this->set_instance();
 	}
 
 	/**
-	 * Tests the situation where the twitter description is given.
+	 * Tests the situation where the Twitter description is given.
 	 *
 	 * @covers ::generate_twitter_description
 	 */
@@ -56,6 +44,30 @@ class Twitter_Description_Test extends TestCase {
 		$this->indexable->twitter_description = 'Twitter description';
 
 		$this->assertEquals( 'Twitter description', $this->instance->generate_twitter_description() );
+	}
+
+	/**
+	 * Tests the situation where no Twitter description is set, the OG description is set, and OG is enabled.
+	 *
+	 * @covers ::generate_twitter_description
+	 */
+	public function test_generate_twitter_description_with_set_og_description_and_og_enabled() {
+		$this->context->open_graph_enabled = true;
+		$this->indexable->og_description   = 'OG description';
+
+		$this->assertEquals( 'OG description', $this->instance->generate_twitter_description() );
+	}
+
+	/**
+	 * Tests the situation where no Twitter description is set, the OG description is set, and OG is disabled.
+	 *
+	 * @covers ::generate_twitter_description
+	 */
+	public function test_generate_twitter_description_with_set_og_description_and_og_disabled() {
+		$this->context->open_graph_enabled = false;
+		$this->indexable->description      = 'SEO description';
+
+		$this->assertEquals( 'SEO description', $this->instance->generate_twitter_description() );
 	}
 
 	/**

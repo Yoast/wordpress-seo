@@ -17,6 +17,9 @@ class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
 		delete_transient( WPSEO_Statistics_Service::CACHE_TRANSIENT_KEY );
 	}
 
+	/**
+	 * Tests filtering the zero counts.
+	 */
 	public function test_filter_zero_counts() {
 		$statistics = new Statistics_Mock(
 			array(
@@ -33,6 +36,10 @@ class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
 		$this->assertCount( 1, $response_data['seo_scores'] );
 	}
 
+	/**
+	 * Tests the rendering of generated link that navigates to an overview with post
+	 * for a specific author.
+	 */
 	public function test_seo_score_links() {
 		$statistics = new Statistics_Mock(
 			array(
@@ -52,6 +59,9 @@ class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
 		);
 	}
 
+	/**
+	 * Tests the rendering of generated link that navigates to an overview with post of that type.
+	 */
 	public function test_admin_seo_score_links() {
 		$user = wp_get_current_user();
 		$user->add_cap( 'edit_others_posts' );
@@ -76,6 +86,9 @@ class WPSEO_Statistics_Service_Test extends WPSEO_UnitTestCase {
 		$user->remove_cap( 'edit_others_posts' );
 	}
 
+	/**
+	 * Tests the total amount of seo scores.
+	 */
 	public function test_page_counts() {
 		$statistics = new Statistics_Mock(
 			array(

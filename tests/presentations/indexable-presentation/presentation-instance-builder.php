@@ -32,19 +32,9 @@ trait Presentation_Instance_Builder {
 	protected $context;
 
 	/**
-	 * @var OG_Image_Generator|Mockery\MockInterface
-	 */
-	protected $og_image_generator;
-
-	/**
-	 * @var Twitter_Image_Generator|Mockery\MockInterface
-	 */
-	protected $twitter_image_generator;
-
-	/**
 	 * Builds an instance of Indexable_Post_Type_Presentation.
 	 */
-	protected function setInstance() {
+	protected function set_instance() {
 		$this->indexable = new Indexable();
 
 		$this->context = Mockery::mock( Meta_Tags_Context::class );

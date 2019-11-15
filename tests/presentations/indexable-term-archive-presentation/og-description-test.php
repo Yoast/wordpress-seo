@@ -22,7 +22,7 @@ class Open_Graph_Description_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->setInstance();
+		$this->set_instance();
 		$this->indexable->object_id = 1;
 	}
 
@@ -43,11 +43,8 @@ class Open_Graph_Description_Test extends TestCase {
 	 * @covers ::generate_og_description
 	 */
 	public function test_with_term_description() {
-		$this->options_helper
-			->expects( 'get' )
-			->withAnyArgs()
-			->once()
-			->andReturn( '' );
+		$this->indexable->og_description  = '';
+		$this->instance->meta_description = '';
 
 		$this->taxonomy_helper
 			->expects( 'get_term_description' )

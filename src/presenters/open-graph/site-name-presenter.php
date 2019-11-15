@@ -33,7 +33,7 @@ class Site_Name_Presenter extends Abstract_Indexable_Presenter {
 	}
 
 	/**
-	 * Run the site name through the `wpseo_opengraph_site_name` filter.
+	 * Runs the site name through the `wpseo_opengraph_site_name` filter.
 	 *
 	 * @param string $site_name The site_name to filter.
 	 *

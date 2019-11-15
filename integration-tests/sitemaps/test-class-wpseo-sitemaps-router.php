@@ -35,6 +35,8 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests redirecting of the canonical.
+	 *
 	 * @covers WPSEO_Sitemaps_Router::redirect_canonical
 	 */
 	public function test_redirect_canonical() {
@@ -54,6 +56,8 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests retrieval of the base url.
+	 *
 	 * @covers WPSEO_Sitemaps_Router::get_base_url
 	 */
 	public function test_get_base_url() {

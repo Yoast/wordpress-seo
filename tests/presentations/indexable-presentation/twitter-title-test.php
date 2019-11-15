@@ -19,32 +19,20 @@ use Yoast\WP\Free\Tests\TestCase;
  */
 class Twitter_Title_Test extends TestCase {
 
+	use Presentation_Instance_Builder;
+
 	/**
 	 * @var Options_Helper|Mockery\MockInterface
 	 */
 	protected $option_helper;
 
 	/**
-	 * @var Indexable
-	 */
-	protected $indexable;
-
-	/**
-	 * @var Indexable_Presentation
-	 */
-	protected $instance;
-
-	/**
 	 * Does the setup for testing.
 	 */
 	public function setUp() {
-		$this->option_helper = Mockery::mock( Options_Helper::class );
-		$this->indexable     = new Indexable();
+		parent::setUp();
 
-		$presentation   = Mockery::mock( Indexable_Presentation::class )->makePartial();
-		$this->instance = $presentation->of( [ 'model' => $this->indexable ] );
-
-		return parent::setUp();
+		$this->set_instance();
 	}
 
 	/**
@@ -59,14 +47,27 @@ class Twitter_Title_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the situation where no Twitter title is set, but the OG title is set.
+	 * Tests the situation where no Twitter title is set, the OG title is set, and OG is enabled.
 	 *
 	 * @covers ::generate_twitter_title
 	 */
-	public function test_generate_twitter_title_with_set_og_title() {
-		$this->indexable->og_title = 'OG title';
+	public function test_generate_twitter_title_with_set_og_title_and_og_enabled() {
+		$this->context->open_graph_enabled = true;
+		$this->indexable->og_title         = 'OG title';
 
 		$this->assertEquals( 'OG title', $this->instance->generate_twitter_title() );
+	}
+
+	/**
+	 * Tests the situation where no Twitter title is set, the OG title is set, and OG is disabled.
+	 *
+	 * @covers ::generate_twitter_title
+	 */
+	public function test_generate_twitter_title_with_set_og_title_and_og_disabled() {
+		$this->context->open_graph_enabled = false;
+		$this->indexable->title            = 'SEO title';
+
+		$this->assertEquals( 'SEO title', $this->instance->generate_twitter_title() );
 	}
 
 	/**

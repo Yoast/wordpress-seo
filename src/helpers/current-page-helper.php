@@ -31,6 +31,34 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Returns the page type for the current request.
+	 *
+	 * @return string Page type.
+	 */
+	public function get_page_type() {
+		switch ( true ) {
+			case $this->is_search_result():
+				return 'Search_Result_Page';
+			case $this->is_simple_page() || $this->is_home_static_page():
+				return 'Post_Type';
+			case $this->is_post_type_archive():
+				return 'Post_Type_Archive';
+			case $this->is_term_archive():
+				return 'Term_Archive';
+			case $this->is_author_archive():
+				return 'Author_Archive';
+			case $this->is_date_archive():
+				return 'Date_Archive';
+			case $this->is_home_posts_page():
+				return 'Home_Page';
+			case $this->is_404():
+				return 'Error_Page';
+		}
+
+		return 'Fallback';
+	}
+
+	/**
 	 * Checks if the currently opened page is a simple page.
 	 *
 	 * @return bool Whether the currently opened page is a simple page.
@@ -124,6 +152,27 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Returns the permalink of the currently opened date archive.
+	 *
+	 * @return string The permalink of the currently opened date archive.
+	 */
+	public function get_date_archive_permalink() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		if ( $wp_query->is_day() ) {
+			return \get_day_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ), $wp_query->get( 'day' ) );
+		}
+		if ( $wp_query->is_month() ) {
+			return \get_month_link( $wp_query->get( 'year' ), $wp_query->get( 'monthnum' ) );
+		}
+		if ( $wp_query->is_year() ) {
+			return \get_year_link( $wp_query->get( 'year' ) );
+		}
+
+		return '';
+	}
+
+	/**
 	 * Determine whether this is the homepage and shows posts.
 	 *
 	 * @return bool Whether or not the current page is the homepage that displays posts.
@@ -131,7 +180,19 @@ class Current_Page_Helper {
 	public function is_home_posts_page() {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
-		return ( $wp_query->is_home() && \get_option( 'show_on_front' ) === 'posts' );
+		if ( ! $wp_query->is_home() ) {
+			return false;
+		}
+
+		/*
+		 * Whether the static page's `Homepage` option is actually not set to a page.
+		 * Otherwise WordPress proceeds to handle the homepage as a `Your latest posts` page.
+		 */
+		if ( \get_option( 'page_on_front' ) === '0' ) {
+			return true;
+		}
+
+		return \get_option( 'show_on_front' ) === 'posts';
 	}
 
 	/**
@@ -143,6 +204,19 @@ class Current_Page_Helper {
 		$wp_query = $this->wp_query_wrapper->get_main_query();
 
 		return ( $wp_query->is_front_page() && \get_option( 'show_on_front' ) === 'page' && \is_page( \get_option( 'page_on_front' ) ) );
+	}
+
+	/**
+	 * Determine whether this is the static posts page.
+	 *
+	 * @return bool Whether or not the current page is a static posts page.
+	 */
+	public function is_static_posts_page() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		$page_for_posts = (int) \get_option( 'page_for_posts' );
+
+		return ( $page_for_posts > 0 && $page_for_posts === $wp_query->get_queried_object_id() );
 	}
 
 	/**
@@ -234,6 +308,17 @@ class Current_Page_Helper {
 	}
 
 	/**
+	 * Checks if the current page is the post format archive.
+	 *
+	 * @return bool Whether or not the current page is the post format archive.
+	 */
+	public function is_post_format_archive() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return $wp_query->is_tax( 'post_format' );
+	}
+
+	/**
 	 * Determine whether this page is an taxonomy archive page for multiple terms (url: /term-1,term2/).
 	 *
 	 * @return bool Whether or not the current page is an archive page for multiple terms.
@@ -253,5 +338,27 @@ class Current_Page_Helper {
 		}
 
 		return \count( $queried_terms[ $term->taxonomy ]['terms'] ) > 1;
+	}
+
+	/**
+	 * Checks if the current page is the front page.
+	 *
+	 * @return bool Whether or not the current page is the front page.
+	 */
+	public function is_front_page() {
+		$wp_query = $this->wp_query_wrapper->get_main_query();
+
+		return $wp_query->is_front_page();
+	}
+
+	/**
+	 * Retrieves the current admin page.
+	 *
+	 * @return string The current page.
+	 */
+	public function get_current_admin_page() {
+		global $pagenow;
+
+		return $pagenow;
 	}
 }

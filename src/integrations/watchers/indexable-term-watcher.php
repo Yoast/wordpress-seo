@@ -7,7 +7,7 @@
 
 namespace Yoast\WP\Free\Integrations\Watchers;
 
-use Yoast\WP\Free\Builders\Indexable_Term_Builder;
+use Yoast\WP\Free\Builders\Indexable_Builder;
 use Yoast\WP\Free\Integrations\Integration_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 
@@ -36,10 +36,10 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	/**
 	 * Indexable_Term_Watcher constructor.
 	 *
-	 * @param \Yoast\WP\Free\Repositories\Indexable_Repository $repository The repository to use.
-	 * @param \Yoast\WP\Free\Builders\Indexable_Term_Builder   $builder    The post builder to use.
+	 * @param Indexable_Repository $repository The repository to use.
+	 * @param Indexable_Builder    $builder    The post builder to use.
 	 */
-	public function __construct( Indexable_Repository $repository, Indexable_Term_Builder $builder ) {
+	public function __construct( Indexable_Repository $repository, Indexable_Builder $builder ) {
 		$this->repository = $repository;
 		$this->builder    = $builder;
 	}
@@ -85,7 +85,7 @@ class Indexable_Term_Watcher implements Integration_Interface {
 
 		// If we haven't found an existing indexable, create it. Otherwise update it.
 		try {
-			$indexable = ( $indexable === false ) ? $this->repository->create_for_id_and_type( $term_id, 'term' ) : $this->builder->build( $term_id, $indexable );
+			$indexable = $this->builder->build_for_id_and_type( $term_id, 'term', $indexable );
 		} catch ( \Exception $exception ) {
 			return;
 		}

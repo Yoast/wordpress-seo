@@ -106,7 +106,6 @@ class Metabox_Editor_Test extends TestCase {
 		$this->assertSame( $expected, $actual );
 	}
 
-
 	/**
 	 * Tests adding a custom element that also contains other properties.
 	 *

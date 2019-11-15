@@ -14,11 +14,12 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group MyYoast
  *
  * @coversDefaultClass WPSEO_MyYoast_Proxy
- * @covers ::<!public>
  */
 class MyYoast_Proxy_Test extends TestCase {
 
 	/**
+	 * Tests determine the proxy options for the research webworker file.
+	 *
 	 * @covers ::determine_proxy_options
 	 */
 	public function test_determine_proxy_options_for_the_research_webworker_file() {
@@ -45,6 +46,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	}
 
 	/**
+	 * Tests the rendering of the proxy page for an unknown file.
+	 *
 	 * @covers ::render_proxy_page
 	 * @covers ::determine_proxy_options
 	 */
@@ -71,6 +74,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	}
 
 	/**
+	 * Tests rendering of the proxy page for the research webworker file.
+	 *
 	 * @covers ::render_proxy_page
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file() {
@@ -116,6 +121,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	}
 
 	/**
+	 * Tests rendering of the proxy page for the research webworker where the file errored.
+	 *
 	 * @covers ::render_proxy_page
 	 */
 	public function test_render_proxy_page_for_the_research_webworker_file_errored_and_wordpress_not_found() {
@@ -186,6 +193,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	}
 
 	/**
+	 * Tests rendering the proxy page that went via WordPress.
+	 *
 	 * @covers ::render_proxy_page
 	 */
 	public function test_render_proxy_page_via_wordpress() {
@@ -231,6 +240,8 @@ class MyYoast_Proxy_Test extends TestCase {
 	}
 
 	/**
+	 * Tests rendering of the proxy page where WordPress remote get throws an error.
+	 *
 	 * @covers ::render_proxy_page
 	 */
 	public function test_render_proxy_page_via_wordpress_errored() {
@@ -244,7 +255,7 @@ class MyYoast_Proxy_Test extends TestCase {
 		/**
 		 * It acts like an instance of WPSEO_MyYoast_Proxy.
 		 *
-		 * @var WPSEO_MyYoast_Proxy $instance
+		 * @var \WPSEO_MyYoast_Proxy $instance
 		 */
 		$instance = $this
 			->getMockBuilder( WPSEO_MyYoast_Proxy::class )

@@ -68,18 +68,19 @@ abstract class TestCase extends BaseTestCase {
 					return \trailingslashit( $string );
 				},
 				'wp_strip_all_tags'   => function ( $string, $remove_breaks = false ) {
-					$string = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
-					$string = strip_tags( $string );
+					$string = \preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
+					$string = \strip_tags( $string );
 
 					if ( $remove_breaks ) {
-						$string = preg_replace( '/[\r\n\t ]+/', ' ', $string );
+						$string = \preg_replace( '/[\r\n\t ]+/', ' ', $string );
 					}
 
-					return trim( $string );
+					return \trim( $string );
 				},
-				'get_bloginfo'       => function ( $show ) {
+				'get_bloginfo'        => function ( $show ) {
 					switch ( $show ) {
-						case 'charset': return 'UTF-8';
+						case 'charset':
+							return 'UTF-8';
 					}
 					return $show;
 				},

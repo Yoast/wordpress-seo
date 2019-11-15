@@ -14,7 +14,7 @@ use Yoast\WP\Free\Tests\TestCase;
  * Class Indexable_Term_Test.
  *
  * @group indexables
- * @group formatters
+ * @group builders
  *
  * @coversDefaultClass \Yoast\WP\Free\Builders\Indexable_Term_Builder
  * @covers ::<!public>
@@ -89,7 +89,7 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'twitter_image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image', 'image.jpg' );
-		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_id', null );
+		$indexable_mock->orm->expects( 'set' )->times( 2 )->with( 'twitter_image_id', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', null );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_image_source', 'first-content-image' );
 		$indexable_mock->orm->expects( 'set' )->with( 'twitter_description', 'twitter_description' );
@@ -109,6 +109,10 @@ class Indexable_Term_Builder_Test extends TestCase {
 		$indexable_mock->orm->expects( 'get' )->twice()->with( 'twitter_image' );
 		$indexable_mock->orm->expects( 'get' )->times( 3 )->with( 'twitter_image_id' );
 		$indexable_mock->orm->expects( 'get' )->with( 'object_id' );
+
+
+		$indexable_mock->orm->expects( 'offsetExists' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
+		$indexable_mock->orm->expects( 'get' )->once()->with( 'breadcrumb_title' )->andReturnTrue();
 
 		$image_helper     = Mockery::mock( Image_Helper::class );
 		$open_graph_image = Mockery::mock( \Yoast\WP\Free\Helpers\Open_Graph\Image_Helper::class );

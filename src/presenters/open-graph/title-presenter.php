@@ -61,6 +61,6 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 		 *
 		 * @api string $title The title.
 		 */
-		return (string) trim( \apply_filters( 'wpseo_title', $title ) );
+		return (string) trim( \apply_filters( 'wpseo_og_title', $title ) );
 	}
 }

@@ -10,6 +10,9 @@
  */
 class WPSEO_Ryte_Service_Test extends WPSEO_UnitTestCase {
 
+	/**
+	 * Tests the response data is false when the OnPage is disabled.
+	 */
 	public function test_cannot_view_ryte() {
 		$onpage = new OnPage_Option_Mock( false, WPSEO_OnPage_Option::IS_INDEXABLE, true );
 
@@ -20,6 +23,9 @@ class WPSEO_Ryte_Service_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( $response_data['ryte'] );
 	}
 
+	/**
+	 * Tests the response data is as expected when the OnPage is enabled.
+	 */
 	public function test_can_view_ryte() {
 		$user = wp_get_current_user();
 		$user->add_cap( 'manage_options' );

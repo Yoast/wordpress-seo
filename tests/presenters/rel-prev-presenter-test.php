@@ -5,8 +5,8 @@
 
 namespace Yoast\WP\Free\Tests\Presenters;
 
+use Brain\Monkey;
 use Mockery;
-use Yoast\WP\Free\Helpers\Rel_Adjacent_Helper;
 use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Presenters\Rel_Prev_Presenter;
 use Yoast\WP\Free\Tests\TestCase;
@@ -39,12 +39,13 @@ class Rel_Prev_Presenter_Test extends TestCase {
 	 * Tests the presentation of the rel prev meta tag.
 	 *
 	 * @covers ::present
+	 * @covers ::filter
 	 */
 	public function test_present() {
 		$presentation = new Indexable_Presentation();
 
 		$presentation->rel_prev = 'https://permalink/post/2';
-		$presentation->robots    = [];
+		$presentation->robots   = [];
 
 		$this->assertEquals(
 			'<link rel="prev" href="https://permalink/post/2" />',
@@ -56,12 +57,13 @@ class Rel_Prev_Presenter_Test extends TestCase {
 	 * Tests the presentation of the rel prev meta tag when it's empty.
 	 *
 	 * @covers ::present
+	 * @covers ::filter
 	 */
 	public function test_present_empty() {
 		$presentation = new Indexable_Presentation();
 
 		$presentation->rel_prev = '';
-		$presentation->robots    = [];
+		$presentation->robots   = [];
 
 		$this->assertEquals(
 			'',
@@ -82,5 +84,28 @@ class Rel_Prev_Presenter_Test extends TestCase {
 		$presentation->robots   = [ 'noindex' ];
 
 		$this->assertEmpty( $this->instance->present( $presentation ) );
+	}
+
+	/**
+	 * Tests the presentation of the rel next meta tag with filter.
+	 *
+	 * @covers ::present
+	 * @covers ::filter
+	 */
+	public function test_present_with_filter() {
+		$presentation = new Indexable_Presentation();
+
+		$presentation->rel_prev = 'https://permalink/post/2';
+		$presentation->robots   = [];
+
+		Monkey\Filters\expectApplied( 'wpseo_adjacent_rel_url' )
+			->with( 'https://permalink/post/2', 'prev' )
+			->once()
+			->andReturn( 'https://filtered' );
+
+		$this->assertEquals(
+			'<link rel="prev" href="https://filtered" />',
+			$this->instance->present( $presentation )
+		);
 	}
 }

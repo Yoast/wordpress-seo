@@ -48,7 +48,7 @@ class WPSEO_Ryte_Service {
 	 * Returns an the results of the Ryte option based on the passed status.
 	 *
 	 * @param string $status The option's status.
-	 * @param bool   $fetch Whether or not the data should be fetched.
+	 * @param bool   $fetch  Whether or not the data should be fetched.
 	 *
 	 * @return array The results, contains a score and label.
 	 */

@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Admin;
+namespace Yoast\WP\Free\Tests\Admin\Metabox;
 
 use Brain\Monkey;
 use WPSEO_Metabox_Section_Additional;
@@ -13,7 +13,6 @@ use Yoast\WP\Free\Tests\TestCase;
  * @group Metabox
  *
  * @coversDefaultClass \WPSEO_Metabox
- * @covers ::<!public>
  */
 class Metabox_Test extends TestCase {
 

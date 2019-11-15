@@ -2,13 +2,8 @@
 
 namespace Yoast\WP\Free\Tests\Repositories;
 
-use Mockery\Mock;
-use Yoast\WP\Free\Builders\Indexable_Author_Builder;
-use Yoast\WP\Free\Builders\Indexable_Home_Page_Builder;
-use Yoast\WP\Free\Builders\Indexable_Post_Builder;
-use Yoast\WP\Free\Builders\Indexable_Post_Type_Archive_Builder;
-use Yoast\WP\Free\Builders\Indexable_System_Page_Builder;
-use Yoast\WP\Free\Builders\Indexable_Term_Builder;
+use Mockery;
+use Yoast\WP\Free\Builders\Indexable_Builder;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
@@ -18,7 +13,7 @@ use YoastSEO_Vendor\ORM;
 /**
  * @group indexables
  */
-class Indexable_Post_Builder_Test extends TestCase {
+class Indexable_Repository_Test extends TestCase {
 
 	/**
 	 * @var Indexable_Repository
@@ -44,17 +39,12 @@ class Indexable_Post_Builder_Test extends TestCase {
 	public function setUp() {
 		$this->wpdbsetup();
 
-		$wpdb = \Mockery::mock( \wpdb::class );
+		$wpdb = Mockery::mock( \wpdb::class );
 		$wpdb->prefix = 'custom_prefix_';
 
 		$this->repository = new Indexable_Repository(
-			\Mockery::mock(Indexable_Author_Builder::class ),
-			\Mockery::mock( Indexable_Post_Builder::class ),
-			\Mockery::mock( Indexable_Term_Builder::class ),
-			\Mockery::mock( Indexable_Home_Page_Builder::class ),
-			\Mockery::mock( Indexable_Post_Type_Archive_Builder::class ),
-			\Mockery::mock( Indexable_System_Page_Builder::class ),
-			\Mockery::mock( Current_Page_Helper::class ),
+			Mockery::mock( Indexable_Builder::class ),
+			Mockery::mock( Current_Page_Helper::class ),
 			new Logger(),
 			$wpdb
 		);
@@ -71,7 +61,7 @@ class Indexable_Post_Builder_Test extends TestCase {
 	 * commands are send to the database we mock the PDO layer in this method.
 	 */
 	public function setUpPdoMock() {
-		$this->db = \Mockery::mock( \PDO::class );
+		$this->db = Mockery::mock( \PDO::class );
 
 		// This is necessary because the ORM calls getAttribute.
 		$this->db
@@ -88,12 +78,12 @@ class Indexable_Post_Builder_Test extends TestCase {
 	}
 
 	public function expect_pdo_query( $expected_query, $expected_parameters, $return_rows ) {
-		$statement = \Mockery::mock( \PDOStatement::class );
+		$statement = Mockery::mock( \PDOStatement::class );
 
 		foreach ( $expected_parameters as $index => $expected_parameter ) {
 			$statement->shouldReceive( 'bindParam' )
 			          ->once()
-			          ->with( \Mockery::any(), $expected_parameter, \Mockery::any() );
+			          ->with( Mockery::any(), $expected_parameter, Mockery::any() );
 		}
 
 		$statement->shouldReceive( 'execute' );
