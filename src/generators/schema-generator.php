@@ -129,9 +129,10 @@ class Schema_Generator implements Generator_Interface {
 				/**
 				 * Filter: 'wpseo_schema_<class name>' - Allows changing graph piece output.
 				 *
-				 * @api array $graph_piece The graph piece to filter.
+				 * @api array               $graph_piece The graph piece to filter.
+				 * @param Meta_Tags_Context $context     A value object with context variables.
 				 */
-				$graph_piece = \apply_filters( 'wpseo_schema_' . $class, $graph_piece );
+				$graph_piece = \apply_filters( 'wpseo_schema_' . $class, $graph_piece, $context );
 				if ( \is_array( $graph_piece ) ) {
 					$graph[] = $graph_piece;
 				}
