@@ -57,7 +57,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	public function test_construct() {
 		$subject = Yoast_Notification_Center::get();
 
-		$this->assertTrue( $subject instanceof Yoast_Notification_Center );
+		$this->assertInstanceOf( Yoast_Notification_Center::class, $subject );
 	}
 
 	/**
@@ -84,7 +84,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$notifications = $subject->get_notifications();
 
-		$this->assertEquals( 2, count( $notifications ) );
+		$this->assertCount( 2, $notifications );
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 
 		$notifications = $subject->get_notifications();
 
-		$this->assertEquals( 1, count( $notifications ) );
+		$this->assertCount( 1, $notifications );
 	}
 
 	/**
@@ -323,14 +323,13 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 			->getMock();
 
 		$notification
-			->expects( $this->any() )
 			->method( 'display_for_current_user' )
-			->will( $this->returnValue( true ) );
+			->willReturn( true );
 
 		$notification
 			->expects( $this->any() )
 			->method( '__toString' )
-			->will( $this->returnValue( 'a' ) );
+			->willReturn( 'a' );
 
 		$subject = $this->get_notification_center();
 		$subject->add_notification( $notification );
@@ -358,12 +357,12 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification
 			->expects( $this->any() )
 			->method( 'display_for_current_user' )
-			->will( $this->returnValue( false ) );
+			->willReturn( false );
 
 		$notification
 			->expects( $this->any() )
 			->method( '__toString' )
-			->will( $this->returnValue( 'a' ) );
+			->willReturn( 'a' );
 
 		$subject = $this->get_notification_center();
 		$subject->add_notification( $notification );
@@ -473,7 +472,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$a = new Yoast_Notification( 'a' );
 		$this->assertFalse( Yoast_Notification_Center::maybe_dismiss_notification( $a ) );
 
-		$b = new Yoast_Notification( 'b', array( 'id' => uniqid( 'id' ) ) );
+		$b = new Yoast_Notification( 'b', array( 'id' => uniqid( 'id', true ) ) );
 		$this->assertFalse( Yoast_Notification_Center::maybe_dismiss_notification( $b ) );
 	}
 
@@ -722,10 +721,8 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification_center
 			->expects( $this->once() )
 			->method( 'get_notification_by_id' )
-			->will(
-				$this->returnValue(
-					new Yoast_Notification( 'message', array( 'id' => 'this-id-exists' ) )
-				)
+			->willReturn(
+				new Yoast_Notification( 'message', array( 'id' => 'this-id-exists' ) )
 			);
 
 		$notification_center->remove_notification_by_id( 'this-id-exists' );
@@ -751,7 +748,7 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->once() )
 			->method( 'get_stored_notifications' )
-			->will( $this->returnValue( $stored_notifications ) );
+			->willReturn( $stored_notifications );
 
 		$this->assertEquals( $expected, $instance->has_stored_notifications(), $message );
 	}
