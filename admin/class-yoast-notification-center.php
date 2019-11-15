@@ -536,7 +536,7 @@ class Yoast_Notification_Center {
 		 */
 		$merged_notifications = array();
 		if ( ! empty( $notifications ) ) {
-			$merged_notifications = array_merge( ...$notifications );
+			$merged_notifications = call_user_func_array( 'array_merge', $notifications );
 		}
 
 		/**
@@ -585,7 +585,7 @@ class Yoast_Notification_Center {
 	 */
 	public function get_notifications() {
 		if ( $this->notifications ) {
-			return array_merge( ...$this->notifications );
+			return call_user_func_array( 'array_merge', $this->notifications );
 		}
 		return array();
 	}
