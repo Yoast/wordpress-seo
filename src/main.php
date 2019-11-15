@@ -42,7 +42,7 @@ class Main {
 	 * @param string $class_name The classname to get the instance for.
 	 *
 	 * @return object The instance from the container.
-	 * @throws \Exception
+	 * @throws \Exception If something goes wrong generating the DI container.
 	 */
 	public function get_instance( $class_name ) {
 		return $this->container->get( $class_name );
@@ -52,6 +52,7 @@ class Main {
 	 * Retrieves the presentation for the current page.
 	 *
 	 * @return Presentations\Indexable_Presentation The presentation for current page.
+	 * @throws \Exception If something goes wrong generating the DI container.
 	 */
 	public function get_current_page_presentation() {
 		/**
