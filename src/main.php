@@ -118,7 +118,3 @@ class Main {
 		return \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT === 'development';
 	}
 }
-
-$main = new Main();
-$main->initialize();
-

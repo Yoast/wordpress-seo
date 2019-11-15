@@ -18,10 +18,10 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  *
  * @return Main The main instance.
  */
-function yoast() {
+function yoastseo() {
 	static $main;
 
-	if ( ! $main ) {
+	if ( $main === null ) {
 		$main = new Main();
 		$main->initialize();
 	}
