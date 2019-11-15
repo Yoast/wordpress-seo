@@ -41,7 +41,7 @@ class Yoast_Notification_Center {
 	/**
 	 * Notifications that were resolved this execution.
 	 *
-	 * @var array
+	 * @var int
 	 */
 	private $resolved = 0;
 
