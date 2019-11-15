@@ -29,6 +29,10 @@ class Indexable_Repository_Test extends TestCase {
 
 		global $wpdb;
 
+		if ( !isset( $wpdb ) ) {
+			$wpdb = new \stdClass();
+		}
+
 		/*
 		 * This cannot be `prefix_` because a different test might mess it up.
 		 * That is the disadvantage of globals.
@@ -139,11 +143,11 @@ class Indexable_Repository_Test extends TestCase {
 			'private',
 			'publish',
 			'post_type1',
-			'post_type2'
+			'post_type2',
 		];
 
 		$return_rows = [
-			[ 'count' => 5 ]
+			[ 'count' => 5 ],
 		];
 
 		$this->expect_pdo_query(
@@ -190,12 +194,12 @@ class Indexable_Repository_Test extends TestCase {
 			'private',
 			'publish',
 			'post_type1',
-			'post_type2'
+			'post_type2',
 		];
 
 		$return_rows = [
 			[ 'ID' => 1 ],
-			[ 'ID' => 2 ]
+			[ 'ID' => 2 ],
 		];
 
 		$this->expect_pdo_query(
