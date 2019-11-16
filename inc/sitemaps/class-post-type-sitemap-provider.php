@@ -168,7 +168,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$post_type = $type;
 
 		if ( ! $this->is_valid_post_type( $post_type ) ) {
-			return $links;
+			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
 
 		$steps  = min( 100, $max_entries );
