@@ -330,10 +330,11 @@ class WPSEO_Admin_Asset_Manager {
 
 		return array(
 			array(
-				'name' => 'commons',
+				'name'      => 'commons',
 				// Load webpack-commons for bundle support.
-				'src'  => 'commons-' . $flat_version,
-				'deps' => array(
+				'src'       => 'commons-' . $flat_version,
+				'in_footer' => false,
+				'deps'      => array(
 					'wp-polyfill',
 				),
 			),
@@ -648,6 +649,16 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'styled-components-' . $flat_version,
 				'deps' => array(
 					'wp-element',
+				),
+			),
+			array(
+				'name'      => 'help-scout-beacon',
+				'src'       => 'help-scout-beacon-' . $flat_version,
+				'in_footer' => false,
+				'deps'      => array(
+					self::PREFIX . 'styled-components',
+					'wp-element',
+					'wp-i18n',
 				),
 			),
 		);
