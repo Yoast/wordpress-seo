@@ -18,132 +18,42 @@ class WPSEO_Upgrade {
 
 		WPSEO_Options::maybe_set_multisite_defaults( false );
 
-		if ( version_compare( $version, '1.5.0', '<' ) ) {
-			$this->upgrade_15( $version );
-		}
-
-		if ( version_compare( $version, '2.0', '<' ) ) {
-			$this->upgrade_20();
-		}
-
-		if ( version_compare( $version, '2.1', '<' ) ) {
-			$this->upgrade_21();
-		}
-
-		if ( version_compare( $version, '2.2', '<' ) ) {
-			$this->upgrade_22();
-		}
-
-		if ( version_compare( $version, '2.3', '<' ) ) {
-			$this->upgrade_23();
-		}
-
-		if ( version_compare( $version, '3.0', '<' ) ) {
-			$this->upgrade_30();
-		}
-
-		if ( version_compare( $version, '3.3', '<' ) ) {
-			$this->upgrade_33();
-		}
-
-		if ( version_compare( $version, '3.6', '<' ) ) {
-			$this->upgrade_36();
-		}
-
-		if ( version_compare( $version, '4.0', '<' ) ) {
-			$this->upgrade_40();
-		}
-
-		if ( version_compare( $version, '4.4', '<' ) ) {
-			$this->upgrade_44();
-		}
-
-		if ( version_compare( $version, '4.7', '<' ) ) {
-			$this->upgrade_47();
-		}
-
-		if ( version_compare( $version, '4.9', '<' ) ) {
-			$this->upgrade_49();
-		}
-
-		if ( version_compare( $version, '5.0', '<' ) ) {
-			$this->upgrade_50();
-		}
-
-		if ( version_compare( $version, '5.0', '>=' )
-			&& version_compare( $version, '5.1', '<' )
-		) {
-			$this->upgrade_50_51();
-		}
-
-		if ( version_compare( $version, '5.5', '<' ) ) {
-			$this->upgrade_55();
-		}
-
-		if ( version_compare( $version, '5.6', '<' ) ) {
-			$this->upgrade_56();
-		}
-
-		if ( version_compare( $version, '6.1', '<' ) ) {
-			$this->upgrade_61();
-		}
-
-		if ( version_compare( $version, '6.3', '<' ) ) {
-			$this->upgrade_63();
-		}
-
-		if ( version_compare( $version, '7.0-RC0', '<' ) ) {
-			$this->upgrade_70();
-		}
-
-		if ( version_compare( $version, '7.1-RC0', '<' ) ) {
-			$this->upgrade_71();
-		}
-
-		if ( version_compare( $version, '7.3-RC0', '<' ) ) {
-			$this->upgrade_73();
-		}
-
-		if ( version_compare( $version, '7.4-RC0', '<' ) ) {
-			$this->upgrade_74();
-		}
-
-		if ( version_compare( $version, '7.5.3', '<' ) ) {
-			$this->upgrade_753();
-		}
-
-		if ( version_compare( $version, '7.7-RC0', '<' ) ) {
-			$this->upgrade_77();
-		}
-
-		if ( version_compare( $version, '7.7.2-RC0', '<' ) ) {
-			$this->upgrade_772();
-		}
-
-		if ( version_compare( $version, '9.0-RC0', '<' ) ) {
-			$this->upgrade90();
-		}
-
-		if ( version_compare( $version, '10.0-RC0', '<' ) ) {
-			$this->upgrade_100();
-		}
-
-		if ( version_compare( $version, '11.1-RC0', '<' ) ) {
-			$this->upgrade_111();
-		}
-
-		if ( version_compare( $version, '12.1-RC0', '<' ) ) {
+		$routines = array(
+			'1.5.0'     => 'upgrade_15',
+			'2.0'       => 'upgrade_20',
+			'2.1'       => 'upgrade_21',
+			'2.2'       => 'upgrade_22',
+			'2.3'       => 'upgrade_23',
+			'3.0'       => 'upgrade_30',
+			'3.3'       => 'upgrade_33',
+			'3.6'       => 'upgrade_36',
+			'4.0'       => 'upgrade_40',
+			'4.4'       => 'upgrade_44',
+			'4.7'       => 'upgrade_47',
+			'4.9'       => 'upgrade_49',
+			'5.0'       => 'upgrade_50',
+			'5.1'       => 'upgrade_50_51',
+			'5.5'       => 'upgrade_55',
+			'5.6'       => 'upgrade_56',
+			'6.1'       => 'upgrade_61',
+			'6.3'       => 'upgrade_63',
+			'7.0-RC0'   => 'upgrade_70',
+			'7.1-RC0'   => 'upgrade_71',
+			'7.3-RC0'   => 'upgrade_73',
+			'7.4-RC0'   => 'upgrade_74',
+			'7.5.3'     => 'upgrade_753',
+			'7.7-RC0'   => 'upgrade_77',
+			'7.7.2-RC0' => 'upgrade_772',
+			'9.0-RC0'   => 'upgrade_90',
+			'10.0-RC0'  => 'upgrade_100',
+			'11.1-RC0'  => 'upgrade_111',
 			/** Reset notifications because we removed the AMP Glue plugin notification */
-			$this->clean_all_notifications();
-		}
+			'12.1-RC0'  => 'clean_all_notifications',
+			'12.3-RC0'  => 'upgrade_123',
+			'12.4-RC0'  => 'upgrade_124',
+		);
 
-		if ( version_compare( $version, '12.3-RC0', '<' ) ) {
-			$this->upgrade_123();
-		}
-
-		if ( version_compare( $version, '12.4-RC0', '<' ) ) {
-			$this->upgrade_124();
-		}
+		array_walk( $routines, array( $this, 'run_upgrade_routine' ), $version );
 
 		if ( version_compare( $version, '12.5-RC0', '<' ) ) {
 			/*
@@ -161,11 +71,26 @@ class WPSEO_Upgrade {
 		/**
 		 * Filter: 'wpseo_run_upgrade' - Runs the upgrade hook which are dependent on Yoast SEO.
 		 *
-		 * @api        string - The current version of Yoast SEO
+		 * @api string - The current version of Yoast SEO
 		 */
 		do_action( 'wpseo_run_upgrade', $version );
 
 		$this->finish_up();
+	}
+
+	/**
+	 * Runs the upgrade routine.
+	 *
+	 * @param string $routine         The method to call.
+	 * @param string $version         The new version.
+	 * @param string $current_version The current set version.
+	 *
+	 * @return void
+	 */
+	protected function run_upgrade_routine( $routine, $version, $current_version ) {
+		if ( version_compare( $current_version, $version, '<' ) ) {
+			$this->$routine( $current_version );
+		}
 	}
 
 	/**
@@ -439,12 +364,16 @@ class WPSEO_Upgrade {
 
 	/**
 	 * Updates the internal_link_count column to support improved functionality.
+	 *
+	 * @param string $version The current version to compare with.
 	 */
-	private function upgrade_50_51() {
+	private function upgrade_50_51( $version ) {
 		global $wpdb;
 
-		$count_storage = new WPSEO_Meta_Storage();
-		$wpdb->query( 'ALTER TABLE ' . $count_storage->get_table_name() . ' MODIFY internal_link_count int(10) UNSIGNED NULL DEFAULT NULL' );
+		if ( version_compare( $version, '5.0', '>=' ) ) {
+			$count_storage = new WPSEO_Meta_Storage();
+			$wpdb->query( 'ALTER TABLE ' . $count_storage->get_table_name() . ' MODIFY internal_link_count int(10) UNSIGNED NULL DEFAULT NULL' );
+		}
 	}
 
 	/**
@@ -663,7 +592,7 @@ class WPSEO_Upgrade {
 	 *
 	 * @return void
 	 */
-	private function upgrade90() {
+	private function upgrade_90() {
 		global $wpdb;
 
 		// Invalidate all sitemap cache transients.

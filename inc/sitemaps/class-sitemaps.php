@@ -489,9 +489,7 @@ class WPSEO_Sitemaps {
 		if ( is_null( $post_type_dates ) ) {
 
 			$post_type_dates = array();
-
-			// Consider using WPSEO_Post_Type::get_accessible_post_types() to filter out any `no-index` post-types.
-			$post_type_names = get_post_types( array( 'public' => true ) );
+			$post_type_names = WPSEO_Post_Type::get_accessible_post_types();
 
 			if ( ! empty( $post_type_names ) ) {
 				$post_statuses = array_map( 'esc_sql', self::get_post_statuses() );

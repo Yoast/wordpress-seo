@@ -81,10 +81,28 @@ $yoast-alerts-active-margin: 20px;
 }
 
 .yoast-alerts .button.restore:hover,
-.yoast-alerts .button.dismiss:hover,
+.yoast-alerts .button.dismiss:hover {
+	background: transparent;
+}
+
 .yoast-alerts .button.restore:focus,
 .yoast-alerts .button.dismiss:focus {
 	background: transparent;
+
+	&::before {
+		content: "";
+		display: block;
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		box-shadow: 0 0 0 1px #007cba;
+		/* Only visible in Windows High Contrast mode */
+		outline: 2px solid transparent;
+	}
 }
 
 .yoast-container .separator {
