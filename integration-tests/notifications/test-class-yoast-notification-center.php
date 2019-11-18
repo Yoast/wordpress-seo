@@ -754,6 +754,73 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * A notification can be added twice, if it is added for different users.
+	 */
+	public function test_add_notifications_for_multiple_users() {
+
+		$instance = $this->get_notification_center();
+
+		$user_mock_1 = $this->mock_wp_user( 1, array( 'wpseo_manage_options' => true ) );
+		$user_mock_2 = $this->mock_wp_user( 2, array( 'wpseo_manage_options' => true ) );
+
+		$notification_for_user_1 = new Yoast_Notification(
+			'Hello, user 1!',
+			array(
+				'user'         => $user_mock_1,
+				'capabilities' => array( 'wpseo_manage_options' )
+			)
+		);
+
+		$notification_for_user_2 = new Yoast_Notification(
+			'Hello, user 2!',
+			array(
+				'user'         => $user_mock_2,
+				'capabilities' => array( 'wpseo_manage_options' )
+			)
+		);
+
+		$instance->add_notification( $notification_for_user_1 );
+		$instance->add_notification( $notification_for_user_2 );
+
+		$expected_for_user_1 = array( $notification_for_user_1 );
+		$actual_for_user_1   = $instance->get_notifications_for_user( 1 );
+
+		$expected_for_user_2 = array( $notification_for_user_2 );
+		$actual_for_user_2   = $instance->get_notifications_for_user( 2 );
+
+		$this->assertEquals( $expected_for_user_1, $actual_for_user_1 );
+		$this->assertEquals( $expected_for_user_2, $actual_for_user_2 );
+	}
+
+	/**
+	 * A notification with the same ID should only be added once for a single user.
+	 */
+	public function test_add_notifications_only_once_for_user() {
+
+		$instance = $this->get_notification_center();
+
+		$user_mock = $this->mock_wp_user( 3, array( 'wpseo_manage_options' => true ) );
+
+		$notification = new Yoast_Notification(
+			'Hello, user 3!',
+			array(
+				'id'           => 'Yoast_Notification_Test',
+				'user'         => $user_mock,
+				'capabilities' => array( 'wpseo_manage_options' )
+			)
+		);
+
+		$instance->add_notification( $notification );
+		$instance->add_notification( $notification );
+
+		$expected = array( $notification );
+		$actual   = $instance->get_notifications_for_user( 3 );
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+
+	/**
 	 * Gets some notification objects.
 	 *
 	 * This method is used as a filter to override notifications.
@@ -808,5 +875,28 @@ class Yoast_Notification_Center_Test extends WPSEO_UnitTestCase {
 		$notification_center->setup_current_notifications();
 
 		return $notification_center;
+	}
+
+	/**
+	 * Creates a mock WordPress user.
+	 *
+	 * @param int   $user_id   The ID of the user.
+	 * @param array $role_caps A map, mapping capabilities to `true` (user has capability) or `false` ( user has not).
+	 *
+	 * @return PHPUnit_Framework_MockObject_Invocation_Object | WP_User
+	 */
+	private function mock_wp_user( $user_id, $role_caps ) {
+		$user_mock = $this
+			->getMockBuilder( 'WP_User' )
+			->setMethods( array( 'get_role_caps' ) )
+			->getMock();
+
+		$user_mock
+			->method( 'get_role_caps' )
+			->willReturn( $role_caps );
+
+		$user_mock->ID = $user_id;
+
+		return $user_mock;
 	}
 }
