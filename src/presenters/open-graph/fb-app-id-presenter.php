@@ -25,7 +25,7 @@ class FB_App_ID_Presenter extends Abstract_Indexable_Presenter {
 		$fb_app_id = $presentation->og_fb_app_id;
 
 		if ( $fb_app_id !== '' ) {
-			return sprintf( '<meta property="fb:app_id" content="%s" />', \esc_attr( $fb_app_id ) );
+			return \sprintf( '<meta property="fb:app_id" content="%s" />', \esc_attr( $fb_app_id ) );
 		}
 
 		return '';

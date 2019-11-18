@@ -14,8 +14,6 @@ use Yoast\WP\Free\Generators\Twitter_Image_Generator;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
-use Yoast\WP\Free\Helpers\Pagination_Helper;
-use Yoast\WP\Free\Helpers\Robots_Helper;
 use Yoast\WP\Free\Helpers\Url_Helper;
 use Yoast\WP\Free\Helpers\User_Helper;
 use Yoast\WP\Free\Models\Indexable;
@@ -144,7 +142,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 	/**
 	 * @required
 	 *
-	 * Used by dependency injection container to inject the Robots_Helper.
+	 * Used by dependency injection container to inject the helpers.
 	 *
 	 * @param Image_Helper        $image_helper        The image helper.
 	 * @param Options_Helper      $options_helper      The options helper.

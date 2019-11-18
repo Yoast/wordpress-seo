@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
 Tested up to: 5.3
-Stable tag: 12.4
+Stable tag: 12.5
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -209,41 +209,31 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 12.5.0 =
-Release Date: November 12th, 2019
+= 12.6.0 =
+Release Date: November 26th, 2019
 
 Enhancements:
 
-* Updated banners to new assistant style.
+* Adds a description property to the schema's `WebSite` node.
+* Removes the `Site-wide default: None` and the `None` options from the `Meta robots advanced` field in the metabox.
+
+Other:
+
+* Sets the minimum required WordPress version to 5.2, and the minimum PHP version to 5.6.20.
+
+= 12.5.0 =
+Release Date: November 13th, 2019
+
+These last couple of months here at Yoast SEO HQ have all been about building better things. Behind the scenes, we’re making good progress at getting our flagship plugins ready for the future. While we’re busy building the future, we also stick to our regular two-week release schedule, which means it’s time to introduce Yoast SEO 12.5. Find out more in [our 12.5 release post](https://yoa.st/release-12-5)!
 
 Bugfixes:
 
 * Fixes a bug for terms where keywords and snippet preview data would be synced across all languages in a MultilingualPress multisite environment.
-* Fixes a bug where the Snippet Preview elements had misplaced visually hidden text.
+* Fixes a bug where the visually hidden text in the snippet preview was misplaced.
 
 Other:
 
 * Deprecates the Google Search Console.
-
-= 12.4.0 =
-Release Date: October 29th, 2019
-
-After releasing several updates to our snippet preview in previous releases, Yoast SEO 12.4 now shows an image for your post in the mobile snippet preview, just like Google would. We have several other improvements and fixes for you in store with Yoast SEO 12.4. Find out more in [our 12.4 release post](https://yoa.st/release-12-4)!
-
-Enhancements:
-
-* Adds "schema" as keyword to the structured data blocks to make them show up for that search term in the block search as well.
-* Adds an image to the mobile snippet preview for posts and terms.
-* Changes the readability score for empty content from "Needs Improvement" with a red icon to "Not Available" with a gray icon. Props to [emilyatmobtown](https://github.com/emilyatmobtown).
-* Updates the URLs used to ping Google and Bing about the location of a sitemap. Props to [@emilyatmobtown](https://github.com/emilyatmobtown).
-* Makes the notice about running an old WordPress version more specific by showing the installed WordPress version and the latest WordPress version.
-* Adds information about enabling Open Graph to the Twitter settings. Props to [@stevenfranks](https://github.com/stevenfranks).
-
-Bugfixes:
-
-* Fixes a bug where no Twitter and Facebook image could be set for attachment pages.
-* Fixes a bug where a nested paragraph would be present in the "noindex" metabox warning.
-* Fixes a bug where Google+ data would still be exported in the settings export.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

@@ -94,7 +94,7 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 		}
 
 		$output = '<' . $this->get_wrapper() . $this->get_id() . $this->get_class() . '>' . $output . '</' . $this->get_wrapper() . '>';
-		$output = $this->filter( $output );
+		$output = $this->filter( $output, $presentation );
 
 		$prefix = $this->options->get( 'breadcrumbs-prefix' );
 		if ( $prefix !== '' ) {
@@ -107,17 +107,20 @@ class Breadcrumbs_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Filters the output.
 	 *
-	 * @param string $output The output.
+	 * @param string                 $output       The output.
+	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *
 	 * @return string The filtered output.
 	 */
-	private function filter( $output ) {
+	private function filter( $output, Indexable_Presentation $presentation ) {
 		/**
 		 * Filter: 'wpseo_breadcrumb_output' - Allow changing the HTML output of the Yoast SEO breadcrumbs class.
 		 *
 		 * @api string $unsigned HTML output.
+		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return \apply_filters( 'wpseo_breadcrumb_output', $output );
+		return \apply_filters( 'wpseo_breadcrumb_output', $output, $presentation );
 	}
 
 	/**

@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '12.5-RC2' );
+define( 'WPSEO_VERSION', '12.6-RC1' );
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
 	define( 'WPSEO_PATH', plugin_dir_path( WPSEO_FILE ) );
@@ -34,12 +34,7 @@ define( 'YOAST_VENDOR_DEFINE_PREFIX', 'YOASTSEO_VENDOR__' );
 define( 'YOAST_VENDOR_PREFIX_DIRECTORY', 'vendor_prefixed' );
 
 if ( ! defined( 'WPSEO_NAMESPACES' ) ) {
-	if ( version_compare( phpversion(), '5.3', '>=' ) ) {
-		define( 'WPSEO_NAMESPACES', true );
-	}
-	else {
-		define( 'WPSEO_NAMESPACES', false );
-	}
+	define( 'WPSEO_NAMESPACES', true );
 }
 
 
@@ -69,10 +64,7 @@ function wpseo_auto_load( $class ) {
 	}
 }
 
-$yoast_autoload_file = WPSEO_PATH . 'vendor/autoload_52.php';
-if ( version_compare( phpversion(), '5.6', '>=' ) ) {
-	$yoast_autoload_file = WPSEO_PATH . 'vendor/autoload.php';
-}
+$yoast_autoload_file = WPSEO_PATH . 'vendor/autoload.php';
 
 if ( is_readable( $yoast_autoload_file ) ) {
 	require $yoast_autoload_file;
