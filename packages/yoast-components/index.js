@@ -79,6 +79,7 @@ export {
 	HelpText,
 	Icon,
 	KeywordSuggestions,
+	WordOccurrenceInsights,
 	LanguageNotice,
 	Loader,
 	ScoreAssessments,

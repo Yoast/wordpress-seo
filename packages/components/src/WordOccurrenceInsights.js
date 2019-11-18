@@ -42,7 +42,7 @@ const getKeywordResearchArticleLink = () => {
  * @param {Array} keywords The keyword suggestions that were found.
  * @returns {string} The translated text.
  */
-const getKeywordSuggestionExplanation = keywords => {
+const getExplanation = keywords => {
 	if ( keywords.length === 0 ) {
 		return __(
 			"Once you add a bit more copy, we'll give you a list of words that occur the most in the content. " +
@@ -68,8 +68,8 @@ const getKeywordSuggestionExplanation = keywords => {
  *
  * @returns {JSX.Element} Rendered WordList component.
  */
-const KeywordSuggestions = ( { relevantWords } ) => {
-	const header = <p>{ getKeywordSuggestionExplanation( relevantWords ) }</p>;
+const WordOccurrenceInsights = ( { relevantWords } ) => {
+	const header = <p>{ getExplanation( relevantWords ) }</p>;
 	const footer = <p>{ getKeywordResearchArticleLink() }</p>;
 	return (
 		<WordOccurrences
@@ -80,8 +80,8 @@ const KeywordSuggestions = ( { relevantWords } ) => {
 	);
 };
 
-KeywordSuggestions.propTypes = {
+WordOccurrenceInsights.propTypes = {
 	relevantWords: PropTypes.arrayOf( PropTypes.object ).isRequired,
 };
 
-export default KeywordSuggestions;
+export default WordOccurrenceInsights;
