@@ -12,7 +12,6 @@ import AlgoliaSearcher from "@yoast/algolia-search-box";
 import { Collapsible } from "@yoast/components";
 import { default as ButtonSection } from "./composites/Plugin/Shared/components/ButtonSection";
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
-import { default as HelpCenter } from "./composites/Plugin/HelpCenter/HelpCenter.js";
 import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
 // Composites/LinkSuggestions imports.
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
@@ -22,7 +21,6 @@ const getRtlStyle = getDirectionalStyle;
 
 export {
 	OnboardingWizard,
-	HelpCenter,
 	MessageBox,
 	LinkSuggestions,
 	ContentAnalysis,
