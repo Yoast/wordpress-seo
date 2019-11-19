@@ -60,7 +60,6 @@ export { translate } from "./utils/i18n";
 export { default as analysis } from "./composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 export { ArticleList as WordpressFeed } from "@yoast/components";
 export { SiteSEOReport as SeoAssessment } from "@yoast/analysis-report";
-export { default as VideoTutorial } from "./composites/HelpCenter/views/VideoTutorial";
 export { default as KeywordInput } from "./composites/Plugin/Shared/components/KeywordInput";
 export { insightsReducer } from "./redux/reducers/insights";
 export { setProminentWords } from "./redux/actions/insights";
@@ -94,4 +93,3 @@ export {
 	StyledHeading,
 	StyledSectionBase,
 } from "@yoast/components";
-

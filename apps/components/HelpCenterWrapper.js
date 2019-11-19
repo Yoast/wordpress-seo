@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 import HelpCenter from "yoast-components/composites/Plugin/HelpCenter/HelpCenter";
-import VideoTutorial from "yoast-components/composites/HelpCenter/views/VideoTutorial";
 import { colors } from "@yoast/style-guide";
 import AlgoliaSearcher from "@yoast/algolia-search-box";
 
@@ -22,27 +21,7 @@ export default function HelpCenterWrapper() {
 		{
 			label: "Video tutorial",
 			id: "video-tutorial",
-			content: <VideoTutorial
-				src="https://www.youtube.com/embed/bIgcj_pPIbw"
-				title="Video tutorial"
-				paragraphs={
-					[
-						{
-							title: "Need some help?",
-							description: "Go Premium and our experts will be there for you to answer any questions you " +
-							"might have about the setup and use of the plugin.",
-							link: "#1",
-							linkText: "Get Yoast SEO Premium now »",
-						},
-						{
-							title: "Want to be a Yoast SEO Expert?",
-							description: "Follow our Yoast SEO for WordPress training and become a certified Yoast SEO Expert!",
-							link: "#2",
-							linkText: "Enroll in the Yoast SEO for WordPress training »",
-						},
-					]
-				}
-			/>,
+			content: <div>La la</div>,
 		},
 		{
 
