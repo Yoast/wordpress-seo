@@ -103,7 +103,7 @@ class WPSEO_Sitemap_Image_Parser {
 			$images[] = $this->get_image_item( $post, $image['src'], $image['title'], $image['alt'] );
 		}
 
-		foreach ( $this->parse_galleries( $post->post_content, $post->ID ) as $attachment ) {
+		foreach ( $this->parse_galleries( $content, $post->ID ) as $attachment ) {
 
 			$src = $this->get_absolute_url( $this->image_url( $attachment->ID ) );
 			$alt = WPSEO_Image_Utils::get_alt_tag( $attachment->ID );
@@ -256,7 +256,6 @@ class WPSEO_Sitemap_Image_Parser {
 
 			$gallery_attachments = $this->get_gallery_attachments( $id, $gallery );
 
-
 			$attachments = array_merge( $attachments, $gallery_attachments );
 		}
 
@@ -279,27 +278,21 @@ class WPSEO_Sitemap_Image_Parser {
 	 */
 	protected function get_content_galleries( $content ) {
 
-		if ( ! has_shortcode( $content, 'gallery' ) ) {
-			return array();
-		}
-
 		$galleries = array();
 
-		if ( ! preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER ) ) {
+		if ( ! preg_match_all( '/' . get_shortcode_regex( array( 'gallery' ) ) . '/s', $content, $matches, PREG_SET_ORDER ) ) {
 			return $galleries;
 		}
 
 		foreach ( $matches as $shortcode ) {
-			if ( 'gallery' === $shortcode[2] ) {
 
-				$attributes = shortcode_parse_atts( $shortcode[3] );
+			$attributes = shortcode_parse_atts( $shortcode[3] );
 
-				if ( '' === $attributes ) { // Valid shortcode without any attributes. R.
-					$attributes = array();
-				}
-
-				$galleries[] = $attributes;
+			if ( '' === $attributes ) { // Valid shortcode without any attributes. R.
+				$attributes = array();
 			}
+
+			$galleries[] = $attributes;
 		}
 
 		return $galleries;
