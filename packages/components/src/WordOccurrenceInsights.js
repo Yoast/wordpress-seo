@@ -64,16 +64,16 @@ const getExplanation = keywords => {
  * @summary WordList component.
  *
  * @param {string}   title           The title of the list.
- * @param {WordCombination[]|ProminentWord[]}   relevantWords   The relevant words.
+ * @param {WordCombination[]|ProminentWord[]}   words   The relevant words.
  *
  * @returns {JSX.Element} Rendered WordList component.
  */
-const WordOccurrenceInsights = ( { relevantWords } ) => {
-	const header = <p>{ getExplanation( relevantWords ) }</p>;
+const WordOccurrenceInsights = ( { words } ) => {
+	const header = <p>{ getExplanation( words ) }</p>;
 	const footer = <p>{ getKeywordResearchArticleLink() }</p>;
 	return (
 		<WordOccurrences
-			words={ relevantWords }
+			words={ words }
 			header={ header }
 			footer={ footer }
 		/>
@@ -81,7 +81,7 @@ const WordOccurrenceInsights = ( { relevantWords } ) => {
 };
 
 WordOccurrenceInsights.propTypes = {
-	relevantWords: PropTypes.arrayOf( PropTypes.object ).isRequired,
+	words: PropTypes.arrayOf( PropTypes.object ).isRequired,
 };
 
 export default WordOccurrenceInsights;
