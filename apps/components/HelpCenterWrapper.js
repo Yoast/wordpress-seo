@@ -3,13 +3,6 @@ import styled from "styled-components";
 
 import HelpCenter from "yoast-components/composites/Plugin/HelpCenter/HelpCenter";
 import { colors } from "@yoast/style-guide";
-import AlgoliaSearcher from "@yoast/algolia-search-box";
-
-export const HelpCenterContainer = styled.div`
-	max-width: 1280px;
-	margin: 1em auto 0;
-	background-color: ${ colors.$color_grey_light };
-`;
 
 /**
  * Returns the HelpCenterWrapper component.
@@ -27,7 +20,7 @@ export default function HelpCenterWrapper() {
 
 			label: "Knowledge base",
 			id: "knowledge-base",
-			content: <AlgoliaSearcher />,
+			content: <div>KB</div>,
 		},
 		{
 			label: "Get support",
@@ -36,14 +29,12 @@ export default function HelpCenterWrapper() {
 		},
 	];
 	return (
-		<HelpCenterContainer>
-			<HelpCenter
-				buttonBackgroundColor={ colors.$color_white }
-				buttonTextColor={ colors.$color_pink_dark }
-				buttonIconColor={ colors.$color_pink_dark }
-				buttonWithTextShadow={ false }
-				items={ items }
-			/>
-		</HelpCenterContainer>
+		<HelpCenter
+			buttonBackgroundColor={ colors.$color_white }
+			buttonTextColor={ colors.$color_pink_dark }
+			buttonIconColor={ colors.$color_pink_dark }
+			buttonWithTextShadow={ false }
+			items={ items }
+		/>
 	);
 }
