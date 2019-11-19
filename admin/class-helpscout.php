@@ -112,7 +112,9 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 		if ( ! empty( $this->products ) ) {
 			$addon_manager = new WPSEO_Addon_Manager();
 			foreach ( $this->products as $product ) {
-				$data[ $product->get_item_name() ] = $this->get_product_info( $product, $addon_manager );
+				$subscription = $addon_manager->get_subscription( $product );
+
+				$data[ $subscription->product->name ] = $this->get_product_info( $subscription );
 			}
 		}
 
@@ -137,6 +139,8 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 			'CURL'     => 'CurlVersion',
 		);
 
+		$server_data['CurlVersion'] = $server_data['CurlVersion']['version'] . '(SSL Support' . $server_data['CurlVersion']['sslSupport'] . ')';
+
 		$server_info = '<table>';
 
 		foreach ( $fields_to_use as $label => $field_to_use ) {
@@ -149,16 +153,13 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns info about the Yoast SEO plugin version and license
+	 * Returns info about the Yoast SEO plugin version and license.
 	 *
-	 * @param string              $product_name  The product name.
-	 * @param WPSEO_Addon_Manager $addon_manager The addon manager.
+	 * @param object $product  The product.
 	 *
 	 * @return string The product info.
 	 */
-	private function get_product_info( $product_name, WPSEO_Addon_Manager $addon_manager ) {
-		$plugin = $addon_manager->get_subscription( $product_name );
-
+	private function get_product_info( $plugin ) {
 		if ( empty( $plugin ) ) {
 			return '';
 		}
