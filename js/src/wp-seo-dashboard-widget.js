@@ -168,7 +168,14 @@ class DashboardWidget extends React.Component {
 	 */
 	getYoastFeed() {
 		if ( this.state.feed === null ) {
-			return null;
+			return (
+				<div id="yoast-seo-blocked-blog-feed" key="yoast-seo-blocked-blog-feed">
+					<h3>{ wpseoDashboardWidgetL10n.feed_header }</h3>
+					<div>
+						<i>{ wpseoDashboardWidgetL10n.feed_blocked_message }</i>
+					</div>
+				</div>
+			);
 		}
 
 		return <WordpressFeed

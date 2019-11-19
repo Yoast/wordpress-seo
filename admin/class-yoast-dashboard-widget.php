@@ -123,6 +123,7 @@ class Yoast_Dashboard_Widget implements WPSEO_WordPress_Integration {
 				__( 'Latest blog posts on %1$s', 'wordpress-seo' ),
 				'Yoast.com'
 			),
+			'feed_blocked_message'  => __( 'We could not establish a connection to yoast.com to retrieve the blog feed. Are you using an ad blocker?', 'wordpress-seo' ),
 			'feed_footer'      => __( 'Read more like this on our SEO blog', 'wordpress-seo' ),
 			'ryte_header'      => sprintf(
 				/* translators: %1$s expands to Ryte. */
