@@ -673,9 +673,20 @@ body.folded {
 }
 
 .yoast-alert-box {
-	font-size: 14px;
-	border: 1px solid rgba( 0, 0, 0, 0.2 );
+	display: flex;
+	align-items: baseline;
+	position: relative;
 	padding: 16px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.5;
+	margin: 16px 0;
+
+	span.icon {
+		display: block;
+		margin-right: 8px;
+	}
 
 	a {
 		color: #004973;
@@ -683,6 +694,7 @@ body.folded {
 	}
 
 	&__warning {
+		color: #674E00;
 		background: #FFF3CD;
 	}
 }
