@@ -121,9 +121,6 @@ class WPSEO_Taxonomy {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_style( 'scoring' );
 
-		$tab = new WPSEO_Help_Center_Template_Variables_Tab();
-		$tab->enqueue_assets();
-
 		$tag_id = filter_input( INPUT_GET, 'tag_ID' );
 		if (
 			self::is_term_edit( $pagenow ) &&
