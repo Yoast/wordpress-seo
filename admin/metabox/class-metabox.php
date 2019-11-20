@@ -141,8 +141,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$product_title = $this->get_product_title();
 
-		$this->register_helpcenter_tab();
-
 		foreach ( $post_types as $post_type ) {
 			add_filter( "postbox_classes_{$post_type}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
 
@@ -1012,25 +1010,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return $product_title;
-	}
-
-	/**
-	 * Adds the template variables tab to the helpcenter.
-	 *
-	 * @return void
-	 */
-	protected function register_helpcenter_tab() {
-		static $tab_registered;
-
-		if ( $tab_registered ) {
-			return;
-		}
-
-		// Add template variables tab to the Help Center.
-		$tab = new WPSEO_Help_Center_Template_Variables_Tab();
-		$tab->register_hooks();
-
-		$tab_registered = true;
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
