@@ -74,7 +74,7 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	public static function is_internet_explorer() {
 		$user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-		if ( strpos( $user_agent, 'Trident/7.0' ) ) {
+		if ( ! strpos( $user_agent, 'Trident/7.0' ) ) {
 			return false;
 		}
 
