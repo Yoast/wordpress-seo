@@ -425,8 +425,8 @@ class WPSEO_Admin {
 	 */
 	private function get_helpscout_beacon() {
 		$helpscout_settings = array(
-			'beacon_id' => '2496aba6-0292-489c-8f5d-1c0fba417c2f',
-			'pages'     => array(
+			'beacon_id'   => '2496aba6-0292-489c-8f5d-1c0fba417c2f',
+			'pages'       => array(
 				'wpseo_dashboard',
 				'wpseo_titles',
 				'wpseo_search_console',
@@ -434,7 +434,8 @@ class WPSEO_Admin {
 				'wpseo_tools',
 				'wpseo_licenses',
 			),
-			'products' => array(),
+			'products'    => array(),
+			'ask_consent' => true,
 		);
 
 		/**
@@ -447,7 +448,8 @@ class WPSEO_Admin {
 		return new WPSEO_HelpScout(
 			$helpscout_settings['beacon_id'],
 			$helpscout_settings['pages'],
-			$helpscout_settings['products']
+			$helpscout_settings['products'],
+			$helpscout_settings['ask_consent']
 		);
 	}
 
