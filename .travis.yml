@@ -139,11 +139,11 @@ install:
     # We add the no-scripts flags so the vendor-prefixing isn't run again as php-scoper will have been removed by this time.
     composer update --no-scripts --no-interaction
     composer install --no-scripts --no-interaction
-    composer du
+    composer du --no-scripts --no-interaction
   elif [[ "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
     composer update --no-scripts --no-interaction
     composer install --no-scripts --no-interaction --no-dev
-    composer du
+    composer du --no-scripts --no-interaction
   fi
 - |
   if [[ "$PHPCS" == "1" ]]; then
