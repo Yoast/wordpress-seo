@@ -109,7 +109,7 @@ class WPSEO_Schema_FAQ_Question_List {
 				continue;
 			}
 			$this->count ++;
-			$this->ids[] = array( '@id' => $this->context->canonical . '#' . $question['id'] );
+			$this->ids[] = array( '@id' => $this->context->canonical . '#' . esc_attr( $question['id'] ) );
 		}
 	}
 }

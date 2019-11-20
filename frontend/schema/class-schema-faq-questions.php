@@ -75,11 +75,13 @@ class WPSEO_Schema_FAQ_Questions {
 	 * @return array Schema.org Question piece.
 	 */
 	protected function generate_question_block( $question ) {
+		$url = $this->context->canonical . '#' . esc_attr( $question['id'] );
+
 		return array(
 			'@type'          => 'Question',
-			'@id'            => $this->context->canonical . '#' . $question['id'],
+			'@id'            => $url,
 			'position'       => $this->position ++,
-			'url'            => $this->context->canonical . '#' . $question['id'],
+			'url'            => $url,
 			'name'           => wp_strip_all_tags( $question['jsonQuestion'] ),
 			'answerCount'    => 1,
 			'acceptedAnswer' => array(
