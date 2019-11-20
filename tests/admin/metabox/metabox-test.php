@@ -29,6 +29,9 @@ class Metabox_Test extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
+		global $_SERVER;
+		$_SERVER['HTTP_USER_AGENT'] = 'User Agent';
+
 		$this->instance = new Metabox_Double();
 	}
 
