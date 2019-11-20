@@ -115,8 +115,7 @@
 			"composer prefix-idiorm",
 			"composer prefix-oauth2-client",
 			"composer prefix-symfony",
-			"touch ./vendor_prefixed/dependencies-prefixed.txt",
-			"composer du"
+			"touch ./vendor_prefixed/dependencies-prefixed.txt"
 		],
 		"prefix-ruckusing": [
 			"@php ./vendor/humbug/php-scoper/bin/php-scoper add-prefix --prefix=YoastSEO_Vendor --output-dir=./vendor_prefixed/ruckusing --config=config/php-scoper/ruckusing.inc.php --force --quiet"
@@ -142,13 +141,9 @@
 			"composer du",
 			"Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
 		],
-		"post-install-cmd": [
-			"Yoast\\WP\\Free\\Composer\\Actions::prefix_dependencies",
-			"Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
-		],
-		"post-update-cmd": [
-            "Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
-		],
+        "pre-autoload-dump": [
+            "Yoast\\WP\\Free\\Composer\\Actions::prefix_dependencies"
+        ],
 		"post-autoload-dump": [
             "Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
 		],
