@@ -131,7 +131,7 @@ install:
 - |
   if [[ "$COVERAGE" == "1" ]]; then
     # Install phpcov so we can combine the coverage results of unit and integration tests.
-    composer require phpunit/phpcov ^3.1
+    composer require phpunit/phpcov ^3.1 --no-scripts --no-interaction
   fi
 - |
   if [[ "$PHPCS" == "1" || "$PHPUNIT" == "1" || "$COVERAGE" == "1" ]]; then
