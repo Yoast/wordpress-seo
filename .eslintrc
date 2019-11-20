@@ -23,12 +23,6 @@ overrides:
       react/no-unused-prop-types: 1
       require-jsdoc: 1
   - files:
-      - "packages/algolia-search-box/**/*.js"
-    rules:
-      react/jsx-no-bind: 1
-      react/no-unused-state: 1
-      react/require-default-props: 1
-  - files:
       - "packages/configuration-wizard/**/*.js"
     rules:
       react/no-unused-prop-types: 1
