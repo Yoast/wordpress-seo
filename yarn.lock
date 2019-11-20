@@ -903,27 +903,6 @@ ajv@^6.5.5, ajv@^6.9.1:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-algoliasearch@^3.16.0:
-  version "3.24.7"
-  resolved "https://registry.yarnpkg.com/algoliasearch/-/algoliasearch-3.24.7.tgz#7ba6c41c9c87b3d36c3181e1d93d482b2ae1a660"
-  integrity sha512-F+5/a3lFZR+rXd8tc2aA+7LVdiLMQdHqnjUwzqmSFrSesbWOcY9jZ2hO7VGG56g/FKm3I0Cg0pEbeZEBfz9ngg==
-  dependencies:
-    agentkeepalive "^2.2.0"
-    debug "^2.6.8"
-    envify "^4.0.0"
-    es6-promise "^4.1.0"
-    events "^1.1.0"
-    foreach "^2.0.5"
-    global "^4.3.2"
-    inherits "^2.0.1"
-    isarray "^2.0.1"
-    load-script "^1.0.0"
-    object-keys "^1.0.11"
-    querystring-es3 "^0.2.1"
-    reduce "^1.0.1"
-    semver "^5.1.0"
-    tunnel-agent "^0.6.0"
-
 algoliasearch@^3.22.3:
   version "3.32.0"
   resolved "https://registry.yarnpkg.com/algoliasearch/-/algoliasearch-3.32.0.tgz#5818168c26ff921bd0346a919071bac928b747ce"
