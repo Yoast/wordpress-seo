@@ -18,7 +18,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	protected $option_name = 'wpseo_tracking_last_request';
 
 	/**
-	 * The limit or the option.
+	 * The limit for the option.
 	 *
 	 * @var int
 	 */
@@ -39,7 +39,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	private $current_time;
 
 	/**
-	 * Constructor setting the threshold.
+	 * WPSEO_Tracking constructor.
 	 *
 	 * @param string $endpoint  The endpoint to send the data to.
 	 * @param int    $threshold The limit for the option.
@@ -55,13 +55,40 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	 */
 	public function register_hooks() {
 		add_action( 'admin_init', array( $this, 'send' ), 1 );
+
+		add_action( 'wpseo_send_tracking_data_after_core_update', array( $this, 'send' ) );
+		add_action( 'upgrader_process_complete', array( $this, 'schedule_tracking_data_sending' ), 10, 2 );
+	}
+
+	/**
+	 * Schedules a new tracking data sending after a WordPress code update.
+	 *
+	 * @param bool|WP_Upgrader $upgrader Optional. WP_Upgrader instance or false.
+	 *                                   Depending on context, it might be a Theme_Upgrader,
+	 *                                   Plugin_Upgrader, Core_Upgrade, or Language_Pack_Upgrader.
+	 *                                   instance. Default false.
+	 * @param array            $data     Array of update data.
+	 *
+	 * @return void
+	 */
+	public function schedule_tracking_data_sending( $upgrader = false, $data = array() ) {
+		// Return if it's not a WordPress core update.
+		if ( ! $upgrader || ! isset( $data['type'] ) || $data['type'] !== 'core' ) {
+			return;
+		}
+
+		// Schedule sending of data tracking 6 hours after a WordPress core update.
+		wp_schedule_single_event( ( time() + ( HOUR_IN_SECONDS * 6 ) ), 'wpseo_send_tracking_data_after_core_update', true );
 	}
 
 	/**
 	 * Sends the tracking data.
+	 *
+	 * @param bool $force Whether to send the tracking data ignoring the two
+	 *                    weeks time treshhold. Default false.
 	 */
-	public function send() {
-		if ( ! $this->should_send_tracking() ) {
+	public function send( $force = false ) {
+		if ( ! $this->should_send_tracking( $force ) ) {
 			return;
 		}
 
@@ -75,17 +102,25 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	}
 
 	/**
-	 * Returns true when last tracking data was send more than two weeks ago.
+	 * Determines whether to send the tracking data.
 	 *
-	 * @return bool True when tracking data should be send.
+	 * Returns false if tracking is disabled or the current page is one of the
+	 * admin plugins pages. Returns true when there's no tracking data stored or
+	 * the data was sent more than two weeks ago. The two weeks interval is set
+	 * when instantiating the class.
+	 *
+	 * @param bool $ignore_time_treshhold Whether to send the tracking data ignoring
+	 *                                    the two weeks time treshhold. Default false.
+	 *
+	 * @return bool True when tracking data should be sent.
 	 */
-	protected function should_send_tracking() {
+	protected function should_send_tracking( $ignore_time_treshhold = false ) {
 		global $pagenow;
 
 		/**
-		 * Filter: 'wpseo_disable_tracking' - Disables the data tracking of Yoast SEO Premium.
+		 * Filter: 'wpseo_enable_tracking' - Enables the data tracking of Yoast SEO Premium.
 		 *
-		 * @api string $is_disabled The disabled state. Default is false.
+		 * @api string $is_enabled The enabled state. Default is false.
 		 */
 		if ( apply_filters( 'wpseo_enable_tracking', false ) === false ) {
 			return false;
@@ -98,8 +133,8 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 
 		$last_time = get_option( $this->option_name );
 
-		// When there is no data being set.
-		if ( ! $last_time ) {
+		// When there is no tracking data already stored or when sending data is forced.
+		if ( ! $last_time || $ignore_time_treshhold ) {
 			return true;
 		}
 
