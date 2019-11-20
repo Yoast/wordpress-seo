@@ -63,15 +63,6 @@ class WPSEO_Option_Tab {
 	}
 
 	/**
-	 * Gets the video URL.
-	 *
-	 * @return string The video url.
-	 */
-	public function get_video_url() {
-		return $this->get_argument( 'video_url' );
-	}
-
-	/**
 	 * Retrieves whether the tab needs a save button.
 	 *
 	 * @return bool True whether the tabs needs a save button.

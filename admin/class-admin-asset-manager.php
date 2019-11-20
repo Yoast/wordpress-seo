@@ -359,17 +359,6 @@ class WPSEO_Admin_Asset_Manager {
 				),
 			),
 			array(
-				'name' => 'help-center',
-				'src'  => 'wp-seo-help-center-' . $flat_version,
-				'deps' => array(
-					'jquery',
-					'wp-element',
-					'wp-i18n',
-					self::PREFIX . 'components',
-					self::PREFIX . 'commons',
-				),
-			),
-			array(
 				'name' => 'admin-script',
 				'src'  => 'wp-seo-admin-' . $flat_version,
 				'deps' => array(
@@ -705,6 +694,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'metabox-' . $flat_version,
 				'deps' => array(
 					self::PREFIX . 'select2',
+					self::PREFIX . 'admin-css',
 				),
 			),
 			array(

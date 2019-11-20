@@ -77,31 +77,6 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) && isset( $_SERVER['REQUEST_URI'] 
 }
 
 /**
- * Outputs a help center.
- */
-function wpseo_render_help_center() {
-	$tabs = new WPSEO_Option_Tabs( '', '' );
-
-	$bulk_editor_tab_title = new WPSEO_Option_Tab(
-		'title',
-		__( 'Bulk editor', 'wordpress-seo' ),
-		array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-bulk-editor' ) )
-	);
-	$tabs->add_tab( $bulk_editor_tab_title );
-
-	$bulk_editor_tab_description = new WPSEO_Option_Tab(
-		'description',
-		__( 'Bulk editor', 'wordpress-seo' ),
-		array( 'video_url' => WPSEO_Shortlinker::get( 'https://yoa.st/screencast-tools-bulk-editor' ) )
-	);
-	$tabs->add_tab( $bulk_editor_tab_description );
-
-	$helpcenter = new WPSEO_Help_Center( '', $tabs, WPSEO_Utils::is_yoast_seo_premium() );
-	$helpcenter->localize_data();
-	$helpcenter->mount();
-}
-
-/**
  * Renders a bulk editor tab.
  *
  * @param WPSEO_Bulk_List_Table $table The table to render.
@@ -135,8 +110,6 @@ function wpseo_get_rendered_tab( $table, $id ) {
 		<a class="nav-tab" id="description-tab"
 			href="#top#description"><?php esc_html_e( 'Description', 'wordpress-seo' ); ?></a>
 	</h2>
-
-	<?php wpseo_render_help_center(); ?>
 
 	<div class="tabwrapper">
 		<?php wpseo_get_rendered_tab( $wpseo_bulk_titles_table, 'title' ); ?>
