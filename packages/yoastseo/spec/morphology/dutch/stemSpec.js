@@ -89,17 +89,24 @@ const wordsToStem = [
 	[ "beloven", "beloof" ],
 	// Vowel doubling + Z at the end of a stem gets replaced by s.
 	[ "lezen", "lees" ],
-	// A word that should not have the vowel doubled
+	// A word that should not have the vowel doubled because the vowel is preceded by two same consonants.
 	[ "wisselen", "wissel" ],
+	// A word that should not have the vowel doubled because it is on an exception list.
+	[ "motoren", "motor" ],
+	// A word that should not have the vowel doubled because the preceding syllable contains a diphthong.
+	[ "duivelen", "duivel" ],
+	// A word that should have the vowel doubled, even though the vowel is preceded by two same consonants.
+	[ "nivelleren", "nivelleer" ],
 	// A word that should have the consonant undoubled.
 	[ "mannen", "man" ],
 	// An adjective with stem ending in -iël.
 	[ "officiële", "officieel" ],
-	// An adjective with the superlative stem ending in -ïed
+	// An adjective with the superlative stem ending in -ïed.
 	[ "paranoïedste", "paranoïd" ],
-	// An adjective with the comparative partitive suffix -ers
+	// An adjective with the comparative partitive suffix -ers.
 	[ "ronders", "rond" ],
-];
+	// An adjective with stem ending in -rd.
+	[ "absurder", "absurd" ] ];
 
 // These words should not be stemmed (same form should be returned).
 
@@ -116,6 +123,8 @@ const wordsNotToStem = [
 	 "zo",
 	// A word with a single vowel. Only stems which had one of the specified suffixes should have the vowel doubled.
 	 "man",
+	// A word on the exception list of words not to stem.
+	"kerst",
 ];
 
 describe( "Test for stemming Dutch words", () => {
