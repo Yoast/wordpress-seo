@@ -123,8 +123,8 @@ install:
     composer install --no-interaction --no-scripts --ignore-platform-reqs
     composer prefix-dependencies
     composer compile-di
-    composer remove humbug/php-scoper --dev --ignore-platform-reqs
-    composer remove atanamo/php-codeshift --dev --ignore-platform-reqs
+    composer remove humbug/php-scoper --dev --ignore-platform-reqs --no-scripts --no-interaction
+    composer remove atanamo/php-codeshift --dev --ignore-platform-reqs --no-scripts --no-interaction
     phpenv local --unset
     rm -rf vendor/*
   fi
