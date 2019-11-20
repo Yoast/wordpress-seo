@@ -26,7 +26,6 @@ module.exports = function( grunt ) {
 
 		"combine-pots-yoast-components": {
 			fromFiles: [
-				"<%= files.pot.yoastJsAlgoliaSearchBox %>",
 				"<%= files.pot.yoastJsAnalysisReport %>",
 				"<%= files.pot.yoastJsComponents %>",
 				"<%= files.pot.yoastJsConfigurationWizard %>",
@@ -50,9 +49,6 @@ module.exports = function( grunt ) {
 			},
 		},
 
-		"makepot-yoast-js-algolia-search-box": {
-			command: "yarn i18n-yoast-js-algolia-search-box",
-		},
 		"makepot-yoast-js-analysis-report": {
 			command: "yarn i18n-yoast-js-analysis-report",
 		},

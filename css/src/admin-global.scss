@@ -21,7 +21,6 @@
 	font-weight: 600;
 }
 
-.wpseo-help-center-sub-title,
 .wpseo-premium-popup-title {
 	// Using !important to override WP styles.
 	margin: 1em 0 !important;
@@ -398,9 +397,6 @@ td.column-wpseo-linked {
 }
 
 /* Help Center */
-#yoast-help-center-container {
-	margin: 16px 0 24px;
-}
 
 .react-tabs__tab-panel {
 	max-width: 900px;
@@ -409,10 +405,6 @@ td.column-wpseo-linked {
 	li {
 		max-width: none !important;
 	}
-}
-
-.yoast-help-center-open #sidebar-container {
-	display: none;
 }
 
 .contact-premium-support {
