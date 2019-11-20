@@ -71,11 +71,38 @@ class WPSEO_Taxonomy {
 	 * @param stdClass|WP_Term $term Term to show the edit boxes for.
 	 */
 	public function term_metabox( $term ) {
-		$tab = new WPSEO_Help_Center_Template_Variables_Tab();
-		$tab->register_hooks();
+		if ( WPSEO_Metabox::is_internet_explorer() ) {
+			$this->show_internet_explorer_notice();
+			return;
+		}
 
 		$metabox = new WPSEO_Taxonomy_Metabox( $this->taxonomy, $term );
 		$metabox->display();
+	}
+
+	/**
+	 * Renders the content for the internet explorer metabox.
+	 */
+	private function show_internet_explorer_notice() {
+		$product_title = 'Yoast SEO';
+		if ( file_exists( WPSEO_PATH . 'premium/' ) ) {
+			$product_title .= ' Premium';
+		}
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $product_title is hardcoded.
+		printf( '<div id="wpseo_meta" class="postbox yoast wpseo-taxonomy-metabox-postbox"><h2><span>%1$s</span></h2>', $product_title );
+
+		echo '<div class="inside">';
+		echo '<div class="yoast-alert-box yoast-alert-box__warning">';
+		printf(
+			esc_html__( 'The browser you are currently using is unfortunately rather dated. Since we strive to give you the best experience possible, we no longer support this browser. Instead, please use %1$sFirefox%4$s, %2$sChrome%4$s or %3$sMicrosoft Edge%4$s.', 'wordpress-seo' ),
+			'<a href="https://www.mozilla.org/firefox/new/">',
+			'<a href="https://www.google.com/intl/nl/chrome/">',
+			'<a href="https://www.microsoft.com/windows/microsoft-edge">',
+			'</a>'
+		);
+		echo '</div>';
+		echo '</div></div>';
 	}
 
 	/**
@@ -84,6 +111,7 @@ class WPSEO_Taxonomy {
 	 * @since 1.5.0
 	 */
 	public function admin_enqueue_scripts() {
+
 		$pagenow = $GLOBALS['pagenow'];
 
 		if ( ! ( self::is_term_edit( $pagenow ) || self::is_term_overview( $pagenow ) ) ) {

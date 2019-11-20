@@ -42,6 +42,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Class constructor.
 	 */
 	public function __construct() {
+		if ( $this->is_internet_explorer() ) {
+			add_action( 'add_meta_boxes', array( $this, 'internet_explorer_metabox' ) );
+			return;
+		}
+
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 		add_action( 'wp_insert_post', array( $this, 'save_postdata' ) );
@@ -59,6 +64,66 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
+	}
+
+	/**
+	 * Checks whether the request comes from an IE 11 browser.
+	 *
+	 * @return bool Whether the request comes from an IE 11 browser.
+	 */
+	public static function is_internet_explorer() {
+		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+
+		if ( strpos( $user_agent, 'Trident/7.0' ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Adds an alternative metabox for internet explorer users.
+	 */
+	public function internet_explorer_metabox() {
+		$post_types = WPSEO_Post_Type::get_accessible_post_types();
+		$post_types = array_filter( $post_types, array( $this, 'display_metabox' ) );
+
+		if ( ! is_array( $post_types ) || $post_types === array() ) {
+			return;
+		}
+
+		$product_title = $this->get_product_title();
+
+		$this->register_helpcenter_tab();
+
+		foreach ( $post_types as $post_type ) {
+			add_filter( "postbox_classes_{$post_type}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
+
+			add_meta_box(
+				'wpseo_meta',
+				$product_title,
+				array( $this, 'render_internet_explorer_notice' ),
+				$post_type,
+				'normal',
+				apply_filters( 'wpseo_metabox_prio', 'high' ),
+				array( '__block_editor_compatible_meta_box' => true )
+			);
+		}
+	}
+
+	/**
+	 * Renders the content for the internet explorer metabox.
+	 */
+	public function render_internet_explorer_notice() {
+		echo '<div class="yoast-alert-box yoast-alert-box__warning">';
+		printf(
+			esc_html__( 'The browser you are currently using is unfortunately rather dated. Since we strive to give you the best experience possible, we no longer support this browser. Instead, please use %1$sFirefox%4$s, %2$sChrome%4$s or %3$sMicrosoft Edge%4$s.', 'wordpress-seo' ),
+			'<a href="https://www.mozilla.org/firefox/new/">',
+			'<a href="https://www.google.com/intl/nl/chrome/">',
+			'<a href="https://www.microsoft.com/windows/microsoft-edge">',
+			'</a>'
+		);
+		echo '</div>';
 	}
 
 	/**

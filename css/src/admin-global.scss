@@ -679,3 +679,18 @@ body.folded {
 		}
 	}
 }
+
+.yoast-alert-box {
+	font-size: 14px;
+	border: 1px solid rgba( 0, 0, 0, 0.2 );
+	padding: 16px;
+
+	a {
+		color: #004973;
+		text-decoration: underline;
+	}
+
+	&__warning {
+		background: #FFF3CD;
+	}
+}
