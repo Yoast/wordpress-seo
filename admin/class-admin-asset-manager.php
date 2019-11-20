@@ -694,6 +694,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'metabox-' . $flat_version,
 				'deps' => array(
 					self::PREFIX . 'select2',
+					self::PREFIX . 'admin-css',
 				),
 			),
 			array(
