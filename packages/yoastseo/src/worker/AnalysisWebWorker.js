@@ -137,6 +137,7 @@ export default class AnalysisWebWorker {
 		};
 		this._registeredAssessments = [];
 		this._registeredMessageHandlers = {};
+		this._registeredParsers = [];
 
 		// Set up everything for the analysis on the tree.
 		this.setupTreeAnalysis();
@@ -222,6 +223,7 @@ export default class AnalysisWebWorker {
 		this._scope.onmessage = this.handleMessage;
 		this._scope.analysisWorker = {
 			registerAssessment: this.registerAssessment,
+			registerParser: this.registerParser,
 			registerMessageHandler: this.registerMessageHandler,
 			refreshAssessment: this.refreshAssessment,
 		};
@@ -656,6 +658,27 @@ export default class AnalysisWebWorker {
 		}
 
 		this.clearCache();
+	}
+
+	/**
+	 * Register a parser that parses a formatted text
+	 * to a structured tree representation that can be further analyzed.
+	 *
+	 * @param {Object}   parser                              The parser to register.
+	 * @param {function(Paper): boolean} parser.isApplicable A method that checks whether this parser is applicable for a paper.
+	 * @param {function(Paper): module:parsedPaper/structure.Node } parser.parse A method that parses a paper to a structured tree representation.
+	 *
+	 * @returns {void}
+	 */
+	registerParser( parser ) {
+		if ( typeof parser.isApplicable !== "function" ) {
+			throw new InvalidTypeError( "Failed to register the custom parser. Expected parameter 'parser' to have a method 'isApplicable'." );
+		}
+		if ( typeof parser.parse !== "function" ) {
+			throw new InvalidTypeError( "Failed to register the custom parser. Expected parameter 'parser' to have a method 'parse'." );
+		}
+
+		this._registeredAssessments.push( parser );
 	}
 
 	/**
