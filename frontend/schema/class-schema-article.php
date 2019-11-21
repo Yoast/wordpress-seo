@@ -59,8 +59,8 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			'isPartOf'         => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
 			'author'           => array( '@id' => WPSEO_Schema_Utils::get_user_schema_id( $post->post_author, $this->context ) ),
 			'headline'         => get_the_title(),
-			'datePublished'    => mysql2date( DATE_W3C, $post->post_date_gmt, false ),
-			'dateModified'     => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
+			'datePublished'    => mysql2date( DATE_W3C, $post->post_date, false ),
+			'dateModified'     => mysql2date( DATE_W3C, $post->post_modified, false ),
 			'commentCount'     => $comment_count['approved'],
 			'mainEntityOfPage' => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
 		);
