@@ -54,14 +54,17 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
+		// Send tracking data on `admin_init`.
 		add_action( 'admin_init', array( $this, 'send' ), 1 );
 
+		// Add an action hook that will be triggered at the specified time by `wp_schedule_single_event()`.
 		add_action( 'wpseo_send_tracking_data_after_core_update', array( $this, 'send' ) );
+		// Call `wp_schedule_single_event()` after a WordPress core update.
 		add_action( 'upgrader_process_complete', array( $this, 'schedule_tracking_data_sending' ), 10, 2 );
 	}
 
 	/**
-	 * Schedules a new tracking data sending after a WordPress code update.
+	 * Schedules a new sending of the tracking data after a WordPress core update.
 	 *
 	 * @param bool|WP_Upgrader $upgrader Optional. WP_Upgrader instance or false.
 	 *                                   Depending on context, it might be a Theme_Upgrader,
@@ -133,7 +136,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 
 		$last_time = get_option( $this->option_name );
 
-		// When there is no tracking data already stored or when sending data is forced.
+		// When tracking data haven't been sent yet or when sending data is forced.
 		if ( ! $last_time || $ignore_time_treshhold ) {
 			return true;
 		}
