@@ -678,7 +678,7 @@ export default class AnalysisWebWorker {
 			throw new InvalidTypeError( "Failed to register the custom parser. Expected parameter 'parser' to have a method 'parse'." );
 		}
 
-		this._registeredAssessments.push( parser );
+		this._registeredParsers.push( parser );
 	}
 
 	/**

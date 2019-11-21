@@ -1,6 +1,7 @@
 // External dependencies
 import { forEach, isArray, isNumber, isObject } from "lodash-es";
 import { getLogger } from "loglevel";
+import { StructuredNode } from "../../src/parsedPaper/structure/tree";
 
 // Internal dependencies
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
@@ -1597,6 +1598,17 @@ describe( "AnalysisWebWorker", () => {
 					done();
 				}
 			);
+		} );
+
+		it( "Can register a custom parser, if it has an `isApplicable` and a `parse` method.", () => {
+			const mockParser = {
+				isApplicable: () => true,
+				parse: () => new StructuredNode( "Hello!" ),
+			};
+
+			worker.registerParser( mockParser );
+
+			expect( worker._registeredParsers ).toHaveLength( 1 );
 		} );
 	} );
 } );
