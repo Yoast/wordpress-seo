@@ -130,6 +130,10 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 			foreach ( $this->products as $product ) {
 				$subscription = $addon_manager->get_subscription( $product );
 
+				if ( ! $subscription ) {
+					continue;
+				}
+
 				$data[ $subscription->product->name ] = $this->get_product_info( $subscription );
 			}
 		}
