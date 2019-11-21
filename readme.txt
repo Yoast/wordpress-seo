@@ -216,10 +216,16 @@ Enhancements:
 
 * Adds a description property to the schema's `WebSite` node.
 * Removes the `Site-wide default: None` and the `None` options from the `Meta robots advanced` field in the metabox.
+* Introduced a HelpScout beacon as a replacement for the Help Center.
+
+Bugfixes:
+
+* Fixes a PHP Warning when using an empty string in the OpenGraph frontend output. Props to [@ChrisThompsonTLDR](https://github.com/ChrisThompsonTLDR).
 
 Other:
 
 * Sets the minimum required WordPress version to 5.2, and the minimum PHP version to 5.6.20.
+* Adds a notification to encourage Internet Explorer 11 users to use another browser as we are no longer supporting that browser.
 
 = 12.5.0 =
 Release Date: November 13th, 2019
