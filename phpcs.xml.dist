@@ -22,7 +22,11 @@
         <exclude name="WordPress.WP.PreparedSQL.NotPrepared"/><!-- TODO audit raw queries -->
         <exclude name="WordPress.Functions.DontExtract" /><!-- TODO audit usage & replace -->
         <exclude name="Squiz.Commenting.FunctionCommentThrowTag.WrongNumber" /><!-- TODO Remove this once we're on 0.5. See https://github.com/squizlabs/PHP_CodeSniffer/issues/650 for more info. -->
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
     </rule>
+
+    <!-- Demand short arrays. -->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 
     <!-- Exclude migrations folder from filename checks, as we do not have control over this format -->
     <rule ref="WordPress.Files.FileName.UnderscoresNotAllowed">
@@ -63,30 +67,5 @@
 	-->
 	<config name="testVersion" value="5.6-"/>
 	<rule ref="PHPCompatibilityWP"/>
-
-	<!--
-	#############################################################################
-	TEMPORARY TWEAK
-	YoastCS will demand short arrays, but until support for WP < 5.2 has been
-	dropped, this can - for now - only be allowed (and enforced) for the folders
-	containing PHP 5.6+ code.
-	#############################################################################
-	-->
-
-	<rule ref="Generic.Arrays.DisallowShortArraySyntax">
-		<exclude-pattern>*/config/*\.php$</exclude-pattern>
-		<exclude-pattern>*/src/*\.php$</exclude-pattern>
-		<exclude-pattern>*/tests/*\.php$</exclude-pattern>
-	</rule>
-	<rule ref="Generic.Arrays.DisallowLongArraySyntax">
-		<exclude-pattern>*/wp-seo-main\.php$</exclude-pattern>
-		<exclude-pattern>*/admin/*\.php$</exclude-pattern>
-		<exclude-pattern>*/cli/*\.php$</exclude-pattern>
-		<exclude-pattern>*/frontend/*\.php$</exclude-pattern>
-		<exclude-pattern>*/inc/*\.php$</exclude-pattern>
-		<exclude-pattern>*/integration-tests/*\.php$</exclude-pattern>
-		<exclude-pattern>*/migrations/*\.php$</exclude-pattern>
-		<exclude-pattern>*/scripts/*\.php$</exclude-pattern>
-	</rule>
 
 </ruleset>
