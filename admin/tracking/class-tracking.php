@@ -80,8 +80,18 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		// Schedule sending of data tracking 6 hours after a WordPress core update.
-		wp_schedule_single_event( ( time() + ( HOUR_IN_SECONDS * 6 ) ), 'wpseo_send_tracking_data_after_core_update', true );
+		/*
+		 * To uniquely identify the scheduled cron event, `wp_next_scheduled()`
+		 * needs to receive the same arguments as those used when originally
+		 * scheduling the event otherwise it will always return false.
+		 */
+		if ( ! wp_next_scheduled( 'wpseo_send_tracking_data_after_core_update', true ) ) {
+			/*
+			 * Schedule sending of data tracking 6 hours after a WordPress core
+			 * update. Pass a `true` parameter for the callback `$force` argument.
+			 */
+			wp_schedule_single_event( ( time() + ( HOUR_IN_SECONDS * 6 ) ), 'wpseo_send_tracking_data_after_core_update', true );
+		}
 	}
 
 	/**
