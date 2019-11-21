@@ -56,32 +56,15 @@ const getPluralSuffixes = function( stemmedWord, morphologyDataPluralSuffixes ) 
 };
 
 /**
- * Searches for a given suffix in an array, and if found, moves it to another array.
- *
- * @param {string} suffix The suffix to search for and to move to a different group if it is found.
- * @param {array} oldGroup The group in which the suffix should be searched for.
- * @param {array} newGroup The group that the suffix should be moved to if found.
- * @returns {void}
- */
-const moveSuffixes = function( suffix, oldGroup, newGroup ) {
-	const suffixIndex = oldGroup.indexOf( suffix );
-
-	if ( suffixIndex !== -1 ) {
-		oldGroup.splice( suffixIndex, 1 );
-		newGroup.push( suffix );
-	}
-};
-
-/**
- * Checks whether the stem has an ending for which the final consonant should not be voiced.
+ * Checks whether the stem has an ending for which the final consonant should be voiced or not.
  *
  * @param {string} stemmedWord  The stem.
- * @param {string[]} stemEndings The endings to search for in the stem.
+ * @param {string[]} notVoicedStemEndings The endings to search for in the stem.
  * @returns {boolean} Whether the stem has one of the endings that were searched for.
  */
-const shouldConsonantBeVoiced = function( stemmedWord, stemEndings ) {
-	const matchedEnding = stemEndings.find( stemEnding => stemmedWord.search( new RegExp( stemEnding ) ) !== -1 );
-	return typeof matchedEnding === "undefined";
+const shouldConsonantBeVoiced = function( stemmedWord, notVoicedStemEndings ) {
+	 // Will return true if the ending of the stemmedWord is NOT one of the notVoicedEndings.
+	return ! notVoicedStemEndings.find( stemEnding => new RegExp( stemEnding ).test( stemmedWord ) );
 };
 
 /**
@@ -135,33 +118,33 @@ export function addNounSuffixes( stemmedWord, morphologyDataAddSuffixes, morphol
 	// Get diminutive suffixes.
 	const diminutiveSuffixes = getSuffixes( stemmedWord, morphologyDataNounSuffixes.diminutiveSuffixes );
 
-	const suffixesForModifiedStem = [];
-	const kjeSuffix = [];
+	// Join the diminutive and plural suffixes
+	let combinedSuffixes = pluralSuffixes.concat( diminutiveSuffixes );
 
-	// Make extra suffixes groups for suffixes that require a stem modification.
-	moveSuffixes( "en", pluralSuffixes, suffixesForModifiedStem );
-	moveSuffixes( "ers", pluralSuffixes, suffixesForModifiedStem );
-	moveSuffixes( "es", pluralSuffixes, suffixesForModifiedStem );
-	moveSuffixes( "etje", diminutiveSuffixes, suffixesForModifiedStem );
-	moveSuffixes( "kje", diminutiveSuffixes, kjeSuffix );
+	const nounForms = [];
 
-	// Join the diminutive and plural suffixes that do not require a stem modification.
-	const suffixesForUnmodifiedStem = pluralSuffixes.concat( diminutiveSuffixes );
+	/* If the kje suffix exists in the suffixes for this word,
+	remove the last character of the stem, attach the suffix to the stem, and add the resulting
+	form to the noun forms array. */
+	if ( combinedSuffixes.includes( "kje" ) ) {
+		combinedSuffixes = combinedSuffixes.filter( suffix => suffix !== "kje" );
+		const kjeForm = stemmedWord.slice( 0, -1 ) + "kje";
+		nounForms.push( kjeForm );
+	}
+
+	// Then find the suffixes that require a stem modification (except for "kje")...
+	const stemModificationSuffixes = [ "en", "ers", "es", "etje" ];
+	const suffixesForModifiedStem = combinedSuffixes.filter( suffix => stemModificationSuffixes.includes( suffix ) );
+
+	// ...and remove them from the suffixesForUnmodifiedStem array;
+	const suffixesForUnmodifiedStem = combinedSuffixes.filter( suffix => ! suffixesForModifiedStem.includes( suffix ) );
 
 	// Make forms by attaching suffixes to the unmodified stem.
-	let nounForms = applySuffixesToStem( stemmedWord, suffixesForUnmodifiedStem );
-
-	/* If the kje suffix exists, remove the last character of the stem, attach the suffix to the stem, and add the resulting
-	form to the noun forms array. */
-	if ( kjeSuffix.length > 0 ) {
-		const kjeStem = stemmedWord.slice( 0, -1 );
-		const kjeForm = kjeStem.concat( kjeSuffix );
-		nounForms = nounForms.concat( kjeForm );
-	}
+	nounForms.push( applySuffixesToStem( stemmedWord, suffixesForUnmodifiedStem ) );
 
 	/* If any other suffixes that require stem modifications were found, run through the modification checks and modify the stem if needed.
 	   Then attach the given suffixes to the modified stem and add the resulting forms to the noun forms. */
-	if ( suffixesForModifiedStem.length > 0 ) {
+	if ( suffixesForModifiedStem ) {
 		const secondStem = findAndApplyModifications( stemmedWord, morphologyDataAddSuffixes );
 		const formsWithModifiedStem = applySuffixesToStem( secondStem, suffixesForModifiedStem );
 
