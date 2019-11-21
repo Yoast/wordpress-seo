@@ -1158,11 +1158,8 @@ SVG;
 	 * @return false|string The prepared JSON string.
 	 */
 	public static function format_json_encode( $data ) {
-		$flags = 0;
-		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
-			// @codingStandardsIgnoreLine This is used in the wp_json_encode call, which checks for this.
-			$flags = ( $flags | JSON_UNESCAPED_SLASHES );
-		}
+		$flags = JSON_UNESCAPED_SLASHES;
+
 		if ( self::is_development_mode() ) {
 			$flags = ( $flags | JSON_PRETTY_PRINT );
 

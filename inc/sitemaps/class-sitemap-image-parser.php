@@ -259,12 +259,7 @@ class WPSEO_Sitemap_Image_Parser {
 			$attachments = array_merge( $attachments, $gallery_attachments );
 		}
 
-		if ( PHP_VERSION_ID >= 50209 ) {
-			// phpcs:ignore PHPCompatibility.FunctionUse.NewFunctionParameters.array_unique_sort_flagsFound -- Wrapped in version check.
-			return array_unique( $attachments, SORT_REGULAR );
-		}
-
-		return $attachments;
+		return array_unique( $attachments, SORT_REGULAR );
 	}
 
 	/**
