@@ -115,7 +115,7 @@ before_install:
 
 install:
 - |
-  if [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
+  if [[ "$PHPCS" == "1" || "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
     # The prefix-dependencies task only works on PHP 7.1 and we need to prefix our dependencies to accurately test them.
     # So we temporarily switch PHP versions, do a full install and then remove the package.
     # Then switch back to the PHP version we want to test and delete the vendor directory.
@@ -123,26 +123,27 @@ install:
     composer install --no-interaction --no-scripts --ignore-platform-reqs
     composer prefix-dependencies
     composer compile-di
-    composer remove humbug/php-scoper --dev --ignore-platform-reqs
-    composer remove atanamo/php-codeshift --dev --ignore-platform-reqs
+    composer remove humbug/php-scoper --dev --ignore-platform-reqs --no-scripts --no-interaction
+    composer remove atanamo/php-codeshift --dev --ignore-platform-reqs --no-scripts --no-interaction
     phpenv local --unset
     rm -rf vendor/*
   fi
 - |
   if [[ "$COVERAGE" == "1" ]]; then
     # Install phpcov so we can combine the coverage results of unit and integration tests.
-    composer require phpunit/phpcov ^3.1
+    composer require phpunit/phpcov ^3.1 --no-scripts --no-interaction
   fi
 - |
   if [[ "$PHPCS" == "1" || "$PHPUNIT" == "1" || "$COVERAGE" == "1" ]]; then
     # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
-    composer update
+    # We add the no-scripts flags so the vendor-prefixing isn't run again as php-scoper will have been removed by this time.
+    composer update --no-scripts --no-interaction
     composer install --no-scripts --no-interaction
-    composer du
+    composer du --no-scripts --no-interaction
   elif [[ "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
-    composer update
-    composer install --no-dev --no-interaction
-    composer du
+    composer update --no-scripts --no-interaction
+    composer install --no-scripts --no-interaction --no-dev
+    composer du --no-scripts --no-interaction
   fi
 - |
   if [[ "$PHPCS" == "1" ]]; then
