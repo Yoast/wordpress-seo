@@ -53,12 +53,12 @@ abstract class WPSEO_Abstract_Metabox_Tab_With_Sections implements WPSEO_Metabox
 	 * @param string $link_content The text content of the section link.
 	 * @param array  $options      Optional link attributes.
 	 */
-	public function __construct( $name, $link_content, array $options = array() ) {
-		$default_options = array(
+	public function __construct( $name, $link_content, array $options = [] ) {
+		$default_options = [
 			'link_title'      => '',
 			'link_class'      => '',
 			'link_aria_label' => '',
-		);
+		];
 
 		$options = array_merge( $default_options, $options );
 

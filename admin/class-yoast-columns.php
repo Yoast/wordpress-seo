@@ -14,7 +14,7 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
-		add_action( 'load-edit.php', array( $this, 'add_help_tab' ) );
+		add_action( 'load-edit.php', [ $this, 'add_help_tab' ] );
 	}
 
 	/**
@@ -23,7 +23,7 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 	public function add_help_tab() {
 		$screen = get_current_screen();
 		$screen->add_help_tab(
-			array(
+			[
 				/* translators: %s expands to Yoast */
 				'title'    => sprintf( __( '%s Columns', 'wordpress-seo' ), 'Yoast' ),
 				'id'       => 'yst-columns',
@@ -38,7 +38,7 @@ class WPSEO_Yoast_Columns implements WPSEO_WordPress_Integration {
 					'</em>'
 				),
 				'priority' => 15,
-			)
+			]
 		);
 	}
 }

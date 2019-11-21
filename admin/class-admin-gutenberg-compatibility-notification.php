@@ -45,7 +45,7 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification implements WPSEO_WordPres
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'admin_init', array( $this, 'manage_notification' ) );
+		add_action( 'admin_init', [ $this, 'manage_notification' ] );
 	}
 
 	/**
@@ -81,11 +81,11 @@ class WPSEO_Admin_Gutenberg_Compatibility_Notification implements WPSEO_WordPres
 
 		$notification = new Yoast_Notification(
 			$message,
-			array(
+			[
 				'id'       => $this->notification_id,
 				'type'     => $level,
 				'priority' => 1,
-			)
+			]
 		);
 
 		$this->notification_center->add_notification( $notification );

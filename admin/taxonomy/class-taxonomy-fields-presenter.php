@@ -128,7 +128,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 					' />';
 				break;
 			case 'select':
-				if ( is_array( $options ) && $options !== array() ) {
+				if ( is_array( $options ) && $options !== [] ) {
 					$field .= '<select name="' . $field_name . '" id="' . $field_name . '"' . $aria_describedby . '>';
 
 					$select_options = ( array_key_exists( 'options', $options ) ) ? $options['options'] : $options;

@@ -90,7 +90,7 @@ if ( ! function_exists( 'yoast_get_primary_term' ) ) {
  *
  * @return string
  */
-function wpseo_replace_vars( $string, $args, $omit = array() ) {
+function wpseo_replace_vars( $string, $args, $omit = [] ) {
 	$replacer = new WPSEO_Replace_Vars();
 
 	return $replacer->replace( $string, $args, $omit );
@@ -159,12 +159,12 @@ function wpseo_register_var_replacement( $var, $replace_function, $type = 'advan
 function wpseo_wpml_config( $config ) {
 	global $sitepress;
 
-	if ( ( is_array( $config ) && isset( $config['wpml-config']['admin-texts']['key'] ) ) && ( is_array( $config['wpml-config']['admin-texts']['key'] ) && $config['wpml-config']['admin-texts']['key'] !== array() ) ) {
+	if ( ( is_array( $config ) && isset( $config['wpml-config']['admin-texts']['key'] ) ) && ( is_array( $config['wpml-config']['admin-texts']['key'] ) && $config['wpml-config']['admin-texts']['key'] !== [] ) ) {
 		$admin_texts = $config['wpml-config']['admin-texts']['key'];
 		foreach ( $admin_texts as $k => $val ) {
 			if ( $val['attr']['name'] === 'wpseo_titles' ) {
 				$translate_cp = array_keys( $sitepress->get_translatable_documents() );
-				if ( is_array( $translate_cp ) && $translate_cp !== array() ) {
+				if ( is_array( $translate_cp ) && $translate_cp !== [] ) {
 					foreach ( $translate_cp as $post_type ) {
 						$admin_texts[ $k ]['key'][]['attr']['name'] = 'title-' . $post_type;
 						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metadesc-' . $post_type;
@@ -172,7 +172,7 @@ function wpseo_wpml_config( $config ) {
 						$admin_texts[ $k ]['key'][]['attr']['name'] = 'metadesc-ptarchive-' . $post_type;
 
 						$translate_tax = $sitepress->get_translatable_taxonomies( false, $post_type );
-						if ( is_array( $translate_tax ) && $translate_tax !== array() ) {
+						if ( is_array( $translate_tax ) && $translate_tax !== [] ) {
 							foreach ( $translate_tax as $taxonomy ) {
 								$admin_texts[ $k ]['key'][]['attr']['name'] = 'title-tax-' . $taxonomy;
 								$admin_texts[ $k ]['key'][]['attr']['name'] = 'metadesc-tax-' . $taxonomy;
@@ -233,7 +233,7 @@ if ( ! extension_loaded( 'ctype' ) || ! function_exists( 'ctype_digit' ) ) {
  * @param string $taxonomy         The taxonomy that the taxonomy term was splitted for.
  */
 function wpseo_split_shared_term( $old_term_id, $new_term_id, $term_taxonomy_id, $taxonomy ) {
-	$tax_meta = get_option( 'wpseo_taxonomy_meta', array() );
+	$tax_meta = get_option( 'wpseo_taxonomy_meta', [] );
 
 	if ( ! empty( $tax_meta[ $taxonomy ][ $old_term_id ] ) ) {
 		$tax_meta[ $taxonomy ][ $new_term_id ] = $tax_meta[ $taxonomy ][ $old_term_id ];

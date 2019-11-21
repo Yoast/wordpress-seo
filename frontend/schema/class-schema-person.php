@@ -24,7 +24,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 *
 	 * @var string[]
 	 */
-	private $social_profiles = array(
+	private $social_profiles = [
 		'facebook',
 		'instagram',
 		'linkedin',
@@ -35,17 +35,17 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		'soundcloud',
 		'tumblr',
 		'wikipedia',
-	);
+	];
 
 	/**
 	 * The Schema type we use for this class.
 	 *
 	 * @var string[]
 	 */
-	protected $type = array(
+	protected $type = [
 		'Person',
 		'Organization',
-	);
+	];
 
 	/**
 	 * The hash used for images.
@@ -126,7 +126,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		 *                                key. As they are retrieved using the WordPress function `get_the_author_meta`.
 		 */
 		$social_profiles = apply_filters( 'wpseo_schema_person_social_profiles', $this->social_profiles, $user_id );
-		$output          = array();
+		$output          = [];
 		foreach ( $social_profiles as $profile ) {
 			$social_url = $this->url_social_site( $profile, $user_id );
 			if ( $social_url ) {
@@ -146,11 +146,11 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 	 */
 	protected function build_person_data( $user_id ) {
 		$user_data = get_userdata( $user_id );
-		$data      = array(
+		$data      = [
 			'@type' => $this->type,
 			'@id'   => WPSEO_Schema_Utils::get_user_schema_id( $user_id, $this->context ),
 			'name'  => $user_data->display_name,
-		);
+		];
 
 		$data = $this->add_image( $data, $user_data );
 
@@ -183,7 +183,7 @@ class WPSEO_Schema_Person implements WPSEO_Graph_Piece {
 		}
 
 		if ( is_array( $this->type ) && in_array( 'Organization', $this->type ) ) {
-			$data['logo'] = array( '@id' => $schema_id );
+			$data['logo'] = [ '@id' => $schema_id ];
 		}
 
 		return $data;

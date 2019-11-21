@@ -51,7 +51,7 @@ class WPSEO_Link_Type_Classifier {
 
 		// Because parse_url may return false.
 		if ( ! is_array( $url_parts ) ) {
-			$url_parts = array();
+			$url_parts = [];
 		}
 
 		if ( $this->contains_protocol( $url_parts ) && $this->is_external_link( $url_parts ) ) {
@@ -80,7 +80,7 @@ class WPSEO_Link_Type_Classifier {
 	 * @return bool True when the link doesn't contain the home url.
 	 */
 	protected function is_external_link( array $url_parts ) {
-		if ( isset( $url_parts['scheme'] ) && ! in_array( $url_parts['scheme'], array( 'http', 'https' ), true ) ) {
+		if ( isset( $url_parts['scheme'] ) && ! in_array( $url_parts['scheme'], [ 'http', 'https' ], true ) ) {
 			return true;
 		}
 		// When the base host is equal to the host.

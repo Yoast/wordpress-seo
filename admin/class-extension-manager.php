@@ -22,7 +22,7 @@ class WPSEO_Extension_Manager {
 	 *
 	 * @var WPSEO_Extension[]
 	 */
-	protected $extensions = array();
+	protected $extensions = [];
 
 	/**
 	 * List of active plugins.
@@ -117,7 +117,7 @@ class WPSEO_Extension_Manager {
 	 * @return array Array containing the active extensions.
 	 */
 	protected function retrieve_active_extensions() {
-		return (array) apply_filters( 'yoast-active-extensions', array() );
+		return (array) apply_filters( 'yoast-active-extensions', [] );
 	}
 
 	/**

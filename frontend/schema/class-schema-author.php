@@ -26,7 +26,7 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	 *
 	 * @var string[]
 	 */
-	protected $type = array( 'Person' );
+	protected $type = [ 'Person' ];
 
 	/**
 	 * WPSEO_Schema_Author constructor.
@@ -77,9 +77,9 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 
 		// If this is an author page, the Person object is the main object, so we set it as such here.
 		if ( is_author() ) {
-			$data['mainEntityOfPage'] = array(
+			$data['mainEntityOfPage'] = [
 				'@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH,
-			);
+			];
 		}
 
 		return $data;

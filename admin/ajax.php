@@ -46,7 +46,7 @@ add_action( 'wp_ajax_wpseo_set_option', 'wpseo_set_option' );
 /**
  * Since 3.2 Notifications are dismissed in the Notification Center.
  */
-add_action( 'wp_ajax_yoast_dismiss_notification', array( 'Yoast_Notification_Center', 'ajax_dismiss_notification' ) );
+add_action( 'wp_ajax_yoast_dismiss_notification', [ 'Yoast_Notification_Center', 'ajax_dismiss_notification' ] );
 
 /**
  * Function used to remove the admin notices for several purposes, dies on exit.
@@ -136,12 +136,12 @@ function wpseo_upsert_meta( $post_id, $new_meta_value, $orig_meta_value, $meta_k
 	$sanitized_new_meta_value = wp_strip_all_tags( $new_meta_value );
 	$orig_meta_value          = wp_strip_all_tags( $orig_meta_value );
 
-	$upsert_results = array(
+	$upsert_results = [
 		'status'                 => 'success',
 		'post_id'                => $post_id,
 		"new_{$return_key}"      => $sanitized_new_meta_value,
 		"original_{$return_key}" => $orig_meta_value,
-	);
+	];
 
 	$the_post = get_post( $post_id );
 	if ( empty( $the_post ) ) {
@@ -231,13 +231,13 @@ add_action( 'wp_ajax_wpseo_save_all_descriptions', 'wpseo_save_all_descriptions'
 function wpseo_save_all( $what ) {
 	check_ajax_referer( 'wpseo-bulk-editor' );
 
-	$results = array();
+	$results = [];
 	if ( ! isset( $_POST['items'], $_POST['existingItems'] ) ) {
 		wpseo_ajax_json_echo_die( $results );
 	}
 
-	$new_values      = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), wp_unslash( (array) $_POST['items'] ) );
-	$original_values = array_map( array( 'WPSEO_Utils', 'sanitize_text_field' ), wp_unslash( (array) $_POST['existingItems'] ) );
+	$new_values      = array_map( [ 'WPSEO_Utils', 'sanitize_text_field' ], wp_unslash( (array) $_POST['items'] ) );
+	$original_values = array_map( [ 'WPSEO_Utils', 'sanitize_text_field' ], wp_unslash( (array) $_POST['existingItems'] ) );
 
 	foreach ( $new_values as $post_id => $new_value ) {
 		$original_value = $original_values[ $post_id ];
@@ -319,7 +319,7 @@ add_action( 'wp_ajax_get_term_keyword_usage', 'ajax_get_term_keyword_usage' );
  * @return void
  */
 function wpseo_register_ajax_integrations() {
-	$integrations = array( new Yoast_Network_Admin() );
+	$integrations = [ new Yoast_Network_Admin() ];
 
 	foreach ( $integrations as $integration ) {
 		$integration->register_ajax_hooks();
@@ -397,7 +397,7 @@ function wpseo_ajax_replace_vars() {
 	$wp_query->queried_object    = $post;
 	$wp_query->queried_object_id = $post->ID;
 
-	$omit = array( 'excerpt', 'excerpt_only', 'title' );
+	$omit = [ 'excerpt', 'excerpt_only', 'title' ];
 	echo wpseo_replace_vars( stripslashes( filter_input( INPUT_POST, 'string' ) ), $post, $omit );
 	die;
 }

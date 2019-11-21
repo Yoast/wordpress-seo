@@ -16,7 +16,7 @@ if ( $wpseo_taxonomy->name === 'post_format' ) {
 	$yform->light_switch(
 		'disable-post_format',
 		__( 'Format-based archives', 'wordpress-seo' ),
-		array( __( 'Enabled', 'wordpress-seo' ), __( 'Disabled', 'wordpress-seo' ) ),
+		[ __( 'Enabled', 'wordpress-seo' ), __( 'Disabled', 'wordpress-seo' ) ],
 		false
 	);
 }
@@ -37,13 +37,13 @@ $page_type = $recommended_replace_vars->determine_for_term( $wpseo_taxonomy->nam
 
 $editor = new WPSEO_Replacevar_Editor(
 	$yform,
-	array(
+	[
 		'title'                 => 'title-tax-' . $wpseo_taxonomy->name,
 		'description'           => 'metadesc-tax-' . $wpseo_taxonomy->name,
 		'page_type_recommended' => $recommended_replace_vars->determine_for_term( $wpseo_taxonomy->name ),
 		'page_type_specific'    => $editor_specific_replace_vars->determine_for_term( $wpseo_taxonomy->name ),
 		'paper_style'           => false,
-	)
+	]
 );
 $editor->render();
 

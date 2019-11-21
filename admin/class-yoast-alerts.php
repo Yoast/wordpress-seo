@@ -29,42 +29,42 @@ class Yoast_Alerts {
 	 *
 	 * @var array
 	 */
-	private static $errors = array();
+	private static $errors = [];
 
 	/**
 	 * Active errors.
 	 *
 	 * @var array
 	 */
-	private static $active_errors = array();
+	private static $active_errors = [];
 
 	/**
 	 * Dismissed errors.
 	 *
 	 * @var array
 	 */
-	private static $dismissed_errors = array();
+	private static $dismissed_errors = [];
 
 	/**
 	 * All warning notifications.
 	 *
 	 * @var array
 	 */
-	private static $warnings = array();
+	private static $warnings = [];
 
 	/**
 	 * Active warnings.
 	 *
 	 * @var array
 	 */
-	private static $active_warnings = array();
+	private static $active_warnings = [];
 
 	/**
 	 * Dismissed warnings.
 	 *
 	 * @var array
 	 */
-	private static $dismissed_warnings = array();
+	private static $dismissed_warnings = [];
 
 	/**
 	 * Yoast_Alerts constructor.
@@ -81,15 +81,15 @@ class Yoast_Alerts {
 
 		$page = filter_input( INPUT_GET, 'page' );
 		if ( self::ADMIN_PAGE === $page ) {
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		}
 
 		// Needed for adminbar and Alerts page.
-		add_action( 'admin_init', array( __CLASS__, 'collect_alerts' ), 99 );
+		add_action( 'admin_init', [ __CLASS__, 'collect_alerts' ], 99 );
 
 		// Add AJAX hooks.
-		add_action( 'wp_ajax_yoast_dismiss_alert', array( $this, 'ajax_dismiss_alert' ) );
-		add_action( 'wp_ajax_yoast_restore_alert', array( $this, 'ajax_restore_alert' ) );
+		add_action( 'wp_ajax_yoast_dismiss_alert', [ $this, 'ajax_dismiss_alert' ] );
+		add_action( 'wp_ajax_yoast_restore_alert', [ $this, 'ajax_restore_alert' ] );
 	}
 
 	/**
@@ -143,10 +143,10 @@ class Yoast_Alerts {
 		$html = $this->get_view_html( $type );
 		// phpcs:disable WordPress.Security.EscapeOutput -- Reason: WPSEO_Utils::format_json_encode is safe.
 		echo WPSEO_Utils::format_json_encode(
-			array(
+			[
 				'html'  => $html,
 				'total' => self::get_active_alert_count(),
-			)
+			]
 		);
 		// phpcs:enable -- Reason: WPSEO_Utils::format_json_encode is safe.
 	}
@@ -226,12 +226,12 @@ class Yoast_Alerts {
 		$notifications            = $notification_center->get_sorted_notifications();
 		self::$notification_count = count( $notifications );
 
-		self::$errors           = array_filter( $notifications, array( __CLASS__, 'filter_error_alerts' ) );
-		self::$dismissed_errors = array_filter( self::$errors, array( __CLASS__, 'filter_dismissed_alerts' ) );
+		self::$errors           = array_filter( $notifications, [ __CLASS__, 'filter_error_alerts' ] );
+		self::$dismissed_errors = array_filter( self::$errors, [ __CLASS__, 'filter_dismissed_alerts' ] );
 		self::$active_errors    = array_diff( self::$errors, self::$dismissed_errors );
 
-		self::$warnings           = array_filter( $notifications, array( __CLASS__, 'filter_warning_alerts' ) );
-		self::$dismissed_warnings = array_filter( self::$warnings, array( __CLASS__, 'filter_dismissed_alerts' ) );
+		self::$warnings           = array_filter( $notifications, [ __CLASS__, 'filter_warning_alerts' ] );
+		self::$dismissed_warnings = array_filter( self::$warnings, [ __CLASS__, 'filter_dismissed_alerts' ] );
 		self::$active_warnings    = array_diff( self::$warnings, self::$dismissed_warnings );
 	}
 
@@ -242,22 +242,22 @@ class Yoast_Alerts {
 	 */
 	public static function get_template_variables() {
 
-		return array(
-			'metrics'  => array(
+		return [
+			'metrics'  => [
 				'total'    => self::$notification_count,
 				'active'   => self::get_active_alert_count(),
 				'errors'   => count( self::$errors ),
 				'warnings' => count( self::$warnings ),
-			),
-			'errors'   => array(
+			],
+			'errors'   => [
 				'dismissed' => self::$dismissed_errors,
 				'active'    => self::$active_errors,
-			),
-			'warnings' => array(
+			],
+			'warnings' => [
 				'dismissed' => self::$dismissed_warnings,
 				'active'    => self::$active_warnings,
-			),
-		);
+			],
+		];
 	}
 
 	/**

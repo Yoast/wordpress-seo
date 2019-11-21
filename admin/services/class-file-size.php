@@ -22,19 +22,19 @@ class WPSEO_File_Size_Service {
 			$file_url = $this->get_file_url( $request );
 
 			return new WP_REST_Response(
-				array(
+				[
 					'type'          => 'success',
 					'size_in_bytes' => $this->get_file_size( $file_url ),
-				),
+				],
 				404
 			);
 		}
 		catch ( WPSEO_File_Size_Exception $exception ) {
 			return new WP_REST_Response(
-				array(
+				[
 					'type'     => 'failure',
 					'response' => $exception->getMessage(),
-				),
+				],
 				404
 			);
 		}
@@ -98,9 +98,9 @@ class WPSEO_File_Size_Service {
 	 */
 	protected function calculate_file_size( $file_url ) {
 		return WPSEO_Image_Utils::get_file_size(
-			array(
+			[
 				'path' => $file_url,
-			)
+			]
 		);
 	}
 }
