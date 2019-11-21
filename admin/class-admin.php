@@ -304,8 +304,12 @@ class WPSEO_Admin {
 	 */
 	private function localize_admin_global_script() {
 		return array(
-			/* translators: %s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template */
-			'variable_warning'        => sprintf( __( 'Warning: the variable %s cannot be used in this template. See the help center for more info.', 'wordpress-seo' ), '<code>%s</code>' ),
+			/* translators: %1$s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template, %2$s: expands to 'HelpScout beacon' */
+			'variable_warning'        => sprintf(
+				__( 'Warning: the variable %1$s cannot be used in this template. See the %2$s for more info.', 'wordpress-seo' ),
+				'<code>%s</code>',
+				'HelpScout beacon'
+			),
 			'dismiss_about_url'       => $this->get_dismiss_url( 'wpseo-dismiss-about' ),
 			'dismiss_tagline_url'     => $this->get_dismiss_url( 'wpseo-dismiss-tagline-notice' ),
 			/* translators: %s: expends to Yoast SEO */
@@ -425,8 +429,8 @@ class WPSEO_Admin {
 	 */
 	private function get_helpscout_beacon() {
 		$helpscout_settings = array(
-			'beacon_id' => '2496aba6-0292-489c-8f5d-1c0fba417c2f',
-			'pages'     => array(
+			'beacon_id'   => '2496aba6-0292-489c-8f5d-1c0fba417c2f',
+			'pages'       => array(
 				'wpseo_dashboard',
 				'wpseo_titles',
 				'wpseo_search_console',
@@ -434,7 +438,8 @@ class WPSEO_Admin {
 				'wpseo_tools',
 				'wpseo_licenses',
 			),
-			'products' => array(),
+			'products'    => array(),
+			'ask_consent' => true,
 		);
 
 		/**
@@ -447,7 +452,8 @@ class WPSEO_Admin {
 		return new WPSEO_HelpScout(
 			$helpscout_settings['beacon_id'],
 			$helpscout_settings['pages'],
-			$helpscout_settings['products']
+			$helpscout_settings['products'],
+			$helpscout_settings['ask_consent']
 		);
 	}
 

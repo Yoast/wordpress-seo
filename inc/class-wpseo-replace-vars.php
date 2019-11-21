@@ -1048,63 +1048,6 @@ class WPSEO_Replace_Vars {
 	/* *********************** HELP TEXT RELATED ************************** */
 
 	/**
-	 * Create a variable help text table.
-	 *
-	 * @param string $type Either 'basic' or 'advanced'.
-	 *
-	 * @return string Help text table.
-	 */
-	private static function create_variable_help_table( $type ) {
-		if ( ! in_array( $type, array( 'basic', 'advanced' ), true ) ) {
-			return '';
-		}
-
-		$table = '
-			<table class="yoast_help yoast-table-scrollable">
-			<thead>
-				<tr>
-					<th scope="col">' . esc_html__( 'Label', 'wordpress-seo' ) . '</th>
-					<th scope="col">' . esc_html__( 'Variable', 'wordpress-seo' ) . '</th>
-					<th scope="col">' . esc_html__( 'Description', 'wordpress-seo' ) . '</th>
-				</tr>
-			</thead>
-			<tbody>';
-
-		foreach ( self::$help_texts[ $type ] as $replacement_variable ) {
-			$table .= '
-				<tr>
-					<td class="yoast-variable-label">' . esc_html( $replacement_variable->get_label() ) . '</td>
-					<td class="yoast-variable-name">%%' . esc_html( $replacement_variable->get_variable() ) . '%%</td>
-					<td class="yoast-variable-desc">' . esc_html( $replacement_variable->get_description() ) . '</td>
-				</tr>';
-		}
-
-		$table .= '
-			</tbody>
-			</table>';
-
-		return $table;
-	}
-
-	/**
-	 * Create the help text table for the basic variables for use in a help tab.
-	 *
-	 * @return string
-	 */
-	public static function get_basic_help_texts() {
-		return self::create_variable_help_table( 'basic' );
-	}
-
-	/**
-	 * Create the help text table for the advanced variables for use in a help tab.
-	 *
-	 * @return string
-	 */
-	public static function get_advanced_help_texts() {
-		return self::create_variable_help_table( 'advanced' );
-	}
-
-	/**
 	 * Set the help text for a user/plugin/theme defined extra variable.
 	 *
 	 * @param string                     $type                 Type of variable: 'basic' or 'advanced'.

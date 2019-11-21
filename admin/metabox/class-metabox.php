@@ -42,6 +42,11 @@ class WPSEO_Metabox extends WPSEO_Meta {
 	 * Class constructor.
 	 */
 	public function __construct() {
+		if ( $this->is_internet_explorer() ) {
+			add_action( 'add_meta_boxes', array( $this, 'internet_explorer_metabox' ) );
+			return;
+		}
+
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 		add_action( 'wp_insert_post', array( $this, 'save_postdata' ) );
@@ -59,6 +64,68 @@ class WPSEO_Metabox extends WPSEO_Meta {
 
 		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$this->analysis_readability = new WPSEO_Metabox_Analysis_Readability();
+	}
+
+	/**
+	 * Checks whether the request comes from an IE 11 browser.
+	 *
+	 * @return bool Whether the request comes from an IE 11 browser.
+	 */
+	public static function is_internet_explorer() {
+		$user_agent = $_SERVER['HTTP_USER_AGENT'];
+
+		if ( ! stripos( $user_agent, 'Trident/7.0' ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Adds an alternative metabox for internet explorer users.
+	 */
+	public function internet_explorer_metabox() {
+		$post_types = WPSEO_Post_Type::get_accessible_post_types();
+		$post_types = array_filter( $post_types, array( $this, 'display_metabox' ) );
+
+		if ( ! is_array( $post_types ) || $post_types === array() ) {
+			return;
+		}
+
+		$product_title = $this->get_product_title();
+
+		foreach ( $post_types as $post_type ) {
+			add_filter( "postbox_classes_{$post_type}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
+
+			add_meta_box(
+				'wpseo_meta',
+				$product_title,
+				array( $this, 'render_internet_explorer_notice' ),
+				$post_type,
+				'normal',
+				apply_filters( 'wpseo_metabox_prio', 'high' ),
+				array( '__block_editor_compatible_meta_box' => true )
+			);
+		}
+	}
+
+	/**
+	 * Renders the content for the internet explorer metabox.
+	 */
+	public function render_internet_explorer_notice() {
+		echo '<div class="yoast-alert-box yoast-alert-box__warning">';
+		echo '<span class="icon">';
+		echo '<svg xmlns="http://www.w3.org/2000/svg" fill="#674E00" height="14px" width="14px" viewBox="0 0 576 512" role="img" aria-hidden="true" focusable="false"><path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></svg>';
+		echo '</span>';
+		echo '<div style="float: left">';
+		printf(
+			esc_html__( 'The browser you are currently using is unfortunately rather dated. Since we strive to give you the best experience possible, we no longer support this browser. Instead, please use %1$sFirefox%4$s, %2$sChrome%4$s or %3$sMicrosoft Edge%4$s.', 'wordpress-seo' ),
+			'<a href="https://www.mozilla.org/firefox/new/">',
+			'<a href="https://www.google.com/intl/nl/chrome/">',
+			'<a href="https://www.microsoft.com/windows/microsoft-edge">',
+			'</a>'
+		);
+		echo '</div></div>';
 	}
 
 	/**
@@ -140,8 +207,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		$product_title = $this->get_product_title();
-
-		$this->register_helpcenter_tab();
 
 		foreach ( $post_types as $post_type ) {
 			add_filter( "postbox_classes_{$post_type}_wpseo_meta", array( $this, 'wpseo_metabox_class' ) );
@@ -1012,25 +1077,6 @@ class WPSEO_Metabox extends WPSEO_Meta {
 		}
 
 		return $product_title;
-	}
-
-	/**
-	 * Adds the template variables tab to the helpcenter.
-	 *
-	 * @return void
-	 */
-	protected function register_helpcenter_tab() {
-		static $tab_registered;
-
-		if ( $tab_registered ) {
-			return;
-		}
-
-		// Add template variables tab to the Help Center.
-		$tab = new WPSEO_Help_Center_Template_Variables_Tab();
-		$tab->register_hooks();
-
-		$tab_registered = true;
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */

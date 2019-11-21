@@ -15,58 +15,74 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 	 *
 	 * @var string
 	 */
-	private $beacon_id;
+	protected $beacon_id;
 
 	/**
 	 * The pages where the beacon is loaded.
 	 *
 	 * @var array
 	 */
-	private $pages;
+	protected $pages;
 
 	/**
 	 * The products the beacon is loaded for.
 	 *
 	 * @var array
 	 */
-	private $products;
+	protected $products;
+
+	/**
+	 * Whether to asks the user's consent before loading in HelpScout.
+	 *
+	 * @var bool
+	 */
+	protected $ask_consent;
 
 	/**
 	 * WPSEO_HelpScout constructor.
 	 *
-	 * @param string $beacon_id The beacon id.
-	 * @param array  $pages     The pages where the beacon is loaded.
-	 * @param array  $products  The products the beacon is loaded for.
+	 * @param string $beacon_id   The beacon id.
+	 * @param array  $pages       The pages where the beacon is loaded.
+	 * @param array  $products    The products the beacon is loaded for.
+	 * @param bool   $ask_consent Optional. Whether to ask for consent before loading in HelpScout.
 	 */
-	public function __construct( $beacon_id, array $pages, array $products ) {
-		$this->beacon_id = $beacon_id;
-		$this->pages     = $pages;
-		$this->products  = $products;
+	public function __construct( $beacon_id, array $pages, array $products, $ask_consent = false ) {
+		$this->beacon_id   = $beacon_id;
+		$this->pages       = $pages;
+		$this->products    = $products;
+		$this->ask_consent = $ask_consent;
 	}
 
 	/**
-	 * Initializes the integration.
-	 *
-	 * This is the place to register hooks and filters.
-	 *
-	 * @return void
+	 * @inheritDoc
 	 */
 	public function register_hooks() {
 		if ( ! $this->is_beacon_page() ) {
 			return;
 		}
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_help_scout_script' ) );
 		add_action( 'admin_footer', array( $this, 'output_beacon_js' ) );
 	}
 
 	/**
-	 * Outputs a small piece of javascript for the beacon
+	 * Enqueues the HelpScout script.
+	 */
+	public function enqueue_help_scout_script() {
+		$asset_manager = new WPSEO_Admin_Asset_Manager();
+		$asset_manager->enqueue_script( 'help-scout-beacon' );
+	}
+
+	/**
+	 * Outputs a small piece of javascript for the beacon.
 	 */
 	public function output_beacon_js() {
-		echo '<script type="text/javascript">!function(e,t,n){function a(){var e=t.getElementsByTagName("script")[0],n=t.createElement("script");n.type="text/javascript",n.async=!0,n.src="https://beacon-v2.helpscout.net",e.parentNode.insertBefore(n,e)}if(e.Beacon=n=function(t,n,a){e.Beacon.readyQueue.push({method:t,options:n,data:a})},n.readyQueue=[],"complete"===t.readyState)return a();e.attachEvent?e.attachEvent("onload",a):e.addEventListener("load",a,!1)}(window,document,window.Beacon||function(){});</script>';
-		printf( '<script type="text/javascript">window.Beacon(\'init\', \'%1$s\')</script>', $this->beacon_id );
-		printf( '<script type="text/javascript">window.Beacon(\'session-data\', %1$s )</script>', $this->get_session_data() );
-
+		printf(
+			'<script type="text/javascript">window.%1$s(\'%2$s\', %3$s)</script>',
+			( $this->ask_consent ) ? 'wpseoHelpScoutBeaconConsent' : 'wpseoHelpScoutBeacon',
+			esc_html( $this->beacon_id ),
+			wp_json_encode( $this->get_session_data() )
+		);
 	}
 
 	/**
@@ -82,7 +98,7 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 	 * @return string The current page.
 	 */
 	private function get_current_page() {
-		$page      = filter_input( INPUT_GET, 'page' );
+		$page = filter_input( INPUT_GET, 'page' );
 		if ( isset( $page ) && $page !== false ) {
 			return $page;
 		}
@@ -95,7 +111,7 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 	 *
 	 * @return string The data to pass as identifying data.
 	 */
-	private function get_session_data() {
+	protected function get_session_data() {
 		/** @noinspection PhpUnusedLocalVariableInspection */
 		// Do not make these strings translatable! They are for our support agents, the user won't see them!
 		$current_user = wp_get_current_user();
@@ -113,6 +129,10 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 			$addon_manager = new WPSEO_Addon_Manager();
 			foreach ( $this->products as $product ) {
 				$subscription = $addon_manager->get_subscription( $product );
+
+				if ( ! $subscription ) {
+					continue;
+				}
 
 				$data[ $subscription->product->name ] = $this->get_product_info( $subscription );
 			}
@@ -155,7 +175,7 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 	/**
 	 * Returns info about the Yoast SEO plugin version and license.
 	 *
-	 * @param object $product  The product.
+	 * @param object $plugin The plugin.
 	 *
 	 * @return string The product info.
 	 */
