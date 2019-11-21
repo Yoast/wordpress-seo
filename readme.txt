@@ -233,6 +233,7 @@ Release Date: November 21st, 2019
 Bugfixes:
 
 * Fixes a bug where the time in the `article:published_time` and `article:modified_time` meta tag output and in the `datePublished` and `dateModified` schema output was incorrect.
+
 = 12.5.0 =
 Release Date: November 13th, 2019
 
