@@ -271,7 +271,7 @@ class Yoast_Notification_Center {
 	 * @return void
 	 */
 	public function setup_current_notifications() {
-		$this->retrieve_notifications_from_storage();
+		$this->retrieve_notifications_from_storage( get_current_user_id() );
 
 		foreach ( $this->queued_transactions as $transaction ) {
 			list( $callback, $args ) = $transaction;
@@ -661,17 +661,17 @@ class Yoast_Notification_Center {
 	/**
 	 * Retrieve the notifications from storage.
 	 *
+	 * @param int $user_id The ID of the user to retrieve notifications for.
+	 *
 	 * @return array|void Yoast_Notification[] Notifications.
 	 */
-	private function retrieve_notifications_from_storage() {
+	private function retrieve_notifications_from_storage( $user_id ) {
 
 		if ( $this->notifications_retrieved ) {
 			return;
 		}
 
 		$this->notifications_retrieved = true;
-
-		$user_id = get_current_user_id();
 
 		$stored_notifications = get_user_option( self::STORAGE_KEY, $user_id );
 
