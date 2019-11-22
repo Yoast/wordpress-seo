@@ -610,10 +610,10 @@ class Yoast_Notification_Center {
 	 * @return array|Yoast_Notification[] Registered notifications.
 	 */
 	public function get_notifications() {
-		if ( $this->notifications ) {
-			return array_merge( ...$this->notifications );
+		if ( ! $this->notifications ) {
+			return array();
 		}
-		return array();
+		return array_merge( ...$this->notifications );
 	}
 
 	/**
