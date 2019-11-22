@@ -16,7 +16,7 @@ class WPSEO_Config_Field_Suggestions extends WPSEO_Config_Field {
 	public function __construct() {
 		parent::__construct( 'suggestions', 'Suggestions' );
 
-		$this->properties['suggestions'] = array();
+		$this->properties['suggestions'] = [];
 	}
 
 	/**
@@ -27,12 +27,12 @@ class WPSEO_Config_Field_Suggestions extends WPSEO_Config_Field {
 	 * @param array  $button The button details.
 	 * @param array  $video  URL and title of the video accompanying the choice.
 	 */
-	public function add_suggestion( $title, $copy, $button, array $video = array() ) {
-		$suggestion = array(
+	public function add_suggestion( $title, $copy, $button, array $video = [] ) {
+		$suggestion = [
 			'title'  => $title,
 			'copy'   => $copy,
 			'button' => $button,
-		);
+		];
 
 		if ( ! empty( $video ) ) {
 			$suggestion['video'] = $video;

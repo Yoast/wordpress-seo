@@ -29,7 +29,7 @@ class Yoast_Input_Select {
 	 *
 	 * @var array
 	 */
-	private $select_attributes = array();
+	private $select_attributes = [];
 
 	/**
 	 * Array with the options to parse.
@@ -102,13 +102,13 @@ class Yoast_Input_Select {
 	 * @return array
 	 */
 	private function get_select_values() {
-		return array(
+		return [
 			'id'         => $this->select_id,
 			'name'       => $this->select_name,
 			'attributes' => $this->get_attributes(),
 			'options'    => $this->select_options,
 			'selected'   => $this->selected_option,
-		);
+		];
 	}
 
 	/**
@@ -120,7 +120,7 @@ class Yoast_Input_Select {
 		$attributes = $this->select_attributes;
 
 		if ( ! empty( $attributes ) ) {
-			array_walk( $attributes, array( $this, 'parse_attribute' ) );
+			array_walk( $attributes, [ $this, 'parse_attribute' ] );
 
 			return implode( ' ', $attributes ) . ' ';
 		}

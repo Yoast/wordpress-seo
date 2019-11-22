@@ -47,7 +47,7 @@ class WPSEO_Metabox_Formatter {
 		$analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
 		$analysis_readability = new WPSEO_Metabox_Analysis_Readability();
 
-		return array(
+		return [
 			'language'                  => WPSEO_Language_Utils::get_site_language_name(),
 			'settings_link'             => $this->get_settings_link(),
 			'search_url'                => '',
@@ -59,7 +59,7 @@ class WPSEO_Metabox_Formatter {
 			'contentLocale'             => get_locale(),
 			'userLocale'                => WPSEO_Language_Utils::get_user_locale(),
 			'translations'              => $this->get_translations(),
-			'keyword_usage'             => array(),
+			'keyword_usage'             => [],
 			'title_template'            => '',
 			'metadesc_template'         => '',
 			'contentAnalysisActive'     => $analysis_readability->is_enabled() ? 1 : 0,
@@ -78,9 +78,9 @@ class WPSEO_Metabox_Formatter {
 			 * @param bool $showMarkers Should the markers being enabled. Default = true.
 			 */
 			'show_markers'              => apply_filters( 'wpseo_enable_assessment_markers', true ),
-			'publish_box'               => array(
-				'labels' => array(
-					'content' => array(
+			'publish_box'               => [
+				'labels' => [
+					'content' => [
 						'na'   => sprintf(
 							/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the readability score. */
 							__( '%1$sReadability%2$s: %3$s', 'wordpress-seo' ),
@@ -109,8 +109,8 @@ class WPSEO_Metabox_Formatter {
 							'</a>',
 							'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>'
 						),
-					),
-					'keyword' => array(
+					],
+					'keyword' => [
 						'na'   => sprintf(
 							/* translators: %1$s expands to the opening anchor tag, %2$s to the closing anchor tag, %3$s to the SEO score. */
 							__( '%1$sSEO%2$s: %3$s', 'wordpress-seo' ),
@@ -139,12 +139,12 @@ class WPSEO_Metabox_Formatter {
 							'</a>',
 							'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>'
 						),
-					),
-				),
-			),
+					],
+				],
+			],
 			'markdownEnabled'           => $this->is_markdown_enabled(),
 			'analysisHeadingTitle'      => __( 'Analysis', 'wordpress-seo' ),
-		);
+		];
 	}
 
 	/**
@@ -168,7 +168,7 @@ class WPSEO_Metabox_Formatter {
 	 */
 	private function get_content_analysis_component_translations() {
 		// Esc_html is not needed because React already handles HTML in the (translations of) these strings.
-		return array(
+		return [
 			'locale'                                         => WPSEO_Language_Utils::get_user_locale(),
 			'content-analysis.language-notice-link'          => __( 'Change language', 'wordpress-seo' ),
 			'content-analysis.errors'                        => __( 'Errors', 'wordpress-seo' ),
@@ -182,7 +182,7 @@ class WPSEO_Metabox_Formatter {
 			'content-analysis.nohighlight'                   => __( 'Remove highlight from the text', 'wordpress-seo' ),
 			'content-analysis.disabledButton'                => __( 'Marks are disabled in current view', 'wordpress-seo' ),
 			'a11yNotice.opensInNewTab'                       => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
-		);
+		];
 	}
 
 	/**
@@ -194,7 +194,7 @@ class WPSEO_Metabox_Formatter {
 	 * @return array Translated text strings for the Add Keyword modal.
 	 */
 	public function get_add_keyword_upsell_translations() {
-		return array(
+		return [
 			'title'                    => __( 'Would you like to add more than one keyphrase?', 'wordpress-seo' ),
 			'intro'                    => sprintf(
 				/* translators: %s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
@@ -215,7 +215,7 @@ class WPSEO_Metabox_Formatter {
 			),
 			'small'                    => __( '1 year free support and updates included!', 'wordpress-seo' ),
 			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
-		);
+		];
 	}
 
 	/**
@@ -234,7 +234,7 @@ class WPSEO_Metabox_Formatter {
 			}
 		}
 
-		return array();
+		return [];
 	}
 
 	/**

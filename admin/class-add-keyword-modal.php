@@ -19,7 +19,7 @@ class WPSEO_Add_Keyword_Modal {
 	 * @return array Translated text strings for the Add Keyword modal.
 	 */
 	public function get_translations() {
-		return array(
+		return [
 			'title'                    => __( 'Would you like to add more than one keyphrase?', 'wordpress-seo' ),
 			'intro'                    => sprintf(
 				/* translators: %s expands to a 'Yoast SEO Premium' text linked to the yoast.com website. */
@@ -40,7 +40,7 @@ class WPSEO_Add_Keyword_Modal {
 			),
 			'small'                    => __( '1 year free support and updates included!', 'wordpress-seo' ),
 			'a11yNotice.opensInNewTab' => __( '(Opens in a new browser tab)', 'wordpress-seo' ),
-		);
+		];
 	}
 
 	/**
@@ -50,10 +50,10 @@ class WPSEO_Add_Keyword_Modal {
 	 */
 	public function get_translations_for_js() {
 		$translations = $this->get_translations();
-		return array(
+		return [
 			'locale' => WPSEO_Language_Utils::get_user_locale(),
 			'intl'   => $translations,
-		);
+		];
 	}
 
 	/**

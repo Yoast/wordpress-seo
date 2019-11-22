@@ -92,14 +92,14 @@ if ( ! $active ) {
 			$dismissed_paper = new WPSEO_Paper_Presenter(
 				esc_html( $i18n_muted_issues_title ),
 				null,
-				array(
+				[
 					'paper_id'                 => esc_attr( $type . '-dismissed' ),
 					'paper_id_prefix'          => 'yoast-',
 					'class'                    => 'yoast-alerts-dismissed',
 					'content'                  => _yoast_display_alerts( $dismissed, 'dismissed' ),
 					'collapsible'              => true,
 					'collapsible_header_class' => 'yoast-alert',
-				)
+				]
 			);
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: current usage is considered safe.
 			echo $dismissed_paper->get_output();

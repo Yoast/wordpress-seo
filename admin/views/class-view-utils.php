@@ -102,13 +102,13 @@ class Yoast_View_Utils {
 
 		$editor = new WPSEO_Replacevar_Editor(
 			$this->form,
-			array(
+			[
 				'title'                 => 'title-' . $post_type->name,
 				'description'           => 'metadesc-' . $post_type->name,
 				'page_type_recommended' => $recommended_replace_vars->determine_for_post_type( $post_type->name ),
 				'page_type_specific'    => $editor_specific_replace_vars->determine_for_post_type( $post_type->name ),
 				'paper_style'           => $paper_style,
-			)
+			]
 		);
 		$editor->render();
 	}

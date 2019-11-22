@@ -44,7 +44,6 @@ const wordpressExternals = {
 
 // Make sure all these packages are exposed in `./js/src/components.js`.
 const yoastExternals = {
-	"@yoast/algolia-search-box": "window.yoast.algoliaSearchBox",
 	"@yoast/components": "window.yoast.componentsNew",
 	"@yoast/configuration-wizard": "window.yoast.configurationWizard",
 	"@yoast/helpers": "window.yoast.helpers",

@@ -46,11 +46,6 @@ module.exports = {
 		src: "gettext.pot",
 		dest: "<%= files.pot.wordpressSeoJs %>",
 	},
-
-	"makepot-yoast-js-algolia-search-box": {
-		src: "gettext.pot",
-		dest: "<%= files.pot.yoastJsAlgoliaSearchBox %>",
-	},
 	"makepot-yoast-js-analysis-report": {
 		src: "gettext.pot",
 		dest: "<%= files.pot.yoastJsAnalysisReport %>",

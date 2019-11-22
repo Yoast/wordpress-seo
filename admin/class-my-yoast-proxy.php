@@ -40,8 +40,8 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 		}
 
 		// Register the page for the proxy.
-		add_action( 'admin_menu', array( $this, 'add_proxy_page' ) );
-		add_action( 'admin_init', array( $this, 'handle_proxy_page' ) );
+		add_action( 'admin_menu', [ $this, 'add_proxy_page' ] );
+		add_action( 'admin_init', [ $this, 'handle_proxy_page' ] );
 	}
 
 	/**
@@ -78,7 +78,7 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	 */
 	public function render_proxy_page() {
 		$proxy_options = $this->determine_proxy_options();
-		if ( $proxy_options === array() ) {
+		if ( $proxy_options === [] ) {
 			// Do not accept any other file than implemented.
 			$this->set_header( 'HTTP/1.0 501 Requested file not implemented' );
 			return;
@@ -171,13 +171,13 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	 */
 	protected function determine_proxy_options() {
 		if ( $this->get_proxy_file() === 'research-webworker' ) {
-			return array(
+			return [
 				'content_type' => 'text/javascript; charset=UTF-8',
 				'url'          => 'https://my.yoast.com/api/downloads/file/analysis-worker?plugin_version=' . $this->get_plugin_version(),
-			);
+			];
 		}
 
-		return array();
+		return [];
 	}
 
 	/**
@@ -225,7 +225,7 @@ class WPSEO_MyYoast_Proxy implements WPSEO_WordPress_Integration {
 	protected function get_plugin_version() {
 		$plugin_version = filter_input( INPUT_GET, 'plugin_version', FILTER_SANITIZE_STRING );
 		// Replace slashes to secure against requiring a file from another path.
-		$plugin_version = str_replace( array( '/', '\\' ), '_', $plugin_version );
+		$plugin_version = str_replace( [ '/', '\\' ], '_', $plugin_version );
 
 		return $plugin_version;
 	}

@@ -16,7 +16,7 @@ class WPSEO_Admin_Banner implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'admin_notices', array( $this, 'banner' ) );
+		add_action( 'admin_notices', [ $this, 'banner' ] );
 	}
 
 	/**
@@ -31,7 +31,7 @@ class WPSEO_Admin_Banner implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		$close_url = add_query_arg( array( 'yst_dismiss_bf' => 1 ) );
+		$close_url = add_query_arg( [ 'yst_dismiss_bf' => 1 ] );
 
 		?>
 		<div class="yoast_bf_sale">

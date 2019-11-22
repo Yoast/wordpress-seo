@@ -29,14 +29,14 @@ class Yoast_Notification_Center {
 	 *
 	 * @var \Yoast_Notification[][]
 	 */
-	private $notifications = array();
+	private $notifications = [];
 
 	/**
 	 * Notifications there are newly added.
 	 *
 	 * @var array
 	 */
-	private $new = array();
+	private $new = [];
 
 	/**
 	 * Notifications that were resolved this execution.
@@ -50,7 +50,7 @@ class Yoast_Notification_Center {
 	 *
 	 * @var array
 	 */
-	private $queued_transactions = array();
+	private $queued_transactions = [];
 
 	/**
 	 * Internal flag for whether notifications have been retrieved from storage.
@@ -64,14 +64,14 @@ class Yoast_Notification_Center {
 	 */
 	private function __construct() {
 
-		add_action( 'init', array( $this, 'setup_current_notifications' ), 1 );
+		add_action( 'init', [ $this, 'setup_current_notifications' ], 1 );
 
-		add_action( 'all_admin_notices', array( $this, 'display_notifications' ) );
+		add_action( 'all_admin_notices', [ $this, 'display_notifications' ] );
 
-		add_action( 'wp_ajax_yoast_get_notifications', array( $this, 'ajax_get_notifications' ) );
+		add_action( 'wp_ajax_yoast_get_notifications', [ $this, 'ajax_get_notifications' ] );
 
-		add_action( 'wpseo_deactivate', array( $this, 'deactivate_hook' ) );
-		add_action( 'shutdown', array( $this, 'update_storage' ) );
+		add_action( 'wpseo_deactivate', [ $this, 'deactivate_hook' ] );
+		add_action( 'shutdown', [ $this, 'update_storage' ] );
 	}
 
 	/**
@@ -104,10 +104,10 @@ class Yoast_Notification_Center {
 		if ( false === ( $notification instanceof Yoast_Notification ) ) {
 
 			// Permit legacy.
-			$options      = array(
+			$options      = [
 				'id'            => $notification_id,
 				'dismissal_key' => $notification_id,
-			);
+			];
 			$notification = new Yoast_Notification( '', $options );
 		}
 
@@ -279,7 +279,7 @@ class Yoast_Notification_Center {
 			call_user_func_array( $callback, $args );
 		}
 
-		$this->queued_transactions = array();
+		$this->queued_transactions = [];
 	}
 
 	/**
@@ -289,7 +289,7 @@ class Yoast_Notification_Center {
 	 */
 	public function add_notification( Yoast_Notification $notification ) {
 
-		$callback = array( $this, __METHOD__ );
+		$callback = [ $this, __METHOD__ ];
 		$args     = func_get_args();
 		if ( $this->queue_transaction( $callback, $args ) ) {
 			return;
@@ -358,17 +358,17 @@ class Yoast_Notification_Center {
 		}
 
 		$sorted_notifications = $this->get_sorted_notifications();
-		$notifications        = array_filter( $sorted_notifications, array( $this, 'is_notification_persistent' ) );
+		$notifications        = array_filter( $sorted_notifications, [ $this, 'is_notification_persistent' ] );
 
 		if ( empty( $notifications ) ) {
 			return;
 		}
 
-		array_walk( $notifications, array( $this, 'remove_notification' ) );
+		array_walk( $notifications, [ $this, 'remove_notification' ] );
 
 		$notifications = array_unique( $notifications );
 		if ( $echo_as_json ) {
-			$notification_json = array();
+			$notification_json = [];
 
 			foreach ( $notifications as $notification ) {
 				$notification_json[] = $notification->render();
@@ -394,7 +394,7 @@ class Yoast_Notification_Center {
 	 */
 	public function remove_notification( Yoast_Notification $notification, $resolve = true ) {
 
-		$callback = array( $this, __METHOD__ );
+		$callback = [ $this, __METHOD__ ];
 		$args     = func_get_args();
 		if ( $this->queue_transaction( $callback, $args ) ) {
 			return;
@@ -458,11 +458,12 @@ class Yoast_Notification_Center {
 	 * @return int Number of notifications
 	 */
 	public function get_notification_count( $dismissed = false ) {
+
 		$notifications = $this->get_notifications_for_user( get_current_user_id() );
-		$notifications = array_filter( $notifications, array( $this, 'filter_persistent_notifications' ) );
+		$notifications = array_filter( $notifications, [ $this, 'filter_persistent_notifications' ] );
 
 		if ( ! $dismissed ) {
-			$notifications = array_filter( $notifications, array( $this, 'filter_dismissed_notifications' ) );
+			$notifications = array_filter( $notifications, [ $this, 'filter_dismissed_notifications' ] );
 		}
 
 		return count( $notifications );
@@ -488,11 +489,11 @@ class Yoast_Notification_Center {
 	public function get_sorted_notifications() {
 		$notifications = $this->get_notifications_for_user( get_current_user_id() );
 		if ( empty( $notifications ) ) {
-			return array();
+			return [];
 		}
 
 		// Sort by severity, error first.
-		usort( $notifications, array( $this, 'sort_notifications' ) );
+		usort( $notifications, [ $this, 'sort_notifications' ] );
 
 		return $notifications;
 	}
@@ -588,7 +589,7 @@ class Yoast_Notification_Center {
 			return;
 		}
 
-		array_walk( $notifications , array( $this, 'store_notifications_for_user' ) );
+		array_walk( $notifications , [ $this, 'store_notifications_for_user' ] );
 	}
 
 	/**
@@ -637,7 +638,7 @@ class Yoast_Notification_Center {
 	 */
 	public function get_new_notifications() {
 
-		return array_map( array( $this, 'get_notification_by_id' ), $this->new );
+		return array_map( [ $this, 'get_notification_by_id' ], $this->new );
 	}
 
 	/**
@@ -681,9 +682,9 @@ class Yoast_Notification_Center {
 		}
 
 		if ( is_array( $stored_notifications ) ) {
-			$notifications = array_map( array( $this, 'array_to_notification' ), $stored_notifications );
+			$notifications = array_map( [ $this, 'array_to_notification' ], $stored_notifications );
 			// Apply array_values to ensure we get a 0-indexed array.
-			$notifications = array_values( array_filter( $notifications, array( $this, 'filter_notification_current_user' ) ) );
+			$notifications = array_values( array_filter( $notifications, [ $this, 'filter_notification_current_user' ] ) );
 
 			$this->notifications[ $user_id ] = $notifications;
 		}
@@ -722,7 +723,7 @@ class Yoast_Notification_Center {
 	 */
 	private function clear_notifications() {
 
-		$this->notifications           = array();
+		$this->notifications           = [];
 		$this->notifications_retrieved = false;
 	}
 
@@ -838,7 +839,7 @@ class Yoast_Notification_Center {
 	 * @param array    $args     Arguments to pass to the callback.
 	 */
 	private function add_transaction_to_queue( $callback, $args ) {
-		$this->queued_transactions[] = array( $callback, $args );
+		$this->queued_transactions[] = [ $callback, $args ];
 	}
 
 	/**

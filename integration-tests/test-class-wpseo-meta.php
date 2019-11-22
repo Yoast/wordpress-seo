@@ -259,26 +259,6 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_validate_meta_robots_adv() {
 
-		// None should take precedence.
-		$this->assertEquals(
-			'none',
-			WPSEO_Meta::validate_meta_robots_adv( 'none, something-invalid, noarchive' )
-		);
-		$this->assertEquals(
-			'none',
-			WPSEO_Meta::validate_meta_robots_adv( array( 'none', 'something-invalid', 'noarchive' ) )
-		);
-
-		// The '-' option should take precedence.
-		$this->assertEquals(
-			'-',
-			WPSEO_Meta::validate_meta_robots_adv( '-, something-invalid, noarchive' )
-		);
-		$this->assertEquals(
-			'-',
-			WPSEO_Meta::validate_meta_robots_adv( array( '-', 'something-invalid', 'noarchive' ) )
-		);
-
 		// String should be cleaned.
 		$this->assertEquals(
 			'noarchive,nosnippet',
