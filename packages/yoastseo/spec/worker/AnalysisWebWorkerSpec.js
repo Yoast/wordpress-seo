@@ -1626,5 +1626,19 @@ describe( "AnalysisWebWorker", () => {
 
 			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
 		} );
+
+		it( "Throws an error when register a custom parser, if it does not have an `parse` method.", () => {
+			const mockParser = {
+				isApplicable: () => true,
+			};
+
+			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
+		} );
+
+		it( "Throws an error when register a custom parser, if it does not have an `isApplicable` or `parse` method.", () => {
+			const mockParser = {};
+
+			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
+		} );
 	} );
 } );
