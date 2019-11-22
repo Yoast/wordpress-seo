@@ -1,6 +1,7 @@
 // External dependencies
 import { forEach, isArray, isNumber, isObject } from "lodash-es";
 import { getLogger } from "loglevel";
+import InvalidTypeError from "../../src/errors/invalidType";
 import { StructuredNode } from "../../src/parsedPaper/structure/tree";
 
 // Internal dependencies
@@ -1616,6 +1617,14 @@ describe( "AnalysisWebWorker", () => {
 			worker.registerParser( mockParser );
 
 			expect( worker._registeredParsers ).toHaveLength( 1 );
+		} );
+
+		it( "Throws an error when register a custom parser, if it does not have an `isApplicable` method.", () => {
+			const mockParser = {
+				parse: () => new StructuredNode( "Hello!" ),
+			};
+
+			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
 		} );
 	} );
 } );
