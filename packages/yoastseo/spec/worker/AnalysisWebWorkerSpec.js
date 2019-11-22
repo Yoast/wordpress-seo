@@ -1603,9 +1603,41 @@ describe( "AnalysisWebWorker", () => {
 	} );
 
 	describe( "registerParser", () => {
+		/**
+		 * A mock parser.
+		 */
+		class MockParser {
+			/**
+			 * Checks if this parser is applicable.
+			 *
+			 * @returns {boolean} Whether the parser is applicable.
+			 */
+			isApplicable() {
+				return true;
+			}
+
+			/**
+			 * Parses the paper.
+			 *
+			 * @returns {module:parsedPaper/structure.StructuredNode} The tree structure.
+			 */
+			parse() {
+				return new StructuredNode( "some-tag" );
+			}
+		}
+
 		beforeEach( () => {
 			scope = createScope();
 			worker = new AnalysisWebWorker( scope );
+		} );
+
+		it( "can register a custom parser, if it is class-based and has the appropriate methods.", () => {
+			const mockParser = new MockParser();
+
+			worker.registerParser( mockParser );
+
+			expect( worker._registeredParsers ).toHaveLength( 1 );
+			expect( worker._registeredParsers[ 0 ] ).toEqual( mockParser );
 		} );
 
 		it( "can register a custom parser, if it has an `isApplicable` and a `parse` method.", () => {
@@ -1617,6 +1649,7 @@ describe( "AnalysisWebWorker", () => {
 			worker.registerParser( mockParser );
 
 			expect( worker._registeredParsers ).toHaveLength( 1 );
+			expect( worker._registeredParsers[ 0 ] ).toEqual( mockParser );
 		} );
 
 		it( "Throws an error when register a custom parser, if it does not have an `isApplicable` method.", () => {
