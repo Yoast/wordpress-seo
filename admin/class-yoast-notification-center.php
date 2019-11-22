@@ -545,7 +545,7 @@ class Yoast_Notification_Center {
 	 * @return array The notifications, split on user ID.
 	 */
 	private function split_on_user_id( $notifications ) {
-		$split_notifications = array();
+		$split_notifications = [];
 		foreach ( $notifications as $notification ) {
 			$split_notifications[ $notification->get_user_id() ][] = $notification;
 		}
@@ -568,7 +568,7 @@ class Yoast_Notification_Center {
 		/**
 		 * @var Yoast_Notification[] $merged_notifications
 		 */
-		$merged_notifications = array();
+		$merged_notifications = [];
 		if ( ! empty( $notifications ) ) {
 			$merged_notifications = array_merge( ...$notifications );
 		}
@@ -601,7 +601,7 @@ class Yoast_Notification_Center {
 	 * @return void
 	 */
 	private function store_notifications_for_user( $notifications, $user_id ) {
-		$notifications_as_arrays = array_map( array( $this, 'notification_to_array' ), $notifications );
+		$notifications_as_arrays = array_map( [ $this, 'notification_to_array' ], $notifications );
 		update_user_option( $user_id, self::STORAGE_KEY, $notifications_as_arrays );
 	}
 
@@ -612,7 +612,7 @@ class Yoast_Notification_Center {
 	 */
 	public function get_notifications() {
 		if ( ! $this->notifications ) {
-			return array();
+			return [];
 		}
 		return array_merge( ...$this->notifications );
 	}
@@ -628,7 +628,7 @@ class Yoast_Notification_Center {
 		if ( array_key_exists( $user_id, $this->notifications ) ) {
 			return $this->notifications[ $user_id ];
 		}
-		return array();
+		return [];
 	}
 
 	/**
