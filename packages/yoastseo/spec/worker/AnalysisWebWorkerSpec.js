@@ -1599,8 +1599,15 @@ describe( "AnalysisWebWorker", () => {
 				}
 			);
 		} );
+	} );
 
-		it( "Can register a custom parser, if it has an `isApplicable` and a `parse` method.", () => {
+	describe( "registerParser", () => {
+		beforeEach( () => {
+			scope = createScope();
+			worker = new AnalysisWebWorker( scope );
+		} );
+
+		it( "can register a custom parser, if it has an `isApplicable` and a `parse` method.", () => {
 			const mockParser = {
 				isApplicable: () => true,
 				parse: () => new StructuredNode( "Hello!" ),
