@@ -458,7 +458,7 @@ class Yoast_Notification_Center {
 	 * @return int Number of notifications
 	 */
 	public function get_notification_count( $dismissed = false ) {
-		$notifications = $this->get_notifications_for_current_user();
+		$notifications = $this->get_notifications_for_user( get_current_user_id() );
 		$notifications = array_filter( $notifications, array( $this, 'filter_persistent_notifications' ) );
 
 		if ( ! $dismissed ) {
@@ -486,7 +486,7 @@ class Yoast_Notification_Center {
 	 * @return array|Yoast_Notification[] Sorted Notifications
 	 */
 	public function get_sorted_notifications() {
-		$notifications = $this->get_notifications_for_current_user();
+		$notifications = $this->get_notifications_for_user( get_current_user_id() );
 		if ( empty( $notifications ) ) {
 			return array();
 		}
@@ -617,16 +617,6 @@ class Yoast_Notification_Center {
 			return $this->notifications[ $user_id ];
 		}
 		return array();
-	}
-
-	/**
-	 * Returns the notifications for the current WordPress user.
-	 *
-	 * @return Yoast_Notification[] The notifications for the current user.
-	 */
-	private function get_notifications_for_current_user() {
-		$current_user_id = get_current_user_id();
-		return $this->get_notifications_for_user( $current_user_id );
 	}
 
 	/**
