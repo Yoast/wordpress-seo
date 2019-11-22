@@ -126,7 +126,7 @@ class Alert extends React.Component {
 		const options          = this.getTypeDisplayOptions( this.props.type );
 		const dismissAriaLabel = this.props.dismissAriaLabel || __( "Dismiss this alert", "yoast-components" );
 
-		return <AlertContainer alertColor={ options.color } alertBackground={ options.background }>
+		return <AlertContainer alertColor={ options.color } alertBackground={ options.background } className={ this.props.className }>
 			<AlertIcon icon={ options.icon } color={ options.color } />
 			<AlertContent>{ this.props.children }</AlertContent>
 			{
@@ -151,11 +151,13 @@ Alert.propTypes = {
 	type: PropTypes.oneOf( [ "error", "info", "success", "warning" ] ).isRequired,
 	onDismissed: PropTypes.func,
 	dismissAriaLabel: PropTypes.string,
+	className: PropTypes.string,
 };
 
 Alert.defaultProps = {
 	onDismissed: null,
 	dismissAriaLabel: "",
+	className: "",
 };
 
 export default Alert;
