@@ -128,7 +128,7 @@ class Yoast_Notification_Center {
 	 */
 	public static function is_notification_dismissed( Yoast_Notification $notification, $user_id = null ) {
 
-		$user_id       = ( ! is_null( $user_id ) ? $user_id : get_current_user_id() );
+		$user_id       = self::get_user_id( $user_id );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// This checks both the site-specific user option and the meta value.
@@ -325,12 +325,12 @@ class Yoast_Notification_Center {
 	 * Get the notification by ID and user ID.
 	 *
 	 * @param string $notification_id The ID of the notification to search for.
-	 * @param string $user_id         The ID of the user.
+	 * @param int    $user_id         The ID of the user.
 	 *
 	 * @return null|Yoast_Notification
 	 */
 	public function get_notification_by_id( $notification_id, $user_id = null ) {
-		$user_id = ( ! is_null( $user_id ) ? $user_id : get_current_user_id() );
+		$user_id = self::get_user_id( $user_id );
 
 		$notifications = $this->get_notifications_for_user( $user_id );
 
@@ -516,6 +516,21 @@ class Yoast_Notification_Center {
 	public function deactivate_hook() {
 
 		$this->clear_notifications();
+	}
+
+	/**
+	 * Returns the given user ID if it exists.
+	 * Otherwise, this function returns the ID of the current user.
+	 *
+	 * @param int $user_id The user ID to check.
+	 *
+	 * @return int The user ID to use.
+	 */
+	private static function get_user_id( $user_id ) {
+		if ( $user_id ) {
+			return $user_id;
+		}
+		return get_current_user_id();
 	}
 
 	/**
