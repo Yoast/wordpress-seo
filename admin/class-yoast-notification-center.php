@@ -534,6 +534,24 @@ class Yoast_Notification_Center {
 	}
 
 	/**
+	 * Splits the notifications on user ID.
+	 *
+	 * In other terms, it returns an associative array,
+	 * mapping user ID to a list of notifications for this user.
+	 *
+	 * @param array|Yoast_Notification[] $notifications The notifications to split.
+	 *
+	 * @return array The notifications, split on user ID.
+	 */
+	private function split_on_user_id( $notifications ) {
+		$split_notifications = array();
+		foreach ( $notifications as $notification ) {
+			$split_notifications[ $notification->get_user_id() ][] = $notification;
+		}
+		return $split_notifications;
+	}
+
+	/**
 	 * Save persistent notifications to storage.
 	 *
 	 * We need to be able to retrieve these so they can be dismissed at any time during the execution.
@@ -561,13 +579,7 @@ class Yoast_Notification_Center {
 		 */
 		$merged_notifications = apply_filters( 'yoast_notifications_before_storage', $merged_notifications );
 
-
-		// Split notifications again on user ID.
-		$split_notifications = array();
-		foreach ( $merged_notifications as $notification ) {
-			$split_notifications[ $notification->get_user_id() ][] = $notification;
-		}
-		$notifications = $split_notifications;
+		$notifications = $this->split_on_user_id( $merged_notifications );
 
 		// No notifications to store, clear storage if it was previously present.
 		if ( empty( $notifications ) ) {
@@ -576,21 +588,20 @@ class Yoast_Notification_Center {
 			return;
 		}
 
-		$this->store_notifications( $notifications );
+		array_walk( $notifications , array( $this, 'store_notifications_for_user' ) );
 	}
 
 	/**
 	 * Stores the notifications to its respective user's storage.
 	 *
 	 * @param array|Yoast_Notification[] $notifications The notifications to store.
+	 * @param int                        $user_id       The ID of the user for which to store the notifications.
 	 *
 	 * @return void
 	 */
-	private function store_notifications( $notifications ) {
-		foreach ( $notifications as $user_id => $notifications_per_user ) {
-			$notifications_per_user = array_map( array( $this, 'notification_to_array' ), $notifications_per_user );
-			update_user_option( $user_id, self::STORAGE_KEY, $notifications_per_user );
-		}
+	private function store_notifications_for_user( $notifications, $user_id ) {
+		$notifications_as_arrays = array_map( array( $this, 'notification_to_array' ), $notifications );
+		update_user_option( $user_id, self::STORAGE_KEY, $notifications_as_arrays );
 	}
 
 	/**
