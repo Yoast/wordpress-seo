@@ -334,7 +334,7 @@ class Yoast_Notification_Center {
 
 		$notifications_for_user = $this->get_notifications_for_user( $user_id );
 
-		foreach ( $notifications_for_user as & $notification ) {
+		foreach ( $notifications_for_user as $notification ) {
 			if ( $notification_id === $notification->get_id() ) {
 				return $notification;
 			}
