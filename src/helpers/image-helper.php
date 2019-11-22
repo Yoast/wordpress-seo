@@ -112,7 +112,7 @@ class Image_Helper {
 	 */
 	public function get_gallery_image( $post_id ) {
 		$post = \get_post( $post_id );
-		if ( \strpos( $post->post_content, '[gallery' ) !== false ) {
+		if ( \strpos( $post->post_content, '[gallery' ) === false ) {
 			return '';
 		}
 
