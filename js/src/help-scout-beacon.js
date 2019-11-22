@@ -2,6 +2,39 @@ import { render, useState, Fragment } from "@wordpress/element";
 import styled, { createGlobalStyle } from "styled-components";
 import { __ } from "@wordpress/i18n";
 
+const BeaconOffset = createGlobalStyle`
+	@media only screen and (min-width: 1024px) {
+		.BeaconFabButtonFrame.BeaconFabButtonFrame {
+			right: 340px;
+		}
+	}
+`;
+
+/**
+ * Render a component in a newly created div.
+ *
+ * @param {React.Component} Component The component to render.
+ *
+ * @returns {void}
+ */
+function renderComponent( Component ) {
+	const element = document.createElement( "div" );
+	element.setAttribute( "id", "yoast-helpscout-beacon" );
+
+	render( <Component />, element );
+
+	document.body.appendChild( element );
+}
+
+/**
+ * Checks whether the current page contains upsells.
+ *
+ * @returns {boolean} Whether the current page contains upsells.
+ */
+function pageHasUpsells() {
+	return !! document.getElementById( "sidebar" );
+}
+
 /**
  * Loads the HelpScout Beacon script.
  *
@@ -49,6 +82,10 @@ function loadHelpScout( beaconId, sessionData = "" ) {
 		// eslint-disable-next-line new-cap
 		window.Beacon( "session-data", JSON.parse( sessionData ) );
 	}
+
+	if ( pageHasUpsells() ) {
+		renderComponent( BeaconOffset );
+	}
 }
 
 /**
@@ -60,17 +97,6 @@ function loadHelpScout( beaconId, sessionData = "" ) {
  * @returns {void}
  */
 function loadHelpScoutConsent( beaconId, sessionData = null ) {
-	const element = document.createElement( "div" );
-	element.setAttribute( "id", "helpscout-beacon-ask-consent" );
-
-	const BeaconOffset = createGlobalStyle`
-		@media only screen and (min-width: 1024px) {
-			.BeaconFabButtonFrame.BeaconFabButtonFrame {
-				right: 340px;
-			}
-		}
-	`;
-
 	const Frame = styled.div`
 		border-radius: 60px;
 		height: 60px;
@@ -98,11 +124,11 @@ function loadHelpScoutConsent( beaconId, sessionData = null ) {
 		height: 100%;
 		-webkit-box-pack: center;
 		justify-content: center;
-		left: 0px;
+		left: 0;
 		pointer-events: none;
 		position: absolute;
 		text-indent: -99999px;
-		top: 0px;
+		top: 0;
 		width: 60px;
 		will-change: opacity, transform;
 		opacity: 1 !important;
@@ -132,7 +158,7 @@ function loadHelpScoutConsent( beaconId, sessionData = null ) {
 		-webkit-appearance: none;
 		-webkit-box-align: center;
 		align-items: center;
-		bottom: 0px;
+		bottom: 0;
 		display: block;
 		height: 60px;
 		-webkit-box-pack: center;
@@ -147,9 +173,9 @@ function loadHelpScoutConsent( beaconId, sessionData = null ) {
 		min-width: 60px;
 		-webkit-tap-highlight-color: transparent;
 		border-radius: 200px;
-		margin: 0px;
+		margin: 0;
 		outline: none;
-		padding: 0px;
+		padding: 0;
 		border-width: initial;
 		border-style: none;
 		border-color: initial;
@@ -166,7 +192,7 @@ function loadHelpScoutConsent( beaconId, sessionData = null ) {
 	 */
 	const HelpScoutBeaconAskConsentButton = () => {
 		const [ show, setShow ] = useState( true );
-		const hasSidebar = !! document.getElementById( "sidebar" );
+		const hasUpsells = pageHasUpsells();
 
 		/**
 		 * Loads HelpScout beacon and then disables the ask consent button.
@@ -196,8 +222,8 @@ function loadHelpScoutConsent( beaconId, sessionData = null ) {
 
 		return (
 			<Fragment>
-				{ hasSidebar && <BeaconOffset /> }
-				{ show && <Frame className={ hasSidebar ? "BeaconFabButtonFrame" : "" }>
+				{ hasUpsells && <BeaconOffset /> }
+				{ show && <Frame className={ hasUpsells ? "BeaconFabButtonFrame" : "" }>
 					<Button onClick={ onClick }>
 						<SpeechBubble />
 					</Button>
@@ -206,9 +232,7 @@ function loadHelpScoutConsent( beaconId, sessionData = null ) {
 		);
 	};
 
-	render( <HelpScoutBeaconAskConsentButton />, element );
-
-	document.body.appendChild( element );
+	renderComponent( HelpScoutBeaconAskConsentButton );
 }
 
 window.wpseoHelpScoutBeacon = loadHelpScout;
