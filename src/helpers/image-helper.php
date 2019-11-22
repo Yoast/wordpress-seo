@@ -129,11 +129,11 @@ class Image_Helper {
 	 */
 	public function get_gallery_image( $post_id ) {
 		$post = \get_post( $post_id );
-		if ( ! \has_shortcode( $post->post_content, 'gallery' ) ) {
+		if ( \strpos( $post->post_content, '[gallery' ) !== false ) {
 			return '';
 		}
 
-		$images = \get_post_gallery_images();
+		$images = \get_post_gallery_images( $post );
 		if ( empty( $images ) ) {
 			return '';
 		}
