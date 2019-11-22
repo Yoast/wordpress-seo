@@ -164,7 +164,9 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 		$server_info = '<table>';
 
 		foreach ( $fields_to_use as $label => $field_to_use ) {
-			$server_info .= sprintf( '<tr><td>%1$s</td><td>%2$s</td></tr>', esc_html( $label ), esc_html( $server_data[ $field_to_use ] ) );
+			if ( isset( $server_data[ $field_to_use ] ) ) {
+				$server_info .= sprintf( '<tr><td>%1$s</td><td>%2$s</td></tr>', esc_html( $label ), esc_html( $server_data[ $field_to_use ] ) );
+			}
 		}
 
 		$server_info .= '</table>';
