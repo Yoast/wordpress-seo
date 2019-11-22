@@ -32,7 +32,6 @@ export function getSuffixes( stemmedWord, morphologyDataNounSuffixes ) {
 		suffixes.push( predictedSuffix );
 		return suffixes;
 	}
-
 	return morphologyDataNounSuffixes.defaultSuffixes.slice();
 }
 
@@ -106,7 +105,6 @@ const findAndApplyModifications = function( stemmedWord, morphologyDataAddSuffix
 export function addNounSuffixes( stemmedWord, morphologyDataAddSuffixes, morphologyDataNounSuffixes ) {
 	/* If the noun ends in -heid, create the plural form by replacing -heid with -heden and return the plural form (-heid
 	nouns do not have diminutive forms). */
-
 	const triedHeidToHeden = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.heidToHeden );
 	if ( triedHeidToHeden ) {
 		return [ triedHeidToHeden ];
@@ -140,14 +138,13 @@ export function addNounSuffixes( stemmedWord, morphologyDataAddSuffixes, morphol
 	const suffixesForUnmodifiedStem = combinedSuffixes.filter( suffix => ! suffixesForModifiedStem.includes( suffix ) );
 
 	// Make forms by attaching suffixes to the unmodified stem.
-	nounForms.push( applySuffixesToStem( stemmedWord, suffixesForUnmodifiedStem ) );
+	nounForms.push.apply( nounForms, applySuffixesToStem( stemmedWord, suffixesForUnmodifiedStem ) );
 
 	/* If any other suffixes that require stem modifications were found, run through the modification checks and modify the stem if needed.
 	   Then attach the given suffixes to the modified stem and add the resulting forms to the noun forms. */
 	if ( suffixesForModifiedStem ) {
 		const secondStem = findAndApplyModifications( stemmedWord, morphologyDataAddSuffixes );
 		const formsWithModifiedStem = applySuffixesToStem( secondStem, suffixesForModifiedStem );
-
 		return nounForms.concat( formsWithModifiedStem );
 	}
 	return nounForms;
