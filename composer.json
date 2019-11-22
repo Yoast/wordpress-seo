@@ -138,17 +138,15 @@
 		"compile-di": [
 			"rm -f ./src/generated/container.php",
 			"rm -f ./src/generated/container.php.meta",
-			"composer du",
+			"composer du --no-scripts",
 			"Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
 		],
-        "pre-autoload-dump": [
-            "Yoast\\WP\\Free\\Composer\\Actions::prefix_dependencies"
-        ],
 		"post-autoload-dump": [
-            "Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
+			"Yoast\\WP\\Free\\Composer\\Actions::prefix_dependencies",
+			"composer compile-di"
 		],
-        "generate-migration": [
-          "./vendor/bin/ruckus.php db:generate"
-        ]
+		"generate-migration": [
+			"./vendor/bin/ruckus.php db:generate"
+		]
 	}
 }
