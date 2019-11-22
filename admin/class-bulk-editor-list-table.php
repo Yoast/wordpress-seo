@@ -590,7 +590,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		$this->pagination = [
 			'per_page' => $per_page,
-			'offset'   => ( $paged - 1 ) * $per_page,
+			'offset'   => ( ( $paged - 1 ) * $per_page ),
 		];
 	}
 

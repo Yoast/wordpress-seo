@@ -151,7 +151,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		$user_criteria = [
-			'offset' => ( $current_page - 1 ) * $max_entries,
+			'offset' => ( ( $current_page - 1 ) * $max_entries ),
 			'number' => $max_entries,
 		];
 

@@ -50,7 +50,7 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 			[
 				'hide_empty' => false,
 				'number'     => $items_per_page,
-				'offset'     => $items_per_page * abs( $paged - 1 ),
+				'offset'     => ( $items_per_page * abs( $paged - 1 ) ),
 			]
 		);
 	}
