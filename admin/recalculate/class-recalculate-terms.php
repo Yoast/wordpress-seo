@@ -47,11 +47,11 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 
 		return get_terms(
 			get_taxonomies(),
-			array(
+			[
 				'hide_empty' => false,
 				'number'     => $items_per_page,
-				'offset'     => $items_per_page * abs( $paged - 1 ),
-			)
+				'offset'     => ( $items_per_page * abs( $paged - 1 ) ),
+			]
 		);
 	}
 
@@ -77,18 +77,18 @@ class WPSEO_Recalculate_Terms extends WPSEO_Recalculate {
 		 */
 		$description = apply_filters( 'wpseo_term_description_for_recalculation', $description, $item );
 
-		return array(
+		return [
 			'term_id'       => $item->term_id,
 			'taxonomy'      => $item->taxonomy,
 			'text'          => $description,
 			'keyword'       => $focus_keyword,
 			'url'           => urldecode( $item->slug ),
-			'pageTitle'     => apply_filters( 'wpseo_title', wpseo_replace_vars( $title, $item, array( 'page' ) ) ),
+			'pageTitle'     => apply_filters( 'wpseo_title', wpseo_replace_vars( $title, $item, [ 'page' ] ) ),
 			'meta'          => apply_filters( 'wpseo_metadesc', wpseo_replace_vars( $meta, $item ) ),
-			'keyword_usage' => array(
+			'keyword_usage' => [
 				$focus_keyword => WPSEO_Taxonomy_Meta::get_keyword_usage( $focus_keyword, $item->term_id, $item->taxonomy ),
-			),
-		);
+			],
+		];
 	}
 
 	/**

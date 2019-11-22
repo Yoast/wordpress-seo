@@ -15,14 +15,14 @@ class Yoast_Network_Settings_API {
 	 *
 	 * @var array
 	 */
-	private $registered_settings = array();
+	private $registered_settings = [];
 
 	/**
 	 * Options whitelist, keyed by option group.
 	 *
 	 * @var array
 	 */
-	private $whitelist_options = array();
+	private $whitelist_options = [];
 
 	/**
 	 * The singleton instance of this class.
@@ -45,26 +45,26 @@ class Yoast_Network_Settings_API {
 	 *
 	 * @return void
 	 */
-	public function register_setting( $option_group, $option_name, $args = array() ) {
+	public function register_setting( $option_group, $option_name, $args = [] ) {
 
-		$defaults = array(
+		$defaults = [
 			'group'             => $option_group,
 			'sanitize_callback' => null,
-		);
+		];
 		$args     = wp_parse_args( $args, $defaults );
 
 		if ( ! isset( $this->whitelist_options[ $option_group ] ) ) {
-			$this->whitelist_options[ $option_group ] = array();
+			$this->whitelist_options[ $option_group ] = [];
 		}
 
 		$this->whitelist_options[ $option_group ][] = $option_name;
 
 		if ( ! empty( $args['sanitize_callback'] ) ) {
-			add_filter( "sanitize_option_{$option_name}", array( $this, 'filter_sanitize_option' ), 10, 2 );
+			add_filter( "sanitize_option_{$option_name}", [ $this, 'filter_sanitize_option' ], 10, 2 );
 		}
 
 		if ( array_key_exists( 'default', $args ) ) {
-			add_filter( "default_site_option_{$option_name}", array( $this, 'filter_default_option' ), 10, 2 );
+			add_filter( "default_site_option_{$option_name}", [ $this, 'filter_default_option' ], 10, 2 );
 		}
 
 		$this->registered_settings[ $option_name ] = $args;
@@ -88,7 +88,7 @@ class Yoast_Network_Settings_API {
 	 */
 	public function get_whitelist_options( $option_group ) {
 		if ( ! isset( $this->whitelist_options[ $option_group ] ) ) {
-			return array();
+			return [];
 		}
 
 		return $this->whitelist_options[ $option_group ];

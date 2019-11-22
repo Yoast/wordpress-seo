@@ -28,15 +28,15 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
-		add_filter( 'http_response', array( $this, 'handle_response' ), 10, 3 );
+		add_filter( 'http_response', [ $this, 'handle_response' ], 10, 3 );
 
 		if ( $this->get_version() === self::VERSION_BACKWARDS_COMPATIBILITY ) {
 			add_filter( 'yoast-license-valid', '__return_true' );
 			add_filter( 'yoast-show-license-notice', '__return_false' );
-			add_action( 'admin_init', array( $this, 'validate_extensions' ), 15 );
+			add_action( 'admin_init', [ $this, 'validate_extensions' ], 15 );
 		}
 		else {
-			add_action( 'admin_init', array( $this, 'remove_faulty_notifications' ), 15 );
+			add_action( 'admin_init', [ $this, 'remove_faulty_notifications' ], 15 );
 		}
 	}
 
@@ -52,7 +52,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 			 *
 			 * @api array $extensions The array with extensions.
 			 */
-			apply_filters( 'yoast-active-extensions', array() );
+			apply_filters( 'yoast-active-extensions', [] );
 		}
 
 		$extension_list = new WPSEO_Extensions();
@@ -180,7 +180,7 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	protected function is_expected_endpoint( $url ) {
 		$url_parts = wp_parse_url( $url );
 
-		$is_yoast_com = ( in_array( $url_parts['host'], array( 'yoast.com', 'my.yoast.com' ), true ) );
+		$is_yoast_com = ( in_array( $url_parts['host'], [ 'yoast.com', 'my.yoast.com' ], true ) );
 		$is_edd_api   = ( isset( $url_parts['path'] ) && $url_parts['path'] === '/edd-sl-api' );
 
 		return $is_yoast_com && $is_edd_api;
@@ -194,11 +194,11 @@ class WPSEO_License_Page_Manager implements WPSEO_WordPress_Integration {
 	 * @return Yoast_Notification The created notification.
 	 */
 	protected function create_notification( $product_name ) {
-		$notification_options = array(
+		$notification_options = [
 			'type'         => Yoast_Notification::ERROR,
 			'id'           => 'wpseo-dismiss-' . sanitize_title_with_dashes( $product_name, null, 'save' ),
 			'capabilities' => 'wpseo_manage_options',
-		);
+		];
 
 		$notification = new Yoast_Notification(
 			sprintf(

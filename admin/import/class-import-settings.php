@@ -70,7 +70,7 @@ class WPSEO_Import_Settings {
 	protected function parse_options( $raw_options ) {
 		$options = parse_ini_string( $raw_options, true, INI_SCANNER_RAW );
 
-		if ( is_array( $options ) && $options !== array() ) {
+		if ( is_array( $options ) && $options !== [] ) {
 			$this->import_options( $options );
 
 			return;

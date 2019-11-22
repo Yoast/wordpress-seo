@@ -36,7 +36,7 @@ class WPSEO_Sitemap_Image_Parser {
 	 *
 	 * @var array
 	 */
-	protected $attachments = array();
+	protected $attachments = [];
 
 	/**
 	 * Holds blog charset value for use in DOM parsing.
@@ -73,7 +73,7 @@ class WPSEO_Sitemap_Image_Parser {
 	 */
 	public function get_images( $post ) {
 
-		$images = array();
+		$images = [];
 
 		if ( ! is_object( $post ) ) {
 			return $images;
@@ -150,11 +150,11 @@ class WPSEO_Sitemap_Image_Parser {
 
 		foreach ( $this->parse_galleries( $term->description ) as $attachment ) {
 
-			$images[] = array(
+			$images[] = [
 				'src'   => $this->get_absolute_url( $this->image_url( $attachment->ID ) ),
 				'title' => $attachment->post_title,
 				'alt'   => WPSEO_Image_Utils::get_alt_tag( $attachment->ID ),
-			);
+			];
 		}
 
 		return $images;
@@ -169,7 +169,7 @@ class WPSEO_Sitemap_Image_Parser {
 	 */
 	private function parse_html_images( $content ) {
 
-		$images = array();
+		$images = [];
 
 		if ( ! class_exists( 'DOMDocument' ) ) {
 			return $images;
@@ -218,11 +218,11 @@ class WPSEO_Sitemap_Image_Parser {
 				continue;
 			}
 
-			$images[] = array(
+			$images[] = [
 				'src'   => $src,
 				'title' => $img->getAttribute( 'title' ),
 				'alt'   => $img->getAttribute( 'alt' ),
-			);
+			];
 		}
 
 		return $images;
@@ -238,7 +238,7 @@ class WPSEO_Sitemap_Image_Parser {
 	 */
 	protected function parse_galleries( $content, $post_id = 0 ) {
 
-		$attachments = array();
+		$attachments = [];
 		$galleries   = $this->get_content_galleries( $content );
 
 		foreach ( $galleries as $gallery ) {
@@ -273,9 +273,9 @@ class WPSEO_Sitemap_Image_Parser {
 	 */
 	protected function get_content_galleries( $content ) {
 
-		$galleries = array();
+		$galleries = [];
 
-		if ( ! preg_match_all( '/' . get_shortcode_regex( array( 'gallery' ) ) . '/s', $content, $matches, PREG_SET_ORDER ) ) {
+		if ( ! preg_match_all( '/' . get_shortcode_regex( [ 'gallery' ] ) . '/s', $content, $matches, PREG_SET_ORDER ) ) {
 			return $galleries;
 		}
 
@@ -284,7 +284,7 @@ class WPSEO_Sitemap_Image_Parser {
 			$attributes = shortcode_parse_atts( $shortcode[3] );
 
 			if ( '' === $attributes ) { // Valid shortcode without any attributes. R.
-				$attributes = array();
+				$attributes = [];
 			}
 
 			$galleries[] = $attributes;
@@ -305,7 +305,7 @@ class WPSEO_Sitemap_Image_Parser {
 	 */
 	protected function get_image_item( $post, $src, $title = '', $alt = '' ) {
 
-		$image = array();
+		$image = [];
 
 		/**
 		 * Filter image URL to be included in XML sitemap for the post.
@@ -427,7 +427,7 @@ class WPSEO_Sitemap_Image_Parser {
 
 		// When $id is empty, just return empty array.
 		if ( empty( $id ) ) {
-			return array();
+			return [];
 		}
 
 		return $this->get_gallery_attachments_for_parent( $id, $gallery );
@@ -442,10 +442,10 @@ class WPSEO_Sitemap_Image_Parser {
 	 * @return array The selected attachments.
 	 */
 	protected function get_gallery_attachments_for_parent( $id, $gallery ) {
-		$query = array(
+		$query = [
 			'posts_per_page' => -1,
 			'post_parent'    => $id,
-		);
+		];
 
 		// When there are posts that should be excluded from result set.
 		if ( ! empty( $gallery['exclude'] ) ) {
@@ -465,13 +465,13 @@ class WPSEO_Sitemap_Image_Parser {
 	protected function get_gallery_attachments_for_included( $include ) {
 		$ids_to_include = wp_parse_id_list( $include );
 		$attachments    = $this->get_attachments(
-			array(
+			[
 				'posts_per_page' => count( $ids_to_include ),
 				'post__in'       => $ids_to_include,
-			)
+			]
 		);
 
-		$gallery_attachments = array();
+		$gallery_attachments = [];
 		foreach ( $attachments as $key => $val ) {
 			$gallery_attachments[ $val->ID ] = $val;
 		}
@@ -487,7 +487,7 @@ class WPSEO_Sitemap_Image_Parser {
 	 * @return array The found attachments.
 	 */
 	protected function get_attachments( $args ) {
-		$default_args = array(
+		$default_args = [
 			'post_status'         => 'inherit',
 			'post_type'           => 'attachment',
 			'post_mime_type'      => 'image',
@@ -500,7 +500,7 @@ class WPSEO_Sitemap_Image_Parser {
 			'suppress_filters'    => true,
 			'ignore_sticky_posts' => true,
 			'no_found_rows'       => true,
-		);
+		];
 
 		$args = wp_parse_args( $args, $default_args );
 

@@ -37,10 +37,10 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 		<?php esc_html_e( 'Choose whether the site represents an organization or a person.', 'wordpress-seo' ); ?>
 	</p>
 	<?php
-	$yoast_free_kg_select_options = array(
+	$yoast_free_kg_select_options = [
 		'company' => __( 'Organization', 'wordpress-seo' ),
 		'person'  => __( 'Person', 'wordpress-seo' ),
-	);
+	];
 	$yform->select( 'company_or_person', __( 'Organization or person', 'wordpress-seo' ), $yoast_free_kg_select_options, 'styled', false );
 	?>
 	<div id="knowledge-graph-company">
@@ -58,7 +58,7 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 
 		<h3><?php esc_html_e( 'Organization', 'wordpress-seo' ); ?></h3>
 		<?php
-		$yform->textinput( 'company_name', __( 'Organization name', 'wordpress-seo' ), array( 'autocomplete' => 'organization' ) );
+		$yform->textinput( 'company_name', __( 'Organization name', 'wordpress-seo' ), [ 'autocomplete' => 'organization' ] );
 		$yform->media_input( 'company_logo', __( 'Organization logo', 'wordpress-seo' ) );
 		?>
 		<div id="wpseo-local-seo-upsell"></div>

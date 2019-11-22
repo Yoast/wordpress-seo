@@ -34,7 +34,7 @@ class Yoast_Form {
 	 * @var array
 	 * @since 2.0
 	 */
-	public $options = array();
+	public $options = [];
 
 	/**
 	 * Option instance.
@@ -94,7 +94,7 @@ class Yoast_Form {
 			$network_admin = new Yoast_Network_Admin();
 			if ( $network_admin->meets_requirements() ) {
 				$action_url       = network_admin_url( 'settings.php' );
-				$hidden_fields_cb = array( $network_admin, 'settings_fields' );
+				$hidden_fields_cb = [ $network_admin, 'settings_fields' ];
 			}
 			else {
 				$action_url       = admin_url( 'options.php' );
@@ -119,7 +119,7 @@ class Yoast_Form {
 
 		$this->options = WPSEO_Options::get_option( $option_name );
 		if ( $this->options === null ) {
-			$this->options = (array) get_option( $option_name, array() );
+			$this->options = (array) get_option( $option_name, [] );
 		}
 
 		$this->option_instance = WPSEO_Options::get_option_instance( $option_name );
@@ -221,12 +221,12 @@ class Yoast_Form {
 	 * @param array  $attr HTML attributes set.
 	 */
 	public function label( $text, $attr ) {
-		$defaults = array(
+		$defaults = [
 			'class'      => 'checkbox',
 			'close'      => true,
 			'for'        => '',
 			'aria_label' => '',
-		);
+		];
 
 		$attr       = wp_parse_args( $attr, $defaults );
 		$aria_label = '';
@@ -249,10 +249,10 @@ class Yoast_Form {
 	 * @param array  $attr HTML attributes set.
 	 */
 	public function legend( $text, $attr ) {
-		$defaults = array(
+		$defaults = [
 			'id'    => '',
 			'class' => '',
-		);
+		];
 		$attr     = wp_parse_args( $attr, $defaults );
 
 		$id = ( '' === $attr['id'] ) ? '' : ' id="' . esc_attr( $attr['id'] ) . '"';
@@ -279,7 +279,7 @@ class Yoast_Form {
 
 		$class = '';
 		if ( $label_left !== false ) {
-			$this->label( $label_left, array( 'for' => $var ) );
+			$this->label( $label_left, [ 'for' => $var ] );
 		}
 		else {
 			$class = 'double';
@@ -288,7 +288,7 @@ class Yoast_Form {
 		echo '<input class="checkbox ', esc_attr( $class ), '" type="checkbox" id="', esc_attr( $var ), '" name="', esc_attr( $this->option_name ), '[', esc_attr( $var ), ']" value="on"', checked( $this->options[ $var ], 'on', false ), disabled( $this->is_control_disabled( $var ), true, false ), '/>';
 
 		if ( ! empty( $label ) ) {
-			$this->label( $label, array( 'for' => $var ) );
+			$this->label( $label, [ 'for' => $var ] );
 		}
 
 		echo '<br class="clear" />';
@@ -306,7 +306,7 @@ class Yoast_Form {
 	 * @param string $help    Inline Help that will be printed out before the visible toggles text.
 	 * @param bool   $strong  Whether the visual label is displayed in strong text. Default is false.
 	 */
-	public function light_switch( $var, $label, $buttons = array(), $reverse = true, $help = '', $strong = false ) {
+	public function light_switch( $var, $label, $buttons = [], $reverse = true, $help = '', $strong = false ) {
 
 		if ( ! isset( $this->options[ $var ] ) ) {
 			$this->options[ $var ] = false;
@@ -323,7 +323,7 @@ class Yoast_Form {
 		}
 
 		if ( empty( $buttons ) ) {
-			$buttons = array( __( 'Disabled', 'wordpress-seo' ), __( 'Enabled', 'wordpress-seo' ) );
+			$buttons = [ __( 'Disabled', 'wordpress-seo' ), __( 'Enabled', 'wordpress-seo' ) ];
 		}
 
 		list( $off_button, $on_button ) = $buttons;
@@ -357,18 +357,18 @@ class Yoast_Form {
 	 * @param string       $label The label to show for the variable.
 	 * @param array|string $attr  Extra attributes to add to the input field. Can be class, disabled, autocomplete.
 	 */
-	public function textinput( $var, $label, $attr = array() ) {
+	public function textinput( $var, $label, $attr = [] ) {
 		if ( ! is_array( $attr ) ) {
-			$attr = array(
+			$attr = [
 				'class'    => $attr,
 				'disabled' => false,
-			);
+			];
 		}
 
-		$defaults   = array(
+		$defaults   = [
 			'placeholder' => '',
 			'class'       => '',
-		);
+		];
 		$attr       = wp_parse_args( $attr, $defaults );
 		$val        = isset( $this->options[ $var ] ) ? $this->options[ $var ] : '';
 		$attributes = isset( $attr['autocomplete'] ) ? ' autocomplete="' . esc_attr( $attr['autocomplete'] ) . '"' : '';
@@ -378,10 +378,10 @@ class Yoast_Form {
 
 		$this->label(
 			$label,
-			array(
+			[
 				'for'   => $var,
 				'class' => 'textinput',
-			)
+			]
 		);
 
 		$has_input_error = Yoast_Input_Validation::yoast_form_control_has_error( $var );
@@ -403,27 +403,27 @@ class Yoast_Form {
 	 * @param string       $label The label to show for the variable.
 	 * @param string|array $attr  The CSS class or an array of attributes to assign to the textarea.
 	 */
-	public function textarea( $var, $label, $attr = array() ) {
+	public function textarea( $var, $label, $attr = [] ) {
 		if ( ! is_array( $attr ) ) {
-			$attr = array(
+			$attr = [
 				'class' => $attr,
-			);
+			];
 		}
 
-		$defaults = array(
+		$defaults = [
 			'cols'  => '',
 			'rows'  => '',
 			'class' => '',
-		);
+		];
 		$attr     = wp_parse_args( $attr, $defaults );
 		$val      = ( isset( $this->options[ $var ] ) ) ? $this->options[ $var ] : '';
 
 		$this->label(
 			$label,
-			array(
+			[
 				'for'   => $var,
 				'class' => 'textinput',
-			)
+			]
 		);
 		echo '<textarea cols="' . esc_attr( $attr['cols'] ) . '" rows="' . esc_attr( $attr['rows'] ) . '" class="textinput ' . esc_attr( $attr['class'] ) . '" id="' . esc_attr( $var ) . '" name="' . esc_attr( $this->option_name ) . '[' . esc_attr( $var ) . ']"', disabled( $this->is_control_disabled( $var ), true, false ), '>' . esc_textarea( $val ) . '</textarea><br class="clear" />';
 	}
@@ -469,11 +469,11 @@ class Yoast_Form {
 		if ( $show_label ) {
 			$this->label(
 				$label,
-				array(
+				[
 					'for'   => $var,
 					'class' => 'select',
 
-				)
+				]
 			);
 		}
 
@@ -519,10 +519,10 @@ class Yoast_Form {
 		$var_esc = esc_attr( $var );
 		$this->label(
 			$label,
-			array(
+			[
 				'for'   => $var,
 				'class' => 'select',
-			)
+			]
 		);
 		echo '<input type="file" value="' . esc_attr( $val ) . '" class="textinput" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" id="' . $var_esc . '"', disabled( $this->is_control_disabled( $var ), true, false ), '/>';
 
@@ -558,10 +558,10 @@ class Yoast_Form {
 
 		$this->label(
 			$label,
-			array(
+			[
 				'for'   => 'wpseo_' . $var,
 				'class' => 'select',
-			)
+			]
 		);
 
 		$id_field_id = 'wpseo_' . $var_esc . '_id';
@@ -609,8 +609,8 @@ class Yoast_Form {
 	 * @param string $legend      Optional. The legend to show for the field set, if any.
 	 * @param array  $legend_attr Optional. The attributes for the legend, if any.
 	 */
-	public function radio( $var, $values, $legend = '', $legend_attr = array() ) {
-		if ( ! is_array( $values ) || $values === array() ) {
+	public function radio( $var, $values, $legend = '', $legend_attr = [] ) {
+		if ( ! is_array( $values ) || $values === [] ) {
 			return;
 		}
 		if ( ! isset( $this->options[ $var ] ) ) {
@@ -623,10 +623,10 @@ class Yoast_Form {
 
 		if ( is_string( $legend ) && '' !== $legend ) {
 
-			$defaults = array(
+			$defaults = [
 				'id'    => '',
 				'class' => 'radiogroup',
-			);
+			];
 
 			$legend_attr = wp_parse_args( $legend_attr, $defaults );
 
@@ -646,11 +646,11 @@ class Yoast_Form {
 			echo '<input type="radio" class="radio" id="' . $var_esc . '-' . $key_esc . '" name="' . esc_attr( $this->option_name ) . '[' . $var_esc . ']" value="' . $key_esc . '" ' . checked( $this->options[ $var ], $key_esc, false ) . disabled( $this->is_control_disabled( $var ), true, false ) . ' />';
 			$this->label(
 				$label,
-				array(
+				[
 					'for'        => $var_esc . '-' . $key_esc,
 					'class'      => 'radio',
 					'aria_label' => $aria_label,
-				)
+				]
 			);
 		}
 		echo '</fieldset>';
@@ -669,7 +669,7 @@ class Yoast_Form {
 	 * @param string $help   Inline Help that will be printed out before the visible toggles text.
 	 */
 	public function toggle_switch( $var, $values, $label, $help = '' ) {
-		if ( ! is_array( $values ) || $values === array() ) {
+		if ( ! is_array( $values ) || $values === [] ) {
 			return;
 		}
 		if ( ! isset( $this->options[ $var ] ) ) {
@@ -720,10 +720,10 @@ class Yoast_Form {
 	 * @return void
 	 */
 	public function index_switch( $var, $label, $help = '' ) {
-		$index_switch_values = array(
+		$index_switch_values = [
 			'off' => __( 'Yes', 'wordpress-seo' ),
 			'on'  => __( 'No', 'wordpress-seo' ),
-		);
+		];
 
 		$this->toggle_switch(
 			$var,
@@ -751,10 +751,10 @@ class Yoast_Form {
 		$on_key  = ( $inverse_keys ) ? 'off' : 'on';
 		$off_key = ( $inverse_keys ) ? 'on' : 'off';
 
-		$show_hide_switch = array(
+		$show_hide_switch = [
 			$on_key  => __( 'Show', 'wordpress-seo' ),
 			$off_key => __( 'Hide', 'wordpress-seo' ),
-		);
+		];
 
 		$this->toggle_switch( $var, $show_hide_switch, $label, $help );
 	}

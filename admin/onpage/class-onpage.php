@@ -38,17 +38,17 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	 */
 	public function register_hooks() {
 		// Adds admin notice if necessary.
-		add_filter( 'admin_init', array( $this, 'show_notice' ) );
+		add_filter( 'admin_init', [ $this, 'show_notice' ] );
 
 		if ( ! self::is_active() ) {
 			return;
 		}
 
 		// Adds weekly schedule to the cron job schedules.
-		add_filter( 'cron_schedules', array( $this, 'add_weekly_schedule' ) );
+		add_filter( 'cron_schedules', [ $this, 'add_weekly_schedule' ] );
 
 		// Sets the action for the Ryte fetch.
-		add_action( 'wpseo_onpage_fetch', array( $this, 'fetch_from_onpage' ) );
+		add_action( 'wpseo_onpage_fetch', [ $this, 'fetch_from_onpage' ] );
 	}
 
 	/**
@@ -108,13 +108,13 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	 */
 	public function add_weekly_schedule( $schedules ) {
 		if ( ! is_array( $schedules ) ) {
-			$schedules = array();
+			$schedules = [];
 		}
 
-		$schedules['weekly'] = array(
+		$schedules['weekly'] = [
 			'interval' => WEEK_IN_SECONDS,
 			'display'  => __( 'Once Weekly', 'wordpress-seo' ),
-		);
+		];
 
 		return $schedules;
 	}
@@ -176,11 +176,11 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 
 		return new Yoast_Notification(
 			$notice,
-			array(
+			[
 				'type'         => Yoast_Notification::ERROR,
 				'id'           => 'wpseo-dismiss-onpageorg',
 				'capabilities' => 'wpseo_manage_options',
-			)
+			]
 		);
 	}
 
@@ -190,7 +190,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	 * @return int|bool The indexability value.
 	 */
 	protected function request_indexability() {
-		$parameters = array();
+		$parameters = [];
 		if ( $this->wordfence_protection_enabled() ) {
 			$parameters['wf_strict'] = 1;
 		}
@@ -275,7 +275,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 		if ( filter_input( INPUT_GET, 'wpseo-redo-onpage' ) === '1' ) {
 			$this->is_manual_request = true;
 
-			add_action( 'admin_init', array( $this, 'fetch_from_onpage' ) );
+			add_action( 'admin_init', [ $this, 'fetch_from_onpage' ] );
 		}
 	}
 

@@ -27,11 +27,11 @@ $msverify_link = 'https://www.bing.com/toolbox/webmaster/#/Dashboard/?url=' .
 	rawurlencode( str_replace( 'http://', '', get_bloginfo( 'url' ) ) );
 
 $googleverify_link = add_query_arg(
-	array(
+	[
 		'hl'      => 'en',
 		'tid'     => 'alternate',
 		'siteUrl' => rawurlencode( get_bloginfo( 'url' ) ) . '/',
-	),
+	],
 	'https://www.google.com/webmasters/verification/verification'
 );
 
