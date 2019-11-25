@@ -135,10 +135,8 @@ class Schema_WebPage_Test extends TestCase {
 		$this->context->site_represents = false;
 
 		$post                    = Mockery::mock( 'WP_Post' );
-		$post->post_date         = '';
-		$post->post_date_gmt     = '';
-		$post->post_modified     = '';
-		$post->post_modified_gmt = '';
+		$post->post_date_gmt     = '0000-00-00 00:00:00';
+		$post->post_modified_gmt = '0000-00-00 00:00:00';
 
 		Monkey\Functions\expect( 'get_post' )
 			->andReturn( $post );
@@ -167,10 +165,8 @@ class Schema_WebPage_Test extends TestCase {
 		$this->context->site_represents = false;
 
 		$post                    = Mockery::mock( 'WP_Post' );
-		$post->post_date         = '';
-		$post->post_date_gmt     = '';
-		$post->post_modified     = '';
-		$post->post_modified_gmt = '';
+		$post->post_date_gmt     = '0000-00-00 00:00:00';
+		$post->post_modified_gmt = '0000-00-00 00:00:00';
 		$post->post_author       = 'author';
 
 		Monkey\Functions\expect( 'get_post' )
