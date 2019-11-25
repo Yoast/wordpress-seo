@@ -105,6 +105,12 @@ $yoast-alerts-active-margin: 20px;
 	}
 }
 
+// Get started dismiss button focus style position.
+.yoast-alerts .button.dismiss.yoast-container__configuration-wizard--dismiss::before {
+	top: 0;
+	transform: translate(-50%,6px);
+}
+
 .yoast-container .separator {
 	margin-top: 1em;
 	margin-bottom: 1em;
@@ -287,7 +293,7 @@ $yoast-alerts-active-margin: 20px;
 
 				.dashicons {
 					text-decoration: none;
-					margin-top: 11px;
+					margin-top: 12px;
 				}
 			}
 		}
