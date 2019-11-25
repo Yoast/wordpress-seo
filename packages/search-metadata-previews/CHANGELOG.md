@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.13.0 November 25th, 2019
+### Fixes
+ * Fixes a bug where non-square images would be distorted in the mobile snippet preview.
+
 ## 1.12.0 November 11th, 2019
 ### Fixes
  * Fixes a bug where the Snippet Preview elements had misplaced visually hidden text.
