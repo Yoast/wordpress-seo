@@ -5,6 +5,9 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 1.13.1 November 25th, 2019
+* No user-facing changes.
+
 ## 1.13.0 November 25th, 2019
 ### Fixes
  * Fixes a bug where non-square images would be distorted in the mobile snippet preview.
