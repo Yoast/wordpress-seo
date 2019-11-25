@@ -22,7 +22,7 @@ class WPSEO_Option_Tabs {
 	 *
 	 * @var array
 	 */
-	private $tabs = array();
+	private $tabs = [];
 
 	/**
 	 * Name of the active tab.
@@ -78,7 +78,7 @@ class WPSEO_Option_Tabs {
 			return null;
 		}
 
-		$active_tabs = array_filter( $this->tabs, array( $this, 'is_active_tab' ) );
+		$active_tabs = array_filter( $this->tabs, [ $this, 'is_active_tab' ] );
 		if ( ! empty( $active_tabs ) ) {
 			$active_tabs = array_values( $active_tabs );
 			if ( count( $active_tabs ) === 1 ) {

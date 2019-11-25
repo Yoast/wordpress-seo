@@ -37,9 +37,9 @@ class WPSEO_Taxonomy {
 	public function __construct() {
 		$this->taxonomy = $this->get_taxonomy();
 
-		add_action( 'edit_term', array( $this, 'update_term' ), 99, 3 );
-		add_action( 'init', array( $this, 'custom_category_descriptions_allow_html' ) );
-		add_action( 'admin_init', array( $this, 'admin_init' ) );
+		add_action( 'edit_term', [ $this, 'update_term' ], 99, 3 );
+		add_action( 'init', [ $this, 'custom_category_descriptions_allow_html' ] );
+		add_action( 'admin_init', [ $this, 'admin_init' ] );
 
 		if ( self::is_term_overview( $GLOBALS['pagenow'] ) ) {
 			new WPSEO_Taxonomy_Columns();
@@ -61,8 +61,8 @@ class WPSEO_Taxonomy {
 
 		$this->insert_description_field_editor();
 
-		add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', array( $this, 'term_metabox' ), 90, 1 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+		add_action( sanitize_text_field( $this->taxonomy ) . '_edit_form', [ $this, 'term_metabox' ], 90, 1 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
 	}
 
 	/**
@@ -145,7 +145,7 @@ class WPSEO_Taxonomy {
 			$analysis_worker_location          = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ) );
 			$used_keywords_assessment_location = new WPSEO_Admin_Asset_Analysis_Worker_Location( $asset_manager->flatten_version( WPSEO_VERSION ), 'used-keywords-assessment' );
 
-			$localization_data = array(
+			$localization_data = [
 				'url'                     => $analysis_worker_location->get_url(
 					$analysis_worker_location->get_asset(),
 					WPSEO_Admin_Asset::TYPE_JS
@@ -155,7 +155,7 @@ class WPSEO_Taxonomy {
 					WPSEO_Admin_Asset::TYPE_JS
 				),
 				'log_level'               => WPSEO_Utils::get_analysis_worker_log_level(),
-			);
+			];
 			wp_localize_script(
 				WPSEO_Admin_Asset_Manager::PREFIX . 'term-scraper',
 				'wpseoAnalysisWorkerL10n',
@@ -178,7 +178,7 @@ class WPSEO_Taxonomy {
 			wp_localize_script(
 				WPSEO_Admin_Asset_Manager::PREFIX . 'admin-media',
 				'wpseoMediaL10n',
-				array( 'choose_image' => __( 'Use Image', 'wordpress-seo' ) )
+				[ 'choose_image' => __( 'Use Image', 'wordpress-seo' ) ]
 			);
 		}
 
@@ -200,7 +200,7 @@ class WPSEO_Taxonomy {
 		}
 
 		/* Create post array with only our values. */
-		$new_meta_data = array();
+		$new_meta_data = [];
 		foreach ( WPSEO_Taxonomy_Meta::$defaults_per_term as $key => $default ) {
 			$posted_value = filter_input( INPUT_POST, $key );
 			if ( isset( $posted_value ) && $posted_value !== false ) {
@@ -240,12 +240,12 @@ class WPSEO_Taxonomy {
 	 * Allows HTML in descriptions.
 	 */
 	public function custom_category_descriptions_allow_html() {
-		$filters = array(
+		$filters = [
 			'pre_term_description',
 			'pre_link_description',
 			'pre_link_notes',
 			'pre_user_description',
-		);
+		];
 
 		foreach ( $filters as $filter ) {
 			remove_filter( $filter, 'wp_filter_kses' );
@@ -284,12 +284,12 @@ class WPSEO_Taxonomy {
 	 * Pass some variables to js for replacing variables.
 	 */
 	public function localize_replace_vars_script() {
-		return array(
+		return [
 			'no_parent_text'           => __( '(no parent)', 'wordpress-seo' ),
 			'replace_vars'             => $this->get_replace_vars(),
 			'recommended_replace_vars' => $this->get_recommended_replace_vars(),
 			'scope'                    => $this->determine_scope(),
-		);
+		];
 	}
 
 	/**
@@ -352,7 +352,7 @@ class WPSEO_Taxonomy {
 	 * @return string
 	 */
 	private function get_taxonomy() {
-		return filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, array( 'options' => array( 'default' => '' ) ) );
+		return filter_input( INPUT_GET, 'taxonomy', FILTER_DEFAULT, [ 'options' => [ 'default' => '' ] ] );
 	}
 
 	/**
@@ -364,9 +364,9 @@ class WPSEO_Taxonomy {
 		$term_id = filter_input( INPUT_GET, 'tag_ID' );
 		$term    = get_term_by( 'id', $term_id, $this->get_taxonomy() );
 
-		$cached_replacement_vars = array();
+		$cached_replacement_vars = [];
 
-		$vars_to_cache = array(
+		$vars_to_cache = [
 			'date',
 			'id',
 			'sitename',
@@ -379,7 +379,7 @@ class WPSEO_Taxonomy {
 			'tag_description',
 			'searchphrase',
 			'currentyear',
-		);
+		];
 
 		foreach ( $vars_to_cache as $var ) {
 			$cached_replacement_vars[ $var ] = wpseo_replace_vars( '%%' . $var . '%%', $term );
@@ -412,11 +412,11 @@ class WPSEO_Taxonomy {
 	 */
 	private function insert_description_field_editor() {
 		if ( version_compare( $GLOBALS['wp_version'], '4.5', '<' ) ) {
-			add_action( "{$this->taxonomy}_edit_form", array( $this, 'custom_category_description_editor' ) );
+			add_action( "{$this->taxonomy}_edit_form", [ $this, 'custom_category_description_editor' ] );
 			return;
 		}
 
-		add_action( "{$this->taxonomy}_term_edit_form_top", array( $this, 'custom_category_description_editor' ) );
+		add_action( "{$this->taxonomy}_term_edit_form_top", [ $this, 'custom_category_description_editor' ] );
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */

@@ -121,7 +121,7 @@ abstract class WPSEO_Option {
 	 *
 	 * @var array
 	 */
-	public $ms_exclude = array();
+	public $ms_exclude = [];
 
 	/**
 	 * Name for an option higher in the hierarchy to override setting access.
@@ -157,9 +157,9 @@ abstract class WPSEO_Option {
 			 * The option validation routines remove the default filters to prevent failing
 			 * to insert an option if it's new. Let's add them back afterwards.
 			 */
-			add_action( 'add_option', array( $this, 'add_default_filters' ) ); // Adding back after INSERT.
+			add_action( 'add_option', [ $this, 'add_default_filters' ] ); // Adding back after INSERT.
 
-			add_action( 'update_option', array( $this, 'add_default_filters' ) );
+			add_action( 'update_option', [ $this, 'add_default_filters' ] );
 		}
 		elseif ( is_multisite() ) {
 			/*
@@ -170,8 +170,8 @@ abstract class WPSEO_Option {
 			 * on an insert/update failure. Please use the WPSEO_Options::update_site_option() method
 			 * for updating site options to make sure the filters are in place.
 			 */
-			add_action( 'add_site_option_' . $this->option_name, array( $this, 'add_default_filters' ) );
-			add_action( 'update_site_option_' . $this->option_name, array( $this, 'add_default_filters' ) );
+			add_action( 'add_site_option_' . $this->option_name, [ $this, 'add_default_filters' ] );
+			add_action( 'update_site_option_' . $this->option_name, [ $this, 'add_default_filters' ] );
 
 		}
 
@@ -180,13 +180,13 @@ abstract class WPSEO_Option {
 		 * Make sure the option will always get validated, independently of register_setting()
 		 * (only available on back-end).
 		 */
-		add_filter( 'sanitize_option_' . $this->option_name, array( $this, 'validate' ) );
+		add_filter( 'sanitize_option_' . $this->option_name, [ $this, 'validate' ] );
 
 		// Flushes the rewrite rules when option is updated.
-		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_rewrites' ) );
+		add_action( 'update_option_' . $this->option_name, [ 'WPSEO_Utils', 'clear_rewrites' ] );
 
 		/* Register our option for the admin pages */
-		add_action( 'admin_init', array( $this, 'register_setting' ) );
+		add_action( 'admin_init', [ $this, 'register_setting' ] );
 
 
 		/* Set option group name if not given */
@@ -196,7 +196,7 @@ abstract class WPSEO_Option {
 
 		/* Translate some defaults as early as possible - textdomain is loaded in init on priority 1. */
 		if ( method_exists( $this, 'translate_defaults' ) ) {
-			add_action( 'init', array( $this, 'translate_defaults' ), 2 );
+			add_action( 'init', [ $this, 'translate_defaults' ], 2 );
 		}
 
 		/**
@@ -207,7 +207,7 @@ abstract class WPSEO_Option {
 		 * enrichment are used before the enriching.
 		 */
 		if ( method_exists( $this, 'enrich_defaults' ) ) {
-			add_action( 'init', array( $this, 'enrich_defaults' ), 99 );
+			add_action( 'init', [ $this, 'enrich_defaults' ], 99 );
 		}
 	}
 

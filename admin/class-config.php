@@ -30,7 +30,7 @@ class WPSEO_Admin_Pages {
 	 * Class constructor, which basically only hooks the init function on the init hook.
 	 */
 	public function __construct() {
-		add_action( 'init', array( $this, 'init' ), 20 );
+		add_action( 'init', [ $this, 'init' ], 20 );
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 	}
 
@@ -43,8 +43,8 @@ class WPSEO_Admin_Pages {
 			wp_redirect( admin_url( 'admin.php?page=' . WPSEO_Configuration_Page::PAGE_IDENTIFIER ) );
 		}
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_styles' ) );
+		add_action( 'admin_enqueue_scripts', [ $this, 'config_page_scripts' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'config_page_styles' ] );
 	}
 
 	/**
@@ -88,7 +88,7 @@ class WPSEO_Admin_Pages {
 
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'admin-script', 'wpseoSelect2Locale', WPSEO_Language_Utils::get_language( WPSEO_Language_Utils::get_user_locale() ) );
 
-		if ( in_array( $page, array( 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_titles' ), true ) ) {
+		if ( in_array( $page, [ 'wpseo_social', WPSEO_Admin::PAGE_IDENTIFIER, 'wpseo_titles' ], true ) ) {
 			wp_enqueue_media();
 
 			$this->asset_manager->enqueue_script( 'admin-media' );
@@ -106,9 +106,9 @@ class WPSEO_Admin_Pages {
 	 * @return array The upload module variables.
 	 */
 	public function localize_media_script() {
-		return array(
+		return [
 			'choose_image' => __( 'Use Image', 'wordpress-seo' ),
-		);
+		];
 	}
 
 	/**
@@ -122,12 +122,12 @@ class WPSEO_Admin_Pages {
 		$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 		$replace_vars_list            = $replace_vars->get_replacement_variables_list();
 
-		return array(
+		return [
 			'replace_vars'                 => $replace_vars_list,
 			'recommended_replace_vars'     => $recommended_replace_vars->get_recommended_replacevars(),
 			'editor_specific_replace_vars' => $editor_specific_replace_vars->get(),
 			'shared_replace_vars'          => $editor_specific_replace_vars->get_generic( $replace_vars_list ),
-		);
+		];
 	}
 
 	/**
@@ -136,13 +136,13 @@ class WPSEO_Admin_Pages {
 	 * @return array The search appearance variables.
 	 */
 	public function localize_search_appearance_script() {
-		$search_appearance_l10n = array(
+		$search_appearance_l10n = [
 			'isRtl'                    => is_rtl(),
 			'userEditUrl'              => add_query_arg( 'user_id', '{user_id}', admin_url( 'user-edit.php' ) ),
 			'brushstrokeBackgroundURL' => plugins_url( 'images/brushstroke_background.svg', WPSEO_FILE ),
 			'showLocalSEOUpsell'       => $this->should_show_local_seo_upsell(),
 			'localSEOUpsellURL'        => WPSEO_Shortlinker::get( 'https://yoa.st/3mp' ),
-		);
+		];
 
 		$search_appearance_l10n['knowledgeGraphCompanyInfoMissing'] = WPSEO_Language_Utils::get_knowledge_graph_company_info_missing_l10n();
 

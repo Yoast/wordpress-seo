@@ -16,9 +16,9 @@ class WPSEO_Recalculate_Scores_Ajax {
 	 * Initialize the AJAX hooks.
 	 */
 	public function __construct() {
-		add_action( 'wp_ajax_wpseo_recalculate_scores', array( $this, 'recalculate_scores' ) );
-		add_action( 'wp_ajax_wpseo_update_score', array( $this, 'save_score' ) );
-		add_action( 'wp_ajax_wpseo_recalculate_total', array( $this, 'get_total' ) );
+		add_action( 'wp_ajax_wpseo_recalculate_scores', [ $this, 'recalculate_scores' ] );
+		add_action( 'wp_ajax_wpseo_update_score', [ $this, 'save_score' ] );
+		add_action( 'wp_ajax_wpseo_recalculate_total', [ $this, 'get_total' ] );
 	}
 
 	/**
@@ -30,10 +30,10 @@ class WPSEO_Recalculate_Scores_Ajax {
 		wp_die(
 			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: WPSEO_Utils::format_json_encode is considered safe.
 			WPSEO_Utils::format_json_encode(
-				array(
+				[
 					'posts' => $this->calculate_posts(),
 					'terms' => $this->calculate_terms(),
-				)
+				]
 			)
 		);
 	}
@@ -96,12 +96,12 @@ class WPSEO_Recalculate_Scores_Ajax {
 	 */
 	private function calculate_posts() {
 		$count_posts_query = new WP_Query(
-			array(
+			[
 				'post_type'      => 'any',
 				'meta_key'       => '_yoast_wpseo_focuskw',
 				'posts_per_page' => 1,
 				'fields'         => 'ids',
-			)
+			]
 		);
 
 		return $count_posts_query->found_posts;
@@ -114,8 +114,8 @@ class WPSEO_Recalculate_Scores_Ajax {
 	 */
 	private function calculate_terms() {
 		$total = 0;
-		foreach ( get_taxonomies( array(), 'objects' ) as $taxonomy ) {
-			$total += wp_count_terms( $taxonomy->name, array( 'hide_empty' => false ) );
+		foreach ( get_taxonomies( [], 'objects' ) as $taxonomy ) {
+			$total += wp_count_terms( $taxonomy->name, [ 'hide_empty' => false ] );
 		}
 
 		return $total;

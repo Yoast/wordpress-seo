@@ -11,32 +11,32 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$wpseo_taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
-if ( is_array( $wpseo_taxonomies ) && $wpseo_taxonomies !== array() ) {
+$wpseo_taxonomies = get_taxonomies( [ 'public' => true ], 'objects' );
+if ( is_array( $wpseo_taxonomies ) && $wpseo_taxonomies !== [] ) {
 	$view_utils                   = new Yoast_View_Utils();
 	$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();
 	$editor_specific_replace_vars = new WPSEO_Admin_Editor_Specific_Replace_Vars();
 
 	// Explicitly hide all the core taxonomies we never want to do stuff for.
-	$wpseo_taxonomies = array_diff_key( $wpseo_taxonomies, array_flip( array( 'link_category', 'nav_menu' ) ) );
+	$wpseo_taxonomies = array_diff_key( $wpseo_taxonomies, array_flip( [ 'link_category', 'nav_menu' ] ) );
 
 	foreach ( array_values( $wpseo_taxonomies ) as $wpseo_taxonomy_index => $wpseo_taxonomy ) {
 		$wpseo_taxonomy_presenter = new WPSEO_Paper_Presenter(
 			$wpseo_taxonomy->labels->name,
 			dirname( __FILE__ ) . '/paper-content/taxonomy-content.php',
-			array(
+			[
 				'collapsible' => true,
 				'expanded'    => ( $wpseo_taxonomy_index === 0 ),
 				'paper_id'    => 'settings-' . $wpseo_taxonomy->name,
-				'view_data'   => array(
+				'view_data'   => [
 					'wpseo_taxonomy'               => $wpseo_taxonomy,
 					'view_utils'                   => $view_utils,
 					'recommended_replace_vars'     => $recommended_replace_vars,
 					'editor_specific_replace_vars' => $editor_specific_replace_vars,
-				),
+				],
 				'title_after' => ' (<code>' . esc_html( $wpseo_taxonomy->name ) . '</code>)',
 				'class'       => 'search-appearance',
-			)
+			]
 		);
 		echo $wpseo_taxonomy_presenter->get_output();
 	}

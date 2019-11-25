@@ -32,7 +32,7 @@ class WPSEO_Custom_Fields {
 			return self::$custom_fields;
 		}
 
-		self::$custom_fields = array();
+		self::$custom_fields = [];
 
 		/**
 		 * Filters the number of custom fields to retrieve for the drop-down
@@ -50,7 +50,7 @@ class WPSEO_Custom_Fields {
 		$fields = $wpdb->get_col( $wpdb->prepare( $sql, $wpdb->esc_like( '_' ) . '%', $limit ) );
 
 		if ( is_array( $fields ) ) {
-			self::$custom_fields = array_map( array( 'WPSEO_Custom_Fields', 'add_custom_field_prefix' ), $fields );
+			self::$custom_fields = array_map( [ 'WPSEO_Custom_Fields', 'add_custom_field_prefix' ], $fields );
 		}
 
 		return self::$custom_fields;

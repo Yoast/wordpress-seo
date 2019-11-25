@@ -37,9 +37,9 @@ $tabs->add_tab(
 	new WPSEO_Option_Tab(
 		'dashboard',
 		__( 'Dashboard', 'wordpress-seo' ),
-		array(
+		[
 			'save_button' => false,
-		)
+		]
 	)
 );
 $tabs->add_tab(

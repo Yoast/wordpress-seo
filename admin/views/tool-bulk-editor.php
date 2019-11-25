@@ -18,16 +18,16 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
  * @return array The sanitized fields.
  */
 function yoast_free_bulk_sanitize_input_fields() {
-	$possible_params = array(
+	$possible_params = [
 		'type',
 		'paged',
 		'post_type_filter',
 		'post_status',
 		'order',
 		'orderby',
-	);
+	];
 
-	$input_get = array();
+	$input_get = [];
 	foreach ( $possible_params as $param_name ) {
 		if ( isset( $_GET[ $param_name ] ) ) {
 			$input_get[ $param_name ] = sanitize_text_field( wp_unslash( $_GET[ $param_name ] ) );
@@ -49,19 +49,19 @@ if ( ! isset( $yoast_free_input_fields['type'] ) ) {
 	$yoast_free_input_fields['type'] = 'title';
 }
 
-$yoast_bulk_editor_arguments = array(
+$yoast_bulk_editor_arguments = [
 	'input_fields' => $yoast_free_input_fields,
 	'nonce'        => wp_create_nonce( 'bulk-editor-table' ),
-);
+];
 
 $wpseo_bulk_titles_table      = new WPSEO_Bulk_Title_Editor_List_Table( $yoast_bulk_editor_arguments );
 $wpseo_bulk_description_table = new WPSEO_Bulk_Description_List_Table( $yoast_bulk_editor_arguments );
 
-$yoast_free_screen_reader_content = array(
+$yoast_free_screen_reader_content = [
 	'heading_views'      => __( 'Filter posts list', 'wordpress-seo' ),
 	'heading_pagination' => __( 'Posts list navigation', 'wordpress-seo' ),
 	'heading_list'       => __( 'Posts list', 'wordpress-seo' ),
-);
+];
 get_current_screen()->set_screen_reader_content( $yoast_free_screen_reader_content );
 
 if ( ! empty( $_REQUEST['_wp_http_referer'] ) && isset( $_SERVER['REQUEST_URI'] ) ) {
@@ -69,7 +69,7 @@ if ( ! empty( $_REQUEST['_wp_http_referer'] ) && isset( $_SERVER['REQUEST_URI'] 
 
 	wp_redirect(
 		remove_query_arg(
-			array( '_wp_http_referer', '_wpnonce' ),
+			[ '_wp_http_referer', '_wpnonce' ],
 			$request_uri
 		)
 	);

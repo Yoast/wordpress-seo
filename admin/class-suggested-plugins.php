@@ -41,8 +41,8 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'admin_init', array( $this->availability_checker, 'register' ) );
-		add_action( 'admin_init', array( $this, 'add_notifications' ) );
+		add_action( 'admin_init', [ $this->availability_checker, 'register' ] );
+		add_action( 'admin_init', [ $this, 'add_notifications' ] );
 	}
 
 	/**
@@ -92,11 +92,11 @@ class WPSEO_Suggested_Plugins implements WPSEO_WordPress_Integration {
 
 		return new Yoast_Notification(
 			$message,
-			array(
+			[
 				'id'           => 'wpseo-suggested-plugin-' . $name,
 				'type'         => Yoast_Notification::WARNING,
-				'capabilities' => array( 'install_plugins' ),
-			)
+				'capabilities' => [ 'install_plugins' ],
+			]
 		);
 	}
 

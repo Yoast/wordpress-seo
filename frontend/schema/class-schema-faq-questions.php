@@ -77,17 +77,17 @@ class WPSEO_Schema_FAQ_Questions {
 	protected function generate_question_block( $question ) {
 		$url = $this->context->canonical . '#' . esc_attr( $question['id'] );
 
-		return array(
+		return [
 			'@type'          => 'Question',
 			'@id'            => $url,
 			'position'       => $this->position ++,
 			'url'            => $url,
 			'name'           => wp_strip_all_tags( $question['jsonQuestion'] ),
 			'answerCount'    => 1,
-			'acceptedAnswer' => array(
+			'acceptedAnswer' => [
 				'@type' => 'Answer',
 				'text'  => strip_tags( $question['jsonAnswer'], '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' ),
-			),
-		);
+			],
+		];
 	}
 }

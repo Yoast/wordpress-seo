@@ -9,10 +9,10 @@
 
 $yform->toggle_switch(
 	'disable-date',
-	array(
+	[
 		'off' => __( 'Enabled', 'wordpress-seo' ),
 		'on'  => __( 'Disabled', 'wordpress-seo' ),
-	),
+	],
 	__( 'Date archives', 'wordpress-seo' )
 );
 
@@ -42,13 +42,13 @@ $yform->toggle_switch(
 
 	$editor = new WPSEO_Replacevar_Editor(
 		$yform,
-		array(
+		[
 			'title'                 => 'title-archive-wpseo',
 			'description'           => 'metadesc-archive-wpseo',
 			'page_type_recommended' => $recommended_replace_vars->determine_for_archive( 'date' ),
 			'page_type_specific'    => $editor_specific_replace_vars->determine_for_archive( 'date' ),
 			'paper_style'           => false,
-		)
+		]
 	);
 	$editor->render();
 	?>

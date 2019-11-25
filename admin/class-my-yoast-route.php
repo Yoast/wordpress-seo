@@ -34,7 +34,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 *
 	 * @var array
 	 */
-	protected static $allowed_actions = array( 'connect', 'authorize', 'complete' );
+	protected static $allowed_actions = [ 'connect', 'authorize', 'complete' ];
 
 	/**
 	 * Sets the hooks when the user has enough rights and is on the right page.
@@ -51,8 +51,8 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		add_action( 'admin_menu', array( $this, 'register_route' ) );
-		add_action( 'admin_init', array( $this, 'handle_route' ) );
+		add_action( 'admin_menu', [ $this, 'register_route' ] );
+		add_action( 'admin_init', [ $this, 'handle_route' ] );
 	}
 
 	/**
@@ -121,14 +121,14 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 
 		$this->redirect(
 			'https://my.yoast.com/connect',
-			array(
+			[
 				'url'             => WPSEO_Utils::get_home_url(),
 				'client_id'       => $client_id,
 				'extensions'      => $this->get_extensions(),
 				'redirect_url'    => admin_url( 'admin.php?page=' . self::PAGE_IDENTIFIER . '&action=complete' ),
 				'credentials_url' => rest_url( 'yoast/v1/myyoast/connect' ),
 				'type'            => 'wordpress',
-			)
+			]
 		);
 	}
 
@@ -166,9 +166,9 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 				->get_provider()
 				->getAccessToken(
 					'authorization_code',
-					array(
+					[
 						'code' => $this->get_authorization_code(),
-					)
+					]
 				);
 
 			$client->save_access_token(
@@ -195,9 +195,9 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 */
 	protected function save_client_id( $client_id ) {
 		$this->get_client()->save_configuration(
-			array(
+			[
 				'clientId' => $client_id,
-			)
+			]
 		);
 	}
 
@@ -261,7 +261,7 @@ class WPSEO_MyYoast_Route implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	protected function redirect( $url, $query_args = array() ) {
+	protected function redirect( $url, $query_args = [] ) {
 		if ( ! empty( $query_args ) ) {
 			$url .= '?' . http_build_query( $query_args );
 		}
