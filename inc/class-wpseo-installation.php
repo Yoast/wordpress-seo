@@ -19,7 +19,7 @@ class WPSEO_Installation {
 		$is_first_install = $this->is_first_install();
 
 		if ( $is_first_install && WPSEO_Utils::is_api_available() ) {
-			add_action( 'wpseo_activate', array( $this, 'set_first_install_options' ) );
+			add_action( 'wpseo_activate', [ $this, 'set_first_install_options' ] );
 		}
 	}
 

@@ -74,14 +74,14 @@ class WPSEO_Metabox_Form_Tab implements WPSEO_Metabox_Tab {
 	 * @param string $link_content The text content of the tab link.
 	 * @param array  $options      Optional link attributes.
 	 */
-	public function __construct( $name, $content, $link_content, array $options = array() ) {
-		$default_options = array(
+	public function __construct( $name, $content, $link_content, array $options = [] ) {
+		$default_options = [
 			'tab_class'       => '',
 			'link_class'      => '',
 			'link_title'      => '',
 			'link_aria_label' => '',
 			'single'          => false,
-		);
+		];
 
 		$options = array_merge( $default_options, $options );
 

@@ -16,7 +16,7 @@ final class WPSEO_Capability_Manager_VIP extends WPSEO_Abstract_Capability_Manag
 	 * @return void
 	 */
 	public function add() {
-		$role_capabilities = array();
+		$role_capabilities = [];
 		foreach ( $this->capabilities as $capability => $roles ) {
 			$role_capabilities = $this->get_role_capabilities( $role_capabilities, $capability, $roles );
 		}
@@ -36,7 +36,7 @@ final class WPSEO_Capability_Manager_VIP extends WPSEO_Abstract_Capability_Manag
 		$roles = wp_roles()->get_names();
 		$roles = array_keys( $roles );
 
-		$role_capabilities = array();
+		$role_capabilities = [];
 		foreach ( array_keys( $this->capabilities ) as $capability ) {
 			// Allow filtering of roles.
 			$role_capabilities = $this->get_role_capabilities( $role_capabilities, $capability, $roles );
@@ -62,7 +62,7 @@ final class WPSEO_Capability_Manager_VIP extends WPSEO_Abstract_Capability_Manag
 
 		foreach ( $filtered_roles as $role ) {
 			if ( ! isset( $add_role_caps[ $role ] ) ) {
-				$role_capabilities[ $role ] = array();
+				$role_capabilities[ $role ] = [];
 			}
 
 			$role_capabilities[ $role ][] = $capability;

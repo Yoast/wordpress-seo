@@ -15,7 +15,7 @@ class WPSEO_Config_Factory_Post_Type {
 	 *
 	 * @var WPSEO_Config_Field_Choice_Post_Type[]
 	 */
-	protected static $fields = array();
+	protected static $fields = [];
 
 	/**
 	 * Retrieves a list of fields.
@@ -26,10 +26,10 @@ class WPSEO_Config_Factory_Post_Type {
 
 		if ( empty( self::$fields ) ) {
 
-			$fields = array();
+			$fields = [];
 
 			// WPSEO_Post_type::get_accessible_post_types() should *not* be used to get a similar experience from the settings.
-			$post_types = get_post_types( array( 'public' => true ), 'objects' );
+			$post_types = get_post_types( [ 'public' => true ], 'objects' );
 			$post_types = WPSEO_Post_Type::filter_attachment_post_type( $post_types );
 			if ( ! empty( $post_types ) ) {
 				foreach ( $post_types as $post_type => $post_type_object ) {

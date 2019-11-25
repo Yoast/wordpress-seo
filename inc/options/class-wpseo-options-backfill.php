@@ -32,15 +32,15 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 
 		// Backfill options that were removed.
 		foreach ( $this->get_lookups() as $option ) {
-			add_filter( 'pre_option_' . $option, array( $this, 'backfill_option' ), 10, 2 );
+			add_filter( 'pre_option_' . $option, [ $this, 'backfill_option' ], 10, 2 );
 		}
 
 		// Make sure renamed meta key is backfilled.
-		add_filter( 'get_user_metadata', array( $this, 'backfill_usermeta' ), 10, 3 );
+		add_filter( 'get_user_metadata', [ $this, 'backfill_usermeta' ], 10, 3 );
 
 		// Extend the options that have removed items.
-		add_filter( 'option_wpseo_titles', array( $this, 'extend_wpseo_titles' ), 10, 1 );
-		add_filter( 'option_wpseo', array( $this, 'extend_wpseo' ), 10, 1 );
+		add_filter( 'option_wpseo_titles', [ $this, 'extend_wpseo_titles' ], 10, 1 );
+		add_filter( 'option_wpseo', [ $this, 'extend_wpseo' ], 10, 1 );
 	}
 
 	/**
@@ -49,15 +49,15 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 	public function remove_hooks() {
 		// Remove backfill options filter.
 		foreach ( $this->get_lookups() as $option ) {
-			remove_filter( 'pre_option_' . $option, array( $this, 'backfill_option' ), 10 );
+			remove_filter( 'pre_option_' . $option, [ $this, 'backfill_option' ], 10 );
 		}
 
 		// Remove user meta filter.
-		remove_filter( 'get_user_metadata', array( $this, 'backfill_usermeta' ), 10 );
+		remove_filter( 'get_user_metadata', [ $this, 'backfill_usermeta' ], 10 );
 
 		// Remove option extending filters.
-		remove_filter( 'option_wpseo_titles', array( $this, 'extend_wpseo_titles' ), 10 );
-		remove_filter( 'option_wpseo', array( $this, 'extend_wpseo' ), 10 );
+		remove_filter( 'option_wpseo_titles', [ $this, 'extend_wpseo_titles' ], 10 );
+		remove_filter( 'option_wpseo', [ $this, 'extend_wpseo' ], 10 );
 
 		$this->hooked = false;
 	}
@@ -70,12 +70,12 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 	 * @return array List of options that need to be backfilled.
 	 */
 	protected function get_lookups() {
-		return array(
+		return [
 			'wpseo_internallinks',
 			'wpseo_rss',
 			'wpseo_xml',
 			'wpseo_permalinks',
-		);
+		];
 	}
 
 	/**
@@ -88,16 +88,16 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 	 * @return array The settings for the provided option.
 	 */
 	protected function get_settings( $option ) {
-		$settings = array(
-			'wpseo' => array(
+		$settings = [
+			'wpseo' => [
 				'website_name'           => 'website_name',
 				'alternate_website_name' => 'alternate_website_name',
 				'company_logo'           => 'company_logo',
 				'company_name'           => 'company_name',
 				'company_or_person'      => 'company_or_person',
 				'person_name'            => 'person_name',
-			),
-			'wpseo_internallinks' => array(
+			],
+			'wpseo_internallinks' => [
 				'breadcrumbs-404crumb'      => 'breadcrumbs-404crumb',
 				'breadcrumbs-blog-remove'   => 'breadcrumbs-display-blog-page',
 				'breadcrumbs-boldlast'      => 'breadcrumbs-boldlast',
@@ -107,24 +107,24 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 				'breadcrumbs-prefix'        => 'breadcrumbs-prefix',
 				'breadcrumbs-searchprefix'  => 'breadcrumbs-searchprefix',
 				'breadcrumbs-sep'           => 'breadcrumbs-sep',
-			),
-			'wpseo_rss' => array(
+			],
+			'wpseo_rss' => [
 				'rssbefore' => 'rssbefore',
 				'rssafter'  => 'rssafter',
-			),
-			'wpseo_xml' => array(
+			],
+			'wpseo_xml' => [
 				'enablexmlsitemap'       => 'enable_xml_sitemap',
 				'disable_author_sitemap' => 'noindex-author-wpseo',
 				'disable_author_noposts' => 'noindex-author-noposts-wpseo',
-			),
-			'wpseo_permalinks' => array(
+			],
+			'wpseo_permalinks' => [
 				'redirectattachment' => 'disable-attachment',
 				'stripcategorybase'  => 'stripcategorybase',
-			),
-		);
+			],
+		];
 
 		if ( ! isset( $settings[ $option ] ) ) {
-			return array();
+			return [];
 		}
 
 		return $settings[ $option ];
@@ -198,7 +198,7 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 	 * @return array Option data.
 	 */
 	public function backfill_option( $value, $option ) {
-		$output = array();
+		$output = [];
 
 		foreach ( $this->get_settings( $option ) as $old_key => $new_key ) {
 			$output[ $old_key ] = WPSEO_Options::get( $new_key );
@@ -274,7 +274,7 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 		// Add defaults for completely removed settings in the option.
 		return array_merge(
 			$data,
-			array(
+			[
 				'cleanpermalinks'                 => false,
 				'cleanpermalink-extravars'        => '',
 				'cleanpermalink-googlecampaign'   => false,
@@ -282,7 +282,7 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 				'cleanreplytocom'                 => false,
 				'cleanslugs'                      => false,
 				'trailingslash'                   => false,
-			)
+			]
 		);
 	}
 
@@ -304,10 +304,10 @@ class WPSEO_Options_Backfill implements WPSEO_WordPress_Integration {
 		// Add dynamic implementations for settings that are not in any option anymore.
 		return array_merge(
 			$data,
-			array(
+			[
 				'entries-per-page' => (int) apply_filters( 'wpseo_sitemap_entries_per_page', 1000 ),
-				'excluded-posts'   => apply_filters( 'wpseo_exclude_from_sitemap_by_post_ids', array() ),
-			)
+				'excluded-posts'   => apply_filters( 'wpseo_exclude_from_sitemap_by_post_ids', [] ),
+			]
 		);
 	}
 }

@@ -17,7 +17,7 @@ class WPSEO_Import_Plugins_Detector {
 	 *
 	 * @var array
 	 */
-	public $needs_import = array();
+	public $needs_import = [];
 
 	/**
 	 * Detects whether we need to import anything.

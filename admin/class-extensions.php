@@ -15,38 +15,38 @@ class WPSEO_Extensions {
 	 *
 	 * @var array
 	 */
-	protected $extensions = array(
-		'Yoast SEO Premium' => array(
+	protected $extensions = [
+		'Yoast SEO Premium' => [
 			'slug'          => 'yoast-seo-premium',
 			'identifier'    => 'wordpress-seo-premium',
 			'classname'     => 'WPSEO_Premium',
 			'my-yoast-slug' => WPSEO_Addon_Manager::PREMIUM_SLUG,
-		),
-		'News SEO' => array(
+		],
+		'News SEO' => [
 			'slug'          => 'news-seo',
 			'identifier'    => 'wpseo-news',
 			'classname'     => 'WPSEO_News',
 			'my-yoast-slug' => WPSEO_Addon_Manager::NEWS_SLUG,
-		),
-		'Yoast WooCommerce SEO' => array(
+		],
+		'Yoast WooCommerce SEO' => [
 			'slug'          => 'woocommerce-yoast-seo',
 			'identifier'    => 'wpseo-woocommerce',
 			'classname'     => 'Yoast_WooCommerce_SEO',
 			'my-yoast-slug' => WPSEO_Addon_Manager::WOOCOMMERCE_SLUG,
-		),
-		'Video SEO' => array(
+		],
+		'Video SEO' => [
 			'slug'          => 'video-seo-for-wordpress',
 			'identifier'    => 'wpseo-video',
 			'classname'     => 'WPSEO_Video_Sitemap',
 			'my-yoast-slug' => WPSEO_Addon_Manager::VIDEO_SLUG,
-		),
-		'Local SEO' => array(
+		],
+		'Local SEO' => [
 			'slug'          => 'local-seo-for-wordpress',
 			'identifier'    => 'wpseo-local',
 			'classname'     => 'WPSEO_Local_Core',
 			'my-yoast-slug' => WPSEO_Addon_Manager::LOCAL_SLUG,
-		),
-	);
+		],
+	];
 
 	/**
 	 * Returns the set extensions.
