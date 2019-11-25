@@ -66,10 +66,10 @@
 	},
 	"scripts": {
 		"test": [
-			"phpunit -c phpunit.xml.dist"
+			"@php ./vendor/phpunit/phpunit/phpunit"
 		],
 		"integration-test": [
-			"phpunit -c phpunit-integration.xml.dist"
+			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
 		],
 		"config-yoastcs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",
@@ -86,7 +86,7 @@
 			"@after-premium-cs"
 		],
 		"check-cs-errors": [
-			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --error-severity=1 --warning-severity=6"
+			"@check-cs -n"
 		],
 		"check-staged-cs": [
 			"Yoast\\WP\\Free\\Composer\\Actions::check_staged_cs"

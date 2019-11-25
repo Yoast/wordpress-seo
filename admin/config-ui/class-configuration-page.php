@@ -30,9 +30,9 @@ class WPSEO_Configuration_Page {
 		}
 
 		// Register the page for the wizard.
-		add_action( 'admin_menu', array( $this, 'add_wizard_page' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
-		add_action( 'admin_init', array( $this, 'render_wizard_page' ) );
+		add_action( 'admin_menu', [ $this, 'add_wizard_page' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		add_action( 'admin_init', [ $this, 'render_wizard_page' ] );
 	}
 
 	/**
@@ -170,7 +170,7 @@ class WPSEO_Configuration_Page {
 	 * @return array The API endpoint config.
 	 */
 	public function get_config() {
-		$config = array(
+		$config = [
 			'namespace'         => WPSEO_Configuration_Endpoint::REST_NAMESPACE,
 			'endpoint_retrieve' => WPSEO_Configuration_Endpoint::ENDPOINT_RETRIEVE,
 			'endpoint_store'    => WPSEO_Configuration_Endpoint::ENDPOINT_STORE,
@@ -178,7 +178,7 @@ class WPSEO_Configuration_Page {
 			'root'              => esc_url_raw( rest_url() ),
 			'ajaxurl'           => admin_url( 'admin-ajax.php' ),
 			'finishUrl'         => admin_url( 'admin.php?page=wpseo_dashboard&configuration=finished' ),
-		);
+		];
 
 		return $config;
 	}
@@ -226,12 +226,12 @@ class WPSEO_Configuration_Page {
 
 		$notification = new Yoast_Notification(
 			$message,
-			array(
+			[
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => 'wpseo-dismiss-onboarding-notice',
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
-			)
+			]
 		);
 
 		return $notification;

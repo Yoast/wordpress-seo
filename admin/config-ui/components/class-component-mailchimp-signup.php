@@ -41,9 +41,9 @@ class WPSEO_Config_Component_Mailchimp_Signup implements WPSEO_Config_Component 
 	 * @return mixed
 	 */
 	public function get_data() {
-		$data = array(
+		$data = [
 			'hasSignup' => $this->has_mailchimp_signup(),
-		);
+		];
 
 		return $data;
 	}
@@ -66,9 +66,9 @@ class WPSEO_Config_Component_Mailchimp_Signup implements WPSEO_Config_Component 
 		}
 
 		// Collect results to return to the configurator.
-		$results = array(
+		$results = [
 			'hasSignup' => $has_saved,
-		);
+		];
 
 		return $results;
 	}

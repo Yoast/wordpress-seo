@@ -23,7 +23,7 @@ class WPSEO_Admin_Settings_Changed_Listener implements WPSEO_WordPress_Integrati
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'admin_init', array( $this, 'intercept_save_update_notification' ) );
+		add_action( 'admin_init', [ $this, 'intercept_save_update_notification' ] );
 	}
 
 	/**

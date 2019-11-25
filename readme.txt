@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
 Tested up to: 5.3
-Stable tag: 12.5
+Stable tag: 12.5.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -212,14 +212,30 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 12.6.0 =
 Release Date: November 26th, 2019
 
+In Yoast SEO 12.6, we’re activating our new beacon for help documentation. This tool helps answer the questions you might have about using Yoast SEO. It’s easy to use and very friendly. Just hit that big purple question mark and search! Other improvements in Yoast SEO 12.6 includes a number of fixes and enhancements. Find out more in [our 12.6 release post](https://yoa.st/release-12-6)!
+
 Enhancements:
 
 * Adds a description property to the schema's `WebSite` node.
 * Removes the `Site-wide default: None` and the `None` options from the `Meta robots advanced` field in the metabox.
+* Introduced a HelpScout beacon as a replacement for the Help Center.
+* Fixes a bug where the time in the `article:published_time` and `article:modified_time` meta tag output and in the `datePublished` and `dateModified` schema output was incorrect in WordPress 5.2.
+
+Bugfixes:
+
+* Fixes a PHP Warning when using an empty string in the OpenGraph frontend output. Props to [@ChrisThompsonTLDR](https://github.com/ChrisThompsonTLDR).
 
 Other:
 
 * Sets the minimum required WordPress version to 5.2, and the minimum PHP version to 5.6.20.
+* Adds a notification to encourage Internet Explorer 11 users to use another browser as we are no longer supporting that browser.
+
+= 12.5.1 =
+Release Date: November 21st, 2019
+
+Bugfixes:
+
+* Fixes a bug where the time in the `article:published_time` and `article:modified_time` meta tag output and in the `datePublished` and `dateModified` schema output was incorrect.
 
 = 12.5.0 =
 Release Date: November 13th, 2019

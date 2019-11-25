@@ -54,7 +54,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	 * Registers all hooks to WordPress.
 	 */
 	public function register_hooks() {
-		add_action( 'admin_init', array( $this, 'send' ), 1 );
+		add_action( 'admin_init', [ $this, 'send' ], 1 );
 	}
 
 	/**
@@ -91,8 +91,13 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 			return false;
 		}
 
+		// Only send tracking on the main site of a multi-site instance. This returns true on non-multisite installs.
+		if ( ! is_main_site() ) {
+			return false;
+		}
+
 		// Because we don't want to possibly block plugin actions with our routines.
-		if ( in_array( $pagenow, array( 'plugins.php', 'plugin-install.php', 'plugin-editor.php' ), true ) ) {
+		if ( in_array( $pagenow, [ 'plugins.php', 'plugin-install.php', 'plugin-editor.php' ], true ) ) {
 			return false;
 		}
 

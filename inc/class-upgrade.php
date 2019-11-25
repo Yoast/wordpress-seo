@@ -18,7 +18,7 @@ class WPSEO_Upgrade {
 
 		WPSEO_Options::maybe_set_multisite_defaults( false );
 
-		$routines = array(
+		$routines = [
 			'1.5.0'     => 'upgrade_15',
 			'2.0'       => 'upgrade_20',
 			'2.1'       => 'upgrade_21',
@@ -51,9 +51,9 @@ class WPSEO_Upgrade {
 			'12.1-RC0'  => 'clean_all_notifications',
 			'12.3-RC0'  => 'upgrade_123',
 			'12.4-RC0'  => 'upgrade_124',
-		);
+		];
 
-		array_walk( $routines, array( $this, 'run_upgrade_routine' ), $version );
+		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
 
 		if ( version_compare( $version, '12.5-RC0', '<' ) ) {
 			/*
@@ -61,7 +61,7 @@ class WPSEO_Upgrade {
 			 * - the theme support check isn't available.
 			 * - the notification center notifications are not filled yet.
 			 */
-			add_action( 'init', array( $this, 'upgrade_125' ) );
+			add_action( 'init', [ $this, 'upgrade_125' ] );
 		}
 
 		// Since 3.7.
@@ -152,7 +152,7 @@ class WPSEO_Upgrade {
 	 * Detects if taxonomy terms were split and updates the corresponding taxonomy meta's accordingly.
 	 */
 	private function upgrade_21() {
-		$taxonomies = get_option( 'wpseo_taxonomy_meta', array() );
+		$taxonomies = get_option( 'wpseo_taxonomy_meta', [] );
 
 		if ( ! empty( $taxonomies ) ) {
 			foreach ( $taxonomies as $taxonomy => $tax_metas ) {
@@ -185,8 +185,8 @@ class WPSEO_Upgrade {
 	 * Schedules upgrade function to Yoast SEO 2.3.
 	 */
 	private function upgrade_23() {
-		add_action( 'wp', array( $this, 'upgrade_23_query' ), 90 );
-		add_action( 'admin_head', array( $this, 'upgrade_23_query' ), 90 );
+		add_action( 'wp', [ $this, 'upgrade_23_query' ], 90 );
+		add_action( 'admin_head', [ $this, 'upgrade_23_query' ], 90 );
 	}
 
 	/**
@@ -198,7 +198,7 @@ class WPSEO_Upgrade {
 		if ( ! empty( $wp_query->posts ) ) {
 			$options = get_option( 'wpseo_xml' );
 
-			$excluded_posts = array();
+			$excluded_posts = [];
 			if ( $options['excluded-posts'] !== '' ) {
 				$excluded_posts = explode( ',', $options['excluded-posts'] );
 			}
@@ -294,7 +294,7 @@ class WPSEO_Upgrade {
 		 * notifications on shutdown. This causes the returning notification. By adding this filter the shutdown
 		 * routine on the notification center will remove the notification.
 		 */
-		add_filter( 'yoast_notifications_before_storage', array( $this, 'remove_about_notice' ) );
+		add_filter( 'yoast_notifications_before_storage', [ $this, 'remove_about_notice' ] );
 
 		$meta_key = $wpdb->get_blog_prefix() . Yoast_Notification_Center::STORAGE_KEY;
 
@@ -627,7 +627,7 @@ class WPSEO_Upgrade {
 		// Set company_or_person to company when it's an invalid value.
 		$company_or_person = WPSEO_Options::get( 'company_or_person', '' );
 
-		if ( ! in_array( $company_or_person, array( 'company', 'person' ), true ) ) {
+		if ( ! in_array( $company_or_person, [ 'company', 'person' ], true ) ) {
 			WPSEO_Options::set( 'company_or_person', 'company' );
 		}
 	}
@@ -638,14 +638,14 @@ class WPSEO_Upgrade {
 	 * Removes the about notice when its still in the database.
 	 */
 	private function upgrade_123() {
-		$plugins = array(
+		$plugins = [
 			'yoast-seo-premium',
 			'video-seo-for-wordpress-seo-by-yoast',
 			'yoast-news-seo',
 			'local-seo-for-yoast-seo',
 			'yoast-woocommerce-seo',
 			'yoast-acf-analysis',
-		);
+		];
 
 		$center = Yoast_Notification_Center::get();
 		foreach ( $plugins as $plugin ) {
@@ -698,7 +698,7 @@ class WPSEO_Upgrade {
 	 */
 	private function delete_post_meta( $meta_key ) {
 		global $wpdb;
-		$deleted = $wpdb->delete( $wpdb->postmeta, array( 'meta_key' => $meta_key ), array( '%s' ) );
+		$deleted = $wpdb->delete( $wpdb->postmeta, [ 'meta_key' => $meta_key ], [ '%s' ] );
 
 		if ( $deleted ) {
 			wp_cache_set( 'last_changed', microtime(), 'posts' );
@@ -736,7 +736,7 @@ class WPSEO_Upgrade {
 			return maybe_unserialize( $results[0]['option_value'] );
 		}
 
-		return array();
+		return [];
 	}
 
 	/**
@@ -747,8 +747,8 @@ class WPSEO_Upgrade {
 	 * @return void
 	 */
 	protected function cleanup_option_data( $option_name ) {
-		$data = get_option( $option_name, array() );
-		if ( ! is_array( $data ) || $data === array() ) {
+		$data = get_option( $option_name, [] );
+		if ( ! is_array( $data ) || $data === [] ) {
 			return;
 		}
 

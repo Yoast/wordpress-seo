@@ -16,8 +16,8 @@ class WPSEO_Metabox_Editor {
 	 * @codeCoverageIgnore
 	 */
 	public function register_hooks() {
-		add_filter( 'mce_css', array( $this, 'add_css_inside_editor' ) );
-		add_filter( 'tiny_mce_before_init', array( $this, 'add_custom_element' ) );
+		add_filter( 'mce_css', [ $this, 'add_css_inside_editor' ] );
+		add_filter( 'tiny_mce_before_init', [ $this, 'add_custom_element' ] );
 	}
 
 	/**

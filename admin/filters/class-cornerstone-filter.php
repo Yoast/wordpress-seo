@@ -25,8 +25,8 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	public function register_hooks() {
 		parent::register_hooks();
 
-		add_filter( 'wpseo_cornerstone_post_types', array( 'WPSEO_Post_Type', 'filter_attachment_post_type' ) );
-		add_filter( 'wpseo_cornerstone_post_types', array( $this, 'filter_metabox_disabled' ) );
+		add_filter( 'wpseo_cornerstone_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
+		add_filter( 'wpseo_cornerstone_post_types', [ $this, 'filter_metabox_disabled' ] );
 	}
 
 	/**
@@ -66,7 +66,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 	 * @return array The filtered post types.
 	 */
 	public function filter_metabox_disabled( $post_types ) {
-		$filtered_post_types = array();
+		$filtered_post_types = [];
 		foreach ( $post_types as $post_type_key => $post_type ) {
 			if ( ! WPSEO_Post_Type::has_metabox_enabled( $post_type_key ) ) {
 				continue;
@@ -143,7 +143,7 @@ class WPSEO_Cornerstone_Filter extends WPSEO_Abstract_Post_Filter {
 		 */
 		$post_types = apply_filters( 'wpseo_cornerstone_post_types', parent::get_post_types() );
 		if ( ! is_array( $post_types ) ) {
-			return array();
+			return [];
 		}
 
 		return $post_types;

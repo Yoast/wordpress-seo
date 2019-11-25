@@ -127,8 +127,8 @@ class WPSEO_Database_Proxy {
 
 		$this->pre_execution();
 
-		$update  = array();
-		$keys    = array();
+		$update  = [];
+		$keys    = [];
 		$columns = array_keys( $data );
 		foreach ( $columns as $column ) {
 			$keys[]   = '`' . $column . '`';
@@ -198,7 +198,7 @@ class WPSEO_Database_Proxy {
 	 *
 	 * @return bool True when creation is successful.
 	 */
-	public function create_table( array $columns, array $indexes = array() ) {
+	public function create_table( array $columns, array $indexes = [] ) {
 		$create_table = sprintf(
 			'CREATE TABLE IF NOT EXISTS %1$s ( %2$s ) %3$s',
 			$this->get_table_name(),

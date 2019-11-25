@@ -16,7 +16,7 @@ class WPSEO_Submenu_Capability_Normalize implements WPSEO_WordPress_Integration 
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_filter( 'wpseo_submenu_pages', array( $this, 'normalize_submenus_capability' ) );
+		add_filter( 'wpseo_submenu_pages', [ $this, 'normalize_submenus_capability' ] );
 	}
 
 	/**

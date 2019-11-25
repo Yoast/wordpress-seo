@@ -17,7 +17,7 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 	 */
 	public function register_hooks() {
 		// Needs the lower than default priority so other plugins can hook underneath it without issue.
-		add_action( 'admin_menu', array( $this, 'register_settings_page' ), 5 );
+		add_action( 'admin_menu', [ $this, 'register_settings_page' ], 5 );
 	}
 
 	/**
@@ -77,11 +77,11 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 		// Account for when the available submenu pages are requested from outside the admin.
 		if ( isset( $wpseo_admin ) ) {
 			$google_search_console   = new WPSEO_GSC();
-			$search_console_callback = array( $google_search_console, 'display' );
+			$search_console_callback = [ $google_search_console, 'display' ];
 		}
 
 		// Submenu pages.
-		$submenu_pages = array(
+		$submenu_pages = [
 			$this->get_submenu_page( __( 'General', 'wordpress-seo' ), $this->get_page_identifier() ),
 			$this->get_submenu_page( __( 'Search Appearance', 'wordpress-seo' ), 'wpseo_titles' ),
 			$this->get_submenu_page(
@@ -92,7 +92,7 @@ class WPSEO_Admin_Menu extends WPSEO_Base_Menu {
 			$this->get_submenu_page( __( 'Social', 'wordpress-seo' ), 'wpseo_social' ),
 			$this->get_submenu_page( __( 'Tools', 'wordpress-seo' ), 'wpseo_tools' ),
 			$this->get_submenu_page( $this->get_license_page_title(), 'wpseo_licenses' ),
-		);
+		];
 
 		/**
 		 * Filter: 'wpseo_submenu_pages' - Collects all submenus that need to be shown.

@@ -15,7 +15,7 @@ class WPSEO_Metabox_Collapsibles_Sections extends WPSEO_Abstract_Metabox_Tab_Wit
 	 *
 	 * @var WPSEO_Metabox_Collapsible[]
 	 */
-	private $collapsibles = array();
+	private $collapsibles = [];
 
 	/**
 	 * Constructor.
@@ -26,7 +26,7 @@ class WPSEO_Metabox_Collapsibles_Sections extends WPSEO_Abstract_Metabox_Tab_Wit
 	 * @param array  $collapsibles The metabox collapsibles (`WPSEO_Metabox_Collapsible[]`) to be included in the section.
 	 * @param array  $options      Optional link attributes.
 	 */
-	public function __construct( $name, $link_content, array $collapsibles = array(), array $options = array() ) {
+	public function __construct( $name, $link_content, array $collapsibles = [], array $options = [] ) {
 		parent::__construct( $name, $link_content, $options );
 
 		$this->collapsibles = $collapsibles;
@@ -40,13 +40,13 @@ class WPSEO_Metabox_Collapsibles_Sections extends WPSEO_Abstract_Metabox_Tab_Wit
 			printf( '<div id="%1$s" class="wpseo-meta-section">', esc_attr( 'wpseo-meta-section-' . $this->name ) );
 			echo '<div class="wpseo_content_wrapper">';
 
-			add_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_forms' ) );
-			add_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_a11y' ) );
+			add_filter( 'wp_kses_allowed_html', [ 'WPSEO_Utils', 'extend_kses_post_with_forms' ] );
+			add_filter( 'wp_kses_allowed_html', [ 'WPSEO_Utils', 'extend_kses_post_with_a11y' ] );
 			foreach ( $this->collapsibles as $collapsible ) {
 				echo wp_kses_post( $collapsible->content() );
 			}
-			remove_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_forms' ) );
-			remove_filter( 'wp_kses_allowed_html', array( 'WPSEO_Utils', 'extend_kses_post_with_a11y' ) );
+			remove_filter( 'wp_kses_allowed_html', [ 'WPSEO_Utils', 'extend_kses_post_with_forms' ] );
+			remove_filter( 'wp_kses_allowed_html', [ 'WPSEO_Utils', 'extend_kses_post_with_a11y' ] );
 
 			echo '</div></div>';
 		}

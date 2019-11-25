@@ -23,8 +23,8 @@ class WPSEO_Admin_Media_Purge_Notification implements WPSEO_WordPress_Integratio
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'admin_init', array( $this, 'manage_notification' ) );
-		add_filter( 'wpseo_option_tab-metas_media', array( $this, 'output_hidden_setting' ) );
+		add_action( 'admin_init', [ $this, 'manage_notification' ] );
+		add_filter( 'wpseo_option_tab-metas_media', [ $this, 'output_hidden_setting' ] );
 
 		// Dismissing is just setting the relevancy to false, which cancels out any functionality.
 		if ( WPSEO_Utils::is_yoast_seo_page() && filter_input( INPUT_GET, 'dismiss' ) === $this->notification_id ) {
@@ -81,12 +81,12 @@ class WPSEO_Admin_Media_Purge_Notification implements WPSEO_WordPress_Integratio
 
 		return new Yoast_Notification(
 			$content,
-			array(
+			[
 				'type'         => Yoast_Notification::ERROR,
 				'id'           => $this->notification_id,
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 1,
-			)
+			]
 		);
 	}
 

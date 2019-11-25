@@ -110,7 +110,7 @@ class WPSEO_Image_Utils {
 		}
 
 		// Keep only the keys we need, and nothing else.
-		return array_intersect_key( $image, array_flip( array( 'id', 'alt', 'path', 'width', 'height', 'pixels', 'type', 'size', 'url', 'filesize' ) ) );
+		return array_intersect_key( $image, array_flip( [ 'id', 'alt', 'path', 'width', 'height', 'pixels', 'type', 'size', 'url', 'filesize' ] ) );
 	}
 
 	/**
@@ -121,7 +121,7 @@ class WPSEO_Image_Utils {
 	 * @return bool True when the image is within limits, false if not.
 	 */
 	public static function has_usable_file_size( $image ) {
-		if ( ! is_array( $image ) || $image === array() ) {
+		if ( ! is_array( $image ) || $image === [] ) {
 			return false;
 		}
 
@@ -255,7 +255,7 @@ class WPSEO_Image_Utils {
 	 * @return array The different variations possible for this attachment ID.
 	 */
 	public static function get_variations( $attachment_id ) {
-		$variations = array();
+		$variations = [];
 
 		foreach ( self::get_sizes() as $size ) {
 			$variation = self::get_image( $attachment_id, $size );
@@ -287,7 +287,7 @@ class WPSEO_Image_Utils {
 	 * @return array Whether a variation is fit for display or not.
 	 */
 	public static function filter_usable_dimensions( $usable_dimensions, $variations ) {
-		$filtered = array();
+		$filtered = [];
 
 		foreach ( $variations as $variation ) {
 			$dimensions = $variation;
@@ -311,11 +311,11 @@ class WPSEO_Image_Utils {
 		foreach ( $variations as $variation ) {
 			// We return early to prevent measuring the file size of all the variations.
 			if ( self::has_usable_file_size( $variation ) ) {
-				return array( $variation );
+				return [ $variation ];
 			}
 		}
 
-		return array();
+		return [];
 	}
 
 	/**
@@ -329,7 +329,7 @@ class WPSEO_Image_Utils {
 		 *
 		 * @api array - The array of image sizes to loop through.
 		 */
-		return apply_filters( 'wpseo_image_sizes', array( 'full', 'large', 'medium_large' ) );
+		return apply_filters( 'wpseo_image_sizes', [ 'full', 'large', 'medium_large' ] );
 	}
 
 	/**
@@ -352,7 +352,7 @@ class WPSEO_Image_Utils {
 	 * @return bool True if the image has usable measurements, false if not.
 	 */
 	private static function has_usable_dimensions( $dimensions, $usable_dimensions ) {
-		foreach ( array( 'width', 'height' ) as $param ) {
+		foreach ( [ 'width', 'height' ] as $param ) {
 			$minimum = $usable_dimensions[ 'min_' . $param ];
 			$maximum = $usable_dimensions[ 'max_' . $param ];
 

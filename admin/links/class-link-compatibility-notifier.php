@@ -59,12 +59,12 @@ class WPSEO_Link_Compatibility_Notifier {
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/16f' ) . '" target="_blank">',
 				'</a>'
 			),
-			array(
+			[
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => self::NOTIFICATION_ID,
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
-			)
+			]
 		);
 	}
 }

@@ -29,7 +29,7 @@ class WPSEO_Meta_Columns {
 	 */
 	public function __construct() {
 		if ( apply_filters( 'wpseo_use_page_analysis', true ) === true ) {
-			add_action( 'admin_init', array( $this, 'setup_hooks' ) );
+			add_action( 'admin_init', [ $this, 'setup_hooks' ] );
 		}
 
 		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
@@ -43,14 +43,14 @@ class WPSEO_Meta_Columns {
 		$this->set_post_type_hooks();
 
 		if ( $this->analysis_seo->is_enabled() ) {
-			add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown' ) );
+			add_action( 'restrict_manage_posts', [ $this, 'posts_filter_dropdown' ] );
 		}
 
 		if ( $this->analysis_readability->is_enabled() ) {
-			add_action( 'restrict_manage_posts', array( $this, 'posts_filter_dropdown_readability' ) );
+			add_action( 'restrict_manage_posts', [ $this, 'posts_filter_dropdown_readability' ] );
 		}
 
-		add_filter( 'request', array( $this, 'column_sort_orderby' ) );
+		add_filter( 'request', [ $this, 'column_sort_orderby' ] );
 	}
 
 	/**
@@ -65,7 +65,7 @@ class WPSEO_Meta_Columns {
 			return $columns;
 		}
 
-		$added_columns = array();
+		$added_columns = [];
 
 		if ( $this->analysis_seo->is_enabled() ) {
 			$added_columns['wpseo-score'] = '<span class="yoast-tooltip yoast-tooltip-n yoast-tooltip-alt" data-label="' . esc_attr__( 'SEO score', 'wordpress-seo' ) . '"><span class="yoast-column-seo-score yoast-column-header-has-tooltip"><span class="screen-reader-text">' . __( 'SEO score', 'wordpress-seo' ) . '</span></span></span>';
@@ -183,7 +183,7 @@ class WPSEO_Meta_Columns {
 		}
 
 		if ( ! is_array( $result ) ) {
-			$result = array();
+			$result = [];
 		}
 
 		array_push( $result, 'wpseo-title', 'wpseo-metadesc' );
@@ -300,11 +300,11 @@ class WPSEO_Meta_Columns {
 	 * @return array The keyword filter.
 	 */
 	protected function get_keyword_filter( $keyword_filter ) {
-		return array(
+		return [
 			'post_type' => get_query_var( 'post_type', 'post' ),
 			'key'       => WPSEO_Meta::$meta_prefix . 'focuskw',
 			'value'     => sanitize_text_field( $keyword_filter ),
-		);
+		];
 	}
 
 	/**
@@ -324,7 +324,7 @@ class WPSEO_Meta_Columns {
 	 * @return array Array containing all the applicable filters.
 	 */
 	protected function collect_filters() {
-		$active_filters = array();
+		$active_filters = [];
 
 		$seo_filter             = $this->get_current_seo_filter();
 		$readability_filter     = $this->get_current_readability_filter();
@@ -377,18 +377,18 @@ class WPSEO_Meta_Columns {
 	 * @return array Array containing the query parameters regarding meta robots.
 	 */
 	protected function get_meta_robots_query_values() {
-		return array(
+		return [
 			'relation' => 'OR',
-			array(
+			[
 				'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
 				'compare' => 'NOT EXISTS',
-			),
-			array(
+			],
+			[
 				'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
 				'value'   => '1',
 				'compare' => '!=',
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -400,7 +400,7 @@ class WPSEO_Meta_Columns {
 	 */
 	protected function determine_score_filters( $score_filters ) {
 		if ( count( $score_filters ) > 1 ) {
-			return array_merge( array( 'relation' => 'AND' ), $score_filters );
+			return array_merge( [ 'relation' => 'AND' ], $score_filters );
 		}
 
 		return $score_filters;
@@ -456,14 +456,14 @@ class WPSEO_Meta_Columns {
 			return $vars;
 		}
 
-		$result               = array( 'meta_query' => array() );
-		$result['meta_query'] = array_merge( $result['meta_query'], array( $this->determine_score_filters( $filters ) ) );
+		$result               = [ 'meta_query' => [] ];
+		$result['meta_query'] = array_merge( $result['meta_query'], [ $this->determine_score_filters( $filters ) ] );
 
 		$current_seo_filter = $this->get_current_seo_filter();
 
 		// This only applies for the SEO score filter because it can because the SEO score can be altered by the no-index option.
-		if ( $this->is_valid_filter( $current_seo_filter ) && ! in_array( $current_seo_filter, array( WPSEO_Rank::NO_INDEX, WPSEO_Rank::NO_FOCUS ), true ) ) {
-			$result['meta_query'] = array_merge( $result['meta_query'], array( $this->get_meta_robots_query_values() ) );
+		if ( $this->is_valid_filter( $current_seo_filter ) && ! in_array( $current_seo_filter, [ WPSEO_Rank::NO_INDEX, WPSEO_Rank::NO_FOCUS ], true ) ) {
+			$result['meta_query'] = array_merge( $result['meta_query'], [ $this->get_meta_robots_query_values() ] );
 		}
 
 		return array_merge( $vars, $result );
@@ -478,14 +478,14 @@ class WPSEO_Meta_Columns {
 	 * @return array The Readability Score filter.
 	 */
 	protected function create_readability_score_filter( $low, $high ) {
-		return array(
-			array(
+		return [
+			[
 				'key'     => WPSEO_Meta::$meta_prefix . 'content_score',
-				'value'   => array( $low, $high ),
+				'value'   => [ $low, $high ],
 				'type'    => 'numeric',
 				'compare' => 'BETWEEN',
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -497,14 +497,14 @@ class WPSEO_Meta_Columns {
 	 * @return array The SEO score filter.
 	 */
 	protected function create_seo_score_filter( $low, $high ) {
-		return array(
-			array(
+		return [
+			[
 				'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
-				'value'   => array( $low, $high ),
+				'value'   => [ $low, $high ],
 				'type'    => 'numeric',
 				'compare' => 'BETWEEN',
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -513,13 +513,13 @@ class WPSEO_Meta_Columns {
 	 * @return array Array containin the no-index filter.
 	 */
 	protected function create_no_index_filter() {
-		return array(
-			array(
+		return [
+			[
 				'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
 				'value'   => '1',
 				'compare' => '=',
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -528,18 +528,18 @@ class WPSEO_Meta_Columns {
 	 * @return array Array containing the no focus keyword filter.
 	 */
 	protected function create_no_focus_keyword_filter() {
-		return array(
-			array(
+		return [
+			[
 				'key'     => WPSEO_Meta::$meta_prefix . 'meta-robots-noindex',
 				'value'   => 'needs-a-value-anyway',
 				'compare' => 'NOT EXISTS',
-			),
-			array(
+			],
+			[
 				'key'     => WPSEO_Meta::$meta_prefix . 'linkdex',
 				'value'   => 'needs-a-value-anyway',
 				'compare' => 'NOT EXISTS',
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -585,19 +585,19 @@ class WPSEO_Meta_Columns {
 	private function filter_order_by( $order_by ) {
 		switch ( $order_by ) {
 			case 'wpseo-metadesc':
-				return array(
+				return [
 					'meta_key' => WPSEO_Meta::$meta_prefix . 'metadesc',
 					'orderby'  => 'meta_value',
-				);
+				];
 
 			case 'wpseo-focuskw':
-				return array(
+				return [
 					'meta_key' => WPSEO_Meta::$meta_prefix . 'focuskw',
 					'orderby'  => 'meta_value',
-				);
+				];
 		}
 
-		return array();
+		return [];
 	}
 
 	/**
@@ -651,7 +651,7 @@ class WPSEO_Meta_Columns {
 	private function set_post_type_hooks() {
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
 
-		if ( ! is_array( $post_types ) || $post_types === array() ) {
+		if ( ! is_array( $post_types ) || $post_types === [] ) {
 			return;
 		}
 
@@ -660,9 +660,9 @@ class WPSEO_Meta_Columns {
 				continue;
 			}
 
-			add_filter( 'manage_' . $post_type . '_posts_columns', array( $this, 'column_heading' ), 10, 1 );
-			add_action( 'manage_' . $post_type . '_posts_custom_column', array( $this, 'column_content' ), 10, 2 );
-			add_action( 'manage_edit-' . $post_type . '_sortable_columns', array( $this, 'column_sort' ), 10, 2 );
+			add_filter( 'manage_' . $post_type . '_posts_columns', [ $this, 'column_heading' ], 10, 1 );
+			add_action( 'manage_' . $post_type . '_posts_custom_column', [ $this, 'column_content' ], 10, 2 );
+			add_action( 'manage_edit-' . $post_type . '_sortable_columns', [ $this, 'column_sort' ], 10, 2 );
 
 			/*
 			 * Use the `get_user_option_{$option}` filter to change the output of the get_user_option
@@ -671,7 +671,7 @@ class WPSEO_Meta_Columns {
 			 */
 			$filter = sprintf( 'get_user_option_%s', sprintf( 'manage%scolumnshidden', 'edit-' . $post_type ) );
 
-			add_filter( $filter, array( $this, 'column_hidden' ), 10, 3 );
+			add_filter( $filter, [ $this, 'column_hidden' ], 10, 3 );
 		}
 
 		unset( $post_type );

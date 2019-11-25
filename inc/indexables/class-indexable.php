@@ -15,7 +15,7 @@ abstract class WPSEO_Indexable {
 	 *
 	 * @var array
 	 */
-	protected $updateable_fields = array();
+	protected $updateable_fields = [];
 
 	/**
 	 * The indexable's data.
@@ -29,7 +29,7 @@ abstract class WPSEO_Indexable {
 	 *
 	 * @var array
 	 */
-	protected $validators = array(
+	protected $validators = [
 		'WPSEO_Object_Type_Validator',
 		'WPSEO_Link_Validator',
 		'WPSEO_Keyword_Validator',
@@ -37,7 +37,7 @@ abstract class WPSEO_Indexable {
 		'WPSEO_OpenGraph_Validator',
 		'WPSEO_Robots_Validator',
 		'WPSEO_Twitter_Validator',
-	);
+	];
 
 	/**
 	 * Indexable constructor.
