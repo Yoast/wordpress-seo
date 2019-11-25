@@ -1047,4 +1047,21 @@ class WPSEO_Breadcrumbs {
 
 		return $class;
 	}
+
+	/**
+    * Resets the entire class so canonical breadcrumbs can be generated.
+    */
+	public function reset() {
+        foreach ( get_class_vars( __CLASS__ ) as $name => $default ) {
+            switch ( $name ) {
+                // Clear the class instance to be re-initialized.
+                case 'instance':
+                    self::$instance = null;
+                    break;
+                default:
+                    $this->$name = $default;
+                    break;
+            }
+        }
+    }
 }
