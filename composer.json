@@ -103,7 +103,8 @@
 			"@after-premium-cs"
 		],
 		"before-premium-cs": [
-			"composer require --dev yoast/yoastcs:~1.3.0 --update-with-dependencies --no-suggest --no-interaction --no-scripts"
+			"composer require --dev yoast/yoastcs:~1.3.0 --update-with-dependencies --no-suggest --no-interaction --no-scripts",
+			"composer config-yoastcs"
 		],
 		"after-premium-cs": [
 			"composer require --dev yoast/yoastcs:~0.4.3 --update-with-dependencies --no-suggest --no-interaction --no-scripts",
