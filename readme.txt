@@ -219,11 +219,11 @@ Enhancements:
 * Adds a description property to the schema's `WebSite` node.
 * Removes the `Site-wide default: None` and the `None` options from the `Meta robots advanced` field in the metabox.
 * Introduced a HelpScout beacon as a replacement for the Help Center.
-* Fixes a bug where the time in the `article:published_time` and `article:modified_time` meta tag output and in the `datePublished` and `dateModified` schema output was incorrect in WordPress 5.2.
 
 Bugfixes:
 
 * Fixes a PHP Warning when using an empty string in the OpenGraph frontend output. Props to [@ChrisThompsonTLDR](https://github.com/ChrisThompsonTLDR).
+* Fixes a bug where the time in the `article:published_time`, `article:modified_time`, and `og:updated_time` meta tag output and in the `datePublished` and `dateModified` schema output was incorrect in WordPress 5.2.
 
 Other:
 
