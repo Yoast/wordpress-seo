@@ -6,13 +6,10 @@ import { default as OnboardingWizard, LoadingIndicator, MessageBox } from "@yoas
 import { decodeHTML, getDirectionalStyle, sendRequest } from "@yoast/helpers";
 // Import colors from the style guide.
 import { colors } from "@yoast/style-guide";
-// Composites/AngoliaSearch imports.
-import AlgoliaSearcher from "@yoast/algolia-search-box";
 // Composites/Plugin imports.
 import { Collapsible } from "@yoast/components";
 import { default as ButtonSection } from "./composites/Plugin/Shared/components/ButtonSection";
 import { default as ContentAnalysis } from "./composites/Plugin/ContentAnalysis/components/ContentAnalysis";
-import { default as HelpCenter } from "./composites/Plugin/HelpCenter/HelpCenter.js";
 import CornerstoneToggle from "./composites/Plugin/CornerstoneContent/components/CornerstoneToggle";
 // Composites/LinkSuggestions imports.
 import { default as LinkSuggestions } from "./composites/LinkSuggestions/LinkSuggestions";
@@ -22,7 +19,6 @@ const getRtlStyle = getDirectionalStyle;
 
 export {
 	OnboardingWizard,
-	HelpCenter,
 	MessageBox,
 	LinkSuggestions,
 	ContentAnalysis,
@@ -33,7 +29,6 @@ export {
 	sendRequest,
 	decodeHTML,
 	getRtlStyle,
-	AlgoliaSearcher,
 	colors,
 };
 
@@ -60,7 +55,6 @@ export { translate } from "./utils/i18n";
 export { default as analysis } from "./composites/Plugin/ContentAnalysis/reducers/contentAnalysisReducer";
 export { ArticleList as WordpressFeed } from "@yoast/components";
 export { SiteSEOReport as SeoAssessment } from "@yoast/analysis-report";
-export { default as VideoTutorial } from "./composites/HelpCenter/views/VideoTutorial";
 export { default as KeywordInput } from "./composites/Plugin/Shared/components/KeywordInput";
 export { insightsReducer } from "./redux/reducers/insights";
 export { setProminentWords } from "./redux/actions/insights";
@@ -94,4 +88,3 @@ export {
 	StyledHeading,
 	StyledSectionBase,
 } from "@yoast/components";
-
