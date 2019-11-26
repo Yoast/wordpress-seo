@@ -133,6 +133,6 @@
     "yoastseo": "^1.64.0"
   },
   "yoast": {
-    "pluginVersion": "12.6"
+    "pluginVersion": "12.6.1-RC1"
   }
 }
