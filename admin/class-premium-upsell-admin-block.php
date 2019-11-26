@@ -39,7 +39,7 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( $this->hook, array( $this, 'render' ) );
+		add_action( $this->hook, [ $this, 'render' ] );
 	}
 
 	/**
@@ -50,16 +50,16 @@ class WPSEO_Premium_Upsell_Admin_Block {
 	public function render() {
 		$url = WPSEO_Shortlinker::get( 'https://yoa.st/17h' );
 
-		$arguments = array(
+		$arguments = [
 			'<strong>' . esc_html__( 'Multiple keyphrases', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Increase your SEO reach', 'wordpress-seo' ),
 			'<strong>' . esc_html__( 'No more dead links', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Easy redirect manager', 'wordpress-seo' ),
 			'<strong>' . esc_html__( 'Superfast internal linking suggestions', 'wordpress-seo' ) . '</strong>',
 			'<strong>' . esc_html__( 'Social media preview', 'wordpress-seo' ) . '</strong>: ' . esc_html__( 'Facebook & Twitter', 'wordpress-seo' ),
 			'<strong>' . esc_html__( '24/7 email support', 'wordpress-seo' ) . '</strong>',
 			'<strong>' . esc_html__( 'No ads!', 'wordpress-seo' ) . '</strong>',
-		);
+		];
 
-		$arguments_html = implode( '', array_map( array( $this, 'get_argument_html' ), $arguments ) );
+		$arguments_html = implode( '', array_map( [ $this, 'get_argument_html' ], $arguments ) );
 
 		$class = $this->get_html_class();
 

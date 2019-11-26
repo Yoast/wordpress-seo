@@ -19,9 +19,9 @@ final class WPSEO_Role_Manager_VIP extends WPSEO_Abstract_Role_Manager {
 	 *
 	 * @return void
 	 */
-	protected function add_role( $role, $display_name, array $capabilities = array() ) {
-		$enabled_capabilities  = array();
-		$disabled_capabilities = array();
+	protected function add_role( $role, $display_name, array $capabilities = [] ) {
+		$enabled_capabilities  = [];
+		$disabled_capabilities = [];
 
 		// Build lists of enabled and disabled capabilities.
 		foreach ( $capabilities as $capability => $grant ) {
@@ -35,7 +35,7 @@ final class WPSEO_Role_Manager_VIP extends WPSEO_Abstract_Role_Manager {
 		}
 
 		wpcom_vip_add_role( $role, $display_name, $enabled_capabilities );
-		if ( $disabled_capabilities !== array() ) {
+		if ( $disabled_capabilities !== [] ) {
 			wpcom_vip_remove_role_caps( $role, $disabled_capabilities );
 		}
 	}

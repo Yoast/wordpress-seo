@@ -15,7 +15,7 @@ class WPSEO_Post_Type_Archive_Notification_Handler extends WPSEO_Dismissible_Not
 	 *
 	 * @var array
 	 */
-	protected $option_defaults = array();
+	protected $option_defaults = [];
 
 	/**
 	 * Sets the notification identifier.
@@ -42,7 +42,7 @@ class WPSEO_Post_Type_Archive_Notification_Handler extends WPSEO_Dismissible_Not
 			return false;
 		}
 
-		return $this->get_post_types() !== array();
+		return $this->get_post_types() !== [];
 	}
 
 	/**
@@ -75,12 +75,12 @@ class WPSEO_Post_Type_Archive_Notification_Handler extends WPSEO_Dismissible_Not
 		$message .= PHP_EOL . PHP_EOL;
 		$message .= '<a class="button" href="' . admin_url( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=' . $this->notification_identifier ) . '">' . __( 'Remove this message', 'wordpress-seo' ) . '</a>';
 
-		$notification_options = array(
+		$notification_options = [
 			'type'         => Yoast_Notification::WARNING,
 			'id'           => 'wpseo-' . $this->notification_identifier,
 			'priority'     => 1.0,
 			'capabilities' => 'wpseo_manage_options',
-		);
+		];
 
 		return new Yoast_Notification( $message, $notification_options );
 	}
@@ -109,11 +109,11 @@ class WPSEO_Post_Type_Archive_Notification_Handler extends WPSEO_Dismissible_Not
 		if ( $post_types === null ) {
 			$this->option_defaults = WPSEO_Option_Titles::get_instance()->get_defaults();
 
-			$post_types = get_post_types( array( 'public' => true ) );
+			$post_types = get_post_types( [ 'public' => true ] );
 			$post_types = WPSEO_Post_Type::filter_attachment_post_type( $post_types );
 			$post_types = $this->filter_woocommerce_product_type( $post_types );
-			$post_types = array_filter( $post_types, array( $this, 'has_custom_archive_slug' ) );
-			$post_types = array_filter( $post_types, array( $this, 'has_default_templates_set' ) );
+			$post_types = array_filter( $post_types, [ $this, 'has_custom_archive_slug' ] );
+			$post_types = array_filter( $post_types, [ $this, 'has_default_templates_set' ] );
 		}
 
 		return $post_types;

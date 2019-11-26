@@ -52,10 +52,10 @@ class WPSEO_Link_Factory {
 	 * @return WPSEO_Link[] The formatted links.
 	 */
 	public function build( array $extracted_links ) {
-		$extracted_links = array_map( array( $this, 'build_link' ), $extracted_links );
+		$extracted_links = array_map( [ $this, 'build_link' ], $extracted_links );
 		$filtered_links  = array_filter(
 			$extracted_links,
-			array( $this->filter, 'internal_link_with_fragment_filter' )
+			[ $this->filter, 'internal_link_with_fragment_filter' ]
 		);
 
 		return $filtered_links;

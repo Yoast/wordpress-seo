@@ -24,8 +24,6 @@
   - 'shell:makepot-yoast-components-configuration-wizard'
   - 'shell:makepot-wordpress-seo'
   - 'copy:makepot-wordpress-seo'
-  - 'shell:makepot-yoast-js-algolia-search-box'
-  - 'copy:makepot-yoast-js-algolia-search-box'
   - 'shell:makepot-yoast-js-analysis-report'
   - 'copy:makepot-yoast-js-analysis-report'
   - 'shell:makepot-yoast-js-components'

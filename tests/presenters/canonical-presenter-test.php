@@ -68,7 +68,10 @@ class Canonical_Presenter_Test extends TestCase {
 		$presentation->canonical = 'https://permalink';
 		$presentation->robots    = [];
 
-		Monkey\Filters\expectApplied( 'wpseo_canonical' )->once()->with( 'https://permalink' )->andReturn( 'https://filtered' );
+		Monkey\Filters\expectApplied( 'wpseo_canonical' )
+			->once()
+			->with( 'https://permalink', $presentation )
+			->andReturn( 'https://filtered' );
 
 		$this->assertEquals(
 			'<link rel="canonical" href="https://filtered" />',

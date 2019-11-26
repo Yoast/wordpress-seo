@@ -51,10 +51,10 @@ abstract class WPSEO_Health_Check {
 	 *
 	 * @var array
 	 */
-	protected $badge = array(
+	protected $badge = [
 		'label' => '',
 		'color' => '',
-	);
+	];
 
 	/**
 	 * Additional details about the results of the test.
@@ -96,14 +96,14 @@ abstract class WPSEO_Health_Check {
 	 */
 	public function register_test() {
 		if ( $this->async ) {
-			add_filter( 'site_status_tests', array( $this, 'add_async_test' ) );
+			add_filter( 'site_status_tests', [ $this, 'add_async_test' ] );
 
-			add_action( 'wp_ajax_health-check-' . $this->get_test_name(), array( $this, 'get_async_test_result' ) );
+			add_action( 'wp_ajax_health-check-' . $this->get_test_name(), [ $this, 'get_async_test_result' ] );
 
 			return;
 		}
 
-		add_filter( 'site_status_tests', array( $this, 'add_test' ) );
+		add_filter( 'site_status_tests', [ $this, 'add_test' ] );
 	}
 
 	/**
@@ -114,10 +114,10 @@ abstract class WPSEO_Health_Check {
 	 * @return array The extended array.
 	 */
 	public function add_test( $tests ) {
-		$tests['direct'][ $this->name ] = array(
-			'test' => array( $this, 'get_test_result' ),
+		$tests['direct'][ $this->name ] = [
+			'test' => [ $this, 'get_test_result' ],
 			'name' => $this->name,
-		);
+		];
 
 		return $tests;
 	}
@@ -130,10 +130,10 @@ abstract class WPSEO_Health_Check {
 	 * @return array The extended array.
 	 */
 	public function add_async_test( $tests ) {
-		$tests['async'][ $this->name ] = array(
+		$tests['async'][ $this->name ] = [
 			'test' => $this->get_test_name(),
 			'name' => $this->name,
-		);
+		];
 
 		return $tests;
 	}
@@ -146,13 +146,13 @@ abstract class WPSEO_Health_Check {
 	public function get_test_result() {
 		$this->run();
 
-		return array(
+		return [
 			'label'       => $this->label,
 			'status'      => $this->status,
 			'badge'       => $this->get_badge(),
 			'description' => $this->description,
 			'actions'     => $this->actions,
-		);
+		];
 	}
 
 	/**
@@ -169,7 +169,7 @@ abstract class WPSEO_Health_Check {
 	 */
 	protected function get_badge() {
 		if ( ! is_array( $this->badge ) ) {
-			$this->badge = array();
+			$this->badge = [];
 		}
 
 		if ( empty( $this->badge['label'] ) ) {

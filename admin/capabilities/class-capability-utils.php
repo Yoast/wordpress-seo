@@ -22,7 +22,7 @@ class WPSEO_Capability_Utils {
 			return self::has( $capability );
 		}
 
-		return self::has_any( array( 'wpseo_manage_options', $capability ) );
+		return self::has_any( [ 'wpseo_manage_options', $capability ] );
 	}
 
 	/**

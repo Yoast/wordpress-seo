@@ -31,11 +31,11 @@ class WPSEO_Import_Jetpack_SEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @var array
 	 */
-	protected $clone_keys = array(
-		array(
+	protected $clone_keys = [
+		[
 			'old_key' => 'advanced_seo_description',
 			'new_key' => 'metadesc',
-		),
-	);
+		],
+	];
 
 }

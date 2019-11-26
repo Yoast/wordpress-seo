@@ -162,11 +162,11 @@ class WPSEO_Configuration_Service {
 		$steps        = $this->structure->retrieve();
 		$translations = $this->translations->retrieve();
 
-		return array(
+		return [
 			'fields'       => $fields,
 			'steps'        => $steps,
 			'translations' => $translations,
-		);
+		];
 	}
 
 	/**

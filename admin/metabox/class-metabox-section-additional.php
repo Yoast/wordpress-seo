@@ -54,13 +54,13 @@ class WPSEO_Metabox_Section_Additional implements WPSEO_Metabox_Section {
 	 * @param string $content      Optional. Content to use above the React root element.
 	 * @param array  $options      Optional link attributes.
 	 */
-	public function __construct( $name, $link_content, $content = '', array $options = array() ) {
+	public function __construct( $name, $link_content, $content = '', array $options = [] ) {
 		$this->name            = $name;
 		$this->content         = $content;
-		$default_options       = array(
+		$default_options       = [
 			'link_class'      => '',
 			'link_aria_label' => '',
-		);
+		];
 		$options               = wp_parse_args( $options, $default_options );
 		$this->link_content    = $link_content;
 		$this->link_class      = $options['link_class'];

@@ -23,10 +23,10 @@ class Description_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The OpenGraph description's meta tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$description = $this->filter( $this->replace_vars( $presentation->og_description, $presentation ) );
+		$description = $this->filter( $this->replace_vars( $presentation->og_description, $presentation ), $presentation );
 
-		if ( is_string( $description ) && $description !== '' ) {
-			return sprintf( '<meta property="og:description" content="%s" />', \esc_attr( $description ) );
+		if ( \is_string( $description ) && $description !== '' ) {
+			return \sprintf( '<meta property="og:description" content="%s" />', \esc_attr( $description ) );
 		}
 
 		return '';
@@ -35,16 +35,19 @@ class Description_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the OpenGraph description through the `wpseo_opengraph_desc` filter.
 	 *
-	 * @param string $description The description to filter.
+	 * @param string                 $description  The description to filter.
+	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *
 	 * @return string $description The filtered description.
 	 */
-	private function filter( $description ) {
+	private function filter( $description, $presentation ) {
 		/**
 		 * Filter: 'wpseo_opengraph_desc' - Allow changing the Yoast SEO generated OpenGraph description.
 		 *
 		 * @api string The description.
+		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		return trim( \apply_filters( 'wpseo_opengraph_desc', $description ) );
+		return \trim( \apply_filters( 'wpseo_opengraph_desc', $description, $presentation ) );
 	}
 }
