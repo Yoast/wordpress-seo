@@ -15,7 +15,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	/**
 	 * The date helper.
 	 *
-	 * @var Date_Helper
+	 * @var WPSEO_Date_Helper
 	 */
 	protected $date;
 
@@ -33,7 +33,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 */
 	public function __construct( WPSEO_Schema_Context $context ) {
 		$this->context = $context;
-		$this->date    = new Date_Helper();
+		$this->date    = new WPSEO_Date_Helper();
 	}
 
 	/**

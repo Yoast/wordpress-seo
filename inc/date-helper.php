@@ -10,7 +10,7 @@
  *
  * Note: Move this class with namespace to the src/helpers directory and add a class_alias for BC.
  */
-class Date_Helper {
+class WPSEO_Date_Helper {
 
 	/**
 	 * Formats a given date in UTC TimeZone format.
