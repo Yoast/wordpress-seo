@@ -60,20 +60,20 @@ class WPSEO_Endpoint_Indexable implements WPSEO_Endpoint, WPSEO_Endpoint_Storabl
 	 * @return void
 	 */
 	public function register() {
-		$endpoints = array();
+		$endpoints = [];
 
 		$endpoints[] = new WPSEO_Endpoint_Factory(
 			self::REST_NAMESPACE,
 			self::ENDPOINT_SINGULAR,
-			array( $this->service, 'get_indexable' ),
-			array( $this, 'can_retrieve_data' )
+			[ $this->service, 'get_indexable' ],
+			[ $this, 'can_retrieve_data' ]
 		);
 
 		$endpoints[] = new WPSEO_Endpoint_Factory(
 			self::REST_NAMESPACE,
 			self::ENDPOINT_SINGULAR,
-			array( $this->service, 'patch_indexable' ),
-			array( $this, 'can_store_data' ),
+			[ $this->service, 'patch_indexable' ],
+			[ $this, 'can_store_data' ],
 			'PATCH'
 		);
 

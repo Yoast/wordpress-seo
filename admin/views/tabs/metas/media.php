@@ -14,7 +14,7 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 $wpseo_media_presenter = new WPSEO_Paper_Presenter(
 	esc_html__( 'Media & attachment URLs', 'wordpress-seo' ),
 	dirname( __FILE__ ) . '/paper-content/media-content.php',
-	array(
+	[
 		'help_text' => new WPSEO_Admin_Help_Panel(
 			'search-appearance-media',
 			__( 'Learn more about the Media and attachment URLs setting', 'wordpress-seo' ),
@@ -23,7 +23,7 @@ $wpseo_media_presenter = new WPSEO_Paper_Presenter(
 		),
 		'paper_id'  => 'settings-media-attachment-url',
 		'class'     => 'search-appearance',
-	)
+	]
 );
 
 echo $wpseo_media_presenter->get_output();

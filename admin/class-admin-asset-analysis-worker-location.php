@@ -40,10 +40,10 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 
 		$this->asset_location = WPSEO_Admin_Asset_Manager::create_default_location();
 		$this->asset          = new WPSEO_Admin_Asset(
-			array(
+			[
 				'name' => $name,
 				'src'  => $analysis_worker,
-			)
+			]
 		);
 	}
 
@@ -66,7 +66,7 @@ final class WPSEO_Admin_Asset_Analysis_Worker_Location implements WPSEO_Admin_As
 	 */
 	public function get_url( WPSEO_Admin_Asset $asset, $type ) {
 		$scheme = wp_parse_url( $asset->get_src(), PHP_URL_SCHEME );
-		if ( in_array( $scheme, array( 'http', 'https' ), true ) ) {
+		if ( in_array( $scheme, [ 'http', 'https' ], true ) ) {
 			return $asset->get_src();
 		}
 

@@ -40,12 +40,12 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 	protected function get_items( $paged ) {
 		$items_per_page = max( 1, $this->items_per_page );
 		$post_query     = new WP_Query(
-			array(
+			[
 				'post_type'      => 'any',
 				'meta_key'       => '_yoast_wpseo_focuskw',
 				'posts_per_page' => $items_per_page,
 				'paged'          => $paged,
-			)
+			]
 		);
 
 		return $post_query->get_posts();
@@ -77,17 +77,17 @@ class WPSEO_Recalculate_Posts extends WPSEO_Recalculate {
 		// Apply shortcodes.
 		$content = do_shortcode( $content );
 
-		return array(
+		return [
 			'post_id'       => $item->ID,
 			'text'          => $content,
 			'keyword'       => $focus_keyword,
 			'url'           => urldecode( $item->post_name ),
 			'pageTitle'     => apply_filters( 'wpseo_title', wpseo_replace_vars( $this->get_title( $item->ID, $item->post_type ), $item ) ),
 			'meta'          => apply_filters( 'wpseo_metadesc', wpseo_replace_vars( $this->get_meta_description( $item->ID, $item->post_type ), $item ) ),
-			'keyword_usage' => array(
+			'keyword_usage' => [
 				$focus_keyword => WPSEO_Meta::keyword_usage( $focus_keyword, $item->ID ),
-			),
-		);
+			],
+		];
 	}
 
 	/**

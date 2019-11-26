@@ -33,28 +33,6 @@ class WPSEO_Option_Tab_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests that the video url is returned properly.
-	 *
-	 * @covers WPSEO_Option_Tab::get_video_url
-	 */
-	public function test_get_video_url() {
-		$option_tab = new WPSEO_Option_Tab( 'name', 'label', array( 'video_url' => 'https://video.url' ) );
-
-		$this->assertEquals( 'https://video.url', $option_tab->get_video_url() );
-	}
-
-	/**
-	 * Tests that the video url is empty and does not error when it is not set.
-	 *
-	 * @covers WPSEO_Option_Tab::get_video_url
-	 */
-	public function test_get_video_url_WHEN_video_url_is_not_set() {
-		$option_tab = new WPSEO_Option_Tab( 'name', 'label' );
-
-		$this->assertEquals( '', $option_tab->get_video_url() );
-	}
-
-	/**
 	 * Tests that the option group is returned properly.
 	 *
 	 * @covers WPSEO_Option_Tab::get_opt_group

@@ -114,10 +114,10 @@ class WPSEO_Sitemap_Cache_Data implements WPSEO_Sitemap_Cache_Data_Interface, Se
 	 */
 	public function serialize() {
 
-		$data = array(
+		$data = [
 			'status' => $this->status,
 			'xml'    => $this->sitemap,
-		);
+		];
 
 		return serialize( $data );
 	}

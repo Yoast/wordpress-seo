@@ -39,8 +39,8 @@ class WPSEO_Taxonomy_Columns {
 		$this->taxonomy = $this->get_taxonomy();
 
 		if ( ! empty( $this->taxonomy ) ) {
-			add_filter( 'manage_edit-' . $this->taxonomy . '_columns', array( $this, 'add_columns' ) );
-			add_filter( 'manage_' . $this->taxonomy . '_custom_column', array( $this, 'parse_column' ), 10, 3 );
+			add_filter( 'manage_edit-' . $this->taxonomy . '_columns', [ $this, 'add_columns' ] );
+			add_filter( 'manage_' . $this->taxonomy . '_custom_column', [ $this, 'parse_column' ], 10, 3 );
 		}
 
 		$this->analysis_seo         = new WPSEO_Metabox_Analysis_SEO();
@@ -59,7 +59,7 @@ class WPSEO_Taxonomy_Columns {
 			return $columns;
 		}
 
-		$new_columns = array();
+		$new_columns = [];
 
 		foreach ( $columns as $column_name => $column_value ) {
 			$new_columns[ $column_name ] = $column_value;
