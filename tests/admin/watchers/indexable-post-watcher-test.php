@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Watchers;
+namespace Yoast\WP\Free\Tests\Admin\Watchers;
 
 use Brain\Monkey;
 use Mockery;

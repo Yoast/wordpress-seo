@@ -13,6 +13,13 @@
 class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 
 	/**
+	 * The date helper.
+	 *
+	 * @var Date_Helper
+	 */
+	protected $date;
+
+	/**
 	 * A value object with context variables.
 	 *
 	 * @var WPSEO_Schema_Context
@@ -26,6 +33,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 */
 	public function __construct( WPSEO_Schema_Context $context ) {
 		$this->context = $context;
+		$this->date    = new Date_Helper();
 	}
 
 	/**
@@ -59,8 +67,8 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			'isPartOf'         => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
 			'author'           => array( '@id' => WPSEO_Schema_Utils::get_user_schema_id( $post->post_author, $this->context ) ),
 			'headline'         => get_the_title(),
-			'datePublished'    => mysql2date( DATE_W3C, $post->post_date, false ),
-			'dateModified'     => mysql2date( DATE_W3C, $post->post_modified, false ),
+			'datePublished'    => $this->date->format( $post->post_date_gmt ),
+			'dateModified'     => $this->date->format( $post->post_modified_gmt ),
 			'commentCount'     => $comment_count['approved'],
 			'mainEntityOfPage' => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
 		);
@@ -150,7 +158,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 			foreach ( $terms as $term ) {
 				// We are checking against the WordPress internal translation.
 				// @codingStandardsIgnoreLine
-				if ( $term->name !== __( 'Uncategorized' ) ) {
+				if ( $term->name !== __( 'Uncategorized', 'default' ) ) {
 					$keywords[] = $term->name;
 				}
 			}

@@ -163,11 +163,9 @@ class WPSEO_Meta {
 			'meta-robots-adv'      => array(
 				'type'          => 'multiselect',
 				'title'         => '', // Translation added later.
-				'default_value' => '-', // = site-wide default.
+				'default_value' => '',
 				'description'   => '', // Translation added later.
 				'options'       => array(
-					'-'            => '', // Site-wide default - translation added later.
-					'none'         => '', // Translation added later.
 					'noimageindex' => '', // Translation added later.
 					'noarchive'    => '', // Translation added later.
 					'nosnippet'    => '', // Translation added later.
@@ -352,13 +350,6 @@ class WPSEO_Meta {
 				$field_defs['meta-robots-noindex']['options']['0'] = sprintf( $field_defs['meta-robots-noindex']['options']['0'], ( ( WPSEO_Options::get( 'noindex-' . $post_type, false ) === true ) ? $field_defs['meta-robots-noindex']['options']['1'] : $field_defs['meta-robots-noindex']['options']['2'] ), $post_type_object->label );
 				$field_defs['meta-robots-nofollow']['title']       = sprintf( $field_defs['meta-robots-nofollow']['title'], $post_type_object->labels->singular_name );
 
-				/* Adjust the robots advanced 'site-wide default' text string based on those settings. */
-				$robots_adv = __( 'None', 'wordpress-seo' );
-
-				$field_defs['meta-robots-adv']['options']['-'] = sprintf( $field_defs['meta-robots-adv']['options']['-'], $robots_adv );
-				unset( $robots_adv );
-
-
 				/* Don't show the breadcrumb title field if breadcrumbs aren't enabled. */
 				if ( WPSEO_Options::get( 'breadcrumbs-enable', false ) !== true && ! current_theme_supports( 'yoast-seo-breadcrumbs' ) ) {
 					unset( $field_defs['bctitle'] );
@@ -503,28 +494,18 @@ class WPSEO_Meta {
 		if ( is_array( $meta_value ) && $meta_value !== array() ) {
 			$meta_value = array_map( 'trim', $meta_value );
 
-			if ( in_array( 'none', $meta_value, true ) ) {
-				// None is one of the selected values, takes priority over everything else.
-				$clean = 'none';
-			}
-			elseif ( in_array( '-', $meta_value, true ) ) {
-				// Site-wide defaults is one of the selected values, takes priority over individual selected entries.
-				$clean = '-';
-			}
-			else {
-				// Individual selected entries.
-				$cleaning = array();
-				foreach ( $meta_value as $value ) {
-					if ( isset( $options[ $value ] ) ) {
-						$cleaning[] = $value;
-					}
+			// Individual selected entries.
+			$cleaning = array();
+			foreach ( $meta_value as $value ) {
+				if ( isset( $options[ $value ] ) ) {
+					$cleaning[] = $value;
 				}
+			}
 
-				if ( $cleaning !== array() ) {
-					$clean = implode( ',', $cleaning );
-				}
-				unset( $cleaning, $value );
+			if ( $cleaning !== array() ) {
+				$clean = implode( ',', $cleaning );
 			}
+			unset( $cleaning, $value );
 		}
 
 		return $clean;
@@ -672,7 +653,7 @@ class WPSEO_Meta {
 	/**
 	 * Deletes a meta value for a post.
 	 *
-	 * @param string $key The internal key of the meta value to change (without prefix).
+	 * @param string $key     The internal key of the meta value to change (without prefix).
 	 * @param int    $post_id The ID of the post to change the meta for.
 	 *
 	 * @return bool Whether the value was changed.
@@ -791,7 +772,6 @@ class WPSEO_Meta {
 		// Delete old keys.
 		delete_post_meta_by_key( self::$meta_prefix . 'meta-robots' );
 
-
 		/*
 		 * Remove all default values and (most) invalid option values.
 		 * Invalid option values for the multiselect (meta-robots-adv) field will be dealt with seperately.
@@ -814,13 +794,7 @@ class WPSEO_Meta {
 					continue;
 				}
 
-				if ( $key === 'meta-robots-adv' ) {
-					$query[] = $wpdb->prepare(
-						"( meta_key = %s AND ( meta_value = 'none' OR meta_value = '-' ) )",
-						self::$meta_prefix . $key
-					);
-				}
-				elseif ( isset( $field_def['options'] ) && is_array( $field_def['options'] ) && $field_def['options'] !== array() ) {
+				if ( isset( $field_def['options'] ) && is_array( $field_def['options'] ) && $field_def['options'] !== array() ) {
 					$valid = $field_def['options'];
 					// Remove the default value from the valid options.
 					unset( $valid[ $field_def['default_value'] ] );
@@ -869,7 +843,6 @@ class WPSEO_Meta {
 			}
 		}
 		unset( $query, $meta_ids, $count, $object_id );
-
 
 		/*
 		 * Deal with the multiselect (meta-robots-adv) field.

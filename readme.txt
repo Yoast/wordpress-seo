@@ -209,6 +209,27 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 12.6.0 =
+Release Date: November 26th, 2019
+
+In Yoast SEO 12.6, we’re activating our new beacon for help documentation. This tool helps answer the questions you might have about using Yoast SEO. It’s easy to use and very friendly. Just hit that big purple question mark and search! Other improvements in Yoast SEO 12.6 includes a number of fixes and enhancements. Find out more in [our 12.6 release post](https://yoa.st/release-12-6)!
+
+Enhancements:
+
+* Adds a description property to the schema's `WebSite` node.
+* Removes the `Site-wide default: None` and the `None` options from the `Meta robots advanced` field in the metabox.
+* Introduced a HelpScout beacon as a replacement for the Help Center.
+
+Bugfixes:
+
+* Fixes a PHP Warning when using an empty string in the OpenGraph frontend output. Props to [@ChrisThompsonTLDR](https://github.com/ChrisThompsonTLDR).
+* Fixes a bug where the time in the `article:published_time`, `article:modified_time`, and `og:updated_time` meta tag output and in the `datePublished` and `dateModified` schema output was incorrect in WordPress 5.2.
+
+Other:
+
+* Sets the minimum required WordPress version to 5.2, and the minimum PHP version to 5.6.20.
+* Adds a notification to encourage Internet Explorer 11 users to use another browser as we are no longer supporting that browser.
+
 = 12.5.1 =
 Release Date: November 21st, 2019
 
@@ -229,26 +250,6 @@ Bugfixes:
 Other:
 
 * Deprecates the Google Search Console.
-
-= 12.4.0 =
-Release Date: October 29th, 2019
-
-After releasing several updates to our snippet preview in previous releases, Yoast SEO 12.4 now shows an image for your post in the mobile snippet preview, just like Google would. We have several other improvements and fixes for you in store with Yoast SEO 12.4. Find out more in [our 12.4 release post](https://yoa.st/release-12-4)!
-
-Enhancements:
-
-* Adds "schema" as keyword to the structured data blocks to make them show up for that search term in the block search as well.
-* Adds an image to the mobile snippet preview for posts and terms.
-* Changes the readability score for empty content from "Needs Improvement" with a red icon to "Not Available" with a gray icon. Props to [emilyatmobtown](https://github.com/emilyatmobtown).
-* Updates the URLs used to ping Google and Bing about the location of a sitemap. Props to [@emilyatmobtown](https://github.com/emilyatmobtown).
-* Makes the notice about running an old WordPress version more specific by showing the installed WordPress version and the latest WordPress version.
-* Adds information about enabling Open Graph to the Twitter settings. Props to [@stevenfranks](https://github.com/stevenfranks).
-
-Bugfixes:
-
-* Fixes a bug where no Twitter and Facebook image could be set for attachment pages.
-* Fixes a bug where a nested paragraph would be present in the "noindex" metabox warning.
-* Fixes a bug where Google+ data would still be exported in the settings export.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
