@@ -145,12 +145,7 @@ import { isGutenbergDataAvailable } from "./helpers/isGutenbergAvailable";
 
 			selectedImage = featuredImage.state().get( "selection" ).first();
 
-			// WordPress falls back to the title for the alt attribute if no alt is present.
 			alt = selectedImage.get( "alt" );
-
-			if ( "" === alt ) {
-				alt = selectedImage.get( "title" );
-			}
 
 			selectedImageHTML = "<img" +
 				' src="' + selectedImage.get( "url" ) + '"' +
