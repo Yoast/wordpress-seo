@@ -11,7 +11,7 @@ import { modifyStem, applySuffixesToStem } from "../morphoHelpers/suffixHelpers"
 export function findSuffixes( stemmedWord, suffixType ) {
 	const stemEndingAndSuffix = suffixType.find( stemSuffixPair => stemmedWord.search( new RegExp( stemSuffixPair[ 0 ] ) ) !== -1 );
 
-	if ( typeof stemEndingAndSuffix !== "undefined" ) {
+	if ( stemEndingAndSuffix ) {
 		return stemEndingAndSuffix[ 1 ];
 	}
 }
