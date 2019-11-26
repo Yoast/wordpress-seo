@@ -84,8 +84,58 @@ const handleIgnoredContent = function( element, html, currentOffset ) {
 	return currentOffset;
 };
 
+
 /**
- * Sets the start and end position of the formatting elements in the given node's text.
+ * Sets the start and end text positions of a comment.
+ *
+ * @param {module:parsedPaper/structure.FormattingElement}	element			The formatting element to assign start and end text positions to.
+ * @param {int}												currentOffset	A sum of all characters in the source code that don't get rendered
+ * 																			(e.g., tags, comments).
+ *
+ * @returns {void}
+ *
+ * @private
+ */
+const computeCommentStartEndTextIndices = function( element, currentOffset ) {
+	element.textStartIndex = element.location.startOffset - currentOffset;
+	element.textEndIndex = element.textStartIndex;
+};
+
+/**
+ * Sets the start and end text positions of one formatting element.
+ *
+ * @param {module:parsedPaper/structure.FormattingElement}	element			The formatting element to assign start and end text positions to.
+ * @param {int}												currentOffset	A sum of all characters in the source code that don't get rendered
+ * 																			(e.g., tags, comments).
+ *
+ * @returns {int} The updated currentOffset.
+ *
+ * @private
+ */
+const computeElementStartTextIndex = function( element, currentOffset ) {
+	const startTag = element.location.startTag;
+
+	// For example: "<strong>".length
+	const startTagLength = startTag.endOffset - startTag.startOffset;
+
+	currentOffset += startTagLength;
+
+	// Set start position of element in heading's / paragraph's text.
+	element.textStartIndex = startTag.endOffset - currentOffset;
+
+	/*
+	  Elements that have no end tags (e.g., void element like <img/> or self-closing elements) can be closed immediately.
+	  The text length of those elements will be automatically 0.
+	 */
+	if ( ! element.location.endTag ) {
+		element.textEndIndex = element.textStartIndex;
+	}
+
+	return currentOffset;
+};
+
+/**
+ * Sets the start and end position of the text in formatting elements of the given node.
  *
  * @param {module:parsedPaper/structure.LeafNode} node The node containing a TextContainer
  * @param {string} html                         The source code
@@ -100,6 +150,7 @@ const calculateTextIndices = function( node, html ) {
 	}
 
 	const openElements = [];
+
 	/*
 	  Keeps track of the current total size of the start and end tags (and the ignored content)
 	  These should not be counted towards the start and end position of the elements in the text.
@@ -107,39 +158,22 @@ const calculateTextIndices = function( node, html ) {
 	let currentOffset = node.location.startTag ? node.location.startTag.endOffset : node.location.startOffset;
 
 	node.textContainer.formatting.forEach( element => {
-		// Close elements that can be closed.
+		// Close elements that can be closed and remove them from the list of open elements.
 		const elementsToClose = elementsThatCanBeClosed( element, openElements );
 		currentOffset = closeElements( elementsToClose, currentOffset );
-		// Remove closed elements from the list.
 		pullAll( openElements, elementsToClose );
 
+		// Comments are self-closing formatting elements that are completely ignored in rendering.
 		if ( element.tag === "comment" ) {
-			element.textStartIndex = element.location.startOffset - currentOffset;
-			element.textEndIndex = element.textStartIndex;
+			computeCommentStartEndTextIndices( element, currentOffset );
 			return;
 		}
 
-		const startTag = element.location.startTag;
-		const endTag = element.location.endTag;
+		currentOffset = computeElementStartTextIndex( element, currentOffset );
 
-		// For example: "<strong>".length
-		const startTagLength = startTag.endOffset - startTag.startOffset;
-
-		currentOffset += startTagLength;
-
-		// Set start position of element in heading's / paragraph's text.
-		element.textStartIndex = startTag.endOffset - currentOffset;
-
-		if ( endTag ) {
-			// Keep track of the elements that need to be closed.
+		// If there is an endTag, the element should be closed in one of the next iterations of the loop.
+		if (  element.location.endTag ) {
 			openElements.push( element );
-		} else {
-			/*
-			  Some elements have no end tags,
-			  e.g. void elements like <img/> or self-closing elements.
-			  We can close them immediately (with length of 0, since it has no content).
-			 */
-			element.textEndIndex = element.textStartIndex;
 		}
 
 		/*
@@ -156,4 +190,3 @@ const calculateTextIndices = function( node, html ) {
 };
 
 export default calculateTextIndices;
-
