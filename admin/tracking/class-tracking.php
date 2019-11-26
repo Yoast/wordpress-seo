@@ -58,9 +58,9 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 		add_action( 'admin_init', [ $this, 'send' ], 1 );
 
 		// Add an action hook that will be triggered at the specified time by `wp_schedule_single_event()`.
-		add_action( 'wpseo_send_tracking_data_after_core_update', array( $this, 'send' ) );
+		add_action( 'wpseo_send_tracking_data_after_core_update', [ $this, 'send' ] );
 		// Call `wp_schedule_single_event()` after a WordPress core update.
-		add_action( 'upgrader_process_complete', array( $this, 'schedule_tracking_data_sending' ), 10, 2 );
+		add_action( 'upgrader_process_complete', [ $this, 'schedule_tracking_data_sending' ], 10, 2 );
 	}
 
 	/**
@@ -74,7 +74,7 @@ class WPSEO_Tracking implements WPSEO_WordPress_Integration {
 	 *
 	 * @return void
 	 */
-	public function schedule_tracking_data_sending( $upgrader = false, $data = array() ) {
+	public function schedule_tracking_data_sending( $upgrader = false, $data = [] ) {
 		// Return if it's not a WordPress core update.
 		if ( ! $upgrader || ! isset( $data['type'] ) || $data['type'] !== 'core' ) {
 			return;
