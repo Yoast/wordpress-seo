@@ -5,7 +5,7 @@
  * @package WPSEO\Admin\Views\Archive
  */
 
-$archives_help_content = array(
+$archives_help_content = [
 	sprintf(
 		/* translators: %1$s / %2$s: links to an article about duplicate content on yoast.com */
 		esc_html__( 'If you\'re running a one author blog, the author archive will be exactly the same as your homepage. This is what\'s called a %1$sduplicate content problem%2$s.', 'wordpress-seo' ),
@@ -19,7 +19,7 @@ $archives_help_content = array(
 	),
 	esc_html__( 'Note that links to archives might be still output by your theme and you would need to remove them separately.', 'wordpress-seo' ),
 	esc_html__( 'Date-based archives could in some cases also be seen as duplicate content.', 'wordpress-seo' ),
-);
+];
 
 $archives_help = new WPSEO_Admin_Help_Panel(
 	'search-appearance-archives',

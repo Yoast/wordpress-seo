@@ -29,60 +29,60 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 	 *
 	 * @var array
 	 */
-	protected $clone_keys = array(
-		array(
+	protected $clone_keys = [
+		[
 			'old_key' => 'rank_math_description',
 			'new_key' => 'metadesc',
-		),
-		array(
+		],
+		[
 			'old_key' => 'rank_math_title',
 			'new_key' => 'title',
-		),
-		array(
+		],
+		[
 			'old_key' => 'rank_math_canonical_url',
 			'new_key' => 'canonical',
-		),
-		array(
+		],
+		[
 			'old_key' => 'rank_math_primary_category',
 			'new_key' => 'primary_category',
-		),
-		array(
+		],
+		[
 			'old_key' => 'rank_math_facebook_title',
 			'new_key' => 'opengraph-title',
-		),
-		array(
+		],
+		[
 			'old_key' => 'rank_math_facebook_description',
 			'new_key' => 'opengraph-description',
-		),
-		array(
+		],
+		[
 			'old_key' => 'rank_math_facebook_image',
 			'new_key' => 'opengraph-image',
-		),
-		array(
+		],
+		[
 			'old_key' => 'rank_math_facebook_image_id',
 			'new_key' => 'opengraph-image-id',
-		),
-		array(
+		],
+		[
 			'old_key' => 'rank_math_twitter_title',
 			'new_key' => 'twitter-title',
-		),
-		array(
+		],
+		[
 			'old_key' => 'rank_math_twitter_description',
 			'new_key' => 'twitter-description',
-		),
-		array(
+		],
+		[
 			'old_key' => 'rank_math_twitter_image',
 			'new_key' => 'twitter-image',
-		),
-		array(
+		],
+		[
 			'old_key' => 'rank_math_twitter_image_id',
 			'new_key' => 'twitter-image-id',
-		),
-		array(
+		],
+		[
 			'old_key' => 'rank_math_focus_keyword',
 			'new_key' => 'focuskw',
-		),
-	);
+		],
+	];
 
 	/**
 	 * Handles post meta data to import.
@@ -115,7 +115,7 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 		$post_metas = $wpdb->get_results( "SELECT post_id, meta_value FROM $wpdb->postmeta WHERE meta_key = 'rank_math_robots'" );
 		foreach ( $post_metas as $post_meta ) {
 			$robots_values = unserialize( $post_meta->meta_value );
-			foreach ( array( 'noindex', 'nofollow' ) as $directive ) {
+			foreach ( [ 'noindex', 'nofollow' ] as $directive ) {
 				$directive_key = array_search( $directive, $robots_values );
 				if ( $directive_key !== false ) {
 					update_post_meta( $post_meta->post_id, '_yoast_wpseo_meta-robots-' . $directive, 1 );
@@ -133,7 +133,7 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 	 * Imports some of the RankMath settings.
 	 */
 	private function import_settings() {
-		$settings = array(
+		$settings = [
 			'title_separator'      => 'separator',
 			'homepage_title'       => 'title-home-wpseo',
 			'homepage_description' => 'metadesc-home-wpseo',
@@ -143,7 +143,7 @@ class WPSEO_Import_RankMath extends WPSEO_Plugin_Importer {
 			'404_title'            => 'title-404-wpseo',
 			'pt_post_title'        => 'title-post',
 			'pt_page_title'        => 'title-page',
-		);
+		];
 		$options  = get_option( 'rank-math-options-titles' );
 
 		foreach ( $settings as $import_setting_key => $setting_key ) {

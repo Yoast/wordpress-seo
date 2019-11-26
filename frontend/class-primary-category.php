@@ -14,7 +14,7 @@ class WPSEO_Frontend_Primary_Category implements WPSEO_WordPress_Integration {
 	 * Registers the hooks necessary for correct primary category behaviour.
 	 */
 	public function register_hooks() {
-		add_filter( 'post_link_category', array( $this, 'post_link_category' ), 10, 3 );
+		add_filter( 'post_link_category', [ $this, 'post_link_category' ], 10, 3 );
 	}
 
 	/**

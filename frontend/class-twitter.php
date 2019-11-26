@@ -24,14 +24,14 @@ class WPSEO_Twitter {
 	 *
 	 * @var array
 	 */
-	private $images = array();
+	private $images = [];
 
 	/**
 	 * Images.
 	 *
 	 * @var array
 	 */
-	public $shown_images = array();
+	public $shown_images = [];
 
 	/**
 	 * Will hold the Twitter card type being created.
@@ -47,12 +47,12 @@ class WPSEO_Twitter {
 	 *
 	 * @var array
 	 */
-	private $valid_types = array(
+	private $valid_types = [
 		'summary',
 		'summary_large_image',
 		'app',
 		'player',
-	);
+	];
 
 	/**
 	 * Class constructor.
@@ -400,7 +400,7 @@ class WPSEO_Twitter {
 	 * @return bool
 	 */
 	private function taxonomy_image_output() {
-		foreach ( array( 'twitter-image', 'opengraph-image' ) as $tag ) {
+		foreach ( [ 'twitter-image', 'opengraph-image' ] as $tag ) {
 			$img = WPSEO_Taxonomy_Meta::get_meta_without_term( $tag );
 			if ( is_string( $img ) && $img !== '' ) {
 				$this->image_output( $img );
@@ -551,7 +551,7 @@ class WPSEO_Twitter {
 	 * @return bool
 	 */
 	private function image_from_meta_values_output( $post_id = 0 ) {
-		foreach ( array( 'twitter-image', 'opengraph-image' ) as $tag ) {
+		foreach ( [ 'twitter-image', 'opengraph-image' ] as $tag ) {
 			$img = WPSEO_Meta::get_value( $tag, $post_id );
 			if ( $img !== '' ) {
 				$this->image_output( $img );

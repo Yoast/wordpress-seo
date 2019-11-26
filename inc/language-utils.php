@@ -75,13 +75,13 @@ class WPSEO_Language_Utils {
 	 * @return array The l10n array.
 	 */
 	public static function get_knowledge_graph_company_info_missing_l10n() {
-		return array(
+		return [
 			'URL'     => esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/3r3' ) ),
 			/* translators: 1: expands to a link opening tag; 2: expands to a link closing tag */
 			'message' => esc_html__(
 				'A company name and logo need to be set for structured data to work properly. %1$sLearn more about the importance of structured data.%2$s',
 				'wordpress-seo'
 			),
-		);
+		];
 	}
 }

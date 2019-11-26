@@ -48,7 +48,7 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 			$callback = $this->get_admin_page_callback();
 		}
 
-		return array(
+		return [
 			$this->get_page_identifier(),
 			'',
 			$page_title,
@@ -56,7 +56,7 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 			$page_slug,
 			$callback,
 			$hook,
-		);
+		];
 	}
 
 	/**
@@ -75,7 +75,7 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		// Loop through submenu pages and add them.
-		array_walk( $submenu_pages, array( $this, 'register_menu_page' ) );
+		array_walk( $submenu_pages, [ $this, 'register_menu_page' ] );
 	}
 
 	/**
@@ -91,7 +91,7 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 		}
 
 		// Loop through submenu pages and add them.
-		array_walk( $submenu_pages, array( $this, 'register_submenu_page' ) );
+		array_walk( $submenu_pages, [ $this, 'register_submenu_page' ] );
 
 		// Set the first submenu title to the title of the first submenu page.
 		global $submenu;
@@ -242,7 +242,7 @@ abstract class WPSEO_Base_Menu implements WPSEO_WordPress_Integration {
 	 * @return array Callback page handler.
 	 */
 	protected function get_admin_page_callback() {
-		return array( $this->menu, 'load_page' );
+		return [ $this->menu, 'load_page' ];
 	}
 
 	/**

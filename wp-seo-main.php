@@ -15,7 +15,7 @@ if ( ! function_exists( 'add_filter' ) ) {
  * {@internal Nobody should be able to overrule the real version number as this can cause
  *            serious issues with the options, so no if ( ! defined() ).}}
  */
-define( 'WPSEO_VERSION', '12.6-RC1' );
+define( 'WPSEO_VERSION', '12.6-RC5' );
 
 
 if ( ! defined( 'WPSEO_PATH' ) ) {
@@ -52,10 +52,10 @@ function wpseo_auto_load( $class ) {
 	static $classes = null;
 
 	if ( $classes === null ) {
-		$classes = array(
+		$classes = [
 			'wp_list_table'   => ABSPATH . 'wp-admin/includes/class-wp-list-table.php',
 			'walker_category' => ABSPATH . 'wp-includes/category-template.php',
-		);
+		];
 	}
 
 	$cn = strtolower( $class );
@@ -138,7 +138,7 @@ function wpseo_network_activate_deactivate( $activate = true ) {
 
 	$network_blogs = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE site_id = %d", $wpdb->siteid ) );
 
-	if ( is_array( $network_blogs ) && $network_blogs !== array() ) {
+	if ( is_array( $network_blogs ) && $network_blogs !== [] ) {
 		foreach ( $network_blogs as $blog_id ) {
 			switch_to_blog( $blog_id );
 
@@ -292,7 +292,6 @@ function wpseo_init() {
 
 	if ( version_compare( WPSEO_Options::get( 'version', 1 ), WPSEO_VERSION, '<' ) ) {
 		if ( function_exists( 'opcache_reset' ) ) {
-			// @codingStandardsIgnoreLine
 			@opcache_reset();
 		}
 
@@ -322,7 +321,7 @@ function wpseo_init() {
 	$link_watcher = new WPSEO_Link_Watcher_Loader();
 	$link_watcher->load();
 
-	$integrations   = array();
+	$integrations   = [];
 	$integrations[] = new WPSEO_Slug_Change_Watcher();
 	$integrations[] = new WPSEO_Structured_Data_Blocks();
 
@@ -360,7 +359,7 @@ function wpseo_init_rest_api() {
 	$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
 	$statistics_service    = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
 
-	$endpoints   = array();
+	$endpoints   = [];
 	$endpoints[] = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
 	$endpoints[] = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
 	$endpoints[] = new WPSEO_Endpoint_Indexable( new WPSEO_Indexable_Service() );
@@ -398,7 +397,7 @@ function wpseo_frontend_init() {
  */
 function wpseo_frontend_head_init() {
 	if ( WPSEO_Options::get( 'twitter' ) === true ) {
-		add_action( 'wpseo_head', array( 'WPSEO_Twitter', 'get_instance' ), 40 );
+		add_action( 'wpseo_head', [ 'WPSEO_Twitter', 'get_instance' ], 40 );
 	}
 
 	if ( WPSEO_Options::get( 'opengraph' ) === true ) {
@@ -425,37 +424,37 @@ function wpseo_cli_init() {
 		WP_CLI::add_command(
 			'yoast redirect list',
 			'WPSEO_CLI_Redirect_List_Command',
-			array( 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' )
+			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
 		);
 
 		WP_CLI::add_command(
 			'yoast redirect create',
 			'WPSEO_CLI_Redirect_Create_Command',
-			array( 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' )
+			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
 		);
 
 		WP_CLI::add_command(
 			'yoast redirect update',
 			'WPSEO_CLI_Redirect_Update_Command',
-			array( 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' )
+			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
 		);
 
 		WP_CLI::add_command(
 			'yoast redirect delete',
 			'WPSEO_CLI_Redirect_Delete_Command',
-			array( 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' )
+			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
 		);
 
 		WP_CLI::add_command(
 			'yoast redirect has',
 			'WPSEO_CLI_Redirect_Has_Command',
-			array( 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' )
+			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
 		);
 
 		WP_CLI::add_command(
 			'yoast redirect follow',
 			'WPSEO_CLI_Redirect_Follow_Command',
-			array( 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' )
+			[ 'before_invoke' => 'WPSEO_CLI_Premium_Requirement::enforce' ]
 		);
 	}
 
@@ -522,7 +521,7 @@ if ( ! wp_installing() && ( $spl_autoload_exists && $filter_exists ) ) {
 
 	add_filter( 'phpcompat_whitelist', 'yoast_free_phpcompat_whitelist' );
 
-	add_action( 'init', array( 'WPSEO_Replace_Vars', 'setup_statics_once' ) );
+	add_action( 'init', [ 'WPSEO_Replace_Vars', 'setup_statics_once' ] );
 }
 
 // Activation and deactivation hook.

@@ -140,14 +140,14 @@ class WPSEO_Admin_Asset {
 	 *
 	 * @var array
 	 */
-	private $defaults = array(
-		'deps'      => array(),
+	private $defaults = [
+		'deps'      => [],
 		'version'   => WPSEO_VERSION,
 		'in_footer' => true,
 		'rtl'       => true,
 		'media'     => 'all',
 		'suffix'    => WPSEO_CSSJS_SUFFIX,
-	);
+	];
 
 	/**
 	 * Constructs an instance of the WPSEO_Admin_Asset class.

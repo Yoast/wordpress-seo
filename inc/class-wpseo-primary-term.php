@@ -72,7 +72,7 @@ class WPSEO_Primary_Term {
 		$terms = get_the_terms( $this->post_ID, $this->taxonomy_name );
 
 		if ( ! is_array( $terms ) ) {
-			$terms = array();
+			$terms = [];
 		}
 
 		return $terms;
