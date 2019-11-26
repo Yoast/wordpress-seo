@@ -126,7 +126,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		if ( WPSEO_Options::get( 'noindex-author-noposts-wpseo', true ) ) {
 			$defaults['who']                 = ''; // Otherwise it cancels out next argument.
-			$author_archive = new Author_Archive_Helper();
+			$author_archive                  = new Author_Archive_Helper();
 			$defaults['has_published_posts'] = $author_archive->get_author_archive_post_types();
 		}
 

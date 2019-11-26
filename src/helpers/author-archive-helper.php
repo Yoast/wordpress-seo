@@ -21,8 +21,6 @@ class Author_Archive_Helper {
 		/**
 		 * Filters the array of post types that are shown on an author's archive.
 		 *
-		 * @since 12.7
-		 *
 		 * @param array $args The post types that are shown on an author archive.
 		 */
 		return \apply_filters( 'wpseo_author_archive_post_types', [ 'post' ] );
