@@ -56,13 +56,6 @@ class WPSEO_Sitemaps {
 	private $current_page = 1;
 
 	/**
-	 * The timezone.
-	 *
-	 * @var WPSEO_Sitemap_Timezone
-	 */
-	private $timezone;
-
-	/**
 	 * The sitemaps router.
 	 *
 	 * @since 3.2
@@ -99,6 +92,13 @@ class WPSEO_Sitemaps {
 	public $providers;
 
 	/**
+	 * The date helper.
+	 *
+	 * @var Date_Helper
+	 */
+	protected $date;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
@@ -109,10 +109,10 @@ class WPSEO_Sitemaps {
 		add_action( 'wpseo_hit_sitemap_index', [ $this, 'hit_sitemap_index' ] );
 		add_action( 'wpseo_ping_search_engines', [ __CLASS__, 'ping_search_engines' ] );
 
-		$this->timezone = new WPSEO_Sitemap_Timezone();
 		$this->router   = new WPSEO_Sitemaps_Router();
 		$this->renderer = new WPSEO_Sitemaps_Renderer();
 		$this->cache    = new WPSEO_Sitemaps_Cache();
+		$this->date     = new Date_Helper();
 
 		if ( ! empty( $_SERVER['SERVER_PROTOCOL'] ) ) {
 			$this->http_protocol = sanitize_text_field( wp_unslash( $_SERVER['SERVER_PROTOCOL'] ) );
@@ -530,8 +530,7 @@ class WPSEO_Sitemaps {
 	 * @return string
 	 */
 	public function get_last_modified( $post_types ) {
-
-		return $this->timezone->format_date( self::get_last_modified_gmt( $post_types ) );
+		return $this->date->format( self::get_last_modified_gmt( $post_types ) );
 	}
 
 	/**
