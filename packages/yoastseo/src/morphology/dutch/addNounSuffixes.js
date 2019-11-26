@@ -27,7 +27,7 @@ export function getSuffixes( stemmedWord, morphologyDataNounSuffixes ) {
 	const suffixes = [];
 	const predictedSuffix = findSuffixes( stemmedWord, morphologyDataNounSuffixes.predictedBasedOnStem );
 
-	if ( typeof predictedSuffix !== "undefined" ) {
+	if ( predictedSuffix ) {
 		suffixes.push( predictedSuffix );
 		return suffixes;
 	}
