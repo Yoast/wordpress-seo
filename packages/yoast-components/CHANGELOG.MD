@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.38.0 November 26th, 2019
+### Other
+* Removed the components related to the Help Center and the AlgoliaSearcher package
+
 ## 4.36.0 November 11th, 2019
 ### Enhancements
 * Improves the `KeywordInput` and `SynonymsInput` styling for consistency with the new WordPress 5.3 admin styles.
