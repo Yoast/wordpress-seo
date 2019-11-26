@@ -1,5 +1,4 @@
-import { getSuffixes } from "../../../src/morphology/dutch/addNounSuffixes";
-import { addNounSuffixes } from "../../../src/morphology/dutch/addNounSuffixes";
+import { getSuffixes, addNounSuffixes } from "../../../src/morphology/dutch/addNounSuffixes";
 import getMorphologyData from "../../specHelpers/getMorphologyData";
 
 const morphologyDataNL = getMorphologyData( "nl" ).nl;

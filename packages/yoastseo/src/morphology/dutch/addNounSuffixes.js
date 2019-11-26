@@ -1,5 +1,4 @@
-import { modifyStem } from "../morphoHelpers/suffixHelpers";
-import { applySuffixesToStem } from "../morphoHelpers/suffixHelpers";
+import { modifyStem, applySuffixesToStem } from "../morphoHelpers/suffixHelpers";
 
 /**
  * Searches for a match at the end of the stem, and returns the corresponding suffix if matched.
@@ -149,4 +148,3 @@ export function addNounSuffixes( stemmedWord, morphologyDataAddSuffixes, morphol
 	}
 	return nounForms;
 }
-
