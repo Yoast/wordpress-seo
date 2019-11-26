@@ -37,4 +37,25 @@ class WPSEO_Date_Helper {
 	public function format_translated( $date, $format = DATE_W3C ) {
 		return date_i18n( $format, $this->format( $date, 'U' ) );
 	}
+
+	/**
+	 * Check if a string is a valid datetime.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $datetime String input to check as valid input for DateTime class.
+	 *
+	 * @return bool True when datatime is valid.
+	 */
+	public function is_valid_datetime( $datetime ) {
+		if ( substr( $datetime, 0, 1 ) === '-' ) {
+			return false;
+		}
+
+		try {
+			return new DateTime( $datetime ) !== false;
+		} catch ( Exception $exception ) {
+			return false;
+		}
+	}
 }
