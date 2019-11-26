@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
 Tested up to: 5.3
-Stable tag: 12.5.1
+Stable tag: 12.6
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -209,6 +209,13 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 12.6.1 =
+Release Date: November 26th, 2019
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown when Yoast SEO was used in combination with another plugin or theme containing a class named Date_Helper.
+
 = 12.6.0 =
 Release Date: November 26th, 2019
 
@@ -219,11 +226,11 @@ Enhancements:
 * Adds a description property to the schema's `WebSite` node.
 * Removes the `Site-wide default: None` and the `None` options from the `Meta robots advanced` field in the metabox.
 * Introduced a HelpScout beacon as a replacement for the Help Center.
-* Fixes a bug where the time in the `article:published_time` and `article:modified_time` meta tag output and in the `datePublished` and `dateModified` schema output was incorrect in WordPress 5.2.
 
 Bugfixes:
 
 * Fixes a PHP Warning when using an empty string in the OpenGraph frontend output. Props to [@ChrisThompsonTLDR](https://github.com/ChrisThompsonTLDR).
+* Fixes a bug where the time in the `article:published_time`, `article:modified_time`, and `og:updated_time` meta tag output and in the `datePublished` and `dateModified` schema output was incorrect in WordPress 5.2.
 
 Other:
 
