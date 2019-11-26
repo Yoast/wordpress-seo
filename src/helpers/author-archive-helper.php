@@ -8,14 +8,14 @@
 namespace Yoast\WP\Free\Helpers;
 
 /**
- * Class Date_Helper
+ * Class Author_Archive_Helper
  */
 class Author_Archive_Helper {
 
 	/**
 	 * Gets the array of post types that are shown on an author's archive.
 	 *
-	 * @return array The post types that are shown on an author archive.
+	 * @return array The post types that are shown on an author's archive.
 	 */
 	public function get_author_archive_post_types() {
 		/**
