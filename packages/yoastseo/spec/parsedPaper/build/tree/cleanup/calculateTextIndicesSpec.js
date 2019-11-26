@@ -20,11 +20,13 @@ describe( "calculateTextIndices", () => {
 
 		const treeAdapter = new TreeAdapter();
 		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
-		const element = tree.children[ 0 ]; // Define the paragraph element that we will use in this test.
+
+		// Define the paragraph element that we will use in this test.
+		const element = tree.children[ 0 ];
 
 		calculateTextIndices( element, source );
 
-		const formattingElement = element.textContainer.formatting[0];
+		const formattingElement = element.textContainer.formatting[ 0 ];
 
 		expect( formattingElement.type ).toEqual( "b" );
 		expect( formattingElement.textStartIndex ).toEqual( 10 );
@@ -36,12 +38,14 @@ describe( "calculateTextIndices", () => {
 
 		const treeAdapter = new TreeAdapter();
 		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
-		const element = tree.children[ 0 ];  // Define the paragraph element that we will use in this test.
+
+		// Define the paragraph element that we will use in this test.
+		const element = tree.children[ 0 ];
 
 		calculateTextIndices( element, source );
 
-		const formattingElementBold = element.textContainer.formatting[0];
-		const formattingElementItalics = element.textContainer.formatting[1];
+		const formattingElementBold = element.textContainer.formatting[ 0 ];
+		const formattingElementItalics = element.textContainer.formatting[ 1 ];
 
 		expect( formattingElementBold.type ).toEqual( "b" );
 		expect( formattingElementBold.textStartIndex ).toEqual( 10 );
@@ -57,13 +61,15 @@ describe( "calculateTextIndices", () => {
 
 		const treeAdapter = new TreeAdapter();
 		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
-		const element = tree.children[ 0 ];  // Define the paragraph element that we will use in this test.
+
+		// Define the paragraph element that we will use in this test.
+		const element = tree.children[ 0 ];
 
 		calculateTextIndices( element, source );
 
-		const formattingElementItalicsEmpty = element.textContainer.formatting[0];
-		const formattingElementBold = element.textContainer.formatting[1];
-		const formattingElementItalicsMeaningful = element.textContainer.formatting[2];
+		const formattingElementItalicsEmpty = element.textContainer.formatting[ 0 ];
+		const formattingElementBold = element.textContainer.formatting[ 1 ];
+		const formattingElementItalicsMeaningful = element.textContainer.formatting[ 2 ];
 
 		expect( formattingElementItalicsEmpty.type ).toEqual( "em" );
 		expect( formattingElementItalicsEmpty.textStartIndex ).toEqual( 10 );
@@ -83,13 +89,15 @@ describe( "calculateTextIndices", () => {
 
 		const treeAdapter = new TreeAdapter();
 		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
-		const element = tree.children[ 0 ];  // Define the paragraph element that we will use in this test.
+
+		// Define the paragraph element that we will use in this test.
+		const element = tree.children[ 0 ];
 
 		calculateTextIndices( element, source );
 
-		const formattingElementBold = element.textContainer.formatting[0];
-		const formattingElementItalicsEmpty = element.textContainer.formatting[1];
-		const formattingElementItalicsNonEmpty = element.textContainer.formatting[2];
+		const formattingElementBold = element.textContainer.formatting[ 0 ];
+		const formattingElementItalicsEmpty = element.textContainer.formatting[ 1 ];
+		const formattingElementItalicsNonEmpty = element.textContainer.formatting[ 2 ];
 
 		expect( formattingElementBold.type ).toEqual( "b" );
 		expect( formattingElementBold.textStartIndex ).toEqual( 10 );
@@ -109,12 +117,14 @@ describe( "calculateTextIndices", () => {
 
 		const treeAdapter = new TreeAdapter();
 		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
-		const element = tree.children[ 0 ];  // Define the paragraph element that we will use in this test.
+
+		// Define the paragraph element that we will use in this test.
+		const element = tree.children[ 0 ];
 
 		calculateTextIndices( element, source );
 
-		const formattingElementScript = element.textContainer.formatting[0];
-		const formattingElementBold = element.textContainer.formatting[1];
+		const formattingElementScript = element.textContainer.formatting[ 0 ];
+		const formattingElementBold = element.textContainer.formatting[ 1 ];
 
 		expect( formattingElementScript.type ).toEqual( "Ignored" );
 		expect( formattingElementScript.textStartIndex ).toEqual( 10 );
@@ -130,12 +140,14 @@ describe( "calculateTextIndices", () => {
 
 		const treeAdapter = new TreeAdapter();
 		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
-		const element = tree.children[ 0 ];  // Define the paragraph element that we will use in this test.
+
+		// Define the paragraph element that we will use in this test.
+		const element = tree.children[ 0 ];
 
 		calculateTextIndices( element, source );
 
-		const formattingElementBold = element.textContainer.formatting[0];
-		const formattingElementScript = element.textContainer.formatting[1];
+		const formattingElementBold = element.textContainer.formatting[ 0 ];
+		const formattingElementScript = element.textContainer.formatting[ 1 ];
 
 		expect( formattingElementBold.type ).toEqual( "b" );
 		expect( formattingElementBold.textStartIndex ).toEqual( 10 );
@@ -145,20 +157,58 @@ describe( "calculateTextIndices", () => {
 		expect( formattingElementScript.textStartIndex ).toEqual( 10 );
 		expect( formattingElementScript.textEndIndex ).toEqual( 10 );
 	} );
+
+	it( "correctly processes comments", () => {
+		const source = "<p>This is a <!--Here is a comment!-->paragraph</p>";
+
+		const treeAdapter = new TreeAdapter();
+		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+
+		// Define the paragraph element that we will use in this test.
+		const element = tree.children[ 0 ];
+
+		calculateTextIndices( element, source );
+
+		const formattingElement = element.textContainer.formatting[ 0 ];
+
+		expect( formattingElement.type ).toEqual( "Ignored" );
+		expect( formattingElement.textStartIndex ).toEqual( 10 );
+		expect( formattingElement.textEndIndex ).toEqual( 10 );
+	} );
+
+	it( "correctly processes self-closing elements", () => {
+		const source = "<p>This is a <img src=\"example.jpg\" alt=\"An awesome example\">paragraph</p>";
+
+		const treeAdapter = new TreeAdapter();
+		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+
+		// Define the paragraph element that we will use in this test.
+		const element = tree.children[ 0 ];
+
+		calculateTextIndices( element, source );
+
+		const formattingElement = element.textContainer.formatting[ 0 ];
+
+		expect( formattingElement.type ).toEqual( "img" );
+		expect( formattingElement.textStartIndex ).toEqual( 10 );
+		expect( formattingElement.textEndIndex ).toEqual( 10 );
+	} );
 } );
 
 describe.skip( "These tests are currently broken, will be fixed in https://github.com/Yoast/javascript/issues/409", () => {
-	it( "correctly processes comments", () => {
+	it( "correctly processes comments before another tag", () => {
 		const source = "<p>This is a <!--Here is a comment!--><b>paragraph</b></p>";
 
 		const treeAdapter = new TreeAdapter();
 		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
-		const element = tree.children[ 0 ];  // Define the paragraph element that we will use in this test.
+
+		// Define the paragraph element that we will use in this test.
+		const element = tree.children[ 0 ];
 
 		calculateTextIndices( element, source );
 
-		const formattingElementComment = element.textContainer.formatting[0];
-		const formattingElementBold = element.textContainer.formatting[1];
+		const formattingElementComment = element.textContainer.formatting[ 0 ];
+		const formattingElementBold = element.textContainer.formatting[ 1 ];
 
 
 		expect( formattingElementComment.type ).toEqual( "Ignored" );
@@ -175,12 +225,14 @@ describe.skip( "These tests are currently broken, will be fixed in https://githu
 
 		const treeAdapter = new TreeAdapter();
 		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
-		const element = tree.children[ 0 ];  // Define the paragraph element that we will use in this test.
+
+		// Define the paragraph element that we will use in this test.
+		const element = tree.children[ 0 ];
 
 		calculateTextIndices( element, source );
 
-		const formattingElementComment = element.textContainer.formatting[0];
-		const formattingElementBold = element.textContainer.formatting[1];
+		const formattingElementComment = element.textContainer.formatting[ 0 ];
+		const formattingElementBold = element.textContainer.formatting[ 1 ];
 
 
 		expect( formattingElementComment.type ).toEqual( "Ignored" );
@@ -197,14 +249,16 @@ describe.skip( "These tests are currently broken, will be fixed in https://githu
 
 		const treeAdapter = new TreeAdapter();
 		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
-		const element = tree.children[ 0 ];  // Define the paragraph element that we will use in this test.
+
+		// Define the paragraph element that we will use in this test.
+		const element = tree.children[ 0 ];
 
 		calculateTextIndices( element, source );
 
-		const formattingElementFirstComment = element.textContainer.formatting[0];
-		const formattingElementBold = element.textContainer.formatting[1];
-		const formattingElementSecondComment = element.textContainer.formatting[2];
-		const formattingElementItalics = element.textContainer.formatting[3];
+		const formattingElementFirstComment = element.textContainer.formatting[ 0 ];
+		const formattingElementBold = element.textContainer.formatting[ 1 ];
+		const formattingElementSecondComment = element.textContainer.formatting[ 2 ];
+		const formattingElementItalics = element.textContainer.formatting[ 3 ];
 
 		expect( formattingElementFirstComment.type ).toEqual( "Ignored" );
 		expect( formattingElementFirstComment.textStartIndex ).toEqual( 10 );
