@@ -6,7 +6,7 @@
  */
 
 /**
- * Class Date_Helper
+ * Class WPSEO_Date_Helper
  *
  * Note: Move this class with namespace to the src/helpers directory and add a class_alias for BC.
  */
