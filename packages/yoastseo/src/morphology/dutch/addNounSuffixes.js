@@ -1,15 +1,16 @@
 import { modifyStem, applySuffixesToStem } from "../morphoHelpers/suffixHelpers";
+import { findAndApplyModificationsVerbsNouns } from "./suffixHelpers";
 
 /**
  * Searches for a match at the end of the stem, and returns the corresponding suffix if matched.
  *
  * @param {string} stemmedWord The stemmed word
- * @param {string[]} suffixType Whether plural or diminutive suffixes are being searched for.
- * @returns {string} The suffix.
+ * @param {string[]} suffixes The morphology data with either plural or diminutive noun suffixes.
+ * @returns {string|void} The suffix, if one was found.
  *
  */
-export function findSuffixes( stemmedWord, suffixType ) {
-	const stemEndingAndSuffix = suffixType.find( stemSuffixPair => stemmedWord.search( new RegExp( stemSuffixPair[ 0 ] ) ) !== -1 );
+export function findSuffix( stemmedWord, suffixes ) {
+	const stemEndingAndSuffix = suffixes.find( stemSuffixPair => stemmedWord.search( new RegExp( stemSuffixPair[ 0 ] ) ) !== -1 );
 
 	if ( typeof stemEndingAndSuffix !== "undefined" ) {
 		return stemEndingAndSuffix[ 1 ];
@@ -24,12 +25,10 @@ export function findSuffixes( stemmedWord, suffixType ) {
  * @returns {Array} The suffixes.
  */
 export function getSuffixes( stemmedWord, morphologyDataNounSuffixes ) {
-	const suffixes = [];
-	const predictedSuffix = findSuffixes( stemmedWord, morphologyDataNounSuffixes.predictedBasedOnStem );
+	const predictedSuffix = findSuffix( stemmedWord, morphologyDataNounSuffixes.predictedBasedOnStem );
 
 	if ( typeof predictedSuffix !== "undefined" ) {
-		suffixes.push( predictedSuffix );
-		return suffixes;
+		return [ predictedSuffix ];
 	}
 	return morphologyDataNounSuffixes.defaultSuffixes.slice();
 }
@@ -45,52 +44,12 @@ export function getSuffixes( stemmedWord, morphologyDataNounSuffixes ) {
 const getPluralSuffixes = function( stemmedWord, morphologyDataPluralSuffixes ) {
 	let pluralSuffixes = getSuffixes( stemmedWord, morphologyDataPluralSuffixes );
 
-	const extraPluralSuffixes = findSuffixes( stemmedWord, morphologyDataPluralSuffixes.extraSuffixes );
+	const extraPluralSuffixes = findSuffix( stemmedWord, morphologyDataPluralSuffixes.extraSuffixes );
 
 	if ( typeof extraPluralSuffixes !== "undefined" ) {
 		pluralSuffixes = pluralSuffixes.concat( extraPluralSuffixes );
 	}
 	return pluralSuffixes;
-};
-
-/**
- * Checks whether the stem has an ending for which the final consonant should be voiced or not.
- *
- * @param {string} stemmedWord  The stem.
- * @param {string[]} notVoicedStemEndings The endings to search for in the stem.
- * @returns {boolean} Whether the stem has one of the endings that were searched for.
- */
-const shouldConsonantBeVoiced = function( stemmedWord, notVoicedStemEndings ) {
-	 // Will return true if the ending of the stemmedWord is NOT one of the notVoicedEndings.
-	return ! notVoicedStemEndings.find( stemEnding => new RegExp( stemEnding ).test( stemmedWord ) );
-};
-
-/**
- * Creates the second stem of words that have two possible stems (this includes
- * stem with double or single vowel; ending in double or single consonant; ending in s/f or z/v). The -en and -etje
- * suffixes should be added to the modified stem.
- *
- * @param {string} stemmedWord The stem
- * @param {object} morphologyDataAddSuffixes The Dutch morphology data file
- * @returns {string} The modified stem, or the original stem if no modifications were made.
- */
-const findAndApplyModifications = function( stemmedWord, morphologyDataAddSuffixes ) {
-	const triedToDoubleConsonant = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.doublingConsonant );
-	if ( triedToDoubleConsonant ) {
-		return triedToDoubleConsonant;
-	}
-	if ( shouldConsonantBeVoiced( stemmedWord, morphologyDataAddSuffixes.otherChecks.noConsonantVoicingNounsVerbs ) ) {
-		const triedToVoiceConsonant = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.consonantVoicingNounsVerbs );
-		if ( triedToVoiceConsonant ) {
-			return triedToVoiceConsonant;
-		}
-	}
-	const triedToUndoubleVowel = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.vowelUndoubling );
-	if ( triedToUndoubleVowel ) {
-		return triedToUndoubleVowel;
-	}
-
-	return stemmedWord;
 };
 
 /**
@@ -142,7 +101,7 @@ export function addNounSuffixes( stemmedWord, morphologyDataAddSuffixes, morphol
 	/* If any other suffixes that require stem modifications were found, run through the modification checks and modify the stem if needed.
 	   Then attach the given suffixes to the modified stem and add the resulting forms to the noun forms. */
 	if ( suffixesForModifiedStem ) {
-		const secondStem = findAndApplyModifications( stemmedWord, morphologyDataAddSuffixes );
+		const secondStem = findAndApplyModificationsVerbsNouns( stemmedWord, morphologyDataAddSuffixes );
 		const formsWithModifiedStem = applySuffixesToStem( secondStem, suffixesForModifiedStem );
 		return nounForms.concat( formsWithModifiedStem );
 	}
