@@ -34,7 +34,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * The date helper.
 	 *
-	 * @var Date_Helper
+	 * @var WPSEO_Date_Helper
 	 */
 	protected $date;
 
@@ -129,7 +129,7 @@ class WPSEO_Breadcrumbs {
 		$this->show_on_front         = get_option( 'show_on_front' );
 		$this->page_for_posts        = get_option( 'page_for_posts' );
 		$this->woocommerce_shop_page = new WPSEO_WooCommerce_Shop_Page();
-		$this->date                  = new Date_Helper();
+		$this->date                  = new WPSEO_Date_Helper();
 
 		$this->filter_element();
 		$this->filter_separator();

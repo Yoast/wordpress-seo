@@ -50,7 +50,7 @@ class WPSEO_Replace_Vars {
 	/**
 	 * The date helper.
 	 *
-	 * @var Date_Helper
+	 * @var WPSEO_Date_Helper
 	 */
 	protected $date;
 
@@ -74,7 +74,7 @@ class WPSEO_Replace_Vars {
 	 * @return \WPSEO_Replace_Vars
 	 */
 	public function __construct() {
-		$this->date = new Date_Helper();
+		$this->date = new WPSEO_Date_Helper();
 	}
 
 	/**

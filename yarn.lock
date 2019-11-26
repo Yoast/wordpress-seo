@@ -664,6 +664,22 @@
     react-dom "16.6.3"
     styled-components "^4.2.0"
 
+"@yoast/components@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@yoast/components/-/components-0.10.0.tgz#e9c62b4fcb4a2e9ae71cbf0071088cb043038e00"
+  integrity sha512-PA9CkEgJBhY/G9YaD0sq7WYNC02AftA/vgxNGE7cp1JL6+tKy0fykhenY/aZ+QT8TGi2DCkiTv7LFfq7hryfqQ==
+  dependencies:
+    "@wordpress/a11y" "^1.1.3"
+    "@wordpress/i18n" "^1.2.3"
+    "@yoast/helpers" "^0.8.0-rc.0"
+    "@yoast/style-guide" "^0.8.0-rc.0"
+    interpolate-components "^1.1.1"
+    lodash "^4.17.11"
+    prop-types "^15.7.2"
+    react-modal "^3.8.1"
+    react-tabs "^2.3.0"
+    styled-components "^4.2.0"
+
 "@yoast/components@^0.11.0-rc.1":
   version "0.11.0-rc.1"
   resolved "https://registry.yarnpkg.com/@yoast/components/-/components-0.11.0-rc.1.tgz#657375579e5df7e5d441140493bfb4a9e2d2196f"
@@ -689,6 +705,19 @@
     "@yoast/components" "^0.11.0-rc.1"
     "@yoast/helpers" "^0.9.0-rc.1"
     "@yoast/style-guide" "^0.9.0-rc.1"
+    interpolate-components "^1.1.1"
+    lodash "^4.17.11"
+    prop-types "^15.7.2"
+
+"@yoast/configuration-wizard@^1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@yoast/configuration-wizard/-/configuration-wizard-1.9.0.tgz#a923d06ccaaf92878caf113d01836cb6d782726d"
+  integrity sha512-W3IxLLvYpkGdJp+7G+vLYkLqhoxRD9ShHbvAWkhBMPf8yxoL3Ei65ug87oWnQGEyd45GdcmPGrieJHYfLUeqnw==
+  dependencies:
+    "@wordpress/i18n" "^1.1.0"
+    "@yoast/components" "^0.10.0"
+    "@yoast/helpers" "^0.8.0-rc.0"
+    "@yoast/style-guide" "^0.8.0-rc.0"
     interpolate-components "^1.1.1"
     lodash "^4.17.11"
     prop-types "^15.7.2"
