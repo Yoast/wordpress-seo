@@ -41,7 +41,7 @@ class WPSEO_Sitemaps_Renderer {
 	/**
 	 * The date helper.
 	 *
-	 * @var Date_Helper
+	 * @var WPSEO_Date_Helper
 	 */
 	protected $date;
 
@@ -53,7 +53,7 @@ class WPSEO_Sitemaps_Renderer {
 		$this->stylesheet     = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_url ) . '"?>';
 		$this->charset        = get_bloginfo( 'charset' );
 		$this->output_charset = $this->charset;
-		$this->date           = new Date_Helper();
+		$this->date           = new WPSEO_Date_Helper();
 
 		if (
 			'UTF-8' !== $this->charset

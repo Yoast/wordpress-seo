@@ -13,13 +13,6 @@
 class WPSEO_Sitemap_Timezone {
 
 	/**
-	 * Holds the timezone string value to reuse for performance.
-	 *
-	 * @var string $timezone_string
-	 */
-	private $timezone_string = '';
-
-	/**
 	 * Format arbitrary UTC datetime string to desired form in site's time zone.
 	 *
 	 * @deprecated 12.9
@@ -34,7 +27,7 @@ class WPSEO_Sitemap_Timezone {
 	public function format_date( $datetime_string, $format = 'c' ) {
 		_deprecated_function( __METHOD__, 'WPSEO 12.9', 'Date_Helper::format' );
 
-		$date_helper = new Date_Helper();
+		$date_helper = new WPSEO_Date_Helper();
 
 		return $date_helper->format( $format );
 	}

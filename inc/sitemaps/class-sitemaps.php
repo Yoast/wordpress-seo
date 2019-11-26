@@ -94,7 +94,7 @@ class WPSEO_Sitemaps {
 	/**
 	 * The date helper.
 	 *
-	 * @var Date_Helper
+	 * @var WPSEO_Date_Helper
 	 */
 	protected $date;
 
@@ -112,7 +112,7 @@ class WPSEO_Sitemaps {
 		$this->router   = new WPSEO_Sitemaps_Router();
 		$this->renderer = new WPSEO_Sitemaps_Renderer();
 		$this->cache    = new WPSEO_Sitemaps_Cache();
-		$this->date     = new Date_Helper();
+		$this->date     = new WPSEO_Date_Helper();
 
 		if ( ! empty( $_SERVER['SERVER_PROTOCOL'] ) ) {
 			$this->http_protocol = sanitize_text_field( wp_unslash( $_SERVER['SERVER_PROTOCOL'] ) );
