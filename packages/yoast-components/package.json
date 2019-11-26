@@ -1,6 +1,6 @@
 {
   "name": "yoast-components",
-  "version": "4.37.0",
+  "version": "4.37.1",
   "description": "Yoast Generic Components",
   "homepage": "https://github.com/Yoast/",
   "repository": {
@@ -63,7 +63,7 @@
     "@yoast/components": "^0.11.0-rc.0",
     "@yoast/configuration-wizard": "^1.10.0-rc.0",
     "@yoast/helpers": "^0.9.0-rc.0",
-    "@yoast/search-metadata-previews": "^1.13.0",
+    "@yoast/search-metadata-previews": "^1.13.1",
     "@yoast/style-guide": "^0.9.0-rc.0",
     "clipboard": "^1.5.15",
     "draft-js": "^0.10.5",
