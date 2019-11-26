@@ -12,7 +12,7 @@ import { findAndApplyModificationsVerbsNouns } from "./suffixHelpers";
 export function findSuffix( stemmedWord, suffixes ) {
 	const stemEndingAndSuffix = suffixes.find( stemSuffixPair => stemmedWord.search( new RegExp( stemSuffixPair[ 0 ] ) ) !== -1 );
 
-	if ( typeof stemEndingAndSuffix !== "undefined" ) {
+	if ( stemEndingAndSuffix ) {
 		return stemEndingAndSuffix[ 1 ];
 	}
 }
@@ -26,7 +26,6 @@ export function findSuffix( stemmedWord, suffixes ) {
  */
 export function getSuffixes( stemmedWord, morphologyDataNounSuffixes ) {
 	const predictedSuffix = findSuffix( stemmedWord, morphologyDataNounSuffixes.predictedBasedOnStem );
-
 	if ( typeof predictedSuffix !== "undefined" ) {
 		return [ predictedSuffix ];
 	}
