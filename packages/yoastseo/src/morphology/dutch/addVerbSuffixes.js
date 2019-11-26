@@ -6,12 +6,12 @@ import { applySuffixesToStem } from "../morphoHelpers/suffixHelpers";
  * Checks whether the stem has an ending for which the final consonant should not be voiced.
  *
  * @param {string} stemmedWord  The stem.
- * @param {string[]} stemEndings The endings to search for in the stem.
+ * @param {string[]} notVoicedStemEndings The endings to search for in the stem.
  * @returns {boolean} Whether the stem has one of the endings that were searched for.
  */
-const shouldConsonantBeVoiced = function( stemmedWord, stemEndings ) {
-	const matchedEnding = stemEndings.find( stemEnding => stemmedWord.search( new RegExp( stemEnding ) ) !== -1 );
-	return typeof matchedEnding === "undefined";
+const shouldConsonantBeVoiced = function( stemmedWord, notVoicedStemEndings ) {
+	// Will return true if the ending of the stemmedWord is NOT one of the notVoicedEndings.
+	return ! notVoicedStemEndings.find( stemEnding => new RegExp( stemEnding ).test( stemmedWord ) );
 };
 
 /**
