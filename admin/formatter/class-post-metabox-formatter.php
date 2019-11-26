@@ -27,7 +27,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	/**
 	 * The date helper.
 	 *
-	 * @var Date_Helper
+	 * @var WPSEO_Date_Helper
 	 */
 	protected $date;
 
@@ -41,7 +41,7 @@ class WPSEO_Post_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	public function __construct( $post, array $options, $structure ) {
 		$this->post      = $post;
 		$this->permalink = $structure;
-		$this->date      = new Date_Helper();
+		$this->date      = new WPSEO_Date_Helper();
 	}
 
 	/**
