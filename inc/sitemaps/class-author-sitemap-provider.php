@@ -97,7 +97,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		global $wpdb;
 
-		$defaults = array(
+		$defaults = [
 			'who'        => 'authors',
 			'meta_key'   => '_yoast_wpseo_profile_updated',
 			'orderby'    => 'meta_value_num',
