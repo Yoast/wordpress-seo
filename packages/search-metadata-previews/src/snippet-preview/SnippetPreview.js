@@ -201,9 +201,13 @@ const MobileDescriptionImageContainer = styled.div`
 `;
 
 const MobileDescriptionImage = styled.img`
-	display: block;
-	width: 104px;
-	height: 104px;
+	/* Higher specificity is necessary to make sure inherited CSS rules don't alter the image ratio. */
+	&&& {
+		display: block;
+		width: 104px;
+		height: 104px;
+		object-fit: cover;
+	}
 `;
 
 const MobilePartContainer = styled.div`
@@ -581,21 +585,26 @@ export default class SnippetPreview extends PureComponent {
 		 * However this is not relevant in this case, because the url is not focusable.
 		 */
 		/* eslint-disable jsx-a11y/mouse-events-have-key-events */
-		return <Url>
-			<BaseUrlOverflowContainer
-				onMouseUp={ onMouseUp.bind( null, "url" ) }
-				onMouseEnter={ onMouseEnter.bind( null, "url" ) }
-				onMouseLeave={ onMouseLeave.bind( null ) }
-				screenMode={ mode }
-			>
-				{ isMobileMode && <Favicon src={ faviconSrc || globeFaviconSrc } alt="" /> }
-				<UrlContentContainer
+		return <React.Fragment>
+			<ScreenReaderText>
+				{ __( "Url preview", "yoast-components" ) + ":" }
+			</ScreenReaderText>
+			<Url>
+				<BaseUrlOverflowContainer
+					onMouseUp={ onMouseUp.bind( null, "url" ) }
+					onMouseEnter={ onMouseEnter.bind( null, "url" ) }
+					onMouseLeave={ onMouseLeave.bind( null ) }
 					screenMode={ mode }
 				>
-					{ urlContent }
-				</UrlContentContainer>
-			</BaseUrlOverflowContainer>
-		</Url>;
+					{ isMobileMode && <Favicon src={ faviconSrc || globeFaviconSrc } alt="" /> }
+					<UrlContentContainer
+						screenMode={ mode }
+					>
+						{ urlContent }
+					</UrlContentContainer>
+				</BaseUrlOverflowContainer>
+			</Url>
+		</React.Fragment>;
 		/* eslint-enable jsx-a11y/mouse-events-have-key-events */
 	}
 
@@ -746,6 +755,7 @@ export default class SnippetPreview extends PureComponent {
 		return (
 			<section>
 				<Container
+					id="yoast-snippet-preview-container"
 					onMouseLeave={ this.onMouseLeave }
 					/*
 					 * MobileContainer doesn't use the width prop: avoid to
@@ -755,10 +765,10 @@ export default class SnippetPreview extends PureComponent {
 					padding={ WIDTH_PADDING }
 				>
 					<PartContainer>
+						{ ! isDesktopMode && this.renderUrl() }
 						<ScreenReaderText>
 							{ __( "SEO title preview", "yoast-components" ) + ":" }
 						</ScreenReaderText>
-						{ ! isDesktopMode && this.renderUrl() }
 						<SnippetTitle
 							onMouseUp={ onMouseUp.bind( null, "title" ) }
 							onMouseEnter={ onMouseEnter.bind( null, "title" ) }
@@ -770,9 +780,6 @@ export default class SnippetPreview extends PureComponent {
 								</TitleUnbounded>
 							</TitleBounded>
 						</SnippetTitle>
-						<ScreenReaderText>
-							{ __( "Url preview", "yoast-components" ) + ":" }
-						</ScreenReaderText>
 						{ amp }
 						{ isDesktopMode && this.renderUrl() }
 						{ downArrow }

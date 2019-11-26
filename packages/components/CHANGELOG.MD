@@ -6,6 +6,23 @@ All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
 
+## 0.9.0 November 11th, 2019
+### Added
+* Improves the `InputField` styling for consistency with the new WordPress 5.3 admin styles.
+
+## 0.8.0 October 14th, 2019
+### Other
+* Adds a className prop to the AlertContainer.
+
+## 0.7.0 September 30th, 2019
+### Added
+* Adds an `Alert` component.
+* Adds a `MultiStepProgress` component.
+
+## 0.6.0 September 17th, 2019
+### Added
+* No user-facing changes.
+
 ## 0.5.0 July 8th, 2019
 ### Added
 * Changes the following improved internal linking functionality (which is disabled by a feature flag by default):
