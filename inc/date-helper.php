@@ -23,6 +23,10 @@ class WPSEO_Date_Helper {
 	public function format( $date, $format = DATE_W3C ) {
 		$immutable_date = date_create_immutable_from_format( 'Y-m-d H:i:s', $date, new DateTimeZone( 'UTC' ) );
 
+		if ( ! $immutable_date ) {
+			return $date;
+		}
+
 		return $immutable_date->format( $format );
 	}
 
