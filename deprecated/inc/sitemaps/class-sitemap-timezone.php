@@ -8,14 +8,14 @@
 /**
  * Class WPSEO_Sitemap_Timezone.
  *
- * @deprecated 12.9
+ * @deprecated 12.8
  */
 class WPSEO_Sitemap_Timezone {
 
 	/**
 	 * Format arbitrary UTC datetime string to desired form in site's time zone.
 	 *
-	 * @deprecated 12.9
+	 * @deprecated 12.8
 	 *
 	 * @codeCoverageIgnore
 	 *
@@ -35,7 +35,7 @@ class WPSEO_Sitemap_Timezone {
 	/**
 	 * Get the datetime object, in site's time zone, if the datetime string was valid
 	 *
-	 * @deprecated 12.9
+	 * @deprecated 12.8
 	 *
 	 * @codeCoverageIgnore
 	 *
