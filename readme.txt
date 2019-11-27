@@ -215,6 +215,7 @@ Release Date: November 26th, 2019
 Bugfixes:
 
 * Fixes a bug where a fatal error would be thrown when Yoast SEO was used in combination with another plugin or theme containing a class named Date_Helper.
+* Fixes a bug where a fatal error would be thrown when an empty string would be passed to the WPSEO_Date_Helper->format method. Props to [@mpolek](https://github.com/mpolek).
 
 = 12.6.0 =
 Release Date: November 26th, 2019
