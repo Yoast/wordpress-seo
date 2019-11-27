@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
 Tested up to: 5.3
-Stable tag: 12.6
+Stable tag: 12.6.1
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -209,12 +209,30 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 12.6.1 =
-Release Date: November 26th, 2019
+= 12.7.0 =
+Release Date: December 10th, 2019
+
+Enhancements:
+
+* Optimizes the parsing of gallery shortcodes. Props to [@stodorovic](https://github.com/stodorovic).
 
 Bugfixes:
 
-* Fixes a bug where a fatal error would be thrown when Yoast SEO was used in combination with another plugin or theme containing a class named Date_Helper.
+* Prevents rendering sub-sitemaps for non-public custom post types. Props to [@stodorovic](https://github.com/stodorovic).
+* Fixes a bug where nested gallery images were not included in the image count in the sitemap. Props to [@stodorovic](https://github.com/stodorovic).
+* Fixes a bug where the notification center dismiss and restore buttons had no focus style.
+
+Other:
+
+* Improve security by adding output escaping.
+
+= 12.6.1 =
+Release Date: November 27th, 2019
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown when Yoast SEO was used in combination with another plugin or theme containing a class named `Date_Helper`.
+* Fixes a bug where a fatal error would be thrown when an empty string would be passed to the `WPSEO_Date_Helper->format` method. Props to [@mpolek](https://github.com/mpolek).
 
 = 12.6.0 =
 Release Date: November 26th, 2019
@@ -236,27 +254,6 @@ Other:
 
 * Sets the minimum required WordPress version to 5.2, and the minimum PHP version to 5.6.20.
 * Adds a notification to encourage Internet Explorer 11 users to use another browser as we are no longer supporting that browser.
-
-= 12.5.1 =
-Release Date: November 21st, 2019
-
-Bugfixes:
-
-* Fixes a bug where the time in the `article:published_time` and `article:modified_time` meta tag output and in the `datePublished` and `dateModified` schema output was incorrect.
-
-= 12.5.0 =
-Release Date: November 13th, 2019
-
-These last couple of months here at Yoast SEO HQ have all been about building better things. Behind the scenes, we’re making good progress at getting our flagship plugins ready for the future. While we’re busy building the future, we also stick to our regular two-week release schedule, which means it’s time to introduce Yoast SEO 12.5. Find out more in [our 12.5 release post](https://yoa.st/release-12-5)!
-
-Bugfixes:
-
-* Fixes a bug for terms where keywords and snippet preview data would be synced across all languages in a MultilingualPress multisite environment.
-* Fixes a bug where the visually hidden text in the snippet preview was misplaced.
-
-Other:
-
-* Deprecates the Google Search Console.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).
