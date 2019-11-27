@@ -176,13 +176,13 @@ class Article_Test extends TestCase {
 		Monkey\Functions\expect( 'wp_list_pluck' )->once()->with( $categories, 'name' )->andReturn( [ 'Category1' ] );
 
 		$this->date_helper_mock
-			->expects( 'mysql_date_to_w3c_format' )
+			->expects( 'format' )
 			->once()
 			->with( '2345-12-12 12:12:12' )
 			->andReturn( '2345-12-12 12:12:12' );
 
 		$this->date_helper_mock
-			->expects( 'mysql_date_to_w3c_format' )
+			->expects( 'format' )
 			->once()
 			->with( '2345-12-12 23:23:23' )
 			->andReturn( '2345-12-12 23:23:23' );
