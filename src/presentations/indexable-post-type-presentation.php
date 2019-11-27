@@ -243,7 +243,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			}
 		}
 
-		return $this->date->mysql_date_to_w3c_format( $this->context->post->post_date_gmt );
+		return $this->date->format( $this->context->post->post_date_gmt );
 	}
 
 	/**
@@ -253,7 +253,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 */
 	public function generate_og_article_modified_time() {
 		if ( $this->context->post->post_modified_gmt !== $this->context->post->post_date_gmt ) {
-			return $this->date->mysql_date_to_w3c_format( $this->context->post->post_modified_gmt );
+			return $this->date->format( $this->context->post->post_modified_gmt );
 		}
 
 		return '';
