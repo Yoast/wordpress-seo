@@ -70,6 +70,33 @@ let bundleAnalyzerPort = 8888;
 function createBundleAnalyzer() {
 	return new BundleAnalyzerPlugin( {
 		analyzerPort: bundleAnalyzerPort++,
+		statsOptions: {
+			excludeModules: ( module ) => {
+				module = module + "";
+
+				let exclude = false;
+
+				// The webpack dev server requires these, so exclude them:
+				[
+					"sockjs-client/dist",
+					"html-entities/lib",
+					"url/url.js",
+					"loglevel/lib",
+					"punycode/punycode.js",
+					"localhost:8080",
+					"ansi-html",
+					"events/events.js",
+					"querystring-es3",
+					"client/overlay.js",
+				].forEach( ( dep ) => {
+					if ( module.includes( dep ) ) {
+						exclude = true;
+					}
+				} );
+
+				return exclude;
+			},
+		},
 	} );
 }
 
