@@ -209,6 +209,23 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 12.7.0 =
+Release Date: December 10th, 2019
+
+Enhancements:
+
+* Optimizes the parsing of gallery shortcodes. Props to [@stodorovic](https://github.com/stodorovic).
+
+Bugfixes:
+
+* Prevents rendering sub-sitemaps for non-public custom post types. Props to [@stodorovic](https://github.com/stodorovic).
+* Fixes a bug where nested gallery images were not included in the image count in the sitemap. Props to [@stodorovic](https://github.com/stodorovic).
+* Fixes a bug where the notification center dismiss and restore buttons had no focus style.
+
+Other:
+
+* Improve security by adding output escaping.
+
 = 12.6.1 =
 Release Date: November 27th, 2019
 
