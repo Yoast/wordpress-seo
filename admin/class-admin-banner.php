@@ -34,7 +34,8 @@ class WPSEO_Admin_Banner implements WPSEO_WordPress_Integration {
 		$close_url = add_query_arg( array( 'yst_dismiss_bf' => 1 ) );
 
 		?>
-		<div class="yoast_bf_sale">
+		<div class="yoast_bf_sale ">
+			<?php echo '<!--' . print_r( get_current_screen(), 1 ) . '-->'; ?>
 			<a class="close" href="<?php echo esc_url( $close_url ); ?>" aria-label="Dismiss the Yoast Black Friday Banner">X</a>
 			<a class="target" href="<?php echo esc_url( WPSEO_Shortlinker::get( 'https://yoa.st/bf-sale-2019' ) ); ?>"></a>
 		</div>
@@ -52,6 +53,12 @@ class WPSEO_Admin_Banner implements WPSEO_WordPress_Integration {
 		}
 
 		if ( WPSEO_Options::get( 'bf_banner_2019_dismissed' ) ) {
+			return false;
+		}
+
+		$page   = isset( $_GET['page'] ) ? $_GET['page'] : '';
+		$screen = get_current_screen();
+		if ( $screen->id !== 'dashboard' && strpos( $page, 'wpseo' ) !== 0 ) {
 			return false;
 		}
 
