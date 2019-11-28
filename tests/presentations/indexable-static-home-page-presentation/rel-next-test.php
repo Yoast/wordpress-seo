@@ -98,7 +98,7 @@ class Rel_Next_Test extends TestCase {
 
 		$this->pagination
 			->expects( 'get_paginated_url' )
-			->with( 'https://example.com/my-post', 2, true )
+			->with( 'https://example.com/my-post', 2 )
 			->once()
 			->andReturn( 'https://example.com/my-post/2/' );
 

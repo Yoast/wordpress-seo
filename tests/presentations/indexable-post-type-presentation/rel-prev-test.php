@@ -28,7 +28,6 @@ class Rel_Prev_Test extends TestCase {
 	 * Tests whether an empty string is returned when a post is not paginated.
 	 *
 	 * @covers ::generate_rel_prev
-	 * @covers ::build_rel_prev
 	 */
 	public function test_not_paginated() {
 		$this->indexable->number_of_pages = null;
@@ -40,7 +39,6 @@ class Rel_Prev_Test extends TestCase {
 	 * Tests whether an empty string is returned when adjacent rel links are disabled by a filter.
 	 *
 	 * @covers ::generate_rel_prev
-	 * @covers ::build_rel_prev
 	 */
 	public function test_disabled_by_filter() {
 		$this->indexable->number_of_pages = 2;
@@ -57,7 +55,6 @@ class Rel_Prev_Test extends TestCase {
 	 * Tests whether an empty string is returned when there is no previous page.
 	 *
 	 * @covers ::generate_rel_prev
-	 * @covers ::build_rel_prev
 	 */
 	public function test_no_previous_page() {
 		$this->indexable->number_of_pages = 1;
@@ -79,7 +76,6 @@ class Rel_Prev_Test extends TestCase {
 	 * Tests whether the correct url is returned for the previous page.
 	 *
 	 * @covers ::generate_rel_prev
-	 * @covers ::build_rel_prev
 	 */
 	public function test_previous_url() {
 		$this->indexable->object_id       = 1337;
@@ -112,7 +108,6 @@ class Rel_Prev_Test extends TestCase {
 	 * Tests whether the correct url is returned for the previous page when the previous page is the first page.
 	 *
 	 * @covers ::generate_rel_prev
-	 * @covers ::build_rel_prev
 	 */
 	public function test_previous_url_is_first_page() {
 		$this->indexable->object_id       = 1337;

@@ -60,21 +60,67 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 * @inheritDoc
 	 */
 	public function generate_canonical() {
-		return $this->build_paginated_canonical( false );
+		if ( $this->model->canonical ) {
+			return $this->model->canonical;
+		}
+
+		$canonical = $this->model->permalink;
+		// Fix paginated pages canonical, but only if the page is truly paginated.
+		$current_page = $this->pagination->get_current_post_page_number();
+		if ( $current_page > 1 ) {
+			$number_of_pages = $this->model->number_of_pages;
+			if ( $number_of_pages && $current_page <= $number_of_pages ) {
+				$canonical = $this->get_paginated_url( $canonical, $current_page );
+			}
+		}
+
+		return $this->url->ensure_absolute_url( $canonical );
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function generate_rel_prev() {
-		return $this->build_rel_prev( false );
+		if ( $this->model->number_of_pages === null ) {
+			return '';
+		}
+
+		if ( $this->pagination->is_rel_adjacent_disabled() ) {
+			return '';
+		}
+
+		$current_page = \max( 1, $this->pagination->get_current_post_page_number() );
+		// Check if there is a previous page.
+		if ( $current_page < 2 ) {
+			return '';
+		}
+
+		// Check if the previous page is the first page.
+		if ( $current_page === 2 ) {
+			return $this->model->permalink;
+		}
+
+		return $this->get_paginated_url( $this->model->permalink, ( $current_page - 1 ) );
 	}
 
 	/**
 	 * @inheritDoc
 	 */
 	public function generate_rel_next() {
-		return $this->build_rel_next( false );
+		if ( $this->model->number_of_pages === null ) {
+			return '';
+		}
+
+		if ( $this->pagination->is_rel_adjacent_disabled() ) {
+			return '';
+		}
+
+		$current_page = \max( 1, $this->pagination->get_current_post_page_number() );
+		if ( $this->model->number_of_pages <= $current_page ) {
+			return '';
+		}
+
+		return $this->get_paginated_url( $this->model->permalink, ( $current_page + 1 ) );
 	}
 
 	/**
@@ -293,82 +339,14 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	}
 
 	/**
-	 * Creates a paginated canonical for the current page.
+	 * Wraps the get_paginated_url pagination helper method.
 	 *
-	 * @param boolean $add_pagination_base Whether the pagination base should be added.
+	 * @param string $url  The un-paginated URL of the current archive.
+	 * @param string $page The page number to add on to $url for the $link tag.
 	 *
-	 * @return string The canonical.
+	 * @return string The paginated URL.
 	 */
-	protected function build_paginated_canonical( $add_pagination_base ) {
-		if ( $this->model->canonical ) {
-			return $this->model->canonical;
-		}
-
-		$canonical = $this->model->permalink;
-
-		// Fix paginated pages canonical, but only if the page is truly paginated.
-		$current_page = $this->pagination->get_current_post_page_number();
-		if ( $current_page > 1 ) {
-			$number_of_pages = $this->model->number_of_pages;
-			if ( $number_of_pages && $current_page <= $number_of_pages ) {
-				$canonical = $this->pagination->get_paginated_url( $canonical, $current_page, $add_pagination_base );
-			}
-		}
-
-		return $this->url->ensure_absolute_url( $canonical );
+	protected function get_paginated_url( $url, $page ) {
+		return $this->pagination->get_paginated_url( $url, $page, false );
 	}
-
-	/**
-	 * Creates a rel prev link for the current page.
-	 *
-	 * @param boolean $add_pagination_base Whether the pagination base should be added.
-	 *
-	 * @return string The rel prev link.
-	 */
-	protected function build_rel_prev( $add_pagination_base ) {
-		if ( $this->model->number_of_pages === null ) {
-			return '';
-		}
-
-		if ( $this->pagination->is_rel_adjacent_disabled() ) {
-			return '';
-		}
-
-		$current_page = \max( 1, $this->pagination->get_current_post_page_number() );
-		// Check if there is a previous page.
-		if ( $current_page < 2 ) {
-			return '';
-		}
-		// Check if the previous page is the first page.
-		if ( $current_page === 2 ) {
-			return $this->model->permalink;
-		}
-
-		return $this->pagination->get_paginated_url( $this->model->permalink, ( $current_page - 1 ), $add_pagination_base );
-	}
-
-	/**
-	 * Creates a rel next link for the current page.
-	 *
-	 * @param boolean $add_pagination_base Whether the pagination base should be added.
-	 *
-	 * @return string The rel next link.
-	 */
-	protected function build_rel_next( $add_pagination_base ) {
-		if ( $this->model->number_of_pages === null ) {
-			return '';
-		}
-
-		if ( $this->pagination->is_rel_adjacent_disabled() ) {
-			return '';
-		}
-
-		$current_page = \max( 1, $this->pagination->get_current_post_page_number() );
-		if ( $this->model->number_of_pages <= $current_page ) {
-			return '';
-		}
-
-		return $this->pagination->get_paginated_url( $this->model->permalink, ( $current_page + 1 ), $add_pagination_base );
-	}
-
 }

@@ -28,7 +28,6 @@ class Canonical_Test extends TestCase {
 	 * Tests the situation where the canonical is given.
 	 *
 	 * @covers ::generate_canonical
-	 * @covers ::build_paginated_canonical
 	 */
 	public function test_with_canonical() {
 		$this->indexable->canonical = 'https://example.com/my-post/';
@@ -40,7 +39,6 @@ class Canonical_Test extends TestCase {
 	 * Tests the situation where no canonical is given, and it should fall back to the permalink.
 	 *
 	 * @covers ::generate_canonical
-	 * @covers ::build_paginated_canonical
 	 */
 	public function test_without_canonical() {
 		$this->indexable->object_id = 1337;
@@ -65,7 +63,6 @@ class Canonical_Test extends TestCase {
 	 * Tests a post with pagination.
 	 *
 	 * @covers ::generate_canonical
-	 * @covers ::build_paginated_canonical
 	 */
 	public function test_with_pagination() {
 		$this->indexable->object_id       = 1337;
@@ -80,7 +77,7 @@ class Canonical_Test extends TestCase {
 		$this->pagination
 			->expects( 'get_paginated_url' )
 			->once()
-			->with( 'https://example.com/permalink/', 2, true )
+			->with( 'https://example.com/permalink/', 2 )
 			->andReturn( 'https://example.com/permalink/2/' );
 
 		$this->url_helper
