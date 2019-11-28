@@ -209,6 +209,13 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 12.6.2 =
+Release Date: November 28th, 2019
+
+Other:
+
+* Removes the Black Friday banner.
+
 = 12.6.1 =
 Release Date: November 27th, 2019
 
