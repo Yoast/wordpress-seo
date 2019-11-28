@@ -29,7 +29,6 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'ms_defaults_set'                 => false,
 		// Non-form field, should only be set via validation routine.
 		'version'                         => '', // Leave default as empty to ensure activation/upgrade works.
-		// Non-form field, should be set by dismissing banner.
 
 		// Form fields.
 		'disableadvanced_meta'            => true,
