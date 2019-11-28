@@ -13,6 +13,8 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the constructor when no name and src are passed.
 	 *
+	 * @covers WPSEO_Admin_Asset::__construct
+	 *
 	 * @expectedException InvalidArgumentException
 	 */
 	public function test_constructor_missing_name() {
@@ -22,6 +24,7 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the constructor when no src is passed.
 	 *
+	 * @covers WPSEO_Admin_Asset::__construct
 	 * @expectedException InvalidArgumentException
 	 */
 	public function test_constructor_missing_src() {
@@ -33,6 +36,15 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test default values.
+	 *
+	 * @covers WPSEO_Admin_Asset::get_name
+	 * @covers WPSEO_Admin_Asset::get_src
+	 * @covers WPSEO_Admin_Asset::get_deps
+	 * @covers WPSEO_Admin_Asset::get_version
+	 * @covers WPSEO_Admin_Asset::get_media
+	 * @covers WPSEO_Admin_Asset::is_in_footer
+	 * @covers WPSEO_Admin_Asset::get_suffix
+	 * @covers WPSEO_Admin_Asset::has_rtl
 	 */
 	public function test_constructor_default_values() {
 		$asset_args = array(
@@ -53,6 +65,13 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test getters.
+	 *
+	 * @covers WPSEO_Admin_Asset::get_deps
+	 * @covers WPSEO_Admin_Asset::get_version
+	 * @covers WPSEO_Admin_Asset::get_media
+	 * @covers WPSEO_Admin_Asset::is_in_footer
+	 * @covers WPSEO_Admin_Asset::get_suffix
+	 * @covers WPSEO_Admin_Asset::has_rtl
 	 */
 	public function test_getters() {
 		$asset_args = array(
@@ -77,6 +96,8 @@ class WPSEO_Admin_Asset_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * The get_url method is deprecated so make sure it is. It should relay to the default location.
+	 *
+	 * @covers WPSEO_Admin_Asset::get_url
 	 *
 	 * @expectedDeprecated WPSEO_Admin_Asset::get_url
 	 */
