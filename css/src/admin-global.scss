@@ -311,8 +311,6 @@ td.column-wpseo-linked {
 		vertical-align: top;
 		/* inherits font size 14px */
 		line-height: 1.85714285; /* 26px vs. 28px from core */
-		/* Only necessary for IE11 */
-		min-height: 28px; /* 28px vs. 30px from core */
 	}
 }
 
@@ -368,8 +366,6 @@ td.column-wpseo-linked {
 			vertical-align: top;
 			/* inherits font size 16px */
 			line-height: 1.875; /* 30px */
-			/* Only necessary for IE11 */
-			min-height: 32px;
 		}
 	}
 
@@ -452,8 +448,6 @@ td.column-wpseo-linked {
 	background: transparent;
 	box-shadow: none;
 	vertical-align: top;
-	/* IE 11 */
-	cursor: pointer;
 }
 
 .yoast-section .yoast_help.yoast-help-button {
