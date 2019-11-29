@@ -10,6 +10,12 @@ Install the module
 $ npm install browserslist @yoast/browserslist-config --save-dev
 ```
 
+or 
+
+```shell
+$ yarn add --dev @yoast/browserslist-config
+```
+
 ## Usage
 
 Add this to your `package.json` file:
