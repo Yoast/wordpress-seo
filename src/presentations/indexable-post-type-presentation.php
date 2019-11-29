@@ -65,6 +65,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		$canonical = $this->model->permalink;
+
 		// Fix paginated pages canonical, but only if the page is truly paginated.
 		$current_page = $this->pagination->get_current_post_page_number();
 		if ( $current_page > 1 ) {
@@ -90,6 +91,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		$current_page = \max( 1, $this->pagination->get_current_post_page_number() );
+
 		// Check if there is a previous page.
 		if ( $current_page < 2 ) {
 			return '';
