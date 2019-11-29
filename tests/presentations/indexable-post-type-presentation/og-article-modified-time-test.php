@@ -50,7 +50,7 @@ class OG_Article_Modified_Time_Test extends TestCase {
 		];
 
 		$this->date_helper
-			->expects( 'mysql_date_to_w3c_format' )
+			->expects( 'format' )
 			->with( '2019-11-09T12:34:56+00:00' )
 			->once()
 			->andReturn( '2019-11-09T12:34:56+00:00' );

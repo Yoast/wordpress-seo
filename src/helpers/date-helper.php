@@ -12,6 +12,21 @@ namespace Yoast\WP\Free\Helpers;
  * Class Date_Helper
  */
 class Date_Helper {
+
+	/**
+	 * The date helper.
+	 *
+	 * @var \WPSEO_Date_Helper
+	 */
+	protected $date;
+
+	/**
+	 * Date_Helper constructor.
+	 */
+	public function __construct() {
+		$this->date = new \WPSEO_Date_Helper();
+	}
+
 	/**
 	 * Convert given date string to the W3C format.
 	 *
@@ -25,5 +40,17 @@ class Date_Helper {
 	 */
 	public function mysql_date_to_w3c_format( $date, $translate = false ) {
 		return \mysql2date( DATE_W3C, $date, $translate );
+	}
+
+	/**
+	 * Formats a given date in UTC TimeZone format.
+	 *
+	 * @param string $date   String representing the date / time.
+	 * @param string $format The format that the passed date should be in.
+	 *
+	 * @return string The formatted date.
+	 */
+	public function format( $date, $format = DATE_W3C ) {
+		return $this->date->format( $date, $format );
 	}
 }
