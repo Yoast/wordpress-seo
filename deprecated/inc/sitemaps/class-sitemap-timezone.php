@@ -25,7 +25,7 @@ class WPSEO_Sitemap_Timezone {
 	 * @return string
 	 */
 	public function format_date( $datetime_string, $format = 'c' ) {
-		_deprecated_function( __METHOD__, 'WPSEO 12.9', 'Date_Helper::format' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.8', 'Date_Helper::format' );
 
 		$date_helper = new WPSEO_Date_Helper();
 
@@ -45,7 +45,7 @@ class WPSEO_Sitemap_Timezone {
 	 * @return DateTime|null DateTime object in site's time zone.
 	 */
 	public function get_datetime_with_timezone( $datetime_string ) {
-		_deprecated_function( __METHOD__, 'WPSEO 12.9' );
+		_deprecated_function( __METHOD__, 'WPSEO 12.8' );
 
 		return null;
 	}

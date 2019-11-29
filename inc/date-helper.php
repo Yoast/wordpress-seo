@@ -45,8 +45,6 @@ class WPSEO_Date_Helper {
 	/**
 	 * Check if a string is a valid datetime.
 	 *
-	 * @since 2.0.0
-	 *
 	 * @param string $datetime String input to check as valid input for DateTime class.
 	 *
 	 * @return bool True when datatime is valid.
