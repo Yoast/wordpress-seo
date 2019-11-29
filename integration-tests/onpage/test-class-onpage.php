@@ -214,6 +214,8 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests if the notice control is hooked.
+	 *
+	 * @covers WPSEO_OnPage::register_hooks
 	 */
 	public function test_notification_hooks_should_be_hooked() {
 		$onpage = new WPSEO_OnPage();
@@ -224,6 +226,8 @@ class WPSEO_OnPage_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests if not active is based on the option.
+	 *
+	 * @covers WPSEO_OnPage::is_active
 	 */
 	public function test_is_not_active() {
 		WPSEO_Options::set( 'onpage_indexability', false );

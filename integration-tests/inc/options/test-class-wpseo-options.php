@@ -165,6 +165,8 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests if unique keys are used in all options.
+	 *
+	 * @covers WPSEO_Option::get_option
 	 */
 	public function test_make_sure_keys_are_unique_over_options() {
 		$keys = array();

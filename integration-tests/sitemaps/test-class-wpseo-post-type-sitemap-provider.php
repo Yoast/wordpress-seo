@@ -283,6 +283,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests a regular post is added to the sitemap.
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_sitemap_links
 	 */
 	public function test_regular_post() {
 		$this->factory->post->create();
@@ -293,6 +295,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests to make sure password protected posts are not in the sitemap.
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_sitemap_links
 	 */
 	public function test_password_protected_post() {
 		// Create password protected post.
@@ -312,6 +316,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests to make sure a regular attachment is include in the sitemap.
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_sitemap_links
 	 */
 	public function test_regular_attachment() {
 		// Enable attachments in the sitemap.
@@ -338,6 +344,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests to make sure attachment is not added when parent is a protected post.
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_sitemap_links
 	 *
 	 * @link https://github.com/Yoast/wordpress-seo/issues/9194
 	 */
