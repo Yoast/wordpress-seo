@@ -86,6 +86,9 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Clearing all cache.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::clear
+	 * @covers WPSEO_Sitemaps_Cache::clear_queued
 	 */
 	public function test_clear() {
 
@@ -109,6 +112,9 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Clearing specific cache.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::clear
+	 * @covers WPSEO_Sitemaps_Cache::clear_queued
 	 */
 	public function test_clear_type() {
 
@@ -133,6 +139,9 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Clearing specific cache should also clear index.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::clear
+	 * @covers WPSEO_Sitemaps_Cache::clear_queued
 	 */
 	public function test_clear_index_also_cleared() {
 
@@ -162,6 +171,9 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Clearing specific cache should not touch other type.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::clear
+	 * @covers WPSEO_Sitemaps_Cache::clear_queued
 	 */
 	public function test_clear_type_isolation() {
 
@@ -191,6 +203,8 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Make sure the hook is registered on registration.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::__construct
 	 */
 	public function test_register_clear_on_option_update() {
 
@@ -205,6 +219,8 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Option update should clear cache for registered type.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::clear_queued
 	 */
 	public function test_clear_transient_cache() {
 

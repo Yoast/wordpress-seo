@@ -141,6 +141,8 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test whether thumbnail images are properly added to the content, if one exists.
+	 *
+	 * @covers WPSEO_Recalculate_Posts::item_to_response
 	 */
 	public function test_add_featured_image_to_content() {
 		$test_double = new WPSEO_Recalculate_Posts_Test_Double();

@@ -30,6 +30,8 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test the nested sitemap generation.
+	 *
+	 * @covers WPSEO_Sitemaps::redirect
 	 */
 	public function test_post_sitemap() {
 		self::$class_instance->reset();
