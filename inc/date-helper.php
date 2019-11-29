@@ -31,6 +31,24 @@ class WPSEO_Date_Helper {
 	}
 
 	/**
+	 * Formats the given timestamp to the needed format.
+	 *
+	 * @param int    $timestamp The timestamp to use for the formatting.
+	 * @param string $format    The format that the passed date should be in.
+	 *
+	 * @return string The formatted date.
+	 */
+	public function format_timestamp( $timestamp, $format = DATE_W3C ) {
+		$immutable_date = date_create_immutable_from_format( 'U', $timestamp, new DateTimeZone( 'UTC' ) );
+
+		if ( ! $immutable_date ) {
+			return $timestamp;
+		}
+
+		return $immutable_date->format( $format );
+	}
+
+	/**
 	 * Formats a given date in UTC TimeZone format and translate it to the set language.
 	 *
 	 * @param string $date   String representing the date / time.

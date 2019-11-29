@@ -110,6 +110,51 @@ class Date_Helper_Test extends TestCase {
 	}
 
 	/**
+	 * Tests formatting of a timestamp.
+	 *
+	 * @dataProvider format_timestamp_provider
+	 *
+	 * @param string $timestamp The timestamp to format.
+	 * @param string $format    The format.
+	 * @param string $expected  The expected value.
+	 * @param string $message   Message to show when test fails.
+	 *
+	 * @covers ::format_timestamp
+	 */
+	public function test_format_timestamp( $timestamp, $format, $expected, $message ) {
+		$this->assertEquals( $expected, $this->instance->format_timestamp( $timestamp, $format ), $message );
+	}
+
+
+	/**
+	 * Provides data to the test_format.
+	 *
+	 * @return array The test data.
+	 */
+	public function format_timestamp_provider() {
+		return [
+			[
+				'timestamp' => '1973-11-29 21:33:09',
+				'format'    => DATE_W3C,
+				'expected'  => '1973-11-29 21:33:09',
+				'message'   => 'Test formatting a date given as timestamp',
+			],
+			[
+				'timestamp' => 123456789,
+				'format'    => DATE_W3C,
+				'expected'  => '1973-11-29T21:33:09+00:00',
+				'message'   => 'Test formatting the timestamp to a date',
+			],
+			[
+				'date'     => null,
+				'format'   => DATE_W3C,
+				'expected' => null,
+				'message'  => 'Test formatting the date with null as timestamp',
+			],
+		];
+	}
+
+	/**
 	 * Tests to a translated format.
 	 *
 	 * @covers ::format_translated
@@ -125,6 +170,7 @@ class Date_Helper_Test extends TestCase {
 			$this->instance->format_translated( '2020-12-31 13:37:00' )
 		);
 	}
+
 
 	/**
 	 * Test the datetime with a valid date string.
