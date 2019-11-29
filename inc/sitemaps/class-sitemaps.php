@@ -433,7 +433,7 @@ class WPSEO_Sitemaps {
 		$expires = YEAR_IN_SECONDS;
 		header( 'Pragma: public' );
 		header( 'Cache-Control: maxage=' . $expires );
-		header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', ( time() + $expires ) ) . ' GMT' );
+		header( 'Expires: ' . $this->date->format_timestamp( ( time() + $expires ), 'D, d M Y H:i:s' ) . ' GMT' );
 
 		readfile( WPSEO_PATH . 'css/main-sitemap.xsl' );
 	}
