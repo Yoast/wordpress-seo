@@ -7,7 +7,7 @@ Yoast browserslist shareable config for [Browserslist](https://www.npmjs.com/pac
 Install the module
 
 ```shell
-$ npm install browserslist @wordpress/browserslist-config --save-dev
+$ npm install browserslist @yoast/browserslist-config --save-dev
 ```
 
 ## Usage
