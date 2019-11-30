@@ -270,6 +270,8 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_register_scripts() {
 
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$asset_args = [
 			0 => [
 				'name' => 'testfile',
@@ -313,6 +315,8 @@ class WPSEO_Admin_Asset_Manager_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Admin_Asset_Manager::register_styles
 	 */
 	public function test_register_styles() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
 
 		$asset_args = [
 			0 => [

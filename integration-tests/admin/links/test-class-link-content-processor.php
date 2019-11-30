@@ -42,6 +42,9 @@ class WPSEO_Link_Content_Processor_Test extends WPSEO_UnitTestCase {
 	 * Test link storage.
 	 */
 	public function test_store_links() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		/** @var WPSEO_Link_Storage $storage */
 		$storage = $this
 			->getMockBuilder( 'WPSEO_Link_Storage' )
