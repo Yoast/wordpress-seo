@@ -32,6 +32,9 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Storage::add_field
 	 */
 	public function test_add_field() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$field = $this
 			->getMockBuilder( 'WPSEO_Config_Field' )
 			->setConstructorArgs( [ 'field', 'component' ] )
@@ -70,6 +73,9 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Storage::get_field_data
 	 */
 	public function test_get_field_data_null() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$data = null;
 
 		$adapter = $this
@@ -99,6 +105,9 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Storage::get_field_data
 	 */
 	public function test_get_field_data_field_default() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$data    = null;
 		$default = 'default';
 
@@ -134,6 +143,9 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Storage::get_field_data
 	 */
 	public function test_get_field_data_string() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$data = 'data';
 
 		$adapter = $this
@@ -163,6 +175,9 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Storage::get_field_data
 	 */
 	public function test_get_field_data_array() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$data    = [ 'a' => '1' ];
 		$default = [
 			'a' => '2',
@@ -310,5 +325,20 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 		];
 
 		$this->assertEquals( $expected, $result );
+	}
+
+	/**
+	 * Bypass the PHP deprecation error which is thrown in PHP 7.4 for the PHPUnit mock builder
+	 * in select circumstances.
+	 *
+	 * @see WPSEO_UnitTestCase::bypass_php74_mockbuilder_deprecation_warning() For full explanation.
+	 *
+	 * @return void
+	 */
+	protected function bypass_php74_mockbuilder_deprecation_warning() {
+		if ( version_compare( PHP_VERSION_ID, 70399, '>' ) ) {
+			$this->expectException( 'PHPUnit_Framework_Error_Deprecated' );
+			$this->expectExceptionMessage( 'Function ReflectionType::__toString() is deprecated' );
+		}
 	}
 }

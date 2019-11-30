@@ -239,6 +239,12 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	 */
 	public function test_get_unknown_type() {
 
+		// See WPSEO_UnitTestCase::bypass_php74_mockbuilder_deprecation_warning() for context.
+		if ( version_compare( PHP_VERSION_ID, 70399, '>' ) ) {
+			$this->expectException( 'PHPUnit_Framework_Error_Deprecated' );
+			$this->expectExceptionMessage( 'Function ReflectionType::__toString() is deprecated' );
+		}
+
 		$field_name = 'field';
 
 		$class = $this
