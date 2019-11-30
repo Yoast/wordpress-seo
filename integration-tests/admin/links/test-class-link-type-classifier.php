@@ -106,5 +106,3 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 		$classifier->classify( 'http://test.com/page' );
 	}
 }
-
-
