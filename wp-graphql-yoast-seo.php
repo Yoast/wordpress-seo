@@ -7,7 +7,7 @@
  * Author URI:      https://www.ashleyhitchcock.com
  * Text Domain:     wp-graphql-yoast-seo
  * Domain Path:     /languages
- * Version:         2.1.0
+ * Version:         2.2.0
  *
  * @package         WP_Graphql_YOAST_SEO
  */
@@ -105,7 +105,7 @@ add_action('graphql_register_types', function () {
                 'taxonomy' => $term_obj->taxonomy,
                 'terms' => $term_obj->term_id,
                 'field' => 'term_id'
-                 )
+              )
               )
             ) );
             the_post();
@@ -114,21 +114,21 @@ add_action('graphql_register_types', function () {
             $wpseo_frontend->reset();
           
             $meta =	WPSEO_Taxonomy_Meta::get_term_meta($term_obj->term_id, $term_obj->taxonomy);
-             
+
             // Get data
             $seo = array(
               'title' => trim($wpseo_frontend->title($post)) ,
               'metaDesc' => trim($wpseo_frontend->metadesc( false )),
-                 'focuskw' => trim($meta['_yoast_wpseo_focuskw']),
-              'metaKeywords' => trim($meta['_yoast_wpseo_metakeywords']),
-              'metaRobotsNoindex' => trim($meta['_yoast_wpseo_meta-robots-noindex']),
-              'metaRobotsNofollow' => trim($meta['_yoast_wpseo_meta-robots-nofollow']),
-              'opengraphTitle' => trim($meta['_yoast_wpseo_opengraph-title']),
-              'opengraphDescription' => trim($meta['_yoast_wpseo_opengraph-description']),
-              'opengraphImage' => trim($meta['_yoast_wpseo_opengraph-image']),
-              'twitterTitle' => trim($meta['_yoast_wpseo_twitter-title']),
-              'twitterDescription' => trim($meta['_yoast_wpseo_twitter-description']),
-              'twitterImage' => trim($meta['_yoast_wpseo_twitter-image'])
+              'focuskw' => trim($meta['wpseo_focuskw']),
+              'metaKeywords' => trim($meta['wpseo_metakeywords']),
+              'metaRobotsNoindex' => trim($meta['wpseo_meta-robots-noindex']),
+              'metaRobotsNofollow' => trim($meta['wpseo_meta-robots-nofollow']),
+              'opengraphTitle' => trim($meta['wpseo_opengraph-title']),
+              'opengraphDescription' => trim($meta['wpseo_opengraph-description']),
+              'opengraphImage' => trim($meta['wpseo_opengraph-image']),
+              'twitterTitle' => trim($meta['wpseo_twitter-title']),
+              'twitterDescription' => trim($meta['wpseo_twitter-description']),
+              'twitterImage' => trim($meta['wpseo_twitter-image'])
             );
             wp_reset_query();
   
