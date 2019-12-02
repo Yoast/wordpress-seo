@@ -294,7 +294,7 @@ $new_tab_message         = sprintf(
 							<?php endif; ?>
 						<?php else : ?>
 							<a target="_blank" class="yoast-button-upsell"
-							 	href="<?php echo esc_url( $extension->get_buy_url() ); ?>">
+								href="<?php echo esc_url( $extension->get_buy_url() ); ?>">
 								<?php
 								printf(
 									/* translators: %s expands to the product name */
