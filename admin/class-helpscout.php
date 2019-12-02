@@ -81,7 +81,7 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 			'<script type="text/javascript">window.%1$s(\'%2$s\', %3$s)</script>',
 			( $this->ask_consent ) ? 'wpseoHelpScoutBeaconConsent' : 'wpseoHelpScoutBeacon',
 			esc_html( $this->beacon_id ),
-			wp_json_encode( $this->get_session_data() )
+			WPSEO_Utils::format_json_encode( $this->get_session_data() )
 		);
 	}
 
@@ -138,7 +138,7 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 			}
 		}
 
-		return wp_json_encode( $data );
+		return WPSEO_Utils::format_json_encode( $data );
 	}
 
 	/**
