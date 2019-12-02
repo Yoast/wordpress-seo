@@ -1,12 +1,9 @@
 // External dependencies
 import { forEach, isArray, isNumber, isObject } from "lodash-es";
 import { getLogger } from "loglevel";
-import InvalidTypeError from "../../src/errors/invalidType";
-import { StructuredNode } from "../../src/parsedPaper/structure/tree";
 
 // Internal dependencies
 import AnalysisWebWorker from "../../src/worker/AnalysisWebWorker";
-
 import { createShortlink } from "../../src/helpers/shortlinker";
 import Assessment from "../../src/assessment";
 import SEOAssessor from "../../src/seoAssessor";
@@ -14,6 +11,8 @@ import { SEOScoreAggregator } from "../../src/parsedPaper/assess/scoreAggregator
 import { TreeResearcher } from "../../src/parsedPaper/research";
 import AssessmentResult from "../../src/values/AssessmentResult";
 import Paper from "../../src/values/Paper";
+import InvalidTypeError from "../../src/errors/invalidType";
+import { StructuredNode } from "../../src/parsedPaper/structure/tree";
 
 
 // Full-length texts to test
@@ -1652,7 +1651,7 @@ describe( "AnalysisWebWorker", () => {
 			expect( worker._registeredParsers[ 0 ] ).toEqual( mockParser );
 		} );
 
-		it( "Throws an error when register a custom parser, if it does not have an `isApplicable` method.", () => {
+		it( "throws an error when registering a custom parser, if it does not have an `isApplicable` method.", () => {
 			const mockParser = {
 				parse: () => new StructuredNode( "Hello!" ),
 			};
@@ -1660,7 +1659,7 @@ describe( "AnalysisWebWorker", () => {
 			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
 		} );
 
-		it( "Throws an error when register a custom parser, if it does not have an `parse` method.", () => {
+		it( "throws an error when registering a custom parser, if it does not have a `parse` method.", () => {
 			const mockParser = {
 				isApplicable: () => true,
 			};
@@ -1668,7 +1667,7 @@ describe( "AnalysisWebWorker", () => {
 			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
 		} );
 
-		it( "Throws an error when register a custom parser, if it does not have an `isApplicable` or `parse` method.", () => {
+		it( "throws an error when registering a custom parser, if it does not have neither `isApplicable` nor `parse` methods.", () => {
 			const mockParser = {};
 
 			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
