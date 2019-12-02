@@ -3,7 +3,6 @@
 		[
 			"env",
 			{
-				"debug": true,
 				"targets": {
 					"browsers": [ "extends @yoast/browserslist-config" ]
 				}
