@@ -59,7 +59,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Configuration_Endpoint::can_retrieve_data
 	 */
 	public function test_can_retrieve_data_pass() {
-		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$user_id = $this->factory->user->create( [ 'role' => 'administrator' ] );
 
 		wp_set_current_user( $user_id );
 
@@ -85,7 +85,7 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Configuration_Endpoint::can_save_data
 	 */
 	public function test_can_save_data_pass() {
-		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$user_id = $this->factory->user->create( [ 'role' => 'administrator' ] );
 
 		wp_set_current_user( $user_id );
 

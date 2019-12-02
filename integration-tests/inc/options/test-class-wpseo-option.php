@@ -20,11 +20,11 @@ class WPSEO_Option_Test extends WPSEO_UnitTestCase {
 	public function test_prevent_disabled_options_update() {
 		$this->skipWithoutMultisite();
 
-		$option_vars = array(
+		$option_vars = [
 			'enable_admin_bar_menu',
 			'enable_cornerstone_content',
 			'enable_xml_sitemap',
-		);
+		];
 
 		foreach ( $option_vars as $option_var ) {
 			WPSEO_Options::save_option( 'wpseo', $option_var, true );

@@ -49,17 +49,17 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 	 * @return array
 	 */
 	public function provider_urls() {
-		return array(
-			array( 'http://example.com', 'page', 'internal' ),
-			array( 'http://example.com', 'http://example.com/page', 'internal' ),
-			array( 'https://example.com', 'http://example.com/page', 'internal' ),
-			array( 'http://example.com', 'http://test.com/page', 'external' ),
-			array( 'http://example.com', 'http://dev.example.com', 'external' ),
-			array( 'http://example.com/subdirectory', 'http://example.com/subdirectory2/', 'external' ),
-			array( 'http://example.com/subdirectory', 'http://example.com/subdirectory/hi?query=set', 'internal' ),
-			array( 'http://example.com', 'mailto:johndoe@example.com', 'external' ),
-			array( 'http://example.com', 'mailto:example.com', 'external' ),
-		);
+		return [
+			[ 'http://example.com', 'page', 'internal' ],
+			[ 'http://example.com', 'http://example.com/page', 'internal' ],
+			[ 'https://example.com', 'http://example.com/page', 'internal' ],
+			[ 'http://example.com', 'http://test.com/page', 'external' ],
+			[ 'http://example.com', 'http://dev.example.com', 'external' ],
+			[ 'http://example.com/subdirectory', 'http://example.com/subdirectory2/', 'external' ],
+			[ 'http://example.com/subdirectory', 'http://example.com/subdirectory/hi?query=set', 'internal' ],
+			[ 'http://example.com', 'mailto:johndoe@example.com', 'external' ],
+			[ 'http://example.com', 'mailto:example.com', 'external' ],
+		];
 	}
 
 	/**
@@ -71,8 +71,8 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_Link_Type_Classifier $classifier */
 		$classifier = $this
 			->getMockBuilder( 'WPSEO_Link_Type_Classifier' )
-			->setConstructorArgs( array( 'http://example.com' ) )
-			->setMethods( array( 'contains_protocol' ) )
+			->setConstructorArgs( [ 'http://example.com' ] )
+			->setMethods( [ 'contains_protocol' ] )
 			->getMock();
 
 		$classifier
@@ -93,8 +93,8 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 		/** @var WPSEO_Link_Type_Classifier $classifier */
 		$classifier = $this
 			->getMockBuilder( 'WPSEO_Link_Type_Classifier' )
-			->setConstructorArgs( array( 'http://example.com' ) )
-			->setMethods( array( 'is_external_link' ) )
+			->setConstructorArgs( [ 'http://example.com' ] )
+			->setMethods( [ 'is_external_link' ] )
 			->getMock();
 
 		$classifier

@@ -138,7 +138,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_private_post() {
 		// Create and go to post.
-		$post_id = $this->factory->post->create( array( 'post_status' => 'private' ) );
+		$post_id = $this->factory->post->create( [ 'post_status' => 'private' ] );
 		$this->go_to( get_permalink( $post_id ) );
 
 		// Test private posts.
@@ -154,7 +154,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		flush_rewrite_rules();
 
 		// Add posts to category.
-		$this->factory->post->create_many( 6, array( 'post_category' => array( $category_id ) ) );
+		$this->factory->post->create_many( 6, [ 'post_category' => [ $category_id ] ] );
 
 		$category_link = get_category_link( $category_id );
 		$this->go_to( $category_link );
@@ -173,7 +173,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		flush_rewrite_rules();
 
 		// Add posts to category.
-		$this->factory->post->create_many( 6, array( 'post_category' => array( $category_id ) ) );
+		$this->factory->post->create_many( 6, [ 'post_category' => [ $category_id ] ] );
 
 		$category_link = get_category_link( $category_id );
 		$this->go_to( $category_link );
@@ -265,11 +265,11 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		$robots   = array(
+		$robots   = [
 			'index'  => 'index',
 			'follow' => 'follow',
-			'other'  => array(),
-		);
+			'other'  => [],
+		];
 		$expected = $robots;
 
 		// Test noindex.
@@ -284,7 +284,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Test meta-robots adv nosnippet.
 		WPSEO_Meta::set_value( 'meta-robots-adv', 'nosnippet', $post_id );
-		$expected['other'] = array( 'nosnippet' );
+		$expected['other'] = [ 'nosnippet' ];
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post_id );

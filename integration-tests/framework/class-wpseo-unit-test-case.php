@@ -63,7 +63,7 @@ abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 		ob_clean();
 
 		if ( ! is_array( $expected ) ) {
-			$expected = array( $expected );
+			$expected = [ $expected ];
 		}
 
 		foreach ( $expected as $needle ) {

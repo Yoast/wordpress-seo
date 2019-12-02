@@ -45,7 +45,7 @@ class WPSEO_WooCommerce_Shop_Page_Test extends WPSEO_UnitTestCase {
 		 */
 		$woocommerce_shop_page = $this
 			->getMockBuilder( 'WPSEO_WooCommerce_Shop_Page_Double' )
-			->setMethods( array( 'is_shop_page', 'get_shop_page_id' ) )
+			->setMethods( [ 'is_shop_page', 'get_shop_page_id' ] )
 			->getMock();
 
 		$woocommerce_shop_page
@@ -73,7 +73,7 @@ class WPSEO_WooCommerce_Shop_Page_Test extends WPSEO_UnitTestCase {
 		 */
 		$woocommerce_shop_page = $this
 			->getMockBuilder( 'WPSEO_WooCommerce_Shop_Page_Double' )
-			->setMethods( array( 'is_shop_page', 'get_shop_page_id' ) )
+			->setMethods( [ 'is_shop_page', 'get_shop_page_id' ] )
 			->getMock();
 
 		$woocommerce_shop_page
@@ -103,7 +103,7 @@ class WPSEO_WooCommerce_Shop_Page_Test extends WPSEO_UnitTestCase {
 		 */
 		$woocommerce_shop_page = $this
 			->getMockBuilder( 'WPSEO_WooCommerce_Shop_Page_Double' )
-			->setMethods( array( 'is_shop_page' ) )
+			->setMethods( [ 'is_shop_page' ] )
 			->getMock();
 
 		$woocommerce_shop_page

@@ -22,9 +22,9 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	 *
 	 * @var array
 	 */
-	private $attributes = array(
+	private $attributes = [
 		'class' => 'yoast-form-fieldset',
-	);
+	];
 
 	/**
 	 * The grouped form elements for the fieldset.
@@ -38,9 +38,9 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	 *
 	 * @var array
 	 */
-	private $legend_attributes = array(
+	private $legend_attributes = [
 		'class' => 'yoast-form-legend',
-	);
+	];
 
 	/**
 	 * A translatable string for the fieldset legend content.
@@ -176,7 +176,7 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 		_deprecated_function( __METHOD__, '11.9' );
 
 		$this->legend_attributes = wp_parse_args(
-			array( 'class' => 'screen-reader-text' ),
+			[ 'class' => 'screen-reader-text' ],
 			$this->legend_attributes
 		);
 	}
@@ -190,13 +190,13 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	 * @return array
 	 */
 	private function get_parts() {
-		return array(
+		return [
 			'id'                => $this->id,
 			'attributes'        => $this->get_attributes_html( $this->attributes ),
 			'legend_content'    => $this->legend_content,
 			'legend_attributes' => $this->get_attributes_html( $this->legend_attributes ),
 			'content'           => $this->content,
-		);
+		];
 	}
 
 	/**
@@ -211,7 +211,7 @@ class Yoast_Form_Fieldset implements Yoast_Form_Element {
 	 */
 	private function get_attributes_html( $attributes ) {
 		if ( ! empty( $attributes ) ) {
-			array_walk( $attributes, array( $this, 'parse_attribute' ) );
+			array_walk( $attributes, [ $this, 'parse_attribute' ] );
 
 			// Use an initial space as `implode()` adds a space only between array elements.
 			return ' ' . implode( ' ', $attributes );

@@ -15,20 +15,20 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 *
 	 * @var array
 	 */
-	private $verify_capability_filter_args = array();
+	private $verify_capability_filter_args = [];
 
 	/**
 	 * Test filter capability match.
 	 *
 	 * @var array
 	 */
-	private $verify_capability_match_filter_args = array();
+	private $verify_capability_match_filter_args = [];
 
 	/**
 	 * No ID is not persistent.
 	 */
 	public function test_not_persistent() {
-		$subject = new Yoast_Notification( 'message', array() );
+		$subject = new Yoast_Notification( 'message', [] );
 		$this->assertFalse( $subject->is_persistent() );
 	}
 
@@ -36,21 +36,21 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Test defaults.
 	 */
 	public function test_set_defaults() {
-		$subject = new Yoast_Notification( 'message', array() );
+		$subject = new Yoast_Notification( 'message', [] );
 		$test    = $subject->to_array();
 
 		$this->assertEquals(
-			array(
+			[
 				'type'             => 'updated',
 				'id'               => '',
 				'nonce'            => null,
 				'priority'         => 0.5,
-				'data_json'        => array(),
+				'data_json'        => [],
 				'dismissal_key'    => null,
-				'capabilities'     => array( 'wpseo_manage_options' ),
+				'capabilities'     => [ 'wpseo_manage_options' ],
 				'capability_check' => 'all',
 				'yoast_branding'   => false,
-			),
+			],
 			$test['options']
 		);
 	}
@@ -59,9 +59,9 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Verify invalid options.
 	 */
 	public function test_verify_priority_boundary() {
-		$options = array(
+		$options = [
 			'priority' => 2,
-		);
+		];
 
 		$subject = new Yoast_Notification( 'message', $options );
 
@@ -72,7 +72,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Test nonce when set.
 	 */
 	public function test_nonce() {
-		$subject = new Yoast_Notification( 'message', array( 'nonce' => 'nonce' ) );
+		$subject = new Yoast_Notification( 'message', [ 'nonce' => 'nonce' ] );
 		$this->assertEquals( 'nonce', $subject->get_nonce() );
 	}
 
@@ -80,7 +80,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Test nonce when not set as option.
 	 */
 	public function test_nonce_not_set() {
-		$subject = new Yoast_Notification( 'message', array( 'id' => 'id' ) );
+		$subject = new Yoast_Notification( 'message', [ 'id' => 'id' ] );
 		$nonce   = $subject->get_nonce();
 		$this->assertTrue( wp_verify_nonce( $nonce, 'id' ) !== false );
 	}
@@ -89,7 +89,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Test type is set to default and retrievable.
 	 */
 	public function test_type() {
-		$subject = new Yoast_Notification( 'message', array() );
+		$subject = new Yoast_Notification( 'message', [] );
 		$test    = $subject->to_array();
 
 		$this->assertEquals( $test['options']['type'], $subject->get_type() );
@@ -99,7 +99,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Test type custom value.
 	 */
 	public function test_type_custom() {
-		$subject = new Yoast_Notification( 'message', array( 'type' => 'bla' ) );
+		$subject = new Yoast_Notification( 'message', [ 'type' => 'bla' ] );
 		$this->assertEquals( 'bla', $subject->get_type() );
 	}
 
@@ -107,12 +107,12 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Test setting and retrieving JSON.
 	 */
 	public function test_json() {
-		$data = array( 'bla' );
+		$data = [ 'bla' ];
 
-		$subject = new Yoast_Notification( 'message', array( 'data_json' => $data ) );
+		$subject = new Yoast_Notification( 'message', [ 'data_json' => $data ] );
 		$this->assertEquals( $subject->get_json(), WPSEO_Utils::format_json_encode( $data ) );
 
-		$subject = new Yoast_Notification( 'message', array( 'data_json' => '' ) );
+		$subject = new Yoast_Notification( 'message', [ 'data_json' => '' ] );
 		$this->assertEquals( $subject->get_json(), '' );
 	}
 
@@ -120,7 +120,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Test retrieval of dismissal key.
 	 */
 	public function test_get_dismissal_key() {
-		$subject = new Yoast_Notification( 'message', array( 'dismissal_key' => 'dis' ) );
+		$subject = new Yoast_Notification( 'message', [ 'dismissal_key' => 'dis' ] );
 		$this->assertEquals( 'dis', $subject->get_dismissal_key() );
 	}
 
@@ -128,7 +128,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Test retrieval of dismissal key when not set.
 	 */
 	public function test_get_dismissal_key_not_set() {
-		$subject = new Yoast_Notification( 'message', array( 'id' => 'id' ) );
+		$subject = new Yoast_Notification( 'message', [ 'id' => 'id' ] );
 		$this->assertEquals( 'id', $subject->get_dismissal_key() );
 	}
 
@@ -136,11 +136,11 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * Non-persistent Notifications should always be displayed.
 	 */
 	public function test_not_persistent_always_show() {
-		$subject = new Yoast_Notification( 'message', array() );
+		$subject = new Yoast_Notification( 'message', [] );
 		$this->assertFalse( $subject->is_persistent() );
 		$this->assertTrue( $subject->display_for_current_user() );
 
-		$subject = new Yoast_Notification( 'message', array( 'capabilities' => array( 'foooooooo' ) ) );
+		$subject = new Yoast_Notification( 'message', [ 'capabilities' => [ 'foooooooo' ] ] );
 		$this->assertFalse( $subject->is_persistent() );
 		$this->assertTrue( $subject->display_for_current_user() );
 	}
@@ -155,14 +155,14 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
 		$subject = new Yoast_Notification(
 			'message',
-			array(
+			[
 				'id'               => 'id',
-				'capabilities'     => array(
+				'capabilities'     => [
 					'bla',
 					'foo',
-				),
+				],
 				'capability_check' => 'any',
-			)
+			]
 		);
 
 		$this->assertTrue( $subject->display_for_current_user() );
@@ -180,14 +180,14 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
 		$subject = new Yoast_Notification(
 			'message',
-			array(
+			[
 				'id'               => 'id',
-				'capabilities'     => array(
+				'capabilities'     => [
 					'bla',
 					'foo',
-				),
+				],
 				'capability_check' => 'any',
-			)
+			]
 		);
 
 		$this->assertFalse( $subject->display_for_current_user() );
@@ -203,14 +203,14 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
 		$subject = new Yoast_Notification(
 			'message',
-			array(
+			[
 				'id'               => 'id',
-				'capabilities'     => array(
+				'capabilities'     => [
 					'bla',
 					'foo',
-				),
+				],
 				'capability_check' => 'all',
-			)
+			]
 		);
 
 		$this->assertTrue( $subject->display_for_current_user() );
@@ -226,14 +226,14 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 
 		$subject = new Yoast_Notification(
 			'message',
-			array(
+			[
 				'id'               => 'id',
-				'capabilities'     => array(
+				'capabilities'     => [
 					'bla',
 					'foo',
-				),
+				],
 				'capability_check' => 'all',
-			)
+			]
 		);
 
 		$this->add_cap( 'bla' );
@@ -250,7 +250,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 * @return mixed
 	 */
 	public function verify_wpseo_notification_capabilities_filter( $capabilities, $notification ) {
-		$test = array( $capabilities, $notification );
+		$test = [ $capabilities, $notification ];
 		$this->assertEquals( $this->verify_capability_filter_args, $test );
 
 		return $capabilities;
@@ -262,10 +262,10 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	public function test_invalid_filter_return_values() {
 		$subject = new Yoast_Notification(
 			'message',
-			array(
+			[
 				'id'           => 'id',
 				'capabilities' => 'not_an_array',
-			)
+			]
 		);
 		$this->assertFalse( $subject->display_for_current_user() );
 	}
@@ -277,8 +277,8 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 	 *
 	 * @return array
 	 */
-	public function add_wpseo_notification_capabilities( $current_capabilities = array() ) {
-		return array( 'jip', 'janneke' );
+	public function add_wpseo_notification_capabilities( $current_capabilities = [] ) {
+		return [ 'jip', 'janneke' ];
 	}
 
 	/**

@@ -15,14 +15,14 @@ class WPSEO_Role_Manager_Mock extends WPSEO_Abstract_Role_Manager {
 	 *
 	 * @var array
 	 */
-	public $added_roles = array();
+	public $added_roles = [];
 
 	/**
 	 * Removed roles.
 	 *
 	 * @var array
 	 */
-	public $removed_roles = array();
+	public $removed_roles = [];
 
 	/**
 	 * Get registered roles.
@@ -67,12 +67,12 @@ class WPSEO_Role_Manager_Mock extends WPSEO_Abstract_Role_Manager {
 	 *
 	 * @return void
 	 */
-	protected function add_role( $role, $display_name, array $capabilities = array() ) {
-		$this->added_roles[] = array(
+	protected function add_role( $role, $display_name, array $capabilities = [] ) {
+		$this->added_roles[] = [
 			'role'         => $role,
 			'display_name' => $display_name,
 			'capabilities' => $capabilities,
-		);
+		];
 	}
 
 	/**

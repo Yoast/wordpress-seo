@@ -21,7 +21,7 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_File_Size_Service' )
-			->setMethods( array( 'is_externally_hosted' ) )
+			->setMethods( [ 'is_externally_hosted' ] )
 			->getMock();
 
 		$instance
@@ -43,7 +43,7 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 	public function test_get_with_unknown_failure() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_File_Size_Service' )
-			->setMethods( array( 'get_file_url', 'calculate_file_size' ) )
+			->setMethods( [ 'get_file_url', 'calculate_file_size' ] )
 			->getMock();
 
 		$instance
@@ -70,7 +70,7 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 	public function test_get_on_success() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_File_Size_Service' )
-			->setMethods( array( 'get_file_url', 'get_file_size' ) )
+			->setMethods( [ 'get_file_url', 'get_file_size' ] )
 			->getMock();
 
 		$instance
@@ -101,7 +101,7 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_File_Size_Service' )
-			->setMethods( array( 'is_externally_hosted' ) )
+			->setMethods( [ 'is_externally_hosted' ] )
 			->getMock();
 
 		$instance
@@ -127,7 +127,7 @@ class WPSEO_File_Size_Service_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_File_Size_Service' )
-			->setMethods( array( 'is_externally_hosted', 'get_file_size' ) )
+			->setMethods( [ 'is_externally_hosted', 'get_file_size' ] )
 			->getMock();
 
 		$instance

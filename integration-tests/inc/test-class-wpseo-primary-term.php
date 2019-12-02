@@ -79,7 +79,7 @@ class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 		$term_first  = get_term_by( 'name', 'yoast', 'category' );
 		$term_second = get_term_by( 'name', 'seo', 'category' );
 
-		$post_id = $this->factory->post->create( array( 'post_category' => array( $term_first->term_id, $term_second->term_id ) ) );
+		$post_id = $this->factory->post->create( [ 'post_category' => [ $term_first->term_id, $term_second->term_id ] ] );
 
 		$class_instance = new WPSEO_Primary_Term( $this->taxonomy_name, $post_id );
 
@@ -96,6 +96,6 @@ class WPSEO_Primary_Term_Test extends WPSEO_UnitTestCase {
 
 		$class_instance->set_primary_term( $this->primary_term_id );
 
-		$this->assertEquals( array( $this->primary_term_id ), get_post_meta( $this->post_id, '_yoast_wpseo_primary_' . $this->taxonomy_name ) );
+		$this->assertEquals( [ $this->primary_term_id ], get_post_meta( $this->post_id, '_yoast_wpseo_primary_' . $this->taxonomy_name ) );
 	}
 }
