@@ -15,5 +15,8 @@
   "license": "GPL-3.0",
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@yoast/browserslist-config": "^1.0.0"
   }
 }
