@@ -49,9 +49,6 @@
     "react": "^16.2.0",
     "react-dom": "16.2.0"
   },
-  "browserslist": [
-    "extends @yoast/browserslist-config"
-  ],
   "publishConfig": {
     "access": "public"
   }
