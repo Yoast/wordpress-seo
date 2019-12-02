@@ -59,3 +59,5 @@ class Images extends Base_Images {
 		}
 	}
 }
+
+class_alias( '\Yoast\WP\Free\Values\Open_Graph\Images', 'WPSEO_OpenGraph_Image' );
