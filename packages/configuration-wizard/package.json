@@ -63,9 +63,6 @@
       "/node_modules/(?!yoastseo|lodash-es).+\\.js$"
     ]
   },
-  "browserslist": [
-    "extends @yoast/browserslist-config"
-  ],
   "publishConfig": {
     "access": "public"
   }
