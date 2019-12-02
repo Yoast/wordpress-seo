@@ -12,7 +12,7 @@ class Indexables_Base_Migration_Conditional extends Migration_Conditional {
 	/**
 	 * Returns the name of the migration.
 	 *
-	 * @return string the name of the migration.
+	 * @return string The name of the migration.
 	 */
 	protected function get_migration_name() {
 		return 'free';
@@ -21,7 +21,7 @@ class Indexables_Base_Migration_Conditional extends Migration_Conditional {
 	/**
 	 * Returns the version of the migration.
 	 *
-	 * @return string the version of the migration.
+	 * @return string The version of the migration.
 	 */
 	protected function get_migration_version() {
 		return '11.7';

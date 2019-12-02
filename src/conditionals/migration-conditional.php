@@ -38,14 +38,14 @@ abstract class Migration_Conditional implements Conditional {
 	/**
 	 * Returns the name of the migration.
 	 *
-	 * @return string the name of the migration.
+	 * @return string The name of the migration.
 	 */
 	protected abstract function get_migration_name();
 
 	/**
 	 * Returns the version of the migration.
 	 *
-	 * @return string the version of the migration.
+	 * @return string The version of the migration.
 	 */
 	protected function get_migration_version() {
 		return WPSEO_VERSION;

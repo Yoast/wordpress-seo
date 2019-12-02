@@ -33,15 +33,15 @@ class Migration_Status {
 		if ( array_key_exists( 'lock', $migration_status ) ) {
 			$timestamp = strtotime( '-10 minutes' );
 
-			return $timestamp > $migration_status[ 'lock' ];
+			return $timestamp > $migration_status['lock'];
 		}
 
 		// Is the migration version less than the current version.
-		return version_compare( $migration_status[ 'version' ], WPSEO_VERSION, '<' );
+		return version_compare( $migration_status['version'], WPSEO_VERSION, '<' );
 	}
 
 	/**
-	 * Checks wether or not the given migration is at least the given version, defaults to checking for the latest version.
+	 * Checks whether or not the given migration is at least the given version, defaults to checking for the latest version.
 	 *
 	 * @param string $name    The name of the migration.
 	 * @param string $version The version to check, defaults to the latest version.
@@ -50,7 +50,8 @@ class Migration_Status {
 	 */
 	public function is_version( $name, $version = WPSEO_VERSION ) {
 		$migration_status = $this->get_migration_status( $name );
-		return version_compare( $version, $migration_status[ 'version' ], '<=' );
+
+		return version_compare( $version, $migration_status['version'], '<=' );
 	}
 
 	/**
@@ -63,11 +64,11 @@ class Migration_Status {
 	public function get_error( $name ) {
 		$migration_status = $this->get_migration_status( $name );
 
-		if ( ! isset( $migration_status[ 'error' ] ) ) {
+		if ( ! isset( $migration_status['error'] ) ) {
 			return false;
 		}
 
-		return $migration_status[ 'error' ];
+		return $migration_status['error'];
 	}
 
 	/**
@@ -83,11 +84,12 @@ class Migration_Status {
 	public function set_error( $name, $message ) {
 		$migration_status = $this->get_migration_status( $name );
 
-		$migration_status[ 'error' ] = [
+		$migration_status['error'] = [
 			'time'    => strtotime( 'now' ),
 			'version' => WPSEO_VERSION,
 			'message' => $message,
 		];
+
 		$this->set_migration_status( $name, $migration_status );
 	}
 
@@ -100,9 +102,9 @@ class Migration_Status {
 	 */
 	public function set_success( $name ) {
 		$migration_status = $this->get_migration_status( $name );
-		unset( $migration_status[ 'lock' ] );
-		unset( $migration_status[ 'error' ] );
-		$migration_status[ 'version' ] = WPSEO_VERSION;
+		unset( $migration_status['lock'] );
+		unset( $migration_status['error'] );
+		$migration_status['version'] = WPSEO_VERSION;
 		$this->set_migration_status( $name, $migration_status );
 	}
 
@@ -115,7 +117,8 @@ class Migration_Status {
 	 */
 	public function lock_migration( $name ) {
 		$migration_status = $this->get_migration_status( $name );
-		$migration_status[ 'lock' ] = strtotime( 'now' );
+		$migration_status['lock'] = strtotime( 'now' );
+
 		return $this->set_migration_status( $name, $migration_status );
 	}
 
@@ -130,7 +133,7 @@ class Migration_Status {
 		if ( ! isset( $this->migration_options[ $name ] ) ) {
 			$migration_status = \get_option( self::MIGRATION_OPTION_KEY . $name );
 
-			if ( ! is_array( $migration_status ) || ! isset( $migration_status[ 'version' ] ) ) {
+			if ( ! is_array( $migration_status ) || ! isset( $migration_status['version'] ) ) {
 				$migration_status = [ 'version' => '0.0' ];
 			}
 
@@ -144,16 +147,17 @@ class Migration_Status {
 	 * Retrieves the migration option.
 	 *
 	 * @param string $name             The name of the migration.
-	 * @param array  $migration_status The migration status
+	 * @param array  $migration_status The migration status.
 	 *
 	 * @return bool True if the status was succesfully updated, false otherwise.
 	 */
 	protected function set_migration_status( $name, $migration_status ) {
-		if ( ! is_array( $migration_status ) || ! isset( $migration_status[ 'version' ] ) ) {
+		if ( ! is_array( $migration_status ) || ! isset( $migration_status['version'] ) ) {
 			return false;
 		}
 
 		$this->migration_options[ $name ] = $migration_status;
+
 		return \update_option( self::MIGRATION_OPTION_KEY . $name, $migration_status );
 	}
 }

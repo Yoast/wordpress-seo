@@ -48,14 +48,14 @@ class Migration_Runner implements Initializer_Interface {
 	/**
 	 * Migrations constructor.
 	 *
-	 * @param Migration_Status    $migration_status
-	 * @param Ruckusing_Framework $framework The Ruckusing framework runner.
-	 * @param Logger              $logger    A PSR compatible logger.
+	 * @param Migration_Status    $migration_status The migration status.
+	 * @param Ruckusing_Framework $framework        The Ruckusing framework runner.
+	 * @param Logger              $logger           A PSR compatible logger.
 	 */
 	public function __construct(
-		Migration_Status    $migration_status,
+		Migration_Status $migration_status,
 		Ruckusing_Framework $framework,
-		Logger              $logger
+		Logger $logger
 	) {
 		$this->migration_status = $migration_status;
 		$this->framework        = $framework;
