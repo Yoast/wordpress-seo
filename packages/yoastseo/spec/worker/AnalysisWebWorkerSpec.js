@@ -1667,7 +1667,7 @@ describe( "AnalysisWebWorker", () => {
 			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
 		} );
 
-		it( "throws an error when registering a custom parser, if it does not have neither `isApplicable` nor `parse` methods.", () => {
+		it( "throws an error when registering a custom parser, if it neither has `isApplicable` method nor `parse` method.", () => {
 			const mockParser = {};
 
 			expect( () => worker.registerParser( mockParser ) ).toThrow( InvalidTypeError );
