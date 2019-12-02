@@ -31,7 +31,7 @@ class Filters_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests global wp_filter.
 	 *
-	 * phpcs:disable Yoast.Commenting.TestsHaveCoversTag -- There is no actual function being tested here.
+	 * @coversNothing
 	 */
 	public function test_wp_head() {
 		$wp_head = $this->wp_filter['wp_head'];
@@ -44,5 +44,4 @@ class Filters_Test extends WPSEO_UnitTestCase {
 		$this->assertArrayNotHasKey( 'jetpack_og_tags', $wp_head[10] );
 		$this->assertArrayNotHasKey( 'wp_no_robots', $wp_head[10] );
 	}
-	// phpcs:enable Yoast.Commenting.TestsHaveCoversTag -- Because with `phpcs:ignore` it fights with the docblock sniff.
 }
