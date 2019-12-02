@@ -15,10 +15,10 @@ final class Test_Admin_Asset_Dev_Server_Location extends PHPUnit_Framework_TestC
 	 *
 	 * @var array
 	 */
-	private $asset_defaults = array(
+	private $asset_defaults = [
 		'name' => 'commons',
 		'src'  => 'commons',
-	);
+	];
 
 	/**
 	 * Basic get_url test.

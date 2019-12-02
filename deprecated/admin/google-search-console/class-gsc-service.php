@@ -65,7 +65,7 @@ class WPSEO_GSC_Service {
 	public function get_sites() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
-		return array();
+		return [];
 	}
 
 	/**
@@ -80,7 +80,7 @@ class WPSEO_GSC_Service {
 	public function get_crawl_issue_counts() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
-		return array();
+		return [];
 	}
 
 	/**
@@ -117,6 +117,6 @@ class WPSEO_GSC_Service {
 	public function fetch_category_issues( $platform, $category ) {
 		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
-		return array();
+		return [];
 	}
 }

@@ -101,7 +101,7 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	public function get_data() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
-		return array();
+		return [];
 	}
 
 	/**
@@ -114,6 +114,6 @@ class WPSEO_Config_Component_Connect_Google_Search_Console implements WPSEO_Conf
 	public function set_data( $data ) {
 		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
-		return array();
+		return [];
 	}
 }

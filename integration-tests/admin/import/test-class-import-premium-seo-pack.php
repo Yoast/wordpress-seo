@@ -31,8 +31,8 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 	public function tearDown() {
 		$this->class_instance->run_cleanup();
 
-		add_filter( 'query', array( $this, '_create_temporary_tables' ) );
-		add_filter( 'query', array( $this, '_drop_temporary_tables' ) );
+		add_filter( 'query', [ $this, '_create_temporary_tables' ] );
+		add_filter( 'query', [ $this, '_drop_temporary_tables' ] );
 	}
 
 	/**
@@ -217,8 +217,8 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 		$original_wpdb = $wpdb;
 
 		$wpdb = $this->getMockBuilder( 'wpdb' )
-			->setConstructorArgs( array( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ) )
-			->setMethods( array( 'query', 'get_var' ) )
+			->setConstructorArgs( [ DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ] )
+			->setMethods( [ 'query', 'get_var' ] )
 			->getMock();
 		$wpdb->expects( $this->any() )
 			->method( 'query' )
@@ -261,7 +261,7 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 
 		$post_id = $this->factory()->post->create();
 		$blob    = $this->build_data_blob(
-			array(
+			[
 				'noindex'     => 0,
 				'nofollow'    => 1,
 				'title'       => 'Test title',
@@ -269,7 +269,7 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 				'og_media'    => 'http://local.wordpress.test/wp-content/uploads/2018/01/actionable-seo.png',
 				'og_title'    => 'OpenGraph AIOSEO title',
 				'cornerstone' => 1,
-			)
+			]
 		);
 		$this->insert_post( $post_id, $blob );
 
@@ -289,9 +289,9 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return array Complete array
 	 */
-	private function build_data_blob( $data = array() ) {
+	private function build_data_blob( $data = [] ) {
 		return array_merge(
-			array(
+			[
 				'doseo'          => 1,
 				'noindex'        => 0,
 				'nofollow'       => 0,
@@ -313,7 +313,7 @@ class WPSEO_Import_Premium_SEO_Pack_Test extends WPSEO_UnitTestCase {
 				'og_media'       => '',
 				'patterns'       => '',
 				'sep'            => '',
-			),
+			],
 			$data
 		);
 	}
