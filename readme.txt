@@ -212,10 +212,6 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 12.7.0 =
 Release Date: December 10th, 2019
 
-Enhancements:
-
-* Optimizes the parsing of gallery shortcodes. Props to [@stodorovic](https://github.com/stodorovic).
-
 Bugfixes:
 
 * Prevents rendering sub-sitemaps for non-public custom post types. Props to [@stodorovic](https://github.com/stodorovic).
