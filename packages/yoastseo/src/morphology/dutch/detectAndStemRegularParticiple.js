@@ -86,6 +86,7 @@ const detectAndStemParticiplesWithPrefixes = function( morphologyDataVerbs, word
  *
  * @param {array} dataInseparableExceptions The list of the exception words.
  * @param {string} word 	The (unstemmed) word to check.
+ *
  * @returns {null|string} The stemmed word or null if the word was not found on the exception list.
  */
 const checkInseparableExceptions = function( dataInseparableExceptions, word ) {
