@@ -43,6 +43,7 @@ class Test_Yoast_Notification extends WPSEO_UnitTestCase {
 			[
 				'type'             => 'updated',
 				'id'               => '',
+				'user'             => wp_get_current_user(),
 				'nonce'            => null,
 				'priority'         => 0.5,
 				'data_json'        => [],
