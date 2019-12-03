@@ -4,6 +4,83 @@ import {
 } from "./addVerbSuffixes";
 import { applySuffixesToStem } from "../morphoHelpers/suffixHelpers";
 import { flatten } from "lodash-es";
+import { allVerbPrefixesSorted } from "../morphoHelpers/sortPrefixes";
+/**
+ * Creates the present forms of irregular strong verbs.
+ *
+ * @param {Object} verb				The list that contains the present, past and participle stems of strong verbs.
+ * @param {Object} morphologyDataVerbs			The Dutch morphology data file for verbs.
+ * @param {Object} morphologyDataAddSuffixes	The Dutch morphology data for adding suffixes.
+ * @param {string} stemmedWord					The stem.
+ *
+ * @returns {string[]}							The verb forms created.
+ */
+const createIrregularStrongVerbsPresent = function( verb, morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ) {
+	const enAndEndSuffixes = morphologyDataVerbs.suffixesWithStemModification;
+	const modifiedPresentStem = findAndApplyModifications( verb.present, morphologyDataAddSuffixes, morphologyDataVerbs );
+	const forms = [
+		verb.present,
+		...applySuffixesToStem( modifiedPresentStem,  enAndEndSuffixes ),
+	];
+	if ( stemmedWord.endsWith( "t" ) ) {
+		return forms;
+	}
+	forms.push( verb.present.concat( "t" ) );
+	return forms;
+};
+/**
+ * Creates the past forms of irregular strong verbs.
+ *
+ * @param {Object} verb				The list that contains the present, past and participle stems of strong verbs.
+ * @param {Object} morphologyDataVerbs			The Dutch morphology data file for verbs.
+ * @param {Object} morphologyDataAddSuffixes	The Dutch morphology data for adding suffixes.
+ *
+ *  @returns {string[]}							The verb forms created.
+ */
+const createIrregularStrongVerbsPast = function( verb, morphologyDataVerbs, morphologyDataAddSuffixes ) {
+	const modifiedPastStem = findAndApplyModifications( verb.past, morphologyDataAddSuffixes, morphologyDataVerbs );
+	const enAndEndSuffixes = morphologyDataVerbs.suffixesWithStemModification;
+	return [
+		verb.past,
+		modifiedPastStem.concat( enAndEndSuffixes[ 0 ] ),
+	];
+};
+
+/**
+ * Creates the past participle form(s) of strong verbs
+ *
+ * @param {string}		stem				The list that contains the present, past and participle stems of strong verbs.
+ * @param {string}		suffix				The array containing the participle suffix
+ * @param {Object} 		morphologyDataVerbs			The Dutch morphology data file for verbs.
+ * @param {Object} 		morphologyDataAddSuffixes	The Dutch morphology data for adding suffixes.
+ * @returns {string}						The verb forms created.
+ */
+const createIrregularStrongVerbsParticiple = function( stem, suffix, morphologyDataVerbs, morphologyDataAddSuffixes ) {
+	// Create the past participle form which gets suffix -en. Requires stem modification beforehand.
+	if ( suffix === morphologyDataVerbs.strongAndIrregularVerbs.suffixes.pastParticipleEn ) {
+		return findAndApplyModifications( stem, morphologyDataAddSuffixes, morphologyDataVerbs ).concat( suffix );
+	}
+	/* Create the past participle form which gets suffix -t or -d.
+		If the participle stem ends in either -t or -d, it would not get any additional suffix.
+		If the stem ends in neither -d or -t, it will get suffix -t.
+	*/
+	if ( stem.endsWith( "t" ) || stem.endsWith( "d" ) ) {
+		return stem;
+	}
+	return stem.concat( suffix );
+};
+/**
+ * Checks whether the stemmed word is listed in the strong verbs exception list.
+ *
+ * @param {Object} verb				The list that contains the present, past and participle stems of strong verbs.
+ * @param {string} stemmedWord		The stem.
+ * @returns {boolean}				Whether the stem is listed in the exception list.
+ */
+const checkStems = function( verb, stemmedWord ) {
+	if ( Object.values( verb ).indexOf( stemmedWord ) > -1 ) {
+		return true;
+	}
+};
 /**
  * Creates the verb forms of strong verbs which have regular past form including the ones which have two past participle forms.
  *
@@ -13,61 +90,34 @@ import { flatten } from "lodash-es";
  *
  * @returns {string[]}							The verb forms created.
  */
-export function generateStrongRegularVerbs( morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ) {
+const generateStrongRegularVerbs = function( morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ) {
 	const regularStrongVerbs = morphologyDataVerbs.strongAndIrregularVerbs.strongVerbStems.regularStrongVerbs;
-	const suffixPastParticipleD = morphologyDataVerbs.strongAndIrregularVerbs.suffixes.pastParticipleD;
 	const suffixEn = morphologyDataVerbs.strongAndIrregularVerbs.suffixes.pastParticipleEn;
-	//	Creates the verb forms of strong verbs which have regular past form and have two past participle forms.
+	const suffixT = morphologyDataVerbs.strongAndIrregularVerbs.suffixes.pastParticipleT;
+	//	Creates the verb forms of strong verbs which have regular past form and have two past participle forms (-en and -d).
 	for ( const verb of regularStrongVerbs.regularStrongVerbsEnAndDEnding ) {
-		if ( verb.stem === stemmedWord || verb.participle === stemmedWord ) {
-			const modifiedParticiple = findAndApplyModifications( verb.participle, morphologyDataAddSuffixes, morphologyDataVerbs );
+		if ( checkStems( verb, stemmedWord ) ) {
 			return [
 				verb.stem,
 				...addVerbSuffixes( verb.stem, morphologyDataAddSuffixes, morphologyDataVerbs ),
-				modifiedParticiple.concat( suffixEn ),
-				verb.participle.concat( suffixPastParticipleD ),
+				createIrregularStrongVerbsParticiple( verb.participle[ 0 ], suffixEn, morphologyDataVerbs, morphologyDataAddSuffixes ),
+				createIrregularStrongVerbsParticiple( verb.participle[ 1 ], suffixT, morphologyDataVerbs, morphologyDataAddSuffixes ),
 			];
 		}
 	}
 	// 	Creates the verb forms of strong verbs which have regular past form and receive suffix -en in participle form.
 	for ( const verb of regularStrongVerbs.regularStrongVerbsEnEnding ) {
-		if ( verb.stem === stemmedWord || verb.participle === stemmedWord ) {
+		if ( checkStems( verb, stemmedWord ) ) {
 			return [
 				verb.stem,
 				...addVerbSuffixes( verb.stem, morphologyDataAddSuffixes, morphologyDataVerbs ),
-				findAndApplyModifications( verb.participle, morphologyDataAddSuffixes, morphologyDataVerbs ).concat( suffixEn ),
+				createIrregularStrongVerbsParticiple( verb.participle, suffixEn, morphologyDataVerbs, morphologyDataAddSuffixes ),
 			];
 		}
 	}
 	return [];
-}
-
-/**
- * Creates the present and past forms of irregular strong verbs.
- *
- * @param {Object} verb				The list that contains the present, past and participle stems of strong verbs.
- * @param {Object} morphologyDataVerbs			The Dutch morphology data file for verbs.
- * @param {Object} morphologyDataAddSuffixes	The Dutch morphology data for adding suffixes.
- * @param {string} stemmedWord					The stem.
- *
- * @returns {string[]}							The verb forms created.
- */
-const createIrregularStrongVerbsPresentAndPast = function( verb, morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ) {
-	const presentSuffixE = morphologyDataVerbs.suffixesWithStemModification;
-	const modifiedPresentStem = findAndApplyModifications( verb.present, morphologyDataAddSuffixes, morphologyDataVerbs );
-	const modifiedPastStem = findAndApplyModifications( verb.past, morphologyDataAddSuffixes, morphologyDataVerbs );
-	const forms = [
-		modifiedPastStem.concat( presentSuffixE[ 0 ] ),
-		verb.past,
-		verb.present,
-		...applySuffixesToStem( modifiedPresentStem,  presentSuffixE ),
-	];
-	if ( stemmedWord.endsWith( "t" ) ) {
-		return forms;
-	}
-	forms.push( stemmedWord.concat( "t" ) );
-	return forms;
 };
+
 /**
  * Creates the verb forms of strong verbs which have irregular simple past and past participle form.
  *
@@ -77,45 +127,56 @@ const createIrregularStrongVerbsPresentAndPast = function( verb, morphologyDataV
  *
  * @returns {string[]}							The verb forms created.
  */
-export function generateIrregularStrongVerbs( morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ) {
+const generateIrregularStrongVerbs = function( morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ) {
 	const irregularStrongVerbs = morphologyDataVerbs.strongAndIrregularVerbs.strongVerbStems.irregularStrongVerbs;
 	const suffixEn = morphologyDataVerbs.strongAndIrregularVerbs.suffixes.pastParticipleEn;
-	//	Creates the verb forms of strong verbs which have irregular past form
-	// 	And whose past participle is the same with simple past plural form
+	const suffixT = morphologyDataVerbs.strongAndIrregularVerbs.suffixes.pastParticipleT;
+	/* Creates the verb forms of strong verbs which have irregular past form
+	and whose past participle is the same with simple past plural form
+	*/
 	for ( const verb of irregularStrongVerbs.strongVerbsWithSamePastPluralAndParticipleEn ) {
-		if ( verb.present === stemmedWord || verb.past === stemmedWord ) {
-			return createIrregularStrongVerbsPresentAndPast( verb, morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord );
+		if ( checkStems( verb, stemmedWord ) ) {
+			return [
+				...createIrregularStrongVerbsPresent( verb, morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ),
+				...createIrregularStrongVerbsPast( verb, morphologyDataVerbs, morphologyDataAddSuffixes ),
+			];
 		}
 	}
 	// 	Creates the verb forms of strong verbs which have irregular past form and receive suffix -en in participle form.
 	for ( const verb of irregularStrongVerbs.irregularStrongVerbsEnEnding ) {
-		if ( verb.present === stemmedWord || verb.past === stemmedWord || verb.participle === stemmedWord ) {
+		if ( checkStems( verb, stemmedWord ) ) {
 			return [
-				...createIrregularStrongVerbsPresentAndPast( verb, morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ),
-				findAndApplyModifications( verb.participle, morphologyDataAddSuffixes, morphologyDataVerbs ).concat( suffixEn ),
+				...createIrregularStrongVerbsPresent( verb, morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ),
+				...createIrregularStrongVerbsPast( verb, morphologyDataVerbs, morphologyDataAddSuffixes ),
+				createIrregularStrongVerbsParticiple( verb.participle, suffixEn, morphologyDataVerbs, morphologyDataAddSuffixes ),
 			];
 		}
 	}
 	// 	Creates the verb forms of strong verbs which have irregular past form and receive suffix -t/-d in participle form.
 	for ( const verb of irregularStrongVerbs.irregularStrongVerbsDOrTEnding ) {
-		if ( verb.present === stemmedWord || verb.past === stemmedWord || verb.participle === stemmedWord ) {
-			// Excluding the past participle forms in the return statement
-			return createIrregularStrongVerbsPresentAndPast( verb, morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord );
+		if ( checkStems( verb, stemmedWord ) ) {
+			return [
+				...createIrregularStrongVerbsPresent( verb, morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ),
+				...createIrregularStrongVerbsPast( verb, morphologyDataVerbs, morphologyDataAddSuffixes ),
+				createIrregularStrongVerbsParticiple( verb.participle, suffixT, morphologyDataVerbs, morphologyDataAddSuffixes ),
+			];
 		}
 	}
-	//	Creates the verb forms of strong verbs in which their past form do not need to double their last consonant before attaching -en
+
+	//	Creates the verb forms of strong verbs in which their past form do not need to double their last consonant before attaching -en.
 	for ( const verb of irregularStrongVerbs.noConsonantDoublingStrongVerbsEnEnding ) {
-		if ( verb.present === stemmedWord || verb.past === stemmedWord || verb.participle === stemmedWord ) {
-			const forms = createIrregularStrongVerbsPresentAndPast( verb, morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord );
+		if ( checkStems( verb, stemmedWord ) ) {
 			return [
+				...createIrregularStrongVerbsPresent( verb, morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ),
+				verb.past,
+				// The past stem does not need to undergo stem modification before attaching suffix -en.
 				verb.past.concat( suffixEn ),
-				...forms.slice( 1, forms.length ),
-				findAndApplyModifications( verb.participle, morphologyDataAddSuffixes, morphologyDataVerbs ).concat( suffixEn ),
+				createIrregularStrongVerbsParticiple( verb.participle, suffixEn, morphologyDataVerbs, morphologyDataAddSuffixes ),
 			];
 		}
 	}
 	return [];
-}
+};
 /**
  * Creates the present and past forms of strong verbs whose both regular and irregular past forms.
  *
@@ -127,13 +188,12 @@ export function generateIrregularStrongVerbs( morphologyDataVerbs, morphologyDat
  */
 const createFormsBothRegularAndIrregularStrongVerbs = function( verb, morphologyDataVerbs, morphologyDataAddSuffixes ) {
 	const suffixEn = morphologyDataVerbs.strongAndIrregularVerbs.suffixes.pastParticipleEn;
-	const forms = [
+	return [
 		verb.regularStem,
 		...addVerbSuffixes( verb.regularStem, morphologyDataAddSuffixes, morphologyDataVerbs ),
 		verb.irregularStem,
 		findAndApplyModifications( verb.irregularStem, morphologyDataAddSuffixes, morphologyDataVerbs ).concat( suffixEn ),
 	];
-	return forms;
 };
 
 /**
@@ -145,34 +205,39 @@ const createFormsBothRegularAndIrregularStrongVerbs = function( verb, morphology
  *
  * @returns {string[]}							The verb forms created.
  */
-export function generateBothRegularAndIrregularStrongVerbs( morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ) {
+const generateBothRegularAndIrregularStrongVerbs = function( morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ) {
 	const bothRegularAndIrregularStrongVerbs = morphologyDataVerbs.strongAndIrregularVerbs.strongVerbStems.bothRegularAndIrregularStrongVerbs;
 	const suffixEn = morphologyDataVerbs.strongAndIrregularVerbs.suffixes.pastParticipleEn;
-	//	Creates the verb forms of strong verbs which have both regular and irregular past form
-	// 	And whose past participle is the same with simple present plural form
+	const suffixT = morphologyDataVerbs.strongAndIrregularVerbs.suffixes.pastParticipleT;
+	/*	Creates the verb forms of strong verbs which have both regular and irregular past form
+	and whose past participle is the same with simple present plural form
+	*/
 	for ( const verb of bothRegularAndIrregularStrongVerbs.bothRegularAndIrregularStrongVerbsNoParticiple ) {
-		if ( verb.regularStem === stemmedWord || verb.irregularStem === stemmedWord ) {
+		if ( checkStems( verb, stemmedWord ) ) {
 			return createFormsBothRegularAndIrregularStrongVerbs( verb, morphologyDataVerbs, morphologyDataAddSuffixes );
 		}
 	}
 	//	Creates the verb forms of strong verbs which have both regular and irregular past form and receive suffix -en and -d/-t in participle form
-	for ( const verb of bothRegularAndIrregularStrongVerbs.bothRegularAndIrregularStrongVerbsEnAndTOrDEnding ) {
-		if ( verb.regularStem === stemmedWord || verb.irregularStem === stemmedWord ) {
-			// Excluding the past participle forms in the return statement
-			return createFormsBothRegularAndIrregularStrongVerbs( verb, morphologyDataVerbs, morphologyDataAddSuffixes );
+	for ( const verb of bothRegularAndIrregularStrongVerbs.bothRegularAndIrregularStrongVerbsTwoParticiples ) {
+		if ( checkStems( verb, stemmedWord ) ) {
+			return [
+				...createFormsBothRegularAndIrregularStrongVerbs( verb, morphologyDataVerbs, morphologyDataAddSuffixes ),
+				createIrregularStrongVerbsParticiple( verb.participle[ 0 ], suffixEn, morphologyDataVerbs, morphologyDataAddSuffixes ),
+				createIrregularStrongVerbsParticiple( verb.participle[ 1 ], suffixT, morphologyDataVerbs, morphologyDataAddSuffixes ),
+			];
 		}
 	}
 	//	Creates the verb forms of strong verbs which have both regular and irregular past form and receive suffix -en in participle form
 	for ( const verb of bothRegularAndIrregularStrongVerbs.bothRegularAndIrregularStrongVerbsEnEnding ) {
-		if ( verb.regularStem === stemmedWord || verb.irregularStem === stemmedWord ) {
+		if ( checkStems( verb, stemmedWord ) ) {
 			return [
 				...createFormsBothRegularAndIrregularStrongVerbs( verb, morphologyDataVerbs, morphologyDataAddSuffixes ),
-				findAndApplyModifications( verb.participle, morphologyDataAddSuffixes, morphologyDataVerbs ).concat( suffixEn ),
+				createIrregularStrongVerbsParticiple( verb.participle, suffixEn, morphologyDataVerbs, morphologyDataAddSuffixes ),
 			];
 		}
 	}
 	return [];
-}
+};
 
 /**
  * Checks whether a given stem falls into any of the verb exception categories and creates the
@@ -185,20 +250,22 @@ export function generateBothRegularAndIrregularStrongVerbs( morphologyDataVerbs,
  * @returns {string[]} The created verb forms.
  */
 export function generateVerbExceptionForms( morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ) {
-	const prefixes = morphologyDataVerbs.compoundVerbsPrefixes.separable;
-	let stemmedWordWithoutPrefix = "";
-
+	const doNotStemPrefix = morphologyDataVerbs.strongAndIrregularVerbs.doNotStemPrefix;
+	const prefixes = allVerbPrefixesSorted( morphologyDataVerbs.compoundVerbsPrefixes );
 	//	Check whether the inputted stem is started with one of the separable compound prefixes
 	let foundPrefix = prefixes.find( prefix => stemmedWord.startsWith( prefix ) );
+	let stemmedWordWithoutPrefix = [];
 
-	//	If the inputted stem is started with one of the separable compound prefixes, the prefix needs to be deleted for now.
-	if ( typeof( foundPrefix ) === "string" ) {
+	//	Check whether the stemmedWord is in the list of strong verbs starting with be-, ont- or ver- that do not need to be stemmed.
+	if ( doNotStemPrefix.includes( stemmedWord ) ) {
+		stemmedWordWithoutPrefix.push( stemmedWord );
+		//	If the inputted stem is started with one of the separable compound prefixes, the prefix needs to be deleted for now.
+	} else if ( typeof( foundPrefix ) === "string" ) {
 		stemmedWordWithoutPrefix = stemmedWord.slice( foundPrefix.length );
 	}
-
 	// At least 3 characters so that e.g. "be" is not found in the stem "berg".
 	if ( stemmedWordWithoutPrefix.length > 2 && typeof( foundPrefix ) === "string" ) {
-		stemmedWord = stemmedWordWithoutPrefix;
+		stemmedWord = stemmedWordWithoutPrefix.toString();
 	} else {
 		// Reset foundPrefix so that it won't be attached when forms are generated.
 		foundPrefix = null;
@@ -218,7 +285,7 @@ export function generateVerbExceptionForms( morphologyDataVerbs, morphologyDataA
 		}
 	}
 	exceptions = flatten( exceptions );
-	// If the original stem had a verb prefix, attach it to the found exception forms.
+	// If the original stem had a verb prefix, attach it back to the found exception forms.
 	if ( typeof( foundPrefix ) === "string" ) {
 		exceptions = exceptions.map( word => foundPrefix + word );
 	}
