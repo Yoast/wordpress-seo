@@ -1,6 +1,6 @@
 {
   "name": "yoast-social-previews",
-  "version": "1.5.0-rc.2",
+  "version": "1.6.0-rc.0",
   "description": "",
   "private": true,
   "main": "index.js",
@@ -35,7 +35,7 @@
     "grunt-lodash": "^0.5.0",
     "grunt-po2json": "^0.3.0",
     "grunt-postcss": "^0.8.0",
-    "grunt-sass": "^1.1.0",
+    "grunt-sass": "^3.0.0",
     "grunt-shell": "^2.0.0",
     "istanbul": "^0.4.0",
     "jasmine": "~3.0.0",
