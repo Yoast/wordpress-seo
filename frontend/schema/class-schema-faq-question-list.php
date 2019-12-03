@@ -23,7 +23,7 @@ class WPSEO_Schema_FAQ_Question_List {
 	 *
 	 * @var array
 	 */
-	private $data = array();
+	private $data = [];
 
 	/**
 	 * All the blocks of this block-type.
@@ -66,12 +66,12 @@ class WPSEO_Schema_FAQ_Question_List {
 	public function generate() {
 		$this->prepare_blocks();
 
-		$this->data[] = array(
+		$this->data[] = [
 			'@type'            => 'ItemList',
-			'mainEntityOfPage' => array( '@id' => $this->get_schema_id() ),
+			'mainEntityOfPage' => [ '@id' => $this->get_schema_id() ],
 			'numberOfItems'    => $this->count,
 			'itemListElement'  => $this->ids,
-		);
+		];
 
 		return $this->data;
 	}
@@ -109,7 +109,7 @@ class WPSEO_Schema_FAQ_Question_List {
 				continue;
 			}
 			$this->count ++;
-			$this->ids[] = array( '@id' => $this->context->canonical . '#' . $question['id'] );
+			$this->ids[] = [ '@id' => $this->context->canonical . '#' . esc_attr( $question['id'] ) ];
 		}
 	}
 }

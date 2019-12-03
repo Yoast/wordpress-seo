@@ -29,16 +29,16 @@ class WPSEO_Import_Platinum_SEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @var array
 	 */
-	protected $clone_keys = array(
-		array(
+	protected $clone_keys = [
+		[
 			'old_key' => 'description',
 			'new_key' => 'metadesc',
-		),
-		array(
+		],
+		[
 			'old_key' => 'title',
 			'new_key' => 'title',
-		),
-	);
+		],
+	];
 
 	/**
 	 * Runs the import of post meta keys stored by Platinum SEO Pack.
@@ -86,9 +86,9 @@ class WPSEO_Import_Platinum_SEO extends WPSEO_Plugin_Importer {
 	 * @return void
 	 */
 	protected function import_robots_meta() {
-		$this->import_by_meta_robots( 'index,nofollow', array( 'nofollow' ) );
-		$this->import_by_meta_robots( 'noindex,follow', array( 'noindex' ) );
-		$this->import_by_meta_robots( 'noindex,nofollow', array( 'noindex', 'nofollow' ) );
+		$this->import_by_meta_robots( 'index,nofollow', [ 'nofollow' ] );
+		$this->import_by_meta_robots( 'noindex,follow', [ 'noindex' ] );
+		$this->import_by_meta_robots( 'noindex,nofollow', [ 'noindex', 'nofollow' ] );
 	}
 
 	/**
@@ -121,14 +121,14 @@ class WPSEO_Import_Platinum_SEO extends WPSEO_Plugin_Importer {
 	 */
 	protected function find_posts_by_robots_meta( $meta_value ) {
 		$posts = get_posts(
-			array(
+			[
 				'post_type'  => 'any',
 				'meta_key'   => 'robotsmeta',
 				'meta_value' => $meta_value,
 				'order'      => 'ASC',
 				'fields'     => 'ids',
 				'nopaging'   => true,
-			)
+			]
 		);
 		if ( empty( $posts ) ) {
 			return false;

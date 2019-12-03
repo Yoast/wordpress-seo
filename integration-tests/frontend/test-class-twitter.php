@@ -40,7 +40,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		WPSEO_Frontend::get_instance()->reset();
 
 		// Reset shown images.
-		self::$class_instance->shown_images = array();
+		self::$class_instance->shown_images = [];
 	}
 
 	/**
@@ -48,12 +48,12 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_twitter() {
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_title'   => 'Twitter Test Post',
 				'post_excerpt' => 'Twitter Test Excerpt',
 				'post_type'    => 'post',
 				'post_status'  => 'publish',
-			)
+			]
 		);
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -115,14 +115,14 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_author_twitter() {
 		// Create user, create post, attach user as author.
-		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$user_id = $this->factory->user->create( [ 'role' => 'administrator' ] );
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_title'  => 'Sample Post',
 				'post_type'   => 'post',
 				'post_status' => 'publish',
 				'post_author' => $user_id,
-			)
+			]
 		);
 
 		// Go to post we just created.
@@ -196,10 +196,10 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	public function test_static_front_page() {
 
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_title' => 'front-page',
 				'post_type'  => 'page',
-			)
+			]
 		);
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $post_id );
@@ -228,19 +228,19 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	public function test_static_posts_page() {
 
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_title' => 'front-page',
 				'post_type'  => 'page',
-			)
+			]
 		);
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $post_id );
 
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_title' => 'blog-page',
 				'post_type'  => 'page',
-			)
+			]
 		);
 		update_option( 'page_for_posts', $post_id );
 		$this->go_to( get_permalink( $post_id ) );
@@ -332,7 +332,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		ob_clean();
 
 		// Reset shown_images array.
-		self::$class_instance->shown_images = array();
+		self::$class_instance->shown_images = [];
 
 		return $expected;
 	}
@@ -360,10 +360,10 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	public function test_post_thumbnail_image() {
 		$post_id         = $this->factory->post->create();
 		$filename        = 'post-thumbnail.jpg';
-		$attachment_args = array(
+		$attachment_args = [
 			'post_mime_type' => 'image/jpeg',
 			'post_type'      => 'attachment',
-		);
+		];
 		$attachment_id   = $this->factory->attachment->create_object( $filename, 0, $attachment_args );
 		update_post_meta( $post_id, '_thumbnail_id', $attachment_id );
 		$this->go_to( get_permalink( $post_id ) );
@@ -379,7 +379,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_post_content_image() {
 		$url     = 'http://example.com/example.jpg';
-		$post_id = $this->factory->post->create( array( 'post_content' => "Bla <img src='$url'/> bla" ) );
+		$post_id = $this->factory->post->create( [ 'post_content' => "Bla <img src='$url'/> bla" ] );
 		$this->go_to( get_permalink( $post_id ) );
 		$expected = $this->metatag( 'image', $url );
 		self::$class_instance->image();
@@ -392,7 +392,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::title
 	 */
 	public function test_taxonomy_title() {
-		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
+		$term_id = $this->factory->term->create( [ 'taxonomy' => 'category' ] );
 
 		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'wpseo_twitter-title', 'Custom taxonomy twitter title' );
 
@@ -409,7 +409,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::description
 	 */
 	public function test_taxonomy_description() {
-		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
+		$term_id = $this->factory->term->create( [ 'taxonomy' => 'category' ] );
 
 		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'wpseo_twitter-description', 'Custom taxonomy twitter description' );
 
@@ -426,7 +426,7 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Twitter::image
 	 */
 	public function test_taxonomy_image() {
-		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
+		$term_id = $this->factory->term->create( [ 'taxonomy' => 'category' ] );
 
 		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'wpseo_twitter-image', home_url( 'custom_twitter_image.png' ) );
 
@@ -446,16 +446,16 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		// Insert image into DB so we have something to test against.
 		$filename        = 'image.jpg';
-		$attachment_args = array(
+		$attachment_args = [
 			'post_mime_type' => 'image/jpeg',
 			'post_type'      => 'attachment',
-		);
+		];
 		$id              = $this->factory->attachment->create_object( $filename, 0, $attachment_args );
 		$expected       .= $this->metatag( 'image', 'http://' . WP_TESTS_DOMAIN . "/wp-content/uploads/$filename" );
 
 		// Create and go to post.
 		$content = '[gallery ids="' . $id . '"]';
-		$post_id = $this->factory->post->create( array( 'post_content' => $content ) );
+		$post_id = $this->factory->post->create( [ 'post_content' => $content ] );
 		$this->go_to( get_permalink( $post_id ) );
 
 		self::$class_instance->type();
@@ -479,10 +479,10 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 		$expected_title = 'Test title';
 		// Create and go to post.
 		$post_id   = $this->factory->post->create();
-		$post_args = array(
+		$post_args = [
 			'ID'         => $post_id,
 			'post_title' => $expected_title,
-		);
+		];
 		wp_update_post( $post_args );
 		WPSEO_Meta::set_value( 'twitter-title', '%%title%%', $post_id );
 
@@ -502,10 +502,10 @@ class WPSEO_Twitter_Test extends WPSEO_UnitTestCase {
 
 		// Create and go to post.
 		$post_id   = $this->factory->post->create();
-		$post_args = array(
+		$post_args = [
 			'ID'         => $post_id,
 			'post_title' => $expected_title,
-		);
+		];
 		wp_update_post( $post_args );
 
 		// Test wpseo meta.

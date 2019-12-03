@@ -16,9 +16,9 @@ class WPSEO_Tracking_Plugin_Data implements WPSEO_Collection {
 	 * @return array The collection data.
 	 */
 	public function get() {
-		return array(
+		return [
 			'plugins' => $this->get_plugin_data(),
-		);
+		];
 	}
 
 	/**
@@ -34,9 +34,15 @@ class WPSEO_Tracking_Plugin_Data implements WPSEO_Collection {
 
 		$plugins = wp_get_active_and_valid_plugins();
 		$plugins = array_map( 'get_plugin_data', $plugins );
-		$plugins = array_map( array( $this, 'format_plugin' ), $plugins );
+		$plugins = array_map( [ $this, 'format_plugin' ], $plugins );
 
-		return $plugins;
+		$plugin_data = [];
+		foreach ( $plugins as $plugin ) {
+			$plugin_key                 = sanitize_title( $plugin['name'] );
+			$plugin_data[ $plugin_key ] = $plugin;
+		}
+
+		return $plugin_data;
 	}
 
 	/**
@@ -47,14 +53,9 @@ class WPSEO_Tracking_Plugin_Data implements WPSEO_Collection {
 	 * @return array The formatted array.
 	 */
 	protected function format_plugin( array $plugin ) {
-		return array(
+		return [
 			'name'    => $plugin['Name'],
-			'url'     => $plugin['PluginURI'],
 			'version' => $plugin['Version'],
-			'author'  => array(
-				'name' => wp_strip_all_tags( $plugin['Author'], true ),
-				'url'  => $plugin['AuthorURI'],
-			),
-		);
+		];
 	}
 }

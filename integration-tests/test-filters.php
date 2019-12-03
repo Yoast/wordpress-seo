@@ -30,6 +30,8 @@ class Filters_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests global wp_filter.
+	 *
+	 * @coversNothing
 	 */
 	public function test_wp_head() {
 		$wp_head = $this->wp_filter['wp_head'];

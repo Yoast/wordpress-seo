@@ -19,7 +19,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 		parent::tearDown();
 
-		remove_action( 'update_option', array( 'WPSEO_Sitemaps_Cache', 'clear_on_option_update' ) );
+		remove_action( 'update_option', [ 'WPSEO_Sitemaps_Cache', 'clear_on_option_update' ] );
 	}
 
 	/**
@@ -86,6 +86,9 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Clearing all cache.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::clear
+	 * @covers WPSEO_Sitemaps_Cache::clear_queued
 	 */
 	public function test_clear() {
 
@@ -109,6 +112,9 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Clearing specific cache.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::clear
+	 * @covers WPSEO_Sitemaps_Cache::clear_queued
 	 */
 	public function test_clear_type() {
 
@@ -120,7 +126,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		set_transient( $cache_key, $test_content );
 
 		// Act.
-		WPSEO_Sitemaps_Cache::clear( array( $type ) );
+		WPSEO_Sitemaps_Cache::clear( [ $type ] );
 		WPSEO_Sitemaps_Cache::clear_queued();
 
 		// Get the key again.
@@ -133,6 +139,9 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Clearing specific cache should also clear index.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::clear
+	 * @covers WPSEO_Sitemaps_Cache::clear_queued
 	 */
 	public function test_clear_index_also_cleared() {
 
@@ -149,7 +158,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		usleep( 10000 );
 
 		// Act.
-		WPSEO_Sitemaps_Cache::clear( array( 'page' ) );
+		WPSEO_Sitemaps_Cache::clear( [ 'page' ] );
 		WPSEO_Sitemaps_Cache::clear_queued();
 
 		// Get the key again.
@@ -162,6 +171,9 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Clearing specific cache should not touch other type.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::clear
+	 * @covers WPSEO_Sitemaps_Cache::clear_queued
 	 */
 	public function test_clear_type_isolation() {
 
@@ -178,7 +190,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		set_transient( $type_b_key, $type_b_content );
 
 		// Act.
-		WPSEO_Sitemaps_Cache::clear( array( $type_a ) );
+		WPSEO_Sitemaps_Cache::clear( [ $type_a ] );
 		WPSEO_Sitemaps_Cache::clear_queued();
 
 		// Get the key again.
@@ -191,6 +203,8 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Make sure the hook is registered on registration.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::__construct
 	 */
 	public function test_register_clear_on_option_update() {
 
@@ -198,13 +212,15 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 		// Hook will be added on default priority.
 		$has_action = has_action(
 			'update_option',
-			array( 'WPSEO_Sitemaps_Cache', 'clear_on_option_update' )
+			[ 'WPSEO_Sitemaps_Cache', 'clear_on_option_update' ]
 		);
 		$this->assertEquals( 10, $has_action );
 	}
 
 	/**
 	 * Option update should clear cache for registered type.
+	 *
+	 * @covers WPSEO_Sitemaps_Cache::clear_queued
 	 */
 	public function test_clear_transient_cache() {
 
@@ -249,7 +265,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_clearing_author_sitemap_by_userid() {
 		$user_id = $this->factory->user->create(
-			array( 'role' => 'administrator' )
+			[ 'role' => 'administrator' ]
 		);
 
 		$this->assertTrue( WPSEO_Sitemaps_Cache::invalidate_author( $user_id ) );
@@ -262,7 +278,7 @@ class WPSEO_Sitemaps_Cache_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_clearing_author_sitemap_by_userid_with_subscriber_role() {
 		$user_id = $this->factory->user->create(
-			array( 'role' => 'subscriber' )
+			[ 'role' => 'subscriber' ]
 		);
 
 		$this->assertFalse( WPSEO_Sitemaps_Cache::invalidate_author( $user_id ) );

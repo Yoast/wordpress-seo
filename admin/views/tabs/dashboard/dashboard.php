@@ -30,7 +30,7 @@ $wpseo_contributors_phrase = sprintf(
 
 		<?php echo $notifier->notify(); ?>
 
-		<div class="yoast-container yoast-container__alert">
+		<div class="yoast-container yoast-container__error">
 			<?php require WPSEO_PATH . 'admin/views/partial-alerts-errors.php'; ?>
 		</div>
 
@@ -56,4 +56,4 @@ $wpseo_contributors_phrase = sprintf(
  *
  * @deprecated 7.0
  */
-do_action_deprecated( 'wpseo_internal_linking', array(), 'WPSEO 7.0' );
+do_action_deprecated( 'wpseo_internal_linking', [], 'WPSEO 7.0' );

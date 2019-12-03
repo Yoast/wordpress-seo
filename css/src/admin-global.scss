@@ -21,7 +21,6 @@
 	font-weight: 600;
 }
 
-.wpseo-help-center-sub-title,
 .wpseo-premium-popup-title {
 	// Using !important to override WP styles.
 	margin: 1em 0 !important;
@@ -39,9 +38,11 @@
 	height: auto;
 }
 
-/* Select2 specific fixes for WordPress */
-.select2-search__field {
+/* Select2 specific fixes for WordPress: they generally need high specificity */
+.select2-container .select2-search--dropdown .select2-search__field {
 	margin: 0;
+	padding: 0 8px;
+	min-height: 30px;
 }
 
 .select2-results__option,
@@ -53,6 +54,21 @@
 .select2-container .select2-search--inline .select2-search__field {
 	margin-top: 6px !important;
 	line-height: inherit;
+	min-height: 0;
+}
+
+/* Turn off select2 fixed height */
+.wpseo-metabox,
+.wpseo-admin-page {
+	.select2-container {
+		.select2-selection--single {
+			height: auto;
+
+			.select2-selection__arrow {
+				height: 100%;
+			}
+		}
+	}
 }
 
 .yoast-label-strong {
@@ -270,6 +286,35 @@ td.column-wpseo-linked {
 	word-wrap: normal;
 }
 
+// Temporary adjustments for form controls styling changed in WordPress 5.3.
+.yoast {
+	// Reset 1px margin inherited from WordPress.
+	input {
+		margin: 0;
+	}
+
+	// Make inputs same height as buttons and selects.
+	input[type="text"],
+	input[type="password"],
+	input[type="date"],
+	input[type="datetime"],
+	input[type="datetime-local"],
+	input[type="email"],
+	input[type="month"],
+	input[type="number"],
+	input[type="search"],
+	input[type="tel"],
+	input[type="time"],
+	input[type="url"],
+	input[type="week"] {
+		padding: 0 8px;
+		vertical-align: top;
+		/* inherits font size 14px */
+		line-height: 1.85714285; /* 26px vs. 28px from core */
+		min-height: 28px; /* 28px vs. 30px from core */
+	}
+}
+
 @media screen and ( max-width: 782px ) {
 	.yoast-settings {
 		padding-left: 0;
@@ -302,6 +347,30 @@ td.column-wpseo-linked {
 		padding-top: 4px;
 	}
 
+	// Temporary adjustments for form controls styling changed in WordPress 5.3.
+	.yoast {
+		// Make inputs same height as buttons and selects.
+		input[type="text"],
+		input[type="password"],
+		input[type="date"],
+		input[type="datetime"],
+		input[type="datetime-local"],
+		input[type="email"],
+		input[type="month"],
+		input[type="number"],
+		input[type="search"],
+		input[type="tel"],
+		input[type="time"],
+		input[type="url"],
+		input[type="week"] {
+			padding: 0 10px;
+			vertical-align: top;
+			/* inherits font size 16px */
+			line-height: 1.875; /* 30px */
+			min-height: 32px;
+		}
+	}
+
 	.yoast-settings input[type="text"],
 	.yoast-settings textarea,
 	.yoast-settings select {
@@ -326,9 +395,6 @@ td.column-wpseo-linked {
 }
 
 /* Help Center */
-#yoast-help-center-container {
-	margin: 16px 0 24px;
-}
 
 .react-tabs__tab-panel {
 	max-width: 900px;
@@ -337,10 +403,6 @@ td.column-wpseo-linked {
 	li {
 		max-width: none !important;
 	}
-}
-
-.yoast-help-center-open #sidebar-container {
-	display: none;
 }
 
 .contact-premium-support {
@@ -376,7 +438,6 @@ td.column-wpseo-linked {
 }
 
 .yoast_help.yoast-help-button {
-	overflow: visible;
 	position: relative;
 	width: 20px;
 	height: 20px;
@@ -388,7 +449,6 @@ td.column-wpseo-linked {
 	background: transparent;
 	box-shadow: none;
 	vertical-align: top;
-	/* IE 11 */
 	cursor: pointer;
 }
 
@@ -493,15 +553,6 @@ td.column-wpseo-linked {
 		filter: none;
 	}
 
-	// Only needed for IE 10+. Don't add spaces within brackets for this to work.
-	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-		&::after {
-			display: inline-block;
-			content: "";
-			min-height: 32px;
-		}
-	}
-
 	&#wpseo-premium-button {
 		color: $color-black;
 	}
@@ -517,5 +568,85 @@ td.column-wpseo-linked {
 		.rtl & {
 			background-image: url(svg-icon-caret-left());
 		}
+	}
+}
+
+body.folded {
+	.wpseo-admin-submit-fixed {
+		left: 36px;
+
+		@media screen and (max-width: 782px) {
+			left: 0;
+		}
+	}
+}
+
+.wpseo-admin-submit {
+	z-index: 5;
+	display: flex;
+	padding: 16px 0;
+	justify-content: flex-start;
+	align-items: baseline;
+	margin: 0;
+
+	&.wpseo-admin-submit-fixed {
+		padding: 16px;
+		position: fixed;
+		bottom: 0;
+		left: 160px;
+		right: 281px;
+		background-color: white;
+		max-width: 800px;
+		box-shadow: 0 1px 8px 1px rgba(0,0,0,0.5);
+		margin: 0 16px;
+
+		@media screen and (max-width: 1024px) {
+			right: 0;
+		}
+		@media only screen and (max-width: 960px) {
+			left: 36px;
+		}
+		@media screen and (max-width: 782px) {
+			left: 0;
+			margin: 0;
+		}
+	}
+
+	p.submit {
+		padding: 0;
+		margin: 0;
+	}
+
+	p.wpseo-message {
+		margin: 0 16px 0 0;
+		padding: 0;
+		color: $color-green-medium;
+	}
+}
+
+.yoast-alert-box {
+	display: flex;
+	align-items: baseline;
+	position: relative;
+	padding: 16px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.5;
+	margin: 16px 0;
+
+	span.icon {
+		display: block;
+		margin-right: 8px;
+	}
+
+	a {
+		color: #004973;
+		text-decoration: underline;
+	}
+
+	&__warning {
+		color: #674E00;
+		background: #FFF3CD;
 	}
 }

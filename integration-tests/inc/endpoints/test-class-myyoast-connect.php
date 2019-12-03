@@ -20,7 +20,7 @@ class WPSEO_Endpoint_MyYoast_Connect_Test extends WPSEO_UnitTestCase {
 	public function test_get_handle_request_url_mismatch() {
 		$request = $this
 			->getMockBuilder( 'WP_REST_Request' )
-			->setMethods( array( 'get_param' ) )
+			->setMethods( [ 'get_param' ] )
 			->getMock();
 
 		$request
@@ -30,7 +30,7 @@ class WPSEO_Endpoint_MyYoast_Connect_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Endpoint_MyYoast_Connect' )
-			->setMethods( array( 'get_home_url' ) )
+			->setMethods( [ 'get_home_url' ] )
 			->getMock();
 
 		$instance
@@ -55,7 +55,7 @@ class WPSEO_Endpoint_MyYoast_Connect_Test extends WPSEO_UnitTestCase {
 	public function test_get_handle_request_client_id_mismatch() {
 		$request = $this
 			->getMockBuilder( 'WP_REST_Request' )
-			->setMethods( array( 'get_param' ) )
+			->setMethods( [ 'get_param' ] )
 			->getMock();
 
 		$request
@@ -70,7 +70,7 @@ class WPSEO_Endpoint_MyYoast_Connect_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Endpoint_MyYoast_Connect' )
-			->setMethods( array( 'get_home_url', 'get_client_id' ) )
+			->setMethods( [ 'get_home_url', 'get_client_id' ] )
 			->getMock();
 
 		$instance
@@ -100,7 +100,7 @@ class WPSEO_Endpoint_MyYoast_Connect_Test extends WPSEO_UnitTestCase {
 	public function test_get_handle_request_client_secret_missing() {
 		$request = $this
 			->getMockBuilder( 'WP_REST_Request' )
-			->setMethods( array( 'get_param' ) )
+			->setMethods( [ 'get_param' ] )
 			->getMock();
 
 		$request
@@ -116,7 +116,7 @@ class WPSEO_Endpoint_MyYoast_Connect_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Endpoint_MyYoast_Connect' )
-			->setMethods( array( 'get_home_url', 'get_client_id' ) )
+			->setMethods( [ 'get_home_url', 'get_client_id' ] )
 			->getMock();
 
 		$instance
@@ -146,7 +146,7 @@ class WPSEO_Endpoint_MyYoast_Connect_Test extends WPSEO_UnitTestCase {
 	public function test_get_handle_request() {
 		$request = $this
 			->getMockBuilder( 'WP_REST_Request' )
-			->setMethods( array( 'get_param' ) )
+			->setMethods( [ 'get_param' ] )
 			->getMock();
 
 		$request
@@ -162,7 +162,7 @@ class WPSEO_Endpoint_MyYoast_Connect_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Endpoint_MyYoast_Connect' )
-			->setMethods( array( 'get_home_url', 'get_client_id', 'save_secret' ) )
+			->setMethods( [ 'get_home_url', 'get_client_id', 'save_secret' ] )
 			->getMock();
 
 		$instance

@@ -26,7 +26,6 @@ module.exports = function( grunt ) {
 
 		"combine-pots-yoast-components": {
 			fromFiles: [
-				"<%= files.pot.yoastJsAlgoliaSearchBox %>",
 				"<%= files.pot.yoastJsAnalysisReport %>",
 				"<%= files.pot.yoastJsComponents %>",
 				"<%= files.pot.yoastJsConfigurationWizard %>",
@@ -50,9 +49,6 @@ module.exports = function( grunt ) {
 			},
 		},
 
-		"makepot-yoast-js-algolia-search-box": {
-			command: "yarn i18n-yoast-js-algolia-search-box",
-		},
 		"makepot-yoast-js-analysis-report": {
 			command: "yarn i18n-yoast-js-analysis-report",
 		},
@@ -76,7 +72,6 @@ module.exports = function( grunt ) {
 				"node_modules/yoast-components/composites/OnboardingWizard/**/*.js",
 
 				// Only these 3 files have the old i18n-calypso system:
-				"<%= paths.js %>components/ConnectGoogleSearchConsole.js",
 				"<%= paths.js %>components/MailchimpSignup.js",
 				"<%= paths.js %>components/MediaUpload.js",
 			],
@@ -160,6 +155,10 @@ module.exports = function( grunt ) {
 
 		"remove-dependency-injection-meta": {
 			command: "rm ./src/generated/container.php.meta",
+		},
+
+		"remove-vendor-prefixed-uses": {
+			command: "composer remove-vendor-prefixed-uses",
 		},
 
 		"php-lint": {

@@ -15,7 +15,7 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	 *
 	 * @var array
 	 */
-	protected $roles = array();
+	protected $roles = [];
 
 	/**
 	 * Registers a role.
@@ -28,10 +28,10 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	 */
 	public function register( $role, $display_name, $template = null ) {
 		$this->roles[ $role ] =
-			(object) array(
+			(object) [
 				'display_name' => $display_name,
 				'template'     => $template,
-			);
+			];
 	}
 
 	/**
@@ -64,7 +64,7 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	 */
 	public function remove() {
 		$roles = array_keys( $this->roles );
-		array_map( array( $this, 'remove_role' ), $roles );
+		array_map( [ $this, 'remove_role' ], $roles );
 	}
 
 	/**
@@ -76,12 +76,12 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	 */
 	protected function get_capabilities( $role ) {
 		if ( ! is_string( $role ) || empty( $role ) ) {
-			return array();
+			return [];
 		}
 
 		$wp_role = get_role( $role );
 		if ( ! $wp_role ) {
-			return array();
+			return [];
 		}
 
 		return $wp_role->capabilities;
@@ -110,7 +110,7 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	 * @return array Capabilties that can be safely set.
 	 */
 	protected function filter_existing_capabilties( $role, array $capabilities ) {
-		if ( $capabilities === array() ) {
+		if ( $capabilities === [] ) {
 			return $capabilities;
 		}
 
@@ -137,7 +137,7 @@ abstract class WPSEO_Abstract_Role_Manager implements WPSEO_Role_Manager {
 	 *
 	 * @return void
 	 */
-	abstract protected function add_role( $role, $display_name, array $capabilities = array() );
+	abstract protected function add_role( $role, $display_name, array $capabilities = [] );
 
 	/**
 	 * Removes a role from the system.

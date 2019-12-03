@@ -48,9 +48,9 @@ class WPSEO_Config_Field_Mailchimp_Signup extends WPSEO_Config_Field {
 	 * @return array
 	 */
 	public function get_data() {
-		return array(
+		return [
 			'hasSignup' => $this->has_mailchimp_signup(),
-		);
+		];
 	}
 
 	/**

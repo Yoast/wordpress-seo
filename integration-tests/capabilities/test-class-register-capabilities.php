@@ -10,6 +10,9 @@
  */
 class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
 
+	/**
+	 * Tests whether the list of registered capabilities contains the correct capabilities.
+	 */
 	public function test_register() {
 		$manager = WPSEO_Capability_Manager_Factory::get();
 
@@ -41,7 +44,7 @@ class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
 
 		WPSEO_Options::get_instance();
 
-		$options           = get_site_option( 'wpseo_ms', array() );
+		$options           = get_site_option( 'wpseo_ms', [] );
 		$options['access'] = $access;
 		update_site_option( 'wpseo_ms', $options );
 
@@ -49,14 +52,14 @@ class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
 		$register->register();
 
 		if ( $role === 'network_administrator' ) {
-			$user = self::factory()->user->create_and_get( array( 'role' => 'administrator' ) );
+			$user = self::factory()->user->create_and_get( [ 'role' => 'administrator' ] );
 			grant_super_admin( $user->ID );
 		}
 		else {
-			$user = self::factory()->user->create_and_get( array( 'role' => $role ) );
+			$user = self::factory()->user->create_and_get( [ 'role' => $role ] );
 		}
 
-		$allcaps = $register->filter_user_has_wpseo_manage_options_cap( $user->allcaps, array( 'wpseo_manage_options' ), array(), $user );
+		$allcaps = $register->filter_user_has_wpseo_manage_options_cap( $user->allcaps, [ 'wpseo_manage_options' ], [], $user );
 
 		$this->assertSame( $expected_has_cap, ! empty( $allcaps['wpseo_manage_options'] ) );
 	}
@@ -72,13 +75,13 @@ class WPSEO_Register_Capabilities_Tests extends WPSEO_UnitTestCase {
 	 * @return array The test data.
 	 */
 	public function data_filter_user_has_wpseo_manage_options_cap() {
-		return array(
-			array( 'wpseo_manager', 'superadmin', true ),
-			array( 'administrator', 'superadmin', false ),
-			array( 'network_administrator', 'superadmin', true ),
-			array( 'wpseo_manager', 'admin', true ),
-			array( 'administrator', 'admin', true ),
-			array( 'network_administrator', 'admin', true ),
-		);
+		return [
+			[ 'wpseo_manager', 'superadmin', true ],
+			[ 'administrator', 'superadmin', false ],
+			[ 'network_administrator', 'superadmin', true ],
+			[ 'wpseo_manager', 'admin', true ],
+			[ 'administrator', 'admin', true ],
+			[ 'network_administrator', 'admin', true ],
+		];
 	}
 }

@@ -12,6 +12,8 @@ if ( class_exists( 'WP_REST_Server' ) ) :
 	class WPSEO_WP_REST_Server_Mock extends WP_REST_Server {
 
 		/**
+		 * Gets the endpoints.
+		 *
 		 * @return array
 		 */
 		public function get_endpoints() {

@@ -48,7 +48,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 *
 	 * @var array
 	 */
-	protected $defaults = array();
+	protected $defaults = [];
 
 	/**
 	 * Available options for the 'access' setting. Used for input validation.
@@ -59,10 +59,10 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 *
 	 * @var array
 	 */
-	public static $allowed_access_options = array(
+	public static $allowed_access_options = [
 		'admin',
 		'superadmin',
-	);
+	];
 
 	/**
 	 * Get the singleton instance of this class.
@@ -82,7 +82,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 */
 	public function __construct() {
 		$allow_prefix   = self::ALLOW_KEY_PREFIX;
-		$this->defaults = array(
+		$this->defaults = [
 			'access'                                    => 'admin',
 			'defaultblog'                               => '', // Numeric blog ID or empty.
 			"{$allow_prefix}disableadvanced_meta"       => true,
@@ -93,12 +93,12 @@ class WPSEO_Option_MS extends WPSEO_Option {
 			"{$allow_prefix}enable_cornerstone_content" => true,
 			"{$allow_prefix}enable_xml_sitemap"         => true,
 			"{$allow_prefix}enable_text_link_counter"   => true,
-		);
+		];
 
 		if ( is_multisite() ) {
 			parent::__construct();
 
-			add_filter( 'admin_title', array( 'Yoast_Input_Validation', 'add_yoast_admin_document_title_errors' ) );
+			add_filter( 'admin_title', [ 'Yoast_Input_Validation', 'add_yoast_admin_document_title_errors' ] );
 		}
 	}
 
@@ -109,8 +109,8 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 */
 	public function add_default_filters() {
 		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
-		if ( has_filter( 'default_site_option_' . $this->option_name, array( $this, 'get_defaults' ) ) === false ) {
-			add_filter( 'default_site_option_' . $this->option_name, array( $this, 'get_defaults' ) );
+		if ( has_filter( 'default_site_option_' . $this->option_name, [ $this, 'get_defaults' ] ) === false ) {
+			add_filter( 'default_site_option_' . $this->option_name, [ $this, 'get_defaults' ] );
 		}
 	}
 
@@ -121,7 +121,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 * @return void
 	 */
 	public function remove_default_filters() {
-		remove_filter( 'default_site_option_' . $this->option_name, array( $this, 'get_defaults' ) );
+		remove_filter( 'default_site_option_' . $this->option_name, [ $this, 'get_defaults' ] );
 	}
 
 	/**
@@ -131,8 +131,8 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 */
 	public function add_option_filters() {
 		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
-		if ( has_filter( 'site_option_' . $this->option_name, array( $this, 'get_option' ) ) === false ) {
-			add_filter( 'site_option_' . $this->option_name, array( $this, 'get_option' ) );
+		if ( has_filter( 'site_option_' . $this->option_name, [ $this, 'get_option' ] ) === false ) {
+			add_filter( 'site_option_' . $this->option_name, [ $this, 'get_option' ] );
 		}
 	}
 
@@ -143,7 +143,7 @@ class WPSEO_Option_MS extends WPSEO_Option {
 	 * @return void
 	 */
 	public function remove_option_filters() {
-		remove_filter( 'site_option_' . $this->option_name, array( $this, 'get_option' ) );
+		remove_filter( 'site_option_' . $this->option_name, [ $this, 'get_option' ] );
 	}
 
 	/* *********** METHODS influencing add_uption(), update_option() and saving from admin pages *********** */

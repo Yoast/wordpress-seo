@@ -48,10 +48,10 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 
 		$yform->toggle_switch(
 			$feature->setting,
-			array(
+			[
 				'on'  => __( 'On', 'wordpress-seo' ),
 				'off' => __( 'Off', 'wordpress-seo' ),
-			),
+			],
 			'<strong>' . $feature->name . '</strong>',
 			$feature_help->get_button_html() . $feature_help->get_panel_html()
 		);

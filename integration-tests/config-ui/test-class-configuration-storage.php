@@ -27,19 +27,23 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests adding a field.
+	 *
 	 * @covers WPSEO_Configuration_Storage::add_field
 	 */
 	public function test_add_field() {
 		$field = $this
 			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'field', 'component' ) )
+			->setConstructorArgs( [ 'field', 'component' ] )
 			->getMock();
 
 		$this->assertNull( $this->storage->add_field( $field ) );
-		$this->assertEquals( array( $field ), $this->storage->get_fields() );
+		$this->assertEquals( [ $field ], $this->storage->get_fields() );
 	}
 
 	/**
+	 * Tests setting the adapter.
+	 *
 	 * @covers WPSEO_Configuration_Storage::set_adapter
 	 * @covers WPSEO_Configuration_Storage::get_adapter
 	 */
@@ -51,6 +55,8 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the method that checks if a value is not null.
+	 *
 	 * @covers WPSEO_Configuration_Storage::is_not_null
 	 */
 	public function test_is_not_null() {
@@ -68,12 +74,12 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 
 		$adapter = $this
 			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
-			->setMethods( array( 'get' ) )
+			->setMethods( [ 'get' ] )
 			->getMock();
 
 		$field = $this
 			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'field', 'type' ) )
+			->setConstructorArgs( [ 'field', 'type' ] )
 			->getMock();
 
 		$adapter
@@ -98,12 +104,12 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 
 		$adapter = $this
 			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
-			->setMethods( array( 'get' ) )
+			->setMethods( [ 'get' ] )
 			->getMock();
 
 		$field = $this
 			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'field', 'type' ) )
+			->setConstructorArgs( [ 'field', 'type' ] )
 			->getMock();
 
 		$field
@@ -132,12 +138,12 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 
 		$adapter = $this
 			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
-			->setMethods( array( 'get' ) )
+			->setMethods( [ 'get' ] )
 			->getMock();
 
 		$field = $this
 			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'field', 'type' ) )
+			->setConstructorArgs( [ 'field', 'type' ] )
 			->getMock();
 
 		$adapter
@@ -157,20 +163,20 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Storage::get_field_data
 	 */
 	public function test_get_field_data_array() {
-		$data    = array( 'a' => '1' );
-		$default = array(
+		$data    = [ 'a' => '1' ];
+		$default = [
 			'a' => '2',
 			'b' => '2',
-		);
+		];
 
 		$adapter = $this
 			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
-			->setMethods( array( 'get' ) )
+			->setMethods( [ 'get' ] )
 			->getMock();
 
 		$field = $this
 			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'field', 'type' ) )
+			->setConstructorArgs( [ 'field', 'type' ] )
 			->getMock();
 
 		$adapter
@@ -187,15 +193,17 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 		$this->storage->set_adapter( $adapter );
 
 		$this->assertEquals(
-			array(
+			[
 				'a' => '1',
 				'b' => '2',
-			),
+			],
 			$this->storage->get_field_data( $field )
 		);
 	}
 
 	/**
+	 * Tests the retrieval of data from the storage.
+	 *
 	 * @covers WPSEO_Configuration_Storage::retrieve
 	 */
 	public function test_retrieve() {
@@ -205,20 +213,20 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 		$property_value = 'pv';
 		$data           = 'd';
 
-		$expected = array(
-			$field => array(
+		$expected = [
+			$field => [
 				'componentName' => $component,
-				'properties'    => array(
+				'properties'    => [
 					$property => $property_value,
-				),
+				],
 				'data'          => $data,
-			),
-		);
+			],
+		];
 
 		$config_field = $this
 			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setMethods( array( 'get_identifier', 'get_properties' ) )
-			->setConstructorArgs( array( $field, $component ) )
+			->setMethods( [ 'get_identifier', 'get_properties' ] )
+			->setConstructorArgs( [ $field, $component ] )
 			->getMock();
 
 		$config_field
@@ -229,11 +237,11 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 		$config_field
 			->expects( $this->once() )
 			->method( 'get_properties' )
-			->will( $this->returnValue( array( $property => $property_value ) ) );
+			->will( $this->returnValue( [ $property => $property_value ] ) );
 
 		$adapter = $this
 			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
-			->setMethods( array( 'get' ) )
+			->setMethods( [ 'get' ] )
 			->getMock();
 
 		$adapter
@@ -253,18 +261,20 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Tests the storage of data.
+	 *
 	 * @covers WPSEO_Configuration_Storage::store
 	 */
 	public function test_store() {
 		$field     = 'f';
 		$component = 'c';
-		$data      = array( $field => array( 'data' => 'some_data' ) );
+		$data      = [ $field => [ 'data' => 'some_data' ] ];
 		$return    = 'r';
 
 		$config_field = $this
 			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setMethods( array( 'get_identifier' ) )
-			->setConstructorArgs( array( $field, $component ) )
+			->setMethods( [ 'get_identifier' ] )
+			->setConstructorArgs( [ $field, $component ] )
 			->getMock();
 
 		$config_field
@@ -274,7 +284,7 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 
 		$adapter = $this
 			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
-			->setMethods( array( 'set', 'get' ) )
+			->setMethods( [ 'set', 'get' ] )
 			->getMock();
 
 		$adapter
@@ -292,12 +302,12 @@ class WPSEO_Configuration_Storage_Test extends PHPUnit_Framework_TestCase {
 
 		$result = $this->storage->store( $data );
 
-		$expected = array(
-			$field => array(
+		$expected = [
+			$field => [
 				'result' => true,
 				'data'   => $return,
-			),
-		);
+			],
+		];
 
 		$this->assertEquals( $expected, $result );
 	}

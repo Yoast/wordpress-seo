@@ -91,9 +91,9 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Create an attachment with parent.
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_type'   => 'attachment',
-			)
+			]
 		);
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -110,7 +110,7 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 	public function test_attachment_redirect_no_attachment() {
 		WPSEO_Options::set( 'disable-attachment', true );
 
-		$post_id = $this->factory->post->create( array( 'post_type' => 'post' ) );
+		$post_id = $this->factory->post->create( [ 'post_type' => 'post' ] );
 		$this->go_to( get_permalink( $post_id ) );
 
 		// Should not redirect on regular post pages.
@@ -145,9 +145,9 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Create and go to post.
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_type'   => 'attachment',
-			)
+			]
 		);
 		$this->go_to( get_permalink( $post_id ) );
 
@@ -163,7 +163,7 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 		WPSEO_Options::set( 'disable-attachment', true );
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'do_attachment_redirect' ) )
+			->setMethods( [ 'do_attachment_redirect' ] )
 			->getMock();
 
 
@@ -173,9 +173,9 @@ final class WPSEO_Frontend_Redirects_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Create an attachment with parent.
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_type'   => 'attachment',
-			)
+			]
 		);
 		$this->go_to( get_permalink( $post_id ) );
 

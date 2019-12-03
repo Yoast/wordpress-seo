@@ -24,8 +24,6 @@
   - 'shell:makepot-yoast-components-configuration-wizard'
   - 'shell:makepot-wordpress-seo'
   - 'copy:makepot-wordpress-seo'
-  - 'shell:makepot-yoast-js-algolia-search-box'
-  - 'copy:makepot-yoast-js-algolia-search-box'
   - 'shell:makepot-yoast-js-analysis-report'
   - 'copy:makepot-yoast-js-analysis-report'
   - 'shell:makepot-yoast-js-components'
@@ -78,6 +76,7 @@ clean:build-assets:
   - 'copy:artifact'
   # Create a zip file
   - 'compress:artifact'
+  # There is no `clean:artifact` here because the `wp_deploy` needs the `artifact` folder.
   - 'restore-environment-after-artifact'
 
 'restore-environment-after-artifact':
@@ -92,6 +91,7 @@ clean:build-assets:
   - 'clean:composer-files'
   - 'copy:composer-files'
   - 'remove-vendor-prefixed-folder'
+  - 'shell:remove-vendor-prefixed-uses'
 
 # Get the project ready for release
 release:

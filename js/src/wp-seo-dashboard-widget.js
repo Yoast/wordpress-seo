@@ -97,7 +97,11 @@ class DashboardWidget extends React.Component {
 	 */
 	getFeed() {
 		// Developer note: this link should -not- be converted to a shortlink.
-		getPostFeed( "https://yoast.com/feed/widget/", 2 )
+		getPostFeed(
+			"https://yoast.com/feed/widget/?wp_version=" + wpseoDashboardWidgetL10n.wp_version +
+			"&php_version=" + wpseoDashboardWidgetL10n.php_version,
+			2
+		)
 			.then( ( feed ) => {
 				feed.items = feed.items.map( ( item ) => {
 					item.description = jQuery( `<div>${ item.description }</div>` ).text();

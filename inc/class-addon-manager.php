@@ -64,13 +64,20 @@ class WPSEO_Addon_Manager {
 	 *
 	 * @var array
 	 */
-	protected static $addons = array(
+	protected static $addons = [
 		'wp-seo-premium.php'    => self::PREMIUM_SLUG,
 		'wpseo-news.php'        => self::NEWS_SLUG,
 		'video-seo.php'         => self::VIDEO_SLUG,
 		'wpseo-woocommerce.php' => self::WOOCOMMERCE_SLUG,
 		'local-seo.php'         => self::LOCAL_SLUG,
-	);
+	];
+
+	/**
+	 * Holds the site information data.
+	 *
+	 * @var object
+	 */
+	private $site_information;
 
 	/**
 	 * Hooks into WordPress.
@@ -80,76 +87,8 @@ class WPSEO_Addon_Manager {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'check_for_updates' ) );
-		add_filter( 'plugins_api', array( $this, 'get_plugin_information' ), 10, 3 );
-	}
-
-	/**
-	 * Retrieves the site information.
-	 *
-	 * @return stdClass The site information.
-	 */
-	public function get_site_information() {
-		static $site_information = null;
-
-		if ( $site_information === null ) {
-			$site_information = $this->get_site_information_transient();
-		}
-
-		if ( $site_information ) {
-			return $site_information;
-		}
-
-		$site_information = $this->request_current_sites();
-		if ( $site_information ) {
-			$site_information = $this->map_site_information( $site_information );
-
-			$this->set_site_information_transient( $site_information );
-
-			return $site_information;
-		}
-
-		return $this->get_site_information_default();
-	}
-
-	/**
-	 * Maps the plugin API response.
-	 *
-	 * @param object $site_information Site information as received from the API.
-	 *
-	 * @return object Mapped site information.
-	 */
-	public function map_site_information( $site_information ) {
-		return (object) array(
-			'url'           => $site_information->url,
-			'subscriptions' => array_map( array( $this, 'map_subscription' ), $site_information->subscriptions ),
-		);
-	}
-
-	/**
-	 * Maps a plugin subscription.
-	 *
-	 * @param object $subscription Subscription information as received from the API.
-	 *
-	 * @return object Mapped subscription.
-	 */
-	public function map_subscription( $subscription ) {
-		// @codingStandardsIgnoreStart
-		return (object) array(
-			'renewal_url' => $subscription->renewalUrl,
-			'expiry_date' => $subscription->expiryDate,
-			'product'     => (object) array(
-				'version'      => $subscription->product->version,
-				'name'         => $subscription->product->name,
-				'slug'         => $subscription->product->slug,
-				'last_updated' => $subscription->product->lastUpdated,
-				'store_url'    => $subscription->product->storeUrl,
-				// Ternary operator is necessary because download can be undefined.
-				'download'     => isset( $subscription->product->download ) ? $subscription->product->download : null,
-				'changelog'    => $subscription->product->changelog,
-			),
-		);
-		// @codingStandardsIgnoreStop
+		add_filter( 'pre_set_site_transient_update_plugins', [ $this, 'check_for_updates' ] );
+		add_filter( 'plugins_api', [ $this, 'get_plugin_information' ], 10, 3 );
 	}
 
 	/**
@@ -185,8 +124,8 @@ class WPSEO_Addon_Manager {
 	 */
 	public function get_subscriptions_for_active_addons() {
 		$active_addons      = array_keys( $this->get_active_addons() );
-		$subscription_slugs = array_map( array( $this, 'get_slug_by_plugin_file' ), $active_addons );
-		$subscriptions      = array();
+		$subscription_slugs = array_map( [ $this, 'get_slug_by_plugin_file' ], $active_addons );
+		$subscriptions      = [];
 		foreach ( $subscription_slugs as $subscription_slug ) {
 			$subscriptions[ $subscription_slug ] = $this->get_subscription( $subscription_slug );
 		}
@@ -200,7 +139,7 @@ class WPSEO_Addon_Manager {
 	 * @return array The addon versions.
 	 */
 	public function get_installed_addons_versions() {
-		$addon_versions = array();
+		$addon_versions = [];
 		foreach ( $this->get_installed_addons() as $plugin_file => $installed_addon ) {
 			$addon_versions[ $this->get_slug_by_plugin_file( $plugin_file ) ] = $installed_addon['Version'];
 		}
@@ -299,7 +238,7 @@ class WPSEO_Addon_Manager {
 	 * @return stdClass The converted subscription.
 	 */
 	protected function convert_subscription_to_plugin( $subscription ) {
-		return (object) array(
+		return (object) [
 			'new_version'   => $subscription->product->version,
 			'name'          => $subscription->product->name,
 			'slug'          => $subscription->product->slug,
@@ -309,10 +248,10 @@ class WPSEO_Addon_Manager {
 			'download_link' => $subscription->product->download,
 			'package'       => $subscription->product->download,
 			'sections'      =>
-				array(
+				[
 					'changelog' => $subscription->product->changelog,
-				),
-		);
+				],
+		];
 	}
 
 	/**
@@ -356,7 +295,7 @@ class WPSEO_Addon_Manager {
 	 * @return array The installed plugins.
 	 */
 	protected function get_installed_addons() {
-		return $this->filter_by_key( $this->get_plugins(), array( $this, 'is_yoast_addon' ) );
+		return $this->filter_by_key( $this->get_plugins(), [ $this, 'is_yoast_addon' ] );
 	}
 
 	/**
@@ -365,7 +304,7 @@ class WPSEO_Addon_Manager {
 	 * @return array The active addons.
 	 */
 	protected function get_active_addons() {
-		return $this->filter_by_key( $this->get_installed_addons(), array( $this, 'is_plugin_active' ) );
+		return $this->filter_by_key( $this->get_installed_addons(), [ $this, 'is_plugin_active' ] );
 	}
 
 	/**
@@ -413,6 +352,8 @@ class WPSEO_Addon_Manager {
 	/**
 	 * Returns the current page.
 	 *
+	 * @codeCoverageIgnore
+	 *
 	 * @return string The current page.
 	 */
 	protected function get_current_page() {
@@ -457,6 +398,31 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
+	 * Returns an object with no subscriptions.
+	 *
+	 * @codeCoverageIgnore
+	 *
+	 * @return stdClass Site information.
+	 */
+	protected function get_site_information_default() {
+		return (object) [
+			'url'           => WPSEO_Utils::get_home_url(),
+			'subscriptions' => [],
+		];
+	}
+
+	/**
+	 * Checks if there are any installed addons.
+	 *
+	 * @return bool True when there are installed Yoast addons.
+	 */
+	protected function has_installed_addons() {
+		$installed_addons = $this->get_installed_addons();
+
+		return ! empty( $installed_addons );
+	}
+
+	/**
 	 * Filters the given array by its keys.
 	 *
 	 * This method is temporary. When WordPress has minimal PHP 5.6 support we can change this to:
@@ -472,7 +438,7 @@ class WPSEO_Addon_Manager {
 	 */
 	private function filter_by_key( $array_to_filter, $callback ) {
 		$keys_to_filter = array_filter( array_keys( $array_to_filter ), $callback );
-		$filtered_array = array();
+		$filtered_array = [];
 		foreach ( $keys_to_filter as $filtered_key ) {
 			$filtered_array[ $filtered_key ] = $array_to_filter[ $filtered_key ];
 		}
@@ -481,14 +447,72 @@ class WPSEO_Addon_Manager {
 	}
 
 	/**
-	 * Returns an object with no subscriptions.
+	 * Maps the plugin API response.
 	 *
-	 * @return stdClass Site information.
+	 * @param object $site_information Site information as received from the API.
+	 *
+	 * @return object Mapped site information.
 	 */
-	protected function get_site_information_default() {
+	protected function map_site_information( $site_information ) {
+		return (object) [
+			'url'           => $site_information->url,
+			'subscriptions' => array_map( [ $this, 'map_subscription' ], $site_information->subscriptions ),
+		];
+	}
+
+	/**
+	 * Maps a plugin subscription.
+	 *
+	 * @param object $subscription Subscription information as received from the API.
+	 *
+	 * @return object Mapped subscription.
+	 */
+	protected function map_subscription( $subscription ) {
+		// @codingStandardsIgnoreStart
 		return (object) array(
-			'url'           => WPSEO_Utils::get_home_url(),
-			'subscriptions' => array(),
+			'renewal_url' => $subscription->renewalUrl,
+			'expiry_date' => $subscription->expiryDate,
+			'product'     => (object) array(
+				'version'      => $subscription->product->version,
+				'name'         => $subscription->product->name,
+				'slug'         => $subscription->product->slug,
+				'last_updated' => $subscription->product->lastUpdated,
+				'store_url'    => $subscription->product->storeUrl,
+				// Ternary operator is necessary because download can be undefined.
+				'download'     => isset( $subscription->product->download ) ? $subscription->product->download : null,
+				'changelog'    => $subscription->product->changelog,
+			),
 		);
+		// @codingStandardsIgnoreStop
+	}
+
+	/**
+	 * Retrieves the site information.
+	 *
+	 * @return stdClass The site information.
+	 */
+	private function get_site_information() {
+		if ( ! $this->has_installed_addons() ) {
+			return $this->get_site_information_default();
+		}
+
+		if ( $this->site_information === null ) {
+			$this->site_information = $this->get_site_information_transient();
+		}
+
+		if ( $this->site_information ) {
+			return $this->site_information;
+		}
+
+		$this->site_information = $this->request_current_sites();
+		if ( $this->site_information ) {
+			$this->site_information = $this->map_site_information( $this->site_information );
+
+			$this->set_site_information_transient( $this->site_information );
+
+			return $this->site_information;
+		}
+
+		return $this->get_site_information_default();
 	}
 }

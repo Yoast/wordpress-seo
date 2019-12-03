@@ -29,11 +29,16 @@ class WPSEO_Content_Images {
 	 *
 	 * @return array An array of image URLs.
 	 */
-	protected function get_images_from_content( $content ) {
+	public function get_images_from_content( $content ) {
+		if ( ! is_string( $content ) ) {
+			return [];
+		}
+
 		$content_images = $this->get_img_tags_from_content( $content );
-		$images         = array_map( array( $this, 'get_img_tag_source' ), $content_images );
+		$images         = array_map( [ $this, 'get_img_tag_source' ], $content_images );
 		$images         = array_filter( $images );
 		$images         = array_unique( $images );
+		$images         = array_values( $images ); // Reset the array keys.
 
 		return $images;
 	}
@@ -47,7 +52,7 @@ class WPSEO_Content_Images {
 	 */
 	private function get_img_tags_from_content( $content ) {
 		if ( strpos( $content, '<img' ) === false ) {
-			return array();
+			return [];
 		}
 
 		preg_match_all( '`<img [^>]+>`', $content, $matches );
@@ -55,7 +60,7 @@ class WPSEO_Content_Images {
 			return $matches[0];
 		}
 
-		return array();
+		return [];
 	}
 
 	/**
