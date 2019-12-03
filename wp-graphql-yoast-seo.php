@@ -7,13 +7,16 @@
  * Author URI:      https://www.ashleyhitchcock.com
  * Text Domain:     wp-graphql-yoast-seo
  * Domain Path:     /languages
- * Version:         2.2.1
+ * Version:         3.0.1
  *
  * @package         WP_Graphql_YOAST_SEO
  */
 if (!defined('ABSPATH')) {
   exit();
 }
+
+use WPGraphQL\AppContext;
+use WPGraphQL\Data\DataSource;
 
 add_action('graphql_register_types', function () {
   $post_types = \WPGraphQL::get_allowed_post_types();
@@ -29,10 +32,10 @@ add_action('graphql_register_types', function () {
       'metaRobotsNofollow' => ['type' => 'String'],
       'opengraphTitle' => ['type' => 'String'],
       'opengraphDescription' => ['type' => 'String'],
-      'opengraphImage' => ['type' => 'String'],
+      'opengraphImage' => ['type' => 'MediaItem'],
       'twitterTitle' => ['type' => 'String'],
       'twitterDescription' => ['type' => 'String'],
-      'twitterImage' => ['type' => 'String']
+      'twitterImage' => ['type' => 'MediaItem']
     ]
   ]);
 
@@ -44,7 +47,8 @@ add_action('graphql_register_types', function () {
         register_graphql_field($post_type_object->graphql_single_name, 'seo', [
           'type' => 'SEO',
           'description' => __('The Yoast SEO data of the ' . $post_type_object->graphql_single_name, 'wp-graphql'),
-          'resolve' => function ($post) {
+          'resolve' => function ($post, array $args, AppContext $context) {
+
             // Connect to Yoast
             $wpseo_frontend = WPSEO_Frontend::get_instance();
             $wpseo_frontend->reset();
@@ -68,10 +72,10 @@ add_action('graphql_register_types', function () {
               'metaRobotsNofollow' => trim(get_post_meta($post->ID, '_yoast_wpseo_meta-robots-nofollow', true)),
               'opengraphTitle' => trim(get_post_meta($post->ID, '_yoast_wpseo_opengraph-title', true)),
               'opengraphDescription' => trim(get_post_meta($post->ID, '_yoast_wpseo_opengraph-description', true)),
-              'opengraphImage' => trim(get_post_meta($post->ID, '_yoast_wpseo_opengraph-image', true)),
+              'opengraphImage' => DataSource::resolve_post_object(get_post_meta($post->ID, '_yoast_wpseo_opengraph-image-id', true), $context),
               'twitterTitle' => trim(get_post_meta($post->ID, '_yoast_wpseo_twitter-title', true)),
               'twitterDescription' => trim(get_post_meta($post->ID, '_yoast_wpseo_twitter-description', true)),
-              'twitterImage' => trim(get_post_meta($post->ID, '_yoast_wpseo_twitter-image', true))
+              'twitterImage' =>  DataSource::resolve_post_object(get_post_meta($post->ID, '_yoast_wpseo_twitter-image-id', true), $context)
             );
             wp_reset_query();
 
@@ -95,29 +99,30 @@ add_action('graphql_register_types', function () {
         register_graphql_field($taxonomy->graphql_single_name, 'seo', [
           'type' => 'SEO',
           'description' => __('The Yoast SEO data of the ' . $taxonomy->label . ' taxonomy.', 'wp-graphql'),
-          'resolve' => function ($term) {
+          'resolve' => function ($term, array $args, AppContext $context) {
 
             $term_obj = get_term($term->term_id);
 
             query_posts( array(
               'tax_query' => array(
                 array(
-                'taxonomy' => $term_obj->taxonomy,
-                'terms' => $term_obj->term_id,
-                'field' => 'term_id'
+                  'taxonomy' => $term_obj->taxonomy,
+                  'terms' => $term_obj->term_id,
+                  'field' => 'term_id'
+                )
               )
               )
-            ) );
+            );
             the_post();
   
             $wpseo_frontend = WPSEO_Frontend::get_instance();
             $wpseo_frontend->reset();
           
-            $meta =	WPSEO_Taxonomy_Meta::get_term_meta($term_obj->term_id, $term_obj->taxonomy);
+            $meta =	WPSEO_Taxonomy_Meta::get_term_meta((int) $term_obj->term_id, $term_obj->taxonomy);
 
             // Get data
             $seo = array(
-              'title' => trim($wpseo_frontend->title($post)) ,
+              'title' => trim($term_obj->term_id. ' - '. $term_obj->taxonomy.' -'.$wpseo_frontend->title($post)),
               'metaDesc' => trim($wpseo_frontend->metadesc( false )),
               'focuskw' => trim($meta['wpseo_focuskw']),
               'metaKeywords' => trim($meta['wpseo_metakeywords']),
@@ -125,10 +130,10 @@ add_action('graphql_register_types', function () {
               'metaRobotsNofollow' => trim($meta['wpseo_meta-robots-nofollow']),
               'opengraphTitle' => trim($meta['wpseo_opengraph-title']),
               'opengraphDescription' => trim($meta['wpseo_opengraph-description']),
-              'opengraphImage' => trim($meta['wpseo_opengraph-image']),
+              'opengraphImage' => DataSource::resolve_post_object($meta['wpseo_opengraph-image-id'], $context),
               'twitterTitle' => trim($meta['wpseo_twitter-title']),
               'twitterDescription' => trim($meta['wpseo_twitter-description']),
-              'twitterImage' => trim($meta['wpseo_twitter-image'])
+              'twitterImage' => DataSource::resolve_post_object($meta['wpseo_twitter-image-id'], $context)
             );
             wp_reset_query();
   

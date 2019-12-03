@@ -35,10 +35,18 @@ To query for the Yoast Data as the seo object to your query.:
           metaRobotsNofollow
           opengraphTitle
           opengraphDescription
-          opengraphImage
+          opengraphImage {
+            altText
+            sourceUrl
+            srcSet
+          }
           twitterTitle
           twitterDescription
-          twitterImage
+          twitterImage {
+            altText
+            sourceUrl
+            srcSet
+        }
         }
       }
     }
@@ -46,6 +54,12 @@ To query for the Yoast Data as the seo object to your query.:
 }
 
 ```
+
+## V3 breaking change.
+
+Image urls are now returned as `mediaItem` type.
+
+This applies to `twitterImage` and `opengraphImage`
 
 ## Notes
 
