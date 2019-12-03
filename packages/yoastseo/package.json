@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@yoast/browserslist-config": "^1.0.0",
+    "browserslist": "^4.7.3",
     "autoprefixer": "^9.0.0",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.26.0",

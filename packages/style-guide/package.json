@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@yoast/browserslist-config": "^1.0.0",
+    "browserslist": "^4.7.3",
     "grunt": "^1.0.3",
     "grunt-scss-to-json": "https://github.com/atimmer/grunt-scss-to-json",
     "load-grunt-config": "^1.0.1"
