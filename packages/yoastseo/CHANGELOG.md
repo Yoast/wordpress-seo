@@ -2,8 +2,12 @@
 
 This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwards.
+
+## 1.63.0 November 13th, 2019
+### Fixed
+ * Fixes a bug where the verb form `landscape` was not recognized in the text when the keyphrase contained the verb `landscaping`.
 
 ## 1.62.0 October 29th, 2019
 ### Enhancements:
