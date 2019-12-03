@@ -1,10 +1,8 @@
-import {
-	findAndApplyModifications,
-	addVerbSuffixes,
-} from "./addVerbSuffixes";
+import { addVerbSuffixes } from "./addVerbSuffixes";
 import { applySuffixesToStem } from "../morphoHelpers/suffixHelpers";
 import { flatten } from "lodash-es";
 import { allVerbPrefixesSorted } from "../morphoHelpers/sortPrefixes";
+import { findAndApplyModificationsVerbsNouns } from "./suffixHelpers";
 /**
  * Creates the present forms of irregular strong verbs.
  *
@@ -17,7 +15,7 @@ import { allVerbPrefixesSorted } from "../morphoHelpers/sortPrefixes";
  */
 const createIrregularStrongVerbsPresent = function( verb, morphologyDataVerbs, morphologyDataAddSuffixes, stemmedWord ) {
 	const enAndEndSuffixes = morphologyDataVerbs.suffixesWithStemModification;
-	const modifiedPresentStem = findAndApplyModifications( verb.present, morphologyDataAddSuffixes, morphologyDataVerbs );
+	const modifiedPresentStem = findAndApplyModificationsVerbsNouns( verb.present, morphologyDataAddSuffixes );
 	const forms = [
 		verb.present,
 		...applySuffixesToStem( modifiedPresentStem,  enAndEndSuffixes ),
@@ -38,7 +36,7 @@ const createIrregularStrongVerbsPresent = function( verb, morphologyDataVerbs, m
  *  @returns {string[]}							The verb forms created.
  */
 const createIrregularStrongVerbsPast = function( verb, morphologyDataVerbs, morphologyDataAddSuffixes ) {
-	const modifiedPastStem = findAndApplyModifications( verb.past, morphologyDataAddSuffixes, morphologyDataVerbs );
+	const modifiedPastStem = findAndApplyModificationsVerbsNouns( verb.past, morphologyDataAddSuffixes );
 	const enAndEndSuffixes = morphologyDataVerbs.suffixesWithStemModification;
 	return [
 		verb.past,
@@ -58,7 +56,7 @@ const createIrregularStrongVerbsPast = function( verb, morphologyDataVerbs, morp
 const createIrregularStrongVerbsParticiple = function( stem, suffix, morphologyDataVerbs, morphologyDataAddSuffixes ) {
 	// Create the past participle form which gets suffix -en. Requires stem modification beforehand.
 	if ( suffix === morphologyDataVerbs.strongAndIrregularVerbs.suffixes.pastParticipleEn ) {
-		return findAndApplyModifications( stem, morphologyDataAddSuffixes, morphologyDataVerbs ).concat( suffix );
+		return findAndApplyModificationsVerbsNouns( stem, morphologyDataAddSuffixes ).concat( suffix );
 	}
 	/* Create the past participle form which gets suffix -t or -d.
 		If the participle stem ends in either -t or -d, it would not get any additional suffix.
@@ -192,7 +190,7 @@ const createFormsBothRegularAndIrregularStrongVerbs = function( verb, morphology
 		verb.regularStem,
 		...addVerbSuffixes( verb.regularStem, morphologyDataAddSuffixes, morphologyDataVerbs ),
 		verb.irregularStem,
-		findAndApplyModifications( verb.irregularStem, morphologyDataAddSuffixes, morphologyDataVerbs ).concat( suffixEn ),
+		findAndApplyModificationsVerbsNouns( verb.irregularStem, morphologyDataAddSuffixes ).concat( suffixEn ),
 	];
 };
 
