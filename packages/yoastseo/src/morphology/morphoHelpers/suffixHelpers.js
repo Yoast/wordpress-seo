@@ -1,4 +1,42 @@
 /**
+ * Deletes suffixes from an array of suffixes to be added to the stem.
+ *
+ * @param {Object}          morphologyDataSuffixDeletions   The data for suffix deletions.
+ * @param {Array<string>}   suffixes                		The array of suffixes that should be modified
+ * @param {string}          stemmedWordToCheck              The stem to check.
+ *
+ * @returns {Array<string>} The modified list of suffixes.
+ */
+export function removeSuffixesBeforeAdding( morphologyDataSuffixDeletions, suffixes, stemmedWordToCheck ) {
+	for ( const key of Object.keys( morphologyDataSuffixDeletions ) ) {
+		const endingsToCheck = morphologyDataSuffixDeletions[ key ][ 0 ];
+		const suffixesToDelete = morphologyDataSuffixDeletions[ key ][ 1 ];
+
+		// Delete from the regular suffixes if one of the endings match.
+		if ( endingsToCheck.some( ending => stemmedWordToCheck.endsWith( ending ) ) ) {
+			suffixes = suffixes.filter( ending => ! suffixesToDelete.includes( ending ) );
+		}
+	}
+
+	return suffixes;
+}
+
+/**
+ * Modifies the stem if the stem ending matches one of the regexes from a given modification group.
+ *
+ * @param {string} stemmedWord The stem.
+ * @param {array} modificationGroup The type of modification.
+ * @returns {string} The modified stem.
+ */
+export function modifyStem( stemmedWord, modificationGroup ) {
+	const neededReplacement = modificationGroup.find( replacement => new RegExp( replacement[ 0 ] ).test( stemmedWord ) );
+
+	if ( neededReplacement ) {
+		return stemmedWord.replace( new RegExp( neededReplacement[ 0 ] ), neededReplacement[ 1 ] );
+	}
+}
+
+/**
  * Creates word forms from a list of given suffixes and a stem.
  *
  * @param {string}      stem                The stem on which to apply the suffixes.
