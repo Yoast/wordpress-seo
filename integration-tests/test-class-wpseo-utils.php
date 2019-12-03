@@ -81,6 +81,24 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Test the datetime with a valid date string.
+	 *
+	 * @covers WPSEO_Utils::is_valid_datetime
+	 */
+	public function test_is_valid_datetime_WITH_valid_datetime() {
+		$this->assertTrue( WPSEO_Utils::is_valid_datetime( '2015-02-25T04:44:44+00:00' ) );
+	}
+
+	/**
+	 * Test the datetime with an invalid date string.
+	 *
+	 * @covers WPSEO_Utils::is_valid_datetime
+	 */
+	public function test_is_valid_datetime_WITH_invalid_datetime() {
+		$this->assertFalse( WPSEO_Utils::is_valid_datetime( '-0001-11-30T00:00:00+00:00' ) );
+	}
+
+	/**
 	 * Tests translate_score function.
 	 *
 	 * @dataProvider translate_score_provider
