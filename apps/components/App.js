@@ -6,7 +6,6 @@ import ButtonsWrapper from "./ButtonsWrapper";
 import ComponentsExample from "./ComponentsExample";
 import ContentAnalysis from "./ContentAnalysisWrapper";
 import DashboardWidget from "./DashboardWidgetWrapper";
-import HelpCenterWrapper from "./HelpCenterWrapper";
 import KeywordExample from "./KeywordExample";
 import WordListWrapper from "./WordListWrapper";
 import SidebarCollapsibleWrapper from "./SidebarCollapsibleWrapper";
@@ -18,6 +17,7 @@ import { Loader } from "@yoast/components";
 import FacebookPreviewExample from "./FacebookPreviewExample";
 import LinkSuggestionsWrapper from "./LinkSuggestionsExample";
 import WordOccurrencesWrapper from "./WordOccurrencesWrapper";
+import MultiStepProgressWrapper from "./MultiStepProgressWrapper";
 
 // Setup empty translations to prevent Jed error.
 setLocaleData( { "": {} }, "yoast-components" );
@@ -47,11 +47,6 @@ const components = [
 		id: "dashboard-widget",
 		name: "Dashboard Widget",
 		component: <DashboardWidget />,
-	},
-	{
-		id: "help-center",
-		name: "Help center",
-		component: <HelpCenterWrapper />,
 	},
 	{
 		id: "ui-controls",
@@ -102,6 +97,11 @@ const components = [
 		id: "wordoccurrences-example",
 		name: "WordOccurrences",
 		component: <WordOccurrencesWrapper />,
+	},
+	{
+		id: "multi-step-progress",
+		name: "Multi step progress",
+		component: <MultiStepProgressWrapper />,
 	},
 ];
 

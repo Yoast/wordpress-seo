@@ -59,7 +59,7 @@ const SingleSvgContainer = styled.span`
 /**
  * Returns the SvgIconsWrapper component.
  *
- * @returns {ReactElement} The HelpCenterWrapper component.
+ * @returns {ReactElement} The SvgIconsWrapper component.
  */
 export default function SvgIconsWrapper() {
 	/**
@@ -77,7 +77,16 @@ export default function SvgIconsWrapper() {
 		}
 
 		return transform( iconSet, ( result, value, key ) => {
-			const color = key === "seo-score-ok" ? colors.$color_ok : colors.$color_black;
+			let color = colors.$color_black;
+
+			if ( key === "seo-score-ok" ) {
+				color = colors.$color_ok;
+			}
+
+			if ( key === "loading-spinner" ) {
+				color = colors.$color_green_medium_light;
+			}
+
 			return result.push(
 				<SingleSvgContainer key={ key }>
 					<IconComponent icon={ key } size="40px" color={ color } />
