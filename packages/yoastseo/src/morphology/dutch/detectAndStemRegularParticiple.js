@@ -102,7 +102,7 @@ const checkInseparableExceptions = function( dataInseparableExceptions, word ) {
  * @param {Object}  morphologyDataVerbs The Dutch morphology data for verbs.
  * @param {string}  word                The word (not stemmed) to check.
  *
- * @returns {string} The participle stem or null if no regular participle was matched.
+ * @returns {string|null} The participle stem or null if no regular participle was matched.
  */
 export function detectAndStemRegularParticiple( morphologyDataVerbs, word ) {
 	// Check whether the word is not a participle
