@@ -4,7 +4,6 @@
 .wpseo_content_wrapper {
 	display: table;
 	width: 100%;
-	// IE11 and Edge need this for the Help Center responsiveness.
 	table-layout: fixed;
 }
 
@@ -309,7 +308,6 @@ tr.yst_row.even {
 		width: 100%;
 		padding: 0;
 		text-align: left;
-		overflow: visible; // IE11 clips the icon focus style
 	}
 
 	.toggleable-container-icon {
@@ -823,10 +821,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 			opacity: .75;
 		}
 
-		/* Remove background focus style from IE11 while keeping focus style available on option elements. */
-		&::-ms-value {
-			background: transparent;
-		}
 		/* Remove the default down arrow in IE/Edge. */
 		&::-ms-expand {
 			display: none;

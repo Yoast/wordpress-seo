@@ -32,6 +32,13 @@ class WPSEO_Breadcrumbs {
 	public static $after = '';
 
 	/**
+	 * The date helper.
+	 *
+	 * @var WPSEO_Date_Helper
+	 */
+	protected $date;
+
+	/**
 	 * Blog's show on front setting, 'page' or 'posts'.
 	 *
 	 * @var string
@@ -122,6 +129,7 @@ class WPSEO_Breadcrumbs {
 		$this->show_on_front         = get_option( 'show_on_front' );
 		$this->page_for_posts        = get_option( 'page_for_posts' );
 		$this->woocommerce_shop_page = new WPSEO_WooCommerce_Shop_Page();
+		$this->date                  = new WPSEO_Date_Helper();
 
 		$this->filter_element();
 		$this->filter_separator();
@@ -728,17 +736,9 @@ class WPSEO_Breadcrumbs {
 
 	/**
 	 * Add (non-link) date crumb to crumbs property.
-	 *
-	 * @param string $date Optional date string, defaults to post's date.
 	 */
-	private function add_date_crumb( $date = null ) {
-		if ( is_null( $date ) ) {
-			$date = get_the_date();
-		}
-		else {
-			$date = mysql2date( get_option( 'date_format' ), $date, true );
-			$date = apply_filters( 'get_the_date', $date, '' );
-		}
+	private function add_date_crumb() {
+		$date = get_the_date();
 
 		$this->add_predefined_crumb(
 			WPSEO_Options::get( 'breadcrumbs-archiveprefix' ) . ' ' . esc_html( $date ),

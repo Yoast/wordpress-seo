@@ -46,7 +46,7 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 		WPSEO_Options::set( 'noindex-author-noposts-wpseo', true );
 
 		// Creates a user, without any posts.
-		$this->factory->user->create( array( 'role' => 'author' ) );
+		$this->factory->user->create( [ 'role' => 'author' ] );
 
 		// Checks which users are in the sitemap, there should be none.
 		self::$class_instance->get_sitemap_links( 'author', 10, 1 );
@@ -62,10 +62,10 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 		WPSEO_Options::set( 'noindex-author-noposts-wpseo', true );
 
 		// Creates a user, without any posts.
-		$user_id = $this->factory->user->create( array( 'role' => 'author' ) );
+		$user_id = $this->factory->user->create( [ 'role' => 'author' ] );
 
 		// Creates posts.
-		$this->factory->post->create_many( 3, array( 'post_author' => $user_id ) );
+		$this->factory->post->create_many( 3, [ 'post_author' => $user_id ] );
 
 		// Checks which users are in the sitemap.
 		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
@@ -87,9 +87,9 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 		WPSEO_Options::set( 'noindex-author-noposts-wpseo', false );
 
 		// Adds three more users (of different types) without posts.
-		$author_id = $this->factory->user->create( array( 'role' => 'author' ) );
-		$admin_id  = $this->factory->user->create( array( 'role' => 'administrator' ) );
-		$editor_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		$author_id = $this->factory->user->create( [ 'role' => 'author' ] );
+		$admin_id  = $this->factory->user->create( [ 'role' => 'administrator' ] );
+		$editor_id = $this->factory->user->create( [ 'role' => 'editor' ] );
 
 		// Checks which users are in the sitemap.
 		$sitemap_links = self::$class_instance->get_sitemap_links( 'author', 10, 1 );
@@ -116,8 +116,8 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	 */
 	public function test_author_exclusion() {
 		// Creates a user with 3 posts.
-		$user_id = $this->factory->user->create( array( 'role' => 'author' ) );
-		$this->factory->post->create_many( 3, array( 'post_author' => $user_id ) );
+		$user_id = $this->factory->user->create( [ 'role' => 'author' ] );
+		$this->factory->post->create_many( 3, [ 'post_author' => $user_id ] );
 
 		// Excludes the user from the sitemaps.
 		update_user_meta( $user_id, 'wpseo_noindex_author', 'on' );
@@ -183,14 +183,14 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 	 */
 	public function test_throw_no_exception_on_second_sitemap() {
 		// Creates two users, without any posts.
-		$author_id        = $this->factory->user->create( array( 'role' => 'author' ) );
-		$second_author_id = $this->factory->user->create( array( 'role' => 'author' ) );
-		$third_author_id  = $this->factory->user->create( array( 'role' => 'author' ) );
+		$author_id        = $this->factory->user->create( [ 'role' => 'author' ] );
+		$second_author_id = $this->factory->user->create( [ 'role' => 'author' ] );
+		$third_author_id  = $this->factory->user->create( [ 'role' => 'author' ] );
 
 		// Creates posts.
-		$this->factory->post->create_many( 3, array( 'post_author' => $author_id ) );
-		$this->factory->post->create_many( 3, array( 'post_author' => $second_author_id ) );
-		$this->factory->post->create_many( 3, array( 'post_author' => $third_author_id ) );
+		$this->factory->post->create_many( 3, [ 'post_author' => $author_id ] );
+		$this->factory->post->create_many( 3, [ 'post_author' => $second_author_id ] );
+		$this->factory->post->create_many( 3, [ 'post_author' => $third_author_id ] );
 
 		// Collects the author links for the third sitemap.
 		$third_sitemap_links = self::$class_instance->get_sitemap_links( 'author', 1, 3 );

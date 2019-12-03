@@ -48,6 +48,13 @@ class WPSEO_Replace_Vars {
 	protected $args;
 
 	/**
+	 * The date helper.
+	 *
+	 * @var WPSEO_Date_Helper
+	 */
+	protected $date;
+
+	/**
 	 * Help texts for use in WPSEO -> Search appearance tabs.
 	 *
 	 * @var array
@@ -67,6 +74,7 @@ class WPSEO_Replace_Vars {
 	 * @return \WPSEO_Replace_Vars
 	 */
 	public function __construct() {
+		$this->date = new WPSEO_Date_Helper();
 	}
 
 	/**
@@ -307,7 +315,7 @@ class WPSEO_Replace_Vars {
 		$replacement = null;
 
 		if ( $this->args->post_date !== '' ) {
-			$replacement = mysql2date( get_option( 'date_format' ), $this->args->post_date, true );
+			$replacement = $this->date->format_translated( $this->args->post_date, get_option( 'date_format' ) );
 		}
 		else {
 			if ( get_query_var( 'day' ) && get_query_var( 'day' ) !== '' ) {
@@ -883,7 +891,7 @@ class WPSEO_Replace_Vars {
 		$replacement = null;
 
 		if ( ! empty( $this->args->post_modified ) ) {
-			$replacement = mysql2date( get_option( 'date_format' ), $this->args->post_modified, true );
+			$replacement = $this->date->format_translated( $this->args->post_modified, get_option( 'date_format' ) );
 		}
 
 		return $replacement;

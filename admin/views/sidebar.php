@@ -40,7 +40,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 			</ul>
 
 			<a id="wpseo-premium-button" class="yoast-button-upsell"
-			   href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jj' ); ?>" target="_blank">
+				href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jj' ); ?>" target="_blank">
 				<?php
 				/* translators: %s expands to Yoast SEO Premium */
 				printf( esc_html__( 'Get %s', 'wordpress-seo' ), 'Yoast SEO Premium' );
@@ -62,7 +62,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 					<p>
 						<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jq' ); ?>" target="_blank">
 							<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/local_plugin_assistant.svg' ); ?>"
-								 alt="">
+								alt="">
 							<strong>Be found on Google Maps!</strong>
 							<?php
 							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
@@ -76,8 +76,8 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 					<p>
 						<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jo' ); ?>" target="_blank">
 							<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/video_plugin_assistant.svg' ); ?>"
-								 class="alignleft"
-								 alt="">
+								class="alignleft"
+								alt="">
 							<strong>Rank in Google Video</strong>
 							<?php
 							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
@@ -91,7 +91,7 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 					<p>
 						<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jp' ); ?>" target="_blank">
 							<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/woo_plugin_assistant.svg' ); ?>"
-								 alt="">
+								alt="">
 							<strong>WooCommerce SEO</strong>
 							<?php
 							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.
@@ -105,8 +105,8 @@ $new_tab_message      = WPSEO_Admin_Utils::get_new_tab_message();
 					<p>
 						<a href="<?php WPSEO_Shortlinker::show( 'https://yoa.st/jr' ); ?>" target="_blank">
 							<img src="<?php echo esc_url( $wpseo_plugin_dir_url . 'images/news_plugin_assistant.svg' ); ?>"
-								 class="alignleft"
-								 alt="">
+								class="alignleft"
+								alt="">
 							<strong>Rank in Google News</strong>
 							<?php
 							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $new_tab_message is properly escaped.

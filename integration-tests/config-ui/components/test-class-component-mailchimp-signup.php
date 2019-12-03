@@ -41,7 +41,7 @@ class WPSEO_Config_Component_Mailchimp_Signup_Test extends WPSEO_UnitTestCase {
 		$mailchimp_signup = new WPSEO_Config_Component_Mailchimp_Signup();
 
 		$this->assertEquals(
-			array( 'hasSignup' => false ),
+			[ 'hasSignup' => false ],
 			$mailchimp_signup->get_data()
 		);
 	}
@@ -58,8 +58,8 @@ class WPSEO_Config_Component_Mailchimp_Signup_Test extends WPSEO_UnitTestCase {
 		$mailchimp_signup = new WPSEO_Config_Component_Mailchimp_Signup();
 
 		$this->assertEquals(
-			array( 'hasSignup' => true ),
-			$mailchimp_signup->set_data( array( 'hasSignup' => true ) )
+			[ 'hasSignup' => true ],
+			$mailchimp_signup->set_data( [ 'hasSignup' => true ] )
 		);
 	}
 }

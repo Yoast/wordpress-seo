@@ -80,6 +80,6 @@ class WPSEO_GSC_Table extends WP_List_Table {
 	public function get_columns() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
-		return array();
+		return [];
 	}
 }

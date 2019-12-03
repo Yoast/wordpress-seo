@@ -75,7 +75,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 		add_user_meta( $user_id, 'wpseo_title', $explicit_title );
 
 		// Test explicit title.
-		$expected_title = wpseo_replace_vars( 'WPSEO Author Title %%sitename%%', array() );
+		$expected_title = wpseo_replace_vars( 'WPSEO Author Title %%sitename%%', [] );
 		$this->assertEquals( $expected_title, self::$class_instance->get_author_title() );
 	}
 
@@ -144,7 +144,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_get_post_type_archive_title() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_queried_post_type', 'get_title_from_options' ) )
+			->setMethods( [ 'get_queried_post_type', 'get_title_from_options' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -167,7 +167,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_get_post_type_archive_title_menu_title_fallback() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_queried_post_type', 'get_title_from_options', 'get_default_title' ) )
+			->setMethods( [ 'get_queried_post_type', 'get_title_from_options', 'get_default_title' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -184,9 +184,9 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 			->with( '1', '2', '3' )
 			->will( $this->returnValue( '123' ) );
 
-		$GLOBALS['wp_post_types'] = array(
-			'post_type' => new WP_Post_Type( 'post_type', array( 'labels' => array( 'menu_name' => '3' ) ) ),
-		);
+		$GLOBALS['wp_post_types'] = [
+			'post_type' => new WP_Post_Type( 'post_type', [ 'labels' => [ 'menu_name' => '3' ] ] ),
+		];
 
 		$this->assertEquals( '123', $instance->get_post_type_archive_title( '1', '2' ) );
 	}
@@ -198,7 +198,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_get_post_type_archive_title_name_fallback() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_queried_post_type', 'get_title_from_options', 'get_default_title' ) )
+			->setMethods( [ 'get_queried_post_type', 'get_title_from_options', 'get_default_title' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -215,9 +215,9 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 			->with( '1', '2', '4' )
 			->will( $this->returnValue( '124' ) );
 
-		$GLOBALS['wp_post_types'] = array(
-			'post_type' => new WP_Post_Type( 'post_type', array( 'labels' => array( 'name' => '4' ) ) ),
-		);
+		$GLOBALS['wp_post_types'] = [
+			'post_type' => new WP_Post_Type( 'post_type', [ 'labels' => [ 'name' => '4' ] ] ),
+		];
 
 		$this->assertEquals( '124', $instance->get_post_type_archive_title( '1', '2' ) );
 	}
@@ -229,7 +229,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_get_post_type_archive_title_empty_fallback() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_queried_post_type', 'get_title_from_options', 'get_default_title' ) )
+			->setMethods( [ 'get_queried_post_type', 'get_title_from_options', 'get_default_title' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -246,9 +246,9 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 			->with( '1', '2', 'post_type' )
 			->will( $this->returnValue( '12post_type' ) );
 
-		$GLOBALS['wp_post_types'] = array(
-			'post_type' => new WP_Post_Type( 'post_type', array( 'labels' => array( 'menu_name' => null ) ) ),
-		);
+		$GLOBALS['wp_post_types'] = [
+			'post_type' => new WP_Post_Type( 'post_type', [ 'labels' => [ 'menu_name' => null ] ] ),
+		];
 
 		$this->assertEquals( '12post_type', $instance->get_post_type_archive_title( '1', '2' ) );
 	}
@@ -260,7 +260,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_get_seo_title_no_valid_object() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_title_from_options' ) )
+			->setMethods( [ 'get_title_from_options' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -278,7 +278,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_get_seo_title_with_valid_object() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_seo_meta_value', 'replace_vars' ) )
+			->setMethods( [ 'get_seo_meta_value', 'replace_vars' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -289,7 +289,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 		$instance->expects( $this->never() )
 			->method( 'replace_vars' );
 
-		$this->assertEquals( '', $instance->get_seo_title( (object) array( 'ID' => 1 ) ) );
+		$this->assertEquals( '', $instance->get_seo_title( (object) [ 'ID' => 1 ] ) );
 	}
 
 	/**
@@ -299,7 +299,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_get_seo_title_use_replace_vars() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_seo_meta_value', 'replace_vars' ) )
+			->setMethods( [ 'get_seo_meta_value', 'replace_vars' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -307,7 +307,7 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 			->with( 'title', 1 )
 			->will( $this->returnValue( 'a title' ) );
 
-		$object = (object) array( 'ID' => 1 );
+		$object = (object) [ 'ID' => 1 ];
 
 		$instance->expects( $this->once() )
 			->method( 'replace_vars' )
@@ -324,14 +324,14 @@ final class WPSEO_Frontend_Title_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_get_seo_title_use_queried_object() {
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_seo_meta_value', 'replace_vars' ) )
+			->setMethods( [ 'get_seo_meta_value', 'replace_vars' ] )
 			->getMock();
 
 		$wp_query = $this->getMockBuilder( 'WP_Query' )
-			->setMethods( array( 'get_queried_object' ) )
+			->setMethods( [ 'get_queried_object' ] )
 			->getMock();
 
-		$object = (object) array( 'ID' => 1 );
+		$object = (object) [ 'ID' => 1 ];
 
 		$wp_query->expects( $this->once() )
 			->method( 'get_queried_object' )
