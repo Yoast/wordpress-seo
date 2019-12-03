@@ -2,24 +2,18 @@
 
 This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
+
 We follow [Semantic Versioning](http://semver.org/).
 
-## 4.34.1 October 14th, 2019
-No user-facing changes.
+
+## 4.36.0 November 11th, 2019
+### Enhancements
+* Improves the `KeywordInput` and `SynonymsInput` styling for consistency with the new WordPress 5.3 admin styles.
 
 ## 4.34.0 October 14th, 2019
 ### Fixed
 * Fixes a bug where internal linking suggestions were not aligned correctly, but were indented instead.
-
-## 4.33.0 September 30th, 2019
-No user-facing changes.
-
-## 4.32.0 September 16th, 2019
-No user-facing changes.
-
-## 4.31.0 September 2nd, 2019
-No user-facing changes.
 
 ## 4.30.0 July 22nd, 2019
 ### Added
