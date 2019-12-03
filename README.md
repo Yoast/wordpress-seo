@@ -2,7 +2,9 @@
 
 This is an extension to the WPGraphQL plugin (https://github.com/wp-graphql/wp-graphql) that returns Yoast SEO data.
 
-> Currently returning SEO data for pages, posts, custom post types, categories and custom taxonomies.
+Currently returning SEO data for pages, posts, custom post types, categories and custom taxonomies.
+
+> Using this plugin? I would love to see what you make with it. [@ash_hitchcock](https://twitter.com/ash_hitchcock)
 
 ## Quick Install
 
@@ -17,7 +19,7 @@ composer require ashhitch/wp-graphql-yoast-seo
 
 ## Usage
 
-To query for the Yoast Data as the seo object to your query.:
+To query for the Yoast Data as the seo object to your query:
 
 ```
 {
