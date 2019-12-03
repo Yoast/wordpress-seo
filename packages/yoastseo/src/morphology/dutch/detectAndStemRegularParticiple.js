@@ -86,6 +86,7 @@ const detectAndStemParticiplesWithPrefixes = function( morphologyDataVerbs, word
  *
  * @param {array} dataInseparableExceptions The list of the exception words.
  * @param {string} word 	The (unstemmed) word to check.
+ *
  * @returns {null|string} The stemmed word or null if the word was not found on the exception list.
  */
 const checkInseparableExceptions = function( dataInseparableExceptions, word ) {
@@ -101,7 +102,7 @@ const checkInseparableExceptions = function( dataInseparableExceptions, word ) {
  * @param {Object}  morphologyDataVerbs The Dutch morphology data for verbs.
  * @param {string}  word                The word (not stemmed) to check.
  *
- * @returns {string} The participle stem or null if no regular participle was matched.
+ * @returns {string|null} The participle stem or null if no regular participle was matched.
  */
 export function detectAndStemRegularParticiple( morphologyDataVerbs, word ) {
 	// Check whether the word is not a participle
