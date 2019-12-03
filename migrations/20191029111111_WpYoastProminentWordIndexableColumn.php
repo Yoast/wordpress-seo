@@ -9,9 +9,9 @@ use Yoast\WP\Free\ORM\Yoast_Model;
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
 
 /**
- * Class WpYoastProminentWordIndexableColumns
+ * Class WpYoastProminentWordIndexableColumn
  */
-class WpYoastProminentWordIndexableColumns extends Ruckusing_Migration_Base {
+class WpYoastProminentWordIndexableColumn extends Ruckusing_Migration_Base {
 
 	/**
 	 * Migration up.
@@ -26,7 +26,6 @@ class WpYoastProminentWordIndexableColumns extends Ruckusing_Migration_Base {
 			'default'  => null,
 		] );
 
-		$this->add_column( $table_name, 'prominent_words_vector_length', 'float' );
 		$this->add_index(
 			$table_name,
 			'prominent_words_version',
@@ -41,8 +40,8 @@ class WpYoastProminentWordIndexableColumns extends Ruckusing_Migration_Base {
 	 */
 	public function down() {
 		$table_name = $this->get_table_name();
+
 		$this->remove_column( $table_name, 'prominent_words_version' );
-		$this->remove_column( $table_name, 'prominent_words_vector_length' );
 	}
 
 	/**
