@@ -282,11 +282,14 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			]
 		);
 
-		$private           = \get_post_status( $this->model->object_id ) === 'private';
-		$post_type_noindex = ! $this->post_type->is_indexable( $this->model->object_sub_type );
+		// When the post specific index is not set, look to the post status and default of the post type.
+		if ( $this->model->is_robots_noindex === null ) {
+			$post_status_private = \get_post_status( $this->model->object_id ) === 'private';
+			$post_type_noindex   = ! $this->post_type->is_indexable( $this->model->object_sub_type );
 
-		if ( $private || $post_type_noindex ) {
-			$robots['index'] = 'noindex';
+			if ( $post_status_private || $post_type_noindex ) {
+				$robots['index'] = 'noindex';
+			}
 		}
 
 		return $robots;
