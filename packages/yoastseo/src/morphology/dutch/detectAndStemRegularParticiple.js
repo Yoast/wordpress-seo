@@ -81,6 +81,18 @@ const detectAndStemParticiplesWithPrefixes = function( morphologyDataVerbs, word
 };
 
 /**
+ *  Checks whether the word is on the list of participles that do not need to be stemmed, because the participle form
+ *  is the same as the stem.
+ *
+ * @param {string[]} dataParticiplesSameAsStem	The list of exceptions whose stem is the same as the participle.
+ * @param {string} word		The word to check.
+ * @returns {boolean} Whether the word is found on the exception list.
+ */
+const checkIfParticipleIsSameAsStem = function( dataParticiplesSameAsStem, word ) {
+	return dataParticiplesSameAsStem.includes( word );
+};
+
+/**
  * Checks whether the word is on an exception list of participles with an inseparable prefix that normally
  * is separable, and stems it if found on the list.
  *
@@ -108,6 +120,13 @@ export function detectAndStemRegularParticiple( morphologyDataVerbs, word ) {
 	// Check whether the word is not a participle
 	if ( word.endsWith( "heid" ) || word.endsWith( "teit" ) || word.endsWith( "tijd" ) || nonParticiples().includes( word ) ) {
 		return "";
+	}
+	/*
+	 Check whether the word is on an exception list of verbs whose participle is the same as the stem. If the word is found
+	 on the list, return the stem.
+	 */
+	if ( checkIfParticipleIsSameAsStem( morphologyDataVerbs.inseparableCompoundVerbsNotToBeStemmed, word ) ) {
+		return word;
 	}
 
 	let stem = detectAndStemParticiplesWithoutPrefixes( morphologyDataVerbs.participleStemmingClasses, word );

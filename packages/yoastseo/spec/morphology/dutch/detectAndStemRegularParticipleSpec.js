@@ -21,6 +21,9 @@ describe( "Detects and stems participles", () => {
 		expect( detectAndStemRegularParticiple( morphologyDataNL.verbs, "herhaald" ) ).toEqual( "herhaal" );
 	} );
 	it( "correctly stems a regular participle with an inseparable prefix that is usually separable", () => {
-		expect( detectAndStemRegularParticiple( morphologyDataNL.verbs, "aanschouwd" ) ).toEqual( "aanschouw" );
+		expect( detectAndStemRegularParticiple( morphologyDataNL.verbs, "omwikkeld" ) ).toEqual( "omwikkel" );
+	} );
+	it( "returns the participle if it is the same as the stem", () => {
+		expect( detectAndStemRegularParticiple( morphologyDataNL.verbs, "misleid" ) ).toEqual( "misleid" );
 	} );
 } );
