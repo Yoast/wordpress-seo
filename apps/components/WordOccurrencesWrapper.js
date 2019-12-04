@@ -5,7 +5,7 @@ import ExamplesContainer from "./ExamplesContainer";
 import { WordOccurrences } from "@yoast/components";
 import ProminentWord from "yoastseo/src/values/ProminentWord";
 
-const initialRelevantWords = [
+const initialWords = [
 	new ProminentWord( "davids", "david", 2 ),
 	new ProminentWord( "goliaths", "goliath", 6 ),
 	new ProminentWord( "word", "word", 3 ),
@@ -164,24 +164,24 @@ class WordOccurrencesWrapper extends React.Component {
 		super( props );
 
 		this.state = {
-			words: cloneWords( initialRelevantWords ),
+			words: cloneWords( initialWords ),
 		};
-		this.change = this.change.bind( this );
-		this.remove = this.remove.bind( this );
-		this.add = this.add.bind( this );
+		this.changeWord = this.changeWord.bind( this );
+		this.removeWord = this.removeWord.bind( this );
+		this.addWord = this.addWord.bind( this );
 		this.reset = this.reset.bind( this );
 	}
 
 	/**
-	 * Changes a row.
+	 * Changes a property of a word.
 	 *
 	 * @param {string} value                        The new value of the property.
 	 * @param {"_word"|"_stem"|"_occurrences"} type The name of the property.
-	 * @param {number} index                        The index of the row that needs to be changed.
+	 * @param {number} index                        The index of the word that needs to be changed.
 	 *
 	 * @returns {void}
 	 */
-	change( value, type, index ) {
+	changeWord( value, type, index ) {
 		this.setState( ( prevState ) => {
 			const nextState = Object.assign( {}, prevState );
 			nextState.words = [ ...prevState.words ];
@@ -201,13 +201,13 @@ class WordOccurrencesWrapper extends React.Component {
 	}
 
 	/**
-	 * Removes a row.
+	 * Removes a word from the table.
 	 *
-	 * @param {number} index The index of the row that needs to be removed.
+	 * @param {number} index The index of the word that needs to be removed.
 	 *
 	 * @returns {void}
 	 */
-	remove( index ) {
+	removeWord( index ) {
 		this.setState( ( prevState ) => {
 			const nextState = Object.assign( {}, prevState );
 			nextState.words.splice( index, 1 );
@@ -222,7 +222,7 @@ class WordOccurrencesWrapper extends React.Component {
 	 *
 	 * @returns {void}
 	 */
-	add() {
+	addWord() {
 		this.setState( prevState => {
 			prevState.words.push(
 				new ProminentWord( "" ),
@@ -242,7 +242,7 @@ class WordOccurrencesWrapper extends React.Component {
 	 */
 	reset() {
 		this.setState( {
-			words: cloneWords( initialRelevantWords ),
+			words: cloneWords( initialWords ),
 		} );
 	}
 
@@ -255,11 +255,11 @@ class WordOccurrencesWrapper extends React.Component {
 		return (
 			<ExamplesContainer>
 				<InputList
-					onChange={ this.change }
+					onChange={ this.changeWord }
 					wordsForInsights={ this.state.words }
-					onDelete={ this.remove }
+					onDelete={ this.removeWord }
 				/>
-				<button onClick={ this.add }>Add word</button>
+				<button onClick={ this.addWord }>Add word</button>
 				<button onClick={ this.reset }>Reset</button>
 				<div style={ { marginTop: "150px", width: "100%", height: "600px" } }>
 					<WordOccurrences
