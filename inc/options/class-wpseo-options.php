@@ -14,7 +14,7 @@ class WPSEO_Options {
 	/**
 	 * @var null
 	 */
-	private static $option_values = null;
+	public static $option_values = null;
 
 	/**
 	 * Options this class uses.
@@ -199,15 +199,10 @@ class WPSEO_Options {
 	/**
 	 * Retrieve all the options for the SEO plugin in one go.
 	 *
-	 * @todo [JRF] See if we can get some extra efficiency for this one, though probably not as options may
-	 * well change between calls (enriched defaults and such).
-	 *
 	 * @return array Array combining the values of all the options.
 	 */
 	public static function get_all() {
-		if ( self::$option_values === null ) {
-			self::$option_values = self::get_options( self::get_option_names() );
-		}
+		self::$option_values = self::get_options( self::get_option_names() );
 
 		return self::$option_values;
 	}
@@ -264,18 +259,26 @@ class WPSEO_Options {
 	 * @return mixed|null Returns value if found, $default if not.
 	 */
 	public static function get( $key, $default = null ) {
-		self::$backfill->remove_hooks();
-
-		$option = self::get_all();
-		$option = self::add_ms_option( $option );
-
-		self::$backfill->register_hooks();
-
-		if ( isset( $option[ $key ] ) ) {
-			return $option[ $key ];
+		if ( self::$option_values === null ) {
+			self::fill_cache();
+		}
+		if ( isset( self::$option_values[ $key ] ) ) {
+			return self::$option_values[ $key ];
 		}
 
 		return $default;
+	}
+
+	/**
+	 * Fills our option cache.
+	 */
+	public static function fill_cache() {
+		self::$backfill->remove_hooks();
+
+		self::$option_values = self::get_all();
+		self::$option_values = self::add_ms_option( self::$option_values );
+
+		self::$backfill->register_hooks();
 	}
 
 	/**
@@ -290,7 +293,6 @@ class WPSEO_Options {
 		$lookup_table = self::get_lookup_table();
 
 		if ( isset( $lookup_table[ $key ] ) ) {
-			self::$option_values[ $key ] = $value;
 			return self::save_option( $lookup_table[ $key ], $key, $value );
 		}
 
@@ -488,6 +490,9 @@ class WPSEO_Options {
 
 		// Check if everything got saved properly.
 		$saved_option = self::get_option( $wpseo_options_group_name );
+
+		// Re-heat our cache.
+		self::fill_cache();
 
 		return $saved_option[ $option_name ] === $options[ $option_name ];
 	}
