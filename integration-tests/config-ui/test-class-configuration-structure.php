@@ -27,32 +27,33 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Structure::initialize()
+	 * Tests if the construct sets the required things properly.
+	 *
+	 * @covers WPSEO_Configuration_Structure::initialize
 	 */
 	public function test_constructor() {
 		$this->structure->initialize();
 
 		$steps = $this->structure->retrieve();
 
-		$expected = array(
+		$expected = [
 			'environment-type',
 			'site-type',
 			'publishing-entity',
 			'post-type-visibility',
 			'multiple-authors',
-			// Temporarily disabled because Google discontinued their GSC API (since 11.1.1).
-			// 'connect-google-search-console',
 			'title-template',
 			'newsletter',
-			'suggestions',
 			'success',
-		);
+		];
 
 		$this->assertEquals( $expected, array_keys( $steps ) );
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Structure::add_step()
+	 * Tests the addition of a step.
+	 *
+	 * @covers WPSEO_Configuration_Structure::add_step
 	 */
 	public function test_add_step() {
 
@@ -64,7 +65,9 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Structure::retrieve()
+	 * Tests the retrieval of the structure.
+	 *
+	 * @covers WPSEO_Configuration_Structure::retrieve
 	 */
 	public function test_retrieve() {
 		$identifier = 'i';
@@ -77,12 +80,12 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue( isset( $steps[ $identifier ] ) );
 		$this->assertEquals(
-			array(
+			[
 				'title'          => $title,
 				'fields'         => $fields,
 				'hideNavigation' => false,
 				'fullWidth'      => false,
-			),
+			],
 			$steps[ $identifier ]
 		);
 	}

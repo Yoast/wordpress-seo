@@ -17,7 +17,7 @@ class WPSEO_Plugin_Importers {
 	 *
 	 * @var array
 	 */
-	private static $importers = array(
+	private static $importers = [
 		'WPSEO_Import_AIOSEO',
 		'WPSEO_Import_Greg_SEO',
 		'WPSEO_Import_HeadSpace',
@@ -25,6 +25,7 @@ class WPSEO_Plugin_Importers {
 		'WPSEO_Import_WP_Meta_SEO',
 		'WPSEO_Import_Platinum_SEO',
 		'WPSEO_Import_Premium_SEO_Pack',
+		'WPSEO_Import_RankMath',
 		'WPSEO_Import_SEOPressor',
 		'WPSEO_Import_SEO_Framework',
 		'WPSEO_Import_Smartcrawl_SEO',
@@ -32,7 +33,7 @@ class WPSEO_Plugin_Importers {
 		'WPSEO_Import_Ultimate_SEO',
 		'WPSEO_Import_WooThemes_SEO',
 		'WPSEO_Import_WPSEO',
-	);
+	];
 
 	/**
 	 * Returns an array of importers available.

@@ -37,16 +37,16 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 	 * @return array Choices as $site_id => $site_label pairs.
 	 */
 	public function get_site_choices( $include_empty = false, $show_title = false ) {
-		$choices = array();
+		$choices = [];
 
 		if ( $include_empty ) {
 			$choices['-'] = __( 'None', 'wordpress-seo' );
 		}
 
-		$criteria = array(
+		$criteria = [
 			'deleted'    => 0,
 			'network_id' => get_current_network_id(),
-		);
+		];
 		$sites    = get_sites( $criteria );
 
 		foreach ( $sites as $site ) {
@@ -73,15 +73,15 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 	 * @return array Array of $state_slug => $state_label pairs.
 	 */
 	public function get_site_states( $site ) {
-		$available_states = array(
+		$available_states = [
 			'public'   => __( 'public', 'wordpress-seo' ),
 			'archived' => __( 'archived', 'wordpress-seo' ),
 			'mature'   => __( 'mature', 'wordpress-seo' ),
 			'spam'     => __( 'spam', 'wordpress-seo' ),
 			'deleted'  => __( 'deleted', 'wordpress-seo' ),
-		);
+		];
 
-		$site_states = array();
+		$site_states = [];
 		foreach ( $available_states as $state_slug => $state_label ) {
 			if ( $site->$state_slug === '1' ) {
 				$site_states[ $state_slug ] = $state_label;
@@ -188,12 +188,12 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'network-admin-script' );
 
-		$translations = array(
+		$translations = [
 			/* translators: %s: success message */
 			'success_prefix' => __( 'Success: %s', 'wordpress-seo' ),
 			/* translators: %s: error message */
 			'error_prefix'   => __( 'Error: %s', 'wordpress-seo' ),
-		);
+		];
 		wp_localize_script(
 			WPSEO_Admin_Asset_Manager::PREFIX . 'network-admin-script',
 			'wpseoNetworkAdminGlobalL10n',
@@ -212,10 +212,10 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 			return;
 		}
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 
-		add_action( 'admin_action_' . self::UPDATE_OPTIONS_ACTION, array( $this, 'handle_update_options_request' ) );
-		add_action( 'admin_action_' . self::RESTORE_SITE_ACTION, array( $this, 'handle_restore_site_request' ) );
+		add_action( 'admin_action_' . self::UPDATE_OPTIONS_ACTION, [ $this, 'handle_update_options_request' ] );
+		add_action( 'admin_action_' . self::RESTORE_SITE_ACTION, [ $this, 'handle_restore_site_request' ] );
 	}
 
 	/**
@@ -224,8 +224,8 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 	 * @return void
 	 */
 	public function register_ajax_hooks() {
-		add_action( 'wp_ajax_' . self::UPDATE_OPTIONS_ACTION, array( $this, 'handle_update_options_request' ) );
-		add_action( 'wp_ajax_' . self::RESTORE_SITE_ACTION, array( $this, 'handle_restore_site_request' ) );
+		add_action( 'wp_ajax_' . self::UPDATE_OPTIONS_ACTION, [ $this, 'handle_update_options_request' ] );
+		add_action( 'wp_ajax_' . self::RESTORE_SITE_ACTION, [ $this, 'handle_restore_site_request' ] );
 	}
 
 	/**
@@ -281,7 +281,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 		}
 
 		$this->persist_settings_errors();
-		$this->redirect_back( array( 'settings-updated' => 'true' ) );
+		$this->redirect_back( [ 'settings-updated' => 'true' ] );
 	}
 
 	/**
@@ -308,7 +308,7 @@ class Yoast_Network_Admin implements WPSEO_WordPress_Integration, WPSEO_WordPres
 	 *
 	 * @return void
 	 */
-	protected function redirect_back( $query_args = array() ) {
+	protected function redirect_back( $query_args = [] ) {
 		$sendback = wp_get_referer();
 
 		if ( ! empty( $query_args ) ) {

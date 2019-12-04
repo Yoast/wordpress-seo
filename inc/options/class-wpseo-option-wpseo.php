@@ -24,7 +24,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 *
 	 * @var array
 	 */
-	protected $defaults = array(
+	protected $defaults = [
 		// Non-form fields, set via (ajax) function.
 		'ms_defaults_set'                 => false,
 		// Non-form field, should only be set via validation routine.
@@ -48,34 +48,34 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'enable_text_link_counter'        => true,
 		'show_onboarding_notice'          => false,
 		'first_activated_on'              => false,
-		'myyoast-oauth'                   => array(
-			'config'        => array(
+		'myyoast-oauth'                   => [
+			'config'        => [
 				'clientId' => null,
 				'secret'   => null,
-			),
-			'access_tokens' => array(),
-		),
-	);
+			],
+			'access_tokens' => [],
+		],
+	];
 
 	/**
 	 * Sub-options which should not be overloaded with multi-site defaults.
 	 *
 	 * @var array
 	 */
-	public $ms_exclude = array(
+	public $ms_exclude = [
 		/* Privacy. */
 		'baiduverify',
 		'googleverify',
 		'msverify',
 		'yandexverify',
-	);
+	];
 
 	/**
 	 * Possible values for the site_type option.
 	 *
 	 * @var array
 	 */
-	protected $site_types = array(
+	protected $site_types = [
 		'',
 		'blog',
 		'shop',
@@ -83,30 +83,30 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		'smallBusiness',
 		'corporateOther',
 		'personalOther',
-	);
+	];
 
 	/**
 	 * Possible environment types.
 	 *
 	 * @var array
 	 */
-	protected $environment_types = array(
+	protected $environment_types = [
 		'',
 		'production',
 		'staging',
 		'development',
-	);
+	];
 
 	/**
 	 * Possible has_multiple_authors options.
 	 *
 	 * @var array
 	 */
-	protected $has_multiple_authors_options = array(
+	protected $has_multiple_authors_options = [
 		'',
 		true,
 		false,
-	);
+	];
 
 	/**
 	 * Name for an option higher in the hierarchy to override setting access.
@@ -128,8 +128,10 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 		parent::__construct();
 
 		/* Clear the cache on update/add. */
-		add_action( 'add_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
-		add_action( 'update_option_' . $this->option_name, array( 'WPSEO_Utils', 'clear_cache' ) );
+		add_action( 'add_option_' . $this->option_name, [ 'WPSEO_Utils', 'clear_cache' ] );
+		add_action( 'update_option_' . $this->option_name, [ 'WPSEO_Utils', 'clear_cache' ] );
+
+		add_filter( 'admin_title', [ 'Yoast_Input_Validation', 'add_yoast_admin_document_title_errors' ] );
 
 		/**
 		 * Filter the `wpseo` option defaults.
@@ -320,13 +322,13 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 *
 	 * @return mixed Filtered $options value.
 	 */
-	public function verify_features_against_network( $options = array() ) {
+	public function verify_features_against_network( $options = [] ) {
 		if ( ! is_array( $options ) || empty( $options ) ) {
 			return $options;
 		}
 
 		// For the feature variables, set their values to off in case they are disabled.
-		$feature_vars = array(
+		$feature_vars = [
 			'disableadvanced_meta'       => false,
 			'onpage_indexability'        => false,
 			'content_analysis_active'    => false,
@@ -335,7 +337,7 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 			'enable_cornerstone_content' => false,
 			'enable_xml_sitemap'         => false,
 			'enable_text_link_counter'   => false,
-		);
+		];
 
 		// We can reuse this logic from the base class with the above defaults to parse with the correct feature values.
 		$options = $this->prevent_disabled_options_update( $options, $feature_vars );
@@ -351,11 +353,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 *               and the third is the hook priority.
 	 */
 	protected function get_verify_features_option_filter_hook() {
-		return array(
+		return [
 			"option_{$this->option_name}",
-			array( $this, 'verify_features_against_network' ),
+			[ $this, 'verify_features_against_network' ],
 			11,
-		);
+		];
 	}
 
 	/**
@@ -365,11 +367,11 @@ class WPSEO_Option_Wpseo extends WPSEO_Option {
 	 *               and the third is the hook priority.
 	 */
 	protected function get_verify_features_default_option_filter_hook() {
-		return array(
+		return [
 			"default_option_{$this->option_name}",
-			array( $this, 'verify_features_against_network' ),
+			[ $this, 'verify_features_against_network' ],
 			11,
-		);
+		];
 	}
 
 	/**

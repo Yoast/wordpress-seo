@@ -15,12 +15,12 @@ class WPSEO_Post_Type_Archive_Notifier_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the handler when the situation is not applicable for showing it.
 	 *
-	 * @covers WPSEO_Post_Type_Archive_Notification_Handler::is_applicable()
+	 * @covers WPSEO_Post_Type_Archive_Notification_Handler::is_applicable
 	 */
 	public function test_is_applicable_notice_dismissed() {
 		$handler = $this
 			->getMockBuilder( 'WPSEO_Post_Type_Archive_Notification_Handler_Double' )
-			->setMethods( array( 'is_notice_dismissed' ) )
+			->setMethods( [ 'is_notice_dismissed' ] )
 			->getMock();
 
 		$handler
@@ -34,12 +34,12 @@ class WPSEO_Post_Type_Archive_Notifier_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the handler when the situation is not applicable for showing it.
 	 *
-	 * @covers WPSEO_Post_Type_Archive_Notification_Handler::is_applicable()
+	 * @covers WPSEO_Post_Type_Archive_Notification_Handler::is_applicable
 	 */
 	public function test_is_applicable_new_install() {
 		$handler = $this
 			->getMockBuilder( 'WPSEO_Post_Type_Archive_Notification_Handler_Double' )
-			->setMethods( array( 'is_notice_dismissed', 'is_new_install' ) )
+			->setMethods( [ 'is_notice_dismissed', 'is_new_install' ] )
 			->getMock();
 
 		$handler
@@ -58,12 +58,12 @@ class WPSEO_Post_Type_Archive_Notifier_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the handler when the situation is not applicable for showing it.
 	 *
-	 * @covers WPSEO_Post_Type_Archive_Notification_Handler::is_applicable()
+	 * @covers WPSEO_Post_Type_Archive_Notification_Handler::is_applicable
 	 */
 	public function test_is_applicable_with_empty_post_types() {
 		$handler = $this
 			->getMockBuilder( 'WPSEO_Post_Type_Archive_Notification_Handler_Double' )
-			->setMethods( array( 'is_notice_dismissed', 'is_new_install', 'get_post_types' ) )
+			->setMethods( [ 'is_notice_dismissed', 'is_new_install', 'get_post_types' ] )
 			->getMock();
 
 		$handler
@@ -79,7 +79,7 @@ class WPSEO_Post_Type_Archive_Notifier_Test extends WPSEO_UnitTestCase {
 		$handler
 			->expects( $this->once() )
 			->method( 'get_post_types' )
-			->will( $this->returnValue( array() ) );
+			->will( $this->returnValue( [] ) );
 
 		$this->assertFalse( $handler->is_applicable() );
 	}
@@ -87,12 +87,12 @@ class WPSEO_Post_Type_Archive_Notifier_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the handler when the situation is not applicable for showing it.
 	 *
-	 * @covers WPSEO_Post_Type_Archive_Notification_Handler::is_applicable()
+	 * @covers WPSEO_Post_Type_Archive_Notification_Handler::is_applicable
 	 */
 	public function test_is_applicable_with_post_types() {
 		$handler = $this
 			->getMockBuilder( 'WPSEO_Post_Type_Archive_Notification_Handler_Double' )
-			->setMethods( array( 'is_notice_dismissed', 'is_new_install', 'get_post_types' ) )
+			->setMethods( [ 'is_notice_dismissed', 'is_new_install', 'get_post_types' ] )
 			->getMock();
 
 		$handler
@@ -108,7 +108,7 @@ class WPSEO_Post_Type_Archive_Notifier_Test extends WPSEO_UnitTestCase {
 		$handler
 			->expects( $this->once() )
 			->method( 'get_post_types' )
-			->will( $this->returnValue( array( 123 ) ) );
+			->will( $this->returnValue( [ 123 ] ) );
 
 		$this->assertTrue( $handler->is_applicable() );
 	}

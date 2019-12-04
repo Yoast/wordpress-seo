@@ -16,18 +16,21 @@
  * @property int                   $position The position in the list.
  */
 class WPSEO_Schema_FAQ_Questions {
+
 	/**
 	 * The Schema array.
 	 *
 	 * @var array
 	 */
 	private $data;
+
 	/**
 	 * All the blocks of this block-type.
 	 *
 	 * @var WP_Block_Parser_Block
 	 */
 	private $block;
+
 	/**
 	 * Position in the list.
 	 *
@@ -69,20 +72,22 @@ class WPSEO_Schema_FAQ_Questions {
 	 *
 	 * @param array $question The question to generate schema for.
 	 *
-	 * @return array unsigned Schema.org Question piece.
+	 * @return array Schema.org Question piece.
 	 */
-	private function generate_question_block( $question ) {
-		return array(
+	protected function generate_question_block( $question ) {
+		$url = $this->context->canonical . '#' . esc_attr( $question['id'] );
+
+		return [
 			'@type'          => 'Question',
-			'@id'            => $this->context->canonical . '#' . $question['id'],
+			'@id'            => $url,
 			'position'       => $this->position ++,
-			'url'            => $this->context->canonical . '#' . $question['id'],
-			'name'           => $question['jsonQuestion'],
+			'url'            => $url,
+			'name'           => wp_strip_all_tags( $question['jsonQuestion'] ),
 			'answerCount'    => 1,
-			'acceptedAnswer' => array(
+			'acceptedAnswer' => [
 				'@type' => 'Answer',
-				'text'  => $question['jsonAnswer'],
-			),
-		);
+				'text'  => strip_tags( $question['jsonAnswer'], '<h1><h2><h3><h4><h5><h6><br><ol><ul><li><a><p><b><strong><i><em>' ),
+			],
+		];
 	}
 }

@@ -18,6 +18,8 @@ class WPSEO_Taxonomy_Fields_Presenter {
 	private $tax_meta;
 
 	/**
+	 * Constructs the WPSEO_Taxonomy_Fields_Presenter class.
+	 *
 	 * @param stdClass $term The current term.
 	 */
 	public function __construct( $term ) {
@@ -126,7 +128,7 @@ class WPSEO_Taxonomy_Fields_Presenter {
 					' />';
 				break;
 			case 'select':
-				if ( is_array( $options ) && $options !== array() ) {
+				if ( is_array( $options ) && $options !== [] ) {
 					$field .= '<select name="' . $field_name . '" id="' . $field_name . '"' . $aria_describedby . '>';
 
 					$select_options = ( array_key_exists( 'options', $options ) ) ? $options['options'] : $options;

@@ -17,7 +17,7 @@ class Yoast_OnPage_Ajax {
 	 * Initialize the hooks for the AJAX request.
 	 */
 	public function __construct() {
-		add_action( 'wp_ajax_wpseo_dismiss_onpageorg', array( $this, 'dismiss_notice' ) );
+		add_action( 'wp_ajax_wpseo_dismiss_onpageorg', [ $this, 'dismiss_notice' ] );
 	}
 
 	/**

@@ -27,48 +27,54 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::add_lookup()
+	 * Tests adding a lookup.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::add_lookup
 	 */
 	public function test_add_lookup() {
 		$class_name = 'c';
 		$type       = 't';
 		$option     = 'o';
 
-		$expected = array(
-			$class_name => array(
+		$expected = [
+			$class_name => [
 				'type'   => $type,
 				'option' => $option,
-			),
-		);
+			],
+		];
 
 		$this->assertNull( $this->adapter->add_lookup( $class_name, $type, $option ) );
 		$this->assertEquals( $expected, $this->adapter->get_lookups() );
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup()
+	 * Tests adding a custom lookup.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup
 	 */
 	public function test_add_custom_lookup() {
 		$class_name   = 'stdClass';
 		$callback_set = '__return_true';
 		$callback_get = '__return_false';
 
-		$expected = array(
-			$class_name => array(
+		$expected = [
+			$class_name => [
 				'type'   => WPSEO_Configuration_Options_Adapter::OPTION_TYPE_CUSTOM,
-				'option' => array(
+				'option' => [
 					$callback_set,
 					$callback_get,
-				),
-			),
-		);
+				],
+			],
+		];
 
 		$this->assertNull( $this->adapter->add_custom_lookup( $class_name, $callback_set, $callback_get ) );
 		$this->assertEquals( $expected, $this->adapter->get_lookups() );
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup()
+	 * Tests adding a custom lookup with no get callable get argument given.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup
 	 *
 	 * @expectedException        InvalidArgumentException
 	 * @expectedExceptionMessage Custom option must be callable.
@@ -78,7 +84,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup()
+	 * Tests adding a custom lookup with no set callable argument given.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::add_custom_lookup
 	 *
 	 * @expectedException        InvalidArgumentException
 	 * @expectedExceptionMessage Custom option must be callable.
@@ -88,53 +96,61 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::add_option_lookup()
+	 * Tests adding a Yoast lookup.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::add_option_lookup
 	 */
 	public function test_add_yoast_lookup() {
 		$class_name = 'stdClass';
 		$key        = 'enable_xml_sitemap';
 
-		$expected = array(
-			$class_name => array(
+		$expected = [
+			$class_name => [
 				'type'   => WPSEO_Configuration_Options_Adapter::OPTION_TYPE_YOAST,
 				'option' => $key,
-			),
-		);
+			],
+		];
 
 		$this->assertNull( $this->adapter->add_option_lookup( $class_name, $key ) );
 		$this->assertEquals( $expected, $this->adapter->get_lookups() );
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::add_wordpress_lookup()
+	 * Tests adding a WordPress lookup.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::add_wordpress_lookup
 	 */
 	public function test_add_wordpress_lookup() {
 		$class_name = 'stdClass';
 		$option     = 'blogname';
 
-		$expected = array(
-			$class_name => array(
+		$expected = [
+			$class_name => [
 				'type'   => WPSEO_Configuration_Options_Adapter::OPTION_TYPE_WORDPRESS,
 				'option' => $option,
-			),
-		);
+			],
+		];
 
 		$this->assertNull( $this->adapter->add_wordpress_lookup( $class_name, $option ) );
 		$this->assertEquals( $expected, $this->adapter->get_lookups() );
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::add_wordpress_lookup()
+	 * Test adding a WordPress lookup for a non string. Resulting in an exception.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::add_wordpress_lookup
 	 *
 	 * @expectedException        InvalidArgumentException
 	 * @expectedExceptionMessage WordPress option must be a string.
 	 */
 	public function test_add_wordpress_lookup_option_non_string() {
-		$this->adapter->add_wordpress_lookup( 'stdClass', array() );
+		$this->adapter->add_wordpress_lookup( 'stdClass', [] );
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::get_option_type()
+	 * Test getting the option type.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::get_option_type
 	 */
 	public function test_get_option_type() {
 		$class_name = 'stdClass';
@@ -147,7 +163,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::get_option()
+	 * Tests getting an option.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::get_option
 	 */
 	public function test_get_option() {
 		$class_name = 'stdClass';
@@ -160,7 +178,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::get()
+	 * Tests getting a WordPress option.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::get
 	 */
 	public function test_get_wordpress_option() {
 		$option   = 'blogname';
@@ -176,7 +196,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::get()
+	 * Tests getting a Yoast option.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::get
 	 */
 	public function test_get_yoast_option() {
 		$key      = 'version';
@@ -192,10 +214,12 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::get()
+	 * Test retrieval of a custom option.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::get
 	 */
 	public function test_get_custom_option() {
-		$get = array( $this, 'custom_option_get' );
+		$get = [ $this, 'custom_option_get' ];
 
 		$expected = call_user_func( $get );
 
@@ -209,7 +233,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::get()
+	 * Tests retrieval of an field dat has an unknown type.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::get
 	 */
 	public function test_get_unknown_type() {
 
@@ -217,7 +243,7 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 
 		$class = $this
 			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( $field_name, 'component' ) )
+			->setConstructorArgs( [ $field_name, 'component' ] )
 			->getMock();
 
 		$this->adapter->add_lookup( $field_name, 'some_type', 'some_option' );
@@ -225,7 +251,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::set()
+	 * Tests setting a WordPress option.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_wordpress_option() {
 		$option = uniqid( 'ut' );
@@ -240,7 +268,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::set()
+	 * Tests setting a Yoast option.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_yoast_option() {
 		$option = 'wpseo_titles';
@@ -261,7 +291,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::set()
+	 * Tests setting a Yoast option that already has the same value.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_yoast_option_same_value() {
 		$option = 'wpseo_titles';
@@ -281,7 +313,9 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::set()
+	 * Tests the setting of a custom option that has an unknown type.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_option_unknown_type() {
 		$field = new WPSEO_Config_Field( 'field', 'component' );
@@ -291,12 +325,14 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Options_Adapter::set()
+	 * Tests the setting of a custom option.
+	 *
+	 * @covers WPSEO_Configuration_Options_Adapter::set
 	 */
 	public function test_set_custom_option() {
 		$catcher = $this
 			->getMockBuilder( 'stdClass' )
-			->setMethods( array( 'set' ) )
+			->setMethods( [ 'set' ] )
 			->getMock();
 
 		$catcher
@@ -309,14 +345,16 @@ class WPSEO_Configuration_Options_Adapter_Test extends PHPUnit_Framework_TestCas
 		$this->adapter->add_custom_lookup(
 			$field->get_identifier(),
 			'__return_true',
-			array( $catcher, 'set' )
+			[ $catcher, 'set' ]
 		);
 
 		$this->assertTrue( $this->adapter->set( $field, 'value' ) );
 	}
 
 	/**
-	 * @return string
+	 * Callback function for overriding the option value.
+	 *
+	 * @return string The custom option value.
 	 */
 	public function custom_option_get() {
 		return 'custom_option_get';

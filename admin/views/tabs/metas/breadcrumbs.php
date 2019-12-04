@@ -14,8 +14,9 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 $wpseo_breadcrumbs_presenter = new WPSEO_Paper_Presenter(
 	esc_html__( 'Breadcrumbs settings', 'wordpress-seo' ),
 	dirname( __FILE__ ) . '/paper-content/breadcrumbs-content.php',
-	array(
-		'paper_id'  => 'settings-breadcrumbs',
-	)
+	[
+		'paper_id' => 'settings-breadcrumbs',
+		'class'    => 'search-appearance',
+	]
 );
 echo $wpseo_breadcrumbs_presenter->get_output();

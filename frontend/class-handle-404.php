@@ -20,7 +20,7 @@ class WPSEO_Handle_404 implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_filter( 'pre_handle_404', array( $this, 'handle_404' ) );
+		add_filter( 'pre_handle_404', [ $this, 'handle_404' ] );
 	}
 
 	/**

@@ -27,7 +27,9 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Components::add_component()
+	 * Tests adding a component.
+	 *
+	 * @covers WPSEO_Configuration_Components::add_component
 	 */
 	public function test_add_component() {
 		$component = $this->getMockBuilder( 'WPSEO_Config_Component' )->getMock();
@@ -38,12 +40,14 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Components::set_adapter()
+	 * Tests setting the adapter.
+	 *
+	 * @covers WPSEO_Configuration_Components::set_adapter
 	 */
 	public function test_set_adapter() {
 		$adapter = $this
 			->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )
-			->setMethods( array( 'add_custom_lookup' ) )
+			->setMethods( [ 'add_custom_lookup' ] )
 			->getMock();
 
 		$adapter
@@ -52,7 +56,7 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 
 		$component = $this
 			->getMockBuilder( 'WPSEO_Config_Component' )
-			->setMethods( array( 'get_field', 'get_identifier', 'get_data', 'set_data' ) )
+			->setMethods( [ 'get_field', 'get_identifier', 'get_data', 'set_data' ] )
 			->getMock();
 
 		$field = new WPSEO_Config_Field( 'a', 'b' );
@@ -68,12 +72,14 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Components::set_storage()
+	 * Tests setting the storage.
+	 *
+	 * @covers WPSEO_Configuration_Components::set_storage
 	 */
 	public function test_set_storage() {
 		$storage = $this
 			->getMockBuilder( 'WPSEO_Configuration_Storage' )
-			->setMethods( array( 'get_adapter' ) )
+			->setMethods( [ 'get_adapter' ] )
 			->getMock();
 
 		$adapter = $this
@@ -90,17 +96,19 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Components::set_storage()
+	 * Tests setting the storage on the field.
+	 *
+	 * @covers WPSEO_Configuration_Components::set_storage
 	 */
 	public function test_set_storage_on_field() {
 		$component = $this
 			->getMockBuilder( 'WPSEO_Config_Component' )
-			->setMethods( array( 'get_field', 'get_identifier', 'set_data', 'get_data' ) )
+			->setMethods( [ 'get_field', 'get_identifier', 'set_data', 'get_data' ] )
 			->getMock();
 
 		$field = $this
 			->getMockBuilder( 'WPSEO_Config_Field' )
-			->setConstructorArgs( array( 'a', 'b' ) )
+			->setConstructorArgs( [ 'a', 'b' ] )
 			->getMock();
 
 		$component
@@ -110,7 +118,7 @@ class WPSEO_Configuration_Components_Tests extends PHPUnit_Framework_TestCase {
 
 		$storage = $this
 			->getMockBuilder( 'WPSEO_Configuration_Storage' )
-			->setMethods( array( 'get_adapter', 'add_field' ) )
+			->setMethods( [ 'get_adapter', 'add_field' ] )
 			->getMock();
 
 		$adapter = $this

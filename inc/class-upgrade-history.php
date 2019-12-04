@@ -36,9 +36,9 @@ class WPSEO_Upgrade_History {
 	 * @return array The contents of the history option.
 	 */
 	public function get() {
-		$data = get_option( $this->get_option_name(), array() );
+		$data = get_option( $this->get_option_name(), [] );
 		if ( ! is_array( $data ) ) {
-			return array();
+			return [];
 		}
 
 		return $data;
@@ -52,8 +52,8 @@ class WPSEO_Upgrade_History {
 	 * @param array  $option_names The options that need to be stored.
 	 */
 	public function add( $old_version, $new_version, array $option_names ) {
-		$option_data = array();
-		if ( array() !== $option_names ) {
+		$option_data = [];
+		if ( [] !== $option_names ) {
 			$option_data = $this->get_options_data( $option_names );
 		}
 
@@ -61,11 +61,11 @@ class WPSEO_Upgrade_History {
 		$data = $this->get();
 
 		// Add new entry.
-		$data[ time() ] = array(
+		$data[ time() ] = [
 			'options'     => $option_data,
 			'old_version' => $old_version,
 			'new_version' => $new_version,
-		);
+		];
 
 		// Store the data.
 		$this->set( $data );
@@ -79,7 +79,6 @@ class WPSEO_Upgrade_History {
 	 * @return array
 	 */
 	protected function get_options_data( array $option_names ) {
-		/** @var WPDB $wpdb */
 		$wpdb = $this->get_wpdb();
 
 		$sql = $wpdb->prepare(
@@ -92,7 +91,7 @@ class WPSEO_Upgrade_History {
 
 		$results = $wpdb->get_results( $sql, ARRAY_A );
 
-		$data = array();
+		$data = [];
 		foreach ( $results as $result ) {
 			$data[ $result['option_name'] ] = maybe_unserialize( $result['option_value'] );
 		}

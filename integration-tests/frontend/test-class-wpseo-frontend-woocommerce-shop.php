@@ -21,7 +21,7 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 	 */
 	protected function get_woocommerce_shop_page_mock( $post ) {
 		$woocommerce_shop_page = $this->getMockBuilder( 'WPSEO_WooCommerce_Shop_Page_Double' )
-			->setMethods( array( 'is_shop_page', 'get_shop_page_id' ) )
+			->setMethods( [ 'is_shop_page', 'get_shop_page_id' ] )
 			->getMock();
 
 		$woocommerce_shop_page->expects( $this->once() )
@@ -38,7 +38,7 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if the is_shop_page conditional is being respected.
 	 *
-	 * @covers WPSEO_Frontend::generate_title()
+	 * @covers WPSEO_Frontend::generate_title
 	 */
 	public function test_get_shop_page_title() {
 		$post = self::factory()->post->create_and_get();
@@ -46,7 +46,7 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 		$woocommerce_shop_page = $this->get_woocommerce_shop_page_mock( $post );
 
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_seo_title' ) )
+			->setMethods( [ 'get_seo_title' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -62,7 +62,7 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if the post type archive fallback is being used.
 	 *
-	 * @covers WPSEO_Frontend::generate_title()
+	 * @covers WPSEO_Frontend::generate_title
 	 */
 	public function test_get_shop_page_title_post_archive_title_fallback() {
 		$post = self::factory()->post->create_and_get();
@@ -70,7 +70,7 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 		$woocommerce_shop_page = $this->get_woocommerce_shop_page_mock( $post );
 
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_seo_title', 'get_post_type_archive_title' ) )
+			->setMethods( [ 'get_seo_title', 'get_post_type_archive_title' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -90,13 +90,13 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if the metadescription is being used on the shop page.
 	 *
-	 * @covers WPSEO_Frontend::generate_metadesc()
+	 * @covers WPSEO_Frontend::generate_metadesc
 	 */
 	public function test_get_shop_page_meta_description() {
 		$post = self::factory()->post->create_and_get();
 
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_seo_meta_value', 'get_queried_post_type', 'replace_vars' ) )
+			->setMethods( [ 'get_seo_meta_value', 'get_queried_post_type', 'replace_vars' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -125,13 +125,13 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests expected behaviour for an empty post type archive template.
 	 *
-	 * @covers WPSEO_Frontend::generate_metadesc()
+	 * @covers WPSEO_Frontend::generate_metadesc
 	 */
 	public function test_get_shop_page_meta_description_empty_template() {
 		$post = self::factory()->post->create_and_get();
 
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_seo_meta_value', 'get_queried_post_type', 'replace_vars' ) )
+			->setMethods( [ 'get_seo_meta_value', 'get_queried_post_type', 'replace_vars' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )
@@ -154,13 +154,13 @@ final class WPSEO_Frontend_WooCommerce_Shop_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests expected behaviour for an undetermined post type.
 	 *
-	 * @covers WPSEO_Frontend::generate_metadesc()
+	 * @covers WPSEO_Frontend::generate_metadesc
 	 */
 	public function test_get_shop_page_meta_description_empty_post_type() {
 		$post = self::factory()->post->create_and_get();
 
 		$instance = $this->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'get_seo_meta_value', 'get_queried_post_type', 'replace_vars' ) )
+			->setMethods( [ 'get_seo_meta_value', 'get_queried_post_type', 'replace_vars' ] )
 			->getMock();
 
 		$instance->expects( $this->once() )

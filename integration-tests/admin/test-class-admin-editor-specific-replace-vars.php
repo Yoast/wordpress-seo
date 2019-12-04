@@ -29,16 +29,16 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests adding replacement variables for page types.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::add_for_page_types()
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::add_for_page_types
 	 */
 	public function test_add_for_page_types() {
 		$this->class_instance->add_for_page_types(
-			array( 'post' ),
-			array( 'cf_custom_field' )
+			[ 'post' ],
+			[ 'cf_custom_field' ]
 		);
 
 		$actual   = $this->class_instance->get();
-		$expected = array( 'id', 'term404', 'pt_single', 'pt_plural', 'cf_custom_field' );
+		$expected = [ 'id', 'term404', 'pt_single', 'pt_plural', 'cf_custom_field' ];
 
 		$this->assertEquals( $expected, $actual['post'] );
 	}
@@ -46,13 +46,13 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test adding replacement variables for page types with given variables being an empty array.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::add_for_page_types()
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::add_for_page_types
 	 */
 	public function test_add_for_page_types_with_empty_array() {
-		$this->class_instance->add_for_page_types( array( 'post' ), array() );
+		$this->class_instance->add_for_page_types( [ 'post' ], [] );
 
 		$actual   = $this->class_instance->get();
-		$expected = array( 'id', 'term404', 'pt_single', 'pt_plural' );
+		$expected = [ 'id', 'term404', 'pt_single', 'pt_plural' ];
 
 		$this->assertEquals( $expected, $actual['post'] );
 	}
@@ -61,29 +61,29 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * Tests that get_shared_replace_vars removes all replacement variables that occurs in the editor specific
 	 * replacement variables.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_generic()
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_unique_replacement_variables()
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::extract_names()
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_generic
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get_unique_replacement_variables
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::extract_names
 	 */
 	public function test_get_shared_replace_vars_filters_editor_specific_replace_vars() {
-		$replace_vars_list = array(
-			array(
+		$replace_vars_list = [
+			[
 				'name'  => 'searchphrase',
 				'label' => 'Searchphrase',
 				'value' => '',
-			),
-			array(
+			],
+			[
 				'name'  => 'title',
 				'label' => 'title',
 				'value' => '',
-			),
-			array(
+			],
+			[
 				'no-name' => 'key present',
-			),
-		);
+			],
+		];
 
 		$this->assertEquals(
-			array( 'title' ),
+			[ 'title' ],
 			$this->class_instance->get_generic(
 				$replace_vars_list
 			)
@@ -232,12 +232,14 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether determine_for_archive correctly returns editor specific replacevars for archive pages.
+	 *
 	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::determine_for_archive
 	 */
 	public function test_determine_for_archive_with_a_existing_archive() {
 		$class_instance = $this
 			->getMockBuilder( 'WPSEO_Admin_Editor_Specific_Replace_Vars' )
-			->setMethods( array( 'has_for_page_type' ) )
+			->setMethods( [ 'has_for_page_type' ] )
 			->getMock();
 
 		$class_instance
@@ -252,7 +254,7 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 * Tests that has_editor_specific_replace_vars returns true when it has recommended replacement
 	 * variables for the passed page type.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_for_page_type()
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::has_for_page_type
 	 */
 	public function test_has_editor_specific_replace_vars_existing() {
 		$this->assertEquals( true, $this->class_instance->has_for_page_type( 'post' ) );
@@ -277,60 +279,60 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 */
 	private function create_and_get_with_post_type( $post_type = 'post' ) {
 		return self::factory()->post->create_and_get(
-			array(
+			[
 				'post_type' => $post_type,
-			)
+			]
 		);
 	}
 
 	/**
 	 * Tests the filter for the editor specific replacement variables.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get()
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get
 	 */
 	public function test_editor_specific_replacement_variables_filter() {
-		add_filter( 'wpseo_editor_specific_replace_vars', array( $this, 'filter_editor_specific_replacement_variables' ) );
+		add_filter( 'wpseo_editor_specific_replace_vars', [ $this, 'filter_editor_specific_replacement_variables' ] );
 
-		$expected_replacement_variables = array(
-			'page'                     => array( 'pt_single', 'pt_plural', 'parent_title' ),
-			'post'                     => array( 'id', 'term404', 'pt_single', 'pt_plural' ),
-			'custom_post_type'         => array( 'id', 'term404', 'pt_single', 'pt_plural', 'parent_title' ),
-			'category'                 => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
-			'post_tag'                 => array( 'term_title', 'term_description', 'tag_description' ),
-			'post_format'              => array(),
-			'term-in-custom-taxonomy'  => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
-			'custom-post-type_archive' => array( 'pt_single', 'pt_plural' ),
-			'search'                   => array( 'searchphrase' ),
-		);
+		$expected_replacement_variables = [
+			'page'                     => [ 'pt_single', 'pt_plural', 'parent_title' ],
+			'post'                     => [ 'id', 'term404', 'pt_single', 'pt_plural' ],
+			'custom_post_type'         => [ 'id', 'term404', 'pt_single', 'pt_plural', 'parent_title' ],
+			'category'                 => [ 'term_title', 'term_description', 'category_description', 'parent_title' ],
+			'post_tag'                 => [ 'term_title', 'term_description', 'tag_description' ],
+			'post_format'              => [],
+			'term-in-custom-taxonomy'  => [ 'term_title', 'term_description', 'category_description', 'parent_title' ],
+			'custom-post-type_archive' => [ 'pt_single', 'pt_plural' ],
+			'search'                   => [ 'searchphrase' ],
+		];
 
 		$this->assertEquals(
 			$expected_replacement_variables,
 			$this->class_instance->get()
 		);
 
-		remove_filter( 'wpseo_editor_specific_replace_vars', array( $this, 'filter_editor_specific_replacement_variables' ) );
+		remove_filter( 'wpseo_editor_specific_replace_vars', [ $this, 'filter_editor_specific_replacement_variables' ] );
 	}
 
 	/**
 	 * Tests the filter for the editor specific replacement variables.
 	 *
-	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get()
+	 * @covers WPSEO_Admin_Editor_Specific_Replace_Vars::get
 	 */
 	public function test_editor_specific_replacement_variables_filter_with_wrong_return_value() {
 		add_filter( 'wpseo_editor_specific_replace_vars', '__return_false' );
 
-		$expected_replacement_variables = array(
+		$expected_replacement_variables = [
 			// Posts types.
-			'page'                      => array( 'id', 'pt_single', 'pt_plural', 'parent_title' ),
-			'post'                      => array( 'id', 'term404', 'pt_single', 'pt_plural' ),
-			'custom_post_type'          => array( 'id', 'term404', 'pt_single', 'pt_plural', 'parent_title' ),
-			'category'                  => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
-			'post_tag'                  => array( 'term_title', 'term_description', 'tag_description' ),
-			'post_format'               => array(),
-			'term-in-custom-taxonomy'   => array( 'term_title', 'term_description', 'category_description', 'parent_title' ),
-			'custom-post-type_archive'  => array( 'pt_single', 'pt_plural' ),
-			'search'                    => array( 'searchphrase' ),
-		);
+			'page'                      => [ 'id', 'pt_single', 'pt_plural', 'parent_title' ],
+			'post'                      => [ 'id', 'term404', 'pt_single', 'pt_plural' ],
+			'custom_post_type'          => [ 'id', 'term404', 'pt_single', 'pt_plural', 'parent_title' ],
+			'category'                  => [ 'term_title', 'term_description', 'category_description', 'parent_title' ],
+			'post_tag'                  => [ 'term_title', 'term_description', 'tag_description' ],
+			'post_format'               => [],
+			'term-in-custom-taxonomy'   => [ 'term_title', 'term_description', 'category_description', 'parent_title' ],
+			'custom-post-type_archive'  => [ 'pt_single', 'pt_plural' ],
+			'search'                    => [ 'searchphrase' ],
+		];
 
 		$this->assertEquals(
 			$expected_replacement_variables,
@@ -347,8 +349,8 @@ class WPSEO_Admin_Editor_Specific_Replace_Vars_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @return array The new editor_specific replacement variables.
 	 */
-	public function filter_editor_specific_replacement_variables( array $replacement_variables = array() ) {
-		$replacement_variables['page'] = array( 'pt_single', 'pt_plural', 'parent_title' );
+	public function filter_editor_specific_replacement_variables( array $replacement_variables = [] ) {
+		$replacement_variables['page'] = [ 'pt_single', 'pt_plural', 'parent_title' ];
 
 		return $replacement_variables;
 	}

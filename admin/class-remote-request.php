@@ -11,35 +11,46 @@
 class WPSEO_Remote_Request {
 
 	/**
+	 * Holds the post method.
+	 *
 	 * @var string
 	 */
 	const METHOD_POST = 'post';
 
 	/**
+	 * Holds the get method.
+	 *
 	 * @var string
 	 */
 	const METHOD_GET = 'get';
 
 	/**
+	 * Holds the endpoint to send the request to.
+	 *
 	 * @var string
 	 */
 	protected $endpoint = '';
 
 	/**
+	 * Holds the arguments to use in this request.
+	 *
 	 * @var array
 	 */
-	protected $args = array(
+	protected $args = [
 		'blocking'  => false,
-		'sslverify' => false,
 		'timeout'   => 2,
-	);
+	];
 
 	/**
+	 * Holds the response error.
+	 *
 	 * @var WP_Error|null
 	 */
 	protected $response_error;
 
 	/**
+	 * Holds the response body.
+	 *
 	 * @var mixed
 	 */
 	protected $response_body;
@@ -50,7 +61,7 @@ class WPSEO_Remote_Request {
 	 * @param string $endpoint The endpoint to send the request to.
 	 * @param array  $args     The arguments to use in this request.
 	 */
-	public function __construct( $endpoint, array $args = array() ) {
+	public function __construct( $endpoint, array $args = [] ) {
 		$this->endpoint = $endpoint;
 		$this->args     = wp_parse_args( $this->args, $args );
 	}

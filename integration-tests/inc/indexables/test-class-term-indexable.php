@@ -19,7 +19,7 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 	 * @param bool|null $expected      The expected converted value.
 	 * @param string    $description   Description of the test.
 	 *
-	 * @covers WPSEO_Term_Indexable::get_robots_noindex_value()
+	 * @covers WPSEO_Term_Indexable::get_robots_noindex_value
 	 *
 	 * @dataProvider robots_noindex_provider
 	 */
@@ -32,17 +32,17 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the creation of a new Term Indexable object.
 	 *
-	 * @covers WPSEO_Term_Indexable::from_object()
+	 * @covers WPSEO_Term_Indexable::from_object
 	 */
 	public function test_from_object() {
 		$term = $this
 			->factory()
 			->term
 			->create_and_get(
-				array(
+				[
 					'name'     => 'robot',
 					'taxonomy' => 'category',
-				)
+				]
 			);
 
 		$instance = WPSEO_Term_Indexable_Double::from_object( $term->term_id );
@@ -52,7 +52,7 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the creation of an invalid Term Indexable object.
 	 *
-	 * @covers            WPSEO_Term_Indexable::from_object()
+	 * @covers            WPSEO_Term_Indexable::from_object
 	 * @expectedException WPSEO_Invalid_Argument_Exception
 	 */
 	public function test_from_object_invalid_term() {
@@ -62,22 +62,22 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the updating of an existing Term Indexable object.
 	 *
-	 * @covers WPSEO_Term_Indexable::update()
+	 * @covers WPSEO_Term_Indexable::update
 	 */
 	public function test_update() {
 		$term = $this
 			->factory()
 			->term
 			->create_and_get(
-				array(
+				[
 					'name'     => 'robot',
 					'taxonomy' => 'category',
-				)
+				]
 			);
 
 		$instance     = WPSEO_Term_Indexable_Double::from_object( $term->term_id );
 		$new_instance = $instance->update(
-			array( 'is_robots_noindex' => true )
+			[ 'is_robots_noindex' => true ]
 		);
 
 		$this->assertInstanceOf( 'WPSEO_Term_Indexable', $new_instance );
@@ -93,10 +93,10 @@ class WPSEO_Term_Indexable_Test extends WPSEO_UnitTestCase {
 	 * @return array The test data.
 	 */
 	public function robots_noindex_provider() {
-		return array(
-			array( 'noindex', true, 'With value set to noindex' ),
-			array( 'index', false, 'With value set to index' ),
-			array( 'default', null, 'With default value' ),
-		);
+		return [
+			[ 'noindex', true, 'With value set to noindex' ],
+			[ 'index', false, 'With value set to index' ],
+			[ 'default', null, 'With default value' ],
+		];
 	}
 }

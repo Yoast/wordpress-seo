@@ -66,7 +66,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param mixed  $object_id   The object id.
 	 * @param string $description The test description.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable
 	 */
 	public function test_is_indexable_with_invalid_object_ids( $object_id, $description ) {
 		$this->assertFalse( $this->provider->is_indexable( $object_id ), $description );
@@ -75,7 +75,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the obtaining of a non indexable post.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable
 	 */
 	public function test_is_indexable_with_valid_object_ids_for_non_indexable_posts() {
 		$this->assertFalse( $this->provider->is_indexable( $this->get_revision() ) );
@@ -85,7 +85,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if the post is indexable when having a valid object id.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable
 	 */
 	public function test_is_indexable() {
 		$this->assertTrue( $this->provider->is_indexable( self::factory()->post->create() ) );
@@ -99,27 +99,27 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param mixed  $object_id   The object id.
 	 * @param string $description The test description.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::get()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::get
 	 */
 	public function test_get_a_non_indexable_post_with_invalid_object_ids( $object_id, $description ) {
-		$this->assertEquals( array(), $this->provider->get( $object_id ), $description );
+		$this->assertEquals( [], $this->provider->get( $object_id ), $description );
 	}
 
 	/**
 	 * Tests the obtaining of a non indexable post.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::get()
-	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::get
+	 * @covers WPSEO_Indexable_Service_Post_Provider::is_indexable
 	 */
 	public function test_get_a_non_indexable_post() {
-		$this->assertEquals( array(), $this->provider->get( $this->get_revision() ) );
-		$this->assertEquals( array(), $this->provider->get( $this->get_auto_save() ) );
+		$this->assertEquals( [], $this->provider->get( $this->get_revision() ) );
+		$this->assertEquals( [], $this->provider->get( $this->get_auto_save() ) );
 	}
 
 	/**
 	 * Tests the getting of an indexable post.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::get()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::get
 	 */
 	public function test_get() {
 		$post = self::factory()->post->create_and_get();
@@ -142,7 +142,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 		WPSEO_Meta::set_value( 'content_score', '35', $post->ID );
 		WPSEO_Meta::set_value( 'is_cornerstone', '1', $post->ID );
 
-		$expected_array = array(
+		$expected_array = [
 			'object_id'                   => (int) $post->ID,
 			'object_type'                 => 'post',
 			'object_subtype'              => $post->post_type,
@@ -170,7 +170,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 			'incoming_link_count'         => 0,
 			'created_at'                  => null,
 			'updated_at'                  => null,
-		);
+		];
 
 		$provider = new WPSEO_Indexable_Service_Post_Provider();
 
@@ -186,12 +186,12 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param bool|null $expected       The expected conversion.
 	 * @param string    $description    Description of the test.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_indexable_data()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_indexable_data
 	 *
 	 * @dataProvider indexable_data_conversion_provider
 	 */
 	public function test_convert_indexable_data( $robot_value, $supplied_value, $expected, $description ) {
-		$data = $this->provider->convert_indexable_data( array( $robot_value => $supplied_value ) );
+		$data = $this->provider->convert_indexable_data( [ $robot_value => $supplied_value ] );
 
 		$this->assertEquals( $expected, $data[ $robot_value ], $description );
 	}
@@ -204,12 +204,12 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param bool|null $expected       The expected conversion.
 	 * @param string    $description    Description of the test.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_advanced()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_advanced
 	 *
 	 * @dataProvider advanced_indexable_data_conversion_provider
 	 */
 	public function test_convert_advanced( $robot_value, $supplied_value, $expected, $description ) {
-		$indexable = array( $robot_value => $supplied_value );
+		$indexable = [ $robot_value => $supplied_value ];
 		$data      = $this->provider->convert_advanced( $indexable );
 
 		$this->assertEquals( $expected, $data, $description );
@@ -222,7 +222,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param bool|null $expected          The expected conversion.
 	 * @param string    $description       Description of the test.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_cornerstone()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_cornerstone
 	 *
 	 * @dataProvider cornerstone_conversion_provider
 	 */
@@ -239,7 +239,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param bool|null $expected    The expected conversion.
 	 * @param string    $description Description of the test.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_cornerstone()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_cornerstone
 	 *
 	 * @dataProvider nofollow_conversion_provider
 	 */
@@ -256,7 +256,7 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @param bool|null $expected    The expected conversion.
 	 * @param string    $description Description of the test.
 	 *
-	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_noindex()
+	 * @covers WPSEO_Indexable_Service_Post_Provider::convert_noindex
 	 *
 	 * @dataProvider noindex_conversion_provider
 	 */
@@ -272,15 +272,15 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @return array The test data.
 	 */
 	public function indexable_data_conversion_provider() {
-		return array(
-			array( 'is_robots_nofollow', 'true', '1', 'With is_robots_nofollow value set to nofollow' ),
-			array( 'is_robots_nofollow', false, '0', 'With is_robots_nofollow value set to follow' ),
-			array( 'is_robots_noindex', 'false', '2', 'With is_robots_noindex value set to index' ),
-			array( 'is_robots_noindex', 'true', '1', 'With is_robots_noindex value set to noindex' ),
-			array( 'is_robots_noindex', null, null, 'With is_robots_noindex value set to default' ),
-			array( 'is_cornerstone', 'true', '1', 'With is_cornerstone value set to true' ),
-			array( 'is_cornerstone', false, null, 'With is_cornerstone value set to false' ),
-		);
+		return [
+			[ 'is_robots_nofollow', 'true', '1', 'With is_robots_nofollow value set to nofollow' ],
+			[ 'is_robots_nofollow', false, '0', 'With is_robots_nofollow value set to follow' ],
+			[ 'is_robots_noindex', 'false', '2', 'With is_robots_noindex value set to index' ],
+			[ 'is_robots_noindex', 'true', '1', 'With is_robots_noindex value set to noindex' ],
+			[ 'is_robots_noindex', null, null, 'With is_robots_noindex value set to default' ],
+			[ 'is_cornerstone', 'true', '1', 'With is_cornerstone value set to true' ],
+			[ 'is_cornerstone', false, null, 'With is_cornerstone value set to false' ],
+		];
 	}
 
 	/**
@@ -289,19 +289,19 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @return array The test data.
 	 */
 	public function advanced_indexable_data_conversion_provider() {
-		return array(
-			array( 'is_robots_nosnippet', false, '', 'With is_robots_nosnippet value set to false' ),
-			array( 'is_robots_nosnippet', true, 'nosnippet', 'With is_robots_nosnippet value set to true' ),
-			array( 'is_robots_nosnippet', null, '', 'With is_robots_nosnippet value set to null' ),
+		return [
+			[ 'is_robots_nosnippet', false, '', 'With is_robots_nosnippet value set to false' ],
+			[ 'is_robots_nosnippet', true, 'nosnippet', 'With is_robots_nosnippet value set to true' ],
+			[ 'is_robots_nosnippet', null, '', 'With is_robots_nosnippet value set to null' ],
 
-			array( 'is_robots_noarchive', false, '', 'With is_robots_nosnippet value set to false' ),
-			array( 'is_robots_noarchive', true, 'noarchive', 'With is_robots_nosnippet value set to true' ),
-			array( 'is_robots_noarchive', null, '', 'With is_robots_nosnippet value set to null' ),
+			[ 'is_robots_noarchive', false, '', 'With is_robots_nosnippet value set to false' ],
+			[ 'is_robots_noarchive', true, 'noarchive', 'With is_robots_nosnippet value set to true' ],
+			[ 'is_robots_noarchive', null, '', 'With is_robots_nosnippet value set to null' ],
 
-			array( 'is_robots_noimageindex', false, '', 'With is_robots_noimageindex value set to false' ),
-			array( 'is_robots_noimageindex', true, 'noimageindex', 'With is_robots_noimageindex value set to true' ),
-			array( 'is_robots_noimageindex', null, '', 'With is_robots_noimageindex value set to null' ),
-		);
+			[ 'is_robots_noimageindex', false, '', 'With is_robots_noimageindex value set to false' ],
+			[ 'is_robots_noimageindex', true, 'noimageindex', 'With is_robots_noimageindex value set to true' ],
+			[ 'is_robots_noimageindex', null, '', 'With is_robots_noimageindex value set to null' ],
+		];
 	}
 
 	/**
@@ -310,16 +310,16 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @return array The test data.
 	 */
 	public function invalid_object_id_provider() {
-		return array(
-			array( false, 'With false as object id' ),
-			array( 'post title', 'With a string as object id' ),
-			array( -1, 'With negative number as object id' ),
-			array( 1000000000, 'With large number as object id' ),
-			array( null, 'With null as object id' ),
-			array( $this->get_revision(), 'With a revision as object id' ),
-			array( $this->get_auto_save(), 'With a revision as object id' ),
+		return [
+			[ false, 'With false as object id' ],
+			[ 'post title', 'With a string as object id' ],
+			[ -1, 'With negative number as object id' ],
+			[ 1000000000, 'With large number as object id' ],
+			[ null, 'With null as object id' ],
+			[ $this->get_revision(), 'With a revision as object id' ],
+			[ $this->get_auto_save(), 'With a revision as object id' ],
 
-		);
+		];
 	}
 
 	/**
@@ -328,13 +328,13 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @return array The test data.
 	 */
 	public function cornerstone_conversion_provider() {
-		return array(
-			array( 'true', '1', 'With cornerstone set to string value of true' ),
-			array( 'false', null, 'With cornerstone set to string value of false' ),
-			array( true, null, 'With cornerstone set to boolean value of true' ),
-			array( false, null, 'With cornerstone set to boolean value of false' ),
-			array( '1', null, 'With cornerstone set to string value of 1' ),
-		);
+		return [
+			[ 'true', '1', 'With cornerstone set to string value of true' ],
+			[ 'false', null, 'With cornerstone set to string value of false' ],
+			[ true, null, 'With cornerstone set to boolean value of true' ],
+			[ false, null, 'With cornerstone set to boolean value of false' ],
+			[ '1', null, 'With cornerstone set to string value of 1' ],
+		];
 	}
 
 	/**
@@ -343,15 +343,15 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @return array The test data.
 	 */
 	public function nofollow_conversion_provider() {
-		return array(
-			array( 'true', '1', 'With nofollow set to string value of true' ),
-			array( 'false', '0', 'With nofollow set to string value of false' ),
-			array( true, '0', 'With nofollow set to boolean value of true' ),
-			array( false, '0', 'With nofollow set to boolean value of false' ),
-			array( '2', '0', 'With nofollow set to string value of 2' ),
-			array( '1', '0', 'With nofollow set to string value of 1' ),
-			array( '0', '0', 'With nofollow set to string value of 0' ),
-		);
+		return [
+			[ 'true', '1', 'With nofollow set to string value of true' ],
+			[ 'false', '0', 'With nofollow set to string value of false' ],
+			[ true, '0', 'With nofollow set to boolean value of true' ],
+			[ false, '0', 'With nofollow set to boolean value of false' ],
+			[ '2', '0', 'With nofollow set to string value of 2' ],
+			[ '1', '0', 'With nofollow set to string value of 1' ],
+			[ '0', '0', 'With nofollow set to string value of 0' ],
+		];
 	}
 
 	/**
@@ -360,15 +360,15 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 * @return array The test data.
 	 */
 	public function noindex_conversion_provider() {
-		return array(
-			array( 'true', '1', 'With noindex set to string value of true' ),
-			array( 'false', '2', 'With noindex set to string value of false' ),
-			array( true, null, 'With noindex set to boolean value of true' ),
-			array( false, null, 'With noindex set to boolean value of false' ),
-			array( '2', null, 'With noindex set to string value of 2' ),
-			array( '1', null, 'With noindex set to string value of 1' ),
-			array( '0', null, 'With noindex set to string value of 0' ),
-		);
+		return [
+			[ 'true', '1', 'With noindex set to string value of true' ],
+			[ 'false', '2', 'With noindex set to string value of false' ],
+			[ true, null, 'With noindex set to boolean value of true' ],
+			[ false, null, 'With noindex set to boolean value of false' ],
+			[ '2', null, 'With noindex set to string value of 2' ],
+			[ '1', null, 'With noindex set to string value of 1' ],
+			[ '0', null, 'With noindex set to string value of 0' ],
+		];
 	}
 
 	/**
@@ -378,10 +378,10 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 */
 	public function get_revision() {
 		return self::factory()->post->create(
-			array(
+			[
 				'post_type'   => 'revision',
 				'post_parent' => 2,
-			)
+			]
 		);
 	}
 
@@ -392,11 +392,11 @@ class WPSEO_Indexable_Service_Post_Provider_Test extends WPSEO_UnitTestCase {
 	 */
 	public function get_auto_save() {
 		return self::factory()->post->create(
-			array(
+			[
 				'post_type'   => 'revision',
 				'post_name'   => '2-autosave',
 				'post_parent' => 2,
-			)
+			]
 		);
 	}
 }

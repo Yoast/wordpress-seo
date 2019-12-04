@@ -15,7 +15,7 @@ class WPSEO_Option_WPSEO_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @var array
 	 */
-	protected $feature_vars = array(
+	protected $feature_vars = [
 		'disableadvanced_meta',
 		'onpage_indexability',
 		'content_analysis_active',
@@ -24,16 +24,18 @@ class WPSEO_Option_WPSEO_Test extends WPSEO_UnitTestCase {
 		'enable_cornerstone_content',
 		'enable_xml_sitemap',
 		'enable_text_link_counter',
-	);
+	];
 
 	/**
 	 * Tests that disabled 'wpseo' feature variables return false.
 	 *
 	 * @group  ms-required
-	 * @covers WPSEO_Option::validate()
-	 * @covers WPSEO_Option::prevent_disabled_options_update()
+	 * @covers WPSEO_Option::validate
+	 * @covers WPSEO_Option::prevent_disabled_options_update
 	 */
 	public function test_verify_features_against_network() {
+		$this->skipWithoutMultisite();
+
 		$options  = WPSEO_Options::get_option( 'wpseo' );
 		$expected = array_fill_keys( $this->feature_vars, true );
 		$this->assertEqualSets( $expected, array_intersect_key( $options, $expected ) );

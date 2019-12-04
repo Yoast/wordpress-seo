@@ -12,11 +12,15 @@
 class WPSEO_Link_Content_Processor {
 
 	/**
+	 * Holds the link storage instance.
+	 *
 	 * @var WPSEO_Link_Storage
 	 */
 	protected $storage;
 
 	/**
+	 * Holds the meta storage instance.
+	 *
 	 * @var WPSEO_Meta_Storage
 	 */
 	private $count_storage;
@@ -50,7 +54,7 @@ class WPSEO_Link_Content_Processor {
 		$extracted_links = $link_extractor->extract();
 		$links           = $link_processor->build( $extracted_links );
 
-		$internal_links = array_filter( $links, array( $this, 'filter_internal_link' ) );
+		$internal_links = array_filter( $links, [ $this, 'filter_internal_link' ] );
 
 		$stored_links = $this->get_stored_internal_links( $post_id );
 
@@ -81,7 +85,7 @@ class WPSEO_Link_Content_Processor {
 	 */
 	public function get_stored_internal_links( $post_id ) {
 		$links = $this->storage->get_links( $post_id );
-		return array_filter( $links, array( $this, 'filter_internal_link' ) );
+		return array_filter( $links, [ $this, 'filter_internal_link' ] );
 	}
 
 	/**
@@ -104,7 +108,7 @@ class WPSEO_Link_Content_Processor {
 	 * @return void
 	 */
 	protected function store_internal_link_count( $post_id, $internal_link_count ) {
-		$this->count_storage->save_meta_data( $post_id, array( 'internal_link_count' => $internal_link_count ) );
+		$this->count_storage->save_meta_data( $post_id, [ 'internal_link_count' => $internal_link_count ] );
 	}
 
 	/**
@@ -117,7 +121,7 @@ class WPSEO_Link_Content_Processor {
 	 */
 	protected function update_incoming_links( $post_id, $links ) {
 		$post_ids = $this->get_internal_post_ids( $links );
-		$post_ids = array_merge( array( $post_id ), $post_ids );
+		$post_ids = array_merge( [ $post_id ], $post_ids );
 		$this->count_storage->update_incoming_link_count( $post_ids, $this->storage );
 	}
 
@@ -129,7 +133,7 @@ class WPSEO_Link_Content_Processor {
 	 * @return int[] List of post IDs.
 	 */
 	protected function get_internal_post_ids( $links ) {
-		$post_ids = array();
+		$post_ids = [];
 		foreach ( $links as $link ) {
 			$post_ids[] = $link->get_target_post_id();
 		}

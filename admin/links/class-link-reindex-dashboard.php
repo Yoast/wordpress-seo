@@ -15,7 +15,7 @@ class WPSEO_Link_Reindex_Dashboard {
 	 *
 	 * @var array
 	 */
-	protected $public_post_types = array();
+	protected $public_post_types = [];
 
 	/**
 	 * Number of unprocessed items.
@@ -34,12 +34,12 @@ class WPSEO_Link_Reindex_Dashboard {
 			return;
 		}
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'calculate_unprocessed' ), 9 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ), 10 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'calculate_unprocessed' ], 9 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ], 10 );
 
-		add_action( 'admin_footer', array( $this, 'modal_box' ), 20 );
+		add_action( 'admin_footer', [ $this, 'modal_box' ], 20 );
 
-		add_action( 'wpseo_tools_overview_list_items', array( $this, 'show_tools_overview_item' ), 10 );
+		add_action( 'wpseo_tools_overview_list_items', [ $this, 'show_tools_overview_item' ], 10 );
 	}
 
 	/**
@@ -50,7 +50,7 @@ class WPSEO_Link_Reindex_Dashboard {
 	public function calculate_unprocessed() {
 		$this->public_post_types = apply_filters( 'wpseo_link_count_post_types', WPSEO_Post_Type::get_accessible_post_types() );
 
-		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
+		if ( is_array( $this->public_post_types ) && $this->public_post_types !== [] ) {
 			$this->unprocessed = WPSEO_Link_Query::get_unprocessed_count( $this->public_post_types );
 		}
 	}
@@ -65,10 +65,12 @@ class WPSEO_Link_Reindex_Dashboard {
 		echo '<strong>' . esc_html__( 'Text link counter', 'wordpress-seo' ) . '</strong><br/>';
 
 		if ( ! $this->has_unprocessed() ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: `message_already_indexed` is considered a safe method.
 			echo $this->message_already_indexed();
 		}
 
 		if ( $this->has_unprocessed() ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: `message_start_indexing` is considered a safe method.
 			printf( '<span id="reindexLinks">%s</span>', $this->message_start_indexing() );
 		}
 
@@ -88,7 +90,7 @@ class WPSEO_Link_Reindex_Dashboard {
 		// Adding the thickbox.
 		add_thickbox();
 
-		$blocks = array();
+		$blocks = [];
 
 		if ( ! $this->has_unprocessed() ) {
 			$inner_text = sprintf(
@@ -100,7 +102,7 @@ class WPSEO_Link_Reindex_Dashboard {
 		if ( $this->has_unprocessed() ) {
 			$progress = sprintf(
 				/* translators: 1: expands to a <span> containing the number of items recalculated. 2: expands to a <strong> containing the total number of items. */
-				__( 'Text %1$s of %2$s processed.', 'wordpress-seo' ),
+				esc_html__( 'Text %1$s of %2$s processed.', 'wordpress-seo' ),
 				'<span id="wpseo_count_index_links">0</span>',
 				sprintf( '<strong id="wpseo_count_total">%d</strong>', $this->get_unprocessed_count() )
 			);
@@ -116,7 +118,10 @@ class WPSEO_Link_Reindex_Dashboard {
 		);
 		?>
 		<div id="wpseo_index_links_wrapper" class="hidden">
-			<?php echo implode( '<hr />', $blocks ); ?>
+			<?php
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: All inputs are escaped properly.
+				echo implode( '<hr />', $blocks );
+			?>
 			<button onclick="tb_remove();" type="button"
 					class="button"><?php esc_html_e( 'Stop counting', 'wordpress-seo' ); ?></button>
 		</div>
@@ -132,23 +137,23 @@ class WPSEO_Link_Reindex_Dashboard {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'reindex-links' );
 
-		$data = array(
+		$data = [
 			'amount'  => $this->get_unprocessed_count(),
-			'restApi' => array(
+			'restApi' => [
 				'root'     => esc_url_raw( rest_url() ),
 				'endpoint' => WPSEO_Link_Reindex_Post_Endpoint::REST_NAMESPACE . '/' . WPSEO_Link_Reindex_Post_Endpoint::ENDPOINT_QUERY,
 				'nonce'    => wp_create_nonce( 'wp_rest' ),
-			),
-			'message' => array(
+			],
+			'message' => [
 				'indexingCompleted' => $this->message_already_indexed(),
-			),
-			'l10n'    => array(
+			],
+			'l10n'    => [
 				'calculationInProgress' => __( 'Calculation in progress...', 'wordpress-seo' ),
 				'calculationCompleted'  => __( 'Calculation completed.', 'wordpress-seo' ),
-			),
-		);
+			],
+		];
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'reindex-links', 'yoastReindexLinksData', array( 'data' => $data ) );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'reindex-links', 'yoastReindexLinksData', [ 'data' => $data ] );
 	}
 
 	/**
@@ -198,41 +203,5 @@ class WPSEO_Link_Reindex_Dashboard {
 			175,
 			esc_attr__( 'Count links in your texts', 'wordpress-seo' )
 		);
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Add the indexing interface for links to the dashboard.
-	 *
-	 * @deprecated 7.0
-	 * @codeCoverageIgnore
-	 *
-	 * @return void
-	 */
-	public function add_link_index_interface() {
-		_deprecated_function( __METHOD__, 'WPSEO 7.0' );
-
-		$html  = '';
-		$html .= '<h2>' . esc_html__( 'Text link counter', 'wordpress-seo' ) . '</h2>';
-		$html .= '<p>' . sprintf(
-			/* translators: 1: link to yoast.com post about internal linking suggestion. 4: is Yoast.com 3: is anchor closing. */
-			__( 'The links in all your public texts need to be counted. This will provide insights of which texts need more links to them. If you want to know more about the why and how of internal linking, check out %1$sthe article about internal linking on %2$s%3$s.', 'wordpress-seo' ),
-			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/15n' ) . '" target="_blank">',
-			'Yoast.com',
-			'</a>'
-		) . '</p>';
-
-		if ( ! $this->has_unprocessed() ) {
-			$html .= '<p>' . $this->message_already_indexed() . '</p>';
-		}
-
-		if ( $this->has_unprocessed() ) {
-			$html .= '<p id="reindexLinks">' . $this->message_start_indexing() . '</p>';
-		}
-
-		$html .= '<br />';
-
-		echo $html;
 	}
 }

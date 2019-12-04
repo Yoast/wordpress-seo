@@ -15,10 +15,12 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	 *
 	 * @var array
 	 */
-	private $no_index_options = array();
+	private $no_index_options = [];
 
 	/**
-	 * @param stdClass $term The currenct taxonomy.
+	 * The WPSEO_Taxonomy_Settings_Fields class constructor.
+	 *
+	 * @param stdClass $term The current taxonomy.
 	 */
 	public function __construct( $term ) {
 		parent::__construct( $term );
@@ -32,7 +34,7 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 	 */
 	public function get() {
 		$labels = $this->get_taxonomy_labels();
-		$fields = array(
+		$fields = [
 			'noindex'   => $this->get_field_config(
 				/* translators: %s = taxonomy name. */
 				esc_html( sprintf( __( 'Allow search engines to show this %s in search results?', 'wordpress-seo' ), $labels->singular_name ) ),
@@ -51,7 +53,7 @@ class WPSEO_Taxonomy_Settings_Fields extends WPSEO_Taxonomy_Fields {
 				__( 'Canonical URL', 'wordpress-seo' ),
 				esc_html__( 'The canonical link is shown on the archive page for this term.', 'wordpress-seo' )
 			),
-		);
+		];
 
 		return $this->filter_hidden_fields( $fields );
 	}

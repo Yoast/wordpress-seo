@@ -29,7 +29,9 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Endpoint::set_service()
+	 * Tests the setting of the service.
+	 *
+	 * @covers WPSEO_Configuration_Endpoint::set_service
 	 */
 	public function test_set_service() {
 		$service = $this->getMockBuilder( 'WPSEO_Configuration_Service' )->getMock();
@@ -39,7 +41,9 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Endpoint::can_retrieve_data()
+	 * Tests if data can retrieved, resulting in a failure.
+	 *
+	 * @covers WPSEO_Configuration_Endpoint::can_retrieve_data
 	 */
 	public function test_can_retrieve_data_fail() {
 		$user_id = $this->factory->user->create();
@@ -50,10 +54,12 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Endpoint::can_retrieve_data()
+	 * Tests if data can retrieved.
+	 *
+	 * @covers WPSEO_Configuration_Endpoint::can_retrieve_data
 	 */
 	public function test_can_retrieve_data_pass() {
-		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$user_id = $this->factory->user->create( [ 'role' => 'administrator' ] );
 
 		wp_set_current_user( $user_id );
 
@@ -61,7 +67,9 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Endpoint::can_save_data()
+	 * Tests if data can saved that results in false.
+	 *
+	 * @covers WPSEO_Configuration_Endpoint::can_save_data
 	 */
 	public function test_can_save_data_fail() {
 		$user_id = $this->factory->user->create();
@@ -72,10 +80,12 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Endpoint::can_save_data()
+	 * Tests if data can saved.
+	 *
+	 * @covers WPSEO_Configuration_Endpoint::can_save_data
 	 */
 	public function test_can_save_data_pass() {
-		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$user_id = $this->factory->user->create( [ 'role' => 'administrator' ] );
 
 		wp_set_current_user( $user_id );
 
@@ -83,8 +93,9 @@ class WPSEO_Configuration_Endpoint_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Configuration_Endpoint::register()
+	 * Tests if the endpoint is registered.
 	 *
+	 * @covers WPSEO_Configuration_Endpoint::register
 	 */
 	public function test_register() {
 

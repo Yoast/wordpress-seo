@@ -154,7 +154,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	public function test_canonical_search() {
 		update_option( 'posts_per_page', 1 );
 
-		$this->factory->post->create_many( 3, array( 'post_title' => 'sample post %d' ) );
+		$this->factory->post->create_many( 3, [ 'post_title' => 'sample post %d' ] );
 
 		// Test search.
 		$search_link = get_search_link( 'sample post' );
@@ -178,13 +178,13 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 
 		register_post_type(
 			'yoast',
-			array(
+			[
 				'public'      => true,
 				'has_archive' => true,
-			)
+			]
 		);
 
-		$this->factory->post->create_many( 3, array( 'post_type' => 'yoast' ) );
+		$this->factory->post->create_many( 3, [ 'post_type' => 'yoast' ] );
 
 		flush_rewrite_rules();
 
@@ -207,9 +207,9 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 	public function test_adjacent_rel_links_canonical_author() {
 		update_option( 'posts_per_page', 1 );
 
-		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		$user_id = $this->factory->user->create( [ 'role' => 'editor' ] );
 
-		$this->factory->post->create_many( 3, array( 'post_author' => $user_id ) );
+		$this->factory->post->create_many( 3, [ 'post_author' => $user_id ] );
 
 		$user     = new WP_User( $user_id );
 		$user_url = get_author_posts_url( $user_id, $user->user_nicename );
@@ -253,7 +253,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Create a category, add 26 posts to it, go to page 2 of its archives.
 		$category_id = wp_create_category( 'Yoast SEO Plugins' );
-		$this->factory->post->create_many( 3, array( 'post_category' => array( $category_id ) ) );
+		$this->factory->post->create_many( 3, [ 'post_category' => [ $category_id ] ] );
 
 		/*
 		 * This shouldn't be necessary but apparently multisite's rewrites are borked
@@ -282,7 +282,7 @@ class WPSEO_Frontend_Test extends WPSEO_UnitTestCase_Frontend {
 		create_initial_taxonomies();
 
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_type'    => 'post',
 				'post_content' => '
 Page 1/5
@@ -291,7 +291,7 @@ Page 2/3
 <!--nextpage-->
 Page 3/3
 ',
-			)
+			]
 		);
 
 		$url = get_permalink( $post_id );
@@ -312,7 +312,7 @@ Page 3/3
 	 */
 	public function test_adjacent_rel_links_canonical_split_up_post() {
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_type'    => 'post',
 				'post_content' => '
 Page 1/5
@@ -321,7 +321,7 @@ Page 2/3
 <!--nextpage-->
 Page 3/3
 ',
-			)
+			]
 		);
 
 		$url = get_permalink( $post_id );
@@ -342,10 +342,10 @@ Page 3/3
 	 */
 	public function test_adjacent_rel_links_non_split_post() {
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_type'    => 'post',
 				'post_content' => 'No nextpage HTML comment present.',
-			)
+			]
 		);
 
 		$url = get_permalink( $post_id );
@@ -371,7 +371,7 @@ Page 3/3
 
 		self::$class_instance->reset();
 		remove_filter( 'wpseo_canonical', '__return_false' );
-		add_filter( 'wpseo_canonical', array( $this, 'filter_canonical_test' ) );
+		add_filter( 'wpseo_canonical', [ $this, 'filter_canonical_test' ] );
 		$this->go_to( home_url() );
 		$this->assertEquals( 'http://canonic.al', self::$class_instance->canonical( false ) );
 	}
@@ -416,8 +416,8 @@ Page 3/3
 		$blog_desc_link = '<a rel="nofollow" href="' . esc_url( get_bloginfo( 'url' ) ) . '">' . get_bloginfo( 'name' ) . ' - ' . get_bloginfo( 'description' ) . '</a>';
 		$expected       = stripslashes( trim( $text ) );
 		$expected       = str_replace(
-			array( '%%AUTHORLINK%%', '%%POSTLINK%%', '%%BLOGLINK%%', '%%BLOGDESCLINK%%' ),
-			array( $author_link, $post_link, $blog_link, $blog_desc_link ),
+			[ '%%AUTHORLINK%%', '%%POSTLINK%%', '%%BLOGLINK%%', '%%BLOGDESCLINK%%' ],
+			[ $author_link, $post_link, $blog_link, $blog_desc_link ],
 			$expected
 		);
 
@@ -513,7 +513,7 @@ Page 3/3
 		/** @var $frontend WPSEO_Frontend_Double */
 		$frontend = $this
 			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'show_debug_marker', 'get_debug_mark' ) )
+			->setMethods( [ 'show_debug_marker', 'get_debug_mark' ] )
 			->getMock();
 
 		$frontend
@@ -538,13 +538,13 @@ Page 3/3
 	/**
 	 * Checks the value of the debug mark getter when the premium version is 'active'.
 	 *
-	 * @covers WPSEO_Frontend::head_product_name()
+	 * @covers WPSEO_Frontend::head_product_name
 	 */
 	public function test_head_get_debug_mark_for_premium() {
 		/** @var $frontend WPSEO_Frontend_Double */
 		$frontend = $this
 			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'is_premium' ) )
+			->setMethods( [ 'is_premium' ] )
 			->getMock();
 
 		$frontend
@@ -558,13 +558,13 @@ Page 3/3
 	/**
 	 * Checks the value of the debug mark getter when the free version is 'active'.
 	 *
-	 * @covers WPSEO_Frontend::head_product_name()
+	 * @covers WPSEO_Frontend::head_product_name
 	 */
 	public function test_head_get_debug_mark_for_free() {
 		/** @var $frontend WPSEO_Frontend_Double */
 		$frontend = $this
 			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'is_premium' ) )
+			->setMethods( [ 'is_premium' ] )
 			->getMock();
 
 		$frontend
@@ -584,7 +584,7 @@ Page 3/3
 		/** @var $frontend WPSEO_Frontend_Double */
 		$frontend = $this
 			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'show_debug_marker', 'get_debug_mark' ) )
+			->setMethods( [ 'show_debug_marker', 'get_debug_mark' ] )
 			->getMock();
 
 		$frontend
@@ -615,7 +615,7 @@ Page 3/3
 		/** @var $frontend WPSEO_Frontend_Double */
 		$frontend = $this
 			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'show_debug_marker' ) )
+			->setMethods( [ 'show_debug_marker' ] )
 			->getMock();
 
 		$frontend
@@ -637,7 +637,7 @@ Page 3/3
 		/** @var $frontend WPSEO_Frontend_Double */
 		$frontend = $this
 			->getMockBuilder( 'WPSEO_Frontend_Double' )
-			->setMethods( array( 'show_debug_marker' ) )
+			->setMethods( [ 'show_debug_marker' ] )
 			->getMock();
 
 		$frontend
@@ -790,14 +790,14 @@ Page 3/3
 	/**
 	 * Tests if the queried post type is fetched properly.
 	 *
-	 * @covers WPSEO_Frontend::get_queried_post_type()
+	 * @covers WPSEO_Frontend::get_queried_post_type
 	 *
 	 * @return void
 	 */
 	public function test_get_queried_post_type() {
 		$wp_query = $this
 			->getMockBuilder( 'WP_Query' )
-			->setMethods( array( 'get' ) )
+			->setMethods( [ 'get' ] )
 			->getMock();
 
 		$wp_query
@@ -814,21 +814,21 @@ Page 3/3
 	/**
 	 * Tests for post type when given as multiple items.
 	 *
-	 * @covers WPSEO_Frontend::get_queried_post_type()
+	 * @covers WPSEO_Frontend::get_queried_post_type
 	 *
 	 * @return void
 	 */
 	public function test_get_queried_post_type_array() {
 		$wp_query = $this
 			->getMockBuilder( 'WP_Query' )
-			->setMethods( array( 'get' ) )
+			->setMethods( [ 'get' ] )
 			->getMock();
 
 		$wp_query
 			->expects( $this->once() )
 			->method( 'get' )
 			->with( 'post_type' )
-			->will( $this->returnValue( array( 'my_post_type', 'your_post_type' ) ) );
+			->will( $this->returnValue( [ 'my_post_type', 'your_post_type' ] ) );
 
 		$GLOBALS['wp_query'] = $wp_query;
 

@@ -13,6 +13,7 @@
  * @property WPSEO_Schema_Context $context A value object with context variables.
  */
 class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Piece {
+
 	/**
 	 * A value object with context variables.
 	 *
@@ -25,7 +26,7 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	 *
 	 * @var string[]
 	 */
-	protected $type = array( 'Person' );
+	protected $type = [ 'Person' ];
 
 	/**
 	 * WPSEO_Schema_Author constructor.
@@ -76,9 +77,9 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 
 		// If this is an author page, the Person object is the main object, so we set it as such here.
 		if ( is_author() ) {
-			$data['mainEntityOfPage'] = array(
+			$data['mainEntityOfPage'] = [
 				'@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH,
-			);
+			];
 		}
 
 		return $data;
@@ -90,13 +91,7 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	 * @return bool
 	 */
 	protected function is_post_author() {
-		/**
-		 * Filter: 'wpseo_schema_article_post_type' - Allow changing for which post types we output Article schema.
-		 *
-		 * @api array $post_types The post types for which we output Article.
-		 */
-		$post_types = apply_filters( 'wpseo_schema_article_post_type', array( 'post' ) );
-		if ( is_singular( $post_types ) ) {
+		if ( is_singular() && WPSEO_Schema_Article::is_article_post_type() ) {
 			return true;
 		}
 
@@ -128,14 +123,15 @@ class WPSEO_Schema_Author extends WPSEO_Schema_Person implements WPSEO_Graph_Pie
 	}
 
 	/**
-	 * Returns the string to use in Schema's `@id`.
+	 * An author should not have an image from options, this only applies to persons.
 	 *
-	 * @param int $user_id The user ID if we're on a user page.
+	 * @param array  $data      The Person schema.
+	 * @param string $schema_id The string used in the `@id` for the schema.
 	 *
-	 * @return string The `@id` string value.
+	 * @return array The Person schema.
 	 */
-	protected function determine_schema_id( $user_id ) {
-		return get_author_posts_url( $user_id ) . WPSEO_Schema_IDs::AUTHOR_HASH;
+	private function set_image_from_options( $data, $schema_id ) {
+		return $data;
 	}
 
 	/**

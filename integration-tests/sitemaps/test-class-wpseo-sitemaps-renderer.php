@@ -29,18 +29,20 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests retrieval of a sitemap index.
+	 *
 	 * @covers WPSEO_Sitemaps_Renderer::get_index
 	 */
 	public function test_get_index() {
 
 		$loc     = 'http://example.com/';
 		$lastmod = date( 'c' );
-		$links   = array(
-			array(
+		$links   = [
+			[
 				'loc'     => $loc,
 				'lastmod' => $lastmod,
-			),
-		);
+			],
+		];
 
 		$index = self::$class_instance->get_index( $links );
 		$this->assertContains( "<loc>{$loc}</loc>", $index );
@@ -48,6 +50,8 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests retrieval of a sitemap.
+	 *
 	 * @covers WPSEO_Sitemaps_Renderer::get_sitemap
 	 */
 	public function test_get_sitemap() {
@@ -57,21 +61,21 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 		$src   = 'http://example.com/image.jpg';
 		$title = 'Image title.';
 		$alt   = 'Image alt.';
-		$links = array(
-			array(
+		$links = [
+			[
 				'loc'    => $loc,
 				'mod'    => $mod,
 				'chf'    => 'daily',
 				'pri'    => 1,
-				'images' => array(
-					array(
+				'images' => [
+					[
 						'src'   => $src,
 						'title' => $title,
 						'alt'   => $alt,
-					),
-				),
-			),
-		);
+					],
+				],
+			],
+		];
 
 		$index = self::$class_instance->get_sitemap( $links, 'post', 0 );
 		$this->assertContains( "<loc>{$loc}</loc>", $index );
@@ -91,13 +95,13 @@ class WPSEO_Sitemaps_Renderer_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests getting the fallback url if the plugin is loaded from a different domain.
 	 *
-	 * @covers WPSEO_Sitemaps_Renderer_Double::get_xsl_url()
+	 * @covers WPSEO_Sitemaps_Renderer_Double::get_xsl_url
 	 */
 	public function test_is_home_url_returned_correctly() {
 		$class_instance = new WPSEO_Sitemaps_Renderer_Double();
 
-		add_filter( 'plugins_url', array( $this, 'change_plugin_url' ) );
+		add_filter( 'plugins_url', [ $this, 'change_plugin_url' ] );
 		$this->assertEquals( 'http://example.org/main-sitemap.xsl', $class_instance->get_xsl_url() );
-		remove_filter( 'plugins_url', array( $this, 'change_plugin_url' ) );
+		remove_filter( 'plugins_url', [ $this, 'change_plugin_url' ] );
 	}
 }

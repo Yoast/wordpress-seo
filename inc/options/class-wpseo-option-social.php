@@ -24,7 +24,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 *
 	 * @var array
 	 */
-	protected $defaults = array(
+	protected $defaults = [
 		// Form fields.
 		'facebook_site'         => '', // Text field.
 		'instagram_url'         => '',
@@ -46,18 +46,18 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		'wikipedia_url'         => '',
 		// Form field, but not always available.
 		'fbadminapp'            => '', // Facebook app ID.
-	);
+	];
 
 	/**
 	 * Array of sub-options which should not be overloaded with multi-site defaults.
 	 *
 	 * @var array
 	 */
-	public $ms_exclude = array(
+	public $ms_exclude = [
 		/* Privacy. */
 		'pinterestverify',
 		'fbadminapp',
-	);
+	];
 
 	/**
 	 * Array of allowed twitter card types.
@@ -70,7 +70,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 	 *
 	 * @var array
 	 */
-	public static $twitter_card_types = array(
+	public static $twitter_card_types = [
 		'summary'             => '',
 		'summary_large_image' => '',
 		// 'photo'               => '',
@@ -78,7 +78,16 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		// 'app'                 => '',
 		// 'player'              => '',
 		// 'product'             => '',
-	);
+	];
+
+	/**
+	 * Add the actions and filters for the option.
+	 */
+	protected function __construct() {
+		parent::__construct();
+
+		add_filter( 'admin_title', [ 'Yoast_Input_Validation', 'add_yoast_admin_document_title_errors' ] );
+	}
 
 	/**
 	 * Get the singleton instance of this class.
@@ -183,10 +192,10 @@ class WPSEO_Option_Social extends WPSEO_Option {
 							if ( function_exists( 'add_settings_error' ) ) {
 								add_settings_error(
 									$this->group_name, // Slug title of the setting.
-									'_' . $key, // Suffix-ID for the error message box.
+									$key, // Suffix-ID for the error message box.
 									sprintf(
 										/* translators: %s expands to a twitter user name. */
-										__( '%s does not seem to be a valid Twitter user-id. Please correct.', 'wordpress-seo' ),
+										__( '%s does not seem to be a valid Twitter Username. Please correct.', 'wordpress-seo' ),
 										'<strong>' . esc_html( sanitize_text_field( $dirty[ $key ] ) ) . '</strong>'
 									), // The error message.
 									'error' // Error type, either 'error' or 'updated'.
@@ -194,6 +203,8 @@ class WPSEO_Option_Social extends WPSEO_Option {
 							}
 						}
 						unset( $twitter_id );
+
+						Yoast_Input_Validation::add_dirty_value_to_settings_errors( $key, $dirty[ $key ] );
 					}
 					break;
 
@@ -210,9 +221,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 					break;
 
 				case 'fbadminapp':
-					if ( isset( $dirty[ $key ] ) && ! empty( $dirty[ $key ] ) ) {
-						$clean[ $key ] = $dirty[ $key ];
-					}
+					$this->validate_facebook_app_id( $key, $dirty, $old, $clean );
 					break;
 			}
 		}
@@ -238,7 +247,7 @@ class WPSEO_Option_Social extends WPSEO_Option {
 		$old_option = null;
 		if ( isset( $all_old_option_values ) ) {
 			// Ok, we have an import.
-			if ( isset( $all_old_option_values['wpseo_indexation'] ) && is_array( $all_old_option_values['wpseo_indexation'] ) && $all_old_option_values['wpseo_indexation'] !== array() ) {
+			if ( isset( $all_old_option_values['wpseo_indexation'] ) && is_array( $all_old_option_values['wpseo_indexation'] ) && $all_old_option_values['wpseo_indexation'] !== [] ) {
 				$old_option = $all_old_option_values['wpseo_indexation'];
 			}
 		}
@@ -246,10 +255,10 @@ class WPSEO_Option_Social extends WPSEO_Option {
 			$old_option = get_option( 'wpseo_indexation' );
 		}
 
-		if ( is_array( $old_option ) && $old_option !== array() ) {
-			$move = array(
+		if ( is_array( $old_option ) && $old_option !== [] ) {
+			$move = [
 				'opengraph',
-			);
+			];
 			foreach ( $move as $key ) {
 				if ( isset( $old_option[ $key ] ) && ! isset( $option_value[ $key ] ) ) {
 					$option_value[ $key ] = $old_option[ $key ];

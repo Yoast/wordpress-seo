@@ -23,40 +23,40 @@ $social_profiles_help = new WPSEO_Admin_Help_Panel(
 
 $company_or_person = WPSEO_Options::get( 'company_or_person', '' );
 
-$organization_social_fields = array(
-	array(
+$organization_social_fields = [
+	[
 		'id'    => 'facebook_site',
 		'label' => __( 'Facebook Page URL', 'wordpress-seo' ),
-	),
-	array(
+	],
+	[
 		'id'    => 'twitter_site',
 		'label' => __( 'Twitter Username', 'wordpress-seo' ),
-	),
-	array(
+	],
+	[
 		'id'    => 'instagram_url',
 		'label' => __( 'Instagram URL', 'wordpress-seo' ),
-	),
-	array(
+	],
+	[
 		'id'    => 'linkedin_url',
 		'label' => __( 'LinkedIn URL', 'wordpress-seo' ),
-	),
-	array(
+	],
+	[
 		'id'    => 'myspace_url',
 		'label' => __( 'MySpace URL', 'wordpress-seo' ),
-	),
-	array(
+	],
+	[
 		'id'    => 'pinterest_url',
 		'label' => __( 'Pinterest URL', 'wordpress-seo' ),
-	),
-	array(
+	],
+	[
 		'id'    => 'youtube_url',
 		'label' => __( 'YouTube URL', 'wordpress-seo' ),
-	),
-	array(
+	],
+	[
 		'id'    => 'wikipedia_url',
 		'label' => __( 'Wikipedia URL', 'wordpress-seo' ),
-	),
-);
+	],
+];
 
 $yform = Yoast_Form::get_instance();
 

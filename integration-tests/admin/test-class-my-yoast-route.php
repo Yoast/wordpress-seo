@@ -20,7 +20,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	public function test_register_hooks_on_no_yoast_route() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route' )
-			->setMethods( array( 'is_myyoast_route' ) )
+			->setMethods( [ 'is_myyoast_route' ] )
 			->getMock();
 
 		$instance
@@ -30,8 +30,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 
 		$instance->register_hooks();
 
-		$this->assertFalse( has_action( 'admin_menu', array( $instance, 'register_route' ) ) );
-		$this->assertFalse( has_action( 'admin_init', array( $instance, 'handle_route' ) ) );
+		$this->assertFalse( has_action( 'admin_menu', [ $instance, 'register_route' ] ) );
+		$this->assertFalse( has_action( 'admin_init', [ $instance, 'handle_route' ] ) );
 	}
 
 	/**
@@ -42,7 +42,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	public function test_register_hooks_cannot_access_route() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route' )
-			->setMethods( array( 'is_myyoast_route', 'can_access_route' ) )
+			->setMethods( [ 'is_myyoast_route', 'can_access_route' ] )
 			->getMock();
 
 		$instance
@@ -57,8 +57,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 
 		$instance->register_hooks();
 
-		$this->assertFalse( has_action( 'admin_menu', array( $instance, 'register_route' ) ) );
-		$this->assertFalse( has_action( 'admin_init', array( $instance, 'handle_route' ) ) );
+		$this->assertFalse( has_action( 'admin_menu', [ $instance, 'register_route' ] ) );
+		$this->assertFalse( has_action( 'admin_init', [ $instance, 'handle_route' ] ) );
 	}
 
 	/**
@@ -69,7 +69,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	public function test_register_hooks_with_invalid_route_action() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route' )
-			->setMethods( array( 'is_myyoast_route', 'can_access_route', 'is_valid_action' ) )
+			->setMethods( [ 'is_myyoast_route', 'can_access_route', 'is_valid_action' ] )
 			->getMock();
 
 		$instance
@@ -89,8 +89,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 
 		$instance->register_hooks();
 
-		$this->assertFalse( has_action( 'admin_menu', array( $instance, 'register_route' ) ) );
-		$this->assertFalse( has_action( 'admin_init', array( $instance, 'handle_route' ) ) );
+		$this->assertFalse( has_action( 'admin_menu', [ $instance, 'register_route' ] ) );
+		$this->assertFalse( has_action( 'admin_init', [ $instance, 'handle_route' ] ) );
 	}
 
 	/**
@@ -101,7 +101,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	public function test_register_hooks() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route' )
-			->setMethods( array( 'is_myyoast_route', 'can_access_route', 'is_valid_action' ) )
+			->setMethods( [ 'is_myyoast_route', 'can_access_route', 'is_valid_action' ] )
 			->getMock();
 
 		$instance
@@ -121,8 +121,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 
 		$instance->register_hooks();
 
-		$this->assertNotFalse( has_action( 'admin_menu', array( $instance, 'register_route' ) ) );
-		$this->assertNotFalse( has_action( 'admin_init', array( $instance, 'handle_route' ) ) );
+		$this->assertNotFalse( has_action( 'admin_menu', [ $instance, 'register_route' ] ) );
+		$this->assertNotFalse( has_action( 'admin_init', [ $instance, 'handle_route' ] ) );
 	}
 
 	/**
@@ -133,7 +133,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	public function test_handle_route_for_unknown_action() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route' )
-			->setMethods( array( 'get_action' ) )
+			->setMethods( [ 'get_action' ] )
 			->getMock();
 
 		$instance
@@ -152,7 +152,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	public function test_handle_route_for_connect() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route' )
-			->setMethods( array( 'get_action', 'connect' ) )
+			->setMethods( [ 'get_action', 'connect' ] )
 			->getMock();
 
 		$instance
@@ -175,7 +175,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	public function test_handle_route_for_authorize() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route' )
-			->setMethods( array( 'get_action', 'authorize' ) )
+			->setMethods( [ 'get_action', 'authorize' ] )
 			->getMock();
 
 		$instance
@@ -222,7 +222,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	public function test_connect() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
-			->setMethods( array( 'redirect', 'save_client_id', 'generate_uuid', 'get_extensions' ) )
+			->setMethods( [ 'redirect', 'save_client_id', 'generate_uuid', 'get_extensions' ] )
 			->getMock();
 
 		$instance
@@ -238,24 +238,26 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 		$instance
 			->expects( $this->once() )
 			->method( ( 'get_extensions' ) )
-			->will( $this->returnValue( array( 'yoast-seo-extension' ) ) );
+			->will( $this->returnValue( [ 'yoast-seo-extension' ] ) );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'redirect' )
 			->with(
 				'https://my.yoast.com/connect',
-				array(
+				[
 					'url'             => WPSEO_Utils::get_home_url(),
 					'client_id'       => '9740f9cf-608e-4327-8a16-24e3ff6a4c0d',
-					'extensions'      => array( 'yoast-seo-extension' ),
+					'extensions'      => [ 'yoast-seo-extension' ],
 					'redirect_url'    => admin_url( 'admin.php?page=' . WPSEO_MyYoast_Route::PAGE_IDENTIFIER . '&action=complete' ),
 					'credentials_url' => rest_url( 'yoast/v1/myyoast/connect' ),
 					'type'            => 'wordpress',
-				)
+				]
 			);
 
 		/**
+		 * WPSEO_MyYoast_Route_Double instance.
+		 *
 		 * @var WPSEO_MyYoast_Route_Double $instance
 		 */
 		$instance->connect();
@@ -269,12 +271,12 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	public function test_authorize_without_having_configuration() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
-			->setMethods( array( 'get_client' ) )
+			->setMethods( [ 'get_client' ] )
 			->getMock();
 
 		$client = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Client' )
-			->setMethods( array( 'has_configuration' ) )
+			->setMethods( [ 'has_configuration' ] )
 			->getMock();
 
 		$client
@@ -288,6 +290,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( $client ) );
 
 		/**
+		 * WPSEO_MyYoast_Route_Double instance.
+		 *
 		 * @var WPSEO_MyYoast_Route_Double $instance
 		 */
 		$instance->authorize();
@@ -301,12 +305,12 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	public function test_authorize_with_having_a_configuration() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
-			->setMethods( array( 'get_client', 'redirect' ) )
+			->setMethods( [ 'get_client', 'redirect' ] )
 			->getMock();
 
 		$provider = $this
 			->getMockBuilder( 'Provider' )
-			->setMethods( array( 'getAuthorizationUrl' ) )
+			->setMethods( [ 'getAuthorizationUrl' ] )
 			->getMock();
 
 		$provider
@@ -316,7 +320,7 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 
 		$client = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Client' )
-			->setMethods( array( 'has_configuration', 'get_provider' ) )
+			->setMethods( [ 'has_configuration', 'get_provider' ] )
 			->getMock();
 
 		$client
@@ -340,6 +344,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			->with( 'http://example.org/authorize' );
 
 		/**
+		 * WPSEO_MyYoast_Route_Double instance.
+		 *
 		 * @var WPSEO_MyYoast_Route_Double $instance
 		 */
 		$instance->authorize();
@@ -353,12 +359,12 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 	public function test_complete_without_having_configuration() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
-			->setMethods( array( 'get_client' ) )
+			->setMethods( [ 'get_client' ] )
 			->getMock();
 
 		$client = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Client' )
-			->setMethods( array( 'has_configuration' ) )
+			->setMethods( [ 'has_configuration' ] )
 			->getMock();
 
 		$client
@@ -372,6 +378,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( $client ) );
 
 		/**
+		 * WPSEO_MyYoast_Route_Double instance.
+		 *
 		 * @var WPSEO_MyYoast_Route_Double $instance
 		 */
 		$instance->complete();
@@ -386,18 +394,18 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
 			->setMethods(
-				array(
+				[
 					'get_client',
 					'redirect_to_premium_page',
 					'get_authorization_code',
 					'get_current_user_id',
-				)
+				]
 			)
 			->getMock();
 
 		$provider = $this
 			->getMockBuilder( 'Provider' )
-			->setMethods( array( 'getAccessToken' ) )
+			->setMethods( [ 'getAccessToken' ] )
 			->getMock();
 
 		$provider
@@ -405,18 +413,18 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			->method( 'getAccessToken' )
 			->with(
 				'authorization_code',
-				array( 'code' => 'this-is-the-code' )
+				[ 'code' => 'this-is-the-code' ]
 			)
 			->will( $this->returnValue( 'access-token' ) );
 
 		$client = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Client' )
 			->setMethods(
-				array(
+				[
 					'has_configuration',
 					'get_provider',
 					'save_access_token',
-				)
+				]
 			)
 			->getMock();
 
@@ -455,6 +463,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			->method( 'redirect_to_premium_page' );
 
 		/**
+		 * WPSEO_MyYoast_Route_Double instance.
+		 *
 		 * @var WPSEO_MyYoast_Route_Double $instance
 		 */
 		$instance->complete();
@@ -469,17 +479,17 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Route_Double' )
 			->setMethods(
-				array(
+				[
 					'get_client',
 					'redirect_to_premium_page',
 					'get_authorization_code',
-				)
+				]
 			)
 			->getMock();
 
 		$provider = $this
 			->getMockBuilder( 'Provider' )
-			->setMethods( array( 'getAccessToken' ) )
+			->setMethods( [ 'getAccessToken' ] )
 			->getMock();
 
 		$provider
@@ -487,18 +497,18 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			->method( 'getAccessToken' )
 			->with(
 				'authorization_code',
-				array( 'code' => 'this-is-the-code' )
+				[ 'code' => 'this-is-the-code' ]
 			)
 			->will( $this->throwException( new Exception( 'Something went wrong' ) ) );
 
 		$client = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Client' )
 			->setMethods(
-				array(
+				[
 					'has_configuration',
 					'get_provider',
 					'save_access_token',
-				)
+				]
 			)
 			->getMock();
 
@@ -532,6 +542,8 @@ class WPSEO_MyYoast_Route_Test extends WPSEO_UnitTestCase {
 			->method( 'redirect_to_premium_page' );
 
 		/**
+		 * WPSEO_MyYoast_Route_Double instance.
+		 *
 		 * @var WPSEO_MyYoast_Route_Double $instance
 		 */
 		$instance->complete();

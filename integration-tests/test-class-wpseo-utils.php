@@ -11,6 +11,8 @@
 class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Tests whether a user is allowed to access the SEO configuration in various situations.
+	 *
 	 * @covers WPSEO_Utils::grant_access
 	 */
 	public function test_grant_access() {
@@ -21,7 +23,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		}
 
 		// Admin required by default/option.
-		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
+		$user_id = $this->factory->user->create( [ 'role' => 'administrator' ] );
 		wp_set_current_user( $user_id );
 		$this->assertTrue( WPSEO_Utils::grant_access() );
 
@@ -35,13 +37,15 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		$this->assertTrue( WPSEO_Utils::grant_access() );
 
 		// Below admin not allowed.
-		$user_id = $this->factory->user->create( array( 'role' => 'editor' ) );
+		$user_id = $this->factory->user->create( [ 'role' => 'editor' ] );
 		wp_set_current_user( $user_id );
 		$this->assertFalse( WPSEO_Utils::grant_access() );
 	}
 
 	/**
-	 * @covers WPSEO_Utils::is_apache()
+	 * Tests whether is_apache correctly returns if the site runs on apache.
+	 *
+	 * @covers WPSEO_Utils::is_apache
 	 */
 	public function test_wpseo_is_apache() {
 		$_SERVER['SERVER_SOFTWARE'] = 'Apache/2.2.22';
@@ -52,7 +56,9 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Utils::is_nginx()
+	 * Tests whether is_apache correctly returns if the site runs on nginx.
+	 *
+	 * @covers WPSEO_Utils::is_nginx
 	 */
 	public function test_wpseo_is_nginx() {
 		$_SERVER['SERVER_SOFTWARE'] = 'nginx/1.5.11';
@@ -63,7 +69,9 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * @covers WPSEO_Utils::trim_nbsp_from_string()
+	 * Tests whether trim_nbsp_from_string correctly strips no-break spaces.
+	 *
+	 * @covers WPSEO_Utils::trim_nbsp_from_string
 	 */
 	public function test_wpseo_trim_nbsp_from_string() {
 		$old_string = ' This is an old string with&nbsp;as spaces.&nbsp;';
@@ -94,7 +102,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 * Tests translate_score function.
 	 *
 	 * @dataProvider translate_score_provider
-	 * @covers       WPSEO_Utils::translate_score()
+	 * @covers       WPSEO_Utils::translate_score
 	 *
 	 * @param int    $score     The decimal score to translate.
 	 * @param bool   $css_value Whether to return the i18n translated score or the CSS class value.
@@ -110,28 +118,28 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 * @return array
 	 */
 	public function translate_score_provider() {
-		return array(
-			array( 0, true, 'na' ),
-			array( 1, true, 'bad' ),
-			array( 23, true, 'bad' ),
-			array( 40, true, 'bad' ),
-			array( 41, true, 'ok' ),
-			array( 55, true, 'ok' ),
-			array( 70, true, 'ok' ),
-			array( 71, true, 'good' ),
-			array( 83, true, 'good' ),
-			array( 100, true, 'good' ),
-			array( 0, false, 'Not available' ),
-			array( 1, false, 'Needs improvement' ),
-			array( 23, false, 'Needs improvement' ),
-			array( 40, false, 'Needs improvement' ),
-			array( 41, false, 'OK' ),
-			array( 55, false, 'OK' ),
-			array( 70, false, 'OK' ),
-			array( 71, false, 'Good' ),
-			array( 83, false, 'Good' ),
-			array( 100, false, 'Good' ),
-		);
+		return [
+			[ 0, true, 'na' ],
+			[ 1, true, 'bad' ],
+			[ 23, true, 'bad' ],
+			[ 40, true, 'bad' ],
+			[ 41, true, 'ok' ],
+			[ 55, true, 'ok' ],
+			[ 70, true, 'ok' ],
+			[ 71, true, 'good' ],
+			[ 83, true, 'good' ],
+			[ 100, true, 'good' ],
+			[ 0, false, 'Not available' ],
+			[ 1, false, 'Needs improvement' ],
+			[ 23, false, 'Needs improvement' ],
+			[ 40, false, 'Needs improvement' ],
+			[ 41, false, 'OK' ],
+			[ 55, false, 'OK' ],
+			[ 70, false, 'OK' ],
+			[ 71, false, 'Good' ],
+			[ 83, false, 'Good' ],
+			[ 100, false, 'Good' ],
+		];
 	}
 
 	/**
@@ -171,7 +179,7 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether the plugin is network-active or not.
 	 *
-	 * @covers WPSEO_Utils::is_plugin_network_active()
+	 * @covers WPSEO_Utils::is_plugin_network_active
 	 */
 	public function test_is_plugin_network_active() {
 		$this->assertFalse( WPSEO_Utils::is_plugin_network_active() );
@@ -213,11 +221,11 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 		$expected = preg_split( '/,\W*/', YOAST_SEO_ENABLED_FEATURES );
 
 		// Features we expect to be added by the filter.
-		$added_features = array( 'some functionality', 'other things' );
+		$added_features = [ 'some functionality', 'other things' ];
 		// Expected features are the ones in the PHP constant + the features added by the filter.
 		$expected = array_merge( $expected, $added_features );
 
-		add_filter( 'wpseo_enable_feature', array( $this, 'filter_wpseo_enable_feature' ) );
+		add_filter( 'wpseo_enable_feature', [ $this, 'filter_wpseo_enable_feature' ] );
 		$this->assertEquals( $expected, WPSEO_Utils::retrieve_enabled_features() );
 	}
 
@@ -229,10 +237,10 @@ class WPSEO_Utils_Test extends WPSEO_UnitTestCase {
 	 * @return array The filtered enabled features.
 	 */
 	public function filter_wpseo_enable_feature( $enabled_features ) {
-		$second_array = array(
+		$second_array = [
 			'some functionality',
 			'other things',
-		);
+		];
 
 		return array_merge( $enabled_features, $second_array );
 	}

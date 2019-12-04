@@ -11,6 +11,8 @@
 class WPSEO_Link_Table_Accessible_Notifier {
 
 	/**
+	 * Notification id.
+	 *
 	 * @var string
 	 */
 	const NOTIFICATION_ID = 'wpseo-links-table-not-accessible';
@@ -55,12 +57,12 @@ class WPSEO_Link_Table_Accessible_Notifier {
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/15o' ) . '">',
 				'</a>'
 			),
-			array(
+			[
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => self::NOTIFICATION_ID,
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
-			)
+			]
 		);
 	}
 }

@@ -26,6 +26,11 @@ module.exports = function( grunt ) {
 
 		"combine-pots-yoast-components": {
 			fromFiles: [
+				"<%= files.pot.yoastJsAnalysisReport %>",
+				"<%= files.pot.yoastJsComponents %>",
+				"<%= files.pot.yoastJsConfigurationWizard %>",
+				"<%= files.pot.yoastJsHelpers %>",
+				"<%= files.pot.yoastJsSearchMetadataPreviews %>",
 				"<%= files.pot.yoastComponentsConfigurationWizard %>",
 				"<%= files.pot.yoastComponentsRemaining %>",
 			],
@@ -44,6 +49,22 @@ module.exports = function( grunt ) {
 			},
 		},
 
+		"makepot-yoast-js-analysis-report": {
+			command: "yarn i18n-yoast-js-analysis-report",
+		},
+		"makepot-yoast-js-components": {
+			command: "yarn i18n-yoast-js-components",
+		},
+		"makepot-yoast-js-configuration-wizard": {
+			command: "yarn i18n-yoast-js-configuration-wizard",
+		},
+		"makepot-yoast-js-helpers": {
+			command: "yarn i18n-yoast-js-helpers",
+		},
+		"makepot-yoast-js-search-metadata-previews": {
+			command: "yarn i18n-yoast-js-search-metadata-previews",
+		},
+
 		"makepot-yoast-components-configuration-wizard": {
 			fromFiles: [
 				// On these 2 folders in yoast-components have the old i18n-calypso system.
@@ -51,7 +72,6 @@ module.exports = function( grunt ) {
 				"node_modules/yoast-components/composites/OnboardingWizard/**/*.js",
 
 				// Only these 3 files have the old i18n-calypso system:
-				"<%= paths.js %>components/ConnectGoogleSearchConsole.js",
 				"<%= paths.js %>components/MailchimpSignup.js",
 				"<%= paths.js %>components/MediaUpload.js",
 			],
@@ -104,7 +124,7 @@ module.exports = function( grunt ) {
 
 		"remove-prefixed-sources": {
 			command: "composer remove league/oauth2-client j4mie/idiorm pimple/pimple ruckusing/ruckusing-migrations psr/log " +
-			"--update-no-dev --optimize-autoloader",
+			"symfony/dependency-injection --update-no-dev --optimize-autoloader",
 		},
 
 		"composer-install-dev": {
@@ -129,6 +149,18 @@ module.exports = function( grunt ) {
 			command: "composer install",
 		},
 
+		"compile-dependency-injection-container": {
+			command: "composer compile-di",
+		},
+
+		"remove-dependency-injection-meta": {
+			command: "rm ./src/generated/container.php.meta",
+		},
+
+		"remove-vendor-prefixed-uses": {
+			command: "composer remove-vendor-prefixed-uses",
+		},
+
 		"php-lint": {
 			command: "find -L . " +
 				"-path ./vendor -prune -o " +
@@ -136,6 +168,10 @@ module.exports = function( grunt ) {
 				"-path ./node_modules -prune -o " +
 				"-path ./artifact -prune -o " +
 				"-name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l",
+		},
+
+		phpcs: {
+			command: "php ./vendor/squizlabs/php_codesniffer/scripts/phpcs",
 		},
 	};
 };

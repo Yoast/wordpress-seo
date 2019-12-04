@@ -1,28 +1,17 @@
 # Grunt aliases
 ---
-# Build everything
-build:
-  - 'build:css'
-  - 'build:images'
-  - 'build:js'
-  - 'build:i18n'
-# Build CSS from SCSS to production
-'build:sass':
-  - 'sass:build'
-'build:css':
-  - 'clean:build-assets-css'
-  - 'build:sass'
-  - 'postcss:build'
-  - 'rtlcss'
-  - 'cssmin'
-# Optimise images from source to production
-'build:images':
-  - 'imagemin'
 # Build JavaScript from assets to production
 'build:js':
   - 'clean:build-assets-js'
-  - 'copy:dependencies'
+  - 'copy:js-dependencies'
   - 'webpack:buildDev'
+# Build CSS from SCSS to production
+'build:css':
+  - 'clean:build-assets-css'
+  - 'copy:css-dependencies'
+  - 'sass:build'
+  - 'postcss:build'
+  - 'rtlcss:build'
 
 # Build internationalisation features
 'build:i18n':
@@ -35,6 +24,16 @@ build:
   - 'shell:makepot-yoast-components-configuration-wizard'
   - 'shell:makepot-wordpress-seo'
   - 'copy:makepot-wordpress-seo'
+  - 'shell:makepot-yoast-js-analysis-report'
+  - 'copy:makepot-yoast-js-analysis-report'
+  - 'shell:makepot-yoast-js-components'
+  - 'copy:makepot-yoast-js-components'
+  - 'shell:makepot-yoast-js-configuration-wizard'
+  - 'copy:makepot-yoast-js-configuration-wizard'
+  - 'shell:makepot-yoast-js-helpers'
+  - 'copy:makepot-yoast-js-helpers'
+  - 'shell:makepot-yoast-js-search-metadata-previews'
+  - 'copy:makepot-yoast-js-search-metadata-previews'
   - 'shell:makepot-yoast-components-remaining'
   - 'shell:combine-pots-yoast-components'
   - 'shell:makepot-yoastseojs'
@@ -57,19 +56,6 @@ clean:build-assets:
   - 'clean:build-assets-js'
   - 'clean:build-assets-css'
 
-# Check health of the project
-check:
-  - 'check:js'
-  - 'check:php'
-  - 'check:i18n'
-'check:js':
-  - 'eslint'
-'check:php':
-  - 'shell:php-lint'
-  - 'phpcs'
-'check:i18n':
-  - 'checktextdomain'
-
 # Update all versions except the stable tag
 'update-version-trunk':
   - 'update-version:pluginFile'
@@ -77,6 +63,8 @@ check:
 
 'artifact':
   - 'shell:production-prefix-dependencies'
+  - 'shell:compile-dependency-injection-container'
+  - 'shell:remove-dependency-injection-meta'
   - 'shell:composer-install-production'
   # Remove the folders that are already in the vendor_prefixed folder from the vendor folder.
   - 'shell:remove-prefixed-sources'
@@ -88,6 +76,7 @@ check:
   - 'copy:artifact'
   # Create a zip file
   - 'compress:artifact'
+  # There is no `clean:artifact` here because the `wp_deploy` needs the `artifact` folder.
   - 'restore-environment-after-artifact'
 
 'restore-environment-after-artifact':
@@ -102,19 +91,17 @@ check:
   - 'clean:composer-files'
   - 'copy:composer-files'
   - 'remove-vendor-prefixed-folder'
+  - 'shell:remove-vendor-prefixed-uses'
 
 # Get the project ready for release
 release:
-  - 'build:images'
   - 'clean:build-assets'
-  - 'release:css'
+  - 'build:images'
+  - 'build:css'
   - 'release:js'
   - 'build:i18n'
-'release:css':
-  - 'build:css'
-  - 'cssmin'
 'release:js':
-  - 'copy:dependencies'
+  - 'copy:js-dependencies'
   - 'webpack:buildProd'
 
 'deploy:trunk':

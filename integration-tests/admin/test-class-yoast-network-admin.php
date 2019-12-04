@@ -25,7 +25,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * @return void
 	 */
 	public static function wpSetUpBeforeClass( $factory ) {
-		self::$network_administrator = $factory->user->create( array( 'role' => 'administrator' ) );
+		self::$network_administrator = $factory->user->create( [ 'role' => 'administrator' ] );
 		grant_super_admin( self::$network_administrator );
 	}
 
@@ -54,12 +54,14 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @group ms-required
 	 *
-	 * @covers Yoast_Network_Admin::get_site_choices()
+	 * @covers Yoast_Network_Admin::get_site_choices
 	 */
 	public function test_get_site_choices() {
+		$this->skipWithoutMultisite();
+
 		$admin = new Yoast_Network_Admin();
 
-		$site_ids = array_map( 'strval', array_merge( array( get_current_blog_id() ), self::factory()->blog->create_many( 5 ) ) );
+		$site_ids = array_map( 'strval', array_merge( [ get_current_blog_id() ], self::factory()->blog->create_many( 5 ) ) );
 
 		$choices = $admin->get_site_choices();
 		$this->assertSame( $site_ids, array_map( 'strval', array_keys( $choices ) ) );
@@ -76,9 +78,11 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * @group yoastnetwork
 	 * @group ms-required
 	 *
-	 * @covers Yoast_Network_Admin::get_site_choices()
+	 * @covers Yoast_Network_Admin::get_site_choices
 	 */
 	public function test_get_site_choices_output() {
+		$this->skipWithoutMultisite();
+
 		$admin = new Yoast_Network_Admin();
 
 		$site = get_site();
@@ -99,9 +103,11 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	 * Tests getting a site's states.
 	 *
 	 * @group  ms-required
-	 * @covers Yoast_Network_Admin::get_site_states()
+	 * @covers Yoast_Network_Admin::get_site_states
 	 */
 	public function test_get_site_states() {
+		$this->skipWithoutMultisite();
+
 		if ( version_compare( $GLOBALS['wp_version'], '5.1', '>=' ) ) {
 			$this->markTestSkipped( 'Skipped because since WordPress 5.1 the hook wpmu_new_blog is deprecated' );
 
@@ -110,11 +116,11 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 
 		$admin = new Yoast_Network_Admin();
 
-		$active_states = array(
+		$active_states = [
 			'public' => '1',
 			'mature' => '1',
 			'spam'   => '1',
-		);
+		];
 
 		$site_id = self::factory()->blog->create();
 		update_blog_details( $site_id, $active_states );
@@ -126,12 +132,12 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests handling a request to update options.
 	 *
-	 * @covers Yoast_Network_Admin::handle_update_options_request()
+	 * @covers Yoast_Network_Admin::handle_update_options_request
 	 */
 	public function test_handle_update_options_request() {
 		$admin = $this
 			->getMockBuilder( 'Yoast_Network_Admin' )
-			->setMethods( array( 'verify_request', 'terminate_request' ) )
+			->setMethods( [ 'verify_request', 'terminate_request' ] )
 			->getMock();
 
 		$admin
@@ -149,12 +155,12 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests handling a request to restore a site's settings.
 	 *
-	 * @covers Yoast_Network_Admin::handle_restore_site_request()
+	 * @covers Yoast_Network_Admin::handle_restore_site_request
 	 */
 	public function test_handle_restore_site_request() {
 		$admin = $this
 			->getMockBuilder( 'Yoast_Network_Admin' )
-			->setMethods( array( 'verify_request', 'terminate_request' ) )
+			->setMethods( [ 'verify_request', 'terminate_request' ] )
 			->getMock();
 
 		$admin
@@ -172,7 +178,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests output for hidden settings fields.
 	 *
-	 * @covers Yoast_Network_Admin::settings_fields()
+	 * @covers Yoast_Network_Admin::settings_fields
 	 */
 	public function test_settings_fields() {
 		$admin = new Yoast_Network_Admin();
@@ -192,11 +198,11 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests registering main hooks.
 	 *
-	 * @covers Yoast_Network_Admin::register_hooks()
+	 * @covers Yoast_Network_Admin::register_hooks
 	 */
 	public function test_register_hooks() {
 		$admin = $this->getMockBuilder( 'Yoast_Network_Admin' )
-			->setMethods( array( 'meets_requirements' ) )
+			->setMethods( [ 'meets_requirements' ] )
 			->getMock();
 
 		$admin
@@ -205,27 +211,27 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 			->will( $this->returnValue( true ) );
 
 		$admin->register_hooks();
-		$this->assertInternalType( 'int', has_action( 'admin_action_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, array( $admin, 'handle_update_options_request' ) ) );
-		$this->assertInternalType( 'int', has_action( 'admin_action_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, array( $admin, 'handle_restore_site_request' ) ) );
+		$this->assertInternalType( 'int', has_action( 'admin_action_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, [ $admin, 'handle_update_options_request' ] ) );
+		$this->assertInternalType( 'int', has_action( 'admin_action_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, [ $admin, 'handle_restore_site_request' ] ) );
 	}
 
 	/**
 	 * Tests registering AJAX hooks.
 	 *
-	 * @covers Yoast_Network_Admin::register_ajax_hooks()
+	 * @covers Yoast_Network_Admin::register_ajax_hooks
 	 */
 	public function test_register_ajax_hooks() {
 		$admin = new Yoast_Network_Admin();
 
 		$admin->register_ajax_hooks();
-		$this->assertInternalType( 'int', has_action( 'wp_ajax_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, array( $admin, 'handle_update_options_request' ) ) );
-		$this->assertInternalType( 'int', has_action( 'wp_ajax_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, array( $admin, 'handle_restore_site_request' ) ) );
+		$this->assertInternalType( 'int', has_action( 'wp_ajax_' . Yoast_Network_Admin::UPDATE_OPTIONS_ACTION, [ $admin, 'handle_update_options_request' ] ) );
+		$this->assertInternalType( 'int', has_action( 'wp_ajax_' . Yoast_Network_Admin::RESTORE_SITE_ACTION, [ $admin, 'handle_restore_site_request' ] ) );
 	}
 
 	/**
 	 * Tests checking requirements for the network settings API.
 	 *
-	 * @covers Yoast_Network_Admin::meets_requirements()
+	 * @covers Yoast_Network_Admin::meets_requirements
 	 */
 	public function test_meets_requirements() {
 		$admin = new Yoast_Network_Admin();
@@ -237,7 +243,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests verifying a request with an invalid nonce.
 	 *
-	 * @covers Yoast_Network_Admin::verify_request()
+	 * @covers Yoast_Network_Admin::verify_request
 	 */
 	public function test_verify_request_with_invalid_nonce() {
 		$admin = new Yoast_Network_Admin();
@@ -257,7 +263,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests verifying a request with a valid nonce, but lacking capabilities.
 	 *
-	 * @covers Yoast_Network_Admin::verify_request()
+	 * @covers Yoast_Network_Admin::verify_request
 	 */
 	public function test_verify_request_with_valid_nonce_but_lacking_caps() {
 		$admin = new Yoast_Network_Admin();
@@ -272,7 +278,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests verifying a request with a valid nonce and the required capabilities.
 	 *
-	 * @covers Yoast_Network_Admin::verify_request()
+	 * @covers Yoast_Network_Admin::verify_request
 	 */
 	public function test_verify_request_with_valid_nonce_and_caps() {
 		$admin = new Yoast_Network_Admin();
@@ -295,13 +301,13 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests verifying an AJAX request with an invalid nonce.
 	 *
-	 * @covers Yoast_Network_Admin::verify_request()
+	 * @covers Yoast_Network_Admin::verify_request
 	 */
 	public function test_verify_request_ajax_with_invalid_nonce() {
 		$admin = new Yoast_Network_Admin();
 
 		add_filter( 'wp_doing_ajax', '__return_true' );
-		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler' ) );
+		add_filter( 'wp_die_ajax_handler', [ $this, 'get_wp_die_handler' ] );
 
 		$_REQUEST['_wpnonce'] = '';
 
@@ -312,13 +318,13 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests verifying an AJAX request with a valid nonce, but lacking capabilities.
 	 *
-	 * @covers Yoast_Network_Admin::verify_request()
+	 * @covers Yoast_Network_Admin::verify_request
 	 */
 	public function test_verify_request_ajax_with_valid_nonce_but_lacking_caps() {
 		$admin = new Yoast_Network_Admin();
 
 		add_filter( 'wp_doing_ajax', '__return_true' );
-		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler' ) );
+		add_filter( 'wp_die_ajax_handler', [ $this, 'get_wp_die_handler' ] );
 
 		$_REQUEST['_wpnonce'] = wp_create_nonce( 'my_action' );
 
@@ -329,13 +335,13 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests verifying an AJAX request with a valid nonce and the required capabilities.
 	 *
-	 * @covers Yoast_Network_Admin::verify_request()
+	 * @covers Yoast_Network_Admin::verify_request
 	 */
 	public function test_verify_request_ajax_with_valid_nonce_and_caps() {
 		$admin = new Yoast_Network_Admin();
 
 		add_filter( 'wp_doing_ajax', '__return_true' );
-		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler' ) );
+		add_filter( 'wp_die_ajax_handler', [ $this, 'get_wp_die_handler' ] );
 
 		wp_set_current_user( self::$network_administrator );
 		wp_get_current_user()->add_cap( 'wpseo_manage_network_options' );
@@ -354,12 +360,12 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests terminating a request.
 	 *
-	 * @covers Yoast_Network_Admin::terminate_request()
+	 * @covers Yoast_Network_Admin::terminate_request
 	 */
 	public function test_terminate_request() {
 		$admin = $this
 			->getMockBuilder( 'Yoast_Network_Admin' )
-			->setMethods( array( 'persist_settings_errors', 'redirect_back' ) )
+			->setMethods( [ 'persist_settings_errors', 'redirect_back' ] )
 			->getMock();
 
 		$admin
@@ -369,7 +375,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$admin
 			->expects( $this->once() )
 			->method( 'redirect_back' )
-			->with( array( 'settings-updated' => 'true' ) );
+			->with( [ 'settings-updated' => 'true' ] );
 
 		$admin->terminate_request();
 	}
@@ -377,7 +383,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests terminating an AJAX request.
 	 *
-	 * @covers Yoast_Network_Admin::terminate_request()
+	 * @covers Yoast_Network_Admin::terminate_request
 	 *
 	 * @throws \WPDieException For test purposes.
 	 */
@@ -385,7 +391,7 @@ class Yoast_Network_Admin_Test extends WPSEO_UnitTestCase {
 		$admin = new Yoast_Network_Admin();
 
 		add_filter( 'wp_doing_ajax', '__return_true' );
-		add_filter( 'wp_die_ajax_handler', array( $this, 'get_wp_die_handler' ) );
+		add_filter( 'wp_die_ajax_handler', [ $this, 'get_wp_die_handler' ] );
 
 		$_REQUEST['_wpnonce'] = wp_create_nonce( 'my_action' );
 

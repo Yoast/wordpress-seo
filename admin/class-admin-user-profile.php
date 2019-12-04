@@ -15,12 +15,12 @@ class WPSEO_Admin_User_Profile {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		add_action( 'show_user_profile', array( $this, 'user_profile' ) );
-		add_action( 'edit_user_profile', array( $this, 'user_profile' ) );
-		add_action( 'personal_options_update', array( $this, 'process_user_option_update' ) );
-		add_action( 'edit_user_profile_update', array( $this, 'process_user_option_update' ) );
+		add_action( 'show_user_profile', [ $this, 'user_profile' ] );
+		add_action( 'edit_user_profile', [ $this, 'user_profile' ] );
+		add_action( 'personal_options_update', [ $this, 'process_user_option_update' ] );
+		add_action( 'edit_user_profile_update', [ $this, 'process_user_option_update' ] );
 
-		add_action( 'update_user_meta', array( $this, 'clear_author_sitemap_cache' ), 10, 3 );
+		add_action( 'update_user_meta', [ $this, 'clear_author_sitemap_cache' ], 10, 3 );
 	}
 
 	/**
@@ -34,7 +34,7 @@ class WPSEO_Admin_User_Profile {
 	 */
 	public function clear_author_sitemap_cache( $meta_id, $object_id, $meta_key ) {
 		if ( '_yoast_wpseo_profile_updated' === $meta_key ) {
-			WPSEO_Sitemaps_Cache::clear( array( 'author' ) );
+			WPSEO_Sitemaps_Cache::clear( [ 'author' ] );
 		}
 	}
 

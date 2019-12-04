@@ -1,6 +1,6 @@
 // See https://github.com/gruntjs/grunt-contrib-copy
 module.exports = {
-	dependencies: {
+	"js-dependencies": {
 		files: [
 			{
 				expand: true,
@@ -8,6 +8,10 @@ module.exports = {
 				src: [ "select2.full.min.js", "i18n/*", "!i18n/build.txt" ],
 				dest: "js/dist/select2/",
 			},
+		],
+	},
+	"css-dependencies": {
+		files: [
 			{
 				expand: true,
 				cwd: "node_modules/select2/dist/css/",
@@ -42,6 +46,27 @@ module.exports = {
 		src: "gettext.pot",
 		dest: "<%= files.pot.wordpressSeoJs %>",
 	},
+	"makepot-yoast-js-analysis-report": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsAnalysisReport %>",
+	},
+	"makepot-yoast-js-components": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsComponents %>",
+	},
+	"makepot-yoast-js-configuration-wizard": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsConfigurationWizard %>",
+	},
+	"makepot-yoast-js-helpers": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsHelpers %>",
+	},
+	"makepot-yoast-js-search-metadata-previews": {
+		src: "gettext.pot",
+		dest: "<%= files.pot.yoastJsSearchMetadataPreviews %>",
+	},
+
 	// The default de_CH is formal on WordPress.org, but that one is not translated enough for wordpress-seo.
 	// So we need to copy the `-informal` so we have a good translation.
 	"de_CH-informal": {
@@ -63,7 +88,8 @@ module.exports = {
 				cwd: ".",
 				src: [
 					"admin/**",
-					"css/**/*.min.css",
+					"config/**",
+					"css/**/*.css",
 					"css/main-sitemap.xsl",
 					"deprecated/**",
 					"frontend/**",
@@ -79,6 +105,7 @@ module.exports = {
 					"vendor_prefixed/**/*.php",
 					"vendor_prefixed/dependencies-prefixed.txt",
 					"migrations/*.php",
+					"migrations/ruckusing/**/why",
 					"index.php",
 					"license.txt",
 					"readme.txt",

@@ -15,7 +15,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if data can be stored.
 	 *
-	 * @covers WPSEO_Meta::set_value()
+	 * @covers WPSEO_Meta::set_value
 	 */
 	public function test_set_value() {
 		// Create and go to post.
@@ -29,7 +29,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if data can be retrieved.
 	 *
-	 * @covers WPSEO_Meta::get_value()
+	 * @covers WPSEO_Meta::get_value
 	 */
 	public function test_get_value() {
 
@@ -55,8 +55,8 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @see self::test_get_value_unregistered_field_serialized()
 	 *
-	 * @covers WPSEO_Meta::set_value()
-	 * @covers WPSEO_Meta::get_value()
+	 * @covers WPSEO_Meta::set_value
+	 * @covers WPSEO_Meta::get_value
 	 */
 	public function test_get_value_non_registered_field() {
 
@@ -80,7 +80,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 * data cannot be confirmed to be expected and thus an empty string will
 	 * be returned.
 	 *
-	 * @covers WPSEO_Meta::get_value()
+	 * @covers WPSEO_Meta::get_value
 	 */
 	public function test_get_value_unregistered_field_serialized() {
 
@@ -91,7 +91,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		$key = 'non_registered_key_array';
 
 		// The field exists on the post - because it will be saved.
-		update_post_meta( $post_id, WPSEO_Meta::$meta_prefix . $key, array( 'some_value' ) );
+		update_post_meta( $post_id, WPSEO_Meta::$meta_prefix . $key, [ 'some_value' ] );
 
 		// As the field is not registered, we should ignore the value in the database.
 		$this->assertEquals( '', WPSEO_Meta::get_value( $key ) );
@@ -100,7 +100,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if a non existing key returns an empty string.
 	 *
-	 * @covers WPSEO_Meta::get_value()
+	 * @covers WPSEO_Meta::get_value
 	 */
 	public function test_get_value_non_existing_key() {
 
@@ -116,7 +116,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests if data with slashes remains the same after storing.
 	 *
-	 * @covers WPSEO_Meta::get_value()
+	 * @covers WPSEO_Meta::get_value
 	 */
 	public function test_set_value_slashed() {
 		$post_id = $this->factory->post->create();
@@ -135,8 +135,8 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 * Tests if data, registered as serialized, with slashes remains the same
 	 * after storing.
 	 *
-	 * @covers WPSEO_Meta::set_value()
-	 * @covers WPSEO_Meta::get_value()
+	 * @covers WPSEO_Meta::set_value
+	 * @covers WPSEO_Meta::get_value
 	 */
 	public function test_get_and_set_value_slashed_array() {
 		$post_id = $this->factory->post->create();
@@ -145,7 +145,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		$key = 'test_set_value_key_slashed_array';
 		$this->register_meta_key( $key, true );
 
-		$value = array( 'k\"ey' => '""slashed data" \\"' );
+		$value = [ 'k\"ey' => '""slashed data" \\"' ];
 
 		WPSEO_Meta::set_value( $key, $value, $post_id );
 		$this->assertEquals( $value, WPSEO_Meta::get_value( $key, $post_id ) );
@@ -155,8 +155,8 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 * Tests if serialized data, registered as serialized, with slashes remains
 	 * the same after storing.
 	 *
-	 * @covers WPSEO_Meta::set_value()
-	 * @covers WPSEO_Meta::get_value()
+	 * @covers WPSEO_Meta::set_value
+	 * @covers WPSEO_Meta::get_value
 	 */
 	public function test_get_and_set_value_serialized_and_slashed_array() {
 		$post_id = $this->factory->post->create();
@@ -165,7 +165,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		$key = 'test_set_value_key_slashed_array';
 		$this->register_meta_key( $key, true );
 
-		$array = array( 'ke\\y' => '""slashed data" \\"' );
+		$array = [ 'ke\\y' => '""slashed data" \\"' ];
 		$value = serialize( $array );
 
 		WPSEO_Meta::set_value( $key, $value, $post_id );
@@ -214,7 +214,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 
 		// Default post meta should not be saved.
 		$meta_value = get_post_meta( $post_id, $key );
-		$this->assertEquals( array(), $meta_value );
+		$this->assertEquals( [], $meta_value );
 	}
 
 	/**
@@ -236,17 +236,17 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_array_merge_recursive_distinct() {
 
-		$input_array1 = array(
-			'one' => array(
-				'one-one' => array(),
-			),
-		);
+		$input_array1 = [
+			'one' => [
+				'one-one' => [],
+			],
+		];
 
-		$input_array2 = array(
-			'one' => array(
+		$input_array2 = [
+			'one' => [
 				'one-one' => 'string',
-			),
-		);
+			],
+		];
 
 		$output = WPSEO_Meta::array_merge_recursive_distinct( $input_array1, $input_array2 );
 		$this->assertEquals( $output['one']['one-one'], 'string' );
@@ -259,26 +259,6 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_validate_meta_robots_adv() {
 
-		// None should take precedence.
-		$this->assertEquals(
-			'none',
-			WPSEO_Meta::validate_meta_robots_adv( 'none, something-invalid, noarchive' )
-		);
-		$this->assertEquals(
-			'none',
-			WPSEO_Meta::validate_meta_robots_adv( array( 'none', 'something-invalid', 'noarchive' ) )
-		);
-
-		// The '-' option should take precedence.
-		$this->assertEquals(
-			'-',
-			WPSEO_Meta::validate_meta_robots_adv( '-, something-invalid, noarchive' )
-		);
-		$this->assertEquals(
-			'-',
-			WPSEO_Meta::validate_meta_robots_adv( array( '-', 'something-invalid', 'noarchive' ) )
-		);
-
 		// String should be cleaned.
 		$this->assertEquals(
 			'noarchive,nosnippet',
@@ -286,7 +266,7 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 		);
 		$this->assertEquals(
 			'noarchive,nosnippet',
-			WPSEO_Meta::validate_meta_robots_adv( array( 'noarchive', 'nosnippet' ) )
+			WPSEO_Meta::validate_meta_robots_adv( [ 'noarchive', 'nosnippet' ] )
 		);
 	}
 
@@ -299,16 +279,16 @@ class WPSEO_Meta_Test extends WPSEO_UnitTestCase {
 	 * @return void
 	 */
 	protected function register_meta_key( $key, $serialized = false ) {
-		WPSEO_Meta::$fields_index[ WPSEO_Meta::$meta_prefix . $key ] = array(
+		WPSEO_Meta::$fields_index[ WPSEO_Meta::$meta_prefix . $key ] = [
 			'subset' => 'test',
 			'key'    => $key,
-		);
+		];
 
-		WPSEO_Meta::$meta_fields['test'] = array(
-			$key => array(
+		WPSEO_Meta::$meta_fields['test'] = [
+			$key => [
 				'type'       => 'hidden',
 				'serialized' => $serialized,
-			),
-		);
+			],
+		];
 	}
 }

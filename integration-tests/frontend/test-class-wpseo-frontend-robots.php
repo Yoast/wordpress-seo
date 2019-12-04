@@ -33,7 +33,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 *
 	 * @todo Test post type archives.
 	 * @todo Test with page_for_posts option.
@@ -45,11 +45,11 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->go_to( get_home_url() );
 
 		// Test home page with no special options.
-		$this->assertEquals( '', self::$class_instance->robots() );
+		$this->assertEquals( 'max-snippet:-1, max-image-preview:large, max-video-preview:-1', self::$class_instance->robots() );
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_robots_on_private_blog() {
 		// Go to home.
@@ -64,7 +64,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_with_replytocom_attribute() {
 		// Go to home.
@@ -80,7 +80,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_subpages_with_robots_using_default_state() {
 		// Go to home.
@@ -88,12 +88,12 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Test 'paged' query var.
 		set_query_var( 'paged', 2 );
-		$this->assertEquals( '', self::$class_instance->robots() );
+		$this->assertEquals( 'max-snippet:-1, max-image-preview:large, max-video-preview:-1', self::$class_instance->robots() );
 		set_query_var( 'paged', 0 );
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_post_robots_default_state() {
 		WPSEO_Options::set( 'noindex-post', false );
@@ -103,12 +103,12 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->go_to( get_permalink( $post_id ) );
 
 		// Test regular post with no special options.
-		$expected = '';
+		$expected = 'max-snippet:-1, max-image-preview:large, max-video-preview:-1';
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_post_noindex() {
 		// Create and go to post.
@@ -121,11 +121,24 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
+	 */
+	public function test_post_nosnippet() {
+		// Create and go to post.
+		$post_id = $this->factory->post->create();
+		$this->go_to( get_permalink( $post_id ) );
+
+		// Test nosnippet option.
+		WPSEO_Meta::set_value( 'meta-robots-adv', 'nosnippet', $post_id );
+		$this->assertEquals( 'nosnippet', self::$class_instance->robots() );
+	}
+
+	/**
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_private_post() {
 		// Create and go to post.
-		$post_id = $this->factory->post->create( array( 'post_status' => 'private' ) );
+		$post_id = $this->factory->post->create( [ 'post_status' => 'private' ] );
 		$this->go_to( get_permalink( $post_id ) );
 
 		// Test private posts.
@@ -133,7 +146,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_category() {
 		// Go to category page.
@@ -141,18 +154,18 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		flush_rewrite_rules();
 
 		// Add posts to category.
-		$this->factory->post->create_many( 6, array( 'post_category' => array( $category_id ) ) );
+		$this->factory->post->create_many( 6, [ 'post_category' => [ $category_id ] ] );
 
 		$category_link = get_category_link( $category_id );
 		$this->go_to( $category_link );
 
 		// Test regular category with no special options.
-		$expected = '';
+		$expected = 'max-snippet:-1, max-image-preview:large, max-video-preview:-1';
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_category_noindex() {
 		// Go to category page.
@@ -160,7 +173,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		flush_rewrite_rules();
 
 		// Add posts to category.
-		$this->factory->post->create_many( 6, array( 'post_category' => array( $category_id ) ) );
+		$this->factory->post->create_many( 6, [ 'post_category' => [ $category_id ] ] );
 
 		$category_link = get_category_link( $category_id );
 		$this->go_to( $category_link );
@@ -175,24 +188,26 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_author_archive() {
 		// Go to author page.
 		$user_id = $this->factory->user->create();
+		$this->factory->post->create_many( 1, array( 'post_author' => $user_id ) );
 		$this->go_to( get_author_posts_url( $user_id ) );
 
 		// Test author archive with no special options.
-		$expected = '';
+		$expected = 'max-snippet:-1, max-image-preview:large, max-video-preview:-1';
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 	}
 
 	/**
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_author_archive_noindex() {
 		// Go to author page.
 		$user_id = $this->factory->user->create();
+		$this->factory->post->create_many( 1, array( 'post_author' => $user_id ) );
 		$this->go_to( get_author_posts_url( $user_id ) );
 
 		// Test author archive with 'noindex-author-wpseo'.
@@ -207,11 +222,12 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	/**
 	 * Tests whether an author, when set to not appear in search results, gets a noindex.
 	 *
-	 * @covers WPSEO_Frontend::robots()
+	 * @covers WPSEO_Frontend::robots
 	 */
 	public function test_individual_archive_noindex() {
 		// Go to author page.
 		$user_id = $this->factory->user->create();
+		$this->factory->post->create_many( 1, array( 'post_author' => $user_id ) );
 		update_user_meta( $user_id, 'wpseo_noindex_author', 'on' );
 		$this->go_to( get_author_posts_url( $user_id ) );
 
@@ -220,8 +236,9 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Test that when this is _not_ set, we also do NOT have a noindex.
 		$user_id = $this->factory->user->create();
+		$this->factory->post->create_many( 1, array( 'post_author' => $user_id ) );
 		$this->go_to( get_author_posts_url( $user_id ) );
-		$expected = ''; // The default "index,follow" is automatically set to empty string.
+		$expected = 'max-snippet:-1, max-image-preview:large, max-video-preview:-1'; // The default "index,follow" is automatically set to empty string.
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 	}
 
@@ -252,11 +269,11 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		$post_id = $this->factory->post->create();
 		$this->go_to( get_permalink( $post_id ) );
 
-		$robots   = array(
+		$robots   = [
 			'index'  => 'index',
 			'follow' => 'follow',
-			'other'  => array(),
-		);
+			'other'  => [],
+		];
 		$expected = $robots;
 
 		// Test noindex.
@@ -271,7 +288,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 
 		// Test meta-robots adv nosnippet.
 		WPSEO_Meta::set_value( 'meta-robots-adv', 'nosnippet', $post_id );
-		$expected['other'] = array( 'nosnippet' );
+		$expected['other'] = [ 'nosnippet' ];
 		$this->assertEquals( $expected, self::$class_instance->robots_for_single_post( $robots, $post_id ) );
 
 		WPSEO_Meta::set_value( 'meta-robots-noindex', '2', $post_id );
@@ -284,6 +301,9 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 	 */
 	public function test_noindex_page() {
 		$expected = '<meta name="robots" content="noindex" />' . "\n";
-		$this->expectOutput( $expected, self::$class_instance->noindex_page() );
+
+		self::$class_instance->noindex_page();
+
+		$this->expectOutput( $expected );
 	}
 }

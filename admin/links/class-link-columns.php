@@ -25,6 +25,8 @@ class WPSEO_Link_Columns {
 	const COLUMN_LINKS = 'links';
 
 	/**
+	 * Holds the link column count instance.
+	 *
 	 * @var WPSEO_Link_Column_Count
 	 */
 	protected $link_count;
@@ -41,7 +43,7 @@ class WPSEO_Link_Columns {
 	 *
 	 * @var array
 	 */
-	protected $public_post_types = array();
+	protected $public_post_types = [];
 
 	/**
 	 * WPSEO_Link_Columns constructor.
@@ -69,16 +71,16 @@ class WPSEO_Link_Columns {
 		}
 
 		if ( $is_ajax_request ) {
-			add_action( 'admin_init', array( $this, 'set_count_objects' ) );
+			add_action( 'admin_init', [ $this, 'set_count_objects' ] );
 		}
 
 		// Hook into tablenav to calculate links and linked.
-		add_action( 'manage_posts_extra_tablenav', array( $this, 'count_objects' ) );
+		add_action( 'manage_posts_extra_tablenav', [ $this, 'count_objects' ] );
 
-		add_filter( 'posts_clauses', array( $this, 'order_by_links' ), 1, 2 );
-		add_filter( 'posts_clauses', array( $this, 'order_by_linked' ), 1, 2 );
+		add_filter( 'posts_clauses', [ $this, 'order_by_links' ], 1, 2 );
+		add_filter( 'posts_clauses', [ $this, 'order_by_linked' ], 1, 2 );
 
-		add_filter( 'admin_init', array( $this, 'register_init_hooks' ) );
+		add_filter( 'admin_init', [ $this, 'register_init_hooks' ] );
 	}
 
 	/**
@@ -87,8 +89,8 @@ class WPSEO_Link_Columns {
 	public function register_init_hooks() {
 		$this->public_post_types = apply_filters( 'wpseo_link_count_post_types', WPSEO_Post_Type::get_accessible_post_types() );
 
-		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
-			array_walk( $this->public_post_types, array( $this, 'set_post_type_hooks' ) );
+		if ( is_array( $this->public_post_types ) && $this->public_post_types !== [] ) {
+			array_walk( $this->public_post_types, [ $this, 'set_post_type_hooks' ] );
 		}
 	}
 
@@ -145,7 +147,7 @@ class WPSEO_Link_Columns {
 		$order = strtoupper( $query->get( 'order' ) );
 
 		// Make sure the order setting qualifies. If not, set default as ASC.
-		if ( ! in_array( $order, array( 'ASC', 'DESC' ), true ) ) {
+		if ( ! in_array( $order, [ 'ASC', 'DESC' ], true ) ) {
 			$order = 'ASC';
 		}
 
@@ -163,9 +165,9 @@ class WPSEO_Link_Columns {
 	 * @param string $post_type The post type.
 	 */
 	public function set_post_type_hooks( $post_type ) {
-		add_filter( 'manage_' . $post_type . '_posts_columns', array( $this, 'add_post_columns' ) );
-		add_action( 'manage_' . $post_type . '_posts_custom_column', array( $this, 'column_content' ), 10, 2 );
-		add_filter( 'manage_edit-' . $post_type . '_sortable_columns', array( $this, 'column_sort' ) );
+		add_filter( 'manage_' . $post_type . '_posts_columns', [ $this, 'add_post_columns' ] );
+		add_action( 'manage_' . $post_type . '_posts_custom_column', [ $this, 'column_content' ], 10, 2 );
+		add_filter( 'manage_edit-' . $post_type . '_sortable_columns', [ $this, 'column_sort' ] );
 	}
 
 	/**
@@ -214,8 +216,8 @@ class WPSEO_Link_Columns {
 	public function set_count_objects() {
 		global $wp_query;
 
-		$posts    = $wp_query->get_posts();
-		$post_ids = array();
+		$posts    = empty( $wp_query->posts ) ? $wp_query->get_posts() : $wp_query->posts;
+		$post_ids = [];
 
 		// Post lists return a list of objects.
 		if ( isset( $posts[0] ) && is_object( $posts[0] ) ) {

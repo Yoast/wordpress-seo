@@ -11,7 +11,6 @@
  * @todo This class could use a general description with some explanation on sitemaps. OR.
  */
 class WPSEO_Sitemaps {
-
 	/**
 	 * Sitemap index identifier.
 	 *
@@ -57,11 +56,15 @@ class WPSEO_Sitemaps {
 	private $current_page = 1;
 
 	/**
+	 * The timezone.
+	 *
 	 * @var WPSEO_Sitemap_Timezone
 	 */
 	private $timezone;
 
 	/**
+	 * The sitemaps router.
+	 *
 	 * @since 3.2
 	 *
 	 * @var WPSEO_Sitemaps_Router
@@ -69,6 +72,8 @@ class WPSEO_Sitemaps {
 	public $router;
 
 	/**
+	 * The sitemap renderer.
+	 *
 	 * @since 3.2
 	 *
 	 * @var WPSEO_Sitemaps_Renderer
@@ -76,6 +81,8 @@ class WPSEO_Sitemaps {
 	public $renderer;
 
 	/**
+	 * The sitemap cache.
+	 *
 	 * @since 3.2
 	 *
 	 * @var WPSEO_Sitemaps_Cache
@@ -83,6 +90,8 @@ class WPSEO_Sitemaps {
 	public $cache;
 
 	/**
+	 * The sitemap providers.
+	 *
 	 * @since 3.2
 	 *
 	 * @var WPSEO_Sitemap_Provider[]
@@ -94,11 +103,11 @@ class WPSEO_Sitemaps {
 	 */
 	public function __construct() {
 
-		add_action( 'after_setup_theme', array( $this, 'init_sitemaps_providers' ) );
-		add_action( 'after_setup_theme', array( $this, 'reduce_query_load' ), 99 );
-		add_action( 'pre_get_posts', array( $this, 'redirect' ), 1 );
-		add_action( 'wpseo_hit_sitemap_index', array( $this, 'hit_sitemap_index' ) );
-		add_action( 'wpseo_ping_search_engines', array( __CLASS__, 'ping_search_engines' ) );
+		add_action( 'after_setup_theme', [ $this, 'init_sitemaps_providers' ] );
+		add_action( 'after_setup_theme', [ $this, 'reduce_query_load' ], 99 );
+		add_action( 'pre_get_posts', [ $this, 'redirect' ], 1 );
+		add_action( 'wpseo_hit_sitemap_index', [ $this, 'hit_sitemap_index' ] );
+		add_action( 'wpseo_ping_search_engines', [ __CLASS__, 'ping_search_engines' ] );
 
 		$this->timezone = new WPSEO_Sitemap_Timezone();
 		$this->router   = new WPSEO_Sitemaps_Router();
@@ -117,13 +126,13 @@ class WPSEO_Sitemaps {
 	 */
 	public function init_sitemaps_providers() {
 
-		$this->providers = array(
+		$this->providers = [
 			new WPSEO_Post_Type_Sitemap_Provider(),
 			new WPSEO_Taxonomy_Sitemap_Provider(),
 			new WPSEO_Author_Sitemap_Provider(),
-		);
+		];
 
-		$external_providers = apply_filters( 'wpseo_sitemaps_providers', array() );
+		$external_providers = apply_filters( 'wpseo_sitemaps_providers', [] );
 
 		foreach ( $external_providers as $provider ) {
 			if ( is_object( $provider ) && $provider instanceof WPSEO_Sitemap_Provider ) {
@@ -136,15 +145,12 @@ class WPSEO_Sitemaps {
 	 * Check the current request URI, if we can determine it's probably an XML sitemap, kill loading the widgets.
 	 */
 	public function reduce_query_load() {
-
 		if ( ! isset( $_SERVER['REQUEST_URI'] ) ) {
 			return;
 		}
-
 		$request_uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 		$extension   = substr( $request_uri, -4 );
-
-		if ( false !== stripos( $request_uri, 'sitemap' ) && in_array( $extension, array( '.xml', '.xsl' ), true ) ) {
+		if ( false !== stripos( $request_uri, 'sitemap' ) && in_array( $extension, [ '.xml', '.xsl' ], true ) ) {
 			remove_all_actions( 'widgets_init' );
 		}
 	}
@@ -356,10 +362,12 @@ class WPSEO_Sitemaps {
 				$links = $provider->get_sitemap_links( $type, $entries_per_page, $this->current_page );
 			} catch ( OutOfBoundsException $exception ) {
 				$this->bad_sitemap = true;
+
 				return;
 			}
 
 			$this->sitemap = $this->renderer->get_sitemap( $links, $type, $this->current_page );
+
 			return;
 		}
 
@@ -380,7 +388,7 @@ class WPSEO_Sitemaps {
 	 */
 	public function build_root_map() {
 
-		$links            = array();
+		$links            = [];
 		$entries_per_page = $this->get_entries_per_page();
 
 		foreach ( $this->providers as $provider ) {
@@ -431,17 +439,10 @@ class WPSEO_Sitemaps {
 	}
 
 	/**
-	 * Spit out the generated sitemap and relevant headers and encoding information.
+	 * Spit out the generated sitemap.
 	 */
 	public function output() {
-
-		if ( ! headers_sent() ) {
-			header( $this->http_protocol . ' 200 OK', true, 200 );
-			// Prevent the search engines from indexing the XML Sitemap.
-			header( 'X-Robots-Tag: noindex, follow', true );
-			header( 'Content-Type: text/xml; charset=' . esc_attr( $this->renderer->get_output_charset() ) );
-		}
-
+		$this->send_headers();
 		echo $this->renderer->get_output( $this->sitemap, $this->transient );
 	}
 
@@ -475,7 +476,7 @@ class WPSEO_Sitemaps {
 		static $post_type_dates = null;
 
 		if ( ! is_array( $post_types ) ) {
-			$post_types = array( $post_types );
+			$post_types = [ $post_types ];
 		}
 
 		foreach ( $post_types as $post_type ) {
@@ -487,10 +488,8 @@ class WPSEO_Sitemaps {
 
 		if ( is_null( $post_type_dates ) ) {
 
-			$post_type_dates = array();
-
-			// Consider using WPSEO_Post_Type::get_accessible_post_types() to filter out any `no-index` post-types.
-			$post_type_names = get_post_types( array( 'public' => true ) );
+			$post_type_dates = [];
+			$post_type_names = WPSEO_Post_Type::get_accessible_post_types();
 
 			if ( ! empty( $post_type_names ) ) {
 				$post_statuses = array_map( 'esc_sql', self::get_post_statuses() );
@@ -560,8 +559,8 @@ class WPSEO_Sitemaps {
 		}
 
 		// Ping Google and Bing.
-		wp_remote_get( 'http://www.google.com/webmasters/tools/ping?sitemap=' . $url, array( 'blocking' => false ) );
-		wp_remote_get( 'http://www.bing.com/ping?sitemap=' . $url, array( 'blocking' => false ) );
+		wp_remote_get( 'https://www.google.com/ping?sitemap=' . $url, [ 'blocking' => false ] );
+		wp_remote_get( 'https://www.bing.com/ping?sitemap=' . $url, [ 'blocking' => false ] );
 	}
 
 	/**
@@ -599,10 +598,10 @@ class WPSEO_Sitemaps {
 		 * @param array  $post_statuses Post status list, defaults to array( 'publish' ).
 		 * @param string $type          Post type or SITEMAP_INDEX_TYPE.
 		 */
-		$post_statuses = apply_filters( 'wpseo_sitemap_post_statuses', array( 'publish' ), $type );
+		$post_statuses = apply_filters( 'wpseo_sitemap_post_statuses', [ 'publish' ], $type );
 
 		if ( ! is_array( $post_statuses ) || empty( $post_statuses ) ) {
-			$post_statuses = array( 'publish' );
+			$post_statuses = [ 'publish' ];
 		}
 
 		if ( ( $type === self::SITEMAP_INDEX_TYPE || $type === 'attachment' )
@@ -612,5 +611,36 @@ class WPSEO_Sitemaps {
 		}
 
 		return $post_statuses;
+	}
+
+	/**
+	 * Sends all the required HTTP Headers.
+	 */
+	private function send_headers() {
+		if ( headers_sent() ) {
+			return;
+		}
+
+		$headers = [
+			$this->http_protocol . ' 200 OK' => 200,
+			// Prevent the search engines from indexing the XML Sitemap.
+			'X-Robots-Tag: noindex, follow'  => '',
+			'Content-Type: text/xml; charset=' . esc_attr( $this->renderer->get_output_charset() ) => '',
+		];
+
+		/**
+		 * Filter the HTTP headers we send before an XML sitemap.
+		 *
+		 * @param array  $headers The HTTP headers we're going to send out.
+		 */
+		$headers = apply_filters( 'wpseo_sitemap_http_headers', $headers );
+
+		foreach ( $headers as $header => $status ) {
+			if ( is_numeric( $status ) ) {
+				header( $header, true, $status );
+				continue;
+			}
+			header( $header, true );
+		}
 	}
 }

@@ -13,12 +13,13 @@
  * @since 1.8
  */
 class WPSEO_Schema implements WPSEO_WordPress_Integration {
+
 	/**
 	 * Holds the parsed blocks for the current page.
 	 *
 	 * @var array
 	 */
-	private $parsed_blocks = array();
+	private $parsed_blocks = [];
 
 	/**
 	 * Holds context variables about the current page and site.
@@ -31,11 +32,11 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 * Registers the hooks.
 	 */
 	public function register_hooks() {
-		add_action( 'wpseo_head', array( $this, 'json_ld' ), 91 );
-		add_action( 'wpseo_json_ld', array( $this, 'generate' ), 1 );
+		add_action( 'wpseo_head', [ $this, 'json_ld' ], 91 );
+		add_action( 'wpseo_json_ld', [ $this, 'generate' ], 1 );
 
 		// This AMP hook is only used in Reader (formerly Classic) mode.
-		add_action( 'amp_post_template_head', array( $this, 'json_ld' ), 9 );
+		add_action( 'amp_post_template_head', [ $this, 'json_ld' ], 9 );
 	}
 
 	/**
@@ -44,9 +45,9 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 * @since 1.8
 	 */
 	public function json_ld() {
-		$deprecated_data = array(
+		$deprecated_data = [
 			'_deprecated' => 'Please use the "wpseo_schema_*" filters to extend the Yoast SEO schema data - see the WPSEO_Schema class.',
-		);
+		];
 
 		/**
 		 * Filter: 'wpseo_json_ld_output' - Allows disabling Yoast's schema output entirely.
@@ -54,7 +55,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 		 * @api mixed If false or an empty array is returned, disable our output.
 		 */
 		$return = apply_filters( 'wpseo_json_ld_output', $deprecated_data, '' );
-		if ( $return === array() || $return === false ) {
+		if ( $return === [] || $return === false ) {
 			return;
 		}
 
@@ -71,7 +72,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function generate() {
-		$graph = array();
+		$graph = [];
 
 		$this->context = new WPSEO_Schema_Context();
 		$pieces        = $this->get_graph_pieces();
@@ -129,16 +130,18 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 	 * @return array A filtered array of graph pieces.
 	 */
 	private function get_graph_pieces() {
-		$pieces = array(
+		$pieces = [
 			new WPSEO_Schema_Organization( $this->context ),
 			new WPSEO_Schema_Person( $this->context ),
 			new WPSEO_Schema_Website( $this->context ),
+			new WPSEO_Schema_MainImage( $this->context ),
 			new WPSEO_Schema_WebPage( $this->context ),
 			new WPSEO_Schema_Breadcrumb( $this->context ),
 			new WPSEO_Schema_Article( $this->context ),
 			new WPSEO_Schema_Author( $this->context ),
 			new WPSEO_Schema_FAQ( $this->context ),
-		);
+			new WPSEO_Schema_HowTo( $this->context ),
+		];
 
 		/**
 		 * Filter: 'wpseo_schema_graph_pieces' - Allows adding pieces to the graph.
@@ -184,7 +187,7 @@ class WPSEO_Schema implements WPSEO_WordPress_Integration {
 
 		foreach ( $parsed_blocks as $block ) {
 			if ( ! isset( $this->parsed_blocks[ $block['blockName'] ] ) || ! is_array( $this->parsed_blocks[ $block['blockName'] ] ) ) {
-				$this->parsed_blocks[ $block['blockName'] ] = array();
+				$this->parsed_blocks[ $block['blockName'] ] = [];
 			}
 			$this->parsed_blocks[ $block['blockName'] ][] = $block;
 		}

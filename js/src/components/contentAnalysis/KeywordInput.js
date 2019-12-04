@@ -3,7 +3,6 @@
 /* External dependencies */
 import { Component } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
-import { StyledContainerTopLevel } from "@yoast/components";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { KeywordInput as KeywordInputComponent } from "yoast-components";
@@ -13,9 +12,12 @@ import styled from "styled-components";
 import { setFocusKeyword } from "../../redux/actions/focusKeyword";
 import { setMarkerPauseStatus } from "../../redux/actions/markerPauseStatus";
 import HelpLink from "./HelpLink";
+import { LocationConsumer } from "../contexts/location";
 
-const KeywordInputContainer = styled( StyledContainerTopLevel )`
+const KeywordInputContainer = styled.div`
 	padding: 16px;
+	/* Necessary to compensate negative top margin of the collapsible after the keyword input. */
+	border-bottom: 1px solid transparent;
 `;
 
 /**
@@ -46,17 +48,21 @@ class KeywordInput extends Component {
 	 * @returns {ReactElement} The component.
 	 */
 	render() {
-		return <KeywordInputContainer>
-			<KeywordInputComponent
-				id="focus-keyword-input"
-				onChange={ this.props.onFocusKeywordChange }
-				keyword={ this.props.keyword }
-				label={ __( "Focus keyphrase", "wordpress-seo" ) }
-				helpLink={ KeywordInput.renderHelpLink() }
-				onBlurKeyword={ this.props.onBlurKeyword }
-				onFocusKeyword={ this.props.onFocusKeyword }
-			/>
-		</KeywordInputContainer>;
+		return <LocationConsumer>
+			{ context => (
+				<KeywordInputContainer>
+					<KeywordInputComponent
+						id={ `focus-keyword-input-${ context }` }
+						onChange={ this.props.onFocusKeywordChange }
+						keyword={ this.props.keyword }
+						label={ __( "Focus keyphrase", "wordpress-seo" ) }
+						helpLink={ KeywordInput.renderHelpLink() }
+						onBlurKeyword={ this.props.onBlurKeyword }
+						onFocusKeyword={ this.props.onFocusKeyword }
+					/>
+				</KeywordInputContainer>
+			) }
+		</LocationConsumer>;
 	}
 }
 

@@ -33,12 +33,12 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the get_indexable for an invalid post type.
 	 *
-	 * @covers WPSEO_Indexable_Service::get_indexable()
+	 * @covers WPSEO_Indexable_Service::get_indexable
 	 */
 	public function test_get_indexable_for_invalid_object_type() {
 		$request = $this
 			->getMockBuilder( 'WP_REST_Request' )
-			->setMethods( array( 'get_param' ) )
+			->setMethods( [ 'get_param' ] )
 			->getMock();
 
 		$request
@@ -54,22 +54,22 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the get_indexable for a valid post type and a non indexable.
 	 *
-	 * @covers WPSEO_Indexable_Service::get_indexable()
+	 * @covers WPSEO_Indexable_Service::get_indexable
 	 */
 	public function test_get_indexable_for_valid_post_type_with_a_non_indexable_object() {
 		$provider = $this
 			->getMockBuilder( 'WPSEO_Indexable_Foo_Provider' )
-			->setMethods( array( 'get' ) )
+			->setMethods( [ 'get' ] )
 			->getMock();
 
 		$provider
 			->expects( $this->once() )
 			->method( 'get' )
-			->will( $this->returnValue( array() ) );
+			->will( $this->returnValue( [] ) );
 
 		$service = $this
 			->getMockBuilder( 'WPSEO_Indexable_Service' )
-			->setMethods( array( 'get_provider' ) )
+			->setMethods( [ 'get_provider' ] )
 			->getMock();
 
 		$service
@@ -79,7 +79,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 
 		$request = $this
 			->getMockBuilder( 'WP_REST_Request' )
-			->setMethods( array( 'get_param' ) )
+			->setMethods( [ 'get_param' ] )
 			->getMock();
 
 		$request
@@ -94,18 +94,18 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 		 */
 		$response = $service->get_indexable( $request );
 
-		$this->assertEquals( new WP_REST_Response( array(), 200 ), $response );
+		$this->assertEquals( new WP_REST_Response( [], 200 ), $response );
 	}
 
 	/**
 	 * Tests the get_indexable for a valid post type and an indexable object.
 	 *
-	 * @covers WPSEO_Indexable_Service::get_indexable()
+	 * @covers WPSEO_Indexable_Service::get_indexable
 	 */
 	public function test_get_indexable_for_valid_post_type_with_an_indexable_object() {
 		$provider = $this
 			->getMockBuilder( 'WPSEO_Indexable_Foo_Provider' )
-			->setMethods( array( 'get' ) )
+			->setMethods( [ 'get' ] )
 			->getMock();
 
 		$provider
@@ -115,7 +115,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 
 		$service = $this
 			->getMockBuilder( 'WPSEO_Indexable_Service' )
-			->setMethods( array( 'get_provider' ) )
+			->setMethods( [ 'get_provider' ] )
 			->getMock();
 
 		$service
@@ -125,7 +125,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 
 		$request = $this
 			->getMockBuilder( 'WP_REST_Request' )
-			->setMethods( array( 'get_param' ) )
+			->setMethods( [ 'get_param' ] )
 			->getMock();
 
 		$request
@@ -147,7 +147,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 	 * Tests the return value of the get_provider.
 	 *
 	 * @expectedException WPSEO_Invalid_Argument_Exception
-	 * @covers            WPSEO_Indexable_Service::get_provider()
+	 * @covers            WPSEO_Indexable_Service::get_provider
 	 */
 	public function test_get_provider() {
 		$this->assertInstanceOf( 'WPSEO_Indexable_Service_Post_Provider', $this->service->get_provider( 'post' ) );
@@ -158,7 +158,7 @@ class WPSEO_Indexable_Service_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the handling of an unknown object type.
 	 *
-	 * @covers WPSEO_Indexable_Service::handle_unknown_object_type()
+	 * @covers WPSEO_Indexable_Service::handle_unknown_object_type
 	 */
 	public function test_handle_unknown_object_type() {
 		$this->assertInstanceOf( 'WP_REST_Response', $this->service->handle_unknown_object_type( 'unknown' ) );

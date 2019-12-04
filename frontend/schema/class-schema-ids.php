@@ -29,7 +29,7 @@ class WPSEO_Schema_IDs {
 	/**
 	 * Hash used for the Person `@id`.
 	 */
-	const PERSON_HASH = '#person';
+	const PERSON_HASH = '#/schema/person/';
 
 	/**
 	 * Hash used for the Article `@id`.

@@ -37,16 +37,28 @@ $knowledge_graph_help = new WPSEO_Admin_Help_Panel(
 		<?php esc_html_e( 'Choose whether the site represents an organization or a person.', 'wordpress-seo' ); ?>
 	</p>
 	<?php
-	$yoast_free_kg_select_options = array(
+	$yoast_free_kg_select_options = [
 		'company' => __( 'Organization', 'wordpress-seo' ),
 		'person'  => __( 'Person', 'wordpress-seo' ),
-	);
+	];
 	$yform->select( 'company_or_person', __( 'Organization or person', 'wordpress-seo' ), $yoast_free_kg_select_options, 'styled', false );
 	?>
 	<div id="knowledge-graph-company">
+		<?php
+
+		/*
+		 * Render the `knowledge-graph-company-warning` div when the company name or logo are not set.
+		 * This div is used as React render root in `js/src/search-appearance.js`.
+		 */
+		$is_company_info_missing = empty( $yform->options['company_name'] ) || empty( $yform->options['company_logo'] );
+		if ( $is_company_info_missing ) :
+			?>
+		<div id="knowledge-graph-company-warning"></div>
+		<?php endif; ?>
+
 		<h3><?php esc_html_e( 'Organization', 'wordpress-seo' ); ?></h3>
 		<?php
-		$yform->textinput( 'company_name', __( 'Organization name', 'wordpress-seo' ), array( 'autocomplete' => 'organization' ) );
+		$yform->textinput( 'company_name', __( 'Organization name', 'wordpress-seo' ), [ 'autocomplete' => 'organization' ] );
 		$yform->media_input( 'company_logo', __( 'Organization logo', 'wordpress-seo' ) );
 		?>
 		<div id="wpseo-local-seo-upsell"></div>

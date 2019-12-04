@@ -11,6 +11,8 @@
 class WPSEO_Option_Tabs_Formatter {
 
 	/**
+	 * Retrieves the path to the view of the tab.
+	 *
 	 * @param WPSEO_Option_Tabs $option_tabs Option Tabs to get base from.
 	 * @param WPSEO_Option_Tab  $tab         Tab to get name from.
 	 *
@@ -21,6 +23,8 @@ class WPSEO_Option_Tabs_Formatter {
 	}
 
 	/**
+	 * Outputs the option tabs.
+	 *
 	 * @param WPSEO_Option_Tabs $option_tabs Option Tabs to get tabs from.
 	 */
 	public function run( WPSEO_Option_Tabs $option_tabs ) {
@@ -35,10 +39,6 @@ class WPSEO_Option_Tabs_Formatter {
 			);
 		}
 		echo '</h2>';
-
-		$help_center = new WPSEO_Help_Center( '', $option_tabs, WPSEO_Utils::is_yoast_seo_premium() );
-		$help_center->localize_data();
-		$help_center->mount();
 
 		foreach ( $option_tabs->get_tabs() as $tab ) {
 			$identifier = $tab->get_name();
@@ -60,7 +60,7 @@ class WPSEO_Option_Tabs_Formatter {
 			 */
 			$option_tab_content = apply_filters( 'wpseo_option_tab-' . $tab_filter_name, null, $option_tabs, $tab );
 			if ( ! empty( $option_tab_content ) ) {
-				echo $option_tab_content;
+				echo wp_kses_post( $option_tab_content );
 			}
 
 			if ( empty( $option_tab_content ) ) {

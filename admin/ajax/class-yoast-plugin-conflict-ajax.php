@@ -11,20 +11,24 @@
 class Yoast_Plugin_Conflict_Ajax {
 
 	/**
+	 * Option identifier where dismissed conflicts are stored.
+	 *
 	 * @var string
 	 */
 	private $option_name = 'wpseo_dismissed_conflicts';
 
 	/**
+	 * List of notification identifiers that have been dismissed.
+	 *
 	 * @var array
 	 */
-	private $dismissed_conflicts = array();
+	private $dismissed_conflicts = [];
 
 	/**
 	 * Initialize the hooks for the AJAX request.
 	 */
 	public function __construct() {
-		add_action( 'wp_ajax_wpseo_dismiss_plugin_conflict', array( $this, 'dismiss_notice' ) );
+		add_action( 'wp_ajax_wpseo_dismiss_plugin_conflict', [ $this, 'dismiss_notice' ] );
 	}
 
 	/**
@@ -67,7 +71,7 @@ class Yoast_Plugin_Conflict_Ajax {
 			return $dismissed_conflicts[ $plugin_section ];
 		}
 
-		return array();
+		return [];
 	}
 
 	/**

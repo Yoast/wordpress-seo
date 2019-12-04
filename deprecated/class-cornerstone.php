@@ -13,11 +13,15 @@
 class WPSEO_Cornerstone {
 
 	/**
+	 * Holds the cornerstone meta name.
+	 *
 	 * @var string
 	 */
 	const META_NAME = 'is_cornerstone';
 
 	/**
+	 * Holds the cornerstone field name.
+	 *
 	 * @var string
 	 */
 	const FIELD_NAME = 'yoast_wpseo_is_cornerstone';
@@ -28,7 +32,7 @@ class WPSEO_Cornerstone {
 	 * @deprecated 8.4
 	 */
 	public function __construct() {
-		_deprecated_constructor( 'WPSEO_Cornerstone', '8.4' );
+		_deprecated_function( __METHOD__, '8.4' );
 	}
 
 	/**

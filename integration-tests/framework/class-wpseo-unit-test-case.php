@@ -11,6 +11,8 @@
 abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 
 	/**
+	 * Adds slashes to the value of $key in the $_POST array, and then updates the $_REQUEST array.
+	 *
 	 * @param string $key   Key to be used with PHP superglobals.
 	 * @param mixed  $value Value to assign to it.
 	 */
@@ -20,6 +22,8 @@ abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Unsets a given variable in $_POST and $_REQUEST.
+	 *
 	 * @param string $key Key as used with PHP superglobal.
 	 */
 	protected function unset_post( $key ) {
@@ -50,6 +54,8 @@ abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether the output contains the expected value.
+	 *
 	 * @param string|array $expected Expected output.
 	 */
 	protected function expectOutputContains( $expected ) {
@@ -57,44 +63,12 @@ abstract class WPSEO_UnitTestCase extends WP_UnitTestCase {
 		ob_clean();
 
 		if ( ! is_array( $expected ) ) {
-			$expected = array( $expected );
+			$expected = [ $expected ];
 		}
 
 		foreach ( $expected as $needle ) {
 			$found = strpos( $output, $needle );
 			$this->assertTrue( $found !== false, sprintf( 'Expected "%s" to be found in "%s" but couldn\'t find it.', $needle, $output ) );
-		}
-	}
-
-	/**
-	 * Allows tests to be skipped on single or multisite installs by using @group annotations.
-	 *
-	 * This is a custom extension of the PHPUnit and WordPress requirements handling.
-	 */
-	protected function checkRequirements() {
-		parent::checkRequirements();
-
-		$annotations = $this->getAnnotations();
-
-		$groups = array();
-		if ( ! empty( $annotations['class']['group'] ) ) {
-			$groups = array_merge( $groups, $annotations['class']['group'] );
-		}
-
-		if ( ! empty( $annotations['method']['group'] ) ) {
-			$groups = array_merge( $groups, $annotations['method']['group'] );
-		}
-
-		if ( empty( $groups ) ) {
-			return;
-		}
-
-		if ( in_array( 'ms-required', $groups, true ) ) {
-			$this->skipWithoutMultisite();
-		}
-
-		if ( in_array( 'ms-excluded', $groups, true ) ) {
-			$this->skipWithMultisite();
 		}
 	}
 }

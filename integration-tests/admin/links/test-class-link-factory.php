@@ -25,12 +25,14 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 		$processor = new WPSEO_Link_Factory( $this->getClassifierMock( 'external' ), $populator, $this->getFilterMock( 'page', true ) );
 
 		$this->assertEquals(
-			array( new WPSEO_Link( 'test', 0, 'external' ) ),
-			$processor->build( array( 'test' ) )
+			[ new WPSEO_Link( 'test', 0, 'external' ) ],
+			$processor->build( [ 'test' ] )
 		);
 	}
 
 	/**
+	 * Tests the building of the links.
+	 *
 	 * @dataProvider link_provider
 	 *
 	 * @param WPSEO_Link_Type_Classifier $classifier The classifier mock.
@@ -41,7 +43,7 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_process_internal_link( $classifier, $lookup, $filter, $link_url, $expected ) {
 		$processor = new WPSEO_Link_Factory( $classifier, $lookup, $filter );
-		$actual    = $processor->build( array( $link_url ) );
+		$actual    = $processor->build( [ $link_url ] );
 
 		$this->assertEquals( $expected, $actual );
 	}
@@ -53,29 +55,29 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 	 */
 	public function link_provider() {
 
-		return array(
-			array(
+		return [
+			[
 				$this->getClassifierMock( 'internal' ),
 				$this->getLookUpMock( 2 ),
 				$this->getFilterMock( 'currentpage', true ),
 				'test',
-				array( new WPSEO_Link( 'test', 2, 'internal' ) ),
-			),
-			array(
+				[ new WPSEO_Link( 'test', 2, 'internal' ) ],
+			],
+			[
 				$this->getClassifierMock( 'internal' ),
 				$this->getLookUpMock( 2 ),
 				$this->getFilterMock( 'test.html', false ),
 				'test.html#hastag',
-				array(),
-			),
-			array(
+				[],
+			],
+			[
 				$this->getClassifierMock( 'internal' ),
 				$this->getLookUpMock( 2 ),
 				$this->getFilterMock( 'test.html', false ),
 				'test.html?foo=bar',
-				array(),
-			),
-		);
+				[],
+			],
+		];
 	}
 
 	/**
@@ -125,7 +127,7 @@ class WPSEO_Link_Factory_Test extends WPSEO_UnitTestCase {
 	protected function getFilterMock( $current_page, $filter_result ) {
 		$filter = $this
 			->getMockBuilder( 'WPSEO_Link_Filter' )
-			->setConstructorArgs( array( $current_page ) )
+			->setConstructorArgs( [ $current_page ] )
 			->getMock();
 
 		$filter

@@ -18,6 +18,8 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 	protected $class_instance;
 
 	/**
+	 * Holds the instance of the notification center (double).
+	 *
 	 * @var Yoast_Notification_Center_Double
 	 */
 	protected $notification_center;
@@ -31,7 +33,7 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 		$plugin_availability = new WPSEO_Plugin_Availability_Double();
 
 		$notification_center_mock = $this->getMockBuilder( 'Yoast_Notification_Center_Double' )
-			->setMethods( array( 'add_notification', 'remove_notification' ) )
+			->setMethods( [ 'add_notification', 'remove_notification' ] )
 			->getMock();
 
 		$this->class_instance = new WPSEO_Suggested_Plugins_Double( $plugin_availability, $notification_center_mock );

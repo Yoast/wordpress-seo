@@ -15,7 +15,7 @@ class WPSEO_Term_Indexable extends WPSEO_Indexable {
 	 *
 	 * @var array
 	 */
-	protected $updateable_fields = array(
+	protected $updateable_fields = [
 		'canonical',
 		'title',
 		'description',
@@ -31,7 +31,7 @@ class WPSEO_Term_Indexable extends WPSEO_Indexable {
 		'primary_focus_keyword',
 		'primary_focus_keyword_score',
 		'readability_score',
-	);
+	];
 
 	/**
 	 * Creates a new Indexable from a passed object.
@@ -48,7 +48,7 @@ class WPSEO_Term_Indexable extends WPSEO_Indexable {
 		$term_object_id = $term->get_id();
 
 		return new self(
-			array(
+			[
 				'object_id'                   => $term_object_id,
 				'object_type'                 => $term->get_type(),
 				'object_subtype'              => $term->get_subtype(),
@@ -76,7 +76,7 @@ class WPSEO_Term_Indexable extends WPSEO_Indexable {
 				'incoming_link_count'         => null,
 				'created_at'                  => null,
 				'updated_at'                  => null,
-			)
+			]
 		);
 	}
 

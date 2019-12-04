@@ -20,7 +20,7 @@ class WPSEO_Indexable_Test extends WPSEO_UnitTestCase {
 	 * @param string    $description Description of the test.
 	 *
 	 * @dataProvider noindex_conversion_provider
-	 * @covers       WPSEO_Indexable::get_robots_noindex_value()
+	 * @covers       WPSEO_Indexable::get_robots_noindex_value
 	 */
 	public function test_get_robots_noindex_value( $value, $expected, $description ) {
 		$data = WPSEO_Indexable_Double::get_robots_noindex_value( $value );
@@ -31,54 +31,54 @@ class WPSEO_Indexable_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the retrieval of data as an array.
 	 *
-	 * @covers WPSEO_Indexable::to_array()
+	 * @covers WPSEO_Indexable::to_array
 	 */
 	public function test_to_array() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Indexable_Double' )
 			->setConstructorArgs(
-				array(
-					array( 'field' => 'value' ),
-				)
+				[
+					[ 'field' => 'value' ],
+				]
 			)
-			->setMethods( array( 'validate_data' ) )
+			->setMethods( [ 'validate_data' ] )
 			->getMock();
 
-		$instance->set_data( array( 'field' => 'value' ) );
+		$instance->set_data( [ 'field' => 'value' ] );
 
-		$this->assertEquals( array( 'field' => 'value' ), $instance->to_array() );
+		$this->assertEquals( [ 'field' => 'value' ], $instance->to_array() );
 	}
 
 	/**
 	 * Tests the filtering of updateable data.
 	 *
-	 * @covers WPSEO_Indexable::filter_updateable_data()
+	 * @covers WPSEO_Indexable::filter_updateable_data
 	 */
 	public function test_filter_updateable_data() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Indexable_Double' )
 			->setConstructorArgs(
-				array(
-					array(
+				[
+					[
 						'object_id'   => '1',
 						'description' => '',
 						'title'       => '',
-					),
-				)
+					],
+				]
 			)
-			->setMethods( array( 'validate_data' ) )
+			->setMethods( [ 'validate_data' ] )
 			->getMock();
 
-		$supplied_values = array(
+		$supplied_values = [
 			'object_id'   => '1',
 			'description' => '',
 			'title'       => '',
-		);
+		];
 
-		$expected = array(
+		$expected = [
 			'description' => '',
 			'title'       => '',
-		);
+		];
 
 		$data = $instance->filter_updateable_data( $supplied_values );
 
@@ -91,12 +91,12 @@ class WPSEO_Indexable_Test extends WPSEO_UnitTestCase {
 	 * @return array The test data.
 	 */
 	public function noindex_conversion_provider() {
-		return array(
-			array( '1', true, 'With noindex set to string value of 1' ),
-			array( '2', false, 'With noindex set to string value of 2' ),
-			array( true, null, 'With noindex set to boolean value of true' ),
-			array( false, null, 'With noindex set to boolean value of false' ),
-			array( null, null, 'With noindex set to value of null' ),
-		);
+		return [
+			[ '1', true, 'With noindex set to string value of 1' ],
+			[ '2', false, 'With noindex set to string value of 2' ],
+			[ true, null, 'With noindex set to boolean value of true' ],
+			[ false, null, 'With noindex set to boolean value of false' ],
+			[ null, null, 'With noindex set to value of null' ],
+		];
 	}
 }

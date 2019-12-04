@@ -12,6 +12,8 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Placeholder test to prevent PHPUnit from throwing errors.
+	 *
+	 * @covers WPSEO_Breadcrumbs::breadcrumb
 	 */
 	/*public function test_breadcrumb_home() {
 
@@ -27,6 +29,8 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Placeholder test to prevent PHPUnit from throwing errors.
+	 *
+	 * @covers WPSEO_Breadcrumbs::breadcrumb
 	 */
 	public function test_breadcrumb_before() {
 
@@ -40,6 +44,8 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Placeholder test to prevent PHPUnit from throwing errors.
+	 *
+	 * @covers WPSEO_Breadcrumbs::breadcrumb
 	 */
 	public function test_breadcrumb_after() {
 
@@ -54,19 +60,19 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests getting the url for a private post.
 	 *
-	 * @covers WPSEO_Breadcrumbs::get_link_url_for_id()
+	 * @covers WPSEO_Breadcrumbs::get_link_url_for_id
 	 */
 	public function test_getting_url_of_private_post() {
 		$breadcrumbs = new WPSEO_Breadcrumbs_Double();
 
-		$post = $this->factory()->post->create_and_get( array( 'post_status' => 'private' ) );
+		$post = $this->factory()->post->create_and_get( [ 'post_status' => 'private' ] );
 		$this->assertEquals( '', $breadcrumbs->get_link_url_for_id( $post->ID ) );
 	}
 
 	/**
 	 * Tests getting the url for a public post.
 	 *
-	 * @covers WPSEO_Breadcrumbs::get_link_url_for_id()
+	 * @covers WPSEO_Breadcrumbs::get_link_url_for_id
 	 */
 	public function test_getting_url_of_public_post() {
 		$breadcrumbs = new WPSEO_Breadcrumbs_Double();
@@ -78,7 +84,7 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests getting the url for a non existing post id.
 	 *
-	 * @covers WPSEO_Breadcrumbs::get_link_url_for_id()
+	 * @covers WPSEO_Breadcrumbs::get_link_url_for_id
 	 */
 	public function test_getting_url_of_a_non_existing_post() {
 		$breadcrumbs = new WPSEO_Breadcrumbs_Double();

@@ -13,14 +13,14 @@ class Yoast_Form_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests setting the form option with a valid option having a `WPSEO_Option` class.
 	 *
-	 * @covers Yoast_Form::set_option()
+	 * @covers Yoast_Form::set_option
 	 */
 	public function test_properties_set_with_valid_option() {
 		$form = new Yoast_Form_Double();
 		$form->set_option( 'wpseo' );
 
 		$option_instance = WPSEO_Options::get_option_instance( 'wpseo' );
-		$option_keys     = array_keys( get_option( 'wpseo', array() ) );
+		$option_keys     = array_keys( get_option( 'wpseo', [] ) );
 
 		$this->assertSame( 'wpseo', $form->option_name );
 		$this->assertEqualSets( $option_keys, array_keys( $form->options ) );
@@ -30,10 +30,10 @@ class Yoast_Form_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests setting the form option with an invalid option that does not have a `WPSEO_Option` class.
 	 *
-	 * @covers Yoast_Form::set_option()
+	 * @covers Yoast_Form::set_option
 	 */
 	public function test_properties_set_with_invalid_option() {
-		$option_keys = array( 'key1', 'key2', 'key3' );
+		$option_keys = [ 'key1', 'key2', 'key3' ];
 		update_option( 'random', array_fill_keys( $option_keys, true ) );
 
 		$form = new Yoast_Form_Double();
@@ -47,7 +47,7 @@ class Yoast_Form_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether a control is disabled with a valid option having a `WPSEO_Option` class.
 	 *
-	 * @covers Yoast_Form::is_control_disabled()
+	 * @covers Yoast_Form::is_control_disabled
 	 */
 	public function test_is_control_disabled_with_valid_option() {
 		$form = new Yoast_Form_Double();
@@ -59,7 +59,7 @@ class Yoast_Form_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether a control is disabled with an invalid option that does not have a `WPSEO_Option` class.
 	 *
-	 * @covers Yoast_Form::is_control_disabled()
+	 * @covers Yoast_Form::is_control_disabled
 	 */
 	public function test_is_control_disabled_with_invalid_option() {
 		$form = new Yoast_Form_Double();

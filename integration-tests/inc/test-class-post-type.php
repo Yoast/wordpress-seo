@@ -24,7 +24,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the default situation with no custom post types being added.
 	 *
-	 * @covers WPSEO_Post_Type::get_accessible_post_types()
+	 * @covers WPSEO_Post_Type::get_accessible_post_types
 	 */
 	public function test_get_accessible_post_types() {
 		$post_types = WPSEO_Post_Type::get_accessible_post_types();
@@ -36,10 +36,10 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation with a custom public post type.
 	 *
-	 * @covers WPSEO_Post_Type::get_accessible_post_types()
+	 * @covers WPSEO_Post_Type::get_accessible_post_types
 	 */
 	public function test_get_accessible_post_types_with_a_custom_post_type() {
-		register_post_type( 'custom-post-type', array( 'public' => true ) );
+		register_post_type( 'custom-post-type', [ 'public' => true ] );
 
 		$this->assertContains( 'custom-post-type', WPSEO_Post_Type::get_accessible_post_types() );
 	}
@@ -47,15 +47,15 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation with a custom public post type that is not publicly queryable.
 	 *
-	 * @covers WPSEO_Post_Type::get_accessible_post_types()
+	 * @covers WPSEO_Post_Type::get_accessible_post_types
 	 */
 	public function test_get_accessible_post_types_with_a_custom_post_type_that_is_noy_publicly_queryable() {
 		register_post_type(
 			'hidden-post-type',
-			array(
+			[
 				'public'             => true,
 				'publicly_queryable' => false,
-			)
+			]
 		);
 
 		$this->assertNotContains( 'hidden-post-type', WPSEO_Post_Type::get_accessible_post_types() );
@@ -64,10 +64,10 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation with a custom private post post type.
 	 *
-	 * @covers WPSEO_Post_Type::get_accessible_post_types()
+	 * @covers WPSEO_Post_Type::get_accessible_post_types
 	 */
 	public function test_get_accessible_post_types_with_a_custom_private_post_type() {
-		register_post_type( 'custom-post-type', array( 'public' => false ) );
+		register_post_type( 'custom-post-type', [ 'public' => false ] );
 
 		$this->assertNotContains( 'custom-post-type', WPSEO_Post_Type::get_accessible_post_types() );
 	}
@@ -75,10 +75,10 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation with a post type that is set to robots noindex.
 	 *
-	 * @covers WPSEO_Post_Type::get_accessible_post_types()
+	 * @covers WPSEO_Post_Type::get_accessible_post_types
 	 */
 	public function test_get_accessible_post_types_with_a_non_indexable_post_type() {
-		$custom_post_type = register_post_type( 'custom-post-type', array( 'public' => true ) );
+		$custom_post_type = register_post_type( 'custom-post-type', [ 'public' => true ] );
 
 		WPSEO_Options::set( 'noindex-' . $custom_post_type->name, true );
 
@@ -89,10 +89,10 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation with a post type that isn't set to robots noindex.
 	 *
-	 * @covers WPSEO_Post_Type::get_accessible_post_types()
+	 * @covers WPSEO_Post_Type::get_accessible_post_types
 	 */
 	public function test_get_accessible_post_types_with_an_indexable_post_type() {
-		$custom_post_type = register_post_type( 'custom-post-type', array( 'public' => true ) );
+		$custom_post_type = register_post_type( 'custom-post-type', [ 'public' => true ] );
 
 		WPSEO_Options::set( 'noindex-' . $custom_post_type->name, false );
 
@@ -105,9 +105,9 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	public function test_get_accessible_post_types_with_a_filter_hook() {
 		$this->assertContains( 'attachment', WPSEO_Post_Type::get_accessible_post_types() );
 
-		add_filter( 'wpseo_accessible_post_types', array( $this, 'filter_attachment' ) );
+		add_filter( 'wpseo_accessible_post_types', [ $this, 'filter_attachment' ] );
 		$this->assertNotContains( 'attachment', WPSEO_Post_Type::get_accessible_post_types() );
-		remove_filter( 'wpseo_accessible_post_types', array( $this, 'filter_attachment' ) );
+		remove_filter( 'wpseo_accessible_post_types', [ $this, 'filter_attachment' ] );
 	}
 
 	/**
@@ -116,7 +116,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	public function test_get_accessible_post_types_with_a_filter_hook_that_returns_wrong_type() {
 		add_filter( 'wpseo_accessible_post_types', '__return_true' );
 
-		$this->assertEquals( array(), WPSEO_Post_Type::get_accessible_post_types() );
+		$this->assertEquals( [], WPSEO_Post_Type::get_accessible_post_types() );
 
 		remove_filter( 'wpseo_accessible_post_types', '__return_true' );
 	}
@@ -124,10 +124,10 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation with a post type that isn't set to robots noindex.
 	 *
-	 * @covers WPSEO_Post_Type::is_post_type_indexable()
+	 * @covers WPSEO_Post_Type::is_post_type_indexable
 	 */
 	public function test_is_post_type_indexable_with_indexable_post_type() {
-		$custom_post_type = register_post_type( 'custom-post-type', array( 'public' => true ) );
+		$custom_post_type = register_post_type( 'custom-post-type', [ 'public' => true ] );
 
 		WPSEO_Options::set( 'noindex-' . $custom_post_type->name, false );
 
@@ -137,10 +137,10 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the situation with a post type that is set to robots noindex.
 	 *
-	 * @covers WPSEO_Post_Type::is_post_type_indexable()
+	 * @covers WPSEO_Post_Type::is_post_type_indexable
 	 */
 	public function test_is_post_type_indexable_with_non_indexable_post_type() {
-		$custom_post_type = register_post_type( 'custom-post-type', array( 'public' => true ) );
+		$custom_post_type = register_post_type( 'custom-post-type', [ 'public' => true ] );
 
 		WPSEO_Options::set( 'noindex-' . $custom_post_type->name, true );
 
@@ -150,16 +150,16 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test the situation where the attachment post type will be filtered.
 	 *
-	 * @covers WPSEO_Post_Type::filter_attachment_post_type()
+	 * @covers WPSEO_Post_Type::filter_attachment_post_type
 	 */
 	public function test_filter_attachment_post_type() {
 		$this->assertNotContains(
 			'attachment',
 			WPSEO_Post_Type::filter_attachment_post_type(
-				array(
+				[
 					'post'       => 'post',
 					'attachment' => 'attachment',
-				)
+				]
 			)
 		);
 	}
@@ -180,7 +180,7 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests whether or (custom) post types are enabled in the REST API.
 	 *
-	 * @covers WPSEO_Post_Type::is_rest_enabled()
+	 * @covers WPSEO_Post_Type::is_rest_enabled
 	 */
 	public function test_rest_enabled_post_types() {
 		$this->assertTrue( WPSEO_Post_Type::is_rest_enabled( 'post' ) );
@@ -188,14 +188,14 @@ class WPSEO_Post_Type_Test extends WPSEO_UnitTestCase {
 
 		register_post_type(
 			'custom-post-type-api',
-			array(
+			[
 				'public'       => true,
 				'show_in_rest' => true,
-			)
+			]
 		);
 		$this->assertTrue( WPSEO_Post_Type::is_rest_enabled( 'custom-post-type-api' ) );
 
-		register_post_type( 'custom-post-type', array( 'public' => true ) );
+		register_post_type( 'custom-post-type', [ 'public' => true ] );
 		$this->assertFalse( WPSEO_Post_Type::is_rest_enabled( 'custom-post-type' ) );
 	}
 }

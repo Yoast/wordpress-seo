@@ -9,11 +9,11 @@ import { makeOutboundLink } from "@yoast/helpers";
 
 // Internal dependencies.
 import MailchimpSignup from "./components/MailchimpSignup";
-import ConnectGoogleSearchConsole from "./components/ConnectGoogleSearchConsole";
 import MediaUpload from "./components/MediaUpload";
 import Suggestions from "./components/Suggestions";
 import FinalStep from "./components/FinalStep";
 import WordPressUserSelectorOnboardingWizard from "./components/WordPressUserSelectorOnboardingWizard";
+import CompanyInfoMissingOnboardingWizard from "./components/CompanyInfoMissingOnboardingWizard";
 import YoastIcon from "../../images/Yoast_SEO_Icon.svg";
 import { setYoastComponentsL10n } from "./helpers/i18n";
 
@@ -71,10 +71,10 @@ class App extends React.Component {
 			customComponents: {
 				MailchimpSignup,
 				MediaUpload,
-				ConnectGoogleSearchConsole,
 				Suggestions,
 				FinalStep,
 				WordPressUserSelector: WordPressUserSelectorOnboardingWizard,
+				CompanyInfoMissing: CompanyInfoMissingOnboardingWizard,
 			},
 		} );
 

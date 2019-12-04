@@ -1,12 +1,12 @@
 <?php
 /**
- * Class WpYoastIndexable
+ * Yoast SEO Plugin File.
  *
  * @package WPSEO\Migrations
  */
 
+use Yoast\WP\Free\ORM\Yoast_Model;
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
-use Yoast\WP\Free\Yoast_Model;
 
 /**
  * Indexable migration.
@@ -21,117 +21,117 @@ class WpYoastIndexable extends Ruckusing_Migration_Base {
 
 		$indexable_table = $this->create_table( $table_name );
 
-		$indexable_table->column( 'permalink', 'string', array( 'null' => true, 'limit' => 191 ) );
+		$indexable_table->column( 'permalink', 'string', [ 'null' => true, 'limit' => 191 ] );
 
-		$indexable_table->column( 'object_id', 'integer', array( 'unsigned' => true, 'null' => true, 'limit' => 11 ) );
-		$indexable_table->column( 'object_type', 'string', array( 'limit' => 16 ) );
-		$indexable_table->column( 'object_sub_type', 'string', array( 'null' => true, 'limit' => 100 ) );
+		$indexable_table->column( 'object_id', 'integer', [ 'unsigned' => true, 'null' => true, 'limit' => 11 ] );
+		$indexable_table->column( 'object_type', 'string', [ 'limit' => 16 ] );
+		$indexable_table->column( 'object_sub_type', 'string', [ 'null' => true, 'limit' => 100 ] );
 
 		$indexable_table->column(
 			'number_of_pages',
 			'integer',
-			array(
+			[
 				'unsigned' => true,
 				'null'     => true,
 				'default'  => null,
 				'limit'    => 11,
-			)
+			]
 		);
 
-		$indexable_table->column( 'canonical', 'string', array( 'null' => true, 'limit' => 191 ) );
+		$indexable_table->column( 'canonical', 'string', [ 'null' => true, 'limit' => 191 ] );
 
-		$indexable_table->column( 'title', 'string', array( 'null' => true, 'limit' => 191 ) );
-		$indexable_table->column( 'description', 'text', array( 'null' => true ) );
-		$indexable_table->column( 'breadcrumb_title', 'string', array( 'null' => true, 'limit' => 191 ) );
+		$indexable_table->column( 'title', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$indexable_table->column( 'description', 'text', [ 'null' => true ] );
+		$indexable_table->column( 'breadcrumb_title', 'string', [ 'null' => true, 'limit' => 191 ] );
 
-		$indexable_table->column( 'is_robots_noindex', 'boolean', array( 'null' => true, 'default' => false ) );
-		$indexable_table->column( 'is_robots_nofollow', 'boolean', array( 'null' => true, 'default' => false ) );
-		$indexable_table->column( 'is_robots_noarchive', 'boolean', array( 'null' => true, 'default' => false ) );
-		$indexable_table->column( 'is_robots_noimageindex', 'boolean', array( 'null' => true, 'default' => false ) );
-		$indexable_table->column( 'is_robots_nosnippet', 'boolean', array( 'null' => true, 'default' => false ) );
+		$indexable_table->column( 'is_robots_noindex', 'boolean', [ 'null' => true, 'default' => false ] );
+		$indexable_table->column( 'is_robots_nofollow', 'boolean', [ 'null' => true, 'default' => false ] );
+		$indexable_table->column( 'is_robots_noarchive', 'boolean', [ 'null' => true, 'default' => false ] );
+		$indexable_table->column( 'is_robots_noimageindex', 'boolean', [ 'null' => true, 'default' => false ] );
+		$indexable_table->column( 'is_robots_nosnippet', 'boolean', [ 'null' => true, 'default' => false ] );
 
-		$indexable_table->column( 'primary_focus_keyword', 'string', array( 'null' => true, 'limit' => 191 ) );
-		$indexable_table->column( 'primary_focus_keyword_score', 'integer', array( 'null' => true, 'limit' => 3 ) );
+		$indexable_table->column( 'primary_focus_keyword', 'string', [ 'null' => true, 'limit' => 191 ] );
+		$indexable_table->column( 'primary_focus_keyword_score', 'integer', [ 'null' => true, 'limit' => 3 ] );
 
-		$indexable_table->column( 'readability_score', 'integer', array( 'null' => true, 'limit' => 3 ) );
+		$indexable_table->column( 'readability_score', 'integer', [ 'null' => true, 'limit' => 3 ] );
 
-		$indexable_table->column( 'is_cornerstone', 'boolean', array( 'default' => false ) );
+		$indexable_table->column( 'is_cornerstone', 'boolean', [ 'default' => false ] );
 
-		$indexable_table->column( 'link_count', 'integer', array( 'null' => true, 'limit' => 11 ) );
-		$indexable_table->column( 'incoming_link_count', 'integer', array( 'null' => true, 'limit' => 11 ) );
+		$indexable_table->column( 'link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
+		$indexable_table->column( 'incoming_link_count', 'integer', [ 'null' => true, 'limit' => 11 ] );
 
 		// Exexcute the SQL to create the table.
 		$indexable_table->finish();
 
 		$this->add_index(
 			$table_name,
-			array(
+			[
 				'permalink',
-			),
-			array(
+			],
+			[
 				'name'   => 'unique_permalink',
 				'unique' => true,
-			)
+			]
 		);
 
 		$this->add_index(
 			$table_name,
-			array(
+			[
 				'object_type',
 				'object_sub_type',
-			),
-			array(
+			],
+			[
 				'name' => 'indexable',
-			)
+			]
 		);
 
 		$this->add_index(
 			$table_name,
-			array(
+			[
 				'primary_focus_keyword_score',
 				'object_type',
 				'object_sub_type',
-			),
-			array(
+			],
+			[
 				'name' => 'primary_focus_keyword_score',
-			)
+			]
 		);
 
 		$this->add_index(
 			$table_name,
-			array(
+			[
 				'is_cornerstone',
 				'object_type',
 				'object_sub_type',
-			),
-			array(
+			],
+			[
 				'name' => 'cornerstones',
-			)
+			]
 		);
 
 		$this->add_index(
 			$table_name,
-			array(
+			[
 				'incoming_link_count',
 				'object_type',
 				'object_sub_type',
-			),
-			array(
+			],
+			[
 				'name' => 'orphaned_content',
-			)
+			]
 		);
 
 		$this->add_index(
 			$table_name,
-			array(
+			[
 				'is_robots_noindex',
 				'object_id',
 				'object_type',
 				'object_sub_type',
-			),
-			array(
+			],
+			[
 				'name' => 'robots_noindex',
-			)
+			]
 		);
 
 		$this->add_timestamps( $table_name );

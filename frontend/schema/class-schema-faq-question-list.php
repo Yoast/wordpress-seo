@@ -17,24 +17,28 @@
  * @property int                     count
  */
 class WPSEO_Schema_FAQ_Question_List {
+
 	/**
 	 * The Schema array.
 	 *
 	 * @var array
 	 */
-	private $data = array();
+	private $data = [];
+
 	/**
 	 * All the blocks of this block-type.
 	 *
 	 * @var WP_Block_Parser_Block
 	 */
 	private $blocks;
+
 	/**
 	 * Number of questions on the page.
 	 *
 	 * @var int
 	 */
 	private $count;
+
 	/**
 	 * IDs of the questions on the page.
 	 *
@@ -62,12 +66,12 @@ class WPSEO_Schema_FAQ_Question_List {
 	public function generate() {
 		$this->prepare_blocks();
 
-		$this->data[] = array(
+		$this->data[] = [
 			'@type'            => 'ItemList',
-			'mainEntityOfPage' => array( '@id' => $this->get_schema_id() ),
+			'mainEntityOfPage' => [ '@id' => $this->get_schema_id() ],
 			'numberOfItems'    => $this->count,
 			'itemListElement'  => $this->ids,
-		);
+		];
 
 		return $this->data;
 	}
@@ -78,7 +82,7 @@ class WPSEO_Schema_FAQ_Question_List {
 	 * @return string A reference URL.
 	 */
 	private function get_schema_id() {
-		if ( WPSEO_Schema_Article::is_article_post_type() ) {
+		if ( $this->context->site_represents !== false && WPSEO_Schema_Article::is_article_post_type() ) {
 			return $this->context->canonical . WPSEO_Schema_IDs::ARTICLE_HASH;
 		}
 
@@ -105,7 +109,7 @@ class WPSEO_Schema_FAQ_Question_List {
 				continue;
 			}
 			$this->count ++;
-			$this->ids[] = array( '@id' => $this->context->canonical . '#' . $question['id'] );
+			$this->ids[] = [ '@id' => $this->context->canonical . '#' . esc_attr( $question['id'] ) ];
 		}
 	}
 }

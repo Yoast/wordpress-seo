@@ -184,7 +184,7 @@ class WPSEO_Sitemaps_Cache_Validator {
 		 *
 		 * We can't use `esc_like` here because we need the % in the query.
 		 */
-		$where   = array();
+		$where   = [];
 		$where[] = sprintf( "option_name LIKE '%s'", addcslashes( '_transient_' . $like, '_' ) );
 		$where[] = sprintf( "option_name LIKE '%s'", addcslashes( '_transient_timeout_' . $like, '_' ) );
 

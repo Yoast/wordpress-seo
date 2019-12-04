@@ -11,6 +11,8 @@
 class WPSEO_Ryte_Service {
 
 	/**
+	 * This class handles the data for the option where the Ryte data is stored.
+	 *
 	 * @var WPSEO_OnPage_Option
 	 */
 	protected $option;
@@ -39,24 +41,24 @@ class WPSEO_Ryte_Service {
 			$result = $this->get_score( $this->option->get_status(), $this->option->should_be_fetched() );
 		}
 
-		return new WP_REST_Response( array( 'ryte' => $result ) );
+		return new WP_REST_Response( [ 'ryte' => $result ] );
 	}
 
 	/**
 	 * Returns an the results of the Ryte option based on the passed status.
 	 *
 	 * @param string $status The option's status.
-	 * @param bool   $fetch Whether or not the data should be fetched.
+	 * @param bool   $fetch  Whether or not the data should be fetched.
 	 *
 	 * @return array The results, contains a score and label.
 	 */
 	private function get_score( $status, $fetch = false ) {
 		if ( $status === WPSEO_OnPage_Option::IS_INDEXABLE ) {
-			return array(
+			return [
 				'score'     => 'good',
 				'label'     => __( 'Your homepage can be indexed by search engines.', 'wordpress-seo' ),
 				'can_fetch' => $fetch,
-			);
+			];
 		}
 
 		if ( $status === WPSEO_OnPage_Option::IS_NOT_INDEXABLE ) {
@@ -68,11 +70,11 @@ class WPSEO_Ryte_Service {
 				'</a>'
 			);
 
-			return array(
+			return [
 				'score'     => 'bad',
 				'label'     => $label,
 				'can_fetch' => $fetch,
-			);
+			];
 		}
 
 		if ( $status === WPSEO_OnPage_Option::CANNOT_FETCH ) {
@@ -86,11 +88,11 @@ class WPSEO_Ryte_Service {
 				'Ryte'
 			);
 
-			return array(
+			return [
 				'score'     => 'na',
 				'label'     => $label,
 				'can_fetch' => $fetch,
-			);
+			];
 		}
 
 		if ( $status === WPSEO_OnPage_Option::NOT_FETCHED ) {
@@ -98,13 +100,13 @@ class WPSEO_Ryte_Service {
 			$label = __( '%1$s has not fetched your site\'s indexability status yet from %2$s', 'wordpress-seo' );
 			$label = sprintf( $label, 'Yoast SEO', 'Ryte' );
 
-			return array(
+			return [
 				'score'     => 'na',
 				'label'     => esc_html( $label ),
 				'can_fetch' => $fetch,
-			);
+			];
 		}
 
-		return array();
+		return [];
 	}
 }

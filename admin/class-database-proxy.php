@@ -11,26 +11,36 @@
 class WPSEO_Database_Proxy {
 
 	/**
+	 * Holds the table name.
+	 *
 	 * @var string
 	 */
 	protected $table_name;
 
 	/**
+	 * Determines whether to suppress errors or not.
+	 *
 	 * @var bool
 	 */
 	protected $suppress_errors = true;
 
 	/**
+	 * Determines if this table is multisite.
+	 *
 	 * @var bool
 	 */
 	protected $is_multisite_table = false;
 
 	/**
+	 * Holds the last suppressed state.
+	 *
 	 * @var bool
 	 */
 	protected $last_suppressed_state;
 
 	/**
+	 * Holds the WordPress database object.
+	 *
 	 * @var wpdb
 	 */
 	protected $database;
@@ -117,8 +127,8 @@ class WPSEO_Database_Proxy {
 
 		$this->pre_execution();
 
-		$update  = array();
-		$keys    = array();
+		$update  = [];
+		$keys    = [];
 		$columns = array_keys( $data );
 		foreach ( $columns as $column ) {
 			$keys[]   = '`' . $column . '`';
@@ -188,7 +198,7 @@ class WPSEO_Database_Proxy {
 	 *
 	 * @return bool True when creation is successful.
 	 */
-	public function create_table( array $columns, array $indexes = array() ) {
+	public function create_table( array $columns, array $indexes = [] ) {
 		$create_table = sprintf(
 			'CREATE TABLE IF NOT EXISTS %1$s ( %2$s ) %3$s',
 			$this->get_table_name(),

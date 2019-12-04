@@ -11,21 +11,29 @@
 class WPSEO_Admin_Help_Panel {
 
 	/**
+	 * Unique identifier of the element the inline help refers to, used as an identifier in the html.
+	 *
 	 * @var string
 	 */
 	private $id;
 
 	/**
+	 * The Help Button text. Needs a properly escaped string.
+	 *
 	 * @var string
 	 */
 	private $help_button_text;
 
 	/**
+	 * The Help Panel content. Needs a properly escaped string (might contain HTML).
+	 *
 	 * @var string
 	 */
 	private $help_content;
 
 	/**
+	 * Optional Whether to print out a container div element for the Help Panel, used for styling.
+	 *
 	 * @var string
 	 */
 	private $wrapper;
@@ -33,11 +41,13 @@ class WPSEO_Admin_Help_Panel {
 	/**
 	 * Constructor.
 	 *
-	 * @param string $id                Unique identifier of the element the inline help refers to, used as an identifier in the html.
-	 * @param string $help_button_text  The Help Button text. Needs a properly escaped string.
-	 * @param string $help_content      The Help Panel content. Needs a properly escaped string (might contain HTML).
-	 * @param string $wrapper           Optional Whether to print out a container div element for the Help Panel, used for styling.
-	 *                                  Pass a `has-wrapper` value to print out the container. Default: no container.
+	 * @param string $id               Unique identifier of the element the inline help refers to, used as
+	 *                                 an identifier in the html.
+	 * @param string $help_button_text The Help Button text. Needs a properly escaped string.
+	 * @param string $help_content     The Help Panel content. Needs a properly escaped string (might contain HTML).
+	 * @param string $wrapper          Optional Whether to print out a container div element for the Help Panel,
+	 *                                 used for styling.
+	 *                                 Pass a `has-wrapper` value to print out the container. Default: no container.
 	 */
 	public function __construct( $id, $help_button_text, $help_content, $wrapper = '' ) {
 		$this->id               = $id;

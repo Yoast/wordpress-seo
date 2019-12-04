@@ -40,7 +40,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	 * @codeCoverageIgnore
 	 */
 	public function __construct() {
-		_deprecated_constructor( 'WPSEO_Recalibration_Beta', 'WPSEO 10.0' );
+		_deprecated_function( __METHOD__, '10.0' );
 	}
 
 	/**
@@ -57,10 +57,10 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		$values = array(
+		$values = [
 			'on'  => __( 'On', 'wordpress-seo' ),
 			'off' => __( 'Off', 'wordpress-seo' ),
-		);
+		];
 
 		echo '<div class="switch-container">';
 		echo '<fieldset id="', esc_attr( $this->option_name ), '" class="fieldset-switch-toggle">';
@@ -110,7 +110,7 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'update_option_wpseo', array( $this, 'update_option' ), 10, 2 );
+		add_action( 'update_option_wpseo', [ $this, 'update_option' ], 10, 2 );
 	}
 
 	/**
@@ -195,11 +195,11 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 		try {
 			$this->do_request(
 				'https://my.yoast.com/api/customers/newsletter/recalibration/subscribe',
-				array(
+				[
 					'email'     => get_option( 'admin_email' ),
 					'firstName' => get_option( 'blogname' ),
 					'lastName'  => '',
-				)
+				]
 			);
 
 			$this->set_mailinglist_subscription();
@@ -225,9 +225,9 @@ class WPSEO_Recalibration_Beta implements WPSEO_WordPress_Integration {
 	protected function do_request( $url, $body ) {
 		$response = wp_remote_post(
 			$url,
-			array(
+			[
 				'body' => $body,
-			)
+			]
 		);
 
 		if ( is_wp_error( $response ) ) {

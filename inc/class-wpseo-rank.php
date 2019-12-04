@@ -11,26 +11,36 @@
 class WPSEO_Rank {
 
 	/**
+	 * Constant used for determining a bad SEO rating.
+	 *
 	 * @var string
 	 */
 	const BAD = 'bad';
 
 	/**
+	 * Constant used for determining an OK SEO rating.
+	 *
 	 * @var string
 	 */
 	const OK = 'ok';
 
 	/**
+	 * Constant used for determining a good SEO rating.
+	 *
 	 * @var string
 	 */
 	const GOOD = 'good';
 
 	/**
+	 * Constant used for determining that no focus keyphrase is set.
+	 *
 	 * @var string
 	 */
 	const NO_FOCUS = 'na';
 
 	/**
+	 * Constant used for determining that this content is not indexed.
+	 *
 	 * @var string
 	 */
 	const NO_INDEX = 'noindex';
@@ -40,44 +50,48 @@ class WPSEO_Rank {
 	 *
 	 * @var array
 	 */
-	protected static $ranks = array(
+	protected static $ranks = [
 		self::BAD,
 		self::OK,
 		self::GOOD,
 		self::NO_FOCUS,
 		self::NO_INDEX,
-	);
+	];
 
 	/**
 	 * Holds the translation from seo score slug to actual score range.
 	 *
 	 * @var array
 	 */
-	protected static $ranges = array(
-		self::NO_FOCUS => array(
+	protected static $ranges = [
+		self::NO_FOCUS => [
 			'start' => 0,
 			'end'   => 0,
-		),
-		self::BAD => array(
+		],
+		self::BAD => [
 			'start' => 1,
 			'end'   => 40,
-		),
-		self::OK => array(
+		],
+		self::OK => [
 			'start' => 41,
 			'end'   => 70,
-		),
-		self::GOOD => array(
+		],
+		self::GOOD => [
 			'start' => 71,
 			'end'   => 100,
-		),
-	);
+		],
+	];
 
 	/**
+	 * The current rank.
+	 *
 	 * @var int
 	 */
 	protected $rank;
 
 	/**
+	 * WPSEO_Rank constructor.
+	 *
 	 * @param int $rank The actual rank.
 	 */
 	public function __construct( $rank ) {
@@ -103,13 +117,13 @@ class WPSEO_Rank {
 	 * @return string
 	 */
 	public function get_css_class() {
-		$labels = array(
+		$labels = [
 			self::NO_FOCUS => 'na',
 			self::NO_INDEX => 'noindex',
 			self::BAD      => 'bad',
 			self::OK       => 'ok',
 			self::GOOD     => 'good',
-		);
+		];
 
 		return $labels[ $this->rank ];
 	}
@@ -120,13 +134,13 @@ class WPSEO_Rank {
 	 * @return string
 	 */
 	public function get_label() {
-		$labels = array(
+		$labels = [
 			self::NO_FOCUS => __( 'Not available', 'wordpress-seo' ),
 			self::NO_INDEX => __( 'No index', 'wordpress-seo' ),
 			self::BAD      => __( 'Needs improvement', 'wordpress-seo' ),
 			self::OK       => __( 'OK', 'wordpress-seo' ),
 			self::GOOD     => __( 'Good', 'wordpress-seo' ),
-		);
+		];
 
 		return $labels[ $this->rank ];
 	}
@@ -137,7 +151,7 @@ class WPSEO_Rank {
 	 * @return mixed
 	 */
 	public function get_drop_down_label() {
-		$labels = array(
+		$labels = [
 			self::NO_FOCUS => sprintf(
 				/* translators: %s expands to the SEO score */
 				__( 'SEO: %s', 'wordpress-seo' ),
@@ -163,7 +177,7 @@ class WPSEO_Rank {
 				__( 'SEO: %s', 'wordpress-seo' ),
 				__( 'Post Noindexed', 'wordpress-seo' )
 			),
-		);
+		];
 
 		return $labels[ $this->rank ];
 	}
@@ -174,7 +188,7 @@ class WPSEO_Rank {
 	 * @return string The readability rank label.
 	 */
 	public function get_drop_down_readability_labels() {
-		$labels = array(
+		$labels = [
 			self::BAD => sprintf(
 				/* translators: %s expands to the readability score */
 				__( 'Readability: %s', 'wordpress-seo' ),
@@ -190,13 +204,15 @@ class WPSEO_Rank {
 				__( 'Readability: %s', 'wordpress-seo' ),
 				__( 'Good', 'wordpress-seo' )
 			),
-		);
+		];
 
 		return $labels[ $this->rank ];
 	}
 
 	/**
-	 * @return int The starting score for this rank.
+	 * Get the starting score for this rank.
+	 *
+	 * @return int The start score.
 	 */
 	public function get_starting_score() {
 		// No index does not have a starting score.
@@ -208,7 +224,9 @@ class WPSEO_Rank {
 	}
 
 	/**
-	 * @return int The end score for this rank.
+	 * Get the ending score for this rank.
+	 *
+	 * @return int The end score.
 	 */
 	public function get_end_score() {
 		// No index does not have an end score.
@@ -246,7 +264,7 @@ class WPSEO_Rank {
 	 * @return WPSEO_Rank[]
 	 */
 	public static function get_all_ranks() {
-		return array_map( array( 'WPSEO_Rank', 'create_rank' ), self::$ranks );
+		return array_map( [ 'WPSEO_Rank', 'create_rank' ], self::$ranks );
 	}
 
 	/**
@@ -255,7 +273,7 @@ class WPSEO_Rank {
 	 * @return WPSEO_Rank[]
 	 */
 	public static function get_all_readability_ranks() {
-		return array_map( array( 'WPSEO_Rank', 'create_rank' ), array( self::BAD, self::OK, self::GOOD ) );
+		return array_map( [ 'WPSEO_Rank', 'create_rank' ], [ self::BAD, self::OK, self::GOOD ] );
 	}
 
 	/**

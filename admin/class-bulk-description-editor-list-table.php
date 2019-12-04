@@ -23,11 +23,11 @@ class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
 	 *
 	 * @var array
 	 */
-	protected $settings = array(
+	protected $settings = [
 		'singular' => 'wpseo_bulk_description',
 		'plural'   => 'wpseo_bulk_descriptions',
 		'ajax'     => true,
-	);
+	];
 
 	/**
 	 * The field in the database where meta field is saved.
@@ -42,10 +42,10 @@ class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
 	 * @return array
 	 */
 	public function get_columns() {
-		$columns = array(
+		$columns = [
 			'col_existing_yoast_seo_metadesc' => __( 'Existing Yoast Meta Description', 'wordpress-seo' ),
 			'col_new_yoast_seo_metadesc'      => __( 'New Yoast Meta Description', 'wordpress-seo' ),
-		);
+		];
 
 		return $this->merge_columns( $columns );
 	}
@@ -70,6 +70,9 @@ class WPSEO_Bulk_Description_List_Table extends WPSEO_Bulk_List_Table {
 
 			case 'col_existing_yoast_seo_metadesc':
 				// @todo Inconsistent return/echo behavior R.
+				// I traced the escaping of the attributes to WPSEO_Bulk_List_Table::column_attributes. Alexander.
+				// The output of WPSEO_Bulk_List_Table::parse_meta_data_field is properly escaped.
+				// phpcs:ignore WordPress.Security.EscapeOutput
 				echo $this->parse_meta_data_field( $record->ID, $attributes );
 				break;
 		}

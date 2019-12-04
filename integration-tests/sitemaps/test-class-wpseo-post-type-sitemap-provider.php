@@ -24,7 +24,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @var array
 	 */
-	private $excluded_posts = array();
+	private $excluded_posts = [];
 
 	/**
 	 * Set up our double class.
@@ -89,11 +89,11 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	public function test_get_index_links_empty_bucket() {
 
 		$this->factory->post->create();
-		$this->excluded_posts = array( $this->factory->post->create() ); // Remove this post.
+		$this->excluded_posts = [ $this->factory->post->create() ]; // Remove this post.
 		$this->factory->post->create();
 
-		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'exclude_post' ) );
-		add_filter( 'wpseo_sitemap_entries_per_page', array( $this, 'return_one' ) );
+		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', [ $this, 'exclude_post' ] );
+		add_filter( 'wpseo_sitemap_entries_per_page', [ $this, 'return_one' ] );
 
 		// Fetch the global sitemap.
 		set_query_var( 'sitemap', 'post' );
@@ -111,7 +111,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		);
 
 		// Remove the filter.
-		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'exclude_post' ) );
+		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', [ $this, 'exclude_post' ] );
 	}
 
 	/**
@@ -135,6 +135,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the sitemap links for the different homepage possibilities.
+	 *
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_sitemap_links
 	 */
 	public function test_get_sitemap_links() {
@@ -144,14 +146,13 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$current_page_on_front  = (int) get_option( 'page_on_front' );
 		$current_page_for_posts = (int) get_option( 'page_for_posts' );
 
-		$front_page = $this->factory()->post->create_and_get( array( 'post_type' => 'page' ) );
-		$posts_page = $this->factory()->post->create_and_get( array( 'post_type' => 'page' ) );
-		$post_id    = $this->factory()->post->create_and_get( array( 'post_type' => 'post' ) );
+		$front_page = $this->factory()->post->create_and_get( [ 'post_type' => 'page' ] );
+		$posts_page = $this->factory()->post->create_and_get( [ 'post_type' => 'page' ] );
+		$post_id    = $this->factory()->post->create_and_get( [ 'post_type' => 'post' ] );
 
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $front_page->ID );
 		update_option( 'page_for_posts', 0 );
-		$sitemap_provider->reset();
 
 		$sitemap_links = $sitemap_provider->get_sitemap_links( 'page', 1, 1 );
 		$this->assertContains( get_permalink( $front_page->ID ), $sitemap_links[0] );
@@ -162,7 +163,6 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $front_page->ID );
 		update_option( 'page_for_posts', $posts_page->ID );
-		$sitemap_provider->reset();
 
 		$sitemap_links = $sitemap_provider->get_sitemap_links( 'page', 1, 1 );
 		$this->assertContains( WPSEO_Utils::home_url(), $sitemap_links[0] );
@@ -176,13 +176,12 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		update_option( 'show_on_front', 'posts' );
 		update_option( 'page_on_front', 0 );
 		update_option( 'page_for_posts', 0 );
-		$sitemap_provider->reset();
 
 		$sitemap_links = $sitemap_provider->get_sitemap_links( 'page', 1, 1 );
 		$this->assertContains( WPSEO_Utils::home_url(), $sitemap_links[0] );
 
 		$sitemap_links = $sitemap_provider->get_sitemap_links( 'post', 2, 1 );
-		$this->assertContains( get_post_type_archive_link( 'post' ), $sitemap_links[0] );
+		$this->assertContains( WPSEO_Utils::home_url(), $sitemap_links[0] );
 		$this->assertContains( get_permalink( $post_id ), $sitemap_links[1] );
 
 		update_option( 'show_on_front', $current_show_on_front );
@@ -193,39 +192,39 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the excluded posts with the usage of the filter.
 	 *
-	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts()
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts
 	 */
 	public function test_get_excluded_posts_with_set_filter() {
 		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
 
-		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_output' ) );
+		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', [ $this, 'filter_with_output' ] );
 
-		$expected = array(
+		$expected = [
 			0 => 5,
 			1 => 600,
 			2 => 23,
 			3 => 0,
 			5 => 3,
-		);
+		];
 
 		$this->assertEquals( $expected, $sitemap_provider->get_excluded_posts( 'post' ) );
 
-		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_output' ) );
+		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', [ $this, 'filter_with_output' ] );
 	}
 
 	/**
 	 * Tests the excluded posts with the usage of a filter that returns an invalid value.
 	 *
-	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts()
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_excluded_posts
 	 */
 	public function test_get_excluded_posts_with_set_filter_that_has_invalid_return_value() {
 		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
 
-		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_invalid_output' ) );
+		add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', [ $this, 'filter_with_invalid_output' ] );
 
-		$this->assertEquals( array(), $sitemap_provider->get_excluded_posts( 'post' ) );
+		$this->assertEquals( [], $sitemap_provider->get_excluded_posts( 'post' ) );
 
-		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', array( $this, 'filter_with_invalid_output' ) );
+		remove_filter( 'wpseo_exclude_from_sitemap_by_post_ids', [ $this, 'filter_with_invalid_output' ] );
 	}
 
 	/**
@@ -240,7 +239,7 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 		$excluded_post_ids[] = 600;
 		$excluded_post_ids[] = '23books';
 		$excluded_post_ids[] = '';
-		$excluded_post_ids[] = array();
+		$excluded_post_ids[] = [];
 		$excluded_post_ids[] = '    3';
 
 		return $excluded_post_ids;
@@ -263,38 +262,29 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_url
 	 */
 	public function test_get_url() {
-		$instance = $this
-			->getMockBuilder( 'WPSEO_Post_Type_Sitemap_Provider_Double' )
-			->setMethods( array( 'get_home_url' ) )
-			->getMock();
+		$current_home     = get_option( 'home' );
+		$sitemap_provider = new WPSEO_Post_Type_Sitemap_Provider_Double();
 
-		$instance
-			->expects( $this->once() )
-			->method( 'get_home_url' )
-			->will( $this->returnValue( 'http://example.org' ) );
+		$post_object = $this->factory()->post->create_and_get();
+		$post_url    = $sitemap_provider->get_url( $post_object );
 
-		add_filter( 'wpseo_xml_sitemap_post_url', array( $this, 'set_post_sitemap_url' ) );
+		$this->assertContains( $current_home, $post_url['loc'] );
 
-		/** @var WPSEO_Post_Type_Sitemap_Provider_Double $instance */
-		$instance->set_classifier( null );
-		$this->assertFalse( $instance->get_url( $this->factory->post->create() ) );
+		// Change home URL.
+		update_option( 'home', 'http://example.com' );
+		wp_cache_delete( 'alloptions', 'options' );
 
-		remove_filter( 'wpseo_xml_sitemap_post_url', array( $this, 'set_post_sitemap_url' ) );
-	}
+		$this->assertFalse( $sitemap_provider->get_url( $post_object ) );
 
-	/**
-	 * Helper function to mock sitemap URL.
-	 *
-	 * @param string $url URL to mock.
-	 *
-	 * @return string URL to use.
-	 */
-	public function set_post_sitemap_url( $url ) {
-		return 'http://example.com';
+		// Revert original home URL.
+		update_option( 'home', $current_home );
+		wp_cache_delete( 'alloptions', 'options' );
 	}
 
 	/**
 	 * Tests a regular post is added to the sitemap.
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_sitemap_links
 	 */
 	public function test_regular_post() {
 		$this->factory->post->create();
@@ -305,13 +295,15 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests to make sure password protected posts are not in the sitemap.
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_sitemap_links
 	 */
 	public function test_password_protected_post() {
 		// Create password protected post.
 		$this->factory->post->create(
-			array(
+			[
 				'post_password' => 'secret',
-			)
+			]
 		);
 
 		// Expect the protected post should not be added.
@@ -324,6 +316,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests to make sure a regular attachment is include in the sitemap.
+	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_sitemap_links
 	 */
 	public function test_regular_attachment() {
 		// Enable attachments in the sitemap.
@@ -331,17 +325,17 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 		// Create non-password-protected post.
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_password' => '',
-			)
+			]
 		);
 
 		$this->factory->post->create(
-			array(
+			[
 				'post_parent' => $post_id,
 				'post_type'   => 'attachment',
 				'post_status' => 'inherit',
-			)
+			]
 		);
 
 		// Expect the attchment to be in the list.
@@ -351,6 +345,8 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests to make sure attachment is not added when parent is a protected post.
 	 *
+	 * @covers WPSEO_Post_Type_Sitemap_Provider::get_sitemap_links
+	 *
 	 * @link https://github.com/Yoast/wordpress-seo/issues/9194
 	 */
 	public function test_password_protected_post_parent_attachment() {
@@ -359,17 +355,17 @@ class WPSEO_Post_Type_Sitemap_Provider_Test extends WPSEO_UnitTestCase {
 
 		// Create password protected post.
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_password' => 'secret',
-			)
+			]
 		);
 
 		$this->factory->post->create(
-			array(
+			[
 				'post_parent' => $post_id,
 				'post_type'   => 'attachment',
 				'post_status' => 'inherit',
-			)
+			]
 		);
 
 		// Expect the attachment not to be added to the list.

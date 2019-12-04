@@ -10,22 +10,18 @@ module.exports = {
 	"po-files": [
 		"<%= paths.languages %>*.po",
 		"<%= paths.languages %>*.pot",
-		"<%= paths.languages %>yoast-seo.json",
-
-		"<%= files.pot.yoastComponents %>",
-		"<%= files.pot.yoastComponentsConfigurationWizard %>",
-		"<%= files.pot.yoastComponentsRemaining %>",
-		"<%= files.pot.wordpressSeoJs %>",
 		"<%= paths.languages %>yoast-components.json",
-
-		"<%= files.pot.yoastseojs %>",
+		"<%= paths.languages %>yoast-seo.json",
+		"<%= paths.languages %>yoastseojsfiles.txt",
 	],
 	"build-assets-js": [
 		"js/dist/*.js",
-		"!js/dist/jquery.tablesorter.min.js",
+		"<%= paths.js %>/select2",
 	],
 	"build-assets-css": [
-		"<%= paths.css %>/*.css",
+		"<%= files.css %>",
+		"<%= files.cssMap %>",
+		"<%= paths.css %>/select2",
 	],
 	artifact: [
 		"<%= files.artifact %>",

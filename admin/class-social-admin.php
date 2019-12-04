@@ -15,8 +15,8 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 */
 	public function __construct() {
 		self::translate_meta_boxes();
-		add_filter( 'wpseo_save_metaboxes', array( $this, 'save_meta_boxes' ), 10, 1 );
-		add_action( 'wpseo_save_compare_data', array( $this, 'og_data_compare' ), 10, 1 );
+		add_filter( 'wpseo_save_metaboxes', [ $this, 'save_meta_boxes' ], 10, 1 );
+		add_action( 'wpseo_save_compare_data', [ $this, 'og_data_compare' ], 10, 1 );
 	}
 
 	/**
@@ -38,19 +38,19 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		/* translators: %1$s expands to the social network, %2$s to the recommended image size. */
 		$image_size_text = __( 'The recommended image size for %1$s is %2$s pixels.', 'wordpress-seo' );
 
-		$social_networks = array(
+		$social_networks = [
 			'opengraph' => __( 'Facebook', 'wordpress-seo' ),
 			'twitter'   => __( 'Twitter', 'wordpress-seo' ),
-		);
+		];
 
 		// Source: https://blog.bufferapp.com/ideal-image-sizes-social-media-posts.
-		$recommended_image_sizes = array(
+		$recommended_image_sizes = [
 			/* translators: %1$s expands to the image recommended width, %2$s to its height. */
 			'opengraph' => sprintf( __( '%1$s by %2$s', 'wordpress-seo' ), '1200', '630' ),
 			// Source: https://developers.facebook.com/docs/sharing/best-practices#images.
 			/* translators: %1$s expands to the image recommended width, %2$s to its height. */
 			'twitter'   => sprintf( __( '%1$s by %2$s', 'wordpress-seo' ), '1024', '512' ),
-		);
+		];
 
 		foreach ( $social_networks as $network => $label ) {
 			if ( true === WPSEO_Options::get( $network, false ) ) {
@@ -72,12 +72,11 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	/**
 	 * Returns the metabox section for the social settings.
 	 *
-	 * @return WPSEO_Metabox_Tab_Section
+	 * @return WPSEO_Metabox_Collapsibles_Sections
 	 */
 	public function get_meta_section() {
-		$tabs               = array();
+		$tabs               = [];
 		$social_meta_fields = WPSEO_Meta::get_meta_field_defs( 'social' );
-		$single             = true;
 
 		$opengraph = WPSEO_Options::get( 'opengraph' );
 		$twitter   = WPSEO_Options::get( 'twitter' );
@@ -89,39 +88,25 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 		wp_nonce_field( 'yoast_free_metabox_social', 'yoast_free_metabox_social_nonce' );
 
 		if ( $opengraph === true ) {
-			$tabs[] = new WPSEO_Metabox_Form_Tab(
+			$tabs[] = new WPSEO_Metabox_Collapsible(
 				'facebook',
 				$this->get_social_tab_content( 'opengraph', $social_meta_fields ),
-				'<span class="screen-reader-text">' . __( 'Facebook / Open Graph metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-facebook-alt"></span>',
-				array(
-					'link_aria_label' => __( 'Facebook / Open Graph metadata', 'wordpress-seo' ),
-					'link_class'      => 'yoast-tooltip yoast-tooltip-se',
-					'single'          => $single,
-				)
+				__( 'Facebook', 'wordpress-seo' )
 			);
 		}
 
 		if ( $twitter === true ) {
-			$tabs[] = new WPSEO_Metabox_Form_Tab(
+			$tabs[] = new WPSEO_Metabox_Collapsible(
 				'twitter',
 				$this->get_social_tab_content( 'twitter', $social_meta_fields ),
-				'<span class="screen-reader-text">' . __( 'Twitter metadata', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-twitter"></span>',
-				array(
-					'link_aria_label' => __( 'Twitter metadata', 'wordpress-seo' ),
-					'link_class'      => 'yoast-tooltip yoast-tooltip-se',
-					'single'          => $single,
-				)
+				__( 'Twitter', 'wordpress-seo' )
 			);
 		}
 
-		return new WPSEO_Metabox_Tab_Section(
+		return new WPSEO_Metabox_Collapsibles_Sections(
 			'social',
-			'<span class="screen-reader-text">' . __( 'Social', 'wordpress-seo' ) . '</span><span class="dashicons dashicons-share"></span>',
-			$tabs,
-			array(
-				'link_aria_label' => __( 'Social', 'wordpress-seo' ),
-				'link_class'      => 'yoast-tooltip yoast-tooltip-e',
-			)
+			'<span class="dashicons dashicons-share"></span>' . __( 'Social', 'wordpress-seo' ),
+			$tabs
 		);
 	}
 
@@ -134,12 +119,12 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 	 * @return string
 	 */
 	private function get_social_tab_content( $medium, $meta_field_defs ) {
-		$field_names = array(
+		$field_names = [
 			$medium . '-title',
 			$medium . '-description',
 			$medium . '-image',
 			$medium . '-image-id',
-		);
+		];
 
 		$tab_content = $this->get_premium_notice( $medium );
 
@@ -147,7 +132,27 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			$tab_content .= $this->do_meta_box( $meta_field_defs[ $field_name ], $field_name );
 		}
 
+		/**
+		 * If premium hide the form to show the social preview instead, we still need the fields to be output because
+		 * the values of the social preview are saved in the hidden field.
+		 */
+		$features = new WPSEO_Features();
+		if ( $features->is_premium() ) {
+			return $this->hide_form( $tab_content );
+		}
+
 		return $tab_content;
+	}
+
+	/**
+	 * Hides the given output when rendered to HTML.
+	 *
+	 * @param string $tab_content The social tab content.
+	 *
+	 * @return string The content.
+	 */
+	private function hide_form( $tab_content ) {
+		return '<div class="hidden">' . $tab_content . '</div>';
 	}
 
 	/**
@@ -228,11 +233,11 @@ class WPSEO_Social_Admin extends WPSEO_Metabox {
 			return;
 		}
 
-		$fields_to_compare = array(
+		$fields_to_compare = [
 			'opengraph-title',
 			'opengraph-description',
 			'opengraph-image',
-		);
+		];
 
 		$reset_facebook_cache = false;
 

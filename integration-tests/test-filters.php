@@ -11,10 +11,15 @@
 class Filters_Test extends WPSEO_UnitTestCase {
 
 	/**
+	 * Global wp_filter.
+	 *
 	 * @var array
 	 */
 	private $wp_filter;
 
+	/**
+	 * Filters_Test constructor.
+	 */
 	public function __construct() {
 
 		parent::__construct();
@@ -23,6 +28,11 @@ class Filters_Test extends WPSEO_UnitTestCase {
 		$this->wp_filter = $wp_filter;
 	}
 
+	/**
+	 * Tests global wp_filter.
+	 *
+	 * @coversNothing
+	 */
 	public function test_wp_head() {
 		$wp_head = $this->wp_filter['wp_head'];
 

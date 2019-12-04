@@ -11,6 +11,14 @@
  * @since 10.2
  */
 class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
+
+	/**
+	 * The date helper.
+	 *
+	 * @var WPSEO_Date_Helper
+	 */
+	protected $date;
+
 	/**
 	 * A value object with context variables.
 	 *
@@ -25,6 +33,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 */
 	public function __construct( WPSEO_Schema_Context $context ) {
 		$this->context = $context;
+		$this->date    = new WPSEO_Date_Helper();
 	}
 
 	/**
@@ -34,6 +43,10 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 */
 	public function is_needed() {
 		if ( ! is_singular() ) {
+			return false;
+		}
+
+		if ( $this->context->site_represents === false ) {
 			return false;
 		}
 
@@ -48,17 +61,17 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	public function generate() {
 		$post          = get_post( $this->context->id );
 		$comment_count = get_comment_count( $this->context->id );
-		$data          = array(
+		$data          = [
 			'@type'            => 'Article',
 			'@id'              => $this->context->canonical . WPSEO_Schema_IDs::ARTICLE_HASH,
-			'isPartOf'         => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
-			'author'           => array( '@id' => $this->get_author_url( $post ) ),
+			'isPartOf'         => [ '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ],
+			'author'           => [ '@id' => WPSEO_Schema_Utils::get_user_schema_id( $post->post_author, $this->context ) ],
 			'headline'         => get_the_title(),
-			'datePublished'    => mysql2date( DATE_W3C, $post->post_date_gmt, false ),
-			'dateModified'     => mysql2date( DATE_W3C, $post->post_modified_gmt, false ),
+			'datePublished'    => $this->date->format( $post->post_date_gmt ),
+			'dateModified'     => $this->date->format( $post->post_modified_gmt ),
 			'commentCount'     => $comment_count['approved'],
-			'mainEntityOfPage' => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
-		);
+			'mainEntityOfPage' => [ '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ],
+		];
 
 		if ( $this->context->site_represents_reference ) {
 			$data['publisher'] = $this->context->site_represents_reference;
@@ -88,41 +101,9 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		 *
 		 * @api string[] $post_types The post types for which we output Article.
 		 */
-		$post_types = apply_filters( 'wpseo_schema_article_post_types', array( 'post' ) );
+		$post_types = apply_filters( 'wpseo_schema_article_post_types', [ 'post' ] );
 
 		return in_array( $post_type, $post_types );
-	}
-
-	/**
-	 * Determine the proper author URL.
-	 *
-	 * @param \WP_Post $post Post object.
-	 *
-	 * @return string
-	 */
-	private function get_author_url( $post ) {
-		if ( $this->context->site_represents === 'person' && $this->context->site_user_id === (int) $post->post_author ) {
-			return $this->context->site_url . WPSEO_Schema_IDs::PERSON_HASH;
-		}
-
-		return $this->get_author_posts_url( $post->post_author ) . WPSEO_Schema_IDs::AUTHOR_HASH;
-	}
-
-	/**
-	 * Retrieves the author post URL based on our author archives settings.
-	 *
-	 * @param int $user_id The author's user ID.
-	 *
-	 * @return string unsigned Author posts URL.
-	 */
-	private function get_author_posts_url( $user_id ) {
-		if ( WPSEO_Options::get( 'disable-author', false ) === false ) {
-			return get_author_posts_url( $user_id );
-		}
-		$user = get_userdata( $user_id );
-		$slug = sanitize_title( $user->display_name );
-
-		return $this->context->site_url . 'schema/person/' . $slug . '/';
 	}
 
 	/**
@@ -173,11 +154,11 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	private function add_terms( $data, $key, $taxonomy ) {
 		$terms = get_the_terms( $this->context->id, $taxonomy );
 		if ( is_array( $terms ) ) {
-			$keywords = array();
+			$keywords = [];
 			foreach ( $terms as $term ) {
 				// We are checking against the WordPress internal translation.
 				// @codingStandardsIgnoreLine
-				if ( $term->name !== __( 'Uncategorized' ) ) {
+				if ( $term->name !== __( 'Uncategorized', 'default' ) ) {
 					$keywords[] = $term->name;
 				}
 			}
@@ -195,10 +176,10 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 * @return array $data The Article data.
 	 */
 	private function add_image( $data ) {
-		if ( has_post_thumbnail( $this->context->id ) ) {
-			$data['image'] = array(
+		if ( $this->context->has_image ) {
+			$data['image'] = [
 				'@id' => $this->context->canonical . WPSEO_Schema_IDs::PRIMARY_IMAGE_HASH,
-			);
+			];
 		}
 
 		return $data;

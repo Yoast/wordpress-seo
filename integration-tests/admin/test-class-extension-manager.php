@@ -29,12 +29,12 @@ class WPSEO_Extension_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the scenario when no active extensions are loaded.
 	 *
-	 * @covers WPSEO_Extension_Manager::is_activated()
+	 * @covers WPSEO_Extension_Manager::is_activated
 	 */
 	public function test_has_no_active_extensions_loaded() {
 		$extension_manager = $this
 			->getMockBuilder( 'WPSEO_Extension_Manager' )
-			->setMethods( array( 'get_current_page', 'get_active_extensions', 'set_cached_extensions', 'get_cached_extensions' ) )
+			->setMethods( [ 'get_current_page', 'get_active_extensions', 'set_cached_extensions', 'get_cached_extensions' ] )
 			->getMock();
 
 		$extension_manager
@@ -45,7 +45,7 @@ class WPSEO_Extension_Manager_Test extends WPSEO_UnitTestCase {
 		$extension_manager
 			->expects( $this->once() )
 			->method( 'get_cached_extensions' )
-			->will( $this->returnValue( array( 'wordpress-seo-premium' ) ) );
+			->will( $this->returnValue( [ 'wordpress-seo-premium' ] ) );
 
 		$this->assertTrue( $extension_manager->is_activated( 'wordpress-seo-premium' ) );
 	}
@@ -53,7 +53,7 @@ class WPSEO_Extension_Manager_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Tests the scenario when no active extensions are loaded and the cache is considered faulty.
 	 *
-	 * @covers WPSEO_Extension_Manager::is_activated()
+	 * @covers WPSEO_Extension_Manager::is_activated
 	 */
 	public function test_has_no_active_extensions_loaded_and_cached_are_faulty() {
 
@@ -63,13 +63,13 @@ class WPSEO_Extension_Manager_Test extends WPSEO_UnitTestCase {
 		$extension_manager = $this
 			->getMockBuilder( 'WPSEO_Extension_Manager' )
 			->setMethods(
-				array(
+				[
 					'get_current_page',
 					'get_active_extensions',
 					'set_cached_extensions',
 					'get_cached_extensions',
 					'retrieve_active_extensions',
-				)
+				]
 			)
 			->getMock();
 
@@ -86,12 +86,12 @@ class WPSEO_Extension_Manager_Test extends WPSEO_UnitTestCase {
 		$extension_manager
 			->expects( $this->once() )
 			->method( 'retrieve_active_extensions' )
-			->will( $this->returnValue( array( 'wordpress-seo-premium' ) ) );
+			->will( $this->returnValue( [ 'wordpress-seo-premium' ] ) );
 
 		$extension_manager
 			->expects( $this->once() )
 			->method( 'set_cached_extensions' )
-			->with( $this->identicalTo( array( 'wordpress-seo-premium' ) ) );
+			->with( $this->identicalTo( [ 'wordpress-seo-premium' ] ) );
 
 		$this->assertTrue( $extension_manager->is_activated( 'wordpress-seo-premium' ) );
 	}

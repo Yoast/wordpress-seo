@@ -4,7 +4,6 @@
 .wpseo_content_wrapper {
 	display: table;
 	width: 100%;
-	// IE11 and Edge need this for the Help Center responsiveness.
 	table-layout: fixed;
 }
 
@@ -28,8 +27,8 @@ tr.yst_row {
 
 #sidebar-container {
 	/* For historical reasons banner images have a 261px width. */
-	width: 261px;
-	padding: 0 0 0 19px;
+	width: 300px;
+	padding-left: 20px;
 }
 
 /* @todo: check this. */
@@ -53,7 +52,8 @@ tr.yst_row.even {
 
 	.yoast-inline-label {
 		float: none;
-		margin: 0;
+		display: inline-block;
+		margin: 0 0 8px;
 	}
 
 	input.textinput,
@@ -72,6 +72,30 @@ tr.yst_row.even {
 	select.select,
 	.select2-container {
 		margin: 0 0 15px 0;
+	}
+
+	/* Input validation errors */
+	input.textinput {
+		&[aria-invalid="true"] {
+			color: #000;
+			background: #f9dcdc url(../../images/error-icon.svg) no-repeat calc( 100% - 6px ) center;
+			background-size: 12px;
+			border: 1px solid #dc3232;
+			padding-right: 24px;
+
+			&[aria-describedby] {
+				margin-bottom: 0.5rem;
+			}
+		}
+	}
+
+	.yoast-input-validation {
+		&__error-description {
+			width: 400px;
+			padding-left: 200px;
+			margin: 0 0 1rem;
+			color: #8f1919;
+		}
 	}
 
 	/* @todo: check if the .double class is still used. */
@@ -211,21 +235,79 @@ tr.yst_row.even {
 	}
 
 	.paper.tab-block {
-		max-width: 600px;
-		box-shadow: 0 1px 2px rgba( #000, 0.2 );
+		button.toggleable-container-trigger {
+			width: 100%;
+			padding: 16px;
+			font-size: 1rem;
+
+			&:focus {
+				outline: 1px solid #0066cd;
+				outline-offset: -1px;
+				box-shadow: 0 0 3px rgba( 8,74,103,0.8 );
+			}
+
+			&:active {
+				box-shadow: none;
+			}
+		}
+
+		h2.collapsible-header {
+			margin: 0 !important;
+			padding: 0 !important;
+		}
+
+		&.metabox {
+			button.toggleable-container-trigger {
+				color: #555;
+			}
+
+			&.wpseotab {
+				padding: 0;
+				border: 0;
+			}
+		}
+
+		&.search-appearance {
+			max-width: 632px; // Width of 600px + 2 times padding of 16px making the inner max width the wanted 600px.
+			box-shadow: 0 1px 2px rgba( #000, 0.2 );
+			background-color: #fff;
+		}
+
+		.paper-container {
+			padding: 16px;
+
+			&:first-child {
+				margin-top: 0;
+			}
+		}
+
+		.paper-title {
+			padding: 16px;
+
+			h2 {
+				margin: 0;
+			}
+		}
+
+		.tab-block:first-child {
+			margin-top: 0;
+		}
+	}
+
+	.wpseo-collapsible-container {
 		background-color: #fff;
-		padding: 8px 20px;
+		border-top: 1px solid #e2e4e7;
+		border-bottom: 1px solid #e2e4e7;
+		margin-top: -1px;
 	}
 
 	.toggleable-container-trigger {
 		border: 0;
 		background: none;
 		cursor: pointer;
-		height: 20px;
 		width: 100%;
 		padding: 0;
 		text-align: left;
-		overflow: visible; // IE11 clips the icon focus style
 	}
 
 	.toggleable-container-icon {
@@ -245,29 +327,9 @@ tr.yst_row.even {
 		left: -4px;
 	}
 
-	.toggleable-container-trigger:focus {
-		outline: none;
-
-		.toggleable-container-icon::after {
-			border-radius: 100%;
-			box-shadow: 0 0 0 1px #5b9dd9,
-			0 0 2px 1px rgba(30, 140, 190, 0.8);
-		}
-	}
-
 	.toggleable-container-hidden {
 		display: none;
 	}
-}
-
-/* Google Search Console: Reload crawl issues form. */
-.wpseo-gsc-reload-crawl-issues-form {
-	position: relative;
-	top: 9px;
-}
-
-.wp-core-ui .button.wpseo-gsc-save-profile {
-	margin-left: 200px;
 }
 
 /* Styles for Yoast specific content. */
@@ -491,15 +553,19 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	}
 
 	&__section {
-		padding: 20px 0;
-		border-bottom: 1px solid #ddd;
-
-		h2, a {
-			color: #a4286a;
-		}
+		box-shadow: 0 1px 6px 0 rgba(0,0,0,.3);
+		border: 1px solid #dcdcdc;
+		background-color: #fff;
+		padding: 16px;
+		margin: 10px 0 20px 0;
 
 		h2 {
 			margin-top: 0;
+			color: #a4286a;
+		}
+
+		a {
+			color: #0085ba;
 		}
 
 		ul {
@@ -520,26 +586,24 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 
 		div {
 			position: relative;
-			margin: 10px 0;
-
-			a {
-				color: #0085ba;
-			}
-
-			img, p {
-				float: left;
-			}
+			margin: 10px 0 20px 0;
 
 			img {
-				width: 40px;
-				height: 40px;
-				margin: 0 10px 0 -50px;
+				float: right;
+				width: 70px;
+				height: 70px;
+				margin: 0 0 0 10px;
+
+				&.alignleft {
+					margin: 0 10px 0 0;
+					float: left;
+				}
 			}
 
 			p {
-				width: 200px;
+				float: left;
+				width: 100%;
 				margin: 0;
-				padding-left: 50px;
 			}
 		}
 
@@ -556,25 +620,18 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	}
 }
 
-/* Premium Upsell Admin Block
+/*
+ * Premium Upsell Admin Block
  * @since 5.1
  */
-.yoast_premium_upsell_admin_block {
-	border: 1px solid #ccc;
+.yoast_premium_upsell {
+	box-shadow: 0 1px 6px 0 rgba(0,0,0,.3);
+	border: 1px solid #dcdcdc;
+	padding: 16px;
 	background-color: #fff;
-	padding: 10px;
 	max-width: 640px;
 	overflow: hidden;
 	margin-top: 2em;
-
-	.wp-core-ui &--close {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 0;
-		width: 24px;
-		height: 24px;
-	}
 
 	&--header {
 		color: $color-pink-dark;
@@ -764,10 +821,6 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 			opacity: .75;
 		}
 
-		/* Remove background focus style from IE11 while keeping focus style available on option elements. */
-		&::-ms-value {
-			background: transparent;
-		}
 		/* Remove the default down arrow in IE/Edge. */
 		&::-ms-expand {
 			display: none;
@@ -790,6 +843,28 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 	#sidebar-container {
 		width: auto;
 		padding: 0;
+	}
+
+	/* Make the banners with product lists appear next to each other. */
+	.yoast-sidebar {
+
+		&__product-list {
+			display: flex;
+			border-bottom: 1px solid #ddd;
+
+			div p {
+				word-wrap: break-word;
+				width: calc( 100% - 50px );
+			}
+
+			.yoast-sidebar__section {
+				border-bottom: none;
+
+				&:first-child {
+					margin-right: 40px;
+				}
+			}
+		}
 	}
 }
 
@@ -822,27 +897,39 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		div.desc.label {
 			padding-left: 0;
 		}
-	}
 
-	.wp-core-ui .button.wpseo-gsc-save-profile {
-		margin-left: 0;
-	}
+		/* Input validation errors */
+		.textinput[aria-invalid="true"][aria-describedby] + br {
+			display: none;
+		}
 
-	/* Google Search Console: Reload crawl issues form. */
-	.wpseo-gsc-reload-crawl-issues-form {
-		top: 0;
-		margin: 1em 0;
-	}
-
-	.wpseo-gsc-reload-crawl-issues-form .alignright {
-		float: none;
+		.yoast-input-validation {
+			&__error-description {
+				width: auto;
+				padding-left: 0;
+			}
+		}
 	}
 }
 
 @media screen and ( max-width: 600px ) {
-	/* Google Search Console: Reload crawl issues form. */
-	.wpseo-gsc-reload-crawl-issues-form {
-		margin-bottom: 0;
+	/* Make the banners with product lists appear below each other. */
+	.yoast-sidebar {
+
+		&__product-list {
+			display: block;
+			border-bottom: none;
+
+			.yoast-sidebar__section {
+				border-bottom: 1px solid #ddd;
+
+				p {
+					word-wrap: break-word;
+					width: calc( 100% - 50px );
+					padding-left: 50px;
+				}
+			}
+		}
 	}
 }
 
