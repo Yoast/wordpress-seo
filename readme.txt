@@ -214,7 +214,7 @@ Release Date: December 10th, 2019
 
 Bugfixes:
 
-* Prevents rendering sub-sitemaps for non-public custom post types. Props to [@stodorovic](https://github.com/stodorovic).
+* Fixes a bug where sub-sitemaps were rendered for non-public custom post types. Props to [@stodorovic](https://github.com/stodorovic).
 * Fixes a bug where nested gallery images were not included in the image count in the sitemap. Props to [@stodorovic](https://github.com/stodorovic).
 * Fixes a bug where the notification center dismiss and restore buttons had no focus style.
 
