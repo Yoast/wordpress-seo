@@ -108,8 +108,8 @@ class Indexable_Repository {
 
 		// Find by both url_hash and url, url_hash is indexed so will be used first by the DB to optimize the query.
 		return $this->query()
-					->where( 'url_hash', $url_hash )
-					->where( 'url', $url )
+					->where( 'permalink_hash', $url_hash )
+					->where( 'permalink', $url )
 					->find_one();
 	}
 
