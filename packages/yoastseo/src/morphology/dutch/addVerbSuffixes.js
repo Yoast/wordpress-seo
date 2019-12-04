@@ -4,10 +4,9 @@ import { findAndApplyModificationsVerbsNouns } from "./suffixHelpers";
 /**
  * Add all of the verb suffixes that are needed for the given stem.
  *
- * @param {string} stemmedWord					The stem.
- * @param {Object} morphologyDataAddSuffixes  	The Dutch morphology data for adding suffixes.
- * @param {Object} morphologyDataVerbs  		The Dutch verb morphology data.
- *
+ * @param {string} stemmedWord	The stem
+ * @param {Object} morphologyDataAddSuffixes  The Dutch morphology data for adding suffixes.
+ * @param {Object} morphologyDataVerbs  	The Dutch verb morphology data.
  * @returns {string[]} The suffixed forms.
  */
 export function addVerbSuffixes( stemmedWord, morphologyDataAddSuffixes, morphologyDataVerbs ) {
@@ -24,6 +23,7 @@ export function addVerbSuffixes( stemmedWord, morphologyDataAddSuffixes, morphol
 			return [];
 		}
 	}
+
 	// Create a second stem (this is possibly the same as the original stem).
 	const secondStem = findAndApplyModificationsVerbsNouns( stemmedWord, morphologyDataAddSuffixes );
 
