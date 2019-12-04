@@ -220,7 +220,7 @@ Bugfixes:
 
 Other:
 
-* Improve security by adding output escaping.
+* Improves security by adding output escaping.
 
 = 12.6.2 =
 Release Date: November 28th, 2019
