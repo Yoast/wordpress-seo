@@ -11,6 +11,10 @@
  * Instantiates all the options and offers a number of utility methods to work with the options.
  */
 class WPSEO_Options {
+	/**
+	 * @var null
+	 */
+	private static $option_values = null;
 
 	/**
 	 * Options this class uses.
@@ -175,13 +179,11 @@ class WPSEO_Options {
 	 * @return array Array combining the values of all the options.
 	 */
 	public static function get_all() {
-		static $options = null;
-
-		if ( $options === null ) {
-			$options = self::get_options( self::get_option_names() );
+		if ( self::$option_values === null ) {
+			self::$option_values = self::get_options( self::get_option_names() );
 		}
 
-		return $options;
+		return self::$option_values;
 	}
 
 	/**
@@ -262,6 +264,7 @@ class WPSEO_Options {
 		$lookup_table = self::get_lookup_table();
 
 		if ( isset( $lookup_table[ $key ] ) ) {
+			self::$option_values[ $key ] = $value;
 			return self::save_option( $lookup_table[ $key ], $key, $value );
 		}
 
