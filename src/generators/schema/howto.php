@@ -101,7 +101,7 @@ class HowTo extends Abstract_Schema_Piece {
 		$minutes = empty( $attributes['minutes'] ) ? 0 : $attributes['minutes'];
 
 		if ( ( $days + $hours + $minutes ) > 0 ) {
-			$data['totalTime'] = 'P' . $days . 'DT' . $hours . 'H' . $minutes . 'M';
+			$data['totalTime'] = esc_attr( 'P' . $days . 'DT' . $hours . 'H' . $minutes . 'M' );
 		}
 	}
 
@@ -114,7 +114,7 @@ class HowTo extends Abstract_Schema_Piece {
 	 */
 	private function add_steps( &$data, $steps, Meta_Tags_Context $context ) {
 		foreach ( $steps as $step ) {
-			$schema_id   = $context->canonical . '#' . $step['id'];
+			$schema_id   = $context->canonical . '#' . esc_attr( $step['id'] );
 			$schema_step = [
 				'@type' => 'HowToStep',
 				'url'   => $schema_id,
@@ -192,7 +192,7 @@ class HowTo extends Abstract_Schema_Piece {
 	private function add_step_image( &$schema_step, $step, Meta_Tags_Context $context ) {
 		foreach ( $step['text'] as $line ) {
 			if ( \is_array( $line ) && isset( $line['type'] ) && $line['type'] === 'img' ) {
-				$schema_step['image'] = $this->get_image_schema( $line['props']['src'], $context );
+				$schema_step['image'] = $this->get_image_schema( esc_url( $line['props']['src'] ), $context );
 			}
 		}
 	}
