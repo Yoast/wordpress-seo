@@ -820,8 +820,7 @@ body.toplevel_page_wpseo_dashboard .wp-badge {
 		&[disabled] {
 			opacity: .75;
 		}
-
-		/* Remove the default down arrow in IE/Edge. */
+		/* Remove the default down arrow in Edge. */
 		&::-ms-expand {
 			display: none;
 		}
