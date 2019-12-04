@@ -42,6 +42,9 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 	 * Tests the saving of a link.
 	 */
 	public function test_save_link() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		/** @var WPSEO_Link_Storage $storage */
 		$storage = $this
 			->getMockBuilder( 'WPSEO_Link_Storage' )

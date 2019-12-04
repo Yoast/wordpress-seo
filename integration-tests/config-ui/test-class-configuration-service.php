@@ -51,6 +51,9 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Service::set_storage
 	 */
 	public function test_set_storage() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$service = new WPSEO_Configuration_Service_Mock();
 		$storage = $this->getMockBuilder( 'WPSEO_Configuration_Storage' )->getMock();
 
@@ -64,6 +67,9 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Service::set_endpoint
 	 */
 	public function test_set_endpoint() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$service  = new WPSEO_Configuration_Service_Mock();
 		$endpoint = $this->getMockBuilder( 'WPSEO_Configuration_Endpoint' )->getMock();
 
@@ -77,6 +83,9 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Service::set_options_adapter
 	 */
 	public function test_set_options_adapter() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$service = new WPSEO_Configuration_Service_Mock();
 		$adapter = $this->getMockBuilder( 'WPSEO_Configuration_Options_Adapter' )->getMock();
 
@@ -90,6 +99,9 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 	 * @covers WPSEO_Configuration_Service::set_components
 	 */
 	public function test_set_components() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		$service    = new WPSEO_Configuration_Service_Mock();
 		$components = $this->getMockBuilder( 'WPSEO_Configuration_Components' )->getMock();
 
@@ -204,6 +216,21 @@ class WPSEO_Configuration_Service_Test extends PHPUnit_Framework_TestCase {
 
 		foreach ( $properties as $property ) {
 			$this->assertNotNull( $configuration_service->get( $property ) );
+		}
+	}
+
+	/**
+	 * Bypass the PHP deprecation error which is thrown in PHP 7.4 for the PHPUnit mock builder
+	 * in select circumstances.
+	 *
+	 * @see WPSEO_UnitTestCase::bypass_php74_mockbuilder_deprecation_warning() For full explanation.
+	 *
+	 * @return void
+	 */
+	protected function bypass_php74_mockbuilder_deprecation_warning() {
+		if ( version_compare( PHP_VERSION_ID, 70399, '>' ) ) {
+			$this->expectException( 'PHPUnit_Framework_Error_Deprecated' );
+			$this->expectExceptionMessage( 'Function ReflectionType::__toString() is deprecated' );
 		}
 	}
 }

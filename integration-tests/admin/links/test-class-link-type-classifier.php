@@ -68,6 +68,9 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Link_Type_Classifier::classify
 	 */
 	public function test_contains_protocol() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		/** @var WPSEO_Link_Type_Classifier $classifier */
 		$classifier = $this
 			->getMockBuilder( 'WPSEO_Link_Type_Classifier' )
@@ -90,6 +93,9 @@ class WPSEO_Link_Type_Classifier_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Link_Type_Classifier::classify
 	 */
 	public function test_is_external_link() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		/** @var WPSEO_Link_Type_Classifier $classifier */
 		$classifier = $this
 			->getMockBuilder( 'WPSEO_Link_Type_Classifier' )

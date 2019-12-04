@@ -32,7 +32,11 @@ class WPSEO_Plugin_Suggestions_Test extends WPSEO_UnitTestCase {
 
 		$plugin_availability = new WPSEO_Plugin_Availability_Double();
 
-		$notification_center_mock = $this->getMockBuilder( 'Yoast_Notification_Center_Double' )
+		/*
+		 * Silencing errors for PHP 7.4 in combination with the Mock Builder.
+		 * See WPSEO_UnitTestCase::bypass_php74_mockbuilder_deprecation_warning() for context.
+		 */
+		@$notification_center_mock = $this->getMockBuilder( 'Yoast_Notification_Center_Double' )
 			->setMethods( [ 'add_notification', 'remove_notification' ] )
 			->getMock();
 
