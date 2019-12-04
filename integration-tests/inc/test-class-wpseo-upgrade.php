@@ -26,11 +26,11 @@ class WPSEO_Upgrade_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_option_from_database() {
 
-		$content = array(
+		$content = [
 			'a' => 'b',
 			'c' => true,
 			3   => new StdClass(),
-		);
+		];
 
 		$instance = $this->get_instance();
 
@@ -46,22 +46,22 @@ class WPSEO_Upgrade_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_option_from_database_no_filters_applied() {
 		// Tests if the option is fetched from the database.
-		$content = array(
+		$content = [
 			'a' => 'b',
 			'c' => true,
 			3   => new StdClass(),
-		);
+		];
 
 		$instance = $this->get_instance();
 
 		update_option( 'some_option', $content );
 
-		add_filter( 'pre_option_some_option', array( $this, 'return_override' ) );
+		add_filter( 'pre_option_some_option', [ $this, 'return_override' ] );
 
 		$this->assertEquals( $this->return_override(), get_option( 'some_option' ) );
 		$this->assertEquals( $content, $instance->get_option_from_database( 'some_option' ) );
 
-		remove_filter( 'pre_option_some_option', array( $this, 'return_override' ) );
+		remove_filter( 'pre_option_some_option', [ $this, 'return_override' ] );
 	}
 
 	/**
@@ -71,7 +71,7 @@ class WPSEO_Upgrade_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_get_option_from_database_non_existent() {
 		$instance = $this->get_instance();
-		$this->assertEquals( array(), $instance->get_option_from_database( 'non_existent_option' ) );
+		$this->assertEquals( [], $instance->get_option_from_database( 'non_existent_option' ) );
 	}
 
 	/**
@@ -83,10 +83,10 @@ class WPSEO_Upgrade_Test extends WPSEO_UnitTestCase {
 		// Testing the sanitization of the options framework.
 		$instance = $this->get_instance();
 
-		$original = array(
+		$original = [
 			'invalid_key' => true,
 			'version'     => WPSEO_VERSION,
-		);
+		];
 
 		// Set option with invalid keys in the database.
 		$this->set_option_in_database( 'wpseo', $original );
@@ -121,9 +121,9 @@ class WPSEO_Upgrade_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_save_option_setting() {
 		// Only set the new data if found on the source.
-		$source = array(
+		$source = [
 			'company_name' => 'value1',
-		);
+		];
 
 		$instance = $this->get_instance();
 
@@ -143,9 +143,9 @@ class WPSEO_Upgrade_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_save_option_setting_not_set() {
 		// Only set the new data if found on the source.
-		$source = array(
+		$source = [
 			'key1' => 'value1',
-		);
+		];
 
 		$instance = $this->get_instance();
 
@@ -201,11 +201,11 @@ class WPSEO_Upgrade_Test extends WPSEO_UnitTestCase {
 
 		$wpdb->update(
 			$wpdb->options,
-			array(
+			[
 				'option_name'  => $option_name,
 				'option_value' => serialize( $option_value ),
-			),
-			array( 'option_name' => $option_name )
+			],
+			[ 'option_name' => $option_name ]
 		);
 	}
 }

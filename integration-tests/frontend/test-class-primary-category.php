@@ -26,7 +26,7 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 		$this->subject =
 			$this
 				->getMockBuilder( 'WPSEO_Frontend_Primary_Category' )
-				->setMethods( array( 'get_category', 'get_primary_category' ) )
+				->setMethods( [ 'get_category', 'get_primary_category' ] )
 				->getMock();
 	}
 
@@ -41,18 +41,18 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 			->method( 'get_primary_category' )
 			->will( $this->returnValue( '54' ) );
 
-		$expect = (object) array(
+		$expect = (object) [
 			'term_id' => 54,
-		);
+		];
 
 		$this->subject
 			->expects( $this->once() )
 			->method( 'get_category' )
 			->will( $this->returnValue( $expect ) );
 
-		$category = (object) array(
+		$category = (object) [
 			'cat_ID' => 52,
-		);
+		];
 
 		$this->assertEquals( $expect, $this->subject->post_link_category( $category ) );
 	}
@@ -72,12 +72,12 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 			->expects( $this->never() )
 			->method( 'get_category' );
 
-		$category = (object) array(
+		$category = (object) [
 			'term_id'          => 1,
 			'name'             => 'test',
 			'term_taxonomy_id' => 1,
 			'cat_ID'           => 1,
-		);
+		];
 
 		$this->assertEquals( $category, $this->subject->post_link_category( $category ) );
 	}
@@ -97,12 +97,12 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 			->expects( $this->never() )
 			->method( 'get_category' );
 
-		$category = (object) array(
+		$category = (object) [
 			'term_id'          => 1,
 			'name'             => 'test',
 			'term_taxonomy_id' => 1,
 			'cat_ID'           => 1,
-		);
+		];
 
 		$this->assertEquals( $category, $this->subject->post_link_category( $category ) );
 	}
@@ -114,12 +114,12 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_post_link_category_primary_term_with_post() {
 		$post     = $this->factory->post->create_and_get();
-		$category = (object) array(
+		$category = (object) [
 			'term_id'          => 1,
 			'name'             => 'test',
 			'term_taxonomy_id' => 1,
 			'cat_ID'           => 1,
-		);
+		];
 
 		$this->subject
 			->expects( $this->once() )
@@ -136,12 +136,12 @@ class WPSEO_Frontend_Primary_Category_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_post_link_category_primary_term_with_invalid_post_ID() {
 		$post     = 99;
-		$category = (object) array(
+		$category = (object) [
 			'term_id'          => 1,
 			'name'             => 'test',
 			'term_taxonomy_id' => 1,
 			'cat_ID'           => 1,
-		);
+		];
 
 		$this->subject
 			->expects( $this->once() )

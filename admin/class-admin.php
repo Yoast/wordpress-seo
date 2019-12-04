@@ -303,8 +303,8 @@ class WPSEO_Admin {
 	 */
 	private function localize_admin_global_script() {
 		return [
-			/* translators: %1$s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template, %2$s: expands to 'HelpScout beacon' */
 			'variable_warning'        => sprintf(
+				/* translators: %1$s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template, %2$s: expands to 'HelpScout beacon' */
 				__( 'Warning: the variable %1$s cannot be used in this template. See the %2$s for more info.', 'wordpress-seo' ),
 				'<code>%s</code>',
 				'HelpScout beacon'

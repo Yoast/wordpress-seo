@@ -124,8 +124,8 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 		$original_wpdb = $wpdb;
 
 		$wpdb = $this->getMockBuilder( 'wpdb' )
-			->setConstructorArgs( array( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ) )
-			->setMethods( array( 'query' ) )
+			->setConstructorArgs( [ DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ] )
+			->setMethods( [ 'query' ] )
 			->getMock();
 		$wpdb->expects( $this->any() )
 			->method( 'query' )
@@ -214,8 +214,8 @@ class WPSEO_Import_AIOSEO_Test extends WPSEO_UnitTestCase {
 		$original_wpdb = $wpdb;
 
 		$wpdb = $this->getMockBuilder( 'wpdb' )
-			->setConstructorArgs( array( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ) )
-			->setMethods( array( 'query' ) )
+			->setConstructorArgs( [ DB_USER, DB_PASSWORD, DB_NAME, DB_HOST ] )
+			->setMethods( [ 'query' ] )
 			->getMock();
 		$wpdb->expects( $this->any() )
 			->method( 'query' )

@@ -36,10 +36,10 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Indexable_Service_Term_Provider::get
 	 */
 	public function test_get_non_existing_term() {
-		$this->assertEquals( array(), $this->provider->get( false ) );
-		$this->assertEquals( array(), $this->provider->get( 'uncategorized' ) );
-		$this->assertEquals( array(), $this->provider->get( -1 ) );
-		$this->assertEquals( array(), $this->provider->get( 1000000000 ) );
+		$this->assertEquals( [], $this->provider->get( false ) );
+		$this->assertEquals( [], $this->provider->get( 'uncategorized' ) );
+		$this->assertEquals( [], $this->provider->get( -1 ) );
+		$this->assertEquals( [], $this->provider->get( 1000000000 ) );
 	}
 
 	/**
@@ -57,10 +57,10 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 			->factory()
 			->term
 			->create(
-				array(
+				[
 					'name'     => 'test',
 					'taxonomy' => 'category',
-				)
+				]
 			);
 
 		$this->assertTrue( $this->provider->is_indexable( $term ) );
@@ -76,16 +76,16 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 			->factory()
 			->term
 			->create_and_get(
-				array(
+				[
 					'name'     => 'test',
 					'taxonomy' => 'category',
-				)
+				]
 			);
 
 		WPSEO_Taxonomy_Meta::set_values(
 			$term->term_id,
 			$term->taxonomy,
-			array(
+			[
 				'wpseo_canonical'             => 'https://domain.test',
 				'wpseo_title'                 => 'This is the title',
 				'wpseo_desc'                  => 'This is a meta description',
@@ -100,10 +100,10 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 				'wpseo_focuskw'               => 'Focus keyword',
 				'wpseo_linkdex'               => '10',
 				'wpseo_content_score'         => '35',
-			)
+			]
 		);
 
-		$expected = array(
+		$expected = [
 			'object_id'                   => (int) $term->term_id,
 			'object_type'                 => 'term',
 			'object_subtype'              => $term->taxonomy,
@@ -131,7 +131,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 			'incoming_link_count'         => null,
 			'created_at'                  => null,
 			'updated_at'                  => null,
-		);
+		];
 
 		$this->assertEquals( $expected, $this->provider->get( $term->term_id ) );
 		$this->assertInstanceOf( 'WPSEO_Term_Indexable', $this->provider->get( $term->term_id, true ) );
@@ -160,7 +160,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Indexable_Service_Term_Provider::rename_indexable_data
 	 */
 	public function test_rename_indexable_data() {
-		$supplied_values = array(
+		$supplied_values = [
 			'description'                 => '',
 			'breadcrumb_title'            => '',
 			'og_title'                    => '',
@@ -173,9 +173,9 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 			'primary_focus_keyword'       => '',
 			'primary_focus_keyword_score' => '',
 			'readability_score'           => '',
-		);
+		];
 
-		$expected = array(
+		$expected = [
 			'desc'                  => '',
 			'bctitle'               => '',
 			'opengraph-title'       => '',
@@ -188,7 +188,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 			'focuskw'               => '',
 			'linkdex'               => '',
 			'content_score'         => '',
-		);
+		];
 
 		$data = $this->provider->rename_indexable_data( $supplied_values );
 
@@ -204,7 +204,7 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 		$instance = $this
 				->getMockBuilder( 'WPSEO_Indexable_Service_Term_Provider_Double' )
 				->setMethods(
-					array( 'convert_noindex' )
+					[ 'convert_noindex' ]
 				)
 				->getMock();
 
@@ -212,19 +212,19 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 				->method( 'convert_noindex' )
 				->will( $this->returnArgument( 0 ) );
 
-		$supplied_values = array(
+		$supplied_values = [
 			'desc'              => 'I am the test description',
 			'bctitle'           => 'Some breadcrumb title',
 			'opengraph-title'   => 'The OpenGraph title',
 			'is_robots_noindex' => 'index',
-		);
+		];
 
-		$expected = array(
+		$expected = [
 			'desc'              => 'I am the test description',
 			'bctitle'           => 'Some breadcrumb title',
 			'opengraph-title'   => 'The OpenGraph title',
 			'is_robots_noindex' => 'index',
-		);
+		];
 
 		$data = $instance->convert_indexable_data( $supplied_values );
 
@@ -237,14 +237,14 @@ class WPSEO_Indexable_Service_Term_Provider_Test extends WPSEO_UnitTestCase {
 	 * @return array The test data.
 	 */
 	public function noindex_conversion_provider() {
-		return array(
-			array( 'true', 'noindex', 'With noindex set to string value of true' ),
-			array( 'false', 'index', 'With noindex set to string value of false' ),
-			array( true, 'default', 'With noindex set to boolean value of true' ),
-			array( false, 'default', 'With noindex set to boolean value of false' ),
-			array( '2', 'default', 'With noindex set to string value of 2' ),
-			array( '1', 'default', 'With noindex set to string value of 1' ),
-			array( '0', 'default', 'With noindex set to string value of 0' ),
-		);
+		return [
+			[ 'true', 'noindex', 'With noindex set to string value of true' ],
+			[ 'false', 'index', 'With noindex set to string value of false' ],
+			[ true, 'default', 'With noindex set to boolean value of true' ],
+			[ false, 'default', 'With noindex set to boolean value of false' ],
+			[ '2', 'default', 'With noindex set to string value of 2' ],
+			[ '1', 'default', 'With noindex set to string value of 1' ],
+			[ '0', 'default', 'With noindex set to string value of 0' ],
+		];
 	}
 }

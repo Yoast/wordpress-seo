@@ -22,10 +22,10 @@ class WPSEO_Post_Indexable_Test extends WPSEO_UnitTestCase {
 			->factory()
 			->post
 			->create_and_get(
-				array(
+				[
 					'title'     => 'test post',
 					'post_type' => 'post',
-				)
+				]
 			);
 
 		$instance = WPSEO_Post_Indexable::from_object( $post->ID );
@@ -52,15 +52,15 @@ class WPSEO_Post_Indexable_Test extends WPSEO_UnitTestCase {
 			->factory()
 			->post
 			->create_and_get(
-				array(
+				[
 					'title'     => 'test post',
 					'post_type' => 'post',
-				)
+				]
 			);
 
 		$instance     = WPSEO_Post_Indexable::from_object( $post->ID );
 		$new_instance = $instance->update(
-			array( 'is_robots_noindex' => true )
+			[ 'is_robots_noindex' => true ]
 		);
 
 		$this->assertInstanceOf( 'WPSEO_Post_Indexable', $new_instance );

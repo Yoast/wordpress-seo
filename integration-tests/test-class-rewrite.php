@@ -90,10 +90,10 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Rewrite::query_vars
 	 */
 	public function test_query_vars() {
-		$this->assertEquals( array(), self::$class_instance->query_vars( array() ) );
+		$this->assertEquals( [], self::$class_instance->query_vars( [] ) );
 
 		WPSEO_Options::set( 'stripcategorybase', true );
-		$this->assertEquals( array( 'wpseo_category_redirect' ), self::$class_instance->query_vars( array() ) );
+		$this->assertEquals( [ 'wpseo_category_redirect' ], self::$class_instance->query_vars( [] ) );
 	}
 
 	/**
@@ -105,15 +105,15 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Rewrite' )
-			->setMethods( array( 'redirect' ) )
+			->setMethods( [ 'redirect' ] )
 			->getMock();
 		$instance
 			->expects( $this->never() )
 			->method( 'redirect' );
 
-		$expected = array();
+		$expected = [];
 
-		$this->assertEquals( $expected, $instance->request( array() ) );
+		$this->assertEquals( $expected, $instance->request( [] ) );
 	}
 
 	/**
@@ -125,14 +125,14 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_Rewrite' )
-			->setMethods( array( 'redirect' ) )
+			->setMethods( [ 'redirect' ] )
 			->getMock();
 		$instance
 			->expects( $this->once() )
 			->method( 'redirect' )
 			->with( 'my-category' );
 
-		$instance->request( array( 'wpseo_category_redirect' => 'my-category' ) );
+		$instance->request( [ 'wpseo_category_redirect' => 'my-category' ] );
 	}
 
 	/**
@@ -144,22 +144,22 @@ class WPSEO_Rewrite_Test extends WPSEO_UnitTestCase {
 
 		$c = self::$class_instance;
 
-		$categories          = get_categories( array( 'hide_empty' => false ) );
+		$categories          = get_categories( [ 'hide_empty' => false ] );
 		$permalink_structure = get_option( 'permalink_structure' );
 
 		if ( ! ( is_multisite() && 0 === strpos( $permalink_structure, '/blog/' ) ) ) {
-			$expected = array(
+			$expected = [
 				'(uncategorized)/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' => 'index.php?category_name=$matches[1]&feed=$matches[2]',
 				'(uncategorized)/page/?([0-9]{1,})/?$' => 'index.php?category_name=$matches[1]&paged=$matches[2]',
 				'(uncategorized)/?$'                   => 'index.php?category_name=$matches[1]',
-			);
+			];
 		}
 		else {
-			$expected = array(
+			$expected = [
 				'blog/(uncategorized)/(?:feed/)?(feed|rdf|rss|rss2|atom)/?$' => 'index.php?category_name=$matches[1]&feed=$matches[2]',
 				'blog/(uncategorized)/page/?([0-9]{1,})/?$' => 'index.php?category_name=$matches[1]&paged=$matches[2]',
 				'blog/(uncategorized)/?$'                   => 'index.php?category_name=$matches[1]',
-			);
+			];
 		}
 
 		global $wp_rewrite;

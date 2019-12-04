@@ -37,6 +37,11 @@ class Admin_Features_Test extends TestCase {
 			->with( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' )
 			->andReturn( 'https://example.org' );
 
+		// Mock the current user for notifications.
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->times( 2 )
+			->andReturn( Mockery::mock( \WP_User::class ) );
+
 		return new WPSEO_Admin();
 	}
 

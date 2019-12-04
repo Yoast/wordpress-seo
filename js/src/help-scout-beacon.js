@@ -201,8 +201,8 @@ function loadHelpScoutConsent( beaconId, sessionData = null ) {
 		 */
 		function onClick() {
 			const askConsentText = __(
-				"When you click OK we will load our HelpScout beacon, which will load data from HelpScout. " +
-				"This beacon can potentially also set cookies.",
+				"When you click OK we will open our HelpScout beacon where you can find answers to your questions. " +
+				"This beacon will load our support data and also potentially set cookies.",
 				"wordpress-seo"
 			);
 

@@ -25,7 +25,7 @@ class WPSEO_GSC_Modal {
 	 * @param int    $height    The height that the modal will get.
 	 * @param array  $view_vars The attributes to use in the view.
 	 */
-	public function __construct( $view, $height, array $view_vars = array() ) {
+	public function __construct( $view, $height, array $view_vars = [] ) {
 		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 	}
 

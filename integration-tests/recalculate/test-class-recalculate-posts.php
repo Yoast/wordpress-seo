@@ -39,12 +39,12 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 
 		$this->instance = new WPSEO_Recalculate_Posts();
 
-		$this->posts = array(
-			1 => $this->factory->post->create( array( 'post_title' => 'Post with focus keyword' ) ),
-			2 => $this->factory->post->create( array( 'post_title' => 'Test Post 2' ) ),
-			3 => $this->factory->post->create( array( 'post_title' => 'Test Post 3' ) ),
-			4 => $this->factory->post->create( array( 'post_title' => 'Test Post 4' ) ),
-		);
+		$this->posts = [
+			1 => $this->factory->post->create( [ 'post_title' => 'Post with focus keyword' ] ),
+			2 => $this->factory->post->create( [ 'post_title' => 'Test Post 2' ] ),
+			3 => $this->factory->post->create( [ 'post_title' => 'Test Post 3' ] ),
+			4 => $this->factory->post->create( [ 'post_title' => 'Test Post 4' ] ),
+		];
 	}
 
 	/**
@@ -57,12 +57,12 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( WPSEO_Meta::get_value( 'linkdex', $this->posts[1] ), 0 );
 
 		$this->instance->save_scores(
-			array(
-				array(
+			[
+				[
 					'item_id' => $this->posts[1],
 					'score'   => 10,
-				),
-			)
+				],
+			]
 		);
 	}
 
@@ -75,10 +75,10 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 		$response = $this->instance->get_items_to_recalculate( 1 );
 
 		$this->assertEquals(
-			array(
-				'items'       => array(),
+			[
+				'items'       => [],
 				'total_items' => 0,
-			),
+			],
 			$response
 		);
 	}
@@ -110,11 +110,11 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 		$post     = get_post( $this->posts[1] );
 		$expected = $this->add_dummy_content( $post->post_content );
 
-		add_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_dummy_content' ), 10, 2 );
+		add_filter( 'wpseo_post_content_for_recalculation', [ $this, 'add_dummy_content' ], 10, 2 );
 
 		$response = $this->instance->get_items_to_recalculate( 1 );
 
-		remove_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_dummy_content' ) );
+		remove_filter( 'wpseo_post_content_for_recalculation', [ $this, 'add_dummy_content' ] );
 
 		$this->assertEquals( $expected, $response['items'][0]['text'] );
 	}
@@ -130,11 +130,11 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 		$post     = get_post( $this->posts[1] );
 		$expected = do_shortcode( $this->add_dummy_content_with_shortcode( $post->post_content ) );
 
-		add_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_dummy_content_with_shortcode' ), 10, 2 );
+		add_filter( 'wpseo_post_content_for_recalculation', [ $this, 'add_dummy_content_with_shortcode' ], 10, 2 );
 
 		$response = $this->instance->get_items_to_recalculate( 1 );
 
-		remove_filter( 'wpseo_post_content_for_recalculation', array( $this, 'add_dummy_content_with_shortcode' ) );
+		remove_filter( 'wpseo_post_content_for_recalculation', [ $this, 'add_dummy_content_with_shortcode' ] );
 
 		$this->assertEquals( $expected, $response['items'][0]['text'] );
 	}
@@ -147,8 +147,8 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 	public function test_add_featured_image_to_content() {
 		$test_double = new WPSEO_Recalculate_Posts_Test_Double();
 
-		add_filter( 'get_post_metadata', array( $this, 'mock_post_metadata' ), 10, 3 );
-		add_filter( 'post_thumbnail_html', array( $this, 'mock_thumbnail' ), 10, 3 );
+		add_filter( 'get_post_metadata', [ $this, 'mock_post_metadata' ], 10, 3 );
+		add_filter( 'post_thumbnail_html', [ $this, 'mock_thumbnail' ], 10, 3 );
 
 		$post     = get_post( $this->posts[1] );
 		$expected = $post->post_content . " <img src='' />";
@@ -156,8 +156,8 @@ class WPSEO_Recalculate_Posts_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals( $expected, $response['text'] );
 
-		remove_filter( 'get_post_metadata', array( $this, 'mock_post_metadata' ), 10, 3 );
-		remove_filter( 'post_thumbnail_html', array( $this, 'mock_thumbnail' ), 10, 3 );
+		remove_filter( 'get_post_metadata', [ $this, 'mock_post_metadata' ], 10, 3 );
+		remove_filter( 'post_thumbnail_html', [ $this, 'mock_thumbnail' ], 10, 3 );
 
 		$post     = get_post( $this->posts[2] );
 		$expected = $post->post_content;
