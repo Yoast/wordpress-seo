@@ -93,6 +93,21 @@ clean:build-assets:
   - 'remove-vendor-prefixed-folder'
   - 'shell:remove-vendor-prefixed-uses'
 
+# Get the project ready for release-candidate
+'create-rc':
+  - 'ensure-clean-branch'
+  - 'ensure-pre-release-branch'
+  - 'ensure-rc-dependencies'
+  - 'update-readme'
+  - 'bump-rc-version'
+  - 'change-plugin-name-to-rc'
+  - 'artifact'
+  - 'restore-plugin-name'
+  - 'github-pre-release'
+  - 'rc-slack-notification'
+  - 'upload-to-wp'
+  - 'verify-zip-size'
+
 # Get the project ready for release
 release:
   - 'clean:build-assets'
