@@ -12,13 +12,6 @@
 	"license": "GPL-3.0",
 	"private": false,
 	"main": "src/list.js",
-	"directories": {
-		"lib": "src",
-		"test": "tests"
-	},
-	"files": [
-		"src"
-	],
 	"publishConfig": {
 		"access": "public"
 	},
