@@ -220,11 +220,11 @@ module.exports = function( grunt ) {
 		},
 
 		"git-merge-into-trunk": {
-			command: "git merge <%= releaseBranch %>",
+			command: "git merge <%= branchForRC %>",
 		},
 
 		"git-checkout-release-branch": {
-			command: "git checkout <%= releaseBranch %>",
+			command: "git checkout <%= branchForRC %>",
 		},
 
 		"check-for-uncommitted-changes": {

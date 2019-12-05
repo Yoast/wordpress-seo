@@ -10,10 +10,17 @@ module.exports = function( grunt ) {
 		"bump-rc-version",
 		"Bumps the versions to the next RC",
 		function() {
+			// Parse the command line options.
 			const pluginVersionFlag = grunt.option( "plugin-version" );
+			const releaseTypeFlag = grunt.option( "type" );
 
+			// Check if flags were passed.
 			if ( ! pluginVersionFlag ) {
 				grunt.fail.fatal( "Missing --plugin-version argument" );
+			}
+
+			if ( ! releaseTypeFlag ) {
+				grunt.fail.fatal( "Missing --type argument" );
 			}
 
 			// Retrieve the current plugin version from package.json.
@@ -52,12 +59,13 @@ module.exports = function( grunt ) {
 			grunt.config.data.pluginVersion = newPluginVersion;
 
 			// Set a grunt releaseBranch variable.
-			// todo Don't forget to do this for type=hotfix.
-			const releaseBranch = "release/" + pluginVersionFlag;
-			grunt.config.data.releaseBranch = releaseBranch;
+			const branchForRC = releaseTypeFlag + "/" + pluginVersionFlag;
+			grunt.config.data.branchForRC = branchForRC;
 
 			// Set the plugin version to the bumped version in the plugin files.
 			grunt.task.run( "update-version-trunk" );
+
+			console.log(branchForRC);
 		}
 	);
 };
