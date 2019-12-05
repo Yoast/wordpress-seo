@@ -127,8 +127,12 @@ module.exports = function( grunt ) {
 			"symfony/dependency-injection --update-no-dev --optimize-autoloader",
 		},
 
-		"composer-install-dev": {
+		"composer-install": {
 			command: "composer install",
+		},
+
+		"composer-update-yoast-dependencies": {
+			command: "composer update yoast/license-manager yoast/i18n-module",
 		},
 
 		"composer-reset-config": {
@@ -172,6 +176,18 @@ module.exports = function( grunt ) {
 
 		phpcs: {
 			command: "php ./vendor/squizlabs/php_codesniffer/scripts/phpcs",
+		},
+
+		"unlink-monorepo": {
+			command: "yarn unlink-monorepo",
+		},
+
+		"yarn-install": {
+			command: "yarn install --check-files",
+		},
+
+		"install-monorepo": {
+			command: "yarn add yoastseo@rc && yarn add yoast-components@rc",
 		},
 	};
 };
