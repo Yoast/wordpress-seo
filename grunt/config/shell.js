@@ -196,5 +196,9 @@ module.exports = function( grunt ) {
 		"restore-plugin-name": {
 			command: "git checkout <%= pluginMainFile %>",
 		},
+
+		"git-add-version-bump-files": {
+			command: "git add package.json wp-seo-main.php wp-seo.php",
+		},
 	};
 };
