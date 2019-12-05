@@ -64,8 +64,6 @@ module.exports = function( grunt ) {
 
 			// Set the plugin version to the bumped version in the plugin files.
 			grunt.task.run( "update-version-trunk" );
-
-			console.log(branchForRC);
 		}
 	);
 };
