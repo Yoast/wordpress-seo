@@ -14,6 +14,10 @@ module.exports = function( grunt ) {
 		function() {
 			let pluginVersionFlag = grunt.option( "plugin-version" );
 
+			if ( ! pluginVersionFlag ) {
+				grunt.fail.fatal( "Missing --plugin-version argument" );
+			}
+
 			// Retrieve the current plugin version from package.json.
 			const packageJson = JSON.parse( fs.readFileSync( "package.json", "utf8" ) ) || {};
 			const pluginVersionPackageJson = packageJson.yoast.pluginVersion;
