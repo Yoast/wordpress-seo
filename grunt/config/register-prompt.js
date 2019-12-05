@@ -7,7 +7,7 @@
 module.exports = function( grunt ) {
 	grunt.registerTask(
 		"prompt-monorepo-versions",
-		[ "prompt:monorepoVersions" ]
+		[ "prompt:monorepoVersions",  ]
 
 	);
 };

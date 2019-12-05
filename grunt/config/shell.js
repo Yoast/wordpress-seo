@@ -127,8 +127,12 @@ module.exports = function( grunt ) {
 			"symfony/dependency-injection --update-no-dev --optimize-autoloader",
 		},
 
-		"composer-install-dev": {
+		"composer-install": {
 			command: "composer install",
+		},
+
+		"composer-update-yoast-dependencies": {
+			command: "composer update yoast/license-manager yoast/i18n-module",
 		},
 
 		"composer-reset-config": {

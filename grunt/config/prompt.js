@@ -9,6 +9,7 @@ module.exports = {
 					message: "Are the above versions correct?",
 				},
 			],
+			then: function( results ) {console.log(results)}
 		},
 	},
 };
