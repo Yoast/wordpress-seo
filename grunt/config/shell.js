@@ -2,9 +2,9 @@ const path = require( "path" );
 
 // See https://github.com/sindresorhus/grunt-shell
 module.exports = function( grunt ) {
-	function throwErrorWhenNotEmpty( error, stdout, stderr, callback ) {
+	function throwUncommittedChangesError( error, stdout, stderr, callback ) {
 		if ( stdout ) {
-			 throw "You have uncommitted changes.";
+			throw "You have uncommitted changes. Commit, stash or reset the above files.";
 		}
 		callback();
 	}
@@ -206,9 +206,10 @@ module.exports = function( grunt ) {
 		},
 
 		"check-for-uncommitted-changes": {
+			// --porcelain gives the output in an easy-to-parse format for scripts.
 			command: "git status --porcelain",
 			options: {
-				callback: throwErrorWhenNotEmpty
+				callback: throwUncommittedChangesError,
 			},
 		},
 	};
