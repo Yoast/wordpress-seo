@@ -1,5 +1,3 @@
-const fs = require( "fs" );
-
 /**
  * Grunt task to bump the RC version.
  *
@@ -12,14 +10,14 @@ module.exports = function( grunt ) {
 		"bump-rc-version",
 		"Bumps the versions to the next RC",
 		function() {
-			let pluginVersionFlag = grunt.option( "plugin-version" );
+			const pluginVersionFlag = grunt.option( "plugin-version" );
 
 			if ( ! pluginVersionFlag ) {
 				grunt.fail.fatal( "Missing --plugin-version argument" );
 			}
 
 			// Retrieve the current plugin version from package.json.
-			const packageJson = JSON.parse( fs.readFileSync( "package.json", "utf8" ) ) || {};
+			const packageJson = grunt.file.readJSON( "package.json" );
 			const pluginVersionPackageJson = packageJson.yoast.pluginVersion;
 
 			// Strip off the RC part from the current plugin version.
