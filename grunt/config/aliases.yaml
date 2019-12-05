@@ -95,7 +95,7 @@ clean:build-assets:
 
 # Get the project ready for release-candidate
 'create-rc':
-  - # 'ensure-clean-branch'
+  # - 'ensure-clean-branch'
   - 'ensure-pre-release-branch'
   - 'ensure-rc-dependencies'
   - 'update-readme'
