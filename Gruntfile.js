@@ -140,6 +140,8 @@ module.exports = function( grunt ) {
 				makepot: "grunt-wp-i18n",
 				glotpress_download: "grunt-glotpress",
 				gittag: "grunt-git",
+				gitfetch: "grunt-git",
+				gitcheckout: "grunt-git",
 				"update-version": "@yoast/grunt-plugin-tasks",
 				"set-version": "@yoast/grunt-plugin-tasks",
 				"register-prompt": "grunt-prompt",
