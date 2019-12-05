@@ -18,7 +18,7 @@ module.exports = function( grunt ) {
 
 			// If no type is specified, default to release.
 			if ( type !== "hotfix" ) {
-				let type = "release"
+				type = "release"
 			}
 
 			let basebranch = type === "hotfix" ? 'master' : 'trunk';
