@@ -110,8 +110,6 @@ clean:build-assets:
 
 'ensure-rc-dependencies':
   - 'shell:unlink-monorepo'
-# unlink-monorepo already does a yarn install. Maybe the next line can be removed.
-  - 'shell:yarn-install'
   - 'shell:install-monorepo'
   - 'shell:get-monorepo-versions'
   - 'prompt-monorepo-versions'
