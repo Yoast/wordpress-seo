@@ -32,13 +32,6 @@ module.exports = function( grunt ) {
 
 			grunt.task.run( "gitcheckout:baseBranch" );
 
-			grunt.config( "gitcheckout.releaseBranch.options", {
-				branch: branchname,
-				force: true,
-			} );
-
-			grunt.task.run( "gitcheckout:releaseBranch" );
-
 			const execSync = require('child_process').execSync;
 
 			let command = 'git branch --list ' + branchname;
