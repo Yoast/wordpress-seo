@@ -121,7 +121,8 @@ clean:build-assets:
 
 'bump-the-rc-version':
   - 'bump-rc-version'
-  - 'shell:git-add-version-bump-files'
+#  - 'shell:git-add-version-bump-files'
+#  - 'shell:git-commit-version-bump-files'
 
 # Get the project ready for release
 release:
