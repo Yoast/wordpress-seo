@@ -215,6 +215,18 @@ module.exports = function( grunt ) {
 			command: "git push origin HEAD",
 		},
 
+		"git-checkout-trunk": {
+			command: "git checkout trunk",
+		},
+
+		"git-merge-into-trunk": {
+			command: "git merge <%= releaseBranch %>",
+		},
+
+		"git-checkout-release-branch": {
+			command: "git checkout <%= releaseBranch %>",
+		},
+
 		"check-for-uncommitted-changes": {
 			// --porcelain gives the output in an easy-to-parse format for scripts.
 			command: "git status --porcelain",

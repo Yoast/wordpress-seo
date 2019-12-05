@@ -51,6 +51,11 @@ module.exports = function( grunt ) {
 			// Which is taken from package.json BEFORE package.json is updated by our above code.
 			grunt.config.data.pluginVersion = newPluginVersion;
 
+			// Set a grunt releaseBranch variable.
+			// todo Don't forget to do this for type=hotfix.
+			const releaseBranch = "release/" + pluginVersionFlag;
+			grunt.config.data.releaseBranch = releaseBranch;
+
 			// Set the plugin version to the bumped version in the plugin files.
 			grunt.task.run( "update-version-trunk" );
 		}

@@ -125,6 +125,10 @@ clean:build-assets:
 #  - 'shell:git-add-version-bump-files'
 #  - 'shell:git-commit-version-bump-files'
 #  - 'shell:git-push-origin-head'
+#  - 'shell:git-checkout-trunk'
+#  - 'shell:git-merge-into-trunk'
+#  - 'shell:git-push-origin-head'
+#  - 'shell:git-checkout-release-branch'
 
 # Get the project ready for release
 release:
