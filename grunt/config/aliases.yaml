@@ -95,11 +95,11 @@ clean:build-assets:
 
 # Get the project ready for release-candidate
 'create-rc':
-  - 'ensure-clean-branch'
+  - # 'ensure-clean-branch'
   - 'ensure-pre-release-branch'
   - 'ensure-rc-dependencies'
   - 'update-readme'
-  - 'bump-rc-version'
+  - 'bump-the-rc-version'
   - 'change-plugin-name-to-rc'
   - 'artifact'
   - 'shell:restore-plugin-name'
@@ -108,6 +108,9 @@ clean:build-assets:
   - 'upload-to-wp'
   - 'verify-zip-size'
 
+'ensure-clean-branch':
+  - 'shell:check-for-uncommitted-changes'
+
 'ensure-rc-dependencies':
   - 'shell:unlink-monorepo'
   - 'shell:install-monorepo'
@@ -115,6 +118,10 @@ clean:build-assets:
   - 'prompt-monorepo-versions'
   - 'shell:composer-install'
   - 'shell:composer-update-yoast-dependencies'
+
+'bump-the-rc-version':
+  - 'bump-rc-version'
+  - 'shell:git-add-version-bump-files'
 
 # Get the project ready for release
 release:

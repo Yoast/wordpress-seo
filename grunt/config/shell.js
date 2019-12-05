@@ -2,6 +2,15 @@ const path = require( "path" );
 
 // See https://github.com/sindresorhus/grunt-shell
 module.exports = function( grunt ) {
+	function throwUncommittedChangesError( error, stdout, stderr, callback ) {
+		if ( stdout ) {
+			throw "You have uncommitted changes. Commit, stash or reset the above files.";
+		} else {
+			console.log("You have no uncommitted changes. Continuing...");
+		}
+		callback();
+	}
+
 	return {
 		"combine-pot-files": {
 			fromFiles: [
@@ -182,10 +191,6 @@ module.exports = function( grunt ) {
 			command: "yarn unlink-monorepo",
 		},
 
-		"yarn-install": {
-			command: "yarn install --check-files",
-		},
-
 		"install-monorepo": {
 			command: "yarn add yoastseo@rc && yarn add yoast-components@rc",
 		},
@@ -193,8 +198,21 @@ module.exports = function( grunt ) {
 		"get-monorepo-versions": {
 			command: "yarn list --pattern 'yoastseo|yoast-components'",
 		},
+
 		"restore-plugin-name": {
 			command: "git checkout <%= pluginMainFile %>",
+		},
+
+		"git-add-version-bump-files": {
+			command: "git add package.json wp-seo-main.php wp-seo.php",
+		},
+
+		"check-for-uncommitted-changes": {
+			// --porcelain gives the output in an easy-to-parse format for scripts.
+			command: "git status --porcelain",
+			options: {
+				callback: throwUncommittedChangesError,
+			},
 		},
 	};
 };
