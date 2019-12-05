@@ -173,5 +173,17 @@ module.exports = function( grunt ) {
 		phpcs: {
 			command: "php ./vendor/squizlabs/php_codesniffer/scripts/phpcs",
 		},
+
+		"unlink-monorepo": {
+			command: "yarn unlink-monorepo",
+		},
+
+		"yarn-install": {
+			command: "yarn install --check-files",
+		},
+
+		"install-monorepo": {
+			command: "yarn add yoastseo@rc && yarn add yoast-components@rc",
+		},
 	};
 };

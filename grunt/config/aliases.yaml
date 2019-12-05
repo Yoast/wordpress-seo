@@ -108,6 +108,12 @@ clean:build-assets:
   - 'upload-to-wp'
   - 'verify-zip-size'
 
+'ensure-rc-dependencies':
+  - 'shell:unlink-monorepo'
+# unlink-monorepo already does a yarn install. Maybe the next line can be removed.
+  - 'shell:yarn-install'
+  - 'shell:install-monorepo'
+
 # Get the project ready for release
 release:
   - 'clean:build-assets'
