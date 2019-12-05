@@ -1,5 +1,5 @@
 /**
- * ...
+ * Ensures that the release or hotfix branch is checked out.
  *
  * @param {Object} grunt The grunt helper object.
  * @returns {void}
@@ -33,30 +33,28 @@ module.exports = function( grunt ) {
 			grunt.task.run( "gitcheckout:baseBranch" );
 
 			const execSync = require('child_process').execSync;
-
 			let command = 'git branch --list ' + branchname;
-			const output = execSync( command, { encoding: 'utf-8' } );
-			console.log('Output was:\n', output);
+			const foundBranchName = execSync( command, { encoding: 'utf-8' } );
 
-			if ( output ){
+			// If the release or hotfix branch already existed, it was saved above in foundBranchName.
+			if ( foundBranchName ){
+				// Checkout the release or hotfix branch.
 				grunt.config( "gitcheckout.existingBranch.options", {
 					branch: branchname,
 				} );
-
 				grunt.task.run( "gitcheckout:existingBranch" );
 
 				// Pull the release or hotfix branch to make sure you have the latest commits.
 				grunt.config( "gitpull.pull.options", {
 					branch: branchname,
 				} );
-
 				grunt.task.run( "gitpull:pull" );
 			} else {
+				// If the release or hotfix branch doesn't exist yet, we need to create the branch.
 				grunt.config( "gitcheckout.newBranch.options", {
 					branch: branchname,
 					create: true,
 				} );
-
 				grunt.task.run( "gitcheckout:newBranch" );
 			}
 		}
