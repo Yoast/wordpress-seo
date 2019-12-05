@@ -15,7 +15,7 @@ module.exports = function( grunt ) {
 
 			const done = this.async();
 			( async() => {
-				await webhook.send( { text: "An RC has been deployed:" } );
+				await webhook.send( { text: `An RC has been deployed: ${ preReleaseURL }` } );
 				done();
 			} )();
 		}
