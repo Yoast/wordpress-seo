@@ -46,18 +46,18 @@ module.exports = function( grunt ) {
 			console.log('Output was:\n', output);
 
 			if ( output ){
-				grunt.config( "gitcheckout.releaseBranch.options", {
+				grunt.config( "gitcheckout.existingBranch.options", {
 					branch: branchname,
 				} );
 
-				grunt.task.run( "gitcheckout:releaseBranch" );
+				grunt.task.run( "gitcheckout:existingBranch" );
 			} else {
-				grunt.config( "gitcheckout.releaseBranch.options", {
+				grunt.config( "gitcheckout.newBranch.options", {
 					branch: branchname,
 					create: true,
 				} );
 
-				grunt.task.run( "gitcheckout:releaseBranch" );
+				grunt.task.run( "gitcheckout:newBranch" );
 			}
 
 			// Pull the release or hotfix branch to make sure you have the latest commits.
