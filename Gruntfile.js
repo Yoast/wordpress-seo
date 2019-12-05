@@ -141,6 +141,7 @@ module.exports = function( grunt ) {
 				glotpress_download: "grunt-glotpress",
 				"update-version": "@yoast/grunt-plugin-tasks",
 				"set-version": "@yoast/grunt-plugin-tasks",
+				"register-prompt": "grunt-prompt",
 			},
 			customTasksDir: "grunt/custom",
 		},

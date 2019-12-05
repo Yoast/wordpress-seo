@@ -189,5 +189,12 @@ module.exports = function( grunt ) {
 		"install-monorepo": {
 			command: "yarn add yoastseo@rc && yarn add yoast-components@rc",
 		},
+
+		"get-monorepo-versions": {
+			command: "yarn list --pattern 'yoastseo|yoast-components'",
+		},
+		"restore-plugin-name": {
+			command: "git checkout <%= pluginMainFile %>",
+		},
 	};
 };
