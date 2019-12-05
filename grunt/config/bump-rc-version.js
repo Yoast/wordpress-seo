@@ -28,7 +28,7 @@ module.exports = function( grunt ) {
 			// From the resulting array, get the first value (the second value is the RC number).
 			const strippedVersion = parsedVersion[ 0 ];
 
-			//
+			// Declare the new plugin version variable.
 			let newPluginVersion = pluginVersionFlag;
 
 			// If the flagged version matches the version in package.json, increment the RC version.
@@ -47,6 +47,9 @@ module.exports = function( grunt ) {
 			// Set the plugin version to the bumped version in package.json.
 			grunt.option( "new-version", newPluginVersion );
 			grunt.task.run( "set-version" );
+
+			// Set the plugin version to the bumped version in the plugin files.
+			grunt.task.run( "update-version-trunk" );
 		}
 	);
 };
