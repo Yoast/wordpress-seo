@@ -42,7 +42,11 @@ module.exports = function( grunt ) {
 			}
 
 			// eslint-disable-next-line no-console
-			console.log( "Bumped the plugin version to ".concat( newPluginVersion ).concat( "." ) );
+			console.log( "Bumped the plugin version to " + newPluginVersion + "." );
+
+			// Set the plugin version to the bumped version in package.json.
+			grunt.option( "new-version", newPluginVersion );
+			grunt.task.run( "set-version" );
 		}
 	);
 };
