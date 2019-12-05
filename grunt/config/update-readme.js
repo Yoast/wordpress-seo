@@ -55,6 +55,12 @@ class VersionNumber {
 		this.minor = this.versionNumber().minor;
 		this.patch = this.versionNumber().patch;
 	}
+
+	/**
+	 * Parses a version number string of the format major.minor.patch (patch optional) into a version number object.
+	 *
+	 * @return {{major: number, minor: number, patch: number}}
+	 */
 	versionNumber( ) {
 		const versionNumberString = this.versionNumberString;
 		const versionNumber = ( /(\d+).(\d+).?(\d+)?/g ).exec( versionNumberString );
@@ -65,6 +71,12 @@ class VersionNumber {
 			patch: parseInt( versionNumber[3] ) || 0,
 		}
 	}
+
+	/**
+	 * Checks whether a given version number is a patch.
+	 *
+	 * @return {boolean} True if the version number is a patch.
+	 */
 	isPatch( ) {
 		return this.versionNumber().patch > 0;
 	}
@@ -86,6 +98,8 @@ module.exports = function( grunt ) {
 			let newVersion = grunt.option('plugin-version');
 			let newChangelog = getUserInput( { initialContent: `= ${newVersion} =` } ).then( newChangelog => {
 				const versionNumber = new VersionNumber( newVersion );
+
+				// Only if the version is not a patch we remove old changelog entries.
 				if( !versionNumber.isPatch() ) {
 					const releaseInChangelog = /= \d+\.\d+(\.\d+)? =/g;
 					const allReleasesInChangelog = changelog.match( releaseInChangelog );
@@ -94,13 +108,16 @@ module.exports = function( grunt ) {
 					const lowestMajor = Math.min( ...sanitizedVersionNumbers.map( sanitizedVersionNumber => sanitizedVersionNumber.major ) );
 
 					if ( highestMajor !== lowestMajor ) {
+						// If there are multiple major versions in the current changelog, remove all entries from the oldest major version.
 						changelog = changelog.replace( new RegExp( "= " + lowestMajor + "(.|\\n)*= Earlier versions =" ), "= Earlier versions =" );
 					} else {
+						// If there are only multiple minor versions of the same major version, remove all entries from the oldest minor version.
 						const lowestMinor = Math.min( ...sanitizedVersionNumbers.map( sanitizedVersionNumber => sanitizedVersionNumber.minor ) );
 						const lowestVersion = `${lowestMajor}.${lowestMinor}`;
 						changelog = changelog.replace( new RegExp( "= " + lowestVersion + "(.|\\n)*= Earlier versions =" ), "= Earlier versions =" );
 					}
 				}
+				// Add the user input to the changelog.
 				changelog = changelog.replace( /== Changelog ==/ig, "== Changelog ==\n\n" + newChangelog.trim() );
 				grunt.file.write( "./readme.txt", changelog );
 				done();
