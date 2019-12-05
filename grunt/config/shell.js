@@ -211,6 +211,10 @@ module.exports = function( grunt ) {
 			command: "git commit -m 'Bump version for RC'",
 		},
 
+		"git-push-origin-head": {
+			command: "git push origin HEAD",
+		},
+
 		"check-for-uncommitted-changes": {
 			// --porcelain gives the output in an easy-to-parse format for scripts.
 			command: "git status --porcelain",

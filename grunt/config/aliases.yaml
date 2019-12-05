@@ -124,6 +124,7 @@ clean:build-assets:
   - 'bump-rc-version'
 #  - 'shell:git-add-version-bump-files'
 #  - 'shell:git-commit-version-bump-files'
+#  - 'shell:git-push-origin-head'
 
 # Get the project ready for release
 release:
