@@ -46,6 +46,11 @@ module.exports = function( grunt ) {
 //			grunt.config( "gittag.rctag.options.message", changelog );
 //			grunt.task.run( "gittag:rctag" );
 
+
+			// Set the URL on the grunt config, so that the Slack notifier has access to it.
+			// grunt.config.set( "rc.github.url", "DE URL VAN DE RC ZIP HIER" );
+			// Temp:
+			grunt.config.set( "rc.github.url", "https://github.com/Yoast/wordpress-seo/releases/download/12.7-RC2/wordpress-seo.zip" );
 		}
 	);
 };
