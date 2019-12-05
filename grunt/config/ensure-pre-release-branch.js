@@ -44,6 +44,13 @@ module.exports = function( grunt ) {
 				} );
 
 				grunt.task.run( "gitcheckout:existingBranch" );
+
+				// Pull the release or hotfix branch to make sure you have the latest commits.
+				grunt.config( "gitpull.pull.options", {
+					branch: branchname,
+				} );
+
+				grunt.task.run( "gitpull:pull" );
 			} else {
 				grunt.config( "gitcheckout.newBranch.options", {
 					branch: branchname,
@@ -52,13 +59,6 @@ module.exports = function( grunt ) {
 
 				grunt.task.run( "gitcheckout:newBranch" );
 			}
-
-			// Pull the release or hotfix branch to make sure you have the latest commits.
-			grunt.config( "gitpull.pull.options", {
-				branch: branchname,
-			} );
-
-			grunt.task.run( "gitpull:pull" );
 		}
 	);
 };
