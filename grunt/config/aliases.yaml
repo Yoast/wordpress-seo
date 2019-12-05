@@ -82,7 +82,7 @@ clean:build-assets:
 'restore-environment-after-artifact':
   - 'shell:composer-reset-config'
   - 'shell:composer-reset-lock'
-  - 'shell:composer-install-dev'
+  - 'shell:composer-install'
 
 'composer-artifact':
   # Create our composer targeted artifact
@@ -113,6 +113,8 @@ clean:build-assets:
 # unlink-monorepo already does a yarn install. Maybe the next line can be removed.
   - 'shell:yarn-install'
   - 'shell:install-monorepo'
+  - 'shell:composer-install'
+  - 'shell:composer-update-yoast-dependencies'
 
 # Get the project ready for release
 release:
