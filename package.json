@@ -87,6 +87,7 @@
     "sassdash": "^0.9.0",
     "shusher": "^0.1.1",
     "svg-react-loader": "^0.4.6",
+    "tmp": "^0.1.0",
     "webpack": "^4.20.2",
     "webpack-bundle-analyzer": "^3.0.2",
     "webpack-cli": "^3.1.1",
@@ -131,7 +132,6 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
-    "tmp": "^0.1.0",
     "yoast-components": "^4.38.0-rc.0",
     "yoastseo": "^1.65.0-rc.0"
   },
