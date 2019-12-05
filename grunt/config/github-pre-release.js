@@ -1,12 +1,12 @@
 
 const spawn = require( "child_process" ).spawnSync;
-const fs = require('fs')
 
-function openChangelogEditor ( grunt ) {
-	const editor = process.env.VISUAL || process.env.EDITOR || "vim" || "code" || "subl";
+
+function openChangelogEditor( grunt ) {
+	const editor = process.env.VISUAL || process.env.EDITOR || "vim";
 
 	// Spawn editor and save to changelog_buffer.txt
-	const { status } = spawn( editor, ["changelog_buffer.txt"], {stdio:"inherit"} );
+	const { status } = spawn( editor, [ "changelog_buffer.txt" ], { stdio: "inherit" } );
 	if ( status !== 0 ) {
 		grunt.fail.fatal( "Something went wrong while editing the changelog." );
 	}
@@ -22,7 +22,6 @@ function openChangelogEditor ( grunt ) {
 	grunt.file.delete( "changelog_buffer.txt" );
 
 	return data;
-
 }
 
 /**
