@@ -113,7 +113,8 @@ clean:build-assets:
 # unlink-monorepo already does a yarn install. Maybe the next line can be removed.
   - 'shell:yarn-install'
   - 'shell:install-monorepo'
-  - 'register-prompt'
+  - 'shell:get-monorepo-versions'
+  - 'prompt-monorepo-versions'
 
 # Get the project ready for release
 release:

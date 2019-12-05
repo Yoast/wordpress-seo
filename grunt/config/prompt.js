@@ -6,7 +6,7 @@ module.exports = {
 				{
 					config: "config.monorepoVersions",
 					type: "confirm",
-					message: "Are those versions correct?",
+					message: "Are the above versions correct?",
 				},
 			],
 		},
