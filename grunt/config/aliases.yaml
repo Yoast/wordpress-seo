@@ -108,6 +108,7 @@ clean:build-assets:
   - 'check-deploy-allowed'
   - 'deploy:trunk'
   - 'verify-zip-size'
+  - 'celebrate'
 
 'ensure-clean-branch':
   - 'shell:check-for-uncommitted-changes'

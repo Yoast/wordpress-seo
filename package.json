@@ -94,6 +94,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
+    "@slack/webhook": "^5.0.2",
     "@wordpress/api-fetch": "^3.1.2",
     "@wordpress/components": "^7.2.2",
     "@wordpress/compose": "^3.2.0",
@@ -131,6 +132,7 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
+    "tmp": "^0.1.0",
     "yoast-components": "^4.38.0-rc.0",
     "yoastseo": "^1.65.0-rc.0"
   },
