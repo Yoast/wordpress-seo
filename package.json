@@ -131,6 +131,7 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
+    "tmp": "^0.1.0",
     "yoast-components": "^4.38.0-rc.0",
     "yoastseo": "^1.65.0-rc.0"
   },
