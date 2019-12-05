@@ -29,10 +29,8 @@ module.exports = function( grunt ) {
 				const currentRCVersion = parsedVersion[ 1 ] ? parsedVersion[ 1 ] : "0";
 				const bumpedRCVersion = parseInt( currentRCVersion, 10 ) + 1;
 				pluginVersionFlag = pluginVersionFlag + "-RC" + bumpedRCVersion;
-			}
-
-			// Else, the RC is 1.
-			else {
+			} else {
+				// Else, the RC is 1.
 				pluginVersionFlag = pluginVersionFlag + "-RC1";
 			}
 
