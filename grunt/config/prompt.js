@@ -9,7 +9,11 @@ module.exports = {
 					message: "Are the above versions correct?",
 				},
 			],
-			then: function( results ) {console.log(results)}
+			then: function( results ) {
+				if ( results[ "config.monorepoVersions" ] === false ) {
+					throw "The script has been aborted because the monorepo versions are incorrect. Ask team Lingo to release the monorepo packages.";
+				}
+			},
 		},
 	},
 };

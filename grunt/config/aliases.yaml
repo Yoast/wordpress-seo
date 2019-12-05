@@ -95,11 +95,11 @@ clean:build-assets:
 
 # Get the project ready for release-candidate
 'create-rc':
-  - 'ensure-clean-branch'
+  - # 'ensure-clean-branch'
   - 'ensure-pre-release-branch'
   - 'ensure-rc-dependencies'
   - 'update-readme'
-  - 'bump-rc-version'
+  - 'bump-the-rc-version'
   - 'change-plugin-name-to-rc'
   - 'artifact'
   - 'shell:restore-plugin-name'
@@ -109,15 +109,20 @@ clean:build-assets:
   - 'deploy:trunk'
   - 'verify-zip-size'
 
+'ensure-clean-branch':
+  - 'shell:check-for-uncommitted-changes'
+
 'ensure-rc-dependencies':
   - 'shell:unlink-monorepo'
-# unlink-monorepo already does a yarn install. Maybe the next line can be removed.
-  - 'shell:yarn-install'
   - 'shell:install-monorepo'
   - 'shell:get-monorepo-versions'
   - 'prompt-monorepo-versions'
   - 'shell:composer-install'
   - 'shell:composer-update-yoast-dependencies'
+
+'bump-the-rc-version':
+  - 'bump-rc-version'
+  - 'shell:git-add-version-bump-files'
 
 # Get the project ready for release
 release:
