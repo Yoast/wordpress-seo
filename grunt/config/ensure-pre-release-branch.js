@@ -39,20 +39,33 @@ module.exports = function( grunt ) {
 
 			grunt.task.run( "gitcheckout:releaseBranch" );
 
+			const execSync = require('child_process').execSync;
+
+			let command = 'git branch --list ' + branchname;
+			const output = execSync( command, { encoding: 'utf-8' } );
+			console.log('Output was:\n', output);
+
+			if ( output ){
+				grunt.config( "gitcheckout.releaseBranch.options", {
+					branch: branchname,
+				} );
+
+				grunt.task.run( "gitcheckout:releaseBranch" );
+			} else {
+				grunt.config( "gitcheckout.releaseBranch.options", {
+					branch: branchname,
+					create: true,
+				} );
+
+				grunt.task.run( "gitcheckout:releaseBranch" );
+			}
+
 			// Pull the release or hotfix branch to make sure you have the latest commits.
 			grunt.config( "gitpull.pull.options", {
 				branch: branchname,
 			} );
 
 			grunt.task.run( "gitpull:pull" );
-
-//			if ( 'git branch --list branchname' ) {
-//			//	git checkout branchname
-//			} else {
-//				// git checkout {basebranch}
-//				// git checkout -b {type}/{version}
-//			}
-
 		}
 	);
 };
