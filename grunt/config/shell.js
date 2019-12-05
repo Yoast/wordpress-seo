@@ -191,10 +191,6 @@ module.exports = function( grunt ) {
 			command: "yarn unlink-monorepo",
 		},
 
-		"yarn-install": {
-			command: "yarn install --check-files",
-		},
-
 		"install-monorepo": {
 			command: "yarn add yoastseo@rc && yarn add yoast-components@rc",
 		},
