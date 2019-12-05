@@ -2,6 +2,13 @@ const path = require( "path" );
 
 // See https://github.com/sindresorhus/grunt-shell
 module.exports = function( grunt ) {
+	function throwErrorWhenNotEmpty( error, stdout, stderr, callback ) {
+		if ( stdout ) {
+			 throw "You have uncommitted changes.";
+		}
+		callback();
+	}
+
 	return {
 		"combine-pot-files": {
 			fromFiles: [
@@ -193,8 +200,16 @@ module.exports = function( grunt ) {
 		"get-monorepo-versions": {
 			command: "yarn list --pattern 'yoastseo|yoast-components'",
 		},
+
 		"restore-plugin-name": {
 			command: "git checkout <%= pluginMainFile %>",
+		},
+
+		"check-for-uncommitted-changes": {
+			command: "git status --porcelain",
+			options: {
+				callback: throwErrorWhenNotEmpty
+			},
 		},
 	};
 };

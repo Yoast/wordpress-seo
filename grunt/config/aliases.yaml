@@ -108,6 +108,9 @@ clean:build-assets:
   - 'upload-to-wp'
   - 'verify-zip-size'
 
+'ensure-clean-branch':
+  - 'shell:check-for-uncommitted-changes'
+
 'ensure-rc-dependencies':
   - 'shell:unlink-monorepo'
   - 'shell:install-monorepo'
