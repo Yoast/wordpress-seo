@@ -1,12 +1,15 @@
 const { isUndefined } = require( "lodash" );
 const { IncomingWebhook } = require( "@slack/webhook" );
-const webhook = new IncomingWebhook( "YOUR_URL_HERE" );
 
 module.exports = function( grunt ) {
 	grunt.registerTask(
 		"notify-slack",
 		"Sends a notification to Slack.",
 		function() {
+			//todo: find a way to implement an environment that we can keep secret, add the secret webhook url to that, and replace it here.
+			const webhook = new IncomingWebhook( "YOUR_WEBHOOK_URL_HERE" );
+
+			//todo: make sure the pre-release task will fill this config variable.
 			const preReleaseURL = grunt.config( "rc.github.url" );
 
 			if ( isUndefined( preReleaseURL ) || preReleaseURL === "" ) {
