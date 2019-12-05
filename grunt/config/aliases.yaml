@@ -102,7 +102,7 @@ clean:build-assets:
   - 'bump-rc-version'
   - 'change-plugin-name-to-rc'
   - 'artifact'
-  - 'restore-plugin-name'
+  - 'shell:restore-plugin-name'
   - 'github-pre-release'
   - 'rc-slack-notification'
   - 'upload-to-wp'
