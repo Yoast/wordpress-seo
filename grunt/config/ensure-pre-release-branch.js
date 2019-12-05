@@ -39,7 +39,12 @@ module.exports = function( grunt ) {
 
 			grunt.task.run( "gitcheckout:releaseBranch" );
 
+			// Pull the release or hotfix branch to make sure you have the latest commits.
+			grunt.config( "gitpull.pull.options", {
+				branch: branchname,
+			} );
 
+			grunt.task.run( "gitpull:pull" );
 
 //			if ( 'git branch --list branchname' ) {
 //			//	git checkout branchname
