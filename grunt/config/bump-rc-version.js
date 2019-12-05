@@ -28,18 +28,21 @@ module.exports = function( grunt ) {
 			// From the resulting array, get the first value (the second value is the RC number).
 			const strippedVersion = parsedVersion[ 0 ];
 
+			//
+			let newPluginVersion = pluginVersionFlag;
+
 			// If the flagged version matches the version in package.json, increment the RC version.
 			if ( pluginVersionFlag === strippedVersion ) {
 				const currentRCVersion = parsedVersion[ 1 ] ? parsedVersion[ 1 ] : "0";
 				const bumpedRCVersion = parseInt( currentRCVersion, 10 ) + 1;
-				pluginVersionFlag = pluginVersionFlag + "-RC" + bumpedRCVersion;
+				newPluginVersion += "-RC" + bumpedRCVersion;
 			} else {
 				// Else, the RC is 1.
-				pluginVersionFlag = pluginVersionFlag + "-RC1";
+				newPluginVersion += "-RC1";
 			}
 
 			// eslint-disable-next-line no-console
-			console.log( "Bumped the plugin version to ".concat( pluginVersionFlag ).concat( "." ) );
+			console.log( "Bumped the plugin version to ".concat( newPluginVersion ).concat( "." ) );
 		}
 	);
 };
