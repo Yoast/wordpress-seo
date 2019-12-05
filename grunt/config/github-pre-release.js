@@ -1,3 +1,6 @@
+
+const spawn = require( "child_process" ).spawnSync;
+
 /**
  * ...
  *
@@ -9,6 +12,13 @@ module.exports = function( grunt ) {
 		"github-pre-release",
 		"Creates and pushes a github pre-release and uploads the artifact to GitHub",
 		function() {
+
+			const editor = process.env.VISUAL || process.env.EDITOR || "subl";
+
+			const { stdout } = spawn( editor );
+
+			console.log( stdout.toString( "utf8" ) );
+
 		}
 	);
 };
