@@ -38,7 +38,14 @@ module.exports = function( grunt ) {
 		function() {
 			// Open a text editor to get the changelog.
 			const changelog = openChangelogEditor( grunt );
-			console.log(changelog);
+
+			const pluginVersion = grunt.file.readJSON( "package.json" ).yoast.pluginVersion;
+
+			// Do not run on wordpress-seo (yet)
+//			grunt.config( "gittag.rctag.options.tag", pluginVersion );
+//			grunt.config( "gittag.rctag.options.message", changelog );
+//			grunt.task.run( "gittag:rctag" );
+
 		}
 	);
 };
