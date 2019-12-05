@@ -93,6 +93,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
+    "@slack/webhook": "^5.0.2",
     "@wordpress/api-fetch": "^3.1.2",
     "@wordpress/components": "^7.2.2",
     "@wordpress/compose": "^3.2.0",
