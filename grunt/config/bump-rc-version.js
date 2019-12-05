@@ -10,10 +10,17 @@ module.exports = function( grunt ) {
 		"bump-rc-version",
 		"Bumps the versions to the next RC",
 		function() {
+			// Parse the command line options.
 			const pluginVersionFlag = grunt.option( "plugin-version" );
+			const releaseTypeFlag = grunt.option( "type" );
 
+			// Check if flags were passed.
 			if ( ! pluginVersionFlag ) {
 				grunt.fail.fatal( "Missing --plugin-version argument" );
+			}
+
+			if ( ! releaseTypeFlag ) {
+				grunt.fail.fatal( "Missing --type argument" );
 			}
 
 			// Retrieve the current plugin version from package.json.
@@ -45,6 +52,15 @@ module.exports = function( grunt ) {
 			// Set the plugin version to the bumped version in package.json.
 			grunt.option( "new-version", newPluginVersion );
 			grunt.task.run( "set-version" );
+
+			// The below command is needed to make the below 'update-version-trunk' work.
+			// This is because 'update-version-trunk' uses 'pluginVersion' from Gruntfile.js.
+			// Which is taken from package.json BEFORE package.json is updated by our above code.
+			grunt.config.data.pluginVersion = newPluginVersion;
+
+			// Set a grunt releaseBranch variable.
+			const branchForRC = releaseTypeFlag + "/" + pluginVersionFlag;
+			grunt.config.data.branchForRC = branchForRC;
 
 			// Set the plugin version to the bumped version in the plugin files.
 			grunt.task.run( "update-version-trunk" );

@@ -87,6 +87,7 @@
     "sassdash": "^0.9.0",
     "shusher": "^0.1.1",
     "svg-react-loader": "^0.4.6",
+    "tmp": "^0.1.0",
     "webpack": "^4.20.2",
     "webpack-bundle-analyzer": "^3.0.2",
     "webpack-cli": "^3.1.1",
@@ -94,6 +95,7 @@
   },
   "dependencies": {
     "@babel/runtime": "7.0.0-beta.55",
+    "@slack/webhook": "^5.0.2",
     "@wordpress/api-fetch": "^3.1.2",
     "@wordpress/components": "^7.2.2",
     "@wordpress/compose": "^3.2.0",

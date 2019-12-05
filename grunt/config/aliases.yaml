@@ -108,6 +108,7 @@ clean:build-assets:
   - 'check-deploy-allowed'
   - 'deploy:trunk'
   - 'verify-zip-size'
+  - 'celebrate'
 
 'ensure-clean-branch':
   - 'shell:check-for-uncommitted-changes'
@@ -122,7 +123,13 @@ clean:build-assets:
 
 'bump-the-rc-version':
   - 'bump-rc-version'
-  - 'shell:git-add-version-bump-files'
+#  - 'shell:git-add-version-bump-files'
+#  - 'shell:git-commit-version-bump-files'
+#  - 'shell:git-push-origin-head'
+#  - 'shell:git-checkout-trunk'
+#  - 'shell:git-merge-into-trunk'
+#  - 'shell:git-push-origin-head'
+#  - 'shell:git-checkout-release-branch'
 
 # Get the project ready for release
 release:
