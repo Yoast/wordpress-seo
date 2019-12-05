@@ -13,17 +13,17 @@ module.exports = function( grunt ) {
 			grunt.config( "gitfetch.fetchall.options.all", true );
 			grunt.task.run( "gitfetch:fetchall" );
 
-			let version = grunt.option( "plugin-version" );
+			const version = grunt.option( "plugin-version" );
 			let type = grunt.option( "type" );
 
 			// If no type is specified, default to release.
 			if ( type !== "hotfix" ) {
-				type = "release"
+				type = "release";
 			}
 
-			let basebranch = type === "hotfix" ? 'master' : 'trunk';
+			const basebranch = type === "hotfix" ? "master" : "trunk";
 
-			let branchname = type + "/" + version;
+			const branchname = type + "/" + version;
 
 			// First switch to either trunk or master to make sure we branch from the correct base branch.
 			grunt.config( "gitcheckout.baseBranch.options", {
@@ -32,9 +32,9 @@ module.exports = function( grunt ) {
 
 			grunt.task.run( "gitcheckout:baseBranch" );
 
-			const execSync = require('child_process').execSync;
-			let command = 'git branch --list ' + branchname;
-			const foundBranchName = execSync( command, { encoding: 'utf-8' } );
+			const execSync = require( "child_process" ).execSync;
+			const command = "git branch --list " + branchname;
+			const foundBranchName = execSync( command, { encoding: "utf-8" } );
 
 			// If the release or hotfix branch already existed, it was saved above in foundBranchName.
 			if ( foundBranchName ){
@@ -57,6 +57,7 @@ module.exports = function( grunt ) {
 				} );
 				grunt.task.run( "gitcheckout:newBranch" );
 			}
+			console.log( "Switched to the " + branchname + " branch" );
 		}
 	);
 };
