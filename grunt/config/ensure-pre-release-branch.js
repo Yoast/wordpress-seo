@@ -35,7 +35,6 @@ module.exports = function( grunt ) {
 			grunt.config( "gitcheckout.releaseBranch.options", {
 				branch: branchname,
 				force: true,
-				create: true,
 			} );
 
 			grunt.task.run( "gitcheckout:releaseBranch" );
