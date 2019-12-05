@@ -105,7 +105,8 @@ clean:build-assets:
   - 'shell:restore-plugin-name'
   - 'github-pre-release'
   - 'rc-slack-notification'
-  - 'upload-to-wp'
+  - 'check-deploy-allowed'
+  - 'deploy:trunk'
   - 'verify-zip-size'
 
 'ensure-clean-branch':
