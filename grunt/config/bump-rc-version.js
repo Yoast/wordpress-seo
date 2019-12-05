@@ -46,6 +46,14 @@ module.exports = function( grunt ) {
 			grunt.option( "new-version", newPluginVersion );
 			grunt.task.run( "set-version" );
 
+			// @todo Investigate.
+			// The below command is needed to make the below 'update-version-trunk' work.
+			// This is because 'update-version-trunk' uses 'pluginVersion' from Gruntfile.js,
+			// which is taken from package.json BEFORE package.json is updated by our above code.
+			// But we don't know how safe this fix is.
+			// Also, when running `console.log( grunt );` you can see that `pluginVersionSlug` is at a different version.
+			grunt.config.data.pluginVersion = newPluginVersion;
+
 			// Set the plugin version to the bumped version in the plugin files.
 			grunt.task.run( "update-version-trunk" );
 		}
