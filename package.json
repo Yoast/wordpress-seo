@@ -27,6 +27,8 @@
     "link-all": "lerna exec yarn link",
     "unlink-all": "lerna exec yarn unlink",
     "transfer-branch": "./transfer-branch.sh",
+    "clean-publish": "lerna exec 'rm -rf dist'",
+    "clean-node-modules": "lerna exec 'rm -rf node_modules' && rm -rf node_modules",
     "lerna-version": "lerna version",
     "lerna-version-rc": "lerna version --preid rc",
     "lerna-publish": "lerna publish --contents dist --yes from-git",
