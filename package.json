@@ -75,6 +75,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.5.0",
     "enzyme-to-json": "^3.3.3",
+    "grunt-git": "^1.0.14",
     "grunt-po2json": "^0.3.0",
     "grunt-prompt": "^1.3.3",
     "grunt-webpack": "^3.1.3",
@@ -131,6 +132,7 @@
     "redux-thunk": "^2.2.0",
     "select2": "^4.0.5",
     "styled-components": "^4.2.0",
+    "tmp": "^0.1.0",
     "yoast-components": "^4.38.0-rc.0",
     "yoastseo": "^1.65.0-rc.0"
   },
