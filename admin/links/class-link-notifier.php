@@ -22,14 +22,14 @@ class WPSEO_Link_Notifier {
 	 */
 	public function register_hooks() {
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_dashboard' ) {
-			add_action( 'admin_init', array( $this, 'cleanup_notification' ) );
+			add_action( 'admin_init', [ $this, 'cleanup_notification' ] );
 		}
 
 		if ( ! wp_next_scheduled( self::NOTIFICATION_ID ) ) {
 			wp_schedule_event( time(), 'daily', self::NOTIFICATION_ID );
 		}
 
-		add_action( self::NOTIFICATION_ID, array( $this, 'manage_notification' ) );
+		add_action( self::NOTIFICATION_ID, [ $this, 'manage_notification' ] );
 	}
 
 	/**
@@ -100,12 +100,12 @@ class WPSEO_Link_Notifier {
 				'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/15m' ) . '" target="_blank">',
 				'</a>'
 			),
-			array(
+			[
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => self::NOTIFICATION_ID,
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
-			)
+			]
 		);
 	}
 

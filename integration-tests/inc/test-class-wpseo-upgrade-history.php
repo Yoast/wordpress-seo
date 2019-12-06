@@ -1,9 +1,13 @@
 <?php
 /**
+ * WPSEO plugin test file.
+ *
  * @package WPSEO\Tests
  */
 
 /**
+ * Unit Test Class.
+ *
  * @group upgrades
  */
 class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
@@ -34,6 +38,8 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the constructor with the default option name.
+	 *
 	 * @covers WPSEO_Upgrade_History::__construct
 	 */
 	public function test_construct_with_default_option_name() {
@@ -43,6 +49,8 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the constructor with the given option name.
+	 *
 	 * @covers WPSEO_Upgrade_History::__construct
 	 */
 	public function test_construct_with_given_option_name() {
@@ -52,6 +60,8 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether $history is an array and is empty.
+	 *
 	 * @covers WPSEO_Upgrade_History::get
 	 */
 	public function test_get_empty() {
@@ -63,6 +73,8 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests whether new entries are correctly added to an array.
+	 *
 	 * @covers WPSEO_Upgrade_History::add
 	 * @covers WPSEO_Upgrade_History::get_options_data
 	 * @covers WPSEO_Upgrade_History::get
@@ -73,7 +85,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 		update_option( 'mock_option_name', 'mock_data' );
 
 		$upgrade_history = $this->get_instance();
-		$upgrade_history->add( '1.0.0', '2.0.0', array( 'mock_option_name' ) );
+		$upgrade_history->add( '1.0.0', '2.0.0', [ 'mock_option_name' ] );
 
 		delete_option( 'mock_option_name' );
 
@@ -88,11 +100,13 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
+	 * Tests the situation where no options are added.
+	 *
 	 * @covers WPSEO_Upgrade_History::add
 	 */
 	public function test_add_no_options() {
 		$upgrade_history = $this->get_instance();
-		$upgrade_history->add( '1.0.0', '2.0.0', array() );
+		$upgrade_history->add( '1.0.0', '2.0.0', [] );
 
 		$history = $upgrade_history->get();
 		$entry   = current( $history );
@@ -111,7 +125,7 @@ class WPSEO_Upgrade_History_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_add_empty_option() {
 		$upgrade_history = $this->get_instance();
-		$upgrade_history->add( '1.0.0', '2.0.0', array( 'option_does_not_exist' ) );
+		$upgrade_history->add( '1.0.0', '2.0.0', [ 'option_does_not_exist' ] );
 
 		$history = $upgrade_history->get();
 		$entry   = current( $history );

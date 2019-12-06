@@ -332,7 +332,7 @@ class Yoast_Model {
 	 * @param null|string $connection_name                          The name of the connection.
 	 *
 	 * @return \Yoast\WP\Free\ORM\ORMWrapper
-	 * @throws \Exception When ID of urrent model has a null value.
+	 * @throws \Exception When ID of current model has a null value.
 	 */
 	protected function has_one_or_many( $associated_class_name, $foreign_key_name = null, $foreign_key_name_in_current_models_table = null, $connection_name = null ) {
 		$base_table_name  = static::get_table_name_for_class( \get_class( $this ) );
@@ -481,11 +481,11 @@ class Yoast_Model {
 			->select( "{$associated_table_name}.*" )
 			->join(
 				$join_table_name,
-				array(
+				[
 					"{$associated_table_name}.{$associated_table_id_column}",
 					'=',
 					"{$join_table_name}.{$key_to_associated_table}",
-				)
+				]
 			)
 			->where( "{$join_table_name}.{$key_to_base_table}", $this->{$base_table_id_column} );
 	}

@@ -19,11 +19,15 @@ use Yoast\WP\Free\Tests\TestCase;
 class Schema_WebPage_Test extends TestCase {
 
 	/**
+	 * The instance to test.
+	 *
 	 * @var \WPSEO_Schema_WebPage
 	 */
 	private $instance;
 
 	/**
+	 * The schema context.
+	 *
 	 * @var \WPSEO_Schema_Context
 	 */
 	private $context;
@@ -36,7 +40,7 @@ class Schema_WebPage_Test extends TestCase {
 
 		Monkey\Functions\stubs(
 			[
-				'get_bloginfo'  => array( $this, 'get_bloginfo' ),
+				'get_bloginfo'  => [ $this, 'get_bloginfo' ],
 				'is_search'     => false,
 				'is_author'     => false,
 				'is_home'       => false,
@@ -131,8 +135,8 @@ class Schema_WebPage_Test extends TestCase {
 		$this->context->site_represents = false;
 
 		$post                    = Mockery::mock( 'WP_Post' );
-		$post->post_date_gmt     = '';
-		$post->post_modified_gmt = '';
+		$post->post_date_gmt     = '0000-00-00 00:00:00';
+		$post->post_modified_gmt = '0000-00-00 00:00:00';
 
 		Monkey\Functions\expect( 'get_post' )
 			->andReturn( $post );
@@ -161,8 +165,8 @@ class Schema_WebPage_Test extends TestCase {
 		$this->context->site_represents = false;
 
 		$post                    = Mockery::mock( 'WP_Post' );
-		$post->post_date_gmt     = '';
-		$post->post_modified_gmt = '';
+		$post->post_date_gmt     = '0000-00-00 00:00:00';
+		$post->post_modified_gmt = '0000-00-00 00:00:00';
 		$post->post_author       = 'author';
 
 		Monkey\Functions\expect( 'get_post' )

@@ -22,7 +22,42 @@ class WPSEO_Capability_Utils {
 			return self::has( $capability );
 		}
 
-		return self::has_any( array( 'wpseo_manage_options', $capability ) );
+		return self::has_any( [ 'wpseo_manage_options', $capability ] );
+	}
+
+	/**
+	 * Retrieves the users that have the specified capability.
+	 *
+	 * @param string $capability The name of the capability.
+	 *
+	 * @return array The users that have the capability.
+	 */
+	public static function get_applicable_users( $capability ) {
+		$applicable_roles = self::get_applicable_roles( $capability );
+
+		return get_users( [ 'role__in' => $applicable_roles ] );
+	}
+
+	/**
+	 * Retrieves the roles that have the specified capability.
+	 *
+	 * @param string $capability The name of the capability.
+	 *
+	 * @return array The names of the roles that have the capability.
+	 */
+	public static function get_applicable_roles( $capability ) {
+		$roles = wp_roles();
+
+		$applicable_roles = [];
+		foreach ( $roles->get_names() as $role_name ) {
+			$role = $roles->get_role( $role_name );
+			// Add role if it has the capability.
+			if ( $role && in_array( $capability, $role['capabilities'], true ) ) {
+				$applicable_roles[] = $role['name'];
+			}
+		}
+
+		return $applicable_roles;
 	}
 
 	/**

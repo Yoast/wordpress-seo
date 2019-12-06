@@ -21,10 +21,6 @@
 		}
 	}
 
-	#gsc_authorization_code {
-		margin-right: 1em;
-	}
-
 	&-body {
 		max-width: 80em;
 	}
@@ -174,6 +170,13 @@
 				order: 1;
 				margin-left: 0;
 				margin-right: 1em;
+
+				#plugin-training-image-link{
+					&:focus {
+						outline: 3px auto #0073aa;
+						box-shadow: none;
+					}
+				}
 			}
 		}
 	}
@@ -181,10 +184,6 @@
 	&--choice {
 		& > .yoast-wizard--rows {
 			height: 100%;
-			// Only needed for IE 10+. Don't add spaces within brackets for this to work.
-			@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-				width: 100%;
-			}
 		}
 
 		& div {
@@ -207,6 +206,8 @@
 	}
 
 	&-newsletter {
+		margin-bottom: 2em;
+
 		&--header {
 			svg {
 				fill: $color_pink_dark;
@@ -228,22 +229,12 @@
 		}
 	}
 
-	&--video-frame {
-		iframe {
-			border: none;
-		}
-	}
-
 	@media screen and (max-width: 80em) {
 		&--columns {
 			display: block;
 
 			& > div {
 				margin-left: 0;
-				// Only needed for IE 10+. Don't add spaces within brackets for this to work.
-				@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-					width: 95.5%;
-				}
 			}
 
 			& > .yoast-wizard--column__push_ {
@@ -276,10 +267,6 @@
 		border-top: 1px solid $color_pink_dark;
 		padding-top: 2em;
 		margin-bottom: 2em;
-		&:first-child {
-			border-top: none;
-			padding-top: 0;
-		}
 	}
 
 	@media screen and (max-width: 50rem) {
@@ -310,8 +297,4 @@
 		}
 	}
 
-}
-
-.ie9 .yoast-wizard--stepper {
-	display: none;
 }

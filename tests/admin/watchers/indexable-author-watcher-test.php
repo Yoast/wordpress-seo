@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Watchers;
+namespace Yoast\WP\Free\Tests\Admin\Watchers;
 
 use Mockery;
 use Yoast\WP\Free\Builders\Indexable_Author_Builder;
@@ -47,8 +47,8 @@ class Indexable_Author_Watcher_Test extends TestCase {
 		$instance = new Indexable_Author_Watcher( $repository_mock, new Indexable_Author_Builder() );
 		$instance->register_hooks();
 
-		$this->assertNotFalse( \has_action( 'profile_update', array( $instance, 'build_indexable' ) ) );
-		$this->assertNotFalse( \has_action( 'deleted_user', array( $instance, 'delete_indexable' ) ) );
+		$this->assertNotFalse( \has_action( 'profile_update', [ $instance, 'build_indexable' ] ) );
+		$this->assertNotFalse( \has_action( 'deleted_user', [ $instance, 'delete_indexable' ] ) );
 	}
 
 	/**

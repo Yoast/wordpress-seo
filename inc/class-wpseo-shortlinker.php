@@ -16,7 +16,7 @@ class WPSEO_Shortlinker {
 	 * @return array The shortlink data.
 	 */
 	protected function collect_additional_shortlink_data() {
-		return array(
+		return [
 			'php_version'      => $this->get_php_version(),
 			'platform'         => 'wordpress',
 			'platform_version' => $GLOBALS['wp_version'],
@@ -24,7 +24,7 @@ class WPSEO_Shortlinker {
 			'software_version' => WPSEO_VERSION,
 			'days_active'      => $this->get_days_active(),
 			'user_language'    => $this->get_user_language(),
-		);
+		];
 	}
 
 	/**

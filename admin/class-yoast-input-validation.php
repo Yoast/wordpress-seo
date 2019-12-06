@@ -13,6 +13,15 @@
 class Yoast_Input_Validation {
 
 	/**
+	 * The error descriptions.
+	 *
+	 * @since 12.1
+	 *
+	 * @var array
+	 */
+	private static $error_descriptions = [];
+
+	/**
 	 * Check whether an option group is a Yoast SEO setting.
 	 *
 	 * The normal pattern is 'yoast' . $option_name . 'options'.
@@ -84,14 +93,6 @@ class Yoast_Input_Validation {
 	}
 
 	/**
-	 * The error descriptions.
-	 *
-	 * @since 12.1
-	 * @var array
-	 */
-	private static $_error_descriptions = array();
-
-	/**
 	 * Sets the error descriptions.
 	 *
 	 * @since 12.1
@@ -99,8 +100,8 @@ class Yoast_Input_Validation {
 	 * @param array $descriptions An associative array of error descriptions. For
 	 *                            each entry, the key must be the setting variable.
 	 */
-	public static function set_error_descriptions( $descriptions = array() ) {
-		$defaults     = array(
+	public static function set_error_descriptions( $descriptions = [] ) {
+		$defaults = [
 			'baiduverify'     => sprintf(
 				/* translators: %s: additional message with the submitted invalid value */
 				esc_html__( 'Baidu verification codes can only contain letters, numbers, hyphens, and underscores. %s', 'wordpress-seo' ),
@@ -171,11 +172,11 @@ class Yoast_Input_Validation {
 				esc_html__( 'Please check the format of the Youtube URL you entered. %s', 'wordpress-seo' ),
 				self::get_dirty_value_message( 'youtube_url' )
 			),
-		);
+		];
 
 		$descriptions = wp_parse_args( $descriptions, $defaults );
 
-		self::$_error_descriptions = $descriptions;
+		self::$error_descriptions = $descriptions;
 	}
 
 	/**
@@ -186,7 +187,7 @@ class Yoast_Input_Validation {
 	 * @return array An associative array of error descriptions.
 	 */
 	public static function get_error_descriptions() {
-		return self::$_error_descriptions;
+		return self::$error_descriptions;
 	}
 
 	/**
@@ -198,11 +199,11 @@ class Yoast_Input_Validation {
 	 * @return string The error description.
 	 */
 	public static function get_error_description( $error_code ) {
-		if ( ! isset( self::$_error_descriptions[ $error_code ] ) ) {
+		if ( ! isset( self::$error_descriptions[ $error_code ] ) ) {
 			return null;
 		}
 
-		return self::$_error_descriptions[ $error_code ];
+		return self::$error_descriptions[ $error_code ];
 	}
 
 	/**
@@ -311,7 +312,8 @@ class Yoast_Input_Validation {
 
 		if ( $dirty_value ) {
 			return sprintf(
-				__( 'The submitted value was: %s', 'wordpress-seo' ),
+				/* translators: %s: form value as submitted. */
+				esc_html__( 'The submitted value was: %s', 'wordpress-seo' ),
 				$dirty_value
 			);
 		}

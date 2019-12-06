@@ -28,12 +28,12 @@ class WPSEO_OnPage_Request {
 	 * @return array
 	 * @throws Exception The error message that can be used to show to the user.
 	 */
-	protected function get_remote( $target_url, $parameters = array() ) {
-		$defaults   = array(
+	protected function get_remote( $target_url, $parameters = [] ) {
+		$defaults   = [
 			'url'          => $target_url,
 			'wp_version'   => $GLOBALS['wp_version'],
 			'yseo_version' => WPSEO_VERSION,
-		);
+		];
 		$parameters = array_merge( $defaults, $parameters );
 
 		$url = add_query_arg( $parameters, $this->onpage_endpoint );
@@ -57,7 +57,7 @@ class WPSEO_OnPage_Request {
 	 *
 	 * @return array
 	 */
-	public function do_request( $target_url, $parameters = array() ) {
+	public function do_request( $target_url, $parameters = [] ) {
 		$json_body = $this->get_remote( $target_url, $parameters );
 
 		// Ryte recognized a redirect, fetch the data of that URL by calling this method with the value from Ryte.

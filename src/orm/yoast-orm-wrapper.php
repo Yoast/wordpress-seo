@@ -31,6 +31,8 @@ use YoastSEO_Vendor\ORM;
 class ORMWrapper extends ORM {
 
 	/**
+	 * Contains the repositories.
+	 *
 	 * @var array
 	 */
 	public static $repositories = [];
@@ -111,7 +113,11 @@ class ORMWrapper extends ORM {
 			return false;
 		}
 
-		/** @var \Yoast\WP\Free\ORM\Yoast_Model $model */
+		/**
+		 * An instance of Yoast_Model is being made.
+		 *
+		 * @var \Yoast\WP\Free\ORM\Yoast_Model $model
+		 */
 		$model = new $this->class_name();
 		$model->set_orm( $orm );
 

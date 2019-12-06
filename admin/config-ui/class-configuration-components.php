@@ -15,7 +15,7 @@ class WPSEO_Configuration_Components {
 	 *
 	 * @var WPSEO_Config_Component[]
 	 */
-	protected $components = array();
+	protected $components = [];
 
 	/**
 	 * Adapter.
@@ -28,7 +28,6 @@ class WPSEO_Configuration_Components {
 	 * Add default components.
 	 */
 	public function initialize() {
-		$this->add_component( new WPSEO_Config_Component_Connect_Google_Search_Console() );
 		$this->add_component( new WPSEO_Config_Component_Mailchimp_Signup() );
 		$this->add_component( new WPSEO_Config_Component_Suggestions() );
 	}
@@ -66,14 +65,14 @@ class WPSEO_Configuration_Components {
 		foreach ( $this->components as $component ) {
 			$adapter->add_custom_lookup(
 				$component->get_field()->get_identifier(),
-				array(
+				[
 					$component,
 					'get_data',
-				),
-				array(
+				],
+				[
 					$component,
 					'set_data',
-				)
+				]
 			);
 		}
 	}

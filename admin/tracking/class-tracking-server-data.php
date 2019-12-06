@@ -16,9 +16,9 @@ class WPSEO_Tracking_Server_Data implements WPSEO_Collection {
 	 * @return array The collection data.
 	 */
 	public function get() {
-		return array(
+		return [
 			'server' => $this->get_server_data(),
-		);
+		];
 	}
 
 	/**
@@ -27,7 +27,7 @@ class WPSEO_Tracking_Server_Data implements WPSEO_Collection {
 	 * @return array Array with the value.
 	 */
 	protected function get_server_data() {
-		$server_data = array();
+		$server_data = [];
 
 		// Validate if the server address is a valid IP-address.
 		$ipaddress = filter_input( INPUT_SERVER, 'SERVER_ADDR', FILTER_VALIDATE_IP );
@@ -61,10 +61,10 @@ class WPSEO_Tracking_Server_Data implements WPSEO_Collection {
 			$ssl_support = false;
 		}
 
-		return array(
+		return [
 			'version'    => $curl['version'],
 			'sslSupport' => $ssl_support,
-		);
+		];
 	}
 
 	/**
@@ -73,13 +73,13 @@ class WPSEO_Tracking_Server_Data implements WPSEO_Collection {
 	 * @return array Returns the state of the php extensions.
 	 */
 	protected function get_php_extensions() {
-		return array(
+		return [
 			'imagick' => extension_loaded( 'imagick' ),
 			'filter'  => extension_loaded( 'filter' ),
 			'bcmath'  => extension_loaded( 'bcmath' ),
 			'modXml'  => extension_loaded( 'modXml' ),
 			'pcre'    => extension_loaded( 'pcre' ),
 			'xml'     => extension_loaded( 'xml' ),
-		);
+		];
 	}
 }

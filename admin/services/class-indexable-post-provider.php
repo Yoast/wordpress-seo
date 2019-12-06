@@ -15,7 +15,7 @@ class WPSEO_Indexable_Service_Post_Provider extends WPSEO_Indexable_Provider {
 	 *
 	 * @var array
 	 */
-	protected $renameable_fields = array(
+	protected $renameable_fields = [
 		'description'                 => 'metadesc',
 		'breadcrumb_title'            => 'bctitle',
 		'og_title'                    => 'opengraph-title',
@@ -29,7 +29,7 @@ class WPSEO_Indexable_Service_Post_Provider extends WPSEO_Indexable_Provider {
 		'primary_focus_keyword'       => 'focuskw',
 		'primary_focus_keyword_score' => 'linkdex',
 		'readability_score'           => 'content_score',
-	);
+	];
 
 	/**
 	 * Returns an array with data for the target object.
@@ -44,7 +44,7 @@ class WPSEO_Indexable_Service_Post_Provider extends WPSEO_Indexable_Provider {
 	 */
 	public function get( $object_id, $as_object = false ) {
 		if ( ! $this->is_indexable( $object_id ) ) {
-			return array();
+			return [];
 		}
 
 		$indexable = WPSEO_Post_Indexable::from_object( $object_id );
@@ -70,7 +70,7 @@ class WPSEO_Indexable_Service_Post_Provider extends WPSEO_Indexable_Provider {
 	public function patch( $object_id, $requestdata ) {
 		$indexable = $this->get( $object_id, true );
 
-		if ( $indexable === array() ) {
+		if ( $indexable === [] ) {
 			throw WPSEO_Invalid_Indexable_Exception::non_existing_indexable( $object_id );
 		}
 
@@ -173,7 +173,7 @@ class WPSEO_Indexable_Service_Post_Provider extends WPSEO_Indexable_Provider {
 	 * @return string The converted advanced meta settings.
 	 */
 	protected function convert_advanced( &$indexable_data ) {
-		$translated_advanced_data = array();
+		$translated_advanced_data = [];
 
 		if ( WPSEO_Validator::key_exists( $indexable_data, 'is_robots_nosnippet' ) && (bool) $indexable_data['is_robots_nosnippet'] === true ) {
 			$translated_advanced_data[] = 'nosnippet';

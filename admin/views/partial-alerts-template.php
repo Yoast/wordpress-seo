@@ -52,7 +52,9 @@ if ( ! function_exists( '_yoast_display_alerts' ) ) {
 				esc_attr( $notification->get_id() ),
 				esc_attr( $notification->get_nonce() ),
 				esc_attr( $notification->get_json() ),
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: Needs to be fixed in https://github.com/Yoast/wordpress-seo-premium/issues/2548.
 				$notification,
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: $button is properly escaped.
 				$button
 			);
 		}
@@ -79,7 +81,10 @@ if ( ! $active ) {
 		<p><?php echo esc_html( $wpseo_i18n_summary ); ?></p>
 
 		<div class="container yoast-alerts-active" id="<?php echo esc_attr( 'yoast-' . $type . '-active' ); ?>">
-			<?php echo _yoast_display_alerts( $active, 'active' ); ?>
+			<?php
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: _yoast_display_alerts is considered a safe function.
+			echo _yoast_display_alerts( $active, 'active' );
+			?>
 		</div>
 
 		<?php
@@ -87,15 +92,16 @@ if ( ! $active ) {
 			$dismissed_paper = new WPSEO_Paper_Presenter(
 				esc_html( $i18n_muted_issues_title ),
 				null,
-				array(
+				[
 					'paper_id'                 => esc_attr( $type . '-dismissed' ),
 					'paper_id_prefix'          => 'yoast-',
 					'class'                    => 'yoast-alerts-dismissed',
 					'content'                  => _yoast_display_alerts( $dismissed, 'dismissed' ),
 					'collapsible'              => true,
 					'collapsible_header_class' => 'yoast-alert',
-				)
+				]
 			);
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Reason: current usage is considered safe.
 			echo $dismissed_paper->get_output();
 		}
 		?>

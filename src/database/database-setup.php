@@ -20,6 +20,8 @@ class Database_Setup implements Initializer {
 	use No_Conditionals;
 
 	/**
+	 * The logger object.
+	 *
 	 * @var \YoastSEO_Vendor\Psr\Log\LoggerInterface
 	 */
 	protected $logger;
@@ -34,7 +36,7 @@ class Database_Setup implements Initializer {
 	}
 
 	/**
-	 * @inheritdoc
+	 * Initializes the database setup.
 	 */
 	public function initialize() {
 		ORM::configure( 'mysql:host=' . \DB_HOST . ';dbname=' . \DB_NAME );

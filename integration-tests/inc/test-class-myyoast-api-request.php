@@ -21,8 +21,8 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	public function test_fire() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
-			->setMethods( array( 'do_request', 'decode_response' ) )
-			->setConstructorArgs( array( 'endpoint' ) )
+			->setMethods( [ 'do_request', 'decode_response' ] )
+			->setConstructorArgs( [ 'endpoint' ] )
 			->getMock();
 
 		$instance
@@ -48,8 +48,8 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	public function test_fire_with_bad_request_exception_being_thrown() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
-			->setMethods( array( 'do_request', 'decode_response' ) )
-			->setConstructorArgs( array( 'endpoint' ) )
+			->setMethods( [ 'do_request', 'decode_response' ] )
+			->setConstructorArgs( [ 'endpoint' ] )
 			->getMock();
 
 		$instance
@@ -78,8 +78,8 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
-			->setMethods( array( 'do_request', 'decode_response', 'get_access_token' ) )
-			->setConstructorArgs( array( 'endpoint' ) )
+			->setMethods( [ 'do_request', 'decode_response', 'get_access_token' ] )
+			->setConstructorArgs( [ 'endpoint' ] )
 			->getMock();
 
 		$instance
@@ -115,8 +115,8 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
-			->setMethods( array( 'do_request', 'decode_response', 'get_access_token', 'remove_access_token' ) )
-			->setConstructorArgs( array( 'endpoint' ) )
+			->setMethods( [ 'do_request', 'decode_response', 'get_access_token', 'remove_access_token' ] )
+			->setConstructorArgs( [ 'endpoint' ] )
 			->getMock();
 
 		$instance
@@ -152,8 +152,8 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
-			->setMethods( array( 'do_request', 'decode_response', 'get_access_token' ) )
-			->setConstructorArgs( array( 'endpoint' ) )
+			->setMethods( [ 'do_request', 'decode_response', 'get_access_token' ] )
+			->setConstructorArgs( [ 'endpoint' ] )
 			->getMock();
 
 		$instance
@@ -186,13 +186,13 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	public function test_decode_response() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
-			->setMethods( array( 'do_request' ) )
-			->setConstructorArgs( array( 'endpoint' ) )
+			->setMethods( [ 'do_request' ] )
+			->setConstructorArgs( [ 'endpoint' ] )
 			->getMock();
 
-		$response = array(
+		$response = [
 			'response' => 'okay!',
-		);
+		];
 
 		$instance
 			->expects( $this->once() )
@@ -213,8 +213,8 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	public function test_decode_response_wrong_output() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request' )
-			->setMethods( array( 'do_request' ) )
-			->setConstructorArgs( array( 'endpoint' ) )
+			->setMethods( [ 'do_request' ] )
+			->setConstructorArgs( [ 'endpoint' ] )
 			->getMock();
 
 		$instance
@@ -234,8 +234,8 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	public function test_enrich_request_arguments() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request_Double' )
-			->setMethods( array( 'get_request_body', 'get_installed_addon_versions' ) )
-			->setConstructorArgs( array( 'endpoint' ) )
+			->setMethods( [ 'get_request_body', 'get_installed_addon_versions' ] )
+			->setConstructorArgs( [ 'endpoint' ] )
 			->getMock();
 
 		$instance
@@ -243,9 +243,9 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 			->method( 'get_request_body' )
 			->will(
 				$this->returnValue(
-					array(
+					[
 						'This is' => 'the request body',
-					)
+					]
 				)
 			);
 
@@ -254,22 +254,22 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 			->method( 'get_installed_addon_versions' )
 			->will(
 				$this->returnValue(
-					array(
+					[
 						'yoast-seo-wordpress-premium' => '10.0',
-					)
+					]
 				)
 			);
 
 		$this->assertEquals(
-			array(
-				'body'    => array(
+			[
+				'body'    => [
 					'This is' => 'the request body',
-				),
-				'headers' => array(
+				],
+				'headers' => [
 					'yoast-seo-wordpress-premium-version' => '10.0',
-				),
-			),
-			$instance->enrich_request_arguments( array() )
+				],
+			],
+			$instance->enrich_request_arguments( [] )
 		);
 	}
 
@@ -281,33 +281,33 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	public function test_enrich_request_arguments_with_empty_request_body() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_MyYoast_Api_Request_Double' )
-			->setMethods( array( 'get_request_body', 'get_installed_addon_versions' ) )
-			->setConstructorArgs( array( 'endpoint' ) )
+			->setMethods( [ 'get_request_body', 'get_installed_addon_versions' ] )
+			->setConstructorArgs( [ 'endpoint' ] )
 			->getMock();
 
 		$instance
 			->expects( $this->once() )
 			->method( 'get_request_body' )
-			->will( $this->returnValue( array() ) );
+			->will( $this->returnValue( [] ) );
 
 		$instance
 			->expects( $this->once() )
 			->method( 'get_installed_addon_versions' )
 			->will(
 				$this->returnValue(
-					array(
+					[
 						'yoast-seo-wordpress-premium' => '10.0',
-					)
+					]
 				)
 			);
 
 		$this->assertEquals(
-			array(
-				'headers' => array(
+			[
+				'headers' => [
 					'yoast-seo-wordpress-premium-version' => '10.0',
-				),
-			),
-			$instance->enrich_request_arguments( array() )
+				],
+			],
+			$instance->enrich_request_arguments( [] )
 		);
 	}
 
@@ -320,12 +320,12 @@ class WPSEO_MyYoast_Api_Request_Test extends WPSEO_UnitTestCase {
 	 * @expectedExceptionMessage Error
 	 */
 	public function test_exception_arguments() {
-		add_filter( 'pre_http_request', array( $this, 'return_error_object' ) );
+		add_filter( 'pre_http_request', [ $this, 'return_error_object' ] );
 
-		$instance = new WPSEO_MyYoast_Api_Request_Double( 'some_url', array() );
-		$instance->do_request( 'some_url', array() );
+		$instance = new WPSEO_MyYoast_Api_Request_Double( 'some_url', [] );
+		$instance->do_request( 'some_url', [] );
 
-		remove_filter( 'pre_http_request', array( $this, 'return_error_object' ) );
+		remove_filter( 'pre_http_request', [ $this, 'return_error_object' ] );
 	}
 
 	/**

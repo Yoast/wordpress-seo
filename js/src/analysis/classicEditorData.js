@@ -1,9 +1,12 @@
+/* global wp jQuery */
+
 /* External dependencies */
 import analysis from "yoastseo";
 const { removeMarks } = analysis.markers;
+import { isUndefined, debounce } from "lodash";
 
 /* Internal dependencies */
-import { updateReplacementVariable } from "../redux/actions/snippetEditor";
+import { updateReplacementVariable, updateData } from "../redux/actions/snippetEditor";
 import {
 	excerptFromContent,
 	fillReplacementVariables,
@@ -11,7 +14,8 @@ import {
 	mapCustomTaxonomies,
 } from "../helpers/replacementVariableHelpers";
 import tmceHelper, { tmceId } from "../wp-seo-tinymce";
-import debounce from "lodash/debounce";
+
+const $ = jQuery;
 
 /**
  * Represents the classic editor data.
@@ -28,7 +32,7 @@ class ClassicEditorData {
 	 *
 	 * @returns {void}
 	 */
-	constructor( refresh, store, settings = { tinyMceId: "" } ) {
+	constructor( refresh, store, settings = { tinyMceId: tmceId } ) {
 		this._refresh = refresh;
 		this._store = store;
 		this._initialData = {};
@@ -51,6 +55,114 @@ class ClassicEditorData {
 		fillReplacementVariables( this._initialData, this._store );
 		this.subscribeToElements();
 		this.subscribeToStore();
+		this.subscribeToSnippetPreviewImage();
+	}
+
+	/**
+	 * Initialize snippet preview image functionality.
+	 *
+	 * @returns {void}
+	 */
+	subscribeToSnippetPreviewImage() {
+		if ( isUndefined( wp.media ) || isUndefined( wp.media.featuredImage ) ) {
+			return;
+		}
+
+		$( "#postimagediv" ).on( "click", "#remove-post-thumbnail", () => {
+			this.featuredImageIsSet = false;
+
+			this.setImageInSnippetPreview( this.getContentImage() );
+		} );
+
+		const featuredImage = wp.media.featuredImage.frame();
+
+		featuredImage.on( "select", () => {
+			const newUrl = featuredImage.state().get( "selection" ).first().attributes.url;
+
+			if ( ! newUrl ) {
+				return;
+			}
+
+			this.featuredImageIsSet = true;
+			this.setImageInSnippetPreview( newUrl );
+		} );
+
+		tmceHelper.addEventHandler( this._settings.tinyMceId, [ "init" ], () => {
+			const url = this.getFeaturedImage() || this.getContentImage() || null;
+
+			this.setImageInSnippetPreview( url );
+		} );
+
+		tmceHelper.addEventHandler( this._settings.tinyMceId, [ "change" ], debounce( () => {
+			if ( this.featuredImageIsSet ) {
+				return;
+			}
+
+			this.setImageInSnippetPreview( this.getContentImage() );
+		}, 1000 ) );
+	}
+
+	/**
+	 * Gets the featured image source from the DOM.
+	 *
+	 * @returns {string|null} The url to the featured image.
+	 */
+	getFeaturedImage() {
+		const postThumbnail = $( "#set-post-thumbnail img" ).attr( "src" );
+
+		if ( postThumbnail ) {
+			this.featuredImageIsSet = true;
+
+			return postThumbnail;
+		}
+
+		this.featuredImageIsSet = false;
+
+		return null;
+	}
+
+	/**
+	 * Set the featured image for the snippet preview.
+	 *
+	 * @param {string} url The image URL.
+	 *
+	 * @returns {void}
+	 */
+	setImageInSnippetPreview( url ) {
+		this._store.dispatch( updateData( { snippetPreviewImageURL: url } ) );
+	}
+
+	/**
+	 * Returns the image from the content.
+	 *
+	 * @returns {string} The first image found in the content.
+	 */
+	getContentImage() {
+		if ( this.featuredImageIsSet ) {
+			return "";
+		}
+
+		const content = this.getContent();
+
+		const images = analysis.string.imageInText( content );
+		let image  = "";
+
+		if ( images.length === 0 ) {
+			return image;
+		}
+
+		do {
+			let currentImage = images.shift();
+			currentImage = $( currentImage );
+
+			const imageSource = currentImage.prop( "src" );
+
+			if ( imageSource ) {
+				image = imageSource;
+			}
+		} while ( "" === image && images.length > 0 );
+
+		return image;
 	}
 
 	/**
@@ -106,11 +218,7 @@ class ClassicEditorData {
 	 * @returns {string} The content of the document.
 	 */
 	getContent() {
-		let tinyMceId = this._settings.tinyMceId;
-
-		if ( tinyMceId === "" ) {
-			tinyMceId = tmceId;
-		}
+		const tinyMceId = this._settings.tinyMceId;
 
 		return removeMarks( tmceHelper.getContentTinyMce( tinyMceId ) );
 	}
@@ -224,6 +332,10 @@ class ClassicEditorData {
 		if ( this._previousData.excerpt !== newData.excerpt ) {
 			this._store.dispatch( updateReplacementVariable( "excerpt", newData.excerpt ) );
 			this._store.dispatch( updateReplacementVariable( "excerpt_only", newData.excerpt_only ) );
+		}
+		// Handle image change.
+		if ( this._previousData.snippetPreviewImageURL !== newData.snippetPreviewImageURL ) {
+			this.setImageInSnippetPreview( newData.snippetPreviewImageURL );
 		}
 	}
 

@@ -85,7 +85,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 
 		$c      = self::$class_instance;
-		$result = $c->facebook_filter( array() );
+		$result = $c->facebook_filter( [] );
 
 		// Test if values were filtered.
 		$this->assertArrayHasKey( 'http://ogp.me/ns#type', $result );
@@ -109,8 +109,8 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->assertFalse( self::$class_instance->article_author_facebook() );
 
 		// Create post with author.
-		$author_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
-		$post_id   = $this->factory->post->create( array( 'post_author' => $author_id ) );
+		$author_id = $this->factory->user->create( [ 'role' => 'administrator' ] );
+		$post_id   = $this->factory->post->create( [ 'post_author' => $author_id ] );
 		$this->go_to( get_permalink( $post_id ) );
 
 		// On post page but facebook meta not set.
@@ -172,10 +172,10 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$expected_title = 'Test title';
 		// Create and go to post.
 		$post_id   = $this->factory->post->create();
-		$post_args = array(
+		$post_args = [
 			'ID'         => $post_id,
 			'post_title' => $expected_title,
-		);
+		];
 		wp_update_post( $post_args );
 		WPSEO_Meta::set_value( 'opengraph-title', '%%title%%', $post_id );
 
@@ -249,7 +249,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$stub =
 			$this
 				->getMockBuilder( 'WPSEO_OpenGraph' )
-				->setMethods( array( 'og_tag' ) )
+				->setMethods( [ 'og_tag' ] )
 				->getMock();
 
 		WPSEO_Options::set( 'og_frontpage_image', get_site_url() . '/wp-content/uploads/2015/01/iphone5_ios7-300x198.jpg' );
@@ -271,7 +271,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$stub =
 			$this
 				->getMockBuilder( 'WPSEO_OpenGraph' )
-				->setMethods( array( 'og_tag' ) )
+				->setMethods( [ 'og_tag' ] )
 				->getMock();
 
 		$stub
@@ -314,9 +314,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_image_IS_SINGULAR_and_HAS_open_graph_image_AND_HAS_content_images() {
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_content' => '<img class="alignnone size-medium wp-image-490" src="' . get_site_url() . '/wp-content/plugins/wordpress-seo/integration-tests/yoast.png" />',
-			)
+			]
 		);
 
 		$image = get_site_url() . '/wp-content/plugins/wordpress-seo/integration-tests/assets/small.png';
@@ -416,10 +416,10 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_static_front_page() {
 
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_title' => 'front-page',
 				'post_type'  => 'page',
-			)
+			]
 		);
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $post_id );
@@ -448,19 +448,19 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	public function test_static_posts_page() {
 
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_title' => 'front-page',
 				'post_type'  => 'page',
-			)
+			]
 		);
 		update_option( 'show_on_front', 'page' );
 		update_option( 'page_on_front', $post_id );
 
 		$post_id = $this->factory->post->create(
-			array(
+			[
 				'post_title' => 'blog-page',
 				'post_type'  => 'page',
-			)
+			]
 		);
 		update_option( 'page_for_posts', $post_id );
 		$this->go_to( get_permalink( $post_id ) );
@@ -567,7 +567,7 @@ EXPECTED;
 	public function test_site_name() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_OpenGraph' )
-			->setMethods( array( 'og_tag' ) )
+			->setMethods( [ 'og_tag' ] )
 			->getMock();
 
 		$instance
@@ -589,7 +589,7 @@ EXPECTED;
 	public function test_site_name_with_a_set_name() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_OpenGraph' )
-			->setMethods( array( 'og_tag' ) )
+			->setMethods( [ 'og_tag' ] )
 			->getMock();
 
 		$instance
@@ -612,7 +612,7 @@ EXPECTED;
 	public function test_site_name_with_a_non_string_name() {
 		$instance = $this
 			->getMockBuilder( 'WPSEO_OpenGraph' )
-			->setMethods( array( 'og_tag' ) )
+			->setMethods( [ 'og_tag' ] )
 			->getMock();
 
 		$instance
@@ -661,7 +661,7 @@ EXPECTED;
 
 		// Create post in category, go to post.
 		$category_id = wp_create_category( 'Category Name' );
-		$post_id     = $this->factory->post->create( array( 'post_category' => array( $category_id ) ) );
+		$post_id     = $this->factory->post->create( [ 'post_category' => [ $category_id ] ] );
 		$this->go_to( get_permalink( $post_id ) );
 
 		$this->assertTrue( self::$class_instance->category() );
@@ -705,7 +705,7 @@ EXPECTED;
 	 * @covers WPSEO_OpenGraph::opengraph
 	 */
 	public function test_taxonomy_title() {
-		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
+		$term_id = $this->factory->term->create( [ 'taxonomy' => 'category' ] );
 
 		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'wpseo_opengraph-title', 'Custom taxonomy open graph title' );
 
@@ -728,7 +728,7 @@ EXPECTED;
 	 * @covers WPSEO_OpenGraph::description
 	 */
 	public function test_taxonomy_description() {
-		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
+		$term_id = $this->factory->term->create( [ 'taxonomy' => 'category' ] );
 
 		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'opengraph-description', 'Custom taxonomy open graph description' );
 
@@ -752,10 +752,10 @@ EXPECTED;
 	 */
 	public function test_taxonomy_description_with_replacevars() {
 		$expected_title = 'Test title';
-		$term_args      = array(
+		$term_args      = [
 			'taxonomy' => 'category',
 			'name'     => $expected_title,
-		);
+		];
 		$term_id        = $this->factory->term->create( $term_args );
 
 		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'opengraph-description', '%%term_title%%' );
@@ -781,7 +781,7 @@ EXPECTED;
 	 * @covers WPSEO_OpenGraph::image
 	 */
 	public function test_taxonomy_image() {
-		$term_id = $this->factory->term->create( array( 'taxonomy' => 'category' ) );
+		$term_id = $this->factory->term->create( [ 'taxonomy' => 'category' ] );
 
 		WPSEO_Taxonomy_Meta::set_value( $term_id, 'category', 'wpseo_opengraph-image', home_url( 'custom_twitter_image.png' ) );
 
@@ -826,7 +826,7 @@ EXPECTED;
 	 * @covers WPSEO_OpenGraph::category
 	 */
 	public function test_get_category_with_first_value_removed_by_filter() {
-		add_filter( 'get_the_categories', array( $this, 'remove_first_category' ) );
+		add_filter( 'get_the_categories', [ $this, 'remove_first_category' ] );
 
 		$post_id = $this->create_post_with_categories();
 
@@ -842,7 +842,7 @@ EXPECTED;
 
 		$this->assertContains( '<meta property="article:section" content="category2" />', $output );
 
-		remove_filter( 'get_the_categories', array( $this, 'remove_first_category' ) );
+		remove_filter( 'get_the_categories', [ $this, 'remove_first_category' ] );
 	}
 
 	/**
@@ -855,21 +855,21 @@ EXPECTED;
 		$term1   = self::factory()
 			->term
 			->create(
-				array(
+				[
 					'name'     => 'category1',
 					'taxonomy' => 'category',
-				)
+				]
 			);
 		$term2   = self::factory()
 			->term
 			->create(
-				array(
+				[
 					'name'     => 'category2',
 					'taxonomy' => 'category',
-				)
+				]
 			);
 
-		self::factory()->term->add_post_terms( $post_id, array( $term1, $term2 ), 'category' );
+		self::factory()->term->add_post_terms( $post_id, [ $term1, $term2 ], 'category' );
 
 		return $post_id;
 	}
@@ -902,10 +902,10 @@ EXPECTED;
 
 		copy( $source_image, $featured_image ); // Prevent original from deletion.
 
-		$file_array = array(
+		$file_array = [
 			'name'     => $basename,
 			'tmp_name' => $featured_image,
-		);
+		];
 		$attach_id  = media_handle_sideload( $file_array, $post_id );
 
 		return $attach_id;

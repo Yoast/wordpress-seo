@@ -19,7 +19,7 @@ final class WPSEO_Role_Manager_WP extends WPSEO_Abstract_Role_Manager {
 	 *
 	 * @return void
 	 */
-	protected function add_role( $role, $display_name, array $capabilities = array() ) {
+	protected function add_role( $role, $display_name, array $capabilities = [] ) {
 		$wp_role = get_role( $role );
 		if ( $wp_role ) {
 			foreach ( $capabilities as $capability => $grant ) {

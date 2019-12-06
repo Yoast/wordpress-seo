@@ -1,6 +1,5 @@
 language: php
 dist: xenial
-sudo: false
 
 services:
   - mysql
@@ -24,22 +23,20 @@ stages:
 jobs:
   fast_finish: true
   include:
+    - php: 7.2
+      env: PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=lts/* AUTO_CHECKOUT_MONOREPO_BRANCH=1
     - php: 7.3
-      env: WP_VERSION=latest PHPLINT=1 PHPCS=1 CHECKJS=1 SECURITY=1 TRAVIS_NODE_VERSION=lts/* AUTO_CHECKOUT_MONOREPO_BRANCH=1
-    - php: 7.3
-      env: WP_VERSION=latest WP_MULTISITE=1 COVERAGE=1
+      env: WP_VERSION=latest PHPLINT=1 WP_MULTISITE=1 COVERAGE=1
     - php: 5.6
-      env: WP_VERSION=latest PHPUNIT=1
+      env: WP_VERSION=5.2 WP_MULTISITE=1 PHPLINT=1 PHPUNIT=1
       # Use 'trusty' to test against MySQL 5.6, 'xenial' contains 5.7 by default.
       dist: trusty
-    - php: 5.2
-      # As 'trusty' is not supporting PHP 5.2/5.3 anymore, we need to force using 'precise'.
-      dist: precise
-      env: WP_VERSION=5.0 WP_MULTISITE=1 PHPLINT=1
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
     - php: "7.4snapshot"
       env: WP_VERSION=latest PHPUNIT=1
+    - php: "nightly"
+      env: PHPLINT=1
     - stage: 🚀 deployment
       name: "Deploy to S3"
       if: branch = deploy # Only build when on the `deploy` branch, this functionality is not used yet and is taking a long time to complete.
@@ -96,10 +93,10 @@ jobs:
 
   allow_failures:
     # Allow failures for unstable builds.
-    - php: "7.4snapshot"
-      env: WP_VERSION=latest PHPUNIT=1
+    - php: "nightly"
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
+
 cache:
   yarn: true
   directories:
@@ -119,7 +116,7 @@ before_install:
 
 install:
 - |
-  if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
+  if [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" || "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
     # The prefix-dependencies task only works on PHP 7.1 and we need to prefix our dependencies to accurately test them.
     # So we temporarily switch PHP versions, do a full install and then remove the package.
     # Then switch back to the PHP version we want to test and delete the vendor directory.
@@ -138,10 +135,14 @@ install:
     composer require phpunit/phpcov ^3.1
   fi
 - |
-  if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
+  if [[ "$PHPCS" == "1" || "$PHPUNIT" == "1" || "$COVERAGE" == "1" ]]; then
     # Run composer update as we have dev dependencies locked at PHP ^7.0 versions.
     composer update
     composer install --no-scripts --no-interaction
+    composer du
+  elif [[ "$TRAVIS_BUILD_STAGE_NAME" == "🚀 deployment" ]]; then
+    composer update
+    composer install --no-dev --no-interaction
     composer du
   fi
 - |
@@ -158,7 +159,7 @@ install:
 before_script:
 # Careful: The HTTPS version of the following URL is different, therefore we need to use HTTP.
 - |
-  if [[ $TRAVIS_PHP_VERSION != "5.2" ]]; then
+  if [[ "$PHPUNIT" == "1" || "$COVERAGE" == "1" ]]; then
     if [[ "$WP_VERSION" == "latest" ]]; then
       curl -s http://api.wordpress.org/core/version-check/1.7/ > /tmp/wp-latest.json
       WP_VERSION=$(grep -o '"version":"[^"]*' /tmp/wp-latest.json | sed 's/"version":"//')
@@ -232,14 +233,7 @@ script:
 - |
   if [[ "$PHPLINT" == "1" ]]; then
     travis_fold start "PHP.check" && travis_time_start
-    if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then
-      SKIP_CLI="-o -path ./cli -prune"
-    fi
-    if [[ $TRAVIS_PHP_VERSION == "5.2" ]]; then
-      find -L . -path ./vendor -prune -o -path ./node_modules -prune $SKIP_CLI -o -path ./migrations -prune -o -path ./src -prune -o -path ./tests -prune -o -path ./config -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
-    else
-      find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
-    fi
+    find -L . -path ./vendor -prune -o -path ./node_modules -prune -o -name '*.php' -print0 | xargs -0 -n 1 -P 4 php -l
     travis_time_finish && travis_fold end "PHP.check"
   fi
 # PHP CS
@@ -247,9 +241,9 @@ script:
   if [[ "$PHPCS" == "1" ]]; then
     travis_fold start "PHP.code-style" && travis_time_start
     if [[ -d "premium" ]]; then
-      composer premium-check-cs
+      composer premium-check-cs -- -n
     else
-      vendor/bin/phpcs -q --runtime-set ignore_warnings_on_exit 1
+      vendor/bin/phpcs -qn
     fi
     travis_time_finish && travis_fold end "PHP.code-style"
   fi
@@ -266,8 +260,6 @@ script:
     vendor/bin/phpunit
     travis_time_finish && travis_fold end "PHP.tests"
   fi;
-# Coverage environment variable is only set on the PHP 7 build, so we can safely
-# assume that PHPUnit is in the vendor directory.
 - |
   if [[ "$COVERAGE" == "1" ]]; then
     travis_fold start "PHP.coverage" && travis_time_start
@@ -280,10 +272,6 @@ script:
     vendor/bin/phpunit --coverage-php /tmp/coverage/tests.cov
     travis_time_finish && travis_fold end "PHP.coverage"
   fi
-- |
-  if [[ "$COVERAGE" == "1" ]]; then
-    ./vendor/bin/phpcov merge /tmp/coverage --clover build/logs/clover.xml
-  fi
 # Validate the composer.json file.
 # @link https://getcomposer.org/doc/03-cli.md#validate
 - if [[ $TRAVIS_PHP_VERSION == "5.6" || $TRAVIS_PHP_VERSION == "7.3" ]]; then composer validate --no-check-all; fi
@@ -292,6 +280,10 @@ script:
 - if [[ "$SECURITY" == "1" ]]; then php $SECURITYCHECK_DIR/security-checker.phar -n security:check $(pwd)/composer.lock;fi
 
 after_script:
+- |
+  if [[ "$COVERAGE" == "1" ]]; then
+    ./vendor/bin/phpcov merge /tmp/coverage --clover build/logs/clover.xml
+  fi
 - if [[ "$COVERAGE" == "1" ]]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
 
 notifications:

@@ -4,10 +4,10 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
-Requires at least: 4.9
-Tested up to: 5.2.2
-Stable tag: 12.1
-Requires PHP: 5.2.4
+Requires at least: 5.2
+Tested up to: 5.3
+Stable tag: 12.6.2
+Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
 
@@ -30,8 +30,8 @@ Yoast SEO does everything in its power to please both visitors and search engine
 * The most advanced XML Sitemaps functionality at the push of a button.
 * Full control over your site's breadcrumbs.
 * Automatically set canonical URLs to avoid duplicate content.
+* **[Premium]** support for our [Yoast SEO Premium](https://yoa.st/1v8) users.
 * **[Premium]** the ability to expand Yoast SEO with the [News SEO](https://yoa.st/1uv), [Video SEO](https://yoa.st/1uw), [Local SEO](https://yoa.st/1uu) and [WooCommerce SEO](https://yoa.st/3rh) extensions.
-* **[Premium]** support for our Yoast SEO Premium users.
 
 #### WRITE KILLER CONTENT WITH YOAST SEO
 We know content is king, that's why Yoast SEO is famous for its readability analysis and its SEO analysis. Yoast SEO gives you:
@@ -209,49 +209,54 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
-= 12.2.0 =
-Release Date: October 1st, 2019
-
-Read more about Yoast SEO 12.2 in [our 12.2 release post](https://yoa.st/release-12-2)!
-
-Enhancements:
-
-* Adds an alert to the configuration wizard and the knowledge graph settings that is shown when organization information is missing.
+= 12.7.0 =
+Release Date: December 10th, 2019
 
 Bugfixes:
 
-* Fixes a bug where the banners in the sidebar were no longer responsive.
-
-= 12.1.0 =
-Release Date: September 17th, 2019
-
-Yoast SEO 12.1 is out today! It features a couple of changes in order to match the design of Google’s search results pages, this includes those shiny new favicons. In addition to this, we added a number of new filters for our Schema implementation. See what else is new in the latest release of your favorite SEO plugin in [our 12.1 release post](https://yoa.st/release-12-1)!
-
-Enhancements:
-
-* Updates the desktop snippet preview to match Google's new font sizes.
-* Introduces the usage of the site's favicon in the mobile snippet preview.
-* Adds a collapsible around the hidden problems and notifications on the Yoast dashboard.
-* Adds a filter `wpseo_schema_organization_social_profiles` that allows filtering an organization's social profiles in the schema output. Props to [juliquiron](https://github.com/juliquiron).
-* Adds a filter `wpseo_schema_company_name` that allows filtering the company name in the schema output. Props to [@andrewgillingham](https://github.com/andrewgillingham).
-* Adds a filter `wpseo_schema_company_logo_id` that allows filtering the company logo in the schema output. Props to [@andrewgillingham](https://github.com/andrewgillingham).
-* Adds a filter `wpseo_sitemap_exclude_empty_terms_taxonomy` to control hiding empty terms per taxonomy.
-* Adds a filter `wpseo_enable_structured_data_blocks` to allow disabling Yoast's structured data block editor blocks.
-* Adds a `get_robots` method to retrieve the robot HTML without it being output. Props to [@bradymwilliams](https://github.com/bradymwilliams).
-* Improves the input validation on the settings pages.
-* Improves the consistency of the plugin icons.
-* Improves the How-to and FAQ blocks styling for better compatibility with latest version of the WordPress blocks editor.
-
-Bugfixes:
-
-* Fixes a bug where subscription checks would fail on some sites due to certificate verification being disabled.
-* Fixes a bug where the primary term selector would not display HTML entities properly. Props to [@dlh01](https://github.com/dlh01).
+* Fixes a bug where sub-sitemaps were rendered for non-public custom post types. Props to [@stodorovic](https://github.com/stodorovic).
+* Fixes a bug where nested gallery images were not included in the image count in the sitemap. Props to [@stodorovic](https://github.com/stodorovic).
+* Fixes a bug where the notification center dismiss and restore buttons had no focus style.
 
 Other:
 
-* Allows showing specific dashboard feeds based on the `wp_version` and `php_version` of a site.
-* Removes the AMP Glue plugin suggestion from the SEO dashboard when AMP and Yoast SEO are installed. The AMP Glue plugin by Yoast will be discontinued soon.
-* Removes the `Courses` menu-item.
+* Improves security by adding output escaping.
+
+= 12.6.2 =
+Release Date: November 28th, 2019
+
+Other:
+
+* Removes the Black Friday banner.
+
+= 12.6.1 =
+Release Date: November 27th, 2019
+
+Bugfixes:
+
+* Fixes a bug where a fatal error would be thrown when Yoast SEO was used in combination with another plugin or theme containing a class named `Date_Helper`.
+* Fixes a bug where a fatal error would be thrown when an empty string would be passed to the `WPSEO_Date_Helper->format` method. Props to [@mpolek](https://github.com/mpolek).
+
+= 12.6.0 =
+Release Date: November 26th, 2019
+
+In Yoast SEO 12.6, we’re activating our new beacon for help documentation. This tool helps answer the questions you might have about using Yoast SEO. It’s easy to use and very friendly. Just hit that big purple question mark and search! Other improvements in Yoast SEO 12.6 includes a number of fixes and enhancements. Find out more in [our 12.6 release post](https://yoa.st/release-12-6)!
+
+Enhancements:
+
+* Adds a description property to the schema's `WebSite` node.
+* Removes the `Site-wide default: None` and the `None` options from the `Meta robots advanced` field in the metabox.
+* Introduced a HelpScout beacon as a replacement for the Help Center.
+
+Bugfixes:
+
+* Fixes a PHP Warning when using an empty string in the OpenGraph frontend output. Props to [@ChrisThompsonTLDR](https://github.com/ChrisThompsonTLDR).
+* Fixes a bug where the time in the `article:published_time`, `article:modified_time`, and `og:updated_time` meta tag output and in the `datePublished` and `dateModified` schema output was incorrect in WordPress 5.2.
+
+Other:
+
+* Sets the minimum required WordPress version to 5.2, and the minimum PHP version to 5.6.20.
+* Adds a notification to encourage Internet Explorer 11 users to use another browser as we are no longer supporting that browser.
 
 = Earlier versions =
 For the changelog of earlier versions, please refer to [the changelog on yoast.com](https://yoa.st/yoast-seo-changelog).

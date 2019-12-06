@@ -54,6 +54,7 @@ export default () => {
 		keywords: [
 			__( "How-to", "wordpress-seo" ),
 			__( "How to", "wordpress-seo" ),
+			__( "Schema", "wordpress-seo" ),
 		],
 		// Allow only one How-To block per post.
 		supports: {

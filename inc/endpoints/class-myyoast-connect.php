@@ -28,11 +28,11 @@ class WPSEO_Endpoint_MyYoast_Connect implements WPSEO_Endpoint {
 		register_rest_route(
 			self::REST_NAMESPACE,
 			'connect',
-			array(
+			[
 				'methods'             => 'POST',
-				'callback'            => array( $this, 'handle_request' ),
-				'permission_callback' => array( $this, 'can_retrieve_data' ),
-			)
+				'callback'            => [ $this, 'handle_request' ],
+				'permission_callback' => [ $this, 'can_retrieve_data' ],
+			]
 		);
 	}
 
@@ -91,9 +91,9 @@ class WPSEO_Endpoint_MyYoast_Connect implements WPSEO_Endpoint {
 	 */
 	protected function save_secret( $client_secret ) {
 		$this->get_client()->save_configuration(
-			array(
+			[
 				'secret' => $client_secret,
-			)
+			]
 		);
 	}
 
