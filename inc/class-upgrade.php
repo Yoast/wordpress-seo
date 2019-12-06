@@ -51,6 +51,7 @@ class WPSEO_Upgrade {
 			'12.1-RC0'  => 'clean_all_notifications',
 			'12.3-RC0'  => 'upgrade_123',
 			'12.4-RC0'  => 'upgrade_124',
+			'12.8-RC0'  => 'upgrade_128',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -62,16 +63,6 @@ class WPSEO_Upgrade {
 			 * - the notification center notifications are not filled yet.
 			 */
 			add_action( 'init', [ $this, 'upgrade_125' ] );
-		}
-
-		$upgrade_routines = array(
-			'12.4-RC0' => 'upgrade_124',
-		);
-
-		foreach ( $upgrade_routines as $routine_version => $routine ) {
-			if ( version_compare( $version, $routine_version, '<' ) ) {
-				$this->$routine();
-			}
 		}
 
 		// Since 3.7.
@@ -692,7 +683,7 @@ class WPSEO_Upgrade {
 	/**
 	 * Removes the paginated comments notice when it's set.
 	 */
-	private function upgrade_124() {
+	private function upgrade_128() {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-page_comments-notice' );
 	}
 
