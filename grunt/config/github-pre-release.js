@@ -6,7 +6,7 @@ function openChangelogEditor ( grunt ) {
 	const editor = process.env.VISUAL || process.env.EDITOR || "vim" || "code" || "subl";
 
 	// Spawn editor and save to changelog_buffer.txt
-	const { status } = spawn( editor, ["changelog_buffer.txt"], {stdio:"inherit"} );
+	const { status } = spawn( editor, [ "changelog_buffer.txt" ], { stdio: "inherit" } );
 	if ( status !== 0 ) {
 		grunt.fail.fatal( "Something went wrong while editing the changelog." );
 	}
@@ -22,7 +22,6 @@ function openChangelogEditor ( grunt ) {
 	grunt.file.delete( "changelog_buffer.txt" );
 
 	return data;
-
 }
 
 /**
@@ -42,14 +41,20 @@ module.exports = function( grunt ) {
 			const changelog = openChangelogEditor( grunt );
 			const pluginVersion = grunt.file.readJSON( "package.json" ).yoast.pluginVersion;
 
+			// Creating the Tag
 			//TODO It seems a target [commit] is not necessary, so we use grunt-git to run the git tag with name and message.
 			// Check if this is necessary at all, because the request to create the release already includes creation of a tag.
+			//grunt.config( "gittag.rctag.options.tag", pluginVersion );
+			//grunt.config( "gittag.rctag.options.message", changelog );
+			//grunt.task.run( "gittag:rctag" );
 
-			// Create the tag.
-			//			grunt.config( "gittag.rctag.options.tag", pluginVersion );
-			//			grunt.config( "gittag.rctag.options.message", changelog );
-			//			grunt.task.run( "gittag:rctag" );
+			// Slack notifier logic.
+			// todo: Set the URL on the grunt config, so that the Slack notifier has access to it.
+			// grunt.config.set( "rc.github.url", "DE URL VAN DE RC ZIP HIER" );
+			// todo: remove Temp:
+			grunt.config.set( "rc.github.url", "https://github.com/Yoast/wordpress-seo/releases/download/12.7-RC2/wordpress-seo.zip" );
 
+			// Creating the release on github through an API request.
 			let github = {};
 			github.apiRoot = 'https://api.github.com';
 			github.accesToken = ""; // TODO: Get from ENV

@@ -207,6 +207,26 @@ module.exports = function( grunt ) {
 			command: "git add package.json wp-seo-main.php wp-seo.php",
 		},
 
+		"git-commit-version-bump-files": {
+			command: "git commit -m 'Bump version for RC'",
+		},
+
+		"git-push-origin-head": {
+			command: "git push origin HEAD",
+		},
+
+		"git-checkout-trunk": {
+			command: "git checkout trunk",
+		},
+
+		"git-merge-into-trunk": {
+			command: "git merge <%= branchForRC %>",
+		},
+
+		"git-checkout-release-branch": {
+			command: "git checkout <%= branchForRC %>",
+		},
+
 		"check-for-uncommitted-changes": {
 			// --porcelain gives the output in an easy-to-parse format for scripts.
 			command: "git status --porcelain",
