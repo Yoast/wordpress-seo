@@ -81,6 +81,11 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function build_indexable( $term_id ) {
+		// Bail if this is a multisite installation and the site has been switched.
+		if ( is_multisite() && ms_is_switched() ) {
+			return;
+		}
+
 		$indexable = $this->repository->find_by_id_and_type( $term_id, 'term', false );
 
 		// If we haven't found an existing indexable, create it. Otherwise update it.
