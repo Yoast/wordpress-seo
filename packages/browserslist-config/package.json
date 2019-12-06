@@ -1,6 +1,6 @@
 {
 	"name": "@yoast/browserslist-config",
-	"version": "1.0.0",
+	"version": "1.0.3",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/yoast/javascript",
@@ -11,21 +11,14 @@
 	"homepage": "https://github.com/Yoast/javascript#readme",
 	"license": "GPL-3.0",
 	"private": false,
-	"main": "src/index.js",
-	"directories": {
-		"lib": "src",
-		"test": "tests"
-	},
-	"files": [
-		"src"
-	],
+	"main": "src/list.js",
 	"publishConfig": {
 		"access": "public"
 	},
 	"scripts": {
 		"test": "jest",
 		"lint": "eslint .",
-		"prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \\\"this.main='index.js'\\\""
+		"prepublishOnly": "rm -rf dist && cp -R src dist && cp package.json dist/package.json && json -I -f dist/package.json -e \\\"this.main='list.js'\\\""
 	},
 	"bugs": {
 		"url": "https://github.com/Yoast/javascript/issues"
