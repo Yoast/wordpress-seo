@@ -38,7 +38,6 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', [ $this, 'tagline_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'blog_public_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'permalink_notice' ], 15 );
-		add_action( 'admin_init', [ $this, 'ga_compatibility_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'yoast_plugin_suggestions_notification' ], 15 );
 		add_action( 'admin_init', [ $this, 'recalculate_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'unsupported_php_notice' ], 15 );
