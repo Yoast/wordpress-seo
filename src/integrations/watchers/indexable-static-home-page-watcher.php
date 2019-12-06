@@ -30,19 +30,12 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	protected $repository;
 
 	/**
-	 * @var \Yoast\WP\Free\Helpers\Url_Helper
-	 */
-	protected $url;
-
-	/**
 	 * Indexable_Static_Home_Page_Watcher constructor.
 	 *
 	 * @param \Yoast\WP\Free\Repositories\Indexable_Repository $repository The repository to use.
-	 * @param \Yoast\WP\Free\Builders\Indexable_Author_Builder $builder    The post builder to use.
 	 */
-	public function __construct( Indexable_Repository $repository, Url_Helper $url ) {
+	public function __construct( Indexable_Repository $repository ) {
 		$this->repository = $repository;
-		$this->url = $url;
 	}
 
 	/**
