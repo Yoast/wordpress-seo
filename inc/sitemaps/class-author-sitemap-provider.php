@@ -13,6 +13,20 @@ use Yoast\WP\Free\Helpers\Author_Archive_Helper;
 class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 	/**
+	 * The date helper.
+	 *
+	 * @var WPSEO_Date_Helper
+	 */
+	protected $date;
+
+	/**
+	 * WPSEO_Author_Sitemap_Provider constructor.
+	 */
+	public function __construct() {
+		$this->date = new WPSEO_Date_Helper();
+	}
+
+	/**
 	 * Check if provider supports given item type.
 	 *
 	 * @param string $type Type string to check for.
@@ -77,7 +91,7 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$user    = get_user_by( 'id', $user_id );
 			$index[] = [
 				'loc'     => WPSEO_Sitemaps_Router::get_base_url( 'author-sitemap' . $page . '.xml' ),
-				'lastmod' => '@' . $user->_yoast_wpseo_profile_updated, // @ for explicit timestamp format
+				'lastmod' => ( $user->_yoast_wpseo_profile_updated ) ? $this->date->format_timestamp( $user->_yoast_wpseo_profile_updated ) : null,
 			];
 
 			$page++;
