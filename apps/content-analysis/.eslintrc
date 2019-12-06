@@ -12,3 +12,15 @@ rules:
 
 parserOptions:
   ecmaVersion: 2018
+
+overrides:
+  - files:
+      - "config/**/*.js"
+      - "scripts/**/*.js"
+    env:
+      node: true
+    rules:
+      strict: 0
+      global-require: 0
+      no-process-exit: 0
+      no-console: 0
