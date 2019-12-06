@@ -311,7 +311,7 @@ abstract class WPSEO_Option {
 							$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
 							/* translators: 1: Verification string from user input; 2: Service name. */
 							sprintf( __( '%1$s does not seem to be a valid %2$s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
-							'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+							'error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
 						);
 					}
 
@@ -343,13 +343,14 @@ abstract class WPSEO_Option {
 						$this->group_name,
 						// Suffix-ID for the error message box. WordPress prepends `setting-error-`.
 						$key,
+						// The error message.
 						sprintf(
 							/* translators: %s expands to an invalid URL. */
 							__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
 							'<strong>' . esc_html( $submitted_url ) . '</strong>'
 						),
-						// CSS class for the WP notice.
-						'notice-error'
+						// Message type.
+						'error'
 					);
 				}
 
@@ -426,7 +427,7 @@ abstract class WPSEO_Option {
 						__( '%s does not seem to be a valid Facebook App ID. Please correct.', 'wordpress-seo' ),
 						'<strong>' . esc_html( $dirty[ $key ] ) . '</strong>'
 					), // The error message.
-					'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+					'error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
 				);
 			}
 
