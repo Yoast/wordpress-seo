@@ -762,12 +762,10 @@ export default class AnalysisWebWorker {
 	 * @param {Object} payload                    The payload object.
 	 * @param {Object} payload.paper              The paper to analyze.
 	 * @param {Object} [payload.relatedKeywords]  The related keywords.
-	 * @param {Object} [payload.extraData]        Extra data needed for analysis.
-	 * @param {Object} [payload.extraData.wpBlocks] Gutenberg blocks to analyze.
 	 *
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */
-	async analyze( id, { paper, relatedKeywords = {}, extraData = {} } ) { // eslint-disable-line no-unused-vars
+	async analyze( id, { paper, relatedKeywords = {} } ) {
 		// Raw HTML text, to be parsed by the tree builder.
 		const text = paper._text;
 		// Automatically add paragraph tags, like Wordpress does, on blocks padded by double newlines or html elements.

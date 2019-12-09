@@ -214,13 +214,11 @@ class AnalysisWorkerWrapper {
 	 * Analyzes the paper.
 	 *
 	 * @param {Object} paper              The paper to analyze.
-	 * @param {Object} [extraData]        Extra data that may be needed for analysis.
-	 * @param {Object} [extraData.wpBlocks] Gutenberg blocks to analyze.
 	 *
 	 * @returns {Promise} The promise of analyses.
 	 */
-	analyze( paper, extraData ) {
-		return this.sendRequest( "analyze", { paper, extraData } );
+	analyze( paper ) {
+		return this.sendRequest( "analyze", { paper } );
 	}
 
 	/**
