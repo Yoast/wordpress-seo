@@ -6,7 +6,7 @@ License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Content analysis, Readability
 Requires at least: 5.2
 Tested up to: 5.3
-Stable tag: 12.6.1
+Stable tag: 12.6.2
 Requires PHP: 5.6.20
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -212,19 +212,22 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 12.7.0 =
 Release Date: December 10th, 2019
 
-Enhancements:
-
-* Optimizes the parsing of gallery shortcodes. Props to [@stodorovic](https://github.com/stodorovic).
-
 Bugfixes:
 
-* Prevents rendering sub-sitemaps for non-public custom post types. Props to [@stodorovic](https://github.com/stodorovic).
+* Fixes a bug where sub-sitemaps were rendered for non-public custom post types. Props to [@stodorovic](https://github.com/stodorovic).
 * Fixes a bug where nested gallery images were not included in the image count in the sitemap. Props to [@stodorovic](https://github.com/stodorovic).
 * Fixes a bug where the notification center dismiss and restore buttons had no focus style.
 
 Other:
 
-* Improve security by adding output escaping.
+* Improves security by adding output escaping.
+
+= 12.6.2 =
+Release Date: November 28th, 2019
+
+Other:
+
+* Removes the Black Friday banner.
 
 = 12.6.1 =
 Release Date: November 27th, 2019

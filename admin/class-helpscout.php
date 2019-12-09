@@ -81,7 +81,7 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 			'<script type="text/javascript">window.%1$s(\'%2$s\', %3$s)</script>',
 			( $this->ask_consent ) ? 'wpseoHelpScoutBeaconConsent' : 'wpseoHelpScoutBeacon',
 			esc_html( $this->beacon_id ),
-			wp_json_encode( $this->get_session_data() )
+			WPSEO_Utils::format_json_encode( $this->get_session_data() )
 		);
 	}
 
@@ -117,11 +117,11 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 		$current_user = wp_get_current_user();
 
 		$data = [
-			'name'                                                     => trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
-			'email'                                                    => $current_user->user_email,
-			'WordPress Version'                                        => $this->get_wordpress_version(),
-			'Server'                                                   => $this->get_server_info(),
-			'<a href="' . admin_url( 'themes.php' ) . '">Theme</a>'    => $this->get_theme_info(),
+			'name'                                                  => trim( $current_user->user_firstname . ' ' . $current_user->user_lastname ),
+			'email'                                                 => $current_user->user_email,
+			'WordPress Version'                                     => $this->get_wordpress_version(),
+			'Server'                                                => $this->get_server_info(),
+			'<a href="' . admin_url( 'themes.php' ) . '">Theme</a>' => $this->get_theme_info(),
 			'<a href="' . admin_url( 'plugins.php' ) . '">Plugins</a>' => $this->get_active_plugins(),
 		];
 
@@ -138,7 +138,7 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 			}
 		}
 
-		return wp_json_encode( $data );
+		return WPSEO_Utils::format_json_encode( $data );
 	}
 
 	/**
@@ -186,7 +186,7 @@ class WPSEO_HelpScout implements WPSEO_WordPress_Integration {
 			return '';
 		}
 
-		$product_info = '<table>';
+		$product_info  = '<table>';
 		$product_info .= '<tr><td>Version</td><td>' . $plugin->product->version . '</td></tr>';
 		$product_info .= '<tr><td>Expiration date</td><td>' . $plugin->expiry_date . '</td></tr>';
 		$product_info .= '</table>';

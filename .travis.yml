@@ -34,7 +34,9 @@ jobs:
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
     - php: "7.4snapshot"
-      env: WP_VERSION=master PHPUNIT=1
+      env: WP_VERSION=latest PHPUNIT=1
+    - php: "nightly"
+      env: PHPLINT=1
     - stage: 🚀 deployment
       name: "Deploy to S3"
       if: branch = deploy # Only build when on the `deploy` branch, this functionality is not used yet and is taking a long time to complete.
@@ -91,8 +93,7 @@ jobs:
 
   allow_failures:
     # Allow failures for unstable builds.
-    - php: "7.4snapshot"
-      env: WP_VERSION=master PHPUNIT=1
+    - php: "nightly"
     - php: 7.3
       env: WP_VERSION=master PHPUNIT=1
 

@@ -38,7 +38,7 @@
 		"yoast/yoastcs": "~0.4.3",
 		"phpcompatibility/phpcompatibility-wp": "^2.0.0",
 		"humbug/php-scoper": "^0.12.0",
-		"brain/monkey": "^2.2",
+		"brain/monkey": "^2.4",
 		"phpunit/phpunit": "^5.7",
 		"atanamo/php-codeshift": "^1.0",
 		"symfony/config": "^3.4"

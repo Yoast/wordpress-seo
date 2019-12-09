@@ -20,10 +20,10 @@ class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			$request->do_request( home_url() ),
-			array(
+			[
 				'is_indexable'    => '1',
 				'passes_juice_to' => '',
-			)
+			]
 		);
 	}
 
@@ -37,10 +37,10 @@ class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			$request->do_request( 'http:://will-be-redirected.wp' ),
-			array(
+			[
 				'is_indexable'    => '1',
 				'passes_juice_to' => '',
-			)
+			]
 		);
 	}
 
@@ -54,10 +54,10 @@ class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
 
 		$this->assertEquals(
 			$request->do_request( 'http://not_indexable.wp' ),
-			array(
+			[
 				'is_indexable'    => '0',
 				'passes_juice_to' => '',
-			)
+			]
 		);
 	}
 }

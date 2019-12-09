@@ -41,7 +41,7 @@ class WPSEO_GSC_Issues {
 	public function get_issues() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.5' );
 
-		return array();
+		return [];
 	}
 
 	/**
