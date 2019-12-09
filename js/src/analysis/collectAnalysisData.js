@@ -9,12 +9,37 @@ import { Paper } from "yoastseo";
 /* global wp */
 
 /**
+ * Filters the WordPress block editor block data to use for the analysis.
+ *
+ * @param {Object} block The block from which we need to get the relevant data.
+ *
+ * @returns {Object} The block, with irrelevant data removed.
+ */
+function filterBlockData( block ) {
+	const filteredBlock = {};
+
+	// Main data of the block (content, but also heading level etc.)
+	filteredBlock.attributes = Object.assign( {}, block.attributes );
+	// Type of block, e.g. "core/paragraph"
+	filteredBlock.name = block.name;
+	filteredBlock.clientId = block.clientId;
+
+	// Recurse on inner blocks.
+	if ( block.innerBlocks ) {
+		filteredBlock.innerBlocks = block.innerBlocks.map( innerBlock => filterBlockData( innerBlock ) );
+	}
+
+	return filteredBlock;
+}
+
+/**
  * Retrieves the data needed for the analyses.
  *
  * We use the following data sources:
  * 1. Redux Store.
  * 2. Custom data callbacks.
  * 3. Pluggable modifications.
+ * 4. The WordPress block-editor Redux store.
  *
  * @param {Edit}               edit               The edit instance.
  * @param {Object}             store              The redux store.
@@ -28,7 +53,11 @@ export default function collectAnalysisData( edit, store, customAnalysisData, pl
 	merge( storeData, customAnalysisData.getData() );
 	const editData = edit.getData().getData();
 
-	const blocks = wp.data.select( "core/block-editor" ).getBlocks();
+	// Retrieve the block editor blocks from WordPress and filter on useful information.
+	let blocks = wp.data.select( "core/block-editor" ).getBlocks();
+	if ( blocks ) {
+		blocks = blocks.map( block => filterBlockData( block ) );
+	}
 
 	// Make a data structure for the paper data.
 	const data = {
