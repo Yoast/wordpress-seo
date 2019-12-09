@@ -19,7 +19,16 @@ function filterBlockData( block ) {
 	const filteredBlock = {};
 
 	// Main data of the block (content, but also heading level etc.)
-	filteredBlock.attributes = Object.assign( {}, block.attributes );
+	filteredBlock.attributes = {};
+
+	// Heading level, HTML-content and image alt text.
+	const attributeNames = [ "level", "content", "alt" ];
+	attributeNames.forEach( name => {
+		if ( block.attributes[ name ] ) {
+			filteredBlock.attributes[ name ] = block.attributes[ name ];
+		}
+	} );
+
 	// Type of block, e.g. "core/paragraph"
 	filteredBlock.name = block.name;
 	filteredBlock.clientId = block.clientId;
