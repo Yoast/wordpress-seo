@@ -96,7 +96,7 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Retrieves an indexable by it's permalink.
+	 * Retrieves an indexable by its permalink.
 	 *
 	 * @param string $permalink The indexable permalink.
 	 *
