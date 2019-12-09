@@ -59,7 +59,7 @@ const SingleSvgContainer = styled.span`
 /**
  * Returns the SvgIconsWrapper component.
  *
- * @returns {ReactElement} The HelpCenterWrapper component.
+ * @returns {ReactElement} The SvgIconsWrapper component.
  */
 export default function SvgIconsWrapper() {
 	/**
