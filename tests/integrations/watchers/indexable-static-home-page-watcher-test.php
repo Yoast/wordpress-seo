@@ -26,7 +26,7 @@ use YoastSEO_Vendor\ORM;
 class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 
 	/**
-	 * Indexable repository mock;
+	 * Indexable repository mock.
 	 *
 	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
