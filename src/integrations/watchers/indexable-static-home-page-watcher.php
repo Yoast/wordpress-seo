@@ -1,6 +1,6 @@
 <?php
 /**
- * Author watcher to save the meta data to an Indexable.
+ * Watcher that checks for changes in the page used as homepage.
  *
  * @package Yoast\YoastSEO\Watchers
  */
@@ -33,6 +33,7 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	 * Indexable_Static_Home_Page_Watcher constructor.
 	 *
 	 * @param \Yoast\WP\Free\Repositories\Indexable_Repository $repository The repository to use.
+	 * @codeCoverageIgnore
 	 */
 	public function __construct( Indexable_Repository $repository ) {
 		$this->repository = $repository;
@@ -49,10 +50,10 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	 * Updates the new and previous homepage's permalink when the static home page is updated.
 	 *
 	 * @param string $old_value The previous homepage's ID.
-	 * @param number $value     The new homepage's ID.
+	 * @param int    $value     The new homepage's ID.
 	 */
 	public function update_static_homepage_permalink( $old_value, $value ) {
-		if ( \gettype( $old_value ) === 'string' ) {
+		if ( \is_string( $old_value ) ) {
 			$old_value = (int) $old_value;
 		}
 
@@ -63,14 +64,18 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 	/**
 	 * Updates the permalink based on the selected homepage settings.
 	 *
-	 * @param number $page_id The page's id.
+	 * @param int $page_id The page's id.
 	 */
 	private function update_permalink_for_page( $page_id ) {
 		if ( $page_id === 0 ) {
 			return;
 		}
 
-		$indexable = $prev_homepage = $this->repository->find_by_id_and_type( $page_id, 'post', false );
+		$indexable = $this->repository->find_by_id_and_type( $page_id, 'post', false );
+
+		if ( $indexable === false ) {
+			return;
+		}
 
 		$indexable->permalink = \get_permalink( $page_id );
 

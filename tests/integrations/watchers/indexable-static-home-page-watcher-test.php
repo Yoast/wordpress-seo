@@ -4,6 +4,7 @@ namespace Yoast\WP\Free\Tests\Integrations\Watchers;
 
 use Mockery;
 use Brain\Monkey;
+use Yoast\WP\Free\Conditionals\Admin_Conditional;
 use Yoast\WP\Free\Integrations\Watchers\Indexable_Static_Home_Page_Watcher;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\Integrations\Watchers\Indexable_Author_Watcher;
@@ -25,15 +26,22 @@ use YoastSEO_Vendor\ORM;
 class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 
 	/**
+	 * Indexable repository mock;
+	 *
 	 * @var Mockery\MockInterface|Indexable_Repository
 	 */
 	private $repository_mock;
 
 	/**
+	 * The class instance.
+	 *
 	 * @var Indexable_Static_Home_Page_Watcher
 	 */
 	private $instance;
 
+	/**
+	 * Sets an instance for test purposes.
+	 */
 	public function setUp() {
 		parent::setUp();
 
@@ -48,15 +56,14 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[],
-			Indexable_Author_Watcher::get_conditionals()
+			[ Admin_Conditional::class ],
+			Indexable_Static_Home_Page_Watcher::get_conditionals()
 		);
 	}
 
 	/**
 	 * Tests if the expected hooks are registered.
 	 *
-	 * @covers ::__construct
 	 * @covers ::register_hooks
 	 */
 	public function test_register_hooks() {
@@ -68,7 +75,6 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 	/**
 	 * Tests if both permalinks are updated.
 	 *
-	 * @covers ::__construct
 	 * @covers ::update_static_homepage_permalink
 	 * @covers ::update_permalink_for_page
 	 */
@@ -118,7 +124,6 @@ class Indexable_Static_Home_Page_Watcher_Test extends TestCase {
 	/**
 	 * Tests if only the old homepage indexable is updated.
 	 *
-	 * @covers ::__construct
 	 * @covers ::update_static_homepage_permalink
 	 * @covers ::update_permalink_for_page
 	 */
