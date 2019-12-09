@@ -6,8 +6,6 @@ import getContentLocale from "./getContentLocale";
 
 import { Paper } from "yoastseo";
 
-/* global wp */
-
 /**
  * Filters the WordPress block editor block data to use for the analysis.
  *
