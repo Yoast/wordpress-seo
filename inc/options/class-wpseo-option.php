@@ -241,8 +241,8 @@ abstract class WPSEO_Option {
 	 */
 	public function add_default_filters() {
 		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
-		if ( has_filter( 'default_option_' . $this->option_name, array( $this, 'get_defaults' ) ) === false ) {
-			add_filter( 'default_option_' . $this->option_name, array( $this, 'get_defaults' ) );
+		if ( has_filter( 'default_option_' . $this->option_name, [ $this, 'get_defaults' ] ) === false ) {
+			add_filter( 'default_option_' . $this->option_name, [ $this, 'get_defaults' ] );
 		}
 	}
 
@@ -311,7 +311,7 @@ abstract class WPSEO_Option {
 							$key, // Suffix-ID for the error message box. WordPress prepends `setting-error-`.
 							/* translators: 1: Verification string from user input; 2: Service name. */
 							sprintf( __( '%1$s does not seem to be a valid %2$s verification string. Please correct.', 'wordpress-seo' ), '<strong>' . esc_html( $meta ) . '</strong>', $service ), // The error message.
-							'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+							'error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
 						);
 					}
 
@@ -343,13 +343,14 @@ abstract class WPSEO_Option {
 						$this->group_name,
 						// Suffix-ID for the error message box. WordPress prepends `setting-error-`.
 						$key,
+						// The error message.
 						sprintf(
 							/* translators: %s expands to an invalid URL. */
 							__( '%s does not seem to be a valid url. Please correct.', 'wordpress-seo' ),
 							'<strong>' . esc_html( $submitted_url ) . '</strong>'
 						),
-						// CSS class for the WP notice.
-						'notice-error'
+						// Message type.
+						'error'
 					);
 				}
 
@@ -426,7 +427,7 @@ abstract class WPSEO_Option {
 						__( '%s does not seem to be a valid Facebook App ID. Please correct.', 'wordpress-seo' ),
 						'<strong>' . esc_html( $dirty[ $key ] ) . '</strong>'
 					), // The error message.
-					'notice-error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
+					'error' // CSS class for the WP notice, either the legacy 'error' / 'updated' or the new `notice-*` ones.
 				);
 			}
 
@@ -441,7 +442,7 @@ abstract class WPSEO_Option {
 	 * @return void
 	 */
 	public function remove_default_filters() {
-		remove_filter( 'default_option_' . $this->option_name, array( $this, 'get_defaults' ) );
+		remove_filter( 'default_option_' . $this->option_name, [ $this, 'get_defaults' ] );
 	}
 
 	/**
@@ -473,8 +474,8 @@ abstract class WPSEO_Option {
 	 */
 	public function add_option_filters() {
 		// Don't change, needs to check for false as could return prio 0 which would evaluate to false.
-		if ( has_filter( 'option_' . $this->option_name, array( $this, 'get_option' ) ) === false ) {
-			add_filter( 'option_' . $this->option_name, array( $this, 'get_option' ) );
+		if ( has_filter( 'option_' . $this->option_name, [ $this, 'get_option' ] ) === false ) {
+			add_filter( 'option_' . $this->option_name, [ $this, 'get_option' ] );
 		}
 	}
 
@@ -485,7 +486,7 @@ abstract class WPSEO_Option {
 	 * @return void
 	 */
 	public function remove_option_filters() {
-		remove_filter( 'option_' . $this->option_name, array( $this, 'get_option' ) );
+		remove_filter( 'option_' . $this->option_name, [ $this, 'get_option' ] );
 	}
 
 	/**
@@ -549,15 +550,15 @@ abstract class WPSEO_Option {
 		$clean = $this->get_defaults();
 
 		/* Return the defaults if the new value is empty. */
-		if ( ! is_array( $option_value ) || $option_value === array() ) {
+		if ( ! is_array( $option_value ) || $option_value === [] ) {
 			return $clean;
 		}
 
-		$option_value = array_map( array( 'WPSEO_Utils', 'trim_recursive' ), $option_value );
+		$option_value = array_map( [ 'WPSEO_Utils', 'trim_recursive' ], $option_value );
 
 		$old = $this->get_original_option();
 		if ( ! is_array( $old ) ) {
-			$old = array();
+			$old = [];
 		}
 		$old = array_merge( $clean, $old );
 
@@ -776,7 +777,7 @@ abstract class WPSEO_Option {
 
 		$defaults = $this->get_defaults();
 
-		if ( ! isset( $options ) || $options === false || $options === array() ) {
+		if ( ! isset( $options ) || $options === false || $options === [] ) {
 			return $defaults;
 		}
 
@@ -837,10 +838,10 @@ abstract class WPSEO_Option {
 	 */
 	protected function get_override_option() {
 		if ( empty( $this->override_option_name ) || $this->multisite_only === true || ! is_multisite() ) {
-			return array();
+			return [];
 		}
 
-		return get_site_option( $this->override_option_name, array() );
+		return get_site_option( $this->override_option_name, [] );
 	}
 
 	/**
@@ -858,7 +859,7 @@ abstract class WPSEO_Option {
 	 * @return array
 	 */
 	protected function retain_variable_keys( $dirty, $clean ) {
-		if ( ( is_array( $this->variable_array_key_patterns ) && $this->variable_array_key_patterns !== array() ) && ( is_array( $dirty ) && $dirty !== array() ) ) {
+		if ( ( is_array( $this->variable_array_key_patterns ) && $this->variable_array_key_patterns !== [] ) && ( is_array( $dirty ) && $dirty !== [] ) ) {
 			foreach ( $dirty as $key => $value ) {
 
 				// Do nothing if already in filtered options.
@@ -890,7 +891,7 @@ abstract class WPSEO_Option {
 	 *                does not have variable array keys.
 	 */
 	protected function get_switch_key( $key ) {
-		if ( ! isset( $this->variable_array_key_patterns ) || ( ! is_array( $this->variable_array_key_patterns ) || $this->variable_array_key_patterns === array() ) ) {
+		if ( ! isset( $this->variable_array_key_patterns ) || ( ! is_array( $this->variable_array_key_patterns ) || $this->variable_array_key_patterns === [] ) ) {
 			return $key;
 		}
 

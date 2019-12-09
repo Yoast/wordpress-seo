@@ -311,7 +311,6 @@ td.column-wpseo-linked {
 		vertical-align: top;
 		/* inherits font size 14px */
 		line-height: 1.85714285; /* 26px vs. 28px from core */
-		/* Only necessary for IE11 */
 		min-height: 28px; /* 28px vs. 30px from core */
 	}
 }
@@ -368,7 +367,6 @@ td.column-wpseo-linked {
 			vertical-align: top;
 			/* inherits font size 16px */
 			line-height: 1.875; /* 30px */
-			/* Only necessary for IE11 */
 			min-height: 32px;
 		}
 	}
@@ -440,7 +438,6 @@ td.column-wpseo-linked {
 }
 
 .yoast_help.yoast-help-button {
-	overflow: visible;
 	position: relative;
 	width: 20px;
 	height: 20px;
@@ -452,7 +449,6 @@ td.column-wpseo-linked {
 	background: transparent;
 	box-shadow: none;
 	vertical-align: top;
-	/* IE 11 */
 	cursor: pointer;
 }
 
@@ -557,15 +553,6 @@ td.column-wpseo-linked {
 		filter: none;
 	}
 
-	// Only needed for IE 10+. Don't add spaces within brackets for this to work.
-	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-		&::after {
-			display: inline-block;
-			content: "";
-			min-height: 32px;
-		}
-	}
-
 	&#wpseo-premium-button {
 		color: $color-black;
 	}
@@ -634,41 +621,6 @@ body.folded {
 		margin: 0 16px 0 0;
 		padding: 0;
 		color: $color-green-medium;
-	}
-}
-
-.yoast_bf_sale {
-	position: relative;
-	margin: 10px 10px 10px 0;
-	max-width: 1012px;
-	height: 100px;
-	background: url(../../images/yoasie_banner_bf.gif) no-repeat;
-	background-size: contain;
-	.close {
-		z-index: 1;
-		text-align: center;
-		position: absolute;
-		right: 5px;
-		top: 5px;
-		background: transparent;
-		color: #000;
-		border-radius: 50%;
-		width: 17px;
-		font-weight: bold;
-		text-decoration: none;
-		&:hover {
-			cursor: pointer;
-			color: #fff;
-			background: #000;
-		}
-	}
-	.target {
-		display: block;
-		width: 100%;
-		height: 100%;
-		&:hover {
-			cursor: url('../../images/crosshair.svg'), pointer;
-		}
 	}
 }
 

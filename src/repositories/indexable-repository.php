@@ -104,20 +104,20 @@ class Indexable_Repository {
 	}
 
 	/**
-	 * Retrieves an indexable by it's URL.
+	 * Retrieves an indexable by its permalink.
 	 *
-	 * @param string $url The indexable url.
+	 * @param string $permalink The indexable permalink.
 	 *
 	 * @return bool|Indexable The indexable, false if none could be found.
 	 */
-	public function find_by_url( $url ) {
-		$url      = \trailingslashit( $url );
-		$url_hash = \strlen( $url ) . ':' . \md5( $url );
+	public function find_by_permalink( $permalink ) {
+		$permalink      = \trailingslashit( $permalink );
+		$permalink_hash = \strlen( $permalink ) . ':' . \md5( $permalink );
 
-		// Find by both url_hash and url, url_hash is indexed so will be used first by the DB to optimize the query.
+		// Find by both permalink_hash and permalink, permalink_hash is indexed so will be used first by the DB to optimize the query.
 		return $this->query()
-					->where( 'url_hash', $url_hash )
-					->where( 'url', $url )
+					->where( 'permalink_hash', $permalink_hash )
+					->where( 'permalink', $permalink )
 					->find_one();
 	}
 

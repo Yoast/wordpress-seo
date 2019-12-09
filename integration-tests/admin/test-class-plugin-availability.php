@@ -33,7 +33,7 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 	 * Tests whether or not a plugin exists.
 	 */
 	public function test_plugin_existence() {
-		$expected = array(
+		$expected = [
 			'url'          => 'http://example.com/',
 			'title'        => 'Test Plugin',
 			'description'  => '',
@@ -41,10 +41,10 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 			'installed'    => true,
 			'slug'         => 'test-plugin/test-plugin.php',
 			'version_sync' => true,
-		);
+		];
 
 		$this->assertEquals( self::$class_instance->get_plugin( 'test-plugin' ), $expected );
-		$this->assertEquals( self::$class_instance->get_plugin( 'non-exisiting-test-plugin' ), array() );
+		$this->assertEquals( self::$class_instance->get_plugin( 'non-exisiting-test-plugin' ), [] );
 	}
 
 	/**

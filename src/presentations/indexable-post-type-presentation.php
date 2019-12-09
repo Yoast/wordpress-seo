@@ -71,7 +71,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		if ( $current_page > 1 ) {
 			$number_of_pages = $this->model->number_of_pages;
 			if ( $number_of_pages && $current_page <= $number_of_pages ) {
-				$canonical = $this->pagination->get_paginated_url( $canonical, $current_page, false );
+				$canonical = $this->get_paginated_url( $canonical, $current_page );
 			}
 		}
 
@@ -91,16 +91,18 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		$current_page = \max( 1, $this->pagination->get_current_post_page_number() );
+
 		// Check if there is a previous page.
 		if ( $current_page < 2 ) {
 			return '';
 		}
+
 		// Check if the previous page is the first page.
 		if ( $current_page === 2 ) {
 			return $this->model->permalink;
 		}
 
-		return $this->pagination->get_paginated_url( $this->model->permalink, ( $current_page - 1 ), false );
+		return $this->get_paginated_url( $this->model->permalink, ( $current_page - 1 ) );
 	}
 
 	/**
@@ -120,7 +122,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			return '';
 		}
 
-		return $this->pagination->get_paginated_url( $this->model->permalink, ( $current_page + 1 ), false );
+		return $this->get_paginated_url( $this->model->permalink, ( $current_page + 1 ) );
 	}
 
 	/**
@@ -243,7 +245,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			}
 		}
 
-		return $this->date->mysql_date_to_w3c_format( $this->context->post->post_date_gmt );
+		return $this->date->format( $this->context->post->post_date_gmt );
 	}
 
 	/**
@@ -253,7 +255,7 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 	 */
 	public function generate_og_article_modified_time() {
 		if ( $this->context->post->post_modified_gmt !== $this->context->post->post_date_gmt ) {
-			return $this->date->mysql_date_to_w3c_format( $this->context->post->post_modified_gmt );
+			return $this->date->format( $this->context->post->post_modified_gmt );
 		}
 
 		return '';
@@ -280,11 +282,14 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 			]
 		);
 
-		$private           = \get_post_status( $this->model->object_id ) === 'private';
-		$post_type_noindex = ! $this->post_type->is_indexable( $this->model->object_sub_type );
+		// When the post specific index is not set, look to the post status and default of the post type.
+		if ( $this->model->is_robots_noindex === null ) {
+			$post_status_private = \get_post_status( $this->model->object_id ) === 'private';
+			$post_type_noindex   = ! $this->post_type->is_indexable( $this->model->object_sub_type );
 
-		if ( $private || $post_type_noindex ) {
-			$robots['index'] = 'noindex';
+			if ( $post_status_private || $post_type_noindex ) {
+				$robots['index'] = 'noindex';
+			}
 		}
 
 		return $robots;
@@ -337,5 +342,17 @@ class Indexable_Post_Type_Presentation extends Indexable_Presentation {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Wraps the get_paginated_url pagination helper method.
+	 *
+	 * @param string $url  The un-paginated URL of the current archive.
+	 * @param string $page The page number to add on to $url for the $link tag.
+	 *
+	 * @return string The paginated URL.
+	 */
+	protected function get_paginated_url( $url, $page ) {
+		return $this->pagination->get_paginated_url( $url, $page, false );
 	}
 }

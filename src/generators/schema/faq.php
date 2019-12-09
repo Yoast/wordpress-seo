@@ -80,7 +80,7 @@ class FAQ extends Abstract_Schema_Piece {
 				if ( ! isset( $question['jsonAnswer'] ) || empty( $question['jsonAnswer'] ) ) {
 					continue;
 				}
-				$ids[]   = [ '@id' => $context->canonical . '#' . $question['id'] ];
+				$ids[]   = [ '@id' => $context->canonical . '#' . esc_attr( $question['id'] ) ];
 				$graph[] = $this->generate_question_block( $question, $index, $context );
 				$number_of_items = count( $context->blocks['yoast/faq-block'][ $block_number ]['attrs']['questions'] );
 			}
@@ -109,11 +109,13 @@ class FAQ extends Abstract_Schema_Piece {
 	 * @return array Schema.org Question piece.
 	 */
 	protected function generate_question_block( $question, $position, Meta_Tags_Context $context ) {
+		$url = $context->canonical . '#' . esc_attr( $question['id'] );
+
 		return [
 			'@type'          => 'Question',
-			'@id'            => $context->canonical . '#' . $question['id'],
+			'@id'            => $url,
 			'position'       => $position,
-			'url'            => $context->canonical . '#' . $question['id'],
+			'url'            => $url,
 			'name'           => \strip_tags( $question['jsonQuestion'] ),
 			'answerCount'    => 1,
 			'acceptedAnswer' => [

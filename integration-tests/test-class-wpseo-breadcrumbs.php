@@ -12,6 +12,8 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Placeholder test to prevent PHPUnit from throwing errors.
+	 *
+	 * @covers WPSEO_Breadcrumbs::breadcrumb
 	 */
 	/*public function test_breadcrumb_home() {
 
@@ -27,6 +29,8 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Placeholder test to prevent PHPUnit from throwing errors.
+	 *
+	 * @covers WPSEO_Breadcrumbs::breadcrumb
 	 */
 	public function test_breadcrumb_before() {
 
@@ -40,6 +44,8 @@ class WPSEO_Breadcrumbs_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Placeholder test to prevent PHPUnit from throwing errors.
+	 *
+	 * @covers WPSEO_Breadcrumbs::breadcrumb
 	 */
 	public function test_breadcrumb_after() {
 

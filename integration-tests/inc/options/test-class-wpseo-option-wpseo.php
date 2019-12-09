@@ -15,7 +15,7 @@ class WPSEO_Option_WPSEO_Test extends WPSEO_UnitTestCase {
 	 *
 	 * @var array
 	 */
-	protected $feature_vars = array(
+	protected $feature_vars = [
 		'disableadvanced_meta',
 		'onpage_indexability',
 		'content_analysis_active',
@@ -24,7 +24,7 @@ class WPSEO_Option_WPSEO_Test extends WPSEO_UnitTestCase {
 		'enable_cornerstone_content',
 		'enable_xml_sitemap',
 		'enable_text_link_counter',
-	);
+	];
 
 	/**
 	 * Tests that disabled 'wpseo' feature variables return false.

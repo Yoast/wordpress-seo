@@ -7,6 +7,8 @@
 
 /**
  * Unit Test Class.
+ *
+ * @coversDefaultClass WPSEO_Taxonomy_Settings_Fields
  */
 class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 
@@ -37,7 +39,7 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if the array is set properly by picking the first and the last value.
 	 *
-	 * WPSEO_Taxonomy_Settings_Fields::get
+	 * @covers ::get
 	 */
 	public function test_get_fields() {
 
@@ -52,7 +54,7 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test if the breadcrumbs title field will be hidden if the option 'breadcrumbs-enable' is set to false.
 	 *
-	 * WPSEO_Taxonomy_Settings_Fields::get
+	 * @covers ::get
 	 */
 	public function test_get_fields_hidden_breadcrumb() {
 		$this->class_instance->set_option( 'breadcrumbs-enable', true );
@@ -65,7 +67,7 @@ class WPSEO_Taxonomy_Settings_Fields_Test extends WPSEO_UnitTestCase {
 	/**
 	 * Test the result of get_robot_index.
 	 *
-	 * WPSEO_Taxonomy_Content_Fields::get_robot_index
+	 * @covers ::get_robot_index
 	 */
 	public function test_get_robot_index() {
 		// Setting no index for current taxonomy to true.
