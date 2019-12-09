@@ -6,6 +6,8 @@ import getContentLocale from "./getContentLocale";
 
 import { Paper } from "yoastseo";
 
+/* global wp */
+
 /**
  * Retrieves the data needed for the analyses.
  *
@@ -26,6 +28,8 @@ export default function collectAnalysisData( edit, store, customAnalysisData, pl
 	merge( storeData, customAnalysisData.getData() );
 	const editData = edit.getData().getData();
 
+	const blocks = wp.data.select( "core/block-editor" ).getBlocks();
+
 	// Make a data structure for the paper data.
 	const data = {
 		text: editData.content,
@@ -40,6 +44,7 @@ export default function collectAnalysisData( edit, store, customAnalysisData, pl
 		title: storeData.analysisData.snippet.title || storeData.snippetEditor.data.title,
 		url: storeData.snippetEditor.data.slug,
 		permalink: storeData.settings.snippetEditor.baseUrl + storeData.snippetEditor.data.slug,
+		wpBlocks: blocks,
 	};
 
 	// Modify the data through pluggable.
