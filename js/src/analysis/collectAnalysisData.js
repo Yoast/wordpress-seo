@@ -82,6 +82,7 @@ export default function collectAnalysisData( edit, store, customAnalysisData, pl
 		data.title = pluggable._applyModifications( "title", data.title );
 		data.description = pluggable._applyModifications( "data_meta_desc", data.description );
 		data.text = pluggable._applyModifications( "content", data.text );
+		data.wpBlocks = pluggable._applyModifications( "wpBlocks", data.wpBlocks );
 	}
 
 	data.titleWidth = measureTextWidth( data.title );
