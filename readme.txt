@@ -212,6 +212,8 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 12.7.0 =
 Release Date: December 10th, 2019
 
+Yoast SEO 12.7 is out today — signalling the last release of 2019. This release is all about cleaning up and fixing bugs. Since we have a two-week release schedule, we can quickly respond to any bug we might find. Find out more about this release in [our 12.7 release post](https://yoa.st/release-12-7)!
+
 Bugfixes:
 
 * Fixes a bug where sub-sitemaps were rendered for non-public custom post types. Props to [@stodorovic](https://github.com/stodorovic).
