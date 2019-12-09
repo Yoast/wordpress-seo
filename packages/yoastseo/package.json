@@ -118,6 +118,6 @@
     }
   },
   "yoast": {
-    "premiumConfiguration": "416-dutch-noVOwelOrConsonantDoubling-exception"
+    "premiumConfiguration": "feature/Dutch-morphology"
   }
 }
