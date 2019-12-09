@@ -96,7 +96,7 @@ class WPSEO_Breadcrumbs {
 	/**
 	 * Count of the elements in the $crumbs property.
 	 *
-	 * @var array
+	 * @var int
 	 */
 	private $crumb_count = 0;
 
