@@ -127,7 +127,7 @@ describe( "Adds adjective suffixes", () => {
 			"groeners",
 			"groenere",
 			"groeneres",
-		], );
+		] );
 	} );
 	it( "Adds comparative suffixes to a modified  Dutch stem", () => {
 		expect( addComparativeSuffixes( morphologyDataNL.adjectives, morphologyDataNL.addSuffixes.stemModifications, "zwak" ) ).toEqual( [
@@ -135,13 +135,13 @@ describe( "Adds adjective suffixes", () => {
 			"zwakkers",
 			"zwakkere",
 			"zwakkeres",
-		], );
+		] );
 	} );
 	it( "Adds superlative suffixes to a given Dutch stem", () => {
 		expect( addSuperlativeSuffixes( morphologyDataNL.adjectives, "groen" ) ).toEqual( [
 			"groenst",
 			"groenste",
-		], );
+		] );
 	} );
 	it( "Adds all adjective suffixes to a given Dutch stem", () => {
 		expect( addAllAdjectiveSuffixes( morphologyDataNL.adjectives, morphologyDataNL.addSuffixes.stemModifications, "groen" ) ).toEqual( [
@@ -153,7 +153,19 @@ describe( "Adds adjective suffixes", () => {
 			"groenste",
 			"groene",
 			"groens",
-		], );
+		] );
+	} );
+	it( "Adds all adjective suffixes to a given Dutch stem", () => {
+		expect( addAllAdjectiveSuffixes( morphologyDataNL.adjectives, morphologyDataNL.addSuffixes.stemModifications, "zuiver" ) ).toEqual( [
+			"zuiverder",
+			"zuiverders",
+			"zuiverdere",
+			"zuiverderes",
+			"zuiverst",
+			"zuiverste",
+			"zuivere",
+			"zuivers",
+		] );
 	} );
 	it( "Does not make a partitive form if stem ends with an s", () => {
 		expect( addAllAdjectiveSuffixes( morphologyDataNL.adjectives, morphologyDataNL.addSuffixes.stemModifications, "boos" ) ).toEqual( [
@@ -164,7 +176,7 @@ describe( "Adds adjective suffixes", () => {
 			"boost",
 			"booste",
 			"boze",
-		], );
+		] );
 	} );
 	it( "Adds all adjective suffixes to a given Dutch stem that requires stem modifications", () => {
 		expect( addAllAdjectiveSuffixes( morphologyDataNL.adjectives, morphologyDataNL.addSuffixes.stemModifications, "hoog" ) ).toEqual( [
@@ -176,6 +188,18 @@ describe( "Adds adjective suffixes", () => {
 			"hoogste",
 			"hoge",
 			"hoogs",
-		], );
+		] );
+	} );
+	it( "Adds all adjective suffixes to a given Dutch stem that normally requires stem modifications but doesn't", () => {
+		expect( addAllAdjectiveSuffixes( morphologyDataNL.adjectives, morphologyDataNL.addSuffixes.stemModifications, "nobel" ) ).toEqual( [
+			"nobeler",
+			"nobelers",
+			"nobelere",
+			"nobeleres",
+			"nobelst",
+			"nobelste",
+			"nobele",
+			"nobels",
+		] );
 	} );
 } );

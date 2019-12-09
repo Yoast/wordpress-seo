@@ -1,4 +1,5 @@
 import { modifyStem } from "../morphoHelpers/suffixHelpers";
+import { flatten } from "lodash-es";
 
 /**
  * Checks whether the stem has an ending for which the final consonant should be voiced or not.
@@ -13,6 +14,19 @@ export function shouldConsonantBeVoiced( stemmedWord, notVoicedStemEndings ) {
 }
 
 /**
+ * Checks whether the stem is in the no vowel or consonant doubling exception list.
+ *
+ * @param {Object}	dataNoVowelOrConsonantDoubling	The no vowel or consonant doubling exception list.
+ * @param {string}	stemmedWord						The stem.
+ * @returns {boolean}	Whether the stem is in the no vowel or consonant doubling exception list.
+ */
+export function checkNoVowelOrConsonantDoubling( dataNoVowelOrConsonantDoubling, stemmedWord ) {
+	const noVowelOrConsonantDoublingList = flatten( Object.values( dataNoVowelOrConsonantDoubling ) );
+	if ( noVowelOrConsonantDoublingList.includes( stemmedWord ) ) {
+		return true;
+	}
+}
+/**
  * Creates the second stem of words that have two possible stems (this includes
  * stem with double or single vowel; ending in double or single consonant; ending in s/f or z/v). The -en and -end
  * suffixes are then added to the modified stem.
@@ -23,8 +37,10 @@ export function shouldConsonantBeVoiced( stemmedWord, notVoicedStemEndings ) {
  */
 export function findAndApplyModificationsVerbsNouns( stemmedWord, morphologyDataAddSuffixes ) {
 	const triedToDoubleConsonant = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.doublingConsonant );
-	if ( triedToDoubleConsonant ) {
-		return triedToDoubleConsonant;
+	if ( ! checkNoVowelOrConsonantDoubling( morphologyDataAddSuffixes.stemModifications.exception.noVowelOrConsonantDoubling, stemmedWord ) ) {
+		if ( triedToDoubleConsonant ) {
+			return triedToDoubleConsonant;
+		}
 	}
 	if ( shouldConsonantBeVoiced( stemmedWord, morphologyDataAddSuffixes.otherChecks.noConsonantVoicingNounsVerbs ) ) {
 		const triedToVoiceConsonant = modifyStem( stemmedWord, morphologyDataAddSuffixes.stemModifications.consonantVoicingNounsVerbs );

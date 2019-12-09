@@ -1,3 +1,4 @@
+import { flatten } from "lodash-es";
 /**
  * @file Dutch stemming algorithm. Adapted from:
  * @author:
@@ -147,10 +148,11 @@ const doesPrecedingSyllableContainDiphthong = function( word, noVowelDoublingReg
  * @returns {boolean} Whether the vowel should be doubled or not.
  */
 const isVowelDoublingAllowed = function( word, morphologyDataNLStemmingExceptions ) {
+	const wordsWithoutVowelDoubling = flatten( Object.values( morphologyDataNLStemmingExceptions.noVowelOrConsonantDoubling ) );
 	const firstCheck = isWordOnVowelDoublingList( word, morphologyDataNLStemmingExceptions.getVowelDoubling );
-	const secondCheck = isWordOnNoVowelDoublingList( word, morphologyDataNLStemmingExceptions.noVowelDoubling.words );
+	const secondCheck = isWordOnNoVowelDoublingList( word, wordsWithoutVowelDoubling );
 	const thirdCheck = isVowelPrecededByDoubleConsonant( word );
-	const fourthCheck = doesPrecedingSyllableContainDiphthong(  word, morphologyDataNLStemmingExceptions.noVowelDoubling.rule );
+	const fourthCheck = doesPrecedingSyllableContainDiphthong(  word, morphologyDataNLStemmingExceptions.noVowelOrConsonantDoubling.rule );
 
 	return firstCheck || ( ! secondCheck && thirdCheck && fourthCheck );
 };
