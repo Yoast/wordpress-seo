@@ -215,9 +215,10 @@ class WPSEO_Options {
 		$options      = [];
 		$option_names = array_filter( $option_names, 'is_string' );
 		foreach ( $option_names as $option_name ) {
-			if ( isset( self::$option_instances[ $option_name ] ) ) {
-				$option  = self::get_option( $option_name );
-				$options = array_merge( $options, $option );
+			$option  = self::get_option( $option_name );
+
+			if ( $option !== null ) {
+				$options = array_merge($options, $option);
 			}
 		}
 
