@@ -51,18 +51,19 @@ class WPSEO_Upgrade {
 			'12.1-RC0'  => 'clean_all_notifications',
 			'12.3-RC0'  => 'upgrade_123',
 			'12.4-RC0'  => 'upgrade_124',
-			'12.5-RC0'  => 'upgrade_125',
+			'12.7-RC0'  => 'upgrade_127',
+
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
 
-		if ( version_compare( $version, '12.7-RC0', '<' ) ) {
+		if ( version_compare( $version, '12.5-RC0', '<' ) ) {
 			/*
 			 * We have to run this by hook, because otherwise:
 			 * - the theme support check isn't available.
 			 * - the notification center notifications are not filled yet.
 			 */
-			add_action( 'init', [ $this, 'upgrade_127' ] );
+			add_action( 'init', [ $this, 'upgrade_125' ] );
 		}
 
 		// Since 3.7.
