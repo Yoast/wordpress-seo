@@ -118,6 +118,6 @@
     }
   },
   "yoast": {
-    "premiumConfiguration": ""
+    "premiumConfiguration": "416-dutch-noVOwelOrConsonantDoubling-exception"
   }
 }
