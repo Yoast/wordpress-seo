@@ -32,9 +32,7 @@ function filterBlockData( block ) {
 	filteredBlock.clientId = block.clientId;
 
 	// Recurse on inner blocks.
-	if ( block.innerBlocks ) {
-		filteredBlock.innerBlocks = block.innerBlocks.map( innerBlock => filterBlockData( innerBlock ) );
-	}
+	filteredBlock.innerBlocks = block.innerBlocks.map( innerBlock => filterBlockData( innerBlock ) );
 
 	return filteredBlock;
 }

@@ -2,7 +2,7 @@ import collectAnalysisData from "../src/analysis/collectAnalysisData";
 import gutenbergBlocks from "./__test-data__/gutenbergBlocksTestData";
 import expectedBlocks from "./__test-data__/blocksForAnalysisTestData";
 
-describe( "filterBlockData", () => {
+describe( "collectAnalysisData", () => {
 	const storeData = {
 		focusKeyword: "focus keyword",
 		synonyms: [],
@@ -42,10 +42,13 @@ describe( "filterBlockData", () => {
 	/**
 	 * Mocks the Pluggable.
 	 *
+	 * @param {boolean} loaded If the pluggable is loaded.
+	 *
 	 * @returns {Pluggable} The mocked Pluggable.
 	 */
-	function mockPluggable() {
+	function mockPluggable( loaded = true ) {
 		return {
+			loaded: loaded,
 			_applyModifications: ( modification, content ) => content,
 		};
 	}
@@ -92,5 +95,31 @@ describe( "filterBlockData", () => {
 
 		expect( results ).toHaveProperty( "_attributes.wpBlocks" );
 		expect( results._attributes.wpBlocks ).toEqual( expectedBlocks );
+	} );
+
+	it( "does not add wpBlocks if no blockEditorDataModule is added", () => {
+		const edit = mockEdit( "<p>some content</p>" );
+		const store = mockStore( storeData );
+		const customData = mockCustomAnalysisData();
+		const pluggable = mockPluggable();
+
+		const results = collectAnalysisData( edit, store, customData, pluggable );
+
+		expect( results ).toHaveProperty( "_attributes.wpBlocks" );
+		expect( results._attributes.wpBlocks ).toBeNull();
+	} );
+
+	it( "does not modify the data through the pluggable if the pluggable is not loaded.", () => {
+		const edit = mockEdit( "<p>some content</p>" );
+		const store = mockStore( storeData );
+		const customData = mockCustomAnalysisData();
+		const pluggable = mockPluggable( false );
+
+		// To be able to test whether the method is called.
+		pluggable._applyModifications = jest.fn();
+
+		collectAnalysisData( edit, store, customData, pluggable );
+
+		expect( pluggable._applyModifications ).not.toBeCalled();
 	} );
 } );
