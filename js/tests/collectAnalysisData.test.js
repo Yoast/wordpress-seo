@@ -1,5 +1,6 @@
 import collectAnalysisData from "../src/analysis/collectAnalysisData";
 import gutenbergBlocks from "./__test-data__/gutenbergBlocksTestData";
+import expectedBlocks from "./__test-data__/blocksForAnalysisTestData";
 
 describe( "filterBlockData", () => {
 	const storeData = {
@@ -88,5 +89,8 @@ describe( "filterBlockData", () => {
 		const blockEditorDataModule = mockBlockEditorDataModule( gutenbergBlocks );
 
 		const results = collectAnalysisData( edit, store, customData, pluggable, blockEditorDataModule );
+
+		expect( results ).toHaveProperty( "_attributes.wpBlocks" );
+		expect( results._attributes.wpBlocks ).toEqual( expectedBlocks );
 	} );
 } );
