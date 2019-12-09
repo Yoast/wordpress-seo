@@ -57,6 +57,10 @@ class Indexable_Static_Home_Page_Watcher implements Integration_Interface {
 			$old_value = (int) $old_value;
 		}
 
+		if ( $old_value === $value ) {
+			return;
+		}
+
 		$this->update_permalink_for_page( $old_value );
 		$this->update_permalink_for_page( $value );
 	}
