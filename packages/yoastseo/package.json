@@ -118,6 +118,6 @@
     }
   },
   "yoast": {
-    "premiumConfiguration": ""
+    "premiumConfiguration": "release-yoast-seo/12.8"
   }
 }
