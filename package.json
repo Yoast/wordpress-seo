@@ -100,7 +100,6 @@
     "@wordpress/i18n": "^3.3.0",
     "@wordpress/is-shallow-equal": "^1.2.0",
     "@wordpress/rich-text": "^3.2.2",
-    "@wordpress/url": "^2.5.0",
     "@yoast/analysis-report": "^0.11.0-rc.1",
     "@yoast/components": "^0.11.0-rc.1",
     "@yoast/configuration-wizard": "^1.10.0-rc.1",
