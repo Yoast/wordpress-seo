@@ -112,6 +112,6 @@ class WPSEO_Import_Settings {
 		$this->status->set_status( true );
 
 		// Reset the cached option values.
-		WPSEO_Options::$option_values = null;
+		WPSEO_Options::fill_cache();
 	}
 }

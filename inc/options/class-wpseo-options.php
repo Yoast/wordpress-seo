@@ -14,7 +14,7 @@ class WPSEO_Options {
 	/**
 	 * @var null
 	 */
-	public static $option_values = null;
+	private static $option_values = null;
 
 	/**
 	 * Options this class uses.
