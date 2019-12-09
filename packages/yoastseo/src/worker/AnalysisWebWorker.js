@@ -758,10 +758,10 @@ export default class AnalysisWebWorker {
 	 * this data and keep track of the different sets of keyword-synonyms and
 	 * their results.
 	 *
-	 * @param {number} id                         The request id.
-	 * @param {Object} payload                    The payload object.
-	 * @param {Object} payload.paper              The paper to analyze.
-	 * @param {Object} [payload.relatedKeywords]  The related keywords.
+	 * @param {number} id                        The request id.
+	 * @param {Object} payload                   The payload object.
+	 * @param {Object} payload.paper             The paper to analyze.
+	 * @param {Object} [payload.relatedKeywords] The related keywords.
 	 *
 	 * @returns {Object} The result, may not contain readability or seo.
 	 */

@@ -213,7 +213,7 @@ class AnalysisWorkerWrapper {
 	/**
 	 * Analyzes the paper.
 	 *
-	 * @param {Object} paper              The paper to analyze.
+	 * @param {Object} paper           The paper to analyze.
 	 *
 	 * @returns {Promise} The promise of analyses.
 	 */
