@@ -39,11 +39,11 @@ class WPSEO_Sitemaps_Renderer {
 	protected $needs_conversion = false;
 
 	/**
-	 * Timezone.
+	 * The date helper.
 	 *
-	 * @var WPSEO_Sitemap_Timezone
+	 * @var WPSEO_Date_Helper
 	 */
-	protected $timezone;
+	protected $date;
 
 	/**
 	 * Set up object properties.
@@ -53,7 +53,7 @@ class WPSEO_Sitemaps_Renderer {
 		$this->stylesheet     = '<?xml-stylesheet type="text/xsl" href="' . esc_url( $stylesheet_url ) . '"?>';
 		$this->charset        = get_bloginfo( 'charset' );
 		$this->output_charset = $this->charset;
-		$this->timezone       = new WPSEO_Sitemap_Timezone();
+		$this->date           = new WPSEO_Date_Helper();
 
 		if (
 			'UTF-8' !== $this->charset
@@ -193,7 +193,7 @@ class WPSEO_Sitemaps_Renderer {
 		$date = null;
 
 		if ( ! empty( $url['lastmod'] ) ) {
-			$date = $this->timezone->format_date( $url['lastmod'] );
+			$date = $this->date->format( $url['lastmod'] );
 		}
 
 		$url['loc'] = htmlspecialchars( $url['loc'], ENT_COMPAT, $this->output_charset, false );
@@ -222,7 +222,7 @@ class WPSEO_Sitemaps_Renderer {
 
 		if ( ! empty( $url['mod'] ) ) {
 			// Create a DateTime object date in the correct timezone.
-			$date = $this->timezone->format_date( $url['mod'] );
+			$date = $this->date->format( $url['mod'] );
 		}
 
 		$url['loc'] = htmlspecialchars( $url['loc'], ENT_COMPAT, $this->output_charset, false );
@@ -232,7 +232,7 @@ class WPSEO_Sitemaps_Renderer {
 		$output .= empty( $date ) ? '' : "\t\t<lastmod>" . htmlspecialchars( $date, ENT_COMPAT, $this->output_charset, false ) . "</lastmod>\n";
 
 		if ( empty( $url['images'] ) ) {
-			$url['images'] = array();
+			$url['images'] = [];
 		}
 
 		foreach ( $url['images'] as $img ) {

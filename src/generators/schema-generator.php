@@ -107,14 +107,17 @@ class Schema_Generator implements Generator_Interface {
 
 		foreach ( $pieces as $piece ) {
 
-			$class = \strtolower( \str_replace( 'Yoast\WP\Free\Presentations\Generators\Schema\\', '', \get_class( $piece ) ) );
+			$identifier = \strtolower( \str_replace( 'Yoast\WP\Free\Presentations\Generators\Schema\\', '', \get_class( $piece ) ) );
+			if ( property_exists( $piece, 'identifier' ) ) {
+				$identifier = $piece->identifier;
+			}
 
 			/**
-			 * Filter: 'wpseo_schema_needs_<class name>' - Allows changing which graph pieces we output.
+			 * Filter: 'wpseo_schema_needs_<identifier>' - Allows changing which graph pieces we output.
 			 *
 			 * @api bool $is_needed Whether or not to show a graph piece.
 			 */
-			$is_needed = \apply_filters( 'wpseo_schema_needs_' . $class, $piece->is_needed( $context ) );
+			$is_needed = \apply_filters( 'wpseo_schema_needs_' . $identifier, $piece->is_needed( $context ) );
 			if ( ! $is_needed ) {
 				continue;
 			}
@@ -127,11 +130,12 @@ class Schema_Generator implements Generator_Interface {
 
 			foreach ( $graph_pieces as $graph_piece ) {
 				/**
-				 * Filter: 'wpseo_schema_<class name>' - Allows changing graph piece output.
+				 * Filter: 'wpseo_schema_<identifier>' - Allows changing graph piece output.
 				 *
-				 * @api array $graph_piece The graph piece to filter.
+				 * @api array               $graph_piece The graph piece to filter.
+				 * @param Meta_Tags_Context $context     A value object with context variables.
 				 */
-				$graph_piece = \apply_filters( 'wpseo_schema_' . $class, $graph_piece );
+				$graph_piece = \apply_filters( 'wpseo_schema_' . $identifier, $graph_piece, $context );
 				if ( \is_array( $graph_piece ) ) {
 					$graph[] = $graph_piece;
 				}

@@ -15,32 +15,32 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 	 *
 	 * @var array
 	 */
-	protected $recommended_replace_vars = array(
+	protected $recommended_replace_vars = [
 		// Posts types.
-		'page'                     => array( 'sitename', 'title', 'sep', 'primary_category' ),
-		'post'                     => array( 'sitename', 'title', 'sep', 'primary_category' ),
+		'page'                     => [ 'sitename', 'title', 'sep', 'primary_category' ],
+		'post'                     => [ 'sitename', 'title', 'sep', 'primary_category' ],
 		// Homepage.
-		'homepage'                 => array( 'sitename', 'sitedesc', 'sep' ),
+		'homepage'                 => [ 'sitename', 'sitedesc', 'sep' ],
 		// Custom post type.
-		'custom_post_type'         => array( 'sitename', 'title', 'sep' ),
+		'custom_post_type'         => [ 'sitename', 'title', 'sep' ],
 
 		// Taxonomies.
-		'category'                 => array( 'sitename', 'term_title', 'sep' ),
-		'post_tag'                 => array( 'sitename', 'term_title', 'sep' ),
-		'post_format'              => array( 'sitename', 'term_title', 'sep', 'page' ),
+		'category'                 => [ 'sitename', 'term_title', 'sep' ],
+		'post_tag'                 => [ 'sitename', 'term_title', 'sep' ],
+		'post_format'              => [ 'sitename', 'term_title', 'sep', 'page' ],
 
 		// Custom taxonomy.
-		'term-in-custom-taxomomy'  => array( 'sitename', 'term_title', 'sep' ),
+		'term-in-custom-taxomomy'  => [ 'sitename', 'term_title', 'sep' ],
 
 		// Settings - archive pages.
-		'author_archive'           => array( 'sitename', 'title', 'sep', 'page' ),
-		'date_archive'             => array( 'sitename', 'sep', 'date', 'page' ),
-		'custom-post-type_archive' => array( 'sitename', 'title', 'sep', 'page' ),
+		'author_archive'           => [ 'sitename', 'title', 'sep', 'page' ],
+		'date_archive'             => [ 'sitename', 'sep', 'date', 'page' ],
+		'custom-post-type_archive' => [ 'sitename', 'title', 'sep', 'page' ],
 
 		// Settings - special pages.
-		'search'                   => array( 'sitename', 'searchphrase', 'sep', 'page' ),
-		'404'                      => array( 'sitename', 'sep' ),
-	);
+		'search'                   => [ 'sitename', 'searchphrase', 'sep', 'page' ],
+		'404'                      => [ 'sitename', 'sep' ],
+	];
 
 	/**
 	 * Determines the page type of the current term.
@@ -134,7 +134,7 @@ class WPSEO_Admin_Recommended_Replace_Vars {
 		$has_recommended_replace_vars = $this->has_recommended_replace_vars( $recommended_replace_vars, $page_type );
 
 		if ( ! $has_recommended_replace_vars ) {
-			return array();
+			return [];
 		}
 
 		return $recommended_replace_vars[ $page_type ];

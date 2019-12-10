@@ -36,7 +36,7 @@ class Rel_Prev_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether an empty string is returned.
+	 * Tests whether an empty string is returned when adjacent rel links are disabled by a filter.
 	 *
 	 * @covers ::generate_rel_prev
 	 */
@@ -69,7 +69,7 @@ class Rel_Prev_Test extends TestCase {
 			->once()
 			->andReturn( 1 );
 
-		$this->assertEmpty( $this->instance->generate_rel_next() );
+		$this->assertEmpty( $this->instance->generate_rel_prev() );
 	}
 
 	/**

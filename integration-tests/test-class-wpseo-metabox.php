@@ -23,6 +23,9 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
+		global $_SERVER;
+		$_SERVER['HTTP_USER_AGENT'] = 'User Agent';
+
 		self::$class_instance = new WPSEO_Metabox();
 	}
 
@@ -71,7 +74,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 
 		$stub = $this
 			->getMockBuilder( 'WPSEO_Metabox' )
-			->setMethods( array( 'is_metabox_hidden' ) )
+			->setMethods( [ 'is_metabox_hidden' ] )
 			->getMock();
 
 		$stub
@@ -109,7 +112,7 @@ class WPSEO_Metabox_Test extends WPSEO_UnitTestCase {
 		$GLOBALS['wpseo_admin'] = new WPSEO_Admin();
 
 		// Vars.
-		$meta_fields = apply_filters( 'wpseo_save_metaboxes', array() );
+		$meta_fields = apply_filters( 'wpseo_save_metaboxes', [] );
 		$meta_fields = array_merge(
 			$meta_fields,
 			WPSEO_Meta::get_meta_field_defs( 'general', $post->post_type ),

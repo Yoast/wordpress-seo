@@ -35,7 +35,7 @@ class OG_Article_Published_Time_Test extends TestCase {
 		$this->context->post = (object) [ 'post_date_gmt' => '2019-10-08T12:26:31+00:00' ];
 
 		$this->date_helper
-			->expects( 'mysql_date_to_w3c_format' )
+			->expects( 'format' )
 			->with( '2019-10-08T12:26:31+00:00' )
 			->once()
 			->andReturn( '2019-10-08T12:26:31+00:00' );
@@ -73,7 +73,7 @@ class OG_Article_Published_Time_Test extends TestCase {
 		$this->indexable->object_sub_type = 'page';
 
 		$this->date_helper
-			->expects( 'mysql_date_to_w3c_format' )
+			->expects( 'format' )
 			->with( '2019-10-08T12:26:31+00:00' )
 			->once()
 			->andReturn( '2019-10-08T12:26:31+00:00' );

@@ -21,8 +21,8 @@ class WPSEO_Structured_Data_Blocks implements WPSEO_WordPress_Integration {
 	 * Registers hooks for Structured Data Blocks with WordPress.
 	 */
 	public function register_hooks() {
-		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
-		add_filter( 'block_categories', array( $this, 'add_block_category' ) );
+		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
+		add_filter( 'block_categories', [ $this, 'add_block_category' ] );
 	}
 
 	/**
@@ -66,14 +66,14 @@ class WPSEO_Structured_Data_Blocks implements WPSEO_WordPress_Integration {
 	 */
 	public function add_block_category( $categories ) {
 		if ( $this->check_enabled() ) {
-			$categories[] = array(
+			$categories[] = [
 				'slug'  => 'yoast-structured-data-blocks',
 				'title' => sprintf(
 					/* translators: %1$s expands to Yoast. */
 					__( '%1$s Structured Data Blocks', 'wordpress-seo' ),
 					'Yoast'
 				),
-			);
+			];
 		}
 
 		return $categories;

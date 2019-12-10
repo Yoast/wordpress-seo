@@ -63,7 +63,7 @@ class Blocks_Helper {
 			$collection[ $block['blockName'] ][] = $block;
 
 			if ( $block['innerBlocks'] ) {
-				$collection = $this->collect_blocks( $blocks, $collection );
+				$collection = $this->collect_blocks( $block['innerBlocks'], $collection );
 			}
 		}
 

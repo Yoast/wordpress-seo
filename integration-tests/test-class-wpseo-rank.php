@@ -51,13 +51,13 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	 * @return array
 	 */
 	public function provider_get_css_class() {
-		return array(
-			array( WPSEO_Rank::BAD, 'bad' ),
-			array( WPSEO_Rank::OK, 'ok' ),
-			array( WPSEO_Rank::GOOD, 'good' ),
-			array( WPSEO_Rank::NO_FOCUS, 'na' ),
-			array( WPSEO_Rank::NO_INDEX, 'noindex' ),
-		);
+		return [
+			[ WPSEO_Rank::BAD, 'bad' ],
+			[ WPSEO_Rank::OK, 'ok' ],
+			[ WPSEO_Rank::GOOD, 'good' ],
+			[ WPSEO_Rank::NO_FOCUS, 'na' ],
+			[ WPSEO_Rank::NO_INDEX, 'noindex' ],
+		];
 	}
 
 	/**
@@ -81,13 +81,13 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	 * @return array
 	 */
 	public function provider_get_label() {
-		return array(
-			array( WPSEO_Rank::NO_FOCUS, 'Not available' ),
-			array( WPSEO_Rank::NO_INDEX, 'No index' ),
-			array( WPSEO_Rank::BAD, 'Needs improvement' ),
-			array( WPSEO_Rank::OK, 'OK' ),
-			array( WPSEO_Rank::GOOD, 'Good' ),
-		);
+		return [
+			[ WPSEO_Rank::NO_FOCUS, 'Not available' ],
+			[ WPSEO_Rank::NO_INDEX, 'No index' ],
+			[ WPSEO_Rank::BAD, 'Needs improvement' ],
+			[ WPSEO_Rank::OK, 'OK' ],
+			[ WPSEO_Rank::GOOD, 'Good' ],
+		];
 	}
 
 	/**
@@ -111,13 +111,13 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	 * @return array
 	 */
 	public function provider_get_drop_down_label() {
-		return array(
-			array( WPSEO_Rank::NO_FOCUS, 'SEO: No Focus Keyphrase' ),
-			array( WPSEO_Rank::BAD, 'SEO: Needs improvement' ),
-			array( WPSEO_Rank::OK, 'SEO: OK' ),
-			array( WPSEO_Rank::GOOD, 'SEO: Good' ),
-			array( WPSEO_Rank::NO_INDEX, 'SEO: Post Noindexed' ),
-		);
+		return [
+			[ WPSEO_Rank::NO_FOCUS, 'SEO: No Focus Keyphrase' ],
+			[ WPSEO_Rank::BAD, 'SEO: Needs improvement' ],
+			[ WPSEO_Rank::OK, 'SEO: OK' ],
+			[ WPSEO_Rank::GOOD, 'SEO: Good' ],
+			[ WPSEO_Rank::NO_INDEX, 'SEO: Post Noindexed' ],
+		];
 	}
 
 	/**
@@ -141,13 +141,13 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	 * @return array
 	 */
 	public function provider_get_starting_score() {
-		return array(
-			array( WPSEO_Rank::NO_INDEX, -1 ),
-			array( WPSEO_Rank::NO_FOCUS, 0 ),
-			array( WPSEO_Rank::BAD, 1 ),
-			array( WPSEO_Rank::OK, 41 ),
-			array( WPSEO_Rank::GOOD, 71 ),
-		);
+		return [
+			[ WPSEO_Rank::NO_INDEX, -1 ],
+			[ WPSEO_Rank::NO_FOCUS, 0 ],
+			[ WPSEO_Rank::BAD, 1 ],
+			[ WPSEO_Rank::OK, 41 ],
+			[ WPSEO_Rank::GOOD, 71 ],
+		];
 	}
 
 	/**
@@ -171,13 +171,13 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	 * @return array
 	 */
 	public function provider_get_end_score() {
-		return array(
-			array( WPSEO_Rank::NO_INDEX, -1 ),
-			array( WPSEO_Rank::NO_FOCUS, 0 ),
-			array( WPSEO_Rank::BAD, 40 ),
-			array( WPSEO_Rank::OK, 70 ),
-			array( WPSEO_Rank::GOOD, 100 ),
-		);
+		return [
+			[ WPSEO_Rank::NO_INDEX, -1 ],
+			[ WPSEO_Rank::NO_FOCUS, 0 ],
+			[ WPSEO_Rank::BAD, 40 ],
+			[ WPSEO_Rank::OK, 70 ],
+			[ WPSEO_Rank::GOOD, 100 ],
+		];
 	}
 
 	/**
@@ -201,18 +201,18 @@ class WPSEO_Rank_Test extends WPSEO_UnitTestCase {
 	 * @return array
 	 */
 	public function provider_from_numeric_score() {
-		return array(
-			array( 0, WPSEO_Rank::NO_FOCUS ),
-			array( 1, WPSEO_Rank::BAD ),
-			array( 23, WPSEO_Rank::BAD ),
-			array( 40, WPSEO_Rank::BAD ),
-			array( 41, WPSEO_Rank::OK ),
-			array( 55, WPSEO_Rank::OK ),
-			array( 70, WPSEO_Rank::OK ),
-			array( 71, WPSEO_Rank::GOOD ),
-			array( 83, WPSEO_Rank::GOOD ),
-			array( 100, WPSEO_Rank::GOOD ),
-		);
+		return [
+			[ 0, WPSEO_Rank::NO_FOCUS ],
+			[ 1, WPSEO_Rank::BAD ],
+			[ 23, WPSEO_Rank::BAD ],
+			[ 40, WPSEO_Rank::BAD ],
+			[ 41, WPSEO_Rank::OK ],
+			[ 55, WPSEO_Rank::OK ],
+			[ 70, WPSEO_Rank::OK ],
+			[ 71, WPSEO_Rank::GOOD ],
+			[ 83, WPSEO_Rank::GOOD ],
+			[ 100, WPSEO_Rank::GOOD ],
+		];
 	}
 
 	/**

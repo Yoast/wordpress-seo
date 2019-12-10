@@ -34,7 +34,13 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The image tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$images = array_map( [ $this, 'filter' ], $presentation->og_images );
+		$images = [];
+
+		foreach ( $presentation->og_images as $og_image ) {
+			$images[] = $this->filter( $og_image, $presentation );
+		}
+
+		$images = \array_filter( $images );
 
 		if ( empty( $images ) ) {
 			return '';
@@ -44,11 +50,11 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 		foreach ( $images as $image_index => $image_meta ) {
 			$image_url = $image_meta['url'];
 
-			$return .= '<meta property="og:image" value="' . esc_url( $image_url ) . '"/>';
+			$return .= '<meta property="og:image" value="' . \esc_url( $image_url ) . '"/>';
 
 			// Adds secure URL if detected. Not all services implement this, so the regular one also needs to be rendered.
-			if ( strpos( $image_url, 'https://' ) === 0 ) {
-				$return .= PHP_EOL . '<meta property="og:image:secure_url" value="' . esc_url( $image_url ) . '"/>';
+			if ( \strpos( $image_url, 'https://' ) === 0 ) {
+				$return .= PHP_EOL . '<meta property="og:image:secure_url" value="' . \esc_url( $image_url ) . '"/>';
 			}
 
 			foreach ( static::$image_tags as $key => $value ) {
@@ -56,7 +62,7 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 					continue;
 				}
 
-				$return .= PHP_EOL . '<meta property="og:image:' . esc_attr( $key ) . '" value="' . $image_meta[ $key ] . '"/>';
+				$return .= PHP_EOL . '<meta property="og:image:' . \esc_attr( $key ) . '" value="' . $image_meta[ $key ] . '"/>';
 			}
 		}
 
@@ -66,17 +72,20 @@ class Image_Presenter extends Abstract_Indexable_Presenter {
 	/**
 	 * Run the image content through the `wpseo_opengraph_image` filter.
 	 *
-	 * @param array $image The image to filter.
+	 * @param array                  $image        The image.
+	 * @param Indexable_Presentation $presentation The presentation of an indexable.
 	 *
 	 * @return array The filtered image.
 	 */
-	protected function filter( array $image ) {
+	protected function filter( $image, Indexable_Presentation $presentation ) {
 		/**
 		 * Filter: 'wpseo_opengraph_image' - Allow changing the OpenGraph image.
 		 *
 		 * @api string - The URL of the OpenGraph image.
+		 *
+		 * @param Indexable_Presentation $presentation The presentation of an indexable.
 		 */
-		$image_url = \trim( \apply_filters( 'wpseo_opengraph_image', $image['url'] ) );
+		$image_url = \trim( \apply_filters( 'wpseo_opengraph_image', $image['url'], $presentation ) );
 		if ( ! empty( $image_url ) && \is_string( $image_url ) ) {
 			$image['url'] = $image_url;
 		}

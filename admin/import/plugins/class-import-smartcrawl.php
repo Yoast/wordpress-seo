@@ -29,39 +29,39 @@ class WPSEO_Import_Smartcrawl_SEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @var array
 	 */
-	protected $clone_keys = array(
-		array(
+	protected $clone_keys = [
+		[
 			'old_key' => '_wds_metadesc',
 			'new_key' => 'metadesc',
-		),
-		array(
+		],
+		[
 			'old_key' => '_wds_title',
 			'new_key' => 'title',
-		),
-		array(
+		],
+		[
 			'old_key' => '_wds_canonical',
 			'new_key' => 'canonical',
-		),
-		array(
+		],
+		[
 			'old_key' => '_wds_focus-keywords',
 			'new_key' => 'focuskw',
-		),
-		array(
+		],
+		[
 			'old_key' => '_wds_meta-robots-noindex',
 			'new_key' => 'meta-robots-noindex',
-		),
-		array(
+		],
+		[
 			'old_key' => '_wds_meta-robots-nofollow',
 			'new_key' => 'meta-robots-nofollow',
-		),
-	);
+		],
+	];
 
 	/**
 	 * Used for importing Twitter and Facebook meta's.
 	 *
 	 * @var array
 	 */
-	protected $social_keys = array();
+	protected $social_keys = [];
 
 	/**
 	 * Handles post meta data to import.
@@ -84,11 +84,11 @@ class WPSEO_Import_Smartcrawl_SEO extends WPSEO_Plugin_Importer {
 	 * @return bool Import status.
 	 */
 	protected function import_opengraph() {
-		$this->social_keys = array(
+		$this->social_keys = [
 			'title'       => 'opengraph-title',
 			'description' => 'opengraph-description',
 			'images'      => 'opengraph-image',
-		);
+		];
 		return $this->post_find_import( '_wds_opengraph' );
 	}
 
@@ -98,10 +98,10 @@ class WPSEO_Import_Smartcrawl_SEO extends WPSEO_Plugin_Importer {
 	 * @return bool Import status.
 	 */
 	protected function import_twitter() {
-		$this->social_keys = array(
+		$this->social_keys = [
 			'title'       => 'twitter-title',
 			'description' => 'twitter-description',
-		);
+		];
 		return $this->post_find_import( '_wds_twitter' );
 	}
 

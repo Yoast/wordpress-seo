@@ -31,24 +31,24 @@ class WPSEO_Import_HeadSpace extends WPSEO_Plugin_Importer {
 	 *
 	 * @var array
 	 */
-	protected $clone_keys = array(
-		array(
+	protected $clone_keys = [
+		[
 			'old_key' => '_headspace_description',
 			'new_key' => 'metadesc',
-		),
-		array(
+		],
+		[
 			'old_key' => '_headspace_page_title',
 			'new_key' => 'title',
-		),
-		array(
+		],
+		[
 			'old_key' => '_headspace_noindex',
 			'new_key' => 'meta-robots-noindex',
-			'convert' => array( 'on' => 1 ),
-		),
-		array(
+			'convert' => [ 'on' => 1 ],
+		],
+		[
 			'old_key' => '_headspace_nofollow',
 			'new_key' => 'meta-robots-nofollow',
-			'convert' => array( 'on' => 1 ),
-		),
-	);
+			'convert' => [ 'on' => 1 ],
+		],
+	];
 }

@@ -45,7 +45,7 @@ class WPSEO_Option_Tabs_Test extends WPSEO_UnitTestCase {
 		$option_tabs = new WPSEO_Option_Tabs( 'base' );
 		$option_tabs->add_tab( $option_tab );
 
-		$this->assertEquals( array( $option_tab ), $option_tabs->get_tabs() );
+		$this->assertEquals( [ $option_tab ], $option_tabs->get_tabs() );
 	}
 
 	/**

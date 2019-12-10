@@ -76,8 +76,8 @@ class Article extends Abstract_Schema_Piece {
 			'isPartOf'         => [ '@id' => $context->canonical . $this->id_helper->webpage_hash ],
 			'author'           => [ '@id' => $this->id_helper->get_user_schema_id( $context->post->post_author, $context ) ],
 			'headline'         => $context->title,
-			'datePublished'    => $this->date_helper->mysql_date_to_w3c_format( $context->post->post_date_gmt ),
-			'dateModified'     => $this->date_helper->mysql_date_to_w3c_format( $context->post->post_modified_gmt ),
+			'datePublished'    => $this->date_helper->format( $context->post->post_date_gmt ),
+			'dateModified'     => $this->date_helper->format( $context->post->post_modified_gmt ),
 			'commentCount'     => $comment_count['approved'],
 			'mainEntityOfPage' => [ '@id' => $context->canonical . $this->id_helper->webpage_hash ],
 		];

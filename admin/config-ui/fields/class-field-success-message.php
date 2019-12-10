@@ -28,10 +28,10 @@ class WPSEO_Config_Field_Success_Message extends WPSEO_Config_Field {
 
 		/* translators: %1$s expands to Yoast SEO. */
 		$img_alt  = __( '%1$s video tutorial', 'wordpress-seo' );
-		$img_args = array(
+		$img_args = [
 			'src' => plugin_dir_url( WPSEO_FILE ) . ( 'images/Yoast_Academy_video.png' ),
 			'alt' => sprintf( $img_alt, 'Yoast SEO' ),
-		);
+		];
 
 		$this->set_property( 'image', $img_args );
 	}

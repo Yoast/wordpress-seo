@@ -32,7 +32,7 @@ add_action( 'wp_loaded', 'wpseo_initialize_admin_bar' );
  * @return array $required_capabilities Filtered capabilities.
  */
 function allow_custom_field_edits( $required_capabilities, $capabilities, $args ) {
-	if ( ! in_array( $args[0], array( 'edit_post_meta', 'add_post_meta' ), true ) ) {
+	if ( ! in_array( $args[0], [ 'edit_post_meta', 'add_post_meta' ], true ) ) {
 		return $required_capabilities;
 	}
 
@@ -77,7 +77,7 @@ function wpseo_admin_bar_menu() {
 		return;
 	}
 
-	$options = WPSEO_Options::get_options( array( 'wpseo', 'wpseo_ms' ) );
+	$options = WPSEO_Options::get_options( [ 'wpseo', 'wpseo_ms' ] );
 
 	if ( $options['enable_admin_bar_menu'] !== true ) {
 		return;

@@ -46,8 +46,6 @@ $yoast-alerts-active-margin: 20px;
 }
 
 .yoast-container .yoast-alert-holder {
-	display: -ms-flexbox;
-	display: -webkit-flex;
 	display: flex;
 	position: relative;
 }
@@ -81,10 +79,34 @@ $yoast-alerts-active-margin: 20px;
 }
 
 .yoast-alerts .button.restore:hover,
-.yoast-alerts .button.dismiss:hover,
+.yoast-alerts .button.dismiss:hover {
+	background: transparent;
+}
+
 .yoast-alerts .button.restore:focus,
 .yoast-alerts .button.dismiss:focus {
 	background: transparent;
+
+	&::before {
+		content: "";
+		display: block;
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		box-shadow: 0 0 0 1px #007cba;
+		/* Only visible in Windows High Contrast mode */
+		outline: 2px solid transparent;
+	}
+}
+
+// Get started dismiss button focus style position.
+.yoast-alerts .button.dismiss.yoast-container__configuration-wizard--dismiss::before {
+	top: 0;
+	transform: translate(-50%,6px);
 }
 
 .yoast-container .separator {
@@ -269,7 +291,7 @@ $yoast-alerts-active-margin: 20px;
 
 				.dashicons {
 					text-decoration: none;
-					margin-top: 11px;
+					margin-top: 12px;
 				}
 			}
 		}

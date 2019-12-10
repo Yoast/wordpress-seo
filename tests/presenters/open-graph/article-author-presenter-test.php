@@ -76,7 +76,7 @@ class Article_Author_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_opengraph_author_facebook' )
 			->once()
-			->with( 'https://facebook.com/author' )
+			->with( 'https://facebook.com/author', $this->presentation )
 			->andReturn( 'https://facebook.com/newauthor' );
 
 		$expected = '<meta property="article:author" content="https://facebook.com/newauthor" />';

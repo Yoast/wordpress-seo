@@ -36,7 +36,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 
 		$steps = $this->structure->retrieve();
 
-		$expected = array(
+		$expected = [
 			'environment-type',
 			'site-type',
 			'publishing-entity',
@@ -45,7 +45,7 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 			'title-template',
 			'newsletter',
 			'success',
-		);
+		];
 
 		$this->assertEquals( $expected, array_keys( $steps ) );
 	}
@@ -80,12 +80,12 @@ class WPSEO_Configuration_Structure_Test extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue( isset( $steps[ $identifier ] ) );
 		$this->assertEquals(
-			array(
+			[
 				'title'          => $title,
 				'fields'         => $fields,
 				'hideNavigation' => false,
 				'fullWidth'      => false,
-			),
+			],
 			$steps[ $identifier ]
 		);
 	}

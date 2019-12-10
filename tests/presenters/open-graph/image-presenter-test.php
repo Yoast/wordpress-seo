@@ -25,12 +25,18 @@ class Image_Presenter_Test extends TestCase {
 	protected $instance;
 
 	/**
+	 * @var Indexable_Presentation
+	 */
+	protected $presentation;
+
+	/**
 	 * Setup some mocks.
 	 */
 	public function setUp() {
 		parent::setUp();
 
-		$this->instance  = Mockery::mock( Image_Presenter::class )->makePartial();
+		$this->instance     = Mockery::mock( Image_Presenter::class )->makePartial();
+		$this->presentation = new Indexable_Presentation();
 	}
 
 	/**
@@ -39,10 +45,9 @@ class Image_Presenter_Test extends TestCase {
 	 * @covers ::present
 	 */
 	public function test_present_with_no_set_images() {
-		$presentation = new Indexable_Presentation();
-		$presentation->og_images = [];
+		$this->presentation->og_images = [];
 
-		$this->assertEmpty( $this->instance->present( $presentation ) );
+		$this->assertEmpty( $this->instance->present( $this->presentation ) );
 	}
 
 	/**
@@ -57,12 +62,11 @@ class Image_Presenter_Test extends TestCase {
 			'height' => 100,
 		];
 
-		$presentation = new Indexable_Presentation();
-		$presentation->og_images = [ $image ];
+		$this->presentation->og_images = [ $image ];
 
 		$this->assertEquals(
 			'<meta property="og:image" value="https://example.com/image.jpg"/>' . PHP_EOL . '<meta property="og:image:secure_url" value="https://example.com/image.jpg"/>' . PHP_EOL . '<meta property="og:image:width" value="100"/>' . PHP_EOL . '<meta property="og:image:height" value="100"/>',
-			$this->instance->present( $presentation )
+			$this->instance->present( $this->presentation )
 		);
 	}
 
@@ -74,11 +78,12 @@ class Image_Presenter_Test extends TestCase {
 	public function test_filter_wrong_image_url_returned() {
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_opengraph_image', 'image.jpg' )
+			->with( 'wpseo_opengraph_image', 'image.jpg', $this->presentation )
 			->andReturn( false );
 
-		$this->assertEquals( [ 'url' => 'image.jpg' ], $this->instance->filter( [ 'url' => 'image.jpg' ] ) );
+		$this->assertEquals( [ 'url' => 'image.jpg' ], $this->instance->filter( [ 'url' => 'image.jpg' ], $this->presentation ) );
 	}
+
 	/**
 	 * Tests the situation where the apply_filters returns another image.
 	 *
@@ -87,10 +92,10 @@ class Image_Presenter_Test extends TestCase {
 	public function test_filter() {
 		Monkey\Functions\expect( 'apply_filters' )
 			->once()
-			->with( 'wpseo_opengraph_image', 'image.jpg' )
+			->with( 'wpseo_opengraph_image', 'image.jpg', $this->presentation )
 			->andReturn( 'filtered_image.jpg' );
 
-		$this->assertEquals( [ 'url' => 'filtered_image.jpg' ], $this->instance->filter( [ 'url' => 'image.jpg' ] ) );
+		$this->assertEquals( [ 'url' => 'filtered_image.jpg' ], $this->instance->filter( [ 'url' => 'image.jpg' ], $this->presentation ) );
 	}
 
 

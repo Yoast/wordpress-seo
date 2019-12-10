@@ -27,11 +27,6 @@ trait Presentation_Instance_Dependencies {
 	protected $options_helper;
 
 	/**
-	 * @var Robots_Helper|Mockery\MockInterface
-	 */
-	protected $robots_helper;
-
-	/**
 	 * @var Image_Helper|Mockery\MockInterface
 	 */
 	protected $image_helper;
@@ -85,7 +80,6 @@ trait Presentation_Instance_Dependencies {
 	 */
 	protected function set_instance_dependencies( Indexable_Presentation $presentation_instance ) {
 		$this->options_helper      = Mockery::mock( Options_Helper::class );
-		$this->robots_helper       = Mockery::mock( Robots_Helper::class );
 		$this->image_helper        = Mockery::mock( Image_Helper::class );
 		$this->current_page_helper = Mockery::mock( Current_Page_Helper::class );
 		$this->url_helper          = Mockery::mock( Url_Helper::class );
@@ -94,7 +88,6 @@ trait Presentation_Instance_Dependencies {
 		$this->twitter_helper      = Mockery::mock( Twitter_Image_Helper::class );
 
 		$presentation_instance->set_helpers(
-			$this->robots_helper,
 			$this->image_helper,
 			$this->options_helper,
 			$this->current_page_helper,

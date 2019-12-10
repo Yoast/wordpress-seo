@@ -47,13 +47,13 @@ abstract class WPSEO_Taxonomy_Fields {
 	 * @return array
 	 */
 	protected function get_field_config( $label, $description, $type = 'text', $options = '', $hide = false ) {
-		return array(
+		return [
 			'label'       => $label,
 			'description' => $description,
 			'type'        => $type,
 			'options'     => $options,
 			'hide'        => $hide,
-		);
+		];
 	}
 
 	/**

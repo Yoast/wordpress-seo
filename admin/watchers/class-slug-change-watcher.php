@@ -21,16 +21,16 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 
 		// Detect a post trash.
-		add_action( 'wp_trash_post', array( $this, 'detect_post_trash' ) );
+		add_action( 'wp_trash_post', [ $this, 'detect_post_trash' ] );
 
 		// Detect a post delete.
-		add_action( 'before_delete_post', array( $this, 'detect_post_delete' ) );
+		add_action( 'before_delete_post', [ $this, 'detect_post_delete' ] );
 
 		// Detects deletion of a term.
-		add_action( 'delete_term_taxonomy', array( $this, 'detect_term_delete' ) );
+		add_action( 'delete_term_taxonomy', [ $this, 'detect_term_delete' ] );
 	}
 
 	/**
@@ -41,7 +41,7 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	public function enqueue_assets() {
 		global $pagenow;
 
-		if ( ! in_array( $pagenow, array( 'edit.php', 'edit-tags.php' ), true ) ) {
+		if ( ! in_array( $pagenow, [ 'edit.php', 'edit-tags.php' ], true ) ) {
 			return;
 		}
 
@@ -193,11 +193,11 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	 * @return bool Whether or not the post is visible.
 	 */
 	protected function check_visible_post_status( $post_status ) {
-		$visible_post_statuses = array(
+		$visible_post_statuses = [
 			'publish',
 			'static',
 			'private',
-		);
+		];
 
 		return in_array( $post_status, $visible_post_statuses, true );
 	}
@@ -236,10 +236,10 @@ class WPSEO_Slug_Change_Watcher implements WPSEO_WordPress_Integration {
 	protected function add_notification( $message ) {
 		$notification = new Yoast_Notification(
 			$message,
-			array(
+			[
 				'type'           => 'notice-warning is-dismissible',
 				'yoast_branding' => true,
-			)
+			]
 		);
 
 		$notification_center = Yoast_Notification_Center::get();

@@ -40,7 +40,7 @@ final class Marker_Close_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The debug close marker.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		return sprintf(
+		return \sprintf(
 			'<!-- / %s. -->' . PHP_EOL . PHP_EOL,
 			\esc_html( $this->product_helper->get_name() )
 		);

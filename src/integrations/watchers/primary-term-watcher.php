@@ -73,6 +73,11 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function save_primary_terms( $post_id ) {
+		// Bail if this is a multisite installation and the site has been switched.
+		if ( is_multisite() && ms_is_switched() ) {
+			return;
+		}
+
 		if ( ! $this->is_post_request() ) {
 			return;
 		}

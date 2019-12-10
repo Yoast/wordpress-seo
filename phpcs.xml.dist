@@ -22,7 +22,11 @@
         <exclude name="WordPress.WP.PreparedSQL.NotPrepared"/><!-- TODO audit raw queries -->
         <exclude name="WordPress.Functions.DontExtract" /><!-- TODO audit usage & replace -->
         <exclude name="Squiz.Commenting.FunctionCommentThrowTag.WrongNumber" /><!-- TODO Remove this once we're on 0.5. See https://github.com/squizlabs/PHP_CodeSniffer/issues/650 for more info. -->
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
     </rule>
+
+    <!-- Demand short arrays. -->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 
     <!-- Exclude migrations folder from filename checks, as we do not have control over this format -->
     <rule ref="WordPress.Files.FileName.UnderscoresNotAllowed">
@@ -61,124 +65,7 @@
 	SNIFF FOR PHP CROSS-VERSION COMPATIBILITY
 	#############################################################################
 	-->
-	<config name="testVersion" value="5.2-"/>
-	<rule ref="PHPCompatibilityWP">
-		<!-- Issue related to PHP < 5.2.3, minimum version is 5.2.4. -->
-		<exclude name="PHPCompatibility.FunctionUse.NewFunctionParameters.htmlspecialchars_double_encodeFound"/>
-	</rule>
-
-	<!-- WP-CLI and src (indexables) have a minimum PHP requirement of PHP 5.6. -->
-	<rule ref="PHPCompatibility.LanguageConstructs.NewLanguageConstructs.t_ns_separatorFound">
-		<exclude-pattern>*/cli/class-cli-*\.php$</exclude-pattern>
-		<exclude-pattern>*/src/*.php$</exclude-pattern>
-		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
-		<exclude-pattern>*/config/*.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.Keywords.NewKeywords.t_useFound">
-		<exclude-pattern>*/cli/class-cli-*\.php$</exclude-pattern>
-		<exclude-pattern>*/src/*.php$</exclude-pattern>
-		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
-		<exclude-pattern>*/config/*.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.Keywords.NewKeywords.t_dirFound">
-        <exclude-pattern>*/src/*.php$</exclude-pattern>
-        <exclude-pattern>*/config/*.php$</exclude-pattern>
-		<exclude-pattern>*/ruckusing\.conf\.php$</exclude-pattern>
-    </rule>
-    <rule ref="PHPCompatibility.Keywords.NewKeywords.t_traitFound">
-        <exclude-pattern>*/src/*.php$</exclude-pattern>
-    </rule>
-    <rule ref="PHPCompatibility.FunctionUse.NewFunctionParameters.spl_autoload_register_prependFound">
-        <exclude-pattern>*/src/*.php$</exclude-pattern>
-        <exclude-pattern>*/config/*.php$</exclude-pattern>
-    </rule>
-	<rule ref="PHPCompatibility.FunctionNameRestrictions.NewMagicMethods.__invokeFound">
-		<exclude-pattern>*/src/*.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.Classes.NewLateStaticBinding.Found">
-		<exclude-pattern>*/src/*.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.Keywords.NewKeywords.t_namespaceFound">
-		<exclude-pattern>*/src/*.php$</exclude-pattern>
-		<exclude-pattern>*/config/*.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.FunctionUse.NewFunctions.get_called_classFound">
-		<exclude-pattern>*/src/*.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.Syntax.NewDynamicAccessToStatic.Found">
-		<exclude-pattern>*/src/*.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.FunctionDeclarations.NewClosure.Found">
-		<exclude-pattern>*/src/*.php$</exclude-pattern>
-		<exclude-pattern>*/config/*.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.Syntax.NewShortArray.Found">
-		<exclude-pattern>*/src/*.php$</exclude-pattern>
-		<exclude-pattern>*/config/*.php$</exclude-pattern>
-		<exclude-pattern>*/migrations/*.php$</exclude-pattern>
-		<exclude-pattern>*/ruckusing\.conf\.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.Syntax.NewFunctionArrayDereferencing.Found">
-		<exclude-pattern>*/src/*.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.FunctionUse.NewFunctions.class_aliasFound">
-		<exclude-pattern>*/src/*.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.Constants.NewMagicClassConstant.Found">
-		<exclude-pattern>*/src/*.php$</exclude-pattern>
-		<exclude-pattern>*/config/*.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.FunctionUse.NewFunctions.array_columnFound">
-		<exclude-pattern>*/src/*.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.FunctionDeclarations.NewClosure.ThisFound">
-	    <exclude-pattern>*/src/*.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.InitialValue.NewConstantArraysUsingConst.Found">
-	    <exclude-pattern>*/src/*.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.LanguageConstructs.NewLanguageConstructs.t_ellipsisFound">
-		<exclude-pattern>*/src/*.php$</exclude-pattern>
-	</rule>
-
-	<!-- These usages of PHP > 5.2 code are surrounded by the correct safeguards. -->
-	<rule ref="PHPCompatibility.FunctionUse.NewFunctionParameters.parse_ini_file_scanner_modeFound">
-		<exclude-pattern>*/admin/import/class-import-settings\.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.Constants.NewConstants.ini_scanner_rawFound">
-		<exclude-pattern>*/admin/import/class-import-settings\.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.FunctionUse.NewFunctionParameters.http_build_query_enc_typeFound">
-		<exclude-pattern>*/inc/sitemaps/class-sitemaps-renderer\.php$</exclude-pattern>
-	</rule>
-	<rule ref="PHPCompatibility.FunctionUse.NewFunctionParameters.array_unique_sort_flagsFound">
-		<exclude-pattern>*/inc/sitemaps/class-sitemap-image-parser\.php$</exclude-pattern>
-	</rule>
-
-	<!--
-	#############################################################################
-	TEMPORARY TWEAK
-	YoastCS will demand short arrays, but until support for WP < 5.2 has been
-	dropped, this can - for now - only be allowed (and enforced) for the folders
-	containing PHP 5.6+ code.
-	#############################################################################
-	-->
-
-	<rule ref="Generic.Arrays.DisallowShortArraySyntax">
-		<exclude-pattern>*/ruckusing\.conf\.php$</exclude-pattern>
-		<exclude-pattern>*/config/*\.php$</exclude-pattern>
-		<exclude-pattern>*/migrations/*\.php$</exclude-pattern>
-		<exclude-pattern>*/src/*\.php$</exclude-pattern>
-		<exclude-pattern>*/tests/*\.php$</exclude-pattern>
-	</rule>
-	<rule ref="Generic.Arrays.DisallowLongArraySyntax">
-		<exclude-pattern>*/wp-seo-main\.php$</exclude-pattern>
-		<exclude-pattern>*/admin/*\.php$</exclude-pattern>
-		<exclude-pattern>*/cli/*\.php$</exclude-pattern>
-		<exclude-pattern>*/frontend/*\.php$</exclude-pattern>
-		<exclude-pattern>*/inc/*\.php$</exclude-pattern>
-		<exclude-pattern>*/integration-tests/*\.php$</exclude-pattern>
-		<exclude-pattern>*/scripts/*\.php$</exclude-pattern>
-	</rule>
+	<config name="testVersion" value="5.6-"/>
+	<rule ref="PHPCompatibilityWP"/>
 
 </ruleset>

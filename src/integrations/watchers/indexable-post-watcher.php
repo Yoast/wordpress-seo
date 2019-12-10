@@ -95,6 +95,11 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 * @return void
 	 */
 	public function build_indexable( $post_id ) {
+		// Bail if this is a multisite installation and the site has been switched.
+		if ( is_multisite() && ms_is_switched() ) {
+			return;
+		}
+
 		if ( ! $this->is_post_indexable( $post_id ) ) {
 			return;
 		}

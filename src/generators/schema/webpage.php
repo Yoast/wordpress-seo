@@ -91,8 +91,8 @@ class WebPage extends Abstract_Schema_Piece {
 		if ( $context->indexable->object_type === 'post' ) {
 			$this->add_image( $data, $context );
 
-			$data['datePublished'] = $this->date_helper->mysql_date_to_w3c_format( $context->post->post_date_gmt );
-			$data['dateModified']  = $this->date_helper->mysql_date_to_w3c_format( $context->post->post_modified_gmt );
+			$data['datePublished'] = $this->date_helper->format( $context->post->post_date_gmt );
+			$data['dateModified']  = $this->date_helper->format( $context->post->post_modified_gmt );
 
 			if ( $context->indexable->object_sub_type === 'post' ) {
 				$data = $this->add_author( $data, $context->post, $context );

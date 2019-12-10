@@ -4,6 +4,7 @@ namespace Yoast\WP\Free\Tests\Helpers;
 
 use Brain\Monkey;
 use Yoast\WP\Free\Helpers\Robots_Helper;
+use Yoast\WP\Free\Presentations\Indexable_Presentation;
 use Yoast\WP\Free\Tests\Mocks\Indexable;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -31,141 +32,32 @@ class Robots_Helper_Test extends TestCase {
 	}
 
 	/**
-	 * Tests whether the get_base_values function returns the right values when noindex and nofollow are true.
+	 * Tests setting the robots to no index when having robots value already.
 	 *
-	 * @covers ::get_base_values
+	 * @covers ::set_robots_no_index
 	 */
-	public function test_get_base_values_true() {
-		$indexable = new Indexable();
+	public function test_set_robots_no_index_with_having_a_noindex_value() {
+		$presentation         = new Indexable_Presentation();
+		$presentation->robots = [ 'index' => 'noindex', 'follow' => 'follow' ];
 
-		$indexable->is_robots_nofollow = true;
-		$indexable->is_robots_noindex  = true;
-
-		$actual = $this->instance->get_base_values( $indexable );
-
-		$expected = [
-			'index'  => 'noindex',
-			'follow' => 'nofollow',
-		];
-
-		$this->assertEquals( $expected, $actual );
+		$this->assertEquals(
+			'noindex,follow',
+			$this->instance->set_robots_no_index( 'noindex,follow', $presentation )
+		);
 	}
 
 	/**
-	 * Tests whether the get_base_values function returns the right values when noindex and nofollow are false.
+	 * Tests setting the robots to no index.
 	 *
-	 * @covers ::get_base_values
+	 * @covers ::set_robots_no_index
 	 */
-	public function test_get_base_values_false() {
-		$indexable = new Indexable();
+	public function test_set_robots_no_index_with() {
+		$presentation         = new Indexable_Presentation();
+		$presentation->robots = [ 'index' => 'index', 'follow' => 'follow' ];
 
-		$indexable->is_robots_nofollow = false;
-		$indexable->is_robots_noindex  = false;
-
-		$actual = $this->instance->get_base_values( $indexable );
-
-		$expected = [
-			'index'  => 'index',
-			'follow' => 'follow',
-		];
-
-		$this->assertEquals( $expected, $actual );
-	}
-
-	/**
-	 * Tests if after_generate strips index and follow from the object if they are 'index' and 'follow' respectively.
-	 *
-	 * @covers ::after_generate
-	 */
-	public function test_after_generate() {
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'blog_public' )
-			->andReturn( '1' );
-
-		$actual = $this->instance->after_generate( [
-			'index'  => 'index',
-			'follow' => 'follow',
-		] );
-
-		$this->assertEmpty( $actual );
-	}
-
-	/**
-	 * Tests if after_generate sets index to 'noindex' is the blog is set to not be public.
-	 *
-	 * @covers ::after_generate
-	 */
-	public function test_after_generate_blog_not_public() {
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'blog_public' )
-			->andReturn( '0' );
-
-		$actual = $this->instance->after_generate( [
-			'index'  => 'index',
-			'follow' => 'follow',
-		] );
-
-		$expected = [
-			'index'  => 'noindex',
-			'follow' => 'follow',
-		];
-
-		$this->assertEquals( $expected, $actual );
-	}
-
-	/**
-	 * Tests if after_generate sets index to 'noindex' if the page is a reply to comment page.
-	 *
-	 * @covers ::after_generate
-	 */
-	public function test_after_generate_blog_replytocom() {
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'blog_public' )
-			->andReturn( '1' );
-
-		$_GET['replytocom'] = '123';
-
-		$actual = $this->instance->after_generate( [
-			'index'  => 'index',
-			'follow' => 'follow',
-		] );
-
-		$expected = [
-			'index'  => 'noindex',
-			'follow' => 'follow',
-		];
-
-		$this->assertEquals( $expected, $actual );
-
-		unset( $_GET['replytocom'] );
-	}
-
-	/**
-	 * Tests if after_generate removes null values from the robots options array.
-	 *
-	 * @covers ::after_generate
-	 */
-	public function test_after_generate_blog_clean_null_values() {
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'blog_public' )
-			->andReturn( '1' );
-
-		$actual = $this->instance->after_generate( [
-			'index'        => 'index',
-			'follow'       => 'follow',
-			'noimageindex' => 'noimageindex',
-			'nosnippet'    => null,
-			'noarchive'    => null,
-		] );
-
-		$expected = [
-			'noimageindex'      => 'noimageindex',
-		];
-
-		$this->assertEquals( $expected, $actual );
+		$this->assertEquals(
+			'noindex,follow',
+			$this->instance->set_robots_no_index( 'index,follow', $presentation )
+		);
 	}
 }

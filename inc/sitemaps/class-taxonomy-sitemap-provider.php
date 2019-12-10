@@ -63,13 +63,13 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 */
 	public function get_index_links( $max_entries ) {
 
-		$taxonomies = get_taxonomies( array( 'public' => true ), 'objects' );
+		$taxonomies = get_taxonomies( [ 'public' => true ], 'objects' );
 
 		if ( empty( $taxonomies ) ) {
-			return array();
+			return [];
 		}
 
-		$taxonomy_names = array_filter( array_keys( $taxonomies ), array( $this, 'is_valid_taxonomy' ) );
+		$taxonomy_names = array_filter( array_keys( $taxonomies ), [ $this, 'is_valid_taxonomy' ] );
 		$taxonomies     = array_intersect_key( $taxonomies, array_flip( $taxonomy_names ) );
 
 		// Retrieve all the taxonomies and their terms so we can do a proper count on them.
@@ -81,7 +81,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 */
 		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy_names );
 
-		$all_taxonomies = array();
+		$all_taxonomies = [];
 
 		foreach ( $taxonomy_names as $taxonomy_name ) {
 			/**
@@ -92,10 +92,10 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			 */
 			$hide_empty_tax = apply_filters( 'wpseo_sitemap_exclude_empty_terms_taxonomy', $hide_empty, $taxonomy_name );
 
-			$term_args      = array(
+			$term_args      = [
 				'hide_empty' => $hide_empty_tax,
 				'fields'     => 'ids',
-			);
+			];
 			$taxonomy_terms = get_terms( $taxonomy_name, $term_args );
 
 			if ( count( $taxonomy_terms ) > 0 ) {
@@ -103,7 +103,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			}
 		}
 
-		$index = array();
+		$index = [];
 
 		foreach ( $taxonomies as $tax_name => $tax ) {
 
@@ -134,18 +134,18 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 					continue;
 				}
 
-				$args  = array(
+				$args  = [
 					'post_type'      => $tax->object_type,
-					'tax_query'      => array(
-						array(
+					'tax_query'      => [
+						[
 							'taxonomy' => $tax_name,
 							'terms'    => $terms,
-						),
-					),
+						],
+					],
 					'orderby'        => 'modified',
 					'order'          => 'DESC',
 					'posts_per_page' => 1,
-				);
+				];
 				$query = new WP_Query( $args );
 
 				if ( $query->have_posts() ) {
@@ -155,10 +155,10 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 					$date = $last_modified_gmt;
 				}
 
-				$index[] = array(
+				$index[] = [
 					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $tax_name . '-sitemap' . $current_page . '.xml' ),
 					'lastmod' => $date,
-				);
+				];
 			}
 		}
 
@@ -179,7 +179,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 		global $wpdb;
 
-		$links = array();
+		$links = [];
 		if ( ! $this->handles_type( $type ) ) {
 			return $links;
 		}
@@ -190,10 +190,10 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
 
 		/** This filter is documented in inc/sitemaps/class-taxonomy-sitemap-provider.php */
-		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, array( $taxonomy->name ) );
+		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, [ $taxonomy->name ] );
 		/** This filter is documented in inc/sitemaps/class-taxonomy-sitemap-provider.php */
 		$hide_empty_tax = apply_filters( 'wpseo_sitemap_exclude_empty_terms_taxonomy', $hide_empty, $taxonomy->name );
-		$terms          = get_terms( $taxonomy->name, array( 'hide_empty' => $hide_empty_tax ) );
+		$terms          = get_terms( $taxonomy->name, [ 'hide_empty' => $hide_empty_tax ] );
 
 		// If the total term count is lower than the offset, we are on an invalid page.
 		if ( count( $terms ) < $offset ) {
@@ -226,7 +226,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 *
 		 * @api array $terms_to_exclude The terms to exclude.
 		 */
-		$terms_to_exclude = apply_filters( 'wpseo_exclude_from_sitemap_by_term_ids', array() );
+		$terms_to_exclude = apply_filters( 'wpseo_exclude_from_sitemap_by_term_ids', [] );
 
 		foreach ( $terms as $term ) {
 
@@ -234,7 +234,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 				continue;
 			}
 
-			$url = array();
+			$url = [];
 
 			$tax_noindex = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' );
 
@@ -282,7 +282,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return false;
 		}
 
-		if ( in_array( $taxonomy_name, array( 'link_category', 'nav_menu' ), true ) ) {
+		if ( in_array( $taxonomy_name, [ 'link_category', 'nav_menu' ], true ) ) {
 			return false;
 		}
 

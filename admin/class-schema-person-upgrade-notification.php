@@ -16,7 +16,7 @@ class WPSEO_Schema_Person_Upgrade_Notification implements WPSEO_WordPress_Integr
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'admin_init', array( $this, 'handle_notification' ) );
+		add_action( 'admin_init', [ $this, 'handle_notification' ] );
 	}
 
 	/**
@@ -63,12 +63,12 @@ class WPSEO_Schema_Person_Upgrade_Notification implements WPSEO_WordPress_Integr
 
 		$notification = new Yoast_Notification(
 			$message,
-			array(
+			[
 				'type'         => Yoast_Notification::WARNING,
 				'id'           => 'wpseo-schema-person-upgrade',
 				'capabilities' => 'wpseo_manage_options',
 				'priority'     => 0.8,
-			)
+			]
 		);
 
 		return $notification;

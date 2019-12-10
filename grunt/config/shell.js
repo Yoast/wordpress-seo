@@ -26,7 +26,6 @@ module.exports = function( grunt ) {
 
 		"combine-pots-yoast-components": {
 			fromFiles: [
-				"<%= files.pot.yoastJsAlgoliaSearchBox %>",
 				"<%= files.pot.yoastJsAnalysisReport %>",
 				"<%= files.pot.yoastJsComponents %>",
 				"<%= files.pot.yoastJsConfigurationWizard %>",
@@ -50,9 +49,6 @@ module.exports = function( grunt ) {
 			},
 		},
 
-		"makepot-yoast-js-algolia-search-box": {
-			command: "yarn i18n-yoast-js-algolia-search-box",
-		},
 		"makepot-yoast-js-analysis-report": {
 			command: "yarn i18n-yoast-js-analysis-report",
 		},
@@ -123,12 +119,12 @@ module.exports = function( grunt ) {
 		},
 
 		"composer-install-production": {
-			command: "composer install --prefer-dist --optimize-autoloader --no-dev",
+			command: "composer install --prefer-dist --optimize-autoloader --no-dev --no-scripts",
 		},
 
 		"remove-prefixed-sources": {
 			command: "composer remove league/oauth2-client j4mie/idiorm pimple/pimple ruckusing/ruckusing-migrations psr/log " +
-			"symfony/dependency-injection --update-no-dev --optimize-autoloader",
+			"symfony/dependency-injection --update-no-dev --optimize-autoloader --no-scripts",
 		},
 
 		"composer-install-dev": {

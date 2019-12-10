@@ -39,7 +39,13 @@ class Current_Page_Helper {
 		switch ( true ) {
 			case $this->is_search_result():
 				return 'Search_Result_Page';
-			case $this->is_simple_page() || $this->is_home_static_page():
+			case $this->is_static_posts_page():
+				return 'Static_Posts_Page';
+			case $this->is_home_static_page():
+				return 'Static_Home_Page';
+			case $this->is_home_posts_page():
+				return 'Home_Page';
+			case $this->is_simple_page():
 				return 'Post_Type';
 			case $this->is_post_type_archive():
 				return 'Post_Type_Archive';
@@ -49,8 +55,6 @@ class Current_Page_Helper {
 				return 'Author_Archive';
 			case $this->is_date_archive():
 				return 'Date_Archive';
-			case $this->is_home_posts_page():
-				return 'Home_Page';
 			case $this->is_404():
 				return 'Error_Page';
 		}
