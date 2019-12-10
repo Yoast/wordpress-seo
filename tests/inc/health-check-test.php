@@ -70,8 +70,7 @@ class WPSEO_Health_Check_Test extends TestCase {
 			[
 				'direct' => [
 					'' => [
-						'test' => array( $this->instance, 'get_test_result' ),
-						'name' => '',
+						'test' => [ $this->instance, 'get_test_result' ],
 					]
 				]
 			],
@@ -90,7 +89,6 @@ class WPSEO_Health_Check_Test extends TestCase {
 				'async' => [
 					'' => [
 						'test' => '',
-						'name' => '',
 					]
 				]
 			],
