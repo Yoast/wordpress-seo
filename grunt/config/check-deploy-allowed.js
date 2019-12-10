@@ -16,7 +16,7 @@ module.exports = function( grunt ) {
 			if ( isRCVersion ) {
 				grunt.fail.fatal(
 					"The Stable tag specified in the readme.txt file contains RC tag. You cannot deploy an RC version. " +
-					"The release process is stopped."
+					"The release process has been stopped."
 				);
 			}
 		}

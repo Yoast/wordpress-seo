@@ -6,7 +6,7 @@ module.exports = function( grunt ) {
 		if ( stdout ) {
 			throw "You have uncommitted changes. Commit, stash or reset the above files.";
 		} else {
-			console.log("You have no uncommitted changes. Continuing...");
+			console.log( "You have no uncommitted changes. Continuing..." );
 		}
 		callback();
 	}
