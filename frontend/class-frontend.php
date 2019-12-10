@@ -1341,7 +1341,6 @@ class WPSEO_Frontend {
 
 			$redir = $this->get_seo_meta_value( 'redirect', $post->ID );
 			if ( $redir !== '' ) {
-				header( 'X-Redirect-By: Yoast SEO' );
 				wp_redirect( $redir, 301, 'Yoast SEO' );
 				exit;
 			}
@@ -1449,7 +1448,6 @@ class WPSEO_Frontend {
 	 * @return void
 	 */
 	public function do_attachment_redirect( $attachment_url ) {
-		header( 'X-Redirect-By: Yoast SEO' );
 		wp_redirect( $attachment_url, 301, 'Yoast SEO' );
 		exit;
 	}
@@ -1660,7 +1658,6 @@ class WPSEO_Frontend {
 	 * @param int    $status   Status code to use.
 	 */
 	public function redirect( $location, $status = 302 ) {
-		header( 'X-Redirect-By: Yoast SEO' );
 		wp_safe_redirect( $location, $status, 'Yoast SEO' );
 		exit;
 	}
