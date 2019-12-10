@@ -1,17 +1,4 @@
 /**
- * Adds prefixes and suffixes to the stem.
- *
- * @param {string} stemmedWord	The stemmed word for which to create the past participle form.
- * @param {string} suffix	The suffix to attach at the end of the stem.
- * @param {string} prefix	The optional prefix.
- * @param {string} additionalPrefix	An optional additional prefix to attach in front of the first prefix.
- * @returns {string} The participle form.
- */
-const addParticipleAffixes = function( stemmedWord, suffix, prefix = "", additionalPrefix = "" ) {
-	return additionalPrefix + prefix + stemmedWord + suffix;
-};
-
-/**
  *  Checks whether the stem is on the list of stems with a separable prefix that in this specific verb acts
  *  as inseparable. The exception list includes only those stems that need to take the -d suffix. Those that need
  *  the -t suffix or no suffix are the same as another form (1st or 3rd person singular) created elsewhere.
@@ -22,7 +9,7 @@ const addParticipleAffixes = function( stemmedWord, suffix, prefix = "", additio
  */
 const generateInseparableExceptionParticipleForm = function( stemmedWord, inseparableExceptions ) {
 	if ( inseparableExceptions.includes( stemmedWord ) ) {
-		return addParticipleAffixes( stemmedWord, "d" );
+		return stemmedWord + "d";
 	}
 };
 
@@ -59,7 +46,7 @@ const determineSuffix = function( morphologyDataVerbs, stemmedWord ) {
 const generateRegularParticipleForm = function( morphologyDataVerbs, stemmedWord, suffix ) {
 	const prefix = morphologyDataVerbs.participleAffixes.prefix;
 
-	return addParticipleAffixes( stemmedWord, suffix, prefix );
+	return prefix + stemmedWord + suffix;
 };
 
 /**
@@ -79,7 +66,7 @@ const generateParticipleFormWithSeparablePrefix = function( morphologyDataVerbs,
 
 			const prefix = morphologyDataVerbs.participleAffixes.prefix;
 
-			return addParticipleAffixes( stemmedWordWithoutPrefix, suffix, prefix, currentPrefix );
+			return currentPrefix + prefix + stemmedWordWithoutPrefix + suffix;
 		}
 	}
 
@@ -145,7 +132,7 @@ export function generateParticipleForm( morphologyDataVerbs, stemmedWord ) {
 	 * form so there is no need to create the participle form. */
 	if ( inseparablePrefix ) {
 		if ( suffix === "d" ) {
-			return addParticipleAffixes( stemmedWord, suffix );
+			return stemmedWord + suffix;
 		}
 		return null;
 	}
