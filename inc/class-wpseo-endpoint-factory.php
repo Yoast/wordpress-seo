@@ -15,20 +15,20 @@ class WPSEO_Endpoint_Factory {
 	 *
 	 * @var array
 	 */
-	private $valid_http_methods = array(
+	private $valid_http_methods = [
 		'GET',
 		'PATCH',
 		'POST',
 		'PUT',
 		'DELETE',
-	);
+	];
 
 	/**
 	 * The arguments.
 	 *
 	 * @var array
 	 */
-	protected $args = array();
+	protected $args = [];
 
 	/**
 	 * The namespace.
@@ -128,11 +128,11 @@ class WPSEO_Endpoint_Factory {
 	 * @return void
 	 */
 	public function register() {
-		$config = array(
+		$config = [
 			'methods'             => $this->method,
 			'callback'            => $this->callback,
 			'permission_callback' => $this->permission_callback,
-		);
+		];
 
 		if ( $this->has_arguments() ) {
 			$config['args'] = $this->args;
@@ -178,10 +178,10 @@ class WPSEO_Endpoint_Factory {
 			return;
 		}
 
-		$this->args[ $name ] = array(
+		$this->args[ $name ] = [
 			'description' => $description,
 			'type'        => $type,
 			'required'    => $required,
-		);
+		];
 	}
 }

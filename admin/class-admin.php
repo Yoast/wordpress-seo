@@ -30,7 +30,7 @@ class WPSEO_Admin {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		$integrations = array();
+		$integrations = [];
 
 		global $pagenow;
 
@@ -42,40 +42,40 @@ class WPSEO_Admin {
 		}
 
 		if ( WPSEO_Options::get( 'stripcategorybase' ) === true ) {
-			add_action( 'created_category', array( $this, 'schedule_rewrite_flush' ) );
-			add_action( 'edited_category', array( $this, 'schedule_rewrite_flush' ) );
-			add_action( 'delete_category', array( $this, 'schedule_rewrite_flush' ) );
+			add_action( 'created_category', [ $this, 'schedule_rewrite_flush' ] );
+			add_action( 'edited_category', [ $this, 'schedule_rewrite_flush' ] );
+			add_action( 'delete_category', [ $this, 'schedule_rewrite_flush' ] );
 		}
 
 		if ( WPSEO_Options::get( 'disable-attachment' ) === true ) {
-			add_filter( 'wpseo_accessible_post_types', array( 'WPSEO_Post_Type', 'filter_attachment_post_type' ) );
+			add_filter( 'wpseo_accessible_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
 		}
 
 		if ( filter_input( INPUT_GET, 'page' ) === 'wpseo_tools' && filter_input( INPUT_GET, 'tool' ) === null ) {
 			new WPSEO_Recalculate_Scores();
 		}
 
-		add_filter( 'plugin_action_links_' . WPSEO_BASENAME, array( $this, 'add_action_link' ), 10, 2 );
+		add_filter( 'plugin_action_links_' . WPSEO_BASENAME, [ $this, 'add_action_link' ], 10, 2 );
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'config_page_scripts' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_global_style' ) );
+		add_action( 'admin_enqueue_scripts', [ $this, 'config_page_scripts' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_global_style' ] );
 
-		add_filter( 'user_contactmethods', array( $this, 'update_contactmethods' ), 10, 1 );
+		add_filter( 'user_contactmethods', [ $this, 'update_contactmethods' ], 10, 1 );
 
-		add_action( 'after_switch_theme', array( $this, 'switch_theme' ) );
-		add_action( 'switch_theme', array( $this, 'switch_theme' ) );
+		add_action( 'after_switch_theme', [ $this, 'switch_theme' ] );
+		add_action( 'switch_theme', [ $this, 'switch_theme' ] );
 
-		add_filter( 'set-screen-option', array( $this, 'save_bulk_edit_options' ), 10, 3 );
+		add_filter( 'set-screen-option', [ $this, 'save_bulk_edit_options' ], 10, 3 );
 
-		add_action( 'admin_init', array( 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ), 10, 1 );
+		add_action( 'admin_init', [ 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ], 10, 1 );
 
-		add_action( 'admin_init', array( $this, 'map_manage_options_cap' ) );
+		add_action( 'admin_init', [ $this, 'map_manage_options_cap' ] );
 
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
 		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'home' );
 
 		if ( WPSEO_Utils::is_yoast_seo_page() ) {
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		}
 
 		if ( WPSEO_Utils::is_api_available() ) {
@@ -92,9 +92,9 @@ class WPSEO_Admin {
 			$integrations[] = new Yoast_Network_Admin();
 		}
 
-		$this->admin_features = array(
+		$this->admin_features = [
 			'dashboard_widget' => new Yoast_Dashboard_Widget(),
-		);
+		];
 
 		if ( WPSEO_Metabox::is_post_overview( $pagenow ) || WPSEO_Metabox::is_post_edit( $pagenow ) ) {
 			$this->admin_features['primary_category'] = new WPSEO_Primary_Term_Admin();
@@ -173,7 +173,7 @@ class WPSEO_Admin {
 		$option_page = ! empty( $_POST['option_page'] ) ? $_POST['option_page'] : ''; // WPCS: CSRF ok.
 
 		if ( strpos( $option_page, 'yoast_wpseo' ) === 0 ) {
-			add_filter( 'option_page_capability_' . $option_page, array( $this, 'get_manage_options_cap' ) );
+			add_filter( 'option_page_capability_' . $option_page, [ $this, 'get_manage_options_cap' ] );
 		}
 	}
 
@@ -183,11 +183,11 @@ class WPSEO_Admin {
 	 */
 	public function bulk_edit_options() {
 		$option = 'per_page';
-		$args   = array(
+		$args   = [
 			'label'   => __( 'Posts', 'wordpress-seo' ),
 			'default' => 10,
 			'option'  => 'wpseo_posts_per_page',
-		);
+		];
 		add_screen_option( $option, $args );
 	}
 
@@ -288,8 +288,8 @@ class WPSEO_Admin {
 	 * Log the updated timestamp for user profiles when theme is changed.
 	 */
 	public function switch_theme() {
-		$users = get_users( array( 'who' => 'authors' ) );
-		if ( is_array( $users ) && $users !== array() ) {
+		$users = get_users( [ 'who' => 'authors' ] );
+		if ( is_array( $users ) && $users !== [] ) {
 			foreach ( $users as $user ) {
 				update_user_meta( $user->ID, '_yoast_wpseo_profile_updated', time() );
 			}
@@ -302,7 +302,7 @@ class WPSEO_Admin {
 	 * @return array
 	 */
 	private function localize_admin_global_script() {
-		return array(
+		return [
 			/* translators: %1$s: '%%term_title%%' variable used in titles and meta's template that's not compatible with the given template, %2$s: expands to 'HelpScout beacon' */
 			'variable_warning'        => sprintf(
 				__( 'Warning: the variable %1$s cannot be used in this template. See the %2$s for more info.', 'wordpress-seo' ),
@@ -314,7 +314,7 @@ class WPSEO_Admin {
 			/* translators: %s: expends to Yoast SEO */
 			'help_video_iframe_title' => sprintf( __( '%s video tutorial', 'wordpress-seo' ), 'Yoast SEO' ),
 			'scrollable_table_hint'   => __( 'Scroll to see the table content.', 'wordpress-seo' ),
-		);
+		];
 	}
 
 	/**
@@ -325,10 +325,10 @@ class WPSEO_Admin {
 	 * @return string
 	 */
 	private function get_dismiss_url( $dismiss_param ) {
-		$arr_params = array(
+		$arr_params = [
 			$dismiss_param => '1',
 			'nonce'        => wp_create_nonce( $dismiss_param ),
-		);
+		];
 
 		return esc_url( add_query_arg( $arr_params ) );
 	}
@@ -358,12 +358,12 @@ class WPSEO_Admin {
 	 */
 	protected function initialize_cornerstone_content() {
 		if ( ! WPSEO_Options::get( 'enable_cornerstone_content' ) ) {
-			return array();
+			return [];
 		}
 
-		return array(
+		return [
 			'cornerstone_filter' => new WPSEO_Cornerstone_Filter(),
-		);
+		];
 	}
 
 	/**
@@ -372,7 +372,7 @@ class WPSEO_Admin {
 	 * @returns WPSEO_WordPress_Integration[]
 	 */
 	protected function initialize_seo_links() {
-		$integrations = array();
+		$integrations = [];
 
 		$link_table_compatibility_notifier = new WPSEO_Link_Compatibility_Notifier();
 		$link_table_accessible_notifier    = new WPSEO_Link_Table_Accessible_Notifier();
@@ -416,7 +416,7 @@ class WPSEO_Admin {
 		$integrations[] = new WPSEO_Link_Notifier();
 
 		// Adds a filter to exclude the attachments from the link count.
-		add_filter( 'wpseo_link_count_post_types', array( 'WPSEO_Post_Type', 'filter_attachment_post_type' ) );
+		add_filter( 'wpseo_link_count_post_types', [ 'WPSEO_Post_Type', 'filter_attachment_post_type' ] );
 
 		return $integrations;
 	}
@@ -427,19 +427,19 @@ class WPSEO_Admin {
 	 * @return WPSEO_HelpScout The instance of the HelpScout beacon.
 	 */
 	private function get_helpscout_beacon() {
-		$helpscout_settings = array(
+		$helpscout_settings = [
 			'beacon_id'   => '2496aba6-0292-489c-8f5d-1c0fba417c2f',
-			'pages'       => array(
+			'pages'       => [
 				'wpseo_dashboard',
 				'wpseo_titles',
 				'wpseo_search_console',
 				'wpseo_social',
 				'wpseo_tools',
 				'wpseo_licenses',
-			),
-			'products'    => array(),
+			],
+			'products'    => [],
 			'ask_consent' => true,
-		);
+		];
 
 		/**
 		 * Filter: 'wpseo_helpscout_beacon_settings' - Allows overriding the HelpScout beacon settings.

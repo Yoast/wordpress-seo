@@ -30,7 +30,7 @@ class WPSEO_Link_Reindex_Post_Service {
 		}
 
 		$posts = $this->get_unprocessed_posts();
-		array_walk( $posts, array( $this, 'process_post' ) );
+		array_walk( $posts, [ $this, 'process_post' ] );
 
 		return count( $posts );
 	}
@@ -43,7 +43,7 @@ class WPSEO_Link_Reindex_Post_Service {
 	protected function get_unprocessed_posts() {
 		$post_types = apply_filters( 'wpseo_link_count_post_types', WPSEO_Post_Type::get_accessible_post_types() );
 		if ( ! is_array( $post_types ) ) {
-			return array();
+			return [];
 		}
 		return WPSEO_Link_Query::get_unprocessed_posts( $post_types );
 	}

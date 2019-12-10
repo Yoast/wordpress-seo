@@ -48,10 +48,10 @@ $feature_toggles = Yoast_Feature_Toggles::instance()->get_all();
 
 		$yform->toggle_switch(
 			WPSEO_Option::ALLOW_KEY_PREFIX . $feature->setting,
-			array(
+			[
 				'on'  => __( 'Allow Control', 'wordpress-seo' ),
 				'off' => __( 'Disable', 'wordpress-seo' ),
-			),
+			],
 			'<strong>' . $feature->name . '</strong>',
 			$feature_help->get_button_html() . $feature_help->get_panel_html()
 		);

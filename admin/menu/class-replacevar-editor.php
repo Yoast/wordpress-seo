@@ -47,21 +47,21 @@ class WPSEO_Replacevar_Editor {
 	public function __construct( Yoast_Form $yform, $arguments ) {
 		$arguments = wp_parse_args(
 			$arguments,
-			array(
+			[
 				'paper_style' => true,
-			)
+			]
 		);
 
 		$this->validate_arguments( $arguments );
 
 		$this->yform     = $yform;
-		$this->arguments = array(
+		$this->arguments = [
 			'title'                 => (string) $arguments['title'],
 			'description'           => (string) $arguments['description'],
 			'page_type_recommended' => (string) $arguments['page_type_recommended'],
 			'page_type_specific'    => (string) $arguments['page_type_specific'],
 			'paper_style'           => (bool) $arguments['paper_style'],
-		);
+		];
 	}
 
 	/**
@@ -99,13 +99,13 @@ class WPSEO_Replacevar_Editor {
 	 * @throws InvalidArgumentException Thrown when not all required arguments are present.
 	 */
 	protected function validate_arguments( array $arguments ) {
-		$required_arguments = array(
+		$required_arguments = [
 			'title',
 			'description',
 			'page_type_recommended',
 			'page_type_specific',
 			'paper_style',
-		);
+		];
 
 		foreach ( $required_arguments as $field_name ) {
 			if ( ! array_key_exists( $field_name, $arguments ) ) {

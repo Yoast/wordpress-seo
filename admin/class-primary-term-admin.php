@@ -14,13 +14,13 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 * Constructor.
 	 */
 	public function register_hooks() {
-		add_filter( 'wpseo_content_meta_section_content', array( $this, 'add_input_fields' ) );
+		add_filter( 'wpseo_content_meta_section_content', [ $this, 'add_input_fields' ] );
 
-		add_action( 'admin_footer', array( $this, 'wp_footer' ), 10 );
+		add_action( 'admin_footer', [ $this, 'wp_footer' ], 10 );
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 
-		add_action( 'save_post', array( $this, 'save_primary_terms' ) );
+		add_action( 'save_post', [ $this, 'save_primary_terms' ] );
 
 		$primary_term = new WPSEO_Frontend_Primary_Category();
 		$primary_term->register_hooks();
@@ -131,9 +131,9 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 
 		$mapped_taxonomies = $this->get_mapped_taxonomies_for_js( $taxonomies );
 
-		$data = array(
+		$data = [
 			'taxonomies' => $mapped_taxonomies,
-		);
+		];
 		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'primary-category', 'wpseoPrimaryCategoryL10n', $data );
 	}
 
@@ -224,7 +224,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	protected function generate_primary_term_taxonomies( $post_id ) {
 		$post_type      = get_post_type( $post_id );
 		$all_taxonomies = get_object_taxonomies( $post_type, 'objects' );
-		$all_taxonomies = array_filter( $all_taxonomies, array( $this, 'filter_hierarchical_taxonomies' ) );
+		$all_taxonomies = array_filter( $all_taxonomies, [ $this, 'filter_hierarchical_taxonomies' ] );
 
 		/**
 		 * Filters which taxonomies for which the user can choose the primary term.
@@ -248,7 +248,7 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 * @return array The mapped taxonomies.
 	 */
 	protected function get_mapped_taxonomies_for_js( $taxonomies ) {
-		return array_map( array( $this, 'map_taxonomies_for_js' ), $taxonomies );
+		return array_map( [ $this, 'map_taxonomies_for_js' ], $taxonomies );
 	}
 
 	/**
@@ -267,15 +267,15 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 
 		$terms = get_terms( $taxonomy->name );
 
-		return array(
+		return [
 			'title'         => $taxonomy->labels->singular_name,
 			'name'          => $taxonomy->name,
 			'primary'       => $primary_term,
 			'singularLabel' => $taxonomy->labels->singular_name,
 			'fieldId'       => $this->generate_field_id( $taxonomy->name ),
 			'restBase'      => ( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name,
-			'terms'         => array_map( array( $this, 'map_terms_for_js' ), $terms ),
-		);
+			'terms'         => array_map( [ $this, 'map_terms_for_js' ], $terms ),
+		];
 	}
 
 	/**
@@ -286,10 +286,10 @@ class WPSEO_Primary_Term_Admin implements WPSEO_WordPress_Integration {
 	 * @return array The mapped terms.
 	 */
 	private function map_terms_for_js( $term ) {
-		return array(
+		return [
 			'id'   => $term->term_id,
 			'name' => $term->name,
-		);
+		];
 	}
 
 	/**

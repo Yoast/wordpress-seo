@@ -15,7 +15,7 @@ class WPSEO_Link_Reindex_Dashboard {
 	 *
 	 * @var array
 	 */
-	protected $public_post_types = array();
+	protected $public_post_types = [];
 
 	/**
 	 * Number of unprocessed items.
@@ -34,12 +34,12 @@ class WPSEO_Link_Reindex_Dashboard {
 			return;
 		}
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'calculate_unprocessed' ), 9 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ), 10 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'calculate_unprocessed' ], 9 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ], 10 );
 
-		add_action( 'admin_footer', array( $this, 'modal_box' ), 20 );
+		add_action( 'admin_footer', [ $this, 'modal_box' ], 20 );
 
-		add_action( 'wpseo_tools_overview_list_items', array( $this, 'show_tools_overview_item' ), 10 );
+		add_action( 'wpseo_tools_overview_list_items', [ $this, 'show_tools_overview_item' ], 10 );
 	}
 
 	/**
@@ -50,7 +50,7 @@ class WPSEO_Link_Reindex_Dashboard {
 	public function calculate_unprocessed() {
 		$this->public_post_types = apply_filters( 'wpseo_link_count_post_types', WPSEO_Post_Type::get_accessible_post_types() );
 
-		if ( is_array( $this->public_post_types ) && $this->public_post_types !== array() ) {
+		if ( is_array( $this->public_post_types ) && $this->public_post_types !== [] ) {
 			$this->unprocessed = WPSEO_Link_Query::get_unprocessed_count( $this->public_post_types );
 		}
 	}
@@ -90,7 +90,7 @@ class WPSEO_Link_Reindex_Dashboard {
 		// Adding the thickbox.
 		add_thickbox();
 
-		$blocks = array();
+		$blocks = [];
 
 		if ( ! $this->has_unprocessed() ) {
 			$inner_text = sprintf(
@@ -137,23 +137,23 @@ class WPSEO_Link_Reindex_Dashboard {
 		$asset_manager = new WPSEO_Admin_Asset_Manager();
 		$asset_manager->enqueue_script( 'reindex-links' );
 
-		$data = array(
+		$data = [
 			'amount'  => $this->get_unprocessed_count(),
-			'restApi' => array(
+			'restApi' => [
 				'root'     => esc_url_raw( rest_url() ),
 				'endpoint' => WPSEO_Link_Reindex_Post_Endpoint::REST_NAMESPACE . '/' . WPSEO_Link_Reindex_Post_Endpoint::ENDPOINT_QUERY,
 				'nonce'    => wp_create_nonce( 'wp_rest' ),
-			),
-			'message' => array(
+			],
+			'message' => [
 				'indexingCompleted' => $this->message_already_indexed(),
-			),
-			'l10n'    => array(
+			],
+			'l10n'    => [
 				'calculationInProgress' => __( 'Calculation in progress...', 'wordpress-seo' ),
 				'calculationCompleted'  => __( 'Calculation completed.', 'wordpress-seo' ),
-			),
-		);
+			],
+		];
 
-		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'reindex-links', 'yoastReindexLinksData', array( 'data' => $data ) );
+		wp_localize_script( WPSEO_Admin_Asset_Manager::PREFIX . 'reindex-links', 'yoastReindexLinksData', [ 'data' => $data ] );
 	}
 
 	/**

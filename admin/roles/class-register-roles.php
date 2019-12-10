@@ -16,7 +16,7 @@ class WPSEO_Register_Roles implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		add_action( 'wpseo_register_roles', array( $this, 'register' ) );
+		add_action( 'wpseo_register_roles', [ $this, 'register' ] );
 	}
 
 	/**

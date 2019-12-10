@@ -61,17 +61,17 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	public function generate() {
 		$post          = get_post( $this->context->id );
 		$comment_count = get_comment_count( $this->context->id );
-		$data          = array(
+		$data          = [
 			'@type'            => 'Article',
 			'@id'              => $this->context->canonical . WPSEO_Schema_IDs::ARTICLE_HASH,
-			'isPartOf'         => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
-			'author'           => array( '@id' => WPSEO_Schema_Utils::get_user_schema_id( $post->post_author, $this->context ) ),
+			'isPartOf'         => [ '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ],
+			'author'           => [ '@id' => WPSEO_Schema_Utils::get_user_schema_id( $post->post_author, $this->context ) ],
 			'headline'         => get_the_title(),
 			'datePublished'    => $this->date->format( $post->post_date_gmt ),
 			'dateModified'     => $this->date->format( $post->post_modified_gmt ),
 			'commentCount'     => $comment_count['approved'],
-			'mainEntityOfPage' => array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ),
-		);
+			'mainEntityOfPage' => [ '@id' => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH ],
+		];
 
 		if ( $this->context->site_represents_reference ) {
 			$data['publisher'] = $this->context->site_represents_reference;
@@ -101,7 +101,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 		 *
 		 * @api string[] $post_types The post types for which we output Article.
 		 */
-		$post_types = apply_filters( 'wpseo_schema_article_post_types', array( 'post' ) );
+		$post_types = apply_filters( 'wpseo_schema_article_post_types', [ 'post' ] );
 
 		return in_array( $post_type, $post_types );
 	}
@@ -154,7 +154,7 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	private function add_terms( $data, $key, $taxonomy ) {
 		$terms = get_the_terms( $this->context->id, $taxonomy );
 		if ( is_array( $terms ) ) {
-			$keywords = array();
+			$keywords = [];
 			foreach ( $terms as $term ) {
 				// We are checking against the WordPress internal translation.
 				// @codingStandardsIgnoreLine
@@ -177,9 +177,9 @@ class WPSEO_Schema_Article implements WPSEO_Graph_Piece {
 	 */
 	private function add_image( $data ) {
 		if ( $this->context->has_image ) {
-			$data['image'] = array(
+			$data['image'] = [
 				'@id' => $this->context->canonical . WPSEO_Schema_IDs::PRIMARY_IMAGE_HASH,
-			);
+			];
 		}
 
 		return $data;

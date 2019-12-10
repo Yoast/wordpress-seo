@@ -16,8 +16,8 @@ class WPSEO_Recalculate_Scores {
 	 * Constructing the object by modalbox, the localization and the totals.
 	 */
 	public function __construct() {
-		add_action( 'admin_enqueue_scripts', array( $this, 'recalculate_assets' ) );
-		add_action( 'admin_footer', array( $this, 'modal_box' ), 20 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'recalculate_assets' ] );
+		add_action( 'admin_footer', [ $this, 'modal_box' ], 20 );
 	}
 
 	/**

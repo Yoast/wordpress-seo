@@ -62,24 +62,24 @@ class Yoast_Notification {
 	 *
 	 * @var array
 	 */
-	private $options = array();
+	private $options = [];
 
 	/**
 	 * Contains default values for the optional arguments.
 	 *
 	 * @var array
 	 */
-	private $defaults = array(
+	private $defaults = [
 		'type'             => self::UPDATED,
 		'id'               => '',
 		'nonce'            => null,
 		'priority'         => 0.5,
-		'data_json'        => array(),
+		'data_json'        => [],
 		'dismissal_key'    => null,
-		'capabilities'     => array(),
+		'capabilities'     => [],
 		'capability_check' => self::MATCH_ALL,
 		'yoast_branding'   => false,
-	);
+	];
 
 	/**
 	 * The message for the notification.
@@ -94,7 +94,7 @@ class Yoast_Notification {
 	 * @param string $message Message string.
 	 * @param array  $options Set of options.
 	 */
-	public function __construct( $message, $options = array() ) {
+	public function __construct( $message, $options = [] ) {
 		$this->message = $message;
 		$this->options = $this->normalize_options( $options );
 	}
@@ -229,13 +229,13 @@ class Yoast_Notification {
 		 */
 		$capability_check = apply_filters( 'wpseo_notification_capability_check', $this->options['capability_check'], $this );
 
-		if ( ! in_array( $capability_check, array( self::MATCH_ALL, self::MATCH_ANY ), true ) ) {
+		if ( ! in_array( $capability_check, [ self::MATCH_ALL, self::MATCH_ANY ], true ) ) {
 			$capability_check = self::MATCH_ALL;
 		}
 
 		if ( ! empty( $capabilities ) ) {
 
-			$has_capabilities = array_filter( $capabilities, array( $this, 'has_capability' ) );
+			$has_capabilities = array_filter( $capabilities, [ $this, 'has_capability' ] );
 
 			switch ( $capability_check ) {
 				case self::MATCH_ALL:
@@ -265,10 +265,10 @@ class Yoast_Notification {
 	 * @return array
 	 */
 	public function to_array() {
-		return array(
+		return [
 			'message' => $this->message,
 			'options' => $this->options,
-		);
+		];
 	}
 
 	/**
@@ -286,12 +286,12 @@ class Yoast_Notification {
 	 * @return string The rendered notification.
 	 */
 	public function render() {
-		$attributes = array();
+		$attributes = [];
 
 		// Default notification classes.
-		$classes = array(
+		$classes = [
 			'yoast-alert',
-		);
+		];
 
 		// Maintain WordPress visualisation of alerts when they are not persistent.
 		if ( ! $this->is_persistent() ) {
@@ -304,7 +304,7 @@ class Yoast_Notification {
 		}
 
 		// Combined attribute key and value into a string.
-		array_walk( $attributes, array( $this, 'parse_attributes' ) );
+		array_walk( $attributes, [ $this, 'parse_attributes' ] );
 
 		$message = null;
 		if ( $this->options['yoast_branding'] ) {
@@ -367,8 +367,8 @@ class Yoast_Notification {
 		$options['priority'] = min( 1, max( 0, $options['priority'] ) );
 
 		// Set default capabilities when not supplied.
-		if ( empty( $options['capabilities'] ) || array() === $options['capabilities'] ) {
-			$options['capabilities'] = array( 'wpseo_manage_options' );
+		if ( empty( $options['capabilities'] ) || [] === $options['capabilities'] ) {
+			$options['capabilities'] = [ 'wpseo_manage_options' ];
 		}
 
 		return $options;
