@@ -46,9 +46,9 @@ class Home_Url_Helper {
 	 */
 	public function get_parsed() {
 		if ( static::$parsed_home_url === null ) {
-			static::$home_url_parsed = wp_parse_url( $this->get() );
+			static::$parsed_home_url = wp_parse_url( $this->get() );
 		}
 
-		return static::$home_url_parsed;
+		return static::$parsed_home_url;
 	}
 }
