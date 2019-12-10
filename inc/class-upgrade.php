@@ -51,7 +51,6 @@ class WPSEO_Upgrade {
 			'12.1-RC0'  => 'clean_all_notifications',
 			'12.3-RC0'  => 'upgrade_123',
 			'12.4-RC0'  => 'upgrade_124',
-			'12.7-RC0'  => 'upgrade_127',
 			'12.8-RC0'  => 'upgrade_128',
 		];
 
@@ -681,18 +680,13 @@ class WPSEO_Upgrade {
 		$center->remove_notification_by_id( 'wpseo-dismiss-wordpress-upgrade' );
 	}
 
-  /**
-	 * Performs the 12.7 upgrade.
-	 */
-	public function upgrade_127() {
-		// Re-save wpseo to make sure bf_banner_2019_dismissed key is gone.
-		$this->cleanup_option_data( 'wpseo' );
-  }
-
 	/**
-	 * Removes the paginated comments notice when it's set.
+	 * Performs the 12.8 upgrade.
 	 */
 	private function upgrade_128() {
+		// Re-save wpseo to make sure bf_banner_2019_dismissed key is gone.
+		$this->cleanup_option_data( 'wpseo' );
+
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-page_comments-notice' );
   }
 
