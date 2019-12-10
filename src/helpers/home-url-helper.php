@@ -51,4 +51,12 @@ class Home_Url_Helper {
 
 		return static::$parsed_home_url;
 	}
+
+	/**
+	 * Resets the values.
+	 */
+	public static function reset() {
+		static::$home_url        = null;
+		static::$parsed_home_url = null;
+	}
 }
