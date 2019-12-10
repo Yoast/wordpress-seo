@@ -2,11 +2,8 @@
 
 This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We follow [Semantic Versioning](http://semver.org/).
-
-## 1.7.0 October 14th, 2019
-* No user-facing changes.
 
 ## 1.1.0 May 14th, 2019
 ### Added
