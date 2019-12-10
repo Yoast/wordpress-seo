@@ -206,6 +206,7 @@ const MobileDescriptionImage = styled.img`
 		display: block;
 		width: 104px;
 		height: 104px;
+		object-fit: cover;
 	}
 `;
 

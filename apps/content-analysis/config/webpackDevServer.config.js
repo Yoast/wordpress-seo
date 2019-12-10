@@ -1,4 +1,4 @@
-
+"use strict";
 
 const errorOverlayMiddleware = require( "react-dev-utils/errorOverlayMiddleware" );
 const evalSourceMapMiddleware = require( "react-dev-utils/evalSourceMapMiddleware" );
@@ -29,7 +29,7 @@ module.exports = function( proxy, allowedHost ) {
 		// Specified the `proxy` setting. Finally, we let you override it if you
 		// Really know what you're doing with a special environment variable.
 		disableHostCheck:
-      ! proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === "true",
+			! proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === "true",
 		// Enable gzip compression of generated files.
 		compress: true,
 		// Silence WebpackDevServer's own logs since they're generally not useful.
@@ -43,7 +43,7 @@ module.exports = function( proxy, allowedHost ) {
 		// Instead, we establish a convention that only files in `public` directory
 		// Get served. Our build script will copy `public` into the `build` folder.
 		// In `index.html`, you can get URL of `public` folder with %PUBLIC_URL%:
-		// <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+		// <link rel="icon" href="%PUBLIC_URL%/favicon.ico">
 		// In JavaScript code, you can access it with `process.env.PUBLIC_URL`.
 		// Note that we only recommend to use `public` folder as an escape hatch
 		// For files like `favicon.ico`, `manifest.json`, and libraries that are
@@ -58,6 +58,12 @@ module.exports = function( proxy, allowedHost ) {
 		// In the Webpack development configuration. Note that only changes
 		// To CSS are currently hot reloaded. JS changes will refresh the browser.
 		hot: true,
+		// Use 'ws' instead of 'sockjs-node' on server since we're using native
+		// Websockets in `webpackHotDevClient`.
+		transportMode: "ws",
+		// Prevent a WS client from getting injected as we're already including
+		// `webpackHotDevClient`.
+		injectClient: false,
 		// It is important to tell WebpackDevServer to use the same "root" path
 		// As we specified in the config. In development, we always serve from /.
 		publicPath: "/",

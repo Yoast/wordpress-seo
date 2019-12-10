@@ -2,8 +2,17 @@
 
 This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project will be documented in this file. Releases without a changelog entry contain only minor changes that are irrelevant for users of this library.
 We follow [Semantic Versioning](http://semver.org/).
+
+
+## 0.11.0 November 26th, 2019
+### Other
+* Removed the components related to the Help Center and the AlgoliaSearcher package
+
+## 0.10.0 November 11th, 2019
+### Added
+* Improves the `InputField` styling for consistency with the new WordPress 5.3 admin styles.
 
 ## 0.8.0 October 14th, 2019
 ### Other

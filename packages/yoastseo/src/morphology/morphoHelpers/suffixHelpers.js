@@ -29,9 +29,9 @@ export function removeSuffixesBeforeAdding( morphologyDataSuffixDeletions, suffi
  * @returns {string} The modified stem.
  */
 export function modifyStem( stemmedWord, modificationGroup ) {
-	const neededReplacement = modificationGroup.find( replacement => stemmedWord.search( new RegExp( replacement[ 0 ] ) ) !== -1 );
+	const neededReplacement = modificationGroup.find( replacement => new RegExp( replacement[ 0 ] ).test( stemmedWord ) );
 
-	if ( typeof neededReplacement !== "undefined" ) {
+	if ( neededReplacement ) {
 		return stemmedWord.replace( new RegExp( neededReplacement[ 0 ] ), neededReplacement[ 1 ] );
 	}
 }
