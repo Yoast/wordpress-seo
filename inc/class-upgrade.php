@@ -688,7 +688,7 @@ class WPSEO_Upgrade {
 		$this->cleanup_option_data( 'wpseo' );
 
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-page_comments-notice' );
-  }
+	}
 
 	/**
 	 * Removes all notifications saved in the database under 'wp_yoast_notifications'.
