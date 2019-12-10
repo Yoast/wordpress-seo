@@ -7,6 +7,9 @@
 
 namespace Yoast\WP\Free\Config;
 
+/**
+ * Migration_Status class. Used to validate whether or not migrations have been run and whether or not they should be run again.
+ */
 class Migration_Status {
 
 	/**
@@ -78,8 +81,6 @@ class Migration_Status {
 	 * @param string $message Message explaining the reason for the error.
 	 *
 	 * @return void
-	 *
-	 * @throws \Exception
 	 */
 	public function set_error( $name, $message ) {
 		$migration_status = $this->get_migration_status( $name );

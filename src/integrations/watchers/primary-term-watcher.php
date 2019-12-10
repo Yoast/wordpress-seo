@@ -8,7 +8,7 @@
 namespace Yoast\WP\Free\Integrations\Watchers;
 
 use WPSEO_Meta;
-use Yoast\WP\Free\Conditionals\Indexables_Base_Migration_Conditional;
+use Yoast\WP\Free\Conditionals\Migrations_Conditional;
 use Yoast\WP\Free\Integrations\Integration_Interface;
 use Yoast\WP\Free\Repositories\Primary_Term_Repository;
 
@@ -21,7 +21,7 @@ class Primary_Term_Watcher implements Integration_Interface {
 	 * @inheritdoc
 	 */
 	public static function get_conditionals() {
-		return [ Indexables_Base_Migration_Conditional::class ];
+		return [ Migrations_Conditional::class ];
 	}
 
 	/**
