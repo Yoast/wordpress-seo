@@ -33,7 +33,7 @@ module.exports = function( grunt ) {
 
 			// Pull master/trunk to have the latest changes.
 			grunt.config( "gitpull.pullBaseBranch.options", {
-				branch: branchname,
+				branch: basebranch,
 			} );
 			grunt.task.run( "gitpull:pullBaseBranch" );
 
