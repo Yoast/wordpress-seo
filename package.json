@@ -133,6 +133,6 @@
     "yoastseo": "^1.66.0-rc.0"
   },
   "yoast": {
-    "pluginVersion": "12.7"
+    "pluginVersion": "indexables-RC1"
   }
 }
