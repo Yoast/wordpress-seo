@@ -1,6 +1,6 @@
 {
 	"name": "@yoast/browserslist-config",
-	"version": "1.0.0",
+	"version": "1.0.5",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/yoast/javascript",
@@ -12,13 +12,6 @@
 	"license": "GPL-3.0",
 	"private": false,
 	"main": "src/index.js",
-	"directories": {
-		"lib": "src",
-		"test": "tests"
-	},
-	"files": [
-		"src"
-	],
 	"publishConfig": {
 		"access": "public"
 	},
