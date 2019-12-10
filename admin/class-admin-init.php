@@ -49,6 +49,9 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
 		add_action( 'admin_enqueue_scripts', [ $this->asset_manager, 'register_wp_assets' ], PHP_INT_MAX );
 
+		$page_comments = new WPSEO_Health_Check_Ryte();
+		$page_comments->register_test();
+
 		$listeners   = [];
 		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
 
