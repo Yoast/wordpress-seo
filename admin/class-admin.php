@@ -130,6 +130,11 @@ class WPSEO_Admin {
 	 * Schedules a rewrite flush to happen at shutdown.
 	 */
 	public function schedule_rewrite_flush() {
+		// Bail if this is a multisite installation and the site has been switched.
+		if ( is_multisite() && ms_is_switched() ) {
+			return;
+		}
+
 		add_action( 'shutdown', 'flush_rewrite_rules' );
 	}
 

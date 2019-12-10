@@ -26,6 +26,11 @@ class WPSEO_Statistic_Integration implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function clear_cache() {
+		// Bail if this is a multisite installation and the site has been switched.
+		if ( is_multisite() && ms_is_switched() ) {
+			return;
+		}
+
 		delete_transient( WPSEO_Statistics_Service::CACHE_TRANSIENT_KEY );
 	}
 }
