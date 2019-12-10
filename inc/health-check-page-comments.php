@@ -18,13 +18,6 @@ class WPSEO_Health_Check_Page_Comments extends WPSEO_Health_Check {
 	protected $test = 'yoast-health-check-page-comments';
 
 	/**
-	 * Name of the test.
-	 *
-	 * @var string
-	 */
-	protected $name = 'yoast_health_check_page_comments';
-
-	/**
 	 * Runs the test.
 	 */
 	public function run() {
