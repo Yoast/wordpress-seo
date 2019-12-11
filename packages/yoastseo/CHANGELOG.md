@@ -10,6 +10,9 @@ We will follow [Semantic Versioning](http://semver.org/) from version 2 and onwa
 * Drops IE11 support through configuring Babel to use the preset environment with the own list of supported browsers specified.
 * Adds a way to register a custom parser for parsing a paper to a structured tree representation, ready for further analysis.
 
+## 1.65.1 December 11th, 2019
+* Fixes a bug where the metabox would be broken when a relative URL was configured as `WP_CONTENT_URL`. Props to [FPCSJames](https://github.com/FPCSJames).
+
 ## 1.63.0 November 13th, 2019
 ### Fixed
  * Fixes a bug where the verb form `landscape` was not recognized in the text when the keyphrase contained the verb `landscaping`.
