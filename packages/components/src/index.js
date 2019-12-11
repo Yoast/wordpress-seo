@@ -37,7 +37,6 @@ export { default as IconButton } from "./buttons/IconButton";
 export { default as IconsButton } from "./buttons/IconsButton";
 export { default as ErrorBoundary } from "./ErrorBoundary";
 export { default as Heading } from "./Heading";
-export { HelpCenterButton } from "./HelpCenterButton";
 export { default as HelpText } from "./HelpText";
 export { default as Icon } from "./Icon";
 export { default as IconButtonToggle } from "./IconButtonToggle.js";

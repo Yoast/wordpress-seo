@@ -26,5 +26,5 @@ export default connect(
 		return {
 			onToggle: ( val ) => dispatch( setAutomaticRefresh( val ) ),
 		};
-	}
+	},
 )( AutomaticAnalysis );
