@@ -8,7 +8,7 @@ import {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
 } from "yoast-components";
-import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
+import isShallowEqualObjects from "@wordpress/is-shallow-equal";
 import { select, subscribe } from "@wordpress/data";
 
 // Internal dependencies.
