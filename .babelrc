@@ -1,12 +1,5 @@
 {
-  "presets": [ [ "env", {
-    "targets": {
-      "browsers": [
-        "last 2 versions",
-        "ie >= 9"
-      ]
-    }
-  } ] ],
+  "presets": [ [ "env" ] ],
   "plugins": [
     [
       "transform-react-jsx",
