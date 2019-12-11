@@ -173,6 +173,9 @@ class Test_WPSEO_Author_Sitemap_Provider extends WPSEO_UnitTestCase {
 
 		// Expects an empty page (404) to be returned.
 		$this->expectOutput( '' );
+
+		// Cleanup.
+		WPSEO_Options::set( 'disable-author', false );
 	}
 
 	/**
