@@ -452,6 +452,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-api-fetch',
 					'wp-annotations',
 					'wp-compose',
+					self::PREFIX . 'redux',
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
 					self::PREFIX . 'analysis',
@@ -469,6 +470,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-data',
 					'wp-api-fetch',
 					'wp-compose',
+					self::PREFIX . 'redux',
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'components',
@@ -618,6 +620,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'components',
 				'src'  => 'components-' . $flat_version,
 				'deps' => [
+					self::PREFIX . 'redux',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'styled-components',
 					self::PREFIX . 'commons',
@@ -640,6 +643,10 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [
 					'wp-element',
 				],
+			],
+			[
+				'name' => 'redux',
+				'src'  => 'redux-' . $flat_version,
 			],
 			[
 				'name'      => 'help-scout-beacon',

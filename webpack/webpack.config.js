@@ -27,6 +27,8 @@ const externals = {
 	"yoast-components": "window.yoast.components",
 	react: "React",
 	"react-dom": "ReactDOM",
+	redux: "window.yoast.redux",
+	"react-redux": "window.yoast.reactRedux",
 
 	lodash: "window.lodash",
 	"styled-components": "window.yoast.styledComponents",
@@ -192,6 +194,7 @@ module.exports = function( env = { environment: "production" } ) {
 			entry: {
 				...mainEntry,
 				"styled-components": "./js/src/styled-components.js",
+				redux: "./js/src/redux.js",
 				analysis: "./js/src/analysis.js",
 			},
 			externals: {
