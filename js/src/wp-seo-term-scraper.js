@@ -6,9 +6,11 @@ import {
 	setReadabilityResults,
 	setSeoResultsForKeyword,
 } from "yoast-components";
-import isUndefined from "lodash/isUndefined";
 import isShallowEqualObjects from "@wordpress/is-shallow-equal/objects";
-import debounce from "lodash/debounce";
+import {
+	isUndefined,
+	debounce,
+} from "lodash-es";
 
 // Internal dependencies.
 import Edit from "./edit";

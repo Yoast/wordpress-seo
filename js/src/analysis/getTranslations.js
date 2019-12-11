@@ -1,6 +1,6 @@
 // External dependencies.
-import get from "lodash/get";
-import isUndefined from "lodash/isUndefined";
+import { get } from "lodash-es";
+import { isUndefined } from "lodash-es";
 
 // Internal dependencies.
 import getL10nObject from "./getL10nObject";

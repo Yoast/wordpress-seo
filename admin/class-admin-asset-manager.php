@@ -508,6 +508,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-metabox-category-' . $flat_version,
 				'deps' => [
 					'jquery',
+					'wp-url',
 					'wp-util',
 					'wp-element',
 					'wp-i18n',

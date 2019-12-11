@@ -1,5 +1,7 @@
-import isFunction from "lodash/isFunction";
-import merge from "lodash/merge";
+import {
+	isFunction,
+	merge,
+} from "lodash-es";
 
 /**
  * Gets data from custom callback functions.

@@ -4,8 +4,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
-import includes from "lodash/includes";
-import map from "lodash/map";
+import {
+	includes,
+	map,
+} from "lodash-es";
 import { connect } from "react-redux";
 import { replacementVariablesShape } from "@yoast/search-metadata-previews";
 

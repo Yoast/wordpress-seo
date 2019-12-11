@@ -2,8 +2,10 @@
 
 // External dependencies.
 import { App } from "yoastseo";
-import isUndefined from "lodash/isUndefined";
-import debounce from "lodash/debounce";
+import {
+	isUndefined,
+	debounce,
+} from "lodash-es";
 import {
 	setReadabilityResults,
 	setSeoResultsForKeyword,

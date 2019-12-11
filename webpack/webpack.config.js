@@ -40,6 +40,7 @@ const wordpressExternals = {
 	"@wordpress/api-fetch": "window.wp.apiFetch",
 	"@wordpress/rich-text": "window.wp.richText",
 	"@wordpress/compose": "window.wp.compose",
+	"@wordpress/url": "window.wp.url",
 };
 
 // Make sure all these packages are exposed in `./js/src/components.js`.
