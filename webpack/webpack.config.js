@@ -1,5 +1,4 @@
 const CaseSensitivePathsPlugin = require( "case-sensitive-paths-webpack-plugin" );
-const CopyWebpackPlugin = require( "copy-webpack-plugin" );
 const path = require( "path" );
 const mapValues = require( "lodash/mapValues" );
 const isString = require( "lodash/isString" );
@@ -202,18 +201,6 @@ module.exports = function( env = { environment: "production" } ) {
 			},
 			plugins: addBundleAnalyzer( [
 				...plugins,
-				new CopyWebpackPlugin( [
-					{
-						from: "node_modules/react/umd/react.production.min.js",
-						// Relative to js/dist.
-						to: "../vendor/react.min.js",
-					},
-					{
-						from: "node_modules/react-dom/umd/react-dom.production.min.js",
-						// Relative to js/dist.
-						to: "../vendor/react-dom.min.js",
-					},
-				] ),
 			] ),
 		},
 
