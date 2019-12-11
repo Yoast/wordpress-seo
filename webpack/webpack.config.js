@@ -29,6 +29,7 @@ const externals = {
 	"react-dom": "ReactDOM",
 	redux: "window.yoast.redux",
 	"react-redux": "window.yoast.reactRedux",
+	jed: "window.yoast.jed",
 
 	lodash: "window.lodash",
 	"styled-components": "window.yoast.styledComponents",
@@ -193,8 +194,9 @@ module.exports = function( env = { environment: "production" } ) {
 			...base,
 			entry: {
 				...mainEntry,
-				"styled-components": "./js/src/styled-components.js",
-				redux: "./js/src/redux.js",
+				"styled-components": "./js/src/externals/styled-components.js",
+				redux: "./js/src/externals/redux.js",
+				jed: "./js/src/externals/jed.js",
 				analysis: "./js/src/analysis.js",
 			},
 			externals: {
@@ -289,7 +291,7 @@ module.exports = function( env = { environment: "production" } ) {
 				jsonpFunction: "yoastWebpackJsonp",
 			},
 			entry: {
-				"babel-polyfill": "./js/src/babel-polyfill.js",
+				"babel-polyfill": "./js/src/externals/babel-polyfill.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {

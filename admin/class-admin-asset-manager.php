@@ -620,6 +620,7 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'components',
 				'src'  => 'components-' . $flat_version,
 				'deps' => [
+					self::PREFIX . 'jed',
 					self::PREFIX . 'redux',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'styled-components',
@@ -647,6 +648,10 @@ class WPSEO_Admin_Asset_Manager {
 			[
 				'name' => 'redux',
 				'src'  => 'redux-' . $flat_version,
+			],
+			[
+				'name' => 'jed',
+				'src'  => 'jed-' . $flat_version,
 			],
 			[
 				'name'      => 'help-scout-beacon',

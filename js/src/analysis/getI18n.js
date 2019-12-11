@@ -8,6 +8,8 @@ import getTranslations from "./getTranslations";
  * @returns {Jed} A usable i18n translations object.
  */
 export default function getI18n() {
+	console.log( Jed );
+	console.log( window.yoast.jed );
 	const translations = getTranslations();
 	let i18n = new Jed( translations );
 
