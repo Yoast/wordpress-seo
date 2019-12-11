@@ -3,7 +3,9 @@
 		[
 			"env",
 			{
-				"targets": ">1%, last 4 versions, Firefox ESR, not ie < 9"
+				"targets": {
+					"browsers": [ "extends @yoast/browserslist-config" ]
+				}
 			}
 		],
 		"react"

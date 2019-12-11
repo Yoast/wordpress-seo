@@ -5,6 +5,18 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.38.0 November 26th, 2019
+### Other
+* Removed the components related to the Help Center and the AlgoliaSearcher package
+
+## 4.36.0 November 11th, 2019
+### Enhancements
+* Improves the `KeywordInput` and `SynonymsInput` styling for consistency with the new WordPress 5.3 admin styles.
+
+## 4.34.0 October 14th, 2019
+### Fixed
+* Fixes a bug where internal linking suggestions were not aligned correctly, but were indented instead.
+
 ## 4.30.0 July 22nd, 2019
 ### Added
 * In the internal linking suggestions component, adds a check for the presence of the prominent words to determine which of the feedback strings should be rendered. If no prominent words are determined for a text (and hence no suggestions), the old message "Once you add a bit more copy..." is rendered. If prominent words are determined, but still no suggestions could be found, a new message is rendered: "We could not find any relevant articles on your website that you could link your post to.".
