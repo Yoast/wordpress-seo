@@ -234,50 +234,6 @@ module.exports = function( env = { environment: "production" } ) {
 				runtimeChunk: false,
 			},
 		},
-
-		// Config for wp packages files that are shipped for BC with WP 4.9.
-		{
-			...base,
-			externals: {
-				tinymce: "tinymce",
-
-				react: "React",
-				"react-dom": "ReactDOM",
-
-				lodash: "lodash",
-
-				// Don't reference window.wp.* externals in this config!
-				"@wordpress/element": [ "wp", "element" ],
-				"@wordpress/data": [ "wp", "data" ],
-				"@wordpress/components": [ "wp",  "components" ],
-				"@wordpress/i18n": [ "wp", "i18n" ],
-				"@wordpress/api-fetch": [ "wp", "apiFetch" ],
-				"@wordpress/rich-text": [ "wp", "richText" ],
-				"@wordpress/compose": [ "wp", "compose" ],
-			},
-			output: {
-				path: paths.jsDist,
-				filename: "wp-" + outputFilenameMinified,
-				jsonpFunction: "yoastWebpackJsonp",
-				library: {
-					root: [ "wp", "[name]" ],
-				},
-				libraryTarget: "this",
-			},
-			entry: {
-				apiFetch: "./node_modules/@wordpress/api-fetch",
-				components: "./node_modules/@wordpress/components",
-				data: "./node_modules/@wordpress/data",
-				element: "./node_modules/@wordpress/element",
-				i18n: "./node_modules/@wordpress/i18n",
-				compose: "./node_modules/@wordpress/compose",
-				richText: "./node_modules/@wordpress/rich-text",
-			},
-			plugins: addBundleAnalyzer( plugins ),
-			optimization: {
-				runtimeChunk: false,
-			},
-		},
 		// Config for files that should not use any externals at all.
 		{
 			...base,
