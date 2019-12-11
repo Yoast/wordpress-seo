@@ -37,8 +37,8 @@ function createBlobScript( url ) {
  * @returns {boolean} Whether the URLs have the same origin.
  */
 function isSameOrigin( urlA, urlB ) {
-	urlA = new URL( urlA );
-	urlB = new URL( urlB );
+	urlA = new URL( urlA, window.location.origin );
+	urlB = new URL( urlB, window.location.origin );
 
 	return urlA.hostname === urlB.hostname &&
 		urlA.port === urlB.port &&

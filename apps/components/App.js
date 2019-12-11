@@ -6,7 +6,6 @@ import ButtonsWrapper from "./ButtonsWrapper";
 import ComponentsExample from "./ComponentsExample";
 import ContentAnalysis from "./ContentAnalysisWrapper";
 import DashboardWidget from "./DashboardWidgetWrapper";
-import HelpCenterWrapper from "./HelpCenterWrapper";
 import KeywordExample from "./KeywordExample";
 import WordListWrapper from "./WordListWrapper";
 import SidebarCollapsibleWrapper from "./SidebarCollapsibleWrapper";
@@ -48,11 +47,6 @@ const components = [
 		id: "dashboard-widget",
 		name: "Dashboard Widget",
 		component: <DashboardWidget />,
-	},
-	{
-		id: "help-center",
-		name: "Help center",
-		component: <HelpCenterWrapper />,
 	},
 	{
 		id: "ui-controls",
