@@ -7,7 +7,7 @@ import {
 	setSeoResultsForKeyword,
 } from "yoast-components";
 import isUndefined from "lodash/isUndefined";
-import isShallowEqualObjects from "@wordpress/is-shallow-equal";
+import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 import debounce from "lodash/debounce";
 
 // Internal dependencies.
