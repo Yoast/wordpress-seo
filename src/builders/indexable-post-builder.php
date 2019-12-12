@@ -81,7 +81,7 @@ class Indexable_Post_Builder {
 
 		$indexable = $this->set_link_count( $post_id, $indexable );
 
-		$indexable->number_of_pages = $this->get_number_of_pages_for_post( $post_id );
+		$indexable->number_of_pages = $this->get_number_of_pages_for_post( $post );
 		$indexable->is_public       = ( $post->post_status === 'publish' && $post->post_password === '' );
 
 		return $indexable;
@@ -280,13 +280,11 @@ class Indexable_Post_Builder {
 	/**
 	 * Gets the number of pages for a post.
 	 *
-	 * @param int $post_id The post id.
+	 * @param object $post The post object.
 	 *
 	 * @return int|null The number of pages or null if the post isn't paginated.
 	 */
-	protected function get_number_of_pages_for_post( $post_id ) {
-		$post = \get_post( $post_id );
-
+	protected function get_number_of_pages_for_post( $post ) {
 		$number_of_pages = ( \substr_count( $post->post_content, '<!--nextpage-->' ) + 1 );
 
 		if ( $number_of_pages <= 1 ) {
