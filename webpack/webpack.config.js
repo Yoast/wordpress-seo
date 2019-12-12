@@ -32,6 +32,7 @@ const externals = {
 	jed: "window.yoast.jed",
 
 	lodash: "window.lodash",
+	"lodash-es": "window.lodash",
 	"styled-components": "window.yoast.styledComponents",
 };
 
@@ -189,6 +190,10 @@ module.exports = function( env = { environment: "production" } ) {
 		},
 	};
 
+	const baseWithoutLodash = Object.assign( {}, base );
+	delete baseWithoutLodash.externals.lodash;
+	delete baseWithoutLodash.externals[ "lodash-es" ];
+
 	const config = [
 		{
 			...base,
@@ -300,7 +305,7 @@ module.exports = function( env = { environment: "production" } ) {
 		},
 		// Config for the analysis web worker.
 		{
-			...base,
+			...baseWithoutLodash,
 			output: {
 				path: paths.jsDist,
 				filename: outputFilename,
