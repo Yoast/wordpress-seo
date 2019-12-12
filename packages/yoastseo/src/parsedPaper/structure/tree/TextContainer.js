@@ -76,7 +76,7 @@ class TextContainer {
 			return this._tree;
 		}
 		// todo: create helper function that parses text into sentence and word objects
-		this._tree = parseText( this.text );
+		// this._tree = parseText( this.text );
 		return this._tree;
 	}
 }
