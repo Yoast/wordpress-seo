@@ -7,6 +7,8 @@
 
 /**
  * Unit Test Class.
+ *
+ * @coversDefaultClass WPSEO_Plugin_Availability
  */
 class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 
@@ -31,6 +33,8 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests whether or not a plugin exists.
+	 *
+	 * @covers ::get_plugin
 	 */
 	public function test_plugin_existence() {
 		$expected = [
@@ -49,6 +53,9 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests whether or not plugins are available.
+	 *
+	 * @covers ::get_plugin
+	 * @covers ::is_available
 	 */
 	public function test_plugin_availability() {
 		$plugin    = self::$class_instance->get_plugin( 'test-plugin' );
@@ -64,6 +71,9 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests whether or not plugins are installed.
+	 *
+	 * @covers ::get_plugin
+	 * @covers ::is_installed
 	 */
 	public function test_plugin_is_installed() {
 		$plugin    = self::$class_instance->get_plugin( 'test-plugin' );
@@ -79,6 +89,9 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests for the plugin version.
+	 *
+	 * @covers ::get_plugin
+	 * @covers ::get_version
 	 */
 	public function test_plugin_version() {
 		$plugin  = self::$class_instance->get_plugin( 'test-plugin' );
@@ -94,6 +107,8 @@ class WPSEO_Plugin_Availability_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests for the detection of Premium plugins.
+	 *
+	 * @covers ::is_premium
 	 */
 	public function test_plugin_is_premium() {
 		$is_premium_plugin = self::$class_instance->is_premium( self::$class_instance->get_plugin( 'test-plugin' ) );
