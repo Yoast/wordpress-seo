@@ -101,6 +101,13 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
+"@babel/runtime@^7.4.4":
+  version "7.7.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.7.6.tgz#d18c511121aff1b4f2cd1d452f1bac9601dd830f"
+  integrity sha512-BWAJxpNVa0QlE5gZdWjSxXtemZyZ9RmrmVozxt3NUXeZhVIJ5ANyqmMc0JDrivBZyxUuQvFxlvH4OWWOogGfUw==
+  dependencies:
+    regenerator-runtime "^0.13.2"
+
 "@babel/template@^7.1.0":
   version "7.4.4"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.4.4.tgz#f4b88d1225689a08f5bc3a17483545be9e4ed237"
@@ -409,12 +416,73 @@
   resolved "https://registry.yarnpkg.com/@wordpress/browserslist-config/-/browserslist-config-2.1.3.tgz#3224c58f8bbec9d9fd88079c6ed31947080e6c57"
   integrity sha512-I8xUK/oqxI0LYoTar2U/vvQS78pWnEXWqClyhzmQ53NfWWaGydYgNdH3X2+oCGZjNUtdEkXuhjnyAwSZ12h0HQ==
 
+"@wordpress/compose@^3.8.0":
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/compose/-/compose-3.8.0.tgz#933a9083f45a3d318de6ea2dae746fd34234c4a7"
+  integrity sha512-n22OFDcwoMZ+/GAjVCd28cwlN6NHslTy4eONLLS7tOrdMKYl4wQ3cFLzxu8XHgf1Pt14ogGyOaJqvdEGbBGrsw==
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+    "@wordpress/element" "^2.9.0"
+    "@wordpress/is-shallow-equal" "^1.6.1"
+    lodash "^4.17.15"
+
+"@wordpress/data@^4.10.0":
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/data/-/data-4.10.0.tgz#2161af0a3c1fb0fb2b63f95beb36a64b8acf65d6"
+  integrity sha512-MDab2ePxLDkBJQ/Dxw1oYHpRGEmDzublBgo5ShTEhfPu14zj5fJhq2mnO7uH3A7s93/a2ZyjSn4h2fc8QJvb6w==
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+    "@wordpress/compose" "^3.8.0"
+    "@wordpress/deprecated" "^2.6.1"
+    "@wordpress/element" "^2.9.0"
+    "@wordpress/is-shallow-equal" "^1.6.1"
+    "@wordpress/priority-queue" "^1.3.1"
+    "@wordpress/redux-routine" "^3.6.2"
+    equivalent-key-map "^0.2.2"
+    is-promise "^2.1.0"
+    lodash "^4.17.15"
+    redux "^4.0.0"
+    turbo-combine-reducers "^1.0.2"
+
+"@wordpress/deprecated@^2.6.1":
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/@wordpress/deprecated/-/deprecated-2.6.1.tgz#2562ee270861e7aec4ffa87598a719b0e95f7790"
+  integrity sha512-nwCZ5pfFCZRwpEOMOVJcPZ6dmcaUfINehfZwPZA/6wK6Ol5sfc5MP22zmz30LFGsP4yqfgSugYDLA2LLAnuWqg==
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+    "@wordpress/hooks" "^2.6.0"
+
 "@wordpress/dom-ready@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@wordpress/dom-ready/-/dom-ready-1.2.0.tgz#d95877eb6f929532ec971983b55e731babb78d9c"
   integrity sha512-ioQuy28Z3jJWwIVUANYoy83GjGYdy5wS6cmm8kiVIcScu1gYKkw4lbKi2Le9ynfOzHkCDeatMU8g9TX91hgbPw==
   dependencies:
     "@babel/runtime-corejs2" "7.0.0-beta.56"
+
+"@wordpress/element@^2.9.0":
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/element/-/element-2.9.0.tgz#5f374d6ea7ec18d4064b57e3e790f10354e29732"
+  integrity sha512-IohEi9EkT+jnZof35l5PxDAHaBZXOcZzFS14B4cBt1eKFjbd5C54b8lHbifaL8b82S26ggMdA44sEoXVutdC0g==
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+    "@wordpress/escape-html" "^1.6.0"
+    lodash "^4.17.15"
+    react "^16.9.0"
+    react-dom "^16.9.0"
+
+"@wordpress/escape-html@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/escape-html/-/escape-html-1.6.0.tgz#2a5098805bc72e4ddce9c6d1aef5c4b71936ad20"
+  integrity sha512-PD4fEg7qIB2l8+buuRmYJ5edQhvUzydu6XoCigV2G4rju3BI+MO57BcEZf1LSPfbrYqTJCca3ElNW9nNbSQthQ==
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+
+"@wordpress/hooks@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@wordpress/hooks/-/hooks-2.6.0.tgz#3551f25bccebbb5072ec1300f04be19dd5f8c7dd"
+  integrity sha512-93THIW9EklVkJLN3wr8PUdWqttRu/wGZgXUrM6fqqOGwm4uCL4S+jQe800kwZioRHvgW5moNLrvSdfanQ4QyEQ==
+  dependencies:
+    "@babel/runtime" "^7.4.4"
 
 "@wordpress/i18n@^1.1.0", "@wordpress/i18n@^1.2.3":
   version "1.2.3"
@@ -426,6 +494,30 @@
     jed "^1.1.1"
     lodash "^4.17.10"
     memize "^1.0.5"
+
+"@wordpress/is-shallow-equal@^1.6.1":
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/@wordpress/is-shallow-equal/-/is-shallow-equal-1.6.1.tgz#3a1962a22bfbecd661594881dec2bdbcb07df51f"
+  integrity sha512-0vrTVuE6S/lmW4QKklTNqwSUyvxeCPRq02gKk6ViTw3I/QhE65g7dLRwwEDZ+42obSNA7XousutZ3YoN/NpPbA==
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+
+"@wordpress/priority-queue@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@wordpress/priority-queue/-/priority-queue-1.3.1.tgz#7fbedc9bb665bdb6b822894cddbf7e9d83e156fc"
+  integrity sha512-KQ242PoGFpttTqoz2UZwnOeecHtSQ4qaVf45WSgjYvi1tTIqTNu4OlYiO70XmRDmHj2UcUvL02Ie7czTfbK2sw==
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+
+"@wordpress/redux-routine@^3.6.2":
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/@wordpress/redux-routine/-/redux-routine-3.6.2.tgz#5decdff7dd9ef369885154adbb1c981e25405854"
+  integrity sha512-+WxQzKzaFKLfioFxIyT8J4NqOfra4DvFK1jdAqmhLdqfdY9wuSFsJHlbt5hF5fVx32n7lidx/mGkP1ysmigkqA==
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+    is-promise "^2.1.0"
+    lodash "^4.17.15"
+    rungen "^0.3.2"
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -4153,6 +4245,11 @@ enzyme@^3.3.0:
     raf "^3.4.0"
     rst-selector-parser "^2.2.3"
 
+equivalent-key-map@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/equivalent-key-map/-/equivalent-key-map-0.2.2.tgz#be4d57049bb8d46a81d6e256c1628465620c2a13"
+  integrity sha512-xvHeyCDbZzkpN4VHQj/n+j2lOwL0VWszG30X4cOrc9Y7Tuo2qCdZK/0AMod23Z5dCtNUbaju6p0rwOhHUk05ew==
+
 errlop@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/errlop/-/errlop-1.1.1.tgz#d9ae4c76c3e64956c5d79e6e035d6343bfd62250"
@@ -7629,6 +7726,11 @@ lodash@^4.0.0, lodash@^4.11.0, lodash@^4.13.1, lodash@^4.14.2, lodash@^4.15.0, l
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
 
+lodash@^4.17.15:
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+
 logalot@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/logalot/-/logalot-2.1.0.tgz#5f8e8c90d304edf12530951a5554abb8c5e3f552"
@@ -9856,6 +9958,16 @@ react-dom@16.8.6, "react-dom@^0.14.3 || ^15.1.0 || ^16.0.0":
     prop-types "^15.6.2"
     scheduler "^0.13.6"
 
+react-dom@^16.9.0:
+  version "16.12.0"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.12.0.tgz#0da4b714b8d13c2038c9396b54a92baea633fe11"
+  integrity sha512-LMxFfAGrcS3kETtQaCkTKjMiifahaMySFDn71fZUNpPHZQEzmk/GiAeIT8JSOrHB23fnuCOMruL2a8NYlw+8Gw==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.18.0"
+
 react-event-listener@^0.5.1:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/react-event-listener/-/react-event-listener-0.5.3.tgz#a8b492596ad601865314fcc2c18cb87b6ce3876e"
@@ -10022,6 +10134,15 @@ react@16.8.6:
     prop-types "^15.6.2"
     scheduler "^0.13.6"
 
+react@^16.9.0:
+  version "16.12.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"
+  integrity sha512-fglqy3k5E+81pA8s+7K0/T3DBCF0ZDOher1elBFzF7O6arXJgzyu/FW+COxFvAWXJoJN9KIZbT2LXlukwphYTA==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+
 read-pkg-up@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/read-pkg-up/-/read-pkg-up-1.0.1.tgz#9d63c13276c065918d57f002a57f40a1b643fb02"
@@ -10134,6 +10255,14 @@ redux@^3.7.2:
     lodash-es "^4.2.1"
     loose-envify "^1.1.0"
     symbol-observable "^1.0.3"
+
+redux@^4.0.0:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.4.tgz#4ee1aeb164b63d6a1bcc57ae4aa0b6e6fa7a3796"
+  integrity sha512-vKv4WdiJxOWKxK0yRoaK3Y4pxxB0ilzVx6dszU2W8wLxlb2yikRph4iV/ymtdJ6ZxpBLFbyrxklnT5yBbQSl3Q==
+  dependencies:
+    loose-envify "^1.4.0"
+    symbol-observable "^1.2.0"
 
 regenerate@^1.2.1:
   version "1.3.3"
@@ -10463,6 +10592,11 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
+rungen@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/rungen/-/rungen-0.3.2.tgz#400c09ebe914e7b17e0b6ef3263400fc2abc7cb3"
+  integrity sha1-QAwJ6+kU57F+C27zJjQA/Cq8fLM=
+
 rx@4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/rx/-/rx-4.1.0.tgz#a5f13ff79ef3b740fe30aa803fb09f98805d4782"
@@ -10558,6 +10692,14 @@ scheduler@^0.13.6:
   version "0.13.6"
   resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.13.6.tgz#466a4ec332467b31a91b9bf74e5347072e4cd889"
   integrity sha512-IWnObHt413ucAYKsD9J1QShUKkbKLQQHdxRyw73sw4FN26iWr3DY/H34xGPe4nmL1DwXyWmSWmMrA9TfQbE/XQ==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+
+scheduler@^0.18.0:
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.18.0.tgz#5901ad6659bc1d8f3fdaf36eb7a67b0d6746b1c4"
+  integrity sha512-agTSHR1Nbfi6ulI0kYNK0203joW2Y5W4po4l+v03tOoiJKpTBbxpNhWDvqc/4IcOw+KLmSiQLTasZ4cab2/UWQ==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -11412,6 +11554,11 @@ symbol-observable@^1.0.3, symbol-observable@^1.0.4:
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.1.0.tgz#5c68fd8d54115d9dfb72a84720549222e8db9b32"
   integrity sha512-dQoid9tqQ+uotGhuTKEY11X4xhyYePVnqGSoSm3OGKh2E8LZ6RPULp1uXTctk33IeERlrRJYoVSBglsL05F5Uw==
 
+symbol-observable@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
+  integrity sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==
+
 symbol-tree@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
@@ -11741,6 +11888,11 @@ tunnel-agent@^0.6.0:
   integrity sha1-J6XeoGs2sEoKmWZ3SykIaPD8QP0=
   dependencies:
     safe-buffer "^5.0.1"
+
+turbo-combine-reducers@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/turbo-combine-reducers/-/turbo-combine-reducers-1.0.2.tgz#aa3650b3c63daa6804d35a4042014f6d31df1e47"
+  integrity sha512-gHbdMZlA6Ym6Ur5pSH/UWrNQMIM9IqTH6SoL1DbHpqEdQ8i+cFunSmSlFykPt0eGQwZ4d/XTHOl74H0/kFBVWw==
 
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
