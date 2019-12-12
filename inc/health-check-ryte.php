@@ -21,6 +21,9 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * Runs the test.
 	 */
 	public function run() {
+
+		// CANNOT BE INDEXED
+
 		$this->label          = esc_html__( 'Your site cannot be found by search engines', 'wordpress-seo' );
 		$this->status         = self::STATUS_RECOMMENDED;
 		$this->badge['color'] = 'red';
@@ -39,6 +42,18 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		/* translators: %1$s resolves to the opening tag of the link to the Yoast knowledge base troubleshooting page, %2$s resolves to the closing tag of the link */
 			esc_html__( 'If that did not help, %1$s read more about troubleshooting search engine visibility. %2$s', 'wordpress-seo' ),
 			'<a href="' . esc_url( 'https://kb.yoast.com/kb/your-site-isnt-indexable/' ) . '">',
-			'</a>' );
+			'</a><br />' );
+		
+
+		$this->actions .= sprintf(
+		/* translators: %1$s resolves to the start of the division, beginning with the Yoast icon, %2$s resolves to the opening tag of the small italic text, %3$s resolves to the closing tag of the small italic text.  */
+			esc_html__( '%1$s %2$s This issue was reported by the Yoast SEO plugin %3$s', 'wordpress-seo' ),
+			'<div><br /><img src="http://one.wordpress.test/wp-content/plugins/wordpress-seo/images/Yoast_Icon_RGB.png" height="20" width="20" align="left"> &nbsp',
+			'<small><i>',
+			'</i></small></div>'
+			);
+
 	}
+
+
 }
