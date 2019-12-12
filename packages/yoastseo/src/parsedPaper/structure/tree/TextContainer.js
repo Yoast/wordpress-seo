@@ -1,3 +1,5 @@
+import { isEmpty } from "lodash-es";
+
 /**
  * Represents a text (with optional formatting element(s)) within a document that can be read by a reader.
  *
@@ -41,6 +43,11 @@ class TextContainer {
 		 * @type {Array<module:parsedPaper/structure.FormattingElement||module:parsedPaper/structure.Ignored>}
 		 */
 		this.formatting = [];
+
+		/**
+		 * A cache for the tree representations of this container's text.
+		 */
+		this._tree = {};
 	}
 
 	/**
@@ -51,7 +58,26 @@ class TextContainer {
 	 * @returns {void}
 	 */
 	appendText( text ) {
+		// If the text changes, the 'linguistic' tree should be rebuilt. This means the cache should be cleared.
 		this.text += text;
+		this._tree = {};
+	}
+
+	/**
+	 * Returns the tree representation of this container's text.
+	 *
+	 * If the cache is filled, it will return the cached tree.
+	 * If the cache is empty, it will additionally construct the tree and fill the cache.
+	 *
+	 * @returns {Object} The tree representation of the text.
+	 */
+	getTree() {
+		if ( isEmpty( this._tree ) ) {
+			return this._tree;
+		}
+		// todo: create helper function that parses text into sentence and word objects
+		this._tree = parseText( this.text );
+		return this._tree;
 	}
 }
 
