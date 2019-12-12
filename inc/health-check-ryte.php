@@ -43,7 +43,12 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			esc_html__( 'If that did not help, %1$s read more about troubleshooting search engine visibility. %2$s', 'wordpress-seo' ),
 			'<a href="' . esc_url( 'https://kb.yoast.com/kb/your-site-isnt-indexable/' ) . '">',
 			'</a><br />' );
-		
+
+		$this->actions	= sprintf(
+		/* translators: %1$s resolves to the opening tag of the link to the Yoast Ryte website, %2$s resolves to the closing tag of the link */
+			esc_html__('%1$s Re-analyze site indexability %2$s', 'wordpress-seo' ),
+			'<a class="landing-page button" href= "' . esc_url( 'https://yoa.st/rytelp' ) . '" target="_blank" >',
+			'</a>' );
 
 		$this->actions .= sprintf(
 		/* translators: %1$s resolves to the start of the division, beginning with the Yoast icon, %2$s resolves to the opening tag of the small italic text, %3$s resolves to the closing tag of the small italic text.  */
