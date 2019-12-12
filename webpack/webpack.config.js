@@ -1,5 +1,4 @@
 const CaseSensitivePathsPlugin = require( "case-sensitive-paths-webpack-plugin" );
-const CopyWebpackPlugin = require( "copy-webpack-plugin" );
 const path = require( "path" );
 const mapValues = require( "lodash/mapValues" );
 const isString = require( "lodash/isString" );
@@ -44,6 +43,7 @@ const wordpressExternals = {
 	"@wordpress/api-fetch": "window.wp.apiFetch",
 	"@wordpress/rich-text": "window.wp.richText",
 	"@wordpress/compose": "window.wp.compose",
+	"@wordpress/is-shallow-equal": "window.wp.isShallowEqual",
 	"@wordpress/url": "window.wp.url",
 };
 
@@ -206,18 +206,6 @@ module.exports = function( env = { environment: "production" } ) {
 			},
 			plugins: addBundleAnalyzer( [
 				...plugins,
-				new CopyWebpackPlugin( [
-					{
-						from: "node_modules/react/umd/react.production.min.js",
-						// Relative to js/dist.
-						to: "../vendor/react.min.js",
-					},
-					{
-						from: "node_modules/react-dom/umd/react-dom.production.min.js",
-						// Relative to js/dist.
-						to: "../vendor/react-dom.min.js",
-					},
-				] ),
 			] ),
 		},
 
@@ -234,50 +222,6 @@ module.exports = function( env = { environment: "production" } ) {
 			plugins: addBundleAnalyzer( [
 				...plugins,
 			] ),
-			optimization: {
-				runtimeChunk: false,
-			},
-		},
-
-		// Config for wp packages files that are shipped for BC with WP 4.9.
-		{
-			...base,
-			externals: {
-				tinymce: "tinymce",
-
-				react: "React",
-				"react-dom": "ReactDOM",
-
-				lodash: "lodash",
-
-				// Don't reference window.wp.* externals in this config!
-				"@wordpress/element": [ "wp", "element" ],
-				"@wordpress/data": [ "wp", "data" ],
-				"@wordpress/components": [ "wp",  "components" ],
-				"@wordpress/i18n": [ "wp", "i18n" ],
-				"@wordpress/api-fetch": [ "wp", "apiFetch" ],
-				"@wordpress/rich-text": [ "wp", "richText" ],
-				"@wordpress/compose": [ "wp", "compose" ],
-			},
-			output: {
-				path: paths.jsDist,
-				filename: "wp-" + outputFilenameMinified,
-				jsonpFunction: "yoastWebpackJsonp",
-				library: {
-					root: [ "wp", "[name]" ],
-				},
-				libraryTarget: "this",
-			},
-			entry: {
-				apiFetch: "./node_modules/@wordpress/api-fetch",
-				components: "./node_modules/@wordpress/components",
-				data: "./node_modules/@wordpress/data",
-				element: "./node_modules/@wordpress/element",
-				i18n: "./node_modules/@wordpress/i18n",
-				compose: "./node_modules/@wordpress/compose",
-				richText: "./node_modules/@wordpress/rich-text",
-			},
-			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
 				runtimeChunk: false,
 			},
