@@ -335,6 +335,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'       => 'commons-' . $flat_version,
 				'in_footer' => false,
 				'deps'      => [
+					'lodash',
 					'wp-polyfill',
 				],
 			],

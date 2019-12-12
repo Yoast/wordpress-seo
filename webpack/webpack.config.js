@@ -190,10 +190,6 @@ module.exports = function( env = { environment: "production" } ) {
 		},
 	};
 
-	const baseWithoutLodash = Object.assign( {}, base );
-	delete baseWithoutLodash.externals.lodash;
-	delete baseWithoutLodash.externals[ "lodash-es" ];
-
 	const config = [
 		{
 			...base,
@@ -202,7 +198,6 @@ module.exports = function( env = { environment: "production" } ) {
 				"styled-components": "./js/src/externals/styled-components.js",
 				redux: "./js/src/externals/redux.js",
 				jed: "./js/src/externals/jed.js",
-				analysis: "./js/src/analysis.js",
 			},
 			externals: {
 				...externals,
@@ -305,7 +300,8 @@ module.exports = function( env = { environment: "production" } ) {
 		},
 		// Config for the analysis web worker.
 		{
-			...baseWithoutLodash,
+			...base,
+			externals: {},
 			output: {
 				path: paths.jsDist,
 				filename: outputFilename,
@@ -313,6 +309,7 @@ module.exports = function( env = { environment: "production" } ) {
 			},
 			entry: {
 				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
+				analysis: "./js/src/analysis.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
