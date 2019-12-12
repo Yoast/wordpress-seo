@@ -209,6 +209,13 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 
 == Changelog ==
 
+= 12.7.1 =
+Release Date: December 12th, 2019
+
+Bugfixes:
+
+* Fixes a bug where the metabox would be broken when a relative URL was configured as `WP_CONTENT_URL`. Props to [FPCSJames](https://github.com/FPCSJames).
+
 = 12.7.0 =
 Release Date: December 10th, 2019
 
