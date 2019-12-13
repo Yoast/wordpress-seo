@@ -9,7 +9,7 @@ use Yoast\WP\Free\ORM\Yoast_Model;
 use YoastSEO_Vendor\Ruckusing_Migration_Base;
 
 /**
- * Class WpYoastIndexablesAddPostStatusField
+ * Class WpYoastIndexablesAddIsPublicField
  */
 class WpYoastIndexablesAddIsPublicField extends Ruckusing_Migration_Base {
 
