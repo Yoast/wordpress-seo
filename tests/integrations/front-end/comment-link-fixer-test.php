@@ -95,7 +95,6 @@ class Comment_link_Fixer_Test extends TestCase {
 		Monkey\Functions\expect( 'is_singular' )->once()->andReturn( true );
 		$GLOBALS['post'] = (object) [ 'ID' => 1 ];
 		Monkey\Functions\expect( 'get_permalink' )->once()->with( 1 )->andReturn( 'https://permalink' );
-		Monkey\Functions\expect( 'wp_unslash' )->once()->with( 'unique_hash' )->andReturn( 'unique_hash' );
 
 		$this->assertTrue( $this->instance->replytocom_redirect() );
 
@@ -112,9 +111,7 @@ class Comment_link_Fixer_Test extends TestCase {
 		Monkey\Functions\expect( 'is_singular' )->once()->andReturn( true );
 		$GLOBALS['post'] = (object) [ 'ID' => 1 ];
 		Monkey\Functions\expect( 'get_permalink' )->once()->with( 1 )->andReturn( 'https://permalink' );
-		Monkey\Functions\expect( 'wp_unslash' )->once()->with( 'unique_hash' )->andReturn( 'unique_hash' );
 		$_SERVER['QUERY_STRING'] = 'param=foo';
-		Monkey\Functions\expect( 'wp_unslash' )->once()->with( 'param=foo' )->andReturn( 'param=foo' );
 		Monkey\Functions\expect( 'remove_query_arg' )->once()->with( 'replytocom', 'param=foo' )->andReturn( 'param=foo' );
 
 		$this->assertTrue( $this->instance->replytocom_redirect() );
