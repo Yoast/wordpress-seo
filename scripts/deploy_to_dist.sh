@@ -26,24 +26,33 @@ REPO_URL="git@github.com:$USER/$REPO.git"
 
 # Get the latest tag.
 lastTag=$1
+branch="master"
 mainDir=$(pwd)
+
+if [[ $lastTag =~ ^feature/* ]]; then
+  branch=$lastTag
+fi
 
 # Clone the dist repo.
 rm -rf ./dist-repo
-git clone ${REPO_URL} dist-repo --no-checkout -b master
+git clone ${REPO_URL} dist-repo
 
 # Copy the git folder with the entire history.
 cp -r ./dist-repo/.git ./artifact-composer
 
 # Navigate to the to be committed folder.
 cd ./artifact-composer
+git checkout $branch 2>/dev/null || git checkout -b $branch
 
 # Commit the files.
 git add -A
 git commit -m "Release ${lastTag}"
 
-# Tag the commit.
-git tag ${lastTag}
+# If it's a feature branch.
+if [[ ! $lastTag =~ ^feature/* ]]; then
+   # Tag the commit.
+  git tag ${lastTag}
+fi
 
-# Push to master.
-git push -u origin master --tags
+# Push to remote.
+git push -u origin $branch --tags

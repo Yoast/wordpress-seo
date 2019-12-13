@@ -545,9 +545,9 @@
     styled-components "^4.2.0"
 
 "@yoast/browserslist-config@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@yoast/browserslist-config/-/browserslist-config-1.0.0.tgz#2f4496655c0c97edd47182b42d19d77595c31121"
-  integrity sha512-AfDF3GPvK7aybKtMJ/aQlsEdaDqw1UFlmHk1UjsriuqHHoKpTNL1X1kwmZ5To96XhuX9bR9TwbBl17wNeWBe3w==
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@yoast/browserslist-config/-/browserslist-config-1.0.5.tgz#fd7523d00f2b36fa1b254efd13a76fae48023241"
+  integrity sha512-AM3vaL+OBPfyMZI94t198Mgmgn2ZRwxSYrtuoig3C65UYceraSU1HIksDxiOeCSnqLL1WnQuX7NRkTUrZ1PFZQ==
 
 "@yoast/components@^0.12.0-rc.0":
   version "0.12.0-rc.0"
