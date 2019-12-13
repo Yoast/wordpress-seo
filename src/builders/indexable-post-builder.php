@@ -82,9 +82,23 @@ class Indexable_Post_Builder {
 		$indexable = $this->set_link_count( $post_id, $indexable );
 
 		$indexable->number_of_pages = $this->get_number_of_pages_for_post( $post );
-		$indexable->is_public       = ( $post->post_status === 'publish' && $post->post_password === '' );
+		$indexable->is_public       = ( \in_array( $post->post_status, $this->is_public_post_status(), true ) && $post->post_password === '' );
 
 		return $indexable;
+	}
+
+	/**
+	 * Retrieves the list of public posts statuses.
+	 *
+	 * @return array The public post statuses.
+	 */
+	protected function is_public_post_status() {
+		/**
+		 * Filter: 'wpseo_public_post_statuses' - List of public post statuses.
+		 *
+		 * @apo array $post_statuses Post status list, defaults to array( 'publish' ).
+		 */
+		return \apply_filters( 'wpseo_public_post_statuses', [ 'publish' ] );
 	}
 
 	/**
