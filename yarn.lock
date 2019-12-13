@@ -703,10 +703,10 @@
   resolved "https://registry.yarnpkg.com/@yoast/feature-flag/-/feature-flag-0.3.0-rc.1.tgz#9880010d8edc2cf907e53df71992033b60038698"
   integrity sha512-Hr6e67Dy/hNT4nRFZlZ4NqMTuLHltO/4zNahSl17nxiplzZ8vA0V/nGTCVJX1zvO9R+bCH5t12rA8uxd6+QKQA==
 
-"@yoast/grunt-plugin-tasks@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-1.5.0.tgz#2aee5aeaf1451a96f58eacd466f2a9176961505f"
-  integrity sha512-bc2952eLEj/BPqs2flXJ0Jbhmlo82CKtkOgUCw7V2nwwi9RxGlaKcZZt4w8wPyV63nbDWuVXpsDn0t8jakFVww==
+"@yoast/grunt-plugin-tasks@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-1.6.0.tgz#ec454cfafc8a6312ccd9a9bf1ae935ef2c27079a"
+  integrity sha512-GAsQK4SxXh8uf8EanoCFonWCs2Azoj5waM46A1V+luk64LiagoliNFS/xGUgkXhG4fYG+0qmoT/qWRddZjly3Q==
   dependencies:
     "@yoast/browserslist-config" "^1.0.0"
     autoprefixer "^9.7.2"
@@ -5871,9 +5871,9 @@ grunt-eslint@^21.0.0:
     chalk "^2.1.0"
     eslint "^5.16.0"
 
-"grunt-glotpress@https://github.com/Yoast/grunt-glotpress.git#master":
+"grunt-glotpress@git+https://github.com/Yoast/grunt-glotpress.git#master":
   version "0.3.0"
-  resolved "https://github.com/Yoast/grunt-glotpress.git#e6ccc69c2532d126f5d8a30397ffd012e55b6eec"
+  resolved "git+https://github.com/Yoast/grunt-glotpress.git#e6ccc69c2532d126f5d8a30397ffd012e55b6eec"
   dependencies:
     request "^2.88.0"
     request-promise-native "^1.0.7"
