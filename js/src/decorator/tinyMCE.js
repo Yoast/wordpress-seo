@@ -52,7 +52,7 @@ function markTinyMCE( editor, paper, marks ) {
 	 * The `mce-bogus` data is an internal tinyMCE indicator that the elements themselves shouldn't be saved.
 	 * Add data-mce-bogus after the elements have been inserted because setContent strips elements with data-mce-bogus.
 	 */
-	_forEach( markElements, function( markElement ) {
+	forEach( markElements, function( markElement ) {
 		markElement.setAttribute( "data-mce-bogus", "1" );
 	} );
 }
