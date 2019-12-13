@@ -74,12 +74,12 @@ class WPSEO_Tracking_Server_Data implements WPSEO_Collection {
 	 */
 	protected function get_php_extensions() {
 		return [
-			'imagick' => extension_loaded( 'imagick' ),
-			'filter'  => extension_loaded( 'filter' ),
-			'bcmath'  => extension_loaded( 'bcmath' ),
-			'modXml'  => extension_loaded( 'modXml' ),
-			'pcre'    => extension_loaded( 'pcre' ),
-			'xml'     => extension_loaded( 'xml' ),
+			'imagick'   => extension_loaded( 'imagick' ),
+			'filter'    => extension_loaded( 'filter' ),
+			'bcmath'    => extension_loaded( 'bcmath' ),
+			'pcre'      => extension_loaded( 'pcre' ),
+			'xml'       => extension_loaded( 'xml' ),
+			'pdo_mysql' => extension_loaded( 'pdo_mysql' ),
 		];
 	}
 }

@@ -46,7 +46,6 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', [ 'WPSEO_Plugin_Conflict', 'hook_check_for_plugin_conflicts' ] );
 		add_action( 'admin_init', [ $this, 'handle_notifications' ], 15 );
 		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
-		add_action( 'admin_enqueue_scripts', [ $this->asset_manager, 'register_wp_assets' ], PHP_INT_MAX );
 
 		$page_comments = new WPSEO_Health_Check_Page_Comments();
 		$page_comments->register_test();
