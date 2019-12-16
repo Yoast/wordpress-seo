@@ -1,6 +1,6 @@
 /* global tinyMCE */
 
-import noop from "lodash/noop";
+import { noop } from "lodash-es";
 
 import tinyMCEHelper from "../wp-seo-tinymce";
 import { tinyMCEDecorator } from "../decorator/tinyMCE";

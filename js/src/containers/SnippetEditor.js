@@ -1,8 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { SnippetEditor } from "@yoast/search-metadata-previews";
-import identity from "lodash/identity";
-import get from "lodash/get";
+import {
+	get,
+	identity,
+} from "lodash-es";
 import { __ } from "@wordpress/i18n";
 import { dispatch as wpDataDispatch } from "@wordpress/data";
 import analysis from "yoastseo";

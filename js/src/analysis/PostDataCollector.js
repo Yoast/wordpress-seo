@@ -1,7 +1,7 @@
 /* global jQuery, wpseoPostScraperL10n */
 
 /* External dependencies */
-import get from "lodash/get";
+import { get } from "lodash-es";
 import analysis from "yoastseo";
 
 /* Internal dependencies */
