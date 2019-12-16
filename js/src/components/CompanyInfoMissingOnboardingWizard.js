@@ -1,5 +1,5 @@
 /* External dependencies */
-import { isEmpty } from "lodash";
+import { isEmpty } from "lodash-es";
 import PropTypes from "prop-types";
 import React from "react";
 

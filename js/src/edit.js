@@ -5,8 +5,10 @@ import styled from "styled-components";
 import { Fragment } from "@wordpress/element";
 import { Slot } from "@wordpress/components";
 import { combineReducers, registerStore } from "@wordpress/data";
-import get from "lodash/get";
-import pickBy from "lodash/pickBy";
+import {
+	get,
+	pickBy,
+} from "lodash-es";
 
 /* Internal dependencies */
 import Data from "./analysis/data.js";

@@ -1,6 +1,8 @@
 /* External dependencies */
-import defaults from "lodash/defaults";
-import noop from "lodash/noop";
+import {
+	defaults,
+	noop,
+} from "lodash-es";
 
 /* Internal dependencies */
 import DiviHelper from "./diviHelper";

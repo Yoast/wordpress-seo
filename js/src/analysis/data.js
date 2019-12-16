@@ -1,4 +1,4 @@
-import debounce from "lodash/debounce";
+import { debounce } from "lodash-es";
 import { string } from "yoastseo";
 
 import {

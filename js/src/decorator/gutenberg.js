@@ -1,6 +1,8 @@
 /* External dependencies */
-import isFunction from "lodash/isFunction";
-import flatMap from "lodash/flatMap";
+import {
+	isFunction,
+	flatMap,
+} from "lodash-es";
 import { create } from "@wordpress/rich-text";
 import { select, dispatch } from "@wordpress/data";
 

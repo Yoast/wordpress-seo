@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
-import isNil from "lodash/isNil";
+import { isNil } from "lodash-es";
 
 /* Internal components */
 import ScoreIconPortal from "./ScoreIconPortal";
