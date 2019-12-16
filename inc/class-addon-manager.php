@@ -44,6 +44,14 @@ class WPSEO_Addon_Manager {
 	 * @var string
 	 */
 	const VIDEO_SLUG = 'yoast-seo-video';
+	
+
+	/**
+	 * Holds the slug for the HOOPP demo (codeguru).
+	 *
+	 * @var string
+	 */
+	const HOOPP_DEMO = 'dec16';	
 
 	/**
 	 * Holds the slug for WooCommerce.
