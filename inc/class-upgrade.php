@@ -688,6 +688,7 @@ class WPSEO_Upgrade {
 		$this->cleanup_option_data( 'wpseo' );
 
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-page_comments-notice' );
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-wordpress-upgrade' );
 	}
 
 	/**
