@@ -1,10 +1,14 @@
 # Grunt aliases
 ---
+'build':
+  - 'build-default'
+
 # Build JavaScript from assets to production
 'build:js':
   - 'clean:build-assets-js'
   - 'copy:js-dependencies'
   - 'webpack:buildDev'
+
 # Build CSS from SCSS to production
 'build:css':
   - 'clean:build-assets-css'
