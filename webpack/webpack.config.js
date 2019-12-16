@@ -26,8 +26,12 @@ const externals = {
 	"yoast-components": "window.yoast.components",
 	react: "React",
 	"react-dom": "ReactDOM",
+	redux: "window.yoast.redux",
+	"react-redux": "window.yoast.reactRedux",
+	jed: "window.yoast.jed",
 
 	lodash: "window.lodash",
+	"lodash-es": "window.lodash",
 	"styled-components": "window.yoast.styledComponents",
 };
 
@@ -191,8 +195,9 @@ module.exports = function( env = { environment: "production" } ) {
 			...base,
 			entry: {
 				...mainEntry,
-				"styled-components": "./js/src/styled-components.js",
-				analysis: "./js/src/analysis.js",
+				"styled-components": "./js/src/externals/styled-components.js",
+				redux: "./js/src/externals/redux.js",
+				jed: "./js/src/externals/jed.js",
 			},
 			externals: {
 				...externals,
@@ -230,7 +235,7 @@ module.exports = function( env = { environment: "production" } ) {
 				jsonpFunction: "yoastWebpackJsonp",
 			},
 			entry: {
-				"babel-polyfill": "./js/src/babel-polyfill.js",
+				"babel-polyfill": "./js/src/externals/babel-polyfill.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {
@@ -240,6 +245,7 @@ module.exports = function( env = { environment: "production" } ) {
 		// Config for the analysis web worker.
 		{
 			...base,
+			externals: {},
 			output: {
 				path: paths.jsDist,
 				filename: outputFilename,
@@ -247,6 +253,7 @@ module.exports = function( env = { environment: "production" } ) {
 			},
 			entry: {
 				"wp-seo-analysis-worker": "./js/src/wp-seo-analysis-worker.js",
+				analysis: "./js/src/analysis.js",
 			},
 			plugins: addBundleAnalyzer( plugins ),
 			optimization: {

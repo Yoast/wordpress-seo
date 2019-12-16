@@ -204,6 +204,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'       => 'commons-' . $flat_version,
 				'in_footer' => false,
 				'deps'      => [
+					'lodash',
 					'wp-polyfill',
 				],
 			],
@@ -322,6 +323,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-annotations',
 					'wp-compose',
 					'wp-is-shallow-equal',
+					self::PREFIX . 'redux',
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
 					self::PREFIX . 'analysis',
@@ -340,6 +342,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-api-fetch',
 					'wp-compose',
 					'wp-is-shallow-equal',
+					self::PREFIX . 'redux',
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'components',
@@ -379,6 +382,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-metabox-category-' . $flat_version,
 				'deps' => [
 					'jquery',
+					'wp-url',
 					'wp-util',
 					'wp-element',
 					'wp-i18n',
@@ -489,6 +493,8 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'components',
 				'src'  => 'components-' . $flat_version,
 				'deps' => [
+					self::PREFIX . 'jed',
+					self::PREFIX . 'redux',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'styled-components',
 					self::PREFIX . 'commons',
@@ -512,6 +518,14 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [
 					'wp-element',
 				],
+			],
+			[
+				'name' => 'redux',
+				'src'  => 'redux-' . $flat_version,
+			],
+			[
+				'name' => 'jed',
+				'src'  => 'jed-' . $flat_version,
 			],
 			[
 				'name'      => 'help-scout-beacon',

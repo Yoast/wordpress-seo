@@ -1,4 +1,4 @@
-var isUndefined = require( "lodash/isUndefined" );
+import { isUndefined } from "lodash-es";
 
 /**
  * Returns the l10n object for the current page, either term or post.

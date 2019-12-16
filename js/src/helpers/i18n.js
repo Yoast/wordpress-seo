@@ -1,5 +1,5 @@
 import { setLocaleData } from "@wordpress/i18n";
-import get from "lodash/get";
+import { get } from "lodash-es";
 
 /**
  * Sets the l10n for the given textdomain in Jed.

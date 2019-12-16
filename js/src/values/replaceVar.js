@@ -1,7 +1,8 @@
-/* global require */
-var isEmpty = require( "lodash/isEmpty" );
-var indexOf = require( "lodash/indexOf" );
-var defaults = require( "lodash/defaults" );
+import {
+	isEmpty,
+	indexOf,
+	defaults,
+} from "lodash-es";
 
 ( function() {
 	var defaultOptions = { source: "wpseoReplaceVarsL10n", scope: [], aliases: [] };

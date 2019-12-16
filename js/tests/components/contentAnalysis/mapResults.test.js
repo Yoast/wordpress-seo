@@ -1,4 +1,4 @@
-import isFunction from "lodash/isFunction";
+import { isFunction } from "lodash";
 import { colors } from "@yoast/style-guide";
 import { AssessmentResult, helpers } from "yoastseo";
 import mapResults, { getIconForScore } from "../../../src/components/contentAnalysis/mapResults";

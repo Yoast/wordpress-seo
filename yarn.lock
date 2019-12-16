@@ -583,10 +583,10 @@
   resolved "https://registry.yarnpkg.com/@yoast/feature-flag/-/feature-flag-0.4.0-rc.0.tgz#c17cd629212c3dca57028d46d045249fbc8dbbb0"
   integrity sha512-rCCQSviRwlaky3RZ2BoH1EzkhpRixBeadgrnxxfvmrec9XvNx76PvaUw0XJ8fBCTI9FYZxK2nZ/jzDzjeAVhmA==
 
-"@yoast/grunt-plugin-tasks@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-1.5.0.tgz#2aee5aeaf1451a96f58eacd466f2a9176961505f"
-  integrity sha512-bc2952eLEj/BPqs2flXJ0Jbhmlo82CKtkOgUCw7V2nwwi9RxGlaKcZZt4w8wPyV63nbDWuVXpsDn0t8jakFVww==
+"@yoast/grunt-plugin-tasks@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@yoast/grunt-plugin-tasks/-/grunt-plugin-tasks-1.6.0.tgz#ec454cfafc8a6312ccd9a9bf1ae935ef2c27079a"
+  integrity sha512-GAsQK4SxXh8uf8EanoCFonWCs2Azoj5waM46A1V+luk64LiagoliNFS/xGUgkXhG4fYG+0qmoT/qWRddZjly3Q==
   dependencies:
     "@yoast/browserslist-config" "^1.0.0"
     autoprefixer "^9.7.2"
