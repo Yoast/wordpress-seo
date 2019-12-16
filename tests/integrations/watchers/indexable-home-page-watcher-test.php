@@ -4,6 +4,7 @@ namespace Yoast\WP\Free\Tests\Integrations\Watchers;
 
 use Mockery;
 use Yoast\WP\Free\Builders\Indexable_Builder;
+use Yoast\WP\Free\Conditionals\Migrations_Conditional;
 use Yoast\WP\Free\Integrations\Watchers\Indexable_Home_Page_Watcher;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
@@ -53,7 +54,7 @@ class Indexable_Home_Page_Watcher_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[],
+			[ Migrations_Conditional::class ],
 			Indexable_Home_Page_Watcher::get_conditionals()
 		);
 	}

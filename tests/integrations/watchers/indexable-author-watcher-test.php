@@ -5,6 +5,7 @@ namespace Yoast\WP\Free\Tests\Integrations\Watchers;
 use Mockery;
 use Yoast\WP\Free\Builders\Indexable_Author_Builder;
 use Yoast\WP\Free\Builders\Indexable_Builder;
+use Yoast\WP\Free\Conditionals\Migrations_Conditional;
 use Yoast\WP\Free\Models\Indexable;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
 use Yoast\WP\Free\Integrations\Watchers\Indexable_Author_Watcher;
@@ -53,7 +54,7 @@ class Indexable_Author_Watcher_Test extends TestCase {
 	 */
 	public function test_get_conditionals() {
 		$this->assertEquals(
-			[],
+			[ Migrations_Conditional::class ],
 			Indexable_Author_Watcher::get_conditionals()
 		);
 	}
