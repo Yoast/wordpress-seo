@@ -529,7 +529,7 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.1.tgz#5c85d662f76fa1d34575766c5dcd6615abcd30d8"
   integrity sha512-FZdkNBDqBRHKQ2MEbSC17xnPFOhZxeJ2YGSfr2BKf3sujG49Qe3bB+rGCwQfIaA7WHnGeGkSijX4FuBCdrzW/g==
 
-"@yoast/analysis-report@^0.12.0-rc.1", "@yoast/analysis-report@^0.12.0-rc.2":
+"@yoast/analysis-report@^0.12.0-rc.2":
   version "0.12.0-rc.2"
   resolved "https://registry.yarnpkg.com/@yoast/analysis-report/-/analysis-report-0.12.0-rc.2.tgz#d523554546b9cfa26e9592edd96e0953cb0fde61"
   integrity sha512-mg3SPcf1cWqnXm6a/oKlg6Y7X+qVc3Rx5U0sfcGgi60H7yKQ7BKpVGfT1Lh80zmcXCE42WMHAkwmn5MdZW71Ew==
@@ -549,7 +549,7 @@
   resolved "https://registry.yarnpkg.com/@yoast/browserslist-config/-/browserslist-config-1.0.5.tgz#fd7523d00f2b36fa1b254efd13a76fae48023241"
   integrity sha512-AM3vaL+OBPfyMZI94t198Mgmgn2ZRwxSYrtuoig3C65UYceraSU1HIksDxiOeCSnqLL1WnQuX7NRkTUrZ1PFZQ==
 
-"@yoast/components@^0.12.0-rc.1", "@yoast/components@^0.12.0-rc.2":
+"@yoast/components@^0.12.0-rc.2":
   version "0.12.0-rc.2"
   resolved "https://registry.yarnpkg.com/@yoast/components/-/components-0.12.0-rc.2.tgz#17063e6168391f98c8be2063427825a4ad03d17a"
   integrity sha512-VD/Q+pEl5Pr/i86DulQLnct8rg7L/3aAd9q304hSxo7OejjoXNKgNxMH4qSRuxMh1OdDx249hDqHi9fjtJXTmA==
@@ -565,7 +565,7 @@
     react-tabs "^2.3.0"
     styled-components "^4.2.0"
 
-"@yoast/configuration-wizard@^1.11.0-rc.1", "@yoast/configuration-wizard@^1.11.0-rc.2":
+"@yoast/configuration-wizard@^1.11.0-rc.2":
   version "1.11.0-rc.2"
   resolved "https://registry.yarnpkg.com/@yoast/configuration-wizard/-/configuration-wizard-1.11.0-rc.2.tgz#30f8383bca17e9ef86c2ee131f651979be0abfa7"
   integrity sha512-SZHNNn8j36wQ76vjMlZyK/IN7251QxzdwMhFDti4a5vrOtTG99YV9aCRCKtQrd8FlFR3FGs7bELcB7ygZ0bLFg==
@@ -619,7 +619,7 @@
     node-sass "^4.12.0"
     time-grunt "^1.0.0"
 
-"@yoast/helpers@^0.10.0-rc.1", "@yoast/helpers@^0.10.0-rc.2":
+"@yoast/helpers@^0.10.0-rc.2":
   version "0.10.0-rc.2"
   resolved "https://registry.yarnpkg.com/@yoast/helpers/-/helpers-0.10.0-rc.2.tgz#497a3b7104fc538f7a1ed2f5a1c33bb542dda634"
   integrity sha512-2Ec21BzynQmUf6QToQ6a22mu7DZlJ9PNm7s7oJ4hjpXKt0I0dwOX1GxwnbcaNhudx5VDi43CJLRvXvbjdWsdFw==
@@ -629,15 +629,15 @@
     styled-components "^2.4.1"
     whatwg-fetch "1.1.1"
 
-"@yoast/search-metadata-previews@^1.15.0-rc.1":
-  version "1.15.0-rc.1"
-  resolved "https://registry.yarnpkg.com/@yoast/search-metadata-previews/-/search-metadata-previews-1.15.0-rc.1.tgz#ac43aee092942d7e5a220da699001ecdb13b678f"
-  integrity sha512-F368SsVxQKzWCe0FEzI933DmA+HHbHafK3BvU+RFqBwxL+UwUzu4XT7PTikMI1X9Ao1fyJhHOuNTZ2Vk6RgRdg==
+"@yoast/search-metadata-previews@^1.15.0-rc.2":
+  version "1.15.0-rc.2"
+  resolved "https://registry.yarnpkg.com/@yoast/search-metadata-previews/-/search-metadata-previews-1.15.0-rc.2.tgz#42335416923f911a4489fcf5b81395cf686b5fd7"
+  integrity sha512-mNkoXABtvSNqphK9rl/ecd8ghybTRKsWqkaLrVlNL1bU1r6FT4vOPTt534huKq8oLBrft/7NPg83pKYMFp2Hag==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/components" "^0.12.0-rc.1"
-    "@yoast/helpers" "^0.10.0-rc.1"
+    "@yoast/components" "^0.12.0-rc.2"
+    "@yoast/helpers" "^0.10.0-rc.2"
     "@yoast/style-guide" "^0.10.0-rc.1"
     draft-js "^0.10.5"
     draft-js-mention-plugin "^3.0.4"
@@ -12659,18 +12659,18 @@ yauzl@^2.4.2:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
 
-yoast-components@4.39.0-rc.1:
-  version "4.39.0-rc.1"
-  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.39.0-rc.1.tgz#f71b2fb9460ac39d0542c8ea590ea6ded8bd6ad2"
-  integrity sha512-c5s1gJP3jk47zPbuNdSPOply1Nv/f8mMKn4cS43HBVGnSx1E5Rs92bCB2dbI/3g4QLgH9MEhmBEgvKk3+9KOTw==
+yoast-components@^4.39.0-rc.2:
+  version "4.39.0-rc.2"
+  resolved "https://registry.yarnpkg.com/yoast-components/-/yoast-components-4.39.0-rc.2.tgz#ca4fb9a765f8075f490bcf79ff59fab1b17bf1fd"
+  integrity sha512-YjEQJ+bgyDYpuMuwaUTksWuQ6OzfaApwEh1H/XqjN9GuanH8kz+m2NmSnaE5e3uOBPt+xfLBTLiqhEQXjT+Z4Q==
   dependencies:
     "@wordpress/a11y" "^1.0.7"
     "@wordpress/i18n" "^1.1.0"
-    "@yoast/analysis-report" "^0.12.0-rc.1"
-    "@yoast/components" "^0.12.0-rc.1"
-    "@yoast/configuration-wizard" "^1.11.0-rc.1"
-    "@yoast/helpers" "^0.10.0-rc.1"
-    "@yoast/search-metadata-previews" "^1.15.0-rc.1"
+    "@yoast/analysis-report" "^0.12.0-rc.2"
+    "@yoast/components" "^0.12.0-rc.2"
+    "@yoast/configuration-wizard" "^1.11.0-rc.2"
+    "@yoast/helpers" "^0.10.0-rc.2"
+    "@yoast/search-metadata-previews" "^1.15.0-rc.2"
     "@yoast/style-guide" "^0.10.0-rc.1"
     clipboard "^1.5.15"
     draft-js "^0.10.5"
