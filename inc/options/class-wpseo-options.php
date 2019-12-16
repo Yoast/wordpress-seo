@@ -108,6 +108,8 @@ class WPSEO_Options {
 		}
 
 		self::$option_instances[ $option_name ] = $option_instance;
+
+		self::fill_cache();
 	}
 
 	/**
