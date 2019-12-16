@@ -9,7 +9,7 @@
   ],
   "main": "index.js",
   "license": "GPL-3.0",
-  "version": "1.66.0-rc.0",
+  "version": "1.66.0-rc.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/Yoast/javascript.git",
@@ -29,7 +29,7 @@
     "node": ">=8.0.0"
   },
   "devDependencies": {
-    "@yoast/browserslist-config": "^1.1.0-rc.0",
+    "@yoast/browserslist-config": "^1.1.0-rc.1",
     "autoprefixer": "^9.0.0",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.26.0",
