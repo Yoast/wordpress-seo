@@ -110,5 +110,8 @@ class WPSEO_Import_Settings {
 
 		$this->status->set_msg( __( 'Settings successfully imported.', 'wordpress-seo' ) );
 		$this->status->set_status( true );
+
+		// Reset the cached option values.
+		WPSEO_Options::fill_cache();
 	}
 }
