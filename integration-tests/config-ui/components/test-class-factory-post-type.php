@@ -12,11 +12,12 @@ class WPSEO_Config_Factory_Post_Type_Test extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Tests the retrieval of the fields for a post type.
+	 *
 	 * @covers WPSEO_Config_Factory_Post_Type::get_fields
 	 */
 	public function test_get_fields() {
 
-		$post_types = get_post_types( array( 'public' => true ), 'objects' );
+		$post_types = get_post_types( [ 'public' => true ], 'objects' );
 		$post_types = WPSEO_Post_Type::filter_attachment_post_type( $post_types );
 
 		$factory_post_type = new WPSEO_Config_Factory_Post_Type();

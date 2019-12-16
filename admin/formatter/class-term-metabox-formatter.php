@@ -48,11 +48,11 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 	 * @return array
 	 */
 	public function get_values() {
-		$values = array();
+		$values = [];
 
 		// Todo: a column needs to be added on the termpages to add a filter for the keyword, so this can be used in the focus keyphrase doubles.
 		if ( is_object( $this->term ) && property_exists( $this->term, 'taxonomy' ) ) {
-			$values = array(
+			$values = [
 				'search_url'               => $this->search_url(),
 				'post_edit_url'            => $this->edit_url(),
 				'base_url'                 => $this->base_url_for_js(),
@@ -61,7 +61,7 @@ class WPSEO_Term_Metabox_Formatter implements WPSEO_Metabox_Formatter_Interface 
 				'title_template'           => $this->get_title_template(),
 				'metadesc_template'        => $this->get_metadesc_template(),
 				'social_preview_image_url' => $this->get_image_url(),
-			);
+			];
 		}
 
 		return $values;

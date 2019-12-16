@@ -15,7 +15,7 @@ class WPSEO_Configuration_Components {
 	 *
 	 * @var WPSEO_Config_Component[]
 	 */
-	protected $components = array();
+	protected $components = [];
 
 	/**
 	 * Adapter.
@@ -65,14 +65,14 @@ class WPSEO_Configuration_Components {
 		foreach ( $this->components as $component ) {
 			$adapter->add_custom_lookup(
 				$component->get_field()->get_identifier(),
-				array(
+				[
 					$component,
 					'get_data',
-				),
-				array(
+				],
+				[
 					$component,
 					'set_data',
-				)
+				]
 			);
 		}
 	}

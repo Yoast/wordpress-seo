@@ -27,21 +27,21 @@ class Yoast_Notification_Center {
 	/**
 	 * Holds the notifications.
 	 *
-	 * @var \Yoast_Notification[]
+	 * @var \Yoast_Notification[][]
 	 */
-	private $notifications = array();
+	private $notifications = [];
 
 	/**
 	 * Notifications there are newly added.
 	 *
 	 * @var array
 	 */
-	private $new = array();
+	private $new = [];
 
 	/**
 	 * Notifications that were resolved this execution.
 	 *
-	 * @var array
+	 * @var int
 	 */
 	private $resolved = 0;
 
@@ -50,7 +50,7 @@ class Yoast_Notification_Center {
 	 *
 	 * @var array
 	 */
-	private $queued_transactions = array();
+	private $queued_transactions = [];
 
 	/**
 	 * Internal flag for whether notifications have been retrieved from storage.
@@ -64,14 +64,14 @@ class Yoast_Notification_Center {
 	 */
 	private function __construct() {
 
-		add_action( 'init', array( $this, 'setup_current_notifications' ), 1 );
+		add_action( 'init', [ $this, 'setup_current_notifications' ], 1 );
 
-		add_action( 'all_admin_notices', array( $this, 'display_notifications' ) );
+		add_action( 'all_admin_notices', [ $this, 'display_notifications' ] );
 
-		add_action( 'wp_ajax_yoast_get_notifications', array( $this, 'ajax_get_notifications' ) );
+		add_action( 'wp_ajax_yoast_get_notifications', [ $this, 'ajax_get_notifications' ] );
 
-		add_action( 'wpseo_deactivate', array( $this, 'deactivate_hook' ) );
-		add_action( 'shutdown', array( $this, 'update_storage' ) );
+		add_action( 'wpseo_deactivate', [ $this, 'deactivate_hook' ] );
+		add_action( 'shutdown', [ $this, 'update_storage' ] );
 	}
 
 	/**
@@ -104,10 +104,10 @@ class Yoast_Notification_Center {
 		if ( false === ( $notification instanceof Yoast_Notification ) ) {
 
 			// Permit legacy.
-			$options      = array(
+			$options      = [
 				'id'            => $notification_id,
 				'dismissal_key' => $notification_id,
-			);
+			];
 			$notification = new Yoast_Notification( '', $options );
 		}
 
@@ -128,7 +128,7 @@ class Yoast_Notification_Center {
 	 */
 	public static function is_notification_dismissed( Yoast_Notification $notification, $user_id = null ) {
 
-		$user_id       = ( ! is_null( $user_id ) ? $user_id : get_current_user_id() );
+		$user_id       = self::get_user_id( $user_id );
 		$dismissal_key = $notification->get_dismissal_key();
 
 		// This checks both the site-specific user option and the meta value.
@@ -271,7 +271,7 @@ class Yoast_Notification_Center {
 	 * @return void
 	 */
 	public function setup_current_notifications() {
-		$this->retrieve_notifications_from_storage();
+		$this->retrieve_notifications_from_storage( get_current_user_id() );
 
 		foreach ( $this->queued_transactions as $transaction ) {
 			list( $callback, $args ) = $transaction;
@@ -279,7 +279,7 @@ class Yoast_Notification_Center {
 			call_user_func_array( $callback, $args );
 		}
 
-		$this->queued_transactions = array();
+		$this->queued_transactions = [];
 	}
 
 	/**
@@ -289,7 +289,7 @@ class Yoast_Notification_Center {
 	 */
 	public function add_notification( Yoast_Notification $notification ) {
 
-		$callback = array( $this, __METHOD__ );
+		$callback = [ $this, __METHOD__ ];
 		$args     = func_get_args();
 		if ( $this->queue_transaction( $callback, $args ) ) {
 			return;
@@ -301,12 +301,13 @@ class Yoast_Notification_Center {
 		}
 
 		$notification_id = $notification->get_id();
+		$user_id         = $notification->get_user_id();
 
 		// Empty notifications are always added.
 		if ( $notification_id !== '' ) {
 
 			// If notification ID exists in notifications, don't add again.
-			$present_notification = $this->get_notification_by_id( $notification_id );
+			$present_notification = $this->get_notification_by_id( $notification_id, $user_id );
 			if ( ! is_null( $present_notification ) ) {
 				$this->remove_notification( $present_notification, false );
 			}
@@ -317,19 +318,23 @@ class Yoast_Notification_Center {
 		}
 
 		// Add to list.
-		$this->notifications[] = $notification;
+		$this->notifications[ $user_id ][] = $notification;
 	}
 
 	/**
-	 * Get the notification by ID.
+	 * Get the notification by ID and user ID.
 	 *
 	 * @param string $notification_id The ID of the notification to search for.
+	 * @param int    $user_id         The ID of the user.
 	 *
 	 * @return null|Yoast_Notification
 	 */
-	public function get_notification_by_id( $notification_id ) {
+	public function get_notification_by_id( $notification_id, $user_id = null ) {
+		$user_id = self::get_user_id( $user_id );
 
-		foreach ( $this->notifications as & $notification ) {
+		$notifications = $this->get_notifications_for_user( $user_id );
+
+		foreach ( $notifications as $notification ) {
 			if ( $notification_id === $notification->get_id() ) {
 				return $notification;
 			}
@@ -353,17 +358,17 @@ class Yoast_Notification_Center {
 		}
 
 		$sorted_notifications = $this->get_sorted_notifications();
-		$notifications        = array_filter( $sorted_notifications, array( $this, 'is_notification_persistent' ) );
+		$notifications        = array_filter( $sorted_notifications, [ $this, 'is_notification_persistent' ] );
 
 		if ( empty( $notifications ) ) {
 			return;
 		}
 
-		array_walk( $notifications, array( $this, 'remove_notification' ) );
+		array_walk( $notifications, [ $this, 'remove_notification' ] );
 
 		$notifications = array_unique( $notifications );
 		if ( $echo_as_json ) {
-			$notification_json = array();
+			$notification_json = [];
 
 			foreach ( $notifications as $notification ) {
 				$notification_json[] = $notification->render();
@@ -389,7 +394,7 @@ class Yoast_Notification_Center {
 	 */
 	public function remove_notification( Yoast_Notification $notification, $resolve = true ) {
 
-		$callback = array( $this, __METHOD__ );
+		$callback = [ $this, __METHOD__ ];
 		$args     = func_get_args();
 		if ( $this->queue_transaction( $callback, $args ) ) {
 			return;
@@ -397,9 +402,13 @@ class Yoast_Notification_Center {
 
 		$index = false;
 
+		// ID of the user to show the notification for, defaults to current user id.
+		$user_id                = $notification->get_user_id();
+		$notifications = $this->get_notifications_for_user( $user_id );
+
 		// Match persistent Notifications by ID, non persistent by item in the array.
 		if ( $notification->is_persistent() ) {
-			foreach ( $this->notifications as $current_index => $present_notification ) {
+			foreach ( $notifications as $current_index => $present_notification ) {
 				if ( $present_notification->get_id() === $notification->get_id() ) {
 					$index = $current_index;
 					break;
@@ -407,7 +416,7 @@ class Yoast_Notification_Center {
 			}
 		}
 		else {
-			$index = array_search( $notification, $this->notifications, true );
+			$index = array_search( $notification, $notifications, true );
 		}
 
 		if ( false === $index ) {
@@ -419,8 +428,8 @@ class Yoast_Notification_Center {
 			$this->clear_dismissal( $notification );
 		}
 
-		unset( $this->notifications[ $index ] );
-		$this->notifications = array_values( $this->notifications );
+		unset( $notifications[ $index ] );
+		$this->notifications[ $user_id ] = array_values( $notifications );
 	}
 
 	/**
@@ -450,11 +459,11 @@ class Yoast_Notification_Center {
 	 */
 	public function get_notification_count( $dismissed = false ) {
 
-		$notifications = $this->get_notifications();
-		$notifications = array_filter( $notifications, array( $this, 'filter_persistent_notifications' ) );
+		$notifications = $this->get_notifications_for_user( get_current_user_id() );
+		$notifications = array_filter( $notifications, [ $this, 'filter_persistent_notifications' ] );
 
 		if ( ! $dismissed ) {
-			$notifications = array_filter( $notifications, array( $this, 'filter_dismissed_notifications' ) );
+			$notifications = array_filter( $notifications, [ $this, 'filter_dismissed_notifications' ] );
 		}
 
 		return count( $notifications );
@@ -478,14 +487,13 @@ class Yoast_Notification_Center {
 	 * @return array|Yoast_Notification[] Sorted Notifications
 	 */
 	public function get_sorted_notifications() {
-
-		$notifications = $this->get_notifications();
+		$notifications = $this->get_notifications_for_user( get_current_user_id() );
 		if ( empty( $notifications ) ) {
-			return array();
+			return [];
 		}
 
 		// Sort by severity, error first.
-		usort( $notifications, array( $this, 'sort_notifications' ) );
+		usort( $notifications, [ $this, 'sort_notifications' ] );
 
 		return $notifications;
 	}
@@ -512,6 +520,39 @@ class Yoast_Notification_Center {
 	}
 
 	/**
+	 * Returns the given user ID if it exists.
+	 * Otherwise, this function returns the ID of the current user.
+	 *
+	 * @param int $user_id The user ID to check.
+	 *
+	 * @return int The user ID to use.
+	 */
+	private static function get_user_id( $user_id ) {
+		if ( $user_id ) {
+			return $user_id;
+		}
+		return get_current_user_id();
+	}
+
+	/**
+	 * Splits the notifications on user ID.
+	 *
+	 * In other terms, it returns an associative array,
+	 * mapping user ID to a list of notifications for this user.
+	 *
+	 * @param array|Yoast_Notification[] $notifications The notifications to split.
+	 *
+	 * @return array The notifications, split on user ID.
+	 */
+	private function split_on_user_id( $notifications ) {
+		$split_notifications = [];
+		foreach ( $notifications as $notification ) {
+			$split_notifications[ $notification->get_user_id() ][] = $notification;
+		}
+		return $split_notifications;
+	}
+
+	/**
 	 * Save persistent notifications to storage.
 	 *
 	 * We need to be able to retrieve these so they can be dismissed at any time during the execution.
@@ -522,14 +563,24 @@ class Yoast_Notification_Center {
 	 */
 	public function update_storage() {
 
-		$notifications = $this->get_notifications();
+		$notifications = $this->notifications;
+
+		/**
+		 * @var Yoast_Notification[] $merged_notifications
+		 */
+		$merged_notifications = [];
+		if ( ! empty( $notifications ) ) {
+			$merged_notifications = array_merge( ...$notifications );
+		}
 
 		/**
 		 * Filter: 'yoast_notifications_before_storage' - Allows developer to filter notifications before saving them.
 		 *
 		 * @api Yoast_Notification[] $notifications
 		 */
-		$notifications = apply_filters( 'yoast_notifications_before_storage', $notifications );
+		$merged_notifications = apply_filters( 'yoast_notifications_before_storage', $merged_notifications );
+
+		$notifications = $this->split_on_user_id( $merged_notifications );
 
 		// No notifications to store, clear storage if it was previously present.
 		if ( empty( $notifications ) ) {
@@ -538,10 +589,20 @@ class Yoast_Notification_Center {
 			return;
 		}
 
-		$notifications = array_map( array( $this, 'notification_to_array' ), $notifications );
+		array_walk( $notifications , [ $this, 'store_notifications_for_user' ] );
+	}
 
-		// Save the notifications to the storage.
-		update_user_option( get_current_user_id(), self::STORAGE_KEY, $notifications );
+	/**
+	 * Stores the notifications to its respective user's storage.
+	 *
+	 * @param array|Yoast_Notification[] $notifications The notifications to store.
+	 * @param int                        $user_id       The ID of the user for which to store the notifications.
+	 *
+	 * @return void
+	 */
+	private function store_notifications_for_user( $notifications, $user_id ) {
+		$notifications_as_arrays = array_map( [ $this, 'notification_to_array' ], $notifications );
+		update_user_option( $user_id, self::STORAGE_KEY, $notifications_as_arrays );
 	}
 
 	/**
@@ -550,8 +611,24 @@ class Yoast_Notification_Center {
 	 * @return array|Yoast_Notification[] Registered notifications.
 	 */
 	public function get_notifications() {
+		if ( ! $this->notifications ) {
+			return [];
+		}
+		return array_merge( ...$this->notifications );
+	}
 
-		return $this->notifications;
+	/**
+	 * Returns the notifications for the given user.
+	 *
+	 * @param int $user_id The id of the user to check.
+	 *
+	 * @return Yoast_Notification[] The notifications for the user with the given ID.
+	 */
+	public function get_notifications_for_user( $user_id ) {
+		if ( array_key_exists( $user_id, $this->notifications ) ) {
+			return $this->notifications[ $user_id ];
+		}
+		return [];
 	}
 
 	/**
@@ -561,7 +638,7 @@ class Yoast_Notification_Center {
 	 */
 	public function get_new_notifications() {
 
-		return array_map( array( $this, 'get_notification_by_id' ), $this->new );
+		return array_map( [ $this, 'get_notification_by_id' ], $this->new );
 	}
 
 	/**
@@ -585,9 +662,11 @@ class Yoast_Notification_Center {
 	/**
 	 * Retrieve the notifications from storage.
 	 *
+	 * @param int $user_id The ID of the user to retrieve notifications for.
+	 *
 	 * @return array|void Yoast_Notification[] Notifications.
 	 */
-	private function retrieve_notifications_from_storage() {
+	private function retrieve_notifications_from_storage( $user_id ) {
 
 		if ( $this->notifications_retrieved ) {
 			return;
@@ -595,7 +674,7 @@ class Yoast_Notification_Center {
 
 		$this->notifications_retrieved = true;
 
-		$stored_notifications = get_user_option( self::STORAGE_KEY, get_current_user_id() );
+		$stored_notifications = get_user_option( self::STORAGE_KEY, $user_id );
 
 		// Check if notifications are stored.
 		if ( empty( $stored_notifications ) ) {
@@ -603,11 +682,11 @@ class Yoast_Notification_Center {
 		}
 
 		if ( is_array( $stored_notifications ) ) {
-			$notifications = array_map( array( $this, 'array_to_notification' ), $stored_notifications );
+			$notifications = array_map( [ $this, 'array_to_notification' ], $stored_notifications );
 			// Apply array_values to ensure we get a 0-indexed array.
-			$notifications = array_values( array_filter( $notifications, array( $this, 'filter_notification_current_user' ) ) );
+			$notifications = array_values( array_filter( $notifications, [ $this, 'filter_notification_current_user' ] ) );
 
-			$this->notifications = $notifications;
+			$this->notifications[ $user_id ] = $notifications;
 		}
 	}
 
@@ -644,7 +723,7 @@ class Yoast_Notification_Center {
 	 */
 	private function clear_notifications() {
 
-		$this->notifications           = array();
+		$this->notifications           = [];
 		$this->notifications_retrieved = false;
 	}
 
@@ -671,7 +750,7 @@ class Yoast_Notification_Center {
 	 */
 	private function filter_dismissed_notifications( Yoast_Notification $notification ) {
 
-		return ! $this->maybe_dismiss_notification( $notification );
+		return ! self::maybe_dismiss_notification( $notification );
 	}
 
 	/**
@@ -760,7 +839,7 @@ class Yoast_Notification_Center {
 	 * @param array    $args     Arguments to pass to the callback.
 	 */
 	private function add_transaction_to_queue( $callback, $args ) {
-		$this->queued_transactions[] = array( $callback, $args );
+		$this->queued_transactions[] = [ $callback, $args ];
 	}
 
 	/**

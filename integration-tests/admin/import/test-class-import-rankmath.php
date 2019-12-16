@@ -165,7 +165,7 @@ class RankMath_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
 		$post_id = $this->factory()->post->create();
 		update_post_meta( $post_id, 'rank_math_title', 'Test title' );
 		update_post_meta( $post_id, 'rank_math_description', 'Test description' );
-		update_post_meta( $post_id, 'rank_math_robots', array( 'noindex', 'nofollow' ) );
+		update_post_meta( $post_id, 'rank_math_robots', [ 'noindex', 'nofollow' ] );
 		update_post_meta( $post_id, 'rank_math_twitter_title', 'Test Twitter title' );
 		update_post_meta( $post_id, 'rank_math_twitter_description', 'Test Twitter description' );
 
@@ -176,10 +176,13 @@ class RankMath_Import_SEO_Framework_Test extends WPSEO_UnitTestCase {
 	 * Sets up a fake RankMath settings array.
 	 */
 	private function setup_options() {
-		update_option( 'rank-math-options-titles', array(
-			'homepage_title'       => 'Test homepage title',
-			'homepage_description' => 'Test homepage description',
-			'pt_post_title'        => 'Test post title template %sep% %sitename%',
-		) );
+		update_option(
+			'rank-math-options-titles',
+			[
+				'homepage_title'       => 'Test homepage title',
+				'homepage_description' => 'Test homepage description',
+				'pt_post_title'        => 'Test post title template %sep% %sitename%',
+			]
+		);
 	}
 }

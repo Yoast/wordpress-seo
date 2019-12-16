@@ -106,15 +106,19 @@ class Actions {
 	 * @return void
 	 */
 	private static function check_cs_for_changed_files( $compare ) {
-		\exec( 'git diff --name-only --diff-filter=d ' . escapeshellarg( $compare ), $files );
-		$files = array_filter( $files, function ( $file ) {
-			return substr( $file, -4 ) === '.php';
-		} );
+		\exec( 'git diff --name-only --diff-filter=d ' . \escapeshellarg( $compare ), $files );
+		$files = \array_filter(
+			$files,
+			function ( $file ) {
+				return \substr( $file, -4 ) === '.php';
+			}
+		);
+
 		if ( empty( $files ) ) {
 			echo 'No files to compare! Exiting.';
 			return;
 		}
 
-		\system( 'composer check-cs -- ' . implode( ' ', array_map( 'escapeshellarg', $files ) ) );
+		\system( 'composer check-cs -- ' . \implode( ' ', \array_map( 'escapeshellarg', $files ) ) );
 	}
 }

@@ -13,6 +13,13 @@
 class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 
 	/**
+	 * The date helper.
+	 *
+	 * @var WPSEO_Date_Helper
+	 */
+	protected $date;
+
+	/**
 	 * A value object with context variables.
 	 *
 	 * @var WPSEO_Schema_Context
@@ -26,6 +33,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 */
 	public function __construct( WPSEO_Schema_Context $context ) {
 		$this->context = $context;
+		$this->date    = new WPSEO_Date_Helper();
 	}
 
 	/**
@@ -47,16 +55,16 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 * @return array WebPage schema data.
 	 */
 	public function generate() {
-		$data = array(
+		$data = [
 			'@type'      => $this->determine_page_type(),
 			'@id'        => $this->context->canonical . WPSEO_Schema_IDs::WEBPAGE_HASH,
 			'url'        => $this->context->canonical,
 			'inLanguage' => get_bloginfo( 'language' ),
 			'name'       => $this->context->title,
-			'isPartOf'   => array(
+			'isPartOf'   => [
 				'@id' => $this->context->site_url . WPSEO_Schema_IDs::WEBSITE_HASH,
-			),
-		);
+			],
+		];
 
 		if ( is_front_page() ) {
 			if ( $this->context->site_represents_reference ) {
@@ -68,8 +76,8 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 			$this->add_image( $data );
 
 			$post                  = get_post( $this->context->id );
-			$data['datePublished'] = mysql2date( DATE_W3C, $post->post_date_gmt, false );
-			$data['dateModified']  = mysql2date( DATE_W3C, $post->post_modified_gmt, false );
+			$data['datePublished'] = $this->date->format( $post->post_date_gmt );
+			$data['dateModified']  = $this->date->format( $post->post_modified_gmt );
 
 			if ( get_post_type( $post ) === 'post' ) {
 				$data = $this->add_author( $data, $post );
@@ -81,9 +89,9 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 		}
 
 		if ( $this->add_breadcrumbs() ) {
-			$data['breadcrumb'] = array(
+			$data['breadcrumb'] = [
 				'@id' => $this->context->canonical . WPSEO_Schema_IDs::BREADCRUMB_HASH,
-			);
+			];
 		}
 
 		return $data;
@@ -99,7 +107,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 */
 	public function add_author( $data, $post ) {
 		if ( $this->context->site_represents === false ) {
-			$data['author'] = array( '@id' => WPSEO_Schema_Utils::get_user_schema_id( $post->post_author, $this->context ) );
+			$data['author'] = [ '@id' => WPSEO_Schema_Utils::get_user_schema_id( $post->post_author, $this->context ) ];
 		}
 		return $data;
 	}
@@ -111,7 +119,7 @@ class WPSEO_Schema_WebPage implements WPSEO_Graph_Piece {
 	 */
 	public function add_image( &$data ) {
 		if ( $this->context->has_image ) {
-			$data['primaryImageOfPage'] = array( '@id' => $this->context->canonical . WPSEO_Schema_IDs::PRIMARY_IMAGE_HASH );
+			$data['primaryImageOfPage'] = [ '@id' => $this->context->canonical . WPSEO_Schema_IDs::PRIMARY_IMAGE_HASH ];
 		}
 	}
 

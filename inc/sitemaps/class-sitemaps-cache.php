@@ -17,7 +17,7 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @var array
 	 */
-	protected static $cache_clear = array();
+	protected static $cache_clear = [];
 
 	/**
 	 * Mirror of enabled status for static calls.
@@ -38,27 +38,27 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @var array
 	 */
-	protected static $clear_types = array();
+	protected static $clear_types = [];
 
 	/**
 	 * Hook methods for invalidation on necessary events.
 	 */
 	public function __construct() {
 
-		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'init', [ $this, 'init' ] );
 
-		add_action( 'deleted_term_relationships', array( __CLASS__, 'invalidate' ) );
+		add_action( 'deleted_term_relationships', [ __CLASS__, 'invalidate' ] );
 
-		add_action( 'update_option', array( __CLASS__, 'clear_on_option_update' ) );
+		add_action( 'update_option', [ __CLASS__, 'clear_on_option_update' ] );
 
-		add_action( 'edited_terms', array( __CLASS__, 'invalidate_helper' ), 10, 2 );
-		add_action( 'clean_term_cache', array( __CLASS__, 'invalidate_helper' ), 10, 2 );
-		add_action( 'clean_object_term_cache', array( __CLASS__, 'invalidate_helper' ), 10, 2 );
+		add_action( 'edited_terms', [ __CLASS__, 'invalidate_helper' ], 10, 2 );
+		add_action( 'clean_term_cache', [ __CLASS__, 'invalidate_helper' ], 10, 2 );
+		add_action( 'clean_object_term_cache', [ __CLASS__, 'invalidate_helper' ], 10, 2 );
 
-		add_action( 'user_register', array( __CLASS__, 'invalidate_author' ) );
-		add_action( 'delete_user', array( __CLASS__, 'invalidate_author' ) );
+		add_action( 'user_register', [ __CLASS__, 'invalidate_author' ] );
+		add_action( 'delete_user', [ __CLASS__, 'invalidate_author' ] );
 
-		add_action( 'shutdown', array( __CLASS__, 'clear_queued' ) );
+		add_action( 'shutdown', [ __CLASS__, 'clear_queued' ] );
 	}
 
 	/**
@@ -179,7 +179,7 @@ class WPSEO_Sitemaps_Cache {
 	 */
 	public static function invalidate( $type ) {
 
-		self::clear( array( $type ) );
+		self::clear( [ $type ] );
 	}
 
 	/**
@@ -261,7 +261,7 @@ class WPSEO_Sitemaps_Cache {
 	 *
 	 * @return void
 	 */
-	public static function clear( $types = array() ) {
+	public static function clear( $types = [] ) {
 
 		if ( ! self::$is_enabled ) {
 			return;
@@ -295,7 +295,7 @@ class WPSEO_Sitemaps_Cache {
 
 			WPSEO_Sitemaps_Cache_Validator::invalidate_storage();
 			self::$clear_all   = false;
-			self::$clear_types = array();
+			self::$clear_types = [];
 
 			return;
 		}
@@ -304,7 +304,7 @@ class WPSEO_Sitemaps_Cache {
 			WPSEO_Sitemaps_Cache_Validator::invalidate_storage( $type );
 		}
 
-		self::$clear_types = array();
+		self::$clear_types = [];
 	}
 
 	/**

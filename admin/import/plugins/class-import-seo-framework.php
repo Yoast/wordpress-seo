@@ -29,48 +29,48 @@ class WPSEO_Import_SEO_Framework extends WPSEO_Plugin_Importer {
 	 *
 	 * @var array
 	 */
-	protected $clone_keys = array(
-		array(
+	protected $clone_keys = [
+		[
 			'old_key' => '_genesis_description',
 			'new_key' => 'metadesc',
-		),
-		array(
+		],
+		[
 			'old_key' => '_genesis_title',
 			'new_key' => 'title',
-		),
-		array(
+		],
+		[
 			'old_key' => '_genesis_noindex',
 			'new_key' => 'meta-robots-noindex',
-		),
-		array(
+		],
+		[
 			'old_key' => '_genesis_nofollow',
 			'new_key' => 'meta-robots-nofollow',
-		),
-		array(
+		],
+		[
 			'old_key' => '_genesis_canonical_uri',
 			'new_key' => 'canonical',
-		),
-		array(
+		],
+		[
 			'old_key' => '_open_graph_title',
 			'new_key' => 'opengraph-title',
-		),
-		array(
+		],
+		[
 			'old_key' => '_open_graph_description',
 			'new_key' => 'opengraph-description',
-		),
-		array(
+		],
+		[
 			'old_key' => '_social_image_url',
 			'new_key' => 'opengraph-image',
-		),
-		array(
+		],
+		[
 			'old_key' => '_twitter_title',
 			'new_key' => 'twitter-title',
-		),
-		array(
+		],
+		[
 			'old_key' => '_twitter_description',
 			'new_key' => 'twitter-description',
-		),
-	);
+		],
+	];
 
 	/**
 	 * Removes all the metadata set by the SEO Framework plugin.

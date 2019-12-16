@@ -54,7 +54,7 @@ class Option_Social_Test extends TestCase {
 
 		Monkey\Functions\expect( 'add_settings_error' )
 			->once()
-			->with( 'yoast_wpseo_social_options', $slug_name, $message, 'notice-error' );
+			->with( 'yoast_wpseo_social_options', $slug_name, $message, 'error' );
 
 		$instance = new Option_Social_Double();
 
@@ -162,7 +162,7 @@ class Option_Social_Test extends TestCase {
 	/**
 	 * Tests the Facebook App ID validation method with an invalid ID.
 	 *
-	 * @covers Yoast_Input_Validation::validate_facebook_app_id
+	 * @covers WPSEO_Option_Social::validate_facebook_app_id
 	 */
 	public function test_facebook_app_id_is_invalid() {
 		Monkey\Functions\stubs(
@@ -221,7 +221,7 @@ class Option_Social_Test extends TestCase {
 	/**
 	 * Tests the Facebook App ID validation method with a valid ID.
 	 *
-	 * @covers Yoast_Input_Validation::validate_facebook_app_id
+	 * @covers WPSEO_Option_Social::validate_facebook_app_id
 	 */
 	public function test_facebook_app_id_is_valid() {
 		$GLOBALS['wp_settings_errors'] = [];
@@ -316,13 +316,13 @@ class Option_Social_Test extends TestCase {
 				'setting' => 'yoast_wpseo_social_options',
 				'code'    => 'fbadminapp',
 				'message' => '<strong>yoastInvalidFBAppID</strong> does not seem to be a valid Facebook App ID. Please correct.',
-				'type'    => 'notice-error',
+				'type'    => 'error',
 			],
 		];
 
 		Monkey\Functions\expect( 'add_settings_error' )
 			->once()
-			->with( 'yoast_wpseo_social_options', 'fbadminapp', '<strong>yoastInvalidFBAppID</strong> does not seem to be a valid Facebook App ID. Please correct.', 'notice-error' );
+			->with( 'yoast_wpseo_social_options', 'fbadminapp', '<strong>yoastInvalidFBAppID</strong> does not seem to be a valid Facebook App ID. Please correct.', 'error' );
 
 		$instance->validate_facebook_app_id( 'fbadminapp', $dirty, '', $clean );
 

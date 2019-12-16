@@ -32,8 +32,8 @@ class WPSEO_Link_Watcher {
 	 * @returns void
 	 */
 	public function register_hooks() {
-		add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
-		add_action( 'delete_post', array( $this, 'delete_post' ) );
+		add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
+		add_action( 'delete_post', [ $this, 'delete_post' ] );
 	}
 
 	/**
@@ -45,6 +45,11 @@ class WPSEO_Link_Watcher {
 	 * @return void
 	 */
 	public function save_post( $post_id, WP_Post $post ) {
+		// Bail if this is a multisite installation and the site has been switched.
+		if ( is_multisite() && ms_is_switched() ) {
+			return;
+		}
+
 		/**
 		 * Filter: 'wpseo_should_index_links' - Allows disabling of Yoast's links indexation.
 		 *
@@ -63,7 +68,7 @@ class WPSEO_Link_Watcher {
 			return;
 		}
 
-		$post_statuses_to_skip = array( 'auto-draft', 'trash' );
+		$post_statuses_to_skip = [ 'auto-draft', 'trash' ];
 
 		if ( in_array( $post->post_status, $post_statuses_to_skip, true ) ) {
 			return;

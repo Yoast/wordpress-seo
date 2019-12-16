@@ -23,11 +23,11 @@ class WPSEO_GSC_Config {
 	 *
 	 * @var array
 	 */
-	public static $gsc = array(
+	public static $gsc = [
 		'application_name' => '',
 		'client_id'        => '',
 		'client_secret'    => '',
 		'redirect_uri'     => '',
-		'scopes'           => array(),
-	);
+		'scopes'           => [],
+	];
 }

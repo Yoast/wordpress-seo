@@ -28,7 +28,7 @@ class WPSEO_Utils {
 	 *
 	 * @var array
 	 */
-	protected static $console_notifications = array();
+	protected static $console_notifications = [];
 
 	/**
 	 * Check whether the current user is allowed to access the configuration.
@@ -125,7 +125,7 @@ class WPSEO_Utils {
 		static $registered_hook;
 
 		if ( is_null( $registered_hook ) ) {
-			add_action( 'admin_footer', array( __CLASS__, 'localize_console_notices' ), 999 );
+			add_action( 'admin_footer', [ __CLASS__, 'localize_console_notices' ], 999 );
 			$registered_hook = true;
 		}
 
@@ -199,7 +199,7 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function standardize_whitespace( $string ) {
-		return trim( str_replace( '  ', ' ', str_replace( array( "\t", "\n", "\r", "\f" ), ' ', $string ) ) );
+		return trim( str_replace( '  ', ' ', str_replace( [ "\t", "\n", "\r", "\f" ], ' ', $string ) ) );
 	}
 
 	/**
@@ -231,7 +231,7 @@ class WPSEO_Utils {
 			$value = trim( $value );
 		}
 		elseif ( is_array( $value ) ) {
-			$value = array_map( array( __CLASS__, 'trim_recursive' ), $value );
+			$value = array_map( [ __CLASS__, 'trim_recursive' ], $value );
 		}
 
 		return $value;
@@ -325,7 +325,7 @@ class WPSEO_Utils {
 	 *
 	 * @return string
 	 */
-	public static function sanitize_url( $value, $allowed_protocols = array( 'http', 'https' ) ) {
+	public static function sanitize_url( $value, $allowed_protocols = [ 'http', 'https' ] ) {
 		return esc_url_raw( sanitize_text_field( rawurldecode( $value ) ), $allowed_protocols );
 	}
 
@@ -361,7 +361,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function emulate_filter_bool( $value ) {
-		$true  = array(
+		$true  = [
 			'1',
 			'true',
 			'True',
@@ -374,8 +374,8 @@ class WPSEO_Utils {
 			'on',
 			'On',
 			'ON',
-		);
-		$false = array(
+		];
+		$false = [
 			'0',
 			'false',
 			'False',
@@ -388,7 +388,7 @@ class WPSEO_Utils {
 			'off',
 			'Off',
 			'OFF',
-		);
+		];
 
 		if ( is_bool( $value ) ) {
 			return $value;
@@ -652,7 +652,7 @@ class WPSEO_Utils {
 	 * @return string
 	 */
 	public static function trim_nbsp_from_string( $string ) {
-		$find   = array( '&nbsp;', chr( 0xC2 ) . chr( 0xA0 ) );
+		$find   = [ '&nbsp;', chr( 0xC2 ) . chr( 0xA0 ) ];
 		$string = str_replace( $find, ' ', $string );
 		$string = trim( $string );
 
@@ -669,16 +669,13 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_valid_datetime( $datetime ) {
+		static $date_helper;
 
-		if ( substr( $datetime, 0, 1 ) === '-' ) {
-			return false;
+		if ( ! $date_helper ) {
+			$date_helper = new WPSEO_Date_Helper();
 		}
 
-		try {
-			return new DateTime( $datetime ) !== false;
-		} catch ( Exception $exc ) {
-			return false;
-		}
+		return $date_helper->is_valid_datetime( $datetime );
 	}
 
 	/**
@@ -799,7 +796,7 @@ class WPSEO_Utils {
 	 * @return bool
 	 */
 	public static function is_yoast_seo_free_page( $current_page ) {
-		$yoast_seo_free_pages = array(
+		$yoast_seo_free_pages = [
 			'wpseo_dashboard',
 			'wpseo_titles',
 			'wpseo_social',
@@ -807,7 +804,7 @@ class WPSEO_Utils {
 			'wpseo_tools',
 			'wpseo_search_console',
 			'wpseo_licenses',
-		);
+		];
 
 		return in_array( $current_page, $yoast_seo_free_pages, true );
 	}
@@ -1002,7 +999,7 @@ SVG;
 	 * @return bool Whether or not the metabox should be displayed.
 	 */
 	protected static function display_taxonomy_metabox( $taxonomy = null ) {
-		if ( ! isset( $taxonomy ) || ! in_array( $taxonomy, get_taxonomies( array( 'public' => true ), 'names' ), true ) ) {
+		if ( ! isset( $taxonomy ) || ! in_array( $taxonomy, get_taxonomies( [ 'public' => true ], 'names' ), true ) ) {
 			return false;
 		}
 
@@ -1070,9 +1067,9 @@ SVG;
 	 * @return array The Adminl10n array.
 	 */
 	public static function get_admin_l10n() {
-		$wpseo_admin_l10n = array();
+		$wpseo_admin_l10n = [];
 
-		$additional_entries = apply_filters( 'wpseo_admin_l10n', array() );
+		$additional_entries = apply_filters( 'wpseo_admin_l10n', [] );
 		if ( is_array( $additional_entries ) ) {
 			$wpseo_admin_l10n = array_merge( $wpseo_admin_l10n, $additional_entries );
 		}
@@ -1110,7 +1107,7 @@ SVG;
 	 */
 	public static function get_home_url() {
 		// Add a new filter to undo WPML's changing of home url.
-		add_filter( 'wpml_get_home_url', array( 'WPSEO_Utils', 'wpml_get_home_url' ), 10, 2 );
+		add_filter( 'wpml_get_home_url', [ 'WPSEO_Utils', 'wpml_get_home_url' ], 10, 2 );
 
 		$url = home_url();
 
@@ -1119,7 +1116,7 @@ SVG;
 			$url = network_home_url();
 		}
 
-		remove_filter( 'wpml_get_home_url', array( 'WPSEO_Utils', 'wpml_get_home_url' ), 10 );
+		remove_filter( 'wpml_get_home_url', [ 'WPSEO_Utils', 'wpml_get_home_url' ], 10 );
 
 		return $url;
 	}
@@ -1158,11 +1155,8 @@ SVG;
 	 * @return false|string The prepared JSON string.
 	 */
 	public static function format_json_encode( $data ) {
-		$flags = 0;
-		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
-			// @codingStandardsIgnoreLine This is used in the wp_json_encode call, which checks for this.
-			$flags = ( $flags | JSON_UNESCAPED_SLASHES );
-		}
+		$flags = JSON_UNESCAPED_SLASHES;
+
 		if ( self::is_development_mode() ) {
 			$flags = ( $flags | JSON_PRETTY_PRINT );
 
@@ -1208,10 +1202,10 @@ SVG;
 			return false;
 		}
 
-		$output = array(
+		$output = [
 			'@context' => 'https://schema.org',
 			'@graph'   => $graph,
-		);
+		];
 		return "<script type='application/ld+json' class='" . esc_attr( $class ) . "'>" . self::format_json_encode( $output ) . '</script>' . "\n";
 	}
 
@@ -1227,28 +1221,28 @@ SVG;
 		static $a11y_tags;
 
 		if ( isset( $a11y_tags ) === false ) {
-			$a11y_tags = array(
-				'button'   => array(
+			$a11y_tags = [
+				'button'   => [
 					'aria-expanded' => true,
 					'aria-controls' => true,
-				),
-				'div'      => array(
+				],
+				'div'      => [
 					'tabindex' => true,
-				),
+				],
 				// Below are attributes that are needed for backwards compatibility (WP < 5.1).
-				'span'     => array(
+				'span'     => [
 					'aria-hidden' => true,
-				),
-				'input'    => array(
+				],
+				'input'    => [
 					'aria-describedby' => true,
-				),
-				'select'   => array(
+				],
+				'select'   => [
 					'aria-describedby' => true,
-				),
-				'textarea' => array(
+				],
+				'textarea' => [
 					'aria-describedby' => true,
-				),
-			);
+				],
+			];
 
 			// Add the global allowed attributes to each html element.
 			$a11y_tags = array_map( '_wp_add_global_attributes', $a11y_tags );
@@ -1269,8 +1263,8 @@ SVG;
 		static $input_tags;
 
 		if ( isset( $input_tags ) === false ) {
-			$input_tags = array(
-				'input' => array(
+			$input_tags = [
+				'input' => [
 					'accept'          => true,
 					'accesskey'       => true,
 					'align'           => true,
@@ -1319,8 +1313,8 @@ SVG;
 					 */
 					'data-target'     => true,
 					'data-target-id'  => true,
-				),
-				'select' => array(
+				],
+				'select' => [
 					'accesskey'       => true,
 					'autofocus'       => true,
 					'contenteditable' => true,
@@ -1347,16 +1341,16 @@ SVG;
 					'spellcheck'      => true,
 					'tabindex'        => true,
 					'translate'       => true,
-				),
-				'option' => array(
+				],
+				'option' => [
 					'class'    => true,
 					'disabled' => true,
 					'id'       => true,
 					'label'    => true,
 					'selected' => true,
 					'value'    => true,
-				),
-			);
+				],
+			];
 
 			// Add the global allowed attributes to each html element.
 			$input_tags = array_map( '_wp_add_global_attributes', $input_tags );
@@ -1371,7 +1365,7 @@ SVG;
 	 * @return string[] The array of enabled features.
 	 */
 	public static function retrieve_enabled_features() {
-		$enabled_features = array();
+		$enabled_features = [];
 		if ( defined( 'YOAST_SEO_ENABLED_FEATURES' ) ) {
 			$enabled_features = preg_split( '/,\W*/', YOAST_SEO_ENABLED_FEATURES );
 		}

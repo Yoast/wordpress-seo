@@ -15,7 +15,7 @@ class WPSEO_Configuration_Structure {
 	 *
 	 * @var array
 	 */
-	protected $steps = array();
+	protected $steps = [];
 
 	/**
 	 * List of fields for each configuration step.
@@ -25,10 +25,10 @@ class WPSEO_Configuration_Structure {
 	 *
 	 * @var array
 	 */
-	private $fields = array(
-		'environment_type' => array( 'environment_type' ),
-		'siteType'         => array( 'siteType' ),
-		'publishingEntity' => array(
+	private $fields = [
+		'environment_type' => [ 'environment_type' ],
+		'siteType'         => [ 'siteType' ],
+		'publishingEntity' => [
 			'publishingEntity',
 			'publishingEntityType',
 			'publishingEntityCompanyInfo',
@@ -43,19 +43,19 @@ class WPSEO_Configuration_Structure {
 			'profileUrlPinterest',
 			'profileUrlYouTube',
 			'profileUrlWikipedia',
-		),
-		'multipleAuthors'  => array( 'multipleAuthors' ),
-		'titleTemplate'    => array(
+		],
+		'multipleAuthors'  => [ 'multipleAuthors' ],
+		'titleTemplate'    => [
 			'titleIntro',
 			'siteName',
 			'separator',
-		),
-		'newsletter'       => array(
+		],
+		'newsletter'       => [
 			'mailchimpSignup',
 			'suggestions',
-		),
-		'success'          => array( 'successMessage' ),
-	);
+		],
+		'success'          => [ 'successMessage' ],
+	];
 
 	/**
 	 * WPSEO_Configuration_Structure constructor.
@@ -69,7 +69,7 @@ class WPSEO_Configuration_Structure {
 			$this->fields['publishingEntity']
 		);
 
-		$fields = array( 'postTypeVisibility' );
+		$fields = [ 'postTypeVisibility' ];
 
 		$post_type_factory = new WPSEO_Config_Factory_Post_Type();
 		foreach ( $post_type_factory->get_fields() as $post_type_field ) {
@@ -98,12 +98,12 @@ class WPSEO_Configuration_Structure {
 	 * @param bool   $full_width Wheter the step content is full width or not.
 	 */
 	protected function add_step( $identifier, $title, $fields, $navigation = true, $full_width = false ) {
-		$this->steps[ $identifier ] = array(
+		$this->steps[ $identifier ] = [
 			'title'          => $title,
 			'fields'         => $fields,
 			'hideNavigation' => ! (bool) $navigation,
 			'fullWidth'      => $full_width,
-		);
+		];
 	}
 
 	/**

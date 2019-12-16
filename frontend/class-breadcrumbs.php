@@ -32,6 +32,13 @@ class WPSEO_Breadcrumbs {
 	public static $after = '';
 
 	/**
+	 * The date helper.
+	 *
+	 * @var WPSEO_Date_Helper
+	 */
+	protected $date;
+
+	/**
 	 * Blog's show on front setting, 'page' or 'posts'.
 	 *
 	 * @var string
@@ -84,12 +91,12 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @var array
 	 */
-	private $crumbs = array();
+	private $crumbs = [];
 
 	/**
 	 * Count of the elements in the $crumbs property.
 	 *
-	 * @var array
+	 * @var int
 	 */
 	private $crumb_count = 0;
 
@@ -98,7 +105,7 @@ class WPSEO_Breadcrumbs {
 	 *
 	 * @var array
 	 */
-	private $links = array();
+	private $links = [];
 
 	/**
 	 * Breadcrumb html string.
@@ -122,6 +129,7 @@ class WPSEO_Breadcrumbs {
 		$this->show_on_front         = get_option( 'show_on_front' );
 		$this->page_for_posts        = get_option( 'page_for_posts' );
 		$this->woocommerce_shop_page = new WPSEO_WooCommerce_Shop_Page();
+		$this->date                  = new WPSEO_Date_Helper();
 
 		$this->filter_element();
 		$this->filter_separator();
@@ -257,7 +265,7 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function get_term_parents( $term ) {
 		$tax     = $term->taxonomy;
-		$parents = array();
+		$parents = [];
 		while ( $term->parent !== 0 ) {
 			$term      = get_term( $term->parent, $tax );
 			$parents[] = $term;
@@ -278,7 +286,7 @@ class WPSEO_Breadcrumbs {
 		 * Let's find the deepest term in this array, by looping through and then
 		 * unsetting every term that is used as a parent by another one in the array.
 		 */
-		$terms_by_id = array();
+		$terms_by_id = [];
 		foreach ( $terms as $term ) {
 			$terms_by_id[ $term->term_id ] = $term;
 		}
@@ -327,18 +335,18 @@ class WPSEO_Breadcrumbs {
 	 * @return array
 	 */
 	private function get_post_ancestors() {
-		$ancestors = array();
+		$ancestors = [];
 
 		if ( isset( $this->post->ancestors ) ) {
 			if ( is_array( $this->post->ancestors ) ) {
 				$ancestors = array_values( $this->post->ancestors );
 			}
 			else {
-				$ancestors = array( $this->post->ancestors );
+				$ancestors = [ $this->post->ancestors ];
 			}
 		}
 		elseif ( isset( $this->post->post_parent ) ) {
-			$ancestors = array( $this->post->post_parent );
+			$ancestors = [ $this->post->post_parent ];
 		}
 
 		/**
@@ -480,9 +488,9 @@ class WPSEO_Breadcrumbs {
 	 * @param int $id Post ID.
 	 */
 	private function add_single_post_crumb( $id ) {
-		$this->crumbs[] = array(
+		$this->crumbs[] = [
 			'id' => $id,
-		);
+		];
 	}
 
 	/**
@@ -491,9 +499,9 @@ class WPSEO_Breadcrumbs {
 	 * @param object $term Term data object.
 	 */
 	private function add_term_crumb( $term ) {
-		$this->crumbs[] = array(
+		$this->crumbs[] = [
 			'term' => $term,
-		);
+		];
 	}
 
 	/**
@@ -502,9 +510,9 @@ class WPSEO_Breadcrumbs {
 	 * @param string $pt Post type.
 	 */
 	private function add_ptarchive_crumb( $pt ) {
-		$this->crumbs[] = array(
+		$this->crumbs[] = [
 			'ptarchive' => $pt,
-		);
+		];
 	}
 
 	/**
@@ -515,11 +523,11 @@ class WPSEO_Breadcrumbs {
 	 * @param bool   $allow_html Flag to allow HTML.
 	 */
 	private function add_predefined_crumb( $text, $url = '', $allow_html = false ) {
-		$this->crumbs[] = array(
+		$this->crumbs[] = [
 			'text'       => $text,
 			'url'        => $url,
 			'allow_html' => $allow_html,
-		);
+		];
 	}
 
 	/**
@@ -589,7 +597,7 @@ class WPSEO_Breadcrumbs {
 			if ( isset( $this->post->ID ) ) {
 				$terms = get_the_terms( $this->post, $main_tax );
 
-				if ( is_array( $terms ) && $terms !== array() ) {
+				if ( is_array( $terms ) && $terms !== [] ) {
 
 					$primary_term = new WPSEO_Primary_Term( $main_tax, $this->post->ID );
 					if ( $primary_term->get_primary_term() ) {
@@ -617,7 +625,7 @@ class WPSEO_Breadcrumbs {
 	 */
 	private function add_post_ancestor_crumbs() {
 		$ancestors = $this->get_post_ancestors();
-		if ( is_array( $ancestors ) && $ancestors !== array() ) {
+		if ( is_array( $ancestors ) && $ancestors !== [] ) {
 			foreach ( $ancestors as $ancestor ) {
 				$this->add_single_post_crumb( $ancestor );
 			}
@@ -653,7 +661,7 @@ class WPSEO_Breadcrumbs {
 			return;
 		}
 
-		$this->crumbs[] = array(
+		$this->crumbs[] = [
 			'text'           => sprintf(
 				/* translators: %s expands to the current page number */
 				__( 'Page %s', 'wordpress-seo' ),
@@ -661,7 +669,7 @@ class WPSEO_Breadcrumbs {
 			),
 			'url'            => '',
 			'hide_in_schema' => true,
-		);
+		];
 	}
 
 	/**
@@ -728,17 +736,9 @@ class WPSEO_Breadcrumbs {
 
 	/**
 	 * Add (non-link) date crumb to crumbs property.
-	 *
-	 * @param string $date Optional date string, defaults to post's date.
 	 */
-	private function add_date_crumb( $date = null ) {
-		if ( is_null( $date ) ) {
-			$date = get_the_date();
-		}
-		else {
-			$date = mysql2date( get_option( 'date_format' ), $date, true );
-			$date = apply_filters( 'get_the_date', $date, '' );
-		}
+	private function add_date_crumb() {
+		$date = get_the_date();
 
 		$this->add_predefined_crumb(
 			WPSEO_Options::get( 'breadcrumbs-archiveprefix' ) . ' ' . esc_html( $date ),
@@ -753,7 +753,7 @@ class WPSEO_Breadcrumbs {
 	 * @link http://support.google.com/webmasters/bin/answer.py?hl=en&answer=185417 Google documentation on RDFA
 	 */
 	private function prepare_links() {
-		if ( ! is_array( $this->crumbs ) || $this->crumbs === array() ) {
+		if ( ! is_array( $this->crumbs ) || $this->crumbs === [] ) {
 			return;
 		}
 
@@ -792,7 +792,7 @@ class WPSEO_Breadcrumbs {
 	 * @return array Array of link text and url.
 	 */
 	private function get_link_info_for_id( $id ) {
-		$link         = array();
+		$link         = [];
 		$link['url']  = $this->get_link_url_for_id( $id );
 		$link['text'] = WPSEO_Meta::get_value( 'bctitle', $id );
 
@@ -811,7 +811,7 @@ class WPSEO_Breadcrumbs {
 	 * @return array Array of link text and url.
 	 */
 	private function get_link_info_for_term( $term ) {
-		$link = array();
+		$link = [];
 
 		$bctitle = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'bctitle' );
 		if ( ! is_string( $bctitle ) || $bctitle === '' ) {
@@ -832,7 +832,7 @@ class WPSEO_Breadcrumbs {
 	 * @return array Array of link text and url.
 	 */
 	private function get_link_info_for_ptarchive( $pt ) {
-		$link          = array();
+		$link          = [];
 		$archive_title = $this->get_archive_title( $pt );
 
 		$link['url']  = get_post_type_archive_link( $pt );
@@ -973,7 +973,7 @@ class WPSEO_Breadcrumbs {
 	 * Create a complete breadcrumb string from an array of breadcrumb element strings.
 	 */
 	private function links_to_string() {
-		if ( is_array( $this->links ) && $this->links !== array() ) {
+		if ( is_array( $this->links ) && $this->links !== [] ) {
 			// Converts info to an effective link.
 			$links = $this->links;
 			foreach ( $links as $key => $link ) {

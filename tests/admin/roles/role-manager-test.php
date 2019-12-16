@@ -1,6 +1,6 @@
 <?php
 
-namespace Yoast\WP\Free\Tests\Roles;
+namespace Yoast\WP\Free\Tests\Admin\Roles;
 
 use Brain\Monkey;
 use WPSEO_Role_Manager_Mock;
@@ -14,7 +14,7 @@ class Role_Manager_Test extends TestCase {
 
 	/**
 	 * Tests the registration of a role.
-	 *`
+	 *
 	 * @covers WPSEO_Abstract_Role_Manager::register
 	 */
 	public function test_register() {

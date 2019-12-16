@@ -29,37 +29,37 @@ class WPSEO_Import_Ultimate_SEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @var array
 	 */
-	protected $clone_keys = array(
-		array(
+	protected $clone_keys = [
+		[
 			'old_key' => '_su_description',
 			'new_key' => 'metadesc',
-		),
-		array(
+		],
+		[
 			'old_key' => '_su_title',
 			'new_key' => 'title',
-		),
-		array(
+		],
+		[
 			'old_key' => '_su_og_title',
 			'new_key' => 'opengraph-title',
-		),
-		array(
+		],
+		[
 			'old_key' => '_su_og_description',
 			'new_key' => 'opengraph-description',
-		),
-		array(
+		],
+		[
 			'old_key' => '_su_og_image',
 			'new_key' => 'opengraph-image',
-		),
-		array(
+		],
+		[
 			'old_key' => '_su_meta_robots_noindex',
 			'new_key' => 'meta-robots-noindex',
-			'convert' => array( 'on' => 1 ),
-		),
-		array(
+			'convert' => [ 'on' => 1 ],
+		],
+		[
 			'old_key' => '_su_meta_robots_nofollow',
 			'new_key' => 'meta-robots-nofollow',
-			'convert' => array( 'on' => 1 ),
-		),
-	);
+			'convert' => [ 'on' => 1 ],
+		],
+	];
 
 }

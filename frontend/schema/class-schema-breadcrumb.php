@@ -67,7 +67,7 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 		$breadcrumbs_instance = WPSEO_Breadcrumbs::get_instance();
 		$breadcrumbs          = $breadcrumbs_instance->get_links();
 		$broken               = false;
-		$list_elements        = array();
+		$list_elements        = [];
 
 		foreach ( $breadcrumbs as $index => $breadcrumb ) {
 			if ( ! empty( $breadcrumb['hide_in_schema'] ) ) {
@@ -86,11 +86,11 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 			$list_elements[] = $this->add_paginated_state();
 		}
 
-		$data = array(
+		$data = [
 			'@type'           => 'BreadcrumbList',
 			'@id'             => $this->context->canonical . WPSEO_Schema_IDs::BREADCRUMB_HASH,
 			'itemListElement' => $list_elements,
-		);
+		];
 
 		// Only output if JSON is correctly formatted.
 		if ( ! $broken ) {
@@ -120,19 +120,19 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 		}
 
 		if ( empty( $breadcrumb['text'] ) ) {
-			$breadcrumb['url'] = $this->context->title;
+			$breadcrumb['text'] = $this->context->title;
 		}
 
-		return array(
+		return [
 			'@type'    => 'ListItem',
 			'position' => ( $index + 1 ),
-			'item'     => array(
+			'item'     => [
 				'@type' => 'WebPage',
 				'@id'   => $breadcrumb['url'],
 				'url'   => $breadcrumb['url'], // For future proofing, we're trying to change the standard for this.
 				'name'  => $breadcrumb['text'],
-			),
-		);
+			],
+		];
 	}
 
 	/**
@@ -144,10 +144,10 @@ class WPSEO_Schema_Breadcrumb implements WPSEO_Graph_Piece {
 		$this->index++;
 		return $this->add_breadcrumb(
 			$this->index,
-			array(
+			[
 				'url'  => $this->context->canonical,
 				'text' => $this->context->title,
-			)
+			]
 		);
 	}
 }

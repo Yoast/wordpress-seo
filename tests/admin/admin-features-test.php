@@ -16,14 +16,13 @@ use Yoast\WP\Free\Tests\TestCase;
  * @package Yoast\Tests\Admin
  *
  * @coversDefaultClass WPSEO_Admin
- * @covers <!public>
  */
 class Admin_Features_Test extends TestCase {
 
 	/**
 	 * Returns an instance with set expectations for the dependencies.
 	 *
-	 * @return WPSEO_Admin Instance to test against.
+	 * @return \WPSEO_Admin Instance to test against.
 	 */
 	private function get_admin_with_expectations() {
 		$shortlinker = new Shortlinker();
@@ -37,6 +36,11 @@ class Admin_Features_Test extends TestCase {
 			->once()
 			->with( '?page=' . WPSEO_Admin::PAGE_IDENTIFIER . '&yoast_dismiss=upsell' )
 			->andReturn( 'https://example.org' );
+
+		// Mock the current user for notifications.
+		Monkey\Functions\expect( 'wp_get_current_user' )
+			->times( 2 )
+			->andReturn( Mockery::mock( \WP_User::class ) );
 
 		return new WPSEO_Admin();
 	}

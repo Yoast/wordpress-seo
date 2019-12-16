@@ -50,37 +50,37 @@ class WPSEO_Rank {
 	 *
 	 * @var array
 	 */
-	protected static $ranks = array(
+	protected static $ranks = [
 		self::BAD,
 		self::OK,
 		self::GOOD,
 		self::NO_FOCUS,
 		self::NO_INDEX,
-	);
+	];
 
 	/**
 	 * Holds the translation from seo score slug to actual score range.
 	 *
 	 * @var array
 	 */
-	protected static $ranges = array(
-		self::NO_FOCUS => array(
+	protected static $ranges = [
+		self::NO_FOCUS => [
 			'start' => 0,
 			'end'   => 0,
-		),
-		self::BAD => array(
+		],
+		self::BAD => [
 			'start' => 1,
 			'end'   => 40,
-		),
-		self::OK => array(
+		],
+		self::OK => [
 			'start' => 41,
 			'end'   => 70,
-		),
-		self::GOOD => array(
+		],
+		self::GOOD => [
 			'start' => 71,
 			'end'   => 100,
-		),
-	);
+		],
+	];
 
 	/**
 	 * The current rank.
@@ -117,13 +117,13 @@ class WPSEO_Rank {
 	 * @return string
 	 */
 	public function get_css_class() {
-		$labels = array(
+		$labels = [
 			self::NO_FOCUS => 'na',
 			self::NO_INDEX => 'noindex',
 			self::BAD      => 'bad',
 			self::OK       => 'ok',
 			self::GOOD     => 'good',
-		);
+		];
 
 		return $labels[ $this->rank ];
 	}
@@ -134,13 +134,13 @@ class WPSEO_Rank {
 	 * @return string
 	 */
 	public function get_label() {
-		$labels = array(
+		$labels = [
 			self::NO_FOCUS => __( 'Not available', 'wordpress-seo' ),
 			self::NO_INDEX => __( 'No index', 'wordpress-seo' ),
 			self::BAD      => __( 'Needs improvement', 'wordpress-seo' ),
 			self::OK       => __( 'OK', 'wordpress-seo' ),
 			self::GOOD     => __( 'Good', 'wordpress-seo' ),
-		);
+		];
 
 		return $labels[ $this->rank ];
 	}
@@ -151,7 +151,7 @@ class WPSEO_Rank {
 	 * @return mixed
 	 */
 	public function get_drop_down_label() {
-		$labels = array(
+		$labels = [
 			self::NO_FOCUS => sprintf(
 				/* translators: %s expands to the SEO score */
 				__( 'SEO: %s', 'wordpress-seo' ),
@@ -177,7 +177,7 @@ class WPSEO_Rank {
 				__( 'SEO: %s', 'wordpress-seo' ),
 				__( 'Post Noindexed', 'wordpress-seo' )
 			),
-		);
+		];
 
 		return $labels[ $this->rank ];
 	}
@@ -188,7 +188,7 @@ class WPSEO_Rank {
 	 * @return string The readability rank label.
 	 */
 	public function get_drop_down_readability_labels() {
-		$labels = array(
+		$labels = [
 			self::BAD => sprintf(
 				/* translators: %s expands to the readability score */
 				__( 'Readability: %s', 'wordpress-seo' ),
@@ -204,7 +204,7 @@ class WPSEO_Rank {
 				__( 'Readability: %s', 'wordpress-seo' ),
 				__( 'Good', 'wordpress-seo' )
 			),
-		);
+		];
 
 		return $labels[ $this->rank ];
 	}
@@ -264,7 +264,7 @@ class WPSEO_Rank {
 	 * @return WPSEO_Rank[]
 	 */
 	public static function get_all_ranks() {
-		return array_map( array( 'WPSEO_Rank', 'create_rank' ), self::$ranks );
+		return array_map( [ 'WPSEO_Rank', 'create_rank' ], self::$ranks );
 	}
 
 	/**
@@ -273,7 +273,7 @@ class WPSEO_Rank {
 	 * @return WPSEO_Rank[]
 	 */
 	public static function get_all_readability_ranks() {
-		return array_map( array( 'WPSEO_Rank', 'create_rank' ), array( self::BAD, self::OK, self::GOOD ) );
+		return array_map( [ 'WPSEO_Rank', 'create_rank' ], [ self::BAD, self::OK, self::GOOD ] );
 	}
 
 	/**

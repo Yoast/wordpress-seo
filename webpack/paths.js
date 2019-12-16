@@ -8,9 +8,9 @@ const cssDistPath = path.resolve( "css", "dist" );
 // Output filename: Entry file (relative to jsSrcPath)
 const entry = {
 	"configuration-wizard": "./configuration-wizard.js",
+	"help-scout-beacon": "./help-scout-beacon.js",
 	"search-appearance": "./search-appearance.js",
 	"wp-seo-dashboard-widget": "./wp-seo-dashboard-widget.js",
-	"wp-seo-help-center": "./wp-seo-help-center.js",
 	"wp-seo-metabox": "./wp-seo-metabox.js",
 	"wp-seo-post-scraper": "./wp-seo-post-scraper.js",
 	"wp-seo-term-scraper": "./wp-seo-term-scraper.js",

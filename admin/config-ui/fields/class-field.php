@@ -29,21 +29,21 @@ class WPSEO_Config_Field {
 	 *
 	 * @var array
 	 */
-	protected $properties = array();
+	protected $properties = [];
 
 	/**
 	 * Field requirements.
 	 *
 	 * @var array
 	 */
-	protected $requires = array();
+	protected $requires = [];
 
 	/**
 	 * Value of this field.
 	 *
 	 * @var array|mixed
 	 */
-	protected $data = array();
+	protected $data = [];
 
 	/**
 	 * WPSEO_Config_Field constructor.
@@ -108,9 +108,9 @@ class WPSEO_Config_Field {
 	 * @return array
 	 */
 	public function to_array() {
-		$output = array(
+		$output = [
 			'componentName' => $this->get_component(),
-		);
+		];
 
 		$properties = $this->get_properties();
 		if ( $properties ) {
@@ -140,10 +140,10 @@ class WPSEO_Config_Field {
 	 * @param mixed  $value Value of the field.
 	 */
 	public function set_requires( $field, $value ) {
-		$this->requires = array(
+		$this->requires = [
 			'field' => $field,
 			'value' => $value,
-		);
+		];
 	}
 
 	/**

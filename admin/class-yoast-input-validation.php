@@ -19,7 +19,7 @@ class Yoast_Input_Validation {
 	 *
 	 * @var array
 	 */
-	private static $error_descriptions = array();
+	private static $error_descriptions = [];
 
 	/**
 	 * Check whether an option group is a Yoast SEO setting.
@@ -100,8 +100,8 @@ class Yoast_Input_Validation {
 	 * @param array $descriptions An associative array of error descriptions. For
 	 *                            each entry, the key must be the setting variable.
 	 */
-	public static function set_error_descriptions( $descriptions = array() ) {
-		$defaults = array(
+	public static function set_error_descriptions( $descriptions = [] ) {
+		$defaults = [
 			'baiduverify'     => sprintf(
 				/* translators: %s: additional message with the submitted invalid value */
 				esc_html__( 'Baidu verification codes can only contain letters, numbers, hyphens, and underscores. %s', 'wordpress-seo' ),
@@ -172,7 +172,7 @@ class Yoast_Input_Validation {
 				esc_html__( 'Please check the format of the Youtube URL you entered. %s', 'wordpress-seo' ),
 				self::get_dirty_value_message( 'youtube_url' )
 			),
-		);
+		];
 
 		$descriptions = wp_parse_args( $descriptions, $defaults );
 

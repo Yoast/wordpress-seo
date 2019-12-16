@@ -37,7 +37,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::get_options
 	 */
 	public function test_get_options_IS_EMPTY_with_empty_array() {
-		$result = WPSEO_Options::get_options( array() );
+		$result = WPSEO_Options::get_options( [] );
 		$this->assertEmpty( $result );
 	}
 
@@ -47,7 +47,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::get_options
 	 */
 	public function test_get_options_IS_EMPTY_with_invalid_option_names() {
-		$result = WPSEO_Options::get_options( array( 'nonexistent_option_one', 'nonexistent_option_two' ) );
+		$result = WPSEO_Options::get_options( [ 'nonexistent_option_one', 'nonexistent_option_two' ] );
 		$this->assertEmpty( $result );
 	}
 
@@ -58,7 +58,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::get_options
 	 */
 	public function test_get_options_HAS_VALID_KEYS_with_valid_option_names() {
-		$result = WPSEO_Options::get_options( array( 'wpseo_social', 'wpseo_titles' ) );
+		$result = WPSEO_Options::get_options( [ 'wpseo_social', 'wpseo_titles' ] );
 		$this->assertArrayHasKey( 'opengraph', $result );
 	}
 
@@ -137,8 +137,8 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Options::get
 	 */
 	public function test_get_returns_default_result() {
-		$result = WPSEO_Options::get( 'non_existent_value', array() );
-		$this->assertEquals( array(), $result );
+		$result = WPSEO_Options::get( 'non_existent_value', [] );
+		$this->assertEquals( [], $result );
 	}
 
 	/**
@@ -165,9 +165,11 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Tests if unique keys are used in all options.
+	 *
+	 * @covers WPSEO_Option::get_option
 	 */
 	public function test_make_sure_keys_are_unique_over_options() {
-		$keys = array();
+		$keys = [];
 
 		// Make sure the backfilling is not being done when determining "real" unique option names.
 		remove_all_actions( 'option_wpseo' );
@@ -177,7 +179,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 			$option_keys = array_keys( WPSEO_Options::get_option( $option_name ) );
 			$intersected = array_intersect( $option_keys, $keys );
 
-			$this->assertEquals( array(), $intersected, 'Option keys must be unique (' . $option_name . ').' );
+			$this->assertEquals( [], $intersected, 'Option keys must be unique (' . $option_name . ').' );
 
 			$keys = array_merge( $keys, $option_keys );
 		}
@@ -194,7 +196,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	public function test_ms_options_included_in_get_in_multisite() {
 		$this->skipWithoutMultisite();
 
-		$ms_option_keys = array(
+		$ms_option_keys = [
 			'access',
 			'defaultblog',
 			WPSEO_Option::ALLOW_KEY_PREFIX . 'disableadvanced_meta',
@@ -205,7 +207,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 			WPSEO_Option::ALLOW_KEY_PREFIX . 'enable_cornerstone_content',
 			WPSEO_Option::ALLOW_KEY_PREFIX . 'enable_xml_sitemap',
 			WPSEO_Option::ALLOW_KEY_PREFIX . 'enable_text_link_counter',
-		);
+		];
 
 		foreach ( $ms_option_keys as $key ) {
 			$this->assertNotNull( WPSEO_Options::get( $key ) );
@@ -223,7 +225,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 	public function test_ms_options_excluded_in_get_non_multisite() {
 		$this->skipWithMultisite();
 
-		$ms_option_keys = array(
+		$ms_option_keys = [
 			'access',
 			'defaultblog',
 			WPSEO_Option::ALLOW_KEY_PREFIX . 'disableadvanced_meta',
@@ -234,7 +236,7 @@ class WPSEO_Options_Test extends WPSEO_UnitTestCase {
 			WPSEO_Option::ALLOW_KEY_PREFIX . 'enable_cornerstone_content',
 			WPSEO_Option::ALLOW_KEY_PREFIX . 'enable_xml_sitemap',
 			WPSEO_Option::ALLOW_KEY_PREFIX . 'enable_text_link_counter',
-		);
+		];
 
 		foreach ( $ms_option_keys as $key ) {
 			$this->assertNull( WPSEO_Options::get( $key ) );

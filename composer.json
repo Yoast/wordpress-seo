@@ -22,11 +22,10 @@
 		"source": "https://github.com/Yoast/wordpress-seo"
 	},
 	"require": {
-		"php": "^5.6.0||^7.0",
+		"php": "^5.6.20||^7.0",
 		"composer/installers": "~1.0",
 		"yoast/license-manager": "1.6.0",
 		"yoast/i18n-module": "^3.1.1",
-		"xrstf/composer-php52": "^1.0.20",
 		"j4mie/idiorm": "^1.5",
 		"pimple/pimple": "^3.2",
 		"ruckusing/ruckusing-migrations": "^1.1",
@@ -39,7 +38,7 @@
 		"yoast/yoastcs": "~0.4.3",
 		"phpcompatibility/phpcompatibility-wp": "^2.0.0",
 		"humbug/php-scoper": "^0.12.0",
-		"brain/monkey": "^2.2",
+		"brain/monkey": "^2.4",
 		"phpunit/phpunit": "^5.7",
 		"atanamo/php-codeshift": "^1.0",
 		"symfony/config": "^3.4"
@@ -67,10 +66,10 @@
 	},
 	"scripts": {
 		"test": [
-			"phpunit -c phpunit.xml.dist"
+			"@php ./vendor/phpunit/phpunit/phpunit"
 		],
 		"integration-test": [
-			"phpunit -c phpunit-integration.xml.dist"
+			"@php ./vendor/phpunit/phpunit/phpunit -c phpunit-integration.xml.dist"
 		],
 		"config-yoastcs": [
 			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/yoast/yoastcs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",
@@ -87,7 +86,7 @@
 			"@after-premium-cs"
 		],
 		"check-cs-errors": [
-			"@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs --error-severity=1 --warning-severity=6"
+			"@check-cs -n"
 		],
 		"check-staged-cs": [
 			"Yoast\\WP\\Free\\Composer\\Actions::check_staged_cs"
@@ -144,14 +143,7 @@
 			"Yoast\\WP\\Free\\Composer\\Actions::compile_dependency_injection_container"
 		],
 		"post-install-cmd": [
-			"xrstf\\Composer52\\Generator::onPostInstallCmd",
 			"Yoast\\WP\\Free\\Composer\\Actions::prefix_dependencies"
-		],
-		"post-update-cmd": [
-			"xrstf\\Composer52\\Generator::onPostInstallCmd"
-		],
-		"post-autoload-dump": [
-			"xrstf\\Composer52\\Generator::onPostInstallCmd"
 		]
 	}
 }

@@ -64,7 +64,7 @@ class WPSEO_GSC_Settings {
 	 */
 	public static function get_profile() {
 		// Get option.
-		$option = get_option( 'wpseo-gsc', array( 'profile' => '' ) );
+		$option = get_option( 'wpseo-gsc', [ 'profile' => '' ] );
 
 		// Set the profile.
 		$profile = '';
@@ -75,5 +75,4 @@ class WPSEO_GSC_Settings {
 		// Return the profile.
 		return trim( $profile, '/' );
 	}
-
 }

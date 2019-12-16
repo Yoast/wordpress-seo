@@ -42,10 +42,13 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 	 * Tests the saving of a link.
 	 */
 	public function test_save_link() {
+
+		$this->bypass_php74_mockbuilder_deprecation_warning();
+
 		/** @var WPSEO_Link_Storage $storage */
 		$storage = $this
 			->getMockBuilder( 'WPSEO_Link_Storage' )
-			->setMethods( array( 'save_link' ) )
+			->setMethods( [ 'save_link' ] )
 			->getMock();
 
 		$storage
@@ -59,9 +62,9 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 
 		$storage->save_links(
 			1,
-			array(
+			[
 				new WPSEO_Link( 'page', 0, 'outbound' ),
-			)
+			]
 		);
 	}
 
@@ -70,7 +73,7 @@ class WPSEO_Link_Storage_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_cleanup() {
 		$storage = new WPSEO_Link_Storage();
-		$storage->save_links( 2, array( new WPSEO_Link( 'page2', 0, 'outbound' ) ) );
+		$storage->save_links( 2, [ new WPSEO_Link( 'page2', 0, 'outbound' ) ] );
 
 		$this->assertEquals( 1, $storage->cleanup( 2 ) );
 	}

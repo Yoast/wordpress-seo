@@ -14,7 +14,7 @@ class WPSEO_Link_Cleanup_Transient implements WPSEO_WordPress_Integration {
 	 * Registers the hooks.
 	 */
 	public function register_hooks() {
-		add_action( 'update_option_wpseo', array( $this, 'remove_transients_on_updated_option' ), 10, 2 );
+		add_action( 'update_option_wpseo', [ $this, 'remove_transients_on_updated_option' ], 10, 2 );
 	}
 
 	/**

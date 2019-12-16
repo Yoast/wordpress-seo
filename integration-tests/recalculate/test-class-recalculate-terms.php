@@ -32,26 +32,26 @@ class WPSEO_Recalculate_Terms_Test extends WPSEO_UnitTestCase {
 
 		$this->instance = new WPSEO_Recalculate_Terms();
 
-		$this->terms = array(
+		$this->terms = [
 			1 => $this->factory->term->create(
-				array(
+				[
 					'name'     => 'Term with focus keyword',
 					'taxonomy' => 'category',
-				)
+				]
 			),
 			2 => $this->factory->term->create(
-				array(
+				[
 					'name'     => '2nd Term',
 					'taxonomy' => 'category',
-				)
+				]
 			),
 			3 => $this->factory->term->create(
-				array(
+				[
 					'name'     => 'Term 3',
 					'taxonomy' => 'category',
-				)
+				]
 			),
-		);
+		];
 	}
 
 	/**
@@ -64,13 +64,13 @@ class WPSEO_Recalculate_Terms_Test extends WPSEO_UnitTestCase {
 		$this->assertEquals( WPSEO_Taxonomy_Meta::get_term_meta( 'linkdex', 'category', $this->terms[1] ), 0 );
 
 		$this->instance->save_scores(
-			array(
-				array(
+			[
+				[
 					'item_id'  => $this->terms[1],
 					'taxonomy' => 'category',
 					'score'    => 10,
-				),
-			)
+				],
+			]
 		);
 	}
 

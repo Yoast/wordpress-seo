@@ -31,44 +31,44 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @var array
 	 */
-	protected $clone_keys = array(
-		array(
+	protected $clone_keys = [
+		[
 			'old_key' => '_wpseo_edit_description',
 			'new_key' => 'metadesc',
-		),
-		array(
+		],
+		[
 			'old_key' => '_wpseo_edit_title',
 			'new_key' => 'title',
-		),
-		array(
+		],
+		[
 			'old_key' => '_wpseo_edit_canonical',
 			'new_key' => 'canonical',
-		),
-		array(
+		],
+		[
 			'old_key' => '_wpseo_edit_og_title',
 			'new_key' => 'opengraph-title',
-		),
-		array(
+		],
+		[
 			'old_key' => '_wpseo_edit_og_description',
 			'new_key' => 'opengraph-description',
-		),
-		array(
+		],
+		[
 			'old_key' => '_wpseo_edit_og_image',
 			'new_key' => 'opengraph-image',
-		),
-		array(
+		],
+		[
 			'old_key' => '_wpseo_edit_twittercard_title',
 			'new_key' => 'twitter-title',
-		),
-		array(
+		],
+		[
 			'old_key' => '_wpseo_edit_twittercard_description',
 			'new_key' => 'twitter-description',
-		),
-		array(
+		],
+		[
 			'old_key' => '_wpseo_edit_twittercard_image',
 			'new_key' => 'twitter-image',
-		),
-	);
+		],
+	];
 
 	/**
 	 * The values 1 - 6 are the configured values from wpSEO. This array will map the values of wpSEO to our values.
@@ -78,38 +78,38 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	 *
 	 * @var array
 	 */
-	private $robot_values = array(
+	private $robot_values = [
 		// In wpSEO: index, follow.
-		1 => array(
+		1 => [
 			'index'  => 2,
 			'follow' => 0,
-		),
+		],
 		// In wpSEO: index, nofollow.
-		2 => array(
+		2 => [
 			'index'  => 2,
 			'follow' => 1,
-		),
+		],
 		// In wpSEO: noindex.
-		3 => array(
+		3 => [
 			'index'  => 1,
 			'follow' => 0,
-		),
+		],
 		// In wpSEO: noindex, follow.
-		4 => array(
+		4 => [
 			'index'  => 1,
 			'follow' => 0,
-		),
+		],
 		// In wpSEO: noindex, nofollow.
-		5 => array(
+		5 => [
 			'index'  => 1,
 			'follow' => 1,
-		),
+		],
 		// In wpSEO: index.
-		6 => array(
+		6 => [
 			'index'  => 2,
 			'follow' => 0,
-		),
-	);
+		],
+	];
 
 	/**
 	 * Imports wpSEO settings.
@@ -193,7 +193,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	 * @return void
 	 */
 	private function import_taxonomy_metas() {
-		$terms    = get_terms( get_taxonomies(), array( 'hide_empty' => false ) );
+		$terms    = get_terms( get_taxonomies(), [ 'hide_empty' => false ] );
 		$tax_meta = get_option( 'wpseo_taxonomy_meta' );
 
 		foreach ( $terms as $term ) {
@@ -238,7 +238,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 		// The value 1, 2 and 6 are the index values in wpSEO.
 		$new_robot_value = 'noindex';
 
-		if ( in_array( (int) $wpseo_robots, array( 1, 2, 6 ), true ) ) {
+		if ( in_array( (int) $wpseo_robots, [ 1, 2, 6 ], true ) ) {
 			$new_robot_value = 'index';
 		}
 
@@ -291,7 +291,7 @@ class WPSEO_Import_WPSEO extends WPSEO_Plugin_Importer {
 	 * @return void
 	 */
 	private function cleanup_term_meta() {
-		$terms = get_terms( get_taxonomies(), array( 'hide_empty' => false ) );
+		$terms = get_terms( get_taxonomies(), [ 'hide_empty' => false ] );
 		foreach ( $terms as $term ) {
 			$this->delete_taxonomy_metas( $term->taxonomy, $term->term_id );
 		}

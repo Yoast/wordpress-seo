@@ -17,7 +17,7 @@ class WPSEO_Network_Admin_Menu extends WPSEO_Base_Menu {
 	 */
 	public function register_hooks() {
 		// Needs the lower than default priority so other plugins can hook underneath it without issue.
-		add_action( 'network_admin_menu', array( $this, 'register_settings_page' ), 5 );
+		add_action( 'network_admin_menu', [ $this, 'register_settings_page' ], 5 );
 	}
 
 	/**
@@ -35,7 +35,7 @@ class WPSEO_Network_Admin_Menu extends WPSEO_Base_Menu {
 			__( 'SEO', 'wordpress-seo' ),
 			$this->get_manage_capability(),
 			$this->get_page_identifier(),
-			array( $this, 'network_config_page' ),
+			[ $this, 'network_config_page' ],
 			WPSEO_Utils::get_icon_svg()
 		);
 
@@ -51,13 +51,13 @@ class WPSEO_Network_Admin_Menu extends WPSEO_Base_Menu {
 	public function get_submenu_pages() {
 
 		// Submenu pages.
-		$submenu_pages = array(
+		$submenu_pages = [
 			$this->get_submenu_page(
 				__( 'General', 'wordpress-seo' ),
 				$this->get_page_identifier(),
-				array( $this, 'network_config_page' )
+				[ $this, 'network_config_page' ]
 			),
-		);
+		];
 
 		if ( WPSEO_Utils::allow_system_file_edit() === true ) {
 			$submenu_pages[] = $this->get_submenu_page( __( 'Edit Files', 'wordpress-seo' ), 'wpseo_files' );

@@ -15,7 +15,7 @@ class Indexable_Term_Builder {
 	/**
 	 * Formats the data.
 	 *
-	 * @param int                             $term_id  ID of the term to save data for.
+	 * @param int                             $term_id   ID of the term to save data for.
 	 * @param \Yoast\WP\Free\Models\Indexable $indexable The indexable to format.
 	 *
 	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.

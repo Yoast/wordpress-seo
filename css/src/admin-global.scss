@@ -21,7 +21,6 @@
 	font-weight: 600;
 }
 
-.wpseo-help-center-sub-title,
 .wpseo-premium-popup-title {
 	// Using !important to override WP styles.
 	margin: 1em 0 !important;
@@ -287,6 +286,35 @@ td.column-wpseo-linked {
 	word-wrap: normal;
 }
 
+// Temporary adjustments for form controls styling changed in WordPress 5.3.
+.yoast {
+	// Reset 1px margin inherited from WordPress.
+	input {
+		margin: 0;
+	}
+
+	// Make inputs same height as buttons and selects.
+	input[type="text"],
+	input[type="password"],
+	input[type="date"],
+	input[type="datetime"],
+	input[type="datetime-local"],
+	input[type="email"],
+	input[type="month"],
+	input[type="number"],
+	input[type="search"],
+	input[type="tel"],
+	input[type="time"],
+	input[type="url"],
+	input[type="week"] {
+		padding: 0 8px;
+		vertical-align: top;
+		/* inherits font size 14px */
+		line-height: 1.85714285; /* 26px vs. 28px from core */
+		min-height: 28px; /* 28px vs. 30px from core */
+	}
+}
+
 @media screen and ( max-width: 782px ) {
 	.yoast-settings {
 		padding-left: 0;
@@ -319,6 +347,30 @@ td.column-wpseo-linked {
 		padding-top: 4px;
 	}
 
+	// Temporary adjustments for form controls styling changed in WordPress 5.3.
+	.yoast {
+		// Make inputs same height as buttons and selects.
+		input[type="text"],
+		input[type="password"],
+		input[type="date"],
+		input[type="datetime"],
+		input[type="datetime-local"],
+		input[type="email"],
+		input[type="month"],
+		input[type="number"],
+		input[type="search"],
+		input[type="tel"],
+		input[type="time"],
+		input[type="url"],
+		input[type="week"] {
+			padding: 0 10px;
+			vertical-align: top;
+			/* inherits font size 16px */
+			line-height: 1.875; /* 30px */
+			min-height: 32px;
+		}
+	}
+
 	.yoast-settings input[type="text"],
 	.yoast-settings textarea,
 	.yoast-settings select {
@@ -343,9 +395,6 @@ td.column-wpseo-linked {
 }
 
 /* Help Center */
-#yoast-help-center-container {
-	margin: 16px 0 24px;
-}
 
 .react-tabs__tab-panel {
 	max-width: 900px;
@@ -354,10 +403,6 @@ td.column-wpseo-linked {
 	li {
 		max-width: none !important;
 	}
-}
-
-.yoast-help-center-open #sidebar-container {
-	display: none;
 }
 
 .contact-premium-support {
@@ -393,7 +438,6 @@ td.column-wpseo-linked {
 }
 
 .yoast_help.yoast-help-button {
-	overflow: visible;
 	position: relative;
 	width: 20px;
 	height: 20px;
@@ -405,7 +449,6 @@ td.column-wpseo-linked {
 	background: transparent;
 	box-shadow: none;
 	vertical-align: top;
-	/* IE 11 */
 	cursor: pointer;
 }
 
@@ -510,15 +553,6 @@ td.column-wpseo-linked {
 		filter: none;
 	}
 
-	// Only needed for IE 10+. Don't add spaces within brackets for this to work.
-	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-		&::after {
-			display: inline-block;
-			content: "";
-			min-height: 32px;
-		}
-	}
-
 	&#wpseo-premium-button {
 		color: $color-black;
 	}
@@ -590,37 +624,29 @@ body.folded {
 	}
 }
 
-.yoast_bf_sale {
+.yoast-alert-box {
+	display: flex;
+	align-items: baseline;
 	position: relative;
-	margin: 10px 10px 10px 0;
-	max-width: 1012px;
-	height: 100px;
-	background: url(../../images/yoasie_banner_bf.gif) no-repeat;
-	background-size: contain;
-	.close {
-		z-index: 1;
-		text-align: center;
-		position: absolute;
-		right: 5px;
-		top: 5px;
-		background: transparent;
-		color: #000;
-		border-radius: 50%;
-		width: 17px;
-		font-weight: bold;
-		text-decoration: none;
-		&:hover {
-			cursor: pointer;
-			color: #fff;
-			background: #000;
-		}
-	}
-	.target {
+	padding: 16px;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.5;
+	margin: 16px 0;
+
+	span.icon {
 		display: block;
-		width: 100%;
-		height: 100%;
-		&:hover {
-			cursor: url('../../images/crosshair.svg'), pointer;
-		}
+		margin-right: 8px;
+	}
+
+	a {
+		color: #004973;
+		text-decoration: underline;
+	}
+
+	&__warning {
+		color: #674E00;
+		background: #FFF3CD;
 	}
 }

@@ -21,10 +21,10 @@ $yform->select(
 	'access',
 	/* translators: %1$s expands to Yoast SEO */
 	sprintf( __( 'Who should have access to the %1$s settings', 'wordpress-seo' ), 'Yoast SEO' ),
-	array(
+	[
 		'admin'      => __( 'Site Admins (default)', 'wordpress-seo' ),
 		'superadmin' => __( 'Super Admins only', 'wordpress-seo' ),
-	)
+	]
 );
 
 if ( get_blog_count() <= 100 ) {

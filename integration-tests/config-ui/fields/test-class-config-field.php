@@ -44,7 +44,7 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 		$properties = $field->get_properties();
 
 		$this->assertEquals(
-			array( $property => $property_value ),
+			[ $property => $property_value ],
 			$properties
 		);
 	}
@@ -65,6 +65,7 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Tests the setting of required field.
+	 *
 	 * @covers WPSEO_Config_Field::set_requires
 	 * @covers WPSEO_Config_Field::get_requires
 	 */
@@ -72,10 +73,10 @@ class WPSEO_Config_Field_Test extends PHPUnit_Framework_TestCase {
 		$field_b = 'field_b';
 		$value   = 'value';
 
-		$expected = array(
+		$expected = [
 			'field' => $field_b,
 			'value' => $value,
-		);
+		];
 
 		$field = new WPSEO_Config_Field( 'field_a', 'component' );
 		$field->set_requires( $field_b, $value );

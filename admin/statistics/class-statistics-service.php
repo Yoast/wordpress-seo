@@ -52,10 +52,10 @@ class WPSEO_Statistics_Service {
 		$this->labels = $this->labels();
 		$statistics   = $this->statistic_items();
 
-		$data = array(
+		$data = [
 			'header'     => $this->get_header_from_statistics( $statistics ),
 			'seo_scores' => $statistics['scores'],
-		);
+		];
 
 		return new WP_REST_Response( $data );
 	}
@@ -105,7 +105,7 @@ class WPSEO_Statistics_Service {
 		$transient = get_transient( self::CACHE_TRANSIENT_KEY );
 
 		if ( $transient === false ) {
-			return array();
+			return [];
 		}
 
 		return $transient;
@@ -123,11 +123,11 @@ class WPSEO_Statistics_Service {
 		$scores   = $this->get_seo_scores_with_post_count();
 		$division = $this->get_seo_score_division( $scores );
 
-		$transient[ $user ] = array(
+		$transient[ $user ] = [
 			// Use array_values because array_filter may return non-zero indexed arrays.
-			'scores'   => array_values( array_filter( $scores, array( $this, 'filter_items' ) ) ),
+			'scores'   => array_values( array_filter( $scores, [ $this, 'filter_items' ] ) ),
 			'division' => $division,
-		);
+		];
 
 		set_transient( self::CACHE_TRANSIENT_KEY, $transient, DAY_IN_SECONDS );
 
@@ -143,7 +143,7 @@ class WPSEO_Statistics_Service {
 	 */
 	private function get_seo_score_division( array $scores ) {
 		$total    = 0;
-		$division = array();
+		$division = [];
 
 		foreach ( $scores as $score ) {
 			$total += $score['count'];
@@ -168,7 +168,7 @@ class WPSEO_Statistics_Service {
 	private function get_seo_scores_with_post_count() {
 		$ranks = WPSEO_Rank::get_all_ranks();
 
-		return array_map( array( $this, 'map_rank_to_widget' ), $ranks );
+		return array_map( [ $this, 'map_rank_to_widget' ], $ranks );
 	}
 
 	/**
@@ -179,12 +179,12 @@ class WPSEO_Statistics_Service {
 	 * @return array The mapped rank.
 	 */
 	private function map_rank_to_widget( WPSEO_Rank $rank ) {
-		return array(
+		return [
 			'seo_rank' => $rank->get_rank(),
 			'label'    => $this->get_label_for_rank( $rank ),
 			'count'    => $this->statistics->get_post_count( $rank ),
 			'link'     => $this->get_link_for_rank( $rank ),
-		);
+		];
 	}
 
 	/**
@@ -204,7 +204,7 @@ class WPSEO_Statistics_Service {
 	 * @return array Array containing the translatable labels.
 	 */
 	private function labels() {
-		return array(
+		return [
 			WPSEO_Rank::NO_FOCUS => sprintf(
 				/* translators: %1$s expands to an opening strong tag, %2$s expands to a closing strong tag */
 				__( 'Posts %1$swithout%2$s a focus keyphrase', 'wordpress-seo' ),
@@ -227,7 +227,7 @@ class WPSEO_Statistics_Service {
 				'<strong>' . __( 'Good', 'wordpress-seo' ) . '</strong>'
 			),
 			WPSEO_Rank::NO_INDEX => __( 'Posts that should not show up in search results', 'wordpress-seo' ),
-		);
+		];
 	}
 
 	/**

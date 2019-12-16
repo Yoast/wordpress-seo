@@ -67,40 +67,40 @@ class Yoast_Feature_Toggles {
 				. '" target="_blank">' . esc_html__( 'See the XML sitemap.', 'wordpress-seo' ) . '</a>';
 		}
 
-		$feature_toggles = array(
-			(object) array(
+		$feature_toggles = [
+			(object) [
 				'name'            => __( 'SEO analysis', 'wordpress-seo' ),
 				'setting'         => 'keyword_analysis_active',
 				'label'           => __( 'The SEO analysis offers suggestions to improve the SEO of your text.', 'wordpress-seo' ),
 				'read_more_label' => __( 'Learn how the SEO analysis can help you rank.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/2ak',
 				'order'           => 10,
-			),
-			(object) array(
+			],
+			(object) [
 				'name'            => __( 'Readability analysis', 'wordpress-seo' ),
 				'setting'         => 'content_analysis_active',
 				'label'           => __( 'The readability analysis offers suggestions to improve the structure and style of your text.', 'wordpress-seo' ),
 				'read_more_label' => __( 'Discover why readability is important for SEO.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/2ao',
 				'order'           => 20,
-			),
-			(object) array(
+			],
+			(object) [
 				'name'            => __( 'Cornerstone content', 'wordpress-seo' ),
 				'setting'         => 'enable_cornerstone_content',
 				'label'           => __( 'The cornerstone content feature lets you to mark and filter cornerstone content on your website.', 'wordpress-seo' ),
 				'read_more_label' => __( 'Find out how cornerstone content can help you improve your site structure.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/dashboard-help-cornerstone',
 				'order'           => 30,
-			),
-			(object) array(
+			],
+			(object) [
 				'name'            => __( 'Text link counter', 'wordpress-seo' ),
 				'setting'         => 'enable_text_link_counter',
 				'label'           => __( 'The text link counter helps you improve your site structure.', 'wordpress-seo' ),
 				'read_more_label' => __( 'Find out how the text link counter can enhance your SEO.', 'wordpress-seo' ),
 				'read_more_url'   => 'https://yoa.st/2aj',
 				'order'           => 40,
-			),
-			(object) array(
+			],
+			(object) [
 				'name'            => __( 'XML sitemaps', 'wordpress-seo' ),
 				'setting'         => 'enable_xml_sitemap',
 				/* translators: %s: Yoast SEO */
@@ -109,8 +109,8 @@ class Yoast_Feature_Toggles {
 				'read_more_url'   => 'https://yoa.st/2a-',
 				'extra'           => $xml_sitemap_extra,
 				'order'           => 60,
-			),
-			(object) array(
+			],
+			(object) [
 				/* translators: %s: Ryte */
 				'name'            => sprintf( __( '%s integration', 'wordpress-seo' ), 'Ryte' ),
 				'setting'         => 'onpage_indexability',
@@ -124,15 +124,15 @@ class Yoast_Feature_Toggles {
 				'read_more_label' => sprintf( __( 'Read more about how %s works.', 'wordpress-seo' ), 'Ryte ' ),
 				'read_more_url'   => 'https://yoa.st/2an',
 				'order'           => 70,
-			),
-			(object) array(
+			],
+			(object) [
 				'name'    => __( 'Admin bar menu', 'wordpress-seo' ),
 				'setting' => 'enable_admin_bar_menu',
 				/* translators: 1: Yoast SEO */
 				'label'   => sprintf( __( 'The %1$s admin bar menu contains useful links to third-party tools for analyzing pages and makes it easy to see if you have new notifications.', 'wordpress-seo' ), 'Yoast SEO' ),
 				'order'   => 80,
-			),
-			(object) array(
+			],
+			(object) [
 				'name'    => __( 'Security: no advanced settings for authors', 'wordpress-seo' ),
 				'setting' => 'disableadvanced_meta',
 				'label'   => sprintf(
@@ -142,8 +142,8 @@ class Yoast_Feature_Toggles {
 					__( 'Off', 'wordpress-seo' )
 				),
 				'order'   => 90,
-			),
-		);
+			],
+		];
 
 		/**
 		 * Filter to add feature toggles from add-ons.
@@ -153,8 +153,8 @@ class Yoast_Feature_Toggles {
 		 */
 		$feature_toggles = apply_filters( 'wpseo_feature_toggles', $feature_toggles );
 
-		$feature_toggles = array_map( array( $this, 'ensure_toggle' ), $feature_toggles );
-		usort( $feature_toggles, array( $this, 'sort_toggles_callback' ) );
+		$feature_toggles = array_map( [ $this, 'ensure_toggle' ], $feature_toggles );
+		usort( $feature_toggles, [ $this, 'sort_toggles_callback' ] );
 
 		return $feature_toggles;
 	}

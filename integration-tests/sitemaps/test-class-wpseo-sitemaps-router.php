@@ -90,9 +90,9 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 		$this->home_url      = $home_url;
 		$GLOBALS['wp_query'] = $wp_query;
 
-		add_filter( 'home_url', array( $this, 'filter_home_url' ), 100, 2 );
+		add_filter( 'home_url', [ $this, 'filter_home_url' ], 100, 2 );
 		$result = self::$class_instance->needs_sitemap_index_redirect();
-		remove_filter( 'home_url', array( $this, 'filter_home_url' ), 100 );
+		remove_filter( 'home_url', [ $this, 'filter_home_url' ], 100 );
 
 		$GLOBALS['wp_query'] = $wp_query_orig;
 		$this->home_url      = '';
@@ -132,48 +132,48 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 	 * @return array The test data.
 	 */
 	public function data_needs_sitemap_index_redirect() {
-		$server_vars_sets = array(
-			array(
+		$server_vars_sets = [
+			[
 				'SERVER_NAME' => 'testsite.org',
 				'REQUEST_URI' => '/sitemap.xml',
-			),
-			array(
+			],
+			[
 				'HTTP_HOST'   => 'testsite.org',
 				'REQUEST_URI' => '/sitemap.xml',
-			),
-			array(
+			],
+			[
 				'SERVER_NAME' => 'testsite.org',
 				'REQUEST_URI' => '/sitemap_index.xml',
-			),
-			array(
+			],
+			[
 				'HTTP_HOST'   => 'other-testsite.org',
 				'REQUEST_URI' => '/sitemap_index.xml',
-			),
-			array(
+			],
+			[
 				'SERVER_NAME' => 'other-testsite.org',
 				'REQUEST_URI' => '/sitemap.xml',
-			),
-			array(
+			],
+			[
 				'HTTP_HOST'   => 'other-testsite.org',
 				'REQUEST_URI' => '/sitemap.xml',
-			),
-		);
+			],
+		];
 
-		$home_urls = array(
+		$home_urls = [
 			'http://testsite.org',
 			'http://other-testsite.org',
 			'https://testsite.org',
 			'https://other-testsite.org',
-		);
+		];
 
-		$wp_queries            = array(
+		$wp_queries            = [
 			new WP_Query(),
 			new WP_Query(),
-		);
+		];
 		$wp_queries[1]->is_404 = true;
 
 		// Create test data from all possible combinations, plus HTTP vs HTTPS.
-		$testdata = array();
+		$testdata = [];
 		foreach ( $server_vars_sets as $server_vars ) {
 			foreach ( $home_urls as $home_url ) {
 				foreach ( $wp_queries as $wp_query ) {
@@ -181,10 +181,10 @@ class WPSEO_Sitemaps_Router_Test extends WPSEO_UnitTestCase {
 					$path   = $server_vars['REQUEST_URI'];
 
 					$expected   = $home_url === 'http://' . $domain && $path === '/sitemap.xml' && $wp_query->is_404;
-					$testdata[] = array( $server_vars, $home_url, $wp_query, $expected );
+					$testdata[] = [ $server_vars, $home_url, $wp_query, $expected ];
 
 					$expected   = $home_url === 'https://' . $domain && $path === '/sitemap.xml' && $wp_query->is_404;
-					$testdata[] = array( array_merge( $server_vars, array( 'HTTPS' => 'on' ) ), $home_url, $wp_query, $expected );
+					$testdata[] = [ array_merge( $server_vars, [ 'HTTPS' => 'on' ] ), $home_url, $wp_query, $expected ];
 				}
 			}
 		}
