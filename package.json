@@ -124,6 +124,9 @@
     "yoast-components": "^4.39.0-rc.0",
     "yoastseo": "^1.66.0-rc.0"
   },
+  "browserslist": [
+    "extends @yoast/browserslist-config"
+  ],
   "yoast": {
     "pluginVersion": "12.7.1"
   }
