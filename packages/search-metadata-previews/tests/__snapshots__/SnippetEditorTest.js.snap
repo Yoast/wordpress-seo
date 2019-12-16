@@ -1283,6 +1283,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-mobile"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-mobile"
@@ -1311,11 +1312,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-mobile"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -1404,6 +1407,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-desktop"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-desktop"
@@ -1432,11 +1436,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 1
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-desktop"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -4957,6 +4963,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-mobile"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-mobile"
@@ -4985,11 +4992,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-mobile"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -5078,6 +5087,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-desktop"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-desktop"
@@ -5106,11 +5116,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 2
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-desktop"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -8631,6 +8643,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-mobile"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-mobile"
@@ -8659,11 +8672,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-mobile"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -8752,6 +8767,7 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-desktop"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-desktop"
@@ -8780,11 +8796,13 @@ exports[`SnippetEditor calls callbacks when the editors are focused or changed 3
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-desktop"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -12305,6 +12323,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-mobile"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-mobile"
@@ -12333,11 +12352,13 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-mobile"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -12426,6 +12447,7 @@ exports[`SnippetEditor closes when calling close() 1`] = `
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-desktop"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-desktop"
@@ -12454,11 +12476,13 @@ exports[`SnippetEditor closes when calling close() 1`] = `
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-desktop"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -15599,6 +15623,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-mobile"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-mobile"
@@ -15627,11 +15652,13 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-mobile"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -15720,6 +15747,7 @@ exports[`SnippetEditor closes when calling close() 2`] = `
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-desktop"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-desktop"
@@ -15748,11 +15776,13 @@ exports[`SnippetEditor closes when calling close() 2`] = `
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-desktop"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -17546,6 +17576,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-mobile"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-mobile"
@@ -17574,11 +17605,13 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-mobile"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -17667,6 +17700,7 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-desktop"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-desktop"
@@ -17695,11 +17729,13 @@ exports[`SnippetEditor colored progress bars can handle a score of 6 1`] = `
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-desktop"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -21220,6 +21256,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-mobile"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-mobile"
@@ -21248,11 +21285,13 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-mobile"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -21341,6 +21380,7 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-desktop"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-desktop"
@@ -21369,11 +21409,13 @@ exports[`SnippetEditor colored progress bars can handle scores of 3 and 9 1`] = 
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-desktop"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -25709,6 +25751,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-mobile"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-mobile"
@@ -25737,11 +25780,13 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-mobile"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -25830,6 +25875,7 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-desktop"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-desktop"
@@ -25858,11 +25904,13 @@ exports[`SnippetEditor highlights the active ReplacementVariableEditor when call
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-desktop"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -29421,6 +29469,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-mobile"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-mobile"
@@ -29449,11 +29498,13 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-mobile"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -29542,6 +29593,7 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-desktop"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-desktop"
@@ -29570,11 +29622,13 @@ exports[`SnippetEditor highlights the hovered field when onMouseEnter() is calle
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-desktop"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -33104,6 +33158,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-mobile"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-mobile"
@@ -33132,11 +33187,13 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-mobile"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -33225,6 +33282,7 @@ exports[`SnippetEditor opens when calling open() 1`] = `
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-desktop"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-desktop"
@@ -33253,11 +33311,13 @@ exports[`SnippetEditor opens when calling open() 1`] = `
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-desktop"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -36789,6 +36849,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-mobile"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-mobile"
@@ -36817,11 +36878,13 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-mobile"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -36910,6 +36973,7 @@ exports[`SnippetEditor passes replacement variables to the title and description
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-desktop"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-desktop"
@@ -36938,11 +37002,13 @@ exports[`SnippetEditor passes replacement variables to the title and description
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-desktop"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -41030,6 +41096,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-mobile"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-mobile"
@@ -41058,11 +41125,13 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-mobile"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"
@@ -41151,6 +41220,7 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
               </ModeSwitcher__ModeRadio>
               <ModeSwitcher__ModeLabel
                 for="yoast-google-preview-mode-desktop"
+                onClick={[Function]}
               >
                 <StyledComponent
                   for="yoast-google-preview-mode-desktop"
@@ -41179,11 +41249,13 @@ exports[`SnippetEditor removes the highlight when calling unsetFieldFocus 1`] = 
                     }
                   }
                   forwardedRef={null}
+                  onClick={[Function]}
                 >
                   <Label
                     className="c3"
                     for="yoast-google-preview-mode-desktop"
                     htmlFor=""
+                    onClick={[Function]}
                   >
                     <label
                       className="c3"

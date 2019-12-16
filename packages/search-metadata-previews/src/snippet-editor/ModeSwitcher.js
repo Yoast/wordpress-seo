@@ -44,6 +44,17 @@ const ModeRadio = styled( Input )`
 `;
 
 /**
+ * Prevents the label from closing the modal.
+ *
+ * @param   {event} event The label onClick event.
+ *
+ * @returns {void}
+ */
+const handleLabelClick = event => {
+	event.preventDefault();
+};
+
+/**
  * Renders a mode switcher between mobile and desktop.
  *
  * @param {Object}   props          The props for this component.
@@ -65,7 +76,7 @@ const ModeSwitcher = ( { onChange, active } ) => {
 				checked: active === MODE_MOBILE,
 			} }
 		/>
-		<ModeLabel for="yoast-google-preview-mode-mobile" onClick={ event.preventDefault }>
+		<ModeLabel for="yoast-google-preview-mode-mobile" onClick={ handleLabelClick }>
 			{ __( "Mobile result", "yoast-components" ) }
 		</ModeLabel>
 		<ModeRadio
@@ -78,7 +89,7 @@ const ModeSwitcher = ( { onChange, active } ) => {
 				checked: active === MODE_DESKTOP,
 			} }
 		/>
-		<ModeLabel for="yoast-google-preview-mode-desktop" onClick={ event.preventDefault }>
+		<ModeLabel for="yoast-google-preview-mode-desktop" onClick={ handleLabelClick }>
 			{ __( "Desktop result", "yoast-components" ) }
 		</ModeLabel>
 	</Switcher> );
