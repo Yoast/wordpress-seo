@@ -89,7 +89,7 @@ class Comment_link_Fixer_Test extends TestCase {
 	 * @covers ::replytocom_redirect
 	 */
 	public function test_replytocom_redirect() {
-		$this->redirect->expects( 'do_redirect' )->once()->with( 'https://permalink#comment-unique_hash', 301 )->andReturn( true );
+		$this->redirect->expects( 'do_safe_redirect' )->once()->with( 'https://permalink#comment-unique_hash', 301 )->andReturn( true );
 
 		$_GET['replytocom'] = 'unique_hash';
 		Monkey\Functions\expect( 'is_singular' )->once()->andReturn( true );
@@ -105,7 +105,7 @@ class Comment_link_Fixer_Test extends TestCase {
 	 * @covers ::replytocom_redirect
 	 */
 	public function test_replytocom_redirect_with_query_string() {
-		$this->redirect->expects( 'do_redirect' )->once()->with( 'https://permalink?param=foo#comment-unique_hash', 301 )->andReturn( true );
+		$this->redirect->expects( 'do_safe_redirect' )->once()->with( 'https://permalink?param=foo#comment-unique_hash', 301 )->andReturn( true );
 
 		$_GET['replytocom'] = 'unique_hash';
 		Monkey\Functions\expect( 'is_singular' )->once()->andReturn( true );
