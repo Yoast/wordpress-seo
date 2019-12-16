@@ -61,6 +61,8 @@ use Yoast\WP\Free\ORM\Yoast_Model;
  * @property string  $twitter_card
  *
  * @property int     $prominent_words_version
+ *
+ * @property boolean $is_public
  */
 class Indexable extends Yoast_Model {
 
