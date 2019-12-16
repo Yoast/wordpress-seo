@@ -65,7 +65,7 @@ const ModeSwitcher = ( { onChange, active } ) => {
 				checked: active === MODE_MOBILE,
 			} }
 		/>
-		<ModeLabel for="yoast-google-preview-mode-mobile">
+		<ModeLabel for="yoast-google-preview-mode-mobile" onClick={ event.preventDefault }>
 			{ __( "Mobile result", "yoast-components" ) }
 		</ModeLabel>
 		<ModeRadio
@@ -78,7 +78,7 @@ const ModeSwitcher = ( { onChange, active } ) => {
 				checked: active === MODE_DESKTOP,
 			} }
 		/>
-		<ModeLabel for="yoast-google-preview-mode-desktop">
+		<ModeLabel for="yoast-google-preview-mode-desktop" onClick={ event.preventDefault }>
 			{ __( "Desktop result", "yoast-components" ) }
 		</ModeLabel>
 	</Switcher> );
