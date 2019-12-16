@@ -49,7 +49,7 @@ git add -A
 git commit -m "Release ${lastTag}"
 
 # If it's a feature branch.
-if [[ ! $lastTag =~ ^feature/* ]]; then
+if [[ ! $lastTag =~ ^feature/* && $lastTag != "trunk" ]]; then
    # Tag the commit.
   git tag ${lastTag}
 fi
