@@ -49,7 +49,7 @@ git add -A
 
 # If it's a feature branch.
 if [[ $lastTag =~ ^feature/* || $lastTag == "trunk" ]]; then
-  git commit -m ${TRAVIS_COMMIT_MESSAGE}
+  git commit -m "${TRAVIS_COMMIT_MESSAGE}"
 else
   git commit -m "Release ${lastTag}"
    # Tag the commit.
