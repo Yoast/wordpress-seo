@@ -48,7 +48,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 		add_filter( 'cron_schedules', [ $this, 'add_weekly_schedule' ] );
 
 		// Sets the action for the Ryte fetch.
-		add_action( 'wpseo_onpage_fetch', [ $this, 'fetch_from_onpage' ] );
+		add_action( 'wpseo_ryte_fetch', [ $this, 'fetch_from_ryte' ] );
 	}
 
 	/**
@@ -124,9 +124,9 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 *
 	 * @return bool True if this has been run.
 	 */
-	public function fetch_from_onpage() {
-		$onpage_option = $this->get_option();
-		if ( ! $onpage_option->should_be_fetched() ) {
+	public function fetch_from_ryte() {
+		$ryte_option = $this->get_option();
+		if ( ! $ryte_option->should_be_fetched() ) {
 			return false;
 		}
 
@@ -136,13 +136,13 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 		}
 
 		// Updates the timestamp in the option.
-		$onpage_option->set_last_fetch( time() );
+		$ryte_option->set_last_fetch( time() );
 
 		// The currently indexability status.
-		$old_status = $onpage_option->get_status();
+		$old_status = $ryte_option->get_status();
 
-		$onpage_option->set_status( $new_status );
-		$onpage_option->save_option();
+		$ryte_option->set_status( $new_status );
+		$ryte_option->save_option();
 
 		// Check if the status has been changed.
 		if ( $old_status !== $new_status && $new_status !== WPSEO_Ryte_Option::CANNOT_FETCH ) {
@@ -242,11 +242,11 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	private function schedule_cron() {
-		if ( wp_next_scheduled( 'wpseo_onpage_fetch' ) ) {
+		if ( wp_next_scheduled( 'wpseo_ryte_fetch' ) ) {
 			return;
 		}
 
-		wp_schedule_event( time(), 'weekly', 'wpseo_onpage_fetch' );
+		wp_schedule_event( time(), 'weekly', 'wpseo_ryte_fetch' );
 	}
 
 	/**
@@ -255,11 +255,11 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	private function unschedule_cron() {
-		if ( ! wp_next_scheduled( 'wpseo_onpage_fetch' ) ) {
+		if ( ! wp_next_scheduled( 'wpseo_ryte_fetch' ) ) {
 			return;
 		}
 
-		wp_clear_scheduled_hook( 'wpseo_onpage_fetch' );
+		wp_clear_scheduled_hook( 'wpseo_ryte_fetch' );
 	}
 
 	/**
@@ -275,7 +275,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 		if ( filter_input( INPUT_GET, 'wpseo-redo-ryte' ) === '1' ) {
 			$this->is_manual_request = true;
 
-			add_action( 'admin_init', [ $this, 'fetch_from_onpage' ] );
+			add_action( 'admin_init', [ $this, 'fetch_from_ryte' ] );
 		}
 	}
 

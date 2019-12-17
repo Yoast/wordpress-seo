@@ -11,14 +11,14 @@
 class WPSEO_Ryte_Service_Test extends WPSEO_UnitTestCase {
 
 	/**
-	 * Tests the response data is false when the OnPage is disabled.
+	 * Tests the response data is false when the Ryte is disabled.
 	 *
 	 * @covers WPSEO_Ryte_Service::get_statistics
 	 */
 	public function test_cannot_view_ryte() {
-		$onpage = new Ryte_Option_Mock( false, WPSEO_Ryte_Option::IS_INDEXABLE, true );
+		$ryte = new Ryte_Option_Mock( false, WPSEO_Ryte_Option::IS_INDEXABLE, true );
 
-		$class_instance = new WPSEO_Ryte_Service( $onpage );
+		$class_instance = new WPSEO_Ryte_Service( $ryte );
 		$rest_response  = $class_instance->get_statistics();
 		$response_data  = $rest_response->get_data();
 
@@ -26,7 +26,7 @@ class WPSEO_Ryte_Service_Test extends WPSEO_UnitTestCase {
 	}
 
 	/**
-	 * Tests the response data is as expected when the OnPage is enabled.
+	 * Tests the response data is as expected when the Ryte is enabled.
 	 *
 	 * @covers WPSEO_Ryte_Service::get_statistics
 	 */
@@ -34,9 +34,9 @@ class WPSEO_Ryte_Service_Test extends WPSEO_UnitTestCase {
 		$user = wp_get_current_user();
 		$user->add_cap( 'manage_options' );
 
-		$onpage = new Ryte_Option_Mock( true, WPSEO_Ryte_Option::IS_INDEXABLE, true );
+		$ryte = new Ryte_Option_Mock( true, WPSEO_Ryte_Option::IS_INDEXABLE, true );
 
-		$class_instance = new WPSEO_Ryte_Service( $onpage );
+		$class_instance = new WPSEO_Ryte_Service( $ryte );
 		$rest_response  = $class_instance->get_statistics();
 		$response_data  = $rest_response->get_data();
 

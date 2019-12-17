@@ -21,13 +21,13 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * Runs the test.
 	 */
 	public function run() {
-		$onpage_option = new WPSEO_Ryte_Option();
+		$ryte_option = new WPSEO_Ryte_Option();
 
-		if( ! $onpage_option->is_enabled() ) {
+		if( ! $ryte_option->is_enabled() ) {
 			return;
 		}
 
-		switch ($onpage_option->get_status()) {
+		switch ($ryte_option->get_status()) {
 			case WPSEO_Ryte_Option::IS_NOT_INDEXABLE:
 				// If development mode is on or the blog is not public, don't show this response.
 				if (WPSEO_Utils::is_development_mode() || ('0' === get_option('blog_public'))) {
