@@ -2,7 +2,9 @@
 import React from "react";
 import styled from "styled-components";
 import { __ } from "@wordpress/i18n";
+import { Component } from "react";
 import PropTypes from "prop-types";
+import { uniqueId } from "lodash";
 
 // Yoast dependencies
 import { Input, Label } from "@yoast/components";
@@ -44,56 +46,69 @@ const ModeRadio = styled( Input )`
 `;
 
 /**
- * Prevents the label from closing the modal.
- *
- * @param   {event} event The label onClick event.
- *
- * @returns {void}
+ * The mode switcher component for the google preview.
  */
-const handleLabelClick = event => {
-	event.preventDefault();
-};
+class ModeSwitcher extends Component {
+	/**
+	 * ModeSwitcher constructor.
+	 *
+	 * @param {Object} props Component props.
+	 */
+	constructor( props ) {
+		super( props );
 
-/**
- * Renders a mode switcher between mobile and desktop.
- *
- * @param {Object}   props          The props for this component.
- * @param {Function} props.onChange Callback that is called when the mode switches.
- * @param {boolean}  props.active   Which mode is currently active.
- *
- * @returns {ReactElement} The rendered element.
- */
-const ModeSwitcher = ( { onChange, active } ) => {
-	return ( <Switcher>
-		<SwitcherTitle>{ __( "Preview as:", "yoast-components" ) }</SwitcherTitle>
-		<ModeRadio
-			onChange={ () => onChange( MODE_MOBILE ) }
-			type="radio"
-			name="screen"
-			value="mobile"
-			optionalAttributes={ {
-				id: "yoast-google-preview-mode-mobile",
-				checked: active === MODE_MOBILE,
-			} }
-		/>
-		<ModeLabel for="yoast-google-preview-mode-mobile" onClick={ handleLabelClick }>
-			{ __( "Mobile result", "yoast-components" ) }
-		</ModeLabel>
-		<ModeRadio
-			onChange={ () => onChange( MODE_DESKTOP ) }
-			type="radio"
-			name="screen"
-			value="desktop"
-			optionalAttributes={ {
-				id: "yoast-google-preview-mode-desktop",
-				checked: active === MODE_DESKTOP,
-			} }
-		/>
-		<ModeLabel for="yoast-google-preview-mode-desktop" onClick={ handleLabelClick }>
-			{ __( "Desktop result", "yoast-components" ) }
-		</ModeLabel>
-	</Switcher> );
-};
+		// Used to assure unique ids.
+		this.uniqueId = uniqueId();
+
+		this.switchToMobile = this.props.onChange.bind( this, "mobile" );
+		this.switchToDesktop = this.props.onChange.bind( this, "desktop" );
+	}
+
+	/**
+	 * Render the ModeSwitcher component.
+	 *
+	 * @returns {React.element} The rendered component.
+	 */
+	render() {
+		const {
+			active,
+		} = this.props;
+
+		return ( <Switcher>
+			<SwitcherTitle>{ __( "Preview as:", "yoast-components" ) }</SwitcherTitle>
+			<ModeRadio
+				onChange={ this.switchToMobile }
+				type="radio"
+				name="screen"
+				value="mobile"
+				optionalAttributes={ {
+					id: `yoast-google-preview-mode-mobile-${ this.uniqueId }`,
+					checked: active === MODE_MOBILE,
+				} }
+			/>
+			<ModeLabel
+				for={ `yoast-google-preview-mode-mobile-${ this.uniqueId }` }
+			>
+				{ __( "Mobile result", "yoast-components" ) }
+			</ModeLabel>
+			<ModeRadio
+				onChange={ this.switchToDesktop }
+				type="radio"
+				name="screen"
+				value="desktop"
+				optionalAttributes={ {
+					id: `yoast-google-preview-mode-desktop-${ this.uniqueId }`,
+					checked: active === MODE_DESKTOP,
+				} }
+			/>
+			<ModeLabel
+				for={ `yoast-google-preview-mode-desktop-${ this.uniqueId }` }
+			>
+				{ __( "Desktop result", "yoast-components" ) }
+			</ModeLabel>
+		</Switcher> );
+	}
+}
 
 ModeSwitcher.propTypes = {
 	onChange: PropTypes.func.isRequired,
