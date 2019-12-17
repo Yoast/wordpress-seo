@@ -46,10 +46,12 @@ git checkout $branch 2>/dev/null || git checkout -b $branch
 
 # Commit the files.
 git add -A
-git commit -m "Release ${lastTag}"
 
 # If it's a feature branch.
-if [[ ! $lastTag =~ ^feature/* && $lastTag != "trunk" ]]; then
+if [[ $lastTag =~ ^feature/* || $lastTag == "trunk" ]]; then
+  git commit -m ${TRAVIS_COMMIT_MESSAGE}
+else
+  git commit -m "Release ${lastTag}"
    # Tag the commit.
   git tag ${lastTag}
 fi
