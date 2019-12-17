@@ -23,29 +23,32 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	public function run() {
 
 		$onpage_option = new WPSEO_OnPage_Option();
+		
+		// If ryte is enabled
+		if( $onpage_option->is_enabled() ) {
 
-		switch($onpage_option->get_status()) {
-			case WPSEO_OnPage_Option::IS_NOT_INDEXABLE:
-				// If development mode is on or the blog is not public, don't show this response.
-				if( WPSEO_Utils::is_development_mode() || ( '0' === get_option( 'blog_public' ) ) ) {
+			switch ($onpage_option->get_status()) {
+				case WPSEO_OnPage_Option::IS_NOT_INDEXABLE:
+					// If development mode is on or the blog is not public, don't show this response.
+					if (WPSEO_Utils::is_development_mode() || ('0' === get_option('blog_public'))) {
+						break;
+					}
+					$this->is_not_indexable_response();
 					break;
-				}
-				$this->is_not_indexable_response();
-				break;
-			case WPSEO_OnPage_Option::CANNOT_FETCH:
-			case WPSEO_OnPage_Option::NOT_FETCHED:
-				$this->unknown_indexability_response();
-				break;
-			case WPSEO_OnPage_Option::IS_INDEXABLE:
-				$this->is_indexable_response();
-				break;
-			default:
-				break;
+				case WPSEO_OnPage_Option::CANNOT_FETCH:
+				case WPSEO_OnPage_Option::NOT_FETCHED:
+					$this->unknown_indexability_response();
+					break;
+				case WPSEO_OnPage_Option::IS_INDEXABLE:
+					$this->is_indexable_response();
+					break;
+				default:
+					break;
+			}
+
+			$this->badge['color'] = 'red';
+			$this->add_yoast_label();
 		}
-
-		$this->badge['color'] = 'red';
-		$this->add_yoast_label();
-
 	}
 
 	/**
