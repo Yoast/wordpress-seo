@@ -54,6 +54,9 @@ abstract class TestCase extends BaseTestCase {
 					return \json_encode( $data, $options, $depth );
 				},
 				'wp_slash'            => null,
+				'wp_unslash'          => function ( $value ) {
+					return \is_string( $value ) ? \stripslashes( $value ) : $value;
+				},
 				'absint'              => function ( $value ) {
 					return \abs( \intval( $value ) );
 				},

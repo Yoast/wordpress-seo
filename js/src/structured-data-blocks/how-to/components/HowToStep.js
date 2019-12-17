@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 import { __ } from "@wordpress/i18n";
 import appendSpace from "../../../components/higherorder/appendSpace";
-import isShallowEqual from "@wordpress/is-shallow-equal/objects";
+import { isShallowEqualObjects } from "@wordpress/is-shallow-equal";
 
 const { Component } = window.wp.element;
 const { IconButton } = window.wp.components;
@@ -295,7 +295,7 @@ export default class HowToStep extends Component {
 	 * @returns {boolean} Whether or not the component should perform an update.
 	 */
 	shouldComponentUpdate( nextProps ) {
-		return ! isShallowEqual( nextProps, this.props );
+		return ! isShallowEqualObjects( nextProps, this.props );
 	}
 
 	/**

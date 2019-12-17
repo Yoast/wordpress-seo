@@ -145,6 +145,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 		$this->go_to( get_permalink( $post_id ) );
 		$this->assertTrue( self::$class_instance->website_facebook() );
 		$this->expectOutput( '<meta property="article:publisher" content="http://facebook.com/mysite/" />' . "\n" );
+
+		// Clean-up.
+		WPSEO_Options::set( 'facebook_site', '' );
 	}
 
 	/**
@@ -245,7 +248,7 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_OpenGraph::image
 	 */
 	public function test_image_HAS_front_page_image() {
-
+		$prev_value = WPSEO_Options::get( 'og_frontpage_image' );
 		$stub =
 			$this
 				->getMockBuilder( 'WPSEO_OpenGraph' )
@@ -259,6 +262,9 @@ class WPSEO_OpenGraph_Test extends WPSEO_UnitTestCase {
 			->method( 'og_tag' );
 
 		$stub->image();
+
+		// Clean-up.
+		WPSEO_Options::set( 'og_frontpage_image', $prev_value );
 	}
 
 	/**
