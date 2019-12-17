@@ -25,10 +25,13 @@ class HTMLTreeConverter {
 			for( let node of parse5Tree.childNodes ) {
 
 				const nodeType = node.nodeName;
+				const hasIgnoredAncestor = this._hasIgnoredAncestor( node );
+				const hasLeafNodeAncestor = this._hasLeafNodeAncestor( node );
 
 				// Ignored, do not add to tree since we do not analyze it.
-				if( ignoredHtmlElements.includes( nodeType ) ) {
-					continue;
+				if( ignoredHtmlElements.includes( nodeType ) && hasLeafNodeAncestor ) {
+					const formatting = new FormattingElement( nodeType, node.sourceCodeLocation, this._parseAttributes( node.attrs ) );
+					lastLeafNode.textContainer.formatting.push( formatting );
 				}
 
 				// Paragraph.
@@ -45,7 +48,7 @@ class HTMLTreeConverter {
 					convertedTree.children.push( child );
 				}
 
-				if( nodeType === "#text" ) {
+				if( nodeType === "#text" && ! hasIgnoredAncestor ) {
 					lastLeafNode.textContainer.appendText( node.value );
 				}
 
@@ -81,6 +84,53 @@ class HTMLTreeConverter {
 			}, {} );
 		}
 		return null;
+	}
+
+	/**
+	 * Finds the most recent leaf node ancestor (parent of parent of ... ) of the given element.
+	 * (A leaf node is a node that may only contain text and formatting elements, like a heading or a paragraph).
+	 *
+	 * @see module:parsedPaper/structure.LeafNode.
+	 *
+	 * @param {module:parsedPaper/structure.Node|module:parsedPaper/structure.FormattingElement} element  The node to find the ancestor of.
+	 *
+	 * @returns {module:parsedPaper/structure.Node|null} The most recent ancestor that returns true on the given predicate,
+	 *                                            or `null` if no appropriate ancestor is found.
+	 *
+	 * @private
+	 */
+	_hasIgnoredAncestor( element ) {
+		const parent = element.parentNode;
+
+		if ( ! parent ) {
+			return false;
+		}
+
+		if ( ignoredHtmlElements.includes( parent.nodeName ) ) {
+			return true;
+		}
+
+		return this._hasIgnoredAncestor( parent );
+	}
+
+
+	_hasLeafNodeAncestor( element ) {
+		const parent = element.parentNode;
+
+		if ( ! parent ) {
+			return false;
+		}
+
+		if ( this._isLeafNode( parent ) ) {
+			return true;
+		}
+
+		return this._hasLeafNodeAncestor( parent );
+	}
+
+	_isLeafNode( parse5Node ) {
+		const nodeType = parse5Node.nodeName;
+		return nodeType === "p" || headings.includes( nodeType );
 	}
 }
 
