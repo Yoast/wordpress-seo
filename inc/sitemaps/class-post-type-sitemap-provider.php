@@ -35,27 +35,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * Set up object properties for data reuse.
 	 */
 	public function __construct() {
-		add_filter( 'save_post', [ $this, 'save_post' ] );
-
-		/**
-		 * Filter - Allows excluding images from the XML sitemap.
-		 *
-		 * @param bool unsigned True to include, false to exclude.
-		 */
-		$this->include_images = apply_filters( 'wpseo_xml_sitemap_include_images', true );
-	}
-
-	/**
-	 * Get the Image Parser.
-	 *
-	 * @return WPSEO_Sitemap_Image_Parser
-	 */
-	protected function get_image_parser() {
-		if ( ! isset( self::$image_parser ) ) {
-			self::$image_parser = new WPSEO_Sitemap_Image_Parser();
-		}
-
-		return self::$image_parser;
 	}
 
 	/**
@@ -193,7 +172,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			return $links;
 		}
 
-		$posts_to_exclude = $this->get_excluded_posts( $type );
+		$excluded_posts = $this->get_excluded_posts( $post_type );
 
 		while ( $total > $offset ) {
 
@@ -207,19 +186,18 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			foreach ( $posts as $post ) {
 
-				if ( in_array( $post->ID, $posts_to_exclude, true ) ) {
+				if ( $this->get_classifier()->classify( $post->permalink ) === WPSEO_Link::TYPE_EXTERNAL ) {
 					continue;
 				}
 
-				if ( WPSEO_Meta::get_value( 'meta-robots-noindex', $post->ID ) === '1' ) {
+				if ( in_array( $post->object_id, $excluded_posts ) ) {
 					continue;
 				}
 
-				$url = $this->get_url( $post );
-
-				if ( ! isset( $url['loc'] ) ) {
-					continue;
-				}
+				$url = [
+					'mod' => $post->updated_at,
+					'loc' => $post->permalink,
+				];
 
 				/**
 				 * Filter URL entry before it gets added to the sitemap.
@@ -239,18 +217,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		}
 
 		return $links;
-	}
-
-	/**
-	 * Check for relevant post type before invalidation.
-	 *
-	 * @param int $post_id Post ID to possibly invalidate for.
-	 */
-	public function save_post( $post_id ) {
-
-		if ( $this->is_valid_post_type( get_post_type( $post_id ) ) ) {
-			WPSEO_Sitemaps_Cache::invalidate_post( $post_id );
-		}
 	}
 
 	/**
@@ -324,30 +290,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		global $wpdb;
 
-		/**
-		 * Filter JOIN query part for type count of post type.
-		 *
-		 * @param string $join      SQL part, defaults to empty string.
-		 * @param string $post_type Post type name.
-		 */
-		$join_filter = apply_filters( 'wpseo_typecount_join', '', $post_type );
-
-		/**
-		 * Filter WHERE query part for type count of post type.
-		 *
-		 * @param string $where     SQL part, defaults to empty string.
-		 * @param string $post_type Post type name.
-		 */
-		$where_filter = apply_filters( 'wpseo_typecount_where', '', $post_type );
-
-		$where = $this->get_sql_where_clause( $post_type );
-
 		$sql = "
-			SELECT COUNT({$wpdb->posts}.ID)
-			FROM {$wpdb->posts}
-			{$join_filter}
-			{$where}
-				{$where_filter}
+			SELECT COUNT(*) FROM `wp_yoast_indexable` 
+			WHERE `object_type` = 'post' AND 
+			`object_sub_type` = '{$post_type}' AND `is_public` = 1
 		";
 
 		return (int) $wpdb->get_var( $sql );
@@ -495,159 +441,15 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		global $wpdb;
 
-		static $filters = [];
-
-		if ( ! isset( $filters[ $post_type ] ) ) {
-			// Make sure you're wpdb->preparing everything you throw into this!!
-			$filters[ $post_type ] = [
-				/**
-				 * Filter JOIN query part for the post type.
-				 *
-				 * @param string $join      SQL part, defaults to false.
-				 * @param string $post_type Post type name.
-				 */
-				'join'  => apply_filters( 'wpseo_posts_join', false, $post_type ),
-
-				/**
-				 * Filter WHERE query part for the post type.
-				 *
-				 * @param string $where     SQL part, defaults to false.
-				 * @param string $post_type Post type name.
-				 */
-				'where' => apply_filters( 'wpseo_posts_where', false, $post_type ),
-			];
-		}
-
-		$join_filter  = $filters[ $post_type ]['join'];
-		$where_filter = $filters[ $post_type ]['where'];
-		$where        = $this->get_sql_where_clause( $post_type );
-
-		/*
-		 * Optimized query per this thread:
-		 * {@link http://wordpress.org/support/topic/plugin-wordpress-seo-by-yoast-performance-suggestion}.
-		 * Also see {@link http://explainextended.com/2009/10/23/mysql-order-by-limit-performance-late-row-lookups/}.
-		 */
 		$sql = "
-			SELECT l.ID, post_title, post_content, post_name, post_parent, post_author, post_status, post_modified_gmt, post_date, post_date_gmt
-			FROM (
-				SELECT {$wpdb->posts}.ID
-				FROM {$wpdb->posts}
-				{$join_filter}
-				{$where}
-					{$where_filter}
-				ORDER BY {$wpdb->posts}.post_modified ASC LIMIT %d OFFSET %d
-			)
-			o JOIN {$wpdb->posts} l ON l.ID = o.ID
+			SELECT `object_id`, `permalink`, `updated_at` 
+			FROM `wp_yoast_indexable` 
+			WHERE `object_type` = 'post' AND `object_sub_type` = '{$post_type}' AND `is_public` = 1 
+			ORDER BY `updated_at` DESC
+			LIMIT %d OFFSET %d
 		";
 
-		$posts = $wpdb->get_results( $wpdb->prepare( $sql, $count, $offset ) );
-
-		$post_ids = [];
-
-		foreach ( $posts as $post ) {
-			$post->post_type   = $post_type;
-			$post->filter      = 'sample';
-			$post->ID          = (int) $post->ID;
-			$post->post_parent = (int) $post->post_parent;
-			$post->post_author = (int) $post->post_author;
-			$post_ids[]        = $post->ID;
-		}
-
-		update_meta_cache( 'post', $post_ids );
-
-		return $posts;
-	}
-
-	/**
-	 * Constructs an SQL where clause for a given post type.
-	 *
-	 * @param string $post_type Post type slug.
-	 *
-	 * @return string
-	 */
-	protected function get_sql_where_clause( $post_type ) {
-
-		global $wpdb;
-
-		$join          = '';
-		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
-		$status_where  = "{$wpdb->posts}.post_status IN ('" . implode( "','", $post_statuses ) . "')";
-
-		// Based on WP_Query->get_posts(). R.
-		if ( 'attachment' === $post_type ) {
-			$join            = " LEFT JOIN {$wpdb->posts} AS p2 ON ({$wpdb->posts}.post_parent = p2.ID) ";
-			$parent_statuses = array_diff( $post_statuses, [ 'inherit' ] );
-			$status_where    = "p2.post_status IN ('" . implode( "','", $parent_statuses ) . "') AND p2.post_password = ''";
-		}
-
-		$where_clause = "
-			{$join}
-			WHERE {$status_where}
-				AND {$wpdb->posts}.post_type = %s
-				AND {$wpdb->posts}.post_password = ''
-				AND {$wpdb->posts}.post_date != '0000-00-00 00:00:00'
-		";
-
-		return $wpdb->prepare( $where_clause, $post_type );
-	}
-
-	/**
-	 * Produce array of URL parts for given post object.
-	 *
-	 * @param object $post Post object to get URL parts for.
-	 *
-	 * @return array|bool
-	 */
-	protected function get_url( $post ) {
-
-		$url = [];
-
-		/**
-		 * Filter the URL Yoast SEO uses in the XML sitemap.
-		 *
-		 * Note that only absolute local URLs are allowed as the check after this removes external URLs.
-		 *
-		 * @param string $url  URL to use in the XML sitemap
-		 * @param object $post Post object for the URL.
-		 */
-		$url['loc'] = apply_filters( 'wpseo_xml_sitemap_post_url', get_permalink( $post ), $post );
-
-		/*
-		 * Do not include external URLs.
-		 *
-		 * {@link https://wordpress.org/plugins/page-links-to/} can rewrite permalinks to external URLs.
-		 */
-		if ( $this->get_classifier()->classify( $url['loc'] ) === WPSEO_Link::TYPE_EXTERNAL ) {
-			return false;
-		}
-
-		$modified = max( $post->post_modified_gmt, $post->post_date_gmt );
-
-		if ( $modified !== '0000-00-00 00:00:00' ) {
-			$url['mod'] = $modified;
-		}
-
-		$url['chf'] = 'daily'; // Deprecated, kept for backwards data compat. R.
-
-		$canonical = WPSEO_Meta::get_value( 'canonical', $post->ID );
-
-		if ( $canonical !== '' && $canonical !== $url['loc'] ) {
-			/*
-			 * Let's assume that if a canonical is set for this page and it's different from
-			 * the URL of this post, that page is either already in the XML sitemap OR is on
-			 * an external site, either way, we shouldn't include it here.
-			 */
-			return false;
-		}
-		unset( $canonical );
-
-		$url['pri'] = 1; // Deprecated, kept for backwards data compat. R.
-
-		if ( $this->include_images ) {
-			$url['images'] = $this->get_image_parser()->get_images( $post );
-		}
-
-		return $url;
+		return $wpdb->get_results( $wpdb->prepare( $sql, $count, $offset ) );
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
