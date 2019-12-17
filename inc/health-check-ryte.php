@@ -23,7 +23,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	public function run() {
 
 		$onpage_option = new WPSEO_OnPage_Option();
-		
+
 		// If ryte is enabled
 		if( $onpage_option->is_enabled() ) {
 
@@ -112,6 +112,17 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		/* translators: %1$s: opening tag of the link to the Yoast Ryte website, %2$s: closing tag of the link */
 			esc_html__('%1$s Re-analyze site indexability %2$s', 'wordpress-seo'),
 			'<a class="landing-page button" href= "' . esc_url('https://yoa.st/rytelp') . '" target="_blank">',
+			'</a>');
+	}
+
+	/**
+	 * Adds the "Fetch status" button to the actions.
+	 */
+	protected function add_fetch_status_button() {
+		$this->actions .= sprintf(
+		/* translators: %1$s: , %2$s:  */
+			esc_html__('%1$s Fetch the current status %2$s', 'wordpress-seo'),
+			'<a class="fetch-status button" href= "' . esc_attr( add_query_arg( 'wpseo-redo-onpage', '1' ) ) . '#wpseo-dashboard-overview">',
 			'</a>');
 	}
 
