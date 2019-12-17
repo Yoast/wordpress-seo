@@ -1,3 +1,4 @@
+import SourceCodeLocation from "../SourceCodeLocation";
 import TextContainer from "../TextContainer";
 import Node from "./Node";
 /**
@@ -14,12 +15,18 @@ class LeafNode extends Node {
 	/**
 	 * Creates a new leaf node.
 	 *
-	 * @param {string} type The type of Node (should be unique for each child class of Node).
+	 * @param {string}             type               The type of Node (should be unique for each child class of Node).
+	 * @param {SourceCodeLocation} sourceCodeLocation The location of the element inside of the source code.
 	 *
 	 * @returns {void}
 	 */
-	constructor( type ) {
+	constructor( type, sourceCodeLocation ) {
 		super( type );
+		/**
+		 * Location inside of the source code.
+		 * @type {SourceCodeLocation}
+		 */
+		this.sourceCodeLocation = new SourceCodeLocation( sourceCodeLocation );
 		/**
 		 * A container for keeping this leaf node's text.
 		 * @type {module:parsedPaper/structure.TextContainer}

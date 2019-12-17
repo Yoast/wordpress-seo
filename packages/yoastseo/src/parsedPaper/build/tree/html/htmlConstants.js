@@ -19,7 +19,7 @@ const formattingElements = [ "a", "abbr", "audio", "b", "bdo", "br", "button", "
  *
  * @memberOf module:parsedPaper/builder
  */
-const ignoredHtmlElements = [ "script", "style", "pre" ];
+const ignoredHtmlElements = [ "script", "style", "pre", "#comment" ];
 
 /**
  * All HTML heading element tags, from `h1` to `h6`.
