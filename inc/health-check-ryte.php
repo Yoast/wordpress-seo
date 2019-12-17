@@ -30,7 +30,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 				if( WPSEO_Utils::is_development_mode() || ( '0' === get_option( 'blog_public' ) ) ) {
 					break;
 				}
-				$this->not_indexable_response();
+				$this->is_not_indexable_response();
 				break;
 			case WPSEO_OnPage_Option::CANNOT_FETCH:
 			case WPSEO_OnPage_Option::NOT_FETCHED:
@@ -51,7 +51,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	/**
 	 * Adds the content for the "Cannot be indexed" response.
 	 */
-	protected function not_indexable_response() {
+	protected function is_not_indexable_response() {
 		$this->label = esc_html__('Your site cannot be found by search engines', 'wordpress-seo');
 		$this->status = self::STATUS_CRITICAL;
 
@@ -70,11 +70,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			'<a href="' . esc_url('https://kb.yoast.com/kb/your-site-isnt-indexable/') . ' "target="_blank">',
 			'</a><br />');
 
-		$this->actions = sprintf(
-		/* translators: %1$s: opening tag of the link to the Yoast Ryte website, %2$s: closing tag of the link */
-			esc_html__('%1$s Re-analyze site indexability %2$s', 'wordpress-seo'),
-			'<a class="landing-page button" href= "' . esc_url('https://yoa.st/rytelp') . '" target="_blank">',
-			'</a>');
+		$this->add_analyze_site_button();
 	}
 
 	/**
@@ -91,7 +87,8 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		/* translators: %1$s: opening tag of the link to the Yoast knowledge base indexability check doesn't work page, %2$s: closing tag of the link */
 			esc_html__('%1$s Read more about troubleshooting Ryte\'s search engine visibility %2$s' ),
 			'<a href="' . esc_url('https://kb.yoast.com/kb/indexability-check-doesnt-work/') . '"target="_blank">',
-			'</a>' );
+			'</a><br /><br/>' );
+		$this->add_analyze_site_button();
 	}
 
 	/**
@@ -102,6 +99,17 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		$this->status = self::STATUS_GOOD;
 
 		$this->description = esc_html('Ryte offers a free indexability check for Yoast SEO users, and it shows that your site can be found by search engines.');
+	}
+
+	/**
+	 * Adds the "Re-analyze site indexability" button to the actions.
+	 */
+	protected function add_analyze_site_button() {
+		$this->actions .= sprintf(
+		/* translators: %1$s: opening tag of the link to the Yoast Ryte website, %2$s: closing tag of the link */
+			esc_html__('%1$s Re-analyze site indexability %2$s', 'wordpress-seo'),
+			'<a class="landing-page button" href= "' . esc_url('https://yoa.st/rytelp') . '" target="_blank">',
+			'</a>');
 	}
 
 	/**
