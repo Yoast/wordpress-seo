@@ -3,13 +3,15 @@
  *
  * @param {string}  stemmedWord             The stemmed word for which to create the past participle form.
  * @param {Object}  affixes                 The suffix and prefix data.
+ * @param {string}  affixes.suffix          The suffix.
+ * @param {string}  affixes.prefix          The prefix.
  * @param {string}  [additionalPrefix = ""] An additional prefix to attach to the beginning of the participle.
  *
  * @returns {string} The participle form.
  */
-const addParticipleAffixes = function( stemmedWord, affixes, additionalPrefix = "" ) {
+export function addParticipleAffixes( stemmedWord, affixes, additionalPrefix = "" ) {
 	return additionalPrefix + affixes.prefix + stemmedWord + affixes.suffix;
-};
+}
 
 /**
  * Generates past participle forms.
