@@ -1,26 +1,28 @@
-const { isUndefined } = require( "lodash" );
 const { IncomingWebhook } = require( "@slack/webhook" );
 
 module.exports = function( grunt ) {
-	grunt.registerTask(
+	grunt.registerMultiTask(
 		"notify-slack",
 		"Sends a notification to Slack.",
 		function() {
-			//todo: find a way to implement an environment that we can keep secret, add the secret webhook url to that, and replace it here.
-			const webhook = new IncomingWebhook( "YOUR_WEBHOOK_URL_HERE" );
-
-			//todo: make sure the pre-release task will fill this config variable.
-			const preReleaseURL = grunt.config( "rc.github.url" );
-
-			if ( isUndefined( preReleaseURL ) || preReleaseURL === "" ) {
-				grunt.fatal( "No URL to pre-release available. Exiting..." );
+			if ( ! this.data.slackToken ) {
+				grunt.task.run( "prompt:slackEnvMissing" );
+				return;
 			}
+			const webhook = new IncomingWebhook( this.data.slackToken );
+
+			// We can assume that the previous task has correctly set this URL.
+			const preReleaseURL = grunt.config( "rc.github.url" );
 
 			const done = this.async();
 			( async() => {
-				await webhook.send( { text: `An RC has been deployed: ${ preReleaseURL }` } );
+				try {
+					await webhook.send( { text: `${ this.data.message }${ preReleaseURL }` } );
+				} catch ( error ) {
+					grunt.task.run( "prompt:slackEnvMissing" );
+				}
 				done();
 			} )();
-		}
+		},
 	);
 };
