@@ -22,52 +22,22 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 */
 	public function run() {
 
-		// Cannot be indexed
-		if( get_option( 'blog_public' ) == '0' ) {
-			$this->label = esc_html__('Your site cannot be found by search engines', 'wordpress-seo');
-			$this->status = self::STATUS_CRITICAL;
+		$onpage_option = new WPSEO_OnPage_Option();
+		$status = $onpage_option->get_status();
 
-			$this->description = esc_html__('Ryte offers a free indexability check for Yoast SEO users, and it has determined that your site cannot be found by search engines. If this site is live or about to become live, this should be fixed.', 'wordpress-seo');
-			$this->description .= sprintf(
-			/* translators: %1$s resolves to the opening tag of the link to the reading setting page, %2$s resolves to the closing tag of the link, %3$s resolves to the opening bold tag, %4$s resolves to the closing bold tag, %5$s resolves to two line breaks */
-				esc_html__('%5$s As a first step, %1$s go to your site\'s Reading Settings %2$s and make sure the option to discourage search engine visibility is %3$snot enabled%4$s, then re-analyze your site indexability. %5$s', 'wordpress-seo'),
-				'<a href="' . esc_url('/wp-admin/options-reading.php') . '">',
-				'</a>',
-				'<b>',
-				'</b>',
-				'<br /><br />');
-			$this->description .= sprintf(
-			/* translators: %1$s resolves to the opening tag of the link to the Yoast knowledge base troubleshooting page, %2$s resolves to the closing tag of the link */
-				esc_html__('If that did not help, %1$s read more about troubleshooting search engine visibility. %2$s', 'wordpress-seo'),
-				'<a href="' . esc_url('https://kb.yoast.com/kb/your-site-isnt-indexable/') . ' "target="_blank">',
-				'</a><br />');
-
-			$this->actions = sprintf(
-			/* translators: %1$s resolves to the opening tag of the link to the Yoast Ryte website, %2$s resolves to the closing tag of the link */
-				esc_html__('%1$s Re-analyze site indexability %2$s', 'wordpress-seo'),
-				'<a class="landing-page button" href= "' . esc_url('https://yoa.st/rytelp') . '" target="_blank">',
-				'</a>');
-		}
-
-		// Cannot tell if it can be indexed
-		else if( true ) { // add check in the if statement
-			$this->label = esc_html__('Ryte cannot determine whether your site can be found by search engines', 'wordpress-seo');
-			$this->status = self::STATUS_RECOMMENDED;
-
-			$this->description = esc_html__('Ryte offers a free indexability check for Yoast SEO users, and right now it has trouble determining whether search engines can find your site. 
-				 This could have several (legitimate) reasons, and is not a problem in itself, but if this is a live site, it is recommended that you figure out why the Ryte check failed.');
-			$this->actions = sprintf(
-				esc_html__('%1$s Read more about troubleshooting Ryte\'s search engine visibility %2$s' ),
-				'<a href="' . esc_url('https://kb.yoast.com/kb/indexability-check-doesnt-work/') . '"target="_blank">',
-				'</a>' );
-		}
-
-		// Can be indexed
-		else {
-			$this->label = esc_html__('Your site can be found by search engines', 'wordpress-seo');
-			$this->status = self::STATUS_GOOD;
-
-			$this->description = esc_html('Ryte offers a free indexability check for Yoast SEO users, and it shows that your site can be found by search engines.');
+		switch($status) {
+			case WPSEO_OnPage_Option::IS_NOT_INDEXABLE:
+				$this->not_indexable_response();
+				break;
+			case WPSEO_OnPage_Option::CANNOT_FETCH:
+			case WPSEO_OnPage_Option::NOT_FETCHED:
+				$this->unknown_indexability_response();
+				break;
+			case WPSEO_OnPage_Option::IS_INDEXABLE: // $onpage_option->is_enabled() ?
+				$this->is_indexable_response();
+				break;
+			default:
+				break;
 		}
 
 		$this->badge['color'] = 'red';
@@ -75,6 +45,59 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 
 	}
 
+	/**
+	 * Adds the content for the "Cannot be indexed" response.
+	 */
+	protected function not_indexable_response() {
+		$this->label = esc_html__('Your site cannot be found by search engines', 'wordpress-seo');
+		$this->status = self::STATUS_CRITICAL;
+
+		$this->description = esc_html__('Ryte offers a free indexability check for Yoast SEO users, and it has determined that your site cannot be found by search engines. If this site is live or about to become live, this should be fixed.', 'wordpress-seo');
+		$this->description .= sprintf(
+		/* translators: %1$s resolves to the opening tag of the link to the reading setting page, %2$s resolves to the closing tag of the link, %3$s resolves to the opening bold tag, %4$s resolves to the closing bold tag, %5$s resolves to two line breaks */
+			esc_html__('%5$s As a first step, %1$s go to your site\'s Reading Settings %2$s and make sure the option to discourage search engine visibility is %3$snot enabled%4$s, then re-analyze your site indexability. %5$s', 'wordpress-seo'),
+			'<a href="' . esc_url('/wp-admin/options-reading.php') . '">',
+			'</a>',
+			'<b>',
+			'</b>',
+			'<br /><br />');
+		$this->description .= sprintf(
+		/* translators: %1$s resolves to the opening tag of the link to the Yoast knowledge base troubleshooting page, %2$s resolves to the closing tag of the link */
+			esc_html__('If that did not help, %1$s read more about troubleshooting search engine visibility. %2$s', 'wordpress-seo'),
+			'<a href="' . esc_url('https://kb.yoast.com/kb/your-site-isnt-indexable/') . ' "target="_blank">',
+			'</a><br />');
+
+		$this->actions = sprintf(
+		/* translators: %1$s resolves to the opening tag of the link to the Yoast Ryte website, %2$s resolves to the closing tag of the link */
+			esc_html__('%1$s Re-analyze site indexability %2$s', 'wordpress-seo'),
+			'<a class="landing-page button" href= "' . esc_url('https://yoa.st/rytelp') . '" target="_blank">',
+			'</a>');
+	}
+
+	/**
+	 * Adds the content for the "Cannot tell if it can be indexed" response.
+	 */
+	protected function unknown_indexability_response() {
+		$this->label = esc_html__('Ryte cannot determine whether your site can be found by search engines', 'wordpress-seo');
+		$this->status = self::STATUS_RECOMMENDED;
+
+		$this->description = esc_html__('Ryte offers a free indexability check for Yoast SEO users, and right now it has trouble determining whether search engines can find your site. 
+				 This could have several (legitimate) reasons, and is not a problem in itself, but if this is a live site, it is recommended that you figure out why the Ryte check failed.');
+		$this->actions = sprintf(
+			esc_html__('%1$s Read more about troubleshooting Ryte\'s search engine visibility %2$s' ),
+			'<a href="' . esc_url('https://kb.yoast.com/kb/indexability-check-doesnt-work/') . '"target="_blank">',
+			'</a>' );
+	}
+
+	/**
+	 * Adds the content for the "Can indexed" response.
+	 */
+	protected function is_indexable_response() {
+		$this->label = esc_html__('Your site can be found by search engines', 'wordpress-seo');
+		$this->status = self::STATUS_GOOD;
+
+		$this->description = esc_html('Ryte offers a free indexability check for Yoast SEO users, and it shows that your site can be found by search engines.');
+	}
 
 	/**
 	 * Adds a text to the bottom of the Site Health check to indicate it is a Yoast SEO Site Health Check.
