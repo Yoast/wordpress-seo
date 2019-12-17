@@ -8,7 +8,7 @@
 /**
  * Unit Test Class.
  */
-class WPSEO_OnPage_Option_Test extends WPSEO_UnitTestCase {
+class WPSEO_Ryte_Option_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Holds the instance of the class being tested.

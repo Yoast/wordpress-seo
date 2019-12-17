@@ -8,7 +8,7 @@
 /**
  * Unit Test Class.
  */
-class WPSEO_OnPage_Request_Test extends WPSEO_UnitTestCase {
+class WPSEO_Ryte_Request_Test extends WPSEO_UnitTestCase {
 
 	/**
 	 * Test if there is a response.
