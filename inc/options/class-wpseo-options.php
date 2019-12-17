@@ -514,6 +514,9 @@ class WPSEO_Options {
 		}
 
 		$ms_option = self::get_option( 'wpseo_ms' );
+		if ( $ms_option === null ) {
+			return $option;
+		}
 
 		return array_merge( $option, $ms_option );
 	}
