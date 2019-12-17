@@ -8,7 +8,7 @@
 /**
  * Test Helper Class.
  */
-class WPSEO_OnPage_Double extends WPSEO_OnPage {
+class WPSEO_Ryte_Double extends WPSEO_Ryte {
 
 	/**
 	 * Overwrite the request_indexibility method, because it uses a dependency.

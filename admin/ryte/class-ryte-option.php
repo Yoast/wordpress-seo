@@ -8,7 +8,7 @@
 /**
  * This class handles the data for the option where the Ryte data is stored.
  */
-class WPSEO_OnPage_Option {
+class WPSEO_Ryte_Option {
 
 	/**
 	 * Indicates the data is not fetched.
@@ -43,7 +43,7 @@ class WPSEO_OnPage_Option {
 	 *
 	 * @var string
 	 */
-	const OPTION_NAME = 'wpseo_onpage';
+	const OPTION_NAME = 'WPSEO_Ryte';
 
 	/**
 	 * The key of the status in the option.

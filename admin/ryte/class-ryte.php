@@ -8,7 +8,7 @@
 /**
  * Handles the request for getting the Ryte status.
  */
-class WPSEO_OnPage implements WPSEO_WordPress_Integration {
+class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 
 	/**
 	 * The name of the user meta key for storing the dismissed status.
@@ -145,7 +145,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 		$onpage_option->save_option();
 
 		// Check if the status has been changed.
-		if ( $old_status !== $new_status && $new_status !== WPSEO_OnPage_Option::CANNOT_FETCH ) {
+		if ( $old_status !== $new_status && $new_status !== WPSEO_Ryte_Option::CANNOT_FETCH ) {
 			$this->notify_admins();
 		}
 
@@ -155,10 +155,10 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 	/**
 	 * Retrieves the option to use.
 	 *
-	 * @return WPSEO_OnPage_Option The option.
+	 * @return WPSEO_Ryte_Option The option.
 	 */
 	protected function get_option() {
-		return new WPSEO_OnPage_Option();
+		return new WPSEO_Ryte_Option();
 	}
 
 	/**
@@ -195,14 +195,14 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 			$parameters['wf_strict'] = 1;
 		}
 
-		$request  = new WPSEO_OnPage_Request();
+		$request  = new WPSEO_Ryte_Request();
 		$response = $request->do_request( get_option( 'home' ), $parameters );
 
 		if ( isset( $response['is_indexable'] ) ) {
 			return (int) $response['is_indexable'];
 		}
 
-		return WPSEO_OnPage_Option::CANNOT_FETCH;
+		return WPSEO_Ryte_Option::CANNOT_FETCH;
 	}
 
 	/**
@@ -220,7 +220,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 			return false;
 		}
 
-		return $this->get_option()->get_status() === WPSEO_OnPage_Option::IS_NOT_INDEXABLE;
+		return $this->get_option()->get_status() === WPSEO_Ryte_Option::IS_NOT_INDEXABLE;
 	}
 
 	/**
@@ -272,7 +272,7 @@ class WPSEO_OnPage implements WPSEO_WordPress_Integration {
 			return;
 		}
 
-		if ( filter_input( INPUT_GET, 'wpseo-redo-onpage' ) === '1' ) {
+		if ( filter_input( INPUT_GET, 'wpseo-redo-ryte' ) === '1' ) {
 			$this->is_manual_request = true;
 
 			add_action( 'admin_init', [ $this, 'fetch_from_onpage' ] );

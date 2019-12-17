@@ -13,16 +13,16 @@ class WPSEO_Ryte_Service {
 	/**
 	 * This class handles the data for the option where the Ryte data is stored.
 	 *
-	 * @var WPSEO_OnPage_Option
+	 * @var WPSEO_Ryte_Option
 	 */
 	protected $option;
 
 	/**
 	 * Constructs the WPSEO_Ryte_Service class.
 	 *
-	 * @param WPSEO_OnPage_Option $option The option to retrieve data from.
+	 * @param WPSEO_Ryte_Option $option The option to retrieve data from.
 	 */
-	public function __construct( WPSEO_OnPage_Option $option ) {
+	public function __construct(WPSEO_Ryte_Option $option ) {
 		$this->option = $option;
 	}
 
@@ -53,7 +53,7 @@ class WPSEO_Ryte_Service {
 	 * @return array The results, contains a score and label.
 	 */
 	private function get_score( $status, $fetch = false ) {
-		if ( $status === WPSEO_OnPage_Option::IS_INDEXABLE ) {
+		if ( $status === WPSEO_Ryte_Option::IS_INDEXABLE ) {
 			return [
 				'score'     => 'good',
 				'label'     => __( 'Your homepage can be indexed by search engines.', 'wordpress-seo' ),
@@ -61,7 +61,7 @@ class WPSEO_Ryte_Service {
 			];
 		}
 
-		if ( $status === WPSEO_OnPage_Option::IS_NOT_INDEXABLE ) {
+		if ( $status === WPSEO_Ryte_Option::IS_NOT_INDEXABLE ) {
 			/* translators: %1$s: opens a link to a related knowledge base article. %2$s: closes the link. */
 			$label = __( '%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.', 'wordpress-seo' );
 			$label = sprintf(
@@ -77,7 +77,7 @@ class WPSEO_Ryte_Service {
 			];
 		}
 
-		if ( $status === WPSEO_OnPage_Option::CANNOT_FETCH ) {
+		if ( $status === WPSEO_Ryte_Option::CANNOT_FETCH ) {
 			/* translators: %1$s: opens a link to a related knowledge base article, %2$s: expands to Yoast SEO, %3$s: closes the link, %4$s: expands to Ryte. */
 			$label = __( '%1$s%2$s has not been able to fetch your site\'s indexability status%3$s from %4$s', 'wordpress-seo' );
 			$label = sprintf(
@@ -95,7 +95,7 @@ class WPSEO_Ryte_Service {
 			];
 		}
 
-		if ( $status === WPSEO_OnPage_Option::NOT_FETCHED ) {
+		if ( $status === WPSEO_Ryte_Option::NOT_FETCHED ) {
 			/* translators: %1$s: expands to Yoast SEO, %2$s: expands to Ryte. */
 			$label = __( '%1$s has not fetched your site\'s indexability status yet from %2$s', 'wordpress-seo' );
 			$label = sprintf( $label, 'Yoast SEO', 'Ryte' );

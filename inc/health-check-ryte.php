@@ -21,25 +21,25 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * Runs the test.
 	 */
 	public function run() {
-		$onpage_option = new WPSEO_OnPage_Option();
+		$onpage_option = new WPSEO_Ryte_Option();
 
 		if( ! $onpage_option->is_enabled() ) {
 			return;
 		}
 
 		switch ($onpage_option->get_status()) {
-			case WPSEO_OnPage_Option::IS_NOT_INDEXABLE:
+			case WPSEO_Ryte_Option::IS_NOT_INDEXABLE:
 				// If development mode is on or the blog is not public, don't show this response.
 				if (WPSEO_Utils::is_development_mode() || ('0' === get_option('blog_public'))) {
 					break;
 				}
 				$this->is_not_indexable_response();
 				break;
-			case WPSEO_OnPage_Option::CANNOT_FETCH:
-			case WPSEO_OnPage_Option::NOT_FETCHED:
+			case WPSEO_Ryte_Option::CANNOT_FETCH:
+			case WPSEO_Ryte_Option::NOT_FETCHED:
 				$this->unknown_indexability_response();
 				break;
-			case WPSEO_OnPage_Option::IS_INDEXABLE:
+			case WPSEO_Ryte_Option::IS_INDEXABLE:
 				$this->is_indexable_response();
 				break;
 			default:
@@ -121,7 +121,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		$this->actions .= sprintf(
 		/* translators: %1$s: , %2$s:  */
 			esc_html__('%1$s Fetch the current status %2$s', 'wordpress-seo'),
-			'<a class="fetch-status button" href= "' . esc_attr( add_query_arg( 'wpseo-redo-onpage', '1' ) ) . '#wpseo-dashboard-overview">',
+			'<a class="fetch-status button" href= "' . esc_attr( add_query_arg( 'wpseo-redo-ryte', '1' ) ) . '#wpseo-dashboard-overview">',
 			'</a>');
 	}
 

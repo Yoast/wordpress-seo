@@ -35,6 +35,6 @@ class Yoast_OnPage_Ajax {
 	 * Storing the dismissed value as an user option in the database.
 	 */
 	private function save_dismissed() {
-		update_user_meta( get_current_user_id(), WPSEO_OnPage::USER_META_KEY, 1 );
+		update_user_meta( get_current_user_id(), WPSEO_Ryte::USER_META_KEY, 1 );
 	}
 }

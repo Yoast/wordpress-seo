@@ -200,7 +200,7 @@ function _wpseo_activate() {
 	$notifier->manage_notification();
 
 	// Schedule cronjob when it doesn't exists on activation.
-	$wpseo_onpage = new WPSEO_OnPage();
+	$wpseo_onpage = new WPSEO_Ryte();
 	$wpseo_onpage->activate_hooks();
 
 	do_action( 'wpseo_activate' );
@@ -330,7 +330,7 @@ function wpseo_init() {
 	}
 
 	// Loading Ryte integration.
-	$wpseo_onpage = new WPSEO_OnPage();
+	$wpseo_onpage = new WPSEO_Ryte();
 	$wpseo_onpage->register_hooks();
 
 	// Feature flag introduced to resolve problems with composer installation in 11.8.
@@ -356,7 +356,7 @@ function wpseo_init_rest_api() {
 	$configuration_service = new WPSEO_Configuration_Service();
 	$configuration_service->initialize();
 
-	$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_OnPage_Option() );
+	$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_Ryte_Option() );
 	$statistics_service    = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
 
 	$endpoints   = [];
