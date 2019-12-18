@@ -104,7 +104,7 @@ clean:build-assets:
   - 'artifact'
   - 'shell:restore-plugin-name'
   - 'github-pre-release'
-  - 'notify-slack'
+  - 'notify-slack:rc'
   - 'check-deploy-allowed'
   - 'deploy:trunk'
   - 'verify-zip-size'
