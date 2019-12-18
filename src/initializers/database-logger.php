@@ -1,18 +1,18 @@
 <?php
 /**
- * A helper object to allow query and memory usage logging.
+ * A simple logger to allow query and memory usage logging.
  *
- * @package Yoast\WP\Free\Helpers
+ * @package Yoast\WP\Free\Initializers
  */
 
-namespace Yoast\WP\Free\Helpers;
+namespace Yoast\WP\Free\Initializers;
 
 use YoastSEO_Vendor\ORM;
 
 /**
  * Class Log_Helper
  */
-class Log_Helper {
+class Database_Logger {
 	/**
 	 * Private array of queries used for logging.
 	 *
@@ -109,6 +109,10 @@ class Log_Helper {
 				echo $i . ': "' . $query[0] . '" in ' . round( $query[1], 5 ) . PHP_EOL;
 				$i ++;
 			}
+			return;
 		}
+		$this->header( 'WPDB Queries' );
+		echo 'Please add this to your wp-config.php to allow WPDB Query logging:' . PHP_EOL;
+		echo "define( 'SAVEQUERIES', true );" . PHP_EOL;
 	}
 }
