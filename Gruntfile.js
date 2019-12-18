@@ -142,6 +142,8 @@ module.exports = function( grunt ) {
 				glotpress_download: "grunt-glotpress",
 				gittag: "grunt-git",
 				gitfetch: "grunt-git",
+				gitadd: "grunt-git",
+				gitcommit: "grunt-git",
 				gitcheckout: "grunt-git",
 				gitpull: "grunt-git",
 				"update-version": "@yoast/grunt-plugin-tasks",
