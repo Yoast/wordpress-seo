@@ -38,13 +38,14 @@ module.exports = function( grunt ) {
 			grunt.task.run( "gitpull:pullBaseBranch" );
 
 			const execSync = require( "child_process" ).execSync;
-			const existsLocally = ! ! execSync( "git branch --list " + branchname, { encoding: "utf-8" } );
-			const existsRemotely = ! ! execSync( "git branch --list -r  origin/" + branchname, { encoding: "utf-8" } );
+			const exists = ! ! execSync( "git branch --list " + branchname, { encoding: "utf-8" } );
 
 			// If the release or hotfix branch already existed, it was saved above in foundBranchName.
-			if ( existsLocally ) {
+			if ( exists ) {
+				const existsRemotely = ! ! execSync( "git branch --list -r  origin/" + branchname, { encoding: "utf-8" } );
 				if ( ! existsRemotely ) {
-					throw "Does not exists on the remote";
+					grunt.fail.fatal( "The release branch does not exist on the remote (origin). " +
+						"Please push your local branch, and run this script again." );
 				}
 
 				// Checkout the release or hotfix branch.
