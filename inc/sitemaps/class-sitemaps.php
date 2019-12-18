@@ -116,7 +116,6 @@ class WPSEO_Sitemaps {
 	 * @since 5.3
 	 */
 	public function init_sitemaps_providers() {
-
 		$this->providers = [
 			new WPSEO_Post_Type_Sitemap_Provider(),
 			new WPSEO_Taxonomy_Sitemap_Provider(),
@@ -140,7 +139,7 @@ class WPSEO_Sitemaps {
 			return;
 		}
 		$request_uri = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
-		$extension   = substr( $request_uri, -4 );
+		$extension   = substr( $request_uri, - 4 );
 		if ( false !== stripos( $request_uri, 'sitemap' ) && in_array( $extension, [ '.xml', '.xsl' ], true ) ) {
 			remove_all_actions( 'widgets_init' );
 			remove_all_filters( 'determine_current_user' );
@@ -164,11 +163,12 @@ class WPSEO_Sitemaps {
 	/**
 	 * Register your own XSL file. Call this during 'init'.
 	 *
-	 * @since 1.4.23
-	 *
 	 * @param string   $name     The name of the XSL file.
 	 * @param callback $function Function to build your XSL file.
 	 * @param string   $rewrite  Optional. Regular expression to match your sitemap with.
+	 *
+	 * @since 1.4.23
+	 *
 	 */
 	public function register_xsl( $name, $function, $rewrite = '' ) {
 		add_action( 'wpseo_xsl_' . $name, $function );
@@ -323,7 +323,6 @@ class WPSEO_Sitemaps {
 	 * Build the root sitemap (example.com/sitemap_index.xml) which lists sub-sitemaps for other content types.
 	 */
 	public function build_root_map() {
-
 		$links            = [];
 		$entries_per_page = $this->get_entries_per_page();
 
@@ -339,6 +338,62 @@ class WPSEO_Sitemaps {
 		}
 
 		$this->sitemap = $this->renderer->get_index( $links );
+	}
+
+	/**
+	 * Retrieve all the index links for a group of subtypes.
+	 *
+	 * @param string        $object_type The object type to retrieve sub types for.
+	 * @param array|boolean $sub_types   The subtypes to retrieve.
+	 * @param int           $max_entries Max number of entries per sitemap.
+	 *
+	 * @return array
+	 */
+	public static function get_index_links_for_object_type( $object_type, $sub_types, $max_entries ) {
+		static $sitemap_aliases = [
+			'user' => 'author'
+		];
+
+		$index = [];
+		$model = Yoast_Model::of_type( 'Indexable' )
+							->select_expr( 'MAX( `updated_at` )', 'lastmod' )
+							->select_expr( 'COUNT(*)', 'type_count' )
+							->where( 'object_type', $object_type )
+							->where( 'is_public', 1 );
+
+		if ( is_array( $sub_types ) ) {
+			$model->select( 'object_sub_type', 'type' );
+			$model->where_in( 'object_sub_type', array_values( $sub_types ) );
+			$model->group_by( 'object_sub_type' );
+		}
+		elseif ( ! $sub_types ) {
+			$model->select( 'object_type', 'type' );
+		}
+
+		$found_types = $model->find_many();
+
+		foreach ( $found_types as $type ) {
+			$type_name   = $type->get( 'type' );
+			if ( isset( $sitemap_aliases[ $type_name ] ) ) {
+				$type_name = $sitemap_aliases[ $type_name ];
+			}
+			$total_count = $type->get( 'type_count' );
+			$max_pages   = 1;
+			if ( $total_count > $max_entries ) {
+				$max_pages = (int) ceil( $total_count / $max_entries );
+			}
+
+			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter ++ ) {
+				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
+
+				$index[] = [
+					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $type_name . '-sitemap' . $current_page . '.xml' ),
+					'lastmod' => $type->get( 'lastmod' ),
+				];
+			}
+		}
+
+		return $index;
 	}
 
 	/**
@@ -380,75 +435,6 @@ class WPSEO_Sitemaps {
 	public function output() {
 		$this->send_headers();
 		echo $this->renderer->get_output( $this->sitemap, $this->transient );
-	}
-
-	/**
-	 * Get the GMT modification date for the last modified post in the post type.
-	 *
-	 * @since 3.2
-	 *
-	 * @param string|array $post_types Post type or array of types.
-	 * @param bool         $return_all Flag to return array of values.
-	 *
-	 * @return string|array|false
-	 */
-	public static function get_last_modified_gmt( $post_types, $return_all = false ) {
-		static $post_type_dates = null;
-
-		if ( ! is_array( $post_types ) ) {
-			$post_types = [ $post_types ];
-		}
-
-		foreach ( $post_types as $post_type ) {
-			if ( ! isset( $post_type_dates[ $post_type ] ) ) { // If we hadn't seen post type before. R.
-				$post_type_dates = null;
-				break;
-			}
-		}
-
-		if ( is_null( $post_type_dates ) ) {
-
-			$post_type_dates = [];
-			$post_type_names = WPSEO_Post_Type::get_accessible_post_types();
-
-			if ( ! empty( $post_type_names ) ) {
-				$post_type_dates_result = Yoast_Model::of_type( 'Indexable' )
-													 ->select( 'object_sub_type' )
-													 ->select_expr( 'MAX( `updated_at` )', 'date' )
-													 ->where( 'object_type', 'post' )
-													 ->where_in( 'object_sub_type', array_keys( $post_type_names ) )
-													 ->where( 'is_public', 1 )
-													 ->group_by( 'object_sub_type' )
-													 ->find_many();
-
-				foreach ( $post_type_dates_result as $obj ) {
-					$post_type_dates[ $obj->get( 'object_sub_type' ) ] = $obj->get( 'date' );
-				}
-			}
-		}
-
-		$dates = array_intersect_key( $post_type_dates, array_flip( $post_types ) );
-
-		if ( count( $dates ) > 0 ) {
-			if ( $return_all ) {
-				return $dates;
-			}
-
-			return max( $dates );
-		}
-
-		return false;
-	}
-
-	/**
-	 * Get the modification date for the last modified post in the post type.
-	 *
-	 * @param array $post_types Post types to get the last modification date for.
-	 *
-	 * @return string
-	 */
-	public function get_last_modified( $post_types ) {
-		return $this->date->format( self::get_last_modified_gmt( $post_types ) );
 	}
 
 	/**
@@ -504,9 +490,9 @@ class WPSEO_Sitemaps {
 	 *
 	 * @param string $type Provide a type for a post_type sitemap, SITEMAP_INDEX_TYPE for the root sitemap.
 	 *
+	 * @return array List of post statuses.
 	 * @since 10.2
 	 *
-	 * @return array List of post statuses.
 	 */
 	public static function get_post_statuses( $type = self::SITEMAP_INDEX_TYPE ) {
 		/**
@@ -522,7 +508,7 @@ class WPSEO_Sitemaps {
 		}
 
 		if ( ( $type === self::SITEMAP_INDEX_TYPE || $type === 'attachment' )
-			&& ! in_array( 'inherit', $post_statuses, true )
+			 && ! in_array( 'inherit', $post_statuses, true )
 		) {
 			$post_statuses[] = 'inherit';
 		}
@@ -539,16 +525,16 @@ class WPSEO_Sitemaps {
 		}
 
 		$headers = [
-			$this->http_protocol . ' 200 OK' => 200,
+			$this->http_protocol . ' 200 OK'                                                       => 200,
 			// Prevent the search engines from indexing the XML Sitemap.
-			'X-Robots-Tag: noindex, follow'  => '',
+			'X-Robots-Tag: noindex, follow'                                                        => '',
 			'Content-Type: text/xml; charset=' . esc_attr( $this->renderer->get_output_charset() ) => '',
 		];
 
 		/**
 		 * Filter the HTTP headers we send before an XML sitemap.
 		 *
-		 * @param array  $headers The HTTP headers we're going to send out.
+		 * @param array $headers The HTTP headers we're going to send out.
 		 */
 		$headers = apply_filters( 'wpseo_sitemap_http_headers', $headers );
 

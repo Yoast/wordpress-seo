@@ -11,14 +11,6 @@ use Yoast\WP\Free\ORM\Yoast_Model;
  * Sitemap provider for author archives.
  */
 class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
-
-	/**
-	 * Holds image parser instance.
-	 *
-	 * @var WPSEO_Sitemap_Image_Parser
-	 */
-	protected static $image_parser;
-
 	/**
 	 * Determines whether images should be included in the XML sitemap.
 	 *
@@ -64,47 +56,10 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return array
 	 */
 	public function get_index_links( $max_entries ) {
-
-		$taxonomies = get_taxonomies( [ 'public' => true ], 'objects' );
-
-		if ( empty( $taxonomies ) ) {
-			return [];
-		}
-
+		$taxonomies     = get_taxonomies( [ 'public' => true ], 'objects' );
 		$taxonomy_names = array_filter( array_keys( $taxonomies ), [ $this, 'is_valid_taxonomy' ] );
-		$taxonomies     = array_intersect_key( $taxonomies, array_flip( $taxonomy_names ) );
 
-		$found_taxonomies = Yoast_Model::of_type( 'Indexable' )
-								 ->select( 'object_sub_type' )
-								 ->select_expr( 'COUNT(*)', 'terms' )
-								 ->where( 'object_type', 'term' )
-								 ->where_in( 'object_sub_type', $taxonomy_names )
-								 ->where( 'is_public', 1 )
-								 ->group_by( 'object_sub_type' )
-								 ->order_by_desc( 'updated_at' )
-								 ->find_many();
-		$index = [];
-
-		foreach ( $found_taxonomies as $taxonomy ) {
-			$total_count = $taxonomy->get( 'terms' );
-			$max_pages = 1;
-			if ( $total_count > $max_entries ) {
-				$max_pages = (int) ceil( $total_count / $max_entries );
-			}
-			$tax_name = $taxonomy->get('object_sub_type');
-			$last_modified_gmt = WPSEO_Sitemaps::get_last_modified_gmt( $tax_name );
-
-			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter ++ ) {
-				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
-
-				$index[] = [
-					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $tax_name . '-sitemap' . $current_page . '.xml' ),
-					'lastmod' => $last_modified_gmt,
-				];
-			}
-		}
-
-		return $index;
+		return WPSEO_Sitemaps::get_index_links_for_object_type( 'term', $taxonomy_names, $max_entries );
 	}
 
 	/**
@@ -213,28 +168,4 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		return true;
 	}
 
-	/**
-	 * Get the Image Parser.
-	 *
-	 * @return WPSEO_Sitemap_Image_Parser
-	 */
-	protected function get_image_parser() {
-		if ( ! isset( self::$image_parser ) ) {
-			self::$image_parser = new WPSEO_Sitemap_Image_Parser();
-		}
-
-		return self::$image_parser;
-	}
-
-	/* ********************* DEPRECATED METHODS ********************* */
-
-	/**
-	 * Get all the options.
-	 *
-	 * @deprecated 7.0
-	 * @codeCoverageIgnore
-	 */
-	protected function get_options() {
-		_deprecated_function( __METHOD__, 'WPSEO 7.0', 'WPSEO_Options::get' );
-	}
 }

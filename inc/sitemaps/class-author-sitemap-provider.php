@@ -5,19 +5,13 @@
  * @package WPSEO\XML_Sitemaps
  */
 
+use Yoast\WP\Free\Helpers\Author_Archive_Helper;
 use Yoast\WP\Free\ORM\Yoast_Model;
 
 /**
  * Sitemap provider for author archives.
  */
 class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
-
-	/**
-	 * WPSEO_Author_Sitemap_Provider constructor.
-	 */
-	public function __construct() {
-	}
-
 	/**
 	 * Check if provider supports given item type.
 	 *
@@ -42,36 +36,11 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return array
 	 */
 	public function get_index_links( $max_entries ) {
-		if ( ! $this->handles_type( 'author' ) ) {
+		if ( $this->handles_type( 'author' ) === false ) {
 			return [];
 		}
 
-		$users = $this->get_users( 0, 0 );
-		$users = $this->exclude_users( $users );
-
-		if ( empty( $users ) ) {
-			return [];
-		}
-
-		$index      = [];
-		$page       = 1;
-		$user_pages = array_chunk( $users, $max_entries );
-
-		if ( count( $user_pages ) === 1 ) {
-			$page = '';
-		}
-
-		foreach ( $user_pages as $users_page ) {
-			$max     = count( $users_page ) - 1;
-			$index[] = [
-				'loc'     => WPSEO_Sitemaps_Router::get_base_url( 'author-sitemap' . $page . '.xml' ),
-				'lastmod' => $users_page[ $max ]->get( 'updated_at' )
-			];
-
-			$page ++;
-		}
-
-		return $index;
+		return WPSEO_Sitemaps::get_index_links_for_object_type( 'user', false, $max_entries );
 	}
 
 	/**
@@ -111,24 +80,18 @@ class WPSEO_Author_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 *
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
-
-		$links = [];
-
 		if ( ! $this->handles_type( 'author' ) ) {
-			return $links;
+			return [];
 		}
 
 		$offset = ( ( $current_page - 1 ) * $max_entries );
 		$users  = $this->get_users( $max_entries, $offset );
+		$users  = $this->exclude_users( $users );
+		$links  = [];
 
 		// Throw an exception when there are no users in the sitemap.
 		if ( count( $users ) === 0 ) {
 			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
-		}
-
-		$users = $this->exclude_users( $users );
-		if ( empty( $users ) ) {
-			$users = [];
 		}
 
 		foreach ( $users as $user ) {
