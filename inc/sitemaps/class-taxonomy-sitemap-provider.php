@@ -74,92 +74,32 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$taxonomy_names = array_filter( array_keys( $taxonomies ), [ $this, 'is_valid_taxonomy' ] );
 		$taxonomies     = array_intersect_key( $taxonomies, array_flip( $taxonomy_names ) );
 
-		// Retrieve all the taxonomies and their terms so we can do a proper count on them.
-		/**
-		 * Filter the setting of excluding empty terms from the XML sitemap.
-		 *
-		 * @param boolean $exclude        Defaults to true.
-		 * @param array   $taxonomy_names Array of names for the taxonomies being processed.
-		 */
-		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, $taxonomy_names );
-
-		$all_taxonomies = [];
-
-		foreach ( $taxonomy_names as $taxonomy_name ) {
-			/**
-			 * Filter the setting of excluding empty terms from the XML sitemap for a specific taxonomy.
-			 *
-			 * @param boolean $exclude       Defaults to the sitewide setting.
-			 * @param string  $taxonomy_name The name of the taxonomy being processed.
-			 */
-			$hide_empty_tax = apply_filters( 'wpseo_sitemap_exclude_empty_terms_taxonomy', $hide_empty, $taxonomy_name );
-
-			$term_args      = [
-				'hide_empty' => $hide_empty_tax,
-				'fields'     => 'ids',
-			];
-			$taxonomy_terms = get_terms( $taxonomy_name, $term_args );
-
-			if ( count( $taxonomy_terms ) > 0 ) {
-				$all_taxonomies[ $taxonomy_name ] = $taxonomy_terms;
-			}
-		}
-
+		$found_taxonomies = Yoast_Model::of_type( 'Indexable' )
+								 ->select( 'object_sub_type' )
+								 ->select_expr( 'COUNT(*)', 'terms' )
+								 ->where( 'object_type', 'term' )
+								 ->where_in( 'object_sub_type', $taxonomy_names )
+								 ->where( 'is_public', 1 )
+								 ->group_by( 'object_sub_type' )
+								 ->order_by_desc( 'updated_at' )
+								 ->find_many();
 		$index = [];
 
-		foreach ( $taxonomies as $tax_name => $tax ) {
-
-			if ( ! isset( $all_taxonomies[ $tax_name ] ) ) { // No eligible terms found.
-				continue;
-			}
-
-			$total_count = ( isset( $all_taxonomies[ $tax_name ] ) ) ? count( $all_taxonomies[ $tax_name ] ) : 1;
-			$max_pages   = 1;
-
+		foreach ( $found_taxonomies as $taxonomy ) {
+			$total_count = $taxonomy->get( 'terms' );
+			$max_pages = 1;
 			if ( $total_count > $max_entries ) {
 				$max_pages = (int) ceil( $total_count / $max_entries );
 			}
-
-			$last_modified_gmt = WPSEO_Sitemaps::get_last_modified_gmt( $tax->object_type );
+			$tax_name = $taxonomy->get('object_sub_type');
+			$last_modified_gmt = WPSEO_Sitemaps::get_last_modified_gmt( $tax_name );
 
 			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter ++ ) {
-
 				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
-
-				if ( ! is_array( $tax->object_type ) || count( $tax->object_type ) === 0 ) {
-					continue;
-				}
-
-				$terms = array_splice( $all_taxonomies[ $tax_name ], 0, $max_entries );
-
-				if ( ! $terms ) {
-					continue;
-				}
-
-				$args  = [
-					'post_type'      => $tax->object_type,
-					'tax_query'      => [
-						[
-							'taxonomy' => $tax_name,
-							'terms'    => $terms,
-						],
-					],
-					'orderby'        => 'modified',
-					'order'          => 'DESC',
-					'posts_per_page' => 1,
-				];
-				$query = new WP_Query( $args );
-
-				if ( $query->have_posts() ) {
-					$date = $query->posts[0]->post_modified_gmt;
-				}
-				else {
-					$date = $last_modified_gmt;
-				}
 
 				$index[] = [
 					'loc'     => WPSEO_Sitemaps_Router::get_base_url( $tax_name . '-sitemap' . $current_page . '.xml' ),
-					'lastmod' => $date,
+					'lastmod' => $last_modified_gmt,
 				];
 			}
 		}
