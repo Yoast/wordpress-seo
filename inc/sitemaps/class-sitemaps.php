@@ -5,8 +5,6 @@
  * @package WPSEO\XML_Sitemaps
  */
 
-use Yoast\WP\Free\ORM\Yoast_Model;
-
 /**
  * Class WPSEO_Sitemaps.
  *
@@ -262,7 +260,9 @@ class WPSEO_Sitemaps {
 
 		$this->set_n( get_query_var( 'sitemap_n' ) );
 
-		$this->build_sitemap( $type );
+		if ( ! $this->get_sitemap_from_cache( $type, $this->current_page ) ) {
+			$this->build_sitemap( $type );
+		}
 
 		if ( $this->bad_sitemap ) {
 			$query->set_404();
@@ -470,6 +470,9 @@ class WPSEO_Sitemaps {
 	 * @return string|array|false
 	 */
 	public static function get_last_modified_gmt( $post_types, $return_all = false ) {
+
+		global $wpdb;
+
 		static $post_type_dates = null;
 
 		if ( ! is_array( $post_types ) ) {
@@ -489,17 +492,19 @@ class WPSEO_Sitemaps {
 			$post_type_names = WPSEO_Post_Type::get_accessible_post_types();
 
 			if ( ! empty( $post_type_names ) ) {
-				$post_type_dates_result = Yoast_Model::of_type( 'Indexable' )
-													 ->select( 'object_sub_type' )
-													 ->select_expr( 'MAX( `updated_at` )', 'date' )
-													 ->where( 'object_type', 'post' )
-													 ->where_in( 'object_sub_type', array_keys( $post_type_names ) )
-													 ->where( 'is_public', 1 )
-													 ->group_by( 'object_sub_type' )
-													 ->find_many();
+				$post_statuses = array_map( 'esc_sql', self::get_post_statuses() );
 
-				foreach ( $post_type_dates_result as $obj ) {
-					$post_type_dates[ $obj->get( 'object_sub_type' ) ] = $obj->get( 'date' );
+				$sql = "
+					SELECT post_type, MAX(post_modified_gmt) AS date
+					FROM $wpdb->posts
+					WHERE post_status IN ('" . implode( "','", $post_statuses ) . "')
+						AND post_type IN ('" . implode( "','", $post_type_names ) . "')
+					GROUP BY post_type
+					ORDER BY post_modified_gmt DESC
+				";
+
+				foreach ( $wpdb->get_results( $sql ) as $obj ) {
+					$post_type_dates[ $obj->post_type ] = $obj->date;
 				}
 			}
 		}
