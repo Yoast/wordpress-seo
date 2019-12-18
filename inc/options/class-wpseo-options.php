@@ -108,6 +108,8 @@ class WPSEO_Options {
 		}
 
 		self::$option_instances[ $option_name ] = $option_instance;
+
+		self::fill_cache();
 	}
 
 	/**
@@ -512,6 +514,9 @@ class WPSEO_Options {
 		}
 
 		$ms_option = self::get_option( 'wpseo_ms' );
+		if ( $ms_option === null ) {
+			return $option;
+		}
 
 		return array_merge( $option, $ms_option );
 	}
