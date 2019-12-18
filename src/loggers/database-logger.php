@@ -71,8 +71,8 @@ class Database_Logger implements Integration_Interface {
 
 		echo PHP_EOL, PHP_EOL, '<!--';
 
-		$this->log_memory_usage();
 		$this->log_time();
+		$this->log_memory_usage();
 		$this->log_idiorm_queries();
 		$this->log_wpdb_queries();
 
