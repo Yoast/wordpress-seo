@@ -54,18 +54,12 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 	 */
 	public function test_main_sitemap() {
 
-		if ( ! defined( 'YOAST_SEO_DEBUG_SITEMAPS' ) ) {
-			define( 'YOAST_SEO_DEBUG_SITEMAPS', true );
-		}
-		add_filter( 'wpseo_enable_xml_sitemap_transient_caching', '__return_true' );
-
 		self::$class_instance->reset();
 
 		set_query_var( 'sitemap', '1' );
 
 		$this->factory->post->create();
 
-		// Go to the XML sitemap twice, see if transient cache is set.
 		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
 		$expected_contains = [
 			'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
@@ -74,19 +68,6 @@ class WPSEO_Sitemaps_Test extends WPSEO_UnitTestCase {
 			'</sitemapindex>',
 		];
 		$this->expectOutputContains( $expected_contains );
-
-		self::$class_instance->redirect( $GLOBALS['wp_the_query'] );
-
-		$expected_contains = [
-			'<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-			'<sitemap>',
-			'<lastmod>',
-			'</sitemapindex>',
-			'Served from transient cache',
-		];
-		$this->expectOutputContains( $expected_contains );
-
-		remove_filter( 'wpseo_enable_xml_sitemap_transient_caching', '__return_true' );
 	}
 
 	/**
