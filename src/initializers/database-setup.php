@@ -45,5 +45,4 @@ class Database_Setup implements Initializer_Interface {
 		Yoast_Model::$auto_prefix_models = '\\Yoast\\WP\\Free\\Models\\';
 		Yoast_Model::$logger             = $this->logger;
 	}
-
 }
