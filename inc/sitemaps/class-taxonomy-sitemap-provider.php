@@ -225,8 +225,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			];
 
 			if ( $this->include_images ) {
-				$term          = get_term( $link->get( 'object_id' ) );
-				$url['images'] = $this->get_image_parser()->get_term_images( $term );
+				// @todo Including images needs fixing.
 			}
 
 			/** This filter is documented at inc/sitemaps/class-post-type-sitemap-provider.php */

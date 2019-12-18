@@ -114,9 +114,6 @@ class WPSEO_Upgrade {
 		// Just flush rewrites, always, to at least make them work after an upgrade.
 		add_action( 'shutdown', 'flush_rewrite_rules' );
 
-		// Flush the sitemap cache.
-		WPSEO_Sitemaps_Cache::clear();
-
 		// Make sure all our options always exist - issue #1245.
 		WPSEO_Options::ensure_options_exist();
 	}
@@ -595,9 +592,6 @@ class WPSEO_Upgrade {
 	 */
 	private function upgrade_90() {
 		global $wpdb;
-
-		// Invalidate all sitemap cache transients.
-		WPSEO_Sitemaps_Cache_Validator::cleanup_database();
 
 		// Removes all scheduled tasks for hitting the sitemap index.
 		wp_clear_scheduled_hook( 'wpseo_hit_sitemap_index' );

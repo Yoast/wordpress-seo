@@ -71,9 +71,6 @@ class WPSEO_Admin {
 
 		add_action( 'admin_init', [ $this, 'map_manage_options_cap' ] );
 
-		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo' );
-		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'home' );
-
 		if ( WPSEO_Utils::is_yoast_seo_page() ) {
 			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		}
