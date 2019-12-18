@@ -1,3 +1,5 @@
+const execSync = require( "child_process" ).execSync;
+
 /**
  * Ensures that the release or hotfix branch is checked out.
  *
@@ -37,19 +39,25 @@ module.exports = function( grunt ) {
 			} );
 			grunt.task.run( "gitpull:pullBaseBranch" );
 
-			const execSync = require( "child_process" ).execSync;
-			const command = "git branch --list " + branchname;
-			const foundBranchName = execSync( command, { encoding: "utf-8" } );
+			const exists = ! ! execSync( "git branch --list " + branchname, { encoding: "utf-8" } );
 
 			// If the release or hotfix branch already existed, it was saved above in foundBranchName.
-			if ( foundBranchName ) {
+			if ( exists ) {
+				// Verify whether this branch already exists on the remote.
+				const existsRemotely = ! ! execSync( "git branch --list -r  origin/" + branchname, { encoding: "utf-8" } );
+
+				// If it doesn't exist remotely, cancel the automatic release, because the dev should manually verify why this is the case.
+				if ( ! existsRemotely ) {
+					grunt.fail.fatal( "The release branch does not exist on the remote (origin). " +
+						"Please push your local branch, and run this script again." );
+				}
+
 				// Checkout the release or hotfix branch.
 				grunt.config( "gitcheckout.existingBranch.options", {
 					branch: branchname,
 				} );
 				grunt.task.run( "gitcheckout:existingBranch" );
 
-				// Todo: if the branch exists locally but not remote, foundBranchName is set, which leads to an error on this pull action.
 				// Pull the release or hotfix branch to make sure you have the latest commits.
 				grunt.config( "gitpull.pullReleaseBranch.options", {
 					branch: branchname,
@@ -63,7 +71,7 @@ module.exports = function( grunt ) {
 				} );
 				grunt.task.run( "gitcheckout:newBranch" );
 			}
-			console.log( "Switched to the " + branchname + " branch" );
+			grunt.log.ok( "Switched to the " + branchname + " branch" );
 		}
 	);
 };
