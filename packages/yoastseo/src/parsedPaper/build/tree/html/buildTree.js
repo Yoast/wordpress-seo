@@ -23,7 +23,7 @@ const buildTree = function( html ) {
 	console.log( "parse5Tree", parse5Tree );
 
 	const htmlTreeConverter =  new HTMLTreeConverter();
-	const tree = htmlTreeConverter.convert( parse5Tree );
+	let tree = htmlTreeConverter.convert( parse5Tree );
 
 	console.log( "converted tree", tree );
 

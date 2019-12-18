@@ -1,4 +1,4 @@
-import { FormattingElement, Heading, Paragraph, StructuredNode } from "../../../structure/tree";
+import { FormattingElement, Heading, Paragraph, StructuredNode, List, ListItem } from "../../../structure/tree";
 import LeafNode from "../../../structure/tree/nodes/LeafNode";
 import { formattingElements, headings, ignoredHtmlElements } from "./htmlConstants";
 
@@ -21,46 +21,66 @@ class HTMLTreeConverter {
 	 * @private
 	 */
 	_convert( parse5Tree, convertedTree, lastLeafNode ) {
-		if( parse5Tree.childNodes ) {
-			for( let node of parse5Tree.childNodes ) {
+		if ( parse5Tree.childNodes ) {
+			for ( const node of parse5Tree.childNodes ) {
 
 				const nodeType = node.nodeName;
 				const hasIgnoredAncestor = this._hasIgnoredAncestor( node );
 				const hasLeafNodeAncestor = this._hasLeafNodeAncestor( node );
 
-				// Ignored, do not add to tree since we do not analyze it.
-				if( ignoredHtmlElements.includes( nodeType ) && hasLeafNodeAncestor ) {
+				let child;
+
+				console.log( { text: node.value, nodeType, convertedTree, hasLeafNodeAncestor, hasIgnoredAncestor } );
+
+				if ( ignoredHtmlElements.includes( nodeType ) && hasLeafNodeAncestor ) {
 					const formatting = new FormattingElement( nodeType, node.sourceCodeLocation, this._parseAttributes( node.attrs ) );
-					lastLeafNode.textContainer.formatting.push( formatting );
-				}
-
-				// Paragraph.
-				if( nodeType === "p" ) {
-					const child = new Paragraph( node.sourceCodeLocation );
+					lastLeafNode.addFormatting( formatting );
+				} else if ( nodeType === "p" ) {
+					child = new Paragraph( node.sourceCodeLocation );
 					lastLeafNode = child;
-					convertedTree.children.push( child );
-				}
-
-				// Heading.
-				if( headings.includes( nodeType ) ) {
-					const child = new Heading( parseInt( nodeType[ 1 ], 10 ), node.sourceCodeLocation );
+					convertedTree.addChild( child );
+				} else if ( headings.includes( nodeType ) ) {
+					child = new Heading( parseInt( nodeType[ 1 ], 10 ), node.sourceCodeLocation );
 					lastLeafNode = child;
-					convertedTree.children.push( child );
-				}
-
-				if( nodeType === "#text" && ! hasIgnoredAncestor ) {
-					lastLeafNode.textContainer.appendText( node.value );
-				}
-
-				if( formattingElements.includes( nodeType ) ) {
+					convertedTree.addChild( child );
+				} else if ( nodeType === "li" ) {
+					child = new ListItem( node.sourceCodeLocation );
+					lastLeafNode = child;
+					convertedTree.addChild( child );
+				} else if ( nodeType === "ol" || nodeType === "ul" ) {
+					child = new List( nodeType === "ol", node.sourceCodeLocation );
+					convertedTree.addChild( child );
+				} else if ( nodeType === "#text" && ! hasIgnoredAncestor && hasLeafNodeAncestor ) {
+					lastLeafNode.appendText( node.value );
+				} else if ( nodeType === "#text" && ! hasLeafNodeAncestor && ! hasIgnoredAncestor ) {
+					child = new Paragraph( node.sourceCodeLocation );
+					convertedTree.addChild( child );
+					lastLeafNode = child;
+					lastLeafNode.appendText( node.value );
+				} else if ( formattingElements.includes( nodeType ) && ! hasLeafNodeAncestor ) {
+					// Orphaned formatting element.
 					const formatting = new FormattingElement( nodeType, node.sourceCodeLocation, this._parseAttributes( node.attrs ) );
-					lastLeafNode.textContainer.formatting.push( formatting );
+					child = new Paragraph( node.sourceCodeLocation, true );
+					convertedTree.addChild( child );
+					lastLeafNode = child;
+					lastLeafNode.addFormatting( formatting );
+				} else if ( formattingElements.includes( nodeType ) ) {
+					// Formatting element.
+					const formatting = new FormattingElement( nodeType, node.sourceCodeLocation, this._parseAttributes( node.attrs ) );
+					lastLeafNode.addFormatting( formatting );
+				} else if ( nodeType !== "#text" && ! ignoredHtmlElements.includes( nodeType ) ) {
+					child = new StructuredNode( nodeType, node.sourceCodeLocation );
+					convertedTree.addChild( child );
 				}
 
-				console.log( "node", node );
-				this._convert( node, convertedTree, lastLeafNode );
+				this._convert( node, child, lastLeafNode );
 			}
 		}
+	}
+
+	_addChild( tree, child ) {
+		child.parent = tree;
+		tree.children.push( child );
 	}
 
 	/**
@@ -130,7 +150,7 @@ class HTMLTreeConverter {
 
 	_isLeafNode( parse5Node ) {
 		const nodeType = parse5Node.nodeName;
-		return nodeType === "p" || headings.includes( nodeType );
+		return nodeType === "p" || headings.includes( nodeType ) || nodeType === "li";
 	}
 }
 

@@ -9,9 +9,9 @@ class FormattingElement {
 	/**
 	 * Represents a formatting element (e.g. link, image, bold text) within a document.
 	 *
-	 * @param {string} type                           The type of this element ("link", "image", "bold", etc.).
-	 * @param {SourceCodeLocation} sourceCodeLocation The location of the element inside of the source code.
-	 * @param {Object} [attributes=null]              The attributes (as key-value pairs, e.g. `{ href: '...' }` ).
+	 * @param {string} type               The type of this element ("link", "image", "bold", etc.).
+	 * @param {Object} sourceCodeLocation The parse5 formatted location of the element inside of the source code.
+	 * @param {Object} [attributes=null]  The attributes (as key-value pairs, e.g. `{ href: '...' }` ).
 	 */
 	constructor( type, sourceCodeLocation, attributes = null ) {
 		/**
@@ -39,6 +39,11 @@ class FormattingElement {
 		 * @type {?number}
 		 */
 		this.textEndIndex = null;
+		/**
+		 * This formatting element's parent.
+		 * @type {LeafNode}
+		 */
+		this.parent = null;
 	}
 }
 
