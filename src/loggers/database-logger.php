@@ -7,28 +7,37 @@
 
 namespace Yoast\WP\Free\Loggers;
 
+use Yoast\WP\Free\Conditionals\Development_Conditional;
+use Yoast\WP\Free\Integrations\Integration_Interface;
 use YoastSEO_Vendor\ORM;
 
 /**
- * Class Log_Helper
+ * Class Database_Logger
  */
-class Database_Logger {
+class Database_Logger implements Integration_Interface {
+	/**
+	 * @inheritDoc
+	 */
+	public function register_hooks() {
+		ORM::configure( 'logging', true );
+		ORM::configure( 'logger', [ $this, 'logger' ] );
+
+		add_action( 'shutdown', [ $this, 'log_output' ] );
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public static function get_conditionals() {
+		return [ Development_Conditional::class ];
+	}
+
 	/**
 	 * Private array of queries used for logging.
 	 *
 	 * @var array
 	 */
 	protected $query_log = [];
-
-	/**
-	 * Log_Helper constructor.
-	 */
-	public function __construct() {
-		ORM::configure( 'logging', true );
-		ORM::configure( 'logger', [ $this, 'logger' ] );
-
-		add_action( 'shutdown', [ $this, 'log_output' ] );
-	}
 
 	/**
 	 * Logs the query to a local variable for output on shutdown.
@@ -48,13 +57,21 @@ class Database_Logger {
 	 * Outputs some logging.
 	 */
 	public function log_output() {
-		echo PHP_EOL . PHP_EOL . '<!--';
+		if (
+			( defined( 'DOING_AJAX' ) && DOING_AJAX ) ||
+			( defined( 'WP_CLI' ) && WP_CLI ) ||
+			( defined( 'REST_REQUEST' ) && REST_REQUEST )
+		) {
+			return;
+		}
+
+		echo PHP_EOL, PHP_EOL, '<!--';
 
 		$this->log_memory_usage();
 		$this->log_idiorm_queries();
 		$this->log_wpdb_queries();
 
-		echo '-->' . PHP_EOL;
+		echo '-->', PHP_EOL;
 	}
 
 	/**
@@ -63,8 +80,8 @@ class Database_Logger {
 	 * @param $string
 	 */
 	private function header( $string ) {
-		echo PHP_EOL . PHP_EOL . $string . PHP_EOL;
-		echo '====' . PHP_EOL;
+		echo PHP_EOL, PHP_EOL, $string, PHP_EOL;
+		echo '====', PHP_EOL;
 	}
 
 	/**
@@ -77,8 +94,8 @@ class Database_Logger {
 		$memory_used      = number_format( ( memory_get_usage() / 1048576 ), 2 );
 
 		$this->header( 'Memory usage' );
-		echo 'Peak: ' . $memory_used_peak . 'MB' . PHP_EOL;
-		echo 'Average: ' . $memory_used . 'MB' . PHP_EOL;
+		echo 'Peak: ', $memory_used_peak, 'MB', PHP_EOL;
+		echo 'Average: ', $memory_used, 'MB', PHP_EOL;
 	}
 
 	/**

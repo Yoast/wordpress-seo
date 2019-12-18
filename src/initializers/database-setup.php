@@ -8,7 +8,6 @@
 namespace Yoast\WP\Free\Initializers;
 
 use Yoast\WP\Free\Conditionals\No_Conditionals;
-use Yoast\WP\Free\Loggers\Database_Logger;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\ORM\Yoast_Model;
 use YoastSEO_Vendor\ORM;
@@ -42,9 +41,6 @@ class Database_Setup implements Initializer_Interface {
 		ORM::configure( 'mysql:host=' . \DB_HOST . ';dbname=' . \DB_NAME );
 		ORM::configure( 'username', \DB_USER );
 		ORM::configure( 'password', \DB_PASSWORD );
-		if ( \WPSEO_Utils::is_development_mode() ) {
-			new Database_Logger();
-		}
 
 		Yoast_Model::$auto_prefix_models = '\\Yoast\\WP\\Free\\Models\\';
 		Yoast_Model::$logger             = $this->logger;
