@@ -107,7 +107,7 @@ class Database_Logger implements Integration_Interface {
 		$this->header( 'Yoast Idiorm Queries (' . count( $this->query_log ) . ')' );
 		$i = 1;
 		foreach ( $this->query_log as $query ) {
-			echo $i . ': "' . $query['query'] . '" in ' . round( $query['time'], 5 ) . PHP_EOL;
+			echo $i, ': "', $query['query'], '" in ', round( $query['time'], 5 ), PHP_EOL;
 			$i ++;
 		}
 	}
@@ -123,13 +123,13 @@ class Database_Logger implements Integration_Interface {
 			$this->header( 'WPDB Queries (' . count( $wpdb->queries ) . ')' );
 			$i = 1;
 			foreach ( $wpdb->queries as $query ) {
-				echo $i . ': "' . $query[0] . '" in ' . round( $query[1], 5 ) . PHP_EOL;
+				echo $i, ': "', $query[0], '" in ', round( $query[1], 5 ), PHP_EOL;
 				$i ++;
 			}
 			return;
 		}
 		$this->header( 'WPDB Queries' );
-		echo 'Please add this to your wp-config.php to allow WPDB Query logging:' . PHP_EOL;
-		echo "define( 'SAVEQUERIES', true );" . PHP_EOL;
+		echo 'Please add this to your wp-config.php to allow WPDB Query logging:', PHP_EOL;
+		echo "define( 'SAVEQUERIES', true );", PHP_EOL;
 	}
 }
