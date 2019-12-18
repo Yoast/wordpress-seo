@@ -23,9 +23,6 @@ class WPSEO_Sitemaps_Admin {
 	public function __construct() {
 		add_action( 'transition_post_status', [ $this, 'status_transition' ], 10, 3 );
 		add_action( 'admin_footer', [ $this, 'status_transition_bulk_finished' ] );
-
-		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo_titles', '' );
-		WPSEO_Sitemaps_Cache::register_clear_on_option_update( 'wpseo', '' );
 	}
 
 	/**
