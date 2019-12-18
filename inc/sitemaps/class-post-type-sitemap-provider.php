@@ -5,31 +5,18 @@
  * @package WPSEO\XML_Sitemaps
  */
 
+use Yoast\WP\Free\ORM\Yoast_Model;
+
 /**
  * Sitemap provider for author archives.
  */
 class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
-
-	/**
-	 * Holds image parser instance.
-	 *
-	 * @var WPSEO_Sitemap_Image_Parser
-	 */
-	protected static $image_parser;
-
 	/**
 	 * Holds instance of classifier for a link.
 	 *
 	 * @var object
 	 */
 	protected static $classifier;
-
-	/**
-	 * Determines whether images should be included in the XML sitemap.
-	 *
-	 * @var bool
-	 */
-	private $include_images;
 
 	/**
 	 * Set up object properties for data reuse.
@@ -70,7 +57,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return array
 	 */
 	public function get_index_links( $max_entries ) {
-		global $wpdb;
+		global $table_prefix;
 
 		$post_types          = WPSEO_Post_Type::get_accessible_post_types();
 		$post_types          = array_filter( $post_types, [ $this, 'is_valid_post_type' ] );
@@ -89,22 +76,18 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 			$all_dates = [];
 
 			if ( $max_pages > 1 ) {
-				$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses( $post_type ) );
+				$sql = "SELECT `updated_at` FROM ( SELECT @rownum:=0 ) init 
+					JOIN {$table_prefix}yoast_indexable
+					WHERE `is_public` = 1
+					AND `object_type` = 'post'
+					AND `object_sub_type` = '{$post_type}'
+					AND ( @rownum:=@rownum+1 ) % {$max_entries} = 0
+					ORDER BY `updated_at` ASC";
 
-				$sql = "
-				SELECT post_modified_gmt
-				    FROM ( SELECT @rownum:=0 ) init 
-				    JOIN {$wpdb->posts} USE INDEX( type_status_date )
-				    WHERE post_status IN ('" . implode( "','", $post_statuses ) . "')
-				      AND post_type = %s
-				      AND ( @rownum:=@rownum+1 ) %% %d = 0
-				    ORDER BY post_modified_gmt ASC
-				";
-
-				$all_dates = $wpdb->get_col( $wpdb->prepare( $sql, $post_type, $max_entries ) );
+				$all_dates = Yoast_Model::of_type( 'Indexable' )->rawQuery( $sql )->find_many();
 			}
 
-			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter++ ) {
+			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter ++ ) {
 
 				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
 				$date         = false;
@@ -116,7 +99,7 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 					}
 				}
 				else {
-					$date = $all_dates[ $page_counter ];
+					$date = $all_dates[ $page_counter ]->get( 'updated_at' );
 				}
 
 				$index[] = [
@@ -136,9 +119,9 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @param int    $max_entries  Entries per sitemap.
 	 * @param int    $current_page Current page of the sitemap.
 	 *
+	 * @return array
 	 * @throws OutOfBoundsException When an invalid page is requested.
 	 *
-	 * @return array
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
 
@@ -287,16 +270,11 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return int
 	 */
 	protected function get_post_type_count( $post_type ) {
-
-		global $wpdb;
-
-		$sql = "
-			SELECT COUNT(*) FROM `wp_yoast_indexable` 
-			WHERE `object_type` = 'post' AND 
-			`object_sub_type` = '{$post_type}' AND `is_public` = 1
-		";
-
-		return (int) $wpdb->get_var( $sql );
+		return Yoast_Model::of_type( 'Indexable' )
+						  ->where( 'object_type', 'post' )
+						  ->where( 'object_sub_type', $post_type )
+						  ->where( 'is_public', 1 )
+						  ->count();
 	}
 
 	/**
@@ -312,12 +290,19 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		$archive_url = false;
 
 		if ( $post_type === 'page' ) {
-
 			$page_on_front_id = (int) get_option( 'page_on_front' );
 			if ( $page_on_front_id > 0 ) {
-				$front_page = $this->get_url(
-					get_post( $page_on_front_id )
-				);
+				$result     = Yoast_Model::of_type( 'Indexable' )
+										 ->select( 'permalink' )
+										 ->select( 'updated_at' )
+										 ->select( 'object_id' )
+										 ->where( 'object_type', 'home-page' )
+										 ->where( 'is_public', 1 )
+										 ->find_one();
+				$front_page = [
+					'loc' => $result->get( 'permalink' ),
+					'mod' => $result->get( 'updated_at' ),
+				];
 			}
 
 			if ( empty( $front_page ) ) {
@@ -325,10 +310,6 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 					'loc' => WPSEO_Utils::home_url(),
 				];
 			}
-
-			// Deprecated, kept for backwards data compat. R.
-			$front_page['chf'] = 'daily';
-			$front_page['pri'] = 1;
 
 			$links[] = $front_page;
 		}
@@ -364,28 +345,18 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Get URL for a post type archive.
 	 *
-	 * @since 5.3
-	 *
 	 * @param string $post_type Post type.
 	 *
 	 * @return string|bool URL or false if it should be excluded.
+	 * @since 5.3
+	 *
 	 */
 	protected function get_post_type_archive_link( $post_type ) {
 
-		$pt_archive_page_id = -1;
+		$pt_archive_page_id = - 1;
 
 		if ( $post_type === 'post' ) {
-
-			if ( get_option( 'show_on_front' ) === 'posts' ) {
-				return WPSEO_Utils::home_url();
-			}
-
-			$pt_archive_page_id = (int) get_option( 'page_for_posts' );
-
-			// Post archive should be excluded if posts page isn't set.
-			if ( $pt_archive_page_id <= 0 ) {
-				return false;
-			}
+			return false;
 		}
 
 		if ( ! $this->is_post_type_archive_indexable( $post_type, $pt_archive_page_id ) ) {
@@ -398,14 +369,14 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Determines whether a post type archive is indexable.
 	 *
-	 * @since 11.5
-	 *
 	 * @param string $post_type       Post type.
 	 * @param int    $archive_page_id The page id.
 	 *
 	 * @return bool True when post type archive is indexable.
+	 * @since 11.5
+	 *
 	 */
-	protected function is_post_type_archive_indexable( $post_type, $archive_page_id = -1 ) {
+	protected function is_post_type_archive_indexable( $post_type, $archive_page_id = - 1 ) {
 
 		if ( WPSEO_Options::get( 'noindex-ptarchive-' . $post_type, false ) ) {
 			return false;
@@ -414,10 +385,11 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		/**
 		 * Filter the page which is dedicated to this post type archive.
 		 *
-		 * @since 9.3
-		 *
 		 * @param string $archive_page_id The post_id of the page.
 		 * @param string $post_type       The post type this archive is for.
+		 *
+		 * @since 9.3
+		 *
 		 */
 		$archive_page_id = (int) apply_filters( 'wpseo_sitemap_page_for_post_type_archive', $archive_page_id, $post_type );
 
@@ -438,18 +410,18 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @return object[]
 	 */
 	protected function get_posts( $post_type, $count, $offset ) {
-
-		global $wpdb;
-
-		$sql = "
-			SELECT `object_id`, `permalink`, `updated_at` 
-			FROM `wp_yoast_indexable` 
-			WHERE `object_type` = 'post' AND `object_sub_type` = '{$post_type}' AND `is_public` = 1 
-			ORDER BY `updated_at` DESC
-			LIMIT %d OFFSET %d
-		";
-
-		return $wpdb->get_results( $wpdb->prepare( $sql, $count, $offset ) );
+		return Yoast_Model::of_type( 'Indexable' )
+						  ->select( 'permalink' )
+						  ->select( 'updated_at' )
+						  ->select( 'object_id' )
+						  ->where( 'object_type', 'post' )
+						  ->where( 'object_sub_type', $post_type )
+						  ->where( 'is_public', 1 )
+						  ->limit( $count )
+						  ->offset( $offset )
+						  ->order_by_desc( 'updated_at' )
+						  ->order_by_desc( 'object_id' )
+						  ->find_many();
 	}
 
 	/* ********************* DEPRECATED METHODS ********************* */
@@ -467,10 +439,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Get Home URL.
 	 *
+	 * @return string
 	 * @deprecated 11.5
 	 * @codeCoverageIgnore
 	 *
-	 * @return string
 	 */
 	protected function get_home_url() {
 		_deprecated_function( __METHOD__, 'WPSEO 11.5', 'WPSEO_Utils::home_url' );
@@ -481,10 +453,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Get front page ID.
 	 *
+	 * @return int
 	 * @deprecated 11.5
 	 * @codeCoverageIgnore
 	 *
-	 * @return int
 	 */
 	protected function get_page_on_front_id() {
 		_deprecated_function( __METHOD__, 'WPSEO 11.5' );
@@ -495,10 +467,10 @@ class WPSEO_Post_Type_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	/**
 	 * Get page for posts ID.
 	 *
+	 * @return int
 	 * @deprecated 11.5
 	 * @codeCoverageIgnore
 	 *
-	 * @return int
 	 */
 	protected function get_page_for_posts_id() {
 		_deprecated_function( __METHOD__, 'WPSEO 11.5' );

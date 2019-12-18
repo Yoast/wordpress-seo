@@ -5,6 +5,8 @@
  * @package WPSEO\XML_Sitemaps
  */
 
+use Yoast\WP\Free\ORM\Yoast_Model;
+
 /**
  * Sitemap provider for author archives.
  */
@@ -120,7 +122,7 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 			$last_modified_gmt = WPSEO_Sitemaps::get_last_modified_gmt( $tax->object_type );
 
-			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter++ ) {
+			for ( $page_counter = 0; $page_counter < $max_pages; $page_counter ++ ) {
 
 				$current_page = ( $max_pages > 1 ) ? ( $page_counter + 1 ) : '';
 
@@ -172,13 +174,11 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 	 * @param int    $max_entries  Entries per sitemap.
 	 * @param int    $current_page Current page of the sitemap.
 	 *
+	 * @return array
 	 * @throws OutOfBoundsException When an invalid page is requested.
 	 *
-	 * @return array
 	 */
 	public function get_sitemap_links( $type, $max_entries, $current_page ) {
-		global $wpdb;
-
 		$links = [];
 		if ( ! $this->handles_type( $type ) ) {
 			return $links;
@@ -186,40 +186,25 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 
 		$taxonomy = get_taxonomy( $type );
 
-		$steps  = $max_entries;
 		$offset = ( $current_page > 1 ) ? ( ( $current_page - 1 ) * $max_entries ) : 0;
 
-		/** This filter is documented in inc/sitemaps/class-taxonomy-sitemap-provider.php */
-		$hide_empty = apply_filters( 'wpseo_sitemap_exclude_empty_terms', true, [ $taxonomy->name ] );
-		/** This filter is documented in inc/sitemaps/class-taxonomy-sitemap-provider.php */
-		$hide_empty_tax = apply_filters( 'wpseo_sitemap_exclude_empty_terms_taxonomy', $hide_empty, $taxonomy->name );
-		$terms          = get_terms( $taxonomy->name, [ 'hide_empty' => $hide_empty_tax ] );
+		$term_links = Yoast_Model::of_type( 'Indexable' )
+								 ->select( 'object_id' )
+								 ->select( 'permalink' )
+								 ->select( 'updated_at' )
+								 ->where( 'object_type', 'term' )
+								 ->where( 'object_sub_type', $taxonomy->name )
+								 ->where( 'is_public', 1 )
+								 ->order_by_desc( 'updated_at' )
+								 ->order_by_desc( 'object_id' )
+								 ->limit( $max_entries )
+								 ->offset( $offset )
+								 ->find_many();
 
 		// If the total term count is lower than the offset, we are on an invalid page.
-		if ( count( $terms ) < $offset ) {
+		if ( count( $term_links ) < $offset ) {
 			throw new OutOfBoundsException( 'Invalid sitemap page requested' );
 		}
-
-		$terms = array_splice( $terms, $offset, $steps );
-		if ( empty( $terms ) ) {
-			return $links;
-		}
-
-		$post_statuses = array_map( 'esc_sql', WPSEO_Sitemaps::get_post_statuses() );
-
-		// Grab last modified date.
-		$sql = "
-			SELECT MAX(p.post_modified_gmt) AS lastmod
-			FROM	$wpdb->posts AS p
-			INNER JOIN $wpdb->term_relationships AS term_rel
-				ON		term_rel.object_id = p.ID
-			INNER JOIN $wpdb->term_taxonomy AS term_tax
-				ON		term_tax.term_taxonomy_id = term_rel.term_taxonomy_id
-				AND		term_tax.taxonomy = %s
-				AND		term_tax.term_id = %d
-			WHERE	p.post_status IN ('" . implode( "','", $post_statuses ) . "')
-				AND		p.post_password = ''
-		";
 
 		/**
 		 * Filter: 'wpseo_exclude_from_sitemap_by_term_ids' - Allow excluding terms by ID.
@@ -228,38 +213,24 @@ class WPSEO_Taxonomy_Sitemap_Provider implements WPSEO_Sitemap_Provider {
 		 */
 		$terms_to_exclude = apply_filters( 'wpseo_exclude_from_sitemap_by_term_ids', [] );
 
-		foreach ( $terms as $term ) {
+		foreach ( $term_links as $link ) {
 
-			if ( in_array( $term->term_id, $terms_to_exclude, true ) ) {
+			if ( in_array( $link->get( 'object_id' ), $terms_to_exclude, true ) ) {
 				continue;
 			}
 
-			$url = [];
-
-			$tax_noindex = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'noindex' );
-
-			if ( $tax_noindex === 'noindex' ) {
-				continue;
-			}
-
-			$url['loc'] = WPSEO_Taxonomy_Meta::get_term_meta( $term, $term->taxonomy, 'canonical' );
-
-			if ( ! is_string( $url['loc'] ) || $url['loc'] === '' ) {
-				$url['loc'] = get_term_link( $term, $term->taxonomy );
-			}
-
-			$url['mod'] = $wpdb->get_var( $wpdb->prepare( $sql, $term->taxonomy, $term->term_id ) );
+			$url = [
+				'loc' => $link->get( 'permalink' ),
+				'mod' => $link->get( 'updated_at' ),
+			];
 
 			if ( $this->include_images ) {
+				$term          = get_term( $link->get( 'object_id' ) );
 				$url['images'] = $this->get_image_parser()->get_term_images( $term );
 			}
 
-			// Deprecated, kept for backwards data compat. R.
-			$url['chf'] = 'daily';
-			$url['pri'] = 1;
-
 			/** This filter is documented at inc/sitemaps/class-post-type-sitemap-provider.php */
-			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $term );
+			$url = apply_filters( 'wpseo_sitemap_entry', $url, 'term', $link );
 
 			if ( ! empty( $url ) ) {
 				$links[] = $url;
