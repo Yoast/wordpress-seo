@@ -141,7 +141,12 @@ class Database_Logger implements Integration_Interface {
 		echo "define( 'SAVEQUERIES', true );", PHP_EOL;
 	}
 
-	private function log_time() {
+	/**
+	 * Log the request time
+	 *
+	 * @return void
+	 */
+	protected function log_time() {
 		$this->header( 'Request time' );
 		echo timer_stop(), 's', PHP_EOL;
 	}
