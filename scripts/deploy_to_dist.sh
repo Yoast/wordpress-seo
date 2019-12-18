@@ -36,7 +36,9 @@ fi
 # Clone the dist repo.
 rm -rf ./dist-repo
 git clone ${REPO_URL} dist-repo
+cd dist-repo
 git checkout $branch 2>/dev/null || git checkout -b $branch
+cd ..
 
 # Copy the git folder with the entire history.
 cp -r ./dist-repo/.git ./artifact-composer
