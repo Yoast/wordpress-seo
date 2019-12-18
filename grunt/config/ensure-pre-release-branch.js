@@ -1,3 +1,5 @@
+const execSync = require( "child_process" ).execSync;
+
 /**
  * Ensures that the release or hotfix branch is checked out.
  *
@@ -37,7 +39,6 @@ module.exports = function( grunt ) {
 			} );
 			grunt.task.run( "gitpull:pullBaseBranch" );
 
-			const execSync = require( "child_process" ).execSync;
 			const exists = ! ! execSync( "git branch --list " + branchname, { encoding: "utf-8" } );
 
 			// If the release or hotfix branch already existed, it was saved above in foundBranchName.
