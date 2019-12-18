@@ -8,7 +8,7 @@
 namespace Yoast\WP\Free\Initializers;
 
 use Yoast\WP\Free\Conditionals\No_Conditionals;
-use Yoast\WP\Free\Helpers\Log_Helper;
+use Yoast\WP\Free\Loggers\Database_Logger;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\ORM\Yoast_Model;
 use YoastSEO_Vendor\ORM;

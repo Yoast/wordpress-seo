@@ -5,7 +5,7 @@
  * @package Yoast\WP\Free\Initializers
  */
 
-namespace Yoast\WP\Free\Initializers;
+namespace Yoast\WP\Free\Loggers;
 
 use YoastSEO_Vendor\ORM;
 
