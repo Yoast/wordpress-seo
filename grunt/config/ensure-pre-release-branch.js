@@ -57,6 +57,7 @@ module.exports = function( grunt ) {
 					} );
 					grunt.task.run( "gitpull:pullReleaseBranch" );
 				} catch ( error ) {
+					console.log( "here!" );
 					throw "Your release branch was not found on the remote. Please first push your local branch, then run the release script again."
 				}
 			} else {
