@@ -38,33 +38,26 @@ module.exports = function( grunt ) {
 			grunt.task.run( "gitpull:pullBaseBranch" );
 
 			const execSync = require( "child_process" ).execSync;
-			const command = "git branch --list " + branchname;
-			const foundBranchName = execSync( command, { encoding: "utf-8" } );
+			const existsLocally = ! ! execSync( "git branch --list " + branchname, { encoding: "utf-8" } );
+			const existsRemotely = ! ! execSync( "git branch --list -r  origin/" + branchname, { encoding: "utf-8" } );
 
 			// If the release or hotfix branch already existed, it was saved above in foundBranchName.
-			if ( foundBranchName ) {
+			if ( existsLocally ) {
+				if ( ! existsRemotely ) {
+					throw "Does not exists on the remote";
+				}
+
 				// Checkout the release or hotfix branch.
 				grunt.config( "gitcheckout.existingBranch.options", {
 					branch: branchname,
 				} );
 				grunt.task.run( "gitcheckout:existingBranch" );
 
-				// Todo: if the branch exists locally but not remote, foundBranchName is set, which leads to an error on this pull action.
 				// Pull the release or hotfix branch to make sure you have the latest commits.
-				const done = this.async();
-				( async() => {
-					try {
-						grunt.config( "gitpull.pullReleaseBranch.options", {
-							branch: branchname,
-						} );
-						await grunt.task.run( "gitpull:pullReleaseBranch" );
-					} catch ( error ) {
-						console.log( "here!" );
-						throw "Your release branch was not found on the remote. " +
-						"Please first push your local branch, then run the release script again.";
-					}
-					done();
-				} )();
+				grunt.config( "gitpull.pullReleaseBranch.options", {
+					branch: branchname,
+				} );
+				grunt.task.run( "gitpull:pullReleaseBranch" );
 			} else {
 				// If the release or hotfix branch doesn't exist yet, we need to create the branch.
 				grunt.config( "gitcheckout.newBranch.options", {
