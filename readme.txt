@@ -212,29 +212,25 @@ Your question has most likely been answered on our knowledge base: [kb.yoast.com
 = 12.8 =
 Release Date: January 7th, 2020
 
+Bugfixes:
+
+* Fixed a bug where clicking the notification center buttons would result in an incorrect icon and a misplaced focus style for the dismiss and restore buttons.
+* Fixes a bug where `create` and `update` actions would be done twice on multisite environments in combination with MultilingualPress.
+* Fixes a bug where an empty page title would cause the breadcrumbs schema to set a wrong url.
+* Fixes a bug where author archives for authors without post would show up in the search results, even though the "Show archives for authors without posts in search results?" option was enabled.
+* Fixes a bug where the styling was missing from admin error notices in WordPress 5.3.
+* Fixes a bug where the results of the images alt attribute SEO assessment in the Classic Editor were incorrect when the image did not have an alt attribute but did have a title attribute.
+
 Enhancements:
 
-* Performance optimization to our options retrieval processes. Props to [Alex Bouma](https://alex.bouma.dev/) for his testing and suggestions.
-* Adds the possibility to declare an identifier when integrating with schema output.
-* Stops having support for WordPress 5.1 and below by shipping possibly missing WordPress files ourself.
-* Implements a uniform way to generate all dates equally.
-* Updates text reference to Open Graph checkbox.
+* Optimizes the options retrieval processes. Props to [Alex Bouma](https://alex.bouma.dev/) for his testing and suggestions.
+* Adds the possibility to declare an identifier when integrating with the Schema output.
 
 Other:
 
-* Changes `array` to `int` in property documentation. Props to [alfiosalanitri](https://github.com/alfiosalanitri)
-* Moved the notice from Paginated comments from the dashboard to WordPress' Health Check.
-* Removes the "Upgrade WordPress to the most recent version" notification.
-
-Bugfixes:
-
-* Fixes docs in the Schema HowTo file. Props to [timvaniersel](https://github.com/timvaniersel)
-* Fixed a bug where clicking the notification center buttons would display a wrong icon and a misplaced focus style for the dismiss and restore buttons.
-* Fixes a bug where `create` and `update` actions would be done twice on multisite environments in combination with MultilingualPress.
-* Fixes a bug where an empty page title would cause the breadcrumbs schema to set a wrong url.
-* Fixes a bug where the "Show archives for authors without posts in search results?" option does not work. 
-* Fixes a bug where some admin notices would appear unstyled.
-* Fixes a bug where the images alt attribute SEO assessment in the Classic Editor was wrong when the image had not alt attribute and did have a title attribute.å
+* Fixes the documentation in the Schema HowTo file. Props to [timvaniersel](https://github.com/timvaniersel).
+* Fixes the documentation in the Breadcrumbs file. Props to [alfiosalanitri](https://github.com/alfiosalanitri).
+* Moves the paginated comments notice from the dashboard to WordPress' Site Health screen.
 
 = 12.7.1 =
 Release Date: December 12th, 2019
