@@ -142,7 +142,7 @@ class Database_Logger implements Integration_Interface {
 	}
 
 	/**
-	 * Log the request time
+	 * Logs the request time.
 	 *
 	 * @return void
 	 */
