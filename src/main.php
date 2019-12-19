@@ -10,6 +10,8 @@ namespace Yoast\WP\Free;
 use Exception;
 use Yoast\WP\Free\Dependency_Injection\Container_Compiler;
 use Yoast\WP\Free\Generated\Cached_Container;
+use Yoast\WP\Free\Surfaces\Classes_Surface;
+Use Yoast\WP\Free\Surfaces\Current_Page_Surface;
 
 if ( ! \defined( 'WPSEO_VERSION' ) ) {
 	\header( 'Status: 403 Forbidden' );
@@ -29,6 +31,11 @@ class Main {
 	 */
 	private $container;
 
+	/**
+	 * Surface classes that provide our external interface.
+	 *
+	 * @var string[]
+	 */
 	private $surfaces = [
 		'current_page' => Current_Page_Surface::class,
 		'classes'      => Classes_Surface::class,

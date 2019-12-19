@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Surfaces;
 
+use YoastSEO_Vendor\Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Classes_Surface {
     /**

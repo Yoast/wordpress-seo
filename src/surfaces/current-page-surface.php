@@ -16,8 +16,6 @@ class Current_Page_Surface {
      */
     private $meta_tags_context_memoizer;
 
-    
-
     /**
      * Current_Page_Surface constructor.
      *
@@ -28,9 +26,9 @@ class Current_Page_Surface {
     }
 
     /**
-     * get_title
+     * Returns the title of the current page.
      *
-     * @return void
+     * @return string The title.
      */
     public function get_title() {
         $meta_tags_context = $this->meta_tags_context_memoizer->for_current_page();
@@ -39,9 +37,9 @@ class Current_Page_Surface {
     }
 
     /**
-     * get_description
+     * Returns the meta description of the current page.
      *
-     * @return void
+     * @return string The meta description.
      */
     public function get_description() {
         $meta_tags_context = $this->meta_tags_context_memoizer->for_current_page();
@@ -50,9 +48,9 @@ class Current_Page_Surface {
     }
 
     /**
-     * get_canonical
+     * Returns the canonical of the current page.
      *
-     * @return void
+     * @return string The canonical.
      */
     public function get_canonical() {
         $meta_tags_context = $this->meta_tags_context_memoizer->for_current_page();
@@ -61,9 +59,9 @@ class Current_Page_Surface {
     }
 
     /**
-     * get_robots
+     * Returns the robots of the current page.
      *
-     * @return void
+     * @return string[] The robots.
      */
     public function get_robots() {
         $meta_tags_context = $this->meta_tags_context_memoizer->for_current_page();
