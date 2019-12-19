@@ -40,7 +40,7 @@ if ( WPSEO_Post_Type::has_archive( $wpseo_post_type ) ) {
 			__( 'the archive for %s', 'wordpress-seo' ),
 			$plural_label
 		),
-		$custom_post_type_archive_help->get_button_html() . $custom_post_type_archive_help->get_panel_html()
+		$custom_post_type_archive_help
 	);
 
 	$page_type = $recommended_replace_vars->determine_for_archive( $wpseo_post_type->name );

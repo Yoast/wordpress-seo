@@ -83,7 +83,7 @@ class Yoast_View_Utils {
 		$this->form->index_switch(
 			$noindex_option_name,
 			$post_type->labels->name,
-			$show_post_type_help->get_button_html() . $show_post_type_help->get_panel_html()
+			$show_post_type_help
 		);
 
 		$this->form->show_hide_switch(

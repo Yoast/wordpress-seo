@@ -280,7 +280,7 @@ class Yoast_Form {
 	 * @param WPSEO_Admin_Help_Panel $help    Inline Help that will be printed out before the visible toggles text.
 	 * @param bool                   $strong  Whether the visual label is displayed in strong text. Default is false.
 	 */
-	public function light_switch( $var, $label, $buttons = array(), $reverse = true, $help = null, $strong = false ) {
+	public function light_switch( $var, $label, $buttons = [], $reverse = true, $help = null, $strong = false ) {
 		$val = WPSEO_Options::get( $var, false );
 
 		if ( $val === true ) {
@@ -302,7 +302,7 @@ class Yoast_Form {
 		$container_class = 'switch-container';
 		$help_toggle     = '';
 
-		if ( $help instanceof WPSEO_Admin_Help_Panel ) {
+		if ( $help !== null ) {
 			$container_class .= ' switch-container__has-help';
 			$help_toggle      = $help->get_button_html() . $help->get_panel_html();
 		}
@@ -643,7 +643,7 @@ class Yoast_Form {
 	 * @param WPSEO_Admin_Help_Panel $help   Inline Help that will be printed out before the visible toggles text.
 	 */
 	public function toggle_switch( $var, $values, $label, $help = null ) {
-		if ( ! is_array( $values ) || $values === array() ) {
+		if ( ! is_array( $values ) || $values === [] ) {
 			return;
 		}
 		$val = WPSEO_Options::get( $var, false );
@@ -657,7 +657,7 @@ class Yoast_Form {
 		$container_class = 'switch-container';
 		$help_toggle     = '';
 
-		if ( $help instanceof WPSEO_Admin_Help_Panel ) {
+		if ( $help !== null ) {
 			$container_class .= ' switch-container__has-help';
 			$help_toggle      = $help->get_button_html() . $help->get_panel_html();
 		}

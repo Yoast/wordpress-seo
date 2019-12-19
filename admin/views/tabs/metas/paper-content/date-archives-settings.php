@@ -34,7 +34,7 @@ $yform->toggle_switch(
 	$yform->index_switch(
 		'noindex-archive-wpseo',
 		__( 'date archives', 'wordpress-seo' ),
-		$date_archives_help->get_button_html() . $date_archives_help->get_panel_html()
+		$date_archives_help
 	);
 
 	$recommended_replace_vars     = new WPSEO_Admin_Recommended_Replace_Vars();

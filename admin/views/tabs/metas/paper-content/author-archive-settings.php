@@ -36,7 +36,7 @@ $author_archives_help = new WPSEO_Admin_Help_Panel(
 $yform->index_switch(
 	'noindex-author-wpseo',
 	__( 'author archives', 'wordpress-seo' ),
-	$author_archives_help->get_button_html() . $author_archives_help->get_panel_html()
+	$author_archives_help
 );
 
 ?>
@@ -59,7 +59,7 @@ $author_archives_no_posts_help = new WPSEO_Admin_Help_Panel(
 $yform->index_switch(
 	'noindex-author-noposts-wpseo',
 	__( 'archives for authors without posts', 'wordpress-seo' ),
-	$author_archives_no_posts_help->get_button_html() . $author_archives_no_posts_help->get_panel_html()
+	$author_archives_no_posts_help
 );
 
 ?>

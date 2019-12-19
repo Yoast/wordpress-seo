@@ -28,7 +28,7 @@ $taxonomies_help = $view_utils->search_results_setting_help( $wpseo_taxonomy );
 $yform->index_switch(
 	'noindex-tax-' . $wpseo_taxonomy->name,
 	$title,
-	$taxonomies_help->get_button_html() . $taxonomies_help->get_panel_html()
+	$taxonomies_help
 );
 
 
