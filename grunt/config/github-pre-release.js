@@ -1,8 +1,7 @@
-
 const spawn = require( "child_process" ).spawnSync;
-const request = require( "request" );
+const fetch = require( "node-fetch" );
 
-function openChangelogEditor ( grunt ) {
+function openChangelogEditor( grunt ) {
 	const editor = process.env.VISUAL || process.env.EDITOR || "vim" || "code" || "subl";
 
 	// Spawn editor and save to changelog_buffer.txt
@@ -34,48 +33,59 @@ module.exports = function( grunt ) {
 	grunt.registerTask(
 		"github-pre-release",
 		"Creates and pushes a github pre-release and uploads the artifact to GitHub",
-		function() {
+		async function() {
 			const done = this.async();
 
 			// Open a text editor to get the changelog.
 			const changelog = openChangelogEditor( grunt );
 			const pluginVersion = grunt.file.readJSON( "package.json" ).yoast.pluginVersion;
 
-			// Creating the Tag
-			//TODO It seems a target [commit] is not necessary, so we use grunt-git to run the git tag with name and message.
-			// Check if this is necessary at all, because the request to create the release already includes creation of a tag.
-			//grunt.config( "gittag.rctag.options.tag", pluginVersion );
-			//grunt.config( "gittag.rctag.options.message", changelog );
-			//grunt.task.run( "gittag:rctag" );
-
-			// Slack notifier logic.
-			// todo: Set the URL on the grunt config, so that the Slack notifier has access to it.
-			// grunt.config.set( "rc.github.url", "DE URL VAN DE RC ZIP HIER" );
-			// todo: remove Temp:
-			grunt.config.set( "rc.github.url", "https://github.com/Yoast/wordpress-seo/releases/download/12.7-RC2/wordpress-seo.zip" );
-
 			// Creating the release on github through an API request.
-			let github = {};
-			github.apiRoot = 'https://api.github.com';
-			github.accesToken = ""; // TODO: Get from ENV
-			github.api_url = github.apiRoot + "/repos/Yoast/wordpress-seo/releases?access_token=" + github.accesToken;
+			const github = {};
+			github.apiRoot = "https://api.github.com";
+			github.accesToken = process.env.GITHUB_TOKEN;
 
-			const release_data = {
-				"tag_name": "v" + pluginVersion,
-				"target_commitish": "master",
-				"name": "v" + pluginVersion,
-				"body": changelog,
-				"draft": false,
-				"prerelease": true
+			// Note: do not uncomment the /Yoast/wordpress-seo URL unless you want to create a real tag. Use a personal fork for testing, instead:
+			//github.api_url = github.apiRoot + "/repos/{ YOUR PERSONAL REPO }/wordpress-seo/releases?access_token=" + github.accesToken;
+
+			// github.api_url = github.apiRoot + "/repos/Yoast/wordpress-seo/releases?access_token=" + github.accesToken;
+
+			const releaseData = {
+				tag_name: "v" + pluginVersion,
+				target_commitish: "release/12.8",
+				name: "v" + pluginVersion,
+				body: changelog,
+				draft: false,
+				prerelease: true,
 			};
 
-			// TODO: fix this request.
-			request.post( github.api_url )
-			       .send( release_data )
-			       .end(function(err, res) {
-				       console.log( err, res );
-				       done();
-			       } );
+			let responseObject;
+			try {
+				const response = await fetch( github.api_url, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify( releaseData ),
+				} );
+				responseObject = await response.json();
+
+				// If there are error(s), throw them into the catch.
+				if ( responseObject.errors && responseObject.errors.length > 0 ) {
+					throw responseObject;
+				}
+			} catch ( error ) {
+				grunt.log.error( error.message );
+				error.errors.forEach( error => {
+					grunt.log.error( JSON.stringify( error ) );
+				} );
+				grunt.fail.fatal( "Quit due to the errors above" );
+			}
+
+			// Slack notifier logic.
+			const constructedZipUrl = "https://github.com/Yoast/wordpress-seo/archive/" + releaseData.tag_name + ".zip";
+			grunt.config.set( "rc.github.url", constructedZipUrl );
+			done();
 		}
 	);
 };
