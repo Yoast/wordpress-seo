@@ -7,9 +7,9 @@
 
 namespace Yoast\WP\Free;
 
+use Exception;
 use Yoast\WP\Free\Dependency_Injection\Container_Compiler;
 use Yoast\WP\Free\Generated\Cached_Container;
-use Yoast\WP\Free\Memoizer\Meta_Tags_Context_Memoizer;
 
 if ( ! \defined( 'WPSEO_VERSION' ) ) {
 	\header( 'Status: 403 Forbidden' );
@@ -29,42 +29,10 @@ class Main {
 	 */
 	private $container;
 
-	/**
-	 * Initializes the plugin.
-	 */
-	public function initialize() {
-		$this->load();
-	}
-
-	/**
-	 * Retrieves an instance from the container.
-	 *
-	 * @param string $class_name The classname to get the instance for.
-	 *
-	 * @return object The instance from the container.
-	 * @throws \Exception If something goes wrong generating the DI container.
-	 */
-	public function get_instance( $class_name ) {
-		return $this->container->get( $class_name );
-	}
-
-	/**
-	 * Retrieves the presentation for the current page.
-	 *
-	 * @return Presentations\Indexable_Presentation The presentation for current page.
-	 * @throws \Exception If something goes wrong generating the DI container.
-	 */
-	public function get_current_page_presentation() {
-		/**
-		 * The value returned by get_instance.
-		 *
-		 * @var Memoizer\Meta_Tags_Context_Memoizer $context
-		 */
-		$context      = $this->get_instance( Meta_Tags_Context_Memoizer::class );
-		$presentation = $context->for_current_page()->presentation;
-
-		return $presentation;
-	}
+	private $surfaces = [
+		'current_page' => Current_Page_Surface::class,
+		'classes'      => Classes_Surface::class,
+	];
 
 	/**
 	 * Loads the plugin.
@@ -72,6 +40,10 @@ class Main {
 	 * @throws \Exception If loading fails and YOAST_ENVIRONMENT is development.
 	 */
 	public function load() {
+		if ( $this->container ) {
+			return;
+		}
+
 		try {
 			$this->container = $this->get_container();
 
@@ -87,6 +59,18 @@ class Main {
 			// Don't crash the entire site, simply don't load.
 			// TODO: Add error notifications here.
 		}
+	}
+
+	public function __get( $property ) {
+		if ( isset( $this->{ $property} ) ) {
+			$this->{$property} = $this->container->get( $this->surfaces[ $property ] );
+			return $this->{$property};
+		}
+		throw new Exception( "Property $property does not exist." );
+	}
+
+	public function __isset( $property ) {
+		return isset( $this->surfaces[ $property ] );
 	}
 
 	/**

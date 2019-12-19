@@ -18,12 +18,12 @@ use Yoast\WP\Free\Main;
  *
  * @return Main The main instance.
  */
-function yoastseo() {
+function YoastSEO() {
 	static $main;
 
 	if ( $main === null ) {
 		$main = new Main();
-		$main->initialize();
+		$main->load();
 	}
 
 	return $main;

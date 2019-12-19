@@ -337,7 +337,7 @@ function wpseo_init() {
 		require_once WPSEO_PATH . 'src/functions.php';
 
 		// Initializes the Yoast indexables for the first time.
-		yoastseo();
+		YoastSEO();
 
 		// require_once WPSEO_PATH . 'src/loaders/oauth.php'; Temporarily disabled.
 	}
