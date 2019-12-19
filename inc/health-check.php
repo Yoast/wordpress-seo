@@ -11,16 +11,22 @@
 abstract class WPSEO_Health_Check {
 
 	/**
+	 * The health check section in which 'good' results should be shown.
+	 *
 	 * @var string
 	 */
 	const STATUS_GOOD = 'good';
 
 	/**
+	 * The health check section in which 'recommended' results should be shown.
+	 *
 	 * @var string
 	 */
 	const STATUS_RECOMMENDED = 'recommended';
 
 	/**
+	 * The health check section in which 'critical' results should be shown.
+	 *
 	 * @var string
 	 */
 	const STATUS_CRITICAL = 'critical';
