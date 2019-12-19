@@ -82,14 +82,9 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		$this->label = esc_html__('Ryte cannot determine whether your site can be found by search engines', 'wordpress-seo');
 		$this->status = self::STATUS_RECOMMENDED;
 
-		$this->description = esc_html__('Ryte offers a free indexability check for Yoast SEO users, and right now it has trouble determining whether search engines can find your site. 
+		$this->description .= esc_html__('Ryte offers a free indexability check for Yoast SEO users, and right now it has trouble determining whether search engines can find your site. 
 				 This could have several (legitimate) reasons, and is not a problem in itself, but if this is a live site, it is recommended that you figure out why the Ryte check failed.');
 
-		$this->actions = sprintf(
-		/* translators: %1$s: opening tag of the link to the Yoast knowledge base indexability check doesn't work page, %2$s: closing tag of the link */
-			esc_html__('%1$s Read more about troubleshooting Ryte\'s search engine visibility %2$s' ),
-			'<a href="' . esc_url('https://kb.yoast.com/kb/indexability-check-doesnt-work/') . '"target="_blank">',
-			'</a><br /><br/>' );
 		$this->add_analyze_site_button();
 	}
 
@@ -99,30 +94,24 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	protected function is_indexable_response() {
 		$this->label = esc_html__('Your site can be found by search engines', 'wordpress-seo');
 		$this->status = self::STATUS_GOOD;
-
 		$this->description = esc_html('Ryte offers a free indexability check for Yoast SEO users, and it shows that your site can be found by search engines.');
 	}
 
 	/**
-	 * Adds the "Re-analyze site indexability" button to the actions.
+	 * Adds the "Re-analyze site indexability" button and link to the Ryte site to the actions.
 	 */
 	protected function add_analyze_site_button() {
 		$this->actions .= sprintf(
-		/* translators: %1$s: opening tag of the link to the Yoast Ryte website, %2$s: closing tag of the link */
+		/* translators: %1$s: opening tag to fetch current status, %2$s: closing tag */
 			esc_html__('%1$s Re-analyze site indexability %2$s', 'wordpress-seo'),
-			'<a class="landing-page button" href= "' . esc_url('https://yoa.st/rytelp') . '" target="_blank">',
+			'<a class="fetch-status button" href= "' . esc_attr( add_query_arg( 'wpseo-redo-ryte', '1' ) ) . '">',
 			'</a>');
-	}
 
-	/**
-	 * Adds the "Fetch status" button to the actions.
-	 */
-	protected function add_fetch_status_button() {
 		$this->actions .= sprintf(
-		/* translators: %1$s: , %2$s:  */
-			esc_html__('%1$s Fetch the current status %2$s', 'wordpress-seo'),
-			'<a class="fetch-status button" href= "' . esc_attr( add_query_arg( 'wpseo-redo-ryte', '1' ) ) . '#wpseo-dashboard-overview">',
-			'</a>');
+		/* translators: %1$s: opening tag of the link to the Yoast Ryte website, %2$s: closing tag of the link */
+			esc_html__('%1$s Go to Ryte to analyze your entire site %2$s', 'wordpress-seo'),
+			'&nbsp; <a href="' . esc_url('https://yoa.st/rytelp') . '"target="_blank">',
+			'</a>' );
 	}
 
 	/**
