@@ -10,14 +10,17 @@ class HTMLTreeConverter {
 	convert( parse5Tree ) {
 		const root = new StructuredNode( "root" );
 		this._convert( parse5Tree, root, null );
-		console.log( "converted tree:", root );
 		return root;
 	}
 
 	/**
+	 * Converts the tree from a parse5 implementation to a Yoast tree.
+	 * @param {Object}   parse5Tree    The parse5 tree to convert.
+	 * @param {Node}     convertedTree The tree in progress.
+	 * @param {LeafNode} lastLeafNode  The last leaf node that was added to the tree.
 	 *
-	 * @param parse5Tree
-	 * @param {StructuredNode} convertedTree
+	 * @returns {void}
+	 *
 	 * @private
 	 */
 	_convert( parse5Tree, convertedTree, lastLeafNode ) {
@@ -32,10 +35,49 @@ class HTMLTreeConverter {
 
 				console.log( { text: node.value, nodeType, convertedTree, hasLeafNodeAncestor, hasIgnoredAncestor } );
 
-				if ( ignoredHtmlElements.includes( nodeType ) && hasLeafNodeAncestor ) {
-					// Ignored, (nested) within a leaf node.
+				if ( ignoredHtmlElements.includes( nodeType ) ) {
+					const previousChild = this._previousChild( convertedTree );
 					const formatting = new FormattingElement( nodeType, node.sourceCodeLocation, this._parseAttributes( node.attrs ) );
-					lastLeafNode.addFormatting( formatting );
+
+					// Ignored, (nested) within a leaf node.
+					if ( hasLeafNodeAncestor ) {
+						/*
+						  Ignored element, (nested) within a leaf node:
+						  E.g.
+						  ```html
+							<div>
+								<p> // convertedTree
+									<strong>
+									   <!-- comment --> // ignored element, added as formatting to the paragraph.
+									</strong>
+								</p>
+							</div>
+						  ```
+						 */
+						lastLeafNode.addFormatting( formatting );
+					} else if ( previousChild && previousChild instanceof Paragraph && previousChild.isImplicit ) {
+						/*
+						  We want to merge chains of implicit paragraphs together.
+						  E.g.
+						  ```html
+							 <div> // convertedTree
+								 [p] Hello
+								 <!-- comment -->
+							 </div>
+						  ```
+						  Should become:
+						  ```html
+							 <div> // convertedTree
+								 [p] // previousChild
+									 Hello
+									 <!-- comment --> // formatting added to implicit paragraph.
+								 [/p]
+							 </div>
+						  ```
+						 */
+						previousChild.addFormatting( formatting );
+						child = convertedTree;
+					}
 				} else if ( nodeType === "p" ) {
 					// Paragraph.
 					child = new Paragraph( node.sourceCodeLocation );
@@ -56,7 +98,24 @@ class HTMLTreeConverter {
 					child = new List( nodeType === "ol", node.sourceCodeLocation );
 					convertedTree.addChild( child );
 				} else if ( nodeType === "#text" && ! hasIgnoredAncestor && hasLeafNodeAncestor ) {
-					// Text inside leaf node (paragraph, heading, list item).
+					/*
+					 * == Text inside leaf node (paragraph, heading, list item). ==
+					 *
+					 * We add the text to the nearest leaf node ancestor.
+					 * E.g.
+					 * ```html
+					 *	 <p> // ancestorLeafNode of node
+					 *	    A text with
+					 *		<em>
+					 *		  <strong>
+					 *			 <a> a bold link. </a> // node: <a>, text: 'a bold link'.
+					 *		  </strong>
+					 *		</em>
+					 *	 </p>
+					 *  ```
+					 *  'a bold link.' should be added as text to `<p>`, not `<a>`
+					 *  to complete the sentence and make analysis of the text easier.
+					 */
 					lastLeafNode.appendText( node.value );
 				} else if ( nodeType === "#text" && ! hasLeafNodeAncestor && ! hasIgnoredAncestor ) {
 					// Orphaned text: text **not** within a leaf node.
@@ -167,7 +226,21 @@ class HTMLTreeConverter {
 						lastLeafNode.addFormatting( formatting );
 					}
 				} else if ( formattingElements.includes( nodeType ) ) {
-					// Formatting element.
+					/*
+					 * Leaf nodes (paragraphs and headings) may not have any children.
+					 * We add the formatting element instead to the nearest leaf node ancestor.
+					 * E.g.
+					 * ```html
+					 *    <p> // ancestorLeafNode of child
+					 *       <em>
+					 *         <strong> // parent
+					 *            <a> A bold link. </a> // child
+					 *         </strong>
+					 *       </em>
+					 *    </p>
+					 *  ```
+					 *  `<a>` should be added as formatting to `<p>`.
+					 */
 					const formatting = new FormattingElement( nodeType, node.sourceCodeLocation, this._parseAttributes( node.attrs ) );
 					lastLeafNode.addFormatting( formatting );
 				} else if ( nodeType !== "#text" && ! ignoredHtmlElements.includes( nodeType ) ) {
