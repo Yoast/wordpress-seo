@@ -22,8 +22,8 @@ import getElementContent from "./getElementContent";
  */
 const elementsThatCanBeClosed = function( currentElement, openElements ) {
 	return openElements.filter( el => {
-		const endTag = el.location.endTag;
-		return endTag.endOffset <= currentElement.location.startOffset;
+		const endTag = el.sourceCodeLocation.endTag;
+		return endTag.endOffset <= currentElement.sourceCodeLocation.startOffset;
 	} );
 };
 
@@ -44,10 +44,10 @@ const elementsThatCanBeClosed = function( currentElement, openElements ) {
  */
 const closeElements = function( elementsToClose, currentOffset ) {
 	// Sort, so we close all elements in the right order.
-	elementsToClose.sort( ( a, b ) => a.location.endTag.endOffset - b.location.endTag.endOffset );
+	elementsToClose.sort( ( a, b ) => a.sourceCodeLocation.endTag.endOffset - b.sourceCodeLocation.endTag.endOffset );
 
 	elementsToClose.forEach( elementToClose => {
-		const endTag = elementToClose.location.endTag;
+		const endTag = elementToClose.sourceCodeLocation.endTag;
 		// Set the end position as seen in the text.
 		elementToClose.textEndIndex = endTag.startOffset - currentOffset;
 		/*
@@ -97,7 +97,7 @@ const handleIgnoredContent = function( element, html, currentOffset ) {
  * @private
  */
 const computeCommentStartEndTextIndices = function( element, currentOffset ) {
-	element.textStartIndex = element.location.startOffset - currentOffset;
+	element.textStartIndex = element.sourceCodeLocation.startOffset - currentOffset;
 	element.textEndIndex = element.textStartIndex;
 };
 
@@ -113,7 +113,7 @@ const computeCommentStartEndTextIndices = function( element, currentOffset ) {
  * @private
  */
 const computeElementStartTextIndex = function( element, currentOffset ) {
-	const startTag = element.location.startTag;
+	const startTag = element.sourceCodeLocation.startTag;
 
 	// For example: "<strong>".length
 	const startTagLength = startTag.endOffset - startTag.startOffset;
@@ -127,7 +127,7 @@ const computeElementStartTextIndex = function( element, currentOffset ) {
 	  Elements that have no end tags (e.g., void element like <img/> or self-closing elements) can be closed immediately.
 	  The text length of those elements will be automatically 0.
 	 */
-	if ( ! element.location.endTag ) {
+	if ( ! element.sourceCodeLocation.endTag ) {
 		element.textEndIndex = element.textStartIndex;
 	}
 
@@ -155,7 +155,7 @@ const calculateTextIndices = function( node, html ) {
 	  Keeps track of the current total size of the start and end tags (and the ignored content)
 	  These should not be counted towards the start and end position of the elements in the text.
 	 */
-	let currentOffset = node.location.startTag ? node.location.startTag.endOffset : node.location.startOffset;
+	let currentOffset = node.sourceCodeLocation.startTag ? node.sourceCodeLocation.startTag.endOffset : node.sourceCodeLocation.startOffset;
 
 	node.textContainer.formatting.forEach( element => {
 		// Close elements that can be closed and remove them from the list of open elements.
@@ -172,7 +172,7 @@ const calculateTextIndices = function( node, html ) {
 		currentOffset = computeElementStartTextIndex( element, currentOffset );
 
 		// If there is an endTag, the element should be closed in one of the next iterations of the loop.
-		if (  element.location.endTag ) {
+		if (  element.sourceCodeLocation.endTag ) {
 			openElements.push( element );
 		}
 
