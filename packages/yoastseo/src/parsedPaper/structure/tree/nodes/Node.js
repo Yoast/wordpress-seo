@@ -139,10 +139,6 @@ class Node {
 		return value;
 	}
 
-	getSiblings() {
-		return this.parent.children.filter( node => node !== this );
-	}
-
 	/**
 	 * Transforms this tree to a string representation.
 	 * For use in e.g. logging to the console or to a text file.

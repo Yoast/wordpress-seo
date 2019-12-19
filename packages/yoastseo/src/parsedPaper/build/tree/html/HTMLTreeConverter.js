@@ -33,37 +33,139 @@ class HTMLTreeConverter {
 				console.log( { text: node.value, nodeType, convertedTree, hasLeafNodeAncestor, hasIgnoredAncestor } );
 
 				if ( ignoredHtmlElements.includes( nodeType ) && hasLeafNodeAncestor ) {
+					// Ignored, (nested) within a leaf node.
 					const formatting = new FormattingElement( nodeType, node.sourceCodeLocation, this._parseAttributes( node.attrs ) );
 					lastLeafNode.addFormatting( formatting );
 				} else if ( nodeType === "p" ) {
+					// Paragraph.
 					child = new Paragraph( node.sourceCodeLocation );
 					lastLeafNode = child;
 					convertedTree.addChild( child );
 				} else if ( headings.includes( nodeType ) ) {
+					// Heading.
 					child = new Heading( parseInt( nodeType[ 1 ], 10 ), node.sourceCodeLocation );
 					lastLeafNode = child;
 					convertedTree.addChild( child );
 				} else if ( nodeType === "li" ) {
+					// List item.
 					child = new ListItem( node.sourceCodeLocation );
 					lastLeafNode = child;
 					convertedTree.addChild( child );
 				} else if ( nodeType === "ol" || nodeType === "ul" ) {
+					// List node.
 					child = new List( nodeType === "ol", node.sourceCodeLocation );
 					convertedTree.addChild( child );
 				} else if ( nodeType === "#text" && ! hasIgnoredAncestor && hasLeafNodeAncestor ) {
+					// Text inside leaf node (paragraph, heading, list item).
 					lastLeafNode.appendText( node.value );
 				} else if ( nodeType === "#text" && ! hasLeafNodeAncestor && ! hasIgnoredAncestor ) {
-					child = new Paragraph( node.sourceCodeLocation );
-					convertedTree.addChild( child );
-					lastLeafNode = child;
-					lastLeafNode.appendText( node.value );
+					// Orphaned text: text **not** within a leaf node.
+					const previousChild = this._previousChild( convertedTree );
+
+					if ( convertedTree instanceof Paragraph ) {
+						/*
+						   Nested orphaned text.
+						   E.g.
+						  ```html
+						    <div>
+						    	[p] // convertedTree
+						    	    <strong>
+						    	       <em>
+						    	          World // #text
+						    	       </em>
+						    	    </strong>
+						    	[/p]
+						    </div>
+						  ```
+						 */
+						convertedTree.appendText( node.value );
+						child = convertedTree;
+					} else if ( previousChild && previousChild instanceof Paragraph && previousChild.isImplicit ) {
+						/*
+						  We want to merge chains of implicit paragraphs together.
+						  E.g.
+						  ```html
+							 <div> // parent
+								 [p] Hello
+								 <strong> [/p] // prevChild, with empty formatting already added.
+								   World!  // text, needs to be added to implicit paragraph.
+								 </strong>
+							 </div>
+						  ```
+						  Should become:
+						  ```html
+							 <div> // parent
+								 [p] // prevChild
+									 Hello
+									 <strong>
+									   World! // text added to previousChild.
+									 </strong>
+								 [/p]
+							 </div>
+						  ```
+						 */
+						previousChild.appendText( node.value );
+						child = convertedTree;
+					} else {
+						// Orphaned text, without preceding orphaned siblings.
+						child = new Paragraph( node.sourceCodeLocation, true );
+						convertedTree.addChild( child );
+						lastLeafNode = child;
+						lastLeafNode.appendText( node.value );
+					}
 				} else if ( formattingElements.includes( nodeType ) && ! hasLeafNodeAncestor ) {
 					// Orphaned formatting element.
 					const formatting = new FormattingElement( nodeType, node.sourceCodeLocation, this._parseAttributes( node.attrs ) );
-					child = new Paragraph( node.sourceCodeLocation, true );
-					convertedTree.addChild( child );
-					lastLeafNode = child;
-					lastLeafNode.addFormatting( formatting );
+
+					const previousChild = this._previousChild( convertedTree );
+
+					if ( convertedTree instanceof Paragraph ) {
+						/*
+						  Nested orphaned formatting elements:
+						  E.g.
+						  ```html
+						    <div>
+						    	[p] // convertedTree
+						    	    <strong>
+						    	       <em> // formatting.
+						    	          World
+						    	       </em>
+						    	    </strong>
+						    	[/p]
+						    </div>
+						  ```
+						 */
+						convertedTree.addFormatting( formatting );
+						child = convertedTree;
+					} else if ( previousChild && previousChild instanceof Paragraph && previousChild.isImplicit ) {
+						/*
+						  We want to merge chains of implicit paragraphs together.
+						  E.g.
+						  ```html
+							 <div> // parent
+								 [p] Hello [/p] // prevChild
+								 <strong> World! </strong> // child
+							 </div>
+						  ```
+						  Should become:
+						  ```html
+							 <div> // parent
+								 [p] // prevChild
+									 Hello
+									 <strong> World! </strong> // formatting added to prevChild
+								 [/p]
+							 </div>
+						  ```
+						 */
+						previousChild.addFormatting( formatting );
+						child = convertedTree;
+					} else {
+						// Orphaned formatting element, without preceding orphaned siblings.
+						child = new Paragraph( node.sourceCodeLocation, true );
+						convertedTree.addChild( child );
+						lastLeafNode = child;
+						lastLeafNode.addFormatting( formatting );
+					}
 				} else if ( formattingElements.includes( nodeType ) ) {
 					// Formatting element.
 					const formatting = new FormattingElement( nodeType, node.sourceCodeLocation, this._parseAttributes( node.attrs ) );
@@ -76,11 +178,6 @@ class HTMLTreeConverter {
 				this._convert( node, child, lastLeafNode );
 			}
 		}
-	}
-
-	_addChild( tree, child ) {
-		child.parent = tree;
-		tree.children.push( child );
 	}
 
 	/**
@@ -102,6 +199,22 @@ class HTMLTreeConverter {
 				attributes[ attribute.name ] = attribute.value;
 				return attributes;
 			}, {} );
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the last child of the given parent.
+	 *
+	 * @param {Node} parent The parent.
+	 *
+	 * @returns {Node} The parent's last child.
+	 *
+	 * @private
+	 */
+	_previousChild( parent ) {
+		if ( parent.children ) {
+			return parent.children[ parent.children.length - 1 ];
 		}
 		return null;
 	}
