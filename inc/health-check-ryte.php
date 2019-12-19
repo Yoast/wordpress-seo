@@ -21,16 +21,16 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * Runs the test.
 	 */
 	public function run() {
+		// When Ryte is disabled or the blog is not public, don't run code
 		$ryte_option = new WPSEO_Ryte_Option();
-
-		if( ! $ryte_option->is_enabled() ) {
+		if( ! $ryte_option->is_enabled() || ('0' === get_option('blog_public') ) ) {
 			return;
 		}
 
 		switch ($ryte_option->get_status()) {
 			case WPSEO_Ryte_Option::IS_NOT_INDEXABLE:
-				// If development mode is on or the blog is not public, don't show this response.
-				if (WPSEO_Utils::is_development_mode() || ('0' === get_option('blog_public'))) {
+				// When WP_DEBUG is on but Yoast development mode is not on, hide response
+				if ( wp_debug_mode() && ! WPSEO_Utils::is_development_mode() ) {
 					break;
 				}
 				$this->is_not_indexable_response();
@@ -47,7 +47,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		}
 
 		$this->badge['color'] = 'red';
-		$this->add_yoast_label();
+		$this->add_yoast_signature();
 	}
 
 	/**
@@ -117,7 +117,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	/**
 	 * Adds a text to the bottom of the Site Health check to indicate it is a Yoast SEO Site Health Check.
 	 */
-	protected function add_yoast_label() {
+	protected function add_yoast_signature() {
 		$this->actions .= sprintf(
 		/* translators: %1$s: start of the paragraph, beginning with the Yoast icon, %2$s: opening tag of the small italic text, %3$s: closing tag of the small italic text and the paragraph.  */
 			esc_html__('%1$s %2$s This issue was reported by the Yoast SEO plugin %3$s', 'wordpress-seo'),
