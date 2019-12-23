@@ -52,19 +52,10 @@ class HTMLTreeConverter {
 					// List node.
 					child = new List( nodeType === "ol", node.sourceCodeLocation );
 				} else if ( nodeType === "#text" ) {
-					const newParagraph = this._addLeafNodeContent( node.value, this._addText, parent, node.sourceCodeLocation );
-
-					if ( newParagraph ) {
-						child = newParagraph;
-					}
+					child = this._addLeafNodeContent( node.value, this._addText, parent, node.sourceCodeLocation );
 				} else if ( formattingElements.includes( nodeType ) ) {
 					const formatting = new FormattingElement( nodeType, node.sourceCodeLocation, this._parseAttributes( node.attrs ) );
-
-					const newParagraph = this._addLeafNodeContent( formatting, this._addFormatting, parent, node.sourceCodeLocation );
-
-					if ( newParagraph ) {
-						child = newParagraph;
-					}
+					child = this._addLeafNodeContent( formatting, this._addFormatting, parent, node.sourceCodeLocation );
 				} else {
 					child = new StructuredNode( nodeType, node.sourceCodeLocation );
 				}
@@ -172,9 +163,9 @@ class HTMLTreeConverter {
 	/**
 	 * Returns the last child of the given parent.
 	 *
-	 * @param {Node} parent The parent.
+	 * @param {module:parsedPaper/structure.StructuredNode} parent The parent.
 	 *
-	 * @returns {Node} The parent's last child.
+	 * @returns {module:parsedPaper/structure.Node} The parent's last child.
 	 *
 	 * @private
 	 */
