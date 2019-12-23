@@ -6,19 +6,6 @@ import { FormattingElement, Paragraph, TextContainer,
  * Supports building a tree from a YAML-encoded string.
  */
 class TreeFromYaml {
-	/**
-	 * Sets the source code location (start index and end index) of the given element,
-	 * based on the info in the given object.
-	 *
-	 * @param {Object} element    The element to set the source code location of.
-	 * @param {Object} parameters The parameters to get the source code location info from.
-	 *
-	 * @returns {void}
-	 */
-	setSourceLocation( element, parameters ) {
-		element.sourceStartIndex = parameters.sourceStartIndex;
-		element.sourceEndIndex = parameters.sourceEndIndex;
-	}
 
 	/**
 	 * Parses the given text and formatting to a TextContainer.
@@ -37,9 +24,9 @@ class TreeFromYaml {
 				const type = Object.keys( parameters )[ 0 ];
 				parameters = parameters[ type ];
 
-				const formattingElement = new FormattingElement( type, parameters.attributes );
+				const sourceCodeLocation = parameters.sourceCodeLocation;
+				const formattingElement = new FormattingElement( type, sourceCodeLocation, parameters.attributes );
 
-				this.setSourceLocation( formattingElement, parameters );
 				formattingElement.textStartIndex = parameters.textStartIndex;
 				formattingElement.textEndIndex = parameters.textEndIndex;
 
@@ -58,7 +45,8 @@ class TreeFromYaml {
 	 * @returns {module:parsedPaper/structure.Heading} The parsed Heading node.
 	 */
 	parseHeading( parameters ) {
-		const heading = new Heading( parameters.level );
+		const sourceCodeLocation = parameters.sourceCodeLocation;
+		const heading = new Heading( parameters.level, sourceCodeLocation );
 		heading.textContainer = this.parseTextContainer( parameters.text, parameters.formatting );
 		return heading;
 	}
@@ -71,7 +59,8 @@ class TreeFromYaml {
 	 * @returns {module:parsedPaper/structure.Paragraph} The parsed Paragraph node.
 	 */
 	parseParagraph( parameters ) {
-		const paragraph = new Paragraph( parameters.tag );
+		const sourceCodeLocation = parameters.sourceCodeLocation;
+		const paragraph = new Paragraph( sourceCodeLocation, parameters.isImplicit );
 		paragraph.textContainer = this.parseTextContainer( parameters.text, parameters.formatting );
 		return paragraph;
 	}
@@ -84,8 +73,9 @@ class TreeFromYaml {
 	 * @returns {module:parsedPaper/structure.ListItem} The parsed ListItem node.
 	 */
 	parseListItem( parameters ) {
-		const listItem = new ListItem();
-		listItem.children = parameters.children.map( child => this.parse( child ) );
+		const sourceCodeLocation = parameters.sourceCodeLocation;
+		const listItem = new ListItem( sourceCodeLocation );
+		listItem.textContainer = this.parseTextContainer( parameters.text, parameters.formatting );
 		return listItem;
 	}
 
@@ -97,7 +87,8 @@ class TreeFromYaml {
 	 * @returns {module:parsedPaper/structure.List} The parsed List node.
 	 */
 	parseList( parameters ) {
-		const list = new List( parameters.ordered );
+		const sourceCodeLocation = parameters.sourceCodeLocation;
+		const list = new List( parameters.ordered, sourceCodeLocation );
 		list.children = parameters.children.map( child => this.parse( child ) );
 		return list;
 	}
@@ -110,22 +101,10 @@ class TreeFromYaml {
 	 * @returns {module:parsedPaper/structure.StructuredNode} The parsed Structured node.
 	 */
 	parseStructured( parameters ) {
-		const structured = new StructuredNode( parameters.tag );
+		const sourceCodeLocation = parameters.sourceCodeLocation;
+		const structured = new StructuredNode( parameters.tag, sourceCodeLocation );
 		structured.children = parameters.children.map( child => this.parse( child ) );
 		return structured;
-	}
-
-	/**
-	 * Parses the given parameters to an Ignored node.
-	 *
-	 * @param {Object} parameters The parameters to parse.
-	 *
-	 * @returns {module:parsedPaper/structure.Ignored} The parsed Ignored node.
-	 */
-	parseIgnored( parameters ) {
-		const ignored = new Ignored( parameters.tag );
-		ignored.content = parameters.content;
-		return ignored;
 	}
 
 	/**
@@ -148,11 +127,9 @@ class TreeFromYaml {
 			case "Heading":    element = this.parseHeading( parameters[ type ] );    break;
 			case "List":       element = this.parseList( parameters[ type ] );       break;
 			case "ListItem":   element = this.parseListItem( parameters[ type ] );   break;
-			case "Ignored":    element = this.parseIgnored( parameters[ type ] );    break;
 			case "Structured": element = this.parseStructured( parameters[ type ] ); break;
 			default: throw new Error( `Node of type '${type}' is not known.` );
 		}
-		this.setSourceLocation( element, parameters[ type ] );
 		return element;
 	}
 }
