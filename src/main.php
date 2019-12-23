@@ -11,7 +11,7 @@ use Exception;
 use Yoast\WP\Free\Dependency_Injection\Container_Compiler;
 use Yoast\WP\Free\Generated\Cached_Container;
 use Yoast\WP\Free\Surfaces\Classes_Surface;
-Use Yoast\WP\Free\Surfaces\Current_Page_Surface;
+use Yoast\WP\Free\Surfaces\Current_Page_Surface;
 
 if ( ! \defined( 'WPSEO_VERSION' ) ) {
 	\header( 'Status: 403 Forbidden' );
@@ -68,6 +68,14 @@ class Main {
 		}
 	}
 
+	/**
+	 * Magic getter for retrieving a property.
+	 *
+	 * @param string $property The property to retrieve.
+	 *
+	 * @return string The value of the property.
+	 * @throws Exception When the property doesn't exist.
+	 */
 	public function __get( $property ) {
 		if ( isset( $this->{ $property} ) ) {
 			$this->{$property} = $this->container->get( $this->surfaces[ $property ] );
@@ -76,6 +84,13 @@ class Main {
 		throw new Exception( "Property $property does not exist." );
 	}
 
+	/**
+	 * Checks if the given property exists as a surface.
+	 *
+	 * @param string $property The property to retrieve.
+	 *
+	 * @return bool True when property is set.
+	 */
 	public function __isset( $property ) {
 		return isset( $this->surfaces[ $property ] );
 	}
