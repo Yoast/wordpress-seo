@@ -13,7 +13,6 @@ class Node {
 	 *
 	 * @param {string} type               The type of Node (should be unique for each child class of Node).
 	 * @param {?Object} sourceCodeLocation The parse5 formatted location of the element inside of the source code.
-	 * @param {Node}    parent             This node's parent node.
 	 *
 	 * @abstract
 	 */
@@ -34,7 +33,7 @@ class Node {
 
 		/**
 		 * The parent node of this node.
-		 * @type {null}
+		 * @type {module:parsedPaper/structure.Node|null}
 		 */
 		this.parent = null;
 

@@ -7,7 +7,7 @@ import FormattingElement from "./FormattingElement";
 /**
  * The collection of elements used in constructing the tree structure.
  *
- * @module tree/structure
+ * @module parsedPaper/structure
  */
 export {
 	Node,

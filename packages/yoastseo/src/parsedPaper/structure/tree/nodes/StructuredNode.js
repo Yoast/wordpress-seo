@@ -32,7 +32,7 @@ class StructuredNode extends Node {
 		this.tag = tag;
 		/**
 		 * This node's child nodes.
-		 * @type {Node[]}
+		 * @type {module:parsedPaper/structure.Node[]}
 		 */
 		this.children = [];
 	}
@@ -40,7 +40,7 @@ class StructuredNode extends Node {
 	/**
 	 * Adds a child and sets its parent to this node.
 	 *
-	 * @param {Node} child The child to add.
+	 * @param {module:parsedPaper/structure.Node} child The child to add.
 	 *
 	 * @returns {void}
 	 */
