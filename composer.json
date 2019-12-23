@@ -101,7 +101,7 @@
 			"@after-premium-cs"
 		],
 		"before-premium-cs": [
-			"composer require --dev yoast/yoastcs:~2.0.0 --update-with-dependencies --no-suggest --no-interaction",
+			"composer require --dev yoast/yoastcs:~2.0.0 --update-with-dependencies --no-suggest --no-interaction  --no-scripts",
 			"composer config-yoastcs"
 		],
 		"after-premium-cs": [
