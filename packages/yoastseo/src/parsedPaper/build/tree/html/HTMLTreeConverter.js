@@ -77,23 +77,22 @@ class HTMLTreeConverter {
 	 * Else: wrap the content in an implicit paragraph, and add the content to it in such a way that runs
 	 * of phrasing content make up one implicit paragraph.
 	 *
-	 * @param {string|FormattingElement} contentToAdd The content to add.
-	 * @param {function}                 add          A function that adds the content to the specified leaf node.
-	 * @param {Node}                     parent       The parent to which to try to add the content.
-	 * @param {Object}                   location     The location of the content as parsed by parse5.
+	 * @param {string|module:parsedPaper/structure.FormattingElement} contentToAdd The content to add.
+	 * @param {function}                                              add          A function that adds the content to the specified leaf node.
+	 * @param {module:parsedPaper/structure.Node}                     parent       The parent to which to try to add the content.
+	 * @param {Object}                                                location     The location of the content as parsed by parse5.
 	 *
 	 * @returns {null|module:parsedPaper/structure.Paragraph} The implicit paragraph, if one needed to be created.
 	 *
 	 * @private
 	 */
 	_addLeafNodeContent( contentToAdd, add, parent, location ) {
-		const previousChild = this._previousChild( parent );
-
 		if ( parent instanceof LeafNode ) {
 			add( parent, contentToAdd );
 			return null;
 		}
 
+		const previousChild = this._previousChild( parent );
 		const leafNodeAncestor = this._leafNodeAncestor( parent );
 
 		if ( leafNodeAncestor instanceof Paragraph ) {
