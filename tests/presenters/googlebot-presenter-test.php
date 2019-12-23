@@ -45,7 +45,7 @@ class Googlebot_Presenter_Test extends TestCase {
 		$indexable_presentation->googlebot = [ 'one', 'two', 'three' ];
 
 		$actual = $this->instance->present( $indexable_presentation );
-		$expected = '<meta name="googlebot" content="one,two,three"/>';
+		$expected = '<meta name="googlebot" content="one, two, three"/>';
 
 		$this->assertEquals( $actual, $expected );
 	}
@@ -62,11 +62,11 @@ class Googlebot_Presenter_Test extends TestCase {
 
 		Monkey\Filters\expectApplied( 'wpseo_googlebot' )
 			->once()
-			->with( 'one,two,three', $indexable_presentation )
-			->andReturn( 'one,two' );
+			->with( 'one, two, three', $indexable_presentation )
+			->andReturn( 'one, two' );
 
 		$actual = $this->instance->present( $indexable_presentation );
-		$expected = '<meta name="googlebot" content="one,two"/>';
+		$expected = '<meta name="googlebot" content="one, two"/>';
 
 		$this->assertEquals( $actual, $expected );
 	}
