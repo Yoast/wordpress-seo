@@ -22,7 +22,7 @@ class Googlebot_Presenter extends Abstract_Indexable_Presenter {
 	 * @return string The googlebot output tag.
 	 */
 	public function present( Indexable_Presentation $presentation ) {
-		$googlebot = \implode( ',', $presentation->googlebot );
+		$googlebot = \implode( ', ', $presentation->googlebot );
 		$googlebot = $this->filter( $googlebot, $presentation );
 
 		if ( \is_string( $googlebot ) && $googlebot !== '' ) {
