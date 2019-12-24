@@ -72,28 +72,26 @@ module.exports = function( grunt ) {
 				body: JSON.stringify( data ),
 			} );
 
+			const responseData = await response.json();
+
 			// Send a message to the slack plugin channel.
 			const slackWebhook = new IncomingWebhook( process.env.SLACK_DEV_PLUGIN_CHANNEL_TOKEN );
 
 			const sizeInMB     = ( stats.size / 1024 / 1024 ).toFixed( 2 );
 			await slackWebhook.send( {
-				text: `Zip size is too big, it is ${ sizeInMB } mb. [LINK TO ISSUE]`,
+				text: `Zip size is too big, it is ${ sizeInMB } MB. ${ responseData.html_url }`,
 			} );
-
-			done();
-
-			const responseData = await response.json();
 
 			if ( ! response.ok ) {
 				grunt.fail.fatal(
-					`Zip size is too big (${ stats.size } bytes). The release process is stopped.\n` +
+					`Zip size is too big (${ sizeInMB } MB). The release process is stopped.\n` +
 					`An issue could not be created: ${ responseData.message }`
 				);
 			}
 
 			if ( ! responseData.milestone ) {
 				grunt.log.warn(
-					`Zip size is too big (${ stats.size } bytes). The release process is stopped.\n` +
+					`Zip size is too big (${ sizeInMB } MB). The release process is stopped.\n` +
 					`An issue has been created: ${ responseData.html_url }.\n\n`
 				);
 
@@ -103,7 +101,7 @@ module.exports = function( grunt ) {
 			}
 
 			grunt.fail.warn(
-				`Zip size is too big (${ stats.size } bytes). The release process is stopped.\n` +
+				`Zip size is too big (${ sizeInMB } MB). The release process is stopped.\n` +
 				`An issue has been created: ${ responseData.html_url }.`
 			);
 		}
