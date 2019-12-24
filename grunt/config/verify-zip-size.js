@@ -1,6 +1,7 @@
 const fs = require( "fs" );
 const IncomingWebhook = require( "@slack/webhook" ).IncomingWebhook;
 const fetch = require( "node-fetch" );
+const parseVersion = require( "./tools/parse-version" );
 
 const API_BASE = "https://api.github.com/repos/Yoast/wordpress-seo";
 
@@ -58,7 +59,11 @@ module.exports = function( grunt ) {
 				],
 			};
 
-			const milestone = await getMilestone( "release/1.0" );
+			const versionString = grunt.option( "plugin-version" );
+			const version = parseVersion( versionString );
+
+			const milestoneTitle = ( version.patch > 0 ) ? `hotfix/${ versionString }` : `release/${ versionString }`;
+			const milestone = await getMilestone( milestoneTitle );
 
 			if ( milestone ) {
 				data.milestone = milestone.number;
@@ -96,7 +101,7 @@ module.exports = function( grunt ) {
 				);
 
 				grunt.fail.fatal(
-					"The milestone could not be attached!"
+					`The milestone could not be attached! (${ milestoneTitle })`
 				);
 			}
 
@@ -107,5 +112,3 @@ module.exports = function( grunt ) {
 		}
 	);
 };
-
-

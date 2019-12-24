@@ -1,49 +1,6 @@
 const getUserInput = require( "./tools/get-user-input" );
+const parseVersion = require( "./tools/parse-version" );
 
-/**
- * Class representing a version number.
- */
-class VersionNumber {
-	/**
-	 * Parses a version number string into a version number object.
-	 *
-	 * @param {string} versionNumberString The version number string to parse.
-	 */
-	constructor( versionNumberString ) {
-		this.versionNumberString = versionNumberString;
-
-		const versionNumbersObject = this.versionNumber();
-
-		this.major = versionNumbersObject.major;
-		this.minor = versionNumbersObject.minor;
-		this.patch = versionNumbersObject.patch;
-	}
-
-	/**
-	 * Parses a version number string of the format major.minor.patch (patch optional) into a version number object.
-	 *
-	 * @returns {{major: number, minor: number, patch: number}} The version numbers.
-	 */
-	versionNumber() {
-		const versionNumberString = this.versionNumberString;
-		const versionNumber = ( /(\d+).(\d+).?(\d+)?/g ).exec( versionNumberString );
-
-		return {
-			major: parseInt( versionNumber[ 1 ], 10 ),
-			minor: parseInt( versionNumber[ 2 ], 10 ),
-			patch: parseInt( versionNumber[ 3 ], 10 ) || 0,
-		};
-	}
-
-	/**
-	 * Checks whether a given version number is a patch.
-	 *
-	 * @returns {boolean} True if the version number is a patch.
-	 */
-	isPatch() {
-		return this.versionNumber().patch > 0;
-	}
-}
 /**
  * ...
  *
@@ -61,14 +18,14 @@ module.exports = function( grunt ) {
 			const newVersion = grunt.option( "plugin-version" );
 			getUserInput( { initialContent: `= ${newVersion} =` } ).then( newChangelog => {
 				grunt.option( "changelog", newChangelog );
-				const versionNumber = new VersionNumber( newVersion );
+				const versionNumber = parseVersion( newVersion );
 
 				// Only if the version is not a patch we remove old changelog entries.
-				if ( ! versionNumber.isPatch() ) {
+				if ( versionNumber.patch !== 0 ) {
 					const releaseInChangelog = /[=] \d+\.\d+(\.\d+)? =/g;
 					const allReleasesInChangelog = changelog.match( releaseInChangelog );
 					const sanitizedVersionNumbers = allReleasesInChangelog.map(
-						element => new VersionNumber( element.slice( 2, element.length - 2 ) )
+						element => parseVersion( element.slice( 2, element.length - 2 ) )
 					);
 					const highestMajor = Math.max( ...sanitizedVersionNumbers.map( sanitizedVersionNumber => sanitizedVersionNumber.major ) );
 					const lowestMajor = Math.min( ...sanitizedVersionNumbers.map( sanitizedVersionNumber => sanitizedVersionNumber.major ) );
