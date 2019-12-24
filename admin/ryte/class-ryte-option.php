@@ -43,7 +43,7 @@ class WPSEO_Ryte_Option {
 	 *
 	 * @var string
 	 */
-	const OPTION_NAME = 'WPSEO_Ryte';
+	const OPTION_NAME = 'wpseo_onpage';
 
 	/**
 	 * The key of the status in the option.
