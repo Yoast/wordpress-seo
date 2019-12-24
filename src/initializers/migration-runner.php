@@ -8,6 +8,7 @@
 namespace Yoast\WP\Free\Initializers;
 
 use Yoast\WP\Free\Config\Ruckusing_Framework;
+use Yoast\WP\Free\Config\Migration_Status;
 use Yoast\WP\Free\Loggers\Logger;
 use Yoast\WP\Free\ORM\Yoast_Model;
 
@@ -26,49 +27,39 @@ class Migration_Runner implements Initializer_Interface {
 	}
 
 	/**
-	 * The value for a migration success state.
-	 *
-	 * @var int
-	 */
-	const MIGRATION_STATE_SUCCESS = 0;
-
-	/**
-	 * The value for a migration state error.
-	 *
-	 * @var int
-	 */
-	const MIGRATION_STATE_ERROR = 1;
-
-	/**
-	 * The value that communicates a migration problem.
-	 *
-	 * @var string
-	 */
-	const MIGRATION_ERROR_TRANSIENT_KEY = 'yoast_migration_problem_';
-
-	/**
 	 * The Ruckusing framework runner.
 	 *
-	 * @var \Yoast\WP\Free\Config\Ruckusing_Framework
+	 * @var Ruckusing_Framework
 	 */
 	protected $framework;
 
 	/**
 	 * The logger object.
 	 *
-	 * @var \Yoast\WP\Free\Loggers\Logger
+	 * @var Logger
 	 */
 	protected $logger;
 
 	/**
+	 * @var Migration_Status
+	 */
+	protected $migration_status;
+
+	/**
 	 * Migrations constructor.
 	 *
-	 * @param \Yoast\WP\Free\Config\Ruckusing_Framework $framework The Ruckusing framework runner.
-	 * @param \Yoast\WP\Free\Loggers\Logger             $logger    A PSR compatible logger.
+	 * @param Migration_Status    $migration_status The migration status.
+	 * @param Ruckusing_Framework $framework        The Ruckusing framework runner.
+	 * @param Logger              $logger           A PSR compatible logger.
 	 */
-	public function __construct( Ruckusing_Framework $framework, Logger $logger ) {
-		$this->framework = $framework;
-		$this->logger    = $logger;
+	public function __construct(
+		Migration_Status $migration_status,
+		Ruckusing_Framework $framework,
+		Logger $logger
+	) {
+		$this->migration_status = $migration_status;
+		$this->framework        = $framework;
+		$this->logger           = $logger;
 	}
 
 	/**
@@ -90,9 +81,18 @@ class Migration_Runner implements Initializer_Interface {
 	 * @param string $migrations_directory  The migrations directory.
 	 *
 	 * @return bool True on success, false on failure.
+	 *
 	 * @throws \Exception If the migration fails and YOAST_ENVIRONMENT is not production.
 	 */
 	public function run_migrations( $name, $migrations_table_name, $migrations_directory ) {
+		if ( ! $this->migration_status->should_run_migration( $name ) ) {
+			return true;
+		}
+
+		if ( ! $this->migration_status->lock_migration( $name ) ) {
+			return false;
+		}
+
 		try {
 			$framework_runner = $this->framework->get_framework_runner( $migrations_table_name, $migrations_directory );
 			/**
@@ -115,12 +115,11 @@ class Migration_Runner implements Initializer_Interface {
 			// determine the actual directory if the plugin is installed with composer.
 			$task_manager = $this->framework->get_framework_task_manager( $adapter, $migrations_table_name, $migrations_directory );
 			$task_manager->execute( $framework_runner, 'db:migrate', [] );
-		}
-		catch ( \Exception $exception ) {
+		} catch ( \Exception $exception ) {
 			$this->logger->error( $exception->getMessage() );
 
 			// Something went wrong...
-			$this->set_failed_state( $name, $exception->getMessage() );
+			$this->migration_status->set_error( $name, $exception->getMessage() );
 
 			if ( \defined( 'YOAST_ENVIRONMENT' ) && \YOAST_ENVIRONMENT !== 'production' ) {
 				throw $exception;
@@ -129,76 +128,8 @@ class Migration_Runner implements Initializer_Interface {
 			return false;
 		}
 
-		$this->set_success_state( $name );
+		$this->migration_status->set_success( $name );
 
 		return true;
-	}
-
-	/**
-	 * Retrieves the state of the migrations.
-	 *
-	 * @param string $name The name of the migration.
-	 *
-	 * @return bool True if migrations have completed successfully.
-	 */
-	public function is_usable( $name ) {
-		return ( $this->get_migration_state( $name ) === self::MIGRATION_STATE_SUCCESS );
-	}
-
-	/**
-	 * Retrieves the state of the migrations.
-	 *
-	 * @param string $name The name of the migration.
-	 *
-	 * @return bool True if migrations have completed successfully.
-	 */
-	public function has_migration_error( $name ) {
-		return ( $this->get_migration_state( $name ) === self::MIGRATION_STATE_ERROR );
-	}
-
-	/**
-	 * Handles state persistence for a failed migration environment.
-	 *
-	 * @param string $name    The name of the migration.
-	 * @param string $message Message explaining the reason for the failed state.
-	 *
-	 * @return void
-	 */
-	protected function set_failed_state( $name, $message ) {
-		// @todo do something with the message.
-		\set_transient( $this->get_error_transient_key( $name ), self::MIGRATION_STATE_ERROR, \DAY_IN_SECONDS );
-	}
-
-	/**
-	 * Removes the problem state from the system.
-	 *
-	 * @param string $name The name of the migration.
-	 *
-	 * @return void
-	 */
-	protected function set_success_state( $name ) {
-		\delete_transient( $this->get_error_transient_key( $name ) );
-	}
-
-	/**
-	 * Retrieves the current migration state.
-	 *
-	 * @param string $name The name of the migration.
-	 *
-	 * @return int|null Migration state.
-	 */
-	protected function get_migration_state( $name ) {
-		return \get_transient( $this->get_error_transient_key( $name ), self::MIGRATION_STATE_SUCCESS );
-	}
-
-	/**
-	 * Retrieves the error state transient key to use.
-	 *
-	 * @param string $name The name of the migration.
-	 *
-	 * @return string The transient key to use for storing the error state.
-	 */
-	protected function get_error_transient_key( $name ) {
-		return self::MIGRATION_ERROR_TRANSIENT_KEY . $name;
 	}
 }

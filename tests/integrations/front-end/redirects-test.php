@@ -12,6 +12,7 @@ use Mockery;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Meta_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
+use Yoast\WP\Free\Helpers\Redirect_Helper;
 use Yoast\WP\Free\Integrations\Front_End\Redirects;
 use Yoast\WP\Free\Tests\TestCase;
 
@@ -55,6 +56,13 @@ class Redirects_Test extends TestCase {
 	private $current_page;
 
 	/**
+	 * The redirect helper mock.
+	 *
+	 * @var Mockery\MockInterface|Redirect_Helper
+	 */
+	private $redirect;
+
+	/**
 	 * Sets an instance for test purposes.
 	 */
 	public function setUp() {
@@ -63,7 +71,8 @@ class Redirects_Test extends TestCase {
 		$this->options      = Mockery::mock( Options_Helper::class );
 		$this->meta         = Mockery::mock( Meta_Helper::class );
 		$this->current_page = Mockery::mock( Current_Page_Helper::class );
-		$this->instance     = Mockery::mock( Redirects::class, [ $this->options, $this->meta, $this->current_page ] )
+		$this->redirect     = Mockery::mock( Redirect_Helper::class );
+		$this->instance     = Mockery::mock( Redirects::class, [ $this->options, $this->meta, $this->current_page, $this->redirect ] )
 			->shouldAllowMockingProtectedMethods()
 			->makePartial();
 	}
@@ -79,7 +88,7 @@ class Redirects_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->instance
+		$this->redirect
 			->shouldNotReceive( 'do_safe_redirect' )
 			->with( 'https://example.org', 301 );
 
@@ -97,7 +106,7 @@ class Redirects_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		$this->instance
+		$this->redirect
 			->expects( 'do_safe_redirect' )
 			->once()
 			->with( 'url', 301 );
@@ -116,7 +125,7 @@ class Redirects_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->instance
+		$this->redirect
 			->shouldNotReceive( 'do_redirect' );
 
 		$this->instance->page_redirect();
@@ -135,7 +144,7 @@ class Redirects_Test extends TestCase {
 			->once()
 			->andReturnTrue();
 
-		$this->instance
+		$this->redirect
 			->shouldNotReceive( 'do_redirect' );
 
 		$this->instance->page_redirect();
@@ -161,7 +170,7 @@ class Redirects_Test extends TestCase {
 			->with( 'redirect', 1337 )
 			->andReturn( '' );
 
-		$this->instance
+		$this->redirect
 			->shouldNotReceive( 'do_redirect' );
 
 		$this->instance->page_redirect();
@@ -187,7 +196,7 @@ class Redirects_Test extends TestCase {
 			->with( 'redirect', 1337 )
 			->andReturn( 'https://example.org/redirect' );
 
-		$this->instance
+		$this->redirect
 			->expects( 'do_redirect' )
 			->once()
 			->with( 'https://example.org/redirect' );
@@ -206,7 +215,7 @@ class Redirects_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->instance
+		$this->redirect
 			->shouldNotReceive( 'do_redirect' );
 
 		$this->instance->attachment_redirect();
@@ -229,7 +238,7 @@ class Redirects_Test extends TestCase {
 			->once()
 			->andReturnFalse();
 
-		$this->instance
+		$this->redirect
 			->shouldNotReceive( 'do_redirect' );
 
 		$this->instance->attachment_redirect();
@@ -257,7 +266,7 @@ class Redirects_Test extends TestCase {
 			->once()
 			->andReturn( '' );
 
-		$this->instance
+		$this->redirect
 			->shouldNotReceive( 'do_redirect' );
 
 		$this->instance->attachment_redirect();
@@ -285,7 +294,7 @@ class Redirects_Test extends TestCase {
 			->once()
 			->andReturn( 'https://example.org/redirect' );
 
-		$this->instance
+		$this->redirect
 			->expects( 'do_redirect' )
 			->once()
 			->with( 'https://example.org/redirect' );

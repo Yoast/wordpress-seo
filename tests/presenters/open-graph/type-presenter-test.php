@@ -45,7 +45,7 @@ class Type_Presenter_Test extends TestCase {
 	public function test_present() {
 		$this->indexable_presentation->og_type = 'article';
 
-		$expected = '<meta property="og:type" value="article"/>';
+		$expected = '<meta property="og:type" content="article"/>';
 		$actual = $this->instance->present( $this->indexable_presentation );
 
 		$this->assertEquals( $expected, $actual );
@@ -79,7 +79,7 @@ class Type_Presenter_Test extends TestCase {
 			->with( 'website', $this->indexable_presentation )
 			->andReturn( 'article' );
 
-		$expected = '<meta property="og:type" value="article"/>';
+		$expected = '<meta property="og:type" content="article"/>';
 		$actual = $this->instance->present( $this->indexable_presentation );
 
 		$this->assertEquals( $expected, $actual );

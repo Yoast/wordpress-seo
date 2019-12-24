@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Integrations\Watchers;
 
+use Yoast\WP\Free\Conditionals\Migrations_Conditional;
 use Yoast\WP\Free\Builders\Indexable_Builder;
 use Yoast\WP\Free\Integrations\Integration_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Repository;
@@ -20,16 +21,16 @@ class Indexable_Term_Watcher implements Integration_Interface {
 	 * @inheritdoc
 	 */
 	public static function get_conditionals() {
-		return [];
+		return [ Migrations_Conditional::class ];
 	}
 
 	/**
-	 * @var \Yoast\WP\Free\Repositories\Indexable_Repository
+	 * @var Indexable_Repository
 	 */
 	protected $repository;
 
 	/**
-	 * @var \Yoast\WP\Free\Builders\Indexable_Term_Builder
+	 * @var Indexable_Builder
 	 */
 	protected $builder;
 

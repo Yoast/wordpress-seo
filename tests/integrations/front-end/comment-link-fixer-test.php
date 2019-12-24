@@ -89,13 +89,12 @@ class Comment_link_Fixer_Test extends TestCase {
 	 * @covers ::replytocom_redirect
 	 */
 	public function test_replytocom_redirect() {
-		$this->redirect->expects( 'do_redirect' )->once()->with( 'https://permalink#comment-unique_hash', 301 )->andReturn( true );
+		$this->redirect->expects( 'do_safe_redirect' )->once()->with( 'https://permalink#comment-unique_hash', 301 )->andReturn( true );
 
 		$_GET['replytocom'] = 'unique_hash';
 		Monkey\Functions\expect( 'is_singular' )->once()->andReturn( true );
 		$GLOBALS['post'] = (object) [ 'ID' => 1 ];
 		Monkey\Functions\expect( 'get_permalink' )->once()->with( 1 )->andReturn( 'https://permalink' );
-		Monkey\Functions\expect( 'wp_unslash' )->once()->with( 'unique_hash' )->andReturn( 'unique_hash' );
 
 		$this->assertTrue( $this->instance->replytocom_redirect() );
 
@@ -106,15 +105,13 @@ class Comment_link_Fixer_Test extends TestCase {
 	 * @covers ::replytocom_redirect
 	 */
 	public function test_replytocom_redirect_with_query_string() {
-		$this->redirect->expects( 'do_redirect' )->once()->with( 'https://permalink?param=foo#comment-unique_hash', 301 )->andReturn( true );
+		$this->redirect->expects( 'do_safe_redirect' )->once()->with( 'https://permalink?param=foo#comment-unique_hash', 301 )->andReturn( true );
 
 		$_GET['replytocom'] = 'unique_hash';
 		Monkey\Functions\expect( 'is_singular' )->once()->andReturn( true );
 		$GLOBALS['post'] = (object) [ 'ID' => 1 ];
 		Monkey\Functions\expect( 'get_permalink' )->once()->with( 1 )->andReturn( 'https://permalink' );
-		Monkey\Functions\expect( 'wp_unslash' )->once()->with( 'unique_hash' )->andReturn( 'unique_hash' );
 		$_SERVER['QUERY_STRING'] = 'param=foo';
-		Monkey\Functions\expect( 'wp_unslash' )->once()->with( 'param=foo' )->andReturn( 'param=foo' );
 		Monkey\Functions\expect( 'remove_query_arg' )->once()->with( 'replytocom', 'param=foo' )->andReturn( 'param=foo' );
 
 		$this->assertTrue( $this->instance->replytocom_redirect() );

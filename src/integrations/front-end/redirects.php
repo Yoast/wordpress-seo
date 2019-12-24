@@ -11,6 +11,7 @@ use Yoast\WP\Free\Conditionals\Front_End_Conditional;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Meta_Helper;
 use Yoast\WP\Free\Helpers\Options_Helper;
+use Yoast\WP\Free\Helpers\Redirect_Helper;
 use Yoast\WP\Free\Integrations\Integration_Interface;
 
 /**
@@ -34,6 +35,13 @@ class Redirects implements Integration_Interface {
 	protected $current_page;
 
 	/**
+	 * The redirect helper.
+	 *
+	 * @var Redirect_Helper
+	 */
+	private $redirect;
+
+	/**
 	 * Sets the helpers.
 	 *
 	 * @codeCoverageIgnore
@@ -41,11 +49,13 @@ class Redirects implements Integration_Interface {
 	 * @param Options_Helper      $options      Options helper.
 	 * @param Meta_Helper         $meta         Meta helper.
 	 * @param Current_Page_Helper $current_page The current page helper.
+	 * @param Redirect_Helper     $redirect     The redirect helper.
 	 */
-	public function __construct( Options_Helper $options, Meta_Helper $meta, Current_Page_Helper $current_page ) {
+	public function __construct( Options_Helper $options, Meta_Helper $meta, Current_Page_Helper $current_page, Redirect_Helper $redirect ) {
 		$this->options      = $options;
 		$this->meta         = $meta;
 		$this->current_page = $current_page;
+		$this->redirect     = $redirect;
 	}
 
 	/**
@@ -71,7 +81,7 @@ class Redirects implements Integration_Interface {
 	 */
 	public function archive_redirect() {
 		if ( $this->need_archive_redirect() ) {
-			$this->do_safe_redirect( get_bloginfo( 'url' ), 301 );
+			$this->redirect->do_safe_redirect( get_bloginfo( 'url' ), 301 );
 		}
 	}
 
@@ -93,7 +103,7 @@ class Redirects implements Integration_Interface {
 			return;
 		}
 
-		$this->do_redirect( $redirect );
+		$this->redirect->do_redirect( $redirect );
 	}
 
 
@@ -114,37 +124,7 @@ class Redirects implements Integration_Interface {
 			return;
 		}
 
-		$this->do_redirect( $url );
-	}
-
-	/**
-	 * Wraps wp_safe_redirect to allow testing for redirects.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $location The path to redirect to.
-	 * @param int    $status   Status code to use.
-	 */
-	protected function do_safe_redirect( $location, $status = 302 ) {
-		\header( 'X-Redirect-By: Yoast SEO' );
-		\wp_safe_redirect( $location, $status, 'Yoast SEO' );
-		exit;
-	}
-
-	/**
-	 * Wraps safe_redirect to allow testing for redirects.
-	 *
-	 * @codeCoverageIgnore
-	 *
-	 * @param string $location The path to redirect to.
-	 * @param int    $status   Status code to use.
-	 *
-	 * @return void
-	 */
-	protected function do_redirect( $location, $status = 301 ) {
-		\header( 'X-Redirect-By: Yoast SEO' );
-		\wp_redirect( $location, $status, 'Yoast SEO' );
-		exit;
+		$this->redirect->do_redirect( $url );
 	}
 
 	/**

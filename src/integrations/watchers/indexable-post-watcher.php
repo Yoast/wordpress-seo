@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Integrations\Watchers;
 
+use Yoast\WP\Free\Conditionals\Migrations_Conditional;
 use Yoast\WP\Free\Builders\Indexable_Builder;
 use Yoast\WP\Free\Integrations\Integration_Interface;
 use Yoast\WP\Free\Repositories\Indexable_Hierarchy_Repository;
@@ -21,7 +22,7 @@ class Indexable_Post_Watcher implements Integration_Interface {
 	 * @inheritdoc
 	 */
 	public static function get_conditionals() {
-		return [];
+		return [ Migrations_Conditional::class ];
 	}
 
 	/**

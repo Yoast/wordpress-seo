@@ -1,8 +1,10 @@
 /* global wp */
 
 /* External dependencies */
-import forEach from "lodash/forEach";
-import omit from "lodash/omit";
+import {
+	forEach,
+	omit,
+} from "lodash-es";
 
 /* Internal dependencies */
 import { updateReplacementVariable } from "../redux/actions/snippetEditor";

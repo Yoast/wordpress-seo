@@ -103,7 +103,7 @@ class Comment_Link_Fixer implements Integration_Interface {
 			}
 			$url .= '#comment-' . $hash;
 
-			$this->redirect_helper->do_redirect( $url, 301 );
+			$this->redirect_helper->do_safe_redirect( $url, 301 );
 
 			return true;
 		}

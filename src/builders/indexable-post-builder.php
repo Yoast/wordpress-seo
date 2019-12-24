@@ -40,9 +40,11 @@ class Indexable_Post_Builder {
 	 * @return \Yoast\WP\Free\Models\Indexable The extended indexable.
 	 */
 	public function build( $post_id, $indexable ) {
+		$post = \get_post( $post_id );
+
 		$indexable->object_id       = $post_id;
 		$indexable->object_type     = 'post';
-		$indexable->object_sub_type = \get_post_type( $post_id );
+		$indexable->object_sub_type = $post->post_type;
 		$indexable->permalink       = \get_permalink( $post_id );
 
 		$indexable->primary_focus_keyword_score = $this->get_keyword_score(
@@ -79,9 +81,24 @@ class Indexable_Post_Builder {
 
 		$indexable = $this->set_link_count( $post_id, $indexable );
 
-		$indexable->number_of_pages = $this->get_number_of_pages_for_post( $post_id );
+		$indexable->number_of_pages = $this->get_number_of_pages_for_post( $post );
+		$indexable->is_public       = ( \in_array( $post->post_status, $this->is_public_post_status(), true ) && $post->post_password === '' );
 
 		return $indexable;
+	}
+
+	/**
+	 * Retrieves the list of public posts statuses.
+	 *
+	 * @return array The public post statuses.
+	 */
+	protected function is_public_post_status() {
+		/**
+		 * Filter: 'wpseo_public_post_statuses' - List of public post statuses.
+		 *
+		 * @apo array $post_statuses Post status list, defaults to array( 'publish' ).
+		 */
+		return \apply_filters( 'wpseo_public_post_statuses', [ 'publish' ] );
 	}
 
 	/**
@@ -277,13 +294,11 @@ class Indexable_Post_Builder {
 	/**
 	 * Gets the number of pages for a post.
 	 *
-	 * @param int $post_id The post id.
+	 * @param object $post The post object.
 	 *
 	 * @return int|null The number of pages or null if the post isn't paginated.
 	 */
-	protected function get_number_of_pages_for_post( $post_id ) {
-		$post = \get_post( $post_id );
-
+	protected function get_number_of_pages_for_post( $post ) {
 		$number_of_pages = ( \substr_count( $post->post_content, '<!--nextpage-->' ) + 1 );
 
 		if ( $number_of_pages <= 1 ) {
