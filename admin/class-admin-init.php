@@ -47,11 +47,10 @@ class WPSEO_Admin_Init {
 		add_action( 'admin_init', [ $this, 'handle_notifications' ], 15 );
 		add_action( 'admin_notices', [ $this, 'permalink_settings_notice' ] );
 
-		$page_comments = new WPSEO_Health_Check_Page_Comments();
-		$page_comments->register_test();
-
-		$ryte_check = new WPSEO_Health_Check_Ryte();
-		$ryte_check->register_test();
+		$health_checks = array( new WPSEO_Health_Check_Page_Comments(), new WPSEO_Health_Check_Ryte() );
+		foreach ( $health_checks as $health_check ) {
+			$health_check->register_test();
+		}
 
 		$listeners   = [];
 		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();

@@ -21,7 +21,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * Runs the test.
 	 */
 	public function run() {
-		// When Ryte is disabled or the blog is not public, don't run code
+		// If Ryte is disabled or the blog is not public, don't run code
 		$ryte_option = new WPSEO_Ryte_Option();
 		if( ! $ryte_option->is_enabled() || ('0' === get_option('blog_public') ) ) {
 			return;
@@ -29,7 +29,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 
 		switch ($ryte_option->get_status()) {
 			case WPSEO_Ryte_Option::IS_NOT_INDEXABLE:
-				// When WP_DEBUG is on but Yoast development mode is not on, hide response
+				// If WP_DEBUG is on but Yoast development mode is not on, don't show response
 				if ( wp_debug_mode() && ! WPSEO_Utils::is_development_mode() ) {
 					break;
 				}
@@ -70,7 +70,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		/* translators: %1$s: opening tag of the link to the Yoast knowledge base troubleshooting page, %2$s: closing tag of the link */
 			esc_html__('If that did not help, %1$s read more about troubleshooting search engine visibility. %2$s', 'wordpress-seo'),
 			'<a href="' . esc_url('https://kb.yoast.com/kb/your-site-isnt-indexable/') . ' "target="_blank">',
-			'</a><br />');
+			'</a><br /><br />');
 
 		$this->add_analyze_site_button();
 	}
@@ -84,7 +84,6 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 
 		$this->description .= esc_html__('Ryte offers a free indexability check for Yoast SEO users, and right now it has trouble determining whether search engines can find your site. 
 				 This could have several (legitimate) reasons, and is not a problem in itself, but if this is a live site, it is recommended that you figure out why the Ryte check failed.');
-
 
 		$this->add_analyze_site_button();
 
