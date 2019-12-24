@@ -82,6 +82,15 @@ abstract class TestCase extends BaseTestCase {
 					}
 					return $show;
 				},
+				'add_query_arg'       => function() {
+					return \Mockery::mock( '\add_query_arg' );
+				},
+				'admin_url'           => function() {
+					return \Mockery::mock( '\admin_url' );
+				},
+				'wp_customize_url'    => function() {
+					return esc_url( admin_url( 'customize.php' ) );
+				},
 			]
 		);
 

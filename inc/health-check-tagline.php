@@ -56,7 +56,7 @@ class WPSEO_Health_Check_Default_Tagline extends WPSEO_Health_Check {
 	 * @return bool
 	 */
 	public function has_default_tagline() {
-		$blog_description         = get_bloginfo( 'description' );
+		$blog_description         = get_option( 'blogdescription' );
 		$default_blog_description = 'Just another WordPress site';
 
 		// We are checking against the WordPress internal translation.
