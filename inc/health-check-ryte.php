@@ -82,18 +82,14 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		$this->label = esc_html__( 'Ryte cannot determine whether your site can be found by search engines', 'wordpress-seo' );
 		$this->status = self::STATUS_RECOMMENDED;
 
-		$this->description .= esc_html__('Ryte offers a free indexability check for Yoast SEO users, and right now it has trouble determining whether search engines can find your site. 
-				 This could have several (legitimate) reasons, and is not a problem in itself, but if this is a live site, it is recommended that you figure out why the Ryte check failed.', 'wordpress-seo' );
+		$this->description .= sprintf(
+		/* translators: %1$s: opening tag to ... , %2$s: closing tag */
+			esc_html__('Ryte offers a free indexability check for Yoast SEO users, and right now it has trouble determining whether search engines can find your site. 
+				 This could have several (legitimate) reasons, and is not a problem in itself, but if this is a live site, %1$s it is recommended that you figure out why the Ryte check failed. %2$s', 'wordpress-seo' ),
+			'<a href= "' . esc_url( 'https://kb.yoast.com/kb/indexability-check-doesnt-work/' ) . ' "target="_blank">',
+			'</a>' );
 
 		$this->add_analyze_site_button();
-
-		$help_text = sprintf(
-		/* translators: %1$s: opening tag of the link to the Yoast knowledge base Ryte indexabilty troubleshooting page , %2$s: closing tag of the link */
-			esc_html__( '%1$s Read more about troubleshooting Ryte\'s search engine visibility %2$s', 'wordpress-seo' ),
-			'<a href= "' . esc_url( 'https://kb.yoast.com/kb/indexability-check-doesnt-work/' ) . '" target="_blank">',
-			'</a>' );
-		$feature_help = new WPSEO_Admin_Help_Panel( 'ryte_unknown_indexability',	'???', $help_text );
-		$this->actions .= $feature_help->get_button_html() . $feature_help->get_panel_html();
 	}
 
 	/**
@@ -113,7 +109,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 		/* translators: %1$s: opening tag to fetch current status, %2$s: closing tag */
 			esc_html__( '%1$s Re-analyze site indexability %2$s', 'wordpress-seo' ),
 			'<a class="fetch-status button" href= "' . esc_attr( add_query_arg( 'wpseo-redo-ryte', '1' ) ) . '">',
-			'</a>');
+			'</a>' );
 
 		$this->actions .= sprintf(
 		/* translators: %1$s: opening tag of the link to the Yoast Ryte website, %2$s: closing tag of the link */
