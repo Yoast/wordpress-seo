@@ -50,6 +50,9 @@ class WPSEO_Admin_Init {
 		$page_comments = new WPSEO_Health_Check_Page_Comments();
 		$page_comments->register_test();
 
+		$default_tagline = new WPSEO_Health_Check_Default_Tagline();
+		$default_tagline->register_test();
+
 		$listeners   = [];
 		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
 
@@ -154,22 +157,6 @@ class WPSEO_Admin_Init {
 		else {
 			$notification_center->remove_notification( $notification );
 		}
-	}
-
-	/**
-	 * Returns whether or not the site has the default tagline.
-	 *
-	 * @return bool
-	 */
-	public function has_default_tagline() {
-		$blog_description         = get_bloginfo( 'description' );
-		$default_blog_description = 'Just another WordPress site';
-
-		// We are checking against the WordPress internal translation.
-		// @codingStandardsIgnoreLine
-		$translated_blog_description = __( 'Just another WordPress site', 'default' );
-
-		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
 	}
 
 	/**
