@@ -18,8 +18,8 @@ use Yoast\WP\Free\Main;
  *
  * @return Main The main instance.
  */
-function YoastSEO() {
-	static $main;
+function YoastSEO() { // @codingStandardsIgnoreLine
+ 	static $main;
 
 	if ( $main === null ) {
 		$main = new Main();
@@ -28,3 +28,4 @@ function YoastSEO() {
 
 	return $main;
 }
+
