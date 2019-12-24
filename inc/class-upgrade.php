@@ -705,12 +705,13 @@ class WPSEO_Upgrade {
 			delete_option( 'wpseo_onpage' );
 		}
 
-		// Transfers the onpage indexability option value to the ryte idexability option.
-		$ryte_option   = get_option( 'ryte_indexability' );
-		$onpage_option = get_option( 'onpage_indexability' );
-		if ( ! $ryte_option && $onpage_option ) {
-			update_option( 'ryte_indexability', $onpage_option );
-			delete_option( 'onpage_indexability' );
+		$wpseo_option = get_option( 'wpseo' );
+		if ( isset( $wpseo_option['onpage_indexability'] ) && ! isset( $wpseo_option['ryte_indexability'] ) ) {
+			$wpseo_option[ 'ryte_indexability' ] = $wpseo_option['onpage_indexability'];
+
+			unset( $wpseo_option[ 'onpage_indexability' ] );
+
+			update_option( 'wpseo', $wpseo_option );
 		}
 
 		if ( wp_next_scheduled( 'wpseo_ryte_fetch' ) ) {

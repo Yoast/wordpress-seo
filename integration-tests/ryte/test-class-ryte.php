@@ -127,7 +127,7 @@ class WPSEO_Ryte_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Ryte::is_active
 	 */
 	public function test_is_not_active() {
-		WPSEO_Options::set( 'onpage_indexability', false );
+		WPSEO_Options::set( 'ryte_indexability', false );
 
 		$this->assertFalse( WPSEO_Ryte::is_active() );
 	}
@@ -138,7 +138,7 @@ class WPSEO_Ryte_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Ryte::is_active
 	 */
 	public function test_is_active() {
-		WPSEO_Options::set( 'onpage_indexability', true );
+		WPSEO_Options::set( 'ryte_indexability', true );
 
 		$this->assertTrue( WPSEO_Ryte::is_active() );
 	}
@@ -151,7 +151,7 @@ class WPSEO_Ryte_Test extends WPSEO_UnitTestCase {
 	 * @covers WPSEO_Ryte::unschedule_cron
 	 */
 	public function test_cron_scheduling() {
-		WPSEO_Options::set( 'onpage_indexability', true );
+		WPSEO_Options::set( 'ryte_indexability', true );
 
 		$this->assertFalse( wp_next_scheduled( 'wpseo_ryte_fetch' ) );
 
@@ -161,7 +161,7 @@ class WPSEO_Ryte_Test extends WPSEO_UnitTestCase {
 		$this->assertNotFalse( wp_next_scheduled( 'wpseo_ryte_fetch' ) );
 
 		// Disable the option.
-		WPSEO_Options::set( 'onpage_indexability', false );
+		WPSEO_Options::set( 'ryte_indexability', false );
 
 		$instance->activate_hooks();
 

@@ -200,8 +200,8 @@ function _wpseo_activate() {
 	$notifier->manage_notification();
 
 	// Schedule cronjob when it doesn't exists on activation.
-	$wpseo_onpage = new WPSEO_Ryte();
-	$wpseo_onpage->activate_hooks();
+	$wpseo_ryte = new WPSEO_Ryte();
+	$wpseo_ryte->activate_hooks();
 
 	do_action( 'wpseo_activate' );
 }
@@ -330,8 +330,8 @@ function wpseo_init() {
 	}
 
 	// Loading Ryte integration.
-	$wpseo_onpage = new WPSEO_Ryte();
-	$wpseo_onpage->register_hooks();
+	$wpseo_ryte = new WPSEO_Ryte();
+	$wpseo_ryte->register_hooks();
 
 	// Feature flag introduced to resolve problems with composer installation in 11.8.
 	if ( defined( 'YOAST_SEO_EXPERIMENTAL_PHP56' ) && YOAST_SEO_EXPERIMENTAL_PHP56 ) {

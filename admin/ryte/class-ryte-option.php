@@ -43,7 +43,7 @@ class WPSEO_Ryte_Option {
 	 *
 	 * @var string
 	 */
-	const OPTION_NAME = 'wpseo_onpage';
+	const OPTION_NAME = 'wpseo_ryte';
 
 	/**
 	 * The key of the status in the option.
@@ -133,7 +133,7 @@ class WPSEO_Ryte_Option {
 	 * @return bool
 	 */
 	public function is_enabled() {
-		return WPSEO_Options::get( 'onpage_indexability' );
+		return WPSEO_Options::get( 'ryte_indexability' );
 	}
 
 	/**

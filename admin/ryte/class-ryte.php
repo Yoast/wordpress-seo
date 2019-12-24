@@ -51,7 +51,7 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 			return false;
 		}
 
-		if ( ! WPSEO_Options::get( 'onpage_indexability' ) ) {
+		if ( ! WPSEO_Options::get( 'ryte_indexability' ) ) {
 			return false;
 		}
 
