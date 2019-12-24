@@ -52,6 +52,7 @@ class WPSEO_Upgrade {
 			'12.3-RC0'  => 'upgrade_123',
 			'12.4-RC0'  => 'upgrade_124',
 			'12.8-RC0'  => 'upgrade_128',
+			'12.xx-RC0'  => 'upgrade_12xx',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -688,6 +689,33 @@ class WPSEO_Upgrade {
 		$this->cleanup_option_data( 'wpseo' );
 
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-page_comments-notice' );
+	}
+
+	/**
+	 * Performs the 12.xx upgrade.
+	 */
+	private function upgrade_12xx() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-onpageorg' );
+
+		// Transfers the onpage option value to the ryte option.
+		$ryte_option   = get_option( 'wpseo_ryte' );
+		$onpage_option = get_option( 'wpseo_onpage' );
+		if ( ! $ryte_option && $onpage_option ) {
+			update_option( 'wpseo_ryte', $onpage_option );
+			delete_option( 'wpseo_onpage' );
+		}
+
+		// Transfers the onpage indexability option value to the ryte idexability option.
+		$ryte_option   = get_option( 'ryte_indexability' );
+		$onpage_option = get_option( 'onpage_indexability' );
+		if ( ! $ryte_option && $onpage_option ) {
+			update_option( 'ryte_indexability', $onpage_option );
+			delete_option( 'onpage_indexability' );
+		}
+
+		if ( wp_next_scheduled( 'wpseo_ryte_fetch' ) ) {
+			wp_clear_scheduled_hook( 'wpseo_ryte_fetch' );
+		}
 	}
 
 	/**
