@@ -27,12 +27,13 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			return;
 		}
 
+		// If WP_DEBUG is on but Yoast development mode is not on, don't show response.
+		if ( wp_debug_mode() && ! WPSEO_Utils::is_development_mode() ) {
+			return;
+		}
+
 		switch ( $ryte_option->get_status() ) {
 			case WPSEO_Ryte_Option::IS_NOT_INDEXABLE:
-				// If WP_DEBUG is on but Yoast development mode is not on, don't show response.
-				if ( wp_debug_mode() && ! WPSEO_Utils::is_development_mode() ) {
-					break;
-				}
 				$this->is_not_indexable_response();
 				break;
 			case WPSEO_Ryte_Option::CANNOT_FETCH:
