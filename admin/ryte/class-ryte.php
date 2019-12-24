@@ -11,13 +11,6 @@
 class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 
 	/**
-	 * The name of the user meta key for storing the dismissed status.
-	 *
-	 * @var string
-	 */
-	const USER_META_KEY = 'wpseo_dismiss_onpage';
-
-	/**
 	 * Is the request started by pressing the fetch button.
 	 *
 	 * @var boolean
@@ -37,9 +30,6 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 * @return void
 	 */
 	public function register_hooks() {
-		// Adds admin notice if necessary.
-		add_filter( 'admin_init', [ $this, 'show_notice' ] );
-
 		if ( ! self::is_active() ) {
 			return;
 		}
@@ -49,24 +39,6 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 
 		// Sets the action for the Ryte fetch.
 		add_action( 'wpseo_ryte_fetch', [ $this, 'fetch_from_ryte' ] );
-	}
-
-	/**
-	 * Shows a notice when the website is not indexable.
-	 *
-	 * @return void
-	 */
-	public function show_notice() {
-		$notification        = $this->get_indexability_notification();
-		$notification_center = Yoast_Notification_Center::get();
-
-		if ( $this->should_show_notice() ) {
-			$notification_center->add_notification( $notification );
-
-			return;
-		}
-
-		$notification_center->remove_notification( $notification );
 	}
 
 	/**
@@ -138,16 +110,8 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 		// Updates the timestamp in the option.
 		$ryte_option->set_last_fetch( time() );
 
-		// The currently indexability status.
-		$old_status = $ryte_option->get_status();
-
 		$ryte_option->set_status( $new_status );
 		$ryte_option->save_option();
-
-		// Check if the status has been changed.
-		if ( $old_status !== $new_status && $new_status !== WPSEO_Ryte_Option::CANNOT_FETCH ) {
-			$this->notify_admins();
-		}
 
 		return true;
 	}
@@ -159,29 +123,6 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 	 */
 	protected function get_option() {
 		return new WPSEO_Ryte_Option();
-	}
-
-	/**
-	 * Builds the indexability notification.
-	 *
-	 * @return Yoast_Notification The notification.
-	 */
-	private function get_indexability_notification() {
-		$notice = sprintf(
-			/* translators: 1: opens a link to a related knowledge base article. 2: closes the link */
-			__( '%1$sYour homepage cannot be indexed by search engines%2$s. This is very bad for SEO and should be fixed.', 'wordpress-seo' ),
-			'<a href="' . WPSEO_Shortlinker::get( 'https://yoa.st/onpageindexerror' ) . '" target="_blank">',
-			'</a>'
-		);
-
-		return new Yoast_Notification(
-			$notice,
-			[
-				'type'         => Yoast_Notification::ERROR,
-				'id'           => 'wpseo-dismiss-onpageorg',
-				'capabilities' => 'wpseo_manage_options',
-			]
-		);
 	}
 
 	/**
@@ -203,37 +144,6 @@ class WPSEO_Ryte implements WPSEO_WordPress_Integration {
 		}
 
 		return WPSEO_Ryte_Option::CANNOT_FETCH;
-	}
-
-	/**
-	 * Should the notice being given?
-	 *
-	 * @return bool True if a notice should be shown.
-	 */
-	protected function should_show_notice() {
-		if ( ! $this->get_option()->is_enabled() ) {
-			return false;
-		}
-
-		// If development mode is on or the blog is not public, just don't show this notice.
-		if ( WPSEO_Utils::is_development_mode() || ( '0' === get_option( 'blog_public' ) ) ) {
-			return false;
-		}
-
-		return $this->get_option()->get_status() === WPSEO_Ryte_Option::IS_NOT_INDEXABLE;
-	}
-
-	/**
-	 * Notifies the admins.
-	 *
-	 * @return void
-	 */
-	protected function notify_admins() {
-		/*
-		 * Let's start showing the notices to all admins by removing the hide-notice meta data for each admin resulting
-		 * in popping up the notice again.
-		 */
-		delete_metadata( 'user', 0, self::USER_META_KEY, '', true );
 	}
 
 	/**

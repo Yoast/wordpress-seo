@@ -17,7 +17,7 @@ class WPSEO_Ryte_Request {
 	 *
 	 * @var string
 	 */
-	private $ryte_endpoint = 'https://indexability.yoast.ryte.org/';
+	private $ryte_endpoint = 'https://indexability.yoast.onpage.org/';
 
 	/**
 	 * Doing the remote get and returns the body.

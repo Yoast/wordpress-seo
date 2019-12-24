@@ -2,25 +2,22 @@
 /**
  * WPSEO plugin file.
  *
- * @package WPSEO\Admin\Ajax
+ * @package WPSEO\Admin\OnPage
  */
 
 // Mark this file as deprecated.
 _deprecated_file( __FILE__, 'WPSEO 12.xx' );
 
 /**
- * Class Yoast_OnPage_Ajax.
- *
- * This class will catch the request to dismiss the Ryte notice and will store
- * the dismiss status as an user meta in the database.
+ * Represents the service to be used by the WPSEO_Endpoint_Ryte endpoint.
  *
  * @deprecated 12.xx
  * @codeCoverageIgnore
  */
-class Yoast_OnPage_Ajax {
+class WPSEO_Ryte_Service {
 
 	/**
-	 * Initialize the hooks for the AJAX request.
+	 * Constructs the WPSEO_Ryte_Service class.
 	 *
 	 * @deprecated 12.xx
 	 * @codeCoverageIgnore
@@ -30,13 +27,12 @@ class Yoast_OnPage_Ajax {
 	}
 
 	/**
-	 * Handles the dismiss notice request.
+	 * Fetches statistics via REST request.
 	 *
 	 * @deprecated 12.xx
 	 * @codeCoverageIgnore
 	 */
-	public function dismiss_notice() {
+	public function get_statistics() {
 		_deprecated_function( __METHOD__, 'WPSEO 12.xx' );
 	}
-
 }

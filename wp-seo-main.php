@@ -356,12 +356,10 @@ function wpseo_init_rest_api() {
 	$configuration_service = new WPSEO_Configuration_Service();
 	$configuration_service->initialize();
 
-	$ryte_endpoint_service = new WPSEO_Ryte_Service( new WPSEO_Ryte_Option() );
 	$statistics_service    = new WPSEO_Statistics_Service( new WPSEO_Statistics() );
 
 	$endpoints   = [];
 	$endpoints[] = new WPSEO_Link_Reindex_Post_Endpoint( new WPSEO_Link_Reindex_Post_Service() );
-	$endpoints[] = new WPSEO_Endpoint_Ryte( $ryte_endpoint_service );
 	$endpoints[] = new WPSEO_Endpoint_Indexable( new WPSEO_Indexable_Service() );
 	$endpoints[] = new WPSEO_Endpoint_File_Size( new WPSEO_File_Size_Service() );
 	$endpoints[] = new WPSEO_Endpoint_Statistics( $statistics_service );
