@@ -35,7 +35,6 @@ class WPSEO_Admin_Init {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dismissible' ] );
-		add_action( 'admin_init', [ $this, 'tagline_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'blog_public_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'permalink_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'yoast_plugin_suggestions_notification' ], 15 );

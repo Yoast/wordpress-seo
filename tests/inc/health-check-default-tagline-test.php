@@ -24,6 +24,14 @@ class WPSEO_Health_Check_Default_Tagline_Test extends TestCase {
 			->with( 'blogdescription' )
 			->andReturn( 'Just another WordPress site' );
 
+		Monkey\Functions\expect( 'wp_customize_url' )
+			->once()
+			->andReturn( 'http://example.org/wp-admin/customize.php' );
+
+		Monkey\Functions\expect( 'add_query_arg' )
+			->once()
+			->andReturn( 'http://example.org/wp-admin/customize.php?autofocus[control]=blogdescription' );
+
 		$health_check = new \WPSEO_Health_Check_Default_Tagline();
 		$health_check->run();
 
