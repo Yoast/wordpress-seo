@@ -49,7 +49,6 @@ class WPSEO_Health_Check_Default_Tagline extends WPSEO_Health_Check {
 		);
 	}
 
-
 	/**
 	 * Returns whether or not the site has the default tagline.
 	 *
