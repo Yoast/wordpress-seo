@@ -147,6 +147,7 @@ abstract class WPSEO_Health_Check {
 			'badge'       => $this->get_badge(),
 			'description' => $this->description,
 			'actions'     => $this->actions,
+			'test'        => $this->test,
 		];
 	}
 

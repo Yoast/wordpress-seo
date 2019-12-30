@@ -52,6 +52,7 @@ class WPSEO_Upgrade {
 			'12.3-RC0'  => 'upgrade_123',
 			'12.4-RC0'  => 'upgrade_124',
 			'12.8-RC0'  => 'upgrade_128',
+			'xx.x-RC0'  => 'upgrade_xxx',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -689,6 +690,13 @@ class WPSEO_Upgrade {
 
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-page_comments-notice' );
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-wordpress-upgrade' );
+	}
+
+	/**
+	 * Performs the xx.x upgrade.
+	 */
+	private function upgrade_xxx() {
+		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-permalink-notice' );
 	}
 
 	/**
