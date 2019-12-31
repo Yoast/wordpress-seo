@@ -23,12 +23,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	public function run() {
 		// If Ryte is disabled or the blog is not public, don't run code.
 		$ryte_option = $this->get_ryte_option();
-		if ( ! $ryte_option->is_enabled() || '0' === get_option( 'blog_public' ) ) {
-			return;
-		}
-
-		// If WP_DEBUG is on but Yoast development mode is not on, don't show response.
-		if ( $this->is_development_mode() ) {
+		if ( ! $ryte_option->is_enabled() || '0' === get_option( 'blog_public' ) || $this->is_development_mode() ) {
 			return;
 		}
 
