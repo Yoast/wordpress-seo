@@ -705,6 +705,7 @@ class WPSEO_Upgrade {
 			delete_option( 'wpseo_onpage' );
 		}
 
+		// Changes onpage_indexability to ryte_indexability.
 		$wpseo_option = get_option( 'wpseo' );
 		if ( isset( $wpseo_option['onpage_indexability'] ) && ! isset( $wpseo_option['ryte_indexability'] ) ) {
 			$wpseo_option['ryte_indexability'] = $wpseo_option['onpage_indexability'];
