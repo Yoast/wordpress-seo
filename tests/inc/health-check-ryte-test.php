@@ -15,12 +15,12 @@ use Yoast\WP\Free\Tests\TestCase;
 class WPSEO_Health_Check_Ryte_Test extends TestCase {
 
 	/**
-	 * @var \Mockery\Mock
+	 * @var \Mockery\Mock WPSEO_Ryte_Option
 	 */
 	private $ryte_option;
 
 	/**
-	 * @var \Mockery\Mock
+	 * @var \Mockery\Mock WPSEO_Health_Check_Ryte
 	 */
 	private $health_check;
 
@@ -128,7 +128,7 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the run method when Ryte integration is enabled, the blog is public and it can't tell if it can be indexed.
+	 * Tests the run method when Ryte integration is enabled, the blog is public and and the Ryte Option cannot be fetched.
 	 *
 	 * @covers ::run
 	 * @covers ::unknown_indexability_response
@@ -147,7 +147,7 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	}
 
 	/**
-	 * Tests the run method when Ryte integration is enabled, the blog is public and it can't tell if it can be indexed.
+	 * Tests the run method when Ryte integration is enabled, the blog is public and the Ryte Option is not fetched.
 	 *
 	 * @covers ::run
 	 * @covers ::unknown_indexability_response
