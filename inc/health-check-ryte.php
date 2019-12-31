@@ -22,13 +22,13 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 */
 	public function run() {
 		// If Ryte is disabled or the blog is not public, don't run code.
-		$ryte_option = new WPSEO_Ryte_Option();
-		if ( ! $ryte_option->is_enabled() || ( '0' === get_option( 'blog_public' ) ) ) {
+		$ryte_option = $this->get_ryte_option();
+		if ( ! $ryte_option->is_enabled() || '0' === get_option( 'blog_public' ) ) {
 			return;
 		}
 
 		// If WP_DEBUG is on but Yoast development mode is not on, don't show response.
-		if ( wp_debug_mode() && ! WPSEO_Utils::is_development_mode() ) {
+		if ( $this->is_development_mode() ) {
 			return;
 		}
 
@@ -52,13 +52,31 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	}
 
 	/**
+	 * Returns True if debug mode is on, but Yoast development mode is not on (i.e. for non-Yoast developers).
+	 *
+	 * @return bool
+	 */
+	protected function is_development_mode() {
+		return wp_debug_mode() && ! WPSEO_Utils::is_development_mode();
+	}
+
+	/**
+	 * Returns a new instance of WPSEO_Ryte_Option.
+	 *
+	 * @return WPSEO_Ryte_Option
+	 */
+	protected function get_ryte_option() {
+		return new WPSEO_Ryte_Option();
+	}
+
+	/**
 	 * Adds the content for the "Cannot be indexed" response.
 	 */
 	protected function is_not_indexable_response() {
-		$this->label = esc_html__( 'Your site cannot be found by search engines', 'wordpress-seo' );
-		$this->status = self::STATUS_CRITICAL;
+		$this->label 	= esc_html__( 'Your site cannot be found by search engines', 'wordpress-seo' );
+		$this->status 	= self::STATUS_CRITICAL;
 
-		$this->description = esc_html__( 'Ryte offers a free indexability check for Yoast SEO users, and it has 
+		$this->description  = esc_html__( 'Ryte offers a free indexability check for Yoast SEO users, and it has 
 			determined that your site cannot be found by search engines. If this site is live or about to become live, 
 			this should be fixed.', 'wordpress-seo' );
 		$this->description .= sprintf(
@@ -85,9 +103,9 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * Adds the content for the "Cannot tell if it can be indexed" response.
 	 */
 	protected function unknown_indexability_response() {
-		$this->label = esc_html__( 'Ryte cannot determine whether your site can be found by search engines',
+		$this->label 	= esc_html__( 'Ryte cannot determine whether your site can be found by search engines',
 			'wordpress-seo' );
-		$this->status = self::STATUS_RECOMMENDED;
+		$this->status 	= self::STATUS_RECOMMENDED;
 
 		$this->description .= sprintf(
 		/* translators: %1$s: opening tag to the Yoast knowledge base indexability check doesn't work page , %2$s: closing tag */
@@ -105,9 +123,9 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * Adds the content for the "Can be indexed" response.
 	 */
 	protected function is_indexable_response() {
-		$this->label = esc_html__( 'Your site can be found by search engines', 'wordpress-seo' );
-		$this->status = self::STATUS_GOOD;
-		$this->description = esc_html( 'Ryte offers a free indexability check for Yoast SEO users, and it shows 
+		$this->label 		= esc_html__( 'Your site can be found by search engines', 'wordpress-seo' );
+		$this->status 		= self::STATUS_GOOD;
+		$this->description 	= esc_html( 'Ryte offers a free indexability check for Yoast SEO users, and it shows 
 			that your site can be found by search engines.' );
 	}
 

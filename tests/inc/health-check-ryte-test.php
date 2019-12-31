@@ -3,6 +3,7 @@
 namespace Yoast\WP\Free\Tests\Inc;
 
 use Brain\Monkey;
+use Mockery;
 use Yoast\WP\Free\Tests\TestCase;
 
 /**
@@ -14,21 +15,47 @@ use Yoast\WP\Free\Tests\TestCase;
 class WPSEO_Health_Check_Ryte_Test extends TestCase {
 
 	/**
+	 * @var \Mockery\Mock
+	 */
+	private $ryte_option;
+
+	/**
+	 * @var \Mockery\Mock
+	 */
+	private $health_check;
+
+	public function setUp() {
+		parent::setUp();
+
+		$this->ryte_option = Mockery::mock( \WPSEO_Ryte_Option::class )
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
+
+		$this->health_check = Mockery::mock( \WPSEO_Health_Check_Ryte::class )
+			->shouldAllowMockingProtectedMethods()
+			->makePartial();
+
+		$this->health_check
+			->expects( 'get_ryte_option' )
+			->once()
+			->andReturn( $this->ryte_option );
+	}
+
+	/**
 	 * Tests the run method when Ryte integration is disabled.
 	 *
 	 * @covers ::run
 	 */
 	public function test_run_with_option_disabled() {
-		Monkey\Functions\expect( 'get_option' )
+		$this->ryte_option
+			->expects( 'is_enabled' )
 			->once()
-			->with( 'ryte_indexability' )
-			->andReturn( '0' );
+			->andReturnFalse();
 
-		$health_check = new \WPSEO_Health_Check_Ryte();
-		$health_check->run();
+		$this->health_check->run();
 
 		// We just want to verify that the label attribute hasn't been set.
-		$this->assertAttributeEquals( '', 'label', $health_check );
+		$this->assertAttributeEquals( '', 'label', $this->health_check );
 	}
 
 	/**
@@ -42,11 +69,42 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 			->with( 'blog_public' )
 			->andReturn( '0' );
 
-		$health_check = new \WPSEO_Health_Check_Ryte();
-		$health_check->run();
+		$this->ryte_option
+			->expects( 'is_enabled' )
+			->once()
+			->andReturnTrue();
+
+		$this->health_check->run();
 
 		// We just want to verify that the label attribute hasn't been set.
-		$this->assertAttributeEquals( '', 'label', $health_check );
+		$this->assertAttributeEquals( '', 'label', $this->health_check );
+	}
+
+	/**
+	 * Tests the run method when the development mode is on, but Yoast development mode is not on.
+	 *
+	 * @covers ::run
+	 */
+	public function test_run_with_development_mode() {
+		Monkey\Functions\expect( 'get_option' )
+			->once()
+			->with( 'blog_public' )
+			->andReturn( '1' );
+
+		$this->ryte_option
+			->expects( 'is_enabled' )
+			->once()
+			->andReturnTrue();
+
+		$this->health_check
+			->expects( 'is_development_mode' )
+			->once()
+			->andReturnTrue();
+
+		$this->health_check->run();
+
+		// We just want to verify that the label attribute hasn't been set.
+		$this->assertAttributeEquals( '', 'label', $this->health_check );
 	}
 
 	/**
@@ -56,28 +114,17 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	 * @covers ::is_not_indexable_response
 	 */
 	public function test_run_site_cannot_be_indexed() {
-		Monkey\Functions\expect( 'get_option' )
+		$this->ryte_enabled_and_blog_public();
+
+		$this->ryte_option
+			->expects( 'get_status' )
 			->once()
-			->with( 'ryte_indexability' )
-			->andReturn( '1' );
+			->andReturn( \WPSEO_Ryte_Option::IS_NOT_INDEXABLE );
 
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'blog_public' )
-			->andReturn( '1' );
+		$this->health_check->run();
 
-//		Monkey\Functions\expect( 'esc_url' )->andReturn( '' );
-
-		// 'esc_url' : wp-admin/options-reading.php
-		// 'esc_url' : https://kb.yoast.com/kb/your-site-isnt-indexable/
-		// * button ( 'esc_atrr' ) : http://one.wordpress.test/wp-admin/site-health.php?wpseo-redo-ryte=1
-		// * link to ryte site ( 'esc_url' ) : https://yoa.st/rytelp?php_version=7.2&platform=wordpress&platform_version=5.3.2&software=free&software_version=12.7.1&days_active=30plus&user_language=en_US
-
-		$health_check = new \WPSEO_Health_Check_Ryte();
-		$health_check->run();
-
-		// We just want to verify that the label attributes has been set.
-		$this->assertAttributeEquals( 'Your site cannot be found by search engines', 'label', $health_check );
+		$this->assertAttributeEquals( 'Your site cannot be found by search engines', 'label', $this->health_check );
+		$this->assertAttributeEquals( 'critical', 'status', $this->health_check  );
 	}
 
 	/**
@@ -86,26 +133,36 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	 * @covers ::run
 	 * @covers ::unknown_indexability_response
 	 */
-	public function test_run_unknown_indexability() {
-		Monkey\Functions\expect( 'get_option' )
+	public function test_run_cannot_fetch() {
+		$this->ryte_enabled_and_blog_public();
+
+		$this->ryte_option
+			->expects( 'get_status' )
 			->once()
-			->with( 'ryte_indexability' )
-			->andReturn( '1' );
+			->andReturn( \WPSEO_Ryte_Option::CANNOT_FETCH );
 
-		Monkey\Functions\expect( 'get_option' )
+		$this->health_check->run();
+		$this->assertAttributeEquals( 'Ryte cannot determine whether your site can be found by search engines', 'label', $this->health_check );
+		$this->assertAttributeEquals( 'recommended', 'status', $this->health_check  );
+	}
+
+	/**
+	 * Tests the run method when Ryte integration is enabled, the blog is public and it can't tell if it can be indexed.
+	 *
+	 * @covers ::run
+	 * @covers ::unknown_indexability_response
+	 */
+	public function test_run_not_fetched() {
+		$this->ryte_enabled_and_blog_public();
+
+		$this->ryte_option
+			->expects( 'get_status' )
 			->once()
-			->with( 'blog_public' )
-			->andReturn( '1' );
+			->andReturn( \WPSEO_Ryte_Option::NOT_FETCHED );
 
-		$health_check = new \WPSEO_Health_Check_Ryte();
-		$health_check->run();
-
-		// 'esc_url' : https://kb.yoast.com/kb/indexability-check-doesnt-work/
-		// * button ( 'esc_atrr' ) : http://one.wordpress.test/wp-admin/site-health.php?wpseo-redo-ryte=1
-		// * link to ryte site ( 'esc_url' ) : https://yoa.st/rytelp?php_version=7.2&platform=wordpress&platform_version=5.3.2&software=free&software_version=12.7.1&days_active=30plus&user_language=en_US
-
-		// We just want to verify that the label attributes has been set.
-		$this->assertAttributeEquals( 'Ryte cannot determine whether your site can be found by search engines', 'label', $health_check );
+		$this->health_check->run();
+		$this->assertAttributeEquals( 'Ryte cannot determine whether your site can be found by search engines', 'label', $this->health_check );
+		$this->assertAttributeEquals( 'recommended', 'status', $this->health_check  );
 	}
 
 	/**
@@ -115,23 +172,43 @@ class WPSEO_Health_Check_Ryte_Test extends TestCase {
 	 * @covers ::is_indexable_response
 	 */
 	public function test_run_site_can_be_indexed() {
-		Monkey\Functions\expect( 'get_option' )
-			->once()
-			->with( 'ryte_indexability' )
-			->andReturn( '1' );
+		$this->ryte_enabled_and_blog_public();
 
+		$this->ryte_option
+			->expects( 'get_status' )
+			->once()
+			->andReturn( \WPSEO_Ryte_Option::IS_INDEXABLE );
+
+		$this->health_check->run();
+		$this->assertAttributeEquals( 'Your site can be found by search engines', 'label', $this->health_check );
+		$this->assertAttributeEquals( 'good', 'status', $this->health_check  );
+
+	}
+
+	/**
+	 * Mocks that the blog is public, Ryte is enabled and development mode is not on (or Yoast development mode is on).
+	 *
+	 * @throws Monkey\Expectation\Exception\ExpectationArgsRequired
+	 */
+	private function ryte_enabled_and_blog_public() {
 		Monkey\Functions\expect( 'get_option' )
 			->once()
 			->with( 'blog_public' )
 			->andReturn( '1' );
 
-		$health_check = new \WPSEO_Health_Check_Ryte();
-		$health_check->run();
+		$this->ryte_option
+			->expects( 'is_enabled' )
+			->once()
+			->andReturnTrue();
 
-		// We just want to verify that the label attributes has been set.
-		$this->assertAttributeEquals( 'Your site can be found by search engines', 'label', $health_check );
+		$this->health_check
+			->expects( 'is_development_mode' )
+			->once()
+			->andReturnFalse();
+
+		Monkey\Functions\expect( 'add_query_arg' )->andReturn( '' );
+		Monkey\Functions\expect( 'esc_url' )->andReturn( '' );
 	}
-
 
 
 }
