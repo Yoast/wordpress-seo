@@ -52,9 +52,9 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	}
 
 	/**
-	 * Returns True if debug mode is on, but Yoast development mode is not on (i.e. for non-Yoast developers).
+	 * Checks if debug mode is on, but Yoast development mode is not on (i.e. for non-Yoast developers).
 	 *
-	 * @return bool
+	 * @return bool True when debug mode is on and Yoast development mode is not on.
 	 */
 	protected function is_development_mode() {
 		return wp_debug_mode() && ! WPSEO_Utils::is_development_mode();
@@ -63,7 +63,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	/**
 	 * Returns a new instance of WPSEO_Ryte_Option.
 	 *
-	 * @return WPSEO_Ryte_Option
+	 * @return WPSEO_Ryte_Option New Ryte Option.
 	 */
 	protected function get_ryte_option() {
 		return new WPSEO_Ryte_Option();
