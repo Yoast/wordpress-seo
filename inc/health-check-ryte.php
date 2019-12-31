@@ -21,25 +21,19 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	 * Runs the test.
 	 */
 	public function run() {
-		// If Ryte is disabled or the blog is not public, don't run code.
+		// If Ryte is disabled or the blog is not public or development mode is on, don't run code.
 		$ryte_option = $this->get_ryte_option();
 		if ( ! $ryte_option->is_enabled() || '0' === get_option( 'blog_public' ) || $this->is_development_mode() ) {
 			return;
 		}
 
-		switch ( $ryte_option->get_status() ) {
-			case WPSEO_Ryte_Option::IS_NOT_INDEXABLE:
-				$this->is_not_indexable_response();
-				break;
-			case WPSEO_Ryte_Option::CANNOT_FETCH:
-			case WPSEO_Ryte_Option::NOT_FETCHED:
-				$this->unknown_indexability_response();
-				break;
-			case WPSEO_Ryte_Option::IS_INDEXABLE:
-				$this->is_indexable_response();
-				break;
-			default:
-				break;
+		$status = $ryte_option->get_status();
+		if( $status === WPSEO_Ryte_Option::IS_NOT_INDEXABLE ) {
+			$this->is_not_indexable_response();
+		} else if ( $status === WPSEO_Ryte_Option::IS_INDEXABLE ) {
+			$this->is_indexable_response();
+		} else { // CANNOT_FETCH, NOT_FETCHED
+			$this->unknown_indexability_response();
 		}
 
 		$this->badge['color'] = 'red';
