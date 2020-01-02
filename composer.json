@@ -103,6 +103,9 @@
 		"before-premium-cs": [
 			"composer require --dev yoast/yoastcs:~2.0.0 --update-with-dependencies --no-suggest --no-interaction  --no-scripts",
 			"composer du --no-scripts",
+			"composer config-yoastcs-premium"
+		],
+		"config-yoastcs-premium": [
 			"Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
 		],
 		"after-premium-cs": [
