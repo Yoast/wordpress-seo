@@ -50,6 +50,9 @@ class WPSEO_Admin_Init {
 		$page_comments = new WPSEO_Health_Check_Page_Comments();
 		$page_comments->register_test();
 
+		$curl_version = new WPSEO_Health_Check_Curl_Version();
+		$curl_version->register_test();
+
 		$listeners   = [];
 		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
 
