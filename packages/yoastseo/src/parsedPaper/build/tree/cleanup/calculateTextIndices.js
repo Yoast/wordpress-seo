@@ -164,7 +164,7 @@ const calculateTextIndices = function( node, html ) {
 		pullAll( openElements, elementsToClose );
 
 		// Comments are self-closing formatting elements that are completely ignored in rendering.
-		if ( element.tag === "comment" ) {
+		if ( element.type === "#comment" ) {
 			computeCommentStartEndTextIndices( element, currentOffset );
 			return;
 		}
@@ -181,7 +181,7 @@ const calculateTextIndices = function( node, html ) {
 		  so its content should be added to the respective formatting element instead,
 		  and the current offset should be updated.
 		 */
-		if ( ignoredHtmlElements.includes( element.tag ) ) {
+		if ( ignoredHtmlElements.includes( element.type ) ) {
 			currentOffset = handleIgnoredContent( element, html, currentOffset );
 		}
 	} );
