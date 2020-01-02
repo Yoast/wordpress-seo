@@ -52,7 +52,7 @@ class WPSEO_Upgrade {
 			'12.3-RC0'  => 'upgrade_123',
 			'12.4-RC0'  => 'upgrade_124',
 			'12.8-RC0'  => 'upgrade_128',
-			'12.xx-RC0'  => 'upgrade_12xx',
+			'xx.x-RC0'  => 'upgrade_12xx',
 		];
 
 		array_walk( $routines, [ $this, 'run_upgrade_routine' ], $version );
@@ -692,9 +692,9 @@ class WPSEO_Upgrade {
 	}
 
 	/**
-	 * Performs the 12.xx upgrade.
+	 * Performs the xx.x upgrade.
 	 */
-	private function upgrade_12xx() {
+	private function upgrade_xxx() {
 		Yoast_Notification_Center::get()->remove_notification_by_id( 'wpseo-dismiss-onpageorg' );
 
 		// Transfers the onpage option value to the ryte option.
