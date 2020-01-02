@@ -73,23 +73,6 @@ const cleanUpNode = function( node, html ) {
 };
 
 /**
- * Sets the end index of the root node to the end of the text.
- *
- * @param {module:parsedPaper/structure.Node} tree The tree of which to set the root node's end index.
- *
- * @returns {void}
- *
- * @private
- */
-const setEndIndexRootNode = function( tree ) {
-	let endIndexRootNode = 0;
-	tree.forEach( node => {
-		endIndexRootNode = Math.max( node.sourceEndIndex, endIndexRootNode );
-	} );
-	tree.sourceEndIndex = endIndexRootNode;
-};
-
-/**
  * Cleans up the given tree after parsing of the HTML source code.
  *
  * These steps are setting the start and end index of each node and
@@ -104,7 +87,6 @@ const setEndIndexRootNode = function( tree ) {
  */
 const cleanUpTree = function( tree, html ) {
 	tree.map( node => cleanUpNode( node, html ) );
-	setEndIndexRootNode( tree );
 	return tree;
 };
 
