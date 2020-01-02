@@ -3,7 +3,7 @@ const IncomingWebhook = require( "@slack/webhook" ).IncomingWebhook;
 const fetch = require( "node-fetch" );
 const parseVersion = require( "./tools/parse-version" );
 
-const API_BASE = "https://api.github.com/repos/Yoast/wordpress-seo";
+const API_BASE = "https://api.github.com/repos/" + process.env.GITHUB_REPOSITORY;
 
 /**
  * Gets a milestone from the wordpress-seo repo.
@@ -31,6 +31,26 @@ async function getMilestone( title ) {
 }
 
 /**
+ * Creates an issue on GitHub.
+ *
+ * @param {Object} issueData Data to create the issue with.
+ *
+ * @returns {Promise<object|null>} GitHub response.
+ */
+async function createIssue( issueData ) {
+	// Create the issue on GitHub.
+	const issueResponse = await fetch( `${ API_BASE }/issues`, {
+		method: "POST",
+		headers: {
+			Authorization: `token ${ process.env.GITHUB_ACCESS_TOKEN }`,
+		},
+		body: JSON.stringify( issueData ),
+	} );
+
+	return issueResponse;
+}
+
+/**
  * Checks the size of the created artifact and creates an issue if the zip exceeds 5MB.
  *
  * @param {Object} grunt The grunt helper object.
@@ -42,16 +62,23 @@ module.exports = function( grunt ) {
 		"Checks the size of the created artifact and creates an issue if the zip exceeds 5MB",
 		async function() {
 			const done = this.async();
-
 			const stats = fs.statSync( "artifact.zip" );
 
-			if ( stats.size < 5242880 ) {
+			// Max filesize has been determined to be 5 MB (5242880 bytes).
+			const maximumSize = 5242880;
+			if ( stats.size <= maximumSize ) {
 				done();
 			}
 
-			const data = {
-				title: "Fix RC zip size",
-				body: "The RC zip size should be smaller than 5MB.",
+			const maximumSizeInMB = ( maximumSize / 1024 / 1024 ).toFixed( 1 );
+			const sizeInMB = ( stats.size / 1024 / 1024 ).toFixed( 2 );
+
+			const versionString = grunt.option( "plugin-version" );
+			const version = parseVersion( versionString );
+
+			const issueData = {
+				title: `RC ${ versionString } exceeds maximum size (${ sizeInMB }MB > ${ maximumSizeInMB }MB)`,
+				body: `The release candidate zip size should be smaller than ${ maximumSizeInMB }MB, currently ${ sizeInMB }MB.`,
 				labels: [
 					"type:development",
 					"component:tools",
@@ -59,55 +86,47 @@ module.exports = function( grunt ) {
 				],
 			};
 
-			const versionString = grunt.option( "plugin-version" );
-			const version = parseVersion( versionString );
-
 			const milestoneTitle = ( version.patch > 0 ) ? `hotfix/${ versionString }` : `release/${ versionString }`;
 			const milestone = await getMilestone( milestoneTitle );
-
 			if ( milestone ) {
-				data.milestone = milestone.number;
+				issueData.milestone = milestone.number;
 			}
 
-			const response = await fetch( `${ API_BASE }/issues`, {
-				method: "POST",
-				headers: {
-					Authorization: `token ${ process.env.GITHUB_ACCESS_TOKEN }`,
-				},
-				body: JSON.stringify( data ),
-			} );
-
-			const responseData = await response.json();
+			const issueResponse = await createIssue( issueData );
+			const issueResponseData = await issueResponse.json();
 
 			// Send a message to the slack plugin channel.
 			const slackWebhook = new IncomingWebhook( process.env.SLACK_DEV_PLUGIN_CHANNEL_TOKEN );
-
-			const sizeInMB     = ( stats.size / 1024 / 1024 ).toFixed( 2 );
 			await slackWebhook.send( {
-				text: `Zip size is too big, it is ${ sizeInMB } MB. ${ responseData.html_url }`,
+				text: `Zip size is too big, it is ${ sizeInMB }MB. ${ issueResponseData.html_url }`,
 			} );
 
-			if ( ! response.ok ) {
+			const finalMessage = "The RC process is being stopped.";
+
+			if ( ! issueResponse.ok ) {
 				grunt.fail.fatal(
-					`Zip size is too big (${ sizeInMB } MB). The release process is stopped.\n` +
-					`An issue could not be created: ${ responseData.message }`
+					`Zip size is too big (${ sizeInMB }MB).\n` +
+					`An issue could not be created: ${ issueResponseData.message }\n\n` +
+					finalMessage
 				);
 			}
 
-			if ( ! responseData.milestone ) {
+			if ( ! issueResponseData.milestone ) {
 				grunt.log.warn(
-					`Zip size is too big (${ sizeInMB } MB). The release process is stopped.\n` +
-					`An issue has been created: ${ responseData.html_url }.\n\n`
+					`Zip size is too big (${ sizeInMB }MB).\n` +
+					`An issue has been created: ${ issueResponseData.html_url }.\n`
 				);
 
 				grunt.fail.fatal(
-					`The milestone could not be attached! (${ milestoneTitle })`
+					`The milestone could not be attached! (${ milestoneTitle })\n\n` +
+					finalMessage
 				);
 			}
 
 			grunt.fail.warn(
-				`Zip size is too big (${ sizeInMB } MB). The release process is stopped.\n` +
-				`An issue has been created: ${ responseData.html_url }.`
+				`Zip size is too big (${ sizeInMB }MB). The release process is stopped.\n` +
+				`An issue has been created: ${ issueResponseData.html_url }.\n\n` +
+				finalMessage
 			);
 		}
 	);
