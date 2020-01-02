@@ -47,14 +47,15 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	/**
 	 * Checks whether Ryte is enabled, the blog is public and it is not development mode.
 	 *
-	 * @param $ryte_option The WPSEO_Ryte_Option.
+	 * @param WPSEO_Ryte_Option $ryte_option The Ryte Option.
+	 *
 	 * @return bool True when Ryte is enabled, the blog is public and development mode is not on.
 	 */
 	protected function should_run( $ryte_option ) {
 		if ( ! $ryte_option->is_enabled() ) {
 			return false;
 		}
-		if( '0' === get_option( 'blog_public' ) ) {
+		if ( '0' === get_option( 'blog_public' ) ) {
 			return false;
 		}
 		return ! $this->is_development_mode();
