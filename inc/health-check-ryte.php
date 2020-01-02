@@ -27,15 +27,16 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 			return;
 		}
 
-		$status = $ryte_option->get_status();
-		if ( $status === WPSEO_Ryte_Option::IS_NOT_INDEXABLE ) {
-			$this->is_not_indexable_response();
-		}
-		else if ( $status === WPSEO_Ryte_Option::IS_INDEXABLE ) {
-			$this->is_indexable_response();
-		}
-		else { // WPSEO_Ryte_Option::CANNOT_FETCH or WPSEO_Ryte_Option::NOT_FETCHED.
-			$this->unknown_indexability_response();
+		switch ( $ryte_option->get_status() ) {
+			case WPSEO_Ryte_Option::IS_NOT_INDEXABLE:
+				$this->is_not_indexable_response();
+				break;
+			case WPSEO_Ryte_Option::IS_INDEXABLE:
+				$this->is_indexable_response();
+				break;
+			default: // WPSEO_Ryte_Option::CANNOT_FETCH or WPSEO_Ryte_Option::NOT_FETCHED.
+				$this->unknown_indexability_response();
+				break;
 		}
 
 		$this->badge['color'] = 'red';
