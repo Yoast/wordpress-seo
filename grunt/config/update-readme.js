@@ -102,9 +102,11 @@ module.exports = function( grunt ) {
 					);
 				}
 
+				// If something has changed, persist this.
 				if ( cleanedChangelog !== changelog ) {
 					changelog = cleanedChangelog;
 
+					// Update the grunt reference to the changelog.
 					grunt.option( "changelog", changelog );
 
 					// Write changes to the file.
@@ -126,6 +128,7 @@ module.exports = function( grunt ) {
 			if ( containsCurrentVersion ) {
 				// Present the user with the entire changelog file.
 				getUserInput( { initialContent: changelog } ).then( newChangelog => {
+					// Update the grunt reference to the changelog.
 					grunt.option( "changelog", newChangelog );
 
 					// Write changes to the file.
@@ -135,6 +138,7 @@ module.exports = function( grunt ) {
 			} else {
 				// Present the user with only the version number.
 				getUserInput( { initialContent: `= ${newVersion} =` } ).then( newChangelog => {
+					// Update the grunt reference to the changelog.
 					grunt.option( "changelog", newChangelog );
 
 					// Add the user input to the changelog.
