@@ -29,11 +29,8 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 
 		$api_request = new WPSEO_MyYoast_Api_Request( 'sites/current' );
 
-		// Run the test only when either Premium or an add-on is installed, and we can't reach MyYoast.
-		if (
-			( WPSEO_UTILS::is_yoast_seo_premium() || ! empty( $this->get_installed_premium_plugins() ) )
-			&& $api_request->fire() === false
-		) {
+		// Run the test only when either Premium or an add-on is installed and we can't reach MyYoast.
+		if ( ! empty( $this->get_installed_premium_plugins() ) && $api_request->fire() === false ) {
 			return;
 		}
 
