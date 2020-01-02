@@ -62,10 +62,8 @@ class HTMLTreeConverter {
 
 				if ( child ) {
 					parent.addChild( child );
-					parent = child;
+					this._convert( node, child );
 				}
-
-				this._convert( node, parent );
 			}
 		}
 	}
