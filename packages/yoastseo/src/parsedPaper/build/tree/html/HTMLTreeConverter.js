@@ -30,6 +30,9 @@ class HTMLTreeConverter {
 	 * @private
 	 */
 	_convert( parse5Tree, parent ) {
+		if ( ignoredHtmlElements.includes( parse5Tree.nodeName ) ) {
+			return;
+		}
 		if ( parse5Tree.childNodes ) {
 			for ( const node of parse5Tree.childNodes ) {
 				const nodeType = node.nodeName;
@@ -52,17 +55,22 @@ class HTMLTreeConverter {
 					// List node.
 					child = new List( nodeType === "ol", node.sourceCodeLocation );
 				} else if ( nodeType === "#text" ) {
+					// Text (outside of an ignored element).
 					child = this._addLeafNodeContent( node.value, this._addText, parent, node.sourceCodeLocation );
 				} else if ( formattingElements.includes( nodeType ) ) {
+					// Formatting element.
 					const formatting = new FormattingElement( nodeType, node.sourceCodeLocation, this._parseAttributes( node.attrs ) );
 					child = this._addLeafNodeContent( formatting, this._addFormatting, parent, node.sourceCodeLocation );
 				} else {
+					// Other element (`div`, `section`, `article`, etc.).
 					child = new StructuredNode( nodeType, node.sourceCodeLocation );
 				}
 
 				if ( child ) {
 					parent.addChild( child );
 					this._convert( node, child );
+				} else {
+					this._convert( node, parent );
 				}
 			}
 		}
