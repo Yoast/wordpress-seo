@@ -74,12 +74,11 @@ const handleIgnoredContent = function( element, html, currentOffset ) {
 	// Has 0 length in text, so end = start.
 	element.textEndIndex = element.textStartIndex;
 
-	// Set content.
-	const content = getElementContent( element, html );
-	element.content = content;
-
 	// Update current offset.
-	currentOffset += content.length;
+	const end = element.sourceCodeLocation.endTag ? element.sourceCodeLocation.endTag.startOffset : element.sourceCodeLocation.endOffset;
+	const start = element.sourceCodeLocation.startTag ? element.sourceCodeLocation.startTag.endOffset : element.sourceCodeLocation.startOffset;
+
+	currentOffset += end - start;
 
 	return currentOffset;
 };
