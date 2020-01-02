@@ -35,7 +35,6 @@ class WPSEO_Admin_Init {
 		$this->asset_manager = new WPSEO_Admin_Asset_Manager();
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_dismissible' ] );
-		add_action( 'admin_init', [ $this, 'tagline_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'blog_public_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'permalink_notice' ], 15 );
 		add_action( 'admin_init', [ $this, 'yoast_plugin_suggestions_notification' ], 15 );
@@ -49,6 +48,9 @@ class WPSEO_Admin_Init {
 
 		$page_comments = new WPSEO_Health_Check_Page_Comments();
 		$page_comments->register_test();
+
+		$default_tagline = new WPSEO_Health_Check_Default_Tagline();
+		$default_tagline->register_test();
 
 		$listeners   = [];
 		$listeners[] = new WPSEO_Post_Type_Archive_Notification_Handler();
@@ -98,34 +100,6 @@ class WPSEO_Admin_Init {
 	}
 
 	/**
-	 * Notify about the default tagline if the user hasn't changed it.
-	 */
-	public function tagline_notice() {
-		$query_args    = [
-			'autofocus[control]' => 'blogdescription',
-		];
-		$customize_url = add_query_arg( $query_args, wp_customize_url() );
-
-		$info_message = sprintf(
-			/* translators: 1: link open tag; 2: link close tag. */
-			__( 'You still have the default WordPress tagline, even an empty one is probably better. %1$sYou can fix this in the customizer%2$s.', 'wordpress-seo' ),
-			'<a href="' . esc_attr( $customize_url ) . '">',
-			'</a>'
-		);
-
-		$notification_options = [
-			'type'         => Yoast_Notification::ERROR,
-			'id'           => 'wpseo-dismiss-tagline-notice',
-			'capabilities' => 'wpseo_manage_options',
-		];
-
-		$tagline_notification = new Yoast_Notification( $info_message, $notification_options );
-
-		$notification_center = Yoast_Notification_Center::get();
-		$notification_center->remove_notification( $tagline_notification );
-	}
-
-	/**
 	 * Add an alert if the blog is not publicly visible.
 	 */
 	public function blog_public_notice() {
@@ -154,22 +128,6 @@ class WPSEO_Admin_Init {
 		else {
 			$notification_center->remove_notification( $notification );
 		}
-	}
-
-	/**
-	 * Returns whether or not the site has the default tagline.
-	 *
-	 * @return bool
-	 */
-	public function has_default_tagline() {
-		$blog_description         = get_bloginfo( 'description' );
-		$default_blog_description = 'Just another WordPress site';
-
-		// We are checking against the WordPress internal translation.
-		// @codingStandardsIgnoreLine
-		$translated_blog_description = __( 'Just another WordPress site', 'default' );
-
-		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
 	}
 
 	/**
@@ -620,5 +578,36 @@ class WPSEO_Admin_Init {
 		_deprecated_function( __METHOD__, 'WPSEO 12.8' );
 
 		return '1' === get_option( 'page_comments' );
+	}
+
+	/**
+	 * Notify about the default tagline if the user hasn't changed it.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 */
+	public function tagline_notice() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+	}
+
+	/**
+	 * Returns whether or not the site has the default tagline.
+	 *
+	 * @deprecated xx.x
+	 * @codeCoverageIgnore
+	 *
+	 * @return bool
+	 */
+	public function has_default_tagline() {
+		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
+
+		$blog_description         = get_bloginfo( 'description' );
+		$default_blog_description = 'Just another WordPress site';
+
+		// We are checking against the WordPress internal translation.
+		// @codingStandardsIgnoreLine
+		$translated_blog_description = __( 'Just another WordPress site', 'default' );
+
+		return $translated_blog_description === $blog_description || $default_blog_description === $blog_description;
 	}
 }
