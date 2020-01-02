@@ -1,12 +1,11 @@
 import { load } from "js-yaml";
 import { FormattingElement, Paragraph, TextContainer,
-	Heading, StructuredNode, List, ListItem, Ignored } from "../../src/parsedPaper/structure/tree";
+	Heading, StructuredNode, List, ListItem } from "../../src/parsedPaper/structure/tree";
 
 /**
  * Supports building a tree from a YAML-encoded string.
  */
 class TreeFromYaml {
-
 	/**
 	 * Parses the given text and formatting to a TextContainer.
 	 *
@@ -89,7 +88,9 @@ class TreeFromYaml {
 	parseList( parameters ) {
 		const sourceCodeLocation = parameters.sourceCodeLocation;
 		const list = new List( parameters.ordered, sourceCodeLocation );
-		list.children = parameters.children.map( child => this.parse( child ) );
+		if ( parameters.children ) {
+			list.children = parameters.children.map( child => this.parse( child ) );
+		}
 		return list;
 	}
 
@@ -103,7 +104,9 @@ class TreeFromYaml {
 	parseStructured( parameters ) {
 		const sourceCodeLocation = parameters.sourceCodeLocation;
 		const structured = new StructuredNode( parameters.tag, sourceCodeLocation );
-		structured.children = parameters.children.map( child => this.parse( child ) );
+		if ( parameters.children ) {
+			structured.children = parameters.children.map( child => this.parse( child ) );
+		}
 		return structured;
 	}
 

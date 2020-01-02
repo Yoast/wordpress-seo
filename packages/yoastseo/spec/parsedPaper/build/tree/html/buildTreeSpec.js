@@ -7,24 +7,37 @@ import htmlFile2 from "../../../../fullTextTests/testTexts/de/germanPaper2.html"
 
 import fullTexts from "../../../../fullTextTests/testTexts";
 
+import buildTreeFromYaml from "../../../../specHelpers/buildTreeFromYaml";
+
 describe( "build tree", () => {
 	it( "can build a tree from HTML source code", () => {
 		const html = "<section>This? is a section.</section>";
 
-		const paragraph = new Paragraph();
-		paragraph.sourceStartIndex = 9;
-		paragraph.sourceEndIndex = 28;
-		paragraph.text = "This? is a section.";
+		const expectedYaml = `
+Structured:
+  tag: root
+  children:
+    - Structured:
+        tag: section
+        sourceCodeLocation:
+          startTag:
+            startOffset: 0
+            endOffset: 9
+          endTag:
+            startOffset: 28
+            endOffset: 38
+          startOffset: 0
+          endOffset: 38
+        children:
+          - Paragraph:
+              isImplicit: true
+              sourceCodeLocation:
+                startOffset: 9
+                endOffset: 28
+              text: This? is a section.
+		`;
 
-		const section = new StructuredNode( "section" );
-		section.sourceStartIndex = 0;
-		section.sourceEndIndex = 38;
-		section.children = [ paragraph ];
-
-		const expected = new StructuredNode( "root" );
-		expected.sourceStartIndex = 0;
-		expected.sourceEndIndex = 38;
-		expected.children = [ section ];
+		const expected = buildTreeFromYaml( expectedYaml );
 
 		const tree = buildTree( html );
 
@@ -37,37 +50,66 @@ describe( "build tree", () => {
 
 		const tree = buildTree( input );
 
-		const strong1 = new FormattingElement( "strong", { id: "some-id" } );
-		strong1.sourceStartIndex = 8;
-		strong1.sourceEndIndex = 46;
-		strong1.textStartIndex = 5;
-		strong1.textEndIndex = 13;
+		const expectedYaml = `
+Structured:
+  tag: root
+  children:
+    - Paragraph:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 0
+            endOffset: 3
+          endTag:
+            startOffset: 131
+            endOffset: 135
+          startOffset: 0
+          endOffset: 135
+        isImplicit: false
+        text: This sentence needs to be read to have value as a sentence.
+        formatting:
+          - strong:
+              sourceCodeLocation:
+                startTag:
+                  startOffset: 8
+                  endOffset: 29
+                endTag:
+                  startOffset: 37
+                  endOffset: 46
+                startOffset: 8
+                endOffset: 46
+              textStartIndex: 5
+              textEndIndex: 13
+              attributes:
+                id: some-id
+          - em:
+              sourceCodeLocation:
+                startTag:
+                  startOffset: 59
+                  endOffset: 63
+                endTag:
+                  startOffset: 97
+                  endOffset: 102
+                startOffset: 59
+                endOffset: 102
+              textStartIndex: 26
+              textEndIndex: 30
+          - strong:
+              sourceCodeLocation:
+                startTag:
+                  startOffset: 63
+                  endOffset: 84
+                endTag:
+                  startOffset: 88
+                  endOffset: 97
+                startOffset: 63
+                endOffset: 97
+              textStartIndex: 26
+              textEndIndex: 30
+              attributes:
+                class: weak
+		`;
 
-		const strong2 = new FormattingElement( "strong", { "class": "weak" } );
-		strong2.sourceStartIndex = 63;
-		strong2.sourceEndIndex = 97;
-		strong2.textStartIndex = 26;
-		strong2.textEndIndex = 30;
-
-		const em = new FormattingElement( "em" );
-		em.sourceStartIndex = 59;
-		em.sourceEndIndex = 102;
-		em.textStartIndex = 26;
-		em.textEndIndex = 30;
-
-		const textContainer = new TextContainer();
-		textContainer.text = "This sentence needs to be read to have value as a sentence.";
-		textContainer.formatting = [ strong1, em, strong2 ];
-
-		const paragraph = new Paragraph( "p" );
-		paragraph.sourceStartIndex = 0;
-		paragraph.sourceEndIndex = 135;
-		paragraph.textContainer = textContainer;
-
-		const expected = new StructuredNode( "root" );
-		expected.sourceStartIndex = 0;
-		expected.sourceEndIndex = 135;
-		expected.children = [ paragraph ];
+		const expected = buildTreeFromYaml( expectedYaml );
 
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
@@ -75,55 +117,63 @@ describe( "build tree", () => {
 	it( "can parse HTML into a Heading", () => {
 		const input = "<h1>This heading needs to be read to have value as a heading.</h1>";
 
+		const expectedYaml = `
+Structured:
+  tag: root
+  children:
+    - Heading:
+        level: 1
+        sourceCodeLocation:
+          startTag:
+            startOffset: 0
+            endOffset: 4
+          endTag:
+            startOffset: 61
+            endOffset: 66
+          startOffset: 0
+          endOffset: 66
+        text: This heading needs to be read to have value as a heading.
+		`;
+
+		const expected = buildTreeFromYaml( expectedYaml );
 		const tree = buildTree( input );
-
-		const heading = new Heading( 1 );
-		heading.sourceStartIndex = 0;
-		heading.sourceEndIndex = 66;
-		heading.text = "This heading needs to be read to have value as a heading.";
-
-		const expected = new StructuredNode( "root" );
-		expected.sourceStartIndex = 0;
-		expected.sourceEndIndex = 66;
-		expected.children = [ heading ];
 
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
 	it( "can parse HTML that contains incomplete closing tags", () => {
-		const primitiveComment = new Ignored( "comment" );
-		const commentOne = Object.assign( {}, primitiveComment, {
-			sourceStartIndex: 14,
-			sourceEndIndex: 72,
-			textStartIndex: 10,
-			textEndIndex: 10,
-			content: " comment ",
-		} );
-		const commentTwo = Object.assign( {}, primitiveComment, {
-			sourceStartIndex: 72,
-			sourceEndIndex: 93,
-			textStartIndex: 68,
-			textEndIndex: 68,
-			content: " before this text.",
-		} );
+		const input = "<h1>This text <!-- comment -->is in the process of getting some h1 tags</ before this text.";
 
-		const primitiveHeading = new Heading( 1 );
-		Object.assign( primitiveHeading, {
-			sourceStartIndex: 0,
-			sourceEndIndex: 92,
-			textContainer: {
-				text: "This text is in the process of getting some h1 tags ",
-				formatting: [ commentOne, commentTwo ],
-			},
-		} );
+		const expectedYaml = `
+Structured:
+  tag: root
+  children:
+    - Heading:
+        level: 1
+        sourceCodeLocation:
+          startTag:
+            startOffset: 0
+            endOffset: 4
+          startOffset: 0
+          endOffset: 91
+        text: This text is in the process of getting some h1 tags
+        formatting:
+          - "#comment":
+              sourceCodeLocation:
+                startOffset: 14
+                endOffset: 30
+              textStartIndex: 10
+              textEndIndex: 10
+          - "#comment":
+              sourceCodeLocation:
+                startOffset: 71
+                endOffset: 92
+              textStartIndex: 67
+              textEndIndex: 67
+		`;
 
-		const input = "<h1>This text <!-- comment -->is in the process of getting some h1 tags </ before this text.";
-
+		const expected = buildTreeFromYaml( expectedYaml );
 		const tree = buildTree( input );
-
-		const expected = new StructuredNode( "root" );
-		expected.sourceEndIndex = 92;
-		expected.children = [ primitiveHeading ];
 
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
@@ -131,60 +181,74 @@ describe( "build tree", () => {
 	it( "can parse an HTML comment into StructuredIrrelevant node", () => {
 		const input = "<section><!-- An unimportant comment. --></section>";
 
+		const expectedYaml = `
+Structured:
+  tag: root
+  children:
+    - Structured:
+        tag: section
+        sourceCodeLocation:
+          startTag:
+            startOffset: 0
+            endOffset: 9
+          endTag:
+            startOffset: 41
+            endOffset: 51
+          startOffset: 0
+          endOffset: 51
+		`;
+
+		const expected = buildTreeFromYaml( expectedYaml );
 		const tree = buildTree( input );
-
-		const comment = new Ignored( "comment" );
-		comment.sourceStartIndex = 9;
-		comment.sourceEndIndex = 41;
-		comment.content = "<!-- An unimportant comment. -->";
-
-		const section = new StructuredNode( "section" );
-		section.sourceStartIndex = 0;
-		section.sourceEndIndex = 51;
-		section.children = [ comment ];
-
-		const expected = new StructuredNode( "root" );
-		expected.sourceStartIndex = 0;
-		expected.sourceEndIndex = 51;
-		expected.children = [ section ];
 
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
 
-	it( "can parse HTML into a List with ListItems, which are simple paragraphs", () => {
+	it( "can parse HTML into a List with ListItems.", () => {
 		const input = "<ul><li>Coffee</li><li>Tea</li></ul>";
 
+		const expectedYaml = `
+Structured:
+  tag: root
+  children:
+    - List:
+        ordered: false
+        sourceCodeLocation:
+          startTag:
+            startOffset: 0
+            endOffset: 4
+          endTag:
+            startOffset: 31
+            endOffset: 36
+          startOffset: 0
+          endOffset: 36
+        children:
+          - ListItem:
+              sourceCodeLocation:
+                startTag:
+                  startOffset: 4
+                  endOffset: 8
+                endTag:
+                  startOffset: 14
+                  endOffset: 19
+                startOffset: 4
+                endOffset: 19
+              text: Coffee
+          - ListItem:
+              sourceCodeLocation:
+                startTag:
+                  startOffset: 19
+                  endOffset: 23
+                endTag:
+                  startOffset: 26
+                  endOffset: 31
+                startOffset: 19
+                endOffset: 31
+              text: Tea
+		`;
+
+		const expected = buildTreeFromYaml( expectedYaml );
 		const tree = buildTree( input );
-
-		const paragraph1 = new Paragraph( "" );
-		paragraph1.sourceStartIndex = 8;
-		paragraph1.sourceEndIndex = 14;
-		paragraph1.text = "Coffee";
-
-		const listItem1 = new ListItem();
-		listItem1.sourceStartIndex = 4;
-		listItem1.sourceEndIndex = 19;
-		listItem1.children = [ paragraph1 ];
-
-		const paragraph2 = new Paragraph( "" );
-		paragraph2.sourceStartIndex = 23;
-		paragraph2.sourceEndIndex = 26;
-		paragraph2.text = "Tea";
-
-		const listItem2 = new ListItem();
-		listItem2.sourceStartIndex = 19;
-		listItem2.sourceEndIndex = 31;
-		listItem2.children = [ paragraph2 ];
-
-		const list = new List( false );
-		list.sourceStartIndex = 0;
-		list.sourceEndIndex = 36;
-		list.children = [ listItem1, listItem2 ];
-
-		const expected = new StructuredNode( "root" );
-		expected.sourceStartIndex = 0;
-		expected.sourceEndIndex = 36;
-		expected.children = [ list ];
 
 		expect( tree.toString() ).toEqual( expected.toString() );
 	} );
