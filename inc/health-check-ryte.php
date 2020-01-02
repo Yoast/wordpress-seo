@@ -23,7 +23,7 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 	public function run() {
 		// If Ryte is disabled or the blog is not public or development mode is on, don't run code.
 		$ryte_option = $this->get_ryte_option();
-		if ( ! $ryte_option->is_enabled() || '0' === get_option( 'blog_public' ) || $this->is_development_mode() ) {
+		if ( $this->dont_show( $ryte_option ) ) {
 			return;
 		}
 
@@ -41,6 +41,10 @@ class WPSEO_Health_Check_Ryte extends WPSEO_Health_Check {
 
 		$this->badge['color'] = 'red';
 		$this->add_yoast_signature();
+	}
+
+	protected function dont_show( $ryte_option ) {
+		return ! $ryte_option->is_enabled() || '0' === get_option( 'blog_public' ) || $this->is_development_mode();
 	}
 
 	/**
