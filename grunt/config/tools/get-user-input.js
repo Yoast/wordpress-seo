@@ -5,9 +5,9 @@ const fs = require( "fs" );
 /**
  * Prompts the user with an editor for providing input.
  *
- * @param {Object} options                The options.
- * @param {string} options.command        The executable for the editor to use.
- * @param {string} options.initialContent The initial value for the user input.
+ * @param {Object} [options]                Optional. The options.
+ * @param {string} [options.command]        Optional. The executable for the editor to use.
+ * @param {string} [options.initialContent] Optional. The initial value for the user input.
  *
  * @returns {Promise<string>} A promise resolving to the user input.
  */
