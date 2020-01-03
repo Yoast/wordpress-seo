@@ -1,5 +1,5 @@
 const getUserInput = require( "./tools/get-user-input" );
-let _isEmpty = require( "lodash/isEmpty" );
+const _isEmpty = require( "lodash/isEmpty" );
 
 /**
  * Class representing a version number.
