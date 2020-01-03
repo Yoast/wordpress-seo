@@ -1,5 +1,6 @@
 const fetch = require( "node-fetch" );
 const getUserInput = require( "./tools/get-user-input" );
+const githubApi = require( "./tools/github-api" );
 
 /**
  * Throws an error.
@@ -41,16 +42,6 @@ module.exports = function( grunt ) {
 			const changelog = await getUserInput( { initialContent: grunt.option( "changelog" ) } );
 			const pluginVersion = grunt.file.readJSON( "package.json" ).yoast.pluginVersion;
 
-			// Creating the release on github through an API request.
-			const github = {};
-			github.apiRoot = "https://api.github.com";
-			github.accesToken = process.env.GITHUB_ACCESS_TOKEN;
-
-			// Note: do not uncomment the /Yoast/wordpress-seo URL unless you want to create a real tag. Use a personal fork for testing, instead:
-			github.api_url = github.apiRoot + "/repos/Xyfi/wordpress-seo/releases?access_token=" + github.accesToken;
-
-			// github.api_url = github.apiRoot + "/repos/Yoast/wordpress-seo/releases?access_token=" + github.accesToken;
-
 			/* eslint-disable camelcase */
 			const releaseData = {
 				tag_name: "v" + pluginVersion,
@@ -63,23 +54,17 @@ module.exports = function( grunt ) {
 			/* eslint-enable camelcase */
 
 			try {
-				const response = await fetch( github.api_url, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify( releaseData ),
-				} );
-
+				const response = await githubApi( "releases", releaseData, "POST" );
 				if ( ! response.ok ) {
 					await logError( response, grunt );
 				}
 			} catch ( error ) {
-				grunt.fail.fatal( "An error occurred" );
+				grunt.log.error( error );
+				grunt.fail.fatal( "An error occurred creating a GitHub pre-release." );
 			}
 
 			// Slack notifier logic.
-			const constructedZipUrl = "https://github.com/Yoast/wordpress-seo/archive/" + releaseData.tag_name + ".zip";
+			const constructedZipUrl = `https://github.com/${ process.env.GITHUB_REPOSITORY }/archive/${ releaseData.tag_name }.zip`;
 			grunt.config.set( "rc.github.url", constructedZipUrl );
 			done();
 		}
