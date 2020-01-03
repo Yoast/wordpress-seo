@@ -1,7 +1,9 @@
 import { Paper } from "yoastseo";
 import { updateWordsToHighlight } from "../redux/actions/snippetEditor";
-import flatten from "lodash/flatten";
-import uniq from "lodash/uniq";
+import {
+	flatten,
+	uniq,
+} from "lodash-es";
 
 /**
  * Requests morphological forms of the focus keyword and makes them ready for the snippet editor.

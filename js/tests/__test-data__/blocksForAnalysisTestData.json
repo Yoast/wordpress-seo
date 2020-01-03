@@ -1,0 +1,97 @@
+[
+  {
+    "attributes": {
+      "content": "<strong>Over the years, we’ve written&nbsp;quite a few articles about&nbsp;</strong><a href=\"https://yoast.com/tag/branding/\">branding</a><strong>. Branding is about getting people to relate to your company and products. It’s also about trying to make your brand synonymous with a certain product or service. This can be a lengthy and hard project. It can potentially cost you all of your revenue. It’s no wonder that branding is often associated with investing lots of money in marketing and promotion. However, for a lot of small business owners, the investment in branding will have to&nbsp;be made with a&nbsp;relatively small budget.&nbsp;</strong>"
+    },
+    "name": "core/paragraph",
+    "clientId": "6860403c-0b36-43b2-96fa-2d30c10cb44c",
+    "innerBlocks": []
+  },
+  {
+    "attributes": {
+      "content": "You might be a local bakery with 10 employees, or a local industrial company employing up to 500 people. These all can be qualified as ‘small business’. All have the same main goal when they start: the need to establish a name in their field of expertise. There are multiple ways to do this, without a huge budget. In this post, I’ll share my thoughts on how to go about your own low-budget branding."
+    },
+    "name": "core/paragraph",
+    "clientId": "65be5146-3395-4845-8c7c-4a79fd6e3611",
+    "innerBlocks": []
+  },
+  {
+    "attributes": {
+      "level": 2,
+      "content": "Define and communicate brand values"
+    },
+    "name": "core/heading",
+    "clientId": "b8e62d35-b3af-45ec-9889-139ef0a9baaa",
+    "innerBlocks": []
+  },
+  {
+    "attributes": {
+      "content": "Branding with a limited budget&nbsp;starts with defining your company’s and your brand’s values. You need to&nbsp;think about what you, as a brand, want to communicate to the world. Doing this yourself won’t cost you, provided you are capable of doing this yourself. In fact, it’s a pretty hard task, when you think of it. It’s about your&nbsp;<a href=\"https://yoast.com/whats-your-mission/\">mission</a>, the things that make your brand into your brand. Brand values relate to Cialdini’s&nbsp;<a href=\"https://en.wikipedia.org/wiki/Robert_Cialdini#The_Seventh_Principle_of_Influence\">seventh</a>&nbsp;principle, Unity."
+    },
+    "name": "core/paragraph",
+    "clientId": "87b446e4-79f4-4b62-8717-a95ca2c4500f",
+    "innerBlocks": []
+  },
+  {
+    "attributes": {
+      "content": "My favorite example illustrating unity: outdoor brands like Patagonia and The North Face, which make you feel&nbsp;<em>included</em>&nbsp;in their business ‘family’. “We are all alike, share the same values.” By being able to relate to these brands and their values, we are more enticed to buy their products. It’s a brand for&nbsp;<em>us, outdoor people</em>."
+    },
+    "name": "core/paragraph",
+    "clientId": "ddf97007-bf9f-4a82-be15-28a4b43a76f6",
+    "innerBlocks": []
+  },
+  {
+    "attributes": {
+      "content": "Take some time to define your brand values. That way, you’re able to communicate your main message in a clear and consistent way. It makes your marketing all the easier. You’ll be able to create&nbsp;<a href=\"https://yoast.com/online-customer-brand-ambassador/\">brand ambassadors</a>, even on a&nbsp;budget."
+    },
+    "name": "core/paragraph",
+    "clientId": "e5e10851-4c05-4048-a2bb-e380466d1028",
+    "innerBlocks": []
+  },
+  {
+    "attributes": {
+      "alt": "Alt text."
+    },
+    "name": "core/image",
+    "clientId": "3e1b6401-b328-4bb1-8e2d-b26e52fe8f17",
+    "innerBlocks": []
+  },
+  {
+    "attributes": {},
+    "name": "core/columns",
+    "clientId": "f6b74183-d7b0-4174-ac8e-282076aba9e2",
+    "innerBlocks": [
+      {
+        "attributes": {},
+        "name": "core/column",
+        "clientId": "008f4a5f-837a-44bd-82a8-76495ebba53e",
+        "innerBlocks": [
+          {
+            "attributes": {
+              "content": "Hello World!"
+            },
+            "name": "core/paragraph",
+            "clientId": "e25fb873-d061-41d2-8ab3-b094cb846a53",
+            "innerBlocks": []
+          }
+        ]
+      },
+      {
+        "attributes": {},
+        "name": "core/column",
+        "clientId": "f83a4294-9041-4d2f-b8f7-cf52c5aac17f",
+        "innerBlocks": [
+          {
+            "attributes": {
+              "content": "How are you doing?"
+            },
+            "name": "core/paragraph",
+            "clientId": "a391e8d3-3efc-4136-b6d9-7bc3a27a8e99",
+            "innerBlocks": []
+          }
+        ]
+      }
+    ]
+  }
+]
+

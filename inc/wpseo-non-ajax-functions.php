@@ -77,9 +77,7 @@ function wpseo_admin_bar_menu() {
 		return;
 	}
 
-	$options = WPSEO_Options::get_options( [ 'wpseo', 'wpseo_ms' ] );
-
-	if ( $options['enable_admin_bar_menu'] !== true ) {
+	if ( WPSEO_Options::get( 'enable_admin_bar_menu',true ) ) {
 		return;
 	}
 

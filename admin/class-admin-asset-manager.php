@@ -177,137 +177,6 @@ class WPSEO_Admin_Asset_Manager {
 	}
 
 	/**
-	 * Registers the WordPress dependencies that exist in 5.0 in case they are not present.
-	 *
-	 * This function can be removed when WordPress 5.1 has been released, because from 5.0 wp-elements will be
-	 * registered earlier, which means we don't have to reregister things.
-	 *
-	 * @return void
-	 */
-	public function register_wp_assets() {
-
-		global $wp_scripts;
-
-		$script = $wp_scripts->query( 'react' );
-
-		// IE11 needs wp-polyfill to be registered before react.
-		if ( $script && ! in_array( 'wp-polyfill', $script->deps, true ) ) {
-			$script->deps[] = 'wp-polyfill';
-		}
-
-		$flat_version = $this->flatten_version( WPSEO_VERSION );
-
-		wp_register_script(
-			'react',
-			plugins_url( 'js/vendor/react.min.js', WPSEO_FILE ),
-			[],
-			'v16.6.1',
-			true
-		);
-
-		wp_register_script(
-			'react-dom',
-			plugins_url( 'js/vendor/react-dom.min.js', WPSEO_FILE ),
-			[ 'react' ],
-			'v16.6.1',
-			true
-		);
-
-		wp_register_script(
-			'lodash-base',
-			plugins_url( 'js/vendor/lodash.min.js', WPSEO_FILE ),
-			[],
-			'4.17.5',
-			true
-		);
-
-		wp_register_script(
-			'lodash',
-			plugins_url( 'js/vendor/lodash-noconflict.js', WPSEO_FILE ),
-			[ 'lodash-base' ],
-			WPSEO_VERSION,
-			true
-		);
-
-		wp_register_script(
-			'wp-polyfill',
-			plugins_url( 'js/dist/babel-polyfill-' . $flat_version . '.min.js', WPSEO_FILE ),
-			[],
-			WPSEO_VERSION,
-			true
-		);
-
-		wp_register_script(
-			'wp-element',
-			plugins_url( 'js/dist/wp-element-' . $flat_version . '.min.js', WPSEO_FILE ),
-			[ 'lodash', 'wp-polyfill', 'react', 'react-dom' ],
-			WPSEO_VERSION,
-			true
-		);
-
-		wp_register_script(
-			'wp-api-fetch',
-			plugins_url( 'js/dist/wp-apiFetch-' . $flat_version . '.min.js', WPSEO_FILE ),
-			[ 'wp-i18n', 'wp-polyfill' ],
-			WPSEO_VERSION,
-			true
-		);
-
-		wp_register_script(
-			'wp-components',
-			plugins_url( 'js/dist/wp-components-' . $flat_version . '.min.js', WPSEO_FILE ),
-			[ 'lodash', 'wp-api-fetch', 'wp-i18n', 'wp-polyfill', 'wp-compose' ],
-			WPSEO_VERSION,
-			true
-		);
-
-		wp_register_script(
-			'wp-data',
-			plugins_url( 'js/dist/wp-data-' . $flat_version . '.min.js', WPSEO_FILE ),
-			[ 'lodash', 'wp-element', 'wp-polyfill', 'wp-compose' ],
-			WPSEO_VERSION,
-			true
-		);
-
-		wp_register_script(
-			'wp-i18n',
-			plugins_url( 'js/dist/wp-i18n-' . $flat_version . '.min.js', WPSEO_FILE ),
-			[ 'wp-polyfill' ],
-			WPSEO_VERSION,
-			true
-		);
-
-		wp_register_script(
-			'wp-rich-text',
-			plugins_url( 'js/dist/wp-rich-text-' . $flat_version . '.min.js', WPSEO_FILE ),
-			[ 'lodash', 'wp-polyfill', 'wp-data' ],
-			WPSEO_VERSION,
-			true
-		);
-
-		wp_register_script(
-			'wp-compose',
-			plugins_url( 'js/dist/wp-compose-' . $flat_version . '.min.js', WPSEO_FILE ),
-			[ 'lodash', 'wp-polyfill' ],
-			WPSEO_VERSION,
-			true
-		);
-
-		/*
-		 * wp-annotations only exists from Gutenberg 4.3 and onwards, so we register a no-op in earlier versions.
-		 * The no-op achieves that our scripts that depend on this are actually loaded. Because WordPress doesn't
-		 * load a script if any of the dependencies are missing.
-		 *
-		 * @phpcs:disable WordPress.WP.EnqueuedResourceParameters -- The no-op does not require these settings.
-		 */
-		wp_register_script(
-			'wp-annotations',
-			null
-		);
-		// phpcs:enable -- End of disable.
-	}
-
-	/**
 	 * Returns the scripts that need to be registered.
 	 *
 	 * @todo Data format is not self-documenting. Needs explanation inline. R.
@@ -335,6 +204,7 @@ class WPSEO_Admin_Asset_Manager {
 				'src'       => 'commons-' . $flat_version,
 				'in_footer' => false,
 				'deps'      => [
+					'lodash',
 					'wp-polyfill',
 				],
 			],
@@ -452,6 +322,8 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-api-fetch',
 					'wp-annotations',
 					'wp-compose',
+					'wp-is-shallow-equal',
+					self::PREFIX . 'redux',
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'shortcode-plugin',
 					self::PREFIX . 'analysis',
@@ -469,6 +341,8 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-data',
 					'wp-api-fetch',
 					'wp-compose',
+					'wp-is-shallow-equal',
+					self::PREFIX . 'redux',
 					self::PREFIX . 'replacevar-plugin',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'components',
@@ -499,6 +373,7 @@ class WPSEO_Admin_Asset_Manager {
 					'jquery',
 					'jquery-ui-core',
 					'jquery-ui-progressbar',
+					self::PREFIX . 'jed',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'commons',
 				],
@@ -508,11 +383,13 @@ class WPSEO_Admin_Asset_Manager {
 				'src'  => 'wp-seo-metabox-category-' . $flat_version,
 				'deps' => [
 					'jquery',
+					'wp-url',
 					'wp-util',
 					'wp-element',
 					'wp-i18n',
 					'wp-components',
 					'wp-data',
+					'wp-url',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'components',
 					self::PREFIX . 'commons',
@@ -617,6 +494,8 @@ class WPSEO_Admin_Asset_Manager {
 				'name' => 'components',
 				'src'  => 'components-' . $flat_version,
 				'deps' => [
+					self::PREFIX . 'jed',
+					self::PREFIX . 'redux',
 					self::PREFIX . 'analysis',
 					self::PREFIX . 'styled-components',
 					self::PREFIX . 'commons',
@@ -629,6 +508,7 @@ class WPSEO_Admin_Asset_Manager {
 					'wp-blocks',
 					'wp-i18n',
 					'wp-element',
+					'wp-is-shallow-equal',
 					self::PREFIX . 'styled-components',
 					self::PREFIX . 'commons',
 				],
@@ -639,6 +519,14 @@ class WPSEO_Admin_Asset_Manager {
 				'deps' => [
 					'wp-element',
 				],
+			],
+			[
+				'name' => 'redux',
+				'src'  => 'redux-' . $flat_version,
+			],
+			[
+				'name' => 'jed',
+				'src'  => 'jed-' . $flat_version,
 			],
 			[
 				'name'      => 'help-scout-beacon',
@@ -766,5 +654,18 @@ class WPSEO_Admin_Asset_Manager {
 		}
 
 		return $this->asset_location->get_url( $asset, $type );
+	}
+
+	/* ********************* DEPRECATED METHODS ********************* */
+
+	/**
+	 * This function is needed for backwards compatibility with Local SEO 12.5.
+	 *
+	 * @deprecated 12.8
+	 * @codeCoverageIgnore
+	 *
+	 * @return void
+	 */
+	public function register_wp_assets() {
 	}
 }

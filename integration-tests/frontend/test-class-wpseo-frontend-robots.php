@@ -118,6 +118,9 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		// Test noindex-post option.
 		WPSEO_Options::set( 'noindex-post', true );
 		$this->assertEquals( 'noindex,follow', self::$class_instance->robots() );
+
+		// Return to default.
+		WPSEO_Options::set( 'noindex-post', false );
 	}
 
 	/**
@@ -184,7 +187,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// Clean-up.
-		self::$class_instance->options['noindex-tax-category'] = false;
+		WPSEO_Options::set( 'noindex-author-wpseo', false );
 	}
 
 	/**
@@ -216,7 +219,7 @@ final class WPSEO_Frontend_Robots_Test extends WPSEO_UnitTestCase_Frontend {
 		$this->assertEquals( $expected, self::$class_instance->robots() );
 
 		// Clean-up.
-		self::$class_instance->options['noindex-author-wpseo'] = false;
+		WPSEO_Options::set( 'noindex-author-wpseo', false );
 	}
 
 	/**

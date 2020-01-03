@@ -4,7 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import ConfigurationWizard, { MessageBox } from "@yoast/configuration-wizard";
 import { setTranslations } from "yoast-components";
-import isUndefined from "lodash/isUndefined";
+import { isUndefined } from "lodash-es";
 import { makeOutboundLink } from "@yoast/helpers";
 
 // Internal dependencies.

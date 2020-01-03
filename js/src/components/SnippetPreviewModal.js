@@ -42,7 +42,7 @@ class SnippetPreviewModal extends Component {
 			<Fragment>
 				<ButtonSection
 					id={ "yoast-snippet-editor-sidebar" }
-					title={ __( "Snippet preview", "wordpress-seo" ) }
+					title={ __( "Google preview", "wordpress-seo" ) }
 					suffixIcon={ { size: "20px", icon: "pencil-square" } }
 					hasSeparator={ true }
 					onClick={ this.openModal }
@@ -50,7 +50,7 @@ class SnippetPreviewModal extends Component {
 				/>
 				{ this.state.isOpen &&
 					<Modal
-						title={ __( "Snippet preview", "wordpress-seo" ) }
+						title={ __( "Google preview", "wordpress-seo" ) }
 						onRequestClose={ this.closeModal }
 						overlayClassName="yoast-modal__screen-overlay"
 					>
