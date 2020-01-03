@@ -13,11 +13,14 @@ async function githubApi( path, body, method = "GET" ) {
 	const apiRoot = "https://api.github.com";
 	const accesToken = process.env.GITHUB_ACCESS_TOKEN;
 	const repository = process.env.GITHUB_REPOSITORY;
-	const apiUrl = `${ apiRoot }/repos/${ repository }/${ path }?access_token=${ accesToken }`;
+	const apiUrl = `${ apiRoot }/repos/${ repository }/${ path }`;
 
 	return await fetch( apiUrl, {
 		method: method,
-		headers: { "Content-Type": "application/json" },
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `token ${ accesToken }`,
+		},
 		body: JSON.stringify( body ),
 	} );
 }
