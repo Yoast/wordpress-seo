@@ -11,7 +11,7 @@ const fetch = require( "node-fetch" );
  */
 async function githubApi( path, body, method = "GET" ) {
 	const apiRoot = "https://api.github.com";
-	const accesToken = process.env.GITHUB_ACCESS_TOKEN;
+	const accessToken = process.env.GITHUB_ACCESS_TOKEN;
 	const repository = process.env.GITHUB_REPOSITORY;
 	const apiUrl = `${ apiRoot }/repos/${ repository }/${ path }`;
 
@@ -19,7 +19,7 @@ async function githubApi( path, body, method = "GET" ) {
 		method: method,
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `token ${ accesToken }`,
+			Authorization: `token ${ accessToken }`,
 		},
 		body: JSON.stringify( body ),
 	} );
