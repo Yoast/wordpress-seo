@@ -136,8 +136,10 @@ module.exports = function( grunt ) {
 					done();
 				} );
 			} else {
+				const changelogVersionNumber = newVersion.major + "." + newVersion.minor + "." + newVersion.patch;
+
 				// Present the user with only the version number.
-				getUserInput( { initialContent: `= ${newVersion} =` } ).then( newChangelog => {
+				getUserInput( { initialContent: `= ${changelogVersionNumber} =` } ).then( newChangelog => {
 					// Update the grunt reference to the changelog.
 					grunt.option( "changelog", newChangelog );
 
