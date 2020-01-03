@@ -592,18 +592,4 @@ class WPSEO_Admin_Init {
 	public function permalink_notice() {
 		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
 	}
-
-	/**
-	 * Check if the permalink uses %postname%.
-	 *
-	 * @deprecated xx.x
-	 * @codeCoverageIgnore
-	 *
-	 * @return bool
-	 */
-	private function has_postname_in_permalink() {
-		_deprecated_function( __METHOD__, 'WPSEO xx.x' );
-
-		return ( false !== strpos( get_option( 'permalink_structure' ), '%postname%' ) );
-	}
 }
