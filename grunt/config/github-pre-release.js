@@ -1,4 +1,3 @@
-const fetch = require( "node-fetch" );
 const getUserInput = require( "./tools/get-user-input" );
 const githubApi = require( "./tools/github-api" );
 

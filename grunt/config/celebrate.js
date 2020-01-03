@@ -9,7 +9,7 @@ module.exports = function( grunt ) {
 		"celebrate",
 		"Celebration when all tasks are done",
 		function() {
-			grunt.log.writeln("🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉");
+			grunt.log.writeln( "🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉" );
 		}
 	);
 };
