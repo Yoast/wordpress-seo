@@ -1,7 +1,6 @@
 import { pullAll } from "lodash-es";
 
 import { ignoredHtmlElements } from "../html/htmlConstants";
-import getElementContent from "./getElementContent";
 
 /**
  * Gathers all elements that can be closed given the position of the current element in the source code.
@@ -65,12 +64,11 @@ const closeElements = function( elementsToClose, currentOffset ) {
  * and adds the content to the element as a parameter.
  *
  * @param {module:parsedPaper/structure.FormattingElement} element The element of which to add the content length.
- * @param {string} html                                     The original html source code.
  * @param {number} currentOffset                            The current offset to which to add the length to.
  *
  * @returns {number} The updated current offset
  */
-const handleIgnoredContent = function( element, html, currentOffset ) {
+const handleIgnoredContent = function( element, currentOffset ) {
 	// Has 0 length in text, so end = start.
 	element.textEndIndex = element.textStartIndex;
 
@@ -143,7 +141,7 @@ const computeElementStartTextIndex = function( element, currentOffset ) {
  *
  * @private
  */
-const calculateTextIndices = function( node, html ) {
+const calculateTextIndices = function( node ) {
 	if ( ! node.textContainer.formatting || node.textContainer.formatting.length === 0 ) {
 		return;
 	}
@@ -181,7 +179,7 @@ const calculateTextIndices = function( node, html ) {
 		  and the current offset should be updated.
 		 */
 		if ( ignoredHtmlElements.includes( element.type ) ) {
-			currentOffset = handleIgnoredContent( element, html, currentOffset );
+			currentOffset = handleIgnoredContent( element, currentOffset );
 		}
 	} );
 	// Close all remaining elements.

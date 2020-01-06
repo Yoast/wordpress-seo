@@ -11,11 +11,11 @@ import calculateTextIndices from "./calculateTextIndices";
  *
  * @private
  */
-const cleanUpNode = function( node, html ) {
+const cleanUpNode = function( node ) {
 	// Clean up formatting elements in headings and paragraphs.
 	if ( node instanceof LeafNode ) {
 		// Start and end position in leaf node's (header's or paragraph's) text without formatting.
-		calculateTextIndices( node, html );
+		calculateTextIndices( node );
 	}
 	return node;
 };
@@ -31,8 +31,8 @@ const cleanUpNode = function( node, html ) {
  *
  * @private
  */
-const cleanUpTree = function( tree, html ) {
-	tree.map( node => cleanUpNode( node, html ) );
+const cleanUpTree = function( tree ) {
+	tree.map( node => cleanUpNode( node ) );
 	return tree;
 };
 
