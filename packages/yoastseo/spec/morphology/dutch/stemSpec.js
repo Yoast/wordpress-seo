@@ -84,9 +84,9 @@ const wordsToStem = [
 	// An adjective that should have the vowel doubled.
 	[ "lager", "laag" ],
 	// An adjective with stem ending in d that should have the vowel doubled.
-	[ "kwader", "kwaad" ],
+	[ "luider", "luid" ],
 	// Vowel doubling + V at the end of a stem gets replaced by f.
-	[ "beloven", "beloof" ],
+	[ "zweven", "zweef" ],
 	// Vowel doubling + Z at the end of a stem gets replaced by s.
 	[ "lezen", "lees" ],
 	// A word that should not have the vowel doubled because the vowel is preceded by two same consonants.
@@ -106,7 +106,26 @@ const wordsToStem = [
 	// An adjective with the comparative partitive suffix -ers.
 	[ "ronders", "rond" ],
 	// An adjective with stem ending in -rd.
-	[ "absurder", "absurd" ] ];
+	[ "absurder", "absurd" ],
+	// A word whose -t ending should be stemmed.
+	[ "grondt", "grond" ],
+	// A word whose -te ending needs to be stemmed.
+	[ "zwikte", "zwik" ],
+	// A word whose -ten ending needs to be stemmed.
+	[ "zwikten", "zwik" ],
+	// A word whose -de ending needs to be stemmed.
+	[ "vlienderde", "vliender" ],
+	[ "bedaarde", "bedaar" ],
+	[ "bobsleede", "bobslee" ],
+	// A word whose -den ending needs to be stemmed.
+	[ "bidden", "bid" ],
+	// A word with stem ending -d and receives either verb or plural suffix -en. Only -en needs to be stemmed.
+	[ "hoofden", "hoofd" ],
+	[ "noden", "nood" ],
+	// A word which ends in non-verb past suffix -de. -e ending needs to be stemmed.
+	[ "poularde", "poulard" ],
+	[ "orde", "ord" ],
+];
 
 // These words should not be stemmed (same form should be returned).
 
@@ -125,6 +144,13 @@ const wordsNotToStem = [
 	 "man",
 	// A word on the exception list of words not to stem.
 	"kerst",
+	// A word on the exception list of words not to stem.
+	"bruiloft",
+	// A word which is not in exception list and whose -t ending is not captured in either verb suffix regex or non-verb suffix regex.
+	"dreunt",
+	// A word which ends in a unique regex where the -t ending does not need to be stemmed.
+	"debat",
+	"tapijt",
 ];
 
 describe( "Test for stemming Dutch words", () => {

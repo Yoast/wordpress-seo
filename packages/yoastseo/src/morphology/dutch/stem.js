@@ -8,17 +8,7 @@
  *
  * Redistribution and use in source and binary forms, with or without modification, is covered by the standard BSD license.
  */
-
-/**
- * Checks whether the word ends with what looks like a suffix but is actually part of the stem, and therefore should not be stemmed.
- *
- * @param {string} word The word to check.
- * @param {string[]} wordsNotToStem The exception list of words that should not be stemmed.
- * @returns {boolean} Whether or not the word should be stemmed.
- */
-const shouldNotBeStemmed = function( word, wordsNotToStem ) {
-	return ( wordsNotToStem.includes( word ) );
-};
+import { generateCorrectStemWithTAndDEnding } from "./getStemWordsWithTAndDEnding.js";
 
 /**
  * Determines the start index of the R1 region.
@@ -247,9 +237,11 @@ const stemAdjectiveEndingInRd = function( word, adjectivesEndingInRd ) {
  * @returns {string} The stemmed word.
  */
 export default function stem( word, morphologyDataNL ) {
-	// Return the word if it should not be stemmed.
-	if ( shouldNotBeStemmed( word, morphologyDataNL.stemming.stemExceptions.wordsNotToBeStemmedExceptions ) ) {
-		return word;
+	/** Return the word if it should not be stemmed.
+		And return the correct stem for words which end in ambiguous endings such as -t, -te, -ten, -de, or -den.
+	 */
+	if ( generateCorrectStemWithTAndDEnding( morphologyDataNL, word ) ) {
+		return generateCorrectStemWithTAndDEnding( morphologyDataNL, word );
 	}
 	/**
 	 * Check whether the word is on an exception list of adjectives with stem ending in -rd. If it is, stem and
