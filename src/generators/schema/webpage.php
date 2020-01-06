@@ -7,6 +7,7 @@
 
 namespace Yoast\WP\Free\Presentations\Generators\Schema;
 
+use WP_Post;
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Helpers\Current_Page_Helper;
 use Yoast\WP\Free\Helpers\Date_Helper;
@@ -25,26 +26,26 @@ class WebPage extends Abstract_Schema_Piece {
 	private $current_page;
 
 	/**
-	 * @var Date_Helper
-	 */
-	private $date_helper;
-
-	/**
 	 * @var HTML_Helper
 	 */
 	private $html_helper;
 
 	/**
+	 * @var Date_Helper
+	 */
+	private $date_helper;
+
+	/**
 	 * WebPage constructor.
 	 *
 	 * @param Current_Page_Helper $current_page_helper The current page helper.
-	 * @param Date_Helper         $date_helper         The date helper.
 	 * @param HTML_Helper         $html_helper         The HTML helper.
+	 * @param Date_Helper         $date_helper         The date helper.
 	 */
 	public function __construct(
 		Current_Page_Helper $current_page_helper,
-		Date_Helper $date_helper,
-		HTML_Helper $html_helper
+		HTML_Helper $html_helper,
+		Date_Helper $date_helper
 	) {
 		$this->current_page = $current_page_helper;
 		$this->date_helper  = $date_helper;
@@ -115,7 +116,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 * Adds an author property to the $data if the WebPage is not represented.
 	 *
 	 * @param array             $data    The WebPage schema.
-	 * @param \WP_Post          $post    The post the context is representing.
+	 * @param WP_Post           $post    The post the context is representing.
 	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return array The WebPage schema.
