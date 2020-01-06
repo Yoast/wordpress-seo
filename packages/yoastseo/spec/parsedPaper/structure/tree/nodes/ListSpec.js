@@ -5,11 +5,23 @@ import Paragraph from "../../../../../src/parsedPaper/structure/tree/nodes/Parag
 describe( "List", () => {
 	describe( "constructor", () => {
 		it( "creates a List node", () => {
-			const list = new List( true );
+			const sourceCodeLocation = {
+				startTag: {
+					startOffset: 0,
+					endOffset: 4,
+				},
+				endTag: {
+					startOffset: 12,
+					endOffset: 17,
+				},
+				startOffset: 0,
+				endOffset: 17,
+			};
 
-			expect( list.type ).toEqual( "List" );
-			expect( list.sourceStartIndex ).toEqual( 0 );
-			expect( list.sourceEndIndex ).toEqual( 0 );
+			const list = new List( true, sourceCodeLocation );
+
+			expect( list.tag ).toEqual( "List" );
+			expect( list.sourceCodeLocation ).toEqual( sourceCodeLocation );
 			expect( list.ordered ).toEqual( true );
 			expect( list.children ).toEqual( [] );
 		} );
@@ -20,11 +32,10 @@ describe( "List", () => {
 			console.warn = jest.fn();
 		} );
 		it( "warns about adding a child that is not a ListItem", () => {
-			const list = new List( true );
-			const listItem = new ListItem();
+			const list = new List( true, {} );
+			const listItem = new ListItem( {} );
 			const paragraph = new Paragraph( "p" );
 
-			expect( list.type ).toEqual( "List" );
 			expect( list.children ).toEqual( [] );
 
 			list.appendChild( listItem );
