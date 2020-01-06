@@ -66,7 +66,7 @@ class Image_Helper {
 		$data['url'] = $url;
 
 		if ( ! empty( $caption ) ) {
-			$data['caption'] = $caption;
+			$data['caption'] = \wp_strip_all_tags( $caption );
 		}
 
 		return $data;
@@ -90,14 +90,14 @@ class Image_Helper {
 
 		$caption = \wp_get_attachment_caption( $attachment_id );
 		if ( ! empty( $caption ) ) {
-			$data['caption'] = $caption;
+			$data['caption'] = \wp_strip_all_tags( $caption );
 
 			return $data;
 		}
 
 		$caption = \get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
 		if ( ! empty( $caption ) ) {
-			$data['caption'] = $caption;
+			$data['caption'] = \wp_strip_all_tags( $caption );
 		}
 
 		return $data;
