@@ -1,4 +1,5 @@
 //	Import { generateVerbExceptionForms } from "./generateVerbExceptionForms";
+import { detectAndStemRegularParticiple } from "./detectAndStemRegularParticiple";
 import { addVerbSuffixes } from "./addVerbSuffixes";
 
 
@@ -7,15 +8,18 @@ import { addVerbSuffixes } from "./addVerbSuffixes";
  * For example 'poolt' will not be stemmed using the regular stemmer while -t actually needs to be stemmed.
  * Thus, in this check, word like 'poolt' will be stemmed.
  *
- * @param {Object} morphologyDataNLStemmingExceptions	The stemming exceptions data.
+ * @param {Object} morphologyDataNL	The Dutch morphology data.
  * @param {string}	stemmedWord							The stemmed word.
  * @returns {null|string}	The stemmed word.
  */
-const getVerbStemWithTAndDEndings = function( morphologyDataNLStemmingExceptions, stemmedWord ) {
+const getVerbStemWithTAndDEndings = function( morphologyDataNL, stemmedWord ) {
 	/*	Also needs to check whether the stem is actually a participle, if it is then we don't need to stem it.
 		currently waiting for the detect and stem participle file to be merged.
 	 */
-	const tAndDVerbEndings = morphologyDataNLStemmingExceptions.verbEndingInTAndD.ambiguousTAndDEndings;
+	if ( detectAndStemRegularParticiple(  morphologyDataNL.verbs, stemmedWord ) ) {
+		return null;
+	}
+	const tAndDVerbEndings = morphologyDataNL.stemming.stemExceptions.verbEndingInTAndD.ambiguousTAndDEndings;
 	for ( const ending of tAndDVerbEndings ) {
 		if ( stemmedWord.endsWith( ending ) ) {
 			return stemmedWord.slice( 0, -1 );
