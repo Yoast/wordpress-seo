@@ -26,7 +26,7 @@ class Url_Presenter extends Abstract_Indexable_Presenter {
 		$og_url = $this->filter( $presentation->og_url, $presentation );
 
 		if ( \is_string( $og_url ) && $og_url !== '' ) {
-			return '<meta property="og:url" content="' . \esc_url( $og_url ) . '"/>';
+			return '<meta property="og:url" content="' . \esc_url( $og_url ) . '" />';
 		}
 
 		return '';

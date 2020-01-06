@@ -76,7 +76,7 @@ class Title_Presenter_Test extends TestCase {
 				return $str;
 			} );
 
-		$expected = '<meta property="og:title" content="example_title"/>';
+		$expected = '<meta property="og:title" content="example_title" />';
 		$actual   = $this->instance->present( $this->indexable_presentation );
 
 		$this->assertEquals( $expected, $actual );
@@ -121,7 +121,7 @@ class Title_Presenter_Test extends TestCase {
 			->with( 'example_title', $this->indexable_presentation )
 			->andReturn( 'exampletitle' );
 
-		$expected = '<meta property="og:title" content="exampletitle"/>';
+		$expected = '<meta property="og:title" content="exampletitle" />';
 		$actual   = $this->instance->present( $this->indexable_presentation );
 
 		$this->assertEquals( $expected, $actual );

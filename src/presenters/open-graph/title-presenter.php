@@ -42,7 +42,7 @@ class Title_Presenter extends Abstract_Indexable_Presenter {
 		$title = $this->string->strip_all_tags( \stripslashes( $title ) );
 
 		if ( \is_string( $title ) && $title !== '' ) {
-			return '<meta property="og:title" content="' . \esc_attr( $title ) . '"/>';
+			return '<meta property="og:title" content="' . \esc_attr( $title ) . '" />';
 		}
 
 		return '';
