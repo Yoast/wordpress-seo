@@ -8,8 +8,6 @@ Monorepo for all the JavaScript within Yoast.
 
 This monorepo includes reusable packages:
 
-- [@yoast/algolia-search-box](packages/algolia-search-box)
-  - React components that can be used to integrate with [Algolia](https://www.algolia.com/).
 - [@yoast/analysis-report](packages/analysis-report)
   - React components that can be used to visualise the outcome of the Yoast content analysis provided by [the yoastseo package](packages/yoastseo).
 - [@yoast/components](packages/components)

@@ -85,7 +85,7 @@ function calculateProminentWords( paper, internalLinking ) {
 			attributes,
 			abbreviations,
 			language,
-			languageMorphologyData
+			languageMorphologyData,
 		);
 
 		/*
