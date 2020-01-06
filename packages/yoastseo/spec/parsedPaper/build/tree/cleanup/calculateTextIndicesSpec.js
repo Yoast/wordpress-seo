@@ -1,32 +1,64 @@
 import TreeAdapter from "../../../../../src/parsedPaper/build/tree/html/TreeAdapter";
 import calculateTextIndices from "../../../../../src/parsedPaper/build/tree/cleanup/calculateTextIndices";
 import { parseFragment } from "parse5";
+import buildTreeFromYaml from "../../../../specHelpers/buildTreeFromYaml";
 
 describe( "calculateTextIndices", () => {
 	it( "does nothing if the input node has no formatting", () => {
-		const source = "<p>This is a paragraph</p>";
+		// "<p>This is a paragraph</p>"
+		const yaml = `
+Paragraph:
+  sourceCodeLocation:
+    startTag:
+      startOffset: 0
+      endOffset: 3
+    endTag:
+      startOffset: 29
+      endOffset: 33
+    startOffset: 0
+    endOffset: 33
+    text: This is a paragraph
+		`;
 
-		const treeAdapter = new TreeAdapter();
-		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
-		const element = tree.children[ 0 ];
+		const paragraph = buildTreeFromYaml( yaml );
 
-		calculateTextIndices( element, source );
+		calculateTextIndices( paragraph );
 
-		expect( element.textContainer.formatting ).toEqual( [] );
+		expect( paragraph.textContainer.formatting ).toEqual( [] );
 	} );
 
 	it( "adds textStartIndex and textEndIndex to the formatting of a paragraph", () => {
-		const source = "<p>This is a <b>paragraph</b></p>";
+		// "<p>This is a <b>paragraph</b></p>"
+		const yaml = `
+Paragraph:
+  sourceCodeLocation:
+    startTag:
+      startOffset: 0
+      endOffset: 3
+    endTag:
+      startOffset: 29
+      endOffset: 33
+    startOffset: 0
+    endOffset: 33
+  text: This is a paragraph
+  formatting:
+    - b:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 13
+            endOffset: 16
+          endTag:
+            startOffset: 25
+            endOffset: 29
+          startOffset: 13
+          endOffset: 29
+		`;
 
-		const treeAdapter = new TreeAdapter();
-		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+		const paragraph = buildTreeFromYaml( yaml );
 
-		// Define the paragraph element that we will use in this test.
-		const element = tree.children[ 0 ];
+		calculateTextIndices( paragraph );
 
-		calculateTextIndices( element, source );
-
-		const formattingElement = element.textContainer.formatting[ 0 ];
+		const formattingElement = paragraph.textContainer.formatting[ 0 ];
 
 		expect( formattingElement.type ).toEqual( "b" );
 		expect( formattingElement.textStartIndex ).toEqual( 10 );
@@ -34,18 +66,47 @@ describe( "calculateTextIndices", () => {
 	} );
 
 	it( "correctly processes nested formatting elements", () => {
-		const source = "<p>This is a <b><em>paragraph</em></b></p>";
+		// "<p>This is a <b><em>paragraph</em></b></p>"
+		const yaml = `
+Paragraph:
+  sourceCodeLocation:
+    startTag:
+      startOffset: 0
+      endOffset: 3
+    endTag:
+      startOffset: 38
+      endOffset: 42
+    startOffset: 0
+    endOffset: 42
+  text: This is a paragraph
+  formatting:
+    - b:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 13
+            endOffset: 16
+          endTag:
+            startOffset: 34
+            endOffset: 38
+          startOffset: 13
+          endOffset: 38
+    - em:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 16
+            endOffset: 20
+          endTag:
+            startOffset: 29
+            endOffset: 34
+          startOffset: 16
+          endOffset: 34
+		`;
 
-		const treeAdapter = new TreeAdapter();
-		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+		const paragraph = buildTreeFromYaml( yaml );
+		calculateTextIndices( paragraph );
 
-		// Define the paragraph element that we will use in this test.
-		const element = tree.children[ 0 ];
-
-		calculateTextIndices( element, source );
-
-		const formattingElementBold = element.textContainer.formatting[ 0 ];
-		const formattingElementItalics = element.textContainer.formatting[ 1 ];
+		const formattingElementBold = paragraph.textContainer.formatting[ 0 ];
+		const formattingElementItalics = paragraph.textContainer.formatting[ 1 ];
 
 		expect( formattingElementBold.type ).toEqual( "b" );
 		expect( formattingElementBold.textStartIndex ).toEqual( 10 );
@@ -57,19 +118,58 @@ describe( "calculateTextIndices", () => {
 	} );
 
 	it( "does not get confused by empty formatting elements", () => {
-		const source = "<p>This is a <em></em><b><em>paragraph</em></b></p>";
+		// "<p>This is a <em></em><b><em>paragraph</em></b></p>"
+		const yaml = `
+Paragraph:
+  sourceCodeLocation:
+    startTag:
+      startOffset: 0
+      endOffset: 3
+    endTag:
+      startOffset: 47
+      endOffset: 51
+    startOffset: 0
+    endOffset: 51
+  text: This is a paragraph
+  formatting:
+    - em:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 13
+            endOffset: 17
+          endTag:
+            startOffset: 17
+            endOffset: 22
+          startOffset: 13
+          endOffset: 22
+    - b:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 22
+            endOffset: 25
+          endTag:
+            startOffset: 43
+            endOffset: 47
+          startOffset: 22
+          endOffset: 47
+    - em:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 25
+            endOffset: 29
+          endTag:
+            startOffset: 38
+            endOffset: 43
+          startOffset: 25
+          endOffset: 43
+		`;
 
-		const treeAdapter = new TreeAdapter();
-		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+		const paragraph = buildTreeFromYaml( yaml );
+		calculateTextIndices( paragraph );
 
-		// Define the paragraph element that we will use in this test.
-		const element = tree.children[ 0 ];
-
-		calculateTextIndices( element, source );
-
-		const formattingElementItalicsEmpty = element.textContainer.formatting[ 0 ];
-		const formattingElementBold = element.textContainer.formatting[ 1 ];
-		const formattingElementItalicsMeaningful = element.textContainer.formatting[ 2 ];
+		const formattingElementItalicsEmpty = paragraph.textContainer.formatting[ 0 ];
+		const formattingElementBold = paragraph.textContainer.formatting[ 1 ];
+		const formattingElementItalicsMeaningful = paragraph.textContainer.formatting[ 2 ];
 
 		expect( formattingElementItalicsEmpty.type ).toEqual( "em" );
 		expect( formattingElementItalicsEmpty.textStartIndex ).toEqual( 10 );
@@ -85,19 +185,58 @@ describe( "calculateTextIndices", () => {
 	} );
 
 	it( "does not get confused by empty nested formatting elements", () => {
-		const source = "<p>This is a <b><em></em><em>paragraph</em></b></p>";
+		// "<p>This is a <b><em></em><em>paragraph</em></b></p>";
+		const yaml = `
+Paragraph:
+  sourceCodeLocation:
+    startTag:
+      startOffset: 0
+      endOffset: 3
+    endTag:
+      startOffset: 47
+      endOffset: 51
+    startOffset: 0
+    endOffset: 51
+  text: This is a paragraph
+  formatting:
+    - b:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 13
+            endOffset: 16
+          endTag:
+            startOffset: 43
+            endOffset: 47
+          startOffset: 13
+          endOffset: 47
+    - em:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 16
+            endOffset: 20
+          endTag:
+            startOffset: 20
+            endOffset: 25
+          startOffset: 16
+          endOffset: 25
+    - em:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 25
+            endOffset: 29
+          endTag:
+            startOffset: 38
+            endOffset: 43
+          startOffset: 25
+          endOffset: 43
+		`;
 
-		const treeAdapter = new TreeAdapter();
-		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+		const paragraph = buildTreeFromYaml( yaml );
+		calculateTextIndices( paragraph );
 
-		// Define the paragraph element that we will use in this test.
-		const element = tree.children[ 0 ];
-
-		calculateTextIndices( element, source );
-
-		const formattingElementBold = element.textContainer.formatting[ 0 ];
-		const formattingElementItalicsEmpty = element.textContainer.formatting[ 1 ];
-		const formattingElementItalicsNonEmpty = element.textContainer.formatting[ 2 ];
+		const formattingElementBold = paragraph.textContainer.formatting[ 0 ];
+		const formattingElementItalicsEmpty = paragraph.textContainer.formatting[ 1 ];
+		const formattingElementItalicsNonEmpty = paragraph.textContainer.formatting[ 2 ];
 
 		expect( formattingElementBold.type ).toEqual( "b" );
 		expect( formattingElementBold.textStartIndex ).toEqual( 10 );
@@ -113,20 +252,49 @@ describe( "calculateTextIndices", () => {
 	} );
 
 	it( "correctly processes ignored formatting elements", () => {
-		const source = "<p>This is a <script>script</script><b>paragraph</b></p>";
+		// "<p>This is a <script>script</script><b>paragraph</b></p>";
+		const yaml = `
+Paragraph:
+  sourceCodeLocation:
+    startTag:
+      startOffset: 0
+      endOffset: 3
+    endTag:
+      startOffset: 52
+      endOffset: 56
+    startOffset: 0
+    endOffset: 56
+  text: This is a paragraph
+  formatting:
+    - script:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 13
+            endOffset: 21
+          endTag:
+            startOffset: 27
+            endOffset: 36
+          startOffset: 13
+          endOffset: 36
+    - b:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 36
+            endOffset: 39
+          endTag:
+            startOffset: 48
+            endOffset: 52
+          startOffset: 36
+          endOffset: 52
+		`;
 
-		const treeAdapter = new TreeAdapter();
-		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+		const paragraph = buildTreeFromYaml( yaml );
+		calculateTextIndices( paragraph );
 
-		// Define the paragraph element that we will use in this test.
-		const element = tree.children[ 0 ];
+		const formattingElementScript = paragraph.textContainer.formatting[ 0 ];
+		const formattingElementBold = paragraph.textContainer.formatting[ 1 ];
 
-		calculateTextIndices( element, source );
-
-		const formattingElementScript = element.textContainer.formatting[ 0 ];
-		const formattingElementBold = element.textContainer.formatting[ 1 ];
-
-		expect( formattingElementScript.type ).toEqual( "Ignored" );
+		expect( formattingElementScript.type ).toEqual( "script" );
 		expect( formattingElementScript.textStartIndex ).toEqual( 10 );
 		expect( formattingElementScript.textEndIndex ).toEqual( 10 );
 
@@ -136,58 +304,119 @@ describe( "calculateTextIndices", () => {
 	} );
 
 	it( "correctly processes ignored formatting elements nested in other formatting elements", () => {
-		const source = "<p>This is a <b><script>script</script>paragraph</b></p>";
+		// "<p>This is a <b><script>script</script>paragraph</b></p>";
+		const yaml = `
+Paragraph:
+  sourceCodeLocation:
+    startTag:
+      startOffset: 0
+      endOffset: 3
+    endTag:
+      startOffset: 52
+      endOffset: 56
+    startOffset: 0
+    endOffset: 56
+  text: This is a paragraph
+  formatting:
+    - b:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 13
+            endOffset: 16
+          endTag:
+            startOffset: 48
+            endOffset: 52
+          startOffset: 13
+          endOffset: 52
+    - script:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 16
+            endOffset: 24
+          endTag:
+            startOffset: 30
+            endOffset: 39
+          startOffset: 16
+          endOffset: 39
+		`;
 
-		const treeAdapter = new TreeAdapter();
-		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+		const paragraph = buildTreeFromYaml( yaml );
+		calculateTextIndices( paragraph );
 
-		// Define the paragraph element that we will use in this test.
-		const element = tree.children[ 0 ];
-
-		calculateTextIndices( element, source );
-
-		const formattingElementBold = element.textContainer.formatting[ 0 ];
-		const formattingElementScript = element.textContainer.formatting[ 1 ];
+		const formattingElementBold = paragraph.textContainer.formatting[ 0 ];
+		const formattingElementScript = paragraph.textContainer.formatting[ 1 ];
 
 		expect( formattingElementBold.type ).toEqual( "b" );
 		expect( formattingElementBold.textStartIndex ).toEqual( 10 );
 		expect( formattingElementBold.textEndIndex ).toEqual( 19 );
 
-		expect( formattingElementScript.type ).toEqual( "Ignored" );
+		expect( formattingElementScript.type ).toEqual( "script" );
 		expect( formattingElementScript.textStartIndex ).toEqual( 10 );
 		expect( formattingElementScript.textEndIndex ).toEqual( 10 );
 	} );
 
 	it( "correctly processes comments", () => {
-		const source = "<p>This is a <!--Here is a comment!-->paragraph</p>";
+		// "<p>This is a <!--Here is a comment!-->paragraph</p>";
+		const yaml = `
+Paragraph:
+  sourceCodeLocation:
+    startTag:
+      startOffset: 0
+      endOffset: 3
+    endTag:
+      startOffset: 47
+      endOffset: 51
+    startOffset: 0
+    endOffset: 51
+  text: This is a paragraph
+  formatting:
+    - "#comment":
+        sourceCodeLocation:
+          startOffset: 13
+          endOffset: 38
+		`;
 
-		const treeAdapter = new TreeAdapter();
-		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+		const paragraph = buildTreeFromYaml( yaml );
+		calculateTextIndices( paragraph );
 
-		// Define the paragraph element that we will use in this test.
-		const element = tree.children[ 0 ];
+		const formattingElement = paragraph.textContainer.formatting[ 0 ];
 
-		calculateTextIndices( element, source );
-
-		const formattingElement = element.textContainer.formatting[ 0 ];
-
-		expect( formattingElement.type ).toEqual( "Ignored" );
+		expect( formattingElement.type ).toEqual( "#comment" );
 		expect( formattingElement.textStartIndex ).toEqual( 10 );
 		expect( formattingElement.textEndIndex ).toEqual( 10 );
 	} );
 
 	it( "correctly processes self-closing elements", () => {
-		const source = "<p>This is a <img src=\"example.jpg\" alt=\"An awesome example\">paragraph</p>";
+		// "<p>This is a <img src=\"example.jpg\" alt=\"An awesome example\">paragraph</p>"
+		const yaml = `
+Paragraph:
+  sourceCodeLocation:
+    startTag:
+      startOffset: 0
+      endOffset: 3
+    endTag:
+      startOffset: 70
+      endOffset: 74
+    startOffset: 0
+    endOffset: 74
+  text: This is a paragraph
+  formatting:
+    - img:
+        attributes:
+          src: example.jpg
+          alt: An awesome example
+        sourceCodeLocation:
+          startTag:
+            startOffset: 13
+            endOffset: 61
+          startOffset: 13
+          endOffset: 61
+		`;
 
-		const treeAdapter = new TreeAdapter();
-		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+		const paragraph = buildTreeFromYaml( yaml );
+		calculateTextIndices( paragraph );
 
-		// Define the paragraph element that we will use in this test.
-		const element = tree.children[ 0 ];
-
-		calculateTextIndices( element, source );
-
-		const formattingElement = element.textContainer.formatting[ 0 ];
+		const formattingElement = paragraph.textContainer.formatting[ 0 ];
 
 		expect( formattingElement.type ).toEqual( "img" );
 		expect( formattingElement.textStartIndex ).toEqual( 10 );
