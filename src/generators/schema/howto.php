@@ -67,7 +67,7 @@ class HowTo extends Abstract_Schema_Piece {
 			$data = [
 				'@type'            => 'HowTo',
 				'@id'              => $context->canonical . '#howto-' . $index,
-				'name'             => \wp_strip_all_tags( $context->title ),
+				'name'             => $this->html_helper->smart_strip_tags( $context->title ),
 				'mainEntityOfPage' => [ '@id' => $context->main_schema_id ],
 				'description'      => '',
 			];
@@ -125,7 +125,7 @@ class HowTo extends Abstract_Schema_Piece {
 			}
 
 			if ( isset( $step['jsonName'] ) ) {
-				$json_name = \wp_strip_all_tags( $step['jsonName'] );
+				$json_name = $this->html_helper->smart_strip_tags( $step['jsonName'] );
 			}
 
 			if ( empty( $json_name ) ) {

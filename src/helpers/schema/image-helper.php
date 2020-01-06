@@ -13,6 +13,19 @@ namespace Yoast\WP\Free\Helpers\Schema;
  * @package Yoast\WP\Free\Helpers\Schema
  */
 class Image_Helper {
+	/**
+	 * @var HTML_Helper
+	 */
+	private $html_helper;
+
+	/**
+	 * Image_Helper constructor.
+	 *
+	 * @param HTML_Helper $html_helper
+	 */
+	public function __construct( HTML_Helper $html_helper ) {
+		$this->html_helper = $html_helper;
+	}
 
 	/**
 	 * Find an image based on its URL and generate a Schema object for it.
@@ -66,7 +79,7 @@ class Image_Helper {
 		$data['url'] = $url;
 
 		if ( ! empty( $caption ) ) {
-			$data['caption'] = \wp_strip_all_tags( $caption );
+			$data['caption'] = $this->html_helper->smart_strip_tags( $caption );
 		}
 
 		return $data;
@@ -90,14 +103,14 @@ class Image_Helper {
 
 		$caption = \wp_get_attachment_caption( $attachment_id );
 		if ( ! empty( $caption ) ) {
-			$data['caption'] = \wp_strip_all_tags( $caption );
+			$data['caption'] = $this->html_helper->smart_strip_tags( $caption );
 
 			return $data;
 		}
 
 		$caption = \get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
 		if ( ! empty( $caption ) ) {
-			$data['caption'] = \wp_strip_all_tags( $caption );
+			$data['caption'] = $this->html_helper->smart_strip_tags( $caption );
 		}
 
 		return $data;

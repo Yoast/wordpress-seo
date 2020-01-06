@@ -10,6 +10,7 @@ namespace Yoast\WP\Free\Presentations\Generators\Schema;
 use Yoast\WP\Free\Context\Meta_Tags_Context;
 use Yoast\WP\Free\Helpers\Image_Helper;
 use Yoast\WP\Free\Helpers\Schema;
+use Yoast\WP\Free\Helpers\Schema\HTML_Helper;
 
 /**
  * Returns schema Person data.
@@ -53,17 +54,25 @@ class Person extends Abstract_Schema_Piece {
 	private $schema_image_helper;
 
 	/**
+	 * @var HTML_Helper
+	 */
+	private $html_helper;
+
+	/**
 	 * Main_Image constructor.
 	 *
 	 * @param Image_Helper        $image_helper        The image helper.
 	 * @param Schema\Image_Helper $schema_image_helper The schema image helper.
+	 * @param HTML_Helper         $html_helper         The HTML helper.
 	 */
 	public function __construct(
 		Image_Helper $image_helper,
-		Schema\Image_Helper $schema_image_helper
+		Schema\Image_Helper $schema_image_helper,
+		HTML_Helper $html_helper
 	) {
 		$this->image_helper        = $image_helper;
 		$this->schema_image_helper = $schema_image_helper;
+		$this->html_helper         = $html_helper;
 	}
 
 	/**
@@ -150,13 +159,13 @@ class Person extends Abstract_Schema_Piece {
 		$data      = [
 			'@type' => $this->type,
 			'@id'   => $this->id_helper->get_user_schema_id( $user_id, $context ),
-			'name'  => \wp_strip_all_tags( $user_data->display_name ),
+			'name'  => $this->html_helper->smart_strip_tags( $user_data->display_name ),
 		];
 
 		$data = $this->add_image( $data, $user_data, $context );
 
 		if ( ! empty( $user_data->description ) ) {
-			$data['description'] = \wp_strip_all_tags( $user_data->description );
+			$data['description'] = $this->html_helper->smart_strip_tags( $user_data->description );
 		}
 
 		$social_profiles = $this->get_social_profiles( $user_id );
