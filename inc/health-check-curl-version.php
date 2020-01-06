@@ -23,19 +23,21 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 	 * @return void
 	 */
 	public function run() {
-		if ( $this->get_curl_version() === false ) {
+		$curl_version = $this->get_curl_version();
+
+		if ( $curl_version === false ) {
 			return;
 		}
 
 		$api_request = new WPSEO_MyYoast_Api_Request( 'sites/current' );
 
 		// Run the test only when either Premium or an add-on is installed and we can't reach MyYoast.
-		if ( ! empty( $this->get_installed_premium_plugins() ) && $api_request->fire() === false ) {
+		if ( empty( $this->get_installed_premium_plugins() ) || $api_request->fire() === false ) {
 			return;
 		}
 
 		// Note: as of January 2020, the most recent cURL version is 7.67.0.
-		if ( version_compare( $this->get_curl_version(), '7.20.0', '>=' ) ) {
+		if ( $this->is_recent_curl_version() ) {
 			$this->label          = esc_html__( 'Your cURL PHP module is up-to-date', 'wordpress-seo' );
 			$this->status         = self::STATUS_GOOD;
 			$this->badge['color'] = 'blue';
@@ -55,7 +57,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 		$this->description = sprintf(
 			/* translators: %1$s expands to the cURL version, %2$s expands to 'Yoast', %3$s is a link start tag to the Yoast knowledge base, %4$s is the link closing tag. */
 			__( 'Your server has an outdated version of the PHP module cURL (Version: %1$s). Running an outdated cURL version may cause %2$s plugins license activation errors. Please ask your hosting company to update cURL to a more recent version. You can %3$sread more about cURL in our knowledge base%4$s.', 'wordpress-seo' ),
-			$this->get_curl_version(),
+			$curl_version,
 			'Yoast',
 			'<a href="http://kb.yoast.com/article/90-is-my-curl-up-to-date" target="_blank">',
 			WPSEO_Admin_Utils::get_new_tab_message() . '</a>'
@@ -80,11 +82,26 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 	}
 
 	/**
+	 * Checks if the cURL version is a recent one.
+	 *
+	 * @return bool Whether the cURL version is a recent one.
+	 */
+	protected function is_recent_curl_version() {
+		$curl_version = $this->get_curl_version();
+
+		if ( $curl_version && version_compare( $curl_version, '7.20.0', '>=' ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Gets the Yoast Premium and the premium add-ons information.
 	 *
 	 * @return array Yoast Premium and premium add-ons information. Empty array if none installed.
 	 */
-	private function get_installed_premium_plugins() {
+	protected function get_installed_premium_plugins() {
 		$addon_manager = new WPSEO_Addon_Manager();
 		return $addon_manager->get_installed_addons();
 	}
