@@ -1,6 +1,13 @@
 {
 	"presets": [
-		"es2015",
+		[
+			"env",
+			{
+				"targets": {
+					"browsers": [ "extends @yoast/browserslist-config" ]
+				}
+			}
+		],
 		"react"
 	],
 	"plugins": [

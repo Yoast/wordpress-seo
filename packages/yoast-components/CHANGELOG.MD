@@ -5,6 +5,10 @@ This changelog is according to [Keep a Changelog](http://keepachangelog.com).
 All notable changes to this project will be documented in this file.
 We follow [Semantic Versioning](http://semver.org/).
 
+## 4.39.0 January 6th, 2019
+### Other
+* Drops IE11 support through configuring Babel to use the preset environment with the own list of supported browsers specified.
+
 ## 4.38.0 November 26th, 2019
 ### Other
 * Removed the components related to the Help Center and the AlgoliaSearcher package
@@ -13,24 +17,9 @@ We follow [Semantic Versioning](http://semver.org/).
 ### Enhancements
 * Improves the `KeywordInput` and `SynonymsInput` styling for consistency with the new WordPress 5.3 admin styles.
 
-## 4.35.0 October 28th, 2019
-No user-facing changes.
-
-## 4.34.1 October 14th, 2019
-No user-facing changes.
-
 ## 4.34.0 October 14th, 2019
 ### Fixed
 * Fixes a bug where internal linking suggestions were not aligned correctly, but were indented instead.
-
-## 4.33.0 September 30th, 2019
-No user-facing changes.
-
-## 4.32.0 September 16th, 2019
-No user-facing changes.
-
-## 4.31.0 September 2nd, 2019
-No user-facing changes.
 
 ## 4.30.0 July 22nd, 2019
 ### Added
