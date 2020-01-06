@@ -29,7 +29,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 			return;
 		}
 
-		// Run the test only when either Premium or an add-on is installed and we can't reach MyYoast.
+		// Run the test only when either Yoast SEO Premium or premium add-ons are installed and we can't reach MyYoast.
 		if ( ! $this->has_premium_plugins_installed() || $this->is_my_yoast_api_reachable() ) {
 			return;
 		}
@@ -41,7 +41,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 			$this->badge['color'] = 'blue';
 			$this->description    = sprintf(
 					/* translators: %1$s expands to 'Yoast'. */
-					esc_html__( 'Your server has a recent version of the cURL PHP module. Running a recent cURL version allows %1$s plugins license activation to work correctly.', 'wordpress-seo' ),
+					esc_html__( 'Your server has a recent version of the cURL PHP module. Running a recent cURL version allows the %1$s plugins license activation to work correctly.', 'wordpress-seo' ),
 					'Yoast'
 				);
 
