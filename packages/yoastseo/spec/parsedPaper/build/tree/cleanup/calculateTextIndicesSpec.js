@@ -1,6 +1,4 @@
-import TreeAdapter from "../../../../../src/parsedPaper/build/tree/html/TreeAdapter";
 import calculateTextIndices from "../../../../../src/parsedPaper/build/tree/cleanup/calculateTextIndices";
-import { parseFragment } from "parse5";
 import buildTreeFromYaml from "../../../../specHelpers/buildTreeFromYaml";
 
 describe( "calculateTextIndices", () => {
@@ -422,25 +420,46 @@ Paragraph:
 		expect( formattingElement.textStartIndex ).toEqual( 10 );
 		expect( formattingElement.textEndIndex ).toEqual( 10 );
 	} );
-} );
 
-describe.skip( "These tests are currently broken, will be fixed in https://github.com/Yoast/javascript/issues/409", () => {
 	it( "correctly processes comments before another tag", () => {
-		const source = "<p>This is a <!--Here is a comment!--><b>paragraph</b></p>";
-
-		const treeAdapter = new TreeAdapter();
-		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+		// "<p>This is a <!--Here is a comment!--><b>paragraph</b></p>";
+		const yaml = `
+Paragraph:
+  sourceCodeLocation:
+    startTag:
+      startOffset: 0
+      endOffset: 3
+    endTag:
+      startOffset: 70
+      endOffset: 74
+    startOffset: 0
+    endOffset: 74
+  text: This is a paragraph
+  formatting:
+    - "#comment":
+        sourceCodeLocation:
+          startOffset: 13
+          endOffset: 38
+    - b:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 38
+            endOffset: 41
+          endTag:
+            startOffset: 50
+            endOffset: 54
+          startOffset: 38
+          endOffset: 54
+		`;
 
 		// Define the paragraph element that we will use in this test.
-		const element = tree.children[ 0 ];
+		const paragraph = buildTreeFromYaml( yaml );
+		calculateTextIndices( paragraph );
 
-		calculateTextIndices( element, source );
+		const formattingElementComment = paragraph.textContainer.formatting[ 0 ];
+		const formattingElementBold = paragraph.textContainer.formatting[ 1 ];
 
-		const formattingElementComment = element.textContainer.formatting[ 0 ];
-		const formattingElementBold = element.textContainer.formatting[ 1 ];
-
-
-		expect( formattingElementComment.type ).toEqual( "Ignored" );
+		expect( formattingElementComment.type ).toEqual( "#comment" );
 		expect( formattingElementComment.textStartIndex ).toEqual( 10 );
 		expect( formattingElementComment.textEndIndex ).toEqual( 10 );
 
@@ -450,21 +469,43 @@ describe.skip( "These tests are currently broken, will be fixed in https://githu
 	} );
 
 	it( "correctly processes comments when embedded in other formatting elements", () => {
-		const source = "<p>This is a <b><!--Here is a comment!-->paragraph</b></p>";
+		// "<p>This is a <b><!--Here is a comment!-->paragraph</b></p>";
+		const yaml = `
+Paragraph:
+  sourceCodeLocation:
+    startTag:
+      startOffset: 0
+      endOffset: 3
+    endTag:
+      startOffset: 54
+      endOffset: 78
+    startOffset: 0
+    endOffset: 58
+  text: This is a paragraph
+  formatting:
+    - b:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 13
+            endOffset: 16
+          endTag:
+            startOffset: 50
+            endOffset: 54
+          startOffset: 13
+          endOffset: 54
+    - "#comment":
+        sourceCodeLocation:
+          startOffset: 16
+          endOffset: 41
+		`;
 
-		const treeAdapter = new TreeAdapter();
-		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+		const paragraph = buildTreeFromYaml( yaml );
+		calculateTextIndices( paragraph );
 
-		// Define the paragraph element that we will use in this test.
-		const element = tree.children[ 0 ];
+		const formattingElementComment = paragraph.textContainer.formatting[ 1 ];
+		const formattingElementBold = paragraph.textContainer.formatting[ 0 ];
 
-		calculateTextIndices( element, source );
-
-		const formattingElementComment = element.textContainer.formatting[ 0 ];
-		const formattingElementBold = element.textContainer.formatting[ 1 ];
-
-
-		expect( formattingElementComment.type ).toEqual( "Ignored" );
+		expect( formattingElementComment.type ).toEqual( "#comment" );
 		expect( formattingElementComment.textStartIndex ).toEqual( 10 );
 		expect( formattingElementComment.textEndIndex ).toEqual( 10 );
 
@@ -474,22 +515,59 @@ describe.skip( "These tests are currently broken, will be fixed in https://githu
 	} );
 
 	it( "correctly processes multiple comments", () => {
-		const source = "<p>This is a <!--Here is a comment!--><b>paragraph</b><!--Here is another comment!--> with <em>some text</em>.</p>";
+		// "<p>This is a <!--Here is a comment!--><b>paragraph</b><!--Here is another comment!--> with <em>some text</em>.</p>";
+		const yaml = `
+Paragraph:
+  sourceCodeLocation:
+    startTag:
+      startOffset: 0
+      endOffset: 3
+    endTag:
+      startOffset: 110
+      endOffset: 114
+    startOffset: 0
+    endOffset: 114
+  text: This is a paragraph with some text.
+  formatting:
+    - "#comment":
+        sourceCodeLocation:
+          startOffset: 13
+          endOffset: 38
+    - b:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 38
+            endOffset: 41
+          endTag:
+            startOffset: 50
+            endOffset: 54
+          startOffset: 38
+          endOffset: 54
+    - "#comment":
+        sourceCodeLocation:
+          startOffset: 54
+          endOffset: 85
+    - em:
+        sourceCodeLocation:
+          startTag:
+            startOffset: 91
+            endOffset: 95
+          endTag:
+            startOffset: 104
+            endOffset: 109
+          startOffset: 91
+          endOffset: 109
+		`;
 
-		const treeAdapter = new TreeAdapter();
-		const tree = parseFragment( source, { treeAdapter: treeAdapter, sourceCodeLocationInfo: true } );
+		const paragraph = buildTreeFromYaml( yaml );
+		calculateTextIndices( paragraph );
 
-		// Define the paragraph element that we will use in this test.
-		const element = tree.children[ 0 ];
+		const formattingElementFirstComment = paragraph.textContainer.formatting[ 0 ];
+		const formattingElementBold = paragraph.textContainer.formatting[ 1 ];
+		const formattingElementSecondComment = paragraph.textContainer.formatting[ 2 ];
+		const formattingElementItalics = paragraph.textContainer.formatting[ 3 ];
 
-		calculateTextIndices( element, source );
-
-		const formattingElementFirstComment = element.textContainer.formatting[ 0 ];
-		const formattingElementBold = element.textContainer.formatting[ 1 ];
-		const formattingElementSecondComment = element.textContainer.formatting[ 2 ];
-		const formattingElementItalics = element.textContainer.formatting[ 3 ];
-
-		expect( formattingElementFirstComment.type ).toEqual( "Ignored" );
+		expect( formattingElementFirstComment.type ).toEqual( "#comment" );
 		expect( formattingElementFirstComment.textStartIndex ).toEqual( 10 );
 		expect( formattingElementFirstComment.textEndIndex ).toEqual( 10 );
 
@@ -497,12 +575,12 @@ describe.skip( "These tests are currently broken, will be fixed in https://githu
 		expect( formattingElementBold.textStartIndex ).toEqual( 10 );
 		expect( formattingElementBold.textEndIndex ).toEqual( 19 );
 
-		expect( formattingElementSecondComment.type ).toEqual( "Ignored" );
+		expect( formattingElementSecondComment.type ).toEqual( "#comment" );
 		expect( formattingElementSecondComment.textStartIndex ).toEqual( 19 );
 		expect( formattingElementSecondComment.textEndIndex ).toEqual( 19 );
 
 		expect( formattingElementItalics.type ).toEqual( "em" );
 		expect( formattingElementItalics.textStartIndex ).toEqual( 25 );
-		expect( formattingElementItalics.textEndIndex ).toEqual( 33 );
+		expect( formattingElementItalics.textEndIndex ).toEqual( 34 );
 	} );
 } );

@@ -167,8 +167,8 @@ Structured:
               sourceCodeLocation:
                 startOffset: 71
                 endOffset: 92
-              textStartIndex: 67
-              textEndIndex: 67
+              textStartIndex: 51
+              textEndIndex: 51
 		`;
 
 		const expected = buildTreeFromYaml( expectedYaml );

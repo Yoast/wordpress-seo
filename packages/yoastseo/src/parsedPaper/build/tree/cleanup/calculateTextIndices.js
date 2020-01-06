@@ -89,13 +89,15 @@ const handleIgnoredContent = function( element, currentOffset ) {
  * @param {int}												currentOffset	A sum of all characters in the source code that don't get rendered
  * 																			(e.g., tags, comments).
  *
- * @returns {void}
+ * @returns {number} The length of the comment.
  *
  * @private
  */
 const computeCommentStartEndTextIndices = function( element, currentOffset ) {
 	element.textStartIndex = element.sourceCodeLocation.startOffset - currentOffset;
 	element.textEndIndex = element.textStartIndex;
+
+	return element.sourceCodeLocation.endOffset - element.sourceCodeLocation.startOffset;
 };
 
 /**
@@ -161,7 +163,7 @@ const calculateTextIndices = function( node ) {
 
 		// Comments are self-closing formatting elements that are completely ignored in rendering.
 		if ( element.type === "#comment" ) {
-			computeCommentStartEndTextIndices( element, currentOffset );
+			currentOffset += computeCommentStartEndTextIndices( element, currentOffset );
 			return;
 		}
 
