@@ -57,7 +57,7 @@ class Website extends Abstract_Schema_Piece {
 			'@type'     => 'WebSite',
 			'@id'       => $context->site_url . $this->id_helper->website_hash,
 			'url'       => $context->site_url,
-			'name'      => $context->site_name,
+			'name'      => wp_strip_all_tags( $context->site_name ),
 		];
 
 		if ( $context->site_represents_reference ) {
@@ -80,7 +80,7 @@ class Website extends Abstract_Schema_Piece {
 	private function add_alternate_name( $data ) {
 		$alternate_name = $this->options_helper->get( 'alternate_website_name', '' );
 		if ( $alternate_name !== '' ) {
-			$data['alternateName'] = $alternate_name;
+			$data['alternateName'] = \wp_strip_all_tags( $alternate_name );
 		}
 
 		return $data;

@@ -64,7 +64,7 @@ class Organization extends Abstract_Schema_Piece {
 		$data      = [
 			'@type'  => 'Organization',
 			'@id'    => $context->site_url . $this->id_helper->organization_hash,
-			'name'   => $context->company_name,
+			'name'   => \wp_strip_all_tags( $context->company_name ),
 			'url'    => $context->site_url,
 			'sameAs' => $this->fetch_social_profiles(),
 			'logo'   => $this->image_helper->generate_from_attachment_id( $schema_id, $context->company_logo_id, $context->company_name ),

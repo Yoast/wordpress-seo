@@ -116,7 +116,7 @@ class FAQ extends Abstract_Schema_Piece {
 			'@id'            => $url,
 			'position'       => $position,
 			'url'            => $url,
-			'name'           => \strip_tags( $question['jsonQuestion'] ),
+			'name'           => \wp_strip_all_tags( $question['jsonQuestion'] ),
 			'answerCount'    => 1,
 			'acceptedAnswer' => [
 				'@type' => 'Answer',

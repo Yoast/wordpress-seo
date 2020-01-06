@@ -76,7 +76,7 @@ class WebPage extends Abstract_Schema_Piece {
 			'@id'        => $context->canonical . $this->id_helper->webpage_hash,
 			'url'        => $context->canonical,
 			'inLanguage' => \get_bloginfo( 'language' ),
-			'name'       => $context->title,
+			'name'       => \wp_strip_all_tags( $context->title ),
 			'isPartOf'   => [
 				'@id' => $context->site_url . $this->id_helper->website_hash,
 			],
@@ -116,7 +116,7 @@ class WebPage extends Abstract_Schema_Piece {
 	 * Adds an author property to the $data if the WebPage is not represented.
 	 *
 	 * @param array             $data    The WebPage schema.
-	 * @param WP_Post           $post    The post the context is representing.
+	 * @param \WP_Post          $post    The post the context is representing.
 	 * @param Meta_Tags_Context $context The meta tags context.
 	 *
 	 * @return array The WebPage schema.

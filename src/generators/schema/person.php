@@ -150,13 +150,13 @@ class Person extends Abstract_Schema_Piece {
 		$data      = [
 			'@type' => $this->type,
 			'@id'   => $this->id_helper->get_user_schema_id( $user_id, $context ),
-			'name'  => $user_data->display_name,
+			'name'  => \wp_strip_all_tags( $user_data->display_name ),
 		];
 
 		$data = $this->add_image( $data, $user_data, $context );
 
 		if ( ! empty( $user_data->description ) ) {
-			$data['description'] = $user_data->description;
+			$data['description'] = \wp_strip_all_tags( $user_data->description );
 		}
 
 		$social_profiles = $this->get_social_profiles( $user_id );
