@@ -202,17 +202,17 @@ describe( "SnippetEditor", () => {
 		expect( editor ).toMatchSnapshot();
 	} );
 
-	it( "switches modes when clicking mode switcher buttons", () => {
+	it( "switches modes when changing mode switcher input", () => {
 		const onChange = jest.fn();
 		const editor = mountWithArgs( { onChange } );
 
 		// Click the mobile button.
-		editor.find( "ModeSwitcher__Switcher" ).find( "button" ).at( 0 ).simulate( "click" );
+		editor.find( "ModeSwitcher__Switcher" ).find( "input" ).at( 0 ).simulate( "change" );
 
 		expect( onChange ).toBeCalledWith( "mode", "mobile" );
 
 		// Click the desktop button.
-		editor.find( "ModeSwitcher__Switcher" ).find( "button" ).at( 1 ).simulate( "click" );
+		editor.find( "ModeSwitcher__Switcher" ).find( "input" ).at( 1 ).simulate( "change" );
 
 		expect( onChange ).toBeCalledWith( "mode", "desktop" );
 	} );
@@ -231,7 +231,7 @@ describe( "SnippetEditor", () => {
 		editor.update();
 
 		const titleEditor = editor.find( "ReplacementVariableEditorStandalone" ).get( 0 );
-		const slugEditor = editor.find( "input" ).get( 0 );
+		const slugEditor = editor.find( "input" ).get( 2 );
 		const descriptionEditor = editor.find( "ReplacementVariableEditorStandalone" ).get( 1 );
 
 		titleEditor.props.onFocus();
