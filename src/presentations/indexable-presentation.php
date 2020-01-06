@@ -390,8 +390,9 @@ class Indexable_Presentation extends Abstract_Presentation {
 		}
 
 		if ( $this->model->og_title && $this->context->open_graph_enabled === true ) {
-			return $this->model->og_title;
+			return '';
 		}
+
 
 		if ( $this->title ) {
 			return $this->title;
@@ -411,7 +412,7 @@ class Indexable_Presentation extends Abstract_Presentation {
 		}
 
 		if ( $this->model->og_description && $this->context->open_graph_enabled === true ) {
-			return $this->model->og_description;
+			return '';
 		}
 
 		if ( $this->meta_description ) {
