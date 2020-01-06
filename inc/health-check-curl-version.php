@@ -29,10 +29,8 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 			return;
 		}
 
-		$api_request = new WPSEO_MyYoast_Api_Request( 'sites/current' );
-
 		// Run the test only when either Premium or an add-on is installed and we can't reach MyYoast.
-		if ( empty( $this->get_installed_premium_plugins() ) || $api_request->fire() === false ) {
+		if ( ! $this->has_premium_plugins_installed() || $this->is_my_yoast_api_reachable() ) {
 			return;
 		}
 
@@ -69,7 +67,7 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 	 *
 	 * @return mixed The cURL version as a string or false if cURL is not installed.
 	 */
-	private function get_curl_version() {
+	protected function get_curl_version() {
 		if ( function_exists( 'curl_version' ) ) {
 			$curl_version = curl_version();
 
@@ -97,12 +95,28 @@ class WPSEO_Health_Check_Curl_Version extends WPSEO_Health_Check {
 	}
 
 	/**
-	 * Gets the Yoast Premium and the premium add-ons information.
+	 * Checks whether Yoast SEO Premium or premium add-ons are installed.
 	 *
-	 * @return array Yoast Premium and premium add-ons information. Empty array if none installed.
+	 * @return bool Whether Yoast SEO Premium or premium add-ons are installed.
 	 */
-	protected function get_installed_premium_plugins() {
+	protected function has_premium_plugins_installed() {
 		$addon_manager = new WPSEO_Addon_Manager();
-		return $addon_manager->get_installed_addons();
+
+		if ( empty( $addon_manager->get_installed_addons() ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Checks whether the MyYoast API is reachable.
+	 *
+	 * @return bool Whether the MyYoast API is reachable.
+	 */
+	protected function is_my_yoast_api_reachable() {
+		$api_request = new WPSEO_MyYoast_Api_Request( 'sites/current' );
+
+		return $api_request->fire();
 	}
 }
